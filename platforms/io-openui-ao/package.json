@@ -1,0 +1,10 @@
+{
+  "name": "io-openui-ao",
+  "version": "1.0.0",
+  "description": "IO OpenUI AO — Platforma za otvoreni korisnički interfejs",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve src -p 3001",
+    "build": "echo 'io-openui-ao build complete'"
+  }
+}

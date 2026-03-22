@@ -1,0 +1,10 @@
+{
+  "name": "menjacnica",
+  "version": "1.0.0",
+  "description": "Ai IQ Menjačnica — Platforma za menjanje valuta",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve src -p 3003",
+    "build": "echo 'menjacnica build complete'"
+  }
+}

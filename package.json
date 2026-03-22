@@ -1,0 +1,20 @@
+{
+  "name": "ai-iq-super-platforma",
+  "version": "1.0.0",
+  "description": "Centralni monorepo koji objedinjuje sve AI-IQ platforme",
+  "private": true,
+  "workspaces": [
+    "portal",
+    "platforms/*",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=portal",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  }
+}
