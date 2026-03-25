@@ -15,10 +15,12 @@ export default function ITProizvodiPage() {
   const categories: ITProductCategory[] = [
     "integration",
     "acceleration",
+    "data",
     "monitoring",
     "security",
     "ai",
     "deployment",
+    "communication",
   ];
 
   return (
@@ -34,7 +36,7 @@ export default function ITProizvodiPage() {
       </div>
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
         {categories.map((cat) => {
           const count = itProducts.filter((p) => p.category === cat).length;
           return (

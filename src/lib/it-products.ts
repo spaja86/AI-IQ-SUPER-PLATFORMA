@@ -15,7 +15,9 @@ export type ITProductCategory =
   | "security"
   | "ai"
   | "deployment"
-  | "integration";
+  | "integration"
+  | "data"
+  | "communication";
 
 export const itProducts: ITProduct[] = [
   {
@@ -179,6 +181,157 @@ export const itProducts: ITProduct[] = [
     ],
     impact: "high",
   },
+  {
+    id: "spaja-database",
+    name: "SPAJA Database",
+    description:
+      "Centralizovani data layer za sve platforme — PostgreSQL, Redis cache, real-time sync i automatski backup podataka.",
+    icon: "🗄️",
+    category: "data",
+    features: [
+      "PostgreSQL sa Prisma ORM",
+      "Redis caching layer",
+      "Real-time data sync",
+      "Automatski backup & migracije",
+    ],
+    targetPlatforms: [
+      "AI IQ World Bank",
+      "AI IQ Menjačnica",
+      "IO OpenUI AO",
+      "Sve platforme",
+    ],
+    impact: "high",
+  },
+  {
+    id: "spaja-design-system",
+    name: "SPAJA Design System",
+    description:
+      "Unified UI komponentna biblioteka — konzistentan dizajn, dark theme, responsive grid, animacije i pristupačnost za sve platforme.",
+    icon: "🎨",
+    category: "acceleration",
+    features: [
+      "Reusable UI komponente",
+      "Dark/Light tema podrška",
+      "Responsive grid sistem",
+      "Animacije i tranzicije",
+      "Accessibility (WCAG 2.1)",
+    ],
+    targetPlatforms: ["Sve platforme"],
+    impact: "high",
+  },
+  {
+    id: "spaja-testing",
+    name: "SPAJA Testing",
+    description:
+      "Automatizovani testing framework — unit, integration, E2E testovi, visual regression i performance benchmarks za sve platforme.",
+    icon: "🧪",
+    category: "deployment",
+    features: [
+      "Unit testovi (Vitest/Jest)",
+      "E2E testovi (Playwright)",
+      "Visual regression testiranje",
+      "Performance benchmarks",
+      "Automatski test reports",
+    ],
+    targetPlatforms: ["Sve platforme"],
+    impact: "high",
+  },
+  {
+    id: "spaja-payments",
+    name: "SPAJA Payments",
+    description:
+      "Unified payment processing — kripto transakcije, fiat plaćanja, Stripe/PayPal integracija, multi-currency podrška.",
+    icon: "💳",
+    category: "integration",
+    features: [
+      "Kripto transakcije (BTC, ETH, USDT)",
+      "Fiat plaćanja (RSD, EUR, USD)",
+      "Stripe & PayPal integracija",
+      "Multi-currency konverzija",
+      "Transakcioni izveštaji",
+    ],
+    targetPlatforms: [
+      "AI IQ World Bank",
+      "AI IQ Menjačnica",
+      "Kompanija SPAJA",
+    ],
+    impact: "high",
+  },
+  {
+    id: "spaja-notifications",
+    name: "SPAJA Notifications",
+    description:
+      "Centralizovani sistem za notifikacije — push, email, SMS, in-app obaveštenja i alerting za sve platforme.",
+    icon: "🔔",
+    category: "communication",
+    features: [
+      "Push notifikacije (web & mobile)",
+      "Email obaveštenja (SMTP)",
+      "SMS integracija",
+      "In-app notifikacije",
+      "Alert prioritizacija",
+    ],
+    targetPlatforms: ["Sve platforme"],
+    impact: "medium",
+  },
+  {
+    id: "spaja-i18n",
+    name: "SPAJA i18n",
+    description:
+      "Internacionalizacija za globalni doseg — podrška za srpski, engleski, nemački, i još 20+ jezika. RTL podrška.",
+    icon: "🌍",
+    category: "integration",
+    features: [
+      "Multi-language podrška (20+ jezika)",
+      "Srpski, engleski, nemački",
+      "RTL layout podrška",
+      "Automatski prevod (AI)",
+      "Locale-aware formatiranje",
+    ],
+    targetPlatforms: [
+      "Sve platforme",
+      "SVETSKA ORGANIZACIJA",
+    ],
+    impact: "medium",
+  },
+  {
+    id: "spaja-backup",
+    name: "SPAJA Backup",
+    description:
+      "Disaster recovery i backup sistem — automatski snapshots, geo-redundantno skladištenje, instant restore za sve podatke.",
+    icon: "💾",
+    category: "security",
+    features: [
+      "Automatski daily snapshots",
+      "Geo-redundantno skladištenje",
+      "Instant restore (<5 min)",
+      "Verzionisanje podataka",
+      "Disaster recovery plan",
+    ],
+    targetPlatforms: [
+      "AI IQ World Bank",
+      "AI IQ Menjačnica",
+      "Sve platforme",
+    ],
+    impact: "high",
+  },
+  {
+    id: "spaja-docs",
+    name: "SPAJA Docs",
+    description:
+      "Auto-generisana dokumentacija — API docs, user guides, developer portal, changelog i knowledge base za sve platforme.",
+    icon: "📚",
+    category: "acceleration",
+    features: [
+      "Automatska API dokumentacija",
+      "Interaktivni developer portal",
+      "User guides & tutorials",
+      "Changelog generator",
+      "Knowledge base sa pretragom",
+    ],
+    targetPlatforms: ["Sve platforme"],
+    impact: "medium",
+  },
 ];
 
 export const productCategoryLabels: Record<ITProductCategory, string> = {
@@ -188,6 +341,8 @@ export const productCategoryLabels: Record<ITProductCategory, string> = {
   ai: "AI & Machine Learning",
   deployment: "Deployment & DevOps",
   integration: "Integracija Platformi",
+  data: "Podaci & Skladištenje",
+  communication: "Komunikacija & Obaveštenja",
 };
 
 export const productCategoryIcons: Record<ITProductCategory, string> = {
@@ -197,4 +352,6 @@ export const productCategoryIcons: Record<ITProductCategory, string> = {
   ai: "🧠",
   deployment: "🚀",
   integration: "🌐",
+  data: "🗄️",
+  communication: "🔔",
 };
