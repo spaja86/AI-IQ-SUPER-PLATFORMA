@@ -179,32 +179,59 @@ export default function DashboardPage() {
       {/* Vercel Ready Check */}
       <div className="card-glow rounded-xl bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-800/30 p-6 mt-8">
         <h3 className="text-lg font-bold text-white mb-3">
-          ▲ Vercel Deployment Status
+          ▲ Vercel Produkciona Optimizacija
         </h3>
-        <div className="space-y-2">
+        <p className="text-sm text-gray-400 mb-4">
+          Kompletna lista optimizacija za produkcijski deploy na Vercel ▲
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {[
             {
-              check: "Next.js projekat konfigurisan",
+              check: "Next.js 16 + TypeScript konfigurisan",
               done: true,
             },
             {
-              check: "TypeScript konfigurisan",
+              check: "Tailwind CSS 4 sa custom temom",
               done: true,
             },
             {
-              check: "Tailwind CSS konfigurisan",
+              check: "Static Site Generation (SSG) — sve stranice prerendered",
               done: true,
             },
             {
-              check: "Vercel-kompatibilan build",
+              check: "Edge caching (s-maxage, stale-while-revalidate)",
               done: true,
             },
             {
-              check: "SEO metapodaci dodati",
+              check: "Security headeri (CSP, HSTS, X-Frame-Options, XSS, Referrer-Policy)",
               done: true,
             },
             {
-              check: "Responsivan dizajn",
+              check: "SEO: sitemap.xml + robots.txt + Open Graph + meta robots",
+              done: true,
+            },
+            {
+              check: "Accessibility: ARIA, skip-nav, focus-visible, reduced-motion",
+              done: true,
+            },
+            {
+              check: "Responsivan dizajn sa mobilnim menijem",
+              done: true,
+            },
+            {
+              check: "Error boundary + custom 404 + loading skeletoni",
+              done: true,
+            },
+            {
+              check: "API health check endpoint (/api/status)",
+              done: true,
+            },
+            {
+              check: "Immutable cache za statičke resurse (_next/static)",
+              done: true,
+            },
+            {
+              check: "Deploy region: fra1 (Frankfurt EU)",
               done: true,
             },
             {

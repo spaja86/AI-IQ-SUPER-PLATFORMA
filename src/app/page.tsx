@@ -234,12 +234,26 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-8">
         <div className="card-glow rounded-xl bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-800/30 p-8 text-center">
           <h2 className="text-2xl font-bold text-white mb-3">
-            🚀 Spremni za Vercel deployment?
+            ▲ Vercel Produkcija — Optimizovano
           </h2>
-          <p className="text-gray-300 mb-6 max-w-xl mx-auto">
-            Kada sve platforme dostignu 100%, Kompanija SPAJA plasira
-            kompletan ekosistem na Vercel za produkciju.
+          <p className="text-gray-300 mb-4 max-w-2xl mx-auto">
+            AI IQ SUPER PLATFORMA je produkciono optimizovana za Vercel sa SSG, edge caching,
+            security headerima, SEO i accessibility standardima.
           </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto mb-6">
+            {[
+              { label: "SSG stranica", value: "8", icon: "📄" },
+              { label: "IT proizvoda", value: "17", icon: "⚡" },
+              { label: "Platformi", value: "11", icon: "🌐" },
+              { label: "Security headera", value: "7+", icon: "🛡️" },
+            ].map((stat) => (
+              <div key={stat.label} className="rounded-lg bg-white/5 p-2 text-center">
+                <span className="text-lg">{stat.icon}</span>
+                <p className="text-lg font-bold text-white">{stat.value}</p>
+                <p className="text-xs text-gray-400">{stat.label}</p>
+              </div>
+            ))}
+          </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/deploy"

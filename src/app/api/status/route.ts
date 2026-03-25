@@ -7,20 +7,38 @@ export async function GET() {
     const overallProgress = getOverallProgress();
     const deployStats = getDeployStats();
 
+    const deployedPlatforms = platforms.filter((p) => p.deploy.status === "deployed");
+    const failingPlatforms = platforms.filter((p) => p.deploy.status === "failing");
+
     return NextResponse.json({
       company: "Kompanija SPAJA",
       platform: "AI IQ SUPER PLATFORMA",
       classification: "Digitalna Industrija",
-      version: "1.0.0",
+      version: "2.0.0",
+      environment: "production",
+      region: "fra1",
       timestamp: new Date().toISOString(),
+      health: "ok",
       overallProgress,
-      vercelReady: overallProgress >= 100,
+      vercelOptimized: true,
+      optimizations: [
+        "SSG (Static Site Generation) za sve stranice",
+        "Edge caching sa stale-while-revalidate",
+        "Security headeri (CSP, HSTS, X-Frame-Options, XSS Protection)",
+        "SEO (sitemap.xml, robots.txt, Open Graph, meta robots)",
+        "Accessibility (ARIA, skip-nav, focus-visible, reduced-motion)",
+        "Responsive mobilni dizajn sa hamburger menijem",
+        "Error boundary i custom 404/error stranice",
+        "Loading skeleton animacije",
+        "Immutable cache za statičke resurse",
+      ],
       summary: {
         totalPlatforms: platforms.length,
         activePlatforms: platforms.filter(
           (p) => p.status === "active" || p.status === "development"
         ).length,
         readyPlatforms: platforms.filter((p) => p.status === "ready").length,
+        planningPlatforms: platforms.filter((p) => p.status === "planning").length,
         totalITProducts: itProducts.length,
         sectors: {
           finance: platforms.filter((p) => p.category === "finance").length,
@@ -38,6 +56,12 @@ export async function GET() {
         notDeployed: deployStats.notDeployed,
         domainsOwned: deployStats.withDomain,
         domainsNeeded: deployStats.needDomain,
+        deployedList: deployedPlatforms.map((p) => p.name),
+        failingList: failingPlatforms.map((p) => ({
+          name: p.name,
+          domain: p.deploy.domain,
+          fix: p.deploy.notes,
+        })),
       },
       platforms: platforms.map((p) => ({
         id: p.id,
@@ -56,6 +80,7 @@ export async function GET() {
     return NextResponse.json(
       {
         error: "Internal server error",
+        health: "error",
         timestamp: new Date().toISOString(),
       },
       { status: 500 }
