@@ -90,7 +90,7 @@ export const platforms: Platform[] = [
       outputDir: "public",
       rootDir: ".",
       nodeVersion: "18.x",
-      notes: "Domen zakupljen. FIX: Framework Preset → 'Other', Root Directory → '.', Output Directory → 'public', Build Command → prazan. Statički sajt bez build koraka.",
+      notes: "⚠️ BUG: package.json sadrži literal '\\n' (backslash+n) umesto pravih newline karaktera — ceo fajl je u jednom redu. Vercel ne može da parsira JSON. FIX: zameni package.json sa ispravno formatiranim JSON-om (pravi novi redovi). Zatim: Framework Preset → 'Other', Root Dir → '.', Output Dir → 'public', Build Command → prazan.",
     },
   },
   {
