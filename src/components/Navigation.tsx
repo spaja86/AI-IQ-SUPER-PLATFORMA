@@ -9,6 +9,7 @@ const navItems = [
   { href: "/industrija", label: "Industrija", icon: "🏭" },
   { href: "/platforme", label: "Platforme", icon: "🌐" },
   { href: "/it-proizvodi", label: "IT Proizvodi", icon: "⚡" },
+  { href: "/deploy", label: "Deploy", icon: "🚀" },
   { href: "/ekosistem", label: "Ekosistem", icon: "🔗" },
 ];
 

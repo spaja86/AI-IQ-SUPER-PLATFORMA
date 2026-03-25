@@ -242,8 +242,14 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/dashboard"
+              href="/deploy"
               className="gradient-bg px-6 py-2.5 rounded-lg font-semibold text-white hover:opacity-90 transition-opacity text-sm"
+            >
+              🚀 Deploy Status & Vodič →
+            </Link>
+            <Link
+              href="/dashboard"
+              className="border border-gray-600 px-6 py-2.5 rounded-lg font-semibold text-gray-300 hover:bg-white/5 transition-colors text-sm"
             >
               Pogledaj napredak →
             </Link>

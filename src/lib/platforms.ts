@@ -1,3 +1,17 @@
+export type DeployStatus = "deployed" | "failing" | "not-deployed" | "no-domain";
+
+export interface DeployInfo {
+  status: DeployStatus;
+  domain?: string;
+  vercelProject?: string;
+  framework: string;
+  buildCommand: string;
+  outputDir?: string;
+  rootDir?: string;
+  nodeVersion?: string;
+  notes?: string;
+}
+
 export interface Platform {
   id: string;
   name: string;
@@ -10,6 +24,7 @@ export interface Platform {
   progress: number;
   technologies: string[];
   features: string[];
+  deploy: DeployInfo;
 }
 
 export type PlatformCategory = "core" | "finance" | "ai" | "social" | "tools" | "global";
@@ -34,6 +49,13 @@ export const platforms: Platform[] = [
       "Status monitoring",
       "Vercel deployment",
     ],
+    deploy: {
+      status: "deployed",
+      vercelProject: "ai-iq-super-platforma",
+      framework: "Next.js",
+      buildCommand: "next build",
+      notes: "Glavni hub — deploy radi. Treba kupiti custom domen.",
+    },
   },
   {
     id: "io-openui-ao",
@@ -55,6 +77,17 @@ export const platforms: Platform[] = [
       "Vercel konfiguracija sa rutiranjem",
       "Profesionalna saradnja",
     ],
+    deploy: {
+      status: "failing",
+      domain: "ioopenuiao.com",
+      vercelProject: "io-openui-ao",
+      framework: "Other",
+      buildCommand: "",
+      outputDir: "public",
+      rootDir: ".",
+      nodeVersion: "18.x",
+      notes: "Domen zakupljen ali deploy FAIL. Proveri: (1) Framework Preset → 'Other', (2) Root Directory → '.', (3) Output Directory → 'public', (4) Build Command → prazan (statički sajt). Razlog pada: Vercel pokušava build koji ne postoji.",
+    },
   },
   {
     id: "ai-iq-menjacnica",
@@ -74,6 +107,17 @@ export const platforms: Platform[] = [
       "Market trade UI",
       "Live pricing",
     ],
+    deploy: {
+      status: "failing",
+      domain: "ai-iq-menjacnica.com",
+      vercelProject: "ai-iq-menjacnica",
+      framework: "Other",
+      buildCommand: "",
+      outputDir: ".",
+      rootDir: ".",
+      nodeVersion: "18.x",
+      notes: "Domen zakupljen ali deploy FAIL. Proveri: (1) Framework Preset → 'Other' (čist HTML/CSS/JS), (2) Output Directory → '.' (root), (3) Build Command → prazan. HTML sajt ne zahteva build — Vercel samo servira fajlove.",
+    },
   },
   {
     id: "ai-iq-world-bank",
@@ -97,6 +141,15 @@ export const platforms: Platform[] = [
       "Profesionalni bankarski dizajn",
       "Svetska pokrivenost",
     ],
+    deploy: {
+      status: "no-domain",
+      vercelProject: "ai-iq-world-bank",
+      framework: "Other",
+      buildCommand: "",
+      outputDir: ".",
+      rootDir: ".",
+      notes: "Treba kupiti domen (npr. ai-iq-world-bank.com). HTML/CSS/JS sajt — Framework Preset → 'Other', bez build komande.",
+    },
   },
   {
     id: "openai-platform",
@@ -116,6 +169,12 @@ export const platforms: Platform[] = [
       "Igrice",
       "AI integracije",
     ],
+    deploy: {
+      status: "not-deployed",
+      framework: "Planirano",
+      buildCommand: "",
+      notes: "Tek u planiranju. Kada bude spreman, deploy kao Next.js ili Vite app.",
+    },
   },
   {
     id: "svetska-organizacija",
@@ -138,6 +197,15 @@ export const platforms: Platform[] = [
       "Regulatorni okvir",
       "Pratečim elementima i standardima",
     ],
+    deploy: {
+      status: "no-domain",
+      vercelProject: "svetska-organizacija",
+      framework: "Other",
+      buildCommand: "",
+      outputDir: ".",
+      rootDir: ".",
+      notes: "Treba kupiti domen (npr. svetska-organizacija.org). Deploy kao statički sajt.",
+    },
   },
   {
     id: "input-output-copilot",
@@ -157,6 +225,12 @@ export const platforms: Platform[] = [
       "Aktivna komunikacija",
       "GitHub peč",
     ],
+    deploy: {
+      status: "not-deployed",
+      framework: "Python",
+      buildCommand: "",
+      notes: "Python projekat — deploy na Vercel kao serverless function ili koristiti drugi hosting.",
+    },
   },
   {
     id: "omega-ai-github",
@@ -176,6 +250,12 @@ export const platforms: Platform[] = [
       "AI automatizacija",
       "Smart workflows",
     ],
+    deploy: {
+      status: "not-deployed",
+      framework: "Planirano",
+      buildCommand: "",
+      notes: "U planiranju. GitHub-specifičan alat — deploy kao GitHub App ili Vercel serverless.",
+    },
   },
   {
     id: "omega-ai-vercel",
@@ -195,6 +275,12 @@ export const platforms: Platform[] = [
       "Performance boost",
       "AI evolucija",
     ],
+    deploy: {
+      status: "not-deployed",
+      framework: "Planirano",
+      buildCommand: "",
+      notes: "U planiranju. Vercel-specifičan alat — deploy kao Vercel integration.",
+    },
   },
   {
     id: "omega-ai-google",
@@ -214,6 +300,12 @@ export const platforms: Platform[] = [
       "AI beskonačnost",
       "Cloud integracije",
     ],
+    deploy: {
+      status: "not-deployed",
+      framework: "Planirano",
+      buildCommand: "",
+      notes: "U planiranju. Google-specifičan alat.",
+    },
   },
   {
     id: "omega-ai-social",
@@ -233,6 +325,12 @@ export const platforms: Platform[] = [
       "TikTok AI",
       "Threads & YouTube AI",
     ],
+    deploy: {
+      status: "not-deployed",
+      framework: "Planirano",
+      buildCommand: "",
+      notes: "U planiranju. Social media AI alat.",
+    },
   },
 ];
 
@@ -296,4 +394,42 @@ export function getProgressColor(progress: number): string {
   if (progress >= 50) return "bg-blue-500";
   if (progress >= 20) return "bg-yellow-500";
   return "bg-gray-500";
+}
+
+export function getDeployStatusLabel(status: DeployStatus): string {
+  switch (status) {
+    case "deployed":
+      return "Deployano ✅";
+    case "failing":
+      return "Deploy FAIL ❌";
+    case "not-deployed":
+      return "Nije deployano ⬜";
+    case "no-domain":
+      return "Treba domen 🔴";
+  }
+}
+
+export function getDeployStatusColor(status: DeployStatus): string {
+  switch (status) {
+    case "deployed":
+      return "text-green-400";
+    case "failing":
+      return "text-red-400";
+    case "not-deployed":
+      return "text-gray-400";
+    case "no-domain":
+      return "text-orange-400";
+  }
+}
+
+export function getDeployStats() {
+  const deployed = platforms.filter((p) => p.deploy.status === "deployed").length;
+  const failing = platforms.filter((p) => p.deploy.status === "failing").length;
+  const noDomain = platforms.filter((p) => p.deploy.status === "no-domain").length;
+  const notDeployed = platforms.filter((p) => p.deploy.status === "not-deployed").length;
+  const withDomain = platforms.filter((p) => p.deploy.domain).length;
+  const needDomain = platforms.filter(
+    (p) => p.deploy.status !== "not-deployed" && !p.deploy.domain
+  ).length;
+  return { deployed, failing, noDomain, notDeployed, withDomain, needDomain };
 }
