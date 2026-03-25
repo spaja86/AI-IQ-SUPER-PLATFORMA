@@ -1,11 +1,11 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-800 mt-20">
+    <footer className="border-t border-gray-800 mt-20" role="contentinfo">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">🏢</span>
+              <span className="text-3xl" role="img" aria-hidden="true">🏢</span>
               <div>
                 <h3 className="text-xl font-bold gradient-text">
                   Kompanija SPAJA
@@ -29,27 +29,27 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
-                <a href="https://github.com/spaja86/IO-OPENUI-AO" className="hover:text-blue-400 transition-colors">
+                <a href="https://github.com/spaja86/IO-OPENUI-AO" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
                   IO OPENUI AO
                 </a>
               </li>
               <li>
-                <a href="https://github.com/spaja86/Ai-Iq-Menja-nica" className="hover:text-blue-400 transition-colors">
+                <a href="https://github.com/spaja86/Ai-Iq-Menja-nica" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
                   AI IQ Menjačnica
                 </a>
               </li>
               <li>
-                <a href="https://github.com/spaja86/Ai-Iq-World-Bank" className="hover:text-blue-400 transition-colors">
+                <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
                   AI IQ World Bank
                 </a>
               </li>
               <li>
-                <a href="https://github.com/spaja86/SVETSKA-ORGANIZACIJA" className="hover:text-blue-400 transition-colors">
+                <a href="https://github.com/spaja86/SVETSKA-ORGANIZACIJA" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
                   SVETSKA ORGANIZACIJA
                 </a>
               </li>
               <li>
-                <a href="https://github.com/spaja86/openai-platform" className="hover:text-blue-400 transition-colors">
+                <a href="https://github.com/spaja86/openai-platform" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
                   OpenAI Platform
                 </a>
               </li>
@@ -62,13 +62,18 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
-                <a href="https://github.com/spaja86" className="hover:text-blue-400 transition-colors">
+                <a href="https://github.com/spaja86" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
                   GitHub profil
                 </a>
               </li>
               <li>
-                <a href="https://vercel.com" className="hover:text-blue-400 transition-colors">
+                <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
                   Vercel
+                </a>
+              </li>
+              <li>
+                <a href="/api/status" className="hover:text-blue-400 transition-colors">
+                  API Status
                 </a>
               </li>
             </ul>
