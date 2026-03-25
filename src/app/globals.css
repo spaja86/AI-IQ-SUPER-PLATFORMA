@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a1a;
+  --foreground: #e0e0f0;
+  --accent: #3b82f6;
+  --accent-2: #8b5cf6;
+  --card-bg: #111128;
+  --card-border: #1e1e3a;
+  --gradient-1: #3b82f6;
+  --gradient-2: #8b5cf6;
+  --gradient-3: #06b6d4;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+}
+
+.card-glow {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.progress-bar {
+  transition: width 1s ease-in-out;
+}
+
+.glass {
+  background: rgba(17, 17, 40, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
