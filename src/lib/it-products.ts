@@ -14,7 +14,8 @@ export type ITProductCategory =
   | "monitoring"
   | "security"
   | "ai"
-  | "deployment";
+  | "deployment"
+  | "integration";
 
 export const itProducts: ITProduct[] = [
   {
@@ -154,6 +155,30 @@ export const itProducts: ITProduct[] = [
     ],
     impact: "high",
   },
+  {
+    id: "spaja-ekosistem-hub",
+    name: "SPAJA Ekosistem Hub",
+    description:
+      "Unified frontend platforma iz IO-OPENUI-AO — spaja Banku, Menjačnicu, Kompaniju i AI servis na jednom mestu. WebRTC + Socket.IO + OpenAI Realtime API.",
+    icon: "🌐",
+    category: "integration",
+    features: [
+      "4 integrisana servisa na jednom URL-u",
+      "WebRTC glasovni AI chat (OpenAI)",
+      "Socket.IO real-time messaging",
+      "Vercel routing za sve module (/bank, /exchange, /company, /ai)",
+      "Profesionalni dark-theme UI",
+      "Primenjiv na sve platforme ekosistema",
+    ],
+    targetPlatforms: [
+      "AI IQ World Bank",
+      "AI IQ Menjačnica",
+      "Kompanija SPAJA",
+      "IO OpenUI AO",
+      "Sve platforme",
+    ],
+    impact: "high",
+  },
 ];
 
 export const productCategoryLabels: Record<ITProductCategory, string> = {
@@ -162,6 +187,7 @@ export const productCategoryLabels: Record<ITProductCategory, string> = {
   security: "Bezbednost",
   ai: "AI & Machine Learning",
   deployment: "Deployment & DevOps",
+  integration: "Integracija Platformi",
 };
 
 export const productCategoryIcons: Record<ITProductCategory, string> = {
@@ -170,4 +196,5 @@ export const productCategoryIcons: Record<ITProductCategory, string> = {
   security: "🛡️",
   ai: "🧠",
   deployment: "🚀",
+  integration: "🌐",
 };

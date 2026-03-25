@@ -13,6 +13,7 @@ export const metadata = {
 
 export default function ITProizvodiPage() {
   const categories: ITProductCategory[] = [
+    "integration",
     "acceleration",
     "monitoring",
     "security",

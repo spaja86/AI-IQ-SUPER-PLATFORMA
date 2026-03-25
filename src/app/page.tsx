@@ -195,6 +195,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Ekosistem Promotion */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div className="card-glow rounded-xl bg-gradient-to-r from-purple-900/30 via-blue-900/30 to-cyan-900/30 border border-purple-800/30 p-8">
+          <div className="flex flex-col md:flex-row md:items-center gap-6">
+            <div className="text-5xl">🌐</div>
+            <div className="flex-1">
+              <div className="inline-block bg-purple-600/30 text-purple-300 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider">
+                ⭐ Novi IT Proizvod
+              </div>
+              <h3 className="text-xl font-bold text-white mb-1">
+                SPAJA Ekosistem Hub — iz IO OPENUI AO
+              </h3>
+              <p className="text-sm text-gray-300">
+                Unified frontend koji spaja Banku, Menjačnicu, Kompaniju i AI
+                na jednom URL-u. 12 od 22 stavki spremno — pogledaj detalje
+                koji fale.
+              </p>
+            </div>
+            <Link
+              href="/ekosistem"
+              className="gradient-bg px-6 py-2.5 rounded-lg font-semibold text-white hover:opacity-90 transition-opacity text-sm whitespace-nowrap"
+            >
+              Pogledaj analizu →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-8">
         <div className="card-glow rounded-xl bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-blue-800/30 p-8 text-center">

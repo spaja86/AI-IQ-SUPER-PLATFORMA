@@ -8,6 +8,7 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: "📊" },
   { href: "/platforme", label: "Platforme", icon: "🌐" },
   { href: "/it-proizvodi", label: "IT Proizvodi", icon: "⚡" },
+  { href: "/ekosistem", label: "Ekosistem", icon: "🔗" },
 ];
 
 export default function Navigation() {
