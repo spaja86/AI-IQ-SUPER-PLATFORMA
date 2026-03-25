@@ -76,7 +76,8 @@ export async function GET() {
         },
       })),
     });
-  } catch {
+  } catch (error) {
+    console.error("Status API error:", error);
     return NextResponse.json(
       {
         error: "Internal server error",
