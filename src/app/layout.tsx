@@ -18,12 +18,22 @@ export const metadata: Metadata = {
     "World Bank",
     "SVETSKA ORGANIZACIJA",
   ],
+  authors: [{ name: "Kompanija SPAJA" }],
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "Kompanija SPAJA — AI IQ SUPER PLATFORMA | Digitalna Industrija",
     description:
       "Kompletna digitalna industrija sa bankama, menjačnicama, AI platformama i 17 IT proizvoda.",
     type: "website",
+    siteName: "AI IQ SUPER PLATFORMA",
+    locale: "sr_RS",
   },
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://ai-iq-super-platforma.vercel.app"
+  ),
 };
 
 export default function RootLayout({
@@ -35,7 +45,7 @@ export default function RootLayout({
     <html lang="sr" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <Navigation />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>
