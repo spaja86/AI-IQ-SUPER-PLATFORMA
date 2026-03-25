@@ -1,37 +1,56 @@
-# 🏢 AI IQ SUPER PLATFORMA — Kompanija SPAJA
+# 🏭 AI IQ SUPER PLATFORMA — Digitalna Industrija
 
-Platforma za spajanje ekstremno mnogo platformi koja u budućnosti treba da izraste u korporaciju ili je već korporacija.
+**Kompanija SPAJA** je korporacija koja upravlja bankama, menjačnicama, AI platformama, globalnim organizacijama i softverskim platformama — čineći kompletnu **Digitalnu Industriju**.
 
-## 🚀 O Projektu
+## 🏗️ Struktura Industrije
 
-**Kompanija SPAJA** ima IT proizvode koji ubrzavaju sve procese i nadograđuju sve platforme u svakom smislu da sve ode na **100%**. Kada završimo sve na 100%, sve se plasira na **Vercel ▲**.
+| Tip | Entitet | Opis |
+|---|---|---|
+| 🏢 **Korporacija** | Kompanija SPAJA | Matična korporacija — 17 IT proizvoda |
+| 🏦 **Banka** | AI IQ World Bank | Kompletna svetska banka (7+ sekcija) |
+| 💱 **Menjačnica** | AI IQ Menjačnica | Kripto + fiat exchange |
+| 🌍 **Globalna Org.** | SVETSKA ORGANIZACIJA | Svetski APR sistem |
+| 🧠 **AI Division** | OMEGA AI sistemi | 4 AI platforme + OpenAI |
+| 🖥️ **Platforma** | IO OPENUI AO | Unified frontend (4 servisa) |
+| 🔌 **DevTools** | Input/Output Copilot | I/O sistem za GitHub |
 
-## 🌐 Platforme u Ekosistemu
+## 🌐 Sve Platforme u Ekosistemu (11)
 
 | Platforma | Opis | Status |
 |---|---|---|
-| **AI IQ SUPER PLATFORMA** | Centralni hub | ✅ Aktivno |
-| **IO OPENUI AO** | Saradnja, igrice, WebRTC | 🟡 U razvoju |
+| **AI IQ SUPER PLATFORMA** | Centralni hub industrije | ✅ Aktivno |
+| **IO OPENUI AO** | Unified ekosistem (4 servisa) | 🟡 U razvoju |
+| **AI IQ World Bank** | Svetska banka (7+ sekcija) | 🟡 U razvoju |
 | **AI IQ Menjačnica** | Kripto menjačnica | 🟡 U razvoju |
-| **AI IQ World Bank** | Svetska banka | 🟡 U razvoju |
+| **SVETSKA ORGANIZACIJA** | Svetski APR sistem | 🟡 U razvoju |
 | **OpenAI Platform** | AI za biznis i medije | 📋 Planirano |
-| **SVETSKA ORGANIZACIJA** | Za dobrobit čovečanstva | 📋 Planirano |
 | **Input/Output za Copilot** | I/O sistem | 🟡 U razvoju |
 | **OMEGA AI za GitHub** | Unapređenje GitHub-a | 📋 Planirano |
 | **OMEGA AI za Vercel** | Unapređenje Vercel-a | 📋 Planirano |
 | **OMEGA AI za Google** | Unapređenje Google-a | 📋 Planirano |
 | **OMEGA AI 5 Persona** | Za socijalne mreže | 📋 Planirano |
 
-## ⚡ IT Proizvodi
+## ⚡ IT Proizvodi (17)
 
-- **SPAJA Accelerator** — Ubrzava razvojne procese
-- **SPAJA Monitor** — Real-time praćenje statusa
-- **SPAJA Shield** — Bezbednosna zaštita
-- **OMEGA AI Engine** — Centralni AI motor
-- **SPAJA Deploy** — Jedan klik za Vercel deploy
-- **SPAJA Connector** — API gateway za sve platforme
-- **SPAJA Analytics** — Napredna analitika
-- **SPAJA Auth** — Unified autentifikacija
+| # | Proizvod | Kategorija | Uticaj |
+|---|---|---|---|
+| 1 | **SPAJA Accelerator** | Ubrzanje | 🟢 Visok |
+| 2 | **SPAJA Monitor** | Monitoring | 🟢 Visok |
+| 3 | **SPAJA Shield** | Bezbednost | 🟢 Visok |
+| 4 | **OMEGA AI Engine** | AI | 🟢 Visok |
+| 5 | **SPAJA Deploy** | Deployment | 🟢 Visok |
+| 6 | **SPAJA Connector** | Ubrzanje | 🟡 Srednji |
+| 7 | **SPAJA Analytics** | Monitoring | 🟡 Srednji |
+| 8 | **SPAJA Auth** | Bezbednost | 🟢 Visok |
+| 9 | **SPAJA Ekosistem Hub** | Integracija | 🟢 Visok |
+| 10 | **SPAJA Database** | Podaci | 🟢 Visok |
+| 11 | **SPAJA Design System** | Ubrzanje | 🟢 Visok |
+| 12 | **SPAJA Testing** | Deployment | 🟢 Visok |
+| 13 | **SPAJA Payments** | Integracija | 🟢 Visok |
+| 14 | **SPAJA Notifications** | Komunikacija | 🟡 Srednji |
+| 15 | **SPAJA i18n** | Integracija | 🟡 Srednji |
+| 16 | **SPAJA Backup** | Bezbednost | 🟢 Visok |
+| 17 | **SPAJA Docs** | Ubrzanje | 🟡 Srednji |
 
 ## 🛠️ Tehnologije
 
@@ -39,6 +58,17 @@ Platforma za spajanje ekstremno mnogo platformi koja u budućnosti treba da izra
 - **TypeScript** — Type-safe development
 - **Tailwind CSS 4** — Utility-first CSS
 - **Vercel** — Hosting i deployment
+
+## 📄 Stranice
+
+| Ruta | Opis |
+|---|---|
+| `/` | Početna — pregled industrije |
+| `/industrija` | Formalna struktura digitalne industrije |
+| `/dashboard` | Centralni dashboard sa napretkom |
+| `/platforme` | Sve platforme po kategorijama |
+| `/it-proizvodi` | Svih 17 IT proizvoda |
+| `/ekosistem` | IO OPENUI AO analiza |
 
 ## 🏁 Pokretanje
 
@@ -51,11 +81,9 @@ Otvori [http://localhost:3000](http://localhost:3000) u pregledaču.
 
 ## 📡 API
 
-- `GET /api/status` — Status svih platformi u JSON formatu
+- `GET /api/status` — Status svih platformi, sektora i IT proizvoda u JSON formatu
 
 ## ▲ Vercel Deployment
-
-Projekat je potpuno spreman za Vercel deployment:
 
 ```bash
 npm run build
@@ -65,4 +93,4 @@ Ili deploy direktno na Vercel povezivanjem GitHub repozitorijuma.
 
 ---
 
-© Kompanija SPAJA — AI IQ SUPER PLATFORMA
+© Kompanija SPAJA — AI IQ SUPER PLATFORMA | Digitalna Industrija

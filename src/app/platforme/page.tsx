@@ -16,6 +16,7 @@ export default function PlatformePage() {
   const categories: PlatformCategory[] = [
     "core",
     "finance",
+    "global",
     "ai",
     "social",
     "tools",

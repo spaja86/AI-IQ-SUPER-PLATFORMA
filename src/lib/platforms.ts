@@ -12,7 +12,7 @@ export interface Platform {
   features: string[];
 }
 
-export type PlatformCategory = "core" | "finance" | "ai" | "social" | "tools";
+export type PlatformCategory = "core" | "finance" | "ai" | "social" | "tools" | "global";
 export type PlatformStatus = "active" | "development" | "planning" | "ready";
 
 export const platforms: Platform[] = [
@@ -79,19 +79,23 @@ export const platforms: Platform[] = [
     id: "ai-iq-world-bank",
     name: "AI IQ World Bank",
     description:
-      "Najbolja banka na svetu, maksimalno profesionalna, saradnju ima sa svim bankama.",
+      "Najbolja banka na svetu sa kompletnim sistemom — 7+ sekcija, Omega AI tehnologija, svetska pokrivenost, partneri i statistike. Saradnja sa svim bankama.",
     category: "finance",
     repo: "https://github.com/spaja86/Ai-Iq-World-Bank",
     url: "https://github.com/spaja86/Ai-Iq-World-Bank",
     icon: "🏦",
     status: "development",
-    progress: 15,
+    progress: 40,
     technologies: ["HTML", "CSS", "JavaScript"],
     features: [
-      "Profesionalni bankarski sajt",
-      "Omega AI tehnologija",
+      "Kompletna navigacija (7+ sekcija)",
+      "Home, About, Services, Technology",
+      "Omega AI tehnologija integracija",
+      "Partners & Statistics sekcije",
+      "Smederevo Expansion plan",
+      "Kontakt + 4 socijalne mreže",
+      "Profesionalni bankarski dizajn",
       "Svetska pokrivenost",
-      "Kontakt info",
     ],
   },
   {
@@ -116,19 +120,23 @@ export const platforms: Platform[] = [
   {
     id: "svetska-organizacija",
     name: "SVETSKA ORGANIZACIJA",
-    description: "Svetska organizacija za dobrobit čovečanstva.",
-    category: "core",
+    description: "Svetska organizacija za dobrobit čovečanstva sa Svetskim APR sistemom i svim pratećim elementima. Regulatorni i humanitarni sloj industrije.",
+    category: "global",
     repo: "https://github.com/spaja86/SVETSKA-ORGANIZACIJA",
     url: "https://github.com/spaja86/SVETSKA-ORGANIZACIJA",
     icon: "🌍",
-    status: "planning",
-    progress: 2,
-    technologies: ["Planirano"],
+    status: "development",
+    progress: 25,
+    technologies: ["Planirano", "APR Sistem"],
     features: [
+      "Svetski APR sistem",
+      "Registracija kompanija i entiteta",
       "Dobrobit čovečanstva",
       "Svetska misija",
       "Humanitarni rad",
       "Globalna mreža",
+      "Regulatorni okvir",
+      "Pratečim elementima i standardima",
     ],
   },
   {
@@ -234,6 +242,7 @@ export const categoryLabels: Record<PlatformCategory, string> = {
   ai: "OMEGA AI Sistemi",
   social: "Socijalne Mreže",
   tools: "Alati & Integracije",
+  global: "Globalne Organizacije",
 };
 
 export const categoryIcons: Record<PlatformCategory, string> = {
@@ -242,6 +251,7 @@ export const categoryIcons: Record<PlatformCategory, string> = {
   ai: "🧠",
   social: "📱",
   tools: "🔧",
+  global: "🌍",
 };
 
 export function getOverallProgress(): number {

@@ -21,6 +21,7 @@ export default function DashboardPage() {
   const categories: PlatformCategory[] = [
     "core",
     "finance",
+    "global",
     "ai",
     "social",
     "tools",

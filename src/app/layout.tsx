@@ -4,22 +4,24 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Kompanija SPAJA — AI IQ SUPER PLATFORMA",
+  title: "Kompanija SPAJA — AI IQ SUPER PLATFORMA | Digitalna Industrija",
   description:
-    "Platforma za spajanje ekstremno mnogo platformi. IT proizvodi koji ubrzavaju sve procese i nadograđuju sve platforme na 100%. Kompanija SPAJA korporacija.",
+    "Kompletna digitalna industrija: korporacija, banke, menjačnice, AI platforme, globalne organizacije i 17 IT proizvoda. Kompanija SPAJA upravlja celim ekosistemom.",
   keywords: [
     "Kompanija SPAJA",
     "AI IQ",
     "Super Platforma",
+    "Digitalna Industrija",
     "IT proizvodi",
     "OMEGA AI",
     "Menjačnica",
     "World Bank",
+    "SVETSKA ORGANIZACIJA",
   ],
   openGraph: {
-    title: "Kompanija SPAJA — AI IQ SUPER PLATFORMA",
+    title: "Kompanija SPAJA — AI IQ SUPER PLATFORMA | Digitalna Industrija",
     description:
-      "IT proizvodi koji ubrzavaju sve procese i nadograđuju sve platforme na 100%.",
+      "Kompletna digitalna industrija sa bankama, menjačnicama, AI platformama i 17 IT proizvoda.",
     type: "website",
   },
 };

@@ -8,6 +8,7 @@ export async function GET() {
   return NextResponse.json({
     company: "Kompanija SPAJA",
     platform: "AI IQ SUPER PLATFORMA",
+    classification: "Digitalna Industrija",
     timestamp: new Date().toISOString(),
     overallProgress,
     vercelReady: overallProgress >= 100,
@@ -18,6 +19,14 @@ export async function GET() {
       ).length,
       readyPlatforms: platforms.filter((p) => p.status === "ready").length,
       totalITProducts: itProducts.length,
+      sectors: {
+        finance: platforms.filter((p) => p.category === "finance").length,
+        ai: platforms.filter((p) => p.category === "ai").length,
+        core: platforms.filter((p) => p.category === "core").length,
+        global: platforms.filter((p) => p.category === "global").length,
+        social: platforms.filter((p) => p.category === "social").length,
+        tools: platforms.filter((p) => p.category === "tools").length,
+      },
     },
     platforms: platforms.map((p) => ({
       id: p.id,

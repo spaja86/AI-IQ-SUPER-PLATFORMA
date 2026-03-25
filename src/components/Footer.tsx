@@ -16,9 +16,10 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-400 text-sm max-w-md">
-              Platforma za spajanje ekstremno mnogo platformi koja u
-              budućnosti treba da izraste u korporaciju. IT proizvodi koji
-              ubrzavaju sve procese i nadograđuju sve platforme.
+              Digitalna Industrija koja objedinjuje banke, menjačnice, AI
+              platforme, globalne organizacije i softverske platforme.
+              IT proizvodi koji ubrzavaju sve procese i nadograđuju sve
+              platforme.
             </p>
           </div>
 
@@ -40,6 +41,11 @@ export default function Footer() {
               <li>
                 <a href="https://github.com/spaja86/Ai-Iq-World-Bank" className="hover:text-blue-400 transition-colors">
                   AI IQ World Bank
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/spaja86/SVETSKA-ORGANIZACIJA" className="hover:text-blue-400 transition-colors">
+                  SVETSKA ORGANIZACIJA
                 </a>
               </li>
               <li>

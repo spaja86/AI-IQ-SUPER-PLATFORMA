@@ -23,19 +23,26 @@ export default function Home() {
               <span className="gradient-text">Kompanija SPAJA</span>
             </h1>
             <p className="text-xl sm:text-2xl text-gray-300 mb-2">
-              AI IQ SUPER PLATFORMA
+              AI IQ SUPER PLATFORMA — Digitalna Industrija
             </p>
             <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-10">
-              IT proizvodi koji ubrzavaju sve procese i nadograđuju sve
-              platforme u svakom smislu — cilj je dovesti sve na{" "}
-              <span className="text-green-400 font-bold">100%</span> i plasirati
-              na <span className="text-white font-bold">Vercel ▲</span>
+              Korporacija koja upravlja bankama, menjačnicama, AI platformama,
+              globalnim organizacijama i softverskim platformama — {" "}
+              <span className="text-green-400 font-bold">kompletna digitalna industrija</span> sa{" "}
+              <span className="text-white font-bold">{itProducts.length} IT proizvoda</span> i{" "}
+              <span className="text-white font-bold">{platforms.length} platformi</span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/dashboard"
+                href="/industrija"
                 className="gradient-bg px-8 py-3 rounded-lg font-semibold text-white hover:opacity-90 transition-opacity"
+              >
+                🏭 Digitalna Industrija
+              </Link>
+              <Link
+                href="/dashboard"
+                className="border border-gray-600 px-8 py-3 rounded-lg font-semibold text-gray-300 hover:bg-white/5 transition-colors"
               >
                 📊 Dashboard
               </Link>
