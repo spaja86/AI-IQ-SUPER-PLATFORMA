@@ -152,7 +152,7 @@ export const platforms: Platform[] = [
     id: "omega-ai-github",
     name: "OMEGA AI za GitHub",
     description:
-      "Omega AI koji beskonačno evolvuirajuće unapređuje GitHub platformu.",
+      "Omega AI koji beskonačno evoluirajuće unapređuje GitHub platformu.",
     category: "ai",
     repo: "https://github.com/spaja86/OMEGA-AI-za-GIT-HUB",
     url: "https://github.com/spaja86/OMEGA-AI-za-GIT-HUB",
