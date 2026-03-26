@@ -1,0 +1,19 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Powered-By", "value": "SPAJA Digitalna Industrija" }
+      ]
+    }
+  ]
+}
