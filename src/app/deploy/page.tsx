@@ -81,7 +81,7 @@ export default function DeployPage() {
                     </h3>
                     <StatusBadge status={repo.status} />
                   </div>
-                  <p className="mt-1 text-xs text-zinc-500 truncate max-w-md">
+                  <p className="mt-1 block text-xs text-zinc-500 truncate max-w-md">
                     {repo.description}
                   </p>
                 </div>
