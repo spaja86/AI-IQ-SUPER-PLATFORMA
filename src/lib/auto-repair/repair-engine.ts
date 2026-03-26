@@ -213,10 +213,8 @@ export function runRepairs(diagnosticReport: DiagnosticReport): RepairReport {
 }
 
 /** Pokreni kompletnu auto-popravku: dijagnostika + popravka */
-export function runFullAutoRepair(): { diagnostic: DiagnosticReport; repair: RepairReport } {
-  // Dynamic import to avoid circular dependency
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { runDiagnostics } = require('./diagnostics') as { runDiagnostics: () => DiagnosticReport };
+export async function runFullAutoRepair(): Promise<{ diagnostic: DiagnosticReport; repair: RepairReport }> {
+  const { runDiagnostics } = await import('./diagnostics');
 
   const diagnostic = runDiagnostics();
   const repair = runRepairs(diagnostic);

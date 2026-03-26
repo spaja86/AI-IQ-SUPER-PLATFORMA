@@ -234,7 +234,7 @@ function checkPerformance(): DiagnosticCheck {
   const practices = {
     serverComponents: true, // Most pages are server components
     imageOptimization: true,
-    codeSpitting: true,
+    codeSplitting: true,
     staticGeneration: true,
   };
 
