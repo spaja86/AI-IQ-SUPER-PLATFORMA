@@ -119,6 +119,7 @@ export default function DashboardPage() {
             { name: 'Kompanija SPAJA', status: 'active', icon: '🏢' },
             { name: 'Omega AI Ekosistem', status: 'concept', icon: '♾️' },
             { name: 'Svetska Organizacija', status: 'planned', icon: '🌍' },
+            { name: 'Auto-Popravka System', status: 'active', icon: '🔧' },
           ].map((service) => (
             <div
               key={service.name}

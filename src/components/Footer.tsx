@@ -9,6 +9,7 @@ const sectionLinks = [
   { href: '/organizacija', label: 'Organizacija' },
   { href: '/omega-ai', label: 'Omega AI' },
   { href: '/ekosistem', label: 'Ekosistem' },
+  { href: '/auto-popravka', label: '🔧 Auto-Popravka' },
 ] as const;
 
 const socialLinks = [

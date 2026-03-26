@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/organizacija', label: 'Organizacija' },
   { href: '/omega-ai', label: 'Omega AI' },
   { href: '/ekosistem', label: 'Ekosistem' },
+  { href: '/auto-popravka', label: '🔧 Auto-Popravka' },
   { href: '/deploy', label: 'Deploy' },
 ] as const;
 

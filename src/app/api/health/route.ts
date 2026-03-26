@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
+import { runQuickDiagnostics } from '@/lib/auto-repair/diagnostics';
 
 export async function GET() {
+  const quickDiag = runQuickDiagnostics();
+
   return NextResponse.json({
     status: 'healthy',
     uptime: process.uptime(),
@@ -11,6 +14,14 @@ export async function GET() {
       ai: 'operational',
       company: 'operational',
       omega: 'concept',
+      autoRepair: 'operational',
+    },
+    autoRepair: {
+      score: quickDiag.score,
+      overallStatus: quickDiag.overallStatus,
+      checksRun: quickDiag.summary.total,
+      passed: quickDiag.summary.passed,
+      failed: quickDiag.summary.failed,
     },
   });
 }

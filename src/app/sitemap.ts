@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/organizacija',
     '/omega-ai',
     '/ekosistem',
+    '/auto-popravka',
     '/deploy',
   ];
 
