@@ -13,7 +13,7 @@ export async function GET() {
       exchange: 'operational',
       ai: 'operational',
       company: 'operational',
-      omega: 'concept',
+      omega: 'operational',
       autoRepair: 'operational',
     },
     autoRepair: {
