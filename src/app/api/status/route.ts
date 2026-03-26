@@ -8,7 +8,7 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'operational',
-    version: '4.1.0',
+    version: '4.2.0',
     platform: 'AI IQ SUPER PLATFORMA',
     owner: 'Kompanija SPAJA',
     stats,

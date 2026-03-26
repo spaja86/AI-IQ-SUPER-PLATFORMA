@@ -117,7 +117,7 @@ export default function DashboardPage() {
             { name: 'AI IQ Menjačnica', status: 'active', icon: '💱' },
             { name: 'IO OpenUI AO', status: 'active', icon: '🤖' },
             { name: 'Kompanija SPAJA', status: 'active', icon: '🏢' },
-            { name: 'Omega AI Ekosistem', status: 'concept', icon: '♾️' },
+            { name: 'Omega AI Ekosistem', status: 'active', icon: '♾️' },
             { name: 'Svetska Organizacija', status: 'planned', icon: '🌍' },
             { name: 'Auto-Popravka System', status: 'active', icon: '🔧' },
           ].map((service) => (

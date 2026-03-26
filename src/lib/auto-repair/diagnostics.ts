@@ -525,7 +525,7 @@ export function runDiagnostics(): DiagnosticReport {
   return {
     id: `diag-${Date.now()}`,
     timestamp: new Date().toISOString(),
-    version: '4.0.0',
+    version: '4.2.0',
     platform: 'AI IQ SUPER PLATFORMA',
     overallStatus: determineOverallStatus(score),
     score,
@@ -551,7 +551,7 @@ export function runQuickDiagnostics(): DiagnosticReport {
   return {
     id: `quick-diag-${Date.now()}`,
     timestamp: new Date().toISOString(),
-    version: '4.0.0',
+    version: '4.2.0',
     platform: 'AI IQ SUPER PLATFORMA',
     overallStatus: determineOverallStatus(score),
     score,

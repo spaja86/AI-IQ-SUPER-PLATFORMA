@@ -54,7 +54,32 @@ export interface OmegaAI {
   descriptionSr: string;
   icon: string;
   status: 'concept' | 'development' | 'active';
+  role: OmegaAIRole;
+  responsibilities: string[];
 }
+
+export type OmegaAIRole =
+  | 'architecture'
+  | 'security'
+  | 'repair'
+  | 'build'
+  | 'design'
+  | 'performance'
+  | 'strategy'
+  | 'research'
+  | 'quality'
+  | 'integration'
+  | 'analytics'
+  | 'communication'
+  | 'evolution'
+  | 'testing'
+  | 'documentation'
+  | 'finance'
+  | 'content'
+  | 'scalability'
+  | 'monitoring'
+  | 'ecosystem'
+  | 'vision';
 
 export interface EcosystemStats {
   repositories: number;

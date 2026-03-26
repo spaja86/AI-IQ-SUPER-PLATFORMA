@@ -18,7 +18,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="flex flex-col items-center text-center">
         <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-4 py-1.5 text-sm font-medium text-[#7c3aed]">
-          🌍 SPAJA Ekosistem v4.0
+          🌍 SPAJA Ekosistem v4.2 — 21 OMEGA AI
         </span>
 
         <h1 className="bg-gradient-to-r from-[#7c3aed] via-[#2563eb] to-[#06b6d4] bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-7xl">
