@@ -1,4 +1,4 @@
-# AI-IQ-SUPER-PLATFORMA v5.1.0
+# AI-IQ-SUPER-PLATFORMA v5.2.0
 
 > **Kompanija SPAJA** — Digitalna Industrija
 
@@ -35,9 +35,9 @@ export default function Home() {
 
 - 11 platformi u 6 kategorija
 - 17 IT proizvoda u 8 kategorija
-- 21 OMEGA AI persona
+- 21 OMEGA AI persona u 8 oktavnih nivoa (sekvencijalni dispatch)
 - Auto-Popravka sistem (11 dijagnostickih provera, repair engine, upgrade engine)
-- 14 stranica + 4 API rute + sitemap + robots
+- 14 stranica + 5 API ruta + sitemap + robots
 
 ## Rute
 
@@ -45,7 +45,7 @@ export default function Home() {
 /, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /auto-popravka
 
 ### API
-/api/status, /api/health, /api/auto-repair, /api/auto-repair/history
+/api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai
 
 ## Pokretanje
 
