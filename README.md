@@ -1,4 +1,4 @@
-# AI-IQ-SUPER-PLATFORMA v5.2.0
+# AI-IQ-SUPER-PLATFORMA v5.3.0
 
 > **Kompanija SPAJA** — Digitalna Industrija
 
@@ -6,20 +6,20 @@
 
 Stranice se grade od tipiziranih sekvenci (`Sekvenca[]`), ne od hardkodiranih sekcija.
 
-### 10 tipova sekvenci
+### 10 tipova sekvenci + Skeleton sistem
 
-| Tip | Komponenta | Opis |
-|-----|-----------|------|
-| hero | HeroSekvenca | Hero baner |
-| statistika | StatistikaSekvenca | Grid statistika |
-| progres | ProgresSekvenca | Progress bar |
-| kartice | KarticeSekvenca | Grid kartica |
-| tabela | TabelaSekvenca | Tabela podataka |
-| cta | CTASekvenca | Call-to-action |
-| baner | BanerSekvenca | Promotivni baner |
-| lista | ListaSekvenca | Lista stavki |
-| hijerarhija | HijerarhijaSekvenca | Vizualizacija hijerarhije |
-| tekst | TekstSekvenca | Formatiran tekst |
+| Tip | Komponenta | Skeleton | Opis |
+|-----|-----------|----------|------|
+| hero | HeroSekvenca | HeroSkeleton | Hero baner |
+| statistika | StatistikaSekvenca | StatistikaSkeleton | Grid statistika |
+| progres | ProgresSekvenca | ProgresSkeleton | Progress bar |
+| kartice | KarticeSekvenca | KarticeSkeleton | Grid kartica |
+| tabela | TabelaSekvenca | TabelaSkeleton | Tabela podataka |
+| cta | CTASekvenca | CTASkeleton | Call-to-action |
+| baner | BanerSekvenca | BanerSkeleton | Promotivni baner |
+| lista | ListaSekvenca | ListaSkeleton | Lista stavki |
+| hijerarhija | HijerarhijaSekvenca | HijerarhijaSkeleton | Vizualizacija hijerarhije |
+| tekst | TekstSekvenca | TekstSkeleton | Formatiran tekst |
 
 ### Stranica = 3 linije koda
 
@@ -31,13 +31,28 @@ export default function Home() {
 }
 ```
 
+### Skeleton mod
+
+`StranicaRenderer` podržava `skeleton` prop za prikaz skeleton placeholder-a:
+
+```tsx
+<StranicaRenderer sekvence={sekvence} skeleton />
+```
+
+## OMEGA AI Dispatch + Sinhronizacija
+
+- 21 persona u 8 oktavnih nivoa
+- Sekvencijalni dispatch: oktave se izvršavaju redom 1→8
+- Elastična specijalizovana sinhronizacija: 5 faza po oktavi (skeleton → init → obrada → sync → završeno)
+- Elastično tajmovanje: niže oktave imaju veći težinski faktor
+
 ## Sadrzaj
 
 - 11 platformi u 6 kategorija
 - 17 IT proizvoda u 8 kategorija
-- 21 OMEGA AI persona u 8 oktavnih nivoa (sekvencijalni dispatch)
+- 21 OMEGA AI persona u 8 oktavnih nivoa (sekvencijalni dispatch + elastična sinhronizacija)
 - Auto-Popravka sistem (11 dijagnostickih provera, repair engine, upgrade engine)
-- 14 stranica + 5 API ruta + sitemap + robots
+- 14 stranica + 5 API ruta + sitemap + robots + skeleton loaders
 
 ## Rute
 

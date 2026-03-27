@@ -1,5 +1,6 @@
 export { default as SekvencaRenderer } from './SekvencaRenderer';
 export { default as StranicaRenderer } from './StranicaRenderer';
+export { default as SekvencaSkeleton } from './SekvencaSkeleton';
 export { default as HeroSekvenca } from './HeroSekvenca';
 export { default as StatistikaSekvenca } from './StatistikaSekvenca';
 export { default as ProgresSekvenca } from './ProgresSekvenca';

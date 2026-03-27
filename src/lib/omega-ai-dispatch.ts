@@ -29,8 +29,69 @@ export interface DispatchIzvestaj {
   aktivnih: number;
   ceka: number;
   sekvence: DispatchSekvenca[];
+  sinhronizacija: SinhronizacijaStanje;
   timestamp: string;
 }
+
+/* ─── Elastična specijalizovana sinhronizacija ─────────── */
+
+/**
+ * Svaka oktava ima svoju fazu sinhronizacije.
+ * Elastično tajmovanje znači da svaka oktava može trajati duže/kraće
+ * u zavisnosti od broja persona i kompleksnosti zadataka.
+ */
+export interface OktavaSinhronizacija {
+  oktavniNivo: OktavniNivo;
+  naziv: string;
+  faza: 'skeleton' | 'inicijalizacija' | 'obrada' | 'sinhronizacija' | 'zavrseno';
+  progres: number;           // 0–100
+  elasticnoVreme: number;    // ms — bazno vreme za ovu oktavu
+  persona: number;           // broj persona u oktavi
+}
+
+export interface SinhronizacijaStanje {
+  aktivnaOktava: OktavniNivo;
+  ukupniProgres: number;     // 0–100 za celu sekvencu
+  oktave: OktavaSinhronizacija[];
+  mod: 'sekvencijalni' | 'paralelni';
+  status: 'skeleton' | 'u_toku' | 'kompletan';
+}
+
+/** Bazno vreme po personi u ms — množi se brojem persona u oktavi. */
+const BAZNO_VREME_PO_PERSONI = 120;
+
+/** Elastično vreme: bazno × broj persona × težinski faktor oktave. */
+function izracunajElasticnoVreme(nivo: OktavniNivo, brojPersona: number): number {
+  // Niže oktave (temelj, zaštita) imaju veći težinski faktor
+  const tezina: Record<OktavniNivo, number> = {
+    1: 1.5, 2: 1.4, 3: 1.2, 4: 1.0, 5: 1.1, 6: 1.0, 7: 0.8, 8: 0.9,
+  };
+  return Math.round(BAZNO_VREME_PO_PERSONI * brojPersona * tezina[nivo]);
+}
+
+export function createSinhronizacija(): SinhronizacijaStanje {
+  const oktave: OktavaSinhronizacija[] = ([1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]).map((nivo) => {
+    const persone = getPersonePoOktavi(nivo);
+    return {
+      oktavniNivo: nivo,
+      naziv: oktavniNazivi[nivo],
+      faza: 'zavrseno',
+      progres: 100,
+      elasticnoVreme: izracunajElasticnoVreme(nivo, persone.length),
+      persona: persone.length,
+    };
+  });
+
+  return {
+    aktivnaOktava: 8,
+    ukupniProgres: 100,
+    oktave,
+    mod: 'sekvencijalni',
+    status: 'kompletan',
+  };
+}
+
+/* ─── Dispatch ─────────────────────────────────────────── */
 
 /**
  * Sekvencijalno dispečovanje u oktavnom sistemu.
@@ -39,11 +100,22 @@ export interface DispatchIzvestaj {
  * Unutar svake oktave, persone rade paralelno.
  * Sledeća oktava ne počinje dok tekuća ne završi.
  *
- * Ovo osigurava:
- * - Temelj (okt 1) se postavlja pre svega
- * - Zaštita (okt 2) se aktivira odmah posle
- * - Kvalitet (okt 3) dolazi pre kreativnog rada
- * - ...i tako redom do Evolucije (okt 8)
+ * Elastična sinhronizacija osigurava:
+ * - Skeleton faza: priprema layout-a pre učitavanja podataka
+ * - Inicijalizacija: persone se pokreću
+ * - Obrada: paralelno izvršavanje unutar oktave
+ * - Sinhronizacija: čekanje da sve persone završe
+ * - Zavrseno: prelaz na sledeću oktavu
+ *
+ * Redosled oktava:
+ * 1. Temelj — Arhitekta i Graditelj postavljaju osnove
+ * 2. Zaštita — Čuvar i Lekar osiguravaju bezbednost
+ * 3. Kvalitet — Tester i Dokumentar garantuju kvalitet
+ * 4. Kreacija — Dizajner i Kreator stvaraju
+ * 5. Optimizacija — Optimizator i Skalator tuniraju
+ * 6. Inteligencija — Naučnik i Analitičar istražuju
+ * 7. Koordinacija — Strateg, Mentor, Integrator, Komunikator, Finansijer upravljaju
+ * 8. Evolucija — Evolver, Monitor, Ekolog, Vizionar unapređuju
  */
 export function createDispatch(): DispatchIzvestaj {
   const timestamp = new Date().toISOString();
@@ -83,17 +155,31 @@ export function createDispatch(): DispatchIzvestaj {
     aktivnih: sviZadaci.filter((z) => z.status === 'aktivan').length,
     ceka: sviZadaci.filter((z) => z.status === 'ceka').length,
     sekvence,
+    sinhronizacija: createSinhronizacija(),
     timestamp,
   };
 }
 
 export function getDispatchSummary() {
   const dispatch = createDispatch();
+  const sync = dispatch.sinhronizacija;
   return {
     ukupnoPersona: dispatch.ukupnoPersona,
     ukupnoOktava: dispatch.ukupnoOktava,
     zavrsenih: dispatch.zavrsenih,
     status: dispatch.zavrsenih === dispatch.ukupnoPersona ? 'kompletan' : 'u_toku',
+    sinhronizacija: {
+      mod: sync.mod,
+      status: sync.status,
+      ukupniProgres: sync.ukupniProgres,
+      oktave: sync.oktave.map((o) => ({
+        oktava: o.oktavniNivo,
+        naziv: o.naziv,
+        faza: o.faza,
+        progres: o.progres,
+        elasticnoVremeMs: o.elasticnoVreme,
+      })),
+    },
     sekvence: dispatch.sekvence.map((s) => ({
       oktava: s.oktavniNivo,
       naziv: s.oktavniNaziv,
