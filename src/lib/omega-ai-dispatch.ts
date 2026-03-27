@@ -60,13 +60,24 @@ export interface SinhronizacijaStanje {
 /** Bazno vreme po personi u ms — množi se brojem persona u oktavi. */
 const BAZNO_VREME_PO_PERSONI = 120;
 
+/**
+ * Težinski faktori po oktavi — niže oktave (temelj, zaštita) imaju veći
+ * faktor jer postavljaju osnove sistema i moraju završiti temeljno.
+ */
+const OKTAVNI_TEZINSKI_FAKTORI: Record<OktavniNivo, number> = {
+  1: 1.5,  // Temelj — kritično, strukturalne odluke
+  2: 1.4,  // Zaštita — bezbednost zahteva pažnju
+  3: 1.2,  // Kvalitet — osiguranje kvaliteta
+  4: 1.0,  // Kreacija — standardno vreme
+  5: 1.1,  // Optimizacija — zahteva merenje
+  6: 1.0,  // Inteligencija — standardno vreme
+  7: 0.8,  // Koordinacija — mnogo persona, kraće po jednoj
+  8: 0.9,  // Evolucija — dugoročni zadaci, nešto kraći ciklus
+};
+
 /** Elastično vreme: bazno × broj persona × težinski faktor oktave. */
 function izracunajElasticnoVreme(nivo: OktavniNivo, brojPersona: number): number {
-  // Niže oktave (temelj, zaštita) imaju veći težinski faktor
-  const tezina: Record<OktavniNivo, number> = {
-    1: 1.5, 2: 1.4, 3: 1.2, 4: 1.0, 5: 1.1, 6: 1.0, 7: 0.8, 8: 0.9,
-  };
-  return Math.round(BAZNO_VREME_PO_PERSONI * brojPersona * tezina[nivo]);
+  return Math.round(BAZNO_VREME_PO_PERSONI * brojPersona * OKTAVNI_TEZINSKI_FAKTORI[nivo]);
 }
 
 export function createSinhronizacija(): SinhronizacijaStanje {
