@@ -4,8 +4,15 @@ const links = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/platforme', label: 'Platforme' },
   { href: '/it-proizvodi', label: 'IT Proizvodi' },
+  { href: '/banka', label: 'Banka' },
+  { href: '/menjacnica', label: 'Menjačnica' },
+  { href: '/kompanija', label: 'Kompanija' },
+  { href: '/ai-platforma', label: 'AI Platforma' },
+  { href: '/organizacija', label: 'Organizacija' },
   { href: '/deploy', label: 'Deploy' },
   { href: '/ekosistem', label: 'Ekosistem' },
+  { href: '/omega-ai', label: 'Omega AI' },
+  { href: '/auto-popravka', label: 'Auto-Popravka' },
 ];
 
 export default function Footer() {
