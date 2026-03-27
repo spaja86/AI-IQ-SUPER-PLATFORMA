@@ -60,11 +60,11 @@ jobs:
       - name: 📊 Generisanje dijagnostičkog izveštaja
         id: dijag
         run: |
-          TYPECHECK_OK=$([[ -s /tmp/typecheck.txt ]] && grep -c "error" /tmp/typecheck.txt || echo "0")
-          ESLINT_OK=$([[ -s /tmp/eslint.txt ]] && grep -c "error" /tmp/eslint.txt || echo "0")
-          BUILD_OK=$([[ -s /tmp/build.txt ]] && grep -c "Build error" /tmp/build.txt || echo "0")
+          TYPECHECK_ERRORS=$(grep -c "error TS" /tmp/typecheck.txt 2>/dev/null || echo "0")
+          ESLINT_ERRORS=$(grep -c " error " /tmp/eslint.txt 2>/dev/null || echo "0")
+          BUILD_ERRORS=$(grep -c "Build error\|Failed to compile" /tmp/build.txt 2>/dev/null || echo "0")
           
-          ERRORS=$((TYPECHECK_OK + ESLINT_OK + BUILD_OK))
+          ERRORS=$((TYPECHECK_ERRORS + ESLINT_ERRORS + BUILD_ERRORS))
           if [ "$ERRORS" -eq 0 ]; then
             ZDRAVLJE=100
           elif [ "$ERRORS" -le 3 ]; then
@@ -79,9 +79,9 @@ jobs:
           echo "## 🩺 Dijagnostički Izveštaj" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Zdravlje:** $ZDRAVLJE%" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **TypeScript greške:** $TYPECHECK_OK" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **ESLint greške:** $ESLINT_OK" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **Build greške:** $BUILD_OK" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **TypeScript greške:** $TYPECHECK_ERRORS" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **ESLint greške:** $ESLINT_ERRORS" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Build greške:** $BUILD_ERRORS" >> "$GITHUB_STEP_SUMMARY"
 
   evolucija:
     name: 🧬 Evolucioni ciklus

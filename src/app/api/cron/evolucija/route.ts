@@ -46,10 +46,11 @@ export async function GET(request: Request) {
         });
 
         if (response.ok) {
-          const issue = await response.json() as { number: number };
+          const issue = await response.json() as Record<string, unknown>;
+          const issueNumber = typeof issue.number === 'number' ? issue.number : undefined;
           kreiraniIssues.push({
             naslov: preporuka.githubIssueNaslov,
-            broj: issue.number,
+            broj: issueNumber,
             status: 'kreiran',
           });
         } else {
