@@ -30,6 +30,8 @@ export interface DispatchIzvestaj {
   ceka: number;
   sekvence: DispatchSekvenca[];
   sinhronizacija: SinhronizacijaStanje;
+  matricnoJezgro: MatricnoJezgro;
+  neuroloskaMreza: NeuroloskaMreza;
   timestamp: string;
 }
 
@@ -102,6 +104,275 @@ export function createSinhronizacija(): SinhronizacijaStanje {
   };
 }
 
+/* ─── Matrično jezgro ──────────────────────────────────── */
+
+/**
+ * Sekvencioni odaziv — odgovor jedne oktave na drugu.
+ *
+ * Matrica 8×8 modeluje kako oktave međusobno utiču:
+ *   - izvornaOktava šalje signal
+ *   - ciljnaOktava prima i generiše odaziv
+ *   - jacina (0.0–1.0) predstavlja intenzitet veze
+ *   - tip odaziva definira prirodu uticaja
+ */
+export interface SekvencioniOdaziv {
+  izvornaOktava: OktavniNivo;
+  ciljnaOktava: OktavniNivo;
+  jacina: number;             // 0.0–1.0
+  tip: 'ekscitatorni' | 'inhibitorni' | 'modulatorni';
+  latencija: number;          // ms — kašnjenje odaziva
+  aktivan: boolean;
+}
+
+export interface MatricnoJezgro {
+  dimenzija: number;          // 8 (8×8 matrica)
+  odazivi: SekvencioniOdaziv[];
+  ukupnoVeza: number;
+  aktivnihVeza: number;
+  prosecnaJacina: number;
+  status: 'inicijalizovano' | 'aktivno' | 'kompletno';
+}
+
+/**
+ * Bazna latencija odaziva između oktava u ms.
+ * Bliže oktave imaju manju latenciju (bržu komunikaciju).
+ */
+const BAZNA_LATENCIJA = 50;
+
+/**
+ * Izračunava jačinu veze između dve oktave.
+ *
+ * Pravila:
+ * - Susedne oktave imaju najjaču vezu (0.9)
+ * - Udaljenost smanjuje jačinu
+ * - Temelj (1) i Evolucija (8) imaju specijalnu povratnu vezu (0.7)
+ * - Dijagonala (samo-odaziv) je uvek 1.0
+ */
+function izracunajJacinuVeze(izvor: OktavniNivo, cilj: OktavniNivo): number {
+  if (izvor === cilj) return 1.0;
+  const razmak = Math.abs(izvor - cilj);
+  // Specijalna povratna petlja: Evolucija → Temelj
+  if ((izvor === 8 && cilj === 1) || (izvor === 1 && cilj === 8)) return 0.7;
+  // Susedne oktave
+  if (razmak === 1) return 0.9;
+  if (razmak === 2) return 0.6;
+  // Udaljenije oktave
+  return Math.max(0.1, +(0.9 - razmak * 0.15).toFixed(2));
+}
+
+/**
+ * Određuje tip odaziva na osnovu odnosa oktava.
+ *
+ * - ekscitatorni: signal pojačava rad ciljne oktave (napred u sekvenci)
+ * - inhibitorni: signal koči ciljnu oktavu (nazad u sekvenci — feedback)
+ * - modulatorni: samo-odaziv ili petlja Evolucija↔Temelj
+ */
+function odrediTipOdaziva(izvor: OktavniNivo, cilj: OktavniNivo): SekvencioniOdaziv['tip'] {
+  if (izvor === cilj) return 'modulatorni';
+  if ((izvor === 8 && cilj === 1) || (izvor === 1 && cilj === 8)) return 'modulatorni';
+  return izvor < cilj ? 'ekscitatorni' : 'inhibitorni';
+}
+
+export function createMatricnoJezgro(): MatricnoJezgro {
+  const oktave: OktavniNivo[] = [1, 2, 3, 4, 5, 6, 7, 8];
+  const odazivi: SekvencioniOdaziv[] = [];
+
+  for (const izvor of oktave) {
+    for (const cilj of oktave) {
+      const jacina = izracunajJacinuVeze(izvor, cilj);
+      const razmak = Math.abs(izvor - cilj);
+      odazivi.push({
+        izvornaOktava: izvor,
+        ciljnaOktava: cilj,
+        jacina,
+        tip: odrediTipOdaziva(izvor, cilj),
+        latencija: izvor === cilj ? 0 : BAZNA_LATENCIJA + razmak * 15,
+        aktivan: jacina >= 0.3,
+      });
+    }
+  }
+
+  const aktivnihVeza = odazivi.filter((o) => o.aktivan).length;
+  const zbir = odazivi.reduce((s, o) => s + o.jacina, 0);
+
+  return {
+    dimenzija: 8,
+    odazivi,
+    ukupnoVeza: odazivi.length,
+    aktivnihVeza,
+    prosecnaJacina: +(zbir / odazivi.length).toFixed(3),
+    status: 'kompletno',
+  };
+}
+
+/* ─── Neurološka mreža ─────────────────────────────────── */
+
+/**
+ * Neurološki čvor — svaka persona je čvor u neuronskoj mreži
+ * sa sinaptičkim vezama ka drugim personama.
+ *
+ * Modeluje eksperimentalni neurološki sloj gde persone
+ * formiraju mrežu sa težinskim vezama (sinapsa), grupišu se
+ * po oktavama (klasterima) i imaju sekvencionalne odazive.
+ */
+export interface NeuroloskiCvor {
+  personaId: string;
+  personaNaziv: string;
+  personaIkona: string;
+  oktavniNivo: OktavniNivo;
+  aktivacija: number;         // 0.0–1.0 — nivo aktivacije čvora
+  sinapse: NeuroloskaSinapsa[];
+  klaster: string;            // naziv oktave — neurološki klaster
+}
+
+export interface NeuroloskaSinapsa {
+  ciljPersonaId: string;
+  tezina: number;             // -1.0 do 1.0 (negativna = inhibitorna)
+  tip: 'intra-oktavna' | 'inter-oktavna' | 'povratna';
+}
+
+export interface NeuroloskaMreza {
+  cvorovi: NeuroloskiCvor[];
+  ukupnoCvorova: number;
+  ukupnoSinapsi: number;
+  klasteri: NeuroloskiKlaster[];
+  prosecnaAktivacija: number;
+  status: 'aktivna' | 'neaktivna';
+}
+
+export interface NeuroloskiKlaster {
+  oktavniNivo: OktavniNivo;
+  naziv: string;
+  cvorova: number;
+  interneVeze: number;
+  eksterneVeze: number;
+  klasterAktivacija: number;  // prosek aktivacija čvorova u klasteru
+}
+
+/**
+ * Izračunava težinu sinapse između dve persone.
+ *
+ * - Intra-oktavne (isti nivo): jaka pozitivna veza (0.7–0.9)
+ * - Susedne oktave: umerena pozitivna (0.3–0.5)
+ * - Udaljenije oktave: slabija (0.1–0.3)
+ * - Povratna Evolucija→Temelj: specijalna (0.6)
+ */
+function izracunajTezinuSinapse(izvorNivo: OktavniNivo, ciljNivo: OktavniNivo): number {
+  if (izvorNivo === ciljNivo) return +(0.7 + Math.random() * 0.2).toFixed(2);
+  const razmak = Math.abs(izvorNivo - ciljNivo);
+  if (razmak === 1) return +(0.3 + Math.random() * 0.2).toFixed(2);
+  if ((izvorNivo === 8 && ciljNivo === 1) || (izvorNivo === 1 && ciljNivo === 8)) return 0.6;
+  return +(Math.max(0.05, 0.3 - razmak * 0.05)).toFixed(2);
+}
+
+/**
+ * Kreira neurološku mrežu svih OMEGA AI persona.
+ *
+ * Svaka persona se povezuje sa:
+ * 1. Svim personama u istoj oktavi (intra-oktavne sinapse)
+ * 2. Svim personama u susednim oktavama (inter-oktavne sinapse)
+ * 3. Specijalnim povratnim vezama (Evolucija ↔ Temelj)
+ *
+ * Aktivacija čvora se računa na osnovu prioriteta persone i pozicije u oktavi.
+ */
+export function createNeuroloskuMrezu(): NeuroloskaMreza {
+  const cvorovi: NeuroloskiCvor[] = omegaPersone.map((p) => {
+    // Aktivacija na osnovu prioriteta
+    const aktivacijaMap: Record<string, number> = {
+      kritican: 0.95,
+      visok: 0.8,
+      srednji: 0.6,
+      nizak: 0.4,
+    };
+    const aktivacija = aktivacijaMap[p.prioritet] ?? 0.5;
+
+    // Sinapse: svaka persona se povezuje sa personama iste i susednih oktava
+    const sinapse: NeuroloskaSinapsa[] = [];
+
+    for (const druga of omegaPersone) {
+      if (druga.id === p.id) continue;
+
+      const razmak = Math.abs(p.oktavniNivo - druga.oktavniNivo);
+
+      // Intra-oktavne veze (isti nivo)
+      if (p.oktavniNivo === druga.oktavniNivo) {
+        sinapse.push({
+          ciljPersonaId: druga.id,
+          tezina: izracunajTezinuSinapse(p.oktavniNivo, druga.oktavniNivo),
+          tip: 'intra-oktavna',
+        });
+      }
+      // Inter-oktavne veze (susedne oktave)
+      else if (razmak === 1) {
+        sinapse.push({
+          ciljPersonaId: druga.id,
+          tezina: izracunajTezinuSinapse(p.oktavniNivo, druga.oktavniNivo),
+          tip: 'inter-oktavna',
+        });
+      }
+      // Povratna veza Evolucija ↔ Temelj
+      else if (
+        (p.oktavniNivo === 8 && druga.oktavniNivo === 1) ||
+        (p.oktavniNivo === 1 && druga.oktavniNivo === 8)
+      ) {
+        sinapse.push({
+          ciljPersonaId: druga.id,
+          tezina: izracunajTezinuSinapse(p.oktavniNivo, druga.oktavniNivo),
+          tip: 'povratna',
+        });
+      }
+    }
+
+    return {
+      personaId: p.id,
+      personaNaziv: p.naziv,
+      personaIkona: p.ikona,
+      oktavniNivo: p.oktavniNivo,
+      aktivacija,
+      sinapse,
+      klaster: oktavniNazivi[p.oktavniNivo],
+    };
+  });
+
+  const sveSinapse = cvorovi.flatMap((c) => c.sinapse);
+  const ukupnoSinapsi = sveSinapse.length;
+  const prosecnaAktivacija = +(
+    cvorovi.reduce((s, c) => s + c.aktivacija, 0) / cvorovi.length
+  ).toFixed(3);
+
+  // Klasteri po oktavama
+  const klasteri: NeuroloskiKlaster[] = ([1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]).map((nivo) => {
+    const cvoroviOktave = cvorovi.filter((c) => c.oktavniNivo === nivo);
+    const interneVeze = cvoroviOktave.flatMap((c) =>
+      c.sinapse.filter((s) => s.tip === 'intra-oktavna'),
+    ).length;
+    const eksterneVeze = cvoroviOktave.flatMap((c) =>
+      c.sinapse.filter((s) => s.tip !== 'intra-oktavna'),
+    ).length;
+    const klasterAktivacija = +(
+      cvoroviOktave.reduce((s, c) => s + c.aktivacija, 0) / (cvoroviOktave.length || 1)
+    ).toFixed(3);
+
+    return {
+      oktavniNivo: nivo,
+      naziv: oktavniNazivi[nivo],
+      cvorova: cvoroviOktave.length,
+      interneVeze,
+      eksterneVeze,
+      klasterAktivacija,
+    };
+  });
+
+  return {
+    cvorovi,
+    ukupnoCvorova: cvorovi.length,
+    ukupnoSinapsi,
+    klasteri,
+    prosecnaAktivacija,
+    status: 'aktivna',
+  };
+}
+
 /* ─── Dispatch ─────────────────────────────────────────── */
 
 /**
@@ -117,6 +388,12 @@ export function createSinhronizacija(): SinhronizacijaStanje {
  * - Obrada: paralelno izvršavanje unutar oktave
  * - Sinhronizacija: čekanje da sve persone završe
  * - Zavrseno: prelaz na sledeću oktavu
+ *
+ * Matrično jezgro modeluje 8×8 matricu interakcija između oktava
+ * sa sekvencionim odazivima (ekscitatorni, inhibitorni, modulatorni).
+ *
+ * Neurološka mreža modeluje sinaptičke veze između persona
+ * sa intra-oktavnim, inter-oktavnim i povratnim vezama.
  *
  * Redosled oktava:
  * 1. Temelj — Arhitekta i Graditelj postavljaju osnove
@@ -167,6 +444,8 @@ export function createDispatch(): DispatchIzvestaj {
     ceka: sviZadaci.filter((z) => z.status === 'ceka').length,
     sekvence,
     sinhronizacija: createSinhronizacija(),
+    matricnoJezgro: createMatricnoJezgro(),
+    neuroloskaMreza: createNeuroloskuMrezu(),
     timestamp,
   };
 }
@@ -174,6 +453,8 @@ export function createDispatch(): DispatchIzvestaj {
 export function getDispatchSummary() {
   const dispatch = createDispatch();
   const sync = dispatch.sinhronizacija;
+  const matrica = dispatch.matricnoJezgro;
+  const neuro = dispatch.neuroloskaMreza;
   return {
     ukupnoPersona: dispatch.ukupnoPersona,
     ukupnoOktava: dispatch.ukupnoOktava,
@@ -190,6 +471,27 @@ export function getDispatchSummary() {
         progres: o.progres,
         elasticnoVremeMs: o.elasticnoVreme,
       })),
+    },
+    matricnoJezgro: {
+      dimenzija: matrica.dimenzija,
+      ukupnoVeza: matrica.ukupnoVeza,
+      aktivnihVeza: matrica.aktivnihVeza,
+      prosecnaJacina: matrica.prosecnaJacina,
+      status: matrica.status,
+    },
+    neuroloskaMreza: {
+      ukupnoCvorova: neuro.ukupnoCvorova,
+      ukupnoSinapsi: neuro.ukupnoSinapsi,
+      prosecnaAktivacija: neuro.prosecnaAktivacija,
+      klasteri: neuro.klasteri.map((k) => ({
+        oktava: k.oktavniNivo,
+        naziv: k.naziv,
+        cvorova: k.cvorova,
+        interneVeze: k.interneVeze,
+        eksterneVeze: k.eksterneVeze,
+        aktivacija: k.klasterAktivacija,
+      })),
+      status: neuro.status,
     },
     sekvence: dispatch.sekvence.map((s) => ({
       oktava: s.oktavniNivo,

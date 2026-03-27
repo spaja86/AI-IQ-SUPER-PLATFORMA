@@ -3,6 +3,7 @@ import {
   TekstSkeleton,
   StatistikaSkeleton,
   TabelaSkeleton,
+  ProgresSkeleton,
   KarticeSkeleton,
   HijerarhijaSkeleton,
   ListaSkeleton,
@@ -10,8 +11,9 @@ import {
 } from '@/components/sekvence/SekvencaSkeleton';
 
 /**
- * OMEGA AI stranica koristi 8 sekvenci — skeleton preslikava taj raspored
- * za elastičnu sinhronizaciju sa oktavnim sistemom dispečovanja.
+ * OMEGA AI stranica koristi 10 sekvenci — skeleton preslikava taj raspored
+ * za elastičnu sinhronizaciju sa oktavnim sistemom dispečovanja,
+ * matričnim jezgrom i neurološkom mrežom.
  */
 export default function OmegaAILoading() {
   return (
@@ -20,6 +22,8 @@ export default function OmegaAILoading() {
       <TekstSkeleton />
       <StatistikaSkeleton />
       <TabelaSkeleton />
+      <TabelaSkeleton />
+      <ProgresSkeleton />
       <KarticeSkeleton />
       <HijerarhijaSkeleton />
       <ListaSkeleton />
