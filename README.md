@@ -1,4 +1,4 @@
-# AI-IQ-SUPER-PLATFORMA v5.3.0
+# AI-IQ-SUPER-PLATFORMA v5.4.0
 
 > **Kompanija SPAJA** — Digitalna Industrija
 
@@ -39,18 +39,20 @@ export default function Home() {
 <StranicaRenderer sekvence={sekvence} skeleton />
 ```
 
-## OMEGA AI Dispatch + Sinhronizacija
+## OMEGA AI — Oktavni dispatch + Matrično jezgro + Neurološka mreža
 
 - 21 persona u 8 oktavnih nivoa
 - Sekvencijalni dispatch: oktave se izvršavaju redom 1→8
 - Elastična specijalizovana sinhronizacija: 5 faza po oktavi (skeleton → init → obrada → sync → završeno)
-- Elastično tajmovanje: niže oktave imaju veći težinski faktor
+- Matrično jezgro: 8×8 matrica sekvencionih odaziva (ekscitatorni, inhibitorni, modulatorni)
+- Neurološka mreža: sinaptičke veze između persona (intra-oktavne, inter-oktavne, povratne)
+- Povratna petlja: Evolucija (okt 8) ↔ Temelj (okt 1) — modulatorni odaziv
 
 ## Sadrzaj
 
 - 11 platformi u 6 kategorija
 - 17 IT proizvoda u 8 kategorija
-- 21 OMEGA AI persona u 8 oktavnih nivoa (sekvencijalni dispatch + elastična sinhronizacija)
+- 21 OMEGA AI persona u 8 oktavnih nivoa (dispatch + matrica + neuro)
 - Auto-Popravka sistem (11 dijagnostickih provera, repair engine, upgrade engine)
 - 14 stranica + 5 API ruta + sitemap + robots + skeleton loaders
 
