@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 const navLinks = [
-  { href: '/', label: '🏠 Pocetna' },
+  { href: '/', label: '🏠 Početna' },
   { href: '/dashboard', label: '📊 Dashboard' },
   { href: '/industrija', label: '🏭 Industrija' },
   { href: '/platforme', label: '🌐 Platforme' },
@@ -30,7 +30,7 @@ export default function Navigation() {
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900/95 backdrop-blur" aria-label="Glavna navigacija">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-600 focus:p-2 focus:text-white">
-        Preskoci na sadrzaj
+        Preskoči na sadržaj
       </a>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link href="/" className="text-lg font-bold text-white">🏢 SPAJA</Link>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="sr">
+    <html lang="sr-Latn">
       <body className="flex min-h-screen flex-col bg-gray-950 text-white antialiased">
         <Navigation />
         <div id="main-content" className="flex-1">

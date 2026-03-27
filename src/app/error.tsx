@@ -7,10 +7,10 @@ export default function Error({ error }: { error: Error & { digest?: string } })
     <div className="flex min-h-[60vh] items-center justify-center px-6">
       <div className="text-center">
         <div className="mb-4 text-6xl">⚠️</div>
-        <h1 className="mb-2 text-2xl font-bold text-white">Greska</h1>
-        <p className="mb-6 text-gray-400">{error.message || 'Doslo je do neocekivane greske.'}</p>
+        <h1 className="mb-2 text-2xl font-bold text-white">Greška</h1>
+        <p className="mb-6 text-gray-400">{error.message || 'Došlo je do neočekivane greške.'}</p>
         <Link href="/" className="rounded-lg bg-blue-600 px-6 py-3 text-sm text-white hover:bg-blue-500">
-          Nazad na pocetnu
+          Nazad na početnu
         </Link>
       </div>
     </div>
