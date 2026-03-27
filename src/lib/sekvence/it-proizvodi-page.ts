@@ -21,11 +21,19 @@ export const itProizvodiSekvence: Sekvenca[] = [
     naslov: 'Pregled po kategorijama',
     redosled: 2,
     podaci: {
-      stavke: Object.entries(brojPo).map(([kat, broj]) => ({
-        naziv: kat,
-        vrednost: broj,
-        ikona: kat === 'ubrzanje' ? '⚡' : kat === 'monitoring' ? '📊' : kat === 'bezbednost' ? '🛡️' : kat === 'ai' ? '🧠' : kat === 'deploy' ? '🚀' : kat === 'integracija' ? '🔗' : kat === 'podaci' ? '📡' : '💬',
-      })),
+      stavke: Object.entries(brojPo).map(([kat, broj]) => {
+        const ikonaMap: Record<string, string> = {
+          ubrzanje: '⚡',
+          monitoring: '📊',
+          bezbednost: '🛡️',
+          ai: '🧠',
+          deploy: '🚀',
+          integracija: '🔗',
+          podaci: '📡',
+          komunikacija: '💬',
+        };
+        return { naziv: kat, vrednost: broj, ikona: ikonaMap[kat] ?? '📦' };
+      }),
     },
   },
   {

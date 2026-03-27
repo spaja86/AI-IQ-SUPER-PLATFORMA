@@ -16,7 +16,7 @@ export default function HijerarhijaSekvenca({ sekvenca }: { sekvenca: Sekvenca }
           <h2 className="mb-8 text-2xl font-bold text-white">{sekvenca.naslov}</h2>
         )}
         <div className="space-y-6">
-          {nivoi.map((nivo, i) => (
+          {nivoi.map((nivo) => (
             <div key={nivo.naziv}>
               <div className="flex items-center gap-3 rounded-xl border border-gray-700/50 bg-gray-800/50 p-4">
                 <span className="text-2xl">{nivo.ikona}</span>
@@ -24,9 +24,9 @@ export default function HijerarhijaSekvenca({ sekvenca }: { sekvenca: Sekvenca }
               </div>
               {nivo.deca.length > 0 && (
                 <div className="ml-8 mt-2 space-y-2 border-l-2 border-gray-700 pl-6">
-                  {nivo.deca.map((dete) => (
+                  {nivo.deca.map((dete, j) => (
                     <div key={dete} className="rounded-lg bg-gray-800/30 px-4 py-2 text-sm text-gray-300">
-                      {i < nivoi.length - 1 ? '├── ' : '└── '}{dete}
+                      {j < nivo.deca.length - 1 ? '├── ' : '└── '}{dete}
                     </div>
                   ))}
                 </div>
