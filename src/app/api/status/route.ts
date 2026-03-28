@@ -11,12 +11,12 @@ export async function GET() {
     status: 'operational',
     platforma: 'AI IQ SUPER PLATFORMA',
     kompanija: 'SPAJA',
-    verzija: '6.0.0',
-    arhitektura: 'sekvence + omega-evolucija',
+    verzija: '6.1.0',
+    arhitektura: 'sekvence + omega-evolucija + proksi',
     timestamp: new Date().toISOString(),
     statistike: stats,
     zdravlje: diagnostics.zdravlje,
-    stranice: 14,
+    stranice: 15,
     apiRute: 7,
     omegaAI: {
       persone: dispatch.ukupnoPersona,
@@ -24,5 +24,10 @@ export async function GET() {
       dispatchStatus: dispatch.status,
     },
     autoPopravka: 'aktivan',
+    proksi: {
+      status: 'aktivan',
+      kapacitet: '10²²⁸ TB',
+      topologija: 'hibridna',
+    },
   });
 }

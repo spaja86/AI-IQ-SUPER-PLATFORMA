@@ -19,6 +19,7 @@ const navLinks = [
   { href: '/ekosistem', label: '🔗 Ekosistem' },
   { href: '/omega-ai', label: '🧠 Omega AI' },
   { href: '/auto-popravka', label: '🔧 Auto-Popravka' },
+  { href: '/proksi', label: '📡 Proksi' },
 ];
 
 export default function Navigation() {

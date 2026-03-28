@@ -1,6 +1,6 @@
-# AI-IQ-SUPER-PLATFORMA v6.0.0
+# AI-IQ-SUPER-PLATFORMA v6.1.0
 
-> **Kompanija SPAJA** — Digitalna Industrija | **Omega Autonomna Evolucija**
+> **Kompanija SPAJA** — Digitalna Industrija | **Omega Autonomna Evolucija** | **Proksi Mreža**
 
 ## 🧬 Autonomna Evolucija — Večiti Rad
 
@@ -108,6 +108,16 @@ export default function Home() {
 - Auto-merge za PR-ove koji prolaze CI
 - Dnevni limit: max 5 issue-a po ciklusu
 
+## 📡 PROKSI — Digitalni Proksi Sistem
+
+Proksi je mrežni sloj Digitalne Industrije — ekscentrični simulator koncentričnog hipsoneuričnog signala prema plasiranim objektima sa WiFi antenama. Rezonance i amplitude se međusobno uvezuju u ekliptičnu vez koja razvija snagu signala od 10²²⁸ TB.
+
+- 6 tipova signala: koncentrični, ekscentrični, ekliptični, rezonantni
+- 5 čvorova: Jezgro, Finansijski, AI, Globalni, Alati
+- Hibridna topologija sa auto-sinhronizacijom
+- Kapacitet: 10²²⁸ TB po signalu
+- Povezuje sve 11 platformi u jednu mrežu
+
 ## Sadržaj
 
 - 11 platformi u 6 kategorija
@@ -115,12 +125,13 @@ export default function Home() {
 - 21 OMEGA AI persona u 8 oktavnih nivoa (dispatch + matrica + neuro)
 - Auto-Popravka sistem (11 dijagnostičkih provera, repair engine, upgrade engine)
 - Evolucioni motor (dijagnostika + preporuke + akcije)
-- 14 stranica + 7 API ruta + sitemap + robots + skeleton loaders
+- Proksi mreža (6 signala, 5 čvorova, hibridna topologija)
+- 15 stranica + 7 API ruta + sitemap + robots + skeleton loaders
 
 ## Rute
 
 ### Stranice
-/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /auto-popravka
+/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /auto-popravka, /proksi
 
 ### API
 /api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai, /api/cron/evolucija, /api/cron/zdravlje

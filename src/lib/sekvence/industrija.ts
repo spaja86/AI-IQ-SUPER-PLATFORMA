@@ -50,8 +50,9 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
-        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti'] },
+        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti', 'Proksi Mreža'] },
         { naziv: 'Platforme', ikona: '🌐', deca: ['Jezgro', 'Finansije', 'Globalno', 'AI', 'Alati'] },
+        { naziv: 'Proksi Mreža', ikona: '📡', deca: ['Hipsoneurični Signal', 'Ekscentrični Modulator', 'Ekliptična Vez', 'Rezonantni Pojačavač'] },
       ],
     },
   },
@@ -66,6 +67,7 @@ export const industrijaSekvence: Sekvenca[] = [
         ['Platforme', 'Digitalne fabrike', String(stats.ukupnoPlatformi), 'Aktivne'],
         ['IT Proizvodi', 'Alati i servisi', String(stats.ukupnoProizvoda), 'U produkciji'],
         ['OMEGA AI', 'AI agenti', '21', 'Operativni'],
+        ['Proksi Mreža', 'Signal infrastruktura', '6 signala / 5 čvorova', 'Aktivna'],
         ['Organizacije', 'Strukture', '6', 'Aktivne'],
       ],
     },
@@ -81,6 +83,7 @@ export const industrijaSekvence: Sekvenca[] = [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
+        { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
       ],
     },
   },
