@@ -142,6 +142,7 @@ export const proksiSekvence: Sekvenca[] = [
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Omega AI', href: '/omega-ai', stil: 'sekundarno' },
+        { tekst: 'Mobilna Mreža', href: '/mobilna-mreza', stil: 'sekundarno' },
         { tekst: 'Deploy', href: '/deploy', stil: 'sekundarno' },
       ],
     },

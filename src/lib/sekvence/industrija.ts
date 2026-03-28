@@ -50,9 +50,10 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
-        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti', 'Proksi Mreža'] },
+        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti', 'Proksi Mreža', 'SPAJA Mobilna Mreža'] },
         { naziv: 'Platforme', ikona: '🌐', deca: ['Jezgro', 'Finansije', 'Globalno', 'AI', 'Alati'] },
         { naziv: 'Proksi Mreža', ikona: '📡', deca: ['Hipsoneurični Signal', 'Ekscentrični Modulator', 'Ekliptična Vez', 'Rezonantni Pojačavač'] },
+        { naziv: 'SPAJA Mobilna Mreža', ikona: '📱', deca: ['+38177 Primarna', '+38188 Sekundarna', '+38178 Redundantna', '+38187 Globalna'] },
       ],
     },
   },
@@ -68,6 +69,7 @@ export const industrijaSekvence: Sekvenca[] = [
         ['IT Proizvodi', 'Alati i servisi', String(stats.ukupnoProizvoda), 'U produkciji'],
         ['OMEGA AI', 'AI agenti', '21', 'Operativni'],
         ['Proksi Mreža', 'Signal infrastruktura', '6 signala / 5 čvorova', 'Aktivna'],
+        ['SPAJA Mobilna', 'Mobilna mreža', '4 centrale / 5 servisa', 'Aktivna'],
         ['Organizacije', 'Strukture', '6', 'Aktivne'],
       ],
     },
@@ -84,6 +86,7 @@ export const industrijaSekvence: Sekvenca[] = [
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
+        { tekst: 'Mobilna', href: '/mobilna-mreza', stil: 'sekundarno' },
       ],
     },
   },

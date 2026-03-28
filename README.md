@@ -1,6 +1,6 @@
-# AI-IQ-SUPER-PLATFORMA v6.1.0
+# AI-IQ-SUPER-PLATFORMA v6.2.0
 
-> **Kompanija SPAJA** — Digitalna Industrija | **Omega Autonomna Evolucija** | **Proksi Mreža**
+> **Kompanija SPAJA** — Digitalna Industrija | **Omega Autonomna Evolucija** | **Proksi Mreža** | **SPAJA Mobilna**
 
 ## 🧬 Autonomna Evolucija — Večiti Rad
 
@@ -118,6 +118,16 @@ Proksi je mrežni sloj Digitalne Industrije — ekscentrični simulator koncentr
 - Kapacitet: 10²²⁸ TB po signalu
 - Povezuje sve 11 platformi u jednu mrežu
 
+## 📱 SPAJA Mobilna Mreža
+
+Mobilna komunikaciona mreža Digitalne Industrije — koristi Proksi infrastrukturu za prenos glasa, podataka i multimedije.
+
+- Pozivni brojevi centrale: **+38177**, **+38188**, **+38178**, **+38187**
+- 4 centrale: Primarna (jezgro), Sekundarna (finansije), Redundantna (AI), Globalna
+- 5 servisa: Glas HD, Podaci Turbo, Stream, IoT Mesh, Enterprise Link
+- Potpuna integracija sa Proksi hipsoneuričnim signalom
+- Kapacitet: 10²²⁸ TB/s po centrali
+
 ## Sadržaj
 
 - 11 platformi u 6 kategorija
@@ -126,12 +136,13 @@ Proksi je mrežni sloj Digitalne Industrije — ekscentrični simulator koncentr
 - Auto-Popravka sistem (11 dijagnostičkih provera, repair engine, upgrade engine)
 - Evolucioni motor (dijagnostika + preporuke + akcije)
 - Proksi mreža (6 signala, 5 čvorova, hibridna topologija)
-- 15 stranica + 7 API ruta + sitemap + robots + skeleton loaders
+- SPAJA Mobilna Mreža (4 centrale, 5 servisa, Proksi integracija)
+- 16 stranica + 7 API ruta + sitemap + robots + skeleton loaders
 
 ## Rute
 
 ### Stranice
-/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /auto-popravka, /proksi
+/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /auto-popravka, /proksi, /mobilna-mreza
 
 ### API
 /api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai, /api/cron/evolucija, /api/cron/zdravlje

@@ -20,6 +20,7 @@ const navLinks = [
   { href: '/omega-ai', label: '🧠 Omega AI' },
   { href: '/auto-popravka', label: '🔧 Auto-Popravka' },
   { href: '/proksi', label: '📡 Proksi' },
+  { href: '/mobilna-mreza', label: '📱 Mobilna' },
 ];
 
 export default function Navigation() {
