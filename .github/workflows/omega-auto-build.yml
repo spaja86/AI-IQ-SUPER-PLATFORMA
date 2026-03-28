@@ -1,0 +1,53 @@
+# ═══════════════════════════════════════════════════════════
+# 🏗️ OMEGA Auto Build — CI Pipeline
+# ═══════════════════════════════════════════════════════════
+#
+# Automatski build, lint, i type-check na svaki push/PR.
+# Obezbeđuje da evolucione promene ne kvare sistem.
+#
+
+name: 🏗️ Omega Build
+
+on:
+  push:
+    branches: ['main', 'copilot/**']
+  pull_request:
+    branches: ['main']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: 🏗️ Build & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Instalacija zavisnosti
+        run: npm ci
+
+      - name: 🔍 TypeScript provera
+        run: npx tsc --noEmit
+
+      - name: 🔍 ESLint provera
+        run: npx eslint src/
+
+      - name: 🏗️ Next.js Build
+        run: npx next build
+
+      - name: 📊 Build izveštaj
+        if: always()
+        run: |
+          echo "## 🏗️ Build Izveštaj" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Branch:** ${{ github.ref_name }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Commit:** ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Vreme:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
