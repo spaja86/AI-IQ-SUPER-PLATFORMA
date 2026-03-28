@@ -66,7 +66,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
         `${v.ikona} ${v.naziv}`,
         v.kodnoIme,
         v.status,
-        String(v.promptPodrska.maxTokena.toLocaleString()),
+        v.promptPodrska.maxTokena.toLocaleString(),
         String(v.promptPodrska.jezici.length),
         String(v.promptPodrska.promptTipovi.length),
         v.promptPodrska.finetuning ? '✅' : '❌',
