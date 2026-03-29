@@ -1,18 +1,50 @@
+import Link from 'next/link';
+
+const links = [
+  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/platforme', label: 'Platforme' },
+  { href: '/it-proizvodi', label: 'IT Proizvodi' },
+  { href: '/banka', label: 'Banka' },
+  { href: '/menjacnica', label: 'Menjačnica' },
+  { href: '/kompanija', label: 'Kompanija' },
+  { href: '/ai-platforma', label: 'AI Platforma' },
+  { href: '/organizacija', label: 'Organizacija' },
+  { href: '/deploy', label: 'Deploy' },
+  { href: '/ekosistem', label: 'Ekosistem' },
+  { href: '/omega-ai', label: 'Omega AI' },
+  { href: '/auto-popravka', label: 'Auto-Popravka' },
+];
+
 export default function Footer() {
   return (
-    <footer className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🧠</span>
-            <span className="text-sm font-semibold">Kompanija SPAJA</span>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">— Digitalna Industrija</span>
+    <footer className="border-t border-gray-800 bg-gray-900 px-6 py-12">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div>
+            <h3 className="mb-2 text-lg font-bold text-white">🏢 Kompanija SPAJA</h3>
+            <p className="text-sm text-gray-400">AI IQ SUPER PLATFORMA — Digitalna Industrija. Unified platforma za upravljanje svim AI i IT projektima.</p>
           </div>
-          <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400">
-            <span>AI-IQ SUPER PLATFORMA v3.0.0</span>
-            <span>•</span>
-            <span>© {new Date().getFullYear()} SPAJA</span>
+          <div>
+            <h4 className="mb-2 font-semibold text-white">Navigacija</h4>
+            <div className="space-y-1">
+              {links.map((l) => (
+                <Link key={l.href} href={l.href} className="block text-sm text-gray-400 transition hover:text-white">{l.label}</Link>
+              ))}
+            </div>
           </div>
+          <div>
+            <h4 className="mb-2 font-semibold text-white">Platforme</h4>
+            <div className="space-y-1 text-sm text-gray-400">
+              <p>AI IQ SUPER PLATFORMA</p>
+              <p>IO OPENUI AO</p>
+              <p>AI IQ World Bank</p>
+              <p>OMEGA AI za GitHub</p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+          <p>© 2024–2026 Kompanija SPAJA. Sva prava zadrzana.</p>
+          <p className="mt-1">Pokrece Vercel ▲</p>
         </div>
       </div>
     </footer>

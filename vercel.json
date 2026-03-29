@@ -1,18 +1,12 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
+  "regions": ["fra1"],
   "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, max-age=0" }
-      ]
-    },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Powered-By", "value": "SPAJA Digitalna Industrija" }
+        { "key": "X-Powered-By", "value": "Kompanija SPAJA" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
       ]
     }
   ]

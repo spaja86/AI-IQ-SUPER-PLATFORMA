@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-iq-super-platforma.vercel.app';
+const BASE_URL = 'https://ai-iq-super-platforma.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
@@ -8,13 +8,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/dashboard',
     '/industrija',
     '/platforme',
-    '/organizacije',
-    '/kompanije',
-    '/proizvodi',
-    '/ekosistem',
+    '/it-proizvodi',
+    '/banka',
+    '/menjacnica',
+    '/kompanija',
+    '/ai-platforma',
+    '/organizacija',
     '/deploy',
+    '/ekosistem',
+    '/omega-ai',
+    '/auto-popravka',
   ];
-
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: new Date(),

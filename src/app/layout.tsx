@@ -1,38 +1,24 @@
-import type { Metadata } from "next";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: {
-    default: "AI-IQ SUPER PLATFORMA | Kompanija SPAJA — Digitalna Industrija",
-    template: "%s | SPAJA Digitalna Industrija",
+    template: '%s | AI IQ SUPER PLATFORMA',
+    default: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
   },
-  description:
-    "Digitalna Industrija koja pravi platforme, organizacije, kompanije i IT proizvode. Kompanija SPAJA — AI-IQ SUPER PLATFORMA.",
-  keywords: [
-    "SPAJA",
-    "Digitalna Industrija",
-    "AI",
-    "platforme",
-    "organizacije",
-    "kompanije",
-  ],
+  description: 'Digitalna Industrija — Kompanija SPAJA. Unified platforma za upravljanje svim AI i IT projektima.',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="sr"
-      className="h-full antialiased"
-    >
-      <body className="min-h-full flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+    <html lang="sr-Latn">
+      <body className="flex min-h-screen flex-col bg-gray-950 text-white antialiased">
         <Navigation />
-        {children}
+        <div id="main-content" className="flex-1">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

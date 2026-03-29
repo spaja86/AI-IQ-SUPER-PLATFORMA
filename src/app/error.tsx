@@ -1,25 +1,37 @@
 'use client';
 
+import { useEffect } from 'react';
+import Link from 'next/link';
+
 export default function Error({
   error,
-  reset,
+  unstable_retry,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  unstable_retry: () => void;
 }) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-4 py-16 text-center">
-      <span className="text-6xl">⚠️</span>
-      <h1 className="mt-4 text-2xl font-bold">Nešto je pošlo po zlu</h1>
-      <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-        {error.message || 'Došlo je do neočekivane greške.'}
-      </p>
-      <button
-        onClick={reset}
-        className="mt-6 rounded-lg bg-zinc-900 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-      >
-        Pokušaj ponovo
-      </button>
-    </main>
+    <div className="flex min-h-[60vh] items-center justify-center px-6">
+      <div className="text-center">
+        <div className="mb-4 text-6xl">⚠️</div>
+        <h1 className="mb-2 text-2xl font-bold text-white">Greška</h1>
+        <p className="mb-6 text-gray-400">{error.message || 'Došlo je do neočekivane greške.'}</p>
+        <div className="flex items-center justify-center gap-3">
+          <button
+            onClick={() => unstable_retry()}
+            className="rounded-lg bg-blue-600 px-6 py-3 text-sm text-white hover:bg-blue-500"
+          >
+            Pokušaj ponovo
+          </button>
+          <Link href="/" className="rounded-lg border border-gray-700 px-6 py-3 text-sm text-gray-300 hover:bg-gray-800">
+            Nazad na početnu
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,20 +1,28 @@
 import { NextResponse } from 'next/server';
-import { platforms } from '@/lib/platforms';
-import { organizations } from '@/lib/organizations';
-import { companies } from '@/lib/companies';
-import { products } from '@/lib/products';
+import { getStatistike } from '@/lib/statistika';
+import { runDiagnostics } from '@/lib/auto-repair';
+import { getDispatchSummary } from '@/lib/omega-ai-dispatch';
 
 export async function GET() {
+  const stats = getStatistike();
+  const diagnostics = runDiagnostics();
+  const dispatch = getDispatchSummary();
   return NextResponse.json({
-    name: 'AI-IQ SUPER PLATFORMA',
-    version: '3.0.0',
     status: 'operational',
+    platforma: 'AI IQ SUPER PLATFORMA',
+    kompanija: 'SPAJA',
+    verzija: '5.2.0',
+    arhitektura: 'sekvence',
     timestamp: new Date().toISOString(),
-    ecosystem: {
-      platforms: { total: platforms.length, active: platforms.filter((p) => p.status === 'active').length },
-      organizations: { total: organizations.length, active: organizations.filter((o) => o.status === 'active').length },
-      companies: { total: companies.length, active: companies.filter((c) => c.status === 'active').length },
-      products: { total: products.length, active: products.filter((p) => p.status === 'active').length },
+    statistike: stats,
+    zdravlje: diagnostics.zdravlje,
+    stranice: 14,
+    apiRute: 5,
+    omegaAI: {
+      persone: dispatch.ukupnoPersona,
+      oktave: dispatch.ukupnoOktava,
+      dispatchStatus: dispatch.status,
     },
+    autoPopravka: 'aktivan',
   });
 }
