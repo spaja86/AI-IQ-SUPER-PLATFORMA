@@ -1,5 +1,6 @@
 import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
+import { sajtovi, getSajtoviPoKategoriji } from '@/lib/sajtovi';
 
 const stats = getStatistike();
 
@@ -75,10 +76,72 @@ export const industrijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'industrija-sajtovi-ekosistem',
+    tip: 'kartice',
+    naslov: '🌐 Sajtovi Ekosistema',
+    podnaslov: 'Zvanični sajtovi Digitalne Industrije',
+    redosled: 6,
+    podaci: {
+      kartice: getSajtoviPoKategoriji('ekosistem').map((s) => ({
+        naslov: s.naziv,
+        opis: s.opis,
+        ikona: s.ikona,
+        href: s.url,
+        oznake: ['Ekosistem'],
+      })),
+    },
+  },
+  {
+    id: 'industrija-sajtovi-partneri',
+    tip: 'kartice',
+    naslov: '🤝 Tehnološki Partneri',
+    podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju',
+    redosled: 7,
+    podaci: {
+      kartice: getSajtoviPoKategoriji('tehnoloski-partner').map((s) => ({
+        naslov: s.naziv,
+        opis: s.opis,
+        ikona: s.ikona,
+        href: s.url,
+        oznake: ['Partner'],
+      })),
+    },
+  },
+  {
+    id: 'industrija-sajtovi-drustvene',
+    tip: 'kartice',
+    naslov: '📱 Društvene Mreže',
+    podnaslov: 'Pratite Digitalnu Industriju na društvenim mrežama',
+    redosled: 8,
+    podaci: {
+      kartice: getSajtoviPoKategoriji('drustvena-mreza').map((s) => ({
+        naslov: s.naziv,
+        opis: s.opis,
+        ikona: s.ikona,
+        href: s.url,
+        oznake: ['Društvena mreža'],
+      })),
+    },
+  },
+  {
+    id: 'industrija-sajtovi-statistika',
+    tip: 'statistika',
+    naslov: '🔗 Povezani Sajtovi',
+    redosled: 9,
+    podaci: {
+      stavke: [
+        { naziv: 'Ukupno Sajtova', vrednost: sajtovi.length, ikona: '🌐' },
+        { naziv: 'Ekosistem', vrednost: getSajtoviPoKategoriji('ekosistem').length, ikona: '🏭' },
+        { naziv: 'Partneri', vrednost: getSajtoviPoKategoriji('tehnoloski-partner').length, ikona: '🤝' },
+        { naziv: 'Društvene Mreže', vrednost: getSajtoviPoKategoriji('drustvena-mreza').length, ikona: '📱' },
+      ],
+    },
+  },
+  {
     id: 'industrija-cta',
     tip: 'cta',
     naslov: '🚀 Istrazi ekosistem',
-    redosled: 6,
+    redosled: 10,
     podaci: {
       opis: 'Digitalna Industrija Kompanije SPAJA je spremna za rast.',
       dugmad: [
