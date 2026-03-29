@@ -119,6 +119,83 @@ Stranice se grade od tipiziranih sekvenci (`Sekvenca[]`), ne od hardkodiranih se
 | hijerarhija | HijerarhijaSekvenca | HijerarhijaSkeleton | Vizualizacija hijerarhije |
 | tekst | TekstSekvenca | TekstSkeleton | Formatiran tekst |
 
+### Objektno opredeljenje sekvence — TypeScript interfejsi
+
+Sekvenca je definisana kao tipizirani objekat sa eksponziturom (izloženom strukturom) u armanalnom (harmoničnom) kodu:
+
+```typescript
+type SekvencaTip =
+  | 'hero' | 'statistika' | 'progres' | 'kartice' | 'tabela'
+  | 'cta' | 'baner' | 'lista' | 'hijerarhija' | 'tekst';
+
+interface Sekvenca {
+  id: string;                    // Jedinstveni identifikator sekvence
+  tip: SekvencaTip;              // Tip komponente za renderovanje
+  naslov?: string;               // Naslov sekcije
+  podnaslov?: string;            // Podnaslov sekcije
+  ikona?: string;                // Emoji ikona
+  podaci: Record<string, unknown>; // Podaci specifični za tip komponente
+  stil?: 'podrazumevani' | 'gradijent' | 'tamni' | 'svetli' | 'akcent';
+  redosled: number;              // Redni broj za sortiranje
+}
+
+interface StranicaKonfiguracija {
+  putanja: string;               // URL putanja stranice
+  naslov: string;                // Naslov stranice
+  opis: string;                  // Opis stranice
+  sekvence: Sekvenca[];          // Niz sekvenci koje čine stranicu
+}
+```
+
+### Eksponzitura sekvence — JSON obrazac objektnog opredeljenja
+
+Ekvivalentni JSON obrazac za objektno opredeljenje sekvence:
+
+```json
+{
+  "id": "pocetna-hero",
+  "tip": "hero",
+  "naslov": "Kompanija SPAJA",
+  "podnaslov": "AI IQ SUPER PLATFORMA — Digitalna Industrija sa SpajaPro Prompt Engine-om",
+  "ikona": "🏢",
+  "redosled": 1,
+  "podaci": {
+    "opis": "Kompanija SPAJA upravlja celim digitalnim ekosistemom sa SpajaPro engine-om.",
+    "dugmad": [
+      { "tekst": "Industrija", "href": "/industrija" },
+      { "tekst": "Dashboard", "href": "/dashboard" },
+      { "tekst": "Prompt", "href": "/prompt", "stil": "sekundarno" },
+      { "tekst": "SpajaPro", "href": "/spaja-pro", "stil": "sekundarno" }
+    ]
+  }
+}
+```
+
+### Ekstenzija monologije sekvence — 18 straničnih modula
+
+Svaka stranica je definisana kao `Sekvenca[]` niz u svom modulu:
+
+| Modul | Eksport | Broj sekvenci |
+|-------|---------|---------------|
+| `pocetna.ts` | `pocetnaSekvence` | 7 |
+| `dashboard.ts` | `dashboardSekvence` | — |
+| `industrija.ts` | `industrijaSekvence` | — |
+| `platforme-page.ts` | `platformeSekvence` | — |
+| `it-proizvodi-page.ts` | `itProizvodiSekvence` | — |
+| `banka-page.ts` | `bankaSekvence` | — |
+| `menjacnica-page.ts` | `menjacnicaSekvence` | — |
+| `kompanija-page.ts` | `kompanijaSekvence` | — |
+| `ai-platforma-page.ts` | `aiPlatformaSekvence` | — |
+| `organizacija-page.ts` | `organizacijaSekvence` | — |
+| `deploy-page.ts` | `deploySekvence` | — |
+| `ekosistem-page.ts` | `ekosistemSekvence` | — |
+| `omega-ai-page.ts` | `omegaAISekvence` | — |
+| `auto-popravka-page.ts` | `autoPopravkaSekvence` | — |
+| `proksi-page.ts` | `proksiSekvence` | — |
+| `mobilna-mreza-page.ts` | `mobilnaMrezaSekvence` | — |
+| `prompt-page.ts` | `promptSekvence` | — |
+| `spaja-pro-page.ts` | `spajaProSekvence` | — |
+
 ### Stranica = 3 linije koda
 
 ```tsx
