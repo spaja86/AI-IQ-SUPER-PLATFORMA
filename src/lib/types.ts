@@ -79,14 +79,3 @@ export interface OmegaAI {
   uloga: OmegaAIUloga;
   odgovornosti: string[];
 }
-
-export type KategorijaSajta = 'ekosistem' | 'tehnoloski-partner' | 'drustvena-mreza';
-
-export interface Sajt {
-  id: string;
-  naziv: string;
-  url: string;
-  ikona: string;
-  kategorija: KategorijaSajta;
-  opis: string;
-}

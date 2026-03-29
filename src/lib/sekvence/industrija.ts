@@ -1,6 +1,5 @@
 import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
-import { sajtovi, getSajtoviPoKategoriji } from '@/lib/sajtovi';
 
 const stats = getStatistike();
 
@@ -51,10 +50,8 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
-        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti', 'Proksi Mreža', 'SPAJA Mobilna Mreža'] },
+        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti'] },
         { naziv: 'Platforme', ikona: '🌐', deca: ['Jezgro', 'Finansije', 'Globalno', 'AI', 'Alati'] },
-        { naziv: 'Proksi Mreža', ikona: '📡', deca: ['Hipsoneurični Signal', 'Ekscentrični Modulator', 'Ekliptična Vez', 'Rezonantni Pojačavač'] },
-        { naziv: 'SPAJA Mobilna Mreža', ikona: '📱', deca: ['+38177 Primarna', '+38188 Sekundarna', '+38178 Redundantna', '+38187 Globalna'] },
       ],
     },
   },
@@ -69,71 +66,7 @@ export const industrijaSekvence: Sekvenca[] = [
         ['Platforme', 'Digitalne fabrike', String(stats.ukupnoPlatformi), 'Aktivne'],
         ['IT Proizvodi', 'Alati i servisi', String(stats.ukupnoProizvoda), 'U produkciji'],
         ['OMEGA AI', 'AI agenti', '21', 'Operativni'],
-        ['Proksi Mreža', 'Signal infrastruktura', '6 signala / 5 čvorova', 'Aktivna'],
-        ['SPAJA Mobilna', 'Mobilna mreža', '4 centrale / 5 servisa', 'Aktivna'],
         ['Organizacije', 'Strukture', '6', 'Aktivne'],
-      ],
-    },
-  },
-  {
-    id: 'industrija-sajtovi-ekosistem',
-    tip: 'kartice',
-    naslov: '🌐 Sajtovi Ekosistema',
-    podnaslov: 'Zvanični sajtovi Digitalne Industrije',
-    redosled: 6,
-    podaci: {
-      kartice: getSajtoviPoKategoriji('ekosistem').map((s) => ({
-        naslov: s.naziv,
-        opis: s.opis,
-        ikona: s.ikona,
-        href: s.url,
-        oznake: ['Ekosistem'],
-      })),
-    },
-  },
-  {
-    id: 'industrija-sajtovi-partneri',
-    tip: 'kartice',
-    naslov: '🤝 Tehnološki Partneri',
-    podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju',
-    redosled: 7,
-    podaci: {
-      kartice: getSajtoviPoKategoriji('tehnoloski-partner').map((s) => ({
-        naslov: s.naziv,
-        opis: s.opis,
-        ikona: s.ikona,
-        href: s.url,
-        oznake: ['Partner'],
-      })),
-    },
-  },
-  {
-    id: 'industrija-sajtovi-drustvene',
-    tip: 'kartice',
-    naslov: '📱 Društvene Mreže',
-    podnaslov: 'Pratite Digitalnu Industriju na društvenim mrežama',
-    redosled: 8,
-    podaci: {
-      kartice: getSajtoviPoKategoriji('drustvena-mreza').map((s) => ({
-        naslov: s.naziv,
-        opis: s.opis,
-        ikona: s.ikona,
-        href: s.url,
-        oznake: ['Društvena mreža'],
-      })),
-    },
-  },
-  {
-    id: 'industrija-sajtovi-statistika',
-    tip: 'statistika',
-    naslov: '🔗 Povezani Sajtovi',
-    redosled: 9,
-    podaci: {
-      stavke: [
-        { naziv: 'Ukupno Sajtova', vrednost: sajtovi.length, ikona: '🌐' },
-        { naziv: 'Ekosistem', vrednost: getSajtoviPoKategoriji('ekosistem').length, ikona: '🏭' },
-        { naziv: 'Partneri', vrednost: getSajtoviPoKategoriji('tehnoloski-partner').length, ikona: '🤝' },
-        { naziv: 'Društvene Mreže', vrednost: getSajtoviPoKategoriji('drustvena-mreza').length, ikona: '📱' },
       ],
     },
   },
@@ -141,15 +74,13 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-cta',
     tip: 'cta',
     naslov: '🚀 Istrazi ekosistem',
-    redosled: 10,
+    redosled: 6,
     podaci: {
       opis: 'Digitalna Industrija Kompanije SPAJA je spremna za rast.',
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
-        { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
-        { tekst: 'Mobilna', href: '/mobilna-mreza', stil: 'sekundarno' },
       ],
     },
   },
