@@ -1,6 +1,6 @@
-# AI-IQ-SUPER-PLATFORMA v6.3.0
+# AI-IQ-SUPER-PLATFORMA v6.3.1
 
-> **Kompanija SPAJA** — Digitalna Industrija | **SpajaPro Prompt Engine** | **Omega Autonomna Evolucija** | **Proksi Mreža** | **SPAJA Mobilna**
+> **Kompanija SPAJA** — Digitalna Industrija | **SpajaPro Prompt Engine** | **Omega Autonomna Evolucija** | **Proksi Mreža** | **SPAJA Mobilna** | **Eksterni Sajt Platformi**
 
 ## 🌟 SpajaPro Engine 6-15 — Zamena za ChatGPT
 
@@ -263,7 +263,43 @@ Mobilna komunikaciona mreža Digitalne Industrije — koristi Proksi infrastrukt
 - Evolucioni motor (dijagnostika + preporuke + akcije)
 - Proksi mreža (6 signala, 5 čvorova, hibridna topologija)
 - SPAJA Mobilna Mreža (4 centrale, 5 servisa, Proksi integracija)
+- Eksterni sajt platformi — svaka platforma otvara Vercel domen u novom tabu
 - 18 stranica + 9 API ruta + sitemap + robots + skeleton loaders
+
+## 🌐 Eksterni Sajt Platformi — Vercel Domeni
+
+Svaka platforma u Digitalnoj Industriji ima svoj eksterni Vercel domen. Klikom na platformu na `/platforme` stranici, sajt platforme se otvara u **novom brauzer tabu** (`target="_blank"`).
+
+### Domeni platformi
+
+| Platforma | Vercel Domen |
+|-----------|-------------|
+| AI IQ SUPER PLATFORMA | ai-iq-super-platforma.vercel.app |
+| IO OPENUI AO — SpajaPro Engine | io-openui-ao.vercel.app |
+| AI IQ Menjacnica | ai-iq-menjacnica.vercel.app |
+| AI IQ World Bank | ai-iq-world-bank.vercel.app |
+| SVETSKA ORGANIZACIJA | svetska-organizacija.vercel.app |
+| OMEGA AI za GitHub | omega-ai-github.vercel.app |
+| OMEGA AI za Vercel | omega-ai-vercel.vercel.app |
+| OMEGA AI za Google | omega-ai-google.vercel.app |
+| OMEGA AI 5 Persona | omega-ai-5-persona.vercel.app |
+| SpajaPro Platforma | spajapro-platforma.vercel.app |
+| Input/Output za Copilot | io-copilot.vercel.app |
+
+### Implementacija — `eksterniLink` u sekvenci
+
+`KarticeSekvenca` podržava `eksterniLink` za otvaranje eksternog sajta platforme u novom tabu:
+
+```typescript
+kartice: platforme.map((p) => ({
+  naslov: p.naziv,
+  opis: p.opis,
+  ikona: p.ikona,
+  progres: p.progres,
+  oznake: [...p.tehnologije, p.status],
+  eksterniLink: p.url,  // Vercel domen → otvara se u novom tabu
+}))
+```
 
 ## Rute
 
