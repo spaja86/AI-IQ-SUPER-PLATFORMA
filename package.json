@@ -1,20 +1,38 @@
 {
-  "name": "ai-iq-super-platforma",
-  "version": "1.0.0",
-  "description": "Centralni monorepo koji objedinjuje sve AI-IQ platforme",
+  "name": "spaja-platforma",
+  "version": "6.3.1",
   "private": true,
-  "workspaces": [
-    "portal",
-    "platforms/*",
-    "shared"
+  "description": "AI IQ SUPER PLATFORMA — Digitalna Industrija sa SpajaPro Prompt Engine-om, sekvencijalna arhitektura sa 10 tipova sekvenci, 21 OMEGA AI persona, Proksi mreža, SPAJA Mobilna",
+  "keywords": [
+    "sekvenca",
+    "sekvence",
+    "spaja-pro",
+    "prompt",
+    "omega-ai",
+    "proksi",
+    "mobilna-mreza",
+    "digitalna-industrija",
+    "autonomna-evolucija"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=portal",
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
   },
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
+  "dependencies": {
+    "next": "16.2.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^25",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.1",
+    "tailwindcss": "^4",
+    "typescript": "^6"
   }
 }
