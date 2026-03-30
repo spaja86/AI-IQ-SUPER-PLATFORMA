@@ -1,24 +1,28 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from 'next';
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://ai-iq-super-platforma.vercel.app";
+const BASE_URL = 'https://ai-iq-super-platforma.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
-    "",
-    "/dashboard",
-    "/industrija",
-    "/platforme",
-    "/it-proizvodi",
-    "/deploy",
-    "/ekosistem",
+    '/',
+    '/dashboard',
+    '/industrija',
+    '/platforme',
+    '/it-proizvodi',
+    '/banka',
+    '/menjacnica',
+    '/kompanija',
+    '/ai-platforma',
+    '/organizacija',
+    '/deploy',
+    '/ekosistem',
+    '/omega-ai',
+    '/auto-popravka',
   ];
-
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: new Date(),
-    changeFrequency: route === "" ? "daily" : "weekly",
-    priority: route === "" ? 1 : route === "/dashboard" ? 0.9 : 0.8,
+    changeFrequency: 'weekly' as const,
+    priority: route === '/' ? 1 : 0.8,
   }));
 }

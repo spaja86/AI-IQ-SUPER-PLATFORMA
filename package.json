@@ -1,6 +1,6 @@
 {
-  "name": "ai-iq-super-platforma",
-  "version": "0.1.0",
+  "name": "spaja-platforma",
+  "version": "5.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

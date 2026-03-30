@@ -1,0 +1,62 @@
+# ═══════════════════════════════════════════════════════════
+# 🔀 OMEGA Branch Sync — Sinhronizacija grana
+# ═══════════════════════════════════════════════════════════
+#
+# Jednom dnevno sinhronizuje main sa svim aktivnim granama.
+# Obezbeđuje da sve grane imaju najnovije promene.
+#
+
+name: 🔀 Omega Branch Sync
+
+on:
+  schedule:
+    # Jednom dnevno u 03:00 UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: 🔀 Sinhronizacija grana
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: 🔀 Sinhronizuj grane
+        run: |
+          git config user.name "Omega Evolucioni Motor"
+          git config user.email "omega-evolucija@spaja.rs"
+          
+          echo "## 🔀 Branch Sync Izveštaj" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          
+          # Lista copilot/* grana
+          BRANCHES=$(git branch -r | grep 'origin/copilot/' | sed 's/origin\///' | xargs)
+          
+          for BRANCH in $BRANCHES; do
+            BRANCH_CLEAN=$(echo "$BRANCH" | xargs)
+            if [ -z "$BRANCH_CLEAN" ]; then continue; fi
+            
+            echo "Pokušavam sync: main → $BRANCH_CLEAN"
+            
+            git checkout "$BRANCH_CLEAN" 2>/dev/null || git checkout -b "$BRANCH_CLEAN" "origin/$BRANCH_CLEAN" 2>/dev/null || {
+              echo "- ⚠️ **$BRANCH_CLEAN**: Nije moguće checkout" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            }
+            
+            if git merge origin/main --no-edit 2>/dev/null; then
+              git push origin "$BRANCH_CLEAN" 2>/dev/null && \
+                echo "- ✅ **$BRANCH_CLEAN**: Sinhronizovana" >> "$GITHUB_STEP_SUMMARY" || \
+                echo "- ⚠️ **$BRANCH_CLEAN**: Merge OK, push neuspešan" >> "$GITHUB_STEP_SUMMARY"
+            else
+              git merge --abort 2>/dev/null
+              echo "- ❌ **$BRANCH_CLEAN**: Konflikti — potrebna ručna intervencija" >> "$GITHUB_STEP_SUMMARY"
+            fi
+            
+            git checkout main 2>/dev/null
+          done
