@@ -1,0 +1,40 @@
+# ═══════════════════════════════════════════════════════════
+# 📦 Dependabot — Automatsko ažuriranje zavisnosti
+# ═══════════════════════════════════════════════════════════
+#
+# Automatski proverava npm zavisnosti za ažuriranja.
+# Minor i patch verzije se automatski merge-uju.
+#
+
+version: 2
+updates:
+  # npm zavisnosti
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Belgrade"
+    open-pull-requests-limit: 10
+    labels:
+      - "omega-evolucija"
+      - "zavisnosti"
+    commit-message:
+      prefix: "📦"
+    reviewers:
+      - "spaja86"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Europe/Belgrade"
+    open-pull-requests-limit: 5
+    labels:
+      - "omega-evolucija"
+      - "github-actions"
+    commit-message:
+      prefix: "⚙️"

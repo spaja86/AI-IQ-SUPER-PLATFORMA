@@ -18,6 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/ekosistem',
     '/omega-ai',
     '/auto-popravka',
+    '/proksi',
+    '/mobilna-mreza',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

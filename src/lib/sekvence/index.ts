@@ -12,3 +12,5 @@ export { kompanijaSekvence } from './kompanija-page';
 export { aiPlatformaSekvence } from './ai-platforma-page';
 export { organizacijaSekvence } from './organizacija-page';
 export { autoPopravkaSekvence } from './auto-popravka-page';
+export { proksiSekvence } from './proksi-page';
+export { mobilnaMrezaSekvence } from './mobilna-mreza-page';
