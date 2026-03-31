@@ -1,0 +1,88 @@
+/* ================================================
+   AI-IQ Super Platforma — Bazni stilovi za platforme
+   ================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --accent: #6c3bdc;
+  --bg: #0d0d1a;
+  --bg-card: #161628;
+  --text: #e8e8f0;
+  --text-muted: #9090b0;
+  --border: #2a2a44;
+  --radius: 12px;
+  --font: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.platform-header {
+  padding: 1.25rem 2rem;
+  background: rgba(13, 13, 26, 0.95);
+  border-bottom: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.back-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--text);
+}
+
+.platform-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.platform-main {
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+}
+
+.hero {
+  margin-bottom: 3rem;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.status-banner {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+.status-banner p {
+  color: var(--text-muted);
+}
