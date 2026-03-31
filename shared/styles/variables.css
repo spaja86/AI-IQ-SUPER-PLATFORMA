@@ -1,0 +1,41 @@
+/* ================================================
+   AI-IQ Super Platforma — Globalne CSS varijable
+   ================================================ */
+
+:root {
+  /* Boje */
+  --color-primary: #6c3bdc;
+  --color-primary-dark: #4e25b0;
+  --color-secondary: #00c2a8;
+  --color-accent-bank: #00c2a8;
+  --color-accent-exchange: #f5a623;
+  --color-accent-company: #e84393;
+
+  /* Pozadine */
+  --color-bg: #0d0d1a;
+  --color-bg-card: #161628;
+  --color-bg-hover: #1e1e35;
+
+  /* Tekst */
+  --color-text: #e8e8f0;
+  --color-text-muted: #9090b0;
+
+  /* Ivice */
+  --color-border: #2a2a44;
+
+  /* Oblici */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Fontovi */
+  --font-base: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Cascadia Code', 'Fira Code', monospace;
+
+  /* Razmaci */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+}

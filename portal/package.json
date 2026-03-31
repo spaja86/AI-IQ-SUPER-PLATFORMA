@@ -1,0 +1,10 @@
+{
+  "name": "portal",
+  "version": "1.0.0",
+  "description": "Glavni ulazni portal za AI-IQ Super Platformu",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve public -p 3000",
+    "build": "echo 'Portal build complete'"
+  }
+}

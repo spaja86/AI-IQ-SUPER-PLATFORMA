@@ -1,0 +1,10 @@
+{
+  "name": "kompanija-spaja",
+  "version": "1.0.0",
+  "description": "Kompanija SPAJA — Korporativna platforma",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve src -p 3004",
+    "build": "echo 'kompanija-spaja build complete'"
+  }
+}
