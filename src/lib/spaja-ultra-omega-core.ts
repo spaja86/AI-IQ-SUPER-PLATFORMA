@@ -284,7 +284,7 @@ export const tipoviPodataka: TipPodatka[] = [
   {
     id: 'omega-vez',
     naziv: 'ΩVez',
-    opis: 'Ekliptična vez između čvorova — orbitalana komunikaciona veza',
+    opis: 'Ekliptična vez između čvorova — orbitalna komunikaciona veza',
     ikona: '🔗',
     tip: 'omega-vez',
     opseg: 'N čvorova × N veza',
@@ -671,7 +671,7 @@ export const omegaRuntime: OmegaRuntime = {
 export const spajaUltraOmegaCore: SpajaUltraOmegaCoreSpec = {
   naziv: 'SpajaUltraOmegaCore -∞Ω+∞',
   verzija: '1.0.0',
-  opis: 'Univerzalni programski jezik Kompanije SPAJA koji operira u beskonačnom spektru od -∞ do +∞ kroz Omega (Ω) jezgro sa 8 oktava, 21 AI personom, Proksi mrežom i evolucivnim samonapretkom',
+  opis: 'Univerzalni programski jezik Kompanije SPAJA koji operira u beskonačnom spektru od -∞ do +∞ kroz Omega (Ω) jezgro sa 8 oktava, 21 AI personom, Proksi mrežom i evolucijskim samounapređenjem',
   spektar: '-∞Ω+∞',
   paradigme,
   tipoviPodataka,
