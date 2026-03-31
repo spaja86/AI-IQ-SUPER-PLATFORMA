@@ -29,7 +29,7 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
         {platform.description}
       </p>
 
-      <ProgressBar progress={platform.progress} size="sm" />
+      <ProgressBar progres={platform.progress} velicina="sm" />
 
       <div className="flex flex-wrap gap-1.5 mt-4">
         {platform.technologies.slice(0, 3).map((tech) => (

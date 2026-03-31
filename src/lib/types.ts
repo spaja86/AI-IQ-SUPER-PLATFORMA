@@ -69,6 +69,17 @@ export interface ITProizvod {
   uticaj: 'visok' | 'srednji' | 'nizak';
 }
 
+export type KategorijaSajta = 'ekosistem' | 'tehnoloski-partner' | 'drustvena-mreza';
+
+export interface Sajt {
+  id: string;
+  naziv: string;
+  url: string;
+  ikona: string;
+  kategorija: KategorijaSajta;
+  opis: string;
+}
+
 export type OmegaAIUloga =
   | 'Arhitekta' | 'Cuvar' | 'Lekar' | 'Graditelj' | 'Dizajner'
   | 'Optimizator' | 'Strateg' | 'Naucnik' | 'Mentor' | 'Integrator'
