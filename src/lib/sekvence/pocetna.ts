@@ -10,16 +10,16 @@ export const pocetnaSekvence: Sekvenca[] = [
     id: 'pocetna-hero',
     tip: 'hero',
     naslov: 'Kompanija SPAJA',
-    podnaslov: 'AI IQ SUPER PLATFORMA — Digitalna Industrija',
+    podnaslov: 'AI IQ SUPER PLATFORMA — Digitalna Industrija sa SpajaPro Prompt Engine-om',
     ikona: '🏢',
     redosled: 1,
     podaci: {
-      opis: `Kompanija SPAJA upravlja sa ${stats.ukupnoProizvoda} IT proizvoda na ${stats.ukupnoPlatformi} platformi. Centralno mesto za nadzor i orkestraciju celokupnog digitalnog ekosistema.`,
+      opis: `Kompanija SPAJA upravlja sa ${stats.ukupnoProizvoda} IT proizvoda na ${stats.ukupnoPlatformi} platformi. SpajaPro engine (v6-15) sa ${stats.ukupnoPromptova} Prompt-ova pokreće ceo ekosistem.`,
       dugmad: [
         { tekst: 'Industrija', href: '/industrija' },
         { tekst: 'Dashboard', href: '/dashboard' },
-        { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
-        { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
+        { tekst: 'Prompt', href: '/prompt', stil: 'sekundarno' },
+        { tekst: 'SpajaPro', href: '/spaja-pro', stil: 'sekundarno' },
       ],
     },
   },
@@ -33,7 +33,9 @@ export const pocetnaSekvence: Sekvenca[] = [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
         { naziv: 'Aktivne', vrednost: stats.aktivnihPlatformi, ikona: '✅' },
         { naziv: 'IT Proizvodi', vrednost: stats.ukupnoProizvoda, ikona: '⚡' },
-        { naziv: 'Ukupni progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
+        { naziv: 'Prompt-ovi', vrednost: stats.ukupnoPromptova, ikona: '📝' },
+        { naziv: 'SpajaPro', vrednost: `v6-15`, ikona: '🌟' },
+        { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
       ],
     },
   },
@@ -44,14 +46,14 @@ export const pocetnaSekvence: Sekvenca[] = [
     redosled: 3,
     podaci: {
       progres: getUkupniProgres(),
-      poruka: 'Kada svi projekti dostignu 100%, sve se plasira na Vercel.',
+      poruka: 'Kada svi projekti dostignu 100%, sve se plasira na Vercel. SpajaPro Prompt engine pokreće automatizaciju.',
     },
   },
   {
     id: 'pocetna-platforme',
     tip: 'kartice',
     naslov: '🌐 Platforme u ekosistemu',
-    podnaslov: 'Pregled prvih 6 platformi',
+    podnaslov: 'Pregled prvih 6 platformi — sve sa SpajaPro Prompt integracijom',
     redosled: 4,
     podaci: {
       kartice: platforme.slice(0, 6).map((p) => ({
@@ -68,7 +70,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     id: 'pocetna-proizvodi',
     tip: 'kartice',
     naslov: '⚡ IT Proizvodi Kompanije SPAJA',
-    podnaslov: 'Pregled prvih 4 proizvoda',
+    podnaslov: 'Pregled prvih 4 proizvoda sa Prompt podrškom',
     redosled: 5,
     podaci: {
       kartice: itProizvodi.slice(0, 4).map((p) => ({
@@ -83,29 +85,30 @@ export const pocetnaSekvence: Sekvenca[] = [
   {
     id: 'pocetna-baner',
     tip: 'baner',
-    naslov: 'SPAJA Ekosistem Hub',
+    naslov: 'SpajaPro Prompt Engine — Svuda u ekosistemu',
     redosled: 6,
     podaci: {
-      bedz: '🔗 Ekosistem',
-      opis: 'Centralizovani hub za upravljanje svim platformama, AI agentima i IT proizvodima Kompanije SPAJA.',
-      dugme: { tekst: 'Istrazi Ekosistem', href: '/ekosistem' },
+      bedz: '🌟 SpajaPro',
+      opis: 'SpajaPro 6-15 engine zamenjuje ChatGPT i donosi Prompt u svaki aspekt platforme. 21 OMEGA AI persona × Prompt = autonomni ekosistem.',
+      dugme: { tekst: 'Istrazi SpajaPro', href: '/spaja-pro' },
     },
   },
   {
     id: 'pocetna-cta',
     tip: 'cta',
-    naslov: '🚀 Vercel Produkcija',
+    naslov: '🚀 Vercel Produkcija sa SpajaPro Prompt-om',
     redosled: 7,
     podaci: {
-      opis: 'AI IQ SUPER PLATFORMA je deploirana na Vercel produkcijsku infrastrukturu.',
+      opis: 'AI IQ SUPER PLATFORMA je deploirana na Vercel sa SpajaPro Prompt engine-om.',
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
         { naziv: 'IT Proizvodi', vrednost: stats.ukupnoProizvoda, ikona: '⚡' },
-        { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
+        { naziv: 'Prompt-ovi', vrednost: stats.ukupnoPromptova, ikona: '📝' },
+        { naziv: 'SpajaPro', vrednost: `${stats.spajaProVerzija} verzija`, ikona: '🌟' },
       ],
       dugmad: [
         { tekst: 'Deploy Status', href: '/deploy' },
-        { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
+        { tekst: 'Prompt', href: '/prompt', stil: 'sekundarno' },
       ],
     },
   },
