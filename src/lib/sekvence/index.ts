@@ -12,3 +12,4 @@ export { kompanijaSekvence } from './kompanija-page';
 export { aiPlatformaSekvence } from './ai-platforma-page';
 export { organizacijaSekvence } from './organizacija-page';
 export { autoPopravkaSekvence } from './auto-popravka-page';
+export { spajaUniverzalniPromptSekvence } from './spaja-univerzalni-prompt-page';
