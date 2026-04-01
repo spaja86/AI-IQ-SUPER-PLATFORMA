@@ -8,6 +8,7 @@ interface Kartica {
   progres?: number;
   oznake?: string[];
   href?: string;
+  eksterniLink?: string;
 }
 
 export default function KarticeSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
@@ -52,6 +53,9 @@ export default function KarticeSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
                 )}
               </div>
             );
+            if (k.eksterniLink) {
+              return <a key={k.naslov} href={k.eksterniLink} target="_blank" rel="noopener noreferrer">{content}</a>;
+            }
             if (k.href) {
               return <Link key={k.naslov} href={k.href}>{content}</Link>;
             }

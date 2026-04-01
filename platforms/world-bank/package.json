@@ -1,0 +1,10 @@
+{
+  "name": "world-bank",
+  "version": "1.0.0",
+  "description": "Ai IQ World Bank — Svetska banka platforma",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve src -p 3002",
+    "build": "echo 'world-bank build complete'"
+  }
+}
