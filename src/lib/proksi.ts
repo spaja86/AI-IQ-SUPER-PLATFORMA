@@ -177,7 +177,7 @@ export const proksiCvorovi: ProksiCvor[] = [
 /** Kompletna Proksi mreža */
 export const proksiMreza: ProksiMreza = {
   naziv: 'SPAJA Proksi Mreža',
-  opis: 'Ekscentrični simulator koncentričnog hipsoneuričnog signala prema plasiranim objektima sa WiFi antenama — rezonance i amplitude se uvezuju u ekliptičnu vez ogromne propusnosti',
+  opis: 'Ekscentrični simulator koncentričnog hipsoneuričnog signala prema plasiranim objektima sa WiFi antenama — rezonance i amplitude se uvezuju u ekliptičnu vez ogromne propusnosti. Proširena WiFi Antenom za eliptični suplement ekscentričnog koda u matričnom jednačenju oktavnog sistema.',
   cvorovi: proksiCvorovi,
   signali: proksiSignali,
   ukupniKapacitet: '10²²⁸ TB',
