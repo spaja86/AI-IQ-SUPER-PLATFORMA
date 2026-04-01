@@ -40,6 +40,7 @@ export const platformeSekvence: Sekvenca[] = [
         ikona: p.ikona,
         progres: p.progres,
         oznake: [...p.tehnologije, p.status],
+        eksterniLink: p.url,
       })),
     },
   },
