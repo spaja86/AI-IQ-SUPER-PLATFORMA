@@ -78,15 +78,8 @@ export type OmegaAIUloga =
 export interface OmegaAI {
   uloga: OmegaAIUloga;
   odgovornosti: string[];
+  prompt?: string;
 }
 
-export type KategorijaSajta = 'ekosistem' | 'tehnoloski-partner' | 'drustvena-mreza';
-
-export interface Sajt {
-  id: string;
-  naziv: string;
-  url: string;
-  ikona: string;
-  kategorija: KategorijaSajta;
-  opis: string;
-}
+export type SpajaProStatus = 'aktivna' | 'beta' | 'razvoj' | 'planirana';
+export type PromptPrioritet = 'kritican' | 'visok' | 'srednji' | 'nizak';

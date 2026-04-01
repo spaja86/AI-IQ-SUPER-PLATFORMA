@@ -1,6 +1,53 @@
-# AI-IQ-SUPER-PLATFORMA v6.2.0
+# AI-IQ-SUPER-PLATFORMA v6.3.1
 
-> **Kompanija SPAJA** — Digitalna Industrija | **Omega Autonomna Evolucija** | **Proksi Mreža** | **SPAJA Mobilna**
+> **Kompanija SPAJA** — Digitalna Industrija | **SpajaPro Prompt Engine** | **Omega Autonomna Evolucija** | **Proksi Mreža** | **SPAJA Mobilna** | **Eksterni Sajt Platformi**
+
+## 🌟 SpajaPro Engine 6-15 — Zamena za ChatGPT
+
+SpajaPro je AI engine Kompanije SPAJA sa **10 verzija (6-15)** koji potpuno zamenjuje ChatGPT u celom ekosistemu. Izvor: **Kompanija-SPAJA** repozitorijum.
+
+### SpajaPro verzije
+
+| Verzija | Kodno ime | Status | Mogućnosti | Max tokena |
+|---------|-----------|--------|------------|------------|
+| SpajaPro 6 | Temelj | ✅ Aktivna | Bazna Prompt obrada, tekst generisanje | 4K |
+| SpajaPro 7 | Štit | ✅ Aktivna | Napredna zaštita, injection prevention | 8K |
+| SpajaPro 8 | Analitik | ✅ Aktivna | Prediktivno modelovanje, analitika | 16K |
+| SpajaPro 9 | Kreator | ✅ Aktivna | Multimodalni Prompt, kreacija | 32K |
+| SpajaPro 10 | Orkestrator | ✅ Aktivna | Multi-agent dispatch, OMEGA AI | 64K |
+| SpajaPro 11 | Proksi | 🧪 Beta | Proksi distribucija, egzotični signali | 128K |
+| SpajaPro 12 | Mobilni | 🧪 Beta | Edge AI, offline keš, IoT | 64K |
+| SpajaPro 13 | Evolucija | 🔨 Razvoj | Samo-evolucija, genetski algoritmi | 256K |
+| SpajaPro 14 | Matriks | 🔨 Razvoj | 8×8 matrični dispatch, neurološka mreža | 512K |
+| SpajaPro 15 | Omega | 📋 Planirana | Univerzalni kvantni procesor | 1M |
+
+### Integracija: IO-OPENUI-AO
+
+IO-OPENUI-AO repozitorijum koristi **SpajaPro engine umesto ChatGPT-a** za svu AI komunikaciju. SpajaPro Prompt Chat, AI modul sa Prompt-om, i SpajaPro 6-15 integracija.
+
+## 📝 Prompt Sistem — Svuda u ekosistemu
+
+Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:
+
+- **21 persona Prompt-ova** — po jedan za svaku OMEGA AI personu
+- **4 platforma Prompt-a** — IO-OPENUI-AO, Super Platforma, Proksi, Mobilna
+- **3 sistemska Prompt-a** — inicijalizacija, zdravlje, evolucija
+- **1 univerzalni Prompt** — SpajaPro 15 za sve sisteme
+
+### Prompt kategorije
+
+| Kategorija | Opis |
+|-----------|------|
+| sistemski | Inicijalizacija i upravljanje |
+| persona | OMEGA AI persona Prompt-ovi |
+| platforma | Platformski šabloni |
+| analitika | Analiza i metrike |
+| bezbednost | Bezbednosne provere |
+| kreativni | Kreacija sadržaja |
+| orkestracioni | Koordinacija i integracija |
+| evolucioni | Autonomna evolucija |
+| dijagnosticki | Dijagnostika i monitoring |
+| univerzalni | Univerzalni Prompt |
 
 ## 🧬 Autonomna Evolucija — Večiti Rad
 
@@ -72,6 +119,83 @@ Stranice se grade od tipiziranih sekvenci (`Sekvenca[]`), ne od hardkodiranih se
 | hijerarhija | HijerarhijaSekvenca | HijerarhijaSkeleton | Vizualizacija hijerarhije |
 | tekst | TekstSekvenca | TekstSkeleton | Formatiran tekst |
 
+### Objektno opredeljenje sekvence — TypeScript interfejsi
+
+Sekvenca je definisana kao tipizirani objekat sa eksponziturom (izloženom strukturom) u armanalnom (harmoničnom) kodu:
+
+```typescript
+type SekvencaTip =
+  | 'hero' | 'statistika' | 'progres' | 'kartice' | 'tabela'
+  | 'cta' | 'baner' | 'lista' | 'hijerarhija' | 'tekst';
+
+interface Sekvenca {
+  id: string;                    // Jedinstveni identifikator sekvence
+  tip: SekvencaTip;              // Tip komponente za renderovanje
+  naslov?: string;               // Naslov sekcije
+  podnaslov?: string;            // Podnaslov sekcije
+  ikona?: string;                // Emoji ikona
+  podaci: Record<string, unknown>; // Podaci specifični za tip komponente
+  stil?: 'podrazumevani' | 'gradijent' | 'tamni' | 'svetli' | 'akcent';
+  redosled: number;              // Redni broj za sortiranje
+}
+
+interface StranicaKonfiguracija {
+  putanja: string;               // URL putanja stranice
+  naslov: string;                // Naslov stranice
+  opis: string;                  // Opis stranice
+  sekvence: Sekvenca[];          // Niz sekvenci koje čine stranicu
+}
+```
+
+### Eksponzitura sekvence — JSON obrazac objektnog opredeljenja
+
+Ekvivalentni JSON obrazac za objektno opredeljenje sekvence:
+
+```json
+{
+  "id": "pocetna-hero",
+  "tip": "hero",
+  "naslov": "Kompanija SPAJA",
+  "podnaslov": "AI IQ SUPER PLATFORMA — Digitalna Industrija sa SpajaPro Prompt Engine-om",
+  "ikona": "🏢",
+  "redosled": 1,
+  "podaci": {
+    "opis": "Kompanija SPAJA upravlja celim digitalnim ekosistemom sa SpajaPro engine-om.",
+    "dugmad": [
+      { "tekst": "Industrija", "href": "/industrija" },
+      { "tekst": "Dashboard", "href": "/dashboard" },
+      { "tekst": "Prompt", "href": "/prompt", "stil": "sekundarno" },
+      { "tekst": "SpajaPro", "href": "/spaja-pro", "stil": "sekundarno" }
+    ]
+  }
+}
+```
+
+### Ekstenzija monologije sekvence — 18 straničnih modula
+
+Svaka stranica je definisana kao `Sekvenca[]` niz u svom modulu:
+
+| Modul | Eksport | Broj sekvenci |
+|-------|---------|---------------|
+| `pocetna.ts` | `pocetnaSekvence` | 7 |
+| `dashboard.ts` | `dashboardSekvence` | — |
+| `industrija.ts` | `industrijaSekvence` | — |
+| `platforme-page.ts` | `platformeSekvence` | — |
+| `it-proizvodi-page.ts` | `itProizvodiSekvence` | — |
+| `banka-page.ts` | `bankaSekvence` | — |
+| `menjacnica-page.ts` | `menjacnicaSekvence` | — |
+| `kompanija-page.ts` | `kompanijaSekvence` | — |
+| `ai-platforma-page.ts` | `aiPlatformaSekvence` | — |
+| `organizacija-page.ts` | `organizacijaSekvence` | — |
+| `deploy-page.ts` | `deploySekvence` | — |
+| `ekosistem-page.ts` | `ekosistemSekvence` | — |
+| `omega-ai-page.ts` | `omegaAISekvence` | — |
+| `auto-popravka-page.ts` | `autoPopravkaSekvence` | — |
+| `proksi-page.ts` | `proksiSekvence` | — |
+| `mobilna-mreza-page.ts` | `mobilnaMrezaSekvence` | — |
+| `prompt-page.ts` | `promptSekvence` | — |
+| `spaja-pro-page.ts` | `spajaProSekvence` | — |
+
 ### Stranica = 3 linije koda
 
 ```tsx
@@ -130,22 +254,60 @@ Mobilna komunikaciona mreža Digitalne Industrije — koristi Proksi infrastrukt
 
 ## Sadržaj
 
-- 11 platformi u 6 kategorija
-- 17 IT proizvoda u 8 kategorija
-- 21 OMEGA AI persona u 8 oktavnih nivoa (dispatch + matrica + neuro)
+- 12 platformi u 6 kategorija (IO-OPENUI-AO sa SpajaPro engine-om)
+- 18 IT proizvoda u 8 kategorija (uključujući SpajaPro Prompt Engine)
+- 21 OMEGA AI persona u 8 oktavnih nivoa — svaka sa SpajaPro Prompt-om
+- SpajaPro engine: 10 verzija (6-15) — zamena za ChatGPT
+- Prompt sistem: 28 Prompt-ova u 10 kategorija — Prompt je svuda
 - Auto-Popravka sistem (11 dijagnostičkih provera, repair engine, upgrade engine)
 - Evolucioni motor (dijagnostika + preporuke + akcije)
 - Proksi mreža (6 signala, 5 čvorova, hibridna topologija)
 - SPAJA Mobilna Mreža (4 centrale, 5 servisa, Proksi integracija)
-- 16 stranica + 7 API ruta + sitemap + robots + skeleton loaders
+- Eksterni sajt platformi — svaka platforma otvara Vercel domen u novom tabu
+- 18 stranica + 9 API ruta + sitemap + robots + skeleton loaders
+
+## 🌐 Eksterni Sajt Platformi — Vercel Domeni
+
+Svaka platforma u Digitalnoj Industriji ima svoj eksterni Vercel domen. Klikom na platformu na `/platforme` stranici, sajt platforme se otvara u **novom brauzer tabu** (`target="_blank"`).
+
+### Domeni platformi
+
+| Platforma | Vercel Domen |
+|-----------|-------------|
+| AI IQ SUPER PLATFORMA | ai-iq-super-platforma.vercel.app |
+| IO OPENUI AO — SpajaPro Engine | io-openui-ao.vercel.app |
+| AI IQ Menjacnica | ai-iq-menjacnica.vercel.app |
+| AI IQ World Bank | ai-iq-world-bank.vercel.app |
+| SVETSKA ORGANIZACIJA | svetska-organizacija.vercel.app |
+| OMEGA AI za GitHub | omega-ai-github.vercel.app |
+| OMEGA AI za Vercel | omega-ai-vercel.vercel.app |
+| OMEGA AI za Google | omega-ai-google.vercel.app |
+| OMEGA AI 5 Persona | omega-ai-5-persona.vercel.app |
+| SpajaPro Platforma | spajapro-platforma.vercel.app |
+| Input/Output za Copilot | io-copilot.vercel.app |
+
+### Implementacija — `eksterniLink` u sekvenci
+
+`KarticeSekvenca` podržava `eksterniLink` za otvaranje eksternog sajta platforme u novom tabu:
+
+```typescript
+kartice: platforme.map((p) => ({
+  naslov: p.naziv,
+  opis: p.opis,
+  ikona: p.ikona,
+  progres: p.progres,
+  oznake: [...p.tehnologije, p.status],
+  eksterniLink: p.url,  // Vercel domen → otvara se u novom tabu
+}))
+```
 
 ## Rute
 
 ### Stranice
-/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /auto-popravka, /proksi, /mobilna-mreza
+/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /prompt, /spaja-pro, /auto-popravka, /proksi, /mobilna-mreza
 
 ### API
-/api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai, /api/cron/evolucija, /api/cron/zdravlje
+/api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai, /api/prompt, /api/spaja-pro, /api/cron/evolucija, /api/cron/zdravlje
 
 ## Pokretanje
 

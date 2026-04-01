@@ -1,5 +1,7 @@
 import { platforme, getUkupniProgres, getBrojAktivnih } from './platforme';
 import { itProizvodi, getProizvodiVisokogUticaja } from './it-proizvodi';
+import { spajaProVerzije, getAktivneVerzije } from './spaja-pro';
+import { promptovi, getPromptKategorije } from './prompt';
 
 export function getStatistike() {
   return {
@@ -10,5 +12,9 @@ export function getStatistike() {
     proizvodiVisokogUticaja: getProizvodiVisokogUticaja().length,
     kategorijePlatformi: 6,
     kategorijeProizvoda: 8,
+    spajaProVerzija: spajaProVerzije.length,
+    spajaProAktivnih: getAktivneVerzije().length,
+    ukupnoPromptova: promptovi.length,
+    promptKategorija: getPromptKategorije().length,
   };
 }

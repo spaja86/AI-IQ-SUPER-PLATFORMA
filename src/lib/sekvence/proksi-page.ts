@@ -106,7 +106,7 @@ export const proksiSekvence: Sekvenca[] = [
         {
           naziv: 'Proksi Mreža',
           ikona: '📡',
-          deca: ['Signali', 'Čvorovi'],
+          deca: ['Signali', 'Čvorovi', 'WiFi Antena Mreža'],
         },
         {
           naziv: 'Signali',
@@ -140,7 +140,8 @@ export const proksiSekvence: Sekvenca[] = [
     podaci: {
       opis: 'Proksi mreža Digitalne Industrije — ekscentrični simulator hipsoneuričnog signala.',
       dugmad: [
-        { tekst: 'Dashboard', href: '/dashboard' },
+        { tekst: 'WiFi Antena', href: '/proksi-wifi-antena' },
+        { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
         { tekst: 'Omega AI', href: '/omega-ai', stil: 'sekundarno' },
         { tekst: 'Mobilna Mreža', href: '/mobilna-mreza', stil: 'sekundarno' },
         { tekst: 'Deploy', href: '/deploy', stil: 'sekundarno' },

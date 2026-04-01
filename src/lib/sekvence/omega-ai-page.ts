@@ -12,34 +12,34 @@ export const omegaAISekvence: Sekvenca[] = [
   {
     id: 'omega-hero',
     tip: 'hero',
-    naslov: '🧠 OMEGA AI',
-    podnaslov: '21 AI Persona — Oktavni dispatch + Matrično jezgro + Neurološka mreža',
+    naslov: '🧠 OMEGA AI — SpajaPro Prompt',
+    podnaslov: '21 AI Persona × SpajaPro Prompt Engine — Oktavni dispatch + Matrično jezgro + Neurološka mreža',
     ikona: '🧠',
     redosled: 1,
     podaci: {
-      opis: 'OMEGA AI je sistem od 21 specijalizovane AI persone organizovanih u 8 oktavnih nivoa. Sekvencionalna sistematizacija eksplicitira matrično jezgro (8×8 matrica odaziva) sa neurološkom mrežom sinaptičkih veza između persona.',
+      opis: 'OMEGA AI je sistem od 21 specijalizovane AI persone, svaka sa SpajaPro Prompt-om, organizovanih u 8 oktavnih nivoa. SpajaPro engine (v6-15) zamenjuje ChatGPT i obrađuje sve Prompt-ove.',
       dugmad: [
-        { tekst: 'AI Platforma', href: '/ai-platforma' },
-        { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
+        { tekst: 'Prompt Sistem', href: '/prompt' },
+        { tekst: 'SpajaPro Engine', href: '/spaja-pro' },
+        { tekst: 'AI Platforma', href: '/ai-platforma', stil: 'sekundarno' },
       ],
     },
   },
   {
     id: 'omega-tekst',
     tip: 'tekst',
-    naslov: 'Sekvencionalna sistematizacija u oktavnom sistemu',
+    naslov: 'SpajaPro Prompt u oktavnom sistemu',
     redosled: 2,
     podaci: {
-      sadrzaj: `OMEGA AI koristi trostruki sistem: elastičnu sinhronizaciju (skeleton → zavrseno), matrično jezgro (8×8 matrica sekvencionih odaziva) i neurološku mrežu (sinaptičke veze između persona).
+      sadrzaj: `OMEGA AI koristi SpajaPro Prompt engine (v6-15) umesto ChatGPT-a. Trostruki sistem: elastična sinhronizacija (skeleton → zavrseno), matrično jezgro (8×8 matrica sekvencionih odaziva) i neurološka mreža (sinaptičke veze između persona). Svaka persona ima SpajaPro Prompt.
 
-Matrično jezgro modeluje interakcije između oktava — ekscitatorni odazivi (napred u sekvenci), inhibitorni (nazad — feedback), i modulatorni (samo-odaziv + petlja Evolucija↔Temelj). Svaka veza ima jačinu (0–1) i latenciju.
-
-Neurološka mreža modeluje persona kao čvorove sa sinaptičkim vezama: intra-oktavne (unutar iste oktave), inter-oktavne (ka susednim) i povratne (Evolucija↔Temelj). Svaki čvor ima nivo aktivacije prema prioritetu.`,
+Matrično jezgro modeluje interakcije između oktava — ekscitatorni, inhibitorni i modulatorni Prompt odazivi. Neurološka mreža modeluje persona kao čvorove sa sinaptičkim Prompt vezama.`,
       istaknuteStavke: [
         `Matrično jezgro: ${matrica.dimenzija}×${matrica.dimenzija} matrica, ${matrica.aktivnihVeza} aktivnih veza, prosečna jačina ${matrica.prosecnaJacina}`,
         `Neurološka mreža: ${neuro.ukupnoCvorova} čvorova, ${neuro.ukupnoSinapsi} sinapsi, prosečna aktivacija ${neuro.prosecnaAktivacija}`,
         `Elastična sinhronizacija: ${sync.oktave.length} oktava × 5 faza = sekvencijalni mod`,
-        'Petlja Evolucija↔Temelj: modulatorni odaziv sa jačinom 0.7 za kontinuirani napredak',
+        'SpajaPro Prompt: svaka persona koristi SpajaPro engine za sve zadatke',
+        'Petlja Evolucija↔Temelj: modulatorni Prompt odaziv jačine 0.7',
       ],
     },
   },
@@ -114,21 +114,21 @@ Neurološka mreža modeluje persona kao čvorove sa sinaptičkim vezama: intra-o
   {
     id: 'omega-kartice',
     tip: 'kartice',
-    naslov: '👥 Sve OMEGA AI Persone',
+    naslov: '👥 Sve OMEGA AI Persone sa SpajaPro Prompt-om',
     redosled: 7,
     podaci: {
       kartice: omegaPersone.map((p) => {
         const cvor = neuro.cvorovi.find((c) => c.personaId === p.id);
         return {
           naslov: `${p.ikona} ${p.naziv}`,
-          opis: p.opis,
+          opis: `${p.opis} | Prompt: ${p.prompt}`,
           ikona: p.ikona,
           oznake: [
             `Okt. ${p.oktavniNivo}`,
             p.kategorija,
             p.prioritet,
+            `SpajaPro v${p.spajaProVerzija}`,
             `${cvor?.sinapse.length ?? 0} sinapsi`,
-            `akt: ${cvor?.aktivacija ?? 0}`,
           ],
         };
       }),
@@ -172,20 +172,20 @@ Neurološka mreža modeluje persona kao čvorove sa sinaptičkim vezama: intra-o
   {
     id: 'omega-cta',
     tip: 'cta',
-    naslov: '🚀 OMEGA AI — Kompletni sistem',
+    naslov: '🚀 OMEGA AI × SpajaPro Prompt — Kompletni sistem',
     redosled: 10,
     podaci: {
-      opis: '21 AI persona × 8 oktava × matrično jezgro × neurološka mreža = sekvencionalna sistematizacija.',
+      opis: '21 AI persona × SpajaPro Prompt × 8 oktava × matrično jezgro × neurološka mreža = autonomni ekosistem.',
       stavke: [
         { naziv: 'Persone', vrednost: omegaPersone.length, ikona: '👥' },
         { naziv: 'Matrica', vrednost: `${matrica.aktivnihVeza} veza`, ikona: '🧮' },
         { naziv: 'Sinapse', vrednost: neuro.ukupnoSinapsi, ikona: '🧬' },
-        { naziv: 'Status', vrednost: '✅', ikona: '✅' },
+        { naziv: 'SpajaPro', vrednost: 'v6-15', ikona: '🌟' },
       ],
       dugmad: [
-        { tekst: 'AI Platforma', href: '/ai-platforma' },
-        { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
-        { tekst: 'Ekosistem', href: '/ekosistem', stil: 'sekundarno' },
+        { tekst: 'Prompt Sistem', href: '/prompt' },
+        { tekst: 'SpajaPro Engine', href: '/spaja-pro' },
+        { tekst: 'AI Platforma', href: '/ai-platforma', stil: 'sekundarno' },
       ],
     },
   },

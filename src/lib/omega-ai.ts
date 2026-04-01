@@ -15,6 +15,8 @@ export interface OmegaPersona extends OmegaAI {
   oktavniNivo: OktavniNivo;
   prioritet: 'kritican' | 'visok' | 'srednji' | 'nizak';
   aktivna: boolean;
+  prompt: string;
+  spajaProVerzija: number;
 }
 
 /**
@@ -42,6 +44,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'kritican',
     aktivna: true,
     odgovornosti: ['Sistemska arhitektura', 'Tehnološke odluke', 'Skalabilnost', 'Pattern dizajn'],
+    prompt: 'Dizajniraj sistemsku arhitekturu. Analiziraj strukturu, predloži poboljšanja, optimizuj skalabilnost.',
+    spajaProVerzija: 10,
   },
   {
     id: 'graditelj',
@@ -54,6 +58,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'kritican',
     aktivna: true,
     odgovornosti: ['Implementacija', 'Feature development', 'Code review', 'Refactoring'],
+    prompt: 'Implementiraj novu funkcionalnost. Napiši kod, testove, izvrši code review. TypeScript + Next.js 16.',
+    spajaProVerzija: 10,
   },
 
   // Oktava 2 — Zaštita
@@ -68,6 +74,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'kritican',
     aktivna: true,
     odgovornosti: ['Bezbednost', 'Autentifikacija', 'Autorizacija', 'Security audit'],
+    prompt: 'Izvrši bezbednosni audit. Proveri autentifikaciju, autorizaciju, enkripciju. Detektuj ranjivosti.',
+    spajaProVerzija: 7,
   },
   {
     id: 'lekar',
@@ -80,6 +88,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'kritican',
     aktivna: true,
     odgovornosti: ['Dijagnostika', 'Bug fixing', 'Auto-popravka', 'Health monitoring'],
+    prompt: 'Dijagnostikuj sistem. Pokreni 11 provera, identifikuj probleme, primeni popravke. Auto-popravka aktivan.',
+    spajaProVerzija: 8,
   },
 
   // Oktava 3 — Kvalitet
@@ -94,6 +104,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'visok',
     aktivna: true,
     odgovornosti: ['Testiranje', 'QA', 'Test automatizacija', 'Regression testing'],
+    prompt: 'Testiraj kvalitet koda. Unit testovi, integration testovi, regression testing. Osiguraj pokrivenost.',
+    spajaProVerzija: 8,
   },
   {
     id: 'dokumentar',
@@ -106,6 +118,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'visok',
     aktivna: true,
     odgovornosti: ['Dokumentacija', 'API docs', 'Changelog', 'Knowledge base'],
+    prompt: 'Napiši dokumentaciju. API docs, changelog, knowledge base. Jasno i precizno sa primerima.',
+    spajaProVerzija: 8,
   },
 
   // Oktava 4 — Kreacija
@@ -120,6 +134,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['UI/UX dizajn', 'Vizuelni identitet', 'Responsivnost', 'Accessibility'],
+    prompt: 'Kreiraj UI/UX rešenje. Vizuelni identitet, responsivnost, accessibility. Tailwind CSS 4 + React 19.',
+    spajaProVerzija: 9,
   },
   {
     id: 'kreator',
@@ -132,6 +148,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Content creation', 'Resursi', 'Šabloni', 'Primeri'],
+    prompt: 'Kreiraj sadržaj. Šabloni, primeri, resursi, multimedija. SpajaPro 9 multimodalni Prompt aktivan.',
+    spajaProVerzija: 9,
   },
 
   // Oktava 5 — Optimizacija
@@ -146,6 +164,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'visok',
     aktivna: true,
     odgovornosti: ['Performanse', 'Bundle optimization', 'Caching', 'Core Web Vitals'],
+    prompt: 'Optimizuj performanse. Bundle size, caching, lazy loading, Core Web Vitals. Merenje pre i posle.',
+    spajaProVerzija: 8,
   },
   {
     id: 'skalator',
@@ -158,6 +178,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'visok',
     aktivna: true,
     odgovornosti: ['Skaliranje', 'Load balancing', 'CDN', 'Edge computing'],
+    prompt: 'Skaliraj infrastrukturu. Load balancing, CDN, edge computing. Nulto vreme zastoja.',
+    spajaProVerzija: 10,
   },
 
   // Oktava 6 — Inteligencija
@@ -172,6 +194,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Istraživanje', 'Novi pristupi', 'Prototipovi', 'Benchmarking'],
+    prompt: 'Istraži nove tehnologije. Prototipovi, benchmarking. SpajaPro 8 analitički Prompt za duboku analizu.',
+    spajaProVerzija: 8,
   },
   {
     id: 'analiticar',
@@ -184,6 +208,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Analitika', 'Metrike', 'Trendovi', 'Izveštaji'],
+    prompt: 'Analiziraj podatke, metrike i trendove. Generiši izveštaje sa vizualizacijom. Prediktivna analitika.',
+    spajaProVerzija: 8,
   },
 
   // Oktava 7 — Koordinacija
@@ -198,6 +224,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'visok',
     aktivna: true,
     odgovornosti: ['Strategija', 'Roadmap', 'Prioritizacija', 'Planiranje'],
+    prompt: 'Planiraj strategiju razvoja. Roadmap, prioritizacija, resursi. Kratkoročno i dugoročno planiranje.',
+    spajaProVerzija: 10,
   },
   {
     id: 'mentor',
@@ -210,6 +238,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Obuka', 'Mentoring', 'Best practices', 'Knowledge sharing'],
+    prompt: 'Obučavaj i vodi tim. Best practices, knowledge sharing, mentoring. Prompt za edukaciju.',
+    spajaProVerzija: 9,
   },
   {
     id: 'integrator',
@@ -222,6 +252,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'visok',
     aktivna: true,
     odgovornosti: ['Integracija', 'API-jevi', 'Webhook-ovi', 'Sinhronizacija'],
+    prompt: 'Integriši sisteme i servise. API-jevi, webhook-ovi, sinhronizacija. SpajaPro 10 multi-agent Prompt.',
+    spajaProVerzija: 10,
   },
   {
     id: 'komunikator',
@@ -234,6 +266,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Komunikacija', 'Notifikacije', 'Eskalacija', 'Izveštavanje'],
+    prompt: 'Upravljaj komunikacijom. Notifikacije, eskalacija, izveštavanje. Prompt za jasnu komunikaciju.',
+    spajaProVerzija: 9,
   },
   {
     id: 'finansijer',
@@ -246,6 +280,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Finansije', 'Budžeti', 'ROI', 'Cost optimization'],
+    prompt: 'Upravljaj finansijama. Budžeti, ROI, cost optimization. Prompt za finansijsku analizu.',
+    spajaProVerzija: 8,
   },
 
   // Oktava 8 — Evolucija
@@ -260,6 +296,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Evolucija', 'Nadogradnja', 'Inovacije', 'Napredak'],
+    prompt: 'Evolviraj sistem. Nadogradnja, inovacije, napredak. SpajaPro 13 samo-evolucioni Prompt.',
+    spajaProVerzija: 13,
   },
   {
     id: 'monitor',
@@ -272,6 +310,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'visok',
     aktivna: true,
     odgovornosti: ['Monitoring', 'Alerting', 'Uptime', 'Anomaly detection'],
+    prompt: 'Nadgledaj operacije. Real-time alerting, uptime monitoring, anomaly detection.',
+    spajaProVerzija: 8,
   },
   {
     id: 'ekolog',
@@ -284,6 +324,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'srednji',
     aktivna: true,
     odgovornosti: ['Ekosistem', 'Zdravlje', 'Balans', 'Sustainability'],
+    prompt: 'Brine o zdravlju ekosistema. Balans resursa, sustainability. Prompt za holistički pristup.',
+    spajaProVerzija: 10,
   },
   {
     id: 'vizionar',
@@ -296,6 +338,8 @@ export const omegaPersone: OmegaPersona[] = [
     prioritet: 'nizak',
     aktivna: true,
     odgovornosti: ['Vizija', 'Budućnost', 'Trendovi', 'Dugoročno planiranje'],
+    prompt: 'Vizija budućnosti. Trendovi, inovativni koncepti. SpajaPro 15 univerzalni Prompt.',
+    spajaProVerzija: 15,
   },
 ];
 
