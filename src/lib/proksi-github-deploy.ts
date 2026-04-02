@@ -49,7 +49,7 @@ export interface DeployGrana {
   transferProtokol: TransferProtokol;
   kapacitetTransfera: string;
   latencija: string;
-  poslednjideploy: string;
+  poslednjiDeploy: string;
 }
 
 export interface ProksiGitHubVeza {
@@ -128,7 +128,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'hibridni-max',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.001 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/maximize-deploy-on-all-branches',
@@ -141,7 +141,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'ekscentricni-burst',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.001 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/io-openui-ao-replace-chatgpt-with-spajapro-6-15',
@@ -154,7 +154,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'eklipticni-orbit',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.002 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/spaja-univerzalni-prompt',
@@ -167,7 +167,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'rezonantni-sync',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.002 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/add-proksi-za-wifi-antenu',
@@ -180,7 +180,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'koncentricni-stream',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.003 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/omega-projekt-evolucija',
@@ -193,7 +193,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'hibridni-max',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.002 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/performance-issues-vercel-deployment',
@@ -206,7 +206,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'ekscentricni-burst',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.002 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/create-full-sequences',
@@ -219,7 +219,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'eklipticni-orbit',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.003 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/analizirati-sve-repositeoria',
@@ -232,7 +232,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'koncentricni-stream',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.003 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/add-omega-ai-link',
@@ -245,7 +245,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'rezonantni-sync',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.002 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/ai-iq-super-platform-status',
@@ -258,7 +258,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'hibridni-max',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.002 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/create-platform-skeleton',
@@ -271,7 +271,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'koncentricni-stream',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.003 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/create-super-platform-repository',
@@ -284,7 +284,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'ekscentricni-burst',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.003 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'copilot/add-websites-to-digital-industry-repo',
@@ -297,7 +297,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'eklipticni-orbit',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.003 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'dependabot/npm_and_yarn/next-16.2.2',
@@ -310,7 +310,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'rezonantni-sync',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.004 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
   {
     id: 'dependabot/npm_and_yarn/eslint-config-next-16.2.2',
@@ -323,7 +323,7 @@ export const deployGrane: DeployGrana[] = [
     transferProtokol: 'koncentricni-stream',
     kapacitetTransfera: '10²²⁸ TB/s',
     latencija: '0.004 ms',
-    poslednjideploy: new Date().toISOString(),
+    poslednjiDeploy: new Date().toISOString(),
   },
 ];
 
