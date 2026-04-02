@@ -4,6 +4,7 @@ import { runDiagnostics } from '@/lib/auto-repair';
 import { getDispatchSummary } from '@/lib/omega-ai-dispatch';
 import { getAktivneVerzije, spajaProVerzije } from '@/lib/spaja-pro';
 import { getBrojPromptova, getPromptKategorije } from '@/lib/prompt';
+import { getDeployStatistike, proksiGitHubDeploySistem } from '@/lib/proksi-github-deploy';
 
 export async function GET() {
   const stats = getStatistike();
@@ -16,12 +17,12 @@ export async function GET() {
     platforma: 'AI IQ SUPER PLATFORMA',
     kompanija: 'SPAJA',
     verzija: '6.3.1',
-    arhitektura: 'sekvence + omega-evolucija + proksi + mobilna-mreza + prompt + spajapro + eksterni-sajt',
+    arhitektura: 'sekvence + omega-evolucija + proksi + mobilna-mreza + prompt + spajapro + eksterni-sajt + proksi-github-deploy',
     timestamp: new Date().toISOString(),
     statistike: stats,
     zdravlje: diagnostics.zdravlje,
-    stranice: 18,
-    apiRute: 9,
+    stranice: 19,
+    apiRute: 10,
     omegaAI: {
       persone: dispatch.ukupnoPersona,
       oktave: dispatch.ukupnoOktava,
@@ -56,6 +57,15 @@ export async function GET() {
       centrale: 4,
       servisi: 5,
       proksiIntegracija: 'potpuna',
+    },
+    proksiGitHubDeploy: {
+      status: 'aktivan',
+      verzija: proksiGitHubDeploySistem.verzija,
+      spektar: proksiGitHubDeploySistem.spektar,
+      baznoDeploySistem: proksiGitHubDeploySistem.baznoDeploySistem,
+      proksiIntegracija: proksiGitHubDeploySistem.proksiIntegracija,
+      ukupniKapacitet: proksiGitHubDeploySistem.ukupniKapacitet,
+      ...getDeployStatistike(),
     },
   });
 }
