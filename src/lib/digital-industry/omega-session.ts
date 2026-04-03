@@ -134,12 +134,13 @@ export class ΩSessionManager {
   }
 
   // cleanupExpiredSessions — briše istekle sesije
+  // Briše sesije koje su neaktivne i čiji je access token istekao pre više od 24 sata
   static cleanupExpiredSessions(): number {
-    const now = Date.now();
+    const cleanupCutoff = Date.now() - 24 * 60 * 60 * 1000; // 24h posle isteka
     let removed = 0;
 
     for (const [id, session] of sessionStore.entries()) {
-      if (!session.active || now > session.expiresAt + REFRESH_TOKEN_TTL * 1000) {
+      if (!session.active && session.expiresAt < cleanupCutoff) {
         sessionStore.delete(id);
         removed++;
       }

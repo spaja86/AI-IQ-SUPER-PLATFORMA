@@ -40,6 +40,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Email je obavezan' }, { status: 400 });
   }
 
+  if (!body.password && !body.oauthCode) {
+    return NextResponse.json({ error: 'Lozinka ili OAuth kod je obavezan' }, { status: 400 });
+  }
+
   const result = await ΩAuthProvider.login(body);
 
   if (!result) {

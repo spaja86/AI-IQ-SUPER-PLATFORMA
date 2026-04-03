@@ -11,7 +11,7 @@ export class ΩCryptoEngine {
   private static readonly KEY_LENGTH = 32; // 256 bits
   private static readonly IV_LENGTH = 16;
   private static readonly SALT_LENGTH = 32;
-  private static readonly PBKDF2_ITERATIONS = 310000; // OWASP preporuka za Argon2id ekvivalent
+  private static readonly PBKDF2_ITERATIONS = 310000; // OWASP preporuka za PBKDF2-SHA512 (2023)
   private static readonly PBKDF2_KEYLEN = 64;
   private static readonly PBKDF2_DIGEST = 'sha512';
 
@@ -41,7 +41,8 @@ export class ΩCryptoEngine {
   }
 
   // hashPassword — kriptografski hash lozinke (PBKDF2-SHA512 sa solju)
-  // Ekvivalent Argon2id u okruženjima bez native modula
+  // Prati OWASP preporuku za PBKDF2: 310.000 iteracija sa SHA-512
+  // Napomena: Za maksimalnu bezbednost u produkciji, koristiti Argon2id (zahteva native modul)
   static async hashPassword(pwd: string): Promise<string> {
     const { pbkdf2 } = await import('crypto');
     const salt = randomBytes(this.SALT_LENGTH);

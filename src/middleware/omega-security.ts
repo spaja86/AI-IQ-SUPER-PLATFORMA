@@ -12,8 +12,30 @@ const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 // Format: IP -> { attempts, blockedUntil }
 const bruteForceStore = new Map<string, { attempts: number; blockedUntil: number }>();
 
-// Poznate maliciozne IP adrese (primer lista — u produkciji: dinamički iz threat intelligence)
+// Poznate maliciozne IP adrese (u produkciji: dinamički iz threat intelligence)
 const BLOCKED_IPS = new Set<string>();
+
+// loadBlockedIPs — učitava blokirane IP adrese iz konfiguracije
+export function loadBlockedIPs(ips: string[]): void {
+  for (const ip of ips) {
+    BLOCKED_IPS.add(ip);
+  }
+}
+
+// unblockIP — uklanja IP iz blok liste
+export function unblockIP(ip: string): void {
+  BLOCKED_IPS.delete(ip);
+}
+
+// blockIP — dodaje IP na blok listu
+export function blockIP(ip: string): void {
+  BLOCKED_IPS.add(ip);
+}
+
+// Inicijalizacija iz environment variable (format: "1.2.3.4,5.6.7.8")
+if (process.env.OMEGA_BLOCKED_IPS) {
+  loadBlockedIPs(process.env.OMEGA_BLOCKED_IPS.split(',').map((ip) => ip.trim()).filter(Boolean));
+}
 
 // Konstante
 const RATE_LIMIT_ANON = 100; // 100 req/min za anonimne korisnike
