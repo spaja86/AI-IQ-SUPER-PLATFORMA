@@ -12,10 +12,8 @@ const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 // Format: IP -> { attempts, blockedUntil }
 const bruteForceStore = new Map<string, { attempts: number; blockedUntil: number }>();
 
-// Poznate maliciozne IP adrese (primer lista — u produkciji: dinamički)
-const BLOCKED_IPS = new Set<string>([
-  '0.0.0.0',
-]);
+// Poznate maliciozne IP adrese (primer lista — u produkciji: dinamički iz threat intelligence)
+const BLOCKED_IPS = new Set<string>();
 
 // Konstante
 const RATE_LIMIT_ANON = 100; // 100 req/min za anonimne korisnike

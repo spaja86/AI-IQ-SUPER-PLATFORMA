@@ -73,7 +73,7 @@ export class ΩAuditLogger {
     return { valid: true };
   }
 
-  // getRecentEvents — dohvata novije ereignisse (sa paginacijom)
+  // getRecentEvents — dohvata novije događaje (sa paginacijom)
   static getRecentEvents(limit = 100, offset = 0): ΩAuditEvent[] {
     const sorted = [...auditLog].sort((a, b) => b.timestamp - a.timestamp);
     return sorted.slice(offset, offset + limit);

@@ -132,7 +132,7 @@ export default function SecurityPage() {
             📋 Poslednji Audit Događaji
           </h2>
           {recentEvents.length === 0 ? (
-            <p className="text-zinc-500 text-sm">Nema zabeleaženih događaja</p>
+            <p className="text-zinc-500 text-sm">Nema zabeleženih događaja</p>
           ) : (
             <div className="space-y-2">
               {recentEvents.map((event) => (

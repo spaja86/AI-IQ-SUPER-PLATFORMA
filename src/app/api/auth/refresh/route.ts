@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   }
 
   ΩAuditLogger.log({
-    userId: result.accessToken.scope.join(','),
+    userId: result.userId,
     action: 'TOKEN_REFRESH_SUCCESS',
     resource: '/api/auth/refresh',
     ip,

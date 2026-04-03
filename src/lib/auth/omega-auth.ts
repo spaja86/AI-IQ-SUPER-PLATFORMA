@@ -103,7 +103,7 @@ export class ΩAuthProvider {
   // refreshToken — obnavlja access token (Token Rotation)
   static async refreshAccessToken(
     refreshTokenValue: string
-  ): Promise<{ accessToken: ΩToken; refreshToken: ΩToken } | null> {
+  ): Promise<{ accessToken: ΩToken; refreshToken: ΩToken; userId: string } | null> {
     const tokenHash = ΩCryptoEngine.hashSHA256(refreshTokenValue);
 
     // Verifikuj refresh token
@@ -133,7 +133,7 @@ export class ΩAuthProvider {
     );
     const newRefreshToken = await this.issueRefreshToken(identity);
 
-    return { accessToken, refreshToken: newRefreshToken };
+    return { accessToken, refreshToken: newRefreshToken, userId: stored.userId };
   }
 
   // revokeAll — opoziva sve tokene korisnika
@@ -221,8 +221,9 @@ export class ΩAuthProvider {
   }
 
   // registerAPIKey — registruje API ključ za identitet
+  // API ključ se čuva kao HMAC-SHA256 sa server-side tajnim ključem (ne obični SHA-256)
   static registerAPIKey(key: string, identity: ΩIdentity): void {
-    apiKeyStore.set(ΩCryptoEngine.hashSHA256(key), { identity });
+    apiKeyStore.set(ΩCryptoEngine.hmacSHA256(key, this.JWT_SECRET), { identity });
   }
 
   // extractTokenFromHeader — izvlači token iz Authorization headera
@@ -281,9 +282,9 @@ export class ΩAuthProvider {
     }
   }
 
-  // Private: verifikuje API ključ
+  // Private: verifikuje API ključ (koristi HMAC-SHA256 sa server-side tajnim ključem)
   private static verifyAPIKey(key: string): ΩIdentity | null {
-    const hash = ΩCryptoEngine.hashSHA256(key);
+    const hash = ΩCryptoEngine.hmacSHA256(key, this.JWT_SECRET);
     const stored = apiKeyStore.get(hash);
     return stored?.identity ?? null;
   }
