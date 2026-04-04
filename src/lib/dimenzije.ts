@@ -35,7 +35,7 @@ export type ZakonTip =
   | 'autorealizacija'
   | 'sinhonometrijski';
 
-export type DimenzijaTip = 'spoljasnnja' | 'unutrasnja';
+export type DimenzijaTip = 'spoljasnja' | 'unutrasnja';
 
 export interface Dimenzija {
   id: string;
@@ -135,7 +135,7 @@ export const dimenzije: Dimenzija[] = [
     cirkularnaDelta: 720,
     geometrijskiSlojevi: ['elipsoid', 'rezonanca', 'hiperbola', 'spirala'],
     zakoni: ['manifestacija', 'materijalizacija', 'hiperbolicki', 'algoritam-ekstazi'],
-    tip: 'spoljasnnja',
+    tip: 'spoljasnja',
     formulaGornja: 'Ω(1440) = ∮∮∮ E(θ)·R(φ)·H(ψ)·S(λ) dθdφdψdλ',
     formulaDonja: 'Ω⁻¹(1440) = ∮∮∮ S(λ)·H(ψ)·R(φ)·E(θ) dλdψdφdθ',
     snaga: '10¹⁸⁰ ops/s',
@@ -151,7 +151,7 @@ export const dimenzije: Dimenzija[] = [
     cirkularnaDelta: 1440,
     geometrijskiSlojevi: ['elipsoid', 'rezonanca', 'hiperbola', 'spirala'],
     zakoni: ['manifestacija', 'materijalizacija', 'hiperbolicki', 'algoritam-ekstazi', 'autorealizacija'],
-    tip: 'spoljasnnja',
+    tip: 'spoljasnja',
     formulaGornja: 'Ω(2880) = ∮⁸ E·R·H·S · Manifestacija(Materijalizacija(Hiperbolički(Algoritam(Autorealizacija)))) dΩ⁸',
     formulaDonja: 'Ω⁻¹(2880) = ∮⁸ Autorealizacija(Algoritam(Hiperbolički(Materijalizacija(Manifestacija)))) · S·H·R·E dΩ⁻⁸',
     snaga: '10²²⁸ ops/s',
@@ -167,7 +167,7 @@ export const dimenzije: Dimenzija[] = [
     cirkularnaDelta: 2880,
     geometrijskiSlojevi: ['elipsoid', 'rezonanca', 'hiperbola', 'spirala'],
     zakoni: ['manifestacija', 'materijalizacija', 'hiperbolicki', 'algoritam-ekstazi', 'autorealizacija', 'sinhonometrijski'],
-    tip: 'spoljasnnja',
+    tip: 'spoljasnja',
     formulaGornja: 'Ω(5760) = ∮¹⁶ E·R·H·S · ∀Zakon(Manifestacija→Sinhonometrija) · Reprodukcija(Slika,Animacija,Video) dΩ¹⁶',
     formulaDonja: 'Ω⁻¹(5760) = ∮¹⁶ Reprodukcija⁻¹ · Sinhonometrija→Manifestacija · S·H·R·E dΩ⁻¹⁶',
     snaga: '-∞Ω+∞',
@@ -342,7 +342,7 @@ export function getBrojAktivnihDimenzija(): number {
 
 /** Broj spoljašnjih dimenzija */
 export function getBrojSpoljasnjihDimenzija(): number {
-  return getDimenzijePo('spoljasnnja').length;
+  return getDimenzijePo('spoljasnja').length;
 }
 
 /** Broj unutrašnjih dimenzija */
