@@ -17,3 +17,4 @@ export { mobilnaMrezaSekvence } from './mobilna-mreza-page';
 export { promptSekvence } from './prompt-page';
 export { spajaProSekvence } from './spaja-pro-page';
 export { proksiGitHubDeploySekvence } from './proksi-github-deploy-page';
+export { dimenzijeSekvence } from './dimenzije-page';
