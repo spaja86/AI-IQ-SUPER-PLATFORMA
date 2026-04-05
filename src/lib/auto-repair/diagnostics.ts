@@ -357,6 +357,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/proksi-status aktivan — ${proksiSignali.length} signala, ${proksiCvorovi.length} čvorova`
     ),
+
+    // ── Autofinish #39: Mobilna Mreža Status ────────────────────────────
+
+    createCheck(
+      'mobilna-mreza-status-check',
+      'Mobilna Mreža Status API',
+      'Provera /api/mobilna-mreza-status endpointa — centrale, servisi, pozivni',
+      'ok',
+      `/api/mobilna-mreza-status aktivan — ${mobilneCentrale.length} centrala, ${mobilniServisi.length} servisa`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
