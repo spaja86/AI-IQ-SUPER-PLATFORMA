@@ -8,32 +8,20 @@ import {
   OBAVEZNI_ZAHTEVI,
 } from '@/lib/igrice';
 import { dimenzije } from '@/lib/dimenzije';
+import { itProizvodi } from '@/lib/it-proizvodi';
 
 const aktivnihIgrica = getBrojAktivnihIgrica();
 const kategorije = getSveKategorijeIgrica();
 
-const proizvodiNazivi: Record<string, string> = {
-  'spaja-accelerator': '⚡ SPAJA Accelerator',
-  'spaja-turbo': '🔥 SPAJA Turbo',
-  'spaja-optimizer': '⚙️ SPAJA Optimizer',
-  'spaja-monitor': '📊 SPAJA Monitor',
-  'spaja-logger': '📝 SPAJA Logger',
-  'spaja-shield': '🛡️ SPAJA Shield',
-  'spaja-firewall': '🔒 SPAJA Firewall',
-  'spaja-crypto': '🔐 SPAJA Crypto',
-  'omega-ai-engine': '🧠 OMEGA AI Engine',
-  'spajapro-prompt-engine': '🌟 SpajaPro Prompt Engine',
-  'spaja-deploy': '🚀 SPAJA Deploy',
-  'spaja-cicd': '🔄 SPAJA CI/CD',
-  'spaja-integrator': '🔗 SPAJA Integrator',
-  'spaja-connector': '🔌 SPAJA Connector',
-  'spaja-api-gateway': '🌐 SPAJA API Gateway',
-  'spaja-data-sync': '📡 SPAJA Data Sync',
-  'spaja-messenger': '💬 SPAJA Messenger',
-  'spaja-metrics': '📈 SPAJA Metrics',
-  'digitalni-kompjuter': '🖥️ Digitalni Kompjuter',
-  'digitalni-brauzer': '🌐 Digitalni Brauzer',
-};
+/** Generiše mapu id → "ikona naziv" iz IT proizvoda (single source of truth) */
+const proizvodiNazivi: Record<string, string> = Object.fromEntries(
+  itProizvodi.map((p) => [p.id, `${p.ikona} ${p.naziv}`]),
+);
+
+/** Vraća prikaz naziva za proizvod ID */
+function getNazivProizvoda(id: string): string {
+  return proizvodiNazivi[id] ?? id;
+}
 
 export const igriceSekvence: Sekvenca[] = [
   {
@@ -114,7 +102,7 @@ export const igriceSekvence: Sekvenca[] = [
           i.kategorija,
           i.status,
           `D: ${i.podrazumevanaDimenzija}`,
-          ...i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p),
+          ...i.preporuceniProizvodi.map((p) => getNazivProizvoda(p)),
         ],
       })),
     },
@@ -130,7 +118,7 @@ export const igriceSekvence: Sekvenca[] = [
         `${i.ikona} ${i.naziv}`,
         i.kategorija,
         i.podrazumevanaDimenzija,
-        i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p).join(', '),
+        i.preporuceniProizvodi.map((p) => getNazivProizvoda(p)).join(', '),
         i.status,
       ]),
     },
@@ -188,11 +176,11 @@ export const igriceSekvence: Sekvenca[] = [
     podaci: {
       kartice: igrice.map((i) => ({
         naslov: `${i.ikona} ${i.naziv}`,
-        opis: `Preporučeno: ${i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p).join(', ')}`,
+        opis: `Preporučeno: ${i.preporuceniProizvodi.map((p) => getNazivProizvoda(p)).join(', ')}`,
         ikona: i.ikona,
         oznake: [
-          `Zahtevi: ${OBAVEZNI_ZAHTEVI.map((z) => proizvodiNazivi[z] ?? z).join(' + ')}`,
-          ...i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p),
+          `Zahtevi: ${OBAVEZNI_ZAHTEVI.map((z) => getNazivProizvoda(z)).join(' + ')}`,
+          ...i.preporuceniProizvodi.map((p) => getNazivProizvoda(p)),
         ],
       })),
     },
@@ -227,7 +215,7 @@ export const igriceSekvence: Sekvenca[] = [
         {
           naziv: 'IT Proizvodi',
           ikona: '📦',
-          deca: [...new Set(igrice.flatMap((i) => i.preporuceniProizvodi))].map((p) => proizvodiNazivi[p] ?? p),
+          deca: [...new Set(igrice.flatMap((i) => i.preporuceniProizvodi))].map((p) => getNazivProizvoda(p)),
         },
         {
           naziv: 'Dimenzionalno Pitanje (D)',

@@ -607,8 +607,8 @@ export function getSvePreporuceneProizvode(): string[] {
   return [...new Set(svi)];
 }
 
-/** Proverava da li igrač ima obavezne zahteve (Digitalni Kompjuter + Brauzer) */
-export function proveriZahteve(): { kompjuter: boolean; brauzer: boolean; spreman: boolean } {
+/** Vraća podrazumevani status zahteva (Digitalni Kompjuter + Brauzer su dostupni u sistemu) */
+export function getDefaultZahteviStatus(): { kompjuter: boolean; brauzer: boolean; spreman: boolean } {
   return {
     kompjuter: true,
     brauzer: true,
