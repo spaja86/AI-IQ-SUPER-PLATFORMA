@@ -58,6 +58,8 @@ export async function GET() {
     '/api/kategorije-pregled', '/api/ekosistem-zdravlje',
     '/api/verzija-istorija', '/api/omega-ai-oktave', '/api/proksi-kapacitet',
     '/api/mobilna-statistika', '/api/platforma-arhitektura',
+    '/api/dimenzije-mapa', '/api/spaja-pro-benchmark', '/api/igrice-kategorije',
+    '/api/evolucija-ciklus', '/api/full-diagnostika-pregled',
   ];
 
   return NextResponse.json({

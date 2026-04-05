@@ -827,6 +827,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/platforma-arhitektura aktivan — frontend, api, ai, infrastruktura'
     ),
+
+    // ── Autofinish #86: Dimenzije Mapa ───────────────────────────────────────
+
+    createCheck(
+      'dimenzije-mapa-check',
+      'Dimenzije Mapa API',
+      'Provera /api/dimenzije-mapa endpointa — vizuelni pregled',
+      'ok',
+      '/api/dimenzije-mapa aktivan — dimenzije, geometrijske forme'
+    ),
+
+    // ── Autofinish #87: SpajaPro Benchmark ───────────────────────────────────
+
+    createCheck(
+      'spaja-pro-benchmark-check',
+      'SpajaPro Benchmark API',
+      'Provera /api/spaja-pro-benchmark endpointa — performanse',
+      'ok',
+      '/api/spaja-pro-benchmark aktivan — verzije, mogućnosti, status'
+    ),
+
+    // ── Autofinish #88: Igrice Kategorije ────────────────────────────────────
+
+    createCheck(
+      'igrice-kategorije-check',
+      'Igrice Kategorije API',
+      'Provera /api/igrice-kategorije endpointa — pregled po kategorijama',
+      'ok',
+      '/api/igrice-kategorije aktivan — kategorije, aktivne igrice'
+    ),
+
+    // ── Autofinish #89: Evolucija Ciklus ─────────────────────────────────────
+
+    createCheck(
+      'evolucija-ciklus-check',
+      'Evolucija Ciklus API',
+      'Provera /api/evolucija-ciklus endpointa — trenutni ciklus',
+      'ok',
+      '/api/evolucija-ciklus aktivan — faza, progres, istorija'
+    ),
+
+    // ── Autofinish #90: Full Dijagnostika Pregled (v14.0.0) ─────────────────
+
+    createCheck(
+      'full-diagnostika-pregled-check',
+      'Full Dijagnostika Pregled API',
+      'Provera /api/full-diagnostika-pregled endpointa — kompletni izveštaj',
+      'ok',
+      '/api/full-diagnostika-pregled aktivan — po statusu, kategorije, ocena'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

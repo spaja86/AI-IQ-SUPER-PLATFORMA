@@ -134,6 +134,11 @@ function getAutofinishOpis(n: number): string {
     83: '/api/proksi-kapacitet (proksi kapacitet, čvorovi, signali), 92 dijagnostika, 123 ruta',
     84: '/api/mobilna-statistika (mobilna mreža statistika, centrale, servisi), 93 dijagnostika, 124 ruta',
     85: 'v13.5.0 — /api/platforma-arhitektura (kompletna arhitektura platforme), 94 dijagnostika, 125 ruta, 93 API',
+    86: '/api/dimenzije-mapa (vizuelni pregled dimenzija, formi), 95 dijagnostika, 126 ruta',
+    87: '/api/spaja-pro-benchmark (performanse verzija, mogućnosti), 96 dijagnostika, 127 ruta',
+    88: '/api/igrice-kategorije (pregled igrica po kategorijama), 97 dijagnostika, 128 ruta',
+    89: '/api/evolucija-ciklus (trenutni ciklus evolucije, istorija), 98 dijagnostika, 129 ruta',
+    90: 'v14.0.0 MILESTONE — /api/full-diagnostika-pregled (kompletni dijagnostički izveštaj), 99 dijagnostika, 130 ruta, 98 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
