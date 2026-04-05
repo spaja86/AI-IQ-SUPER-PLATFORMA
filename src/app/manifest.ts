@@ -10,6 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     display: 'standalone',
     background_color: '#0a0a1a',
     theme_color: '#0a0a1a',
+    orientation: 'any',
+    categories: ['business', 'productivity', 'utilities'],
     icons: [
       {
         src: '/favicon.ico',
@@ -17,5 +19,7 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/x-icon',
       },
     ],
+    related_applications: [],
+    prefer_related_applications: false,
   };
 }
