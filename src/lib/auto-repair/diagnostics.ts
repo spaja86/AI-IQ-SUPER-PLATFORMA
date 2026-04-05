@@ -327,6 +327,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/platforme-status aktivan — ${platforme.length} platformi`
     ),
+
+    // ── Autofinish #36: Prompt Status ────────────────────────────────────
+
+    createCheck(
+      'prompt-status-check',
+      'Prompt Status API',
+      'Provera /api/prompt-status endpointa — promptovi, kategorije, prioriteti',
+      'ok',
+      `/api/prompt-status aktivan — ${promptovi.length} promptova`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

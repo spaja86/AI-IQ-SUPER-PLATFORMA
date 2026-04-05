@@ -84,6 +84,7 @@ function getAutofinishOpis(n: number): string {
     33: '/api/omega-ai-status (persone, oktave, kategorije, prioriteti), 42 dijagnostika, 73 ruta, v8.3.0',
     34: '/api/spaja-pro-status (verzije v6-15, aktivnost), 43 dijagnostika, 74 ruta, v8.4.0',
     35: 'v8.5.0 — /api/platforme-status (platforme, progres, repo), 44 dijagnostika, 75 ruta, 43 API',
+    36: '/api/prompt-status (promptovi, kategorije, prioriteti, tagovi), 45 dijagnostika, 76 ruta, v8.6.0',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
