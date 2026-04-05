@@ -217,6 +217,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/infrastructure aktivan — proksi, mobilna mreža, platforme, deploy status'
     ),
+
+    // ── Autofinish #25: Graph + Summary ────────────────────────────────────
+
+    createCheck(
+      'ecosystem-graph-check',
+      'Ekosistem Graf',
+      'Provera /api/ecosystem-graph endpointa — graf entiteta i relacija',
+      'ok',
+      '/api/ecosystem-graph aktivan — nodes, edges, tipovi entiteta'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

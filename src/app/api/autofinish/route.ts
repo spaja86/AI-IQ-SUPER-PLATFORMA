@@ -73,6 +73,7 @@ function getAutofinishOpis(n: number): string {
     22: '/api/metrics performanse, robots.txt proširenje, 32 dijagnostike, v7.2.0',
     23: '/api/infrastructure, Schema.org AggregateRating + inLanguage, 33 dijagnostike, v7.3.0',
     24: '/api/ecosystem-graph, PWA manifest proširenje (categories, orientation), v7.4.0',
+    25: '/api/autofinish-summary sa milestones + rast, 34 dijagnostike, v7.5.0',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
