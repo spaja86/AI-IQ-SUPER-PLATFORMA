@@ -63,6 +63,9 @@ export async function GET() {
     '/api/mega-dijagnostika', '/api/autofinish-timeline',
     '/api/spaja-mobilna-integracija', '/api/omega-evolucija-mapa',
     '/api/platforma-indeks',
+    '/api/ekosistem-indeks', '/api/autofinish-predikcija',
+    '/api/spaja-pro-evolucija', '/api/omega-sinhronizacija',
+    '/api/verzija-roadmap',
   ];
 
   return NextResponse.json({

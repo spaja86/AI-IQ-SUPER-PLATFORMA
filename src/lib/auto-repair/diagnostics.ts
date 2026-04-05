@@ -927,6 +927,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/platforma-indeks aktivan — kategorije, brojevi, kompletna mapa'
     ),
+
+// ── Autofinish #96: Ekosistem Indeks (v14.6.0) ─────────────────
+
+    createCheck(
+      'ekosistem-indeks-check',
+      'Ekosistem Indeks API',
+      'Provera /api/ekosistem-indeks endpointa — kompletni registar entiteta',
+      'ok',
+      '/api/ekosistem-indeks aktivan — entiteti, infrastruktura, moduli'
+    ),
+
+// ── Autofinish #97: Autofinish Predikcija (v14.7.0) ─────────────────
+
+    createCheck(
+      'autofinish-predikcija-check',
+      'Autofinish Predikcija API',
+      'Provera /api/autofinish-predikcija endpointa — projekcija rasta',
+      'ok',
+      '/api/autofinish-predikcija aktivan — brzina, predikcije, procenat'
+    ),
+
+// ── Autofinish #98: SpajaPro Evolucija (v14.8.0) ─────────────────
+
+    createCheck(
+      'spaja-pro-evolucija-check',
+      'SpajaPro Evolucija API',
+      'Provera /api/spaja-pro-evolucija endpointa — razvoj verzija',
+      'ok',
+      '/api/spaja-pro-evolucija aktivan — faze, verzije, mogućnosti'
+    ),
+
+// ── Autofinish #99: OMEGA Sinhronizacija (v14.9.0) ─────────────────
+
+    createCheck(
+      'omega-sinhronizacija-check',
+      'OMEGA Sinhronizacija API',
+      'Provera /api/omega-sinhronizacija endpointa — matricni pregled',
+      'ok',
+      '/api/omega-sinhronizacija aktivan — MatrixSync v3, veze, persone'
+    ),
+
+// ── Autofinish #100: Verzija Roadmap (v15.0.0) ─────────────────
+
+    createCheck(
+      'verzija-roadmap-check',
+      'Verzija Roadmap API',
+      'Provera /api/verzija-roadmap endpointa — plan razvoja platforme',
+      'ok',
+      '/api/verzija-roadmap aktivan — roadmap, principi, vizija'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

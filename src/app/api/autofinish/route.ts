@@ -144,6 +144,11 @@ function getAutofinishOpis(n: number): string {
     93: '/api/spaja-mobilna-integracija (mobilna ↔ proksi bidirekciona veza, PMT tunel), 102 dijagnostika, 133 ruta',
     94: '/api/omega-evolucija-mapa (OMEGA AI evolucijski put, 7 faza, oktave), 103 dijagnostika, 134 ruta',
     95: 'v14.5.0 — /api/platforma-indeks (master registar svih API endpointa), 104 dijagnostika, 135 ruta, 103 API',
+    96: '/api/ekosistem-indeks (kompletni registar entiteta, infrastruktura, moduli), 105 dijagnostika, 136 ruta',
+    97: '/api/autofinish-predikcija (projekcija rasta, brzina, predikcije), 106 dijagnostika, 137 ruta',
+    98: '/api/spaja-pro-evolucija (razvoj SpajaPro verzija, faze, mogućnosti), 107 dijagnostika, 138 ruta',
+    99: '/api/omega-sinhronizacija (matricni pregled, MatrixSync v3, veze persona), 108 dijagnostika, 139 ruta',
+    100: 'v15.0.0 MILESTONE — /api/verzija-roadmap (plan razvoja, vizija, principi), 109 dijagnostika, 140 ruta, 108 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
