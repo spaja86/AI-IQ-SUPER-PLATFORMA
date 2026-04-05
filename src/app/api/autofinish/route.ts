@@ -129,6 +129,11 @@ function getAutofinishOpis(n: number): string {
     78: '/api/evolucija-dijagnostika (evolucijski ciklusi, istorija, konfiguracija), 87 dijagnostika, 118 ruta, v12.8.0',
     79: '/api/kategorije-pregled (sve kategorije platformi, proizvoda), 88 dijagnostika, 119 ruta, v12.9.0',
     80: 'v13.0.0 MILESTONE — /api/ekosistem-zdravlje (zdravlje celog ekosistema), 89 dijagnostika, 120 ruta, 88 API',
+    81: '/api/verzija-istorija (milestone tracker, istorija svih verzija), 90 dijagnostika, 121 ruta',
+    82: '/api/omega-ai-oktave (OMEGA AI oktavni sistem, persone po oktavi), 91 dijagnostika, 122 ruta',
+    83: '/api/proksi-kapacitet (proksi kapacitet, čvorovi, signali), 92 dijagnostika, 123 ruta',
+    84: '/api/mobilna-statistika (mobilna mreža statistika, centrale, servisi), 93 dijagnostika, 124 ruta',
+    85: 'v13.5.0 — /api/platforma-arhitektura (kompletna arhitektura platforme), 94 dijagnostika, 125 ruta, 93 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

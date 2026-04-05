@@ -29,7 +29,8 @@ export async function GET() {
     { iteracija: 65, verzija: '11.5.0', rute: 105, api: 73, dijagnostike: 74, opis: 'v11.5.0 — Dimenzije, OMEGA AI, evolucija, mobilna, promptovi' },
     { iteracija: 70, verzija: '12.0.0', rute: 110, api: 78, dijagnostike: 79, opis: 'v12.0.0 MILESTONE — Industrija, WiFi, deploy, IT proizvodi, prompt pregled' },
     { iteracija: 75, verzija: '12.5.0', rute: 115, api: 83, dijagnostike: 84, opis: 'v12.5.0 — Ultra OMEGA Core, sekvence, dispatch, dijagnostika, rast pregled' },
-    { iteracija: 80, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v13.0.0 MILESTONE — Repair, upgrade, evolucija dijagnostika, kategorije, ekosistem zdravlje' },
+    { iteracija: 80, verzija: '13.0.0', rute: 120, api: 88, dijagnostike: 89, opis: 'v13.0.0 MILESTONE — Repair, upgrade, evolucija dijagnostika, kategorije, ekosistem zdravlje' },
+    { iteracija: 85, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v13.5.0 — Verzija istorija, OMEGA oktave, proksi kapacitet, mobilna statistika, arhitektura' },
   ];
 
   const rast = {

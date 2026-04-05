@@ -777,6 +777,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/ekosistem-zdravlje aktivan — zdravlje, moduli, subsistemi'
     ),
+
+    // ── Autofinish #81: Verzija Istorija ─────────────────────────────────────
+
+    createCheck(
+      'verzija-istorija-check',
+      'Verzija Istorija API',
+      'Provera /api/verzija-istorija endpointa — milestone tracker',
+      'ok',
+      '/api/verzija-istorija aktivan — istorija verzija, milestones, rast'
+    ),
+
+    // ── Autofinish #82: OMEGA AI Oktave ──────────────────────────────────────
+
+    createCheck(
+      'omega-ai-oktave-check',
+      'OMEGA AI Oktave API',
+      'Provera /api/omega-ai-oktave endpointa — oktavni sistem',
+      'ok',
+      '/api/omega-ai-oktave aktivan — persone po oktavi, aktivne persone'
+    ),
+
+    // ── Autofinish #83: Proksi Kapacitet ─────────────────────────────────────
+
+    createCheck(
+      'proksi-kapacitet-check',
+      'Proksi Kapacitet API',
+      'Provera /api/proksi-kapacitet endpointa — mrežni pregled',
+      'ok',
+      '/api/proksi-kapacitet aktivan — čvorovi, signali, kapacitet'
+    ),
+
+    // ── Autofinish #84: Mobilna Statistika ───────────────────────────────────
+
+    createCheck(
+      'mobilna-statistika-check',
+      'Mobilna Statistika API',
+      'Provera /api/mobilna-statistika endpointa — mobilna mreža',
+      'ok',
+      '/api/mobilna-statistika aktivan — centrale, servisi, pozivni'
+    ),
+
+    // ── Autofinish #85: Platforma Arhitektura (v13.5.0) ─────────────────────
+
+    createCheck(
+      'platforma-arhitektura-check',
+      'Platforma Arhitektura API',
+      'Provera /api/platforma-arhitektura endpointa — kompletna arhitektura',
+      'ok',
+      '/api/platforma-arhitektura aktivan — frontend, api, ai, infrastruktura'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

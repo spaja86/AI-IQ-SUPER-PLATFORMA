@@ -56,6 +56,8 @@ export async function GET() {
     '/api/kompletna-dijagnostika', '/api/rast-pregled',
     '/api/repair-pregled', '/api/upgrade-pregled', '/api/evolucija-dijagnostika',
     '/api/kategorije-pregled', '/api/ekosistem-zdravlje',
+    '/api/verzija-istorija', '/api/omega-ai-oktave', '/api/proksi-kapacitet',
+    '/api/mobilna-statistika', '/api/platforma-arhitektura',
   ];
 
   return NextResponse.json({
