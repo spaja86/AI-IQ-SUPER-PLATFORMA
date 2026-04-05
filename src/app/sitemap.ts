@@ -4,6 +4,7 @@ import { BASE_URL } from '@/lib/constants';
 export default function sitemap(): MetadataRoute.Sitemap {
   const highPriority = ['/', '/dashboard', '/ekosistem'];
   const mediumHighPriority = ['/platforme', '/omega-ai', '/spaja-pro', '/igrice', '/it-proizvodi'];
+  const lastModified = new Date('2026-04-05');
   const routes = [
     '/',
     '/dashboard',
@@ -34,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
+    lastModified,
     changeFrequency: route === '/' ? 'daily' as const : 'weekly' as const,
     priority: highPriority.includes(route)
       ? 1

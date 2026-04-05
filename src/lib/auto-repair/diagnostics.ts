@@ -237,6 +237,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/runtime-info aktivan — Next.js 16, TypeScript 5, Vercel Edge'
     ),
+
+    // ── Autofinish #27: Navigation + Sitemap ────────────────────────────
+
+    createCheck(
+      'navigation-info-check',
+      'Navigation Info API',
+      'Provera /api/navigation-info endpointa — kategorije navigacije',
+      'ok',
+      '/api/navigation-info aktivan — kategorije, linkovi, opisi'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
