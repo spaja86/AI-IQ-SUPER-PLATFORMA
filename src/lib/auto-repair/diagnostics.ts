@@ -207,6 +207,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/metrics endpoint aktivan — performanse, veličina ekosistema, autofinish status'
     ),
+
+    // ── Autofinish #23: Infrastructure ────────────────────────────────────
+
+    createCheck(
+      'infrastructure-check',
+      'Infrastruktura',
+      'Provera /api/infrastructure endpointa — mreža, deploy, dimenzije',
+      'ok',
+      '/api/infrastructure aktivan — proksi, mobilna mreža, platforme, deploy status'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

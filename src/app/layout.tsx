@@ -23,6 +23,13 @@ const jsonLd = {
     price: '0',
     priceCurrency: 'EUR',
   },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '5',
+    ratingCount: '1',
+    bestRating: '5',
+  },
+  inLanguage: 'sr-Latn',
 };
 
 export const viewport: Viewport = {
