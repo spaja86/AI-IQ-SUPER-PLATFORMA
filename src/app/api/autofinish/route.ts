@@ -18,7 +18,7 @@ export async function GET() {
   return NextResponse.json({
     status: 'aktivan',
     naziv: 'Autofinish Sistem',
-    opis: `Kontinualno poboljšanje AI IQ SUPER PLATFORMA — ${AUTOFINISH_COUNT}/${AUTOFINISH_TARGET.toLocaleString()} iteracija`,
+    opis: `Kontinualno poboljšanje AI IQ SUPER PLATFORMA — ${AUTOFINISH_COUNT}/3×10¹⁷ iteracija`,
 
     trenutniStatus: {
       iteracija: AUTOFINISH_COUNT,
