@@ -337,6 +337,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/prompt-status aktivan — ${promptovi.length} promptova`
     ),
+
+    // ── Autofinish #37: Sajtovi Status ────────────────────────────────────
+
+    createCheck(
+      'sajtovi-status-check',
+      'Sajtovi Status API',
+      'Provera /api/sajtovi-status endpointa — sajtovi, kategorije, URL-ovi',
+      'ok',
+      `/api/sajtovi-status aktivan — ${sajtovi.length} sajtova`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
