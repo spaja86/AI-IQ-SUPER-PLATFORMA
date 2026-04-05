@@ -317,6 +317,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/spaja-pro-status aktivan — ${spajaProVerzije.length} verzija (v6-15)`
     ),
+
+    // ── Autofinish #35: Platforme Status ────────────────────────────────
+
+    createCheck(
+      'platforme-status-check',
+      'Platforme Status API',
+      'Provera /api/platforme-status endpointa — platforme, progres, status',
+      'ok',
+      `/api/platforme-status aktivan — ${platforme.length} platformi`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
