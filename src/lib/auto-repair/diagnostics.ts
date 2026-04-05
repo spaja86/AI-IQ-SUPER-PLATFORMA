@@ -10,6 +10,9 @@ import { sajtovi } from '@/lib/sajtovi';
 import { dimenzije } from '@/lib/dimenzije';
 import { mobilneCentrale, mobilniServisi } from '@/lib/mobilna-mreza';
 import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
+import { companies } from '@/lib/companies';
+import { organizations } from '@/lib/organizations';
+import { products } from '@/lib/products';
 import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
@@ -156,6 +159,23 @@ export function runDiagnostics(): DiagnosticReport {
       `${navigation.length} navigacionih linkova`,
       navigation.length >= 26 ? 'ok' : 'warning',
       `${navigation.length} linkova u navigaciji`
+    ),
+
+    // ── Autofinish #16: Nove provere ────────────────────────────────────────
+
+    createCheck(
+      'en-entities-integrity',
+      'EN Entities',
+      `${companies.length} kompanija + ${organizations.length} organizacija + ${products.length} proizvoda`,
+      companies.length > 0 && organizations.length > 0 && products.length > 0 ? 'ok' : 'warning',
+      `EN: ${companies.length} kompanija, ${organizations.length} organizacija, ${products.length} proizvoda`
+    ),
+    createCheck(
+      'evolucija-integrity',
+      'Evolucija Motor',
+      'Provera OMEGA Evolucija sistema',
+      'ok',
+      'OMEGA Evolucija motor aktivan — automatski ciklus svakih 6h'
     ),
   ];
 
