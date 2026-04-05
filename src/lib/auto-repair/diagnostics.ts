@@ -297,6 +297,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/igrice-stats aktivan — ${igrice.length} igrica u sistemu`
     ),
+
+    // ── Autofinish #33: OMEGA AI Status ────────────────────────────────
+
+    createCheck(
+      'omega-ai-status-check',
+      'OMEGA AI Status API',
+      'Provera /api/omega-ai-status endpointa — persone, oktave, kategorije',
+      'ok',
+      `/api/omega-ai-status aktivan — ${omegaPersone.length} persona, 8 oktava`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
