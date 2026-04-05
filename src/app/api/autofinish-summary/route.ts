@@ -31,7 +31,8 @@ export async function GET() {
     { iteracija: 75, verzija: '12.5.0', rute: 115, api: 83, dijagnostike: 84, opis: 'v12.5.0 — Ultra OMEGA Core, sekvence, dispatch, dijagnostika, rast pregled' },
     { iteracija: 80, verzija: '13.0.0', rute: 120, api: 88, dijagnostike: 89, opis: 'v13.0.0 MILESTONE — Repair, upgrade, evolucija dijagnostika, kategorije, ekosistem zdravlje' },
     { iteracija: 85, verzija: '13.5.0', rute: 125, api: 93, dijagnostike: 94, opis: 'v13.5.0 — Verzija istorija, OMEGA oktave, proksi kapacitet, mobilna statistika, arhitektura' },
-    { iteracija: 90, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v14.0.0 MILESTONE — Dimenzije mapa, SpajaPro benchmark, igrice kategorije, evolucija ciklus, full dijagnostika' },
+    { iteracija: 90, verzija: '14.0.0', rute: 130, api: 98, dijagnostike: 99, opis: 'v14.0.0 MILESTONE — Dimenzije mapa, SpajaPro benchmark, igrice kategorije, evolucija ciklus, full dijagnostika' },
+    { iteracija: 95, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v14.5.0 — Mega dijagnostika, timeline, mobilna-proksi integracija, OMEGA evolucija mapa, platforma indeks' },
   ];
 
   const rast = {

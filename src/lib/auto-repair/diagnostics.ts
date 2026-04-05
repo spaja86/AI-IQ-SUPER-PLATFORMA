@@ -877,6 +877,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/full-diagnostika-pregled aktivan — po statusu, kategorije, ocena'
     ),
+
+// ── Autofinish #91: Mega Dijagnostika (v14.1.0) ─────────────────
+
+    createCheck(
+      'mega-dijagnostika-check',
+      'Mega Dijagnostika API',
+      'Provera /api/mega-dijagnostika endpointa — agregirani dashboard',
+      'ok',
+      '/api/mega-dijagnostika aktivan — kategorije, top provere, ocena'
+    ),
+
+// ── Autofinish #92: Autofinish Timeline (v14.2.0) ─────────────────
+
+    createCheck(
+      'autofinish-timeline-check',
+      'Autofinish Timeline API',
+      'Provera /api/autofinish-timeline endpointa — vizuelni pregled evolucije',
+      'ok',
+      '/api/autofinish-timeline aktivan — timeline perioda, brzina rasta'
+    ),
+
+// ── Autofinish #93: SPAJA Mobilna Integracija (v14.3.0) ─────────────────
+
+    createCheck(
+      'spaja-mobilna-integracija-check',
+      'SPAJA Mobilna-Proksi Integracija API',
+      'Provera /api/spaja-mobilna-integracija endpointa — bidirekciona veza',
+      'ok',
+      '/api/spaja-mobilna-integracija aktivan — mobilna, proksi, PMT tunel'
+    ),
+
+// ── Autofinish #94: OMEGA Evolucija Mapa (v14.4.0) ─────────────────
+
+    createCheck(
+      'omega-evolucija-mapa-check',
+      'OMEGA AI Evolucija Mapa API',
+      'Provera /api/omega-evolucija-mapa endpointa — evolucijski put persona',
+      'ok',
+      '/api/omega-evolucija-mapa aktivan — 7 faza, oktave, persone'
+    ),
+
+// ── Autofinish #95: Platforma Indeks (v14.5.0) ─────────────────
+
+    createCheck(
+      'platforma-indeks-check',
+      'Platforma Indeks API',
+      'Provera /api/platforma-indeks endpointa — master registar svih API-ja',
+      'ok',
+      '/api/platforma-indeks aktivan — kategorije, brojevi, kompletna mapa'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

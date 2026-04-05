@@ -60,6 +60,9 @@ export async function GET() {
     '/api/mobilna-statistika', '/api/platforma-arhitektura',
     '/api/dimenzije-mapa', '/api/spaja-pro-benchmark', '/api/igrice-kategorije',
     '/api/evolucija-ciklus', '/api/full-diagnostika-pregled',
+    '/api/mega-dijagnostika', '/api/autofinish-timeline',
+    '/api/spaja-mobilna-integracija', '/api/omega-evolucija-mapa',
+    '/api/platforma-indeks',
   ];
 
   return NextResponse.json({
