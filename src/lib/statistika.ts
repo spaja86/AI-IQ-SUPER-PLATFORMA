@@ -9,30 +9,60 @@ import { mobilneCentrale, mobilniServisi } from './mobilna-mreza';
 import { dimenzije } from './dimenzije';
 import { proksiSignali, proksiCvorovi } from './proksi';
 import { navigation } from './navigation';
+import { runDiagnostics } from './auto-repair';
 
 export function getStatistike() {
+  const dijagnostika = runDiagnostics();
+
   return {
+    // Platforme
     ukupnoPlatformi: platforme.length,
     aktivnihPlatformi: getBrojAktivnih(),
+    spremnihPlatformi: platforme.filter((p) => p.status === 'spremna').length,
+    platformeURazvoju: platforme.filter((p) => p.status === 'razvoj').length,
+
+    // IT proizvodi
     ukupnoProizvoda: itProizvodi.length,
     ukupniProgres: getUkupniProgres(),
     proizvodiVisokogUticaja: getProizvodiVisokogUticaja().length,
     kategorijePlatformi: 6,
     kategorijeProizvoda: 8,
+
+    // SpajaPro
     spajaProVerzija: spajaProVerzije.length,
     spajaProAktivnih: getAktivneVerzije().length,
+
+    // Prompt
     ukupnoPromptova: promptovi.length,
     promptKategorija: getPromptKategorije().length,
+
+    // Igrice
     ukupnoIgrica: igrice.length,
     kategorijaIgrica: getSveKategorijeIgrica().length,
+
+    // OMEGA AI
     ukupnoOmegaPersona: omegaPersone.length,
     aktivnihOmegaPersona: getAktivnePersone().length,
+
+    // Infrastruktura
     ukupnoSajtova: sajtovi.length,
     ukupnoMobilnihCentrala: mobilneCentrale.length,
     ukupnoMobilnihServisa: mobilniServisi.length,
     ukupnoDimenzija: dimenzije.length,
     ukupnoProksiSignala: proksiSignali.length,
     ukupnoProksiCvorova: proksiCvorovi.length,
+
+    // Navigacija i stranice
     ukupnoStranica: navigation.length,
+    ukupnoRuta: 42,
+
+    // Zdravlje sistema
+    zdravljeSistema: dijagnostika.zdravlje,
+    ukupnoDijagnostika: dijagnostika.ukupnoProvera,
+    uspesnihDijagnostika: dijagnostika.uspesnih,
+
+    // Autofinish
+    autofinishBroj: 9,
+    verzija: '6.6.0',
   };
 }
