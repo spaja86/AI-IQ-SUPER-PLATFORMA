@@ -40,7 +40,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 text-lg font-bold text-white">🏢 Kompanija SPAJA</h3>
             <p className="text-sm text-gray-400">AI IQ SUPER PLATFORMA — Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica, Proksi mreža i SPAJA Mobilna Mreža.</p>
-            <p className="mt-3 text-xs text-gray-500">v6.5.0 • 28 stranica • 42 ruta • 18 dijagnostika</p>
+            <p className="mt-3 text-xs text-gray-500">v6.6.0 • 28 stranica • 43 ruta • 18 dijagnostika • Autofinish ×9</p>
           </div>
           <div>
             <h4 className="mb-3 font-semibold text-white">📊 Navigacija</h4>

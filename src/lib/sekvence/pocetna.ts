@@ -2,8 +2,10 @@ import type { Sekvenca } from '@/lib/types';
 import { platforme, getUkupniProgres } from '@/lib/platforme';
 import { itProizvodi } from '@/lib/it-proizvodi';
 import { getStatistike } from '@/lib/statistika';
+import { runDiagnostics } from '@/lib/auto-repair';
 
 const stats = getStatistike();
+const dijagnostika = runDiagnostics();
 
 export const pocetnaSekvence: Sekvenca[] = [
   {
@@ -14,7 +16,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     ikona: '🏢',
     redosled: 1,
     podaci: {
-      opis: `Kompanija SPAJA upravlja sa ${stats.ukupnoProizvoda} IT proizvoda na ${stats.ukupnoPlatformi} platformi. SpajaPro engine (v6-15) sa ${stats.ukupnoPromptova} Prompt-ova pokreće ceo ekosistem.`,
+      opis: `Kompanija SPAJA upravlja sa ${stats.ukupnoProizvoda} IT proizvoda na ${stats.ukupnoPlatformi} platformi. SpajaPro engine (v6-15) sa ${stats.ukupnoPromptova} Prompt-ova pokreće ceo ekosistem. Zdravlje: ${dijagnostika.zdravlje}%. Autofinish ×${stats.autofinishBroj}.`,
       dugmad: [
         { tekst: 'Industrija', href: '/industrija' },
         { tekst: 'Dashboard', href: '/dashboard' },
@@ -39,6 +41,8 @@ export const pocetnaSekvence: Sekvenca[] = [
         { naziv: 'SpajaPro', vrednost: `v6-15`, ikona: '🌟' },
         { naziv: 'Dimenzije', vrednost: stats.ukupnoDimenzija, ikona: '🌀' },
         { naziv: 'Stranice', vrednost: stats.ukupnoStranica, ikona: '📄' },
+        { naziv: 'Rute', vrednost: stats.ukupnoRuta, ikona: '🗺️' },
+        { naziv: 'Zdravlje', vrednost: `${dijagnostika.zdravlje}%`, ikona: '💚' },
         { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
       ],
     },
@@ -57,7 +61,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     id: 'pocetna-platforme',
     tip: 'kartice',
     naslov: '🌐 Platforme u ekosistemu',
-    podnaslov: 'Pregled prvih 6 platformi — sve sa SpajaPro Prompt integracijom',
+    podnaslov: `Pregled prvih 6 od ${stats.ukupnoPlatformi} platformi — sve sa SpajaPro Prompt integracijom`,
     redosled: 4,
     podaci: {
       kartice: platforme.slice(0, 6).map((p) => ({
@@ -74,7 +78,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     id: 'pocetna-proizvodi',
     tip: 'kartice',
     naslov: '⚡ IT Proizvodi Kompanije SPAJA',
-    podnaslov: 'Pregled prvih 4 proizvoda sa Prompt podrškom',
+    podnaslov: `Pregled prvih 4 od ${stats.ukupnoProizvoda} proizvoda sa Prompt podrškom`,
     redosled: 5,
     podaci: {
       kartice: itProizvodi.slice(0, 4).map((p) => ({
@@ -93,8 +97,8 @@ export const pocetnaSekvence: Sekvenca[] = [
     redosled: 6,
     podaci: {
       bedz: '🌟 SpajaPro',
-      opis: 'SpajaPro 6-15 engine zamenjuje ChatGPT i donosi Prompt u svaki aspekt platforme. 21 OMEGA AI persona × Prompt = autonomni ekosistem.',
-      dugme: { tekst: 'Istrazi SpajaPro', href: '/spaja-pro' },
+      opis: `SpajaPro 6-15 engine zamenjuje ChatGPT i donosi Prompt u svaki aspekt platforme. ${stats.ukupnoOmegaPersona} OMEGA AI persona × Prompt = autonomni ekosistem. Autofinish ×${stats.autofinishBroj} završen.`,
+      dugme: { tekst: 'Istraži SpajaPro', href: '/spaja-pro' },
     },
   },
   {
@@ -103,7 +107,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     naslov: '🚀 Vercel Produkcija sa SpajaPro Prompt-om',
     redosled: 7,
     podaci: {
-      opis: 'AI IQ SUPER PLATFORMA je deploirana na Vercel sa SpajaPro Prompt engine-om.',
+      opis: `AI IQ SUPER PLATFORMA v${stats.verzija} je deploirana na Vercel sa SpajaPro Prompt engine-om. ${dijagnostika.ukupnoProvera} dijagnostika, zdravlje ${dijagnostika.zdravlje}%.`,
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
         { naziv: 'IT Proizvodi', vrednost: stats.ukupnoProizvoda, ikona: '⚡' },
@@ -111,10 +115,12 @@ export const pocetnaSekvence: Sekvenca[] = [
         { naziv: 'OMEGA AI', vrednost: stats.ukupnoOmegaPersona, ikona: '🧠' },
         { naziv: 'Prompt-ovi', vrednost: stats.ukupnoPromptova, ikona: '📝' },
         { naziv: 'SpajaPro', vrednost: `${stats.spajaProVerzija} verzija`, ikona: '🌟' },
+        { naziv: 'Zdravlje', vrednost: `${dijagnostika.zdravlje}%`, ikona: '💚' },
+        { naziv: 'Dijagnostike', vrednost: dijagnostika.ukupnoProvera, ikona: '🔍' },
       ],
       dugmad: [
         { tekst: 'Deploy Status', href: '/deploy' },
-        { tekst: 'Prompt', href: '/prompt', stil: 'sekundarno' },
+        { tekst: 'Auto-Popravka', href: '/auto-popravka', stil: 'sekundarno' },
       ],
     },
   },

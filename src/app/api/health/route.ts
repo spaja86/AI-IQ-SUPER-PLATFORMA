@@ -17,7 +17,7 @@ export async function GET() {
     status,
     zdravlje: dijagnostika.zdravlje,
     platforma: 'AI IQ SUPER PLATFORMA',
-    verzija: '6.5.0',
+    verzija: '6.6.0',
     ukupnoProvera: dijagnostika.ukupnoProvera,
     uspesnih: dijagnostika.uspesnih,
     upozorenja: dijagnostika.upozorenja,
