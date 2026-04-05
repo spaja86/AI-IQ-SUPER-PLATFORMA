@@ -77,6 +77,7 @@ function getAutofinishOpis(n: number): string {
     26: '/api/runtime-info, OG alternateLocale, canonical URL, error.tsx auto-popravka link, 35 dijagnostika, v7.6.0',
     27: '/api/navigation-info sa kategorijama, sitemap lastModified fix, 36 dijagnostika, v7.7.0',
     28: '/api/tech-stack (frontend, backend, infrastruktura, bezbednost, SEO, alati), 37 dijagnostika, v7.8.0',
+    29: '/api/sitemap-status, /api/health Cache-Control header, 38 dijagnostika, v7.9.0',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

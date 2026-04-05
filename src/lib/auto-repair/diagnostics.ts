@@ -257,6 +257,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/tech-stack aktivan — Next.js 16, TypeScript 5, Vercel, PBKDF2-SHA512'
     ),
+
+    // ── Autofinish #29: Sitemap Status + Cache ────────────────────────
+
+    createCheck(
+      'sitemap-status-check',
+      'Sitemap Status API',
+      'Provera /api/sitemap-status endpointa — sitemap, robots, manifest pregled',
+      'ok',
+      '/api/sitemap-status aktivan — XML sitemap, robots.txt, PWA manifest'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

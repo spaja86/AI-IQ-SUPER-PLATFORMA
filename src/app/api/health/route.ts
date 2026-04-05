@@ -14,7 +14,7 @@ export async function GET() {
         ? 'degraded'
         : 'unhealthy';
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     status,
     zdravlje: dijagnostika.zdravlje,
     platforma: 'AI IQ SUPER PLATFORMA',
@@ -34,4 +34,7 @@ export async function GET() {
     },
     timestamp: new Date().toISOString(),
   });
+
+  response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
+  return response;
 }
