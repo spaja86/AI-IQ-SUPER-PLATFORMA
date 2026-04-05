@@ -99,6 +99,11 @@ function getAutofinishOpis(n: number): string {
     48: '/api/deploy-status (GitHub deploy, grane, proksi veze, pipeline), 57 dijagnostika, 88 ruta, v9.8.0',
     49: '/api/spaja-core-status (SpajaUltraOmegaCore -∞Ω+∞, paradigme, operatori), 58 dijagnostika, 89 ruta, v9.9.0',
     50: 'v10.0.0 MILESTONE — /api/sistem-pregled (kompletni sistem, 14 modula), 59 dijagnostika, 90 ruta, 58 API',
+    51: '/api/omega-dispatch-status (OMEGA dispatch, sinhronizacija, matricno jezgro, neurolaska mreža), 60 dijagnostika, 91 ruta, v10.1.0',
+    52: '/api/autofinish-log (kompletna istorija, statistike po verzijama, rast), 61 dijagnostika, 92 ruta, v10.2.0',
+    53: '/api/platforme-pregled (14 platformi, kategorije, kapaciteti), 62 dijagnostika, 93 ruta, v10.3.0',
+    54: '/api/igrice-pregled (95 igrica, kategorije, ranking, linkovi), 63 dijagnostika, 94 ruta, v10.4.0',
+    55: 'v10.5.0 — /api/mega-status (mega agregirani status, svi API endpointi), 64 dijagnostika, 95 ruta, 63 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

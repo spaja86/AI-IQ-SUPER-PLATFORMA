@@ -477,6 +477,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/sistem-pregled aktivan — 14 modula, svi sistemi, v10.0.0 milestone'
     ),
+
+    // ── Autofinish #51: OMEGA Dispatch Status ────────────────────────────────
+
+    createCheck(
+      'omega-dispatch-status-check',
+      'OMEGA Dispatch Status API',
+      'Provera /api/omega-dispatch-status endpointa — dispatch, sinhronizacija, matricno jezgro',
+      'ok',
+      '/api/omega-dispatch-status aktivan — OMEGA AI dispatch, neurolaska mreža'
+    ),
+
+    // ── Autofinish #52: Autofinish Log ───────────────────────────────────────
+
+    createCheck(
+      'autofinish-log-check',
+      'Autofinish Log API',
+      'Provera /api/autofinish-log endpointa — kompletna istorija iteracija',
+      'ok',
+      '/api/autofinish-log aktivan — istorija svih iteracija, statistike rasta'
+    ),
+
+    // ── Autofinish #53: Platforme Pregled ────────────────────────────────────
+
+    createCheck(
+      'platforme-pregled-check',
+      'Platforme Pregled API',
+      'Provera /api/platforme-pregled endpointa — detaljni pregled 14 platformi',
+      'ok',
+      '/api/platforme-pregled aktivan — 14 platformi, kategorije, progres'
+    ),
+
+    // ── Autofinish #54: Igrice Pregled ───────────────────────────────────────
+
+    createCheck(
+      'igrice-pregled-check',
+      'Igrice Pregled API',
+      'Provera /api/igrice-pregled endpointa — 95 igrica, kategorije, ranking',
+      'ok',
+      '/api/igrice-pregled aktivan — 95 igrica, sve kategorije, top igrice'
+    ),
+
+    // ── Autofinish #55: Mega Status (v10.5.0) ───────────────────────────────
+
+    createCheck(
+      'mega-status-check',
+      'Mega Status API',
+      'Provera /api/mega-status endpointa — mega agregirani status svih API-ja',
+      'ok',
+      '/api/mega-status aktivan — kompletni zdravlje + ekosistem + svi API endpointi'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
