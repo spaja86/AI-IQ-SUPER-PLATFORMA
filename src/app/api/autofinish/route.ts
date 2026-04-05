@@ -69,6 +69,7 @@ function getAutofinishOpis(n: number): string {
     18: '/api/security, dashboard EN statistike, security dijagnostika, 60 ruta',
     19: 'Pocetna EN statistike, ekosistem proširenje, autofinish istorija kompletna',
     20: 'v7.0.0 milestone — major verzija, 60 ruta, 30 dijagnostika, 28 API',
+    21: '/api/changelog, Twitter/X metadata, accessibility skip link, <main> landmark, 31 dijagnostika, v7.1.0',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

@@ -49,6 +49,12 @@ export const metadata: Metadata = {
     title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
     description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
+    description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+    creator: '@KompanijaSPAJA',
+  },
   robots: {
     index: true,
     follow: true,
@@ -62,14 +68,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="sr-Latn">
       <body className="flex min-h-screen flex-col bg-gray-950 text-white antialiased">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white">
+          Preskoči na sadržaj
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Navigation />
-        <div id="main-content" className="flex-1">
+        <main id="main-content" className="flex-1" role="main">
           {children}
-        </div>
+        </main>
         <Footer />
       </body>
     </html>

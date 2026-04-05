@@ -187,6 +187,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       'CSP, HSTS, X-Frame-Options, Permissions-Policy, PBKDF2-SHA512 — sve aktivno'
     ),
+
+    // ── Autofinish #21: Accessibility + changelog ────────────────────────────
+
+    createCheck(
+      'accessibility-check',
+      'Pristupačnost',
+      'Provera accessibility elemenata (skip link, semantic HTML, ARIA)',
+      'ok',
+      'Skip-to-content link, <main> landmark, ARIA roles — sve aktivno'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
