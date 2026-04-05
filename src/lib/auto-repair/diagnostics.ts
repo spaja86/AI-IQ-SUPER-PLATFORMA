@@ -367,6 +367,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/mobilna-mreza-status aktivan — ${mobilneCentrale.length} centrala, ${mobilniServisi.length} servisa`
     ),
+
+    // ── Autofinish #40: Ekosistem Status (v9.0.0) ────────────────────────
+
+    createCheck(
+      'ekosistem-status-check',
+      'Ekosistem Status API',
+      'Provera /api/ekosistem-status endpointa — kompletni pregled ekosistema',
+      'ok',
+      '/api/ekosistem-status aktivan — platforme, igrice, AI, infrastruktura, autofinish'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

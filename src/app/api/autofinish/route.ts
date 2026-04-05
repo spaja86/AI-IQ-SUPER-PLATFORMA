@@ -88,6 +88,7 @@ function getAutofinishOpis(n: number): string {
     37: '/api/sajtovi-status (sajtovi, kategorije, URL-ovi), 46 dijagnostika, 77 ruta, v8.7.0',
     38: '/api/proksi-status (signali, čvorovi, kapacitet 10²²⁸ TB), 47 dijagnostika, 78 ruta, v8.8.0',
     39: '/api/mobilna-mreza-status (centrale, servisi, pozivni brojevi), 48 dijagnostika, 79 ruta, v8.9.0',
+    40: 'v9.0.0 MILESTONE — /api/ekosistem-status (kompletni pregled), 49 dijagnostika, 80 ruta, 48 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
