@@ -620,7 +620,7 @@ export const igrice: Igrica[] = [
   {
     id: 'igrica-dimenzionalna-arena',
     naziv: 'Dimenzionalna Arena',
-    opis: 'MOBA-stil igra sa 5v5 timovima u dimenzionalnoj areni. Svaki heroj je baziran na geometrijskoj formi sa unikатnim sposobnostima. Lane-ovi se protežu kroz dimenzije. Dimenzija (D) određuje veličinu mape i kompleksnost.',
+    opis: 'MOBA-stil igra sa 5v5 timovima u dimenzionalnoj areni. Svaki heroj je baziran na geometrijskoj formi sa unikatnim sposobnostima. Lane-ovi se protežu kroz dimenzije. Dimenzija (D) određuje veličinu mape i kompleksnost.',
     ikona: '⚔️',
     kategorija: 'borbena',
     podrzaneDimenzije: sveDimenzije,
@@ -1091,7 +1091,7 @@ export const igrice: Igrica[] = [
     funkcije: [
       'OMEGA AI generisana pitanja',
       'Pitanja iz dimenzija, geometrija, formula',
-      'Multiplayer kviz do 100 igrача',
+      'Multiplayer kviz do 100 igrača',
       'Rangiranje po dimenzionalnom znanju',
       'Pita dimenziju (D) prilikom pokretanja',
     ],
