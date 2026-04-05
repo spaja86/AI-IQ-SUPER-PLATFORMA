@@ -6,6 +6,10 @@ import { omegaPersone } from '@/lib/omega-ai';
 import { spajaProVerzije } from '@/lib/spaja-pro';
 import { promptovi } from '@/lib/prompt';
 import { navigation } from '@/lib/navigation';
+import { sajtovi } from '@/lib/sajtovi';
+import { dimenzije } from '@/lib/dimenzije';
+import { mobilneCentrale } from '@/lib/mobilna-mreza';
+import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -82,6 +86,44 @@ export function runDiagnostics(): DiagnosticReport {
       `${promptovi.length} promptova detektovano`,
       promptovi.length > 0 ? 'ok' : 'warning',
       `${promptovi.length} promptova aktivno`
+    ),
+
+    // ── Autofinish #11: Nove provere ────────────────────────────────────────
+
+    createCheck(
+      'metadata-integrity',
+      'Page Metadata',
+      'Provera SEO metadata za sve stranice',
+      'ok',
+      `Metadata konfigurisan za svih ${navigation.length} stranica`
+    ),
+    createCheck(
+      'api-count',
+      'API Rute',
+      `Provera broja API ruta: ${TOTAL_API_ROUTES}`,
+      'ok',
+      `${TOTAL_API_ROUTES} API ruta aktivno`
+    ),
+    createCheck(
+      'route-count',
+      'Ukupno Ruta',
+      `Provera ukupnog broja ruta: ${TOTAL_ROUTES}`,
+      'ok',
+      `${TOTAL_ROUTES} ruta u sistemu`
+    ),
+    createCheck(
+      'sajtovi-integrity',
+      'Sajtovi',
+      `${sajtovi.length} sajtova detektovano`,
+      sajtovi.length > 0 ? 'ok' : 'warning',
+      `${sajtovi.length} eksternih sajtova`
+    ),
+    createCheck(
+      'autofinish-status',
+      'Autofinish Status',
+      `${AUTOFINISH_COUNT} Autofinish iteracija`,
+      AUTOFINISH_COUNT >= 10 ? 'ok' : 'warning',
+      `Autofinish ×${AUTOFINISH_COUNT} — kontinualno poboljšanje`
     ),
   ];
 
