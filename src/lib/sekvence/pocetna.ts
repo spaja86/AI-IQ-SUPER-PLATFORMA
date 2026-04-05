@@ -42,6 +42,8 @@ export const pocetnaSekvence: Sekvenca[] = [
         { naziv: 'Dimenzije', vrednost: stats.ukupnoDimenzija, ikona: '🌀' },
         { naziv: 'Stranice', vrednost: stats.ukupnoStranica, ikona: '📄' },
         { naziv: 'Rute', vrednost: stats.ukupnoRuta, ikona: '🗺️' },
+        { naziv: 'Kompanije', vrednost: stats.ukupnoKompanija, ikona: '🏛️' },
+        { naziv: 'Organizacije', vrednost: stats.ukupnoOrganizacija, ikona: '🏢' },
         { naziv: 'Zdravlje', vrednost: `${dijagnostika.zdravlje}%`, ikona: '💚' },
         { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
       ],

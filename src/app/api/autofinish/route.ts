@@ -65,6 +65,9 @@ function getAutofinishOpis(n: number): string {
     14: '/api/autofinish endpoint, JSON-LD structured data, sitemap prioriteti, 52 ruta',
     15: '3 nova API (kompanije, organizacije, proizvodi), robots.txt, 55 ruta',
     16: 'Sekvence za EN stranice, /api/evolucija + /api/statistike, 29 dijagnostika, v6.9.0',
+    17: 'PWA manifest, /api/verzija, sekvence index exports, EN statistike',
+    18: '/api/security, dashboard EN statistike, security dijagnostika, 60 ruta',
+    19: 'Pocetna EN statistike, ekosistem proširenje, autofinish istorija kompletna',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
