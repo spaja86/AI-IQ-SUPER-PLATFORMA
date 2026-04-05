@@ -1077,6 +1077,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-evolucija-status aktivan — faze, ekosistem, autonomija'
     ),
+
+// ── Autofinish #111: OMEGA Neuronska Evolucija (v16.1.0) ─────────────────
+
+    createCheck(
+      'omega-neuronska-evolucija-check',
+      'OMEGA Neuronska Evolucija API',
+      'Provera /api/omega-neuronska-evolucija endpointa — neuronske mreže',
+      'ok',
+      '/api/omega-neuronska-evolucija aktivan — slojevi, ciklusi, genetski algoritam'
+    ),
+
+// ── Autofinish #112: SPAJA Sinhronizacija Status (v16.2.0) ─────────────────
+
+    createCheck(
+      'spaja-sinhronizacija-status-check',
+      'SPAJA Sinhronizacija Status API',
+      'Provera /api/spaja-sinhronizacija-status endpointa — sinhronizacija',
+      'ok',
+      '/api/spaja-sinhronizacija-status aktivan — čvorovi, protokoli, CRDT'
+    ),
+
+// ── Autofinish #113: Platforma Autonomija (v16.3.0) ─────────────────
+
+    createCheck(
+      'platforma-autonomija-check',
+      'Platforma Autonomija API',
+      'Provera /api/platforma-autonomija endpointa — autonomni sistemi',
+      'ok',
+      '/api/platforma-autonomija aktivan — moduli, samo-popravka, samo-evolucija'
+    ),
+
+// ── Autofinish #114: Kvantna Optimizacija (v16.4.0) ─────────────────
+
+    createCheck(
+      'kvantna-optimizacija-check',
+      'Kvantna Optimizacija API',
+      'Provera /api/kvantna-optimizacija endpointa — kvantni algoritmi',
+      'ok',
+      '/api/kvantna-optimizacija aktivan — Grover, Shor, VQE, QAOA, SPAJA-Q'
+    ),
+
+// ── Autofinish #115: Mega Telemetrija Pregled (v16.5.0) ─────────────────
+
+    createCheck(
+      'mega-telemetrija-pregled-check',
+      'Mega Telemetrija Pregled API',
+      'Provera /api/mega-telemetrija-pregled endpointa — monitoring',
+      'ok',
+      '/api/mega-telemetrija-pregled aktivan — kanali, metrike, real-time'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
