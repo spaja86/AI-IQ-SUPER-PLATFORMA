@@ -287,6 +287,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/dimenzije-status aktivan — ${dimenzije.length} dimenzija, 360D-5760D`
     ),
+
+    // ── Autofinish #32: Igrice Stats ────────────────────────────────────
+
+    createCheck(
+      'igrice-stats-check',
+      'Igrice Stats API',
+      'Provera /api/igrice-stats endpointa — kategorije, statistike',
+      'ok',
+      `/api/igrice-stats aktivan — ${igrice.length} igrica u sistemu`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

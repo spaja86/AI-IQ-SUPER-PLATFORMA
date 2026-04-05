@@ -80,6 +80,7 @@ function getAutofinishOpis(n: number): string {
     29: '/api/sitemap-status, /api/health Cache-Control header, 38 dijagnostika, v7.9.0',
     30: 'v8.0.0 MILESTONE — /api/milestones, autofinish-summary proširenje, 39 dijagnostika, 70 ruta, 38 API',
     31: '/api/dimenzije-status (nivoi, geometrija, zakoni), 40 dijagnostika, 71 ruta, v8.1.0',
+    32: '/api/igrice-stats (kategorije, statistike, top igrice), 41 dijagnostika, 72 ruta, v8.2.0',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
