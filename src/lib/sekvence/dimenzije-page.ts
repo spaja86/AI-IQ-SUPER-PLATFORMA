@@ -24,7 +24,8 @@ export const dimenzijeSekvence: Sekvenca[] = [
     podaci: {
       opis: dimenzionalniSistem.opis,
       dugmad: [
-        { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt' },
+        { tekst: 'Igrice', href: '/igrice' },
+        { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
       ],
     },
@@ -220,7 +221,8 @@ export const dimenzijeSekvence: Sekvenca[] = [
     podaci: {
       opis: 'Multi-dimenzionalni vizualizacioni sistem Digitalne Industrije — 360D do 5760D sa cirkularnim formulama.',
       dugmad: [
-        { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt' },
+        { tekst: 'Igrice', href: '/igrice' },
+        { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
         { tekst: 'SpajaPro', href: '/spaja-pro', stil: 'sekundarno' },
         { tekst: 'Omega AI', href: '/omega-ai', stil: 'sekundarno' },
