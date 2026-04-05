@@ -347,6 +347,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/sajtovi-status aktivan — ${sajtovi.length} sajtova`
     ),
+
+    // ── Autofinish #38: Proksi Status ────────────────────────────────────
+
+    createCheck(
+      'proksi-status-check',
+      'Proksi Status API',
+      'Provera /api/proksi-status endpointa — signali, čvorovi, kapacitet',
+      'ok',
+      `/api/proksi-status aktivan — ${proksiSignali.length} signala, ${proksiCvorovi.length} čvorova`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
