@@ -89,6 +89,11 @@ function getAutofinishOpis(n: number): string {
     38: '/api/proksi-status (signali, čvorovi, kapacitet 10²²⁸ TB), 47 dijagnostika, 78 ruta, v8.8.0',
     39: '/api/mobilna-mreza-status (centrale, servisi, pozivni brojevi), 48 dijagnostika, 79 ruta, v8.9.0',
     40: 'v9.0.0 MILESTONE — /api/ekosistem-status (kompletni pregled), 49 dijagnostika, 80 ruta, 48 API',
+    41: '/api/cron-status (cron taskovi, intervali, autorizacija), 50 dijagnostika, 81 ruta, v9.1.0',
+    42: '/api/evolucija-status (OMEGA motor, ciklusi, generacije, konfiguracija), 51 dijagnostika, 82 ruta, v9.2.0',
+    43: '/api/industrija-status (digitalna industrija, sektori, aktivni entiteti), 52 dijagnostika, 83 ruta, v9.3.0',
+    44: '/api/it-proizvodi-status (proizvodi, uticaj, kategorije), 53 dijagnostika, 84 ruta, v9.4.0',
+    45: 'v9.5.0 — /api/kompletna-statistika (svi moduli, rast, zdravlje), 54 dijagnostika, 85 ruta, 53 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

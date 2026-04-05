@@ -377,6 +377,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/ekosistem-status aktivan — platforme, igrice, AI, infrastruktura, autofinish'
     ),
+
+    // ── Autofinish #41: Cron Status ────────────────────────────────────────
+
+    createCheck(
+      'cron-status-check',
+      'Cron Status API',
+      'Provera /api/cron-status endpointa — cron taskovi, intervali',
+      'ok',
+      '/api/cron-status aktivan — 2 cron taska (evolucija 6h, zdravlje 30min)'
+    ),
+
+    // ── Autofinish #42: Evolucija Status ──────────────────────────────────
+
+    createCheck(
+      'evolucija-status-check',
+      'Evolucija Status API',
+      'Provera /api/evolucija-status endpointa — OMEGA evolucija motor, ciklusi',
+      'ok',
+      '/api/evolucija-status aktivan — OMEGA Evolucioni Motor v1.0.0'
+    ),
+
+    // ── Autofinish #43: Industrija Status ─────────────────────────────────
+
+    createCheck(
+      'industrija-status-check',
+      'Industrija Status API',
+      'Provera /api/industrija-status endpointa — digitalna industrija, sektori',
+      'ok',
+      '/api/industrija-status aktivan — Kompanija SPAJA Digitalna Industrija'
+    ),
+
+    // ── Autofinish #44: IT Proizvodi Status ───────────────────────────────
+
+    createCheck(
+      'it-proizvodi-status-check',
+      'IT Proizvodi Status API',
+      'Provera /api/it-proizvodi-status endpointa — proizvodi, uticaj, kategorije',
+      'ok',
+      `/api/it-proizvodi-status aktivan — ${itProizvodi.length} IT proizvoda`
+    ),
+
+    // ── Autofinish #45: Kompletna Statistika (v9.5.0) ────────────────────
+
+    createCheck(
+      'kompletna-statistika-check',
+      'Kompletna Statistika API',
+      'Provera /api/kompletna-statistika — svi moduli, rast, zdravlje',
+      'ok',
+      '/api/kompletna-statistika aktivan — kompletni pregled svih modula sistema'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
