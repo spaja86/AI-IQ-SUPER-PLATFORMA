@@ -48,6 +48,8 @@ export async function GET() {
     '/api/mega-status',
     '/api/sajtovi-pregled', '/api/kompanije-pregled', '/api/spaja-pro-pregled',
     '/api/proksi-pregled', '/api/full-ecosystem',
+    '/api/dimenzije-pregled', '/api/omega-ai-pregled', '/api/evolucija-pregled',
+    '/api/mobilna-mreza-pregled', '/api/univerzalni-prompt-pregled',
   ];
 
   return NextResponse.json({

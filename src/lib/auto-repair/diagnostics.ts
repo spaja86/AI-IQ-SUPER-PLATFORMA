@@ -577,6 +577,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/full-ecosystem aktivan — 14 modula, svi entiteti, v11.0.0 milestone'
     ),
+
+    // ── Autofinish #61: Dimenzije Pregled ────────────────────────────────────
+
+    createCheck(
+      'dimenzije-pregled-check',
+      'Dimenzije Pregled API',
+      'Provera /api/dimenzije-pregled endpointa — dimenzionalni sistem, forme, zakoni',
+      'ok',
+      '/api/dimenzije-pregled aktivan — dimenzije, geometrijske forme, zakoni manifestacije'
+    ),
+
+    // ── Autofinish #62: OMEGA AI Pregled ─────────────────────────────────────
+
+    createCheck(
+      'omega-ai-pregled-check',
+      'OMEGA AI Pregled API',
+      'Provera /api/omega-ai-pregled endpointa — 21 persona, oktave, kategorije',
+      'ok',
+      '/api/omega-ai-pregled aktivan — kompletni AI persona sistem, 8 oktava'
+    ),
+
+    // ── Autofinish #63: Evolucija Pregled ────────────────────────────────────
+
+    createCheck(
+      'evolucija-pregled-check',
+      'Evolucija Pregled API',
+      'Provera /api/evolucija-pregled endpointa — evolucioni motor, ciklusi',
+      'ok',
+      '/api/evolucija-pregled aktivan — omega evolucioni motor, preporuke, konfiguracija'
+    ),
+
+    // ── Autofinish #64: Mobilna Mreža Pregled ────────────────────────────────
+
+    createCheck(
+      'mobilna-mreza-pregled-check',
+      'Mobilna Mreža Pregled API',
+      'Provera /api/mobilna-mreza-pregled endpointa — 4 centrale, servisi, pozivni',
+      'ok',
+      '/api/mobilna-mreza-pregled aktivan — kompletna mobilna infrastruktura'
+    ),
+
+    // ── Autofinish #65: Univerzalni Prompt Pregled (v11.5.0) ─────────────────
+
+    createCheck(
+      'univerzalni-prompt-pregled-check',
+      'Univerzalni Prompt Pregled API',
+      'Provera /api/univerzalni-prompt-pregled endpointa — promptovi, kategorije, oktave',
+      'ok',
+      '/api/univerzalni-prompt-pregled aktivan — kompletni prompt sistem, persone'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

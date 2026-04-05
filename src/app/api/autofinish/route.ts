@@ -109,6 +109,11 @@ function getAutofinishOpis(n: number): string {
     58: '/api/spaja-pro-pregled (SpajaPro v6-v15, mogućnosti, tokeni, prompt tipovi), 67 dijagnostika, 98 ruta, v10.8.0',
     59: '/api/proksi-pregled (proksi mreža, signali, čvorovi, kapaciteti), 68 dijagnostika, 99 ruta, v10.9.0',
     60: 'v11.0.0 MILESTONE — /api/full-ecosystem (kompletni ekosistem, 14 modula, svi entiteti), 69 dijagnostika, 100 ruta, 68 API',
+    61: '/api/dimenzije-pregled (dimenzije, forme, zakoni manifestacije), 70 dijagnostika, 101 ruta, v11.1.0',
+    62: '/api/omega-ai-pregled (21 OMEGA AI persona, oktave, kategorije), 71 dijagnostika, 102 ruta, v11.2.0',
+    63: '/api/evolucija-pregled (evolucioni motor, ciklusi, konfiguracija, preporuke), 72 dijagnostika, 103 ruta, v11.3.0',
+    64: '/api/mobilna-mreza-pregled (4 centrale, servisi, pozivni, mreža), 73 dijagnostika, 104 ruta, v11.4.0',
+    65: 'v11.5.0 — /api/univerzalni-prompt-pregled (promptovi, kategorije, oktave, persone), 74 dijagnostika, 105 ruta, 73 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
