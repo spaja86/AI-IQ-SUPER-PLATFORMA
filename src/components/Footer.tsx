@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { APP_VERSION, TOTAL_PAGES, TOTAL_ROUTES, TOTAL_DIAGNOSTIKA, AUTOFINISH_COUNT } from '@/lib/constants';
 
 const footerNavLinks = [
   { href: '/dashboard', label: 'Dashboard' },
@@ -40,7 +41,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 text-lg font-bold text-white">🏢 Kompanija SPAJA</h3>
             <p className="text-sm text-gray-400">AI IQ SUPER PLATFORMA — Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica, Proksi mreža i SPAJA Mobilna Mreža.</p>
-            <p className="mt-3 text-xs text-gray-500">v7.0.0 • 28 stranica • 60 ruta • 30 dijagnostika • Autofinish ×20</p>
+            <p className="mt-3 text-xs text-gray-500">v{APP_VERSION} • {TOTAL_PAGES} stranica • {TOTAL_ROUTES} ruta • {TOTAL_DIAGNOSTIKA} dijagnostika • Autofinish ×{AUTOFINISH_COUNT}</p>
           </div>
           <div>
             <h4 className="mb-3 font-semibold text-white">📊 Navigacija</h4>
