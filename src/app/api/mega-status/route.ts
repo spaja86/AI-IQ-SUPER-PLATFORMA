@@ -50,6 +50,8 @@ export async function GET() {
     '/api/proksi-pregled', '/api/full-ecosystem',
     '/api/dimenzije-pregled', '/api/omega-ai-pregled', '/api/evolucija-pregled',
     '/api/mobilna-mreza-pregled', '/api/univerzalni-prompt-pregled',
+    '/api/industrija-pregled', '/api/wifi-antena-pregled', '/api/deploy-pregled',
+    '/api/it-proizvodi-pregled', '/api/prompt-pregled',
   ];
 
   return NextResponse.json({

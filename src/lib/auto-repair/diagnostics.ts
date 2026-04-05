@@ -627,6 +627,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/univerzalni-prompt-pregled aktivan — kompletni prompt sistem, persone'
     ),
+
+    // ── Autofinish #66: Industrija Pregled ───────────────────────────────────
+
+    createCheck(
+      'industrija-pregled-check',
+      'Industrija Pregled API',
+      'Provera /api/industrija-pregled endpointa — digitalna industrija, sektori',
+      'ok',
+      '/api/industrija-pregled aktivan — kompletna digitalna industrija, statistike'
+    ),
+
+    // ── Autofinish #67: WiFi Antena Pregled ──────────────────────────────────
+
+    createCheck(
+      'wifi-antena-pregled-check',
+      'WiFi Antena Pregled API',
+      'Provera /api/wifi-antena-pregled endpointa — antene, matricna jednačenja',
+      'ok',
+      '/api/wifi-antena-pregled aktivan — kompletna antena mreža, GitHub integracije'
+    ),
+
+    // ── Autofinish #68: Deploy Pregled ───────────────────────────────────────
+
+    createCheck(
+      'deploy-pregled-check',
+      'Deploy Pregled API',
+      'Provera /api/deploy-pregled endpointa — grane, pipeline, proksi veze',
+      'ok',
+      '/api/deploy-pregled aktivan — kompletni deploy pipeline, transfer protokoli'
+    ),
+
+    // ── Autofinish #69: IT Proizvodi Pregled ─────────────────────────────────
+
+    createCheck(
+      'it-proizvodi-pregled-check',
+      'IT Proizvodi Pregled API',
+      'Provera /api/it-proizvodi-pregled endpointa — proizvodi, kategorije',
+      'ok',
+      '/api/it-proizvodi-pregled aktivan — kompletni IT katalog, visok uticaj'
+    ),
+
+    // ── Autofinish #70: Prompt Pregled (v12.0.0) ─────────────────────────────
+
+    createCheck(
+      'prompt-pregled-check',
+      'Prompt Pregled API',
+      'Provera /api/prompt-pregled endpointa — prompt biblioteka, kategorije',
+      'ok',
+      '/api/prompt-pregled aktivan — kompletna prompt biblioteka, persone, platforme'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
