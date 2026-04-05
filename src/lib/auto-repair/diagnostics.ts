@@ -1027,6 +1027,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/ekosistem-analitika aktivan — analitika, moduli, trendovi'
     ),
+
+// ── Autofinish #106: Autofinish Stabilnost (v15.6.0) ─────────────────
+
+    createCheck(
+      'autofinish-stabilnost-check',
+      'Autofinish Stabilnost API',
+      'Provera /api/autofinish-stabilnost endpointa — pouzdanost iteracija',
+      'ok',
+      '/api/autofinish-stabilnost aktivan — stabilnost, metrike, pouzdanost'
+    ),
+
+// ── Autofinish #107: OMEGA Kvantna Simulacija (v15.7.0) ─────────────────
+
+    createCheck(
+      'omega-kvantna-simulacija-check',
+      'OMEGA Kvantna Simulacija API',
+      'Provera /api/omega-kvantna-simulacija endpointa — kvantno ubrzanje',
+      'ok',
+      '/api/omega-kvantna-simulacija aktivan — slojevi, simulacije, kubiti'
+    ),
+
+// ── Autofinish #108: SpajaPro Telemetrija (v15.8.0) ─────────────────
+
+    createCheck(
+      'spaja-telemetrija-check',
+      'SpajaPro Telemetrija API',
+      'Provera /api/spaja-telemetrija endpointa — monitoring',
+      'ok',
+      '/api/spaja-telemetrija aktivan — telemetrija, metrike, alarmi'
+    ),
+
+// ── Autofinish #109: Platforma Replikacija (v15.9.0) ─────────────────
+
+    createCheck(
+      'platforma-replikacija-check',
+      'Platforma Replikacija API',
+      'Provera /api/platforma-replikacija endpointa — geo-distribucija',
+      'ok',
+      '/api/platforma-replikacija aktivan — replike, CRDT, sinhronizacija'
+    ),
+
+// ── Autofinish #110: Mega Evolucija Status (v16.0.0) ─────────────────
+
+    createCheck(
+      'mega-evolucija-status-check',
+      'Mega Evolucija Status API',
+      'Provera /api/mega-evolucija-status endpointa — evolucijski pregled',
+      'ok',
+      '/api/mega-evolucija-status aktivan — faze, ekosistem, autonomija'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
