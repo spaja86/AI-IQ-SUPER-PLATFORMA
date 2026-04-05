@@ -10,6 +10,7 @@ import { dimenzije } from './dimenzije';
 import { proksiSignali, proksiCvorovi } from './proksi';
 import { navigation } from './navigation';
 import { runDiagnostics } from './auto-repair';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from './constants';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -54,7 +55,8 @@ export function getStatistike() {
 
     // Navigacija i stranice
     ukupnoStranica: navigation.length,
-    ukupnoRuta: 42,
+    ukupnoRuta: TOTAL_ROUTES,
+    ukupnoAPIRuta: TOTAL_API_ROUTES,
 
     // Zdravlje sistema
     zdravljeSistema: dijagnostika.zdravlje,
@@ -62,7 +64,7 @@ export function getStatistike() {
     uspesnihDijagnostika: dijagnostika.uspesnih,
 
     // Autofinish
-    autofinishBroj: 9,
-    verzija: '6.6.0',
+    autofinishBroj: AUTOFINISH_COUNT,
+    verzija: APP_VERSION,
   };
 }
