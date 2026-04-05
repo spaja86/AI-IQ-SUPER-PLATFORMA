@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Kompanija SPAJA' }],
   creator: 'Kompanija SPAJA',
   publisher: 'Kompanija SPAJA',
-  metadataBase: new URL('https://ai-iq-super-platforma.vercel.app'),
+  metadataBase: new URL(BASE_URL),
   openGraph: {
     type: 'website',
     locale: 'sr_Latn',
