@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
-
-const BASE_URL = 'https://ai-iq-super-platforma.vercel.app';
+import { BASE_URL } from '@/lib/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const highPriority = ['/', '/dashboard', '/ekosistem'];
+  const mediumHighPriority = ['/platforme', '/omega-ai', '/spaja-pro', '/igrice', '/it-proizvodi'];
   const routes = [
     '/',
     '/dashboard',
@@ -34,7 +35,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: route === '/' ? 1 : route === '/dashboard' ? 0.9 : 0.8,
+    changeFrequency: route === '/' ? 'daily' as const : 'weekly' as const,
+    priority: highPriority.includes(route)
+      ? 1
+      : mediumHighPriority.includes(route)
+        ? 0.9
+        : 0.8,
   }));
 }
