@@ -54,6 +54,8 @@ export async function GET() {
     '/api/it-proizvodi-pregled', '/api/prompt-pregled',
     '/api/ultra-omega-core', '/api/sekvence-pregled', '/api/dispatch-pregled',
     '/api/kompletna-dijagnostika', '/api/rast-pregled',
+    '/api/repair-pregled', '/api/upgrade-pregled', '/api/evolucija-dijagnostika',
+    '/api/kategorije-pregled', '/api/ekosistem-zdravlje',
   ];
 
   return NextResponse.json({

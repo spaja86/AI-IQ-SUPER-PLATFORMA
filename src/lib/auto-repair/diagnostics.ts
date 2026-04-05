@@ -727,6 +727,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/rast-pregled aktivan — milestones, rast po iteraciji, trendovi'
     ),
+
+    // ── Autofinish #76: Repair Pregled ───────────────────────────────────────
+
+    createCheck(
+      'repair-pregled-check',
+      'Repair Pregled API',
+      'Provera /api/repair-pregled endpointa — auto-repair engine',
+      'ok',
+      '/api/repair-pregled aktivan — akcije, popravke, status'
+    ),
+
+    // ── Autofinish #77: Upgrade Pregled ──────────────────────────────────────
+
+    createCheck(
+      'upgrade-pregled-check',
+      'Upgrade Pregled API',
+      'Provera /api/upgrade-pregled endpointa — upgrade engine',
+      'ok',
+      '/api/upgrade-pregled aktivan — nadogradnje, preporuke, dostupnost'
+    ),
+
+    // ── Autofinish #78: Evolucija Dijagnostika ───────────────────────────────
+
+    createCheck(
+      'evolucija-dijagnostika-check',
+      'Evolucija Dijagnostika API',
+      'Provera /api/evolucija-dijagnostika endpointa — evolucijski ciklusi',
+      'ok',
+      '/api/evolucija-dijagnostika aktivan — ciklusi, istorija, konfiguracija'
+    ),
+
+    // ── Autofinish #79: Kategorije Pregled ───────────────────────────────────
+
+    createCheck(
+      'kategorije-pregled-check',
+      'Kategorije Pregled API',
+      'Provera /api/kategorije-pregled endpointa — kategorije ekosistema',
+      'ok',
+      '/api/kategorije-pregled aktivan — platforme, proizvodi, kategorije'
+    ),
+
+    // ── Autofinish #80: Ekosistem Zdravlje (v13.0.0) ────────────────────────
+
+    createCheck(
+      'ekosistem-zdravlje-check',
+      'Ekosistem Zdravlje API',
+      'Provera /api/ekosistem-zdravlje endpointa — health dashboard',
+      'ok',
+      '/api/ekosistem-zdravlje aktivan — zdravlje, moduli, subsistemi'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
