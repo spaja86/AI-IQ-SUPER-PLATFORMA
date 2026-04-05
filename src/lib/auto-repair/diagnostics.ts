@@ -8,7 +8,8 @@ import { promptovi } from '@/lib/prompt';
 import { navigation } from '@/lib/navigation';
 import { sajtovi } from '@/lib/sajtovi';
 import { dimenzije } from '@/lib/dimenzije';
-import { mobilneCentrale } from '@/lib/mobilna-mreza';
+import { mobilneCentrale, mobilniServisi } from '@/lib/mobilna-mreza';
+import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
@@ -124,6 +125,37 @@ export function runDiagnostics(): DiagnosticReport {
       `${AUTOFINISH_COUNT} Autofinish iteracija`,
       AUTOFINISH_COUNT >= 10 ? 'ok' : 'warning',
       `Autofinish ×${AUTOFINISH_COUNT} — kontinualno poboljšanje`
+    ),
+
+    // ── Autofinish #13: Nove provere ────────────────────────────────────────
+
+    createCheck(
+      'mobilna-mreza-integrity',
+      'Mobilna Mreža',
+      `${mobilneCentrale.length} centralа + ${mobilniServisi.length} servisa`,
+      mobilneCentrale.length >= 4 ? 'ok' : 'warning',
+      `${mobilneCentrale.length} centrala, ${mobilniServisi.length} servisa — SPAJA Mobilna Mreža`
+    ),
+    createCheck(
+      'proksi-integrity',
+      'Proksi Sistem',
+      `${proksiSignali.length} signala + ${proksiCvorovi.length} čvorova`,
+      proksiSignali.length > 0 ? 'ok' : 'warning',
+      `${proksiSignali.length} proksi signala, ${proksiCvorovi.length} čvorova aktivno`
+    ),
+    createCheck(
+      'dimenzije-integrity',
+      'Dimenzije',
+      `${dimenzije.length} dimenzija detektovano`,
+      dimenzije.length >= 5 ? 'ok' : 'warning',
+      `${dimenzije.length} dimenzija (360D-5760D)`
+    ),
+    createCheck(
+      'navigacija-integrity',
+      'Navigacija',
+      `${navigation.length} navigacionih linkova`,
+      navigation.length >= 26 ? 'ok' : 'warning',
+      `${navigation.length} linkova u navigaciji`
     ),
   ];
 
