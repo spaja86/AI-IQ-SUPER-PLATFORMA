@@ -527,6 +527,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-status aktivan — kompletni zdravlje + ekosistem + svi API endpointi'
     ),
+
+    // ── Autofinish #56: Sajtovi Pregled ──────────────────────────────────────
+
+    createCheck(
+      'sajtovi-pregled-check',
+      'Sajtovi Pregled API',
+      'Provera /api/sajtovi-pregled endpointa — svi sajtovi, kategorije, URL-ovi',
+      'ok',
+      '/api/sajtovi-pregled aktivan — kompletni pregled svih sajtova po kategorijama'
+    ),
+
+    // ── Autofinish #57: Kompanije Pregled ────────────────────────────────────
+
+    createCheck(
+      'kompanije-pregled-check',
+      'Kompanije Pregled API',
+      'Provera /api/kompanije-pregled endpointa — kompanije, organizacije, proizvodi',
+      'ok',
+      '/api/kompanije-pregled aktivan — EN entiteti, subsidiaries, proizvodi po kategorijama'
+    ),
+
+    // ── Autofinish #58: SpajaPro Pregled ─────────────────────────────────────
+
+    createCheck(
+      'spaja-pro-pregled-check',
+      'SpajaPro Pregled API',
+      'Provera /api/spaja-pro-pregled endpointa — SpajaPro v6-v15, mogućnosti',
+      'ok',
+      '/api/spaja-pro-pregled aktivan — 10 verzija, tokeni, prompt tipovi, statusi'
+    ),
+
+    // ── Autofinish #59: Proksi Pregled ───────────────────────────────────────
+
+    createCheck(
+      'proksi-pregled-check',
+      'Proksi Pregled API',
+      'Provera /api/proksi-pregled endpointa — proksi mreža, signali, čvorovi',
+      'ok',
+      '/api/proksi-pregled aktivan — signali, čvorovi, kapacitet 10²²⁸ TB'
+    ),
+
+    // ── Autofinish #60: Full Ecosystem (v11.0.0) ────────────────────────────
+
+    createCheck(
+      'full-ecosystem-check',
+      'Full Ecosystem API',
+      'Provera /api/full-ecosystem endpointa — kompletni ekosistem pregled',
+      'ok',
+      '/api/full-ecosystem aktivan — 14 modula, svi entiteti, v11.0.0 milestone'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

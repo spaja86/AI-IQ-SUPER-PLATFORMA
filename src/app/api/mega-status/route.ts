@@ -46,6 +46,8 @@ export async function GET() {
     '/api/navigacija', '/api/statistike',
     '/api/sekvence-status', '/api/auto-repair',
     '/api/mega-status',
+    '/api/sajtovi-pregled', '/api/kompanije-pregled', '/api/spaja-pro-pregled',
+    '/api/proksi-pregled', '/api/full-ecosystem',
   ];
 
   return NextResponse.json({
