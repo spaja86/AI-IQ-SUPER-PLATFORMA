@@ -82,6 +82,7 @@ function getAutofinishOpis(n: number): string {
     31: '/api/dimenzije-status (nivoi, geometrija, zakoni), 40 dijagnostika, 71 ruta, v8.1.0',
     32: '/api/igrice-stats (kategorije, statistike, top igrice), 41 dijagnostika, 72 ruta, v8.2.0',
     33: '/api/omega-ai-status (persone, oktave, kategorije, prioriteti), 42 dijagnostika, 73 ruta, v8.3.0',
+    34: '/api/spaja-pro-status (verzije v6-15, aktivnost), 43 dijagnostika, 74 ruta, v8.4.0',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

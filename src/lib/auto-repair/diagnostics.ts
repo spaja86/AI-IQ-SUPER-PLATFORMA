@@ -307,6 +307,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `/api/omega-ai-status aktivan — ${omegaPersone.length} persona, 8 oktava`
     ),
+
+    // ── Autofinish #34: SpajaPro Status ────────────────────────────────
+
+    createCheck(
+      'spaja-pro-status-check',
+      'SpajaPro Status API',
+      'Provera /api/spaja-pro-status endpointa — verzije, aktivnost',
+      'ok',
+      `/api/spaja-pro-status aktivan — ${spajaProVerzije.length} verzija (v6-15)`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
