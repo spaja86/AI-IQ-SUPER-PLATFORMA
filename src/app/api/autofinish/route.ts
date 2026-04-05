@@ -94,6 +94,11 @@ function getAutofinishOpis(n: number): string {
     43: '/api/industrija-status (digitalna industrija, sektori, aktivni entiteti), 52 dijagnostika, 83 ruta, v9.3.0',
     44: '/api/it-proizvodi-status (proizvodi, uticaj, kategorije), 53 dijagnostika, 84 ruta, v9.4.0',
     45: 'v9.5.0 — /api/kompletna-statistika (svi moduli, rast, zdravlje), 54 dijagnostika, 85 ruta, 53 API',
+    46: '/api/sekvence-status (sekvence fajlovi, tipovi, 27 sekvenci), 55 dijagnostika, 86 ruta, v9.6.0',
+    47: '/api/wifi-antena-status (WiFi antene, frekvencije, matricna jednačenja), 56 dijagnostika, 87 ruta, v9.7.0',
+    48: '/api/deploy-status (GitHub deploy, grane, proksi veze, pipeline), 57 dijagnostika, 88 ruta, v9.8.0',
+    49: '/api/spaja-core-status (SpajaUltraOmegaCore -∞Ω+∞, paradigme, operatori), 58 dijagnostika, 89 ruta, v9.9.0',
+    50: 'v10.0.0 MILESTONE — /api/sistem-pregled (kompletni sistem, 14 modula), 59 dijagnostika, 90 ruta, 58 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

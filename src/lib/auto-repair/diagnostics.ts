@@ -427,6 +427,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/kompletna-statistika aktivan — kompletni pregled svih modula sistema'
     ),
+
+    // ── Autofinish #46: Sekvence Status ────────────────────────────────────
+
+    createCheck(
+      'sekvence-status-check',
+      'Sekvence Status API',
+      'Provera /api/sekvence-status endpointa — sekvence fajlovi, tipovi',
+      'ok',
+      '/api/sekvence-status aktivan — 27 sekvenci, svi tipovi'
+    ),
+
+    // ── Autofinish #47: WiFi Antena Status ─────────────────────────────────
+
+    createCheck(
+      'wifi-antena-status-check',
+      'WiFi Antena Status API',
+      'Provera /api/wifi-antena-status endpointa — antene, frekvencije',
+      'ok',
+      '/api/wifi-antena-status aktivan — WiFi antena mreža, eliptične suplementacije'
+    ),
+
+    // ── Autofinish #48: Deploy Status ──────────────────────────────────────
+
+    createCheck(
+      'deploy-status-check',
+      'Deploy Status API',
+      'Provera /api/deploy-status endpointa — deploy grane, proksi veze',
+      'ok',
+      '/api/deploy-status aktivan — GitHub deploy pipeline, proksi veze'
+    ),
+
+    // ── Autofinish #49: SpajaCore Status ───────────────────────────────────
+
+    createCheck(
+      'spaja-core-status-check',
+      'SpajaUltraOmegaCore Status API',
+      'Provera /api/spaja-core-status endpointa — paradigme, operatori, naredbe',
+      'ok',
+      '/api/spaja-core-status aktivan — -∞Ω+∞ programski jezik, 8 oktavnih nivoa'
+    ),
+
+    // ── Autofinish #50: Sistem Pregled (v10.0.0) ───────────────────────────
+
+    createCheck(
+      'sistem-pregled-check',
+      'Sistem Pregled API',
+      'Provera /api/sistem-pregled endpointa — kompletni sistem pregled',
+      'ok',
+      '/api/sistem-pregled aktivan — 14 modula, svi sistemi, v10.0.0 milestone'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

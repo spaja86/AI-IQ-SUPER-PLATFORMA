@@ -22,7 +22,8 @@ export async function GET() {
     { iteracija: 30, verzija: '8.0.0', rute: 70, api: 38, dijagnostike: 39, opis: 'v8.0.0 — Major milestone' },
     { iteracija: 35, verzija: '8.5.0', rute: 75, api: 43, dijagnostike: 44, opis: 'Platforme status, 43 API' },
     { iteracija: 40, verzija: '9.0.0', rute: 80, api: 48, dijagnostike: 49, opis: 'v9.0.0 — Ekosistem status' },
-    { iteracija: 45, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v9.5.0 — Kompletna statistika' },
+    { iteracija: 45, verzija: '9.5.0', rute: 85, api: 53, dijagnostike: 54, opis: 'v9.5.0 — Kompletna statistika' },
+    { iteracija: 50, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v10.0.0 MILESTONE — Sistem pregled' },
   ];
 
   const rast = {
