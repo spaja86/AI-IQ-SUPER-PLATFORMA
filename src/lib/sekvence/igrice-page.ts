@@ -5,36 +5,74 @@ import {
   getBrojAktivnihIgrica,
   getSveKategorijeIgrica,
   getDimenzionalnoPitanje,
+  OBAVEZNI_ZAHTEVI,
 } from '@/lib/igrice';
 import { dimenzije } from '@/lib/dimenzije';
 
 const aktivnihIgrica = getBrojAktivnihIgrica();
 const kategorije = getSveKategorijeIgrica();
 
+const proizvodiNazivi: Record<string, string> = {
+  'spaja-accelerator': '⚡ SPAJA Accelerator',
+  'spaja-turbo': '🔥 SPAJA Turbo',
+  'spaja-optimizer': '⚙️ SPAJA Optimizer',
+  'spaja-monitor': '📊 SPAJA Monitor',
+  'spaja-logger': '📝 SPAJA Logger',
+  'spaja-shield': '🛡️ SPAJA Shield',
+  'spaja-firewall': '🔒 SPAJA Firewall',
+  'spaja-crypto': '🔐 SPAJA Crypto',
+  'omega-ai-engine': '🧠 OMEGA AI Engine',
+  'spajapro-prompt-engine': '🌟 SpajaPro Prompt Engine',
+  'spaja-deploy': '🚀 SPAJA Deploy',
+  'spaja-cicd': '🔄 SPAJA CI/CD',
+  'spaja-integrator': '🔗 SPAJA Integrator',
+  'spaja-connector': '🔌 SPAJA Connector',
+  'spaja-api-gateway': '🌐 SPAJA API Gateway',
+  'spaja-data-sync': '📡 SPAJA Data Sync',
+  'spaja-messenger': '💬 SPAJA Messenger',
+  'spaja-metrics': '📈 SPAJA Metrics',
+  'digitalni-kompjuter': '🖥️ Digitalni Kompjuter',
+  'digitalni-brauzer': '🌐 Digitalni Brauzer',
+};
+
 export const igriceSekvence: Sekvenca[] = [
   {
     id: 'igrice-hero',
     tip: 'hero',
     naslov: '🎮 IGRICE — Dimenzionalni Gaming Sistem',
-    podnaslov: 'SpajaUltraOmegaCore -∞Ω+∞ | Igrice vezane za dimenzije 360D → 5760D',
+    podnaslov: 'SpajaUltraOmegaCore -∞Ω+∞ | Igrice vezane za dimenzije 360D → 5760D | Preporuke prema IT proizvodima',
     ikona: '🎮',
     redosled: 1,
     podaci: {
       opis: igriceSistem.opis,
       dugmad: [
         { tekst: 'Dimenzije', href: '/dimenzije' },
+        { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },
       ],
+    },
+  },
+  {
+    id: 'igrice-zahtevi-baner',
+    tip: 'baner',
+    naslov: '🖥️ OBAVEZNO: Digitalni Kompjuter + Digitalni Brauzer',
+    redosled: 2,
+    podaci: {
+      bedz: '⚠️ ZAHTEVI',
+      opis: 'Da bi igrice uopšte mogle da se pokrenu, potreban je Digitalni Kompjuter (dimenzionalno renderovanje 360D–5760D, geometrijsko procesiranje, multi-dimenzionalni GPU) i Digitalni Brauzer (WebGL/WebGPU renderovanje, pokretanje igrica u brauzeru, podrška za 3D naočare). Bez ova dva proizvoda nijedna igrica NE MOŽE da se pokrene!',
+      dugme: { tekst: 'IT Proizvodi', href: '/it-proizvodi' },
     },
   },
   {
     id: 'igrice-tekst',
     tip: 'tekst',
     naslov: 'Kako funkcionišu dimenzionalne igrice?',
-    redosled: 2,
+    redosled: 3,
     podaci: {
-      sadrzaj: 'Svaka igrica je vezana za dimenzionalni sistem (360D–5760D). Prilikom pokretanja, igrica pita igrača koju dimenziju želi (D). Izabrana dimenzija određuje geometrijske slojeve (Elipsoid, Rezonanca, Hiperbola, Spirala), zakone manifestacije, vizuelni prikaz i snagu renderovanja. Spoljašnje dimenzije (1440D, 2880D, 5760D) koriste 3D prikaz sa 3D naočarima, dok unutrašnje (360D, 720D) koriste standardni prikaz.',
+      sadrzaj: 'Svaka igrica je vezana za dimenzionalni sistem (360D–5760D). Prilikom pokretanja, igrica pita igrača koju dimenziju želi (D). Izabrana dimenzija određuje geometrijske slojeve (Elipsoid, Rezonanca, Hiperbola, Spirala), zakone manifestacije, vizuelni prikaz i snagu renderovanja. Spoljašnje dimenzije (1440D, 2880D, 5760D) koriste 3D prikaz sa 3D naočarima, dok unutrašnje (360D, 720D) koriste standardni prikaz. Svaka igrica preporučuje IT proizvode koji poboljšavaju iskustvo.',
       istaknuteStavke: [
+        '🖥️ ZAHTEV: Digitalni Kompjuter — osnova za pokretanje igrica',
+        '🌐 ZAHTEV: Digitalni Brauzer — neophodan za pristup igricama',
         '🎮 Prilikom pokretanja: „Koju dimenziju želiš (D)?"',
         '🔵 360D — Bazični režim: 2 geometrijska sloja, 2 zakona',
         '🟣 720D — Dvostruki režim: 3 sloja, 3 zakona',
@@ -49,13 +87,14 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-statistika',
     tip: 'statistika',
     naslov: '📊 Gaming sistem u brojevima',
-    redosled: 3,
+    redosled: 4,
     podaci: {
       stavke: [
         { naziv: 'Igrice', vrednost: igrice.length, ikona: '🎮' },
         { naziv: 'Aktivne', vrednost: aktivnihIgrica, ikona: '✅' },
         { naziv: 'Kategorije', vrednost: kategorije.length, ikona: '🏷️' },
         { naziv: 'Dimenzije', vrednost: dimenzije.length, ikona: '🌀' },
+        { naziv: 'IT Proizvodi', vrednost: Object.keys(proizvodiNazivi).length, ikona: '📦' },
         { naziv: 'Režimi/Igra', vrednost: dimenzije.length, ikona: '⚙️' },
       ],
     },
@@ -63,9 +102,9 @@ export const igriceSekvence: Sekvenca[] = [
   {
     id: 'igrice-kartice',
     tip: 'kartice',
-    naslov: '🎮 Igrice',
-    podnaslov: 'Svaka igrica pita „Koju dimenziju želiš (D)?" prilikom pokretanja',
-    redosled: 4,
+    naslov: '🎮 Igrice — Preporuke prema IT proizvodima',
+    podnaslov: 'Svaka igrica pita „Koju dimenziju želiš (D)?" i preporučuje IT proizvode',
+    redosled: 5,
     podaci: {
       kartice: igrice.map((i) => ({
         naslov: `${i.ikona} ${i.naziv}`,
@@ -74,8 +113,8 @@ export const igriceSekvence: Sekvenca[] = [
         oznake: [
           i.kategorija,
           i.status,
-          `Podrazumevano: ${i.podrazumevanaDimenzija}`,
-          `Dimenzije: ${i.podrzaneDimenzije.join(', ')}`,
+          `D: ${i.podrazumevanaDimenzija}`,
+          ...i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p),
         ],
       })),
     },
@@ -83,15 +122,15 @@ export const igriceSekvence: Sekvenca[] = [
   {
     id: 'igrice-tabela',
     tip: 'tabela',
-    naslov: '📋 Specifikacija igrica',
-    redosled: 5,
+    naslov: '📋 Specifikacija igrica sa preporučenim proizvodima',
+    redosled: 6,
     podaci: {
-      zaglavlje: ['Igrica', 'Kategorija', 'Podrazumevano D', 'Podržane D', 'Status'],
+      zaglavlje: ['Igrica', 'Kategorija', 'D', 'Preporučeni IT Proizvodi', 'Status'],
       redovi: igrice.map((i) => [
         `${i.ikona} ${i.naziv}`,
         i.kategorija,
         i.podrazumevanaDimenzija,
-        i.podrzaneDimenzije.join(', '),
+        i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p).join(', '),
         i.status,
       ]),
     },
@@ -101,7 +140,7 @@ export const igriceSekvence: Sekvenca[] = [
     tip: 'tabela',
     naslov: '🌀 Dimenzije i režimi u igricama',
     podnaslov: 'Šta dobijate u svakoj dimenziji (D)',
-    redosled: 6,
+    redosled: 7,
     podaci: {
       zaglavlje: ['Dimenzija', 'Geo. Slojevi', 'Zakoni', 'Snaga', 'Prikaz'],
       redovi: dimenzije.map((d) => [
@@ -114,10 +153,24 @@ export const igriceSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'igrice-zahtevi-tabela',
+    tip: 'tabela',
+    naslov: '🖥️ Obavezni zahtevi za pokretanje igrica',
+    podnaslov: 'Bez ovih proizvoda igrice NE MOGU da se pokrenu',
+    redosled: 8,
+    podaci: {
+      zaglavlje: ['Zahtev', 'Opis', 'Funkcije'],
+      redovi: [
+        ['🖥️ Digitalni Kompjuter', 'Osnova za pokretanje svih igrica u dimenzionalnom prostoru', 'Dimenzionalno renderovanje, Geometrijsko procesiranje, Multi-dim GPU, Cirkularna kalkulacija'],
+        ['🌐 Digitalni Brauzer', 'Neophodan za pristup i pokretanje dimenzionalnih igrica', 'WebGL/WebGPU renderovanje, Pokretanje u brauzeru, 3D naočare podrška, Dim. streaming'],
+      ],
+    },
+  },
+  {
     id: 'igrice-pitanje-lista',
     tip: 'lista',
     naslov: '🎮 Dimenzionalno pitanje pri pokretanju',
-    redosled: 7,
+    redosled: 9,
     podaci: {
       stavke: igrice.map((i) => ({
         ikona: i.ikona,
@@ -127,17 +180,20 @@ export const igriceSekvence: Sekvenca[] = [
     },
   },
   {
-    id: 'igrice-funkcije-kartice',
+    id: 'igrice-preporuke-kartice',
     tip: 'kartice',
-    naslov: '⚙️ Funkcije igrica',
-    podnaslov: 'Svaka igrica koristi dimenzionalne forme i zakone',
-    redosled: 8,
+    naslov: '📦 Preporučeni IT proizvodi po igricama',
+    podnaslov: 'Svaka igrica preporučuje specifične proizvode za najbolje iskustvo',
+    redosled: 10,
     podaci: {
       kartice: igrice.map((i) => ({
         naslov: `${i.ikona} ${i.naziv}`,
-        opis: i.funkcije.join(' • '),
+        opis: `Preporučeno: ${i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p).join(', ')}`,
         ikona: i.ikona,
-        oznake: [i.kategorija, ...i.funkcije.slice(0, 3)],
+        oznake: [
+          `Zahtevi: ${OBAVEZNI_ZAHTEVI.map((z) => proizvodiNazivi[z] ?? z).join(' + ')}`,
+          ...i.preporuceniProizvodi.map((p) => proizvodiNazivi[p] ?? p),
+        ],
       })),
     },
   },
@@ -145,13 +201,18 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Arhitektura Gaming Sistema',
-    redosled: 9,
+    redosled: 11,
     podaci: {
       nivoi: [
         {
           naziv: 'Dimenzionalni Gaming Sistem',
           ikona: '🎮',
-          deca: ['Igrice', 'Dimenzije', 'Dimenzionalno Pitanje (D)'],
+          deca: ['Obavezni Zahtevi', 'Igrice', 'Dimenzije', 'IT Proizvodi', 'Dimenzionalno Pitanje (D)'],
+        },
+        {
+          naziv: 'Obavezni Zahtevi',
+          ikona: '⚠️',
+          deca: ['🖥️ Digitalni Kompjuter — pokretanje igrica', '🌐 Digitalni Brauzer — pristup igricama'],
         },
         {
           naziv: 'Igrice',
@@ -164,10 +225,16 @@ export const igriceSekvence: Sekvenca[] = [
           deca: dimenzije.map((d) => `${d.ikona} ${d.nivo} — ${d.snaga}`),
         },
         {
+          naziv: 'IT Proizvodi',
+          ikona: '📦',
+          deca: [...new Set(igrice.flatMap((i) => i.preporuceniProizvodi))].map((p) => proizvodiNazivi[p] ?? p),
+        },
+        {
           naziv: 'Dimenzionalno Pitanje (D)',
           ikona: '❓',
           deca: [
-            'Pokretanje igrice → Pitanje: „Koju dimenziju želiš (D)?"',
+            'Pokretanje igrice → Provera: Digitalni Kompjuter + Brauzer',
+            'Pitanje: „Koju dimenziju želiš (D)?"',
             'Igrač bira: 360D | 720D | 1440D | 2880D | 5760D',
             'Sistem učitava geometriju, zakone, vizuelni prikaz',
             'Igra počinje u izabranoj dimenziji',
@@ -180,12 +247,12 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-progres',
     tip: 'progres',
     naslov: '📊 Status igrica',
-    redosled: 10,
+    redosled: 12,
     podaci: {
       stavke: igrice.map((i) => ({
         naziv: `${i.ikona} ${i.naziv}`,
         vrednost: i.status === 'aktivna' ? 100 : i.status === 'beta' ? 75 : i.status === 'razvoj' ? 50 : 25,
-        opis: `${i.kategorija} | ${i.podrzaneDimenzije.length} dimenzija`,
+        opis: `${i.kategorija} | ${i.podrzaneDimenzije.length} dim | ${i.preporuceniProizvodi.length} proizvoda`,
       })),
     },
   },
@@ -193,10 +260,10 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-baner',
     tip: 'baner',
     naslov: '🎮 Koju dimenziju želiš (D)?',
-    redosled: 11,
+    redosled: 13,
     podaci: {
       bedz: '🌀 360D → 5760D',
-      opis: 'Svaka igrica pri pokretanju pita: „Koju dimenziju želiš (D)?" — izaberi od 360D do 5760D. Dimenzija određuje celokupno iskustvo: geometriju, zakone, vizuelni prikaz i snagu renderovanja. Viša dimenzija = bogatije iskustvo.',
+      opis: 'Svaka igrica pri pokretanju pita: „Koju dimenziju želiš (D)?" — izaberi od 360D do 5760D. Dimenzija određuje celokupno iskustvo: geometriju, zakone, vizuelni prikaz i snagu renderovanja. Viša dimenzija = bogatije iskustvo. ZAHTEVI: Digitalni Kompjuter + Digitalni Brauzer!',
       dugme: { tekst: 'Istraži dimenzije', href: '/dimenzije' },
     },
   },
@@ -204,11 +271,12 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-cta',
     tip: 'cta',
     naslov: '🚀 Dimenzionalni Gaming',
-    redosled: 12,
+    redosled: 14,
     podaci: {
-      opis: 'Igrice vezane za dimenzije — od 360D do 5760D. Izaberi dimenziju (D) i igraj!',
+      opis: `${igriceSistem.ukupnoIgrica} igrica vezanih za dimenzije — od 360D do 5760D. Preporuke prema IT proizvodima. Zahtevi: Digitalni Kompjuter + Digitalni Brauzer. Izaberi dimenziju (D) i igraj!`,
       dugmad: [
         { tekst: 'Dimenzije', href: '/dimenzije' },
+        { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
         { tekst: 'Omega AI', href: '/omega-ai', stil: 'sekundarno' },
