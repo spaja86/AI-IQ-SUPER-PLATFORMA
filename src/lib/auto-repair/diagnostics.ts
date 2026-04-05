@@ -277,6 +277,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/milestones aktivan — 11 milestones, rast od početka'
     ),
+
+    // ── Autofinish #31: Dimenzije Status ────────────────────────────────
+
+    createCheck(
+      'dimenzije-status-check',
+      'Dimenzije Status API',
+      'Provera /api/dimenzije-status endpointa — nivoi, geometrija, zakoni',
+      'ok',
+      `/api/dimenzije-status aktivan — ${dimenzije.length} dimenzija, 360D-5760D`
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
