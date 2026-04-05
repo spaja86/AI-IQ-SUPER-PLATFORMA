@@ -53,7 +53,7 @@ export default function ProizvodiPage() {
                     </div>
                     {product.features.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1">
-                        {product.features.map((f) => (
+                        {product.features.map((f: string) => (
                           <span
                             key={f}
                             className="rounded bg-purple-50 px-1.5 py-0.5 text-xs text-purple-700 dark:bg-purple-900/20 dark:text-purple-400"

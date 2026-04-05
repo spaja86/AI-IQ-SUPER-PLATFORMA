@@ -95,3 +95,94 @@ export interface OmegaAI {
 
 export type SpajaProStatus = 'aktivna' | 'beta' | 'razvoj' | 'planirana';
 export type PromptPrioritet = 'kritican' | 'visok' | 'srednji' | 'nizak';
+
+// ── English-language types ───────────────────────────────────────────────────
+
+export type EntityStatus = 'active' | 'development' | 'planned' | 'archived';
+
+export interface NavItem {
+  label: string;
+  href: string;
+  icon: string;
+  description: string;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  description: string;
+  type: 'parent' | 'subsidiary' | 'joint-venture' | 'startup' | 'spin-off';
+  status: EntityStatus;
+  icon: string;
+  industry: string;
+  products: string[];
+  platformIds: string[];
+  organizationIds: string[];
+}
+
+export interface Organization {
+  id: string;
+  name: string;
+  description: string;
+  type: 'division' | 'department' | 'team' | 'lab' | 'unit' | 'foundation';
+  status: EntityStatus;
+  icon: string;
+  parentId?: string;
+  platformIds: string[];
+  mission: string;
+  capabilities: string[];
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  status: EntityStatus;
+  icon: string;
+  version: string;
+  platformId?: string;
+  features: string[];
+  techStack: string[];
+}
+
+export interface PlatformDeploy {
+  status: string;
+  domain?: string;
+  vercelProject?: string;
+  framework: string;
+  buildCommand: string;
+}
+
+export interface Platform {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  status: EntityStatus;
+  icon: string;
+  techStack: string[];
+  features: string[];
+  deploy?: PlatformDeploy;
+}
+
+export interface IndustrijaStats {
+  totalPlatforms: number;
+  totalOrganizations: number;
+  totalCompanies: number;
+  totalProducts: number;
+  activePlatforms: number;
+  activeOrganizations: number;
+  activeCompanies: number;
+  activeProducts: number;
+}
+
+export interface DigitalnaIndustrija {
+  name: string;
+  description: string;
+  version: string;
+  founded: string;
+  mission: string;
+  vision: string;
+  stats: IndustrijaStats;
+}
