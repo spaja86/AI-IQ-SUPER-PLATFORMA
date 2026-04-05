@@ -17,7 +17,8 @@ function getAutofinishLog(): Array<{ iteracija: number; verzija: string; rute: n
     { iteracija: 55, verzija: '10.5.0', rute: 95, api: 63, dijagnostike: 64, opis: 'v10.5.0 — Mega status, dispatch, logovi' },
     { iteracija: 60, verzija: '11.0.0', rute: 100, api: 68, dijagnostike: 69, opis: 'v11.0.0 MILESTONE — Full ecosystem, 100 ruta' },
     { iteracija: 65, verzija: '11.5.0', rute: 105, api: 73, dijagnostike: 74, opis: 'v11.5.0 — Dimenzije, OMEGA AI, evolucija, mobilna, promptovi' },
-    { iteracija: 70, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v12.0.0 MILESTONE — Industrija, WiFi, deploy, IT proizvodi, prompt pregled' },
+    { iteracija: 70, verzija: '12.0.0', rute: 110, api: 78, dijagnostike: 79, opis: 'v12.0.0 MILESTONE — Industrija, WiFi, deploy, IT proizvodi, prompt pregled' },
+    { iteracija: 75, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v12.5.0 — Ultra OMEGA Core, sekvence, dispatch, dijagnostika, rast pregled' },
   ];
 }
 

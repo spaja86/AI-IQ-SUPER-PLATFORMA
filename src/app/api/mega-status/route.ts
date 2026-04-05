@@ -52,6 +52,8 @@ export async function GET() {
     '/api/mobilna-mreza-pregled', '/api/univerzalni-prompt-pregled',
     '/api/industrija-pregled', '/api/wifi-antena-pregled', '/api/deploy-pregled',
     '/api/it-proizvodi-pregled', '/api/prompt-pregled',
+    '/api/ultra-omega-core', '/api/sekvence-pregled', '/api/dispatch-pregled',
+    '/api/kompletna-dijagnostika', '/api/rast-pregled',
   ];
 
   return NextResponse.json({

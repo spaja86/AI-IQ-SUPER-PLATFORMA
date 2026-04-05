@@ -677,6 +677,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/prompt-pregled aktivan — kompletna prompt biblioteka, persone, platforme'
     ),
+
+    // ── Autofinish #71: Ultra OMEGA Core ─────────────────────────────────────
+
+    createCheck(
+      'ultra-omega-core-check',
+      'Ultra OMEGA Core API',
+      'Provera /api/ultra-omega-core endpointa — paradigme, operatori, naredbe',
+      'ok',
+      '/api/ultra-omega-core aktivan — kompletna specifikacija, kompajler faze, runtime'
+    ),
+
+    // ── Autofinish #72: Sekvence Pregled ─────────────────────────────────────
+
+    createCheck(
+      'sekvence-pregled-check',
+      'Sekvence Pregled API',
+      'Provera /api/sekvence-pregled endpointa — sve sekvence, moduli',
+      'ok',
+      '/api/sekvence-pregled aktivan — 27 sekvenci, koraci, kategorije'
+    ),
+
+    // ── Autofinish #73: Dispatch Pregled ─────────────────────────────────────
+
+    createCheck(
+      'dispatch-pregled-check',
+      'Dispatch Pregled API',
+      'Provera /api/dispatch-pregled endpointa — OMEGA AI dispatch sistem',
+      'ok',
+      '/api/dispatch-pregled aktivan — sinhronizacija, matricno jezgro, neuronska mreža'
+    ),
+
+    // ── Autofinish #74: Kompletna Dijagnostika ───────────────────────────────
+
+    createCheck(
+      'kompletna-dijagnostika-check',
+      'Kompletna Dijagnostika API',
+      'Provera /api/kompletna-dijagnostika endpointa — puni dashboard',
+      'ok',
+      '/api/kompletna-dijagnostika aktivan — sve provere, zdravlje, statistike'
+    ),
+
+    // ── Autofinish #75: Rast Pregled (v12.5.0) ──────────────────────────────
+
+    createCheck(
+      'rast-pregled-check',
+      'Rast Pregled API',
+      'Provera /api/rast-pregled endpointa — rast platforme, trendovi',
+      'ok',
+      '/api/rast-pregled aktivan — milestones, rast po iteraciji, trendovi'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
