@@ -68,6 +68,7 @@ function getAutofinishOpis(n: number): string {
     17: 'PWA manifest, /api/verzija, sekvence index exports, EN statistike',
     18: '/api/security, dashboard EN statistike, security dijagnostika, 60 ruta',
     19: 'Pocetna EN statistike, ekosistem proširenje, autofinish istorija kompletna',
+    20: 'v7.0.0 milestone — major verzija, 60 ruta, 30 dijagnostika, 28 API',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

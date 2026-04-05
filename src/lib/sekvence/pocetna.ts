@@ -109,7 +109,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     naslov: '🚀 Vercel Produkcija sa SpajaPro Prompt-om',
     redosled: 7,
     podaci: {
-      opis: `AI IQ SUPER PLATFORMA v${stats.verzija} je deploirana na Vercel sa SpajaPro Prompt engine-om. ${dijagnostika.ukupnoProvera} dijagnostika, zdravlje ${dijagnostika.zdravlje}%.`,
+      opis: `AI IQ SUPER PLATFORMA v${stats.verzija} je deploirana na Vercel sa SpajaPro Prompt engine-om. ${dijagnostika.ukupnoProvera} dijagnostika, zdravlje ${dijagnostika.zdravlje}%. Autofinish ×${stats.autofinishBroj} — kontinualno poboljšanje.`,
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
         { naziv: 'IT Proizvodi', vrednost: stats.ukupnoProizvoda, ikona: '⚡' },
