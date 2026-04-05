@@ -977,6 +977,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/verzija-roadmap aktivan — roadmap, principi, vizija'
     ),
+
+// ── Autofinish #101: Autofinish Kvalitet (v15.1.0) ─────────────────
+
+    createCheck(
+      'autofinish-kvalitet-check',
+      'Autofinish Kvalitet API',
+      'Provera /api/autofinish-kvalitet endpointa — metrike pouzdanosti',
+      'ok',
+      '/api/autofinish-kvalitet aktivan — kvalitet, pouzdanost, trendovi'
+    ),
+
+// ── Autofinish #102: Platforma Performanse (v15.2.0) ─────────────────
+
+    createCheck(
+      'platforma-performanse-check',
+      'Platforma Performanse API',
+      'Provera /api/platforma-performanse endpointa — optimizacije',
+      'ok',
+      '/api/platforma-performanse aktivan — performanse, skalabilnost, optimizacije'
+    ),
+
+// ── Autofinish #103: OMEGA Neuronska Mreža (v15.3.0) ─────────────────
+
+    createCheck(
+      'omega-neuronska-mreza-check',
+      'OMEGA Neuronska Mreža API',
+      'Provera /api/omega-neuronska-mreza endpointa — topologija',
+      'ok',
+      '/api/omega-neuronska-mreza aktivan — slojevi, veze, sposobnosti'
+    ),
+
+// ── Autofinish #104: SpajaPro Protokoli (v15.4.0) ─────────────────
+
+    createCheck(
+      'spaja-protokoli-check',
+      'SpajaPro Protokoli API',
+      'Provera /api/spaja-protokoli endpointa — transfer protokoli',
+      'ok',
+      '/api/spaja-protokoli aktivan — PMT, OMSP, STP, EDP, DMP'
+    ),
+
+// ── Autofinish #105: Ekosistem Analitika (v15.5.0) ─────────────────
+
+    createCheck(
+      'ekosistem-analitika-check',
+      'Ekosistem Analitika API',
+      'Provera /api/ekosistem-analitika endpointa — trendovi i predikcije',
+      'ok',
+      '/api/ekosistem-analitika aktivan — analitika, moduli, trendovi'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

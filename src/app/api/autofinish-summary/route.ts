@@ -33,7 +33,8 @@ export async function GET() {
     { iteracija: 85, verzija: '13.5.0', rute: 125, api: 93, dijagnostike: 94, opis: 'v13.5.0 — Verzija istorija, OMEGA oktave, proksi kapacitet, mobilna statistika, arhitektura' },
     { iteracija: 90, verzija: '14.0.0', rute: 130, api: 98, dijagnostike: 99, opis: 'v14.0.0 MILESTONE — Dimenzije mapa, SpajaPro benchmark, igrice kategorije, evolucija ciklus, full dijagnostika' },
     { iteracija: 95, verzija: '14.5.0', rute: 135, api: 103, dijagnostike: 104, opis: 'v14.5.0 — Mega dijagnostika, timeline, mobilna-proksi integracija, OMEGA evolucija mapa, platforma indeks' },
-    { iteracija: 100, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v15.0.0 MILESTONE — Ekosistem indeks, predikcija, SpajaPro evolucija, OMEGA sinhronizacija, verzija roadmap' },
+    { iteracija: 100, verzija: '15.0.0', rute: 140, api: 108, dijagnostike: 109, opis: 'v15.0.0 MILESTONE — Ekosistem indeks, predikcija, SpajaPro evolucija, OMEGA sinhronizacija, verzija roadmap' },
+    { iteracija: 105, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v15.5.0 — Autofinish kvalitet, platforma performanse, OMEGA neuronska mreža, SpajaPro protokoli, ekosistem analitika' },
   ];
 
   const rast = {

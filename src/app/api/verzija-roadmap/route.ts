@@ -10,8 +10,8 @@ import {
 
 export async function GET() {
   const roadmap = [
-    { verzija: '15.0.0', status: 'trenutna', iteracije: '96–100', rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, opis: 'Ekosistem indeks, predikcija, SpajaPro evolucija, OMEGA sinhronizacija, roadmap' },
-    { verzija: '15.5.0', status: 'planirana', iteracije: '101–105', procenaRuta: 145, procenaAPI: 113, opis: 'Napredna analitika, performanse, bezbednosni audit' },
+    { verzija: '15.0.0', status: 'zavrsena', iteracije: '96–100', rute: 140, api: 108, opis: 'Ekosistem indeks, predikcija, SpajaPro evolucija, OMEGA sinhronizacija, roadmap' },
+    { verzija: '15.5.0', status: 'trenutna', iteracije: '101–105', rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, opis: 'Autofinish kvalitet, platforma performanse, OMEGA neuronska mreža, protokoli, analitika' },
     { verzija: '16.0.0', status: 'planirana', iteracije: '106–110', procenaRuta: 150, procenaAPI: 118, opis: 'Major milestone — AI optimizacija, nove igrice' },
     { verzija: '20.0.0', status: 'vizija', iteracije: '126–130', procenaRuta: 170, procenaAPI: 138, opis: 'Ultra platforma — puna autonomija' },
     { verzija: '50.0.0', status: 'vizija', iteracije: '276–280', procenaRuta: 310, procenaAPI: 260, opis: 'Mega ekosistem — transcendentna faza' },
