@@ -10,6 +10,9 @@ import { dimenzije } from './dimenzije';
 import { proksiSignali, proksiCvorovi } from './proksi';
 import { navigation } from './navigation';
 import { runDiagnostics } from './auto-repair';
+import { companies } from './companies';
+import { organizations } from './organizations';
+import { products } from './products';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from './constants';
 
 export function getStatistike() {
@@ -66,5 +69,10 @@ export function getStatistike() {
     // Autofinish
     autofinishBroj: AUTOFINISH_COUNT,
     verzija: APP_VERSION,
+
+    // EN Entities
+    ukupnoKompanija: companies.length,
+    ukupnoOrganizacija: organizations.length,
+    ukupnoProducts: products.length,
   };
 }

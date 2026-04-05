@@ -20,13 +20,13 @@ export const OMEGA_AI_OKTAVA_COUNT = 8;
 
 // Ekosistem
 export const TOTAL_PAGES = 28;
-export const TOTAL_API_ROUTES = 26;
+export const TOTAL_API_ROUTES = 27;
 export const TOTAL_ROUTES = 57;
 export const TOTAL_IGRICA = 95;
 export const TOTAL_DIAGNOSTIKA = 29;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 16;
+export const AUTOFINISH_COUNT = 17;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
