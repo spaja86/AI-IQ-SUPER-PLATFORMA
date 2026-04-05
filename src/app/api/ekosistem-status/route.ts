@@ -64,7 +64,7 @@ export async function GET() {
 
     milestone: {
       verzija: 'v9.0.0',
-      opis: 'Major milestone — 80 ruta, 48 API, 49 dijagnostika, kompletni ekosistem pregled',
+      opis: 'Major milestone — 80 ruta, 48 API, 49 dijagnostike, kompletni ekosistem pregled',
       datum: new Date().toISOString(),
     },
 
