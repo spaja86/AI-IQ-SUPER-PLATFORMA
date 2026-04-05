@@ -28,7 +28,7 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-hero',
     tip: 'hero',
     naslov: '🎮 IGRICE — Dimenzionalni Gaming Sistem',
-    podnaslov: 'SpajaUltraOmegaCore -∞Ω+∞ | Igrice vezane za dimenzije 360D → 5760D | Preporuke prema IT proizvodima',
+    podnaslov: 'SpajaUltraOmegaCore -∞Ω+∞ | Dimenzionalni Gaming Sistem | Gaming Industrija | Preporuke prema IT proizvodima',
     ikona: '🎮',
     redosled: 1,
     podaci: {
@@ -155,10 +155,37 @@ export const igriceSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'igrice-gaming-industrija-baner',
+    tip: 'baner',
+    naslov: '🎮 Gaming Industrija — Masovne Preporuke',
+    redosled: 9,
+    podaci: {
+      bedz: '🕹️ GAMING INDUSTRIJA',
+      opis: `${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija! RPG sage, Battle Royale, MOBA arene, Racing simulatori, Horor, Muzičke igrice, Sandbox svetovi, Tower Defense, Card Battles, Flight simulatori, Party igrice, eSport menadžment i još mnogo toga — sve u dimenzionalnom prostoru 360D–5760D sa preporukama IT proizvoda!`,
+      dugme: { tekst: 'IT Proizvodi', href: '/it-proizvodi' },
+    },
+  },
+  {
+    id: 'igrice-gaming-proizvodi-tabela',
+    tip: 'tabela',
+    naslov: '🎮 Gaming Industrija IT Proizvodi',
+    podnaslov: 'Specijalizovani proizvodi za gaming ekosistem',
+    redosled: 10,
+    podaci: {
+      zaglavlje: ['Proizvod', 'Kategorija', 'Opis', 'Uticaj'],
+      redovi: itProizvodi.filter((p) => p.kategorija === 'gaming').map((p) => [
+        `${p.ikona} ${p.naziv}`,
+        p.kategorija,
+        p.opis.slice(0, 80) + '...',
+        p.uticaj,
+      ]),
+    },
+  },
+  {
     id: 'igrice-pitanje-lista',
     tip: 'lista',
     naslov: '🎮 Dimenzionalno pitanje pri pokretanju',
-    redosled: 9,
+    redosled: 11,
     podaci: {
       stavke: igrice.map((i) => ({
         ikona: i.ikona,
@@ -172,7 +199,7 @@ export const igriceSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '📦 Preporučeni IT proizvodi po igricama',
     podnaslov: 'Svaka igrica preporučuje specifične proizvode za najbolje iskustvo',
-    redosled: 10,
+    redosled: 12,
     podaci: {
       kartice: igrice.map((i) => ({
         naslov: `${i.ikona} ${i.naziv}`,
@@ -186,16 +213,34 @@ export const igriceSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'igrice-kategorije-tabela',
+    tip: 'tabela',
+    naslov: '🏷️ Kategorije igrica u gaming industriji',
+    podnaslov: `${kategorije.length} kategorija za sve tipove gejmera`,
+    redosled: 13,
+    podaci: {
+      zaglavlje: ['Kategorija', 'Broj igrica', 'Primeri'],
+      redovi: kategorije.map((k) => {
+        const igriceKat = igrice.filter((i) => i.kategorija === k);
+        return [
+          k.charAt(0).toUpperCase() + k.slice(1),
+          `${igriceKat.length} igrica`,
+          igriceKat.slice(0, 3).map((i) => `${i.ikona} ${i.naziv}`).join(', '),
+        ];
+      }),
+    },
+  },
+  {
     id: 'igrice-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Arhitektura Gaming Sistema',
-    redosled: 11,
+    redosled: 14,
     podaci: {
       nivoi: [
         {
-          naziv: 'Dimenzionalni Gaming Sistem',
+          naziv: 'Dimenzionalni Gaming Sistem — Gaming Industrija',
           ikona: '🎮',
-          deca: ['Obavezni Zahtevi', 'Igrice', 'Dimenzije', 'IT Proizvodi', 'Dimenzionalno Pitanje (D)'],
+          deca: ['Obavezni Zahtevi', 'Igrice', 'Kategorije', 'Dimenzije', 'IT Proizvodi', 'Gaming IT Proizvodi', 'Dimenzionalno Pitanje (D)'],
         },
         {
           naziv: 'Obavezni Zahtevi',
@@ -208,6 +253,11 @@ export const igriceSekvence: Sekvenca[] = [
           deca: igrice.map((i) => `${i.ikona} ${i.naziv} — ${i.kategorija}`),
         },
         {
+          naziv: 'Kategorije',
+          ikona: '🏷️',
+          deca: kategorije.map((k) => `${k}: ${igrice.filter((i) => i.kategorija === k).length} igrica`),
+        },
+        {
           naziv: 'Dimenzije',
           ikona: '🌀',
           deca: dimenzije.map((d) => `${d.ikona} ${d.nivo} — ${d.snaga}`),
@@ -216,6 +266,11 @@ export const igriceSekvence: Sekvenca[] = [
           naziv: 'IT Proizvodi',
           ikona: '📦',
           deca: [...new Set(igrice.flatMap((i) => i.preporuceniProizvodi))].map((p) => getNazivProizvoda(p)),
+        },
+        {
+          naziv: 'Gaming IT Proizvodi',
+          ikona: '🎮',
+          deca: itProizvodi.filter((p) => p.kategorija === 'gaming').map((p) => `${p.ikona} ${p.naziv}`),
         },
         {
           naziv: 'Dimenzionalno Pitanje (D)',
@@ -235,7 +290,7 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-progres',
     tip: 'progres',
     naslov: '📊 Status igrica',
-    redosled: 12,
+    redosled: 15,
     podaci: {
       stavke: igrice.map((i) => ({
         naziv: `${i.ikona} ${i.naziv}`,
@@ -248,20 +303,20 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-baner',
     tip: 'baner',
     naslov: '🎮 Koju dimenziju želiš (D)?',
-    redosled: 13,
+    redosled: 16,
     podaci: {
       bedz: '🌀 360D → 5760D',
-      opis: 'Svaka igrica pri pokretanju pita: „Koju dimenziju želiš (D)?" — izaberi od 360D do 5760D. Dimenzija određuje celokupno iskustvo: geometriju, zakone, vizuelni prikaz i snagu renderovanja. Viša dimenzija = bogatije iskustvo. ZAHTEVI: Digitalni Kompjuter + Digitalni Brauzer!',
+      opis: `Gaming industrija sa ${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija! Svaka igrica pri pokretanju pita: „Koju dimenziju želiš (D)?" — izaberi od 360D do 5760D. RPG, Battle Royale, MOBA, Racing, Horor, Muzika, Sandbox i mnogo više. ZAHTEVI: Digitalni Kompjuter + Digitalni Brauzer!`,
       dugme: { tekst: 'Istraži dimenzije', href: '/dimenzije' },
     },
   },
   {
     id: 'igrice-cta',
     tip: 'cta',
-    naslov: '🚀 Dimenzionalni Gaming',
-    redosled: 14,
+    naslov: '🚀 Gaming Industrija — Dimenzionalni Gaming',
+    redosled: 17,
     podaci: {
-      opis: `${igriceSistem.ukupnoIgrica} igrica vezanih za dimenzije — od 360D do 5760D. Preporuke prema IT proizvodima. Zahtevi: Digitalni Kompjuter + Digitalni Brauzer. Izaberi dimenziju (D) i igraj!`,
+      opis: `${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija — od RPG i Battle Royale do Muzike i eSporta. Sve u dimenzionalnom prostoru 360D–5760D. ${itProizvodi.filter((p) => p.kategorija === 'gaming').length} specijalizovanih gaming IT proizvoda. Zahtevi: Digitalni Kompjuter + Digitalni Brauzer. Izaberi dimenziju (D) i igraj!`,
       dugmad: [
         { tekst: 'Dimenzije', href: '/dimenzije' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },

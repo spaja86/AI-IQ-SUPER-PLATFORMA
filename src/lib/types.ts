@@ -56,7 +56,8 @@ export interface Platforma {
 
 export type KategorijaProizvoda =
   | 'ubrzanje' | 'monitoring' | 'bezbednost' | 'ai'
-  | 'deploy' | 'integracija' | 'podaci' | 'komunikacija';
+  | 'deploy' | 'integracija' | 'podaci' | 'komunikacija'
+  | 'gaming';
 
 export interface ITProizvod {
   id: string;
