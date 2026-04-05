@@ -267,6 +267,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/sitemap-status aktivan — XML sitemap, robots.txt, PWA manifest'
     ),
+
+    // ── Autofinish #30: Milestones (v8.0.0) ────────────────────────────
+
+    createCheck(
+      'milestones-check',
+      'Milestones API',
+      'Provera /api/milestones endpointa — istorija razvoja platforme',
+      'ok',
+      '/api/milestones aktivan — 11 milestones, rast od početka'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

@@ -18,7 +18,8 @@ export async function GET() {
     { iteracija: 10, verzija: '6.6.0', rute: 43, api: 12, dijagnostike: 18, opis: 'Constants centralizacija' },
     { iteracija: 15, verzija: '6.8.0', rute: 55, api: 24, dijagnostike: 27, opis: 'JSON-LD + robots.txt' },
     { iteracija: 20, verzija: '7.0.0', rute: 60, api: 28, dijagnostike: 30, opis: 'Major v7.0.0 milestone' },
-    { iteracija: 25, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'Autofinish #25 milestone' },
+    { iteracija: 25, verzija: '7.5.0', rute: 65, api: 33, dijagnostike: 34, opis: 'Autofinish #25 — graph, summary' },
+    { iteracija: 30, verzija: APP_VERSION, rute: TOTAL_ROUTES, api: TOTAL_API_ROUTES, dijagnostike: TOTAL_DIAGNOSTIKA, opis: 'v8.0.0 — Major milestone' },
   ];
 
   const rast = {
