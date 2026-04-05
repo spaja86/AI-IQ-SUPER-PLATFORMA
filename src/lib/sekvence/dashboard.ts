@@ -3,6 +3,7 @@ import { platforme, getUkupniProgres } from '@/lib/platforme';
 import { itProizvodi } from '@/lib/it-proizvodi';
 import { getStatistike } from '@/lib/statistika';
 import { runDiagnostics } from '@/lib/auto-repair';
+import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
 
 const stats = getStatistike();
 const dijagnostika = runDiagnostics();
@@ -12,7 +13,7 @@ export const dashboardSekvence: Sekvenca[] = [
     id: 'dashboard-hero',
     tip: 'hero',
     naslov: '📊 Dashboard',
-    podnaslov: 'Kontrolna tabla ekosistema — AI IQ SUPER PLATFORMA v6.6.0',
+    podnaslov: `Kontrolna tabla ekosistema — AI IQ SUPER PLATFORMA v${APP_VERSION}`,
     ikona: '📊',
     redosled: 1,
     podaci: {
@@ -113,7 +114,7 @@ export const dashboardSekvence: Sekvenca[] = [
         { naslov: 'Responsive Design', opis: 'Mobile-first dizajn sa 26 navigacionih linkova', ikona: '📱' },
         { naslov: 'Auto-Popravka', opis: `${dijagnostika.ukupnoProvera} dijagnostičkih provera, zdravlje ${dijagnostika.zdravlje}%`, ikona: '🔧' },
         { naslov: 'OMEGA AI Evolucija', opis: 'Autonomna evolucija svakih 6 sati', ikona: '🧬' },
-        { naslov: 'Autofinish ×9', opis: '9 kompletnih Autofinish ciklusa', ikona: '🔄' },
+        { naslov: `Autofinish ×${AUTOFINISH_COUNT}`, opis: `${AUTOFINISH_COUNT} kompletnih Autofinish ciklusa`, ikona: '🔄' },
       ],
     },
   },

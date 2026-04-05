@@ -8,6 +8,7 @@ import { getEvolucijskaIstorija } from '@/lib/evolucija';
 import { platforme } from '@/lib/platforme';
 import { igrice } from '@/lib/igrice';
 import { navigation } from '@/lib/navigation';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
 
 export async function GET() {
   const stats = getStatistike();
@@ -19,7 +20,7 @@ export async function GET() {
   return NextResponse.json({
     platforma: 'AI IQ SUPER PLATFORMA',
     kompanija: 'Kompanija SPAJA',
-    verzija: '6.6.0',
+    verzija: APP_VERSION,
     status: 'operational',
     timestamp: new Date().toISOString(),
 
@@ -79,14 +80,16 @@ export async function GET() {
     // Navigacija
     navigacija: {
       stranice: navigation.length,
-      ukupnoRuta: 43,
+      ukupnoRuta: TOTAL_ROUTES,
+      apiRuta: TOTAL_API_ROUTES,
       igrice: igrice.length,
     },
 
     // Autofinish
     autofinish: {
-      broj: 9,
-      poslednji: 'Autofinish #9 — v6.6.0',
+      broj: AUTOFINISH_COUNT,
+      poslednji: `Autofinish #${AUTOFINISH_COUNT} — v${APP_VERSION}`,
+      cilj: '3×10¹⁷',
     },
   });
 }

@@ -5,6 +5,7 @@ import { getDispatchSummary } from '@/lib/omega-ai-dispatch';
 import { getAktivneVerzije, spajaProVerzije } from '@/lib/spaja-pro';
 import { getBrojPromptova, getPromptKategorije } from '@/lib/prompt';
 import { getDeployStatistike, proksiGitHubDeploySistem } from '@/lib/proksi-github-deploy';
+import { APP_VERSION, TOTAL_API_ROUTES, AUTOFINISH_COUNT } from '@/lib/constants';
 
 export async function GET() {
   const stats = getStatistike();
@@ -16,13 +17,14 @@ export async function GET() {
     status: 'operational',
     platforma: 'AI IQ SUPER PLATFORMA',
     kompanija: 'SPAJA',
-    verzija: '6.6.0',
+    verzija: APP_VERSION,
     arhitektura: 'sekvence + omega-evolucija + proksi + mobilna-mreza + prompt + spajapro + eksterni-sajt + proksi-github-deploy',
     timestamp: new Date().toISOString(),
     statistike: stats,
     zdravlje: diagnostics.zdravlje,
-    stranice: 28,
-    apiRute: 12,
+    stranice: stats.ukupnoStranica,
+    apiRute: TOTAL_API_ROUTES,
+    autofinish: AUTOFINISH_COUNT,
     omegaAI: {
       persone: dispatch.ukupnoPersona,
       oktave: dispatch.ukupnoOktava,

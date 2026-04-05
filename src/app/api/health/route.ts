@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { runDiagnostics } from '@/lib/auto-repair';
 import { getStatistike } from '@/lib/statistika';
+import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
   const dijagnostika = runDiagnostics();
@@ -17,7 +18,7 @@ export async function GET() {
     status,
     zdravlje: dijagnostika.zdravlje,
     platforma: 'AI IQ SUPER PLATFORMA',
-    verzija: '6.6.0',
+    verzija: APP_VERSION,
     ukupnoProvera: dijagnostika.ukupnoProvera,
     uspesnih: dijagnostika.uspesnih,
     upozorenja: dijagnostika.upozorenja,
