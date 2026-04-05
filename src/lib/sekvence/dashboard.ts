@@ -66,6 +66,8 @@ export const dashboardSekvence: Sekvenca[] = [
         { naziv: 'Sajtovi', vrednost: stats.ukupnoSajtova, ikona: '🌍' },
         { naziv: 'Centrale', vrednost: stats.ukupnoMobilnihCentrala, ikona: '📱' },
         { naziv: 'Proksi Čvorovi', vrednost: stats.ukupnoProksiCvorova, ikona: '📡' },
+        { naziv: 'Kompanije', vrednost: stats.ukupnoKompanija, ikona: '🏛️' },
+        { naziv: 'Organizacije', vrednost: stats.ukupnoOrganizacija, ikona: '🏢' },
         { naziv: 'Stranice', vrednost: stats.ukupnoStranica, ikona: '📄' },
         { naziv: 'Rute', vrednost: stats.ukupnoRuta, ikona: '🗺️' },
       ],

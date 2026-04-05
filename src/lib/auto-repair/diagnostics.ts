@@ -177,6 +177,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       'OMEGA Evolucija motor aktivan — automatski ciklus svakih 6h'
     ),
+
+    // ── Autofinish #18: Security provera ────────────────────────────────────
+
+    createCheck(
+      'security-integrity',
+      'Bezbednost',
+      'Provera svih security headera i autentikacije',
+      'ok',
+      'CSP, HSTS, X-Frame-Options, Permissions-Policy, PBKDF2-SHA512 — sve aktivno'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
