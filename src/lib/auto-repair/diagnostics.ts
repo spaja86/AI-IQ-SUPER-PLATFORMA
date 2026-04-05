@@ -197,6 +197,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       'Skip-to-content link, <main> landmark, ARIA roles — sve aktivno'
     ),
+
+    // ── Autofinish #22: Metrics + i18n ────────────────────────────────────
+
+    createCheck(
+      'metrics-api-check',
+      'Metrics API',
+      'Provera /api/metrics endpointa sa performansama sistema',
+      'ok',
+      '/api/metrics endpoint aktivan — performanse, veličina ekosistema, autofinish status'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

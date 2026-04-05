@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/cron/', '/api/auto-repair/'],
+        disallow: ['/api/cron/', '/api/auto-repair/', '/api/metrics/', '/api/security/'],
       },
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,
