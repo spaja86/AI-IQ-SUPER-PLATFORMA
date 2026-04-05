@@ -1,14 +1,39 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0a0a1a',
+};
 
 export const metadata: Metadata = {
   title: {
     template: '%s | AI IQ SUPER PLATFORMA',
     default: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
   },
-  description: 'Digitalna Industrija — Kompanija SPAJA. Unified platforma za upravljanje svim AI i IT projektima.',
+  description: 'Digitalna Industrija — Kompanija SPAJA. SpajaPro Prompt Engine v6-15, 21 OMEGA AI persona, 95 igrica, Proksi mreža, SPAJA Mobilna Mreža. Unified platforma za upravljanje svim AI i IT projektima.',
+  keywords: ['AI', 'IQ', 'SUPER PLATFORMA', 'Kompanija SPAJA', 'SpajaPro', 'OMEGA AI', 'Digitalna Industrija', 'Prompt Engine', 'Proksi', 'Mobilna Mreža'],
+  authors: [{ name: 'Kompanija SPAJA' }],
+  creator: 'Kompanija SPAJA',
+  publisher: 'Kompanija SPAJA',
+  metadataBase: new URL('https://ai-iq-super-platforma.vercel.app'),
+  openGraph: {
+    type: 'website',
+    locale: 'sr_Latn',
+    siteName: 'AI IQ SUPER PLATFORMA',
+    title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
+    description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
