@@ -11,7 +11,7 @@ export async function GET() {
 
   const poOktavi = Array.from({ length: OMEGA_AI_OKTAVA_COUNT }, (_, i) => ({
     oktava: i + 1,
-    persona: omegaPersone.filter((p) => p.oktavniNivo === (i + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8).length,
+    persona: omegaPersone.filter((p) => p.oktavniNivo === i + 1).length,
   }));
 
   const aktivne = omegaPersone.filter((p) => p.aktivna);
