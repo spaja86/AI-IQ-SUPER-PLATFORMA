@@ -2076,7 +2076,7 @@ export const igrice: Igrica[] = [
   {
     id: 'igrica-spaja-poker',
     naziv: 'SPAJA POKER',
-    opis: 'Ultimativni poker sa SPAJA dimenzionalnim kartama i pravilima. Svaka dimenzija dodaje nove karte, boje i kombinacije. U 360D klasičan Texas Hold\'em, u 5760D imaš geometrijske karte, dimenzionalne jackpotove i spiralne turnire. Kompanija SPAJA oficijelni poker.',
+    opis: 'Ultimativni poker sa SPAJA dimenzionalnim kartama i pravilima. Svaka dimenzija dodaje nove karte, boje i kombinacije. U 360D klasičan Texas Hold\'em, u 5760D imaš geometrijske karte, dimenzionalne jackpotove i spiralne turnire. Kompanija SPAJA zvanični poker.',
     ikona: '🃏',
     kategorija: 'strategija',
     podrzaneDimenzije: sveDimenzije,
