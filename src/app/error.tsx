@@ -48,6 +48,9 @@ export default function Error({
           >
             🔄 Pokušaj ponovo
           </button>
+          <Link href="/auto-popravka" className="rounded-lg border border-gray-700 px-6 py-3 text-sm text-gray-300 transition hover:bg-gray-800">
+            🔧 Auto-Popravka
+          </Link>
           <Link href="/dashboard" className="rounded-lg border border-gray-700 px-6 py-3 text-sm text-gray-300 transition hover:bg-gray-800">
             📊 Dashboard
           </Link>
@@ -55,6 +58,7 @@ export default function Error({
             🏠 Početna
           </Link>
         </div>
+        <p className="mt-6 text-xs text-gray-600">AI IQ SUPER PLATFORMA — Autonomna dijagnostika i auto-popravka</p>
       </div>
     </div>
   );

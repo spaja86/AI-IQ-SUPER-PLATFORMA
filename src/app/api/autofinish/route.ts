@@ -74,6 +74,7 @@ function getAutofinishOpis(n: number): string {
     23: '/api/infrastructure, Schema.org AggregateRating + inLanguage, 33 dijagnostike, v7.3.0',
     24: '/api/ecosystem-graph, PWA manifest proširenje (categories, orientation), v7.4.0',
     25: '/api/autofinish-summary sa milestones + rast, 34 dijagnostike, v7.5.0',
+    26: '/api/runtime-info, OG alternateLocale, canonical URL, error.tsx auto-popravka link, 35 dijagnostika, v7.6.0',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

@@ -227,6 +227,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/ecosystem-graph aktivan — nodes, edges, tipovi entiteta'
     ),
+
+    // ── Autofinish #26: Runtime + OG ────────────────────────────────────
+
+    createCheck(
+      'runtime-info-check',
+      'Runtime Info',
+      'Provera /api/runtime-info endpointa — framework, verzija, ekosistem',
+      'ok',
+      '/api/runtime-info aktivan — Next.js 16, TypeScript 5, Vercel Edge'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

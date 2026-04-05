@@ -55,6 +55,11 @@ export const metadata: Metadata = {
     siteName: 'AI IQ SUPER PLATFORMA',
     title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
     description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+    alternateLocale: ['en_US'],
+  },
+  alternates: {
+    canonical: BASE_URL,
+    languages: { 'sr-Latn': BASE_URL },
   },
   twitter: {
     card: 'summary_large_image',
