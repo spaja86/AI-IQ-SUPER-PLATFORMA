@@ -247,6 +247,16 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/navigation-info aktivan — kategorije, linkovi, opisi'
     ),
+
+    // ── Autofinish #28: Tech Stack ────────────────────────────────────
+
+    createCheck(
+      'tech-stack-check',
+      'Tech Stack API',
+      'Provera /api/tech-stack endpointa — frontend, backend, infrastruktura, bezbednost',
+      'ok',
+      '/api/tech-stack aktivan — Next.js 16, TypeScript 5, Vercel, PBKDF2-SHA512'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
