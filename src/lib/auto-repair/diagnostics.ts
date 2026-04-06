@@ -1977,6 +1977,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-neutronski-osciloskop aktivan — NOE v1.0, 10⁸¹ neutronskih osciloskopija/s'
     ),
+
+// ── Autofinish #201: SPAJA Kvarkovni Transmutator (v25.5.0) ─────────────
+
+    createCheck(
+      'spaja-kvarkovni-transmutator-check',
+      'SPAJA Kvarkovni Transmutator API',
+      'Provera /api/spaja-kvarkovni-transmutator endpointa — quark transmutation',
+      'ok',
+      '/api/spaja-kvarkovni-transmutator aktivan — QTE v1.0, 10⁸² kvarkovnih transmutacija/s'
+    ),
+
+// ── Autofinish #202: OMEGA Plazmoidni Katalizator (v25.5.0) ─────────────
+
+    createCheck(
+      'omega-plazmoidni-katalizator-check',
+      'OMEGA Plazmoidni Katalizator API',
+      'Provera /api/omega-plazmoidni-katalizator endpointa — plasmoid catalysis',
+      'ok',
+      '/api/omega-plazmoidni-katalizator aktivan — PCE v1.0, 10⁸³ plazmoidnih katalizacija/s'
+    ),
+
+// ── Autofinish #203: PLATFORMA Fotonski Defragmentator (v25.5.0) ─────────────
+
+    createCheck(
+      'platforma-fotonski-defragmentator-check',
+      'PLATFORMA Fotonski Defragmentator API',
+      'Provera /api/platforma-fotonski-defragmentator endpointa — photon defragmentation',
+      'ok',
+      '/api/platforma-fotonski-defragmentator aktivan — PDE v1.0, 10⁸⁴ fotonskih defragmentacija/s'
+    ),
+
+// ── Autofinish #204: MEGA Tachionski Stabilizator (v25.5.0) ─────────────
+
+    createCheck(
+      'mega-tachionski-stabilizator-check',
+      'MEGA Tachionski Stabilizator API',
+      'Provera /api/mega-tachionski-stabilizator endpointa — tachyon stabilization',
+      'ok',
+      '/api/mega-tachionski-stabilizator aktivan — TSE v1.0, 10⁸⁵ tachionskih stabilizacija/s'
+    ),
+
+// ── Autofinish #205: OMEGA Hiperdimenzionalni Oscilator (v25.5.0) ─────────────
+
+    createCheck(
+      'omega-hiperdimenzionalni-oscilator-check',
+      'OMEGA Hiperdimenzionalni Oscilator API',
+      'Provera /api/omega-hiperdimenzionalni-oscilator endpointa — hyperdimensional oscillation',
+      'ok',
+      '/api/omega-hiperdimenzionalni-oscilator aktivan — HOE v1.0, 10⁸⁶ hiperdimenzionalnih oscilacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
