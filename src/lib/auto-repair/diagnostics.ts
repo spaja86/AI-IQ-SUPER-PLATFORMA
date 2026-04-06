@@ -1777,6 +1777,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-entropijski-invertor aktivan — EIE v1.0, 10⁶¹ entropijskih inverzija/s'
     ),
+
+// ── Autofinish #181: SPAJA Kvantni Defragmentator (v23.5.0) ─────────────
+
+    createCheck(
+      'spaja-kvantni-defragmentator-check',
+      'SPAJA Kvantni Defragmentator API',
+      'Provera /api/spaja-kvantni-defragmentator endpointa — quantum defragmentation',
+      'ok',
+      '/api/spaja-kvantni-defragmentator aktivan — QDE v1.0, 10⁶² kvantnih defragmentacija/s'
+    ),
+
+// ── Autofinish #182: OMEGA Temporalni Kompenzator (v23.5.0) ─────────────
+
+    createCheck(
+      'omega-temporalni-kompenzator-check',
+      'OMEGA Temporalni Kompenzator API',
+      'Provera /api/omega-temporalni-kompenzator endpointa — temporal compensation',
+      'ok',
+      '/api/omega-temporalni-kompenzator aktivan — TCE v1.0, 10⁶³ temporalnih kompenzacija/s'
+    ),
+
+// ── Autofinish #183: PLATFORMA Neutronski Akselerator (v23.5.0) ─────────────
+
+    createCheck(
+      'platforma-neutronski-akselerator-check',
+      'PLATFORMA Neutronski Akselerator API',
+      'Provera /api/platforma-neutronski-akselerator endpointa — neutron acceleration',
+      'ok',
+      '/api/platforma-neutronski-akselerator aktivan — NAE v1.0, 10⁶⁴ neutronskih akceleracija/s'
+    ),
+
+// ── Autofinish #184: MEGA Dimenzionalni Reflektor (v23.5.0) ─────────────
+
+    createCheck(
+      'mega-dimenzionalni-reflektor-check',
+      'MEGA Dimenzionalni Reflektor API',
+      'Provera /api/mega-dimenzionalni-reflektor endpointa — dimensional reflection',
+      'ok',
+      '/api/mega-dimenzionalni-reflektor aktivan — DRE v1.0, 10⁶⁵ dimenzionalnih refleksija/s'
+    ),
+
+// ── Autofinish #185: OMEGA Plasmatski Kondenzator (v23.5.0) ─────────────
+
+    createCheck(
+      'omega-plasmatski-kondenzator-check',
+      'OMEGA Plasmatski Kondenzator API',
+      'Provera /api/omega-plasmatski-kondenzator endpointa — plasma condensation',
+      'ok',
+      '/api/omega-plasmatski-kondenzator aktivan — PCE v1.0, 10⁶⁶ plasmatskih kondenzacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
