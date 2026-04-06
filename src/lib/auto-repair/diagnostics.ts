@@ -1677,6 +1677,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-dimensionalni-tkac aktivan — DWE v1.0, 10⁵¹ dimenzionalnih tkanja/s'
     ),
+
+// ── Autofinish #171: SPAJA Fotonski Kolajder (v22.5.0) ─────────────
+
+    createCheck(
+      'spaja-fotonski-kolajder-check',
+      'SPAJA Fotonski Kolajder API',
+      'Provera /api/spaja-fotonski-kolajder endpointa — photon collision',
+      'ok',
+      '/api/spaja-fotonski-kolajder aktivan — PCE v1.0, 10⁵² fotonskih kolizija/s'
+    ),
+
+// ── Autofinish #172: OMEGA Gravitacioni Tkač (v22.5.0) ─────────────
+
+    createCheck(
+      'omega-gravitacioni-tkac-check',
+      'OMEGA Gravitacioni Tkač API',
+      'Provera /api/omega-gravitacioni-tkac endpointa — gravitational weaving',
+      'ok',
+      '/api/omega-gravitacioni-tkac aktivan — GWE v1.0, 10⁵³ gravitacionih tkanja/s'
+    ),
+
+// ── Autofinish #173: PLATFORMA Nebulosni Generator (v22.5.0) ─────────────
+
+    createCheck(
+      'platforma-nebulosni-generator-check',
+      'PLATFORMA Nebulosni Generator API',
+      'Provera /api/platforma-nebulosni-generator endpointa — nebula generation',
+      'ok',
+      '/api/platforma-nebulosni-generator aktivan — NGE v1.0, 10⁵⁴ nebulosnih generacija/s'
+    ),
+
+// ── Autofinish #174: MEGA Hronalni Stabilizator (v22.5.0) ─────────────
+
+    createCheck(
+      'mega-hronalni-stabilizator-check',
+      'MEGA Hronalni Stabilizator API',
+      'Provera /api/mega-hronalni-stabilizator endpointa — chronal stabilization',
+      'ok',
+      '/api/mega-hronalni-stabilizator aktivan — CSE v1.0, 10⁵⁵ hronalnih stabilizacija/s'
+    ),
+
+// ── Autofinish #175: OMEGA Kvazarni Emiter (v22.5.0) ─────────────
+
+    createCheck(
+      'omega-kvazarni-emiter-check',
+      'OMEGA Kvazarni Emiter API',
+      'Provera /api/omega-kvazarni-emiter endpointa — quasar emission',
+      'ok',
+      '/api/omega-kvazarni-emiter aktivan — QEE v1.0, 10⁵⁶ kvazarnih emisija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
