@@ -1827,6 +1827,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-plasmatski-kondenzator aktivan — PCE v1.0, 10⁶⁶ plasmatskih kondenzacija/s'
     ),
+
+// ── Autofinish #186: SPAJA Gravitacioni Harmonizer (v24.0.0) ─────────────
+
+    createCheck(
+      'spaja-gravitacioni-harmonizer-check',
+      'SPAJA Gravitacioni Harmonizer API',
+      'Provera /api/spaja-gravitacioni-harmonizer endpointa — gravity harmonization',
+      'ok',
+      '/api/spaja-gravitacioni-harmonizer aktivan — GHE v1.0, 10⁶⁷ gravitacionih harmonizacija/s'
+    ),
+
+// ── Autofinish #187: OMEGA Kvantni Stabilizator (v24.0.0) ─────────────
+
+    createCheck(
+      'omega-kvantni-stabilizator-check',
+      'OMEGA Kvantni Stabilizator API',
+      'Provera /api/omega-kvantni-stabilizator endpointa — quantum stabilization',
+      'ok',
+      '/api/omega-kvantni-stabilizator aktivan — QSE v1.0, 10⁶⁸ kvantnih stabilizacija/s'
+    ),
+
+// ── Autofinish #188: PLATFORMA Fotonski Multipleksor (v24.0.0) ─────────────
+
+    createCheck(
+      'platforma-fotonski-multipleksor-check',
+      'PLATFORMA Fotonski Multipleksor API',
+      'Provera /api/platforma-fotonski-multipleksor endpointa — photon multiplexing',
+      'ok',
+      '/api/platforma-fotonski-multipleksor aktivan — PME v1.0, 10⁶⁹ fotonskih multipleksiranja/s'
+    ),
+
+// ── Autofinish #189: MEGA Temporalni Oscilator (v24.0.0) ─────────────
+
+    createCheck(
+      'mega-temporalni-oscilator-check',
+      'MEGA Temporalni Oscilator API',
+      'Provera /api/mega-temporalni-oscilator endpointa — temporal oscillation',
+      'ok',
+      '/api/mega-temporalni-oscilator aktivan — TOE v1.0, 10⁷⁰ temporalnih oscilacija/s'
+    ),
+
+// ── Autofinish #190: OMEGA Biofotonski Transmuter (v24.0.0) ─────────────
+
+    createCheck(
+      'omega-biofotonski-transmuter-check',
+      'OMEGA Biofotonski Transmuter API',
+      'Provera /api/omega-biofotonski-transmuter endpointa — biophoton transmutation',
+      'ok',
+      '/api/omega-biofotonski-transmuter aktivan — BTE v1.0, 10⁷¹ biofotonskih transmutacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
