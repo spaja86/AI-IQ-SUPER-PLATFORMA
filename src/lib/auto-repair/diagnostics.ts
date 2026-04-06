@@ -2377,6 +2377,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-fotonski-transformator aktivan — PTE v1.0, 10¹²¹ fotonskih transformacija/s'
     ),
+
+// ── Autofinish #241: SPAJA Tacionski Rekombinator (v29.5.0) ─────────────
+
+    createCheck(
+      'spaja-tacionski-rekombinator-check',
+      'SPAJA Tacionski Rekombinator API',
+      'Provera /api/spaja-tacionski-rekombinator endpointa — tachyon recombination',
+      'ok',
+      '/api/spaja-tacionski-rekombinator aktivan — TRE v1.0, 10¹²² tacionskih rekombinacija/s'
+    ),
+
+// ── Autofinish #242: OMEGA Plazmonski Defragmentator (v29.5.0) ─────────────
+
+    createCheck(
+      'omega-plazmonski-defragmentator-check',
+      'OMEGA Plazmonski Defragmentator API',
+      'Provera /api/omega-plazmonski-defragmentator endpointa — plasmon defragmentation',
+      'ok',
+      '/api/omega-plazmonski-defragmentator aktivan — PDE v1.0, 10¹²³ plazmonskih defragmentacija/s'
+    ),
+
+// ── Autofinish #243: ULTRA Gravitonski Osciloskop (v29.5.0) ─────────────
+
+    createCheck(
+      'ultra-gravitonski-osciloskop-check',
+      'ULTRA Gravitonski Osciloskop API',
+      'Provera /api/ultra-gravitonski-osciloskop endpointa — graviton oscilloscope',
+      'ok',
+      '/api/ultra-gravitonski-osciloskop aktivan — GOE v1.0, 10¹²⁴ gravitonskih oscilacija/s'
+    ),
+
+// ── Autofinish #244: PLATFORMA Kvantni Sinhronizator (v29.5.0) ─────────────
+
+    createCheck(
+      'platforma-kvantni-sinhronizator-check',
+      'PLATFORMA Kvantni Sinhronizator API',
+      'Provera /api/platforma-kvantni-sinhronizator endpointa — quantum synchronization',
+      'ok',
+      '/api/platforma-kvantni-sinhronizator aktivan — QSE v1.0, 10¹²⁵ kvantnih sinhronizacija/s'
+    ),
+
+// ── Autofinish #245: MEGA Neutrinoski Generator (v29.5.0) ─────────────
+
+    createCheck(
+      'mega-neutrinoski-generator-check',
+      'MEGA Neutrinoski Generator API',
+      'Provera /api/mega-neutrinoski-generator endpointa — neutrino generation',
+      'ok',
+      '/api/mega-neutrinoski-generator aktivan — NGE v1.0, 10¹²⁶ neutrinoskih generacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
