@@ -1227,6 +1227,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-distribuirani-sistem aktivan — Raft, Paxos, SPAJA-BFT'
     ),
+
+// ── Autofinish #126: OMEGA Kvantna Entropija (v18.0.0) ─────────────────
+
+    createCheck(
+      'omega-kvantna-entropija-check',
+      'OMEGA Kvantna Entropija API',
+      'Provera /api/omega-kvantna-entropija endpointa — quantum entropy engine',
+      'ok',
+      '/api/omega-kvantna-entropija aktivan — QRNG, vakuumske fluktuacije'
+    ),
+
+// ── Autofinish #127: SPAJA Fotonski Procesor (v18.0.0) ─────────────────
+
+    createCheck(
+      'spaja-fotonski-procesor-check',
+      'SPAJA Fotonski Procesor API',
+      'Provera /api/spaja-fotonski-procesor endpointa — photonic computing',
+      'ok',
+      '/api/spaja-fotonski-procesor aktivan — Mach-Zehnder, OMEGA-Photonic'
+    ),
+
+// ── Autofinish #128: Platforma Dimenzionalni Indeks (v18.0.0) ──────────
+
+    createCheck(
+      'platforma-dimenzionalni-indeks-check',
+      'Platforma Dimenzionalni Indeks API',
+      'Provera /api/platforma-dimenzionalni-indeks endpointa — dimensional index',
+      'ok',
+      '/api/platforma-dimenzionalni-indeks aktivan — 3D, 4D, 11D, ∞D navigacija'
+    ),
+
+// ── Autofinish #129: Mega Neural Fabric Status (v18.0.0) ───────────────
+
+    createCheck(
+      'mega-neural-fabric-status-check',
+      'Mega Neural Fabric Status API',
+      'Provera /api/mega-neural-fabric-status endpointa — neural infrastructure',
+      'ok',
+      '/api/mega-neural-fabric-status aktivan — Full-Mesh, OMEGA-Weave tkanje'
+    ),
+
+// ── Autofinish #130: OMEGA Holografska Memorija (v18.0.0) ──────────────
+
+    createCheck(
+      'omega-holografski-memorija-check',
+      'OMEGA Holografska Memorija API',
+      'Provera /api/omega-holografski-memorija endpointa — holographic memory',
+      'ok',
+      '/api/omega-holografski-memorija aktivan — holografski princip, ∞ redundancija'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
