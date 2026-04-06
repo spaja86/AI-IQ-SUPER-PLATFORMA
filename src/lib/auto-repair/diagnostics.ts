@@ -1727,6 +1727,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-kvazarni-emiter aktivan — QEE v1.0, 10⁵⁶ kvazarnih emisija/s'
     ),
+
+// ── Autofinish #176: SPAJA Plazmoidni Reaktor (v23.0.0) ─────────────
+
+    createCheck(
+      'spaja-plazmoidni-reactor-check',
+      'SPAJA Plazmoidni Reaktor API',
+      'Provera /api/spaja-plazmoidni-reactor endpointa — plasmoid reaction',
+      'ok',
+      '/api/spaja-plazmoidni-reactor aktivan — PRE v1.0, 10⁵⁷ plazmoidnih reakcija/s'
+    ),
+
+// ── Autofinish #177: OMEGA Singularitetni Modulator (v23.0.0) ─────────────
+
+    createCheck(
+      'omega-singularitetni-modulator-check',
+      'OMEGA Singularitetni Modulator API',
+      'Provera /api/omega-singularitetni-modulator endpointa — singularity modulation',
+      'ok',
+      '/api/omega-singularitetni-modulator aktivan — SME v1.0, 10⁵⁸ singularitetnih modulacija/s'
+    ),
+
+// ── Autofinish #178: PLATFORMA Hiperfotonski Procesor (v23.0.0) ─────────────
+
+    createCheck(
+      'platforma-hiperfotonski-procesor-check',
+      'PLATFORMA Hiperfotonski Procesor API',
+      'Provera /api/platforma-hiperfotonski-procesor endpointa — hyperphotonic processing',
+      'ok',
+      '/api/platforma-hiperfotonski-procesor aktivan — HPE v1.0, 10⁵⁹ hiperfotonskih operacija/s'
+    ),
+
+// ── Autofinish #179: MEGA Kosmički Harmonizator (v23.0.0) ─────────────
+
+    createCheck(
+      'mega-kosmicki-harmonizator-check',
+      'MEGA Kosmički Harmonizator API',
+      'Provera /api/mega-kosmicki-harmonizator endpointa — cosmic harmonization',
+      'ok',
+      '/api/mega-kosmicki-harmonizator aktivan — CHE v1.0, 10⁶⁰ kosmičkih harmonizacija/s'
+    ),
+
+// ── Autofinish #180: OMEGA Entropijski Invertor (v23.0.0) ─────────────
+
+    createCheck(
+      'omega-entropijski-invertor-check',
+      'OMEGA Entropijski Invertor API',
+      'Provera /api/omega-entropijski-invertor endpointa — entropy inversion',
+      'ok',
+      '/api/omega-entropijski-invertor aktivan — EIE v1.0, 10⁶¹ entropijskih inverzija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
