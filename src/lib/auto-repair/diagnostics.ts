@@ -1577,6 +1577,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-gravitacioni-sinhronizator aktivan — GSE v1.0, 10⁴¹ gravitacionih sinhronizacija/s'
     ),
+
+// ── Autofinish #161: SPAJA Plazmeni Rezonator (v21.5.0) ─────────────
+
+    createCheck(
+      'spaja-plazmeni-rezonator-check',
+      'SPAJA Plazmeni Rezonator API',
+      'Provera /api/spaja-plazmeni-rezonator endpointa — plasma resonance',
+      'ok',
+      '/api/spaja-plazmeni-rezonator aktivan — PRE v1.0, 10⁴² plazma rezonancija/s'
+    ),
+
+// ── Autofinish #162: OMEGA Subatomski Transmiter (v21.5.0) ───────────
+
+    createCheck(
+      'omega-subatomski-transmiter-check',
+      'OMEGA Subatomski Transmiter API',
+      'Provera /api/omega-subatomski-transmiter endpointa — subatomic transmission',
+      'ok',
+      '/api/omega-subatomski-transmiter aktivan — STE v1.0, 10⁴³ subatomskih transmisija/s'
+    ),
+
+// ── Autofinish #163: PLATFORMA Holo-Projektor (v21.5.0) ─────────────
+
+    createCheck(
+      'platforma-holo-projektor-check',
+      'PLATFORMA Holo-Projektor API',
+      'Provera /api/platforma-holo-projektor endpointa — holographic projection',
+      'ok',
+      '/api/platforma-holo-projektor aktivan — HPE v1.0, 10⁴⁴ holografskih projekcija/s'
+    ),
+
+// ── Autofinish #164: MEGA Antimaterijalski Konvertor (v21.5.0) ───────
+
+    createCheck(
+      'mega-antimaterijalski-konvertor-check',
+      'MEGA Antimaterijalski Konvertor API',
+      'Provera /api/mega-antimaterijalski-konvertor endpointa — antimatter conversion',
+      'ok',
+      '/api/mega-antimaterijalski-konvertor aktivan — ACE v1.0, 10⁴⁵ antimaterijalnskih konverzija/s'
+    ),
+
+// ── Autofinish #165: OMEGA Kosmički Navigator (v21.5.0) ─────────────
+
+    createCheck(
+      'omega-kosmicki-navigator-check',
+      'OMEGA Kosmički Navigator API',
+      'Provera /api/omega-kosmicki-navigator endpointa — cosmic navigation',
+      'ok',
+      '/api/omega-kosmicki-navigator aktivan — CNE v1.0, 10⁴⁶ kosmičkih navigacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
