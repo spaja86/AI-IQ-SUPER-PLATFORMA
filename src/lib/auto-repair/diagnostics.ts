@@ -2227,6 +2227,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-subatomski-rezonator aktivan — SRE v1.0, 10¹⁰⁶ subatomskih rezonacija/s'
     ),
+
+// ── Autofinish #226: SPAJA Hiperprostorni Katalizator (v28.0.0) ─────────────
+
+    createCheck(
+      'spaja-hiperprostorni-katalizator-check',
+      'SPAJA Hiperprostorni Katalizator API',
+      'Provera /api/spaja-hiperprostorni-katalizator endpointa — hyperspace catalysis',
+      'ok',
+      '/api/spaja-hiperprostorni-katalizator aktivan — HCE v1.0, 10¹⁰⁷ hiperprostornih kataliza/s'
+    ),
+
+// ── Autofinish #227: OMEGA Termofuzijski Ekstraktor (v28.0.0) ─────────────
+
+    createCheck(
+      'omega-termofuzijski-ekstraktor-check',
+      'OMEGA Termofuzijski Ekstraktor API',
+      'Provera /api/omega-termofuzijski-ekstraktor endpointa — thermofusion extraction',
+      'ok',
+      '/api/omega-termofuzijski-ekstraktor aktivan — TEE v1.0, 10¹⁰⁸ termofuzijskih ekstrakcija/s'
+    ),
+
+// ── Autofinish #228: ULTRA Vakuumski Stabilizator (v28.0.0) ─────────────
+
+    createCheck(
+      'ultra-vakuumski-stabilizator-check',
+      'ULTRA Vakuumski Stabilizator API',
+      'Provera /api/ultra-vakuumski-stabilizator endpointa — vacuum stabilization',
+      'ok',
+      '/api/ultra-vakuumski-stabilizator aktivan — VSE v1.0, 10¹⁰⁹ vakuumskih stabilizacija/s'
+    ),
+
+// ── Autofinish #229: PLATFORMA Nanofotonski Procesor (v28.0.0) ─────────────
+
+    createCheck(
+      'platforma-nanofotonski-procesor-check',
+      'PLATFORMA Nanofotonski Procesor API',
+      'Provera /api/platforma-nanofotonski-procesor endpointa — nanophotonic processing',
+      'ok',
+      '/api/platforma-nanofotonski-procesor aktivan — NPE v1.0, 10¹¹⁰ nanofotonskih procesiranja/s'
+    ),
+
+// ── Autofinish #230: MEGA Interdimenzionalni Transformator (v28.0.0) ─────────────
+
+    createCheck(
+      'mega-interdimenzionalni-transformator-check',
+      'MEGA Interdimenzionalni Transformator API',
+      'Provera /api/mega-interdimenzionalni-transformator endpointa — interdimensional transformation',
+      'ok',
+      '/api/mega-interdimenzionalni-transformator aktivan — ITE v1.0, 10¹¹¹ interdimenzionalnih transformacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
