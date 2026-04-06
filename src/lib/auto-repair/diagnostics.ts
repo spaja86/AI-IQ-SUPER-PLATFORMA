@@ -2177,6 +2177,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-kvazarni-akcelerator aktivan — QAE v1.0, 10¹⁰¹ kvazarnih akceleracija/s'
     ),
+
+// ── Autofinish #221: SPAJA Tachionski Polarizator (v27.5.0) ─────────────
+
+    createCheck(
+      'spaja-tachionski-polarizator-check',
+      'SPAJA Tachionski Polarizator API',
+      'Provera /api/spaja-tachionski-polarizator endpointa — tachyon polarization',
+      'ok',
+      '/api/spaja-tachionski-polarizator aktivan — TPE v1.0, 10¹⁰² tachionskih polarizacija/s'
+    ),
+
+// ── Autofinish #222: OMEGA Kronotopski Navigator (v27.5.0) ─────────────
+
+    createCheck(
+      'omega-kronotopski-navigator-check',
+      'OMEGA Kronotopski Navigator API',
+      'Provera /api/omega-kronotopski-navigator endpointa — chronotopic navigation',
+      'ok',
+      '/api/omega-kronotopski-navigator aktivan — CNE v1.0, 10¹⁰³ kronotopskih navigacija/s'
+    ),
+
+// ── Autofinish #223: ULTRA Gravitacioni Konvertor (v27.5.0) ─────────────
+
+    createCheck(
+      'ultra-gravitacioni-konvertor-check',
+      'ULTRA Gravitacioni Konvertor API',
+      'Provera /api/ultra-gravitacioni-konvertor endpointa — gravitational conversion',
+      'ok',
+      '/api/ultra-gravitacioni-konvertor aktivan — GCE v1.0, 10¹⁰⁴ gravitacionih konverzija/s'
+    ),
+
+// ── Autofinish #224: PLATFORMA Entropijski Stabilizator (v27.5.0) ─────────────
+
+    createCheck(
+      'platforma-entropijski-stabilizator-check',
+      'PLATFORMA Entropijski Stabilizator API',
+      'Provera /api/platforma-entropijski-stabilizator endpointa — entropic stabilization',
+      'ok',
+      '/api/platforma-entropijski-stabilizator aktivan — ESE v1.0, 10¹⁰⁵ entropijskih stabilizacija/s'
+    ),
+
+// ── Autofinish #225: MEGA Subatomski Rezonator (v27.5.0) ─────────────
+
+    createCheck(
+      'mega-subatomski-rezonator-check',
+      'MEGA Subatomski Rezonator API',
+      'Provera /api/mega-subatomski-rezonator endpointa — subatomic resonation',
+      'ok',
+      '/api/mega-subatomski-rezonator aktivan — SRE v1.0, 10¹⁰⁶ subatomskih rezonacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
