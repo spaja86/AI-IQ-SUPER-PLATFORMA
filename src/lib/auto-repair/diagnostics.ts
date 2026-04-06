@@ -1177,6 +1177,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/kvantna-koherencija-status aktivan — kubiti, T2, Surface Code'
     ),
+
+// ── Autofinish #121: Ultra Neuronska Mreža Status (v17.5.0) ─────────────────
+
+    createCheck(
+      'ultra-neuronska-mreza-status-check',
+      'Ultra Neuronska Mreža Status API',
+      'Provera /api/ultra-neuronska-mreza-status endpointa — deep neural network',
+      'ok',
+      '/api/ultra-neuronska-mreza-status aktivan — Conv3D, Transformer, OMEGA-Core'
+    ),
+
+// ── Autofinish #122: SPAJA Kvantni Registar (v17.5.0) ─────────────────
+
+    createCheck(
+      'spaja-kvantni-registar-check',
+      'SPAJA Kvantni Registar API',
+      'Provera /api/spaja-kvantni-registar endpointa — quantum register',
+      'ok',
+      '/api/spaja-kvantni-registar aktivan — kubiti, entanglement, SPAJA-EC'
+    ),
+
+// ── Autofinish #123: OMEGA Temporalni Flux (v17.5.0) ─────────────────
+
+    createCheck(
+      'omega-temporalni-flux-check',
+      'OMEGA Temporalni Flux API',
+      'Provera /api/omega-temporalni-flux endpointa — temporal flow engine',
+      'ok',
+      '/api/omega-temporalni-flux aktivan — Chrono kanali, paradoks zaštita'
+    ),
+
+// ── Autofinish #124: Platforma Energetski Pregled (v17.5.0) ─────────────────
+
+    createCheck(
+      'platforma-energetski-pregled-check',
+      'Platforma Energetski Pregled API',
+      'Provera /api/platforma-energetski-pregled endpointa — energy overview',
+      'ok',
+      '/api/platforma-energetski-pregled aktivan — fusija, OMEGA-ZPE, 0 CO₂'
+    ),
+
+// ── Autofinish #125: Mega Distribuirani Sistem (v17.5.0) ─────────────────
+
+    createCheck(
+      'mega-distribuirani-sistem-check',
+      'Mega Distribuirani Sistem API',
+      'Provera /api/mega-distribuirani-sistem endpointa — distributed computing',
+      'ok',
+      '/api/mega-distribuirani-sistem aktivan — Raft, Paxos, SPAJA-BFT'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
