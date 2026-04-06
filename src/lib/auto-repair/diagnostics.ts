@@ -2277,6 +2277,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-interdimenzionalni-transformator aktivan — ITE v1.0, 10¹¹¹ interdimenzionalnih transformacija/s'
     ),
+
+// ── Autofinish #231: SPAJA Metatronski Oscilator (v28.5.0) ─────────────
+
+    createCheck(
+      'spaja-metatronski-oscilator-check',
+      'SPAJA Metatronski Oscilator API',
+      'Provera /api/spaja-metatronski-oscilator endpointa — metatronic oscillation',
+      'ok',
+      '/api/spaja-metatronski-oscilator aktivan — MOE v1.0, 10¹¹² metatronskih oscilacija/s'
+    ),
+
+// ── Autofinish #232: OMEGA Plazmatski Deflektor (v28.5.0) ─────────────
+
+    createCheck(
+      'omega-plazmatski-deflektor-check',
+      'OMEGA Plazmatski Deflektor API',
+      'Provera /api/omega-plazmatski-deflektor endpointa — plasma deflection',
+      'ok',
+      '/api/omega-plazmatski-deflektor aktivan — PDE v1.0, 10¹¹³ plazmatskih defleksija/s'
+    ),
+
+// ── Autofinish #233: ULTRA Kvarkovni Akcelerator (v28.5.0) ─────────────
+
+    createCheck(
+      'ultra-kvarkovni-akcelerator-check',
+      'ULTRA Kvarkovni Akcelerator API',
+      'Provera /api/ultra-kvarkovni-akcelerator endpointa — quark acceleration',
+      'ok',
+      '/api/ultra-kvarkovni-akcelerator aktivan — QAE v1.0, 10¹¹⁴ kvarkovnih akceleracija/s'
+    ),
+
+// ── Autofinish #234: PLATFORMA Holografski Emiter (v28.5.0) ─────────────
+
+    createCheck(
+      'platforma-holografski-emiter-check',
+      'PLATFORMA Holografski Emiter API',
+      'Provera /api/platforma-holografski-emiter endpointa — holographic emission',
+      'ok',
+      '/api/platforma-holografski-emiter aktivan — HEE v1.0, 10¹¹⁵ holografskih emisija/s'
+    ),
+
+// ── Autofinish #235: MEGA Temporalni Katalizator (v28.5.0) ─────────────
+
+    createCheck(
+      'mega-temporalni-katalizator-check',
+      'MEGA Temporalni Katalizator API',
+      'Provera /api/mega-temporalni-katalizator endpointa — temporal catalysis',
+      'ok',
+      '/api/mega-temporalni-katalizator aktivan — TCE v1.0, 10¹¹⁶ temporalnih kataliza/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
