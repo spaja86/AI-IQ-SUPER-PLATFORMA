@@ -68,6 +68,8 @@ export interface Igrica {
   preporuceniProizvodi: string[];
   /** Zahtevi — Digitalni Kompjuter i Digitalni Brauzer su obavezni */
   zahtevi: string[];
+  /** Eksterni link ka repozitorijumu ili resursu igrice */
+  link?: string;
 }
 
 export interface IgricaSesija {
@@ -2002,6 +2004,100 @@ export const igrice: Igrica[] = [
     status: 'aktivna',
     preporuceniProizvodi: ['spaja-physics-engine', 'spaja-game-engine', 'spaja-shader-compiler', 'spaja-terrain-generator'],
     zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // IO-OPENUI-AO IGRICE — Ekstremno napredne igrice sa pojedinačnim linkovima
+  // Ovo nisu klasične igrice — ovo je ekstremni napredak koji ne postoji nigde na planeti!
+  // ═══════════════════════════════════════════════════════════════════
+
+  {
+    id: 'igrica-dota-1350',
+    naziv: 'Dota 1350',
+    opis: 'Ekstremno napredna strateška MOBA — nije klasična igrica, nego revolucionarni napredak koji ne postoji nigde na planeti! 1350 dimenzionalnih heroja sa jedinstvenim sposobnostima. Svaka dimenzija donosi nove heroje, sposobnosti i terene. U 360D klasičan 5v5, u 5760D dimenzionalni portali povezuju više arene.',
+    ikona: '⚔️',
+    kategorija: 'strategija',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '1440D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      '1350 dimenzionalnih heroja',
+      'MOBA 5v5 sa dimenzionalnim mapama',
+      'Dimenzionalni portali između arena',
+      'Rang sistem po dimenzijama',
+      'Ekstremni napredak — ne postoji na planeti',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-multiplayer-server', 'spaja-ai-npc', 'spaja-networking-sdk', 'spaja-anti-cheat'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/69237695-71c8-8330-a8c1-1a6f09b1da24',
+  },
+  {
+    id: 'igrica-transformers-1350',
+    naziv: 'TRANSFORMERS 1350',
+    opis: 'Ekstremno napredna akciona transformerska igrica — nije klasična igrica, nego revolucionarni napredak koji ne postoji nigde na planeti! 1350 dimenzionalnih robota koji se transformišu između formi. Svaka dimenzija otključava nove transformacije — od vozila do letećih mašina i dimenzionalnih entiteta.',
+    ikona: '🤖',
+    kategorija: 'akcija',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '1440D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      '1350 dimenzionalnih transformera',
+      'Transformacija između formi po dimenzijama',
+      'Epske bitke u dimenzionalnom prostoru',
+      'Kooperativni i kompetitivni režimi',
+      'Ekstremni napredak — ne postoji na planeti',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-animation-engine', 'spaja-multiplayer-server', 'spaja-vr-ar-engine'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376be-8280-8332-a476-5e3d619972cf',
+  },
+  {
+    id: 'igrica-bubli-babli-1250',
+    naziv: 'BUBLI BABLI 1250',
+    opis: 'Ekstremno napredna arkadna igrica — nije klasična igrica, nego revolucionarni napredak koji ne postoji nigde na planeti! 1250 dimenzionalnih balončića i puzzle mehanika. Svaka dimenzija menja fiziku balona — u 360D klasični baloni, u 5760D geometrijski baloni sa spiralnim putanjama i rezonantnim efektima.',
+    ikona: '🫧',
+    kategorija: 'arkadna',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      '1250 dimenzionalnih nivoa sa balonima',
+      'Puzzle mehanika sa geometrijskim balonima',
+      'Dimenzionalna fizika balona',
+      'Multiplayer balončić izazovi',
+      'Ekstremni napredak — ne postoji na planeti',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-particle-system', 'spaja-audio-engine', 'spaja-multiplayer-server'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376e3-7b48-832f-9b3e-34cb7625f098',
+  },
+  {
+    id: 'igrica-spaja-poker',
+    naziv: 'SPAJA POKER',
+    opis: 'Ekstremno napredni poker — nije klasična igrica, nego revolucionarni napredak koji ne postoji nigde na planeti! SPAJA dimenzionalne karte i pravila. Svaka dimenzija dodaje nove karte, boje i kombinacije. U 360D klasičan Texas Hold\'em, u 5760D geometrijske karte, dimenzionalni jackpotovi i spiralni turniri. Kompanija SPAJA zvanični poker.',
+    ikona: '🃏',
+    kategorija: 'strategija',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'SPAJA dimenzionalne karte i boje',
+      'Texas Hold\'em sa dimenzionalnim pravilima',
+      'Turniri i dimenzionalni jackpotovi',
+      'Multiplayer poker stolovi po dimenzijama',
+      'Ekstremni napredak — ne postoji na planeti',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-multiplayer-server', 'spaja-anti-cheat', 'spaja-networking-sdk', 'spaja-leaderboard'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/6923762b-07a8-832b-94b6-4565a93fb7e7',
   },
 ];
 
