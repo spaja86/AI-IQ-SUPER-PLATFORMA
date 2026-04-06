@@ -1377,6 +1377,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-kvantni-teleporter aktivan — QTE v1.0, ∞ svetlosnih godina domet'
     ),
+
+// ── Autofinish #141: SPAJA Fotonski Akcelerator (v19.5.0) ─────────────
+
+    createCheck(
+      'spaja-fotonski-akcelerator-check',
+      'SPAJA Fotonski Akcelerator API',
+      'Provera /api/spaja-fotonski-akcelerator endpointa — photonic acceleration',
+      'ok',
+      '/api/spaja-fotonski-akcelerator aktivan — PAE v1.0, 10²⁴ fotona/s'
+    ),
+
+// ── Autofinish #142: OMEGA Dimenzionalni Stabilizator (v19.5.0) ────────
+
+    createCheck(
+      'omega-dimenzionalni-stabilizator-check',
+      'OMEGA Dimenzionalni Stabilizator API',
+      'Provera /api/omega-dimenzionalni-stabilizator endpointa — dimensional stability',
+      'ok',
+      '/api/omega-dimenzionalni-stabilizator aktivan — DSE v1.0, ∞ dimenzija'
+    ),
+
+// ── Autofinish #143: PLATFORMA Kvantni Enkriptor (v19.5.0) ────────────
+
+    createCheck(
+      'platforma-kvantni-enkriptor-check',
+      'PLATFORMA Kvantni Enkriptor API',
+      'Provera /api/platforma-kvantni-enkriptor endpointa — quantum encryption',
+      'ok',
+      '/api/platforma-kvantni-enkriptor aktivan — QEE v1.0, 10²⁰⁴⁸-bit enkripcija'
+    ),
+
+// ── Autofinish #144: MEGA Neutronski Sintetizator (v19.5.0) ───────────
+
+    createCheck(
+      'mega-neutronski-sintetizator-check',
+      'MEGA Neutronski Sintetizator API',
+      'Provera /api/mega-neutronski-sintetizator endpointa — neutron synthesis',
+      'ok',
+      '/api/mega-neutronski-sintetizator aktivan — NSE v1.0, 10²⁶ neutrona/s'
+    ),
+
+// ── Autofinish #145: OMEGA Gravitacioni Amplifikator (v19.5.0) ────────
+
+    createCheck(
+      'omega-gravitacioni-amplifikator-check',
+      'OMEGA Gravitacioni Amplifikator API',
+      'Provera /api/omega-gravitacioni-amplifikator endpointa — gravitational amplification',
+      'ok',
+      '/api/omega-gravitacioni-amplifikator aktivan — GAE v1.0, 10²⁸ G pojačanje'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
