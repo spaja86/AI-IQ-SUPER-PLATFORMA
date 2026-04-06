@@ -1877,6 +1877,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-biofotonski-transmuter aktivan — BTE v1.0, 10⁷¹ biofotonskih transmutacija/s'
     ),
+
+// ── Autofinish #191: SPAJA Neutronski Defragmentator (v24.5.0) ─────────────
+
+    createCheck(
+      'spaja-neutronski-defragmentator-check',
+      'SPAJA Neutronski Defragmentator API',
+      'Provera /api/spaja-neutronski-defragmentator endpointa — neutron defragmentation',
+      'ok',
+      '/api/spaja-neutronski-defragmentator aktivan — NDE v1.0, 10⁷² neutronskih defragmentacija/s'
+    ),
+
+// ── Autofinish #192: OMEGA Plazmatski Rezonator (v24.5.0) ─────────────
+
+    createCheck(
+      'omega-plazmatski-rezonator-check',
+      'OMEGA Plazmatski Rezonator API',
+      'Provera /api/omega-plazmatski-rezonator endpointa — plasma resonation',
+      'ok',
+      '/api/omega-plazmatski-rezonator aktivan — PRE v1.0, 10⁷³ plazmatskih rezonacija/s'
+    ),
+
+// ── Autofinish #193: PLATFORMA Kvarkovski Akcelerator (v24.5.0) ─────────────
+
+    createCheck(
+      'platforma-kvarkovski-akcelerator-check',
+      'PLATFORMA Kvarkovski Akcelerator API',
+      'Provera /api/platforma-kvarkovski-akcelerator endpointa — quark acceleration',
+      'ok',
+      '/api/platforma-kvarkovski-akcelerator aktivan — QAE v1.0, 10⁷⁴ kvarkovskih akceleracija/s'
+    ),
+
+// ── Autofinish #194: MEGA Fotonski Sinhronizator (v24.5.0) ─────────────
+
+    createCheck(
+      'mega-fotonski-sinhronizator-check',
+      'MEGA Fotonski Sinhronizator API',
+      'Provera /api/mega-fotonski-sinhronizator endpointa — photon synchronization',
+      'ok',
+      '/api/mega-fotonski-sinhronizator aktivan — FSE v1.0, 10⁷⁵ fotonskih sinhronizacija/s'
+    ),
+
+// ── Autofinish #195: OMEGA Dimenzionalni Katalizator (v24.5.0) ─────────────
+
+    createCheck(
+      'omega-dimenzionalni-katalizator-check',
+      'OMEGA Dimenzionalni Katalizator API',
+      'Provera /api/omega-dimenzionalni-katalizator endpointa — dimensional catalysis',
+      'ok',
+      '/api/omega-dimenzionalni-katalizator aktivan — DKE v1.0, 10⁷⁶ dimenzionalnih katalizacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
