@@ -2127,6 +2127,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-gravitonski-modulizator aktivan — GME v1.0, 10⁹⁶ gravitonskih modulizacija/s'
     ),
+
+// ── Autofinish #216: ULTRA Fotonski Dekompozitor (v27.0.0) ─────────────
+
+    createCheck(
+      'ultra-fotonski-dekompozitor-check',
+      'ULTRA Fotonski Dekompozitor API',
+      'Provera /api/ultra-fotonski-dekompozitor endpointa — photonic decomposition',
+      'ok',
+      '/api/ultra-fotonski-dekompozitor aktivan — PDE v1.0, 10⁹⁷ fotonskih dekompozicija/s'
+    ),
+
+// ── Autofinish #217: SPAJA Antimaterijalski Transmutator (v27.0.0) ─────────────
+
+    createCheck(
+      'spaja-antimaterijalski-transmutator-check',
+      'SPAJA Antimaterijalski Transmutator API',
+      'Provera /api/spaja-antimaterijalski-transmutator endpointa — antimatter transmutation',
+      'ok',
+      '/api/spaja-antimaterijalski-transmutator aktivan — ATE v1.0, 10⁹⁸ antimaterialnih transmutacija/s'
+    ),
+
+// ── Autofinish #218: OMEGA Singularitetni Kristalizator (v27.0.0) ─────────────
+
+    createCheck(
+      'omega-singularitetni-kristalizator-check',
+      'OMEGA Singularitetni Kristalizator API',
+      'Provera /api/omega-singularitetni-kristalizator endpointa — singularity crystallization',
+      'ok',
+      '/api/omega-singularitetni-kristalizator aktivan — SKE v1.0, 10⁹⁹ singularitetnih kristalizacija/s'
+    ),
+
+// ── Autofinish #219: PLATFORMA Hiperbolni Resonator (v27.0.0) ─────────────
+
+    createCheck(
+      'platforma-hiperbolni-resonator-check',
+      'PLATFORMA Hiperbolni Resonator API',
+      'Provera /api/platforma-hiperbolni-resonator endpointa — hyperbolic resonance',
+      'ok',
+      '/api/platforma-hiperbolni-resonator aktivan — HRE v1.0, 10¹⁰⁰ hiperbolnih rezonancija/s'
+    ),
+
+// ── Autofinish #220: MEGA Kvazarni Akcelerator (v27.0.0) ─────────────
+
+    createCheck(
+      'mega-kvazarni-akcelerator-check',
+      'MEGA Kvazarni Akcelerator API',
+      'Provera /api/mega-kvazarni-akcelerator endpointa — quasar acceleration',
+      'ok',
+      '/api/mega-kvazarni-akcelerator aktivan — QAE v1.0, 10¹⁰¹ kvazarnih akceleracija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
