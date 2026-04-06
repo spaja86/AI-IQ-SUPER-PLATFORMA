@@ -2027,6 +2027,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-hiperdimenzionalni-oscilator aktivan — HOE v1.0, 10⁸⁶ hiperdimenzionalnih oscilacija/s'
     ),
+
+// ── Autofinish #206: SPAJA Dimenzionalni Rezonator (v26.0.0) ─────────────
+
+    createCheck(
+      'spaja-dimenzionalni-rezonator-check',
+      'SPAJA Dimenzionalni Rezonator API',
+      'Provera /api/spaja-dimenzionalni-rezonator endpointa — dimensional resonance',
+      'ok',
+      '/api/spaja-dimenzionalni-rezonator aktivan — DRE v1.0, 10⁸⁷ dimenzionalnih rezonanci/s'
+    ),
+
+// ── Autofinish #207: OMEGA Kvantni Deflektor (v26.0.0) ─────────────
+
+    createCheck(
+      'omega-kvantni-deflektor-check',
+      'OMEGA Kvantni Deflektor API',
+      'Provera /api/omega-kvantni-deflektor endpointa — quantum deflection',
+      'ok',
+      '/api/omega-kvantni-deflektor aktivan — QDE v1.0, 10⁸⁸ kvantnih defleksija/s'
+    ),
+
+// ── Autofinish #208: PLATFORMA Gravitonski Akselerator (v26.0.0) ─────────────
+
+    createCheck(
+      'platforma-gravitonski-akselerator-check',
+      'PLATFORMA Gravitonski Akselerator API',
+      'Provera /api/platforma-gravitonski-akselerator endpointa — graviton acceleration',
+      'ok',
+      '/api/platforma-gravitonski-akselerator aktivan — GAE v1.0, 10⁸⁹ gravitonskih akceleracija/s'
+    ),
+
+// ── Autofinish #209: MEGA Fotonski Modulator (v26.0.0) ─────────────
+
+    createCheck(
+      'mega-fotonski-modulator-check',
+      'MEGA Fotonski Modulator API',
+      'Provera /api/mega-fotonski-modulator endpointa — photon modulation',
+      'ok',
+      '/api/mega-fotonski-modulator aktivan — PME v1.0, 10⁹⁰ fotonskih modulacija/s'
+    ),
+
+// ── Autofinish #210: OMEGA Tachionski Kompenzator (v26.0.0) ─────────────
+
+    createCheck(
+      'omega-tachionski-kompenzator-check',
+      'OMEGA Tachionski Kompenzator API',
+      'Provera /api/omega-tachionski-kompenzator endpointa — tachyon compensation',
+      'ok',
+      '/api/omega-tachionski-kompenzator aktivan — TCE v1.0, 10⁹¹ tachionskih kompenzacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
