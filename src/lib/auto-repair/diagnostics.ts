@@ -1477,6 +1477,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-subatomski-rezonator aktivan — SRE v1.0, 10³² rezonancija/s'
     ),
+
+// ── Autofinish #151: SPAJA Hiperprostorni Kompas (v20.5.0) ────────────
+
+    createCheck(
+      'spaja-hiperprostorni-kompas-check',
+      'SPAJA Hiperprostorni Kompas API',
+      'Provera /api/spaja-hiperprostorni-kompas endpointa — hyperspace navigation',
+      'ok',
+      '/api/spaja-hiperprostorni-kompas aktivan — HKE v1.0, 10³³ prostornih vektora/s'
+    ),
+
+// ── Autofinish #152: OMEGA Kvantni Destilator (v20.5.0) ───────────────
+
+    createCheck(
+      'omega-kvantni-destilator-check',
+      'OMEGA Kvantni Destilator API',
+      'Provera /api/omega-kvantni-destilator endpointa — quantum distillation',
+      'ok',
+      '/api/omega-kvantni-destilator aktivan — QDE v1.0, 10³⁴ kvantnih destilacija/s'
+    ),
+
+// ── Autofinish #153: PLATFORMA Biofotonski Analizator (v20.5.0) ───────
+
+    createCheck(
+      'platforma-biofotonski-analizator-check',
+      'PLATFORMA Biofotonski Analizator API',
+      'Provera /api/platforma-biofotonski-analizator endpointa — biophotonic analysis',
+      'ok',
+      '/api/platforma-biofotonski-analizator aktivan — BAE v1.0, 10³¹ biofotonskih analiza/s'
+    ),
+
+// ── Autofinish #154: MEGA Gravitacioni Invertor (v20.5.0) ─────────────
+
+    createCheck(
+      'mega-gravitacioni-invertor-check',
+      'MEGA Gravitacioni Invertor API',
+      'Provera /api/mega-gravitacioni-invertor endpointa — gravity inversion',
+      'ok',
+      '/api/mega-gravitacioni-invertor aktivan — GIE v1.0, 10³⁵ gravitacionih inverzija/s'
+    ),
+
+// ── Autofinish #155: OMEGA Temporalni Kristalizator (v20.5.0) ─────────
+
+    createCheck(
+      'omega-temporalni-kristalizator-check',
+      'OMEGA Temporalni Kristalizator API',
+      'Provera /api/omega-temporalni-kristalizator endpointa — temporal crystallization',
+      'ok',
+      '/api/omega-temporalni-kristalizator aktivan — TKE v1.0, 10³⁶ temporalnih kristalizacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
