@@ -1627,6 +1627,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-kosmicki-navigator aktivan — CNE v1.0, 10⁴⁶ kosmičkih navigacija/s'
     ),
+
+// ── Autofinish #166: SPAJA Kvarkni Destilator (v22.0.0) ─────────────
+
+    createCheck(
+      'spaja-kvarkni-destilator-check',
+      'SPAJA Kvarkni Destilator API',
+      'Provera /api/spaja-kvarkni-destilator endpointa — quark distillation',
+      'ok',
+      '/api/spaja-kvarkni-destilator aktivan — QDE v1.0, 10⁴⁷ kvarknih destilacija/s'
+    ),
+
+// ── Autofinish #167: OMEGA Torzijski Akcelerator (v22.0.0) ──────────
+
+    createCheck(
+      'omega-torzijski-akcelerator-check',
+      'OMEGA Torzijski Akcelerator API',
+      'Provera /api/omega-torzijski-akcelerator endpointa — torsion acceleration',
+      'ok',
+      '/api/omega-torzijski-akcelerator aktivan — TAE v1.0, 10⁴⁸ torzijskih akceleracija/s'
+    ),
+
+// ── Autofinish #168: PLATFORMA Kriogeni Stabilizator (v22.0.0) ──────
+
+    createCheck(
+      'platforma-kriogeni-stabilizator-check',
+      'PLATFORMA Kriogeni Stabilizator API',
+      'Provera /api/platforma-kriogeni-stabilizator endpointa — cryogenic stabilization',
+      'ok',
+      '/api/platforma-kriogeni-stabilizator aktivan — CSE v1.0, 10⁴⁹ kriogenih stabilizacija/s'
+    ),
+
+// ── Autofinish #169: MEGA Neutronski Imploder (v22.0.0) ─────────────
+
+    createCheck(
+      'mega-neutronski-imploder-check',
+      'MEGA Neutronski Imploder API',
+      'Provera /api/mega-neutronski-imploder endpointa — neutron implosion',
+      'ok',
+      '/api/mega-neutronski-imploder aktivan — NIE v1.0, 10⁵⁰ neutronskih implozija/s'
+    ),
+
+// ── Autofinish #170: OMEGA Dimensionalni Tkač (v22.0.0) ─────────────
+
+    createCheck(
+      'omega-dimensionalni-tkac-check',
+      'OMEGA Dimensionalni Tkač API',
+      'Provera /api/omega-dimensionalni-tkac endpointa — dimensional weaving',
+      'ok',
+      '/api/omega-dimensionalni-tkac aktivan — DWE v1.0, 10⁵¹ dimenzionalnih tkanja/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
