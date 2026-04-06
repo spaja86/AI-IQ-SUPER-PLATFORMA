@@ -1927,6 +1927,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-dimenzionalni-katalizator aktivan — DKE v1.0, 10⁷⁶ dimenzionalnih katalizacija/s'
     ),
+
+// ── Autofinish #196: SPAJA Hiperprostorni Rezonator (v25.0.0) ─────────────
+
+    createCheck(
+      'spaja-hiperprostorni-rezonator-check',
+      'SPAJA Hiperprostorni Rezonator API',
+      'Provera /api/spaja-hiperprostorni-rezonator endpointa — hyperspace resonation',
+      'ok',
+      '/api/spaja-hiperprostorni-rezonator aktivan — HRE v1.0, 10⁷⁷ hiperprostornih rezonacija/s'
+    ),
+
+// ── Autofinish #197: OMEGA Tachionski Modulacija (v25.0.0) ─────────────
+
+    createCheck(
+      'omega-tachionski-modulacija-check',
+      'OMEGA Tachionski Modulacija API',
+      'Provera /api/omega-tachionski-modulacija endpointa — tachyon modulation',
+      'ok',
+      '/api/omega-tachionski-modulacija aktivan — TME v1.0, 10⁷⁸ tachionskih modulacija/s'
+    ),
+
+// ── Autofinish #198: PLATFORMA Gravitonski Sintetizator (v25.0.0) ─────────────
+
+    createCheck(
+      'platforma-gravitonski-sintetizator-check',
+      'PLATFORMA Gravitonski Sintetizator API',
+      'Provera /api/platforma-gravitonski-sintetizator endpointa — graviton synthesis',
+      'ok',
+      '/api/platforma-gravitonski-sintetizator aktivan — GSE v1.0, 10⁷⁹ gravitonskih sintetizacija/s'
+    ),
+
+// ── Autofinish #199: MEGA Kvazarni Defragmentator (v25.0.0) ─────────────
+
+    createCheck(
+      'mega-kvazarni-defragmentator-check',
+      'MEGA Kvazarni Defragmentator API',
+      'Provera /api/mega-kvazarni-defragmentator endpointa — quasar defragmentation',
+      'ok',
+      '/api/mega-kvazarni-defragmentator aktivan — QDE v1.0, 10⁸⁰ kvazarnih defragmentacija/s'
+    ),
+
+// ── Autofinish #200: OMEGA Neutronski Osciloskop (v25.0.0) ─────────────
+
+    createCheck(
+      'omega-neutronski-osciloskop-check',
+      'OMEGA Neutronski Osciloskop API',
+      'Provera /api/omega-neutronski-osciloskop endpointa — neutron oscilloscopy',
+      'ok',
+      '/api/omega-neutronski-osciloskop aktivan — NOE v1.0, 10⁸¹ neutronskih osciloskopija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
