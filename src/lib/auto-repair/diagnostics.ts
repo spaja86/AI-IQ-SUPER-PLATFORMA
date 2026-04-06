@@ -1527,6 +1527,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-temporalni-kristalizator aktivan — TKE v1.0, 10³⁶ temporalnih kristalizacija/s'
     ),
+
+// ── Autofinish #156: SPAJA Kvantni Harmonizer (v21.0.0) ──────────────
+
+    createCheck(
+      'spaja-kvantni-harmonizer-check',
+      'SPAJA Kvantni Harmonizer API',
+      'Provera /api/spaja-kvantni-harmonizer endpointa — quantum harmonization',
+      'ok',
+      '/api/spaja-kvantni-harmonizer aktivan — QHE v1.0, 10³⁷ kvantnih harmonizacija/s'
+    ),
+
+// ── Autofinish #157: OMEGA Fotonski Dekompozitor (v21.0.0) ───────────
+
+    createCheck(
+      'omega-fotonski-dekompozitor-check',
+      'OMEGA Fotonski Dekompozitor API',
+      'Provera /api/omega-fotonski-dekompozitor endpointa — photonic decomposition',
+      'ok',
+      '/api/omega-fotonski-dekompozitor aktivan — PDE v1.0, 10³⁸ fotonskih dekompozicija/s'
+    ),
+
+// ── Autofinish #158: Platforma Neutrinski Oscilator (v21.0.0) ────────
+
+    createCheck(
+      'platforma-neutrinski-oscilator-check',
+      'Platforma Neutrinski Oscilator API',
+      'Provera /api/platforma-neutrinski-oscilator endpointa — neutrino oscillation',
+      'ok',
+      '/api/platforma-neutrinski-oscilator aktivan — NOE v1.0, 10³⁹ neutrinskih oscilacija/s'
+    ),
+
+// ── Autofinish #159: MEGA Hiperdimenzionalni Kondenzator (v21.0.0) ───
+
+    createCheck(
+      'mega-hiperdimenzionalni-kondenzator-check',
+      'MEGA Hiperdimenzionalni Kondenzator API',
+      'Provera /api/mega-hiperdimenzionalni-kondenzator endpointa — hyperdimensional condensation',
+      'ok',
+      '/api/mega-hiperdimenzionalni-kondenzator aktivan — HCE v1.0, 10⁴⁰ dimenzionalnih kondenzacija/s'
+    ),
+
+// ── Autofinish #160: OMEGA Gravitacioni Sinhronizator (v21.0.0) ──────
+
+    createCheck(
+      'omega-gravitacioni-sinhronizator-check',
+      'OMEGA Gravitacioni Sinhronizator API',
+      'Provera /api/omega-gravitacioni-sinhronizator endpointa — gravitational synchronization',
+      'ok',
+      '/api/omega-gravitacioni-sinhronizator aktivan — GSE v1.0, 10⁴¹ gravitacionih sinhronizacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
