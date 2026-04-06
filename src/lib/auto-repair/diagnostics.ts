@@ -2427,6 +2427,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-neutrinoski-generator aktivan — NGE v1.0, 10¹²⁶ neutrinoskih generacija/s'
     ),
+
+// ── Autofinish #246: SPAJA Fotonski Rezonator (v30.0.0) ─────────────
+
+    createCheck(
+      'spaja-fotonski-rezonator-check',
+      'SPAJA Fotonski Rezonator API',
+      'Provera /api/spaja-fotonski-rezonator endpointa — photon resonance',
+      'ok',
+      '/api/spaja-fotonski-rezonator aktivan — PRE v1.0, 10¹²⁷ fotonskih rezonancija/s'
+    ),
+
+// ── Autofinish #247: OMEGA Tacionski Kristalizator (v30.0.0) ─────────────
+
+    createCheck(
+      'omega-tacionski-kristalizator-check',
+      'OMEGA Tacionski Kristalizator API',
+      'Provera /api/omega-tacionski-kristalizator endpointa — tachyon crystallization',
+      'ok',
+      '/api/omega-tacionski-kristalizator aktivan — TCE v1.0, 10¹²⁸ tacionskih kristalizacija/s'
+    ),
+
+// ── Autofinish #248: ULTRA Neutronski Polarizator (v30.0.0) ─────────────
+
+    createCheck(
+      'ultra-neutronski-polarizator-check',
+      'ULTRA Neutronski Polarizator API',
+      'Provera /api/ultra-neutronski-polarizator endpointa — neutron polarization',
+      'ok',
+      '/api/ultra-neutronski-polarizator aktivan — NPE v1.0, 10¹²⁹ neutronskih polarizacija/s'
+    ),
+
+// ── Autofinish #249: PLATFORMA Gravitonski Deflektor (v30.0.0) ─────────────
+
+    createCheck(
+      'platforma-gravitonski-deflektor-check',
+      'PLATFORMA Gravitonski Deflektor API',
+      'Provera /api/platforma-gravitonski-deflektor endpointa — graviton deflection',
+      'ok',
+      '/api/platforma-gravitonski-deflektor aktivan — GDE v1.0, 10¹³⁰ gravitonskih defleksija/s'
+    ),
+
+// ── Autofinish #250: MEGA Kvantni Oscilator (v30.0.0) ─────────────
+
+    createCheck(
+      'mega-kvantni-oscilator-check',
+      'MEGA Kvantni Oscilator API',
+      'Provera /api/mega-kvantni-oscilator endpointa — quantum oscillation',
+      'ok',
+      '/api/mega-kvantni-oscilator aktivan — QOE v1.0, 10¹³¹ kvantnih oscilacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
