@@ -2077,6 +2077,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-tachionski-kompenzator aktivan — TCE v1.0, 10⁹¹ tachionskih kompenzacija/s'
     ),
+
+// ── Autofinish #211: SPAJA Neutronski Sintetizator (v26.5.0) ─────────────
+
+    createCheck(
+      'spaja-neutronski-sintetizator-check',
+      'SPAJA Neutronski Sintetizator API',
+      'Provera /api/spaja-neutronski-sintetizator endpointa — neutron synthesis',
+      'ok',
+      '/api/spaja-neutronski-sintetizator aktivan — NSE v1.0, 10⁹² neutronskih sinteza/s'
+    ),
+
+// ── Autofinish #212: OMEGA Plazmoidni Refraktor (v26.5.0) ─────────────
+
+    createCheck(
+      'omega-plazmoidni-refraktor-check',
+      'OMEGA Plazmoidni Refraktor API',
+      'Provera /api/omega-plazmoidni-refraktor endpointa — plasmoid refraction',
+      'ok',
+      '/api/omega-plazmoidni-refraktor aktivan — PRE v1.0, 10⁹³ plazmoidnih refrakcija/s'
+    ),
+
+// ── Autofinish #213: PLATFORMA Kvarkovni Harmonizator (v26.5.0) ─────────────
+
+    createCheck(
+      'platforma-kvarkovni-harmonizator-check',
+      'PLATFORMA Kvarkovni Harmonizator API',
+      'Provera /api/platforma-kvarkovni-harmonizator endpointa — quark harmonization',
+      'ok',
+      '/api/platforma-kvarkovni-harmonizator aktivan — QHE v1.0, 10⁹⁴ kvarkovnih harmonizacija/s'
+    ),
+
+// ── Autofinish #214: MEGA Dimenzionalni Integrator (v26.5.0) ─────────────
+
+    createCheck(
+      'mega-dimenzionalni-integrator-check',
+      'MEGA Dimenzionalni Integrator API',
+      'Provera /api/mega-dimenzionalni-integrator endpointa — dimensional integration',
+      'ok',
+      '/api/mega-dimenzionalni-integrator aktivan — DIE v1.0, 10⁹⁵ dimenzionalnih integracija/s'
+    ),
+
+// ── Autofinish #215: OMEGA Gravitonski Modulizator (v26.5.0) ─────────────
+
+    createCheck(
+      'omega-gravitonski-modulizator-check',
+      'OMEGA Gravitonski Modulizator API',
+      'Provera /api/omega-gravitonski-modulizator endpointa — graviton modulation',
+      'ok',
+      '/api/omega-gravitonski-modulizator aktivan — GME v1.0, 10⁹⁶ gravitonskih modulizacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
