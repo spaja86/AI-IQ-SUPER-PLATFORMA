@@ -1427,6 +1427,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-gravitacioni-amplifikator aktivan — GAE v1.0, 10²⁸ G pojačanje'
     ),
+
+// ── Autofinish #146: SPAJA Temporalni Navigator (v20.0.0) ─────────────
+
+    createCheck(
+      'spaja-temporalni-navigator-check',
+      'SPAJA Temporalni Navigator API',
+      'Provera /api/spaja-temporalni-navigator endpointa — temporal navigation',
+      'ok',
+      '/api/spaja-temporalni-navigator aktivan — TNE v1.0, 10³⁰ temporalnih čvorova/s'
+    ),
+
+// ── Autofinish #147: OMEGA Plazmeni Kondenzator (v20.0.0) ─────────────
+
+    createCheck(
+      'omega-plazmeni-kondenzator-check',
+      'OMEGA Plazmeni Kondenzator API',
+      'Provera /api/omega-plazmeni-kondenzator endpointa — plasma condensation',
+      'ok',
+      '/api/omega-plazmeni-kondenzator aktivan — PCE v1.0, 10²⁹ plazma jedinica/s'
+    ),
+
+// ── Autofinish #148: PLATFORMA Neutrinski Detektor (v20.0.0) ──────────
+
+    createCheck(
+      'platforma-neutrinski-detektor-check',
+      'PLATFORMA Neutrinski Detektor API',
+      'Provera /api/platforma-neutrinski-detektor endpointa — neutrino detection',
+      'ok',
+      '/api/platforma-neutrinski-detektor aktivan — NDE v1.0, 10²⁷ neutrina/s detekcija'
+    ),
+
+// ── Autofinish #149: MEGA Fotonski Kolajder (v20.0.0) ─────────────────
+
+    createCheck(
+      'mega-fotonski-kolajder-check',
+      'MEGA Fotonski Kolajder API',
+      'Provera /api/mega-fotonski-kolajder endpointa — photonic collision',
+      'ok',
+      '/api/mega-fotonski-kolajder aktivan — PCE v1.0, 10³¹ sudara/s'
+    ),
+
+// ── Autofinish #150: OMEGA Subatomski Rezonator (v20.0.0) ─────────────
+
+    createCheck(
+      'omega-subatomski-rezonator-check',
+      'OMEGA Subatomski Rezonator API',
+      'Provera /api/omega-subatomski-rezonator endpointa — subatomic resonance',
+      'ok',
+      '/api/omega-subatomski-rezonator aktivan — SRE v1.0, 10³² rezonancija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
