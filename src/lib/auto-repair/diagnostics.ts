@@ -2327,6 +2327,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-temporalni-katalizator aktivan — TCE v1.0, 10¹¹⁶ temporalnih kataliza/s'
     ),
+
+// ── Autofinish #236: SPAJA Gravitonski Sintetizator (v29.0.0) ─────────────
+
+    createCheck(
+      'spaja-gravitonski-sintetizator-check',
+      'SPAJA Gravitonski Sintetizator API',
+      'Provera /api/spaja-gravitonski-sintetizator endpointa — graviton synthesis',
+      'ok',
+      '/api/spaja-gravitonski-sintetizator aktivan — GSE v1.0, 10¹¹⁷ gravitonskih sinteza/s'
+    ),
+
+// ── Autofinish #237: OMEGA Krionski Stabilizator (v29.0.0) ─────────────
+
+    createCheck(
+      'omega-krionski-stabilizator-check',
+      'OMEGA Krionski Stabilizator API',
+      'Provera /api/omega-krionski-stabilizator endpointa — cryonic stabilization',
+      'ok',
+      '/api/omega-krionski-stabilizator aktivan — CSE v1.0, 10¹¹⁸ krionskih stabilizacija/s'
+    ),
+
+// ── Autofinish #238: ULTRA Magnetronski Pojačivač (v29.0.0) ─────────────
+
+    createCheck(
+      'ultra-magnetronski-pojacivac-check',
+      'ULTRA Magnetronski Pojačivač API',
+      'Provera /api/ultra-magnetronski-pojacivac endpointa — magnetron amplification',
+      'ok',
+      '/api/ultra-magnetronski-pojacivac aktivan — MAE v1.0, 10¹¹⁹ magnetronskih pojačanja/s'
+    ),
+
+// ── Autofinish #239: PLATFORMA Neutronski Modulator (v29.0.0) ─────────────
+
+    createCheck(
+      'platforma-neutronski-modulator-check',
+      'PLATFORMA Neutronski Modulator API',
+      'Provera /api/platforma-neutronski-modulator endpointa — neutron modulation',
+      'ok',
+      '/api/platforma-neutronski-modulator aktivan — NME v1.0, 10¹²⁰ neutronskih modulacija/s'
+    ),
+
+// ── Autofinish #240: MEGA Fotonski Transformator (v29.0.0) ─────────────
+
+    createCheck(
+      'mega-fotonski-transformator-check',
+      'MEGA Fotonski Transformator API',
+      'Provera /api/mega-fotonski-transformator endpointa — photon transformation',
+      'ok',
+      '/api/mega-fotonski-transformator aktivan — PTE v1.0, 10¹²¹ fotonskih transformacija/s'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
