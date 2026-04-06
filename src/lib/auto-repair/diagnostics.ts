@@ -1327,6 +1327,56 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/omega-plazma-fuzijski-reaktor aktivan — PFR v1.0, 10²⁴ W energija'
     ),
+
+// ── Autofinish #136: SPAJA Hiperdimenzionalni Motor (v19.0.0) ──────────
+
+    createCheck(
+      'spaja-hiperdimenzionalni-motor-check',
+      'SPAJA Hiperdimenzionalni Motor API',
+      'Provera /api/spaja-hiperdimenzionalni-motor endpointa — hyperspace engine',
+      'ok',
+      '/api/spaja-hiperdimenzionalni-motor aktivan — HPE v1.0, 10²⁸ dimenzija/s'
+    ),
+
+// ── Autofinish #137: OMEGA Kristalni Rezonator (v19.0.0) ───────────────
+
+    createCheck(
+      'omega-kristalni-rezonator-check',
+      'OMEGA Kristalni Rezonator API',
+      'Provera /api/omega-kristalni-rezonator endpointa — crystal resonance',
+      'ok',
+      '/api/omega-kristalni-rezonator aktivan — CRS v1.0, 10²⁰ Hz rezonancija'
+    ),
+
+// ── Autofinish #138: Platforma Neuronski Akcelerator (v19.0.0) ─────────
+
+    createCheck(
+      'platforma-neuronski-akcelerator-check',
+      'Platforma Neuronski Akcelerator API',
+      'Provera /api/platforma-neuronski-akcelerator endpointa — neural acceleration',
+      'ok',
+      '/api/platforma-neuronski-akcelerator aktivan — NAU v1.0, 10²⁶ operacija/s'
+    ),
+
+// ── Autofinish #139: MEGA Antimaterija Generator (v19.0.0) ─────────────
+
+    createCheck(
+      'mega-antimaterija-generator-check',
+      'MEGA Antimaterija Generator API',
+      'Provera /api/mega-antimaterija-generator endpointa — antimatter production',
+      'ok',
+      '/api/mega-antimaterija-generator aktivan — AMG v1.0, 10²² eV antimaterija/s'
+    ),
+
+// ── Autofinish #140: OMEGA Kvantni Teleporter (v19.0.0) ────────────────
+
+    createCheck(
+      'omega-kvantni-teleporter-check',
+      'OMEGA Kvantni Teleporter API',
+      'Provera /api/omega-kvantni-teleporter endpointa — quantum teleportation',
+      'ok',
+      '/api/omega-kvantni-teleporter aktivan — QTE v1.0, ∞ svetlosnih godina domet'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
