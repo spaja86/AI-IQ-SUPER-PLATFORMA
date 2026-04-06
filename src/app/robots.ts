@@ -1,8 +1,16 @@
 import type { MetadataRoute } from 'next';
+import { BASE_URL } from '@/lib/constants';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/' },
-    sitemap: 'https://ai-iq-super-platforma.vercel.app/sitemap.xml',
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/cron/', '/api/auto-repair/', '/api/metrics/', '/api/security/'],
+      },
+    ],
+    sitemap: `${BASE_URL}/sitemap.xml`,
+    host: BASE_URL,
   };
 }
