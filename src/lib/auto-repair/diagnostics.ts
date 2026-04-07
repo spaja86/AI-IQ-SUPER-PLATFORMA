@@ -15,6 +15,7 @@ import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
 import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
+import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2793,6 +2794,43 @@ export function runDiagnostics(): DiagnosticReport {
       'Provera /api/spaja-pro-zasebni-endzin-konverzacija endpointa — nastavak konverzacije',
       'ok',
       '/api/spaja-pro-zasebni-endzin-konverzacija aktivan — predloženi upiti, pravci, stilovi'
+    ),
+
+    // ── SpajaPro Multifunkcionalni Zajednički Endžin + SPAJA BAZA (#162) ──
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-check',
+      'SpajaPro Multifunkcionalni Zajednički Endžin API',
+      `Provera /api/spaja-pro-multifunkcionalni-endzin endpointa — ${multifunkcionalniEndzin.aktivniZasebniEndzini.length} endžina paralelno`,
+      'ok',
+      `/api/spaja-pro-multifunkcionalni-endzin aktivan — svi endžini rade zajedno, ${multifunkcionalniEndzin.rezim} režim`
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-status-check',
+      'Multifunkcionalni Endžin Status API',
+      'Provera /api/spaja-pro-multifunkcionalni-endzin-status endpointa — zdravlje zajedničkog endžina',
+      'ok',
+      '/api/spaja-pro-multifunkcionalni-endzin-status aktivan — paralelni rad, koordinacija'
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-sesija-check',
+      'Beskonačna Sesija API',
+      'Provera /api/spaja-pro-multifunkcionalni-endzin-sesija endpointa — beskonačne sesije',
+      'ok',
+      '/api/spaja-pro-multifunkcionalni-endzin-sesija aktivan — sesija nikad ne ističe, ∞ kontekst'
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-baza-check',
+      'SPAJA BAZA API',
+      `Provera /api/spaja-pro-multifunkcionalni-endzin-baza endpointa — ${spajaBazaIndeksi.length} indeksa, ${spajaBaza.kapacitet} kapacitet`,
+      'ok',
+      `/api/spaja-pro-multifunkcionalni-endzin-baza aktivan — SPAJA BAZA sa ∞ zapisa, ${spajaBaza.kategorije.length} kategorija`
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-smernice-check',
+      'Proširene Smernice API',
+      'Provera /api/spaja-pro-multifunkcionalni-endzin-smernice endpointa — smernice od svih endžina',
+      'ok',
+      '/api/spaja-pro-multifunkcionalni-endzin-smernice aktivan — proširene smernice za nastavak sesije'
     ),
   ];
 
