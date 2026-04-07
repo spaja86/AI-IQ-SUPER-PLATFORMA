@@ -13,7 +13,7 @@
 // ─── Tipovi ──────────────────────────────────────────────
 
 export type EngineStatus = 'aktivan' | 'generisanje' | 'optimizacija' | 'priprema' | 'planiran';
-export type EngineTip = 'core' | 'ai' | 'mreza' | 'finansije' | 'deploy' | 'gaming' | 'komunikacija' | 'bezbednost';
+export type EngineTip = 'core' | 'ai' | 'mreza' | 'finansije' | 'deploy' | 'gaming' | 'komunikacija' | 'bezbednost' | 'repo-engine';
 
 export interface GenerisaniEngine {
   id: string;
@@ -242,6 +242,191 @@ export const generisaniEngini: GenerisaniEngine[] = [
     generisanDatum: '2025-01-01',
     optimizacija: 75,
   },
+
+  // ─── Repo-specifični Engine-i za sve repozitorijume ─────
+
+  {
+    id: 'engine-repo-ai-iq-world-bank',
+    naziv: 'AI IQ World Bank Repo Engine',
+    opis: 'SPAJA Generator endžin za Ai-Iq-World-Bank repozitorijum — digitalna banka sa globalnim dometom, ONLINE procedura, AI optimizacija finansija',
+    ikona: '🏦',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/Ai-Iq-World-Bank',
+    mogucnosti: ['Digitalna banka', 'ONLINE procedura', 'Globalni transferi', 'AI krediti', 'Investicioni modul'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 85,
+  },
+  {
+    id: 'engine-repo-ai-iq-menjacnica',
+    naziv: 'AI IQ Menjačnica Repo Engine',
+    opis: 'SPAJA Generator endžin za Ai-Iq-Menja-nica repozitorijum — kripto i fiat menjačnica sa AI predikcijama',
+    ikona: '💱',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/Ai-Iq-Menja-nica',
+    mogucnosti: ['Kripto trading', 'Fiat konverzija', 'AI predikcije', 'Portfolio menadžment', 'ONLINE procedura'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 80,
+  },
+  {
+    id: 'engine-repo-svetska-organizacija',
+    naziv: 'SVETSKA ORGANIZACIJA Repo Engine',
+    opis: 'SPAJA Generator endžin za SVETSKA-ORGANIZACIJA repozitorijum — globalna koordinacija projekata i timova',
+    ikona: '🌍',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/SVETSKA-ORGANIZACIJA',
+    mogucnosti: ['Upravljanje projektima', 'Koordinacija timova', 'Izveštaji', 'i18n lokalizacija', 'ONLINE procedura'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 75,
+  },
+  {
+    id: 'engine-repo-io-openui-ao',
+    naziv: 'IO OPENUI AO Repo Engine',
+    opis: 'SPAJA Generator endžin za IO-OPENUI-AO repozitorijum — unified frontend sa SpajaPro engine-om, Prompt sistemom i B2B softverom',
+    ikona: '🖥️',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/IO-OPENUI-AO',
+    mogucnosti: ['SpajaPro Prompt Chat', 'Fizička laboratorija', 'B2B softver', 'Igrice Dota/TRANSFORMERS/BUBLI BABLI/POKER', 'WebRTC'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 82,
+  },
+  {
+    id: 'engine-repo-openai-platform',
+    naziv: 'OpenAI Platform Repo Engine',
+    opis: 'SPAJA Generator endžin za openai-platform repozitorijum — OpenAI API integracija sa OMEGA AI sistemom',
+    ikona: '🤖',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/openai-platform',
+    mogucnosti: ['OpenAI API', 'OMEGA AI povezivanje', 'SpajaPro kompatibilnost', 'AI servisi', 'Model integracija'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 78,
+  },
+  {
+    id: 'engine-repo-kompanija-spaja',
+    naziv: 'Kompanija SPAJA Repo Engine',
+    opis: 'SPAJA Generator endžin za Kompanija-SPAJA repozitorijum — SpajaPro 6-15 engine i matična kompanija',
+    ikona: '🏢',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/Kompanija-SPAJA',
+    mogucnosti: ['SpajaPro 6-15', 'Univerzalni Prompt', 'Kompanija upravljanje', 'Multi-language Prompt', 'Fine-tuning'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 88,
+  },
+  {
+    id: 'engine-repo-omega-ai-github',
+    naziv: 'OMEGA AI za GitHub Repo Engine',
+    opis: 'SPAJA Generator endžin za OMEGA-AI-za-GIT-HUB repozitorijum — AI agent za automatizaciju GitHub operacija',
+    ikona: '🐙',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/OMEGA-AI-za-GIT-HUB',
+    mogucnosti: ['SpajaPro code review', 'PR automation', 'Issue triage', 'CI/CD automatizacija', 'Prompt suggestions'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 90,
+  },
+  {
+    id: 'engine-repo-omega-ai-vercel',
+    naziv: 'OMEGA AI za Vercel Repo Engine',
+    opis: 'SPAJA Generator endžin za OMEGA-AI-za-Vercel- repozitorijum — AI agent za Vercel deploy i monitoring',
+    ikona: '🚀',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/OMEGA-AI-za-Vercel-',
+    mogucnosti: ['Auto deploy', 'Performance monitoring', 'Error tracking', 'Vercel API', 'Build optimizacija'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 86,
+  },
+  {
+    id: 'engine-repo-omega-ai-google',
+    naziv: 'OMEGA AI za Google Repo Engine',
+    opis: 'SPAJA Generator endžin za -OMEGA-AI-za-Google- repozitorijum — AI agent za Google Cloud i Analytics',
+    ikona: '🔍',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/-OMEGA-AI-za-Google-',
+    mogucnosti: ['SEO optimizacija', 'Google Analytics', 'Cloud funkcije', 'BigQuery', 'Search Console'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 77,
+  },
+  {
+    id: 'engine-repo-omega-ai-5-persona',
+    naziv: 'OMEGA AI 5 Persona Social Repo Engine',
+    opis: 'SPAJA Generator endžin za -OMEGA-AI-5-persona-za-Facebook-i-Instagram-i-TikTok-i-Threads-i-YoutYube- repozitorijum — 5 AI persona za društvene mreže',
+    ikona: '👥',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/-OMEGA-AI-5-persona-za-Facebook-i-Instagram-i-TikTok-i-Threads-i-YoutYube-',
+    mogucnosti: ['Facebook persona', 'Instagram persona', 'TikTok persona', 'Threads persona', 'YouTube persona'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 74,
+  },
+  {
+    id: 'engine-repo-java-swing-gui',
+    naziv: 'Java Swing GUI Repo Engine',
+    opis: 'SPAJA Generator endžin za Read-data-from-database-and-write-to-excel-by-using-java-Swing-GUI repozitorijum — Java Swing GUI za baze podataka i Excel',
+    ikona: '☕',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/Read-data-from-database-and-write-to-excel-by-using-java-Swing-GUI',
+    mogucnosti: ['Java Swing GUI', 'Database čitanje', 'Excel pisanje', 'JDBC konekcija', 'Tabelarni prikaz'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 72,
+  },
+  {
+    id: 'engine-repo-input-output-copilot',
+    naziv: 'Input/Output za Copilot Repo Engine',
+    opis: 'SPAJA Generator endžin za Input-Output-za-kopilota-da-mo-e-da-komunicira-sa-korsnicima-akticno repozitorijum — I/O za aktivnu komunikaciju Copilota sa korisnicima',
+    ikona: '⚙️',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/Input-Output-za-kopilota-da-mo-e-da-komunicira-sa-korsnicima-akticno',
+    mogucnosti: ['Copilot I/O interfejs', 'Aktivna komunikacija', 'SpajaPro Prompt', 'Context management', 'Korisničke interakcije'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 83,
+  },
+  {
+    id: 'engine-repo-openai-cookbook',
+    naziv: 'OpenAI Cookbook Repo Engine',
+    opis: 'SPAJA Generator endžin za openai-cookbook repozitorijum — recepti i primeri za OpenAI API integraciju',
+    ikona: '📖',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/openai-cookbook',
+    mogucnosti: ['OpenAI recepti', 'API primeri', 'Best practices', 'Prompt engineering', 'Model integracija'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 70,
+  },
+  {
+    id: 'engine-repo-hello-world',
+    naziv: 'Hello World Repo Engine',
+    opis: 'SPAJA Generator endžin za hello-world repozitorijum — osnovni starter sa SPAJA Generator integracijom',
+    ikona: '👋',
+    tip: 'repo-engine',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'spaja86/hello-world',
+    mogucnosti: ['Starter projekat', 'SPAJA integracija', 'CI/CD setup', 'README generator', 'Template sistem'],
+    generisanDatum: '2026-04-07',
+    optimizacija: 68,
+  },
 ];
 
 // ─── Generator konfiguracije ─────────────────────────────
@@ -301,6 +486,135 @@ export const generatorKonfiguracije: GeneratorKonfiguracija[] = [
     ciljniRepozitorijum: 'spaja86/AI-IQ-World-Bank',
     aktivna: true,
   },
+
+  // ─── Repo-specifične konfiguracije za sve repozitorijume ─
+
+  {
+    id: 'config-repo-ai-iq-world-bank',
+    naziv: 'AI IQ World Bank Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko Ai-Iq-World-Bank repozitorijuma',
+    ikona: '🏦',
+    parametri: ['src/', 'pages/', 'components/', 'api/', 'lib/'],
+    ciljniRepozitorijum: 'spaja86/Ai-Iq-World-Bank',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-ai-iq-menjacnica',
+    naziv: 'AI IQ Menjačnica Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko Ai-Iq-Menja-nica repozitorijuma',
+    ikona: '💱',
+    parametri: ['src/', 'pages/', 'components/', 'api/', 'lib/'],
+    ciljniRepozitorijum: 'spaja86/Ai-Iq-Menja-nica',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-svetska-organizacija',
+    naziv: 'SVETSKA ORGANIZACIJA Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko SVETSKA-ORGANIZACIJA repozitorijuma',
+    ikona: '🌍',
+    parametri: ['src/', 'pages/', 'components/', 'lib/', 'i18n/'],
+    ciljniRepozitorijum: 'spaja86/SVETSKA-ORGANIZACIJA',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-io-openui-ao',
+    naziv: 'IO OPENUI AO Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko IO-OPENUI-AO repozitorijuma — SpajaPro, Lab, B2B',
+    ikona: '🖥️',
+    parametri: ['src/', 'components/', 'lib/', 'spajapro/', 'lab/'],
+    ciljniRepozitorijum: 'spaja86/IO-OPENUI-AO',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-openai-platform',
+    naziv: 'OpenAI Platform Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko openai-platform repozitorijuma',
+    ikona: '🤖',
+    parametri: ['src/', 'api/', 'models/', 'lib/', 'config/'],
+    ciljniRepozitorijum: 'spaja86/openai-platform',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-kompanija-spaja',
+    naziv: 'Kompanija SPAJA Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko Kompanija-SPAJA repozitorijuma — SpajaPro 6-15',
+    ikona: '🏢',
+    parametri: ['src/', 'spajapro/', 'prompt/', 'lib/', 'engine/'],
+    ciljniRepozitorijum: 'spaja86/Kompanija-SPAJA',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-omega-ai-github',
+    naziv: 'OMEGA AI za GitHub Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko OMEGA-AI-za-GIT-HUB repozitorijuma',
+    ikona: '🐙',
+    parametri: ['src/', 'agents/', 'actions/', 'lib/', 'github/'],
+    ciljniRepozitorijum: 'spaja86/OMEGA-AI-za-GIT-HUB',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-omega-ai-vercel',
+    naziv: 'OMEGA AI za Vercel Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko OMEGA-AI-za-Vercel- repozitorijuma',
+    ikona: '🚀',
+    parametri: ['src/', 'deploy/', 'monitoring/', 'lib/', 'vercel/'],
+    ciljniRepozitorijum: 'spaja86/OMEGA-AI-za-Vercel-',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-omega-ai-google',
+    naziv: 'OMEGA AI za Google Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko -OMEGA-AI-za-Google- repozitorijuma',
+    ikona: '🔍',
+    parametri: ['src/', 'cloud/', 'analytics/', 'lib/', 'seo/'],
+    ciljniRepozitorijum: 'spaja86/-OMEGA-AI-za-Google-',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-omega-ai-5-persona',
+    naziv: 'OMEGA AI 5 Persona Social Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko OMEGA AI 5 Persona repozitorijuma za društvene mreže',
+    ikona: '👥',
+    parametri: ['src/', 'personas/', 'social/', 'lib/', 'content/'],
+    ciljniRepozitorijum: 'spaja86/-OMEGA-AI-5-persona-za-Facebook-i-Instagram-i-TikTok-i-Threads-i-YoutYube-',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-java-swing-gui',
+    naziv: 'Java Swing GUI Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko Java Swing GUI repozitorijuma',
+    ikona: '☕',
+    parametri: ['src/', 'main/', 'java/', 'resources/', 'gui/'],
+    ciljniRepozitorijum: 'spaja86/Read-data-from-database-and-write-to-excel-by-using-java-Swing-GUI',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-input-output-copilot',
+    naziv: 'Input/Output za Copilot Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko Input/Output za Copilot repozitorijuma',
+    ikona: '⚙️',
+    parametri: ['src/', 'io/', 'copilot/', 'lib/', 'prompts/'],
+    ciljniRepozitorijum: 'spaja86/Input-Output-za-kopilota-da-mo-e-da-komunicira-sa-korsnicima-akticno',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-openai-cookbook',
+    naziv: 'OpenAI Cookbook Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko openai-cookbook repozitorijuma',
+    ikona: '📖',
+    parametri: ['examples/', 'notebooks/', 'src/', 'guides/', 'recipes/'],
+    ciljniRepozitorijum: 'spaja86/openai-cookbook',
+    aktivna: true,
+  },
+  {
+    id: 'config-repo-hello-world',
+    naziv: 'Hello World Repo Konfiguracija',
+    opis: 'Konfiguracija za prevlačenje endžina preko hello-world repozitorijuma — starter',
+    ikona: '👋',
+    parametri: ['src/', 'README.md', '.github/', 'lib/'],
+    ciljniRepozitorijum: 'spaja86/hello-world',
+    aktivna: true,
+  },
 ];
 
 // ─── Kompletni SPAJA Generator za Endžine ────────────────
@@ -325,8 +639,11 @@ export const spajaGeneratorEngine: SpajaGeneratorEngine = {
   naziv: 'SPAJA Generator za Endžine',
   opis:
     'SPAJA Generator za Endžine je centralni engine generator koji prevlači engine-e preko celog ' +
-    'repozitorijuma AI-IQ-SUPER-PLATFORMA i svih entiteta u njemu. Generiše, primenjuje i optimizuje ' +
-    'sve engine-e u ekosistemu — od SpajaPro i OMEGA AI do Proksi, Mobilna Mreža, Gaming i Finansije.',
+    'repozitorijuma AI-IQ-SUPER-PLATFORMA i svih 14 eksternih repozitorijuma u ekosistemu. Generiše, ' +
+    'primenjuje i optimizuje sve engine-e — od SpajaPro i OMEGA AI do Proksi, Mobilna Mreža, Gaming, ' +
+    'Finansije i svih repo-specifičnih endžina za Ai-Iq-World-Bank, Ai-Iq-Menja-nica, SVETSKA-ORGANIZACIJA, ' +
+    'IO-OPENUI-AO, openai-platform, Kompanija-SPAJA, OMEGA-AI-za-GIT-HUB, OMEGA-AI-za-Vercel-, ' +
+    '-OMEGA-AI-za-Google-, OMEGA-AI-5-persona, Java-Swing-GUI, Input-Output-Copilot, openai-cookbook, hello-world.',
   verzija: '1.0.0',
   link: 'https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de',
   engini: generisaniEngini,
@@ -367,4 +684,12 @@ export function getAktivneKonfiguracije(): GeneratorKonfiguracija[] {
 
 export function getGeneratorStatistika(): GeneratorStatistika {
   return izracunajStatistiku();
+}
+
+export function getRepoEngini(): GenerisaniEngine[] {
+  return generisaniEngini.filter((e) => e.tip === 'repo-engine');
+}
+
+export function getRepoKonfiguracije(): GeneratorKonfiguracija[] {
+  return generatorKonfiguracije.filter((k) => k.id.startsWith('config-repo-'));
 }

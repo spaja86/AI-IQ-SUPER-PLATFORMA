@@ -6,11 +6,15 @@ import {
   getAktivniEngini,
   getProsecnaOptimizacija,
   getEnginiUGenerisanju,
+  getRepoEngini,
+  getRepoKonfiguracije,
 } from '@/lib/spaja-generator-engine';
 
 const aktivnih = getAktivniEngini().length;
 const prosecnaOpt = getProsecnaOptimizacija();
 const uGenerisanju = getEnginiUGenerisanju().length;
+const repoEngini = getRepoEngini();
+const repoKonfig = getRepoKonfiguracije();
 
 export const spajaGeneratorEngineSekvence: Sekvenca[] = [
   {
@@ -64,6 +68,8 @@ export const spajaGeneratorEngineSekvence: Sekvenca[] = [
         { naziv: 'Optimizacija', vrednost: `${prosecnaOpt}%`, ikona: '📈' },
         { naziv: 'Konfiguracije', vrednost: generatorKonfiguracije.length, ikona: '⚙️' },
         { naziv: 'Pokrivenost', vrednost: '100%', ikona: '🎯' },
+        { naziv: 'Repo Engine-i', vrednost: repoEngini.length, ikona: '📦' },
+        { naziv: 'Repo Konfiguracije', vrednost: repoKonfig.length, ikona: '🔗' },
       ],
     },
   },
@@ -125,16 +131,49 @@ export const spajaGeneratorEngineSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'generator-engine-repo-kartice',
+    tip: 'kartice',
+    naslov: '📦 Repo Engine-i — Endžini za sve repozitorijume',
+    podnaslov: `${repoEngini.length} repo engine-a za ${repoKonfig.length} repozitorijuma u ekosistemu`,
+    redosled: 8,
+    podaci: {
+      kartice: repoEngini.map((e) => ({
+        naslov: e.naziv,
+        opis: e.opis,
+        ikona: e.ikona,
+        progres: e.optimizacija,
+        oznake: ['repo-engine', e.status, `v${e.verzija}`, `${e.optimizacija}%`, e.ciljniModul.split('/').pop() ?? e.ciljniModul],
+      })),
+    },
+  },
+  {
+    id: 'generator-engine-repo-tabela',
+    tip: 'tabela',
+    naslov: '📋 Repozitorijumi sa endžinima',
+    podnaslov: 'Svaki repozitorijum ima svoj SPAJA Generator endžin',
+    redosled: 9,
+    podaci: {
+      zaglavlje: ['Repozitorijum', 'Engine', 'Status', 'Verzija', 'Optimizacija'],
+      redovi: repoEngini.map((e) => [
+        e.ciljniModul,
+        e.naziv,
+        e.status,
+        `v${e.verzija}`,
+        `${e.optimizacija}%`,
+      ]),
+    },
+  },
+  {
     id: 'generator-engine-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Arhitektura SPAJA Generatora',
-    redosled: 8,
+    redosled: 10,
     podaci: {
       nivoi: [
         {
           naziv: 'SPAJA Generator za Endžine',
           ikona: '🔧',
-          deca: ['Core Engine-i', 'AI Engine-i', 'Mrežni Engine-i', 'Ostali Engine-i'],
+          deca: ['Core Engine-i', 'AI Engine-i', 'Mrežni Engine-i', 'Repo Engine-i', 'Ostali Engine-i'],
         },
         {
           naziv: 'Core Engine-i',
@@ -152,9 +191,14 @@ export const spajaGeneratorEngineSekvence: Sekvenca[] = [
           deca: generisaniEngini.filter((e) => e.tip === 'mreza').map((e) => e.naziv),
         },
         {
+          naziv: 'Repo Engine-i',
+          ikona: '📦',
+          deca: generisaniEngini.filter((e) => e.tip === 'repo-engine').map((e) => e.naziv),
+        },
+        {
           naziv: 'Ostali Engine-i',
           ikona: '⚡',
-          deca: generisaniEngini.filter((e) => !['core', 'ai', 'mreza'].includes(e.tip)).map((e) => e.naziv),
+          deca: generisaniEngini.filter((e) => !['core', 'ai', 'mreza', 'repo-engine'].includes(e.tip)).map((e) => e.naziv),
         },
       ],
     },
@@ -163,10 +207,10 @@ export const spajaGeneratorEngineSekvence: Sekvenca[] = [
     id: 'generator-engine-baner',
     tip: 'baner',
     naslov: 'SPAJA Generator — Engine za sve Engine-e',
-    redosled: 9,
+    redosled: 11,
     podaci: {
       bedz: '🔧 Generator',
-      opis: `SPAJA Generator za Endžine prevlači ${generisaniEngini.length} engine-a preko celog repozitorijuma AI-IQ-SUPER-PLATFORMA. Prosečna optimizacija: ${prosecnaOpt}%. ${aktivnih} aktivnih engine-a pokrivaju 100% ekosistema.`,
+      opis: `SPAJA Generator za Endžine prevlači ${generisaniEngini.length} engine-a (od kojih ${repoEngini.length} repo engine-a) preko celog repozitorijuma AI-IQ-SUPER-PLATFORMA i svih ${repoKonfig.length} eksternih repozitorijuma. Prosečna optimizacija: ${prosecnaOpt}%. ${aktivnih} aktivnih engine-a pokrivaju 100% ekosistema.`,
       dugme: { tekst: 'SpajaPro Engine', href: '/spaja-pro' },
     },
   },
@@ -174,9 +218,9 @@ export const spajaGeneratorEngineSekvence: Sekvenca[] = [
     id: 'generator-engine-cta',
     tip: 'cta',
     naslov: '🚀 Engine Generator infrastruktura',
-    redosled: 10,
+    redosled: 12,
     podaci: {
-      opis: `SPAJA Generator za Endžine — ${generisaniEngini.length} engine-a, ${generatorKonfiguracije.length} konfiguracija, ${prosecnaOpt}% prosečna optimizacija. Celokupan AI-IQ-SUPER-PLATFORMA repozitorijum pokriven.`,
+      opis: `SPAJA Generator za Endžine — ${generisaniEngini.length} engine-a (${repoEngini.length} repo engine-a), ${generatorKonfiguracije.length} konfiguracija, ${prosecnaOpt}% prosečna optimizacija. Celokupan AI-IQ-SUPER-PLATFORMA repozitorijum i svih ${repoKonfig.length} eksternih repozitorijuma pokriveno.`,
       dugmad: [
         { tekst: 'SpajaPro', href: '/spaja-pro' },
         { tekst: 'OMEGA AI', href: '/omega-ai', stil: 'sekundarno' },
