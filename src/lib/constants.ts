@@ -5,7 +5,7 @@
  * Sve komponente koriste ove konstante umesto hardkodovanih vrednosti.
  */
 
-export const APP_VERSION = '33.5.0';
+export const APP_VERSION = '34.0.0';
 export const APP_NAME = 'AI IQ SUPER PLATFORMA';
 export const KOMPANIJA = 'Kompanija SPAJA';
 export const BASE_URL = 'https://ai-iq-super-platforma.vercel.app';
@@ -17,6 +17,7 @@ export const SPAJA_PRO_VERZIJA_COUNT = 10;
 // OMEGA AI
 export const OMEGA_AI_PERSONA_COUNT = 21;
 export const OMEGA_AI_OKTAVA_COUNT = 8;
+export const OMEGA_AI_INSTANCI = 40_000_000;
 
 // Ekosistem
 export const TOTAL_PAGES = 29;
@@ -26,7 +27,7 @@ export const TOTAL_IGRICA = 95;
 export const TOTAL_DIAGNOSTIKA = 296;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 157;
+export const AUTOFINISH_COUNT = 158;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
