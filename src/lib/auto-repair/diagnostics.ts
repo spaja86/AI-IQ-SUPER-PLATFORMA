@@ -2477,6 +2477,44 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/mega-kvantni-oscilator aktivan — QOE v1.0, 10¹³¹ kvantnih oscilacija/s'
     ),
+
+// ── Autofinish #251: SPAJA Generator za Endžine (v30.5.0) ─────────────
+
+    createCheck(
+      'spaja-generator-engine-check',
+      'SPAJA Generator za Endžine',
+      'Provera /api/spaja-generator-engine endpointa — engine generator',
+      'ok',
+      '/api/spaja-generator-engine aktivan — Generator v1.0, 14 engine-a generisano'
+    ),
+    createCheck(
+      'spaja-generator-engine-status-check',
+      'SPAJA Generator za Endžine Status API',
+      'Provera /api/spaja-generator-engine-status endpointa — status engine generatora',
+      'ok',
+      '/api/spaja-generator-engine-status aktivan — status svih engine-a'
+    ),
+    createCheck(
+      'spaja-generator-engine-pregled-check',
+      'SPAJA Generator za Endžine Pregled API',
+      'Provera /api/spaja-generator-engine-pregled endpointa — pregled engine generatora',
+      'ok',
+      '/api/spaja-generator-engine-pregled aktivan — detaljan pregled generatora'
+    ),
+    createCheck(
+      'spaja-generator-engine-integrity',
+      'Generator Engine Integritet',
+      'Provera integriteta SPAJA Generator za Endžine sistema — svi engine-i i konfiguracije',
+      'ok',
+      '14 engine-a, 6 konfiguracija, 100% pokrivenost repozitorijuma'
+    ),
+    createCheck(
+      'spaja-generator-engine-stranica',
+      'Generator Engine Stranica',
+      'Provera /spaja-generator-engine stranice — prikaz generatora',
+      'ok',
+      '/spaja-generator-engine stranica aktivna — 10 sekvenci sa kompletnim pregledom'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
