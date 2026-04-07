@@ -19,3 +19,10 @@ export { spajaProSekvence } from './spaja-pro-page';
 export { proksiGitHubDeploySekvence } from './proksi-github-deploy-page';
 export { dimenzijeSekvence } from './dimenzije-page';
 export { igriceSekvence } from './igrice-page';
+export { spajaUniverzalniPromptSekvence } from './spaja-univerzalni-prompt-page';
+export { proksiWifiAntenaSekvence } from './proksi-wifi-antena-page';
+
+// ── Autofinish #17: EN entity sekvence ──────────────────────────────────────
+export { kompanijeSekvence } from './kompanije-page';
+export { organizacijeSekvence } from './organizacije-page';
+export { proizvodiSekvence } from './proizvodi-page';

@@ -4,7 +4,6 @@ import {
   getStatusLabel,
   getStatusColor,
 } from "@/lib/platforms";
-import ProgressBar from "./ProgressBar";
 
 interface PlatformCardProps {
   platform: Platform;
@@ -29,10 +28,8 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
         {platform.description}
       </p>
 
-      <ProgressBar progres={platform.progress} velicina="sm" />
-
       <div className="flex flex-wrap gap-1.5 mt-4">
-        {platform.technologies.slice(0, 3).map((tech) => (
+        {platform.techStack.slice(0, 3).map((tech: string) => (
           <span
             key={tech}
             className="text-xs px-2 py-0.5 rounded-full bg-blue-900/30 text-blue-300 border border-blue-800/30"
@@ -42,24 +39,18 @@ export default function PlatformCard({ platform }: PlatformCardProps) {
         ))}
       </div>
 
-      <div className="flex gap-2 mt-4 pt-4 border-t border-gray-800">
-        <Link
-          href={platform.repo}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-1"
-        >
-          🐙 GitHub
-        </Link>
-        {platform.url !== platform.repo && (
+      {platform.deploy?.domain && (
+        <div className="flex gap-2 mt-4 pt-4 border-t border-gray-800">
           <Link
-            href={platform.url}
+            href={`https://${platform.deploy.domain}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-xs text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-1"
           >
             🔗 Otvori
           </Link>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
