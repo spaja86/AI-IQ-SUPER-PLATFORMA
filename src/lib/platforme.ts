@@ -4,7 +4,7 @@ export const platforme: Platforma[] = [
   {
     id: 'ai-iq-super-platforma',
     naziv: 'AI IQ SUPER PLATFORMA',
-    opis: 'Centralna platforma za upravljanje celim ekosistemom',
+    opis: 'Centralna platforma za upravljanje celim ekosistemom. SPAJA Generator za Endžine prevlači engine-e preko celog repozitorijuma. Link: https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de',
     kategorija: 'jezgro',
     repo: 'spaja86/AI-IQ-SUPER-PLATFORMA',
     url: 'https://ai-iq-super-platforma.vercel.app',
@@ -12,7 +12,7 @@ export const platforme: Platforma[] = [
     status: 'spremna',
     progres: 100,
     tehnologije: ['Next.js 16', 'TypeScript', 'Tailwind CSS 4', 'Vercel'],
-    funkcije: ['Dashboard', 'Monitoring', 'Deploy Management', 'Sekvence'],
+    funkcije: ['Dashboard', 'Monitoring', 'Deploy Management', 'Sekvence', 'SPAJA Generator za Endžine'],
     deploy: { status: 'aktivan', domen: 'ai-iq-super-platforma.vercel.app', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
   },
   {

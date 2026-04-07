@@ -1,6 +1,7 @@
 import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
 import { sajtovi, getSajtoviPoKategoriji } from '@/lib/sajtovi';
+import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 
 const stats = getStatistike();
 
@@ -40,6 +41,9 @@ export const industrijaSekvence: Sekvenca[] = [
         { naziv: 'IT Proizvodi', vrednost: stats.ukupnoProizvoda, ikona: '⚡' },
         { naziv: 'Kategorije', vrednost: stats.kategorijePlatformi, ikona: '📂' },
         { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
+        { naziv: 'Engine-i', vrednost: stats.generatorEngina, ikona: '🔧' },
+        { naziv: 'Repo Engine-i', vrednost: stats.generatorRepoEngina, ikona: '📦' },
+        { naziv: 'Gen. Optimiz.', vrednost: `${stats.generatorOptimizacija}%`, ikona: '⚙️' },
       ],
     },
   },
@@ -51,7 +55,7 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
-        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti', 'Proksi Mreža', 'SPAJA Mobilna Mreža'] },
+        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, 'OMEGA AI Agenti', 'Proksi Mreža', 'SPAJA Mobilna Mreža', 'SPAJA Generator za Endžine'] },
         { naziv: 'Platforme', ikona: '🌐', deca: ['Jezgro', 'Finansije', 'Globalno', 'AI', 'Alati'] },
         { naziv: 'Proksi Mreža', ikona: '📡', deca: ['Hipsoneurični Signal', 'Ekscentrični Modulator', 'Ekliptična Vez', 'Rezonantni Pojačavač'] },
         { naziv: 'SPAJA Mobilna Mreža', ikona: '📱', deca: ['+38177 Primarna', '+38188 Sekundarna', '+38178 Redundantna', '+38187 Globalna'] },
@@ -71,6 +75,7 @@ export const industrijaSekvence: Sekvenca[] = [
         ['OMEGA AI', 'AI agenti', '21', 'Operativni'],
         ['Proksi Mreža', 'Signal infrastruktura', '6 signala / 5 čvorova', 'Aktivna'],
         ['SPAJA Mobilna', 'Mobilna mreža', '4 centrale / 5 servisa', 'Aktivna'],
+        ['SPAJA Generator', 'Engine generator', `${generisaniEngini.length} engine-a / ${getRepoEngini().length} repo`, `${getProsecnaOptimizacija()}% opt.`],
         ['Organizacije', 'Strukture', '6', 'Aktivne'],
       ],
     },
@@ -143,13 +148,14 @@ export const industrijaSekvence: Sekvenca[] = [
     naslov: '🚀 Istrazi ekosistem',
     redosled: 10,
     podaci: {
-      opis: 'Digitalna Industrija Kompanije SPAJA je spremna za rast.',
+      opis: 'Digitalna Industrija Kompanije SPAJA je spremna za rast. SPAJA Generator za Endžine prevlači engine-e preko svih modula.',
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
         { tekst: 'Mobilna', href: '/mobilna-mreza', stil: 'sekundarno' },
+        { tekst: 'Generator', href: '/spaja-generator-engine', stil: 'sekundarno' },
       ],
     },
   },

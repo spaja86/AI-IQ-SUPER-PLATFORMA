@@ -27,4 +27,5 @@ export const navigation: NavItem[] = [
   { label: 'Proksi GitHub', href: '/proksi-github-deploy', icon: '🐙', description: 'Proksi GitHub Deploy sistem' },
   { label: 'WiFi Antena', href: '/proksi-wifi-antena', icon: '📶', description: 'Proksi WiFi Antena sistem' },
   { label: 'SPAJA Prompt', href: '/spaja-univerzalni-prompt', icon: '🎯', description: 'SPAJA Univerzalni Prompt' },
+  { label: 'Generator Endžina', href: '/spaja-generator-engine', icon: '🔧', description: 'SPAJA Generator za Endžine — engine generator' },
 ];
