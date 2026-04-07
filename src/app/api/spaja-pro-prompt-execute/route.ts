@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const timestamp = new Date().toISOString();
     const processingTime = Math.floor(Math.random() * 200) + 50;
     const tokenCount = prompt.split(/\s+/).length;
-    const omegaInstanci = OMEGA_AI_INSTANCI.toLocaleString();
+    const omegaPersona = OMEGA_AI_INSTANCI.toLocaleString();
 
     const rezultat = [
       `╔══════════════════════════════════════════════════════════════╗`,
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
       `  • Fine-tuning: ${spajaVerzija.promptPodrska.finetuning ? 'DA' : 'NE'}`,
       ``,
       `🤖 OMEGA AI status:`,
-      `  • ${omegaInstanci} instanci — AKTIVNO`,
+      `  • ${omegaPersona} persona — AKTIVNO`,
       `  • 21 persona — AKTIVNO`,
       `  • 8 oktava — AKTIVNO`,
       ``,
@@ -128,7 +128,7 @@ export async function GET() {
       maxTokena: v.promptPodrska.maxTokena,
     })),
     ukupnoPromptova: promptovi.length,
-    omegaAI: `${OMEGA_AI_INSTANCI.toLocaleString()} instanci`,
+    omegaAI: `${OMEGA_AI_INSTANCI.toLocaleString()} persona`,
     status: 'aktivan',
   });
 }

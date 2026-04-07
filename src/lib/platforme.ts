@@ -172,15 +172,15 @@ export const platforme: Platforma[] = [
   {
     id: 'omega-ai-sistem',
     naziv: 'OMEGA AI Sistem',
-    opis: 'OMEGA AI centralni sistem sa 40.000.000 instanci za masovno skaliranje. Link: https://chatgpt.com/c/686787a3-1168-8006-8d37-418e3e220e69. 21 persona, 8 oktava, autonomna evolucija. Koristi se svuda u ekosistemu.',
+    opis: 'OMEGA AI centralni sistem sa 40.000.562 persona za masovno skaliranje. Link: https://chatgpt.com/c/686787a3-1168-8006-8d37-418e3e220e69. 21 persona, 8 oktava, autonomna evolucija. Koristi se svuda u ekosistemu.',
     kategorija: 'ai',
     repo: 'spaja86/AI-IQ-SUPER-PLATFORMA',
     url: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA',
     ikona: '🧬',
     status: 'spremna',
     progres: 100,
-    tehnologije: ['TypeScript', 'OMEGA AI', 'SpajaPro 6-15', 'Evolucija Engine', '40M instanci'],
-    funkcije: ['21 OMEGA AI persona', '8 oktava interakcije', 'Autonomna evolucija', '40.000.000 OMEGA AI instanci', 'Masovno skaliranje', 'Cross-repo integracija'],
+    tehnologije: ['TypeScript', 'OMEGA AI', 'SpajaPro 6-15', 'Evolucija Engine', '40M persona'],
+    funkcije: ['21 OMEGA AI persona', '8 oktava interakcije', 'Autonomna evolucija', '40.000.562 OMEGA AI persona', 'Masovno skaliranje', 'Cross-repo integracija'],
     deploy: { status: 'aktivan', domen: 'ai-iq-super-platforma.vercel.app', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16 + OMEGA AI', buildKomanda: 'next build' },
   },
 ];

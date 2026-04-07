@@ -28,7 +28,7 @@ export const companies: Company[] = [
   {
     id: 'spaja-ai',
     name: 'SPAJA AI',
-    description: 'Kompanija fokusirana na veštačku inteligenciju, ML modele i automatizaciju — 40.000.000 OMEGA AI instanci.',
+    description: 'Kompanija fokusirana na veštačku inteligenciju, ML modele i automatizaciju — 40.000.562 OMEGA AI persona.',
     type: 'subsidiary',
     status: 'active',
     icon: '🤖',

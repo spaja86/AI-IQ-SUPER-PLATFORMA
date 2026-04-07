@@ -77,7 +77,7 @@ export const platforms: Platform[] = [
   {
     id: 'ai-engine',
     name: 'AI Engine',
-    description: 'Centralni AI motor sa ML modelima, NLP-om i automatizacijom za ceo ekosistem — 40.000.000 OMEGA AI instanci. Koristi OpenAI API iz spaja86/openai-platform repozitorijuma.',
+    description: 'Centralni AI motor sa ML modelima, NLP-om i automatizacijom za ceo ekosistem — 40.000.562 OMEGA AI persona. Koristi OpenAI API iz spaja86/openai-platform repozitorijuma.',
     category: 'ai',
     status: 'active',
     icon: '🤖',

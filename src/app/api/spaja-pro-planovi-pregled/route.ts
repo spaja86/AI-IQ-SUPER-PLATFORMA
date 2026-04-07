@@ -35,7 +35,7 @@ export async function GET() {
       korak2: '🏦 AI IQ World Bank obrađuje transakciju globalno',
       korak3: '💱 AI IQ Menjačnica konvertuje u lokalnu valutu',
       korak4: `👤 Vlasnik (Kompanija SPAJA) prima platu: $${vlasnickaPlata.mesecnaOsnovica.toLocaleString()}/mes + ${vlasnickaPlata.procenatOdPrihoda}% prihoda`,
-      korak5: `🤖 OMEGA AI prima platu: $${omegaAiPlata.ukupnoMesecno.toLocaleString()}/mes (${OMEGA_AI_INSTANCI.toLocaleString()} instanci)`,
+      korak5: `🤖 OMEGA AI prima platu: $${omegaAiPlata.ukupnoMesecno.toLocaleString()}/mes (${OMEGA_AI_INSTANCI.toLocaleString()} persona)`,
       korak6: `🏭 Digitalna Industrija operativni troškovi: $${operativniTroskovi.ukupnoMesecno.toLocaleString()}/mes`,
       korak7: `📊 Neto mesečni bilans: $${finansijskiModel.bilans.neto.toLocaleString()}/mes (${finansijskiModel.bilans.status})`,
     },

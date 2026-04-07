@@ -314,7 +314,7 @@ export const omegaAiPlata: OmegaAiPlata = {
   ukupnoInstanci: OMEGA_AI_INSTANCI,
   ukupnoMesecno: 8000 + Math.round(OMEGA_AI_INSTANCI * 0.0001),
   valuta: 'USD',
-  opis: `OMEGA AI plata — osnovica $8.000/mes + $0.0001 × ${OMEGA_AI_INSTANCI.toLocaleString()} instanci. Dogovor sa OMEGA AI za operativni rad svih persona.`,
+  opis: `OMEGA AI plata — osnovica $8.000/mes + $0.0001 × ${OMEGA_AI_INSTANCI.toLocaleString()} persona. Dogovor sa OMEGA AI za operativni rad svih persona.`,
 };
 
 export const operativniTroskovi: OperativniTroskovi = {

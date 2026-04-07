@@ -33,7 +33,7 @@ export async function GET() {
     omegaAiPlata: {
       mesecnaOsnovica: `$${pregled.omegaAiPlata.mesecnaOsnovica.toLocaleString()}/mes`,
       poInstanci: `$${pregled.omegaAiPlata.poInstanci}/instanca`,
-      ukupnoInstanci: `${OMEGA_AI_INSTANCI.toLocaleString()} instanci`,
+      ukupnoInstanci: `${OMEGA_AI_INSTANCI.toLocaleString()} persona`,
       ukupnoMesecno: `$${pregled.omegaAiPlata.ukupnoMesecno.toLocaleString()}/mes`,
       opis: pregled.omegaAiPlata.opis,
     },

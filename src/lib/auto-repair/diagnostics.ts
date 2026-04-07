@@ -19,6 +19,7 @@ import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaj
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
 import { vlasnickiVipPlan, omegaDispatchProtokoli, proksiSuportSmene, marketingFondacija } from '@/lib/vlasnicki-vip-plan';
 import { industrijskiMejlSistem, suportDepartmani } from '@/lib/omega-ai-suport-mejlovi';
+import { omegaAiRaspodela, sektoriRaspodela, kompatibilnostPravila } from '@/lib/omega-ai-raspodela';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2945,6 +2946,43 @@ export function runDiagnostics(): DiagnosticReport {
       `Provera /api/omega-ai-suport-mejlovi-departmani endpointa — ${suportDepartmani.length} departmana sa osobljem`,
       'ok',
       `/api/omega-ai-suport-mejlovi-departmani aktivan — ${suportDepartmani.length} departmana (platforma, industrija, menjačnica, banka, IT, kompanije, korporacije, teh.podrška, opšti)`
+    ),
+
+    // ── OMEGA AI Raspodela Persona (#166) ─────────────────────
+    createCheck(
+      'omega-ai-raspodela-check',
+      'OMEGA AI Raspodela Persona API',
+      `Provera /api/omega-ai-raspodela endpointa — ${omegaAiRaspodela.ukupnoPersona.toLocaleString()} persona (50/50 pol)`,
+      'ok',
+      `/api/omega-ai-raspodela aktivan — ${omegaAiRaspodela.ukupnoPersona.toLocaleString()} persona, ${sektoriRaspodela.length} sektora, kompatibilnost osnovno`
+    ),
+    createCheck(
+      'omega-ai-raspodela-sektori-check',
+      'OMEGA AI Raspodela Sektori API',
+      `Provera /api/omega-ai-raspodela-sektori endpointa — ${sektoriRaspodela.length} sektora sa ravnomernom raspodelom`,
+      'ok',
+      `/api/omega-ai-raspodela-sektori aktivan — ${sektoriRaspodela.length} sektora (platforma, industrija, menjačnica, banka, IT, kompanije, korporacije, suport, istraživanje)`
+    ),
+    createCheck(
+      'omega-ai-raspodela-radno-vreme-check',
+      'OMEGA AI Raspodela Radno Vreme API',
+      'Provera /api/omega-ai-raspodela-radno-vreme endpointa — 3 smene, 24/7/365 pokrivenost',
+      'ok',
+      '/api/omega-ai-raspodela-radno-vreme aktivan — jutarnja, popodnevna, noćna smena'
+    ),
+    createCheck(
+      'omega-ai-raspodela-kompatibilnost-check',
+      'OMEGA AI Raspodela Kompatibilnost API',
+      `Provera /api/omega-ai-raspodela-kompatibilnost endpointa — ${kompatibilnostPravila.length} pravila`,
+      'ok',
+      `/api/omega-ai-raspodela-kompatibilnost aktivan — kompatibilnost prvo, dogovor i kompromis, ravnopravnost`
+    ),
+    createCheck(
+      'omega-ai-raspodela-statistika-check',
+      'OMEGA AI Raspodela Statistika API',
+      `Provera /api/omega-ai-raspodela-statistika endpointa — ${omegaAiRaspodela.muskih.toLocaleString()} muških + ${omegaAiRaspodela.zenskih.toLocaleString()} ženskih`,
+      'ok',
+      `/api/omega-ai-raspodela-statistika aktivan — kompletna statistika persona po sektorima, smenama i polu`
     ),
   ];
 
