@@ -1,4 +1,26 @@
-import type { Platform } from './types';
+import type { Platform, EntityStatus } from './types';
+
+export type { Platform };
+
+export function getStatusLabel(status: EntityStatus): string {
+  const labels: Record<EntityStatus, string> = {
+    active: 'Aktivno',
+    development: 'U razvoju',
+    planned: 'Planirano',
+    archived: 'Arhivirano',
+  };
+  return labels[status] ?? status;
+}
+
+export function getStatusColor(status: EntityStatus): string {
+  const colors: Record<EntityStatus, string> = {
+    active: 'text-emerald-400',
+    development: 'text-amber-400',
+    planned: 'text-blue-400',
+    archived: 'text-zinc-400',
+  };
+  return colors[status] ?? 'text-zinc-400';
+}
 
 export const platforms: Platform[] = [
   // ── Core ──────────────────────────────────────────────────────────────

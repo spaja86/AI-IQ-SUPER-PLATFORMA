@@ -56,7 +56,7 @@ export default function KompanijePage() {
                 <div className="mt-4">
                   <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Proizvodi</p>
                   <div className="mt-1 flex flex-wrap gap-1.5">
-                    {parentCompany.products.map((p) => (
+                    {parentCompany.products.map((p: string) => (
                       <span
                         key={p}
                         className="rounded-md bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"
