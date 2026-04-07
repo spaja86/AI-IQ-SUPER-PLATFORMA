@@ -18,6 +18,7 @@ import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
 import { vlasnickiVipPlan, omegaDispatchProtokoli, proksiSuportSmene, marketingFondacija } from '@/lib/vlasnicki-vip-plan';
+import { industrijskiMejlSistem, suportDepartmani } from '@/lib/omega-ai-suport-mejlovi';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2907,6 +2908,43 @@ export function runDiagnostics(): DiagnosticReport {
       `Provera /api/vlasnicki-vip-plan-marketing endpointa — ${marketingFondacija.kanali.length} kanala, $${marketingFondacija.mesecniBudzet.toLocaleString()}/mes`,
       'ok',
       `/api/vlasnicki-vip-plan-marketing aktivan — fondacija $${marketingFondacija.mesecniBudzet.toLocaleString()}/mes, ${marketingFondacija.strategija.obavezni.length} obaveznih strateških poteza`
+    ),
+
+    // ── OMEGA AI Industrijski Suport Mejlovi (#165) ───────────
+    createCheck(
+      'omega-ai-suport-mejlovi-check',
+      'OMEGA AI Suport Mejlovi API',
+      `Provera /api/omega-ai-suport-mejlovi endpointa — ${industrijskiMejlSistem.ukupnoMejlova} mejlova, ${industrijskiMejlSistem.ukupnoDepartmana} departmana`,
+      'ok',
+      `/api/omega-ai-suport-mejlovi aktivan — ${industrijskiMejlSistem.ukupnoMejlova} persona mejlova, domen ${industrijskiMejlSistem.domen}`
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-status-check',
+      'OMEGA AI Suport Mejlovi Status API',
+      'Provera /api/omega-ai-suport-mejlovi-status endpointa — zdravlje sistema mejlova',
+      'ok',
+      `/api/omega-ai-suport-mejlovi-status aktivan — ${industrijskiMejlSistem.radnoVreme}, ${industrijskiMejlSistem.prosecnoVremeOdgovora} prosečno`
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-pregled-check',
+      'OMEGA AI Suport Mejlovi Pregled API',
+      `Provera /api/omega-ai-suport-mejlovi-pregled endpointa — detaljan pregled ${industrijskiMejlSistem.ukupnoMejlova} mejlova`,
+      'ok',
+      '/api/omega-ai-suport-mejlovi-pregled aktivan — svi mejlovi, departmani, kontekst rada'
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-kontakt-check',
+      'OMEGA AI Suport Mejlovi Kontakt API',
+      `Provera /api/omega-ai-suport-mejlovi-kontakt endpointa — kontakt za korisnike, ${suportDepartmani.length} departmana`,
+      'ok',
+      '/api/omega-ai-suport-mejlovi-kontakt aktivan — brzi kontakti za sve departmane'
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-departmani-check',
+      'OMEGA AI Suport Departmani API',
+      `Provera /api/omega-ai-suport-mejlovi-departmani endpointa — ${suportDepartmani.length} departmana sa osobljem`,
+      'ok',
+      `/api/omega-ai-suport-mejlovi-departmani aktivan — ${suportDepartmani.length} departmana (platforma, industrija, menjačnica, banka, IT, kompanije, korporacije, teh.podrška, opšti)`
     ),
   ];
 
