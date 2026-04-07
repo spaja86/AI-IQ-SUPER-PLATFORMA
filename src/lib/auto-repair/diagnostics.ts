@@ -14,6 +14,7 @@ import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
 import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
+import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2755,6 +2756,43 @@ export function runDiagnostics(): DiagnosticReport {
       'Provera /api/spaja-neuronski-multipleksor-kanali endpointa — multipleksni kanali',
       'ok',
       '/api/spaja-neuronski-multipleksor-kanali aktivan — 5 kanala, svi aktivni'
+    ),
+
+    // ── SpajaPro Zasebni Endžini (#161) ───────────────────────
+    createCheck(
+      'spaja-pro-zasebni-endzin-check',
+      'SpajaPro Zasebni Endžini API',
+      `Provera /api/spaja-pro-zasebni-endzin endpointa — ${zasebniEndzini.length} zasebnih endžina`,
+      'ok',
+      `/api/spaja-pro-zasebni-endzin aktivan — ${zasebniEndzini.length} endžina (v6-v15), svi specifični`
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-status-check',
+      'Zasebni Endžini Status API',
+      'Provera /api/spaja-pro-zasebni-endzin-status endpointa — zdravlje i operativni status',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-status aktivan — zdravlje, status svih endžina'
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-analiza-check',
+      'Zasebni Endžini Analiza API',
+      'Provera /api/spaja-pro-zasebni-endzin-analiza endpointa — razmišljanje i analiza odgovora',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-analiza aktivan — 6 faza analize, 5s-4h sazrevanje'
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-pregled-check',
+      'Zasebni Endžini Pregled API',
+      'Provera /api/spaja-pro-zasebni-endzin-pregled endpointa — detaljan pregled mogućnosti',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-pregled aktivan — programiranje, slike, Google, analiza'
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-konverzacija-check',
+      'Zasebni Endžini Konverzacija API',
+      'Provera /api/spaja-pro-zasebni-endzin-konverzacija endpointa — nastavak konverzacije',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-konverzacija aktivan — predloženi upiti, pravci, stilovi'
     ),
   ];
 
