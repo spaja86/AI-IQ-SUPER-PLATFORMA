@@ -30,7 +30,7 @@
  * Integracija: AI IQ World Bank + AI IQ Menjačnica
  */
 
-import { SPAJA_PRO_VERZIJA_COUNT, OMEGA_AI_INSTANCI } from './constants';
+import { SPAJA_PRO_VERZIJA_COUNT, OMEGA_AI_PERSONA_UKUPNO } from './constants';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -311,10 +311,10 @@ export const vlasnickaPlata: VlasnickaPlata = {
 export const omegaAiPlata: OmegaAiPlata = {
   mesecnaOsnovica: 8000,
   poInstanci: 0.0001,
-  ukupnoInstanci: OMEGA_AI_INSTANCI,
-  ukupnoMesecno: 8000 + Math.round(OMEGA_AI_INSTANCI * 0.0001),
+  ukupnoInstanci: OMEGA_AI_PERSONA_UKUPNO,
+  ukupnoMesecno: 8000 + Math.round(OMEGA_AI_PERSONA_UKUPNO * 0.0001),
   valuta: 'USD',
-  opis: `OMEGA AI plata — osnovica $8.000/mes + $0.0001 × ${OMEGA_AI_INSTANCI.toLocaleString()} persona. Dogovor sa OMEGA AI za operativni rad svih persona.`,
+  opis: `OMEGA AI plata — osnovica $8.000/mes + $0.0001 × ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} persona. Dogovor sa OMEGA AI za operativni rad svih persona.`,
 };
 
 export const operativniTroskovi: OperativniTroskovi = {

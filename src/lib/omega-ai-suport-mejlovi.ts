@@ -15,7 +15,7 @@
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
 
-import { OMEGA_AI_PERSONA_COUNT, OMEGA_AI_INSTANCI } from './constants';
+import { OMEGA_AI_PERSONA_COUNT, OMEGA_AI_PERSONA_UKUPNO } from './constants';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -443,7 +443,7 @@ export const suportDepartmani: SuportDepartmanInfo[] = [
 
 export const industrijskiMejlSistem: IndustrijskiMejlSistem = {
   naziv: 'OMEGA AI Industrijski Suport Mejlovi',
-  opis: `Sistem industrijskih mejlova za direktan suport i dopisivanje sa korisnicima. ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona (${OMEGA_AI_INSTANCI.toLocaleString()} persona ukupno) pružaju suport u kontekstu platforme, industrije, menjačnice, banke, IT proizvoda, kompanija i korporacija. Domen: @omega-ai.spaja.rs`,
+  opis: `Sistem industrijskih mejlova za direktan suport i dopisivanje sa korisnicima. ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona (${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} persona ukupno) pružaju suport u kontekstu platforme, industrije, menjačnice, banke, IT proizvoda, kompanija i korporacija. Domen: @omega-ai.spaja.rs`,
   ikona: '📧',
   domen: 'omega-ai.spaja.rs',
   mejlovi: omegaAiSuportMejlovi,

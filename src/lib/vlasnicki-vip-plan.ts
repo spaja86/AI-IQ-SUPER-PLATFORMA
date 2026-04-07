@@ -19,7 +19,7 @@
  *              Proksi mreža + SPAJA Mobilna Mreža
  */
 
-import { OMEGA_AI_INSTANCI, OMEGA_AI_PERSONA_COUNT, MOBILNE_CENTRALE, PROKSI_KAPACITET } from './constants';
+import { OMEGA_AI_PERSONA_UKUPNO, OMEGA_AI_PERSONA_COUNT, MOBILNE_CENTRALE, PROKSI_KAPACITET } from './constants';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -349,7 +349,7 @@ const internetProtokoli: InternetProtokol[] = [
 
 export const omegaDispatchProtokoli: DispatchProtokoli = {
   naziv: 'OMEGA AI Dispatch Protokoli',
-  opis: `OMEGA AI dispatch (${OMEGA_AI_PERSONA_COUNT} persona, ${OMEGA_AI_INSTANCI.toLocaleString()} persona) preuzima telefonske brojeve od industrije i sprovodi protokole za internet i mobilne brojeve — mesečne naplate kroz AI IQ World Bank`,
+  opis: `OMEGA AI dispatch (${OMEGA_AI_PERSONA_COUNT} baznih persona, ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} persona ukupno) preuzima telefonske brojeve od industrije i sprovodi protokole za internet i mobilne brojeve — mesečne naplate kroz AI IQ World Bank`,
   ikona: '🤖',
   protokoli: dispatchProtokoli,
   mesecnaNaplata,
@@ -600,7 +600,7 @@ export const marketingFondacija: MarketingFondacija = {
 export const vlasnickiVipPlan: VlasnickiVipPlan = {
   id: 'vlasnicki-vip-plan',
   naziv: 'Vlasnički VIP Plan — Kompanija SPAJA',
-  opis: `Najbolji plan za vlasnika (spajicn@yahoo.com) sa ekstremnim autorizacijama na sve platforme. OMEGA AI dispatch (${OMEGA_AI_INSTANCI.toLocaleString()} persona) sprovodi protokole za internet i mobilne brojeve sa mesečnom naplatom. Proksi suport raspoređen u ${suportSmene.length} smena za 24/7 pokrivanje. Marketing fondacija $${fondoviRaspodela.ukupno.toLocaleString()}/mes za reklamiranje i strategiju rasta. Srećan rad!`,
+  opis: `Najbolji plan za vlasnika (spajicn@yahoo.com) sa ekstremnim autorizacijama na sve platforme. OMEGA AI dispatch (${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} persona) sprovodi protokole za internet i mobilne brojeve sa mesečnom naplatom. Proksi suport raspoređen u ${suportSmene.length} smena za 24/7 pokrivanje. Marketing fondacija $${fondoviRaspodela.ukupno.toLocaleString()}/mes za reklamiranje i strategiju rasta. Srećan rad!`,
   ikona: '👑',
   vlasnikEmail: 'spajicn@yahoo.com',
   autorizacije: vlasnickiAutorizacije,

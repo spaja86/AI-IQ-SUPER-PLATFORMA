@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { omegaDispatchProtokoli, getUkupnoMesecniProtokoli } from '@/lib/vlasnicki-vip-plan';
-import { OMEGA_AI_PERSONA_COUNT, OMEGA_AI_INSTANCI } from '@/lib/constants';
+import { OMEGA_AI_PERSONA_COUNT, OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
 
 /**
  * 🤖 Vlasnički VIP Plan — OMEGA AI Dispatch Protokoli API
@@ -15,7 +15,7 @@ export async function GET() {
     opis: omegaDispatchProtokoli.opis,
     omegaAi: {
       persona: OMEGA_AI_PERSONA_COUNT,
-      instanci: OMEGA_AI_INSTANCI.toLocaleString(),
+      instanci: OMEGA_AI_PERSONA_UKUPNO.toLocaleString(),
     },
     protokoli: omegaDispatchProtokoli.protokoli.map((p) => ({
       id: p.id,

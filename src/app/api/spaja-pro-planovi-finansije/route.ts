@@ -5,7 +5,7 @@ import {
   valute,
   getFinansijskiPregled,
 } from '@/lib/spaja-pro-planovi';
-import { OMEGA_AI_INSTANCI } from '@/lib/constants';
+import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
 
 /**
  * SpajaPro Planovi — Finansijski Model
@@ -33,7 +33,7 @@ export async function GET() {
     omegaAiPlata: {
       mesecnaOsnovica: `$${pregled.omegaAiPlata.mesecnaOsnovica.toLocaleString()}/mes`,
       poInstanci: `$${pregled.omegaAiPlata.poInstanci}/instanca`,
-      ukupnoInstanci: `${OMEGA_AI_INSTANCI.toLocaleString()} persona`,
+      ukupnoInstanci: `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} persona`,
       ukupnoMesecno: `$${pregled.omegaAiPlata.ukupnoMesecno.toLocaleString()}/mes`,
       opis: pregled.omegaAiPlata.opis,
     },

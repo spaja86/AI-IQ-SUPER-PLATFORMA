@@ -3,7 +3,7 @@ import { platforms } from './platforms';
 import { organizations } from './organizations';
 import { companies } from './companies';
 import { products } from './products';
-import { OMEGA_AI_INSTANCI } from './constants';
+import { OMEGA_AI_PERSONA_UKUPNO } from './constants';
 
 function computeStats(): IndustrijaStats {
   return {
@@ -23,7 +23,7 @@ export const digitalnaIndustrija: DigitalnaIndustrija = {
   description:
     'ŽIVA FUNKCIONALNA Digitalna Industrija koja aktivno proizvodi platforme, organizacije, kompanije i IT proizvode. ' +
     'Ekosistem koji spaja sve u jednu celinu — od AI i finansija do globalne ekspanzije. ' +
-    `${OMEGA_AI_INSTANCI.toLocaleString()} OMEGA AI persona aktivno rade na svim platformama.`,
+    `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona aktivno rade na svim platformama.`,
   version: '4.0.0',
   founded: '2024',
   mission:

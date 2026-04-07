@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { promptovi } from '@/lib/prompt';
 import { spajaProVerzije, getVerziju } from '@/lib/spaja-pro';
-import { OMEGA_AI_INSTANCI } from '@/lib/constants';
+import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const timestamp = new Date().toISOString();
     const processingTime = Math.floor(Math.random() * 200) + 50;
     const tokenCount = prompt.split(/\s+/).length;
-    const omegaPersona = OMEGA_AI_INSTANCI.toLocaleString();
+    const omegaPersona = OMEGA_AI_PERSONA_UKUPNO.toLocaleString();
 
     const rezultat = [
       `╔══════════════════════════════════════════════════════════════╗`,
@@ -128,7 +128,7 @@ export async function GET() {
       maxTokena: v.promptPodrska.maxTokena,
     })),
     ukupnoPromptova: promptovi.length,
-    omegaAI: `${OMEGA_AI_INSTANCI.toLocaleString()} persona`,
+    omegaAI: `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} persona`,
     status: 'aktivan',
   });
 }

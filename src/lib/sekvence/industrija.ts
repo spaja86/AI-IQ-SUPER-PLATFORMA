@@ -2,7 +2,7 @@ import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
 import { sajtovi, getSajtoviPoKategoriji } from '@/lib/sajtovi';
 import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
-import { OMEGA_AI_INSTANCI } from '@/lib/constants';
+import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
 
 const stats = getStatistike();
 
@@ -14,7 +14,7 @@ export const industrijaSekvence: Sekvenca[] = [
     podnaslov: 'AI IQ SUPER PLATFORMA — Sve je AKTIVNO, sve PROIZVODI',
     ikona: '🏭',
     redosled: 1,
-    podaci: { opis: `Kompanija SPAJA kao ŽIVA FUNKCIONALNA digitalna industrija — sve platforme, kompanije, organizacije i proizvodi su AKTIVNI. ${OMEGA_AI_INSTANCI.toLocaleString()} OMEGA AI persona rade non-stop. Promptovi svuda, AI svuda, produkcija svuda.` },
+    podaci: { opis: `Kompanija SPAJA kao ŽIVA FUNKCIONALNA digitalna industrija — sve platforme, kompanije, organizacije i proizvodi su AKTIVNI. ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona rade non-stop. Promptovi svuda, AI svuda, produkcija svuda.` },
   },
   {
     id: 'industrija-tekst',
