@@ -34,17 +34,19 @@ export const platforms: Platform[] = [
     techStack: ['Next.js 16', 'TypeScript', 'Tailwind CSS 4', 'Vercel'],
     features: ['Centralni dashboard', 'Ekosistem pregled', 'Deploy management', 'API Gateway'],
     deploy: { status: 'deployed', domain: 'ai-iq-super-platforma.vercel.app', vercelProject: 'ai-iq-super-platforma', framework: 'nextjs', buildCommand: 'npm run build' },
+    repoUrl: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA',
   },
   {
     id: 'io-openui-ao',
     name: 'IO-OPENUI-AO',
-    description: 'Unified frontend sa modulima za banku, menjačnicu, kompaniju i AI — WebRTC i Socket.IO integracija.',
+    description: 'Unified frontend sa modulima za banku, menjačnicu, kompaniju i AI — WebRTC i Socket.IO integracija. SpajaPro Engine + Laboratorija.',
     category: 'core',
     status: 'active',
     icon: '🌐',
-    techStack: ['React', 'WebRTC', 'Socket.IO', 'Vercel'],
-    features: ['Bank modul', 'Exchange modul', 'Company modul', 'AI modul', 'Real-time chat'],
+    techStack: ['React', 'WebRTC', 'Socket.IO', 'Vercel', 'SpajaPro Engine'],
+    features: ['Bank modul', 'Exchange modul', 'Company modul', 'AI modul', 'Real-time chat', 'SpajaPro Prompt'],
     deploy: { status: 'deployed', domain: 'io-openui-ao.vercel.app', vercelProject: 'io-openui-ao', framework: 'react', buildCommand: 'npm run build' },
+    repoUrl: 'https://github.com/spaja86/IO-OPENUI-AO',
   },
   // ── Finance ───────────────────────────────────────────────────────────
   {
@@ -57,6 +59,7 @@ export const platforms: Platform[] = [
     techStack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Stripe'],
     features: ['Digitalni računi', 'Transakcije', 'Krediti', 'Investicije', 'KYC/AML'],
     deploy: { status: 'deployed', domain: 'spaja-banka.vercel.app', vercelProject: 'spaja-banka', framework: 'nextjs', buildCommand: 'npm run build' },
+    repoUrl: 'https://github.com/spaja86/Ai-Iq-World-Bank',
   },
   {
     id: 'menjacnica-platforma',
@@ -68,18 +71,20 @@ export const platforms: Platform[] = [
     techStack: ['Next.js', 'TypeScript', 'WebSocket', 'Redis'],
     features: ['Fiat exchange', 'Crypto exchange', 'Real-time rates', 'Portfolio tracking'],
     deploy: { status: 'deployed', domain: 'spaja-menjacnica.vercel.app', vercelProject: 'spaja-menjacnica', framework: 'nextjs', buildCommand: 'npm run build' },
+    repoUrl: 'https://github.com/spaja86/Ai-Iq-Menja-nica',
   },
   // ── AI ────────────────────────────────────────────────────────────────
   {
     id: 'ai-engine',
     name: 'AI Engine',
-    description: 'Centralni AI motor sa ML modelima, NLP-om i automatizacijom za ceo ekosistem — 40.000.000 OMEGA AI instanci.',
+    description: 'Centralni AI motor sa ML modelima, NLP-om i automatizacijom za ceo ekosistem — 40.000.000 OMEGA AI instanci. Koristi OpenAI API iz spaja86/openai-platform repozitorijuma.',
     category: 'ai',
     status: 'active',
     icon: '🤖',
     techStack: ['Python', 'FastAPI', 'TensorFlow', 'OpenAI API'],
-    features: ['NLP procesiranje', 'ML modeli', 'Automatizacija', 'AI asistenti', '40M OMEGA AI'],
-    deploy: { status: 'deployed', domain: 'spaja-ai-engine.vercel.app', vercelProject: 'spaja-ai-engine', framework: 'fastapi', buildCommand: 'pip install -r requirements.txt' },
+    features: ['NLP procesiranje', 'ML modeli', 'Automatizacija', 'AI asistenti', '40M OMEGA AI', 'OpenAI API integracija'],
+    deploy: { status: 'deployed', domain: 'openai.com', vercelProject: 'spaja-ai-engine', framework: 'fastapi', buildCommand: 'pip install -r requirements.txt' },
+    repoUrl: 'https://github.com/spaja86/openai-platform',
   },
   {
     id: 'ai-analytics',
@@ -108,12 +113,12 @@ export const platforms: Platform[] = [
   {
     id: 'marketplace',
     name: 'SPAJA Marketplace',
-    description: 'Digitalna tržnica za proizvode i usluge unutar ekosistema.',
+    description: 'Digitalna tržnica za proizvode i usluge unutar ekosistema — uključuje digitalni hardver, GPU, RAM, kompjuter kao uslugu.',
     category: 'commerce',
     status: 'active',
     icon: '🛒',
     techStack: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
-    features: ['Prodavnice', 'Proizvodi', 'Narudžbe', 'Plaćanja', 'Recenzije'],
+    features: ['Prodavnice', 'Proizvodi', 'Narudžbe', 'Plaćanja', 'Recenzije', 'Digitalni Hardver zakup'],
     deploy: { status: 'deployed', domain: 'spaja-marketplace.vercel.app', vercelProject: 'spaja-marketplace', framework: 'nextjs', buildCommand: 'npm run build' },
   },
   // ── Global ────────────────────────────────────────────────────────────
@@ -127,6 +132,7 @@ export const platforms: Platform[] = [
     techStack: ['Next.js', 'TypeScript', 'i18n', 'CDN'],
     features: ['Multi-language', 'Regional hubs', 'Partneri', 'Compliance'],
     deploy: { status: 'deployed', domain: 'spaja-global.vercel.app', vercelProject: 'spaja-global', framework: 'nextjs', buildCommand: 'npm run build' },
+    repoUrl: 'https://github.com/spaja86/SVETSKA-ORGANIZACIJA',
   },
   // ── Tools ─────────────────────────────────────────────────────────────
   {
