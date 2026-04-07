@@ -318,6 +318,14 @@ export function runDiagnostics(): DiagnosticReport {
       `/api/spaja-pro-status aktivan — ${spajaProVerzije.length} verzija (v6-15)`
     ),
 
+    createCheck(
+      'spaja-pro-prompt-execute-check',
+      'SpajaPro Prompt Execute API',
+      'Provera /api/spaja-pro-prompt-execute endpointa — aktivni promptovi, UI konzola',
+      'ok',
+      `/api/spaja-pro-prompt-execute aktivan — SpajaPro Prompt Konzola UI sa ${promptovi.length} promptova`
+    ),
+
     // ── Autofinish #35: Platforme Status ────────────────────────────────
 
     createCheck(
