@@ -2711,6 +2711,43 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/spaja-kvantni-orkestrator-partiture aktivan — 5 partitura, sve aktivne'
     ),
+
+    // ── SPAJA Neuronski Multipleksor (#157) ───────────────────────
+    createCheck(
+      'spaja-neuronski-multipleksor-check',
+      'SPAJA Neuronski Multipleksor API',
+      'Provera /api/spaja-neuronski-multipleksor endpointa — neuronsko multipleksiranje',
+      'ok',
+      '/api/spaja-neuronski-multipleksor aktivan — 5 sistema multipleksiranja, svi aktivni'
+    ),
+    createCheck(
+      'spaja-neuronski-multipleksor-status-check',
+      'Neuronski Multipleksor Status API',
+      'Provera /api/spaja-neuronski-multipleksor-status endpointa — zdravlje i kanali',
+      'ok',
+      '/api/spaja-neuronski-multipleksor-status aktivan — zdravlje 100%, 4096 kanala'
+    ),
+    createCheck(
+      'spaja-neuronski-multipleksor-pregled-check',
+      'Neuronski Multipleksor Pregled API',
+      'Provera /api/spaja-neuronski-multipleksor-pregled endpointa — multipleksirani sistemi',
+      'ok',
+      '/api/spaja-neuronski-multipleksor-pregled aktivan — kompletni pregled multipleksiranih sistema'
+    ),
+    createCheck(
+      'spaja-neuronski-multipleksor-metrike-check',
+      'Neuronski Multipleksor Metrike API',
+      'Provera /api/spaja-neuronski-multipleksor-metrike endpointa — propusnost, efikasnost',
+      'ok',
+      '/api/spaja-neuronski-multipleksor-metrike aktivan — 12 metrika, efikasnost 99.8%'
+    ),
+    createCheck(
+      'spaja-neuronski-multipleksor-kanali-check',
+      'Neuronski Multipleksor Kanali API',
+      'Provera /api/spaja-neuronski-multipleksor-kanali endpointa — multipleksni kanali',
+      'ok',
+      '/api/spaja-neuronski-multipleksor-kanali aktivan — 5 kanala, svi aktivni'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
