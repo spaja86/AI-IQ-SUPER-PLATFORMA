@@ -3,6 +3,7 @@ import { platforms } from './platforms';
 import { organizations } from './organizations';
 import { companies } from './companies';
 import { products } from './products';
+import { OMEGA_AI_INSTANCI } from './constants';
 
 function computeStats(): IndustrijaStats {
   return {
@@ -18,18 +19,19 @@ function computeStats(): IndustrijaStats {
 }
 
 export const digitalnaIndustrija: DigitalnaIndustrija = {
-  name: 'Kompanija SPAJA — Digitalna Industrija',
+  name: 'Kompanija SPAJA — ŽIVA FUNKCIONALNA Digitalna Industrija',
   description:
-    'Digitalna Industrija koja pravi platforme, organizacije, kompanije i IT proizvode. ' +
-    'Ekosistem koji spaja sve u jednu celinu — od AI i finansija do globalne ekspanzije.',
-  version: '3.0.0',
+    'ŽIVA FUNKCIONALNA Digitalna Industrija koja aktivno proizvodi platforme, organizacije, kompanije i IT proizvode. ' +
+    'Ekosistem koji spaja sve u jednu celinu — od AI i finansija do globalne ekspanzije. ' +
+    `${OMEGA_AI_INSTANCI.toLocaleString()} OMEGA AI instanci aktivno rade na svim platformama.`,
+  version: '4.0.0',
   founded: '2024',
   mission:
-    'Kreiranje sveobuhvatnog digitalnog ekosistema koji povezuje platforme, organizacije i kompanije ' +
-    'u jedinstvenu industrijsku celinu sa AI podrškom.',
+    'ŽIVA FUNKCIONALNA korporacija — sveobuhvatni digitalni ekosistem koji povezuje platforme, organizacije i kompanije ' +
+    'u jedinstvenu industrijsku celinu sa 40.000.000 OMEGA AI instanci. Sve je aktivno, sve proizvodi.',
   vision:
-    'Postati globalni lider u digitalnoj industriji — korporacija koja proizvodi i upravlja ' +
-    'mrežom platformi, organizacija i kompanija za budućnost.',
+    'Globalni lider u digitalnoj industriji — ŽIVA FUNKCIONALNA korporacija koja proizvodi i upravlja ' +
+    'mrežom platformi, organizacija i kompanija. Promptovi svuda, AI svuda, produkcija svuda.',
   stats: computeStats(),
 };
 
