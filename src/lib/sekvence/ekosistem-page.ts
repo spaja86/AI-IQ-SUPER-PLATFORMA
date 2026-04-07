@@ -51,8 +51,12 @@ export const ekosistemSekvence: Sekvenca[] = [
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
         { naziv: 'Proizvodi', vrednost: stats.ukupnoProizvoda, ikona: '⚡' },
+        { naziv: 'Igrice', vrednost: stats.ukupnoIgrica, ikona: '🎮' },
+        { naziv: 'OMEGA AI', vrednost: stats.ukupnoOmegaPersona, ikona: '🧠' },
+        { naziv: 'Kompanije', vrednost: stats.ukupnoKompanija, ikona: '🏛️' },
+        { naziv: 'Organizacije', vrednost: stats.ukupnoOrganizacija, ikona: '🏢' },
+        { naziv: 'Rute', vrednost: stats.ukupnoRuta, ikona: '🗺️' },
         { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
-        { naziv: 'Moduli', vrednost: 4, ikona: '🧩' },
       ],
     },
   },
