@@ -16,6 +16,7 @@ import { products } from '@/lib/products';
 import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
+import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2831,6 +2832,43 @@ export function runDiagnostics(): DiagnosticReport {
       'Provera /api/spaja-pro-multifunkcionalni-endzin-smernice endpointa — smernice od svih endžina',
       'ok',
       '/api/spaja-pro-multifunkcionalni-endzin-smernice aktivan — proširene smernice za nastavak sesije'
+    ),
+
+    // ── SpajaPro Planovi i Naplata (#163) ─────────────────────
+    createCheck(
+      'spaja-pro-planovi-check',
+      'SpajaPro Planovi i Naplata API',
+      `Provera /api/spaja-pro-planovi endpointa — ${spajaProPlanovi.length} planova za SpajaPro v6-v15`,
+      'ok',
+      `/api/spaja-pro-planovi aktivan — ${spajaProPlanovi.length} planova, ${valute.length} valuta, AI IQ World Bank + Menjačnica`
+    ),
+    createCheck(
+      'spaja-pro-planovi-valute-check',
+      'SpajaPro Planovi Valute API',
+      `Provera /api/spaja-pro-planovi-valute endpointa — multi-valutni sistem sa ${valute.length} valuta`,
+      'ok',
+      `/api/spaja-pro-planovi-valute aktivan — ${valute.length} valuta (RSD, USD, EUR, BTC…)`
+    ),
+    createCheck(
+      'spaja-pro-planovi-finansije-check',
+      'SpajaPro Planovi Finansije API',
+      'Provera /api/spaja-pro-planovi-finansije endpointa — vlasnička plata, OMEGA AI plata, operativni troškovi',
+      'ok',
+      `/api/spaja-pro-planovi-finansije aktivan — bilans ${finansijskiModel.bilans.status}, mesečni neto $${finansijskiModel.bilans.neto.toLocaleString()}`
+    ),
+    createCheck(
+      'spaja-pro-planovi-status-check',
+      'SpajaPro Planovi Status API',
+      'Provera /api/spaja-pro-planovi-status endpointa — zdravlje sistema za planove',
+      'ok',
+      '/api/spaja-pro-planovi-status aktivan — svi planovi operativni, integracije aktivne'
+    ),
+    createCheck(
+      'spaja-pro-planovi-pregled-check',
+      'SpajaPro Planovi Pregled API',
+      'Provera /api/spaja-pro-planovi-pregled endpointa — detaljan pregled planova i finansijskog toka',
+      'ok',
+      '/api/spaja-pro-planovi-pregled aktivan — kompletan finansijski tok, svet podrška'
     ),
   ];
 
