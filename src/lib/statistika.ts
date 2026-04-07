@@ -2,19 +2,77 @@ import { platforme, getUkupniProgres, getBrojAktivnih } from './platforme';
 import { itProizvodi, getProizvodiVisokogUticaja } from './it-proizvodi';
 import { spajaProVerzije, getAktivneVerzije } from './spaja-pro';
 import { promptovi, getPromptKategorije } from './prompt';
+import { igrice, getSveKategorijeIgrica } from './igrice';
+import { omegaPersone, getAktivnePersone } from './omega-ai';
+import { sajtovi } from './sajtovi';
+import { mobilneCentrale, mobilniServisi } from './mobilna-mreza';
+import { dimenzije } from './dimenzije';
+import { proksiSignali, proksiCvorovi } from './proksi';
+import { navigation } from './navigation';
+import { runDiagnostics } from './auto-repair';
+import { companies } from './companies';
+import { organizations } from './organizations';
+import { products } from './products';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from './constants';
 
 export function getStatistike() {
+  const dijagnostika = runDiagnostics();
+
   return {
+    // Platforme
     ukupnoPlatformi: platforme.length,
     aktivnihPlatformi: getBrojAktivnih(),
+    spremnihPlatformi: platforme.filter((p) => p.status === 'spremna').length,
+    platformeURazvoju: platforme.filter((p) => p.status === 'razvoj').length,
+
+    // IT proizvodi
     ukupnoProizvoda: itProizvodi.length,
     ukupniProgres: getUkupniProgres(),
     proizvodiVisokogUticaja: getProizvodiVisokogUticaja().length,
     kategorijePlatformi: 6,
     kategorijeProizvoda: 8,
+
+    // SpajaPro
     spajaProVerzija: spajaProVerzije.length,
     spajaProAktivnih: getAktivneVerzije().length,
+
+    // Prompt
     ukupnoPromptova: promptovi.length,
     promptKategorija: getPromptKategorije().length,
+
+    // Igrice
+    ukupnoIgrica: igrice.length,
+    kategorijaIgrica: getSveKategorijeIgrica().length,
+
+    // OMEGA AI
+    ukupnoOmegaPersona: omegaPersone.length,
+    aktivnihOmegaPersona: getAktivnePersone().length,
+
+    // Infrastruktura
+    ukupnoSajtova: sajtovi.length,
+    ukupnoMobilnihCentrala: mobilneCentrale.length,
+    ukupnoMobilnihServisa: mobilniServisi.length,
+    ukupnoDimenzija: dimenzije.length,
+    ukupnoProksiSignala: proksiSignali.length,
+    ukupnoProksiCvorova: proksiCvorovi.length,
+
+    // Navigacija i stranice
+    ukupnoStranica: navigation.length,
+    ukupnoRuta: TOTAL_ROUTES,
+    ukupnoAPIRuta: TOTAL_API_ROUTES,
+
+    // Zdravlje sistema
+    zdravljeSistema: dijagnostika.zdravlje,
+    ukupnoDijagnostika: dijagnostika.ukupnoProvera,
+    uspesnihDijagnostika: dijagnostika.uspesnih,
+
+    // Autofinish
+    autofinishBroj: AUTOFINISH_COUNT,
+    verzija: APP_VERSION,
+
+    // EN Entities
+    ukupnoKompanija: companies.length,
+    ukupnoOrganizacija: organizations.length,
+    ukupnoProducts: products.length,
   };
 }

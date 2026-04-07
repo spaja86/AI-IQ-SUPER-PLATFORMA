@@ -160,7 +160,7 @@ export function kreirajEvolucijskiCiklus(): EvolucijaCiklus {
       status: 'kreirana' as const,
       timestamp,
     })),
-    verzija: '6.0.0',
+    verzija: '6.7.0',
   };
 }
 
