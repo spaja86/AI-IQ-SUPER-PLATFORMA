@@ -4,9 +4,12 @@ import { itProizvodi } from '@/lib/it-proizvodi';
 import { getStatistike } from '@/lib/statistika';
 import { runDiagnostics } from '@/lib/auto-repair';
 import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
+import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 
 const stats = getStatistike();
 const dijagnostika = runDiagnostics();
+const generatorOpt = getProsecnaOptimizacija();
+const repoEnginiCount = getRepoEngini().length;
 
 export const dashboardSekvence: Sekvenca[] = [
   {
@@ -68,6 +71,9 @@ export const dashboardSekvence: Sekvenca[] = [
         { naziv: 'Proksi Čvorovi', vrednost: stats.ukupnoProksiCvorova, ikona: '📡' },
         { naziv: 'Kompanije', vrednost: stats.ukupnoKompanija, ikona: '🏛️' },
         { naziv: 'Organizacije', vrednost: stats.ukupnoOrganizacija, ikona: '🏢' },
+        { naziv: 'Engine-i', vrednost: stats.generatorEngina, ikona: '🔧' },
+        { naziv: 'Repo Engine-i', vrednost: stats.generatorRepoEngina, ikona: '📦' },
+        { naziv: 'Gen. Optimiz.', vrednost: `${stats.generatorOptimizacija}%`, ikona: '⚙️' },
         { naziv: 'Stranice', vrednost: stats.ukupnoStranica, ikona: '📄' },
         { naziv: 'Rute', vrednost: stats.ukupnoRuta, ikona: '🗺️' },
       ],
@@ -117,7 +123,19 @@ export const dashboardSekvence: Sekvenca[] = [
         { naslov: 'Auto-Popravka', opis: `${dijagnostika.ukupnoProvera} dijagnostičkih provera, zdravlje ${dijagnostika.zdravlje}%`, ikona: '🔧' },
         { naslov: 'OMEGA AI Evolucija', opis: 'Autonomna evolucija svakih 6 sati', ikona: '🧬' },
         { naslov: `Autofinish ×${AUTOFINISH_COUNT}`, opis: `${AUTOFINISH_COUNT} kompletnih Autofinish ciklusa`, ikona: '🔄' },
+        { naslov: 'SPAJA Generator', opis: `${generisaniEngini.length} engine-a (${repoEnginiCount} repo), optimizacija ${generatorOpt}%`, ikona: '🔧' },
       ],
+    },
+  },
+  {
+    id: 'dashboard-generator',
+    tip: 'baner',
+    naslov: '🔧 SPAJA Generator za Endžine',
+    redosled: 8,
+    podaci: {
+      bedz: '🔧 Generator',
+      opis: `SPAJA Generator za Endžine prevlači ${generisaniEngini.length} engine-a (od kojih ${repoEnginiCount} repo engine-a za eksterne repozitorijume) preko celog AI-IQ-SUPER-PLATFORMA ekosistema. Prosečna optimizacija: ${generatorOpt}%. Svaki modul u repozitorijumu ima svoj optimizovani engine.`,
+      dugme: { tekst: 'Generator Endžina', href: '/spaja-generator-engine' },
     },
   },
 ];

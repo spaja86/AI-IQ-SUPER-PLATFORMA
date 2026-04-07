@@ -34,6 +34,7 @@ export async function GET() {
       finansije: getEnginiPoTipu('finansije').length,
       bezbednost: getEnginiPoTipu('bezbednost').length,
       komunikacija: getEnginiPoTipu('komunikacija').length,
+      'repo-engine': getEnginiPoTipu('repo-engine').length,
     },
     engini: generisaniEngini,
     timestamp: new Date().toISOString(),

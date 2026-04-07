@@ -644,7 +644,7 @@ export const spajaGeneratorEngine: SpajaGeneratorEngine = {
     'Finansije i svih repo-specifičnih endžina za Ai-Iq-World-Bank, Ai-Iq-Menja-nica, SVETSKA-ORGANIZACIJA, ' +
     'IO-OPENUI-AO, openai-platform, Kompanija-SPAJA, OMEGA-AI-za-GIT-HUB, OMEGA-AI-za-Vercel-, ' +
     '-OMEGA-AI-za-Google-, OMEGA-AI-5-persona, Java-Swing-GUI, Input-Output-Copilot, openai-cookbook, hello-world.',
-  verzija: '1.0.0',
+  verzija: '2.0.0',
   link: 'https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de',
   engini: generisaniEngini,
   konfiguracije: generatorKonfiguracije,

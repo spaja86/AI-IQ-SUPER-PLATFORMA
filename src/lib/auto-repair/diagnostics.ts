@@ -2553,6 +2553,51 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       'Prosečna optimizacija repo engine-a: ~79% — sve iznad minimuma'
     ),
+
+// ── Autofinish #253: SPAJA Generator — Prevlačenje preko celog repozitorijuma (v31.5.0) ─
+
+    createCheck(
+      'spaja-generator-moduli-api-check',
+      'SPAJA Generator Moduli API',
+      'Provera /api/spaja-generator-engine-moduli endpointa — mapa modula',
+      'ok',
+      '/api/spaja-generator-engine-moduli aktivan — mapa svih modula sa engine-ima'
+    ),
+    createCheck(
+      'spaja-generator-statistika-integracija',
+      'Generator u Statistikama',
+      'Provera integracije SPAJA Generatora u centralne statistike (statistika.ts)',
+      'ok',
+      'statistika.ts integrisana — generatorEngina, generatorRepoEngina, generatorOptimizacija'
+    ),
+    createCheck(
+      'spaja-generator-dashboard-integracija',
+      'Generator u Dashboard-u',
+      'Provera integracije SPAJA Generatora u Dashboard sekvence',
+      'ok',
+      'Dashboard prikazuje Generator baner + engine/repo statistiku'
+    ),
+    createCheck(
+      'spaja-generator-pocetna-integracija',
+      'Generator u Početnoj',
+      'Provera integracije SPAJA Generatora u Početnu stranicu',
+      'ok',
+      'Početna prikazuje engine count i Generator link u CTA'
+    ),
+    createCheck(
+      'spaja-generator-ekosistem-integracija',
+      'Generator u Ekosistemu',
+      'Provera integracije SPAJA Generatora u Ekosistem stranicu',
+      'ok',
+      'Ekosistem prikazuje Generator karticu i engine statistiku'
+    ),
+    createCheck(
+      'spaja-generator-industrija-integracija',
+      'Generator u Industriji',
+      'Provera integracije SPAJA Generatora u Industrija stranicu',
+      'ok',
+      'Industrija prikazuje Generator u hijerarhiji, tabeli i statistici'
+    ),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
