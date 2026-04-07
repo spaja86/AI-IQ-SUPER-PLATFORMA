@@ -17,6 +17,7 @@ import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constant
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
+import { vlasnickiVipPlan, omegaDispatchProtokoli, proksiSuportSmene, marketingFondacija } from '@/lib/vlasnicki-vip-plan';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2869,6 +2870,43 @@ export function runDiagnostics(): DiagnosticReport {
       'Provera /api/spaja-pro-planovi-pregled endpointa — detaljan pregled planova i finansijskog toka',
       'ok',
       '/api/spaja-pro-planovi-pregled aktivan — kompletan finansijski tok, svet podrška'
+    ),
+
+    // ── Vlasnički VIP Plan + Dispatch + Suport + Marketing (#164) ──
+    createCheck(
+      'vlasnicki-vip-plan-check',
+      'Vlasnički VIP Plan API',
+      `Provera /api/vlasnicki-vip-plan endpointa — VIP plan sa ${vlasnickiVipPlan.autorizacije.platforme.length} platforma`,
+      'ok',
+      `/api/vlasnicki-vip-plan aktivan — ${vlasnickiVipPlan.vlasnikEmail}, ${vlasnickiVipPlan.autorizacije.nivo} autorizacije`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-autorizacije-check',
+      'Ekstremne Autorizacije API',
+      `Provera /api/vlasnicki-vip-plan-autorizacije endpointa — ${vlasnickiVipPlan.autorizacije.ekstremneDozvole.length} ekstremnih dozvola`,
+      'ok',
+      `/api/vlasnicki-vip-plan-autorizacije aktivan — ekstremne dozvole na ${vlasnickiVipPlan.autorizacije.platforme.length} platforma`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-dispatch-protokoli-check',
+      'OMEGA AI Dispatch Protokoli API',
+      `Provera /api/vlasnicki-vip-plan-dispatch-protokoli endpointa — ${omegaDispatchProtokoli.protokoli.length} protokola, mesečna naplata`,
+      'ok',
+      `/api/vlasnicki-vip-plan-dispatch-protokoli aktivan — ${omegaDispatchProtokoli.protokoli.length} protokola, internet + mobilni + IoT`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-suport-smene-check',
+      'Proksi Suport Smene API',
+      `Provera /api/vlasnicki-vip-plan-suport-smene endpointa — ${proksiSuportSmene.smene.length} smena, ${proksiSuportSmene.ukupnoAgenata} agenata`,
+      'ok',
+      `/api/vlasnicki-vip-plan-suport-smene aktivan — ${proksiSuportSmene.pokrivanje} pokrivanje, ${proksiSuportSmene.ulogePoSmeni.length} uloge`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-marketing-check',
+      'Marketing Fondacija API',
+      `Provera /api/vlasnicki-vip-plan-marketing endpointa — ${marketingFondacija.kanali.length} kanala, $${marketingFondacija.mesecniBudzet.toLocaleString()}/mes`,
+      'ok',
+      `/api/vlasnicki-vip-plan-marketing aktivan — fondacija $${marketingFondacija.mesecniBudzet.toLocaleString()}/mes, ${marketingFondacija.strategija.obavezni.length} obaveznih strateških poteza`
     ),
   ];
 
