@@ -3,6 +3,7 @@ import './globals.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL } from '@/lib/constants';
+import { Analytics } from '@vercel/analytics/next';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
