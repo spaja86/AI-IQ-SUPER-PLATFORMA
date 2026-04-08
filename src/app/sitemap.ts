@@ -33,6 +33,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/dimenzije',
     '/proizvodi',
     '/spaja-generator-engine',
+    '/spaja-digitalni-brouvzer',
+    '/io-openui-ao-laboratorija',
+    '/spaja-render-medija',
+    '/io-openui-ao-gaming-platforma',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

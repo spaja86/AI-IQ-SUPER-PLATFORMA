@@ -427,6 +427,64 @@ export const generisaniEngini: GenerisaniEngine[] = [
     generisanDatum: '2026-04-07',
     optimizacija: 68,
   },
+
+  // ─── Digitalni Brouvzer, Laboratorija za Simulacije, Render Medija ─
+
+  {
+    id: 'engine-digitalni-brouvzer',
+    naziv: 'Digitalni Brouvzer Engine',
+    opis: 'Engine za SPAJA Digitalni Brouvzer — digitalna brauzer platforma na koju se postavlja celokupna industrija (platforme, organizacije, korporacije, kompanije, prodavnice). Link: https://chatgpt.com/c/69152051-4108-8328-9f58-d2d508b844f9',
+    ikona: '🌐',
+    tip: 'core',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-digitalni-brouvzer.ts',
+    mogucnosti: ['Brauzer platforma', 'Plasiranje industrije', 'Entiteti ekosistema', 'Tab menadžment', 'VPN integracija', 'Ad-block', 'Dev Tools'],
+    generisanDatum: '2026-04-08',
+    optimizacija: 88,
+  },
+  {
+    id: 'engine-io-openui-ao-laboratorija',
+    naziv: 'IOOpenUIAO Laboratorija za Simulacije Engine',
+    opis: 'Engine za IOOpenUIAO Laboratoriju za Simulacije — naučne i tehničke simulacije u 8 kategorija (fizika, hemija, biologija, matematika, AI/ML, inženjerstvo, ekonomija, ekologija). Link: https://chatgpt.com/c/694db5ba-2930-8331-898c-a9f3eb2a96d6',
+    ikona: '🔬',
+    tip: 'ai',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/io-openui-ao-laboratorija-simulacije.ts',
+    mogucnosti: ['Naučne simulacije', '8 kategorija', 'Laboratorijski alati', 'Vizualizacija 3D', 'Spektralna analiza', 'AI trening simulacija', 'Ekonomski modeli'],
+    generisanDatum: '2026-04-08',
+    optimizacija: 85,
+  },
+  {
+    id: 'engine-render-medija',
+    naziv: 'SPAJA Render za Slike i Video Engine',
+    opis: 'Engine za SPAJA Render — renderovanje slika, videa, animacija, 3D modela, vektorske grafike, holograma i VR/AR sadržaja. Manifestovan kroz SPAJA Generator za Endžine. Link: https://chatgpt.com/c/694db5ba-2930-8331-898c-a9f3eb2a96d6',
+    ikona: '🎬',
+    tip: 'core',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-render-medija.ts',
+    mogucnosti: ['Slike HD/4K/8K', 'Video rendering', 'Animacije', '3D modeli', 'Vektorska grafika', 'Hologrami', 'VR/AR render', 'AI upscaling', 'Dimenzionalni render 360D-5760D'],
+    generisanDatum: '2026-04-08',
+    optimizacija: 90,
+  },
+
+  // ─── IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin nad igricama ─
+
+  {
+    id: 'engine-io-openui-ao-gaming',
+    naziv: 'IO/OPENUI/AO Gaming Univerzalni Engine',
+    opis: 'SPAJA Univerzalni Endžin prevučen preko svih 95 igrica na IO/OPENUI/AO platformi (www.ioopenuiao.ac). Dimenzionalno renderovanje 360D–5760D, SpajaPro 6-15 integracija, OMEGA AI podrška, Proksi mrežna optimizacija. Link: https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7',
+    ikona: '🎮',
+    tip: 'gaming',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/io-openui-ao-gaming-platforma.ts',
+    mogucnosti: ['95 igrica u opticaju', 'SPAJA Univerzalni Endžin nad svakom igricom', '18 kategorija igrica', 'Dimenzionalno renderovanje 360D–5760D', 'www.ioopenuiao.ac domen', 'SpajaPro 6-15 integracija', 'OMEGA AI persona podrška', 'Proksi mrežna optimizacija'],
+    generisanDatum: '2026-04-08',
+    optimizacija: 85,
+  },
 ];
 
 // ─── Generator konfiguracije ─────────────────────────────

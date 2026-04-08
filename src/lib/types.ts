@@ -164,6 +164,7 @@ export interface Platform {
   techStack: string[];
   features: string[];
   deploy?: PlatformDeploy;
+  repoUrl?: string;
 }
 
 export interface IndustrijaStats {
