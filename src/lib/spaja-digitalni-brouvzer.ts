@@ -183,14 +183,14 @@ export const brouvzerEntiteti: BrouvzerEntitet[] = [
   },
   {
     id: 'entitet-openai-platform',
-    naziv: 'OpenAI Platform',
-    opis: 'OpenAI Platform integracija — API pristup, modeli, recepti i best practices za AI razvoj',
+    naziv: 'OpenAI Platform — SpajaPro v6-15',
+    opis: 'OpenAI Platform integracija sa SpajaPro v6-15 endžinima umesto ChatGPT-a — API pristup, modeli, SpajaPro Prompt sistem i best practices za AI razvoj',
     ikona: '🤖',
     tip: 'platforma',
     url: 'https://openai-platform.vercel.app',
     status: 'aktivan',
     kategorija: 'AI Platforma',
-    funkcije: ['OpenAI API', 'Model integracija', 'Prompt engineering', 'Fine-tuning', 'Cookbook recepti'],
+    funkcije: ['SpajaPro v6-15 Engine', 'OpenAI API', 'SpajaPro Prompt sistem', 'Model integracija', 'Fine-tuning', 'Cookbook recepti'],
   },
 ];
 
