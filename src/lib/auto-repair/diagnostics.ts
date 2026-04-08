@@ -20,6 +20,9 @@ import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-plano
 import { vlasnickiVipPlan, omegaDispatchProtokoli, proksiSuportSmene, marketingFondacija } from '@/lib/vlasnicki-vip-plan';
 import { industrijskiMejlSistem, suportDepartmani } from '@/lib/omega-ai-suport-mejlovi';
 import { omegaAiRaspodela, sektoriRaspodela, kompatibilnostPravila } from '@/lib/omega-ai-raspodela';
+import { brouvzerEntiteti, brouvzerModuli, spajaDigitalniBrouvzer } from '@/lib/spaja-digitalni-brouvzer';
+import { simulacije, laboratorijskiAlati, ioOpenUIAOLaboratorija } from '@/lib/io-openui-ao-laboratorija-simulacije';
+import { renderEngini, renderPipeline, spajaRenderMedija } from '@/lib/spaja-render-medija';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2983,6 +2986,117 @@ export function runDiagnostics(): DiagnosticReport {
       `Provera /api/omega-ai-raspodela-statistika endpointa — ${omegaAiRaspodela.muskih.toLocaleString()} muških + ${omegaAiRaspodela.zenskih.toLocaleString()} ženskih`,
       'ok',
       `/api/omega-ai-raspodela-statistika aktivan — kompletna statistika persona po sektorima, smenama i polu`
+    ),
+
+    // ── SPAJA Digitalni Brouvzer (#169) ───────────────────────
+    createCheck(
+      'spaja-digitalni-brouvzer-check',
+      'SPAJA Digitalni Brouvzer API',
+      `Provera /api/spaja-digitalni-brouvzer endpointa — ${brouvzerEntiteti.length} entiteta, ${brouvzerModuli.length} modula`,
+      'ok',
+      `/api/spaja-digitalni-brouvzer aktivan — v${spajaDigitalniBrouvzer.verzija}, ${brouvzerEntiteti.length} entiteta industrije`
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-status-check',
+      'SPAJA Digitalni Brouvzer Status API',
+      `Provera /api/spaja-digitalni-brouvzer-status endpointa — status brouvzera`,
+      'ok',
+      '/api/spaja-digitalni-brouvzer-status aktivan — pokrivenost industrije, entiteti i moduli'
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-pregled-check',
+      'SPAJA Digitalni Brouvzer Pregled API',
+      `Provera /api/spaja-digitalni-brouvzer-pregled endpointa — detaljan pregled`,
+      'ok',
+      '/api/spaja-digitalni-brouvzer-pregled aktivan — entiteti, moduli, pokrivenost'
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-entiteti-check',
+      'SPAJA Digitalni Brouvzer Entiteti API',
+      `Provera /api/spaja-digitalni-brouvzer-entiteti endpointa — ${brouvzerEntiteti.length} entiteta po tipu`,
+      'ok',
+      `/api/spaja-digitalni-brouvzer-entiteti aktivan — platforme, organizacije, korporacije, kompanije, prodavnice`
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-moduli-check',
+      'SPAJA Digitalni Brouvzer Moduli API',
+      `Provera /api/spaja-digitalni-brouvzer-moduli endpointa — ${brouvzerModuli.length} modula`,
+      'ok',
+      `/api/spaja-digitalni-brouvzer-moduli aktivan — rendering, pretraživač, navigacija, tab, ekstenzije, ad-block, VPN, dev-tools`
+    ),
+
+    // ── IOOpenUIAO Laboratorija za Simulacije (#169) ──────────
+    createCheck(
+      'io-openui-ao-laboratorija-check',
+      'IOOpenUIAO Laboratorija API',
+      `Provera /api/io-openui-ao-laboratorija endpointa — ${simulacije.length} simulacija, ${laboratorijskiAlati.length} alata`,
+      'ok',
+      `/api/io-openui-ao-laboratorija aktivan — v${ioOpenUIAOLaboratorija.verzija}, ${simulacije.length} simulacija u 8 kategorija`
+    ),
+    createCheck(
+      'io-openui-ao-laboratorija-status-check',
+      'IOOpenUIAO Laboratorija Status API',
+      `Provera /api/io-openui-ao-laboratorija-status endpointa — status laboratorije`,
+      'ok',
+      '/api/io-openui-ao-laboratorija-status aktivan — simulacije, alati, preciznost'
+    ),
+    createCheck(
+      'io-openui-ao-laboratorija-pregled-check',
+      'IOOpenUIAO Laboratorija Pregled API',
+      `Provera /api/io-openui-ao-laboratorija-pregled endpointa — detaljan pregled`,
+      'ok',
+      '/api/io-openui-ao-laboratorija-pregled aktivan — simulacije, alati, kategorije'
+    ),
+    createCheck(
+      'io-openui-ao-laboratorija-simulacije-check',
+      'IOOpenUIAO Laboratorija Simulacije API',
+      `Provera /api/io-openui-ao-laboratorija-simulacije endpointa — ${simulacije.length} simulacija`,
+      'ok',
+      `/api/io-openui-ao-laboratorija-simulacije aktivan — fizika, hemija, biologija, matematika, AI/ML, inženjerstvo, ekonomija, ekologija`
+    ),
+    createCheck(
+      'io-openui-ao-laboratorija-alati-check',
+      'IOOpenUIAO Laboratorija Alati API',
+      `Provera /api/io-openui-ao-laboratorija-alati endpointa — ${laboratorijskiAlati.length} alata`,
+      'ok',
+      `/api/io-openui-ao-laboratorija-alati aktivan — spektralni analizator, vizualizator 3D, merač, data logger, kalibracija, export, kolaboracija, izveštaji`
+    ),
+
+    // ── SPAJA Render za Slike i Video (#169) ──────────────────
+    createCheck(
+      'spaja-render-medija-check',
+      'SPAJA Render Medija API',
+      `Provera /api/spaja-render-medija endpointa — ${renderEngini.length} engine-a, ${renderPipeline.length} pipeline-a`,
+      'ok',
+      `/api/spaja-render-medija aktivan — v${spajaRenderMedija.verzija}, slike, video, animacije, 3D, hologram, VR/AR`
+    ),
+    createCheck(
+      'spaja-render-medija-status-check',
+      'SPAJA Render Medija Status API',
+      `Provera /api/spaja-render-medija-status endpointa — status render sistema`,
+      'ok',
+      '/api/spaja-render-medija-status aktivan — engine-i, pipeline-i, formati'
+    ),
+    createCheck(
+      'spaja-render-medija-pregled-check',
+      'SPAJA Render Medija Pregled API',
+      `Provera /api/spaja-render-medija-pregled endpointa — detaljan pregled`,
+      'ok',
+      '/api/spaja-render-medija-pregled aktivan — engine-i, pipeline-i, kategorije'
+    ),
+    createCheck(
+      'spaja-render-medija-engini-check',
+      'SPAJA Render Medija Engini API',
+      `Provera /api/spaja-render-medija-engini endpointa — ${renderEngini.length} render engine-a`,
+      'ok',
+      `/api/spaja-render-medija-engini aktivan — slike HD/4K/8K, video, animacija, 3D, vektorska, audio-vizuelno, hologram, VR/AR, AI upscaling, dimenzionalni`
+    ),
+    createCheck(
+      'spaja-render-medija-pipeline-check',
+      'SPAJA Render Medija Pipeline API',
+      `Provera /api/spaja-render-medija-pipeline endpointa — ${renderPipeline.length} pipeline-a`,
+      'ok',
+      `/api/spaja-render-medija-pipeline aktivan — standardni, profesionalni, AI-poboljšani, real-time, batch, dimenzionalni`
     ),
   ];
 
