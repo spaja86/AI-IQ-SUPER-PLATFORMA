@@ -87,6 +87,7 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
         naslov: e.naziv,
         opis: e.opis,
         ikona: e.ikona,
+        eksterniLink: e.url,
         oznake: [e.tip, e.status, e.kategorija],
       })),
     },

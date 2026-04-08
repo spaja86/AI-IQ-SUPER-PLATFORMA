@@ -77,7 +77,7 @@ export const brouvzerEntiteti: BrouvzerEntitet[] = [
     opis: 'Input/Output Open UI platforma — korisnički interfejs za interakciju sa svim SPAJA servisima',
     ikona: '🖥️',
     tip: 'platforma',
-    url: 'https://io-openui-ao.vercel.app',
+    url: 'https://www.ioopenuiao.ac',
     status: 'aktivan',
     kategorija: 'UI Platforma',
     funkcije: ['Open UI komponente', 'SpajaPro integracija', 'Laboratorija za simulacije', 'B2B servis', 'Korisničke interakcije'],
