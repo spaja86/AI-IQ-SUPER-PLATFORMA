@@ -138,7 +138,7 @@ export const spajaRenderMedijaSekvence: Sekvenca[] = [
   {
     id: 'render-hijerarhija',
     tip: 'hijerarhija',
-    naslov: '🏗️ Arhitektura Render Sistena',
+    naslov: '🏗️ Arhitektura Render Sistema',
     redosled: 9,
     podaci: {
       nivoi: [
