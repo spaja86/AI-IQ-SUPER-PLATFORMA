@@ -93,11 +93,11 @@ export const sajtovi: Sajt[] = [
   // ── Tehnološki Partneri ───────────────────────────────────────────────
   {
     id: 'openai',
-    naziv: 'OpenAI',
+    naziv: 'OpenAI — SpajaPro v6-15',
     url: 'https://openai.com/',
     ikona: '🤖',
     kategorija: 'tehnoloski-partner',
-    opis: 'AI istraživanje i razvoj — API integrisan u ekosistem preko spaja86/openai-platform repo',
+    opis: 'AI istraživanje i razvoj — SpajaPro v6-15 engine umesto ChatGPT-a. API integrisan u ekosistem preko spaja86/openai-platform repo. Planovi: Starter $29, Pro $79, Biznis $199, Enterprise $499, Unlimited VIP $999/mes.',
   },
   {
     id: 'google',
