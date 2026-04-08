@@ -32,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/igrice',
     '/dimenzije',
     '/proizvodi',
+    '/spaja-generator-engine',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

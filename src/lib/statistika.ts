@@ -14,6 +14,14 @@ import { companies } from './companies';
 import { organizations } from './organizations';
 import { products } from './products';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from './constants';
+import {
+  generisaniEngini,
+  generatorKonfiguracije,
+  getAktivniEngini,
+  getRepoEngini,
+  getRepoKonfiguracije,
+  getProsecnaOptimizacija,
+} from './spaja-generator-engine';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -74,5 +82,13 @@ export function getStatistike() {
     ukupnoKompanija: companies.length,
     ukupnoOrganizacija: organizations.length,
     ukupnoProducts: products.length,
+
+    // SPAJA Generator za Endžine
+    generatorEngina: generisaniEngini.length,
+    generatorAktivnihEngina: getAktivniEngini().length,
+    generatorRepoEngina: getRepoEngini().length,
+    generatorKonfiguracija: generatorKonfiguracije.length,
+    generatorRepoKonfiguracija: getRepoKonfiguracije().length,
+    generatorOptimizacija: getProsecnaOptimizacija(),
   };
 }
