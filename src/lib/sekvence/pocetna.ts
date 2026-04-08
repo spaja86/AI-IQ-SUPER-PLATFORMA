@@ -3,6 +3,7 @@ import { platforme, getUkupniProgres } from '@/lib/platforme';
 import { itProizvodi } from '@/lib/it-proizvodi';
 import { getStatistike } from '@/lib/statistika';
 import { runDiagnostics } from '@/lib/auto-repair';
+import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 
 const stats = getStatistike();
 const dijagnostika = runDiagnostics();
@@ -44,6 +45,7 @@ export const pocetnaSekvence: Sekvenca[] = [
         { naziv: 'Rute', vrednost: stats.ukupnoRuta, ikona: '🗺️' },
         { naziv: 'Kompanije', vrednost: stats.ukupnoKompanija, ikona: '🏛️' },
         { naziv: 'Organizacije', vrednost: stats.ukupnoOrganizacija, ikona: '🏢' },
+        { naziv: 'Engine-i', vrednost: stats.generatorEngina, ikona: '🔧' },
         { naziv: 'Zdravlje', vrednost: `${dijagnostika.zdravlje}%`, ikona: '💚' },
         { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
       ],
@@ -99,7 +101,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     redosled: 6,
     podaci: {
       bedz: '🌟 SpajaPro',
-      opis: `SpajaPro 6-15 engine zamenjuje ChatGPT i donosi Prompt u svaki aspekt platforme. ${stats.ukupnoOmegaPersona} OMEGA AI persona × Prompt = autonomni ekosistem. Autofinish ×${stats.autofinishBroj} završen.`,
+      opis: `SpajaPro 6-15 engine zamenjuje ChatGPT i donosi Prompt u svaki aspekt platforme. ${stats.ukupnoOmegaPersona} OMEGA AI persona × Prompt = autonomni ekosistem. SPAJA Generator prevlači ${generisaniEngini.length} engine-a sa ${getProsecnaOptimizacija()}% optimizacijom. Autofinish ×${stats.autofinishBroj} završen.`,
       dugme: { tekst: 'Istraži SpajaPro', href: '/spaja-pro' },
     },
   },
@@ -122,6 +124,7 @@ export const pocetnaSekvence: Sekvenca[] = [
       ],
       dugmad: [
         { tekst: 'Deploy Status', href: '/deploy' },
+        { tekst: 'Generator Endžina', href: '/spaja-generator-engine', stil: 'sekundarno' },
         { tekst: 'Auto-Popravka', href: '/auto-popravka', stil: 'sekundarno' },
       ],
     },
