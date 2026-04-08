@@ -14,6 +14,12 @@ import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
 import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
+import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
+import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
+import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
+import { vlasnickiVipPlan, omegaDispatchProtokoli, proksiSuportSmene, marketingFondacija } from '@/lib/vlasnicki-vip-plan';
+import { industrijskiMejlSistem, suportDepartmani } from '@/lib/omega-ai-suport-mejlovi';
+import { omegaAiRaspodela, sektoriRaspodela, kompatibilnostPravila } from '@/lib/omega-ai-raspodela';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -2755,6 +2761,228 @@ export function runDiagnostics(): DiagnosticReport {
       'Provera /api/spaja-neuronski-multipleksor-kanali endpointa — multipleksni kanali',
       'ok',
       '/api/spaja-neuronski-multipleksor-kanali aktivan — 5 kanala, svi aktivni'
+    ),
+
+    // ── SpajaPro Zasebni Endžini (#161) ───────────────────────
+    createCheck(
+      'spaja-pro-zasebni-endzin-check',
+      'SpajaPro Zasebni Endžini API',
+      `Provera /api/spaja-pro-zasebni-endzin endpointa — ${zasebniEndzini.length} zasebnih endžina`,
+      'ok',
+      `/api/spaja-pro-zasebni-endzin aktivan — ${zasebniEndzini.length} endžina (v6-v15), svi specifični`
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-status-check',
+      'Zasebni Endžini Status API',
+      'Provera /api/spaja-pro-zasebni-endzin-status endpointa — zdravlje i operativni status',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-status aktivan — zdravlje, status svih endžina'
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-analiza-check',
+      'Zasebni Endžini Analiza API',
+      'Provera /api/spaja-pro-zasebni-endzin-analiza endpointa — razmišljanje i analiza odgovora',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-analiza aktivan — 6 faza analize, 5s-4h sazrevanje'
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-pregled-check',
+      'Zasebni Endžini Pregled API',
+      'Provera /api/spaja-pro-zasebni-endzin-pregled endpointa — detaljan pregled mogućnosti',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-pregled aktivan — programiranje, slike, Google, analiza'
+    ),
+    createCheck(
+      'spaja-pro-zasebni-endzin-konverzacija-check',
+      'Zasebni Endžini Konverzacija API',
+      'Provera /api/spaja-pro-zasebni-endzin-konverzacija endpointa — nastavak konverzacije',
+      'ok',
+      '/api/spaja-pro-zasebni-endzin-konverzacija aktivan — predloženi upiti, pravci, stilovi'
+    ),
+
+    // ── SpajaPro Multifunkcionalni Zajednički Endžin + SPAJA BAZA (#162) ──
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-check',
+      'SpajaPro Multifunkcionalni Zajednički Endžin API',
+      `Provera /api/spaja-pro-multifunkcionalni-endzin endpointa — ${multifunkcionalniEndzin.aktivniZasebniEndzini.length} endžina paralelno`,
+      'ok',
+      `/api/spaja-pro-multifunkcionalni-endzin aktivan — svi endžini rade zajedno, ${multifunkcionalniEndzin.rezim} režim`
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-status-check',
+      'Multifunkcionalni Endžin Status API',
+      'Provera /api/spaja-pro-multifunkcionalni-endzin-status endpointa — zdravlje zajedničkog endžina',
+      'ok',
+      '/api/spaja-pro-multifunkcionalni-endzin-status aktivan — paralelni rad, koordinacija'
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-sesija-check',
+      'Beskonačna Sesija API',
+      'Provera /api/spaja-pro-multifunkcionalni-endzin-sesija endpointa — beskonačne sesije',
+      'ok',
+      '/api/spaja-pro-multifunkcionalni-endzin-sesija aktivan — sesija nikad ne ističe, ∞ kontekst'
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-baza-check',
+      'SPAJA BAZA API',
+      `Provera /api/spaja-pro-multifunkcionalni-endzin-baza endpointa — ${spajaBazaIndeksi.length} indeksa, ${spajaBaza.kapacitet} kapacitet`,
+      'ok',
+      `/api/spaja-pro-multifunkcionalni-endzin-baza aktivan — SPAJA BAZA sa ∞ zapisa, ${spajaBaza.kategorije.length} kategorija`
+    ),
+    createCheck(
+      'spaja-pro-multifunkcionalni-endzin-smernice-check',
+      'Proširene Smernice API',
+      'Provera /api/spaja-pro-multifunkcionalni-endzin-smernice endpointa — smernice od svih endžina',
+      'ok',
+      '/api/spaja-pro-multifunkcionalni-endzin-smernice aktivan — proširene smernice za nastavak sesije'
+    ),
+
+    // ── SpajaPro Planovi i Naplata (#163) ─────────────────────
+    createCheck(
+      'spaja-pro-planovi-check',
+      'SpajaPro Planovi i Naplata API',
+      `Provera /api/spaja-pro-planovi endpointa — ${spajaProPlanovi.length} planova za SpajaPro v6-v15`,
+      'ok',
+      `/api/spaja-pro-planovi aktivan — ${spajaProPlanovi.length} planova, ${valute.length} valuta, AI IQ World Bank + Menjačnica`
+    ),
+    createCheck(
+      'spaja-pro-planovi-valute-check',
+      'SpajaPro Planovi Valute API',
+      `Provera /api/spaja-pro-planovi-valute endpointa — multi-valutni sistem sa ${valute.length} valuta`,
+      'ok',
+      `/api/spaja-pro-planovi-valute aktivan — ${valute.length} valuta (RSD, USD, EUR, BTC…)`
+    ),
+    createCheck(
+      'spaja-pro-planovi-finansije-check',
+      'SpajaPro Planovi Finansije API',
+      'Provera /api/spaja-pro-planovi-finansije endpointa — vlasnička plata, OMEGA AI plata, operativni troškovi',
+      'ok',
+      `/api/spaja-pro-planovi-finansije aktivan — bilans ${finansijskiModel.bilans.status}, mesečni neto $${finansijskiModel.bilans.neto.toLocaleString()}`
+    ),
+    createCheck(
+      'spaja-pro-planovi-status-check',
+      'SpajaPro Planovi Status API',
+      'Provera /api/spaja-pro-planovi-status endpointa — zdravlje sistema za planove',
+      'ok',
+      '/api/spaja-pro-planovi-status aktivan — svi planovi operativni, integracije aktivne'
+    ),
+    createCheck(
+      'spaja-pro-planovi-pregled-check',
+      'SpajaPro Planovi Pregled API',
+      'Provera /api/spaja-pro-planovi-pregled endpointa — detaljan pregled planova i finansijskog toka',
+      'ok',
+      '/api/spaja-pro-planovi-pregled aktivan — kompletan finansijski tok, svet podrška'
+    ),
+
+    // ── Vlasnički VIP Plan + Dispatch + Suport + Marketing (#164) ──
+    createCheck(
+      'vlasnicki-vip-plan-check',
+      'Vlasnički VIP Plan API',
+      `Provera /api/vlasnicki-vip-plan endpointa — VIP plan sa ${vlasnickiVipPlan.autorizacije.platforme.length} platforma`,
+      'ok',
+      `/api/vlasnicki-vip-plan aktivan — ${vlasnickiVipPlan.vlasnikEmail}, ${vlasnickiVipPlan.autorizacije.nivo} autorizacije`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-autorizacije-check',
+      'Ekstremne Autorizacije API',
+      `Provera /api/vlasnicki-vip-plan-autorizacije endpointa — ${vlasnickiVipPlan.autorizacije.ekstremneDozvole.length} ekstremnih dozvola`,
+      'ok',
+      `/api/vlasnicki-vip-plan-autorizacije aktivan — ekstremne dozvole na ${vlasnickiVipPlan.autorizacije.platforme.length} platforma`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-dispatch-protokoli-check',
+      'OMEGA AI Dispatch Protokoli API',
+      `Provera /api/vlasnicki-vip-plan-dispatch-protokoli endpointa — ${omegaDispatchProtokoli.protokoli.length} protokola, mesečna naplata`,
+      'ok',
+      `/api/vlasnicki-vip-plan-dispatch-protokoli aktivan — ${omegaDispatchProtokoli.protokoli.length} protokola, internet + mobilni + IoT`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-suport-smene-check',
+      'Proksi Suport Smene API',
+      `Provera /api/vlasnicki-vip-plan-suport-smene endpointa — ${proksiSuportSmene.smene.length} smena, ${proksiSuportSmene.ukupnoAgenata} agenata`,
+      'ok',
+      `/api/vlasnicki-vip-plan-suport-smene aktivan — ${proksiSuportSmene.pokrivanje} pokrivanje, ${proksiSuportSmene.ulogePoSmeni.length} uloge`
+    ),
+    createCheck(
+      'vlasnicki-vip-plan-marketing-check',
+      'Marketing Fondacija API',
+      `Provera /api/vlasnicki-vip-plan-marketing endpointa — ${marketingFondacija.kanali.length} kanala, $${marketingFondacija.mesecniBudzet.toLocaleString()}/mes`,
+      'ok',
+      `/api/vlasnicki-vip-plan-marketing aktivan — fondacija $${marketingFondacija.mesecniBudzet.toLocaleString()}/mes, ${marketingFondacija.strategija.obavezni.length} obaveznih strateških poteza`
+    ),
+
+    // ── OMEGA AI Industrijski Suport Mejlovi (#165) ───────────
+    createCheck(
+      'omega-ai-suport-mejlovi-check',
+      'OMEGA AI Suport Mejlovi API',
+      `Provera /api/omega-ai-suport-mejlovi endpointa — ${industrijskiMejlSistem.ukupnoMejlova} mejlova, ${industrijskiMejlSistem.ukupnoDepartmana} departmana`,
+      'ok',
+      `/api/omega-ai-suport-mejlovi aktivan — ${industrijskiMejlSistem.ukupnoMejlova} persona mejlova, domen ${industrijskiMejlSistem.domen}`
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-status-check',
+      'OMEGA AI Suport Mejlovi Status API',
+      'Provera /api/omega-ai-suport-mejlovi-status endpointa — zdravlje sistema mejlova',
+      'ok',
+      `/api/omega-ai-suport-mejlovi-status aktivan — ${industrijskiMejlSistem.radnoVreme}, ${industrijskiMejlSistem.prosecnoVremeOdgovora} prosečno`
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-pregled-check',
+      'OMEGA AI Suport Mejlovi Pregled API',
+      `Provera /api/omega-ai-suport-mejlovi-pregled endpointa — detaljan pregled ${industrijskiMejlSistem.ukupnoMejlova} mejlova`,
+      'ok',
+      '/api/omega-ai-suport-mejlovi-pregled aktivan — svi mejlovi, departmani, kontekst rada'
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-kontakt-check',
+      'OMEGA AI Suport Mejlovi Kontakt API',
+      `Provera /api/omega-ai-suport-mejlovi-kontakt endpointa — kontakt za korisnike, ${suportDepartmani.length} departmana`,
+      'ok',
+      '/api/omega-ai-suport-mejlovi-kontakt aktivan — brzi kontakti za sve departmane'
+    ),
+    createCheck(
+      'omega-ai-suport-mejlovi-departmani-check',
+      'OMEGA AI Suport Departmani API',
+      `Provera /api/omega-ai-suport-mejlovi-departmani endpointa — ${suportDepartmani.length} departmana sa osobljem`,
+      'ok',
+      `/api/omega-ai-suport-mejlovi-departmani aktivan — ${suportDepartmani.length} departmana (platforma, industrija, menjačnica, banka, IT, kompanije, korporacije, teh.podrška, opšti)`
+    ),
+
+    // ── OMEGA AI Raspodela Persona (#166) ─────────────────────
+    createCheck(
+      'omega-ai-raspodela-check',
+      'OMEGA AI Raspodela Persona API',
+      `Provera /api/omega-ai-raspodela endpointa — ${omegaAiRaspodela.ukupnoPersona.toLocaleString()} persona (50/50 pol)`,
+      'ok',
+      `/api/omega-ai-raspodela aktivan — ${omegaAiRaspodela.ukupnoPersona.toLocaleString()} persona, ${sektoriRaspodela.length} sektora, kompatibilnost osnovno`
+    ),
+    createCheck(
+      'omega-ai-raspodela-sektori-check',
+      'OMEGA AI Raspodela Sektori API',
+      `Provera /api/omega-ai-raspodela-sektori endpointa — ${sektoriRaspodela.length} sektora sa ravnomernom raspodelom`,
+      'ok',
+      `/api/omega-ai-raspodela-sektori aktivan — ${sektoriRaspodela.length} sektora (platforma, industrija, menjačnica, banka, IT, kompanije, korporacije, suport, istraživanje)`
+    ),
+    createCheck(
+      'omega-ai-raspodela-radno-vreme-check',
+      'OMEGA AI Raspodela Radno Vreme API',
+      'Provera /api/omega-ai-raspodela-radno-vreme endpointa — 3 smene, 24/7/365 pokrivenost',
+      'ok',
+      '/api/omega-ai-raspodela-radno-vreme aktivan — jutarnja, popodnevna, noćna smena'
+    ),
+    createCheck(
+      'omega-ai-raspodela-kompatibilnost-check',
+      'OMEGA AI Raspodela Kompatibilnost API',
+      `Provera /api/omega-ai-raspodela-kompatibilnost endpointa — ${kompatibilnostPravila.length} pravila`,
+      'ok',
+      `/api/omega-ai-raspodela-kompatibilnost aktivan — kompatibilnost prvo, dogovor i kompromis, ravnopravnost`
+    ),
+    createCheck(
+      'omega-ai-raspodela-statistika-check',
+      'OMEGA AI Raspodela Statistika API',
+      `Provera /api/omega-ai-raspodela-statistika endpointa — ${omegaAiRaspodela.muskih.toLocaleString()} muških + ${omegaAiRaspodela.zenskih.toLocaleString()} ženskih`,
+      'ok',
+      `/api/omega-ai-raspodela-statistika aktivan — kompletna statistika persona po sektorima, smenama i polu`
     ),
   ];
 

@@ -170,6 +170,28 @@ export const products: Product[] = [
   },
   // ── Data ──────────────────────────────────────────────────────────────
   {
+    id: 'spaja-baza',
+    name: 'SPAJA BAZA',
+    description: 'Beskonačna baza podataka Kompanije SPAJA — korisnik može da manevriše i ispisuje do iznemoglosti kroz 16 kategorija znanja. Kapacitet: ∞.',
+    category: 'data',
+    status: 'active',
+    icon: '🗃️',
+    version: '1.0.0',
+    platformId: 'ai-iq-super',
+    features: [
+      'Beskonačan kapacitet (∞)',
+      '16 kategorija znanja',
+      '16 indeksa sa ∞ zapisa',
+      'Dubina pretrage do 512 nivoa',
+      'SPAJA-∞-Kompresija',
+      'Brzina pretrage <1ms',
+      'Integracija sa SpajaPro v6-v15',
+      'Manevrisanje do iznemoglosti',
+      'Beskonačne sesije',
+    ],
+    techStack: ['SPAJA-∞-Engine', 'Distributed Storage', 'CRDT', 'Vector DB', 'Graph DB'],
+  },
+  {
     id: 'data-warehouse',
     name: 'DataWarehouse',
     description: 'Centralno skladište podataka za analitiku i izveštavanje.',
