@@ -27,7 +27,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['React', 'SpajaPro Engine', 'Prompt System', 'WebRTC', 'Socket.IO', 'Vercel', 'B2B Software'],
     funkcije: ['SpajaPro Prompt Chat', 'Banka modul', 'Menjacnica modul', 'AI modul sa Prompt-om', 'SpajaPro 6-15 integracija', 'Fizička laboratorija', 'Razvoj B2B softvera', 'Dota 1350', 'TRANSFORMERS 1350', 'BUBLI BABLI 1250', 'SPAJA POKER'],
-    deploy: { status: 'aktivan', domen: 'io-openui-ao.vercel.app', vercelProjekt: 'io-openui-ao', framework: 'React + SpajaPro', buildKomanda: 'npm run build' },
+    deploy: { status: 'aktivan', domen: 'www.ioopenuiao.ac', vercelProjekt: 'io-openui-ao', framework: 'React + SpajaPro', buildKomanda: 'npm run build' },
   },
   {
     id: 'ai-iq-menjacnica',
