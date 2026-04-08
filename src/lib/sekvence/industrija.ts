@@ -198,13 +198,13 @@ export const industrijaSekvence: Sekvenca[] = [
         },
         {
           naslov: '💼 SpajaPro Profesionalni',
-          opis: 'Plan za profesionalce — v6-v11 endžini, Google pretraga, slike. $79/mes ili $790/god.',
+          opis: 'Plan za profesionalce — v6-11 endžini, Google pretraga, slike. $79/mes ili $790/god.',
           ikona: '💼',
           oznake: ['$79/mes', 'v6-11', '500 upita/dan'],
         },
         {
           naslov: '🌱 SpajaPro Starter',
-          opis: 'Početni plan — v6-v8 endžini za upoznavanje sa SpajaPro sistemom. $29/mes ili $290/god.',
+          opis: 'Početni plan — v6-8 endžini za upoznavanje sa SpajaPro sistemom. $29/mes ili $290/god.',
           ikona: '🌱',
           oznake: ['$29/mes', 'v6-8', '100 upita/dan'],
         },
