@@ -3,6 +3,7 @@ import { getStatistike } from '@/lib/statistika';
 import { sajtovi, getSajtoviPoKategoriji } from '@/lib/sajtovi';
 import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
+import { platforme } from '@/lib/platforme';
 
 const stats = getStatistike();
 
@@ -92,11 +93,27 @@ export const industrijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'industrija-platforme',
+    tip: 'kartice',
+    naslov: '🌐 Platforme Digitalne Industrije',
+    podnaslov: `${platforme.length} AKTIVNIH platformi — svi linkovi vode na standardne domene`,
+    redosled: 6,
+    podaci: {
+      kartice: platforme.map((p) => ({
+        naslov: p.naziv,
+        opis: p.opis.length > 120 ? p.opis.slice(0, 120) + '...' : p.opis,
+        ikona: p.ikona,
+        eksterniLink: `https://${p.deploy.domen}`,
+        oznake: [p.kategorija, p.deploy.status, p.deploy.domen],
+      })),
+    },
+  },
+  {
     id: 'industrija-sajtovi-ekosistem',
     tip: 'kartice',
     naslov: '🌐 Repozitorijumi Ekosistema',
     podnaslov: 'GitHub repozitorijumi Digitalne Industrije — svi linkovi aktivni',
-    redosled: 6,
+    redosled: 7,
     podaci: {
       kartice: getSajtoviPoKategoriji('ekosistem').map((s) => ({
         naslov: s.naziv,
@@ -112,7 +129,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🖥️ Digitalni Hardver — Zakup kao Usluga',
     podnaslov: 'Digitalni kompjuteri, GPU, RAM, brauzeri — nedeljni, mesečni, godišnji zakup',
-    redosled: 7,
+    redosled: 8,
     podaci: {
       kartice: [
         {
@@ -159,7 +176,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🤝 Tehnološki Partneri',
     podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju',
-    redosled: 8,
+    redosled: 9,
     podaci: {
       kartice: getSajtoviPoKategoriji('tehnoloski-partner').map((s) => ({
         naslov: s.naziv,
@@ -175,7 +192,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '👑 Najbolji Plan — SpajaPro Unlimited VIP',
     podnaslov: 'SpajaPro Unlimited VIP plan dostupan na svim delovima Digitalne Industrije i svim platformama',
-    redosled: 9,
+    redosled: 10,
     podaci: {
       kartice: [
         {
@@ -216,7 +233,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '📱 Društvene Mreže',
     podnaslov: 'Pratite Digitalnu Industriju na društvenim mrežama',
-    redosled: 10,
+    redosled: 11,
     podaci: {
       kartice: getSajtoviPoKategoriji('drustvena-mreza').map((s) => ({
         naslov: s.naziv,
@@ -231,7 +248,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-sajtovi-statistika',
     tip: 'statistika',
     naslov: '🔗 Povezani Sajtovi i Repozitorijumi',
-    redosled: 12,
+    redosled: 13,
     podaci: {
       stavke: [
         { naziv: 'Ukupno Sajtova', vrednost: sajtovi.length, ikona: '🌐' },
@@ -245,7 +262,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-cta',
     tip: 'cta',
     naslov: '🚀 Istrazi ekosistem',
-    redosled: 13,
+    redosled: 14,
     podaci: {
       opis: 'ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. 40.000.562 OMEGA AI persona. SPAJA Generator za Endžine prevlači engine-e preko svih modula. Promptovi svuda.',
       dugmad: [
