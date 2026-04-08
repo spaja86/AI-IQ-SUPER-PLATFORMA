@@ -10,7 +10,7 @@ export default function HeroSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent" />
       <div className="relative mx-auto max-w-4xl">
         {sekvenca.ikona && (
-          <div className="mb-6 text-6xl">{sekvenca.ikona}</div>
+          <div className="mb-6 text-6xl" role="img" aria-label={sekvenca.naslov ?? 'Ikona'}>{sekvenca.ikona}</div>
         )}
         {sekvenca.naslov && (
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">

@@ -5,7 +5,7 @@ import {
   finansijskiModel,
   getAktivniPlanovi,
 } from '@/lib/spaja-pro-planovi';
-import { SPAJA_PRO_VERZIJA_COUNT } from '@/lib/constants';
+import { SPAJA_PRO_VERZIJA_COUNT, APP_VERSION } from '@/lib/constants';
 
 /**
  * SpajaPro v6-v15 Planovi i Naplata — API
@@ -18,7 +18,7 @@ export async function GET() {
 
   return NextResponse.json({
     sistem: 'SpajaPro Planovi i Naplata — Kompanija SPAJA',
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     opis: `Planovi za korišćenje SpajaPro v6-v15 endžina. ${SPAJA_PRO_VERZIJA_COUNT} endžina, ${spajaProPlanovi.length} planova, ${valute.length} valuta. Srećan rad!`,
     planovi: spajaProPlanovi.map((p) => ({
       id: p.id,

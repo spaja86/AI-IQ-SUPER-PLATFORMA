@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { spajaProVerzije, getAktivneVerzije, getBetaVerzije, getUkupnoMogucnosti, getSvePromptTipove, getPoStatusu, getMaxTokena } from '@/lib/spaja-pro';
+import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
   const aktivne = getAktivneVerzije();
@@ -10,7 +11,7 @@ export async function GET() {
 
   return NextResponse.json({
     sistem: 'SpajaPro Engine — Kompanija SPAJA',
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     opis: 'SpajaPro 6-15 AI engine — zamena za ChatGPT u celom ekosistemu',
     izvor: 'Kompanija-SPAJA repozitorijum',
     statistike: {
