@@ -43,6 +43,7 @@ const navLinks = [
   { href: '/blog', label: '📝 Blog & FAQ' },
   { href: '/unit-testovi', label: '🧪 Unit Testovi' },
   { href: '/omega-ai-suport', label: '📞 OMEGA Suport' },
+  { href: '/omega-projekat-plasiranje', label: '🚀 OMEGA Plasiranje' },
 ];
 
 export default function Navigation() {

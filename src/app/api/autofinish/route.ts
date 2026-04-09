@@ -156,6 +156,7 @@ function getAutofinishOpis(n: number): string {
     105: 'v15.5.0 — /api/ekosistem-analitika (kompletni trendovi, predikcije), 114 dijagnostika, 145 ruta, 113 API',
     185: 'Autofinish #185 — kompletna verifikacija OMEGA PROJEKTA, 424 ruta, 383 API, 434 dijagnostike, 38 stranica, 21 persona, svi sistemi 100% operativni',
     186: 'Autofinish #186 — OMEGA PROJEKAT / Digitalna Industrija plasiranje u opticaj, saglasnost osnivača, 424 ruta, 383 API, 434 dijagnostike, platforma spremna za rad',
+    187: 'Autofinish #187 — OMEGA PROJEKAT plasiranje stranica + API, /omega-projekat-plasiranje, 10 faza, 10 sistema, 427 ruta, 385 API, 437 dijagnostike, SVE OPERATIVNO',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
