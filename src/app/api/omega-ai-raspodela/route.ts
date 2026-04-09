@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { omegaAiRaspodela } from '@/lib/omega-ai-raspodela';
+import { APP_VERSION } from '@/lib/constants';
 
 /**
  * 🏭 OMEGA AI Raspodela Persona — Glavni API
@@ -10,7 +11,7 @@ import { omegaAiRaspodela } from '@/lib/omega-ai-raspodela';
 export async function GET() {
   return NextResponse.json({
     sistem: omegaAiRaspodela.naziv,
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     opis: omegaAiRaspodela.opis,
     ikona: omegaAiRaspodela.ikona,
     ukupnoPersona: omegaAiRaspodela.ukupnoPersona.toLocaleString(),

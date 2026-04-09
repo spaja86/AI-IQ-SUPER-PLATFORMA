@@ -13,7 +13,7 @@ export async function GET() {
 
     motor: {
       naziv: 'OMEGA Evolucioni Motor',
-      verzija: '1.0.0',
+      verzija: APP_VERSION,
       cronInterval: konfiguracija.cronInterval,
       maxIssuePoDanu: konfiguracija.maxIssuePoDanu,
       autoMerge: konfiguracija.autoMerge,
