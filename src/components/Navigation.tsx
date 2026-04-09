@@ -36,6 +36,13 @@ const navLinks = [
   { href: '/spaja-render-medija', label: '🎬 Render Medija' },
   { href: '/io-openui-ao-laboratorija', label: '🔬 Laboratorija' },
   { href: '/io-openui-ao-gaming-platforma', label: '🎮 Gaming Platforma' },
+  { href: '/pricing', label: '💰 Pricing' },
+  { href: '/digitalni-televizor', label: '📺 Digitalni TV' },
+  { href: '/monitoring-live', label: '🎥 Monitoring Live' },
+  { href: '/ai-iq-monitoring', label: '🔍 AI Monitoring' },
+  { href: '/blog', label: '📝 Blog & FAQ' },
+  { href: '/unit-testovi', label: '🧪 Unit Testovi' },
+  { href: '/omega-ai-suport', label: '📞 OMEGA Suport' },
 ];
 
 export default function Navigation() {
@@ -56,7 +63,17 @@ export default function Navigation() {
         Preskoči na sadržaj
       </a>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-lg font-bold text-white">🏢 SPAJA</Link>
+        <Link href="/" className="flex items-center gap-2 text-lg font-bold text-white">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://github.com/user-attachments/assets/157afec1-4d04-4282-8303-e6a736a89dd3"
+            alt="Digitalna Industrija logo"
+            width={32}
+            height={32}
+            className="h-8 w-8 rounded-md object-cover"
+          />
+          SPAJA
+        </Link>
 
         {/* Desktop */}
         <div className="hidden gap-1 md:flex">

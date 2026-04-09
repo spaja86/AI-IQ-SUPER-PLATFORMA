@@ -8,7 +8,8 @@ export type SekvencaTip =
   | 'baner'
   | 'lista'
   | 'hijerarhija'
-  | 'tekst';
+  | 'tekst'
+  | 'slika';
 
 export interface Sekvenca {
   id: string;

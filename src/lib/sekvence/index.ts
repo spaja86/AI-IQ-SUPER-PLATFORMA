@@ -28,3 +28,12 @@ export { ioOpenUIAOGamingSekvence } from './io-openui-ao-gaming-platforma-page';
 export { kompanijeSekvence } from './kompanije-page';
 export { organizacijeSekvence } from './organizacije-page';
 export { proizvodiSekvence } from './proizvodi-page';
+
+// ── Module sekvence ─────────────────────────────────────────────────────────
+export { pricingLoginSekvence } from './pricing-login-page';
+export { digitalniTelevizorSekvence } from './digitalni-televizor-page';
+export { monitoringLiveSekvence } from './monitoring-live-page';
+export { aiIqMonitoringSekvence } from './ai-iq-monitoring-page';
+export { blogFaqSekvence } from './blog-faq-page';
+export { unitTestoviSekvence } from './unit-testovi-page';
+export { omegaAiSuportSekvence } from './omega-ai-suport-page';
