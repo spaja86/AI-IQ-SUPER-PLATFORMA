@@ -480,16 +480,13 @@ export function getSabloniPoKategoriji(kat: SablonKategorija): MejlSablon[] {
   return mejlSabloni.filter((s) => s.kategorija === kat);
 }
 
+function normalizujSrpskiTekst(tekst: string): string {
+  const mapa: Record<string, string> = { č: 'c', ć: 'c', ž: 'z', š: 's', đ: 'dj' };
+  return tekst.toLowerCase().replace(/[čćžšđ]/g, (c) => mapa[c] ?? c);
+}
+
 export function generisiMejlAdresu(ime: string, prezime: string, domen: MejlDomen): string {
-  const normalizovanoIme = ime.toLowerCase().replace(/[čćžšđ]/g, (c) => {
-    const mapa: Record<string, string> = { č: 'c', ć: 'c', ž: 'z', š: 's', đ: 'dj' };
-    return mapa[c] ?? c;
-  });
-  const normalizovanoPrezime = prezime.toLowerCase().replace(/[čćžšđ]/g, (c) => {
-    const mapa: Record<string, string> = { č: 'c', ć: 'c', ž: 'z', š: 's', đ: 'dj' };
-    return mapa[c] ?? c;
-  });
-  return `${normalizovanoIme}.${normalizovanoPrezime}${domen}`;
+  return `${normalizujSrpskiTekst(ime)}.${normalizujSrpskiTekst(prezime)}${domen}`;
 }
 
 export function generisiBankarskiPotpis(ime: string, iban: string): string {
