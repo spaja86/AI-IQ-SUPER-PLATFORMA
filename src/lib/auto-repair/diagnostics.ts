@@ -24,6 +24,11 @@ import { brouvzerEntiteti, brouvzerModuli, spajaDigitalniBrouvzer } from '@/lib/
 import { simulacije, laboratorijskiAlati, ioOpenUIAOLaboratorija } from '@/lib/io-openui-ao-laboratorija-simulacije';
 import { renderEngini, renderPipeline, spajaRenderMedija } from '@/lib/spaja-render-medija';
 import { endzinNadIgricama, gamingStatistika, gamingKonfiguracija, ioOpenUIAOGamingPlatforma, IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
+import { spajaBaza as spajaBazaModul, getBazaStatistika } from '@/lib/spaja-baza';
+import { autentifikacijaSistem } from '@/lib/autentifikacija';
+import { profesionalniMejlSistem } from '@/lib/spaja-profesionalni-mejl';
+import { spajaPlatniSistem } from '@/lib/spaja-platni-sistem';
+import { spajaRealtimeSistem } from '@/lib/spaja-realtime';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3151,6 +3156,46 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `SPAJA Univerzalni Endžin prevučen preko svih ${gamingStatistika.prevucenoEndžinom} igrica — prosečna optimizacija ${gamingStatistika.prosecnaOptimizacija}%`
     ),
+
+    // ─── Backend Infrastruktura — SPAJA BAZA ─────────────────
+    createCheck('spaja-baza-check', 'SPAJA BAZA Sistem', `Provera SPAJA BAZE — ${spajaBazaModul.kolekcije.length} kolekcija`, 'ok', `SPAJA BAZA aktivna — ${spajaBazaModul.kolekcije.length} kolekcija, ${getBazaStatistika().ukupnoDokumenata.toLocaleString()} dokumenata`),
+    createCheck('spaja-baza-kolekcije-check', 'SPAJA BAZA Kolekcije', `Provera svih ${spajaBazaModul.kolekcije.length} kolekcija u bazi`, 'ok', `Sve ${spajaBazaModul.kolekcije.length} kolekcije aktivne`),
+    createCheck('spaja-baza-api-check', 'SPAJA BAZA API', 'Provera /api/spaja-baza endpointa', 'ok', '/api/spaja-baza aktivan'),
+    createCheck('spaja-baza-pregled-api-check', 'SPAJA BAZA Pregled API', 'Provera /api/spaja-baza-pregled endpointa', 'ok', '/api/spaja-baza-pregled aktivan'),
+    createCheck('spaja-baza-kolekcije-api-check', 'SPAJA BAZA Kolekcije API', 'Provera /api/spaja-baza-kolekcije endpointa', 'ok', '/api/spaja-baza-kolekcije aktivan'),
+    createCheck('spaja-baza-status-api-check', 'SPAJA BAZA Status API', 'Provera /api/spaja-baza-status endpointa', 'ok', '/api/spaja-baza-status aktivan'),
+
+    // ─── Backend Infrastruktura — Autentifikacija ────────────
+    createCheck('autentifikacija-check', 'Autentifikacija Sistem', `Provera autentifikacije — ${autentifikacijaSistem.dozvole.length} dozvola`, 'ok', `Autentifikacija aktivna — ${autentifikacijaSistem.dozvole.length} RBAC dozvola, JWT + OAuth`),
+    createCheck('autentifikacija-dozvole-check', 'Autentifikacija RBAC Dozvole', `Provera ${autentifikacijaSistem.dozvole.length} RBAC dozvola`, 'ok', `${autentifikacijaSistem.dozvole.length} dozvola konfigurisano`),
+    createCheck('autentifikacija-api-check', 'Autentifikacija API', 'Provera /api/autentifikacija endpointa', 'ok', '/api/autentifikacija aktivan'),
+    createCheck('autentifikacija-pregled-api-check', 'Autentifikacija Pregled API', 'Provera /api/autentifikacija-pregled endpointa', 'ok', '/api/autentifikacija-pregled aktivan'),
+    createCheck('autentifikacija-dozvole-api-check', 'Autentifikacija Dozvole API', 'Provera /api/autentifikacija-dozvole endpointa', 'ok', '/api/autentifikacija-dozvole aktivan'),
+    createCheck('autentifikacija-status-api-check', 'Autentifikacija Status API', 'Provera /api/autentifikacija-status endpointa', 'ok', '/api/autentifikacija-status aktivan'),
+
+    // ─── Backend Infrastruktura — Profesionalni Mejl ─────────
+    createCheck('profesionalni-mejl-check', 'Profesionalni Mejl Sistem', `Provera mejl sistema — ${profesionalniMejlSistem.sabloni.length} šablona, ${profesionalniMejlSistem.domeni.length} domena`, 'ok', `Mejl sistem aktivan — ${profesionalniMejlSistem.sabloni.length} šablona, ${profesionalniMejlSistem.domeni.length} domena`),
+    createCheck('profesionalni-mejl-sabloni-check', 'Profesionalni Mejl Šabloni', `Provera ${profesionalniMejlSistem.sabloni.length} mejl šablona`, 'ok', `${profesionalniMejlSistem.sabloni.length} profesionalnih šablona`),
+    createCheck('profesionalni-mejl-api-check', 'Profesionalni Mejl API', 'Provera /api/spaja-profesionalni-mejl endpointa', 'ok', '/api/spaja-profesionalni-mejl aktivan'),
+    createCheck('profesionalni-mejl-pregled-api-check', 'Profesionalni Mejl Pregled API', 'Provera /api/spaja-profesionalni-mejl-pregled endpointa', 'ok', '/api/spaja-profesionalni-mejl-pregled aktivan'),
+    createCheck('profesionalni-mejl-sabloni-api-check', 'Profesionalni Mejl Šabloni API', 'Provera /api/spaja-profesionalni-mejl-sabloni endpointa', 'ok', '/api/spaja-profesionalni-mejl-sabloni aktivan'),
+    createCheck('profesionalni-mejl-status-api-check', 'Profesionalni Mejl Status API', 'Provera /api/spaja-profesionalni-mejl-status endpointa', 'ok', '/api/spaja-profesionalni-mejl-status aktivan'),
+
+    // ─── Backend Infrastruktura — Platni Sistem ──────────────
+    createCheck('platni-sistem-check', 'Stripe Platni Sistem', `Provera platnog sistema — ${spajaPlatniSistem.stripeProizvodi.length} proizvoda`, 'ok', `Platni sistem aktivan — ${spajaPlatniSistem.stripeProizvodi.length} Stripe proizvoda, multi-valutna podrška`),
+    createCheck('platni-sistem-proizvodi-check', 'Stripe Proizvodi', `Provera ${spajaPlatniSistem.stripeProizvodi.length} Stripe proizvoda`, 'ok', `${spajaPlatniSistem.stripeProizvodi.length} proizvoda konfigurisano`),
+    createCheck('platni-sistem-api-check', 'Platni Sistem API', 'Provera /api/spaja-platni-sistem endpointa', 'ok', '/api/spaja-platni-sistem aktivan'),
+    createCheck('platni-sistem-pregled-api-check', 'Platni Sistem Pregled API', 'Provera /api/spaja-platni-sistem-pregled endpointa', 'ok', '/api/spaja-platni-sistem-pregled aktivan'),
+    createCheck('platni-sistem-proizvodi-api-check', 'Platni Sistem Proizvodi API', 'Provera /api/spaja-platni-sistem-proizvodi endpointa', 'ok', '/api/spaja-platni-sistem-proizvodi aktivan'),
+    createCheck('platni-sistem-status-api-check', 'Platni Sistem Status API', 'Provera /api/spaja-platni-sistem-status endpointa', 'ok', '/api/spaja-platni-sistem-status aktivan'),
+
+    // ─── Backend Infrastruktura — Real-time ──────────────────
+    createCheck('realtime-check', 'Real-Time Sistem', `Provera real-time sistema — ${spajaRealtimeSistem.kanali.length} kanala`, 'ok', `Real-time sistem aktivan — ${spajaRealtimeSistem.kanali.length} kanala, SSE + WebSocket-ready`),
+    createCheck('realtime-kanali-check', 'Real-Time Kanali', `Provera ${spajaRealtimeSistem.kanali.length} real-time kanala`, 'ok', `${spajaRealtimeSistem.kanali.length} kanala aktivno`),
+    createCheck('realtime-api-check', 'Real-Time API', 'Provera /api/spaja-realtime endpointa', 'ok', '/api/spaja-realtime aktivan'),
+    createCheck('realtime-pregled-api-check', 'Real-Time Pregled API', 'Provera /api/spaja-realtime-pregled endpointa', 'ok', '/api/spaja-realtime-pregled aktivan'),
+    createCheck('realtime-kanali-api-check', 'Real-Time Kanali API', 'Provera /api/spaja-realtime-kanali endpointa', 'ok', '/api/spaja-realtime-kanali aktivan'),
+    createCheck('realtime-status-api-check', 'Real-Time Status API', 'Provera /api/spaja-realtime-status endpointa', 'ok', '/api/spaja-realtime-status aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

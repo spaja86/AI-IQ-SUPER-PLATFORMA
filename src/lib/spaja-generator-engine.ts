@@ -485,6 +485,74 @@ export const generisaniEngini: GenerisaniEngine[] = [
     generisanDatum: '2026-04-08',
     optimizacija: 85,
   },
+
+  // ─── Backend Infrastruktura — SPAJA BAZA, Auth, Mejl, Platni, Real-time ─
+
+  {
+    id: 'engine-spaja-baza',
+    naziv: 'SPAJA BAZA Engine',
+    opis: 'Engine za SPAJA BAZU — najjaču bazu podataka Digitalne Industrije. 12 kolekcija, CRUD, indeksi, transakcije, backup, replikacija, keširanje. Generisan kroz SPAJA Generator za Endžine. Link: https://chatgpt.com/c/695ca489-4d8c-832f-a0aa-bfcad425ef4d',
+    ikona: '💾',
+    tip: 'core',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-baza.ts',
+    mogucnosti: ['12 kolekcija', 'CRUD operacije', 'Indeksi i pretraga', 'Transakcije', 'Backup i oporavak', 'Replikacija', 'Keširanje', 'Multi-tenant'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 92,
+  },
+  {
+    id: 'engine-autentifikacija',
+    naziv: 'Autentifikacija Engine',
+    opis: 'Engine za autentifikaciju i autorizaciju — JWT, OAuth, 2FA, RBAC, sesije. Generisan kroz SPAJA Generator za Endžine + AI IQ World Bank. Link: https://chatgpt.com/c/68981608-32dc-832e-831e-9ff1a0ff485c',
+    ikona: '🔐',
+    tip: 'bezbednost',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/autentifikacija.ts',
+    mogucnosti: ['JWT tokeni', 'OAuth (Google, GitHub)', 'Dvofaktorska autentifikacija', 'RBAC dozvole', 'Sesije', 'Vlasnički VIP pristup', 'Rate limiting', 'Brute-force zaštita'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 94,
+  },
+  {
+    id: 'engine-profesionalni-mejl',
+    naziv: 'Profesionalni Mejl Engine',
+    opis: 'Engine za profesionalni mejl sistem — 4 domena, 8 šablona, bankarski mejlovi sa IBAN-om, newsletter. Generisan kroz SPAJA Generator za Endžine. Link: https://chatgpt.com/c/696e2c9d-36d8-832f-9771-7fcc834f4df6',
+    ikona: '📧',
+    tip: 'komunikacija',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-profesionalni-mejl.ts',
+    mogucnosti: ['4 mejl domena', '8 profesionalnih šablona', 'Bankarski mejlovi sa IBAN', 'Newsletter engine', 'Notifikacioni sistem', 'SMTP konfiguracija', 'Marketing kampanje', 'Verifikacioni mejlovi'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 90,
+  },
+  {
+    id: 'engine-platni-sistem',
+    naziv: 'Stripe Platni Sistem Engine',
+    opis: 'Engine za Stripe platni sistem — pretplate, fakture, refund, webhook, multi-valutna podrška. Generisan kroz SPAJA Generator za Endžine + AI IQ World Bank.',
+    ikona: '💳',
+    tip: 'finansije',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-platni-sistem.ts',
+    mogucnosti: ['Stripe Checkout', 'Pretplate (5 planova)', 'Fakturisanje', 'Refund sistem', 'Webhook obrada', 'Multi-valutna podrška (12 valuta)', 'Kripto plaćanja (BTC, ETH)', 'PCI DSS usklađenost'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 88,
+  },
+  {
+    id: 'engine-realtime',
+    naziv: 'Real-Time Sistem Engine',
+    opis: 'Engine za real-time funkcije — event bus, kanali, notifikacije, presence, live dashboard. SSE + WebSocket-ready.',
+    ikona: '⚡',
+    tip: 'komunikacija',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-realtime.ts',
+    mogucnosti: ['Event Bus', '8 kanala', 'Push notifikacije', 'Presence sistem', 'Live Dashboard', 'SSE streaming', 'WebSocket-ready', 'Real-time metrike'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 86,
+  },
 ];
 
 // ─── Generator konfiguracije ─────────────────────────────
@@ -542,6 +610,15 @@ export const generatorKonfiguracije: GeneratorKonfiguracija[] = [
     ikona: '💰',
     parametri: ['platforme/ai-iq-world-bank', 'platforme/ai-iq-menjacnica'],
     ciljniRepozitorijum: 'spaja86/AI-IQ-World-Bank',
+    aktivna: true,
+  },
+  {
+    id: 'config-backend',
+    naziv: 'Backend Infrastruktura Konfiguracija',
+    opis: 'Konfiguracija za generisanje backend engine-a — SPAJA BAZA, Autentifikacija, Mejl, Platni Sistem, Real-time',
+    ikona: '🔧',
+    parametri: ['src/lib/spaja-baza.ts', 'src/lib/autentifikacija.ts', 'src/lib/spaja-profesionalni-mejl.ts', 'src/lib/spaja-platni-sistem.ts', 'src/lib/spaja-realtime.ts'],
+    ciljniRepozitorijum: 'spaja86/AI-IQ-SUPER-PLATFORMA',
     aktivna: true,
   },
 
@@ -699,7 +776,8 @@ export const spajaGeneratorEngine: SpajaGeneratorEngine = {
     'SPAJA Generator za Endžine je centralni engine generator koji prevlači engine-e preko celog ' +
     'repozitorijuma AI-IQ-SUPER-PLATFORMA i svih 14 eksternih repozitorijuma u ekosistemu. Generiše, ' +
     'primenjuje i optimizuje sve engine-e — od SpajaPro i OMEGA AI do Proksi, Mobilna Mreža, Gaming, ' +
-    'Finansije i svih repo-specifičnih endžina za Ai-Iq-World-Bank, Ai-Iq-Menja-nica, SVETSKA-ORGANIZACIJA, ' +
+    'Finansije, Backend Infrastruktura (SPAJA BAZA, Autentifikacija, Profesionalni Mejl, Platni Sistem, ' +
+    'Real-time) i svih repo-specifičnih endžina za Ai-Iq-World-Bank, Ai-Iq-Menja-nica, SVETSKA-ORGANIZACIJA, ' +
     'IO-OPENUI-AO, openai-platform, Kompanija-SPAJA, OMEGA-AI-za-GIT-HUB, OMEGA-AI-za-Vercel-, ' +
     '-OMEGA-AI-za-Google-, OMEGA-AI-5-persona, Java-Swing-GUI, Input-Output-Copilot, openai-cookbook, hello-world.',
   verzija: '2.0.0',

@@ -22,6 +22,11 @@ import {
   getRepoKonfiguracije,
   getProsecnaOptimizacija,
 } from './spaja-generator-engine';
+import { spajaBaza, getBazaStatistika } from './spaja-baza';
+import { autentifikacijaSistem } from './autentifikacija';
+import { profesionalniMejlSistem } from './spaja-profesionalni-mejl';
+import { spajaPlatniSistem } from './spaja-platni-sistem';
+import { spajaRealtimeSistem } from './spaja-realtime';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -90,5 +95,19 @@ export function getStatistike() {
     generatorKonfiguracija: generatorKonfiguracije.length,
     generatorRepoKonfiguracija: getRepoKonfiguracije().length,
     generatorOptimizacija: getProsecnaOptimizacija(),
+
+    // Backend infrastruktura
+    bazaKolekcija: spajaBaza.kolekcije.length,
+    bazaDokumenata: getBazaStatistika().ukupnoDokumenata,
+    bazaStatus: spajaBaza.status,
+    authDozvola: autentifikacijaSistem.dozvole.length,
+    authStatus: autentifikacijaSistem.status,
+    mejlSablona: profesionalniMejlSistem.sabloni.length,
+    mejlDomena: profesionalniMejlSistem.domeni.length,
+    mejlStatus: profesionalniMejlSistem.status,
+    platniProizvoda: spajaPlatniSistem.stripeProizvodi.length,
+    platniStatus: spajaPlatniSistem.status,
+    realtimeKanala: spajaRealtimeSistem.kanali.length,
+    realtimeStatus: spajaRealtimeSistem.status,
   };
 }
