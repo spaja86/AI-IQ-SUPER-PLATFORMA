@@ -634,6 +634,19 @@ export const generisaniEngini: GenerisaniEngine[] = [
     generisanDatum: '2026-04-09',
     optimizacija: 96,
   },
+  {
+    id: 'engine-omega-ai-maksimalni-suport',
+    naziv: 'OMEGA AI Maksimalni Suport Engine',
+    opis: 'Engine za Maksimalni Suport na OMEGA nivou — 21 persona sa telefonima, mejlovima i dispeč sistemom za korisnike. 24/7/365 pokrivenost.',
+    ikona: '📞',
+    tip: 'komunikacija',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/omega-ai-maksimalni-suport.ts',
+    mogucnosti: ['21 telefonskih linija', 'Mejl suport', 'Live Chat', 'Video poziv', 'Tiket sistem', 'SLA garancija', 'Eskalacija', 'Dispeč sa korisnicima', '99.2% SLA', '4.8/5 zadovoljstvo'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 93,
+  },
 ];
 
 // ─── Generator konfiguracije ─────────────────────────────

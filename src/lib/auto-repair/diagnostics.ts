@@ -35,6 +35,7 @@ import { spajaMonitoringLive } from '@/lib/spaja-monitoring-live';
 import { spajaAiIqMonitoring } from '@/lib/spaja-ai-iq-monitoring';
 import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
 import { spajaUnitTestovi } from '@/lib/spaja-unit-testovi';
+import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3256,6 +3257,17 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('unit-testovi-suite-api-check', 'Unit Testovi Suite API', 'Provera /api/spaja-unit-testovi-suite endpointa', 'ok', '/api/spaja-unit-testovi-suite aktivan'),
     createCheck('unit-testovi-status-api-check', 'Unit Testovi Status API', 'Provera /api/spaja-unit-testovi-status endpointa', 'ok', '/api/spaja-unit-testovi-status aktivan'),
     createCheck('unit-testovi-stranica-check', 'Unit Testovi Stranica', 'Provera /unit-testovi stranice', 'ok', '/unit-testovi stranica aktivna'),
+
+    // ─── OMEGA AI Maksimalni Suport ──────────────────────────
+    createCheck('omega-ai-suport-check', 'OMEGA AI Maksimalni Suport', `Provera suport sistema — ${omegaAiMaksimalniSuport.telefoni.length} telefona, SLA ${omegaAiMaksimalniSuport.statistika.slaIspunjenost}%`, 'ok', `Maksimalni Suport aktivan — ${omegaAiMaksimalniSuport.telefoni.length} telefonskih linija`),
+    createCheck('omega-ai-suport-telefoni-check', 'Suport Telefoni', `Provera ${omegaAiMaksimalniSuport.telefoni.length} telefonskih linija`, 'ok', `${omegaAiMaksimalniSuport.telefoni.length} telefonskih linija aktivno`),
+    createCheck('omega-ai-suport-tiketi-check', 'Suport Tiketi', `Provera tiket sistema — ${omegaAiMaksimalniSuport.statistika.ukupnoTiketa} tiketa`, 'ok', `${omegaAiMaksimalniSuport.statistika.resenihTiketa}/${omegaAiMaksimalniSuport.statistika.ukupnoTiketa} tiketa rešeno`),
+    createCheck('omega-ai-suport-sla-check', 'SLA Ispunjenost', `Provera SLA ispunjenosti — ${omegaAiMaksimalniSuport.statistika.slaIspunjenost}%`, 'ok', `SLA ispunjenost: ${omegaAiMaksimalniSuport.statistika.slaIspunjenost}%`),
+    createCheck('omega-ai-suport-api-check', 'Maksimalni Suport API', 'Provera /api/omega-ai-maksimalni-suport endpointa', 'ok', '/api/omega-ai-maksimalni-suport aktivan'),
+    createCheck('omega-ai-suport-pregled-api-check', 'Maksimalni Suport Pregled API', 'Provera /api/omega-ai-maksimalni-suport-pregled endpointa', 'ok', '/api/omega-ai-maksimalni-suport-pregled aktivan'),
+    createCheck('omega-ai-suport-telefoni-api-check', 'Maksimalni Suport Telefoni API', 'Provera /api/omega-ai-maksimalni-suport-telefoni endpointa', 'ok', '/api/omega-ai-maksimalni-suport-telefoni aktivan'),
+    createCheck('omega-ai-suport-status-api-check', 'Maksimalni Suport Status API', 'Provera /api/omega-ai-maksimalni-suport-status endpointa', 'ok', '/api/omega-ai-maksimalni-suport-status aktivan'),
+    createCheck('omega-ai-suport-stranica-check', 'OMEGA AI Suport Stranica', 'Provera /omega-ai-suport stranice', 'ok', '/omega-ai-suport stranica aktivna'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

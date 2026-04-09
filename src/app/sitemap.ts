@@ -43,6 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/ai-iq-monitoring',
     '/blog',
     '/unit-testovi',
+    '/omega-ai-suport',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

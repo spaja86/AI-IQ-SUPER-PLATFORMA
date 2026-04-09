@@ -33,6 +33,7 @@ import { spajaMonitoringLive } from './spaja-monitoring-live';
 import { spajaAiIqMonitoring } from './spaja-ai-iq-monitoring';
 import { spajaBlogFaq } from './spaja-blog-faq';
 import { spajaUnitTestovi } from './spaja-unit-testovi';
+import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -135,5 +136,12 @@ export function getStatistike() {
     testSuita: spajaUnitTestovi.suite.length,
     testPokrivenost: spajaUnitTestovi.izvestaj.pokrivenost,
     testStatus: spajaUnitTestovi.status,
+
+    // OMEGA AI Maksimalni Suport
+    suportTelefona: omegaAiMaksimalniSuport.telefoni.length,
+    suportTiketa: omegaAiMaksimalniSuport.statistika.ukupnoTiketa,
+    suportSlaIspunjenost: omegaAiMaksimalniSuport.statistika.slaIspunjenost,
+    suportZadovoljstvo: omegaAiMaksimalniSuport.statistika.zadovoljstvoKorisnika,
+    suportStatus: omegaAiMaksimalniSuport.status,
   };
 }
