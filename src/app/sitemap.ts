@@ -37,6 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/io-openui-ao-laboratorija',
     '/spaja-render-medija',
     '/io-openui-ao-gaming-platforma',
+    '/pricing',
+    '/digitalni-televizor',
+    '/monitoring-live',
+    '/ai-iq-monitoring',
+    '/blog',
+    '/unit-testovi',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

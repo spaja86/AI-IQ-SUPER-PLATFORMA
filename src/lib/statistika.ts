@@ -27,6 +27,12 @@ import { autentifikacijaSistem } from './autentifikacija';
 import { profesionalniMejlSistem } from './spaja-profesionalni-mejl';
 import { spajaPlatniSistem } from './spaja-platni-sistem';
 import { spajaRealtimeSistem } from './spaja-realtime';
+import { spajaPricingLogin } from './spaja-pricing-login';
+import { spajaDigitalniTelevizor } from './spaja-digitalni-televizor';
+import { spajaMonitoringLive } from './spaja-monitoring-live';
+import { spajaAiIqMonitoring } from './spaja-ai-iq-monitoring';
+import { spajaBlogFaq } from './spaja-blog-faq';
+import { spajaUnitTestovi } from './spaja-unit-testovi';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -109,5 +115,25 @@ export function getStatistike() {
     platniStatus: spajaPlatniSistem.status,
     realtimeKanala: spajaRealtimeSistem.kanali.length,
     realtimeStatus: spajaRealtimeSistem.status,
+
+    // Monetizacija & Mediji
+    pricingPlanova: spajaPricingLogin.planovi.length,
+    pricingLoginMetoda: spajaPricingLogin.loginMetode.length,
+    pricingStatus: spajaPricingLogin.status,
+    tvKanala: spajaDigitalniTelevizor.kanali.length,
+    tvPrograma: spajaDigitalniTelevizor.programi.length,
+    tvStatus: spajaDigitalniTelevizor.status,
+    monitoringLiveStreamova: spajaMonitoringLive.streamovi.length,
+    monitoringLiveStreamera: spajaMonitoringLive.streameri.length,
+    monitoringLiveStatus: spajaMonitoringLive.status,
+    aiIqMonitoringGresaka: spajaAiIqMonitoring.greske.length,
+    aiIqMonitoringUptime: spajaAiIqMonitoring.statistika.uptimeProcenat,
+    aiIqMonitoringStatus: spajaAiIqMonitoring.status,
+    blogClanaka: spajaBlogFaq.clanci.length,
+    blogFaqPitanja: spajaBlogFaq.faqPitanja.length,
+    blogStatus: spajaBlogFaq.status,
+    testSuita: spajaUnitTestovi.suite.length,
+    testPokrivenost: spajaUnitTestovi.izvestaj.pokrivenost,
+    testStatus: spajaUnitTestovi.status,
   };
 }

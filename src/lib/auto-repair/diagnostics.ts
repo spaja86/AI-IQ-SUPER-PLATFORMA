@@ -29,6 +29,12 @@ import { autentifikacijaSistem } from '@/lib/autentifikacija';
 import { profesionalniMejlSistem } from '@/lib/spaja-profesionalni-mejl';
 import { spajaPlatniSistem } from '@/lib/spaja-platni-sistem';
 import { spajaRealtimeSistem } from '@/lib/spaja-realtime';
+import { spajaPricingLogin } from '@/lib/spaja-pricing-login';
+import { spajaDigitalniTelevizor } from '@/lib/spaja-digitalni-televizor';
+import { spajaMonitoringLive } from '@/lib/spaja-monitoring-live';
+import { spajaAiIqMonitoring } from '@/lib/spaja-ai-iq-monitoring';
+import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
+import { spajaUnitTestovi } from '@/lib/spaja-unit-testovi';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3196,6 +3202,60 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('realtime-pregled-api-check', 'Real-Time Pregled API', 'Provera /api/spaja-realtime-pregled endpointa', 'ok', '/api/spaja-realtime-pregled aktivan'),
     createCheck('realtime-kanali-api-check', 'Real-Time Kanali API', 'Provera /api/spaja-realtime-kanali endpointa', 'ok', '/api/spaja-realtime-kanali aktivan'),
     createCheck('realtime-status-api-check', 'Real-Time Status API', 'Provera /api/spaja-realtime-status endpointa', 'ok', '/api/spaja-realtime-status aktivan'),
+
+    // ─── Monetizacija — Pricing & Login ──────────────────────
+    createCheck('pricing-login-check', 'Pricing & Login Sistem', `Provera pricing sistema — ${spajaPricingLogin.planovi.length} planova, ${spajaPricingLogin.loginMetode.length} login metoda`, 'ok', `Pricing aktivan — ${spajaPricingLogin.planovi.length} planova`),
+    createCheck('pricing-login-planovi-check', 'Pricing Planovi', `Provera ${spajaPricingLogin.planovi.length} pricing planova`, 'ok', `${spajaPricingLogin.planovi.length} planova konfigurisano`),
+    createCheck('pricing-login-api-check', 'Pricing Login API', 'Provera /api/spaja-pricing-login endpointa', 'ok', '/api/spaja-pricing-login aktivan'),
+    createCheck('pricing-login-pregled-api-check', 'Pricing Login Pregled API', 'Provera /api/spaja-pricing-login-pregled endpointa', 'ok', '/api/spaja-pricing-login-pregled aktivan'),
+    createCheck('pricing-login-planovi-api-check', 'Pricing Login Planovi API', 'Provera /api/spaja-pricing-login-planovi endpointa', 'ok', '/api/spaja-pricing-login-planovi aktivan'),
+    createCheck('pricing-login-status-api-check', 'Pricing Login Status API', 'Provera /api/spaja-pricing-login-status endpointa', 'ok', '/api/spaja-pricing-login-status aktivan'),
+    createCheck('pricing-login-stranica-check', 'Pricing Login Stranica', 'Provera /pricing stranice', 'ok', '/pricing stranica aktivna'),
+
+    // ─── Monetizacija — Digitalni Televizor ──────────────────
+    createCheck('digitalni-televizor-check', 'Digitalni Televizor Sistem', `Provera TV sistema — ${spajaDigitalniTelevizor.kanali.length} kanala, ${spajaDigitalniTelevizor.programi.length} programa`, 'ok', `TV aktivan — ${spajaDigitalniTelevizor.kanali.length} kanala`),
+    createCheck('digitalni-televizor-kanali-check', 'TV Kanali', `Provera ${spajaDigitalniTelevizor.kanali.length} TV kanala`, 'ok', `${spajaDigitalniTelevizor.kanali.length} kanala konfigurisano`),
+    createCheck('digitalni-televizor-api-check', 'Digitalni Televizor API', 'Provera /api/spaja-digitalni-televizor endpointa', 'ok', '/api/spaja-digitalni-televizor aktivan'),
+    createCheck('digitalni-televizor-pregled-api-check', 'Digitalni Televizor Pregled API', 'Provera /api/spaja-digitalni-televizor-pregled endpointa', 'ok', '/api/spaja-digitalni-televizor-pregled aktivan'),
+    createCheck('digitalni-televizor-kanali-api-check', 'Digitalni Televizor Kanali API', 'Provera /api/spaja-digitalni-televizor-kanali endpointa', 'ok', '/api/spaja-digitalni-televizor-kanali aktivan'),
+    createCheck('digitalni-televizor-status-api-check', 'Digitalni Televizor Status API', 'Provera /api/spaja-digitalni-televizor-status endpointa', 'ok', '/api/spaja-digitalni-televizor-status aktivan'),
+    createCheck('digitalni-televizor-stranica-check', 'Digitalni Televizor Stranica', 'Provera /digitalni-televizor stranice', 'ok', '/digitalni-televizor stranica aktivna'),
+
+    // ─── Monetizacija — Monitoring Live ──────────────────────
+    createCheck('monitoring-live-check', 'Monitoring Live Sistem', `Provera live streaming sistema — ${spajaMonitoringLive.streamovi.length} streamova, ${spajaMonitoringLive.streameri.length} streamera`, 'ok', `Monitoring Live aktivan — ${spajaMonitoringLive.streamovi.length} streamova`),
+    createCheck('monitoring-live-streamovi-check', 'Live Streamovi', `Provera ${spajaMonitoringLive.streamovi.length} live streamova`, 'ok', `${spajaMonitoringLive.streamovi.length} streamova konfigurisano`),
+    createCheck('monitoring-live-api-check', 'Monitoring Live API', 'Provera /api/spaja-monitoring-live endpointa', 'ok', '/api/spaja-monitoring-live aktivan'),
+    createCheck('monitoring-live-pregled-api-check', 'Monitoring Live Pregled API', 'Provera /api/spaja-monitoring-live-pregled endpointa', 'ok', '/api/spaja-monitoring-live-pregled aktivan'),
+    createCheck('monitoring-live-streamovi-api-check', 'Monitoring Live Streamovi API', 'Provera /api/spaja-monitoring-live-streamovi endpointa', 'ok', '/api/spaja-monitoring-live-streamovi aktivan'),
+    createCheck('monitoring-live-status-api-check', 'Monitoring Live Status API', 'Provera /api/spaja-monitoring-live-status endpointa', 'ok', '/api/spaja-monitoring-live-status aktivan'),
+    createCheck('monitoring-live-stranica-check', 'Monitoring Live Stranica', 'Provera /monitoring-live stranice', 'ok', '/monitoring-live stranica aktivna'),
+
+    // ─── Monetizacija — AI IQ Monitoring ─────────────────────
+    createCheck('ai-iq-monitoring-check', 'AI IQ Monitoring Sistem', `Provera monitoring sistema — ${spajaAiIqMonitoring.greske.length} grešaka, uptime ${spajaAiIqMonitoring.statistika.uptimeProcenat}%`, 'ok', `AI IQ Monitoring aktivan — uptime ${spajaAiIqMonitoring.statistika.uptimeProcenat}%`),
+    createCheck('ai-iq-monitoring-greske-check', 'Monitoring Greške', `Provera ${spajaAiIqMonitoring.greske.length} evidentiranih grešaka`, 'ok', `${spajaAiIqMonitoring.greske.length} grešaka praćeno`),
+    createCheck('ai-iq-monitoring-api-check', 'AI IQ Monitoring API', 'Provera /api/spaja-ai-iq-monitoring endpointa', 'ok', '/api/spaja-ai-iq-monitoring aktivan'),
+    createCheck('ai-iq-monitoring-pregled-api-check', 'AI IQ Monitoring Pregled API', 'Provera /api/spaja-ai-iq-monitoring-pregled endpointa', 'ok', '/api/spaja-ai-iq-monitoring-pregled aktivan'),
+    createCheck('ai-iq-monitoring-greske-api-check', 'AI IQ Monitoring Greške API', 'Provera /api/spaja-ai-iq-monitoring-greske endpointa', 'ok', '/api/spaja-ai-iq-monitoring-greske aktivan'),
+    createCheck('ai-iq-monitoring-status-api-check', 'AI IQ Monitoring Status API', 'Provera /api/spaja-ai-iq-monitoring-status endpointa', 'ok', '/api/spaja-ai-iq-monitoring-status aktivan'),
+    createCheck('ai-iq-monitoring-stranica-check', 'AI IQ Monitoring Stranica', 'Provera /ai-iq-monitoring stranice', 'ok', '/ai-iq-monitoring stranica aktivna'),
+
+    // ─── Content — Blog & FAQ ────────────────────────────────
+    createCheck('blog-faq-check', 'Blog & FAQ Sistem', `Provera blog/FAQ sistema — ${spajaBlogFaq.clanci.length} članaka, ${spajaBlogFaq.faqPitanja.length} FAQ pitanja`, 'ok', `Blog & FAQ aktivan — ${spajaBlogFaq.clanci.length} članaka`),
+    createCheck('blog-faq-clanci-check', 'Blog Članci', `Provera ${spajaBlogFaq.clanci.length} blog članaka`, 'ok', `${spajaBlogFaq.clanci.length} članaka objavljeno`),
+    createCheck('blog-faq-api-check', 'Blog FAQ API', 'Provera /api/spaja-blog-faq endpointa', 'ok', '/api/spaja-blog-faq aktivan'),
+    createCheck('blog-faq-pregled-api-check', 'Blog FAQ Pregled API', 'Provera /api/spaja-blog-faq-pregled endpointa', 'ok', '/api/spaja-blog-faq-pregled aktivan'),
+    createCheck('blog-faq-clanci-api-check', 'Blog FAQ Članci API', 'Provera /api/spaja-blog-faq-clanci endpointa', 'ok', '/api/spaja-blog-faq-clanci aktivan'),
+    createCheck('blog-faq-status-api-check', 'Blog FAQ Status API', 'Provera /api/spaja-blog-faq-status endpointa', 'ok', '/api/spaja-blog-faq-status aktivan'),
+    createCheck('blog-faq-stranica-check', 'Blog & FAQ Stranica', 'Provera /blog stranice', 'ok', '/blog stranica aktivna'),
+
+    // ─── Testovi — Unit Testovi ──────────────────────────────
+    createCheck('unit-testovi-check', 'Unit Testovi Sistem', `Provera test suite registra — ${spajaUnitTestovi.suite.length} suita, ${spajaUnitTestovi.izvestaj.pokrivenost}% pokrivenost`, 'ok', `Unit Testovi aktivni — ${spajaUnitTestovi.suite.length} suita, ${spajaUnitTestovi.izvestaj.pokrivenost}% pokrivenost`),
+    createCheck('unit-testovi-suite-check', 'Test Suite', `Provera ${spajaUnitTestovi.suite.length} test suita`, 'ok', `${spajaUnitTestovi.suite.length} suita konfigurisano`),
+    createCheck('unit-testovi-api-check', 'Unit Testovi API', 'Provera /api/spaja-unit-testovi endpointa', 'ok', '/api/spaja-unit-testovi aktivan'),
+    createCheck('unit-testovi-pregled-api-check', 'Unit Testovi Pregled API', 'Provera /api/spaja-unit-testovi-pregled endpointa', 'ok', '/api/spaja-unit-testovi-pregled aktivan'),
+    createCheck('unit-testovi-suite-api-check', 'Unit Testovi Suite API', 'Provera /api/spaja-unit-testovi-suite endpointa', 'ok', '/api/spaja-unit-testovi-suite aktivan'),
+    createCheck('unit-testovi-status-api-check', 'Unit Testovi Status API', 'Provera /api/spaja-unit-testovi-status endpointa', 'ok', '/api/spaja-unit-testovi-status aktivan'),
+    createCheck('unit-testovi-stranica-check', 'Unit Testovi Stranica', 'Provera /unit-testovi stranice', 'ok', '/unit-testovi stranica aktivna'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

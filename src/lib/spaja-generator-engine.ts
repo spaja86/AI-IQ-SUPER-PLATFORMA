@@ -553,6 +553,87 @@ export const generisaniEngini: GenerisaniEngine[] = [
     generisanDatum: '2026-04-09',
     optimizacija: 86,
   },
+
+  // ─── Monetizacija & Infrastruktura — Pricing, TV, Monitoring, Blog, Testovi ─
+
+  {
+    id: 'engine-pricing-login',
+    naziv: 'Pricing & Login Engine',
+    opis: 'Engine za Pricing/Login stranice — registracija, prijavljivanje, odabir planova. Generisan kroz SPAJA Generator za Endžine + Stripe.',
+    ikona: '💰',
+    tip: 'finansije',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-pricing-login.ts',
+    mogucnosti: ['5 pricing planova', '4 login metode', 'Registracija', 'Stripe integracija', 'OAuth', 'Multi-step registracija'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 92,
+  },
+  {
+    id: 'engine-digitalni-televizor',
+    naziv: 'Digitalni Televizor Engine',
+    opis: 'Engine za SPAJA Univerzalni Digitalni Televizor — TV platforma sa 12 kanala, VOD, live streaming. Prevučen preko Proksi + SPAJA Generator. Link: https://chatgpt.com/c/691a38f5-5c10-832d-865a-ce13ee581a58',
+    ikona: '📺',
+    tip: 'komunikacija',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-digitalni-televizor.ts',
+    mogucnosti: ['12 TV kanala', '8 programa', 'Live TV', 'VOD', '8K rezolucija', 'Proksi streaming', 'Multi-device', 'EPG vodič'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 88,
+  },
+  {
+    id: 'engine-monitoring-live',
+    naziv: 'Monitoring Live Engine',
+    opis: 'Engine za SPAJA Monitoring Live — Twitch-like live streaming platforma. Prevučen preko SPAJA Generator. Link: https://chatgpt.com/c/68e00ce2-6550-8325-8247-e50fd9a3496f',
+    ikona: '🎥',
+    tip: 'komunikacija',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-monitoring-live.ts',
+    mogucnosti: ['Live streaming', '8 streamova', '6 streamera', 'Chat', 'Donacije', 'Kategorije', 'Partneri', 'VOD snimci'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 85,
+  },
+  {
+    id: 'engine-ai-iq-monitoring',
+    naziv: 'AI IQ Monitoring Engine',
+    opis: 'Engine za SPAJA AI IQ Monitoring Live — Sentry-like praćenje grešaka u produkciji sa AI auto-rešavanjem. Prevučen preko SPAJA Generator. Link: https://chatgpt.com/c/68e00352-7254-8332-a475-12be64ddffd5',
+    ikona: '🔍',
+    tip: 'ai',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-ai-iq-monitoring.ts',
+    mogucnosti: ['Error tracking', 'Alerting', 'Uptime monitoring', 'AI auto-fix', 'Stack traces', 'Performance metrike', '99.97% uptime', 'OMEGA AI integracija'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 94,
+  },
+  {
+    id: 'engine-blog-faq',
+    naziv: 'Blog & FAQ Engine',
+    opis: 'Engine za SPAJA Blog & FAQ — content marketing, članci, vodiči, FAQ pitanja za SEO i korisnike.',
+    ikona: '📝',
+    tip: 'komunikacija',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-blog-faq.ts',
+    mogucnosti: ['Blog članci', 'FAQ pitanja', 'SEO optimizacija', 'Kategorije', 'Pretraga', 'RSS feed', 'Social sharing', 'OMEGA AI generisanje'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 82,
+  },
+  {
+    id: 'engine-unit-testovi',
+    naziv: 'Unit Testovi Engine',
+    opis: 'Engine za SPAJA Unit Testove — test suite registar, 12 suita, 94.8% pokrivenost koda.',
+    ikona: '🧪',
+    tip: 'core',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/spaja-unit-testovi.ts',
+    mogucnosti: ['12 test suita', '487 testova', '94.8% pokrivenost', 'Auto-repair integracija', 'Performance testovi', 'Security testovi', 'CI/CD pipeline', 'Dijagnostika'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 96,
+  },
 ];
 
 // ─── Generator konfiguracije ─────────────────────────────
@@ -618,6 +699,15 @@ export const generatorKonfiguracije: GeneratorKonfiguracija[] = [
     opis: 'Konfiguracija za generisanje backend engine-a — SPAJA BAZA, Autentifikacija, Mejl, Platni Sistem, Real-time',
     ikona: '🔧',
     parametri: ['src/lib/spaja-baza.ts', 'src/lib/autentifikacija.ts', 'src/lib/spaja-profesionalni-mejl.ts', 'src/lib/spaja-platni-sistem.ts', 'src/lib/spaja-realtime.ts'],
+    ciljniRepozitorijum: 'spaja86/AI-IQ-SUPER-PLATFORMA',
+    aktivna: true,
+  },
+  {
+    id: 'config-monetizacija',
+    naziv: 'Monetizacija & Mediji Konfiguracija',
+    opis: 'Konfiguracija za Pricing, Digitalni Televizor, Monitoring Live, AI IQ Monitoring, Blog/FAQ, Unit Testovi',
+    ikona: '💎',
+    parametri: ['src/lib/spaja-pricing-login.ts', 'src/lib/spaja-digitalni-televizor.ts', 'src/lib/spaja-monitoring-live.ts', 'src/lib/spaja-ai-iq-monitoring.ts', 'src/lib/spaja-blog-faq.ts', 'src/lib/spaja-unit-testovi.ts'],
     ciljniRepozitorijum: 'spaja86/AI-IQ-SUPER-PLATFORMA',
     aktivna: true,
   },
@@ -777,9 +867,11 @@ export const spajaGeneratorEngine: SpajaGeneratorEngine = {
     'repozitorijuma AI-IQ-SUPER-PLATFORMA i svih 14 eksternih repozitorijuma u ekosistemu. Generiše, ' +
     'primenjuje i optimizuje sve engine-e — od SpajaPro i OMEGA AI do Proksi, Mobilna Mreža, Gaming, ' +
     'Finansije, Backend Infrastruktura (SPAJA BAZA, Autentifikacija, Profesionalni Mejl, Platni Sistem, ' +
-    'Real-time) i svih repo-specifičnih endžina za Ai-Iq-World-Bank, Ai-Iq-Menja-nica, SVETSKA-ORGANIZACIJA, ' +
-    'IO-OPENUI-AO, openai-platform, Kompanija-SPAJA, OMEGA-AI-za-GIT-HUB, OMEGA-AI-za-Vercel-, ' +
-    '-OMEGA-AI-za-Google-, OMEGA-AI-5-persona, Java-Swing-GUI, Input-Output-Copilot, openai-cookbook, hello-world.',
+    'Real-time), Monetizacija (Pricing/Login, Digitalni Televizor, Monitoring Live, AI IQ Monitoring, ' +
+    'Blog/FAQ, Unit Testovi) i svih repo-specifičnih endžina za Ai-Iq-World-Bank, Ai-Iq-Menja-nica, ' +
+    'SVETSKA-ORGANIZACIJA, IO-OPENUI-AO, openai-platform, Kompanija-SPAJA, OMEGA-AI-za-GIT-HUB, ' +
+    'OMEGA-AI-za-Vercel-, -OMEGA-AI-za-Google-, OMEGA-AI-5-persona, Java-Swing-GUI, Input-Output-Copilot, ' +
+    'openai-cookbook, hello-world.',
   verzija: '2.0.0',
   link: 'https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de',
   engini: generisaniEngini,
