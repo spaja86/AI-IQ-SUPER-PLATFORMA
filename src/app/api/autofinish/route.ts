@@ -154,6 +154,7 @@ function getAutofinishOpis(n: number): string {
     103: '/api/omega-neuronska-mreza (topologija, slojevi, veze, sposobnosti), 112 dijagnostika, 143 ruta',
     104: '/api/spaja-protokoli (PMT, OMSP, STP, EDP, DMP protokoli), 113 dijagnostika, 144 ruta',
     105: 'v15.5.0 — /api/ekosistem-analitika (kompletni trendovi, predikcije), 114 dijagnostika, 145 ruta, 113 API',
+    185: 'Autofinish #185 — kompletna verifikacija OMEGA PROJEKTA, 424 ruta, 383 API, 434 dijagnostike, 38 stranica, 21 persona, svi sistemi 100% operativni',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
