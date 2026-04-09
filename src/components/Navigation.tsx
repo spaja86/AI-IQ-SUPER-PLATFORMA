@@ -31,6 +31,11 @@ const navLinks = [
   { href: '/proksi-github-deploy', label: '🐙 GitHub Deploy' },
   { href: '/proksi-wifi-antena', label: '📶 WiFi Antena' },
   { href: '/spaja-univerzalni-prompt', label: '🎯 SPAJA Prompt' },
+  { href: '/spaja-generator-engine', label: '⚙️ Generator Endžin' },
+  { href: '/spaja-digitalni-brouvzer', label: '🌐 Digitalni Brouvzer' },
+  { href: '/spaja-render-medija', label: '🎬 Render Medija' },
+  { href: '/io-openui-ao-laboratorija', label: '🔬 Laboratorija' },
+  { href: '/io-openui-ao-gaming-platforma', label: '🎮 Gaming Platforma' },
 ];
 
 export default function Navigation() {

@@ -469,6 +469,22 @@ export const generisaniEngini: GenerisaniEngine[] = [
     generisanDatum: '2026-04-08',
     optimizacija: 90,
   },
+
+  // ─── IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin nad igricama ─
+
+  {
+    id: 'engine-io-openui-ao-gaming',
+    naziv: 'IO/OPENUI/AO Gaming Univerzalni Engine',
+    opis: 'SPAJA Univerzalni Endžin prevučen preko svih 95 igrica na IO/OPENUI/AO platformi (www.ioopenuiao.ac). Dimenzionalno renderovanje 360D–5760D, SpajaPro 6-15 integracija, OMEGA AI podrška, Proksi mrežna optimizacija. Link: https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7',
+    ikona: '🎮',
+    tip: 'gaming',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/io-openui-ao-gaming-platforma.ts',
+    mogucnosti: ['95 igrica u opticaju', 'SPAJA Univerzalni Endžin nad svakom igricom', '18 kategorija igrica', 'Dimenzionalno renderovanje 360D–5760D', 'www.ioopenuiao.ac domen', 'SpajaPro 6-15 integracija', 'OMEGA AI persona podrška', 'Proksi mrežna optimizacija'],
+    generisanDatum: '2026-04-08',
+    optimizacija: 85,
+  },
 ];
 
 // ─── Generator konfiguracije ─────────────────────────────

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { runDiagnostics } from '@/lib/auto-repair';
 import { getDispatchSummary } from '@/lib/omega-ai-dispatch';
+import { APP_VERSION } from '@/lib/constants';
 
 /**
  * Vercel Cron endpoint — Zdravlje sistema
@@ -27,7 +28,7 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     sistem: 'Omega Zdravlje Monitor',
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     zdravlje: {
       procenat: dijagnostika.zdravlje,
       status: kriticno ? 'kriticno' : upozorenje ? 'upozorenje' : 'zdravo',

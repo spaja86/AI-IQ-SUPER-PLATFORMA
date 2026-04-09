@@ -17,7 +17,7 @@ export default function CTASekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
           <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
             {stavke.map((s) => (
               <div key={s.naziv} className="rounded-xl bg-white/10 p-4">
-                <div className="text-2xl">{s.ikona}</div>
+                <div className="text-2xl" role="img" aria-label={s.naziv}>{s.ikona}</div>
                 <div className="text-xl font-bold text-white">{s.vrednost}</div>
                 <div className="text-xs text-gray-300">{s.naziv}</div>
               </div>

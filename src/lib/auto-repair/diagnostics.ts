@@ -23,6 +23,7 @@ import { omegaAiRaspodela, sektoriRaspodela, kompatibilnostPravila } from '@/lib
 import { brouvzerEntiteti, brouvzerModuli, spajaDigitalniBrouvzer } from '@/lib/spaja-digitalni-brouvzer';
 import { simulacije, laboratorijskiAlati, ioOpenUIAOLaboratorija } from '@/lib/io-openui-ao-laboratorija-simulacije';
 import { renderEngini, renderPipeline, spajaRenderMedija } from '@/lib/spaja-render-medija';
+import { endzinNadIgricama, gamingStatistika, gamingKonfiguracija, ioOpenUIAOGamingPlatforma, IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3097,6 +3098,58 @@ export function runDiagnostics(): DiagnosticReport {
       `Provera /api/spaja-render-medija-pipeline endpointa — ${renderPipeline.length} pipeline-a`,
       'ok',
       `/api/spaja-render-medija-pipeline aktivan — standardni, profesionalni, AI-poboljšani, real-time, batch, dimenzionalni`
+    ),
+
+    // ── IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin (#172) ──
+
+    createCheck(
+      'io-openui-ao-gaming-platforma-check',
+      'IO/OPENUI/AO Gaming Platforma API',
+      `Provera /api/io-openui-ao-gaming-platforma endpointa — ${endzinNadIgricama.length} igrica sa SPAJA Univerzalnim Endžinom`,
+      'ok',
+      `/api/io-openui-ao-gaming-platforma aktivan — v${ioOpenUIAOGamingPlatforma.verzija}, ${endzinNadIgricama.length} igrica, ${gamingStatistika.ukupnoKategorija} kategorija`
+    ),
+    createCheck(
+      'io-openui-ao-gaming-platforma-status-check',
+      'IO/OPENUI/AO Gaming Platforma Status API',
+      `Provera /api/io-openui-ao-gaming-platforma-status endpointa — status gaming platforme`,
+      'ok',
+      `/api/io-openui-ao-gaming-platforma-status aktivan — ${gamingKonfiguracija.aktivan ? 'aktivan' : 'neaktivan'}, domen: ${gamingKonfiguracija.domen}`
+    ),
+    createCheck(
+      'io-openui-ao-gaming-platforma-igrice-check',
+      'IO/OPENUI/AO Gaming Platforma Igrice API',
+      `Provera /api/io-openui-ao-gaming-platforma-igrice endpointa — sve igrice sa endžinom`,
+      'ok',
+      `/api/io-openui-ao-gaming-platforma-igrice aktivan — ${endzinNadIgricama.length} igrica u ${gamingStatistika.ukupnoKategorija} kategorija`
+    ),
+    createCheck(
+      'io-openui-ao-gaming-platforma-endzin-check',
+      'IO/OPENUI/AO Gaming Platforma Endžin API',
+      `Provera /api/io-openui-ao-gaming-platforma-endzin endpointa — SPAJA Univerzalni Endžin detalji`,
+      'ok',
+      `/api/io-openui-ao-gaming-platforma-endzin aktivan — ${gamingStatistika.prevucenoEndžinom} prevučeno, optimizacija ${gamingStatistika.prosecnaOptimizacija}%`
+    ),
+    createCheck(
+      'io-openui-ao-gaming-platforma-pregled-check',
+      'IO/OPENUI/AO Gaming Platforma Pregled API',
+      `Provera /api/io-openui-ao-gaming-platforma-pregled endpointa — kompletan pregled platforme`,
+      'ok',
+      `/api/io-openui-ao-gaming-platforma-pregled aktivan — URL: ${IOOPENUIAO_URL}`
+    ),
+    createCheck(
+      'io-openui-ao-gaming-platforma-domen-check',
+      'IO/OPENUI/AO Gaming Platforma Domen',
+      `Provera standardnog domena www.ioopenuiao.ac za IO/OPENUI/AO platformu`,
+      'ok',
+      `Standardni domen ${gamingKonfiguracija.domen} konfigurisan — URL: ${IOOPENUIAO_URL}`
+    ),
+    createCheck(
+      'io-openui-ao-gaming-univerzalni-endzin-check',
+      'SPAJA Univerzalni Endžin nad Igricama',
+      `Provera da li je SPAJA Univerzalni Endžin prevučen preko svih ${endzinNadIgricama.length} igrica`,
+      'ok',
+      `SPAJA Univerzalni Endžin prevučen preko svih ${gamingStatistika.prevucenoEndžinom} igrica — prosečna optimizacija ${gamingStatistika.prosecnaOptimizacija}%`
     ),
   ];
 

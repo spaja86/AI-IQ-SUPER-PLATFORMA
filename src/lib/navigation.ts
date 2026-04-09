@@ -31,4 +31,5 @@ export const navigation: NavItem[] = [
   { label: 'Digitalni Brouvzer', href: '/spaja-digitalni-brouvzer', icon: '🌐', description: 'SPAJA Digitalni Brouvzer — brauzer platforma za industriju' },
   { label: 'Laboratorija', href: '/io-openui-ao-laboratorija', icon: '🔬', description: 'IOOpenUIAO Laboratorija za Simulacije' },
   { label: 'Render Medija', href: '/spaja-render-medija', icon: '🎬', description: 'SPAJA Render za Slike i Video' },
+  { label: 'Gaming Platforma', href: '/io-openui-ao-gaming-platforma', icon: '🎮', description: 'IO/OPENUI/AO Gaming — SPAJA Univerzalni Endžin nad 95 igrica (www.ioopenuiao.ac)' },
 ];
