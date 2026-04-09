@@ -12,6 +12,7 @@ import {
   getSveProgramskeJezike,
   getSveFramevorke,
 } from '@/lib/spaja-pro-zasebni-endzin';
+import { APP_VERSION } from '@/lib/constants';
 
 /**
  * SpajaPro Zasebni Endžini — API Endpoint
@@ -28,7 +29,7 @@ export async function GET() {
 
   return NextResponse.json({
     sistem: 'SpajaPro Zasebni Endžini — Kompanija SPAJA',
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     opis: 'Svaki SpajaPro v6-v15 ima zasebni endžin koji je specifičan samom sebi — za programiranje, čavrljanje, Google pretragu, analizu i slike',
     statistike: {
       ukupnoEndzina: zasebniEndzini.length,

@@ -31,6 +31,11 @@ const footerTechLinks = [
   { href: '/proksi-wifi-antena', label: 'Proksi WiFi Antena' },
   { href: '/ai-platforma', label: 'AI Platforma' },
   { href: '/industrija', label: 'Industrija' },
+  { href: '/spaja-generator-engine', label: 'Generator Endžin' },
+  { href: '/spaja-digitalni-brouvzer', label: 'Digitalni Brouvzer' },
+  { href: '/spaja-render-medija', label: 'Render Medija' },
+  { href: '/io-openui-ao-laboratorija', label: 'Laboratorija Simulacija' },
+  { href: '/io-openui-ao-gaming-platforma', label: 'Gaming Platforma' },
 ];
 
 export default function Footer() {

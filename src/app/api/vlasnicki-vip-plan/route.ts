@@ -5,6 +5,7 @@ import {
   proksiSuportSmene,
   marketingFondacija,
 } from '@/lib/vlasnicki-vip-plan';
+import { APP_VERSION } from '@/lib/constants';
 
 /**
  * 👑 Vlasnički VIP Plan — Pregled API
@@ -15,7 +16,7 @@ import {
 export async function GET() {
   return NextResponse.json({
     sistem: 'Vlasnički VIP Plan — Kompanija SPAJA',
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     opis: vlasnickiVipPlan.opis,
     ikona: vlasnickiVipPlan.ikona,
     vlasnikEmail: vlasnickiVipPlan.vlasnikEmail,

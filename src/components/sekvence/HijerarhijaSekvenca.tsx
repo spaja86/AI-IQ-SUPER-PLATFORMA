@@ -19,7 +19,7 @@ export default function HijerarhijaSekvenca({ sekvenca }: { sekvenca: Sekvenca }
           {nivoi.map((nivo) => (
             <div key={nivo.naziv}>
               <div className="flex items-center gap-3 rounded-xl border border-gray-700/50 bg-gray-800/50 p-4">
-                <span className="text-2xl">{nivo.ikona}</span>
+                <span className="text-2xl" role="img" aria-label={nivo.naziv}>{nivo.ikona}</span>
                 <span className="text-lg font-semibold text-white">{nivo.naziv}</span>
               </div>
               {nivo.deca.length > 0 && (

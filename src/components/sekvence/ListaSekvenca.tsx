@@ -18,7 +18,7 @@ export default function ListaSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
         <div className="space-y-4">
           {stavke.map((s) => (
             <div key={s.naslov} className="flex items-start gap-4 rounded-xl border border-gray-700/50 bg-gray-800/30 p-5 transition hover:border-gray-600">
-              <div className="text-2xl">{s.ikona}</div>
+              <div className="text-2xl" role="img" aria-label={s.naslov}>{s.ikona}</div>
               <div>
                 <h3 className="font-semibold text-white">{s.naslov}</h3>
                 <p className="text-sm text-gray-400">{s.opis}</p>

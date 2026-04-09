@@ -77,7 +77,7 @@ export const brouvzerEntiteti: BrouvzerEntitet[] = [
     opis: 'Input/Output Open UI platforma — korisnički interfejs za interakciju sa svim SPAJA servisima',
     ikona: '🖥️',
     tip: 'platforma',
-    url: 'https://io-openui-ao.vercel.app',
+    url: 'https://www.ioopenuiao.ac',
     status: 'aktivan',
     kategorija: 'UI Platforma',
     funkcije: ['Open UI komponente', 'SpajaPro integracija', 'Laboratorija za simulacije', 'B2B servis', 'Korisničke interakcije'],
@@ -183,14 +183,14 @@ export const brouvzerEntiteti: BrouvzerEntitet[] = [
   },
   {
     id: 'entitet-openai-platform',
-    naziv: 'OpenAI Platform',
-    opis: 'OpenAI Platform integracija — API pristup, modeli, recepti i best practices za AI razvoj',
+    naziv: 'OpenAI Platform — SpajaPro v6-15',
+    opis: 'OpenAI Platform integracija sa SpajaPro v6-15 endžinima umesto ChatGPT-a — API pristup, modeli, SpajaPro Prompt sistem i best practices za AI razvoj',
     ikona: '🤖',
     tip: 'platforma',
     url: 'https://openai-platform.vercel.app',
     status: 'aktivan',
     kategorija: 'AI Platforma',
-    funkcije: ['OpenAI API', 'Model integracija', 'Prompt engineering', 'Fine-tuning', 'Cookbook recepti'],
+    funkcije: ['SpajaPro v6-15 Engine', 'OpenAI API', 'SpajaPro Prompt sistem', 'Model integracija', 'Fine-tuning', 'Cookbook recepti'],
   },
 ];
 

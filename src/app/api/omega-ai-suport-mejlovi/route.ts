@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { industrijskiMejlSistem } from '@/lib/omega-ai-suport-mejlovi';
+import { APP_VERSION } from '@/lib/constants';
 
 /**
  * 📧 OMEGA AI Industrijski Suport Mejlovi — Glavni API
@@ -9,7 +10,7 @@ import { industrijskiMejlSistem } from '@/lib/omega-ai-suport-mejlovi';
 export async function GET() {
   return NextResponse.json({
     sistem: industrijskiMejlSistem.naziv,
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     opis: industrijskiMejlSistem.opis,
     ikona: industrijskiMejlSistem.ikona,
     domen: industrijskiMejlSistem.domen,
