@@ -12,8 +12,8 @@ export async function GET() {
 
   return NextResponse.json({
     sistem: 'OMEGA AI Maksimalni Suport — Pregled',
-    verzija: APP_VERSION,
     ...pregled,
+    verzija: APP_VERSION,
     timestamp: new Date().toISOString(),
   });
 }

@@ -642,7 +642,27 @@ export function getDispeCPoKanalu(kanal: SuportKanal): DispeCSistem | undefined 
   return dispeCiSistemi.find((d) => d.kanali.includes(kanal));
 }
 
-export function getMaksimalniSuportPregled(): object {
+export interface MaksimalniSuportPregled {
+  naziv: string;
+  verzija: string;
+  status: string;
+  ukupnoTelefona: number;
+  aktivnihTelefona: number;
+  tiketi: {
+    ukupno: number;
+    resenih: number;
+    otvorenih: number;
+    prosecnoVremeOdgovora: string;
+    prosecnoVremeResavanja: string;
+  };
+  zadovoljstvoKorisnika: number;
+  slaIspunjenost: string;
+  slaNivoa: number;
+  dispeCKanala: number;
+  mogucnosti: number;
+}
+
+export function getMaksimalniSuportPregled(): MaksimalniSuportPregled {
   return {
     naziv: omegaAiMaksimalniSuport.naziv,
     verzija: omegaAiMaksimalniSuport.verzija,
