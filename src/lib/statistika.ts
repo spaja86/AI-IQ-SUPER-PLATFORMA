@@ -34,6 +34,7 @@ import { spajaAiIqMonitoring } from './spaja-ai-iq-monitoring';
 import { spajaBlogFaq } from './spaja-blog-faq';
 import { spajaUnitTestovi } from './spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
+import { vizuelniIdentitetSistem } from './vizuelni-identitet';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -143,5 +144,10 @@ export function getStatistike() {
     suportSlaIspunjenost: omegaAiMaksimalniSuport.statistika.slaIspunjenost,
     suportZadovoljstvo: omegaAiMaksimalniSuport.statistika.zadovoljstvoKorisnika,
     suportStatus: omegaAiMaksimalniSuport.status,
+
+    // Vizuelni Identitet
+    vizuelniResursa: vizuelniIdentitetSistem.ukupnoResursa,
+    vizuelniOsnivac: vizuelniIdentitetSistem.osnivac.punoIme,
+    vizuelniStatus: vizuelniIdentitetSistem.status,
   };
 }

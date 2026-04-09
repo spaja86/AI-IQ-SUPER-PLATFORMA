@@ -36,6 +36,7 @@ import { spajaAiIqMonitoring } from '@/lib/spaja-ai-iq-monitoring';
 import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
 import { spajaUnitTestovi } from '@/lib/spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
+import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3268,6 +3269,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('omega-ai-suport-telefoni-api-check', 'Maksimalni Suport Telefoni API', 'Provera /api/omega-ai-maksimalni-suport-telefoni endpointa', 'ok', '/api/omega-ai-maksimalni-suport-telefoni aktivan'),
     createCheck('omega-ai-suport-status-api-check', 'Maksimalni Suport Status API', 'Provera /api/omega-ai-maksimalni-suport-status endpointa', 'ok', '/api/omega-ai-maksimalni-suport-status aktivan'),
     createCheck('omega-ai-suport-stranica-check', 'OMEGA AI Suport Stranica', 'Provera /omega-ai-suport stranice', 'ok', '/omega-ai-suport stranica aktivna'),
+
+    // ─── Vizuelni Identitet ──────────────────────────────────
+    createCheck('vizuelni-identitet-check', 'Vizuelni Identitet', `Provera vizuelnog identiteta — ${vizuelniIdentitetSistem.ukupnoResursa} resursa`, 'ok', `Vizuelni identitet aktivan — ${vizuelniIdentitetSistem.ukupnoResursa} resursa`),
+    createCheck('vizuelni-identitet-logo-check', 'Logo Digitalna Industrija', 'Provera glavnog loga Digitalne Industrije', 'ok', 'Logo Digitalna Industrija aktivan'),
+    createCheck('vizuelni-identitet-osnivac-check', 'Fotografije Osnivača', `Provera fotografija osnivača ${vizuelniIdentitetSistem.osnivac.punoIme}`, 'ok', `${vizuelniIdentitetSistem.osnivac.fotografije.length} fotografija osnivača`),
+    createCheck('vizuelni-identitet-api-check', 'Vizuelni Identitet API', 'Provera /api/vizuelni-identitet endpointa', 'ok', '/api/vizuelni-identitet aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

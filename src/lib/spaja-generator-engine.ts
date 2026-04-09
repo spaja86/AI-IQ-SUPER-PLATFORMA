@@ -647,6 +647,19 @@ export const generisaniEngini: GenerisaniEngine[] = [
     generisanDatum: '2026-04-09',
     optimizacija: 93,
   },
+  {
+    id: 'engine-vizuelni-identitet',
+    naziv: 'Vizuelni Identitet Engine',
+    opis: 'Engine za vizuelni identitet — logo Digitalne Industrije, fotografije osnivača Nikole Spajića, brend smernice, kosmička estetika.',
+    ikona: '🎨',
+    tip: 'komunikacija',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    ciljniModul: 'src/lib/vizuelni-identitet.ts',
+    mogucnosti: ['Logo Digitalna Industrija', 'Fotografije osnivača', 'Brend smernice', '8 brend boja', 'SlikaSekvenca komponenta', 'Navigation logo', 'Homepage logo', 'Kompanija profil'],
+    generisanDatum: '2026-04-09',
+    optimizacija: 95,
+  },
 ];
 
 // ─── Generator konfiguracije ─────────────────────────────
