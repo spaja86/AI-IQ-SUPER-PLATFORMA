@@ -4,7 +4,7 @@ import { ioOpenUIAOGamingSekvence } from '@/lib/sekvence/io-openui-ao-gaming-pla
 
 export const metadata: Metadata = {
   title: 'IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin',
-  description: 'IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin prevučen preko svih 95 igrica. Standardni URL: www.ioopenuiao.ac',
+  description: 'IO/OPENUI/AO Gaming Platforma - SPAJA Univerzalni Endzin prevucen preko svih 95 igrica. Standardni URL: io-openui-ao.vercel.app',
 };
 
 export default function IOOpenUIAOGamingPlatformaPage() {
