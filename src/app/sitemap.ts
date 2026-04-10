@@ -44,6 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/blog',
     '/unit-testovi',
     '/omega-ai-suport',
+    '/omega-projekat-plasiranje',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
