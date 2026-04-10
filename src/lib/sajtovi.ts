@@ -90,15 +90,15 @@ export const sajtovi: Sajt[] = [
     kategorija: 'ekosistem',
     opis: 'I/O za GitHub Copilot aktivnu komunikaciju — GitHub repozitorijum',
   },
-  // ── Tehnološki Partneri ───────────────────────────────────────────────
   {
     id: 'openai',
-    naziv: 'OpenAI — SpajaPro v6-15',
+    naziv: 'OpenAI Platforma — Digitalna Industrija',
     url: 'https://openai.com/',
     ikona: '🤖',
-    kategorija: 'tehnoloski-partner',
-    opis: 'AI istraživanje i razvoj — SpajaPro v6-15 engine umesto ChatGPT-a. API integrisan u ekosistem preko spaja86/openai-platform repo. Planovi: Starter $29, Pro $79, Biznis $199, Enterprise $499, Unlimited VIP $999/mes.',
+    kategorija: 'ekosistem',
+    opis: 'SOPSTVENA platforma Digitalne Industrije — nije partner, nego interna platforma Kompanije SPAJA. OpenAI API integrisan preko spaja86/openai-platform repo. SpajaPro v6-15 engine. Non-stop evolucija.',
   },
+  // ── Tehnološki Partneri ───────────────────────────────────────────────
   {
     id: 'google',
     naziv: 'Google',
