@@ -34,8 +34,8 @@ export async function GET() {
       { naziv: 'Starter', cena: '$29/mes', upitaDnevno: 100, verzije: 'v6-8' },
       { naziv: 'Profesionalni', cena: '$79/mes', upitaDnevno: 500, verzije: 'v6-11' },
       { naziv: 'Biznis', cena: '$199/mes', upitaDnevno: 2000, verzije: 'v6-15' },
-      { naziv: 'Enterprise', cena: '$499/mes', upitaDnevno: -1, verzije: 'v6-15' },
-      { naziv: 'Unlimited VIP', cena: '$999/mes', upitaDnevno: -1, verzije: 'v6-15' },
+      { naziv: 'Enterprise', cena: '$499/mes', upitaDnevno: 'neograniceno', verzije: 'v6-15' },
+      { naziv: 'Unlimited VIP', cena: '$999/mes', upitaDnevno: 'neograniceno', verzije: 'v6-15' },
     ],
 
     timestamp: new Date().toISOString(),
