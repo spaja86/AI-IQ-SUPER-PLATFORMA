@@ -20,7 +20,7 @@ export function proxy(request: NextRequest) {
   // Napomena: meri vreme izvršavanja proxy-ja, ne ukupno vreme odgovora
   // (Next.js proxy se izvršava pre route handler-a)
   response.headers.set('X-Response-Time', `${Date.now() - startTime}ms`);
-  response.headers.set('X-Powered-By', 'Kompanija SPAJA — OMEGA AI');
+  response.headers.set('X-Powered-By', 'Kompanija SPAJA - OMEGA AI');
 
   return response;
 }
