@@ -3297,6 +3297,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish Kontinuitet ──────────────────────────────────
     createCheck('autofinish-kontinuitet-check', 'Autofinish Kontinuitet', `Provera kontinuiteta autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish kontinuitet aktivan — ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-kontinuitet-api-check', 'Autofinish Kontinuitet API', 'Provera /api/autofinish-kontinuitet-monitor endpointa', 'ok', '/api/autofinish-kontinuitet-monitor aktivan'),
+
+    // ─── Autofinish Verzija Integritet ──────────────────────────────────
+    createCheck('autofinish-verzija-integritet-check', 'Autofinish Verzija Integritet', `Provera integriteta verzija autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish verzija integritet aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-verzija-integritet-api-check', 'Autofinish Verzija Integritet API', 'Provera /api/autofinish-verzija-integritet endpointa', 'ok', '/api/autofinish-verzija-integritet aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
