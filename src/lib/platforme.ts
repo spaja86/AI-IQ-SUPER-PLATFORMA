@@ -1,4 +1,5 @@
 import type { Platforma, KategorijaPlatforme } from './types';
+import { EKOSISTEM_URLS } from './ekosistem-urls';
 
 export const platforme: Platforma[] = [
   {
@@ -7,7 +8,7 @@ export const platforme: Platforma[] = [
     opis: 'Centralna platforma za upravljanje celim ekosistemom. SPAJA Generator za Endžine prevlači engine-e preko celog repozitorijuma. Link: https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de',
     kategorija: 'jezgro',
     repo: 'spaja86/AI-IQ-SUPER-PLATFORMA',
-    url: 'https://ai-iq-super-platforma.vercel.app',
+    url: EKOSISTEM_URLS.AI_IQ_SUPER_PLATFORMA,
     ikona: '🏢',
     status: 'spremna',
     progres: 100,
@@ -21,7 +22,7 @@ export const platforme: Platforma[] = [
     opis: 'Unified frontend sa SpajaPro 6-15 engine-om (zamena za ChatGPT), Prompt sistemom, fizičkom laboratorijom i B2B softverom. Razvoj B2B softvera za IO/OpenUI/AO sa vezanim fizičkim laboratorijama. Laboratorija link: https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7. Igrice Dota 1350, TRANSFORMERS 1350, BUBLI BABLI 1250, SPAJA POKER imaju linkove u ovom repozitorijumu.',
     kategorija: 'jezgro',
     repo: 'spaja86/IO-OPENUI-AO',
-    url: 'https://io-openui-ao.vercel.app',
+    url: EKOSISTEM_URLS.IO_OPENUI_AO,
     ikona: '🖥️',
     status: 'spremna',
     progres: 100,
@@ -31,11 +32,11 @@ export const platforme: Platforma[] = [
   },
   {
     id: 'ai-iq-menjacnica',
-    naziv: 'AI IQ Menjacnica',
+    naziv: 'Ai Iq Menjacnica',
     opis: 'Kripto i fiat menjacnica sa AI optimizacijom. Linkovi u repozitorijumu sadrže sve potrebno za rad i ONLINE proceduru.',
     kategorija: 'finansije',
     repo: 'spaja86/Ai-Iq-Menja-nica',
-    url: 'https://ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app/index.html',
+    url: EKOSISTEM_URLS.AI_IQ_MENJACNICA,
     ikona: '💱',
     status: 'spremna',
     progres: 100,
@@ -45,11 +46,11 @@ export const platforme: Platforma[] = [
   },
   {
     id: 'ai-iq-world-bank',
-    naziv: 'AI IQ World Bank',
+    naziv: 'Ai Iq World Bank',
     opis: 'Digitalna banka sa globalnim dometom. Linkovi u repozitorijumu sadrže sve potrebno za rad i ONLINE proceduru.',
     kategorija: 'finansije',
     repo: 'spaja86/Ai-Iq-World-Bank',
-    url: 'https://ai-iq-world-bank-git-copilot-n-697903-nikolas-projects-b8a8458f.vercel.app/index.html',
+    url: EKOSISTEM_URLS.AI_IQ_WORLD_BANK,
     ikona: '🏦',
     status: 'spremna',
     progres: 100,
