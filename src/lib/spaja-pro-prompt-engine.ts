@@ -834,7 +834,7 @@ function generisiOpstiOdgovor(promptTekst: string): PromptOdgovor {
       kategorija: 'univerzalni',
       persona: null,
       tokeni,
-      vremeMs: Math.floor(Math.random() * 200) + 50,
+      vremeMs: 0,
       timestamp,
     },
   };
@@ -863,7 +863,7 @@ function generisiOdgovorIzZnanja(
       kategorija: prompt?.kategorija ?? 'univerzalni',
       persona: prompt?.ciljnaPersona ?? null,
       tokeni,
-      vremeMs: Math.floor(Math.random() * 200) + 50,
+      vremeMs: 0,
       timestamp,
     },
   };
@@ -937,7 +937,7 @@ function generisiPersonaOdgovor(
       kategorija: prompt.kategorija,
       persona: prompt.ciljnaPersona ?? null,
       tokeni,
-      vremeMs: Math.floor(Math.random() * 200) + 50,
+      vremeMs: 0,
       timestamp,
     },
   };
@@ -996,7 +996,7 @@ function generisiPlatformaOdgovor(
       kategorija: prompt.kategorija,
       persona: null,
       tokeni,
-      vremeMs: Math.floor(Math.random() * 200) + 50,
+      vremeMs: 0,
       timestamp,
     },
   };
@@ -1113,7 +1113,7 @@ function generisiSistemskiOdgovor(
       kategorija: prompt.kategorija,
       persona: null,
       tokeni,
-      vremeMs: Math.floor(Math.random() * 200) + 50,
+      vremeMs: 0,
       timestamp,
     },
   };
@@ -1135,37 +1135,55 @@ export function obradiPrompt(
   verzija: SpajaProEngine,
   promptDef?: Prompt | null,
 ): PromptOdgovor {
+  const startTime = performance.now();
+
+  let odgovor: PromptOdgovor;
+
   // 1. Ako je izabran specifičan prompt iz biblioteke
   if (promptDef) {
     // Sistemski promptovi
     if (promptDef.kategorija === 'sistemski' || promptDef.kategorija === 'evolucioni') {
-      return generisiSistemskiOdgovor(promptDef, verzija, promptTekst);
+      odgovor = generisiSistemskiOdgovor(promptDef, verzija, promptTekst);
     }
-
     // Persona promptovi
-    if (promptDef.ciljnaPersona) {
+    else if (promptDef.ciljnaPersona) {
       // Proveri da li postoji specifično znanje za ovaj tip
       const znanje = pronadjiZnanje(promptTekst);
       if (znanje) {
-        return generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
+        odgovor = generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
+      } else {
+        odgovor = generisiPersonaOdgovor(promptDef, verzija, promptTekst);
       }
-      return generisiPersonaOdgovor(promptDef, verzija, promptTekst);
     }
-
     // Platforma promptovi
-    if (promptDef.ciljnaPlatforma) {
-      return generisiPlatformaOdgovor(promptDef, verzija, promptTekst);
+    else if (promptDef.ciljnaPlatforma) {
+      odgovor = generisiPlatformaOdgovor(promptDef, verzija, promptTekst);
+    }
+    // Ostali
+    else {
+      const znanje = pronadjiZnanje(promptTekst);
+      if (znanje) {
+        odgovor = generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
+      } else {
+        odgovor = generisiOpstiOdgovor(promptTekst);
+      }
+    }
+  } else {
+    // 2. Slobodan prompt — traži znanje iz baze
+    const znanje = pronadjiZnanje(promptTekst);
+    if (znanje) {
+      odgovor = generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
+    } else {
+      // 3. Opšti odgovor
+      odgovor = generisiOpstiOdgovor(promptTekst);
     }
   }
 
-  // 2. Slobodan prompt — traži znanje iz baze
-  const znanje = pronadjiZnanje(promptTekst);
-  if (znanje) {
-    return generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
-  }
+  // Izmeri stvarno vreme obrade
+  const elapsed = Math.round(performance.now() - startTime);
+  odgovor.meta.vremeMs = elapsed;
 
-  // 3. Opšti odgovor
-  return generisiOpstiOdgovor(promptTekst);
+  return odgovor;
 }
 
 /**
