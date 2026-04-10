@@ -183,6 +183,7 @@ function getAutofinishOpis(n: number): string {
     211: 'Autofinish #211 — /api/openai-platforma-optimizacija, optimizacija resursa i performansi, keshiranje, kompresija, bundle optimizacija, 6 dijagnostika, 443 ruta, 401 API, 460 dijagnostike',
     212: 'Autofinish #212 — /api/openai-platforma-bezbednost, bezbednosna analiza i zastita, autentifikacija, enkripcija, zastita od napada, 6 dijagnostika, 444 ruta, 402 API, 462 dijagnostike',
     213: 'Autofinish #213 — /api/openai-platforma-dokumentacija, API specifikacije i vodici, OpenAPI 3.1, SDK podrska, change log, 6 dijagnostika, 445 ruta, 403 API, 464 dijagnostike',
+    214: 'Autofinish #214 — /api/openai-platforma-analitika, analitika i metrike, performanse, trendovi rasta, izvestaji, 6 dijagnostika, 446 ruta, 404 API, 466 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
