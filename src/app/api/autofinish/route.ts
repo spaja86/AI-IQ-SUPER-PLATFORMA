@@ -179,6 +179,7 @@ function getAutofinishOpis(n: number): string {
     207: 'Autofinish #207 — /api/openai-platforma-evolucija, pracenje evolucije OpenAI platforme u Digitalnoj Industriji, 6 faza, metrike, 439 ruta, 397 API, 452 dijagnostike',
     208: 'Autofinish #208 — /api/openai-platforma-integracija, pracenje integracija OpenAI platforme sa ekosistemom, 6 integracija, 6 protokola, 6 dijagnostika, 440 ruta, 398 API, 454 dijagnostike',
     209: 'Autofinish #209 — /api/openai-platforma-skalabilnost, analiza kapaciteta i skalabilnosti OpenAI platforme, projekcije rasta, 5 regiona, 6 dijagnostika, 441 ruta, 399 API, 456 dijagnostike',
+    210: 'Autofinish #210 — /api/openai-platforma-monitoring, pracenje performansi OpenAI platforme u realnom vremenu, zdravlje sistema, alarmi, logovi, 6 dijagnostika, 442 ruta, 400 API, 458 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
