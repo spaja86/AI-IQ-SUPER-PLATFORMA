@@ -11,3 +11,4 @@ export { default as BanerSekvenca } from './BanerSekvenca';
 export { default as ListaSekvenca } from './ListaSekvenca';
 export { default as HijerarhijaSekvenca } from './HijerarhijaSekvenca';
 export { default as TekstSekvenca } from './TekstSekvenca';
+export { default as SlikaSekvenca } from './SlikaSekvenca';

@@ -36,6 +36,8 @@ const footerTechLinks = [
   { href: '/spaja-render-medija', label: 'Render Medija' },
   { href: '/io-openui-ao-laboratorija', label: 'Laboratorija Simulacija' },
   { href: '/io-openui-ao-gaming-platforma', label: 'Gaming Platforma' },
+  { href: '/pricing', label: 'Pricing & Login' },
+  { href: '/omega-ai-suport', label: 'OMEGA AI Suport' },
 ];
 
 export default function Footer() {

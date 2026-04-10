@@ -5,10 +5,27 @@ import { getStatistike } from '@/lib/statistika';
 import { runDiagnostics } from '@/lib/auto-repair';
 import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 
+import { vizuelniResursi, osnivacProfil } from '@/lib/vizuelni-identitet';
+
 const stats = getStatistike();
 const dijagnostika = runDiagnostics();
 
+const logoResurs = vizuelniResursi.find((r) => r.id === 'logo-digitalna-industrija');
+
 export const pocetnaSekvence: Sekvenca[] = [
+  {
+    id: 'pocetna-logo',
+    tip: 'slika',
+    naslov: '🌀 Digitalna Industrija',
+    podnaslov: `Kompanija SPAJA — osnivač ${osnivacProfil.punoIme}`,
+    redosled: 0,
+    podaci: {
+      slike: logoResurs
+        ? [{ url: logoResurs.url, alt: logoResurs.alt, sirina: 400, visina: 600 }]
+        : [],
+      raspored: 'kolona',
+    },
+  },
   {
     id: 'pocetna-hero',
     tip: 'hero',

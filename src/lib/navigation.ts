@@ -32,4 +32,11 @@ export const navigation: NavItem[] = [
   { label: 'Laboratorija', href: '/io-openui-ao-laboratorija', icon: '🔬', description: 'IOOpenUIAO Laboratorija za Simulacije' },
   { label: 'Render Medija', href: '/spaja-render-medija', icon: '🎬', description: 'SPAJA Render za Slike i Video' },
   { label: 'Gaming Platforma', href: '/io-openui-ao-gaming-platforma', icon: '🎮', description: 'IO/OPENUI/AO Gaming — SPAJA Univerzalni Endžin nad 95 igrica (www.ioopenuiao.ac)' },
+  { label: 'Pricing & Login', href: '/pricing', icon: '💰', description: 'Pricing planovi i registracija — Stripe integracija' },
+  { label: 'Digitalni Televizor', href: '/digitalni-televizor', icon: '📺', description: 'SPAJA Univerzalni Digitalni Televizor — 12 kanala, live TV' },
+  { label: 'Monitoring Live', href: '/monitoring-live', icon: '🎥', description: 'SPAJA Monitoring Live — Twitch-like streaming platforma' },
+  { label: 'AI IQ Monitoring', href: '/ai-iq-monitoring', icon: '🔍', description: 'SPAJA AI IQ Monitoring — Sentry-like praćenje grešaka' },
+  { label: 'Blog & FAQ', href: '/blog', icon: '📝', description: 'SPAJA Blog & FAQ — članci, vodiči, pitanja' },
+  { label: 'Unit Testovi', href: '/unit-testovi', icon: '🧪', description: 'SPAJA Unit Testovi — 12 suita, 94.8% pokrivenost' },
+  { label: 'OMEGA AI Suport', href: '/omega-ai-suport', icon: '📞', description: 'OMEGA AI Maksimalni Suport — 21 persona, telefoni, mejlovi, dispeč' },
 ];
