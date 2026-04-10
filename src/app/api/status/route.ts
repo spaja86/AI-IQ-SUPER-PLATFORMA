@@ -6,6 +6,11 @@ import { getAktivneVerzije, spajaProVerzije } from '@/lib/spaja-pro';
 import { getBrojPromptova, getPromptKategorije } from '@/lib/prompt';
 import { getDeployStatistike, proksiGitHubDeploySistem } from '@/lib/proksi-github-deploy';
 import { APP_VERSION, TOTAL_API_ROUTES, AUTOFINISH_COUNT } from '@/lib/constants';
+import { spajaBaza } from '@/lib/spaja-baza';
+import { autentifikacijaSistem } from '@/lib/autentifikacija';
+import { profesionalniMejlSistem } from '@/lib/spaja-profesionalni-mejl';
+import { spajaPlatniSistem } from '@/lib/spaja-platni-sistem';
+import { spajaRealtimeSistem } from '@/lib/spaja-realtime';
 
 export async function GET() {
   const stats = getStatistike();
@@ -18,7 +23,7 @@ export async function GET() {
     platforma: 'AI IQ SUPER PLATFORMA',
     kompanija: 'SPAJA',
     verzija: APP_VERSION,
-    arhitektura: 'sekvence + omega-evolucija + proksi + mobilna-mreza + prompt + spajapro + eksterni-sajt + proksi-github-deploy',
+    arhitektura: 'sekvence + omega-evolucija + proksi + mobilna-mreza + prompt + spajapro + eksterni-sajt + proksi-github-deploy + spaja-baza + autentifikacija + profesionalni-mejl + platni-sistem + realtime',
     timestamp: new Date().toISOString(),
     statistike: stats,
     zdravlje: diagnostics.zdravlje,
@@ -68,6 +73,33 @@ export async function GET() {
       proksiIntegracija: proksiGitHubDeploySistem.proksiIntegracija,
       ukupniKapacitet: proksiGitHubDeploySistem.ukupniKapacitet,
       ...getDeployStatistike(),
+    },
+    backendInfrastruktura: {
+      spajaBaza: {
+        status: spajaBaza.status,
+        kolekcija: spajaBaza.kolekcije.length,
+        tip: spajaBaza.tip,
+      },
+      autentifikacija: {
+        status: autentifikacijaSistem.status,
+        dozvola: autentifikacijaSistem.dozvole.length,
+        oauth: autentifikacijaSistem.konfiguracija.oauthProvajderi,
+      },
+      profesionalniMejl: {
+        status: profesionalniMejlSistem.status,
+        sablona: profesionalniMejlSistem.sabloni.length,
+        domena: profesionalniMejlSistem.domeni.length,
+      },
+      platniSistem: {
+        status: spajaPlatniSistem.status,
+        proizvoda: spajaPlatniSistem.stripeProizvodi.length,
+        integracija: 'Stripe',
+      },
+      realtime: {
+        status: spajaRealtimeSistem.status,
+        kanala: spajaRealtimeSistem.kanali.length,
+        tehnologije: spajaRealtimeSistem.tehnologije,
+      },
     },
   });
 }

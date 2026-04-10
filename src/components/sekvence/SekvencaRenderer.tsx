@@ -9,6 +9,7 @@ import BanerSekvenca from './BanerSekvenca';
 import ListaSekvenca from './ListaSekvenca';
 import HijerarhijaSekvenca from './HijerarhijaSekvenca';
 import TekstSekvenca from './TekstSekvenca';
+import SlikaSekvenca from './SlikaSekvenca';
 
 const KOMPONENTE: Record<string, React.ComponentType<{ sekvenca: Sekvenca }>> = {
   hero: HeroSekvenca,
@@ -21,6 +22,7 @@ const KOMPONENTE: Record<string, React.ComponentType<{ sekvenca: Sekvenca }>> = 
   lista: ListaSekvenca,
   hijerarhija: HijerarhijaSekvenca,
   tekst: TekstSekvenca,
+  slika: SlikaSekvenca,
 };
 
 export default function SekvencaRenderer({ sekvenca }: { sekvenca: Sekvenca }) {

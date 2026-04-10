@@ -216,6 +216,21 @@ function TekstSkeleton() {
   );
 }
 
+function SlikaSkeleton() {
+  return (
+    <div className="bg-gray-900/50 px-6 py-12">
+      <div className="mx-auto max-w-6xl space-y-4">
+        <Puls className="mx-auto h-8 w-64" />
+        <Puls className="mx-auto h-4 w-96" />
+        <div className="mt-6 flex justify-center gap-6">
+          <Puls className="h-64 w-64 rounded-xl" />
+          <Puls className="h-64 w-64 rounded-xl" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Skeleton lookup ──────────────────────────────────── */
 
 const SKELETONI: Record<SekvencaTip, React.ComponentType> = {
@@ -229,6 +244,7 @@ const SKELETONI: Record<SekvencaTip, React.ComponentType> = {
   lista: ListaSkeleton,
   hijerarhija: HijerarhijaSkeleton,
   tekst: TekstSkeleton,
+  slika: SlikaSkeleton,
 };
 
 /**
