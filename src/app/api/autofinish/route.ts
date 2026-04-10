@@ -164,6 +164,14 @@ function getAutofinishOpis(n: number): string {
     192: 'Autofinish #192 — Preporuke za prompt biblioteke i OMEGA PROJEKAT prompt strategiju, analiza postojecih 29 promptova, 429 ruta, 387 API, 439 dijagnostike',
     193: 'Autofinish #193 — Kontinualno odrzavanje ekosistema, stabilizacija prompt sistema i dijagnostike, 429 ruta, 387 API, 439 dijagnostike',
     194: 'Autofinish #194 — Kontinualna stabilizacija i odrzavanje OMEGA ekosistema, 429 ruta, 387 API, 439 dijagnostike',
+    195: 'Autofinish #195 — Kontinualno odrzavanje, stabilizacija platformi i API endpointa, 429 ruta, 387 API, 439 dijagnostike',
+    196: 'Autofinish #196 — Optimizacija dijagnostika, nove provere za platforme i module, 429 ruta, 387 API, 439 dijagnostike',
+    197: 'Autofinish #197 — Prosirenje API endpointa, nove rute za ekosistem module, 430 ruta, 388 API, 440 dijagnostike',
+    198: 'Autofinish #198 — Stabilizacija platformi, optimizacija performansi, 431 ruta, 389 API, 441 dijagnostike',
+    199: 'Autofinish #199 — Prosirenje ekosistema, nove platformske integracije, 432 ruta, 390 API, 442 dijagnostike',
+    200: 'Autofinish #200 — MILESTONE 200 iteracija, stabilni ekosistem, 432 ruta, 390 API, 442 dijagnostike',
+    201: 'Autofinish #201 — Centralizovani ekosistem URL-ovi, shared/ecosystem-urls.js + src/lib/ekosistem-urls.ts, ekosistem sekcije na svim HTML platformama, 432 ruta, 390 API, 442 dijagnostike',
+    202: 'Autofinish #202 — /api/ekosistem-url-registar, centralni registar svih ekosistem URL-ova, dijagnostike za ekosistem URL-ove, 433 ruta, 391 API, 442 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
