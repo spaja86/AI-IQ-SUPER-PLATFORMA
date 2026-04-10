@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { promptovi } from '@/lib/prompt';
 import { spajaProVerzije, getVerziju } from '@/lib/spaja-pro';
-import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
+import { APP_VERSION, OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
+import { obradiPrompt, formatOdgovor, pretraziEkosistem } from '@/lib/spaja-pro-prompt-engine';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,10 +14,13 @@ interface ExecuteBody {
 }
 
 /**
- * SpajaPro Prompt Execute API
+ * SpajaPro Prompt Execute API — Funkcionalni AI Prompt Engine
  *
  * Aktivni Prompt endpoint — prima prompt, obrađuje ga kroz SpajaPro engine,
- * i vraća strukturirani rezultat. SpajaPro v6-v15.
+ * i vraća funkcionalni, inteligentni odgovor. SpajaPro v6-v15.
+ *
+ * Ovo je srce Digitalne Industrije — 29 promptova koji funkcionišu
+ * kao ChatGPT zamena kroz SpajaPro engine.
  */
 export async function POST(request: Request) {
   try {
@@ -36,76 +40,48 @@ export async function POST(request: Request) {
     // Find prompt definition if promptId provided
     const promptDef = promptId ? promptovi.find((p) => p.id === promptId) : null;
 
-    // Build parameter string
+    // Process prompt through the intelligent engine
+    const odgovor = obradiPrompt(prompt, spajaVerzija, promptDef);
+
+    // Build parameter string for metadata
     const paramStr = Object.entries(parametri ?? {})
       .filter(([, v]) => v)
       .map(([k, v]) => `${k}=${v}`)
       .join(', ');
 
-    // Simulate SpajaPro engine processing
-    const timestamp = new Date().toISOString();
-    const processingTime = Math.floor(Math.random() * 200) + 50;
-    const tokenCount = prompt.split(/\s+/).length;
-    const omegaPersona = OMEGA_AI_PERSONA_UKUPNO.toLocaleString();
+    // Format the response as text
+    const rezultat = formatOdgovor(odgovor);
 
-    const rezultat = [
-      `╔══════════════════════════════════════════════════════════════╗`,
-      `║  🌟 SpajaPro ${spajaVerzija.naziv} — ${spajaVerzija.kodnoIme}`,
-      `║  📋 Status: ${spajaVerzija.status.toUpperCase()}`,
-      `║  ⏱️  Vreme: ${timestamp}`,
-      `║  ⚡ Obrada: ${processingTime}ms`,
-      `╚══════════════════════════════════════════════════════════════╝`,
-      ``,
-      `📝 PROMPT:`,
-      `${prompt}`,
-      ``,
-      ...(paramStr ? [`⚙️ PARAMETRI: ${paramStr}`, ``] : []),
-      ...(promptDef ? [
-        `📌 PROMPT DEFINICIJA: ${promptDef.naziv}`,
-        `   Kategorija: ${promptDef.kategorija}`,
-        `   Prioritet: ${promptDef.prioritet}`,
-        ...(promptDef.ciljnaPersona ? [`   Persona: ${promptDef.ciljnaPersona}`] : []),
-        ...(promptDef.ciljnaPlatforma ? [`   Platforma: ${promptDef.ciljnaPlatforma}`] : []),
-        ``,
-      ] : []),
-      `🧠 SPAJAPRO ${spajaVerzija.naziv} ODGOVOR:`,
-      `─────────────────────────────────────────────`,
-      ``,
-      `SpajaPro ${spajaVerzija.kodnoIme} engine je obradio vaš prompt.`,
-      ``,
-      `📊 Analiza:`,
-      `  • Tokeni: ${tokenCount}`,
-      `  • Max tokeni (v${verzija}): ${spajaVerzija.promptPodrska.maxTokena.toLocaleString()}`,
-      `  • Kontekst prozor: ${spajaVerzija.promptPodrska.kontekstProzor.toLocaleString()}`,
-      `  • Jezici: ${spajaVerzija.promptPodrska.jezici.join(', ')}`,
-      `  • Prompt tipovi: ${spajaVerzija.promptPodrska.promptTipovi.join(', ')}`,
-      `  • Fine-tuning: ${spajaVerzija.promptPodrska.finetuning ? 'DA' : 'NE'}`,
-      ``,
-      `🤖 OMEGA AI status:`,
-      `  • ${omegaPersona} persona — AKTIVNO`,
-      `  • 21 persona — AKTIVNO`,
-      `  • 8 oktava — AKTIVNO`,
-      ``,
-      `🔧 Engine mogućnosti (${spajaVerzija.mogucnosti.length}):`,
-      ...spajaVerzija.mogucnosti.map((m) => `  ✅ ${m}`),
-      ``,
-      `─────────────────────────────────────────────`,
-      `✅ Prompt uspešno obrađen kroz SpajaPro v${verzija} (${spajaVerzija.kodnoIme})`,
-      `   Kompatibilnost: ${spajaVerzija.kompatibilnost.join(', ')}`,
-    ].join('\n');
+    // Include search results if the prompt looks like a search query
+    const pretragaTekst = prompt.toLowerCase();
+    const isPretragaQuery =
+      pretragaTekst.includes('pronađi') ||
+      pretragaTekst.includes('traži') ||
+      pretragaTekst.includes('pretraži') ||
+      pretragaTekst.includes('koji') ||
+      pretragaTekst.includes('šta je') ||
+      pretragaTekst.includes('kako');
+
+    const pretraga = isPretragaQuery ? pretraziEkosistem(prompt) : null;
 
     return NextResponse.json({
       status: 'uspesno',
       verzija: spajaVerzija.verzija,
       engine: spajaVerzija.naziv,
       kodnoIme: spajaVerzija.kodnoIme,
-      rezultat,
+      rezultat: pretraga ? `${rezultat}\n\n🔍 PRETRAGA EKOSISTEMA:\n${pretraga}` : rezultat,
+      odgovor: {
+        naslov: odgovor.naslov,
+        sadrzaj: odgovor.sadrzaj,
+        sekcije: odgovor.sekcije,
+        preporuke: odgovor.preporuke,
+      },
       meta: {
-        tokeni: tokenCount,
-        obradeMs: processingTime,
-        timestamp,
+        ...odgovor.meta,
         promptId: promptDef?.id ?? null,
         parametri: parametri ?? {},
+        paramStr: paramStr || null,
+        appVerzija: APP_VERSION,
       },
     });
   } catch {
@@ -118,8 +94,19 @@ export async function POST(request: Request) {
 
 export async function GET() {
   return NextResponse.json({
-    engine: 'SpajaPro Prompt Execute',
-    opis: 'Aktivni Prompt UI — SpajaPro v6-v15 engine za programiranje sa promptovima',
+    engine: 'SpajaPro Prompt Execute — Funkcionalni AI Engine',
+    verzija: APP_VERSION,
+    opis: 'Aktivni Prompt UI — SpajaPro v6-v15 engine sa 29 funkcionalnih promptova. Zamena za ChatGPT.',
+    funkcionalnost: [
+      'Slobodni korisniki upiti (ChatGPT stil)',
+      'Biblioteka od 29 specijalizovanih promptova',
+      'Pretraga celokupnog ekosistema',
+      'Persona-specifični odgovori (21 persona)',
+      'Platformski odgovori',
+      'Sistemski izveštaji (inicijalizacija, zdravlje)',
+      'Baza znanja sa 16 tema',
+      'Inteligentno prepoznavanje konteksta',
+    ],
     verzije: spajaProVerzije.map((v) => ({
       verzija: v.verzija,
       naziv: v.naziv,
