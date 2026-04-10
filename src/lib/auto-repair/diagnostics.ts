@@ -3293,6 +3293,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish Stabilnost ──────────────────────────────────
     createCheck('autofinish-stabilnost-check', 'Autofinish Stabilnost', `Provera stabilnosti autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish stabilnost aktivna — ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-stabilnost-api-check', 'Autofinish Stabilnost API', 'Provera /api/autofinish-stabilnost-pregled endpointa', 'ok', '/api/autofinish-stabilnost-pregled aktivan'),
+
+    // ─── Autofinish Kontinuitet ──────────────────────────────────
+    createCheck('autofinish-kontinuitet-check', 'Autofinish Kontinuitet', `Provera kontinuiteta autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish kontinuitet aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-kontinuitet-api-check', 'Autofinish Kontinuitet API', 'Provera /api/autofinish-kontinuitet-monitor endpointa', 'ok', '/api/autofinish-kontinuitet-monitor aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
