@@ -5,8 +5,8 @@
  * SPAJA Univerzalni Endžin je prevučen preko svake igrice posebno,
  * čime se obezbeđuje da sve igrice rade na IO/OPENUI/AO platformi.
  *
- * Standardni URL: www.ioopenuiao.ac
- * Vercel fallback: io-openui-ao.vercel.app
+ * Standardni URL: io-openui-ao.vercel.app
+ * Vercel: io-openui-ao.vercel.app
  *
  * Link: https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7
  */
@@ -69,7 +69,7 @@ export interface IOOpenUIAOGamingPlatforma {
 
 // ─── Konfiguracija platforme ─────────────────────────────────
 
-export const IOOPENUIAO_DOMEN = 'www.ioopenuiao.ac';
+export const IOOPENUIAO_DOMEN = 'io-openui-ao.vercel.app';
 export const IOOPENUIAO_VERCEL = 'io-openui-ao.vercel.app';
 export const IOOPENUIAO_URL = `https://${IOOPENUIAO_DOMEN}`;
 

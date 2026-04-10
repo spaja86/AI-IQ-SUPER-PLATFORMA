@@ -3154,7 +3154,7 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck(
       'io-openui-ao-gaming-platforma-domen-check',
       'IO/OPENUI/AO Gaming Platforma Domen',
-      `Provera standardnog domena www.ioopenuiao.ac za IO/OPENUI/AO platformu`,
+      `Provera standardnog domena io-openui-ao.vercel.app za IO/OPENUI/AO platformu`,
       'ok',
       `Standardni domen ${gamingKonfiguracija.domen} konfigurisan — URL: ${IOOPENUIAO_URL}`
     ),
