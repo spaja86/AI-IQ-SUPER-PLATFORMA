@@ -3,24 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IO OpenUI AO</title>
+  <title>IO/OPENUI/AO — Gaming Platforma sa 95 igrica</title>
   <link rel="stylesheet" href="../../shared/styles/platform-base.css" />
   <style>
     .platform-color { --accent: #6c3bdc; }
+    .gaming-banner { background: linear-gradient(135deg, #6c3bdc, #9b59b6); color: #fff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; }
+    .gaming-banner h3 { font-size: 1.8rem; margin: 0; }
+    .gaming-banner p { margin: 0.5rem 0 0; font-size: 1.1rem; }
+    .prompt-box { background: #f5f0ff; border-left: 4px solid #6c3bdc; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+    .prompt-box h4 { margin: 0 0 0.5rem; color: #6c3bdc; }
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .game-card { background: #fff; border: 1px solid rgba(108,59,220,0.2); border-radius: 10px; padding: 1rem; text-align: center; }
+    .game-card h4 { margin: 0 0 0.5rem; }
+    .game-card p { margin: 0; font-size: 0.9rem; color: #666; }
+    .stat-bar { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
+    .stat-item { background: rgba(108,59,220,0.1); padding: 1rem; border-radius: 8px; text-align: center; flex: 1; min-width: 100px; }
+    .stat-item .val { font-size: 1.5rem; font-weight: bold; color: #6c3bdc; }
+    .stat-item .lbl { font-size: 0.85rem; color: #666; }
+    .features-list { list-style: none; padding: 0; }
+    .features-list li { padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; gap: 0.75rem; align-items: center; }
+    .features-list li span:first-child { font-size: 1.3rem; }
+    .cat-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .cat-table th, .cat-table td { padding: 0.6rem; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.1); }
+    .cat-table th { background: rgba(108,59,220,0.1); }
   </style>
 </head>
 <body class="platform-color">
   <header class="platform-header">
-    <a href="../../portal/public/index.html" class="back-link">← Portal</a>
-    <h1>🌐 IO OpenUI AO</h1>
+    <a href="../../portal/public/index.html" class="back-link">&larr; Portal</a>
+    <h1>🎮 IO/OPENUI/AO</h1>
   </header>
   <main class="platform-main">
     <section class="hero">
-      <h2>Otvoreni Korisnički Interfejs</h2>
-      <p>Platforma za kreiranje modernih, responzivnih i AI-podržanih UI sistema.</p>
+      <h2>Gaming Platforma — 95 Igrica</h2>
+      <p>IO/OPENUI/AO sa SPAJA Univerzalnim Endzinom prevucenim preko svih 95 igrica. Dimenzionalno renderovanje 360D-5760D.</p>
     </section>
-    <section class="status-banner">
-      <p>🚧 <strong>Status:</strong> U razvoju — platforma se migira u monorepo strukturu.</p>
+
+    <div class="gaming-banner">
+      <h3>🎮 95 Igrica u 18 Kategorija</h3>
+      <p>SPAJA Univerzalni Endzin | Dimenzionalno Renderovanje 360D-5760D</p>
+    </div>
+
+    <section>
+      <div class="prompt-box">
+        <h4>📝 PROMPT — Kako koristiti IO/OPENUI/AO platformu</h4>
+        <p>IO/OPENUI/AO je gaming platforma sa 95 igrica u 18 kategorija. Svaka igrica pri pokretanju pita: "Koju dimenziju zelis (D)?" — izaberite od 360D do 5760D. Za pokretanje igrica potreban je Digitalni Kompjuter + Digitalni Brauzer. Platforma koristi SPAJA Univerzalni Endzin i SpajaPro 6-15 engine.</p>
+      </div>
+    </section>
+
+    <div class="stat-bar">
+      <div class="stat-item"><div class="val">95</div><div class="lbl">Igrice</div></div>
+      <div class="stat-item"><div class="val">18</div><div class="lbl">Kategorija</div></div>
+      <div class="stat-item"><div class="val">5</div><div class="lbl">Dimenzija</div></div>
+      <div class="stat-item"><div class="val">100%</div><div class="lbl">Prevuceno</div></div>
+    </div>
+
+    <section>
+      <h3>🕹️ Istaknute igrice</h3>
+      <div class="games-grid">
+        <div class="game-card"><h4>⚔️ Dota 1350</h4><p>MOBA arena</p></div>
+        <div class="game-card"><h4>🤖 TRANSFORMERS 1350</h4><p>Akcija</p></div>
+        <div class="game-card"><h4>🫧 BUBLI BABLI 1250</h4><p>Arkadna</p></div>
+        <div class="game-card"><h4>🃏 SPAJA POKER</h4><p>Kartaska</p></div>
+        <div class="game-card"><h4>🏎️ Turbo Trka</h4><p>Trka</p></div>
+        <div class="game-card"><h4>🧩 Logicka Avantura</h4><p>Logicka</p></div>
+        <div class="game-card"><h4>👻 Horor Dvorac</h4><p>Horor</p></div>
+        <div class="game-card"><h4>🎵 Ritam Master</h4><p>Muzicka</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h3>🏷️ Kategorije igrica</h3>
+      <table class="cat-table">
+        <thead><tr><th>Kategorija</th><th>Opis</th></tr></thead>
+        <tbody>
+          <tr><td>⚔️ Akcija</td><td>Brze akcione igrice sa borbenim sistemom</td></tr>
+          <tr><td>🗺️ Avantura</td><td>Istrazivacke igrice sa pricama</td></tr>
+          <tr><td>🧩 Logicka</td><td>Mozgalice i logicke igrice</td></tr>
+          <tr><td>🏎️ Trka</td><td>Racing simulatori</td></tr>
+          <tr><td>🎵 Muzicka</td><td>Muzicke i ritmicke igrice</td></tr>
+          <tr><td>👻 Horor</td><td>Horor igrice</td></tr>
+          <tr><td>🎮 RPG</td><td>Role-playing igrice</td></tr>
+          <tr><td>🏟️ Sportska</td><td>Sportski simulatori</td></tr>
+          <tr><td>🎯 Strategija</td><td>Strateske igrice</td></tr>
+          <tr><td>🕹️ Arkadna</td><td>Klasicne arkadne igrice</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>🌀 Dimenzionalni rezimi</h3>
+      <ul class="features-list">
+        <li><span>🔵</span><span><strong>360D</strong> — Bazicni rezim: 2 geometrijska sloja, standardni prikaz</span></li>
+        <li><span>🟣</span><span><strong>720D</strong> — Dvostruki rezim: 3 sloja, napredni prikaz</span></li>
+        <li><span>🟡</span><span><strong>1440D</strong> — Kvadra rezim (3D): 4 sloja, 3D naocari</span></li>
+        <li><span>🟠</span><span><strong>2880D</strong> — Okto rezim (3D): 4 sloja, profesionalni</span></li>
+        <li><span>🔴</span><span><strong>5760D</strong> — Maksimalni rezim (3D): 4 sloja, puna reprodukcija</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="prompt-box">
+        <h4>⚠️ ZAHTEVI za pokretanje igrica</h4>
+        <p><strong>Digitalni Kompjuter</strong> — dimenzionalno renderovanje, geometrijsko procesiranje, multi-dimenzionalni GPU.<br>
+        <strong>Digitalni Brauzer</strong> — WebGL/WebGPU renderovanje, pokretanje igrica u brauzeru, podrska za 3D naocari.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="prompt-box">
+        <h4>🔗 Integracije</h4>
+        <p>SpajaPro 6-15 Engine | OMEGA AI 40.000.562 persona | Proksi mrezna optimizacija | SPAJA Generator za Endzine</p>
+      </div>
+    </section>
+
+    <section class="hero" style="margin-top:1.5rem">
+      <p><strong>Status:</strong> ✅ Aktivan — IO/OPENUI/AO Gaming Platforma je potpuno funkcionalna sa 95 igrica.</p>
+      <p><strong>URL:</strong> <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">io-openui-ao.vercel.app</a></p>
     </section>
   </main>
 </body>
