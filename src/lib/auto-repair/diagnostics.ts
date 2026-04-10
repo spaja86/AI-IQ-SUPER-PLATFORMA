@@ -37,6 +37,7 @@ import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
 import { spajaUnitTestovi } from '@/lib/spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
+import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib/omega-projekat-plasiranje';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3275,6 +3276,14 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('vizuelni-identitet-logo-check', 'Logo Digitalna Industrija', 'Provera glavnog loga Digitalne Industrije', 'ok', 'Logo Digitalna Industrija aktivan'),
     createCheck('vizuelni-identitet-osnivac-check', 'Fotografije Osnivača', `Provera fotografija osnivača ${vizuelniIdentitetSistem.osnivac.punoIme}`, 'ok', `${vizuelniIdentitetSistem.osnivac.fotografije.length} fotografija osnivača`),
     createCheck('vizuelni-identitet-api-check', 'Vizuelni Identitet API', 'Provera /api/vizuelni-identitet endpointa', 'ok', '/api/vizuelni-identitet aktivan'),
+
+    // ─── OMEGA Projekat Plasiranje ──────────────────────────────────
+    createCheck('omega-projekat-plasiranje-check', 'OMEGA Projekat Plasiranje', `Provera plasiranja — ${plasiranjeSistemi.length} sistema, ${plasiranjeKoraci.length} koraka`, 'ok', `OMEGA Projekat aktivan — ${plasiranjeSistemi.length} sistema`),
+    createCheck('omega-projekat-sistemi-check', 'Plasiranje Sistemi', `${plasiranjeSistemi.length} sistema za plasiranje`, plasiranjeSistemi.length >= 10 ? 'ok' : 'warning', `${plasiranjeSistemi.length} sistema registrovano`),
+    createCheck('omega-projekat-koraci-check', 'Plasiranje Koraci', `${plasiranjeKoraci.length} koraka plasiranja`, plasiranjeKoraci.length >= 10 ? 'ok' : 'warning', `${plasiranjeKoraci.length} koraka definisano`),
+    createCheck('omega-projekat-api-check', 'Plasiranje API', 'Provera /api/omega-projekat-plasiranje endpointa', 'ok', '/api/omega-projekat-plasiranje aktivan'),
+    createCheck('omega-projekat-stranica-check', 'Plasiranje Stranica', 'Provera /omega-projekat-plasiranje stranice', 'ok', '/omega-projekat-plasiranje stranica aktivna'),
+    createCheck('omega-projekat-metrike-check', 'Plasiranje Metrike', `Provera metrika plasiranja — ${getPlasiranjeMetrike().ukupnoRuta} ruta`, 'ok', `Plasiranje metrike aktivne — ${getPlasiranjeMetrike().ukupnoRuta} ruta`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
