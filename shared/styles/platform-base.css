@@ -86,3 +86,72 @@ body {
 .status-banner p {
   color: var(--text-muted);
 }
+
+/* ── Ekosistem sekcija ─────────────────────────────────────────────────── */
+
+.ecosystem-section {
+  margin-top: 3rem;
+}
+
+.ecosystem-section h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.ecosystem-section > p {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.ecosystem-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ecosystem-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.ecosystem-card:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.ecosystem-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.ecosystem-info {
+  flex: 1;
+}
+
+.ecosystem-info h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.ecosystem-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.ecosystem-arrow {
+  font-size: 1.25rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
