@@ -158,6 +158,9 @@ function getAutofinishOpis(n: number): string {
     186: 'Autofinish #186 — OMEGA PROJEKAT / Digitalna Industrija plasiranje u opticaj, saglasnost osnivača, 424 ruta, 383 API, 434 dijagnostike, platforma spremna za rad',
     187: 'Autofinish #187 — OMEGA PROJEKAT plasiranje stranica + API, /omega-projekat-plasiranje, 10 faza, 10 sistema, 427 ruta, 385 API, 437 dijagnostike, SVE OPERATIVNO',
     188: 'Autofinish #188 — OMEGA PROJEKAT ekosistem pregled, /api/omega-projekat-ekosistem + status, agregirani dashboard svih sistema, 429 ruta, 387 API, 439 dijagnostike',
+    189: 'Autofinish #189 — Vizuelni identitet, Navigation logo, SlikaSekvenca komponenta, brend smernice, 429 ruta, 387 API, 439 dijagnostike',
+    190: 'Autofinish #190 — Kontinualno poboljsanje, stabilizacija ekosistema, 429 ruta, 387 API, 439 dijagnostike',
+    191: 'Autofinish #191 — Funkcionalni SpajaPro prompt engine, src/lib/spaja-pro-prompt-engine.ts, 16 tema znanja, inteligentni odgovori za 29 promptova, ChatGPT-stil slobodni upiti, pretraga ekosistema, 429 ruta, 387 API, 439 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
