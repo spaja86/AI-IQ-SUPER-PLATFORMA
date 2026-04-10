@@ -161,6 +161,7 @@ function getAutofinishOpis(n: number): string {
     189: 'Autofinish #189 — Vizuelni identitet, Navigation logo, SlikaSekvenca komponenta, brend smernice, 429 ruta, 387 API, 439 dijagnostike',
     190: 'Autofinish #190 — Kontinualno poboljsanje, stabilizacija ekosistema, 429 ruta, 387 API, 439 dijagnostike',
     191: 'Autofinish #191 — Funkcionalni SpajaPro prompt engine, src/lib/spaja-pro-prompt-engine.ts, 16 tema znanja, inteligentni odgovori za 29 promptova, ChatGPT-stil slobodni upiti, pretraga ekosistema, 429 ruta, 387 API, 439 dijagnostike',
+    192: 'Autofinish #192 — Preporuke za prompt biblioteke i OMEGA PROJEKAT prompt strategiju, analiza postojecih 29 promptova, 429 ruta, 387 API, 439 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
