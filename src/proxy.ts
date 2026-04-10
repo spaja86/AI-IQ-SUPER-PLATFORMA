@@ -17,6 +17,8 @@ export function proxy(request: NextRequest) {
 
   // Dodaj request ID za praćenje
   response.headers.set('X-Request-Id', requestId);
+  // Napomena: meri vreme izvršavanja proxy-ja, ne ukupno vreme odgovora
+  // (Next.js proxy se izvršava pre route handler-a)
   response.headers.set('X-Response-Time', `${Date.now() - startTime}ms`);
   response.headers.set('X-Powered-By', 'Kompanija SPAJA — OMEGA AI');
 
