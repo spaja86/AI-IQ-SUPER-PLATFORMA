@@ -3289,6 +3289,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Ekosistem URL Registar ──────────────────────────────────
     createCheck('ekosistem-url-registar-check', 'Ekosistem URL Registar', `Provera registra ekosistem URL-ova — ${ekosistemPlatforme.length} platformi`, 'ok', `Ekosistem URL registar aktivan — ${ekosistemPlatforme.length} platformi`),
     createCheck('ekosistem-url-api-check', 'Ekosistem URL API', 'Provera /api/ekosistem-url-registar endpointa', 'ok', '/api/ekosistem-url-registar aktivan'),
+
+    // ─── Autofinish Stabilnost ──────────────────────────────────
+    createCheck('autofinish-stabilnost-check', 'Autofinish Stabilnost', `Provera stabilnosti autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish stabilnost aktivna — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-stabilnost-api-check', 'Autofinish Stabilnost API', 'Provera /api/autofinish-stabilnost-pregled endpointa', 'ok', '/api/autofinish-stabilnost-pregled aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

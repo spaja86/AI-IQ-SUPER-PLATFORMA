@@ -172,6 +172,7 @@ function getAutofinishOpis(n: number): string {
     200: 'Autofinish #200 — MILESTONE 200 iteracija, stabilni ekosistem, 432 ruta, 390 API, 442 dijagnostike',
     201: 'Autofinish #201 — Centralizovani ekosistem URL-ovi, shared/ecosystem-urls.js + src/lib/ekosistem-urls.ts, ekosistem sekcije na svim HTML platformama, 432 ruta, 390 API, 442 dijagnostike',
     202: 'Autofinish #202 — /api/ekosistem-url-registar, centralni registar svih ekosistem URL-ova, dijagnostike za ekosistem URL-ove, 433 ruta, 391 API, 442 dijagnostike',
+    203: 'Autofinish #203 — /api/autofinish-stabilnost-pregled, pregled stabilnosti iteracija, metrike stabilnosti, 434 ruta, 392 API, 444 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
