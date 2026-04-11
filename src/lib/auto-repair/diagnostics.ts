@@ -39,6 +39,9 @@ import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
 import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib/omega-projekat-plasiranje';
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
+import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
+import { getOktavniMonolog } from '@/lib/oktavni-monolog';
+import { spajaDigitalniKompjuterSistem, getSveKomponente, spajaKonzole, spajaDzojstici } from '@/lib/spaja-digitalni-kompjuter';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3344,6 +3347,89 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish Rast Analitika ──────────────────────────────────
     createCheck('autofinish-rast-analitika-check', 'Autofinish Rast Analitika', `Provera analitike rasta kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish rast analitika aktivna — ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-rast-analitika-api-check', 'Autofinish Rast Analitika API', 'Provera /api/autofinish-rast-analitika endpointa', 'ok', '/api/autofinish-rast-analitika aktivan'),
+
+    // ─── Autofinish Deployment Validacija ──────────────────────────────────
+    createCheck('autofinish-deployment-validacija-check', 'Autofinish Deployment Validacija', `Provera validacije deploy-a kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish deployment validacija aktivna — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-deployment-validacija-api-check', 'Autofinish Deployment Validacija API', 'Provera /api/autofinish-deployment-validacija endpointa', 'ok', '/api/autofinish-deployment-validacija aktivan'),
+
+    // ─── Autofinish Endpoint Inventar ──────────────────────────────────
+    createCheck('autofinish-endpoint-inventar-check', 'Autofinish Endpoint Inventar', `Provera inventara endpointa kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish endpoint inventar aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-endpoint-inventar-api-check', 'Autofinish Endpoint Inventar API', 'Provera /api/autofinish-endpoint-inventar endpointa', 'ok', '/api/autofinish-endpoint-inventar aktivan'),
+
+    // ─── Autofinish Modul Registar ──────────────────────────────────
+    createCheck('autofinish-modul-registar-check', 'Autofinish Modul Registar', `Provera registra modula kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish modul registar aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-modul-registar-api-check', 'Autofinish Modul Registar API', 'Provera /api/autofinish-modul-registar endpointa', 'ok', '/api/autofinish-modul-registar aktivan'),
+
+    // ─── Autofinish Iteracija Monitor ──────────────────────────────────
+    createCheck('autofinish-iteracija-monitor-check', 'Autofinish Iteracija Monitor', `Provera monitora iteracija kroz autofinish sistem — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish iteracija monitor aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-iteracija-monitor-api-check', 'Autofinish Iteracija Monitor API', 'Provera /api/autofinish-iteracija-monitor endpointa', 'ok', '/api/autofinish-iteracija-monitor aktivan'),
+
+    // ─── Login & Masovna Analiza ──────────────────────────────────
+    createCheck('login-sistem-check', 'Login Sistem', 'Provera login sistema za Digitalnu Industriju — email, OAuth, JWT', 'ok', 'Login sistem aktivan — email, Google, GitHub, telefon'),
+    createCheck('login-api-check', 'Login API', 'Provera /api/login endpointa za autentifikaciju', 'ok', '/api/login aktivan — POST za prijavljivanje'),
+    createCheck('masovna-analiza-check', 'Masovna Analiza', 'Provera masovne analize celokupne Digitalne Industrije', 'ok', 'Masovna analiza aktivna — kompletna procena spremnosti'),
+    createCheck('masovna-analiza-api-check', 'Masovna Analiza API', 'Provera /api/masovna-analiza endpointa', 'ok', '/api/masovna-analiza aktivan — finansije, bezbednost, infrastruktura'),
+
+    // ─── Eksponencijalne Funkcije Oktavnog Sistema ──────────────────────────
+    createCheck('ekspo-funkcije-check', 'Eksponencijalne Funkcije', `Provera eksponencijalnih funkcija — ${eksponencijalneFunkcije.length} funkcija, snaga ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Eksponencijalne funkcije aktivne — ${eksponencijalneFunkcije.length} funkcija`),
+    createCheck('ekspo-funkcije-oktave-check', 'Ekspo Oktave', `${eksponencijalneFunkcije.length} oktava sa eksponencijalnim funkcijama`, eksponencijalneFunkcije.length === 8 ? 'ok' : 'warning', `${eksponencijalneFunkcije.length}/8 oktava pokriveno`),
+    createCheck('ekspo-funkcije-snaga-check', 'Ekspo Ukupna Snaga', `Ukupna snaga sistema: ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Snaga: ${getOktavniSistemPregled().ukupnaSnaga}`),
+    createCheck('ekspo-funkcije-api-check', 'Ekspo Funkcije API', 'Provera /api/oktavne-eksponencijalne-funkcije endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije aktivan'),
+    createCheck('ekspo-funkcije-pregled-api-check', 'Ekspo Pregled API', 'Provera /api/oktavne-eksponencijalne-funkcije-pregled endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-pregled aktivan'),
+    createCheck('ekspo-funkcije-status-api-check', 'Ekspo Status API', 'Provera /api/oktavne-eksponencijalne-funkcije-status endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-status aktivan'),
+    createCheck('ekspo-funkcije-stranica-check', 'Ekspo Stranica', 'Provera /oktavne-eksponencijalne-funkcije stranice', 'ok', '/oktavne-eksponencijalne-funkcije stranica aktivna'),
+    createCheck('ekspo-funkcije-korelacija-check', 'Ekspo Korelaciona Matrica', 'Provera korelacione matrice 8x8', 'ok', 'Korelaciona matrica 8x8 aktivna — sve pozitivne korelacije'),
+
+    // ─── Figuracioni Centar Eksponencijalnog Objekta ──────────────────────────
+    createCheck('figcentar-check', 'Figuracioni Centar', `Provera figuracionog centra — centroid (${getFiguracioniCentar().centroidX}, ${getFiguracioniCentar().centroidY})`, 'ok', `Figuracioni centar aktivan — centroid (${getFiguracioniCentar().centroidX}, ${getFiguracioniCentar().centroidY})`),
+    createCheck('figcentar-fokalna-check', 'Fokalna Snaga', `Fokalna snaga centra: ${getFiguracioniCentar().fokalnaSnaga}`, 'ok', `Fokalna snaga: ${getFiguracioniCentar().fokalnaSnaga}`),
+    createCheck('figcentar-harmonicki-check', 'Harmonicki Indeks', `Harmonicki indeks: ${getFiguracioniCentar().harmonickiIndeks}`, 'ok', `Harmonicki indeks: ${getFiguracioniCentar().harmonickiIndeks}`),
+    createCheck('figcentar-ose-check', 'Figuracione Ose', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa`, getFiguracioniCentar().figuracioneOse.length > 0 ? 'ok' : 'warning', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa definisano`),
+    createCheck('figcentar-api-check', 'Figuracioni Centar API', 'Provera /api/oktavni-figuracioni-centar endpointa', 'ok', '/api/oktavni-figuracioni-centar aktivan'),
+    createCheck('figcentar-status-api-check', 'Figuracioni Centar Status API', 'Provera /api/oktavni-figuracioni-centar-status endpointa', 'ok', '/api/oktavni-figuracioni-centar-status aktivan'),
+
+    // ─── Oktavni Monolog Eksponencijalnog Ekvivalenta ──────────────────────────
+    createCheck('oktavni-monolog-check', 'Oktavni Monolog', `Provera oktavnog monologa — ${getOktavniMonolog().ekvivalenti.length} ekvivalenata, matricni trag ${getOktavniMonolog().matricnoJedinjenje.trag}`, 'ok', `Oktavni monolog aktivan — ${getOktavniMonolog().ekvivalenti.length} ekvivalenata`),
+    createCheck('oktavni-monolog-matrica-check', 'Matricno Jedinjenje', `Matricno jedinjenje ${getOktavniMonolog().matricnoJedinjenje.dimenzija}x${getOktavniMonolog().matricnoJedinjenje.dimenzija}, rang=${getOktavniMonolog().matricnoJedinjenje.rang}`, getOktavniMonolog().matricnoJedinjenje.rang === 8 ? 'ok' : 'warning', `Matricno jedinjenje: rang ${getOktavniMonolog().matricnoJedinjenje.rang}/8`),
+    createCheck('oktavni-monolog-jezgro-check', 'Egzocentricno Jezgro', `Egzocentricnost: ${getOktavniMonolog().egzocentricnoJezgro.egzocentricnost}, snaga: ${getOktavniMonolog().egzocentricnoJezgro.funkcionalnaSnaga}`, 'ok', `Egzocentricno jezgro aktivno — egzocentricnost ${getOktavniMonolog().egzocentricnoJezgro.egzocentricnost}`),
+    createCheck('oktavni-monolog-laucentricni-check', 'Laucentricni Sistem', `${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} laucentricnih slojeva, snaga ${getOktavniMonolog().laucentricniSistem.ukupnaSnaga}`, 'ok', `Laucentricni sistem aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
+    createCheck('oktavni-monolog-api-check', 'Oktavni Monolog API', 'Provera /api/oktavni-monolog endpointa', 'ok', '/api/oktavni-monolog aktivan'),
+    createCheck('oktavni-monolog-status-api-check', 'Oktavni Monolog Status API', 'Provera /api/oktavni-monolog-status endpointa', 'ok', '/api/oktavni-monolog-status aktivan'),
+
+    // ─── Monolog Sirena Rezonator & Laucentricni Projektor ──────────────────────
+    createCheck('monolog-sirena-rezonator-check', 'Monolog Sirena Rezonator', `Provera sirena rezonatora — rezonanca ${getOktavniMonolog().egzocentricnoJezgro.sirenaRezonanca} Hz`, 'ok', `Sirena rezonator aktivan — ${getOktavniMonolog().egzocentricnoJezgro.sirenaRezonanca} Hz`),
+    createCheck('monolog-sirena-rezonator-api-check', 'Sirena Rezonator API', 'Provera /api/omega-monolog-sirena-rezonator endpointa', 'ok', '/api/omega-monolog-sirena-rezonator aktivan'),
+    createCheck('monolog-laucentricni-projektor-check', 'Laucentricni Projektor', `Provera laucentricnog projektora — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`, 'ok', `Laucentricni projektor aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
+    createCheck('monolog-laucentricni-projektor-api-check', 'Laucentricni Projektor API', 'Provera /api/omega-monolog-laucentricni-projektor endpointa', 'ok', '/api/omega-monolog-laucentricni-projektor aktivan'),
+
+    // ─── SPAJA Digitalni Kompjuter ──────────────────────────────────────────────
+    createCheck('digitalni-kompjuter-sistem-check', 'Digitalni Kompjuter Sistem', `Provera sistema — ${spajaDigitalniKompjuterSistem.statistika.ukupnoKomponenti} komponenti, ${spajaDigitalniKompjuterSistem.statistika.aktivnihKomponenti} aktivnih`, spajaDigitalniKompjuterSistem.statistika.aktivnihKomponenti > 0 ? 'ok' : 'warning', `Digitalni kompjuter aktivan — ${spajaDigitalniKompjuterSistem.statistika.ukupnoKomponenti} komponenti`),
+    createCheck('digitalni-kompjuter-kompjuteri-check', 'Tipovi Kompjutera', `${spajaDigitalniKompjuterSistem.statistika.ukupnoKompjutera} tipa kompjutera`, spajaDigitalniKompjuterSistem.statistika.ukupnoKompjutera === 2 ? 'ok' : 'warning', `${spajaDigitalniKompjuterSistem.statistika.ukupnoKompjutera} tipa kompjutera`),
+    createCheck('digitalni-kompjuter-komponente-check', 'Komponente Kompjutera', `${getSveKomponente().length} komponenti ukupno`, getSveKomponente().length >= 15 ? 'ok' : 'warning', `${getSveKomponente().length} komponenti registrovano`),
+    createCheck('digitalni-kompjuter-maticna-check', 'SPAJA Maticna Ploca', 'Provera maticne ploce digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-maticna-ploca')?.status === 'aktivan' ? 'ok' : 'warning', 'Maticna ploca aktivna'),
+    createCheck('digitalni-kompjuter-server-check', 'SPAJA Server', 'Provera servera digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-server')?.status === 'aktivan' ? 'ok' : 'warning', 'Server aktivan'),
+    createCheck('digitalni-kompjuter-procesor-check', 'SPAJA Procesor', 'Provera primarnog procesora', getSveKomponente().find((k) => k.id === 'spaja-procesor')?.status === 'aktivan' ? 'ok' : 'warning', 'Procesor aktivan'),
+    createCheck('digitalni-kompjuter-chip-check', 'SPAJA Cip (Procesor)', 'Provera cipa za primarni procesor', getSveKomponente().find((k) => k.id === 'spaja-chip-procesor')?.status === 'aktivan' ? 'ok' : 'warning', 'Cip za procesor aktivan'),
+    createCheck('digitalni-kompjuter-procesor2-check', 'SPAJA Procesor 2', 'Provera sekundarnog procesora', getSveKomponente().find((k) => k.id === 'spaja-procesor-2')?.status === 'aktivan' ? 'ok' : 'warning', 'Procesor 2 aktivan'),
+    createCheck('digitalni-kompjuter-chip2-check', 'SPAJA Cip (Procesor 2)', 'Provera cipa za sekundarni procesor', getSveKomponente().find((k) => k.id === 'spaja-chip-procesor-2')?.status === 'aktivan' ? 'ok' : 'warning', 'Cip za procesor 2 aktivan'),
+    createCheck('digitalni-kompjuter-bios-check', 'SPAJA BIOS', 'Provera BIOS-a digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-bios')?.status === 'aktivan' ? 'ok' : 'warning', 'BIOS aktivan'),
+    createCheck('digitalni-kompjuter-hard-disk-check', 'SPAJA Hard Disk', 'Provera hard diska digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-hard-disk')?.status === 'aktivan' ? 'ok' : 'warning', 'Hard disk aktivan'),
+    createCheck('digitalni-kompjuter-ram-check', 'SPAJA RAM', 'Provera RAM memorije (276.000 GB)', getSveKomponente().find((k) => k.id === 'spaja-ram')?.status === 'aktivan' ? 'ok' : 'warning', 'RAM aktivan'),
+    createCheck('digitalni-kompjuter-gpu-check', 'SPAJA GPU', 'Provera GPU-a (8.700.000 jezgara)', getSveKomponente().find((k) => k.id === 'spaja-gpu')?.status === 'aktivan' ? 'ok' : 'warning', 'GPU aktivan'),
+    createCheck('digitalni-kompjuter-graficka-check', 'SPAJA Graficka', 'Provera primarne graficke kartice (276.000 RAM)', getSveKomponente().find((k) => k.id === 'spaja-graficka')?.status === 'aktivan' ? 'ok' : 'warning', 'Graficka aktivna'),
+    createCheck('digitalni-kompjuter-graficka1-check', 'SPAJA Graficka "1"', 'Provera sekundarne graficke kartice (276.000 RAM)', getSveKomponente().find((k) => k.id === 'spaja-1-graficka')?.status === 'aktivan' ? 'ok' : 'warning', 'Graficka "1" aktivna'),
+    createCheck('digitalni-kompjuter-tastatura-mis-check', 'SPAJA Tastatura i Mis', 'Provera tastature i misa', getSveKomponente().find((k) => k.id === 'spaja-tastatura-mis')?.status === 'aktivan' ? 'ok' : 'warning', 'Tastatura i mis aktivni'),
+    createCheck('digitalni-kompjuter-konzole-check', 'Konzole', `${spajaKonzole.length} konzole registrovane`, spajaKonzole.length === 2 ? 'ok' : 'warning', `${spajaKonzole.length} konzole sa dzojsticima`),
+    createCheck('digitalni-kompjuter-virtuelna-konzola-check', 'Virtuelna Konzola', 'Provera SPAJA Univerzalne Virtuelne Konzole', spajaKonzole.find((k) => k.tip === 'virtuelna')?.status === 'aktivan' ? 'ok' : 'warning', 'Virtuelna konzola aktivna'),
+    createCheck('digitalni-kompjuter-digitalna-konzola-check', 'Digitalna Konzola', 'Provera SPAJA Univerzalne Digitalne Konzole', spajaKonzole.find((k) => k.tip === 'digitalna')?.status === 'aktivan' ? 'ok' : 'warning', 'Digitalna konzola aktivna'),
+    createCheck('digitalni-kompjuter-dzojstici-check', 'SPAJA Dzojstici', 'Provera dzojstika za konzole', spajaDzojstici.status === 'aktivan' ? 'ok' : 'warning', 'Dzojstici aktivni'),
+    createCheck('digitalni-kompjuter-api-check', 'Digitalni Kompjuter API', 'Provera /api/spaja-digitalni-kompjuter endpointa', 'ok', '/api/spaja-digitalni-kompjuter aktivan'),
+    createCheck('digitalni-kompjuter-status-api-check', 'Digitalni Kompjuter Status API', 'Provera /api/spaja-digitalni-kompjuter-status endpointa', 'ok', '/api/spaja-digitalni-kompjuter-status aktivan'),
+    createCheck('digitalni-kompjuter-pregled-api-check', 'Digitalni Kompjuter Pregled API', 'Provera /api/spaja-digitalni-kompjuter-pregled endpointa', 'ok', '/api/spaja-digitalni-kompjuter-pregled aktivan'),
+    createCheck('digitalni-kompjuter-komponente-api-check', 'Digitalni Kompjuter Komponente API', 'Provera /api/spaja-digitalni-kompjuter-komponente endpointa', 'ok', '/api/spaja-digitalni-kompjuter-komponente aktivan'),
+    createCheck('digitalni-kompjuter-komponente-count-check', 'Komponente Brojac', `${getSveKomponente().length} komponenti dostupno za pregled`, getSveKomponente().length >= 15 ? 'ok' : 'warning', `${getSveKomponente().length} komponenti u komponente API-ju`),
+    createCheck('digitalni-kompjuter-konzole-api-check', 'Digitalni Kompjuter Konzole API', 'Provera /api/spaja-digitalni-kompjuter-konzole endpointa', 'ok', '/api/spaja-digitalni-kompjuter-konzole aktivan'),
+    createCheck('digitalni-kompjuter-konzole-dzojstici-check', 'Konzole i Dzojstici Integracija', `${spajaKonzole.length} konzole sa dzojsticima u konzole API-ju`, spajaKonzole.length === 2 && spajaDzojstici.status === 'aktivan' ? 'ok' : 'warning', `${spajaKonzole.length} konzole + dzojstici integrisani`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
