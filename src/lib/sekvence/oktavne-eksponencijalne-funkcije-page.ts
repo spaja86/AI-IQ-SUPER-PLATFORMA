@@ -4,6 +4,7 @@ import {
   getOktavniSistemPregled,
   getSuperPozicijaNiz,
   getKorelacionaMatrica,
+  getFiguracioniCentar,
 } from '@/lib/oktavne-eksponencijalne-funkcije';
 import { oktavniNazivi } from '@/lib/omega-ai';
 import type { OktavniNivo } from '@/lib/omega-ai';
@@ -11,17 +12,18 @@ import type { OktavniNivo } from '@/lib/omega-ai';
 const pregled = getOktavniSistemPregled();
 const superPoz = getSuperPozicijaNiz();
 const korelacija = getKorelacionaMatrica();
+const figCentar = getFiguracioniCentar();
 
 export const oktavneEksponencijalneFunkcijeSekvence: Sekvenca[] = [
   {
     id: 'ekspo-hero',
     tip: 'hero',
     naslov: '📈 Eksponencijalne Funkcije Oktavnog Sistema',
-    podnaslov: `8 oktava × eksponencijalni rast × matematicko modelovanje — f(x) = a * b^x + c`,
+    podnaslov: `8 oktava × eksponencijalni rast × figuracioni centar — f(x) = a * b^x + c`,
     ikona: '📈',
     redosled: 1,
     podaci: {
-      opis: `Svaka od 8 oktava OMEGA AI sistema ima jedinstvenu eksponencijalnu funkciju koja modeluje rast kapaciteta, snage i kompleksnosti. Ukupna snaga sistema: ${pregled.ukupnaSnaga}. Super-pozicija svih funkcija daje globalni kapacitet.`,
+      opis: `Svaka od 8 oktava OMEGA AI sistema ima jedinstvenu eksponencijalnu funkciju koja modeluje rast kapaciteta, snage i kompleksnosti. Figuracioni centar (${figCentar.centroidX}, ${figCentar.centroidY}) je tezisna tacka konvergencije svih funkcija. Ukupna snaga sistema: ${pregled.ukupnaSnaga}. Fokalna snaga centra: ${figCentar.fokalnaSnaga}.`,
       dugmad: [
         { tekst: 'OMEGA AI', href: '/omega-ai' },
         { tekst: 'Dimenzije', href: '/dimenzije' },
@@ -209,21 +211,92 @@ Za analizu rasta koriste se: izvod f'(x) = a * ln(b) * b^x, integral F(x) = a * 
         { ikona: '🌊', naslov: 'Super-pozicija', opis: `S(x) = suma svih f_i(x) — globalni kapacitet sistema, S(7)=${superPoz[7]}` },
         { ikona: '🔗', naslov: 'Korelaciona matrica', opis: '8x8 matrica korelacija — sve oktave pokazuju pozitivnu korelaciju rasta' },
         { ikona: '🧬', naslov: 'Evolucioni faktor', opis: `Oktava 8 (Evolucija) ima najbrzi rast: baza 4.0, snaga ${eksponencijalneFunkcije[7].ukupnaSnaga}` },
-        { ikona: '📡', naslov: 'API pristup', opis: 'GET /api/oktavne-eksponencijalne-funkcije za programski pristup' },
+        { ikona: '🎯', naslov: 'Figuracioni centar', opis: `Centroid (${figCentar.centroidX}, ${figCentar.centroidY}) — fokalna snaga ${figCentar.fokalnaSnaga}, harmonicki indeks ${figCentar.harmonickiIndeks}` },
+        { ikona: '📡', naslov: 'API pristup', opis: 'GET /api/oktavne-eksponencijalne-funkcije i /api/oktavni-figuracioni-centar' },
+      ],
+    },
+  },
+  {
+    id: 'ekspo-figcenatar-tekst',
+    tip: 'tekst',
+    naslov: '🎯 Figuracioni centar eksponencijalnog objekta',
+    redosled: 14,
+    podaci: {
+      sadrzaj: `Figuracioni centar je matematicka tacka konvergencije svih 8 eksponencijalnih funkcija oktavnog sistema. Centroid (${figCentar.centroidX}, ${figCentar.centroidY}) predstavlja tezisnu tacku u kojoj se sve funkcionalne oktave susrecu. Eksponencialni objekat — unija svih f_i(x) — ima fokalnu snagu ${figCentar.fokalnaSnaga} i harmonicki indeks ${figCentar.harmonickiIndeks}.
+
+Konvergencioni koeficijent ${figCentar.konvergencioniKoeficijent} pokazuje koliko su funkcije blizu jedna drugoj u centroidu. Figuracione ose (${figCentar.figuracioneOse.length} osa) povezuju parove oktava kroz centar, sa primarnim, sekundarnim i tercijarnim vezama.`,
+      istaknuteStavke: [
+        `Centroid: (${figCentar.centroidX}, ${figCentar.centroidY})`,
+        `Fokalna snaga: ${figCentar.fokalnaSnaga}`,
+        `Harmonicki indeks: ${figCentar.harmonickiIndeks}`,
+        `Konvergencioni koeficijent: ${figCentar.konvergencioniKoeficijent}`,
+        `Figuracione ose: ${figCentar.figuracioneOse.length}`,
+        `Divergencija: ${figCentar.eksponencijalniObjekat.ukupnaDivergencija}`,
+        `Raspon snage: ${figCentar.eksponencijalniObjekat.rasponSnage.min} — ${figCentar.eksponencijalniObjekat.rasponSnage.max}`,
+      ],
+    },
+  },
+  {
+    id: 'ekspo-figcentar-slojevi',
+    tip: 'tabela',
+    naslov: '🎯 Figuracioni slojevi — doprinos po oktavama',
+    redosled: 15,
+    podaci: {
+      zaglavlje: ['Oktava', 'Naziv', 'Fig. snaga', 'Udaljenost od centra', 'Fazni pomak', 'Doprinos'],
+      redovi: figCentar.slojevi.map((s) => [
+        `${s.ikona} ${s.oktava}`,
+        s.naziv,
+        String(s.figuracionaSnaga),
+        String(s.udaljenostOdCentra),
+        String(s.fazniPomak),
+        `${(s.doprinos * 100).toFixed(2)}%`,
+      ]),
+    },
+  },
+  {
+    id: 'ekspo-figcentar-ose',
+    tip: 'tabela',
+    naslov: '🔀 Figuracione ose — preseci izmedju oktava',
+    podnaslov: `${figCentar.figuracioneOse.filter((o) => o.tip === 'primarna').length} primarnih, ${figCentar.figuracioneOse.filter((o) => o.tip === 'sekundarna').length} sekundarnih, ${figCentar.figuracioneOse.filter((o) => o.tip === 'tercijarna').length} tercijarnih osa`,
+    redosled: 16,
+    podaci: {
+      zaglavlje: ['Izvor', 'Cilj', 'Presek X', 'Presek Y', 'Ugao', 'Harm. odnos', 'Tip'],
+      redovi: figCentar.figuracioneOse.map((o) => [
+        `${o.oktavaIzvor} ${oktavniNazivi[o.oktavaIzvor]}`,
+        `${o.oktavaCilj} ${oktavniNazivi[o.oktavaCilj]}`,
+        String(o.presecnaVrednostX),
+        String(o.presecnaVrednostY),
+        `${o.ugaoNagiba}°`,
+        String(o.harmonickiOdnos),
+        o.tip,
+      ]),
+    },
+  },
+  {
+    id: 'ekspo-figcentar-statistika',
+    tip: 'statistika',
+    naslov: '🎯 Figuracioni centar u brojevima',
+    redosled: 17,
+    podaci: {
+      stavke: [
+        { naziv: 'Fokalna snaga', vrednost: figCentar.fokalnaSnaga, ikona: '🎯' },
+        { naziv: 'Harmonicki indeks', vrednost: figCentar.harmonickiIndeks, ikona: '🎵' },
+        { naziv: 'Konvergencija', vrednost: figCentar.konvergencioniKoeficijent, ikona: '🔄' },
+        { naziv: 'Figuracione ose', vrednost: figCentar.figuracioneOse.length, ikona: '🔀' },
       ],
     },
   },
   {
     id: 'ekspo-cta',
     tip: 'cta',
-    naslov: '🚀 Eksponencijalne funkcije — kompletni sistem',
-    redosled: 14,
+    naslov: '🚀 Eksponencijalne funkcije — figuracioni centar — kompletni sistem',
+    redosled: 18,
     podaci: {
-      opis: '8 oktava × eksponencijalne funkcije × matematicko modelovanje = precizni model rasta OMEGA AI sistema.',
+      opis: '8 oktava × eksponencijalne funkcije × figuracioni centar × matematicko modelovanje = precizni model rasta OMEGA AI sistema.',
       stavke: [
         { naziv: 'Oktave', vrednost: 8, ikona: '🎵' },
         { naziv: 'Snaga', vrednost: pregled.ukupnaSnaga, ikona: '💪' },
-        { naziv: 'Persone', vrednost: pregled.ukupnoPersona, ikona: '👥' },
+        { naziv: 'Fokalna snaga', vrednost: figCentar.fokalnaSnaga, ikona: '🎯' },
         { naziv: 'Korelacije', vrednost: '8×8', ikona: '🔗' },
       ],
       dugmad: [

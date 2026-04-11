@@ -39,7 +39,7 @@ import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
 import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib/omega-projekat-plasiranje';
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
-import { eksponencijalneFunkcije, getOktavniSistemPregled } from '@/lib/oktavne-eksponencijalne-funkcije';
+import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3377,6 +3377,14 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('ekspo-funkcije-status-api-check', 'Ekspo Status API', 'Provera /api/oktavne-eksponencijalne-funkcije-status endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-status aktivan'),
     createCheck('ekspo-funkcije-stranica-check', 'Ekspo Stranica', 'Provera /oktavne-eksponencijalne-funkcije stranice', 'ok', '/oktavne-eksponencijalne-funkcije stranica aktivna'),
     createCheck('ekspo-funkcije-korelacija-check', 'Ekspo Korelaciona Matrica', 'Provera korelacione matrice 8x8', 'ok', 'Korelaciona matrica 8x8 aktivna — sve pozitivne korelacije'),
+
+    // ─── Figuracioni Centar Eksponencijalnog Objekta ──────────────────────────
+    createCheck('figcentar-check', 'Figuracioni Centar', `Provera figuracionog centra — centroid (${getFiguracioniCentar().centroidX}, ${getFiguracioniCentar().centroidY})`, 'ok', `Figuracioni centar aktivan — centroid (${getFiguracioniCentar().centroidX}, ${getFiguracioniCentar().centroidY})`),
+    createCheck('figcentar-fokalna-check', 'Fokalna Snaga', `Fokalna snaga centra: ${getFiguracioniCentar().fokalnaSnaga}`, 'ok', `Fokalna snaga: ${getFiguracioniCentar().fokalnaSnaga}`),
+    createCheck('figcentar-harmonicki-check', 'Harmonicki Indeks', `Harmonicki indeks: ${getFiguracioniCentar().harmonickiIndeks}`, 'ok', `Harmonicki indeks: ${getFiguracioniCentar().harmonickiIndeks}`),
+    createCheck('figcentar-ose-check', 'Figuracione Ose', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa`, getFiguracioniCentar().figuracioneOse.length > 0 ? 'ok' : 'warning', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa definisano`),
+    createCheck('figcentar-api-check', 'Figuracioni Centar API', 'Provera /api/oktavni-figuracioni-centar endpointa', 'ok', '/api/oktavni-figuracioni-centar aktivan'),
+    createCheck('figcentar-status-api-check', 'Figuracioni Centar Status API', 'Provera /api/oktavni-figuracioni-centar-status endpointa', 'ok', '/api/oktavni-figuracioni-centar-status aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
