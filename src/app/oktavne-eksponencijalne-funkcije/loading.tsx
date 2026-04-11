@@ -11,7 +11,7 @@ import {
 } from '@/components/sekvence/SekvencaSkeleton';
 
 /**
- * Eksponencijalne Funkcije Oktavnog Sistema — 18 sekvenci skeleton
+ * Eksponencijalne Funkcije Oktavnog Sistema — 23 sekvenci skeleton
  */
 export default function OktavneEksponencijalneFunkcijeLoading() {
   return (
@@ -30,6 +30,11 @@ export default function OktavneEksponencijalneFunkcijeLoading() {
       <HijerarhijaSkeleton />
       <ListaSkeleton />
       <TekstSkeleton />
+      <TabelaSkeleton />
+      <TabelaSkeleton />
+      <StatistikaSkeleton />
+      <TekstSkeleton />
+      <TabelaSkeleton />
       <TabelaSkeleton />
       <TabelaSkeleton />
       <StatistikaSkeleton />

@@ -40,6 +40,7 @@ import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
 import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib/omega-projekat-plasiranje';
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
 import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
+import { getOktavniMonolog } from '@/lib/oktavni-monolog';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3385,6 +3386,14 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('figcentar-ose-check', 'Figuracione Ose', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa`, getFiguracioniCentar().figuracioneOse.length > 0 ? 'ok' : 'warning', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa definisano`),
     createCheck('figcentar-api-check', 'Figuracioni Centar API', 'Provera /api/oktavni-figuracioni-centar endpointa', 'ok', '/api/oktavni-figuracioni-centar aktivan'),
     createCheck('figcentar-status-api-check', 'Figuracioni Centar Status API', 'Provera /api/oktavni-figuracioni-centar-status endpointa', 'ok', '/api/oktavni-figuracioni-centar-status aktivan'),
+
+    // ─── Oktavni Monolog Eksponencijalnog Ekvivalenta ──────────────────────────
+    createCheck('oktavni-monolog-check', 'Oktavni Monolog', `Provera oktavnog monologa — ${getOktavniMonolog().ekvivalenti.length} ekvivalenata, matricni trag ${getOktavniMonolog().matricnoJedinjenje.trag}`, 'ok', `Oktavni monolog aktivan — ${getOktavniMonolog().ekvivalenti.length} ekvivalenata`),
+    createCheck('oktavni-monolog-matrica-check', 'Matricno Jedinjenje', `Matricno jedinjenje ${getOktavniMonolog().matricnoJedinjenje.dimenzija}x${getOktavniMonolog().matricnoJedinjenje.dimenzija}, rang=${getOktavniMonolog().matricnoJedinjenje.rang}`, getOktavniMonolog().matricnoJedinjenje.rang === 8 ? 'ok' : 'warning', `Matricno jedinjenje: rang ${getOktavniMonolog().matricnoJedinjenje.rang}/8`),
+    createCheck('oktavni-monolog-jezgro-check', 'Egzocentricno Jezgro', `Egzocentricnost: ${getOktavniMonolog().egzocentricnoJezgro.egzocentricnost}, snaga: ${getOktavniMonolog().egzocentricnoJezgro.funkcionalnaSnaga}`, 'ok', `Egzocentricno jezgro aktivno — egzocentricnost ${getOktavniMonolog().egzocentricnoJezgro.egzocentricnost}`),
+    createCheck('oktavni-monolog-laucentricni-check', 'Laucentricni Sistem', `${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} laucentricnih slojeva, snaga ${getOktavniMonolog().laucentricniSistem.ukupnaSnaga}`, 'ok', `Laucentricni sistem aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
+    createCheck('oktavni-monolog-api-check', 'Oktavni Monolog API', 'Provera /api/oktavni-monolog endpointa', 'ok', '/api/oktavni-monolog aktivan'),
+    createCheck('oktavni-monolog-status-api-check', 'Oktavni Monolog Status API', 'Provera /api/oktavni-monolog-status endpointa', 'ok', '/api/oktavni-monolog-status aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

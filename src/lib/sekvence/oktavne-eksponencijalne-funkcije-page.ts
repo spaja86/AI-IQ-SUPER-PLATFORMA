@@ -6,6 +6,7 @@ import {
   getKorelacionaMatrica,
   getFiguracioniCentar,
 } from '@/lib/oktavne-eksponencijalne-funkcije';
+import { getOktavniMonolog } from '@/lib/oktavni-monolog';
 import { oktavniNazivi } from '@/lib/omega-ai';
 import type { OktavniNivo } from '@/lib/omega-ai';
 
@@ -13,6 +14,7 @@ const pregled = getOktavniSistemPregled();
 const superPoz = getSuperPozicijaNiz();
 const korelacija = getKorelacionaMatrica();
 const figCentar = getFiguracioniCentar();
+const monolog = getOktavniMonolog();
 
 export const oktavneEksponencijalneFunkcijeSekvence: Sekvenca[] = [
   {
@@ -287,17 +289,100 @@ Konvergencioni koeficijent ${figCentar.konvergencioniKoeficijent} pokazuje kolik
     },
   },
   {
-    id: 'ekspo-cta',
-    tip: 'cta',
-    naslov: '🚀 Eksponencijalne funkcije — figuracioni centar — kompletni sistem',
+    id: 'ekspo-monolog-tekst',
+    tip: 'tekst',
+    naslov: '🔊 Oktavni monolog eksponencijalnog ekvivalenta',
     redosled: 18,
     podaci: {
-      opis: '8 oktava × eksponencijalne funkcije × figuracioni centar × matematicko modelovanje = precizni model rasta OMEGA AI sistema.',
+      sadrzaj: `${monolog.opis}
+
+Eksponencijalni ekvivalent E_i(x) = f_i(x) / S(x) predstavlja udeo svake oktave u ukupnoj super-poziciji. Monolog vektor M(x) = [E_1..E_8] prolazi kroz matricno jedinjenje J = M*M^T (${monolog.matricnoJedinjenje.dimenzija}x${monolog.matricnoJedinjenje.dimenzija}, trag=${monolog.matricnoJedinjenje.trag}, rang=${monolog.matricnoJedinjenje.rang}). Egzocentricno jezgro ima egzocentricnost ${monolog.egzocentricnoJezgro.egzocentricnost} i sirenu rezonancu ${monolog.egzocentricnoJezgro.sirenaRezonanca} Hz. Laucentricni sistem od ${monolog.laucentricniSistem.ukupnoSlojeva} slojeva obuhvata ukupnu snagu ${monolog.laucentricniSistem.ukupnaSnaga}.`,
+      istaknuteStavke: [
+        `Matricno jedinjenje: ${monolog.matricnoJedinjenje.dimenzija}x${monolog.matricnoJedinjenje.dimenzija}, trag=${monolog.matricnoJedinjenje.trag}`,
+        `Egzocentricnost: ${monolog.egzocentricnoJezgro.egzocentricnost}`,
+        `Funkcionalna snaga jezgra: ${monolog.egzocentricnoJezgro.funkcionalnaSnaga}`,
+        `Sirena rezonanca: ${monolog.egzocentricnoJezgro.sirenaRezonanca} Hz`,
+        `Laucentricni slojevi: ${monolog.laucentricniSistem.ukupnoSlojeva}`,
+        `OMEGA PROJEKAT integritet: ${monolog.omegaProjekat.integritetProvera ? 'POTVRDJEN' : 'NEPOTVRDJEN'}`,
+      ],
+    },
+  },
+  {
+    id: 'ekspo-monolog-ekvivalenti',
+    tip: 'tabela',
+    naslov: '📊 Eksponencijalni ekvivalenti E_i(x) = f_i(x) / S(x)',
+    podnaslov: 'Udeo svake oktave u super-poziciji',
+    redosled: 19,
+    podaci: {
+      zaglavlje: ['Oktava', 'Naziv', ...Array.from({ length: 8 }, (_, i) => `x=${i}`), 'Prosek', 'Trend'],
+      redovi: monolog.ekvivalenti.map((e) => [
+        `${e.ikona} ${e.oktava}`,
+        oktavniNazivi[e.oktava],
+        ...e.ekvivalenti.map(String),
+        String(e.prosecniEkvivalent),
+        e.trend,
+      ]),
+    },
+  },
+  {
+    id: 'ekspo-monolog-matrica',
+    tip: 'tabela',
+    naslov: '🧮 Matricno jedinjenje J = M*M^T (8x8)',
+    podnaslov: `Trag=${monolog.matricnoJedinjenje.trag} | Rang=${monolog.matricnoJedinjenje.rang} | Frobenius=${monolog.matricnoJedinjenje.frobeniusNorma}`,
+    redosled: 20,
+    podaci: {
+      zaglavlje: ['Okt', ...([1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]).map((n) => `${n}`)],
+      redovi: monolog.matricnoJedinjenje.matrica.map((red, i) => [
+        `${i + 1} ${oktavniNazivi[(i + 1) as OktavniNivo]}`,
+        ...red.map(String),
+      ]),
+    },
+  },
+  {
+    id: 'ekspo-monolog-laucentricni',
+    tip: 'tabela',
+    naslov: '🎯 Laucentricni sistem — koncentricni slojevi',
+    podnaslov: `${monolog.laucentricniSistem.ukupnoSlojeva} slojeva, snaga ${monolog.laucentricniSistem.ukupnaSnaga}`,
+    redosled: 21,
+    podaci: {
+      zaglavlje: ['Sloj', 'Naziv', 'Oktave', 'Snaga', 'Gustina', 'Radijus', 'Distribucija'],
+      redovi: monolog.laucentricniSistem.slojevi.map((s, i) => [
+        String(s.nivo),
+        s.naziv,
+        s.oktave.map((o) => `${o}`).join(', '),
+        String(s.snaga),
+        String(s.gustina),
+        String(s.radijus),
+        `${(monolog.laucentricniSistem.radijalnaDistribucija[i] * 100).toFixed(2)}%`,
+      ]),
+    },
+  },
+  {
+    id: 'ekspo-monolog-statistika',
+    tip: 'statistika',
+    naslov: '🔊 Oktavni monolog u brojevima',
+    redosled: 22,
+    podaci: {
+      stavke: [
+        { naziv: 'Egzocentricnost', vrednost: monolog.egzocentricnoJezgro.egzocentricnost, ikona: '🌀' },
+        { naziv: 'Matricni trag', vrednost: monolog.matricnoJedinjenje.trag, ikona: '🧮' },
+        { naziv: 'Sirena Hz', vrednost: monolog.egzocentricnoJezgro.sirenaRezonanca, ikona: '🔊' },
+        { naziv: 'Lau slojevi', vrednost: monolog.laucentricniSistem.ukupnoSlojeva, ikona: '🎯' },
+      ],
+    },
+  },
+  {
+    id: 'ekspo-cta',
+    tip: 'cta',
+    naslov: '🚀 Eksponencijalne funkcije — figuracioni centar — oktavni monolog — OMEGA PROJEKAT',
+    redosled: 23,
+    podaci: {
+      opis: '8 oktava × eksponencijalne funkcije × figuracioni centar × oktavni monolog × matricno jedinjenje = OMEGA PROJEKAT u matematickoj formi.',
       stavke: [
         { naziv: 'Oktave', vrednost: 8, ikona: '🎵' },
         { naziv: 'Snaga', vrednost: pregled.ukupnaSnaga, ikona: '💪' },
         { naziv: 'Fokalna snaga', vrednost: figCentar.fokalnaSnaga, ikona: '🎯' },
-        { naziv: 'Korelacije', vrednost: '8×8', ikona: '🔗' },
+        { naziv: 'Matricni trag', vrednost: monolog.matricnoJedinjenje.trag, ikona: '🧮' },
       ],
       dugmad: [
         { tekst: 'OMEGA AI', href: '/omega-ai' },
