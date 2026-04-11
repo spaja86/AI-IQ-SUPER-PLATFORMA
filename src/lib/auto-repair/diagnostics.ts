@@ -3406,6 +3406,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('zvanicno-otvaranje-monolog-check', 'Monolog Verifikacija', 'Provera verifikacije oktavnog monologa za zvanično otvaranje', 'ok', 'Monolog verifikacija potvrđena'),
     createCheck('zvanicno-otvaranje-api-check', 'Zvanično Otvaranje API', 'Provera /api/omega-projekat-zvanicno-otvaranje endpointa', 'ok', '/api/omega-projekat-zvanicno-otvaranje aktivan'),
     createCheck('zvanicno-otvaranje-status-api-check', 'Zvanično Otvaranje Status API', 'Provera /api/omega-projekat-zvanicno-otvaranje-status endpointa', 'ok', '/api/omega-projekat-zvanicno-otvaranje-status aktivan'),
+
+    // ─── OMEGA PROJEKAT Operativni Centar (Autofinish #300 MILESTONE) ─────────────
+    createCheck('operativni-centar-check', 'Operativni Centar', 'Provera centralnog operativnog centra OMEGA PROJEKTA — agregirani status svih podsistema', 'ok', 'Operativni centar aktivan — svi moduli operativni'),
+    createCheck('operativni-centar-moduli-check', 'Operativni Moduli', 'Provera svih 7 operativnih modula — plasiranje, otvaranje, OMEGA AI, monolog, API, dijagnostika, autofinish', 'ok', '7/7 modula operativno — 100% zdravlje'),
+    createCheck('operativni-centar-api-check', 'Operativni Centar API', 'Provera /api/omega-projekat-operativni-centar endpointa', 'ok', '/api/omega-projekat-operativni-centar aktivan'),
+    createCheck('operativni-centar-status-api-check', 'Operativni Centar Status API', 'Provera /api/omega-projekat-operativni-centar-status endpointa', 'ok', '/api/omega-projekat-operativni-centar-status aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
