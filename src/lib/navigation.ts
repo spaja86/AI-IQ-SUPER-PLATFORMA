@@ -41,5 +41,5 @@ export const navigation: NavItem[] = [
   { label: 'OMEGA AI Suport', href: '/omega-ai-suport', icon: '📞', description: 'OMEGA AI Maksimalni Suport — 21 persona, telefoni, mejlovi, dispeč' },
   { label: 'OMEGA Plasiranje', href: '/omega-projekat-plasiranje', icon: '🚀', description: 'OMEGA PROJEKAT — automatsko plasiranje u opticaj, 10 faza, 10 sistema' },
   { label: 'Eksponencijalne Funkcije', href: '/oktavne-eksponencijalne-funkcije', icon: '📈', description: 'Oktavni monolog eksponencijalnog ekvivalenta — figuracioni centar — matricno jedinjenje — OMEGA PROJEKAT' },
-  { label: 'Digitalni Kompjuter', href: '/spaja-digitalni-kompjuter', icon: '🖥️', description: 'SPAJA Digitalni Kompjuter — Maticna Ploca, Server, Procesor, GPU, Graficka, RAM, konzole, dzojstici' },
+  { label: 'Zvanično Otvaranje', href: '/omega-projekat-zvanicno-otvaranje', icon: '🎉', description: 'OMEGA PROJEKAT — zvanično otvaranje prema monolizmima, verifikacija, saglasnost osnivača' },
 ];

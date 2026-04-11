@@ -215,6 +215,8 @@ function getAutofinishOpis(n: number): string {
     243: 'Autofinish #243 — /api/openai-platforma-event-bus, upravljanje dogadjajima i komunikacijom, event engine, topik menadzer, serializacija, dostavljanje, observabilnost, 5 dijagnostika, 475 ruta, 433 API, 610 dijagnostike',
     248: 'Autofinish #248 — /api/openai-platforma-api-verzionisanje, upravljanje verzijama API-ja, verzija engine, kompatibilnost menadzer, dokumentacija generator, lifecycle menadzer, governance, 5 dijagnostika, 480 ruta, 438 API, 635 dijagnostike',
     257: 'Autofinish #257 — /api/openai-platforma-feature-flags, upravljanje funkcionalnostima i feature flagovima, flag engine, rollout menadzer, eksperiment platforma, konfiguracija menadzer, observabilnost, 5 dijagnostika, 489 ruta, 447 API, 680 dijagnostike',
+    299: 'Autofinish #299 — omega-projekat-zvanicno-otvaranje, zvanično otvaranje OMEGA PROJEKTA prema monolizmima, monolog verifikacija, matricno jedinjenje, egzocentrično jezgro, saglasnost osnivača, 1 stranica, 2 API endpointa, 4 dijagnostike, 545 ruta, 501 API, 852 dijagnostike',
+    300: 'Autofinish #300 MILESTONE — omega-projekat-operativni-centar, centralni operativni centar za monitoring OMEGA PROJEKTA, 7 modula (plasiranje, otvaranje, OMEGA AI, monolog, API, dijagnostika, autofinish), agregirani status, 2 API endpointa, 4 dijagnostike, 547 ruta, 503 API, 856 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
