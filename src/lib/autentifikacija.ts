@@ -186,6 +186,13 @@ export const dozvole: AuthDozvola[] = [
     ikona: '📊',
     uloge: ['admin', 'super-admin', 'vlasnik'],
   },
+  {
+    id: 'digitalni-kompjuter-pristup',
+    naziv: 'Digitalni Kompjuter pristup',
+    opis: 'Aktivacija i koriscenje SPAJA Digitalnog Kompjutera sa svim komponentama — Maticna Ploca, Server, Procesor, GPU, Graficka, RAM, Hard Disk, BIOS, Tastatura i Mis, Monitoring',
+    ikona: '🖥️',
+    uloge: ['korisnik', 'moderator', 'admin', 'super-admin', 'vlasnik'],
+  },
 ];
 
 // ─── Konfiguracija ───────────────────────────────────────
