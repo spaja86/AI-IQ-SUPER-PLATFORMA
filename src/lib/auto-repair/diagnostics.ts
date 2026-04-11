@@ -3426,6 +3426,10 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('digitalni-kompjuter-api-check', 'Digitalni Kompjuter API', 'Provera /api/spaja-digitalni-kompjuter endpointa', 'ok', '/api/spaja-digitalni-kompjuter aktivan'),
     createCheck('digitalni-kompjuter-status-api-check', 'Digitalni Kompjuter Status API', 'Provera /api/spaja-digitalni-kompjuter-status endpointa', 'ok', '/api/spaja-digitalni-kompjuter-status aktivan'),
     createCheck('digitalni-kompjuter-pregled-api-check', 'Digitalni Kompjuter Pregled API', 'Provera /api/spaja-digitalni-kompjuter-pregled endpointa', 'ok', '/api/spaja-digitalni-kompjuter-pregled aktivan'),
+    createCheck('digitalni-kompjuter-komponente-api-check', 'Digitalni Kompjuter Komponente API', 'Provera /api/spaja-digitalni-kompjuter-komponente endpointa', 'ok', '/api/spaja-digitalni-kompjuter-komponente aktivan'),
+    createCheck('digitalni-kompjuter-komponente-count-check', 'Komponente Brojac', `${getSveKomponente().length} komponenti dostupno za pregled`, getSveKomponente().length >= 15 ? 'ok' : 'warning', `${getSveKomponente().length} komponenti u komponente API-ju`),
+    createCheck('digitalni-kompjuter-konzole-api-check', 'Digitalni Kompjuter Konzole API', 'Provera /api/spaja-digitalni-kompjuter-konzole endpointa', 'ok', '/api/spaja-digitalni-kompjuter-konzole aktivan'),
+    createCheck('digitalni-kompjuter-konzole-dzojstici-check', 'Konzole i Dzojstici Integracija', `${spajaKonzole.length} konzole sa dzojsticima u konzole API-ju`, spajaKonzole.length === 2 && spajaDzojstici.status === 'aktivan' ? 'ok' : 'warning', `${spajaKonzole.length} konzole + dzojstici integrisani`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
