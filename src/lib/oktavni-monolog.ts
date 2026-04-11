@@ -102,8 +102,8 @@ export interface LaucentricniSistem {
   /** Ukupna snaga sistema */
   ukupnaSnaga: number;
   /** Laureatski centar — tacka maksimalne koncentracije */
-  laureatsikiCentar: { x: number; y: number; snaga: number };
-  /** Radijalina distribucija snage */
+  laureatskiCentar: { x: number; y: number; snaga: number };
+  /** Radijalna distribucija snage */
   radijalnaDistribucija: number[];
 }
 
@@ -352,7 +352,7 @@ function izracunajLaucentricniSistem(): LaucentricniSistem {
     slojevi,
     ukupnoSlojeva: slojevi.length,
     ukupnaSnaga: Math.round(ukupnaSnaga * 100) / 100,
-    laureatsikiCentar: {
+    laureatskiCentar: {
       x: figCentar.centroidX,
       y: figCentar.centroidY,
       snaga: najjaciSloj.snaga,

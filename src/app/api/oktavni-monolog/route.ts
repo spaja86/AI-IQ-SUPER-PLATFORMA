@@ -45,7 +45,7 @@ export async function GET() {
     laucentricniSistem: {
       ukupnoSlojeva: monolog.laucentricniSistem.ukupnoSlojeva,
       ukupnaSnaga: monolog.laucentricniSistem.ukupnaSnaga,
-      laureatsikiCentar: monolog.laucentricniSistem.laureatsikiCentar,
+      laureatskiCentar: monolog.laucentricniSistem.laureatskiCentar,
       radijalnaDistribucija: monolog.laucentricniSistem.radijalnaDistribucija,
       slojevi: monolog.laucentricniSistem.slojevi,
     },
