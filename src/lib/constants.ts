@@ -28,7 +28,7 @@ export const TOTAL_PAGES = 41;
 export const TOTAL_API_ROUTES = 502;
 export const TOTAL_ROUTES = 546;
 export const TOTAL_IGRICA = 95;
-export const TOTAL_DIAGNOSTIKA = 862;
+export const TOTAL_DIAGNOSTIKA = 871;
 
 // Autofinish
 export const AUTOFINISH_COUNT = 299;
