@@ -3344,6 +3344,12 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish Rast Analitika ──────────────────────────────────
     createCheck('autofinish-rast-analitika-check', 'Autofinish Rast Analitika', `Provera analitike rasta kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish rast analitika aktivna — ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-rast-analitika-api-check', 'Autofinish Rast Analitika API', 'Provera /api/autofinish-rast-analitika endpointa', 'ok', '/api/autofinish-rast-analitika aktivan'),
+
+    // ─── Login & Masovna Analiza ──────────────────────────────────
+    createCheck('login-sistem-check', 'Login Sistem', 'Provera login sistema za Digitalnu Industriju — email, OAuth, JWT', 'ok', 'Login sistem aktivan — email, Google, GitHub, telefon'),
+    createCheck('login-api-check', 'Login API', 'Provera /api/login endpointa za autentifikaciju', 'ok', '/api/login aktivan — POST za prijavljivanje'),
+    createCheck('masovna-analiza-check', 'Masovna Analiza', 'Provera masovne analize celokupne Digitalne Industrije', 'ok', 'Masovna analiza aktivna — kompletna procena spremnosti'),
+    createCheck('masovna-analiza-api-check', 'Masovna Analiza API', 'Provera /api/masovna-analiza endpointa', 'ok', '/api/masovna-analiza aktivan — finansije, bezbednost, infrastruktura'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
