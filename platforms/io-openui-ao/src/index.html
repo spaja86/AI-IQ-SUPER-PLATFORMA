@@ -13,8 +13,11 @@
     .prompt-box { background: #1a1a2e; border-left: 4px solid #6c3bdc; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
     .prompt-box h4 { margin: 0 0 0.5rem; color: #9b7bea; }
     .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
-    .game-card { background: var(--bg-card); border: 1px solid rgba(108,59,220,0.3); border-radius: 10px; padding: 1rem; text-align: center; transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s; cursor: pointer; text-decoration: none; color: var(--text); display: block; }
-    .game-card:hover { border-color: #6c3bdc; transform: translateY(-3px); box-shadow: 0 4px 15px rgba(108,59,220,0.3); }
+    .game-card { background: var(--bg-card); border: 1px solid rgba(108,59,220,0.3); border-radius: 10px; padding: 1rem; text-align: center; transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s; text-decoration: none; color: var(--text); display: block; }
+    a.game-card { cursor: pointer; }
+    a.game-card:hover { border-color: #6c3bdc; transform: translateY(-3px); box-shadow: 0 4px 15px rgba(108,59,220,0.3); }
+    a.game-card .game-link-icon { display: inline; font-size: 0.75rem; margin-left: 0.3rem; }
+    div.game-card .game-link-icon { display: none; }
     .game-card h4 { margin: 0 0 0.5rem; }
     .game-card p { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
     .game-card .game-status { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.5rem; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px; background: rgba(0,200,83,0.15); color: #00c853; }
@@ -144,27 +147,27 @@
         <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/69237695-71c8-8330-a8c1-1a6f09b1da24" target="_blank" rel="noopener noreferrer">
           <h4>⚔️ Dota 1350</h4>
           <p>MOBA arena — 1350 dimenzionalnih heroja</p>
-          <span class="game-status">● AKTIVNA</span>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
         </a>
         <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376be-8280-8332-a476-5e3d619972cf" target="_blank" rel="noopener noreferrer">
           <h4>🤖 TRANSFORMERS 1350</h4>
           <p>Akcija — 1350 dimenzionalnih robota</p>
-          <span class="game-status">● AKTIVNA</span>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
         </a>
         <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376e3-7b48-832f-9b3e-34cb7625f098" target="_blank" rel="noopener noreferrer">
           <h4>🫧 BUBLI BABLI 1250</h4>
           <p>Arkadna — 1250 dimenzionalnih nivoa</p>
-          <span class="game-status">● AKTIVNA</span>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
         </a>
         <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/6923762b-07a8-832b-94b6-4565a93fb7e7" target="_blank" rel="noopener noreferrer">
           <h4>🃏 SPAJA POKER</h4>
           <p>Strategija — dimenzionalne karte</p>
-          <span class="game-status">● AKTIVNA</span>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
         </a>
         <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice" target="_blank" rel="noopener noreferrer">
           <h4>♟️ Omega Dimenzionalni Sah</h4>
           <p>Strategija — sah u dimenzijama</p>
-          <span class="game-status">● AKTIVNA</span>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
         </a>
         <div class="game-card">
           <h4>🏎️ Turbo Trka</h4>
