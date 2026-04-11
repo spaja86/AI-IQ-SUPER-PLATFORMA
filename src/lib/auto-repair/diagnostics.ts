@@ -3340,6 +3340,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish Ekosistem Zdravlje ──────────────────────────────────
     createCheck('autofinish-ekosistem-zdravlje-check', 'Autofinish Ekosistem Zdravlje', `Provera zdravlja ekosistema kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish ekosistem zdravlje aktivno — ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-ekosistem-zdravlje-api-check', 'Autofinish Ekosistem Zdravlje API', 'Provera /api/autofinish-ekosistem-zdravlje endpointa', 'ok', '/api/autofinish-ekosistem-zdravlje aktivan'),
+
+    // ─── Autofinish Rast Analitika ──────────────────────────────────
+    createCheck('autofinish-rast-analitika-check', 'Autofinish Rast Analitika', `Provera analitike rasta kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish rast analitika aktivna — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-rast-analitika-api-check', 'Autofinish Rast Analitika API', 'Provera /api/autofinish-rast-analitika endpointa', 'ok', '/api/autofinish-rast-analitika aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
