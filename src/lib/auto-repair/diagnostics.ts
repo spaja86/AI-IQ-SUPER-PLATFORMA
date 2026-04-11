@@ -3394,6 +3394,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('oktavni-monolog-laucentricni-check', 'Laucentricni Sistem', `${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} laucentricnih slojeva, snaga ${getOktavniMonolog().laucentricniSistem.ukupnaSnaga}`, 'ok', `Laucentricni sistem aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
     createCheck('oktavni-monolog-api-check', 'Oktavni Monolog API', 'Provera /api/oktavni-monolog endpointa', 'ok', '/api/oktavni-monolog aktivan'),
     createCheck('oktavni-monolog-status-api-check', 'Oktavni Monolog Status API', 'Provera /api/oktavni-monolog-status endpointa', 'ok', '/api/oktavni-monolog-status aktivan'),
+
+    // ─── Monolog Sirena Rezonator & Laucentricni Projektor ──────────────────────
+    createCheck('monolog-sirena-rezonator-check', 'Monolog Sirena Rezonator', `Provera sirena rezonatora — rezonanca ${getOktavniMonolog().egzocentricnoJezgro.sirenaRezonanca} Hz`, 'ok', `Sirena rezonator aktivan — ${getOktavniMonolog().egzocentricnoJezgro.sirenaRezonanca} Hz`),
+    createCheck('monolog-sirena-rezonator-api-check', 'Sirena Rezonator API', 'Provera /api/omega-monolog-sirena-rezonator endpointa', 'ok', '/api/omega-monolog-sirena-rezonator aktivan'),
+    createCheck('monolog-laucentricni-projektor-check', 'Laucentricni Projektor', `Provera laucentricnog projektora — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`, 'ok', `Laucentricni projektor aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
+    createCheck('monolog-laucentricni-projektor-api-check', 'Laucentricni Projektor API', 'Provera /api/omega-monolog-laucentricni-projektor endpointa', 'ok', '/api/omega-monolog-laucentricni-projektor aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
