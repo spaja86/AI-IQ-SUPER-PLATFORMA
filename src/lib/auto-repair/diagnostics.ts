@@ -41,6 +41,7 @@ import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
 import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
 import { getOktavniMonolog } from '@/lib/oktavni-monolog';
+import { spajaDigitalniKompjuterSistem, getSveKomponente, spajaKonzole, spajaDzojstici } from '@/lib/spaja-digitalni-kompjuter';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
