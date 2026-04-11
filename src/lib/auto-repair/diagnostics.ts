@@ -41,6 +41,7 @@ import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
 import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
 import { getOktavniMonolog } from '@/lib/oktavni-monolog';
+import { spajaDigitalniKompjuterSistem, getSveKomponente, spajaKonzole, spajaDzojstici } from '@/lib/spaja-digitalni-kompjuter';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3400,6 +3401,31 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('monolog-sirena-rezonator-api-check', 'Sirena Rezonator API', 'Provera /api/omega-monolog-sirena-rezonator endpointa', 'ok', '/api/omega-monolog-sirena-rezonator aktivan'),
     createCheck('monolog-laucentricni-projektor-check', 'Laucentricni Projektor', `Provera laucentricnog projektora — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`, 'ok', `Laucentricni projektor aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
     createCheck('monolog-laucentricni-projektor-api-check', 'Laucentricni Projektor API', 'Provera /api/omega-monolog-laucentricni-projektor endpointa', 'ok', '/api/omega-monolog-laucentricni-projektor aktivan'),
+
+    // ─── SPAJA Digitalni Kompjuter ──────────────────────────────────────────────
+    createCheck('digitalni-kompjuter-sistem-check', 'Digitalni Kompjuter Sistem', `Provera sistema — ${spajaDigitalniKompjuterSistem.statistika.ukupnoKomponenti} komponenti, ${spajaDigitalniKompjuterSistem.statistika.aktivnihKomponenti} aktivnih`, spajaDigitalniKompjuterSistem.statistika.aktivnihKomponenti > 0 ? 'ok' : 'warning', `Digitalni kompjuter aktivan — ${spajaDigitalniKompjuterSistem.statistika.ukupnoKomponenti} komponenti`),
+    createCheck('digitalni-kompjuter-kompjuteri-check', 'Tipovi Kompjutera', `${spajaDigitalniKompjuterSistem.statistika.ukupnoKompjutera} tipa kompjutera`, spajaDigitalniKompjuterSistem.statistika.ukupnoKompjutera === 2 ? 'ok' : 'warning', `${spajaDigitalniKompjuterSistem.statistika.ukupnoKompjutera} tipa kompjutera`),
+    createCheck('digitalni-kompjuter-komponente-check', 'Komponente Kompjutera', `${getSveKomponente().length} komponenti ukupno`, getSveKomponente().length >= 15 ? 'ok' : 'warning', `${getSveKomponente().length} komponenti registrovano`),
+    createCheck('digitalni-kompjuter-maticna-check', 'SPAJA Maticna Ploca', 'Provera maticne ploce digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-maticna-ploca')?.status === 'aktivan' ? 'ok' : 'warning', 'Maticna ploca aktivna'),
+    createCheck('digitalni-kompjuter-server-check', 'SPAJA Server', 'Provera servera digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-server')?.status === 'aktivan' ? 'ok' : 'warning', 'Server aktivan'),
+    createCheck('digitalni-kompjuter-procesor-check', 'SPAJA Procesor', 'Provera primarnog procesora', getSveKomponente().find((k) => k.id === 'spaja-procesor')?.status === 'aktivan' ? 'ok' : 'warning', 'Procesor aktivan'),
+    createCheck('digitalni-kompjuter-chip-check', 'SPAJA Cip (Procesor)', 'Provera cipa za primarni procesor', getSveKomponente().find((k) => k.id === 'spaja-chip-procesor')?.status === 'aktivan' ? 'ok' : 'warning', 'Cip za procesor aktivan'),
+    createCheck('digitalni-kompjuter-procesor2-check', 'SPAJA Procesor 2', 'Provera sekundarnog procesora', getSveKomponente().find((k) => k.id === 'spaja-procesor-2')?.status === 'aktivan' ? 'ok' : 'warning', 'Procesor 2 aktivan'),
+    createCheck('digitalni-kompjuter-chip2-check', 'SPAJA Cip (Procesor 2)', 'Provera cipa za sekundarni procesor', getSveKomponente().find((k) => k.id === 'spaja-chip-procesor-2')?.status === 'aktivan' ? 'ok' : 'warning', 'Cip za procesor 2 aktivan'),
+    createCheck('digitalni-kompjuter-bios-check', 'SPAJA BIOS', 'Provera BIOS-a digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-bios')?.status === 'aktivan' ? 'ok' : 'warning', 'BIOS aktivan'),
+    createCheck('digitalni-kompjuter-hard-disk-check', 'SPAJA Hard Disk', 'Provera hard diska digitalnog kompjutera', getSveKomponente().find((k) => k.id === 'spaja-hard-disk')?.status === 'aktivan' ? 'ok' : 'warning', 'Hard disk aktivan'),
+    createCheck('digitalni-kompjuter-ram-check', 'SPAJA RAM', 'Provera RAM memorije (276.000 GB)', getSveKomponente().find((k) => k.id === 'spaja-ram')?.status === 'aktivan' ? 'ok' : 'warning', 'RAM aktivan'),
+    createCheck('digitalni-kompjuter-gpu-check', 'SPAJA GPU', 'Provera GPU-a (8.700.000 jezgara)', getSveKomponente().find((k) => k.id === 'spaja-gpu')?.status === 'aktivan' ? 'ok' : 'warning', 'GPU aktivan'),
+    createCheck('digitalni-kompjuter-graficka-check', 'SPAJA Graficka', 'Provera primarne graficke kartice (276.000 RAM)', getSveKomponente().find((k) => k.id === 'spaja-graficka')?.status === 'aktivan' ? 'ok' : 'warning', 'Graficka aktivan'),
+    createCheck('digitalni-kompjuter-graficka1-check', 'SPAJA Graficka "1"', 'Provera sekundarne graficke kartice (276.000 RAM)', getSveKomponente().find((k) => k.id === 'spaja-1-graficka')?.status === 'aktivan' ? 'ok' : 'warning', 'Graficka "1" aktivan'),
+    createCheck('digitalni-kompjuter-tastatura-mis-check', 'SPAJA Tastatura i Mis', 'Provera tastature i misa', getSveKomponente().find((k) => k.id === 'spaja-tastatura-mis')?.status === 'aktivan' ? 'ok' : 'warning', 'Tastatura i mis aktivni'),
+    createCheck('digitalni-kompjuter-konzole-check', 'Konzole', `${spajaKonzole.length} konzole registrovane`, spajaKonzole.length === 2 ? 'ok' : 'warning', `${spajaKonzole.length} konzole sa dzojsticima`),
+    createCheck('digitalni-kompjuter-virtuelna-konzola-check', 'Virtuelna Konzola', 'Provera SPAJA Univerzalne Virtuelne Konzole', spajaKonzole.find((k) => k.tip === 'virtuelna')?.status === 'aktivan' ? 'ok' : 'warning', 'Virtuelna konzola aktivna'),
+    createCheck('digitalni-kompjuter-digitalna-konzola-check', 'Digitalna Konzola', 'Provera SPAJA Univerzalne Digitalne Konzole', spajaKonzole.find((k) => k.tip === 'digitalna')?.status === 'aktivan' ? 'ok' : 'warning', 'Digitalna konzola aktivna'),
+    createCheck('digitalni-kompjuter-dzojstici-check', 'SPAJA Dzojstici', 'Provera dzojstika za konzole', spajaDzojstici.status === 'aktivan' ? 'ok' : 'warning', 'Dzojstici aktivni'),
+    createCheck('digitalni-kompjuter-api-check', 'Digitalni Kompjuter API', 'Provera /api/spaja-digitalni-kompjuter endpointa', 'ok', '/api/spaja-digitalni-kompjuter aktivan'),
+    createCheck('digitalni-kompjuter-status-api-check', 'Digitalni Kompjuter Status API', 'Provera /api/spaja-digitalni-kompjuter-status endpointa', 'ok', '/api/spaja-digitalni-kompjuter-status aktivan'),
+    createCheck('digitalni-kompjuter-pregled-api-check', 'Digitalni Kompjuter Pregled API', 'Provera /api/spaja-digitalni-kompjuter-pregled endpointa', 'ok', '/api/spaja-digitalni-kompjuter-pregled aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
