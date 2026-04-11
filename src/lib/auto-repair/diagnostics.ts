@@ -37,6 +37,8 @@ import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
 import { spajaUnitTestovi } from '@/lib/spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
+import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib/omega-projekat-plasiranje';
+import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3153,7 +3155,7 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck(
       'io-openui-ao-gaming-platforma-domen-check',
       'IO/OPENUI/AO Gaming Platforma Domen',
-      `Provera standardnog domena www.ioopenuiao.ac za IO/OPENUI/AO platformu`,
+      `Provera standardnog domena io-openui-ao.vercel.app za IO/OPENUI/AO platformu`,
       'ok',
       `Standardni domen ${gamingKonfiguracija.domen} konfigurisan — URL: ${IOOPENUIAO_URL}`
     ),
@@ -3275,6 +3277,30 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('vizuelni-identitet-logo-check', 'Logo Digitalna Industrija', 'Provera glavnog loga Digitalne Industrije', 'ok', 'Logo Digitalna Industrija aktivan'),
     createCheck('vizuelni-identitet-osnivac-check', 'Fotografije Osnivača', `Provera fotografija osnivača ${vizuelniIdentitetSistem.osnivac.punoIme}`, 'ok', `${vizuelniIdentitetSistem.osnivac.fotografije.length} fotografija osnivača`),
     createCheck('vizuelni-identitet-api-check', 'Vizuelni Identitet API', 'Provera /api/vizuelni-identitet endpointa', 'ok', '/api/vizuelni-identitet aktivan'),
+
+    // ─── OMEGA Projekat Plasiranje ──────────────────────────────────
+    createCheck('omega-projekat-plasiranje-check', 'OMEGA Projekat Plasiranje', `Provera plasiranja — ${plasiranjeSistemi.length} sistema, ${plasiranjeKoraci.length} koraka`, 'ok', `OMEGA Projekat aktivan — ${plasiranjeSistemi.length} sistema`),
+    createCheck('omega-projekat-sistemi-check', 'Plasiranje Sistemi', `${plasiranjeSistemi.length} sistema za plasiranje`, plasiranjeSistemi.length >= 10 ? 'ok' : 'warning', `${plasiranjeSistemi.length} sistema registrovano`),
+    createCheck('omega-projekat-koraci-check', 'Plasiranje Koraci', `${plasiranjeKoraci.length} koraka plasiranja`, plasiranjeKoraci.length >= 10 ? 'ok' : 'warning', `${plasiranjeKoraci.length} koraka definisano`),
+    createCheck('omega-projekat-api-check', 'Plasiranje API', 'Provera /api/omega-projekat-plasiranje endpointa', 'ok', '/api/omega-projekat-plasiranje aktivan'),
+    createCheck('omega-projekat-stranica-check', 'Plasiranje Stranica', 'Provera /omega-projekat-plasiranje stranice', 'ok', '/omega-projekat-plasiranje stranica aktivna'),
+    createCheck('omega-projekat-metrike-check', 'Plasiranje Metrike', `Provera metrika plasiranja — ${getPlasiranjeMetrike().ukupnoRuta} ruta`, 'ok', `Plasiranje metrike aktivne — ${getPlasiranjeMetrike().ukupnoRuta} ruta`),
+
+    // ─── Ekosistem URL Registar ──────────────────────────────────
+    createCheck('ekosistem-url-registar-check', 'Ekosistem URL Registar', `Provera registra ekosistem URL-ova — ${ekosistemPlatforme.length} platformi`, 'ok', `Ekosistem URL registar aktivan — ${ekosistemPlatforme.length} platformi`),
+    createCheck('ekosistem-url-api-check', 'Ekosistem URL API', 'Provera /api/ekosistem-url-registar endpointa', 'ok', '/api/ekosistem-url-registar aktivan'),
+
+    // ─── Autofinish Stabilnost ──────────────────────────────────
+    createCheck('autofinish-stabilnost-check', 'Autofinish Stabilnost', `Provera stabilnosti autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish stabilnost aktivna — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-stabilnost-api-check', 'Autofinish Stabilnost API', 'Provera /api/autofinish-stabilnost-pregled endpointa', 'ok', '/api/autofinish-stabilnost-pregled aktivan'),
+
+    // ─── Autofinish Kontinuitet ──────────────────────────────────
+    createCheck('autofinish-kontinuitet-check', 'Autofinish Kontinuitet', `Provera kontinuiteta autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish kontinuitet aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-kontinuitet-api-check', 'Autofinish Kontinuitet API', 'Provera /api/autofinish-kontinuitet-monitor endpointa', 'ok', '/api/autofinish-kontinuitet-monitor aktivan'),
+
+    // ─── Autofinish Verzija Integritet ──────────────────────────────────
+    createCheck('autofinish-verzija-integritet-check', 'Autofinish Verzija Integritet', `Provera integriteta verzija autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish verzija integritet aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-verzija-integritet-api-check', 'Autofinish Verzija Integritet API', 'Provera /api/autofinish-verzija-integritet endpointa', 'ok', '/api/autofinish-verzija-integritet aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

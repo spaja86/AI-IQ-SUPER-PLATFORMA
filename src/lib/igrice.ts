@@ -2099,6 +2099,28 @@ export const igrice: Igrica[] = [
     zahtevi: OBAVEZNI_ZAHTEVI,
     link: 'https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/6923762b-07a8-832b-94b6-4565a93fb7e7',
   },
+  {
+    id: 'igrica-omega-dimenzionalni-sah',
+    naziv: 'Omega Dimenzionalni Šah',
+    opis: 'Revolucionarni šah u dimenzijama 360D–5760D. Svaka dimenzija dodaje nove figure, pravila kretanja i geometrijske slojeve. U 360D klasičan šah, u 1440D+ heksagonalna tabla sa spiralnim figurama, u 5760D potpuno nova igra sa dimenzionalnim portalima između tabli. Kompanija SPAJA zvanični dimenzionalni šah.',
+    ikona: '♟️',
+    kategorija: 'strategija',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '360D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Klasičan šah u 360D dimenziji',
+      'Heksagonalna tabla u 1440D+',
+      'Dimenzionalni portali između tabli',
+      'Spiralne figure sa geometrijskim pokretima',
+      'AI protivnik sa OMEGA AI personama',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-ai-engine', 'spaja-multiplayer-server', 'spaja-leaderboard'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice',
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
