@@ -44,10 +44,26 @@ export const pocetnaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'pocetna-login',
+    tip: 'login',
+    naslov: '🔐 Prijavi se u Digitalnu Industriju',
+    podnaslov: 'Konektuj se na platformu i proveri da li sve radi',
+    redosled: 2,
+    podaci: {
+      opis: `Prijavite se u Digitalnu Industriju Kompanije SPAJA. Pristupite ${stats.ukupnoPlatformi} platformama, ${stats.ukupnoProizvoda} IT proizvodima, ${stats.ukupnoOmegaPersona} OMEGA AI personama i kompletnom SpajaPro ekosistemu.`,
+      metode: [
+        { naziv: 'Google', ikona: '🔵', metod: 'google' },
+        { naziv: 'GitHub', ikona: '🐙', metod: 'github' },
+        { naziv: 'Telefon', ikona: '📱', metod: 'telefon' },
+        { naziv: 'SpajaPro', ikona: '🚀', metod: 'spajapro' },
+      ],
+    },
+  },
+  {
     id: 'pocetna-statistika',
     tip: 'statistika',
     naslov: '📊 Ekosistem u brojevima',
-    redosled: 2,
+    redosled: 3,
     podaci: {
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
@@ -72,7 +88,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     id: 'pocetna-progres',
     tip: 'progres',
     naslov: '🚀 Ukupni progres ekosistema',
-    redosled: 3,
+    redosled: 4,
     podaci: {
       progres: getUkupniProgres(),
       poruka: 'Kada svi projekti dostignu 100%, sve se plasira na Vercel. SpajaPro Prompt engine pokreće automatizaciju.',
@@ -83,7 +99,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🌐 Platforme u ekosistemu',
     podnaslov: `Pregled prvih 6 od ${stats.ukupnoPlatformi} platformi — sve sa SpajaPro Prompt integracijom`,
-    redosled: 4,
+    redosled: 5,
     podaci: {
       kartice: platforme.slice(0, 6).map((p) => ({
         naslov: p.naziv,
@@ -100,7 +116,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '⚡ IT Proizvodi Kompanije SPAJA',
     podnaslov: `Pregled prvih 4 od ${stats.ukupnoProizvoda} proizvoda sa Prompt podrškom`,
-    redosled: 5,
+    redosled: 6,
     podaci: {
       kartice: itProizvodi.slice(0, 4).map((p) => ({
         naslov: p.naziv,
@@ -115,7 +131,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     id: 'pocetna-baner',
     tip: 'baner',
     naslov: 'SpajaPro Prompt Engine — Svuda u ekosistemu',
-    redosled: 6,
+    redosled: 7,
     podaci: {
       bedz: '🌟 SpajaPro',
       opis: `SpajaPro 6-15 engine zamenjuje ChatGPT i donosi Prompt u svaki aspekt platforme. ${stats.ukupnoOmegaPersona} OMEGA AI persona × Prompt = autonomni ekosistem. SPAJA Generator prevlači ${generisaniEngini.length} engine-a sa ${getProsecnaOptimizacija()}% optimizacijom. Autofinish ×${stats.autofinishBroj} završen.`,
@@ -126,7 +142,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     id: 'pocetna-cta',
     tip: 'cta',
     naslov: '🚀 Vercel Produkcija sa SpajaPro Prompt-om',
-    redosled: 7,
+    redosled: 8,
     podaci: {
       opis: `AI IQ SUPER PLATFORMA v${stats.verzija} je deploirana na Vercel sa SpajaPro Prompt engine-om. ${dijagnostika.ukupnoProvera} dijagnostika, zdravlje ${dijagnostika.zdravlje}%. Autofinish ×${stats.autofinishBroj} — kontinualno poboljšanje.`,
       stavke: [
