@@ -46,6 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/omega-ai-suport',
     '/omega-projekat-plasiranje',
     '/oktavne-eksponencijalne-funkcije',
+    '/omega-projekat-zvanicno-otvaranje',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

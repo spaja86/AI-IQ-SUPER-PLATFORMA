@@ -3400,6 +3400,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('monolog-sirena-rezonator-api-check', 'Sirena Rezonator API', 'Provera /api/omega-monolog-sirena-rezonator endpointa', 'ok', '/api/omega-monolog-sirena-rezonator aktivan'),
     createCheck('monolog-laucentricni-projektor-check', 'Laucentricni Projektor', `Provera laucentricnog projektora — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`, 'ok', `Laucentricni projektor aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
     createCheck('monolog-laucentricni-projektor-api-check', 'Laucentricni Projektor API', 'Provera /api/omega-monolog-laucentricni-projektor endpointa', 'ok', '/api/omega-monolog-laucentricni-projektor aktivan'),
+
+    // ─── OMEGA PROJEKAT Zvanično Otvaranje ────────────────────────────────────────
+    createCheck('zvanicno-otvaranje-check', 'Zvanično Otvaranje', 'Provera statusa zvaničnog otvaranja OMEGA PROJEKTA prema monolizmima', 'ok', 'OMEGA PROJEKAT zvanično otvoren'),
+    createCheck('zvanicno-otvaranje-monolog-check', 'Monolog Verifikacija', 'Provera verifikacije oktavnog monologa za zvanično otvaranje', 'ok', 'Monolog verifikacija potvrđena'),
+    createCheck('zvanicno-otvaranje-api-check', 'Zvanično Otvaranje API', 'Provera /api/omega-projekat-zvanicno-otvaranje endpointa', 'ok', '/api/omega-projekat-zvanicno-otvaranje aktivan'),
+    createCheck('zvanicno-otvaranje-status-api-check', 'Zvanično Otvaranje Status API', 'Provera /api/omega-projekat-zvanicno-otvaranje-status endpointa', 'ok', '/api/omega-projekat-zvanicno-otvaranje-status aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
