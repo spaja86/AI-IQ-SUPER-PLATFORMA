@@ -200,7 +200,7 @@ export interface FiguracioniSloj {
   doprinos: number;
 }
 
-export interface FiguraciooniCentar {
+export interface FiguracioniCentar {
   /** Centroid X — tezisna tacka svih funkcija po X osi */
   centroidX: number;
   /** Centroid Y — tezisna vrednost svih funkcija u centroidu */
@@ -271,7 +271,7 @@ function nadjiPresek(f1: EksponencijalnaFunkcija, f2: EksponencijalnaFunkcija): 
   return { x: Math.round(mid * 10000) / 10000, y: Math.round(f1.izracunaj(mid) * 100) / 100 };
 }
 
-export function getFiguracioniCentar(): FiguraciooniCentar {
+export function getFiguracioniCentar(): FiguracioniCentar {
   const centroidX = izracunajCentroidX();
   const centroidY = Math.round(
     eksponencijalneFunkcije.reduce((s, f) => s + f.izracunaj(centroidX), 0) / 8 * 100,
