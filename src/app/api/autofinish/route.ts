@@ -199,6 +199,10 @@ function getAutofinishOpis(n: number): string {
     227: 'Autofinish #227 — /api/openai-platforma-skaliranje, upravljanje skaliranjem i elasticnoscu, 5 regiona, 6 dijagnostika, 459 rute, 417 API, 524 dijagnostike',
     228: 'Autofinish #228 — /api/openai-platforma-api-gateway, upravljanje API pristupom i rutiranjem, 4 tipa rutiranja, 6 dijagnostika, 460 rute, 418 API, 530 dijagnostike',
     229: 'Autofinish #229 — /api/openai-platforma-observabilnost, distribuirano pracenje i telemetrija, OpenTelemetry, metrike, logovi, health checkovi, 6 dijagnostika, 461 ruta, 419 API, 536 dijagnostike',
+    230: 'Autofinish #230 — /api/openai-platforma-kapacitet-planiranje, upravljanje resursima i projekcije rasta, prediktivna analiza, cost optimizer, 6 dijagnostika, 463 rute, 420 API, 542 dijagnostike',
+    231: 'Autofinish #231 — /api/openai-platforma-disaster-recovery, oporavak i kontinuitet poslovanja, backup, failover, RPO/RTO, chaos engineering, 6 dijagnostika, 465 ruta, 421 API, 548 dijagnostike',
+    232: 'Autofinish #232 — /api/openai-platforma-compliance, uskladenost i upravljanje standardima, audit, policy engine, data governance, risk management, 6 dijagnostika, 467 rute, 422 API, 554 dijagnostike',
+    233: 'Autofinish #233 — /api/openai-platforma-incident-menadzer, upravljanje incidentima i odgovor, severity klasifikacija, runbook automatizacija, postmortem, 6 dijagnostika, 469 ruta, 423 API, 560 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
