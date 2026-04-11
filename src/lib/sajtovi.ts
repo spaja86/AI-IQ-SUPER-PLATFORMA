@@ -123,6 +123,22 @@ export const sajtovi: Sajt[] = [
     kategorija: 'tehnoloski-partner',
     opis: 'Platforma za upravljanje kodom — svi repozitorijumi Digitalne Industrije',
   },
+  {
+    id: 'android',
+    naziv: 'Android',
+    url: 'https://www.android.com',
+    ikona: '📱',
+    kategorija: 'tehnoloski-partner',
+    opis: 'Mobilna platforma — partnerstvo za Android aplikacije i ekosistem',
+  },
+  {
+    id: 'apple',
+    naziv: 'Apple',
+    url: 'https://www.apple.com',
+    ikona: '🍎',
+    kategorija: 'tehnoloski-partner',
+    opis: 'Tehnološka kompanija — partnerstvo za iOS/macOS aplikacije i ekosistem',
+  },
   // ── Društvene Mreže ───────────────────────────────────────────────────
   {
     id: 'facebook',
