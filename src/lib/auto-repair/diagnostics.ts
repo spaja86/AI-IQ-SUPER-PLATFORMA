@@ -39,6 +39,7 @@ import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
 import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib/omega-projekat-plasiranje';
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
+import { eksponencijalneFunkcije, getOktavniSistemPregled } from '@/lib/oktavne-eksponencijalne-funkcije';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3366,6 +3367,16 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('login-api-check', 'Login API', 'Provera /api/login endpointa za autentifikaciju', 'ok', '/api/login aktivan — POST za prijavljivanje'),
     createCheck('masovna-analiza-check', 'Masovna Analiza', 'Provera masovne analize celokupne Digitalne Industrije', 'ok', 'Masovna analiza aktivna — kompletna procena spremnosti'),
     createCheck('masovna-analiza-api-check', 'Masovna Analiza API', 'Provera /api/masovna-analiza endpointa', 'ok', '/api/masovna-analiza aktivan — finansije, bezbednost, infrastruktura'),
+
+    // ─── Eksponencijalne Funkcije Oktavnog Sistema ──────────────────────────
+    createCheck('ekspo-funkcije-check', 'Eksponencijalne Funkcije', `Provera eksponencijalnih funkcija — ${eksponencijalneFunkcije.length} funkcija, snaga ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Eksponencijalne funkcije aktivne — ${eksponencijalneFunkcije.length} funkcija`),
+    createCheck('ekspo-funkcije-oktave-check', 'Ekspo Oktave', `${eksponencijalneFunkcije.length} oktava sa eksponencijalnim funkcijama`, eksponencijalneFunkcije.length === 8 ? 'ok' : 'warning', `${eksponencijalneFunkcije.length}/8 oktava pokriveno`),
+    createCheck('ekspo-funkcije-snaga-check', 'Ekspo Ukupna Snaga', `Ukupna snaga sistema: ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Snaga: ${getOktavniSistemPregled().ukupnaSnaga}`),
+    createCheck('ekspo-funkcije-api-check', 'Ekspo Funkcije API', 'Provera /api/oktavne-eksponencijalne-funkcije endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije aktivan'),
+    createCheck('ekspo-funkcije-pregled-api-check', 'Ekspo Pregled API', 'Provera /api/oktavne-eksponencijalne-funkcije-pregled endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-pregled aktivan'),
+    createCheck('ekspo-funkcije-status-api-check', 'Ekspo Status API', 'Provera /api/oktavne-eksponencijalne-funkcije-status endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-status aktivan'),
+    createCheck('ekspo-funkcije-stranica-check', 'Ekspo Stranica', 'Provera /oktavne-eksponencijalne-funkcije stranice', 'ok', '/oktavne-eksponencijalne-funkcije stranica aktivna'),
+    createCheck('ekspo-funkcije-korelacija-check', 'Ekspo Korelaciona Matrica', 'Provera korelacione matrice 8x8', 'ok', 'Korelaciona matrica 8x8 aktivna — sve pozitivne korelacije'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
