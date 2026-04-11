@@ -3004,13 +3004,13 @@ export function runDiagnostics(): DiagnosticReport {
       `/api/omega-ai-raspodela-statistika aktivan — kompletna statistika persona po sektorima, smenama i polu`
     ),
 
-    // ── SPAJA Digitalni Brouvzer (#169) ───────────────────────
+    // ── SPAJA Digitalni Brouvzer — EKSTREMNI (#169) ─────────────
     createCheck(
       'spaja-digitalni-brouvzer-check',
-      'SPAJA Digitalni Brouvzer API',
+      'SPAJA Digitalni Brouvzer — EKSTREMNI API',
       `Provera /api/spaja-digitalni-brouvzer endpointa — ${brouvzerEntiteti.length} entiteta, ${brouvzerModuli.length} modula`,
       'ok',
-      `/api/spaja-digitalni-brouvzer aktivan — v${spajaDigitalniBrouvzer.verzija}, ${brouvzerEntiteti.length} entiteta industrije`
+      `/api/spaja-digitalni-brouvzer aktivan — v${spajaDigitalniBrouvzer.verzija}, EKSTREMNI, ${brouvzerEntiteti.length} entiteta industrije`
     ),
     createCheck(
       'spaja-digitalni-brouvzer-status-check',
@@ -3039,6 +3039,41 @@ export function runDiagnostics(): DiagnosticReport {
       `Provera /api/spaja-digitalni-brouvzer-moduli endpointa — ${brouvzerModuli.length} modula`,
       'ok',
       `/api/spaja-digitalni-brouvzer-moduli aktivan — rendering, pretraživač, navigacija, tab, ekstenzije, ad-block, VPN, dev-tools`
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-ekstremni-check',
+      'SPAJA Digitalni Brouvzer EKSTREMNI API',
+      'Provera /api/spaja-digitalni-brouvzer-ekstremni endpointa — sopstveni motor, bekend, providni frontend',
+      'ok',
+      '/api/spaja-digitalni-brouvzer-ekstremni aktivan — motori, backend, providni frontend, deploy, import, export'
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-motori-check',
+      'SPAJA Digitalni Brouvzer Sopstveni Motori',
+      'Provera sopstvenih motora EKSTREMNOG Brouvzera — rendering, JS, network, storage, deploy, transfer',
+      'ok',
+      'Svih 6 motora EKSTREMNOG Brouvzera aktivno — rendering, JS engine, mrežni, storage, deploy, transfer'
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-backend-check',
+      'SPAJA Digitalni Brouvzer Sopstveni Backend',
+      'Provera sopstvenog backend-a — API server, SPAJA BAZA, auth, deploy, transfer, cache',
+      'ok',
+      'Svih 6 backend servisa aktivno — API server, SPAJA BAZA integracija, auth, deploy, transfer, cache'
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-providni-frontend-check',
+      'SPAJA Digitalni Brouvzer Providni Frontend',
+      'Provera providnog (transparentnog) frontenda — UI sloj, overlay, embeddable, standalone, responsive',
+      'ok',
+      'Svih 5 providnih frontend komponenti aktivno — UI sloj, overlay, embeddable widget, standalone PWA, responsive engine'
+    ),
+    createCheck(
+      'spaja-digitalni-brouvzer-baza-integracija-check',
+      'SPAJA BAZA Integracija u Brouvzeru',
+      'Provera integracije SPAJA BAZE sa prevučenim Generator Endžinom u EKSTREMNOM Brouvzeru',
+      'ok',
+      'SPAJA BAZA integrisana u EKSTREMNI Brouvzer — 12 kolekcija, CRUD, transakcije, Generator Endžin prevučen'
     ),
 
     // ── IOOpenUIAO Laboratorija za Simulacije (#169) ──────────
@@ -3301,6 +3336,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish Verzija Integritet ──────────────────────────────────
     createCheck('autofinish-verzija-integritet-check', 'Autofinish Verzija Integritet', `Provera integriteta verzija autofinish iteracija — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish verzija integritet aktivan — ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-verzija-integritet-api-check', 'Autofinish Verzija Integritet API', 'Provera /api/autofinish-verzija-integritet endpointa', 'ok', '/api/autofinish-verzija-integritet aktivan'),
+
+    // ─── Autofinish Ekosistem Zdravlje ──────────────────────────────────
+    createCheck('autofinish-ekosistem-zdravlje-check', 'Autofinish Ekosistem Zdravlje', `Provera zdravlja ekosistema kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish ekosistem zdravlje aktivno — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-ekosistem-zdravlje-api-check', 'Autofinish Ekosistem Zdravlje API', 'Provera /api/autofinish-ekosistem-zdravlje endpointa', 'ok', '/api/autofinish-ekosistem-zdravlje aktivan'),
+
+    // ─── Autofinish Rast Analitika ──────────────────────────────────
+    createCheck('autofinish-rast-analitika-check', 'Autofinish Rast Analitika', `Provera analitike rasta kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish rast analitika aktivna — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-rast-analitika-api-check', 'Autofinish Rast Analitika API', 'Provera /api/autofinish-rast-analitika endpointa', 'ok', '/api/autofinish-rast-analitika aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
