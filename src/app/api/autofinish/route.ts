@@ -212,6 +212,7 @@ function getAutofinishOpis(n: number): string {
     240: 'Autofinish #240 — /api/openai-platforma-performans-profiler, profilisanje i analiza performansi, hotspot detekcija, flame graf generator, trend analitika, 5 dijagnostika, 472 ruta, 430 API, 595 dijagnostike',
     241: 'Autofinish #241 — /api/openai-platforma-backup-menadzer, upravljanje rezervnim kopijama i oporavak, backup engine, skladistenje, verifikacija, oporavak menadzer, 5 dijagnostika, 473 ruta, 431 API, 600 dijagnostike',
     242: 'Autofinish #242 — /api/openai-platforma-konfiguracija, upravljanje konfiguracijom i parametrima, konfig engine, verzionisanje, distribucija, tajne, sema validacija, 5 dijagnostika, 474 ruta, 432 API, 605 dijagnostike',
+    243: 'Autofinish #243 — /api/openai-platforma-event-bus, upravljanje dogadjajima i komunikacijom, event engine, topik menadzer, serializacija, dostavljanje, observabilnost, 5 dijagnostika, 475 ruta, 433 API, 610 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
