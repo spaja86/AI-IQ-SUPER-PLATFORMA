@@ -9,7 +9,8 @@ export type SekvencaTip =
   | 'lista'
   | 'hijerarhija'
   | 'tekst'
-  | 'slika';
+  | 'slika'
+  | 'login';
 
 export interface Sekvenca {
   id: string;

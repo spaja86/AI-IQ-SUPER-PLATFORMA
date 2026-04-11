@@ -28,7 +28,7 @@ export const navigation: NavItem[] = [
   { label: 'WiFi Antena', href: '/proksi-wifi-antena', icon: '📶', description: 'Proksi WiFi Antena sistem' },
   { label: 'SPAJA Prompt', href: '/spaja-univerzalni-prompt', icon: '🎯', description: 'SPAJA Univerzalni Prompt' },
   { label: 'Generator Endžina', href: '/spaja-generator-engine', icon: '🔧', description: 'SPAJA Generator za Endžine — engine generator' },
-  { label: 'Digitalni Brouvzer', href: '/spaja-digitalni-brouvzer', icon: '🌐', description: 'SPAJA Digitalni Brouvzer — brauzer platforma za industriju' },
+  { label: 'Digitalni Brouvzer', href: '/spaja-digitalni-brouvzer', icon: '🌐', description: 'SPAJA Digitalni Brouvzer — EKSTREMNI — sopstveni motor, bekend, providni frontend, deploy, import, export' },
   { label: 'Laboratorija', href: '/io-openui-ao-laboratorija', icon: '🔬', description: 'IOOpenUIAO Laboratorija za Simulacije' },
   { label: 'Render Medija', href: '/spaja-render-medija', icon: '🎬', description: 'SPAJA Render za Slike i Video' },
   { label: 'Gaming Platforma', href: '/io-openui-ao-gaming-platforma', icon: '🎮', description: 'IO/OPENUI/AO Gaming - SPAJA Univerzalni Endzin nad 95 igrica (io-openui-ao.vercel.app)' },
@@ -40,4 +40,6 @@ export const navigation: NavItem[] = [
   { label: 'Unit Testovi', href: '/unit-testovi', icon: '🧪', description: 'SPAJA Unit Testovi — 12 suita, 94.8% pokrivenost' },
   { label: 'OMEGA AI Suport', href: '/omega-ai-suport', icon: '📞', description: 'OMEGA AI Maksimalni Suport — 21 persona, telefoni, mejlovi, dispeč' },
   { label: 'OMEGA Plasiranje', href: '/omega-projekat-plasiranje', icon: '🚀', description: 'OMEGA PROJEKAT — automatsko plasiranje u opticaj, 10 faza, 10 sistema' },
+  { label: 'Eksponencijalne Funkcije', href: '/oktavne-eksponencijalne-funkcije', icon: '📈', description: 'Oktavni monolog eksponencijalnog ekvivalenta — figuracioni centar — matricno jedinjenje — OMEGA PROJEKAT' },
+  { label: 'Zvanično Otvaranje', href: '/omega-projekat-zvanicno-otvaranje', icon: '🎉', description: 'OMEGA PROJEKAT — zvanično otvaranje prema monolizmima, verifikacija, saglasnost osnivača' },
 ];
