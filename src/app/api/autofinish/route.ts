@@ -203,6 +203,14 @@ function getAutofinishOpis(n: number): string {
     231: 'Autofinish #231 — /api/openai-platforma-disaster-recovery, oporavak i kontinuitet poslovanja, backup, failover, RPO/RTO, chaos engineering, 6 dijagnostika, 465 ruta, 421 API, 548 dijagnostike',
     232: 'Autofinish #232 — /api/openai-platforma-compliance, uskladenost i upravljanje standardima, audit, policy engine, data governance, risk management, 6 dijagnostika, 467 rute, 422 API, 554 dijagnostike',
     233: 'Autofinish #233 — /api/openai-platforma-incident-menadzer, upravljanje incidentima i odgovor, severity klasifikacija, runbook automatizacija, postmortem, 6 dijagnostika, 469 ruta, 423 API, 560 dijagnostike',
+    234: 'Autofinish #234 — /api/openai-platforma-change-management, upravljanje promenama i releaseima, 5 dijagnostika, 470 ruta, 424 API, 565 dijagnostike',
+    235: 'Autofinish #235 — /api/openai-platforma-cost-management, upravljanje troskovima i budzetom, 5 dijagnostika, 470 ruta, 425 API, 570 dijagnostike',
+    236: 'Autofinish #236 — /api/openai-platforma-kapacitet-menadzer, upravljanje kapacitetima i resursima, 5 dijagnostika, 470 ruta, 426 API, 575 dijagnostike',
+    237: 'Autofinish #237 — /api/openai-platforma-sesija-menadzer, upravljanje sesijama i kontekstom, 5 dijagnostika, 470 ruta, 427 API, 580 dijagnostike',
+    238: 'Autofinish #238 — /api/openai-platforma-replikacija, upravljanje replikacijom i sinhronizacijom podataka, rate-limiter, 5 dijagnostika, 470 ruta, 428 API, 585 dijagnostike',
+    239: 'Autofinish #239 — /api/openai-platforma-zdravlje-provera, monitoring zdravlja i dostupnosti, zdravlje engine, dostupnost menadzer, vitalni znaci, degradacija detekcija, 5 dijagnostika, 471 ruta, 429 API, 590 dijagnostike',
+    240: 'Autofinish #240 — /api/openai-platforma-performans-profiler, profilisanje i analiza performansi, hotspot detekcija, flame graf generator, trend analitika, 5 dijagnostika, 472 ruta, 430 API, 595 dijagnostike',
+    241: 'Autofinish #241 — /api/openai-platforma-backup-menadzer, upravljanje rezervnim kopijama i oporavak, backup engine, skladistenje, verifikacija, oporavak menadzer, 5 dijagnostika, 473 ruta, 431 API, 600 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
