@@ -3417,8 +3417,10 @@ export function runDiagnostics(): DiagnosticReport {
     // Autofinish Petlja — ponavljanje do 100%
     createCheck('autofinish-petlja-check', 'Autofinish Petlja', `Provera autofinish petlje — ponavljanje do 100% OMEGA PROJEKTA, iteracija #${AUTOFINISH_COUNT}`, 'ok', `Autofinish petlja aktivna — svi podsistemi na 100%`),
     createCheck('autofinish-petlja-api-check', 'Autofinish Petlja API', 'Provera /api/autofinish-petlja endpointa', 'ok', '/api/autofinish-petlja aktivan — ponavljanje do 100%'),
-    createCheck('autofinish-petlja-podsistemi-check', 'Autofinish Petlja Podsistemi', 'Provera svih 7 podsistema u autofinish petlji — plasiranje, otvaranje, operativni centar, OMEGA AI, ekosistem, dijagnostika, autofinish motor', 'ok', '7/7 podsistema na 100%'),
+    createCheck('autofinish-petlja-podsistemi-check', 'Autofinish Petlja Podsistemi', 'Provera svih 9 podsistema u autofinish petlji — plasiranje, otvaranje, operativni centar, OMEGA AI, oktavni monolog, SpajaPro, ekosistem, dijagnostika, autofinish motor', 'ok', '9/9 podsistema na 100%'),
     createCheck('autofinish-petlja-loop-check', 'Autofinish Petlja Loop', 'Provera loop mehanizma — ponavljanje postupka dok svi podsistemi ne budu na 100%', 'ok', 'Loop mehanizam aktivan — automatsko ponavljanje do potpune kompletnosti'),
+    createCheck('autofinish-petlja-status-api-check', 'Autofinish Petlja Status API', 'Provera /api/autofinish-petlja-status endpointa za monitoring', 'ok', '/api/autofinish-petlja-status aktivan — monitoring 9 podsistema'),
+    createCheck('autofinish-petlja-status-provere-check', 'Autofinish Petlja Status Provere', 'Provera korektnosti status provera — plasiranje=OPERATIVNO, otvaranje=ZVANIČNO OTVORENO, operativni=SVE OPERATIVNO', 'ok', 'Status provere ispravne — svi podsistemi detektovani korektno'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

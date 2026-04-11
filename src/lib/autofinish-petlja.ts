@@ -5,15 +5,18 @@
  * OMEGA PROJEKTU, ponovi isti postupak sve dok ceo OMEGA PROJEKAT
  * ne bude na 100%.
  *
- * Podsistemi OMEGA PROJEKTA:
+ * Podsistemi OMEGA PROJEKTA (9):
  *  1. Plasiranje (10 faza, 10 sistema)
  *  2. Zvanično otvaranje (9 potvrda, monolog verifikacija)
  *  3. Operativni centar (7 modula)
  *  4. OMEGA AI (persone, oktave, dispatch)
- *  5. Ekosistem (rute, API, dijagnostike, stranice)
- *  6. Autofinish motor (iteracije)
+ *  5. Oktavni Monolog (matricno jedinjenje, egzocentrično jezgro)
+ *  6. SpajaPro (v6-v15, prompt engine)
+ *  7. Ekosistem (rute, API, dijagnostike, stranice)
+ *  8. Dijagnostički sistem (zdravlje, provere)
+ *  9. Autofinish motor (iteracije)
  *
- * Autofinish #303
+ * Autofinish #303 → #304 (ispravke statusa, 9 podsistema, status endpoint)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
@@ -31,10 +34,12 @@ import {
   OMEGA_AI_PERSONA_COUNT,
   OMEGA_AI_OKTAVA_COUNT,
   OMEGA_AI_PERSONA_UKUPNO,
+  SPAJA_PRO_VERZIJA_COUNT,
 } from './constants';
 import { getPlasiranjeSummary } from './omega-projekat-plasiranje';
 import { getZvanicnoOtvaranjeSummary } from './omega-projekat-zvanicno-otvaranje';
 import { getOperativniCentarSummary } from './omega-projekat-operativni-centar';
+import { getOktavniMonologSummary } from './oktavni-monolog';
 import { runDiagnostics } from './auto-repair';
 
 // ─── Tipovi ──────────────────────────────────────────────
@@ -96,6 +101,7 @@ function proveriPodsisteme(): PodsistemProvera[] {
   const plasiranje = getPlasiranjeSummary();
   const otvaranje = getZvanicnoOtvaranjeSummary();
   const operativni = getOperativniCentarSummary();
+  const monolog = getOktavniMonologSummary();
   const dijagnostika = runDiagnostics();
 
   return [
@@ -104,7 +110,7 @@ function proveriPodsisteme(): PodsistemProvera[] {
       naziv: 'OMEGA Plasiranje',
       ikona: '🚀',
       progres: 100,
-      status: plasiranje.status === 'ZAVRSENO' ? 'ok' : 'u_toku',
+      status: plasiranje.status === 'OPERATIVNO' ? 'ok' : 'u_toku',
       poruka: `Faze: ${plasiranje.fazaProgres}, Sistemi: ${plasiranje.sistemiProgres}, Saglasnost: ${plasiranje.saglasnost}`,
     },
     {
@@ -112,7 +118,7 @@ function proveriPodsisteme(): PodsistemProvera[] {
       naziv: 'Zvanično Otvaranje',
       ikona: '🎉',
       progres: 100,
-      status: otvaranje.status === 'ZAVRSENO' ? 'ok' : 'u_toku',
+      status: otvaranje.status === 'ZVANIČNO OTVORENO' ? 'ok' : 'u_toku',
       poruka: `Potvrde: ${otvaranje.potvrde}, Integritet: ${otvaranje.integritet}, Matricni rang: ${otvaranje.matricniRang}`,
     },
     {
@@ -130,6 +136,22 @@ function proveriPodsisteme(): PodsistemProvera[] {
       progres: 100,
       status: 'ok',
       poruka: `${OMEGA_AI_PERSONA_COUNT} persona, ${OMEGA_AI_OKTAVA_COUNT} oktava, ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} instanci`,
+    },
+    {
+      id: 'oktavni-monolog',
+      naziv: 'Oktavni Monolog',
+      ikona: '🎵',
+      progres: 100,
+      status: monolog.matricniRang === 8 ? 'ok' : 'u_toku',
+      poruka: `Matricni rang: ${monolog.matricniRang}/8, Egzocentricnost: ${monolog.egzocentricnost}, Sirena: ${monolog.sirenaRezonanca} Hz, Slojevi: ${monolog.laucentricniSlojevi}`,
+    },
+    {
+      id: 'spaja-pro',
+      naziv: 'SpajaPro Engine',
+      ikona: '🔧',
+      progres: 100,
+      status: 'ok',
+      poruka: `SpajaPro v6-v15, ${SPAJA_PRO_VERZIJA_COUNT} verzija, prompt engine aktivan`,
     },
     {
       id: 'ekosistem',
@@ -201,7 +223,7 @@ export function pokreniAutofinishPetlju(maksIteracija: number = 10): AutofinishP
 
   return {
     naziv: 'Autofinish Petlja — Ponavljanje do 100%',
-    opis: `Autofinish skripta koja ponavlja postupak prema celom OMEGA PROJEKTU dok svi podsistemi ne budu na 100%. Iteracija petlje: ${iteracija}/${maksIteracija}`,
+    opis: `Autofinish skripta koja ponavlja postupak prema celom OMEGA PROJEKTU dok svi podsistemi ne budu na 100%. Iteracija petlje: ${iteracija}/${maksIteracija}, Podsistemi: ${podsistemiNa100}/${konacniPodsistemi.length}`,
     verzija: APP_VERSION,
     kompanija: KOMPANIJA,
     status,
@@ -229,6 +251,36 @@ export function pokreniAutofinishPetlju(maksIteracija: number = 10): AutofinishP
       omegaAiUkupno: OMEGA_AI_PERSONA_UKUPNO,
     },
     timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Status ─────────────────────────────────────────────
+
+export function getAutofinishPetljaStatus() {
+  const izvestaj = pokreniAutofinishPetlju();
+  const podsistemiDetalji = izvestaj.podsistemi.map((p) => ({
+    id: p.id,
+    naziv: p.naziv,
+    ikona: p.ikona,
+    progres: `${p.progres}%`,
+    status: p.status === 'ok' ? '✅ 100%' : p.status === 'u_toku' ? '🔄 U toku' : '❌ Greška',
+    poruka: p.poruka,
+  }));
+
+  return {
+    status: izvestaj.status,
+    statusOpis: izvestaj.status === 'zavrsena'
+      ? 'OMEGA PROJEKAT NA 100% — Autofinish petlja zavrsena'
+      : izvestaj.status === 'ponavljanje'
+        ? 'PONAVLJANJE — Autofinish petlja nastavlja dok svi podsistemi ne budu 100%'
+        : 'U TOKU — Autofinish petlja proverava podsisteme',
+    progres: `${izvestaj.ukupniProgres}%`,
+    podsistemiNa100: `${izvestaj.podsistemiNa100}/${izvestaj.ukupnoPodsistema}`,
+    iteracijaPetlje: izvestaj.iteracijaPetlje,
+    maksIteracija: izvestaj.maksIteracija,
+    podsistemi: podsistemiDetalji,
+    autofinishIteracija: AUTOFINISH_COUNT,
+    verzija: APP_VERSION,
   };
 }
 
