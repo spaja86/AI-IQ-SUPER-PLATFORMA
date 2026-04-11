@@ -231,6 +231,24 @@ function SlikaSkeleton() {
   );
 }
 
+function LoginSkeleton() {
+  return (
+    <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-6 py-16">
+      <div className="mx-auto max-w-md space-y-4">
+        <Puls className="mx-auto h-8 w-48" />
+        <Puls className="mx-auto h-4 w-64" />
+        <div className="mt-6 rounded-2xl border border-gray-700/50 bg-gray-800/50 p-8 space-y-5">
+          <Puls className="h-4 w-24" />
+          <Puls className="h-12 w-full rounded-lg" />
+          <Puls className="h-4 w-20" />
+          <Puls className="h-12 w-full rounded-lg" />
+          <Puls className="h-12 w-full rounded-lg" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Skeleton lookup ──────────────────────────────────── */
 
 const SKELETONI: Record<SekvencaTip, React.ComponentType> = {
@@ -245,6 +263,7 @@ const SKELETONI: Record<SekvencaTip, React.ComponentType> = {
   hijerarhija: HijerarhijaSkeleton,
   tekst: TekstSkeleton,
   slika: SlikaSkeleton,
+  login: LoginSkeleton,
 };
 
 /**
