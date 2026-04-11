@@ -45,7 +45,7 @@ export const platforms: Platform[] = [
     icon: '🌐',
     techStack: ['React', 'WebRTC', 'Socket.IO', 'Vercel', 'SpajaPro Engine'],
     features: ['Bank modul', 'Exchange modul', 'Company modul', 'AI modul', 'Real-time chat', 'SpajaPro Prompt'],
-    deploy: { status: 'deployed', domain: 'www.ioopenuiao.ac', vercelProject: 'io-openui-ao', framework: 'react', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', domain: 'io-openui-ao.vercel.app', vercelProject: 'io-openui-ao', framework: 'react', buildCommand: 'npm run build' },
     repoUrl: 'https://github.com/spaja86/IO-OPENUI-AO',
   },
   // ── Finance ───────────────────────────────────────────────────────────
