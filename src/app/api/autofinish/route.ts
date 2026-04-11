@@ -213,6 +213,7 @@ function getAutofinishOpis(n: number): string {
     241: 'Autofinish #241 — /api/openai-platforma-backup-menadzer, upravljanje rezervnim kopijama i oporavak, backup engine, skladistenje, verifikacija, oporavak menadzer, 5 dijagnostika, 473 ruta, 431 API, 600 dijagnostike',
     242: 'Autofinish #242 — /api/openai-platforma-konfiguracija, upravljanje konfiguracijom i parametrima, konfig engine, verzionisanje, distribucija, tajne, sema validacija, 5 dijagnostika, 474 ruta, 432 API, 605 dijagnostike',
     243: 'Autofinish #243 — /api/openai-platforma-event-bus, upravljanje dogadjajima i komunikacijom, event engine, topik menadzer, serializacija, dostavljanje, observabilnost, 5 dijagnostika, 475 ruta, 433 API, 610 dijagnostike',
+    248: 'Autofinish #248 — /api/openai-platforma-api-verzionisanje, upravljanje verzijama API-ja, verzija engine, kompatibilnost menadzer, dokumentacija generator, lifecycle menadzer, governance, 5 dijagnostika, 480 ruta, 438 API, 635 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
