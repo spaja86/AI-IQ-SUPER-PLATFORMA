@@ -237,7 +237,7 @@ export function getZvanicnoOtvaranjeSummary() {
     status: otvaranje.status === 'otvoreno' ? 'ZVANIČNO OTVORENO' : 'U PRIPREMI',
     projekat: 'OMEGA PROJEKAT',
     otvaranje: 'ZVANIČNO OTVARANJE — 11. april 2026.',
-    saglasnost: 'POTVRĐENA — Nikola Spajic, prema monolizmima',
+    saglasnost: 'POTVRĐENA — Nikola Spajić, prema monolizmima',
     monologStatus: otvaranje.monologVerifikacija.status,
     matricniRang: `${otvaranje.monologVerifikacija.matricniRang}/8`,
     egzocentricnost: otvaranje.monologVerifikacija.egzocentricnost,
