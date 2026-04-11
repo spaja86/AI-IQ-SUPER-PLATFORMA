@@ -25,13 +25,13 @@ export const OMEGA_AI_ZENSKIH = 20_000_281;
 
 // Ekosistem
 export const TOTAL_PAGES = 39;
-export const TOTAL_API_ROUTES = 479;
+export const TOTAL_API_ROUTES = 481;
 export const TOTAL_ROUTES = 545;
 export const TOTAL_IGRICA = 95;
-export const TOTAL_DIAGNOSTIKA = 813;
+export const TOTAL_DIAGNOSTIKA = 814;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 289;
+export const AUTOFINISH_COUNT = 291;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
