@@ -1,7 +1,9 @@
 import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
+import { osnivacProfil, getOsnivacFotografije } from '@/lib/vizuelni-identitet';
 
 const stats = getStatistike();
+const fotografije = getOsnivacFotografije();
 
 export const kompanijaSekvence: Sekvenca[] = [
   {
@@ -20,10 +22,25 @@ export const kompanijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'kompanija-osnivac',
+    tip: 'slika',
+    naslov: `👤 ${osnivacProfil.punoIme} — ${osnivacProfil.titula}`,
+    podnaslov: osnivacProfil.opis,
+    redosled: 2,
+    podaci: {
+      slike: fotografije.map((f) => ({
+        url: f.url,
+        alt: f.alt,
+        zaobljeno: true,
+      })),
+      raspored: 'red',
+    },
+  },
+  {
     id: 'kompanija-tekst',
     tip: 'tekst',
     naslov: 'Misija i vizija',
-    redosled: 2,
+    redosled: 3,
     podaci: {
       sadrzaj: 'Kompanija SPAJA ima za cilj da postane lider u digitalnoj industriji kroz inovativne platforme, naprednu vestacku inteligenciju i jedinstveni ekosistem koji povezuje sve digitalne servise.',
       istaknuteStavke: [
@@ -38,7 +55,7 @@ export const kompanijaSekvence: Sekvenca[] = [
     id: 'kompanija-statistika',
     tip: 'statistika',
     naslov: '📊 Kompanija u brojevima',
-    redosled: 3,
+    redosled: 4,
     podaci: {
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
@@ -52,7 +69,7 @@ export const kompanijaSekvence: Sekvenca[] = [
     id: 'kompanija-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Struktura kompanije',
-    redosled: 4,
+    redosled: 5,
     podaci: {
       nivoi: [
         { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: ['Tehnologija', 'Finansije', 'AI Division', 'Operacije'] },
@@ -67,7 +84,7 @@ export const kompanijaSekvence: Sekvenca[] = [
     id: 'kompanija-kartice',
     tip: 'kartice',
     naslov: '🏛️ Sektori kompanije',
-    redosled: 5,
+    redosled: 6,
     podaci: {
       kartice: [
         { naslov: 'Tehnologija', opis: 'Razvoj platformi i IT proizvoda', ikona: '💻', oznake: ['Next.js', 'TypeScript', 'Vercel'] },
@@ -81,7 +98,7 @@ export const kompanijaSekvence: Sekvenca[] = [
     id: 'kompanija-cta',
     tip: 'cta',
     naslov: '🚀 Priduzite se ekosistemu',
-    redosled: 6,
+    redosled: 7,
     podaci: {
       opis: 'Kompanija SPAJA — digitalna industrija buducnosti.',
       dugmad: [

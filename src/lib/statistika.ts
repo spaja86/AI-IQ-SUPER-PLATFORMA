@@ -14,6 +14,27 @@ import { companies } from './companies';
 import { organizations } from './organizations';
 import { products } from './products';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from './constants';
+import {
+  generisaniEngini,
+  generatorKonfiguracije,
+  getAktivniEngini,
+  getRepoEngini,
+  getRepoKonfiguracije,
+  getProsecnaOptimizacija,
+} from './spaja-generator-engine';
+import { spajaBaza, getBazaStatistika } from './spaja-baza';
+import { autentifikacijaSistem } from './autentifikacija';
+import { profesionalniMejlSistem } from './spaja-profesionalni-mejl';
+import { spajaPlatniSistem } from './spaja-platni-sistem';
+import { spajaRealtimeSistem } from './spaja-realtime';
+import { spajaPricingLogin } from './spaja-pricing-login';
+import { spajaDigitalniTelevizor } from './spaja-digitalni-televizor';
+import { spajaMonitoringLive } from './spaja-monitoring-live';
+import { spajaAiIqMonitoring } from './spaja-ai-iq-monitoring';
+import { spajaBlogFaq } from './spaja-blog-faq';
+import { spajaUnitTestovi } from './spaja-unit-testovi';
+import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
+import { vizuelniIdentitetSistem } from './vizuelni-identitet';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -74,5 +95,59 @@ export function getStatistike() {
     ukupnoKompanija: companies.length,
     ukupnoOrganizacija: organizations.length,
     ukupnoProducts: products.length,
+
+    // SPAJA Generator za Endžine
+    generatorEngina: generisaniEngini.length,
+    generatorAktivnihEngina: getAktivniEngini().length,
+    generatorRepoEngina: getRepoEngini().length,
+    generatorKonfiguracija: generatorKonfiguracije.length,
+    generatorRepoKonfiguracija: getRepoKonfiguracije().length,
+    generatorOptimizacija: getProsecnaOptimizacija(),
+
+    // Backend infrastruktura
+    bazaKolekcija: spajaBaza.kolekcije.length,
+    bazaDokumenata: getBazaStatistika().ukupnoDokumenata,
+    bazaStatus: spajaBaza.status,
+    authDozvola: autentifikacijaSistem.dozvole.length,
+    authStatus: autentifikacijaSistem.status,
+    mejlSablona: profesionalniMejlSistem.sabloni.length,
+    mejlDomena: profesionalniMejlSistem.domeni.length,
+    mejlStatus: profesionalniMejlSistem.status,
+    platniProizvoda: spajaPlatniSistem.stripeProizvodi.length,
+    platniStatus: spajaPlatniSistem.status,
+    realtimeKanala: spajaRealtimeSistem.kanali.length,
+    realtimeStatus: spajaRealtimeSistem.status,
+
+    // Monetizacija & Mediji
+    pricingPlanova: spajaPricingLogin.planovi.length,
+    pricingLoginMetoda: spajaPricingLogin.loginMetode.length,
+    pricingStatus: spajaPricingLogin.status,
+    tvKanala: spajaDigitalniTelevizor.kanali.length,
+    tvPrograma: spajaDigitalniTelevizor.programi.length,
+    tvStatus: spajaDigitalniTelevizor.status,
+    monitoringLiveStreamova: spajaMonitoringLive.streamovi.length,
+    monitoringLiveStreamera: spajaMonitoringLive.streameri.length,
+    monitoringLiveStatus: spajaMonitoringLive.status,
+    aiIqMonitoringGresaka: spajaAiIqMonitoring.greske.length,
+    aiIqMonitoringUptime: spajaAiIqMonitoring.statistika.uptimeProcenat,
+    aiIqMonitoringStatus: spajaAiIqMonitoring.status,
+    blogClanaka: spajaBlogFaq.clanci.length,
+    blogFaqPitanja: spajaBlogFaq.faqPitanja.length,
+    blogStatus: spajaBlogFaq.status,
+    testSuita: spajaUnitTestovi.suite.length,
+    testPokrivenost: spajaUnitTestovi.izvestaj.pokrivenost,
+    testStatus: spajaUnitTestovi.status,
+
+    // OMEGA AI Maksimalni Suport
+    suportTelefona: omegaAiMaksimalniSuport.telefoni.length,
+    suportTiketa: omegaAiMaksimalniSuport.statistika.ukupnoTiketa,
+    suportSlaIspunjenost: omegaAiMaksimalniSuport.statistika.slaIspunjenost,
+    suportZadovoljstvo: omegaAiMaksimalniSuport.statistika.zadovoljstvoKorisnika,
+    suportStatus: omegaAiMaksimalniSuport.status,
+
+    // Vizuelni Identitet
+    vizuelniResursa: vizuelniIdentitetSistem.ukupnoResursa,
+    vizuelniOsnivac: vizuelniIdentitetSistem.osnivac.punoIme,
+    vizuelniStatus: vizuelniIdentitetSistem.status,
   };
 }

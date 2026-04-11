@@ -8,7 +8,9 @@ export type SekvencaTip =
   | 'baner'
   | 'lista'
   | 'hijerarhija'
-  | 'tekst';
+  | 'tekst'
+  | 'slika'
+  | 'login';
 
 export interface Sekvenca {
   id: string;
@@ -164,6 +166,7 @@ export interface Platform {
   techStack: string[];
   features: string[];
   deploy?: PlatformDeploy;
+  repoUrl?: string;
 }
 
 export interface IndustrijaStats {

@@ -27,7 +27,7 @@ export default function KarticeSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
           {kartice.map((k) => {
             const content = (
               <div className="group rounded-2xl border border-gray-700/50 bg-gray-800/50 p-6 transition hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
-                <div className="mb-3 text-3xl">{k.ikona}</div>
+                <div className="mb-3 text-3xl" role="img" aria-label={k.naslov}>{k.ikona}</div>
                 <h3 className="mb-2 text-lg font-semibold text-white">{k.naslov}</h3>
                 <p className="mb-4 text-sm text-gray-400">{k.opis}</p>
                 {typeof k.progres === 'number' && (
@@ -36,7 +36,7 @@ export default function KarticeSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
                       <span>Progres</span>
                       <span>{k.progres}%</span>
                     </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-gray-700">
+                    <div className="h-2 overflow-hidden rounded-full bg-gray-700" role="progressbar" aria-valuenow={k.progres} aria-valuemin={0} aria-valuemax={100} aria-label={`${k.naslov}: ${k.progres}%`}>
                       <div
                         className={`h-full rounded-full ${k.progres >= 90 ? 'bg-green-500' : k.progres >= 70 ? 'bg-blue-500' : k.progres >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
                         style={{ width: `${k.progres}%` }}

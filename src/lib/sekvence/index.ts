@@ -22,7 +22,18 @@ export { igriceSekvence } from './igrice-page';
 export { spajaUniverzalniPromptSekvence } from './spaja-univerzalni-prompt-page';
 export { proksiWifiAntenaSekvence } from './proksi-wifi-antena-page';
 
+export { ioOpenUIAOGamingSekvence } from './io-openui-ao-gaming-platforma-page';
+
 // ── Autofinish #17: EN entity sekvence ──────────────────────────────────────
 export { kompanijeSekvence } from './kompanije-page';
 export { organizacijeSekvence } from './organizacije-page';
 export { proizvodiSekvence } from './proizvodi-page';
+
+// ── Module sekvence ─────────────────────────────────────────────────────────
+export { pricingLoginSekvence } from './pricing-login-page';
+export { digitalniTelevizorSekvence } from './digitalni-televizor-page';
+export { monitoringLiveSekvence } from './monitoring-live-page';
+export { aiIqMonitoringSekvence } from './ai-iq-monitoring-page';
+export { blogFaqSekvence } from './blog-faq-page';
+export { unitTestoviSekvence } from './unit-testovi-page';
+export { omegaAiSuportSekvence } from './omega-ai-suport-page';

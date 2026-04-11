@@ -276,9 +276,9 @@ Svaka platforma u Digitalnoj Industriji ima svoj eksterni Vercel domen. Klikom n
 |-----------|-------------|
 | AI IQ SUPER PLATFORMA | ai-iq-super-platforma.vercel.app |
 | IO OPENUI AO — SpajaPro Engine | io-openui-ao.vercel.app |
-| AI IQ Menjacnica | ai-iq-menjacnica.vercel.app |
-| AI IQ World Bank | ai-iq-world-bank.vercel.app |
-| SVETSKA ORGANIZACIJA | svetska-organizacija.vercel.app |
+| AI IQ Menjacnica | ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app |
+| AI IQ World Bank | ai-iq-world-bank-git-copilot-n-697903-nikolas-projects-b8a8458f.vercel.app |
+| SVETSKA ORGANIZACIJA | svetska-organizacija-git-copil-0ce22a-nikolas-projects-b8a8458f.vercel.app |
 | OMEGA AI za GitHub | omega-ai-github.vercel.app |
 | OMEGA AI za Vercel | omega-ai-vercel.vercel.app |
 | OMEGA AI za Google | omega-ai-google.vercel.app |

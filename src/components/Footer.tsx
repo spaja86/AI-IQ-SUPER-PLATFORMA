@@ -4,6 +4,9 @@ import { APP_VERSION, TOTAL_PAGES, TOTAL_ROUTES, TOTAL_DIAGNOSTIKA, AUTOFINISH_C
 const footerNavLinks = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/platforme', label: 'Platforme' },
+  { href: '/kompanije', label: 'Kompanije' },
+  { href: '/organizacije', label: 'Organizacije' },
+  { href: '/proizvodi', label: 'Proizvodi' },
   { href: '/it-proizvodi', label: 'IT Proizvodi' },
   { href: '/omega-ai', label: 'OMEGA AI' },
   { href: '/spaja-pro', label: 'SpajaPro' },
@@ -31,6 +34,19 @@ const footerTechLinks = [
   { href: '/proksi-wifi-antena', label: 'Proksi WiFi Antena' },
   { href: '/ai-platforma', label: 'AI Platforma' },
   { href: '/industrija', label: 'Industrija' },
+  { href: '/spaja-generator-engine', label: 'Generator Endžin' },
+  { href: '/spaja-digitalni-brouvzer', label: 'Digitalni Brouvzer' },
+  { href: '/spaja-render-medija', label: 'Render Medija' },
+  { href: '/io-openui-ao-laboratorija', label: 'Laboratorija Simulacija' },
+  { href: '/io-openui-ao-gaming-platforma', label: 'Gaming Platforma' },
+  { href: '/pricing', label: 'Pricing & Login' },
+  { href: '/digitalni-televizor', label: 'Digitalni TV' },
+  { href: '/monitoring-live', label: 'Monitoring Live' },
+  { href: '/ai-iq-monitoring', label: 'AI Monitoring' },
+  { href: '/blog', label: 'Blog & FAQ' },
+  { href: '/unit-testovi', label: 'Unit Testovi' },
+  { href: '/omega-ai-suport', label: 'OMEGA AI Suport' },
+  { href: '/omega-projekat-plasiranje', label: 'OMEGA Plasiranje' },
 ];
 
 export default function Footer() {
