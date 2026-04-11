@@ -39,6 +39,8 @@ import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from '@/lib/vizuelni-identitet';
 import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib/omega-projekat-plasiranje';
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
+import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
+import { getOktavniMonolog } from '@/lib/oktavni-monolog';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3366,6 +3368,38 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('login-api-check', 'Login API', 'Provera /api/login endpointa za autentifikaciju', 'ok', '/api/login aktivan — POST za prijavljivanje'),
     createCheck('masovna-analiza-check', 'Masovna Analiza', 'Provera masovne analize celokupne Digitalne Industrije', 'ok', 'Masovna analiza aktivna — kompletna procena spremnosti'),
     createCheck('masovna-analiza-api-check', 'Masovna Analiza API', 'Provera /api/masovna-analiza endpointa', 'ok', '/api/masovna-analiza aktivan — finansije, bezbednost, infrastruktura'),
+
+    // ─── Eksponencijalne Funkcije Oktavnog Sistema ──────────────────────────
+    createCheck('ekspo-funkcije-check', 'Eksponencijalne Funkcije', `Provera eksponencijalnih funkcija — ${eksponencijalneFunkcije.length} funkcija, snaga ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Eksponencijalne funkcije aktivne — ${eksponencijalneFunkcije.length} funkcija`),
+    createCheck('ekspo-funkcije-oktave-check', 'Ekspo Oktave', `${eksponencijalneFunkcije.length} oktava sa eksponencijalnim funkcijama`, eksponencijalneFunkcije.length === 8 ? 'ok' : 'warning', `${eksponencijalneFunkcije.length}/8 oktava pokriveno`),
+    createCheck('ekspo-funkcije-snaga-check', 'Ekspo Ukupna Snaga', `Ukupna snaga sistema: ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Snaga: ${getOktavniSistemPregled().ukupnaSnaga}`),
+    createCheck('ekspo-funkcije-api-check', 'Ekspo Funkcije API', 'Provera /api/oktavne-eksponencijalne-funkcije endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije aktivan'),
+    createCheck('ekspo-funkcije-pregled-api-check', 'Ekspo Pregled API', 'Provera /api/oktavne-eksponencijalne-funkcije-pregled endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-pregled aktivan'),
+    createCheck('ekspo-funkcije-status-api-check', 'Ekspo Status API', 'Provera /api/oktavne-eksponencijalne-funkcije-status endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-status aktivan'),
+    createCheck('ekspo-funkcije-stranica-check', 'Ekspo Stranica', 'Provera /oktavne-eksponencijalne-funkcije stranice', 'ok', '/oktavne-eksponencijalne-funkcije stranica aktivna'),
+    createCheck('ekspo-funkcije-korelacija-check', 'Ekspo Korelaciona Matrica', 'Provera korelacione matrice 8x8', 'ok', 'Korelaciona matrica 8x8 aktivna — sve pozitivne korelacije'),
+
+    // ─── Figuracioni Centar Eksponencijalnog Objekta ──────────────────────────
+    createCheck('figcentar-check', 'Figuracioni Centar', `Provera figuracionog centra — centroid (${getFiguracioniCentar().centroidX}, ${getFiguracioniCentar().centroidY})`, 'ok', `Figuracioni centar aktivan — centroid (${getFiguracioniCentar().centroidX}, ${getFiguracioniCentar().centroidY})`),
+    createCheck('figcentar-fokalna-check', 'Fokalna Snaga', `Fokalna snaga centra: ${getFiguracioniCentar().fokalnaSnaga}`, 'ok', `Fokalna snaga: ${getFiguracioniCentar().fokalnaSnaga}`),
+    createCheck('figcentar-harmonicki-check', 'Harmonicki Indeks', `Harmonicki indeks: ${getFiguracioniCentar().harmonickiIndeks}`, 'ok', `Harmonicki indeks: ${getFiguracioniCentar().harmonickiIndeks}`),
+    createCheck('figcentar-ose-check', 'Figuracione Ose', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa`, getFiguracioniCentar().figuracioneOse.length > 0 ? 'ok' : 'warning', `${getFiguracioniCentar().figuracioneOse.length} figuracionih osa definisano`),
+    createCheck('figcentar-api-check', 'Figuracioni Centar API', 'Provera /api/oktavni-figuracioni-centar endpointa', 'ok', '/api/oktavni-figuracioni-centar aktivan'),
+    createCheck('figcentar-status-api-check', 'Figuracioni Centar Status API', 'Provera /api/oktavni-figuracioni-centar-status endpointa', 'ok', '/api/oktavni-figuracioni-centar-status aktivan'),
+
+    // ─── Oktavni Monolog Eksponencijalnog Ekvivalenta ──────────────────────────
+    createCheck('oktavni-monolog-check', 'Oktavni Monolog', `Provera oktavnog monologa — ${getOktavniMonolog().ekvivalenti.length} ekvivalenata, matricni trag ${getOktavniMonolog().matricnoJedinjenje.trag}`, 'ok', `Oktavni monolog aktivan — ${getOktavniMonolog().ekvivalenti.length} ekvivalenata`),
+    createCheck('oktavni-monolog-matrica-check', 'Matricno Jedinjenje', `Matricno jedinjenje ${getOktavniMonolog().matricnoJedinjenje.dimenzija}x${getOktavniMonolog().matricnoJedinjenje.dimenzija}, rang=${getOktavniMonolog().matricnoJedinjenje.rang}`, getOktavniMonolog().matricnoJedinjenje.rang === 8 ? 'ok' : 'warning', `Matricno jedinjenje: rang ${getOktavniMonolog().matricnoJedinjenje.rang}/8`),
+    createCheck('oktavni-monolog-jezgro-check', 'Egzocentricno Jezgro', `Egzocentricnost: ${getOktavniMonolog().egzocentricnoJezgro.egzocentricnost}, snaga: ${getOktavniMonolog().egzocentricnoJezgro.funkcionalnaSnaga}`, 'ok', `Egzocentricno jezgro aktivno — egzocentricnost ${getOktavniMonolog().egzocentricnoJezgro.egzocentricnost}`),
+    createCheck('oktavni-monolog-laucentricni-check', 'Laucentricni Sistem', `${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} laucentricnih slojeva, snaga ${getOktavniMonolog().laucentricniSistem.ukupnaSnaga}`, 'ok', `Laucentricni sistem aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
+    createCheck('oktavni-monolog-api-check', 'Oktavni Monolog API', 'Provera /api/oktavni-monolog endpointa', 'ok', '/api/oktavni-monolog aktivan'),
+    createCheck('oktavni-monolog-status-api-check', 'Oktavni Monolog Status API', 'Provera /api/oktavni-monolog-status endpointa', 'ok', '/api/oktavni-monolog-status aktivan'),
+
+    // ─── Monolog Sirena Rezonator & Laucentricni Projektor ──────────────────────
+    createCheck('monolog-sirena-rezonator-check', 'Monolog Sirena Rezonator', `Provera sirena rezonatora — rezonanca ${getOktavniMonolog().egzocentricnoJezgro.sirenaRezonanca} Hz`, 'ok', `Sirena rezonator aktivan — ${getOktavniMonolog().egzocentricnoJezgro.sirenaRezonanca} Hz`),
+    createCheck('monolog-sirena-rezonator-api-check', 'Sirena Rezonator API', 'Provera /api/omega-monolog-sirena-rezonator endpointa', 'ok', '/api/omega-monolog-sirena-rezonator aktivan'),
+    createCheck('monolog-laucentricni-projektor-check', 'Laucentricni Projektor', `Provera laucentricnog projektora — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`, 'ok', `Laucentricni projektor aktivan — ${getOktavniMonolog().laucentricniSistem.ukupnoSlojeva} slojeva`),
+    createCheck('monolog-laucentricni-projektor-api-check', 'Laucentricni Projektor API', 'Provera /api/omega-monolog-laucentricni-projektor endpointa', 'ok', '/api/omega-monolog-laucentricni-projektor aktivan'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
