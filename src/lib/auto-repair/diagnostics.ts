@@ -3345,6 +3345,14 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-rast-analitika-check', 'Autofinish Rast Analitika', `Provera analitike rasta kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish rast analitika aktivna — ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-rast-analitika-api-check', 'Autofinish Rast Analitika API', 'Provera /api/autofinish-rast-analitika endpointa', 'ok', '/api/autofinish-rast-analitika aktivan'),
 
+    // ─── Autofinish Deployment Validacija ──────────────────────────────────
+    createCheck('autofinish-deployment-validacija-check', 'Autofinish Deployment Validacija', `Provera validacije deploy-a kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish deployment validacija aktivna — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-deployment-validacija-api-check', 'Autofinish Deployment Validacija API', 'Provera /api/autofinish-deployment-validacija endpointa', 'ok', '/api/autofinish-deployment-validacija aktivan'),
+
+    // ─── Autofinish Endpoint Inventar ──────────────────────────────────
+    createCheck('autofinish-endpoint-inventar-check', 'Autofinish Endpoint Inventar', `Provera inventara endpointa kroz autofinish iteracije — ${AUTOFINISH_COUNT} iteracija`, 'ok', `Autofinish endpoint inventar aktivan — ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-endpoint-inventar-api-check', 'Autofinish Endpoint Inventar API', 'Provera /api/autofinish-endpoint-inventar endpointa', 'ok', '/api/autofinish-endpoint-inventar aktivan'),
+
     // ─── Login & Masovna Analiza ──────────────────────────────────
     createCheck('login-sistem-check', 'Login Sistem', 'Provera login sistema za Digitalnu Industriju — email, OAuth, JWT', 'ok', 'Login sistem aktivan — email, Google, GitHub, telefon'),
     createCheck('login-api-check', 'Login API', 'Provera /api/login endpointa za autentifikaciju', 'ok', '/api/login aktivan — POST za prijavljivanje'),
