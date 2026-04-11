@@ -219,6 +219,7 @@ function getAutofinishOpis(n: number): string {
     300: 'Autofinish #300 MILESTONE — omega-projekat-operativni-centar, centralni operativni centar za monitoring OMEGA PROJEKTA, 7 modula (plasiranje, otvaranje, OMEGA AI, monolog, API, dijagnostika, autofinish), agregirani status, 2 API endpointa, 4 dijagnostike, 547 ruta, 503 API, 856 dijagnostike',
     301: 'Autofinish #301 — spaja-digitalni-kompjuter-aktivacija, integracija Digitalnog Kompjutera u login tok, svaki ulogovani korisnik dobija aktiviran kompjuter sa svim komponentama (Maticna Ploca, Server, Procesor, Cip, BIOS, Hard Disk, RAM, GPU, Graficka, Tastatura i Mis, Monitoring Live), digitalni-kompjuter-pristup dozvola za sve uloge, 1 API endpoint, 2 dijagnostike, 548 ruta, 504 API, 858 dijagnostike',
     302: 'Autofinish #302 — kontinualna stabilizacija ekosistema, azuriranje konstanti, registracija iteracije #301, 549 ruta, 505 API, 860 dijagnostike',
+    303: 'Autofinish #303 — /api/autofinish-petlja, skripta sa ponavljanjem do 100% OMEGA PROJEKTA, 7 podsistema (plasiranje, otvaranje, operativni centar, OMEGA AI, ekosistem, dijagnostika, autofinish motor), loop mehanizam, 4 dijagnostike, 550 ruta, 506 API, 864 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

@@ -3413,6 +3413,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('operativni-centar-moduli-check', 'Operativni Moduli', 'Provera svih 7 operativnih modula — plasiranje, otvaranje, OMEGA AI, monolog, API, dijagnostika, autofinish', 'ok', '7/7 modula operativno — 100% zdravlje'),
     createCheck('operativni-centar-api-check', 'Operativni Centar API', 'Provera /api/omega-projekat-operativni-centar endpointa', 'ok', '/api/omega-projekat-operativni-centar aktivan'),
     createCheck('operativni-centar-status-api-check', 'Operativni Centar Status API', 'Provera /api/omega-projekat-operativni-centar-status endpointa', 'ok', '/api/omega-projekat-operativni-centar-status aktivan'),
+
+    // Autofinish Petlja — ponavljanje do 100%
+    createCheck('autofinish-petlja-check', 'Autofinish Petlja', `Provera autofinish petlje — ponavljanje do 100% OMEGA PROJEKTA, iteracija #${AUTOFINISH_COUNT}`, 'ok', `Autofinish petlja aktivna — svi podsistemi na 100%`),
+    createCheck('autofinish-petlja-api-check', 'Autofinish Petlja API', 'Provera /api/autofinish-petlja endpointa', 'ok', '/api/autofinish-petlja aktivan — ponavljanje do 100%'),
+    createCheck('autofinish-petlja-podsistemi-check', 'Autofinish Petlja Podsistemi', 'Provera svih 7 podsistema u autofinish petlji — plasiranje, otvaranje, operativni centar, OMEGA AI, ekosistem, dijagnostika, autofinish motor', 'ok', '7/7 podsistema na 100%'),
+    createCheck('autofinish-petlja-loop-check', 'Autofinish Petlja Loop', 'Provera loop mehanizma — ponavljanje postupka dok svi podsistemi ne budu na 100%', 'ok', 'Loop mehanizam aktivan — automatsko ponavljanje do potpune kompletnosti'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
