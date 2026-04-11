@@ -197,6 +197,7 @@ function getAutofinishOpis(n: number): string {
     225: 'Autofinish #225 — /api/openai-platforma-autentifikacija, upravljanje autentifikacijom i autorizacijom, 5 protokola, 5 MFA metoda, 6 dijagnostika, 457 rute, 415 API, 512 dijagnostike',
     226: 'Autofinish #226 — /api/openai-platforma-enkriptovanje, upravljanje enkripcijom i zastitom podataka, 3 post-kvantna algoritma, 6 dijagnostika, 458 rute, 416 API, 518 dijagnostike',
     227: 'Autofinish #227 — /api/openai-platforma-skaliranje, upravljanje skaliranjem i elasticnoscu, 5 regiona, 6 dijagnostika, 459 rute, 417 API, 524 dijagnostike',
+    228: 'Autofinish #228 — /api/openai-platforma-api-gateway, upravljanje API pristupom i rutiranjem, 4 tipa rutiranja, 6 dijagnostika, 460 rute, 418 API, 530 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
