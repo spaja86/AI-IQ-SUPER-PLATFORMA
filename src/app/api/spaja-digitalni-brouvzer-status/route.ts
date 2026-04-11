@@ -6,6 +6,9 @@ import {
   getAktivniEntiteti,
   getAktivniModuli,
   getBrouvzerStatistika,
+  ekstremniMotori,
+  ekstremniBackend,
+  providniFrontendKomponente,
 } from '@/lib/spaja-digitalni-brouvzer';
 
 export async function GET() {
@@ -13,13 +16,17 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'aktivan',
-    sistem: 'SPAJA Digitalni Brouvzer — Status',
+    sistem: 'SPAJA Digitalni Brouvzer — EKSTREMNI — Status',
     verzija: APP_VERSION,
     link: 'https://chatgpt.com/c/69152051-4108-8328-9f58-d2d508b844f9',
+    ekstremniRezim: statistika.ekstremniRezim,
     ukupnoEntiteta: brouvzerEntiteti.length,
     aktivnihEntiteta: getAktivniEntiteti().length,
     ukupnoModula: brouvzerModuli.length,
     aktivnihModula: getAktivniModuli().length,
+    ukupnoMotora: ekstremniMotori.length,
+    ukupnoBackendServisa: ekstremniBackend.length,
+    ukupnoFrontendKomponenti: providniFrontendKomponente.length,
     pokrivenostIndustrije: `${statistika.pokrivenostIndustrije}%`,
     statistika,
     entiteti: brouvzerEntiteti.map((e) => ({
