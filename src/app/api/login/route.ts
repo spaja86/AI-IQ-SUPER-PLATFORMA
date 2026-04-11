@@ -19,8 +19,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!email.includes('@') || !email.includes('.') || email.length < 5) {
       return NextResponse.json(
         { greska: 'Neispravan format email adrese.' },
         { status: 400 },
