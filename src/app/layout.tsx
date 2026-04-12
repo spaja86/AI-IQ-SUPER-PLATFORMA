@@ -85,7 +85,6 @@ export const metadata: Metadata = {
     canonical: BASE_URL,
     languages: {
       'sr-Latn': BASE_URL,
-      'en': `${BASE_URL}/en`,
     },
   },
   twitter: {

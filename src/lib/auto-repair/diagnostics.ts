@@ -3430,7 +3430,7 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('json-ld-software-check', 'JSON-LD SoftwareApplication', 'Provera SoftwareApplication schema na /spaja-pro stranici', 'ok', 'SoftwareApplication schema aktivan — SpajaPro Engine, verzija, cene'),
     createCheck('json-ld-faq-check', 'JSON-LD FAQPage', 'Provera FAQPage schema na /blog stranici sa FAQ pitanjima', 'ok', `FAQPage schema aktivan — ${spajaBlogFaq.faqPitanja.length} pitanja`),
     createCheck('json-ld-breadcrumb-check', 'JSON-LD BreadcrumbList', 'Provera BreadcrumbList schema u layout-u za navigaciju', 'ok', 'BreadcrumbList schema aktivan — 10 navigacionih stavki'),
-    createCheck('hreflang-check', 'Hreflang', 'Provera hreflang tagova za internacionalizaciju (sr-Latn + en)', 'ok', 'Hreflang konfigurisan — sr-Latn i en alternates u sitemap i metadata'),
+    createCheck('hreflang-check', 'Hreflang', 'Provera hreflang tagova za internacionalizaciju (sr-Latn)', 'ok', 'Hreflang konfigurisan — sr-Latn alternates u sitemap i metadata'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

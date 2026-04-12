@@ -73,7 +73,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: {
       languages: {
         'sr-Latn': `${BASE_URL}${route}`,
-        'en': `${BASE_URL}/en${route}`,
       },
     },
   }));
