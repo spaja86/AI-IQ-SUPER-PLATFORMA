@@ -3,9 +3,13 @@ import './globals.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL } from '@/lib/constants';
+import { navigation } from '@/lib/navigation';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const jsonLd = {
+const OG_IMAGE_URL = `${BASE_URL}/api/og`;
+
+const jsonLdWebApp = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: APP_NAME,
@@ -31,6 +35,18 @@ const jsonLd = {
     bestRating: '5',
   },
   inLanguage: 'sr-Latn',
+  image: OG_IMAGE_URL,
+};
+
+const jsonLdBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: navigation.slice(0, 10).map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    item: `${BASE_URL}${item.href}`,
+  })),
 };
 
 export const viewport: Viewport = {
@@ -56,15 +72,35 @@ export const metadata: Metadata = {
     siteName: 'AI IQ SUPER PLATFORMA',
     title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
     description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+    images: [
+      {
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA — Digitalna Industrija',
+      },
+    ],
   },
   alternates: {
     canonical: BASE_URL,
+    languages: {
+      'sr-Latn': BASE_URL,
+      'en': `${BASE_URL}/en`,
+    },
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
     description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
     creator: '@KompanijaSPAJA',
+    images: [
+      {
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA — Digitalna Industrija',
+      },
+    ],
   },
   robots: {
     index: true,
@@ -84,7 +120,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebApp) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
         <Navigation />
         <main id="main-content" className="flex-1" role="main">
@@ -92,6 +132,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

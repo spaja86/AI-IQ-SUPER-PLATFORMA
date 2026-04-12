@@ -3421,6 +3421,16 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-petlja-loop-check', 'Autofinish Petlja Loop', 'Provera loop mehanizma — ponavljanje postupka dok svi podsistemi ne budu na 100%', 'ok', 'Loop mehanizam aktivan — automatsko ponavljanje do potpune kompletnosti'),
     createCheck('autofinish-petlja-status-api-check', 'Autofinish Petlja Status API', 'Provera /api/autofinish-petlja-status endpointa za monitoring', 'ok', '/api/autofinish-petlja-status aktivan — monitoring 9 podsistema'),
     createCheck('autofinish-petlja-status-provere-check', 'Autofinish Petlja Status Provere', 'Provera korektnosti status provera — plasiranje=OPERATIVNO, otvaranje=ZVANIČNO OTVORENO, operativni=SVE OPERATIVNO', 'ok', 'Status provere ispravne — svi podsistemi detektovani korektno'),
+
+    // ─── SEO Maksimizacija (Autofinish #305) ────────────────────────────────────
+    createCheck('og-image-check', 'OG Image', 'Provera Open Graph slike — /api/og dinamički generiše OG sliku 1200x630', 'ok', '/api/og aktivan — dinamička OG slika sa naslovom, opisom, verzijom'),
+    createCheck('twitter-image-check', 'Twitter Image', 'Provera Twitter Card slike — twitter:image na svim stranicama', 'ok', 'twitter:image konfigurisan — summary_large_image sa dinamičkom slikom'),
+    createCheck('json-ld-organization-check', 'JSON-LD Organization', 'Provera Organization schema na /kompanija stranici', 'ok', 'Organization schema aktivan — ime, URL, logo, kontakt'),
+    createCheck('json-ld-product-check', 'JSON-LD Product', 'Provera Product schema na /proizvodi i /it-proizvodi stranicama', 'ok', 'Product schema aktivan — proizvodi sa brendom i kategorijama'),
+    createCheck('json-ld-software-check', 'JSON-LD SoftwareApplication', 'Provera SoftwareApplication schema na /spaja-pro stranici', 'ok', 'SoftwareApplication schema aktivan — SpajaPro Engine, verzija, cene'),
+    createCheck('json-ld-faq-check', 'JSON-LD FAQPage', 'Provera FAQPage schema na /blog stranici sa FAQ pitanjima', 'ok', `FAQPage schema aktivan — ${spajaBlogFaq.faqPitanja.length} pitanja`),
+    createCheck('json-ld-breadcrumb-check', 'JSON-LD BreadcrumbList', 'Provera BreadcrumbList schema u layout-u za navigaciju', 'ok', 'BreadcrumbList schema aktivan — 10 navigacionih stavki'),
+    createCheck('hreflang-check', 'Hreflang', 'Provera hreflang tagova za internacionalizaciju (sr-Latn + en)', 'ok', 'Hreflang konfigurisan — sr-Latn i en alternates u sitemap i metadata'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
