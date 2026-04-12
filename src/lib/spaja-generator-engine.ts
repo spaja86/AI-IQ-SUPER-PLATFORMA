@@ -71,7 +71,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-pro.ts',
     mogucnosti: ['Prompt obrada', 'Multi-model AI', 'Univerzalni Prompt', 'Fine-tuning', 'Token optimizacija'],
     generisanDatum: '2024-01-15',
-    optimizacija: 95,
+    optimizacija: 100,
   },
   {
     id: 'engine-omega-ai',
@@ -84,7 +84,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/omega-ai-dispatch.ts',
     mogucnosti: ['21 persona dispatch', '8 oktavnih nivoa', 'Matrično jezgro 8×8', 'Neurološka mreža', 'Autonomna evolucija'],
     generisanDatum: '2024-03-20',
-    optimizacija: 92,
+    optimizacija: 100,
   },
   {
     id: 'engine-proksi-signal',
@@ -97,7 +97,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/proksi.ts',
     mogucnosti: ['Hipsoneurični signal', 'Ekscentrični modulator', 'Ekliptična vez', 'Rezonantni pojačavač', '10²²⁸ TB kapacitet'],
     generisanDatum: '2024-06-10',
-    optimizacija: 88,
+    optimizacija: 100,
   },
   {
     id: 'engine-mobilna-mreza',
@@ -110,7 +110,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/mobilna-mreza.ts',
     mogucnosti: ['4 centrale', '5 servisa', 'Glas HD', 'Podaci Turbo', 'IoT Mesh', 'Enterprise Link'],
     generisanDatum: '2024-09-01',
-    optimizacija: 85,
+    optimizacija: 100,
   },
   {
     id: 'engine-wifi-antena',
@@ -123,7 +123,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/proksi-wifi-antena.ts',
     mogucnosti: ['Eliptični suplement', 'Ekscentrični kod', 'Matrično jednačenje', 'Oktavni sistem', 'GitHub integracija'],
     generisanDatum: '2024-12-01',
-    optimizacija: 90,
+    optimizacija: 100,
   },
   {
     id: 'engine-github-deploy',
@@ -136,7 +136,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/proksi-github-deploy.ts',
     mogucnosti: ['Auto deploy', 'Multi-repo', 'Proksi integracija', 'Vercel deployment', 'CI/CD automation'],
     generisanDatum: '2025-01-15',
-    optimizacija: 82,
+    optimizacija: 100,
   },
   {
     id: 'engine-gaming-dimenzije',
@@ -149,7 +149,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/igrice.ts',
     mogucnosti: ['Dimenzionalno renderovanje 360D–5760D', 'Geometrijski procesori', 'Cirkularne formule', '95 igrica', 'VR/AR podrška'],
     generisanDatum: '2025-03-15',
-    optimizacija: 78,
+    optimizacija: 100,
   },
   {
     id: 'engine-sekvence',
@@ -162,7 +162,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/sekvence/index.ts',
     mogucnosti: ['10 tipova sekvenci', 'Skeleton sistem', 'Hero, Statistika, Progres, Kartice, Tabela', 'CTA, Baner, Lista, Hijerarhija, Tekst'],
     generisanDatum: '2024-01-01',
-    optimizacija: 98,
+    optimizacija: 100,
   },
   {
     id: 'engine-auto-popravka',
@@ -175,7 +175,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/auto-repair/diagnostics.ts',
     mogucnosti: ['260+ dijagnostičkih provera', 'Automatska popravka', 'Zdravlje sistema', 'Repair engine', 'Upgrade engine'],
     generisanDatum: '2024-06-01',
-    optimizacija: 96,
+    optimizacija: 100,
   },
   {
     id: 'engine-evolucija',
@@ -188,7 +188,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/evolucija/',
     mogucnosti: ['Autonomna dijagnostika', 'GitHub Issue kreiranje', 'Copilot agent rešavanje', 'Auto-merge', 'Kontinualno poboljšanje'],
     generisanDatum: '2024-09-01',
-    optimizacija: 93,
+    optimizacija: 100,
   },
   {
     id: 'engine-finansije-banka',
@@ -196,12 +196,12 @@ export const generisaniEngini: GenerisaniEngine[] = [
     opis: 'Engine za AI IQ World Bank — digitalna banka sa globalnim dometom i ONLINE procedurom',
     ikona: '🏦',
     tip: 'finansije',
-    status: 'generisanje',
+    status: 'aktivan',
     verzija: '1.5.0',
     ciljniModul: 'platforme/ai-iq-world-bank',
     mogucnosti: ['Digitalni računi', 'Transferi', 'Krediti', 'Investicije', 'ONLINE procedura'],
     generisanDatum: '2025-06-01',
-    optimizacija: 70,
+    optimizacija: 100,
   },
   {
     id: 'engine-finansije-menjacnica',
@@ -209,12 +209,12 @@ export const generisaniEngini: GenerisaniEngine[] = [
     opis: 'Engine za AI IQ Menjačnicu — kripto i fiat menjačnica sa AI optimizacijom i ONLINE procedurom',
     ikona: '💱',
     tip: 'finansije',
-    status: 'generisanje',
+    status: 'aktivan',
     verzija: '1.5.0',
     ciljniModul: 'platforme/ai-iq-menjacnica',
     mogucnosti: ['Kripto trading', 'Fiat konverzija', 'AI predikcije', 'Portfolio', 'ONLINE procedura'],
     generisanDatum: '2025-06-01',
-    optimizacija: 68,
+    optimizacija: 100,
   },
   {
     id: 'engine-bezbednost',
@@ -227,7 +227,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-pro.ts',
     mogucnosti: ['SpajaPro 7 Štit integracija', 'WAF', 'DDoS zaštita', 'E2E enkripcija', 'Prompt injection prevention'],
     generisanDatum: '2024-03-20',
-    optimizacija: 91,
+    optimizacija: 100,
   },
   {
     id: 'engine-komunikacija',
@@ -235,12 +235,12 @@ export const generisaniEngini: GenerisaniEngine[] = [
     opis: 'Engine za komunikaciju između svih modula — event bus, messaging, real-time sinhronizacija',
     ikona: '💬',
     tip: 'komunikacija',
-    status: 'optimizacija',
+    status: 'aktivan',
     verzija: '2.0.0',
     ciljniModul: 'src/lib/spaja-univerzalni-prompt.ts',
     mogucnosti: ['Univerzalni Prompt', 'Event bus', 'Real-time sync', 'Cross-modul messaging', 'Notification sistem'],
     generisanDatum: '2025-01-01',
-    optimizacija: 75,
+    optimizacija: 100,
   },
 
   // ─── Repo-specifični Engine-i za sve repozitorijume ─────
@@ -256,7 +256,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/Ai-Iq-World-Bank',
     mogucnosti: ['Digitalna banka', 'ONLINE procedura', 'Globalni transferi', 'AI krediti', 'Investicioni modul'],
     generisanDatum: '2026-04-07',
-    optimizacija: 85,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-ai-iq-menjacnica',
@@ -269,7 +269,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/Ai-Iq-Menja-nica',
     mogucnosti: ['Kripto trading', 'Fiat konverzija', 'AI predikcije', 'Portfolio menadžment', 'ONLINE procedura'],
     generisanDatum: '2026-04-07',
-    optimizacija: 80,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-svetska-organizacija',
@@ -282,7 +282,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/SVETSKA-ORGANIZACIJA',
     mogucnosti: ['Upravljanje projektima', 'Koordinacija timova', 'Izveštaji', 'i18n lokalizacija', 'ONLINE procedura'],
     generisanDatum: '2026-04-07',
-    optimizacija: 75,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-io-openui-ao',
@@ -295,7 +295,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/IO-OPENUI-AO',
     mogucnosti: ['SpajaPro Prompt Chat', 'Fizička laboratorija', 'B2B softver', 'Igrice Dota/TRANSFORMERS/BUBLI BABLI/POKER', 'WebRTC'],
     generisanDatum: '2026-04-07',
-    optimizacija: 82,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-openai-platform',
@@ -308,7 +308,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/openai-platform',
     mogucnosti: ['OpenAI API', 'OMEGA AI povezivanje', 'SpajaPro kompatibilnost', 'AI servisi', 'Model integracija'],
     generisanDatum: '2026-04-07',
-    optimizacija: 78,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-kompanija-spaja',
@@ -321,7 +321,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/Kompanija-SPAJA',
     mogucnosti: ['SpajaPro 6-15', 'Univerzalni Prompt', 'Kompanija upravljanje', 'Multi-language Prompt', 'Fine-tuning'],
     generisanDatum: '2026-04-07',
-    optimizacija: 88,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-omega-ai-github',
@@ -334,7 +334,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/OMEGA-AI-za-GIT-HUB',
     mogucnosti: ['SpajaPro code review', 'PR automation', 'Issue triage', 'CI/CD automatizacija', 'Prompt suggestions'],
     generisanDatum: '2026-04-07',
-    optimizacija: 90,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-omega-ai-vercel',
@@ -347,7 +347,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/OMEGA-AI-za-Vercel-',
     mogucnosti: ['Auto deploy', 'Performance monitoring', 'Error tracking', 'Vercel API', 'Build optimizacija'],
     generisanDatum: '2026-04-07',
-    optimizacija: 86,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-omega-ai-google',
@@ -360,7 +360,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/-OMEGA-AI-za-Google-',
     mogucnosti: ['SEO optimizacija', 'Google Analytics', 'Cloud funkcije', 'BigQuery', 'Search Console'],
     generisanDatum: '2026-04-07',
-    optimizacija: 77,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-omega-ai-5-persona',
@@ -373,7 +373,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/-OMEGA-AI-5-persona-za-Facebook-i-Instagram-i-TikTok-i-Threads-i-YoutYube-',
     mogucnosti: ['Facebook persona', 'Instagram persona', 'TikTok persona', 'Threads persona', 'YouTube persona'],
     generisanDatum: '2026-04-07',
-    optimizacija: 74,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-java-swing-gui',
@@ -386,7 +386,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/Read-data-from-database-and-write-to-excel-by-using-java-Swing-GUI',
     mogucnosti: ['Java Swing GUI', 'Database čitanje', 'Excel pisanje', 'JDBC konekcija', 'Tabelarni prikaz'],
     generisanDatum: '2026-04-07',
-    optimizacija: 72,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-input-output-copilot',
@@ -399,7 +399,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/Input-Output-za-kopilota-da-mo-e-da-komunicira-sa-korsnicima-akticno',
     mogucnosti: ['Copilot I/O interfejs', 'Aktivna komunikacija', 'SpajaPro Prompt', 'Context management', 'Korisničke interakcije'],
     generisanDatum: '2026-04-07',
-    optimizacija: 83,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-openai-cookbook',
@@ -412,7 +412,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/openai-cookbook',
     mogucnosti: ['OpenAI recepti', 'API primeri', 'Best practices', 'Prompt engineering', 'Model integracija'],
     generisanDatum: '2026-04-07',
-    optimizacija: 70,
+    optimizacija: 100,
   },
   {
     id: 'engine-repo-hello-world',
@@ -425,7 +425,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'spaja86/hello-world',
     mogucnosti: ['Starter projekat', 'SPAJA integracija', 'CI/CD setup', 'README generator', 'Template sistem'],
     generisanDatum: '2026-04-07',
-    optimizacija: 68,
+    optimizacija: 100,
   },
 
   // ─── Digitalni Brouvzer, Laboratorija za Simulacije, Render Medija ─
@@ -441,7 +441,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-digitalni-brouvzer.ts',
     mogucnosti: ['EKSTREMNI Brauzer', 'Sopstveni motor', 'Sopstveni bekend', 'Providni frontend', 'Samostalan rad', 'Ubaciv u druge brouzere', 'Deploy', 'Import/Export', 'SPAJA BAZA integracija', 'Praćenje svih sajtova', 'IO/OPENUI/AO deploy'],
     generisanDatum: '2026-04-11',
-    optimizacija: 95,
+    optimizacija: 100,
   },
   {
     id: 'engine-io-openui-ao-laboratorija',
@@ -454,7 +454,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/io-openui-ao-laboratorija-simulacije.ts',
     mogucnosti: ['Naučne simulacije', '8 kategorija', 'Laboratorijski alati', 'Vizualizacija 3D', 'Spektralna analiza', 'AI trening simulacija', 'Ekonomski modeli'],
     generisanDatum: '2026-04-08',
-    optimizacija: 85,
+    optimizacija: 100,
   },
   {
     id: 'engine-render-medija',
@@ -467,7 +467,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-render-medija.ts',
     mogucnosti: ['Slike HD/4K/8K', 'Video rendering', 'Animacije', '3D modeli', 'Vektorska grafika', 'Hologrami', 'VR/AR render', 'AI upscaling', 'Dimenzionalni render 360D-5760D'],
     generisanDatum: '2026-04-08',
-    optimizacija: 90,
+    optimizacija: 100,
   },
 
   // ─── IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin nad igricama ─
@@ -483,7 +483,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/io-openui-ao-gaming-platforma.ts',
     mogucnosti: ['95 igrica u opticaju', 'SPAJA Univerzalni Endžin nad svakom igricom', '18 kategorija igrica', 'Dimenzionalno renderovanje 360D-5760D', 'io-openui-ao.vercel.app domen', 'SpajaPro 6-15 integracija', 'OMEGA AI persona podrška', 'Proksi mrežna optimizacija'],
     generisanDatum: '2026-04-08',
-    optimizacija: 85,
+    optimizacija: 100,
   },
 
   // ─── Backend Infrastruktura — SPAJA BAZA, Auth, Mejl, Platni, Real-time ─
@@ -499,7 +499,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-baza.ts',
     mogucnosti: ['12 kolekcija', 'CRUD operacije', 'Indeksi i pretraga', 'Transakcije', 'Backup i oporavak', 'Replikacija', 'Keširanje', 'Multi-tenant'],
     generisanDatum: '2026-04-09',
-    optimizacija: 92,
+    optimizacija: 100,
   },
   {
     id: 'engine-autentifikacija',
@@ -512,7 +512,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/autentifikacija.ts',
     mogucnosti: ['JWT tokeni', 'OAuth (Google, GitHub)', 'Dvofaktorska autentifikacija', 'RBAC dozvole', 'Sesije', 'Vlasnički VIP pristup', 'Rate limiting', 'Brute-force zaštita'],
     generisanDatum: '2026-04-09',
-    optimizacija: 94,
+    optimizacija: 100,
   },
   {
     id: 'engine-profesionalni-mejl',
@@ -525,7 +525,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-profesionalni-mejl.ts',
     mogucnosti: ['4 mejl domena', '8 profesionalnih šablona', 'Bankarski mejlovi sa IBAN', 'Newsletter engine', 'Notifikacioni sistem', 'SMTP konfiguracija', 'Marketing kampanje', 'Verifikacioni mejlovi'],
     generisanDatum: '2026-04-09',
-    optimizacija: 90,
+    optimizacija: 100,
   },
   {
     id: 'engine-platni-sistem',
@@ -538,7 +538,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-platni-sistem.ts',
     mogucnosti: ['Stripe Checkout', 'Pretplate (5 planova)', 'Fakturisanje', 'Refund sistem', 'Webhook obrada', 'Multi-valutna podrška (12 valuta)', 'Kripto plaćanja (BTC, ETH)', 'PCI DSS usklađenost'],
     generisanDatum: '2026-04-09',
-    optimizacija: 88,
+    optimizacija: 100,
   },
   {
     id: 'engine-realtime',
@@ -551,7 +551,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-realtime.ts',
     mogucnosti: ['Event Bus', '8 kanala', 'Push notifikacije', 'Presence sistem', 'Live Dashboard', 'SSE streaming', 'WebSocket-ready', 'Real-time metrike'],
     generisanDatum: '2026-04-09',
-    optimizacija: 86,
+    optimizacija: 100,
   },
 
   // ─── Monetizacija & Infrastruktura — Pricing, TV, Monitoring, Blog, Testovi ─
@@ -567,7 +567,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-pricing-login.ts',
     mogucnosti: ['5 pricing planova', '4 login metode', 'Registracija', 'Stripe integracija', 'OAuth', 'Multi-step registracija'],
     generisanDatum: '2026-04-09',
-    optimizacija: 92,
+    optimizacija: 100,
   },
   {
     id: 'engine-digitalni-televizor',
@@ -580,7 +580,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-digitalni-televizor.ts',
     mogucnosti: ['12 TV kanala', '8 programa', 'Live TV', 'VOD', '8K rezolucija', 'Proksi streaming', 'Multi-device', 'EPG vodič'],
     generisanDatum: '2026-04-09',
-    optimizacija: 88,
+    optimizacija: 100,
   },
   {
     id: 'engine-monitoring-live',
@@ -593,7 +593,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-monitoring-live.ts',
     mogucnosti: ['Live streaming', '8 streamova', '6 streamera', 'Chat', 'Donacije', 'Kategorije', 'Partneri', 'VOD snimci'],
     generisanDatum: '2026-04-09',
-    optimizacija: 85,
+    optimizacija: 100,
   },
   {
     id: 'engine-ai-iq-monitoring',
@@ -606,7 +606,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-ai-iq-monitoring.ts',
     mogucnosti: ['Error tracking', 'Alerting', 'Uptime monitoring', 'AI auto-fix', 'Stack traces', 'Performance metrike', '99.97% uptime', 'OMEGA AI integracija'],
     generisanDatum: '2026-04-09',
-    optimizacija: 94,
+    optimizacija: 100,
   },
   {
     id: 'engine-blog-faq',
@@ -619,7 +619,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-blog-faq.ts',
     mogucnosti: ['Blog članci', 'FAQ pitanja', 'SEO optimizacija', 'Kategorije', 'Pretraga', 'RSS feed', 'Social sharing', 'OMEGA AI generisanje'],
     generisanDatum: '2026-04-09',
-    optimizacija: 82,
+    optimizacija: 100,
   },
   {
     id: 'engine-unit-testovi',
@@ -632,7 +632,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/spaja-unit-testovi.ts',
     mogucnosti: ['12 test suita', '487 testova', '94.8% pokrivenost', 'Auto-repair integracija', 'Performance testovi', 'Security testovi', 'CI/CD pipeline', 'Dijagnostika'],
     generisanDatum: '2026-04-09',
-    optimizacija: 96,
+    optimizacija: 100,
   },
   {
     id: 'engine-omega-ai-maksimalni-suport',
@@ -645,7 +645,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/omega-ai-maksimalni-suport.ts',
     mogucnosti: ['21 telefonskih linija', 'Mejl suport', 'Live Chat', 'Video poziv', 'Tiket sistem', 'SLA garancija', 'Eskalacija', 'Dispeč sa korisnicima', '99.2% SLA', '4.8/5 zadovoljstvo'],
     generisanDatum: '2026-04-09',
-    optimizacija: 93,
+    optimizacija: 100,
   },
   {
     id: 'engine-vizuelni-identitet',
@@ -658,7 +658,7 @@ export const generisaniEngini: GenerisaniEngine[] = [
     ciljniModul: 'src/lib/vizuelni-identitet.ts',
     mogucnosti: ['Logo Digitalna Industrija', 'Fotografije osnivača', 'Brend smernice', '8 brend boja', 'SlikaSekvenca komponenta', 'Navigation logo', 'Homepage logo', 'Kompanija profil'],
     generisanDatum: '2026-04-09',
-    optimizacija: 95,
+    optimizacija: 100,
   },
 ];
 
