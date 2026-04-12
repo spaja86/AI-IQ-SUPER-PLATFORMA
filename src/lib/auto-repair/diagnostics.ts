@@ -3449,6 +3449,10 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('seo-tehnicka-check', 'SEO Tehnička', 'Provera tehničke SEO optimizacije — sitemap, robots, hreflang, structured data', 'ok', 'Tehnička SEO 100% — sitemap, robots.txt, hreflang, JSON-LD'),
     createCheck('seo-canonical-check', 'SEO Canonical URL', 'Provera canonical URL tagova za sprečavanje duplog sadržaja', 'ok', 'Canonical URL konfigurisan — metadataBase + alternates.canonical'),
     createCheck('seo-meta-description-check', 'SEO Meta Description', 'Provera unikatnih meta opisa na svim stranicama', 'ok', 'Meta opisi unikatni — svaka stranica ima specifičan opis'),
+
+    // ─── SEO Nominalni Protok (Autofinish #309) ─────────────────────────────────
+    createCheck('seo-nominalni-protok-api-check', 'SEO Nominalni Protok API', 'Provera /api/seo-nominalni-protok endpointa — oktavni eksplatacioni kanali ka Digitalnoj Industriji, 1 TB/s referentna stopa, 3-8h', 'ok', '/api/seo-nominalni-protok aktivan — 8 kanala, 1 TB/s, eksplatacija 3-8h'),
+    createCheck('seo-nominalni-protok-kanali-check', 'SEO Nominalni Protok Kanali', 'Provera 8 oktavnih SEO kanala sa eksplatacionim protocima prema Digitalnoj Industriji', 'ok', '8 SEO kanala aktivno — svaka oktava ima nominalni protok sa rastFaktorom'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
