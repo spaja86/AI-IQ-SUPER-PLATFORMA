@@ -10,22 +10,53 @@
     .gaming-banner { background: linear-gradient(135deg, #6c3bdc, #9b59b6); color: #fff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; }
     .gaming-banner h3 { font-size: 1.8rem; margin: 0; }
     .gaming-banner p { margin: 0.5rem 0 0; font-size: 1.1rem; }
-    .prompt-box { background: #f5f0ff; border-left: 4px solid #6c3bdc; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
-    .prompt-box h4 { margin: 0 0 0.5rem; color: #6c3bdc; }
+    .prompt-box { background: #1a1a2e; border-left: 4px solid #6c3bdc; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+    .prompt-box h4 { margin: 0 0 0.5rem; color: #9b7bea; }
     .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
-    .game-card { background: #fff; border: 1px solid rgba(108,59,220,0.2); border-radius: 10px; padding: 1rem; text-align: center; }
+    .game-card { background: var(--bg-card); border: 1px solid rgba(108,59,220,0.3); border-radius: 10px; padding: 1rem; text-align: center; transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s; text-decoration: none; color: var(--text); display: block; }
+    a.game-card { cursor: pointer; }
+    a.game-card:hover { border-color: #6c3bdc; transform: translateY(-3px); box-shadow: 0 4px 15px rgba(108,59,220,0.3); }
+    a.game-card .game-link-icon { display: inline; font-size: 0.75rem; margin-left: 0.3rem; }
+    div.game-card .game-link-icon { display: none; }
     .game-card h4 { margin: 0 0 0.5rem; }
-    .game-card p { margin: 0; font-size: 0.9rem; color: #666; }
+    .game-card p { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
+    .game-card .game-status { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.5rem; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px; background: rgba(0,200,83,0.15); color: #00c853; }
     .stat-bar { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
     .stat-item { background: rgba(108,59,220,0.1); padding: 1rem; border-radius: 8px; text-align: center; flex: 1; min-width: 100px; }
     .stat-item .val { font-size: 1.5rem; font-weight: bold; color: #6c3bdc; }
-    .stat-item .lbl { font-size: 0.85rem; color: #666; }
+    .stat-item .lbl { font-size: 0.85rem; color: var(--text-muted); }
     .features-list { list-style: none; padding: 0; }
-    .features-list li { padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; gap: 0.75rem; align-items: center; }
+    .features-list li { padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 0.75rem; align-items: center; }
     .features-list li span:first-child { font-size: 1.3rem; }
     .cat-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-    .cat-table th, .cat-table td { padding: 0.6rem; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.1); }
-    .cat-table th { background: rgba(108,59,220,0.1); }
+    .cat-table th, .cat-table td { padding: 0.6rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .cat-table th { background: rgba(108,59,220,0.15); }
+    .cat-table .cat-status { color: #00c853; font-size: 0.85rem; }
+
+    /* ── Objekat sekcija sa aktivnim statusom ──────────────── */
+    .objekat-sekcija { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin: 1.5rem 0; position: relative; }
+    .objekat-sekcija.aktivan { border-color: rgba(0,200,83,0.4); }
+    .objekat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .objekat-header h3 { margin: 0; font-size: 1.3rem; }
+    .objekat-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 600; }
+    .objekat-badge.aktivan { background: rgba(0,200,83,0.15); color: #00c853; }
+    .objekat-badge.aktivan::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #00c853; animation: pulse-dot 1.5s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+
+    /* ── Gaming & Entertainment highlight ──────────────── */
+    .gaming-entertainment { border-color: rgba(108,59,220,0.5); background: linear-gradient(135deg, rgba(108,59,220,0.08), rgba(155,89,182,0.05)); }
+    .gaming-entertainment .objekat-badge.aktivan { background: rgba(108,59,220,0.2); color: #9b7bea; }
+    .gaming-entertainment .objekat-badge.aktivan::before { background: #9b7bea; }
+    .gaming-entertainment .game-card .game-status { background: rgba(108,59,220,0.15); color: #9b7bea; }
+
+    /* ── Objekti grid pregled ──────────────── */
+    .objekti-pregled { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .objekat-mini { background: var(--bg-card); border: 1px solid rgba(0,200,83,0.3); border-radius: 10px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .objekat-mini .pulse { width: 10px; height: 10px; border-radius: 50%; background: #00c853; animation: pulse-dot 1.5s ease-in-out infinite; flex-shrink: 0; }
+    .objekat-mini .objekat-info { flex: 1; }
+    .objekat-mini .objekat-info h4 { margin: 0; font-size: 0.95rem; }
+    .objekat-mini .objekat-info p { margin: 0.2rem 0 0; font-size: 0.8rem; color: var(--text-muted); }
+    .objekat-mini .objekat-status-text { font-size: 0.75rem; color: #00c853; font-weight: 600; white-space: nowrap; }
   </style>
 </head>
 <body class="platform-color">
@@ -41,58 +72,181 @@
 
     <div class="gaming-banner">
       <h3>🎮 95 Igrica u 18 Kategorija</h3>
-      <p>SPAJA Univerzalni Endzin | Dimenzionalno Renderovanje 360D-5760D</p>
+      <p>SPAJA Univerzalni Endzin | Dimenzionalno Renderovanje 360D-5760D | SVI OBJEKTI AKTIVNI</p>
     </div>
 
-    <section>
+    <!-- ═══ Objekti platforme — pregled svih aktivnih objekata ═══ -->
+    <div class="objekat-sekcija aktivan">
+      <div class="objekat-header">
+        <h3>📋 Objekti platforme — Pregled</h3>
+        <span class="objekat-badge aktivan">AKTIVNO</span>
+      </div>
+      <p style="color:var(--text-muted);margin-bottom:1rem;">Svi objekti na IO/OPENUI/AO platformi su AKTIVNI i funkcionalni. Svaki objekat ima sopstveni endzin i prompt sistem.</p>
+      <div class="objekti-pregled">
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>🎮 Gaming &amp; Entertainment</h4><p>95 igrica u 18 kategorija</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>🌀 Dimenzionalni Rezimi</h4><p>360D - 5760D renderovanje</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>🖥️ SpajaPro Engine</h4><p>SpajaPro 6-15 engine</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>🤖 OMEGA AI Persona</h4><p>40.000.562 AI persona</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>🔧 SPAJA Univerzalni Endzin</h4><p>Prevucen preko svih 95 igrica</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>📡 Proksi Mreza</h4><p>Signal infrastruktura</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>🧪 Laboratorija</h4><p>Fizicka laboratorija + B2B</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+        <div class="objekat-mini">
+          <div class="pulse"></div>
+          <div class="objekat-info"><h4>📝 Prompt Sistem</h4><p>Promptovi na svim nivoima</p></div>
+          <span class="objekat-status-text">AKTIVAN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Gaming & Entertainment — GLAVNI AKTIVNI OBJEKAT ═══ -->
+    <div class="objekat-sekcija aktivan gaming-entertainment">
+      <div class="objekat-header">
+        <h3>🎮 Gaming &amp; Entertainment</h3>
+        <span class="objekat-badge aktivan">AKTIVAN</span>
+      </div>
+      <p style="color:var(--text-muted);margin-bottom:1rem;">Glavni gaming objekat sa 95 igrica. Svaka igrica koristi SPAJA Univerzalni Endzin i dimenzionalno renderovanje. Igrice sa linkovima su direktno dostupne za igranje.</p>
+
+      <div class="stat-bar">
+        <div class="stat-item"><div class="val">95</div><div class="lbl">Igrice</div></div>
+        <div class="stat-item"><div class="val">18</div><div class="lbl">Kategorija</div></div>
+        <div class="stat-item"><div class="val">5</div><div class="lbl">Dimenzija</div></div>
+        <div class="stat-item"><div class="val">100%</div><div class="lbl">Prevuceno</div></div>
+        <div class="stat-item"><div class="val">95</div><div class="lbl">Aktivnih</div></div>
+      </div>
+
+      <h4 style="margin:1rem 0 0.5rem;">🕹️ Istaknute igrice</h4>
+      <div class="games-grid">
+        <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/69237695-71c8-8330-a8c1-1a6f09b1da24" target="_blank" rel="noopener noreferrer">
+          <h4>⚔️ Dota 1350</h4>
+          <p>MOBA arena — 1350 dimenzionalnih heroja</p>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
+        </a>
+        <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376be-8280-8332-a476-5e3d619972cf" target="_blank" rel="noopener noreferrer">
+          <h4>🤖 TRANSFORMERS 1350</h4>
+          <p>Akcija — 1350 dimenzionalnih robota</p>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
+        </a>
+        <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376e3-7b48-832f-9b3e-34cb7625f098" target="_blank" rel="noopener noreferrer">
+          <h4>🫧 BUBLI BABLI 1250</h4>
+          <p>Arkadna — 1250 dimenzionalnih nivoa</p>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
+        </a>
+        <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/6923762b-07a8-832b-94b6-4565a93fb7e7" target="_blank" rel="noopener noreferrer">
+          <h4>🃏 SPAJA POKER</h4>
+          <p>Strategija — dimenzionalne karte</p>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
+        </a>
+        <a class="game-card" href="https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice" target="_blank" rel="noopener noreferrer">
+          <h4>♟️ Omega Dimenzionalni Sah</h4>
+          <p>Strategija — sah u dimenzijama</p>
+          <span class="game-status">● AKTIVNA <span class="game-link-icon">🔗</span></span>
+        </a>
+        <div class="game-card">
+          <h4>🏎️ Turbo Trka</h4>
+          <p>Trka — spiralne staze</p>
+          <span class="game-status">● AKTIVNA</span>
+        </div>
+        <div class="game-card">
+          <h4>🧩 Logicka Avantura</h4>
+          <p>Logicka — dimenzionalne mozgalice</p>
+          <span class="game-status">● AKTIVNA</span>
+        </div>
+        <div class="game-card">
+          <h4>👻 Horor Dvorac</h4>
+          <p>Horor — dimenzionalni dvorac</p>
+          <span class="game-status">● AKTIVNA</span>
+        </div>
+        <div class="game-card">
+          <h4>🎵 Ritam Master</h4>
+          <p>Muzicka — ritmicka igra</p>
+          <span class="game-status">● AKTIVNA</span>
+        </div>
+        <div class="game-card">
+          <h4>🌀 Omega Lavirint</h4>
+          <p>Avantura — dimenzionalni lavirint</p>
+          <span class="game-status">● AKTIVNA</span>
+        </div>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-top:0.5rem;">+ 85 dodatnih aktivnih igrica u svim kategorijama. Sve igrice koriste SPAJA Univerzalni Endzin.</p>
+    </div>
+
+    <!-- ═══ Prompt objekat ═══ -->
+    <div class="objekat-sekcija aktivan">
+      <div class="objekat-header">
+        <h3>📝 Prompt Sistem</h3>
+        <span class="objekat-badge aktivan">AKTIVAN</span>
+      </div>
       <div class="prompt-box">
         <h4>📝 PROMPT — Kako koristiti IO/OPENUI/AO platformu</h4>
         <p>IO/OPENUI/AO je gaming platforma sa 95 igrica u 18 kategorija. Svaka igrica pri pokretanju pita: "Koju dimenziju zelis (D)?" — izaberite od 360D do 5760D. Za pokretanje igrica potreban je Digitalni Kompjuter + Digitalni Brauzer. Platforma koristi SPAJA Univerzalni Endzin i SpajaPro 6-15 engine.</p>
       </div>
-    </section>
-
-    <div class="stat-bar">
-      <div class="stat-item"><div class="val">95</div><div class="lbl">Igrice</div></div>
-      <div class="stat-item"><div class="val">18</div><div class="lbl">Kategorija</div></div>
-      <div class="stat-item"><div class="val">5</div><div class="lbl">Dimenzija</div></div>
-      <div class="stat-item"><div class="val">100%</div><div class="lbl">Prevuceno</div></div>
     </div>
 
-    <section>
-      <h3>🕹️ Istaknute igrice</h3>
-      <div class="games-grid">
-        <div class="game-card"><h4>⚔️ Dota 1350</h4><p>MOBA arena</p></div>
-        <div class="game-card"><h4>🤖 TRANSFORMERS 1350</h4><p>Akcija</p></div>
-        <div class="game-card"><h4>🫧 BUBLI BABLI 1250</h4><p>Arkadna</p></div>
-        <div class="game-card"><h4>🃏 SPAJA POKER</h4><p>Kartaska</p></div>
-        <div class="game-card"><h4>🏎️ Turbo Trka</h4><p>Trka</p></div>
-        <div class="game-card"><h4>🧩 Logicka Avantura</h4><p>Logicka</p></div>
-        <div class="game-card"><h4>👻 Horor Dvorac</h4><p>Horor</p></div>
-        <div class="game-card"><h4>🎵 Ritam Master</h4><p>Muzicka</p></div>
+    <!-- ═══ Kategorije objekat ═══ -->
+    <div class="objekat-sekcija aktivan">
+      <div class="objekat-header">
+        <h3>🏷️ Kategorije igrica</h3>
+        <span class="objekat-badge aktivan">AKTIVAN</span>
       </div>
-    </section>
-
-    <section>
-      <h3>🏷️ Kategorije igrica</h3>
       <table class="cat-table">
-        <thead><tr><th>Kategorija</th><th>Opis</th></tr></thead>
+        <thead><tr><th>Kategorija</th><th>Opis</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>⚔️ Akcija</td><td>Brze akcione igrice sa borbenim sistemom</td></tr>
-          <tr><td>🗺️ Avantura</td><td>Istrazivacke igrice sa pricama</td></tr>
-          <tr><td>🧩 Logicka</td><td>Mozgalice i logicke igrice</td></tr>
-          <tr><td>🏎️ Trka</td><td>Racing simulatori</td></tr>
-          <tr><td>🎵 Muzicka</td><td>Muzicke i ritmicke igrice</td></tr>
-          <tr><td>👻 Horor</td><td>Horor igrice</td></tr>
-          <tr><td>🎮 RPG</td><td>Role-playing igrice</td></tr>
-          <tr><td>🏟️ Sportska</td><td>Sportski simulatori</td></tr>
-          <tr><td>🎯 Strategija</td><td>Strateske igrice</td></tr>
-          <tr><td>🕹️ Arkadna</td><td>Klasicne arkadne igrice</td></tr>
+          <tr><td>⚔️ Akcija</td><td>Brze akcione igrice sa borbenim sistemom</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🗺️ Avantura</td><td>Istrazivacke igrice sa pricama</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🧩 Logicka</td><td>Mozgalice i logicke igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🏎️ Trka</td><td>Racing simulatori</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🎵 Muzicka</td><td>Muzicke i ritmicke igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>👻 Horor</td><td>Horor igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🎮 RPG</td><td>Role-playing igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🏟️ Sportska</td><td>Sportski simulatori</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🎯 Strategija</td><td>Strateske igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🕹️ Arkadna</td><td>Klasicne arkadne igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🎓 Edukativna</td><td>Edukativne igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🎨 Kreativna</td><td>Kreativne sandbox igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>⚔️ Borbena</td><td>Borbene igrice 1v1 i turniri</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🌐 MMO</td><td>Masivne online igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🏙️ Simulacija</td><td>Simulacione igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🔍 Detektivska</td><td>Detektivske igrice</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>🏡 Zivotna Simulacija</td><td>Igrice zivotne simulacije</td><td class="cat-status">● AKTIVNA</td></tr>
+          <tr><td>👾 Retro</td><td>Retro klasicne igrice</td><td class="cat-status">● AKTIVNA</td></tr>
         </tbody>
       </table>
-    </section>
+    </div>
 
-    <section>
-      <h3>🌀 Dimenzionalni rezimi</h3>
+    <!-- ═══ Dimenzionalni rezimi objekat ═══ -->
+    <div class="objekat-sekcija aktivan">
+      <div class="objekat-header">
+        <h3>🌀 Dimenzionalni rezimi</h3>
+        <span class="objekat-badge aktivan">AKTIVAN</span>
+      </div>
       <ul class="features-list">
         <li><span>🔵</span><span><strong>360D</strong> — Bazicni rezim: 2 geometrijska sloja, standardni prikaz</span></li>
         <li><span>🟣</span><span><strong>720D</strong> — Dvostruki rezim: 3 sloja, napredni prikaz</span></li>
@@ -100,32 +254,47 @@
         <li><span>🟠</span><span><strong>2880D</strong> — Okto rezim (3D): 4 sloja, profesionalni</span></li>
         <li><span>🔴</span><span><strong>5760D</strong> — Maksimalni rezim (3D): 4 sloja, puna reprodukcija</span></li>
       </ul>
-    </section>
+    </div>
 
-    <section>
+    <!-- ═══ Zahtevi objekat ═══ -->
+    <div class="objekat-sekcija aktivan">
+      <div class="objekat-header">
+        <h3>⚠️ Zahtevi za pokretanje</h3>
+        <span class="objekat-badge aktivan">AKTIVAN</span>
+      </div>
       <div class="prompt-box">
         <h4>⚠️ ZAHTEVI za pokretanje igrica</h4>
         <p><strong>Digitalni Kompjuter</strong> — dimenzionalno renderovanje, geometrijsko procesiranje, multi-dimenzionalni GPU.<br>
         <strong>Digitalni Brauzer</strong> — WebGL/WebGPU renderovanje, pokretanje igrica u brauzeru, podrska za 3D naocari.</p>
       </div>
-    </section>
+    </div>
 
-    <section>
+    <!-- ═══ Integracije objekat ═══ -->
+    <div class="objekat-sekcija aktivan">
+      <div class="objekat-header">
+        <h3>🔗 Integracije</h3>
+        <span class="objekat-badge aktivan">AKTIVAN</span>
+      </div>
       <div class="prompt-box">
         <h4>🔗 Integracije</h4>
         <p>SpajaPro 6-15 Engine | OMEGA AI 40.000.562 persona | Proksi mrezna optimizacija | SPAJA Generator za Endzine</p>
       </div>
-    </section>
+    </div>
 
-    <section class="ecosystem-section">
-      <h3>🔗 Ekosistem Kompanija SPAJA</h3>
-      <p>Sve nase platforme saradjuju medjusobno za potpuno finansijsko iskustvo</p>
+    <!-- ═══ Ekosistem objekat ═══ -->
+    <div class="objekat-sekcija aktivan">
+      <div class="objekat-header">
+        <h3>🔗 Ekosistem Kompanija SPAJA</h3>
+        <span class="objekat-badge aktivan">AKTIVAN</span>
+      </div>
+      <p style="color:var(--text-muted);margin-bottom:1rem;">Sve nase platforme saradjuju medjusobno za potpuno iskustvo</p>
       <div class="ecosystem-grid" id="ekosistem-linkovi"></div>
-    </section>
+    </div>
 
     <section class="hero" style="margin-top:1.5rem">
-      <p><strong>Status:</strong> ✅ Aktivan — IO/OPENUI/AO Gaming Platforma je potpuno funkcionalna sa 95 igrica.</p>
+      <p><strong>Status:</strong> ✅ AKTIVAN — IO/OPENUI/AO Gaming Platforma je potpuno funkcionalna sa 95 igrica. SVI objekti su AKTIVNI.</p>
       <p><strong>URL:</strong> <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">io-openui-ao.vercel.app</a></p>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-top:0.5rem;">8 objekata AKTIVNO | Gaming &amp; Entertainment AKTIVAN | 95 igrica AKTIVNO | 18 kategorija AKTIVNO</p>
     </section>
   </main>
   <script src="../../../shared/ecosystem-urls.js"></script>

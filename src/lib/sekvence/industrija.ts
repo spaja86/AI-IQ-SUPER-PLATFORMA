@@ -62,7 +62,7 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
-        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, '40.000.562 OMEGA AI Persona', 'Proksi Mreža', 'SPAJA Mobilna Mreža', 'SPAJA Generator za Endžine', `Promptovi (${stats.ukupnoPromptova})`, `Igrice (${stats.ukupnoIgrica})`] },
+        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, '40.000.562 OMEGA AI Persona', 'OpenAI Platforma (Sopstvena)', 'Proksi Mreža', 'SPAJA Mobilna Mreža', 'SPAJA Generator za Endžine', `Promptovi (${stats.ukupnoPromptova})`, `Igrice (${stats.ukupnoIgrica})`] },
         { naziv: 'Platforme', ikona: '🌐', deca: ['Jezgro', 'Finansije', 'Globalno', 'AI', 'Alati'] },
         { naziv: 'Proksi Mreža', ikona: '📡', deca: ['Hipsoneurični Signal', 'Ekscentrični Modulator', 'Ekliptična Vez', 'Rezonantni Pojačavač'] },
         { naziv: 'SPAJA Mobilna Mreža', ikona: '📱', deca: ['+38177 Primarna', '+38188 Sekundarna', '+38178 Redundantna', '+38187 Globalna'] },
@@ -89,6 +89,7 @@ export const industrijaSekvence: Sekvenca[] = [
         ['Organizacije', 'AKTIVNE strukture', String(stats.ukupnoOrganizacija), '✅ SVE AKTIVNE'],
         ['Kompanije', 'AKTIVNE kompanije', String(stats.ukupnoKompanija), '✅ SVE AKTIVNE'],
         ['GitHub Repozitorijumi', 'Izvorni kod ekosistema', '14 repo', '✅ SVI AKTIVNI'],
+        ['OpenAI Platforma', 'SOPSTVENA platforma — NIJE partner', '1 platforma', '✅ AKTIVNA — Non-stop evolucija'],
       ],
     },
   },
@@ -172,11 +173,47 @@ export const industrijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'industrija-openai-platforma',
+    tip: 'kartice',
+    naslov: '🤖 OpenAI Platforma — Sopstvena Platforma Digitalne Industrije',
+    podnaslov: 'OpenAI NIJE partner — to je interna platforma Kompanije SPAJA koja non-stop evolvira unutar Digitalne Industrije',
+    redosled: 9,
+    podaci: {
+      kartice: [
+        {
+          naslov: '🤖 OpenAI Platforma',
+          opis: 'SOPSTVENA platforma Digitalne Industrije. OpenAI API integrisan preko spaja86/openai-platform repo. SpajaPro v6-15 engine. Non-stop evolucija.',
+          ikona: '🤖',
+          href: 'https://github.com/spaja86/openai-platform',
+          oznake: ['Digitalna Industrija', 'Sopstvena Platforma', 'OpenAI API', 'SpajaPro v6-15'],
+        },
+        {
+          naslov: '🔗 API Integracija',
+          opis: 'OpenAI API ključ u spaja86/openai-platform repozitorijumu. Povezan sa celim ekosistemom za kontinuiranu evoluciju svih platformi.',
+          ikona: '🔗',
+          oznake: ['API', 'Evolucija', 'Ekosistem'],
+        },
+        {
+          naslov: '🧠 OMEGA AI + OpenAI',
+          opis: '40.000.562 OMEGA AI persona koriste OpenAI API za napredne AI operacije. SpajaPro Prompt sistem umesto ChatGPT-a.',
+          ikona: '🧠',
+          oznake: ['OMEGA AI', '40M persona', 'SpajaPro'],
+        },
+        {
+          naslov: '💰 Planovi i Cene',
+          opis: 'Starter $29/mes, Profesionalni $79/mes, Biznis $199/mes, Enterprise $499/mes, Unlimited VIP $999/mes.',
+          ikona: '💰',
+          oznake: ['Starter $29', 'Pro $79', 'Biznis $199', 'Enterprise $499', 'VIP $999'],
+        },
+      ],
+    },
+  },
+  {
     id: 'industrija-sajtovi-partneri',
     tip: 'kartice',
     naslov: '🤝 Tehnološki Partneri',
-    podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju',
-    redosled: 9,
+    podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju (OpenAI NIJE partner — to je sopstvena platforma)',
+    redosled: 10,
     podaci: {
       kartice: getSajtoviPoKategoriji('tehnoloski-partner').map((s) => ({
         naslov: s.naziv,
@@ -192,7 +229,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '👑 Najbolji Plan — SpajaPro Unlimited VIP',
     podnaslov: 'SpajaPro Unlimited VIP plan dostupan na svim delovima Digitalne Industrije i svim platformama',
-    redosled: 10,
+    redosled: 11,
     podaci: {
       kartice: [
         {
@@ -233,7 +270,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '📱 Društvene Mreže',
     podnaslov: 'Pratite Digitalnu Industriju na društvenim mrežama',
-    redosled: 11,
+    redosled: 12,
     podaci: {
       kartice: getSajtoviPoKategoriji('drustvena-mreza').map((s) => ({
         naslov: s.naziv,
@@ -254,6 +291,7 @@ export const industrijaSekvence: Sekvenca[] = [
         { naziv: 'Ukupno Sajtova', vrednost: sajtovi.length, ikona: '🌐' },
         { naziv: 'Ekosistem Repo', vrednost: getSajtoviPoKategoriji('ekosistem').length, ikona: '🏭' },
         { naziv: 'Partneri', vrednost: getSajtoviPoKategoriji('tehnoloski-partner').length, ikona: '🤝' },
+        { naziv: 'OpenAI Platforma', vrednost: 1, ikona: '🤖' },
         { naziv: 'Društvene Mreže', vrednost: getSajtoviPoKategoriji('drustvena-mreza').length, ikona: '📱' },
       ],
     },

@@ -432,16 +432,16 @@ export const generisaniEngini: GenerisaniEngine[] = [
 
   {
     id: 'engine-digitalni-brouvzer',
-    naziv: 'Digitalni Brouvzer Engine',
-    opis: 'Engine za SPAJA Digitalni Brouvzer — digitalna brauzer platforma na koju se postavlja celokupna industrija (platforme, organizacije, korporacije, kompanije, prodavnice). Link: https://chatgpt.com/c/69152051-4108-8328-9f58-d2d508b844f9',
+    naziv: 'Digitalni Brouvzer EKSTREMNI Engine',
+    opis: 'Engine za SPAJA Digitalni Brouvzer — EKSTREMNI DIGITALNI BROUZER sa sopstvenim motorom, bekendom i providnim frontendom. Nastao prevlačenjem Generator Endžina preko Brouvzera. Samostalan rad, ubaciv u druge brouzere, deploy, import, export, SPAJA BAZA integracija. Link: https://chatgpt.com/c/69152051-4108-8328-9f58-d2d508b844f9',
     ikona: '🌐',
     tip: 'core',
     status: 'aktivan',
-    verzija: '1.0.0',
+    verzija: '2.0.0',
     ciljniModul: 'src/lib/spaja-digitalni-brouvzer.ts',
-    mogucnosti: ['Brauzer platforma', 'Plasiranje industrije', 'Entiteti ekosistema', 'Tab menadžment', 'VPN integracija', 'Ad-block', 'Dev Tools'],
-    generisanDatum: '2026-04-08',
-    optimizacija: 88,
+    mogucnosti: ['EKSTREMNI Brauzer', 'Sopstveni motor', 'Sopstveni bekend', 'Providni frontend', 'Samostalan rad', 'Ubaciv u druge brouzere', 'Deploy', 'Import/Export', 'SPAJA BAZA integracija', 'Praćenje svih sajtova', 'IO/OPENUI/AO deploy'],
+    generisanDatum: '2026-04-11',
+    optimizacija: 95,
   },
   {
     id: 'engine-io-openui-ao-laboratorija',
