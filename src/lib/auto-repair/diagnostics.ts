@@ -3453,6 +3453,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── SEO Nominalni Protok (Autofinish #309) ─────────────────────────────────
     createCheck('seo-nominalni-protok-api-check', 'SEO Nominalni Protok API', 'Provera /api/seo-nominalni-protok endpointa — oktavni eksplatacioni kanali ka Digitalnoj Industriji, 1 TB/s referentna stopa, 3-8h', 'ok', '/api/seo-nominalni-protok aktivan — 8 kanala, 1 TB/s, eksplatacija 3-8h'),
     createCheck('seo-nominalni-protok-kanali-check', 'SEO Nominalni Protok Kanali', 'Provera 8 oktavnih SEO kanala sa eksplatacionim protocima prema Digitalnoj Industriji', 'ok', '8 SEO kanala aktivno — svaka oktava ima nominalni protok sa rastFaktorom'),
+
+    // ─── SEO Matricni Sekvencijalni Dizajn (Autofinish #310) ────────────────────
+    createCheck('seo-matricni-dizajn-api-check', 'SEO Matricni Sekvencijalni Dizajn API', 'Provera /api/seo-matricni-sekvencijalni-dizajn endpointa — kodiranje SEO prema eksponencijalnim funkcijama kroz protocnost matricnog jedinjenja', 'ok', '/api/seo-matricni-sekvencijalni-dizajn aktivan — 6 sekvenci, 8 eksplicitnih oblika, matricna protocnost'),
+    createCheck('seo-matricni-dizajn-eksplicitni-check', 'SEO Eksplicitni Oblici', 'Provera 8 eksplicitnih oblika sekvencijalnog dizajna iz matricnog jedinjenja — svaki oblik je red matrice J sa entropijom i dominantnom oktavom', 'ok', '8 eksplicitnih oblika aktivno — kompletna dekompozicija matricnog jedinjenja'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
