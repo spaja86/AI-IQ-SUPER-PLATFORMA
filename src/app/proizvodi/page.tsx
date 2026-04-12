@@ -1,11 +1,48 @@
 import type { Metadata } from 'next';
 import { products, productCategories } from '@/lib/products';
 import { PageContainer, SectionHeader, EntityCard } from '@/components/ui';
+import { BASE_URL } from '@/lib/constants';
+
+const OG_IMAGE_URL = `${BASE_URL}/api/og?title=${encodeURIComponent('IT Proizvodi')}&description=${encodeURIComponent('IT proizvodi i alati ekosistema Digitalne Industrije')}`;
 
 export const metadata: Metadata = {
   title: 'Proizvodi',
   description: 'IT proizvodi i alati ekosistema Digitalne Industrije',
+  openGraph: {
+    title: 'Proizvodi — AI IQ SUPER PLATFORMA',
+    description: 'IT proizvodi i alati ekosistema Digitalne Industrije',
+    images: [{ url: OG_IMAGE_URL, width: 1200, height: 630, alt: 'IT Proizvodi — Digitalna Industrija' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Proizvodi — AI IQ SUPER PLATFORMA',
+    description: 'IT proizvodi i alati ekosistema Digitalne Industrije',
+    images: [{ url: OG_IMAGE_URL, width: 1200, height: 630, alt: 'IT Proizvodi — Digitalna Industrija' }],
+  },
 };
+
+function ProizvodiJsonLd() {
+  const jsonLdProducts = products.slice(0, 10).map((product) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    brand: { '@type': 'Organization', name: 'Kompanija SPAJA' },
+    category: product.category,
+  }));
+
+  return (
+    <>
+      {jsonLdProducts.map((ld, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+      ))}
+    </>
+  );
+}
 
 export default function ProizvodiPage() {
   const categories = Object.entries(productCategories).filter(([key]) =>
@@ -14,6 +51,7 @@ export default function ProizvodiPage() {
 
   return (
     <PageContainer>
+      <ProizvodiJsonLd />
       <SectionHeader
         icon="📦"
         title="IT Proizvodi"
