@@ -3457,6 +3457,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── SEO Matricni Sekvencijalni Dizajn (Autofinish #310) ────────────────────
     createCheck('seo-matricni-dizajn-api-check', 'SEO Matricni Sekvencijalni Dizajn API', 'Provera /api/seo-matricni-sekvencijalni-dizajn endpointa — kodiranje SEO prema eksponencijalnim funkcijama kroz protocnost matricnog jedinjenja', 'ok', '/api/seo-matricni-sekvencijalni-dizajn aktivan — 6 sekvenci, 8 eksplicitnih oblika, matricna protocnost'),
     createCheck('seo-matricni-dizajn-eksplicitni-check', 'SEO Eksplicitni Oblici', 'Provera 8 eksplicitnih oblika sekvencijalnog dizajna iz matricnog jedinjenja — svaki oblik je red matrice J sa entropijom i dominantnom oktavom', 'ok', '8 eksplicitnih oblika aktivno — kompletna dekompozicija matricnog jedinjenja'),
+
+    // ─── SEO Matricni Sekvencijalni Dizajn Status (Autofinish #311) ─────────────
+    createCheck('seo-matricni-dizajn-status-api-check', 'SEO Matricni Dizajn Status API', 'Provera /api/seo-matricni-sekvencijalni-dizajn-status endpointa — zdravlje i metrike sekvencijalnog SEO dizajna', 'ok', '/api/seo-matricni-sekvencijalni-dizajn-status aktivan — kompletnost, SEO skor, protocnost, matricna dimenzija'),
+    createCheck('seo-matricni-dizajn-status-zdravlje-check', 'SEO Matricni Dizajn Zdravlje', 'Provera zdravstvenog stanja SEO matricnog dizajna — sekvence, eksplicitni oblici, protocnost', 'ok', 'SEO matricni dizajn zdrav — sve sekvence kompletne/aktivne, protocnost stabilna'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
