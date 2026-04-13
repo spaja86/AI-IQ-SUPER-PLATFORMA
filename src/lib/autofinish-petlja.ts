@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #303 → #304 (ispravke statusa, 9 podsistema, status endpoint)
+ * Autofinish #310 → #311 (SEO matricni sekvencijalni dizajn status endpoint)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
