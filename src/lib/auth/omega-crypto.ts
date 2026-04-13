@@ -11,7 +11,7 @@ export class ΩCryptoEngine {
   private static readonly KEY_LENGTH = 32; // 256 bits
   private static readonly IV_LENGTH = 16;
   private static readonly SALT_LENGTH = 32;
-  private static readonly PBKDF2_ITERATIONS = 310000; // OWASP preporuka za PBKDF2-SHA512 (2023)
+  private static readonly PBKDF2_ITERATIONS = 310000; // OWASP preporuka za PBKDF2-SHA512
   private static readonly PBKDF2_KEYLEN = 64;
   private static readonly PBKDF2_DIGEST = 'sha512';
 

@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       ip,
       userAgent,
       outcome: 'DENIED',
-      details: { reason: result === null ? 'invalid_credentials' : 'mfa_required' },
+      details: { reason: 'invalid_credentials' },
     });
 
     return NextResponse.json(

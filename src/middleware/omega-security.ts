@@ -16,9 +16,13 @@ const bruteForceStore = new Map<string, { attempts: number; blockedUntil: number
 const BLOCKED_IPS = new Set<string>();
 
 // loadBlockedIPs — učitava blokirane IP adrese iz konfiguracije
+const IP_PATTERN = /^(?:\d{1,3}\.){3}\d{1,3}$|^[0-9a-fA-F:]+$/;
+
 export function loadBlockedIPs(ips: string[]): void {
   for (const ip of ips) {
-    BLOCKED_IPS.add(ip);
+    if (IP_PATTERN.test(ip)) {
+      BLOCKED_IPS.add(ip);
+    }
   }
 }
 

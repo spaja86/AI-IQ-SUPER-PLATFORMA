@@ -32,17 +32,20 @@ export default function AutoRepairActions() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<DiagnosticResult | null>(null);
   const [action, setAction] = useState<'diagnose' | 'repair' | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const runDiagnostic = useCallback(async () => {
     setLoading(true);
     setAction('diagnose');
     setResult(null);
+    setError(null);
     try {
       const res = await fetch('/api/auto-repair');
       const data = await res.json();
       setResult(data);
     } catch {
       setResult(null);
+      setError('Dijagnostika nije uspela. Pokušajte ponovo.');
     } finally {
       setLoading(false);
     }
@@ -52,12 +55,14 @@ export default function AutoRepairActions() {
     setLoading(true);
     setAction('repair');
     setResult(null);
+    setError(null);
     try {
       const res = await fetch('/api/auto-repair', { method: 'POST' });
       const data = await res.json();
       setResult(data);
     } catch {
       setResult(null);
+      setError('Auto-popravka nije uspela. Pokušajte ponovo.');
     } finally {
       setLoading(false);
     }
@@ -65,6 +70,12 @@ export default function AutoRepairActions() {
 
   return (
     <div className="mt-10">
+      {/* Error display */}
+      {error && (
+        <div className="mb-4 rounded-lg bg-red-500/20 border border-red-500/40 p-4 text-red-200 text-sm">
+          {error}
+        </div>
+      )}
       {/* Action buttons */}
       <div className="flex flex-wrap gap-4">
         <button
