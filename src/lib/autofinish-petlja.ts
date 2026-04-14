@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #311 → #312 (ERSTE Banka DOO Smederevo racuni Digitalne Industrije)
+ * Autofinish #313 → #314 (Digitalna Industrija racun u AI IQ World Bank — 4% rezerva)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
