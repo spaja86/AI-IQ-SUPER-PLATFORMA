@@ -36,12 +36,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nevalidan JSON' }, { status: 400 });
   }
 
-  if (!body.email) {
+  if (!body.email || typeof body.email !== 'string' || !body.email.trim()) {
     return NextResponse.json({ error: 'Email je obavezan' }, { status: 400 });
+  }
+
+  // Validacija email formata
+  const emailTrimmed = body.email.trim();
+  if (!emailTrimmed.includes('@') || !emailTrimmed.includes('.') || emailTrimmed.length < 5) {
+    return NextResponse.json({ error: 'Neispravan format email adrese' }, { status: 400 });
   }
 
   if (!body.password && !body.oauthCode) {
     return NextResponse.json({ error: 'Lozinka ili OAuth kod je obavezan' }, { status: 400 });
+  }
+
+  // Validacija lozinke — minimalna duzina i prazni stringovi
+  if (body.password) {
+    if (typeof body.password !== 'string' || !body.password.trim()) {
+      return NextResponse.json({ error: 'Lozinka ne moze biti prazna' }, { status: 400 });
+    }
+    if (body.password.length < 8) {
+      return NextResponse.json(
+        { error: 'Lozinka mora imati najmanje 8 karaktera' },
+        { status: 400 }
+      );
+    }
   }
 
   const result = await ΩAuthProvider.login(body);
