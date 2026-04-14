@@ -2,10 +2,9 @@
 
 // SpajaUltraOmegaCore -∞Ω+∞ — Registracija Forma
 // Kompanija SPAJA — Digitalna Industrija
-// Forma za registraciju novih korisnika preko Supabase Auth
+// Forma za registraciju novih korisnika preko Omega Auth API
 
 import { useState } from 'react';
-import { getSupabaseClient } from '@/lib/supabase/client';
 
 export default function RegistracijaForma() {
   const [email, setEmail] = useState('');
@@ -26,20 +25,21 @@ export default function RegistracijaForma() {
     }
 
     try {
-      const supabase = getSupabaseClient();
-      const { error } = await supabase.auth.signUp({
-        email,
-        password: lozinka,
-        options: {
-          data: { full_name: ime },
-        },
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password: lozinka,
+          fullName: ime,
+        }),
       });
 
-      if (error) {
+      const data = await res.json();
+
+      if (!res.ok) {
         setStatus('error');
-        setPoruka(error.message === 'User already registered'
-          ? 'Korisnik sa ovim email-om vec postoji.'
-          : error.message);
+        setPoruka(data.error ?? 'Registracija nije uspela. Pokusajte ponovo.');
         return;
       }
 
