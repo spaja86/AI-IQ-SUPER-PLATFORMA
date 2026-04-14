@@ -55,6 +55,7 @@ const PUBLIC_ROUTES = [
   '/api/status',
   '/api/health',
   '/api/auth/login',
+  '/api/auth/register',
   '/api/auth/refresh',
   '/api/auth/logout',
   '/api/auth/verify',
@@ -185,7 +186,7 @@ function validateCSRF(request: NextRequest): boolean {
     if (authHeader?.startsWith('Bearer ')) return true;
     // Login i refresh ne zahtevaju Bearer, ali prihvataju CSRF ili preskačemo
     // jer korisnik još nema token
-    if (request.nextUrl.pathname === '/api/auth/login' || request.nextUrl.pathname === '/api/auth/refresh') {
+    if (request.nextUrl.pathname === '/api/auth/login' || request.nextUrl.pathname === '/api/auth/register' || request.nextUrl.pathname === '/api/auth/refresh') {
       return true;
     }
   }
