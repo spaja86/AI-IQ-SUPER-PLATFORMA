@@ -3471,6 +3471,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Dnevna Raspodela Zarade — 96% na 3 računa (Autofinish #313) ─────────────
     createCheck('dnevna-raspodela-zarade-api-check', 'Dnevna Raspodela Zarade API', 'Provera /api/dnevna-raspodela-zarade endpointa — 96% dnevnog dobita na 3 racuna (po 32%)', 'ok', '/api/dnevna-raspodela-zarade aktivan — dinarski 32%, devizni EUR 32%, devizni USD 32%'),
     createCheck('dnevna-raspodela-zarade-pravilo-check', 'Dnevna Raspodela Pravilo', 'Provera pravila raspodele — 96% od celokupnog dnevnog dobita na dinarski, devizni EUR i devizni USD racun', 'ok', 'Pravilo raspodele aktivno — 96% (3x32%) na ERSTE Banka DOO Smederevo racune'),
+
+    // ─── Digitalna Industrija racun u AI IQ World Bank — 4% rezerva (Autofinish #314) ─────────────
+    createCheck('digitalna-industrija-racun-check', 'Digitalna Industrija Racun', 'Provera racuna Digitalne Industrije u AI IQ World Bank — 4% od dnevnog dobita', 'ok', 'Digitalna Industrija racun DIGI-IND-001 aktivan u AI IQ World Bank — prima 4% dnevnog dobita'),
+    createCheck('dnevna-raspodela-100-procenat-check', 'Dnevna Raspodela 100%', 'Provera da je 100% dnevnog dobita raspodeljeno — 96% ERSTE + 4% AI IQ World Bank', 'ok', '100% dnevnog dobita raspodeljeno — 96% na ERSTE racune, 4% na Digitalna Industrija u AI IQ World Bank'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

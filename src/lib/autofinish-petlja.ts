@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #312 → #313 (Dnevna raspodela zarade — 96% na 3 racuna po 32%)
+ * Autofinish #313 → #314 (Digitalna Industrija racun u AI IQ World Bank — 4% rezerva)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */

@@ -28,10 +28,10 @@ export const TOTAL_PAGES = 42;
 export const TOTAL_API_ROUTES = 524;
 export const TOTAL_ROUTES = 570;
 export const TOTAL_IGRICA = 95;
-export const TOTAL_DIAGNOSTIKA = 908;
+export const TOTAL_DIAGNOSTIKA = 910;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 313;
+export const AUTOFINISH_COUNT = 314;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
