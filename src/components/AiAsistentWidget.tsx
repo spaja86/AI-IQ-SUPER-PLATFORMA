@@ -49,8 +49,8 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
     opis: 'AI IQ SUPER PLATFORMA',
     kontekst: `Stranica na putanji ${pathname} u AI IQ SUPER PLATFORMA.`,
     promptovi: [
-      { pitanje: 'Sta se desava na ovoj stranici?', ikona: '❓', kategorija: 'ai' as const },
-      { pitanje: 'Objasni mi sadrzaj ove stranice', ikona: '📖', kategorija: 'spaja-pro-ai' as const },
+      { pitanje: 'Šta se dešava na ovoj stranici?', ikona: '❓', kategorija: 'ai' as const },
+      { pitanje: 'Objasni mi sadržaj ove stranice', ikona: '📖', kategorija: 'spaja-pro-ai' as const },
       { pitanje: 'Koje opcije imam na ovoj stranici?', ikona: '⚙️', kategorija: 'ai' as const },
       { pitanje: 'Kako da koristim ovu funkciju?', ikona: '💡', kategorija: 'spaja-pro-ai' as const },
     ],

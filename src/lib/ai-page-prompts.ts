@@ -620,7 +620,7 @@ export function getPagePrompts(putanja: string): PagePromptConfig {
     putanja,
     naslov: 'Stranica',
     opis: 'AI IQ SUPER PLATFORMA',
-    kontekst: `Ovo je stranica na putanji ${putanja} u okviru AI IQ SUPER PLATFORMA — Kompanije SPAJA.`,
+    kontekst: `Stranica na putanji ${pathname} u AI IQ SUPER PLATFORMA.`,
     promptovi: [
       { pitanje: 'Šta se dešava na ovoj stranici?', ikona: '❓', kategorija: 'ai' },
       { pitanje: 'Kako da koristim ovu funkciju?', ikona: '💡', kategorija: 'ai' },
@@ -630,9 +630,12 @@ export function getPagePrompts(putanja: string): PagePromptConfig {
   };
 }
 
+/** Pre-computed ukupan broj konfigurisanih promptova */
+const _ukupnoPromptova = aiPagePrompts.reduce((sum, p) => sum + p.promptovi.length, 0);
+
 /** Ukupan broj konfigurisanih promptova */
 export function getUkupnoAiPagePrompts(): number {
-  return aiPagePrompts.reduce((sum, p) => sum + p.promptovi.length, 0);
+  return _ukupnoPromptova;
 }
 
 /** Ukupan broj stranica sa AI promptovima */
