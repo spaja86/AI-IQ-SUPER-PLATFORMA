@@ -55,11 +55,11 @@ export async function GET() {
     },
 
     preporuke: [
-      'Dodati vise promptova za gaming stranice',
+      'Dodati više promptova za gaming stranice',
       'Implementirati personalizovane preporuke po korisniku',
       'Dodati preporuke na osnovu istorije koristenja',
       'Kreirati AI preporuke za mobilnu mrezu stranicu',
-      'Prosiriti preporuke za bezbednosne stranice',
+      'Proširiti preporuke za bezbednosne stranice',
       'Dodati SpajaPro AI preporuke za deployment',
       'Implementirati pametno rangiranje promptova',
       'Dodati preporuke za OMEGA AI stranice',

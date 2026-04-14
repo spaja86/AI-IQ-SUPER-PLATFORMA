@@ -16,7 +16,7 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'aktivan',
-    naziv: 'Autofinish AI Asistent Pregled — Iteracija #324',
+    naziv: 'Autofinish AI Asistent Pregled — Iteracija #324-325',
     opis: 'Pregled kompletnog AI asistent sistema sa svim preporukama po stranicama',
     verzija: APP_VERSION,
 
