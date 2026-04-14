@@ -151,10 +151,60 @@ export const bankaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'banka-erste-racuni',
+    tip: 'kartice',
+    naslov: '🏦 ERSTE Banka DOO Smederevo — Racuni Digitalne Industrije',
+    podnaslov: 'Zvanicni bankarski racuni kompanije "Digitalna Industrija" kod ERSTE banke DOO Smederevo',
+    redosled: 10,
+    podaci: {
+      kartice: [
+        {
+          naslov: 'Dinarski racun (RSD)',
+          opis: 'Racun za domace transakcije u dinarima — poslovni racun Digitalne Industrije kod ERSTE banke DOO Smederevo',
+          ikona: '🇷🇸',
+          oznake: ['RSD', 'Dinarski', 'ERSTE Smederevo'],
+        },
+        {
+          naslov: 'Devizni racun (EUR)',
+          opis: 'Devizni racun u evrima — za medjunarodne transakcije i EU placanja kod ERSTE banke DOO Smederevo',
+          ikona: '🇪🇺',
+          oznake: ['EUR', 'Devizni', 'ERSTE Smederevo'],
+        },
+        {
+          naslov: 'Devizni racun (USD)',
+          opis: 'Devizni racun u dolarima — za globalne transakcije i US placanja kod ERSTE banke DOO Smederevo',
+          ikona: '🇺🇸',
+          oznake: ['USD', 'Devizni', 'ERSTE Smederevo'],
+        },
+      ],
+    },
+  },
+  {
+    id: 'banka-erste-info',
+    tip: 'tekst',
+    naslov: '📋 ERSTE Banka DOO Smederevo — Informacije',
+    redosled: 11,
+    podaci: {
+      sadrzaj: 'Kompanija "Digitalna Industrija" ima otvorene poslovne racune kod ERSTE banke DOO Smederevo. Svi finansijski tokovi — plate, uplate, devizne transakcije — prolaze kroz ove racune. Banka podrzava dinarske i devizne racune (EUR i USD) za kompletno poslovanje.',
+      istaknuteStavke: [
+        '🏦 Banka: ERSTE Banka DOO Smederevo',
+        '🏢 Vlasnik racuna: Digitalna Industrija',
+        '👤 Vlasnik svih racuna: Nikola Spajic',
+        '🪪 Registarski broj licne karte: 015639997',
+        '🆔 JMBG: 0312986850017',
+        '🇷🇸 Dinarski racun (RSD): 025897158',
+        '🇪🇺 Devizni racun (EUR): 038971285',
+        '🇺🇸 Devizni racun (USD): 05364215985',
+        '💳 Kartice: Izdate na ERSTE Banka DOO Smederevo',
+        '✅ Status: Svi racuni aktivni i operativni',
+      ],
+    },
+  },
+  {
     id: 'banka-cta',
     tip: 'cta',
     naslov: '🚀 Zapocnite sa AI IQ World Bank',
-    redosled: 10,
+    redosled: 12,
     podaci: {
       opis: 'AI IQ World Bank — 40% pozitivna kamatna stopa mesecno. Ulozite 1.000 RSD, za mesec dana podignite 1.400 RSD. Ekstremno jaka i transparentna digitalna banka.',
       stavke: [
