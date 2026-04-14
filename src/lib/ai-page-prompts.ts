@@ -175,6 +175,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje valute mogu da menjam?', ikona: '💵', kategorija: 'ai' },
       { pitanje: 'Kako se određuje kurs razmene?', ikona: '📊', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koje su prednosti menjačnice?', ikona: '⭐', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Da li mogu da pratim istoriju kurseva?', ikona: '📈', kategorija: 'ai' },
+      { pitanje: 'Kako funkcioniše automatska konverzija?', ikona: '🔄', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -663,6 +665,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Kako funkcioniše matricno jedinjenje?', ikona: '🔢', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Objasni mi figuracioni centar', ikona: '🌀', kategorija: 'ai' },
       { pitanje: 'Kako se koriste eksponencijalne funkcije?', ikona: '💡', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koja je veza oktava i eksponencijala?', ikona: '🎵', kategorija: 'ai' },
+      { pitanje: 'Kako se primenjuje u OMEGA AI sistemu?', ikona: '🧠', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
