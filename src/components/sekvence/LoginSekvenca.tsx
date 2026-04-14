@@ -2,7 +2,7 @@
 
 import type { Sekvenca } from '@/lib/types';
 import { useState } from 'react';
-import { getSupabaseClient } from '@/lib/supabase/client';
+import { sacuvajSesiju } from '@/lib/auth/omega-session-client';
 
 type LoginMetoda = { naziv: string; ikona: string; metod: string };
 
@@ -21,19 +21,33 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
     setPoruka('');
 
     try {
-      const supabase = getSupabaseClient();
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password: lozinka,
+      // Koristi Omega Auth — radi bez eksternih servisa
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: lozinka }),
       });
 
-      if (error) {
+      const data = await res.json();
+
+      if (!res.ok) {
         setStatus('error');
-        setPoruka(error.message === 'Invalid login credentials'
-          ? 'Neispravni podaci za prijavu.'
-          : error.message);
+        setPoruka(data.error ?? 'Neispravni podaci za prijavu.');
         return;
       }
+
+      // Sacuvaj sesiju u localStorage
+      sacuvajSesiju({
+        token: data.token.value,
+        email,
+        plan: data.identity.clearanceLevel >= 3 ? 'unlimited' : 'starter',
+        uloga: data.identity.roles?.[0] ?? 'user',
+        identityId: data.identity.id,
+        did: data.identity.did,
+        roles: data.identity.roles ?? ['user'],
+        clearanceLevel: data.identity.clearanceLevel ?? 1,
+        expiresAt: data.expiresAt,
+      });
 
       setStatus('success');
       setPoruka('Uspesno prijavljivanje! Preusmeravanje na dashboard...');
@@ -44,23 +58,9 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
     }
   }
 
-  async function handleOAuthLogin(provider: string) {
-    try {
-      const supabase = getSupabaseClient();
-      if (provider === 'google' || provider === 'github') {
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider,
-          options: { redirectTo: `${window.location.origin}/dashboard` },
-        });
-        if (error) {
-          setStatus('error');
-          setPoruka(error.message);
-        }
-      }
-    } catch {
-      setStatus('error');
-      setPoruka('Greska pri OAuth prijavi. Pokusajte ponovo.');
-    }
+  async function handleOAuthLogin(_provider: string) {
+    setStatus('error');
+    setPoruka('OAuth prijava ce biti dostupna uskoro. Koristite email i lozinku.');
   }
 
   return (

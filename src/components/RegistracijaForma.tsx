@@ -5,6 +5,7 @@
 // Forma za registraciju novih korisnika preko Omega Auth API
 
 import { useState } from 'react';
+import { sacuvajSesiju } from '@/lib/auth/omega-session-client';
 
 export default function RegistracijaForma() {
   const [email, setEmail] = useState('');
@@ -43,8 +44,22 @@ export default function RegistracijaForma() {
         return;
       }
 
+      // Automatski sacuvaj sesiju — korisnik je odmah ulogovan
+      sacuvajSesiju({
+        token: data.token.value,
+        email,
+        plan: 'starter',
+        uloga: data.identity.roles?.[0] ?? 'user',
+        identityId: data.identity.id,
+        did: data.identity.did,
+        roles: data.identity.roles ?? ['user'],
+        clearanceLevel: data.identity.clearanceLevel ?? 1,
+        expiresAt: data.expiresAt,
+      });
+
       setStatus('success');
-      setPoruka('Registracija uspesna! Mozete se prijaviti na svoj nalog.');
+      setPoruka('Registracija uspesna! Preusmeravanje na dashboard...');
+      setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
     } catch {
       setStatus('error');
       setPoruka('Greska u mrezi. Pokusajte ponovo.');

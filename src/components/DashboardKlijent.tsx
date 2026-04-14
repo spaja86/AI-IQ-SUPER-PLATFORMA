@@ -2,129 +2,22 @@
 
 // SpajaUltraOmegaCore -∞Ω+∞ — Dashboard Klijent
 // Kompanija SPAJA — Digitalna Industrija
-// Realni dashboard sa Supabase podacima
+// Dashboard sa Omega Auth podacima
 
-import { useState, useEffect, useCallback } from 'react';
-import { getSupabaseClient } from '@/lib/supabase/client';
-
-interface ProfileData {
-  plan: string;
-  chat_messages_used: number;
-  chat_messages_limit: number;
-  subscription_status: string | null;
-  created_at: string;
-}
-
-interface UsageStat {
-  action: string;
-  total_tokens: number;
-  total_cost: number;
-  count: number;
-}
+import { useState } from 'react';
+import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
 
 export default function DashboardKlijent() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [profile, setProfile] = useState<ProfileData | null>(null);
-  const [usageStats, setUsageStats] = useState<UsageStat[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [email, setEmail] = useState('');
+  const [sesija, setSesija] = useState<OmegaSesija | null>(() => {
+    if (typeof window === 'undefined') return null;
+    return dohvatiSesiju();
+  });
 
-  const loadData = useCallback(async () => {
-    try {
-      const supabase = getSupabaseClient();
-      const { data: { session } } = await supabase.auth.getSession();
+  const isLoggedIn = !!sesija;
 
-      if (!session) {
-        setIsLoggedIn(false);
-        setLoading(false);
-        return;
-      }
-
-      setIsLoggedIn(true);
-      setEmail(session.user.email ?? '');
-
-      // Dohvati profil
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('plan, chat_messages_used, chat_messages_limit, subscription_status, created_at')
-        .eq('id', session.user.id)
-        .single();
-
-      if (profileData) {
-        setProfile(profileData as ProfileData);
-      }
-
-      // Dohvati usage statistiku za poslednji mesec
-      const monthAgo = new Date();
-      monthAgo.setMonth(monthAgo.getMonth() - 1);
-
-      const { data: usageData } = await supabase
-        .from('usage_logs')
-        .select('action, tokens_used, cost_eur')
-        .eq('user_id', session.user.id)
-        .gte('created_at', monthAgo.toISOString());
-
-      if (usageData && usageData.length > 0) {
-        const grouped: Record<string, UsageStat> = {};
-        for (const log of usageData) {
-          if (!grouped[log.action]) {
-            grouped[log.action] = { action: log.action, total_tokens: 0, total_cost: 0, count: 0 };
-          }
-          grouped[log.action].total_tokens += log.tokens_used;
-          grouped[log.action].total_cost += Number(log.cost_eur);
-          grouped[log.action].count += 1;
-        }
-        setUsageStats(Object.values(grouped));
-      }
-    } catch {
-      // Greska pri ucitavanju
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
-
-  async function handleLogout() {
-    const supabase = getSupabaseClient();
-    await supabase.auth.signOut();
-    setIsLoggedIn(false);
-    setProfile(null);
-  }
-
-  async function handlePortal() {
-    try {
-      const supabase = getSupabaseClient();
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-
-      const res = await fetch('/api/stripe/portal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
-
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch {
-      // Greska
-    }
-  }
-
-  if (loading) {
-    return (
-      <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-6 py-16">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="animate-pulse text-2xl text-gray-400">Ucitavanje...</div>
-        </div>
-      </div>
-    );
+  function handleLogout() {
+    obrisiSesiju();
+    setSesija(null);
   }
 
   if (!isLoggedIn) {
@@ -162,9 +55,8 @@ export default function DashboardKlijent() {
     unlimited: 'text-green-400',
   };
 
-  const chatPercent = profile && profile.chat_messages_limit > 0
-    ? Math.min(100, (profile.chat_messages_used / profile.chat_messages_limit) * 100)
-    : 0;
+  const plan = sesija?.plan ?? 'starter';
+  const uloga = sesija?.uloga ?? 'user';
 
   return (
     <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-6 py-8">
@@ -173,7 +65,7 @@ export default function DashboardKlijent() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-bold text-white">📊 Dashboard</h2>
-            <p className="text-sm text-gray-400">{email}</p>
+            <p className="text-sm text-gray-400">{sesija?.email}</p>
           </div>
           <button
             onClick={handleLogout}
@@ -187,81 +79,63 @@ export default function DashboardKlijent() {
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
             <div className="mb-1 text-sm text-gray-400">Plan</div>
-            <div className={`text-2xl font-bold ${planColors[profile?.plan ?? 'starter'] ?? 'text-white'}`}>
-              {(profile?.plan ?? 'starter').toUpperCase()}
+            <div className={`text-2xl font-bold ${planColors[plan] ?? 'text-white'}`}>
+              {plan.toUpperCase()}
             </div>
           </div>
 
           <div className="rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
-            <div className="mb-1 text-sm text-gray-400">Status pretplate</div>
-            <div className={`text-2xl font-bold ${profile?.subscription_status === 'active' ? 'text-green-400' : 'text-gray-300'}`}>
-              {profile?.subscription_status === 'active' ? 'Aktivna' : 'Neaktivna'}
+            <div className="mb-1 text-sm text-gray-400">Uloga</div>
+            <div className="text-2xl font-bold text-green-400">
+              {uloga === 'admin' ? 'Admin' : uloga === 'vlasnik' ? 'Vlasnik' : 'Korisnik'}
             </div>
           </div>
 
           <div className="rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
-            <div className="mb-1 text-sm text-gray-400">Chat poruke</div>
-            <div className="text-2xl font-bold text-white">
-              {profile?.chat_messages_used ?? 0} / {profile?.chat_messages_limit ?? 10}
+            <div className="mb-1 text-sm text-gray-400">DID</div>
+            <div className="truncate text-sm font-medium text-white" title={sesija?.did}>
+              {sesija?.did?.slice(0, 24)}...
             </div>
           </div>
 
           <div className="rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
-            <div className="mb-1 text-sm text-gray-400">Clan od</div>
-            <div className="text-lg font-bold text-white">
-              {profile?.created_at ? new Date(profile.created_at).toLocaleDateString('sr-Latn') : '-'}
+            <div className="mb-1 text-sm text-gray-400">Bezbednosni nivo</div>
+            <div className="text-2xl font-bold text-blue-400">
+              {sesija?.clearanceLevel ?? 1}
             </div>
           </div>
         </div>
 
-        {/* Chat Usage Bar */}
+        {/* Brzi pristup */}
         <div className="mb-8 rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
-          <div className="mb-3 flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">SpajaPro AI Koriscenje</h3>
-            <span className="text-sm text-gray-400">{Math.round(chatPercent)}%</span>
-          </div>
-          <div className="h-3 overflow-hidden rounded-full bg-gray-700">
-            <div
-              className={`h-full rounded-full transition-all ${
-                chatPercent > 80 ? 'bg-red-500' : chatPercent > 50 ? 'bg-yellow-500' : 'bg-green-500'
-              }`}
-              style={{ width: `${chatPercent}%` }}
-            />
-          </div>
-          <div className="mt-2 flex justify-between text-sm text-gray-400">
-            <span>{profile?.chat_messages_used ?? 0} poruka iskorisceno</span>
-            <span>{(profile?.chat_messages_limit ?? 10) - (profile?.chat_messages_used ?? 0)} preostalo</span>
+          <h3 className="mb-4 text-lg font-semibold text-white">🚀 Brzi pristup</h3>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            <a href="/spaja-pro" className="rounded-lg bg-blue-600/20 px-4 py-3 text-center text-sm text-blue-300 transition hover:bg-blue-600/30">
+              🤖 SpajaPro AI Chat
+            </a>
+            <a href="/prompt" className="rounded-lg bg-purple-600/20 px-4 py-3 text-center text-sm text-purple-300 transition hover:bg-purple-600/30">
+              💬 Prompt Konzola
+            </a>
+            <a href="/igrice" className="rounded-lg bg-green-600/20 px-4 py-3 text-center text-sm text-green-300 transition hover:bg-green-600/30">
+              🎮 Igrice
+            </a>
+            <a href="/omega-ai" className="rounded-lg bg-yellow-600/20 px-4 py-3 text-center text-sm text-yellow-300 transition hover:bg-yellow-600/30">
+              🧠 OMEGA AI
+            </a>
+            <a href="/platforme" className="rounded-lg bg-cyan-600/20 px-4 py-3 text-center text-sm text-cyan-300 transition hover:bg-cyan-600/30">
+              🧩 Platforme
+            </a>
+            <a href="/ekosistem" className="rounded-lg bg-pink-600/20 px-4 py-3 text-center text-sm text-pink-300 transition hover:bg-pink-600/30">
+              🌐 Ekosistem
+            </a>
+            <a href="/industrija" className="rounded-lg bg-orange-600/20 px-4 py-3 text-center text-sm text-orange-300 transition hover:bg-orange-600/30">
+              🏭 Industrija
+            </a>
+            <a href="/spaja-digitalni-kompjuter" className="rounded-lg bg-indigo-600/20 px-4 py-3 text-center text-sm text-indigo-300 transition hover:bg-indigo-600/30">
+              🖥️ Digitalni Kompjuter
+            </a>
           </div>
         </div>
-
-        {/* Usage Stats */}
-        {usageStats.length > 0 && (
-          <div className="mb-8 rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
-            <h3 className="mb-4 text-lg font-semibold text-white">📈 Koriscenje (poslednjih 30 dana)</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-gray-700 text-left text-gray-400">
-                    <th className="pb-2">Akcija</th>
-                    <th className="pb-2">Pozivi</th>
-                    <th className="pb-2">Tokeni</th>
-                    <th className="pb-2">Trosak</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {usageStats.map((stat) => (
-                    <tr key={stat.action} className="border-b border-gray-800 text-gray-300">
-                      <td className="py-2">{stat.action}</td>
-                      <td className="py-2">{stat.count}</td>
-                      <td className="py-2">{stat.total_tokens.toLocaleString()}</td>
-                      <td className="py-2">{stat.total_cost.toFixed(4)} EUR</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
 
         {/* Akcije */}
         <div className="flex flex-wrap gap-4">
@@ -271,21 +145,13 @@ export default function DashboardKlijent() {
           >
             🤖 SpajaPro AI Chat
           </a>
-          {profile?.plan !== 'unlimited' && (
+          {plan !== 'unlimited' && (
             <a
               href="/pricing"
               className="rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-500"
             >
               ⬆️ Nadogradi plan
             </a>
-          )}
-          {profile?.subscription_status === 'active' && (
-            <button
-              onClick={handlePortal}
-              className="rounded-lg border border-gray-600 px-6 py-3 text-sm font-semibold text-gray-300 transition hover:border-gray-400 hover:text-white"
-            >
-              💳 Upravljaj pretplatom
-            </button>
           )}
         </div>
       </div>
