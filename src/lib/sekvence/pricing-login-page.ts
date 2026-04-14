@@ -69,7 +69,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     podaci: {
       dugmad: [
         { tekst: 'Registruj se besplatno', href: '/registracija' },
-        { tekst: 'SpajaPro AI Chat', href: '/spaja-pro', stil: 'sekundarno' },
+        { tekst: 'Prijavi se', href: '/login', stil: 'sekundarno' },
       ],
     },
   },

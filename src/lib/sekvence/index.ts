@@ -37,3 +37,6 @@ export { aiIqMonitoringSekvence } from './ai-iq-monitoring-page';
 export { blogFaqSekvence } from './blog-faq-page';
 export { unitTestoviSekvence } from './unit-testovi-page';
 export { omegaAiSuportSekvence } from './omega-ai-suport-page';
+
+// ── Digitalna Platforma ─────────────────────────────────────────────────────
+export { digitalnaPlatformaSekvence } from './digitalna-platforma-page';

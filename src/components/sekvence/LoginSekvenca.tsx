@@ -153,7 +153,16 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
           </div>
         )}
 
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <div className="mt-4 text-center">
+          <a
+            href="/login"
+            className="text-sm text-blue-400 transition hover:text-blue-300"
+          >
+            Otvorite profesionalnu stranicu za prijavu →
+          </a>
+        </div>
+
+        <p className="mt-4 text-center text-sm text-gray-500">
           Nemate nalog?{' '}
           <a href="/registracija" className="text-green-400 hover:text-green-300">
             Registrujte se besplatno
