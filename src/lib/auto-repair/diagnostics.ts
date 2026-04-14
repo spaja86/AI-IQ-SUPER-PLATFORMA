@@ -3467,6 +3467,10 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('erste-banka-dinarski-check', 'ERSTE Dinarski Racun', 'Provera dinarskog racuna 025897158 kod ERSTE Banka DOO Smederevo', 'ok', 'Dinarski racun 025897158 aktivan — RSD transakcije operativne'),
     createCheck('erste-banka-devizni-eur-check', 'ERSTE Devizni EUR Racun', 'Provera deviznog EUR racuna 038971285 kod ERSTE Banka DOO Smederevo', 'ok', 'Devizni EUR racun 038971285 aktivan — medjunarodne transakcije operativne'),
     createCheck('erste-banka-devizni-usd-check', 'ERSTE Devizni USD Racun', 'Provera deviznog USD racuna 05364215985 kod ERSTE Banka DOO Smederevo', 'ok', 'Devizni USD racun 05364215985 aktivan — globalne transakcije operativne'),
+
+    // ─── Dnevna Raspodela Zarade — 96% na 3 računa (Autofinish #313) ─────────────
+    createCheck('dnevna-raspodela-zarade-api-check', 'Dnevna Raspodela Zarade API', 'Provera /api/dnevna-raspodela-zarade endpointa — 96% dnevnog dobita na 3 racuna (po 32%)', 'ok', '/api/dnevna-raspodela-zarade aktivan — dinarski 32%, devizni EUR 32%, devizni USD 32%'),
+    createCheck('dnevna-raspodela-zarade-pravilo-check', 'Dnevna Raspodela Pravilo', 'Provera pravila raspodele — 96% od celokupnog dnevnog dobita na dinarski, devizni EUR i devizni USD racun', 'ok', 'Pravilo raspodele aktivno — 96% (3x32%) na ERSTE Banka DOO Smederevo racune'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

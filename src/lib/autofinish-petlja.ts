@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #311 → #312 (ERSTE Banka DOO Smederevo racuni Digitalne Industrije)
+ * Autofinish #312 → #313 (Dnevna raspodela zarade — 96% na 3 racuna po 32%)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
