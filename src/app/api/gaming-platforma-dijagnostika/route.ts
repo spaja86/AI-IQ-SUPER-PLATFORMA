@@ -159,7 +159,7 @@ export async function GET() {
     },
     {
       prioritet: 8,
-      naslov: 'Automatski testovi pre deployovanjem',
+      naslov: 'Automatski testovi pre deployovanja',
       opis: 'Dodaj unit testove i integration testove u CI pipeline za IO-OPENUI-AO. Test rezultati moraju da prođu pre deploymenta.',
       status: 'preporuka',
     },
