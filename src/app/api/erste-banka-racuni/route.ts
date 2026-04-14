@@ -3,7 +3,7 @@ import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
   return NextResponse.json({
-    naziv: 'ERSTE Banka DOO Smederevo - Racuni Digitalne Industrije',
+    naziv: 'ERSTE Banka DOO Smederevo — Racuni Digitalne Industrije',
     verzija: APP_VERSION,
     status: 'aktivan',
     banka: {
