@@ -44,6 +44,25 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
     }
   }
 
+  async function handleOAuthLogin(provider: string) {
+    try {
+      const supabase = getSupabaseClient();
+      if (provider === 'google' || provider === 'github') {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider,
+          options: { redirectTo: `${window.location.origin}/dashboard` },
+        });
+        if (error) {
+          setStatus('error');
+          setPoruka(error.message);
+        }
+      }
+    } catch {
+      setStatus('error');
+      setPoruka('Greska pri OAuth prijavi. Pokusajte ponovo.');
+    }
+  }
+
   return (
     <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-6 py-16">
       <div className="mx-auto max-w-md">
@@ -123,6 +142,7 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
                 <button
                   key={m.metod}
                   type="button"
+                  onClick={() => handleOAuthLogin(m.metod)}
                   className="flex items-center justify-center gap-2 rounded-lg border border-gray-700 bg-gray-800/40 px-4 py-3 text-sm text-gray-300 transition hover:border-gray-500 hover:text-white"
                 >
                   <span role="img" aria-label={m.naziv}>{m.ikona}</span>

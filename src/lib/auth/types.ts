@@ -83,6 +83,7 @@ export interface ΩIdentity {
   clearanceLevel: ΩClearanceLevel;
   digitalIndustryAccess: boolean;
   email?: string;
+  passwordHash?: string; // PBKDF2-SHA512 hash lozinke
   mfaEnabled: boolean;
   createdAt: number;
   lastLoginAt?: number;

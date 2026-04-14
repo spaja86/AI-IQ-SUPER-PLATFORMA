@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
+import { ΩCryptoEngine } from '@/lib/auth/omega-crypto';
 
 /**
  * POST /api/login — Autentifikacija korisnika
@@ -42,13 +43,16 @@ export async function POST(request: Request) {
     const uloga = jeVlasnik ? 'vlasnik' : 'korisnik';
     const plan = jeVlasnik ? 'Unlimited VIP' : 'Starter';
 
+    // Generisanje kriptografski sigurnog tokena
+    const secureToken = ΩCryptoEngine.generateSecureToken(32);
+
     const sesija = {
-      id: `ses-${Date.now()}`,
-      korisnikId: `usr-${Date.now()}`,
+      id: `ses-${ΩCryptoEngine.generateId()}`,
+      korisnikId: `usr-${ΩCryptoEngine.generateId()}`,
       email,
       uloga,
       plan,
-      token: `jwt-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+      token: secureToken,
       istice: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
       kreirana: new Date().toISOString(),
     };
