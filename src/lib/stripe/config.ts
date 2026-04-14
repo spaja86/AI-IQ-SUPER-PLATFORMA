@@ -21,9 +21,11 @@ export function getStripe(): Stripe {
   return _stripe;
 }
 
+import type { PlanTip } from '@/lib/supabase/types';
+
 // Definicije planova — mapiraju se na Stripe Price ID-jeve
 export interface SpajaPlan {
-  id: string;
+  id: PlanTip;
   naziv: string;
   opis: string;
   cenaEur: number;
@@ -32,6 +34,9 @@ export interface SpajaPlan {
   chatLimit: number;
   funkcije: string[];
 }
+
+// Neogranicen limit
+export const UNLIMITED_CHAT = -1;
 
 export const PLANOVI: SpajaPlan[] = [
   {
@@ -103,7 +108,7 @@ export const PLANOVI: SpajaPlan[] = [
     cenaEur: 199,
     mesecno: true,
     stripePriceId: process.env.STRIPE_PRICE_UNLIMITED ?? '',
-    chatLimit: -1, // Neograniceno
+    chatLimit: UNLIMITED_CHAT,
     funkcije: [
       'SpajaPro AI — Neograniceno',
       'Sve Enterprise funkcije',

@@ -40,11 +40,13 @@ Pravila:
 - Za tehnicka pitanja daj konkretne primere koda kada je moguce
 - Maksimalna duzina odgovora: 2000 karaktera (osim za kod)`;
 
+import { UNLIMITED_CHAT } from '@/lib/stripe/config';
+
 // Limiti po planovima
 export const CHAT_LIMITS: Record<string, number> = {
   starter: 10,
   basic: 100,
   pro: 1000,
   enterprise: 10000,
-  unlimited: -1, // Neograniceno
+  unlimited: UNLIMITED_CHAT,
 };

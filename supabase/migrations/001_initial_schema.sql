@@ -38,7 +38,7 @@ CREATE POLICY "Users can update own profile"
 
 -- Service role moze sve (za webhook-ove)
 CREATE POLICY "Service role full access"
-  ON public.profiles
+  ON public.profiles FOR ALL
   USING (auth.role() = 'service_role');
 
 -- ═══════════════════════════════════════════════════

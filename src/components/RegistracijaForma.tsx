@@ -44,7 +44,7 @@ export default function RegistracijaForma() {
       }
 
       setStatus('success');
-      setPoruka('Registracija uspesna! Proverite email za potvrdu naloga.');
+      setPoruka('Registracija uspesna! Mozete se prijaviti na svoj nalog.');
     } catch {
       setStatus('error');
       setPoruka('Greska u mrezi. Pokusajte ponovo.');

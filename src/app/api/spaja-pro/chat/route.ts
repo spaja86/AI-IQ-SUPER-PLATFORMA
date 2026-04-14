@@ -4,6 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getOpenAI, SPAJA_PRO_SYSTEM_PROMPT, CHAT_LIMITS } from '@/lib/openai/client';
+import { UNLIMITED_CHAT } from '@/lib/stripe/config';
 import { verifyUserFromToken, getSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     const limit = CHAT_LIMITS[profile.plan] ?? 10;
-    if (limit !== -1 && profile.chat_messages_used >= limit) {
+    if (limit !== UNLIMITED_CHAT && profile.chat_messages_used >= limit) {
       return NextResponse.json({
         error: `Dostigli ste limit od ${limit} poruka za ${profile.plan} plan. Nadogradite plan za vise poruka.`,
         limitReached: true,
@@ -89,7 +90,9 @@ export async function POST(request: NextRequest) {
     }).eq('id', user.id);
 
     // Loguj koriscenje
-    const costEur = tokensUsed * 0.00000015; // Approx cost per token
+    // Aproksimativna cena po tokenu za gpt-4o-mini model (~$0.15/1M input, $0.60/1M output)
+    const COST_PER_TOKEN_EUR = 0.00000015;
+    const costEur = tokensUsed * COST_PER_TOKEN_EUR;
     await supabase.from('usage_logs').insert({
       user_id: user.id,
       action: 'spaja_pro_chat',
@@ -101,7 +104,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       reply,
       tokensUsed,
-      messagesRemaining: limit === -1 ? 'neograniceno' : Math.max(0, limit - profile.chat_messages_used - 1),
+      messagesRemaining: limit === UNLIMITED_CHAT ? 'neograniceno' : Math.max(0, limit - profile.chat_messages_used - 1),
       plan: profile.plan,
     });
   } catch (error) {

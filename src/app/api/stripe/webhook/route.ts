@@ -3,7 +3,7 @@
 // POST /api/stripe/webhook — Stripe webhook handler
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getStripe, getPlanByPriceId } from '@/lib/stripe/config';
+import { getStripe, getPlanById, getPlanByPriceId, UNLIMITED_CHAT } from '@/lib/stripe/config';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
@@ -42,13 +42,13 @@ export async function POST(request: NextRequest) {
         : session.subscription?.toString();
 
       if (userId && planId) {
-        const plan = getPlanByPriceId(session.metadata?.plan_id ?? '') ?? { chatLimit: 100 };
+        const plan = getPlanById(planId) ?? { chatLimit: 100 };
 
         await supabase.from('profiles').update({
           plan: planId,
           stripe_subscription_id: subscriptionId ?? null,
           subscription_status: 'active',
-          chat_messages_limit: plan.chatLimit === -1 ? 999999 : plan.chatLimit,
+          chat_messages_limit: plan.chatLimit === UNLIMITED_CHAT ? 999999 : plan.chatLimit,
           chat_messages_used: 0,
         }).eq('id', userId);
       }
@@ -75,8 +75,8 @@ export async function POST(request: NextRequest) {
           await supabase.from('profiles').update({
             subscription_status: subscription.status,
             ...(plan ? {
-              plan: plan.id as 'starter' | 'basic' | 'pro' | 'enterprise' | 'unlimited',
-              chat_messages_limit: plan.chatLimit === -1 ? 999999 : plan.chatLimit,
+              plan: plan.id,
+              chat_messages_limit: plan.chatLimit === UNLIMITED_CHAT ? 999999 : plan.chatLimit,
             } : {}),
           }).eq('id', profile.id);
         }

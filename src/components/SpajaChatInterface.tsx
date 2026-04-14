@@ -105,7 +105,7 @@ export default function SpajaChatInterface() {
               href="/pricing"
               className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
             >
-              Prijavi se
+              Pogledaj planove i prijavi se
             </a>
             <a
               href="/registracija"
