@@ -20,21 +20,20 @@ export async function POST(request: Request) {
     });
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY nije konfigurisan.' }), {
+  if (!process.env.OPENAI_API_KEY) {
+    return new Response(JSON.stringify({ error: 'OPENAI_API_KEY nije konfigurisan.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
   const result = streamText({
-    model: 'anthropic/claude-opus-4.6',
+    model: 'openai/gpt-oss-120b',
     prompt,
     providerOptions: {
-      gateway: {
-        byok: {
-          anthropic: [{ apiKey: process.env.ANTHROPIC_API_KEY }],
-        },
+      openai: {
+        reasoningEffort: 'high',
+        reasoningSummary: 'detailed',
       },
     },
   });
