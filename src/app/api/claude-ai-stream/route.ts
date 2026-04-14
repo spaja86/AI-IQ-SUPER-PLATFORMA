@@ -20,6 +20,13 @@ export async function POST(request: Request) {
     });
   }
 
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY nije konfigurisan.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   const result = streamText({
     model: 'anthropic/claude-opus-4.6',
     prompt,
