@@ -362,3 +362,40 @@ export function getStoredTOTPSecret(userId: string): string | null {
 export function deleteTOTPSecret(userId: string): void {
   totpSecretStore.delete(userId);
 }
+
+// ============================================================
+// Demo nalog — uvek dostupan za testiranje login sistema
+// Email: demo@spaja.ai | Lozinka: Demo2024!
+// Automatski se kreira prilikom prvog pokretanja servera
+// ============================================================
+
+let _demoSeeded = false;
+
+export async function seedDemoAccount(): Promise<void> {
+  if (_demoSeeded) return;
+  _demoSeeded = true;
+
+  const vault = getGlobalVault();
+
+  // Proveri da li demo nalog vec postoji
+  const allIds = vault.listIds();
+  for (const id of allIds) {
+    const existing = vault.retrieveIdentity(id);
+    if (existing?.email === 'demo@spaja.ai') {
+      return; // Vec postoji
+    }
+  }
+
+  // Kreiraj demo nalog
+  const demoIdentity = await createIdentity({
+    email: 'demo@spaja.ai',
+    password: 'Demo2024!',
+    roles: ['user', 'demo'],
+    clearanceLevel: ΩClearanceLevel.USER,
+  });
+
+  vault.storeIdentity(demoIdentity);
+}
+
+// Auto-seed demo nalog pri inicijalizaciji modula
+void seedDemoAccount();

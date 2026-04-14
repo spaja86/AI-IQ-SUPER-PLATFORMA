@@ -215,6 +215,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje platforme su deploy-ovane i gde?', ikona: '🌍', kategorija: 'ai' },
       { pitanje: 'Šta znači status deploy-a?', ikona: '📊', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako da proverim da li je deploy uspešan?', ikona: '✅', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su najčešći problemi pri deploy-u?', ikona: '⚠️', kategorija: 'ai' },
+      { pitanje: 'Kako funkcioniše automatski deploy na Vercel?', ikona: '⚡', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -227,6 +229,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje probleme može automatski da popravi?', ikona: '🛠️', kategorija: 'ai' },
       { pitanje: 'Koliko dijagnostika sistem proverava?', ikona: '📊', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako se izračunava zdravlje sistema?', ikona: '💚', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko brzo se automatski detektuju greške?', ikona: '⚡', kategorija: 'ai' },
+      { pitanje: 'Šta ako auto-popravka ne može da reši problem?', ikona: '🆘', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -253,6 +257,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koja je misija i vizija kompanije?', ikona: '🎯', kategorija: 'ai' },
       { pitanje: 'Kako je kompanija organizovana?', ikona: '🏢', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koji su glavni proizvodi kompanije?', ikona: '📦', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko zaposlenih ima kompanija?', ikona: '👥', kategorija: 'ai' },
+      { pitanje: 'Koje su buduce inicijative kompanije?', ikona: '🔮', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -265,6 +271,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Šta je uključeno u svaki plan?', ikona: '📋', kategorija: 'ai' },
       { pitanje: 'Kako da se registrujem?', ikona: '📝', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koja je razlika između besplatnog i premium plana?', ikona: '⭐', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Da li postoji probni period?', ikona: '🆓', kategorija: 'ai' },
+      { pitanje: 'Kako da nadogradim plan?', ikona: '⬆️', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -291,6 +299,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koji podaci su potrebni za registraciju?', ikona: '📋', kategorija: 'ai' },
       { pitanje: 'Šta dobijam registracijom?', ikona: '🎁', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koliko je sigurna registracija?', ikona: '🔒', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko traje proces registracije?', ikona: '⏱️', kategorija: 'ai' },
+      { pitanje: 'Da li mogu da koristim Google/GitHub za registraciju?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -303,6 +313,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koliko dimenzija sistem podržava?', ikona: '📊', kategorija: 'ai' },
       { pitanje: 'Kako funkcionišu oktavni nivoi u dimenzijama?', ikona: '🎵', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Čemu služi dimenzionalni sistem?', ikona: '💡', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako se dimenzije koriste u AI?', ikona: '🤖', kategorija: 'ai' },
+      { pitanje: 'Objasni mi 360D do 5760D raspon', ikona: '📈', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -315,6 +327,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Kako se IT proizvodi koriste u ekosistemu?', ikona: '🔗', kategorija: 'ai' },
       { pitanje: 'Koji proizvod je najkorisniji za developere?', ikona: '👨‍💻', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako da koristim IT proizvode?', ikona: '📖', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su najnoviji IT proizvodi?', ikona: '🆕', kategorija: 'ai' },
+      { pitanje: 'Kako da doprinesem razvoju proizvoda?', ikona: '🛠️', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -327,6 +341,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Gde mogu da nađem odgovore na česta pitanja?', ikona: '❓', kategorija: 'ai' },
       { pitanje: 'Koji su najnoviji vodiči?', ikona: '📚', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako da doprinesem blogu?', ikona: '✍️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koje teme se obrađuju na blogu?', ikona: '🏷️', kategorija: 'ai' },
+      { pitanje: 'Gde su uputstva za korišćenje platforme?', ikona: '📖', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -353,6 +369,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje paradigme jezik podržava?', ikona: '🎵', kategorija: 'ai' },
       { pitanje: 'Kako da pišem kod u ovom jeziku?', ikona: '💻', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Šta znači -∞Ω+∞ spektar?', ikona: '♾️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su osnovni tipovi podataka?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako funkcionišu operatori jezika?', ikona: '⚡', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -365,6 +383,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje komponente čine digitalnu platformu?', ikona: '🧩', kategorija: 'ai' },
       { pitanje: 'Kako pristupiti svim funkcijama platforme?', ikona: '🔑', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koja je razlika između ove i glavne platforme?', ikona: '⚖️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su najvažniji moduli platforme?', ikona: '🏗️', kategorija: 'ai' },
+      { pitanje: 'Kako da integrisem sa digitalnom platformom?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -377,6 +397,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koji kanali podrške su dostupni?', ikona: '📨', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše AI dispatch podrška?', ikona: '🤖', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koliko AI persona pruža podršku?', ikona: '👥', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko brzo dobijam odgovor?', ikona: '⏱️', kategorija: 'ai' },
+      { pitanje: 'Da li podrška radi 24/7?', ikona: '🕐', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -389,6 +411,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Kako funkcioniše live streaming?', ikona: '📡', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koje kanale mogu da gledam?', ikona: '📺', kategorija: 'ai' },
       { pitanje: 'Kako da pokrenem sopstveni stream?', ikona: '🎬', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko istovremenih gledalaca podržava?', ikona: '👥', kategorija: 'ai' },
+      { pitanje: 'Koji kvalitet videa je dostupan?', ikona: '📊', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -401,6 +425,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koliko kanala je dostupno?', ikona: '📡', kategorija: 'ai' },
       { pitanje: 'Kako da gledam live TV?', ikona: '🎬', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koji sadržaj emituju kanali?', ikona: '📋', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Da li je televizor besplatan?', ikona: '🆓', kategorija: 'ai' },
+      { pitanje: 'Kako da pristupim programskom vodiču?', ikona: '📖', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -413,6 +439,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje su prednosti sopstvenog browsera?', ikona: '⭐', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše engine browsera?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako importovati/exportovati podatke?', ikona: '📂', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su bezbednosni mehanizmi browsera?', ikona: '🛡️', kategorija: 'ai' },
+      { pitanje: 'Kako da instaliram SPAJA browser?', ikona: '📥', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -425,6 +453,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koliki su hardverski resursi?', ikona: '💾', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše zakup kompjutera?', ikona: '🔑', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Za šta se koristi ovaj kompjuter?', ikona: '💡', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko GPU jedinica ima?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako da pristupim remote kompjuteru?', ikona: '🌐', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -437,6 +467,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Kako da generišem novi engine?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koji engine-i su vec generisani?', ikona: '📋', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše proces generisanja?', ikona: '🔄', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koje parametre mogu da podesim?', ikona: '🎛️', kategorija: 'ai' },
+      { pitanje: 'Kako se engine testira posle generisanja?', ikona: '🧪', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -449,6 +481,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Kako funkcioniše rendering?', ikona: '🖼️', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koje formate podržava render?', ikona: '📁', kategorija: 'ai' },
       { pitanje: 'Kako da renderujem slike i video?', ikona: '🎨', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko vremena treba za rendering?', ikona: '⏱️', kategorija: 'ai' },
+      { pitanje: 'Koja je maksimalna rezolucija?', ikona: '📊', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -461,6 +495,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Kolika je pokrivenost koda testovima?', ikona: '📊', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako funkcioniše test sistem?', ikona: '✅', kategorija: 'ai' },
       { pitanje: 'Koje test suite postoje?', ikona: '📁', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako da pokrenem testove lokalno?', ikona: '💻', kategorija: 'ai' },
+      { pitanje: 'Koji testovi su najvažniji za bezbednost?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -473,6 +509,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje greške sistem prati?', ikona: '🐛', kategorija: 'ai' },
       { pitanje: 'Kako tumačiti monitoring podatke?', ikona: '📊', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako se automatski rešavaju greške?', ikona: '🔧', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko alerta sistem može da obradi?', ikona: '🔔', kategorija: 'ai' },
+      { pitanje: 'Kako da konfigurisem notifikacije?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -485,6 +523,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje igrice su dostupne?', ikona: '🕹️', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše gaming engine?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako da igram igrice na platformi?', ikona: '🎲', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su multiplayer režimi?', ikona: '👥', kategorija: 'ai' },
+      { pitanje: 'Kako da napravim sopstvenu igricu?', ikona: '🛠️', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -497,6 +537,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje simulacije su dostupne?', ikona: '🧪', kategorija: 'ai' },
       { pitanje: 'Kako da pokrenem simulaciju?', ikona: '▶️', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Čemu služi laboratorija?', ikona: '💡', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su rezultati dosadašnjih simulacija?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako da sačuvam rezultate eksperimenta?', ikona: '💾', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -509,6 +551,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koje su faze plasiranja?', ikona: '📊', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše automatsko plasiranje?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koji sistemi su uključeni u plasiranje?', ikona: '🏗️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko traje kompletno plasiranje?', ikona: '⏱️', kategorija: 'ai' },
+      { pitanje: 'Kako da pratim napredak plasiranja?', ikona: '📈', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -521,6 +565,8 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koji su koraci za otvaranje?', ikona: '📋', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Kako funkcioniše verifikacija?', ikona: '✅', kategorija: 'ai' },
       { pitanje: 'Ko daje saglasnost za otvaranje?', ikona: '👤', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji su preduvslovi za zvanično otvaranje?', ikona: '📌', kategorija: 'ai' },
+      { pitanje: 'Kako izgleda ceremonija otvaranja?', ikona: '🎊', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -531,6 +577,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     promptovi: [
       { pitanje: 'Kako funkcioniše Proksi GitHub Deploy?', ikona: '🐙', kategorija: 'ai' },
       { pitanje: 'Kako da deploy-ujem sa GitHub-a?', ikona: '🚀', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji repozitorijumi se deploy-uju automatski?', ikona: '📦', kategorija: 'ai' },
+      { pitanje: 'Kako da proverim status deploy-a na GitHub-u?', ikona: '✅', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koja je razlika između Vercel i GitHub deploy-a?', ikona: '⚖️', kategorija: 'ai' },
+      { pitanje: 'Kako da konfigurisem CI/CD pipeline?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -541,6 +591,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     promptovi: [
       { pitanje: 'Šta je Proksi WiFi Antena?', ikona: '📶', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše WiFi antena?', ikona: '📡', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji je domet WiFi antene?', ikona: '🌐', kategorija: 'ai' },
+      { pitanje: 'Kako se WiFi antena integriše sa proksi mrežom?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koje frekvencije podržava antena?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako da optimizujem WiFi signal?', ikona: '⚡', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -551,6 +605,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     promptovi: [
       { pitanje: 'Kako je organizovana Kompanija SPAJA?', ikona: '🏛️', kategorija: 'ai' },
       { pitanje: 'Koji sektori postoje u organizaciji?', ikona: '📋', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Ko su ključni članovi organizacije?', ikona: '👥', kategorija: 'ai' },
+      { pitanje: 'Kako funkcioniše donošenje odluka?', ikona: '⚖️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koja je hijerarhija u organizaciji?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako se organizacija razvija?', ikona: '📈', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -561,6 +619,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     promptovi: [
       { pitanje: 'Koje organizacije su deo ekosistema?', ikona: '🏢', kategorija: 'ai' },
       { pitanje: 'Kako su organizacije međusobno povezane?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko organizacija čini ekosistem?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Koja organizacija upravlja kojim sektorom?', ikona: '🏗️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako da saradjujem sa organizacijama?', ikona: '🤝', kategorija: 'ai' },
+      { pitanje: 'Koje su uloge organizacija u digitalnoj industriji?', ikona: '🎯', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -571,6 +633,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     promptovi: [
       { pitanje: 'Koje kompanije čine ekosistem?', ikona: '🏛️', kategorija: 'ai' },
       { pitanje: 'Kako su kompanije povezane sa SPAJA?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koliko kompanija je u ekosistemu?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Koja kompanija je zadužena za AI?', ikona: '🤖', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako kompanije sarađuju međusobno?', ikona: '🤝', kategorija: 'ai' },
+      { pitanje: 'Koji su proizvodi svake kompanije?', ikona: '📦', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -581,6 +647,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     promptovi: [
       { pitanje: 'What IT products are available?', ikona: '📦', kategorija: 'ai' },
       { pitanje: 'How do the products integrate?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Which products are most popular?', ikona: '⭐', kategorija: 'ai' },
+      { pitanje: 'How to get started with products?', ikona: '🚀', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'What are the pricing options?', ikona: '💰', kategorija: 'ai' },
+      { pitanje: 'How does product support work?', ikona: '🛠️', kategorija: 'spaja-pro-ai' },
     ],
   },
   {
@@ -603,6 +673,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     promptovi: [
       { pitanje: 'Kako da resetujem lozinku?', ikona: '🔑', kategorija: 'ai' },
       { pitanje: 'Koliko traje proces resetovanja?', ikona: '⏱️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Šta ako nemam pristup email-u?', ikona: '📧', kategorija: 'ai' },
+      { pitanje: 'Kako da napravim jaču lozinku?', ikona: '💪', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Da li je resetovanje bezbedno?', ikona: '🛡️', kategorija: 'ai' },
+      { pitanje: 'Koliko puta mogu da resetujem lozinku?', ikona: '🔄', kategorija: 'spaja-pro-ai' },
     ],
   },
 ];
@@ -620,7 +694,7 @@ export function getPagePrompts(putanja: string): PagePromptConfig {
     putanja,
     naslov: 'Stranica',
     opis: 'AI IQ SUPER PLATFORMA',
-    kontekst: `Stranica na putanji ${pathname} u AI IQ SUPER PLATFORMA.`,
+    kontekst: `Stranica na putanji ${putanja} u AI IQ SUPER PLATFORMA.`,
     promptovi: [
       { pitanje: 'Šta se dešava na ovoj stranici?', ikona: '❓', kategorija: 'ai' },
       { pitanje: 'Kako da koristim ovu funkciju?', ikona: '💡', kategorija: 'ai' },

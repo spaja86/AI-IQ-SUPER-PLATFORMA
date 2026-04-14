@@ -59,6 +59,8 @@ const PUBLIC_ROUTES = [
   '/api/auth/refresh',
   '/api/auth/logout',
   '/api/auth/verify',
+  '/api/auth/status',
+  '/api/ai-asistent',
   '/ai-platforma',
   '/banka',
   '/menjacnica',
