@@ -200,7 +200,12 @@ export class ΩCryptoEngine {
     try {
       const bufA = Buffer.from(a, 'utf8');
       const bufB = Buffer.from(b, 'utf8');
-      if (bufA.length !== bufB.length) return false;
+      if (bufA.length !== bufB.length) {
+        // Uvek izvrši komparaciju čak i kad su dužine različite
+        // da bi se sprečio timing napad koji otkriva dužinu
+        timingSafeEqual(bufA, bufA);
+        return false;
+      }
       return timingSafeEqual(bufA, bufB);
     } catch {
       return false;

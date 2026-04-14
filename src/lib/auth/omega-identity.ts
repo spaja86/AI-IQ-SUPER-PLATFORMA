@@ -54,12 +54,19 @@ export class ΩIdentityVault {
 // createIdentity — kreira novi ΩIdentity
 export async function createIdentity(params: {
   email: string;
+  password?: string;
   roles?: string[];
   clearanceLevel?: ΩClearanceLevel;
 }): Promise<ΩIdentity> {
   const id = ΩCryptoEngine.generateId();
   const keyPair = await ΩCryptoEngine.generateKeyPair();
   const did = generateDID(id, keyPair.publicKey);
+
+  // Hash lozinke ako je prosleđena
+  let passwordHash: string | undefined;
+  if (params.password) {
+    passwordHash = await ΩCryptoEngine.hashPassword(params.password);
+  }
 
   return {
     id,
@@ -69,6 +76,7 @@ export async function createIdentity(params: {
     clearanceLevel: params.clearanceLevel ?? ΩClearanceLevel.USER,
     digitalIndustryAccess: true,
     email: params.email,
+    passwordHash,
     mfaEnabled: false,
     createdAt: Date.now(),
   };

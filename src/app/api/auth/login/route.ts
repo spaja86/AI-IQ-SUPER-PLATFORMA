@@ -80,7 +80,6 @@ export async function POST(request: NextRequest) {
 
   const response = NextResponse.json({
     token: result.token,
-    refreshToken: result.refreshToken,
     identity: {
       id: result.identity.id,
       did: result.identity.did,

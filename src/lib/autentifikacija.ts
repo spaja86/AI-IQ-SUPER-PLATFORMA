@@ -198,7 +198,7 @@ export const dozvole: AuthDozvola[] = [
 // ─── Konfiguracija ───────────────────────────────────────
 
 export const authKonfiguracija: AuthKonfiguracija = {
-  jwtTajna: process.env.JWT_SECRET ?? 'development-only-secret',
+  jwtTajna: process.env.JWT_SECRET ?? (process.env.NODE_ENV === 'production' ? '' : 'development-only-secret'),
   jwtIsticanje: '15m',
   refreshIsticanje: '7d',
   maxSesija: 5,
