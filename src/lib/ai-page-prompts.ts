@@ -29,7 +29,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/',
     naslov: 'Početna',
     opis: 'Glavna stranica Digitalne Industrije',
-    kontekst: 'Ovo je pocetna stranica AI IQ SUPER PLATFORMA — Kompanije SPAJA. Prikazuje pregled celokupne Digitalne Industrije, statistiku ekosistema, login i navigaciju ka svim modulima.',
+    kontekst: 'Ovo je početna stranica AI IQ SUPER PLATFORMA — Kompanije SPAJA. Prikazuje pregled celokupne Digitalne Industrije, statistiku ekosistema, login i navigaciju ka svim modulima.',
     promptovi: [
       { pitanje: 'Šta je AI IQ SUPER PLATFORMA i šta sve nudi?', ikona: '🏠', kategorija: 'ai' },
       { pitanje: 'Objasni mi ceo ekosistem Kompanije SPAJA', ikona: '🌐', kategorija: 'ai' },
@@ -169,7 +169,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/menjacnica',
     naslov: 'Menjačnica',
     opis: 'SPAJA Menjačnica platforma',
-    kontekst: 'SPAJA Menjacnica je platforma za konverziju valuta unutar ekosistema sa podrskom za vise valuta.',
+    kontekst: 'SPAJA Menjacnica je platforma za konverziju valuta unutar ekosistema sa podrškom za više valuta.',
     promptovi: [
       { pitanje: 'Kako funkcioniše SPAJA Menjačnica?', ikona: '💱', kategorija: 'ai' },
       { pitanje: 'Koje valute mogu da menjam?', ikona: '💵', kategorija: 'ai' },
@@ -195,7 +195,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/mobilna-mreza',
     naslov: 'Mobilna Mreža',
     opis: 'SPAJA Mobilna Mreža sa 4 centrale',
-    kontekst: 'SPAJA Mobilna Mreza ima 4 centrale sa pozivnim brojevima +38177, +38188, +38178, +38187. Pruza mobilne komunikacione usluge.',
+    kontekst: 'SPAJA Mobilna Mreža ima 4 centrale sa pozivnim brojevima +38177, +38188, +38178, +38187. Pruža mobilne komunikacione usluge.',
     promptovi: [
       { pitanje: 'Šta je SPAJA Mobilna Mreža?', ikona: '📱', kategorija: 'ai' },
       { pitanje: 'Koliko centrala ima i gde su?', ikona: '📡', kategorija: 'ai' },
@@ -223,7 +223,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/auto-popravka',
     naslov: 'Auto-Popravka',
     opis: 'Autonomni sistem za popravku',
-    kontekst: 'Auto-Popravka je autonomni dijagnosticki sistem koji automatski detektuje i popravlja probleme u ekosistemu.',
+    kontekst: 'Auto-Popravka je autonomni dijagnostički sistem koji automatski detektuje i popravlja probleme u ekosistemu.',
     promptovi: [
       { pitanje: 'Kako funkcioniše Auto-Popravka?', ikona: '🔧', kategorija: 'ai' },
       { pitanje: 'Koje probleme može automatski da popravi?', ikona: '🛠️', kategorija: 'ai' },
@@ -279,7 +279,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/login',
     naslov: 'Prijava',
     opis: 'Prijava na platformu',
-    kontekst: 'Login stranica omogucava prijavu na AI IQ SUPER PLATFORMA sa email-om i lozinkom. Sistem koristi Zero Trust arhitekturu sa JWT tokenima.',
+    kontekst: 'Login stranica omogućava prijavu na AI IQ SUPER PLATFORMA sa email-om i lozinkom. Sistem koristi Zero Trust arhitekturu sa JWT tokenima.',
     promptovi: [
       { pitanje: 'Kako da se prijavim na platformu?', ikona: '🔐', kategorija: 'ai' },
       { pitanje: 'Šta da radim ako sam zaboravio lozinku?', ikona: '🔑', kategorija: 'ai' },
@@ -293,7 +293,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/registracija',
     naslov: 'Registracija',
     opis: 'Kreiranje naloga',
-    kontekst: 'Registracija stranica za kreiranje novog korisnickog naloga na platformi.',
+    kontekst: 'Registracija stranica za kreiranje novog korisničkog naloga na platformi.',
     promptovi: [
       { pitanje: 'Kako da se registrujem?', ikona: '📝', kategorija: 'ai' },
       { pitanje: 'Koji podaci su potrebni za registraciju?', ikona: '📋', kategorija: 'ai' },
@@ -335,7 +335,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/blog',
     naslov: 'Blog & FAQ',
     opis: 'SPAJA Blog & FAQ',
-    kontekst: 'Blog i FAQ stranica sa clancima, vodicima i odgovorima na cesto postavljana pitanja.',
+    kontekst: 'Blog i FAQ stranica sa člancima, vodičima i odgovorima na često postavljana pitanja.',
     promptovi: [
       { pitanje: 'Koji članci su dostupni na blogu?', ikona: '📝', kategorija: 'ai' },
       { pitanje: 'Gde mogu da nađem odgovore na česta pitanja?', ikona: '❓', kategorija: 'ai' },
@@ -419,7 +419,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/digitalni-televizor',
     naslov: 'Digitalni Televizor',
     opis: 'SPAJA Univerzalni Digitalni Televizor',
-    kontekst: 'Digitalni Televizor sa 12 kanala i live TV mogucnostima.',
+    kontekst: 'Digitalni Televizor sa 12 kanala i live TV mogućnostima.',
     promptovi: [
       { pitanje: 'Šta je SPAJA Digitalni Televizor?', ikona: '📺', kategorija: 'ai' },
       { pitanje: 'Koliko kanala je dostupno?', ikona: '📡', kategorija: 'ai' },
@@ -475,7 +475,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/spaja-render-medija',
     naslov: 'Render Medija',
     opis: 'SPAJA Render za slike i video',
-    kontekst: 'SPAJA Render Medija — rendering engine za slike i video sadrzaj.',
+    kontekst: 'SPAJA Render Medija — rendering engine za slike i video sadržaj.',
     promptovi: [
       { pitanje: 'Šta je SPAJA Render Medija?', ikona: '🎬', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše rendering?', ikona: '🖼️', kategorija: 'spaja-pro-ai' },
@@ -503,7 +503,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/ai-iq-monitoring',
     naslov: 'AI IQ Monitoring',
     opis: 'Praćenje grešaka',
-    kontekst: 'AI IQ Monitoring — Sentry-like sistem za pracenje i analizu gresaka u celom ekosistemu.',
+    kontekst: 'AI IQ Monitoring — Sentry-like sistem za praćenje i analizu grešaka u celom ekosistemu.',
     promptovi: [
       { pitanje: 'Kako funkcioniše AI IQ Monitoring?', ikona: '🔍', kategorija: 'ai' },
       { pitanje: 'Koje greške sistem prati?', ikona: '🐛', kategorija: 'ai' },
@@ -556,10 +556,10 @@ export const aiPagePrompts: PagePromptConfig[] = [
     ],
   },
   {
-    putanja: '/omega-projekat-zvanicno-otvaranje',
+    putanja: '/omega-projekat-zvanično-otvaranje',
     naslov: 'Zvanično Otvaranje',
     opis: 'OMEGA projekat zvanično otvaranje',
-    kontekst: 'OMEGA PROJEKAT zvanicno otvaranje — verifikacija, saglasnost osnivaca i pokretanje.',
+    kontekst: 'OMEGA PROJEKAT zvanično otvaranje — verifikacija, saglasnost osnivača i pokretanje.',
     promptovi: [
       { pitanje: 'Šta je zvanično otvaranje OMEGA projekta?', ikona: '🎉', kategorija: 'ai' },
       { pitanje: 'Koji su koraci za otvaranje?', ikona: '📋', kategorija: 'spaja-pro-ai' },
@@ -587,7 +587,7 @@ export const aiPagePrompts: PagePromptConfig[] = [
     putanja: '/proksi-wifi-antena',
     naslov: 'WiFi Antena',
     opis: 'Proksi WiFi Antena',
-    kontekst: 'Proksi WiFi Antena sistem za bezicnu komunikaciju u ekosistemu.',
+    kontekst: 'Proksi WiFi Antena sistem za bežičnu komunikaciju u ekosistemu.',
     promptovi: [
       { pitanje: 'Šta je Proksi WiFi Antena?', ikona: '📶', kategorija: 'ai' },
       { pitanje: 'Kako funkcioniše WiFi antena?', ikona: '📡', kategorija: 'spaja-pro-ai' },

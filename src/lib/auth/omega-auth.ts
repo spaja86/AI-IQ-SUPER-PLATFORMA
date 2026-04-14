@@ -377,12 +377,12 @@ export async function seedDemoAccount(): Promise<void> {
 
   const vault = getGlobalVault();
 
-  // Proveri da li demo nalog vec postoji
+  // Proveri da li demo nalog već postoji
   const allIds = vault.listIds();
   for (const id of allIds) {
     const existing = vault.retrieveIdentity(id);
     if (existing?.email === 'demo@spaja.ai') {
-      return; // Vec postoji
+      return; // Već postoji
     }
   }
 
