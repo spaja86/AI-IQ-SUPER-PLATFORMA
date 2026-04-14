@@ -11,7 +11,7 @@ import type {
 } from './types';
 import { ΩClearanceLevel, ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from './types';
 import { ΩCryptoEngine } from './omega-crypto';
-import { getGlobalVault } from './omega-identity';
+import { getGlobalVault, createIdentity } from './omega-identity';
 
 // In-memory store za tokene (u produkciji: Redis)
 const tokenStore = new Map<string, { identity: ΩIdentity; expiresAt: number }>();
@@ -21,7 +21,14 @@ const revokedTokens = new Set<string>();
 
 // ΩAuthProvider — centralni autentifikacioni provajder
 export class ΩAuthProvider {
-  private static readonly JWT_SECRET = process.env.OMEGA_JWT_SECRET ?? 'omega-secret-change-in-production-min-32-chars!!';
+  private static get JWT_SECRET(): string {
+    const secret = process.env.OMEGA_JWT_SECRET;
+    if (secret) return secret;
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('OMEGA_JWT_SECRET environment variable is required in production');
+    }
+    return 'omega-dev-only-secret-not-for-production-use-32ch';
+  }
 
   // verifyIdentity — verifikuje SVE tipove tokena
   static async verifyIdentity(token: string): Promise<ΩIdentity | null> {
@@ -183,6 +190,16 @@ export class ΩAuthProvider {
 
     if (!identity) return null;
 
+    // Verifikuj lozinku — OBAVEZNO za svaki login
+    if (request.password) {
+      if (!identity.passwordHash) return null;
+      const passwordValid = await ΩCryptoEngine.verifyPassword(request.password, identity.passwordHash);
+      if (!passwordValid) return null;
+    } else if (!request.oauthCode) {
+      // Ni lozinka ni OAuth kod — odbij
+      return null;
+    }
+
     // Provjeri 2FA ako je omogućeno
     if (identity.mfaEnabled) {
       if (!request.totpCode) {
@@ -216,6 +233,47 @@ export class ΩAuthProvider {
       token: accessToken,
       refreshToken: refreshTokenToken,
       identity: updatedIdentity,
+      expiresAt: accessToken.expiresAt,
+    };
+  }
+
+  // register — registracija novog korisnika
+  static async register(params: {
+    email: string;
+    password: string;
+    fullName?: string;
+  }): Promise<ΩLoginResponse | null> {
+    const vault = getGlobalVault();
+
+    // Proveri da li email već postoji
+    const allIds = vault.listIds();
+    for (const id of allIds) {
+      const existing = vault.retrieveIdentity(id);
+      if (existing?.email === params.email) {
+        return null; // Korisnik već postoji
+      }
+    }
+
+    // Kreiraj novi identitet
+    const identity = await createIdentity({
+      email: params.email,
+      password: params.password,
+      roles: ['user'],
+      clearanceLevel: ΩClearanceLevel.USER,
+    });
+
+    // Sačuvaj u vault
+    vault.storeIdentity(identity);
+
+    // Izdaj tokene
+    const scopes: ΩScope[] = ['digital_industry:read', 'digital_industry:write'];
+    const accessToken = await this.issueToken(identity, scopes, 'ACCESS');
+    const refreshTokenToken = await this.issueRefreshToken(identity);
+
+    return {
+      token: accessToken,
+      refreshToken: refreshTokenToken,
+      identity,
       expiresAt: accessToken.expiresAt,
     };
   }

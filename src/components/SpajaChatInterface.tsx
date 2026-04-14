@@ -2,10 +2,10 @@
 
 // SpajaUltraOmegaCore -∞Ω+∞ — SpajaPro Chat Interface
 // Kompanija SPAJA — Digitalna Industrija
-// Realni AI chat interfejs koji koristi OpenAI preko API-ja
+// AI chat interfejs koji koristi SpajaPro Prompt Engine
 
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { getSupabaseClient } from '@/lib/supabase/client';
+import { useState, useRef, useEffect } from 'react';
+import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -17,24 +17,11 @@ export default function SpajaChatInterface() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [plan, setPlan] = useState('starter');
-  const [messagesRemaining, setMessagesRemaining] = useState<number | string>(10);
+  const [isLoggedIn] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return !!dohvatiSesiju();
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const checkAuth = useCallback(async () => {
-    try {
-      const supabase = getSupabaseClient();
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsLoggedIn(!!session);
-    } catch {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -51,40 +38,38 @@ export default function SpajaChatInterface() {
     setLoading(true);
 
     try {
-      const supabase = getSupabaseClient();
-      const { data: { session } } = await supabase.auth.getSession();
+      const sesija = dohvatiSesiju();
 
-      if (!session) {
-        setError('Sesija je istekla. Prijavite se ponovo.');
-        setIsLoggedIn(false);
+      if (!sesija) {
+        setError('Sesija je istekla. Prijavite se ponovo na /pricing stranici.');
         setLoading(false);
         return;
       }
 
-      const res = await fetch('/api/spaja-pro/chat', {
+      // Koristi SpajaPro Prompt Engine — radi bez eksternih servisa
+      const res = await fetch('/api/spaja-pro-prompt-execute', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${sesija.token}`,
         },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({
+          prompt: userMessage,
+          verzija: 15,
+          parametri: {},
+        }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        if (data.limitReached) {
-          setError(`Dostigli ste limit poruka za ${data.currentPlan} plan. Nadogradite na visi plan.`);
-        } else {
-          setError(data.error ?? 'Greska pri slanju poruke.');
-        }
+        setError(data.error ?? 'Greska pri slanju poruke.');
         setLoading(false);
         return;
       }
 
-      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
-      setPlan(data.plan);
-      setMessagesRemaining(data.messagesRemaining);
+      const reply = data.rezultat ?? data.odgovor?.sadrzaj ?? 'Nema odgovora.';
+      setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
     } catch {
       setError('Greska u mrezi. Pokusajte ponovo.');
     } finally {
@@ -125,9 +110,7 @@ export default function SpajaChatInterface() {
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-white">🤖 SpajaPro AI Chat</h2>
           <div className="text-sm text-gray-400">
-            Plan: <span className="font-medium text-blue-400">{plan}</span>
-            {' | '}
-            Preostalo: <span className="font-medium text-green-400">{messagesRemaining}</span>
+            SpajaPro v15 Engine
           </div>
         </div>
 
