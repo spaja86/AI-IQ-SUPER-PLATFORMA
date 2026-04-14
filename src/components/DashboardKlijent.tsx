@@ -15,9 +15,21 @@ export default function DashboardKlijent() {
 
   const isLoggedIn = !!sesija;
 
-  function handleLogout() {
+  async function handleLogout() {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(sesija?.token ? { Authorization: `Bearer ${sesija.token}` } : {}),
+        },
+      });
+    } catch {
+      // Nastavi sa brisanjem lokalne sesije cak i ako API poziv ne uspe
+    }
     obrisiSesiju();
     setSesija(null);
+    window.location.href = '/login';
   }
 
   if (!isLoggedIn) {
@@ -30,7 +42,7 @@ export default function DashboardKlijent() {
           </p>
           <div className="flex justify-center gap-4">
             <a
-              href="/pricing"
+              href="/login"
               className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
             >
               Prijavi se

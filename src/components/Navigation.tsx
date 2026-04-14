@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
 
 const navLinks = [
   { href: '/', label: '🏠 Početna' },
@@ -44,11 +45,17 @@ const navLinks = [
   { href: '/unit-testovi', label: '🧪 Unit Testovi' },
   { href: '/omega-ai-suport', label: '📞 OMEGA Suport' },
   { href: '/omega-projekat-plasiranje', label: '🚀 OMEGA Plasiranje' },
+  { href: '/digitalna-platforma', label: '🌐 Digitalna Platforma' },
 ];
 
 export default function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sesija, setSesija] = useState<OmegaSesija | null>(null);
+
+  useEffect(() => {
+    setSesija(dohvatiSesiju());
+  }, []);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -57,6 +64,25 @@ export default function Navigation() {
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, []);
+
+  async function handleLogout() {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(sesija?.token ? { Authorization: `Bearer ${sesija.token}` } : {}),
+        },
+      });
+    } catch {
+      // Nastavi sa brisanjem lokalne sesije cak i ako API poziv ne uspe
+    }
+    obrisiSesiju();
+    setSesija(null);
+    window.location.href = '/login';
+  }
+
+  const isLoggedIn = !!sesija;
 
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900/95 backdrop-blur" aria-label="Glavna navigacija">
@@ -77,7 +103,7 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden gap-1 md:flex">
+        <div className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -91,22 +117,96 @@ export default function Navigation() {
               {link.label}
             </Link>
           ))}
+
+          {/* Auth dugmad */}
+          <div className="ml-2 flex items-center gap-2 border-l border-gray-700 pl-3">
+            {isLoggedIn ? (
+              <>
+                <span className="text-xs text-gray-500" title={sesija?.email}>
+                  {sesija?.email?.split('@')[0]}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="rounded-lg border border-gray-600 px-3 py-1.5 text-xs text-gray-300 transition hover:border-red-500 hover:text-red-400"
+                >
+                  Odjavi se
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+                    pathname === '/login'
+                      ? 'bg-blue-600/20 text-blue-400'
+                      : 'text-blue-400 hover:bg-blue-600/10 hover:text-blue-300'
+                  }`}
+                >
+                  🔐 Prijava
+                </Link>
+                <Link
+                  href="/registracija"
+                  className="rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-500"
+                >
+                  Registracija
+                </Link>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Mobile toggle */}
-        <button
-          className="rounded-lg p-2 text-gray-400 hover:text-white md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label={menuOpen ? 'Zatvori meni' : 'Otvori meni'}
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? '✕' : '☰'}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          {/* Mobile auth indicator */}
+          {isLoggedIn && (
+            <span className="text-xs text-green-400" title={sesija?.email}>●</span>
+          )}
+          <button
+            className="rounded-lg p-2 text-gray-400 hover:text-white"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? 'Zatvori meni' : 'Otvori meni'}
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? '✕' : '☰'}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-gray-800 bg-gray-900 px-4 py-2 md:hidden">
+          {/* Mobile auth section */}
+          <div className="mb-3 border-b border-gray-800 pb-3">
+            {isLoggedIn ? (
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-400">{sesija?.email}</span>
+                <button
+                  onClick={() => { setMenuOpen(false); handleLogout(); }}
+                  className="rounded-lg border border-gray-600 px-3 py-1.5 text-xs text-gray-300 transition hover:border-red-500 hover:text-red-400"
+                >
+                  Odjavi se
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white transition hover:bg-blue-500"
+                >
+                  🔐 Prijava
+                </Link>
+                <Link
+                  href="/registracija"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex-1 rounded-lg bg-green-600 px-4 py-2 text-center text-sm font-medium text-white transition hover:bg-green-500"
+                >
+                  Registracija
+                </Link>
+              </div>
+            )}
+          </div>
+
           {navLinks.map((link) => (
             <Link
               key={link.href}
