@@ -65,7 +65,7 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
         },
         {
           naslov: 'Banka & Menjacnica',
-          opis: 'Digitalni finansijski sistem sa bankarskim operacijama, menjacnicom valuta i kripto podrsskom',
+          opis: 'Digitalni finansijski sistem sa bankarskim operacijama, menjacnicom valuta i kripto podrskom',
           ikona: '🏦',
           oznake: ['Finansije', 'Valute', 'Kripto'],
         },
@@ -118,7 +118,7 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
     id: 'digitalna-platforma-autofinish',
     tip: 'progres',
     naslov: '🔄 Autofinish sistem',
-    podnaslov: 'Automatsko zavrssavanje i optimizacija platforme',
+    podnaslov: 'Automatsko zavrsavanje i optimizacija platforme',
     redosled: 4,
     podaci: {
       stavke: [

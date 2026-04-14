@@ -40,12 +40,6 @@ export default function LoginForma() {
       return;
     }
 
-    if (lozinka.length < 8) {
-      setStatus('error');
-      setPoruka('Lozinka mora imati najmanje 8 karaktera.');
-      return;
-    }
-
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
