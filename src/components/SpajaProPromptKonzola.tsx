@@ -53,7 +53,15 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
   const [parametriVrednosti, setParametriVrednosti] = useState<Record<string, string>>({});
   const [odgovor, setOdgovor] = useState<string>('');
   const [ucitavanje, setUcitavanje] = useState(false);
-  const [istorija, setIstorija] = useState<Array<{ prompt: string; odgovor: string; verzija: number; vreme: string }>>([]);
+  const [istorija, setIstorija] = useState<Array<{ prompt: string; odgovor: string; verzija: number; vreme: string }>>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const saved = localStorage.getItem('spaja-prompt-istorija');
+      if (saved) return JSON.parse(saved) as Array<{ prompt: string; odgovor: string; verzija: number; vreme: string }>;
+    } catch { /* ignore */ }
+    return [];
+  });
+  const [prikaziSveIstorije, setPrikaziSveIstorije] = useState(false);
 
   // Filter prompts
   const filtrirani = promptovi.filter((p) => {
@@ -95,20 +103,26 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
       });
 
       const data = await res.json();
-      const rezultat = data.rezultat ?? data.error ?? 'Greška pri izvršavanju';
+      const rezultat = data.rezultat ?? data.error ?? 'Greska pri izvrsavanju';
       setOdgovor(rezultat);
 
-      setIstorija((prev) => [
-        {
-          prompt: korisnikUnos.slice(0, 100),
-          odgovor: rezultat.slice(0, 200),
-          verzija: izabranaVerzija,
-          vreme: new Date().toLocaleTimeString('sr-RS'),
-        },
-        ...prev.slice(0, 19),
-      ]);
+      setIstorija((prev) => {
+        const nova = [
+          {
+            prompt: korisnikUnos.slice(0, 200),
+            odgovor: rezultat.slice(0, 500),
+            verzija: izabranaVerzija,
+            vreme: new Date().toLocaleTimeString('sr-RS'),
+          },
+          ...prev.slice(0, 49),
+        ];
+        try {
+          localStorage.setItem('spaja-prompt-istorija', JSON.stringify(nova));
+        } catch { /* ignore */ }
+        return nova;
+      });
     } catch {
-      setOdgovor('⚠️ Greška pri komunikaciji sa SpajaPro engine-om.');
+      setOdgovor('⚠️ Greska pri komunikaciji sa SpajaPro engine-om. Pokusajte ponovo.');
     } finally {
       setUcitavanje(false);
     }
@@ -341,22 +355,52 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
               </div>
             )}
 
-            {/* History */}
+            {/* History — Korisnikovi Promptovi */}
             {istorija.length > 0 && (
               <div className="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-4">
-                <h3 className="mb-3 text-sm font-semibold text-gray-300">
-                  📜 Istorija ({istorija.length})
-                </h3>
-                <div className="max-h-48 space-y-2 overflow-y-auto">
-                  {istorija.map((item, i) => (
-                    <div key={i} className="rounded-lg border border-gray-700/30 bg-gray-800/30 p-2 text-xs">
+                <div className="mb-3 flex items-center justify-between">
+                  <h3 className="text-sm font-semibold text-gray-300">
+                    📜 Moji Promptovi ({istorija.length})
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    {istorija.length > 5 && (
+                      <button
+                        onClick={() => setPrikaziSveIstorije(!prikaziSveIstorije)}
+                        className="rounded-lg px-3 py-1 text-xs text-blue-400 transition hover:bg-gray-800 hover:text-blue-300"
+                      >
+                        {prikaziSveIstorije ? 'Sakrij' : `Prikaži sve (${istorija.length})`}
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        setIstorija([]);
+                        try { localStorage.removeItem('spaja-prompt-istorija'); } catch { /* ignore */ }
+                      }}
+                      className="rounded-lg px-3 py-1 text-xs text-red-400 transition hover:bg-gray-800 hover:text-red-300"
+                    >
+                      Obrisi sve
+                    </button>
+                  </div>
+                </div>
+                <div className={`space-y-2 overflow-y-auto ${prikaziSveIstorije ? 'max-h-96' : 'max-h-48'}`}>
+                  {(prikaziSveIstorije ? istorija : istorija.slice(0, 5)).map((item, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setKorisnikUnos(item.prompt);
+                        setIzabranaVerzija(item.verzija);
+                        setOdgovor(item.odgovor);
+                        setIzabraniPrompt(null);
+                      }}
+                      className="w-full rounded-lg border border-gray-700/30 bg-gray-800/30 p-2 text-left text-xs transition hover:border-gray-600 hover:bg-gray-800/60"
+                    >
                       <div className="flex items-center justify-between">
                         <span className="font-medium text-blue-400">SpajaPro v{item.verzija}</span>
                         <span className="text-gray-500">{item.vreme}</span>
                       </div>
                       <div className="mt-1 truncate text-gray-400">📝 {item.prompt}</div>
                       <div className="mt-0.5 truncate text-green-400/70">✅ {item.odgovor}</div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>
