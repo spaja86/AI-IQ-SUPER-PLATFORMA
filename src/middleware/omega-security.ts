@@ -3,6 +3,7 @@
 // Zero Trust: Interceptira SVE zahteve
 
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 
 // Rate limiting in-memory store
 // Format: IP -> { count, resetAt }
@@ -195,7 +196,6 @@ function validateCSRF(request: NextRequest): boolean {
 
   // Timing-safe komparacija za CSRF token
   if (csrfCookie.length !== csrfHeader.length) return false;
-  const { timingSafeEqual } = require('crypto');
   try {
     return timingSafeEqual(Buffer.from(csrfCookie), Buffer.from(csrfHeader));
   } catch {

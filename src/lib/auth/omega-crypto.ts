@@ -5,6 +5,9 @@
 import { createCipheriv, createDecipheriv, createHash, createHmac, randomBytes, timingSafeEqual } from 'crypto';
 import type { ΩKey, ΩKeyPair, ΩEncryptedPayload } from './types';
 
+// Maksimalna očekivana dužina za timing-safe komparaciju
+const MAX_COMPARE_LENGTH = 256;
+
 // ΩCryptoEngine — enkapsulira sve kriptografske operacije
 export class ΩCryptoEngine {
   private static readonly ALGORITHM = 'aes-256-gcm';
@@ -198,15 +201,15 @@ export class ΩCryptoEngine {
   // timingSafeCompare — bezbedna komparacija stringova (sprečava timing napade)
   static timingSafeCompare(a: string, b: string): boolean {
     try {
-      const bufA = Buffer.from(a, 'utf8');
-      const bufB = Buffer.from(b, 'utf8');
-      if (bufA.length !== bufB.length) {
-        // Uvek izvrši komparaciju čak i kad su dužine različite
-        // da bi se sprečio timing napad koji otkriva dužinu
-        timingSafeEqual(bufA, bufA);
-        return false;
-      }
-      return timingSafeEqual(bufA, bufB);
+      // Pad oba stringa na istu dužinu da se spreči curenje informacije o dužini
+      const padLength = Math.max(a.length, b.length, MAX_COMPARE_LENGTH);
+      const bufA = Buffer.alloc(padLength, 0);
+      const bufB = Buffer.alloc(padLength, 0);
+      Buffer.from(a, 'utf8').copy(bufA);
+      Buffer.from(b, 'utf8').copy(bufB);
+      const equal = timingSafeEqual(bufA, bufB);
+      // Dužine moraju biti iste za pravi rezultat
+      return equal && a.length === b.length;
     } catch {
       return false;
     }
