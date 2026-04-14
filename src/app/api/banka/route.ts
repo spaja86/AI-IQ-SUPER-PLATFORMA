@@ -38,6 +38,10 @@ export async function GET() {
     ersteBankaDOOSmederevo: {
       naziv: 'ERSTE Banka DOO Smederevo',
       vlasnikRacuna: 'Digitalna Industrija',
+      vlasnik: {
+        ime: 'Nikola Spajic',
+        registarskiBrojLicneKarte: '015639997',
+      },
       status: 'aktivan',
       racuni: [
         {

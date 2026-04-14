@@ -11,6 +11,11 @@ export async function GET() {
       lokacija: 'Smederevo, Srbija',
       vlasnikRacuna: 'Digitalna Industrija',
     },
+    vlasnik: {
+      ime: 'Nikola Spajic',
+      registarskiBrojLicneKarte: '015639997',
+      napomena: 'Vlasnik svih racuna kod ERSTE Banka DOO Smederevo',
+    },
     racuni: [
       {
         tip: 'dinarski',
