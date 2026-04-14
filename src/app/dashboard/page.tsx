@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
 import { dashboardSekvence } from '@/lib/sekvence/dashboard';
+import DashboardKlijent from '@/components/DashboardKlijent';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Dashboard() {
-  return <StranicaRenderer sekvence={dashboardSekvence} />;
+  return (
+    <>
+      <DashboardKlijent />
+      <StranicaRenderer sekvence={dashboardSekvence} />
+    </>
+  );
 }

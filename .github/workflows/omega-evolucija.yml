@@ -93,7 +93,7 @@ jobs:
 
       - name: 📊 Kreiranje evolucijskog Issue-a
         if: needs.dijagnostika.outputs.zdravlje != '100'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const zdravlje = '${{ needs.dijagnostika.outputs.zdravlje }}';

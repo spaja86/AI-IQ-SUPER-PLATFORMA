@@ -60,4 +60,31 @@ export const pricingLoginSekvence: Sekvenca[] = [
       ],
     },
   },
+  {
+    id: 'pricing-login-cta',
+    tip: 'cta',
+    naslov: '🚀 Zapocnite odmah',
+    podnaslov: 'Kreirajte besplatan nalog i isprobajte SpajaPro AI',
+    redosled: 5,
+    podaci: {
+      dugmad: [
+        { tekst: 'Registruj se besplatno', href: '/registracija' },
+        { tekst: 'SpajaPro AI Chat', href: '/spaja-pro', stil: 'sekundarno' },
+      ],
+    },
+  },
+  {
+    id: 'pricing-login-login',
+    tip: 'login',
+    naslov: '🔐 Prijava',
+    podnaslov: 'Prijavite se na svoj nalog',
+    redosled: 6,
+    podaci: {
+      opis: 'Unesite email i lozinku za pristup platformi.',
+      metode: [
+        { naziv: 'Google', ikona: '🌐', metod: 'google' },
+        { naziv: 'GitHub', ikona: '🐙', metod: 'github' },
+      ],
+    },
+  },
 ];
