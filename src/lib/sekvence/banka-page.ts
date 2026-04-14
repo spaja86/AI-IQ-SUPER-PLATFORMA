@@ -191,6 +191,7 @@ export const bankaSekvence: Sekvenca[] = [
         '🏢 Vlasnik racuna: Digitalna Industrija',
         '👤 Vlasnik svih racuna: Nikola Spajic',
         '🪪 Registarski broj licne karte: 015639997',
+        '🆔 JMBG: 0312986850017',
         '🇷🇸 Dinarski racun (RSD): 025897158',
         '🇪🇺 Devizni racun (EUR): 038971285',
         '🇺🇸 Devizni racun (USD): 05364215985',

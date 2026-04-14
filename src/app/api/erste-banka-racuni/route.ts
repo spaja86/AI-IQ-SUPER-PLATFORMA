@@ -14,6 +14,7 @@ export async function GET() {
     vlasnik: {
       ime: 'Nikola Spajic',
       registarskiBrojLicneKarte: '015639997',
+      jmbg: '0312986850017',
       napomena: 'Vlasnik svih racuna kod ERSTE Banka DOO Smederevo',
     },
     racuni: [
