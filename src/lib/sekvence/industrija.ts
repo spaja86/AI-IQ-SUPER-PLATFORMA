@@ -313,4 +313,20 @@ export const industrijaSekvence: Sekvenca[] = [
       ],
     },
   },
+  {
+    id: 'industrija-cta-registracija',
+    tip: 'cta',
+    naslov: '🚀 Zapocnite sa Digitalnom Industrijom',
+    podnaslov: 'Registrujte se i pristupite SpajaPro AI — realnom AI asistentu',
+    ikona: '🚀',
+    redosled: 15,
+    podaci: {
+      opis: 'Kreirajte besplatan nalog i isprobajte SpajaPro AI chatbot. Nadogradite plan za vise mogucnosti.',
+      dugmad: [
+        { tekst: 'Registruj se besplatno', href: '/registracija' },
+        { tekst: 'Pogledaj planove', href: '/pricing', stil: 'sekundarno' },
+        { tekst: 'SpajaPro AI Chat', href: '/spaja-pro', stil: 'sekundarno' },
+      ],
+    },
+  },
 ];

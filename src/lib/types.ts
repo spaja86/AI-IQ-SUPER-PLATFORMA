@@ -189,3 +189,26 @@ export interface DigitalnaIndustrija {
   vision: string;
   stats: IndustrijaStats;
 }
+
+export interface Repository {
+  id: string;
+  name: string;
+  fullName: string;
+  description: string;
+  url: string;
+  language?: string;
+  status: 'active' | 'skeleton' | 'concept';
+  category: 'platform' | 'finance' | 'ai' | 'tools' | 'omega' | 'legacy';
+  technologies: string[];
+  features: string[];
+}
+
+export interface EcosystemStats {
+  repositories: number;
+  platforms: number;
+  organizations: number;
+  products: number;
+  omegaAIs: number;
+  technologies: string[];
+  yearLaunched: number;
+}
