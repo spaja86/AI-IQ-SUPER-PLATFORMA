@@ -45,7 +45,7 @@ export const platforms: Platform[] = [
     icon: '🌐',
     techStack: ['React', 'WebRTC', 'Socket.IO', 'Vercel', 'SpajaPro Engine'],
     features: ['Bank modul', 'Exchange modul', 'Company modul', 'AI modul', 'Real-time chat', 'SpajaPro Prompt'],
-    deploy: { status: 'deployed', domain: 'www.ioopenuiao.ac', vercelProject: 'io-openui-ao', framework: 'react', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', domain: 'io-openui-ao.vercel.app', vercelProject: 'io-openui-ao', framework: 'react', buildCommand: 'npm run build' },
     repoUrl: 'https://github.com/spaja86/IO-OPENUI-AO',
   },
   // ── Finance ───────────────────────────────────────────────────────────
@@ -84,6 +84,18 @@ export const platforms: Platform[] = [
     techStack: ['Python', 'FastAPI', 'TensorFlow', 'OpenAI API'],
     features: ['NLP procesiranje', 'ML modeli', 'Automatizacija', 'AI asistenti', '40M OMEGA AI', 'OpenAI API integracija'],
     deploy: { status: 'deployed', domain: 'openai.com', vercelProject: 'spaja-ai-engine', framework: 'fastapi', buildCommand: 'pip install -r requirements.txt' },
+    repoUrl: 'https://github.com/spaja86/openai-platform',
+  },
+  {
+    id: 'openai-platforma',
+    name: 'OpenAI Platforma — Digitalna Industrija',
+    description: 'SOPSTVENA platforma Digitalne Industrije — nije partner. OpenAI API integracija sa SpajaPro v6-15 endžinima. Non-stop evolucija unutar Digitalne Industrije. API iz spaja86/openai-platform repo.',
+    category: 'ai',
+    status: 'active',
+    icon: '🤖',
+    techStack: ['TypeScript', 'OpenAI API', 'SpajaPro v6-15', 'OMEGA AI', 'Vercel'],
+    features: ['OpenAI API integracija', 'SpajaPro v6-15 Engine', 'OMEGA AI povezivanje', 'Non-stop evolucija', 'Digitalna Industrija platforma', 'Planovi: Starter/Pro/Biznis/Enterprise/Unlimited VIP'],
+    deploy: { status: 'deployed', domain: 'openai.com', vercelProject: 'openai-platform', framework: 'nodejs', buildCommand: 'tsc' },
     repoUrl: 'https://github.com/spaja86/openai-platform',
   },
   {

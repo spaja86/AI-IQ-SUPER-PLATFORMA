@@ -6,6 +6,9 @@ import {
   getAktivniEntiteti,
   getAktivniModuli,
   getBrouvzerStatistika,
+  ekstremniMotori,
+  ekstremniBackend,
+  providniFrontendKomponente,
 } from '@/lib/spaja-digitalni-brouvzer';
 
 const statistika = getBrouvzerStatistika();
@@ -16,45 +19,47 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
   {
     id: 'brouvzer-hero',
     tip: 'hero',
-    naslov: '🌐 SPAJA Digitalni Brouvzer',
-    podnaslov: 'Digitalna Brauzer Platforma za celokupnu SPAJA Industriju',
+    naslov: '🌐 SPAJA Digitalni Brouvzer — EKSTREMNI',
+    podnaslov: 'EKSTREMNI DIGITALNI BROUZER sa sopstvenim motorom, bekendom i providnim frontendom',
     ikona: '🌐',
     redosled: 1,
     podaci: {
-      opis: `${spajaDigitalniBrouvzer.opis} Link: ${spajaDigitalniBrouvzer.link}`,
+      opis: `${spajaDigitalniBrouvzer.opis} Brouvzer Link: ${spajaDigitalniBrouvzer.link} | Generator Link: ${spajaDigitalniBrouvzer.generatorLink} | BAZA Link: ${spajaDigitalniBrouvzer.bazaLink}`,
       dugmad: [
         { tekst: 'Generator Endžina', href: '/spaja-generator-engine' },
         { tekst: 'Industrija', href: '/industrija', stil: 'sekundarno' },
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
-        { tekst: 'Render Medija', href: '/spaja-render-medija', stil: 'sekundarno' },
+        { tekst: 'IO/OPENUI/AO Gaming', href: '/io-openui-ao-gaming-platforma', stil: 'sekundarno' },
       ],
     },
   },
   {
     id: 'brouvzer-tekst',
     tip: 'tekst',
-    naslov: 'Šta je SPAJA Digitalni Brouvzer?',
+    naslov: 'Šta je EKSTREMNI DIGITALNI BROUZER?',
     redosled: 2,
     podaci: {
       sadrzaj:
-        'SPAJA Digitalni Brouvzer je digitalna brauzer platforma na koju se postavlja celokupna SPAJA ' +
-        'industrija — platforme, organizacije, korporacije, kompanije, prodavnice i sve ostalo. Pokretan ' +
-        'od strane SPAJA Generatora za Endžine, brouvzer omogućava svim entitetima iz digitalne industrije ' +
-        'da budu prisutni i dostupni korisnicima.',
+        'EKSTREMNI DIGITALNI BROUZER nastaje prevlačenjem "SPAJA Generator za Endžine" preko "SPAJA Digitalnog Brouvzera". ' +
+        'Rezultat je brouzer koji može SAMOSTALNO DA RADI, ima SOPSTVENI MOTOR, SOPSTVENI BEKEND i PROVIDNI FRONTEND. ' +
+        'Može da se ubacuje u druge brouzere jer ima svoj motor. Služi za prenos podataka, deploy, import, export. ' +
+        'Integrisana SPAJA BAZA sa prevučenim Generator Endžinom. Ide ispod "Digitalna Industrija" i prati sve sajtove.',
       istaknuteStavke: [
-        'Celokupna industrija na jednom brouvzeru',
-        `${brouvzerEntiteti.length} entiteta plasiranih na brouvzeru`,
-        `${brouvzerModuli.length} modula za rad brouvzera`,
-        `${aktivniEntiteti} aktivnih entiteta, ${aktivniModuli} aktivnih modula`,
-        'Pokretan od strane SPAJA Generator za Endžine',
-        `Link: ${spajaDigitalniBrouvzer.link}`,
+        'EKSTREMNI — samostalan rad, može se ubaciti u druge brouzere',
+        `${ekstremniMotori.length} sopstvenih motora (rendering, JS, network, storage, deploy, transfer)`,
+        `${ekstremniBackend.length} backend servisa (API, SPAJA BAZA, auth, deploy, transfer, cache)`,
+        `${providniFrontendKomponente.length} providnih frontend komponenti (UI, overlay, embeddable, standalone, responsive)`,
+        `${brouvzerEntiteti.length} entiteta + ${brouvzerModuli.length} modula industrije`,
+        'SPAJA BAZA integracija sa prevučenim Generator Endžinom',
+        'Deploy igrica i svega na IO/OPENUI/AO',
+        'Protok podataka svuda — deploy, import, export',
       ],
     },
   },
   {
     id: 'brouvzer-statistika',
     tip: 'statistika',
-    naslov: '📊 Brouvzer u brojevima',
+    naslov: '📊 EKSTREMNI Brouvzer u brojevima',
     redosled: 3,
     podaci: {
       stavke: [
@@ -62,6 +67,9 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
         { naziv: 'Aktivni entiteti', vrednost: aktivniEntiteti, ikona: '✅' },
         { naziv: 'Moduli', vrednost: brouvzerModuli.length, ikona: '🧩' },
         { naziv: 'Aktivni moduli', vrednost: aktivniModuli, ikona: '⚡' },
+        { naziv: 'Motori', vrednost: ekstremniMotori.length, ikona: '🔧' },
+        { naziv: 'Backend servisi', vrednost: ekstremniBackend.length, ikona: '🖧' },
+        { naziv: 'Frontend komp.', vrednost: providniFrontendKomponente.length, ikona: '🪟' },
         { naziv: 'Pokrivenost', vrednost: `${statistika.pokrivenostIndustrije}%`, ikona: '🎯' },
       ],
     },
@@ -73,20 +81,66 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     redosled: 4,
     podaci: {
       progres: statistika.pokrivenostIndustrije,
-      poruka: `SPAJA Digitalni Brouvzer pokriva ${statistika.pokrivenostIndustrije}% industrije sa ${aktivniEntiteti} aktivnih entiteta i ${aktivniModuli} aktivnih modula.`,
+      poruka: `EKSTREMNI Brouvzer pokriva ${statistika.pokrivenostIndustrije}% industrije sa ${aktivniEntiteti} aktivnih entiteta, ${aktivniModuli} modula, ${ekstremniMotori.length} motora, ${ekstremniBackend.length} backend servisa i ${providniFrontendKomponente.length} frontend komponenti.`,
+    },
+  },
+  {
+    id: 'brouvzer-kartice-motori',
+    tip: 'kartice',
+    naslov: '🔧 Sopstveni Motori',
+    podnaslov: `${ekstremniMotori.length} sopstvenih motora EKSTREMNOG Brouvzera`,
+    redosled: 5,
+    podaci: {
+      kartice: ekstremniMotori.map((m) => ({
+        naslov: m.naziv,
+        opis: m.opis,
+        ikona: m.ikona,
+        oznake: [m.tip, m.status, `v${m.verzija}`],
+      })),
+    },
+  },
+  {
+    id: 'brouvzer-kartice-backend',
+    tip: 'kartice',
+    naslov: '🖧 Sopstveni Backend',
+    podnaslov: `${ekstremniBackend.length} backend servisa EKSTREMNOG Brouvzera`,
+    redosled: 6,
+    podaci: {
+      kartice: ekstremniBackend.map((b) => ({
+        naslov: b.naziv,
+        opis: b.opis,
+        ikona: b.ikona,
+        oznake: [b.tip, b.status],
+      })),
+    },
+  },
+  {
+    id: 'brouvzer-kartice-frontend',
+    tip: 'kartice',
+    naslov: '🪟 Providni (Transparentni) Frontend',
+    podnaslov: `${providniFrontendKomponente.length} providnih frontend komponenti`,
+    redosled: 7,
+    podaci: {
+      kartice: providniFrontendKomponente.map((f) => ({
+        naslov: f.naziv,
+        opis: f.opis,
+        ikona: f.ikona,
+        oznake: [f.tip, f.status],
+      })),
     },
   },
   {
     id: 'brouvzer-kartice-entiteti',
     tip: 'kartice',
     naslov: '🏢 Entiteti na Brouvzeru',
-    podnaslov: `${brouvzerEntiteti.length} entiteta plasiranih na digitalnom brouvzeru`,
-    redosled: 5,
+    podnaslov: `${brouvzerEntiteti.length} entiteta plasiranih na EKSTREMNOM Brouvzeru`,
+    redosled: 8,
     podaci: {
       kartice: brouvzerEntiteti.map((e) => ({
         naslov: e.naziv,
         opis: e.opis,
         ikona: e.ikona,
+        eksterniLink: e.url,
         oznake: [e.tip, e.status, e.kategorija],
       })),
     },
@@ -95,7 +149,7 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     id: 'brouvzer-tabela',
     tip: 'tabela',
     naslov: '📋 Specifikacija entiteta',
-    redosled: 6,
+    redosled: 9,
     podaci: {
       zaglavlje: ['Entitet', 'Tip', 'Status', 'Kategorija', 'URL'],
       redovi: brouvzerEntiteti.map((e) => [
@@ -111,8 +165,8 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     id: 'brouvzer-kartice-moduli',
     tip: 'kartice',
     naslov: '🧩 Moduli Brouvzera',
-    podnaslov: `${brouvzerModuli.length} modula za funkcionisanje brouvzera`,
-    redosled: 7,
+    podnaslov: `${brouvzerModuli.length} modula za funkcionisanje EKSTREMNOG Brouvzera`,
+    redosled: 10,
     podaci: {
       kartice: brouvzerModuli.map((m) => ({
         naslov: m.naziv,
@@ -123,30 +177,45 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     },
   },
   {
-    id: 'brouvzer-lista-moduli',
+    id: 'brouvzer-lista-mogucnosti',
     tip: 'lista',
-    naslov: '⚙️ Mogućnosti modula',
-    podnaslov: 'Detaljan pregled mogućnosti svakog modula',
-    redosled: 8,
+    naslov: '🌟 Mogućnosti EKSTREMNOG Brouvzera',
+    podnaslov: 'Sve mogućnosti koje pruža EKSTREMNI DIGITALNI BROUZER',
+    redosled: 11,
     podaci: {
-      stavke: brouvzerModuli.map((m) => ({
-        ikona: m.ikona,
-        naslov: m.naziv,
-        opis: `${m.opis} — Mogućnosti: ${m.mogucnosti.join(', ')} | Status: ${m.status} | v${m.verzija}`,
+      stavke: spajaDigitalniBrouvzer.mogucnosti.map((m, i) => ({
+        ikona: ['🚀', '🧩', '🔧', '🖧', '🪟', '🔄', '📦', '💾', '📡', '🔁', '🎮', '🌐', '⚡', '📱', '🛡️', '🔧', '💻', '📨'][i % 18],
+        naslov: m,
+        opis: m,
       })),
     },
   },
   {
     id: 'brouvzer-hijerarhija',
     tip: 'hijerarhija',
-    naslov: '🏗️ Arhitektura Digitalnog Brouvzera',
-    redosled: 9,
+    naslov: '🏗️ Arhitektura EKSTREMNOG Brouvzera',
+    redosled: 12,
     podaci: {
       nivoi: [
         {
-          naziv: 'SPAJA Digitalni Brouvzer',
+          naziv: 'SPAJA Digitalni Brouvzer — EKSTREMNI',
           ikona: '🌐',
-          deca: ['Entiteti Industrije', 'Moduli Brouvzera', 'SPAJA Generator za Endžine'],
+          deca: ['Sopstveni Motori', 'Sopstveni Backend', 'Providni Frontend', 'Entiteti Industrije', 'Moduli Brouvzera', 'SPAJA BAZA', 'SPAJA Generator za Endžine'],
+        },
+        {
+          naziv: 'Sopstveni Motori',
+          ikona: '🔧',
+          deca: ekstremniMotori.map((m) => `${m.ikona} ${m.naziv}`),
+        },
+        {
+          naziv: 'Sopstveni Backend',
+          ikona: '🖧',
+          deca: ekstremniBackend.map((b) => `${b.ikona} ${b.naziv}`),
+        },
+        {
+          naziv: 'Providni Frontend',
+          ikona: '🪟',
+          deca: providniFrontendKomponente.map((f) => `${f.ikona} ${f.naziv}`),
         },
         {
           naziv: 'Entiteti Industrije',
@@ -164,26 +233,26 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
   {
     id: 'brouvzer-baner',
     tip: 'baner',
-    naslov: 'SPAJA Digitalni Brouvzer — Industrija na dlanu',
-    redosled: 10,
+    naslov: 'EKSTREMNI DIGITALNI BROUZER — Industrija na dlanu',
+    redosled: 13,
     podaci: {
-      bedz: '🌐 Brouvzer',
-      opis: `SPAJA Digitalni Brouvzer plasira ${brouvzerEntiteti.length} entiteta industrije sa ${brouvzerModuli.length} modula. Pokrivenost: ${statistika.pokrivenostIndustrije}%. Pokretan od SPAJA Generatora za Endžine.`,
+      bedz: '🌐 EKSTREMNI',
+      opis: `EKSTREMNI DIGITALNI BROUZER: ${brouvzerEntiteti.length} entiteta, ${brouvzerModuli.length} modula, ${ekstremniMotori.length} motora, ${ekstremniBackend.length} backend servisa, ${providniFrontendKomponente.length} frontend komponenti. Pokrivenost: ${statistika.pokrivenostIndustrije}%. Samostalan rad, deploy, import, export.`,
       dugme: { tekst: 'Generator Endžina', href: '/spaja-generator-engine' },
     },
   },
   {
     id: 'brouvzer-cta',
     tip: 'cta',
-    naslov: '🚀 Digitalni Brouvzer infrastruktura',
-    redosled: 11,
+    naslov: '🚀 EKSTREMNI Brouvzer infrastruktura',
+    redosled: 14,
     podaci: {
-      opis: `SPAJA Digitalni Brouvzer — ${brouvzerEntiteti.length} entiteta, ${brouvzerModuli.length} modula, ${statistika.pokrivenostIndustrije}% pokrivenost industrije. Celokupna digitalna industrija na jednoj brauzer platformi.`,
+      opis: `EKSTREMNI DIGITALNI BROUZER — ${brouvzerEntiteti.length} entiteta, ${brouvzerModuli.length} modula, ${ekstremniMotori.length} motora, ${ekstremniBackend.length} backend servisa, ${providniFrontendKomponente.length} providnih frontend komponenti. Samostalan rad, ubaciv u druge brouzere, deploy, import, export. Celokupna Digitalna Industrija.`,
       dugmad: [
         { tekst: 'Generator Endžina', href: '/spaja-generator-engine' },
         { tekst: 'Industrija', href: '/industrija', stil: 'sekundarno' },
-        { tekst: 'Laboratorija', href: '/io-openui-ao-laboratorija', stil: 'sekundarno' },
-        { tekst: 'Render', href: '/spaja-render-medija', stil: 'sekundarno' },
+        { tekst: 'IO/OPENUI/AO Gaming', href: '/io-openui-ao-gaming-platforma', stil: 'sekundarno' },
+        { tekst: 'SPAJA BAZA', href: '/industrija', stil: 'sekundarno' },
       ],
     },
   },

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getPromptBiblioteka, getPromptKategorije } from '@/lib/prompt';
 import { omegaPersone } from '@/lib/omega-ai';
+import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
   const biblioteka = getPromptBiblioteka();
@@ -8,7 +9,7 @@ export async function GET() {
 
   return NextResponse.json({
     sistem: 'Prompt Sistem — Kompanija SPAJA',
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     opis: 'Centralni Prompt sistem za ceo ekosistem. Prompt je svuda.',
     engine: 'SpajaPro 6-15',
     statistike: {

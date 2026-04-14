@@ -9,6 +9,7 @@ import {
 } from '@/lib/igrice';
 import { dimenzije } from '@/lib/dimenzije';
 import { itProizvodi } from '@/lib/it-proizvodi';
+import { IOOPENUIAO_URL, IOOPENUIAO_DOMEN } from '@/lib/io-openui-ao-gaming-platforma';
 
 const aktivnihIgrica = getBrojAktivnihIgrica();
 const kategorije = getSveKategorijeIgrica();
@@ -34,7 +35,8 @@ export const igriceSekvence: Sekvenca[] = [
     podaci: {
       opis: igriceSistem.opis,
       dugmad: [
-        { tekst: 'Dimenzije', href: '/dimenzije' },
+        { tekst: `Gaming Platforma (${IOOPENUIAO_DOMEN})`, href: '/io-openui-ao-gaming-platforma' },
+        { tekst: 'Dimenzije', href: '/dimenzije', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },
       ],
@@ -98,6 +100,7 @@ export const igriceSekvence: Sekvenca[] = [
         naslov: `${i.ikona} ${i.naziv}`,
         opis: i.opis,
         ikona: i.ikona,
+        eksterniLink: IOOPENUIAO_URL,
         oznake: [
           i.kategorija,
           i.status,
@@ -316,9 +319,10 @@ export const igriceSekvence: Sekvenca[] = [
     naslov: '🚀 Gaming Industrija — Dimenzionalni Gaming',
     redosled: 17,
     podaci: {
-      opis: `${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija — od RPG i Battle Royale do Muzike i eSporta. Sve u dimenzionalnom prostoru 360D–5760D. ${itProizvodi.filter((p) => p.kategorija === 'gaming').length} specijalizovanih gaming IT proizvoda. Zahtevi: Digitalni Kompjuter + Digitalni Brauzer. Izaberi dimenziju (D) i igraj!`,
+      opis: `${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija — od RPG i Battle Royale do Muzike i eSporta. Sve u dimenzionalnom prostoru 360D–5760D. ${itProizvodi.filter((p) => p.kategorija === 'gaming').length} specijalizovanih gaming IT proizvoda. Zahtevi: Digitalni Kompjuter + Digitalni Brauzer. Gaming Platforma: ${IOOPENUIAO_URL}. Izaberi dimenziju (D) i igraj!`,
       dugmad: [
-        { tekst: 'Dimenzije', href: '/dimenzije' },
+        { tekst: `Gaming Platforma (${IOOPENUIAO_DOMEN})`, href: '/io-openui-ao-gaming-platforma' },
+        { tekst: 'Dimenzije', href: '/dimenzije', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },

@@ -216,6 +216,39 @@ function TekstSkeleton() {
   );
 }
 
+function SlikaSkeleton() {
+  return (
+    <div className="bg-gray-900/50 px-6 py-12">
+      <div className="mx-auto max-w-6xl space-y-4">
+        <Puls className="mx-auto h-8 w-64" />
+        <Puls className="mx-auto h-4 w-96" />
+        <div className="mt-6 flex justify-center gap-6">
+          <Puls className="h-64 w-64 rounded-xl" />
+          <Puls className="h-64 w-64 rounded-xl" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LoginSkeleton() {
+  return (
+    <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-6 py-16">
+      <div className="mx-auto max-w-md space-y-4">
+        <Puls className="mx-auto h-8 w-48" />
+        <Puls className="mx-auto h-4 w-64" />
+        <div className="mt-6 rounded-2xl border border-gray-700/50 bg-gray-800/50 p-8 space-y-5">
+          <Puls className="h-4 w-24" />
+          <Puls className="h-12 w-full rounded-lg" />
+          <Puls className="h-4 w-20" />
+          <Puls className="h-12 w-full rounded-lg" />
+          <Puls className="h-12 w-full rounded-lg" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Skeleton lookup ──────────────────────────────────── */
 
 const SKELETONI: Record<SekvencaTip, React.ComponentType> = {
@@ -229,6 +262,8 @@ const SKELETONI: Record<SekvencaTip, React.ComponentType> = {
   lista: ListaSkeleton,
   hijerarhija: HijerarhijaSkeleton,
   tekst: TekstSkeleton,
+  slika: SlikaSkeleton,
+  login: LoginSkeleton,
 };
 
 /**

@@ -7,6 +7,9 @@ import {
   getAktivniEntiteti,
   getAktivniModuli,
   getBrouvzerStatistika,
+  ekstremniMotori,
+  ekstremniBackend,
+  providniFrontendKomponente,
 } from '@/lib/spaja-digitalni-brouvzer';
 
 export async function GET() {
@@ -14,17 +17,22 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'aktivan',
-    sistem: 'SPAJA Digitalni Brouvzer — Pregled',
+    sistem: 'SPAJA Digitalni Brouvzer — EKSTREMNI — Pregled',
     verzija: APP_VERSION,
     brouvzerVerzija: spajaDigitalniBrouvzer.verzija,
     link: spajaDigitalniBrouvzer.link,
     generatorLink: spajaDigitalniBrouvzer.generatorLink,
+    bazaLink: spajaDigitalniBrouvzer.bazaLink,
     opis: spajaDigitalniBrouvzer.opis,
+    ekstremniRezim: spajaDigitalniBrouvzer.ekstremniRezim,
     pregled: {
       ukupnoEntiteta: brouvzerEntiteti.length,
       aktivnihEntiteta: getAktivniEntiteti().length,
       ukupnoModula: brouvzerModuli.length,
       aktivnihModula: getAktivniModuli().length,
+      ukupnoMotora: ekstremniMotori.length,
+      ukupnoBackendServisa: ekstremniBackend.length,
+      ukupnoFrontendKomponenti: providniFrontendKomponente.length,
       pokrivenostIndustrije: statistika.pokrivenostIndustrije,
     },
     entiteti: brouvzerEntiteti.map((e) => ({
@@ -40,6 +48,13 @@ export async function GET() {
       id: m.id,
       naziv: m.naziv,
       status: m.status,
+      verzija: m.verzija,
+      mogucnosti: m.mogucnosti.length,
+    })),
+    motori: ekstremniMotori.map((m) => ({
+      id: m.id,
+      naziv: m.naziv,
+      tip: m.tip,
       verzija: m.verzija,
       mogucnosti: m.mogucnosti.length,
     })),

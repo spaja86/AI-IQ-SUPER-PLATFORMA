@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { kreirajEvolucijskiCiklus, getKonfiguracija } from '@/lib/evolucija';
+import { APP_VERSION } from '@/lib/constants';
 
 /**
  * Vercel Cron endpoint — Omega Evolucioni Motor
@@ -70,7 +71,7 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     sistem: 'Omega Evolucioni Motor',
-    verzija: '1.0.0',
+    verzija: APP_VERSION,
     ciklus: {
       id: ciklus.id,
       status: ciklus.status,
