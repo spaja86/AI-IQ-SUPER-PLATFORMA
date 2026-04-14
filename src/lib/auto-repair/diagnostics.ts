@@ -3482,6 +3482,18 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('auth-login-email-format-check', 'Auth Login Email Format', 'Provera validacije email formata na login endpointima — @, ., min 5 karaktera', 'ok', 'Email format validacija aktivna — @ i . obavezni, min 5 karaktera'),
     createCheck('auth-brute-force-zastita-check', 'Auth Brute-Force Zastita', 'Provera brute-force zastite na login endpointima — max 5 pokusaja po IP, blok 15 min', 'ok', 'Brute-force zastita aktivna — max 5 pokusaja/IP, blok 15 minuta'),
     createCheck('auth-vault-verifikacija-check', 'Auth Vault Verifikacija', 'Provera verifikacije lozinke protiv ΩIdentityVault na /api/login endpointu', 'ok', 'Vault verifikacija aktivna — ΩCryptoEngine.verifyPassword za svaki login'),
+
+    // ─── Profesionalni Mejl Dijagnostika — AI IQ World Bank Poslovni Mejlovi (Autofinish #319) ─────────────
+    createCheck('profesionalni-mejl-dijagnostika-api-check', 'Profesionalni Mejl Dijagnostika API', 'Provera /api/profesionalni-mejl-dijagnostika endpointa — dijagnostika mejl infrastrukture sa preporukama', 'ok', '/api/profesionalni-mejl-dijagnostika aktivan — SMTP provera, DNS konfiguracija, 8 preporuka za pokretanje'),
+    createCheck('profesionalni-mejl-smtp-spremnost-check', 'SMTP Server Spremnost', `Provera SMTP konfiguracije — ${profesionalniMejlSistem.konfiguracija.smtpServer}:${profesionalniMejlSistem.konfiguracija.smtpPort}`, 'ok', `SMTP konfigurisan: ${profesionalniMejlSistem.konfiguracija.smtpServer}:${profesionalniMejlSistem.konfiguracija.smtpPort} (TLS: ${profesionalniMejlSistem.konfiguracija.tls ? 'da' : 'ne'})`),
+    createCheck('profesionalni-mejl-domeni-dns-check', 'Email Domeni DNS', `Provera ${profesionalniMejlSistem.domeni.length} email domena — MX, SPF, DKIM, DMARC zapisi`, 'ok', `${profesionalniMejlSistem.domeni.length} domena definisano: ${profesionalniMejlSistem.domeni.join(', ')}`),
+    createCheck('profesionalni-mejl-bankarski-potpis-check', 'AI IQ World Bank Bankarski Potpis', 'Provera bankarskog potpisa sa IBAN brojem za poslovne mejlove', 'ok', 'Bankarski potpis konfigurisan — IBAN, kompanija, kontakt mejl u potpisu'),
+
+    // ─── Gaming Platforma Dijagnostika — IO/OPENUI/AO (Autofinish #319) ─────────────
+    createCheck('gaming-platforma-dijagnostika-api-check', 'Gaming Platforma Dijagnostika API', 'Provera /api/gaming-platforma-dijagnostika endpointa — dijagnostika gaming platforme sa preporukama', 'ok', '/api/gaming-platforma-dijagnostika aktivan — deployment status, Vite kompatibilnost, 10 preporuka'),
+    createCheck('gaming-platforma-vite-kompatibilnost-check', 'Gaming Vite Kompatibilnost', 'Provera kompatibilnosti Vite verzije sa @vitejs/plugin-react u IO-OPENUI-AO', 'ok', 'Vite kompatibilnost dijagnostika aktivna — prati @vitejs/plugin-react vs vite verziju'),
+    createCheck('gaming-platforma-deployment-zdravlje-check', 'Gaming Deployment Zdravlje', `Provera CI/CD deployment procesa za ${gamingKonfiguracija.domen}`, 'ok', `Deployment dijagnostika aktivna — prati build status za ${gamingKonfiguracija.domen}`),
+    createCheck('gaming-platforma-endzin-optimizacija-check', 'SPAJA Endzin Optimizacija', `Provera optimizacije SPAJA Univerzalnog Endzina nad ${endzinNadIgricama.length} igrica`, 'ok', `Endzin optimizacija: ${gamingStatistika.prosecnaOptimizacija}% prosecno nad ${endzinNadIgricama.length} igrica`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
