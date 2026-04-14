@@ -40,6 +40,8 @@ const jsonLdSoftware = {
   },
 };
 
+import SpajaChatInterface from '@/components/SpajaChatInterface';
+
 export default function SpajaProPage() {
   return (
     <>
@@ -48,6 +50,7 @@ export default function SpajaProPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSoftware) }}
       />
       <StranicaRenderer sekvence={spajaProSekvence} />
+      <SpajaChatInterface />
       <SpajaProPromptKonzolaWrapper />
     </>
   );
