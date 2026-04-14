@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #310 → #311 (SEO matricni sekvencijalni dizajn status endpoint)
+ * Autofinish #311 → #312 (ERSTE Banka DOO Smederevo racuni Digitalne Industrije)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
