@@ -118,6 +118,43 @@ export default function DashboardKlijent() {
           </div>
         </div>
 
+        {/* Ekosistem u brojevima */}
+        <div className="mb-8 rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
+          <h3 className="mb-4 text-lg font-semibold text-white">📊 Ekosistem u brojevima</h3>
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+            <div className="rounded-lg bg-gray-900/50 p-3 text-center">
+              <div className="text-lg">🌐</div>
+              <div className="mt-1 text-xl font-bold text-white">13</div>
+              <div className="text-[10px] text-gray-500">Platforme</div>
+            </div>
+            <div className="rounded-lg bg-gray-900/50 p-3 text-center">
+              <div className="text-lg">⚡</div>
+              <div className="mt-1 text-xl font-bold text-white">64</div>
+              <div className="text-[10px] text-gray-500">IT Proizvodi</div>
+            </div>
+            <div className="rounded-lg bg-gray-900/50 p-3 text-center">
+              <div className="text-lg">🎮</div>
+              <div className="mt-1 text-xl font-bold text-white">95</div>
+              <div className="text-[10px] text-gray-500">Igrice</div>
+            </div>
+            <div className="rounded-lg bg-gray-900/50 p-3 text-center">
+              <div className="text-lg">🧠</div>
+              <div className="mt-1 text-xl font-bold text-white">21</div>
+              <div className="text-[10px] text-gray-500">OMEGA AI</div>
+            </div>
+            <div className="rounded-lg bg-gray-900/50 p-3 text-center">
+              <div className="text-lg">🌟</div>
+              <div className="mt-1 text-xl font-bold text-white">v6-15</div>
+              <div className="text-[10px] text-gray-500">SpajaPro</div>
+            </div>
+            <div className="rounded-lg bg-gray-900/50 p-3 text-center">
+              <div className="text-lg">📄</div>
+              <div className="mt-1 text-xl font-bold text-white">46</div>
+              <div className="text-[10px] text-gray-500">Stranice</div>
+            </div>
+          </div>
+        </div>
+
         {/* Brzi pristup */}
         <div className="mb-8 rounded-2xl border border-gray-700/50 bg-gray-800/60 p-6">
           <h3 className="mb-4 text-lg font-semibold text-white">🚀 Brzi pristup</h3>
@@ -235,6 +272,42 @@ export default function DashboardKlijent() {
             </a>
             <a href="/unit-testovi" className="rounded-lg bg-green-600/20 px-4 py-3 text-center text-sm text-green-300 transition hover:bg-green-600/30">
               🧪 Unit Testovi
+            </a>
+            <a href="/it-proizvodi" className="rounded-lg bg-cyan-600/20 px-4 py-3 text-center text-sm text-cyan-300 transition hover:bg-cyan-600/30">
+              ⚡ IT Proizvodi
+            </a>
+            <a href="/kompanija" className="rounded-lg bg-indigo-600/20 px-4 py-3 text-center text-sm text-indigo-300 transition hover:bg-indigo-600/30">
+              🏗️ Kompanija
+            </a>
+            <a href="/organizacija" className="rounded-lg bg-purple-600/20 px-4 py-3 text-center text-sm text-purple-300 transition hover:bg-purple-600/30">
+              🌍 Organizacija
+            </a>
+            <a href="/oktavne-eksponencijalne-funkcije" className="rounded-lg bg-yellow-600/20 px-4 py-3 text-center text-sm text-yellow-300 transition hover:bg-yellow-600/30">
+              🎵 Oktavne Funkcije
+            </a>
+            <a href="/ai-iq-monitoring" className="rounded-lg bg-orange-600/20 px-4 py-3 text-center text-sm text-orange-300 transition hover:bg-orange-600/30">
+              🔍 AI Monitoring
+            </a>
+            <a href="/digitalna-platforma" className="rounded-lg bg-pink-600/20 px-4 py-3 text-center text-sm text-pink-300 transition hover:bg-pink-600/30">
+              🌐 Digitalna Platforma
+            </a>
+            <a href="/omega-projekat-plasiranje" className="rounded-lg bg-teal-600/20 px-4 py-3 text-center text-sm text-teal-300 transition hover:bg-teal-600/30">
+              🚀 OMEGA Plasiranje
+            </a>
+            <a href="/omega-projekat-zvanicno-otvaranje" className="rounded-lg bg-violet-600/20 px-4 py-3 text-center text-sm text-violet-300 transition hover:bg-violet-600/30">
+              🎉 OMEGA Otvaranje
+            </a>
+            <a href="/spaja-univerzalni-prompt" className="rounded-lg bg-lime-600/20 px-4 py-3 text-center text-sm text-lime-300 transition hover:bg-lime-600/30">
+              🎯 Univerzalni Prompt
+            </a>
+            <a href="/proksi-github-deploy" className="rounded-lg bg-gray-600/20 px-4 py-3 text-center text-sm text-gray-300 transition hover:bg-gray-600/30">
+              🐙 GitHub Deploy
+            </a>
+            <a href="/proksi-wifi-antena" className="rounded-lg bg-sky-600/20 px-4 py-3 text-center text-sm text-sky-300 transition hover:bg-sky-600/30">
+              📶 WiFi Antena
+            </a>
+            <a href="/pricing" className="rounded-lg bg-green-600/20 px-4 py-3 text-center text-sm text-green-300 transition hover:bg-green-600/30">
+              💰 Pricing
             </a>
           </div>
         </div>

@@ -94,26 +94,84 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
     const sesija = dohvatiSesiju();
     return (
       <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-6 py-16">
-        <div className="mx-auto max-w-md text-center">
+        <div className="mx-auto max-w-2xl text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-600/20">
             <span className="text-3xl">✅</span>
           </div>
           <h2 className="mb-2 text-3xl font-bold text-white">Dobrodosli nazad!</h2>
           <p className="mb-2 text-gray-400">Ulogovani ste kao <span className="text-blue-400">{sesija?.email}</span></p>
-          <p className="mb-6 text-sm text-gray-500">Pristupite svim funkcijama platforme</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <a href="/dashboard" className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500">
+          <p className="mb-6 text-sm text-gray-500">Pristupite svim funkcijama platforme — 46 stranica ceka vas</p>
+
+          {/* Glavni moduli */}
+          <div className="mb-6 flex flex-wrap justify-center gap-3">
+            <a href="/dashboard" className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500">
               📊 Dashboard
             </a>
-            <a href="/spaja-pro" className="rounded-lg bg-purple-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-purple-500">
+            <a href="/spaja-pro" className="rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-purple-500">
               🤖 SpajaPro AI
             </a>
-            <a href="/prompt" className="rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-500">
+            <a href="/prompt" className="rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-green-500">
               💬 Prompt Konzola
             </a>
-            <a href="/igrice" className="rounded-lg bg-orange-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-500">
-              🎮 Igrice
+            <a href="/igrice" className="rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-500">
+              🎮 95 Igrica
             </a>
+          </div>
+
+          {/* Preporuke */}
+          <div className="mb-6 grid grid-cols-2 gap-3 text-left sm:grid-cols-4">
+            <a href="/digitalni-televizor" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-yellow-500/30 hover:bg-yellow-900/10">
+              <div className="text-lg">📺</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-yellow-300">Digitalni TV</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">12 kanala</div>
+            </a>
+            <a href="/banka" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-emerald-500/30 hover:bg-emerald-900/10">
+              <div className="text-lg">🏦</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-emerald-300">SPAJA Banka</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">Digitalna banka</div>
+            </a>
+            <a href="/menjacnica" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-amber-500/30 hover:bg-amber-900/10">
+              <div className="text-lg">💱</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-amber-300">Menjacnica</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">Kripto & Fiat</div>
+            </a>
+            <a href="/monitoring-live" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-red-500/30 hover:bg-red-900/10">
+              <div className="text-lg">📡</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-red-300">Monitoring</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">Live streaming</div>
+            </a>
+            <a href="/spaja-digitalni-brouvzer" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-blue-500/30 hover:bg-blue-900/10">
+              <div className="text-lg">🌐</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-blue-300">Brouvzer</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">SPAJA pregledac</div>
+            </a>
+            <a href="/spaja-digitalni-kompjuter" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-indigo-500/30 hover:bg-indigo-900/10">
+              <div className="text-lg">🖥️</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-indigo-300">Kompjuter</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">Virtualni PC</div>
+            </a>
+            <a href="/omega-ai" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-cyan-500/30 hover:bg-cyan-900/10">
+              <div className="text-lg">🧠</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-cyan-300">OMEGA AI</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">21 persona</div>
+            </a>
+            <a href="/spaja-render-medija" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-3 transition hover:border-pink-500/30 hover:bg-pink-900/10">
+              <div className="text-lg">🎬</div>
+              <div className="mt-1 text-xs font-medium text-white group-hover:text-pink-300">Render Medija</div>
+              <div className="mt-0.5 text-[10px] text-gray-500">AI filteri</div>
+            </a>
+          </div>
+
+          {/* Dodatne funkcije */}
+          <div className="flex flex-wrap justify-center gap-2">
+            <a href="/industrija" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">🏭 Industrija</a>
+            <a href="/platforme" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">🧩 Platforme</a>
+            <a href="/ekosistem" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">🔗 Ekosistem</a>
+            <a href="/deploy" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">🚀 Deploy</a>
+            <a href="/security" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">🔐 Bezbednost</a>
+            <a href="/dimenzije" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">🌀 Dimenzije</a>
+            <a href="/pricing" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">💰 Pricing</a>
+            <a href="/blog" className="rounded-lg bg-gray-800/50 px-3 py-1.5 text-xs text-gray-400 transition hover:bg-gray-700 hover:text-white">📰 Blog</a>
           </div>
         </div>
       </div>
