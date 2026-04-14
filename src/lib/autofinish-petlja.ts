@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #315 → #316 (Auth validacija pregled — login lozinka verifikacija)
+ * Autofinish #321 → #322 (Registracija potvrda lozinke — informativni tekst za potvrdu sifre)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
