@@ -3,6 +3,7 @@
 // Zero Trust: Interceptira SVE zahteve
 
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 
 // Rate limiting in-memory store
 // Format: IP -> { count, resetAt }
@@ -177,13 +178,29 @@ function validateCSRF(request: NextRequest): boolean {
   const csrfCookie = request.cookies.get('omega-csrf')?.value;
   const csrfHeader = request.headers.get('x-omega-csrf');
 
+  // Auth endpointi koji koriste Bearer token ne zahtevaju CSRF
+  // ali samo ako imaju Authorization header
+  if (request.nextUrl.pathname.startsWith('/api/auth/')) {
+    const authHeader = request.headers.get('authorization');
+    if (authHeader?.startsWith('Bearer ')) return true;
+    // Login i refresh ne zahtevaju Bearer, ali prihvataju CSRF ili preskačemo
+    // jer korisnik još nema token
+    if (request.nextUrl.pathname === '/api/auth/login' || request.nextUrl.pathname === '/api/auth/refresh') {
+      return true;
+    }
+  }
+
   if (!csrfCookie || !csrfHeader) {
-    // Auth endpointi ne zahtevaju CSRF (koriste Bearer token)
-    if (request.nextUrl.pathname.startsWith('/api/auth/')) return true;
     return false;
   }
 
-  return csrfCookie === csrfHeader;
+  // Timing-safe komparacija za CSRF token
+  if (csrfCookie.length !== csrfHeader.length) return false;
+  try {
+    return timingSafeEqual(Buffer.from(csrfCookie), Buffer.from(csrfHeader));
+  } catch {
+    return false;
+  }
 }
 
 // omegaSecurityMiddleware — Zero Trust middleware za SVE rute
