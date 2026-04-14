@@ -2,6 +2,7 @@
 
 import type { Sekvenca } from '@/lib/types';
 import { useState } from 'react';
+import { getSupabaseClient } from '@/lib/supabase/client';
 
 type LoginMetoda = { naziv: string; ikona: string; metod: string };
 
@@ -20,20 +21,23 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
     setPoruka('');
 
     try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, lozinka }),
+      const supabase = getSupabaseClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password: lozinka,
       });
-      const data = await res.json();
 
-      if (res.ok) {
-        setStatus('success');
-        setPoruka(data.poruka ?? 'Uspesno prijavljivanje!');
-      } else {
+      if (error) {
         setStatus('error');
-        setPoruka(data.greska ?? 'Greska prilikom prijavljivanja.');
+        setPoruka(error.message === 'Invalid login credentials'
+          ? 'Neispravni podaci za prijavu.'
+          : error.message);
+        return;
       }
+
+      setStatus('success');
+      setPoruka('Uspesno prijavljivanje! Preusmeravanje na dashboard...');
+      setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
     } catch {
       setStatus('error');
       setPoruka('Greska u mrezi. Pokusajte ponovo.');
@@ -128,6 +132,13 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
             </div>
           </div>
         )}
+
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Nemate nalog?{' '}
+          <a href="/registracija" className="text-green-400 hover:text-green-300">
+            Registrujte se besplatno
+          </a>
+        </p>
       </div>
     </div>
   );
