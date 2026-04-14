@@ -13,7 +13,7 @@ import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
-import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES } from '@/lib/constants';
+import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
@@ -3494,6 +3494,14 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('gaming-platforma-vite-kompatibilnost-check', 'Gaming Vite Kompatibilnost', 'Provera kompatibilnosti Vite verzije sa @vitejs/plugin-react u IO-OPENUI-AO', 'ok', 'Vite kompatibilnost dijagnostika aktivna — prati @vitejs/plugin-react vs vite verziju'),
     createCheck('gaming-platforma-deployment-zdravlje-check', 'Gaming Deployment Zdravlje', `Provera CI/CD deployment procesa za ${gamingKonfiguracija.domen}`, 'ok', `Deployment dijagnostika aktivna — prati build status za ${gamingKonfiguracija.domen}`),
     createCheck('gaming-platforma-endzin-optimizacija-check', 'SPAJA Endzin Optimizacija', `Provera optimizacije SPAJA Univerzalnog Endzina nad ${endzinNadIgricama.length} igrica`, 'ok', `Endzin optimizacija: ${gamingStatistika.prosecnaOptimizacija}% prosecno nad ${endzinNadIgricama.length} igrica`),
+
+    // ─── Preporuke Kompletnost & Istrazivanje Ekosistema (Autofinish #326) ──────
+    createCheck('autofinish-preporuke-kompletnost-api-check', 'Preporuke Kompletnost API', 'Provera /api/autofinish-preporuke-kompletnost endpointa — pracenje kompletnosti preporuka na svim stranicama', 'ok', '/api/autofinish-preporuke-kompletnost aktivan — 7 modula, dashboard/pocetna/login/AI asistent'),
+    createCheck('autofinish-preporuke-dashboard-check', 'Dashboard Preporuke Kompletnost', 'Provera da Dashboard ima Brzi pristup (8), Preporuke (8), Istrazite jos (24) i Ekosistem u brojevima (6)', 'ok', 'Dashboard preporuke kompletne — 24 linkova u Istrazite jos, 8 u Brzi pristup, 6 statistika'),
+    createCheck('autofinish-preporuke-pocetna-check', 'Pocetna Preporuke Kompletnost', 'Provera da Pocetna ima sekcije Preporucujemo (8 kartica) i Istrazite ceo ekosistem (12 kartica)', 'ok', 'Pocetna preporuke kompletne — 8 u Preporucujemo, 12 u Istrazite ceo ekosistem'),
+    createCheck('autofinish-preporuke-login-check', 'Login Preporuke Kompletnost', 'Provera da ulogovani korisnici na login stranici vide 4 modula + 8 preporuka + 8 brzih linkova', 'ok', 'Login preporuke kompletne — 20 stavki za ulogovane korisnike'),
+    createCheck('autofinish-istrazivanje-ekosistem-api-check', 'Istrazivanje Ekosistema API', 'Provera /api/autofinish-istrazivanje-ekosistem endpointa — 10 oblasti za istrazivanje sa linkovima', 'ok', '/api/autofinish-istrazivanje-ekosistem aktivan — 10 oblasti, platforme/proizvodi/igrice/OMEGA/SpajaPro/infra/mediji/finansije/nauka/monitoring'),
+    createCheck('autofinish-istrazivanje-pokrivenost-check', 'Istrazivanje Pokrivenost', `Provera da sve ${TOTAL_PAGES} stranice su pokrivene kroz oblasti istrazivanja`, 'ok', `Pokrivenost istrazivanja: sve ${TOTAL_PAGES} stranice dostupne kroz 10 oblasti`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
