@@ -68,6 +68,17 @@ export async function GET() {
     },
     url: 'https://ai-iq-world-bank-git-copilot-n-697903-nikolas-projects-b8a8458f.vercel.app/index.html',
     repo: 'spaja86/Ai-Iq-World-Bank',
+    racuniAiIqWorldBank: [
+      {
+        vlasnikRacuna: 'Digitalna Industrija',
+        brojRacuna: 'DIGI-IND-001',
+        valuta: 'RSD',
+        tip: 'digitalni',
+        opis: 'Racun Digitalne Industrije u AI IQ World Bank — prima 4% od celokupnog dnevnog dobita',
+        namena: 'Dnevna raspodela zarade — 4% rezerva',
+        status: 'aktivan',
+      },
+    ],
     timestamp: new Date().toISOString(),
   });
 }
