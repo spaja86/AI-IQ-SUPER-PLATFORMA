@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #313 → #314 (Digitalna Industrija racun u AI IQ World Bank — 4% rezerva)
+ * Autofinish #315 → #316 (Auth validacija pregled — login lozinka verifikacija)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
