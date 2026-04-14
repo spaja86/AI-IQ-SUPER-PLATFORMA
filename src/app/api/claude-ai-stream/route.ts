@@ -24,11 +24,10 @@ export async function POST(request: Request) {
     model: 'anthropic/claude-opus-4.6',
     prompt,
     providerOptions: {
-      anthropic: {
-        thinkingBudget: 0.001,
-      },
       gateway: {
-        order: ['vertex'],
+        byok: {
+          anthropic: [{ apiKey: process.env.ANTHROPIC_API_KEY }],
+        },
       },
     },
   });
