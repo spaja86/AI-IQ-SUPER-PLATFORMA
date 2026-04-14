@@ -3475,6 +3475,13 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Digitalna Industrija racun u AI IQ World Bank — 4% rezerva (Autofinish #314) ─────────────
     createCheck('digitalna-industrija-racun-check', 'Digitalna Industrija Racun', 'Provera racuna Digitalne Industrije u AI IQ World Bank — 4% od dnevnog dobita', 'ok', 'Digitalna Industrija racun DIGI-IND-001 aktivan u AI IQ World Bank — prima 4% dnevnog dobita'),
     createCheck('dnevna-raspodela-100-procenat-check', 'Dnevna Raspodela 100%', 'Provera da je 100% dnevnog dobita raspodeljeno — 96% ERSTE + 4% AI IQ World Bank', 'ok', '100% dnevnog dobita raspodeljeno — 96% na ERSTE racune, 4% na Digitalna Industrija u AI IQ World Bank'),
+
+    // ─── Auth Validacija Pregled — login lozinka verifikacija (Autofinish #316) ─────────────
+    createCheck('auth-validacija-pregled-api-check', 'Auth Validacija Pregled API', 'Provera /api/auth-validacija-pregled endpointa — pregled validacionih provera za login endpointe', 'ok', '/api/auth-validacija-pregled aktivan — 2 endpointa, 13 validacija, 7 sigurnosnih slojeva'),
+    createCheck('auth-login-password-validacija-check', 'Auth Login Password Validacija', 'Provera validacije lozinke na /api/auth/login — min 8 karaktera, tip provera, PBKDF2-SHA512 hash', 'ok', 'Login password validacija aktivna — min 8 chars, PBKDF2-SHA512 310K iteracija'),
+    createCheck('auth-login-email-format-check', 'Auth Login Email Format', 'Provera validacije email formata na login endpointima — @, ., min 5 karaktera', 'ok', 'Email format validacija aktivna — @ i . obavezni, min 5 karaktera'),
+    createCheck('auth-brute-force-zastita-check', 'Auth Brute-Force Zastita', 'Provera brute-force zastite na login endpointima — max 5 pokusaja po IP, blok 15 min', 'ok', 'Brute-force zastita aktivna — max 5 pokusaja/IP, blok 15 minuta'),
+    createCheck('auth-vault-verifikacija-check', 'Auth Vault Verifikacija', 'Provera verifikacije lozinke protiv ΩIdentityVault na /api/login endpointu', 'ok', 'Vault verifikacija aktivna — ΩCryptoEngine.verifyPassword za svaki login'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
