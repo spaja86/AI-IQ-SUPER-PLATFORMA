@@ -1,100 +1,107 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — Login API Route
+// SpajaUltraOmegaCore -∞Ω+∞ — Register API Route
 // Kompanija SPAJA — Digitalna Industrija
-// POST /api/auth/login
+// POST /api/auth/register
 
 import { NextRequest, NextResponse } from 'next/server';
 import { ΩAuthProvider } from '@/lib/auth/omega-auth';
 import { checkBruteForce, recordFailedLoginAttempt, resetLoginAttempts } from '@/middleware/omega-security';
 import { ΩAuditLogger } from '@/middleware/omega-audit';
-import type { ΩLoginRequest } from '@/lib/auth/types';
+
+interface RegisterBody {
+  email: string;
+  password: string;
+  fullName?: string;
+}
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
   const userAgent = request.headers.get('user-agent') ?? 'unknown';
 
-  // Brute-force zaštita: max 5 pokušaja / 15 min po IP
+  // Brute-force zastita: max 5 pokusaja / 15 min po IP
   if (!checkBruteForce(ip)) {
     ΩAuditLogger.log({
       userId: 'anonymous',
-      action: 'LOGIN_BLOCKED_BRUTE_FORCE',
-      resource: '/api/auth/login',
+      action: 'REGISTER_BLOCKED_BRUTE_FORCE',
+      resource: '/api/auth/register',
       ip,
       userAgent,
       outcome: 'DENIED',
     });
 
     return NextResponse.json(
-      { error: 'Previše neuspešnih pokušaja. Pokušajte ponovo za 15 minuta.' },
+      { error: 'Previse neuspesnih pokusaja. Pokusajte ponovo za 15 minuta.' },
       { status: 429 }
     );
   }
 
-  let body: ΩLoginRequest;
+  let body: RegisterBody;
   try {
-    body = (await request.json()) as ΩLoginRequest;
+    body = (await request.json()) as RegisterBody;
   } catch {
     return NextResponse.json({ error: 'Nevalidan JSON' }, { status: 400 });
   }
 
+  // Validacija email-a
   if (!body.email || typeof body.email !== 'string' || !body.email.trim()) {
     return NextResponse.json({ error: 'Email je obavezan' }, { status: 400 });
   }
 
-  // Validacija email formata
-  const emailTrimmed = body.email.trim();
+  const emailTrimmed = body.email.trim().toLowerCase();
   if (!emailTrimmed.includes('@') || !emailTrimmed.includes('.') || emailTrimmed.length < 5) {
     return NextResponse.json({ error: 'Neispravan format email adrese' }, { status: 400 });
   }
 
-  if (!body.password && !body.oauthCode) {
-    return NextResponse.json({ error: 'Lozinka ili OAuth kod je obavezan' }, { status: 400 });
+  // Validacija lozinke
+  if (!body.password || typeof body.password !== 'string' || !body.password.trim()) {
+    return NextResponse.json({ error: 'Lozinka je obavezna' }, { status: 400 });
   }
 
-  // Validacija lozinke — minimalna duzina i prazni stringovi
-  if (body.password) {
-    if (typeof body.password !== 'string' || !body.password.trim()) {
-      return NextResponse.json({ error: 'Lozinka ne moze biti prazna' }, { status: 400 });
-    }
-    if (body.password.length < 8) {
-      return NextResponse.json(
-        { error: 'Lozinka mora imati najmanje 8 karaktera' },
-        { status: 400 }
-      );
-    }
+  if (body.password.length < 8) {
+    return NextResponse.json(
+      { error: 'Lozinka mora imati najmanje 8 karaktera' },
+      { status: 400 }
+    );
   }
 
-  const result = await ΩAuthProvider.login(body);
+  // Validacija imena
+  const fullName = body.fullName?.trim() ?? '';
+
+  const result = await ΩAuthProvider.register({
+    email: emailTrimmed,
+    password: body.password,
+    fullName: fullName || undefined,
+  });
 
   if (!result) {
     recordFailedLoginAttempt(ip);
 
     ΩAuditLogger.log({
-      userId: body.email,
-      action: 'LOGIN_FAILED',
-      resource: '/api/auth/login',
+      userId: emailTrimmed,
+      action: 'REGISTER_FAILED',
+      resource: '/api/auth/register',
       ip,
       userAgent,
       outcome: 'DENIED',
-      details: { reason: 'invalid_credentials' },
+      details: { reason: 'email_already_exists' },
     });
 
     return NextResponse.json(
-      { error: 'Neispravni podaci za prijavu' },
-      { status: 401 }
+      { error: 'Korisnik sa ovim email-om vec postoji.' },
+      { status: 409 }
     );
   }
 
-  // Uspešna prijava
+  // Uspesna registracija
   resetLoginAttempts(ip);
 
   ΩAuditLogger.log({
     userId: result.identity.id,
-    action: 'LOGIN_SUCCESS',
-    resource: '/api/auth/login',
+    action: 'REGISTER_SUCCESS',
+    resource: '/api/auth/register',
     ip,
     userAgent,
     outcome: 'SUCCESS',
-    details: { clearanceLevel: result.identity.clearanceLevel },
+    details: { email: emailTrimmed },
   });
 
   const response = NextResponse.json({
@@ -110,7 +117,7 @@ export async function POST(request: NextRequest) {
     expiresAt: result.expiresAt,
   });
 
-  // Postavi httpOnly kolačić za refresh token
+  // Postavi httpOnly kolacic za refresh token
   response.cookies.set('omega-refresh', result.refreshToken.value, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',

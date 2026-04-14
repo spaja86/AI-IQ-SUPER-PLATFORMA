@@ -2,10 +2,10 @@
 
 // SpajaUltraOmegaCore -∞Ω+∞ — Registracija Forma
 // Kompanija SPAJA — Digitalna Industrija
-// Forma za registraciju novih korisnika preko Supabase Auth
+// Forma za registraciju novih korisnika preko Omega Auth API
 
 import { useState } from 'react';
-import { getSupabaseClient } from '@/lib/supabase/client';
+import { sacuvajSesiju } from '@/lib/auth/omega-session-client';
 
 export default function RegistracijaForma() {
   const [email, setEmail] = useState('');
@@ -26,25 +26,40 @@ export default function RegistracijaForma() {
     }
 
     try {
-      const supabase = getSupabaseClient();
-      const { error } = await supabase.auth.signUp({
-        email,
-        password: lozinka,
-        options: {
-          data: { full_name: ime },
-        },
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password: lozinka,
+          fullName: ime,
+        }),
       });
 
-      if (error) {
+      const data = await res.json();
+
+      if (!res.ok) {
         setStatus('error');
-        setPoruka(error.message === 'User already registered'
-          ? 'Korisnik sa ovim email-om vec postoji.'
-          : error.message);
+        setPoruka(data.error ?? 'Registracija nije uspela. Pokusajte ponovo.');
         return;
       }
 
+      // Automatski sacuvaj sesiju — korisnik je odmah ulogovan
+      sacuvajSesiju({
+        token: data.token.value,
+        email,
+        plan: 'starter',
+        uloga: data.identity.roles?.[0] ?? 'user',
+        identityId: data.identity.id,
+        did: data.identity.did,
+        roles: data.identity.roles ?? ['user'],
+        clearanceLevel: data.identity.clearanceLevel ?? 1,
+        expiresAt: data.expiresAt,
+      });
+
       setStatus('success');
-      setPoruka('Registracija uspesna! Mozete se prijaviti na svoj nalog.');
+      setPoruka('Registracija uspesna! Preusmeravanje na dashboard...');
+      setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
     } catch {
       setStatus('error');
       setPoruka('Greska u mrezi. Pokusajte ponovo.');

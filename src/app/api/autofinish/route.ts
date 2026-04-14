@@ -221,6 +221,8 @@ function getAutofinishOpis(n: number): string {
     302: 'Autofinish #302 — kontinualna stabilizacija ekosistema, azuriranje konstanti, registracija iteracije #301, 549 ruta, 505 API, 860 dijagnostike',
     303: 'Autofinish #303 — /api/autofinish-petlja, skripta sa ponavljanjem do 100% OMEGA PROJEKTA, 7 podsistema (plasiranje, otvaranje, operativni centar, OMEGA AI, ekosistem, dijagnostika, autofinish motor), loop mehanizam, 4 dijagnostike, 550 ruta, 506 API, 864 dijagnostike',
     304: 'Autofinish #304 — Ispravka status provera u autofinish petlji (OPERATIVNO/ZVANIČNO OTVORENO umesto ZAVRSENO), prosirenje na 9 podsistema (+Oktavni Monolog, +SpajaPro Engine), /api/autofinish-petlja-status endpoint za monitoring, 6 dijagnostika, 551 ruta, 507 API, 870 dijagnostike',
+    315: 'Autofinish #315 — Kontinualna stabilizacija ekosistema, azuriranje konstanti i dijagnostika, 571 ruta, 525 API, 912 dijagnostike',
+    316: 'Autofinish #316 — /api/auth-validacija-pregled, pregled validacije autentifikacije i lozinke, login password verifikacija, PBKDF2-SHA512, brute-force zastita, 5 dijagnostika, 578 ruta, 531 API, 917 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩCryptoEngine } from '@/lib/auth/omega-crypto';
+import { getGlobalVault } from '@/lib/auth/omega-identity';
 
 /**
  * POST /api/login — Autentifikacija korisnika
@@ -31,10 +32,35 @@ export async function POST(request: Request) {
       );
     }
 
-    if (lozinka.length < 6) {
+    if (lozinka.length < 8) {
       return NextResponse.json(
-        { greska: 'Lozinka mora imati najmanje 6 karaktera.' },
+        { greska: 'Lozinka mora imati najmanje 8 karaktera.' },
         { status: 400 },
+      );
+    }
+
+    // Verifikacija lozinke — pronadji korisnika u ΩIdentityVault
+    const vault = getGlobalVault();
+    const allIds = vault.listIds();
+    let identityFound = false;
+    let passwordValid = false;
+
+    for (const id of allIds) {
+      const candidate = vault.retrieveIdentity(id);
+      if (candidate?.email === email) {
+        identityFound = true;
+        if (candidate.passwordHash) {
+          passwordValid = await ΩCryptoEngine.verifyPassword(lozinka, candidate.passwordHash);
+        }
+        break;
+      }
+    }
+
+    // Ako korisnik postoji u vault-u, lozinka mora biti ispravna
+    if (identityFound && !passwordValid) {
+      return NextResponse.json(
+        { greska: 'Neispravna lozinka.' },
+        { status: 401 },
       );
     }
 
