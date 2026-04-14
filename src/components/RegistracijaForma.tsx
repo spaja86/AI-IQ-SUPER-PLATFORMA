@@ -261,6 +261,22 @@ export default function RegistracijaForma() {
                 </span>
               )}
             </div>
+
+            {/* Informacija o poklapanju lozinki */}
+            {potvrdaLozinke.length > 0 && (
+              <p className={`mt-1.5 text-xs ${
+                potvrdaLozinke === lozinka ? 'text-green-400' : 'text-red-400'
+              }`}>
+                {potvrdaLozinke === lozinka
+                  ? '✓ Lozinke se poklapaju'
+                  : '✗ Lozinke se ne poklapaju — unesite istu lozinku'}
+              </p>
+            )}
+            {potvrdaLozinke.length === 0 && lozinka.length > 0 && (
+              <p className="mt-1.5 text-xs text-gray-500">
+                Unesite lozinku ponovo radi potvrde
+              </p>
+            )}
           </div>
 
           {/* Submit */}
