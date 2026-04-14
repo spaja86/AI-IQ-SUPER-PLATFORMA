@@ -35,6 +35,37 @@ export async function GET() {
       'AI fraud detekcija',
     ],
     analiza: 'Ekstremno jaka banka — sve se moze proveriti i analizirati',
+    ersteBankaDOOSmederevo: {
+      naziv: 'ERSTE Banka DOO Smederevo',
+      vlasnikRacuna: 'Digitalna Industrija',
+      vlasnik: {
+        ime: 'Nikola Spajic',
+        registarskiBrojLicneKarte: '015639997',
+        jmbg: '0312986850017',
+      },
+      status: 'aktivan',
+      racuni: [
+        {
+          tip: 'dinarski',
+          valuta: 'RSD',
+          brojRacuna: '025897158',
+          opis: 'Dinarski racun za domace transakcije',
+        },
+        {
+          tip: 'devizni',
+          valuta: 'EUR',
+          brojRacuna: '038971285',
+          opis: 'Devizni racun u evrima za medjunarodne transakcije',
+        },
+        {
+          tip: 'devizni',
+          valuta: 'USD',
+          brojRacuna: '05364215985',
+          opis: 'Devizni racun u dolarima za globalne transakcije',
+        },
+      ],
+      kartice: 'Izdate na ERSTE Banka DOO Smederevo',
+    },
     url: 'https://ai-iq-world-bank-git-copilot-n-697903-nikolas-projects-b8a8458f.vercel.app/index.html',
     repo: 'spaja86/Ai-Iq-World-Bank',
     timestamp: new Date().toISOString(),

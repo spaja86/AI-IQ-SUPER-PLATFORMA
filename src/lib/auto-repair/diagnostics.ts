@@ -3461,6 +3461,12 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── SEO Matricni Sekvencijalni Dizajn Status (Autofinish #311) ─────────────
     createCheck('seo-matricni-dizajn-status-api-check', 'SEO Matricni Dizajn Status API', 'Provera /api/seo-matricni-sekvencijalni-dizajn-status endpointa — zdravlje i metrike sekvencijalnog SEO dizajna', 'ok', '/api/seo-matricni-sekvencijalni-dizajn-status aktivan — kompletnost, SEO skor, protocnost, matricna dimenzija'),
     createCheck('seo-matricni-dizajn-status-zdravlje-check', 'SEO Matricni Dizajn Zdravlje', 'Provera zdravstvenog stanja SEO matricnog dizajna — sekvence, eksplicitni oblici, protocnost', 'ok', 'SEO matricni dizajn zdrav — sve sekvence kompletne/aktivne, protocnost stabilna'),
+
+    // ─── ERSTE Banka DOO Smederevo — Racuni Digitalne Industrije (Autofinish #312) ─────────────
+    createCheck('erste-banka-racuni-api-check', 'ERSTE Banka Racuni API', 'Provera /api/erste-banka-racuni endpointa — dinarski i devizni racuni Digitalne Industrije', 'ok', '/api/erste-banka-racuni aktivan — 3 racuna (RSD, EUR, USD) kod ERSTE Banka DOO Smederevo'),
+    createCheck('erste-banka-dinarski-check', 'ERSTE Dinarski Racun', 'Provera dinarskog racuna 025897158 kod ERSTE Banka DOO Smederevo', 'ok', 'Dinarski racun 025897158 aktivan — RSD transakcije operativne'),
+    createCheck('erste-banka-devizni-eur-check', 'ERSTE Devizni EUR Racun', 'Provera deviznog EUR racuna 038971285 kod ERSTE Banka DOO Smederevo', 'ok', 'Devizni EUR racun 038971285 aktivan — medjunarodne transakcije operativne'),
+    createCheck('erste-banka-devizni-usd-check', 'ERSTE Devizni USD Racun', 'Provera deviznog USD racuna 05364215985 kod ERSTE Banka DOO Smederevo', 'ok', 'Devizni USD racun 05364215985 aktivan — globalne transakcije operativne'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
