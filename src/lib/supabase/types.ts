@@ -46,6 +46,7 @@ export interface Database {
           chat_messages_limit?: number;
           updated_at?: string;
         };
+        Relationships: [];
       };
       chat_history: {
         Row: {
@@ -69,6 +70,14 @@ export interface Database {
           content?: string;
           tokens_used?: number;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'chat_history_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       usage_logs: {
         Row: {
@@ -95,7 +104,19 @@ export interface Database {
           tokens_used?: number;
           cost_eur?: number;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'usage_logs_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }

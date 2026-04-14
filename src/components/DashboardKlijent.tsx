@@ -51,7 +51,7 @@ export default function DashboardKlijent() {
         .single();
 
       if (profileData) {
-        setProfile(profileData);
+        setProfile(profileData as ProfileData);
       }
 
       // Dohvati usage statistiku za poslednji mesec
@@ -64,7 +64,7 @@ export default function DashboardKlijent() {
         .eq('user_id', session.user.id)
         .gte('created_at', monthAgo.toISOString());
 
-      if (usageData) {
+      if (usageData && usageData.length > 0) {
         const grouped: Record<string, UsageStat> = {};
         for (const log of usageData) {
           if (!grouped[log.action]) {

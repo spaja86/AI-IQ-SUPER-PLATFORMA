@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     case 'checkout.session.completed': {
       const session = event.data.object;
       const userId = session.metadata?.supabase_user_id;
-      const planId = session.metadata?.plan_id;
+      const planId = session.metadata?.plan_id as 'starter' | 'basic' | 'pro' | 'enterprise' | 'unlimited' | undefined;
       const subscriptionId = typeof session.subscription === 'string'
         ? session.subscription
         : session.subscription?.toString();
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
           await supabase.from('profiles').update({
             subscription_status: subscription.status,
             ...(plan ? {
-              plan: plan.id,
+              plan: plan.id as 'starter' | 'basic' | 'pro' | 'enterprise' | 'unlimited',
               chat_messages_limit: plan.chatLimit === -1 ? 999999 : plan.chatLimit,
             } : {}),
           }).eq('id', profile.id);
