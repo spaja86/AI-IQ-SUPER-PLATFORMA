@@ -248,6 +248,32 @@ export default function LoginForma() {
           </div>
         </div>
 
+        {/* Demo Login */}
+        <div className="mb-4 rounded-2xl border border-yellow-700/30 bg-yellow-900/10 p-4">
+          <div className="mb-3 flex items-center gap-2 text-sm font-medium text-yellow-400">
+            <span>⚡</span>
+            <span>Brzi Demo Pristup</span>
+          </div>
+          <p className="mb-3 text-xs text-gray-400">
+            Isprobajte platformu odmah sa demo nalogom — bez registracije.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setEmail('demo@spaja.ai');
+              setLozinka('Demo2024!');
+            }}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-yellow-600/40 bg-yellow-600/20 px-4 py-2.5 text-sm font-medium text-yellow-300 transition hover:bg-yellow-600/30 hover:text-yellow-200"
+          >
+            <span>🔑</span>
+            Popuni demo podatke
+          </button>
+          <div className="mt-2 flex items-center gap-3 text-[11px] text-gray-500">
+            <span>📧 demo@spaja.ai</span>
+            <span>🔒 Demo2024!</span>
+          </div>
+        </div>
+
         {/* Registracija link */}
         <div className="rounded-2xl border border-gray-700/50 bg-gray-800/30 p-6 text-center">
           <p className="text-sm text-gray-400">
@@ -262,6 +288,21 @@ export default function LoginForma() {
         <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-600">
           <span>🛡️</span>
           <span>Zero Trust · AES-256-GCM · PBKDF2-SHA512</span>
+        </div>
+
+        {/* Login Status Informacija */}
+        <div className="mt-4 rounded-xl border border-gray-700/30 bg-gray-800/30 p-4">
+          <div className="mb-2 flex items-center gap-2 text-xs font-medium text-gray-400">
+            <span>ℹ️</span>
+            <span>Status Login Sistema</span>
+          </div>
+          <ul className="space-y-1 text-[11px] text-gray-500">
+            <li>• <strong className="text-green-400">Demo nalog</strong> je uvek dostupan: demo@spaja.ai / Demo2024!</li>
+            <li>• Registracija i prijava funkcionisu u okviru iste serverske sesije</li>
+            <li>• Sistem koristi Zero Trust + AES-256-GCM + PBKDF2-SHA512</li>
+            <li>• Registrujte se na <a href="/registracija" className="text-blue-400 hover:text-blue-300">/registracija</a> za sopstveni nalog</li>
+            <li>• Za pitanja koristite AI asistenta (dugme 🤖 u donjem desnom uglu)</li>
+          </ul>
         </div>
       </div>
     </div>
