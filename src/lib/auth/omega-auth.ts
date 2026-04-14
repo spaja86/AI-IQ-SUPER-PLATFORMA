@@ -11,7 +11,7 @@ import type {
 } from './types';
 import { ΩClearanceLevel, ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from './types';
 import { ΩCryptoEngine } from './omega-crypto';
-import { getGlobalVault } from './omega-identity';
+import { getGlobalVault, createIdentity } from './omega-identity';
 
 // In-memory store za tokene (u produkciji: Redis)
 const tokenStore = new Map<string, { identity: ΩIdentity; expiresAt: number }>();
@@ -233,6 +233,47 @@ export class ΩAuthProvider {
       token: accessToken,
       refreshToken: refreshTokenToken,
       identity: updatedIdentity,
+      expiresAt: accessToken.expiresAt,
+    };
+  }
+
+  // register — registracija novog korisnika
+  static async register(params: {
+    email: string;
+    password: string;
+    fullName?: string;
+  }): Promise<ΩLoginResponse | null> {
+    const vault = getGlobalVault();
+
+    // Proveri da li email već postoji
+    const allIds = vault.listIds();
+    for (const id of allIds) {
+      const existing = vault.retrieveIdentity(id);
+      if (existing?.email === params.email) {
+        return null; // Korisnik već postoji
+      }
+    }
+
+    // Kreiraj novi identitet
+    const identity = await createIdentity({
+      email: params.email,
+      password: params.password,
+      roles: ['user'],
+      clearanceLevel: ΩClearanceLevel.USER,
+    });
+
+    // Sačuvaj u vault
+    vault.storeIdentity(identity);
+
+    // Izdaj tokene
+    const scopes: ΩScope[] = ['digital_industry:read', 'digital_industry:write'];
+    const accessToken = await this.issueToken(identity, scopes, 'ACCESS');
+    const refreshTokenToken = await this.issueRefreshToken(identity);
+
+    return {
+      token: accessToken,
+      refreshToken: refreshTokenToken,
+      identity,
       expiresAt: accessToken.expiresAt,
     };
   }
