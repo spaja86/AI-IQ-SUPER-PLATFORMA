@@ -263,6 +263,21 @@ export default function LoginForma() {
           <span>🛡️</span>
           <span>Zero Trust · AES-256-GCM · PBKDF2-SHA512</span>
         </div>
+
+        {/* Login Status Informacija */}
+        <div className="mt-4 rounded-xl border border-gray-700/30 bg-gray-800/30 p-4">
+          <div className="mb-2 flex items-center gap-2 text-xs font-medium text-gray-400">
+            <span>ℹ️</span>
+            <span>Status Login Sistema</span>
+          </div>
+          <ul className="space-y-1 text-[11px] text-gray-500">
+            <li>• Registracija i prijava funkcionisu u okviru iste serverske sesije</li>
+            <li>• Sistem koristi in-memory vault — za perzistentnost je potrebna baza podataka</li>
+            <li>• Posle deploy-a ili restarta servera, registrovani nalozi se resetuju</li>
+            <li>• Registrujte se prvo na <a href="/registracija" className="text-blue-400 hover:text-blue-300">/registracija</a>, pa se prijavite ovde</li>
+            <li>• Za pitanja koristite AI asistenta (dugme 🤖 u donjem desnom uglu)</li>
+          </ul>
+        </div>
       </div>
     </div>
   );
