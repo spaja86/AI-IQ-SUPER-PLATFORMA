@@ -108,6 +108,14 @@ export async function POST(request: NextRequest) {
       mfaEnabled: result.identity.mfaEnabled,
     },
     expiresAt: result.expiresAt,
+    pristup: {
+      industrija: true,
+      platforme: true,
+      ekosistem: true,
+      gamingPlatforma: true,
+      delatnosti: true,
+      gejmingKonstrukcija: true,
+    },
   });
 
   // Postavi httpOnly kolačić za refresh token

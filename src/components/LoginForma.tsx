@@ -86,7 +86,7 @@ export default function LoginForma() {
       }
 
       setStatus('success');
-      setPoruka('Uspesna prijava! Preusmeravanje...');
+      setPoruka('Uspesna prijava! Pristup industriji, platformama, ekosistemu i gaming platformi odobren. Preusmeravanje...');
       setTimeout(() => {
         window.location.href = '/dashboard';
       }, 800);
@@ -119,7 +119,7 @@ export default function LoginForma() {
           </div>
           <h1 className="text-3xl font-bold text-white">Prijava</h1>
           <p className="mt-2 text-gray-400">
-            Prijavite se na svoj SPAJA nalog
+            Prijavite se na svoj SPAJA nalog — pristup industriji, platformama, ekosistemu i gaming platformi
           </p>
         </div>
 
@@ -300,6 +300,8 @@ export default function LoginForma() {
             <li>• <strong className="text-green-400">Demo nalog</strong> je uvek dostupan: demo@spaja.ai / Demo2024!</li>
             <li>• Registracija i prijava funkcionisu u okviru iste serverske sesije</li>
             <li>• Sistem koristi Zero Trust + AES-256-GCM + PBKDF2-SHA512</li>
+            <li>• <strong className="text-blue-400">Pristup industriji</strong> — sve delatnosti, platforme, ekosistem</li>
+            <li>• <strong className="text-purple-400">Gaming platforma</strong> — IO/OPENUI/AO sa 95 igrica i Otavnom Konstrukcijom</li>
             <li>• Registrujte se na <a href="/registracija" className="text-blue-400 hover:text-blue-300">/registracija</a> za sopstveni nalog</li>
             <li>• Za pitanja koristite AI asistenta (dugme 🤖 u donjem desnom uglu)</li>
           </ul>
