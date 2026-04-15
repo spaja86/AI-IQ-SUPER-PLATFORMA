@@ -111,7 +111,7 @@ export default function GlavniEndzinDashboard() {
     fetch('/api/dijagnostika-glavni-endzin-monitoring')
       .then((r) => r.json())
       .then(setData)
-      .catch(() => {})
+      .catch((err) => console.error('Monitoring API greška:', err))
       .finally(() => setLoading(false));
 
     const timer = setInterval(() => setVreme(new Date()), 1000);
