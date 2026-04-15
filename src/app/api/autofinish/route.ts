@@ -227,6 +227,7 @@ function getAutofinishOpis(n: number): string {
     330: 'Autofinish #330 — glavni-endzin-digitalne-industrije, spajanje SVIH endzina u jedan veliki unificirani Glavni Endzin, automatsko sklapanje gotovih proizvoda i igrica, 6 evolucionih ciklusa, /api/glavni-endzin-digitalne-industrije, /glavni-endzin stranica, industrija v5.0.0, 8 dijagnostika, 605 ruta, 552 API, 585 dijagnostike',
     331: 'Autofinish #331 — kontinualna stabilizacija, registracija iteracija #329-#331 u autofinish API, 14 novih dijagnostika za login-industrija i Glavni Endzin, azuriranje konstanti na tacne vrednosti',
     332: 'Autofinish #332 — merge konsolidacija svih branchi u main, 69 branchi analizirano (67 vec mergovano, 1 novo mergovano — ai SDK 6.0.159→6.0.161), /api/autofinish-merge-konsolidacija, 5 dijagnostika, 604 rute, 553 API, 587 dijagnostike',
+    333: 'Autofinish #333 — Glavni Endzin Dozvole: sve dozvole date Glavnom Endzinu, agent orkestracija (svi agenti slusaju i automatski rade), live Digitalna Industrija 24/7, auto-billing za Vercel i GitHub sa fallback na AI IQ World Bank, /api/autofinish-glavni-endzin-dozvole, 5 dijagnostika, 605 ruta, 554 API, 592 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

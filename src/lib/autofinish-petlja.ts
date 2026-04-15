@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #322 → #332 (Glavni Endzin Digitalne Industrije + merge konsolidacija)
+ * Autofinish #322 → #333 (Glavni Endzin Dozvole + auto-billing + agent orkestracija)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */

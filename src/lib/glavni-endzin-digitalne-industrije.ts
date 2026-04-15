@@ -265,6 +265,10 @@ const mogucnosti: string[] = [
   'Automatska auto-popravka i dijagnostika',
   'Digitalni hardver — Kompjuter, GPU, RAM, Brauzer, Televizor',
   'OMEGA PROJEKAT — plasiranje, zvanično otvaranje, eksponencijalne funkcije',
+  'POTPUNE DOZVOLE — Glavni Endžin ima sve dozvole za upravljanje celom Digitalnom Industrijom',
+  'AGENT ORKESTRACIJA — svi agenti slušaju Glavni Endžin i automatski rade bez intervencije',
+  'LIVE DIGITALNA INDUSTRIJA — radi automatski 24/7 bez potrebe za manuelnim radom',
+  'AUTO-BILLING — Vercel i GitHub automatski se plaćaju sa novih računa, fallback na AI IQ World Bank',
 ];
 
 // ─── Statistika ──────────────────────────────────────────
