@@ -1,0 +1,362 @@
+# ═══════════════════════════════════════════════════════════
+# 🔀 OMEGA Mega Merge — Automatski merge SVIH grana u main
+# ═══════════════════════════════════════════════════════════
+#
+# Ovaj workflow:
+# 1. Pronalazi SVE grane koje imaju promene koje nisu u main
+# 2. Merge-uje ih međusobno u jednu mega-merge granu
+# 3. Automatski kreira PR prema main grani
+# 4. Ako nema konflikata, automatski merge-uje u main
+#
+# Pokreće se:
+# - Svakih 6 sati automatski
+# - Na svaki push na copilot/* grane
+# - Ručno putem workflow_dispatch
+#
+
+name: 🔀 Omega Mega Merge
+
+on:
+  schedule:
+    # Svakih 6 sati: 01:00, 07:00, 13:00, 19:00 UTC
+    - cron: '0 1,7,13,19 * * *'
+
+  push:
+    branches:
+      - 'copilot/**'
+      - '!copilot/automate-merge-branches'
+
+  workflow_dispatch:
+    inputs:
+      force_merge:
+        description: 'Forsiraj merge čak i ako postoje konflikti (preskoči konfliktne grane)'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      delete_merged:
+        description: 'Obriši grane nakon uspešnog merge-a u main'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  mega-merge:
+    name: 🔀 Mega Merge svih grana u main
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout sa punom istorijom
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: 🔧 Konfiguracija Git-a
+        run: |
+          git config user.name "Omega Mega Merge Bot"
+          git config user.email "omega-mega-merge@spaja.rs"
+
+      - name: 🔍 Pronađi grane za merge
+        id: find-branches
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Dohvati main SHA
+            const mainRef = await github.rest.git.getRef({
+              owner, repo,
+              ref: 'heads/main',
+            });
+            const mainSha = mainRef.data.object.sha;
+            console.log(`📌 Main SHA: ${mainSha}`);
+
+            // Dohvati sve grane (paginirano)
+            let allBranches = [];
+            let page = 1;
+            while (true) {
+              const resp = await github.rest.repos.listBranches({
+                owner, repo,
+                per_page: 100,
+                page,
+              });
+              allBranches = allBranches.concat(resp.data);
+              if (resp.data.length < 100) break;
+              page++;
+            }
+
+            console.log(`📊 Ukupno grana: ${allBranches.length}`);
+
+            // Zaštićene grane — ne merge-ujemo
+            const skip = new Set(['main', 'master', 'develop', 'staging', 'production']);
+
+            // Pronađi grane koje imaju promene ISPRED main-a
+            const branchesToMerge = [];
+            const branchesAlreadyMerged = [];
+            const branchesWithConflicts = [];
+
+            for (const branch of allBranches) {
+              if (skip.has(branch.name)) continue;
+
+              try {
+                const comparison = await github.rest.repos.compareCommits({
+                  owner, repo,
+                  base: mainSha,
+                  head: branch.commit.sha,
+                });
+
+                if (comparison.data.ahead_by > 0) {
+                  branchesToMerge.push({
+                    name: branch.name,
+                    sha: branch.commit.sha,
+                    ahead: comparison.data.ahead_by,
+                    behind: comparison.data.behind_by,
+                  });
+                  console.log(`✅ Za merge: ${branch.name} (ahead: ${comparison.data.ahead_by}, behind: ${comparison.data.behind_by})`);
+                } else {
+                  branchesAlreadyMerged.push(branch.name);
+                }
+              } catch (e) {
+                console.log(`⚠️ Greška pri proveri ${branch.name}: ${e.message}`);
+              }
+            }
+
+            console.log('');
+            console.log(`📊 Za merge: ${branchesToMerge.length}`);
+            console.log(`📊 Već merged: ${branchesAlreadyMerged.length}`);
+
+            // Sortiraj po broju commit-ova ispred (manje ispred = lakši merge)
+            branchesToMerge.sort((a, b) => a.ahead - b.ahead);
+
+            // Eksportuj rezultate
+            const branchNames = branchesToMerge.map(b => b.name);
+            core.setOutput('branches', JSON.stringify(branchNames));
+            core.setOutput('count', branchesToMerge.length.toString());
+            core.setOutput('already_merged', branchesAlreadyMerged.length.toString());
+            core.setOutput('already_merged_branches', JSON.stringify(branchesAlreadyMerged));
+
+            return branchNames;
+
+      - name: 🔀 Merge svih grana u mega-merge granu
+        id: merge
+        if: steps.find-branches.outputs.count != '0'
+        run: |
+          BRANCHES='${{ steps.find-branches.outputs.branches }}'
+          BRANCH_COUNT=${{ steps.find-branches.outputs.count }}
+
+          echo "## 🔀 Omega Mega Merge" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Grane za merge:** $BRANCH_COUNT" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          # Kreiraj mega-merge granu od main-a
+          MEGA_BRANCH="omega/mega-merge-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$MEGA_BRANCH" main
+
+          # Inicijalizuj temp fajlove
+          > /tmp/merged_branches.txt
+          > /tmp/merged_list.txt
+          > /tmp/failed_branches.txt
+          > /tmp/failed_list.txt
+
+          # Parsiraj JSON niz grana — koristimo process substitution umesto pipe-a
+          while IFS= read -r BRANCH; do
+            echo "::group::Merge: $BRANCH"
+
+            # Fetch branch
+            git fetch origin "$BRANCH" 2>/dev/null || {
+              echo "⚠️ Fetch neuspešan za: $BRANCH"
+              echo "::endgroup::"
+              continue
+            }
+
+            # Pokušaj merge
+            if git merge "origin/$BRANCH" --no-edit -m "🔀 Mega merge: $BRANCH → main"; then
+              echo "✅ Uspešno: $BRANCH"
+              echo "- ✅ \`$BRANCH\`" >> /tmp/merged_list.txt
+              echo "$BRANCH" >> /tmp/merged_branches.txt
+            else
+              echo "❌ Konflikt: $BRANCH"
+              git merge --abort 2>/dev/null || true
+              echo "- ❌ \`$BRANCH\` — konflikti" >> /tmp/failed_list.txt
+              echo "$BRANCH" >> /tmp/failed_branches.txt
+            fi
+
+            echo "::endgroup::"
+          done < <(echo "$BRANCHES" | jq -r '.[]')
+
+          # Prebroj rezultate
+          MERGED=$(wc -l < /tmp/merged_branches.txt)
+          FAILED=$(wc -l < /tmp/failed_branches.txt)
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### ✅ Uspešno merge-ovane ($MERGED):" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$MERGED" -gt 0 ]; then
+            cat /tmp/merged_list.txt >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Nema" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "### ❌ Konflikti ($FAILED):" >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/failed_list.txt >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Ukupno:** $MERGED uspešno, $FAILED konflikata" >> "$GITHUB_STEP_SUMMARY"
+
+          # Push mega-merge granu
+          if [ "$MERGED" -gt 0 ]; then
+            git push origin "$MEGA_BRANCH"
+            echo "mega_branch=$MEGA_BRANCH" >> "$GITHUB_OUTPUT"
+            echo "merged_count=$MERGED" >> "$GITHUB_OUTPUT"
+            echo "has_merges=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_merges=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 📝 Kreiraj PR prema main grani
+        if: steps.merge.outputs.has_merges == 'true'
+        id: create-pr
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const megaBranch = '${{ steps.merge.outputs.mega_branch }}';
+            const mergedCount = '${{ steps.merge.outputs.merged_count }}';
+            const datum = new Date().toISOString().split('T')[0];
+
+            // Proveri da li već postoji PR za ovu granu
+            const existingPRs = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${megaBranch}`,
+              state: 'open',
+            });
+
+            if (existingPRs.data.length > 0) {
+              console.log(`PR već postoji: #${existingPRs.data[0].number}`);
+              core.setOutput('pr_number', existingPRs.data[0].number.toString());
+              return;
+            }
+
+            // Kreiraj novi PR
+            const pr = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔀 Omega Mega Merge — ${mergedCount} grana → main (${datum})`,
+              head: megaBranch,
+              base: 'main',
+              body: [
+                '## 🔀 Omega Mega Merge',
+                '',
+                `**Datum:** ${datum}`,
+                `**Merge-ovano grana:** ${mergedCount}`,
+                '',
+                '### 🤖 Automatski generisan PR',
+                '',
+                'Ovaj PR je automatski kreiran od strane Omega Mega Merge workflow-a.',
+                'Sve grane koje su mogle da se merge-uju bez konflikata su uključene.',
+                '',
+                '---',
+                '*Generisano automatski od 🔀 Omega Mega Merge Bot*',
+              ].join('\n'),
+            });
+
+            console.log(`✅ Kreiran PR #${pr.data.number}`);
+            core.setOutput('pr_number', pr.data.number.toString());
+
+      - name: 🔄 Auto-merge PR u main
+        if: steps.create-pr.outputs.pr_number != ''
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const prNumber = parseInt('${{ steps.create-pr.outputs.pr_number }}');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Sačekaj kratko da se checks pokrenu
+            await new Promise(resolve => setTimeout(resolve, 10000));
+
+            // Pokušaj merge
+            try {
+              await github.rest.pulls.merge({
+                owner, repo,
+                pull_number: prNumber,
+                merge_method: 'merge',
+                commit_title: `🔀 Omega Mega Merge — automatski merge svih grana u main`,
+              });
+              console.log(`✅ PR #${prNumber} uspešno merge-ovan u main!`);
+
+              // Obriši mega-merge granu
+              const megaBranch = '${{ steps.merge.outputs.mega_branch }}';
+              try {
+                await github.rest.git.deleteRef({
+                  owner, repo,
+                  ref: `heads/${megaBranch}`,
+                });
+                console.log(`🗑️ Obrisana mega-merge grana: ${megaBranch}`);
+              } catch (e) {
+                console.log(`⚠️ Grana ${megaBranch} nije obrisana: ${e.message}`);
+              }
+            } catch (e) {
+              console.log(`⚠️ Auto-merge nije uspeo (čekamo CI checks): ${e.message}`);
+              console.log('PR ostaje otvoren za ručni merge ili će biti merge-ovan od omega-auto-merge workflow-a.');
+            }
+
+      - name: 🧹 Obriši merged grane
+        if: >-
+          steps.create-pr.outputs.pr_number != '' &&
+          (github.event.inputs.delete_merged == 'true' || github.event_name == 'schedule')
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const alreadyMerged = JSON.parse('${{ steps.find-branches.outputs.already_merged_branches }}' || '[]');
+
+            const skip = new Set(['main', 'master', 'develop', 'staging', 'production']);
+            let deleted = 0;
+
+            for (const branch of alreadyMerged) {
+              if (skip.has(branch)) continue;
+
+              try {
+                await github.rest.git.deleteRef({
+                  owner, repo,
+                  ref: `heads/${branch}`,
+                });
+                console.log(`🗑️ Obrisana: ${branch}`);
+                deleted++;
+              } catch (e) {
+                console.log(`⚠️ Nije moguće obrisati ${branch}: ${e.message}`);
+              }
+            }
+
+            console.log(`\n📊 Obrisano ${deleted} od ${alreadyMerged.length} merged grana.`);
+
+      - name: ✅ Nema grana za merge
+        if: steps.find-branches.outputs.count == '0'
+        run: |
+          echo "## ✅ Sve grane su već merge-ovane u main!" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Već merged grana:** ${{ steps.find-branches.outputs.already_merged }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Nema novih promena za merge." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 📊 Završni izveštaj
+        if: always()
+        run: |
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "---" >> "$GITHUB_STEP_SUMMARY"
+          echo "*🔀 Omega Mega Merge — $(date -u +%Y-%m-%dT%H:%M:%SZ)*" >> "$GITHUB_STEP_SUMMARY"
