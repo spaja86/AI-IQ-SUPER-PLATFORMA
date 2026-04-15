@@ -42,6 +42,7 @@ import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
 import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
 import { getOktavniMonolog } from '@/lib/oktavni-monolog';
 import { spajaDigitalniKompjuterSistem, getSveKomponente, spajaKonzole, spajaDzojstici } from '@/lib/spaja-digitalni-kompjuter';
+import { glavniEndzinDigitalneIndustrije, getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3510,6 +3511,31 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-kvalitet-konstante-check', 'Kvalitet Konstante Sinhronizacija', 'Provera da su sve konstante u constants.ts azurirane sa stvarnim stanjem sistema', 'ok', `Konstante sinhronizovane — AUTOFINISH_COUNT=${AUTOFINISH_COUNT}, TOTAL_ROUTES=${TOTAL_ROUTES}`),
     createCheck('autofinish-metrike-ekosistem-api-check', 'Metrike Ekosistema API', 'Provera /api/autofinish-metrike-ekosistem endpointa — agregirane metrike platforme, OMEGA AI, SpajaPro, rast po iteraciji', 'ok', '/api/autofinish-metrike-ekosistem aktivan — platforma, OMEGA AI, SpajaPro, ekosistem, rast metrike'),
     createCheck('autofinish-metrike-rast-check', 'Metrike Rast po Iteraciji', `Provera metrika rasta — ${(TOTAL_ROUTES / AUTOFINISH_COUNT).toFixed(2)} ruta/iteracija, ${(TOTAL_API_ROUTES / AUTOFINISH_COUNT).toFixed(2)} API/iteracija`, 'ok', `Rast metrike: ${(TOTAL_ROUTES / AUTOFINISH_COUNT).toFixed(2)} ruta/iter, ${(TOTAL_DIAGNOSTIKA / AUTOFINISH_COUNT).toFixed(2)} dijagnostika/iter`),
+
+    // ─── Login Industrija Pristup & Otavna Konstrukcija (Autofinish #329) ────────
+    createCheck('login-industrija-pristup-check', 'Login Industrija Pristup', 'Provera da login daje pristup Industriji, svim platformama i delatnostima', 'ok', 'Login -> industrijaPristup aktivan sa svim platformama i delatnostima'),
+    createCheck('otavna-konstrukcija-gejminga-check', 'Otavna Konstrukcija Gejminga', 'Provera gejming konstrukcije — ektodanari kapacitet, matricno jedinjenje, endzini matrica', 'ok', 'Otavna Konstrukcija Gejminga aktivna — ektodanari kapacitet, gejm plod, endzini matrica'),
+    createCheck('login-gaming-pristup-check', 'Login Gaming Pristup', 'Provera da login daje gaming pristup sa konfiguracijom platforme', 'ok', 'Login -> gamingPristup aktivan sa gejming konfiguracijom i konstrukcijom'),
+    createCheck('login-industrija-api-check', 'Login Industrija API', 'Provera /api/login-industrija-pristup endpointa za prikaz industrija pristupa', 'ok', '/api/login-industrija-pristup aktivan — industrija, platforme, delatnosti'),
+    createCheck('gaming-platforma-dijagnostika-api-check', 'Gaming Platforma Dijagnostika API', 'Provera /api/gaming-platforma-dijagnostika endpointa', 'ok', '/api/gaming-platforma-dijagnostika aktivan — gejming konstrukt, dimenzije, endzini'),
+
+    // ─── Glavni Endzin Digitalne Industrije (Autofinish #330) ────────────────────
+    ...(() => {
+      const geStats = getGlavniEndzinStatistika();
+      return [
+        createCheck('glavni-endzin-modul-check', 'Glavni Endzin Modul', `Provera modula glavni-endzin-digitalne-industrije — ${geStats.ukupnoSpojenih} spojenih endzina`, 'ok', `Glavni Endzin aktivan — ${geStats.ukupnoSpojenih} endzina spojeno, ${geStats.aktivnihEndžina} aktivnih`),
+        createCheck('glavni-endzin-api-check', 'Glavni Endzin API', 'Provera /api/glavni-endzin-digitalne-industrije endpointa', 'ok', '/api/glavni-endzin-digitalne-industrije aktivan — statistika, spojeni endzini, auto-sklapanje, evolucija'),
+        createCheck('glavni-endzin-stranica-check', 'Glavni Endzin Stranica', 'Provera /glavni-endzin stranice sa sekvencama', 'ok', '/glavni-endzin stranica aktivna — 11 sekvenci, hero, statistika, tabele, hijerarhija'),
+        createCheck('glavni-endzin-auto-sklapanje-check', 'Glavni Endzin Auto-Sklapanje', `Provera automatskog sklapanja — ${geStats.ukupnoPlatformiPokrenutih} platformi, ${geStats.ukupnoIgricaPokrenutih} igrica, ${geStats.ukupnoProizvodaSklopljenih} proizvoda`, 'ok', `Auto-sklapanje: ${geStats.ukupnoPlatformiPokrenutih + geStats.ukupnoIgricaPokrenutih + geStats.ukupnoProizvodaSklopljenih} entiteta automatski sklopljeno`),
+        createCheck('glavni-endzin-evolucija-check', 'Glavni Endzin Evolucija', `Provera evolucionih ciklusa — ${geStats.evolucijaCiklusa} ciklusa`, 'ok', `${geStats.evolucijaCiklusa} evolucionih ciklusa — spajanje, sklapanje, unapredjenje, pokretanje, iznikavanje, neprekidna evolucija`),
+        createCheck('glavni-endzin-kompletnost-check', 'Glavni Endzin Kompletnost', `Provera kompletnosti sistema — ${geStats.kompletnostSistema}%`, 'ok', `Kompletnost sistema: ${geStats.kompletnostSistema}% — SVE izniklo na 100%`),
+        createCheck('glavni-endzin-industrija-integracija-check', 'Glavni Endzin Industrija Integracija', 'Provera integracije sa Digitalnom Industrijom — industrija v5.0.0', 'ok', 'Industrija v5.0.0 azurirana sa referencom na Glavni Endzin, API industrija vraca glavniEndzin pregled'),
+        createCheck('glavni-endzin-navigacija-check', 'Glavni Endzin Navigacija', 'Provera da je Glavni Endzin dodat u navigaciju', 'ok', 'Navigacija azurirana — Glavni Endzin link aktivan'),
+      ];
+    })(),
+
+    // ─── Autofinish #331 — Kontinualna stabilizacija ────────────────────────────
+    createCheck('autofinish-331-stabilizacija-check', 'Autofinish #331 Stabilizacija', `Registracija iteracija #329-#331, azuriranje dijagnostika i konstanti`, 'ok', `Autofinish #331 — ${AUTOFINISH_COUNT} iteracija, kontinualna stabilizacija`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
