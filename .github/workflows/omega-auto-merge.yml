@@ -73,6 +73,18 @@ jobs:
                 });
                 
                 console.log(`✅ PR #${pr.number} uspešno merge-ovan!`);
+                
+                // Obriši source branch nakon merge-a
+                try {
+                  await github.rest.git.deleteRef({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: `heads/${pr.head.ref}`,
+                  });
+                  console.log(`🗑️ Obrisana grana: ${pr.head.ref}`);
+                } catch (delErr) {
+                  console.log(`⚠️ Nije moguće obrisati granu ${pr.head.ref}: ${delErr.message}`);
+                }
               } catch (e) {
                 console.log(`❌ PR #${pr.number}: Greška pri merge-u: ${e.message}`);
               }

@@ -1,0 +1,204 @@
+# ═══════════════════════════════════════════════════════════
+# 🧹 OMEGA Branch Cleanup — Automatsko brisanje merged grana
+# ═══════════════════════════════════════════════════════════
+#
+# 1. Automatski briše source branch nakon merge-a PR-a
+# 2. Može se pokrenuti ručno za brisanje SVIH merged grana
+# 3. Zakazano čišćenje jednom nedeljno (nedelja u 04:00 UTC)
+#
+
+name: 🧹 Omega Branch Cleanup
+
+on:
+  # Automatski nakon svakog merge-a PR-a
+  pull_request:
+    types: [closed]
+
+  # Zakazano — jednom nedeljno (nedelja u 04:00 UTC)
+  schedule:
+    - cron: '0 4 * * 0'
+
+  # Ručno pokretanje za masovno čišćenje
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Samo prikaži koje grane bi bile obrisane (bez brisanja)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  contents: write
+
+jobs:
+  # ─── Job 1: Brisanje branch-a nakon merge-a PR-a ───
+  delete-merged-pr-branch:
+    name: 🧹 Briši branch nakon merge-a
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    steps:
+      - name: 🗑️ Briši source branch
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+
+            // Ne briši main
+            if (branch === 'main') {
+              console.log('⏭️ Preskačem main branch.');
+              return;
+            }
+
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `heads/${branch}`,
+              });
+              console.log(`✅ Obrisana grana: ${branch}`);
+              core.summary.addRaw(`✅ Obrisana grana: \`${branch}\` nakon merge-a PR #${context.payload.pull_request.number}\n`);
+              await core.summary.write();
+            } catch (e) {
+              console.log(`⚠️ Nije moguće obrisati granu ${branch}: ${e.message}`);
+            }
+
+  # ─── Job 2: Masovno brisanje svih merged grana ───
+  bulk-cleanup:
+    name: 🧹 Masovno čišćenje merged grana
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 Pronađi i obriši merged grane
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const dryRun = '${{ inputs.dry_run }}' === 'true';
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Zaštićene grane koje se nikad ne brišu
+            const protectedBranches = new Set(['main', 'master', 'develop', 'staging', 'production']);
+
+            console.log(dryRun ? '🔍 DRY RUN — samo pregled' : '🗑️ BRISANJE merged grana');
+            console.log('');
+
+            // Dohvati main branch SHA
+            const mainRef = await github.rest.git.getRef({
+              owner,
+              repo,
+              ref: 'heads/main',
+            });
+            const mainSha = mainRef.data.object.sha;
+            console.log(`📌 Main branch SHA: ${mainSha}`);
+
+            // Lista svih grana (paginirano)
+            let allBranches = [];
+            let page = 1;
+            while (true) {
+              const resp = await github.rest.repos.listBranches({
+                owner,
+                repo,
+                per_page: 100,
+                page,
+              });
+              allBranches = allBranches.concat(resp.data);
+              if (resp.data.length < 100) break;
+              page++;
+            }
+
+            console.log(`📊 Ukupno grana: ${allBranches.length}`);
+
+            let deleted = 0;
+            let skipped = 0;
+            let notMerged = 0;
+            const results = [];
+
+            for (const branch of allBranches) {
+              const name = branch.name;
+
+              // Preskoči zaštićene grane
+              if (protectedBranches.has(name)) {
+                console.log(`⏭️ Zaštićena: ${name}`);
+                skipped++;
+                continue;
+              }
+
+              // Proveri da li je grana merged u main
+              try {
+                const comparison = await github.rest.repos.compareCommits({
+                  owner,
+                  repo,
+                  base: mainSha,
+                  head: branch.commit.sha,
+                });
+
+                // Ako je behind ili identical — merged je
+                const isMerged = comparison.data.status === 'behind' ||
+                                 comparison.data.status === 'identical' ||
+                                 comparison.data.ahead_by === 0;
+
+                if (!isMerged) {
+                  console.log(`⏭️ Nije merged (ahead by ${comparison.data.ahead_by}): ${name}`);
+                  notMerged++;
+                  continue;
+                }
+              } catch (e) {
+                console.log(`⚠️ Greška pri proveri ${name}: ${e.message}`);
+                skipped++;
+                continue;
+              }
+
+              if (dryRun) {
+                console.log(`🔍 Bi bila obrisana: ${name}`);
+                results.push(`- 🔍 \`${name}\` — bi bila obrisana`);
+                deleted++;
+              } else {
+                try {
+                  await github.rest.git.deleteRef({
+                    owner,
+                    repo,
+                    ref: `heads/${name}`,
+                  });
+                  console.log(`✅ Obrisana: ${name}`);
+                  results.push(`- ✅ \`${name}\``);
+                  deleted++;
+                } catch (e) {
+                  console.log(`❌ Greška: ${name} — ${e.message}`);
+                  results.push(`- ❌ \`${name}\` — ${e.message}`);
+                  skipped++;
+                }
+              }
+            }
+
+            // Izveštaj
+            const summary = [
+              `## 🧹 Branch Cleanup Izveštaj`,
+              ``,
+              `**Režim:** ${dryRun ? 'Dry Run (pregled)' : 'Brisanje'}`,
+              `**Ukupno grana:** ${allBranches.length}`,
+              `**Obrisano:** ${deleted}`,
+              `**Preskočeno (zaštićeno):** ${skipped}`,
+              `**Nije merged:** ${notMerged}`,
+              ``,
+              `### Detalji`,
+              ``,
+              ...results,
+            ].join('\n');
+
+            core.summary.addRaw(summary);
+            await core.summary.write();
+
+            console.log('');
+            console.log('=== REZIME ===');
+            console.log(`Ukupno: ${allBranches.length}`);
+            console.log(`Obrisano: ${deleted}`);
+            console.log(`Preskočeno: ${skipped}`);
+            console.log(`Nije merged: ${notMerged}`);
