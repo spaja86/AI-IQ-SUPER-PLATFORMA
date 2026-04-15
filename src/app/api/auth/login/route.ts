@@ -88,10 +88,10 @@ export async function POST(request: NextRequest) {
       ip,
       userAgent,
       outcome: 'DENIED',
-      details: { reason: 'invalid_credentials', email: body.email },
+      details: { reason: 'invalid_credentials' },
     });
 
-    console.error(`[OMEGA-AUTH] Login failed for ${body.email} from IP ${ip}`);
+    console.error(`[OMEGA-AUTH] Login failed from IP ${ip}`);
 
     return NextResponse.json(
       { error: 'Neispravni podaci za prijavu' },
@@ -109,10 +109,10 @@ export async function POST(request: NextRequest) {
     ip,
     userAgent,
     outcome: 'SUCCESS',
-    details: { clearanceLevel: result.identity.clearanceLevel, email: body.email },
+    details: { clearanceLevel: result.identity.clearanceLevel },
   });
 
-  console.info(`[OMEGA-AUTH] Login success for ${body.email} (clearance: ${result.identity.clearanceLevel})`);
+  console.info(`[OMEGA-AUTH] Login success (clearance: ${result.identity.clearanceLevel})`);
 
   // Priprema pristupa industriji i gaming platformi
   const industrijaStats = getIndustrijaStats();
