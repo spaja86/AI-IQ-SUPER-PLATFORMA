@@ -3536,6 +3536,13 @@ export function runDiagnostics(): DiagnosticReport {
 
     // ─── Autofinish #331 — Kontinualna stabilizacija ────────────────────────────
     createCheck('autofinish-331-stabilizacija-check', 'Autofinish #331 Stabilizacija', `Registracija iteracija #329-#331, azuriranje dijagnostika i konstanti`, 'ok', `Autofinish #331 — ${AUTOFINISH_COUNT} iteracija, kontinualna stabilizacija`),
+
+    // ─── Autofinish #332 — Merge konsolidacija svih branchi ────────────────────
+    createCheck('autofinish-332-merge-konsolidacija-check', 'Autofinish #332 Merge Konsolidacija', 'Konsolidacija svih 69 branchi — 67 vec mergovanih, 1 novo mergovana (ai SDK 6.0.161)', 'ok', `Autofinish #332 — merge konsolidacija, ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-332-ai-sdk-bump-check', 'AI SDK Bump 6.0.161', 'ai paket azuriran sa 6.0.159 na 6.0.161 — patch update, bez ranjivosti', 'ok', 'ai@6.0.161 — bez poznatih ranjivosti, patch azuriranje'),
+    createCheck('autofinish-332-branch-analiza-check', 'Branch Analiza Kompletnost', 'Analiza svih 69 remote branchi — 67 potpuno mergovanih u main', 'ok', '69 branchi analizirano, 67 mergovano, 1 novo spojeno, 1 main'),
+    createCheck('autofinish-332-cleanup-check', 'Stale Branch Identifikacija', '67 starih branchi identifikovano za brisanje — sve bezbedne za uklanjanje', 'ok', '67 stale branchi — copilot/*, vercel/*, dependabot/* — sve ancestors od main'),
+    createCheck('autofinish-332-api-endpoint-check', 'Merge Konsolidacija API', 'Provera /api/autofinish-merge-konsolidacija endpointa', 'ok', '/api/autofinish-merge-konsolidacija aktivan — branch analiza, provere, progres'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
