@@ -23,9 +23,6 @@ import {
   getUkupnoPokrenutih,
   getKompletnostSistema,
   getGlavniEndzinPregled,
-  type SpojeniEndzin,
-  type AutoSklapanjeProizvod,
-  type GlavniEndzinStatistika,
 } from '../../lib/glavni-endzin-digitalne-industrije';
 
 import { generisaniEngini } from '../../lib/spaja-generator-engine';
@@ -33,7 +30,7 @@ import { endzinNadIgricama } from '../../lib/io-openui-ao-gaming-platforma';
 import { platforme } from '../../lib/platforme';
 import { products } from '../../lib/products';
 import { igrice } from '../../lib/igrice';
-import { OMEGA_AI_PERSONA_UKUPNO, TOTAL_IGRICA } from '../../lib/constants';
+import { OMEGA_AI_PERSONA_UKUPNO } from '../../lib/constants';
 
 // ─── Test Runner ──────────────────────────────────────────────────────────────
 
