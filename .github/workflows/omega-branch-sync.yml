@@ -1,62 +1,148 @@
 # ═══════════════════════════════════════════════════════════
-# 🔀 OMEGA Branch Sync — Sinhronizacija grana
+# 🔀 OMEGA Branch Sync — Dvosmerna sinhronizacija grana
 # ═══════════════════════════════════════════════════════════
 #
-# Jednom dnevno sinhronizuje main sa svim aktivnim granama.
-# Obezbeđuje da sve grane imaju najnovije promene.
+# 1. FAZA: Merge sve grane u main (grane → main)
+# 2. FAZA: Sinhronizuje main sa svim aktivnim granama (main → grane)
+#
+# Obezbeđuje da se sve promene konsoliduju u main
+# i da sve grane imaju najnovije promene.
 #
 
 name: 🔀 Omega Branch Sync
 
 on:
   schedule:
-    # Jednom dnevno u 03:00 UTC
-    - cron: '0 3 * * *'
+    # Dva puta dnevno: 03:00 i 15:00 UTC
+    - cron: '0 3,15 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  sync:
-    name: 🔀 Sinhronizacija grana
+  # ─── FAZA 1: Merge svih grana U main ───
+  merge-into-main:
+    name: 🔀 Faza 1 — Grane → Main
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          ref: main
 
-      - name: 🔀 Sinhronizuj grane
+      - name: 🔀 Merge grane u main
         run: |
           git config user.name "Omega Evolucioni Motor"
           git config user.email "omega-evolucija@spaja.rs"
-          
-          echo "## 🔀 Branch Sync Izveštaj" >> "$GITHUB_STEP_SUMMARY"
+
+          echo "## 🔀 Faza 1: Grane → Main" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          
-          # Lista copilot/* grana
-          BRANCHES=$(git branch -r | grep 'origin/copilot/' | sed 's/origin\///' | xargs)
-          
+
+          MERGED=0
+          FAILED=0
+          ALREADY=0
+
+          # Lista svih remote grana (ne samo copilot/*)
+          BRANCHES=$(git branch -r | grep -v HEAD | grep -v 'origin/main' | sed 's|origin/||' | xargs)
+
           for BRANCH in $BRANCHES; do
             BRANCH_CLEAN=$(echo "$BRANCH" | xargs)
             if [ -z "$BRANCH_CLEAN" ]; then continue; fi
-            
-            echo "Pokušavam sync: main → $BRANCH_CLEAN"
-            
+
+            # Proveri da li je grana već u main-u
+            AHEAD=$(git rev-list --count origin/main..origin/$BRANCH_CLEAN 2>/dev/null || echo "0")
+            if [ "$AHEAD" -eq 0 ]; then
+              ALREADY=$((ALREADY + 1))
+              continue
+            fi
+
+            echo "Pokušavam merge: $BRANCH_CLEAN → main (ahead by $AHEAD)"
+
+            if git merge "origin/$BRANCH_CLEAN" --no-edit -m "🔀 Auto-merge: $BRANCH_CLEAN → main"; then
+              echo "- ✅ **$BRANCH_CLEAN** (ahead by $AHEAD)" >> "$GITHUB_STEP_SUMMARY"
+              MERGED=$((MERGED + 1))
+            else
+              git merge --abort 2>/dev/null || true
+              echo "- ❌ **$BRANCH_CLEAN** — konflikti (ahead by $AHEAD)" >> "$GITHUB_STEP_SUMMARY"
+              FAILED=$((FAILED + 1))
+            fi
+          done
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Rezultat:** $MERGED merge-ovano, $FAILED konflikata, $ALREADY već u main-u" >> "$GITHUB_STEP_SUMMARY"
+
+          # Push main ako ima promena
+          if [ "$MERGED" -gt 0 ]; then
+            git push origin main
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "✅ Main ažuriran sa $MERGED grana!" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  # ─── FAZA 2: Sync main nazad u sve grane ───
+  sync-from-main:
+    name: 🔀 Faza 2 — Main → Grane
+    needs: merge-into-main
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: 🔀 Sinhronizuj grane sa main-om
+        run: |
+          git config user.name "Omega Evolucioni Motor"
+          git config user.email "omega-evolucija@spaja.rs"
+
+          echo "## 🔀 Faza 2: Main → Grane" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          SYNCED=0
+          FAILED=0
+          UPTODATE=0
+
+          # Lista copilot/* grana
+          BRANCHES=$(git branch -r | grep 'origin/copilot/' | sed 's|origin/||' | xargs)
+
+          for BRANCH in $BRANCHES; do
+            BRANCH_CLEAN=$(echo "$BRANCH" | xargs)
+            if [ -z "$BRANCH_CLEAN" ]; then continue; fi
+
+            # Proveri da li grana zaostaje za main-om
+            BEHIND=$(git rev-list --count origin/$BRANCH_CLEAN..origin/main 2>/dev/null || echo "0")
+            if [ "$BEHIND" -eq 0 ]; then
+              UPTODATE=$((UPTODATE + 1))
+              continue
+            fi
+
+            echo "Pokušavam sync: main → $BRANCH_CLEAN (behind by $BEHIND)"
+
             git checkout "$BRANCH_CLEAN" 2>/dev/null || git checkout -b "$BRANCH_CLEAN" "origin/$BRANCH_CLEAN" 2>/dev/null || {
               echo "- ⚠️ **$BRANCH_CLEAN**: Nije moguće checkout" >> "$GITHUB_STEP_SUMMARY"
+              FAILED=$((FAILED + 1))
+              git checkout main 2>/dev/null
               continue
             }
-            
-            if git merge origin/main --no-edit 2>/dev/null; then
-              git push origin "$BRANCH_CLEAN" 2>/dev/null && \
-                echo "- ✅ **$BRANCH_CLEAN**: Sinhronizovana" >> "$GITHUB_STEP_SUMMARY" || \
+
+            if git merge origin/main --no-edit -m "🔀 Sync: main → $BRANCH_CLEAN"; then
+              git push origin "$BRANCH_CLEAN" 2>/dev/null && {
+                echo "- ✅ **$BRANCH_CLEAN** (behind by $BEHIND)" >> "$GITHUB_STEP_SUMMARY"
+                SYNCED=$((SYNCED + 1))
+              } || {
                 echo "- ⚠️ **$BRANCH_CLEAN**: Merge OK, push neuspešan" >> "$GITHUB_STEP_SUMMARY"
+                FAILED=$((FAILED + 1))
+              }
             else
               git merge --abort 2>/dev/null
-              echo "- ❌ **$BRANCH_CLEAN**: Konflikti — potrebna ručna intervencija" >> "$GITHUB_STEP_SUMMARY"
+              echo "- ❌ **$BRANCH_CLEAN**: Konflikti" >> "$GITHUB_STEP_SUMMARY"
+              FAILED=$((FAILED + 1))
             fi
-            
+
             git checkout main 2>/dev/null
           done
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Rezultat:** $SYNCED sinhronizovano, $FAILED neuspešno, $UPTODATE već ažurno" >> "$GITHUB_STEP_SUMMARY"
