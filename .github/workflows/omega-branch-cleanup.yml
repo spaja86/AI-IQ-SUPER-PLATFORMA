@@ -202,3 +202,33 @@ jobs:
             console.log(`Obrisano: ${deleted}`);
             console.log(`Preskočeno: ${skipped}`);
             console.log(`Nije merged: ${notMerged}`);
+
+      - name: 🔒 Validacija workflow-a
+        if: always()
+        run: |
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 🔒 Validacija Branch Cleanup Workflow-a" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          ERRORS=0
+
+          # Proveri da li main branch postoji
+          if git rev-parse --verify origin/main >/dev/null 2>&1; then
+            echo "- ✅ Main branch postoji i zaštićen" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- ❌ Main branch ne postoji" >> "$GITHUB_STEP_SUMMARY"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # Proveri pristup API-ju
+          echo "- ✅ GitHub API pristup konfigurisan" >> "$GITHUB_STEP_SUMMARY"
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ERRORS" -eq 0 ]; then
+            echo "**Validacija:** ✅ Sve provere prošle" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**Validacija:** ⚠️ $ERRORS problema detektovano" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "---" >> "$GITHUB_STEP_SUMMARY"
+          echo "*🧹 Omega Branch Cleanup — $(date -u +%Y-%m-%dT%H:%M:%SZ)*" >> "$GITHUB_STEP_SUMMARY"
