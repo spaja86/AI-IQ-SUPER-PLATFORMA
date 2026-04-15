@@ -3,6 +3,7 @@ import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩCryptoEngine } from '@/lib/auth/omega-crypto';
 import { getGlobalVault } from '@/lib/auth/omega-identity';
+import { ensureDemoSeeded } from '@/lib/auth/omega-auth';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { platforme } from '@/lib/platforme';
 import {
@@ -47,6 +48,9 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+
+    // Osiguraj da je demo nalog kreiran pre logina
+    await ensureDemoSeeded();
 
     // Verifikacija lozinke — pronadji korisnika u ΩIdentityVault
     const vault = getGlobalVault();
@@ -186,7 +190,8 @@ export async function POST(request: Request) {
       verzija: APP_VERSION,
       timestamp: new Date().toISOString(),
     });
-  } catch {
+  } catch (err) {
+    console.error('[OMEGA-LOGIN] /api/login error:', err);
     return NextResponse.json(
       { greska: 'Neispravan format zahteva.' },
       { status: 400 },
