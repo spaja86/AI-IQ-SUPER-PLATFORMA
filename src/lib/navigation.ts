@@ -27,6 +27,7 @@ export const navigation: NavItem[] = [
   { label: 'Proksi GitHub', href: '/proksi-github-deploy', icon: '🐙', description: 'Proksi GitHub Deploy sistem' },
   { label: 'WiFi Antena', href: '/proksi-wifi-antena', icon: '📶', description: 'Proksi WiFi Antena sistem' },
   { label: 'SPAJA Prompt', href: '/spaja-univerzalni-prompt', icon: '🎯', description: 'SPAJA Univerzalni Prompt' },
+  { label: 'Glavni Endžin', href: '/glavni-endzin', icon: '🏭', description: 'Glavni Endžin Digitalne Industrije — SVE endžine spojene u jedan' },
   { label: 'Generator Endžina', href: '/spaja-generator-engine', icon: '🔧', description: 'SPAJA Generator za Endžine — engine generator' },
   { label: 'Digitalni Brouvzer', href: '/spaja-digitalni-brouvzer', icon: '🌐', description: 'SPAJA Digitalni Brouvzer — EKSTREMNI — sopstveni motor, bekend, providni frontend, deploy, import, export' },
   { label: 'Laboratorija', href: '/io-openui-ao-laboratorija', icon: '🔬', description: 'IOOpenUIAO Laboratorija za Simulacije' },

@@ -195,3 +195,68 @@ export function getUkupnoKategorija(): number {
 export function getPlatformaUrl(): string {
   return IOOPENUIAO_URL;
 }
+
+// ─── Gejming Konstrukcija ────────────────────────────────
+
+/**
+ * 🎮 Otavna Konstrukcija Gejminga — Ektodanari Kapacitet
+ *
+ * Ektodanari kapacitet globalnog koda prema referentnoj ekskalaciji
+ * matricnog jedinjenja eksplatisan u sekvencionom obimu strukturnog
+ * koda i svih endzina u matricnom jedinjenju povratnog eportalskog
+ * ekvivalenta trevijananskog gejm ploda.
+ *
+ * Ovo je bazna konstrukcija koja ozivljava sve sto je u pitanju
+ * gejminga u okviru Digitalne Industrije Kompanije SPAJA.
+ */
+
+export interface GejmingKonstrukcija {
+  id: string;
+  naziv: string;
+  opis: string;
+  ektodanariKapacitet: {
+    globalniKod: string;
+    referentnaEkskalacija: string;
+    matricnoJedinjenje: string;
+    sekvencionObim: string;
+    strukturniKod: string;
+    endžiniMatrica: string;
+    eportalskaVeza: string;
+    trevijananskaVrednost: string;
+    gejmPlod: string;
+  };
+  endzini: string[];
+  aktivna: boolean;
+  verzija: string;
+  platformaUrl: string;
+}
+
+export const gejmingKonstrukcija: GejmingKonstrukcija = {
+  id: 'otavna-konstrukcija-gejminga',
+  naziv: 'Otavna Konstrukcija Gejminga — Ektodanari Kapacitet',
+  opis:
+    'Ektodanari kapacitet globalnog koda prema referentnoj ekskalaciji ' +
+    'matricnog jedinjenja eksplatisan u sekvencionom obimu strukturnog ' +
+    'koda i svih endzina u matricnom jedinjenju povratnog eportalskog ' +
+    'ekvivalenta trevijananskog gejm ploda.',
+  ektodanariKapacitet: {
+    globalniKod: 'Globalni kod gaming platforme — svi endzini i igrice objedinjeni',
+    referentnaEkskalacija: 'Referentna ekskalacija matricnog jedinjenja — skaliranje gaming resursa',
+    matricnoJedinjenje: 'Matricno jedinjenje svih 95 igrica sa SPAJA Univerzalnim Endzinom',
+    sekvencionObim: `Sekvencioni obim strukturnog koda — ${endzinNadIgricama.length} endzin instanci`,
+    strukturniKod: 'Strukturni kod svih gaming komponenti — dimenzije, endzini, optimizacija',
+    endžiniMatrica: `Matrica endzina — ${gamingStatistika.ukupnoKategorija} kategorija, ${gamingStatistika.prosecnaOptimizacija}% optimizacija`,
+    eportalskaVeza: `Eportalski ekvivalent — ${IOOPENUIAO_URL} (IO/OPENUI/AO portal)`,
+    trevijananskaVrednost: 'Trevijananska vrednost gejm ploda — dimenzionalno renderovanje 360D-5760D',
+    gejmPlod: `Gejm plod — ${gamingStatistika.ukupnoIgrica} igrica aktivno u opticaju na platformi`,
+  },
+  endzini: endzinNadIgricama.map((e) => e.endzinNaziv),
+  aktivna: true,
+  verzija: '1.0.0',
+  platformaUrl: IOOPENUIAO_URL,
+};
+
+/** Dohvati gejming konstrukciju */
+export function getGejmingKonstrukcija(): GejmingKonstrukcija {
+  return gejmingKonstrukcija;
+}

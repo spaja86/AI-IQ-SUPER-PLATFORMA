@@ -223,6 +223,9 @@ function getAutofinishOpis(n: number): string {
     304: 'Autofinish #304 — Ispravka status provera u autofinish petlji (OPERATIVNO/ZVANIČNO OTVORENO umesto ZAVRSENO), prosirenje na 9 podsistema (+Oktavni Monolog, +SpajaPro Engine), /api/autofinish-petlja-status endpoint za monitoring, 6 dijagnostika, 551 ruta, 507 API, 870 dijagnostike',
     315: 'Autofinish #315 — Kontinualna stabilizacija ekosistema, azuriranje konstanti i dijagnostika, 571 ruta, 525 API, 912 dijagnostike',
     316: 'Autofinish #316 — /api/auth-validacija-pregled, pregled validacije autentifikacije i lozinke, login password verifikacija, PBKDF2-SHA512, brute-force zastita, 5 dijagnostika, 578 ruta, 531 API, 917 dijagnostike',
+    329: 'Autofinish #329 — login-industrija-pristup, login daje pristup Industriji i svim delatnostima, gamingPristup sa Otavnom Konstrukcijom Gejminga, /api/login-industrija-pristup, /api/gaming-platforma-dijagnostika, 5 dijagnostika, 603 rute, 551 API, 580 dijagnostike',
+    330: 'Autofinish #330 — glavni-endzin-digitalne-industrije, spajanje SVIH endzina u jedan veliki unificirani Glavni Endzin, automatsko sklapanje gotovih proizvoda i igrica, 6 evolucionih ciklusa, /api/glavni-endzin-digitalne-industrije, /glavni-endzin stranica, industrija v5.0.0, 8 dijagnostika, 605 ruta, 552 API, 585 dijagnostike',
+    331: 'Autofinish #331 — kontinualna stabilizacija, registracija iteracija #329-#331 u autofinish API, 14 novih dijagnostika za login-industrija i Glavni Endzin, azuriranje konstanti na tacne vrednosti',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

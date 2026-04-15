@@ -4,8 +4,10 @@ import { sajtovi, getSajtoviPoKategoriji } from '@/lib/sajtovi';
 import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
 import { platforme } from '@/lib/platforme';
+import { getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
 
 const stats = getStatistike();
+const geStats = getGlavniEndzinStatistika();
 
 export const industrijaSekvence: Sekvenca[] = [
   {
@@ -62,7 +64,7 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
-        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, '40.000.562 OMEGA AI Persona', 'OpenAI Platforma (Sopstvena)', 'Proksi Mreža', 'SPAJA Mobilna Mreža', 'SPAJA Generator za Endžine', `Promptovi (${stats.ukupnoPromptova})`, `Igrice (${stats.ukupnoIgrica})`] },
+        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, '40.000.562 OMEGA AI Persona', 'OpenAI Platforma (Sopstvena)', 'Proksi Mreža', 'SPAJA Mobilna Mreža', 'SPAJA Generator za Endžine', `Glavni Endžin (${geStats.ukupnoSpojenih} endžina spojeno)`, `Promptovi (${stats.ukupnoPromptova})`, `Igrice (${stats.ukupnoIgrica})`] },
         { naziv: 'Platforme', ikona: '🌐', deca: ['Jezgro', 'Finansije', 'Globalno', 'AI', 'Alati'] },
         { naziv: 'Proksi Mreža', ikona: '📡', deca: ['Hipsoneurični Signal', 'Ekscentrični Modulator', 'Ekliptična Vez', 'Rezonantni Pojačavač'] },
         { naziv: 'SPAJA Mobilna Mreža', ikona: '📱', deca: ['+38177 Primarna', '+38188 Sekundarna', '+38178 Redundantna', '+38187 Globalna'] },
@@ -302,9 +304,10 @@ export const industrijaSekvence: Sekvenca[] = [
     naslov: '🚀 Istrazi ekosistem',
     redosled: 14,
     podaci: {
-      opis: 'ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. 40.000.562 OMEGA AI persona. SPAJA Generator za Endžine prevlači engine-e preko svih modula. Promptovi svuda.',
+      opis: `ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. 40.000.562 OMEGA AI persona. Glavni Endžin spaja ${geStats.ukupnoSpojenih} endžina i automatski sklapa gotove proizvode. Promptovi svuda.`,
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
+        { tekst: 'Glavni Endžin', href: '/glavni-endzin', stil: 'sekundarno' },
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },

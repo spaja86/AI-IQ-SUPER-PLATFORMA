@@ -40,3 +40,6 @@ export { omegaAiSuportSekvence } from './omega-ai-suport-page';
 
 // ── Digitalna Platforma ─────────────────────────────────────────────────────
 export { digitalnaPlatformaSekvence } from './digitalna-platforma-page';
+
+// ── Glavni Endžin Digitalne Industrije ──────────────────────────────────────
+export { glavniEndzinSekvence } from './glavni-endzin-page';

@@ -23,15 +23,18 @@ export const digitalnaIndustrija: DigitalnaIndustrija = {
   description:
     'ŽIVA FUNKCIONALNA Digitalna Industrija koja aktivno proizvodi platforme, organizacije, kompanije i IT proizvode. ' +
     'Ekosistem koji spaja sve u jednu celinu — od AI i finansija do globalne ekspanzije. ' +
-    `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona aktivno rade na svim platformama.`,
-  version: '4.0.0',
+    `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona aktivno rade na svim platformama. ` +
+    'Glavni Endžin Digitalne Industrije spaja SVE endžine u jedan i automatski sklapa gotove proizvode.',
+  version: '5.0.0',
   founded: '2024',
   mission:
     'ŽIVA FUNKCIONALNA korporacija — sveobuhvatni digitalni ekosistem koji povezuje platforme, organizacije i kompanije ' +
-    'u jedinstvenu industrijsku celinu sa 40.000.562 OMEGA AI persona. Sve je aktivno, sve proizvodi.',
+    'u jedinstvenu industrijsku celinu sa 40.000.562 OMEGA AI persona. Sve je aktivno, sve proizvodi. ' +
+    'Glavni Endžin pokreće sve — susledice da sve iznikne na 100% i neprekidno evolvira.',
   vision:
     'Globalni lider u digitalnoj industriji — ŽIVA FUNKCIONALNA korporacija koja proizvodi i upravlja ' +
-    'mrežom platformi, organizacija i kompanija. Promptovi svuda, AI svuda, produkcija svuda.',
+    'mrežom platformi, organizacija i kompanija. Promptovi svuda, AI svuda, produkcija svuda. ' +
+    'SVE endžine spojene u Glavni Endžin koji automatski sklapa i neprekidno evolvira.',
   stats: computeStats(),
 };
 

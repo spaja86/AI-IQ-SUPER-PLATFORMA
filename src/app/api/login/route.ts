@@ -3,6 +3,15 @@ import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩCryptoEngine } from '@/lib/auth/omega-crypto';
 import { getGlobalVault } from '@/lib/auth/omega-identity';
+import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
+import { platforme } from '@/lib/platforme';
+import {
+  gamingStatistika,
+  gamingKonfiguracija,
+  gejmingKonstrukcija,
+  getAktivneIgriceSaEndzinom,
+  IOOPENUIAO_URL,
+} from '@/lib/io-openui-ao-gaming-platforma';
 
 /**
  * POST /api/login — Autentifikacija korisnika
@@ -115,13 +124,65 @@ export async function POST(request: Request) {
       },
     };
 
+    // Pristup industriji i svim delatnostima nakon logovanja
+    const industrijaStats = getIndustrijaStats();
+    const aktivneIgrice = getAktivneIgriceSaEndzinom();
+    const industrijaPristup = {
+      aktiviran: true,
+      naziv: digitalnaIndustrija.name,
+      opis: digitalnaIndustrija.description,
+      misija: digitalnaIndustrija.mission,
+      vizija: digitalnaIndustrija.vision,
+      statistika: industrijaStats,
+      platforme: platforme.map((p) => ({
+        id: p.id,
+        naziv: p.naziv,
+        kategorija: p.kategorija,
+        url: `https://${p.deploy.domen}`,
+        status: p.deploy.status,
+      })),
+      delatnosti: [
+        'Digitalna Industrija',
+        'Gaming Platforma',
+        'AI Platforma',
+        'Finansije',
+        'Proksi Mreza',
+        'Mobilna Mreza',
+        'IT Proizvodi',
+        'SpajaPro Engine',
+        'SPAJA Generator za Endzine',
+        'OpenAI Platforma',
+      ],
+    };
+
+    // Gaming platforma i Otavna Konstrukcija Gejminga
+    const gamingPristup = {
+      aktiviran: true,
+      platforma: gamingKonfiguracija.platformaNaziv,
+      url: IOOPENUIAO_URL,
+      domen: gamingKonfiguracija.domen,
+      ukupnoIgrica: gamingStatistika.ukupnoIgrica,
+      aktivnihIgrica: aktivneIgrice.length,
+      kategorija: gamingStatistika.ukupnoKategorija,
+      optimizacija: `${gamingStatistika.prosecnaOptimizacija}%`,
+      gejmingKonstrukcija: {
+        id: gejmingKonstrukcija.id,
+        naziv: gejmingKonstrukcija.naziv,
+        opis: gejmingKonstrukcija.opis,
+        ektodanariKapacitet: gejmingKonstrukcija.ektodanariKapacitet,
+        aktivna: gejmingKonstrukcija.aktivna,
+      },
+    };
+
     return NextResponse.json({
       uspesno: true,
       poruka: jeVlasnik
-        ? `Dobrodosli, vlasniku! VIP pristup aktiviran. ${KOMPANIJA} — Digitalna Industrija. Digitalni Kompjuter aktiviran.`
-        : `Uspesno prijavljivanje! Dobrodosli u ${KOMPANIJA} ekosistem. Digitalni Kompjuter aktiviran.`,
+        ? `Dobrodosli, vlasniku! VIP pristup aktiviran. ${KOMPANIJA} — Digitalna Industrija. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`
+        : `Uspesno prijavljivanje! Dobrodosli u ${KOMPANIJA} ekosistem. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`,
       sesija,
       digitalniKompjuter,
+      industrijaPristup,
+      gamingPristup,
       verzija: APP_VERSION,
       timestamp: new Date().toISOString(),
     });
@@ -136,11 +197,13 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({
     sistem: 'Login — Digitalna Industrija',
-    opis: 'POST /api/login sa { email, lozinka } za prijavljivanje — svaki korisnik dobija aktiviran Digitalni Kompjuter sa svim komponentama',
+    opis: 'POST /api/login sa { email, lozinka } za prijavljivanje — svaki korisnik dobija aktiviran Digitalni Kompjuter sa svim komponentama, pristup industriji i svim delatnostima, platformama, ekosistemu, i gaming platformi sa Otavnom Konstrukcijom Gejminga',
     verzija: APP_VERSION,
     kompanija: KOMPANIJA,
     metode: ['email', 'google', 'github', 'telefon'],
     digitalniKompjuter: 'Automatski se aktivira pri loginu — SPAJA Maticna Ploca, Server, Procesor, Cip, Procesor 2, Cip 2, BIOS, Hard Disk, RAM, GPU, Graficka, Graficka 1, Tastatura i Mis, Monitoring Live',
+    industrijaPristup: 'Logovanjem se dobija pristup industriji i svim delatnostima, platformama, ekosistemu i svemu ostalom',
+    gamingPristup: 'Gaming platforma sa Otavnom Konstrukcijom Gejminga — ektodanari kapacitet globalnog koda prema referentnoj ekskalaciji matricnog jedinjenja',
     status: 'aktivan',
     timestamp: new Date().toISOString(),
   });

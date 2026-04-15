@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #322 → #328 (Autologin rikvrst eksponencijalne funkcije ekstremnog nivoa)
+ * Autofinish #322 → #331 (Glavni Endzin Digitalne Industrije + kontinualna stabilizacija)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */

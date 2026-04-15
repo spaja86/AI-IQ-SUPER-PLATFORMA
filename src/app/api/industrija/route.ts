@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { APP_VERSION } from '@/lib/constants';
+import { getGlavniEndzinPregled } from '@/lib/glavni-endzin-digitalne-industrije';
 
 export async function GET() {
   const stats = getIndustrijaStats();
+  const glavniEndzin = getGlavniEndzinPregled();
 
   return NextResponse.json({
     status: 'operational',
@@ -26,6 +28,7 @@ export async function GET() {
       ukupnoProizvoda: stats.totalProducts,
       aktivnihProizvoda: stats.activeProducts,
     },
+    glavniEndzin,
     timestamp: new Date().toISOString(),
   });
 }
