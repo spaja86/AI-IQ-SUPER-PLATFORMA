@@ -163,13 +163,14 @@ jobs:
           MEGA_BRANCH="omega/mega-merge-$(date +%Y%m%d-%H%M%S)"
           git checkout -b "$MEGA_BRANCH" main
 
-          MERGED=0
-          FAILED=0
-          FAILED_LIST=""
-          MERGED_LIST=""
+          # Inicijalizuj temp fajlove
+          > /tmp/merged_branches.txt
+          > /tmp/merged_list.txt
+          > /tmp/failed_branches.txt
+          > /tmp/failed_list.txt
 
-          # Parsiraj JSON niz grana
-          echo "$BRANCHES" | jq -r '.[]' | while IFS= read -r BRANCH; do
+          # Parsiraj JSON niz grana — koristimo process substitution umesto pipe-a
+          while IFS= read -r BRANCH; do
             echo "::group::Merge: $BRANCH"
 
             # Fetch branch
@@ -192,17 +193,21 @@ jobs:
             fi
 
             echo "::endgroup::"
-          done
+          done < <(echo "$BRANCHES" | jq -r '.[]')
 
           # Prebroj rezultate
-          MERGED=$(wc -l < /tmp/merged_branches.txt 2>/dev/null || echo "0")
-          FAILED=$(wc -l < /tmp/failed_branches.txt 2>/dev/null || echo "0")
+          MERGED=$(wc -l < /tmp/merged_branches.txt)
+          FAILED=$(wc -l < /tmp/failed_branches.txt)
 
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "### ✅ Uspešno merge-ovane ($MERGED):" >> "$GITHUB_STEP_SUMMARY"
-          cat /tmp/merged_list.txt >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "- Nema" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$MERGED" -gt 0 ]; then
+            cat /tmp/merged_list.txt >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Nema" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
-          if [ -f /tmp/failed_list.txt ]; then
+          if [ "$FAILED" -gt 0 ]; then
             echo "" >> "$GITHUB_STEP_SUMMARY"
             echo "### ❌ Konflikti ($FAILED):" >> "$GITHUB_STEP_SUMMARY"
             cat /tmp/failed_list.txt >> "$GITHUB_STEP_SUMMARY"
@@ -212,7 +217,7 @@ jobs:
           echo "**Ukupno:** $MERGED uspešno, $FAILED konflikata" >> "$GITHUB_STEP_SUMMARY"
 
           # Push mega-merge granu
-          if [ "$MERGED" -gt 0 ] 2>/dev/null || [ "$(wc -l < /tmp/merged_branches.txt 2>/dev/null)" -gt 0 ]; then
+          if [ "$MERGED" -gt 0 ]; then
             git push origin "$MEGA_BRANCH"
             echo "mega_branch=$MEGA_BRANCH" >> "$GITHUB_OUTPUT"
             echo "merged_count=$MERGED" >> "$GITHUB_OUTPUT"
