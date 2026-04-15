@@ -31,7 +31,7 @@ export async function GET() {
         inverzX: inverzX !== null ? Math.round(inverzX * 10000) / 10000 : null,
         izvod: v.izvod,
         integral: v.integral,
-        rikvrst: inverzX !== null ? Math.round((v.fx / (inverzX + 1)) * 1000) / 1000 : 0,
+        rikvrst: inverzX !== null && inverzX !== -1 ? Math.round((v.fx / (inverzX + 1)) * 1000) / 1000 : 0,
       };
     });
 
