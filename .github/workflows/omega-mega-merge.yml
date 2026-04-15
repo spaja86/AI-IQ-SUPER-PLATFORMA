@@ -354,6 +354,45 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Nema novih promena za merge." >> "$GITHUB_STEP_SUMMARY"
 
+      - name: 🔒 Validacija workflow-a
+        if: always()
+        run: |
+          echo "### 🔒 Validacija workflow-a" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          ERRORS=0
+
+          # Proveri da li main branch postoji
+          if git rev-parse --verify origin/main >/dev/null 2>&1; then
+            echo "- ✅ Main branch postoji" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- ❌ Main branch ne postoji" >> "$GITHUB_STEP_SUMMARY"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # Proveri git konfiguraciju
+          if git config user.name >/dev/null 2>&1; then
+            echo "- ✅ Git konfiguracija ispravna" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- ❌ Git konfiguracija nije postavljena" >> "$GITHUB_STEP_SUMMARY"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # Proveri da li jq postoji
+          if command -v jq >/dev/null 2>&1; then
+            echo "- ✅ jq je dostupan" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- ❌ jq nije instaliran" >> "$GITHUB_STEP_SUMMARY"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ERRORS" -eq 0 ]; then
+            echo "**Validacija:** ✅ Sve provere prošle" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**Validacija:** ⚠️ $ERRORS problema detektovano" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: 📊 Završni izveštaj
         if: always()
         run: |

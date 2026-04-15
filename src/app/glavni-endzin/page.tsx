@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
 import { glavniEndzinSekvence } from '@/lib/sekvence/glavni-endzin-page';
+import GlavniEndzinDashboard from '@/components/GlavniEndzinDashboard';
 
 export const metadata: Metadata = {
   title: 'Glavni Endžin Digitalne Industrije',
@@ -10,5 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default function GlavniEndzin() {
-  return <StranicaRenderer sekvence={glavniEndzinSekvence} />;
+  return (
+    <div className="space-y-8">
+      <GlavniEndzinDashboard />
+      <StranicaRenderer sekvence={glavniEndzinSekvence} />
+    </div>
+  );
 }

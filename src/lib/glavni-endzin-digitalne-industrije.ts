@@ -322,7 +322,7 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     `Objedinjuje ${spojeniEndzini.length} endžina, ${sklopljeniProizvodi.length} sklopljenih proizvoda, ` +
     `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona.`,
   ikona: '🏭⚙️',
-  verzija: '1.0.0',
+  verzija: '2.0.0',
   status: 'aktivan',
   spojeniEndzini,
   autoSklapanje: sklopljeniProizvodi,
