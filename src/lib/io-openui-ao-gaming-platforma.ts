@@ -1,12 +1,13 @@
 /**
  * 🎮 IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin nad svim igricama
  *
- * Platforma IO/OPENUI/AO sa svim 95 igrica puštenim u opticaj.
+ * IO/OPENUI/AO sluzi kao laboratorija i demo za gaming platformu.
+ * Igrice se primarno koriste kroz Digitalnu Industriju (AI IQ SUPER PLATFORMA).
  * SPAJA Univerzalni Endžin je prevučen preko svake igrice posebno,
- * čime se obezbeđuje da sve igrice rade na IO/OPENUI/AO platformi.
+ * čime se obezbeđuje da sve igrice rade na platformi.
  *
- * Standardni URL: io-openui-ao.vercel.app
- * Vercel: io-openui-ao.vercel.app
+ * Primarni pristup: AI IQ SUPER PLATFORMA → Login → Gaming Pristup
+ * Laboratorija/Demo: io-openui-ao.vercel.app
  *
  * Link: https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7
  */
@@ -151,11 +152,12 @@ export const gamingStatistika = izracunajStatistiku();
 export const ioOpenUIAOGamingPlatforma: IOOpenUIAOGamingPlatforma = {
   naziv: 'IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin',
   opis:
-    'Platforma IO/OPENUI/AO sa svim 95 igrica puštenim u opticaj. ' +
+    'Igrice se primarno koriste kroz Digitalnu Industriju (AI IQ SUPER PLATFORMA). ' +
+    'IO/OPENUI/AO sluzi kao laboratorija i demo okruzenje. ' +
     'SPAJA Univerzalni Endžin je prevučen preko svake igrice posebno, ' +
     'čime se obezbeđuje dimenzionalno renderovanje (360D–5760D), ' +
     'SpajaPro 6-15 integracija, OMEGA AI podrška i Proksi mrežna optimizacija. ' +
-    `Standardni URL: ${IOOPENUIAO_URL}. Vercel fallback: https://${IOOPENUIAO_VERCEL}.`,
+    `Laboratorija/Demo URL: ${IOOPENUIAO_URL}. Vercel: https://${IOOPENUIAO_VERCEL}.`,
   verzija: '1.0.0',
   link: 'https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7',
   generatorLink: 'https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de',

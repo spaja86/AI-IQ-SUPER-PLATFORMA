@@ -12,11 +12,11 @@ export const sajtovi: Sajt[] = [
   },
   {
     id: 'io-openui-ao-repo',
-    naziv: 'IO OPENUI AO (Repo)',
+    naziv: 'IO OPENUI AO — Laboratorija i Demo (Repo)',
     url: 'https://github.com/spaja86/IO-OPENUI-AO',
-    ikona: '🖥️',
+    ikona: '🔬',
     kategorija: 'ekosistem',
-    opis: 'SpajaPro Engine + Laboratorija — GitHub repozitorijum',
+    opis: 'Laboratorija i Demo — SpajaPro Engine, Igrice se primarno koriste kroz Digitalnu Industriju',
   },
   {
     id: 'aiiq-menjacnica-repo',
