@@ -17,7 +17,7 @@ import {
 const labStatistika = getLaboratorijaStatistika();
 const aktivnihSim = getAktivneSimulacije().length;
 
-export const ioOpenUIAOAnalitikaSekve: Sekvenca[] = [
+export const ioOpenUIAOAnalitikaSekvence: Sekvenca[] = [
   {
     id: 'analitika-hero',
     tip: 'hero',
