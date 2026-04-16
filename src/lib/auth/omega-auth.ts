@@ -370,6 +370,7 @@ export function deleteTOTPSecret(userId: string): void {
 // ============================================================
 
 let _demoSeeded = false;
+let _seedPromise: Promise<void> | null = null;
 
 export async function seedDemoAccount(): Promise<void> {
   if (_demoSeeded) return;
@@ -397,5 +398,17 @@ export async function seedDemoAccount(): Promise<void> {
   vault.storeIdentity(demoIdentity);
 }
 
+/**
+ * Garantuje da je demo nalog kreiran pre nego sto se obradi login zahtev.
+ * Resava race condition u serverless okruzenju gde async seedDemoAccount
+ * mozda nije zavrseno kada stigne prvi login zahtev.
+ */
+export async function ensureDemoSeeded(): Promise<void> {
+  if (!_seedPromise) {
+    _seedPromise = seedDemoAccount();
+  }
+  return _seedPromise;
+}
+
 // Auto-seed demo nalog pri inicijalizaciji modula
-void seedDemoAccount();
+_seedPromise = seedDemoAccount();

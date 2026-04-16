@@ -3,10 +3,20 @@
 // POST /api/auth/login
 
 import { NextRequest, NextResponse } from 'next/server';
-import { ΩAuthProvider } from '@/lib/auth/omega-auth';
+import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
 import { checkBruteForce, recordFailedLoginAttempt, resetLoginAttempts } from '@/middleware/omega-security';
 import { ΩAuditLogger } from '@/middleware/omega-audit';
 import type { ΩLoginRequest } from '@/lib/auth/types';
+import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import {
+  gamingStatistika,
+  gamingKonfiguracija,
+  gejmingKonstrukcija,
+  getAktivneIgriceSaEndzinom,
+  IOOPENUIAO_URL,
+} from '@/lib/io-openui-ao-gaming-platforma';
+import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
+import { platforme } from '@/lib/platforme';
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
@@ -63,6 +73,9 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // Osiguraj da je demo nalog kreiran pre logina (resava race condition u serverless okruzenju)
+  await ensureDemoSeeded();
+
   const result = await ΩAuthProvider.login(body);
 
   if (!result) {
@@ -77,6 +90,8 @@ export async function POST(request: NextRequest) {
       outcome: 'DENIED',
       details: { reason: 'invalid_credentials' },
     });
+
+    console.error(`[OMEGA-AUTH] Login failed from IP ${ip}`);
 
     return NextResponse.json(
       { error: 'Neispravni podaci za prijavu' },
@@ -97,6 +112,54 @@ export async function POST(request: NextRequest) {
     details: { clearanceLevel: result.identity.clearanceLevel },
   });
 
+  console.info(`[OMEGA-AUTH] Login success (clearance: ${result.identity.clearanceLevel})`);
+
+  // Priprema pristupa industriji i gaming platformi
+  const industrijaStats = getIndustrijaStats();
+  const aktivneIgrice = getAktivneIgriceSaEndzinom();
+
+  const industrijaPristup = {
+    aktiviran: true,
+    naziv: digitalnaIndustrija.name,
+    statistika: industrijaStats,
+    platforme: platforme.map((p) => ({
+      id: p.id,
+      naziv: p.naziv,
+      kategorija: p.kategorija,
+      url: `https://${p.deploy.domen}`,
+      status: p.deploy.status,
+    })),
+    delatnosti: [
+      'Digitalna Industrija',
+      'Gaming Platforma',
+      'AI Platforma',
+      'Finansije',
+      'Proksi Mreza',
+      'Mobilna Mreza',
+      'IT Proizvodi',
+      'SpajaPro Engine',
+      'SPAJA Generator za Endzine',
+      'OpenAI Platforma',
+    ],
+  };
+
+  const gamingPristup = {
+    aktiviran: true,
+    platforma: gamingKonfiguracija.platformaNaziv,
+    url: IOOPENUIAO_URL,
+    domen: gamingKonfiguracija.domen,
+    ukupnoIgrica: gamingStatistika.ukupnoIgrica,
+    aktivnihIgrica: aktivneIgrice.length,
+    kategorija: gamingStatistika.ukupnoKategorija,
+    optimizacija: `${gamingStatistika.prosecnaOptimizacija}%`,
+    gejmingKonstrukcija: {
+      id: gejmingKonstrukcija.id,
+      naziv: gejmingKonstrukcija.naziv,
+      aktivna: gejmingKonstrukcija.aktivna,
+    },
+    pristupKrozIndustriju: true,
+  };
+
   const response = NextResponse.json({
     token: result.token,
     identity: {
@@ -116,6 +179,10 @@ export async function POST(request: NextRequest) {
       delatnosti: true,
       gejmingKonstrukcija: true,
     },
+    industrijaPristup,
+    gamingPristup,
+    verzija: APP_VERSION,
+    kompanija: KOMPANIJA,
   });
 
   // Postavi httpOnly kolačić za refresh token

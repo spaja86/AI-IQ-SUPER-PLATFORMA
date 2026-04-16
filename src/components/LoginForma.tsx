@@ -56,6 +56,7 @@ export default function LoginForma() {
         } else {
           setPoruka(data.error ?? 'Neispravni podaci za prijavu.');
         }
+        console.error('[OMEGA-LOGIN] Error:', res.status, data.error);
         return;
       }
 
@@ -70,6 +71,29 @@ export default function LoginForma() {
         clearanceLevel: data.identity.clearanceLevel ?? 1,
         expiresAt: data.expiresAt,
       });
+
+      // Sacuvaj pristup industriji i gaming platformi u localStorage
+      if (data.pristup) {
+        try {
+          localStorage.setItem('omega-pristup', JSON.stringify(data.pristup));
+        } catch {
+          // ignore
+        }
+      }
+      if (data.industrijaPristup) {
+        try {
+          localStorage.setItem('omega-industrija-pristup', JSON.stringify(data.industrijaPristup));
+        } catch {
+          // ignore
+        }
+      }
+      if (data.gamingPristup) {
+        try {
+          localStorage.setItem('omega-gaming-pristup', JSON.stringify(data.gamingPristup));
+        } catch {
+          // ignore
+        }
+      }
 
       if (zapamtiMe) {
         try {
