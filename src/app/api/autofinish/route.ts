@@ -228,6 +228,8 @@ function getAutofinishOpis(n: number): string {
     331: 'Autofinish #331 — kontinualna stabilizacija, registracija iteracija #329-#331 u autofinish API, 14 novih dijagnostika za login-industrija i Glavni Endzin, azuriranje konstanti na tacne vrednosti',
     332: 'Autofinish #332 — merge konsolidacija svih branchi u main, 69 branchi analizirano (67 vec mergovano, 1 novo mergovano — ai SDK 6.0.159→6.0.161), /api/autofinish-merge-konsolidacija, 5 dijagnostika, 604 rute, 553 API, 587 dijagnostike',
     333: 'Autofinish #333 — Glavni Endzin Dozvole: sve dozvole date Glavnom Endzinu, agent orkestracija (svi agenti slusaju i automatski rade), live Digitalna Industrija 24/7, auto-billing za Vercel i GitHub sa fallback na AI IQ World Bank, /api/autofinish-glavni-endzin-dozvole, 5 dijagnostika, 605 ruta, 554 API, 592 dijagnostike',
+    334: 'Autofinish #334 — profesionalni-login-platni-sistem, Stripe i PayPal rute za profesionalni login sa poslovnim mejlovima od AI IQ World Bank, verifikacioni sistem sa 8 koraka po provajderu (domen, DKIM/SPF, platni ID, iznos, identitet, timestamp, TLS, anti-fraud), 8 mejl ruta (4 Stripe + 4 PayPal), /api/profesionalni-login-stripe, /api/profesionalni-login-paypal, /api/profesionalni-login-mejl-verifikacija, 7 dijagnostika, 620 ruta, 568 API, 628 dijagnostike',
+    335: 'Autofinish #335 — /api/profesionalni-login-platni-pregled, unificirani pregled profesionalnog login platnog sistema sa Stripe i PayPal rutama, dijagnostika integriteta (7 provera: Stripe/PayPal ruta status, verifikacioni sistemi, aktivne mejl rute, poslovne adrese, platni sistem integritet), 7 dijagnostika, 621 ruta, 569 API, 635 dijagnostike',
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
