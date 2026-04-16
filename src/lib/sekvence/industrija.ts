@@ -23,10 +23,113 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: { opis: `Kompanija SPAJA kao ŽIVA FUNKCIONALNA digitalna industrija — sve platforme, kompanije, organizacije i proizvodi su AKTIVNI. ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona rade non-stop. Promptovi svuda, AI svuda, produkcija svuda.` },
   },
   {
+    id: 'industrija-vizuelni-prikaz',
+    tip: 'slika',
+    naslov: '🖼️ Digitalna Industrija — Vizuelni Prikaz',
+    podnaslov: 'AI tehnologija, automatizacija i digitalna transformacija',
+    redosled: 2,
+    podaci: {
+      opis: 'Vizuelni prikaz Digitalne Industrije — AI roboti, automatizovani sistemi i digitalna transformacija u akciji.',
+      slike: [
+        {
+          url: 'https://github.com/user-attachments/assets/49fe809a-344d-4750-b31d-2ceae6195c59',
+          alt: 'AI Robot sa hologramskim ekranom — Digitalna Industrija',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/8f1031e6-caa3-4fd1-b67b-9ff6073308ab',
+          alt: 'Digitalna Industrija — AI tehnologija i automatizacija',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/45775123-3213-4abc-8988-3384b13028ff',
+          alt: 'Digitalna Industrija — Vizija budućnosti',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/d62401fd-908d-4095-94a6-9d5bb17186b4',
+          alt: 'Digitalna Industrija — AI upravljanje sistemima',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/103d2f5f-090e-42d5-b88f-9da81484b203',
+          alt: 'Digitalna Industrija — Automatizovana produkcija',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/f4d02635-5947-4967-9e32-e7f4e424c0ea',
+          alt: 'Digitalna Industrija — Napredna AI infrastruktura',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/e004f6c7-4166-4e6f-9b5a-581c4be366a1',
+          alt: 'Digitalna Industrija — Digitalna transformacija',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/5b516e14-1518-42df-852c-736683eb33ab',
+          alt: 'Digitalna Industrija — AI kreativni likovi',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/2e0c6266-f12a-45ba-8e05-3c9fa7250325',
+          alt: 'Digitalna Industrija — Animirani AI svet',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/ebd6bebe-39fc-49ea-a7ac-0ce096bacee0',
+          alt: 'Digitalna Industrija — AI generisani karakteri',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/99581c24-eca2-48c9-ad07-0eaa4509a0f0',
+          alt: 'Digitalna Industrija — AI vizuelna produkcija',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/3f2ed236-4081-4d1f-b443-572ad4b7c4fd',
+          alt: 'Digitalna Industrija — AI noir detektiv',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/be8540ce-d22d-434c-9a53-76adb69d0093',
+          alt: 'Digitalna Industrija — Futuristicki AI agent',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/cbf82915-1916-452b-a410-91b0874565e0',
+          alt: 'Digitalna Industrija — AI robotski ratnik',
+          sirina: 600,
+          visina: 900,
+        },
+        {
+          url: 'https://github.com/user-attachments/assets/cb629cfd-98a7-4208-8781-9d02c7d2c3fd',
+          alt: 'Digitalna Industrija — Cyberpunk AI vizija',
+          sirina: 600,
+          visina: 900,
+        },
+      ],
+      raspored: 'galerija',
+    },
+  },
+  {
     id: 'industrija-tekst',
     tip: 'tekst',
     naslov: 'ŽIVA FUNKCIONALNA Digitalna Industrija',
-    redosled: 2,
+    redosled: 3,
     podaci: {
       sadrzaj: 'Digitalna Industrija je ŽIVA FUNKCIONALNA korporacija gde kompanija SPAJA funkcioniše kao industrijski kompleks u digitalnom svetu. Svaka platforma je aktivna fabrika, svaki IT proizvod je funkcionalan alat, a 40.000.562 OMEGA AI persona su radnici koji automatizuju sve procese. PROMPTOVI su svuda — u svakoj platformi, svakom proizvodu, svakom agentu.',
       istaknuteStavke: [
@@ -44,7 +147,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-statistika',
     tip: 'statistika',
     naslov: '📊 ŽIVA Industrija u brojevima',
-    redosled: 3,
+    redosled: 4,
     podaci: {
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
@@ -63,7 +166,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Struktura industrije',
-    redosled: 4,
+    redosled: 5,
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
@@ -78,7 +181,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-tabela',
     tip: 'tabela',
     naslov: '📋 Klasifikacija entiteta',
-    redosled: 5,
+    redosled: 6,
     podaci: {
       zaglavlje: ['Entitet', 'Tip', 'Broj', 'Status'],
       redovi: [
@@ -103,7 +206,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🌐 Platforme Digitalne Industrije',
     podnaslov: `${platforme.length} AKTIVNIH platformi — svi linkovi vode na standardne domene`,
-    redosled: 6,
+    redosled: 7,
     podaci: {
       kartice: platforme.map((p) => ({
         naslov: p.naziv,
@@ -119,7 +222,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🌐 Repozitorijumi Ekosistema',
     podnaslov: 'GitHub repozitorijumi Digitalne Industrije — svi linkovi aktivni',
-    redosled: 7,
+    redosled: 8,
     podaci: {
       kartice: getSajtoviPoKategoriji('ekosistem').map((s) => ({
         naslov: s.naziv,
@@ -135,7 +238,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🖥️ Digitalni Hardver — Zakup kao Usluga',
     podnaslov: 'Digitalni kompjuteri, GPU, RAM, brauzeri — nedeljni, mesečni, godišnji zakup',
-    redosled: 8,
+    redosled: 9,
     podaci: {
       kartice: [
         {
@@ -182,7 +285,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🎮 Igrice Digitalne Industrije',
     podnaslov: `${igrice.length} igrica u ${kategorijeIgrica.length} kategorija — sve se otvaraju i startupuju sa Digitalne Industrije`,
-    redosled: 9,
+    redosled: 10,
     podaci: {
       kartice: igrice.map((i) => ({
         naslov: `${i.ikona} ${i.naziv}`,
@@ -198,7 +301,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🤖 OpenAI Platforma — Sopstvena Platforma Digitalne Industrije',
     podnaslov: 'OpenAI NIJE partner — to je interna platforma Kompanije SPAJA koja non-stop evolvira unutar Digitalne Industrije',
-    redosled: 10,
+    redosled: 11,
     podaci: {
       kartice: [
         {
@@ -234,7 +337,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🤝 Tehnološki Partneri',
     podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju (OpenAI NIJE partner — to je sopstvena platforma)',
-    redosled: 11,
+    redosled: 12,
     podaci: {
       kartice: getSajtoviPoKategoriji('tehnoloski-partner').map((s) => ({
         naslov: s.naziv,
@@ -250,7 +353,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '👑 Najbolji Plan — SpajaPro Unlimited VIP',
     podnaslov: 'SpajaPro Unlimited VIP plan dostupan na svim delovima Digitalne Industrije i svim platformama',
-    redosled: 12,
+    redosled: 13,
     podaci: {
       kartice: [
         {
@@ -291,7 +394,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '📱 Društvene Mreže',
     podnaslov: 'Pratite Digitalnu Industriju na društvenim mrežama',
-    redosled: 13,
+    redosled: 14,
     podaci: {
       kartice: getSajtoviPoKategoriji('drustvena-mreza').map((s) => ({
         naslov: s.naziv,
@@ -306,7 +409,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-sajtovi-statistika',
     tip: 'statistika',
     naslov: '🔗 Povezani Sajtovi i Repozitorijumi',
-    redosled: 14,
+    redosled: 15,
     podaci: {
       stavke: [
         { naziv: 'Ukupno Sajtova', vrednost: sajtovi.length, ikona: '🌐' },
@@ -321,7 +424,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-cta',
     tip: 'cta',
     naslov: '🚀 Istrazi ekosistem',
-    redosled: 15,
+    redosled: 16,
     podaci: {
       opis: `ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. 40.000.562 OMEGA AI persona. Glavni Endžin spaja ${geStats.ukupnoSpojenih} endžina i automatski sklapa gotove proizvode. Promptovi svuda.`,
       dugmad: [
@@ -341,7 +444,7 @@ export const industrijaSekvence: Sekvenca[] = [
     naslov: '🚀 Zapocnite sa Digitalnom Industrijom',
     podnaslov: 'Registrujte se i pristupite SpajaPro AI — realnom AI asistentu',
     ikona: '🚀',
-    redosled: 16,
+    redosled: 17,
     podaci: {
       opis: 'Kreirajte besplatan nalog i isprobajte SpajaPro AI chatbot. Nadogradite plan za vise mogucnosti.',
       dugmad: [
