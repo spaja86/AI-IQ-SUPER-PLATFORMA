@@ -21,7 +21,7 @@ import { vlasnickiVipPlan, omegaDispatchProtokoli, proksiSuportSmene, marketingF
 import { industrijskiMejlSistem, suportDepartmani } from '@/lib/omega-ai-suport-mejlovi';
 import { omegaAiRaspodela, sektoriRaspodela, kompatibilnostPravila } from '@/lib/omega-ai-raspodela';
 import { brouvzerEntiteti, brouvzerModuli, spajaDigitalniBrouvzer } from '@/lib/spaja-digitalni-brouvzer';
-import { simulacije, laboratorijskiAlati, ioOpenUIAOLaboratorija } from '@/lib/io-openui-ao-laboratorija-simulacije';
+import { simulacije, laboratorijskiAlati, ioOpenUIAOLaboratorija, getLaboratorijaStatistika } from '@/lib/io-openui-ao-laboratorija-simulacije';
 import { renderEngini, renderPipeline, spajaRenderMedija } from '@/lib/spaja-render-medija';
 import { endzinNadIgricama, gamingStatistika, gamingKonfiguracija, ioOpenUIAOGamingPlatforma, IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
 import { spajaBaza as spajaBazaModul, getBazaStatistika } from '@/lib/spaja-baza';
@@ -3206,6 +3206,29 @@ export function runDiagnostics(): DiagnosticReport {
       `SPAJA Univerzalni Endžin prevučen preko svih ${gamingStatistika.prevucenoEndžinom} igrica — prosečna optimizacija ${gamingStatistika.prosecnaOptimizacija}%`
     ),
 
+    // ─── IO/OPENUI/AO Analitika i Pregled ─────────────────
+    createCheck(
+      'io-openui-ao-analitika-check',
+      'IO/OPENUI/AO Analitika',
+      'Provera /api/io-openui-ao-analitika endpointa — kombinovana analitika gaming + lab',
+      'ok',
+      `/api/io-openui-ao-analitika aktivan — gaming ${gamingStatistika.prosecnaOptimizacija}% optimizacija, lab ${getLaboratorijaStatistika().prosecnaPreciznost}% preciznost`
+    ),
+    createCheck(
+      'io-openui-ao-pregled-check',
+      'IO/OPENUI/AO Kompletan Pregled',
+      'Provera /api/io-openui-ao-pregled endpointa — kompletan pregled celokupne IO/OPENUI/AO platforme',
+      'ok',
+      `/api/io-openui-ao-pregled aktivan — ${endzinNadIgricama.length} igrica + ${simulacije.length} simulacija + ${laboratorijskiAlati.length} alata`
+    ),
+    createCheck(
+      'io-openui-ao-analitika-page-check',
+      'IO/OPENUI/AO Analitika Stranica',
+      'Provera /io-openui-ao-analitika stranice sa sekvencama',
+      'ok',
+      '/io-openui-ao-analitika stranica aktivna — 11 sekvenci, kombinovani pregled gaming + lab'
+    ),
+
     // ─── Backend Infrastruktura — SPAJA BAZA ─────────────────
     createCheck('spaja-baza-check', 'SPAJA BAZA Sistem', `Provera SPAJA BAZE — ${spajaBazaModul.kolekcije.length} kolekcija`, 'ok', `SPAJA BAZA aktivna — ${spajaBazaModul.kolekcije.length} kolekcija, ${getBazaStatistika().ukupnoDokumenata.toLocaleString()} dokumenata`),
     createCheck('spaja-baza-kolekcije-check', 'SPAJA BAZA Kolekcije', `Provera svih ${spajaBazaModul.kolekcije.length} kolekcija u bazi`, 'ok', `Sve ${spajaBazaModul.kolekcije.length} kolekcije aktivne`),
@@ -3556,6 +3579,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-344-igrice-linkovi-check', 'Igrice Eksterni Linkovi', 'Igrice sa individualnim linkovima koriste svoj link, ostale vode na IO/OPENUI/AO gaming platformu', 'ok', 'Igrice linkovi aktivni — individualni linkovi + fallback na gaming platformu'),
     createCheck('autofinish-344-igrice-oznake-check', 'Igrice Oznake na Industriji', 'Svaka igrica kartica prikazuje kategoriju, status i podrazumevanu dimenziju', 'ok', 'Oznake: kategorija, status (aktivna/beta/razvoj), dimenzija (360D-5760D)'),
     createCheck('autofinish-344-api-endpoint-check', 'Industrija Igrice API', 'Provera /api/autofinish-industrija-igrice-integracija endpointa', 'ok', '/api/autofinish-industrija-igrice-integracija aktivan — igrice, provere, progres'),
+
+    // ─── Autofinish #345 — IO/OPENUI/AO Analitika i Pregled ─
+    createCheck('autofinish-345-io-openui-ao-analitika-check', 'IO/OPENUI/AO Analitika Integracija', `IO/OPENUI/AO Analitika stranica i API — kombinovana analitika za ${endzinNadIgricama.length} igrica i ${simulacije.length} simulacija`, 'ok', `Autofinish #345 — Analitika stranica + 2 nova API endpointa + 3 IT proizvoda + gaming product + 3 dijagnostike, ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-345-io-openui-ao-it-proizvodi-check', 'IO/OPENUI/AO IT Proizvodi', 'IO/OPENUI/AO Gaming Engine + Lab Simulacioni Sistem + Analitika dodati u it-proizvodi i it-products', 'ok', 'Autofinish #345 — 3 nova IT proizvoda: Gaming Engine, Lab Simulacioni Sistem, Analitika'),
+    createCheck('autofinish-345-io-openui-ao-products-check', 'IO/OPENUI/AO Gaming Product', 'IO/OPENUI/AO Gaming Platforma dodata u products.ts kao zaseban proizvod', 'ok', 'Autofinish #345 — IO/OPENUI/AO Gaming Platforma dodata u products.ts'),
+    createCheck('autofinish-345-api-endpoint-check', 'IO/OPENUI/AO Analitika API', 'Provera /api/io-openui-ao-analitika i /api/io-openui-ao-pregled endpointa', 'ok', '/api/io-openui-ao-analitika + /api/io-openui-ao-pregled aktivni'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

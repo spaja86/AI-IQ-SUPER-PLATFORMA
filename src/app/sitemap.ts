@@ -45,6 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/io-openui-ao-laboratorija',
     '/spaja-render-medija',
     '/io-openui-ao-gaming-platforma',
+    '/io-openui-ao-analitika',
     '/pricing',
     '/digitalni-televizor',
     '/monitoring-live',
