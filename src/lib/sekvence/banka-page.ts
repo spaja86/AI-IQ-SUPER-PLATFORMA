@@ -201,10 +201,96 @@ export const bankaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'banka-misija-vizija',
+    tip: 'tekst',
+    naslov: '🎯 Misija i vizija AI IQ World Bank',
+    redosled: 12,
+    podaci: {
+      sadrzaj: 'AI IQ World Bank ima misiju da pruzi globalnu digitalnu banku sa naprednom vestackom inteligencijom koja optimizuje finansijske operacije za sve korisnike. Vizija je da postane vodeca digitalna banka koja spaja tradicionalno bankarstvo sa AI inovacijama.',
+      istaknuteStavke: [
+        '🎯 Misija: Globalna digitalna banka sa AI optimizacijom za sve korisnike',
+        '🔭 Vizija: Vodeca svetska AI banka sa 40% pozitivnom kamatnom stopom',
+        '💡 Inovacija: Spajanje tradicionalnog bankarstva sa naprednim AI tehnologijama',
+        '🌍 Globalni domet: Pristupacna iz svakog dela sveta 24/7',
+        '🤝 Vrednosti: Transparentnost, pouzdanost, sigurnost, pristupacnost',
+        '📈 Rast: Kontinuirano unapredjenje servisa kroz AI analitiku',
+      ],
+    },
+  },
+  {
+    id: 'banka-omega-ai-tehnologija',
+    tip: 'kartice',
+    naslov: '🧠 Omega AI Tehnologija',
+    podnaslov: 'Kako Omega AI pokrece AI IQ World Bank',
+    redosled: 13,
+    podaci: {
+      kartice: [
+        { naslov: 'AI Scoring sistem', opis: 'Omega AI analizira kreditnu sposobnost korisnika u realnom vremenu sa tacnoscu od 97%', ikona: '🎯', oznake: ['Omega AI', 'Real-time', '97% tacnost'] },
+        { naslov: 'AI Fraud detekcija', opis: 'Automatska detekcija sumnjivih transakcija pomocu naprednih Omega AI modela', ikona: '🛡️', oznake: ['Omega AI', 'Bezbednost', 'Automatska'] },
+        { naslov: 'AI Investicioni savetnik', opis: 'Omega AI daje pametne preporuke za investiranje u akcije, kripto i fondove', ikona: '📊', oznake: ['Omega AI', 'Investicije', 'Portfolio'] },
+        { naslov: 'AI Predikcija trzista', opis: 'Predvidjanje kretanja trzista na osnovu analize velikih podataka', ikona: '📈', oznake: ['Omega AI', 'Big Data', 'Predikcija'] },
+        { naslov: 'AI Optimizacija transakcija', opis: 'Automatska optimizacija rutiranja transakcija za najnize provizije', ikona: '⚡', oznake: ['Omega AI', 'Optimizacija', 'Instant'] },
+        { naslov: 'AI Korisnicka podrska', opis: 'Omega AI chatbot za 24/7 korisnicku podrsku i resavanje problema', ikona: '💬', oznake: ['Omega AI', '24/7', 'Chatbot'] },
+      ],
+    },
+  },
+  {
+    id: 'banka-smederevo-ekspanzija',
+    tip: 'tekst',
+    naslov: '🏙️ Smederevo Ekspanzija',
+    podnaslov: 'Ekspanzija AI IQ World Bank u Smederevu',
+    redosled: 14,
+    podaci: {
+      sadrzaj: 'AI IQ World Bank ima sediste u Smederevu, Srbija, odakle se siri globalno. Smederevo je centar digitalne transformacije — sve operacije, razvoj i upravljanje bankom polaze iz ovog grada. Ekspanzija obuhvata nove finansijske servise, partnerstva i tehnoloski razvoj.',
+      istaknuteStavke: [
+        '🏙️ Smederevo: Sediste AI IQ World Bank i Digitalne Industrije',
+        '🏦 ERSTE Banka DOO Smederevo: Zvanicni bankarski partner',
+        '🌍 Globalna ekspanzija: Iz Smedereva ka celom svetu',
+        '💻 Tehnoloski hub: Razvoj platformi, AI sistema i digitalnih servisa',
+        '🤝 Lokalna partnerstva: Saradnja sa lokalnim institucijama i kompanijama',
+        '📈 Rast: Kontinuirano sirenje servisa i korisnicke baze',
+      ],
+    },
+  },
+  {
+    id: 'banka-partneri',
+    tip: 'kartice',
+    naslov: '🤝 Partneri',
+    podnaslov: 'Bankarski i tehnoloski partneri AI IQ World Bank',
+    redosled: 15,
+    podaci: {
+      kartice: [
+        { naslov: 'ERSTE Banka DOO Smederevo', opis: 'Zvanicni bankarski partner — dinarski i devizni racuni za Digitalnu Industriju', ikona: '🏦', oznake: ['Bankarski partner', 'Smederevo', 'RSD/EUR/USD'] },
+        { naslov: 'Kompanija SPAJA', opis: 'Maticna kompanija koja upravlja celim digitalnim ekosistemom', ikona: '🏢', oznake: ['Maticna kompanija', 'Ekosistem', 'Digitalna Industrija'] },
+        { naslov: 'Omega AI', opis: 'AI tehnoloski partner — 40.000.562 AI persona za naprednu analitiku', ikona: '🧠', oznake: ['AI partner', '40M+ persona', 'Tehnologija'] },
+        { naslov: 'AI IQ Menjacnica', opis: 'Partnerska menjacnica za konverziju valuta i kripto trgovinu', ikona: '💱', oznake: ['Menjacnica', 'Kripto', 'Valute'] },
+        { naslov: 'Vercel', opis: 'Hosting i deploy partner za sve digitalne platforme', ikona: '▲', oznake: ['Hosting', 'Deploy', 'Cloud'] },
+        { naslov: 'GitHub', opis: 'Platforma za razvoj koda i upravljanje repozitorijumima', ikona: '🐙', oznake: ['Razvoj', 'Repozitorijumi', 'CI/CD'] },
+      ],
+    },
+  },
+  {
+    id: 'banka-kontakt-drustvene-mreze',
+    tip: 'lista',
+    naslov: '📱 Kontakt i drustvene mreze',
+    podnaslov: 'Ostanite povezani sa AI IQ World Bank',
+    redosled: 16,
+    podaci: {
+      stavke: [
+        { ikona: '📧', naslov: 'Email: spajicn@yahoo.com', opis: 'Primarni kontakt mejl za sve upite i saradnju' },
+        { ikona: '📧', naslov: 'Email: spajicn@gmail.com', opis: 'Sekundarni kontakt mejl za tehnicku podrsku' },
+        { ikona: '📘', naslov: 'Facebook: Spaja86', opis: 'Pratite nas na Facebook stranici za najnovije vesti — facebook.com/Spaja86' },
+        { ikona: '📸', naslov: 'Instagram: @spaja.1986', opis: 'Pratite nas na Instagramu za vizuelni sadrzaj — instagram.com/spaja.1986' },
+        { ikona: '🎵', naslov: 'TikTok: @spaja.1986', opis: 'Kratki video sadrzaji i finansijski saveti — tiktok.com/@spaja.1986' },
+        { ikona: '📺', naslov: 'YouTube: SpajaNikopEvolution', opis: 'Video sadrzaji, tutoriali i prezentacije — youtube.com/@spajanikopenevolution' },
+      ],
+    },
+  },
+  {
     id: 'banka-cta',
     tip: 'cta',
     naslov: '🚀 Zapocnite sa AI IQ World Bank',
-    redosled: 12,
+    redosled: 17,
     podaci: {
       opis: 'AI IQ World Bank — 40% pozitivna kamatna stopa mesecno. Ulozite 1.000 RSD, za mesec dana podignite 1.400 RSD. Ekstremno jaka i transparentna digitalna banka.',
       stavke: [
