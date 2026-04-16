@@ -108,7 +108,7 @@ export async function GET() {
       mejlovi: ['spajicn@yahoo.com', 'spajicn@gmail.com'],
       drustvneMreze: [
         { naziv: 'Facebook', url: 'https://www.facebook.com/Spaja86' },
-        { naziv: 'Facebook 2', url: 'https://www.facebook.com/profile.php?id=61583240952997' },
+        { naziv: 'Facebook (Digitalna Industrija)', url: 'https://www.facebook.com/profile.php?id=61583240952997' },
         { naziv: 'Instagram', url: 'https://www.instagram.com/spaja.1986' },
         { naziv: 'TikTok', url: 'https://www.tiktok.com/@spaja.1986' },
         { naziv: 'YouTube', url: 'https://www.youtube.com/@spajanikopenevolution' },

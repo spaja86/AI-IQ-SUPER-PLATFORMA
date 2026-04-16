@@ -16,7 +16,7 @@ export async function GET() {
     ],
     drustvneMreze: [
       { naziv: 'Facebook', url: 'https://www.facebook.com/Spaja86', korisnickoIme: 'Spaja86' },
-      { naziv: 'Facebook (Stranica 2)', url: 'https://www.facebook.com/profile.php?id=61583240952997', korisnickoIme: 'Digitalna Industrija' },
+      { naziv: 'Facebook (Digitalna Industrija)', url: 'https://www.facebook.com/profile.php?id=61583240952997', korisnickoIme: 'Digitalna Industrija' },
       { naziv: 'Instagram', url: 'https://www.instagram.com/spaja.1986', korisnickoIme: '@spaja.1986' },
       { naziv: 'TikTok', url: 'https://www.tiktok.com/@spaja.1986', korisnickoIme: '@spaja.1986' },
       { naziv: 'YouTube', url: 'https://www.youtube.com/@spajanikopenevolution', korisnickoIme: 'SpajaNikopEvolution' },
