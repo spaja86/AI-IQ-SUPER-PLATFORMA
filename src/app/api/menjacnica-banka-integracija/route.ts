@@ -18,7 +18,7 @@ export async function GET() {
     banka: {
       naziv: 'AI IQ World Bank',
       funkcija: 'Stedni racuni sa 40% kamatom, krediti, investicije',
-      kamatnaSstopa: '40%',
+      kamatnaStopa: '40%',
       racuni: '5000+',
       url: '/banka',
     },

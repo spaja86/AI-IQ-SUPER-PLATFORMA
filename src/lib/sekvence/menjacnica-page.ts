@@ -305,7 +305,7 @@ export const menjacnicaSekvence: Sekvenca[] = [
     id: 'menjacnica-kontakt-drustvene-mreze',
     tip: 'lista',
     naslov: '📱 Kontakt i drustvene mreze',
-    podnaslov: 'Ostanite povezani sa AI IQ Menjaenicom — odgovaramo u roku od 24 sata',
+    podnaslov: 'Ostanite povezani sa AI IQ Menjaenicom - odgovaramo u roku od 24 sata',
     redosled: 19,
     podaci: {
       stavke: [
