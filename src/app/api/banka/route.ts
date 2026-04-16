@@ -68,6 +68,52 @@ export async function GET() {
     },
     url: 'https://ai-iq-world-bank-git-copilot-n-697903-nikolas-projects-b8a8458f.vercel.app/index.html',
     repo: 'spaja86/Ai-Iq-World-Bank',
+    misijaIVizija: {
+      misija: 'Globalna digitalna banka sa AI optimizacijom za sve korisnike',
+      vizija: 'Vodeca svetska AI banka sa 40% pozitivnom kamatnom stopom',
+      vrednosti: ['Transparentnost', 'Pouzdanost', 'Sigurnost', 'Pristupacnost'],
+      inovacija: 'Spajanje tradicionalnog bankarstva sa naprednim AI tehnologijama',
+    },
+    omegaAiTehnologija: {
+      opis: 'Omega AI pokrece sve AI funkcije AI IQ World Bank',
+      funkcije: [
+        'AI Scoring sistem — analiza kreditne sposobnosti sa 97% tacnosti',
+        'AI Fraud detekcija — automatska detekcija sumnjivih transakcija',
+        'AI Investicioni savetnik — pametne preporuke za investiranje',
+        'AI Predikcija trzista — predvidjanje kretanja na osnovu big data',
+        'AI Optimizacija transakcija — najnize provizije automatski',
+        'AI Korisnicka podrska — 24/7 chatbot za resavanje problema',
+      ],
+    },
+    smederevoEkspanzija: {
+      lokacija: 'Smederevo, Srbija',
+      opis: 'Sediste AI IQ World Bank i Digitalne Industrije',
+      aktivnosti: [
+        'Sediste kompanije i centar razvoja',
+        'ERSTE Banka DOO Smederevo — zvanicni bankarski partner',
+        'Globalna ekspanzija iz Smedereva ka celom svetu',
+        'Tehnoloski hub za razvoj platformi i AI sistema',
+      ],
+    },
+    partneri: [
+      { naziv: 'ERSTE Banka DOO Smederevo', tip: 'bankarski', opis: 'Zvanicni bankarski partner' },
+      { naziv: 'Kompanija SPAJA', tip: 'maticna', opis: 'Maticna kompanija digitalnog ekosistema' },
+      { naziv: 'Omega AI', tip: 'tehnoloski', opis: 'AI tehnoloski partner sa 40M+ persona' },
+      { naziv: 'AI IQ Menjacnica', tip: 'finansijski', opis: 'Partnerska menjacnica za konverziju valuta' },
+      { naziv: 'Vercel', tip: 'hosting', opis: 'Hosting i deploy partner' },
+      { naziv: 'GitHub', tip: 'razvoj', opis: 'Platforma za razvoj i repozitorijume' },
+    ],
+    kontakt: {
+      vlasnik: 'Nikola Spajic',
+      mejlovi: ['spajicn@yahoo.com', 'spajicn@gmail.com'],
+      drustvneMreze: [
+        { naziv: 'Facebook', url: 'https://www.facebook.com/Spaja86' },
+        { naziv: 'Facebook (Digitalna Industrija)', url: 'https://www.facebook.com/profile.php?id=61583240952997' },
+        { naziv: 'Instagram', url: 'https://www.instagram.com/spaja.1986' },
+        { naziv: 'TikTok', url: 'https://www.tiktok.com/@spaja.1986' },
+        { naziv: 'YouTube', url: 'https://www.youtube.com/@spajanikopenevolution' },
+      ],
+    },
     racuniAiIqWorldBank: [
       {
         vlasnikRacuna: 'Digitalna Industrija',
