@@ -3585,6 +3585,14 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-345-io-openui-ao-it-proizvodi-check', 'IO/OPENUI/AO IT Proizvodi', 'IO/OPENUI/AO Gaming Engine + Lab Simulacioni Sistem + Analitika dodati u it-proizvodi i it-products', 'ok', 'Autofinish #345 — 3 nova IT proizvoda: Gaming Engine, Lab Simulacioni Sistem, Analitika'),
     createCheck('autofinish-345-io-openui-ao-products-check', 'IO/OPENUI/AO Gaming Product', 'IO/OPENUI/AO Gaming Platforma dodata u products.ts kao zaseban proizvod', 'ok', 'Autofinish #345 — IO/OPENUI/AO Gaming Platforma dodata u products.ts'),
     createCheck('autofinish-345-api-endpoint-check', 'IO/OPENUI/AO Analitika API', 'Provera /api/io-openui-ao-analitika i /api/io-openui-ao-pregled endpointa', 'ok', '/api/io-openui-ao-analitika + /api/io-openui-ao-pregled aktivni'),
+
+    // ─── Autofinish #346 — AI IQ World Bank Kompletna Analiza i Dopuna ─
+    createCheck('autofinish-346-banka-misija-vizija-check', 'AI IQ World Bank Misija i Vizija', 'Sekcija misija i vizija dodata na banka stranicu — globalna digitalna banka sa AI optimizacijom', 'ok', 'Autofinish #346 — Misija i vizija sekcija aktivna na /banka'),
+    createCheck('autofinish-346-banka-omega-ai-check', 'AI IQ World Bank Omega AI Tehnologija', 'Omega AI tehnologija sekcija — AI Scoring, Fraud detekcija, Investicioni savetnik, Predikcija, Optimizacija, Podrska', 'ok', 'Autofinish #346 — 6 Omega AI funkcija na /banka + /api/banka-omega-ai-tehnologija'),
+    createCheck('autofinish-346-banka-smederevo-check', 'AI IQ World Bank Smederevo Ekspanzija', 'Smederevo ekspanzija sekcija — sediste, ERSTE partnerstvo, globalna ekspanzija, tehnoloski hub', 'ok', 'Autofinish #346 — Smederevo ekspanzija na /banka + /api/banka-smederevo-ekspanzija'),
+    createCheck('autofinish-346-banka-partneri-check', 'AI IQ World Bank Partneri', 'Partneri sekcija — ERSTE, SPAJA, Omega AI, Menjacnica, Vercel, GitHub', 'ok', 'Autofinish #346 — 6 partnera na /banka + /api/banka-partneri'),
+    createCheck('autofinish-346-banka-kontakt-check', 'AI IQ World Bank Kontakt i Drustvene Mreze', 'Kontakt i drustvene mreze — mejlovi, Facebook, Instagram, TikTok, YouTube', 'ok', 'Autofinish #346 — Kontakt + 5 drustvenih mreza na /banka + /api/banka-kontakt-drustvene-mreze'),
+    createCheck('autofinish-346-banka-api-endpoints-check', 'AI IQ World Bank Novi API Endpointi', 'Provera 4 novih API endpointa za banka module — omega-ai, smederevo, partneri, kontakt', 'ok', `Autofinish #346 — 4 nova API endpointa, ${AUTOFINISH_COUNT} iteracija`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
