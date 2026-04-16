@@ -332,6 +332,58 @@ export const itProducts: ITProduct[] = [
     targetPlatforms: ["Sve platforme"],
     impact: "medium",
   },
+  // ── IO/OPENUI/AO Gaming & Lab ──────────────────────────────────────
+  {
+    id: "io-openui-ao-gaming-engine",
+    name: "IO/OPENUI/AO Gaming Engine",
+    description:
+      "Univerzalni gaming engine za IO/OPENUI/AO platformu — 95 igrica u 18 kategorija sa SPAJA Univerzalnim Endžinom i dimenzionalnim renderovanjem 360D-5760D.",
+    icon: "🎮",
+    category: "integration",
+    features: [
+      "95 igrica u 18 kategorija",
+      "SPAJA Univerzalni Endžin 100% pokrivenost",
+      "Dimenzionalno renderovanje 360D-5760D",
+      "SpajaPro 6-15 Prompt integracija",
+      "OMEGA AI persona integracija",
+    ],
+    targetPlatforms: ["IO OpenUI AO", "AI IQ SUPER PLATFORMA"],
+    impact: "high",
+  },
+  {
+    id: "io-openui-ao-lab-simulacije",
+    name: "IO/OPENUI/AO Lab Simulacioni Sistem",
+    description:
+      "Simulacioni sistem za IOOpenUIAO Laboratoriju — 10 simulacija u 8 naučnih kategorija sa prosečnom preciznošću 91%.",
+    icon: "🔬",
+    category: "ai",
+    features: [
+      "10 naučnih simulacija",
+      "8 kategorija simulacija",
+      "8 laboratorijskih alata",
+      "Prosečna preciznost 91%",
+      "3D vizualizacija i spektralna analiza",
+    ],
+    targetPlatforms: ["IO OpenUI AO", "AI IQ SUPER PLATFORMA"],
+    impact: "high",
+  },
+  {
+    id: "io-openui-ao-analitika",
+    name: "IO/OPENUI/AO Analitika",
+    description:
+      "Analitičko-dijagnostički sistem za IO/OPENUI/AO platformu — kombinovana analitika gaming platforme i laboratorije.",
+    icon: "📊",
+    category: "monitoring",
+    features: [
+      "Gaming performans analitika",
+      "Lab preciznost praćenje",
+      "Kombinovani dashboard",
+      "Zdravlje platforme monitoring",
+      "Trend analiza po kategorijama",
+    ],
+    targetPlatforms: ["IO OpenUI AO", "AI IQ SUPER PLATFORMA"],
+    impact: "medium",
+  },
 ];
 
 export const productCategoryLabels: Record<ITProductCategory, string> = {

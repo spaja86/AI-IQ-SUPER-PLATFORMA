@@ -33,6 +33,7 @@ export const navigation: NavItem[] = [
   { label: 'Laboratorija', href: '/io-openui-ao-laboratorija', icon: '🔬', description: 'IOOpenUIAO Laboratorija za Simulacije' },
   { label: 'Render Medija', href: '/spaja-render-medija', icon: '🎬', description: 'SPAJA Render za Slike i Video' },
   { label: 'Gaming Platforma', href: '/io-openui-ao-gaming-platforma', icon: '🎮', description: 'IO/OPENUI/AO Gaming - SPAJA Univerzalni Endzin nad 95 igrica (io-openui-ao.vercel.app)' },
+  { label: 'IO/OPENUI/AO Analitika', href: '/io-openui-ao-analitika', icon: '📊', description: 'IO/OPENUI/AO Analitika — kombinovani pregled gaming platforme i laboratorije' },
   { label: 'Pricing & Login', href: '/pricing', icon: '💰', description: 'Pricing planovi i registracija — Stripe integracija' },
   { label: 'Digitalni Televizor', href: '/digitalni-televizor', icon: '📺', description: 'SPAJA Univerzalni Digitalni Televizor — 12 kanala, live TV' },
   { label: 'Monitoring Live', href: '/monitoring-live', icon: '🎥', description: 'SPAJA Monitoring Live — Twitch-like streaming platforma' },
