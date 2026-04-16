@@ -5,9 +5,12 @@ import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/
 import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
 import { platforme } from '@/lib/platforme';
 import { getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
+import { igrice, getSveKategorijeIgrica } from '@/lib/igrice';
+import { IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
 
 const stats = getStatistike();
 const geStats = getGlavniEndzinStatistika();
+const kategorijeIgrica = getSveKategorijeIgrica();
 
 export const industrijaSekvence: Sekvenca[] = [
   {
@@ -175,11 +178,27 @@ export const industrijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'industrija-igrice',
+    tip: 'kartice',
+    naslov: '🎮 Igrice Digitalne Industrije',
+    podnaslov: `${igrice.length} igrica u ${kategorijeIgrica.length} kategorija — sve se otvaraju i startupuju sa Digitalne Industrije`,
+    redosled: 9,
+    podaci: {
+      kartice: igrice.map((i) => ({
+        naslov: `${i.ikona} ${i.naziv}`,
+        opis: i.opis.length > 120 ? i.opis.slice(0, 120) + '...' : i.opis,
+        ikona: i.ikona,
+        eksterniLink: i.link ?? IOOPENUIAO_URL,
+        oznake: [i.kategorija, i.status, `D: ${i.podrazumevanaDimenzija}`],
+      })),
+    },
+  },
+  {
     id: 'industrija-openai-platforma',
     tip: 'kartice',
     naslov: '🤖 OpenAI Platforma — Sopstvena Platforma Digitalne Industrije',
     podnaslov: 'OpenAI NIJE partner — to je interna platforma Kompanije SPAJA koja non-stop evolvira unutar Digitalne Industrije',
-    redosled: 9,
+    redosled: 10,
     podaci: {
       kartice: [
         {
@@ -215,7 +234,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🤝 Tehnološki Partneri',
     podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju (OpenAI NIJE partner — to je sopstvena platforma)',
-    redosled: 10,
+    redosled: 11,
     podaci: {
       kartice: getSajtoviPoKategoriji('tehnoloski-partner').map((s) => ({
         naslov: s.naziv,
@@ -231,7 +250,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '👑 Najbolji Plan — SpajaPro Unlimited VIP',
     podnaslov: 'SpajaPro Unlimited VIP plan dostupan na svim delovima Digitalne Industrije i svim platformama',
-    redosled: 11,
+    redosled: 12,
     podaci: {
       kartice: [
         {
@@ -272,7 +291,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '📱 Društvene Mreže',
     podnaslov: 'Pratite Digitalnu Industriju na društvenim mrežama',
-    redosled: 12,
+    redosled: 13,
     podaci: {
       kartice: getSajtoviPoKategoriji('drustvena-mreza').map((s) => ({
         naslov: s.naziv,
@@ -287,7 +306,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-sajtovi-statistika',
     tip: 'statistika',
     naslov: '🔗 Povezani Sajtovi i Repozitorijumi',
-    redosled: 13,
+    redosled: 14,
     podaci: {
       stavke: [
         { naziv: 'Ukupno Sajtova', vrednost: sajtovi.length, ikona: '🌐' },
@@ -302,7 +321,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-cta',
     tip: 'cta',
     naslov: '🚀 Istrazi ekosistem',
-    redosled: 14,
+    redosled: 15,
     podaci: {
       opis: `ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. 40.000.562 OMEGA AI persona. Glavni Endžin spaja ${geStats.ukupnoSpojenih} endžina i automatski sklapa gotove proizvode. Promptovi svuda.`,
       dugmad: [
@@ -322,7 +341,7 @@ export const industrijaSekvence: Sekvenca[] = [
     naslov: '🚀 Zapocnite sa Digitalnom Industrijom',
     podnaslov: 'Registrujte se i pristupite SpajaPro AI — realnom AI asistentu',
     ikona: '🚀',
-    redosled: 15,
+    redosled: 16,
     podaci: {
       opis: 'Kreirajte besplatan nalog i isprobajte SpajaPro AI chatbot. Nadogradite plan za vise mogucnosti.',
       dugmad: [

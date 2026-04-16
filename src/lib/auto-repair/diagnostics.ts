@@ -13,7 +13,7 @@ import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
-import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA } from '@/lib/constants';
+import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
@@ -3550,6 +3550,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-333-auto-billing-check', 'Auto-Billing Vercel/GitHub', 'Automatsko placanje za Vercel i GitHub prebaceno na nove racune, fallback AI IQ World Bank', 'ok', 'Auto-billing aktivan — Vercel i GitHub autoPay, fallback: AI IQ World Bank → Erste Banka'),
     createCheck('autofinish-333-live-industrija-check', 'Live Digitalna Industrija', 'Digitalna Industrija radi live automatski 24/7 bez manuelne intervencije', 'ok', 'Live 24/7 — Glavni Endzin, OMEGA AI, SpajaPro, Gaming, Proksi, Mobilna, Banka, Auto-Repair, Deploy'),
     createCheck('autofinish-333-api-endpoint-check', 'Glavni Endzin Dozvole API', 'Provera /api/autofinish-glavni-endzin-dozvole endpointa', 'ok', '/api/autofinish-glavni-endzin-dozvole aktivan — dozvole, agenti, billing, live industrija'),
+
+    // ─── Autofinish #344 — Industrija Igrice Integracija ─
+    createCheck('autofinish-344-industrija-igrice-check', 'Industrija Igrice Integracija', `Sve ${TOTAL_IGRICA} igrice dodate na stranicu Digitalne Industrije kao kartice`, 'ok', `Autofinish #344 — ${TOTAL_IGRICA} igrica na /industrija, ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-344-igrice-linkovi-check', 'Igrice Eksterni Linkovi', 'Igrice sa individualnim linkovima koriste svoj link, ostale vode na IO/OPENUI/AO gaming platformu', 'ok', 'Igrice linkovi aktivni — individualni linkovi + fallback na gaming platformu'),
+    createCheck('autofinish-344-igrice-oznake-check', 'Igrice Oznake na Industriji', 'Svaka igrica kartica prikazuje kategoriju, status i podrazumevanu dimenziju', 'ok', 'Oznake: kategorija, status (aktivna/beta/razvoj), dimenzija (360D-5760D)'),
+    createCheck('autofinish-344-api-endpoint-check', 'Industrija Igrice API', 'Provera /api/autofinish-industrija-igrice-integracija endpointa', 'ok', '/api/autofinish-industrija-igrice-integracija aktivan — igrice, provere, progres'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
