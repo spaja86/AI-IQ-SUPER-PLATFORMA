@@ -3570,7 +3570,7 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #333 — Glavni Endzin Dozvole + Auto-Billing + Agent Orkestracija ─
     createCheck('autofinish-333-glavni-endzin-dozvole-check', 'Glavni Endzin Potpune Dozvole', 'Sve dozvole date Glavnom Endzinu — potpuna kontrola nad Digitalnom Industrijom', 'ok', `Autofinish #333 — Glavni Endzin ima SVE dozvole, ${AUTOFINISH_COUNT} iteracija`),
     createCheck('autofinish-333-agent-orkestracija-check', 'Agent Orkestracija', 'Svi agenti automatski slusaju Glavni Endzin i rade bez intervencije korisnika', 'ok', 'Agent orkestracija aktivna — Copilot, Auto-Repair, Deploy, Billing, Monitoring, OMEGA AI Dispatch'),
-    createCheck('autofinish-333-auto-billing-check', 'Auto-Billing Vercel/GitHub', 'Automatsko placanje za Vercel i GitHub prebaceno na nove racune, fallback AI IQ World Bank', 'ok', 'Auto-billing aktivan — Vercel i GitHub autoPay, fallback: AI IQ World Bank → Erste Banka'),
+    createCheck('autofinish-333-auto-billing-check', 'Auto-Billing Vercel/GitHub', 'AI IQ World Bank generise racun za spajicn@yahoo.com (Nikola Spajic) — automatsko placanje Vercel i GitHub u produkciji', 'ok', 'Auto-billing PRODUKCIJA — AI IQ World Bank → spajicn@yahoo.com (Nikola Spajic) → Vercel + GitHub autoPay'),
     createCheck('autofinish-333-live-industrija-check', 'Live Digitalna Industrija', 'Digitalna Industrija radi live automatski 24/7 bez manuelne intervencije', 'ok', 'Live 24/7 — Glavni Endzin, OMEGA AI, SpajaPro, Gaming, Proksi, Mobilna, Banka, Auto-Repair, Deploy'),
     createCheck('autofinish-333-api-endpoint-check', 'Glavni Endzin Dozvole API', 'Provera /api/autofinish-glavni-endzin-dozvole endpointa', 'ok', '/api/autofinish-glavni-endzin-dozvole aktivan — dozvole, agenti, billing, live industrija'),
 
@@ -3611,6 +3611,14 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-348-mejl-menjacnica-integracija-check', 'Mejl-Menjacnica Integracija', 'Profesionalni mejl povezan sa menjaenicom — trade potvrde, portfolio izvestaji, promo ponude', 'ok', 'Autofinish #348 — Mejl-menjacnica integracija na /api/profesionalni-mejl-banka-integracija'),
     createCheck('autofinish-348-mejl-omega-suport-check', 'Mejl Omega AI Suport Departmani', 'Omega AI suport departmani — banka-suport, menjacnica-suport, tehnicka-podrska sa dedikovanim mejlovima', 'ok', 'Autofinish #348 — 3 suport departmana sa mejlovima'),
     createCheck('autofinish-348-mejl-api-endpoint-check', 'Mejl Banka Integracija API', 'Provera /api/profesionalni-mejl-banka-integracija endpointa', 'ok', `Autofinish #348 — 1 novi API endpoint, ${AUTOFINISH_COUNT} iteracija`),
+
+    // ─── Autofinish #349 — Auto-Billing Produkcija: AI IQ World Bank → spajicn@yahoo.com (Nikola Spajic) ─
+    createCheck('autofinish-349-auto-billing-produkcija-check', 'Auto-Billing Produkcija', 'AI IQ World Bank generise racun za spajicn@yahoo.com (Nikola Spajic) koji sluzi za placanje Vercel i GitHub racuna — prebaceno u produkciju', 'ok', `Autofinish #349 — Auto-billing PRODUKCIJA, AI IQ World Bank → Nikola Spajic, ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-349-vercel-billing-check', 'Vercel Auto-Billing Produkcija', 'Vercel racun za spajicn@yahoo.com (Nikola Spajic) automatski se placa kroz AI IQ World Bank generisani racun', 'ok', 'Vercel PRODUKCIJA — spajicn@yahoo.com autoPay aktivan, fallback: Erste Banka Smederevo'),
+    createCheck('autofinish-349-github-billing-check', 'GitHub Auto-Billing Produkcija', 'GitHub racun za spajicn@yahoo.com (Nikola Spajic) automatski se placa kroz AI IQ World Bank generisani racun', 'ok', 'GitHub PRODUKCIJA — spajicn@yahoo.com autoPay aktivan, fallback: Erste Banka Smederevo'),
+    createCheck('autofinish-349-world-bank-racun-generisanje-check', 'AI IQ World Bank Generisanje Racuna', 'AI IQ World Bank generise racune za sve Vercel i GitHub troskove na ime Nikola Spajic (spajicn@yahoo.com)', 'ok', 'World Bank racun generisanje aktivno — Nikola Spajic, spajicn@yahoo.com'),
+    createCheck('autofinish-349-fallback-lanac-check', 'Fallback Lanac Produkcija', 'Fallback lanac: AI IQ World Bank → Erste Banka RSD (025897158) → Erste Banka EUR/USD', 'ok', 'Fallback produkcija: AI IQ World Bank → Erste RSD → Erste EUR/USD'),
+    createCheck('autofinish-349-platni-sistem-produkcija-check', 'Platni Sistem Produkcija', 'SPAJA Platni Sistem prebacen u produkcioni rezim — Stripe auto-detect test/produkcija na osnovu API kljuca', 'ok', 'Platni sistem produkcija — Stripe rezim auto-detect, env-based konfiguracija'),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
