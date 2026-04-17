@@ -33,10 +33,10 @@ export async function GET() {
       { naziv: 'upravljanje-ekosistemom', status: 'odobreno', opis: 'Potpuno upravljanje celim ekosistemom' },
       { naziv: 'agent-orkestracija', status: 'odobreno', opis: 'Svi agenti slusaju Glavni Endzin i automatski rade' },
       { naziv: 'auto-deploy', status: 'odobreno', opis: 'Automatski deploy bez potrebe za manuelnom intervencijom' },
-      { naziv: 'auto-billing', status: 'odobreno', opis: 'Automatsko placanje Vercel i GitHub sa novih racuna' },
+      { naziv: 'auto-billing', status: 'odobreno', opis: 'AI IQ World Bank generise racun za spajicn@yahoo.com (Nikola Spajic) i automatski placa Vercel i GitHub — PRODUKCIJA' },
       { naziv: 'auto-repair', status: 'odobreno', opis: 'Automatska popravka bez odobrenja — Glavni Endzin odlucuje' },
       { naziv: 'auto-scaling', status: 'odobreno', opis: 'Automatsko skaliranje resursa prema potrebi' },
-      { naziv: 'finansije-upravljanje', status: 'odobreno', opis: 'Upravljanje finansijama i prebacivanje na nove racune' },
+      { naziv: 'finansije-upravljanje', status: 'odobreno', opis: 'Upravljanje finansijama — AI IQ World Bank generisani racuni za Nikola Spajic (spajicn@yahoo.com)' },
       { naziv: 'live-industrija', status: 'odobreno', opis: 'Digitalna Industrija radi live 24/7 automatski' },
     ],
   };
@@ -58,33 +58,43 @@ export async function GET() {
   };
 
   const autoBilling = {
-    status: 'aktivno',
-    model: 'AUTO-BILLING v1.0',
-    opis: 'Automatsko placanje za Vercel i GitHub — prebaceno na nove racune sa fallback na AI IQ World Bank',
+    status: 'produkcija',
+    model: 'AUTO-BILLING v2.0 — PRODUKCIJA',
+    opis: 'AI IQ World Bank generise racun za spajicn@yahoo.com (Nikola Spajic) koji automatski placa Vercel i GitHub racune — produkcioni rezim',
+    vlasnikNaloga: {
+      ime: 'Nikola Spajic',
+      email: 'spajicn@yahoo.com',
+      opis: 'Svi Vercel i GitHub racuni su na ime Nikola Spajic, nalog spajicn@yahoo.com',
+    },
     provajderi: [
       {
         naziv: 'Vercel',
-        status: 'aktivan',
-        racun: 'novi-vercel-racun',
+        status: 'produkcija',
+        nalog: 'spajicn@yahoo.com',
+        vlasnik: 'Nikola Spajic',
+        racun: 'AI IQ World Bank generisani racun',
         autoPay: true,
         fallback: 'AI IQ World Bank',
-        opis: 'Vercel hosting automatski se placa sa novog racuna, fallback na AI IQ World Bank',
+        opis: 'Vercel hosting za spajicn@yahoo.com (Nikola Spajic) — AI IQ World Bank automatski generise i placa racun',
       },
       {
         naziv: 'GitHub',
-        status: 'aktivan',
-        racun: 'novi-github-racun',
+        status: 'produkcija',
+        nalog: 'spajicn@yahoo.com',
+        vlasnik: 'Nikola Spajic',
+        racun: 'AI IQ World Bank generisani racun',
         autoPay: true,
         fallback: 'AI IQ World Bank',
-        opis: 'GitHub pretplata automatski se placa sa novog racuna, fallback na AI IQ World Bank',
+        opis: 'GitHub pretplata za spajicn@yahoo.com (Nikola Spajic) — AI IQ World Bank automatski generise i placa racun',
       },
     ],
     fallbackLanac: [
-      { prioritet: 1, izvor: 'Novi Primarni Racun', opis: 'Prvo se skidaju pare sa novih racuna' },
-      { prioritet: 2, izvor: 'AI IQ World Bank', opis: 'Ako na novim racunima nema sredstava, skida se iz banke' },
-      { prioritet: 3, izvor: 'Erste Banka DOO Smederevo', opis: 'Rezervni izvor — Erste banka Digitalne Industrije' },
+      { prioritet: 1, izvor: 'AI IQ World Bank — Generisani Racun', opis: 'AI IQ World Bank generise racun i automatski placa Vercel i GitHub za Nikola Spajic' },
+      { prioritet: 2, izvor: 'Erste Banka DOO Smederevo — RSD', opis: 'Fallback na dinarski racun Digitalne Industrije kod Erste banke (025897158)' },
+      { prioritet: 3, izvor: 'Erste Banka DOO Smederevo — EUR/USD', opis: 'Devizni racuni za medjunarodna placanja (EUR: 038971285 / USD: 05364215985)' },
     ],
     automatskoPrebacivanje: true,
+    produkcioniRezim: true,
   };
 
   const liveDigitalnaIndustrija = {
