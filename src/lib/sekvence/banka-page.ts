@@ -270,11 +270,69 @@ export const bankaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'banka-transfer-10k-eur',
+    tip: 'kartice',
+    naslov: '💸 Transfer 10.000 EUR — AI IQ World Bank',
+    podnaslov: 'Interni transfer sa glavnog racuna na novi generisani EUR racun za operativne troskove',
+    redosled: 16,
+    podaci: {
+      kartice: [
+        {
+          naslov: 'Izvorni racun: DIGI-IND-001',
+          opis: 'Glavni racun Digitalne Industrije u AI IQ World Bank — izvor transfera od 10.000 EUR',
+          ikona: '🏦',
+          oznake: ['AI IQ World Bank', 'Glavni racun', 'Izvor'],
+        },
+        {
+          naslov: 'Novi racun: DIGI-IND-002-EUR',
+          opis: 'Novi generisani EUR racun u AI IQ World Bank — destinacija transfera za operativne troskove',
+          ikona: '💶',
+          oznake: ['EUR', 'Novi racun', 'Operativni troskovi'],
+        },
+        {
+          naslov: 'Transfer: 10.000 EUR',
+          opis: 'Uspesno izvrseni interni transfer od 10.000 evra za pokrivanje operativnih troskova i placanje servisa',
+          ikona: '✅',
+          oznake: ['10.000 EUR', 'Izvrseno', 'Interni transfer'],
+        },
+      ],
+    },
+  },
+  {
+    id: 'banka-dugovi-sumarno',
+    tip: 'tabela',
+    naslov: '📋 Dugovi — Sumarni pregled',
+    podnaslov: 'Pregled trenutnih dugova Digitalne Industrije prema partnerima i servisima',
+    redosled: 17,
+    podaci: {
+      zaglavlje: ['Partner', 'Tip', 'Iznos', 'Valuta', 'Status', 'Napomena'],
+      redovi: [
+        ['Vercel', 'Hosting & Deploy', '~$1.000', 'USD', 'Aktivan', 'Ceka se konacna sumacija faktura'],
+      ],
+    },
+  },
+  {
+    id: 'banka-dugovi-info',
+    tip: 'tekst',
+    naslov: '💡 Napomena o dugovima',
+    redosled: 18,
+    podaci: {
+      sadrzaj: 'Dugovi se trenutno sumarisu. Za sada dugujemo Vercelu oko $1.000 za hosting i deploy servise. Transfer od 10.000 EUR sa AI IQ World Bank racuna je izvrseno na novi generisani racun (DIGI-IND-002-EUR) za pokrivanje operativnih troskova.',
+      istaknuteStavke: [
+        '💸 Transfer: 10.000 EUR sa DIGI-IND-001 na DIGI-IND-002-EUR',
+        '📊 Vercel dug: ~$1.000 USD — ceka se konacna sumacija',
+        '🏦 Novi racun: DIGI-IND-002-EUR — za operativne troskove',
+        '✅ Status transfera: Izvrseno',
+        '⏳ Status dugova: U procesu sumiranja',
+      ],
+    },
+  },
+  {
     id: 'banka-kontakt-drustvene-mreze',
     tip: 'lista',
     naslov: '📱 Kontakt i drustvene mreze',
     podnaslov: 'Ostanite povezani sa AI IQ World Bank',
-    redosled: 16,
+    redosled: 19,
     podaci: {
       stavke: [
         { ikona: '📧', naslov: 'Email: spajicn@yahoo.com', opis: 'Primarni kontakt mejl za sve upite i saradnju' },
@@ -290,7 +348,7 @@ export const bankaSekvence: Sekvenca[] = [
     id: 'banka-cta',
     tip: 'cta',
     naslov: '🚀 Zapocnite sa AI IQ World Bank',
-    redosled: 17,
+    redosled: 20,
     podaci: {
       opis: 'AI IQ World Bank — 40% pozitivna kamatna stopa mesecno. Ulozite 1.000 RSD, za mesec dana podignite 1.400 RSD. Ekstremno jaka i transparentna digitalna banka.',
       stavke: [
