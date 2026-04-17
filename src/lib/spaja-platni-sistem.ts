@@ -177,7 +177,7 @@ const stripeKonfiguracija: StripeKonfiguracija = {
   secretKey: process.env.STRIPE_SECRET_KEY ?? 'sk_test_placeholder',
   webhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? 'whsec_test_placeholder',
   verzija: '2024-06-20',
-  rezim: (process.env.STRIPE_PUBLIC_KEY && !process.env.STRIPE_PUBLIC_KEY.startsWith('pk_test')) ? 'produkcija' : 'test',
+  rezim: (process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_SECRET_KEY.startsWith('sk_test')) ? 'produkcija' : 'test',
   podrzaneValute: [
     'USD', 'EUR', 'GBP', 'CHF', 'JPY',
     'CNY', 'RUB', 'INR', 'BRL', 'RSD',
