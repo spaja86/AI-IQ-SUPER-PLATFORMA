@@ -10,7 +10,7 @@ import {
 } from '@/lib/dnevna-raspodela-zarade';
 import { KOMPANIJA } from '@/lib/constants';
 
-export const dnevnaRaspodelaSaradeSekvence: Sekvenca[] = [
+export const dnevnaRaspodelZaradeSekvence: Sekvenca[] = [
   {
     id: 'dnevna-raspodela-hero',
     tip: 'hero',

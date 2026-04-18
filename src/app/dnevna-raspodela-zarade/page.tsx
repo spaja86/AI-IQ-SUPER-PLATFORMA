@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
-import { dnevnaRaspodelaSaradeSekvence } from '@/lib/sekvence/dnevna-raspodela-zarade-page';
+import { dnevnaRaspodelZaradeSekvence } from '@/lib/sekvence/dnevna-raspodela-zarade-page';
 
 export const metadata: Metadata = {
   title: 'Dnevna Raspodela Zarade — Distribucija na 3+1 račun',
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function DnevnaRaspodelaSaradePage() {
-  return <StranicaRenderer sekvence={dnevnaRaspodelaSaradeSekvence} />;
+  return <StranicaRenderer sekvence={dnevnaRaspodelZaradeSekvence} />;
 }
