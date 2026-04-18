@@ -4,7 +4,7 @@ import {
   getGlavniEndzinStatistika,
   getSklopljenePoTipu,
 } from '@/lib/glavni-endzin-digitalne-industrije';
-import { OMEGA_AI_PERSONA_UKUPNO, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
+import { OMEGA_AI_PERSONA_UKUPNO, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const stats = getGlavniEndzinStatistika();
 const platformeSklopljene = getSklopljenePoTipu('platforma');

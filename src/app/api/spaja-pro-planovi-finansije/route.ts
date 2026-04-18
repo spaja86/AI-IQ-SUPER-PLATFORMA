@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server';
 import {
-  finansijskiModel,
-  spajaProPlanovi,
-  valute,
   getFinansijskiPregled,
 } from '@/lib/spaja-pro-planovi';
 import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';

@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server';
 import {
   valute,
   kursnaLista,
-  getSveCeneUValuti,
   spajaProPlanovi,
-  type ValutaKod,
 } from '@/lib/spaja-pro-planovi';
 
 /**

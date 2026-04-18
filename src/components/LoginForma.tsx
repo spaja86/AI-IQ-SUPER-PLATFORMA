@@ -8,13 +8,22 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
+function getSavedEmail(): string {
+  if (typeof window === 'undefined') return '';
+  try {
+    return localStorage.getItem('omega-remember-email') ?? '';
+  } catch {
+    return '';
+  }
+}
+
 export default function LoginForma() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get('redirect') ?? '/dashboard';
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(getSavedEmail);
   const [lozinka, setLozinka] = useState('');
   const [prikaziLozinku, setPrikaziLozinku] = useState(false);
-  const [zapamtiMe, setZapamtiMe] = useState(false);
+  const [zapamtiMe, setZapamtiMe] = useState(() => getSavedEmail() !== '');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [poruka, setPoruka] = useState('');
 
@@ -122,19 +131,6 @@ export default function LoginForma() {
       setPoruka('Greska u mrezi. Proverite internet konekciju i pokusajte ponovo.');
     }
   }
-
-  // Ucitaj zapamcen email
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('omega-remember-email');
-      if (saved) {
-        setEmail(saved);
-        setZapamtiMe(true);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-4 py-16">

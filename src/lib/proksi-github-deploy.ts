@@ -18,7 +18,7 @@
  * 5. Hibridni Pipeline → CI/CD + Proksi + Omega Evolucija
  */
 
-import { proksiSignali, proksiCvorovi, proksiMreza, type ProksiSignal } from './proksi';
+import { proksiSignali, proksiCvorovi, type ProksiSignal } from './proksi';
 import { platforme } from './platforme';
 
 // ─── Tipovi ─────────────────────────────────────────────────────────

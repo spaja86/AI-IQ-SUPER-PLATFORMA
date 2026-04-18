@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
 
 const navLinks = [
@@ -51,11 +51,11 @@ const navLinks = [
 export default function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [sesija, setSesija] = useState<OmegaSesija | null>(null);
-
-  useEffect(() => {
-    setSesija(dohvatiSesiju());
-  }, []);
+  const sesija = useSyncExternalStore(
+    (cb) => { window.addEventListener('storage', cb); return () => window.removeEventListener('storage', cb); },
+    () => dohvatiSesiju(),
+    () => null as OmegaSesija | null,
+  );
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -78,7 +78,6 @@ export default function Navigation() {
       // Nastavi sa brisanjem lokalne sesije cak i ako API poziv ne uspe
     }
     obrisiSesiju();
-    setSesija(null);
     window.location.href = '/login';
   }
 

@@ -5,7 +5,6 @@ import {
   AUTOFINISH_TARGET,
   TOTAL_ROUTES,
   TOTAL_API_ROUTES,
-  TOTAL_DIAGNOSTIKA,
   TOTAL_PAGES,
 } from '@/lib/constants';
 

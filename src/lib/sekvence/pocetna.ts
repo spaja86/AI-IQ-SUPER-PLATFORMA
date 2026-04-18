@@ -3,7 +3,7 @@ import { platforme, getUkupniProgres } from '@/lib/platforme';
 import { itProizvodi } from '@/lib/it-proizvodi';
 import { getStatistike } from '@/lib/statistika';
 import { runDiagnostics } from '@/lib/auto-repair';
-import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
+import { generisaniEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 
 import { vizuelniResursi, osnivacProfil } from '@/lib/vizuelni-identitet';
 

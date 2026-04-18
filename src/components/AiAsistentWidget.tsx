@@ -5,7 +5,7 @@
 // Plutajuci AI asistent koji se prikazuje na svakoj stranici
 // sa kontekstualnim promptovima za AI i SpajaPro AI
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 
 interface AiPagePrompt {
@@ -43,7 +43,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
   const pathname = usePathname();
 
   // Get prompts for current page
-  const currentPageConfig = pagePrompts.find((p) => p.putanja === pathname) ?? {
+  const currentPageConfig = useMemo(() => pagePrompts.find((p) => p.putanja === pathname) ?? {
     putanja: pathname,
     naslov: 'Stranica',
     opis: 'AI IQ SUPER PLATFORMA',
@@ -54,7 +54,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
       { pitanje: 'Koje opcije imam na ovoj stranici?', ikona: '⚙️', kategorija: 'ai' as const },
       { pitanje: 'Kako da koristim ovu funkciju?', ikona: '💡', kategorija: 'spaja-pro-ai' as const },
     ],
-  };
+  }, [pathname, pagePrompts]);
 
   const filteredPrompts = currentPageConfig.promptovi.filter(
     (p) => p.kategorija === activeTab

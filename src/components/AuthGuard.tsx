@@ -4,8 +4,22 @@
 // Kompanija SPAJA — Digitalna Industrija
 // Prikazuje sadržaj samo ulogovanim korisnicima, ostale preusmerava na login
 
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 import { dohvatiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
+
+// Subscribe stub — localStorage changes are not relevant here (read-once)
+function subscribe(cb: () => void) {
+  window.addEventListener('storage', cb);
+  return () => window.removeEventListener('storage', cb);
+}
+
+function getSnapshot(): OmegaSesija | null {
+  return dohvatiSesiju();
+}
+
+function getServerSnapshot(): OmegaSesija | null {
+  return null;
+}
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -14,20 +28,7 @@ interface AuthGuardProps {
 }
 
 export default function AuthGuard({ children, stranica = 'ovu stranicu' }: AuthGuardProps) {
-  const [sesija, setSesija] = useState<OmegaSesija | null | 'loading'>('loading');
-
-  useEffect(() => {
-    setSesija(dohvatiSesiju());
-  }, []);
-
-  // Još se učitava
-  if (sesija === 'loading') {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900">
-        <div className="text-gray-400">Provera pristupa...</div>
-      </div>
-    );
-  }
+  const sesija = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   // Korisnik nije ulogovan
   if (!sesija) {

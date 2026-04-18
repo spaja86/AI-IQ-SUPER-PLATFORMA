@@ -13,6 +13,17 @@ const eslintConfig = defineConfig([
         version: "19.2",
       },
     },
+    rules: {
+      // Allow underscore-prefixed variables to be unused (common convention)
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+    },
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([

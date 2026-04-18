@@ -1,7 +1,7 @@
 'use client';
 
 import type { Sekvenca } from '@/lib/types';
-import { useState, useEffect } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
 type LoginMetoda = { naziv: string; ikona: string; metod: string };
@@ -15,15 +15,13 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
   const [prikaziLozinku, setPrikaziLozinku] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [poruka, setPoruka] = useState('');
-  const [ulogovan, setUlogovan] = useState(false);
 
-  // Proveri da li je korisnik vec ulogovan
-  useEffect(() => {
-    const sesija = dohvatiSesiju();
-    if (sesija) {
-      setUlogovan(true);
-    }
-  }, []);
+  // Proveri da li je korisnik vec ulogovan — bez setState u useEffect
+  const ulogovan = useSyncExternalStore(
+    (cb) => { window.addEventListener('storage', cb); return () => window.removeEventListener('storage', cb); },
+    () => dohvatiSesiju() !== null,
+    () => false,
+  );
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();

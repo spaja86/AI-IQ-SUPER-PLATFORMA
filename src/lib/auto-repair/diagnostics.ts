@@ -41,8 +41,7 @@ import { plasiranjeSistemi, plasiranjeKoraci, getPlasiranjeMetrike } from '@/lib
 import { ekosistemPlatforme } from '@/lib/ekosistem-urls';
 import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar } from '@/lib/oktavne-eksponencijalne-funkcije';
 import { getOktavniMonolog } from '@/lib/oktavni-monolog';
-import { spajaDigitalniKompjuterSistem, getSveKomponente, spajaKonzole, spajaDzojstici } from '@/lib/spaja-digitalni-kompjuter';
-import { glavniEndzinDigitalneIndustrije, getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
+import { getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
 import { reklame, partnerstva, monetizacijaKanali, getReklameMetrike } from '@/lib/reklame-i-partnerstva';
 import { dnevnaRaspodelaSistem, racuniRaspodela, digitalnaIndustrijaRacun, primerSimulacije, PROCENAT_RASPODELE, OPERATIVNA_REZERVA } from '@/lib/dnevna-raspodela-zarade';
 
