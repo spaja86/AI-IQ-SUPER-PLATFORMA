@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const corePages = new Date('2026-04-16');
   const standardPages = new Date('2026-04-14');
 
-  const recentRoutes = ['/', '/dashboard', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/glavni-sistem-nabavka'];
+  const recentRoutes = ['/', '/dashboard', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade'];
   const coreRoutes = ['/ekosistem', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/pricing', '/it-proizvodi', '/igrice', '/omega-ai-suport'];
 
   const routes = [
@@ -59,6 +59,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/spaja-digitalni-kompjuter',
     '/glavni-endzin',
     '/glavni-sistem-nabavka',
+    '/reklame-i-partnerstva',
+    '/dnevna-raspodela-zarade',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

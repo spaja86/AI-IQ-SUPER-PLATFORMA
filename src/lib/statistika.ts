@@ -35,6 +35,8 @@ import { spajaBlogFaq } from './spaja-blog-faq';
 import { spajaUnitTestovi } from './spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from './vizuelni-identitet';
+import { getReklameMetrike } from './reklame-i-partnerstva';
+import { racuniRaspodela, primerSimulacije, PROCENAT_RASPODELE, OPERATIVNA_REZERVA } from './dnevna-raspodela-zarade';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -149,5 +151,24 @@ export function getStatistike() {
     vizuelniResursa: vizuelniIdentitetSistem.ukupnoResursa,
     vizuelniOsnivac: vizuelniIdentitetSistem.osnivac.punoIme,
     vizuelniStatus: vizuelniIdentitetSistem.status,
+
+    // Reklame & Partnerstva
+    ...(() => {
+      const rm = getReklameMetrike();
+      return {
+        reklameUkupno: rm.ukupnoReklama,
+        reklameAktivnih: rm.aktivnihReklama,
+        partnerstvaUkupno: rm.ukupnoPartnerstava,
+        partnerstvaPotpisanih: rm.aktivnihPartnerstava,
+        monetizacijaKanala: rm.monetizacijaKanala,
+        monetizacijaAktivnih: rm.aktivnihKanala,
+      };
+    })(),
+
+    // Dnevna Raspodela Zarade
+    dnevnaRaspodelErsteRacuna: racuniRaspodela.length,
+    dnevnaRaspodelErsteProcenat: PROCENAT_RASPODELE,
+    dnevnaRaspodelDiProcenat: OPERATIVNA_REZERVA,
+    dnevnaRaspodelSimulacija: primerSimulacije.length,
   };
 }

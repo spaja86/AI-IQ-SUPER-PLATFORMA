@@ -47,3 +47,9 @@ export { glavniEndzinSekvence } from './glavni-endzin-page';
 
 // ── Glavni Sistem Nabavke ───────────────────────────────────────────────────
 export { glavniSistemNabavkaSekvence } from './glavni-sistem-nabavka-page';
+
+// ── Reklame & Partnerstva ───────────────────────────────────────────────────
+export { reklameIPartnerstvaSekvence } from './reklame-i-partnerstva-page';
+
+// ── Dnevna Raspodela Zarade ─────────────────────────────────────────────────
+export { dnevnaRaspodelZaradeSekvence } from './dnevna-raspodela-zarade-page';

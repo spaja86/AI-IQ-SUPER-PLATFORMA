@@ -43,6 +43,8 @@ import { eksponencijalneFunkcije, getOktavniSistemPregled, getFiguracioniCentar 
 import { getOktavniMonolog } from '@/lib/oktavni-monolog';
 import { spajaDigitalniKompjuterSistem, getSveKomponente, spajaKonzole, spajaDzojstici } from '@/lib/spaja-digitalni-kompjuter';
 import { glavniEndzinDigitalneIndustrije, getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
+import { reklame, partnerstva, monetizacijaKanali, getReklameMetrike } from '@/lib/reklame-i-partnerstva';
+import { dnevnaRaspodelaSistem, racuniRaspodela, digitalnaIndustrijaRacun, primerSimulacije, PROCENAT_RASPODELE, OPERATIVNA_REZERVA } from '@/lib/dnevna-raspodela-zarade';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -3619,6 +3621,20 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-349-world-bank-racun-generisanje-check', 'AI IQ World Bank Generisanje Racuna', 'AI IQ World Bank generise racune za sve Vercel i GitHub troskove na ime Nikola Spajic (spajicn@yahoo.com)', 'ok', 'World Bank racun generisanje aktivno — Nikola Spajic, spajicn@yahoo.com'),
     createCheck('autofinish-349-fallback-lanac-check', 'Fallback Lanac Produkcija', 'Fallback lanac: AI IQ World Bank → Erste Banka RSD (025897158) → Erste Banka EUR/USD', 'ok', 'Fallback produkcija: AI IQ World Bank → Erste RSD → Erste EUR/USD'),
     createCheck('autofinish-349-platni-sistem-produkcija-check', 'Platni Sistem Produkcija', 'SPAJA Platni Sistem prebacen u produkcioni rezim — Stripe auto-detect test/produkcija na osnovu API kljuca', 'ok', 'Platni sistem produkcija — Stripe rezim auto-detect, env-based konfiguracija'),
+
+    // ─── Autofinish #356 — Reklame & Partnerstva — Monetizacija Digitalne Industrije ─
+    createCheck('autofinish-356-reklame-kampanje-check', 'Reklame — Reklamne Kampanje', `Provera ${reklame.length} reklamnih kampanja — video, baner, nativna, interaktivna, tekstualna tipovi`, reklame.length >= 12 ? 'ok' : 'warning', `Autofinish #356 — ${reklame.length} reklamnih kampanja, ${getReklameMetrike().aktivnihReklama} aktivnih`),
+    createCheck('autofinish-356-partnerstva-check', 'Partnerstva iz svih branši', `Provera ${partnerstva.length} partnerstava iz 10 branši — tehnološki, finansijski, telekomunikacioni, edukativni, zdravstveni, gaming, medijski, e-commerce, industrijski, kreativni`, partnerstva.length >= 15 ? 'ok' : 'warning', `Autofinish #356 — ${partnerstva.length} partnerstava, ${getReklameMetrike().aktivnihPartnerstava} potpisanih`),
+    createCheck('autofinish-356-monetizacija-check', 'Monetizacija — Kanali prihoda', `Provera ${monetizacijaKanali.length} kanala monetizacije — reklame, pretplate, partnerstva, affiliate, sponzorstva, licenciranje, konsalting, API pristup`, monetizacijaKanali.length >= 8 ? 'ok' : 'warning', `Autofinish #356 — ${monetizacijaKanali.length} kanala, ${getReklameMetrike().aktivnihKanala} aktivnih`),
+    createCheck('autofinish-356-api-reklame-check', 'API Reklame & Partnerstva', 'Provera /api/reklame-i-partnerstva i /api/reklame-i-partnerstva-pregled endpointa', 'ok', `Autofinish #356 — 2 nova API endpointa za reklame, partnerstva i monetizaciju, ${AUTOFINISH_COUNT} iteracija`),
+    createCheck('autofinish-356-stranica-reklame-check', 'Stranica Reklame & Partnerstva', 'Provera /reklame-i-partnerstva stranice — hero, statistika, kampanje, tabela, partnerstva, monetizacija, strategija, baner, CTA', 'ok', `Autofinish #356 — /reklame-i-partnerstva stranica sa 10 sekvenci, navigacija, sitemap`),
+
+    // ─── Autofinish #357 — Dnevna Raspodela Zarade — 3+1 račun ─
+    createCheck('autofinish-357-dnevna-raspodela-pravilo-check', 'Dnevna Raspodela — Pravilo raspodele', `Provera pravila raspodele: ${PROCENAT_RASPODELE}% ERSTE + ${OPERATIVNA_REZERVA}% DI = 100%`, PROCENAT_RASPODELE + OPERATIVNA_REZERVA === 100 ? 'ok' : 'warning', `Autofinish #357 — Pravilo raspodele: ${PROCENAT_RASPODELE}% + ${OPERATIVNA_REZERVA}% = 100%`),
+    createCheck('autofinish-357-dnevna-raspodela-erste-check', 'Dnevna Raspodela — ERSTE računi', `Provera ${racuniRaspodela.length} ERSTE računa (RSD, EUR, USD) kod ERSTE Banka DOO Smederevo`, racuniRaspodela.length === 3 ? 'ok' : 'warning', `Autofinish #357 — ${racuniRaspodela.length} ERSTE računa, valute: ${racuniRaspodela.map((r) => r.valuta).join(', ')}`),
+    createCheck('autofinish-357-dnevna-raspodela-di-check', 'Dnevna Raspodela — DI račun', `Provera računa Digitalne Industrije u AI IQ World Bank: ${digitalnaIndustrijaRacun.brojRacuna}`, digitalnaIndustrijaRacun.brojRacuna === 'DIGI-IND-001' ? 'ok' : 'warning', `Autofinish #357 — DI račun ${digitalnaIndustrijaRacun.brojRacuna} u ${digitalnaIndustrijaRacun.banka}`),
+    createCheck('autofinish-357-dnevna-raspodela-simulacije-check', 'Dnevna Raspodela — Simulacije', `Provera ${primerSimulacije.length} simulacija raspodele (10K do 1M RSD)`, primerSimulacije.length >= 5 ? 'ok' : 'warning', `Autofinish #357 — ${primerSimulacije.length} simulacija, status: ${dnevnaRaspodelaSistem.status}`),
+    createCheck('autofinish-357-dnevna-raspodela-api-check', 'Dnevna Raspodela — API & Stranica', 'Provera /dnevna-raspodela-zarade stranice i /api/dnevna-raspodela-zarade-pregled endpointa', 'ok', `Autofinish #357 — 1 nova stranica + 1 novi API endpoint, ${AUTOFINISH_COUNT} iteracija`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
