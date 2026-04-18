@@ -5,6 +5,7 @@ import {
   MOBILNI_POZIVNI,
   PROKSI_KAPACITET,
 } from '@/lib/constants';
+import { mreza1873G } from '@/lib/mobilna-mreza';
 
 export async function GET() {
   return NextResponse.json({
@@ -20,10 +21,10 @@ export async function GET() {
       mreza1873G: {
         generacija: '1873G',
         opseg: '1G — 1873G',
-        bezAntena: true,
-        bezCentrale: true,
-        razlogBezCentrale: 'Normalan mrežni signal — funkcije proizvode signal, centrala nije potrebna',
-        signala: 4,
+        bezAntena: mreza1873G.bezAntena,
+        bezCentrale: mreza1873G.bezCentrale,
+        razlogBezCentrale: mreza1873G.razlogBezCentrale,
+        signala: mreza1873G.signali.length,
       },
     },
 
