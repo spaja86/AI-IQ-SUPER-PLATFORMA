@@ -36,6 +36,7 @@ import { spajaUnitTestovi } from './spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from './vizuelni-identitet';
 import { getReklameMetrike } from './reklame-i-partnerstva';
+import { racuniRaspodela, primerSimulacije, PROCENAT_RASPODELE, OPERATIVNA_REZERVA } from './dnevna-raspodela-zarade';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -163,5 +164,11 @@ export function getStatistike() {
         monetizacijaAktivnih: rm.aktivnihKanala,
       };
     })(),
+
+    // Dnevna Raspodela Zarade
+    dnevnaRaspodelErsteRacuna: racuniRaspodela.length,
+    dnevnaRaspodelErsteProcenat: PROCENAT_RASPODELE,
+    dnevnaRaspodelDiProcenat: OPERATIVNA_REZERVA,
+    dnevnaRaspodelSimulacija: primerSimulacije.length,
   };
 }

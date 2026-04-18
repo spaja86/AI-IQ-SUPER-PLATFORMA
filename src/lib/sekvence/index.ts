@@ -50,3 +50,6 @@ export { glavniSistemNabavkaSekvence } from './glavni-sistem-nabavka-page';
 
 // ── Reklame & Partnerstva ───────────────────────────────────────────────────
 export { reklameIPartnerstvaSekvence } from './reklame-i-partnerstva-page';
+
+// ── Dnevna Raspodela Zarade ─────────────────────────────────────────────────
+export { dnevnaRaspodelaSaradeSekvence } from './dnevna-raspodela-zarade-page';
