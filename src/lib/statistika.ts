@@ -152,11 +152,16 @@ export function getStatistike() {
     vizuelniStatus: vizuelniIdentitetSistem.status,
 
     // Reklame & Partnerstva
-    reklameUkupno: getReklameMetrike().ukupnoReklama,
-    reklameAktivnih: getReklameMetrike().aktivnihReklama,
-    partnerstvaUkupno: getReklameMetrike().ukupnoPartnerstava,
-    partnerstvaPotpisanih: getReklameMetrike().aktivnihPartnerstava,
-    monetizacijaKanala: getReklameMetrike().monetizacijaKanala,
-    monetizacijaAktivnih: getReklameMetrike().aktivnihKanala,
+    ...(() => {
+      const rm = getReklameMetrike();
+      return {
+        reklameUkupno: rm.ukupnoReklama,
+        reklameAktivnih: rm.aktivnihReklama,
+        partnerstvaUkupno: rm.ukupnoPartnerstava,
+        partnerstvaPotpisanih: rm.aktivnihPartnerstava,
+        monetizacijaKanala: rm.monetizacijaKanala,
+        monetizacijaAktivnih: rm.aktivnihKanala,
+      };
+    })(),
   };
 }

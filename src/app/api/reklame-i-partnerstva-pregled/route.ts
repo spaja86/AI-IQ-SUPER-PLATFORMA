@@ -57,7 +57,7 @@ export async function GET() {
     },
 
     reklamePoTipu,
-    partnerstvaPoTransi: bransePregled,
+    partnerstvaPoBransi: bransePregled,
     monetizacijaPregled,
 
     dijagnostika: {
