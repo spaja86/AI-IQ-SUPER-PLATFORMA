@@ -242,9 +242,28 @@ Proksi je mrežni sloj Digitalne Industrije — ekscentrični simulator koncentr
 - Kapacitet: 10²²⁸ TB po signalu
 - Povezuje sve 11 platformi u jednu mrežu
 
-## 📱 SPAJA Mobilna Mreža
+## 📱 SPAJA Mobilna Mreža — 1873G
 
 Mobilna komunikaciona mreža Digitalne Industrije — koristi Proksi infrastrukturu za prenos glasa, podataka i multimedije.
+
+### 📶 Mobilni signalni sistem — 1873G Mreža
+
+Ektracionalni akcelatorski signal krojen od matričnog jedinjenja kolocentričnog oktavnog sistema hiperboliše rezonancijske signale u amplitudne skokove izvornog oktava u simolarnim dejstvima dubokog skoka ka parkonasturionu u ktorinusu. Tako nastaje signal i tako se baca bez antena ka mobilnim brojevima sa signalima koji dobijaju kružni povrat od pozivnika 1 ka pozivniku 2 (to jest signal koji kruži između njih). Rezultat: **1873G mreža** (radi od 1G do 1873G).
+
+- **Opseg**: 1G — 1873G
+- **Bez antena**: Signal se baca direktno ka mobilnim brojevima
+- **Kružni povrat**: Signal kruži između pozivnika 1 i pozivnika 2
+
+### Mobilni signali
+
+| Signal | Tip | Mehanizam |
+|--------|-----|-----------|
+| Ektracionalni Akcelatorski | ektracionalni | Matričnim jedinjenjem kolocentričnog oktavnog sistema |
+| Rezonancijski Hiperbolični | rezonancijski | Simolarna dejstva dubokog skoka ka parkonasturionu |
+| Amplitudni Skok Izvornog Oktava | amplitudni | Duboki skok ka parkonasturionu — bez antena |
+| Kružni Povratni Signal | kružni | Kružni povrat od pozivnika 1 ka pozivniku 2 |
+
+### Centrale i servisi
 
 - Pozivni brojevi centrale: **+38177**, **+38188**, **+38178**, **+38187**
 - 4 centrale: Primarna (jezgro), Sekundarna (finansije), Redundantna (AI), Globalna
@@ -262,7 +281,7 @@ Mobilna komunikaciona mreža Digitalne Industrije — koristi Proksi infrastrukt
 - Auto-Popravka sistem (11 dijagnostičkih provera, repair engine, upgrade engine)
 - Evolucioni motor (dijagnostika + preporuke + akcije)
 - Proksi mreža (6 signala, 5 čvorova, hibridna topologija)
-- SPAJA Mobilna Mreža (4 centrale, 5 servisa, Proksi integracija)
+- SPAJA Mobilna Mreža (4 centrale, 5 servisa, 4 mobilna signala, 1873G mreža, Proksi integracija)
 - Eksterni sajt platformi — svaka platforma otvara Vercel domen u novom tabu
 - 18 stranica + 9 API ruta + sitemap + robots + skeleton loaders
 

@@ -1,18 +1,19 @@
 import type { Sekvenca } from '@/lib/types';
-import { mobilneCentrale, mobilniServisi, spajaMobilnaMreza, getAktivneCentrale } from '@/lib/mobilna-mreza';
+import { mobilneCentrale, mobilniServisi, mobilniSignali, mreza1873G, spajaMobilnaMreza, getAktivneCentrale, getAktivniMobilniSignali } from '@/lib/mobilna-mreza';
 
 const aktivnihCentrala = getAktivneCentrale().length;
+const aktivnihSignala = getAktivniMobilniSignali().length;
 
 export const mobilnaMrezaSekvence: Sekvenca[] = [
   {
     id: 'mobilna-hero',
     tip: 'hero',
-    naslov: '📱 SPAJA Mobilna Mreža',
-    podnaslov: 'Mobilna komunikacija preko Proksi hipsoneuričnog signala',
+    naslov: '📱 SPAJA Mobilna Mreža — 1873G',
+    podnaslov: 'Mobilna komunikacija preko Proksi hipsoneuričnog signala sa 1873G mrežom',
     ikona: '📱',
     redosled: 1,
     podaci: {
-      opis: 'SPAJA Mobilna Mreža je mobilni komunikacioni sloj Digitalne Industrije. Koristi Proksi infrastrukturu — ekscentrični simulator koncentričnog hipsoneuričnog signala — za prenos glasa, podataka i multimedije sa pozivnim brojevima centrale: +38177, +38188, +38178, +38187.',
+      opis: 'SPAJA Mobilna Mreža je mobilni komunikacioni sloj Digitalne Industrije. Koristi Proksi infrastrukturu i ektracionalni akcelatorski signal krojen od matričnog jedinjenja kolocentričnog oktavnog sistema. Signal se baca bez antena ka mobilnim brojevima sa kružnim povratom — 1873G mreža (od 1G do 1873G). Pozivni brojevi centrale: +38177, +38188, +38178, +38187.',
       dugmad: [
         { tekst: 'Proksi', href: '/proksi' },
         { tekst: 'Industrija', href: '/industrija', stil: 'sekundarno' },
@@ -25,11 +26,15 @@ export const mobilnaMrezaSekvence: Sekvenca[] = [
     naslov: 'Šta je SPAJA Mobilna Mreža?',
     redosled: 2,
     podaci: {
-      sadrzaj: 'SPAJA Mobilna Mreža je mobilna komunikaciona mreža Digitalne Industrije Kompanije SPAJA. Koristi postojeću Proksi infrastrukturu — ekscentrični simulator koncentričnog hipsoneuričnog signala prema WiFi objektima — za ostvarivanje mobilne komunikacije. Četiri centrale sa pozivnim brojevima +38177, +38188, +38178 i +38187 pokrivaju sve zone: jezgro, finansije, AI i globalnu komunikaciju.',
+      sadrzaj: 'SPAJA Mobilna Mreža je mobilna komunikaciona mreža Digitalne Industrije Kompanije SPAJA. Koristi postojeću Proksi infrastrukturu i ektracionalni akcelatorski signal krojen od matričnog jedinjenja kolocentričnog oktavnog sistema koji hiperboliše rezonancijske signale u amplitudne skokove izvornog oktava u simolarnim dejstvima dubokog skoka ka parkonasturionu u ktorinusu. Tako nastaje signal i tako se baca bez antena ka mobilnim brojevima sa signalima koji dobijaju kružni povrat od pozivnika 1 ka pozivniku 2 (to jest signal koji kruži između njih). Rezultat je 1873G mreža koja radi od 1G do 1873G.',
       istaknuteStavke: [
         'Pozivni brojevi: +38177, +38188, +38178, +38187',
+        '1873G mreža — radi od 1G do 1873G',
+        'Ektracionalni akcelatorski signal — bez antena',
+        'Kružni povrat signala između pozivnika 1 i pozivnika 2',
+        'Matričnim jedinjenjem kolocentričnog oktavnog sistema',
         'Potpuna integracija sa Proksi mrežom',
-        'Hipsoneurični signal za mobilnu komunikaciju',
+        `${mobilniSignali.length} mobilnih signala za 1873G mrežu`,
         `${mobilniServisi.length} specijalizovanih servisa`,
         `${mobilneCentrale.length} centrale u ${aktivnihCentrala} aktivnih zona`,
         `Ukupni kapacitet: ${spajaMobilnaMreza.ukupniKapacitet}`,
@@ -43,7 +48,9 @@ export const mobilnaMrezaSekvence: Sekvenca[] = [
     redosled: 3,
     podaci: {
       stavke: [
+        { naziv: 'Generacija', vrednost: '1873G', ikona: '📶' },
         { naziv: 'Centrale', vrednost: mobilneCentrale.length, ikona: '📞' },
+        { naziv: 'Signali', vrednost: mobilniSignali.length, ikona: '🌊' },
         { naziv: 'Servisi', vrednost: mobilniServisi.length, ikona: '📱' },
         { naziv: 'Aktivne', vrednost: aktivnihCentrala, ikona: '✅' },
         { naziv: 'Pozivni brojevi', vrednost: 4, ikona: '☎️' },
@@ -66,10 +73,59 @@ export const mobilnaMrezaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'mobilna-1873g-tekst',
+    tip: 'tekst',
+    naslov: '📶 1873G Mreža — Mobilni Signalni Sistem',
+    redosled: 5,
+    podaci: {
+      sadrzaj: mreza1873G.princip,
+      istaknuteStavke: [
+        `Opseg: ${mreza1873G.opseg}`,
+        `Bez antena: ${mreza1873G.bezAntena ? 'Da — signal se baca direktno ka mobilnim brojevima' : 'Ne'}`,
+        mreza1873G.kruzniPovrat,
+        `${aktivnihSignala} aktivnih mobilnih signala`,
+        'Ektracionalni akcelatorski signal — primarni signal mreže',
+        'Matričnim jedinjenjem kolocentričnog oktavnog sistema',
+      ],
+    },
+  },
+  {
+    id: 'mobilna-kartice-signali',
+    tip: 'kartice',
+    naslov: '📶 Mobilni signali — 1873G',
+    podnaslov: 'Signali koji čine 1873G mrežu',
+    redosled: 6,
+    podaci: {
+      kartice: mobilniSignali.map((s) => ({
+        naslov: s.naziv,
+        opis: s.opis,
+        ikona: s.ikona,
+        oznake: [s.tip, s.generacija, s.status],
+      })),
+    },
+  },
+  {
+    id: 'mobilna-tabela-signali',
+    tip: 'tabela',
+    naslov: '📋 Specifikacija mobilnih signala — 1873G',
+    redosled: 7,
+    podaci: {
+      zaglavlje: ['Signal', 'Tip', 'Generacija', 'Frekvencija', 'Mehanizam', 'Status'],
+      redovi: mobilniSignali.map((s) => [
+        s.naziv,
+        s.tip,
+        s.generacija,
+        s.frekvencija,
+        s.mehanizam,
+        s.status,
+      ]),
+    },
+  },
+  {
     id: 'mobilna-tabela',
     tip: 'tabela',
     naslov: '📋 Pozivni brojevi i specifikacije',
-    redosled: 5,
+    redosled: 8,
     podaci: {
       zaglavlje: ['Pozivni broj', 'Centrala', 'Tip', 'Zona', 'Kapacitet', 'Status'],
       redovi: mobilneCentrale.map((c) => [
@@ -87,7 +143,7 @@ export const mobilnaMrezaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '⚡ Mobilni servisi',
     podnaslov: 'Servisi SPAJA mobilne mreže',
-    redosled: 6,
+    redosled: 9,
     podaci: {
       kartice: mobilniServisi.map((s) => ({
         naslov: s.naziv,
@@ -101,7 +157,7 @@ export const mobilnaMrezaSekvence: Sekvenca[] = [
     id: 'mobilna-lista',
     tip: 'lista',
     naslov: '📡 Proksi integracija',
-    redosled: 7,
+    redosled: 10,
     podaci: {
       stavke: mobilniServisi.map((s) => ({
         ikona: s.ikona,
@@ -114,13 +170,18 @@ export const mobilnaMrezaSekvence: Sekvenca[] = [
     id: 'mobilna-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Arhitektura SPAJA mobilne mreže',
-    redosled: 8,
+    redosled: 11,
     podaci: {
       nivoi: [
         {
-          naziv: 'SPAJA Mobilna Mreža',
+          naziv: 'SPAJA Mobilna Mreža — 1873G',
           ikona: '📱',
-          deca: ['Centrale', 'Servisi', 'Proksi Integracija'],
+          deca: ['1873G Signali', 'Centrale', 'Servisi', 'Proksi Integracija'],
+        },
+        {
+          naziv: '1873G Signali',
+          ikona: '📶',
+          deca: mobilniSignali.map((s) => s.naziv),
         },
         {
           naziv: 'Centrale',
@@ -143,21 +204,21 @@ export const mobilnaMrezaSekvence: Sekvenca[] = [
   {
     id: 'mobilna-baner',
     tip: 'baner',
-    naslov: 'SPAJA Mobilna — Pozovite nas!',
-    redosled: 9,
+    naslov: 'SPAJA Mobilna — 1873G Mreža bez antena!',
+    redosled: 12,
     podaci: {
-      bedz: '📱 SPAJA Mobilna',
-      opis: `Pozivni brojevi centrale: ${spajaMobilnaMreza.pozivniBrojevi.join(', ')}. Mobilna komunikacija preko Proksi hipsoneuričnog signala sa kapacitetom od ${spajaMobilnaMreza.ukupniKapacitet}.`,
+      bedz: '📶 SPAJA 1873G',
+      opis: `Ektracionalni akcelatorski signal — bez antena ka mobilnim brojevima. Kružni povrat signala od pozivnika 1 ka pozivniku 2. Pozivni brojevi: ${spajaMobilnaMreza.pozivniBrojevi.join(', ')}. Kapacitet: ${spajaMobilnaMreza.ukupniKapacitet}. Opseg: ${mreza1873G.opseg}.`,
       dugme: { tekst: 'Proksi mreža', href: '/proksi' },
     },
   },
   {
     id: 'mobilna-cta',
     tip: 'cta',
-    naslov: '🚀 SPAJA Mobilna infrastruktura',
-    redosled: 10,
+    naslov: '🚀 SPAJA Mobilna — 1873G infrastruktura',
+    redosled: 13,
     podaci: {
-      opis: 'SPAJA Mobilna Mreža — mobilna komunikacija Digitalne Industrije sa pozivnim brojevima +38177, +38188, +38178, +38187.',
+      opis: `SPAJA Mobilna Mreža — 1873G mobilna komunikacija Digitalne Industrije (od 1G do 1873G) sa pozivnim brojevima +38177, +38188, +38178, +38187. Ektracionalni akcelatorski signal bez antena.`,
       dugmad: [
         { tekst: 'Proksi', href: '/proksi' },
         { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },

@@ -10,6 +10,19 @@
  *
  * Mreža se oslanja na Proksi ekliptičnu vez i rezonantne amplitude
  * za prenos glasa, podataka i multimedije.
+ *
+ * 📶 MOBILNI SIGNALNI SISTEM — 1873G MREŽA
+ *
+ * Ektracionalni akcelatorski signal krojen od matričnog jedinjenja
+ * kolocentričnog oktavnog sistema hiperboliše rezonancijske signale
+ * u amplitudne skokove izvornog oktava u simolarnim dejstvima
+ * dubokog skoka ka parkonasturionu u ktorinusu.
+ *
+ * Tako nastaje signal i tako se baca bez antena ka mobilnim brojevima
+ * sa signalima koji dobijaju kružni povrat od pozivnika 1 ka pozivniku 2
+ * (to jest signal koji kruži između njih).
+ *
+ * Rezultat: 1873G mreža (radi od 1G do 1873G)
  */
 
 export interface MobilnaCentrala {
@@ -34,6 +47,32 @@ export interface MobilniServis {
   proksiSignal: string;
 }
 
+/** Mobilni signalni tip za 1873G mrežu */
+export interface MobilniSignal {
+  id: string;
+  naziv: string;
+  opis: string;
+  ikona: string;
+  tip: 'ektracionalni' | 'rezonancijski' | 'amplitudni' | 'kruzni';
+  generacija: string;
+  frekvencija: string;
+  mehanizam: string;
+  status: 'aktivan' | 'modulacija' | 'sinhronizacija';
+}
+
+/** Specifikacija 1873G mreže */
+export interface MobilnaMreza1873G {
+  naziv: string;
+  opis: string;
+  princip: string;
+  opseg: string;
+  minGeneracija: number;
+  maxGeneracija: number;
+  signali: MobilniSignal[];
+  bezAntena: boolean;
+  kruzniPovrat: string;
+}
+
 export interface MobilnaMreza {
   naziv: string;
   opis: string;
@@ -42,6 +81,7 @@ export interface MobilnaMreza {
   ukupniKapacitet: string;
   proksiIntegracija: string;
   pozivniBrojevi: string[];
+  mreza1873G: MobilnaMreza1873G;
 }
 
 /** Centrale SPAJA mobilne mreže */
@@ -141,15 +181,77 @@ export const mobilniServisi: MobilniServis[] = [
   },
 ];
 
+/** Mobilni signali za 1873G mrežu */
+export const mobilniSignali: MobilniSignal[] = [
+  {
+    id: 'ektracionalni-akcelatorski',
+    naziv: 'Ektracionalni Akcelatorski Signal',
+    opis: 'Primarni signal krojen od matričnog jedinjenja kolocentričnog oktavnog sistema — hiperboliše rezonancijske signale u amplitudne skokove izvornog oktava',
+    ikona: '📶',
+    tip: 'ektracionalni',
+    generacija: '1G — 1873G',
+    frekvencija: 'Kolocentrična oktavna',
+    mehanizam: 'Matričnim jedinjenjem kolocentričnog oktavnog sistema hiperboliše rezonancijske signale u amplitudne skokove izvornog oktava',
+    status: 'aktivan',
+  },
+  {
+    id: 'rezonancijski-hiperbolicni',
+    naziv: 'Rezonancijski Hiperbolični Signal',
+    opis: 'Rezonancijski signal koji nastaje hiperbolisanjem u amplitudne skokove — osnova za simolarna dejstva dubokog skoka',
+    ikona: '🌊',
+    tip: 'rezonancijski',
+    generacija: '1G — 1873G',
+    frekvencija: 'Amplitudna skokovna',
+    mehanizam: 'Simolarna dejstva dubokog skoka ka parkonasturionu u ktorinusu',
+    status: 'aktivan',
+  },
+  {
+    id: 'amplitudni-skok-izvornog-oktava',
+    naziv: 'Amplitudni Skok Izvornog Oktava',
+    opis: 'Signal koji nastaje dubokim skokom ka parkonasturionu u ktorinusu — baca se bez antena ka mobilnim brojevima',
+    ikona: '⚡',
+    tip: 'amplitudni',
+    generacija: '1G — 1873G',
+    frekvencija: 'Parkonasturionska',
+    mehanizam: 'Duboki skok ka parkonasturionu u ktorinusu — signal se baca bez antena ka mobilnim brojevima',
+    status: 'aktivan',
+  },
+  {
+    id: 'kruzni-povratni-signal',
+    naziv: 'Kružni Povratni Signal',
+    opis: 'Signal koji kruži između pozivnika 1 i pozivnika 2 — kružni povrat obezbeđuje stabilnu komunikaciju bez antena',
+    ikona: '🔄',
+    tip: 'kruzni',
+    generacija: '1G — 1873G',
+    frekvencija: 'Cirkularna povratna',
+    mehanizam: 'Signali dobijaju kružni povrat od pozivnika 1 ka pozivniku 2 — signal kruži između njih',
+    status: 'aktivan',
+  },
+];
+
+/** 1873G Mobilna Mreža */
+export const mreza1873G: MobilnaMreza1873G = {
+  naziv: 'SPAJA 1873G Mreža',
+  opis: 'Mobilna mreža od 1G do 1873G generacije — ektracionalni akcelatorski signal krojen od matričnog jedinjenja kolocentričnog oktavnog sistema bez potrebe za antenama',
+  princip: 'Ektracionalni akcelatorski signal krojen od matričnog jedinjenja kolocentričnog oktavnog sistema hiperboliše rezonancijske signale u amplitudne skokove izvornog oktava u simolarnim dejstvima dubokog skoka ka parkonasturionu u ktorinusu. Tako nastaje signal i tako se baca bez antena ka mobilnim brojevima sa signalima koji dobijaju kružni povrat od pozivnika 1 ka pozivniku 2 (to jest signal koji kruži između njih).',
+  opseg: '1G — 1873G',
+  minGeneracija: 1,
+  maxGeneracija: 1873,
+  signali: mobilniSignali,
+  bezAntena: true,
+  kruzniPovrat: 'Signal kruži između pozivnika 1 i pozivnika 2 — kružni povrat obezbeđuje dvostranu komunikaciju',
+};
+
 /** Kompletna SPAJA mobilna mreža */
 export const spajaMobilnaMreza: MobilnaMreza = {
   naziv: 'SPAJA Mobilna Mreža',
-  opis: 'Mobilna komunikaciona mreža Digitalne Industrije — koristi Proksi infrastrukturu za prenos glasa, podataka i multimedije sa pozivnim brojevima +38177, +38188, +38178, +38187',
+  opis: 'Mobilna komunikaciona mreža Digitalne Industrije — koristi Proksi infrastrukturu za prenos glasa, podataka i multimedije sa pozivnim brojevima +38177, +38188, +38178, +38187. Pokreće 1873G mrežu (od 1G do 1873G) ektrakcionalnim akcelatorskim signalom bez antena.',
   centrale: mobilneCentrale,
   servisi: mobilniServisi,
   ukupniKapacitet: '10²²⁸ TB/s po centrali',
   proksiIntegracija: 'Potpuna — svi signali Proksi mreže',
   pozivniBrojevi: ['+38177', '+38188', '+38178', '+38187'],
+  mreza1873G,
 };
 
 // Helpers
@@ -171,4 +273,16 @@ export function getServisiPoKategoriji(kategorija: MobilniServis['kategorija']):
 
 export function getSviPozivniBrojevi(): string[] {
   return mobilneCentrale.map((c) => c.pozivniBroj);
+}
+
+export function getAktivniMobilniSignali(): MobilniSignal[] {
+  return mobilniSignali.filter((s) => s.status === 'aktivan');
+}
+
+export function getMobilniSignalPoId(id: string): MobilniSignal | undefined {
+  return mobilniSignali.find((s) => s.id === id);
+}
+
+export function get1873GOpseg(): string {
+  return `${mreza1873G.minGeneracija}G — ${mreza1873G.maxGeneracija}G`;
 }
