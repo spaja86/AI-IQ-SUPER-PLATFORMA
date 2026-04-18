@@ -30,6 +30,8 @@ export async function GET() {
       naziv: mreza1873G.naziv,
       opseg: mreza1873G.opseg,
       bezAntena: mreza1873G.bezAntena,
+      bezCentrale: mreza1873G.bezCentrale,
+      razlogBezCentrale: mreza1873G.razlogBezCentrale,
       kruzniPovrat: mreza1873G.kruzniPovrat,
       ukupnoSignala: mobilniSignali.length,
       aktivnihSignala: aktivniSignali.length,
