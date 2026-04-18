@@ -1,10 +1,12 @@
 import type { Sekvenca } from '@/lib/types';
-import { spajaProVerzije, getAktivneVerzije, getBetaVerzije, getUkupnoMogucnosti, getSvePromptTipove } from '@/lib/spaja-pro';
+import { spajaProVerzije, getAktivneVerzije, getBetaVerzije, getUkupnoMogucnosti, getSvePromptTipove, getSveBiblioteke, getUkupnoBiblioteka } from '@/lib/spaja-pro';
 
 const aktivne = getAktivneVerzije();
 const beta = getBetaVerzije();
 const ukupnoMogucnosti = getUkupnoMogucnosti();
 const sviPromptTipovi = getSvePromptTipove();
+const ukupnoBiblioteka = getUkupnoBiblioteka();
+const sveBiblioteke = getSveBiblioteke();
 
 export const spajaProSekvence: Sekvenca[] = [
   {
@@ -37,6 +39,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
         `${beta.length} beta verzija: ${beta.map((v) => v.naziv).join(', ')}`,
         `${ukupnoMogucnosti} ukupnih mogućnosti kroz sve verzije`,
         `${sviPromptTipovi.length} tipova Prompt-a: ${sviPromptTipovi.slice(0, 8).join(', ')}...`,
+        `${ukupnoBiblioteka} ukupnih biblioteka: ${sveBiblioteke.slice(0, 10).join(', ')}...`,
         'Izvor: Kompanija-SPAJA repozitorijum',
       ],
     },
@@ -52,6 +55,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
         { naziv: 'Aktivnih', vrednost: aktivne.length, ikona: '✅' },
         { naziv: 'Mogućnosti', vrednost: ukupnoMogucnosti, ikona: '⚡' },
         { naziv: 'Prompt tipovi', vrednost: sviPromptTipovi.length, ikona: '📝' },
+        { naziv: 'Biblioteke', vrednost: ukupnoBiblioteka, ikona: '📦' },
       ],
     },
   },
@@ -61,7 +65,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
     naslov: '🔢 Sve SpajaPro verzije (6-15)',
     redosled: 4,
     podaci: {
-      zaglavlje: ['Verzija', 'Kodno ime', 'Status', 'Max tokena', 'Jezici', 'Prompt tipovi', 'Fine-tuning'],
+      zaglavlje: ['Verzija', 'Kodno ime', 'Status', 'Max tokena', 'Jezici', 'Prompt tipovi', 'Biblioteke', 'Fine-tuning'],
       redovi: spajaProVerzije.map((v) => [
         `${v.ikona} ${v.naziv}`,
         v.kodnoIme,
@@ -69,6 +73,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
         v.promptPodrska.maxTokena.toLocaleString(),
         String(v.promptPodrska.jezici.length),
         String(v.promptPodrska.promptTipovi.length),
+        String(v.biblioteke.length),
         v.promptPodrska.finetuning ? '✅' : '❌',
       ]),
     },
@@ -83,7 +88,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
         naslov: `${v.ikona} ${v.naziv} — ${v.kodnoIme}`,
         opis: v.opis,
         ikona: v.ikona,
-        oznake: [v.status, `${v.promptPodrska.maxTokena.toLocaleString()} tokena`, ...v.mogucnosti.slice(0, 3)],
+        oznake: [v.status, `${v.promptPodrska.maxTokena.toLocaleString()} tokena`, `${v.biblioteke.length} biblioteka`, ...v.mogucnosti.slice(0, 3)],
       })),
     },
   },
@@ -130,14 +135,28 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
         { ikona: '📡', naslov: 'Proksi distribucija', opis: 'SpajaPro 11+ distribuira Prompt-ove kroz Proksi mrežu egzotičnih signala' },
         { ikona: '📱', naslov: 'Mobilna optimizacija', opis: 'SpajaPro 12 optimizuje Prompt-ove za SPAJA Mobilnu Mrežu' },
         { ikona: '🧬', naslov: 'Samo-evolucija', opis: 'SpajaPro 13+ koristi genetske algoritme za autonomnu evoluciju Prompt-ova' },
+        { ikona: '📦', naslov: 'Biblioteke za svaku verziju', opis: `${ukupnoBiblioteka} biblioteka integrisano — od Zod i Recharts do TensorFlow.js i Langchain` },
       ],
+    },
+  },
+  {
+    id: 'spajapro-biblioteke',
+    tip: 'lista',
+    naslov: '📦 SpajaPro biblioteke po verzijama',
+    redosled: 8,
+    podaci: {
+      stavke: spajaProVerzije.map((v) => ({
+        ikona: v.ikona,
+        naslov: `${v.naziv} — ${v.biblioteke.length} biblioteka`,
+        opis: v.biblioteke.join(', '),
+      })),
     },
   },
   {
     id: 'spajapro-cta',
     tip: 'cta',
     naslov: '🚀 SpajaPro — AI budućnost Kompanije SPAJA',
-    redosled: 8,
+    redosled: 9,
     podaci: {
       opis: 'SpajaPro 6-15 engine zamenjuje ChatGPT i donosi Prompt svuda u ekosistemu.',
       stavke: [
@@ -145,6 +164,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
         { naziv: 'Aktivnih', vrednost: aktivne.length, ikona: '✅' },
         { naziv: 'Mogućnosti', vrednost: ukupnoMogucnosti, ikona: '⚡' },
         { naziv: 'Prompt tipovi', vrednost: sviPromptTipovi.length, ikona: '📝' },
+        { naziv: 'Biblioteke', vrednost: ukupnoBiblioteka, ikona: '📦' },
       ],
       dugmad: [
         { tekst: 'Prompt Sistem', href: '/prompt' },
