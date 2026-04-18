@@ -35,6 +35,7 @@ import { spajaBlogFaq } from './spaja-blog-faq';
 import { spajaUnitTestovi } from './spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from './vizuelni-identitet';
+import { getReklameMetrike } from './reklame-i-partnerstva';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
@@ -149,5 +150,13 @@ export function getStatistike() {
     vizuelniResursa: vizuelniIdentitetSistem.ukupnoResursa,
     vizuelniOsnivac: vizuelniIdentitetSistem.osnivac.punoIme,
     vizuelniStatus: vizuelniIdentitetSistem.status,
+
+    // Reklame & Partnerstva
+    reklameUkupno: getReklameMetrike().ukupnoReklama,
+    reklameAktivnih: getReklameMetrike().aktivnihReklama,
+    partnerstvaUkupno: getReklameMetrike().ukupnoPartnerstava,
+    partnerstvaPotpisanih: getReklameMetrike().aktivnihPartnerstava,
+    monetizacijaKanala: getReklameMetrike().monetizacijaKanala,
+    monetizacijaAktivnih: getReklameMetrike().aktivnihKanala,
   };
 }
