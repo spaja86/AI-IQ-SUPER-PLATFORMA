@@ -17,6 +17,12 @@ export async function GET() {
       pozivniBrojevi: MOBILNI_POZIVNI,
       servisi: ['Pozivi', 'SMS', 'Internet', 'VoIP', 'RCS'],
       pokrivenost: '100% SPAJA teritorija',
+      mreza1873G: {
+        generacija: '1873G',
+        opseg: '1G — 1873G',
+        bezAntena: true,
+        signala: 4,
+      },
     },
 
     proksiMreza: {
