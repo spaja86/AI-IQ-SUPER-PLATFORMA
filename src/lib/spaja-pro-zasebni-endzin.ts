@@ -77,6 +77,7 @@ export interface GooglePretragaPodrska {
 export interface ProgramiranjePodrska {
   jezici: string[];
   framevorci: string[];
+  biblioteke: string[];
   codeReview: boolean;
   debugging: boolean;
   refaktoring: boolean;
@@ -127,6 +128,11 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'HTML', 'CSS'],
       framevorci: ['React'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+      ],
       codeReview: false,
       debugging: false,
       refaktoring: false,
@@ -175,6 +181,14 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'HTML', 'CSS'],
       framevorci: ['React', 'Next.js'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet', 'csurf',
+        'DOMPurify', 'sanitize-html', 'express-validator',
+        'rate-limiter-flexible', 'xss-filters',
+      ],
       codeReview: true,
       debugging: false,
       refaktoring: false,
@@ -223,6 +237,16 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'Java', 'HTML', 'CSS', 'SQL'],
       framevorci: ['React', 'Next.js', 'Node.js'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet',
+        'Recharts', 'D3.js', 'Chart.js',
+        'mathjs', 'simple-statistics', 'numeral',
+        'csv-parse', 'xlsx', 'papaparse',
+        'dayjs',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: false,
@@ -271,6 +295,18 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'HTML', 'CSS', 'SQL', 'Swift'],
       framevorci: ['React', 'Next.js', 'Node.js', 'Vue.js', 'Tailwind'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet',
+        'Recharts', 'D3.js', 'Chart.js',
+        'Framer Motion', 'Lucide React', 'React Icons',
+        'Radix UI', 'Headless UI', 'shadcn/ui',
+        'sharp', 'canvas', 'jimp',
+        'Markdown-it', 'react-markdown', 'rehype', 'remark',
+        'tailwind-merge', 'class-variance-authority',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: true,
@@ -319,6 +355,20 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'C++', 'Go', 'Rust', 'HTML', 'CSS', 'SQL', 'Swift', 'Kotlin'],
       framevorci: ['React', 'Next.js', 'Node.js', 'Vue.js', 'Angular', 'Tailwind', 'Express', 'Django'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        '@ai-sdk/openai', '@ai-sdk/google', '@ai-sdk/anthropic',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet',
+        'Recharts', 'D3.js', 'Chart.js',
+        'Framer Motion', 'Lucide React', 'Radix UI',
+        'sharp', 'react-markdown',
+        'Zustand', 'Jotai', 'Immer',
+        'ioredis', 'bullmq', 'p-queue',
+        'winston', 'pino', 'sentry',
+        'uuid', 'nanoid', 'cuid2',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: true,
@@ -367,6 +417,24 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'C++', 'Go', 'Rust', 'HTML', 'CSS', 'SQL', 'Swift', 'Kotlin', 'PHP', 'Ruby'],
       framevorci: ['React', 'Next.js', 'Node.js', 'Vue.js', 'Angular', 'Tailwind', 'Express', 'Django', 'Flask', 'Spring'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        '@ai-sdk/openai', '@ai-sdk/google', '@ai-sdk/anthropic',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet',
+        'Recharts', 'D3.js', 'Chart.js',
+        'Framer Motion', 'Lucide React', 'Radix UI',
+        'sharp', 'react-markdown',
+        'Zustand', 'Jotai', 'Immer',
+        'ioredis', 'bullmq', 'p-queue',
+        'winston', 'pino', 'sentry',
+        'uuid', 'nanoid',
+        'Socket.IO', 'ws', 'undici',
+        'axios', 'ky', 'got',
+        'protobufjs', 'msgpackr', 'flatbuffers',
+        'lz4', 'snappy', 'zstd',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: true,
@@ -415,6 +483,25 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'C++', 'Go', 'Rust', 'Swift', 'Kotlin', 'Dart', 'HTML', 'CSS', 'SQL'],
       framevorci: ['React Native', 'Flutter', 'Next.js', 'Node.js', 'SwiftUI', 'Jetpack Compose', 'Tailwind'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        '@ai-sdk/openai', '@ai-sdk/google', '@ai-sdk/anthropic',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet',
+        'Recharts', 'D3.js',
+        'Framer Motion', 'Lucide React', 'Radix UI',
+        'sharp', 'react-markdown',
+        'Zustand', 'Jotai', 'Immer',
+        'ioredis', 'bullmq',
+        'winston', 'pino', 'sentry',
+        'uuid', 'nanoid',
+        'Socket.IO', 'ws',
+        'React Native Web', 'Expo',
+        'workbox', 'idb', 'localforage',
+        'pako', 'lz-string', 'fflate',
+        'mqtt', 'serialport', 'noble',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: true,
@@ -463,6 +550,26 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'C++', 'Go', 'Rust', 'Swift', 'Kotlin', 'Dart', 'Scala', 'Haskell', 'HTML', 'CSS', 'SQL'],
       framevorci: ['React', 'Next.js', 'Node.js', 'Vue.js', 'Angular', 'Svelte', 'Tailwind', 'Express', 'Django', 'Flask', 'Spring', 'Rails'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        '@ai-sdk/openai', '@ai-sdk/google', '@ai-sdk/anthropic',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet',
+        'Recharts', 'D3.js', 'Chart.js',
+        'Framer Motion', 'Lucide React', 'Radix UI',
+        'sharp', 'react-markdown',
+        'Zustand', 'Jotai', 'Immer',
+        'ioredis', 'bullmq', 'p-queue',
+        'winston', 'pino', 'sentry',
+        'uuid', 'nanoid',
+        'Socket.IO', 'ws',
+        'TensorFlow.js', 'ONNX Runtime Web', 'Brain.js',
+        'ml-regression', 'ml-classify', 'ml-matrix',
+        'genetic-js', 'evolutionjs',
+        'natural', 'compromise', 'wink-nlp',
+        'mathjs', 'simple-statistics', 'stdlib',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: true,
@@ -511,6 +618,27 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'C++', 'C', 'Go', 'Rust', 'Swift', 'Kotlin', 'Dart', 'Scala', 'Haskell', 'Elixir', 'R', 'HTML', 'CSS', 'SQL'],
       framevorci: ['React', 'Next.js', 'Node.js', 'Vue.js', 'Angular', 'Svelte', 'Tailwind', 'Express', 'Django', 'Flask', 'Spring', 'Rails', '.NET', 'Laravel'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        '@ai-sdk/openai', '@ai-sdk/google', '@ai-sdk/anthropic',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet',
+        'Recharts', 'D3.js', 'Chart.js', 'Three.js',
+        'Framer Motion', 'Lucide React', 'Radix UI',
+        'sharp', 'react-markdown',
+        'Zustand', 'Jotai', 'Immer',
+        'ioredis', 'bullmq', 'p-queue',
+        'winston', 'pino', 'sentry',
+        'uuid', 'nanoid',
+        'Socket.IO', 'ws', 'protobufjs',
+        'TensorFlow.js', 'ONNX Runtime Web', 'Brain.js',
+        'ml-matrix', 'ndarray', 'scijs',
+        'natural', 'compromise', 'wink-nlp',
+        'mathjs', 'simple-statistics', 'stdlib',
+        'cytoscape', 'sigma.js', 'graphology',
+        'apache-arrow', 'parquet-wasm', 'duckdb-wasm',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: true,
@@ -559,6 +687,49 @@ export const zasebniEndzini: ZasebniEndzin[] = [
     programiranje: {
       jezici: ['univerzalni'],
       framevorci: ['univerzalni'],
+      biblioteke: [
+        'Zod', 'clsx', 'date-fns', 'dayjs', 'Lodash',
+        'Supabase JS', 'OpenAI SDK', 'Vercel AI SDK',
+        '@ai-sdk/openai', '@ai-sdk/google', '@ai-sdk/anthropic', '@ai-sdk/mistral', '@ai-sdk/cohere',
+        'Tailwind CSS', 'PostCSS', 'ESLint',
+        'jose', 'bcrypt', 'helmet', 'csurf',
+        'Recharts', 'D3.js', 'Chart.js', 'Three.js', 'Plotly.js',
+        'Framer Motion', 'Lucide React', 'Radix UI', 'shadcn/ui',
+        'sharp', 'react-markdown', 'rehype', 'remark',
+        'Zustand', 'Jotai', 'Immer', 'XState',
+        'ioredis', 'bullmq', 'p-queue', 'p-limit',
+        'winston', 'pino', 'sentry', 'datadog',
+        'uuid', 'nanoid', 'cuid2',
+        'Socket.IO', 'ws', 'protobufjs', 'msgpackr',
+        'TensorFlow.js', 'ONNX Runtime Web', 'Brain.js', 'Transformers.js',
+        'ml-matrix', 'ndarray', 'mathjs', 'stdlib',
+        'natural', 'compromise', 'wink-nlp',
+        'cytoscape', 'sigma.js', 'graphology',
+        'apache-arrow', 'parquet-wasm', 'duckdb-wasm',
+        'React Native', 'Expo',
+        'workbox', 'idb', 'localforage',
+        'pako', 'fflate', 'lz4', 'zstd',
+        'mqtt', 'noble',
+        'genetic-js', 'evolutionjs',
+        'axios', 'ky', 'got', 'undici',
+        'Prisma', 'Drizzle ORM', 'Kysely',
+        'next-intl', 'i18next', 'react-i18next',
+        'next-auth', 'lucia', 'arctic',
+        'Resend', 'Nodemailer', 'React Email',
+        'Puppeteer', 'Playwright',
+        'Vitest', 'Jest', 'Testing Library',
+        'Storybook', 'Chromatic',
+        'GraphQL', 'Apollo Client', 'URQL',
+        'tRPC', 'Hono', 'Express',
+        'Langchain', 'LlamaIndex',
+        'PDF-lib', 'jsPDF', 'docx',
+        'FFmpeg.wasm', 'Tone.js', 'Howler.js',
+        'Lottie Web', 'GSAP', 'Anime.js',
+        'Mapbox GL', 'Leaflet', 'Deck.gl',
+        'Monaco Editor', 'CodeMirror',
+        'Yjs', 'Automerge', 'CRDT',
+        'Turborepo', 'Nx',
+      ],
       codeReview: true,
       debugging: true,
       refaktoring: true,
@@ -709,4 +880,18 @@ export function getSveFramevorke(): string[] {
     }
   }
   return [...fv];
+}
+
+export function getSveBibliotekeZasebnih(): string[] {
+  const bib = new Set<string>();
+  for (const e of zasebniEndzini) {
+    for (const b of e.programiranje.biblioteke) {
+      bib.add(b);
+    }
+  }
+  return [...bib];
+}
+
+export function getUkupnoBibliotekaZasebnih(): number {
+  return getSveBibliotekeZasebnih().length;
 }
