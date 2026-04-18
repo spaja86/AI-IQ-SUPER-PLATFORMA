@@ -48,4 +48,5 @@ export const navigation: NavItem[] = [
   { label: 'Registracija', href: '/registracija', icon: '📝', description: 'Registracija korisnika — kreiranje naloga za pristup platformi' },
   { label: 'Bezbednost', href: '/security', icon: '🔒', description: 'OMEGA Bezbednosni sistem — zaštita i enkripcija podataka' },
   { label: 'Nabavka', href: '/glavni-sistem-nabavka', icon: '💰', description: 'Glavni Sistem Nabavke — 50 digitalnih varijacija kupljeno iz AI IQ World Bank' },
+  { label: 'Reklame & Partnerstva', href: '/reklame-i-partnerstva', icon: '📢', description: 'Reklamne kampanje, partnerstva iz svih branši i monetizacija' },
 ];

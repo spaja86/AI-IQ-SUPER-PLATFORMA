@@ -59,6 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/spaja-digitalni-kompjuter',
     '/glavni-endzin',
     '/glavni-sistem-nabavka',
+    '/reklame-i-partnerstva',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
