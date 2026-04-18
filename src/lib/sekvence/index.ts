@@ -44,3 +44,6 @@ export { digitalnaPlatformaSekvence } from './digitalna-platforma-page';
 
 // ── Glavni Endžin Digitalne Industrije ──────────────────────────────────────
 export { glavniEndzinSekvence } from './glavni-endzin-page';
+
+// ── Glavni Sistem Nabavke ───────────────────────────────────────────────────
+export { glavniSistemNabavkaSekvence } from './glavni-sistem-nabavka-page';
