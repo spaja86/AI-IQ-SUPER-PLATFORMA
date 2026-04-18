@@ -24,14 +24,14 @@ export const OMEGA_AI_MUSKIH = 20_000_281;
 export const OMEGA_AI_ZENSKIH = 20_000_281;
 
 // Ekosistem
-export const TOTAL_PAGES = 49;
-export const TOTAL_API_ROUTES = 586;
-export const TOTAL_ROUTES = 638;
+export const TOTAL_PAGES = 50;
+export const TOTAL_API_ROUTES = 588;
+export const TOTAL_ROUTES = 641;
 export const TOTAL_IGRICA = 95;
 export const TOTAL_DIAGNOSTIKA = 690;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 351;
+export const AUTOFINISH_COUNT = 353;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
@@ -40,6 +40,9 @@ export const PROKSI_KAPACITET = '10²²⁸ TB';
 // Mobilna Mreža
 export const MOBILNE_CENTRALE = 4;
 export const MOBILNI_POZIVNI = ['+38177', '+38188', '+38178', '+38187'];
+
+// Nabavka
+export const NABAVKA_VARIJACIJA = 50;
 
 // Sitemap prioriteti
 export const SITEMAP_PRIORITY_HOME = 1;

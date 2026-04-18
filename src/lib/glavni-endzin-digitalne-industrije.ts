@@ -47,6 +47,11 @@ import {
   TOTAL_IGRICA,
   SPAJA_PRO_RANGE,
 } from './constants';
+import {
+  glavniSistemNabavka,
+  nabavkaStavke,
+  getNabavkaStatistika,
+} from './glavni-sistem-nabavka';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -96,6 +101,11 @@ export interface GlavniEndzinStatistika {
   ukupnoProizvodaSklopljenih: number;
   evolucijaCiklusa: number;
   kompletnostSistema: number;
+  // Glavni Sistem Nabavke — spojen sa Endžinom
+  nabavkaStavki: number;
+  nabavkaUkupnoPotroseno: number;
+  nabavkaKategorija: number;
+  nabavkaTransakcija: number;
 }
 
 export interface GlavniEndzinDigitalneIndustrije {
@@ -112,6 +122,15 @@ export interface GlavniEndzinDigitalneIndustrije {
   mogucnosti: string[];
   misija: string;
   vizija: string;
+  // Glavni Sistem Nabavke — spojen
+  glavniSistem: {
+    naziv: string;
+    status: string;
+    bankaIzvor: string;
+    ukupnoStavki: number;
+    ukupnoPotroseno: number;
+    kategorija: number;
+  };
 }
 
 // ─── Spajanje svih endžina ──────────────────────────────
@@ -242,6 +261,20 @@ const evolucijaCiklusi: EvolucijaCiklus[] = [
     faza: 'aktivna',
     napredak: 100,
   },
+  {
+    id: 'evo-spajanje-sistema',
+    naziv: 'Spajanje Glavnog Endžina i Glavnog Sistema',
+    opis: 'Glavni Endžin i Glavni Sistem spojeni u jednu celinu — endžin pokreće, sistem kupuje iz AI IQ World Bank',
+    faza: 'zavrsena',
+    napredak: 100,
+  },
+  {
+    id: 'evo-nabavka-varijacija',
+    naziv: 'Nabavka 50 digitalnih varijacija',
+    opis: 'Kupljeno 50 digitalnih varijacija iz AI IQ World Bank — Biskop, Top, Konj, Kraljica, CRM, ERP, Firewall, VPN i mnogo više',
+    faza: 'zavrsena',
+    napredak: 100,
+  },
 ];
 
 // ─── Mogućnosti ──────────────────────────────────────────
@@ -269,6 +302,22 @@ const mogucnosti: string[] = [
   'AGENT ORKESTRACIJA — svi agenti slušaju Glavni Endžin i automatski rade bez intervencije',
   'LIVE DIGITALNA INDUSTRIJA — radi automatski 24/7 bez potrebe za manuelnim radom',
   'AUTO-BILLING PRODUKCIJA — AI IQ World Bank generise racun za spajicn@yahoo.com (Nikola Spajic), automatski placa Vercel i GitHub',
+  // ── NOVI — Glavni Sistem Nabavke spojen sa Endžinom ────
+  `GLAVNI SISTEM NABAVKE — ${nabavkaStavke.length} digitalnih varijacija kupljeno iz AI IQ World Bank`,
+  `NABAVKA — Ukupno potrošeno $${glavniSistemNabavka.ukupnoPotroseno.toLocaleString()} USD za Digitalnu Industriju`,
+  'STRATEŠKE FIGURE — Digitalni Biskop, Top, Konj, Kraljica, Kralj, Pešak',
+  'GAMING — Arkade Engine, VR Simulacija, E-Sports Arena',
+  'KOMUNIKACIJE — Digitalni Radio, Telegram, Forum, Podcast',
+  'INFRASTRUKTURA — Cloud Fabric, Edge Node, DNS Engine, CDN, Load Balancer Plus',
+  'EDUKACIJA — Akademija, Mentor, Biblioteka, Certifikat Engine',
+  'POSLOVANJE — CRM, ERP, Invoice Generator, HR Platforma, Tender Engine, Smart Contract',
+  'BEZBEDNOST — Firewall, VPN Gateway, Antivirus Engine, Forenzika',
+  'KREATIVNO — Dizajn Studio, Video Editor, Muzički Studio, 3D Modelar',
+  'ZDRAVSTVO — Digitalna Klinika, Apotekar, Fitnes Trener',
+  'GLOBALNO — Ambasador, Prevodilac, Turistički Vodič, Digitalna Pošta, Berza',
+  'NAUKA — Laboratorija Plus, Observatorija, Genom Analizator, Kvantni Simulator',
+  'TRANSPORT — Logistika Engine, Fleet Manager',
+  'SPOJEN ENDŽIN + SISTEM — Glavni Endžin i Glavni Sistem rade kao JEDNA CELINA',
 ];
 
 // ─── Statistika ──────────────────────────────────────────
@@ -284,6 +333,8 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
   const platformiSklopljeno = sklopljeni.filter((s) => s.tip === 'platforma').length;
   const igricaSklopljeno = sklopljeni.filter((s) => s.tip === 'igrica').length;
   const proizvodaSklopljeno = sklopljeni.filter((s) => s.tip === 'it-proizvod').length;
+
+  const nabavkaStats = getNabavkaStatistika();
 
   return {
     ukupnoSpojenih: spojeni.length,
@@ -303,6 +354,11 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
     ukupnoProizvodaSklopljenih: proizvodaSklopljeno,
     evolucijaCiklusa: evolucijaCiklusi.length,
     kompletnostSistema: 100,
+    // Glavni Sistem Nabavke statistika
+    nabavkaStavki: nabavkaStats.ukupnoStavki,
+    nabavkaUkupnoPotroseno: nabavkaStats.ukupnoPotroseno,
+    nabavkaKategorija: nabavkaStats.kategorija,
+    nabavkaTransakcija: nabavkaStats.transakcija,
   };
 }
 
@@ -313,16 +369,15 @@ const sklopljeniProizvodi = autoSklopiProizvode();
 
 export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = {
   id: 'glavni-endzin-digitalne-industrije',
-  naziv: 'Glavni Endžin Digitalne Industrije',
+  naziv: 'Glavni Endžin + Glavni Sistem — Digitalna Industrija',
   opis:
-    'Glavni Endžin koji spaja SVE endžine u jedan veliki unificirani endžin. ' +
-    'Automatski sklapa gotove proizvode i igrice, unapređuje sve platforme ' +
-    'i sva poslovanja. Smešten kao glavni endžin Digitalne Industrije koji ' +
-    'SVE pokreće, suslediće da SVE iznikne na 100% i neprekidno evolvira. ' +
+    'Glavni Endžin i Glavni Sistem SPOJENI U JEDNO — endžin spaja SVE endžine, ' +
+    'sistem troši pare iz AI IQ World Bank i kupuje sve što treba Digitalnoj Industriji. ' +
     `Objedinjuje ${spojeniEndzini.length} endžina, ${sklopljeniProizvodi.length} sklopljenih proizvoda, ` +
+    `${nabavkaStavke.length} nabavljenih digitalnih varijacija ($${glavniSistemNabavka.ukupnoPotroseno.toLocaleString()} USD), ` +
     `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona.`,
-  ikona: '🏭⚙️',
-  verzija: '2.0.0',
+  ikona: '🏭⚙️💰',
+  verzija: '3.0.0',
   status: 'aktivan',
   spojeniEndzini,
   autoSklapanje: sklopljeniProizvodi,
@@ -330,13 +385,21 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
   statistika: izracunajStatistiku(spojeniEndzini, sklopljeniProizvodi),
   mogucnosti,
   misija:
-    'Spajanje SVIH endžina u jedan veliki Glavni Endžin koji automatski sklapa gotove proizvode, ' +
-    'unapređuje sve platforme i poslovanja, pokreće celokupnu Digitalnu Industriju, ' +
-    'obezbeđuje 100% kompletnost i neprekidno evolvira.',
+    'Spajanje SVIH endžina u jedan Glavni Endžin + Glavni Sistem koji automatski sklapa gotove proizvode, ' +
+    'kupuje sve što treba Digitalnoj Industriji iz AI IQ World Bank, unapređuje sve platforme i poslovanja, ' +
+    'pokreće celokupnu Digitalnu Industriju, obezbeđuje 100% kompletnost i neprekidno evolvira.',
   vizija:
-    'Glavni Endžin koji NIKAD ne staje — neprekidno evolvira, automatski sklapa, ' +
-    'unapređuje i pokreće celokupan ekosistem Digitalne Industrije Kompanije SPAJA. ' +
-    'Svaki endžin je spojen, svaki proizvod je sklopljen, sve je na 100%.',
+    'Glavni Endžin + Glavni Sistem koji NIKAD ne staje — neprekidno evolvira, automatski sklapa, ' +
+    'kupuje, unapređuje i pokreće celokupan ekosistem Digitalne Industrije Kompanije SPAJA. ' +
+    'Svaki endžin je spojen, svaki proizvod je sklopljen, svaka varijacija je kupljena — sve je na 100%.',
+  glavniSistem: {
+    naziv: glavniSistemNabavka.naziv,
+    status: glavniSistemNabavka.status,
+    bankaIzvor: glavniSistemNabavka.bankaIzvor,
+    ukupnoStavki: glavniSistemNabavka.ukupnoStavki,
+    ukupnoPotroseno: glavniSistemNabavka.ukupnoPotroseno,
+    kategorija: glavniSistemNabavka.kategorije.length,
+  },
 };
 
 // ─── Helper funkcije ─────────────────────────────────────
