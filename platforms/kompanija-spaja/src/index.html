@@ -3,34 +3,354 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kompanija SPAJA</title>
-  <link rel="stylesheet" href="../../shared/styles/platform-base.css" />
+  <title>Kompanija SPAJA — Digitalna Industrija</title>
+  <meta name="description" content="Kompanija SPAJA je matična digitalna industrija koja povezuje platforme, AI tokove i poslovne procese." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    .platform-color { --accent: #e84393; }
+    :root {
+      --bg: #0b0b0f;
+      --bg-soft: #151520;
+      --surface: #1e1e2d;
+      --text: #f5f5f8;
+      --muted: #b6b6c8;
+      --accent: #e84393;
+      --accent-soft: rgba(232, 67, 147, 0.12);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(circle at top, #1a1a27 0%, var(--bg) 45%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(14px);
+      background: rgba(11, 11, 15, 0.72);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 16px;
+    }
+
+    .brand { font-weight: 800; letter-spacing: 0.3px; }
+    .brand span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero {
+      padding-top: 80px;
+      display: grid;
+      gap: 24px;
+      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 60ch;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      color: #ff9bc9;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      margin-bottom: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+
+    .btn-secondary {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .cards {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .card h3 { margin-top: 0; margin-bottom: 8px; }
+    .card p { margin: 0; color: var(--muted); font-size: 0.94rem; }
+
+    .dsl {
+      background: #08080d;
+      border: 1px solid #2a2a3a;
+      border-radius: 14px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: #76ffb4;
+      font-size: 0.88rem;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .platform-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.01);
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .platform-link:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    footer {
+      padding: 32px 0 48px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      section { padding: 50px 0; }
+      .nav-inner { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 56px; }
+    }
   </style>
 </head>
-<body class="platform-color">
-  <header class="platform-header">
-    <a href="../../portal/public/index.html" class="back-link">← Portal</a>
-    <h1>🏢 Kompanija SPAJA</h1>
-  </header>
-  <main class="platform-main">
-    <section class="hero">
-      <h2>Korporativna Platforma</h2>
-      <p>Spajamo sve timove, procese i resurse kompanije uz pomoć AI.</p>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">🏢 Kompanija <span>SPAJA</span></div>
+      <div class="nav-links">
+        <a href="#o-nama">O nama</a>
+        <a href="#usluge">Usluge</a>
+        <a href="#platforme">Platforme</a>
+        <a href="#dsl">DSL</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero" id="hero">
+      <div>
+        <span class="chip">Digitalna Industrija • AI & Runtime Systems</span>
+        <h1>Spajamo ljude, procese i platforme u jednu inteligentnu celinu.</h1>
+        <p>
+          Kompanija SPAJA je matična organizacija AI-IQ SUPER PLATFORMA ekosistema.
+          Razvijamo poslovne platforme, DSL alate i sigurnu automatizaciju za finansije,
+          analitiku i operativne tokove.
+        </p>
+        <div class="button-row">
+          <a href="#kontakt" class="btn btn-primary">Kontaktirajte nas</a>
+          <a href="#dsl" class="btn btn-secondary">Pogledaj SpajaUltraOmegaCore</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Ključne brojke</h3>
+        <p>• 3+ ključne platforme u produkcionom ekosistemu</p>
+        <p>• Next.js + TypeScript + Supabase + OpenAI + Stripe</p>
+        <p>• Auditabilni procesi i role-based kontrole</p>
+      </div>
     </section>
 
-    <section class="ecosystem-section">
-      <h3>🔗 Ekosistem Kompanija SPAJA</h3>
-      <p>Sve nase platforme saradjuju medjusobno za potpuno finansijsko iskustvo</p>
-      <div class="ecosystem-grid" id="ekosistem-linkovi"></div>
+    <section id="o-nama">
+      <div class="section-head">
+        <h2>O nama</h2>
+        <p>Kompanija fokusirana na sigurnu AI transformaciju.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <h3>Vizija</h3>
+          <p>Izgradnja ekosistema gde su platforme međusobno povezane, interoperabilne i transparentne.</p>
+        </article>
+        <article class="card">
+          <h3>Misija</h3>
+          <p>Isporuka stabilnih digitalnih proizvoda koji donose merljivu vrednost timovima i korisnicima.</p>
+        </article>
+        <article class="card">
+          <h3>Pristup</h3>
+          <p>Inženjering orijentisan na rezultat: bezbednost, audit trag i brza iteracija su obavezni standardi.</p>
+        </article>
+      </div>
     </section>
 
-    <section class="status-banner" style="margin-top:1.5rem">
-      <p>🚧 <strong>Status:</strong> U razvoju — platforma se migira u monorepo strukturu.</p>
+    <section id="usluge">
+      <div class="section-head">
+        <h2>Usluge</h2>
+        <p>Od ideje do produkcije kroz jedinstveni razvojni tok.</p>
+      </div>
+      <div class="cards">
+        <article class="card"><h3>AI konsulting</h3><p>Definisanje AI roadmap-a, model strategije i poslovnih KPI ciljeva.</p></article>
+        <article class="card"><h3>Razvoj platformi</h3><p>Full-stack implementacija sa Next.js App Router arhitekturom.</p></article>
+        <article class="card"><h3>Integracije i API</h3><p>Povezivanje ERP/CRM sistema, payment servisa i real-time tokova.</p></article>
+        <article class="card"><h3>Sigurnost i audit</h3><p>Role-based kontrole, autentifikacija i detaljni audit trag izvršavanja.</p></article>
+      </div>
+    </section>
+
+    <section id="platforme">
+      <div class="section-head">
+        <h2>Platforme</h2>
+        <p>Povezane komponente AI-IQ SUPER PLATFORMA ekosistema.</p>
+      </div>
+      <div class="cards">
+        <a class="platform-link" href="../../world-bank/src/index.html">🌍 AI IQ World Bank <span>→</span></a>
+        <a class="platform-link" href="../../menjacnica/src/index.html">💱 AI IQ Menjačnica <span>→</span></a>
+        <a class="platform-link" href="../../io-openui-ao/src/index.html">🧪 IO OpenUI AO <span>→</span></a>
+      </div>
+    </section>
+
+    <section id="dsl">
+      <div class="section-head">
+        <h2>SpajaUltraOmegaCore DSL preview</h2>
+        <p>Jezik za kontrolisano izvršavanje naredbi kroz parser + runtime.</p>
+      </div>
+      <pre class="dsl" id="dsl-preview">MOŽE: pristup_sistemu
+ŽELIM: da pokrenem analizu
+DO: ECHO Sistem se pokreće...
+WAIT: 500
+ASSERT: korisnik_ima_pravo == true
+PRIV: user</pre>
+      <div class="button-row">
+        <button class="btn btn-secondary" id="copy-dsl" type="button">📋 Kopiraj DSL primer</button>
+      </div>
+    </section>
+
+    <section id="kontakt">
+      <div class="section-head">
+        <h2>Kontakt</h2>
+        <p>Spremni za saradnju na enterprise i startup projektima.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <h3>Email</h3>
+          <p><a href="mailto:support@spaja.rs">support@spaja.rs</a></p>
+        </article>
+        <article class="card">
+          <h3>GitHub</h3>
+          <p><a href="https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA" target="_blank" rel="noopener noreferrer">spaja86/AI-IQ-SUPER-PLATFORMA</a></p>
+        </article>
+        <article class="card">
+          <h3>Status</h3>
+          <p>Aktivan razvoj i kontinuirano unapređenje platformi.</p>
+        </article>
+      </div>
     </section>
   </main>
-  <script src="../../../shared/ecosystem-urls.js"></script>
-  <script>renderEkosistem('Kompanija SPAJA', 'ekosistem-linkovi');</script>
+
+  <footer>
+    © <span id="year"></span> Kompanija SPAJA — Digitalna Industrija.
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = String(new Date().getFullYear());
+
+    const copyButton = document.getElementById('copy-dsl');
+    const dslPreview = document.getElementById('dsl-preview');
+
+    copyButton?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(dslPreview.textContent || '');
+        copyButton.textContent = '✅ Kopirano';
+      } catch {
+        copyButton.textContent = '⚠️ Clipboard nije dostupan';
+      }
+
+      setTimeout(() => {
+        copyButton.textContent = '📋 Kopiraj DSL primer';
+      }, 1800);
+    });
+  </script>
 </body>
 </html>
