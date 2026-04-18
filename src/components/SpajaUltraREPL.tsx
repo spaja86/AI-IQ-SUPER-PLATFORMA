@@ -104,7 +104,7 @@ export default function SpajaUltraREPL() {
       await navigator.clipboard.writeText(astJson);
       setError('');
     } catch {
-      setError('Clipboard nije dostupan u ovom okruženju.');
+      setError('Neuspelo kopiranje u clipboard.');
     }
   };
 
@@ -114,7 +114,9 @@ export default function SpajaUltraREPL() {
     const anchor = document.createElement('a');
     anchor.href = url;
     anchor.download = `spaja-audit-${Date.now()}.json`;
+    document.body.appendChild(anchor);
     anchor.click();
+    document.body.removeChild(anchor);
     URL.revokeObjectURL(url);
   };
 
@@ -191,7 +193,7 @@ export default function SpajaUltraREPL() {
               <p className="text-gray-500">Nema output-a.</p>
             ) : (
               output.map((line, index) => (
-                <p key={`${line}-${index}`} className="text-green-400">{line}</p>
+                <p key={index} className="text-green-400">{line}</p>
               ))
             )}
           </div>

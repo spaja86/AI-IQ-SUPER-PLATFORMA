@@ -39,8 +39,24 @@ type ExpressionNode =
 
 const DEFAULT_MAX_WAIT_MS = 5000;
 
+function bytesToHex(bytes: Uint8Array): string {
+  return Array.from(bytes)
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 function makeRecordId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+    const bytes = new Uint8Array(16);
+    crypto.getRandomValues(bytes);
+    return bytesToHex(bytes);
+  }
+
+  return `${Date.now()}-${process.hrtime.bigint().toString(16)}`;
 }
 
 function isIdentifierStart(char: string): boolean {
@@ -251,7 +267,11 @@ class ExpressionParser {
   }
 
   private peek(): Token {
-    return this.tokens[this.index] ?? { type: 'eof', value: '' };
+    const token = this.tokens[this.index];
+    if (!token) {
+      throw new Error('Interna greška parsera: EOF token nedostaje.');
+    }
+    return token;
   }
 
   private advance(): Token {
@@ -281,6 +301,14 @@ function resolveIdentifier(ctx: RuntimeContext, path: string): unknown {
 }
 
 function evaluateExpressionNode(node: ExpressionNode, ctx: RuntimeContext): unknown {
+  const toNumber = (value: unknown, source: string): number => {
+    const numeric = Number(value);
+    if (Number.isNaN(numeric)) {
+      throw new Error(`ASSERT očekuje numeričku vrednost za ${source}.`);
+    }
+    return numeric;
+  };
+
   if (node.type === 'Literal') {
     return node.value;
   }
@@ -292,7 +320,7 @@ function evaluateExpressionNode(node: ExpressionNode, ctx: RuntimeContext): unkn
   if (node.type === 'Unary') {
     const right = evaluateExpressionNode(node.right, ctx);
     if (node.operator === '!') return !Boolean(right);
-    return -Number(right);
+    return -toNumber(right, 'unarni operator -');
   }
 
   if (node.operator === '&&') {
@@ -312,13 +340,13 @@ function evaluateExpressionNode(node: ExpressionNode, ctx: RuntimeContext): unkn
     case '!=':
       return left !== right;
     case '<':
-      return Number(left) < Number(right);
+      return toNumber(left, 'levu stranu operatora <') < toNumber(right, 'desnu stranu operatora <');
     case '<=':
-      return Number(left) <= Number(right);
+      return toNumber(left, 'levu stranu operatora <=') <= toNumber(right, 'desnu stranu operatora <=');
     case '>':
-      return Number(left) > Number(right);
+      return toNumber(left, 'levu stranu operatora >') > toNumber(right, 'desnu stranu operatora >');
     case '>=':
-      return Number(left) >= Number(right);
+      return toNumber(left, 'levu stranu operatora >=') >= toNumber(right, 'desnu stranu operatora >=');
     default:
       return false;
   }

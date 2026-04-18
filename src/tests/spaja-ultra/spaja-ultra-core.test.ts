@@ -79,7 +79,7 @@ async function runTests(): Promise<void> {
     const started = Date.now();
     await runtime.wait('100', {});
     const elapsed = Date.now() - started;
-    assert(elapsed < 80, 'čekanje mora biti ograničeno');
+    assert(elapsed < 30, 'čekanje mora biti ograničeno');
   });
 
   await test('runtime ASSERT i PRIV upisuju error audit kada padnu', async () => {
