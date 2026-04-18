@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
 import { industrijaSekvence } from '@/lib/sekvence/industrija';
+import AuthGuard from '@/components/AuthGuard';
 
 export const metadata: Metadata = {
   title: 'Industrija',
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function Industrija() {
-  return <StranicaRenderer sekvence={industrijaSekvence} />;
+  return (
+    <AuthGuard stranica="Digitalnu Industriju">
+      <StranicaRenderer sekvence={industrijaSekvence} />
+    </AuthGuard>
+  );
 }

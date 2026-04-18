@@ -30,15 +30,48 @@ export function getSupabaseServerClient() {
 
 /**
  * Verifikuje JWT token iz Authorization headera i vraca korisnika.
+ * Podržava DVA auth sistema:
+ *   1. Supabase Auth — standardni Supabase JWT
+ *   2. Omega Auth — interni JWT iz ΩAuthProvider
+ * Ako Supabase verifikacija ne uspe, pokušava sa Omega Auth.
  */
 export async function verifyUserFromToken(authHeader: string | null) {
   if (!authHeader?.startsWith('Bearer ')) return null;
 
   const token = authHeader.slice(7);
-  const supabase = getSupabaseServerClient();
 
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  if (error || !user) return null;
+  // 1. Pokušaj Supabase verifikaciju
+  try {
+    const supabase = getSupabaseServerClient();
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    if (!error && user) return user;
+  } catch {
+    // Supabase nije dostupan ili token nije Supabase format — pokušaj Omega Auth
+  }
 
-  return user;
+  // 2. Pokušaj Omega Auth verifikaciju
+  try {
+    const { ΩAuthProvider } = await import('@/lib/auth/omega-auth');
+    const identity = await ΩAuthProvider.verifyIdentity(token);
+    if (identity) {
+      // Vraćamo objekat kompatibilan sa Supabase User interfejsom
+      return {
+        id: identity.id,
+        email: identity.email ?? '',
+        aud: 'authenticated',
+        role: 'authenticated',
+        app_metadata: {},
+        user_metadata: {
+          roles: identity.roles,
+          clearanceLevel: identity.clearanceLevel,
+          did: identity.did,
+        },
+        created_at: new Date(identity.createdAt).toISOString(),
+      };
+    }
+  } catch {
+    // Omega Auth verifikacija neuspešna
+  }
+
+  return null;
 }

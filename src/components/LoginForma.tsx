@@ -5,9 +5,12 @@
 // Profesionalna forma za prijavu sa svim standardnim funkcijama
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
 export default function LoginForma() {
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect') ?? '/dashboard';
   const [email, setEmail] = useState('');
   const [lozinka, setLozinka] = useState('');
   const [prikaziLozinku, setPrikaziLozinku] = useState(false);
@@ -15,13 +18,13 @@ export default function LoginForma() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [poruka, setPoruka] = useState('');
 
-  // Ako je korisnik vec ulogovan, preusmeri na dashboard
+  // Ako je korisnik vec ulogovan, preusmeri
   useEffect(() => {
     const sesija = dohvatiSesiju();
     if (sesija) {
-      window.location.href = '/dashboard';
+      window.location.href = redirectUrl;
     }
-  }, []);
+  }, [redirectUrl]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -112,7 +115,7 @@ export default function LoginForma() {
       setStatus('success');
       setPoruka('Uspesna prijava! Pristup industriji, platformama, ekosistemu i gaming platformi odobren. Preusmeravanje...');
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        window.location.href = redirectUrl;
       }, 800);
     } catch {
       setStatus('error');
