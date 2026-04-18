@@ -55,17 +55,18 @@ export async function verifyUserFromToken(authHeader: string | null) {
     const identity = await ΩAuthProvider.verifyIdentity(token);
     if (identity) {
       // Vraćamo objekat kompatibilan sa Supabase User interfejsom
+      // Koristi se za API rute koje očekuju user.id i user.email
       return {
         id: identity.id,
         email: identity.email ?? '',
-        aud: 'authenticated',
-        role: 'authenticated',
-        app_metadata: {},
+        aud: 'authenticated' as const,
+        role: 'authenticated' as const,
+        app_metadata: {} as Record<string, unknown>,
         user_metadata: {
           roles: identity.roles,
           clearanceLevel: identity.clearanceLevel,
           did: identity.did,
-        },
+        } as Record<string, unknown>,
         created_at: new Date(identity.createdAt).toISOString(),
       };
     }

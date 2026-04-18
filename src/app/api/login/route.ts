@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
+import { REFRESH_TOKEN_TTL } from '@/lib/auth/types';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { platforme } from '@/lib/platforme';
 import {
@@ -193,7 +194,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 30 * 24 * 3600,
+      maxAge: REFRESH_TOKEN_TTL,
       path: '/api/auth',
     });
 
