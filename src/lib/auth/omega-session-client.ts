@@ -75,7 +75,7 @@ export function trebaOsveziti(): boolean {
 }
 
 // Sprečava višestruke istovremene refresh pozive
-let _refreshInProgress: Promise<boolean> | null = null;
+let refreshInProgress: Promise<boolean> | null = null;
 
 /**
  * Automatski osvežava access token koristeći refresh token iz httpOnly kolačića.
@@ -83,9 +83,9 @@ let _refreshInProgress: Promise<boolean> | null = null;
  * Vraća true ako je uspešno, false ako nije (korisnik mora ponovo da se prijavi).
  */
 export async function osveziToken(): Promise<boolean> {
-  if (_refreshInProgress) return _refreshInProgress;
+  if (refreshInProgress) return refreshInProgress;
 
-  _refreshInProgress = (async () => {
+  refreshInProgress = (async () => {
     try {
       const res = await fetch('/api/auth/refresh', {
         method: 'POST',
@@ -113,9 +113,9 @@ export async function osveziToken(): Promise<boolean> {
     } catch {
       return false;
     } finally {
-      _refreshInProgress = null;
+      refreshInProgress = null;
     }
   })();
 
-  return _refreshInProgress;
+  return refreshInProgress;
 }
