@@ -70,6 +70,8 @@ export interface MobilnaMreza1873G {
   maxGeneracija: number;
   signali: MobilniSignal[];
   bezAntena: boolean;
+  bezCentrale: boolean;
+  razlogBezCentrale: string;
   kruzniPovrat: string;
 }
 
@@ -239,6 +241,8 @@ export const mreza1873G: MobilnaMreza1873G = {
   maxGeneracija: 1873,
   signali: mobilniSignali,
   bezAntena: true,
+  bezCentrale: true,
+  razlogBezCentrale: 'Ovo je sasvim normalan mrežni signal kome ne treba centrala jer ima funkcije koje proizvode signal',
   kruzniPovrat: 'Signal kruži između pozivnika 1 i pozivnika 2 — kružni povrat obezbeđuje dvostranu komunikaciju',
 };
 

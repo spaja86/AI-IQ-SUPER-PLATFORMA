@@ -21,6 +21,8 @@ export async function GET() {
         generacija: '1873G',
         opseg: '1G — 1873G',
         bezAntena: true,
+        bezCentrale: true,
+        razlogBezCentrale: 'Normalan mrežni signal — funkcije proizvode signal, centrala nije potrebna',
         signala: 4,
       },
     },
