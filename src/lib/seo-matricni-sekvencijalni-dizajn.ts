@@ -26,7 +26,6 @@
  */
 
 import type { OktavniNivo } from './omega-ai';
-import { oktavniNazivi } from './omega-ai';
 import {
   eksponencijalneFunkcije,
   getSuperPozicija,
@@ -279,7 +278,7 @@ const SEKVENCE_DEF: {
   { naziv: 'Matricna Superpozicija', ikona: '🔬', faza: 'eksplicitna', oktave: [1, 2, 3, 4, 5, 6, 7, 8] },
 ];
 
-function kreirajSekvence(mj: MatricnoJedinjenje, protocnost: ProtocnostMatricnogJedinjenja): SeoKodiranaSekvenca[] {
+function kreirajSekvence(mj: MatricnoJedinjenje, _protocnost: ProtocnostMatricnogJedinjenja): SeoKodiranaSekvenca[] {
   const ukupnoSekvenci = SEKVENCE_DEF.length;
 
   return SEKVENCE_DEF.map((def, idx) => {

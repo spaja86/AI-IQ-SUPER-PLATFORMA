@@ -2,7 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { ΩSession, ΩIdentity } from '../auth/types';
-import { MAX_SESSIONS, ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../auth/types';
+import { MAX_SESSIONS, ACCESS_TOKEN_TTL } from '../auth/types';
 import { ΩCryptoEngine } from '../auth/omega-crypto';
 
 // In-memory store za sesije (u produkciji: Redis enkriptovano)

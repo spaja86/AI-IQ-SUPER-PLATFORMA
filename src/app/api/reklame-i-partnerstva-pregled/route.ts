@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
 import {
   reklame,
-  partnerstva,
   monetizacijaKanali,
   getReklameMetrike,
   getPartnerstvaPoBransi,

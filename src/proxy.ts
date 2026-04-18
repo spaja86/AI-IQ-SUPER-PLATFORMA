@@ -9,7 +9,7 @@ import type { NextRequest } from 'next/server';
  *
  * Next.js 16 koristi proxy.ts umesto middleware.ts
  */
-export function proxy(request: NextRequest) {
+export function proxy(_request: NextRequest) {
   const requestId = crypto.randomUUID();
   const startTime = Date.now();
 

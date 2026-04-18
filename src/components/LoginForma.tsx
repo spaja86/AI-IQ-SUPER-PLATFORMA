@@ -5,23 +5,35 @@
 // Profesionalna forma za prijavu sa svim standardnim funkcijama
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
+function getSavedEmail(): string {
+  if (typeof window === 'undefined') return '';
+  try {
+    return localStorage.getItem('omega-remember-email') ?? '';
+  } catch {
+    return '';
+  }
+}
+
 export default function LoginForma() {
-  const [email, setEmail] = useState('');
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect') ?? '/dashboard';
+  const [email, setEmail] = useState(getSavedEmail);
   const [lozinka, setLozinka] = useState('');
   const [prikaziLozinku, setPrikaziLozinku] = useState(false);
-  const [zapamtiMe, setZapamtiMe] = useState(false);
+  const [zapamtiMe, setZapamtiMe] = useState(() => getSavedEmail() !== '');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [poruka, setPoruka] = useState('');
 
-  // Ako je korisnik vec ulogovan, preusmeri na dashboard
+  // Ako je korisnik vec ulogovan, preusmeri
   useEffect(() => {
     const sesija = dohvatiSesiju();
     if (sesija) {
-      window.location.href = '/dashboard';
+      window.location.href = redirectUrl;
     }
-  }, []);
+  }, [redirectUrl]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -112,26 +124,13 @@ export default function LoginForma() {
       setStatus('success');
       setPoruka('Uspesna prijava! Pristup industriji, platformama, ekosistemu i gaming platformi odobren. Preusmeravanje...');
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        window.location.href = redirectUrl;
       }, 800);
     } catch {
       setStatus('error');
       setPoruka('Greska u mrezi. Proverite internet konekciju i pokusajte ponovo.');
     }
   }
-
-  // Ucitaj zapamcen email
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('omega-remember-email');
-      if (saved) {
-        setEmail(saved);
-        setZapamtiMe(true);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-4 py-16">

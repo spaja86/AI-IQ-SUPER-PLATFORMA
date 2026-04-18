@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
-import { ΩCryptoEngine } from '@/lib/auth/omega-crypto';
-import { getGlobalVault } from '@/lib/auth/omega-identity';
-import { ensureDemoSeeded } from '@/lib/auth/omega-auth';
+import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
+import { REFRESH_TOKEN_TTL } from '@/lib/auth/types';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { platforme } from '@/lib/platforme';
 import {
@@ -15,20 +14,21 @@ import {
 } from '@/lib/io-openui-ao-gaming-platforma';
 
 /**
- * POST /api/login — Autentifikacija korisnika
+ * POST /api/login — Autentifikacija korisnika (kompatibilna ruta)
  *
- * Prihvata email i lozinku, validira i vraca sesiju.
- * Vlasnik (spajicn@yahoo.com) ima VIP pristup.
- *
+ * Prihvata { email, lozinka } ILI { email, password } — oba formata.
+ * Delegira autentifikaciju na centralni Omega Auth sistem.
  * Svako ko se loguje dobija aktiviran Digitalni Kompjuter
  * sa svim komponentama pokretanim od SPAJA Generator za Endzine.
  */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, lozinka } = body as { email?: string; lozinka?: string };
+    // Podrži oba formata: { email, lozinka } i { email, password }
+    const email = body.email as string | undefined;
+    const password = (body.password ?? body.lozinka) as string | undefined;
 
-    if (!email || !lozinka) {
+    if (!email || !password) {
       return NextResponse.json(
         { greska: 'Email i lozinka su obavezni.' },
         { status: 400 },
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (lozinka.length < 8) {
+    if (password.length < 8) {
       return NextResponse.json(
         { greska: 'Lozinka mora imati najmanje 8 karaktera.' },
         { status: 400 },
@@ -52,49 +52,18 @@ export async function POST(request: Request) {
     // Osiguraj da je demo nalog kreiran pre logina
     await ensureDemoSeeded();
 
-    // Verifikacija lozinke — pronadji korisnika u ΩIdentityVault
-    const vault = getGlobalVault();
-    const allIds = vault.listIds();
-    let identityFound = false;
-    let passwordValid = false;
+    // Delegiraj na centralni Omega Auth sistem
+    const result = await ΩAuthProvider.login({ email, password });
 
-    for (const id of allIds) {
-      const candidate = vault.retrieveIdentity(id);
-      if (candidate?.email === email) {
-        identityFound = true;
-        if (candidate.passwordHash) {
-          passwordValid = await ΩCryptoEngine.verifyPassword(lozinka, candidate.passwordHash);
-        }
-        break;
-      }
-    }
-
-    // Ako korisnik postoji u vault-u, lozinka mora biti ispravna
-    if (identityFound && !passwordValid) {
+    if (!result) {
       return NextResponse.json(
-        { greska: 'Neispravna lozinka.' },
+        { greska: 'Neispravni podaci za prijavu.' },
         { status: 401 },
       );
     }
 
     // Odredjivanje uloge na osnovu email-a
     const jeVlasnik = email.toLowerCase() === 'spajicn@yahoo.com';
-    const uloga = jeVlasnik ? 'vlasnik' : 'korisnik';
-    const plan = jeVlasnik ? 'Unlimited VIP' : 'Starter';
-
-    // Generisanje kriptografski sigurnog tokena
-    const secureToken = ΩCryptoEngine.generateSecureToken(32);
-
-    const sesija = {
-      id: `ses-${ΩCryptoEngine.generateId()}`,
-      korisnikId: `usr-${ΩCryptoEngine.generateId()}`,
-      email,
-      uloga,
-      plan,
-      token: secureToken,
-      istice: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
-      kreirana: new Date().toISOString(),
-    };
 
     // Aktivacija Digitalnog Kompjutera za svakog ulogovanog korisnika
     const sistem = spajaDigitalniKompjuterSistem;
@@ -178,18 +147,58 @@ export async function POST(request: Request) {
       },
     };
 
-    return NextResponse.json({
+    // Vraćamo i Omega Auth token i legacy format za kompatibilnost
+    const response = NextResponse.json({
       uspesno: true,
       poruka: jeVlasnik
         ? `Dobrodosli, vlasniku! VIP pristup aktiviran. ${KOMPANIJA} — Digitalna Industrija. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`
         : `Uspesno prijavljivanje! Dobrodosli u ${KOMPANIJA} ekosistem. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`,
-      sesija,
+      // Omega Auth token (primarni format)
+      token: result.token,
+      identity: {
+        id: result.identity.id,
+        did: result.identity.did,
+        roles: result.identity.roles,
+        clearanceLevel: result.identity.clearanceLevel,
+        digitalIndustryAccess: result.identity.digitalIndustryAccess,
+      },
+      expiresAt: result.expiresAt,
+      // Legacy format za kompatibilnost
+      sesija: {
+        id: result.identity.id,
+        korisnikId: result.identity.id,
+        email,
+        uloga: jeVlasnik ? 'vlasnik' : (result.identity.roles[0] ?? 'korisnik'),
+        plan: jeVlasnik ? 'Unlimited VIP' : 'Starter',
+        token: result.token.value,
+        istice: new Date(result.expiresAt * 1000).toISOString(),
+        kreirana: new Date().toISOString(),
+      },
+      pristup: {
+        industrija: true,
+        platforme: true,
+        ekosistem: true,
+        gamingPlatforma: true,
+        delatnosti: true,
+        gejmingKonstrukcija: true,
+      },
       digitalniKompjuter,
       industrijaPristup,
       gamingPristup,
       verzija: APP_VERSION,
       timestamp: new Date().toISOString(),
     });
+
+    // Postavi httpOnly kolačić za refresh token
+    response.cookies.set('omega-refresh', result.refreshToken.value, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: REFRESH_TOKEN_TTL,
+      path: '/api/auth',
+    });
+
+    return response;
   } catch (err) {
     console.error('[OMEGA-LOGIN] /api/login error:', err);
     return NextResponse.json(
@@ -202,7 +211,7 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({
     sistem: 'Login — Digitalna Industrija',
-    opis: 'POST /api/login sa { email, lozinka } za prijavljivanje — svaki korisnik dobija aktiviran Digitalni Kompjuter sa svim komponentama, pristup industriji i svim delatnostima, platformama, ekosistemu, i gaming platformi sa Otavnom Konstrukcijom Gejminga',
+    opis: 'POST /api/login sa { email, lozinka } ili { email, password } za prijavljivanje — svaki korisnik dobija aktiviran Digitalni Kompjuter sa svim komponentama, pristup industriji i svim delatnostima, platformama, ekosistemu, i gaming platformi sa Otavnom Konstrukcijom Gejminga',
     verzija: APP_VERSION,
     kompanija: KOMPANIJA,
     metode: ['email', 'google', 'github', 'telefon'],

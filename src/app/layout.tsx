@@ -3,6 +3,7 @@ import './globals.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import AiAsistentWrapper from '@/components/AiAsistentWrapper';
+import OmegaAuthProvider from '@/components/OmegaAuthProvider';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
 import { Analytics } from '@vercel/analytics/next';
@@ -127,9 +128,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
         <Navigation />
-        <main id="main-content" className="flex-1" role="main">
-          {children}
-        </main>
+        <OmegaAuthProvider>
+          <main id="main-content" className="flex-1" role="main">
+            {children}
+          </main>
+        </OmegaAuthProvider>
         <Footer />
         <AiAsistentWrapper />
         <Analytics />

@@ -236,7 +236,6 @@ export const multifunkcionalniEndzin: MultifunkcionalniEndzin = {
  * Pokreni multifunkcionalnu sesiju — svi endžini rade zajedno
  */
 export function pokreniMultifunkcionalniRad(upit: string, kategorija: BazaKategorija = 'univerzalna'): BeskonacnaSesija {
-  const brojReci = upit.split(/\s+/).length;
 
   // Generiši smernice iz svakog endžina
   const smernice: Smernica[] = [];

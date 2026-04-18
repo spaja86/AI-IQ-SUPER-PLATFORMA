@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { platforme } from '@/lib/platforme';
 import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
-import { mobilneCentrale, mobilniServisi } from '@/lib/mobilna-mreza';
+import { mobilniServisi } from '@/lib/mobilna-mreza';
 import { dimenzije } from '@/lib/dimenzije';
 import { sajtovi } from '@/lib/sajtovi';
 import { APP_VERSION, PROKSI_KAPACITET, MOBILNE_CENTRALE, MOBILNI_POZIVNI } from '@/lib/constants';

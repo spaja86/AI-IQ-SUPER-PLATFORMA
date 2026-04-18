@@ -24,22 +24,12 @@
 
 import {
   generisaniEngini,
-  getAktivniEngini,
-  getEnginiPoTipu,
-  getProsecnaOptimizacija,
-  getRepoEngini,
-  spajaGeneratorEngine,
-  type GenerisaniEngine,
   type EngineTip,
 } from './spaja-generator-engine';
 import {
-  gamingStatistika,
   endzinNadIgricama,
-  gejmingKonstrukcija,
-  IOOPENUIAO_URL,
 } from './io-openui-ao-gaming-platforma';
 import { platforme } from './platforme';
-import { platforms } from './platforms';
 import { products } from './products';
 import { igrice } from './igrice';
 import {

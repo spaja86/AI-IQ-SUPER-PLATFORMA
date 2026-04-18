@@ -30,7 +30,7 @@
  * Integracija: AI IQ World Bank + AI IQ Menjačnica
  */
 
-import { SPAJA_PRO_VERZIJA_COUNT, OMEGA_AI_PERSONA_UKUPNO } from './constants';
+import { OMEGA_AI_PERSONA_UKUPNO } from './constants';
 
 // ─── Tipovi ──────────────────────────────────────────────
 

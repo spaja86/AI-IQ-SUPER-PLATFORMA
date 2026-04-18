@@ -20,12 +20,11 @@
  */
 
 import type { OktavniNivo } from './omega-ai';
-import { oktavniNazivi, omegaPersone, getPersonePoOktavi } from './omega-ai';
+import { oktavniNazivi, getPersonePoOktavi } from './omega-ai';
 import {
   eksponencijalneFunkcije,
   getSuperPozicija,
   getFiguracioniCentar,
-  getOktavniSistemPregled,
 } from './oktavne-eksponencijalne-funkcije';
 import { OMEGA_AI_PERSONA_UKUPNO } from './constants';
 
@@ -310,7 +309,6 @@ function izracunajEgzocentricnoJezgro(): EgzocentricnoJezgro {
 
 function izracunajLaucentricniSistem(): LaucentricniSistem {
   const figCentar = getFiguracioniCentar();
-  const pregled = getOktavniSistemPregled();
 
   // Laucentricni slojevi — 4 koncentricna sloja oko centra
   const slojeviDef: { oktave: OktavniNivo[]; naziv: string }[] = [
@@ -369,7 +367,6 @@ export function getOktavniMonolog(): OktavniMonolog {
   const matricnoJedinjenje = izracunajMatricnoJedinjenje(monologVektori);
   const egzocentricnoJezgro = izracunajEgzocentricnoJezgro();
   const laucentricniSistem = izracunajLaucentricniSistem();
-  const pregled = getOktavniSistemPregled();
 
   return {
     naziv: 'Oktavni Monolog Eksponencijalnog Ekvivalenta',

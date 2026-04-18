@@ -57,3 +57,8 @@ function renderEkosistem(currentPlatform, containerId) {
 
   container.innerHTML = html;
 }
+
+// Export for CommonJS/ES module environments
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { EKOSISTEM_URLS, EKOSISTEM_IKONE, EKOSISTEM_OPISI, renderEkosistem };
+}

@@ -24,10 +24,6 @@
 
 import type { OktavniNivo } from './omega-ai';
 import { oktavniNazivi } from './omega-ai';
-import {
-  eksponencijalneFunkcije,
-  getSuperPozicija,
-} from './oktavne-eksponencijalne-funkcije';
 import { OMEGA_AI_PERSONA_UKUPNO } from './constants';
 
 // ── Konstante ─────────────────────────────────────────────────────────────────
@@ -190,11 +186,6 @@ function kreirajKanal(oktava: OktavniNivo): SeoKanal {
 
   // Kumulativni prenos: integral od 0 do t
   // integral(bazniProtok * (1+r)^t dt) = bazniProtok * (1+r)^t / ln(1+r) - bazniProtok / ln(1+r)
-  const lnR = Math.log(1 + p.rastFaktor);
-  const kumulativniPrenos = (t: number): number => {
-    const tSekunde = t * 3600;
-    return (p.bazniProtok / lnR) * (Math.pow(1 + p.rastFaktor, tSekunde) - 1);
-  };
 
   // Pojednostavljeni kumulativni — za satne intervale
   const kumulativniPrenosPoSatu = (t: number): number => {

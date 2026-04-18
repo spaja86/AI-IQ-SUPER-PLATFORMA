@@ -13,8 +13,10 @@
  */
 
 import type { Igrica, KategorijaIgrice, StatusIgrice } from './igrice';
-import { igrice, igriceSistem, OBAVEZNI_ZAHTEVI } from './igrice';
+import { igrice } from './igrice';
 import type { GenerisaniEngine } from './spaja-generator-engine';
+// Re-export types used by consumers
+export type { GenerisaniEngine };
 
 // ─── Tipovi ──────────────────────────────────────────────────
 

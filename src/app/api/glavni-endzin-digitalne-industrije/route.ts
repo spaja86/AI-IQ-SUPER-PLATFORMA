@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import {
   glavniEndzinDigitalneIndustrije,
   getGlavniEndzinStatistika,
-  getSklopljenePoTipu,
   getSpojenePoTipu,
 } from '@/lib/glavni-endzin-digitalne-industrije';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
