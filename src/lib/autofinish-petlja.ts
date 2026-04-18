@@ -16,7 +16,7 @@
  *  8. Dijagnostički sistem (zdravlje, provere)
  *  9. Autofinish motor (iteracije)
  *
- * Autofinish #322 → #354 (Glavni Endzin Dozvole + auto-billing + agent orkestracija + vizuelni galerija monitor + banka transfer 10k EUR + dugovi + Glavni Sistem Nabavka 50 varijacija + SpajaPro v6-v15 biblioteke)
+ * Autofinish #322 → #355 (Glavni Endzin Dozvole + auto-billing + agent orkestracija + vizuelni galerija monitor + banka transfer 10k EUR + dugovi + Glavni Sistem Nabavka 50 varijacija + SpajaPro v6-v15 biblioteke + biblioteke API pregled)
  *
  * Izvor: Kompanija SPAJA — Digitalna Industrija
  */
