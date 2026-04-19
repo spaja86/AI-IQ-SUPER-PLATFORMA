@@ -23,7 +23,7 @@ export async function GET() {
 
     gravitonskiStabilizator: {
       ukupnoModula: moduli.length,
-      model: 'ULTRA-GSE v1.0',
+      model: 'ULTRA-GSTE v1.0',
       snaga: '10¹⁷⁰ gravitonskih stabilizacija/s',
       domet: '-∞Ω+∞ gravitonski radijus',
       moduli,
