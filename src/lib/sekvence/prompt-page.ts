@@ -2,7 +2,7 @@ import type { Sekvenca } from '@/lib/types';
 import { promptovi, getPromptBiblioteka, getPromptKategorije } from '@/lib/prompt';
 import { spajaProVerzije, getAktivneVerzije } from '@/lib/spaja-pro';
 import { omegaPersone } from '@/lib/omega-ai';
-import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
+import { OMEGA_AI_PERSONA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const biblioteka = getPromptBiblioteka();
 const kategorije = getPromptKategorije();
@@ -171,7 +171,7 @@ IO-OPENUI-AO koristi SpajaPro Prompt umesto ChatGPT-a za svu AI komunikaciju. Ko
       stavke: [
         { naziv: 'Prompt-ovi', vrednost: biblioteka.ukupnoPromptova, ikona: '📝' },
         { naziv: 'Persone', vrednost: omegaPersone.length, ikona: '👥' },
-        { naziv: 'SpajaPro', vrednost: `v6-15`, ikona: '🌟' },
+        { naziv: 'SpajaPro', vrednost: `v${SPAJA_PRO_RANGE}`, ikona: '🌟' },
         { naziv: 'Status', vrednost: '✅', ikona: '✅' },
       ],
       dugmad: [

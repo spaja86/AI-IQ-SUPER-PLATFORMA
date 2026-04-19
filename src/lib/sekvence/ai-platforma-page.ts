@@ -1,6 +1,6 @@
 import type { Sekvenca } from '@/lib/types';
 import { platforme } from '@/lib/platforme';
-import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
+import { OMEGA_AI_PERSONA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const aiPlatforme = platforme.filter((p) => p.kategorija === 'ai');
 
@@ -13,7 +13,7 @@ export const aiPlatformaSekvence: Sekvenca[] = [
     ikona: '🤖',
     redosled: 1,
     podaci: {
-      opis: 'AI Platforma objedinjuje sve sisteme vestacke inteligencije — od OMEGA AI persona sa Prompt-ovima do SpajaPro engine-a (v6-15) koji zamenjuje ChatGPT.',
+      opis: `AI Platforma objedinjuje sve sisteme vestacke inteligencije — od OMEGA AI persona sa Prompt-ovima do SpajaPro engine-a (v${SPAJA_PRO_RANGE}) koji zamenjuje ChatGPT.`,
       dugmad: [
         { tekst: 'Omega AI', href: '/omega-ai' },
         { tekst: 'Prompt', href: '/prompt' },

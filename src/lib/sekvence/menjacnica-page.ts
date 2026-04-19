@@ -1,4 +1,5 @@
 import type { Sekvenca } from '@/lib/types';
+import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
 
 export const menjacnicaSekvence: Sekvenca[] = [
   {
@@ -331,7 +332,7 @@ export const menjacnicaSekvence: Sekvenca[] = [
         '🏦 Banka: Stedni racuni sa 40% pozitivnom kamatnom stopom',
         '🏦 ERSTE Banka DOO Smederevo: Zajednicki bankarski partner',
         '💵 Podrzane valute: RSD, EUR, USD + 500+ kripto valuta',
-        '🤖 Omega AI: Zajednicki AI motor sa 40.000.562 persona',
+        `🤖 Omega AI: Zajednicki AI motor sa ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} persona`,
         '🔄 Instant konverzija: Prebacivanje izmedju banke i menjacnice bez provizije',
         '📧 Profesionalni mejl: @banka.spaja.rs i @spaja.rs domeni za notifikacije',
       ],

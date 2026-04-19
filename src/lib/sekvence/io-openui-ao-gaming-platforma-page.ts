@@ -9,7 +9,7 @@ import {
   IOOPENUIAO_URL,
   IOOPENUIAO_DOMEN,
 } from '@/lib/io-openui-ao-gaming-platforma';
-import { TOTAL_IGRICA } from '@/lib/constants';
+import { TOTAL_IGRICA, OMEGA_AI_PERSONA_UKUPNO, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const aktivnih = getAktivneIgriceSaEndzinom().length;
 
@@ -153,8 +153,8 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
             {
               naziv: 'Integracije',
               deca: [
-                { naziv: 'SpajaPro 6-15 Engine' },
-                { naziv: 'OMEGA AI 40.000.562 persona' },
+                { naziv: `SpajaPro ${SPAJA_PRO_RANGE} Engine` },
+                { naziv: `OMEGA AI ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} persona` },
                 { naziv: 'Proksi mrežna optimizacija' },
                 { naziv: 'Digitalni Kompjuter + Digitalni Brauzer' },
                 { naziv: 'SPAJA Generator za Endžine' },

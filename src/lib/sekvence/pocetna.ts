@@ -6,6 +6,7 @@ import { runDiagnostics } from '@/lib/auto-repair';
 import { generisaniEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
 
 import { vizuelniResursi, osnivacProfil } from '@/lib/vizuelni-identitet';
+import { SPAJA_PRO_RANGE, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_VERZIJA_COUNT } from '@/lib/constants';
 
 const stats = getStatistike();
 const dijagnostika = runDiagnostics();
@@ -34,7 +35,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     ikona: '🏢',
     redosled: 1,
     podaci: {
-      opis: `Kompanija SPAJA upravlja sa ${stats.ukupnoProizvoda} IT proizvoda na ${stats.ukupnoPlatformi} platformi. SpajaPro engine (v6-15) sa ${stats.ukupnoPromptova} Prompt-ova pokreće ceo ekosistem. Zdravlje: ${dijagnostika.zdravlje}%. Autofinish ×${stats.autofinishBroj}.`,
+      opis: `Kompanija SPAJA upravlja sa ${stats.ukupnoProizvoda} IT proizvoda na ${stats.ukupnoPlatformi} platformi. SpajaPro engine (v${SPAJA_PRO_RANGE}) sa ${stats.ukupnoPromptova} Prompt-ova pokreće ceo ekosistem. Zdravlje: ${dijagnostika.zdravlje}%. Autofinish ×${stats.autofinishBroj}.`,
       dugmad: [
         { tekst: 'Industrija', href: '/industrija' },
         { tekst: 'Dashboard', href: '/dashboard' },
@@ -72,7 +73,7 @@ export const pocetnaSekvence: Sekvenca[] = [
         { naziv: 'Igrice', vrednost: stats.ukupnoIgrica, ikona: '🎮' },
         { naziv: 'OMEGA AI', vrednost: stats.ukupnoOmegaPersona, ikona: '🧠' },
         { naziv: 'Prompt-ovi', vrednost: stats.ukupnoPromptova, ikona: '📝' },
-        { naziv: 'SpajaPro', vrednost: `v6-15`, ikona: '🌟' },
+        { naziv: 'SpajaPro', vrednost: `v${SPAJA_PRO_RANGE}`, ikona: '🌟' },
         { naziv: 'Dimenzije', vrednost: stats.ukupnoDimenzija, ikona: '🌀' },
         { naziv: 'Stranice', vrednost: stats.ukupnoStranica, ikona: '📄' },
         { naziv: 'Rute', vrednost: stats.ukupnoRuta, ikona: '🗺️' },
@@ -137,7 +138,7 @@ export const pocetnaSekvence: Sekvenca[] = [
       kartice: [
         {
           naslov: '🤖 SpajaPro AI Chat',
-          opis: 'Zamena za ChatGPT — SpajaPro engine v6-15 sa 10 verzija. Pitajte AI bilo sta o platformi, industriji ili vama.',
+          opis: `Zamena za ChatGPT — SpajaPro engine v${SPAJA_PRO_RANGE} sa ${SPAJA_PRO_VERZIJA_COUNT} verzija. Pitajte AI bilo sta o platformi, industriji ili vama.`,
           ikona: '🤖',
           href: '/spaja-pro',
           oznake: ['AI', 'Chat', 'SpajaPro'],
@@ -202,7 +203,7 @@ export const pocetnaSekvence: Sekvenca[] = [
     redosled: 8,
     podaci: {
       kartice: [
-        { naslov: '🧠 OMEGA AI', opis: `${stats.ukupnoOmegaPersona} AI persona — 21 tipova sa 8 oktava`, ikona: '🧠', href: '/omega-ai', oznake: ['AI'] },
+        { naslov: '🧠 OMEGA AI', opis: `${stats.ukupnoOmegaPersona} AI persona — ${OMEGA_AI_PERSONA_COUNT} tipova sa ${OMEGA_AI_OKTAVA_COUNT} oktava`, ikona: '🧠', href: '/omega-ai', oznake: ['AI'] },
         { naslov: '🖥️ Digitalni Kompjuter', opis: 'SPAJA sopstveni virtualni kompjuter u browseru', ikona: '🖥️', href: '/spaja-digitalni-kompjuter', oznake: ['Kompjuter'] },
         { naslov: '🎬 Render Medija', opis: 'Renderovanje slika i video sadrzaja sa AI filterima', ikona: '🎬', href: '/spaja-render-medija', oznake: ['Medija'] },
         { naslov: '🔬 Laboratorija', opis: 'IO/OpenUI/AO eksperimentalna laboratorija', ikona: '🔬', href: '/io-openui-ao-laboratorija', oznake: ['Lab'] },

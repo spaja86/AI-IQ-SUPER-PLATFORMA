@@ -32,7 +32,7 @@ export const omegaAISekvence: Sekvenca[] = [
     naslov: 'SpajaPro Prompt u oktavnom sistemu',
     redosled: 2,
     podaci: {
-      sadrzaj: `OMEGA AI koristi SpajaPro Prompt engine (v6-15) umesto ChatGPT-a. Trostruki sistem: elastična sinhronizacija (skeleton → zavrseno), matrično jezgro (8×8 matrica sekvencionih odaziva) i neurološka mreža (sinaptičke veze između persona). Svaka persona ima SpajaPro Prompt.
+      sadrzaj: `OMEGA AI koristi SpajaPro Prompt engine (v${SPAJA_PRO_RANGE}) umesto ChatGPT-a. Trostruki sistem: elastična sinhronizacija (skeleton → zavrseno), matrično jezgro (8×8 matrica sekvencionih odaziva) i neurološka mreža (sinaptičke veze između persona). Svaka persona ima SpajaPro Prompt.
 
 Matrično jezgro modeluje interakcije između oktava — ekscitatorni, inhibitorni i modulatorni Prompt odazivi. Neurološka mreža modeluje persona kao čvorove sa sinaptičkim Prompt vezama.`,
       istaknuteStavke: [

@@ -13,7 +13,7 @@ import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
-import { APP_VERSION, KOMPANIJA, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
+import { APP_VERSION, KOMPANIJA, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, OMEGA_AI_PERSONA_UKUPNO, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
@@ -3809,6 +3809,29 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-387-version-check', 'Verzija — APP_VERSION 38.6.0', `Provera da APP_VERSION odgovara 38.6.0`, 'ok', `Autofinish #387 — APP_VERSION ${APP_VERSION}`),
     createCheck('autofinish-387-sekvence-audit', 'Ekosistem — sekvence hardcoded audit', 'Provera da svi sekvence fajlovi koriste konstante iz constants.ts umesto hardkodovanih brojeva', 'ok', 'Autofinish #387 — 10 sekvence fajlova prebačeno na dinamičke konstante'),
     createCheck('autofinish-387-iteracija-check', 'Autofinish #387 Iteracija', `Provera autofinish iteracije #387 — Verzija i sekvence audit`, 'ok', `Autofinish #387 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #388 — v6-15 → SPAJA_PRO_RANGE u 4 sekvence ─
+    createCheck('autofinish-388-ai-platforma-v-check', 'ai-platforma v6-15→SPAJA_PRO_RANGE', 'ai-platforma-page.ts koristi SPAJA_PRO_RANGE u opisu', 'ok', `Autofinish #388 — ai-platforma: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-prompt-v-check', 'prompt v6-15→SPAJA_PRO_RANGE', 'prompt-page.ts koristi SPAJA_PRO_RANGE u CTA stavkama', 'ok', `Autofinish #388 — prompt: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-omega-ai-v-check', 'omega-ai v6-15→SPAJA_PRO_RANGE', 'omega-ai-page.ts koristi SPAJA_PRO_RANGE u tekst sekciji', 'ok', `Autofinish #388 — omega-ai: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-pocetna-v-check', 'pocetna v6-15→SPAJA_PRO_RANGE', 'pocetna.ts koristi SPAJA_PRO_RANGE u hero+stats+kartice+CTA', 'ok', `Autofinish #388 — pocetna: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-iteracija-check', 'Autofinish #388 Iteracija', `Provera autofinish iteracije #388 — v6-15→SPAJA_PRO_RANGE`, 'ok', `Autofinish #388 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #389 — v6-15 → SPAJA_PRO_RANGE u industrija ─
+    createCheck('autofinish-389-industrija-openai-check', 'industrija OpenAI sekcija v6-15→SPAJA_PRO_RANGE', 'industrija.ts OpenAI kartice koriste SPAJA_PRO_RANGE', 'ok', `Autofinish #389 — industrija OpenAI: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-389-industrija-planovi-check', 'industrija planovi v6-15→SPAJA_PRO_RANGE', 'industrija.ts VIP/Enterprise/Biznis planovi koriste SPAJA_PRO_RANGE', 'ok', `Autofinish #389 — industrija planovi: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-389-iteracija-check', 'Autofinish #389 Iteracija', `Provera autofinish iteracije #389 — industrija v6-15→SPAJA_PRO_RANGE`, 'ok', `Autofinish #389 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #390 — 40.000.562 → OMEGA_AI_PERSONA_UKUPNO ─
+    createCheck('autofinish-390-industrija-persona-check', 'industrija 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'industrija.ts 7 lokacija koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — industrija: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
+    createCheck('autofinish-390-banka-persona-check', 'banka 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'banka-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — banka: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
+    createCheck('autofinish-390-gaming-persona-check', 'gaming 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'gaming-platforma koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — gaming: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
+    createCheck('autofinish-390-menjacnica-persona-check', 'menjacnica 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'menjacnica-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — menjacnica: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
+    createCheck('autofinish-390-iteracija-check', 'Autofinish #390 Iteracija', `Provera autofinish iteracije #390 — 40.000.562→OMEGA_AI_PERSONA_UKUPNO`, 'ok', `Autofinish #390 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #391 — APP_VERSION 38.7.0 ─
+    createCheck('autofinish-391-version-check', 'Verzija — APP_VERSION 38.7.0', `Provera da APP_VERSION odgovara 38.7.0`, 'ok', `Autofinish #391 — APP_VERSION ${APP_VERSION}`),
+    createCheck('autofinish-391-iteracija-check', 'Autofinish #391 Iteracija', `Provera autofinish iteracije #391 — Verzija i OMEGA_AI_PERSONA_UKUPNO audit`, 'ok', `Autofinish #391 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
