@@ -1,32 +1,53 @@
 # Kompanija SPAJA 🏢
 
-**Korporativna platforma koja spaja sve poslovne procese i tim.**
+Kompanija SPAJA je matična organizacija u okviru AI-IQ SUPER PLATFORMA ekosistema. Fokusirana je na razvoj poslovnih platformi, AI automatizaciju i sigurnu orkestraciju procesa.
 
-Deo [AI-IQ Super Platforme](../../README.md).
+Deo [AI-IQ SUPER PLATFORMA](../../README.md) repozitorijuma.
 
-## Opis
+## Usluge
 
-Kompanija SPAJA je centralna korporativna platforma koja objedinjuje sve timove, procese i resurse kompanije. Koristi AI za automatizaciju poslovnih procesa i podršku odlučivanju.
+- AI konsulting i poslovna automatizacija
+- Full-stack razvoj platformi (Next.js + TypeScript)
+- Integracije eksternih sistema i API orkestracija
+- Sigurnost, autentifikacija i audit log sistemi
+
+## Platforme
+
+- 🌍 **AI IQ World Bank** — `platforms/world-bank/`
+- 💱 **AI IQ Menjačnica** — `platforms/menjacnica/`
+- 🧪 **IO OpenUI AO** — `platforms/io-openui-ao/`
+- 🏢 **Kompanija SPAJA** — `platforms/kompanija-spaja/`
+
+## SpajaUltraOmegaCore
+
+SpajaUltraOmegaCore je DSL sloj za kontrolisano izvršavanje komandi kroz parser, transpajler i runtime audit model.
+
+Primer:
+
+```txt
+MOŽE: pristup_sistemu
+ŽELIM: da pokrenem analizu
+DO: ECHO Sistem se pokreće...
+WAIT: 500
+ASSERT: korisnik_ima_pravo == true
+PRIV: user
+```
 
 ## Pokretanje
 
+### Next.js aplikacija
+
 ```bash
+npm install
 npm run dev
 ```
 
-Otvori `http://localhost:3004` u browseru.
+Otvorite: `http://localhost:3000`
 
-## Struktura
+### Standalone HTML prikaz Kompanija SPAJA platforme
 
-```
-kompanija-spaja/
-├── src/
-│   ├── index.html     ← Glavna stranica
-│   ├── style.css      ← Stilovi
-│   └── main.js        ← Logika
-└── package.json
-```
+Otvorite fajl direktno:
 
-## Status
+`platforms/kompanija-spaja/src/index.html`
 
-🚧 U razvoju — platforma se migira u monorepo strukturu.
+ili kroz lokalni static server po izboru.
