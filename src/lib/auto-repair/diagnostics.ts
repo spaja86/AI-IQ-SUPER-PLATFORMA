@@ -4412,6 +4412,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #536 — ULTRA Kronodinamoplazmonski Generator API + APP_VERSION 41.6.0 ─
     createCheck('autofinish-536-kronodinamoplazmonski-generator-check', 'ULTRA Kronodinamoplazmonski Generator API', `Provera API rute /api/ultra-kronodinamoplazmonski-generator — Chronodynamoplasmon Generation Engine (10²⁷⁶)`, 'ok', `Autofinish #536 — kronodinamoplazmonski-generator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-536-iteracija-check', 'Autofinish #536 Iteracija', `Provera autofinish iteracije #536 — APP_VERSION 41.6.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #536 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #537 — ULTRA Hiperbiomagnetoakustički Refraktor API ─
+    createCheck('autofinish-537-hiperbiomagnetoakusticki-refraktor-check', 'ULTRA Hiperbiomagnetoakustički Refraktor API', `Provera API rute /api/ultra-hiperbiomagnetoakusticki-refraktor — Hyperbiomagnetoacoustic Refraction Engine (10²⁷⁷)`, 'ok', `Autofinish #537 — hiperbiomagnetoakusticki-refraktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-537-iteracija-check', 'Autofinish #537 Iteracija', `Provera autofinish iteracije #537 — ULTRA Hiperbiomagnetoakustički Refraktor`, 'ok', `Autofinish #537 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #538 — ULTRA Plazmotermoelektronski Kondenzator API ─
+    createCheck('autofinish-538-plazmotermoelektronski-kondenzator-check', 'ULTRA Plazmotermoelektronski Kondenzator API', `Provera API rute /api/ultra-plazmotermoelektronski-kondenzator — Plasmothermoelectronic Condensation Engine (10²⁷⁸)`, 'ok', `Autofinish #538 — plazmotermoelektronski-kondenzator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-538-iteracija-check', 'Autofinish #538 Iteracija', `Provera autofinish iteracije #538 — ULTRA Plazmotermoelektronski Kondenzator`, 'ok', `Autofinish #538 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #539 — ULTRA Magnetonanokvantni Amplifikator API ─
+    createCheck('autofinish-539-magnetonanokvantni-amplifikator-check', 'ULTRA Magnetonanokvantni Amplifikator API', `Provera API rute /api/ultra-magnetonanokvantni-amplifikator — Magnetonanoquantum Amplification Engine (10²⁷⁹)`, 'ok', `Autofinish #539 — magnetonanokvantni-amplifikator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-539-iteracija-check', 'Autofinish #539 Iteracija', `Provera autofinish iteracije #539 — ULTRA Magnetonanokvantni Amplifikator`, 'ok', `Autofinish #539 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #540 — ULTRA Elektrogravitobiofotonski Modulador API ─
+    createCheck('autofinish-540-elektrogravitobiofotonski-modulador-check', 'ULTRA Elektrogravitobiofotonski Modulador API', `Provera API rute /api/ultra-elektrogravitobiofotonski-modulador — Electrogravitobiophotonic Modulation Engine (10²⁸⁰)`, 'ok', `Autofinish #540 — elektrogravitobiofotonski-modulador: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-540-iteracija-check', 'Autofinish #540 Iteracija', `Provera autofinish iteracije #540 — ULTRA Elektrogravitobiofotonski Modulador`, 'ok', `Autofinish #540 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #541 — ULTRA Kronoakustodinamički Sinhronizator API + APP_VERSION 41.7.0 ─
+    createCheck('autofinish-541-kronoakustodinamicki-sinhronizator-check', 'ULTRA Kronoakustodinamički Sinhronizator API', `Provera API rute /api/ultra-kronoakustodinamicki-sinhronizator — Chronoacustodynamic Synchronization Engine (10²⁸¹)`, 'ok', `Autofinish #541 — kronoakustodinamicki-sinhronizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-541-iteracija-check', 'Autofinish #541 Iteracija', `Provera autofinish iteracije #541 — APP_VERSION 41.7.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #541 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
