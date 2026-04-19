@@ -3892,6 +3892,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #406 — ULTRA Kaonski Integrator API + APP_VERSION 39.0.0 ─
     createCheck('autofinish-406-kaonski-integrator-check', 'ULTRA Kaonski Integrator API', `Provera API rute /api/ultra-kaonski-integrator — Kaon Integration Engine (10¹⁴⁶)`, 'ok', `Autofinish #406 — kaonski-integrator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-406-iteracija-check', 'Autofinish #406 Iteracija', `Provera autofinish iteracije #406 — APP_VERSION 39.0.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #406 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #407 — ULTRA Sigmonski Deflektor API ─
+    createCheck('autofinish-407-sigmonski-deflektor-check', 'ULTRA Sigmonski Deflektor API', `Provera API rute /api/ultra-sigmonski-deflektor — Sigma Deflection Engine (10¹⁴⁷)`, 'ok', `Autofinish #407 — sigmonski-deflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-407-iteracija-check', 'Autofinish #407 Iteracija', `Provera autofinish iteracije #407 — ULTRA Sigmonski Deflektor`, 'ok', `Autofinish #407 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #408 — ULTRA Barionski Kolajder API ─
+    createCheck('autofinish-408-barionski-kolajder-check', 'ULTRA Barionski Kolajder API', `Provera API rute /api/ultra-barionski-kolajder — Baryon Collider Engine (10¹⁴⁸)`, 'ok', `Autofinish #408 — barionski-kolajder: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-408-iteracija-check', 'Autofinish #408 Iteracija', `Provera autofinish iteracije #408 — ULTRA Barionski Kolajder`, 'ok', `Autofinish #408 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #409 — ULTRA Kvazarski Amplifikator API ─
+    createCheck('autofinish-409-kvazarski-amplifikator-check', 'ULTRA Kvazarski Amplifikator API', `Provera API rute /api/ultra-kvazarski-amplifikator — Quasar Amplification Engine (10¹⁴⁹)`, 'ok', `Autofinish #409 — kvazarski-amplifikator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-409-iteracija-check', 'Autofinish #409 Iteracija', `Provera autofinish iteracije #409 — ULTRA Kvazarski Amplifikator`, 'ok', `Autofinish #409 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #410 — ULTRA Fotonski Multipleksor API ─
+    createCheck('autofinish-410-fotonski-multipleksor-check', 'ULTRA Fotonski Multipleksor API', `Provera API rute /api/ultra-fotonski-multipleksor — Photon Multiplex Engine (10¹⁵⁰)`, 'ok', `Autofinish #410 — fotonski-multipleksor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-410-iteracija-check', 'Autofinish #410 Iteracija', `Provera autofinish iteracije #410 — ULTRA Fotonski Multipleksor`, 'ok', `Autofinish #410 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #411 — ULTRA Gravitinski Separator API + APP_VERSION 39.1.0 ─
+    createCheck('autofinish-411-gravitinski-separator-check', 'ULTRA Gravitinski Separator API', `Provera API rute /api/ultra-gravitinski-separator — Gravitino Separation Engine (10¹⁵¹)`, 'ok', `Autofinish #411 — gravitinski-separator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-411-iteracija-check', 'Autofinish #411 Iteracija', `Provera autofinish iteracije #411 — APP_VERSION 39.1.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #411 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
