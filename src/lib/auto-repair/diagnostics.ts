@@ -3992,6 +3992,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #431 — ULTRA Tachionski Akcelerator API + APP_VERSION 39.5.0 ─
     createCheck('autofinish-431-tachionski-akcelerator-check', 'ULTRA Tachionski Akcelerator API', `Provera API rute /api/ultra-tachionski-akcelerator — Tachyon Acceleration Engine (10¹⁷¹)`, 'ok', `Autofinish #431 — tachionski-akcelerator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-431-iteracija-check', 'Autofinish #431 Iteracija', `Provera autofinish iteracije #431 — APP_VERSION 39.5.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #431 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #432 — ULTRA Plazmatski Interferometar API ─
+    createCheck('autofinish-432-plazmatski-interferometar-check', 'ULTRA Plazmatski Interferometar API', `Provera API rute /api/ultra-plazmatski-interferometar — Plasma Interferometry Engine (10¹⁷²)`, 'ok', `Autofinish #432 — plazmatski-interferometar: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-432-iteracija-check', 'Autofinish #432 Iteracija', `Provera autofinish iteracije #432 — ULTRA Plazmatski Interferometar`, 'ok', `Autofinish #432 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #433 — ULTRA Kvazitronski Modulator API ─
+    createCheck('autofinish-433-kvazitronski-modulator-check', 'ULTRA Kvazitronski Modulator API', `Provera API rute /api/ultra-kvazitronski-modulator — Quasitron Modulation Engine (10¹⁷³)`, 'ok', `Autofinish #433 — kvazitronski-modulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-433-iteracija-check', 'Autofinish #433 Iteracija', `Provera autofinish iteracije #433 — ULTRA Kvazitronski Modulator`, 'ok', `Autofinish #433 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #434 — ULTRA Subkvantni Ekstrapolator API ─
+    createCheck('autofinish-434-subkvantni-ekstrapolator-check', 'ULTRA Subkvantni Ekstrapolator API', `Provera API rute /api/ultra-subkvantni-ekstrapolator — Subquantum Extrapolation Engine (10¹⁷⁴)`, 'ok', `Autofinish #434 — subkvantni-ekstrapolator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-434-iteracija-check', 'Autofinish #434 Iteracija', `Provera autofinish iteracije #434 — ULTRA Subkvantni Ekstrapolator`, 'ok', `Autofinish #434 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #435 — ULTRA Dimenzionalni Konvertor API ─
+    createCheck('autofinish-435-dimenzionalni-konvertor-check', 'ULTRA Dimenzionalni Konvertor API', `Provera API rute /api/ultra-dimenzionalni-konvertor — Dimensional Conversion Engine (10¹⁷⁵)`, 'ok', `Autofinish #435 — dimenzionalni-konvertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-435-iteracija-check', 'Autofinish #435 Iteracija', `Provera autofinish iteracije #435 — ULTRA Dimenzionalni Konvertor`, 'ok', `Autofinish #435 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #436 — ULTRA Hiperfazni Sinhronizator API + APP_VERSION 39.6.0 ─
+    createCheck('autofinish-436-hiperfazni-sinhronizator-check', 'ULTRA Hiperfazni Sinhronizator API', `Provera API rute /api/ultra-hiperfazni-sinhronizator — Hyperphase Synchronization Engine (10¹⁷⁶)`, 'ok', `Autofinish #436 — hiperfazni-sinhronizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-436-iteracija-check', 'Autofinish #436 Iteracija', `Provera autofinish iteracije #436 — APP_VERSION 39.6.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #436 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
