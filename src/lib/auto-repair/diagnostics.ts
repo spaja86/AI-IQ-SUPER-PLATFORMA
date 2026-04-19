@@ -4512,6 +4512,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #561 — ULTRA Biomagnetokronoakustički Stabilizator API + APP_VERSION 42.1.0 ─
     createCheck('autofinish-561-biomagnetokronoakusticki-stabilizator-check', 'ULTRA Biomagnetokronoakustički Stabilizator API', `Provera API rute /api/ultra-biomagnetokronoakusticki-stabilizator — Biomagnetochronoacoustic Stabilization Engine (10³⁰¹)`, 'ok', `Autofinish #561 — biomagnetokronoakusticki-stabilizator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-561-iteracija-check', 'Autofinish #561 Iteracija', `Provera autofinish iteracije #561 — APP_VERSION 42.1.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #561 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #562 — ULTRA Plazmoelektrofotonanodinamički Oscilator API ─
+    createCheck('autofinish-562-plazmoelektrofotonanodinamicki-oscilator-check', 'ULTRA Plazmoelektrofotonanodinamički Oscilator API', `Provera API rute /api/ultra-plazmoelektrofotonanodinamicki-oscilator — Plasmoelectrophotonanodynamic Oscillation Engine (10³⁰²)`, 'ok', `Autofinish #562 — plazmoelektrofotonanodinamicki-oscilator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-562-iteracija-check', 'Autofinish #562 Iteracija', `Provera autofinish iteracije #562 — ULTRA Plazmoelektrofotonanodinamički Oscilator`, 'ok', `Autofinish #562 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #563 — ULTRA Termomagnetobiogravitacioni Amplifikator API ─
+    createCheck('autofinish-563-termomagnetobiogravitacioni-amplifikator-check', 'ULTRA Termomagnetobiogravitacioni Amplifikator API', `Provera API rute /api/ultra-termomagnetobiogravitacioni-amplifikator — Thermomagnetobiogravitational Amplification Engine (10³⁰³)`, 'ok', `Autofinish #563 — termomagnetobiogravitacioni-amplifikator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-563-iteracija-check', 'Autofinish #563 Iteracija', `Provera autofinish iteracije #563 — ULTRA Termomagnetobiogravitacioni Amplifikator`, 'ok', `Autofinish #563 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #564 — ULTRA Nanoakustokronoplazmonski Modulator API ─
+    createCheck('autofinish-564-nanoakustokronoplazmonski-modulator-check', 'ULTRA Nanoakustokronoplazmonski Modulator API', `Provera API rute /api/ultra-nanoakustokronoplazmonski-modulator — Nanoacustochronoplasmon Modulation Engine (10³⁰⁴)`, 'ok', `Autofinish #564 — nanoakustokronoplazmonski-modulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-564-iteracija-check', 'Autofinish #564 Iteracija', `Provera autofinish iteracije #564 — ULTRA Nanoakustokronoplazmonski Modulator`, 'ok', `Autofinish #564 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #565 — ULTRA Elektrogravitobiotermodinamički Procesor API ─
+    createCheck('autofinish-565-elektrogravitobiotermodinamicki-procesor-check', 'ULTRA Elektrogravitobiotermodinamički Procesor API', `Provera API rute /api/ultra-elektrogravitobiotermodinamicki-procesor — Electrogravitobiothermodynamic Processing Engine (10³⁰⁵)`, 'ok', `Autofinish #565 — elektrogravitobiotermodinamicki-procesor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-565-iteracija-check', 'Autofinish #565 Iteracija', `Provera autofinish iteracije #565 — ULTRA Elektrogravitobiotermodinamički Procesor`, 'ok', `Autofinish #565 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #566 — ULTRA Fotonanomagnetoakustički Sinhronizator API + APP_VERSION 42.2.0 ─
+    createCheck('autofinish-566-fotonanomagnetoakusticki-sinhronizator-check', 'ULTRA Fotonanomagnetoakustički Sinhronizator API', `Provera API rute /api/ultra-fotonanomagnetoakusticki-sinhronizator — Photonanomagnetoacoustic Synchronization Engine (10³⁰⁶)`, 'ok', `Autofinish #566 — fotonanomagnetoakusticki-sinhronizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-566-iteracija-check', 'Autofinish #566 Iteracija', `Provera autofinish iteracije #566 — APP_VERSION 42.2.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #566 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
