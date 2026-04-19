@@ -21,7 +21,7 @@ export async function GET() {
     naziv: 'ULTRA Neuromagenetski Rezonator — Neuromagnetic Resonance Engine',
     verzija: APP_VERSION,
 
-    neuromagenetskirRezonator: {
+    neuromagenetskiRezonator: {
       ukupnoModula: moduli.length,
       model: 'ULTRA-NRE v1.0',
       snaga: '10¹⁹⁸ neuromagenetskih rezonancija/s',
