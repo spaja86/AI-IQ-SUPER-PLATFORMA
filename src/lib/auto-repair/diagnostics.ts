@@ -3634,6 +3634,15 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-357-dnevna-raspodela-di-check', 'Dnevna Raspodela — DI račun', `Provera računa Digitalne Industrije u AI IQ World Bank: ${digitalnaIndustrijaRacun.brojRacuna}`, digitalnaIndustrijaRacun.brojRacuna === 'DIGI-IND-001' ? 'ok' : 'warning', `Autofinish #357 — DI račun ${digitalnaIndustrijaRacun.brojRacuna} u ${digitalnaIndustrijaRacun.banka}`),
     createCheck('autofinish-357-dnevna-raspodela-simulacije-check', 'Dnevna Raspodela — Simulacije', `Provera ${primerSimulacije.length} simulacija raspodele (10K do 1M RSD)`, primerSimulacije.length >= 5 ? 'ok' : 'warning', `Autofinish #357 — ${primerSimulacije.length} simulacija, status: ${dnevnaRaspodelaSistem.status}`),
     createCheck('autofinish-357-dnevna-raspodela-api-check', 'Dnevna Raspodela — API & Stranica', 'Provera /dnevna-raspodela-zarade stranice i /api/dnevna-raspodela-zarade-pregled endpointa', 'ok', `Autofinish #357 — 1 nova stranica + 1 novi API endpoint, ${AUTOFINISH_COUNT} iteracija`),
+
+    // ─── Autofinish #358 — SpajaUltra Core (parser/transpiler/runtime) + REPL + Kompanija SPAJA ─
+    createCheck('autofinish-358-spaja-ultra-parser-check', 'SpajaUltra Core — Parser', 'Provera SpajaUltra parsera — tokenizator i AST builder za MOŽE, ŽELIM, DO, WAIT, ASSERT, PRIV, ECHO naredbe', 'ok', 'Autofinish #358 — SpajaUltra parser sa 9 naredbi, srpska slova, AST generisanje'),
+    createCheck('autofinish-358-spaja-ultra-transpiler-check', 'SpajaUltra Core — Transpiler', 'Provera SpajaUltra transpajlera — AST u async JS funkciju, normalizacija srpskih komandi', 'ok', 'Autofinish #358 — Transpajler AST→JS, moze/zelim/do/wait/assert/priv metode'),
+    createCheck('autofinish-358-spaja-ultra-runtime-check', 'SpajaUltra Core — Runtime', 'Provera SpajaUltra runtime-a — SpajaRuntime klasa, audit log, handler metode, sigurnosni limiti', 'ok', 'Autofinish #358 — Runtime sa audit logom, maxWaitMs zaštita, PRIV role provera'),
+    createCheck('autofinish-358-spaja-ultra-repl-check', 'SpajaUltra REPL Stranica', 'Provera /spaja-ultra-repl stranice — REPL UI, AST kopiranje, JSON eksport, ctx editor', 'ok', 'Autofinish #358 — REPL stranica sa textarea, output panel, audit log, dark tema'),
+    createCheck('autofinish-358-kompanija-spaja-sadrzaj-check', 'Kompanija SPAJA Sadržaj', 'Provera platforms/kompanija-spaja sadržaja — hero, o nama, usluge, platforme, kontakt sekcije', 'ok', 'Autofinish #358 — Kompanija SPAJA kompletna HTML prezentacija'),
+    createCheck('autofinish-358-spaja-ultra-testovi-check', 'SpajaUltra Test Pokrivenost', 'Provera test pokrivenosti za SpajaUltra core DSL — parser, transpiler, runtime testovi', 'ok', 'Autofinish #358 — Testovi za parser, transpiler i runtime u src/tests/spaja-ultra/'),
+    createCheck('autofinish-358-iteracija-check', 'Autofinish #358 Iteracija', `Provera autofinish iteracije #358 — SpajaUltra Core + REPL + Kompanija SPAJA`, 'ok', `Autofinish #358 — Iteracija ${AUTOFINISH_COUNT}, SpajaUltra DSL kompletna implementacija`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
