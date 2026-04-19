@@ -4,12 +4,15 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import AiAsistentWrapper from '@/components/AiAsistentWrapper';
 import OmegaAuthProvider from '@/components/OmegaAuthProvider';
-import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL } from '@/lib/constants';
+import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og`;
+
+const APP_DESCRIPTION = `Digitalna Industrija — ${KOMPANIJA}. SpajaPro Prompt Engine v${SPAJA_PRO_RANGE}, ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona, ${TOTAL_IGRICA} igrica, Proksi mreža, SPAJA Mobilna Mreža.`;
+const APP_DESCRIPTION_SHORT = `Digitalna Industrija sa SpajaPro Prompt Engine-om, ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona, ${TOTAL_IGRICA} igrica i Proksi mrežom.`;
 
 const jsonLdWebApp = {
   '@context': 'https://schema.org',
@@ -24,7 +27,7 @@ const jsonLdWebApp = {
     name: KOMPANIJA,
     url: BASE_URL,
   },
-  description: 'Digitalna Industrija — Kompanija SPAJA. SpajaPro Prompt Engine v6-15, 21 OMEGA AI persona, 95 igrica, Proksi mreža, SPAJA Mobilna Mreža.',
+  description: APP_DESCRIPTION,
   offers: {
     '@type': 'Offer',
     price: '0',
@@ -69,7 +72,7 @@ export const metadata: Metadata = {
     template: '%s | AI IQ SUPER PLATFORMA',
     default: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
   },
-  description: 'Digitalna Industrija — Kompanija SPAJA. SpajaPro Prompt Engine v6-15, 21 OMEGA AI persona, 95 igrica, Proksi mreža, SPAJA Mobilna Mreža. Unified platforma za upravljanje svim AI i IT projektima.',
+  description: `${APP_DESCRIPTION} Unified platforma za upravljanje svim AI i IT projektima.`,
   keywords: ['AI', 'IQ', 'SUPER PLATFORMA', 'Kompanija SPAJA', 'SpajaPro', 'OMEGA AI', 'Digitalna Industrija', 'Prompt Engine', 'Proksi', 'Mobilna Mreža'],
   authors: [{ name: 'Kompanija SPAJA' }],
   creator: 'Kompanija SPAJA',
@@ -80,7 +83,7 @@ export const metadata: Metadata = {
     locale: 'sr_Latn',
     siteName: 'AI IQ SUPER PLATFORMA',
     title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
-    description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+    description: APP_DESCRIPTION_SHORT,
     images: [
       {
         url: OG_IMAGE_URL,
@@ -99,7 +102,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
-    description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+    description: APP_DESCRIPTION_SHORT,
     creator: '@KompanijaSPAJA',
     images: [
       {
