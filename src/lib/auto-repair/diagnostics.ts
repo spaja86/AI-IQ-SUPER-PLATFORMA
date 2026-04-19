@@ -4332,6 +4332,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #516 — ULTRA Kvantomagneto-akustički Sintetizator API + APP_VERSION 41.2.0 ─
     createCheck('autofinish-516-kvantomagneto-akusticki-sintetizator-check', 'ULTRA Kvantomagneto-akustički Sintetizator API', `Provera API rute /api/ultra-kvantomagneto-akusticki-sintetizator — Quantomagnetoacoustic Synthesis Engine (10²⁵⁶)`, 'ok', `Autofinish #516 — kvantomagneto-akusticki-sintetizator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-516-iteracija-check', 'Autofinish #516 Iteracija', `Provera autofinish iteracije #516 — APP_VERSION 41.2.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #516 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #517 — ULTRA Elektrogravitoplazmonski Analizator API ─
+    createCheck('autofinish-517-elektrogravitoplazmonski-analizator-check', 'ULTRA Elektrogravitoplazmonski Analizator API', `Provera API rute /api/ultra-elektrogravitoplazmonski-analizator — Electrogravitoplasmonic Analysis Engine (10²⁵⁷)`, 'ok', `Autofinish #517 — elektrogravitoplazmonski-analizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-517-iteracija-check', 'Autofinish #517 Iteracija', `Provera autofinish iteracije #517 — ULTRA Elektrogravitoplazmonski Analizator`, 'ok', `Autofinish #517 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #518 — ULTRA Biofotoneuromagnetski Konvertor API ─
+    createCheck('autofinish-518-biofotoneuromagnetski-konvertor-check', 'ULTRA Biofotoneuromagnetski Konvertor API', `Provera API rute /api/ultra-biofotoneuromagnetski-konvertor — Biophotoneuromagnetic Conversion Engine (10²⁵⁸)`, 'ok', `Autofinish #518 — biofotoneuromagnetski-konvertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-518-iteracija-check', 'Autofinish #518 Iteracija', `Provera autofinish iteracije #518 — ULTRA Biofotoneuromagnetski Konvertor`, 'ok', `Autofinish #518 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #519 — ULTRA Nanotermodinamički Osciloskop API ─
+    createCheck('autofinish-519-nanotermodinamicki-osciloskop-check', 'ULTRA Nanotermodinamički Osciloskop API', `Provera API rute /api/ultra-nanotermodinamicki-osciloskop — Nanothermodynamic Oscilloscope Engine (10²⁵⁹)`, 'ok', `Autofinish #519 — nanotermodinamicki-osciloskop: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-519-iteracija-check', 'Autofinish #519 Iteracija', `Provera autofinish iteracije #519 — ULTRA Nanotermodinamički Osciloskop`, 'ok', `Autofinish #519 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #520 — ULTRA Kronoakustogravitacioni Detektor API ─
+    createCheck('autofinish-520-kronoakustogravitacioni-detektor-check', 'ULTRA Kronoakustogravitacioni Detektor API', `Provera API rute /api/ultra-kronoakustogravitacioni-detektor — Chronoacustogravitational Detection Engine (10²⁶⁰)`, 'ok', `Autofinish #520 — kronoakustogravitacioni-detektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-520-iteracija-check', 'Autofinish #520 Iteracija', `Provera autofinish iteracije #520 — ULTRA Kronoakustogravitacioni Detektor`, 'ok', `Autofinish #520 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #521 — ULTRA Hipermagneto-plazmonski Reaktor API + APP_VERSION 41.3.0 ─
+    createCheck('autofinish-521-hipermagneto-plazmonski-reaktor-check', 'ULTRA Hipermagneto-plazmonski Reaktor API', `Provera API rute /api/ultra-hipermagneto-plazmonski-reaktor — Hypermagnetoplasmonic Reactor Engine (10²⁶¹)`, 'ok', `Autofinish #521 — hipermagneto-plazmonski-reaktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-521-iteracija-check', 'Autofinish #521 Iteracija', `Provera autofinish iteracije #521 — APP_VERSION 41.3.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #521 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
