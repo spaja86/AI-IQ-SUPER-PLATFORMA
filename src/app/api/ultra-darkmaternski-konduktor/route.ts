@@ -21,7 +21,7 @@ export async function GET() {
     naziv: 'ULTRA Darkmaternski Konduktor — Dark Matter Conduction Engine',
     verzija: APP_VERSION,
 
-    darkmaternnskiKonduktor: {
+    darkmaterskiKonduktor: {
       ukupnoModula: moduli.length,
       model: 'ULTRA-DMCE v1.0',
       snaga: '10¹⁵⁵ darkmaternskih kondukcija/s',
