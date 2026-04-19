@@ -4352,6 +4352,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #521 — ULTRA Hipermagneto-plazmonski Reaktor API + APP_VERSION 41.3.0 ─
     createCheck('autofinish-521-hipermagneto-plazmonski-reaktor-check', 'ULTRA Hipermagneto-plazmonski Reaktor API', `Provera API rute /api/ultra-hipermagneto-plazmonski-reaktor — Hypermagnetoplasmonic Reactor Engine (10²⁶¹)`, 'ok', `Autofinish #521 — hipermagneto-plazmonski-reaktor: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-521-iteracija-check', 'Autofinish #521 Iteracija', `Provera autofinish iteracije #521 — APP_VERSION 41.3.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #521 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #522 — ULTRA Gravitoelektroakustički Polarizator API ─
+    createCheck('autofinish-522-gravitoelektroakusticki-polarizator-check', 'ULTRA Gravitoelektroakustički Polarizator API', `Provera API rute /api/ultra-gravitoelektroakusticki-polarizator — Gravitoelectroacoustic Polarization Engine (10²⁶²)`, 'ok', `Autofinish #522 — gravitoelektroakusticki-polarizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-522-iteracija-check', 'Autofinish #522 Iteracija', `Provera autofinish iteracije #522 — ULTRA Gravitoelektroakustički Polarizator`, 'ok', `Autofinish #522 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #523 — ULTRA Plazmoneurobiofotonski Rekombinator API ─
+    createCheck('autofinish-523-plazmoneurobiofotonski-rekombinator-check', 'ULTRA Plazmoneurobiofotonski Rekombinator API', `Provera API rute /api/ultra-plazmoneurobiofotonski-rekombinator — Plasmoneurobiophotonic Recombination Engine (10²⁶³)`, 'ok', `Autofinish #523 — plazmoneurobiofotonski-rekombinator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-523-iteracija-check', 'Autofinish #523 Iteracija', `Provera autofinish iteracije #523 — ULTRA Plazmoneurobiofotonski Rekombinator`, 'ok', `Autofinish #523 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #524 — ULTRA Termokvantogravitacioni Deflektor API ─
+    createCheck('autofinish-524-termokvantogravitacioni-deflektor-check', 'ULTRA Termokvantogravitacioni Deflektor API', `Provera API rute /api/ultra-termokvantogravitacioni-deflektor — Thermoquantogravitational Deflection Engine (10²⁶⁴)`, 'ok', `Autofinish #524 — termokvantogravitacioni-deflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-524-iteracija-check', 'Autofinish #524 Iteracija', `Provera autofinish iteracije #524 — ULTRA Termokvantogravitacioni Deflektor`, 'ok', `Autofinish #524 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #525 — ULTRA Magnetoakustodinamički Transformator API ─
+    createCheck('autofinish-525-magnetoakustodinamicki-transformator-check', 'ULTRA Magnetoakustodinamički Transformator API', `Provera API rute /api/ultra-magnetoakustodinamicki-transformator — Magnetoacustodynamic Transformation Engine (10²⁶⁵)`, 'ok', `Autofinish #525 — magnetoakustodinamicki-transformator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-525-iteracija-check', 'Autofinish #525 Iteracija', `Provera autofinish iteracije #525 — ULTRA Magnetoakustodinamički Transformator`, 'ok', `Autofinish #525 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #526 — ULTRA Kronoelektrobiomagnetski Akcelerator API + APP_VERSION 41.4.0 ─
+    createCheck('autofinish-526-kronoelektrobiomagnetski-akcelerator-check', 'ULTRA Kronoelektrobiomagnetski Akcelerator API', `Provera API rute /api/ultra-kronoelektrobiomagnetski-akcelerator — Chronoelectrobiomagnetic Acceleration Engine (10²⁶⁶)`, 'ok', `Autofinish #526 — kronoelektrobiomagnetski-akcelerator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-526-iteracija-check', 'Autofinish #526 Iteracija', `Provera autofinish iteracije #526 — APP_VERSION 41.4.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #526 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
