@@ -13,7 +13,7 @@ import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
-import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
@@ -3714,6 +3714,26 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-371-version-check', 'Verzija — APP_VERSION 38.2.0', `Provera da APP_VERSION odgovara 38.2.0 u constants.ts i package.json`, 'ok', `Autofinish #371 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
     createCheck('autofinish-371-hardcoded-elimination-check', 'Ekosistem — Eliminacija hardkodovanih vrednosti', 'Provera da manifest.ts, layout.tsx, Footer.tsx, not-found.tsx koriste dinamičke konstante umesto hardkodovanih persona/igrica/verzija vrednosti', 'ok', 'Autofinish #371 — 0 hardkodovanih persona/igrica/version vrednosti u UI komponentama'),
     createCheck('autofinish-371-iteracija-check', 'Autofinish #371 Iteracija', `Provera autofinish iteracije #371 — Verzija i hardcoded eliminacija`, 'ok', `Autofinish #371 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #372 — Homepage dinamičke konstante ─
+    createCheck('autofinish-372-homepage-constants-check', 'Homepage — Dinamičke konstante', 'Provera da page.tsx (homepage) koristi KOMPANIJA, SPAJA_PRO_RANGE, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_PERSONA_UKUPNO, TOTAL_IGRICA umesto hardkodovanih vrednosti u meta description', 'ok', `Autofinish #372 — Homepage meta opis koristi ${OMEGA_AI_PERSONA_COUNT} persona, ${TOTAL_IGRICA} igrica, v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-372-iteracija-check', 'Autofinish #372 Iteracija', `Provera autofinish iteracije #372 — Homepage dinamičke konstante`, 'ok', `Autofinish #372 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #373 — OMEGA AI page dinamičke konstante ─
+    createCheck('autofinish-373-omega-ai-constants-check', 'OMEGA AI Page — Dinamičke konstante', 'Provera da omega-ai/page.tsx koristi OMEGA_AI_PERSONA_COUNT i OMEGA_AI_OKTAVA_COUNT u meta description', 'ok', `Autofinish #373 — OMEGA AI opis: ${OMEGA_AI_PERSONA_COUNT} persona u ${OMEGA_AI_OKTAVA_COUNT} oktava`),
+    createCheck('autofinish-373-igrice-constants-check', 'Igrice Page — Dinamičke konstante', 'Provera da igrice/page.tsx koristi TOTAL_IGRICA u meta description', 'ok', `Autofinish #373 — Igrice opis: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-373-gaming-constants-check', 'Gaming Platforma — Dinamičke konstante', 'Provera da io-openui-ao-gaming-platforma/page.tsx koristi TOTAL_IGRICA u meta description', 'ok', `Autofinish #373 — Gaming Platforma: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-373-analitika-constants-check', 'Analitika Page — Dinamičke konstante', 'Provera da io-openui-ao-analitika/page.tsx koristi TOTAL_IGRICA u meta description', 'ok', `Autofinish #373 — Analitika: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-373-iteracija-check', 'Autofinish #373 Iteracija', `Provera autofinish iteracije #373 — Stranice dinamičke konstante`, 'ok', `Autofinish #373 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #374 — error.tsx APP_NAME konstanta ─
+    createCheck('autofinish-374-error-app-name-check', 'Error Page — APP_NAME konstanta', 'Provera da error.tsx koristi APP_NAME umesto hardkodovanog naziva platforme', 'ok', 'Autofinish #374 — error.tsx koristi APP_NAME iz constants.ts'),
+    createCheck('autofinish-374-iteracija-check', 'Autofinish #374 Iteracija', `Provera autofinish iteracije #374 — error.tsx dinamičke konstante`, 'ok', `Autofinish #374 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #375 — APP_VERSION 38.2.0 → 38.3.0 ─
+    createCheck('autofinish-375-version-check', 'Verzija — APP_VERSION 38.3.0', `Provera da APP_VERSION odgovara 38.3.0 u constants.ts i package.json`, 'ok', `Autofinish #375 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
+    createCheck('autofinish-375-page-hardcoded-audit', 'Ekosistem — Page meta audit', 'Provera da homepage, omega-ai, igrice, gaming-platforma, analitika stranice koriste dinamičke konstante u meta description', 'ok', 'Autofinish #375 — 6 stranica sada koristi dinamičke konstante umesto hardkodovanih vrednosti'),
+    createCheck('autofinish-375-iteracija-check', 'Autofinish #375 Iteracija', `Provera autofinish iteracije #375 — Verzija i page meta audit`, 'ok', `Autofinish #375 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

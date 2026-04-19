@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { APP_NAME } from '@/lib/constants';
 
 function getErrorKategorija(error: Error): { ikona: string; kategorija: string; boja: string } {
   const msg = error.message?.toLowerCase() ?? '';
@@ -60,7 +61,7 @@ export default function Error({
             🏠 Početna
           </Link>
         </div>
-        <p className="mt-6 text-xs text-gray-600">AI IQ SUPER PLATFORMA — Autonomna dijagnostika i auto-popravka</p>
+        <p className="mt-6 text-xs text-gray-600">{APP_NAME} — Autonomna dijagnostika i auto-popravka</p>
       </div>
     </div>
   );
