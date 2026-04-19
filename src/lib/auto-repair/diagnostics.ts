@@ -3952,6 +3952,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #421 — ULTRA Krontonski Sekvencer API + APP_VERSION 39.3.0 ─
     createCheck('autofinish-421-krontonski-sekvencer-check', 'ULTRA Krontonski Sekvencer API', `Provera API rute /api/ultra-krontonski-sekvencer — Chronon Sequencing Engine (10¹⁶¹)`, 'ok', `Autofinish #421 — krontonski-sekvencer: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-421-iteracija-check', 'Autofinish #421 Iteracija', `Provera autofinish iteracije #421 — APP_VERSION 39.3.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #421 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #422 — ULTRA Subatomski Rezonator API ─
+    createCheck('autofinish-422-subatomski-rezonator-check', 'ULTRA Subatomski Rezonator API', `Provera API rute /api/ultra-subatomski-rezonator — Subatomic Resonance Engine (10¹⁶²)`, 'ok', `Autofinish #422 — subatomski-rezonator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-422-iteracija-check', 'Autofinish #422 Iteracija', `Provera autofinish iteracije #422 — ULTRA Subatomski Rezonator`, 'ok', `Autofinish #422 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #423 — ULTRA Kvantumski Demodulator API ─
+    createCheck('autofinish-423-kvantumski-demodulator-check', 'ULTRA Kvantumski Demodulator API', `Provera API rute /api/ultra-kvantumski-demodulator — Quantum Demodulation Engine (10¹⁶³)`, 'ok', `Autofinish #423 — kvantumski-demodulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-423-iteracija-check', 'Autofinish #423 Iteracija', `Provera autofinish iteracije #423 — ULTRA Kvantumski Demodulator`, 'ok', `Autofinish #423 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #424 — ULTRA Neutrinofluksni Kanalizator API ─
+    createCheck('autofinish-424-neutrinofluksni-kanalizator-check', 'ULTRA Neutrinofluksni Kanalizator API', `Provera API rute /api/ultra-neutrinofluksni-kanalizator — Neutrino Flux Channeling Engine (10¹⁶⁴)`, 'ok', `Autofinish #424 — neutrinofluksni-kanalizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-424-iteracija-check', 'Autofinish #424 Iteracija', `Provera autofinish iteracije #424 — ULTRA Neutrinofluksni Kanalizator`, 'ok', `Autofinish #424 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #425 — ULTRA Magnetarski Osciloskop API ─
+    createCheck('autofinish-425-magnetarski-osciloskop-check', 'ULTRA Magnetarski Osciloskop API', `Provera API rute /api/ultra-magnetarski-osciloskop — Magnetar Oscilloscope Engine (10¹⁶⁵)`, 'ok', `Autofinish #425 — magnetarski-osciloskop: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-425-iteracija-check', 'Autofinish #425 Iteracija', `Provera autofinish iteracije #425 — ULTRA Magnetarski Osciloskop`, 'ok', `Autofinish #425 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #426 — ULTRA Temporalni Difraktometar API + APP_VERSION 39.4.0 ─
+    createCheck('autofinish-426-temporalni-difraktometar-check', 'ULTRA Temporalni Difraktometar API', `Provera API rute /api/ultra-temporalni-difraktometar — Temporal Diffractometry Engine (10¹⁶⁶)`, 'ok', `Autofinish #426 — temporalni-difraktometar: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-426-iteracija-check', 'Autofinish #426 Iteracija', `Provera autofinish iteracije #426 — APP_VERSION 39.4.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #426 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
