@@ -21,7 +21,7 @@ export async function GET() {
     naziv: 'ULTRA Kvazitronski Modulator — Quasitron Modulation Engine',
     verzija: APP_VERSION,
 
-    kvazitronskkiModulator: {
+    kvazitronskiModulator: {
       ukupnoModula: moduli.length,
       model: 'ULTRA-QME v1.0',
       snaga: '10¹⁷³ kvazitronskih modulacija/s',
