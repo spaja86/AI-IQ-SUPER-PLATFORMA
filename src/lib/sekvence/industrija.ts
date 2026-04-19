@@ -131,13 +131,13 @@ export const industrijaSekvence: Sekvenca[] = [
     naslov: 'ŽIVA FUNKCIONALNA Digitalna Industrija',
     redosled: 3,
     podaci: {
-      sadrzaj: `Digitalna Industrija je ŽIVA FUNKCIONALNA korporacija gde kompanija SPAJA funkcioniše kao industrijski kompleks u digitalnom svetu. Svaka platforma je aktivna fabrika, svaki IT proizvod je funkcionalan alat, a ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} OMEGA AI persona su radnici koji automatizuju sve procese. PROMPTOVI su svuda — u svakoj platformi, svakom proizvodu, svakom agentu.`,
+      sadrzaj: `Digitalna Industrija je ŽIVA FUNKCIONALNA korporacija gde kompanija SPAJA funkcioniše kao industrijski kompleks u digitalnom svetu. Svaka platforma je aktivna fabrika, svaki IT proizvod je funkcionalan alat, a ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} OMEGA AI persona su radnici koji automatizuju sve procese. PROMPTOVI su svuda — u svakoj platformi, svakom proizvodu, svakom agentu.`,
       istaknuteStavke: [
         'SVE platforme su AKTIVNE digitalne fabrike',
         'SVE kompanije su AKTIVNE i proizvode',
         'SVE organizacije su AKTIVNE i funkcionišu',
         'SVI IT Proizvodi su AKTIVNI specijalizovani alati',
-        `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} OMEGA AI persona rade non-stop`,
+        `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} OMEGA AI persona rade non-stop`,
         'PROMPTOVI su integrisani svuda u ekosistemu',
         'Ekosistem je ŽIVO FUNKCIONALAN — sve je u produkciji',
       ],
@@ -152,7 +152,7 @@ export const industrijaSekvence: Sekvenca[] = [
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
         { naziv: 'IT Proizvodi', vrednost: stats.ukupnoProizvoda, ikona: '⚡' },
-        { naziv: 'OMEGA AI', vrednost: OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE'), ikona: '🧠' },
+        { naziv: 'OMEGA AI', vrednost: OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn'), ikona: '🧠' },
         { naziv: 'Progres', vrednost: `${stats.ukupniProgres}%`, ikona: '📈' },
         { naziv: 'Engine-i', vrednost: stats.generatorEngina, ikona: '🔧' },
         { naziv: 'Repo Engine-i', vrednost: stats.generatorRepoEngina, ikona: '📦' },
@@ -170,7 +170,7 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
-        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} OMEGA AI Persona`, 'OpenAI Platforma (Sopstvena)', 'Proksi Mreža', 'SPAJA Mobilna Mreža', 'SPAJA Generator za Endžine', `Glavni Endžin (${geStats.ukupnoSpojenih} endžina spojeno)`, `Promptovi (${stats.ukupnoPromptova})`, `Igrice (${stats.ukupnoIgrica})`] },
+        { naziv: 'Kompanija SPAJA', ikona: '🏢', deca: [`Platforme (${stats.ukupnoPlatformi})`, `IT Proizvodi (${stats.ukupnoProizvoda})`, `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} OMEGA AI Persona`, 'OpenAI Platforma (Sopstvena)', 'Proksi Mreža', 'SPAJA Mobilna Mreža', 'SPAJA Generator za Endžine', `Glavni Endžin (${geStats.ukupnoSpojenih} endžina spojeno)`, `Promptovi (${stats.ukupnoPromptova})`, `Igrice (${stats.ukupnoIgrica})`] },
         { naziv: 'Platforme', ikona: '🌐', deca: ['Jezgro', 'Finansije', 'Globalno', 'AI', 'Alati'] },
         { naziv: 'Proksi Mreža', ikona: '📡', deca: ['Hipsoneurični Signal', 'Ekscentrični Modulator', 'Ekliptična Vez', 'Rezonantni Pojačavač'] },
         { naziv: 'SPAJA Mobilna Mreža', ikona: '📱', deca: ['+38177 Primarna', '+38188 Sekundarna', '+38178 Redundantna', '+38187 Globalna'] },
@@ -188,7 +188,7 @@ export const industrijaSekvence: Sekvenca[] = [
         ['Platforme', 'AKTIVNE digitalne fabrike', String(stats.ukupnoPlatformi), '✅ SVE AKTIVNE'],
         ['IT Proizvodi', 'AKTIVNI alati i servisi', String(stats.ukupnoProizvoda), '✅ SVE AKTIVNO'],
         ['Digitalni Hardver', 'GPU/RAM/Kompjuter/Brauzer', '6 proizvoda', '✅ ZAKUP AKTIVAN'],
-        ['OMEGA AI', 'AI persona — 40M persona', OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE'), '✅ AKTIVNI'],
+        ['OMEGA AI', 'AI persona — 40M persona', OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn'), '✅ AKTIVNI'],
         ['Promptovi', 'Univerzalni Prompt sistem', String(stats.ukupnoPromptova), '✅ SVI AKTIVNI'],
         ['Igrice', 'Dimenzionalne igrice', String(stats.ukupnoIgrica), '✅ SVE AKTIVNE'],
         ['Proksi Mreža', 'Signal infrastruktura', '6 signala / 5 čvorova', '✅ AKTIVNA'],
@@ -319,7 +319,7 @@ export const industrijaSekvence: Sekvenca[] = [
         },
         {
           naslov: '🧠 OMEGA AI + OpenAI',
-          opis: `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} OMEGA AI persona koriste OpenAI API za napredne AI operacije. SpajaPro Prompt sistem umesto ChatGPT-a.`,
+          opis: `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} OMEGA AI persona koriste OpenAI API za napredne AI operacije. SpajaPro Prompt sistem umesto ChatGPT-a.`,
           ikona: '🧠',
           oznake: ['OMEGA AI', '40M persona', 'SpajaPro'],
         },
@@ -426,7 +426,7 @@ export const industrijaSekvence: Sekvenca[] = [
     naslov: '🚀 Istrazi ekosistem',
     redosled: 16,
     podaci: {
-      opis: `ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} OMEGA AI persona. Glavni Endžin spaja ${geStats.ukupnoSpojenih} endžina i automatski sklapa gotove proizvode. Promptovi svuda.`,
+      opis: `ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} OMEGA AI persona. Glavni Endžin spaja ${geStats.ukupnoSpojenih} endžina i automatski sklapa gotove proizvode. Promptovi svuda.`,
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Glavni Endžin', href: '/glavni-endzin', stil: 'sekundarno' },

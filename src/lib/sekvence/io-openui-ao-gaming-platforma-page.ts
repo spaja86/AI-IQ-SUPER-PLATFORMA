@@ -154,7 +154,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
               naziv: 'Integracije',
               deca: [
                 { naziv: `SpajaPro ${SPAJA_PRO_RANGE} Engine` },
-                { naziv: `OMEGA AI ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} persona` },
+                { naziv: `OMEGA AI ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} persona` },
                 { naziv: 'Proksi mrežna optimizacija' },
                 { naziv: 'Digitalni Kompjuter + Digitalni Brauzer' },
                 { naziv: 'SPAJA Generator za Endžine' },

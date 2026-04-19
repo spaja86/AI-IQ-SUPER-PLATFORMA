@@ -263,7 +263,7 @@ export const bankaSekvence: Sekvenca[] = [
       kartice: [
         { naslov: 'ERSTE Banka DOO Smederevo', opis: 'Zvanicni bankarski partner — dinarski i devizni racuni za Digitalnu Industriju', ikona: '🏦', oznake: ['Bankarski partner', 'Smederevo', 'RSD/EUR/USD'] },
         { naslov: 'Kompanija SPAJA', opis: 'Maticna kompanija koja upravlja celim digitalnim ekosistemom', ikona: '🏢', oznake: ['Maticna kompanija', 'Ekosistem', 'Digitalna Industrija'] },
-        { naslov: 'Omega AI', opis: `AI tehnoloski partner — ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')} AI persona za naprednu analitiku`, ikona: '🧠', oznake: ['AI partner', '40M+ persona', 'Tehnologija'] },
+        { naslov: 'Omega AI', opis: `AI tehnoloski partner — ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} AI persona za naprednu analitiku`, ikona: '🧠', oznake: ['AI partner', '40M+ persona', 'Tehnologija'] },
         { naslov: 'AI IQ Menjacnica', opis: 'Partnerska menjacnica za konverziju valuta i kripto trgovinu', ikona: '💱', oznake: ['Menjacnica', 'Kripto', 'Valute'] },
         { naslov: 'Vercel', opis: 'Hosting i deploy partner za sve digitalne platforme', ikona: '▲', oznake: ['Hosting', 'Deploy', 'Cloud'] },
         { naslov: 'GitHub', opis: 'Platforma za razvoj koda i upravljanje repozitorijumima', ikona: '🐙', oznake: ['Razvoj', 'Repozitorijumi', 'CI/CD'] },

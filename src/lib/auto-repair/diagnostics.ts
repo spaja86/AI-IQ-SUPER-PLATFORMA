@@ -3823,10 +3823,10 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-389-iteracija-check', 'Autofinish #389 Iteracija', `Provera autofinish iteracije #389 — industrija v6-15→SPAJA_PRO_RANGE`, 'ok', `Autofinish #389 — Iteracija ${AUTOFINISH_COUNT}`),
 
     // ─── Autofinish #390 — 40.000.562 → OMEGA_AI_PERSONA_UKUPNO ─
-    createCheck('autofinish-390-industrija-persona-check', 'industrija 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'industrija.ts 7 lokacija koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — industrija: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
-    createCheck('autofinish-390-banka-persona-check', 'banka 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'banka-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — banka: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
-    createCheck('autofinish-390-gaming-persona-check', 'gaming 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'gaming-platforma koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — gaming: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
-    createCheck('autofinish-390-menjacnica-persona-check', 'menjacnica 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'menjacnica-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — menjacnica: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('de-DE')}`),
+    createCheck('autofinish-390-industrija-persona-check', 'industrija 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'industrija.ts 7 lokacija koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — industrija: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
+    createCheck('autofinish-390-banka-persona-check', 'banka 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'banka-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — banka: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
+    createCheck('autofinish-390-gaming-persona-check', 'gaming 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'gaming-platforma koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — gaming: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
+    createCheck('autofinish-390-menjacnica-persona-check', 'menjacnica 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'menjacnica-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — menjacnica: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
     createCheck('autofinish-390-iteracija-check', 'Autofinish #390 Iteracija', `Provera autofinish iteracije #390 — 40.000.562→OMEGA_AI_PERSONA_UKUPNO`, 'ok', `Autofinish #390 — Iteracija ${AUTOFINISH_COUNT}`),
 
     // ─── Autofinish #391 — APP_VERSION 38.7.0 ─
