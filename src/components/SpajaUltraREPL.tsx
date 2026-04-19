@@ -55,7 +55,7 @@ export default function SpajaUltraREPL() {
 
     try {
       const ast = parseSpajaUltra(code);
-      transpile(ast);
+      transpile(ast); // validate transpile output before execution
       setLatestAst(ast);
 
       const parsedValue = JSON.parse(ctxJson) as unknown;

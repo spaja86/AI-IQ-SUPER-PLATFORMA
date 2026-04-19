@@ -56,7 +56,7 @@ function makeRecordId(): string {
     return bytesToHex(bytes);
   }
 
-  return `${Date.now()}-${process.hrtime.bigint().toString(16)}`;
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
 function isIdentifierStart(char: string): boolean {
