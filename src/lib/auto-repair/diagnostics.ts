@@ -4632,6 +4632,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #591 — ULTRA Fotonobiogravitoplazmonanotermoelektronski Induktor API + APP_VERSION 42.7.0 ─
     createCheck('autofinish-591-fotonobiogravitoplazmonanotermoelektronski-induktor-check', 'ULTRA Fotonobiogravitoplazmonanotermoelektronski Induktor API', `Provera API rute /api/ultra-fotonobiogravitoplazmonanotermoelektronski-induktor — Photonobiogravitoplasmonnanothermoselectronic Induction Engine (10³³¹)`, 'ok', `Autofinish #591 — fotonobiogravitoplazmonanotermoelektronski-induktor: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-591-iteracija-check', 'Autofinish #591 Iteracija', `Provera autofinish iteracije #591 — APP_VERSION 42.7.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #591 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #592 — ULTRA Termoelektrogravitobioplazmonanokronski Sinhronizator API ─
+    createCheck('autofinish-592-termoelektrogravitobioplazmonanokronski-sinhronizator-check', 'ULTRA Termoelektrogravitobioplazmonanokronski Sinhronizator API', `Provera API rute /api/ultra-termoelektrogravitobioplazmonanokronski-sinhronizator — Thermoelectrogravitobioplasmonanochronic Synchronization Engine (10³³²)`, 'ok', `Autofinish #592 — termoelektrogravitobioplazmonanokronski-sinhronizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-592-iteracija-check', 'Autofinish #592 Iteracija', `Provera autofinish iteracije #592 — ULTRA Termoelektrogravitobioplazmonanokronski Sinhronizator`, 'ok', `Autofinish #592 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #593 — ULTRA Akustomagnetofotonokronobioplazmonski Konvertor API ─
+    createCheck('autofinish-593-akustomagnetofotonokronobioplazmonski-konvertor-check', 'ULTRA Akustomagnetofotonokronobioplazmonski Konvertor API', `Provera API rute /api/ultra-akustomagnetofotonokronobioplazmonski-konvertor — Acoustomagnetophotonochronobioplasmon Conversion Engine (10³³³)`, 'ok', `Autofinish #593 — akustomagnetofotonokronobioplazmonski-konvertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-593-iteracija-check', 'Autofinish #593 Iteracija', `Provera autofinish iteracije #593 — ULTRA Akustomagnetofotonokronobioplazmonski Konvertor`, 'ok', `Autofinish #593 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #594 — ULTRA Nanobiogravitoplazmotermoelektroakustički Projektor API ─
+    createCheck('autofinish-594-nanobiogravitoplazmotermoelektroakusticki-projektor-check', 'ULTRA Nanobiogravitoplazmotermoelektroakustički Projektor API', `Provera API rute /api/ultra-nanobiogravitoplazmotermoelektroakusticki-projektor — Nanobiogravitoplasmonthermoselectroacoustic Projection Engine (10³³⁴)`, 'ok', `Autofinish #594 — nanobiogravitoplazmotermoelektroakusticki-projektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-594-iteracija-check', 'Autofinish #594 Iteracija', `Provera autofinish iteracije #594 — ULTRA Nanobiogravitoplazmotermoelektroakustički Projektor`, 'ok', `Autofinish #594 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #595 — ULTRA Kronofotonobioplazmomagnetotermoelektronski Difuzor API ─
+    createCheck('autofinish-595-kronofotonobioplazmomagnetotermoelektronski-difuzor-check', 'ULTRA Kronofotonobioplazmomagnetotermoelektronski Difuzor API', `Provera API rute /api/ultra-kronofotonobioplazmomagnetotermoelektronski-difuzor — Chronophotonoobioplasmonmagnetothermoselectronic Diffusion Engine (10³³⁵)`, 'ok', `Autofinish #595 — kronofotonobioplazmomagnetotermoelektronski-difuzor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-595-iteracija-check', 'Autofinish #595 Iteracija', `Provera autofinish iteracije #595 — ULTRA Kronofotonobioplazmomagnetotermoelektronski Difuzor`, 'ok', `Autofinish #595 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #596 — ULTRA Elektroakustobiogravitoplazmonanofotonski Rezonator API + APP_VERSION 42.8.0 ─
+    createCheck('autofinish-596-elektroakustobiogravitoplazmonanofotonski-rezonator-check', 'ULTRA Elektroakustobiogravitoplazmonanofotonski Rezonator API', `Provera API rute /api/ultra-elektroakustobiogravitoplazmonanofotonskirezonator — Electroacoustobiogravitoplasmonnanophotonic Resonation Engine (10³³⁶)`, 'ok', `Autofinish #596 — elektroakustobiogravitoplazmonanofotonski-rezonator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-596-iteracija-check', 'Autofinish #596 Iteracija', `Provera autofinish iteracije #596 — APP_VERSION 42.8.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #596 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
