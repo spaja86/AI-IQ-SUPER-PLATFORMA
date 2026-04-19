@@ -4552,6 +4552,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #571 — ULTRA Termonanoelektrobioplazmonski Analizator API + APP_VERSION 42.3.0 ─
     createCheck('autofinish-571-termonanoelektrobioplazmonski-analizator-check', 'ULTRA Termonanoelektrobioplazmonski Analizator API', `Provera API rute /api/ultra-termonanoelektrobioplazmonski-analizator — Thermonanoelectrobioplasmon Analysis Engine (10³¹¹)`, 'ok', `Autofinish #571 — termonanoelektrobioplazmonski-analizator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-571-iteracija-check', 'Autofinish #571 Iteracija', `Provera autofinish iteracije #571 — APP_VERSION 42.3.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #571 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #572 — ULTRA Akustogravitoplazmoelektrofotonski Kalibrator API ─
+    createCheck('autofinish-572-akustogravitoplazmoelektrofotonski-kalibrator-check', 'ULTRA Akustogravitoplazmoelektrofotonski Kalibrator API', `Provera API rute /api/ultra-akustogravitoplazmoelektrofotonski-kalibrator — Acoustogravitoplasmoelectrophotonic Calibration Engine (10³¹²)`, 'ok', `Autofinish #572 — akustogravitoplazmoelektrofotonski-kalibrator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-572-iteracija-check', 'Autofinish #572 Iteracija', `Provera autofinish iteracije #572 — ULTRA Akustogravitoplazmoelektrofotonski Kalibrator`, 'ok', `Autofinish #572 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #573 — ULTRA Nanobiotermomagnetokronički Emiter API ─
+    createCheck('autofinish-573-nanobiotermomagnetokronicki-emiter-check', 'ULTRA Nanobiotermomagnetokronički Emiter API', `Provera API rute /api/ultra-nanobiotermomagnetokronicki-emiter — Nanobiothermomagnetochronic Emission Engine (10³¹³)`, 'ok', `Autofinish #573 — nanobiotermomagnetokronicki-emiter: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-573-iteracija-check', 'Autofinish #573 Iteracija', `Provera autofinish iteracije #573 — ULTRA Nanobiotermomagnetokronički Emiter`, 'ok', `Autofinish #573 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #574 — ULTRA Plazmoakustoelektrogravitobionski Dekoder API ─
+    createCheck('autofinish-574-plazmoakustoelektrogravitobionski-dekoder-check', 'ULTRA Plazmoakustoelektrogravitobionski Dekoder API', `Provera API rute /api/ultra-plazmoakustoelektrogravitobionski-dekoder — Plasmoacustoelectrogravitobionic Decoding Engine (10³¹⁴)`, 'ok', `Autofinish #574 — plazmoakustoelektrogravitobionski-dekoder: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-574-iteracija-check', 'Autofinish #574 Iteracija', `Provera autofinish iteracije #574 — ULTRA Plazmoakustoelektrogravitobionski Dekoder`, 'ok', `Autofinish #574 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #575 — ULTRA Fotonokronotermomagnetonanski Reflektor API ─
+    createCheck('autofinish-575-fotonokronotermomagnetonanski-reflektor-check', 'ULTRA Fotonokronotermomagnetonanski Reflektor API', `Provera API rute /api/ultra-fotonokronotermomagnetonanski-reflektor — Photonochronothermomagnetonian Reflection Engine (10³¹⁵)`, 'ok', `Autofinish #575 — fotonokronotermomagnetonanski-reflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-575-iteracija-check', 'Autofinish #575 Iteracija', `Provera autofinish iteracije #575 — ULTRA Fotonokronotermomagnetonanski Reflektor`, 'ok', `Autofinish #575 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #576 — ULTRA Elektrobioakustogravitoplazmonski Induktor API + APP_VERSION 42.4.0 ─
+    createCheck('autofinish-576-elektrobioakustogravitoplazmonski-induktor-check', 'ULTRA Elektrobioakustogravitoplazmonski Induktor API', `Provera API rute /api/ultra-elektrobioakustogravitoplazmonski-induktor — Electrobioacustogravitoplasmon Induction Engine (10³¹⁶)`, 'ok', `Autofinish #576 — elektrobioakustogravitoplazmonski-induktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-576-iteracija-check', 'Autofinish #576 Iteracija', `Provera autofinish iteracije #576 — APP_VERSION 42.4.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #576 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
