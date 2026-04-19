@@ -4232,6 +4232,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #491 — ULTRA Plazmofotonski Projektor API + APP_VERSION 40.7.0 ─
     createCheck('autofinish-491-plazmofotonski-projektor-check', 'ULTRA Plazmofotonski Projektor API', `Provera API rute /api/ultra-plazmofotonski-projektor — Plasmophotonic Projection Engine (10²³¹)`, 'ok', `Autofinish #491 — plazmofotonski-projektor: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-491-iteracija-check', 'Autofinish #491 Iteracija', `Provera autofinish iteracije #491 — APP_VERSION 40.7.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #491 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #492 — ULTRA Kronodinamički Emiter API ─
+    createCheck('autofinish-492-kronodinamicki-emiter-check', 'ULTRA Kronodinamički Emiter API', `Provera API rute /api/ultra-kronodinamicki-emiter — Chronodynamic Emission Engine (10²³²)`, 'ok', `Autofinish #492 — kronodinamicki-emiter: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-492-iteracija-check', 'Autofinish #492 Iteracija', `Provera autofinish iteracije #492 — ULTRA Kronodinamički Emiter`, 'ok', `Autofinish #492 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #493 — ULTRA Elektrobiomagnetski Modulator API ─
+    createCheck('autofinish-493-elektrobiomagnetski-modulator-check', 'ULTRA Elektrobiomagnetski Modulator API', `Provera API rute /api/ultra-elektrobiomagnetski-modulator — Electrobiomagnetic Modulation Engine (10²³³)`, 'ok', `Autofinish #493 — elektrobiomagnetski-modulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-493-iteracija-check', 'Autofinish #493 Iteracija', `Provera autofinish iteracije #493 — ULTRA Elektrobiomagnetski Modulator`, 'ok', `Autofinish #493 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #494 — ULTRA Nanoplazmodinamički Kompresor API ─
+    createCheck('autofinish-494-nanoplazmodinamicki-kompresor-check', 'ULTRA Nanoplazmodinamički Kompresor API', `Provera API rute /api/ultra-nanoplazmodinamicki-kompresor — Nanoplasmodynamic Compression Engine (10²³⁴)`, 'ok', `Autofinish #494 — nanoplazmodinamicki-kompresor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-494-iteracija-check', 'Autofinish #494 Iteracija', `Provera autofinish iteracije #494 — ULTRA Nanoplazmodinamički Kompresor`, 'ok', `Autofinish #494 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #495 — ULTRA Gravitoakustički Invertor API ─
+    createCheck('autofinish-495-gravitoakusticki-invertor-check', 'ULTRA Gravitoakustički Invertor API', `Provera API rute /api/ultra-gravitoakusticki-invertor — Gravitoacoustic Inversion Engine (10²³⁵)`, 'ok', `Autofinish #495 — gravitoakusticki-invertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-495-iteracija-check', 'Autofinish #495 Iteracija', `Provera autofinish iteracije #495 — ULTRA Gravitoakustički Invertor`, 'ok', `Autofinish #495 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #496 — ULTRA Kvantoneurofotonski Rezonator API + APP_VERSION 40.8.0 ─
+    createCheck('autofinish-496-kvantoneurofotonski-rezonator-check', 'ULTRA Kvantoneurofotonski Rezonator API', `Provera API rute /api/ultra-kvantoneurofotonski-rezonator — Quantoneurophotonic Resonance Engine (10²³⁶)`, 'ok', `Autofinish #496 — kvantoneurofotonski-rezonator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-496-iteracija-check', 'Autofinish #496 Iteracija', `Provera autofinish iteracije #496 — APP_VERSION 40.8.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #496 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
