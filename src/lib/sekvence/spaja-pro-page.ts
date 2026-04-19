@@ -1,5 +1,6 @@
 import type { Sekvenca } from '@/lib/types';
 import { spajaProVerzije, getAktivneVerzije, getBetaVerzije, getUkupnoMogucnosti, getSvePromptTipove, getSveBiblioteke, getUkupnoBiblioteka } from '@/lib/spaja-pro';
+import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
 
 const aktivne = getAktivneVerzije();
 const beta = getBetaVerzije();
@@ -131,7 +132,7 @@ Svaka OMEGA AI persona koristi SpajaPro Prompt engine za svoje zadatke. IO-OPENU
       stavke: [
         { ikona: '🔄', naslov: 'Zamena za ChatGPT', opis: 'SpajaPro potpuno zamenjuje ChatGPT u IO-OPENUI-AO i celom ekosistemu Kompanije SPAJA' },
         { ikona: '📝', naslov: 'Univerzalni Prompt', opis: `${sviPromptTipovi.length} tipova Prompt-a: od teksta i koda do kvantnog i telepatskog` },
-        { ikona: '🧠', naslov: 'OMEGA AI integracija', opis: 'Svaka od 21 OMEGA AI persone koristi SpajaPro Prompt za svoje zadatke' },
+        { ikona: '🧠', naslov: 'OMEGA AI integracija', opis: `Svaka od ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persone koristi SpajaPro Prompt za svoje zadatke` },
         { ikona: '📡', naslov: 'Proksi distribucija', opis: 'SpajaPro 11+ distribuira Prompt-ove kroz Proksi mrežu egzotičnih signala' },
         { ikona: '📱', naslov: 'Mobilna optimizacija', opis: 'SpajaPro 12 optimizuje Prompt-ove za SPAJA Mobilnu Mrežu' },
         { ikona: '🧬', naslov: 'Samo-evolucija', opis: 'SpajaPro 13+ koristi genetske algoritme za autonomnu evoluciju Prompt-ova' },

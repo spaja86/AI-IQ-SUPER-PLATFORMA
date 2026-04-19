@@ -1,6 +1,7 @@
 import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
 import { osnivacProfil, getOsnivacFotografije } from '@/lib/vizuelni-identitet';
+import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
 
 const stats = getStatistike();
 const fotografije = getOsnivacFotografije();
@@ -89,7 +90,7 @@ export const kompanijaSekvence: Sekvenca[] = [
       kartice: [
         { naslov: 'Tehnologija', opis: 'Razvoj platformi i IT proizvoda', ikona: '💻', oznake: ['Next.js', 'TypeScript', 'Vercel'] },
         { naslov: 'Finansije', opis: 'Digitalno bankarstvo i menjacnica', ikona: '💰', oznake: ['Banka', 'Menjacnica', 'Kripto'] },
-        { naslov: 'AI Division', opis: '21 OMEGA AI persona za automatizaciju', ikona: '🧠', oznake: ['GPT-4', 'OpenAI', 'LangChain'] },
+        { naslov: 'AI Division', opis: `${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona za automatizaciju`, ikona: '🧠', oznake: ['GPT-4', 'OpenAI', 'LangChain'] },
         { naslov: 'Operacije', opis: 'Deploy, monitoring i infrastruktura', ikona: '⚙️', oznake: ['Vercel', 'GitHub', 'CI/CD'] },
       ],
     },

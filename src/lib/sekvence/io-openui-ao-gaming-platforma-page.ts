@@ -9,6 +9,7 @@ import {
   IOOPENUIAO_URL,
   IOOPENUIAO_DOMEN,
 } from '@/lib/io-openui-ao-gaming-platforma';
+import { TOTAL_IGRICA } from '@/lib/constants';
 
 const aktivnih = getAktivneIgriceSaEndzinom().length;
 
@@ -17,7 +18,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     id: 'gaming-platforma-hero',
     tip: 'hero',
     naslov: '🎮 IO/OPENUI/AO Gaming Platforma',
-    podnaslov: 'SPAJA Univerzalni Endžin prevučen preko svih 95 igrica',
+    podnaslov: `SPAJA Univerzalni Endžin prevučen preko svih ${TOTAL_IGRICA} igrica`,
     ikona: '🎮',
     redosled: 1,
     podaci: {
@@ -37,7 +38,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     redosled: 2,
     podaci: {
       sadrzaj:
-        'IO/OPENUI/AO Gaming Platforma je sistem na kome su sve 95 igrica puštene u opticaj. ' +
+        `IO/OPENUI/AO Gaming Platforma je sistem na kome su sve ${TOTAL_IGRICA} igrica puštene u opticaj. ` +
         'SPAJA Univerzalni Endžin je prevučen preko svake igrice posebno, obezbeđujući dimenzionalno ' +
         'renderovanje (360D–5760D), SpajaPro 6-15 integraciju, OMEGA AI podršku i Proksi mrežnu optimizaciju. ' +
         `Platforma je dostupna na standardnom URL-u: ${IOOPENUIAO_URL}`,

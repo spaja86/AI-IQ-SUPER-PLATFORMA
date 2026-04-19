@@ -2,6 +2,7 @@ import type { Sekvenca } from '@/lib/types';
 import { promptovi, getPromptBiblioteka, getPromptKategorije } from '@/lib/prompt';
 import { spajaProVerzije, getAktivneVerzije } from '@/lib/spaja-pro';
 import { omegaPersone } from '@/lib/omega-ai';
+import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
 
 const biblioteka = getPromptBiblioteka();
 const kategorije = getPromptKategorije();
@@ -37,7 +38,7 @@ export const promptSekvence: Sekvenca[] = [
 IO-OPENUI-AO koristi SpajaPro Prompt umesto ChatGPT-a za svu AI komunikaciju. Kompanija-SPAJA repozitorijum je izvor SpajaPro engine-a.`,
       istaknuteStavke: [
         `${biblioteka.ukupnoPromptova} ukupno Prompt-ova u biblioteci`,
-        `${biblioteka.personaPromptovi} persona Prompt-ova — po jedan za svaku od 21 OMEGA AI persone`,
+        `${biblioteka.personaPromptovi} persona Prompt-ova — po jedan za svaku od ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persone`,
         `${biblioteka.platformaPromptovi} platforma Prompt-ova — za IO-OPENUI-AO, Proksi, Mobilnu mrežu`,
         `${kategorije.length} kategorija: ${kategorije.join(', ')}`,
         `SpajaPro verzije korišćene: ${biblioteka.spajaProVerzije.join(', ')}`,
@@ -149,7 +150,7 @@ IO-OPENUI-AO koristi SpajaPro Prompt umesto ChatGPT-a za svu AI komunikaciju. Ko
     redosled: 8,
     podaci: {
       stavke: [
-        { ikona: '🧠', naslov: 'OMEGA AI Persone', opis: 'Svaka od 21 persone ima SpajaPro Prompt za svoje zadatke' },
+        { ikona: '🧠', naslov: 'OMEGA AI Persone', opis: `Svaka od ${OMEGA_AI_PERSONA_COUNT} persone ima SpajaPro Prompt za svoje zadatke` },
         { ikona: '🖥️', naslov: 'IO-OPENUI-AO', opis: 'SpajaPro Prompt zamenjuje ChatGPT u frontend komunikaciji' },
         { ikona: '📡', naslov: 'Proksi Mreža', opis: 'Prompt distribucija kroz egzotične signale' },
         { ikona: '📱', naslov: 'Mobilna Mreža', opis: 'Mobilni Prompt optimizovan za edge i IoT' },

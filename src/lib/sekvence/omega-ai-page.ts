@@ -2,6 +2,7 @@ import type { Sekvenca } from '@/lib/types';
 import { omegaPersone, oktavniNazivi, getPersonePoOktavi, getBrojPoOktavi } from '@/lib/omega-ai';
 import type { OktavniNivo } from '@/lib/omega-ai';
 import { createSinhronizacija, createMatricnoJezgro, createNeuroloskuMrezu } from '@/lib/omega-ai-dispatch';
+import { OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const brojPoOktavi = getBrojPoOktavi();
 const sync = createSinhronizacija();
@@ -13,11 +14,11 @@ export const omegaAISekvence: Sekvenca[] = [
     id: 'omega-hero',
     tip: 'hero',
     naslov: '🧠 OMEGA AI — SpajaPro Prompt',
-    podnaslov: '21 AI Persona × SpajaPro Prompt Engine — Oktavni dispatch + Matrično jezgro + Neurološka mreža',
+    podnaslov: `${OMEGA_AI_PERSONA_COUNT} AI Persona × SpajaPro Prompt Engine — Oktavni dispatch + Matrično jezgro + Neurološka mreža`,
     ikona: '🧠',
     redosled: 1,
     podaci: {
-      opis: 'OMEGA AI je sistem od 21 specijalizovane AI persone, svaka sa SpajaPro Prompt-om, organizovanih u 8 oktavnih nivoa. SpajaPro engine (v6-15) zamenjuje ChatGPT i obrađuje sve Prompt-ove.',
+      opis: `OMEGA AI je sistem od ${OMEGA_AI_PERSONA_COUNT} specijalizovane AI persone, svaka sa SpajaPro Prompt-om, organizovanih u ${OMEGA_AI_OKTAVA_COUNT} oktavnih nivoa. SpajaPro engine (v${SPAJA_PRO_RANGE}) zamenjuje ChatGPT i obrađuje sve Prompt-ove.`,
       dugmad: [
         { tekst: 'Prompt Sistem', href: '/prompt' },
         { tekst: 'SpajaPro Engine', href: '/spaja-pro' },
@@ -175,12 +176,12 @@ Matrično jezgro modeluje interakcije između oktava — ekscitatorni, inhibitor
     naslov: '🚀 OMEGA AI × SpajaPro Prompt — Kompletni sistem',
     redosled: 10,
     podaci: {
-      opis: '21 AI persona × SpajaPro Prompt × 8 oktava × matrično jezgro × neurološka mreža = autonomni ekosistem.',
+      opis: `${OMEGA_AI_PERSONA_COUNT} AI persona × SpajaPro Prompt × ${OMEGA_AI_OKTAVA_COUNT} oktava × matrično jezgro × neurološka mreža = autonomni ekosistem.`,
       stavke: [
         { naziv: 'Persone', vrednost: omegaPersone.length, ikona: '👥' },
         { naziv: 'Matrica', vrednost: `${matrica.aktivnihVeza} veza`, ikona: '🧮' },
         { naziv: 'Sinapse', vrednost: neuro.ukupnoSinapsi, ikona: '🧬' },
-        { naziv: 'SpajaPro', vrednost: 'v6-15', ikona: '🌟' },
+        { naziv: 'SpajaPro', vrednost: `v${SPAJA_PRO_RANGE}`, ikona: '🌟' },
       ],
       dugmad: [
         { tekst: 'Prompt Sistem', href: '/prompt' },

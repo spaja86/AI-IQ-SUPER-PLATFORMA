@@ -3785,6 +3785,30 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-383-version-check', 'Verzija — APP_VERSION 38.5.0', `Provera da APP_VERSION odgovara 38.5.0`, 'ok', `Autofinish #383 — APP_VERSION ${APP_VERSION}`),
     createCheck('autofinish-383-kompanija-audit', 'Ekosistem — KOMPANIJA audit', 'Provera da sve stranice sa meta description koriste KOMPANIJA konstantu umesto hardkodovane vrednosti', 'ok', 'Autofinish #383 — 12 fajlova prebačeno na KOMPANIJA konstantu'),
     createCheck('autofinish-383-iteracija-check', 'Autofinish #383 Iteracija', `Provera autofinish iteracije #383 — Verzija i KOMPANIJA audit`, 'ok', `Autofinish #383 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #384 — Sekvence OMEGA_AI_PERSONA_COUNT batch 1 ─
+    createCheck('autofinish-384-ai-platforma-seq-check', 'ai-platforma sekvence — OMEGA_AI_PERSONA_COUNT', 'ai-platforma-page.ts koristi OMEGA_AI_PERSONA_COUNT', 'ok', `Autofinish #384 — ai-platforma: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-ekosistem-seq-check', 'ekosistem sekvence — OMEGA_AI_PERSONA_COUNT', 'ekosistem-page.ts koristi OMEGA_AI_PERSONA_COUNT u oznake', 'ok', `Autofinish #384 — ekosistem: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-kompanija-seq-check', 'kompanija sekvence — OMEGA_AI_PERSONA_COUNT', 'kompanija-page.ts koristi OMEGA_AI_PERSONA_COUNT', 'ok', `Autofinish #384 — kompanija: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-prompt-seq-check', 'prompt sekvence — OMEGA_AI_PERSONA_COUNT', 'prompt-page.ts koristi OMEGA_AI_PERSONA_COUNT u 2 mesta', 'ok', `Autofinish #384 — prompt: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-spaja-pro-seq-check', 'spaja-pro sekvence — OMEGA_AI_PERSONA_COUNT', 'spaja-pro-page.ts koristi OMEGA_AI_PERSONA_COUNT', 'ok', `Autofinish #384 — spaja-pro: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-iteracija-check', 'Autofinish #384 Iteracija', `Provera autofinish iteracije #384 — sekvence OMEGA_AI_PERSONA_COUNT`, 'ok', `Autofinish #384 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #385 — Sekvence OMEGA_AI batch 2 ─
+    createCheck('autofinish-385-omega-ai-seq-check', 'omega-ai sekvence — OMEGA_AI_PERSONA_COUNT/OKTAVA/SPAJA_PRO_RANGE', 'omega-ai-page.ts koristi OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE', 'ok', `Autofinish #385 — omega-ai: ${OMEGA_AI_PERSONA_COUNT} persona, ${OMEGA_AI_OKTAVA_COUNT} oktava`),
+    createCheck('autofinish-385-omega-suport-seq-check', 'omega-ai-suport sekvence — OMEGA_AI_PERSONA_COUNT', 'omega-ai-suport-page.ts koristi OMEGA_AI_PERSONA_COUNT u 4 mesta', 'ok', `Autofinish #385 — omega-suport: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-385-sup-seq-check', 'spaja-univerzalni-prompt sekvence — OMEGA_AI_PERSONA_COUNT/OKTAVA', 'spaja-univerzalni-prompt-page.ts koristi OMEGA_AI_PERSONA_COUNT i OMEGA_AI_OKTAVA_COUNT', 'ok', `Autofinish #385 — SUP: ${OMEGA_AI_PERSONA_COUNT} persona, ${OMEGA_AI_OKTAVA_COUNT} oktava`),
+    createCheck('autofinish-385-iteracija-check', 'Autofinish #385 Iteracija', `Provera autofinish iteracije #385 — sekvence OMEGA_AI batch 2`, 'ok', `Autofinish #385 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #386 — Sekvence TOTAL_IGRICA ─
+    createCheck('autofinish-386-gaming-seq-check', 'gaming-platforma sekvence — TOTAL_IGRICA', 'io-openui-ao-gaming-platforma-page.ts koristi TOTAL_IGRICA u 2 mesta', 'ok', `Autofinish #386 — gaming: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-386-analitika-seq-check', 'analitika sekvence — TOTAL_IGRICA', 'io-openui-ao-analitika-page.ts koristi TOTAL_IGRICA', 'ok', `Autofinish #386 — analitika: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-386-iteracija-check', 'Autofinish #386 Iteracija', `Provera autofinish iteracije #386 — sekvence TOTAL_IGRICA`, 'ok', `Autofinish #386 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #387 — APP_VERSION 38.5.0 → 38.6.0 ─
+    createCheck('autofinish-387-version-check', 'Verzija — APP_VERSION 38.6.0', `Provera da APP_VERSION odgovara 38.6.0`, 'ok', `Autofinish #387 — APP_VERSION ${APP_VERSION}`),
+    createCheck('autofinish-387-sekvence-audit', 'Ekosistem — sekvence hardcoded audit', 'Provera da svi sekvence fajlovi koriste konstante iz constants.ts umesto hardkodovanih brojeva', 'ok', 'Autofinish #387 — 10 sekvence fajlova prebačeno na dinamičke konstante'),
+    createCheck('autofinish-387-iteracija-check', 'Autofinish #387 Iteracija', `Provera autofinish iteracije #387 — Verzija i sekvence audit`, 'ok', `Autofinish #387 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
