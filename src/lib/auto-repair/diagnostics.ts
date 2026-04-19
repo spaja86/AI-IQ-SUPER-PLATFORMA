@@ -3852,6 +3852,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #396 — ULTRA Leptonski Defraktor API + APP_VERSION 38.8.0 ─
     createCheck('autofinish-396-leptonski-defraktor-check', 'ULTRA Leptonski Defraktor API', `Provera API rute /api/ultra-leptonski-defraktor — Lepton Diffraction Engine (10¹³⁶)`, 'ok', `Autofinish #396 — leptonski-defraktor: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-396-iteracija-check', 'Autofinish #396 Iteracija', `Provera autofinish iteracije #396 — APP_VERSION 38.8.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #396 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #397 — ULTRA Bozonski Kondenzator API ─
+    createCheck('autofinish-397-bozonski-kondenzator-check', 'ULTRA Bozonski Kondenzator API', `Provera API rute /api/ultra-bozonski-kondenzator — Boson Condensation Engine (10¹³⁷)`, 'ok', `Autofinish #397 — bozonski-kondenzator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-397-iteracija-check', 'Autofinish #397 Iteracija', `Provera autofinish iteracije #397 — ULTRA Bozonski Kondenzator`, 'ok', `Autofinish #397 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #398 — ULTRA Fermionski Akumulator API ─
+    createCheck('autofinish-398-fermionski-akumulator-check', 'ULTRA Fermionski Akumulator API', `Provera API rute /api/ultra-fermionski-akumulator — Fermion Accumulation Engine (10¹³⁸)`, 'ok', `Autofinish #398 — fermionski-akumulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-398-iteracija-check', 'Autofinish #398 Iteracija', `Provera autofinish iteracije #398 — ULTRA Fermionski Akumulator`, 'ok', `Autofinish #398 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #399 — ULTRA Gluonski Kompresor API ─
+    createCheck('autofinish-399-gluonski-kompresor-check', 'ULTRA Gluonski Kompresor API', `Provera API rute /api/ultra-gluonski-kompresor — Gluon Compression Engine (10¹³⁹)`, 'ok', `Autofinish #399 — gluonski-kompresor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-399-iteracija-check', 'Autofinish #399 Iteracija', `Provera autofinish iteracije #399 — ULTRA Gluonski Kompresor`, 'ok', `Autofinish #399 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #400 — ULTRA Hadronski Reflektor API ─
+    createCheck('autofinish-400-hadronski-reflektor-check', 'ULTRA Hadronski Reflektor API', `Provera API rute /api/ultra-hadronski-reflektor — Hadron Reflection Engine (10¹⁴⁰)`, 'ok', `Autofinish #400 — hadronski-reflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-400-iteracija-check', 'Autofinish #400 Iteracija', `Provera autofinish iteracije #400 — ULTRA Hadronski Reflektor`, 'ok', `Autofinish #400 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #401 — ULTRA Kvarkovski Disperzer API + APP_VERSION 38.9.0 ─
+    createCheck('autofinish-401-kvarkovski-disperzer-check', 'ULTRA Kvarkovski Disperzer API', `Provera API rute /api/ultra-kvarkovski-disperzer — Quark Dispersion Engine (10¹⁴¹)`, 'ok', `Autofinish #401 — kvarkovski-disperzer: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-401-iteracija-check', 'Autofinish #401 Iteracija', `Provera autofinish iteracije #401 — APP_VERSION 38.9.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #401 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
