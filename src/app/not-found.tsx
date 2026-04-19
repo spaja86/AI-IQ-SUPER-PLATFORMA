@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { TOTAL_PAGES, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT } from '@/lib/constants';
+import { TOTAL_PAGES, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const popularneStanice = [
   { href: '/dashboard', label: '📊 Dashboard', opis: 'Pregled stanja ekosistema' },
   { href: '/platforme', label: '🌐 Platforme', opis: '13 platformi u ekosistemu' },
   { href: '/omega-ai', label: '🧠 OMEGA AI', opis: `${OMEGA_AI_PERSONA_COUNT} persona u ${OMEGA_AI_OKTAVA_COUNT} oktava` },
   { href: '/igrice', label: '🎮 Igrice', opis: `${TOTAL_IGRICA} igrica u 18 kategorija` },
-  { href: '/spaja-pro', label: '🌟 SpajaPro', opis: 'SpajaPro Engine v6-15' },
+  { href: '/spaja-pro', label: '🌟 SpajaPro', opis: `SpajaPro Engine v${SPAJA_PRO_RANGE}` },
   { href: '/prompt', label: '📝 Prompt', opis: 'Prompt sistem' },
   { href: '/auto-popravka', label: '🔧 Auto-Popravka', opis: 'Dijagnostika i popravka' },
   { href: '/ekosistem', label: '🌍 Ekosistem', opis: `${TOTAL_PAGES} stranica ekosistema` },
