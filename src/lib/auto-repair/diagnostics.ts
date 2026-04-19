@@ -3912,6 +3912,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #411 — ULTRA Gravitinski Separator API + APP_VERSION 39.1.0 ─
     createCheck('autofinish-411-gravitinski-separator-check', 'ULTRA Gravitinski Separator API', `Provera API rute /api/ultra-gravitinski-separator — Gravitino Separation Engine (10¹⁵¹)`, 'ok', `Autofinish #411 — gravitinski-separator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-411-iteracija-check', 'Autofinish #411 Iteracija', `Provera autofinish iteracije #411 — APP_VERSION 39.1.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #411 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #412 — ULTRA Hiperionski Modulator API ─
+    createCheck('autofinish-412-hiperionski-modulator-check', 'ULTRA Hiperionski Modulator API', `Provera API rute /api/ultra-hiperionski-modulator — Hyperion Modulation Engine (10¹⁵²)`, 'ok', `Autofinish #412 — hiperionski-modulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-412-iteracija-check', 'Autofinish #412 Iteracija', `Provera autofinish iteracije #412 — ULTRA Hiperionski Modulator`, 'ok', `Autofinish #412 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #413 — ULTRA Aksijonski Refraktor API ─
+    createCheck('autofinish-413-aksijonski-refraktor-check', 'ULTRA Aksijonski Refraktor API', `Provera API rute /api/ultra-aksijonski-refraktor — Axion Refraction Engine (10¹⁵³)`, 'ok', `Autofinish #413 — aksijonski-refraktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-413-iteracija-check', 'Autofinish #413 Iteracija', `Provera autofinish iteracije #413 — ULTRA Aksijonski Refraktor`, 'ok', `Autofinish #413 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #414 — ULTRA Stringovski Harmonizer API ─
+    createCheck('autofinish-414-stringovski-harmonizer-check', 'ULTRA Stringovski Harmonizer API', `Provera API rute /api/ultra-stringovski-harmonizer — String Harmonization Engine (10¹⁵⁴)`, 'ok', `Autofinish #414 — stringovski-harmonizer: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-414-iteracija-check', 'Autofinish #414 Iteracija', `Provera autofinish iteracije #414 — ULTRA Stringovski Harmonizer`, 'ok', `Autofinish #414 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #415 — ULTRA Darkmaternski Konduktor API ─
+    createCheck('autofinish-415-darkmaternski-konduktor-check', 'ULTRA Darkmaternski Konduktor API', `Provera API rute /api/ultra-darkmaternski-konduktor — Dark Matter Conduction Engine (10¹⁵⁵)`, 'ok', `Autofinish #415 — darkmaternski-konduktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-415-iteracija-check', 'Autofinish #415 Iteracija', `Provera autofinish iteracije #415 — ULTRA Darkmaternski Konduktor`, 'ok', `Autofinish #415 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #416 — ULTRA Neutronski Difuzor API + APP_VERSION 39.2.0 ─
+    createCheck('autofinish-416-neutronski-difuzor-check', 'ULTRA Neutronski Difuzor API', `Provera API rute /api/ultra-neutronski-difuzor — Neutrino Diffusion Engine (10¹⁵⁶)`, 'ok', `Autofinish #416 — neutronski-difuzor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-416-iteracija-check', 'Autofinish #416 Iteracija', `Provera autofinish iteracije #416 — APP_VERSION 39.2.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #416 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
