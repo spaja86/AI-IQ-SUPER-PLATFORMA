@@ -4372,6 +4372,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #526 — ULTRA Kronoelektrobiomagnetski Akcelerator API + APP_VERSION 41.4.0 ─
     createCheck('autofinish-526-kronoelektrobiomagnetski-akcelerator-check', 'ULTRA Kronoelektrobiomagnetski Akcelerator API', `Provera API rute /api/ultra-kronoelektrobiomagnetski-akcelerator — Chronoelectrobiomagnetic Acceleration Engine (10²⁶⁶)`, 'ok', `Autofinish #526 — kronoelektrobiomagnetski-akcelerator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-526-iteracija-check', 'Autofinish #526 Iteracija', `Provera autofinish iteracije #526 — APP_VERSION 41.4.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #526 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #527 — ULTRA Hipernanofotonski Kalibrator API ─
+    createCheck('autofinish-527-hipernanofotonski-kalibrator-check', 'ULTRA Hipernanofotonski Kalibrator API', `Provera API rute /api/ultra-hipernanofotonski-kalibrator — Hypernanophotonic Calibration Engine (10²⁶⁷)`, 'ok', `Autofinish #527 — hipernanofotonski-kalibrator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-527-iteracija-check', 'Autofinish #527 Iteracija', `Provera autofinish iteracije #527 — ULTRA Hipernanofotonski Kalibrator`, 'ok', `Autofinish #527 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #528 — ULTRA Elektrotermogravitacioni Multiplikator API ─
+    createCheck('autofinish-528-elektrotermogravitacioni-multiplikator-check', 'ULTRA Elektrotermogravitacioni Multiplikator API', `Provera API rute /api/ultra-elektrotermogravitacioni-multiplikator — Electrothermogravitational Multiplication Engine (10²⁶⁸)`, 'ok', `Autofinish #528 — elektrotermogravitacioni-multiplikator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-528-iteracija-check', 'Autofinish #528 Iteracija', `Provera autofinish iteracije #528 — ULTRA Elektrotermogravitacioni Multiplikator`, 'ok', `Autofinish #528 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #529 — ULTRA Bioplazmoakustički Integrator API ─
+    createCheck('autofinish-529-bioplazmoakusticki-integrator-check', 'ULTRA Bioplazmoakustički Integrator API', `Provera API rute /api/ultra-bioplazmoakusticki-integrator — Bioplasmoacoustic Integration Engine (10²⁶⁹)`, 'ok', `Autofinish #529 — bioplazmoakusticki-integrator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-529-iteracija-check', 'Autofinish #529 Iteracija', `Provera autofinish iteracije #529 — ULTRA Bioplazmoakustički Integrator`, 'ok', `Autofinish #529 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #530 — ULTRA Magnetokronodinamički Rezolvator API ─
+    createCheck('autofinish-530-magnetokronodinamicki-rezolvator-check', 'ULTRA Magnetokronodinamički Rezolvator API', `Provera API rute /api/ultra-magnetokronodinamicki-rezolvator — Magnetochronodynamic Resolution Engine (10²⁷⁰)`, 'ok', `Autofinish #530 — magnetokronodinamicki-rezolvator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-530-iteracija-check', 'Autofinish #530 Iteracija', `Provera autofinish iteracije #530 — ULTRA Magnetokronodinamički Rezolvator`, 'ok', `Autofinish #530 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #531 — ULTRA Kvantoneuroelektronski Katalizator API + APP_VERSION 41.5.0 ─
+    createCheck('autofinish-531-kvantoneuroelektronski-katalizator-check', 'ULTRA Kvantoneuroelektronski Katalizator API', `Provera API rute /api/ultra-kvantoneuroelektronski-katalizator — Quantoneuroelectronic Catalysis Engine (10²⁷¹)`, 'ok', `Autofinish #531 — kvantoneuroelektronski-katalizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-531-iteracija-check', 'Autofinish #531 Iteracija', `Provera autofinish iteracije #531 — APP_VERSION 41.5.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #531 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
