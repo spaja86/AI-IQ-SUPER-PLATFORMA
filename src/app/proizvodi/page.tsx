@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { products, productCategories } from '@/lib/products';
 import { PageContainer, SectionHeader, EntityCard } from '@/components/ui';
-import { BASE_URL } from '@/lib/constants';
+import { BASE_URL, KOMPANIJA } from '@/lib/constants';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og?title=${encodeURIComponent('IT Proizvodi')}&description=${encodeURIComponent('IT proizvodi i alati ekosistema Digitalne Industrije')}`;
 
@@ -27,7 +27,7 @@ function ProizvodiJsonLd() {
     '@type': 'Product',
     name: product.name,
     description: product.description,
-    brand: { '@type': 'Organization', name: 'Kompanija SPAJA' },
+    brand: { '@type': 'Organization', name: KOMPANIJA },
     category: product.category,
   }));
 

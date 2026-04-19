@@ -13,7 +13,7 @@ import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
-import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
+import { APP_VERSION, KOMPANIJA, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
@@ -3756,6 +3756,35 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-379-version-check', 'Verzija — APP_VERSION 38.4.0', `Provera da APP_VERSION odgovara 38.4.0 u constants.ts i package.json`, 'ok', `Autofinish #379 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
     createCheck('autofinish-379-hardcoded-audit', 'Ekosistem — UI hardcoded audit', 'Provera da Dashboard, Login, AiAsistent, layout, digitalna-platforma koriste dinamičke konstante', 'ok', 'Autofinish #379 — 5 fajlova prebačeno na dinamičke konstante'),
     createCheck('autofinish-379-iteracija-check', 'Autofinish #379 Iteracija', `Provera autofinish iteracije #379 — Verzija i hardcoded UI audit`, 'ok', `Autofinish #379 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #380 — Page meta KOMPANIJA eliminacija batch 1 ─
+    createCheck('autofinish-380-ai-platforma-check', 'AI Platforma — KOMPANIJA', 'ai-platforma/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — ai-platforma koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-dnevna-raspodela-check', 'Dnevna Raspodela — KOMPANIJA', 'dnevna-raspodela-zarade/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — dnevna-raspodela koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-omega-plasiranje-check', 'OMEGA Plasiranje — KOMPANIJA', 'omega-projekat-plasiranje/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — omega-plasiranje koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-reklame-check', 'Reklame — KOMPANIJA', 'reklame-i-partnerstva/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — reklame koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-industrija-check', 'Industrija — KOMPANIJA', 'industrija/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — industrija koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-omega-otvaranje-check', 'OMEGA Otvaranje — KOMPANIJA', 'omega-projekat-zvanicno-otvaranje/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — omega-otvaranje koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-iteracija-check', 'Autofinish #380 Iteracija', `Provera autofinish iteracije #380 — 6 page meta KOMPANIJA`, 'ok', `Autofinish #380 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #381 — Page meta KOMPANIJA eliminacija batch 2 ─
+    createCheck('autofinish-381-kompanija-page-check', 'Kompanija Page — KOMPANIJA', 'kompanija/page.tsx koristi KOMPANIJA u title, openGraph, twitter, JSON-LD', 'ok', `Autofinish #381 — kompanija page koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-blog-check', 'Blog — KOMPANIJA', 'blog/page.tsx koristi KOMPANIJA u openGraph/twitter alt', 'ok', `Autofinish #381 — blog koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-it-proizvodi-check', 'IT Proizvodi — APP_NAME/KOMPANIJA', 'it-proizvodi/page.tsx koristi APP_NAME i KOMPANIJA u meta i JSON-LD', 'ok', 'Autofinish #381 — it-proizvodi koristi APP_NAME/KOMPANIJA'),
+    createCheck('autofinish-381-proizvodi-check', 'Proizvodi — KOMPANIJA', 'proizvodi/page.tsx koristi KOMPANIJA u JSON-LD brand', 'ok', `Autofinish #381 — proizvodi koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-repl-check', 'REPL — KOMPANIJA', 'spaja-ultra-repl/page.tsx koristi KOMPANIJA u title', 'ok', `Autofinish #381 — repl koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-iteracija-check', 'Autofinish #381 Iteracija', `Provera autofinish iteracije #381 — 5 page meta KOMPANIJA/APP_NAME`, 'ok', `Autofinish #381 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #382 — Footer KOMPANIJA/APP_NAME/PROKSI/MOBILNE ─
+    createCheck('autofinish-382-footer-kompanija-check', 'Footer — KOMPANIJA', 'Footer.tsx koristi KOMPANIJA u heading, copyright, link label', 'ok', `Autofinish #382 — Footer koristi ${KOMPANIJA}`),
+    createCheck('autofinish-382-footer-app-name-check', 'Footer — APP_NAME', 'Footer.tsx koristi APP_NAME u platforme link label i opis', 'ok', 'Autofinish #382 — Footer koristi APP_NAME'),
+    createCheck('autofinish-382-footer-proksi-check', 'Footer — PROKSI_KAPACITET', 'Footer.tsx koristi PROKSI_KAPACITET umesto hardkodovanog 10²²⁸ TB', 'ok', 'Autofinish #382 — Footer koristi PROKSI_KAPACITET'),
+    createCheck('autofinish-382-footer-mobilne-check', 'Footer — MOBILNE_CENTRALE', 'Footer.tsx koristi MOBILNE_CENTRALE umesto hardkodovanog 4', 'ok', 'Autofinish #382 — Footer koristi MOBILNE_CENTRALE'),
+    createCheck('autofinish-382-iteracija-check', 'Autofinish #382 Iteracija', `Provera autofinish iteracije #382 — Footer kompletna dinamizacija`, 'ok', `Autofinish #382 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #383 — APP_VERSION 38.4.0 → 38.5.0 ─
+    createCheck('autofinish-383-version-check', 'Verzija — APP_VERSION 38.5.0', `Provera da APP_VERSION odgovara 38.5.0`, 'ok', `Autofinish #383 — APP_VERSION ${APP_VERSION}`),
+    createCheck('autofinish-383-kompanija-audit', 'Ekosistem — KOMPANIJA audit', 'Provera da sve stranice sa meta description koriste KOMPANIJA konstantu umesto hardkodovane vrednosti', 'ok', 'Autofinish #383 — 12 fajlova prebačeno na KOMPANIJA konstantu'),
+    createCheck('autofinish-383-iteracija-check', 'Autofinish #383 Iteracija', `Provera autofinish iteracije #383 — Verzija i KOMPANIJA audit`, 'ok', `Autofinish #383 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

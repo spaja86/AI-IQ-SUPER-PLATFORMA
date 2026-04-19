@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import SpajaUltraREPL from '@/components/SpajaUltraREPL';
+import { KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'SpajaUltra REPL | Kompanija SPAJA',
+  title: `SpajaUltra REPL | ${KOMPANIJA}`,
   description: 'Interaktivni SpajaUltraOmegaCore REPL sa parserom, transpajlerom, runtime audit logom i sigurnim ASSERT evaluacijama.',
 };
 
