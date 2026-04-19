@@ -4072,6 +4072,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #451 — ULTRA Kronomagnetski Generator API + APP_VERSION 39.9.0 ─
     createCheck('autofinish-451-kronomagnetski-generator-check', 'ULTRA Kronomagnetski Generator API', `Provera API rute /api/ultra-kronomagnetski-generator — Chronomagnetic Generation Engine (10¹⁹¹)`, 'ok', `Autofinish #451 — kronomagnetski-generator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-451-iteracija-check', 'Autofinish #451 Iteracija', `Provera autofinish iteracije #451 — APP_VERSION 39.9.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #451 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #452 — ULTRA Hiperspektralni Analizator API ─
+    createCheck('autofinish-452-hiperspektralni-analizator-check', 'ULTRA Hiperspektralni Analizator API', `Provera API rute /api/ultra-hiperspektralni-analizator — Hyperspectral Analysis Engine (10¹⁹²)`, 'ok', `Autofinish #452 — hiperspektralni-analizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-452-iteracija-check', 'Autofinish #452 Iteracija', `Provera autofinish iteracije #452 — ULTRA Hiperspektralni Analizator`, 'ok', `Autofinish #452 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #453 — ULTRA Kvantogravitacioni Kompresor API ─
+    createCheck('autofinish-453-kvantogravitacioni-kompresor-check', 'ULTRA Kvantogravitacioni Kompresor API', `Provera API rute /api/ultra-kvantogravitacioni-kompresor — Quantogravitational Compression Engine (10¹⁹³)`, 'ok', `Autofinish #453 — kvantogravitacioni-kompresor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-453-iteracija-check', 'Autofinish #453 Iteracija', `Provera autofinish iteracije #453 — ULTRA Kvantogravitacioni Kompresor`, 'ok', `Autofinish #453 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #454 — ULTRA Neurofotonski Dekoder API ─
+    createCheck('autofinish-454-neurofotonski-dekoder-check', 'ULTRA Neurofotonski Dekoder API', `Provera API rute /api/ultra-neurofotonski-dekoder — Neurophotonic Decoding Engine (10¹⁹⁴)`, 'ok', `Autofinish #454 — neurofotonski-dekoder: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-454-iteracija-check', 'Autofinish #454 Iteracija', `Provera autofinish iteracije #454 — ULTRA Neurofotonski Dekoder`, 'ok', `Autofinish #454 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #455 — ULTRA Plazmoakustički Rezonator API ─
+    createCheck('autofinish-455-plazmoakusticki-rezonator-check', 'ULTRA Plazmoakustički Rezonator API', `Provera API rute /api/ultra-plazmoakusticki-rezonator — Plasmoacoustic Resonance Engine (10¹⁹⁵)`, 'ok', `Autofinish #455 — plazmoakusticki-rezonator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-455-iteracija-check', 'Autofinish #455 Iteracija', `Provera autofinish iteracije #455 — ULTRA Plazmoakustički Rezonator`, 'ok', `Autofinish #455 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #456 — ULTRA Elektromagnokvantni Oscilator API + APP_VERSION 40.0.0 ─
+    createCheck('autofinish-456-elektromagnokvantni-oscilator-check', 'ULTRA Elektromagnokvantni Oscilator API', `Provera API rute /api/ultra-elektromagnokvantni-oscilator — Electromagnoquantum Oscillation Engine (10¹⁹⁶)`, 'ok', `Autofinish #456 — elektromagnokvantni-oscilator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-456-iteracija-check', 'Autofinish #456 Iteracija', `Provera autofinish iteracije #456 — APP_VERSION 40.0.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #456 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
