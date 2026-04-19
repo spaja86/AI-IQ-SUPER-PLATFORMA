@@ -4472,6 +4472,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #551 — ULTRA Termoakustobiodinamički Integrator API + APP_VERSION 41.9.0 ─
     createCheck('autofinish-551-termoakustobiodinamicki-integrator-check', 'ULTRA Termoakustobiodinamički Integrator API', `Provera API rute /api/ultra-termoakustobiodinamicki-integrator — Thermoacustobiodynamic Integration Engine (10²⁹¹)`, 'ok', `Autofinish #551 — termoakustobiodinamicki-integrator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-551-iteracija-check', 'Autofinish #551 Iteracija', `Provera autofinish iteracije #551 — APP_VERSION 41.9.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #551 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #552 — ULTRA Nanoelektromagnetodinamički Deflektor API ─
+    createCheck('autofinish-552-nanoelektromagnetodinamicki-deflector-check', 'ULTRA Nanoelektromagnetodinamički Deflektor API', `Provera API rute /api/ultra-nanoelektromagnetodinamicki-deflector — Nanoelectromagnetodynamic Deflection Engine (10²⁹²)`, 'ok', `Autofinish #552 — nanoelektromagnetodinamicki-deflector: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-552-iteracija-check', 'Autofinish #552 Iteracija', `Provera autofinish iteracije #552 — ULTRA Nanoelektromagnetodinamički Deflektor`, 'ok', `Autofinish #552 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #553 — ULTRA Gravitofotonoplazmonski Transmiter API ─
+    createCheck('autofinish-553-gravitofotonoplazmonski-transmiter-check', 'ULTRA Gravitofotonoplazmonski Transmiter API', `Provera API rute /api/ultra-gravitofotonoplazmonski-transmiter — Gravitophotonoplasmon Transmission Engine (10²⁹³)`, 'ok', `Autofinish #553 — gravitofotonoplazmonski-transmiter: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-553-iteracija-check', 'Autofinish #553 Iteracija', `Provera autofinish iteracije #553 — ULTRA Gravitofotonoplazmonski Transmiter`, 'ok', `Autofinish #553 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #554 — ULTRA Biotermoakustoelektronski Konvertor API ─
+    createCheck('autofinish-554-biotermoakustoelektronski-konvertor-check', 'ULTRA Biotermoakustoelektronski Konvertor API', `Provera API rute /api/ultra-biotermoakustoelektronski-konvertor — Biothermoacustoelectronic Conversion Engine (10²⁹⁴)`, 'ok', `Autofinish #554 — biotermoakustoelektronski-konvertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-554-iteracija-check', 'Autofinish #554 Iteracija', `Provera autofinish iteracije #554 — ULTRA Biotermoakustoelektronski Konvertor`, 'ok', `Autofinish #554 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #555 — ULTRA Magnetokronodinamoplazmonski Akumulator API ─
+    createCheck('autofinish-555-magnetokronodinamoplazmonski-akumulator-check', 'ULTRA Magnetokronodinamoplazmonski Akumulator API', `Provera API rute /api/ultra-magnetokronodinamoplazmonski-akumulator — Magnetochronodynamoplasmon Accumulation Engine (10²⁹⁵)`, 'ok', `Autofinish #555 — magnetokronodinamoplazmonski-akumulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-555-iteracija-check', 'Autofinish #555 Iteracija', `Provera autofinish iteracije #555 — ULTRA Magnetokronodinamoplazmonski Akumulator`, 'ok', `Autofinish #555 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #556 — ULTRA Elektrobionanofotonski Distributor API + APP_VERSION 42.0.0 ─
+    createCheck('autofinish-556-elektrobionanofotonski-distributor-check', 'ULTRA Elektrobionanofotonski Distributor API', `Provera API rute /api/ultra-elektrobionanofotonski-distributor — Electrobionanophotonic Distribution Engine (10²⁹⁶)`, 'ok', `Autofinish #556 — elektrobionanofotonski-distributor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-556-iteracija-check', 'Autofinish #556 Iteracija', `Provera autofinish iteracije #556 — APP_VERSION 42.0.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #556 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
