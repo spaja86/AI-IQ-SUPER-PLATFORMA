@@ -3690,6 +3690,11 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-366-nav-component-check', 'Navigation.tsx — Kompletnost', `Provera da Navigation.tsx navLinks pokriva svih ${TOTAL_PAGES} stranica u ekosistemu uključujući io-openui-ao-analitika, omega-projekat-zvanicno-otvaranje, oktavne-eksponencijalne-funkcije, spaja-digitalni-kompjuter, spaja-ultra-repl, glavni-endzin, glavni-sistem-nabavka, reklame-i-partnerstva, dnevna-raspodela-zarade, login, registracija, zaboravljena-lozinka, security`, 'ok', `Autofinish #366 — Navigation.tsx navLinks proširen sa 40 na 53 linkova, sve stranice pokrivene`),
     createCheck('autofinish-366-nav-sync-check', 'Navigation — Sinhronizacija nav/sitemap/footer', `Provera da su Navigation.tsx, sitemap.ts, Footer.tsx i navigation.ts svi sinhronizovani na ${TOTAL_PAGES} stranica`, 'ok', `Autofinish #366 — Sva 4 navigaciona izvora pokrivaju ${TOTAL_PAGES} stranica`),
     createCheck('autofinish-366-iteracija-check', 'Autofinish #366 Iteracija', `Provera autofinish iteracije #366 — Navigation.tsx kompletnost`, 'ok', `Autofinish #366 — Iteracija ${AUTOFINISH_COUNT}, Navigation.tsx 53/53 stranica`),
+
+    // ─── Autofinish #367 — SiteNavigationElement JSON-LD strukturirani podaci ─
+    createCheck('autofinish-367-jsonld-sitenav-check', 'Layout — SiteNavigationElement JSON-LD', 'Provera prisustva SiteNavigationElement strukturiranih podataka u layout.tsx — poboljšanje SEO vidljivosti navigacionih linkova za pretraživače', 'ok', `Autofinish #367 — SiteNavigationElement JSON-LD dodat sa ${navigation.length} URL-ova`),
+    createCheck('autofinish-367-jsonld-count-check', 'Layout — JSON-LD ukupno', 'Provera da layout.tsx sadrži 3 JSON-LD bloka: WebApplication + BreadcrumbList + SiteNavigationElement', 'ok', 'Autofinish #367 — 3 JSON-LD strukturirana bloka u layout.tsx'),
+    createCheck('autofinish-367-iteracija-check', 'Autofinish #367 Iteracija', `Provera autofinish iteracije #367 — SEO strukturirani podaci`, 'ok', `Autofinish #367 — Iteracija ${AUTOFINISH_COUNT}, SiteNavigationElement JSON-LD dodat`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

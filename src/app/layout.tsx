@@ -51,6 +51,13 @@ const jsonLdBreadcrumb = {
   })),
 };
 
+const jsonLdSiteNavigation = {
+  '@context': 'https://schema.org',
+  '@type': 'SiteNavigationElement',
+  name: 'Glavna Navigacija',
+  url: navigation.map((item) => `${BASE_URL}${item.href}`),
+};
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -126,6 +133,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSiteNavigation) }}
         />
         <Navigation />
         <OmegaAuthProvider>
