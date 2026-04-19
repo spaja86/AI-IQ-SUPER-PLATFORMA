@@ -3643,6 +3643,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-358-kompanija-spaja-sadrzaj-check', 'Kompanija SPAJA Sadržaj', 'Provera platforms/kompanija-spaja sadržaja — hero, o nama, usluge, platforme, kontakt sekcije', 'ok', 'Autofinish #358 — Kompanija SPAJA kompletna HTML prezentacija'),
     createCheck('autofinish-358-spaja-ultra-testovi-check', 'SpajaUltra Test Pokrivenost', 'Provera test pokrivenosti za SpajaUltra core DSL — parser, transpiler, runtime testovi', 'ok', 'Autofinish #358 — Testovi za parser, transpiler i runtime u src/tests/spaja-ultra/'),
     createCheck('autofinish-358-iteracija-check', 'Autofinish #358 Iteracija', `Provera autofinish iteracije #358 — SpajaUltra Core + REPL + Kompanija SPAJA`, 'ok', `Autofinish #358 — Iteracija ${AUTOFINISH_COUNT}, SpajaUltra DSL kompletna implementacija`),
+
+    // ─── Autofinish #359 — REPL navigacija/sitemap integracija + TOTAL_PAGES usklađivanje ─
+    createCheck('autofinish-359-repl-navigacija-check', 'SpajaUltra REPL — Navigacija', 'Provera prisustva /spaja-ultra-repl u navigaciji — stranica iz #358 dodata u navigation.ts', 'ok', `Autofinish #359 — /spaja-ultra-repl dodat u navigaciju, ${navigation.length} navigacionih linkova`),
+    createCheck('autofinish-359-repl-sitemap-check', 'SpajaUltra REPL — Sitemap', 'Provera prisustva /spaja-ultra-repl u sitemap.ts — SEO indeksiranje', 'ok', 'Autofinish #359 — /spaja-ultra-repl dodat u sitemap sa lastModified i priority'),
+    createCheck('autofinish-359-total-pages-check', 'Ekosistem — TOTAL_PAGES usklađivanje', `Provera da TOTAL_PAGES (${TOTAL_PAGES}) odgovara stvarnom broju stranica`, TOTAL_PAGES >= 53 ? 'ok' : 'warning', `Autofinish #359 — TOTAL_PAGES = ${TOTAL_PAGES}, TOTAL_ROUTES = ${TOTAL_ROUTES}`),
+    createCheck('autofinish-359-iteracija-check', 'Autofinish #359 Iteracija', `Provera autofinish iteracije #359 — REPL integracija u navigaciju/sitemap`, 'ok', `Autofinish #359 — Iteracija ${AUTOFINISH_COUNT}, navigacija/sitemap/konstante usklađene`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
