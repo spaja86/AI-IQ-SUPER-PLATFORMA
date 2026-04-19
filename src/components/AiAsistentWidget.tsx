@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
+import { APP_NAME } from '@/lib/constants';
 
 interface AiPagePrompt {
   pitanje: string;
@@ -46,8 +47,8 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
   const currentPageConfig = useMemo(() => pagePrompts.find((p) => p.putanja === pathname) ?? {
     putanja: pathname,
     naslov: 'Stranica',
-    opis: 'AI IQ SUPER PLATFORMA',
-    kontekst: `Stranica na putanji ${pathname} u AI IQ SUPER PLATFORMA.`,
+    opis: APP_NAME,
+    kontekst: `Stranica na putanji ${pathname} u ${APP_NAME}.`,
     promptovi: [
       { pitanje: 'Šta se dešava na ovoj stranici?', ikona: '❓', kategorija: 'ai' as const },
       { pitanje: 'Objasni mi sadržaj ove stranice', ikona: '📖', kategorija: 'spaja-pro-ai' as const },

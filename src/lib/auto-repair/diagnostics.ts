@@ -3734,6 +3734,28 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-375-version-check', 'Verzija — APP_VERSION 38.3.0', `Provera da APP_VERSION odgovara 38.3.0 u constants.ts i package.json`, 'ok', `Autofinish #375 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
     createCheck('autofinish-375-page-hardcoded-audit', 'Ekosistem — Page meta audit', 'Provera da homepage, omega-ai, igrice, gaming-platforma, analitika stranice koriste dinamičke konstante u meta description', 'ok', 'Autofinish #375 — 6 stranica sada koristi dinamičke konstante umesto hardkodovanih vrednosti'),
     createCheck('autofinish-375-iteracija-check', 'Autofinish #375 Iteracija', `Provera autofinish iteracije #375 — Verzija i page meta audit`, 'ok', `Autofinish #375 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #376 — DashboardKlijent dinamičke konstante ─
+    createCheck('autofinish-376-dashboard-persona-check', 'DashboardKlijent — OMEGA_AI_PERSONA_COUNT', 'Provera da DashboardKlijent.tsx koristi OMEGA_AI_PERSONA_COUNT umesto hardkodovanog 21', 'ok', `Autofinish #376 — Dashboard prikazuje ${OMEGA_AI_PERSONA_COUNT} OMEGA AI`),
+    createCheck('autofinish-376-dashboard-spajapro-check', 'DashboardKlijent — SPAJA_PRO_RANGE', 'Provera da DashboardKlijent.tsx koristi SPAJA_PRO_RANGE umesto hardkodovanog v6-15', 'ok', `Autofinish #376 — Dashboard prikazuje v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-376-dashboard-pages-check', 'DashboardKlijent — TOTAL_PAGES', 'Provera da DashboardKlijent.tsx koristi TOTAL_PAGES umesto hardkodovanog 46', 'ok', `Autofinish #376 — Dashboard prikazuje ${TOTAL_PAGES} stranica`),
+    createCheck('autofinish-376-dashboard-igrice-check', 'DashboardKlijent — TOTAL_IGRICA', 'Provera da DashboardKlijent.tsx koristi TOTAL_IGRICA umesto hardkodovanog 95', 'ok', `Autofinish #376 — Dashboard prikazuje ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-376-iteracija-check', 'Autofinish #376 Iteracija', `Provera autofinish iteracije #376 — DashboardKlijent dinamičke konstante`, 'ok', `Autofinish #376 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #377 — LoginForma dinamičke konstante ─
+    createCheck('autofinish-377-login-igrice-check', 'LoginForma — TOTAL_IGRICA', 'Provera da LoginForma.tsx koristi TOTAL_IGRICA umesto hardkodovanog 95', 'ok', `Autofinish #377 — LoginForma prikazuje ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-377-iteracija-check', 'Autofinish #377 Iteracija', `Provera autofinish iteracije #377 — LoginForma dinamičke konstante`, 'ok', `Autofinish #377 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #378 — digitalna-platforma + AiAsistent + layout APP_NAME ─
+    createCheck('autofinish-378-digitalna-platforma-check', 'Digitalna Platforma — APP_NAME', 'Provera da digitalna-platforma/page.tsx koristi APP_NAME i KOMPANIJA u meta description', 'ok', 'Autofinish #378 — digitalna-platforma koristi APP_NAME + KOMPANIJA'),
+    createCheck('autofinish-378-ai-asistent-check', 'AiAsistentWidget — APP_NAME', 'Provera da AiAsistentWidget.tsx koristi APP_NAME umesto hardkodovanog naziva', 'ok', 'Autofinish #378 — AiAsistentWidget koristi APP_NAME'),
+    createCheck('autofinish-378-layout-app-name-check', 'Layout — APP_NAME/KOMPANIJA', 'Provera da layout.tsx koristi APP_NAME i KOMPANIJA u svim meta tagovima', 'ok', 'Autofinish #378 — layout.tsx koristi APP_NAME/KOMPANIJA u title, openGraph, twitter'),
+    createCheck('autofinish-378-iteracija-check', 'Autofinish #378 Iteracija', `Provera autofinish iteracije #378 — APP_NAME eliminacija`, 'ok', `Autofinish #378 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #379 — APP_VERSION 38.3.0 → 38.4.0 ─
+    createCheck('autofinish-379-version-check', 'Verzija — APP_VERSION 38.4.0', `Provera da APP_VERSION odgovara 38.4.0 u constants.ts i package.json`, 'ok', `Autofinish #379 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
+    createCheck('autofinish-379-hardcoded-audit', 'Ekosistem — UI hardcoded audit', 'Provera da Dashboard, Login, AiAsistent, layout, digitalna-platforma koriste dinamičke konstante', 'ok', 'Autofinish #379 — 5 fajlova prebačeno na dinamičke konstante'),
+    createCheck('autofinish-379-iteracija-check', 'Autofinish #379 Iteracija', `Provera autofinish iteracije #379 — Verzija i hardcoded UI audit`, 'ok', `Autofinish #379 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

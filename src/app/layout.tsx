@@ -69,27 +69,27 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | AI IQ SUPER PLATFORMA',
-    default: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
+    template: `%s | ${APP_NAME}`,
+    default: `${APP_NAME} — ${KOMPANIJA}`,
   },
   description: `${APP_DESCRIPTION} Unified platforma za upravljanje svim AI i IT projektima.`,
   keywords: ['AI', 'IQ', 'SUPER PLATFORMA', 'Kompanija SPAJA', 'SpajaPro', 'OMEGA AI', 'Digitalna Industrija', 'Prompt Engine', 'Proksi', 'Mobilna Mreža'],
-  authors: [{ name: 'Kompanija SPAJA' }],
-  creator: 'Kompanija SPAJA',
-  publisher: 'Kompanija SPAJA',
+  authors: [{ name: KOMPANIJA }],
+  creator: KOMPANIJA,
+  publisher: KOMPANIJA,
   metadataBase: new URL(BASE_URL),
   openGraph: {
     type: 'website',
     locale: 'sr_Latn',
-    siteName: 'AI IQ SUPER PLATFORMA',
-    title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
+    siteName: APP_NAME,
+    title: `${APP_NAME} — ${KOMPANIJA}`,
     description: APP_DESCRIPTION_SHORT,
     images: [
       {
         url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
-        alt: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA — Digitalna Industrija',
+        alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
       },
     ],
   },
@@ -101,7 +101,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
+    title: `${APP_NAME} — ${KOMPANIJA}`,
     description: APP_DESCRIPTION_SHORT,
     creator: '@KompanijaSPAJA',
     images: [
@@ -109,7 +109,7 @@ export const metadata: Metadata = {
         url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
-        alt: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA — Digitalna Industrija',
+        alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
       },
     ],
   },
