@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
+import { OMEGA_AI_PERSONA_COUNT, SPAJA_PRO_RANGE, TOTAL_PAGES, TOTAL_IGRICA } from '@/lib/constants';
 
 export default function DashboardKlijent() {
   const [sesija, setSesija] = useState<OmegaSesija | null>(() => {
@@ -139,17 +140,17 @@ export default function DashboardKlijent() {
             </div>
             <div className="rounded-lg bg-gray-900/50 p-3 text-center">
               <div className="text-lg">🧠</div>
-              <div className="mt-1 text-xl font-bold text-white">21</div>
+              <div className="mt-1 text-xl font-bold text-white">{OMEGA_AI_PERSONA_COUNT}</div>
               <div className="text-[10px] text-gray-500">OMEGA AI</div>
             </div>
             <div className="rounded-lg bg-gray-900/50 p-3 text-center">
               <div className="text-lg">🌟</div>
-              <div className="mt-1 text-xl font-bold text-white">v6-15</div>
+              <div className="mt-1 text-xl font-bold text-white">v{SPAJA_PRO_RANGE}</div>
               <div className="text-[10px] text-gray-500">SpajaPro</div>
             </div>
             <div className="rounded-lg bg-gray-900/50 p-3 text-center">
               <div className="text-lg">📄</div>
-              <div className="mt-1 text-xl font-bold text-white">46</div>
+              <div className="mt-1 text-xl font-bold text-white">{TOTAL_PAGES}</div>
               <div className="text-[10px] text-gray-500">Stranice</div>
             </div>
           </div>
@@ -166,7 +167,7 @@ export default function DashboardKlijent() {
               💬 Prompt Konzola
             </a>
             <a href="/igrice" className="rounded-lg bg-green-600/20 px-4 py-3 text-center text-sm text-green-300 transition hover:bg-green-600/30">
-              🎮 Igrice (95)
+              🎮 Igrice ({TOTAL_IGRICA})
             </a>
             <a href="/omega-ai" className="rounded-lg bg-yellow-600/20 px-4 py-3 text-center text-sm text-yellow-300 transition hover:bg-yellow-600/30">
               🧠 OMEGA AI
@@ -203,7 +204,7 @@ export default function DashboardKlijent() {
             <a href="/io-openui-ao-gaming-platforma" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-4 transition hover:border-green-500/30 hover:bg-green-900/10">
               <div className="mb-2 text-lg">🎮</div>
               <div className="text-sm font-medium text-white group-hover:text-green-300">Gaming Platforma</div>
-              <div className="mt-1 text-xs text-gray-400">95 igrica u 18 kategorija — Dota 1350, TRANSFORMERS, BUBLI BABLI, Poker i jos mnogo toga.</div>
+              <div className="mt-1 text-xs text-gray-400">{TOTAL_IGRICA} igrica u 18 kategorija — Dota 1350, TRANSFORMERS, BUBLI BABLI, Poker i jos mnogo toga.</div>
             </a>
             <a href="/digitalni-televizor" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-4 transition hover:border-yellow-500/30 hover:bg-yellow-900/10">
               <div className="mb-2 text-lg">📺</div>

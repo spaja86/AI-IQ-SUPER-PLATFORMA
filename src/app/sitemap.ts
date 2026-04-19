@@ -6,11 +6,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const mediumHighPriority = ['/platforme', '/omega-ai', '/spaja-pro', '/igrice', '/it-proizvodi'];
 
   // Dynamic lastModified dates per page category
-  const recentlyUpdated = new Date('2026-04-18');
-  const corePages = new Date('2026-04-16');
+  const recentlyUpdated = new Date('2026-04-19');
+  const corePages = new Date('2026-04-18');
   const standardPages = new Date('2026-04-14');
 
-  const recentRoutes = ['/', '/dashboard', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade'];
+  const recentRoutes = ['/', '/dashboard', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka'];
   const coreRoutes = ['/ekosistem', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/pricing', '/it-proizvodi', '/igrice', '/omega-ai-suport'];
 
   const routes = [
@@ -61,6 +61,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/glavni-sistem-nabavka',
     '/reklame-i-partnerstva',
     '/dnevna-raspodela-zarade',
+    '/spaja-ultra-repl',
+    '/digitalna-platforma',
+    '/registracija',
+    '/security',
+    '/login',
+    '/zaboravljena-lozinka',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

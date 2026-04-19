@@ -50,4 +50,8 @@ export const navigation: NavItem[] = [
   { label: 'Nabavka', href: '/glavni-sistem-nabavka', icon: '💰', description: 'Glavni Sistem Nabavke — 50 digitalnih varijacija kupljeno iz AI IQ World Bank' },
   { label: 'Reklame & Partnerstva', href: '/reklame-i-partnerstva', icon: '📢', description: 'Reklamne kampanje, partnerstva iz svih branši i monetizacija' },
   { label: 'Dnevna Raspodela', href: '/dnevna-raspodela-zarade', icon: '💰', description: 'Dnevna raspodela zarade — 96% ERSTE + 4% AI IQ World Bank' },
+  { label: 'SpajaUltra REPL', href: '/spaja-ultra-repl', icon: '⌨️', description: 'SpajaUltraOmegaCore REPL — DSL parser, transpajler, runtime audit log' },
+  { label: 'Digitalna Platforma', href: '/digitalna-platforma', icon: '🌐', description: 'AI IQ SUPER PLATFORMA — kompletni digitalni ekosistem Kompanije SPAJA' },
+  { label: 'Prijava', href: '/login', icon: '🔑', description: 'Prijava na platformu — pristup Digitalnoj Industriji' },
+  { label: 'Zaboravljena Lozinka', href: '/zaboravljena-lozinka', icon: '🔓', description: 'Resetovanje lozinke za pristup platformi' },
 ];

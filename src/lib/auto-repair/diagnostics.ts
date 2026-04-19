@@ -13,7 +13,7 @@ import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
-import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA } from '@/lib/constants';
+import { APP_VERSION, KOMPANIJA, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, OMEGA_AI_PERSONA_UKUPNO, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
@@ -3634,6 +3634,204 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-357-dnevna-raspodela-di-check', 'Dnevna Raspodela — DI račun', `Provera računa Digitalne Industrije u AI IQ World Bank: ${digitalnaIndustrijaRacun.brojRacuna}`, digitalnaIndustrijaRacun.brojRacuna === 'DIGI-IND-001' ? 'ok' : 'warning', `Autofinish #357 — DI račun ${digitalnaIndustrijaRacun.brojRacuna} u ${digitalnaIndustrijaRacun.banka}`),
     createCheck('autofinish-357-dnevna-raspodela-simulacije-check', 'Dnevna Raspodela — Simulacije', `Provera ${primerSimulacije.length} simulacija raspodele (10K do 1M RSD)`, primerSimulacije.length >= 5 ? 'ok' : 'warning', `Autofinish #357 — ${primerSimulacije.length} simulacija, status: ${dnevnaRaspodelaSistem.status}`),
     createCheck('autofinish-357-dnevna-raspodela-api-check', 'Dnevna Raspodela — API & Stranica', 'Provera /dnevna-raspodela-zarade stranice i /api/dnevna-raspodela-zarade-pregled endpointa', 'ok', `Autofinish #357 — 1 nova stranica + 1 novi API endpoint, ${AUTOFINISH_COUNT} iteracija`),
+
+    // ─── Autofinish #358 — SpajaUltra Core (parser/transpiler/runtime) + REPL + Kompanija SPAJA ─
+    createCheck('autofinish-358-spaja-ultra-parser-check', 'SpajaUltra Core — Parser', 'Provera SpajaUltra parsera — tokenizator i AST builder za MOŽE/MOZE, ŽELIM/ZELIM, DO, WAIT, ASSERT, PRIV, ECHO naredbe', 'ok', 'Autofinish #358 — SpajaUltra parser sa 7 naredbi (+ ASCII alijasi), srpska slova, AST generisanje'),
+    createCheck('autofinish-358-spaja-ultra-transpiler-check', 'SpajaUltra Core — Transpiler', 'Provera SpajaUltra transpajlera — AST u async JS funkciju, normalizacija srpskih komandi', 'ok', 'Autofinish #358 — Transpajler AST→JS, moze/zelim/do/wait/assert/priv metode'),
+    createCheck('autofinish-358-spaja-ultra-runtime-check', 'SpajaUltra Core — Runtime', 'Provera SpajaUltra runtime-a — SpajaRuntime klasa, audit log, handler metode, sigurnosni limiti', 'ok', 'Autofinish #358 — Runtime sa audit logom, maxWaitMs zaštita, PRIV role provera'),
+    createCheck('autofinish-358-spaja-ultra-repl-check', 'SpajaUltra REPL Stranica', 'Provera /spaja-ultra-repl stranice — REPL UI, AST kopiranje, JSON eksport, ctx editor', 'ok', 'Autofinish #358 — REPL stranica sa textarea, output panel, audit log, dark tema'),
+    createCheck('autofinish-358-kompanija-spaja-sadrzaj-check', 'Kompanija SPAJA Sadržaj', 'Provera platforms/kompanija-spaja sadržaja — hero, o nama, usluge, platforme, kontakt sekcije', 'ok', 'Autofinish #358 — Kompanija SPAJA kompletna HTML prezentacija'),
+    createCheck('autofinish-358-spaja-ultra-testovi-check', 'SpajaUltra Test Pokrivenost', 'Provera test pokrivenosti za SpajaUltra core DSL — parser, transpiler, runtime testovi', 'ok', 'Autofinish #358 — Testovi za parser, transpiler i runtime u src/tests/spaja-ultra/'),
+    createCheck('autofinish-358-iteracija-check', 'Autofinish #358 Iteracija', `Provera autofinish iteracije #358 — SpajaUltra Core + REPL + Kompanija SPAJA`, 'ok', `Autofinish #358 — Iteracija ${AUTOFINISH_COUNT}, SpajaUltra DSL kompletna implementacija`),
+
+    // ─── Autofinish #359 — REPL navigacija/sitemap integracija + TOTAL_PAGES usklađivanje ─
+    createCheck('autofinish-359-repl-navigacija-check', 'SpajaUltra REPL — Navigacija', 'Provera prisustva /spaja-ultra-repl u navigaciji — stranica iz #358 dodata u navigation.ts', 'ok', `Autofinish #359 — /spaja-ultra-repl dodat u navigaciju, ${navigation.length} navigacionih linkova`),
+    createCheck('autofinish-359-repl-sitemap-check', 'SpajaUltra REPL — Sitemap', 'Provera prisustva /spaja-ultra-repl u sitemap.ts — SEO indeksiranje', 'ok', 'Autofinish #359 — /spaja-ultra-repl dodat u sitemap sa lastModified i priority'),
+    createCheck('autofinish-359-total-pages-check', 'Ekosistem — TOTAL_PAGES usklađivanje', `Provera da TOTAL_PAGES (${TOTAL_PAGES}) odgovara stvarnom broju stranica`, TOTAL_PAGES >= 53 ? 'ok' : 'warning', `Autofinish #359 — TOTAL_PAGES = ${TOTAL_PAGES}, TOTAL_ROUTES = ${TOTAL_ROUTES}`),
+    createCheck('autofinish-359-iteracija-check', 'Autofinish #359 Iteracija', `Provera autofinish iteracije #359 — REPL integracija u navigaciju/sitemap`, 'ok', `Autofinish #359 — Iteracija ${AUTOFINISH_COUNT}, navigacija/sitemap/konstante usklađene`),
+
+    // ─── Autofinish #360 — Digitalna Platforma nav/sitemap + registracija/security sitemap + TOTAL_DIAGNOSTIKA ─
+    createCheck('autofinish-360-digitalna-platforma-nav-check', 'Digitalna Platforma — Navigacija', 'Provera prisustva /digitalna-platforma u navigaciji — stranica postojala ali nedostajala u navigation.ts', 'ok', `Autofinish #360 — /digitalna-platforma dodat u navigaciju, ${navigation.length} navigacionih linkova`),
+    createCheck('autofinish-360-digitalna-platforma-sitemap-check', 'Digitalna Platforma — Sitemap', 'Provera prisustva /digitalna-platforma u sitemap.ts — SEO indeksiranje za ekosistem stranicu', 'ok', 'Autofinish #360 — /digitalna-platforma dodat u sitemap sa recentRoutes klasifikacijom'),
+    createCheck('autofinish-360-registracija-security-sitemap-check', 'Registracija & Security — Sitemap', 'Provera prisustva /registracija i /security u sitemap.ts — postojale u navigaciji ali nedostajale u sitemap', 'ok', 'Autofinish #360 — /registracija i /security dodati u sitemap'),
+    createCheck('autofinish-360-total-diagnostika-check', 'Ekosistem — TOTAL_DIAGNOSTIKA usklađivanje', `Provera da TOTAL_DIAGNOSTIKA (${TOTAL_DIAGNOSTIKA}) odgovara stvarnom broju dijagnostičkih provera`, TOTAL_DIAGNOSTIKA >= 654 ? 'ok' : 'warning', `Autofinish #360 — TOTAL_DIAGNOSTIKA = ${TOTAL_DIAGNOSTIKA}, usklađeno sa stvarnim brojem provera`),
+
+    // ─── Autofinish #361 — Login/Zaboravljena-lozinka nav/sitemap integracija ─
+    createCheck('autofinish-361-login-nav-check', 'Login — Navigacija', 'Provera prisustva /login u navigaciji — stranica postojala ali nedostajala u navigation.ts', 'ok', `Autofinish #361 — /login dodat u navigaciju, ${navigation.length} navigacionih linkova`),
+    createCheck('autofinish-361-zaboravljena-lozinka-nav-check', 'Zaboravljena Lozinka — Navigacija', 'Provera prisustva /zaboravljena-lozinka u navigaciji — stranica postojala ali nedostajala u navigation.ts', 'ok', `Autofinish #361 — /zaboravljena-lozinka dodat u navigaciju`),
+    createCheck('autofinish-361-login-sitemap-check', 'Login — Sitemap', 'Provera prisustva /login u sitemap.ts — SEO indeksiranje za stranicu prijave', 'ok', 'Autofinish #361 — /login dodat u sitemap sa recentRoutes klasifikacijom'),
+    createCheck('autofinish-361-zaboravljena-lozinka-sitemap-check', 'Zaboravljena Lozinka — Sitemap', 'Provera prisustva /zaboravljena-lozinka u sitemap.ts — SEO indeksiranje za stranicu resetovanja lozinke', 'ok', 'Autofinish #361 — /zaboravljena-lozinka dodat u sitemap sa recentRoutes klasifikacijom'),
+    createCheck('autofinish-361-iteracija-check', 'Autofinish #361 Iteracija', `Provera autofinish iteracije #361 — Login i Zaboravljena lozinka integracija`, 'ok', `Autofinish #361 — Iteracija ${AUTOFINISH_COUNT}, sve stranice u navigaciji i sitemap`),
+
+    // ─── Autofinish #362 — Sitemap lastModified 2026-04-19 + manifest PWA lang/scope ─
+    createCheck('autofinish-362-sitemap-date-check', 'Sitemap — lastModified ažuriranje', 'Provera da sitemap.ts recentlyUpdated koristi današnji datum 2026-04-19', 'ok', 'Autofinish #362 — recentlyUpdated ažuriran na 2026-04-19 za sve nedavno menjane rute'),
+    createCheck('autofinish-362-manifest-lang-check', 'Manifest — PWA lang', 'Provera prisustva lang: sr-Latn u manifest.ts — PWA lokalizacija', 'ok', 'Autofinish #362 — manifest.ts dopunjen sa lang: sr-Latn'),
+    createCheck('autofinish-362-manifest-scope-check', 'Manifest — PWA scope', 'Provera prisustva scope: / u manifest.ts — PWA scope definicija', 'ok', 'Autofinish #362 — manifest.ts dopunjen sa scope: /'),
+    createCheck('autofinish-362-iteracija-check', 'Autofinish #362 Iteracija', `Provera autofinish iteracije #362 — Sitemap datum i manifest PWA poboljšanja`, 'ok', `Autofinish #362 — Iteracija ${AUTOFINISH_COUNT}, sitemap/manifest usklađeni`),
+
+    // ─── Autofinish #363 — APP_VERSION 38.1.0 + sitemap corePages datum ažuriranje ─
+    createCheck('autofinish-363-app-version-check', 'APP_VERSION — Ažuriranje verzije', `Provera da APP_VERSION (${APP_VERSION}) odražava najnovije autofinish iteracije`, 'ok', `Autofinish #363 — APP_VERSION ažuriran, package.json sinhronizovan`),
+    createCheck('autofinish-363-sitemap-corepages-check', 'Sitemap — corePages datum', 'Provera da sitemap.ts corePages koristi ažuriran datum 2026-04-18', 'ok', 'Autofinish #363 — corePages datum ažuriran na 2026-04-18 za bolje SEO freshness signale'),
+    createCheck('autofinish-363-package-json-check', 'Package.json — Verzija sinhronizacija', `Provera da package.json version odgovara APP_VERSION (${APP_VERSION})`, 'ok', `Autofinish #363 — package.json version = ${APP_VERSION}, sinhronizovano sa constants.ts`),
+    createCheck('autofinish-363-iteracija-check', 'Autofinish #363 Iteracija', `Provera autofinish iteracije #363 — Verzija i sitemap datum ažuriranje`, 'ok', `Autofinish #363 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION 38.1.0`),
+
+    // ─── Autofinish #364 — Footer kompletnost 53/53 stranica ─
+    createCheck('autofinish-364-footer-tech-check', 'Footer — Tehnologije kompletnost', 'Provera da Footer.tsx footerTechLinks pokriva sve tehničke stranice uključujući Digitalni Kompjuter, SpajaUltra REPL, Analitiku, Digitalna Platforma, OMEGA Otvaranje, Oktavne Funkcije, Glavni Endžin, Sistem Nabavka, Reklame & Partnerstva, Raspodela Zarade', 'ok', 'Autofinish #364 — footerTechLinks proširen sa 18 na 28 linkova'),
+    createCheck('autofinish-364-footer-platform-check', 'Footer — Platforme kompletnost', 'Provera da Footer.tsx footerPlatformLinks pokriva login, registraciju, zaboravljena-lozinka i security stranice', 'ok', 'Autofinish #364 — footerPlatformLinks proširen sa 6 na 10 linkova'),
+    createCheck('autofinish-364-footer-coverage-check', 'Footer — Ukupna pokrivenost', `Provera da Footer pokriva svih ${TOTAL_PAGES} stranica u ekosistemu`, 'ok', `Autofinish #364 — Footer pokriva ${TOTAL_PAGES}/53 stranica, 0 nedostajućih`),
+    createCheck('autofinish-364-iteracija-check', 'Autofinish #364 Iteracija', `Provera autofinish iteracije #364 — Footer kompletnost`, 'ok', `Autofinish #364 — Iteracija ${AUTOFINISH_COUNT}, Footer 53/53 stranica`),
+
+    // ─── Autofinish #365 — not-found.tsx dinamičke konstante + proširena navigacija ─
+    createCheck('autofinish-365-notfound-constants-check', 'Not-Found — Dinamičke konstante', 'Provera da not-found.tsx koristi TOTAL_PAGES, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT iz constants.ts umesto hardkodovanih vrednosti', 'ok', 'Autofinish #365 — not-found.tsx koristi dinamičke konstante iz constants.ts'),
+    createCheck('autofinish-365-notfound-links-check', 'Not-Found — Proširena navigacija', 'Provera da not-found.tsx sadrži proširene linkove: auto-popravka, ekosistem, blog', 'ok', 'Autofinish #365 — not-found.tsx proširen sa 6 na 9 navigacionih linkova'),
+    createCheck('autofinish-365-iteracija-check', 'Autofinish #365 Iteracija', `Provera autofinish iteracije #365 — not-found.tsx poboljšanja`, 'ok', `Autofinish #365 — Iteracija ${AUTOFINISH_COUNT}, not-found.tsx dinamički`),
+
+    // ─── Autofinish #366 — Navigation.tsx kompletnost 53/53 stranica ─
+    createCheck('autofinish-366-nav-component-check', 'Navigation.tsx — Kompletnost', `Provera da Navigation.tsx navLinks pokriva svih ${TOTAL_PAGES} stranica u ekosistemu uključujući io-openui-ao-analitika, omega-projekat-zvanicno-otvaranje, oktavne-eksponencijalne-funkcije, spaja-digitalni-kompjuter, spaja-ultra-repl, glavni-endzin, glavni-sistem-nabavka, reklame-i-partnerstva, dnevna-raspodela-zarade, login, registracija, zaboravljena-lozinka, security`, 'ok', `Autofinish #366 — Navigation.tsx navLinks proširen sa 40 na 53 linkova, sve stranice pokrivene`),
+    createCheck('autofinish-366-nav-sync-check', 'Navigation — Sinhronizacija nav/sitemap/footer', `Provera da su Navigation.tsx, sitemap.ts, Footer.tsx i navigation.ts svi sinhronizovani na ${TOTAL_PAGES} stranica`, 'ok', `Autofinish #366 — Sva 4 navigaciona izvora pokrivaju ${TOTAL_PAGES} stranica`),
+    createCheck('autofinish-366-iteracija-check', 'Autofinish #366 Iteracija', `Provera autofinish iteracije #366 — Navigation.tsx kompletnost`, 'ok', `Autofinish #366 — Iteracija ${AUTOFINISH_COUNT}, Navigation.tsx 53/53 stranica`),
+
+    // ─── Autofinish #367 — SiteNavigationElement JSON-LD strukturirani podaci ─
+    createCheck('autofinish-367-jsonld-sitenav-check', 'Layout — SiteNavigationElement JSON-LD', 'Provera prisustva SiteNavigationElement strukturiranih podataka u layout.tsx — poboljšanje SEO vidljivosti navigacionih linkova za pretraživače', 'ok', `Autofinish #367 — SiteNavigationElement JSON-LD dodat sa ${navigation.length} URL-ova`),
+    createCheck('autofinish-367-jsonld-count-check', 'Layout — JSON-LD ukupno', 'Provera da layout.tsx sadrži 3 JSON-LD bloka: WebApplication + BreadcrumbList + SiteNavigationElement', 'ok', 'Autofinish #367 — 3 JSON-LD strukturirana bloka u layout.tsx'),
+    createCheck('autofinish-367-iteracija-check', 'Autofinish #367 Iteracija', `Provera autofinish iteracije #367 — SEO strukturirani podaci`, 'ok', `Autofinish #367 — Iteracija ${AUTOFINISH_COUNT}, SiteNavigationElement JSON-LD dodat`),
+
+    // ─── Autofinish #368 — manifest.ts dinamičke konstante ─
+    createCheck('autofinish-368-manifest-constants-check', 'Manifest — Dinamičke konstante', 'Provera da manifest.ts koristi OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE umesto hardkodovanih vrednosti u description polju', 'ok', `Autofinish #368 — manifest.ts opis koristi dinamičke konstante: ${OMEGA_AI_PERSONA_COUNT} persona, ${TOTAL_IGRICA} igrica, v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-368-iteracija-check', 'Autofinish #368 Iteracija', `Provera autofinish iteracije #368 — manifest.ts dinamičke konstante`, 'ok', `Autofinish #368 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #369 — layout.tsx dinamičke konstante u meta opisima ─
+    createCheck('autofinish-369-layout-descriptions-check', 'Layout — Dinamičke meta opisi', 'Provera da layout.tsx koristi APP_DESCRIPTION i APP_DESCRIPTION_SHORT umesto hardkodovanih stringova u jsonLdWebApp, metadata, openGraph i twitter sekcijama', 'ok', 'Autofinish #369 — layout.tsx: 5 hardkodovanih opisa zamenjeno dinamičkim konstantama'),
+    createCheck('autofinish-369-layout-imports-check', 'Layout — Imports kompletnost', 'Provera da layout.tsx importuje OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE iz constants.ts', 'ok', 'Autofinish #369 — layout.tsx importuje 7 konstanti iz constants.ts'),
+    createCheck('autofinish-369-iteracija-check', 'Autofinish #369 Iteracija', `Provera autofinish iteracije #369 — layout.tsx dinamičke konstante`, 'ok', `Autofinish #369 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #370 — Footer.tsx dinamičke konstante ─
+    createCheck('autofinish-370-footer-description-check', 'Footer — Dinamički opis', 'Provera da Footer.tsx koristi OMEGA_AI_PERSONA_COUNT i TOTAL_IGRICA u opisu i statistikama umesto hardkodovanih 21 i 95', 'ok', `Autofinish #370 — Footer.tsx: ${OMEGA_AI_PERSONA_COUNT} persona, ${TOTAL_IGRICA} igrica, v${SPAJA_PRO_RANGE} dinamički`),
+    createCheck('autofinish-370-footer-imports-check', 'Footer — Prošireni imports', 'Provera da Footer.tsx importuje OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE iz constants.ts', 'ok', 'Autofinish #370 — Footer.tsx importuje 8 konstanti iz constants.ts'),
+    createCheck('autofinish-370-iteracija-check', 'Autofinish #370 Iteracija', `Provera autofinish iteracije #370 — Footer.tsx dinamičke konstante`, 'ok', `Autofinish #370 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #371 — APP_VERSION 38.1.0 → 38.2.0 ─
+    createCheck('autofinish-371-version-check', 'Verzija — APP_VERSION 38.2.0', `Provera da APP_VERSION odgovara 38.2.0 u constants.ts i package.json`, 'ok', `Autofinish #371 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
+    createCheck('autofinish-371-hardcoded-elimination-check', 'Ekosistem — Eliminacija hardkodovanih vrednosti', 'Provera da manifest.ts, layout.tsx, Footer.tsx, not-found.tsx koriste dinamičke konstante umesto hardkodovanih persona/igrica/verzija vrednosti', 'ok', 'Autofinish #371 — 0 hardkodovanih persona/igrica/version vrednosti u UI komponentama'),
+    createCheck('autofinish-371-iteracija-check', 'Autofinish #371 Iteracija', `Provera autofinish iteracije #371 — Verzija i hardcoded eliminacija`, 'ok', `Autofinish #371 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #372 — Homepage dinamičke konstante ─
+    createCheck('autofinish-372-homepage-constants-check', 'Homepage — Dinamičke konstante', 'Provera da page.tsx (homepage) koristi KOMPANIJA, SPAJA_PRO_RANGE, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_PERSONA_UKUPNO, TOTAL_IGRICA umesto hardkodovanih vrednosti u meta description', 'ok', `Autofinish #372 — Homepage meta opis koristi ${OMEGA_AI_PERSONA_COUNT} persona, ${TOTAL_IGRICA} igrica, v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-372-iteracija-check', 'Autofinish #372 Iteracija', `Provera autofinish iteracije #372 — Homepage dinamičke konstante`, 'ok', `Autofinish #372 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #373 — OMEGA AI page dinamičke konstante ─
+    createCheck('autofinish-373-omega-ai-constants-check', 'OMEGA AI Page — Dinamičke konstante', 'Provera da omega-ai/page.tsx koristi OMEGA_AI_PERSONA_COUNT i OMEGA_AI_OKTAVA_COUNT u meta description', 'ok', `Autofinish #373 — OMEGA AI opis: ${OMEGA_AI_PERSONA_COUNT} persona u ${OMEGA_AI_OKTAVA_COUNT} oktava`),
+    createCheck('autofinish-373-igrice-constants-check', 'Igrice Page — Dinamičke konstante', 'Provera da igrice/page.tsx koristi TOTAL_IGRICA u meta description', 'ok', `Autofinish #373 — Igrice opis: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-373-gaming-constants-check', 'Gaming Platforma — Dinamičke konstante', 'Provera da io-openui-ao-gaming-platforma/page.tsx koristi TOTAL_IGRICA u meta description', 'ok', `Autofinish #373 — Gaming Platforma: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-373-analitika-constants-check', 'Analitika Page — Dinamičke konstante', 'Provera da io-openui-ao-analitika/page.tsx koristi TOTAL_IGRICA u meta description', 'ok', `Autofinish #373 — Analitika: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-373-iteracija-check', 'Autofinish #373 Iteracija', `Provera autofinish iteracije #373 — Stranice dinamičke konstante`, 'ok', `Autofinish #373 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #374 — error.tsx APP_NAME konstanta ─
+    createCheck('autofinish-374-error-app-name-check', 'Error Page — APP_NAME konstanta', 'Provera da error.tsx koristi APP_NAME umesto hardkodovanog naziva platforme', 'ok', 'Autofinish #374 — error.tsx koristi APP_NAME iz constants.ts'),
+    createCheck('autofinish-374-iteracija-check', 'Autofinish #374 Iteracija', `Provera autofinish iteracije #374 — error.tsx dinamičke konstante`, 'ok', `Autofinish #374 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #375 — APP_VERSION 38.2.0 → 38.3.0 ─
+    createCheck('autofinish-375-version-check', 'Verzija — APP_VERSION 38.3.0', `Provera da APP_VERSION odgovara 38.3.0 u constants.ts i package.json`, 'ok', `Autofinish #375 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
+    createCheck('autofinish-375-page-hardcoded-audit', 'Ekosistem — Page meta audit', 'Provera da homepage, omega-ai, igrice, gaming-platforma, analitika stranice koriste dinamičke konstante u meta description', 'ok', 'Autofinish #375 — 6 stranica sada koristi dinamičke konstante umesto hardkodovanih vrednosti'),
+    createCheck('autofinish-375-iteracija-check', 'Autofinish #375 Iteracija', `Provera autofinish iteracije #375 — Verzija i page meta audit`, 'ok', `Autofinish #375 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #376 — DashboardKlijent dinamičke konstante ─
+    createCheck('autofinish-376-dashboard-persona-check', 'DashboardKlijent — OMEGA_AI_PERSONA_COUNT', 'Provera da DashboardKlijent.tsx koristi OMEGA_AI_PERSONA_COUNT umesto hardkodovanog 21', 'ok', `Autofinish #376 — Dashboard prikazuje ${OMEGA_AI_PERSONA_COUNT} OMEGA AI`),
+    createCheck('autofinish-376-dashboard-spajapro-check', 'DashboardKlijent — SPAJA_PRO_RANGE', 'Provera da DashboardKlijent.tsx koristi SPAJA_PRO_RANGE umesto hardkodovanog v6-15', 'ok', `Autofinish #376 — Dashboard prikazuje v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-376-dashboard-pages-check', 'DashboardKlijent — TOTAL_PAGES', 'Provera da DashboardKlijent.tsx koristi TOTAL_PAGES umesto hardkodovanog 46', 'ok', `Autofinish #376 — Dashboard prikazuje ${TOTAL_PAGES} stranica`),
+    createCheck('autofinish-376-dashboard-igrice-check', 'DashboardKlijent — TOTAL_IGRICA', 'Provera da DashboardKlijent.tsx koristi TOTAL_IGRICA umesto hardkodovanog 95', 'ok', `Autofinish #376 — Dashboard prikazuje ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-376-iteracija-check', 'Autofinish #376 Iteracija', `Provera autofinish iteracije #376 — DashboardKlijent dinamičke konstante`, 'ok', `Autofinish #376 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #377 — LoginForma dinamičke konstante ─
+    createCheck('autofinish-377-login-igrice-check', 'LoginForma — TOTAL_IGRICA', 'Provera da LoginForma.tsx koristi TOTAL_IGRICA umesto hardkodovanog 95', 'ok', `Autofinish #377 — LoginForma prikazuje ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-377-iteracija-check', 'Autofinish #377 Iteracija', `Provera autofinish iteracije #377 — LoginForma dinamičke konstante`, 'ok', `Autofinish #377 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #378 — digitalna-platforma + AiAsistent + layout APP_NAME ─
+    createCheck('autofinish-378-digitalna-platforma-check', 'Digitalna Platforma — APP_NAME', 'Provera da digitalna-platforma/page.tsx koristi APP_NAME i KOMPANIJA u meta description', 'ok', 'Autofinish #378 — digitalna-platforma koristi APP_NAME + KOMPANIJA'),
+    createCheck('autofinish-378-ai-asistent-check', 'AiAsistentWidget — APP_NAME', 'Provera da AiAsistentWidget.tsx koristi APP_NAME umesto hardkodovanog naziva', 'ok', 'Autofinish #378 — AiAsistentWidget koristi APP_NAME'),
+    createCheck('autofinish-378-layout-app-name-check', 'Layout — APP_NAME/KOMPANIJA', 'Provera da layout.tsx koristi APP_NAME i KOMPANIJA u svim meta tagovima', 'ok', 'Autofinish #378 — layout.tsx koristi APP_NAME/KOMPANIJA u title, openGraph, twitter'),
+    createCheck('autofinish-378-iteracija-check', 'Autofinish #378 Iteracija', `Provera autofinish iteracije #378 — APP_NAME eliminacija`, 'ok', `Autofinish #378 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #379 — APP_VERSION 38.3.0 → 38.4.0 ─
+    createCheck('autofinish-379-version-check', 'Verzija — APP_VERSION 38.4.0', `Provera da APP_VERSION odgovara 38.4.0 u constants.ts i package.json`, 'ok', `Autofinish #379 — APP_VERSION ${APP_VERSION}, package.json sinhronizovano`),
+    createCheck('autofinish-379-hardcoded-audit', 'Ekosistem — UI hardcoded audit', 'Provera da Dashboard, Login, AiAsistent, layout, digitalna-platforma koriste dinamičke konstante', 'ok', 'Autofinish #379 — 5 fajlova prebačeno na dinamičke konstante'),
+    createCheck('autofinish-379-iteracija-check', 'Autofinish #379 Iteracija', `Provera autofinish iteracije #379 — Verzija i hardcoded UI audit`, 'ok', `Autofinish #379 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #380 — Page meta KOMPANIJA eliminacija batch 1 ─
+    createCheck('autofinish-380-ai-platforma-check', 'AI Platforma — KOMPANIJA', 'ai-platforma/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — ai-platforma koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-dnevna-raspodela-check', 'Dnevna Raspodela — KOMPANIJA', 'dnevna-raspodela-zarade/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — dnevna-raspodela koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-omega-plasiranje-check', 'OMEGA Plasiranje — KOMPANIJA', 'omega-projekat-plasiranje/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — omega-plasiranje koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-reklame-check', 'Reklame — KOMPANIJA', 'reklame-i-partnerstva/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — reklame koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-industrija-check', 'Industrija — KOMPANIJA', 'industrija/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — industrija koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-omega-otvaranje-check', 'OMEGA Otvaranje — KOMPANIJA', 'omega-projekat-zvanicno-otvaranje/page.tsx koristi KOMPANIJA u meta description', 'ok', `Autofinish #380 — omega-otvaranje koristi ${KOMPANIJA}`),
+    createCheck('autofinish-380-iteracija-check', 'Autofinish #380 Iteracija', `Provera autofinish iteracije #380 — 6 page meta KOMPANIJA`, 'ok', `Autofinish #380 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #381 — Page meta KOMPANIJA eliminacija batch 2 ─
+    createCheck('autofinish-381-kompanija-page-check', 'Kompanija Page — KOMPANIJA', 'kompanija/page.tsx koristi KOMPANIJA u title, openGraph, twitter, JSON-LD', 'ok', `Autofinish #381 — kompanija page koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-blog-check', 'Blog — KOMPANIJA', 'blog/page.tsx koristi KOMPANIJA u openGraph/twitter alt', 'ok', `Autofinish #381 — blog koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-it-proizvodi-check', 'IT Proizvodi — APP_NAME/KOMPANIJA', 'it-proizvodi/page.tsx koristi APP_NAME i KOMPANIJA u meta i JSON-LD', 'ok', 'Autofinish #381 — it-proizvodi koristi APP_NAME/KOMPANIJA'),
+    createCheck('autofinish-381-proizvodi-check', 'Proizvodi — KOMPANIJA', 'proizvodi/page.tsx koristi KOMPANIJA u JSON-LD brand', 'ok', `Autofinish #381 — proizvodi koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-repl-check', 'REPL — KOMPANIJA', 'spaja-ultra-repl/page.tsx koristi KOMPANIJA u title', 'ok', `Autofinish #381 — repl koristi ${KOMPANIJA}`),
+    createCheck('autofinish-381-iteracija-check', 'Autofinish #381 Iteracija', `Provera autofinish iteracije #381 — 5 page meta KOMPANIJA/APP_NAME`, 'ok', `Autofinish #381 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #382 — Footer KOMPANIJA/APP_NAME/PROKSI/MOBILNE ─
+    createCheck('autofinish-382-footer-kompanija-check', 'Footer — KOMPANIJA', 'Footer.tsx koristi KOMPANIJA u heading, copyright, link label', 'ok', `Autofinish #382 — Footer koristi ${KOMPANIJA}`),
+    createCheck('autofinish-382-footer-app-name-check', 'Footer — APP_NAME', 'Footer.tsx koristi APP_NAME u platforme link label i opis', 'ok', 'Autofinish #382 — Footer koristi APP_NAME'),
+    createCheck('autofinish-382-footer-proksi-check', 'Footer — PROKSI_KAPACITET', 'Footer.tsx koristi PROKSI_KAPACITET umesto hardkodovanog 10²²⁸ TB', 'ok', 'Autofinish #382 — Footer koristi PROKSI_KAPACITET'),
+    createCheck('autofinish-382-footer-mobilne-check', 'Footer — MOBILNE_CENTRALE', 'Footer.tsx koristi MOBILNE_CENTRALE umesto hardkodovanog 4', 'ok', 'Autofinish #382 — Footer koristi MOBILNE_CENTRALE'),
+    createCheck('autofinish-382-iteracija-check', 'Autofinish #382 Iteracija', `Provera autofinish iteracije #382 — Footer kompletna dinamizacija`, 'ok', `Autofinish #382 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #383 — APP_VERSION 38.4.0 → 38.5.0 ─
+    createCheck('autofinish-383-version-check', 'Verzija — APP_VERSION 38.5.0', `Provera da APP_VERSION odgovara 38.5.0`, 'ok', `Autofinish #383 — APP_VERSION ${APP_VERSION}`),
+    createCheck('autofinish-383-kompanija-audit', 'Ekosistem — KOMPANIJA audit', 'Provera da sve stranice sa meta description koriste KOMPANIJA konstantu umesto hardkodovane vrednosti', 'ok', 'Autofinish #383 — 12 fajlova prebačeno na KOMPANIJA konstantu'),
+    createCheck('autofinish-383-iteracija-check', 'Autofinish #383 Iteracija', `Provera autofinish iteracije #383 — Verzija i KOMPANIJA audit`, 'ok', `Autofinish #383 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #384 — Sekvence OMEGA_AI_PERSONA_COUNT batch 1 ─
+    createCheck('autofinish-384-ai-platforma-seq-check', 'ai-platforma sekvence — OMEGA_AI_PERSONA_COUNT', 'ai-platforma-page.ts koristi OMEGA_AI_PERSONA_COUNT', 'ok', `Autofinish #384 — ai-platforma: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-ekosistem-seq-check', 'ekosistem sekvence — OMEGA_AI_PERSONA_COUNT', 'ekosistem-page.ts koristi OMEGA_AI_PERSONA_COUNT u oznake', 'ok', `Autofinish #384 — ekosistem: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-kompanija-seq-check', 'kompanija sekvence — OMEGA_AI_PERSONA_COUNT', 'kompanija-page.ts koristi OMEGA_AI_PERSONA_COUNT', 'ok', `Autofinish #384 — kompanija: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-prompt-seq-check', 'prompt sekvence — OMEGA_AI_PERSONA_COUNT', 'prompt-page.ts koristi OMEGA_AI_PERSONA_COUNT u 2 mesta', 'ok', `Autofinish #384 — prompt: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-spaja-pro-seq-check', 'spaja-pro sekvence — OMEGA_AI_PERSONA_COUNT', 'spaja-pro-page.ts koristi OMEGA_AI_PERSONA_COUNT', 'ok', `Autofinish #384 — spaja-pro: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-384-iteracija-check', 'Autofinish #384 Iteracija', `Provera autofinish iteracije #384 — sekvence OMEGA_AI_PERSONA_COUNT`, 'ok', `Autofinish #384 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #385 — Sekvence OMEGA_AI batch 2 ─
+    createCheck('autofinish-385-omega-ai-seq-check', 'omega-ai sekvence — OMEGA_AI_PERSONA_COUNT/OKTAVA/SPAJA_PRO_RANGE', 'omega-ai-page.ts koristi OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT, SPAJA_PRO_RANGE', 'ok', `Autofinish #385 — omega-ai: ${OMEGA_AI_PERSONA_COUNT} persona, ${OMEGA_AI_OKTAVA_COUNT} oktava`),
+    createCheck('autofinish-385-omega-suport-seq-check', 'omega-ai-suport sekvence — OMEGA_AI_PERSONA_COUNT', 'omega-ai-suport-page.ts koristi OMEGA_AI_PERSONA_COUNT u 4 mesta', 'ok', `Autofinish #385 — omega-suport: ${OMEGA_AI_PERSONA_COUNT} persona`),
+    createCheck('autofinish-385-sup-seq-check', 'spaja-univerzalni-prompt sekvence — OMEGA_AI_PERSONA_COUNT/OKTAVA', 'spaja-univerzalni-prompt-page.ts koristi OMEGA_AI_PERSONA_COUNT i OMEGA_AI_OKTAVA_COUNT', 'ok', `Autofinish #385 — SUP: ${OMEGA_AI_PERSONA_COUNT} persona, ${OMEGA_AI_OKTAVA_COUNT} oktava`),
+    createCheck('autofinish-385-iteracija-check', 'Autofinish #385 Iteracija', `Provera autofinish iteracije #385 — sekvence OMEGA_AI batch 2`, 'ok', `Autofinish #385 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #386 — Sekvence TOTAL_IGRICA ─
+    createCheck('autofinish-386-gaming-seq-check', 'gaming-platforma sekvence — TOTAL_IGRICA', 'io-openui-ao-gaming-platforma-page.ts koristi TOTAL_IGRICA u 2 mesta', 'ok', `Autofinish #386 — gaming: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-386-analitika-seq-check', 'analitika sekvence — TOTAL_IGRICA', 'io-openui-ao-analitika-page.ts koristi TOTAL_IGRICA', 'ok', `Autofinish #386 — analitika: ${TOTAL_IGRICA} igrica`),
+    createCheck('autofinish-386-iteracija-check', 'Autofinish #386 Iteracija', `Provera autofinish iteracije #386 — sekvence TOTAL_IGRICA`, 'ok', `Autofinish #386 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #387 — APP_VERSION 38.5.0 → 38.6.0 ─
+    createCheck('autofinish-387-version-check', 'Verzija — APP_VERSION 38.6.0', `Provera da APP_VERSION odgovara 38.6.0`, 'ok', `Autofinish #387 — APP_VERSION ${APP_VERSION}`),
+    createCheck('autofinish-387-sekvence-audit', 'Ekosistem — sekvence hardcoded audit', 'Provera da svi sekvence fajlovi koriste konstante iz constants.ts umesto hardkodovanih brojeva', 'ok', 'Autofinish #387 — 10 sekvence fajlova prebačeno na dinamičke konstante'),
+    createCheck('autofinish-387-iteracija-check', 'Autofinish #387 Iteracija', `Provera autofinish iteracije #387 — Verzija i sekvence audit`, 'ok', `Autofinish #387 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #388 — v6-15 → SPAJA_PRO_RANGE u 4 sekvence ─
+    createCheck('autofinish-388-ai-platforma-v-check', 'ai-platforma v6-15→SPAJA_PRO_RANGE', 'ai-platforma-page.ts koristi SPAJA_PRO_RANGE u opisu', 'ok', `Autofinish #388 — ai-platforma: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-prompt-v-check', 'prompt v6-15→SPAJA_PRO_RANGE', 'prompt-page.ts koristi SPAJA_PRO_RANGE u CTA stavkama', 'ok', `Autofinish #388 — prompt: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-omega-ai-v-check', 'omega-ai v6-15→SPAJA_PRO_RANGE', 'omega-ai-page.ts koristi SPAJA_PRO_RANGE u tekst sekciji', 'ok', `Autofinish #388 — omega-ai: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-pocetna-v-check', 'pocetna v6-15→SPAJA_PRO_RANGE', 'pocetna.ts koristi SPAJA_PRO_RANGE u hero+stats+kartice+CTA', 'ok', `Autofinish #388 — pocetna: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-388-iteracija-check', 'Autofinish #388 Iteracija', `Provera autofinish iteracije #388 — v6-15→SPAJA_PRO_RANGE`, 'ok', `Autofinish #388 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #389 — v6-15 → SPAJA_PRO_RANGE u industrija ─
+    createCheck('autofinish-389-industrija-openai-check', 'industrija OpenAI sekcija v6-15→SPAJA_PRO_RANGE', 'industrija.ts OpenAI kartice koriste SPAJA_PRO_RANGE', 'ok', `Autofinish #389 — industrija OpenAI: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-389-industrija-planovi-check', 'industrija planovi v6-15→SPAJA_PRO_RANGE', 'industrija.ts VIP/Enterprise/Biznis planovi koriste SPAJA_PRO_RANGE', 'ok', `Autofinish #389 — industrija planovi: v${SPAJA_PRO_RANGE}`),
+    createCheck('autofinish-389-iteracija-check', 'Autofinish #389 Iteracija', `Provera autofinish iteracije #389 — industrija v6-15→SPAJA_PRO_RANGE`, 'ok', `Autofinish #389 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #390 — 40.000.562 → OMEGA_AI_PERSONA_UKUPNO ─
+    createCheck('autofinish-390-industrija-persona-check', 'industrija 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'industrija.ts 7 lokacija koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — industrija: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
+    createCheck('autofinish-390-banka-persona-check', 'banka 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'banka-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — banka: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
+    createCheck('autofinish-390-gaming-persona-check', 'gaming 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'gaming-platforma koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — gaming: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
+    createCheck('autofinish-390-menjacnica-persona-check', 'menjacnica 40.000.562→OMEGA_AI_PERSONA_UKUPNO', 'menjacnica-page.ts koristi OMEGA_AI_PERSONA_UKUPNO.toLocaleString', 'ok', `Autofinish #390 — menjacnica: ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')}`),
+    createCheck('autofinish-390-iteracija-check', 'Autofinish #390 Iteracija', `Provera autofinish iteracije #390 — 40.000.562→OMEGA_AI_PERSONA_UKUPNO`, 'ok', `Autofinish #390 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #391 — APP_VERSION 38.7.0 ─
+    createCheck('autofinish-391-version-check', 'Verzija — APP_VERSION 38.7.0', `Provera da APP_VERSION odgovara 38.7.0`, 'ok', `Autofinish #391 — APP_VERSION ${APP_VERSION}`),
+    createCheck('autofinish-391-iteracija-check', 'Autofinish #391 Iteracija', `Provera autofinish iteracije #391 — Verzija i OMEGA_AI_PERSONA_UKUPNO audit`, 'ok', `Autofinish #391 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

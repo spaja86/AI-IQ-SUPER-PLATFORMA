@@ -7,6 +7,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
+import { TOTAL_IGRICA } from '@/lib/constants';
 
 function getSavedEmail(): string {
   if (typeof window === 'undefined') return '';
@@ -324,7 +325,7 @@ export default function LoginForma() {
             <li>• Registracija i prijava funkcionisu u okviru iste serverske sesije</li>
             <li>• Sistem koristi Zero Trust + AES-256-GCM + PBKDF2-SHA512</li>
             <li>• <strong className="text-blue-400">Pristup industriji</strong> — sve delatnosti, platforme, ekosistem</li>
-            <li>• <strong className="text-purple-400">Gaming platforma</strong> — IO/OPENUI/AO sa 95 igrica i Otavnom Konstrukcijom</li>
+            <li>• <strong className="text-purple-400">Gaming platforma</strong> — IO/OPENUI/AO sa {TOTAL_IGRICA} igrica i Otavnom Konstrukcijom</li>
             <li>• Registrujte se na <a href="/registracija" className="text-blue-400 hover:text-blue-300">/registracija</a> za sopstveni nalog</li>
             <li>• Za pitanja koristite AI asistenta (dugme 🤖 u donjem desnom uglu)</li>
           </ul>

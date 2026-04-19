@@ -16,6 +16,7 @@ import {
   getKriticnePromptove,
   getPromptSummary,
 } from '@/lib/spaja-univerzalni-prompt';
+import { OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT } from '@/lib/constants';
 
 const specSummary = getSpecSummary();
 const promptSummary = getPromptSummary();
@@ -222,7 +223,7 @@ export const spajaUniverzalniPromptSekvence: Sekvenca[] = [
         {
           naziv: 'Runtime',
           ikona: '⚡',
-          deca: ['8 Oktava', '21 Persona', 'Proksi Mreža', 'Mobilna Mreža', 'Matricno Jezgro 8×8'],
+          deca: [`${OMEGA_AI_OKTAVA_COUNT} Oktava`, `${OMEGA_AI_PERSONA_COUNT} Persona`, 'Proksi Mreža', 'Mobilna Mreža', 'Matricno Jezgro 8×8'],
         },
       ],
     },

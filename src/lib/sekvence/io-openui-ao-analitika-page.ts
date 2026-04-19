@@ -13,6 +13,7 @@ import {
   ioOpenUIAOGamingPlatforma,
   IOOPENUIAO_URL,
 } from '@/lib/io-openui-ao-gaming-platforma';
+import { TOTAL_IGRICA } from '@/lib/constants';
 
 const labStatistika = getLaboratorijaStatistika();
 const aktivnihSim = getAktivneSimulacije().length;
@@ -42,7 +43,7 @@ export const ioOpenUIAOAnalitikaSekvence: Sekvenca[] = [
     podaci: {
       sadrzaj:
         'IO/OPENUI/AO Analitika je kombinovani pregled performansi i statusa celokupne IO/OPENUI/AO platforme. ' +
-        'Obuhvata Gaming Platformu sa 95 igrica u 18 kategorija pokretanih SPAJA Univerzalnim Endžinom, ' +
+        `Obuhvata Gaming Platformu sa ${TOTAL_IGRICA} igrica u 18 kategorija pokretanih SPAJA Univerzalnim Endžinom, ` +
         'kao i Laboratoriju za Simulacije sa 10 naučnih simulacija u 8 kategorija. ' +
         'Analitika prati optimizaciju, preciznost, aktivne module i zdravlje sistema.',
       istaknuteStavke: [

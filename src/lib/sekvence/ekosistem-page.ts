@@ -1,6 +1,7 @@
 import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
 import { generisaniEngini, getRepoEngini, getProsecnaOptimizacija } from '@/lib/spaja-generator-engine';
+import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
 
 const stats = getStatistike();
 const repoEngini = getRepoEngini();
@@ -40,7 +41,7 @@ export const ekosistemSekvence: Sekvenca[] = [
         { naslov: 'Banka', opis: 'Digitalna banka sa globalnim dometom', ikona: '🏦', oznake: ['Racuni', 'Transferi', 'Krediti'] },
         { naslov: 'Menjacnica', opis: 'Kripto i fiat menjacnica', ikona: '💱', oznake: ['Trading', 'Portfolio', 'AI predikcije'] },
         { naslov: 'Kompanija', opis: 'Upravljanje poslovanjem', ikona: '🏢', oznake: ['HR', 'Finansije', 'Projekti'] },
-        { naslov: 'AI Platforma', opis: 'OMEGA AI agenti i servisi', ikona: '🧠', oznake: ['21 persona', 'Auto-repair', 'Learning'] },
+        { naslov: 'AI Platforma', opis: 'OMEGA AI agenti i servisi', ikona: '🧠', oznake: [`${OMEGA_AI_PERSONA_COUNT} persona`, 'Auto-repair', 'Learning'] },
         { naslov: 'Generator Endžina', opis: `SPAJA Generator — ${generisaniEngini.length} engine-a, ${repoEngini.length} repo`, ikona: '🔧', oznake: ['Engine Generator', `${getProsecnaOptimizacija()}% optimizacija`] },
       ],
     },

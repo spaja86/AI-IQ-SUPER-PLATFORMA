@@ -4,12 +4,15 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import AiAsistentWrapper from '@/components/AiAsistentWrapper';
 import OmegaAuthProvider from '@/components/OmegaAuthProvider';
-import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL } from '@/lib/constants';
+import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og`;
+
+const APP_DESCRIPTION = `Digitalna Industrija — ${KOMPANIJA}. SpajaPro Prompt Engine v${SPAJA_PRO_RANGE}, ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona, ${TOTAL_IGRICA} igrica, Proksi mreža, SPAJA Mobilna Mreža.`;
+const APP_DESCRIPTION_SHORT = `Digitalna Industrija sa SpajaPro Prompt Engine-om, ${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona, ${TOTAL_IGRICA} igrica i Proksi mrežom.`;
 
 const jsonLdWebApp = {
   '@context': 'https://schema.org',
@@ -24,7 +27,7 @@ const jsonLdWebApp = {
     name: KOMPANIJA,
     url: BASE_URL,
   },
-  description: 'Digitalna Industrija — Kompanija SPAJA. SpajaPro Prompt Engine v6-15, 21 OMEGA AI persona, 95 igrica, Proksi mreža, SPAJA Mobilna Mreža.',
+  description: APP_DESCRIPTION,
   offers: {
     '@type': 'Offer',
     price: '0',
@@ -51,6 +54,13 @@ const jsonLdBreadcrumb = {
   })),
 };
 
+const jsonLdSiteNavigation = {
+  '@context': 'https://schema.org',
+  '@type': 'SiteNavigationElement',
+  name: 'Glavna Navigacija',
+  url: navigation.map((item) => `${BASE_URL}${item.href}`),
+};
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -59,27 +69,27 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | AI IQ SUPER PLATFORMA',
-    default: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
+    template: `%s | ${APP_NAME}`,
+    default: `${APP_NAME} — ${KOMPANIJA}`,
   },
-  description: 'Digitalna Industrija — Kompanija SPAJA. SpajaPro Prompt Engine v6-15, 21 OMEGA AI persona, 95 igrica, Proksi mreža, SPAJA Mobilna Mreža. Unified platforma za upravljanje svim AI i IT projektima.',
+  description: `${APP_DESCRIPTION} Unified platforma za upravljanje svim AI i IT projektima.`,
   keywords: ['AI', 'IQ', 'SUPER PLATFORMA', 'Kompanija SPAJA', 'SpajaPro', 'OMEGA AI', 'Digitalna Industrija', 'Prompt Engine', 'Proksi', 'Mobilna Mreža'],
-  authors: [{ name: 'Kompanija SPAJA' }],
-  creator: 'Kompanija SPAJA',
-  publisher: 'Kompanija SPAJA',
+  authors: [{ name: KOMPANIJA }],
+  creator: KOMPANIJA,
+  publisher: KOMPANIJA,
   metadataBase: new URL(BASE_URL),
   openGraph: {
     type: 'website',
     locale: 'sr_Latn',
-    siteName: 'AI IQ SUPER PLATFORMA',
-    title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
-    description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+    siteName: APP_NAME,
+    title: `${APP_NAME} — ${KOMPANIJA}`,
+    description: APP_DESCRIPTION_SHORT,
     images: [
       {
         url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
-        alt: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA — Digitalna Industrija',
+        alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
       },
     ],
   },
@@ -91,15 +101,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA',
-    description: 'Digitalna Industrija sa SpajaPro Prompt Engine-om, 21 OMEGA AI persona, 95 igrica i Proksi mrežom.',
+    title: `${APP_NAME} — ${KOMPANIJA}`,
+    description: APP_DESCRIPTION_SHORT,
     creator: '@KompanijaSPAJA',
     images: [
       {
         url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
-        alt: 'AI IQ SUPER PLATFORMA — Kompanija SPAJA — Digitalna Industrija',
+        alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
       },
     ],
   },
@@ -126,6 +136,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSiteNavigation) }}
         />
         <Navigation />
         <OmegaAuthProvider>

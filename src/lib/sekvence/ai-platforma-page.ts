@@ -1,5 +1,6 @@
 import type { Sekvenca } from '@/lib/types';
 import { platforme } from '@/lib/platforme';
+import { OMEGA_AI_PERSONA_COUNT, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const aiPlatforme = platforme.filter((p) => p.kategorija === 'ai');
 
@@ -12,7 +13,7 @@ export const aiPlatformaSekvence: Sekvenca[] = [
     ikona: '🤖',
     redosled: 1,
     podaci: {
-      opis: 'AI Platforma objedinjuje sve sisteme vestacke inteligencije — od OMEGA AI persona sa Prompt-ovima do SpajaPro engine-a (v6-15) koji zamenjuje ChatGPT.',
+      opis: `AI Platforma objedinjuje sve sisteme vestacke inteligencije — od OMEGA AI persona sa Prompt-ovima do SpajaPro engine-a (v${SPAJA_PRO_RANGE}) koji zamenjuje ChatGPT.`,
       dugmad: [
         { tekst: 'Omega AI', href: '/omega-ai' },
         { tekst: 'Prompt', href: '/prompt' },
@@ -28,7 +29,7 @@ export const aiPlatformaSekvence: Sekvenca[] = [
     podaci: {
       sadrzaj: 'AI Platforma koristi SpajaPro engine (verzije 6-15) umesto ChatGPT-a. Svaka OMEGA AI persona ima Prompt koji se obradjuje kroz SpajaPro. Prompt je integrisana svuda — u IO-OPENUI-AO, Proksi mrezi, Mobilnoj mrezi, i svakom aspektu ekosistema.',
       istaknuteStavke: [
-        '21 OMEGA AI persona — svaka sa SpajaPro Prompt-om',
+        `${OMEGA_AI_PERSONA_COUNT} OMEGA AI persona — svaka sa SpajaPro Prompt-om`,
         'SpajaPro 6-15 engine zamenjuje ChatGPT',
         'Prompt integrisana u IO-OPENUI-AO frontend',
         'SpajaPro Prompt za Google AI, Vercel i GitHub',
