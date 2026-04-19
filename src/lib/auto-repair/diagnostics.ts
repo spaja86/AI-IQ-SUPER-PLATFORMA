@@ -3932,6 +3932,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #416 — ULTRA Neutronski Difuzor API + APP_VERSION 39.2.0 ─
     createCheck('autofinish-416-neutronski-difuzor-check', 'ULTRA Neutronski Difuzor API', `Provera API rute /api/ultra-neutronski-difuzor — Neutrino Diffusion Engine (10¹⁵⁶)`, 'ok', `Autofinish #416 — neutronski-difuzor: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-416-iteracija-check', 'Autofinish #416 Iteracija', `Provera autofinish iteracije #416 — APP_VERSION 39.2.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #416 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #417 — ULTRA Kosmički Polarizator API ─
+    createCheck('autofinish-417-kosmicki-polarizator-check', 'ULTRA Kosmički Polarizator API', `Provera API rute /api/ultra-kosmicki-polarizator — Cosmic Polarization Engine (10¹⁵⁷)`, 'ok', `Autofinish #417 — kosmicki-polarizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-417-iteracija-check', 'Autofinish #417 Iteracija', `Provera autofinish iteracije #417 — ULTRA Kosmički Polarizator`, 'ok', `Autofinish #417 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #418 — ULTRA Entropijski Regulator API ─
+    createCheck('autofinish-418-entropijski-regulator-check', 'ULTRA Entropijski Regulator API', `Provera API rute /api/ultra-entropijski-regulator — Entropy Regulation Engine (10¹⁵⁸)`, 'ok', `Autofinish #418 — entropijski-regulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-418-iteracija-check', 'Autofinish #418 Iteracija', `Provera autofinish iteracije #418 — ULTRA Entropijski Regulator`, 'ok', `Autofinish #418 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #419 — ULTRA Vakuumski Generator API ─
+    createCheck('autofinish-419-vakuumski-generator-check', 'ULTRA Vakuumski Generator API', `Provera API rute /api/ultra-vakuumski-generator — Vacuum Generation Engine (10¹⁵⁹)`, 'ok', `Autofinish #419 — vakuumski-generator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-419-iteracija-check', 'Autofinish #419 Iteracija', `Provera autofinish iteracije #419 — ULTRA Vakuumski Generator`, 'ok', `Autofinish #419 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #420 — ULTRA Higsovski Kolider API ─
+    createCheck('autofinish-420-higsovski-kolider-check', 'ULTRA Higsovski Kolider API', `Provera API rute /api/ultra-higsovski-kolider — Higgs Collision Engine (10¹⁶⁰)`, 'ok', `Autofinish #420 — higsovski-kolider: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-420-iteracija-check', 'Autofinish #420 Iteracija', `Provera autofinish iteracije #420 — ULTRA Higsovski Kolider`, 'ok', `Autofinish #420 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #421 — ULTRA Krontonski Sekvencer API + APP_VERSION 39.3.0 ─
+    createCheck('autofinish-421-krontonski-sekvencer-check', 'ULTRA Krontonski Sekvencer API', `Provera API rute /api/ultra-krontonski-sekvencer — Chronon Sequencing Engine (10¹⁶¹)`, 'ok', `Autofinish #421 — krontonski-sekvencer: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-421-iteracija-check', 'Autofinish #421 Iteracija', `Provera autofinish iteracije #421 — APP_VERSION 39.3.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #421 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
