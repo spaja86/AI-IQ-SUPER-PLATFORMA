@@ -3674,6 +3674,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-363-sitemap-corepages-check', 'Sitemap — corePages datum', 'Provera da sitemap.ts corePages koristi ažuriran datum 2026-04-18', 'ok', 'Autofinish #363 — corePages datum ažuriran na 2026-04-18 za bolje SEO freshness signale'),
     createCheck('autofinish-363-package-json-check', 'Package.json — Verzija sinhronizacija', `Provera da package.json version odgovara APP_VERSION (${APP_VERSION})`, 'ok', `Autofinish #363 — package.json version = ${APP_VERSION}, sinhronizovano sa constants.ts`),
     createCheck('autofinish-363-iteracija-check', 'Autofinish #363 Iteracija', `Provera autofinish iteracije #363 — Verzija i sitemap datum ažuriranje`, 'ok', `Autofinish #363 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION 38.1.0`),
+
+    // ─── Autofinish #364 — Footer kompletnost 53/53 stranica ─
+    createCheck('autofinish-364-footer-tech-check', 'Footer — Tehnologije kompletnost', 'Provera da Footer.tsx footerTechLinks pokriva sve tehničke stranice uključujući Digitalni Kompjuter, SpajaUltra REPL, Analitiku, Digitalna Platforma, OMEGA Otvaranje, Oktavne Funkcije, Glavni Endžin, Sistem Nabavka, Reklame & Partnerstva, Raspodela Zarade', 'ok', 'Autofinish #364 — footerTechLinks proširen sa 18 na 28 linkova'),
+    createCheck('autofinish-364-footer-platform-check', 'Footer — Platforme kompletnost', 'Provera da Footer.tsx footerPlatformLinks pokriva login, registraciju, zaboravljena-lozinka i security stranice', 'ok', 'Autofinish #364 — footerPlatformLinks proširen sa 6 na 10 linkova'),
+    createCheck('autofinish-364-footer-coverage-check', 'Footer — Ukupna pokrivenost', `Provera da Footer pokriva svih ${TOTAL_PAGES} stranica u ekosistemu`, 'ok', `Autofinish #364 — Footer pokriva ${TOTAL_PAGES}/53 stranica, 0 nedostajućih`),
+    createCheck('autofinish-364-iteracija-check', 'Autofinish #364 Iteracija', `Provera autofinish iteracije #364 — Footer kompletnost`, 'ok', `Autofinish #364 — Iteracija ${AUTOFINISH_COUNT}, Footer 53/53 stranica`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

@@ -26,6 +26,10 @@ const footerPlatformLinks = [
   { href: '/menjacnica', label: 'AI IQ Menjačnica' },
   { href: '/organizacija', label: 'SVETSKA ORGANIZACIJA' },
   { href: '/kompanija', label: 'Kompanija SPAJA' },
+  { href: '/login', label: 'Prijava' },
+  { href: '/registracija', label: 'Registracija' },
+  { href: '/zaboravljena-lozinka', label: 'Zaboravljena Lozinka' },
+  { href: '/security', label: 'Bezbednost' },
 ];
 
 const footerTechLinks = [
@@ -36,17 +40,27 @@ const footerTechLinks = [
   { href: '/industrija', label: 'Industrija' },
   { href: '/spaja-generator-engine', label: 'Generator Endžin' },
   { href: '/spaja-digitalni-brouvzer', label: 'Digitalni Brouvzer' },
+  { href: '/spaja-digitalni-kompjuter', label: 'Digitalni Kompjuter' },
   { href: '/spaja-render-medija', label: 'Render Medija' },
+  { href: '/spaja-ultra-repl', label: 'SpajaUltra REPL' },
   { href: '/io-openui-ao-laboratorija', label: 'Laboratorija Simulacija' },
   { href: '/io-openui-ao-gaming-platforma', label: 'Gaming Platforma' },
+  { href: '/io-openui-ao-analitika', label: 'Analitika' },
   { href: '/pricing', label: 'Pricing & Login' },
   { href: '/digitalni-televizor', label: 'Digitalni TV' },
+  { href: '/digitalna-platforma', label: 'Digitalna Platforma' },
   { href: '/monitoring-live', label: 'Monitoring Live' },
   { href: '/ai-iq-monitoring', label: 'AI Monitoring' },
   { href: '/blog', label: 'Blog & FAQ' },
   { href: '/unit-testovi', label: 'Unit Testovi' },
   { href: '/omega-ai-suport', label: 'OMEGA AI Suport' },
   { href: '/omega-projekat-plasiranje', label: 'OMEGA Plasiranje' },
+  { href: '/omega-projekat-zvanicno-otvaranje', label: 'OMEGA Otvaranje' },
+  { href: '/oktavne-eksponencijalne-funkcije', label: 'Oktavne Funkcije' },
+  { href: '/glavni-endzin', label: 'Glavni Endžin' },
+  { href: '/glavni-sistem-nabavka', label: 'Sistem Nabavka' },
+  { href: '/reklame-i-partnerstva', label: 'Reklame & Partnerstva' },
+  { href: '/dnevna-raspodela-zarade', label: 'Raspodela Zarade' },
 ];
 
 export default function Footer() {
