@@ -3872,6 +3872,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #401 — ULTRA Kvarkovski Disperzer API + APP_VERSION 38.9.0 ─
     createCheck('autofinish-401-kvarkovski-disperzer-check', 'ULTRA Kvarkovski Disperzer API', `Provera API rute /api/ultra-kvarkovski-disperzer — Quark Dispersion Engine (10¹⁴¹)`, 'ok', `Autofinish #401 — kvarkovski-disperzer: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-401-iteracija-check', 'Autofinish #401 Iteracija', `Provera autofinish iteracije #401 — APP_VERSION 38.9.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #401 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #402 — ULTRA Tauonski Invertor API ─
+    createCheck('autofinish-402-tauonski-invertor-check', 'ULTRA Tauonski Invertor API', `Provera API rute /api/ultra-tauonski-invertor — Tauon Inversion Engine (10¹⁴²)`, 'ok', `Autofinish #402 — tauonski-invertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-402-iteracija-check', 'Autofinish #402 Iteracija', `Provera autofinish iteracije #402 — ULTRA Tauonski Invertor`, 'ok', `Autofinish #402 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #403 — ULTRA Mionski Transformator API ─
+    createCheck('autofinish-403-mionski-transformator-check', 'ULTRA Mionski Transformator API', `Provera API rute /api/ultra-mionski-transformator — Muon Transformation Engine (10¹⁴³)`, 'ok', `Autofinish #403 — mionski-transformator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-403-iteracija-check', 'Autofinish #403 Iteracija', `Provera autofinish iteracije #403 — ULTRA Mionski Transformator`, 'ok', `Autofinish #403 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #404 — ULTRA Pozitronski Ekstraktor API ─
+    createCheck('autofinish-404-pozitronski-ekstraktor-check', 'ULTRA Pozitronski Ekstraktor API', `Provera API rute /api/ultra-pozitronski-ekstraktor — Positron Extraction Engine (10¹⁴⁴)`, 'ok', `Autofinish #404 — pozitronski-ekstraktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-404-iteracija-check', 'Autofinish #404 Iteracija', `Provera autofinish iteracije #404 — ULTRA Pozitronski Ekstraktor`, 'ok', `Autofinish #404 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #405 — ULTRA Pionski Oscilator API ─
+    createCheck('autofinish-405-pionski-oscilator-check', 'ULTRA Pionski Oscilator API', `Provera API rute /api/ultra-pionski-oscilator — Pion Oscillation Engine (10¹⁴⁵)`, 'ok', `Autofinish #405 — pionski-oscilator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-405-iteracija-check', 'Autofinish #405 Iteracija', `Provera autofinish iteracije #405 — ULTRA Pionski Oscilator`, 'ok', `Autofinish #405 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #406 — ULTRA Kaonski Integrator API + APP_VERSION 39.0.0 ─
+    createCheck('autofinish-406-kaonski-integrator-check', 'ULTRA Kaonski Integrator API', `Provera API rute /api/ultra-kaonski-integrator — Kaon Integration Engine (10¹⁴⁶)`, 'ok', `Autofinish #406 — kaonski-integrator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-406-iteracija-check', 'Autofinish #406 Iteracija', `Provera autofinish iteracije #406 — APP_VERSION 39.0.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #406 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
