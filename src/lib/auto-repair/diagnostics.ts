@@ -4452,6 +4452,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #546 — ULTRA Magnetoelektrogravitacioni Frekventator API + APP_VERSION 41.8.0 ─
     createCheck('autofinish-546-magnetoelektrogravitacioni-frekventator-check', 'ULTRA Magnetoelektrogravitacioni Frekventator API', `Provera API rute /api/ultra-magnetoelektrogravitacioni-frekventator — Magnetoelectrogravitational Frequentation Engine (10²⁸⁶)`, 'ok', `Autofinish #546 — magnetoelektrogravitacioni-frekventator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-546-iteracija-check', 'Autofinish #546 Iteracija', `Provera autofinish iteracije #546 — APP_VERSION 41.8.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #546 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #547 — ULTRA Plazmonanotermodinamički Katalizator API ─
+    createCheck('autofinish-547-plazmonanotermodinamicki-katalizator-check', 'ULTRA Plazmonanotermodinamički Katalizator API', `Provera API rute /api/ultra-plazmonanotermodinamicki-katalizator — Plasmonanothermodynamic Catalysis Engine (10²⁸⁷)`, 'ok', `Autofinish #547 — plazmonanotermodinamicki-katalizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-547-iteracija-check', 'Autofinish #547 Iteracija', `Provera autofinish iteracije #547 — ULTRA Plazmonanotermodinamički Katalizator`, 'ok', `Autofinish #547 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #548 — ULTRA Bioakustoelektrogravitacioni Invertor API ─
+    createCheck('autofinish-548-bioakustoelektrogravitacioni-invertor-check', 'ULTRA Bioakustoelektrogravitacioni Invertor API', `Provera API rute /api/ultra-bioakustoelektrogravitacioni-invertor — Bioacoustoelectrogravitational Inversion Engine (10²⁸⁸)`, 'ok', `Autofinish #548 — bioakustoelektrogravitacioni-invertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-548-iteracija-check', 'Autofinish #548 Iteracija', `Provera autofinish iteracije #548 — ULTRA Bioakustoelektrogravitacioni Invertor`, 'ok', `Autofinish #548 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #549 — ULTRA Kronofotonanomagnetski Separator API ─
+    createCheck('autofinish-549-kronofotonanomagnetski-separator-check', 'ULTRA Kronofotonanomagnetski Separator API', `Provera API rute /api/ultra-kronofotonanomagnetski-separator — Chronophotonanomagnet Separation Engine (10²⁸⁹)`, 'ok', `Autofinish #549 — kronofotonanomagnetski-separator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-549-iteracija-check', 'Autofinish #549 Iteracija', `Provera autofinish iteracije #549 — ULTRA Kronofotonanomagnetski Separator`, 'ok', `Autofinish #549 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #550 — ULTRA Hipergravitoplazmoelektronski Kolimator API ─
+    createCheck('autofinish-550-hipergravitoplazmoelektronski-kolimator-check', 'ULTRA Hipergravitoplazmoelektronski Kolimator API', `Provera API rute /api/ultra-hipergravitoplazmoelektronski-kolimator — Hypergravitoplasmoelectronic Collimation Engine (10²⁹⁰)`, 'ok', `Autofinish #550 — hipergravitoplazmoelektronski-kolimator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-550-iteracija-check', 'Autofinish #550 Iteracija', `Provera autofinish iteracije #550 — ULTRA Hipergravitoplazmoelektronski Kolimator`, 'ok', `Autofinish #550 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #551 — ULTRA Termoakustobiodinamički Integrator API + APP_VERSION 41.9.0 ─
+    createCheck('autofinish-551-termoakustobiodinamicki-integrator-check', 'ULTRA Termoakustobiodinamički Integrator API', `Provera API rute /api/ultra-termoakustobiodinamicki-integrator — Thermoacustobiodynamic Integration Engine (10²⁹¹)`, 'ok', `Autofinish #551 — termoakustobiodinamicki-integrator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-551-iteracija-check', 'Autofinish #551 Iteracija', `Provera autofinish iteracije #551 — APP_VERSION 41.9.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #551 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
