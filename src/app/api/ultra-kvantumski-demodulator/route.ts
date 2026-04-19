@@ -23,7 +23,7 @@ export async function GET() {
 
     kvantumskiDemodulator: {
       ukupnoModula: moduli.length,
-      model: 'ULTRA-QDE v1.0',
+      model: 'ULTRA-QDEM v1.0',
       snaga: '10¹⁶³ kvantumskih demodulacija/s',
       domet: '-∞Ω+∞ kvantumski radijus',
       moduli,
