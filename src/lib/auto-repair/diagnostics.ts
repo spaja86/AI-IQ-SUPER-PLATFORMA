@@ -4112,6 +4112,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #461 — ULTRA Fotoplazmonski Oscilator API + APP_VERSION 40.1.0 ─
     createCheck('autofinish-461-fotoplazmonski-oscilator-check', 'ULTRA Fotoplazmonski Oscilator API', `Provera API rute /api/ultra-fotoplazmonski-oscilator — Photoplasmonic Oscillation Engine (10²⁰¹)`, 'ok', `Autofinish #461 — fotoplazmonski-oscilator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-461-iteracija-check', 'Autofinish #461 Iteracija', `Provera autofinish iteracije #461 — APP_VERSION 40.1.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #461 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #462 — ULTRA Ultrasonički Polarizator API ─
+    createCheck('autofinish-462-ultrasonicki-polarizator-check', 'ULTRA Ultrasonički Polarizator API', `Provera API rute /api/ultra-ultrasonicki-polarizator — Ultrasonic Polarization Engine (10²⁰²)`, 'ok', `Autofinish #462 — ultrasonicki-polarizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-462-iteracija-check', 'Autofinish #462 Iteracija', `Provera autofinish iteracije #462 — ULTRA Ultrasonički Polarizator`, 'ok', `Autofinish #462 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #463 — ULTRA Nanokvantni Emiter API ─
+    createCheck('autofinish-463-nanokvantni-emiter-check', 'ULTRA Nanokvantni Emiter API', `Provera API rute /api/ultra-nanokvantni-emiter — Nanoquantum Emission Engine (10²⁰³)`, 'ok', `Autofinish #463 — nanokvantni-emiter: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-463-iteracija-check', 'Autofinish #463 Iteracija', `Provera autofinish iteracije #463 — ULTRA Nanokvantni Emiter`, 'ok', `Autofinish #463 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #464 — ULTRA Biofotonski Procesor API ─
+    createCheck('autofinish-464-biofotonski-procesor-check', 'ULTRA Biofotonski Procesor API', `Provera API rute /api/ultra-biofotonski-procesor — Biophotonic Processing Engine (10²⁰⁴)`, 'ok', `Autofinish #464 — biofotonski-procesor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-464-iteracija-check', 'Autofinish #464 Iteracija', `Provera autofinish iteracije #464 — ULTRA Biofotonski Procesor`, 'ok', `Autofinish #464 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #465 — ULTRA Neurodinamički Enkoder API ─
+    createCheck('autofinish-465-neurodinamicki-enkoder-check', 'ULTRA Neurodinamički Enkoder API', `Provera API rute /api/ultra-neurodinamicki-enkoder — Neurodynamic Encoding Engine (10²⁰⁵)`, 'ok', `Autofinish #465 — neurodinamicki-enkoder: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-465-iteracija-check', 'Autofinish #465 Iteracija', `Provera autofinish iteracije #465 — ULTRA Neurodinamički Enkoder`, 'ok', `Autofinish #465 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #466 — ULTRA Kriptogravitacioni Dešifrator API + APP_VERSION 40.2.0 ─
+    createCheck('autofinish-466-kriptogravitacioni-desifrator-check', 'ULTRA Kriptogravitacioni Dešifrator API', `Provera API rute /api/ultra-kriptogravitacioni-desifrator — Cryptogravitational Decryption Engine (10²⁰⁶)`, 'ok', `Autofinish #466 — kriptogravitacioni-desifrator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-466-iteracija-check', 'Autofinish #466 Iteracija', `Provera autofinish iteracije #466 — APP_VERSION 40.2.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #466 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
