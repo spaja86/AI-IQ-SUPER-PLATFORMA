@@ -51,4 +51,5 @@ export const navigation: NavItem[] = [
   { label: 'Reklame & Partnerstva', href: '/reklame-i-partnerstva', icon: '📢', description: 'Reklamne kampanje, partnerstva iz svih branši i monetizacija' },
   { label: 'Dnevna Raspodela', href: '/dnevna-raspodela-zarade', icon: '💰', description: 'Dnevna raspodela zarade — 96% ERSTE + 4% AI IQ World Bank' },
   { label: 'SpajaUltra REPL', href: '/spaja-ultra-repl', icon: '⌨️', description: 'SpajaUltraOmegaCore REPL — DSL parser, transpajler, runtime audit log' },
+  { label: 'Digitalna Platforma', href: '/digitalna-platforma', icon: '🌐', description: 'AI IQ SUPER PLATFORMA — kompletni digitalni ekosistem Kompanije SPAJA' },
 ];

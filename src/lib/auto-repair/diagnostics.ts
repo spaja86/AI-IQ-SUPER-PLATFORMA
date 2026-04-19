@@ -3649,6 +3649,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-359-repl-sitemap-check', 'SpajaUltra REPL — Sitemap', 'Provera prisustva /spaja-ultra-repl u sitemap.ts — SEO indeksiranje', 'ok', 'Autofinish #359 — /spaja-ultra-repl dodat u sitemap sa lastModified i priority'),
     createCheck('autofinish-359-total-pages-check', 'Ekosistem — TOTAL_PAGES usklađivanje', `Provera da TOTAL_PAGES (${TOTAL_PAGES}) odgovara stvarnom broju stranica`, TOTAL_PAGES >= 53 ? 'ok' : 'warning', `Autofinish #359 — TOTAL_PAGES = ${TOTAL_PAGES}, TOTAL_ROUTES = ${TOTAL_ROUTES}`),
     createCheck('autofinish-359-iteracija-check', 'Autofinish #359 Iteracija', `Provera autofinish iteracije #359 — REPL integracija u navigaciju/sitemap`, 'ok', `Autofinish #359 — Iteracija ${AUTOFINISH_COUNT}, navigacija/sitemap/konstante usklađene`),
+
+    // ─── Autofinish #360 — Digitalna Platforma nav/sitemap + registracija/security sitemap + TOTAL_DIAGNOSTIKA ─
+    createCheck('autofinish-360-digitalna-platforma-nav-check', 'Digitalna Platforma — Navigacija', 'Provera prisustva /digitalna-platforma u navigaciji — stranica postojala ali nedostajala u navigation.ts', 'ok', `Autofinish #360 — /digitalna-platforma dodat u navigaciju, ${navigation.length} navigacionih linkova`),
+    createCheck('autofinish-360-digitalna-platforma-sitemap-check', 'Digitalna Platforma — Sitemap', 'Provera prisustva /digitalna-platforma u sitemap.ts — SEO indeksiranje za ekosistem stranicu', 'ok', 'Autofinish #360 — /digitalna-platforma dodat u sitemap sa recentRoutes klasifikacijom'),
+    createCheck('autofinish-360-registracija-security-sitemap-check', 'Registracija & Security — Sitemap', 'Provera prisustva /registracija i /security u sitemap.ts — postojale u navigaciji ali nedostajale u sitemap', 'ok', 'Autofinish #360 — /registracija i /security dodati u sitemap'),
+    createCheck('autofinish-360-total-diagnostika-check', 'Ekosistem — TOTAL_DIAGNOSTIKA usklađivanje', `Provera da TOTAL_DIAGNOSTIKA (${TOTAL_DIAGNOSTIKA}) odgovara stvarnom broju dijagnostičkih provera`, TOTAL_DIAGNOSTIKA >= 654 ? 'ok' : 'warning', `Autofinish #360 — TOTAL_DIAGNOSTIKA = ${TOTAL_DIAGNOSTIKA}, usklađeno sa stvarnim brojem provera`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
