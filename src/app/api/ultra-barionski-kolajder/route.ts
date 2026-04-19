@@ -23,7 +23,7 @@ export async function GET() {
 
     barionskiKolajder: {
       ukupnoModula: moduli.length,
-      model: 'ULTRA-BCE v1.0',
+      model: 'ULTRA-BKE v1.0',
       snaga: '10¹⁴⁸ barionskih kolizija/s',
       domet: '-∞Ω+∞ barionski radijus',
       moduli,
