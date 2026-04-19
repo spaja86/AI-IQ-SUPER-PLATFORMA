@@ -3680,6 +3680,11 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-364-footer-platform-check', 'Footer — Platforme kompletnost', 'Provera da Footer.tsx footerPlatformLinks pokriva login, registraciju, zaboravljena-lozinka i security stranice', 'ok', 'Autofinish #364 — footerPlatformLinks proširen sa 6 na 10 linkova'),
     createCheck('autofinish-364-footer-coverage-check', 'Footer — Ukupna pokrivenost', `Provera da Footer pokriva svih ${TOTAL_PAGES} stranica u ekosistemu`, 'ok', `Autofinish #364 — Footer pokriva ${TOTAL_PAGES}/53 stranica, 0 nedostajućih`),
     createCheck('autofinish-364-iteracija-check', 'Autofinish #364 Iteracija', `Provera autofinish iteracije #364 — Footer kompletnost`, 'ok', `Autofinish #364 — Iteracija ${AUTOFINISH_COUNT}, Footer 53/53 stranica`),
+
+    // ─── Autofinish #365 — not-found.tsx dinamičke konstante + proširena navigacija ─
+    createCheck('autofinish-365-notfound-constants-check', 'Not-Found — Dinamičke konstante', 'Provera da not-found.tsx koristi TOTAL_PAGES, TOTAL_IGRICA, OMEGA_AI_PERSONA_COUNT, OMEGA_AI_OKTAVA_COUNT iz constants.ts umesto hardkodovanih vrednosti', 'ok', 'Autofinish #365 — not-found.tsx koristi dinamičke konstante iz constants.ts'),
+    createCheck('autofinish-365-notfound-links-check', 'Not-Found — Proširena navigacija', 'Provera da not-found.tsx sadrži proširene linkove: auto-popravka, ekosistem, blog', 'ok', 'Autofinish #365 — not-found.tsx proširen sa 6 na 9 navigacionih linkova'),
+    createCheck('autofinish-365-iteracija-check', 'Autofinish #365 Iteracija', `Provera autofinish iteracije #365 — not-found.tsx poboljšanja`, 'ok', `Autofinish #365 — Iteracija ${AUTOFINISH_COUNT}, not-found.tsx dinamički`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
