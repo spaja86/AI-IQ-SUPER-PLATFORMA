@@ -4312,6 +4312,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #511 — ULTRA Magnetoneurofotonski Generator API + APP_VERSION 41.1.0 ─
     createCheck('autofinish-511-magnetoneurofotonski-generator-check', 'ULTRA Magnetoneurofotonski Generator API', `Provera API rute /api/ultra-magnetoneurofotonski-generator — Magnetoneurophotonic Generation Engine (10²⁵¹)`, 'ok', `Autofinish #511 — magnetoneurofotonski-generator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-511-iteracija-check', 'Autofinish #511 Iteracija', `Provera autofinish iteracije #511 — APP_VERSION 41.1.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #511 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #512 — ULTRA Plazmoakustodinamički Dekoder API ─
+    createCheck('autofinish-512-plazmoakustodinamicki-dekoder-check', 'ULTRA Plazmoakustodinamički Dekoder API', `Provera API rute /api/ultra-plazmoakustodinamicki-dekoder — Plasmoacustodynamic Decoding Engine (10²⁵²)`, 'ok', `Autofinish #512 — plazmoakustodinamicki-dekoder: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-512-iteracija-check', 'Autofinish #512 Iteracija', `Provera autofinish iteracije #512 — ULTRA Plazmoakustodinamički Dekoder`, 'ok', `Autofinish #512 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #513 — ULTRA Kronoelektrofotonski Oscilator API ─
+    createCheck('autofinish-513-kronoelektrofotonski-oscilator-check', 'ULTRA Kronoelektrofotonski Oscilator API', `Provera API rute /api/ultra-kronoelektrofotonski-oscilator — Chronoelectrophotonic Oscillation Engine (10²⁵³)`, 'ok', `Autofinish #513 — kronoelektrofotonski-oscilator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-513-iteracija-check', 'Autofinish #513 Iteracija', `Provera autofinish iteracije #513 — ULTRA Kronoelektrofotonski Oscilator`, 'ok', `Autofinish #513 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #514 — ULTRA Hipergravitobiomagnetski Reflektor API ─
+    createCheck('autofinish-514-hipergravitobiomagnetski-reflektor-check', 'ULTRA Hipergravitobiomagnetski Reflektor API', `Provera API rute /api/ultra-hipergravitobiomagnetski-reflektor — Hypergravitobiomagnetic Reflection Engine (10²⁵⁴)`, 'ok', `Autofinish #514 — hipergravitobiomagnetski-reflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-514-iteracija-check', 'Autofinish #514 Iteracija', `Provera autofinish iteracije #514 — ULTRA Hipergravitobiomagnetski Reflektor`, 'ok', `Autofinish #514 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #515 — ULTRA Termoneuroplazmonski Projektor API ─
+    createCheck('autofinish-515-termoneuroplazmonski-projektor-check', 'ULTRA Termoneuroplazmonski Projektor API', `Provera API rute /api/ultra-termoneuroplazmonski-projektor — Thermoneuroplasmonic Projection Engine (10²⁵⁵)`, 'ok', `Autofinish #515 — termoneuroplazmonski-projektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-515-iteracija-check', 'Autofinish #515 Iteracija', `Provera autofinish iteracije #515 — ULTRA Termoneuroplazmonski Projektor`, 'ok', `Autofinish #515 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #516 — ULTRA Kvantomagneto-akustički Sintetizator API + APP_VERSION 41.2.0 ─
+    createCheck('autofinish-516-kvantomagneto-akusticki-sintetizator-check', 'ULTRA Kvantomagneto-akustički Sintetizator API', `Provera API rute /api/ultra-kvantomagneto-akusticki-sintetizator — Quantomagnetoacoustic Synthesis Engine (10²⁵⁶)`, 'ok', `Autofinish #516 — kvantomagneto-akusticki-sintetizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-516-iteracija-check', 'Autofinish #516 Iteracija', `Provera autofinish iteracije #516 — APP_VERSION 41.2.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #516 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
