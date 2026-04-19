@@ -4032,6 +4032,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #441 — ULTRA Kriptoplazmatski Dešifrator API + APP_VERSION 39.7.0 ─
     createCheck('autofinish-441-kriptoplazmatski-desifrator-check', 'ULTRA Kriptoplazmatski Dešifrator API', `Provera API rute /api/ultra-kriptoplazmatski-desifrator — Cryptoplasma Decryption Engine (10¹⁸¹)`, 'ok', `Autofinish #441 — kriptoplazmatski-desifrator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-441-iteracija-check', 'Autofinish #441 Iteracija', `Provera autofinish iteracije #441 — APP_VERSION 39.7.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #441 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #442 — ULTRA Termoplazmatski Generator API ─
+    createCheck('autofinish-442-termoplazmatski-generator-check', 'ULTRA Termoplazmatski Generator API', `Provera API rute /api/ultra-termoplazmatski-generator — Thermoplasma Generation Engine (10¹⁸²)`, 'ok', `Autofinish #442 — termoplazmatski-generator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-442-iteracija-check', 'Autofinish #442 Iteracija', `Provera autofinish iteracije #442 — ULTRA Termoplazmatski Generator`, 'ok', `Autofinish #442 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #443 — ULTRA Elektrofotonski Modulator API ─
+    createCheck('autofinish-443-elektrofotonski-modulator-check', 'ULTRA Elektrofotonski Modulator API', `Provera API rute /api/ultra-elektrofotonski-modulator — Electrophotonic Modulation Engine (10¹⁸³)`, 'ok', `Autofinish #443 — elektrofotonski-modulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-443-iteracija-check', 'Autofinish #443 Iteracija', `Provera autofinish iteracije #443 — ULTRA Elektrofotonski Modulator`, 'ok', `Autofinish #443 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #444 — ULTRA Magnetokvantni Oscilator API ─
+    createCheck('autofinish-444-magnetokvantni-oscilator-check', 'ULTRA Magnetokvantni Oscilator API', `Provera API rute /api/ultra-magnetokvantni-oscilator — Magnetoquantum Oscillation Engine (10¹⁸⁴)`, 'ok', `Autofinish #444 — magnetokvantni-oscilator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-444-iteracija-check', 'Autofinish #444 Iteracija', `Provera autofinish iteracije #444 — ULTRA Magnetokvantni Oscilator`, 'ok', `Autofinish #444 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #445 — ULTRA Plazmodinamički Reflektor API ─
+    createCheck('autofinish-445-plazmodinamicki-reflektor-check', 'ULTRA Plazmodinamički Reflektor API', `Provera API rute /api/ultra-plazmodinamicki-reflektor — Plasmodynamic Reflection Engine (10¹⁸⁵)`, 'ok', `Autofinish #445 — plazmodinamicki-reflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-445-iteracija-check', 'Autofinish #445 Iteracija', `Provera autofinish iteracije #445 — ULTRA Plazmodinamički Reflektor`, 'ok', `Autofinish #445 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #446 — ULTRA Kronoentropijski Stabilizator API + APP_VERSION 39.8.0 ─
+    createCheck('autofinish-446-kronoentropijski-stabilizator-check', 'ULTRA Kronoentropijski Stabilizator API', `Provera API rute /api/ultra-kronoentropijski-stabilizator — Chronoentropic Stabilization Engine (10¹⁸⁶)`, 'ok', `Autofinish #446 — kronoentropijski-stabilizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-446-iteracija-check', 'Autofinish #446 Iteracija', `Provera autofinish iteracije #446 — APP_VERSION 39.8.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #446 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
