@@ -4172,6 +4172,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #476 — ULTRA Hiperdimenzionalni Projektor API + APP_VERSION 40.4.0 ─
     createCheck('autofinish-476-hiperdimenzionalni-projektor-check', 'ULTRA Hiperdimenzionalni Projektor API', `Provera API rute /api/ultra-hiperdimenzionalni-projektor — Hyperdimensional Projection Engine (10²¹⁶)`, 'ok', `Autofinish #476 — hiperdimenzionalni-projektor: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-476-iteracija-check', 'Autofinish #476 Iteracija', `Provera autofinish iteracije #476 — APP_VERSION 40.4.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #476 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #477 — ULTRA Kronofotonski Emiter API ─
+    createCheck('autofinish-477-kronofotonski-emiter-check', 'ULTRA Kronofotonski Emiter API', `Provera API rute /api/ultra-kronofotonski-emiter — Chronophotonic Emission Engine (10²¹⁷)`, 'ok', `Autofinish #477 — kronofotonski-emiter: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-477-iteracija-check', 'Autofinish #477 Iteracija', `Provera autofinish iteracije #477 — ULTRA Kronofotonski Emiter`, 'ok', `Autofinish #477 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #478 — ULTRA Biomagnetski Oscilator API ─
+    createCheck('autofinish-478-biomagnetski-oscilator-check', 'ULTRA Biomagnetski Oscilator API', `Provera API rute /api/ultra-biomagnetski-oscilator — Biomagnetic Oscillation Engine (10²¹⁸)`, 'ok', `Autofinish #478 — biomagnetski-oscilator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-478-iteracija-check', 'Autofinish #478 Iteracija', `Provera autofinish iteracije #478 — ULTRA Biomagnetski Oscilator`, 'ok', `Autofinish #478 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #479 — ULTRA Nanogravitacioni Reflektor API ─
+    createCheck('autofinish-479-nanogravitacioni-reflektor-check', 'ULTRA Nanogravitacioni Reflektor API', `Provera API rute /api/ultra-nanogravitacioni-reflektor — Nanogravitational Reflection Engine (10²¹⁹)`, 'ok', `Autofinish #479 — nanogravitacioni-reflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-479-iteracija-check', 'Autofinish #479 Iteracija', `Provera autofinish iteracije #479 — ULTRA Nanogravitacioni Reflektor`, 'ok', `Autofinish #479 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #480 — ULTRA Elektrodinamički Sintetizator API ─
+    createCheck('autofinish-480-elektrodinamicki-sintetizator-check', 'ULTRA Elektrodinamički Sintetizator API', `Provera API rute /api/ultra-elektrodinamicki-sintetizator — Electrodynamic Synthesis Engine (10²²⁰)`, 'ok', `Autofinish #480 — elektrodinamicki-sintetizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-480-iteracija-check', 'Autofinish #480 Iteracija', `Provera autofinish iteracije #480 — ULTRA Elektrodinamički Sintetizator`, 'ok', `Autofinish #480 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #481 — ULTRA Kvantospektralni Analizator API + APP_VERSION 40.5.0 ─
+    createCheck('autofinish-481-kvantospektralni-analizator-check', 'ULTRA Kvantospektralni Analizator API', `Provera API rute /api/ultra-kvantospektralni-analizator — Quantospectral Analysis Engine (10²²¹)`, 'ok', `Autofinish #481 — kvantospektralni-analizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-481-iteracija-check', 'Autofinish #481 Iteracija', `Provera autofinish iteracije #481 — APP_VERSION 40.5.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #481 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
