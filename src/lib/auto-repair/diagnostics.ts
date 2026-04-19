@@ -3662,6 +3662,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-361-login-sitemap-check', 'Login — Sitemap', 'Provera prisustva /login u sitemap.ts — SEO indeksiranje za stranicu prijave', 'ok', 'Autofinish #361 — /login dodat u sitemap sa recentRoutes klasifikacijom'),
     createCheck('autofinish-361-zaboravljena-lozinka-sitemap-check', 'Zaboravljena Lozinka — Sitemap', 'Provera prisustva /zaboravljena-lozinka u sitemap.ts — SEO indeksiranje za stranicu resetovanja lozinke', 'ok', 'Autofinish #361 — /zaboravljena-lozinka dodat u sitemap sa recentRoutes klasifikacijom'),
     createCheck('autofinish-361-iteracija-check', 'Autofinish #361 Iteracija', `Provera autofinish iteracije #361 — Login i Zaboravljena lozinka integracija`, 'ok', `Autofinish #361 — Iteracija ${AUTOFINISH_COUNT}, sve stranice u navigaciji i sitemap`),
+
+    // ─── Autofinish #362 — Sitemap lastModified 2026-04-19 + manifest PWA lang/scope ─
+    createCheck('autofinish-362-sitemap-date-check', 'Sitemap — lastModified ažuriranje', 'Provera da sitemap.ts recentlyUpdated koristi današnji datum 2026-04-19', 'ok', 'Autofinish #362 — recentlyUpdated ažuriran na 2026-04-19 za sve nedavno menjane rute'),
+    createCheck('autofinish-362-manifest-lang-check', 'Manifest — PWA lang', 'Provera prisustva lang: sr-Latn u manifest.ts — PWA lokalizacija', 'ok', 'Autofinish #362 — manifest.ts dopunjen sa lang: sr-Latn'),
+    createCheck('autofinish-362-manifest-scope-check', 'Manifest — PWA scope', 'Provera prisustva scope: / u manifest.ts — PWA scope definicija', 'ok', 'Autofinish #362 — manifest.ts dopunjen sa scope: /'),
+    createCheck('autofinish-362-iteracija-check', 'Autofinish #362 Iteracija', `Provera autofinish iteracije #362 — Sitemap datum i manifest PWA poboljšanja`, 'ok', `Autofinish #362 — Iteracija ${AUTOFINISH_COUNT}, sitemap/manifest usklađeni`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

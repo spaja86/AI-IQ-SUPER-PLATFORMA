@@ -6,7 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const mediumHighPriority = ['/platforme', '/omega-ai', '/spaja-pro', '/igrice', '/it-proizvodi'];
 
   // Dynamic lastModified dates per page category
-  const recentlyUpdated = new Date('2026-04-18');
+  const recentlyUpdated = new Date('2026-04-19');
   const corePages = new Date('2026-04-16');
   const standardPages = new Date('2026-04-14');
 
