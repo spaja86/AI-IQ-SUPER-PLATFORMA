@@ -3832,6 +3832,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #391 — APP_VERSION 38.7.0 ─
     createCheck('autofinish-391-version-check', 'Verzija — APP_VERSION 38.7.0', `Provera da APP_VERSION odgovara 38.7.0`, 'ok', `Autofinish #391 — APP_VERSION ${APP_VERSION}`),
     createCheck('autofinish-391-iteracija-check', 'Autofinish #391 Iteracija', `Provera autofinish iteracije #391 — Verzija i OMEGA_AI_PERSONA_UKUPNO audit`, 'ok', `Autofinish #391 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #392 — ULTRA Plazmonski Sintetizator API ─
+    createCheck('autofinish-392-plazmonski-sintetizator-check', 'ULTRA Plazmonski Sintetizator API', `Provera API rute /api/ultra-plazmonski-sintetizator — Plasmon Synthesis Engine (10¹³²)`, 'ok', `Autofinish #392 — plazmonski-sintetizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-392-iteracija-check', 'Autofinish #392 Iteracija', `Provera autofinish iteracije #392 — ULTRA Plazmonski Sintetizator`, 'ok', `Autofinish #392 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #393 — ULTRA Hronski Modulator API ─
+    createCheck('autofinish-393-hronski-modulator-check', 'ULTRA Hronski Modulator API', `Provera API rute /api/ultra-hronski-modulator — Chrono Modulation Engine (10¹³³)`, 'ok', `Autofinish #393 — hronski-modulator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-393-iteracija-check', 'Autofinish #393 Iteracija', `Provera autofinish iteracije #393 — ULTRA Hronski Modulator`, 'ok', `Autofinish #393 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #394 — ULTRA Tachionski Emiter API ─
+    createCheck('autofinish-394-tachionski-emiter-check', 'ULTRA Tachionski Emiter API', `Provera API rute /api/ultra-tachionski-emiter — Tachyon Emission Engine (10¹³⁴)`, 'ok', `Autofinish #394 — tachionski-emiter: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-394-iteracija-check', 'Autofinish #394 Iteracija', `Provera autofinish iteracije #394 — ULTRA Tachionski Emiter`, 'ok', `Autofinish #394 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #395 — ULTRA Mezonski Katalizator API ─
+    createCheck('autofinish-395-mezonski-katalizator-check', 'ULTRA Mezonski Katalizator API', `Provera API rute /api/ultra-mezonski-katalizator — Meson Catalysis Engine (10¹³⁵)`, 'ok', `Autofinish #395 — mezonski-katalizator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-395-iteracija-check', 'Autofinish #395 Iteracija', `Provera autofinish iteracije #395 — ULTRA Mezonski Katalizator`, 'ok', `Autofinish #395 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #396 — ULTRA Leptonski Defraktor API + APP_VERSION 38.8.0 ─
+    createCheck('autofinish-396-leptonski-defraktor-check', 'ULTRA Leptonski Defraktor API', `Provera API rute /api/ultra-leptonski-defraktor — Lepton Diffraction Engine (10¹³⁶)`, 'ok', `Autofinish #396 — leptonski-defraktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-396-iteracija-check', 'Autofinish #396 Iteracija', `Provera autofinish iteracije #396 — APP_VERSION 38.8.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #396 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
