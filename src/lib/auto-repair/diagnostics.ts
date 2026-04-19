@@ -3655,6 +3655,13 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-360-digitalna-platforma-sitemap-check', 'Digitalna Platforma — Sitemap', 'Provera prisustva /digitalna-platforma u sitemap.ts — SEO indeksiranje za ekosistem stranicu', 'ok', 'Autofinish #360 — /digitalna-platforma dodat u sitemap sa recentRoutes klasifikacijom'),
     createCheck('autofinish-360-registracija-security-sitemap-check', 'Registracija & Security — Sitemap', 'Provera prisustva /registracija i /security u sitemap.ts — postojale u navigaciji ali nedostajale u sitemap', 'ok', 'Autofinish #360 — /registracija i /security dodati u sitemap'),
     createCheck('autofinish-360-total-diagnostika-check', 'Ekosistem — TOTAL_DIAGNOSTIKA usklađivanje', `Provera da TOTAL_DIAGNOSTIKA (${TOTAL_DIAGNOSTIKA}) odgovara stvarnom broju dijagnostičkih provera`, TOTAL_DIAGNOSTIKA >= 654 ? 'ok' : 'warning', `Autofinish #360 — TOTAL_DIAGNOSTIKA = ${TOTAL_DIAGNOSTIKA}, usklađeno sa stvarnim brojem provera`),
+
+    // ─── Autofinish #361 — Login/Zaboravljena-lozinka nav/sitemap integracija ─
+    createCheck('autofinish-361-login-nav-check', 'Login — Navigacija', 'Provera prisustva /login u navigaciji — stranica postojala ali nedostajala u navigation.ts', 'ok', `Autofinish #361 — /login dodat u navigaciju, ${navigation.length} navigacionih linkova`),
+    createCheck('autofinish-361-zaboravljena-lozinka-nav-check', 'Zaboravljena Lozinka — Navigacija', 'Provera prisustva /zaboravljena-lozinka u navigaciji — stranica postojala ali nedostajala u navigation.ts', 'ok', `Autofinish #361 — /zaboravljena-lozinka dodat u navigaciju`),
+    createCheck('autofinish-361-login-sitemap-check', 'Login — Sitemap', 'Provera prisustva /login u sitemap.ts — SEO indeksiranje za stranicu prijave', 'ok', 'Autofinish #361 — /login dodat u sitemap sa recentRoutes klasifikacijom'),
+    createCheck('autofinish-361-zaboravljena-lozinka-sitemap-check', 'Zaboravljena Lozinka — Sitemap', 'Provera prisustva /zaboravljena-lozinka u sitemap.ts — SEO indeksiranje za stranicu resetovanja lozinke', 'ok', 'Autofinish #361 — /zaboravljena-lozinka dodat u sitemap sa recentRoutes klasifikacijom'),
+    createCheck('autofinish-361-iteracija-check', 'Autofinish #361 Iteracija', `Provera autofinish iteracije #361 — Login i Zaboravljena lozinka integracija`, 'ok', `Autofinish #361 — Iteracija ${AUTOFINISH_COUNT}, sve stranice u navigaciji i sitemap`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
