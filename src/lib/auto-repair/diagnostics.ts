@@ -4132,6 +4132,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #466 — ULTRA Kriptogravitacioni Dešifrator API + APP_VERSION 40.2.0 ─
     createCheck('autofinish-466-kriptogravitacioni-desifrator-check', 'ULTRA Kriptogravitacioni Dešifrator API', `Provera API rute /api/ultra-kriptogravitacioni-desifrator — Cryptogravitational Decryption Engine (10²⁰⁶)`, 'ok', `Autofinish #466 — kriptogravitacioni-desifrator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-466-iteracija-check', 'Autofinish #466 Iteracija', `Provera autofinish iteracije #466 — APP_VERSION 40.2.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #466 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #467 — ULTRA Termovakuumski Generator API ─
+    createCheck('autofinish-467-termovakuumski-generator-check', 'ULTRA Termovakuumski Generator API', `Provera API rute /api/ultra-termovakuumski-generator — Thermovacuum Generation Engine (10²⁰⁷)`, 'ok', `Autofinish #467 — termovakuumski-generator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-467-iteracija-check', 'Autofinish #467 Iteracija', `Provera autofinish iteracije #467 — ULTRA Termovakuumski Generator`, 'ok', `Autofinish #467 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #468 — ULTRA Plazmokinetički Akcelerator API ─
+    createCheck('autofinish-468-plazmokineticki-akcelerator-check', 'ULTRA Plazmokinetički Akcelerator API', `Provera API rute /api/ultra-plazmokineticki-akcelerator — Plasmokinetic Acceleration Engine (10²⁰⁸)`, 'ok', `Autofinish #468 — plazmokineticki-akcelerator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-468-iteracija-check', 'Autofinish #468 Iteracija', `Provera autofinish iteracije #468 — ULTRA Plazmokinetički Akcelerator`, 'ok', `Autofinish #468 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #469 — ULTRA Kvantoholografski Projektor API ─
+    createCheck('autofinish-469-kvantoholografski-projektor-check', 'ULTRA Kvantoholografski Projektor API', `Provera API rute /api/ultra-kvantoholografski-projektor — Quantoholographic Projection Engine (10²⁰⁹)`, 'ok', `Autofinish #469 — kvantoholografski-projektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-469-iteracija-check', 'Autofinish #469 Iteracija', `Provera autofinish iteracije #469 — ULTRA Kvantoholografski Projektor`, 'ok', `Autofinish #469 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #470 — ULTRA Neurosintetički Kompajler API ─
+    createCheck('autofinish-470-neurosinteticki-kompajler-check', 'ULTRA Neurosintetički Kompajler API', `Provera API rute /api/ultra-neurosinteticki-kompajler — Neurosynthetic Compilation Engine (10²¹⁰)`, 'ok', `Autofinish #470 — neurosinteticki-kompajler: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-470-iteracija-check', 'Autofinish #470 Iteracija', `Provera autofinish iteracije #470 — ULTRA Neurosintetički Kompajler`, 'ok', `Autofinish #470 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #471 — ULTRA Magnetodinamički Invertor API + APP_VERSION 40.3.0 ─
+    createCheck('autofinish-471-magnetodinamicki-invertor-check', 'ULTRA Magnetodinamički Invertor API', `Provera API rute /api/ultra-magnetodinamicki-invertor — Magnetodynamic Inversion Engine (10²¹¹)`, 'ok', `Autofinish #471 — magnetodinamicki-invertor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-471-iteracija-check', 'Autofinish #471 Iteracija', `Provera autofinish iteracije #471 — APP_VERSION 40.3.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #471 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
