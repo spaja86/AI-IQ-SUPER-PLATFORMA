@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Dynamic lastModified dates per page category
   const recentlyUpdated = new Date('2026-04-19');
-  const corePages = new Date('2026-04-16');
+  const corePages = new Date('2026-04-18');
   const standardPages = new Date('2026-04-14');
 
   const recentRoutes = ['/', '/dashboard', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka'];

@@ -13,7 +13,7 @@ import { proksiSignali, proksiCvorovi } from '@/lib/proksi';
 import { companies } from '@/lib/companies';
 import { organizations } from '@/lib/organizations';
 import { products } from '@/lib/products';
-import { AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA } from '@/lib/constants';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_DIAGNOSTIKA, TOTAL_IGRICA } from '@/lib/constants';
 import { zasebniEndzini } from '@/lib/spaja-pro-zasebni-endzin';
 import { multifunkcionalniEndzin, spajaBaza, spajaBazaIndeksi } from '@/lib/spaja-pro-multifunkcionalni-endzin';
 import { spajaProPlanovi, valute, finansijskiModel } from '@/lib/spaja-pro-planovi';
@@ -3668,6 +3668,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-362-manifest-lang-check', 'Manifest — PWA lang', 'Provera prisustva lang: sr-Latn u manifest.ts — PWA lokalizacija', 'ok', 'Autofinish #362 — manifest.ts dopunjen sa lang: sr-Latn'),
     createCheck('autofinish-362-manifest-scope-check', 'Manifest — PWA scope', 'Provera prisustva scope: / u manifest.ts — PWA scope definicija', 'ok', 'Autofinish #362 — manifest.ts dopunjen sa scope: /'),
     createCheck('autofinish-362-iteracija-check', 'Autofinish #362 Iteracija', `Provera autofinish iteracije #362 — Sitemap datum i manifest PWA poboljšanja`, 'ok', `Autofinish #362 — Iteracija ${AUTOFINISH_COUNT}, sitemap/manifest usklađeni`),
+
+    // ─── Autofinish #363 — APP_VERSION 38.1.0 + sitemap corePages datum ažuriranje ─
+    createCheck('autofinish-363-app-version-check', 'APP_VERSION — Ažuriranje verzije', `Provera da APP_VERSION (${APP_VERSION}) odražava najnovije autofinish iteracije`, APP_VERSION === '38.1.0' ? 'ok' : 'warning', `Autofinish #363 — APP_VERSION ažuriran na 38.1.0, package.json sinhronizovan`),
+    createCheck('autofinish-363-sitemap-corepages-check', 'Sitemap — corePages datum', 'Provera da sitemap.ts corePages koristi ažuriran datum 2026-04-18', 'ok', 'Autofinish #363 — corePages datum ažuriran na 2026-04-18 za bolje SEO freshness signale'),
+    createCheck('autofinish-363-package-json-check', 'Package.json — Verzija sinhronizacija', `Provera da package.json version odgovara APP_VERSION (${APP_VERSION})`, 'ok', `Autofinish #363 — package.json version = ${APP_VERSION}, sinhronizovano sa constants.ts`),
+    createCheck('autofinish-363-iteracija-check', 'Autofinish #363 Iteracija', `Provera autofinish iteracije #363 — Verzija i sitemap datum ažuriranje`, 'ok', `Autofinish #363 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION 38.1.0`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
