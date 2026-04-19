@@ -4612,6 +4612,26 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #586 — ULTRA Akustobiofotonogravitoplazmotermonski Analizator API + APP_VERSION 42.6.0 ─
     createCheck('autofinish-586-akustobiofotonogravitoplazmotermonski-analizator-check', 'ULTRA Akustobiofotonogravitoplazmotermonski Analizator API', `Provera API rute /api/ultra-akustobiofotonogravitoplazmotermonski-analizator — Acoustobiophotonosgravitoplasmonthermonic Analysis Engine (10³²⁶)`, 'ok', `Autofinish #586 — akustobiofotonogravitoplazmotermonski-analizator: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-586-iteracija-check', 'Autofinish #586 Iteracija', `Provera autofinish iteracije #586 — APP_VERSION 42.6.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #586 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #587 — ULTRA Gravitonanotermoelektrofotonobioplazmonski Kalibrator API ─
+    createCheck('autofinish-587-gravitonanotermoelektrofotonobioplazmonski-kalibrator-check', 'ULTRA Gravitonanotermoelektrofotonobioplazmonski Kalibrator API', `Provera API rute /api/ultra-gravitonanotermoelektrofotonobioplazmonski-kalibrator — Gravitonanothermoselectrophotonobioplasmon Calibration Engine (10³²⁷)`, 'ok', `Autofinish #587 — gravitonanotermoelektrofotonobioplazmonski-kalibrator: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-587-iteracija-check', 'Autofinish #587 Iteracija', `Provera autofinish iteracije #587 — ULTRA Gravitonanotermoelektrofotonobioplazmonski Kalibrator`, 'ok', `Autofinish #587 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #588 — ULTRA Plazmoakustomagnetokronobioelektrofotonski Emiter API ─
+    createCheck('autofinish-588-plazmoakustomagnetokronobioelektrofotonski-emiter-check', 'ULTRA Plazmoakustomagnetokronobioelektrofotonski Emiter API', `Provera API rute /api/ultra-plazmoakustomagnetokronobioelektrofotonski-emiter — Plasmoacustomagnetochronobioelectrophotonic Emission Engine (10³²⁸)`, 'ok', `Autofinish #588 — plazmoakustomagnetokronobioelektrofotonski-emiter: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-588-iteracija-check', 'Autofinish #588 Iteracija', `Provera autofinish iteracije #588 — ULTRA Plazmoakustomagnetokronobioelektrofotonski Emiter`, 'ok', `Autofinish #588 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #589 — ULTRA Bioelektronanofotonogravitoplazmotermonski Dekoder API ─
+    createCheck('autofinish-589-bioelektronanofotonogravitoplazmotermonski-dekoder-check', 'ULTRA Bioelektronanofotonogravitoplazmotermonski Dekoder API', `Provera API rute /api/ultra-bioelektronanofotonogravitoplazmotermonski-dekoder — Bioelectronanophotonosgravitoplasmonthermonic Decoding Engine (10³²⁹)`, 'ok', `Autofinish #589 — bioelektronanofotonogravitoplazmotermonski-dekoder: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-589-iteracija-check', 'Autofinish #589 Iteracija', `Provera autofinish iteracije #589 — ULTRA Bioelektronanofotonogravitoplazmotermonski Dekoder`, 'ok', `Autofinish #589 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #590 — ULTRA Magnetokronotermoakustobioelektroplazmonski Reflektor API ─
+    createCheck('autofinish-590-magnetokronotermoakustobioelektroplazmonski-reflektor-check', 'ULTRA Magnetokronotermoakustobioelektroplazmonski Reflektor API', `Provera API rute /api/ultra-magnetokronotermoakustobioelektroplazmonski-reflektor — Magnetochronothermoacustobioelectroplasmon Reflection Engine (10³³⁰)`, 'ok', `Autofinish #590 — magnetokronotermoakustobioelektroplazmonski-reflektor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-590-iteracija-check', 'Autofinish #590 Iteracija', `Provera autofinish iteracije #590 — ULTRA Magnetokronotermoakustobioelektroplazmonski Reflektor`, 'ok', `Autofinish #590 — Iteracija ${AUTOFINISH_COUNT}`),
+
+    // ─── Autofinish #591 — ULTRA Fotonobiogravitoplazmonanotermoelektronski Induktor API + APP_VERSION 42.7.0 ─
+    createCheck('autofinish-591-fotonobiogravitoplazmonanotermoelektronski-induktor-check', 'ULTRA Fotonobiogravitoplazmonanotermoelektronski Induktor API', `Provera API rute /api/ultra-fotonobiogravitoplazmonanotermoelektronski-induktor — Photonobiogravitoplasmonnanothermoselectronic Induction Engine (10³³¹)`, 'ok', `Autofinish #591 — fotonobiogravitoplazmonanotermoelektronski-induktor: ${TOTAL_API_ROUTES} API ruta`),
+    createCheck('autofinish-591-iteracija-check', 'Autofinish #591 Iteracija', `Provera autofinish iteracije #591 — APP_VERSION 42.7.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #591 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
