@@ -42,6 +42,11 @@ import {
   nabavkaStavke,
   getNabavkaStatistika,
 } from './glavni-sistem-nabavka';
+import {
+  profesionalniLoginPlatniSistem,
+  getProfesionalniLoginPregled,
+  getSvePoslovneMejlAdrese,
+} from './profesionalni-login-platni-sistem';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -96,6 +101,10 @@ export interface GlavniEndzinStatistika {
   nabavkaUkupnoPotroseno: number;
   nabavkaKategorija: number;
   nabavkaTransakcija: number;
+  // Profesionalni Login Platni Sistem — spojen sa Endžinom
+  loginPlatniProvajdera: number;
+  loginMejlRuta: number;
+  loginVerifikacionihKoraka: number;
 }
 
 export interface GlavniEndzinDigitalneIndustrije {
@@ -120,6 +129,16 @@ export interface GlavniEndzinDigitalneIndustrije {
     ukupnoStavki: number;
     ukupnoPotroseno: number;
     kategorija: number;
+  };
+  // Profesionalni Login Platni Sistem — spojen sa Endžinom
+  profesionalniLoginSistem: {
+    naziv: string;
+    status: string;
+    verzija: string;
+    provajdera: number;
+    mejlRuta: number;
+    verifikacionihKoraka: number;
+    poslovneMejlAdrese: string[];
   };
 }
 
@@ -265,6 +284,13 @@ const evolucijaCiklusi: EvolucijaCiklus[] = [
     faza: 'zavrsena',
     napredak: 100,
   },
+  {
+    id: 'evo-login-platni-sistem',
+    naziv: 'Spajanje Profesionalnog Login Platnog Sistema sa Glavnim Endžinom',
+    opis: 'Profesionalni Login — Platni Sistem (Stripe & PayPal) spojen sa Glavnim Endžinom — mejl rute, verifikacija, finansijski tok',
+    faza: 'zavrsena',
+    napredak: 100,
+  },
 ];
 
 // ─── Mogućnosti ──────────────────────────────────────────
@@ -308,6 +334,11 @@ const mogucnosti: string[] = [
   'NAUKA — Laboratorija Plus, Observatorija, Genom Analizator, Kvantni Simulator',
   'TRANSPORT — Logistika Engine, Fleet Manager',
   'SPOJEN ENDŽIN + SISTEM — Glavni Endžin i Glavni Sistem rade kao JEDNA CELINA',
+  // ── NOVI — Profesionalni Login Platni Sistem spojen sa Endžinom ────
+  `PROFESIONALNI LOGIN — ${profesionalniLoginPlatniSistem.provajderi.length} platna provajdera (Stripe, PayPal) sa ${profesionalniLoginPlatniSistem.ukupnoMejlRuta} mejl ruta`,
+  `LOGIN VERIFIKACIJA — ${profesionalniLoginPlatniSistem.ukupnoVerifikacija} koraka verifikacije za poslovne mejlove od AI IQ World Bank`,
+  'LOGIN MEJL RUTE — automatsko rutiranje mejlova na Stripe/PayPal rute sa kompletnom verifikacijom',
+  'SPOJEN LOGIN + ENDŽIN — Profesionalni Login Platni Sistem radi u sklopu Glavnog Endžina',
 ];
 
 // ─── Statistika ──────────────────────────────────────────
@@ -349,6 +380,10 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
     nabavkaUkupnoPotroseno: nabavkaStats.ukupnoPotroseno,
     nabavkaKategorija: nabavkaStats.kategorija,
     nabavkaTransakcija: nabavkaStats.transakcija,
+    // Profesionalni Login Platni Sistem statistika
+    loginPlatniProvajdera: profesionalniLoginPlatniSistem.provajderi.length,
+    loginMejlRuta: profesionalniLoginPlatniSistem.ukupnoMejlRuta,
+    loginVerifikacionihKoraka: profesionalniLoginPlatniSistem.ukupnoVerifikacija,
   };
 }
 
@@ -365,7 +400,9 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     'sistem troši pare iz AI IQ World Bank i kupuje sve što treba Digitalnoj Industriji. ' +
     `Objedinjuje ${spojeniEndzini.length} endžina, ${sklopljeniProizvodi.length} sklopljenih proizvoda, ` +
     `${nabavkaStavke.length} nabavljenih digitalnih varijacija ($${glavniSistemNabavka.ukupnoPotroseno.toLocaleString()} USD), ` +
-    `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona.`,
+    `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona. ` +
+    `Profesionalni Login Platni Sistem — ${profesionalniLoginPlatniSistem.provajderi.length} provajdera, ` +
+    `${profesionalniLoginPlatniSistem.ukupnoMejlRuta} mejl ruta, ${profesionalniLoginPlatniSistem.ukupnoVerifikacija} koraka verifikacije.`,
   ikona: '🏭⚙️💰',
   verzija: '3.0.0',
   status: 'aktivan',
@@ -389,6 +426,15 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     ukupnoStavki: glavniSistemNabavka.ukupnoStavki,
     ukupnoPotroseno: glavniSistemNabavka.ukupnoPotroseno,
     kategorija: glavniSistemNabavka.kategorije.length,
+  },
+  profesionalniLoginSistem: {
+    naziv: profesionalniLoginPlatniSistem.naziv,
+    status: profesionalniLoginPlatniSistem.status,
+    verzija: profesionalniLoginPlatniSistem.verzija,
+    provajdera: profesionalniLoginPlatniSistem.provajderi.length,
+    mejlRuta: profesionalniLoginPlatniSistem.ukupnoMejlRuta,
+    verifikacionihKoraka: profesionalniLoginPlatniSistem.ukupnoVerifikacija,
+    poslovneMejlAdrese: getSvePoslovneMejlAdrese(),
   },
 };
 
@@ -449,5 +495,13 @@ export function getGlavniEndzinPregled() {
     ukupnoProizvoda: stats.ukupnoProizvodaSklopljenih,
     kompletnost: stats.kompletnostSistema,
     evolucija: evolucijaCiklusi.length,
+  };
+}
+
+/** Dohvati status Profesionalnog Login Platnog Sistema iz Glavnog Endžina */
+export function getProfesionalniLoginStatus() {
+  return {
+    ...glavniEndzinDigitalneIndustrije.profesionalniLoginSistem,
+    pregled: getProfesionalniLoginPregled(),
   };
 }
