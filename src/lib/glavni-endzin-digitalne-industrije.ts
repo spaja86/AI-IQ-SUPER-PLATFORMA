@@ -335,7 +335,7 @@ const mogucnosti: string[] = [
   'TRANSPORT — Logistika Engine, Fleet Manager',
   'SPOJEN ENDŽIN + SISTEM — Glavni Endžin i Glavni Sistem rade kao JEDNA CELINA',
   // ── NOVI — Profesionalni Login Platni Sistem spojen sa Endžinom ────
-  `PROFESIONALNI LOGIN — ${profesionalniLoginPlatniSistem.provajderi.length} platna provajdera (Stripe, PayPal) sa ${profesionalniLoginPlatniSistem.ukupnoMejlRuta} mejl ruta`,
+  `PROFESIONALNI LOGIN — ${profesionalniLoginPlatniSistem.provajderi.length} platnih provajdera (Stripe, PayPal) sa ${profesionalniLoginPlatniSistem.ukupnoMejlRuta} mejl ruta`,
   `LOGIN VERIFIKACIJA — ${profesionalniLoginPlatniSistem.ukupnoVerifikacija} koraka verifikacije za poslovne mejlove od AI IQ World Bank`,
   'LOGIN MEJL RUTE — automatsko rutiranje mejlova na Stripe/PayPal rute sa kompletnom verifikacijom',
   'SPOJEN LOGIN + ENDŽIN — Profesionalni Login Platni Sistem radi u sklopu Glavnog Endžina',
