@@ -53,3 +53,6 @@ export { reklameIPartnerstvaSekvence } from './reklame-i-partnerstva-page';
 
 // ── Dnevna Raspodela Zarade ─────────────────────────────────────────────────
 export { dnevnaRaspodelZaradeSekvence } from './dnevna-raspodela-zarade-page';
+
+// ── Oktavni GPU/RAM Sistem ──────────────────────────────────────────────────
+export { oktavniGPURAMSekvence } from './oktavni-gpu-ram-page';

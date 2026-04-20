@@ -57,6 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/oktavne-eksponencijalne-funkcije',
     '/omega-projekat-zvanicno-otvaranje',
     '/spaja-digitalni-kompjuter',
+    '/oktavni-gpu-ram',
     '/glavni-endzin',
     '/glavni-sistem-nabavka',
     '/reklame-i-partnerstva',

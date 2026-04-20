@@ -45,6 +45,7 @@ export const navigation: NavItem[] = [
   { label: 'Eksponencijalne Funkcije', href: '/oktavne-eksponencijalne-funkcije', icon: '📈', description: 'Oktavni monolog eksponencijalnog ekvivalenta — figuracioni centar — matricno jedinjenje — OMEGA PROJEKAT' },
   { label: 'Zvanično Otvaranje', href: '/omega-projekat-zvanicno-otvaranje', icon: '🎉', description: 'OMEGA PROJEKAT — zvanično otvaranje prema monolizmima, verifikacija, saglasnost osnivača' },
   { label: 'Digitalni Kompjuter', href: '/spaja-digitalni-kompjuter', icon: '🖥️', description: 'SPAJA Digitalni Kompjuter — GPU 8.700.000, RAM 276.000 GB, zakup kao usluga' },
+  { label: 'Oktavni GPU/RAM', href: '/oktavni-gpu-ram', icon: '🎮', description: 'Oktavni sistem u rasponu ekvalaturnog galaksipoznog sektora u matričnom jedinjenju — GPU i RAM za igrice' },
   { label: 'Registracija', href: '/registracija', icon: '📝', description: 'Registracija korisnika — kreiranje naloga za pristup platformi' },
   { label: 'Bezbednost', href: '/security', icon: '🔒', description: 'OMEGA Bezbednosni sistem — zaštita i enkripcija podataka' },
   { label: 'Nabavka', href: '/glavni-sistem-nabavka', icon: '💰', description: 'Glavni Sistem Nabavke — 50 digitalnih varijacija kupljeno iz AI IQ World Bank' },
