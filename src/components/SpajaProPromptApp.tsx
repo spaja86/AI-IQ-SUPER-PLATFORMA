@@ -46,6 +46,14 @@ interface ChatMessage {
   verzija: number;
 }
 
+interface IstorijaItem {
+  prompt: string;
+  odgovor: string;
+  verzija: number;
+  vreme: string;
+  kategorija: string;
+}
+
 type AppTab = 'builder' | 'biblioteka' | 'chat' | 'analitika';
 
 // ─── Props ──────────────────────────────────────────────────────────────────
@@ -84,11 +92,11 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // History state
-  const [istorija, setIstorija] = useState<Array<{ prompt: string; odgovor: string; verzija: number; vreme: string; kategorija: string }>>(() => {
+  const [istorija, setIstorija] = useState<IstorijaItem[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
       const saved = localStorage.getItem('spaja-prompt-app-istorija');
-      if (saved) return JSON.parse(saved) as Array<{ prompt: string; odgovor: string; verzija: number; vreme: string; kategorija: string }>;
+      if (saved) return JSON.parse(saved) as IstorijaItem[];
     } catch { /* ignore */ }
     return [];
   });
@@ -175,7 +183,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
       });
 
       const data = await res.json();
-      const rezultat = data.rezultat ?? data.error ?? 'Greska pri izvrsavanju';
+      const rezultat = data.rezultat ?? data.error ?? 'Greška pri izvršavanju';
       setOdgovor(rezultat);
 
       setIstorija((prev) => {
@@ -263,7 +271,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                 📝 SpajaPro Prompt Aplikacija
               </h2>
               <p className="mt-1 text-sm text-gray-400">
-                Centralna Prompt aplikacija — SpajaPro v{izabranaVerzija} {aktivnaVerzija ? `(${aktivnaVerzija.kodnoIme})` : ''} engine | {promptovi.length} promptova | {verzije.length} verzija
+                Centralna Prompt aplikacija — SpajaPro v{izabranaVerzija} {aktivnaVerzija ? `(${aktivnaVerzija.kodnoIme})` : ''} engine | {promptovi.length} promptova | {verzije.length} verzije
               </p>
             </div>
             <div className="flex items-center gap-2">
