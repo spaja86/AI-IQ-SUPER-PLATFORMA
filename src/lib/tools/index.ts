@@ -123,37 +123,46 @@ export const SPAJA_TOOLS: OpenAI.ChatCompletionTool[] = [
 
 // ─── Tool Execution ─────────────────────────────────────────────────────
 
-// Safe math evaluator - only allows math operations, no arbitrary code
-function safeEval(expression: string): number {
-  // Replace mathematical functions with Math equivalents
-  let sanitized = expression
-    .replace(/\bsqrt\b/g, 'Math.sqrt')
-    .replace(/\bsin\b/g, 'Math.sin')
-    .replace(/\bcos\b/g, 'Math.cos')
-    .replace(/\btan\b/g, 'Math.tan')
-    .replace(/\basin\b/g, 'Math.asin')
-    .replace(/\bacos\b/g, 'Math.acos')
-    .replace(/\batan\b/g, 'Math.atan')
-    .replace(/\blog\b/g, 'Math.log10')
-    .replace(/\bln\b/g, 'Math.log')
-    .replace(/\babs\b/g, 'Math.abs')
-    .replace(/\bceil\b/g, 'Math.ceil')
-    .replace(/\bfloor\b/g, 'Math.floor')
-    .replace(/\bround\b/g, 'Math.round')
-    .replace(/\bpow\b/g, 'Math.pow')
-    .replace(/\bPI\b/g, 'Math.PI')
-    .replace(/\bE\b/g, 'Math.E')
-    .replace(/\bpi\b/g, 'Math.PI');
+// Safe math evaluator - only allows math operations via a whitelist approach
+const ALLOWED_MATH_METHODS = new Set([
+  'sqrt', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan',
+  'log', 'log10', 'log2', 'abs', 'ceil', 'floor', 'round', 'pow',
+  'min', 'max', 'exp', 'sign', 'trunc',
+]);
 
-  // Validate: only allow numbers, operators, Math functions, parentheses, dots, commas
-  if (!/^[\d\s+\-*/().,%^Math.sqrtsincostalogabceilflooroundpowe\d]+$/.test(sanitized)) {
+function safeEval(expression: string): number {
+  // Step 1: Replace common aliases
+  let sanitized = expression
+    .replace(/\bln\b/g, 'log')
+    .replace(/\bPI\b/gi, 'Math.PI')
+    .replace(/\bpi\b/g, 'Math.PI')
+    .replace(/\bE\b/g, 'Math.E');
+
+  // Step 2: Replace whitelisted math function names with Math.xxx
+  for (const method of ALLOWED_MATH_METHODS) {
+    const regex = new RegExp(`\\b${method}\\b`, 'g');
+    sanitized = sanitized.replace(regex, `Math.${method}`);
+  }
+
+  // Step 3: Validate the sanitized expression only contains safe characters
+  // Allow: digits, whitespace, operators, parentheses, dots, commas, and "Math." prefix
+  if (!/^[\d\s+\-*/().,%^Math]+$/.test(sanitized)) {
     throw new Error('Nedozvoljeni karakter u izrazu');
   }
 
-  // Replace ^ with ** for exponentiation
+  // Step 4: Ensure no property access beyond Math methods
+  const mathAccessPattern = /Math\.(\w+)/g;
+  let match;
+  while ((match = mathAccessPattern.exec(sanitized)) !== null) {
+    if (!ALLOWED_MATH_METHODS.has(match[1]) && match[1] !== 'PI' && match[1] !== 'E') {
+      throw new Error(`Nedozvoljena Math metoda: ${match[1]}`);
+    }
+  }
+
+  // Step 5: Replace ^ with ** for exponentiation
   sanitized = sanitized.replace(/\^/g, '**');
 
-  // Use Function constructor for safe evaluation (no access to scope)
+  // Step 6: Use Function constructor for evaluation (no access to outer scope)
   const fn = new Function(`"use strict"; return (${sanitized})`);
   const result = fn() as number;
 
@@ -164,7 +173,9 @@ function safeEval(expression: string): number {
   return result;
 }
 
-// Approximate exchange rates (static for now - in production use real API)
+// Approximate exchange rates (EUR as base)
+// NOTE: Static rates for demonstration. In production, integrate a real-time
+// exchange rate API (e.g., exchangeratesapi.io or frankfurter.app).
 const EXCHANGE_RATES: Record<string, number> = {
   EUR: 1,
   USD: 1.08,

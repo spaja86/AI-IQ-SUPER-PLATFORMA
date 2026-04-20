@@ -53,10 +53,12 @@ const components: Components = {
   // Code blocks with syntax highlighting and copy button
   pre({ children }) {
     // Extract text content from code element for copy functionality
-    const codeElement = React.Children.toArray(children).find(
-      (child): child is React.ReactElement<{ children?: React.ReactNode; className?: string }> =>
-        React.isValidElement(child) && (child as React.ReactElement<{ className?: string }>).props?.className?.startsWith?.('hljs') !== undefined,
-    );
+    const childArray = React.Children.toArray(children);
+    const codeElement = childArray.find((child) => {
+      if (!React.isValidElement(child)) return false;
+      const props = child.props as Record<string, unknown>;
+      return typeof props.className === 'string';
+    }) as React.ReactElement<{ children?: React.ReactNode; className?: string }> | undefined;
 
     let codeText = '';
     let language = '';

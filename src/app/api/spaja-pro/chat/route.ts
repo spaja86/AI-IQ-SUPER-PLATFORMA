@@ -286,6 +286,8 @@ export async function POST(request: NextRequest) {
         chat_messages_used: profile.chat_messages_used + 1,
       }).eq('id', user.id);
 
+      // Approximate cost split: 70% input, 30% output tokens
+      // (exact split unavailable since chatWithTools aggregates total tokens)
       const costEur = calculateCostEur(model, Math.floor(tokensUsed * 0.7), Math.floor(tokensUsed * 0.3));
       await supabase.from('usage_logs').insert({
         user_id: user.id,
