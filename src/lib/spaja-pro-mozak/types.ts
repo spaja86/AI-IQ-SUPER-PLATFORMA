@@ -159,7 +159,7 @@ export interface SpecijalizovaniMozak {
   /** Kategorija funkcije */
   kategorija: SpecijalizovaniMozakKategorija;
   /** Da li podržava automatsko dupliranje */
-  duplpiranjeDozvoljeno: boolean;
+  dupliranjeDozvoljeno: boolean;
   /** Minimalan broj pod-jedinica */
   minPodjedinica: number;
   /** Maksimalan broj pod-jedinica */
