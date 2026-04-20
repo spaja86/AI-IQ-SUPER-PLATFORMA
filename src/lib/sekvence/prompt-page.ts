@@ -162,10 +162,40 @@ IO-OPENUI-AO koristi SpajaPro Prompt umesto ChatGPT-a za svu AI komunikaciju. Ko
     },
   },
   {
+    id: 'prompt-cet-info',
+    tip: 'lista',
+    naslov: '💬 Čet za sve Prompt-ove — Povratne informacije i gradnje',
+    redosled: 9,
+    podaci: {
+      stavke: [
+        { ikona: '💬', naslov: 'Čet za svaki Prompt', opis: 'Svaki Prompt ima svoj kontekstualni Čet — razgovor u kontekstu specifičnog Prompt-a sa SpajaPro engine-om' },
+        { ikona: '📋', naslov: 'Povratne informacije', opis: 'Klijenti mogu da ocene svaki Prompt, ostave komentare i sugestije za poboljšanje' },
+        { ikona: '🔨', naslov: 'Gradnje za programiranje', opis: 'Pregled šta se može napraviti sa svakim Prompt-om — od API integracija do AI agenata' },
+        { ikona: '⭐', naslov: 'Ocena kvaliteta', opis: 'Sistem ocenjivanja (1-5 zvezdica) za svaki Prompt sa kategorijama poboljšanja' },
+        { ikona: '💻', naslov: 'Programiranje i build', opis: 'Svaki Prompt definiše gradnje — sistemska inicijalizacija, deploy pipeline, UI komponente' },
+        { ikona: '😊', naslov: 'Zadovoljstvo klijenata', opis: 'Čet, povratne informacije i gradnje su dizajnirane da klijenti budu zadovoljni rezultatima' },
+      ],
+    },
+  },
+  {
+    id: 'prompt-cet-statistika',
+    tip: 'statistika',
+    naslov: '💬 Čet statistika',
+    redosled: 10,
+    podaci: {
+      stavke: [
+        { naziv: 'Prompt Čet-ova', vrednost: biblioteka.ukupnoPromptova, ikona: '💬' },
+        { naziv: 'Tipova gradnji', vrednost: 6, ikona: '🔨' },
+        { naziv: 'Kategorija povratnih', vrednost: 6, ikona: '📋' },
+        { naziv: 'SpajaPro verzija', vrednost: spajaProVerzije.length, ikona: '🌟' },
+      ],
+    },
+  },
+  {
     id: 'prompt-cta',
     tip: 'cta',
     naslov: '🚀 Prompt — Svuda u ekosistemu',
-    redosled: 9,
+    redosled: 11,
     podaci: {
       opis: 'Prompt sistem pokreće ceo ekosistem Kompanije SPAJA kroz SpajaPro engine.',
       stavke: [

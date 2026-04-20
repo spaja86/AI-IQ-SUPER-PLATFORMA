@@ -3,6 +3,7 @@ import { StranicaRenderer } from '@/components/sekvence';
 import { promptSekvence } from '@/lib/sekvence/prompt-page';
 import SpajaProPromptKonzolaWrapper from '@/components/SpajaProPromptKonzolaWrapper';
 import SpajaProPromptAppWrapper from '@/components/SpajaProPromptAppWrapper';
+import PromptCetWrapper from '@/components/PromptCetWrapper';
 import { APP_VERSION, BASE_URL, KOMPANIJA, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og?title=${encodeURIComponent('SpajaPro Prompt Aplikacija')}&description=${encodeURIComponent(`Centralna Prompt Aplikacija — SpajaPro v${SPAJA_PRO_RANGE} Engine`)}`;
@@ -49,6 +50,7 @@ export default function PromptPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSoftware) }}
       />
       <SpajaProPromptAppWrapper />
+      <PromptCetWrapper />
       <SpajaProPromptKonzolaWrapper />
       <StranicaRenderer sekvence={promptSekvence} />
     </>
