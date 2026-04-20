@@ -242,9 +242,11 @@ export async function POST(request: NextRequest) {
       });
     } else {
       // ── Non-streaming Response (reasoning models or explicit request) ──
-      const messages: { role: 'user' | 'assistant' | 'system'; content: string }[] = isReasoningModel
+      // Supports tool calling for non-reasoning models
+      const { chatWithTools } = await import('@/lib/tools');
+
+      const chatMessages: { role: 'user' | 'assistant' | 'system'; content: string }[] = isReasoningModel
         ? [
-            // Reasoning modeli: system prompt ide kao user poruka na početku
             { role: 'user', content: `[System Instructions]\n${systemPrompt}` },
             ...conversationHistory,
             { role: 'user', content: message },
@@ -255,17 +257,24 @@ export async function POST(request: NextRequest) {
             { role: 'user', content: message },
           ];
 
-      const completion = await openai.chat.completions.create({
-        model,
-        messages,
-        max_tokens: 4096,
-        ...(isReasoningModel ? {} : { temperature: 0.7 }),
-      });
+      let reply: string;
+      let tokensUsed: number;
 
-      const reply = completion.choices[0]?.message?.content ?? 'Nema odgovora.';
-      const inputTokens = completion.usage?.prompt_tokens ?? 0;
-      const outputTokens = completion.usage?.completion_tokens ?? 0;
-      const tokensUsed = inputTokens + outputTokens;
+      if (isReasoningModel) {
+        // Reasoning models don't support tool calling
+        const completion = await openai.chat.completions.create({
+          model,
+          messages: chatMessages,
+          max_tokens: 4096,
+        });
+        reply = completion.choices[0]?.message?.content ?? 'Nema odgovora.';
+        tokensUsed = completion.usage?.total_tokens ?? 0;
+      } else {
+        // Non-reasoning models get tool calling
+        const result = await chatWithTools(openai, model, chatMessages, 4096, 0.7);
+        reply = result.reply;
+        tokensUsed = result.totalTokens;
+      }
 
       // Sacuvaj obe poruke u istoriju
       await supabase.from('chat_history').insert([
@@ -277,7 +286,7 @@ export async function POST(request: NextRequest) {
         chat_messages_used: profile.chat_messages_used + 1,
       }).eq('id', user.id);
 
-      const costEur = calculateCostEur(model, inputTokens, outputTokens);
+      const costEur = calculateCostEur(model, Math.floor(tokensUsed * 0.7), Math.floor(tokensUsed * 0.3));
       await supabase.from('usage_logs').insert({
         user_id: user.id,
         action: 'spaja_pro_chat',

@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyUserFromToken, getSupabaseServerClient } from '@/lib/supabase/server';
+import type { ModelId } from '@/lib/supabase/types';
 
 export async function GET(request: NextRequest) {
   try {
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest) {
       .insert({
         user_id: user.id,
         title: body.title ?? 'Nova konverzacija',
-        model: body.model ?? 'gpt-4o-mini',
+        model: (body.model ?? 'gpt-4o-mini') as ModelId,
       })
       .select('id, title, model, created_at, updated_at')
       .single();

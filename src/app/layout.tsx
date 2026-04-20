@@ -4,6 +4,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import AiAsistentWrapper from '@/components/AiAsistentWrapper';
 import OmegaAuthProvider from '@/components/OmegaAuthProvider';
+import PWARegistration from '@/components/PWARegistration';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
 import { Analytics } from '@vercel/analytics/next';
@@ -149,6 +150,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </OmegaAuthProvider>
         <Footer />
         <AiAsistentWrapper />
+        <PWARegistration />
         <Analytics />
         <SpeedInsights />
       </body>

@@ -66,7 +66,13 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Memorija je preduga (max 4000 karaktera).' }, { status: 400 });
     }
 
-    const updateData: Record<string, unknown> = {
+    const updateData: {
+      updated_at: string;
+      custom_instructions?: string | null;
+      preferred_model?: ModelId;
+      preferred_language?: string;
+      memory?: string | null;
+    } = {
       updated_at: new Date().toISOString(),
     };
 
