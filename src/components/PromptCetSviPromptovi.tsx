@@ -14,6 +14,19 @@
 import { useState } from 'react';
 import PromptCet from './PromptCet';
 
+interface PromptImportInfo {
+  naziv: string;
+  opis: string;
+  formati: string[];
+  obavezan: boolean;
+}
+
+interface PromptExportInfo {
+  naziv: string;
+  opis: string;
+  formati: string[];
+}
+
 interface PromptPodaci {
   id: string;
   naziv: string;
@@ -26,6 +39,8 @@ interface PromptPodaci {
   ciljnaPlatforma?: string;
   tagovi: string[];
   prioritet: string;
+  importi: PromptImportInfo[];
+  exporti: PromptExportInfo[];
 }
 
 interface Props {
@@ -113,6 +128,16 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
                             {p.kategorija}
                           </span>
                           <span className="text-[10px] text-blue-400">💬 Čet</span>
+                          {p.importi.length > 0 && (
+                            <span className="rounded bg-green-900/50 px-1 py-0.5 text-[10px] text-green-400">
+                              📥 {p.importi.length}
+                            </span>
+                          )}
+                          {p.exporti.length > 0 && (
+                            <span className="rounded bg-purple-900/50 px-1 py-0.5 text-[10px] text-purple-400">
+                              📤 {p.exporti.length}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>

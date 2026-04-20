@@ -23,6 +23,8 @@ export default function SpajaProPromptAppWrapper() {
     parametri: p.parametri,
     tagovi: p.tagovi,
     prioritet: p.prioritet,
+    importi: p.importi,
+    exporti: p.exporti,
   }));
 
   const verzijeData = spajaProVerzije.map((v) => ({

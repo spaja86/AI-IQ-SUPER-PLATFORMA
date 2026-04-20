@@ -10,6 +10,36 @@
 
 import type { OmegaAIUloga } from './types';
 
+export type PromptFormat =
+  | 'json'
+  | 'csv'
+  | 'xml'
+  | 'yaml'
+  | 'txt'
+  | 'md'
+  | 'html'
+  | 'pdf'
+  | 'xlsx'
+  | 'docx'
+  | 'png'
+  | 'jpg'
+  | 'svg'
+  | 'sql'
+  | 'log';
+
+export interface PromptImport {
+  naziv: string;
+  opis: string;
+  formati: PromptFormat[];
+  obavezan: boolean;
+}
+
+export interface PromptExport {
+  naziv: string;
+  opis: string;
+  formati: PromptFormat[];
+}
+
 export interface Prompt {
   id: string;
   naziv: string;
@@ -23,6 +53,8 @@ export interface Prompt {
   parametri: PromptParametar[];
   tagovi: string[];
   prioritet: 'kritican' | 'visok' | 'srednji' | 'nizak';
+  importi: PromptImport[];
+  exporti: PromptExport[];
 }
 
 export type PromptKategorija =
@@ -78,6 +110,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['sistem', 'inicijalizacija', 'omega-ai'],
     prioritet: 'kritican',
+    importi: [
+      { naziv: 'Konfiguracija sistema', opis: 'JSON/YAML konfiguracija za inicijalizaciju sistema', formati: ['json', 'yaml'], obavezan: true },
+      { naziv: 'Lista persona', opis: 'Lista persona za aktivaciju', formati: ['json', 'csv'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Inicijalizacioni izveštaj', opis: 'Izveštaj o statusu inicijalizacije sistema', formati: ['json', 'pdf', 'html'] },
+      { naziv: 'Sistemski log', opis: 'Log inicijalizacije', formati: ['log', 'txt', 'json'] },
+    ],
   },
   {
     id: 'prompt-sistem-zdravlje',
@@ -92,6 +132,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['zdravlje', 'monitoring', 'dijagnostika'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Sistemske metrike', opis: 'Trenutne metrike sistema za analizu zdravlja', formati: ['json', 'csv'], obavezan: true },
+      { naziv: 'Prethodni izveštaji', opis: 'Prethodni health-check izveštaji za poređenje', formati: ['json', 'pdf'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Zdravstveni izveštaj', opis: 'Kompletan izveštaj o zdravlju sistema', formati: ['json', 'pdf', 'html', 'md'] },
+      { naziv: 'Metrike zdravlja', opis: 'Detaljne metrike u tabelarnom formatu', formati: ['csv', 'xlsx', 'json'] },
+    ],
   },
   {
     id: 'prompt-sistem-evolucija',
@@ -106,6 +154,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['evolucija', 'autonomno', 'meta-prompt'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Analiza stanja', opis: 'Trenutno stanje sistema za evolucioni ciklus', formati: ['json', 'yaml'], obavezan: true },
+      { naziv: 'Evoluciona istorija', opis: 'Prethodni evolucioni ciklusi', formati: ['json', 'csv'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Evolucioni plan', opis: 'Plan evolucije sa koracima implementacije', formati: ['json', 'md', 'pdf'] },
+      { naziv: 'Evolucioni izveštaj', opis: 'Rezultat evolucionog ciklusa', formati: ['json', 'html', 'pdf'] },
+    ],
   },
 
   // ─── Persona Prompt-ovi (za svaku OMEGA AI personu) ──────
@@ -123,6 +179,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['arhitektura', 'dizajn', 'skalabilnost'],
     prioritet: 'kritican',
+    importi: [
+      { naziv: 'Arhitekturni dijagrami', opis: 'Trenutni dijagrami sistema za analizu', formati: ['json', 'yaml', 'xml', 'svg', 'png'], obavezan: true },
+      { naziv: 'Zahtevi sistema', opis: 'Funkcionalni i nefunkcionalni zahtevi', formati: ['md', 'docx', 'pdf', 'txt'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Arhitekturni plan', opis: 'Novi/ažurirani arhitekturni plan sistema', formati: ['json', 'yaml', 'md', 'pdf'] },
+      { naziv: 'Dijagrami', opis: 'Arhitekturni dijagrami sistema', formati: ['svg', 'png', 'json'] },
+    ],
   },
   {
     id: 'prompt-persona-cuvar',
@@ -138,6 +202,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['bezbednost', 'audit', 'ranjivosti'],
     prioritet: 'kritican',
+    importi: [
+      { naziv: 'Bezbednosni logovi', opis: 'Log fajlovi za bezbednosnu analizu', formati: ['log', 'json', 'csv', 'txt'], obavezan: true },
+      { naziv: 'Konfiguracija sistema', opis: 'Bezbednosna konfiguracija za audit', formati: ['json', 'yaml', 'xml'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Bezbednosni izveštaj', opis: 'Izveštaj o ranjivostima i preporukama', formati: ['json', 'pdf', 'html', 'md'] },
+      { naziv: 'Lista ranjivosti', opis: 'Detaljne ranjivosti sa prioritetima', formati: ['csv', 'xlsx', 'json'] },
+    ],
   },
   {
     id: 'prompt-persona-lekar',
@@ -153,6 +225,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['dijagnostika', 'popravka', 'zdravlje'],
     prioritet: 'kritican',
+    importi: [
+      { naziv: 'Dijagnostički podaci', opis: 'Sistemski logovi i metrike za dijagnostiku', formati: ['json', 'log', 'csv', 'txt'], obavezan: true },
+      { naziv: 'Greške sistema', opis: 'Error logovi i stack trace-ovi', formati: ['log', 'txt', 'json'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Dijagnostički izveštaj', opis: 'Rezultati dijagnostike sa popravkama', formati: ['json', 'pdf', 'html', 'md'] },
+      { naziv: 'Popravke log', opis: 'Log izvršenih popravki', formati: ['log', 'json', 'txt'] },
+    ],
   },
   {
     id: 'prompt-persona-graditelj',
@@ -168,6 +248,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['implementacija', 'kod', 'razvoj'],
     prioritet: 'kritican',
+    importi: [
+      { naziv: 'Specifikacija', opis: 'Specifikacija funkcionalnosti za implementaciju', formati: ['md', 'docx', 'pdf', 'txt'], obavezan: true },
+      { naziv: 'Izvorni kod', opis: 'Postojeći kod za refaktorisanje', formati: ['json', 'txt', 'csv'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Generisani kod', opis: 'Implementirani kod sa testovima', formati: ['json', 'txt', 'md'] },
+      { naziv: 'Code review izveštaj', opis: 'Izveštaj o kvalitetu koda', formati: ['json', 'pdf', 'md', 'html'] },
+    ],
   },
   {
     id: 'prompt-persona-dizajner',
@@ -183,6 +271,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['dizajn', 'ui', 'ux', 'accessibility'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Dizajn zahtevi', opis: 'Zahtevi za UI/UX dizajn', formati: ['md', 'pdf', 'docx', 'txt'], obavezan: true },
+      { naziv: 'Vizuelni resursi', opis: 'Slike, ikone, boje za dizajn', formati: ['png', 'jpg', 'svg', 'json'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Dizajn specifikacija', opis: 'UI/UX specifikacija sa komponentama', formati: ['json', 'html', 'pdf', 'md'] },
+      { naziv: 'Dizajn resursi', opis: 'Generisani vizuelni elementi', formati: ['svg', 'png', 'json'] },
+    ],
   },
   {
     id: 'prompt-persona-tester',
@@ -198,6 +294,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['testiranje', 'kvalitet', 'qa'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Izvorni kod', opis: 'Kod za testiranje', formati: ['json', 'txt'], obavezan: true },
+      { naziv: 'Test specifikacije', opis: 'Specifikacije za test scenarije', formati: ['md', 'csv', 'json', 'xlsx'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Test rezultati', opis: 'Rezultati izvršenih testova', formati: ['json', 'html', 'csv', 'pdf'] },
+      { naziv: 'Pokrivenost koda', opis: 'Izveštaj o pokrivenosti koda testovima', formati: ['json', 'html', 'csv'] },
+    ],
   },
   {
     id: 'prompt-persona-dokumentar',
@@ -213,6 +317,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['dokumentacija', 'api', 'changelog'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Izvorni kod', opis: 'Kod za koji se piše dokumentacija', formati: ['json', 'txt', 'yaml'], obavezan: true },
+      { naziv: 'Postojeća dokumentacija', opis: 'Prethodna dokumentacija za ažuriranje', formati: ['md', 'docx', 'html', 'pdf'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Dokumentacija', opis: 'Generisana dokumentacija', formati: ['md', 'html', 'pdf', 'docx'] },
+      { naziv: 'API specifikacija', opis: 'API dokumentacija u standardnom formatu', formati: ['json', 'yaml', 'html'] },
+    ],
   },
   {
     id: 'prompt-persona-kreator',
@@ -228,6 +340,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['kreacija', 'sadrzaj', 'multimedija'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Šabloni sadržaja', opis: 'Šabloni i primeri za kreaciju sadržaja', formati: ['json', 'md', 'html', 'txt'], obavezan: false },
+      { naziv: 'Multimedijalni resursi', opis: 'Slike, ikone i ostali resursi', formati: ['png', 'jpg', 'svg'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Kreiran sadržaj', opis: 'Generisani sadržaj u željenom formatu', formati: ['md', 'html', 'json', 'txt', 'pdf'] },
+      { naziv: 'Multimedija', opis: 'Generisani vizuelni sadržaj', formati: ['png', 'svg', 'jpg'] },
+    ],
   },
   {
     id: 'prompt-persona-optimizator',
@@ -243,6 +363,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['performanse', 'optimizacija', 'web-vitals'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Performansni podaci', opis: 'Metrike performansi za analizu', formati: ['json', 'csv'], obavezan: true },
+      { naziv: 'Konfiguracija', opis: 'Build i runtime konfiguracija', formati: ['json', 'yaml'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Optimizacioni izveštaj', opis: 'Izveštaj sa preporukama za optimizaciju', formati: ['json', 'pdf', 'html', 'md'] },
+      { naziv: 'Performansne metrike', opis: 'Pre/posle metrike optimizacije', formati: ['csv', 'json', 'xlsx'] },
+    ],
   },
   {
     id: 'prompt-persona-skalator',
@@ -258,6 +386,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['skaliranje', 'infrastruktura', 'edge'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Infrastrukturna mapa', opis: 'Trenutna infrastruktura i resursi', formati: ['json', 'yaml', 'xml'], obavezan: true },
+      { naziv: 'Metrike opterećenja', opis: 'Podaci o opterećenju i saobraćaju', formati: ['csv', 'json'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Plan skaliranja', opis: 'Detaljan plan za skaliranje infrastrukture', formati: ['json', 'pdf', 'md', 'yaml'] },
+      { naziv: 'Konfiguracija infrastrukture', opis: 'Ažurirana konfiguracija resursa', formati: ['json', 'yaml', 'xml'] },
+    ],
   },
   {
     id: 'prompt-persona-naucnik',
@@ -273,6 +409,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['istrazivanje', 'prototip', 'benchmark'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Istraživački podaci', opis: 'Podaci za analizu i istraživanje', formati: ['csv', 'json', 'xlsx', 'txt'], obavezan: true },
+      { naziv: 'Prethodna istraživanja', opis: 'Rezultati prethodnih istraživanja', formati: ['pdf', 'md', 'json'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Istraživački izveštaj', opis: 'Rezultati istraživanja sa zaključcima', formati: ['pdf', 'md', 'html', 'json'] },
+      { naziv: 'Benchmark rezultati', opis: 'Rezultati benchmarking testova', formati: ['csv', 'json', 'xlsx'] },
+    ],
   },
   {
     id: 'prompt-persona-analiticar',
@@ -288,6 +432,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['analitika', 'metrike', 'izvestaji'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Podaci za analizu', opis: 'Sirovi podaci za analitičku obradu', formati: ['csv', 'json', 'xlsx', 'sql'], obavezan: true },
+      { naziv: 'Definicije metrika', opis: 'Definicije metrika i KPI-jeva', formati: ['json', 'yaml', 'md'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Analitički izveštaj', opis: 'Izveštaj sa vizualizacijom podataka', formati: ['pdf', 'html', 'json', 'md'] },
+      { naziv: 'Izvezeni podaci', opis: 'Obrađeni podaci u tabelarnom formatu', formati: ['csv', 'xlsx', 'json'] },
+    ],
   },
   {
     id: 'prompt-persona-strateg',
@@ -303,6 +455,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['strategija', 'roadmap', 'planiranje'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Trenutno stanje', opis: 'Podaci o trenutnom stanju projekta', formati: ['json', 'md', 'pdf', 'xlsx'], obavezan: true },
+      { naziv: 'Tržišna analiza', opis: 'Podaci o tržištu i konkurenciji', formati: ['csv', 'json', 'pdf'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Strateški plan', opis: 'Kompletan strateški plan razvoja', formati: ['pdf', 'md', 'docx', 'json'] },
+      { naziv: 'Roadmap', opis: 'Vremenski plan sa miljokazima', formati: ['json', 'csv', 'xlsx', 'html'] },
+    ],
   },
   {
     id: 'prompt-persona-mentor',
@@ -318,6 +478,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['obuka', 'mentoring', 'znanje'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Materijali za obuku', opis: 'Edukativni materijali i resursi', formati: ['md', 'pdf', 'docx', 'txt', 'html'], obavezan: false },
+      { naziv: 'Profil polaznika', opis: 'Informacije o timu/polaznicima', formati: ['json', 'csv'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Plan obuke', opis: 'Strukturisan plan obuke', formati: ['md', 'pdf', 'docx', 'html'] },
+      { naziv: 'Edukativni materijal', opis: 'Generisan edukativni sadržaj', formati: ['md', 'html', 'pdf', 'txt'] },
+    ],
   },
   {
     id: 'prompt-persona-integrator',
@@ -333,6 +501,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['integracija', 'api', 'sinhronizacija'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'API specifikacija', opis: 'OpenAPI/Swagger specifikacije za integraciju', formati: ['json', 'yaml', 'xml'], obavezan: true },
+      { naziv: 'Konfiguracija servisa', opis: 'Konfiguracija spoljnih servisa', formati: ['json', 'yaml'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Integracioni plan', opis: 'Plan integracije sa mapiranjem podataka', formati: ['json', 'yaml', 'md', 'pdf'] },
+      { naziv: 'Integracioni izveštaj', opis: 'Status integracije i logovi', formati: ['json', 'html', 'csv', 'log'] },
+    ],
   },
   {
     id: 'prompt-persona-komunikator',
@@ -348,6 +524,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['komunikacija', 'notifikacije', 'izveštavanje'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Poruke/obaveštenja', opis: 'Šabloni poruka i obaveštenja', formati: ['json', 'txt', 'md', 'html'], obavezan: false },
+      { naziv: 'Kontakt lista', opis: 'Lista primalaca komunikacije', formati: ['csv', 'json', 'xlsx'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Komunikacioni izveštaj', opis: 'Izveštaj o poslatim komunikacijama', formati: ['json', 'pdf', 'csv', 'html'] },
+      { naziv: 'Šabloni poruka', opis: 'Generisani šabloni za komunikaciju', formati: ['json', 'html', 'md', 'txt'] },
+    ],
   },
   {
     id: 'prompt-persona-finansijer',
@@ -363,6 +547,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['finansije', 'budzet', 'roi'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Finansijski podaci', opis: 'Transakcije, prihodi, rashodi', formati: ['csv', 'xlsx', 'json', 'sql'], obavezan: true },
+      { naziv: 'Budžetski plan', opis: 'Postojeći budžetski plan za analizu', formati: ['xlsx', 'csv', 'json', 'pdf'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Finansijski izveštaj', opis: 'Izveštaj o finansijskom stanju', formati: ['pdf', 'xlsx', 'csv', 'json', 'html'] },
+      { naziv: 'ROI analiza', opis: 'Analiza povraćaja investicije', formati: ['pdf', 'json', 'xlsx'] },
+    ],
   },
   {
     id: 'prompt-persona-evolver',
@@ -378,6 +570,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['evolucija', 'inovacija', 'napredak'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Stanje sistema', opis: 'Trenutno stanje sistema za evoluciju', formati: ['json', 'yaml'], obavezan: true },
+      { naziv: 'Evolucioni ciljevi', opis: 'Definisani ciljevi evolucije', formati: ['md', 'json', 'txt'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Evolucioni izveštaj', opis: 'Rezultat evolucionog procesa', formati: ['json', 'md', 'pdf', 'html'] },
+      { naziv: 'Ažurirani sistem', opis: 'Nova konfiguracija sistema posle evolucije', formati: ['json', 'yaml'] },
+    ],
   },
   {
     id: 'prompt-persona-monitor',
@@ -393,6 +593,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['monitoring', 'alerting', 'uptime'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Monitoring konfiguracija', opis: 'Konfiguracija za monitoring i alerting', formati: ['json', 'yaml'], obavezan: true },
+      { naziv: 'Metrički podaci', opis: 'Real-time metrike sistema', formati: ['json', 'csv'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Monitoring izveštaj', opis: 'Izveštaj o statusu i uptime-u sistema', formati: ['json', 'html', 'pdf', 'csv'] },
+      { naziv: 'Alert logovi', opis: 'Logovi alarma i notifikacija', formati: ['log', 'json', 'csv', 'txt'] },
+    ],
   },
   {
     id: 'prompt-persona-ekolog',
@@ -408,6 +616,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['ekosistem', 'zdravlje', 'sustainability'],
     prioritet: 'srednji',
+    importi: [
+      { naziv: 'Ekosistem podaci', opis: 'Podaci o stanju ekosistema', formati: ['json', 'csv', 'yaml'], obavezan: true },
+      { naziv: 'Resursi sistema', opis: 'Trenutna potrošnja resursa', formati: ['json', 'csv'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Ekosistem izveštaj', opis: 'Izveštaj o zdravlju ekosistema', formati: ['json', 'pdf', 'html', 'md'] },
+      { naziv: 'Sustainability metrike', opis: 'Metrike održivosti sistema', formati: ['csv', 'json', 'xlsx'] },
+    ],
   },
   {
     id: 'prompt-persona-vizionar',
@@ -423,6 +639,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['vizija', 'buducnost', 'inovacija'],
     prioritet: 'nizak',
+    importi: [
+      { naziv: 'Trendovi', opis: 'Analiza trendova i predikcije', formati: ['json', 'csv', 'pdf', 'md'], obavezan: false },
+      { naziv: 'Strateški dokumenti', opis: 'Postojeća strategija i vizija', formati: ['pdf', 'md', 'docx'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Vizija dokument', opis: 'Dokument sa vizijom i pravcima razvoja', formati: ['pdf', 'md', 'docx', 'html'] },
+      { naziv: 'Inovacioni predlozi', opis: 'Lista inovativnih predloga', formati: ['json', 'md', 'csv'] },
+    ],
   },
 
   // ─── Platforma Prompt-ovi ────────────────────────────────
@@ -440,6 +664,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['io-openui-ao', 'spajapro', 'frontend'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'UI komponente', opis: 'Konfiguacija UI komponenti za obradu', formati: ['json', 'yaml', 'html'], obavezan: false },
+      { naziv: 'Korisnikovi podaci', opis: 'Ulazni podaci korisnika za Prompt', formati: ['json', 'txt', 'csv', 'md'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Prompt rezultat', opis: 'Rezultat obrade Prompt-a', formati: ['json', 'md', 'html', 'txt'] },
+      { naziv: 'UI konfiguracija', opis: 'Generisana UI konfiguracija', formati: ['json', 'yaml', 'html'] },
+    ],
   },
   {
     id: 'prompt-platforma-super-platforma',
@@ -455,6 +687,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['platforma', 'upravljanje', 'ekosistem'],
     prioritet: 'kritican',
+    importi: [
+      { naziv: 'Komanda operacija', opis: 'Komandni fajl sa operacijama za izvršenje', formati: ['json', 'yaml', 'txt'], obavezan: true },
+      { naziv: 'Ekosistem stanje', opis: 'Trenutno stanje celokupnog ekosistema', formati: ['json', 'yaml'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Ekosistem izveštaj', opis: 'Kompletan izveštaj o ekosistemu', formati: ['json', 'pdf', 'html', 'md'] },
+      { naziv: 'Operacioni log', opis: 'Log izvršenih operacija', formati: ['log', 'json', 'txt', 'csv'] },
+    ],
   },
   {
     id: 'prompt-platforma-proksi',
@@ -470,6 +710,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['proksi', 'signal', 'distribucija'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Signal konfiguracija', opis: 'Konfiguracija signala za distribuciju', formati: ['json', 'yaml', 'xml'], obavezan: true },
+      { naziv: 'Mrežni podaci', opis: 'Podaci za prenos kroz mrežu', formati: ['json', 'csv', 'txt'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Distribucioni izveštaj', opis: 'Izveštaj o distribuciji signala', formati: ['json', 'html', 'pdf'] },
+      { naziv: 'Mrežni logovi', opis: 'Logovi mrežnog prenosa', formati: ['log', 'json', 'csv', 'txt'] },
+    ],
   },
   {
     id: 'prompt-platforma-mobilna',
@@ -485,6 +733,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['mobilna', 'edge', 'iot'],
     prioritet: 'visok',
+    importi: [
+      { naziv: 'Senzorski podaci', opis: 'Podaci sa IoT senzora i mobilnih uređaja', formati: ['json', 'csv'], obavezan: false },
+      { naziv: 'Mobilna konfiguracija', opis: 'Konfiguracija mobilne mreže', formati: ['json', 'yaml'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Mobilni izveštaj', opis: 'Izveštaj o mobilnoj mreži i uređajima', formati: ['json', 'pdf', 'html'] },
+      { naziv: 'Edge AI rezultati', opis: 'Rezultati Edge AI obrade', formati: ['json', 'csv', 'txt'] },
+    ],
   },
 
   // ─── Univerzalni Prompt ──────────────────────────────────
@@ -501,6 +757,14 @@ export const promptovi: Prompt[] = [
     ],
     tagovi: ['univerzalni', 'svemoguci', 'kvantni'],
     prioritet: 'kritican',
+    importi: [
+      { naziv: 'Ulazni podaci', opis: 'Bilo koji tip ulaznih podataka za univerzalnu obradu', formati: ['json', 'csv', 'xml', 'yaml', 'txt', 'md', 'html', 'pdf', 'xlsx', 'docx', 'sql', 'log'], obavezan: false },
+      { naziv: 'Multimedijalni fajlovi', opis: 'Slike i vizuelni resursi za obradu', formati: ['png', 'jpg', 'svg'], obavezan: false },
+    ],
+    exporti: [
+      { naziv: 'Univerzalni rezultat', opis: 'Rezultat obrade u željenom formatu', formati: ['json', 'csv', 'xml', 'yaml', 'txt', 'md', 'html', 'pdf', 'xlsx', 'docx'] },
+      { naziv: 'Vizuelni rezultat', opis: 'Generisani vizuelni sadržaj', formati: ['png', 'svg', 'jpg'] },
+    ],
   },
 ];
 

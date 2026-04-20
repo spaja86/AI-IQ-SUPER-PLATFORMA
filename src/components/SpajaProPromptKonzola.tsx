@@ -11,6 +11,19 @@ interface PromptParametar {
   podrazumevano?: string;
 }
 
+interface PromptImportInfo {
+  naziv: string;
+  opis: string;
+  formati: string[];
+  obavezan: boolean;
+}
+
+interface PromptExportInfo {
+  naziv: string;
+  opis: string;
+  formati: string[];
+}
+
 interface PromptItem {
   id: string;
   naziv: string;
@@ -24,6 +37,8 @@ interface PromptItem {
   parametri: PromptParametar[];
   tagovi: string[];
   prioritet: string;
+  importi: PromptImportInfo[];
+  exporti: PromptExportInfo[];
 }
 
 interface SpajaProVerzija {
@@ -289,6 +304,58 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                       )}
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {/* Import / Export */}
+            {izabraniPrompt && (izabraniPrompt.importi.length > 0 || izabraniPrompt.exporti.length > 0) && (
+              <div className="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-4">
+                <h3 className="mb-3 text-sm font-semibold text-gray-300">📦 Import / Export</h3>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {/* Import */}
+                  {izabraniPrompt.importi.length > 0 && (
+                    <div>
+                      <h4 className="mb-2 text-xs font-medium text-green-400">📥 Import (ulazni fajlovi)</h4>
+                      <div className="space-y-1.5">
+                        {izabraniPrompt.importi.map((imp, i) => (
+                          <div key={i} className="rounded-lg border border-green-500/20 bg-green-900/10 p-2">
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs font-medium text-white">{imp.naziv}</span>
+                              {imp.obavezan && (
+                                <span className="rounded bg-red-900/50 px-1 py-0.5 text-[9px] text-red-400">obavezan</span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-gray-400 mt-0.5">{imp.opis}</p>
+                            <div className="mt-1 flex flex-wrap gap-0.5">
+                              {imp.formati.map((f) => (
+                                <span key={f} className="rounded bg-green-900/30 px-1 py-0.5 text-[9px] text-green-300">.{f}</span>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {/* Export */}
+                  {izabraniPrompt.exporti.length > 0 && (
+                    <div>
+                      <h4 className="mb-2 text-xs font-medium text-purple-400">📤 Export (izlazni fajlovi)</h4>
+                      <div className="space-y-1.5">
+                        {izabraniPrompt.exporti.map((exp, i) => (
+                          <div key={i} className="rounded-lg border border-purple-500/20 bg-purple-900/10 p-2">
+                            <span className="text-xs font-medium text-white">{exp.naziv}</span>
+                            <p className="text-[10px] text-gray-400 mt-0.5">{exp.opis}</p>
+                            <div className="mt-1 flex flex-wrap gap-0.5">
+                              {exp.formati.map((f) => (
+                                <span key={f} className="rounded bg-purple-900/30 px-1 py-0.5 text-[9px] text-purple-300">.{f}</span>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
