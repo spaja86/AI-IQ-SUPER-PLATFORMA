@@ -297,23 +297,29 @@ export const oktavniGPURAMSistem: OktavniGPURAMSistem = {
 // ─── Helper funkcije ─────────────────────────────────────────────────
 
 export function getRaspodelaZaOktavu(oktava: OktavniNivo): OktavnaGPURaspodela {
-  return raspodele[oktava - 1];
+  const r = raspodele[oktava - 1];
+  if (!r) throw new RangeError(`Nevalidna oktava: ${oktava}`);
+  return r;
 }
 
 export function getGPUJezgaraZaOktavu(oktava: OktavniNivo): number {
-  return raspodele[oktava - 1].gpuJezgara;
+  return getRaspodelaZaOktavu(oktava).gpuJezgara;
 }
 
 export function getRAMGBZaOktavu(oktava: OktavniNivo): number {
-  return raspodele[oktava - 1].ramGB;
+  return getRaspodelaZaOktavu(oktava).ramGB;
 }
 
 export function getMatricnoJedinjenjeZaOktavu(oktava: OktavniNivo): number {
-  return raspodele[oktava - 1].matricnoJedinjenje;
+  return getRaspodelaZaOktavu(oktava).matricnoJedinjenje;
 }
 
 export function getSinergijuIzmedjuOktava(o1: OktavniNivo, o2: OktavniNivo): number {
-  return matricnoJedinjenje.matrica[o1 - 1][o2 - 1];
+  const red = matricnoJedinjenje.matrica[o1 - 1];
+  if (!red) throw new RangeError(`Nevalidna oktava o1: ${o1}`);
+  const vrednost = red[o2 - 1];
+  if (vrednost === undefined) throw new RangeError(`Nevalidna oktava o2: ${o2}`);
+  return vrednost;
 }
 
 export function getUkupnuGPUSnagu(): number {

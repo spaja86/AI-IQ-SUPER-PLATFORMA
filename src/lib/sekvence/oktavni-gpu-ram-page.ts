@@ -36,7 +36,7 @@ export const oktavniGPURAMSekvence: Sekvenca[] = [
     podaci: {
       sadrzaj: `Digitalni Kompjuter ima veliki GPU sa ${UKUPNO_GPU_JEZGARA.toLocaleString('sr')} jezgara i RAM od ${UKUPNO_RAM_GB.toLocaleString('sr')} GB. Da bi igrice postigle što veći GPU učinak, oktavni sistem u rasponu ekvalaturnog galaksipoznog sektora u matričnom jedinjenju izražava se kroz grafičnu jedinicu GPU i RAM.
 
-Svaka od 8 oktava OMEGA AI sistema dobija svoj deo GPU jezgara i RAM memorije prema galaksipoznom faktoru i matričnom koeficijentu. Viže oktave (Koordinacija, Evolucija) dobijaju veći deo resursa jer upravljaju kompleksnijim rendering pipeline-ovima i prediktivnom alokacijom za igrice.
+Svaka od 8 oktava OMEGA AI sistema dobija svoj deo GPU jezgara i RAM memorije prema galaksipoznom faktoru i matričnom koeficijentu. Više oktave (Koordinacija, Evolucija) dobijaju veći deo resursa jer upravljaju kompleksnijim rendering pipeline-ovima i prediktivnom alokacijom za igrice.
 
 Matričino jedinjenje 8×8 definiše sinergiju između oktava — kako GPU i RAM resursi jedne oktave pojačavaju performanse druge. Dijagonala matrice predstavlja samoodrživu snagu svake oktave, dok van-dijagonalni elementi predstavljaju inter-oktavnu sinergiju.`,
       istaknuteStavke: [
@@ -119,7 +119,7 @@ Matričino jedinjenje 8×8 definiše sinergiju između oktava — kako GPU i RAM
     redosled: 7,
     podaci: {
       kartice: sistem.raspodele.map((r) => ({
-        naslov: `${r.ikona} Oktava ${r.oktava} — ${r.sektor.naziv.split(' — ')[1] ?? ''}`,
+        naslov: `${r.ikona} Oktava ${r.oktava} — ${r.naziv.split(' — ')[1] ?? r.naziv}`,
         opis: `${r.opis}\n\nGPU: ${r.gpuJezgara.toLocaleString('sr')} jezgara (${r.gpuProcenat}%) | RAM: ${r.ramGB.toLocaleString('sr')} GB (${r.ramProcenat}%) | Matrično jedinjenje: ${r.matricnoJedinjenje.toLocaleString('sr')}`,
       })),
     },
