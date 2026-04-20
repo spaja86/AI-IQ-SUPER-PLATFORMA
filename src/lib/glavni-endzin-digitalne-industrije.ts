@@ -47,6 +47,18 @@ import {
   getProfesionalniLoginPregled,
   getSvePoslovneMejlAdrese,
 } from './profesionalni-login-platni-sistem';
+import {
+  getBrojPromptova,
+  getPromptBiblioteka,
+} from './prompt';
+import {
+  univerzalniPromptSistem,
+  getPromptSummary,
+} from './spaja-univerzalni-prompt';
+import {
+  getUkupnoAiPagePrompts,
+  getUkupnoStranica,
+} from './ai-page-prompts';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -105,6 +117,13 @@ export interface GlavniEndzinStatistika {
   loginPlatniProvajdera: number;
   loginMejlRuta: number;
   loginVerifikacionihKoraka: number;
+  // Prompt Sistem — svi promptovi spojeni sa Endžinom
+  promptovaBiblioteka: number;
+  personaPromptova: number;
+  univerzalnihPromptova: number;
+  aktivnihUniverzalnihPromptova: number;
+  aiPagePromptova: number;
+  aiPageStranica: number;
 }
 
 export interface GlavniEndzinDigitalneIndustrije {
@@ -139,6 +158,17 @@ export interface GlavniEndzinDigitalneIndustrije {
     mejlRuta: number;
     verifikacionihKoraka: number;
     poslovneMejlAdrese: string[];
+  };
+  // Prompt Sistem — spojen sa Endžinom
+  promptSistem: {
+    naziv: string;
+    jezgro: string;
+    centralniPromptovi: number;
+    personaPromptova: number;
+    univerzalnihPromptova: number;
+    aktivnihPromptova: number;
+    aiPagePromptova: number;
+    aiPageStranica: number;
   };
 }
 
@@ -225,6 +255,14 @@ function autoSklopiProizvode(): AutoSklapanjeProizvod[] {
   return sklopljeni;
 }
 
+// ─── Pre-computed prompt vrijednosti (jedna inicijalizacija) ─────────
+
+const _promptBrojPromptova = getBrojPromptova();
+const _promptBiblioteka = getPromptBiblioteka();
+const _promptSummary = getPromptSummary();
+const _aiPagePromptova = getUkupnoAiPagePrompts();
+const _aiPageStranica = getUkupnoStranica();
+
 // ─── Evolucioni ciklusi ──────────────────────────────────
 
 const evolucijaCiklusi: EvolucijaCiklus[] = [
@@ -291,6 +329,13 @@ const evolucijaCiklusi: EvolucijaCiklus[] = [
     faza: 'zavrsena',
     napredak: 100,
   },
+  {
+    id: 'evo-prompt-sistem',
+    naziv: 'Spajanje svih Promptova sa Glavnim Endžinom',
+    opis: `Svi Promptovi spojeni sa Glavnim Endžinom — Centralna Biblioteka (${_promptBrojPromptova} promptova), Univerzalni Prompt Sistem (${univerzalniPromptSistem.ukupnoPromptova} promptova), AI Page Prompts (${_aiPagePromptova} promptova na ${_aiPageStranica} stranica), SpajaPro Prompt Engine`,
+    faza: 'zavrsena',
+    napredak: 100,
+  },
 ];
 
 // ─── Mogućnosti ──────────────────────────────────────────
@@ -339,6 +384,12 @@ const mogucnosti: string[] = [
   `LOGIN VERIFIKACIJA — ${profesionalniLoginPlatniSistem.ukupnoVerifikacija} koraka verifikacije za poslovne mejlove od AI IQ World Bank`,
   'LOGIN MEJL RUTE — automatsko rutiranje mejlova na Stripe/PayPal rute sa kompletnom verifikacijom',
   'SPOJEN LOGIN + ENDŽIN — Profesionalni Login Platni Sistem radi u sklopu Glavnog Endžina',
+  // ── NOVI — Prompt Sistem spojen sa Endžinom ────
+  `PROMPT BIBLIOTEKA — ${_promptBrojPromptova} centralnih promptova zakačenih za Glavni Endžin (sistemski, persona, platforma, evolucioni, bezbednost, kreativni, orkestracioni, dijagnostički)`,
+  `UNIVERZALNI PROMPT SISTEM — ${univerzalniPromptSistem.ukupnoPromptova} univerzalnih promptova (${univerzalniPromptSistem.aktivnihPromptova} aktivnih) pokriva svih 8 OMEGA AI oktava i 21 personu`,
+  `AI PAGE PROMPTS — ${_aiPagePromptova} kontekstualnih promptova na ${_aiPageStranica} stranica — svaka stranica ima AI i SpajaPro AI preporuke`,
+  'SPAJAPRO PROMPT ENGINE — Inteligentni engine obrađuje sve korisničke promptove kao ChatGPT — v6-v15 za svaki od promptova',
+  'SPOJEN PROMPT + ENDŽIN — Svi Promptovi (Centralni, Univerzalni, Page, SpajaPro) rade u sklopu Glavnog Endžina',
 ];
 
 // ─── Statistika ──────────────────────────────────────────
@@ -384,6 +435,13 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
     loginPlatniProvajdera: profesionalniLoginPlatniSistem.provajderi.length,
     loginMejlRuta: profesionalniLoginPlatniSistem.ukupnoMejlRuta,
     loginVerifikacionihKoraka: profesionalniLoginPlatniSistem.ukupnoVerifikacija,
+    // Prompt Sistem statistika
+    promptovaBiblioteka: _promptBiblioteka.ukupnoPromptova,
+    personaPromptova: _promptBiblioteka.personaPromptovi,
+    univerzalnihPromptova: _promptSummary.ukupnoPromptova,
+    aktivnihUniverzalnihPromptova: _promptSummary.aktivnihPromptova,
+    aiPagePromptova: _aiPagePromptova,
+    aiPageStranica: _aiPageStranica,
   };
 }
 
@@ -402,9 +460,10 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     `${nabavkaStavke.length} nabavljenih digitalnih varijacija ($${glavniSistemNabavka.ukupnoPotroseno.toLocaleString()} USD), ` +
     `${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona. ` +
     `Profesionalni Login Platni Sistem — ${profesionalniLoginPlatniSistem.provajderi.length} provajdera, ` +
-    `${profesionalniLoginPlatniSistem.ukupnoMejlRuta} mejl ruta, ${profesionalniLoginPlatniSistem.ukupnoVerifikacija} koraka verifikacije.`,
-  ikona: '🏭⚙️💰',
-  verzija: '3.0.0',
+    `${profesionalniLoginPlatniSistem.ukupnoMejlRuta} mejl ruta, ${profesionalniLoginPlatniSistem.ukupnoVerifikacija} koraka verifikacije. ` +
+    `Prompt Sistem — ${_promptBrojPromptova} centralnih promptova, ${univerzalniPromptSistem.ukupnoPromptova} univerzalnih promptova, ${_aiPagePromptova} AI page promptova na ${_aiPageStranica} stranica — SVI ZAKAČENI ZA GLAVNI ENDŽIN.`,
+  ikona: '🏭⚙️💰💬',
+  verzija: '4.0.0',
   status: 'aktivan',
   spojeniEndzini,
   autoSklapanje: sklopljeniProizvodi,
@@ -435,6 +494,16 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     mejlRuta: profesionalniLoginPlatniSistem.ukupnoMejlRuta,
     verifikacionihKoraka: profesionalniLoginPlatniSistem.ukupnoVerifikacija,
     poslovneMejlAdrese: getSvePoslovneMejlAdrese(),
+  },
+  promptSistem: {
+    naziv: univerzalniPromptSistem.naziv,
+    jezgro: univerzalniPromptSistem.jezgro,
+    centralniPromptovi: _promptBrojPromptova,
+    personaPromptova: _promptBiblioteka.personaPromptovi,
+    univerzalnihPromptova: univerzalniPromptSistem.ukupnoPromptova,
+    aktivnihPromptova: univerzalniPromptSistem.aktivnihPromptova,
+    aiPagePromptova: _aiPagePromptova,
+    aiPageStranica: _aiPageStranica,
   },
 };
 
@@ -503,5 +572,18 @@ export function getProfesionalniLoginStatus() {
   return {
     ...glavniEndzinDigitalneIndustrije.profesionalniLoginSistem,
     pregled: getProfesionalniLoginPregled(),
+  };
+}
+
+/** Dohvati status Prompt Sistema iz Glavnog Endžina */
+export function getPromptSistemStatus() {
+  const stats = getGlavniEndzinStatistika();
+  return {
+    ...glavniEndzinDigitalneIndustrije.promptSistem,
+    promptSummary: _promptSummary,
+    ukupnoSvihPromptova:
+      stats.promptovaBiblioteka +
+      stats.univerzalnihPromptova +
+      stats.aiPagePromptova,
   };
 }
