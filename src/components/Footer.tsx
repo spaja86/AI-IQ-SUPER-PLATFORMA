@@ -61,6 +61,7 @@ const footerTechLinks = [
   { href: '/glavni-sistem-nabavka', label: 'Sistem Nabavka' },
   { href: '/reklame-i-partnerstva', label: 'Reklame & Partnerstva' },
   { href: '/dnevna-raspodela-zarade', label: 'Raspodela Zarade' },
+  { href: '/oktavni-gpu-ram', label: 'Oktavni GPU/RAM' },
 ];
 
 export default function Footer() {
