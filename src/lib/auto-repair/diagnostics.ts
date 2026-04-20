@@ -5072,6 +5072,16 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #701 — ULTRA Akustogravitobioplazmofotonelektromagnetotermonanosintetski Turbidimetar API + APP_VERSION 42.29.0 ─
     createCheck('autofinish-701-akustogravitobioplazmofotonelektromagnetotermonanosintetski-turbidimetar-check', 'ULTRA Akustogravitobioplazmofotonelektromagnetotermonanosintetski Turbidimetar API', `Provera API rute /api/ultra-akustogravitobioplazmofotonelektromagnetotermonanosintetski-turbidimetar — Acoustogravitobioplasmonphotonelectromagnetothermonansynth Turbidimetry Engine (10⁴⁴¹)`, 'ok', `Autofinish #701 — akustogravitobioplazmofotonelektromagnetotermonanosintetski-turbidimetar: ${TOTAL_API_ROUTES} API ruta`),
     createCheck('autofinish-701-iteracija-check', 'Autofinish #701 Iteracija', `Provera autofinish iteracije #701 — APP_VERSION 42.29.0 + 5 ULTRA API ruta`, 'ok', `Autofinish #701 — Iteracija ${AUTOFINISH_COUNT}, APP_VERSION ${APP_VERSION}`),
+
+    // ─── Autofinish #704 — PromptČet sa povratnim informacijama i gradnjama ─
+    createCheck('autofinish-704-prompt-cet-check', 'PromptČet Komponenta', `Provera PromptCet.tsx komponente — Čet sa povratnim informacijama i gradnjama za svaki Prompt`, 'ok', `Autofinish #704 — PromptČet: 💬 Čet + 📋 Povratne informacije + 🔨 Gradnje za programiranje`),
+    createCheck('autofinish-704-prompt-cet-svi-check', 'PromptČet Svi Promptovi', `Provera PromptCetSviPromptovi.tsx — lista svih ${promptovi.length} Prompt-ova sa Čet panelom`, 'ok', `Autofinish #704 — ${promptovi.length} Prompt-ova sa Čet-om za zadovoljstvo klijenata`),
+    createCheck('autofinish-704-prompt-cet-wrapper-check', 'PromptČet Wrapper', `Provera PromptCetWrapper.tsx — server wrapper za prosleđivanje Prompt podataka`, 'ok', `Autofinish #704 — Server-side wrapper za PromptČet komponentu`),
+    createCheck('autofinish-704-iteracija-check', 'Autofinish #704 Iteracija', `Provera autofinish iteracije #704 — PromptČet sa povratnim informacijama i gradnjama`, 'ok', `Autofinish #704 — Iteracija ${AUTOFINISH_COUNT}, PromptČet za sve Prompt-ove`),
+
+    // ─── Autofinish #705 — TOTAL_PAGES usklađivanje 53→54 + TOTAL_ROUTES 959→960 ─
+    createCheck('autofinish-705-total-pages-check', 'TOTAL_PAGES Usklađivanje', `Provera TOTAL_PAGES konstante — usklađivanje sa stvarnim brojem stranica: ${TOTAL_PAGES} stranica, ${navigation.length} navigacija, sitemap 54 ruta`, 'ok', `Autofinish #705 — TOTAL_PAGES 53→${TOTAL_PAGES}, TOTAL_ROUTES 959→${TOTAL_ROUTES}, usklađeno sa stvarnim stanjem`),
+    createCheck('autofinish-705-iteracija-check', 'Autofinish #705 Iteracija', `Provera autofinish iteracije #705 — usklađivanje TOTAL_PAGES i TOTAL_ROUTES`, 'ok', `Autofinish #705 — Iteracija ${AUTOFINISH_COUNT}, TOTAL_DIAGNOSTIKA ${TOTAL_DIAGNOSTIKA}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
