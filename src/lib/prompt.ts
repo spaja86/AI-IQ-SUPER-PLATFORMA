@@ -665,7 +665,7 @@ export const promptovi: Prompt[] = [
     tagovi: ['io-openui-ao', 'spajapro', 'frontend'],
     prioritet: 'visok',
     importi: [
-      { naziv: 'UI komponente', opis: 'Konfiguacija UI komponenti za obradu', formati: ['json', 'yaml', 'html'], obavezan: false },
+      { naziv: 'UI komponente', opis: 'Konfiguracija UI komponenti za obradu', formati: ['json', 'yaml', 'html'], obavezan: false },
       { naziv: 'Korisnikovi podaci', opis: 'Ulazni podaci korisnika za Prompt', formati: ['json', 'txt', 'csv', 'md'], obavezan: false },
     ],
     exporti: [
