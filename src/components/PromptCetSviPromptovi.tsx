@@ -33,7 +33,7 @@ interface Props {
 }
 
 export default function PromptCetSviPromptovi({ promptovi }: Props) {
-  const [izabraniPrompt, setIzabraniPrompt] = useState<PromptPodaci>(promptovi[0]);
+  const [izabraniPrompt, setIzabraniPrompt] = useState<PromptPodaci | null>(promptovi[0] ?? null);
   const [filterKategorija, setFilterKategorija] = useState<string>('sve');
 
   const kategorije = [...new Set(promptovi.map((p) => p.kategorija))];
@@ -96,7 +96,7 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
                     key={p.id}
                     onClick={() => setIzabraniPrompt(p)}
                     className={`w-full rounded-xl border p-2.5 text-left transition ${
-                      izabraniPrompt.id === p.id
+                      izabraniPrompt?.id === p.id
                         ? 'border-blue-500/50 bg-blue-900/20 shadow-lg shadow-blue-500/5'
                         : 'border-gray-700/30 bg-gray-800/30 hover:border-gray-600 hover:bg-gray-800/50'
                     }`}
@@ -124,7 +124,14 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
 
           {/* Chat Panel */}
           <div className="lg:col-span-3">
-            <PromptCet prompt={izabraniPrompt} />
+            {izabraniPrompt ? (
+              <PromptCet prompt={izabraniPrompt} />
+            ) : (
+              <div className="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-8 text-center text-gray-500">
+                <p className="text-3xl mb-2">💬</p>
+                <p className="text-sm">Izaberite Prompt iz liste da otvorite Čet.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

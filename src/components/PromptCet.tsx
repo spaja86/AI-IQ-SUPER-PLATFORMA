@@ -207,7 +207,8 @@ export default function PromptCet({ prompt }: Props) {
 
       const odgovor = data.rezultat ?? data.odgovor?.sadrzaj ?? 'Nema odgovora.';
       setPoruke((prev) => [...prev, { uloga: 'asistent', sadrzaj: odgovor, vreme: getVreme() }]);
-    } catch {
+    } catch (err) {
+      console.error('PromptCet: greška pri slanju poruke', err);
       setGreska('Greška u mreži. Pokušajte ponovo.');
     } finally {
       setUcitavanje(false);
@@ -223,7 +224,9 @@ export default function PromptCet({ prompt }: Props) {
       const prethodni = JSON.parse(localStorage.getItem(kljuc) ?? '[]') as PovratnaInformacija[];
       prethodni.push(povratna);
       localStorage.setItem(kljuc, JSON.stringify(prethodni.slice(-50)));
-    } catch { /* ignore */ }
+    } catch (err) {
+      console.error('PromptCet: greška pri čuvanju povratne informacije u localStorage', err);
+    }
 
     setPovratnaPoslata(true);
   }, [povratna, prompt.id]);
