@@ -31,7 +31,7 @@ export const TOTAL_IGRICA = 95;
 export const TOTAL_DIAGNOSTIKA = 1389;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 702;
+export const AUTOFINISH_COUNT = 703;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
