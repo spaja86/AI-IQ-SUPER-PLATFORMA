@@ -23,6 +23,8 @@ export default function PromptCetWrapper() {
     ciljnaPlatforma: p.ciljnaPlatforma,
     tagovi: p.tagovi,
     prioritet: p.prioritet,
+    importi: p.importi,
+    exporti: p.exporti,
   }));
 
   return <PromptCetSviPromptovi promptovi={promptData} />;

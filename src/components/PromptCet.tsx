@@ -35,6 +35,19 @@ interface GradnjaInfo {
   tip: 'programiranje' | 'dizajn' | 'analitika' | 'integracija' | 'bezbednost' | 'ostalo';
 }
 
+interface PromptImportInfo {
+  naziv: string;
+  opis: string;
+  formati: string[];
+  obavezan: boolean;
+}
+
+interface PromptExportInfo {
+  naziv: string;
+  opis: string;
+  formati: string[];
+}
+
 interface PromptPodaci {
   id: string;
   naziv: string;
@@ -47,6 +60,8 @@ interface PromptPodaci {
   ciljnaPlatforma?: string;
   tagovi: string[];
   prioritet: string;
+  importi: PromptImportInfo[];
+  exporti: PromptExportInfo[];
 }
 
 interface Props {
@@ -140,7 +155,7 @@ function getGradnjeZaPrompt(prompt: PromptPodaci): GradnjaInfo[] {
 
 // ─── Active Tab Type ────────────────────────────────────────────────────────
 
-type CetTab = 'cet' | 'povratne' | 'gradnje';
+type CetTab = 'cet' | 'povratne' | 'gradnje' | 'import-export';
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
@@ -244,6 +259,7 @@ export default function PromptCet({ prompt }: Props) {
     { id: 'cet', naziv: 'Čet', ikona: '💬' },
     { id: 'povratne', naziv: 'Povratne informacije', ikona: '📋' },
     { id: 'gradnje', naziv: 'Gradnje', ikona: '🔨' },
+    { id: 'import-export', naziv: 'Import / Export', ikona: '📦' },
   ];
 
   return (
@@ -503,6 +519,104 @@ export default function PromptCet({ prompt }: Props) {
               <span className="rounded-full bg-purple-900/30 px-2 py-0.5 text-[10px] text-purple-300">
                 #programiranje
               </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══ IMPORT / EXPORT TAB ═══ */}
+      {aktivniTab === 'import-export' && (
+        <div className="p-4 space-y-4">
+          {/* Import sekcija */}
+          <div>
+            <h5 className="text-sm font-semibold text-green-400 mb-2 flex items-center gap-1.5">
+              📥 Import — Ulazne informacije
+            </h5>
+            <p className="text-xs text-gray-400 mb-3">
+              Fajlovi i podaci koji se mogu uvesti za obradu u &quot;{prompt.naziv}&quot; Prompt-u:
+            </p>
+            {prompt.importi.length > 0 ? (
+              <div className="space-y-2">
+                {prompt.importi.map((imp, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl border border-green-500/20 bg-green-900/10 p-3"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5">
+                          <h6 className="text-sm font-medium text-white">{imp.naziv}</h6>
+                          {imp.obavezan && (
+                            <span className="rounded bg-red-900/50 px-1.5 py-0.5 text-[10px] text-red-400">
+                              obavezan
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">{imp.opis}</p>
+                        <div className="mt-1.5 flex flex-wrap gap-1">
+                          {imp.formati.map((f) => (
+                            <span key={f} className="rounded bg-green-900/30 px-1.5 py-0.5 text-[10px] text-green-300">
+                              .{f}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <span className="text-lg">📄</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-gray-500 italic">Nema definisanih importa za ovaj Prompt.</p>
+            )}
+          </div>
+
+          {/* Razdvajanje */}
+          <div className="border-t border-gray-700/50" />
+
+          {/* Export sekcija */}
+          <div>
+            <h5 className="text-sm font-semibold text-purple-400 mb-2 flex items-center gap-1.5">
+              📤 Export — Izlazni podaci
+            </h5>
+            <p className="text-xs text-gray-400 mb-3">
+              Fajlovi i podaci koji se mogu izvesti iz &quot;{prompt.naziv}&quot; Prompt-a:
+            </p>
+            {prompt.exporti.length > 0 ? (
+              <div className="space-y-2">
+                {prompt.exporti.map((exp, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl border border-purple-500/20 bg-purple-900/10 p-3"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <h6 className="text-sm font-medium text-white">{exp.naziv}</h6>
+                        <p className="text-xs text-gray-400 mt-0.5">{exp.opis}</p>
+                        <div className="mt-1.5 flex flex-wrap gap-1">
+                          {exp.formati.map((f) => (
+                            <span key={f} className="rounded bg-purple-900/30 px-1.5 py-0.5 text-[10px] text-purple-300">
+                              .{f}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <span className="text-lg">📦</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-gray-500 italic">Nema definisanih exporta za ovaj Prompt.</p>
+            )}
+          </div>
+
+          {/* Sumarni pregled */}
+          <div className="mt-4 pt-3 border-t border-gray-700/50">
+            <div className="flex items-center gap-4 text-xs text-gray-500">
+              <span>📥 {prompt.importi.length} import{prompt.importi.length !== 1 ? 'a' : ''}</span>
+              <span>📤 {prompt.exporti.length} export{prompt.exporti.length !== 1 ? 'a' : ''}</span>
+              <span>📋 {[...new Set(prompt.importi.flatMap((i) => i.formati).concat(prompt.exporti.flatMap((e) => e.formati)))].length} formata</span>
             </div>
           </div>
         </div>
