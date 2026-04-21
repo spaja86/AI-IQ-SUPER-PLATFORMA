@@ -56,7 +56,7 @@ const INJECTION_PATTERNS: Array<{ regex: RegExp; tip: string; opis: string }> = 
   {
     regex: /\[system\]|\[system\s*message\]|\[admin\]|\[override\]/i,
     tip: 'fake-system-tag',
-    opis: 'Lažni sistemski tag u korisnièkoj poruci',
+    opis: 'Lažni sistemski tag u korisničkoj poruci',
   },
   {
     regex: /act\s+as\s+(if\s+you\s+are\s+)?(a\s+)?(jailbreak|dan|evil|unrestricted|uncensored)/i,

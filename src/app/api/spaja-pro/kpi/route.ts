@@ -134,7 +134,7 @@ export async function GET(request: NextRequest) {
       korisnik: {
         plan: profil?.plan ?? 'starter',
         preferredModel: profil?.preferred_model ?? 'gpt-4o-mini',
-        clansvoOd: profil?.created_at,
+        clanstvoOd: profil?.created_at,
         poruka: {
           iskorisceno: profil?.chat_messages_used ?? 0,
           limit: profil?.chat_messages_limit ?? 10,

@@ -111,7 +111,7 @@ export { rutirajModel, jeReasoningModel, getModeliStatistike, AVAILABLE_MODELS }
 
 // ─── Self-Check Verifikacija ───────────────────────────────────────
 
-export type { KonfidensPivo, SelfCheckRezultat } from './self-check';
+export type { KonfidensNivo, SelfCheckRezultat } from './self-check';
 export { verifikujOdgovor, formatirajKonfidensNivo } from './self-check';
 
 // ─── Response Cache ────────────────────────────────────────────────

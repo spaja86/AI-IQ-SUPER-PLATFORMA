@@ -57,7 +57,7 @@ class LRUCache {
     const unos = this.mapa.get(kljuc);
     if (!unos) return null;
 
-    // Provjeri TTL
+    // Proveri TTL
     if (Date.now() - unos.kreiran > CACHE_TTL_MS) {
       this.delete(kljuc);
       return null;

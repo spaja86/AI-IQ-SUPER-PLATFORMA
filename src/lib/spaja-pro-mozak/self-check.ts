@@ -4,10 +4,10 @@
 
 // ─── Tipovi ──────────────────────────────────────────────────────────
 
-export type KonfidensPivo = 'visok' | 'srednji' | 'nizak' | 'ne-znam';
+export type KonfidensNivo = 'visok' | 'srednji' | 'nizak' | 'ne-znam';
 
 export interface SelfCheckRezultat {
-  konfidensNivo: KonfidensPivo;
+  konfidensNivo: KonfidensNivo;
   konfidensProcenat: number; // 0-100
   istinitostProvere: string[];
   upozoravanja: string[];
@@ -158,7 +158,7 @@ export function verifikujOdgovor(
 
   // ── Konfidensni nivo ──────────────────────────────────────────────
 
-  let konfidensNivo: KonfidensPivo;
+  let konfidensNivo: KonfidensNivo;
   if (neZnam) {
     konfidensNivo = 'ne-znam';
   } else if (konfidensProcenat >= 75) {
@@ -182,7 +182,7 @@ export function verifikujOdgovor(
 /**
  * Formatuj konfidensni nivo za prikaz u UI
  */
-export function formatirajKonfidensNivo(nivo: KonfidensPivo, procenat: number): {
+export function formatirajKonfidensNivo(nivo: KonfidensNivo, procenat: number): {
   tekst: string;
   boja: string;
   ikona: string;
