@@ -1,6 +1,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — SpajaPro AI Chat API (Streaming)
 // Kompanija SPAJA — Digitalna Industrija
 // POST /api/spaja-pro/chat — streaming AI chat sa OpenAI
+// Uključuje: injection zaštita, PII maskiranje, smart routing, caching, self-check
 
 import { NextRequest, NextResponse } from 'next/server';
 import {
@@ -13,10 +14,16 @@ import {
 import { UNLIMITED_CHAT } from '@/lib/stripe/config';
 import { verifyUserFromToken, getSupabaseServerClient } from '@/lib/supabase/server';
 import type { ModelId } from '@/lib/supabase/types';
+import { zastitiPrompt } from '@/lib/spaja-pro-mozak/prompt-zastita';
+import { rutirajModel, jeReasoningModel } from '@/lib/spaja-pro-mozak/model-router';
+import { verifikujOdgovor } from '@/lib/spaja-pro-mozak/self-check';
+import { generisiCacheKljuc, dohvatiIzKesa, sacuvajUKes } from '@/lib/spaja-pro-mozak/cache';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
+  const pocetakVremeMs = Date.now();
+
   try {
     const user = await verifyUserFromToken(request.headers.get('authorization'));
     if (!user) {
@@ -30,15 +37,27 @@ export async function POST(request: NextRequest) {
       stream?: boolean;
     };
     const { message, threadId, stream: wantStream = true } = body;
-    const requestedModel = body.model ?? 'gpt-4o-mini';
+    const requestedModel = body.model ?? null;
 
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       return NextResponse.json({ error: 'Poruka je obavezna.' }, { status: 400 });
     }
 
-    if (message.length > 4000) {
-      return NextResponse.json({ error: 'Poruka je preduga (max 4000 karaktera).' }, { status: 400 });
+    // ── 1. Zaštita: Injection detekcija + PII maskiranje ──────────────
+    const zastitaRezultat = zastitiPrompt(message);
+
+    if (!zastitaRezultat.jeBezbedan) {
+      return NextResponse.json(
+        {
+          error: zastitaRezultat.razlogOdbijanja ?? 'Poruka nije bezbedna za obradu.',
+          ...(zastitaRezultat.jeInjection && { kod: 'INJECTION_DETECTED' }),
+        },
+        { status: 400 },
+      );
     }
+
+    // Koristi obrađenu poruku (sa maskiranim PII)
+    const obradjenaPoruka = zastitaRezultat.obradjenaPoruka;
 
     const supabase = getSupabaseServerClient();
 
@@ -62,13 +81,51 @@ export async function POST(request: NextRequest) {
       }, { status: 429 });
     }
 
-    // Odredi model — korisnik moze overridovati, inace koristi preferred iz profila
-    const model: ModelId = requestedModel ?? profile.preferred_model ?? 'gpt-4o-mini';
+    // ── 2. Smart Model Routing ─────────────────────────────────────────
+    const rutingRezultat = rutirajModel(
+      obradjenaPoruka,
+      profile.plan,
+      profile.preferred_model,
+      requestedModel,
+    );
+
+    const model: ModelId = rutingRezultat.model;
     if (!isModelAllowed(model, profile.plan)) {
       return NextResponse.json({
         error: `Model ${model} nije dostupan za ${profile.plan} plan. Nadogradite plan.`,
         currentPlan: profile.plan,
       }, { status: 403 });
+    }
+
+    // ── 3. Cache lookup ────────────────────────────────────────────────
+    // Keširaj samo za kratke/srednje upite bez konverzacionog konteksta
+    const cacheKljuc = generisiCacheKljuc(obradjenaPoruka, model, SPAJA_PRO_SYSTEM_PROMPT);
+    const cacheRezultat = !threadId ? dohvatiIzKesa(cacheKljuc) : { pronadjen: false as const };
+
+    if (cacheRezultat.pronadjen) {
+      // Cache hit — vrati odgovor bez AI poziva
+      const latencijaMs = Date.now() - pocetakVremeMs;
+      await supabase.from('usage_logs').insert({
+        user_id: user.id,
+        action: 'spaja_pro_chat_cache_hit',
+        endpoint: '/api/spaja-pro/chat',
+        tokens_used: cacheRezultat.tokeniKorisceni,
+        cost_eur: 0, // Keš hit = 0 trošak
+      });
+
+      return NextResponse.json({
+        reply: cacheRezultat.odgovor,
+        tokensUsed: cacheRezultat.tokeniKorisceni,
+        messagesRemaining: limit === UNLIMITED_CHAT ? 'neograniceno' : Math.max(0, limit - profile.chat_messages_used),
+        plan: profile.plan,
+        model: cacheRezultat.model,
+        fromCache: true,
+        latencijaMs,
+        rutingInfo: {
+          kompleksnost: rutingRezultat.kompleksnost,
+          razlog: rutingRezultat.razlog,
+        },
+      });
     }
 
     // Ako je threadId dat, proveri da postoji i pripada korisniku
@@ -88,7 +145,7 @@ export async function POST(request: NextRequest) {
 
     // Ako nema thread-a, kreiraj novi
     if (!activeThreadId) {
-      const threadTitle = message.slice(0, 80) + (message.length > 80 ? '...' : '');
+      const threadTitle = obradjenaPoruka.slice(0, 80) + (obradjenaPoruka.length > 80 ? '...' : '');
       const { data: newThread } = await supabase
         .from('chat_threads')
         .insert({
@@ -136,7 +193,7 @@ export async function POST(request: NextRequest) {
     const openai = getOpenAI();
 
     // Reasoning modeli (o1, o3) ne podržavaju system poruke ni streaming
-    const isReasoningModel = model.startsWith('o1') || model.startsWith('o3');
+    const isReasoningModel = jeReasoningModel(model);
     const useStream = wantStream && !isReasoningModel;
 
     if (useStream) {
@@ -146,10 +203,10 @@ export async function POST(request: NextRequest) {
         messages: [
           { role: 'system', content: systemPrompt },
           ...conversationHistory,
-          { role: 'user', content: message },
+          { role: 'user', content: obradjenaPoruka },
         ],
-        max_tokens: 4096,
-        temperature: 0.7,
+        max_tokens: rutingRezultat.tokenBudzet,
+        temperature: rutingRezultat.temperatura,
         stream: true,
       });
 
@@ -162,9 +219,18 @@ export async function POST(request: NextRequest) {
       const readableStream = new ReadableStream({
         async start(controller) {
           try {
-            // Send threadId as the first SSE event
+            // Pošalji meta event sa threadId i routing informacijama
             controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ type: 'meta', threadId: activeThreadId })}\n\n`),
+              encoder.encode(`data: ${JSON.stringify({
+                type: 'meta',
+                threadId: activeThreadId,
+                rutingInfo: {
+                  model,
+                  kompleksnost: rutingRezultat.kompleksnost,
+                  razlog: rutingRezultat.razlog,
+                },
+                piiDetektovano: zastitaRezultat.detektovaniPII.length > 0,
+              })}\n\n`),
             );
 
             for await (const chunk of stream) {
@@ -182,10 +248,13 @@ export async function POST(request: NextRequest) {
               }
             }
 
+            // Self-check verifikacija odgovora
+            const selfCheck = verifikujOdgovor(obradjenaPoruka, fullReply);
+
             // Sacuvaj poruke u bazu nakon zavrsetka streama
             const tokensUsed = totalInputTokens + totalOutputTokens;
             await supabase.from('chat_history').insert([
-              { user_id: user.id, thread_id: activeThreadId, role: 'user' as const, content: message, model, tokens_used: 0 },
+              { user_id: user.id, thread_id: activeThreadId, role: 'user' as const, content: obradjenaPoruka, model, tokens_used: 0 },
               { user_id: user.id, thread_id: activeThreadId, role: 'assistant' as const, content: fullReply, model, tokens_used: tokensUsed },
             ]);
 
@@ -193,6 +262,7 @@ export async function POST(request: NextRequest) {
               chat_messages_used: profile.chat_messages_used + 1,
             }).eq('id', user.id);
 
+            const latencijaMs = Date.now() - pocetakVremeMs;
             const costEur = calculateCostEur(model, totalInputTokens, totalOutputTokens);
             await supabase.from('usage_logs').insert({
               user_id: user.id,
@@ -202,6 +272,9 @@ export async function POST(request: NextRequest) {
               cost_eur: costEur,
             });
 
+            // Keširaj odgovor za buduće identične upite
+            sacuvajUKes(cacheKljuc, fullReply, model, tokensUsed);
+
             // Update thread title to first message if it was auto-created
             if (activeThreadId && !threadId) {
               await supabase.from('chat_threads').update({
@@ -209,7 +282,7 @@ export async function POST(request: NextRequest) {
               }).eq('id', activeThreadId);
             }
 
-            // Pošalji završni event sa metapodacima
+            // Pošalji završni event sa metapodacima i self-check rezultatom
             const remaining = limit === UNLIMITED_CHAT ? 'neograniceno' : Math.max(0, limit - profile.chat_messages_used - 1);
             controller.enqueue(
               encoder.encode(`data: ${JSON.stringify({
@@ -219,6 +292,13 @@ export async function POST(request: NextRequest) {
                 plan: profile.plan,
                 model,
                 threadId: activeThreadId,
+                latencijaMs,
+                selfCheck: {
+                  konfidensNivo: selfCheck.konfidensNivo,
+                  konfidensProcenat: selfCheck.konfidensProcenat,
+                  upozoravanja: selfCheck.upozoravanja,
+                  preporuke: selfCheck.preporuke,
+                },
               })}\n\n`),
             );
 
@@ -249,12 +329,12 @@ export async function POST(request: NextRequest) {
         ? [
             { role: 'user', content: `[System Instructions]\n${systemPrompt}` },
             ...conversationHistory,
-            { role: 'user', content: message },
+            { role: 'user', content: obradjenaPoruka },
           ]
         : [
             { role: 'system', content: systemPrompt },
             ...conversationHistory,
-            { role: 'user', content: message },
+            { role: 'user', content: obradjenaPoruka },
           ];
 
       let reply: string;
@@ -265,26 +345,34 @@ export async function POST(request: NextRequest) {
         const completion = await openai.chat.completions.create({
           model,
           messages: chatMessages,
-          max_tokens: 4096,
+          max_tokens: rutingRezultat.tokenBudzet,
         });
         reply = completion.choices[0]?.message?.content ?? 'Nema odgovora.';
         tokensUsed = completion.usage?.total_tokens ?? 0;
       } else {
         // Non-reasoning models get tool calling
-        const result = await chatWithTools(openai, model, chatMessages, 4096, 0.7);
+        const result = await chatWithTools(openai, model, chatMessages, rutingRezultat.tokenBudzet, rutingRezultat.temperatura);
         reply = result.reply;
         tokensUsed = result.totalTokens;
       }
 
+      // Self-check verifikacija odgovora
+      const selfCheck = verifikujOdgovor(obradjenaPoruka, reply);
+
+      // Keširaj odgovor
+      sacuvajUKes(cacheKljuc, reply, model, tokensUsed);
+
       // Sacuvaj obe poruke u istoriju
       await supabase.from('chat_history').insert([
-        { user_id: user.id, thread_id: activeThreadId, role: 'user' as const, content: message, model, tokens_used: 0 },
+        { user_id: user.id, thread_id: activeThreadId, role: 'user' as const, content: obradjenaPoruka, model, tokens_used: 0 },
         { user_id: user.id, thread_id: activeThreadId, role: 'assistant' as const, content: reply, model, tokens_used: tokensUsed },
       ]);
 
       await supabase.from('profiles').update({
         chat_messages_used: profile.chat_messages_used + 1,
       }).eq('id', user.id);
+
+      const latencijaMs = Date.now() - pocetakVremeMs;
 
       // Approximate cost split: 70% input, 30% output tokens
       // (exact split unavailable since chatWithTools aggregates total tokens)
@@ -304,6 +392,18 @@ export async function POST(request: NextRequest) {
         plan: profile.plan,
         model,
         threadId: activeThreadId,
+        latencijaMs,
+        rutingInfo: {
+          kompleksnost: rutingRezultat.kompleksnost,
+          razlog: rutingRezultat.razlog,
+        },
+        selfCheck: {
+          konfidensNivo: selfCheck.konfidensNivo,
+          konfidensProcenat: selfCheck.konfidensProcenat,
+          upozoravanja: selfCheck.upozoravanja,
+          preporuke: selfCheck.preporuke,
+        },
+        piiDetektovano: zastitaRezultat.detektovaniPII.length > 0,
       });
     }
   } catch (error) {
