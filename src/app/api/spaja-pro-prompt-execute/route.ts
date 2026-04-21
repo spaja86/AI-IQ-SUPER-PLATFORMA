@@ -62,8 +62,8 @@ export async function POST(request: Request) {
       pretragaTekst.includes('šta je') ||
       pretragaTekst.includes('kako');
 
-    const pretraga = isPretragaQuery ? pretraziEkosistem(prompt) : null;
-    const imaKorisnuPretragu = Boolean(pretraga && !pretraga.startsWith('Nema rezultata'));
+    const pretraga = isPretragaQuery ? pretraziEkosistem(prompt) : '';
+    const imaKorisnuPretragu = Boolean(pretraga);
 
     return NextResponse.json({
       status: 'uspesno',

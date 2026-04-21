@@ -27,6 +27,10 @@ import {
   TOTAL_IGRICA,
 } from './constants';
 
+const technicalQueryKeywordsRegex =
+  /\b(kod|program|programiranje|typescript|javascript|react|next|bug|grešk|gresk|debug|api|funkcij|komponent|algoritam)\b/i;
+const maxDisplayedQueryLength = 220;
+
 // ─── Tipovi ─────────────────────────────────────────────────────────
 
 export interface PromptOdgovor {
@@ -792,16 +796,16 @@ function izdvojiKorisnickiUpit(promptTekst: string): string {
  */
 function generisiOpstiOdgovor(promptTekst: string): PromptOdgovor {
   const korisnickiUpit = izdvojiKorisnickiUpit(promptTekst);
-  const jeProgramerskiUpit = /\b(kod|program|programiranje|typescript|javascript|react|next|bug|grešk|gresk|debug|api|funkcij|komponent|algoritam)\b/i
-    .test(korisnickiUpit);
+  const jeProgramerskiUpit = technicalQueryKeywordsRegex.test(korisnickiUpit);
   const timestamp = new Date().toISOString();
-  const tokeni = korisnickiUpit.split(/\s+/).filter(Boolean).length;
-  const prikazUpita = korisnickiUpit.slice(0, 220) + (korisnickiUpit.length > 220 ? '...' : '');
+  const tokenCount = korisnickiUpit.split(/\s+/).filter(Boolean).length;
+  const displayedQuery = korisnickiUpit.slice(0, maxDisplayedQueryLength)
+    + (korisnickiUpit.length > maxDisplayedQueryLength ? '...' : '');
 
   return {
     naslov: 'SpajaPro Univerzalni Odgovor',
     sadrzaj: [
-      `Razumem pitanje: "${prikazUpita}"`,
+      `Razumem pitanje: "${displayedQuery}"`,
       ``,
       jeProgramerskiUpit
         ? 'Fokus: pomoć u programiranju (analiza problema, predlog rešenja, struktura koraka, provera logike).'
@@ -835,7 +839,7 @@ function generisiOpstiOdgovor(promptTekst: string): PromptOdgovor {
       verzija: 15,
       kategorija: 'univerzalni',
       persona: null,
-      tokeni,
+      tokeni: tokenCount,
       vremeMs: 0,
       timestamp,
     },
@@ -1296,9 +1300,7 @@ export function pretraziEkosistem(upit: string): string {
     }
   }
 
-  return rezultati.length > 0
-    ? rezultati.join('\n')
-    : `Nema rezultata za "${upit}". Pokušajte sa drugim terminima.`;
+  return rezultati.length > 0 ? rezultati.join('\n') : '';
 }
 
 export { getEkosistemInfo, getPersoneInfo, getPlatformeInfo, getProizvodiInfo, getSpajaProInfo, getPromptInfo };
