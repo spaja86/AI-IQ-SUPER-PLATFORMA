@@ -76,9 +76,10 @@ export async function POST(request: Request) {
       pretragaTekst.includes('gde') ||
       pretragaTekst.includes('pronađi');
 
-    const pretraga = isPretragaQuery ? pretraziEkosistem(pitanje) : null;
+    const pretraga = isPretragaQuery ? pretraziEkosistem(pitanje) : '';
+    const imaKorisnuPretragu = Boolean(pretraga);
 
-    const finalOdgovor = pretraga
+    const finalOdgovor = imaKorisnuPretragu
       ? `${formatiran}\n\n🔍 Dodatne informacije:\n${pretraga}`
       : formatiran;
 
