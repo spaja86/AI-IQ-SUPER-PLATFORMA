@@ -63,13 +63,14 @@ export async function POST(request: Request) {
       pretragaTekst.includes('kako');
 
     const pretraga = isPretragaQuery ? pretraziEkosistem(prompt) : null;
+    const imaKorisnuPretragu = Boolean(pretraga && !pretraga.startsWith('Nema rezultata'));
 
     return NextResponse.json({
       status: 'uspesno',
       verzija: spajaVerzija.verzija,
       engine: spajaVerzija.naziv,
       kodnoIme: spajaVerzija.kodnoIme,
-      rezultat: pretraga ? `${rezultat}\n\n🔍 PRETRAGA EKOSISTEMA:\n${pretraga}` : rezultat,
+      rezultat: imaKorisnuPretragu ? `${rezultat}\n\n🔍 PRETRAGA EKOSISTEMA:\n${pretraga}` : rezultat,
       odgovor: {
         naslov: odgovor.naslov,
         sadrzaj: odgovor.sadrzaj,

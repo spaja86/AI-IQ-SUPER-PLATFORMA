@@ -77,8 +77,9 @@ export async function POST(request: Request) {
       pretragaTekst.includes('pronađi');
 
     const pretraga = isPretragaQuery ? pretraziEkosistem(pitanje) : null;
+    const imaKorisnuPretragu = Boolean(pretraga && !pretraga.startsWith('Nema rezultata'));
 
-    const finalOdgovor = pretraga
+    const finalOdgovor = imaKorisnuPretragu
       ? `${formatiran}\n\n🔍 Dodatne informacije:\n${pretraga}`
       : formatiran;
 

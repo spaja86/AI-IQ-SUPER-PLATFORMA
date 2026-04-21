@@ -769,64 +769,66 @@ function pronadjiZnanje(promptTekst: string): ZnanjeUnos | null {
   return najvisePogodaka >= 1 ? najbolji : null;
 }
 
+function izdvojiKorisnickiUpit(promptTekst: string): string {
+  const sabloni = [
+    /\[Pitanje korisnika\]:\s*([\s\S]+)/i,
+    /Korisnikovo pitanje:\s*([\s\S]+)/i,
+    /Pitanje:\s*([\s\S]+)/i,
+  ];
+
+  for (const sablon of sabloni) {
+    const pogodak = promptTekst.match(sablon);
+    const kandidat = pogodak?.[1]?.trim();
+    if (kandidat) {
+      return kandidat;
+    }
+  }
+
+  return promptTekst.trim();
+}
+
 /**
  * Generiše odgovor za slobodan/opšti prompt kad nema specifičnog znanja.
  */
 function generisiOpstiOdgovor(promptTekst: string): PromptOdgovor {
+  const korisnickiUpit = izdvojiKorisnickiUpit(promptTekst);
+  const jeProgramerskiUpit = /\b(kod|program|programiranje|typescript|javascript|react|next|bug|grešk|gresk|debug|api|funkcij|komponent|algoritam)\b/i
+    .test(korisnickiUpit);
   const timestamp = new Date().toISOString();
-  const tokeni = promptTekst.split(/\s+/).length;
+  const tokeni = korisnickiUpit.split(/\s+/).filter(Boolean).length;
+  const prikazUpita = korisnickiUpit.slice(0, 220) + (korisnickiUpit.length > 220 ? '...' : '');
 
   return {
     naslov: 'SpajaPro Univerzalni Odgovor',
     sadrzaj: [
-      `SpajaPro engine je obradio vaš zahtev.`,
+      `Razumem pitanje: "${prikazUpita}"`,
       ``,
-      `📝 Vaš prompt: "${promptTekst.slice(0, 200)}${promptTekst.length > 200 ? '...' : ''}"`,
+      jeProgramerskiUpit
+        ? 'Fokus: pomoć u programiranju (analiza problema, predlog rešenja, struktura koraka, provera logike).'
+        : 'Fokus: konkretan odgovor na pitanje i praktične sledeće korake bez nepotrebne statistike.',
       ``,
-      `SpajaPro v6-v15 pokriva sledeće oblasti:`,
+      'Da bih dao maksimalno profesionalan odgovor, napišite pitanje što preciznije (tehnologija, cilj, greška, očekivani rezultat).',
       ``,
-      `🏗️ Arhitektura — dizajn i struktura sistema`,
-      `🛡️ Bezbednost — zaštita, enkripcija, autentifikacija`,
-      `🔨 Razvoj — programiranje, TypeScript, React, Next.js`,
-      `🧪 Kvalitet — testiranje, dokumentacija, code review`,
-      `🎨 Kreacija — UI/UX dizajn, sadržaj, vizuelni identitet`,
-      `⚡ Optimizacija — performanse, skaliranje, caching`,
-      `🤖 AI/ML — veštačka inteligencija, OMEGA AI, persone`,
-      `📡 Proksi — distribuirana mreža, signali, čvorovi`,
-      `📱 Mobilna — mobilna mreža, IoT, edge computing`,
-      `♟️ Strategija — planiranje, roadmap, finansije`,
-      `📢 Komunikacija — suport, tiketi, notifikacije`,
-      `🧬 Evolucija — nadogradnja, inovacija, vizija`,
-      `📝 Dokumentacija — API docs, vodiči, changelog`,
-      `🔗 Integracija — API, webhooks, eksterni servisi`,
-      `✍️ Kreativno pisanje — članci, marketing, sadržaj`,
-      ``,
-      `ℹ️ Pokušajte formulisati prompt sa ključnim rečima iz oblasti koja vas zanima.`,
-      `   Primer: "Kako radi autentifikacija?" ili "Objasni OMEGA AI sistem"`,
-      ``,
-      getEkosistemInfo(),
+      jeProgramerskiUpit
+        ? 'Primer dobrog upita: "Imam Next.js API route koja vraća 500 grešku, kako da je dijagnostikujem korak po korak?"'
+        : 'Primer dobrog upita: "Objasni razliku između X i Y i kada koristiti svaki pristup."',
     ].join('\n'),
     sekcije: [
       {
-        naslov: 'Ekosistem Pregled',
-        ikona: '🌐',
-        sadrzaj: getEkosistemInfo(),
+        naslov: 'Kako dobiti najbolji odgovor',
+        ikona: '🎯',
+        sadrzaj: 'Dodajte kontekst + konkretan cilj + ograničenja (tehnologija, rok, format odgovora).',
       },
       {
-        naslov: 'Dostupni Promptovi',
+        naslov: 'Teme podrške',
         ikona: '📚',
-        sadrzaj: `${promptovi.length} promptova u biblioteci, 12 kategorija, 10 SpajaPro verzija.`,
-      },
-      {
-        naslov: 'Pomoć',
-        ikona: '❓',
-        sadrzaj: 'Izaberite prompt iz biblioteke ili postavite pitanje o: arhitekturi, bezbednosti, AI, programiranju, dizajnu, strategiji.',
+        sadrzaj: 'Programiranje, arhitektura, bezbednost, AI, dijagnostika, optimizacija i produkt izgradnja.',
       },
     ],
     preporuke: [
-      'Izaberite specifičan prompt iz biblioteke za preciznije odgovore',
-      'Koristite ključne reči: programiranje, bezbednost, AI, dizajn, strategija',
-      'SpajaPro v15 za univerzalne zahteve bez ograničenja',
+      'Postavite jedno jasno pitanje po poruci',
+      'Ako je problem tehnički, pošaljite i grešku/log koji dobijate',
+      'Navedite šta ste već probali da dobijete preciznije usmerenje',
     ],
     meta: {
       engine: 'SpajaPro Univerzalni',
@@ -1136,6 +1138,7 @@ export function obradiPrompt(
   promptDef?: Prompt | null,
 ): PromptOdgovor {
   const startTime = performance.now();
+  const fokusiraniUpit = izdvojiKorisnickiUpit(promptTekst);
 
   let odgovor: PromptOdgovor;
 
@@ -1143,39 +1146,39 @@ export function obradiPrompt(
   if (promptDef) {
     // Sistemski promptovi
     if (promptDef.kategorija === 'sistemski' || promptDef.kategorija === 'evolucioni') {
-      odgovor = generisiSistemskiOdgovor(promptDef, verzija, promptTekst);
+      odgovor = generisiSistemskiOdgovor(promptDef, verzija, fokusiraniUpit);
     }
     // Persona promptovi
     else if (promptDef.ciljnaPersona) {
       // Proveri da li postoji specifično znanje za ovaj tip
-      const znanje = pronadjiZnanje(promptTekst);
+      const znanje = pronadjiZnanje(fokusiraniUpit);
       if (znanje) {
-        odgovor = generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
+        odgovor = generisiOdgovorIzZnanja(znanje, fokusiraniUpit, verzija, promptDef);
       } else {
-        odgovor = generisiPersonaOdgovor(promptDef, verzija, promptTekst);
+        odgovor = generisiPersonaOdgovor(promptDef, verzija, fokusiraniUpit);
       }
     }
     // Platforma promptovi
     else if (promptDef.ciljnaPlatforma) {
-      odgovor = generisiPlatformaOdgovor(promptDef, verzija, promptTekst);
+      odgovor = generisiPlatformaOdgovor(promptDef, verzija, fokusiraniUpit);
     }
     // Ostali
     else {
-      const znanje = pronadjiZnanje(promptTekst);
+      const znanje = pronadjiZnanje(fokusiraniUpit);
       if (znanje) {
-        odgovor = generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
+        odgovor = generisiOdgovorIzZnanja(znanje, fokusiraniUpit, verzija, promptDef);
       } else {
-        odgovor = generisiOpstiOdgovor(promptTekst);
+        odgovor = generisiOpstiOdgovor(fokusiraniUpit);
       }
     }
   } else {
     // 2. Slobodan prompt — traži znanje iz baze
-    const znanje = pronadjiZnanje(promptTekst);
+    const znanje = pronadjiZnanje(fokusiraniUpit);
     if (znanje) {
-      odgovor = generisiOdgovorIzZnanja(znanje, promptTekst, verzija, promptDef);
+      odgovor = generisiOdgovorIzZnanja(znanje, fokusiraniUpit, verzija, promptDef);
     } else {
       // 3. Opšti odgovor
-      odgovor = generisiOpstiOdgovor(promptTekst);
+      odgovor = generisiOpstiOdgovor(fokusiraniUpit);
     }
   }
 
