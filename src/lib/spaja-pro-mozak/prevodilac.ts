@@ -64,7 +64,7 @@ const KONTEKST_OBRASCI: Array<{ kontekst: PrevodKontekst; regex: RegExp }> = [
   },
   {
     kontekst: 'poslovni',
-    regex: /\b(invoice|faktura|PDV|VAT|prihod|revenue|budzet|budget|ROI|KPI|meetng|sastanak|agenda|deliverable|milestone|stakeholder)\b/i,
+    regex: /\b(invoice|faktura|PDV|VAT|prihod|revenue|budzet|budget|ROI|KPI|meeting|sastanak|agenda|deliverable|milestone|stakeholder)\b/i,
   },
   {
     kontekst: 'medicinski',

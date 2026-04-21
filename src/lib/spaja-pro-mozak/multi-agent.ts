@@ -111,7 +111,7 @@ mobilni dizajn i konkretne UX poboljšanje sa primerima.`,
     ikona: '📝',
     opis: 'Generiše dokumentaciju i docstrings',
     systemPrompt: `Ti si specijalizovani Technical Writer AI agent.
-Tvoja jedina uloga je da generiješuješ tehničku dokumentaciju.
+Tvoja jedina uloga je da generišeš tehničku dokumentaciju.
 Fokusiraj se ISKLJUČIVO na: JSDoc/docstrings, README sekcije, 
 API dokumentacija, komentare u kodu, arhitekturnu dokumentaciju i
 primere upotrebe koji su jasni i kompletni.`,
@@ -121,7 +121,7 @@ primere upotrebe koji su jasni i kompletni.`,
     ikona: '🧪',
     opis: 'Planira i generiše test strategiju',
     systemPrompt: `Ti si specijalizovani QA Engineer AI agent.
-Tvoja jedina uloga je da planiraš i generiješuješ testove.
+Tvoja jedina uloga je da planiraš i generišeš testove.
 Fokusiraj se ISKLJUČIVO na: unit testovi, integration testovi,
 e2e testovi, test coverage, edge cases, mocking strategije,
 TDD pristup i konkretne test primere u relevantnom framework-u.`,

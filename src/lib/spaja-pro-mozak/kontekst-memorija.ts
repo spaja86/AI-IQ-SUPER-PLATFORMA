@@ -135,7 +135,8 @@ export function parsirajMemoriju(memorijaTekst: string | null): MemorijaParseRez
   const redovi = memorijaTekst.split('\n').filter(Boolean);
 
   for (const red of redovi) {
-    const m = red.match(/^\[(\w[\w-]*)\]\s+(.+)$/);
+    // Use non-backtracking pattern: require non-whitespace start after bracket prefix to avoid ReDoS
+    const m = red.match(/^\[(\w[\w-]*)\]\s+(\S[^\n]*)$/);
     if (m) {
       stavke.push({
         kategorija: (m[1] as MemorijaKategorija) || 'ostalo',

@@ -189,8 +189,8 @@ function evaluirajTon(odgovor: string): EvaluacijaDimenzija {
   }
 
   // Previše emotikona
-  const brEmojiia = (odgovor.match(/[\u{1F300}-\u{1F9FF}]/gu) ?? []).length;
-  if (brEmojiia > 10) skor -= 2;
+  const emojiCount = (odgovor.match(/[\u{1F300}-\u{1F9FF}]/gu) ?? []).length;
+  if (emojiCount > 10) skor -= 2;
 
   skor = Math.max(0, Math.min(20, skor));
   const boja: EvaluacijaDimenzija['boja'] = skor >= 15 ? '🟢' : skor >= 10 ? '🟡' : '🔴';
