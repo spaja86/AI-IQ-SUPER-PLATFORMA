@@ -18,6 +18,14 @@ import { zastitiPrompt } from '@/lib/spaja-pro-mozak/prompt-zastita';
 import { rutirajModel, jeReasoningModel } from '@/lib/spaja-pro-mozak/model-router';
 import { verifikujOdgovor } from '@/lib/spaja-pro-mozak/self-check';
 import { generisiCacheKljuc, dohvatiIzKesa, sacuvajUKes } from '@/lib/spaja-pro-mozak/cache';
+import { generisiFormatInstrukciju } from '@/lib/spaja-pro-mozak/formatiranje';
+import { evaluirajOdgovor } from '@/lib/spaja-pro-mozak/evaluator';
+import { detektujZapamtiZahtev, dodajUMemoriju } from '@/lib/spaja-pro-mozak/kontekst-memorija';
+import { analizirajPoruku as analizirajKodPoruku } from '@/lib/spaja-pro-mozak/kod-analizator';
+import { analizirajKontekst, generisiKontekstInstrukciju } from '@/lib/spaja-pro-mozak/razgovorni-agent';
+import { generisiCitatInstrukciju } from '@/lib/spaja-pro-mozak/citati';
+import { jeSlozeniZahtev, kreirajPlan } from '@/lib/spaja-pro-mozak/planiranje';
+import { detektujSablon } from '@/lib/spaja-pro-mozak/prompt-sabloni';
 
 export const runtime = 'nodejs';
 
@@ -190,6 +198,57 @@ export async function POST(request: NextRequest) {
       systemPrompt += `\n\nKorisnikova memorija (kontekst iz prethodnih sesija):\n${profile.memory}`;
     }
 
+    // ── Novi moduli — pre-processing middleware ─────────────────────
+
+    // 1. Detektuj "zapamti" zahtev i ažuriraj memoriju
+    const zapamtiRezultat = detektujZapamtiZahtev(obradjenaPoruka);
+    if (zapamtiRezultat.jeZahtev && zapamtiRezultat.novaStavka) {
+      const novaMemorija = dodajUMemoriju(profile.memory, zapamtiRezultat.novaStavka);
+      await supabase.from('profiles').update({ memory: novaMemorija, updated_at: new Date().toISOString() }).eq('id', user.id);
+      systemPrompt += `\n\nNovo zapamćeno: ${zapamtiRezultat.informacija}`;
+    }
+
+    // 2. Detektuj prompt šablon i zameni poruku sa popunjenim šablonom
+    const sablonRezultat = detektujSablon(obradjenaPoruka);
+    const efektivnaPoruka = sablonRezultat.pronadjen && sablonRezultat.popunjenPrompt
+      ? sablonRezultat.popunjenPrompt
+      : obradjenaPoruka;
+
+    // 3. Adaptivni format — detektuj optimalni format i dodaj instrukciju
+    const formatInstrukcija = generisiFormatInstrukciju(efektivnaPoruka);
+    if (formatInstrukcija) {
+      systemPrompt += formatInstrukcija;
+    }
+
+    // 4. Code analyzer — prepoznaj kod i dodaj analitičku instrukciju
+    const kodAnaliza = analizirajKodPoruku(efektivnaPoruka);
+    if (kodAnaliza.sadrzKod && kodAnaliza.aiInstrukcija) {
+      systemPrompt += `\n\n${kodAnaliza.aiInstrukcija}`;
+    }
+
+    // 5. Razgovorni agent — proveri da li nedostaje kontekst
+    const razgovornaAnaliza = analizirajKontekst(efektivnaPoruka, conversationHistory);
+    if (razgovornaAnaliza.nedostaje.length > 0) {
+      const kontekstInstrukcija = generisiKontekstInstrukciju(razgovornaAnaliza);
+      if (kontekstInstrukcija) {
+        systemPrompt += kontekstInstrukcija;
+      }
+    }
+
+    // 6. Citati — dodaj instrukciju za navođenje izvora za složene zahteve
+    const jeSlozeni = jeSlozeniZahtev(efektivnaPoruka);
+    if (jeSlozeni) {
+      systemPrompt += generisiCitatInstrukciju();
+    }
+
+    // 7. Task planner — za složene zahteve dodaj plan strukturu
+    if (jeSlozeni) {
+      const plan = kreirajPlan(efektivnaPoruka);
+      if (plan.jeSlozeni && plan.aiInstrukcija) {
+        systemPrompt += `\n\n${plan.aiInstrukcija}`;
+      }
+    }
+
     const openai = getOpenAI();
 
     // Reasoning modeli (o1, o3) ne podržavaju system poruke ni streaming
@@ -203,7 +262,7 @@ export async function POST(request: NextRequest) {
         messages: [
           { role: 'system', content: systemPrompt },
           ...conversationHistory,
-          { role: 'user', content: obradjenaPoruka },
+          { role: 'user', content: efektivnaPoruka },
         ],
         max_tokens: rutingRezultat.tokenBudzet,
         temperature: rutingRezultat.temperatura,
@@ -250,6 +309,9 @@ export async function POST(request: NextRequest) {
 
             // Self-check verifikacija odgovora
             const selfCheck = verifikujOdgovor(obradjenaPoruka, fullReply);
+
+            // Evaluator — 5-dimenzionalna ocena odgovora
+            const evaluacija = evaluirajOdgovor(efektivnaPoruka, fullReply);
 
             // Sacuvaj poruke u bazu nakon zavrsetka streama
             const tokensUsed = totalInputTokens + totalOutputTokens;
@@ -299,6 +361,18 @@ export async function POST(request: NextRequest) {
                   upozoravanja: selfCheck.upozoravanja,
                   preporuke: selfCheck.preporuke,
                 },
+                evaluacija: {
+                  ukupanSkor: evaluacija.ukupanSkor,
+                  nivoKvaliteta: evaluacija.nivoKvaliteta,
+                  formatiranPrikaz: evaluacija.formatiranPrikaz,
+                  trebaPonovo: evaluacija.trebaPonovo,
+                },
+                moduli: {
+                  formatDetektovan: sablonRezultat.pronadjen ? sablonRezultat.sablon?.id : null,
+                  sadrzKod: kodAnaliza.sadrzKod,
+                  jeSlozeni,
+                  zapamceno: zapamtiRezultat.jeZahtev,
+                },
               })}\n\n`),
             );
 
@@ -329,12 +403,12 @@ export async function POST(request: NextRequest) {
         ? [
             { role: 'user', content: `[System Instructions]\n${systemPrompt}` },
             ...conversationHistory,
-            { role: 'user', content: obradjenaPoruka },
+            { role: 'user', content: efektivnaPoruka },
           ]
         : [
             { role: 'system', content: systemPrompt },
             ...conversationHistory,
-            { role: 'user', content: obradjenaPoruka },
+            { role: 'user', content: efektivnaPoruka },
           ];
 
       let reply: string;
@@ -358,6 +432,9 @@ export async function POST(request: NextRequest) {
 
       // Self-check verifikacija odgovora
       const selfCheck = verifikujOdgovor(obradjenaPoruka, reply);
+
+      // Evaluator — 5-dimenzionalna ocena odgovora
+      const evaluacija = evaluirajOdgovor(efektivnaPoruka, reply);
 
       // Keširaj odgovor
       sacuvajUKes(cacheKljuc, reply, model, tokensUsed);
@@ -402,6 +479,18 @@ export async function POST(request: NextRequest) {
           konfidensProcenat: selfCheck.konfidensProcenat,
           upozoravanja: selfCheck.upozoravanja,
           preporuke: selfCheck.preporuke,
+        },
+        evaluacija: {
+          ukupanSkor: evaluacija.ukupanSkor,
+          nivoKvaliteta: evaluacija.nivoKvaliteta,
+          formatiranPrikaz: evaluacija.formatiranPrikaz,
+          trebaPonovo: evaluacija.trebaPonovo,
+        },
+        moduli: {
+          formatDetektovan: sablonRezultat.pronadjen ? sablonRezultat.sablon?.id : null,
+          sadrzKod: kodAnaliza.sadrzKod,
+          jeSlozeni,
+          zapamceno: zapamtiRezultat.jeZahtev,
         },
         piiDetektovano: zastitaRezultat.detektovaniPII.length > 0,
       });

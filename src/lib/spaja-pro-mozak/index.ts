@@ -13,6 +13,18 @@
  * - model-router — Smart model selection na osnovu kompleksnosti upita
  * - self-check — Verifikacija kvaliteta AI odgovora
  * - cache — LRU keš za identične upite
+ * - summarizer — TL;DR sažimanje dugih odgovora (>300 reči)
+ * - kod-analizator — Detekcija jezika, analiza koda za bugove/security/smells
+ * - kontekst-memorija — Perzistentna memorija korisničkih preferencija
+ * - razgovorni-agent — Multi-turn follow-up pitanja za nedostajući kontekst
+ * - evaluator — 5-dimenzionalna evaluacija kvaliteta odgovora (0-100)
+ * - citati — Numerisane fusnote i lista izvora za faktualne tvrdnje
+ * - planiranje — Chain-of-Thought task planner za složene zahteve
+ * - formatiranje — Adaptivni format (email/tabela/koraci/kod/JSON)
+ * - prevodilac — Srpski ↔ engleski prevod sa tehničkim/pravnim/marketing registrima
+ * - prompt-sabloni — 14 predefinisanih šablona (bug-report, code-review, SWOT...)
+ * - multi-agent — Paralelni specijalizovani sub-agenti (security/arch/perf/qa...)
+ * - a-b-odgovor — A/B poređenje dva različita stila odgovora
  */
 
 // ─── Tipovi ────────────────────────────────────────────────────────
@@ -124,3 +136,174 @@ export {
   getKesStatistike,
   ocistiKes,
 } from './cache';
+
+// ─── Inteligentni Sumarizer ────────────────────────────────────────
+
+export type { SumarizerMod, SumarizerRezultat, SumarizerPodesavanja } from './summarizer';
+export {
+  jePredugiTekst,
+  izvuciKljucneTacke,
+  formatirajTldrBlok,
+  sumirajTekst,
+  primenjiSumarizaciju,
+} from './summarizer';
+
+// ─── Code Analyzer ─────────────────────────────────────────────────
+
+export type {
+  ProgramskiJezik,
+  KodProblemTip,
+  KodProblemOzbiljnost,
+  KodProblem,
+  KodBlok,
+  KodAnalizaRezultat,
+} from './kod-analizator';
+export {
+  detektujJezik,
+  izvuciBlokoveKoda,
+  analizirajKod,
+  izracunajKvalitetSkor,
+  generisiAIAnalizuInstrukciju,
+  analizirajPoruku,
+} from './kod-analizator';
+
+// ─── Kontekst Memorija ─────────────────────────────────────────────
+
+export type {
+  MemorijaKategorija,
+  MemorijaStavka,
+  MemorijaParseRezultat,
+  DetekcijaZapamtiRezultat,
+  KontekstMemorijaRezultat,
+} from './kontekst-memorija';
+export {
+  detektujZapamtiZahtev,
+  parsirajMemoriju,
+  formatirajStavkuZaBase,
+  dodajUMemoriju,
+  formatirajZaSystemPrompt,
+} from './kontekst-memorija';
+
+// ─── Razgovorni Agent ──────────────────────────────────────────────
+
+export type {
+  NedostajuciKontekstTip,
+  NedostajuciKontekst,
+  RazgovornaAnalizaRezultat,
+  IstorijaRazgovora,
+} from './razgovorni-agent';
+export {
+  analizirajKontekst,
+  generisiKontekstInstrukciju,
+} from './razgovorni-agent';
+
+// ─── Evaluator ─────────────────────────────────────────────────────
+
+export type {
+  EvaluacijaDimenzijaId,
+  EvaluacijaDimenzija,
+  EvaluacijaRezultat,
+} from './evaluator';
+export {
+  evaluirajOdgovor,
+  formatirajEvaluaciju,
+  generisiPonovniPokusaj,
+} from './evaluator';
+
+// ─── Citati i Izvori ───────────────────────────────────────────────
+
+export type { IzvorTip, Fusnota, CitatRezultat } from './citati';
+export {
+  dodajFusnote,
+  generisiListuIzvora,
+  primenjiCitate,
+  generisiCitatInstrukciju,
+} from './citati';
+
+// ─── Task Planner ──────────────────────────────────────────────────
+
+export type {
+  KorakStatus,
+  PlanKategorija,
+  KorakPlana,
+  PlanZahteva,
+} from './planiranje';
+export {
+  jeSlozeniZahtev,
+  detektujKategorijuZahteva,
+  kreirajPlan,
+  generisiAIPlanInstrukciju,
+  formatirajPlanZaPrikaz,
+} from './planiranje';
+
+// ─── Adaptivni Formatter ───────────────────────────────────────────
+
+export type { FormatTip, FormatiranjePreporuka } from './formatiranje';
+export {
+  detektujFormat,
+  generisiFormatInstrukciju,
+  getSviFormati,
+} from './formatiranje';
+
+// ─── Prevodilac ────────────────────────────────────────────────────
+
+export type { PrevodKontekst, PareziJezika, PrevodZahtev } from './prevodilac';
+export {
+  detektujPrevodZahtev,
+  generisiPrevodInstrukciju,
+  getPrevodniParovi,
+  getPrevodniKonteksti,
+} from './prevodilac';
+
+// ─── Prompt Šabloni ────────────────────────────────────────────────
+
+export type {
+  SablonId,
+  SablonKategorija,
+  SablonParametar,
+  PromptSablon,
+  SablonDetekcijaRezultat,
+} from './prompt-sabloni';
+export {
+  PROMPT_SABLONI,
+  getSviSabloni,
+  getSablonPoId,
+  getSabloniPoKategoriji,
+  detektujSablon,
+  popuniSablon,
+} from './prompt-sabloni';
+
+// ─── Multi-Agent Koordinacija ──────────────────────────────────────
+
+export type {
+  AgentUloga,
+  AgentStatus,
+  AgentZadatak,
+  AgentOdgovor,
+  MultiAgentRezultat,
+} from './multi-agent';
+export {
+  jePogodan_za_MultiAgent,
+  odaberiAgente,
+  kombinirajOdgovore,
+  formatirajStatusAgenata,
+} from './multi-agent';
+
+// ─── A/B Odgovor Poređenje ─────────────────────────────────────────
+
+export type {
+  ABVarijanta,
+  ABStilA,
+  ABStilB,
+  ABPromptPar,
+  ABOdgovor,
+  ABPreferencija,
+} from './a-b-odgovor';
+export {
+  jePogodan_za_AB,
+  generisiABPromptPar,
+  formatirajABOdgovor,
+  getABSystemPromptovi,
+  azurirajPreferenciju,
+  generisiPreferencijuInstrukciju,
+} from './a-b-odgovor';
