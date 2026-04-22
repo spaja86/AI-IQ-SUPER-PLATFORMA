@@ -84,7 +84,7 @@ export const platforme: Platforma[] = [
     progres: 92,
     tehnologije: ['TypeScript', 'GitHub API', 'SpajaPro Engine', 'Prompt System', 'Vercel'],
     funkcije: ['SpajaPro Prompt code review', 'PR automation', 'Issue triage', 'CI/CD', 'Prompt-based suggestions'],
-    deploy: { status: 'aktivan', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
+    deploy: { status: 'aktivan', domen: 'github.com/spaja86/OMEGA-AI-za-GIT-HUB', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
   },
   {
     id: 'omega-ai-vercel',

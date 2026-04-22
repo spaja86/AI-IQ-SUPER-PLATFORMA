@@ -1,6 +1,6 @@
 {
   "name": "spaja-platforma",
-  "version": "42.30.0",
+  "version": "42.34.0",
   "private": true,
   "description": "AI IQ SUPER PLATFORMA — Digitalna Industrija sa SpajaPro Prompt Engine-om, sekvencijalna arhitektura sa 10 tipova sekvenci, 21 OMEGA AI persona (40.000.562 ukupno, 50/50 pol), Proksi mreža, SPAJA Mobilna",
   "keywords": [
@@ -18,7 +18,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "npx tsx src/tests/auth/omega-auth.test.ts && npx tsx src/tests/spaja-ultra/spaja-ultra-core.test.ts && npx tsx src/tests/glavni-endzin/glavni-endzin.test.ts",
+    "test:smoke": "npx tsx src/tests/smoke/smoke.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
