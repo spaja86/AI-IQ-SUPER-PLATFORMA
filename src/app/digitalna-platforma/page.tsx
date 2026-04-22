@@ -4,7 +4,7 @@ import { digitalnaPlatformaSekvence } from '@/lib/sekvence/digitalna-platforma-p
 import { APP_NAME, KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Digitalna Platforma — SPAJA',
+  title: 'SPAJA PLATFORMA — Digitalna Platforma',
   description:
     `${APP_NAME} — kompletni digitalni ekosistem ${KOMPANIJA.replace('Kompanija ', 'Kompanije ')} sa AI, finansijama, igricama, deploy infrastrukturom i vise.`,
 };

@@ -15,12 +15,12 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
   {
     id: 'digitalna-platforma-hero',
     tip: 'hero',
-    naslov: '🌐 Digitalna Platforma',
-    podnaslov: 'Kompanija SPAJA — Kompletni digitalni ekosistem za modernu eru',
+    naslov: '🌐 SPAJA PLATFORMA',
+    podnaslov: 'Digitalna platforma za laksu komunikaciju i saradnju izmedju svih aktera',
     ikona: '🌐',
     redosled: 1,
     podaci: {
-      opis: 'AI IQ SUPER PLATFORMA je sveobuhvatna digitalna platforma Kompanije SPAJA koja objedinjuje vestacku inteligenciju, finansije, komunikacije, igrice, deploy infrastrukturu i mnogo vise u jedinstveni ekosistem.',
+      opis: 'SPAJA PLATFORMA je sveobuhvatna digitalna platforma koja povezuje klijente, preduzeca, kompanije, banke i druge korisnike kroz jedinstven ekosistem za komunikaciju, saradnju i igrice.',
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Prijavi se', href: '/login', stil: 'sekundarno' },
@@ -162,11 +162,46 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'digitalna-platforma-saradnja',
+    tip: 'kartice',
+    naslov: '🤝 Ekstremna saradnja i igrice',
+    podnaslov: 'Digitalna platforma u platformi — vise paralelnih prostora za rad i zabavu',
+    redosled: 7,
+    podaci: {
+      kartice: [
+        {
+          naslov: 'Klijenti',
+          opis: 'Brza i transparentna komunikacija sa kompanijama i podrskom u realnom vremenu',
+          ikona: '🧑‍💼',
+          oznake: ['Podrska', 'Poruke', 'Saradnja'],
+        },
+        {
+          naslov: 'Preduzeca i kompanije',
+          opis: 'Zajednicki digitalni prostori za koordinaciju timova, projekata i partnerstava',
+          ikona: '🏢',
+          oznake: ['Projekti', 'Timovi', 'Partnerstva'],
+        },
+        {
+          naslov: 'Banke i finansijski sektor',
+          opis: 'Sigurna razmena podataka, finansijska koordinacija i digitalni tokovi odobrenja',
+          ikona: '🏦',
+          oznake: ['Finansije', 'Sigurnost', 'Workflow'],
+        },
+        {
+          naslov: 'Platforma u platformi',
+          opis: 'Otvaranje vise digitalnih prostora unutar platforme za paralelnu saradnju i igrice',
+          ikona: '🧩',
+          oznake: ['Multi-space', 'Kolaboracija', 'Gaming'],
+        },
+      ],
+    },
+  },
+  {
     id: 'digitalna-platforma-cta',
     tip: 'cta',
     naslov: '🚀 Pridruzite se platformi',
     podnaslov: 'Kreirajte besplatan nalog i istrazite ceo ekosistem',
-    redosled: 7,
+    redosled: 8,
     podaci: {
       dugmad: [
         { tekst: 'Prijavi se', href: '/login' },
