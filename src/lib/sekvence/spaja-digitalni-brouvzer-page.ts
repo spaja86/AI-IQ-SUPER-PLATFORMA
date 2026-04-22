@@ -10,6 +10,7 @@ import {
   ekstremniBackend,
   providniFrontendKomponente,
 } from '@/lib/spaja-digitalni-brouvzer';
+import { spajaGeneratorEngine } from '@/lib/spaja-generator-engine';
 
 const statistika = getBrouvzerStatistika();
 const aktivniEntiteti = getAktivniEntiteti().length;
@@ -54,6 +55,21 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
         'Deploy igrica i svega na IO/OPENUI/AO',
         'Protok podataka svuda — deploy, import, export',
       ],
+    },
+  },
+  {
+    id: 'brouvzer-generator-na-platforma',
+    tip: 'baner',
+    naslov: '🔧 SPAJA Generator za Endžine dejstvuje na SPAJA PLATFORMA',
+    redosled: 2.5,
+    podaci: {
+      bedz: '🔧 Generator → 🌐 Platforma',
+      opis:
+        `SPAJA Generator za Endžine (${spajaGeneratorEngine.link}) prevlači svoje engine-e direktno preko SPAJA PLATFORME — ` +
+        'digitalne platforme za komunikaciju između klijenata, preduzeća, kompanija, banaka i drugih korisnika. ' +
+        'Rezultat je Digitalni Brouvzer koji može da otvara SPAJA PLATFORMU u platformi više puta za ekstremnu saradnju i igrice. ' +
+        'Generator Endžin je ugrađen u Digitalni Brouvzer i aktivno dejstvuje na sve module SPAJA PLATFORME.',
+      dugme: { tekst: 'Generator Endžina', href: '/spaja-generator-engine' },
     },
   },
   {

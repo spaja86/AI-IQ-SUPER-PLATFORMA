@@ -10,6 +10,7 @@ import {
   SPAJA_PRO_VERZIJA_COUNT,
   AUTOFINISH_COUNT,
 } from '@/lib/constants';
+import { spajaGeneratorEngine } from '@/lib/spaja-generator-engine';
 
 export const digitalnaPlatformaSekvence: Sekvenca[] = [
   {
@@ -25,6 +26,22 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Prijavi se', href: '/login', stil: 'sekundarno' },
       ],
+    },
+  },
+  {
+    id: 'digitalna-platforma-generator-brouvzer',
+    tip: 'baner',
+    naslov: '🔧 SPAJA Generator za Endžine u Digitalnom Brouvzeru',
+    redosled: 1.5,
+    podaci: {
+      bedz: '🔧 Generator → 🌐 Brouvzer',
+      opis:
+        `SPAJA Generator za Endžine (${spajaGeneratorEngine.link}) dejstvuje direktno na SPAJA PLATFORMU. ` +
+        'Prevlačenjem Generator Endžina preko SPAJA Digitalnog Brouvzera nastaje EKSTREMNI DIGITALNI BROUZER koji: ' +
+        'otvara SPAJA PLATFORMU u platformi više puta za ekstremnu saradnju, ' +
+        'prati sve korisnike (klijente, preduzeća, kompanije, banke) u realnom vremenu, ' +
+        'i omogućava deploy, import i export podataka između svih aktera.',
+      dugme: { tekst: 'Digitalni Brouvzer', href: '/spaja-digitalni-brouvzer' },
     },
   },
   {
