@@ -87,8 +87,13 @@ const MAX_HISTORY = 50;
 
 let tabCounter = 0;
 function newTabId(): string {
+  // crypto.randomUUID() je dostupan u modernim browserima i Node 15+.
+  // Fallback na timestamp+counter u slučaju da nije dostupan (stariji konteksti).
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return `tab-${crypto.randomUUID()}`;
+  }
   tabCounter += 1;
-  return `tab-${tabCounter}`;
+  return `tab-${Date.now()}-${tabCounter}`;
 }
 
 // ─── Props ────────────────────────────────────────────────────────────
@@ -225,6 +230,15 @@ export default function BrouvzerViewer({ url, igra }: Props) {
     updateTab(tabId, { loading: false });
     addToHistory(tabUrl, tabIgra || tabUrl);
   }, [updateTab, addToHistory]);
+
+  // ── iframe ref setter (stabilan callback, ne re-kreira se po renderu) ──
+
+  const setIframeRef = useCallback(
+    (tabId: string, el: HTMLIFrameElement | null) => {
+      iframeRefs.current[tabId] = el;
+    },
+    [],
+  );
 
   // ─── Prazan tab (novi tab home ekran) ─────────────────────────────
   if (!activeTab.url) {
@@ -581,7 +595,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
                * Eksterni https:// domeni dobijaju sandbox bez allow-same-origin.
                */}
               <iframe
-                ref={(el) => { iframeRefs.current[tab.id] = el; }}
+                ref={(el) => setIframeRef(tab.id, el)}
                 key={tab.reloadKey}
                 src={tab.url}
                 className="h-full w-full border-0"

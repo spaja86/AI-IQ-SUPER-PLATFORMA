@@ -5,7 +5,10 @@
  *
  * Aktivira Vercel Deploy za SPAJA projekte koristeći Vercel Deploy Hook URL.
  * Deploy Hook se konfigurišu u Vercel dashboard-u za svaki projekat
- * i čuvaju kao environment varijable.
+ * i čuvaju kao environment varijable na serveru.
+ *
+ * Hook URL-ovi se nikad ne prihvataju od klijenta — koriste se isključivo
+ * server-side environment varijable da se spreče SSRF napadi.
  *
  * Environment varijable:
  *   VERCEL_DEPLOY_HOOK_AI_IQ        — AI IQ SUPER PLATFORMA deploy hook
@@ -13,26 +16,25 @@
  *   VERCEL_DEPLOY_HOOK_KOMPANIJA    — Kompanija SPAJA deploy hook
  *
  * Telo zahteva (JSON):
- *   projekat: 'ai-iq' | 'io-openui-ao' | 'kompanija' | string
- *   hookUrl?: string  — opcionalno: direktan hook URL (za napredne slučajeve)
+ *   projekat: 'ai-iq' | 'io-openui-ao' | 'kompanija'
  *
  * Odgovor:
- *   200 { status, projekat, deployId?, deployUrl?, poruka }
- *   400 { greska }   — nedostaje projekat
- *   404 { greska }   — hook nije konfigurisan za ovaj projekat
- *   500 { greska }   — Vercel API greška
+ *   200 { status, projekat, deployJobId, poruka }
+ *   400 { greska }   — nedostaje ili nije poznat projekat
+ *   404 { greska }   — hook env varijabla nije konfigurisan za ovaj projekat
+ *   502 { greska }   — Vercel API greška
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 
-// Mapiranje projekata na env varijable
+// Mapiranje projekata na env varijable (server-side only — ne izlaze ka klijentu)
 const DEPLOY_HOOK_ENV: Record<string, string | undefined> = {
   'ai-iq': process.env.VERCEL_DEPLOY_HOOK_AI_IQ,
   'io-openui-ao': process.env.VERCEL_DEPLOY_HOOK_IO_OPENUI_AO,
   'kompanija': process.env.VERCEL_DEPLOY_HOOK_KOMPANIJA,
 };
 
-// Mapiranje projekata na nazive i URL-ove
+// Mapiranje projekata na javne nazive i URL-ove
 const PROJEKAT_INFO: Record<string, { naziv: string; url: string }> = {
   'ai-iq': {
     naziv: 'AI IQ SUPER PLATFORMA',
@@ -48,9 +50,16 @@ const PROJEKAT_INFO: Record<string, { naziv: string; url: string }> = {
   },
 };
 
+/** Izvuče deploy job ID iz Vercel hook odgovora na siguran način. */
+function extractDeployJobId(data: Record<string, unknown>): string | null {
+  const job = data.job;
+  if (job && typeof job === 'object' && 'id' in job) return String((job as Record<string, unknown>).id);
+  if (typeof data.id === 'string') return data.id;
+  return null;
+}
+
 interface DeployRequestBody {
   projekat?: string;
-  hookUrl?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -61,23 +70,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ greska: 'Neispravan JSON u telu zahteva.' }, { status: 400 });
   }
 
-  const { projekat, hookUrl: direktanHookUrl } = body;
+  const { projekat } = body;
 
-  if (!projekat && !direktanHookUrl) {
+  if (!projekat || !Object.prototype.hasOwnProperty.call(PROJEKAT_INFO, projekat)) {
     return NextResponse.json(
       {
-        greska: 'Potrebno je navesti "projekat" (ai-iq | io-openui-ao | kompanija) ili "hookUrl".',
+        greska: `Nepoznat projekat "${projekat ?? ''}". Navedi jedan od dostupnih projekata.`,
         dostupniProjekti: Object.keys(PROJEKAT_INFO),
       },
       { status: 400 },
     );
   }
 
-  // Odredi hook URL
-  let hookUrl: string | undefined = direktanHookUrl;
-  if (!hookUrl && projekat) {
-    hookUrl = DEPLOY_HOOK_ENV[projekat];
-  }
+  // Hook URL dolazi isključivo sa servera (env varijabla) — nikad od klijenta
+  const hookUrl = DEPLOY_HOOK_ENV[projekat];
 
   if (!hookUrl) {
     return NextResponse.json(
@@ -85,29 +91,33 @@ export async function POST(request: NextRequest) {
         greska: `Deploy hook nije konfigurisan za projekat "${projekat}".`,
         uputstvo:
           'Dodaj environment varijablu VERCEL_DEPLOY_HOOK_<PROJEKAT> u Vercel dashboard → Project Settings → Environment Variables.',
-        dostupniProjekti: Object.keys(PROJEKAT_INFO),
       },
       { status: 404 },
     );
   }
 
-  // Validacija hook URL formata
+  // Stroga validacija: hook mora biti tačno api.vercel.com
+  let parsedHook: URL;
   try {
-    const parsed = new URL(hookUrl);
-    if (parsed.protocol !== 'https:' || !parsed.hostname.endsWith('vercel.com')) {
-      return NextResponse.json(
-        { greska: 'hookUrl mora biti Vercel hook URL (https://*.vercel.com).' },
-        { status: 400 },
-      );
-    }
+    parsedHook = new URL(hookUrl);
   } catch {
-    return NextResponse.json({ greska: 'hookUrl nije validan URL.' }, { status: 400 });
+    return NextResponse.json(
+      { greska: 'Konfigurisan hook URL nije validan.' },
+      { status: 500 },
+    );
   }
 
-  // Pozovi Vercel Deploy Hook
+  if (parsedHook.protocol !== 'https:' || parsedHook.hostname !== 'api.vercel.com') {
+    return NextResponse.json(
+      { greska: 'Konfigurisan hook URL nije validan Vercel hook (mora biti https://api.vercel.com/...).' },
+      { status: 500 },
+    );
+  }
+
+  // Pozovi Vercel Deploy Hook sa server-side URL-om
   let vercelOdgovor: Response;
   try {
-    vercelOdgovor = await fetch(hookUrl, {
+    vercelOdgovor = await fetch(parsedHook.toString(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -129,22 +139,20 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Vercel hook vraća JSON sa job ID-em
   let vercelData: Record<string, unknown> = {};
   try {
     vercelData = (await vercelOdgovor.json()) as Record<string, unknown>;
   } catch { /* ignoriši */ }
 
-  const info = projekat ? PROJEKAT_INFO[projekat] : undefined;
+  const info = PROJEKAT_INFO[projekat];
 
   return NextResponse.json({
     status: 'deploy-pokrenut',
-    projekat: projekat ?? 'direktni-hook',
-    projektNaziv: info?.naziv ?? 'Direktni Deploy',
-    projektUrl: info?.url,
-    deployJobId: (vercelData.job as Record<string, unknown> | undefined)?.id ?? vercelData.id ?? null,
-    poruka: `🚀 Deploy uspešno pokrenut za "${info?.naziv ?? projekat ?? 'projekat'}". Prati status na Vercel dashboard-u.`,
-    vercelOdgovor: vercelData,
+    projekat,
+    projektNaziv: info.naziv,
+    projektUrl: info.url,
+    deployJobId: extractDeployJobId(vercelData),
+    poruka: `🚀 Deploy uspešno pokrenut za "${info.naziv}". Prati status na Vercel dashboard-u.`,
     timestamp: new Date().toISOString(),
   });
 }
@@ -160,10 +168,10 @@ export async function GET() {
 
   return NextResponse.json({
     sistem: 'Brouvzer Deploy Motor — SPAJA',
-    opis: 'Aktivira Vercel Deploy Hook za SPAJA projekte. Pošalji POST sa { projekat } da pokreneš deploy.',
+    opis: 'Aktivira Vercel Deploy Hook za SPAJA projekte. Pošalji POST sa { "projekat": "ai-iq" } da pokreneš deploy.',
     uputstvo: {
       korak1: 'Otvori Vercel dashboard → izaberi projekat → Settings → Git → Deploy Hooks',
-      korak2: 'Napravi hook i kopiraj URL',
+      korak2: 'Napravi hook za granu (main) i kopiraj URL',
       korak3: 'Dodaj env varijablu: VERCEL_DEPLOY_HOOK_AI_IQ, VERCEL_DEPLOY_HOOK_IO_OPENUI_AO, ili VERCEL_DEPLOY_HOOK_KOMPANIJA',
       korak4: 'POST /api/brouvzer-deploy sa { "projekat": "ai-iq" }',
     },
