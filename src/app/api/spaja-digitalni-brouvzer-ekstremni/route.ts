@@ -11,9 +11,11 @@ import {
   getEkstremneMogucnosti,
   getBrouvzerStatistika,
 } from '@/lib/spaja-digitalni-brouvzer';
+import { spajaDigitalniKompjuterSistem, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB, KOMPJUTER_VRAM_GB } from '@/lib/spaja-digitalni-kompjuter';
 
 export async function GET() {
   const statistika = getBrouvzerStatistika();
+  const kompjuterStat = spajaDigitalniKompjuterSistem.statistika;
 
   return NextResponse.json({
     status: 'aktivan',
@@ -61,6 +63,16 @@ export async function GET() {
     },
     mogucnosti: getEkstremneMogucnosti(),
     statistika,
+    kompjuterSistem: {
+      ukupnoKomponenti: kompjuterStat.ukupnoKomponenti,
+      aktivnihKomponenti: kompjuterStat.aktivnihKomponenti,
+      ukupnoKonzola: kompjuterStat.ukupnoKonzola,
+      ukupnoKompjutera: kompjuterStat.ukupnoKompjutera,
+      gpuJezgra: KOMPJUTER_GPU_JEZGRA,
+      ramGB: KOMPJUTER_RAM_GB,
+      vramGB: KOMPJUTER_VRAM_GB,
+      generatorLink: spajaDigitalniKompjuterSistem.generatorLink,
+    },
     timestamp: new Date().toISOString(),
   });
 }
