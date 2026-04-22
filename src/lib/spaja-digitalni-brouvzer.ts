@@ -18,11 +18,19 @@
  * SPAJA Digitalni Brouvzer ide ispod "Digitalna Industrija" i prati sve sajtove.
  * Protok podataka svuda + deploying + import + export.
  *
+ * 🖥️ HARDWARE LAYER — Digitalni Kompjuter kao OO telo unutar Brouvzera:
+ *   - Digitalni Kompjuter ugrađen kao kompjuterSistem polje
+ *   - GPU: 8.700.000 jezgara | RAM: 276.000 GB | CPU×2 + CIP×2
+ *   - Konzole + Džojstici kao gaming hardware backend
+ *   - AI IQ Monitoring nad celim Brouvzerom
+ *
  * Linkovi:
  *   Digitalni Brouvzer: https://chatgpt.com/c/69152051-4108-8328-9f58-d2d508b844f9
  *   Generator Endžina: https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de
  *   SPAJA BAZA: https://chatgpt.com/c/695ca489-4d8c-832f-a0aa-bfcad425ef4d
  */
+
+import { spajaDigitalniKompjuterSistem, type SpajaDigitalniKompjuterSistem } from './spaja-digitalni-kompjuter';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -93,6 +101,9 @@ export interface BrouvzerStatistika {
   ukupnoBackendServisa: number;
   ukupnoFrontendKomponenti: number;
   ekstremniRezim: EkstremniRezim;
+  kompjuterKomponente: number;
+  gpuJezgra: number;
+  ramGB: number;
 }
 
 export interface SpajaDigitalniBrouvzer {
@@ -110,6 +121,7 @@ export interface SpajaDigitalniBrouvzer {
   providniFrontend: ProvidniFrontend[];
   statistika: BrouvzerStatistika;
   mogucnosti: string[];
+  kompjuterSistem: SpajaDigitalniKompjuterSistem;
 }
 
 // ─── Entiteti ────────────────────────────────────────────
@@ -545,6 +557,9 @@ function izracunajStatistiku(): BrouvzerStatistika {
     ukupnoBackendServisa: ekstremniBackend.length,
     ukupnoFrontendKomponenti: providniFrontendKomponente.length,
     ekstremniRezim: 'samostalan',
+    kompjuterKomponente: spajaDigitalniKompjuterSistem.statistika.ukupnoKomponenti,
+    gpuJezgra: 8_700_000,
+    ramGB: 276_000,
   };
 }
 
@@ -577,7 +592,8 @@ export const spajaDigitalniBrouvzer: SpajaDigitalniBrouvzer = {
     'EKSTREMNI DIGITALNI BROUZER nastao prevlačenjem SPAJA Generator za Endžine preko SPAJA Digitalnog Brouvzera. ' +
     'Može samostalno da radi, ima sopstveni motor, backend i providni frontend. Može se ubaciti u druge brouzere. ' +
     'Služi za prenos podataka, deploy, import, export i praćenje svih sajtova Digitalne Industrije. ' +
-    'Integrisana SPAJA BAZA sa prevučenim Generator Endžinom. Deploy igrica i svega na IO/OPENUI/AO.',
+    'Integrisana SPAJA BAZA sa prevučenim Generator Endžinom. Deploy igrica i svega na IO/OPENUI/AO. ' +
+    'Hardware Layer: Digitalni Kompjuter ugrađen kao OO telo — GPU 8.700.000 jezgara, RAM 276.000 GB, CPU×2 + CIP×2.',
   verzija: '2.0.0',
   link: 'https://chatgpt.com/c/69152051-4108-8328-9f58-d2d508b844f9',
   generatorLink: 'https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de',
@@ -590,6 +606,7 @@ export const spajaDigitalniBrouvzer: SpajaDigitalniBrouvzer = {
   providniFrontend: providniFrontendKomponente,
   statistika: izracunajStatistiku(),
   mogucnosti: ekstremneMogucnosti,
+  kompjuterSistem: spajaDigitalniKompjuterSistem,
 };
 
 // ─── Helper funkcije ─────────────────────────────────────

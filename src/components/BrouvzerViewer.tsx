@@ -2,6 +2,7 @@
 
 import { useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
+import { getKompjuterStatistika } from '@/lib/spaja-digitalni-kompjuter';
 
 const DIMENZIJE = ['360D', '720D', '1440D', '2880D', '5760D'] as const;
 type Dimenzija = (typeof DIMENZIJE)[number];
@@ -236,6 +237,30 @@ export default function BrouvzerViewer({ url, igra }: Props) {
         >
           Promeni dimenziju
         </button>
+      </div>
+
+      {/* ── Hardware Status Bar ── */}
+      <div className="flex shrink-0 items-center gap-3 border-b border-gray-800/40 bg-gray-950/80 px-4 py-1 text-xs">
+        <span className="font-semibold text-gray-500">🖥️ HW:</span>
+        <span className="text-gray-400" title="SPAJA RAM 276.000 GB">
+          🧮 <span className="text-cyan-400 font-bold">276.000 GB</span> RAM
+        </span>
+        <span className="text-gray-600">|</span>
+        <span className="text-gray-400" title="SPAJA GPU 8.700.000 jezgara">
+          🎮 <span className="text-purple-400 font-bold">8.7M</span> GPU jezgara
+        </span>
+        <span className="text-gray-600">|</span>
+        <span className="text-gray-400" title="2× SPAJA Grafička 276.000 GB VRAM">
+          🎨 <span className="text-pink-400 font-bold">2×276.000</span> VRAM
+        </span>
+        <span className="text-gray-600">|</span>
+        <span className="text-gray-400" title="CPU×2 + CIP×2">
+          ⚙️ <span className="text-yellow-400 font-bold">CPU×2 CIP×2</span>
+        </span>
+        <span className="text-gray-600">|</span>
+        <span className="text-gray-400" title={`Kompjuter: ${getKompjuterStatistika().ukupnoKomponenti} komponenti aktivan`}>
+          ✅ <span className="text-green-400 font-bold">{getKompjuterStatistika().aktivnihKomponenti}</span>/{getKompjuterStatistika().ukupnoKomponenti} aktivan
+        </span>
       </div>
 
       {/* ── iframe area ── */}

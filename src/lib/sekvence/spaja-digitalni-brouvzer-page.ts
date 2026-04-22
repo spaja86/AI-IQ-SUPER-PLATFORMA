@@ -13,6 +13,7 @@ import {
 import { spajaGeneratorEngine } from '@/lib/spaja-generator-engine';
 import { igrice, getSveKategorijeIgrica } from '@/lib/igrice';
 import { IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
+import { digitalniKompjuteriSistem, spajaKonzole, spajaDzojstici, getSveKomponente } from '@/lib/spaja-digitalni-kompjuter';
 
 const statistika = getBrouvzerStatistika();
 const aktivniEntiteti = getAktivniEntiteti().length;
@@ -210,6 +211,62 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'brouvzer-hardware-layer',
+    tip: 'kartice',
+    naslov: '🖥️ Hardware Layer — Digitalni Kompjuter unutar Brouvzera',
+    podnaslov: `${getSveKomponente().length} hardverskih komponenti ugrađeno kao OO telo u EKSTREMNI Brouvzer — GPU 8.700.000 jezgara, RAM 276.000 GB`,
+    redosled: 11.3,
+    podaci: {
+      kartice: getSveKomponente().map((k) => ({
+        naslov: k.naziv,
+        opis: k.opis,
+        ikona: k.ikona,
+        eksterniLink: k.link,
+        oznake: [k.status, 'Hardware Layer'],
+      })),
+    },
+  },
+  {
+    id: 'brouvzer-hardware-konzole',
+    tip: 'kartice',
+    naslov: '🕹️ Gaming Hardware — Konzole i Džojstici',
+    podnaslov: `${spajaKonzole.length} konzola + džojstici kao gaming hardware backend za Gaming Motor Brouvzera`,
+    redosled: 11.4,
+    podaci: {
+      kartice: [
+        ...spajaKonzole.map((k) => ({
+          naslov: k.naziv,
+          opis: k.opis,
+          ikona: k.ikona,
+          eksterniLink: k.link,
+          oznake: [k.tip, k.status, 'Konzola'],
+        })),
+        {
+          naslov: spajaDzojstici.naziv,
+          opis: spajaDzojstici.opis,
+          ikona: spajaDzojstici.ikona,
+          eksterniLink: spajaDzojstici.link,
+          oznake: ['dzojstici', spajaDzojstici.status, 'Gamepad API'],
+        },
+      ],
+    },
+  },
+  {
+    id: 'brouvzer-hardware-kompjuteri',
+    tip: 'kartice',
+    naslov: '💻 Digitalni Kompjuteri — AI IQ + Standardni',
+    podnaslov: `${digitalniKompjuteriSistem.length} tipa digitalnog kompjutera integrisan u Brouvzer kao Hardware Context`,
+    redosled: 11.5,
+    podaci: {
+      kartice: digitalniKompjuteriSistem.map((k) => ({
+        naslov: k.naziv,
+        opis: k.opis,
+        ikona: k.monitoringKomponenta.ikona,
+        oznake: [k.tip, 'Hardware Layer', `${k.komponente.length + 1} komponenti`],
+      })),
+    },
+  },
+  {
     id: 'brouvzer-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Arhitektura EKSTREMNOG Brouvzera',
@@ -219,7 +276,7 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
         {
           naziv: 'SPAJA Digitalni Brouvzer — EKSTREMNI',
           ikona: '🌐',
-          deca: ['Sopstveni Motori', 'Sopstveni Backend', 'Providni Frontend', 'Entiteti Industrije', 'Moduli Brouvzera', 'SPAJA BAZA', 'SPAJA Generator za Endžine'],
+          deca: ['Sopstveni Motori', 'Sopstveni Backend', 'Providni Frontend', 'Entiteti Industrije', 'Moduli Brouvzera', 'SPAJA BAZA', 'SPAJA Generator za Endžine', '🖥️ Hardware Layer (Digitalni Kompjuter)'],
         },
         {
           naziv: 'Sopstveni Motori',
@@ -245,6 +302,15 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
           naziv: 'Moduli Brouvzera',
           ikona: '🧩',
           deca: brouvzerModuli.map((m) => `${m.ikona} ${m.naziv}`),
+        },
+        {
+          naziv: '🖥️ Hardware Layer (Digitalni Kompjuter)',
+          ikona: '🖥️',
+          deca: [
+            ...getSveKomponente().map((k) => `${k.ikona} ${k.naziv}`),
+            ...spajaKonzole.map((k) => `${k.ikona} ${k.naziv}`),
+            `${spajaDzojstici.ikona} ${spajaDzojstici.naziv}`,
+          ],
         },
       ],
     },
