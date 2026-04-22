@@ -9,12 +9,18 @@
  */
 
 import { ΩCryptoEngine } from '../../lib/auth/omega-crypto';
-import { ΩAuthProvider } from '../../lib/auth/omega-auth';
+import {
+  ΩAuthProvider,
+  storeTOTPSecret,
+  getStoredTOTPSecret,
+  deleteTOTPSecret,
+  ensureDemoSeeded,
+} from '../../lib/auth/omega-auth';
 import { ΩPermissionMatrix, ΩClearanceLevel } from '../../lib/auth/omega-permissions';
 import { ΩAuditLogger } from '../../middleware/omega-audit';
 import { ΩSessionManager } from '../../lib/digital-industry/omega-session';
 import { ΩResourceGuard } from '../../lib/digital-industry/omega-resource-guard';
-import { ΩIdentityVault, createIdentity } from '../../lib/auth/omega-identity';
+import { ΩIdentityVault, createIdentity, getGlobalVault } from '../../lib/auth/omega-identity';
 import type { ΩIdentity } from '../../lib/auth/types';
 
 // ─── Test Runner ──────────────────────────────────────────────────────────────
@@ -113,11 +119,30 @@ async function runTests(): Promise<void> {
     assert(!invalid, 'wrong password should not verify');
   });
 
+  await test('verifyPassword rejects malformed hash format', async () => {
+    const invalid = await ΩCryptoEngine.verifyPassword('anything', 'malformed-hash');
+    assert(!invalid, 'malformed hash should not verify');
+  });
+
   await test('generateKeyPair creates Ed25519 key pair', async () => {
     const kp = await ΩCryptoEngine.generateKeyPair();
     assert(kp.publicKey.length > 0, 'public key non-empty');
     assert(kp.privateKey.length > 0, 'private key non-empty');
     assertEqual(kp.algorithm, 'Ed25519', 'algorithm');
+  });
+
+  await test('signData / verifySignature round-trip', async () => {
+    const kp = await ΩCryptoEngine.generateKeyPair();
+    const payload = 'omega-signature-test';
+    const sig = await ΩCryptoEngine.signData(payload, kp.privateKey);
+    const ok = await ΩCryptoEngine.verifySignature(payload, sig, kp.publicKey);
+    assert(ok, 'signature should verify');
+  });
+
+  await test('verifySignature returns false for invalid signature', async () => {
+    const kp = await ΩCryptoEngine.generateKeyPair();
+    const ok = await ΩCryptoEngine.verifySignature('omega-signature-test', 'invalid-signature', kp.publicKey);
+    assert(!ok, 'invalid signature should fail');
   });
 
   await test('generateTOTPSecret returns base64 string', () => {
@@ -130,6 +155,11 @@ async function runTests(): Promise<void> {
     const result = ΩCryptoEngine.verifyTOTP(secret, '000000');
     // May pass or fail depending on timing — just check it returns boolean
     assert(typeof result === 'boolean', 'result should be boolean');
+  });
+
+  await test('encodeBase32 returns uppercase base32 output', () => {
+    const encoded = ΩCryptoEngine.encodeBase32(Buffer.from('omega'));
+    assert(/^[A-Z2-7]+$/.test(encoded), 'base32 alphabet only');
   });
 
   // ── ΩIdentityVault ───────────────────────────────────────────────────────
@@ -241,6 +271,11 @@ async function runTests(): Promise<void> {
     assert(result === null, 'invalid token should return null');
   });
 
+  await test('verifyIdentity returns null for empty token', async () => {
+    const result = await ΩAuthProvider.verifyIdentity('');
+    assert(result === null, 'empty token should return null');
+  });
+
   await test('revokeToken invalidates token', async () => {
     const identity: ΩIdentity = {
       id: 'revoke-test', did: 'did:omega:rev', publicKey: '', roles: ['user'],
@@ -254,6 +289,121 @@ async function runTests(): Promise<void> {
     assert(result === null, 'revoked token should return null');
   });
 
+  await test('register and login with password succeed', async () => {
+    const uniqueEmail = `user-${ΩCryptoEngine.generateId()}@test.local`;
+    const registered = await ΩAuthProvider.register({
+      email: uniqueEmail,
+      password: 'StrongPass!123',
+      fullName: 'Test User',
+    });
+    assert(registered !== null, 'register should succeed');
+
+    const loggedIn = await ΩAuthProvider.login({
+      email: uniqueEmail,
+      password: 'StrongPass!123',
+    });
+    assert(loggedIn !== null, 'login should succeed');
+    assertEqual(loggedIn?.identity.email, uniqueEmail, 'email should match');
+  });
+
+  await test('register rejects duplicate email', async () => {
+    const uniqueEmail = `dup-${ΩCryptoEngine.generateId()}@test.local`;
+    const first = await ΩAuthProvider.register({ email: uniqueEmail, password: 'StrongPass!123' });
+    const second = await ΩAuthProvider.register({ email: uniqueEmail, password: 'StrongPass!123' });
+    assert(first !== null, 'first register succeeds');
+    assert(second === null, 'second register should fail');
+  });
+
+  await test('login fails with wrong password', async () => {
+    const uniqueEmail = `wrong-${ΩCryptoEngine.generateId()}@test.local`;
+    await ΩAuthProvider.register({ email: uniqueEmail, password: 'CorrectPass!123' });
+    const loggedIn = await ΩAuthProvider.login({
+      email: uniqueEmail,
+      password: 'WrongPass!123',
+    });
+    assert(loggedIn === null, 'wrong password should fail');
+  });
+
+  await test('login requires either password or oauthCode', async () => {
+    const uniqueEmail = `oauth-${ΩCryptoEngine.generateId()}@test.local`;
+    await ΩAuthProvider.register({ email: uniqueEmail, password: 'CorrectPass!123' });
+    const loggedIn = await ΩAuthProvider.login({
+      email: uniqueEmail,
+      password: '',
+    });
+    assert(loggedIn === null, 'missing credentials should fail');
+  });
+
+  await test('login with MFA enabled fails without totpCode', async () => {
+    const uniqueEmail = `mfa-${ΩCryptoEngine.generateId()}@test.local`;
+    const identity = await createIdentity({
+      email: uniqueEmail,
+      password: 'MfaPass!123',
+      clearanceLevel: ΩClearanceLevel.USER,
+    });
+    const vault = getGlobalVault();
+    vault.storeIdentity({ ...identity, mfaEnabled: true });
+    const loggedIn = await ΩAuthProvider.login({
+      email: uniqueEmail,
+      password: 'MfaPass!123',
+    });
+    assert(loggedIn === null, 'missing TOTP should fail for MFA user');
+  });
+
+  await test('refreshAccessToken rotates and revokes old refresh token', async () => {
+    const identity = await createIdentity({
+      email: `refresh-${ΩCryptoEngine.generateId()}@test.local`,
+      password: 'RefreshPass!123',
+    });
+    const vault = getGlobalVault();
+    vault.storeIdentity(identity);
+
+    const refresh = await ΩAuthProvider.issueRefreshToken(identity);
+    const rotated = await ΩAuthProvider.refreshAccessToken(refresh.value);
+    assert(rotated !== null, 'rotation should succeed');
+    assert(rotated?.accessToken.value.length, 'new access token issued');
+
+    const secondTry = await ΩAuthProvider.refreshAccessToken(refresh.value);
+    assert(secondTry === null, 'old refresh token must be revoked');
+  });
+
+  await test('refreshAccessToken returns null for unknown refresh token', async () => {
+    const rotated = await ΩAuthProvider.refreshAccessToken('unknown-refresh-token');
+    assert(rotated === null, 'unknown refresh token should fail');
+  });
+
+  await test('revokeAll invalidates all user tokens', async () => {
+    const identity = await createIdentity({
+      email: `revokeall-${ΩCryptoEngine.generateId()}@test.local`,
+      password: 'RevokeAllPass!123',
+    });
+    const token = await ΩAuthProvider.issueToken(identity, ['digital_industry:read']);
+    const refresh = await ΩAuthProvider.issueRefreshToken(identity);
+    ΩAuthProvider.revokeAll(identity.id);
+    const accessOk = await ΩAuthProvider.verifyIdentity(token.value);
+    const refreshResult = await ΩAuthProvider.refreshAccessToken(refresh.value);
+    assert(accessOk === null, 'access token should be revoked');
+    assert(refreshResult === null, 'refresh token should be revoked');
+  });
+
+  await test('registerAPIKey enables API key authentication', async () => {
+    const identity: ΩIdentity = {
+      id: `api-${ΩCryptoEngine.generateId()}`,
+      did: 'did:omega:api',
+      publicKey: '',
+      roles: ['service'],
+      clearanceLevel: ΩClearanceLevel.ADMIN,
+      digitalIndustryAccess: true,
+      mfaEnabled: false,
+      createdAt: Date.now(),
+    };
+    const apiKey = `api-key-${ΩCryptoEngine.generateId()}`;
+    ΩAuthProvider.registerAPIKey(apiKey, identity);
+    const verified = await ΩAuthProvider.verifyIdentity(apiKey);
+    assert(verified !== null, 'API key should authenticate');
+    assertEqual(verified?.id, identity.id, 'identity id should match');
+  });
+
   await test('extractTokenFromHeader extracts Bearer token', () => {
     const token = ΩAuthProvider.extractTokenFromHeader('Bearer mytoken123');
     assertEqual(token, 'mytoken123', 'extracted token');
@@ -262,6 +412,31 @@ async function runTests(): Promise<void> {
   await test('extractTokenFromHeader returns null for missing header', () => {
     const token = ΩAuthProvider.extractTokenFromHeader(null);
     assert(token === null, 'null header -> null token');
+  });
+
+  await test('extractTokenFromHeader returns null for non-Bearer header', () => {
+    const token = ΩAuthProvider.extractTokenFromHeader('Basic abc123');
+    assert(token === null, 'non-bearer header should return null');
+  });
+
+  await test('TOTP secret store helpers round-trip and delete', () => {
+    const userId = `totp-${ΩCryptoEngine.generateId()}`;
+    const secret = ΩCryptoEngine.generateTOTPSecret();
+    storeTOTPSecret(userId, secret);
+    assertEqual(getStoredTOTPSecret(userId), secret, 'stored secret');
+    deleteTOTPSecret(userId);
+    assert(getStoredTOTPSecret(userId) === null, 'deleted secret');
+  });
+
+  await test('ensureDemoSeeded is idempotent and keeps demo account available', async () => {
+    await ensureDemoSeeded();
+    await ensureDemoSeeded();
+    const vault = getGlobalVault();
+    const foundDemo = vault
+      .listIds()
+      .map((id) => vault.retrieveIdentity(id))
+      .some((identity) => identity?.email === 'demo@spaja.ai');
+    assert(foundDemo, 'demo account should exist');
   });
 
   // ── ΩAuditLogger ─────────────────────────────────────────────────────────
@@ -311,7 +486,7 @@ async function runTests(): Promise<void> {
     assertEqual(retrieved?.userId, 'sess-user-1', 'userId');
   });
 
-  await test('terminateSession invalidates session', () => {
+  await test('terminateSession marks session inactive and blocks token lookup', () => {
     const identity: ΩIdentity = {
       id: 'sess-user-2', did: 'did:omega:s2', publicKey: '', roles: ['user'],
       clearanceLevel: ΩClearanceLevel.USER, digitalIndustryAccess: true,
@@ -322,7 +497,55 @@ async function runTests(): Promise<void> {
     });
     ΩSessionManager.terminateSession(session.id);
     const retrieved = ΩSessionManager.getSession(session.id);
-    assert(retrieved === null, 'terminated session should return null');
+    assert(retrieved !== null, 'session metadata remains retrievable');
+    assert(retrieved?.active === false, 'session should be inactive');
+    assert(ΩSessionManager.getSessionByToken('at2') === null, 'inactive token should not resolve');
+  });
+
+  await test('refreshSession updates active session token pair', () => {
+    const identity: ΩIdentity = {
+      id: 'sess-user-refresh', did: 'did:omega:srefresh', publicKey: '', roles: ['user'],
+      clearanceLevel: ΩClearanceLevel.USER, digitalIndustryAccess: true,
+      mfaEnabled: false, createdAt: Date.now(),
+    };
+    const session = ΩSessionManager.createSession({
+      identity, accessToken: 'at-old', refreshToken: 'rt-old', ip: '2.2.2.2', userAgent: 'UA',
+    });
+    const ok = ΩSessionManager.refreshSession(session.id, 'at-new', 'rt-new');
+    const updated = ΩSessionManager.getSessionByToken('at-new');
+    assert(ok, 'refresh should succeed');
+    assert(updated !== null, 'new token should resolve to session');
+    assertEqual(updated?.refreshToken, 'rt-new', 'refresh token updated');
+  });
+
+  await test('refreshSession returns false for inactive session', () => {
+    const identity: ΩIdentity = {
+      id: 'sess-user-inactive', did: 'did:omega:sinactive', publicKey: '', roles: ['user'],
+      clearanceLevel: ΩClearanceLevel.USER, digitalIndustryAccess: true,
+      mfaEnabled: false, createdAt: Date.now(),
+    };
+    const session = ΩSessionManager.createSession({
+      identity, accessToken: 'at-inactive', refreshToken: 'rt-inactive', ip: '3.3.3.3', userAgent: 'UA',
+    });
+    ΩSessionManager.terminateSession(session.id);
+    const ok = ΩSessionManager.refreshSession(session.id, 'at-nope', 'rt-nope');
+    assert(!ok, 'refresh inactive session should fail');
+  });
+
+  await test('terminateAllUserSessions inactivates all user sessions', () => {
+    const identity: ΩIdentity = {
+      id: 'sess-user-all', did: 'did:omega:sall', publicKey: '', roles: ['user'],
+      clearanceLevel: ΩClearanceLevel.USER, digitalIndustryAccess: true,
+      mfaEnabled: false, createdAt: Date.now(),
+    };
+    ΩSessionManager.createSession({
+      identity, accessToken: 'at-all-1', refreshToken: 'rt-all-1', ip: '4.4.4.4', userAgent: 'UA',
+    });
+    ΩSessionManager.createSession({
+      identity, accessToken: 'at-all-2', refreshToken: 'rt-all-2', ip: '4.4.4.5', userAgent: 'UA',
+    });
+    ΩSessionManager.terminateAllUserSessions(identity.id);
+    assertEqual(ΩSessionManager.getUserSessions(identity.id).length, 0, 'all sessions should be inactive');
   });
 
   await test('getStats returns session statistics', () => {
@@ -351,6 +574,44 @@ async function runTests(): Promise<void> {
       mfaEnabled: false, createdAt: 0,
     };
     assert(!ΩResourceGuard.guard(identity, '/security'), 'VISITOR should not access /security');
+  });
+
+  await test('unknown resource requires USER clearance', () => {
+    const visitor: ΩIdentity = {
+      id: 'rg-visitor', did: 'did:omega:rguv', publicKey: '', roles: ['visitor'],
+      clearanceLevel: ΩClearanceLevel.VISITOR, digitalIndustryAccess: false,
+      mfaEnabled: false, createdAt: 0,
+    };
+    const user: ΩIdentity = {
+      id: 'rg-user', did: 'did:omega:rgu', publicKey: '', roles: ['user'],
+      clearanceLevel: ΩClearanceLevel.USER, digitalIndustryAccess: true,
+      mfaEnabled: false, createdAt: 0,
+    };
+    assert(!ΩResourceGuard.guard(visitor, '/unknown/private'), 'visitor should be blocked');
+    assert(ΩResourceGuard.guard(user, '/unknown/private'), 'user should pass');
+  });
+
+  await test('guardAsync mirrors guard decision', async () => {
+    const identity: ΩIdentity = {
+      id: 'rg-async', did: 'did:omega:rgasync', publicKey: '', roles: ['user'],
+      clearanceLevel: ΩClearanceLevel.USER, digitalIndustryAccess: true,
+      mfaEnabled: false, createdAt: 0,
+    };
+    const sync = ΩResourceGuard.guard(identity, '/dashboard');
+    const asyncResult = await ΩResourceGuard.guardAsync(identity, '/dashboard');
+    assertEqual(asyncResult, sync, 'sync/async should match');
+  });
+
+  await test('getResourceInfo returns null for unknown path', () => {
+    const resource = ΩResourceGuard.getResourceInfo('/missing-resource');
+    assert(resource === null, 'unknown resource should return null');
+  });
+
+  await test('encryptAtRest returns serializable encrypted payload', () => {
+    const raw = ΩResourceGuard.encryptAtRest({ ok: true }, 'di:test');
+    const parsed = JSON.parse(raw) as { payload?: unknown; keyId?: string };
+    assert(typeof parsed.keyId === 'string', 'keyId should exist');
+    assert(parsed.payload !== undefined, 'payload should exist');
   });
 
   await test('getClassificationLabel returns correct labels', () => {

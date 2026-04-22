@@ -137,11 +137,8 @@ export class ΩCryptoEngine {
 
   // signData — Ed25519 potpis podataka
   static async signData(data: string, privateKeyHex: string): Promise<string> {
-    const { createSign } = await import('crypto');
+    const { sign } = await import('crypto');
     const privateKeyDer = Buffer.from(privateKeyHex, 'hex');
-
-    const sign = createSign('ed25519');
-    sign.update(data);
 
     const privateKeyObj = {
       key: privateKeyDer,
@@ -149,7 +146,7 @@ export class ΩCryptoEngine {
       type: 'pkcs8' as const,
     };
 
-    const signature = sign.sign(privateKeyObj);
+    const signature = sign(null, Buffer.from(data, 'utf8'), privateKeyObj);
     return signature.toString('base64');
   }
 
@@ -160,11 +157,8 @@ export class ΩCryptoEngine {
     publicKeyHex: string
   ): Promise<boolean> {
     try {
-      const { createVerify } = await import('crypto');
+      const { verify } = await import('crypto');
       const publicKeyDer = Buffer.from(publicKeyHex, 'hex');
-
-      const verify = createVerify('ed25519');
-      verify.update(data);
 
       const publicKeyObj = {
         key: publicKeyDer,
@@ -172,7 +166,12 @@ export class ΩCryptoEngine {
         type: 'spki' as const,
       };
 
-      return verify.verify(publicKeyObj, Buffer.from(signature, 'base64'));
+      return verify(
+        null,
+        Buffer.from(data, 'utf8'),
+        publicKeyObj,
+        Buffer.from(signature, 'base64')
+      );
     } catch {
       return false;
     }
