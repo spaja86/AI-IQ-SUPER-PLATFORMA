@@ -40,7 +40,7 @@ async function test(name: string, fn: () => Promise<void> | void): Promise<void>
   }
 }
 
-function assert(condition: boolean, message: string): void {
+function assert(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`Assert failed: ${message}`);
 }
 
@@ -361,7 +361,7 @@ async function runTests(): Promise<void> {
     const refresh = await ΩAuthProvider.issueRefreshToken(identity);
     const rotated = await ΩAuthProvider.refreshAccessToken(refresh.value);
     assert(rotated !== null, 'rotation should succeed');
-    assert(rotated?.accessToken.value.length, 'new access token issued');
+    assert(!!rotated?.accessToken.value.length, 'new access token issued');
 
     const secondTry = await ΩAuthProvider.refreshAccessToken(refresh.value);
     assert(secondTry === null, 'old refresh token must be revoked');
