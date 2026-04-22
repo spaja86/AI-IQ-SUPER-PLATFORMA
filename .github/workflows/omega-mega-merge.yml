@@ -4,9 +4,9 @@
 #
 # Ovaj workflow:
 # 1. Pronalazi SVE grane koje imaju promene koje nisu u main
-# 2. Merge-uje ih međusobno u jednu mega-merge granu
-# 3. Automatski kreira PR prema main grani
-# 4. Ako nema konflikata, automatski merge-uje u main
+# 2. Merge-uje ih direktno u main (bez kreiranja PR-a)
+# 3. Push-uje main na GitHub
+# 4. Briše grane koje su već merged
 #
 # Pokreće se:
 # - Svakih 6 sati automatski
@@ -28,16 +28,8 @@ on:
 
   workflow_dispatch:
     inputs:
-      force_merge:
-        description: 'Forsiraj merge čak i ako postoje konflikti (preskoči konfliktne grane)'
-        required: false
-        default: 'true'
-        type: choice
-        options:
-          - 'true'
-          - 'false'
       delete_merged:
-        description: 'Obriši grane nakon uspešnog merge-a u main'
+        description: 'Obriši grane koje su već merged u main'
         required: false
         default: 'true'
         type: choice
@@ -47,7 +39,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   mega-merge:
@@ -55,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout sa punom istorijom
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: main
@@ -67,7 +58,7 @@ jobs:
 
       - name: 🔍 Pronađi grane za merge
         id: find-branches
-        uses: actions/github-script@v9
+        uses: actions/github-script@v7
         with:
           script: |
             const owner = context.repo.owner;
@@ -100,10 +91,8 @@ jobs:
             // Zaštićene grane — ne merge-ujemo
             const skip = new Set(['main', 'master', 'develop', 'staging', 'production']);
 
-            // Pronađi grane koje imaju promene ISPRED main-a
             const branchesToMerge = [];
             const branchesAlreadyMerged = [];
-            const branchesWithConflicts = [];
 
             for (const branch of allBranches) {
               if (skip.has(branch.name)) continue;
@@ -138,7 +127,6 @@ jobs:
             // Sortiraj po broju commit-ova ispred (manje ispred = lakši merge)
             branchesToMerge.sort((a, b) => a.ahead - b.ahead);
 
-            // Eksportuj rezultate
             const branchNames = branchesToMerge.map(b => b.name);
             core.setOutput('branches', JSON.stringify(branchNames));
             core.setOutput('count', branchesToMerge.length.toString());
@@ -147,7 +135,7 @@ jobs:
 
             return branchNames;
 
-      - name: 🔀 Merge svih grana u mega-merge granu
+      - name: 🔀 Merge svih grana direktno u main
         id: merge
         if: steps.find-branches.outputs.count != '0'
         run: |
@@ -159,17 +147,13 @@ jobs:
           echo "**Grane za merge:** $BRANCH_COUNT" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
 
-          # Kreiraj mega-merge granu od main-a
-          MEGA_BRANCH="omega/mega-merge-$(date +%Y%m%d-%H%M%S)"
-          git checkout -b "$MEGA_BRANCH" main
-
           # Inicijalizuj temp fajlove
           > /tmp/merged_branches.txt
           > /tmp/merged_list.txt
           > /tmp/failed_branches.txt
           > /tmp/failed_list.txt
 
-          # Parsiraj JSON niz grana — koristimo process substitution umesto pipe-a
+          # Merge svake grane direktno u main (bez kreiranja PR-a)
           while IFS= read -r BRANCH; do
             echo "::group::Merge: $BRANCH"
 
@@ -180,7 +164,7 @@ jobs:
               continue
             }
 
-            # Pokušaj merge
+            # Pokušaj merge u main
             if git merge "origin/$BRANCH" --no-edit -m "🔀 Mega merge: $BRANCH → main"; then
               echo "✅ Uspešno: $BRANCH"
               echo "- ✅ \`$BRANCH\`" >> /tmp/merged_list.txt
@@ -216,109 +200,22 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Ukupno:** $MERGED uspešno, $FAILED konflikata" >> "$GITHUB_STEP_SUMMARY"
 
-          # Push mega-merge granu
+          # Push direktno u main ako ima promena
           if [ "$MERGED" -gt 0 ]; then
-            git push origin "$MEGA_BRANCH"
-            echo "mega_branch=$MEGA_BRANCH" >> "$GITHUB_OUTPUT"
+            git push origin main
             echo "merged_count=$MERGED" >> "$GITHUB_OUTPUT"
             echo "has_merges=true" >> "$GITHUB_OUTPUT"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "✅ Main ažuriran sa $MERGED grana!" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "has_merges=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: 📝 Kreiraj PR prema main grani
-        if: steps.merge.outputs.has_merges == 'true'
-        id: create-pr
-        uses: actions/github-script@v9
-        with:
-          script: |
-            const megaBranch = '${{ steps.merge.outputs.mega_branch }}';
-            const mergedCount = '${{ steps.merge.outputs.merged_count }}';
-            const datum = new Date().toISOString().split('T')[0];
-
-            // Proveri da li već postoji PR za ovu granu
-            const existingPRs = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head: `${context.repo.owner}:${megaBranch}`,
-              state: 'open',
-            });
-
-            if (existingPRs.data.length > 0) {
-              console.log(`PR već postoji: #${existingPRs.data[0].number}`);
-              core.setOutput('pr_number', existingPRs.data[0].number.toString());
-              return;
-            }
-
-            // Kreiraj novi PR
-            const pr = await github.rest.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `🔀 Omega Mega Merge — ${mergedCount} grana → main (${datum})`,
-              head: megaBranch,
-              base: 'main',
-              body: [
-                '## 🔀 Omega Mega Merge',
-                '',
-                `**Datum:** ${datum}`,
-                `**Merge-ovano grana:** ${mergedCount}`,
-                '',
-                '### 🤖 Automatski generisan PR',
-                '',
-                'Ovaj PR je automatski kreiran od strane Omega Mega Merge workflow-a.',
-                'Sve grane koje su mogle da se merge-uju bez konflikata su uključene.',
-                '',
-                '---',
-                '*Generisano automatski od 🔀 Omega Mega Merge Bot*',
-              ].join('\n'),
-            });
-
-            console.log(`✅ Kreiran PR #${pr.data.number}`);
-            core.setOutput('pr_number', pr.data.number.toString());
-
-      - name: 🔄 Auto-merge PR u main
-        if: steps.create-pr.outputs.pr_number != ''
-        uses: actions/github-script@v9
-        with:
-          script: |
-            const prNumber = parseInt('${{ steps.create-pr.outputs.pr_number }}');
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-
-            // Sačekaj kratko da se checks pokrenu
-            await new Promise(resolve => setTimeout(resolve, 10000));
-
-            // Pokušaj merge
-            try {
-              await github.rest.pulls.merge({
-                owner, repo,
-                pull_number: prNumber,
-                merge_method: 'merge',
-                commit_title: `🔀 Omega Mega Merge — automatski merge svih grana u main`,
-              });
-              console.log(`✅ PR #${prNumber} uspešno merge-ovan u main!`);
-
-              // Obriši mega-merge granu
-              const megaBranch = '${{ steps.merge.outputs.mega_branch }}';
-              try {
-                await github.rest.git.deleteRef({
-                  owner, repo,
-                  ref: `heads/${megaBranch}`,
-                });
-                console.log(`🗑️ Obrisana mega-merge grana: ${megaBranch}`);
-              } catch (e) {
-                console.log(`⚠️ Grana ${megaBranch} nije obrisana: ${e.message}`);
-              }
-            } catch (e) {
-              console.log(`⚠️ Auto-merge nije uspeo (čekamo CI checks): ${e.message}`);
-              console.log('PR ostaje otvoren za ručni merge ili će biti merge-ovan od omega-auto-merge workflow-a.');
-            }
-
-      - name: 🧹 Obriši merged grane
+      - name: 🧹 Obriši već merged grane
         if: >-
-          steps.create-pr.outputs.pr_number != '' &&
-          (github.event.inputs.delete_merged == 'true' || github.event_name == 'schedule')
-        uses: actions/github-script@v9
+          steps.find-branches.outputs.already_merged != '0' &&
+          (github.event.inputs.delete_merged == 'true' || github.event_name == 'schedule' || github.event_name == 'push')
+        uses: actions/github-script@v7
         with:
           script: |
             const owner = context.repo.owner;
