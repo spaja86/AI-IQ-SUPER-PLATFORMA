@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { getKompjuterStatistika, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB, KOMPJUTER_VRAM_GB } from '@/lib/spaja-digitalni-kompjuter';
 
@@ -85,6 +85,16 @@ const BOOKMARKS_KEY = 'spaja-brouvzer-bookmarks';
 const HISTORY_KEY = 'spaja-brouvzer-history';
 const MAX_HISTORY = 50;
 
+function loadFromStorage<T>(key: string): T[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? (JSON.parse(saved) as T[]) : [];
+  } catch {
+    return [];
+  }
+}
+
 let tabCounter = 0;
 function newTabId(): string {
   // crypto.randomUUID() je dostupan u modernim browserima i Node 15+.
@@ -118,22 +128,10 @@ export default function BrouvzerViewer({ url, igra }: Props) {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // ── Bookmark + History state ──
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => loadFromStorage<Bookmark>(BOOKMARKS_KEY));
+  const [history, setHistory] = useState<HistoryEntry[]>(() => loadFromStorage<HistoryEntry>(HISTORY_KEY));
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-
-  // Učitaj sa localStorage pri mountu
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(BOOKMARKS_KEY);
-      if (saved) setBookmarks(JSON.parse(saved) as Bookmark[]);
-    } catch { /* ignoriši */ }
-    try {
-      const saved = localStorage.getItem(HISTORY_KEY);
-      if (saved) setHistory(JSON.parse(saved) as HistoryEntry[]);
-    } catch { /* ignoriši */ }
-  }, []);
 
   const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
 
