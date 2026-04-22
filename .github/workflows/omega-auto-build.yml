@@ -40,6 +40,9 @@ jobs:
       - name: 🔍 ESLint provera
         run: npx eslint src/
 
+      - name: 🧪 Smoke testovi (go-live gate)
+        run: npx tsx src/tests/smoke/smoke.test.ts
+
       - name: 🏗️ Next.js Build
         run: npx next build
 

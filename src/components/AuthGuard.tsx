@@ -61,7 +61,12 @@ export default function AuthGuard({ children, stranica = 'ovu stranicu' }: AuthG
           </div>
           <div className="mt-6 rounded-xl border border-yellow-700/30 bg-yellow-900/10 p-4">
             <p className="text-xs text-gray-400">
-              <strong className="text-yellow-400">⚡ Demo pristup:</strong> Koristite <span className="text-white">demo@spaja.ai</span> / <span className="text-white">Demo2024!</span> za brzu probu
+              <strong className="text-yellow-400">⚡ Demo pristup:</strong>{' '}
+              {process.env.NODE_ENV !== 'production' ? (
+                <>Koristite <span className="text-white">demo@spaja.ai</span> / <span className="text-white">Demo2024!</span> za brzu probu</>
+              ) : (
+                <>Registrujte se ili se prijavite sa svojim nalogom</>
+              )}
             </p>
           </div>
         </div>

@@ -126,7 +126,9 @@ async function runSmokeTests(): Promise<void> {
     for (const s of industrijaSekvence) {
       assert(s.id.length > 0, `sekvenca ima prazan id`);
       assert(s.tip.length > 0, `sekvenca ${s.id} ima prazan tip`);
-      assert(s.naslov.length > 0, `sekvenca ${s.id} ima prazan naslov`);
+      // naslov je opciono u Sekvenca tipu, ali industrijaSekvence mora imati naslov za sve stavke
+      const naslov = s.naslov ?? '';
+      assert(naslov.length > 0, `sekvenca ${s.id} mora imati naslov (naslov je prazan ili undefined)`);
       assert(s.redosled > 0, `sekvenca ${s.id} ima neispravan redosled`);
     }
   });
