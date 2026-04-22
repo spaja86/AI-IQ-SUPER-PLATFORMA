@@ -20,7 +20,8 @@
  *
  * Autofinish #708 → #710 (SpajaPro Mozak — 12 profesionalnih modula: summarizer, kod-analizator, kontekst-memorija, razgovorni-agent, evaluator, citati, planiranje, formatiranje, prevodilac, prompt-sabloni, multi-agent, a-b-odgovor + 6 novih API ruta: /api/spaja-pro/summarize, /api/spaja-pro/analyze-code, /api/spaja-pro/memory, /api/spaja-pro/plan, /api/spaja-pro/translate, /api/spaja-pro/compare + 7-slojni middleware pipeline u chat/route.ts (zapamti, sablon, format, kod, kontekst, citati, CoT plan) + TOTAL_API_ROUTES 919 + TOTAL_ROUTES 973 + APP_VERSION 42.33.0)
  *
- * Izvor: Kompanija SPAJA — Digitalna Industrija
+ * Autofinish #711 (Unit Testovi Registar — proširene test suite registracije za stvarne izvršive testove: auth 60 testova/sve prolaze (Ed25519 signData/verifySignature popravka, register/login/MFA/refresh token/revokeAll/API ključ scenariji), spaja-ultra-core 7 testova DSL parser/transpiler/runtime/sve prolaze, glavni-endzin 43 testova/41 prolazi, pokrivenost auth modula 92%+ po c8 izveštaju, unit-testovi-page ažuriran sa 14 suita i 746 testova, APP_VERSION 42.34.0)
+ *
  */
 
 import {

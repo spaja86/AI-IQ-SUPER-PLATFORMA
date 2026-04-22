@@ -145,16 +145,16 @@ const testSuiteovi: TestSuite[] = [
   {
     id: 'test-auth',
     naziv: 'Autentifikacija Test Suite',
-    opis: 'Testovi za autentifikaciju — login, registracija, OAuth i 2FA',
+    opis: 'Testovi za autentifikaciju — login, registracija, MFA/TOTP, refresh token rotacija, revokeAll, API ključ, sesije i zaštita resursa',
     ikona: '🔐',
     kategorija: 'security',
     modul: 'auth',
-    testova: 64,
-    prolaznih: 64,
+    testova: 60,
+    prolaznih: 60,
     neprolaznih: 0,
     preskocenih: 0,
     trajanje: '3.9s',
-    poslednje: '2025-07-01T12:00:00Z',
+    poslednje: '2026-04-22T03:40:00Z',
     status: 'prolazan',
   },
   {
@@ -247,6 +247,36 @@ const testSuiteovi: TestSuite[] = [
     poslednje: '2025-07-01T12:00:00Z',
     status: 'prolazan',
   },
+  {
+    id: 'test-spaja-ultra-core',
+    naziv: 'SpajaUltra Core Test Suite',
+    opis: 'Testovi za SpajaUltra Core DSL — parser (srpska i ASCII slova), transpiler (AST→async JS), runtime (MOŽE/ŽELIM/DO/WAIT/ASSERT/PRIV), audit log i maxWaitMs',
+    ikona: '🧬',
+    kategorija: 'unit',
+    modul: 'spaja-ultra-core',
+    testova: 7,
+    prolaznih: 7,
+    neprolaznih: 0,
+    preskocenih: 0,
+    trajanje: '0.5s',
+    poslednje: '2026-04-22T03:40:00Z',
+    status: 'prolazan',
+  },
+  {
+    id: 'test-glavni-endzin',
+    naziv: 'Glavni Endžin Test Suite',
+    opis: 'Testovi za Glavni Endžin Digitalne Industrije — instanca, spajanje endžina, auto-sklapanje proizvoda, evolucioni ciklusi, statistika, helper funkcije i integritet podataka',
+    ikona: '🏭',
+    kategorija: 'integration',
+    modul: 'glavni-endzin',
+    testova: 43,
+    prolaznih: 41,
+    neprolaznih: 2,
+    preskocenih: 0,
+    trajanje: '1.2s',
+    poslednje: '2026-04-22T03:40:00Z',
+    status: 'neprolazan',
+  },
 ];
 
 // ─── Mogućnosti ──────────────────────────────────────────
@@ -254,7 +284,7 @@ const testSuiteovi: TestSuite[] = [
 const testMogucnosti: string[] = [
   'Automatsko pokretanje testova pri svakom commit-u',
   'Paralelno izvršavanje test suite-ova',
-  'Code coverage izveštaji sa 94.8% pokrivenosti',
+  'Code coverage izveštaji sa 92%+ pokrivenosti auth modula (c8 izveštaj)',
   'Snapshot testovi za UI komponente',
   'Mock sistemi za API i bazu',
   'AI dijagnostika neuspelih testova putem OMEGA AI',
@@ -282,8 +312,8 @@ function izracunajIzvestaj(): TestIzvestaj {
     neprolaznih,
     preskocenih,
     prosecnoTrajanje: `${prosecnoTrajanje}s`,
-    pokrivenost: 94.8,
-    poslednje: '2025-07-01T12:00:00Z',
+    pokrivenost: 92.1,
+    poslednje: '2026-04-22T03:40:00Z',
   };
 }
 
