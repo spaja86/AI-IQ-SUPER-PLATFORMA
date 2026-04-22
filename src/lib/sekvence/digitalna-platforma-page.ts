@@ -182,7 +182,7 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
     id: 'digitalna-platforma-saradnja',
     tip: 'kartice',
     naslov: '🤝 Ekstremna saradnja i igrice',
-    podnaslov: 'Digitalna platforma u platformi — vise paralelnih prostora za rad i zabavu',
+    podnaslov: 'Digitalna platforma u platformi — više paralelnih prostora za rad i zabavu',
     redosled: 7,
     podaci: {
       kartice: [
@@ -194,7 +194,7 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
         },
         {
           naslov: 'Preduzeća i kompanije',
-          opis: 'Zajednicki digitalni prostori za koordinaciju timova, projekata i partnerstava',
+          opis: 'Zajednički digitalni prostori za koordinaciju timova, projekata i partnerstava',
           ikona: '🏢',
           oznake: ['Projekti', 'Timovi', 'Partnerstva'],
         },
@@ -206,7 +206,7 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
         },
         {
           naslov: 'Platforma u platformi',
-          opis: 'Otvaranje vise digitalnih prostora unutar platforme za paralelnu saradnju i igrice',
+          opis: 'Otvaranje više digitalnih prostora unutar platforme za paralelnu saradnju i igrice',
           ikona: '🧩',
           oznake: ['Multi-space', 'Kolaboracija', 'Gaming'],
         },
@@ -217,7 +217,7 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
     id: 'digitalna-platforma-cta',
     tip: 'cta',
     naslov: '🚀 Pridruzite se platformi',
-    podnaslov: 'Kreirajte besplatan nalog i istrazite ceo ekosistem',
+    podnaslov: 'Kreirajte besplatan nalog i istražite ceo ekosistem',
     redosled: 8,
     podaci: {
       dugmad: [
