@@ -16,11 +16,11 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
     id: 'digitalna-platforma-hero',
     tip: 'hero',
     naslov: '🌐 SPAJA PLATFORMA',
-    podnaslov: 'Digitalna platforma za laksu komunikaciju i saradnju izmedju svih aktera',
+    podnaslov: 'Digitalna platforma za lakšu komunikaciju i saradnju između svih aktera',
     ikona: '🌐',
     redosled: 1,
     podaci: {
-      opis: 'SPAJA PLATFORMA je sveobuhvatna digitalna platforma koja povezuje klijente, preduzeca, kompanije, banke i druge korisnike kroz jedinstven ekosistem za komunikaciju, saradnju i igrice.',
+      opis: 'SPAJA PLATFORMA je sveobuhvatna digitalna platforma koja povezuje klijente, preduzeća, kompanije, banke i druge korisnike kroz jedinstven ekosistem za komunikaciju, saradnju i igrice.',
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
         { tekst: 'Prijavi se', href: '/login', stil: 'sekundarno' },
@@ -176,7 +176,7 @@ export const digitalnaPlatformaSekvence: Sekvenca[] = [
           oznake: ['Podrska', 'Poruke', 'Saradnja'],
         },
         {
-          naslov: 'Preduzeca i kompanije',
+          naslov: 'Preduzeća i kompanije',
           opis: 'Zajednicki digitalni prostori za koordinaciju timova, projekata i partnerstava',
           ikona: '🏢',
           oznake: ['Projekti', 'Timovi', 'Partnerstva'],
