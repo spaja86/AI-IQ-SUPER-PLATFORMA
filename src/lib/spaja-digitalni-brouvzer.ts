@@ -58,7 +58,7 @@ export interface EkstremniMotor {
   opis: string;
   ikona: string;
   verzija: string;
-  tip: 'rendering' | 'js-engine' | 'network' | 'storage' | 'deploy' | 'transfer';
+  tip: 'rendering' | 'js-engine' | 'network' | 'storage' | 'deploy' | 'transfer' | 'gaming';
   status: BrouvzerStatus;
   mogucnosti: string[];
 }
@@ -408,6 +408,16 @@ export const ekstremniMotori: EkstremniMotor[] = [
     tip: 'transfer',
     status: 'aktivan',
     mogucnosti: ['Import podataka', 'Export podataka', 'Stream transfer', 'Batch upload/download', 'Real-time sync', 'Format konverzija', 'Kompresija'],
+  },
+  {
+    id: 'motor-gaming',
+    naziv: 'Gaming Motor',
+    opis: 'Sopstveni gaming motor — iframe pokretanje igrica, dimenzionalni renderer (360D–5760D), WebGL/WebGPU podrška, fullscreen i gamepad API',
+    ikona: '🎮',
+    verzija: '1.0.0',
+    tip: 'gaming',
+    status: 'aktivan',
+    mogucnosti: ['iframe pokretanje igrica', 'Dimenzionalni renderer 360D–5760D', 'WebGL/WebGPU podrška', 'Fullscreen API', 'Gamepad API', 'Pointer Lock API', 'Fallback: Otvori u novom tabu'],
   },
 ];
 

@@ -11,10 +11,13 @@ import {
   providniFrontendKomponente,
 } from '@/lib/spaja-digitalni-brouvzer';
 import { spajaGeneratorEngine } from '@/lib/spaja-generator-engine';
+import { igrice, getSveKategorijeIgrica } from '@/lib/igrice';
+import { IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
 
 const statistika = getBrouvzerStatistika();
 const aktivniEntiteti = getAktivniEntiteti().length;
 const aktivniModuli = getAktivniModuli().length;
+const kategorijeIgrica = getSveKategorijeIgrica();
 
 export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
   {
@@ -258,6 +261,22 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'brouvzer-igrice',
+    tip: 'kartice',
+    naslov: '🎮 Igraj direktno u Digitalnom Brouvzeru',
+    podnaslov: `${igrice.length} igrica u ${kategorijeIgrica.length} kategorija — klikni igricu i ona se učitava odmah ovde`,
+    redosled: 13.5,
+    podaci: {
+      kartice: igrice.map((i) => ({
+        naslov: `${i.ikona} ${i.naziv}`,
+        opis: i.opis.length > 120 ? i.opis.slice(0, 120) + '...' : i.opis,
+        ikona: i.ikona,
+        href: `/spaja-digitalni-brouvzer?url=${encodeURIComponent(i.link ?? IOOPENUIAO_URL)}&igra=${encodeURIComponent(i.naziv)}`,
+        oznake: [i.kategorija, i.status, `D: ${i.podrazumevanaDimenzija}`, '▶ Igraj'],
+      })),
+    },
+  },
+  {
     id: 'brouvzer-cta',
     tip: 'cta',
     naslov: '🚀 EKSTREMNI Brouvzer infrastruktura',
@@ -265,7 +284,8 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     podaci: {
       opis: `EKSTREMNI DIGITALNI BROUZER — ${brouvzerEntiteti.length} entiteta, ${brouvzerModuli.length} modula, ${ekstremniMotori.length} motora, ${ekstremniBackend.length} backend servisa, ${providniFrontendKomponente.length} providnih frontend komponenti. Samostalan rad, ubaciv u druge brouzere, deploy, import, export. Celokupna Digitalna Industrija.`,
       dugmad: [
-        { tekst: 'Generator Endžina', href: '/spaja-generator-engine' },
+        { tekst: '🎮 Igraj u Brouvzeru', href: `/spaja-digitalni-brouvzer?url=${encodeURIComponent(IOOPENUIAO_URL)}&igra=${encodeURIComponent('Gaming Platforma')}` },
+        { tekst: 'Generator Endžina', href: '/spaja-generator-engine', stil: 'sekundarno' },
         { tekst: 'Industrija', href: '/industrija', stil: 'sekundarno' },
         { tekst: 'IO/OPENUI/AO Gaming', href: '/io-openui-ao-gaming-platforma', stil: 'sekundarno' },
         { tekst: 'SPAJA BAZA', href: '/industrija', stil: 'sekundarno' },

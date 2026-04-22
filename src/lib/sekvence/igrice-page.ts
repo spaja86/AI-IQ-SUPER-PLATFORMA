@@ -100,11 +100,12 @@ export const igriceSekvence: Sekvenca[] = [
         naslov: `${i.ikona} ${i.naziv}`,
         opis: i.opis,
         ikona: i.ikona,
-        eksterniLink: IOOPENUIAO_URL,
+        href: `/spaja-digitalni-brouvzer?url=${encodeURIComponent(IOOPENUIAO_URL)}&igra=${encodeURIComponent(i.naziv)}`,
         oznake: [
           i.kategorija,
           i.status,
           `D: ${i.podrazumevanaDimenzija}`,
+          '🌐 Brouvzer',
           ...i.preporuceniProizvodi.map((p) => getNazivProizvoda(p)),
         ],
       })),

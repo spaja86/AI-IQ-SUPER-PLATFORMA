@@ -284,15 +284,15 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-igrice',
     tip: 'kartice',
     naslov: '🎮 Igrice Digitalne Industrije',
-    podnaslov: `${igrice.length} igrica u ${kategorijeIgrica.length} kategorija — sve se otvaraju i startupuju sa Digitalne Industrije`,
+    podnaslov: `${igrice.length} igrica u ${kategorijeIgrica.length} kategorija — sve se otvaraju u Digitalnom Brouvzeru`,
     redosled: 10,
     podaci: {
       kartice: igrice.map((i) => ({
         naslov: `${i.ikona} ${i.naziv}`,
         opis: i.opis.length > 120 ? i.opis.slice(0, 120) + '...' : i.opis,
         ikona: i.ikona,
-        eksterniLink: i.link ?? IOOPENUIAO_URL,
-        oznake: [i.kategorija, i.status, `D: ${i.podrazumevanaDimenzija}`],
+        href: `/spaja-digitalni-brouvzer?url=${encodeURIComponent(i.link ?? IOOPENUIAO_URL)}&igra=${encodeURIComponent(i.naziv)}`,
+        oznake: [i.kategorija, i.status, `D: ${i.podrazumevanaDimenzija}`, '🌐 Brouvzer'],
       })),
     },
   },
