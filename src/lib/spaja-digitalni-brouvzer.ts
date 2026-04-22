@@ -30,7 +30,7 @@
  *   SPAJA BAZA: https://chatgpt.com/c/695ca489-4d8c-832f-a0aa-bfcad425ef4d
  */
 
-import { spajaDigitalniKompjuterSistem, type SpajaDigitalniKompjuterSistem } from './spaja-digitalni-kompjuter';
+import { spajaDigitalniKompjuterSistem, type SpajaDigitalniKompjuterSistem, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB } from './spaja-digitalni-kompjuter';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -558,8 +558,8 @@ function izracunajStatistiku(): BrouvzerStatistika {
     ukupnoFrontendKomponenti: providniFrontendKomponente.length,
     ekstremniRezim: 'samostalan',
     kompjuterKomponente: spajaDigitalniKompjuterSistem.statistika.ukupnoKomponenti,
-    gpuJezgra: 8_700_000,
-    ramGB: 276_000,
+    gpuJezgra: KOMPJUTER_GPU_JEZGRA,
+    ramGB: KOMPJUTER_RAM_GB,
   };
 }
 

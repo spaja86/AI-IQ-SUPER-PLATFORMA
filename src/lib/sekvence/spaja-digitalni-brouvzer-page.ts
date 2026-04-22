@@ -13,7 +13,7 @@ import {
 import { spajaGeneratorEngine } from '@/lib/spaja-generator-engine';
 import { igrice, getSveKategorijeIgrica } from '@/lib/igrice';
 import { IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
-import { digitalniKompjuteriSistem, spajaKonzole, spajaDzojstici, getSveKomponente } from '@/lib/spaja-digitalni-kompjuter';
+import { digitalniKompjuteriSistem, spajaKonzole, spajaDzojstici, getSveKomponente, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB } from '@/lib/spaja-digitalni-kompjuter';
 
 const statistika = getBrouvzerStatistika();
 const aktivniEntiteti = getAktivniEntiteti().length;
@@ -214,7 +214,7 @@ export const spajaDigitalniBrouvzerSekvence: Sekvenca[] = [
     id: 'brouvzer-hardware-layer',
     tip: 'kartice',
     naslov: '🖥️ Hardware Layer — Digitalni Kompjuter unutar Brouvzera',
-    podnaslov: `${getSveKomponente().length} hardverskih komponenti ugrađeno kao OO telo u EKSTREMNI Brouvzer — GPU 8.700.000 jezgara, RAM 276.000 GB`,
+    podnaslov: `${getSveKomponente().length} hardverskih komponenti ugrađeno kao OO telo u EKSTREMNI Brouvzer — GPU ${KOMPJUTER_GPU_JEZGRA.toLocaleString('sr-RS')} jezgara, RAM ${KOMPJUTER_RAM_GB.toLocaleString('sr-RS')} GB`,
     redosled: 11.3,
     podaci: {
       kartice: getSveKomponente().map((k) => ({

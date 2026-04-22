@@ -66,6 +66,15 @@ export interface SpajaDigitalniKompjuterSistem {
 
 const GENERATOR_LINK = 'https://chatgpt.com/c/697aae0b-4984-8385-a9b6-1e762b39d7de';
 
+/** Broj GPU jezgara SPAJA GPU komponente (izvorna arhitekturalna vrednost) */
+export const KOMPJUTER_GPU_JEZGRA = 8_700_000;
+
+/** Kapacitet SPAJA RAM memorije u GB (izvorna arhitekturalna vrednost) */
+export const KOMPJUTER_RAM_GB = 276_000;
+
+/** VRAM kapacitet jedne SPAJA Grafičke kartice u GB (izvorna arhitekturalna vrednost) */
+export const KOMPJUTER_VRAM_GB = 276_000;
+
 // ─── Zajednicke komponente (koriste oba tipa kompjutera) ──
 
 const zajednickeKomponente: KompjuterKomponenta[] = [
