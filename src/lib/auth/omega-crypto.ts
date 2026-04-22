@@ -146,6 +146,7 @@ export class ΩCryptoEngine {
       type: 'pkcs8' as const,
     };
 
+    // Ed25519 signatures in Node.js require null as the algorithm parameter.
     const signature = sign(null, Buffer.from(data, 'utf8'), privateKeyObj);
     return signature.toString('base64');
   }
@@ -166,6 +167,7 @@ export class ΩCryptoEngine {
         type: 'spki' as const,
       };
 
+      // Ed25519 verification in Node.js also requires null as the algorithm parameter.
       return verify(
         null,
         Buffer.from(data, 'utf8'),

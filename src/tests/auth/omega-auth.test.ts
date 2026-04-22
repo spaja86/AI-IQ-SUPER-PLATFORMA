@@ -495,11 +495,13 @@ async function runTests(): Promise<void> {
     const session = ΩSessionManager.createSession({
       identity, accessToken: 'at2', refreshToken: 'rt2', ip: '5.6.7.8', userAgent: 'UA',
     });
+    const { accessToken } = session;
+    assert(ΩSessionManager.getSessionByToken(accessToken)?.id === session.id, 'active token should resolve');
     ΩSessionManager.terminateSession(session.id);
     const retrieved = ΩSessionManager.getSession(session.id);
     assert(retrieved !== null, 'session metadata remains retrievable');
-    assert(retrieved?.active === false, 'session should be inactive');
-    assert(ΩSessionManager.getSessionByToken('at2') === null, 'inactive token should not resolve');
+    assert(retrieved.active === false, 'session should be inactive');
+    assert(ΩSessionManager.getSessionByToken(accessToken) === null, 'inactive token should not resolve');
   });
 
   await test('refreshSession updates active session token pair', () => {
@@ -546,6 +548,8 @@ async function runTests(): Promise<void> {
     });
     ΩSessionManager.terminateAllUserSessions(identity.id);
     assertEqual(ΩSessionManager.getUserSessions(identity.id).length, 0, 'all sessions should be inactive');
+    assert(ΩSessionManager.getSessionByToken('at-all-1') === null, 'first token should be inactive');
+    assert(ΩSessionManager.getSessionByToken('at-all-2') === null, 'second token should be inactive');
   });
 
   await test('getStats returns session statistics', () => {
