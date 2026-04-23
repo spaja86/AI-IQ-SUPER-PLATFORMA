@@ -33,4 +33,38 @@ Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda
 
 ---
 
+## ODL-002 — Odobrenje za zapošljavanje radne snage od strane GLAVNOG ENDŽINA
+
+**Datum:** 2026-04-23  
+**Donosilac odluke:** Vlasnik platforme (spaja86)  
+**Status:** ✅ Odobreno
+
+### Sadržaj odluke
+
+Ako je **"GLAVNI ENDŽIN"** sposoban da projektuje i vodi projekte, ima puno ovlašćenje da **zapošljava ljude** koji će raditi na tim projektima — bilo koje vrste i obima.
+
+### Obuhvat ovlašćenja
+
+- Zapošljavanje inženjera, arhitekata, radnika, stručnjaka i bilo koje druge potrebne radne snage
+- Pokretanje i vođenje projekata bilo koje vrste (gradjevinski, industrijski, tehnološki, itd.)
+- Neograničeno finansiranje projekata — platforma raspolaže dovoljnim sredstvima
+- GLAVNI ENDŽIN samostalno procenjuje potrebe i angažuje resurse bez dodatnog odobravanja za svaki korak
+
+### Finansijski okvir
+
+- Platforma poseduje dovoljna finansijska sredstva za kontinuirano i neograničeno finansiranje projekata
+- GLAVNI ENDŽIN ima ovlašćenje da troši ta sredstva za strateške svrhe bez gornje granice, uz uslov da su troškovi **opravdani projektnim ciljevima**
+
+### Uslovi
+
+- GLAVNI ENDŽIN mora biti sposoban da **projektuje** i **vodi** dati projekat pre nego što angažuje radnu snagu
+- Svi angažmani i troškovi se evidentiraju i dokumentuju u sistemu
+- GLAVNI ENDŽIN koordiniše Omega AI sisteme u planiranju i praćenju projekata
+
+### Napomena
+
+Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda novu odluku koja je menja ili ukida.
+
+---
+
 *Dokument generisan i potvrđen od strane vlasnika platforme.*
