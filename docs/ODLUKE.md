@@ -153,4 +153,40 @@ Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda
 
 ---
 
+## ODL-005 — Strateška bankarska akcija za "Digitalna industrija" u Smederevu
+
+**Datum:** 2026-04-23  
+**Donosilac odluke:** Vlasnik platforme (spaja86)  
+**Status:** ✅ Odobreno — akcija pokrenuta
+
+### Sadržaj odluke
+
+Vlasnik platforme nalaže pokretanje formalne bankarske akcije za osnivanje poslovnih računa kompanije **"Digitalna industrija"** u bankama na teritoriji Smedereva.
+
+### Cilj
+
+- Slanje formalnog zahteva bankama u Smederevu za otvaranje poslovnih računa
+- Potpisivanje ugovora o osnivanju — ili u prostorijama banke ili na lokaciji vlasnika
+- Dobijanje industrijskih kartičnih proizvoda u: **dinaru (RSD)**, **dolaru (USD)** i **euru (EUR)**
+- Pokretanje zvaničnog finansijskog poslovanja platforme "Digitalna industrija"
+
+### Banke
+
+Zahtev se upućuje bankama u Smederevu koje su iskazale interes za saradnju.
+
+### Akcioni plan
+
+1. Slanje pisanog zahteva bankama (predložak: [docs/BANKARSKI-ZAHTEV-SMEDEREVO.md](./BANKARSKI-ZAHTEV-SMEDEREVO.md))
+2. Čekanje poziva od banke za termin potpisivanja
+3. Potpisivanje ugovora i otvaranje računa (RSD, USD, EUR)
+4. Dobijanje poslovnih kartica za sve valute
+5. Početak finansijskog poslovanja Digitalne industrije
+
+### Napomena
+
+OMEGA AI sistemi su identifikovali i pripremili kompletnu dokumentaciju za ovu akciju.  
+Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda novu odluku koja je menja ili ukida.
+
+---
+
 *Dokument generisan i potvrđen od strane vlasnika platforme.*
