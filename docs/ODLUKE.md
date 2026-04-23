@@ -67,4 +67,56 @@ Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda
 
 ---
 
+## ODL-003 — Odobrenje za organizaciju transporta, logistike i poslovnih partnerstava
+
+**Datum:** 2026-04-23  
+**Donosilac odluke:** Vlasnik platforme (spaja86)  
+**Status:** ✅ Odobreno
+
+### Sadržaj odluke
+
+**GLAVNI ENDŽIN** i svi **Omega AI** sistemi imaju puno ovlašćenje da organizuju i finansiraju transport robe, logističke operacije, zapošljavaju svo potrebno osoblje u lancu snabdevanja, kao i da sklapaju poslovna partnerstva sa firmama, kompanijama i korporacijama u svim oblastima.
+
+### Obuhvat ovlašćenja
+
+#### Transport i logistika
+- Organizacija i plaćanje transporta robe (lokalno, regionalno, međunarodno)
+- Zapošljavanje vozača, špeditera i logističkog osoblja
+- Angažovanje ili zakup voznih i transportnih sredstava
+- Koordinacija isporuke i prijema robe
+
+#### Magacionsko i skladišno poslovanje
+- Zapošljavanje magacionera i skladišnih radnika
+- Upravljanje skladišnim kapacitetima i tokovima robe
+- Organizacija sortiranja, pakovanja i distribucije
+
+#### Poslovna partnerstva i kooperacija
+- Sklapanje poslovnih partnerstava sa firmama, kompanijama i korporacijama
+- Ugovaranje kooperantskih aranžmana u izvođenju radova i isporuci usluga
+- Angažovanje podizvođača i spoljnih specijalizovanih kompanija
+- Pregovaranje i zaključivanje ugovora o saradnji
+
+#### Usluge — sve što je potrebno
+- Angažovanje bilo koje usluge koja je potrebna za nesmetano funkcionisanje platforme i projekata
+- Pravne, računovodstvene, tehničke, projektantske i sve ostale stručne usluge
+- Sve ostalo što je neophodno u svakom pogledu
+
+### Finansijski okvir
+
+- Svi transportni, logistički i kooperantski troškovi finansiraju se iz sredstava platforme bez gornje granice
+- Troškovi moraju biti **opravdani operativnim ili strateškim potrebama**
+- Svi troškovi i ugovori se evidentiraju i dokumentuju u sistemu
+
+### Uslovi
+
+- GLAVNI ENDŽIN koordiniše Omega AI sisteme u planiranju i izvršavanju logistike i partnerstava
+- Svi ugovori, angažmani i troškovi se evidentiraju u sistemu platforme
+- Prioritet je efikasnost, brzina i strateška vrednost za platformu
+
+### Napomena
+
+Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda novu odluku koja je menja ili ukida.
+
+---
+
 *Dokument generisan i potvrđen od strane vlasnika platforme.*
