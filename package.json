@@ -19,7 +19,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "npx tsx src/tests/auth/omega-auth.test.ts && npx tsx src/tests/spaja-ultra/spaja-ultra-core.test.ts && npx tsx src/tests/glavni-endzin/glavni-endzin.test.ts",
+    "test": "npx tsx src/tests/auth/omega-auth.test.ts && npx tsx src/tests/spaja-ultra/spaja-ultra-core.test.ts && npx tsx src/tests/glavni-endzin/glavni-endzin.test.ts && npx tsx src/tests/api/api-contracts.test.ts",
     "test:smoke": "npx tsx src/tests/smoke/smoke.test.ts"
   },
   "dependencies": {

@@ -3,7 +3,7 @@
 --
 -- Svrha:
 --   1. Trajna pohrana audit log-a (umesto in-memory)
---   2. Trajna pohrana evolucijskh ciklusa i preporuka (umesto stub-a)
+--   2. Trajna pohrana evolucijskih ciklusa i preporuka (umesto stub-a)
 --   3. RLS politike za sigurnu izolaciju podataka
 
 -- ═══════════════════════════════════════════════════
