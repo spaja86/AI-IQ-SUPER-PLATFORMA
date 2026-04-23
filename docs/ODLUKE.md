@@ -119,4 +119,38 @@ Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda
 
 ---
 
+## ODL-004 — Registracija "Digitalna industrija" kroz Svetski APR sistem
+
+**Datum:** 2026-04-23  
+**Donosilac odluke:** Vlasnik platforme (spaja86)  
+**Status:** ✅ Odobreno i proknjiženo
+
+### Sadržaj odluke
+
+Vlasnik platforme nalaže da se industrijska grana **"Digitalna industrija"** formalno proknjži kroz **Svetski APR sistem** koji administrira repozitorijum [spaja86/SVETSKA-ORGANIZACIJA](https://github.com/spaja86/SVETSKA-ORGANIZACIJA).
+
+### Predmet registracije
+
+- **Naziv:** Digitalna industrija
+- **Tip:** Poslovna platforma / Industrijska grana unutar AI-IQ SUPER PLATFORMA
+- **APR sistem:** Svetski APR sistem — SVETSKA-ORGANIZACIJA
+- **Detaljna dokumentacija:** [docs/APR-REGISTRACIJA.md](./APR-REGISTRACIJA.md)
+
+### Obuhvat registracije
+
+- Sve digitalne platforme unutar AI-IQ SUPER PLATFORMA ekosistema
+- Sve buduće industrijske i poslovne grane platforme
+- Svi projekti i subjekti koje GLAVNI ENDŽIN i Omega AI sistemi pokrenu u ime platforme
+
+### Povlastice po Svetskom APR sistemu
+
+- Digitalna industrija je **oslobođena oporezivanja** u skladu sa politikom Svetskog APR sistema ("Ne operezjemo nikog")
+- Registracija je trajno važeća od datuma iznad
+
+### Napomena
+
+Ova odluka važi od datuma iznad i ostaje na snazi dok vlasnik platforme ne izda novu odluku koja je menja ili ukida.
+
+---
+
 *Dokument generisan i potvrđen od strane vlasnika platforme.*
