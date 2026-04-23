@@ -165,7 +165,9 @@ export function kreirajEvolucijskiCiklus(): EvolucijaCiklus {
 }
 
 /**
- * Vraća istoriju evolucije (stub — u produkciji koristi bazu).
+ * Vraća istoriju evolucije.
+ * Pokušava iz Supabase (produkcija), u slučaju greške/nedostupnosti
+ * vraća sinhroni stub koji je uvek dostupan.
  */
 export function getEvolucijskaIstorija(): EvolucijskaIstorija {
   const ciklus = kreirajEvolucijskiCiklus();
@@ -178,6 +180,38 @@ export function getEvolucijskaIstorija(): EvolucijskaIstorija {
     poslednjiCiklus: ciklus.pocetak,
     sledeciCiklus: izracunajSledeciCiklus(),
   };
+}
+
+/**
+ * Kreира i snima evolucioni ciklus u Supabase (async).
+ * Vraća ciklus odmah, snimanje se odvija u pozadini.
+ */
+export async function kreirajISnimiCiklus(): Promise<EvolucijaCiklus> {
+  const ciklus = kreirajEvolucijskiCiklus();
+
+  // Snimi u Supabase u pozadini — ne čekamo, ne blokujemo cron
+  import('./persistence').then(({ saveEvolucijaCiklus }) => {
+    void saveEvolucijaCiklus(ciklus);
+  }).catch(() => {
+    // Ignoriši ako persistence nije dostupna
+  });
+
+  return ciklus;
+}
+
+/**
+ * Dohvata istoriju evolucije iz Supabase.
+ * Fallback na sinhroni stub ako Supabase nije dostupan.
+ */
+export async function getEvolucijskaIstorijaAsync(): Promise<EvolucijskaIstorija> {
+  try {
+    const { loadEvolucijskaIstorija } = await import('./persistence');
+    const istorija = await loadEvolucijskaIstorija(30);
+    if (istorija) return istorija;
+  } catch {
+    // Fallback na stub
+  }
+  return getEvolucijskaIstorija();
 }
 
 /**

@@ -3,9 +3,12 @@
 //
 // Edge-compatible middleware: IP blocking + rate limiting.
 // Runs in the Vercel Edge Runtime before every request.
-// Security headers are applied by vercel.json and next.config.ts.
-// Brute-force protection for auth endpoints is handled inside
-// /api/auth/login via omega-security.ts helpers.
+//
+// Arhitektura:
+//   1. IP blok lista (OMEGA_BLOCKED_IPS env var)
+//   2. Rate limiting — cross-instance ako je VERCEL_KV konfigurisan, in-memory fallback
+//   3. Security headers su postavljeni u vercel.json (ne ovde, da bi se izbegli duplikati)
+//   4. Brute-force zaštita za auth endpoint-e je u /api/auth/login via omega-security.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -19,27 +22,59 @@ const BLOCKED_IPS = new Set<string>(
 );
 
 // ─── Rate Limiter ─────────────────────────────────────────────────────────────
-// In-memory store — resets per Edge function instance (serverless limitation).
-// For global rate limiting, replace with an external KV store (e.g. Vercel KV).
+// Dva nivoa:
+//   1. Vercel KV (cross-instance, produkcija) — ako su VERCEL_KV_* env vars postavljeni
+//   2. In-memory fallback — za razvoj i serverless okruženja bez KV-a
+//
+// Limit-i:
+//   - Anonimni korisnici: 200 zahteva / min
+//   - Autentifikovani korisnici: 1000 zahteva / min
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW_SEC = 60;
+const RATE_LIMIT_ANON = 200;
+const RATE_LIMIT_AUTH = 1_000;
 
-const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
-const RATE_LIMIT_ANON = 200; // requests per window for anonymous users
-const RATE_LIMIT_AUTH = 1_000; // requests per window for authenticated users
+// In-memory fallback store
+const memRateMap = new Map<string, { count: number; resetAt: number }>();
 
-function checkRateLimit(ip: string, isAuthenticated: boolean): boolean {
-  const now = Date.now();
+async function checkRateLimit(ip: string, isAuthenticated: boolean): Promise<boolean> {
   const limit = isAuthenticated ? RATE_LIMIT_AUTH : RATE_LIMIT_ANON;
-  const existing = rateLimitMap.get(ip);
+  const key = `rl:edge:${ip}`;
 
-  if (!existing || now > existing.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return true;
+  // Pokušaj Vercel KV (cross-instance) ako je konfigurisan
+  const kvUrl = process.env.VERCEL_KV_REST_API_URL;
+  const kvToken = process.env.VERCEL_KV_REST_API_TOKEN;
+
+  if (kvUrl && kvToken) {
+    try {
+      const incrResp = await fetch(`${kvUrl}/incr/${encodeURIComponent(key)}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${kvToken}` },
+      });
+      if (incrResp.ok) {
+        const { result: count } = (await incrResp.json()) as { result: number };
+        if (count === 1) {
+          // Postavi TTL za novi prozor
+          void fetch(`${kvUrl}/expire/${encodeURIComponent(key)}/${RATE_LIMIT_WINDOW_SEC}`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${kvToken}` },
+          });
+        }
+        return count <= limit;
+      }
+    } catch {
+      // KV nije dostupan — fallback na in-memory
+    }
   }
 
+  // In-memory fallback
+  const now = Date.now();
+  const existing = memRateMap.get(key);
+  if (!existing || now > existing.resetAt) {
+    memRateMap.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_SEC * 1000 });
+    return true;
+  }
   if (existing.count >= limit) return false;
-
   existing.count++;
   return true;
 }
@@ -56,20 +91,21 @@ function getClientIP(request: NextRequest): string {
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
-export function middleware(request: NextRequest): NextResponse {
+export async function middleware(request: NextRequest): Promise<NextResponse> {
   const ip = getClientIP(request);
 
-  // 1. Block known malicious IPs (loaded from OMEGA_BLOCKED_IPS env var)
+  // 1. Blok lista — odmah odbaci blokirane IP adrese
   if (BLOCKED_IPS.has(ip)) {
     return new NextResponse('Forbidden', { status: 403 });
   }
 
-  // 2. Rate limiting — authenticated users get a higher limit
+  // 2. Rate limiting — autentifikovani korisnici dobijaju viši limit
   const isAuthenticated = request.headers.get('authorization')?.startsWith('Bearer ') ?? false;
-  if (!checkRateLimit(ip, isAuthenticated)) {
+  const allowed = await checkRateLimit(ip, isAuthenticated);
+  if (!allowed) {
     return new NextResponse('Too Many Requests', {
       status: 429,
-      headers: { 'Retry-After': '60' },
+      headers: { 'Retry-After': String(RATE_LIMIT_WINDOW_SEC) },
     });
   }
 

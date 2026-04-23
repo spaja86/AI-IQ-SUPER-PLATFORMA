@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { kreirajEvolucijskiCiklus, getKonfiguracija } from '@/lib/evolucija';
+import { kreirajISnimiCiklus, getKonfiguracija } from '@/lib/evolucija';
 import { APP_VERSION } from '@/lib/constants';
 
 /**
@@ -7,6 +7,7 @@ import { APP_VERSION } from '@/lib/constants';
  *
  * Pokreće se automatski svakih 6 sati (konfigurabilno).
  * Dijagnostikuje sistem, generiše preporuke, i kreira GitHub Issues.
+ * Snima rezultate trajno u Supabase (evolution_cycles tabela).
  *
  * Vercel Cron: GET /api/cron/evolucija
  */
@@ -20,8 +21,75 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Neautorizovan pristup' }, { status: 401 });
   }
 
-  const ciklus = kreirajEvolucijskiCiklus();
+  // Kreira ciklus I snima ga u Supabase (non-blocking)
+  const ciklus = await kreirajISnimiCiklus();
   const konfiguracija = getKonfiguracija();
+
+  // Kreiranje GitHub Issues za svaku preporuku (ako je GITHUB_TOKEN dostupan)
+  const githubToken = process.env.GITHUB_TOKEN;
+  const githubRepo = process.env.GITHUB_REPOSITORY ?? 'spaja86/AI-IQ-SUPER-PLATFORMA';
+  const kreiraniIssues: Array<{ naslov: string; broj?: number; status: string }> = [];
+
+  if (githubToken) {
+    for (const preporuka of ciklus.dijagnostika.preporuke.slice(0, konfiguracija.maxIssuePoDanu)) {
+      try {
+        const [owner, repo] = githubRepo.split('/');
+        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues`, {
+          method: 'POST',
+          headers: {
+            Authorization: `token ${githubToken}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: preporuka.githubIssueNaslov,
+            body: preporuka.githubIssueTelo,
+            labels: ['omega-evolucija', `prioritet:${preporuka.prioritet}`, `tip:${preporuka.tip}`],
+          }),
+        });
+
+        if (response.ok) {
+          const issue = await response.json() as Record<string, unknown>;
+          const issueNumber = typeof issue.number === 'number' ? issue.number : undefined;
+          kreiraniIssues.push({
+            naslov: preporuka.githubIssueNaslov,
+            broj: issueNumber,
+            status: 'kreiran',
+          });
+        } else {
+          kreiraniIssues.push({
+            naslov: preporuka.githubIssueNaslov,
+            status: `greska-${response.status}`,
+          });
+        }
+      } catch {
+        kreiraniIssues.push({
+          naslov: preporuka.githubIssueNaslov,
+          status: 'greska-fetch',
+        });
+      }
+    }
+  }
+
+  return NextResponse.json({
+    sistem: 'Omega Evolucioni Motor',
+    verzija: APP_VERSION,
+    ciklus: {
+      id: ciklus.id,
+      status: ciklus.status,
+      zdravlje: ciklus.dijagnostika.zdravlje,
+      preporuka: ciklus.dijagnostika.preporuke.length,
+      akcija: ciklus.akcije.length,
+    },
+    kreiraniIssues,
+    konfiguracija: {
+      cronInterval: konfiguracija.cronInterval,
+      maxIssuePoDanu: konfiguracija.maxIssuePoDanu,
+      autoMerge: konfiguracija.autoMerge,
+    },
+    timestamp: new Date().toISOString(),
+  });
+}
 
   // Kreiranje GitHub Issues za svaku preporuku (ako je GITHUB_TOKEN dostupan)
   const githubToken = process.env.GITHUB_TOKEN;
