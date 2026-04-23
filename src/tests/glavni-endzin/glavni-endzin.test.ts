@@ -185,8 +185,12 @@ async function runTests(): Promise<void> {
 
   console.log('\n📦 Evolucioni ciklusi');
 
-  await test('ima 9 evolucionih ciklusa', () => {
-    assertEqual(glavniEndzinDigitalneIndustrije.evolucija.length, 9, 'broj ciklusa');
+  await test('broj evolucionih ciklusa je konzistentan sa statistikom', () => {
+    assertEqual(
+      glavniEndzinDigitalneIndustrije.evolucija.length,
+      glavniEndzinDigitalneIndustrije.statistika.evolucijaCiklusa,
+      'broj ciklusa',
+    );
   });
 
   await test('svaki ciklus ima id, naziv, opis, fazu i napredak', () => {
@@ -274,9 +278,9 @@ async function runTests(): Promise<void> {
     assertEqual(sklopljeni.length, glavniEndzinDigitalneIndustrije.autoSklapanje.length, 'dužina');
   });
 
-  await test('getEvolucijaCikluse vraća 9 ciklusa', () => {
+  await test('getEvolucijaCikluse vraća sve registrovane cikluse', () => {
     const ciklusi = getEvolucijaCikluse();
-    assertEqual(ciklusi.length, 9, 'broj ciklusa');
+    assertEqual(ciklusi.length, glavniEndzinDigitalneIndustrije.evolucija.length, 'broj ciklusa');
   });
 
   await test('getGlavniEndzinStatistika vraća validnu statistiku', () => {
