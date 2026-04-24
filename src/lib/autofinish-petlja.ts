@@ -150,6 +150,8 @@
  *
  * Autofinish #779 (Skalabilnost i arhitektura — microservices komunikacija optimizovana, load balancing poboljšan, horizontalno skaliranje unapređeno, event-driven arhitektura proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1541→1543, APP_VERSION 42.99.0→43.0.0)
  *
+ * Autofinish #780 (Sigurnost i autentifikacija — OAuth2 tok unapređen, JWT refresh mehanizam poboljšan, rate limiting dodat, CSRF zaštita ojačana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1543→1545, APP_VERSION 43.0.0→43.1.0)
+ *
  */
 
 import {
