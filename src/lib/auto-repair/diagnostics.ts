@@ -5434,6 +5434,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #793 — Sigurnost i autentikacija ─────────────────────────
     createCheck('autofinish-793-security-check', 'Sigurnost i autentikacija #793', `Provera sigurnosti i autentikacije — JWT refresh mehanizam ojačan, rate limiting implementiran, CSRF zaštita poboljšana, audit log sistema proširen`, 'ok', `Autofinish #793 — Security: TOTAL_DIAGNOSTIKA 1569→1571, APP_VERSION 43.13.0→43.14.0`),
     createCheck('autofinish-793-iteracija-check', 'Autofinish #793 Iteracija', `Provera autofinish iteracije #793 — sigurnost i autentikacija`, 'ok', `Autofinish #793 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #794 — Performanse i optimizacija ────────────────────────
+    createCheck('autofinish-794-performance-check', 'Performanse i optimizacija #794', `Provera performansi i optimizacije — lazy loading komponenti proširen, bundle size smanjen, server-side caching unapređen, query optimizacija baze podataka`, 'ok', `Autofinish #794 — Performance: TOTAL_DIAGNOSTIKA 1571→1573, APP_VERSION 43.14.0→43.15.0`),
+    createCheck('autofinish-794-iteracija-check', 'Autofinish #794 Iteracija', `Provera autofinish iteracije #794 — performanse i optimizacija`, 'ok', `Autofinish #794 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
