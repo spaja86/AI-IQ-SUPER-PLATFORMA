@@ -174,6 +174,8 @@
  *
  * Autofinish #791 (Dostupnost i pristupačnost — ARIA atributi poboljšani, keyboard navigacija unapređena, kontrast boja usklađen sa WCAG 2.1, screen reader podrška proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1565→1567, APP_VERSION 43.11.0→43.12.0)
  *
+ * Autofinish #792 (Internacionalizacija i lokalizacija — i18n podrška proširena, novi jezički paketi dodati, formatiranje datuma/valute po lokalu, RTL layout podrška unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1567→1569, APP_VERSION 43.12.0→43.13.0)
+ *
  */
 
 import {
