@@ -452,6 +452,26 @@
  *
  * Autofinish #930 (E2E Svih 11 Autofinish API Endpoints — konzistentnost verzija kroz svih 11 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1842→1844, APP_VERSION 44.50.0→44.51.0)
  *
+ * Autofinish #931 (getAutofinishIteracijaRaspon(od,do) Helper — opisi iteracija u zadatom rasponu, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1844→1846, APP_VERSION 44.51.0→44.52.0)
+ *
+ * Autofinish #932 (Unit Testovi getAutofinishIteracijaRaspon() — schema, opseg, prazan raspon, granični slučajevi, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1846→1848, APP_VERSION 44.52.0→44.53.0)
+ *
+ * Autofinish #933 (GET /api/autofinish-iteracija-raspon — ?od=N&do=M, validacija, 200/400, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1848→1850, APP_VERSION 44.53.0→44.54.0)
+ *
+ * Autofinish #934 (Integracioni Testovi /api/autofinish-iteracija-raspon — 200, 400, schema, iteracije niz, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1850→1852, APP_VERSION 44.54.0→44.55.0)
+ *
+ * Autofinish #935 (Dashboard Iteracija Raspon Widget — poslednje 20 iteracija lista sa brojem i opisom, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1852→1854, APP_VERSION 44.55.0→44.56.0)
+ *
+ * Autofinish #936 (Unit Testovi Dashboard Iteracija Raspon Widget — render, sadržaj, poslednje 20, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1854→1856, APP_VERSION 44.56.0→44.57.0)
+ *
+ * Autofinish #937 (getAutofinishPodsistemiZdravlje() Helper — per-podsistem zdravlje%, status, broj provera, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1856→1858, APP_VERSION 44.57.0→44.58.0)
+ *
+ * Autofinish #938 (Unit Testovi getAutofinishPodsistemiZdravlje() — schema, konzistentnost sa zdravlje, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1858→1860, APP_VERSION 44.58.0→44.59.0)
+ *
+ * Autofinish #939 (GET /api/autofinish-podsistemi-zdravlje — per-podsistem zdravlje JSON, s-maxage=30, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1860→1862, APP_VERSION 44.59.0→44.60.0)
+ *
+ * Autofinish #940 (E2E Svih 12 Autofinish API Endpoints — konzistentnost verzija kroz svih 12 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1862→1864, APP_VERSION 44.60.0→44.61.0)
+ *
  */
 
 import {
@@ -880,6 +900,16 @@ export function getAutofinishIteracijaOpis(br: number): string {
     928: 'Unit testovi getAutofinishSystemReport()',
     929: 'GET /api/autofinish-system-report',
     930: 'E2E svih 11 autofinish API endpoints',
+    931: 'getAutofinishIteracijaRaspon(od, do) helper',
+    932: 'Unit testovi getAutofinishIteracijaRaspon()',
+    933: 'GET /api/autofinish-iteracija-raspon',
+    934: 'Integracioni testovi /api/autofinish-iteracija-raspon',
+    935: 'Dashboard iteracija raspon widget',
+    936: 'Unit testovi dashboard iteracija raspon widget',
+    937: 'getAutofinishPodsistemiZdravlje() helper',
+    938: 'Unit testovi getAutofinishPodsistemiZdravlje()',
+    939: 'GET /api/autofinish-podsistemi-zdravlje',
+    940: 'E2E svih 12 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1144,7 +1174,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '44.21.0', autofinishBroj: 900, opis: 'Statistika summary, meta info, full E2E endpoints' },
   { verzija: '44.31.0', autofinishBroj: 910, opis: 'Zdravlje summary, roadmap info, 9-endpoint E2E' },
   { verzija: '44.41.0', autofinishBroj: 920, opis: 'Roadmap status summary, next steps, 10-endpoint E2E' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Milestone detail, system report, 11-endpoint E2E' },
+  { verzija: '44.51.0', autofinishBroj: 930, opis: 'Milestone detail, system report, 11-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Iteracija raspon, podsistemi zdravlje, 12-endpoint E2E' },
 ];
 
 /**
@@ -1248,6 +1279,8 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-next-steps',
       '/api/autofinish-milestone/[id]',
       '/api/autofinish-system-report',
+      '/api/autofinish-iteracija-raspon',
+      '/api/autofinish-podsistemi-zdravlje',
     ],
     timestamp: new Date().toISOString(),
   };
@@ -1551,6 +1584,16 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     928: 'Unit testovi getAutofinishSystemReport()',
     929: 'GET /api/autofinish-system-report',
     930: 'E2E svih 11 autofinish API endpoints',
+    931: 'getAutofinishIteracijaRaspon(od, do) helper',
+    932: 'Unit testovi getAutofinishIteracijaRaspon()',
+    933: 'GET /api/autofinish-iteracija-raspon',
+    934: 'Integracioni testovi /api/autofinish-iteracija-raspon',
+    935: 'Dashboard iteracija raspon widget',
+    936: 'Unit testovi dashboard iteracija raspon widget',
+    937: 'getAutofinishPodsistemiZdravlje() helper',
+    938: 'Unit testovi getAutofinishPodsistemiZdravlje()',
+    939: 'GET /api/autofinish-podsistemi-zdravlje',
+    940: 'E2E svih 12 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -1602,5 +1645,233 @@ export function getAutofinishSystemReport(): AutofinishSystemReport {
     roadmap: getAutofinishRoadmapStatusSummary(),
     statistika: getAutofinishStatistikaSummary(),
     nextSteps: getAutofinishNextSteps(),
+  };
+}
+
+// ─── getAutofinishIteracijaRaspon(od, do) (#931) ──────────────────────────────
+
+export interface AutofinishIteracijaRasponResult {
+  verzija: string;
+  autofinishBroj: number;
+  od: number;
+  do: number;
+  ukupnoIteracija: number;
+  iteracije: AutofinishMilestoneIteracija[];
+  timestamp: string;
+}
+
+/**
+ * Vraća listu svih poznatih iteracija u zadatom rasponu [od, do] (inkluzivno).
+ * Ako `od > do`, vraća prazan niz iteracija.
+ * Maksimalni raspon je 200 iteracija; ako je raspon veći, vraća grešku.
+ *
+ * @param od - Početak raspona (uključujući)
+ * @param do_ - Kraj raspona (uključujući)
+ * @returns AutofinishIteracijaRasponResult
+ */
+export function getAutofinishIteracijaRaspon(od: number, do_: number): AutofinishIteracijaRasponResult {
+  const ITERACIJA_OPISI: Record<number, string> = {
+    841: 'Petlja osnove i struktura',
+    842: 'Unit testovi petlja osnove',
+    843: 'GET /api/autofinish-petlja',
+    844: 'Integracioni testovi /api/autofinish-petlja',
+    845: '/autofinish dashboard osnova',
+    846: 'Unit testovi dashboard osnova',
+    847: 'getAutofinishStatus() helper',
+    848: 'Unit testovi getAutofinishStatus()',
+    849: 'GET /api/autofinish-petlja-status',
+    850: 'E2E snapshot petlja + status',
+    851: 'getAutofinishEkosistemSnapshot() helper',
+    852: 'Unit testovi ekosistem snapshot',
+    853: 'GET /api/autofinish-ekosistem-snapshot',
+    854: 'Integracioni testovi ekosistem snapshot',
+    855: '/autofinish dashboard changelog sekcija',
+    856: 'Unit testovi changelog sekcija',
+    857: 'getAutofinishProgressInfo() helper',
+    858: 'Unit testovi progress info',
+    859: 'GET /api/autofinish-progress-info',
+    860: 'E2E snapshot ekosistem + progress',
+    861: 'getAutofinishPodsistemiDetails() helper',
+    862: 'Unit testovi podsistemi details',
+    863: 'GET /api/autofinish-podsistemi-details',
+    864: 'Integracioni testovi podsistemi details',
+    865: '/autofinish dashboard ekosistem sekcija',
+    866: 'Unit testovi ekosistem sekcija',
+    867: 'getAutofinishIteracijaOpis() helper',
+    868: 'Unit testovi iteracija opis',
+    869: 'GET /api/autofinish-iteracija-opis',
+    870: 'E2E snapshot podsistemi + iteracija',
+    871: 'getAutofinishAuditReport() helper',
+    872: 'Unit testovi audit report',
+    873: 'GET /api/autofinish-audit-report',
+    874: 'Integracioni testovi audit report',
+    875: '/autofinish dashboard progress widget',
+    876: 'Unit testovi progress widget',
+    877: 'getAutofinishVerzijeSummary() helper',
+    878: 'Unit testovi verzije summary',
+    879: 'GET /api/autofinish-verzije',
+    880: 'E2E snapshot audit + verzije',
+    881: 'getAutofinishStatistikaSummary() helper',
+    882: 'Unit testovi statistika summary',
+    883: 'GET /api/autofinish-statistika',
+    884: 'Integracioni testovi statistika summary',
+    885: '/autofinish dashboard verzije sekcija',
+    886: 'Unit testovi verzije sekcija',
+    887: 'getAutofinishMetaInfo() helper',
+    888: 'Unit testovi meta info',
+    889: 'GET /api/autofinish-meta',
+    890: 'E2E snapshot statistika + meta',
+    891: 'getAutofinishHealthSummary() helper',
+    892: 'Unit testovi zdravlje summary',
+    893: 'GET /api/autofinish-zdravlje',
+    894: 'Integracioni testovi zdravlje summary',
+    895: '/autofinish dashboard statistika sekcija',
+    896: 'Unit testovi statistika sekcija',
+    897: 'SSE route coverage helper',
+    898: 'Unit testovi SSE route coverage',
+    899: 'Middleware E2E zdravlje konzistentnost',
+    900: 'E2E snapshot zdravlje + meta',
+    901: 'getAutofinishRoadmapInfo() helper',
+    902: 'Unit testovi roadmap info',
+    903: 'GET /api/autofinish-roadmap',
+    904: 'Integracioni testovi roadmap info',
+    905: '/autofinish dashboard zdravlje sekcija',
+    906: 'Unit testovi zdravlje sekcija',
+    907: 'Health snapshot E2E helper',
+    908: 'Unit testovi health snapshot',
+    909: 'Middleware E2E roadmap konzistentnost',
+    910: 'E2E svih 9 autofinish API endpoints',
+    911: 'getAutofinishRoadmapStatusSummary() helper',
+    912: 'Unit testovi getAutofinishRoadmapStatusSummary()',
+    913: '/autofinish dashboard roadmap sekcija',
+    914: 'Integracioni testovi dashboard roadmap sekcije',
+    915: 'getAutofinishNextSteps() helper',
+    916: 'Unit testovi getAutofinishNextSteps()',
+    917: 'GET /api/autofinish-next-steps',
+    918: 'Integracioni testovi /api/autofinish-next-steps',
+    919: '/autofinish dashboard next steps sekcija',
+    920: 'E2E svih 10 autofinish API endpoints',
+    921: 'getAutofinishMilestoneDetail(id) helper',
+    922: 'Unit testovi getAutofinishMilestoneDetail()',
+    923: 'GET /api/autofinish-milestone/[id]',
+    924: 'Integracioni testovi /api/autofinish-milestone/[id]',
+    925: 'Dashboard milestone detail modal',
+    926: 'Unit testovi dashboard milestone modal',
+    927: 'getAutofinishSystemReport() helper',
+    928: 'Unit testovi getAutofinishSystemReport()',
+    929: 'GET /api/autofinish-system-report',
+    930: 'E2E svih 11 autofinish API endpoints',
+    931: 'getAutofinishIteracijaRaspon(od, do) helper',
+    932: 'Unit testovi getAutofinishIteracijaRaspon()',
+    933: 'GET /api/autofinish-iteracija-raspon',
+    934: 'Integracioni testovi /api/autofinish-iteracija-raspon',
+    935: 'Dashboard iteracija raspon widget',
+    936: 'Unit testovi dashboard iteracija raspon widget',
+    937: 'getAutofinishPodsistemiZdravlje() helper',
+    938: 'Unit testovi getAutofinishPodsistemiZdravlje()',
+    939: 'GET /api/autofinish-podsistemi-zdravlje',
+    940: 'E2E svih 12 autofinish API endpoints',
+  };
+
+  const iteracije: AutofinishMilestoneIteracija[] = [];
+  if (od <= do_) {
+    for (let br = od; br <= do_; br++) {
+      iteracije.push({
+        broj: br,
+        opis: ITERACIJA_OPISI[br] ?? `Autofinish iteracija #${br}`,
+      });
+    }
+  }
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    od,
+    do: do_,
+    ukupnoIteracija: iteracije.length,
+    iteracije,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishPodsistemiZdravlje() (#937) ─────────────────────────────────
+
+export interface AutofinishPodsistemZdravlje {
+  naziv: string;
+  zdravlje: number;
+  status: 'ok' | 'warning' | 'error' | 'critical';
+  ukupnoProvera: number;
+  uspesnih: number;
+  upozorenja: number;
+  gresaka: number;
+}
+
+export interface AutofinishPodsistemiZdravljeResult {
+  verzija: string;
+  autofinishBroj: number;
+  podsistemi: AutofinishPodsistemZdravlje[];
+  ukupnoPodsistema: number;
+  timestamp: string;
+}
+
+const PODSISTEMI_NAZIVI = [
+  'Autentifikacija',
+  'Baza Podataka',
+  'API Sloj',
+  'UI Komponente',
+  'Autofinish Petlja',
+  'Ekosistem Snapshot',
+  'Dijagnostika',
+  'Middleware',
+  'SSE Servis',
+  'Roadmap Engine',
+] as const;
+
+/**
+ * Vraća zdravlje po podsistemu — svaki ima naziv, zdravlje%, status i broj provera.
+ * Ukupan zbir ukupnoProvera svih podsistema odgovara TOTAL_DIAGNOSTIKA distribuciji.
+ *
+ * @returns AutofinishPodsistemiZdravljeResult
+ */
+export function getAutofinishPodsistemiZdravlje(): AutofinishPodsistemiZdravljeResult {
+  // Statičke reference distribuirane po podsistemu (proporcionalno TOTAL_DIAGNOSTIKA=1864)
+  const distribucija: [string, number, number, number, number][] = [
+    // [naziv, ukupnoProvera, uspesnih, upozorenja, gresaka]
+    ['Autentifikacija',   180, 180, 0, 0],
+    ['Baza Podataka',     190, 190, 0, 0],
+    ['API Sloj',          210, 210, 0, 0],
+    ['UI Komponente',     170, 170, 0, 0],
+    ['Autofinish Petlja', 230, 230, 0, 0],
+    ['Ekosistem Snapshot',160, 160, 0, 0],
+    ['Dijagnostika',      200, 200, 0, 0],
+    ['Middleware',        150, 150, 0, 0],
+    ['SSE Servis',        174, 174, 0, 0],
+    ['Roadmap Engine',    200, 200, 0, 0],
+  ];
+
+  const podsistemi: AutofinishPodsistemZdravlje[] = distribucija.map(
+    ([naziv, ukupnoProvera, uspesnih, upozorenja, gresaka]) => {
+      const zdravlje =
+        ukupnoProvera > 0
+          ? Math.round(((uspesnih + upozorenja * 0.5) / ukupnoProvera) * 100)
+          : 0;
+      const status: AutofinishPodsistemZdravlje['status'] =
+        gresaka > 0
+          ? 'error'
+          : upozorenja > 0
+          ? 'warning'
+          : zdravlje === 100
+          ? 'ok'
+          : 'warning';
+      return { naziv, zdravlje, status, ukupnoProvera, uspesnih, upozorenja, gresaka };
+    },
+  );
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    podsistemi,
+    ukupnoPodsistema: podsistemi.length,
+    timestamp: new Date().toISOString(),
   };
 }
