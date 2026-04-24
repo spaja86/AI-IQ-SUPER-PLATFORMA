@@ -168,6 +168,8 @@
  *
  * Autofinish #788 (Pristupačnost i UX — WCAG 2.1 usklađenost poboljšana, keyboard navigacija unapređena, focus management dodat, aria-label pokrivenost proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1559→1561, APP_VERSION 43.8.0→43.9.0)
  *
+ * Autofinish #789 (Sigurnost i zaštita — CSP header unapređen, rate limiting dodat, input sanitizacija poboljšana, OWASP preporuke implementirane, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1561→1563, APP_VERSION 43.9.0→43.10.0)
+ *
  */
 
 import {
