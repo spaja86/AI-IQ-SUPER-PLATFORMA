@@ -345,11 +345,136 @@ export const bankaSekvence: Sekvenca[] = [
       ],
     },
   },
+  // ── Zahtev svim bankama Srbije ───────────────────────────────────────────────
+  {
+    id: 'banka-zahtev-srpskim-bankama',
+    tip: 'tekst',
+    naslov: '📨 Zahtev svim bankama Srbije — Registracija "Digitalne Industrije"',
+    podnaslov: 'Formalni zahtev upućen svim poslovnim bankama u Republici Srbiji',
+    redosled: 21,
+    podaci: {
+      sadrzaj: 'Kompanija "Digitalna Industrija" — vlasnik Nikola Spajić, JMBG: 0312986850017 — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji. Cilj: otvaranje dinarskog, dolarskog i evro računa sa odgovarajućim bankarskim karticama u svakoj banci.',
+      istaknuteStavke: [
+        '🏢 Podnosilac zahteva: Digitalna Industrija — Nikola Spajić',
+        '📋 Predmet: Registracija poslovnih računa u svim bankama Srbije',
+        '💳 Tražene kartice: Dinarska (RSD), Devizna dolar (USD), Devizna evro (EUR)',
+        '📜 Traženi ugovor: Ugovor o poslovnoj saradnji i vođenju računa',
+        '🏛️ Porez: Uspostavljanje i registracija mesnog poreza za Digitalnu Industriju',
+        '✅ Status zahteva: Poslat svim bankama — čeka se odgovor',
+      ],
+    },
+  },
+  {
+    id: 'banka-lista-srpskih-banaka',
+    tip: 'kartice',
+    naslov: '🏦 Banke Srbije — Primaoci zahteva',
+    podnaslov: 'Kompletan spisak banaka u Republici Srbiji kojima je upućen zahtev',
+    redosled: 22,
+    podaci: {
+      kartice: [
+        { naslov: 'Banca Intesa a.d. Beograd', opis: 'Jedna od najvećih banaka u Srbiji — zahtev za otvaranje RSD/EUR/USD računa i 3 kartice', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'UniCredit Bank Srbija a.d.', opis: 'UniCredit banka — zahtev za registraciju Digitalne Industrije i poslovnu saradnju', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'Raiffeisen Bank a.d. Beograd', opis: 'Raiffeisen banka — zahtev za otvaranje poslovnih računa i potpisivanje ugovora', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'Komercijalna banka a.d. Beograd', opis: 'Komercijalna banka — zahtev za registraciju i uspostavljanje mesnog poreza', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'OTP banka Srbija a.d.', opis: 'OTP banka — zahtev za poslovne kartice i ugovor o saradnji', ikona: '🏦', oznake: ['Novi Sad', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'Erste Bank a.d. Novi Sad', opis: 'Erste banka — postojeći partner ERSTE DOO Smederevo + zahtev za proširenje saradnje', ikona: '🏦', oznake: ['Novi Sad/Smederevo', 'RSD/EUR/USD', 'Aktivna saradnja'] },
+        { naslov: 'NLB Komercijalna banka', opis: 'NLB banka — zahtev za registraciju i otvaranje računa Digitalne Industrije', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'Addiko Bank a.d. Beograd', opis: 'Addiko banka — zahtev za poslovne račune i kartice za sva tri valutna područja', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'Srpska banka a.d. Beograd', opis: 'Srpska banka — zahtev za registraciju i mesni porez Digitalne Industrije', ikona: '🏦', oznake: ['Beograd', 'RSD', 'Zahtev poslat'] },
+        { naslov: 'Halkbank a.d. Beograd', opis: 'Halkbank — zahtev za poslovne račune i ugovor o saradnji', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR/USD', 'Zahtev poslat'] },
+        { naslov: 'Yettel Bank (ex Telenor)', opis: 'Yettel banka — zahtev za digitalne poslovne račune Digitalne Industrije', ikona: '🏦', oznake: ['Beograd', 'RSD/EUR', 'Zahtev poslat'] },
+        { naslov: 'Direktna banka a.d. Kragujevac', opis: 'Direktna banka — zahtev za otvaranje poslovnih računa u RSD, EUR i USD', ikona: '🏦', oznake: ['Kragujevac', 'RSD/EUR/USD', 'Zahtev poslat'] },
+      ],
+    },
+  },
+  {
+    id: 'banka-mesni-porez',
+    tip: 'tekst',
+    naslov: '🏛️ Mesni Porez — Registracija i Uspostavljanje',
+    podnaslov: 'Digitalna Industrija — uspostavljanje i prijava mesnog poreza u Republici Srbiji',
+    redosled: 23,
+    podaci: {
+      sadrzaj: 'Kompanija "Digitalna Industrija" podnosi zahtev za uspostavljanje i registraciju mesnog poreza (lokalne poreske obaveze) na teritoriji Smedereva i celokupne Srbije. Porez se obračunava u skladu sa Zakonom o porezima na imovinu i Zakonom o finansiranju lokalne samouprave.',
+      istaknuteStavke: [
+        '🏛️ Vrsta poreza: Mesni porez — lokalna poreska obaveza',
+        '🏙️ Teritorija: Smederevo — sedište Digitalne Industrije',
+        '📋 Osnov: Zakon o porezima na imovinu + Zakon o finansiranju lokalne samouprave',
+        '🏢 Poreski obveznik: Digitalna Industrija — Nikola Spajić',
+        '💼 PIB/MB: Registrovati kod Poreske uprave Srbije (PU Smederevo)',
+        '💰 Valuta obračuna: RSD (srpski dinar)',
+        '🔄 Period obračuna: Kvartalno / godišnje prema propisu',
+        '✅ Status: Zahtev za registraciju u toku — dostaviti Poreskoj upravi PU Smederevo',
+      ],
+    },
+  },
+  {
+    id: 'banka-ugovori-bankama',
+    tip: 'lista',
+    naslov: '📜 Ugovori sa Bankama — Šabloni i Status',
+    podnaslov: 'Ugovori o poslovnoj saradnji i vođenju računa — Digitalna Industrija',
+    redosled: 24,
+    podaci: {
+      stavke: [
+        { ikona: '📝', naslov: 'Ugovor o otvaranju poslovnog računa (RSD)', opis: 'Ugovor sa svakom bankom za otvaranje dinarskog poslovnog tekućeg računa Digitalne Industrije — vlasnik: Nikola Spajić' },
+        { ikona: '📝', naslov: 'Ugovor o otvaranju deviznog računa (EUR)', opis: 'Ugovor za devizni račun u evrima — za međunarodne transakcije i EU plaćanja Digitalne Industrije' },
+        { ikona: '📝', naslov: 'Ugovor o otvaranju deviznog računa (USD)', opis: 'Ugovor za devizni račun u dolarima — za globalne transakcije i US plaćanja Digitalne Industrije' },
+        { ikona: '💳', naslov: 'Ugovor o izdavanju bankarskih kartica', opis: 'Ugovor za izdavanje 3 kartice: dinarska (RSD), devizna evro (EUR), devizna dolar (USD) — na ime Nikola Spajić' },
+        { ikona: '🤝', naslov: 'Ugovor o poslovnoj saradnji', opis: 'Opšti ugovor o poslovnoj saradnji između banke i Digitalne Industrije — platni promet, servisi, uslovi' },
+        { ikona: '🏛️', naslov: 'Ugovor o poreskim obavezama', opis: 'Ugovor o registraciji mesnog poreza i poreskih obaveza Digitalne Industrije kod nadležnih organa' },
+        { ikona: '✅', naslov: 'Status ugovora', opis: 'Svi ugovori su pripremljeni i čekaju potpisivanje sa bankama — Erste banka DOO Smederevo je prvi aktivni partner' },
+      ],
+    },
+  },
+  {
+    id: 'banka-tri-kartice',
+    tip: 'kartice',
+    naslov: '💳 3 Bankarske Kartice — Digitalna Industrija',
+    podnaslov: 'Tri bankarske kartice izdane na ime Nikola Spajić — Erste banka DOO Smederevo',
+    redosled: 25,
+    podaci: {
+      kartice: [
+        {
+          naslov: '💳 Kartica 1 — Dinarska (RSD)',
+          opis: 'Bankarska kartica za dinarski račun (RSD) — primarni instrument plaćanja u Srbiji. Račun: 025897158. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          ikona: '🇷🇸',
+          oznake: ['RSD', 'Dinarska', 'Erste Smederevo', 'Aktivna'],
+        },
+        {
+          naslov: '💳 Kartica 2 — Evro (EUR)',
+          opis: 'Bankarska kartica za devizni evro račun (EUR) — plaćanja u EU i međunarodne transakcije. Račun: 038971285. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          ikona: '🇪🇺',
+          oznake: ['EUR', 'Evro', 'Erste Smederevo', 'Aktivna'],
+        },
+        {
+          naslov: '💳 Kartica 3 — Dolar (USD)',
+          opis: 'Bankarska kartica za devizni dolar račun (USD) — globalna plaćanja i US transakcije. Račun: 05364215985. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          ikona: '🇺🇸',
+          oznake: ['USD', 'Dolar', 'Erste Smederevo', 'Aktivna'],
+        },
+      ],
+    },
+  },
+  {
+    id: 'banka-tri-kartice-tabela',
+    tip: 'tabela',
+    naslov: '📋 Pregled 3 kartice — Status i detalji',
+    podnaslov: 'Erste banka DOO Smederevo — Digitalna Industrija',
+    redosled: 26,
+    podaci: {
+      zaglavlje: ['Kartica', 'Valuta', 'Broj računa', 'Namena', 'Status'],
+      redovi: [
+        ['Dinarska kartica', 'RSD 🇷🇸', '025897158', 'Domaći platni promet, plate, lokalne uplate', '✅ Aktivna'],
+        ['Evro kartica', 'EUR 🇪🇺', '038971285', 'EU transakcije, međunarodna plaćanja', '✅ Aktivna'],
+        ['Dolar kartica', 'USD 🇺🇸', '05364215985', 'Globalne transakcije, US plaćanja, Vercel', '✅ Aktivna'],
+      ],
+    },
+  },
+  // ────────────────────────────────────────────────────────────────────────────
   {
     id: 'banka-cta',
     tip: 'cta',
     naslov: '🚀 Zapocnite sa AI IQ World Bank',
-    redosled: 20,
+    redosled: 27,
     podaci: {
       opis: 'AI IQ World Bank — 40% pozitivna kamatna stopa mesecno. Ulozite 1.000 RSD, za mesec dana podignite 1.400 RSD. Ekstremno jaka i transparentna digitalna banka.',
       stavke: [
