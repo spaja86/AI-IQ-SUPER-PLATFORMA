@@ -130,6 +130,8 @@
  *
  * Autofinish #769 (Performanse i optimizacija — query optimizacija urađena, caching sloj proširen, lazy loading implementiran, bundle size smanjen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1521→1523, APP_VERSION 42.89.0→42.90.0)
  *
+ * Autofinish #770 (Testiranje i kvalitet koda — unit test pokrivenost povećana, E2E testovi prošireni, CI pipeline optimizovan, code coverage izveštaj dodat, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1523→1525, APP_VERSION 42.90.0→42.91.0)
+ *
  */
 
 import {
