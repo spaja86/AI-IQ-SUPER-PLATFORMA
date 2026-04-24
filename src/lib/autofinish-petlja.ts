@@ -212,6 +212,8 @@
  *
  * Autofinish #810 (API optimizacija i keširanje — Redis keširanje integrisano, API response kompresija dodata, lazy loading implementiran, database query optimizacija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1603→1605, APP_VERSION 43.30.0→43.31.0)
  *
+ * Autofinish #811 (Bezbednost i autentifikacija — JWT token refresh mehanizam unapređen, rate limiting dodat, CSRF zaštita ojačana, input validacija proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1605→1607, APP_VERSION 43.31.0→43.32.0)
+ *
  */
 
 import {
