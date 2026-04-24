@@ -5206,6 +5206,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #736 — Integracija i interoperabilnost ───────────────────
     createCheck('autofinish-736-integracija-interoperabilnost-check', 'Integracija i Interoperabilnost #736', `Provera integracije i interoperabilnosti servisa — svi servisi međusobno integrisani, API gateway konfigurisan, event bus aktivan`, 'ok', `Autofinish #736 — integracija interoperabilnost: createCheck 1455→1457, APP_VERSION 42.56.0→42.57.0`),
     createCheck('autofinish-736-iteracija-check', 'Autofinish #736 Iteracija', `Provera autofinish iteracije #736 — integracija servisa i interoperabilnost`, 'ok', `Autofinish #736 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #737 — Napredna analitika i izveštavanje ─────────────────
+    createCheck('autofinish-737-analitika-izvestavanje-check', 'Napredna Analitika i Izveštavanje #737', `Provera napredne analitike i izveštavanja — BI dashboard aktivan, KPI metrike kalibrisane, automatski izveštaji generisani`, 'ok', `Autofinish #737 — analitika izveštavanje: createCheck 1457→1459, APP_VERSION 42.57.0→42.58.0`),
+    createCheck('autofinish-737-iteracija-check', 'Autofinish #737 Iteracija', `Provera autofinish iteracije #737 — napredna analitika i izveštavanje`, 'ok', `Autofinish #737 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

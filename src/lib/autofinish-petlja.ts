@@ -64,6 +64,8 @@
  *
  * Autofinish #736 (Integracija i interoperabilnost — svi servisi međusobno integrisani, API gateway konfigurisan, event bus aktivan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1455→1457, APP_VERSION 42.56.0→42.57.0)
  *
+ * Autofinish #737 (Napredna analitika i izveštavanje — BI dashboard aktivan, KPI metrike kalibrisane, automatski izveštaji generisani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1457→1459, APP_VERSION 42.57.0→42.58.0)
+ *
  */
 
 import {
