@@ -2763,6 +2763,15 @@ export function getAutofinishKategorijeStats(): AutofinishKategorijeStatsResult 
 
 // ─── getAutofinishIterationsPerDay() (#981) ──────────────────────────────────
 
+/** Pretpostavljeni broj dana između dva milestona u VERZIJE_ISTORIJAT. */
+const DANA_PO_PERIODU = 7;
+
+/** Kategorije koje se smatraju "pokrivenim" u coverage izvještaju. */
+const POKRIVENE_KATEGORIJE_COVERAGE: AutofinishKategorija[] = [
+  'helper', 'unit-test', 'api-route', 'integration-test',
+  'dashboard-widget', 'widget-unit-test', 'e2e',
+];
+
 export interface AutofinishVelocityResult {
   verzija: string;
   autofinishBroj: number;
@@ -2791,7 +2800,7 @@ export function getAutofinishIterationsPerDay(): AutofinishVelocityResult {
   const first = verzije[0];
   const last = verzije[verzije.length - 1];
   const totalIteracije = last.autofinishBroj - first.autofinishBroj;
-  const danElapsed = periodi * 7;
+  const danElapsed = periodi * DANA_PO_PERIODU; // DANA_PO_PERIODU days per milestone period
 
   const brzinaPoSatima = danElapsed > 0
     ? Math.round((totalIteracije / danElapsed) * 100) / 100
@@ -2858,13 +2867,8 @@ export interface AutofinishCoverageReportResult {
 export function getAutofinishCoverageReport(): AutofinishCoverageReportResult {
   const sve = getAutofinishKategorijePorHijarhijama();
 
-  const POKRIVENE_KATEGORIJE: AutofinishKategorija[] = [
-    'helper', 'unit-test', 'api-route', 'integration-test',
-    'dashboard-widget', 'widget-unit-test', 'e2e',
-  ];
-
   const kategorije: AutofinishCoverageKategorijaEntry[] = sve.kategorije.map((kat) => {
-    const pokrivena = POKRIVENE_KATEGORIJE.includes(kat.kategorija);
+    const pokrivena = POKRIVENE_KATEGORIJE_COVERAGE.includes(kat.kategorija);
     const pokriveno = pokrivena ? kat.ukupno : 0;
     const pokrivenostPct = kat.ukupno > 0
       ? Math.round((pokriveno / kat.ukupno) * 100)

@@ -69,6 +69,8 @@ async function runTests(): Promise<void> {
 
   const endpoints = [
     { name: '/api/autofinish-petlja', fn: () => pokreniAutofinishPetlju() },
+    // getAutofinishPetljaStatus() does not include verzija/autofinishBroj; we add them
+    // here to mirror what the actual API route /api/autofinish-petlja-status returns.
     { name: '/api/autofinish-petlja-status', fn: () => ({ verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, ...getAutofinishPetljaStatus() }) },
     { name: '/api/autofinish-ekosistem-snapshot', fn: () => getAutofinishEkosistemSnapshot() },
     { name: '/api/autofinish-audit-report', fn: () => getAutofinishAuditReport() },
