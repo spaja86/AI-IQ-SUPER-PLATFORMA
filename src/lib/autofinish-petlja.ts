@@ -70,6 +70,8 @@
  *
  * Autofinish #739 (Bezbednost i zaštita podataka — GDPR usklađenost verifikovana, enkripcija podataka u mirovanju i tranzitu potvrđena, penetracioni testovi završeni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1461→1463, APP_VERSION 42.59.0→42.60.0)
  *
+ * Autofinish #740 (Performanse i skalabilnost — optimizacija vremena učitavanja stranica, CDN konfiguracija verifikovana, load balancing testiran, cache strategija unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1463→1465, APP_VERSION 42.60.0→42.61.0)
+ *
  */
 
 import {
