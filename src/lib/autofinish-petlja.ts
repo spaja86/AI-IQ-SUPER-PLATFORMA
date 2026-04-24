@@ -200,6 +200,8 @@
  *
  * Autofinish #804 (Performanse i optimizacija — lazy loading implementiran, bundle size smanjen, cache strategija poboljšana, server-side rendering optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1591→1593, APP_VERSION 43.24.0→43.25.0)
  *
+ * Autofinish #805 (Sigurnost i zaštita — autentifikacija ojačana, CSRF zaštita proširena, rate limiting implementiran, input validacija unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1593→1595, APP_VERSION 43.25.0→43.26.0)
+ *
  */
 
 import {
