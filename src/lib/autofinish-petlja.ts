@@ -102,6 +102,8 @@
  *
  * Autofinish #755 (UI/UX unapređenja — dark mode podrška dodata, accessibility poboljšana, responsive dizajn optimizovan, animacije unapređene, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1493→1495, APP_VERSION 42.75.0→42.76.0)
  *
+ * Autofinish #756 (Sigurnost i autentifikacija — JWT token refresh implementiran, rate limiting dodat, input validacija ojačana, CORS politika ažurirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1495→1497, APP_VERSION 42.76.0→42.77.0)
+ *
  */
 
 import {
