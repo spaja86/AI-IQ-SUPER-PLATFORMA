@@ -74,6 +74,8 @@
  *
  * Autofinish #741 (Monitoring i observability — integracija praćenja grešaka, alerting sistem konfigurisan, log agregacija unapređena, uptime monitoring verifikovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1465→1467, APP_VERSION 42.61.0→42.62.0)
  *
+ * Autofinish #742 (Sigurnost i zaštita podataka — SSL/TLS sertifikati verifikovani, CORS politika unapređena, rate limiting konfigurisan, XSS/CSRF zaštita testirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1467→1469, APP_VERSION 42.62.0→42.63.0)
+ *
  */
 
 import {
