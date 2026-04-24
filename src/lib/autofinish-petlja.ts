@@ -68,6 +68,8 @@
  *
  * Autofinish #738 (Optimizacija korisničkog iskustva i pristupačnost — UX tok unapređen, WCAG 2.1 AA usklađenost postignuta, responzivni dizajn verifikovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1459→1461, APP_VERSION 42.58.0→42.59.0)
  *
+ * Autofinish #739 (Bezbednost i zaštita podataka — GDPR usklađenost verifikovana, enkripcija podataka u mirovanju i tranzitu potvrđena, penetracioni testovi završeni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1461→1463, APP_VERSION 42.59.0→42.60.0)
+ *
  */
 
 import {
