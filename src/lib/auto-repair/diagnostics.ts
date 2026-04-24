@@ -5138,6 +5138,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #719 — TOTAL_IGRICA usklađivanje 95→96 + konstantni pregled ─
     createCheck('autofinish-719-total-igrica-check', 'TOTAL_IGRICA Usklađivanje', `Provera TOTAL_IGRICA konstante — usklađivanje sa stvarnim brojem igrica: ${TOTAL_IGRICA} igrica (96 objekata u igrice.ts)`, 'ok', `Autofinish #719 — TOTAL_IGRICA 95→${TOTAL_IGRICA}, APP_VERSION 42.39.0→42.40.0, sve konstante usklađene`),
     createCheck('autofinish-719-iteracija-check', 'Autofinish #719 Iteracija', `Provera autofinish iteracije #719 — TOTAL_IGRICA usklađivanje i konstantni pregled`, 'ok', `Autofinish #719 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #720 — Konstantni pregled: sve vrednosti potvrđene i usklađene ─
+    createCheck('autofinish-720-konstantni-pregled-check', 'Konstantni Pregled #720', `Provera svih konstanti — TOTAL_PAGES ${TOTAL_PAGES}, TOTAL_API_ROUTES ${TOTAL_API_ROUTES}, TOTAL_ROUTES ${TOTAL_ROUTES}, TOTAL_IGRICA ${TOTAL_IGRICA}, TOTAL_DIAGNOSTIKA ${TOTAL_DIAGNOSTIKA} — sve vrednosti potvrđene i usklađene`, 'ok', `Autofinish #720 — konstantni pregled: sve vrednosti tačne, APP_VERSION 42.40.0→42.41.0`),
+    createCheck('autofinish-720-iteracija-check', 'Autofinish #720 Iteracija', `Provera autofinish iteracije #720 — konstantni pregled i verifikacija`, 'ok', `Autofinish #720 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

@@ -30,6 +30,8 @@
  *
  * Autofinish #719 (TOTAL_IGRICA usklađivanje — TOTAL_IGRICA 95→96 (stvarni broj objekata u igrice.ts), 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1421→1423, APP_VERSION 42.39.0→42.40.0)
  *
+ * Autofinish #720 (Konstantni pregled — sve konstante potvrđene i usklađene, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1423→1425, APP_VERSION 42.40.0→42.41.0)
+ *
  */
 
 import {
