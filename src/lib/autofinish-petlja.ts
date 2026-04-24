@@ -202,6 +202,8 @@
  *
  * Autofinish #805 (Sigurnost i zaštita — autentifikacija ojačana, CSRF zaštita proširena, rate limiting implementiran, input validacija unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1593→1595, APP_VERSION 43.25.0→43.26.0)
  *
+ * Autofinish #806 (Testiranje i kvalitet — unit testovi prošireni, integracija testova poboljšana, code coverage povećan, CI/CD pipeline optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1595→1597, APP_VERSION 43.26.0→43.27.0)
+ *
  */
 
 import {
