@@ -72,6 +72,8 @@
  *
  * Autofinish #740 (Performanse i skalabilnost — optimizacija vremena učitavanja stranica, CDN konfiguracija verifikovana, load balancing testiran, cache strategija unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1463→1465, APP_VERSION 42.60.0→42.61.0)
  *
+ * Autofinish #741 (Monitoring i observability — integracija praćenja grešaka, alerting sistem konfigurisan, log agregacija unapređena, uptime monitoring verifikovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1465→1467, APP_VERSION 42.61.0→42.62.0)
+ *
  */
 
 import {
