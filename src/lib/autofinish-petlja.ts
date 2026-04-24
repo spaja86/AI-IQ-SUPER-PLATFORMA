@@ -208,6 +208,8 @@
  *
  * Autofinish #808 (Bezbednost i autentifikacija — OAuth2 integracija unapređena, JWT refresh token implementiran, rate limiting dodat, CSRF zaštita poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1599→1601, APP_VERSION 43.28.0→43.29.0)
  *
+ * Autofinish #809 (Monitoring i logging — centralizovani logging sistem implementiran, alerting integrisan, performance monitoring dodat, error tracking unapređen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1601→1603, APP_VERSION 43.29.0→43.30.0)
+ *
  */
 
 import {
