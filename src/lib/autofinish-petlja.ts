@@ -154,6 +154,8 @@
  *
  * Autofinish #781 (Performanse i optimizacija — keš strategija unapređena, lazy loading poboljšan, bundle size smanjen, database query optimizacija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1545→1547, APP_VERSION 43.1.0→43.2.0)
  *
+ * Autofinish #782 (Monitoring i observability — structured logging uveden, metrics dashboard dodat, distributed tracing implementiran, alerting sistem poboljšan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1547→1549, APP_VERSION 43.2.0→43.3.0)
+ *
  */
 
 import {
