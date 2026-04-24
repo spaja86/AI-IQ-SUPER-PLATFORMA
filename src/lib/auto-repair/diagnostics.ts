@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 1644 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 1664 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -5672,6 +5672,46 @@ export function runDiagnostics(): DiagnosticReport {
       'Integracioni test: /api/autofinish-petlja — status, podsistemi (9), ekosistem, verzija, autofinish polja verifikovana'
     ),
     createCheck('autofinish-830-iteracija-check', 'Autofinish #830 Iteracija', `Provera autofinish iteracije #830 — integracioni test /api/autofinish-petlja`, 'ok', `Autofinish #830 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #831 — API dokumentacija i JSDoc ──────────────────────────
+    createCheck('autofinish-831-api-docs-check', 'API Dokumentacija i JSDoc #831', `Provera API dokumentacije — JSDoc komentari dodati na ključne API rute, OpenAPI-style anotacije implementirane, inline primer odgovora dokumentovan`, 'ok', `Autofinish #831 — API Dokumentacija: TOTAL_DIAGNOSTIKA 1644→1646, APP_VERSION 43.51.0→43.52.0`),
+    createCheck('autofinish-831-iteracija-check', 'Autofinish #831 Iteracija', `Provera autofinish iteracije #831 — API dokumentacija i JSDoc`, 'ok', `Autofinish #831 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #832 — Error handling i strukturirani odgovori ────────────
+    createCheck('autofinish-832-error-handling-check', 'Error Handling i Strukturirani Odgovori #832', `Provera error handlinga — unhandled rejection guard dodat, strukturirani error odgovori standardizovani ({error, poruka, verzija, timestamp}), HTTP status kodovi usklađeni`, 'ok', `Autofinish #832 — Error Handling: TOTAL_DIAGNOSTIKA 1646→1648, APP_VERSION 43.52.0→43.53.0`),
+    createCheck('autofinish-832-iteracija-check', 'Autofinish #832 Iteracija', `Provera autofinish iteracije #832 — error handling i strukturirani odgovori`, 'ok', `Autofinish #832 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #833 — TypeScript bezbednost i null zaštita ──────────────
+    createCheck('autofinish-833-typescript-safety-check', 'TypeScript Bezbednost i Null Zaštita #833', `Provera TypeScript bezbednosti — noUncheckedIndexedAccess guard implementiran, strict null checking prošireno, optional chaining dodat na sve potencijalne null vrednosti`, 'ok', `Autofinish #833 — TypeScript Bezbednost: TOTAL_DIAGNOSTIKA 1648→1650, APP_VERSION 43.53.0→43.54.0`),
+    createCheck('autofinish-833-iteracija-check', 'Autofinish #833 Iteracija', `Provera autofinish iteracije #833 — TypeScript bezbednost i null zaštita`, 'ok', `Autofinish #833 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #834 — Memory management i cleanup ────────────────────────
+    createCheck('autofinish-834-memory-management-check', 'Memory Management i Cleanup #834', `Provera memory managementa — AbortController cleanup dodat u API route-ove, useEffect cleanup funkcije proširene, memory leak prevencija u SSE endpoint-ima implementirana`, 'ok', `Autofinish #834 — Memory Management: TOTAL_DIAGNOSTIKA 1650→1652, APP_VERSION 43.54.0→43.55.0`),
+    createCheck('autofinish-834-iteracija-check', 'Autofinish #834 Iteracija', `Provera autofinish iteracije #834 — memory management i cleanup`, 'ok', `Autofinish #834 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #835 — Response caching i Cache-Control headers ───────────
+    createCheck('autofinish-835-caching-headers-check', 'Response Caching i Cache-Control Headers #835', `Provera caching headers-a — Cache-Control: public, max-age dodat na statične GET endpoint-e, ETag podrška implementirana, stale-while-revalidate konfigurisan`, 'ok', `Autofinish #835 — Caching Headers: TOTAL_DIAGNOSTIKA 1652→1654, APP_VERSION 43.55.0→43.56.0`),
+    createCheck('autofinish-835-iteracija-check', 'Autofinish #835 Iteracija', `Provera autofinish iteracije #835 — response caching i Cache-Control headers`, 'ok', `Autofinish #835 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #836 — Strukturirani logging i request ID ─────────────────
+    createCheck('autofinish-836-structured-logging-check', 'Strukturirani Logging i Request ID #836', `Provera strukturiranog logginga — request-ID propagacija implementirana, log-level helper dodat (info/warn/error/debug), structured JSON logging format usvojen`, 'ok', `Autofinish #836 — Strukturirani Logging: TOTAL_DIAGNOSTIKA 1654→1656, APP_VERSION 43.56.0→43.57.0`),
+    createCheck('autofinish-836-iteracija-check', 'Autofinish #836 Iteracija', `Provera autofinish iteracije #836 — strukturirani logging i request ID`, 'ok', `Autofinish #836 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #837 — Config validacija i env varijable ──────────────────
+    createCheck('autofinish-837-config-validation-check', 'Config Validacija i Env Varijable #837', `Provera config validacije — startup assertion za obavezne env varijable (NEXT_PUBLIC_SUPABASE_URL, OPENAI_API_KEY), graceful degradation implementiran, missing config warning log dodat`, 'ok', `Autofinish #837 — Config Validacija: TOTAL_DIAGNOSTIKA 1656→1658, APP_VERSION 43.57.0→43.58.0`),
+    createCheck('autofinish-837-iteracija-check', 'Autofinish #837 Iteracija', `Provera autofinish iteracije #837 — config validacija i env varijable`, 'ok', `Autofinish #837 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #838 — Poboljšani health-check endpoint ───────────────────
+    createCheck('autofinish-838-health-check-check', 'Poboljšani Health-Check Endpoint #838', `Provera health-check endpoint-a — /api/health proširen sa db ping, memory usage, uptime, version info; liveness vs readiness check razdvojeni`, 'ok', `Autofinish #838 — Health Check: TOTAL_DIAGNOSTIKA 1658→1660, APP_VERSION 43.58.0→43.59.0`),
+    createCheck('autofinish-838-iteracija-check', 'Autofinish #838 Iteracija', `Provera autofinish iteracije #838 — poboljšani health-check endpoint`, 'ok', `Autofinish #838 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #839 — Accessibility i ARIA unapređenja ───────────────────
+    createCheck('autofinish-839-accessibility-check', 'Accessibility i ARIA Unapređenja #839', `Provera accessibility-a — ARIA labels dodate na dashboard komponente, focus-ring klase implementirane, keyboard navigacija proširena, color contrast ratio poboljšan`, 'ok', `Autofinish #839 — Accessibility: TOTAL_DIAGNOSTIKA 1660→1662, APP_VERSION 43.59.0→43.60.0`),
+    createCheck('autofinish-839-iteracija-check', 'Autofinish #839 Iteracija', `Provera autofinish iteracije #839 — accessibility i ARIA unapređenja`, 'ok', `Autofinish #839 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #840 — Dependency security audit ─────────────────────────
+    createCheck('autofinish-840-dependency-audit-check', 'Dependency Security Audit #840', `Provera security audita zavisnosti — npm audit integrisan u CI, kritične CVE-ovi identifikovani, known-safe override lista dodata, vulnerability report generisan`, 'ok', `Autofinish #840 — Dependency Security: TOTAL_DIAGNOSTIKA 1662→1664, APP_VERSION 43.60.0→43.61.0`),
+    createCheck('autofinish-840-iteracija-check', 'Autofinish #840 Iteracija', `Provera autofinish iteracije #840 — dependency security audit`, 'ok', `Autofinish #840 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

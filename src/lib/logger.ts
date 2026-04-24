@@ -71,7 +71,45 @@ export const logger = {
     log('error', modul, poruka, details),
 };
 
-// ─── HTTP Request logger helper ───────────────────────────────────────────────
+// ─── Request ID propagacija (#836) ───────────────────────────────────────────
+
+import { randomUUID } from 'crypto';
+
+/**
+ * Generiše ili dohvata request ID iz headera.
+ * Koristiti u API rutama za praćenje zahteva kroz logove.
+ *
+ * @example
+ *   const reqId = getRequestId(req);
+ *   logger.info('API', 'Zahtev primljen', { reqId });
+ */
+export function getRequestId(req?: { headers: { get: (h: string) => string | null } }): string {
+  const fromHeader = req?.headers.get('x-request-id') ?? req?.headers.get('x-correlation-id');
+  return fromHeader ?? `req-${randomUUID().slice(0, 8)}`;
+}
+
+/**
+ * Kreira logger kontekst sa request ID-om.
+ * Svaki log poziv automatski uključuje reqId.
+ */
+export function createRequestLogger(reqId: string, modul: string) {
+  return {
+    debug: (poruka: string, details?: unknown) =>
+      log('debug', modul, poruka, { reqId, ...toObject(details) }),
+    info: (poruka: string, details?: unknown) =>
+      log('info', modul, poruka, { reqId, ...toObject(details) }),
+    warn: (poruka: string, details?: unknown) =>
+      log('warn', modul, poruka, { reqId, ...toObject(details) }),
+    error: (poruka: string, details?: unknown) =>
+      log('error', modul, poruka, { reqId, ...toObject(details) }),
+  };
+}
+
+function toObject(details: unknown): Record<string, unknown> {
+  if (details === null || details === undefined) return {};
+  if (typeof details === 'object' && !Array.isArray(details)) return details as Record<string, unknown>;
+  return { data: details };
+}
 
 /**
  * Loguje dolazni HTTP zahtev.

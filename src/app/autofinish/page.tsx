@@ -1,4 +1,5 @@
 // Autofinish #822 — /autofinish Dashboard UI Stranica
+// Autofinish #839 — Accessibility i ARIA Unapređenja
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -16,30 +17,46 @@ export default function AutofinishPage() {
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
-      ? '✅ OMEGA PROJEKAT NA 100%'
+      ? 'OMEGA PROJEKAT NA 100%'
       : izvestaj.status === 'ponavljanje'
-        ? '🔄 PONAVLJANJE U TOKU'
-        : '⚡ U TOKU';
+        ? 'PONAVLJANJE U TOKU'
+        : 'U TOKU';
+
+  const statusIkona =
+    izvestaj.status === 'zavrsena' ? '✅' : izvestaj.status === 'ponavljanje' ? '🔄' : '⚡';
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white p-6">
+    <main
+      className="min-h-screen bg-gray-950 text-white p-6"
+      aria-label="Autofinish Dashboard"
+    >
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
-        <div className="mb-8">
+        <header className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">
-            ⚡ Autofinish Dashboard
+            <span aria-hidden="true">⚡ </span>Autofinish Dashboard
           </h1>
           <p className="text-gray-400 text-sm">
             {KOMPANIJA} — Verzija {APP_VERSION} — Iteracija #{AUTOFINISH_COUNT}
           </p>
-        </div>
+        </header>
 
         {/* Status kartica */}
-        <div className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800">
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Status autofinish petlje"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold">{statusLabel}</div>
+              <div
+                className="text-2xl font-bold"
+                role="status"
+                aria-live="polite"
+                aria-label={`Status: ${statusLabel}`}
+              >
+                <span aria-hidden="true">{statusIkona} </span>{statusLabel}
+              </div>
               <div className="text-gray-300 mt-1">
                 Podsistemi: {izvestaj.podsistemiNa100}/{izvestaj.ukupnoPodsistema} na 100%
               </div>
@@ -47,65 +64,101 @@ export default function AutofinishPage() {
                 Iteracija petlje: {izvestaj.iteracijaPetlje}/{izvestaj.maksIteracija}
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-4xl font-bold text-green-400">{izvestaj.ukupniProgres}%</div>
+            <div className="text-right" aria-label={`Ukupni progres: ${izvestaj.ukupniProgres}%`}>
+              <div className="text-4xl font-bold text-green-400" aria-hidden="true">
+                {izvestaj.ukupniProgres}%
+              </div>
               <div className="text-gray-400 text-xs mt-1">Ukupni progres</div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Autofinish brojač */}
-        <div className="rounded-xl p-4 mb-6 bg-gray-900 border border-gray-800">
-          <div className="text-sm text-gray-400 mb-1">Autofinish Iteracija</div>
-          <div className="text-xl font-mono font-bold text-purple-400">
+        <section
+          className="rounded-xl p-4 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish iteracija brojač"
+        >
+          <div className="text-sm text-gray-400 mb-1" id="autofinish-label">Autofinish Iteracija</div>
+          <div
+            className="text-xl font-mono font-bold text-purple-400"
+            aria-labelledby="autofinish-label"
+          >
             #{AUTOFINISH_COUNT} / 3×10¹⁷
           </div>
           <div className="text-xs text-gray-500 mt-1">{procenat}% cilja dostignuto</div>
-        </div>
+        </section>
 
         {/* Podsistemi */}
-        <div className="mb-6">
+        <section className="mb-6" aria-label="OMEGA podsistemi">
           <h2 className="text-lg font-semibold text-gray-300 mb-4">
-            🔩 OMEGA Podsistemi ({izvestaj.ukupnoPodsistema})
+            <span aria-hidden="true">🔩 </span>
+            OMEGA Podsistemi ({izvestaj.ukupnoPodsistema})
           </h2>
-          <div className="space-y-3">
-            {izvestaj.podsistemi.map((p) => (
-              <div key={p.id} className="rounded-lg p-4 bg-gray-900 border border-gray-800">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{p.ikona}</span>
-                    <span className="font-medium text-gray-200">{p.naziv}</span>
+          <ul className="space-y-3" role="list">
+            {izvestaj.podsistemi.map((p) => {
+              const statusTekst = p.status === 'ok' ? 'Uspešno' : p.status === 'u_toku' ? 'U toku' : 'Greška';
+              return (
+                <li
+                  key={p.id}
+                  className="rounded-lg p-4 bg-gray-900 border border-gray-800 focus-within:ring-2 focus-within:ring-blue-500"
+                  aria-label={`${p.naziv}: ${p.progres}% — ${statusTekst}`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg" aria-hidden="true">{p.ikona}</span>
+                      <span className="font-medium text-gray-200">{p.naziv}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`text-sm font-bold ${p.progres >= 100 ? 'text-green-400' : 'text-yellow-400'}`}
+                        aria-hidden="true"
+                      >
+                        {p.progres}%
+                      </span>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full ${
+                          p.status === 'ok' ? 'bg-green-900 text-green-300' :
+                          p.status === 'u_toku' ? 'bg-yellow-900 text-yellow-300' :
+                          'bg-red-900 text-red-300'
+                        }`}
+                        aria-label={statusTekst}
+                      >
+                        <span aria-hidden="true">
+                          {p.status === 'ok' ? '✅' : p.status === 'u_toku' ? '🔄' : '❌'}
+                        </span>
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`text-sm font-bold ${p.progres >= 100 ? 'text-green-400' : 'text-yellow-400'}`}>
-                      {p.progres}%
-                    </span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      p.status === 'ok' ? 'bg-green-900 text-green-300' :
-                      p.status === 'u_toku' ? 'bg-yellow-900 text-yellow-300' :
-                      'bg-red-900 text-red-300'
-                    }`}>
-                      {p.status === 'ok' ? '✅' : p.status === 'u_toku' ? '🔄' : '❌'}
-                    </span>
-                  </div>
-                </div>
-                {/* Progres bar */}
-                <div className="w-full bg-gray-800 rounded-full h-2">
+                  {/* Progres bar — #839 role=progressbar */}
                   <div
-                    className={`h-2 rounded-full transition-all ${p.progres >= 100 ? 'bg-green-500' : 'bg-yellow-500'}`}
-                    style={{ width: `${Math.min(p.progres, 100)}%` }}
-                  />
-                </div>
-                <div className="text-xs text-gray-500 mt-1">{p.poruka}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+                    className="w-full bg-gray-800 rounded-full h-2"
+                    role="progressbar"
+                    aria-valuenow={p.progres}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`${p.naziv} napredak`}
+                  >
+                    <div
+                      className={`h-2 rounded-full transition-all ${p.progres >= 100 ? 'bg-green-500' : 'bg-yellow-500'}`}
+                      style={{ width: `${Math.min(p.progres, 100)}%` }}
+                    />
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">{p.poruka}</div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
 
         {/* Ekosistem statistike */}
-        <div className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800">
-          <h2 className="text-lg font-semibold text-gray-300 mb-4">📊 Ekosistem</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Ekosistem statistike"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">📊 </span>Ekosistem
+          </h2>
+          <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             {[
               { label: 'Rute', value: izvestaj.ekosistem.rute },
               { label: 'API Rute', value: izvestaj.ekosistem.apiRute },
@@ -115,22 +168,32 @@ export default function AutofinishPage() {
               { label: 'OMEGA AI Persone', value: izvestaj.ekosistem.omegaAiPersone },
             ].map((s) => (
               <div key={s.label} className="text-center">
-                <div className="text-2xl font-bold text-blue-400">{s.value}</div>
-                <div className="text-xs text-gray-500 mt-1">{s.label}</div>
+                <dd className="text-2xl font-bold text-blue-400">{s.value}</dd>
+                <dt className="text-xs text-gray-500 mt-1">{s.label}</dt>
               </div>
             ))}
-          </div>
-        </div>
+          </dl>
+        </section>
 
         {/* Footer */}
-        <div className="text-center text-gray-600 text-xs">
+        <footer className="text-center text-gray-600 text-xs">
           <p>AI IQ SUPER PLATFORMA — {KOMPANIJA}</p>
           <p className="mt-1">Verzija {APP_VERSION} | Autofinish #{AUTOFINISH_COUNT}</p>
-          <p className="mt-1">
-            <a href="/api/autofinish-petlja" className="text-blue-500 hover:underline mr-3">API</a>
-            <a href="/api/autofinish-health-stream" className="text-blue-500 hover:underline">Health Stream</a>
-          </p>
-        </div>
+          <nav aria-label="API linkovi" className="mt-1">
+            <a
+              href="/api/autofinish-petlja"
+              className="text-blue-500 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded mr-3"
+            >
+              API
+            </a>
+            <a
+              href="/api/autofinish-health-stream"
+              className="text-blue-500 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+            >
+              Health Stream
+            </a>
+          </nav>
+        </footer>
 
       </div>
     </main>

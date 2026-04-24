@@ -1,3 +1,14 @@
+// Autofinish #831 — API Dokumentacija
+// GET /api/autofinish-petlja
+//
+// @summary Pokreće Autofinish petlju i vraća AutofinishPetljaIzvestaj
+// @description Proverava svih 9 OMEGA PROJECT podsistema i ponavlja dok svi ne dostignu 100%.
+//              Vraća kompletan izveštaj sa statusom, podsistemima, ekosistemom i autofinish brojaćem.
+// @rate-limit  60 zahteva / 60 sekundi po IP
+// @returns     AutofinishPetljaIzvestaj & { napomena: string }
+// @example     GET /api/autofinish-petlja
+//              → { status: 'zavrsena', ukupniProgres: 100, verzija: APP_VERSION, ... }
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { pokreniAutofinishPetlju } from '@/lib/autofinish-petlja';

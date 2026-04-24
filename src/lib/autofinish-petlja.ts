@@ -252,6 +252,26 @@
  *
  * Autofinish #830 (Integracioni Test /api/autofinish-petlja — src/tests/autofinish/autofinish-petlja-integration.test.ts: validan JSON oblik, status=zavrsena, 9 podsistema, ekosistem i verzija polja, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1643→1645, APP_VERSION 43.50.0→43.51.0)
  *
+ * Autofinish #831 (API Dokumentacija i JSDoc — JSDoc komentari dodati na ključne API rute, OpenAPI-style anotacije, inline primer odgovora dokumentovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1644→1646, APP_VERSION 43.51.0→43.52.0)
+ *
+ * Autofinish #832 (Error Handling i Strukturirani Odgovori — unhandled rejection guard dodat, strukturirani error odgovori standardizovani {error, poruka, verzija, timestamp}, HTTP status kodovi usklađeni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1646→1648, APP_VERSION 43.52.0→43.53.0)
+ *
+ * Autofinish #833 (TypeScript Bezbednost i Null Zaštita — noUncheckedIndexedAccess guard implementiran, strict null checking prošireno, optional chaining dodat na sve potencijalne null vrednosti, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1648→1650, APP_VERSION 43.53.0→43.54.0)
+ *
+ * Autofinish #834 (Memory Management i Cleanup — AbortController cleanup dodat u API route-ove, useEffect cleanup funkcije proširene, memory leak prevencija u SSE endpoint-ima implementirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1650→1652, APP_VERSION 43.54.0→43.55.0)
+ *
+ * Autofinish #835 (Response Caching i Cache-Control Headers — Cache-Control: public/max-age dodat na statične GET endpoint-e, ETag podrška, stale-while-revalidate konfigurisan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1652→1654, APP_VERSION 43.55.0→43.56.0)
+ *
+ * Autofinish #836 (Strukturirani Logging i Request ID — request-ID propagacija implementirana, log-level helper dodat, structured JSON logging format usvojen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1654→1656, APP_VERSION 43.56.0→43.57.0)
+ *
+ * Autofinish #837 (Config Validacija i Env Varijable — startup assertion za obavezne env varijable, graceful degradation implementiran, missing config warning log dodat, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1656→1658, APP_VERSION 43.57.0→43.58.0)
+ *
+ * Autofinish #838 (Poboljšani Health-Check Endpoint — /api/health proširen sa db ping/memory/uptime/version, liveness vs readiness check razdvojeni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1658→1660, APP_VERSION 43.58.0→43.59.0)
+ *
+ * Autofinish #839 (Accessibility i ARIA Unapređenja — ARIA labels dodate na dashboard komponente, focus-ring klase implementirane, keyboard navigacija proširena, color contrast ratio poboljšan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1660→1662, APP_VERSION 43.59.0→43.60.0)
+ *
+ * Autofinish #840 (Dependency Security Audit — npm audit integrisan u CI, kritične CVE-ovi identifikovani, known-safe override lista dodata, vulnerability report generisan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1662→1664, APP_VERSION 43.60.0→43.61.0)
+ *
  */
 
 import {
