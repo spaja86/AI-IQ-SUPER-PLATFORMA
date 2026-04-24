@@ -85,7 +85,7 @@ import { randomUUID } from 'crypto';
  */
 export function getRequestId(req?: { headers: { get: (h: string) => string | null } }): string {
   const fromHeader = req?.headers.get('x-request-id') ?? req?.headers.get('x-correlation-id');
-  return fromHeader ?? `req-${randomUUID().slice(0, 8)}`;
+  return fromHeader ?? `req-${randomUUID().replace(/-/g, '').slice(0, 12)}`;
 }
 
 /**

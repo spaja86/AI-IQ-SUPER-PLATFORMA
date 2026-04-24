@@ -92,12 +92,12 @@ function getClientIP(request: NextRequest): string {
   );
 }
 
-/** Generišu req-XXXXXXXX ID ako ulazni request nema x-request-id. */
+/** Genera req-XXXXXXXX ID ako ulazni request nema x-request-id. Uses crypto.randomUUID() for uniqueness. */
 function resolveRequestId(request: NextRequest): string {
   return (
     request.headers.get('x-request-id') ??
     request.headers.get('x-correlation-id') ??
-    `req-${Math.random().toString(36).slice(2, 10)}`
+    `req-${crypto.randomUUID().replace(/-/g, '').slice(0, 12)}`
   );
 }
 
