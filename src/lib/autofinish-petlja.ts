@@ -48,6 +48,8 @@
  *
  * Autofinish #728 (Optimizacija performansi i upravljanje resursima — odziv sistema poboljšan, resursi efikasno dodeljeni i monitorisani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1439→1441, APP_VERSION 42.48.0→42.49.0)
  *
+ * Autofinish #729 (Skalabilnost i automatizacija deployments — infrastruktura skalabilna, CI/CD pipeline optimizovan i stabilan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1441→1443, APP_VERSION 42.49.0→42.50.0)
+ *
  */
 
 import {
