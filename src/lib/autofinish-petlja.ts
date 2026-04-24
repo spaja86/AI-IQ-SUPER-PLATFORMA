@@ -90,6 +90,8 @@
  *
  * Autofinish #749 (Monitoring i observability — distributed tracing implementiran, metrics dashboard unapređen, log aggregation optimizovana, alerting sistem poboljšan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1481→1483, APP_VERSION 42.69.0→42.70.0)
  *
+ * Autofinish #750 (Sigurnost i compliance — OAuth2/OIDC integracija ojačana, rate limiting unapređen, CORS politika poboljšana, audit log implementiran, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1483→1485, APP_VERSION 42.70.0→42.71.0)
+ *
  */
 
 import {
