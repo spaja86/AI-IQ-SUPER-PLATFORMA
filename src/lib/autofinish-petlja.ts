@@ -122,6 +122,8 @@
  *
  * Autofinish #765 (Bezbednost i autorizacija — RBAC model proširen, JWT rotacija implementirana, audit log dodat, rate limiting per-user konfigurisan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1513→1515, APP_VERSION 42.85.0→42.86.0)
  *
+ * Autofinish #766 (Performanse i optimizacija — query caching implementiran, lazy loading proširen, bundle size optimizovan, DB indeksi analizirani i poboljšani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1515→1517, APP_VERSION 42.86.0→42.87.0)
+ *
  */
 
 import {
