@@ -301,12 +301,12 @@ async function runTests(): Promise<void> {
   // ── 5. Globalni invarijanti ───────────────────────────────────────────────
   console.log('\n📦 Globalni Invarijanti (#872 + #876)');
 
-  await test('AUTOFINISH_COUNT === 890', () => {
-    assertEqual(AUTOFINISH_COUNT, 890, 'AUTOFINISH_COUNT=890');
+  await test('AUTOFINISH_COUNT === 900', () => {
+    assertEqual(AUTOFINISH_COUNT, 900, 'AUTOFINISH_COUNT=900');
   });
 
-  await test('APP_VERSION === "44.11.0"', () => {
-    assertEqual(APP_VERSION, '44.11.0', 'APP_VERSION=44.11.0');
+  await test('APP_VERSION === "44.21.0"', () => {
+    assertEqual(APP_VERSION, '44.21.0', 'APP_VERSION=44.21.0');
   });
 
   await test('AUTOFINISH_TARGET > AUTOFINISH_COUNT', () => {

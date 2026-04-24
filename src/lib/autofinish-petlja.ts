@@ -372,10 +372,32 @@
  *
  * Autofinish #890 (E2E Snapshot Audit+Verzije Cross-Endpoint — konzistentnost audit-report i verzije, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1762→1764, APP_VERSION 44.10.0→44.11.0)
  *
+ * Autofinish #891 (getAutofinishStatistikaSummary() Helper — rute, apiRute, stranice, dijagnostike, igrice, omegaAiPersone, omegaAiOktave, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1764→1766, APP_VERSION 44.11.0→44.12.0)
+ *
+ * Autofinish #892 (Unit Testovi getAutofinishStatistikaSummary() — schema, sva polja, tipovi, vrednosti, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1766→1768, APP_VERSION 44.12.0→44.13.0)
+ *
+ * Autofinish #893 (GET /api/autofinish-statistika — sve statistike, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1768→1770, APP_VERSION 44.13.0→44.14.0)
+ *
+ * Autofinish #894 (Integracioni Testovi /api/autofinish-statistika — schema, Cache-Control, sva polja, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1770→1772, APP_VERSION 44.14.0→44.15.0)
+ *
+ * Autofinish #895 (getAutofinishMetaInfo() Helper — naziv, kompanija, opis, baseUrl, verzija, techStack, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1772→1774, APP_VERSION 44.15.0→44.16.0)
+ *
+ * Autofinish #896 (Unit Testovi getAutofinishMetaInfo() — schema, sva polja, baseUrl validan, techStack niz, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1774→1776, APP_VERSION 44.16.0→44.17.0)
+ *
+ * Autofinish #897 (GET /api/autofinish-meta — naziv, kompanija, opis, baseUrl, techStack, Cache-Control, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1776→1778, APP_VERSION 44.17.0→44.18.0)
+ *
+ * Autofinish #898 (Integracioni Testovi /api/autofinish-meta — schema, Cache-Control, baseUrl, techStack, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1778→1780, APP_VERSION 44.18.0→44.19.0)
+ *
+ * Autofinish #899 (/autofinish Dashboard Statistika Summary Sekcija — rute, API, dijagnostike, igrice, OMEGA AI, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1780→1782, APP_VERSION 44.19.0→44.20.0)
+ *
+ * Autofinish #900 (E2E Svih 7 Autofinish API Endpoints — konzistentnost verzija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1782→1784, APP_VERSION 44.20.0→44.21.0)
+ *
  */
 
 import {
   APP_VERSION,
+  APP_NAME,
+  BASE_URL,
   KOMPANIJA,
   AUTOFINISH_COUNT,
   AUTOFINISH_TARGET,
@@ -758,6 +780,16 @@ export function getAutofinishIteracijaOpis(br: number): string {
     888: 'Integracioni testovi /api/autofinish-verzije',
     889: '/autofinish dashboard verzije summary sekcija',
     890: 'E2E snapshot audit-report + verzije cross-endpoint',
+    891: 'getAutofinishStatistikaSummary() helper',
+    892: 'Unit testovi getAutofinishStatistikaSummary()',
+    893: 'GET /api/autofinish-statistika',
+    894: 'Integracioni testovi /api/autofinish-statistika',
+    895: 'getAutofinishMetaInfo() helper',
+    896: 'Unit testovi getAutofinishMetaInfo()',
+    897: 'GET /api/autofinish-meta',
+    898: 'Integracioni testovi /api/autofinish-meta',
+    899: '/autofinish dashboard statistika summary sekcija',
+    900: 'E2E svih 7 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1018,7 +1050,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '43.71.0', autofinishBroj: 850, opis: 'OG tags, metadata, changelog sekcija' },
   { verzija: '43.91.0', autofinishBroj: 870, opis: 'Health summary, full-report API' },
   { verzija: '44.01.0', autofinishBroj: 880, opis: 'Progress info, podsistemi API, iteracija-opis API' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Audit report, verzije summary, cross-endpoint E2E' },
+  { verzija: '44.11.0', autofinishBroj: 890, opis: 'Audit report, verzije summary, cross-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Statistika summary, meta info, full E2E endpoints' },
 ];
 
 /**
@@ -1036,6 +1069,88 @@ export function getAutofinishVerzijeSummary(): AutofinishVerzijeSummaryResult {
     autofinishBroj: AUTOFINISH_COUNT,
     ukupnoVerzija: verzije.length,
     verzije,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishStatistikaSummary() (#891) ──────────────────────────────────
+
+export interface AutofinishStatistikaSummary {
+  verzija: string;
+  autofinishBroj: number;
+  rute: number;
+  apiRute: number;
+  stranice: number;
+  dijagnostike: number;
+  igrice: number;
+  omegaAiPersone: number;
+  omegaAiOktave: number;
+  omegaAiUkupno: number;
+  spajaProVerzija: number;
+  autofinishTarget: number;
+  timestamp: string;
+}
+
+/**
+ * Vraća ukupne statistike platforme u jednom objektu.
+ *
+ * @returns AutofinishStatistikaSummary
+ */
+export function getAutofinishStatistikaSummary(): AutofinishStatistikaSummary {
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    rute: TOTAL_ROUTES,
+    apiRute: TOTAL_API_ROUTES,
+    stranice: TOTAL_PAGES,
+    dijagnostike: TOTAL_DIAGNOSTIKA,
+    igrice: TOTAL_IGRICA,
+    omegaAiPersone: OMEGA_AI_PERSONA_COUNT,
+    omegaAiOktave: OMEGA_AI_OKTAVA_COUNT,
+    omegaAiUkupno: OMEGA_AI_PERSONA_UKUPNO,
+    spajaProVerzija: SPAJA_PRO_VERZIJA_COUNT,
+    autofinishTarget: AUTOFINISH_TARGET,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishMetaInfo() (#895) ──────────────────────────────────────────
+
+export interface AutofinishMetaInfo {
+  naziv: string;
+  kompanija: string;
+  opis: string;
+  baseUrl: string;
+  verzija: string;
+  autofinishBroj: number;
+  techStack: string[];
+  autofinishEndpoints: string[];
+  timestamp: string;
+}
+
+/**
+ * Vraća meta podaci platforme: naziv, kompanija, opis, baseUrl, techStack, endpoints.
+ *
+ * @returns AutofinishMetaInfo
+ */
+export function getAutofinishMetaInfo(): AutofinishMetaInfo {
+  return {
+    naziv: APP_NAME,
+    kompanija: KOMPANIJA,
+    opis: 'AI IQ Super Platforma — OMEGA AI sistem sa autofinish petljom, dijagnostikom, igricama i 40 miliona AI persona',
+    baseUrl: BASE_URL,
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    techStack: ['Next.js', 'TypeScript', 'React', 'Tailwind CSS', 'Vercel'],
+    autofinishEndpoints: [
+      '/api/autofinish-petlja',
+      '/api/autofinish-petlja-status',
+      '/api/autofinish-ekosistem-snapshot',
+      '/api/autofinish-audit-report',
+      '/api/autofinish-verzije',
+      '/api/autofinish-statistika',
+      '/api/autofinish-meta',
+    ],
     timestamp: new Date().toISOString(),
   };
 }

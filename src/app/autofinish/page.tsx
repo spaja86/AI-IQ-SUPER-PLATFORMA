@@ -5,6 +5,7 @@
 // Autofinish #864 — Ekosistem Snapshot Sekcija
 // Autofinish #874 — Progress Info Widget
 // Autofinish #889 — Verzije Summary Sekcija
+// Autofinish #899 — Statistika Summary Sekcija
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -14,6 +15,7 @@ import {
   getAutofinishEkosistemSnapshot,
   getAutofinishProgressInfo,
   getAutofinishVerzijeSummary,
+  getAutofinishStatistikaSummary,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -62,6 +64,8 @@ export default function AutofinishPage() {
   const progressInfo = getAutofinishProgressInfo();
   // #889 — verzije summary
   const verzijeSummary = getAutofinishVerzijeSummary();
+  // #899 — statistika summary
+  const statistikaSummary = getAutofinishStatistikaSummary();
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
@@ -328,6 +332,63 @@ export default function AutofinishPage() {
               href="/api/autofinish-verzije"
               className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
               aria-label="Preuzmi listu verzija kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
+        </section>
+
+        {/* #899 — Statistika Summary sekcija */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish statistika summary"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">📊 </span>Statistike platforme
+          </h2>
+          <ul
+            className="grid grid-cols-2 gap-2 text-sm"
+            role="list"
+            aria-label="Lista statistika platforme"
+          >
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Ukupno ruta</span>
+              <span className="text-white font-mono">{statistikaSummary.rute}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">API ruta</span>
+              <span className="text-blue-400 font-mono">{statistikaSummary.apiRute}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Stranice</span>
+              <span className="text-white font-mono">{statistikaSummary.stranice}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Dijagnostike</span>
+              <span className="text-green-400 font-mono">{statistikaSummary.dijagnostike}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Igrice</span>
+              <span className="text-purple-400 font-mono">{statistikaSummary.igrice}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">OMEGA AI persone</span>
+              <span className="text-yellow-400 font-mono">{statistikaSummary.omegaAiPersone}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">OMEGA AI oktave</span>
+              <span className="text-yellow-400 font-mono">{statistikaSummary.omegaAiOktave}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">SpajaPro verzija</span>
+              <span className="text-white font-mono">{statistikaSummary.spajaProVerzija}</span>
+            </li>
+          </ul>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-statistika"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi statistike kao JSON"
             >
               JSON API →
             </a>
