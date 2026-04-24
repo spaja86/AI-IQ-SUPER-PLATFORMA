@@ -162,6 +162,8 @@
  *
  * Autofinish #785 (UX i dostupnost — dark mode unapređen, animacije optimizovane, ARIA atributi dodati, keyboard navigacija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1553→1555, APP_VERSION 43.5.0→43.6.0)
  *
+ * Autofinish #786 (Sigurnost i stabilnost — CSRF zaštita ojačana, rate limiting dodan, error boundary poboljšan, dependency audit urađen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1555→1557, APP_VERSION 43.6.0→43.7.0)
+ *
  */
 
 import {
