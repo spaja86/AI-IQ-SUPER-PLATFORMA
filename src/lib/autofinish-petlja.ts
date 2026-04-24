@@ -28,6 +28,8 @@
  *
  * Autofinish #718 (Dijagnostike usklađivanje — 26 novih dijagnostičkih provera za iteracije #706-#717 dodato u diagnostics.ts (TOTAL_DIAGNOSTIKA 1400→1421), opis mapa autofinish/route.ts proširena na #718, APP_VERSION 42.38.0→42.39.0)
  *
+ * Autofinish #719 (TOTAL_IGRICA usklađivanje — TOTAL_IGRICA 95→96 (stvarni broj objekata u igrice.ts), 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1421→1423, APP_VERSION 42.39.0→42.40.0)
+ *
  */
 
 import {
