@@ -92,6 +92,8 @@
  *
  * Autofinish #750 (Sigurnost i compliance — OAuth2/OIDC integracija ojačana, rate limiting unapređen, CORS politika poboljšana, audit log implementiran, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1483→1485, APP_VERSION 42.70.0→42.71.0)
  *
+ * Autofinish #751 (Performanse i skalabilnost — lazy loading optimizovan, code splitting unapređen, caching strategija poboljšana, bundle size optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1485→1487, APP_VERSION 42.71.0→42.72.0)
+ *
  */
 
 import {
