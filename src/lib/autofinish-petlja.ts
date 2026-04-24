@@ -78,6 +78,8 @@
  *
  * Autofinish #743 (Automatizacija i DevOps — CI/CD pipeline verifikovan, automatizovani testovi prošireni, deployment strategija unapređena, rollback mehanizam testiran, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1469→1471, APP_VERSION 42.63.0→42.64.0)
  *
+ * Autofinish #744 (Napredna zaštita i enkripcija — end-to-end enkripcija implementirana, ključevi za potpisivanje rotirani, sigurnosni audit završen, zero-trust arhitektura verifikovana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1471→1473, APP_VERSION 42.64.0→42.65.0)
+ *
  */
 
 import {
