@@ -1,14 +1,39 @@
 // Autofinish #822 — /autofinish Dashboard UI Stranica
 // Autofinish #839 — Accessibility i ARIA Unapređenja
+// Autofinish #850 — OG Tags i Metadata
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
 import { pokreniAutofinishPetlju } from '@/lib/autofinish-petlja';
 import { APP_VERSION, AUTOFINISH_COUNT, AUTOFINISH_TARGET, KOMPANIJA } from '@/lib/constants';
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
+
+// #850 — OG Tags i Twitter Card metadata
 export const metadata: Metadata = {
   title: 'Autofinish Dashboard — AI IQ SUPER PLATFORMA',
   description: `Autofinish petlja — ponavljanje do 100% za sve OMEGA podsisteme. Iteracija #${AUTOFINISH_COUNT} — ${KOMPANIJA}`,
+  robots: { index: true, follow: true },
+  alternates: {
+    canonical: `${APP_URL}/autofinish`,
+  },
+  openGraph: {
+    type: 'website',
+    url: `${APP_URL}/autofinish`,
+    title: `Autofinish #${AUTOFINISH_COUNT} — AI IQ SUPER PLATFORMA`,
+    description: `OMEGA PROJECT: Autofinish petlja — iteracija #${AUTOFINISH_COUNT} od ${KOMPANIJA}. Sve OMEGA platforme na 100%.`,
+    siteName: 'AI IQ SUPER PLATFORMA',
+    locale: 'sr_RS',
+  },
+  twitter: {
+    card: 'summary',
+    title: `Autofinish #${AUTOFINISH_COUNT} — AI IQ SUPER PLATFORMA`,
+    description: `OMEGA PROJECT autofinish petlja — ${KOMPANIJA}. Iteracija #${AUTOFINISH_COUNT}.`,
+  },
+  other: {
+    'x-app-version': APP_VERSION,
+    'x-autofinish-count': String(AUTOFINISH_COUNT),
+  },
 };
 
 export default function AutofinishPage() {

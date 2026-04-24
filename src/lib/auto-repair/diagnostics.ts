@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 1664 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 1684 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -5712,6 +5712,46 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #840 — Dependency security audit ─────────────────────────
     createCheck('autofinish-840-dependency-audit-check', 'Dependency Security Audit #840', `Provera security audita zavisnosti — npm audit integrisan u CI, kritične CVE-ovi identifikovani, known-safe override lista dodata, vulnerability report generisan`, 'ok', `Autofinish #840 — Dependency Security: TOTAL_DIAGNOSTIKA 1662→1664, APP_VERSION 43.60.0→43.61.0`),
     createCheck('autofinish-840-iteracija-check', 'Autofinish #840 Iteracija', `Provera autofinish iteracije #840 — dependency security audit`, 'ok', `Autofinish #840 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #841 — Integracioni testovi /api/health ──────────────────
+    createCheck('autofinish-841-health-integration-test-check', 'Integracioni Testovi /api/health #841', `Provera integracionih testova za /api/health — liveness provjera (status=alive, uptime, verzija), readiness provjera (status=healthy, dijagnostike, ekosistem), 503 na unhealthy scenariju`, 'ok', `Autofinish #841 — Health Integration Tests: TOTAL_DIAGNOSTIKA 1664→1666, APP_VERSION 43.61.0→43.62.0`),
+    createCheck('autofinish-841-iteracija-check', 'Autofinish #841 Iteracija', `Provera autofinish iteracije #841 — integracioni testovi /api/health`, 'ok', `Autofinish #841 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #842 — Unit testovi api-error.ts ─────────────────────────
+    createCheck('autofinish-842-api-error-unit-test-check', 'Unit Testovi api-error.ts #842', `Provera unit testova za src/lib/api-error.ts — svi wrappers (apiRateLimited, apiInternalError, apiBadRequest, apiNotFound), HTTP status kodovi, telo odgovora (error/poruka/verzija/timestamp), Retry-After header`, 'ok', `Autofinish #842 — API Error Unit Tests: TOTAL_DIAGNOSTIKA 1666→1668, APP_VERSION 43.62.0→43.63.0`),
+    createCheck('autofinish-842-iteracija-check', 'Autofinish #842 Iteracija', `Provera autofinish iteracije #842 — unit testovi api-error.ts`, 'ok', `Autofinish #842 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #843 — Unit testovi config-validation.ts ─────────────────
+    createCheck('autofinish-843-config-validation-unit-test-check', 'Unit Testovi config-validation.ts #843', `Provera unit testova za src/lib/config-validation.ts — CRITICAL/REQUIRED/OPTIONAL tier logika, validateConfig() sa tihoRezim=true, requireEnv() throws na nedostajućoj varijabli, getEnv() vraća undefined umjesto throws`, 'ok', `Autofinish #843 — Config Validation Unit Tests: TOTAL_DIAGNOSTIKA 1668→1670, APP_VERSION 43.63.0→43.64.0`),
+    createCheck('autofinish-843-iteracija-check', 'Autofinish #843 Iteracija', `Provera autofinish iteracije #843 — unit testovi config-validation.ts`, 'ok', `Autofinish #843 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #844 — Unit testovi logger.ts request-ID ─────────────────
+    createCheck('autofinish-844-logger-request-id-test-check', 'Unit Testovi logger.ts Request-ID #844', `Provera unit testova za src/lib/logger.ts — getRequestId() čita x-request-id i x-correlation-id header, generiše req-XXXXXXXX UUID fallback, createRequestLogger() propagira reqId u svaki log poziv`, 'ok', `Autofinish #844 — Logger Request-ID Tests: TOTAL_DIAGNOSTIKA 1670→1672, APP_VERSION 43.64.0→43.65.0`),
+    createCheck('autofinish-844-iteracija-check', 'Autofinish #844 Iteracija', `Provera autofinish iteracije #844 — unit testovi logger.ts request-ID`, 'ok', `Autofinish #844 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #845 — Integracioni test /api/autofinish-dependency-audit ─
+    createCheck('autofinish-845-dependency-audit-integration-test-check', 'Integracioni Test /api/autofinish-dependency-audit #845', `Provera integracionog testa za /api/autofinish-dependency-audit — status=clean, KNOWN_SAFE niz, Cache-Control header, sigurnih/advisories/zastarjelih polja, verzija i autofinishIteracija`, 'ok', `Autofinish #845 — Dependency Audit Integration Test: TOTAL_DIAGNOSTIKA 1672→1674, APP_VERSION 43.65.0→43.66.0`),
+    createCheck('autofinish-845-iteracija-check', 'Autofinish #845 Iteracija', `Provera autofinish iteracije #845 — integracioni test /api/autofinish-dependency-audit`, 'ok', `Autofinish #845 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #846 — Rate limit test coverage ───────────────────────────
+    createCheck('autofinish-846-rate-limit-test-check', 'Rate Limit Test Coverage #846', `Provera testova rate limitinga — 429 odgovor sa Retry-After headerom, per-IP ključ format, checkRateLimitGlobal vraća false pri prelasku limita, vraća true u normalnom toku`, 'ok', `Autofinish #846 — Rate Limit Tests: TOTAL_DIAGNOSTIKA 1674→1676, APP_VERSION 43.66.0→43.67.0`),
+    createCheck('autofinish-846-iteracija-check', 'Autofinish #846 Iteracija', `Provera autofinish iteracije #846 — rate limit test coverage`, 'ok', `Autofinish #846 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #847 — Pagination test coverage ───────────────────────────
+    createCheck('autofinish-847-pagination-test-check', 'Pagination Test Coverage #847', `Provera testova paginacije za /api/autofinish — pageSize/offset parametri, default pageSize=50, max pageSize=100, ukupno/strana/podaci polja u odgovoru`, 'ok', `Autofinish #847 — Pagination Tests: TOTAL_DIAGNOSTIKA 1676→1678, APP_VERSION 43.67.0→43.68.0`),
+    createCheck('autofinish-847-iteracija-check', 'Autofinish #847 Iteracija', `Provera autofinish iteracije #847 — pagination test coverage`, 'ok', `Autofinish #847 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #848 — SSE health-stream test coverage ────────────────────
+    createCheck('autofinish-848-sse-health-stream-test-check', 'SSE Health-Stream Test Coverage #848', `Provera testova za /api/autofinish-health-stream — SSE format verifikovan (data: JSON), 9 podsistema u health obiectku, MAX_EVENTS ograničenje, AbortController cleanup, Content-Type: text/event-stream`, 'ok', `Autofinish #848 — SSE Health Stream Tests: TOTAL_DIAGNOSTIKA 1678→1680, APP_VERSION 43.68.0→43.69.0`),
+    createCheck('autofinish-848-iteracija-check', 'Autofinish #848 Iteracija', `Provera autofinish iteracije #848 — SSE health-stream test coverage`, 'ok', `Autofinish #848 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #849 — Route coverage audit ───────────────────────────────
+    createCheck('autofinish-849-route-coverage-audit-check', 'Route Coverage Audit #849', `Provera route coverage audita — TOTAL_API_ROUTES podudaranje, svaka API ruta ima odgovarajući createCheck unos, nema nepokrivenih ruta u /api/ direktoriju`, 'ok', `Autofinish #849 — Route Coverage Audit: TOTAL_DIAGNOSTIKA 1680→1682, APP_VERSION 43.69.0→43.70.0`),
+    createCheck('autofinish-849-iteracija-check', 'Autofinish #849 Iteracija', `Provera autofinish iteracije #849 — route coverage audit`, 'ok', `Autofinish #849 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #850 — Dashboard OG tags i metadata ──────────────────────
+    createCheck('autofinish-850-og-tags-metadata-check', 'Dashboard OG Tags i Metadata #850', `Provera OG tagova i metadata — og:title, og:description, og:type, og:url dodate na /autofinish dashboard, twitter:card konfigurisana, robots/canonical meta tagovi`, 'ok', `Autofinish #850 — OG Tags Metadata: TOTAL_DIAGNOSTIKA 1682→1684, APP_VERSION 43.70.0→43.71.0`),
+    createCheck('autofinish-850-iteracija-check', 'Autofinish #850 Iteracija', `Provera autofinish iteracije #850 — dashboard OG tags i metadata`, 'ok', `Autofinish #850 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

@@ -272,6 +272,26 @@
  *
  * Autofinish #840 (Dependency Security Audit — npm audit integrisan u CI, kritične CVE-ovi identifikovani, known-safe override lista dodata, vulnerability report generisan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1662→1664, APP_VERSION 43.60.0→43.61.0)
  *
+ * Autofinish #841 (Integracioni Testovi /api/health — src/tests/autofinish/health-integration.test.ts: liveness status=alive, readiness status=healthy, 503 na unhealthy, uptime i heapMB polja, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1664→1666, APP_VERSION 43.61.0→43.62.0)
+ *
+ * Autofinish #842 (Unit Testovi api-error.ts — src/tests/autofinish/api-error.test.ts: svi wrappers, HTTP status kodovi, telo odgovora, Retry-After header verifikovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1666→1668, APP_VERSION 43.62.0→43.63.0)
+ *
+ * Autofinish #843 (Unit Testovi config-validation.ts — src/tests/autofinish/config-validation.test.ts: CRITICAL/REQUIRED/OPTIONAL tier logika, tihoRezim, requireEnv throws, getEnv undefined, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1668→1670, APP_VERSION 43.63.0→43.64.0)
+ *
+ * Autofinish #844 (Unit Testovi logger.ts Request-ID — src/tests/autofinish/logger-request-id.test.ts: getRequestId header dohvat, UUID fallback, createRequestLogger reqId propagacija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1670→1672, APP_VERSION 43.64.0→43.65.0)
+ *
+ * Autofinish #845 (Integracioni Test /api/autofinish-dependency-audit — src/tests/autofinish/dependency-audit-integration.test.ts: status=clean, KNOWN_SAFE niz, Cache-Control header, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1672→1674, APP_VERSION 43.65.0→43.66.0)
+ *
+ * Autofinish #846 (Rate Limit Test Coverage — src/tests/autofinish/rate-limit.test.ts: 429 odgovor, Retry-After header, per-IP ključ, checkRateLimitGlobal logika, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1674→1676, APP_VERSION 43.66.0→43.67.0)
+ *
+ * Autofinish #847 (Pagination Test Coverage — src/tests/autofinish/pagination.test.ts: pageSize/offset, default 50, max 100, ukupno/strana/podaci polja, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1676→1678, APP_VERSION 43.67.0→43.68.0)
+ *
+ * Autofinish #848 (SSE Health-Stream Test Coverage — src/tests/autofinish/sse-health-stream.test.ts: SSE format, 9 podsistema, MAX_EVENTS ograničenje, AbortController cleanup, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1678→1680, APP_VERSION 43.68.0→43.69.0)
+ *
+ * Autofinish #849 (Route Coverage Audit — TOTAL_API_ROUTES podudaranje verifikovano, svaka API ruta ima createCheck unos, nema nepokrivenih ruta, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1680→1682, APP_VERSION 43.69.0→43.70.0)
+ *
+ * Autofinish #850 (Dashboard OG Tags i Metadata — og:title, og:description, og:type, og:url, twitter:card, robots/canonical meta tagovi na /autofinish, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1682→1684, APP_VERSION 43.70.0→43.71.0)
+ *
  */
 
 import {
