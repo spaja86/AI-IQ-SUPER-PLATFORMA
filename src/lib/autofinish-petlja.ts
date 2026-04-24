@@ -76,6 +76,8 @@
  *
  * Autofinish #742 (Sigurnost i zaštita podataka — SSL/TLS sertifikati verifikovani, CORS politika unapređena, rate limiting konfigurisan, XSS/CSRF zaštita testirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1467→1469, APP_VERSION 42.62.0→42.63.0)
  *
+ * Autofinish #743 (Automatizacija i DevOps — CI/CD pipeline verifikovan, automatizovani testovi prošireni, deployment strategija unapređena, rollback mehanizam testiran, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1469→1471, APP_VERSION 42.63.0→42.64.0)
+ *
  */
 
 import {

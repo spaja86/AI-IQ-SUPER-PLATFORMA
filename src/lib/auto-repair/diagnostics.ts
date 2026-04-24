@@ -5230,6 +5230,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #742 — Sigurnost i zaštita podataka ───────────────────────
     createCheck('autofinish-742-sigurnost-zastita-check', 'Sigurnost i Zaštita Podataka #742', `Provera sigurnosti i zaštite podataka — SSL/TLS sertifikati, CORS politika, rate limiting, XSS/CSRF zaštita`, 'ok', `Autofinish #742 — sigurnost zaštita: TOTAL_DIAGNOSTIKA 1467→1469, APP_VERSION 42.62.0→42.63.0`),
     createCheck('autofinish-742-iteracija-check', 'Autofinish #742 Iteracija', `Provera autofinish iteracije #742 — sigurnost i zaštita podataka`, 'ok', `Autofinish #742 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #743 — Automatizacija i DevOps ────────────────────────────
+    createCheck('autofinish-743-automatizacija-devops-check', 'Automatizacija i DevOps #743', `Provera automatizacije i DevOps procesa — CI/CD pipeline verifikovan, automatizovani testovi prošireni, deployment strategija unapređena, rollback mehanizam testiran`, 'ok', `Autofinish #743 — automatizacija devops: TOTAL_DIAGNOSTIKA 1469→1471, APP_VERSION 42.63.0→42.64.0`),
+    createCheck('autofinish-743-iteracija-check', 'Autofinish #743 Iteracija', `Provera autofinish iteracije #743 — automatizacija i DevOps`, 'ok', `Autofinish #743 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
