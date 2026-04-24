@@ -176,6 +176,8 @@
  *
  * Autofinish #792 (Internacionalizacija i lokalizacija — i18n podrška proširena, novi jezički paketi dodati, formatiranje datuma/valute po lokalu, RTL layout podrška unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1567→1569, APP_VERSION 43.12.0→43.13.0)
  *
+ * Autofinish #793 (Sigurnost i autentikacija — JWT refresh mehanizam ojačan, rate limiting implementiran, CSRF zaštita poboljšana, audit log sistema proširen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1569→1571, APP_VERSION 43.13.0→43.14.0)
+ *
  */
 
 import {

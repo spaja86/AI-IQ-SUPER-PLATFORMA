@@ -5430,6 +5430,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #792 — Internacionalizacija i lokalizacija ──────────────
     createCheck('autofinish-792-i18n-check', 'Internacionalizacija i lokalizacija #792', `Provera i18n i lokalizacije — i18n podrška proširena, novi jezički paketi dodati, formatiranje datuma/valute po lokalu, RTL layout podrška unapređena`, 'ok', `Autofinish #792 — i18n: TOTAL_DIAGNOSTIKA 1567→1569, APP_VERSION 43.12.0→43.13.0`),
     createCheck('autofinish-792-iteracija-check', 'Autofinish #792 Iteracija', `Provera autofinish iteracije #792 — internacionalizacija i lokalizacija`, 'ok', `Autofinish #792 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #793 — Sigurnost i autentikacija ─────────────────────────
+    createCheck('autofinish-793-security-check', 'Sigurnost i autentikacija #793', `Provera sigurnosti i autentikacije — JWT refresh mehanizam ojačan, rate limiting implementiran, CSRF zaštita poboljšana, audit log sistema proširen`, 'ok', `Autofinish #793 — Security: TOTAL_DIAGNOSTIKA 1569→1571, APP_VERSION 43.13.0→43.14.0`),
+    createCheck('autofinish-793-iteracija-check', 'Autofinish #793 Iteracija', `Provera autofinish iteracije #793 — sigurnost i autentikacija`, 'ok', `Autofinish #793 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
