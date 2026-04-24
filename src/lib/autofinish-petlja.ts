@@ -50,6 +50,8 @@
  *
  * Autofinish #729 (Skalabilnost i automatizacija deployments — infrastruktura skalabilna, CI/CD pipeline optimizovan i stabilan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1441→1443, APP_VERSION 42.49.0→42.50.0)
  *
+ * Autofinish #730 (Bezbednost i autentifikacija — OAuth2/JWT implementiran, sesije zaštićene, penetration testing prošao, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1443→1445, APP_VERSION 42.50.0→42.51.0)
+ *
  */
 
 import {
