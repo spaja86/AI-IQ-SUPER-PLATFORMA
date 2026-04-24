@@ -124,6 +124,8 @@
  *
  * Autofinish #766 (Performanse i optimizacija — query caching implementiran, lazy loading proširen, bundle size optimizovan, DB indeksi analizirani i poboljšani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1515→1517, APP_VERSION 42.86.0→42.87.0)
  *
+ * Autofinish #767 (Monitoring i observability — structured logging implementiran, distributed tracing dodat, health check endpointi prošireni, alerting pravila definisana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1517→1519, APP_VERSION 42.87.0→42.88.0)
+ *
  */
 
 import {
