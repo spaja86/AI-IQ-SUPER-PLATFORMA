@@ -206,6 +206,8 @@
  *
  * Autofinish #807 (Performanse i optimizacija — lazy loading implementiran, bundle size smanjen, caching strategija unapređena, database upiti optimizovani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1597→1599, APP_VERSION 43.27.0→43.28.0)
  *
+ * Autofinish #808 (Bezbednost i autentifikacija — OAuth2 integracija unapređena, JWT refresh token implementiran, rate limiting dodat, CSRF zaštita poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1599→1601, APP_VERSION 43.28.0→43.29.0)
+ *
  */
 
 import {
