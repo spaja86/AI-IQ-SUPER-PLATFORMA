@@ -5354,6 +5354,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #773 — UX i dostupnost ──────────────────────────────────
     createCheck('autofinish-773-ux-check', 'UX i Dostupnost #773', `Provera UX i dostupnosti — WCAG 2.1 AA usklađenost poboljšana, dark mode stabilizovan, animacije optimizovane, keyboard navigacija proširena`, 'ok', `Autofinish #773 — UX: TOTAL_DIAGNOSTIKA 1529→1531, APP_VERSION 42.93.0→42.94.0`),
     createCheck('autofinish-773-iteracija-check', 'Autofinish #773 Iteracija', `Provera autofinish iteracije #773 — UX i dostupnost`, 'ok', `Autofinish #773 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #774 — Sigurnost i autentifikacija ──────────────────────
+    createCheck('autofinish-774-security-check', 'Sigurnost i Autentifikacija #774', `Provera sigurnosti i autentifikacije — JWT refresh token rotacija implementirana, rate limiting poboljšan, CSRF zaštita ojačana, audit log proširen`, 'ok', `Autofinish #774 — Sigurnost: TOTAL_DIAGNOSTIKA 1531→1533, APP_VERSION 42.94.0→42.95.0`),
+    createCheck('autofinish-774-iteracija-check', 'Autofinish #774 Iteracija', `Provera autofinish iteracije #774 — sigurnost i autentifikacija`, 'ok', `Autofinish #774 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

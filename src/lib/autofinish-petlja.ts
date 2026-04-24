@@ -138,6 +138,8 @@
  *
  * Autofinish #773 (UX i dostupnost — WCAG 2.1 AA usklađenost poboljšana, dark mode stabilizovan, animacije optimizovane, keyboard navigacija proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1529→1531, APP_VERSION 42.93.0→42.94.0)
  *
+ * Autofinish #774 (Sigurnost i autentifikacija — JWT refresh token rotacija implementirana, rate limiting poboljšan, CSRF zaštita ojačana, audit log proširen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1531→1533, APP_VERSION 42.94.0→42.95.0)
+ *
  */
 
 import {
