@@ -302,11 +302,11 @@ async function runTests(): Promise<void> {
   console.log('\n📦 Globalni Invarijanti (#872 + #876)');
 
   await test('AUTOFINISH_COUNT === 950', () => {
-    assertEqual(AUTOFINISH_COUNT, 950, 'AUTOFINISH_COUNT=950');
+    assertEqual(AUTOFINISH_COUNT, 960, 'AUTOFINISH_COUNT=960');
   });
 
   await test('APP_VERSION === "44.21.0"', () => {
-    assertEqual(APP_VERSION, '44.71.0', 'APP_VERSION=44.71.0');
+    assertEqual(APP_VERSION, '44.81.0', 'APP_VERSION=44.81.0');
   });
 
   await test('AUTOFINISH_TARGET > AUTOFINISH_COUNT', () => {

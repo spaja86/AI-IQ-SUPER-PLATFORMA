@@ -306,19 +306,19 @@ async function runTests(): Promise<void> {
   console.log('\n📦 Globalni Invarijanti (#930)');
 
   await test('AUTOFINISH_COUNT === 950', () => {
-    assertEqual(AUTOFINISH_COUNT, 950, 'AUTOFINISH_COUNT=950');
+    assertEqual(AUTOFINISH_COUNT, 960, 'AUTOFINISH_COUNT=960');
   });
 
   await test('APP_VERSION === "44.71.0"', () => {
-    assertEqual(APP_VERSION, '44.71.0', 'APP_VERSION=44.71.0');
+    assertEqual(APP_VERSION, '44.81.0', 'APP_VERSION=44.81.0');
   });
 
   await test('TOTAL_DIAGNOSTIKA === 1884', () => {
-    assertEqual(TOTAL_DIAGNOSTIKA, 1884, 'TOTAL_DIAGNOSTIKA=1884');
+    assertEqual(TOTAL_DIAGNOSTIKA, 1904, 'TOTAL_DIAGNOSTIKA=1904');
   });
 
   await test('TOTAL_API_ROUTES === 940', () => {
-    assertEqual(TOTAL_API_ROUTES, 940, 'TOTAL_API_ROUTES=940');
+    assertEqual(TOTAL_API_ROUTES, 942, 'TOTAL_API_ROUTES=942');
   });
 
   // ─── Rezultat ─────────────────────────────────────────────────────────────

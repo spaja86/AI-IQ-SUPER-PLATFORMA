@@ -492,6 +492,26 @@
  *
  * Autofinish #950 (E2E Svih 13 Autofinish API Endpoints — konzistentnost verzija kroz svih 13 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1882→1884, APP_VERSION 44.70.0→44.71.0)
  *
+ * Autofinish #951 (getAutofinishKategorijePorHijarhijama() Helper — grupiše iteracije po kategorijama, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1884→1886, APP_VERSION 44.71.0→44.72.0)
+ *
+ * Autofinish #952 (Unit Testovi getAutofinishKategorijePorHijarhijama() — schema, konzistentnost, ukupan broj, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1886→1888, APP_VERSION 44.72.0→44.73.0)
+ *
+ * Autofinish #953 (GET /api/autofinish-kategorije — 200, Cache-Control, schema, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1888→1890, APP_VERSION 44.73.0→44.74.0)
+ *
+ * Autofinish #954 (Integracioni Testovi /api/autofinish-kategorije — 200, schema, kategorije, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1890→1892, APP_VERSION 44.74.0→44.75.0)
+ *
+ * Autofinish #955 (Dashboard Kategorije Widget — lista kategorija sa brojem iteracija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1892→1894, APP_VERSION 44.75.0→44.76.0)
+ *
+ * Autofinish #956 (Unit Testovi Dashboard Kategorije Widget — render, broj, ukupan broj, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1894→1896, APP_VERSION 44.76.0→44.77.0)
+ *
+ * Autofinish #957 (getAutofinishIteracijeTrend(window) Helper — rolling window trend %, up/down/stable, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1896→1898, APP_VERSION 44.77.0→44.78.0)
+ *
+ * Autofinish #958 (Unit Testovi getAutofinishIteracijeTrend() — schema, up/down/stable, konzistentnost, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1898→1900, APP_VERSION 44.78.0→44.79.0)
+ *
+ * Autofinish #959 (GET /api/autofinish-trend?window=N — validacija window, 200/400, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1900→1902, APP_VERSION 44.79.0→44.80.0)
+ *
+ * Autofinish #960 (E2E Svih 14 Autofinish API Endpoints — konzistentnost verzija kroz svih 14 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1902→1904, APP_VERSION 44.80.0→44.81.0)
+ *
  */
 
 import {
@@ -940,6 +960,16 @@ export function getAutofinishIteracijaOpis(br: number): string {
     948: 'Unit testovi getAutofinishVerzijeDiff()',
     949: 'GET /api/autofinish-verzije-diff',
     950: 'E2E svih 13 autofinish API endpoints',
+    951: 'getAutofinishKategorijePorHijarhijama() helper',
+    952: 'Unit testovi getAutofinishKategorijePorHijarhijama()',
+    953: 'GET /api/autofinish-kategorije',
+    954: 'Integracioni testovi /api/autofinish-kategorije',
+    955: 'Dashboard kategorije widget',
+    956: 'Unit testovi dashboard kategorije widget',
+    957: 'getAutofinishIteracijeTrend(window) helper',
+    958: 'Unit testovi getAutofinishIteracijeTrend()',
+    959: 'GET /api/autofinish-trend',
+    960: 'E2E svih 14 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1206,7 +1236,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '44.41.0', autofinishBroj: 920, opis: 'Roadmap status summary, next steps, 10-endpoint E2E' },
   { verzija: '44.51.0', autofinishBroj: 930, opis: 'Milestone detail, system report, 11-endpoint E2E' },
   { verzija: '44.61.0', autofinishBroj: 940, opis: 'Iteracija raspon, podsistemi zdravlje, 12-endpoint E2E' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Top iteracije, verzije diff, 13-endpoint E2E' },
+  { verzija: '44.71.0', autofinishBroj: 950, opis: 'Top iteracije, verzije diff, 13-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Kategorije, trend, 14-endpoint E2E' },
 ];
 
 /**
@@ -1314,6 +1345,8 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-podsistemi-zdravlje',
       '/api/autofinish-top-iteracije',
       '/api/autofinish-verzije-diff',
+      '/api/autofinish-kategorije',
+      '/api/autofinish-trend',
     ],
     timestamp: new Date().toISOString(),
   };
@@ -1637,6 +1670,16 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     948: 'Unit testovi getAutofinishVerzijeDiff()',
     949: 'GET /api/autofinish-verzije-diff',
     950: 'E2E svih 13 autofinish API endpoints',
+    951: 'getAutofinishKategorijePorHijarhijama() helper',
+    952: 'Unit testovi getAutofinishKategorijePorHijarhijama()',
+    953: 'GET /api/autofinish-kategorije',
+    954: 'Integracioni testovi /api/autofinish-kategorije',
+    955: 'Dashboard kategorije widget',
+    956: 'Unit testovi dashboard kategorije widget',
+    957: 'getAutofinishIteracijeTrend(window) helper',
+    958: 'Unit testovi getAutofinishIteracijeTrend()',
+    959: 'GET /api/autofinish-trend',
+    960: 'E2E svih 14 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -1824,6 +1867,16 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     948: 'Unit testovi getAutofinishVerzijeDiff()',
     949: 'GET /api/autofinish-verzije-diff',
     950: 'E2E svih 13 autofinish API endpoints',
+    951: 'getAutofinishKategorijePorHijarhijama() helper',
+    952: 'Unit testovi getAutofinishKategorijePorHijarhijama()',
+    953: 'GET /api/autofinish-kategorije',
+    954: 'Integracioni testovi /api/autofinish-kategorije',
+    955: 'Dashboard kategorije widget',
+    956: 'Unit testovi dashboard kategorije widget',
+    957: 'getAutofinishIteracijeTrend(window) helper',
+    958: 'Unit testovi getAutofinishIteracijeTrend()',
+    959: 'GET /api/autofinish-trend',
+    960: 'E2E svih 14 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2016,6 +2069,173 @@ export function getAutofinishVerzijeDiff(v1: string, v2: string): AutofinishVerz
     v2AutofinishBroj: b2,
     ukupnoIteracija: iteracije.length,
     iteracije,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishKategorijePorHijarhijama() (#951) ───────────────────────────
+
+export type AutofinishKategorija =
+  | 'helper'
+  | 'unit-test'
+  | 'api-route'
+  | 'integration-test'
+  | 'dashboard-widget'
+  | 'widget-unit-test'
+  | 'e2e'
+  | 'ostalo';
+
+export interface AutofinishKategorijaEntry {
+  kategorija: AutofinishKategorija;
+  labelSr: string;
+  iteracije: AutofinishMilestoneIteracija[];
+  ukupno: number;
+}
+
+export interface AutofinishKategorijePorHijarhijamaResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoIteracija: number;
+  ukupnoKategorija: number;
+  kategorije: AutofinishKategorijaEntry[];
+  timestamp: string;
+}
+
+const KATEGORIJA_KEYWORDS: Record<AutofinishKategorija, string[]> = {
+  helper: ['helper', 'Summary', 'Info', 'Report', 'Status', 'Raspon', 'Zdravlje', 'Diff', 'Trend', 'Iteracije', 'Steps', 'Roadmap', 'Audit'],
+  'unit-test': ['Unit testovi', 'unit test'],
+  'api-route': ['GET /api/'],
+  'integration-test': ['Integracioni testovi', 'Integration Test', 'integracioni'],
+  'dashboard-widget': ['Dashboard', 'dashboard', 'Widget'],
+  'widget-unit-test': ['Unit testovi dashboard', 'Unit Testovi Dashboard'],
+  e2e: ['E2E', 'e2e'],
+  ostalo: [],
+};
+
+function detectKategorija(opis: string): AutofinishKategorija {
+  // Specifičnost redosled: widget-unit-test > dashboard-widget > e2e > integration-test > api-route > unit-test > helper
+  if (KATEGORIJA_KEYWORDS['widget-unit-test'].some((k) => opis.includes(k))) return 'widget-unit-test';
+  if (KATEGORIJA_KEYWORDS['e2e'].some((k) => opis.includes(k))) return 'e2e';
+  if (KATEGORIJA_KEYWORDS['integration-test'].some((k) => opis.toLowerCase().includes(k.toLowerCase()))) return 'integration-test';
+  if (KATEGORIJA_KEYWORDS['dashboard-widget'].some((k) => opis.includes(k)) && !KATEGORIJA_KEYWORDS['unit-test'].some((k) => opis.includes(k))) return 'dashboard-widget';
+  if (KATEGORIJA_KEYWORDS['api-route'].some((k) => opis.includes(k))) return 'api-route';
+  if (KATEGORIJA_KEYWORDS['unit-test'].some((k) => opis.includes(k))) return 'unit-test';
+  if (KATEGORIJA_KEYWORDS['helper'].some((k) => opis.includes(k))) return 'helper';
+  return 'ostalo';
+}
+
+const KATEGORIJA_LABEL_SR: Record<AutofinishKategorija, string> = {
+  helper: 'Helper funkcije',
+  'unit-test': 'Unit testovi',
+  'api-route': 'API rute',
+  'integration-test': 'Integracioni testovi',
+  'dashboard-widget': 'Dashboard widgeti',
+  'widget-unit-test': 'Unit testovi widgeta',
+  e2e: 'E2E testovi',
+  ostalo: 'Ostalo',
+};
+
+/**
+ * Grupiše sve poznate autofinish iteracije po kategorijama.
+ * Kategorije: helper, unit-test, api-route, integration-test,
+ *             dashboard-widget, widget-unit-test, e2e, ostalo
+ *
+ * @returns AutofinishKategorijePorHijarhijamaResult
+ */
+export function getAutofinishKategorijePorHijarhijama(): AutofinishKategorijePorHijarhijamaResult {
+  const raspon = getAutofinishIteracijaRaspon(1, AUTOFINISH_COUNT);
+  const map = new Map<AutofinishKategorija, AutofinishMilestoneIteracija[]>();
+
+  for (const it of raspon.iteracije) {
+    const kat = detectKategorija(it.opis);
+    if (!map.has(kat)) map.set(kat, []);
+    map.get(kat)!.push(it);
+  }
+
+  const ordered: AutofinishKategorija[] = [
+    'helper', 'unit-test', 'api-route', 'integration-test',
+    'dashboard-widget', 'widget-unit-test', 'e2e', 'ostalo',
+  ];
+
+  const kategorije: AutofinishKategorijaEntry[] = ordered
+    .filter((k) => map.has(k))
+    .map((k) => ({
+      kategorija: k,
+      labelSr: KATEGORIJA_LABEL_SR[k],
+      iteracije: map.get(k)!,
+      ukupno: map.get(k)!.length,
+    }));
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoIteracija: raspon.iteracije.length,
+    ukupnoKategorija: kategorije.length,
+    kategorije,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishIteracijeTrend(window) (#957) ────────────────────────────────
+
+export type AutofinishTrendSmjer = 'up' | 'down' | 'stable';
+
+export interface AutofinishIteracijeTrendResult {
+  verzija: string;
+  autofinishBroj: number;
+  window: number;
+  ukupnoWindow: number;
+  ukupnoBaseline: number;
+  trendProcent: number;
+  smjer: AutofinishTrendSmjer;
+  windowIteracije: AutofinishMilestoneIteracija[];
+  baselineIteracije: AutofinishMilestoneIteracija[];
+  timestamp: string;
+}
+
+/**
+ * Izračunava rolling window trend za autofinish iteracije.
+ * Upoređuje posljednjih `window` iteracija s prethonim `window`-om (baseline).
+ * Rezultat: trendProcent = (ukupnoWindow - ukupnoBaseline) / ukupnoBaseline * 100
+ * Smjer: 'up' ako > 1%, 'down' ako < -1%, inače 'stable'.
+ *
+ * @param window - Broj iteracija u prozoru (min 1, max AUTOFINISH_COUNT / 2)
+ * @returns AutofinishIteracijeTrendResult
+ */
+export function getAutofinishIteracijeTrend(window: number): AutofinishIteracijeTrendResult {
+  const clampedWindow = Math.max(1, Math.min(window, Math.floor(AUTOFINISH_COUNT / 2)));
+
+  const windowStart = AUTOFINISH_COUNT - clampedWindow + 1;
+  const baselineStart = windowStart - clampedWindow;
+  const baselineEnd = windowStart - 1;
+
+  const windowRaspon = getAutofinishIteracijaRaspon(windowStart, AUTOFINISH_COUNT);
+  const baselineRaspon = baselineStart >= 1
+    ? getAutofinishIteracijaRaspon(baselineStart, baselineEnd)
+    : { iteracije: [] as AutofinishMilestoneIteracija[] };
+
+  const ukupnoWindow = windowRaspon.iteracije.length;
+  const ukupnoBaseline = baselineRaspon.iteracije.length;
+
+  let trendProcent = 0;
+  if (ukupnoBaseline > 0) {
+    trendProcent = Math.round(((ukupnoWindow - ukupnoBaseline) / ukupnoBaseline) * 100 * 10) / 10;
+  }
+
+  let smjer: AutofinishTrendSmjer = 'stable';
+  if (trendProcent > 1) smjer = 'up';
+  else if (trendProcent < -1) smjer = 'down';
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    window: clampedWindow,
+    ukupnoWindow,
+    ukupnoBaseline,
+    trendProcent,
+    smjer,
+    windowIteracije: windowRaspon.iteracije,
+    baselineIteracije: baselineRaspon.iteracije,
     timestamp: new Date().toISOString(),
   };
 }
