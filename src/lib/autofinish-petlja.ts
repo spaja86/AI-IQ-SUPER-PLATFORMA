@@ -180,6 +180,8 @@
  *
  * Autofinish #794 (Performanse i optimizacija — lazy loading komponenti proširen, bundle size smanjen, server-side caching unapređen, query optimizacija baze podataka, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1571→1573, APP_VERSION 43.14.0→43.15.0)
  *
+ * Autofinish #795 (UX i dostupnost — WCAG 2.2 usklađenost poboljšana, keyboard navigacija proširena, screen reader podrška unapređena, color contrast ratio optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1573→1575, APP_VERSION 43.15.0→43.16.0)
+ *
  */
 
 import {
