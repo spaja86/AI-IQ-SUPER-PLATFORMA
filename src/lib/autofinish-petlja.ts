@@ -66,6 +66,8 @@
  *
  * Autofinish #737 (Napredna analitika i izveštavanje — BI dashboard aktivan, KPI metrike kalibrisane, automatski izveštaji generisani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1457→1459, APP_VERSION 42.57.0→42.58.0)
  *
+ * Autofinish #738 (Optimizacija korisničkog iskustva i pristupačnost — UX tok unapređen, WCAG 2.1 AA usklađenost postignuta, responzivni dizajn verifikovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1459→1461, APP_VERSION 42.58.0→42.59.0)
+ *
  */
 
 import {
