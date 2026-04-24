@@ -26,6 +26,8 @@
  *
  * Autofinish #717 (Sekvence barrel kompletiran — 8 nedostajućih izvoza dodato u src/lib/sekvence/index.ts: ioOpenUIAOLabSekvence, omegaProjekatPlasiranjeSekvence, omegaProjekatZvanicnoOtvaranjeSekvence, spajaDigitalniBrouvzerSekvence, spajaDigitalniKompjuterSekvence, spajaGeneratorEngineSekvence, spajaRenderMedijaSekvence, oktavneEksponencijalneFunkcijeSekvence + TOTAL_API_ROUTES 921 + TOTAL_ROUTES 975 + APP_VERSION 42.38.0)
  *
+ * Autofinish #718 (Dijagnostike usklađivanje — 26 novih dijagnostičkih provera za iteracije #706-#717 dodato u diagnostics.ts (TOTAL_DIAGNOSTIKA 1400→1421), opis mapa autofinish/route.ts proširena na #718, APP_VERSION 42.38.0→42.39.0)
+ *
  */
 
 import {
