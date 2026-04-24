@@ -56,3 +56,13 @@ export { dnevnaRaspodelZaradeSekvence } from './dnevna-raspodela-zarade-page';
 
 // ── Oktavni GPU/RAM Sistem ──────────────────────────────────────────────────
 export { oktavniGPURAMSekvence } from './oktavni-gpu-ram-page';
+
+// ── Autofinish: preostale sekvence stranica ─────────────────────────────────
+export { ioOpenUIAOLabSekvence } from './io-openui-ao-laboratorija-page';
+export { omegaProjekatPlasiranjeSekvence } from './omega-projekat-plasiranje-page';
+export { omegaProjekatZvanicnoOtvaranjeSekvence } from './omega-projekat-zvanicno-otvaranje-page';
+export { spajaDigitalniBrouvzerSekvence } from './spaja-digitalni-brouvzer-page';
+export { spajaDigitalniKompjuterSekvence } from './spaja-digitalni-kompjuter-page';
+export { spajaGeneratorEngineSekvence } from './spaja-generator-engine-page';
+export { spajaRenderMedijaSekvence } from './spaja-render-medija-page';
+export { oktavneEksponencijalneFunkcijeSekvence } from './oktavne-eksponencijalne-funkcije-page';
