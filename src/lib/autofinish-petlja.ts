@@ -332,6 +332,26 @@
  *
  * Autofinish #870 (Integracioni Testovi /api/autofinish-full-report — sve sekcije, E2E schema, Cache-Control, timestamp, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1722→1724, APP_VERSION 43.90.0→43.91.0)
  *
+ * Autofinish #871 (GET /api/autofinish-iteracija-opis — ?br=N vraća opis iteracije, default fallback, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1724→1726, APP_VERSION 43.91.0→43.92.0)
+ *
+ * Autofinish #872 (Unit Testovi getAutofinishIteracijaOpis() — opis za #841–#870, default fallback, string tip, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1726→1728, APP_VERSION 43.92.0→43.93.0)
+ *
+ * Autofinish #873 (getAutofinishProgressInfo() Helper — procenat/prognoza/preostalo/target/autofinishBroj, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1728→1730, APP_VERSION 43.93.0→43.94.0)
+ *
+ * Autofinish #874 (/autofinish Dashboard Progress Info Widget — progres bar, prognoza, preostalo, ARIA labele, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1730→1732, APP_VERSION 43.94.0→43.95.0)
+ *
+ * Autofinish #875 (GET /api/autofinish-progress — procenat/prognoza/preostalo, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1732→1734, APP_VERSION 43.95.0→43.96.0)
+ *
+ * Autofinish #876 (Integracioni Testovi /api/autofinish-progress — schema, Cache-Control, procenat 0–100, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1734→1736, APP_VERSION 43.96.0→43.97.0)
+ *
+ * Autofinish #877 (getAutofinishPodsistemiDetails() Helper — id/naziv/status/progres/opis svakog podsistema, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1736→1738, APP_VERSION 43.97.0→43.98.0)
+ *
+ * Autofinish #878 (Unit Testovi Podsistemi Details + Progress Info — schema, tipovi, vrednosti, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1738→1740, APP_VERSION 43.98.0→43.99.0)
+ *
+ * Autofinish #879 (GET /api/autofinish-podsistemi — lista svih podsistema, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1740→1742, APP_VERSION 43.99.0→44.00.0)
+ *
+ * Autofinish #880 (Integracioni Testovi /api/autofinish-podsistemi — sve podsisteme, schema, Cache-Control, E2E, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1742→1744, APP_VERSION 44.00.0→44.01.0)
+ *
  */
 
 import {
@@ -666,7 +686,7 @@ export function getAutofinishPetljaSummary() {
  * Opisna mapa poznatih autofinish iteracija.
  * Vraća kratki opis za svaki broj iteracije.
  */
-function getAutofinishIteracijaOpis(br: number): string {
+export function getAutofinishIteracijaOpis(br: number): string {
   const opisi: Record<number, string> = {
     841: 'Integracioni testovi /api/health',
     842: 'Unit testovi api-error.ts',
@@ -698,6 +718,16 @@ function getAutofinishIteracijaOpis(br: number): string {
     868: 'Unit testovi health summary + ekosistem snapshot',
     869: 'GET /api/autofinish-full-report',
     870: 'Integracioni testovi /api/autofinish-full-report',
+    871: 'GET /api/autofinish-iteracija-opis',
+    872: 'Unit testovi getAutofinishIteracijaOpis()',
+    873: 'getAutofinishProgressInfo() helper',
+    874: '/autofinish dashboard progress info widget',
+    875: 'GET /api/autofinish-progress',
+    876: 'Integracioni testovi /api/autofinish-progress',
+    877: 'getAutofinishPodsistemiDetails() helper',
+    878: 'Unit testovi podsistemi details + progress info',
+    879: 'GET /api/autofinish-podsistemi',
+    880: 'Integracioni testovi /api/autofinish-podsistemi',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -805,6 +835,97 @@ export function getAutofinishHealthSummary(): AutofinishHealthSummary {
       status: p.status,
       progres: p.progres,
     })),
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishProgressInfo() (#873) ─────────────────────────────────────
+
+export interface AutofinishProgressInfo {
+  verzija: string;
+  autofinishBroj: number;
+  target: number;
+  procenat: number;
+  preostalo: number;
+  prognoza: string;
+  timestamp: string;
+}
+
+/**
+ * Vraća informacije o napretku autofinish petlje ka targetu.
+ *
+ * @returns AutofinishProgressInfo
+ */
+export function getAutofinishProgressInfo(): AutofinishProgressInfo {
+  const procenat = Math.round((AUTOFINISH_COUNT / AUTOFINISH_TARGET) * 100 * 100) / 100;
+  const preostalo = Math.max(AUTOFINISH_TARGET - AUTOFINISH_COUNT, 0);
+  const prognoza =
+    preostalo === 0
+      ? 'Završeno'
+      : `Preostalo ${preostalo} iteracija do targeta ${AUTOFINISH_TARGET}`;
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    target: AUTOFINISH_TARGET,
+    procenat,
+    preostalo,
+    prognoza,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishPodsistemiDetails() (#877) ─────────────────────────────────
+
+export interface AutofinishPodsistemDetalj {
+  id: string;
+  naziv: string;
+  status: string;
+  progres: number;
+  opis: string;
+}
+
+export interface AutofinishPodsistemiDetailsResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoPodsistema: number;
+  podsistemi: AutofinishPodsistemDetalj[];
+  timestamp: string;
+}
+
+const PODSISTEM_OPISI: Record<string, string> = {
+  'api-rute': 'Sve API rute platforme — zdravlje i dostupnost endpoint-a',
+  dijagnostika: 'Sistem dijagnostičkih provjera — ukupno provera i zdravlje',
+  'omega-ai': 'OMEGA AI module — persone, oktave i ukupan broj',
+  igrice: 'Igrice i interaktivni moduli platforme',
+  stranice: 'Sve stranice i prikazi platforme',
+  ekosistem: 'Ekosistem metrike — sve rute, API rute i stranice',
+  'rate-limit': 'Rate limiting infrastruktura — zaštita API endpoint-a',
+  middleware: 'Middleware sloj — X-Request-Id, CORS, headers',
+  changelog: 'Changelog sistem — evidencija autofinish iteracija',
+};
+
+/**
+ * Vraća detalje o svim podsistemima autofinish platforme.
+ *
+ * @returns AutofinishPodsistemiDetailsResult
+ */
+export function getAutofinishPodsistemiDetails(): AutofinishPodsistemiDetailsResult {
+  const petlja = pokreniAutofinishPetlju();
+
+  const podsistemi: AutofinishPodsistemDetalj[] = petlja.podsistemi.map((p) => ({
+    id: p.id,
+    naziv: p.naziv,
+    status: p.status,
+    progres: p.progres,
+    opis: PODSISTEM_OPISI[p.id] ?? `${p.naziv} podsistem autofinish platforme`,
+  }));
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoPodsistema: podsistemi.length,
+    podsistemi,
     timestamp: new Date().toISOString(),
   };
 }

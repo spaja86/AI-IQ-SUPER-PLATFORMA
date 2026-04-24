@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 1724 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 1744 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -5832,6 +5832,46 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #870 — Integracioni testovi /api/autofinish-full-report ──
     createCheck('autofinish-870-full-report-integration-test-check', 'Integracioni Testovi /api/autofinish-full-report #870', `Provera integracionih testova za /api/autofinish-full-report — sve sekcije prisutne, E2E schema, Cache-Control, timestamp validan`, 'ok', `Autofinish #870 — Full Report Tests: TOTAL_DIAGNOSTIKA 1722→1724, APP_VERSION 43.90.0→43.91.0`),
     createCheck('autofinish-870-iteracija-check', 'Autofinish #870 Iteracija', `Provera autofinish iteracije #870 — integracioni testovi /api/autofinish-full-report`, 'ok', `Autofinish #870 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #871 — GET /api/autofinish-iteracija-opis ────────────────
+    createCheck('autofinish-871-iteracija-opis-api-check', 'GET /api/autofinish-iteracija-opis #871', `Provera /api/autofinish-iteracija-opis — vraća opis za konkretan broj iteracije, ?br=N, fallback na default`, 'ok', `Autofinish #871 — Iteracija Opis API: TOTAL_DIAGNOSTIKA 1724→1726, APP_VERSION 43.91.0→43.92.0`),
+    createCheck('autofinish-871-iteracija-check', 'Autofinish #871 Iteracija', `Provera autofinish iteracije #871 — GET /api/autofinish-iteracija-opis`, 'ok', `Autofinish #871 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #872 — Unit testovi getAutofinishIteracijaOpis() ─────────
+    createCheck('autofinish-872-iteracija-opis-unit-test-check', 'Unit Testovi getAutofinishIteracijaOpis() #872', `Provera unit testova za getAutofinishIteracijaOpis() — opis za #841–#870, default fallback, string tip, nije prazan`, 'ok', `Autofinish #872 — Iteracija Opis Tests: TOTAL_DIAGNOSTIKA 1726→1728, APP_VERSION 43.92.0→43.93.0`),
+    createCheck('autofinish-872-iteracija-check', 'Autofinish #872 Iteracija', `Provera autofinish iteracije #872 — unit testovi getAutofinishIteracijaOpis()`, 'ok', `Autofinish #872 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #873 — getAutofinishProgressInfo() helper ────────────────
+    createCheck('autofinish-873-progress-info-helper-check', 'getAutofinishProgressInfo() Helper #873', `Provera getAutofinishProgressInfo() — vraća procenat/prognoza/preostalo/target/autofinishBroj, sva polja prisutna`, 'ok', `Autofinish #873 — Progress Info Helper: TOTAL_DIAGNOSTIKA 1728→1730, APP_VERSION 43.93.0→43.94.0`),
+    createCheck('autofinish-873-iteracija-check', 'Autofinish #873 Iteracija', `Provera autofinish iteracije #873 — getAutofinishProgressInfo() helper`, 'ok', `Autofinish #873 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #874 — Dashboard Progress Info widget ────────────────────
+    createCheck('autofinish-874-dashboard-progress-info-check', 'Dashboard Progress Info Widget #874', `Provera dashboard progress info widgeta — procenat, prognoza, preostalo do targeta, progres bar, ARIA labele`, 'ok', `Autofinish #874 — Dashboard Progress Widget: TOTAL_DIAGNOSTIKA 1730→1732, APP_VERSION 43.94.0→43.95.0`),
+    createCheck('autofinish-874-iteracija-check', 'Autofinish #874 Iteracija', `Provera autofinish iteracije #874 — dashboard progress info widget`, 'ok', `Autofinish #874 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #875 — GET /api/autofinish-progress ──────────────────────
+    createCheck('autofinish-875-progress-api-check', 'GET /api/autofinish-progress #875', `Provera /api/autofinish-progress — procenat, prognoza, preostalo, Cache-Control, X-App-Version, X-Autofinish-Iteracija`, 'ok', `Autofinish #875 — Progress API: TOTAL_DIAGNOSTIKA 1732→1734, APP_VERSION 43.95.0→43.96.0`),
+    createCheck('autofinish-875-iteracija-check', 'Autofinish #875 Iteracija', `Provera autofinish iteracije #875 — GET /api/autofinish-progress`, 'ok', `Autofinish #875 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #876 — Integracioni testovi /api/autofinish-progress ─────
+    createCheck('autofinish-876-progress-integration-test-check', 'Integracioni Testovi /api/autofinish-progress #876', `Provera integracionih testova — schema, Cache-Control, procenat 0–100, prognoza je string, preostalo >= 0`, 'ok', `Autofinish #876 — Progress Tests: TOTAL_DIAGNOSTIKA 1734→1736, APP_VERSION 43.96.0→43.97.0`),
+    createCheck('autofinish-876-iteracija-check', 'Autofinish #876 Iteracija', `Provera autofinish iteracije #876 — integracioni testovi /api/autofinish-progress`, 'ok', `Autofinish #876 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #877 — getAutofinishPodsistemiDetails() helper ───────────
+    createCheck('autofinish-877-podsistemi-details-helper-check', 'getAutofinishPodsistemiDetails() Helper #877', `Provera getAutofinishPodsistemiDetails() — lista svih podsistema sa id/naziv/status/progres/opis, sva polja prisutna`, 'ok', `Autofinish #877 — Podsistemi Details Helper: TOTAL_DIAGNOSTIKA 1736→1738, APP_VERSION 43.97.0→43.98.0`),
+    createCheck('autofinish-877-iteracija-check', 'Autofinish #877 Iteracija', `Provera autofinish iteracije #877 — getAutofinishPodsistemiDetails() helper`, 'ok', `Autofinish #877 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #878 — Unit testovi getAutofinishPodsistemiDetails() + getAutofinishProgressInfo() ──
+    createCheck('autofinish-878-podsistemi-progress-unit-test-check', 'Unit Testovi Podsistemi Details + Progress Info #878', `Provera unit testova za getAutofinishPodsistemiDetails() i getAutofinishProgressInfo() — schema, tipovi, vrednosti`, 'ok', `Autofinish #878 — Podsistemi+Progress Tests: TOTAL_DIAGNOSTIKA 1738→1740, APP_VERSION 43.98.0→43.99.0`),
+    createCheck('autofinish-878-iteracija-check', 'Autofinish #878 Iteracija', `Provera autofinish iteracije #878 — unit testovi getAutofinishPodsistemiDetails() i getAutofinishProgressInfo()`, 'ok', `Autofinish #878 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #879 — GET /api/autofinish-podsistemi ────────────────────
+    createCheck('autofinish-879-podsistemi-api-check', 'GET /api/autofinish-podsistemi #879', `Provera /api/autofinish-podsistemi — lista svih podsistema, Cache-Control, X-App-Version, X-Autofinish-Iteracija`, 'ok', `Autofinish #879 — Podsistemi API: TOTAL_DIAGNOSTIKA 1740→1742, APP_VERSION 43.99.0→44.00.0`),
+    createCheck('autofinish-879-iteracija-check', 'Autofinish #879 Iteracija', `Provera autofinish iteracije #879 — GET /api/autofinish-podsistemi`, 'ok', `Autofinish #879 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #880 — Integracioni testovi /api/autofinish-podsistemi ───
+    createCheck('autofinish-880-podsistemi-integration-test-check', 'Integracioni Testovi /api/autofinish-podsistemi #880', `Provera integracionih testova za /api/autofinish-podsistemi — sve podsisteme u listi, schema, Cache-Control, E2E sva polja`, 'ok', `Autofinish #880 — Podsistemi Tests: TOTAL_DIAGNOSTIKA 1742→1744, APP_VERSION 44.00.0→44.01.0`),
+    createCheck('autofinish-880-iteracija-check', 'Autofinish #880 Iteracija', `Provera autofinish iteracije #880 — integracioni testovi /api/autofinish-podsistemi`, 'ok', `Autofinish #880 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

@@ -3,6 +3,7 @@
 // Autofinish #850 — OG Tags i Metadata
 // Autofinish #855 — Changelog Sekcija
 // Autofinish #864 — Ekosistem Snapshot Sekcija
+// Autofinish #874 — Progress Info Widget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -10,6 +11,7 @@ import {
   pokreniAutofinishPetlju,
   getLastNIterations,
   getAutofinishEkosistemSnapshot,
+  getAutofinishProgressInfo,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -54,6 +56,8 @@ export default function AutofinishPage() {
   const changelog = getLastNIterations(10);
   // #864 — ekosistem snapshot
   const ekosistemSnapshot = getAutofinishEkosistemSnapshot();
+  // #874 — progress info
+  const progressInfo = getAutofinishProgressInfo();
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
@@ -212,6 +216,47 @@ export default function AutofinishPage() {
               </div>
             ))}
           </dl>
+        </section>
+
+        {/* #874 — Progress Info Widget */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish progress info"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">🎯 </span>Napredak ka Targetu
+          </h2>
+          <div className="mb-4">
+            <div className="flex justify-between text-sm text-gray-400 mb-1">
+              <span>
+                {progressInfo.autofinishBroj} / {progressInfo.target} iteracija
+              </span>
+              <span className="font-bold text-blue-400">{progressInfo.procenat}%</span>
+            </div>
+            <div
+              className="w-full bg-gray-700 rounded-full h-3"
+              role="progressbar"
+              aria-valuenow={progressInfo.procenat}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`Autofinish napredak: ${progressInfo.procenat}%`}
+            >
+              <div
+                className="bg-blue-500 h-3 rounded-full transition-all"
+                style={{ width: `${Math.min(progressInfo.procenat, 100)}%` }}
+              />
+            </div>
+          </div>
+          <p className="text-sm text-gray-400">{progressInfo.prognoza}</p>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-progress"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi progress info kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
         </section>
 
         {/* #864 — Ekosistem Snapshot sekcija */}
