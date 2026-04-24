@@ -282,8 +282,8 @@ async function runTests(): Promise<void> {
   // ── 5. TOTAL_DIAGNOSTIKA sync provjera (#860) ─────────────────────────────
   console.log('\n📦 Globalni Invarijanti (#860)');
 
-  await test('TOTAL_DIAGNOSTIKA === 1704', () => {
-    assertEqual(TOTAL_DIAGNOSTIKA, 1704, 'TOTAL_DIAGNOSTIKA=1704');
+  await test('TOTAL_DIAGNOSTIKA === 1724', () => {
+    assertEqual(TOTAL_DIAGNOSTIKA, 1724, 'TOTAL_DIAGNOSTIKA=1724');
   });
 
   await test('runDiagnostics() ukupnoProvera === TOTAL_DIAGNOSTIKA', () => {
@@ -296,17 +296,17 @@ async function runTests(): Promise<void> {
     assertEqual(d.zdravlje, 100, 'zdravlje=100');
   });
 
-  await test('AUTOFINISH_COUNT === 860', () => {
-    assertEqual(AUTOFINISH_COUNT, 860, 'AUTOFINISH_COUNT=860');
+  await test('AUTOFINISH_COUNT === 870', () => {
+    assertEqual(AUTOFINISH_COUNT, 870, 'AUTOFINISH_COUNT=870');
   });
 
-  await test('APP_VERSION === "43.81.0"', () => {
-    assertEqual(APP_VERSION, '43.81.0', 'APP_VERSION=43.81.0');
+  await test('APP_VERSION === "43.91.0"', () => {
+    assertEqual(APP_VERSION, '43.91.0', 'APP_VERSION=43.91.0');
   });
 
-  await test('getLastNIterations(10) zadnja stavka je #860', () => {
+  await test('getLastNIterations(10) zadnja stavka je #870', () => {
     const r = getLastNIterations(10);
-    assertEqual(r[r.length - 1].broj, 860, 'zadnja stavka=#860');
+    assertEqual(r[r.length - 1].broj, 870, 'zadnja stavka=#870');
   });
 
   // ─── Rezultat ─────────────────────────────────────────────────────────────

@@ -312,6 +312,26 @@
  *
  * Autofinish #860 (E2E Snapshot /api/autofinish JSON Schema — src/tests/autofinish/api-autofinish-e2e.test.ts: sva polja, paginacija, Cache-Control, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1702→1704, APP_VERSION 43.80.0→43.81.0)
  *
+ * Autofinish #861 (GET /api/autofinish-status-extended — dijagnostika + changelog + middleware info u jednom odgovoru, Cache-Control, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1704→1706, APP_VERSION 43.81.0→43.82.0)
+ *
+ * Autofinish #862 (Unit Testovi /api/autofinish-changelog Handler — src/tests/autofinish/changelog-handler.test.ts: n param, schema, max/min n, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1706→1708, APP_VERSION 43.82.0→43.83.0)
+ *
+ * Autofinish #863 (getAutofinishEkosistemSnapshot() Helper — sve ekosistem metrike: rute/apiRute/stranice/dijagnostike/igrice/omegaAiPersone/omegaAiOktave/verzija/autofinishBroj, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1708→1710, APP_VERSION 43.83.0→43.84.0)
+ *
+ * Autofinish #864 (/autofinish Dashboard Ekosistem Snapshot Sekcija — sve metrike prikazane, ARIA grid, link na API, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1710→1712, APP_VERSION 43.84.0→43.85.0)
+ *
+ * Autofinish #865 (GET /api/autofinish-ekosistem-snapshot — sve metrike, Cache-Control, X-App-Version, X-Autofinish-Iteracija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1712→1714, APP_VERSION 43.85.0→43.86.0)
+ *
+ * Autofinish #866 (Integracioni Testovi /api/autofinish-ekosistem-snapshot — schema, Cache-Control, rute/apiRute/dijagnostike, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1714→1716, APP_VERSION 43.86.0→43.87.0)
+ *
+ * Autofinish #867 (getAutofinishHealthSummary() Helper — zdravlje/ukupnoProvera/uspesnih/status/podsistemi, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1716→1718, APP_VERSION 43.87.0→43.88.0)
+ *
+ * Autofinish #868 (Unit Testovi Health Summary + Ekosistem Snapshot — src/tests/autofinish/health-snapshot.test.ts: schema, vrednosti, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1718→1720, APP_VERSION 43.88.0→43.89.0)
+ *
+ * Autofinish #869 (GET /api/autofinish-full-report — status + ekosistem + zdravlje + changelog objedinjeni, Cache-Control, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1720→1722, APP_VERSION 43.89.0→43.90.0)
+ *
+ * Autofinish #870 (Integracioni Testovi /api/autofinish-full-report — sve sekcije, E2E schema, Cache-Control, timestamp, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1722→1724, APP_VERSION 43.90.0→43.91.0)
+ *
  */
 
 import {
@@ -668,6 +688,16 @@ function getAutofinishIteracijaOpis(br: number): string {
     858: 'X-Request-Id header middleware',
     859: 'Integracioni testovi middleware-a',
     860: 'E2E snapshot /api/autofinish JSON schema',
+    861: 'GET /api/autofinish-status-extended',
+    862: 'Unit testovi /api/autofinish-changelog handler',
+    863: 'getAutofinishEkosistemSnapshot() helper',
+    864: '/autofinish dashboard ekosistem snapshot sekcija',
+    865: 'GET /api/autofinish-ekosistem-snapshot',
+    866: 'Integracioni testovi /api/autofinish-ekosistem-snapshot',
+    867: 'getAutofinishHealthSummary() helper',
+    868: 'Unit testovi health summary + ekosistem snapshot',
+    869: 'GET /api/autofinish-full-report',
+    870: 'Integracioni testovi /api/autofinish-full-report',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -691,4 +721,90 @@ export function getLastNIterations(n = 10): AutofinishChangelogStavka[] {
     stavke.push({ broj: br, opis: getAutofinishIteracijaOpis(br) });
   }
   return stavke;
+}
+
+// ─── getAutofinishEkosistemSnapshot() (#863) ────────────────────────────────
+
+export interface AutofinishEkosistemSnapshot {
+  verzija: string;
+  autofinishBroj: number;
+  rute: number;
+  apiRute: number;
+  stranice: number;
+  dijagnostike: number;
+  igrice: number;
+  omegaAiPersone: number;
+  omegaAiOktave: number;
+  omegaAiUkupno: number;
+  timestamp: string;
+}
+
+/**
+ * Vraća snapshot svih ekosistem metrika u jednom objektu.
+ *
+ * @returns AutofinishEkosistemSnapshot
+ */
+export function getAutofinishEkosistemSnapshot(): AutofinishEkosistemSnapshot {
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    rute: TOTAL_ROUTES,
+    apiRute: TOTAL_API_ROUTES,
+    stranice: TOTAL_PAGES,
+    dijagnostike: TOTAL_DIAGNOSTIKA,
+    igrice: TOTAL_IGRICA,
+    omegaAiPersone: OMEGA_AI_PERSONA_COUNT,
+    omegaAiOktave: OMEGA_AI_OKTAVA_COUNT,
+    omegaAiUkupno: OMEGA_AI_PERSONA_UKUPNO,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishHealthSummary() (#867) ────────────────────────────────────
+
+export interface AutofinishHealthSummary {
+  verzija: string;
+  autofinishBroj: number;
+  zdravlje: number;
+  ukupnoProvera: number;
+  uspesnih: number;
+  upozorenja: number;
+  gresaka: number;
+  kriticnih: number;
+  status: 'ok' | 'warning' | 'error';
+  podsistemi: Array<{ id: string; naziv: string; status: string; progres: number }>;
+  timestamp: string;
+}
+
+/**
+ * Vraća sažetak health stanja autofinish sistema.
+ * Kombinuje dijagnostiku i status podsistema.
+ *
+ * @returns AutofinishHealthSummary
+ */
+export function getAutofinishHealthSummary(): AutofinishHealthSummary {
+  const dijagnostika = runDiagnostics();
+  const petlja = pokreniAutofinishPetlju();
+
+  const status: AutofinishHealthSummary['status'] =
+    dijagnostika.zdravlje >= 100 ? 'ok' : dijagnostika.zdravlje >= 80 ? 'warning' : 'error';
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    zdravlje: dijagnostika.zdravlje,
+    ukupnoProvera: dijagnostika.ukupnoProvera,
+    uspesnih: dijagnostika.uspesnih,
+    upozorenja: dijagnostika.upozorenja,
+    gresaka: dijagnostika.gresaka,
+    kriticnih: dijagnostika.kriticnih,
+    status,
+    podsistemi: petlja.podsistemi.map((p) => ({
+      id: p.id,
+      naziv: p.naziv,
+      status: p.status,
+      progres: p.progres,
+    })),
+    timestamp: new Date().toISOString(),
+  };
 }

@@ -2,11 +2,21 @@
 // Autofinish #839 — Accessibility i ARIA Unapređenja
 // Autofinish #850 — OG Tags i Metadata
 // Autofinish #855 — Changelog Sekcija
+// Autofinish #864 — Ekosistem Snapshot Sekcija
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
-import { pokreniAutofinishPetlju, getLastNIterations } from '@/lib/autofinish-petlja';
-import { APP_VERSION, AUTOFINISH_COUNT, AUTOFINISH_TARGET, KOMPANIJA } from '@/lib/constants';
+import {
+  pokreniAutofinishPetlju,
+  getLastNIterations,
+  getAutofinishEkosistemSnapshot,
+} from '@/lib/autofinish-petlja';
+import {
+  APP_VERSION,
+  AUTOFINISH_COUNT,
+  AUTOFINISH_TARGET,
+  KOMPANIJA,
+} from '@/lib/constants';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -42,6 +52,8 @@ export default function AutofinishPage() {
   const procenat = ((AUTOFINISH_COUNT / AUTOFINISH_TARGET) * 100).toExponential(2);
   // #855 — poslednjih 10 iteracija za changelog sekciju
   const changelog = getLastNIterations(10);
+  // #864 — ekosistem snapshot
+  const ekosistemSnapshot = getAutofinishEkosistemSnapshot();
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
@@ -200,6 +212,42 @@ export default function AutofinishPage() {
               </div>
             ))}
           </dl>
+        </section>
+
+        {/* #864 — Ekosistem Snapshot sekcija */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Ekosistem snapshot — sve metrike"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">🌐 </span>Ekosistem Snapshot
+          </h2>
+          <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {[
+              { label: 'Rute', value: ekosistemSnapshot.rute },
+              { label: 'API Rute', value: ekosistemSnapshot.apiRute },
+              { label: 'Stranice', value: ekosistemSnapshot.stranice },
+              { label: 'Dijagnostike', value: ekosistemSnapshot.dijagnostike },
+              { label: 'Igrice', value: ekosistemSnapshot.igrice },
+              { label: 'OMEGA Persone', value: ekosistemSnapshot.omegaAiPersone },
+              { label: 'OMEGA Oktave', value: ekosistemSnapshot.omegaAiOktave },
+              { label: 'OMEGA Ukupno', value: ekosistemSnapshot.omegaAiUkupno.toLocaleString() },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <dd className="text-xl font-bold text-teal-400">{s.value}</dd>
+                <dt className="text-xs text-gray-500 mt-1">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-ekosistem-snapshot"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi ekosistem snapshot kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
         </section>
 
         {/* #855 — Changelog sekcija */}
