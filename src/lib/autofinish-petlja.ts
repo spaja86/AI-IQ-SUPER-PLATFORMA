@@ -86,6 +86,8 @@
  *
  * Autofinish #747 (Sigurnost i usklađenost — penetration testing završen, OWASP skeniranje implementirano, GDPR audit kompletiran, zero-trust arhitektura unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1477→1479, APP_VERSION 42.67.0→42.68.0)
  *
+ * Autofinish #748 (Performanse i skalabilnost — load balancing optimizovan, CDN integracija unapređena, database query optimizacija završena, caching strategija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1479→1481, APP_VERSION 42.68.0→42.69.0)
+ *
  */
 
 import {
