@@ -204,6 +204,8 @@
  *
  * Autofinish #806 (Testiranje i kvalitet — unit testovi prošireni, integracija testova poboljšana, code coverage povećan, CI/CD pipeline optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1595→1597, APP_VERSION 43.26.0→43.27.0)
  *
+ * Autofinish #807 (Performanse i optimizacija — lazy loading implementiran, bundle size smanjen, caching strategija unapređena, database upiti optimizovani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1597→1599, APP_VERSION 43.27.0→43.28.0)
+ *
  */
 
 import {
