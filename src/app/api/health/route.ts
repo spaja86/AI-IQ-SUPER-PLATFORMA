@@ -13,6 +13,11 @@ import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
 // Za produkcijski uptime, koristite deployment timestamp iz env varijable ili Vercel API.
 const PROCESS_START_MS = Date.now();
 
+/**
+ * Vraća broj sekundi od cold starta ovog serverless instance.
+ * Napomena: resetuje se pri svakom cold startu u Vercel serverless okruženju.
+ * Za produkcijski uptime koristiti deployment timestamp iz env ili Vercel API.
+ */
 function uptimeSeconds(): number {
   return Math.floor((Date.now() - PROCESS_START_MS) / 1000);
 }

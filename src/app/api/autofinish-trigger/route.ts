@@ -13,17 +13,36 @@ import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 
 const TRIGGER_TOKEN = process.env.AUTOFINISH_TRIGGER_TOKEN;
 
-// #825 — Fail explicitly when token is not configured to prevent insecure fallback
-if (!TRIGGER_TOKEN && process.env.NODE_ENV === 'production') {
-  console.error('[autofinish-trigger] AUTOFINISH_TRIGGER_TOKEN nije konfigurisan u produkciji!');
+// #825 — Fail explicitly when token is not configured
+// Returns 503 Service Unavailable on all requests when the token is missing,
+// preventing unauthenticated access even if the 401 guard below were bypassed.
+if (!TRIGGER_TOKEN) {
+  if (process.env.NODE_ENV === 'production') {
+    console.error('[autofinish-trigger] AUTOFINISH_TRIGGER_TOKEN nije konfigurisan u produkciji!');
+  }
 }
 
 export async function POST(req: NextRequest) {
+  // #825 — When the trigger token is not configured, return 503 to prevent
+  // any request from reaching the handler in an insecure state.
+  if (!TRIGGER_TOKEN) {
+    return NextResponse.json(
+      {
+        error: 'SERVICE_UNAVAILABLE',
+        poruka: 'Autofinish trigger nije konfigurisan. Podesite AUTOFINISH_TRIGGER_TOKEN.',
+        verzija: APP_VERSION,
+        autofinishIteracija: AUTOFINISH_COUNT,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 503 },
+    );
+  }
+
   // #825 — Auth guard: Bearer token validacija
   const authHeader = req.headers.get('authorization') ?? '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
 
-  if (!token || !TRIGGER_TOKEN || token !== TRIGGER_TOKEN) {
+  if (!token || token !== TRIGGER_TOKEN) {
     return NextResponse.json(
       {
         error: 'Unauthorized',

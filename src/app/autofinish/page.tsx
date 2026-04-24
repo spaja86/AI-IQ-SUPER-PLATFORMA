@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     locale: 'sr_RS',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: `Autofinish #${AUTOFINISH_COUNT} — AI IQ SUPER PLATFORMA`,
     description: `OMEGA PROJECT autofinish petlja — ${KOMPANIJA}. Iteracija #${AUTOFINISH_COUNT}.`,
   },
