@@ -7,6 +7,8 @@
 // Autofinish #889 — Verzije Summary Sekcija
 // Autofinish #899 — Statistika Summary Sekcija
 // Autofinish #909 — Zdravlje Summary Sekcija
+// Autofinish #913 — Roadmap Sekcija
+// Autofinish #919 — Next Steps Sekcija
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -18,6 +20,9 @@ import {
   getAutofinishVerzijeSummary,
   getAutofinishStatistikaSummary,
   getAutofinishHealthSummary,
+  getAutofinishRoadmapInfo,
+  getAutofinishRoadmapStatusSummary,
+  getAutofinishNextSteps,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -70,6 +75,11 @@ export default function AutofinishPage() {
   const statistikaSummary = getAutofinishStatistikaSummary();
   // #909 — zdravlje summary
   const zdravljeSummary = getAutofinishHealthSummary();
+  // #913 — roadmap sekcija
+  const roadmapInfo = getAutofinishRoadmapInfo();
+  const roadmapStatus = getAutofinishRoadmapStatusSummary();
+  // #919 — next steps sekcija
+  const nextStepsInfo = getAutofinishNextSteps();
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
@@ -455,6 +465,115 @@ export default function AutofinishPage() {
               href="/api/autofinish-zdravlje"
               className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
               aria-label="Preuzmi zdravlje kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
+        </section>
+
+        {/* #913 — Roadmap sekcija */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish roadmap milestones"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-1">
+            <span aria-hidden="true">🗺️ </span>Roadmap
+          </h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Progres: <span className="text-white font-mono">{roadmapStatus.progres}%</span>
+            {' '}({roadmapStatus.done}/{roadmapStatus.ukupno} završeno)
+          </p>
+          <div className="overflow-x-auto" role="region" aria-label="Milestones tabla">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-gray-500 border-b border-gray-800">
+                  <th className="pb-2 pr-4 font-medium" scope="col">Naziv</th>
+                  <th className="pb-2 pr-4 font-medium hidden sm:table-cell" scope="col">Raspon</th>
+                  <th className="pb-2 font-medium" scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {roadmapInfo.milestones.map((m) => (
+                  <tr key={m.naziv} className="border-b border-gray-800 last:border-0">
+                    <td className="py-2 pr-4">
+                      <div className="text-white font-medium">{m.naziv}</div>
+                      <div className="text-gray-500 text-xs mt-0.5">{m.opis}</div>
+                    </td>
+                    <td className="py-2 pr-4 text-gray-400 font-mono text-xs hidden sm:table-cell">
+                      #{m.autofinishOd}–#{m.autofinishDo}
+                    </td>
+                    <td className="py-2">
+                      <span
+                        className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${
+                          m.status === 'done'
+                            ? 'bg-green-900 text-green-300'
+                            : m.status === 'active'
+                            ? 'bg-blue-900 text-blue-300'
+                            : 'bg-gray-800 text-gray-400'
+                        }`}
+                        aria-label={`Status: ${m.status}`}
+                      >
+                        {m.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-roadmap"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi roadmap kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
+        </section>
+
+        {/* #919 — Next Steps sekcija */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish naredni koraci"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">🚀 </span>Naredni koraci
+          </h2>
+          <ul className="space-y-3" role="list" aria-label="Lista narednih koraka">
+            {nextStepsInfo.steps.map((step) => (
+              <li
+                key={step.id}
+                className="flex items-start gap-3 bg-gray-800 rounded-lg px-4 py-3"
+              >
+                <span
+                  className={`mt-0.5 inline-block min-w-[1.5rem] text-center text-xs font-bold px-1.5 py-0.5 rounded ${
+                    step.prioritet === 1
+                      ? 'bg-red-900 text-red-300'
+                      : step.prioritet === 2
+                      ? 'bg-orange-900 text-orange-300'
+                      : 'bg-gray-700 text-gray-400'
+                  }`}
+                  aria-label={`Prioritet ${step.prioritet}`}
+                >
+                  P{step.prioritet}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white font-medium text-sm">{step.naziv}</div>
+                  <div className="text-gray-400 text-xs mt-0.5 truncate">{step.opis}</div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="text-xs text-gray-500 font-mono">#{step.autofinishTarget}</span>
+                    <span className="text-xs text-gray-600 bg-gray-700 rounded px-1.5 py-0.5">{step.kategorija}</span>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-next-steps"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi naredne korake kao JSON"
             >
               JSON API →
             </a>

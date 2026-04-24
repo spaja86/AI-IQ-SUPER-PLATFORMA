@@ -412,6 +412,26 @@
  *
  * Autofinish #910 (E2E Svih 9 Autofinish API Endpoints — konzistentnost verzija kroz svih 9 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1802→1804, APP_VERSION 44.30.0→44.31.0)
  *
+ * Autofinish #911 (getAutofinishRoadmapStatusSummary() Helper — ukupno milestona, done/active/pending, progres%, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1804→1806, APP_VERSION 44.31.0→44.32.0)
+ *
+ * Autofinish #912 (Unit Testovi getAutofinishRoadmapStatusSummary() — schema, progres 0–100, zbir==ukupno, konzistentnost sa roadmap, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1806→1808, APP_VERSION 44.32.0→44.33.0)
+ *
+ * Autofinish #913 (/autofinish Dashboard Roadmap Sekcija — milestones tabla, status badge, ARIA, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1808→1810, APP_VERSION 44.33.0→44.34.0)
+ *
+ * Autofinish #914 (Integracioni Testovi Dashboard Roadmap Sekcije — render milestones, status boja, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1810→1812, APP_VERSION 44.34.0→44.35.0)
+ *
+ * Autofinish #915 (getAutofinishNextSteps() Helper — 5 koraka, prioritet, kategorija, autofinishTarget, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1812→1814, APP_VERSION 44.35.0→44.36.0)
+ *
+ * Autofinish #916 (Unit Testovi getAutofinishNextSteps() — schema, prioriteti 1–5, kategorije, target>=AUTOFINISH_COUNT, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1814→1816, APP_VERSION 44.36.0→44.37.0)
+ *
+ * Autofinish #917 (GET /api/autofinish-next-steps — 5 koraka, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1816→1818, APP_VERSION 44.37.0→44.38.0)
+ *
+ * Autofinish #918 (Integracioni Testovi /api/autofinish-next-steps — schema, Cache-Control, steps, prioriteti, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1818→1820, APP_VERSION 44.38.0→44.39.0)
+ *
+ * Autofinish #919 (/autofinish Dashboard Next Steps Sekcija — 5 koraka, prioritet badge, kategorija, ARIA, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1820→1822, APP_VERSION 44.39.0→44.40.0)
+ *
+ * Autofinish #920 (E2E Svih 10 Autofinish API Endpoints — konzistentnost verzija kroz svih 10 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1822→1824, APP_VERSION 44.40.0→44.41.0)
+ *
  */
 
 import {
@@ -820,6 +840,16 @@ export function getAutofinishIteracijaOpis(br: number): string {
     908: 'Integracioni testovi /api/autofinish-roadmap',
     909: '/autofinish dashboard zdravlje summary sekcija',
     910: 'E2E svih 9 autofinish API endpoints',
+    911: 'getAutofinishRoadmapStatusSummary() helper',
+    912: 'Unit testovi getAutofinishRoadmapStatusSummary()',
+    913: '/autofinish dashboard roadmap sekcija',
+    914: 'Integracioni testovi dashboard roadmap sekcije',
+    915: 'getAutofinishNextSteps() helper',
+    916: 'Unit testovi getAutofinishNextSteps()',
+    917: 'GET /api/autofinish-next-steps',
+    918: 'Integracioni testovi /api/autofinish-next-steps',
+    919: '/autofinish dashboard next steps sekcija',
+    920: 'E2E svih 10 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1082,7 +1112,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '44.01.0', autofinishBroj: 880, opis: 'Progress info, podsistemi API, iteracija-opis API' },
   { verzija: '44.11.0', autofinishBroj: 890, opis: 'Audit report, verzije summary, cross-endpoint E2E' },
   { verzija: '44.21.0', autofinishBroj: 900, opis: 'Statistika summary, meta info, full E2E endpoints' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Zdravlje summary, roadmap info, 9-endpoint E2E' },
+  { verzija: '44.31.0', autofinishBroj: 910, opis: 'Zdravlje summary, roadmap info, 9-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Roadmap status summary, next steps, 10-endpoint E2E' },
 ];
 
 /**
@@ -1183,6 +1214,7 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-meta',
       '/api/autofinish-zdravlje',
       '/api/autofinish-roadmap',
+      '/api/autofinish-next-steps',
     ],
     timestamp: new Date().toISOString(),
   };
@@ -1227,6 +1259,133 @@ export function getAutofinishRoadmapInfo(): AutofinishRoadmapInfo {
     autofinishBroj: AUTOFINISH_COUNT,
     ukupnoMilestona: milestones.length,
     milestones,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishRoadmapStatusSummary() (#911) ───────────────────────────────
+
+export interface AutofinishRoadmapStatusSummary {
+  verzija: string;
+  autofinishBroj: number;
+  ukupno: number;
+  done: number;
+  active: number;
+  pending: number;
+  progres: number;
+  timestamp: string;
+}
+
+/**
+ * Vraća agregirani status roadmap-a — broj done/active/pending milestone-a i ukupni progres%.
+ * progres = Math.round((done / ukupno) * 100)
+ *
+ * @returns AutofinishRoadmapStatusSummary
+ */
+export function getAutofinishRoadmapStatusSummary(): AutofinishRoadmapStatusSummary {
+  const roadmap = getAutofinishRoadmapInfo();
+  const done = roadmap.milestones.filter((m) => m.status === 'done').length;
+  const active = roadmap.milestones.filter((m) => m.status === 'active').length;
+  const pending = roadmap.milestones.filter((m) => m.status === 'pending').length;
+  const ukupno = roadmap.milestones.length;
+  const progres = ukupno > 0 ? Math.round((done / ukupno) * 100) : 0;
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupno,
+    done,
+    active,
+    pending,
+    progres,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishNextSteps() (#915) ─────────────────────────────────────────
+
+export type AutofinishNextStepPrioritet = 1 | 2 | 3 | 4 | 5;
+export type AutofinishNextStepKategorija =
+  | 'helper'
+  | 'api'
+  | 'test'
+  | 'dashboard'
+  | 'e2e'
+  | 'refactor'
+  | 'dokumentacija';
+
+export interface AutofinishNextStep {
+  id: string;
+  naziv: string;
+  opis: string;
+  prioritet: AutofinishNextStepPrioritet;
+  kategorija: AutofinishNextStepKategorija;
+  autofinishTarget: number;
+}
+
+export interface AutofinishNextStepsResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoKoraka: number;
+  steps: AutofinishNextStep[];
+  timestamp: string;
+}
+
+/**
+ * Vraća narednih 5 planiranih koraka platforme sa prioritetom i kategorijom.
+ * prioritet: 1 (najviši) — 5 (najniži)
+ *
+ * @returns AutofinishNextStepsResult
+ */
+export function getAutofinishNextSteps(): AutofinishNextStepsResult {
+  const steps: AutofinishNextStep[] = [
+    {
+      id: 'next-step-921',
+      naziv: 'getAutofinishMilestoneDetail(id)',
+      opis: 'Helper koji vraća detalje jednog roadmap milestone-a po ID-u sa listom završenih iteracija unutar raspona',
+      prioritet: 1,
+      kategorija: 'helper',
+      autofinishTarget: AUTOFINISH_COUNT + 1,
+    },
+    {
+      id: 'next-step-923',
+      naziv: 'GET /api/autofinish-milestone/[id]',
+      opis: 'Dinamički endpoint koji vraća detalje jednog milestone-a — pogon za dashboard detalje',
+      prioritet: 1,
+      kategorija: 'api',
+      autofinishTarget: AUTOFINISH_COUNT + 3,
+    },
+    {
+      id: 'next-step-925',
+      naziv: 'Dashboard Milestone Detail Modal',
+      opis: 'Klik na milestone u roadmap tabeli otvara modal sa detaljima milestone-a i iteracijama',
+      prioritet: 2,
+      kategorija: 'dashboard',
+      autofinishTarget: AUTOFINISH_COUNT + 5,
+    },
+    {
+      id: 'next-step-927',
+      naziv: 'getAutofinishSystemReport()',
+      opis: 'Generalni sistemski izveštaj koji kombinuje zdravlje, roadmap, statistiku i next-steps u jedan objekat',
+      prioritet: 2,
+      kategorija: 'helper',
+      autofinishTarget: AUTOFINISH_COUNT + 7,
+    },
+    {
+      id: 'next-step-930',
+      naziv: 'GET /api/autofinish-system-report',
+      opis: 'Kompletni sistemski JSON izveštaj — health + roadmap + statistika + next-steps u jednom pozivu',
+      prioritet: 3,
+      kategorija: 'api',
+      autofinishTarget: AUTOFINISH_COUNT + 10,
+    },
+  ];
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoKoraka: steps.length,
+    steps,
     timestamp: new Date().toISOString(),
   };
 }
