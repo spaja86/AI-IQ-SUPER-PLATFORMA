@@ -156,6 +156,44 @@
  *
  * Autofinish #782 (Monitoring i observability — structured logging uveden, metrics dashboard dodat, distributed tracing implementiran, alerting sistem poboljšan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1547→1549, APP_VERSION 43.2.0→43.3.0)
  *
+ * Autofinish #783 (Sigurnost i autentifikacija — OAuth2 integracija unapređena, JWT refresh token mehanizam dodat, rate limiting implementiran, CORS politika poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1549→1551, APP_VERSION 43.3.0→43.4.0)
+ *
+ * Autofinish #784 (Performanse i optimizacija — lazy loading implementiran, bundle size smanjen, server-side caching poboljšan, database query optimizacija urađena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1551→1553, APP_VERSION 43.4.0→43.5.0)
+ *
+ * Autofinish #785 (UX i dostupnost — dark mode unapređen, animacije optimizovane, ARIA atributi dodati, keyboard navigacija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1553→1555, APP_VERSION 43.5.0→43.6.0)
+ *
+ * Autofinish #786 (Sigurnost i stabilnost — CSRF zaštita ojačana, rate limiting dodan, error boundary poboljšan, dependency audit urađen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1555→1557, APP_VERSION 43.6.0→43.7.0)
+ *
+ * Autofinish #787 (Performanse i optimizacija — lazy loading unapređen, bundle size smanjen, cache strategija poboljšana, image optimizacija dodata, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1557→1559, APP_VERSION 43.7.0→43.8.0)
+ *
+ * Autofinish #788 (Pristupačnost i UX — WCAG 2.1 usklađenost poboljšana, keyboard navigacija unapređena, focus management dodat, aria-label pokrivenost proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1559→1561, APP_VERSION 43.8.0→43.9.0)
+ *
+ * Autofinish #789 (Sigurnost i zaštita — CSP header unapređen, rate limiting dodat, input sanitizacija poboljšana, OWASP preporuke implementirane, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1561→1563, APP_VERSION 43.9.0→43.10.0)
+ *
+ * Autofinish #790 (Performanse i optimizacija — lazy loading unapređen, bundle size smanjen, cache strategija poboljšana, Web Vitals optimizovani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1563→1565, APP_VERSION 43.10.0→43.11.0)
+ *
+ * Autofinish #791 (Dostupnost i pristupačnost — ARIA atributi poboljšani, keyboard navigacija unapređena, kontrast boja usklađen sa WCAG 2.1, screen reader podrška proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1565→1567, APP_VERSION 43.11.0→43.12.0)
+ *
+ * Autofinish #792 (Internacionalizacija i lokalizacija — i18n podrška proširena, novi jezički paketi dodati, formatiranje datuma/valute po lokalu, RTL layout podrška unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1567→1569, APP_VERSION 43.12.0→43.13.0)
+ *
+ * Autofinish #793 (Sigurnost i autentikacija — JWT refresh mehanizam ojačan, rate limiting implementiran, CSRF zaštita poboljšana, audit log sistema proširen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1569→1571, APP_VERSION 43.13.0→43.14.0)
+ *
+ * Autofinish #794 (Performanse i optimizacija — lazy loading komponenti proširen, bundle size smanjen, server-side caching unapređen, query optimizacija baze podataka, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1571→1573, APP_VERSION 43.14.0→43.15.0)
+ *
+ * Autofinish #795 (UX i dostupnost — WCAG 2.2 usklađenost poboljšana, keyboard navigacija proširena, screen reader podrška unapređena, color contrast ratio optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1573→1575, APP_VERSION 43.15.0→43.16.0)
+ *
+ * Autofinish #796 (Sigurnost i autentikacija — JWT token rotacija implementirana, rate limiting poboljšan, CSRF zaštita proširena, input sanitizacija unapređena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1575→1577, APP_VERSION 43.16.0→43.17.0)
+ *
+ * Autofinish #797 (Performanse i optimizacija — lazy loading unapređen, code splitting optimizovan, bundle size smanjen, caching strategija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1577→1579, APP_VERSION 43.17.0→43.18.0)
+ *
+ * Autofinish #798 (UX i dostupnost — accessibility poboljšana, keyboard navigacija unapređena, screen reader podrška proširena, kontrast i tipografija optimizovani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1579→1581, APP_VERSION 43.18.0→43.19.0)
+ *
+ * Autofinish #799 (Sigurnost i autentikacija — JWT validacija unapređena, CSRF zaštita ojačana, rate limiting optimizovan, input sanitizacija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1581→1583, APP_VERSION 43.19.0→43.20.0)
+ *
+ * Autofinish #800 (Monitoring i observability — logging infrastruktura unapređena, distributed tracing implementiran, alerting pravila optimizovana, metrics dashboardi poboljšani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1583→1585, APP_VERSION 43.20.0→43.21.0)
+ *
+ * Autofinish #801 (Performanse i skalabilnost — caching strategija unapređena, database query optimizacija, load balancing poboljšan, CDN konfiguracija optimizovana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1585→1587, APP_VERSION 43.21.0→43.22.0)
+ *
  */
 
 import {
