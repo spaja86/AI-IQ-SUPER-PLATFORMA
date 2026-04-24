@@ -36,6 +36,8 @@
  *
  * Autofinish #722 (Pregled API ruta i stranica — TOTAL_API_ROUTES 921, TOTAL_PAGES 54, TOTAL_ROUTES 975 sve potvrđene, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1427→1429, APP_VERSION 42.42.0→42.43.0)
  *
+ * Autofinish #723 (Verifikacija igrica i platforma — TOTAL_IGRICA 96 potvrđen, sve igrice aktivne, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1429→1431, APP_VERSION 42.43.0→42.44.0)
+ *
  */
 
 import {

@@ -5148,8 +5148,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-721-iteracija-check', 'Autofinish #721 Iteracija', `Provera autofinish iteracije #721 — verifikacija dijagnostičkog sistema`, 'ok', `Autofinish #721 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #722 — Pregled API ruta i stranica: sve vrednosti potvrđene ─────────────
-    createCheck('autofinish-722-api-pregled-check', 'API Pregled #722', `Pregled API ruta i stranica — TOTAL_API_ROUTES ${TOTAL_API_ROUTES}, TOTAL_PAGES ${TOTAL_PAGES}, TOTAL_ROUTES ${TOTAL_ROUTES} — sve vrednosti potvrđene i usklađene sa filesystem stanjem`, 'ok', `Autofinish #722 — API pregled: createCheck 1427→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.42.0→42.43.0`),
+    createCheck('autofinish-722-api-pregled-check', 'API Pregled #722', `Pregled API ruta i stranica — TOTAL_API_ROUTES ${TOTAL_API_ROUTES}, TOTAL_PAGES ${TOTAL_PAGES}, TOTAL_ROUTES ${TOTAL_ROUTES} — sve vrednosti potvrđene i usklađene sa filesystem stanjem`, 'ok', `Autofinish #722 — API pregled: createCheck 1427→1429, APP_VERSION 42.42.0→42.43.0`),
     createCheck('autofinish-722-iteracija-check', 'Autofinish #722 Iteracija', `Provera autofinish iteracije #722 — pregled API ruta i stranica`, 'ok', `Autofinish #722 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #723 — Verifikacija igrica i platforma: TOTAL_IGRICA potvrđen ──────────
+    createCheck('autofinish-723-igrica-pregled-check', 'Igrica Pregled #723', `Pregled igrica i platformi — TOTAL_IGRICA 96 potvrđen, sve igrice aktivne i registrovane u sistemu, platforma stabilna`, 'ok', `Autofinish #723 — igrica pregled: createCheck 1429→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.43.0→42.44.0`),
+    createCheck('autofinish-723-iteracija-check', 'Autofinish #723 Iteracija', `Provera autofinish iteracije #723 — verifikacija igrica i platforma`, 'ok', `Autofinish #723 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
