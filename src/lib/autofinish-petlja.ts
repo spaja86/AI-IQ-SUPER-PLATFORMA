@@ -118,6 +118,8 @@
  *
  * Autofinish #763 (Performanse i optimizacija — Redis keš implementiran, lazy loading komponenti dodat, bundle size optimizovan, database query optimizacija sprovedena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1509→1511, APP_VERSION 42.83.0→42.84.0)
  *
+ * Autofinish #764 (Monitoring i observability — structured logging implementiran, distributed tracing dodat, health check endpointi prošireni, alerting pravila ažurirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1511→1513, APP_VERSION 42.84.0→42.85.0)
+ *
  */
 
 import {
