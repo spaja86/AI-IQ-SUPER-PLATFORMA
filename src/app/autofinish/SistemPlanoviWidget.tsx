@@ -20,7 +20,13 @@ const STATUS_EMOJI: Record<AutofinishPlanStatus, string> = {
   'odgođen': '⏸',
 };
 
-const PRIORITET_COLOR = ['', 'text-red-400', 'text-orange-400', 'text-yellow-400', 'text-blue-400', 'text-gray-400'];
+const PRIORITET_COLOR: Record<number, string> = {
+  1: 'text-red-400',
+  2: 'text-orange-400',
+  3: 'text-yellow-400',
+  4: 'text-blue-400',
+  5: 'text-gray-400',
+};
 
 export function SistemPlanoviWidget({ planovi }: Props) {
   const sorted = [...planovi.planovi].sort((a, b) => a.prioritet - b.prioritet);

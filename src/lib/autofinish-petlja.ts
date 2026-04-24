@@ -3664,6 +3664,8 @@ export interface AutofinishRetrospektivaResult {
  *
  * @returns AutofinishRetrospektivaResult
  */
+const SPRINT_5_START = 997;
+
 export function getAutofinishRetrospektiva(): AutofinishRetrospektivaResult {
   const sprintovi: AutofinishSprint[] = [
     {
@@ -3706,7 +3708,7 @@ export function getAutofinishRetrospektiva(): AutofinishRetrospektivaResult {
       brzina: 147,
     },
     {
-      sprintId: 'sprint-5', naziv: 'Sprint 5: Finalizacija (#998-#1031)', odBroj: 998, doBroj: AUTOFINISH_COUNT,
+      sprintId: 'sprint-5', naziv: 'Sprint 5: Finalizacija (#998-#1031)', odBroj: SPRINT_5_START + 1, doBroj: AUTOFINISH_COUNT,
       dobro: ['Health Score sistem', 'Export funkcionalan', 'Kompletiranje matrica', 'Tag sistem i KPI'],
       loshe: ['Još uvijek nedostaje real-time monitoring', 'Integracija sa eksternim sistemima'],
       akcije: [
@@ -3714,7 +3716,7 @@ export function getAutofinishRetrospektiva(): AutofinishRetrospektivaResult {
         { akcija: 'Integrisati sa Grafana', vlasnik: 'DevOps', prioritet: 2 },
         { akcija: 'Dodati alerting sistem', vlasnik: 'DevOps', prioritet: 2 },
       ],
-      brzina: AUTOFINISH_COUNT - 997,
+      brzina: AUTOFINISH_COUNT - SPRINT_5_START,
     },
   ];
 

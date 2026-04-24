@@ -13,6 +13,9 @@ const KATEGORIJA_COLOR: Record<string, string> = {
   'akcija': 'bg-orange-900/50 text-orange-300 border-orange-700',
 };
 
+const MIN_FONT_SIZE = 11;
+const FONT_SIZE_RANGE = 8;
+
 export function TagSystemWidget({ tagSystem }: Props) {
   const [filter, setFilter] = useState<string>('svi');
   const kategorije = ['svi', ...Array.from(new Set(tagSystem.tagovi.map((t) => t.kategorija)))];
@@ -30,7 +33,7 @@ export function TagSystemWidget({ tagSystem }: Props) {
       </div>
       <ul className="flex flex-wrap gap-2" role="list" aria-label="Tagovi">
         {filtered.map((t) => {
-          const fontSize = 11 + Math.round((t.frekventnost / maxFreq) * 8);
+          const fontSize = MIN_FONT_SIZE + Math.round((t.frekventnost / maxFreq) * FONT_SIZE_RANGE);
           const cls = KATEGORIJA_COLOR[t.kategorija] ?? 'bg-gray-800 text-gray-300 border-gray-700';
           return (
             <li key={t.tag} title={`${t.frekventnost} iteracija — ${t.kategorija}`}>
