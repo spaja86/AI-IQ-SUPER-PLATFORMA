@@ -1,6 +1,7 @@
 // Autofinish #858 — X-Request-Id Middleware Test Coverage
 // Autofinish #859 — Integracioni Testovi Middleware-a
 // Autofinish #860 — E2E Snapshot /api/autofinish JSON Schema
+// Updated through Autofinish #880 — globalni invarijanti ažurirani
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Testovi pokrivaju:
