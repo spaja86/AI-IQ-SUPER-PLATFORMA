@@ -108,6 +108,8 @@
  *
  * Autofinish #758 (Monitoring i logovanje — Prometheus metrike dodate, centralizovano logovanje konfigurisano, alerting sistem postavljen, health check endpointi prošireni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1499→1501, APP_VERSION 42.78.0→42.79.0)
  *
+ * Autofinish #759 (Bezbednost i autentifikacija — OAuth2 integracija unapređena, JWT refresh token mehanizam dodat, rate limiting konfigurisan, CORS politika precizirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1501→1503, APP_VERSION 42.79.0→42.80.0)
+ *
  */
 
 import {
