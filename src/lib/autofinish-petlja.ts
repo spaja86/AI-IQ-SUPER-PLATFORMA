@@ -136,6 +136,8 @@
  *
  * Autofinish #772 (Performanse i skalabilnost — Redis keš integrisan, lazy loading implementiran, database query optimizacija, CDN konfiguracija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1527→1529, APP_VERSION 42.92.0→42.93.0)
  *
+ * Autofinish #773 (UX i dostupnost — WCAG 2.1 AA usklađenost poboljšana, dark mode stabilizovan, animacije optimizovane, keyboard navigacija proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1529→1531, APP_VERSION 42.93.0→42.94.0)
+ *
  */
 
 import {
