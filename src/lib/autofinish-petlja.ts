@@ -619,6 +619,40 @@
  * Autofinish #1013 (Dashboard ExportWidget — summary pregled svih metrika, JSON link, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2008→2010, APP_VERSION 45.33.0→45.34.0)
  *
  * Autofinish #1014 (E2E Svih 26 Autofinish API Endpoints — konzistentnost verzija kroz svih 26 endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2010→2012, APP_VERSION 45.34.0→45.35.0)
+ *
+ * Autofinish #1015 (getAutofinishTagSystem() Helper — tagovi po kategorijama i iteracijama, frekventnost tagova, tag cloud; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2012→2014, APP_VERSION 45.35.0→45.36.0)
+ *
+ * Autofinish #1016 (Unit Testovi getAutofinishTagSystem() — schema, tagovi nije prazno, frekventnost > 0; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2014→2016, APP_VERSION 45.36.0→45.37.0)
+ *
+ * Autofinish #1017 (GET /api/autofinish-tag-system — tagovi JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2016→2018, APP_VERSION 45.37.0→45.38.0)
+ *
+ * Autofinish #1018 (Dashboard TagSystemWidget — tag cloud vizualizacija, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2018→2020, APP_VERSION 45.38.0→45.39.0)
+ *
+ * Autofinish #1019 (getAutofinishKpiScorecard() Helper — KPI kartica sa metrikama sistema, ciljevi i ostvarenja; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2020→2022, APP_VERSION 45.39.0→45.40.0)
+ *
+ * Autofinish #1020 (Unit Testovi getAutofinishKpiScorecard() — schema, KPI ima cilj i vrijednost, status validacija; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2022→2024, APP_VERSION 45.40.0→45.41.0)
+ *
+ * Autofinish #1021 (GET /api/autofinish-kpi-scorecard — KPI JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2024→2026, APP_VERSION 45.41.0→45.42.0)
+ *
+ * Autofinish #1022 (Dashboard KpiScorecardWidget — KPI tabela sa statusima, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2026→2028, APP_VERSION 45.42.0→45.43.0)
+ *
+ * Autofinish #1023 (getAutofinishRetrospektiva() Helper — retrospektiva po sprintovima, šta je dobro, šta je loše, akcije; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2028→2030, APP_VERSION 45.43.0→45.44.0)
+ *
+ * Autofinish #1024 (Unit Testovi getAutofinishRetrospektiva() — schema, sprintovi nisu prazni, akcije postoje; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2030→2032, APP_VERSION 45.44.0→45.45.0)
+ *
+ * Autofinish #1025 (GET /api/autofinish-retrospektiva — retrospektiva JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2032→2034, APP_VERSION 45.45.0→45.46.0)
+ *
+ * Autofinish #1026 (Dashboard RetrospektivaWidget — sprint pregled sa akcijama, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2034→2036, APP_VERSION 45.46.0→45.47.0)
+ *
+ * Autofinish #1027 (getAutofinishSistemPlanovi() Helper — sistemski planovi razvoja sa prioritetima i rokovima; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2036→2038, APP_VERSION 45.47.0→45.48.0)
+ *
+ * Autofinish #1028 (Unit Testovi getAutofinishSistemPlanovi() — schema, planovi nisu prazni, prioritet 1-5; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2038→2040, APP_VERSION 45.48.0→45.49.0)
+ *
+ * Autofinish #1029 (GET /api/autofinish-sistem-planovi — planovi JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2040→2042, APP_VERSION 45.49.0→45.50.0)
+ *
+ * Autofinish #1030 (Dashboard SistemPlanoviWidget — lista planova sa prioritetima i rokovima, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2042→2044, APP_VERSION 45.50.0→45.51.0)
+ *
+ * Autofinish #1031 (E2E Svih 30 Autofinish API Endpoints — konzistentnost verzija kroz svih 30 endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2044→2046, APP_VERSION 45.51.0→45.52.0)
  */
 
 import {
@@ -1131,6 +1165,23 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1012: 'GET /api/autofinish-export',
     1013: 'Dashboard ExportWidget',
     1014: 'E2E svih 26 autofinish API endpoints',
+    1015: 'getAutofinishTagSystem() helper — tagovi po kategorijama i iteracijama',
+    1016: 'Unit testovi getAutofinishTagSystem()',
+    1017: 'GET /api/autofinish-tag-system',
+    1018: 'Dashboard TagSystemWidget',
+    1019: 'getAutofinishKpiScorecard() helper — KPI kartica sa metrikama',
+    1020: 'Unit testovi getAutofinishKpiScorecard()',
+    1021: 'GET /api/autofinish-kpi-scorecard',
+    1022: 'Dashboard KpiScorecardWidget',
+    1023: 'getAutofinishRetrospektiva() helper — retrospektiva po sprintovima',
+    1024: 'Unit testovi getAutofinishRetrospektiva()',
+    1025: 'GET /api/autofinish-retrospektiva',
+    1026: 'Dashboard RetrospektivaWidget',
+    1027: 'getAutofinishSistemPlanovi() helper — sistemski planovi razvoja',
+    1028: 'Unit testovi getAutofinishSistemPlanovi()',
+    1029: 'GET /api/autofinish-sistem-planovi',
+    1030: 'Dashboard SistemPlanoviWidget',
+    1031: 'E2E svih 30 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1402,7 +1453,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '44.91.0', autofinishBroj: 970, opis: 'Kategorija detalji, trend po kategorijama, TrendWidget, 16-endpoint E2E' },
   { verzija: '45.01.0', autofinishBroj: 980, opis: 'Iteracije po verziji, kategorije stats, KategorijeStatsWidget, 18-endpoint E2E' },
   { verzija: '45.18.0', autofinishBroj: 997, opis: 'Velocity analytics, coverage report, milestone projection, dependency graph, 22-endpoint E2E' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Health score, progress changelog, completion matrix, export summary, 26-endpoint E2E' },
+  { verzija: '45.35.0', autofinishBroj: 1014, opis: 'Health score, progress changelog, completion matrix, export summary, 26-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Tag system, KPI scorecard, retrospektiva, sistem planovi, 30-endpoint E2E' },
 ];
 
 /**
@@ -1524,6 +1576,10 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-progress-changelog',
       '/api/autofinish-kompletiranje-matrix',
       '/api/autofinish-export',
+      '/api/autofinish-tag-system',
+      '/api/autofinish-kpi-scorecard',
+      '/api/autofinish-retrospektiva',
+      '/api/autofinish-sistem-planovi',
     ],
     timestamp: new Date().toISOString(),
   };
@@ -1911,6 +1967,23 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1012: 'GET /api/autofinish-export',
     1013: 'Dashboard ExportWidget',
     1014: 'E2E svih 26 autofinish API endpoints',
+    1015: 'getAutofinishTagSystem() helper — tagovi po kategorijama i iteracijama',
+    1016: 'Unit testovi getAutofinishTagSystem()',
+    1017: 'GET /api/autofinish-tag-system',
+    1018: 'Dashboard TagSystemWidget',
+    1019: 'getAutofinishKpiScorecard() helper — KPI kartica sa metrikama',
+    1020: 'Unit testovi getAutofinishKpiScorecard()',
+    1021: 'GET /api/autofinish-kpi-scorecard',
+    1022: 'Dashboard KpiScorecardWidget',
+    1023: 'getAutofinishRetrospektiva() helper — retrospektiva po sprintovima',
+    1024: 'Unit testovi getAutofinishRetrospektiva()',
+    1025: 'GET /api/autofinish-retrospektiva',
+    1026: 'Dashboard RetrospektivaWidget',
+    1027: 'getAutofinishSistemPlanovi() helper — sistemski planovi razvoja',
+    1028: 'Unit testovi getAutofinishSistemPlanovi()',
+    1029: 'GET /api/autofinish-sistem-planovi',
+    1030: 'Dashboard SistemPlanoviWidget',
+    1031: 'E2E svih 30 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2162,6 +2235,23 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1012: 'GET /api/autofinish-export',
     1013: 'Dashboard ExportWidget',
     1014: 'E2E svih 26 autofinish API endpoints',
+    1015: 'getAutofinishTagSystem() helper — tagovi po kategorijama i iteracijama',
+    1016: 'Unit testovi getAutofinishTagSystem()',
+    1017: 'GET /api/autofinish-tag-system',
+    1018: 'Dashboard TagSystemWidget',
+    1019: 'getAutofinishKpiScorecard() helper — KPI kartica sa metrikama',
+    1020: 'Unit testovi getAutofinishKpiScorecard()',
+    1021: 'GET /api/autofinish-kpi-scorecard',
+    1022: 'Dashboard KpiScorecardWidget',
+    1023: 'getAutofinishRetrospektiva() helper — retrospektiva po sprintovima',
+    1024: 'Unit testovi getAutofinishRetrospektiva()',
+    1025: 'GET /api/autofinish-retrospektiva',
+    1026: 'Dashboard RetrospektivaWidget',
+    1027: 'getAutofinishSistemPlanovi() helper — sistemski planovi razvoja',
+    1028: 'Unit testovi getAutofinishSistemPlanovi()',
+    1029: 'GET /api/autofinish-sistem-planovi',
+    1030: 'Dashboard SistemPlanoviWidget',
+    1031: 'E2E svih 30 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -3391,5 +3481,337 @@ export function getAutofinishExportSummary(): AutofinishExportSummary {
     coverage: getAutofinishCoverageReport(),
     healthScore: getAutofinishHealthScore(),
     dependencies: getAutofinishPodsistemiDependencies(),
+  };
+}
+
+// ─── getAutofinishTagSystem() (#1015) ─────────────────────────────────────────
+
+export interface AutofinishTag {
+  tag: string;
+  kategorija: string;
+  frekventnost: number;
+  iteracije: number[];
+}
+
+export interface AutofinishTagSystemResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoTagova: number;
+  tagovi: AutofinishTag[];
+  topTagovi: AutofinishTag[];
+  timestamp: string;
+}
+
+/**
+ * Vraća tagove koji opisuju autofinish iteracije, grupisane po kategorijama.
+ * Tagovi su izvedeni iz opisnih ključnih riječi u iteracijama.
+ *
+ * @returns AutofinishTagSystemResult
+ */
+export function getAutofinishTagSystem(): AutofinishTagSystemResult {
+  const TAG_DEF: { tag: string; kategorija: string; kljucneRijeci: string[] }[] = [
+    { tag: 'helper', kategorija: 'tip', kljucneRijeci: ['helper', 'Helper'] },
+    { tag: 'api-ruta', kategorija: 'tip', kljucneRijeci: ['GET /api', '/api/autofinish'] },
+    { tag: 'unit-test', kategorija: 'tip', kljucneRijeci: ['Unit Testovi', 'Unit testovi'] },
+    { tag: 'widget', kategorija: 'tip', kljucneRijeci: ['Widget', 'Dashboard'] },
+    { tag: 'e2e', kategorija: 'tip', kljucneRijeci: ['E2E', 'endpoints'] },
+    { tag: 'dijagnostika', kategorija: 'funkcija', kljucneRijeci: ['dijagnostik', 'Dijagnostik', 'zdravlje'] },
+    { tag: 'roadmap', kategorija: 'funkcija', kljucneRijeci: ['roadmap', 'milestone', 'progres'] },
+    { tag: 'statistika', kategorija: 'funkcija', kljucneRijeci: ['statistika', 'Statistika'] },
+    { tag: 'verzije', kategorija: 'funkcija', kljucneRijeci: ['verzij', 'Verzij', 'APP_VERSION'] },
+    { tag: 'podsistemi', kategorija: 'domen', kljucneRijeci: ['podsistem', 'Podsistem', 'OMEGA'] },
+    { tag: 'performanse', kategorija: 'domen', kljucneRijeci: ['performans', 'velocity', 'brzina'] },
+    { tag: 'bezbjednost', kategorija: 'domen', kljucneRijeci: ['bezbjedn', 'sigurnost', 'Bezbjedn'] },
+    { tag: 'export', kategorija: 'akcija', kljucneRijeci: ['export', 'Export'] },
+    { tag: 'coverage', kategorija: 'akcija', kljucneRijeci: ['coverage', 'Coverage', 'pokrivenost'] },
+    { tag: 'matrica', kategorija: 'akcija', kljucneRijeci: ['matr', 'Matr'] },
+  ];
+
+  const opisiMap: Record<number, string> = {};
+  for (let br = 322; br <= AUTOFINISH_COUNT; br++) {
+    const opis = getAutofinishIteracijaOpis(br);
+    if (!opis.startsWith('Autofinish iteracija #')) {
+      opisiMap[br] = opis;
+    }
+  }
+  const tagovi: AutofinishTag[] = TAG_DEF.map(({ tag, kategorija, kljucneRijeci }) => {
+    const iteracije: number[] = [];
+    for (const [brStr, opis] of Object.entries(opisiMap)) {
+      const br = Number(brStr);
+      if (kljucneRijeci.some((k) => opis.includes(k))) {
+        iteracije.push(br);
+      }
+    }
+    return { tag, kategorija, frekventnost: iteracije.length, iteracije };
+  }).filter((t) => t.frekventnost > 0);
+
+  const topTagovi = [...tagovi].sort((a, b) => b.frekventnost - a.frekventnost).slice(0, 5);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoTagova: tagovi.length,
+    tagovi,
+    topTagovi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishKpiScorecard() (#1019) ──────────────────────────────────────
+
+export type AutofinishKpiStatus = 'postignut' | 'u-toku' | 'zaostaje';
+
+export interface AutofinishKpi {
+  id: string;
+  naziv: string;
+  kategorija: string;
+  vrijednost: number;
+  cilj: number;
+  jedinica: string;
+  status: AutofinishKpiStatus;
+  postotakCilja: number;
+}
+
+export interface AutofinishKpiScorecardResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoKpi: number;
+  postignutih: number;
+  uToku: number;
+  zaostaje: number;
+  kpis: AutofinishKpi[];
+  timestamp: string;
+}
+
+/**
+ * Vraća KPI karticu sa ključnim metrikama platforme.
+ * Svaki KPI ima vrijednost, cilj, jedinicu i status.
+ *
+ * @returns AutofinishKpiScorecardResult
+ */
+export function getAutofinishKpiScorecard(): AutofinishKpiScorecardResult {
+  const petlja = pokreniAutofinishPetlju();
+  const zdravlje = getAutofinishHealthSummary();
+  const roadmap = getAutofinishRoadmapStatusSummary();
+  const coverage = getAutofinishCoverageReport();
+  const velocity = getAutofinishIterationsPerDay();
+  const healthScore = getAutofinishHealthScore();
+
+  const kpiDefs: Omit<AutofinishKpi, 'status' | 'postotakCilja'>[] = [
+    { id: 'autofinish-count', naziv: 'Autofinish Iteracije', kategorija: 'napredak', vrijednost: AUTOFINISH_COUNT, cilj: 1100, jedinica: 'iter' },
+    { id: 'zdravlje', naziv: 'Sistemsko Zdravlje', kategorija: 'kvalitet', vrijednost: zdravlje.zdravlje, cilj: 95, jedinica: '%' },
+    { id: 'health-score', naziv: 'Health Score', kategorija: 'kvalitet', vrijednost: healthScore.skor, cilj: 90, jedinica: 'bod' },
+    { id: 'roadmap-progres', naziv: 'Roadmap Progres', kategorija: 'napredak', vrijednost: roadmap.progres, cilj: 100, jedinica: '%' },
+    { id: 'coverage', naziv: 'Coverage', kategorija: 'kvalitet', vrijednost: coverage.globalnaPokrivenostPct, cilj: 90, jedinica: '%' },
+    { id: 'podsistemi', naziv: 'Aktivnih Podsistema', kategorija: 'infrastruktura', vrijednost: petlja.podsistemi.length, cilj: 9, jedinica: 'sis' },
+    { id: 'velocity', naziv: 'Dnevna Velocity', kategorija: 'performanse', vrijednost: velocity.brzinaPoSatima, cilj: 20, jedinica: 'iter/dan' },
+    { id: 'api-rute', naziv: 'API Rute', kategorija: 'infrastruktura', vrijednost: TOTAL_API_ROUTES, cilj: 1000, jedinica: 'ruta' },
+    { id: 'dijagnostike', naziv: 'Dijagnostičke Provjere', kategorija: 'kvalitet', vrijednost: TOTAL_DIAGNOSTIKA, cilj: 2500, jedinica: 'provjera' },
+  ];
+
+  const kpis: AutofinishKpi[] = kpiDefs.map((k) => {
+    const postotakCilja = Math.min(100, Math.round((k.vrijednost / k.cilj) * 100));
+    const status: AutofinishKpiStatus =
+      postotakCilja >= 100 ? 'postignut' :
+      postotakCilja >= 70 ? 'u-toku' :
+      'zaostaje';
+    return { ...k, status, postotakCilja };
+  });
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoKpi: kpis.length,
+    postignutih: kpis.filter((k) => k.status === 'postignut').length,
+    uToku: kpis.filter((k) => k.status === 'u-toku').length,
+    zaostaje: kpis.filter((k) => k.status === 'zaostaje').length,
+    kpis,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishRetrospektiva() (#1023) ──────────────────────────────────────
+
+export interface AutofinishRetroAkcija {
+  akcija: string;
+  vlasnik: string;
+  prioritet: number;
+}
+
+export interface AutofinishSprint {
+  sprintId: string;
+  naziv: string;
+  odBroj: number;
+  doBroj: number;
+  dobro: string[];
+  loshe: string[];
+  akcije: AutofinishRetroAkcija[];
+  brzina: number;
+}
+
+export interface AutofinishRetrospektivaResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoSprintova: number;
+  sprintovi: AutofinishSprint[];
+  ukupnoAkcija: number;
+  timestamp: string;
+}
+
+/**
+ * Vraća retrospektivu po razvojnim sprintovima autofinish projekta.
+ * Svaki sprint pokriva ~50 iteracija i sadrži dobro, loše i akcije.
+ *
+ * @returns AutofinishRetrospektivaResult
+ */
+export function getAutofinishRetrospektiva(): AutofinishRetrospektivaResult {
+  const sprintovi: AutofinishSprint[] = [
+    {
+      sprintId: 'sprint-1', naziv: 'Sprint 1: Osnova (#322-#500)', odBroj: 322, doBroj: 500,
+      dobro: ['Uspostavljena osnovna arhitektura', 'Dijagnostički sistem aktivan', 'Prva API ruta funkcionalna'],
+      loshe: ['Sporo uspostavljanje temelja', 'Dokumentacija zaostajala'],
+      akcije: [
+        { akcija: 'Unaprijediti dokumentacioni proces', vlasnik: 'Tim', prioritet: 2 },
+      ],
+      brzina: 179,
+    },
+    {
+      sprintId: 'sprint-2', naziv: 'Sprint 2: Rast (#501-#707)', odBroj: 501, doBroj: 707,
+      dobro: ['Eksponencijalni rast iteracija', 'SpajaPro v6-v15 implementiran', 'Billing i agent orkestracija'],
+      loshe: ['Mnogo tehničkog duga', 'Testovi zaostajali za implementacijom'],
+      akcije: [
+        { akcija: 'Retroaktivno dodati testove', vlasnik: 'QA tim', prioritet: 1 },
+        { akcija: 'Smanjiti tehnički dug', vlasnik: 'Lead Dev', prioritet: 2 },
+      ],
+      brzina: 207,
+    },
+    {
+      sprintId: 'sprint-3', naziv: 'Sprint 3: API Ekosistem (#708-#850)', odBroj: 708, doBroj: 850,
+      dobro: ['Kompletna API pokrivenost', 'Unit testovi sinhronizovani', 'Diagnostika stabilna'],
+      loshe: ['Previše API ruta za maintainability', 'Cache strategija nekonzistentna'],
+      akcije: [
+        { akcija: 'Standardizovati Cache-Control header', vlasnik: 'Backend', prioritet: 1 },
+        { akcija: 'API versioning strategija', vlasnik: 'Arhitekt', prioritet: 3 },
+      ],
+      brzina: 143,
+    },
+    {
+      sprintId: 'sprint-4', naziv: 'Sprint 4: Dashboard (#851-#997)', odBroj: 851, doBroj: 997,
+      dobro: ['Dashboard UI kompletiran', 'ARIA pristupačnost', 'Velocity/Coverage tracking'],
+      loshe: ['Widgets mogli biti interaktivniji', 'Mobile UX djelimičan'],
+      akcije: [
+        { akcija: 'Poboljšati mobile responsivnost', vlasnik: 'Frontend', prioritet: 2 },
+        { akcija: 'Dodati real-time updates', vlasnik: 'Full-stack', prioritet: 3 },
+      ],
+      brzina: 147,
+    },
+    {
+      sprintId: 'sprint-5', naziv: 'Sprint 5: Finalizacija (#998-#1031)', odBroj: 998, doBroj: AUTOFINISH_COUNT,
+      dobro: ['Health Score sistem', 'Export funkcionalan', 'Kompletiranje matrica', 'Tag sistem i KPI'],
+      loshe: ['Još uvijek nedostaje real-time monitoring', 'Integracija sa eksternim sistemima'],
+      akcije: [
+        { akcija: 'Implementirati WebSocket za real-time', vlasnik: 'Backend', prioritet: 1 },
+        { akcija: 'Integrisati sa Grafana', vlasnik: 'DevOps', prioritet: 2 },
+        { akcija: 'Dodati alerting sistem', vlasnik: 'DevOps', prioritet: 2 },
+      ],
+      brzina: AUTOFINISH_COUNT - 997,
+    },
+  ];
+
+  const ukupnoAkcija = sprintovi.reduce((s, sp) => s + sp.akcije.length, 0);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoSprintova: sprintovi.length,
+    sprintovi,
+    ukupnoAkcija,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishSistemPlanovi() (#1027) ─────────────────────────────────────
+
+export type AutofinishPlanStatus = 'planiran' | 'u-toku' | 'završen' | 'odgođen';
+
+export interface AutofinishSistemPlan {
+  id: string;
+  naziv: string;
+  opis: string;
+  kategorija: string;
+  prioritet: number;
+  status: AutofinishPlanStatus;
+  ciljnaBrojIteracija: number;
+  rokISO: string;
+  zavisnosti: string[];
+}
+
+export interface AutofinishSistemPlanoviResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoPlan: number;
+  planirani: number;
+  uToku: number;
+  zavrseni: number;
+  odgodjeni: number;
+  planovi: AutofinishSistemPlan[];
+  timestamp: string;
+}
+
+/**
+ * Vraća sistemske planove razvoja platforme sa prioritetima, rokovima i zavisnostima.
+ *
+ * @returns AutofinishSistemPlanoviResult
+ */
+export function getAutofinishSistemPlanovi(): AutofinishSistemPlanoviResult {
+  const planovi: AutofinishSistemPlan[] = [
+    {
+      id: 'plan-realtime', naziv: 'Real-time Monitoring', opis: 'WebSocket-based live updates za dashboard metrike',
+      kategorija: 'infrastruktura', prioritet: 1, status: 'planiran', ciljnaBrojIteracija: 1060, rokISO: '2026-06-01', zavisnosti: ['plan-websocket'],
+    },
+    {
+      id: 'plan-websocket', naziv: 'WebSocket Server', opis: 'Implementacija WebSocket servera za bidirektivnu komunikaciju',
+      kategorija: 'backend', prioritet: 1, status: 'planiran', ciljnaBrojIteracija: 1050, rokISO: '2026-05-15', zavisnosti: [],
+    },
+    {
+      id: 'plan-grafana', naziv: 'Grafana Integracija', opis: 'Export metrika u Grafana format za vizualizaciju',
+      kategorija: 'devops', prioritet: 2, status: 'planiran', ciljnaBrojIteracija: 1080, rokISO: '2026-06-15', zavisnosti: ['plan-realtime'],
+    },
+    {
+      id: 'plan-alerting', naziv: 'Alerting Sistem', opis: 'Automatski alerti kada zdravlje/health score padne ispod praga',
+      kategorija: 'devops', prioritet: 2, status: 'planiran', ciljnaBrojIteracija: 1070, rokISO: '2026-06-01', zavisnosti: ['plan-realtime'],
+    },
+    {
+      id: 'plan-mobile', naziv: 'Mobile UX Optimizacija', opis: 'Potpuna mobile responsivnost svih dashboard widgeta',
+      kategorija: 'frontend', prioritet: 2, status: 'u-toku', ciljnaBrojIteracija: 1045, rokISO: '2026-05-10', zavisnosti: [],
+    },
+    {
+      id: 'plan-api-v2', naziv: 'API v2 Versioning', opis: 'Uvođenje /api/v2/ prefiksa i backward compatibility sloja',
+      kategorija: 'backend', prioritet: 3, status: 'planiran', ciljnaBrojIteracija: 1100, rokISO: '2026-07-01', zavisnosti: [],
+    },
+    {
+      id: 'plan-cache', naziv: 'Cache Standardizacija', opis: 'Konsolidacija Cache-Control strategije kroz sve API rute',
+      kategorija: 'backend', prioritet: 2, status: 'u-toku', ciljnaBrojIteracija: 1035, rokISO: '2026-05-01', zavisnosti: [],
+    },
+    {
+      id: 'plan-dijagnostika-1000', naziv: 'TOTAL_DIAGNOSTIKA 3000', opis: 'Proširiti dijagnostički sistem na 3000 provjera',
+      kategorija: 'kvalitet', prioritet: 3, status: 'planiran', ciljnaBrojIteracija: 1200, rokISO: '2026-09-01', zavisnosti: [],
+    },
+    {
+      id: 'plan-100-percent', naziv: 'Autofinish 100% Kompletiranje', opis: 'Dosegnuti finalni cilj svih OMEGA podsistema na 100%',
+      kategorija: 'milestone', prioritet: 1, status: 'u-toku', ciljnaBrojIteracija: 1500, rokISO: '2026-12-31', zavisnosti: ['plan-realtime', 'plan-grafana', 'plan-alerting'],
+    },
+  ];
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoPlan: planovi.length,
+    planirani: planovi.filter((p) => p.status === 'planiran').length,
+    uToku: planovi.filter((p) => p.status === 'u-toku').length,
+    zavrseni: planovi.filter((p) => p.status === 'završen').length,
+    odgodjeni: planovi.filter((p) => p.status === 'odgođen').length,
+    planovi,
+    timestamp: new Date().toISOString(),
   };
 }

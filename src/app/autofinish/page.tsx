@@ -42,6 +42,10 @@ import {
   getAutofinishProgressChangelog,
   getAutofinishKompletiranjMatrix,
   getAutofinishExportSummary,
+  getAutofinishTagSystem,
+  getAutofinishKpiScorecard,
+  getAutofinishRetrospektiva,
+  getAutofinishSistemPlanovi,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -63,6 +67,10 @@ import { HealthScoreWidget } from './HealthScoreWidget';
 import { ProgressChangelogWidget } from './ProgressChangelogWidget';
 import { KompletiranjMatrixWidget } from './KompletiranjMatrixWidget';
 import { ExportWidget } from './ExportWidget';
+import { TagSystemWidget } from './TagSystemWidget';
+import { KpiScorecardWidget } from './KpiScorecardWidget';
+import { RetrospektivaWidget } from './RetrospektivaWidget';
+import { SistemPlanoviWidget } from './SistemPlanoviWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -122,6 +130,12 @@ export default function AutofinishPage() {
   const progressChangelog = getAutofinishProgressChangelog();
   const kompletiranjMatrix = getAutofinishKompletiranjMatrix();
   const exportData = getAutofinishExportSummary();
+
+  // #1015-#1031 — Tag System, KPI Scorecard, Retrospektiva, Sistem Planovi
+  const tagSystem = getAutofinishTagSystem();
+  const kpiScorecard = getAutofinishKpiScorecard();
+  const retrospektiva = getAutofinishRetrospektiva();
+  const sistemPlanovi = getAutofinishSistemPlanovi();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -696,6 +710,18 @@ export default function AutofinishPage() {
 
         {/* #1013 — Export Widget */}
         <ExportWidget exportData={exportData} />
+
+        {/* #1018 — Tag System Widget */}
+        <TagSystemWidget tagSystem={tagSystem} />
+
+        {/* #1022 — KPI Scorecard Widget */}
+        <KpiScorecardWidget scorecard={kpiScorecard} />
+
+        {/* #1026 — Retrospektiva Widget */}
+        <RetrospektivaWidget retrospektiva={retrospektiva} />
+
+        {/* #1030 — Sistem Planovi Widget */}
+        <SistemPlanoviWidget planovi={sistemPlanovi} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
