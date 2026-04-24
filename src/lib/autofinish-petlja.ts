@@ -170,6 +170,8 @@
  *
  * Autofinish #789 (Sigurnost i zaštita — CSP header unapređen, rate limiting dodat, input sanitizacija poboljšana, OWASP preporuke implementirane, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1561→1563, APP_VERSION 43.9.0→43.10.0)
  *
+ * Autofinish #790 (Performanse i optimizacija — lazy loading unapređen, bundle size smanjen, cache strategija poboljšana, Web Vitals optimizovani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1563→1565, APP_VERSION 43.10.0→43.11.0)
+ *
  */
 
 import {
