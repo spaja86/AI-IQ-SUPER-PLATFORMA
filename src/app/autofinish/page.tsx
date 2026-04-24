@@ -4,6 +4,7 @@
 // Autofinish #855 — Changelog Sekcija
 // Autofinish #864 — Ekosistem Snapshot Sekcija
 // Autofinish #874 — Progress Info Widget
+// Autofinish #889 — Verzije Summary Sekcija
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -12,6 +13,7 @@ import {
   getLastNIterations,
   getAutofinishEkosistemSnapshot,
   getAutofinishProgressInfo,
+  getAutofinishVerzijeSummary,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -58,6 +60,8 @@ export default function AutofinishPage() {
   const ekosistemSnapshot = getAutofinishEkosistemSnapshot();
   // #874 — progress info
   const progressInfo = getAutofinishProgressInfo();
+  // #889 — verzije summary
+  const verzijeSummary = getAutofinishVerzijeSummary();
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
@@ -289,6 +293,41 @@ export default function AutofinishPage() {
               href="/api/autofinish-ekosistem-snapshot"
               className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
               aria-label="Preuzmi ekosistem snapshot kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
+        </section>
+
+        {/* #889 — Verzije Summary sekcija */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish verzije summary"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">🏷️ </span>Verzije platforme — ukupno {verzijeSummary.ukupnoVerzija}
+          </h2>
+          <p className="text-sm text-gray-400 mb-3">
+            Aktuelna verzija: <span className="text-green-400 font-bold">{verzijeSummary.aktuelnaVerzija}</span>
+          </p>
+          <ul
+            className="space-y-2"
+            role="list"
+            aria-label="Lista verzija platforme"
+          >
+            {verzijeSummary.verzije.map((v) => (
+              <li key={v.verzija} className="flex items-start gap-3 text-sm">
+                <span className="text-yellow-400 font-mono shrink-0" aria-label={`Verzija ${v.verzija}`}>{v.verzija}</span>
+                <span className="text-gray-500">#{v.autofinishBroj}</span>
+                <span className="text-gray-400">{v.opis}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-verzije"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi listu verzija kao JSON"
             >
               JSON API →
             </a>

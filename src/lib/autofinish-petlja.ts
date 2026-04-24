@@ -352,6 +352,26 @@
  *
  * Autofinish #880 (Integracioni Testovi /api/autofinish-podsistemi — sve podsisteme, schema, Cache-Control, E2E, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1742→1744, APP_VERSION 44.00.0→44.01.0)
  *
+ * Autofinish #881 (getAutofinishAuditReport() Helper — skuplja sve audit metrike: status, ekosistem, zdravlje, progress, podsistemi, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1744→1746, APP_VERSION 44.01.0→44.02.0)
+ *
+ * Autofinish #882 (Unit Testovi getAutofinishAuditReport() — schema, tipovi, sva polja, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1746→1748, APP_VERSION 44.02.0→44.03.0)
+ *
+ * Autofinish #883 (GET /api/autofinish-audit-report — sve sekcije, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1748→1750, APP_VERSION 44.03.0→44.04.0)
+ *
+ * Autofinish #884 (Integracioni Testovi /api/autofinish-audit-report — schema, Cache-Control, sve sekcije, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1750→1752, APP_VERSION 44.04.0→44.05.0)
+ *
+ * Autofinish #885 (getAutofinishVerzijeSummary() Helper — aktuelna verzija, lista istorijata, ukupnoVerzija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1752→1754, APP_VERSION 44.05.0→44.06.0)
+ *
+ * Autofinish #886 (Unit Testovi getAutofinishVerzijeSummary() — schema, tipovi, aktuelnaVerzija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1754→1756, APP_VERSION 44.06.0→44.07.0)
+ *
+ * Autofinish #887 (GET /api/autofinish-verzije — lista verzija, aktuelna, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1756→1758, APP_VERSION 44.07.0→44.08.0)
+ *
+ * Autofinish #888 (Integracioni Testovi /api/autofinish-verzije — schema, Cache-Control, aktuelnaVerzija, lista, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1758→1760, APP_VERSION 44.08.0→44.09.0)
+ *
+ * Autofinish #889 (/autofinish Dashboard Verzije Summary Sekcija — aktuelna, ukupno, lista, ARIA list, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1760→1762, APP_VERSION 44.09.0→44.10.0)
+ *
+ * Autofinish #890 (E2E Snapshot Audit+Verzije Cross-Endpoint — konzistentnost audit-report i verzije, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1762→1764, APP_VERSION 44.10.0→44.11.0)
+ *
  */
 
 import {
@@ -728,6 +748,16 @@ export function getAutofinishIteracijaOpis(br: number): string {
     878: 'Unit testovi podsistemi details + progress info',
     879: 'GET /api/autofinish-podsistemi',
     880: 'Integracioni testovi /api/autofinish-podsistemi',
+    881: 'getAutofinishAuditReport() helper',
+    882: 'Unit testovi getAutofinishAuditReport()',
+    883: 'GET /api/autofinish-audit-report',
+    884: 'Integracioni testovi /api/autofinish-audit-report',
+    885: 'getAutofinishVerzijeSummary() helper',
+    886: 'Unit testovi getAutofinishVerzijeSummary()',
+    887: 'GET /api/autofinish-verzije',
+    888: 'Integracioni testovi /api/autofinish-verzije',
+    889: '/autofinish dashboard verzije summary sekcija',
+    890: 'E2E snapshot audit-report + verzije cross-endpoint',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -926,6 +956,86 @@ export function getAutofinishPodsistemiDetails(): AutofinishPodsistemiDetailsRes
     autofinishBroj: AUTOFINISH_COUNT,
     ukupnoPodsistema: podsistemi.length,
     podsistemi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishAuditReport() (#881) ───────────────────────────────────────
+
+export interface AutofinishAuditReport {
+  verzija: string;
+  autofinishBroj: number;
+  petljaStatus: ReturnType<typeof getAutofinishPetljaStatus>;
+  ekosistem: AutofinishEkosistemSnapshot;
+  zdravlje: AutofinishHealthSummary;
+  progress: AutofinishProgressInfo;
+  podsistemi: AutofinishPodsistemiDetailsResult;
+  timestamp: string;
+}
+
+/**
+ * Skuplja sve autofinish audit metrike u jedan objekat.
+ *
+ * @returns AutofinishAuditReport
+ */
+export function getAutofinishAuditReport(): AutofinishAuditReport {
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    petljaStatus: getAutofinishPetljaStatus(),
+    ekosistem: getAutofinishEkosistemSnapshot(),
+    zdravlje: getAutofinishHealthSummary(),
+    progress: getAutofinishProgressInfo(),
+    podsistemi: getAutofinishPodsistemiDetails(),
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishVerzijeSummary() (#885) ────────────────────────────────────
+
+export interface AutofinishVerzijaSummaryStavka {
+  verzija: string;
+  autofinishBroj: number;
+  opis: string;
+}
+
+export interface AutofinishVerzijeSummaryResult {
+  aktuelnaVerzija: string;
+  autofinishBroj: number;
+  ukupnoVerzija: number;
+  verzije: AutofinishVerzijaSummaryStavka[];
+  timestamp: string;
+}
+
+const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
+  { verzija: '1.0.0', autofinishBroj: 1, opis: 'Inicijalna verzija platforme' },
+  { verzija: '2.0.0', autofinishBroj: 50, opis: 'Rate-limit infrastruktura' },
+  { verzija: '3.0.0', autofinishBroj: 100, opis: 'OMEGA AI persone integrisane' },
+  { verzija: '10.0.0', autofinishBroj: 200, opis: 'Dijagnostika sistem uveden' },
+  { verzija: '20.0.0', autofinishBroj: 400, opis: 'Igrice modul dodat' },
+  { verzija: '30.0.0', autofinishBroj: 600, opis: 'Middleware X-Request-Id sloj' },
+  { verzija: '40.0.0', autofinishBroj: 800, opis: 'Autofinish petlja — OMEGA CYCLE' },
+  { verzija: '43.71.0', autofinishBroj: 850, opis: 'OG tags, metadata, changelog sekcija' },
+  { verzija: '43.91.0', autofinishBroj: 870, opis: 'Health summary, full-report API' },
+  { verzija: '44.01.0', autofinishBroj: 880, opis: 'Progress info, podsistemi API, iteracija-opis API' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Audit report, verzije summary, cross-endpoint E2E' },
+];
+
+/**
+ * Vraća summary svih verzija platforme sa aktuelnom verzijom.
+ *
+ * @returns AutofinishVerzijeSummaryResult
+ */
+export function getAutofinishVerzijeSummary(): AutofinishVerzijeSummaryResult {
+  const verzije = VERZIJE_ISTORIJAT.filter(
+    (v, i, arr) => i === arr.findIndex((x) => x.verzija === v.verzija),
+  );
+
+  return {
+    aktuelnaVerzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoVerzija: verzije.length,
+    verzije,
     timestamp: new Date().toISOString(),
   };
 }
