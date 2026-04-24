@@ -309,7 +309,7 @@ async function runTests(): Promise<void> {
 
   await test('getLastNIterations(10) zadnja stavka je #890', () => {
     const r = getLastNIterations(10);
-    assertEqual(r[r.length - 1].broj, 900, 'zadnja stavka=#900');
+    assertEqual(r[r.length - 1].broj, 910, 'zadnja stavka=#910');
   });
 
   // ─── Rezultat ─────────────────────────────────────────────────────────────
