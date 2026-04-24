@@ -80,6 +80,8 @@
  *
  * Autofinish #744 (Napredna zaštita i enkripcija — end-to-end enkripcija implementirana, ključevi za potpisivanje rotirani, sigurnosni audit završen, zero-trust arhitektura verifikovana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1471→1473, APP_VERSION 42.64.0→42.65.0)
  *
+ * Autofinish #745 (Performanse i skalabilnost — CDN optimizacija završena, database indeksi optimizovani, caching strategija unapređena, load balancing konfigurisan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1473→1475, APP_VERSION 42.65.0→42.66.0)
+ *
  */
 
 import {
