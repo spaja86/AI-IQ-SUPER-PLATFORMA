@@ -333,7 +333,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_API_ROUTES, 931, 'TOTAL_API_ROUTES=931');
   });
 
-  await test('getLastNIterations(10) zadnja = #890', () => {
+  await test('getLastNIterations(10) zadnja = #900', () => {
     const r = getLastNIterations(10);
     assertEqual(r[r.length - 1].broj, 900, 'zadnja=#900');
   });
