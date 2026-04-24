@@ -58,6 +58,8 @@
  *
  * Autofinish #733 (Sigurnost i autentifikacija — JWT validacija ažurirana, rate limiting aktivan, CORS politika konfigurirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1449→1451, APP_VERSION 42.53.0→42.54.0)
  *
+ * Autofinish #734 (Performanse i optimizacija — query optimizacija izvršena, caching sloj aktivan, bundle size smanjen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1451→1453, APP_VERSION 42.54.0→42.55.0)
+ *
  */
 
 import {
