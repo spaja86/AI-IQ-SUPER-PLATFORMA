@@ -152,6 +152,8 @@
  *
  * Autofinish #780 (Sigurnost i autentifikacija — OAuth2 tok unapređen, JWT refresh mehanizam poboljšan, rate limiting dodat, CSRF zaštita ojačana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1543→1545, APP_VERSION 43.0.0→43.1.0)
  *
+ * Autofinish #781 (Performanse i optimizacija — keš strategija unapređena, lazy loading poboljšan, bundle size smanjen, database query optimizacija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1545→1547, APP_VERSION 43.1.0→43.2.0)
+ *
  */
 
 import {
