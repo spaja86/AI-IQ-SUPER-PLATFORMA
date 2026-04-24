@@ -22,6 +22,10 @@
  *
  * Autofinish #711 (Unit Testovi Registar — proširene test suite registracije za stvarne izvršive testove: auth 60 testova/sve prolaze (Ed25519 signData/verifySignature popravka, register/login/MFA/refresh token/revokeAll/API ključ scenariji), spaja-ultra-core 7 testova DSL parser/transpiler/runtime/sve prolaze, glavni-endzin 43 testova/41 prolazi, pokrivenost auth modula 92%+ po c8 izveštaju, unit-testovi-page ažuriran sa 14 suita i 746 testova, APP_VERSION 42.34.0)
  *
+ * Autofinish #712 → #716 (Banka stranica — zahtev svim bankama Srbije (12 banaka), mesni porez PU Smederevo, 7 tipova ugovora, 3 bankarske kartice RSD/EUR/USD, tabela kartica sa brojevima računa + APP_VERSION 42.37.0)
+ *
+ * Autofinish #717 (Sekvence barrel kompletiran — 8 nedostajućih izvoza dodato u src/lib/sekvence/index.ts: ioOpenUIAOLabSekvence, omegaProjekatPlasiranjeSekvence, omegaProjekatZvanicnoOtvaranjeSekvence, spajaDigitalniBrouvzerSekvence, spajaDigitalniKompjuterSekvence, spajaGeneratorEngineSekvence, spajaRenderMedijaSekvence, oktavneEksponencijalneFunkcijeSekvence + TOTAL_API_ROUTES 921 + TOTAL_ROUTES 975 + APP_VERSION 42.38.0)
+ *
  */
 
 import {
