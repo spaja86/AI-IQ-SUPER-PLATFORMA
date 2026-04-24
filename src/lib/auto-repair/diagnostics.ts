@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 1824 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 1844 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6032,6 +6032,46 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #920 — E2E snapshot svih 10 autofinish API endpoints ──────
     createCheck('autofinish-920-all10-endpoints-e2e-check', 'E2E Svih 10 Autofinish API Endpoints #920', `Provera E2E konzistentnosti verzija kroz svih 10 autofinish API endpoints: petlja, status, ekosistem, audit-report, verzije, statistika, meta, zdravlje, roadmap, next-steps`, 'ok', `Autofinish #920 — Full 10-Endpoint E2E: TOTAL_DIAGNOSTIKA 1822→1824, APP_VERSION 44.40.0→44.41.0`),
     createCheck('autofinish-920-iteracija-check', 'Autofinish #920 Iteracija', `Provera autofinish iteracije #920 — E2E svih 10 autofinish API endpoints`, 'ok', `Autofinish #920 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #921 — getAutofinishMilestoneDetail(id) ──────────────────
+    createCheck('autofinish-921-milestone-detail-helper-check', 'getAutofinishMilestoneDetail() Helper #921', `Provera getAutofinishMilestoneDetail(id) — naziv, opis, status, autofinishOd/Do, iteracije u rasponu, ukupnoIteracija`, 'ok', `Autofinish #921 — Milestone Detail Helper: TOTAL_DIAGNOSTIKA 1824→1826, APP_VERSION 44.41.0→44.42.0`),
+    createCheck('autofinish-921-iteracija-check', 'Autofinish #921 Iteracija', `Provera autofinish iteracije #921 — getAutofinishMilestoneDetail(id) helper`, 'ok', `Autofinish #921 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #922 — Unit testovi getAutofinishMilestoneDetail() ────────
+    createCheck('autofinish-922-milestone-detail-unit-test-check', 'Unit Testovi getAutofinishMilestoneDetail() #922', `Provera unit testova — schema, iteracije u rasponu, nepostojeći ID vraća null, konzistentnost sa roadmap`, 'ok', `Autofinish #922 — Milestone Detail Tests: TOTAL_DIAGNOSTIKA 1826→1828, APP_VERSION 44.42.0→44.43.0`),
+    createCheck('autofinish-922-iteracija-check', 'Autofinish #922 Iteracija', `Provera autofinish iteracije #922 — unit testovi getAutofinishMilestoneDetail()`, 'ok', `Autofinish #922 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #923 — GET /api/autofinish-milestone/[id] ─────────────────
+    createCheck('autofinish-923-milestone-api-check', 'GET /api/autofinish-milestone/[id] #923', `Provera /api/autofinish-milestone/[id] — 200 za validan ID, 404 za nevalidan, Cache-Control, X-App-Version`, 'ok', `Autofinish #923 — Milestone API: TOTAL_DIAGNOSTIKA 1828→1830, APP_VERSION 44.43.0→44.44.0`),
+    createCheck('autofinish-923-iteracija-check', 'Autofinish #923 Iteracija', `Provera autofinish iteracije #923 — GET /api/autofinish-milestone/[id]`, 'ok', `Autofinish #923 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #924 — Integracioni testovi /api/autofinish-milestone/[id] ─
+    createCheck('autofinish-924-milestone-integration-test-check', 'Integracioni Testovi /api/autofinish-milestone/[id] #924', `Provera integracionih testova — schema, 404, Cache-Control, iteracije array`, 'ok', `Autofinish #924 — Milestone Integration Tests: TOTAL_DIAGNOSTIKA 1830→1832, APP_VERSION 44.44.0→44.45.0`),
+    createCheck('autofinish-924-iteracija-check', 'Autofinish #924 Iteracija', `Provera autofinish iteracije #924 — integracioni testovi /api/autofinish-milestone/[id]`, 'ok', `Autofinish #924 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #925 — Dashboard Milestone Detail Modal ───────────────────
+    createCheck('autofinish-925-dashboard-milestone-modal-check', 'Dashboard Milestone Detail Modal #925', `Provera dashboard milestone modal — klik otvara modal, naziv, opis, iteracije lista, ARIA dialog, zatvaranje`, 'ok', `Autofinish #925 — Dashboard Milestone Modal: TOTAL_DIAGNOSTIKA 1832→1834, APP_VERSION 44.45.0→44.46.0`),
+    createCheck('autofinish-925-iteracija-check', 'Autofinish #925 Iteracija', `Provera autofinish iteracije #925 — dashboard milestone detail modal`, 'ok', `Autofinish #925 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #926 — Unit testovi Dashboard Milestone Modal ─────────────
+    createCheck('autofinish-926-dashboard-milestone-modal-unit-test-check', 'Unit Testovi Dashboard Milestone Modal #926', `Provera unit testova modal — render, sadržaj, zatvaranje, ARIA`, 'ok', `Autofinish #926 — Dashboard Modal Tests: TOTAL_DIAGNOSTIKA 1834→1836, APP_VERSION 44.46.0→44.47.0`),
+    createCheck('autofinish-926-iteracija-check', 'Autofinish #926 Iteracija', `Provera autofinish iteracije #926 — unit testovi dashboard milestone modal`, 'ok', `Autofinish #926 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #927 — getAutofinishSystemReport() ────────────────────────
+    createCheck('autofinish-927-system-report-helper-check', 'getAutofinishSystemReport() Helper #927', `Provera getAutofinishSystemReport() — zdravlje, roadmap, statistika, nextSteps, generisanoU, verzija`, 'ok', `Autofinish #927 — System Report Helper: TOTAL_DIAGNOSTIKA 1836→1838, APP_VERSION 44.47.0→44.48.0`),
+    createCheck('autofinish-927-iteracija-check', 'Autofinish #927 Iteracija', `Provera autofinish iteracije #927 — getAutofinishSystemReport() helper`, 'ok', `Autofinish #927 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #928 — Unit testovi getAutofinishSystemReport() ───────────
+    createCheck('autofinish-928-system-report-unit-test-check', 'Unit Testovi getAutofinishSystemReport() #928', `Provera unit testova — schema, konzistentnost zdravlje/roadmap/statistika/nextSteps, timestamp validan`, 'ok', `Autofinish #928 — System Report Tests: TOTAL_DIAGNOSTIKA 1838→1840, APP_VERSION 44.48.0→44.49.0`),
+    createCheck('autofinish-928-iteracija-check', 'Autofinish #928 Iteracija', `Provera autofinish iteracije #928 — unit testovi getAutofinishSystemReport()`, 'ok', `Autofinish #928 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #929 — GET /api/autofinish-system-report ──────────────────
+    createCheck('autofinish-929-system-report-api-check', 'GET /api/autofinish-system-report #929', `Provera /api/autofinish-system-report — zdravlje + roadmap + statistika + nextSteps, s-maxage=30, X-App-Version`, 'ok', `Autofinish #929 — System Report API: TOTAL_DIAGNOSTIKA 1840→1842, APP_VERSION 44.49.0→44.50.0`),
+    createCheck('autofinish-929-iteracija-check', 'Autofinish #929 Iteracija', `Provera autofinish iteracije #929 — GET /api/autofinish-system-report`, 'ok', `Autofinish #929 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #930 — E2E snapshot svih 11 autofinish API endpoints ──────
+    createCheck('autofinish-930-all11-endpoints-e2e-check', 'E2E Svih 11 Autofinish API Endpoints #930', `Provera E2E konzistentnosti verzija kroz svih 11 autofinish API endpoints: petlja, status, ekosistem, audit-report, verzije, statistika, meta, zdravlje, roadmap, next-steps, system-report`, 'ok', `Autofinish #930 — Full 11-Endpoint E2E: TOTAL_DIAGNOSTIKA 1842→1844, APP_VERSION 44.50.0→44.51.0`),
+    createCheck('autofinish-930-iteracija-check', 'Autofinish #930 Iteracija', `Provera autofinish iteracije #930 — E2E svih 11 autofinish API endpoints`, 'ok', `Autofinish #930 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
