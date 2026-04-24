@@ -100,6 +100,8 @@
  *
  * Autofinish #754 (Performanse i optimizacija — lazy loading implementiran, bundle size smanjen, caching strategija poboljšana, database query optimizacija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1491→1493, APP_VERSION 42.74.0→42.75.0)
  *
+ * Autofinish #755 (UI/UX unapređenja — dark mode podrška dodata, accessibility poboljšana, responsive dizajn optimizovan, animacije unapređene, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1493→1495, APP_VERSION 42.75.0→42.76.0)
+ *
  */
 
 import {

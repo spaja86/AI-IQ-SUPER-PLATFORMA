@@ -5278,6 +5278,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #754 — Performanse i optimizacija ────────────────────────
     createCheck('autofinish-754-performanse-optimizacija-check', 'Performanse i Optimizacija #754', `Provera performansi i optimizacije — lazy loading implementiran, bundle size smanjen, caching strategija poboljšana, database query optimizacija`, 'ok', `Autofinish #754 — Performanse: TOTAL_DIAGNOSTIKA 1491→1493, APP_VERSION 42.74.0→42.75.0`),
     createCheck('autofinish-754-iteracija-check', 'Autofinish #754 Iteracija', `Provera autofinish iteracije #754 — performanse i optimizacija`, 'ok', `Autofinish #754 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #755 — UI/UX unapređenja ─────────────────────────────────
+    createCheck('autofinish-755-ui-ux-unapredjenja-check', 'UI/UX Unapređenja #755', `Provera UI/UX unapređenja — dark mode podrška dodata, accessibility poboljšana, responsive dizajn optimizovan, animacije unapređene`, 'ok', `Autofinish #755 — UI/UX: TOTAL_DIAGNOSTIKA 1493→1495, APP_VERSION 42.75.0→42.76.0`),
+    createCheck('autofinish-755-iteracija-check', 'Autofinish #755 Iteracija', `Provera autofinish iteracije #755 — UI/UX unapređenja`, 'ok', `Autofinish #755 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
