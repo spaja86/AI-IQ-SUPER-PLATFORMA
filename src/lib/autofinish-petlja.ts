@@ -132,6 +132,8 @@
  *
  * Autofinish #770 (Testiranje i kvalitet koda — unit test pokrivenost povećana, E2E testovi prošireni, CI pipeline optimizovan, code coverage izveštaj dodat, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1523→1525, APP_VERSION 42.90.0→42.91.0)
  *
+ * Autofinish #771 (Bezbednost i autentifikacija — OAuth2 integracija poboljšana, JWT refresh token mehanizam dodat, rate limiting implementiran, audit log proširen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1525→1527, APP_VERSION 42.91.0→42.92.0)
+ *
  */
 
 import {

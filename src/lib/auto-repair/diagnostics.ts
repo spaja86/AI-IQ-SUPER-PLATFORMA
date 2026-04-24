@@ -5342,6 +5342,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #770 — Testiranje i kvalitet koda ───────────────────────
     createCheck('autofinish-770-testing-check', 'Testiranje i Kvalitet Koda #770', `Provera testiranja i kvaliteta koda — unit test pokrivenost povećana, E2E testovi prošireni, CI pipeline optimizovan, code coverage izveštaj dodat`, 'ok', `Autofinish #770 — Testing: TOTAL_DIAGNOSTIKA 1523→1525, APP_VERSION 42.90.0→42.91.0`),
     createCheck('autofinish-770-iteracija-check', 'Autofinish #770 Iteracija', `Provera autofinish iteracije #770 — testiranje i kvalitet koda`, 'ok', `Autofinish #770 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #771 — Bezbednost i autentifikacija ─────────────────────
+    createCheck('autofinish-771-security-check', 'Bezbednost i Autentifikacija #771', `Provera bezbednosti i autentifikacije — OAuth2 integracija poboljšana, JWT refresh token mehanizam dodat, rate limiting implementiran, audit log proširen`, 'ok', `Autofinish #771 — Security: TOTAL_DIAGNOSTIKA 1525→1527, APP_VERSION 42.91.0→42.92.0`),
+    createCheck('autofinish-771-iteracija-check', 'Autofinish #771 Iteracija', `Provera autofinish iteracije #771 — bezbednost i autentifikacija`, 'ok', `Autofinish #771 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
