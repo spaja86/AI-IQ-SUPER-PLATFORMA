@@ -11,6 +11,7 @@
 // Autofinish #919 — Next Steps Sekcija
 // Autofinish #925 — Milestone Detail Modal
 // Autofinish #935 — Iteracija Raspon Widget
+// Autofinish #945 — Top Iteracije Widget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -27,6 +28,7 @@ import {
   getAutofinishNextSteps,
   getAutofinishMilestoneDetail,
   getAutofinishIteracijaRaspon,
+  getAutofinishTopIteracije,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -36,6 +38,7 @@ import {
 } from '@/lib/constants';
 import { RoadmapWithModal } from './RoadmapWithModal';
 import { IteracijaRasponWidget } from './IteracijaRasponWidget';
+import { TopIteracijeWidget } from './TopIteracijeWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -81,6 +84,9 @@ export default function AutofinishPage() {
   const statistikaSummary = getAutofinishStatistikaSummary();
   // #909 — zdravlje summary
   const zdravljeSummary = getAutofinishHealthSummary();
+  // #945 — Top iteracije widget — top 10 iteracija
+  const top10 = getAutofinishTopIteracije(10);
+
   // #935 — Iteracija raspon widget — poslednje 20 iteracija
   const poslednje20Start = Math.max(1, AUTOFINISH_COUNT - 19);
   const poslednje20 = getAutofinishIteracijaRaspon(poslednje20Start, AUTOFINISH_COUNT);
@@ -579,6 +585,14 @@ export default function AutofinishPage() {
             </a>
           </div>
         </section>
+
+        {/* #945 — Top Iteracije Widget */}
+        <TopIteracijeWidget
+          iteracije={top10.iteracije}
+          n={10}
+          autofinishBroj={AUTOFINISH_COUNT}
+          verzija={APP_VERSION}
+        />
 
         {/* #935 — Iteracija Raspon Widget */}
         <IteracijaRasponWidget

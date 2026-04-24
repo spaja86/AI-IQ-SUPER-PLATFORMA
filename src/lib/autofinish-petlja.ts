@@ -472,6 +472,26 @@
  *
  * Autofinish #940 (E2E Svih 12 Autofinish API Endpoints — konzistentnost verzija kroz svih 12 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1862→1864, APP_VERSION 44.60.0→44.61.0)
  *
+ * Autofinish #941 (getAutofinishTopIteracije(n) Helper — top N iteracija po broju descending, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1864→1866, APP_VERSION 44.61.0→44.62.0)
+ *
+ * Autofinish #942 (Unit Testovi getAutofinishTopIteracije() — schema, top 10, top 5, granični, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1866→1868, APP_VERSION 44.62.0→44.63.0)
+ *
+ * Autofinish #943 (GET /api/autofinish-top-iteracije?n=N — validacija, 200/400, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1868→1870, APP_VERSION 44.63.0→44.64.0)
+ *
+ * Autofinish #944 (Integracioni Testovi /api/autofinish-top-iteracije — 200, 400, schema, redosled, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1870→1872, APP_VERSION 44.64.0→44.65.0)
+ *
+ * Autofinish #945 (Dashboard Top Iteracije Widget — top 10 iteracija lista, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1872→1874, APP_VERSION 44.65.0→44.66.0)
+ *
+ * Autofinish #946 (Unit Testovi Dashboard Top Iteracije Widget — render, sadržaj, top 10, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1874→1876, APP_VERSION 44.66.0→44.67.0)
+ *
+ * Autofinish #947 (getAutofinishVerzijeDiff(v1,v2) Helper — lista iteracija između dvije verzije, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1876→1878, APP_VERSION 44.67.0→44.68.0)
+ *
+ * Autofinish #948 (Unit Testovi getAutofinishVerzijeDiff() — schema, konzistentnost, ista verzija=0, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1878→1880, APP_VERSION 44.68.0→44.69.0)
+ *
+ * Autofinish #949 (GET /api/autofinish-verzije-diff?v1=X&v2=Y — verzije diff JSON, 200/400, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1880→1882, APP_VERSION 44.69.0→44.70.0)
+ *
+ * Autofinish #950 (E2E Svih 13 Autofinish API Endpoints — konzistentnost verzija kroz svih 13 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1882→1884, APP_VERSION 44.70.0→44.71.0)
+ *
  */
 
 import {
@@ -910,6 +930,16 @@ export function getAutofinishIteracijaOpis(br: number): string {
     938: 'Unit testovi getAutofinishPodsistemiZdravlje()',
     939: 'GET /api/autofinish-podsistemi-zdravlje',
     940: 'E2E svih 12 autofinish API endpoints',
+    941: 'getAutofinishTopIteracije(n) helper',
+    942: 'Unit testovi getAutofinishTopIteracije()',
+    943: 'GET /api/autofinish-top-iteracije',
+    944: 'Integracioni testovi /api/autofinish-top-iteracije',
+    945: 'Dashboard top iteracije widget',
+    946: 'Unit testovi dashboard top iteracije widget',
+    947: 'getAutofinishVerzijeDiff(v1, v2) helper',
+    948: 'Unit testovi getAutofinishVerzijeDiff()',
+    949: 'GET /api/autofinish-verzije-diff',
+    950: 'E2E svih 13 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1175,7 +1205,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '44.31.0', autofinishBroj: 910, opis: 'Zdravlje summary, roadmap info, 9-endpoint E2E' },
   { verzija: '44.41.0', autofinishBroj: 920, opis: 'Roadmap status summary, next steps, 10-endpoint E2E' },
   { verzija: '44.51.0', autofinishBroj: 930, opis: 'Milestone detail, system report, 11-endpoint E2E' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Iteracija raspon, podsistemi zdravlje, 12-endpoint E2E' },
+  { verzija: '44.61.0', autofinishBroj: 940, opis: 'Iteracija raspon, podsistemi zdravlje, 12-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Top iteracije, verzije diff, 13-endpoint E2E' },
 ];
 
 /**
@@ -1281,6 +1312,8 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-system-report',
       '/api/autofinish-iteracija-raspon',
       '/api/autofinish-podsistemi-zdravlje',
+      '/api/autofinish-top-iteracije',
+      '/api/autofinish-verzije-diff',
     ],
     timestamp: new Date().toISOString(),
   };
@@ -1594,6 +1627,16 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     938: 'Unit testovi getAutofinishPodsistemiZdravlje()',
     939: 'GET /api/autofinish-podsistemi-zdravlje',
     940: 'E2E svih 12 autofinish API endpoints',
+    941: 'getAutofinishTopIteracije(n) helper',
+    942: 'Unit testovi getAutofinishTopIteracije()',
+    943: 'GET /api/autofinish-top-iteracije',
+    944: 'Integracioni testovi /api/autofinish-top-iteracije',
+    945: 'Dashboard top iteracije widget',
+    946: 'Unit testovi dashboard top iteracije widget',
+    947: 'getAutofinishVerzijeDiff(v1, v2) helper',
+    948: 'Unit testovi getAutofinishVerzijeDiff()',
+    949: 'GET /api/autofinish-verzije-diff',
+    950: 'E2E svih 13 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -1771,6 +1814,16 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     938: 'Unit testovi getAutofinishPodsistemiZdravlje()',
     939: 'GET /api/autofinish-podsistemi-zdravlje',
     940: 'E2E svih 12 autofinish API endpoints',
+    941: 'getAutofinishTopIteracije(n) helper',
+    942: 'Unit testovi getAutofinishTopIteracije()',
+    943: 'GET /api/autofinish-top-iteracije',
+    944: 'Integracioni testovi /api/autofinish-top-iteracije',
+    945: 'Dashboard top iteracije widget',
+    946: 'Unit testovi dashboard top iteracije widget',
+    947: 'getAutofinishVerzijeDiff(v1, v2) helper',
+    948: 'Unit testovi getAutofinishVerzijeDiff()',
+    949: 'GET /api/autofinish-verzije-diff',
+    950: 'E2E svih 13 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -1872,6 +1925,97 @@ export function getAutofinishPodsistemiZdravlje(): AutofinishPodsistemiZdravljeR
     autofinishBroj: AUTOFINISH_COUNT,
     podsistemi,
     ukupnoPodsistema: podsistemi.length,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishTopIteracije(n) (#941) ──────────────────────────────────────
+
+export interface AutofinishTopIteracijeResult {
+  verzija: string;
+  autofinishBroj: number;
+  n: number;
+  ukupnoIteracija: number;
+  iteracije: AutofinishMilestoneIteracija[];
+  timestamp: string;
+}
+
+/**
+ * Vraća top N poznatih iteracija sortirano opadajuće po broju.
+ * Ako n <= 0, vraća prazan niz. Ako n > AUTOFINISH_COUNT, vraća sve.
+ *
+ * @param n - Broj iteracija za vraćanje (max AUTOFINISH_COUNT)
+ * @returns AutofinishTopIteracijeResult
+ */
+export function getAutofinishTopIteracije(n: number): AutofinishTopIteracijeResult {
+  const clampedN = Math.max(0, Math.min(n, AUTOFINISH_COUNT));
+  const start = Math.max(1, AUTOFINISH_COUNT - clampedN + 1);
+  const raspon = getAutofinishIteracijaRaspon(start, AUTOFINISH_COUNT);
+  // Sort descending
+  const sorted = [...raspon.iteracije].sort((a, b) => b.broj - a.broj);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    n: clampedN,
+    ukupnoIteracija: sorted.length,
+    iteracije: sorted,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishVerzijeDiff(v1, v2) (#947) ─────────────────────────────────
+
+export interface AutofinishVerzijeDiffResult {
+  verzija: string;
+  autofinishBroj: number;
+  v1: string;
+  v2: string;
+  v1AutofinishBroj: number | null;
+  v2AutofinishBroj: number | null;
+  ukupnoIteracija: number;
+  iteracije: AutofinishMilestoneIteracija[];
+  timestamp: string;
+}
+
+/**
+ * Vraća listu iteracija između dvije verzije platforme.
+ * Koristi getAutofinishVerzijeSummary() za mapiranje verzija na autofinish brojeve.
+ * Ako je v1 === v2, vraća prazan niz. Ako verzija nije poznata, vraća null za njen broj.
+ *
+ * @param v1 - Polazna verzija (npr. "44.51.0")
+ * @param v2 - Krajnja verzija (npr. "44.61.0")
+ * @returns AutofinishVerzijeDiffResult
+ */
+export function getAutofinishVerzijeDiff(v1: string, v2: string): AutofinishVerzijeDiffResult {
+  const verzijeSummary = getAutofinishVerzijeSummary();
+
+  const findBroj = (v: string): number | null => {
+    const entry = verzijeSummary.verzije.find((e) => e.verzija === v);
+    return entry?.autofinishBroj ?? null;
+  };
+
+  const b1 = findBroj(v1);
+  const b2 = findBroj(v2);
+
+  let iteracije: AutofinishMilestoneIteracija[] = [];
+
+  if (b1 !== null && b2 !== null && b1 !== b2) {
+    const od = Math.min(b1, b2) + 1;
+    const do_ = Math.max(b1, b2);
+    const raspon = getAutofinishIteracijaRaspon(od, do_);
+    iteracije = raspon.iteracije;
+  }
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    v1,
+    v2,
+    v1AutofinishBroj: b1,
+    v2AutofinishBroj: b2,
+    ukupnoIteracija: iteracije.length,
+    iteracije,
     timestamp: new Date().toISOString(),
   };
 }

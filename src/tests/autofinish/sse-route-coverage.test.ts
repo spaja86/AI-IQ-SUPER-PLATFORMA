@@ -218,8 +218,8 @@ async function runTests(): Promise<void> {
     assert(TOTAL_ROUTES >= TOTAL_API_ROUTES, `TOTAL_ROUTES (${TOTAL_ROUTES}) >= TOTAL_API_ROUTES (${TOTAL_API_ROUTES})`);
   });
 
-  await test('TOTAL_DIAGNOSTIKA === 1864 (ažurirano za #841–#920)', () => {
-    assertEqual(TOTAL_DIAGNOSTIKA, 1864, 'TOTAL_DIAGNOSTIKA=1864');
+  await test('TOTAL_DIAGNOSTIKA === 1884 (ažurirano za #841–#920)', () => {
+    assertEqual(TOTAL_DIAGNOSTIKA, 1884, 'TOTAL_DIAGNOSTIKA=1884');
   });
 
   await test('runDiagnostics() vraća ukupnoProvera === TOTAL_DIAGNOSTIKA', () => {
@@ -241,12 +241,12 @@ async function runTests(): Promise<void> {
     assert(duplikata < 20, `Broj duplikata ID-eva je prihvatljiv (${duplikata})`);
   });
 
-  await test('AUTOFINISH_COUNT === 940', () => {
-    assertEqual(AUTOFINISH_COUNT, 940, 'AUTOFINISH_COUNT=940');
+  await test('AUTOFINISH_COUNT === 950', () => {
+    assertEqual(AUTOFINISH_COUNT, 950, 'AUTOFINISH_COUNT=950');
   });
 
   await test('APP_VERSION === 44.31.0', () => {
-    assertEqual(APP_VERSION, '44.61.0', 'APP_VERSION=44.61.0');
+    assertEqual(APP_VERSION, '44.71.0', 'APP_VERSION=44.71.0');
   });
 
   // ── 5. SSE Headers (#848) ─────────────────────────────────────────────────
