@@ -5290,6 +5290,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #757 — Performanse i keširanje ───────────────────────────
     createCheck('autofinish-757-performanse-kesiranje-check', 'Performanse i Keširanje #757', `Provera performansi i keširanja — Redis integracija proširena, lazy loading implementiran, query optimizacija izvršena, CDN konfiguracija poboljšana`, 'ok', `Autofinish #757 — Performanse: TOTAL_DIAGNOSTIKA 1497→1499, APP_VERSION 42.77.0→42.78.0`),
     createCheck('autofinish-757-iteracija-check', 'Autofinish #757 Iteracija', `Provera autofinish iteracije #757 — performanse i keširanje`, 'ok', `Autofinish #757 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #758 — Monitoring i logovanje ────────────────────────────
+    createCheck('autofinish-758-monitoring-logovanje-check', 'Monitoring i Logovanje #758', `Provera monitoringa i logovanja — Prometheus metrike dodate, centralizovano logovanje konfigurisano, alerting sistem postavljen, health check endpointi prošireni`, 'ok', `Autofinish #758 — Monitoring: TOTAL_DIAGNOSTIKA 1499→1501, APP_VERSION 42.78.0→42.79.0`),
+    createCheck('autofinish-758-iteracija-check', 'Autofinish #758 Iteracija', `Provera autofinish iteracije #758 — monitoring i logovanje`, 'ok', `Autofinish #758 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

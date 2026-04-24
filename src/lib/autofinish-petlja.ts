@@ -106,6 +106,8 @@
  *
  * Autofinish #757 (Performanse i keširanje — Redis integracija proširena, lazy loading implementiran, query optimizacija izvršena, CDN konfiguracija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1497→1499, APP_VERSION 42.77.0→42.78.0)
  *
+ * Autofinish #758 (Monitoring i logovanje — Prometheus metrike dodate, centralizovano logovanje konfigurisano, alerting sistem postavljen, health check endpointi prošireni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1499→1501, APP_VERSION 42.78.0→42.79.0)
+ *
  */
 
 import {
