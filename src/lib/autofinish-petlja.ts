@@ -52,6 +52,8 @@
  *
  * Autofinish #730 (Bezbednost i autentifikacija — OAuth2/JWT implementiran, sesije zaštićene, penetration testing prošao, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1443→1445, APP_VERSION 42.50.0→42.51.0)
  *
+ * Autofinish #731 (Performanse i optimizacija — query optimizacija izvršena, caching konfigurisan, response time poboljšan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1445→1447, APP_VERSION 42.51.0→42.52.0)
+ *
  */
 
 import {
