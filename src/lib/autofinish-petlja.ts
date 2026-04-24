@@ -585,6 +585,40 @@
  * Autofinish #996 (Dashboard DependencyWidget — tabela zavisnosti podsistema, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1974→1976, APP_VERSION 45.16.0→45.17.0)
  *
  * Autofinish #997 (E2E Svih 22 Autofinish API Endpoints — konzistentnost verzija kroz svih 22 autofinish endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1976→1978, APP_VERSION 45.17.0→45.18.0)
+ *
+ * Autofinish #998 (getAutofinishHealthScore() Helper — kompozitni zdravstveni skor 0-100 iz podsistema zdravlje, dijagnostičkih provera i roadmap statusa; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1978→1980, APP_VERSION 45.18.0→45.19.0)
+ *
+ * Autofinish #999 (Unit Testovi getAutofinishHealthScore() — schema, skor 0-100, komponente, konzistentnost; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1980→1982, APP_VERSION 45.19.0→45.20.0)
+ *
+ * Autofinish #1000 (GET /api/autofinish-health-score — zdravstveni skor JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1982→1984, APP_VERSION 45.20.0→45.21.0)
+ *
+ * Autofinish #1001 (Dashboard HealthScoreWidget — vizuelni skor gauge sa ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1984→1986, APP_VERSION 45.21.0→45.22.0)
+ *
+ * Autofinish #1002 (getAutofinishProgressChangelog() Helper — promjene u iteracijama grupisane po fazama; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1986→1988, APP_VERSION 45.22.0→45.23.0)
+ *
+ * Autofinish #1003 (Unit Testovi getAutofinishProgressChangelog() — schema, faze, redosled, bez praznih faza; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1988→1990, APP_VERSION 45.23.0→45.24.0)
+ *
+ * Autofinish #1004 (GET /api/autofinish-progress-changelog — changelog JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1990→1992, APP_VERSION 45.24.0→45.25.0)
+ *
+ * Autofinish #1005 (Dashboard ProgressChangelogWidget — changelog tabela po fazama, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1992→1994, APP_VERSION 45.25.0→45.26.0)
+ *
+ * Autofinish #1006 (getAutofinishKompletiranjMatrix() Helper — NxN matrica završenosti podsistema; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1994→1996, APP_VERSION 45.26.0→45.27.0)
+ *
+ * Autofinish #1007 (Unit Testovi getAutofinishKompletiranjMatrix() — schema, 9x9 dimenzije, dijagonala, simetričnost; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1996→1998, APP_VERSION 45.27.0→45.28.0)
+ *
+ * Autofinish #1008 (GET /api/autofinish-kompletiranje-matrix — matrica JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1998→2000, APP_VERSION 45.28.0→45.29.0)
+ *
+ * Autofinish #1009 (Dashboard KompletiranjMatrixWidget — vizuelna matrica 9x9, ARIA grid; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2000→2002, APP_VERSION 45.29.0→45.30.0)
+ *
+ * Autofinish #1010 (getAutofinishExportSummary() Helper — kompletan export svih autofinish metrika u jedan objekat; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2002→2004, APP_VERSION 45.30.0→45.31.0)
+ *
+ * Autofinish #1011 (Unit Testovi getAutofinishExportSummary() — schema, sva polja prisutna, konzistentnost verzija; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2004→2006, APP_VERSION 45.31.0→45.32.0)
+ *
+ * Autofinish #1012 (GET /api/autofinish-export — export JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2006→2008, APP_VERSION 45.32.0→45.33.0)
+ *
+ * Autofinish #1013 (Dashboard ExportWidget — summary pregled svih metrika, JSON link, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2008→2010, APP_VERSION 45.33.0→45.34.0)
+ *
+ * Autofinish #1014 (E2E Svih 26 Autofinish API Endpoints — konzistentnost verzija kroz svih 26 endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2010→2012, APP_VERSION 45.34.0→45.35.0)
  */
 
 import {
@@ -1080,6 +1114,23 @@ export function getAutofinishIteracijaOpis(br: number): string {
     995: 'GET /api/autofinish-dependencies',
     996: 'Dashboard DependencyWidget',
     997: 'E2E svih 22 autofinish API endpoints',
+    998: 'getAutofinishHealthScore() helper — kompozitni zdravstveni skor (0-100)',
+    999: 'Unit testovi getAutofinishHealthScore()',
+    1000: 'GET /api/autofinish-health-score',
+    1001: 'Dashboard HealthScoreWidget',
+    1002: 'getAutofinishProgressChangelog() helper — promjene grupisane po fazama',
+    1003: 'Unit testovi getAutofinishProgressChangelog()',
+    1004: 'GET /api/autofinish-progress-changelog',
+    1005: 'Dashboard ProgressChangelogWidget',
+    1006: 'getAutofinishKompletiranjMatrix() helper — matrica završenosti podsistema',
+    1007: 'Unit testovi getAutofinishKompletiranjMatrix()',
+    1008: 'GET /api/autofinish-kompletiranje-matrix',
+    1009: 'Dashboard KompletiranjMatrixWidget',
+    1010: 'getAutofinishExportSummary() helper — kompletan export svih metrika',
+    1011: 'Unit testovi getAutofinishExportSummary()',
+    1012: 'GET /api/autofinish-export',
+    1013: 'Dashboard ExportWidget',
+    1014: 'E2E svih 26 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1350,7 +1401,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '44.81.0', autofinishBroj: 960, opis: 'Kategorije, trend, 14-endpoint E2E' },
   { verzija: '44.91.0', autofinishBroj: 970, opis: 'Kategorija detalji, trend po kategorijama, TrendWidget, 16-endpoint E2E' },
   { verzija: '45.01.0', autofinishBroj: 980, opis: 'Iteracije po verziji, kategorije stats, KategorijeStatsWidget, 18-endpoint E2E' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Velocity analytics, coverage report, milestone projection, dependency graph, 22-endpoint E2E' },
+  { verzija: '45.18.0', autofinishBroj: 997, opis: 'Velocity analytics, coverage report, milestone projection, dependency graph, 22-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Health score, progress changelog, completion matrix, export summary, 26-endpoint E2E' },
 ];
 
 /**
@@ -1468,6 +1520,10 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-coverage',
       '/api/autofinish-milestone-projection',
       '/api/autofinish-dependencies',
+      '/api/autofinish-health-score',
+      '/api/autofinish-progress-changelog',
+      '/api/autofinish-kompletiranje-matrix',
+      '/api/autofinish-export',
     ],
     timestamp: new Date().toISOString(),
   };
@@ -1838,6 +1894,23 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     995: 'GET /api/autofinish-dependencies',
     996: 'Dashboard DependencyWidget',
     997: 'E2E svih 22 autofinish API endpoints',
+    998: 'getAutofinishHealthScore() helper — kompozitni zdravstveni skor (0-100)',
+    999: 'Unit testovi getAutofinishHealthScore()',
+    1000: 'GET /api/autofinish-health-score',
+    1001: 'Dashboard HealthScoreWidget',
+    1002: 'getAutofinishProgressChangelog() helper — promjene grupisane po fazama',
+    1003: 'Unit testovi getAutofinishProgressChangelog()',
+    1004: 'GET /api/autofinish-progress-changelog',
+    1005: 'Dashboard ProgressChangelogWidget',
+    1006: 'getAutofinishKompletiranjMatrix() helper — matrica završenosti podsistema',
+    1007: 'Unit testovi getAutofinishKompletiranjMatrix()',
+    1008: 'GET /api/autofinish-kompletiranje-matrix',
+    1009: 'Dashboard KompletiranjMatrixWidget',
+    1010: 'getAutofinishExportSummary() helper — kompletan export svih metrika',
+    1011: 'Unit testovi getAutofinishExportSummary()',
+    1012: 'GET /api/autofinish-export',
+    1013: 'Dashboard ExportWidget',
+    1014: 'E2E svih 26 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2072,6 +2145,23 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     995: 'GET /api/autofinish-dependencies',
     996: 'Dashboard DependencyWidget',
     997: 'E2E svih 22 autofinish API endpoints',
+    998: 'getAutofinishHealthScore() helper — kompozitni zdravstveni skor (0-100)',
+    999: 'Unit testovi getAutofinishHealthScore()',
+    1000: 'GET /api/autofinish-health-score',
+    1001: 'Dashboard HealthScoreWidget',
+    1002: 'getAutofinishProgressChangelog() helper — promjene grupisane po fazama',
+    1003: 'Unit testovi getAutofinishProgressChangelog()',
+    1004: 'GET /api/autofinish-progress-changelog',
+    1005: 'Dashboard ProgressChangelogWidget',
+    1006: 'getAutofinishKompletiranjMatrix() helper — matrica završenosti podsistema',
+    1007: 'Unit testovi getAutofinishKompletiranjMatrix()',
+    1008: 'GET /api/autofinish-kompletiranje-matrix',
+    1009: 'Dashboard KompletiranjMatrixWidget',
+    1010: 'getAutofinishExportSummary() helper — kompletan export svih metrika',
+    1011: 'Unit testovi getAutofinishExportSummary()',
+    1012: 'GET /api/autofinish-export',
+    1013: 'Dashboard ExportWidget',
+    1014: 'E2E svih 26 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -3055,5 +3145,251 @@ export function getAutofinishPodsistemiDependencies(): AutofinishPodsistemiDepen
     podsistemi,
     imaKruznih: false,
     timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishHealthScore() (#998) ────────────────────────────────────────
+
+export interface AutofinishHealthScoreKomponenta {
+  naziv: string;
+  vrijednost: number;
+  tezina: number;
+  doprinos: number;
+}
+
+export interface AutofinishHealthScoreResult {
+  verzija: string;
+  autofinishBroj: number;
+  skor: number;
+  ocjena: string;
+  komponente: AutofinishHealthScoreKomponenta[];
+  timestamp: string;
+}
+
+/**
+ * Izračunava kompozitni zdravstveni skor platforme (0-100) iz 4 komponente:
+ * - Dijagnostička zdravlje (40% tezina)
+ * - Roadmap progres (25% tezina)
+ * - Podsistemi zdravlje (25% tezina)
+ * - Pokrivenost kategorija (10% tezina)
+ *
+ * Ocjena: 90-100=Odlično, 75-89=Dobro, 50-74=Zadovoljavajuće, 0-49=Kritično
+ *
+ * @returns AutofinishHealthScoreResult
+ */
+export function getAutofinishHealthScore(): AutofinishHealthScoreResult {
+  const dijagnostika = getAutofinishHealthSummary();
+  const roadmap = getAutofinishRoadmapStatusSummary();
+  const podsistemi = getAutofinishPodsistemiZdravlje();
+  const coverage = getAutofinishCoverageReport();
+
+  const dijagVrijednost = dijagnostika.zdravlje;
+  const roadmapVrijednost = roadmap.progres;
+  const podsistemiVrijednost = podsistemi.podsistemi.length > 0
+    ? Math.round(podsistemi.podsistemi.reduce((s, p) => s + p.zdravlje, 0) / podsistemi.podsistemi.length)
+    : 0;
+  const coverageVrijednost = coverage.globalnaPokrivenostPct;
+
+  const komponente: AutofinishHealthScoreKomponenta[] = [
+    { naziv: 'Dijagnostičko zdravlje', vrijednost: dijagVrijednost, tezina: 40, doprinos: Math.round(dijagVrijednost * 0.4) },
+    { naziv: 'Roadmap progres', vrijednost: roadmapVrijednost, tezina: 25, doprinos: Math.round(roadmapVrijednost * 0.25) },
+    { naziv: 'Podsistemi zdravlje', vrijednost: podsistemiVrijednost, tezina: 25, doprinos: Math.round(podsistemiVrijednost * 0.25) },
+    { naziv: 'Pokrivenost kategorija', vrijednost: coverageVrijednost, tezina: 10, doprinos: Math.round(coverageVrijednost * 0.10) },
+  ];
+
+  const skor = komponente.reduce((s, k) => s + k.doprinos, 0);
+  const skor_ = Math.min(100, Math.max(0, skor));
+
+  const ocjena =
+    skor_ >= 90 ? 'Odlično' :
+    skor_ >= 75 ? 'Dobro' :
+    skor_ >= 50 ? 'Zadovoljavajuće' :
+    'Kritično';
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    skor: skor_,
+    ocjena,
+    komponente,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishProgressChangelog() (#1002) ──────────────────────────────────
+
+export interface AutofinishFazaChangelog {
+  fazaId: string;
+  fazaNaziv: string;
+  odBroj: number;
+  doBroj: number;
+  ukupnoIteracija: number;
+  iteracije: AutofinishMilestoneIteracija[];
+}
+
+export interface AutofinishProgressChangelogResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoFaza: number;
+  ukupnoIteracija: number;
+  faze: AutofinishFazaChangelog[];
+  timestamp: string;
+}
+
+const CHANGELOG_FAZE_DEF: { fazaId: string; fazaNaziv: string; odBroj: number; doBroj: number }[] = [
+  { fazaId: 'osnova', fazaNaziv: 'Osnovna Infrastruktura', odBroj: 800, doBroj: 840 },
+  { fazaId: 'dijagnostika', fazaNaziv: 'Dijagnostika i Auto-Repair', odBroj: 841, doBroj: 880 },
+  { fazaId: 'api-ekosistem', fazaNaziv: 'Autofinish API Ekosistem', odBroj: 881, doBroj: 920 },
+  { fazaId: 'dashboard', fazaNaziv: 'Dashboard UI Kompletiranje', odBroj: 921, doBroj: 960 },
+  { fazaId: 'finalizacija', fazaNaziv: 'Finalizacija #1000+', odBroj: 961, doBroj: 9999 },
+];
+
+/**
+ * Vraća autofinish iteracije grupisane po razvojnim fazama.
+ * Svaka faza odgovara jednom roadmap milestone-u.
+ *
+ * @returns AutofinishProgressChangelogResult
+ */
+export function getAutofinishProgressChangelog(): AutofinishProgressChangelogResult {
+  const faze: AutofinishFazaChangelog[] = CHANGELOG_FAZE_DEF.map((faza) => {
+    const do_ = Math.min(faza.doBroj, AUTOFINISH_COUNT);
+    const raspon = getAutofinishIteracijaRaspon(faza.odBroj, do_);
+    return {
+      fazaId: faza.fazaId,
+      fazaNaziv: faza.fazaNaziv,
+      odBroj: faza.odBroj,
+      doBroj: do_,
+      ukupnoIteracija: raspon.iteracije.length,
+      iteracije: raspon.iteracije,
+    };
+  }).filter((f) => f.ukupnoIteracija > 0);
+
+  const ukupnoIteracija = faze.reduce((s, f) => s + f.ukupnoIteracija, 0);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoFaza: faze.length,
+    ukupnoIteracija,
+    faze,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishKompletiranjMatrix() (#1006) ─────────────────────────────────
+
+export interface AutofinishMatrixCell {
+  red: string;
+  kolona: string;
+  vrijednost: number;
+  opisano: string;
+}
+
+export interface AutofinishKompletiranjMatrixResult {
+  verzija: string;
+  autofinishBroj: number;
+  dimenzija: number;
+  redovi: string[];
+  kolone: string[];
+  matrica: AutofinishMatrixCell[][];
+  timestamp: string;
+}
+
+const MATRIX_IDS = [
+  'plasiranje', 'zvanicno-otvaranje', 'operativni-centar',
+  'omega-ai', 'oktavni-monolog', 'spaja-pro',
+  'ekosistem', 'dijagnostika', 'autofinish-motor',
+];
+
+const MATRIX_NAZIVI: Record<string, string> = {
+  'plasiranje': 'Plasiranje',
+  'zvanicno-otvaranje': 'Zv. Otvaranje',
+  'operativni-centar': 'Op. Centar',
+  'omega-ai': 'OMEGA AI',
+  'oktavni-monolog': 'Oktavni Mon.',
+  'spaja-pro': 'SpajaPro',
+  'ekosistem': 'Ekosistem',
+  'dijagnostika': 'Dijagnostika',
+  'autofinish-motor': 'Autofinish',
+};
+
+/**
+ * Vraća NxN matricu završenosti između svih 9 OMEGA podsistema.
+ * Dijagonala = 100 (svaki sistem je 100% kompatibilan sa sobom).
+ * Vrijednosti odražavaju relativnu integraciju između podsistema (80-100).
+ *
+ * @returns AutofinishKompletiranjMatrixResult
+ */
+export function getAutofinishKompletiranjMatrix(): AutofinishKompletiranjMatrixResult {
+  const n = MATRIX_IDS.length;
+  const petlja = pokreniAutofinishPetlju();
+  const zdravljeMap: Record<string, number> = {};
+  for (const p of petlja.podsistemi) {
+    zdravljeMap[p.id] = p.progres;
+  }
+
+  const matrica: AutofinishMatrixCell[][] = MATRIX_IDS.map((red) => {
+    return MATRIX_IDS.map((kolona) => {
+      const redZdravlje = zdravljeMap[red] ?? 100;
+      const kolonaZdravlje = zdravljeMap[kolona] ?? 100;
+      const vrijednost = red === kolona ? 100 : Math.round((redZdravlje + kolonaZdravlje) / 2);
+      return {
+        red,
+        kolona,
+        vrijednost,
+        opisano: red === kolona
+          ? `${MATRIX_NAZIVI[red]} — self (100%)`
+          : `${MATRIX_NAZIVI[red]} ↔ ${MATRIX_NAZIVI[kolona]} (${vrijednost}%)`,
+      };
+    });
+  });
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    dimenzija: n,
+    redovi: MATRIX_IDS.map((id) => MATRIX_NAZIVI[id] ?? id),
+    kolone: MATRIX_IDS.map((id) => MATRIX_NAZIVI[id] ?? id),
+    matrica,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishExportSummary() (#1010) ──────────────────────────────────────
+
+export interface AutofinishExportSummary {
+  verzija: string;
+  autofinishBroj: number;
+  generisanoU: string;
+  petlja: ReturnType<typeof pokreniAutofinishPetlju>;
+  zdravlje: ReturnType<typeof getAutofinishHealthSummary>;
+  statistika: ReturnType<typeof getAutofinishStatistikaSummary>;
+  roadmap: ReturnType<typeof getAutofinishRoadmapStatusSummary>;
+  velocity: ReturnType<typeof getAutofinishIterationsPerDay>;
+  coverage: ReturnType<typeof getAutofinishCoverageReport>;
+  healthScore: ReturnType<typeof getAutofinishHealthScore>;
+  dependencies: ReturnType<typeof getAutofinishPodsistemiDependencies>;
+}
+
+/**
+ * Vraća kompletan export svih ključnih autofinish metrika u jedan objekat.
+ * Kombinuje: petlja, zdravlje, statistika, roadmap, velocity, coverage,
+ * healthScore, dependencies.
+ *
+ * @returns AutofinishExportSummary
+ */
+export function getAutofinishExportSummary(): AutofinishExportSummary {
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    generisanoU: new Date().toISOString(),
+    petlja: pokreniAutofinishPetlju(),
+    zdravlje: getAutofinishHealthSummary(),
+    statistika: getAutofinishStatistikaSummary(),
+    roadmap: getAutofinishRoadmapStatusSummary(),
+    velocity: getAutofinishIterationsPerDay(),
+    coverage: getAutofinishCoverageReport(),
+    healthScore: getAutofinishHealthScore(),
+    dependencies: getAutofinishPodsistemiDependencies(),
   };
 }

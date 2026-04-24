@@ -38,6 +38,10 @@ import {
   getAutofinishCoverageReport,
   getAutofinishMilestoneProjection,
   getAutofinishPodsistemiDependencies,
+  getAutofinishHealthScore,
+  getAutofinishProgressChangelog,
+  getAutofinishKompletiranjMatrix,
+  getAutofinishExportSummary,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -55,6 +59,10 @@ import { VelocityWidget } from './VelocityWidget';
 import { CoverageWidget } from './CoverageWidget';
 import { MilestoneProjectionWidget } from './MilestoneProjectionWidget';
 import { DependencyWidget } from './DependencyWidget';
+import { HealthScoreWidget } from './HealthScoreWidget';
+import { ProgressChangelogWidget } from './ProgressChangelogWidget';
+import { KompletiranjMatrixWidget } from './KompletiranjMatrixWidget';
+import { ExportWidget } from './ExportWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -108,6 +116,12 @@ export default function AutofinishPage() {
   const coverage = getAutofinishCoverageReport();
   const projection = getAutofinishMilestoneProjection();
   const depGraph = getAutofinishPodsistemiDependencies();
+
+  // #998-#1014 — Health Score, Progress Changelog, Matrix, Export
+  const healthScore = getAutofinishHealthScore();
+  const progressChangelog = getAutofinishProgressChangelog();
+  const kompletiranjMatrix = getAutofinishKompletiranjMatrix();
+  const exportData = getAutofinishExportSummary();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -670,6 +684,18 @@ export default function AutofinishPage() {
 
         {/* #996 — Dependency Widget */}
         <DependencyWidget dependencies={depGraph} />
+
+        {/* #1001 — Health Score Widget */}
+        <HealthScoreWidget healthScore={healthScore} />
+
+        {/* #1005 — Progress Changelog Widget */}
+        <ProgressChangelogWidget changelog={progressChangelog} />
+
+        {/* #1009 — Kompletiranje Matrix Widget */}
+        <KompletiranjMatrixWidget matrix={kompletiranjMatrix} />
+
+        {/* #1013 — Export Widget */}
+        <ExportWidget exportData={exportData} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
