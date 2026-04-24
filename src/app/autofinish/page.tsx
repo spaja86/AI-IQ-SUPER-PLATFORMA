@@ -33,6 +33,7 @@ import {
   getAutofinishTopIteracije,
   getAutofinishKategorijePorHijarhijama,
   getAutofinishTrendPoKategorijama,
+  getAutofinishKategorijeStats,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -45,6 +46,7 @@ import { IteracijaRasponWidget } from './IteracijaRasponWidget';
 import { TopIteracijeWidget } from './TopIteracijeWidget';
 import { KategorijeWidget } from './KategorijeWidget';
 import { TrendWidget } from './TrendWidget';
+import { KategorijeStatsWidget } from './KategorijeStatsWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -90,6 +92,9 @@ export default function AutofinishPage() {
   const statistikaSummary = getAutofinishStatistikaSummary();
   // #909 — zdravlje summary
   const zdravljeSummary = getAutofinishHealthSummary();
+  // #978 — Kategorije stats widget
+  const kategorijeStats = getAutofinishKategorijeStats();
+
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
 
@@ -597,6 +602,17 @@ export default function AutofinishPage() {
             </a>
           </div>
         </section>
+
+        {/* #978 — Kategorije Stats Widget */}
+        <KategorijeStatsWidget
+          kategorije={kategorijeStats.kategorije}
+          ukupnoIteracija={kategorijeStats.ukupnoIteracija}
+          globalMin={kategorijeStats.globalMin}
+          globalMax={kategorijeStats.globalMax}
+          globalAvg={kategorijeStats.globalAvg}
+          autofinishBroj={AUTOFINISH_COUNT}
+          verzija={APP_VERSION}
+        />
 
         {/* #968 — Trend po Kategorijama Widget */}
         <TrendWidget

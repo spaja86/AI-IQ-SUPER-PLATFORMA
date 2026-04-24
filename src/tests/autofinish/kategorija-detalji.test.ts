@@ -250,19 +250,19 @@ async function runTests(): Promise<void> {
   console.log('\n📦 Globalni Invarijanti');
 
   await test('AUTOFINISH_COUNT === 970', () => {
-    assertEqual(AUTOFINISH_COUNT, 970, 'AUTOFINISH_COUNT=970');
+    assertEqual(AUTOFINISH_COUNT, 980, 'AUTOFINISH_COUNT=980');
   });
 
   await test('APP_VERSION === "44.91.0"', () => {
-    assertEqual(APP_VERSION, '44.91.0', 'APP_VERSION=44.91.0');
+    assertEqual(APP_VERSION, '45.01.0', 'APP_VERSION=45.01.0');
   });
 
   await test('TOTAL_DIAGNOSTIKA === 1924', () => {
-    assertEqual(TOTAL_DIAGNOSTIKA, 1924, 'TOTAL_DIAGNOSTIKA=1924');
+    assertEqual(TOTAL_DIAGNOSTIKA, 1944, 'TOTAL_DIAGNOSTIKA=1944');
   });
 
   await test('TOTAL_API_ROUTES === 945', () => {
-    assertEqual(TOTAL_API_ROUTES, 945, 'TOTAL_API_ROUTES=945');
+    assertEqual(TOTAL_API_ROUTES, 948, 'TOTAL_API_ROUTES=948');
   });
 
   // ─── Rezultat ─────────────────────────────────────────────────────────────
