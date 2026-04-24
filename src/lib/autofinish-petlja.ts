@@ -32,6 +32,8 @@
  *
  * Autofinish #720 (Konstantni pregled — sve konstante potvrđene i usklađene, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1423→1425, APP_VERSION 42.40.0→42.41.0)
  *
+ * Autofinish #721 (Verifikacija dijagnostičkog sistema — createCheck broj potvrđen: 1427 provera aktivno, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1425→1427, APP_VERSION 42.41.0→42.42.0)
+ *
  */
 
 import {
