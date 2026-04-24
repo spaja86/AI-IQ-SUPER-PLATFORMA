@@ -6,6 +6,7 @@
 // Autofinish #874 — Progress Info Widget
 // Autofinish #889 — Verzije Summary Sekcija
 // Autofinish #899 — Statistika Summary Sekcija
+// Autofinish #909 — Zdravlje Summary Sekcija
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -16,6 +17,7 @@ import {
   getAutofinishProgressInfo,
   getAutofinishVerzijeSummary,
   getAutofinishStatistikaSummary,
+  getAutofinishHealthSummary,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -66,6 +68,8 @@ export default function AutofinishPage() {
   const verzijeSummary = getAutofinishVerzijeSummary();
   // #899 — statistika summary
   const statistikaSummary = getAutofinishStatistikaSummary();
+  // #909 — zdravlje summary
+  const zdravljeSummary = getAutofinishHealthSummary();
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
@@ -389,6 +393,68 @@ export default function AutofinishPage() {
               href="/api/autofinish-statistika"
               className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
               aria-label="Preuzmi statistike kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
+        </section>
+
+        {/* #909 — Zdravlje Summary sekcija */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish zdravlje summary"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">🏥 </span>Zdravlje platforme
+          </h2>
+          <div
+            className={`text-4xl font-bold mb-4 ${
+              zdravljeSummary.zdravlje >= 95
+                ? 'text-green-400'
+                : zdravljeSummary.zdravlje >= 80
+                ? 'text-yellow-400'
+                : zdravljeSummary.zdravlje >= 60
+                ? 'text-orange-400'
+                : 'text-red-400'
+            }`}
+            aria-label={`Zdravlje: ${zdravljeSummary.zdravlje}%`}
+          >
+            {zdravljeSummary.zdravlje}%
+            <span className="ml-3 text-lg font-normal text-gray-400">
+              {zdravljeSummary.status}
+            </span>
+          </div>
+          <ul
+            className="grid grid-cols-2 gap-2 text-sm"
+            role="list"
+            aria-label="Lista zdravlje detalja"
+          >
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Ukupno provera</span>
+              <span className="text-white font-mono">{zdravljeSummary.ukupnoProvera}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Uspešnih</span>
+              <span className="text-green-400 font-mono">{zdravljeSummary.uspesnih}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Upozorenja</span>
+              <span className="text-yellow-400 font-mono">{zdravljeSummary.upozorenja}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Grešaka</span>
+              <span className={zdravljeSummary.gresaka > 0 ? 'text-red-400 font-mono' : 'text-gray-400 font-mono'}>{zdravljeSummary.gresaka}</span>
+            </li>
+            <li className="flex justify-between bg-gray-800 rounded px-3 py-2">
+              <span className="text-gray-400">Kritičnih</span>
+              <span className={zdravljeSummary.kriticnih > 0 ? 'text-red-600 font-mono font-bold' : 'text-gray-400 font-mono'}>{zdravljeSummary.kriticnih}</span>
+            </li>
+          </ul>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-zdravlje"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi zdravlje kao JSON"
             >
               JSON API →
             </a>

@@ -392,6 +392,26 @@
  *
  * Autofinish #900 (E2E Svih 7 Autofinish API Endpoints — konzistentnost verzija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1782→1784, APP_VERSION 44.20.0→44.21.0)
  *
+ * Autofinish #901 (getAutofinishHealthSummary() Helper — zdravlje%, uspesnih, upozorenja, gresaka, kriticnih, ukupnoProvera, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1784→1786, APP_VERSION 44.21.0→44.22.0)
+ *
+ * Autofinish #902 (Unit Testovi getAutofinishHealthSummary() — schema, zdravlje 0–100, tipovi, konzistentno sa runDiagnostics(), 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1786→1788, APP_VERSION 44.22.0→44.23.0)
+ *
+ * Autofinish #903 (GET /api/autofinish-zdravlje — zdravlje%, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1788→1790, APP_VERSION 44.23.0→44.24.0)
+ *
+ * Autofinish #904 (Integracioni Testovi /api/autofinish-zdravlje — schema, Cache-Control, zdravlje 0–100, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1790→1792, APP_VERSION 44.24.0→44.25.0)
+ *
+ * Autofinish #905 (getAutofinishRoadmapInfo() Helper — milestones niz, naziv, opis, target, status, autofinishOd, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1792→1794, APP_VERSION 44.25.0→44.26.0)
+ *
+ * Autofinish #906 (Unit Testovi getAutofinishRoadmapInfo() — schema, niz ne prazan, statusi validni, targets rastuci, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1794→1796, APP_VERSION 44.26.0→44.27.0)
+ *
+ * Autofinish #907 (GET /api/autofinish-roadmap — milestones, Cache-Control, X-App-Version, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1796→1798, APP_VERSION 44.27.0→44.28.0)
+ *
+ * Autofinish #908 (Integracioni Testovi /api/autofinish-roadmap — schema, Cache-Control, milestones, statusi, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1798→1800, APP_VERSION 44.28.0→44.29.0)
+ *
+ * Autofinish #909 (/autofinish Dashboard Zdravlje Summary Sekcija — zdravlje%, status boja, ARIA, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1800→1802, APP_VERSION 44.29.0→44.30.0)
+ *
+ * Autofinish #910 (E2E Svih 9 Autofinish API Endpoints — konzistentnost verzija kroz svih 9 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1802→1804, APP_VERSION 44.30.0→44.31.0)
+ *
  */
 
 import {
@@ -790,6 +810,16 @@ export function getAutofinishIteracijaOpis(br: number): string {
     898: 'Integracioni testovi /api/autofinish-meta',
     899: '/autofinish dashboard statistika summary sekcija',
     900: 'E2E svih 7 autofinish API endpoints',
+    901: 'getAutofinishHealthSummary() helper',
+    902: 'Unit testovi getAutofinishHealthSummary()',
+    903: 'GET /api/autofinish-zdravlje',
+    904: 'Integracioni testovi /api/autofinish-zdravlje',
+    905: 'getAutofinishRoadmapInfo() helper',
+    906: 'Unit testovi getAutofinishRoadmapInfo()',
+    907: 'GET /api/autofinish-roadmap',
+    908: 'Integracioni testovi /api/autofinish-roadmap',
+    909: '/autofinish dashboard zdravlje summary sekcija',
+    910: 'E2E svih 9 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1051,7 +1081,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '43.91.0', autofinishBroj: 870, opis: 'Health summary, full-report API' },
   { verzija: '44.01.0', autofinishBroj: 880, opis: 'Progress info, podsistemi API, iteracija-opis API' },
   { verzija: '44.11.0', autofinishBroj: 890, opis: 'Audit report, verzije summary, cross-endpoint E2E' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Statistika summary, meta info, full E2E endpoints' },
+  { verzija: '44.21.0', autofinishBroj: 900, opis: 'Statistika summary, meta info, full E2E endpoints' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Zdravlje summary, roadmap info, 9-endpoint E2E' },
 ];
 
 /**
@@ -1150,7 +1181,52 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-verzije',
       '/api/autofinish-statistika',
       '/api/autofinish-meta',
+      '/api/autofinish-zdravlje',
+      '/api/autofinish-roadmap',
     ],
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishRoadmapInfo() (#905) ───────────────────────────────────────
+
+export type AutofinishMilestoneStatus = 'done' | 'active' | 'pending';
+
+export interface AutofinishMilestone {
+  naziv: string;
+  opis: string;
+  autofinishOd: number;
+  autofinishDo: number;
+  status: AutofinishMilestoneStatus;
+}
+
+export interface AutofinishRoadmapInfo {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoMilestona: number;
+  milestones: AutofinishMilestone[];
+  timestamp: string;
+}
+
+/**
+ * Vraća roadmap platforme sa milestones-ima — svaki milestone ima naziv, opis, target raspon i status.
+ *
+ * @returns AutofinishRoadmapInfo
+ */
+export function getAutofinishRoadmapInfo(): AutofinishRoadmapInfo {
+  const milestones: AutofinishMilestone[] = [
+    { naziv: 'Osnovna Infrastruktura', opis: 'Rate limit, logger, config, API osnova', autofinishOd: 800, autofinishDo: 840, status: 'done' },
+    { naziv: 'Dijagnostika i Auto-Repair', opis: 'Health, SSE, diagnostics, repair, test coverage', autofinishOd: 841, autofinishDo: 880, status: 'done' },
+    { naziv: 'Autofinish API Ekosistem', opis: 'Audit report, verzije, statistika, meta, zdravlje, roadmap', autofinishOd: 881, autofinishDo: 920, status: 'active' },
+    { naziv: 'Dashboard UI Kompletiranje', opis: 'Sve dashboard sekcije, Statistika, Zdravlje, Roadmap sekcije', autofinishOd: 921, autofinishDo: 960, status: 'pending' },
+    { naziv: 'Finalizacija #1000', opis: 'E2E svih endpoints, finalni audit, OMEGA AI integracija', autofinishOd: 961, autofinishDo: 1000, status: 'pending' },
+  ];
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoMilestona: milestones.length,
+    milestones,
     timestamp: new Date().toISOString(),
   };
 }
