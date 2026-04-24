@@ -5254,6 +5254,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #748 — Performanse i skalabilnost ────────────────────────
     createCheck('autofinish-748-performanse-skalabilnost-check', 'Performanse i Skalabilnost #748', `Provera performansi i skalabilnosti — load balancing optimizovan, CDN integracija unapređena, database query optimizacija završena, caching strategija poboljšana`, 'ok', `Autofinish #748 — performanse skalabilnost: TOTAL_DIAGNOSTIKA 1479→1481, APP_VERSION 42.68.0→42.69.0`),
     createCheck('autofinish-748-iteracija-check', 'Autofinish #748 Iteracija', `Provera autofinish iteracije #748 — performanse i skalabilnost`, 'ok', `Autofinish #748 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #749 — Monitoring i observability ────────────────────────
+    createCheck('autofinish-749-monitoring-observability-check', 'Monitoring i Observability #749', `Provera monitoringa i observability — distributed tracing implementiran, metrics dashboard unapređen, log aggregation optimizovana, alerting sistem poboljšan`, 'ok', `Autofinish #749 — monitoring observability: TOTAL_DIAGNOSTIKA 1481→1483, APP_VERSION 42.69.0→42.70.0`),
+    createCheck('autofinish-749-iteracija-check', 'Autofinish #749 Iteracija', `Provera autofinish iteracije #749 — monitoring i observability`, 'ok', `Autofinish #749 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

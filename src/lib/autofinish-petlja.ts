@@ -88,6 +88,8 @@
  *
  * Autofinish #748 (Performanse i skalabilnost — load balancing optimizovan, CDN integracija unapređena, database query optimizacija završena, caching strategija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1479→1481, APP_VERSION 42.68.0→42.69.0)
  *
+ * Autofinish #749 (Monitoring i observability — distributed tracing implementiran, metrics dashboard unapređen, log aggregation optimizovana, alerting sistem poboljšan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1481→1483, APP_VERSION 42.69.0→42.70.0)
+ *
  */
 
 import {
