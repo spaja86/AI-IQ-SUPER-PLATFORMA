@@ -156,6 +156,8 @@
  *
  * Autofinish #782 (Monitoring i observability — structured logging uveden, metrics dashboard dodat, distributed tracing implementiran, alerting sistem poboljšan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1547→1549, APP_VERSION 43.2.0→43.3.0)
  *
+ * Autofinish #783 (Sigurnost i autentifikacija — OAuth2 integracija unapređena, JWT refresh token mehanizam dodat, rate limiting implementiran, CORS politika poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1549→1551, APP_VERSION 43.3.0→43.4.0)
+ *
  */
 
 import {
