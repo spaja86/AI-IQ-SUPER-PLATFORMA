@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -11,14 +12,47 @@ import {
   OMEGA_AI_PERSONA_COUNT,
   SPAJA_PRO_RANGE,
 } from '@/lib/constants';
+import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 
-export async function GET() {
+// #827 — maksimalni broj istorija zapisa po zahtevu (paginacija)
+const DEFAULT_PAGE_SIZE = 50;
+const MAX_PAGE_SIZE = 100;
+
+export async function GET(req: NextRequest) {
+  // #826 — Rate limiting: 60 zahteva u 60 sekundi po IP
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const allowed = await checkRateLimitGlobal(rateLimitKey(ip, '/api/autofinish'), 60, 60);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Too Many Requests', verzija: APP_VERSION, timestamp: new Date().toISOString() },
+      { status: 429, headers: { 'Retry-After': '60' } },
+    );
+  }
+
+  const { searchParams } = new URL(req.url);
+  // #827 — paginacija istorije: pageSize i offset parametri
+  const pageSize = Math.min(
+    parseInt(searchParams.get('pageSize') ?? String(DEFAULT_PAGE_SIZE), 10) || DEFAULT_PAGE_SIZE,
+    MAX_PAGE_SIZE,
+  );
+  const offset = Math.max(parseInt(searchParams.get('offset') ?? '0', 10) || 0, 0);
+
   const procenat = (AUTOFINISH_COUNT / AUTOFINISH_TARGET) * 100;
+
+  // Generiši samo traženu stranicu istorije
+  const start = offset;
+  const end = Math.min(offset + pageSize, AUTOFINISH_COUNT);
+  const istorija = Array.from({ length: Math.max(end - start, 0) }, (_, i) => ({
+    iteracija: start + i + 1,
+    opis: getAutofinishOpis(start + i + 1),
+  }));
 
   return NextResponse.json({
     status: 'aktivan',
     naziv: 'Autofinish Sistem',
     opis: `Kontinualno poboljšanje AI IQ SUPER PLATFORMA — ${AUTOFINISH_COUNT}/3×10¹⁷ iteracija`,
+    verzija: APP_VERSION,
+    autofinishIteracija: AUTOFINISH_COUNT,
 
     trenutniStatus: {
       iteracija: AUTOFINISH_COUNT,
@@ -38,10 +72,14 @@ export async function GET() {
       spajaProVerzije: SPAJA_PRO_RANGE,
     },
 
-    istorija: Array.from({ length: AUTOFINISH_COUNT }, (_, i) => ({
-      iteracija: i + 1,
-      opis: getAutofinishOpis(i + 1),
-    })),
+    // #827 — paginirana istorija (max pageSize zapisa)
+    istorija,
+    paginacija: {
+      ukupno: AUTOFINISH_COUNT,
+      pageSize,
+      offset,
+      sledeci: end < AUTOFINISH_COUNT ? end : null,
+    },
 
     timestamp: new Date().toISOString(),
   });

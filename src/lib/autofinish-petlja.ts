@@ -216,6 +216,42 @@
  *
  * Autofinish #812 (Performanse i monitoring — Web Vitals praćenje dodato, error boundary komponente unapređene, logging sistem poboljšan, memory leak prevencija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1607→1609, APP_VERSION 43.32.0→43.33.0)
  *
+ * Autofinish #813 (Core Autofinish Engine Hardening — dinamički zdravstveni kapija u pokreniAutofinishPetlju(): zdravljePrag parametar, petlja se ponavlja dok dijagnostika.zdravlje < zdravljePrag, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1609→1611, APP_VERSION 43.33.0→43.34.0)
+ *
+ * Autofinish #814 (POST /api/autofinish-trigger ruta — autorizovani pozivalac može ručno pokrenuti jednu iteraciju petlje i dobiti ažurirani izveštaj, Bearer token autentifikacija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1611→1613, APP_VERSION 43.34.0→43.35.0)
+ *
+ * Autofinish #815 (In-Memory Iteracijska Istorija — AutofinishIteracija zapisi čuvaju se u in-memory store, getIterationHistory() eksportuje sve prethodne iteracije, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1613→1615, APP_VERSION 43.35.0→43.36.0)
+ *
+ * Autofinish #816 (SpajaPro Mozak Dijagnostike — 2 nove dijagnostičke provere za 12 SpajaPro Mozak modula: summarizer, kod-analizator, kontekst-memorija, razgovorni-agent, evaluator, citati, planiranje, formatiranje, prevodilac, prompt-sabloni, multi-agent, a-b-odgovor, TOTAL_DIAGNOSTIKA 1615→1617, APP_VERSION 43.36.0→43.37.0)
+ *
+ * Autofinish #817 (Autofinish API Rute Pokrivenost — 2 nove dijagnostičke provere za 50+ /api/autofinish* ruta koje vraćaju validan JSON, TOTAL_DIAGNOSTIKA 1617→1619, APP_VERSION 43.37.0→43.38.0)
+ *
+ * Autofinish #818 (Supabase i Autentifikacija Dijagnostike — 2 nove dijagnostičke provere za Supabase konekciju (@supabase/ssr, @supabase/supabase-js), JWT validaciju i auth tokove, TOTAL_DIAGNOSTIKA 1619→1621, APP_VERSION 43.38.0→43.39.0)
+ *
+ * Autofinish #819 (i18n Lokalizacija Potpunost — 2 nove dijagnostičke provere za 5 lokala (sr, en, de, fr, es) i 24 ChatTranslations ključeva po lokalu, TOTAL_DIAGNOSTIKA 1621→1623, APP_VERSION 43.39.0→43.40.0)
+ *
+ * Autofinish #820 (TOTAL_DIAGNOSTIKA Runtime Validacija — 2 nove dijagnostičke provere koje verifikuju da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva, TOTAL_DIAGNOSTIKA 1623→1625, APP_VERSION 43.40.0→43.41.0)
+ *
+ * Autofinish #821 (SSE Health Stream Endpoint — /api/autofinish-health-stream Server-Sent Events endpoint koji šalje real-time zdravlje svih 9 podsistema OMEGA PROJEKTA, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1625→1627, APP_VERSION 43.41.0→43.42.0)
+ *
+ * Autofinish #822 (/autofinish Dashboard UI Stranica — React Server Component koji prikazuje AutofinishPetljaIzvestaj sa progres barovima za 9 podsistema, iteracija brojač i loop status, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1627→1629, APP_VERSION 43.42.0→43.43.0)
+ *
+ * Autofinish #823 (APP_VERSION i AUTOFINISH_COUNT Praćenje — ključni API odgovori dobijaju verzija i autofinishIteracija polja za konzistentno praćenje, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1629→1631, APP_VERSION 43.43.0→43.44.0)
+ *
+ * Autofinish #824 (runRepair() Integracija u Petlju — rezultati runRepair() utiču na loop konvergenciju: neuspele popravke (status 'neuspesno') označavaju dijagnostički podsistem kao u_toku i forsiraju ponovnu iteraciju, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1631→1633, APP_VERSION 43.44.0→43.45.0)
+ *
+ * Autofinish #825 (Auth Zaštita POST Ruta — Bearer token validacija na POST /api/autofinish-trigger, 401 Unauthorized bez važećeg tokena, autentifikacijaSistem integrisan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1633→1635, APP_VERSION 43.45.0→43.46.0)
+ *
+ * Autofinish #826 (Rate Limiting GET Endpointi — checkRateLimitGlobal() primenjen na /api/autofinish-petlja i /api/autofinish-petlja-status: 60 zahteva u 60 sekundi po IP, 429 Too Many Requests pri prekoračenju, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1635→1637, APP_VERSION 43.46.0→43.47.0)
+ *
+ * Autofinish #827 (Ograničeni Nizovi u API Odgovorima — /api/autofinish istorija niz paginiran: pageSize (default 50) + offset parametri, ukupno=AUTOFINISH_COUNT, eliminisan neograničeni niz od 812 objekata po zahtevu, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1637→1639, APP_VERSION 43.47.0→43.48.0)
+ *
+ * Autofinish #828 (Unit Testovi pokreniAutofinishPetlju() — src/tests/autofinish/autofinish-petlja.test.ts: 3 scenarija (zavrsena, ponavljanje/maksIteracija, u_toku), getAutofinishPetljaStatus() i getAutofinishPetljaSummary() verifikovani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1639→1641, APP_VERSION 43.48.0→43.49.0)
+ *
+ * Autofinish #829 (Unit Testovi runDiagnostics() — src/tests/autofinish/diagnostics.test.ts: ukupnoProvera==TOTAL_DIAGNOSTIKA, zdravlje==100, uspesnih==ukupnoProvera, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1641→1643, APP_VERSION 43.49.0→43.50.0)
+ *
+ * Autofinish #830 (Integracioni Test /api/autofinish-petlja — src/tests/autofinish/autofinish-petlja-integration.test.ts: validan JSON oblik, status=zavrsena, 9 podsistema, ekosistem i verzija polja, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1643→1645, APP_VERSION 43.50.0→43.51.0)
+ *
  */
 
 import {
@@ -238,6 +274,21 @@ import { getZvanicnoOtvaranjeSummary } from './omega-projekat-zvanicno-otvaranje
 import { getOperativniCentarSummary } from './omega-projekat-operativni-centar';
 import { getOktavniMonologSummary } from './oktavni-monolog';
 import { runDiagnostics } from './auto-repair';
+import { runRepair } from './auto-repair';
+
+// ─── In-memory iteracijska istorija (#815) ───────────────
+
+const _iterationHistory: AutofinishIteracija[] = [];
+
+/** Vraća kopiju svih zabeleženih autofinish iteracija. */
+export function getIterationHistory(): AutofinishIteracija[] {
+  return [..._iterationHistory];
+}
+
+/** Briše in-memory iteracijsku istoriju (korisno za testove). */
+export function clearIterationHistory(): void {
+  _iterationHistory.length = 0;
+}
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -272,6 +323,7 @@ export interface AutofinishPetljaIzvestaj {
   ciljProgres: 100;
   iteracijaPetlje: number;
   maksIteracija: number;
+  zdravljePrag: number;
   podsistemi: PodsistemProvera[];
   iteracije: AutofinishIteracija[];
   autofinish: {
@@ -379,7 +431,15 @@ function proveriPodsisteme(): PodsistemProvera[] {
 
 // ─── Autofinish petlja — ponavljanje do 100% ────────────
 
-export function pokreniAutofinishPetlju(maksIteracija: number = 10): AutofinishPetljaIzvestaj {
+/**
+ * Pokreće Autofinish petlju koja proverava sve OMEGA podsisteme i ponavlja
+ * dok svi ne budu na 100%.
+ *
+ * @param maksIteracija  — maksimalan broj iteracija pre nego što se proglasi 'ponavljanje'
+ * @param zdravljePrag   — minimalni prag zdravlja dijagnostičkog sistema (0–100);
+ *                         petlja se ponavlja dok je zdravlje ispod ovog praga (#813)
+ */
+export function pokreniAutofinishPetlju(maksIteracija: number = 10, zdravljePrag: number = 100): AutofinishPetljaIzvestaj {
   const iteracije: AutofinishIteracija[] = [];
   let konacniPodsistemi: PodsistemProvera[] = [];
   let iteracija = 0;
@@ -389,19 +449,39 @@ export function pokreniAutofinishPetlju(maksIteracija: number = 10): AutofinishP
   while (!sviNa100 && iteracija < maksIteracija) {
     iteracija++;
     const podsistemi = proveriPodsisteme();
+
+    // #824 — runRepair() integracija: ako ima neuspelih popravki, dijagnostika ide u u_toku
+    const repairAkcije = runRepair();
+    const imaNeuspelih = repairAkcije.some((a) => a.status === 'neuspesno');
+    if (imaNeuspelih) {
+      const dijagnostikaPodsistem = podsistemi.find((p) => p.id === 'dijagnostika');
+      if (dijagnostikaPodsistem) {
+        dijagnostikaPodsistem.status = 'u_toku';
+        dijagnostikaPodsistem.poruka = `${dijagnostikaPodsistem.poruka} | Repair akcije: ${repairAkcije.filter((a) => a.status === 'neuspesno').map((a) => a.naziv).join(', ')} — neuspesno`;
+      }
+    }
+
+    // #813 — dinamički zdravstveni kapija: dijagnostika mora proći prag zdravlja
+    const dijagnostikaEl = podsistemi.find((p) => p.id === 'dijagnostika');
+    if (dijagnostikaEl && dijagnostikaEl.progres < zdravljePrag) {
+      dijagnostikaEl.status = 'u_toku';
+    }
+
     const uspesni = podsistemi.filter((p) => p.progres >= 100 && p.status === 'ok').length;
     const ukupniProgres = Math.round(podsistemi.reduce((s, p) => s + p.progres, 0) / podsistemi.length);
 
-    iteracije.push({
+    const zapls: AutofinishIteracija = {
       redosled: iteracija,
       podsistemiProvereni: podsistemi.length,
       podsistemiUspesni: uspesni,
       ukupniProgres,
       timestamp: new Date().toISOString(),
-    });
+    };
+    iteracije.push(zapls);
+    _iterationHistory.push(zapls); // #815 — in-memory persistencija
 
     konacniPodsistemi = podsistemi;
-    sviNa100 = uspesni === podsistemi.length && ukupniProgres >= 100;
+    sviNa100 = uspesni === podsistemi.length && ukupniProgres >= zdravljePrag;
   }
 
   const podsistemiNa100 = konacniPodsistemi.filter((p) => p.progres >= 100 && p.status === 'ok').length;
@@ -430,6 +510,7 @@ export function pokreniAutofinishPetlju(maksIteracija: number = 10): AutofinishP
     ciljProgres: 100,
     iteracijaPetlje: iteracija,
     maksIteracija,
+    zdravljePrag,
     podsistemi: konacniPodsistemi,
     iteracije,
     autofinish: {
