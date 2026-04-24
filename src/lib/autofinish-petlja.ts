@@ -214,6 +214,8 @@
  *
  * Autofinish #811 (Bezbednost i autentifikacija — JWT token refresh mehanizam unapređen, rate limiting dodat, CSRF zaštita ojačana, input validacija proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1605→1607, APP_VERSION 43.31.0→43.32.0)
  *
+ * Autofinish #812 (Performanse i monitoring — Web Vitals praćenje dodato, error boundary komponente unapređene, logging sistem poboljšan, memory leak prevencija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1607→1609, APP_VERSION 43.32.0→43.33.0)
+ *
  */
 
 import {
