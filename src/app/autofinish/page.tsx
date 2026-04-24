@@ -13,6 +13,7 @@
 // Autofinish #935 — Iteracija Raspon Widget
 // Autofinish #945 — Top Iteracije Widget
 // Autofinish #955 — Kategorije Widget
+// Autofinish #968 — TrendWidget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -31,6 +32,7 @@ import {
   getAutofinishIteracijaRaspon,
   getAutofinishTopIteracije,
   getAutofinishKategorijePorHijarhijama,
+  getAutofinishTrendPoKategorijama,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -42,6 +44,7 @@ import { RoadmapWithModal } from './RoadmapWithModal';
 import { IteracijaRasponWidget } from './IteracijaRasponWidget';
 import { TopIteracijeWidget } from './TopIteracijeWidget';
 import { KategorijeWidget } from './KategorijeWidget';
+import { TrendWidget } from './TrendWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -87,6 +90,9 @@ export default function AutofinishPage() {
   const statistikaSummary = getAutofinishStatistikaSummary();
   // #909 — zdravlje summary
   const zdravljeSummary = getAutofinishHealthSummary();
+  // #968 — Trend po kategorijama widget
+  const trendKategorije = getAutofinishTrendPoKategorijama(5);
+
   // #955 — Kategorije widget
   const kategorije = getAutofinishKategorijePorHijarhijama();
 
@@ -591,6 +597,14 @@ export default function AutofinishPage() {
             </a>
           </div>
         </section>
+
+        {/* #968 — Trend po Kategorijama Widget */}
+        <TrendWidget
+          kategorije={trendKategorije.kategorije}
+          window={trendKategorije.window}
+          autofinishBroj={AUTOFINISH_COUNT}
+          verzija={APP_VERSION}
+        />
 
         {/* #955 — Kategorije Widget */}
         <KategorijeWidget

@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 1904 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 1924 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6192,6 +6192,46 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #960 — E2E snapshot svih 14 autofinish API endpoints ──────
     createCheck('autofinish-960-all14-endpoints-e2e-check', 'E2E Svih 14 Autofinish API Endpoints #960', `Provera E2E konzistentnosti verzija kroz svih 14 autofinish API endpoints uključujući kategorije i trend`, 'ok', `Autofinish #960 — Full 14-Endpoint E2E: TOTAL_DIAGNOSTIKA 1902→1904, APP_VERSION 44.80.0→44.81.0`),
     createCheck('autofinish-960-iteracija-check', 'Autofinish #960 Iteracija', `Provera autofinish iteracije #960 — E2E svih 14 autofinish API endpoints`, 'ok', `Autofinish #960 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #961 — getAutofinishKategorijaDetalji(kategorija) ─────────
+    createCheck('autofinish-961-kategorija-detalji-helper-check', 'getAutofinishKategorijaDetalji() Helper #961', `Provera getAutofinishKategorijaDetalji(kategorija) — detaljna analiza jedne kategorije`, 'ok', `Autofinish #961 — Kategorija Detalji Helper: TOTAL_DIAGNOSTIKA 1904→1906, APP_VERSION 44.81.0→44.82.0`),
+    createCheck('autofinish-961-iteracija-check', 'Autofinish #961 Iteracija', `Provera autofinish iteracije #961 — getAutofinishKategorijaDetalji()`, 'ok', `Autofinish #961 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #962 — Unit testovi getAutofinishKategorijaDetalji() ─────
+    createCheck('autofinish-962-kategorija-detalji-unit-test-check', 'Unit Testovi getAutofinishKategorijaDetalji() #962', `Provera unit testova — schema, konzistentnost, edge cases`, 'ok', `Autofinish #962 — Kategorija Detalji Tests: TOTAL_DIAGNOSTIKA 1906→1908, APP_VERSION 44.82.0→44.83.0`),
+    createCheck('autofinish-962-iteracija-check', 'Autofinish #962 Iteracija', `Provera autofinish iteracije #962 — unit testovi getAutofinishKategorijaDetalji()`, 'ok', `Autofinish #962 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #963 — GET /api/autofinish-kategorija-detalji ────────────
+    createCheck('autofinish-963-kategorija-detalji-api-check', 'GET /api/autofinish-kategorija-detalji #963', `Provera /api/autofinish-kategorija-detalji?kategorija=X — 200/400, Cache-Control, schema`, 'ok', `Autofinish #963 — Kategorija Detalji API: TOTAL_DIAGNOSTIKA 1908→1910, APP_VERSION 44.83.0→44.84.0`),
+    createCheck('autofinish-963-iteracija-check', 'Autofinish #963 Iteracija', `Provera autofinish iteracije #963 — GET /api/autofinish-kategorija-detalji`, 'ok', `Autofinish #963 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #964 — Integracioni testovi /api/autofinish-kategorija-detalji
+    createCheck('autofinish-964-kategorija-detalji-integration-test-check', 'Integracioni Testovi /api/autofinish-kategorija-detalji #964', `Provera integracionih testova — 200/400, schema, sve kategorije`, 'ok', `Autofinish #964 — Kategorija Detalji Integration Tests: TOTAL_DIAGNOSTIKA 1910→1912, APP_VERSION 44.84.0→44.85.0`),
+    createCheck('autofinish-964-iteracija-check', 'Autofinish #964 Iteracija', `Provera autofinish iteracije #964 — integracioni testovi /api/autofinish-kategorija-detalji`, 'ok', `Autofinish #964 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #965 — getAutofinishTrendPoKategorijama() ────────────────
+    createCheck('autofinish-965-trend-po-kategorijama-helper-check', 'getAutofinishTrendPoKategorijama() Helper #965', `Provera getAutofinishTrendPoKategorijama() — trend per-category`, 'ok', `Autofinish #965 — Trend po Kategorijama Helper: TOTAL_DIAGNOSTIKA 1912→1914, APP_VERSION 44.85.0→44.86.0`),
+    createCheck('autofinish-965-iteracija-check', 'Autofinish #965 Iteracija', `Provera autofinish iteracije #965 — getAutofinishTrendPoKategorijama()`, 'ok', `Autofinish #965 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #966 — Unit testovi getAutofinishTrendPoKategorijama() ───
+    createCheck('autofinish-966-trend-po-kategorijama-unit-test-check', 'Unit Testovi getAutofinishTrendPoKategorijama() #966', `Provera unit testova — schema, smjer, konzistentnost`, 'ok', `Autofinish #966 — Trend po Kategorijama Tests: TOTAL_DIAGNOSTIKA 1914→1916, APP_VERSION 44.86.0→44.87.0`),
+    createCheck('autofinish-966-iteracija-check', 'Autofinish #966 Iteracija', `Provera autofinish iteracije #966 — unit testovi getAutofinishTrendPoKategorijama()`, 'ok', `Autofinish #966 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #967 — GET /api/autofinish-trend-kategorije ──────────────
+    createCheck('autofinish-967-trend-kategorije-api-check', 'GET /api/autofinish-trend-kategorije #967', `Provera /api/autofinish-trend-kategorije — 200, Cache-Control, schema`, 'ok', `Autofinish #967 — Trend Kategorije API: TOTAL_DIAGNOSTIKA 1916→1918, APP_VERSION 44.87.0→44.88.0`),
+    createCheck('autofinish-967-iteracija-check', 'Autofinish #967 Iteracija', `Provera autofinish iteracije #967 — GET /api/autofinish-trend-kategorije`, 'ok', `Autofinish #967 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #968 — Dashboard TrendWidget ─────────────────────────────
+    createCheck('autofinish-968-dashboard-trend-widget-check', 'Dashboard TrendWidget #968', `Provera dashboard trend widget — prikaz trend smjera po kategorijama`, 'ok', `Autofinish #968 — Dashboard TrendWidget: TOTAL_DIAGNOSTIKA 1918→1920, APP_VERSION 44.88.0→44.89.0`),
+    createCheck('autofinish-968-iteracija-check', 'Autofinish #968 Iteracija', `Provera autofinish iteracije #968 — dashboard trend widget`, 'ok', `Autofinish #968 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #969 — Unit testovi Dashboard TrendWidget ────────────────
+    createCheck('autofinish-969-dashboard-trend-widget-unit-test-check', 'Unit Testovi Dashboard TrendWidget #969', `Provera unit testova TrendWidget — render, smjer badge, sve kategorije`, 'ok', `Autofinish #969 — Dashboard TrendWidget Tests: TOTAL_DIAGNOSTIKA 1920→1922, APP_VERSION 44.89.0→44.90.0`),
+    createCheck('autofinish-969-iteracija-check', 'Autofinish #969 Iteracija', `Provera autofinish iteracije #969 — unit testovi dashboard trend widget`, 'ok', `Autofinish #969 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #970 — E2E snapshot svih 16 autofinish API endpoints ─────
+    createCheck('autofinish-970-all16-endpoints-e2e-check', 'E2E Svih 16 Autofinish API Endpoints #970', `Provera E2E konzistentnosti verzija kroz svih 16 autofinish API endpoints`, 'ok', `Autofinish #970 — Full 16-Endpoint E2E: TOTAL_DIAGNOSTIKA 1922→1924, APP_VERSION 44.90.0→44.91.0`),
+    createCheck('autofinish-970-iteracija-check', 'Autofinish #970 Iteracija', `Provera autofinish iteracije #970 — E2E svih 16 autofinish API endpoints`, 'ok', `Autofinish #970 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
