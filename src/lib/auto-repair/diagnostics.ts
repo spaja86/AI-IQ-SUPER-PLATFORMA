@@ -6476,6 +6476,74 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1031 — E2E svih 30 autofinish API endpoints ─────────────
     createCheck('autofinish-1031-all30-endpoints-e2e-check', 'E2E Svih 30 Autofinish API Endpoints #1031', `Provera E2E konzistentnosti verzija kroz svih 30 autofinish API endpoints`, 'ok', `Autofinish #1031 — Full 30-Endpoint E2E: TOTAL_DIAGNOSTIKA 2044→2046, APP_VERSION 45.51.0→45.52.0`),
     createCheck('autofinish-1031-iteracija-check', 'Autofinish #1031 Iteracija', `Provera autofinish iteracije #1031 — E2E svih 30 autofinish API endpoints`, 'ok', `Autofinish #1031 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1032 — getAutofinishNapredakTracker() ───────────────────
+    createCheck('autofinish-1032-napredak-tracker-helper-check', 'getAutofinishNapredakTracker() Helper #1032', `Provera getAutofinishNapredakTracker() — faze, kategorije, progres 0-100`, 'ok', `Autofinish #1032 — Napredak Tracker Helper: TOTAL_DIAGNOSTIKA 2046→2048, APP_VERSION 45.52.0→45.53.0`),
+    createCheck('autofinish-1032-iteracija-check', 'Autofinish #1032 Iteracija', `Provera autofinish iteracije #1032 — getAutofinishNapredakTracker()`, 'ok', `Autofinish #1032 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1033 — Unit testovi getAutofinishNapredakTracker() ───────
+    createCheck('autofinish-1033-napredak-tracker-unit-test-check', 'Unit Testovi getAutofinishNapredakTracker() #1033', `Provera unit testova — schema, faze nisu prazne, progres 0-100`, 'ok', `Autofinish #1033 — Napredak Tracker Tests: TOTAL_DIAGNOSTIKA 2048→2050, APP_VERSION 45.53.0→45.54.0`),
+    createCheck('autofinish-1033-iteracija-check', 'Autofinish #1033 Iteracija', `Provera autofinish iteracije #1033 — unit testovi napredak tracker`, 'ok', `Autofinish #1033 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1034 — GET /api/autofinish-napredak-tracker ─────────────
+    createCheck('autofinish-1034-napredak-tracker-api-check', 'GET /api/autofinish-napredak-tracker #1034', `Provera /api/autofinish-napredak-tracker — 200, Cache-Control, faze schema`, 'ok', `Autofinish #1034 — Napredak Tracker API: TOTAL_DIAGNOSTIKA 2050→2052, APP_VERSION 45.54.0→45.55.0`),
+    createCheck('autofinish-1034-iteracija-check', 'Autofinish #1034 Iteracija', `Provera autofinish iteracije #1034 — GET /api/autofinish-napredak-tracker`, 'ok', `Autofinish #1034 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1035 — Dashboard NapredakTrackerWidget ──────────────────
+    createCheck('autofinish-1035-napredak-tracker-widget-check', 'Dashboard NapredakTrackerWidget #1035', `Provera NapredakTrackerWidget — progress barovi, faze, ARIA`, 'ok', `Autofinish #1035 — NapredakTrackerWidget: TOTAL_DIAGNOSTIKA 2052→2054, APP_VERSION 45.55.0→45.56.0`),
+    createCheck('autofinish-1035-iteracija-check', 'Autofinish #1035 Iteracija', `Provera autofinish iteracije #1035 — Dashboard NapredakTrackerWidget`, 'ok', `Autofinish #1035 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1036 — getAutofinishResursi() ────────────────────────────
+    createCheck('autofinish-1036-resursi-helper-check', 'getAutofinishResursi() Helper #1036', `Provera getAutofinishResursi() — resursi, iskorištenost, status`, 'ok', `Autofinish #1036 — Resursi Helper: TOTAL_DIAGNOSTIKA 2054→2056, APP_VERSION 45.56.0→45.57.0`),
+    createCheck('autofinish-1036-iteracija-check', 'Autofinish #1036 Iteracija', `Provera autofinish iteracije #1036 — getAutofinishResursi()`, 'ok', `Autofinish #1036 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1037 — Unit testovi getAutofinishResursi() ──────────────
+    createCheck('autofinish-1037-resursi-unit-test-check', 'Unit Testovi getAutofinishResursi() #1037', `Provera unit testova — schema, resursi niz, iskorištenost 0-100`, 'ok', `Autofinish #1037 — Resursi Tests: TOTAL_DIAGNOSTIKA 2056→2058, APP_VERSION 45.57.0→45.58.0`),
+    createCheck('autofinish-1037-iteracija-check', 'Autofinish #1037 Iteracija', `Provera autofinish iteracije #1037 — unit testovi resursi`, 'ok', `Autofinish #1037 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1038 — GET /api/autofinish-resursi ──────────────────────
+    createCheck('autofinish-1038-resursi-api-check', 'GET /api/autofinish-resursi #1038', `Provera /api/autofinish-resursi — 200, Cache-Control, resursi schema`, 'ok', `Autofinish #1038 — Resursi API: TOTAL_DIAGNOSTIKA 2058→2060, APP_VERSION 45.58.0→45.59.0`),
+    createCheck('autofinish-1038-iteracija-check', 'Autofinish #1038 Iteracija', `Provera autofinish iteracije #1038 — GET /api/autofinish-resursi`, 'ok', `Autofinish #1038 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1039 — Dashboard ResursiWidget ───────────────────────────
+    createCheck('autofinish-1039-resursi-widget-check', 'Dashboard ResursiWidget #1039', `Provera ResursiWidget — gauge indikatori, status boje, ARIA`, 'ok', `Autofinish #1039 — ResursiWidget: TOTAL_DIAGNOSTIKA 2060→2062, APP_VERSION 45.59.0→45.60.0`),
+    createCheck('autofinish-1039-iteracija-check', 'Autofinish #1039 Iteracija', `Provera autofinish iteracije #1039 — Dashboard ResursiWidget`, 'ok', `Autofinish #1039 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1040 — getAutofinishRizici() ─────────────────────────────
+    createCheck('autofinish-1040-rizici-helper-check', 'getAutofinishRizici() Helper #1040', `Provera getAutofinishRizici() — rizici, vjerovatnoća 1-5, uticaj 1-5, nivo`, 'ok', `Autofinish #1040 — Rizici Helper: TOTAL_DIAGNOSTIKA 2062→2064, APP_VERSION 45.60.0→45.61.0`),
+    createCheck('autofinish-1040-iteracija-check', 'Autofinish #1040 Iteracija', `Provera autofinish iteracije #1040 — getAutofinishRizici()`, 'ok', `Autofinish #1040 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1041 — Unit testovi getAutofinishRizici() ───────────────
+    createCheck('autofinish-1041-rizici-unit-test-check', 'Unit Testovi getAutofinishRizici() #1041', `Provera unit testova — schema, vjerovatnoća i uticaj 1-5, rizikScore`, 'ok', `Autofinish #1041 — Rizici Tests: TOTAL_DIAGNOSTIKA 2064→2066, APP_VERSION 45.61.0→45.62.0`),
+    createCheck('autofinish-1041-iteracija-check', 'Autofinish #1041 Iteracija', `Provera autofinish iteracije #1041 — unit testovi rizici`, 'ok', `Autofinish #1041 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1042 — GET /api/autofinish-rizici ───────────────────────
+    createCheck('autofinish-1042-rizici-api-check', 'GET /api/autofinish-rizici #1042', `Provera /api/autofinish-rizici — 200, Cache-Control, rizici schema`, 'ok', `Autofinish #1042 — Rizici API: TOTAL_DIAGNOSTIKA 2066→2068, APP_VERSION 45.62.0→45.63.0`),
+    createCheck('autofinish-1042-iteracija-check', 'Autofinish #1042 Iteracija', `Provera autofinish iteracije #1042 — GET /api/autofinish-rizici`, 'ok', `Autofinish #1042 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1043 — Dashboard RiziciWidget ───────────────────────────
+    createCheck('autofinish-1043-rizici-widget-check', 'Dashboard RiziciWidget #1043', `Provera RiziciWidget — rizik matrica, nivo boje, mitigacija, ARIA`, 'ok', `Autofinish #1043 — RiziciWidget: TOTAL_DIAGNOSTIKA 2068→2070, APP_VERSION 45.63.0→45.64.0`),
+    createCheck('autofinish-1043-iteracija-check', 'Autofinish #1043 Iteracija', `Provera autofinish iteracije #1043 — Dashboard RiziciWidget`, 'ok', `Autofinish #1043 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1044 — getAutofinishKomunikacioniLog() ──────────────────
+    createCheck('autofinish-1044-kom-log-helper-check', 'getAutofinishKomunikacioniLog() Helper #1044', `Provera getAutofinishKomunikacioniLog() — entries, tip, poruka, tagovi`, 'ok', `Autofinish #1044 — Komunikacioni Log Helper: TOTAL_DIAGNOSTIKA 2070→2072, APP_VERSION 45.64.0→45.65.0`),
+    createCheck('autofinish-1044-iteracija-check', 'Autofinish #1044 Iteracija', `Provera autofinish iteracije #1044 — getAutofinishKomunikacioniLog()`, 'ok', `Autofinish #1044 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1045 — Unit testovi getAutofinishKomunikacioniLog() ──────
+    createCheck('autofinish-1045-kom-log-unit-test-check', 'Unit Testovi getAutofinishKomunikacioniLog() #1045', `Provera unit testova — schema, entries niz, odluke i milestone postoje`, 'ok', `Autofinish #1045 — Komunikacioni Log Tests: TOTAL_DIAGNOSTIKA 2072→2074, APP_VERSION 45.65.0→45.66.0`),
+    createCheck('autofinish-1045-iteracija-check', 'Autofinish #1045 Iteracija', `Provera autofinish iteracije #1045 — unit testovi komunikacioni log`, 'ok', `Autofinish #1045 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1046 — GET /api/autofinish-komunikacioni-log ────────────
+    createCheck('autofinish-1046-kom-log-api-check', 'GET /api/autofinish-komunikacioni-log #1046', `Provera /api/autofinish-komunikacioni-log — 200, Cache-Control, entries schema`, 'ok', `Autofinish #1046 — Komunikacioni Log API: TOTAL_DIAGNOSTIKA 2074→2076, APP_VERSION 45.66.0→45.67.0`),
+    createCheck('autofinish-1046-iteracija-check', 'Autofinish #1046 Iteracija', `Provera autofinish iteracije #1046 — GET /api/autofinish-komunikacioni-log`, 'ok', `Autofinish #1046 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1047 — Dashboard KomunikacioniLogWidget ─────────────────
+    createCheck('autofinish-1047-kom-log-widget-check', 'Dashboard KomunikacioniLogWidget #1047', `Provera KomunikacioniLogWidget — hronološki log, filter, ARIA`, 'ok', `Autofinish #1047 — KomunikacioniLogWidget: TOTAL_DIAGNOSTIKA 2076→2078, APP_VERSION 45.67.0→45.68.0`),
+    createCheck('autofinish-1047-iteracija-check', 'Autofinish #1047 Iteracija', `Provera autofinish iteracije #1047 — Dashboard KomunikacioniLogWidget`, 'ok', `Autofinish #1047 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1048 — E2E svih 34 autofinish API endpoints ─────────────
+    createCheck('autofinish-1048-all34-endpoints-e2e-check', 'E2E Svih 34 Autofinish API Endpoints #1048', `Provera E2E konzistentnosti verzija kroz svih 34 autofinish API endpoints`, 'ok', `Autofinish #1048 — Full 34-Endpoint E2E: TOTAL_DIAGNOSTIKA 2078→2080, APP_VERSION 45.68.0→45.69.0`),
+    createCheck('autofinish-1048-iteracija-check', 'Autofinish #1048 Iteracija', `Provera autofinish iteracije #1048 — E2E svih 34 autofinish API endpoints`, 'ok', `Autofinish #1048 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

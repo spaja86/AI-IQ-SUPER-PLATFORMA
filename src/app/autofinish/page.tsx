@@ -46,6 +46,10 @@ import {
   getAutofinishKpiScorecard,
   getAutofinishRetrospektiva,
   getAutofinishSistemPlanovi,
+  getAutofinishNapredakTracker,
+  getAutofinishResursi,
+  getAutofinishRizici,
+  getAutofinishKomunikacioniLog,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -71,6 +75,10 @@ import { TagSystemWidget } from './TagSystemWidget';
 import { KpiScorecardWidget } from './KpiScorecardWidget';
 import { RetrospektivaWidget } from './RetrospektivaWidget';
 import { SistemPlanoviWidget } from './SistemPlanoviWidget';
+import { NapredakTrackerWidget } from './NapredakTrackerWidget';
+import { ResursiWidget } from './ResursiWidget';
+import { RiziciWidget } from './RiziciWidget';
+import { KomunikacioniLogWidget } from './KomunikacioniLogWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -136,6 +144,10 @@ export default function AutofinishPage() {
   const kpiScorecard = getAutofinishKpiScorecard();
   const retrospektiva = getAutofinishRetrospektiva();
   const sistemPlanovi = getAutofinishSistemPlanovi();
+  const napredakTracker = getAutofinishNapredakTracker();
+  const resursi = getAutofinishResursi();
+  const rizici = getAutofinishRizici();
+  const komunikacioniLog = getAutofinishKomunikacioniLog();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -722,6 +734,18 @@ export default function AutofinishPage() {
 
         {/* #1030 — Sistem Planovi Widget */}
         <SistemPlanoviWidget planovi={sistemPlanovi} />
+
+        {/* #1035 — Napredak Tracker Widget */}
+        <NapredakTrackerWidget tracker={napredakTracker} />
+
+        {/* #1039 — Resursi Widget */}
+        <ResursiWidget resursi={resursi} />
+
+        {/* #1043 — Rizici Widget */}
+        <RiziciWidget rizici={rizici} />
+
+        {/* #1047 — Komunikacioni Log Widget */}
+        <KomunikacioniLogWidget log={komunikacioniLog} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
