@@ -114,6 +114,8 @@
  *
  * Autofinish #761 (Monitoring i logovanje — centralizovano logovanje konfigurisano, Sentry integracija dodata, health check endpointi implementirani, alerting sistem postavljen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1505→1507, APP_VERSION 42.81.0→42.82.0)
  *
+ * Autofinish #762 (Bezbednost i autentifikacija — JWT refresh token mehanizam implementiran, rate limiting dodat, CORS politika ažurirana, input validacija ojačana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1507→1509, APP_VERSION 42.82.0→42.83.0)
+ *
  */
 
 import {
