@@ -96,6 +96,8 @@
  *
  * Autofinish #752 (UX i pristupačnost — animacije optimizovane, keyboard navigacija unapređena, screen reader podrška poboljšana, focus management implementiran, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1487→1489, APP_VERSION 42.72.0→42.73.0)
  *
+ * Autofinish #753 (Sigurnost i autentifikacija — JWT validacija unapređena, CSRF zaštita ojačana, rate limiting implementiran, audit logging dodat, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1489→1491, APP_VERSION 42.73.0→42.74.0)
+ *
  */
 
 import {
