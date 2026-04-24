@@ -107,7 +107,10 @@ export function createRequestLogger(reqId: string, modul: string) {
 
 function toObject(details: unknown): Record<string, unknown> {
   if (details === null || details === undefined) return {};
-  if (typeof details === 'object' && !Array.isArray(details)) return details as Record<string, unknown>;
+  if (details instanceof Error) return { message: details.message, name: details.name, stack: details.stack };
+  if (typeof details === 'object' && !Array.isArray(details) && !(details instanceof Date)) {
+    return details as Record<string, unknown>;
+  }
   return { data: details };
 }
 

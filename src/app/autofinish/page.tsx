@@ -101,7 +101,6 @@ export default function AutofinishPage() {
                 <li
                   key={p.id}
                   className="rounded-lg p-4 bg-gray-900 border border-gray-800 focus-within:ring-2 focus-within:ring-blue-500"
-                  aria-label={`${p.naziv}: ${p.progres}% — ${statusTekst}`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">

@@ -8,7 +8,9 @@ import { runDiagnostics } from '@/lib/auto-repair';
 import { getStatistike } from '@/lib/statistika';
 import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
 
-// Bilježi vreme starta procesa za uptime izračun
+// Bilježi vreme starta procesa za uptime izračun.
+// Napomena: U serverless okruženjima (Vercel) ovo se resetuje pri svakom cold startu.
+// Za produkcijski uptime, koristite deployment timestamp iz env varijable ili Vercel API.
 const PROCESS_START_MS = Date.now();
 
 function uptimeSeconds(): number {

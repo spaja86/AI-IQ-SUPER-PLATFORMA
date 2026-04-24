@@ -489,6 +489,7 @@ export function pokreniAutofinishPetlju(maksIteracija: number = 10, zdravljePrag
     const dijagnostikaEl = podsistemi.find((p) => p.id === 'dijagnostika');
     if (dijagnostikaEl && dijagnostikaEl.progres < zdravljePrag) {
       dijagnostikaEl.status = 'u_toku';
+      dijagnostikaEl.poruka = `Zdravlje podsistema (${dijagnostikaEl.progres}%) je ispod praga (${zdravljePrag}%) — petlja ponavlja`;
     }
 
     const uspesni = podsistemi.filter((p) => p.progres >= 100 && p.status === 'ok').length;
