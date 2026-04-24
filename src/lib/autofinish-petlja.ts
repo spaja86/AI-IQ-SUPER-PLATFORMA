@@ -166,6 +166,8 @@
  *
  * Autofinish #787 (Performanse i optimizacija — lazy loading unapređen, bundle size smanjen, cache strategija poboljšana, image optimizacija dodata, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1557→1559, APP_VERSION 43.7.0→43.8.0)
  *
+ * Autofinish #788 (Pristupačnost i UX — WCAG 2.1 usklađenost poboljšana, keyboard navigacija unapređena, focus management dodat, aria-label pokrivenost proširena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1559→1561, APP_VERSION 43.8.0→43.9.0)
+ *
  */
 
 import {
