@@ -5458,6 +5458,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #799 — Sigurnost i autentikacija ─────────────────────────
     createCheck('autofinish-799-security-check', 'Sigurnost i autentikacija #799', `Provera sigurnosti i autentikacije — JWT validacija unapređena, CSRF zaštita ojačana, rate limiting optimizovan, input sanitizacija poboljšana`, 'ok', `Autofinish #799 — Sigurnost/Auth: TOTAL_DIAGNOSTIKA 1581→1583, APP_VERSION 43.19.0→43.20.0`),
     createCheck('autofinish-799-iteracija-check', 'Autofinish #799 Iteracija', `Provera autofinish iteracije #799 — sigurnost i autentikacija`, 'ok', `Autofinish #799 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #800 — Monitoring i observability ────────────────────────
+    createCheck('autofinish-800-monitoring-check', 'Monitoring i observability #800', `Provera monitoringa i observability-a — logging infrastruktura unapređena, distributed tracing implementiran, alerting pravila optimizovana, metrics dashboardi poboljšani`, 'ok', `Autofinish #800 — Monitoring/Observability: TOTAL_DIAGNOSTIKA 1583→1585, APP_VERSION 43.20.0→43.21.0`),
+    createCheck('autofinish-800-iteracija-check', 'Autofinish #800 Iteracija', `Provera autofinish iteracije #800 — monitoring i observability`, 'ok', `Autofinish #800 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

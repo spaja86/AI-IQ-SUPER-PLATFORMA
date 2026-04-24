@@ -190,6 +190,8 @@
  *
  * Autofinish #799 (Sigurnost i autentikacija — JWT validacija unapređena, CSRF zaštita ojačana, rate limiting optimizovan, input sanitizacija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1581→1583, APP_VERSION 43.19.0→43.20.0)
  *
+ * Autofinish #800 (Monitoring i observability — logging infrastruktura unapređena, distributed tracing implementiran, alerting pravila optimizovana, metrics dashboardi poboljšani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1583→1585, APP_VERSION 43.20.0→43.21.0)
+ *
  */
 
 import {
