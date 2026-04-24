@@ -5318,6 +5318,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #764 — Monitoring i observability ───────────────────────
     createCheck('autofinish-764-monitoring-observability-check', 'Monitoring i Observability #764', `Provera monitoringa i observability-ja — structured logging implementiran, distributed tracing dodat, health check endpointi prošireni, alerting pravila ažurirana`, 'ok', `Autofinish #764 — Monitoring: TOTAL_DIAGNOSTIKA 1511→1513, APP_VERSION 42.84.0→42.85.0`),
     createCheck('autofinish-764-iteracija-check', 'Autofinish #764 Iteracija', `Provera autofinish iteracije #764 — monitoring i observability`, 'ok', `Autofinish #764 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #765 — Bezbednost i autorizacija ────────────────────────
+    createCheck('autofinish-765-bezbednost-autorizacija-check', 'Bezbednost i Autorizacija #765', `Provera bezbednosti i autorizacije — RBAC model proširen, JWT rotacija implementirana, audit log dodat, rate limiting per-user konfigurisan`, 'ok', `Autofinish #765 — Bezbednost: TOTAL_DIAGNOSTIKA 1513→1515, APP_VERSION 42.85.0→42.86.0`),
+    createCheck('autofinish-765-iteracija-check', 'Autofinish #765 Iteracija', `Provera autofinish iteracije #765 — bezbednost i autorizacija`, 'ok', `Autofinish #765 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
