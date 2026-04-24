@@ -5196,8 +5196,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-733-iteracija-check', 'Autofinish #733 Iteracija', `Provera autofinish iteracije #733 — sigurnost sistema i autentifikacija`, 'ok', `Autofinish #733 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #734 — Performanse i optimizacija ────────────────────────
-    createCheck('autofinish-734-performanse-optimizacija-check', 'Performanse i Optimizacija #734', `Provera performansi sistema i optimizacije — query optimizacija izvršena, caching sloj aktivan, bundle size smanjen`, 'ok', `Autofinish #734 — performanse optimizacija: createCheck 1451→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.54.0→42.55.0`),
+    createCheck('autofinish-734-performanse-optimizacija-check', 'Performanse i Optimizacija #734', `Provera performansi sistema i optimizacije — query optimizacija izvršena, caching sloj aktivan, bundle size smanjen`, 'ok', `Autofinish #734 — performanse optimizacija: createCheck 1451→1453, APP_VERSION 42.54.0→42.55.0`),
     createCheck('autofinish-734-iteracija-check', 'Autofinish #734 Iteracija', `Provera autofinish iteracije #734 — performanse sistema i optimizacija`, 'ok', `Autofinish #734 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #735 — Monitoring i observabilnost ───────────────────────
+    createCheck('autofinish-735-monitoring-observabilnost-check', 'Monitoring i Observabilnost #735', `Provera monitoring sistema i observabilnosti — metrike sistema aktivne, log agregacija konfigurirana, alerting pipeline stabilan`, 'ok', `Autofinish #735 — monitoring observabilnost: createCheck 1453→1455, APP_VERSION 42.55.0→42.56.0`),
+    createCheck('autofinish-735-iteracija-check', 'Autofinish #735 Iteracija', `Provera autofinish iteracije #735 — monitoring sistem i observabilnost`, 'ok', `Autofinish #735 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

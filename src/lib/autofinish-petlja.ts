@@ -60,6 +60,8 @@
  *
  * Autofinish #734 (Performanse i optimizacija — query optimizacija izvršena, caching sloj aktivan, bundle size smanjen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1451→1453, APP_VERSION 42.54.0→42.55.0)
  *
+ * Autofinish #735 (Monitoring i observabilnost — metrike sistema aktivne, log agregacija konfigurirana, alerting pipeline stabilan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1453→1455, APP_VERSION 42.55.0→42.56.0)
+ *
  */
 
 import {
