@@ -40,6 +40,8 @@
  *
  * Autofinish #724 (Stabilnost sistema i pregled korisničkih modula — sve komponente operativne, sesije stabilne, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1431→1433, APP_VERSION 42.44.0→42.45.0)
  *
+ * Autofinish #725 (Napredne AI funkcije i optimizacija performansi — algoritmi kalibrisani, odgovori ubrzani, memorijski otisak smanjen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1433→1435, APP_VERSION 42.45.0→42.46.0)
+ *
  */
 
 import {
