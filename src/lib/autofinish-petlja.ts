@@ -456,8 +456,12 @@ export function pokreniAutofinishPetlju(maksIteracija: number = 10, zdravljePrag
     if (imaNeuspelih) {
       const dijagnostikaPodsistem = podsistemi.find((p) => p.id === 'dijagnostika');
       if (dijagnostikaPodsistem) {
+        const neuspeleNazivi = repairAkcije
+          .filter((a) => a.status === 'neuspesno')
+          .map((a) => a.naziv)
+          .join(', ');
         dijagnostikaPodsistem.status = 'u_toku';
-        dijagnostikaPodsistem.poruka = `${dijagnostikaPodsistem.poruka} | Repair akcije: ${repairAkcije.filter((a) => a.status === 'neuspesno').map((a) => a.naziv).join(', ')} — neuspesno`;
+        dijagnostikaPodsistem.poruka = `Repair neuspesno: ${neuspeleNazivi}`;
       }
     }
 

@@ -11,14 +11,19 @@ import { pokreniAutofinishPetlju } from '@/lib/autofinish-petlja';
 import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 
-const TRIGGER_TOKEN = process.env.AUTOFINISH_TRIGGER_TOKEN ?? 'dev-trigger-token';
+const TRIGGER_TOKEN = process.env.AUTOFINISH_TRIGGER_TOKEN;
+
+// #825 — Fail explicitly when token is not configured to prevent insecure fallback
+if (!TRIGGER_TOKEN && process.env.NODE_ENV === 'production') {
+  console.error('[autofinish-trigger] AUTOFINISH_TRIGGER_TOKEN nije konfigurisan u produkciji!');
+}
 
 export async function POST(req: NextRequest) {
   // #825 — Auth guard: Bearer token validacija
   const authHeader = req.headers.get('authorization') ?? '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
 
-  if (!token || token !== TRIGGER_TOKEN) {
+  if (!token || !TRIGGER_TOKEN || token !== TRIGGER_TOKEN) {
     return NextResponse.json(
       {
         error: 'Unauthorized',

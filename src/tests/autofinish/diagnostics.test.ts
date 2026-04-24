@@ -154,7 +154,10 @@ async function runTests(): Promise<void> {
     const ids = dijagnostika.provere.map((p) => p.id);
     const unique = new Set(ids);
     const duplikatoCount = ids.length - unique.size;
-    // U kodu postoje 2 pre-existing duplikata (autofinish-stabilnost-check i gaming-platforma-dijagnostika-api-check)
+    // Pre-existing duplicates u originalnom kodu (pre Autofinish #813):
+    //   - 'autofinish-stabilnost-check' (Autofinish #106 i jedan raniji)
+    //   - 'gaming-platforma-dijagnostika-api-check' (duplikat u ranim iteracijama)
+    // Ova dva duplikata su svesno ostavljena jer popravka zahteva promenu istorijskih ID-eva.
     assert(duplikatoCount <= 2, `Broj duplikata ID-eva (${duplikatoCount}) ne sme biti veći od 2 (pre-existing)`);
   });
 
