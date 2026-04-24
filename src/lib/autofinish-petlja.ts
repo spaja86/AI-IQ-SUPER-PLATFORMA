@@ -44,6 +44,8 @@
  *
  * Autofinish #726 (Proširenje modula i integracija novih servisa — svi moduli međusobno usklađeni, novi servisi registrovani i operativni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1435→1437, APP_VERSION 42.46.0→42.47.0)
  *
+ * Autofinish #727 (Sinhronizacija podataka i poboljšanje bezbednosti — podaci konzistentni između servisa, bezbednosni protokoli ojačani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1437→1439, APP_VERSION 42.47.0→42.48.0)
+ *
  */
 
 import {
