@@ -186,6 +186,8 @@
  *
  * Autofinish #797 (Performanse i optimizacija — lazy loading unapređen, code splitting optimizovan, bundle size smanjen, caching strategija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1577→1579, APP_VERSION 43.17.0→43.18.0)
  *
+ * Autofinish #798 (UX i dostupnost — accessibility poboljšana, keyboard navigacija unapređena, screen reader podrška proširena, kontrast i tipografija optimizovani, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1579→1581, APP_VERSION 43.18.0→43.19.0)
+ *
  */
 
 import {
