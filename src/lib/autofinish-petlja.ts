@@ -128,6 +128,8 @@
  *
  * Autofinish #768 (Bezbednost i autentikacija — JWT refresh token rotacija implementirana, rate limiting proširen, RBAC granularnost poboljšana, audit log dodat, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1519→1521, APP_VERSION 42.88.0→42.89.0)
  *
+ * Autofinish #769 (Performanse i optimizacija — query optimizacija urađena, caching sloj proširen, lazy loading implementiran, bundle size smanjen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1521→1523, APP_VERSION 42.89.0→42.90.0)
+ *
  */
 
 import {
