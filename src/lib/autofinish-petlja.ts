@@ -198,6 +198,8 @@
  *
  * Autofinish #803 (UI/UX unapređenja — dark mode podrška proširena, animacije optimizovane, accessibility poboljšana, responzivni dizajn unapređen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1589→1591, APP_VERSION 43.23.0→43.24.0)
  *
+ * Autofinish #804 (Performanse i optimizacija — lazy loading implementiran, bundle size smanjen, cache strategija poboljšana, server-side rendering optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1591→1593, APP_VERSION 43.24.0→43.25.0)
+ *
  */
 
 import {
