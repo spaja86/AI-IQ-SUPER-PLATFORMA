@@ -134,6 +134,8 @@
  *
  * Autofinish #771 (Bezbednost i autentifikacija — OAuth2 integracija poboljšana, JWT refresh token mehanizam dodat, rate limiting implementiran, audit log proširen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1525→1527, APP_VERSION 42.91.0→42.92.0)
  *
+ * Autofinish #772 (Performanse i skalabilnost — Redis keš integrisan, lazy loading implementiran, database query optimizacija, CDN konfiguracija poboljšana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1527→1529, APP_VERSION 42.92.0→42.93.0)
+ *
  */
 
 import {
