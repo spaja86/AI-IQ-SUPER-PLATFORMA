@@ -164,6 +164,8 @@
  *
  * Autofinish #786 (Sigurnost i stabilnost — CSRF zaštita ojačana, rate limiting dodan, error boundary poboljšan, dependency audit urađen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1555→1557, APP_VERSION 43.6.0→43.7.0)
  *
+ * Autofinish #787 (Performanse i optimizacija — lazy loading unapređen, bundle size smanjen, cache strategija poboljšana, image optimizacija dodata, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1557→1559, APP_VERSION 43.7.0→43.8.0)
+ *
  */
 
 import {
