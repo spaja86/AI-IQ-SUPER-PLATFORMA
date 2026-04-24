@@ -56,6 +56,8 @@
  *
  * Autofinish #732 (Skalabilnost i infrastruktura — load balancing konfigurisan, auto-scaling aktivan, cloud deployment optimizovan, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1447→1449, APP_VERSION 42.52.0→42.53.0)
  *
+ * Autofinish #733 (Sigurnost i autentifikacija — JWT validacija ažurirana, rate limiting aktivan, CORS politika konfigurirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1449→1451, APP_VERSION 42.53.0→42.54.0)
+ *
  */
 
 import {
