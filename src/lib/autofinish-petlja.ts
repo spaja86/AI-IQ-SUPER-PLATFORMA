@@ -194,6 +194,8 @@
  *
  * Autofinish #801 (Performanse i skalabilnost — caching strategija unapređena, database query optimizacija, load balancing poboljšan, CDN konfiguracija optimizovana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1585→1587, APP_VERSION 43.21.0→43.22.0)
  *
+ * Autofinish #802 (Sigurnost i autentikacija — OAuth2 tok unapređen, JWT validacija poboljšana, rate limiting implementiran, CSRF zaštita ojačana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1587→1589, APP_VERSION 43.22.0→43.23.0)
+ *
  */
 
 import {

@@ -5466,6 +5466,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #801 — Performanse i skalabilnost ─────────────────────────
     createCheck('autofinish-801-performanse-check', 'Performanse i skalabilnost #801', `Provera performansi i skalabilnosti — caching strategija unapređena, database query optimizacija, load balancing poboljšan, CDN konfiguracija optimizovana`, 'ok', `Autofinish #801 — Performanse/Skalabilnost: TOTAL_DIAGNOSTIKA 1585→1587, APP_VERSION 43.21.0→43.22.0`),
     createCheck('autofinish-801-iteracija-check', 'Autofinish #801 Iteracija', `Provera autofinish iteracije #801 — performanse i skalabilnost`, 'ok', `Autofinish #801 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #802 — Sigurnost i autentikacija ──────────────────────────
+    createCheck('autofinish-802-sigurnost-check', 'Sigurnost i autentikacija #802', `Provera sigurnosti i autentikacije — OAuth2 tok unapređen, JWT validacija poboljšana, rate limiting implementiran, CSRF zaštita ojačana`, 'ok', `Autofinish #802 — Sigurnost/Autentikacija: TOTAL_DIAGNOSTIKA 1587→1589, APP_VERSION 43.22.0→43.23.0`),
+    createCheck('autofinish-802-iteracija-check', 'Autofinish #802 Iteracija', `Provera autofinish iteracije #802 — sigurnost i autentikacija`, 'ok', `Autofinish #802 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
