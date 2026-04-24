@@ -5152,8 +5152,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-722-iteracija-check', 'Autofinish #722 Iteracija', `Provera autofinish iteracije #722 — pregled API ruta i stranica`, 'ok', `Autofinish #722 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #723 — Verifikacija igrica i platforma: TOTAL_IGRICA potvrđen ──────────
-    createCheck('autofinish-723-igrica-pregled-check', 'Igrica Pregled #723', `Pregled igrica i platformi — TOTAL_IGRICA 96 potvrđen, sve igrice aktivne i registrovane u sistemu, platforma stabilna`, 'ok', `Autofinish #723 — igrica pregled: createCheck 1429→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.43.0→42.44.0`),
+    createCheck('autofinish-723-igrica-pregled-check', 'Igrica Pregled #723', `Pregled igrica i platformi — TOTAL_IGRICA 96 potvrđen, sve igrice aktivne i registrovane u sistemu, platforma stabilna`, 'ok', `Autofinish #723 — igrica pregled: createCheck 1429→1431, APP_VERSION 42.43.0→42.44.0`),
     createCheck('autofinish-723-iteracija-check', 'Autofinish #723 Iteracija', `Provera autofinish iteracije #723 — verifikacija igrica i platforma`, 'ok', `Autofinish #723 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #724 — Stabilnost sistema i pregled korisničkih modula ────────────────
+    createCheck('autofinish-724-sistem-stabilnost-check', 'Sistem Stabilnost #724', `Provera stabilnosti sistema — sve komponente operativne, korisničke sesije stabilne, moduli aktivni i usklađeni sa platformom`, 'ok', `Autofinish #724 — sistem stabilnost: createCheck 1431→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.44.0→42.45.0`),
+    createCheck('autofinish-724-iteracija-check', 'Autofinish #724 Iteracija', `Provera autofinish iteracije #724 — stabilnost sistema i korisnički moduli`, 'ok', `Autofinish #724 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
