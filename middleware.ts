@@ -14,6 +14,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
+import { resolveRequestId } from '@/lib/request-id';
 
 // ─── IP Block List ────────────────────────────────────────────────────────────
 
@@ -92,20 +93,14 @@ function getClientIP(request: NextRequest): string {
   );
 }
 
-/** Genera req-XXXXXXXX ID ako ulazni request nema x-request-id. Uses crypto.randomUUID() for uniqueness. */
-function resolveRequestId(request: NextRequest): string {
-  return (
-    request.headers.get('x-request-id') ??
-    request.headers.get('x-correlation-id') ??
-    `req-${crypto.randomUUID().replace(/-/g, '').slice(0, 12)}`
-  );
-}
+/** Genera req-XXXXXXXX ID aka ulazni request nema x-request-id. Uses crypto.randomUUID() for uniqueness. */
+// resolveRequestId is imported from @/lib/request-id
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   const ip = getClientIP(request);
-  const requestId = resolveRequestId(request);
+  const requestId = resolveRequestId(request.headers);
 
   // 1. Blok lista — odmah odbaci blokirane IP adrese
   if (BLOCKED_IPS.has(ip)) {

@@ -54,11 +54,13 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 
 // ─── Middleware helper simulacija ─────────────────────────────────────────────
 
+import { randomUUID } from 'crypto';
+
 function resolveRequestId(headers: Record<string, string | undefined>): string {
   return (
     headers['x-request-id'] ??
     headers['x-correlation-id'] ??
-    `req-${Math.random().toString(36).slice(2, 10)}`
+    `req-${randomUUID()}`
   );
 }
 

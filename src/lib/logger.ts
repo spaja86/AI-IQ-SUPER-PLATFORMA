@@ -73,19 +73,20 @@ export const logger = {
 
 // ─── Request ID propagacija (#836) ───────────────────────────────────────────
 
-import { randomUUID } from 'crypto';
+import { resolveRequestId } from './request-id';
 
 /**
  * Generiše ili dohvata request ID iz headera.
  * Koristiti u API rutama za praćenje zahteva kroz logove.
+ * Delegira na centralizovani resolveRequestId iz src/lib/request-id.ts
  *
  * @example
  *   const reqId = getRequestId(req);
  *   logger.info('API', 'Zahtev primljen', { reqId });
  */
 export function getRequestId(req?: { headers: { get: (h: string) => string | null } }): string {
-  const fromHeader = req?.headers.get('x-request-id') ?? req?.headers.get('x-correlation-id');
-  return fromHeader ?? `req-${randomUUID().replace(/-/g, '').slice(0, 12)}`;
+  if (!req) return resolveRequestId({});
+  return resolveRequestId(req.headers);
 }
 
 /**
