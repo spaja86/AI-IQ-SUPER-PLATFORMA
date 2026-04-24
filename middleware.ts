@@ -1,16 +1,19 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — Next.js Edge Middleware
+// Autofinish #858 — X-Request-Id header na svakom API odgovoru
 // Kompanija SPAJA — Digitalna Industrija
 //
-// Edge-compatible middleware: IP blocking + rate limiting.
+// Edge-compatible middleware: IP blocking + rate limiting + X-Request-Id.
 // Runs in the Vercel Edge Runtime before every request.
 //
 // Arhitektura:
 //   1. IP blok lista (OMEGA_BLOCKED_IPS env var)
 //   2. Rate limiting — cross-instance ako je VERCEL_KV konfigurisan, in-memory fallback
-//   3. Security headers su postavljeni u vercel.json (ne ovde, da bi se izbegli duplikati)
-//   4. Brute-force zaštita za auth endpoint-e je u /api/auth/login via omega-security.ts
+//   3. X-Request-Id — propagira ulazni header ili generiše req-XXXXXXXX fallback
+//   4. Security headers su postavljeni u vercel.json (ne ovde, da bi se izbegli duplikati)
+//   5. Brute-force zaštita za auth endpoint-e je u /api/auth/login via omega-security.ts
 
 import { NextRequest, NextResponse } from 'next/server';
+import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
 
 // ─── IP Block List ────────────────────────────────────────────────────────────
 
@@ -89,10 +92,20 @@ function getClientIP(request: NextRequest): string {
   );
 }
 
+/** Generišu req-XXXXXXXX ID ako ulazni request nema x-request-id. */
+function resolveRequestId(request: NextRequest): string {
+  return (
+    request.headers.get('x-request-id') ??
+    request.headers.get('x-correlation-id') ??
+    `req-${Math.random().toString(36).slice(2, 10)}`
+  );
+}
+
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   const ip = getClientIP(request);
+  const requestId = resolveRequestId(request);
 
   // 1. Blok lista — odmah odbaci blokirane IP adrese
   if (BLOCKED_IPS.has(ip)) {
@@ -105,11 +118,19 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   if (!allowed) {
     return new NextResponse('Too Many Requests', {
       status: 429,
-      headers: { 'Retry-After': String(RATE_LIMIT_WINDOW_SEC) },
+      headers: {
+        'Retry-After': String(RATE_LIMIT_WINDOW_SEC),
+        'X-Request-Id': requestId,
+      },
     });
   }
 
-  return NextResponse.next();
+  // 3. Propusti zahtev dalje i dodaj X-Request-Id na odgovor (#858)
+  const response = NextResponse.next();
+  response.headers.set('X-Request-Id', requestId);
+  response.headers.set('X-App-Version', APP_VERSION);
+  response.headers.set('X-Autofinish-Iteracija', String(AUTOFINISH_COUNT));
+  return response;
 }
 
 // Apply to all routes except static assets and Next.js internals

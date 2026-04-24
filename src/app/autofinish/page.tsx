@@ -1,10 +1,11 @@
 // Autofinish #822 — /autofinish Dashboard UI Stranica
 // Autofinish #839 — Accessibility i ARIA Unapređenja
 // Autofinish #850 — OG Tags i Metadata
+// Autofinish #855 — Changelog Sekcija
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
-import { pokreniAutofinishPetlju } from '@/lib/autofinish-petlja';
+import { pokreniAutofinishPetlju, getLastNIterations } from '@/lib/autofinish-petlja';
 import { APP_VERSION, AUTOFINISH_COUNT, AUTOFINISH_TARGET, KOMPANIJA } from '@/lib/constants';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
@@ -39,6 +40,8 @@ export const metadata: Metadata = {
 export default function AutofinishPage() {
   const izvestaj = pokreniAutofinishPetlju();
   const procenat = ((AUTOFINISH_COUNT / AUTOFINISH_TARGET) * 100).toExponential(2);
+  // #855 — poslednjih 10 iteracija za changelog sekciju
+  const changelog = getLastNIterations(10);
 
   const statusLabel =
     izvestaj.status === 'zavrsena'
@@ -197,6 +200,41 @@ export default function AutofinishPage() {
               </div>
             ))}
           </dl>
+        </section>
+
+        {/* #855 — Changelog sekcija */}
+        <section
+          className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800"
+          aria-label="Autofinish changelog — poslednjih 10 iteracija"
+        >
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            <span aria-hidden="true">📋 </span>Changelog — poslednjih {changelog.length} iteracija
+          </h2>
+          <ul className="space-y-2" role="list">
+            {changelog.map((stavka) => (
+              <li
+                key={stavka.broj}
+                className="flex items-start gap-3 text-sm"
+              >
+                <span
+                  className="shrink-0 w-12 font-mono text-purple-400 font-bold"
+                  aria-label={`Iteracija broj ${stavka.broj}`}
+                >
+                  #{stavka.broj}
+                </span>
+                <span className="text-gray-300">{stavka.opis}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 text-right">
+            <a
+              href="/api/autofinish-changelog"
+              className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              aria-label="Preuzmi kompletan changelog kao JSON"
+            >
+              JSON API →
+            </a>
+          </div>
         </section>
 
         {/* Footer */}

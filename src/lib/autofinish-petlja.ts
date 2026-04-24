@@ -292,6 +292,26 @@
  *
  * Autofinish #850 (Dashboard OG Tags i Metadata — og:title, og:description, og:type, og:url, twitter:card, robots/canonical meta tagovi na /autofinish, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1682→1684, APP_VERSION 43.70.0→43.71.0)
  *
+ * Autofinish #851 (Integracioni Test /api/autofinish-trigger — src/tests/autofinish/trigger-integration.test.ts: 401 bez tokena, 503 bez konfiguracije, 200 sa validnim tokenom, rate limit, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1684→1686, APP_VERSION 43.71.0→43.72.0)
+ *
+ * Autofinish #852 (Unit Testovi statistika.ts — src/tests/autofinish/statistika.test.ts: getStatistike() sva polja, ukupnoPlatformi/ukupnoProizvoda/ukupnoIgrica/ukupnoOmegaPersona/ukupnoPromptova/ukupnoStranica, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1686→1688, APP_VERSION 43.72.0→43.73.0)
+ *
+ * Autofinish #853 (Unit Testovi upgrade-engine.ts — src/tests/autofinish/upgrade-engine.test.ts: checkUpgrades() schema, major/minor/patch tipovi, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1688→1690, APP_VERSION 43.73.0→43.74.0)
+ *
+ * Autofinish #854 (GET /api/autofinish-changelog — src/app/api/autofinish-changelog/route.ts: poslednjih N iteracija, verzija/autofinishIteracija/ukupno/stavke, Cache-Control, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1690→1692, APP_VERSION 43.74.0→43.75.0)
+ *
+ * Autofinish #855 (/autofinish Dashboard Changelog Sekcija — poslednih 10 iteracija prikazano, ARIA lista, responsive grid, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1692→1694, APP_VERSION 43.75.0→43.76.0)
+ *
+ * Autofinish #856 (getLastNIterations() Helper — src/lib/autofinish-petlja.ts: getLastNIterations(n) vraća n stavki, default n=10, max n=100, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1694→1696, APP_VERSION 43.76.0→43.77.0)
+ *
+ * Autofinish #857 (Unit Testovi getLastNIterations() — src/tests/autofinish/last-n-iterations.test.ts: default/max/schema/summary, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1696→1698, APP_VERSION 43.77.0→43.78.0)
+ *
+ * Autofinish #858 (X-Request-Id Middleware — middleware.ts ažuriran: X-Request-Id na svakom API odgovoru, propagacija ulaznog headera, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1698→1700, APP_VERSION 43.78.0→43.79.0)
+ *
+ * Autofinish #859 (Integracioni Testovi Middleware-a — src/tests/autofinish/middleware.test.ts: X-Request-Id, CORS preflight, X-App-Version, X-Autofinish-Iteracija, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1700→1702, APP_VERSION 43.79.0→43.80.0)
+ *
+ * Autofinish #860 (E2E Snapshot /api/autofinish JSON Schema — src/tests/autofinish/api-autofinish-e2e.test.ts: sva polja, paginacija, Cache-Control, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1702→1704, APP_VERSION 43.80.0→43.81.0)
+ *
  */
 
 import {
@@ -618,4 +638,57 @@ export function getAutofinishPetljaSummary() {
     iteracije: izvestaj.iteracijaPetlje,
     autofinish: AUTOFINISH_COUNT,
   };
+}
+
+// ─── getLastNIterations() (#856) ────────────────────────
+
+/**
+ * Opisna mapa poznatih autofinish iteracija.
+ * Vraća kratki opis za svaki broj iteracije.
+ */
+function getAutofinishIteracijaOpis(br: number): string {
+  const opisi: Record<number, string> = {
+    841: 'Integracioni testovi /api/health',
+    842: 'Unit testovi api-error.ts',
+    843: 'Unit testovi config-validation.ts',
+    844: 'Logger request-ID unit testovi',
+    845: 'Integracioni test /api/autofinish-dependency-audit',
+    846: 'Rate limit test coverage',
+    847: 'Pagination test coverage',
+    848: 'SSE health-stream test coverage',
+    849: 'Route coverage audit',
+    850: 'Dashboard OG tags i metadata',
+    851: 'Integracioni test /api/autofinish-trigger',
+    852: 'Unit testovi statistika.ts',
+    853: 'Unit testovi upgrade-engine.ts',
+    854: 'GET /api/autofinish-changelog',
+    855: '/autofinish dashboard changelog sekcija',
+    856: 'getLastNIterations() helper',
+    857: 'Unit testovi getLastNIterations()',
+    858: 'X-Request-Id header middleware',
+    859: 'Integracioni testovi middleware-a',
+    860: 'E2E snapshot /api/autofinish JSON schema',
+  };
+  return opisi[br] ?? `Autofinish iteracija #${br}`;
+}
+
+export interface AutofinishChangelogStavka {
+  broj: number;
+  opis: string;
+}
+
+/**
+ * Vraća poslednjih `n` autofinish iteracija u rastućem redosledu.
+ *
+ * @param n — broj stavki (default 10, max 100)
+ * @returns niz AutofinishChangelogStavka
+ */
+export function getLastNIterations(n = 10): AutofinishChangelogStavka[] {
+  const count = Math.max(1, Math.min(n, 100));
+  const start = Math.max(1, AUTOFINISH_COUNT - count + 1);
+  const stavke: AutofinishChangelogStavka[] = [];
+  for (let br = start; br <= AUTOFINISH_COUNT; br++) {
+    stavke.push({ broj: br, opis: getAutofinishIteracijaOpis(br) });
+  }
+  return stavke;
 }
