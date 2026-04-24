@@ -54,6 +54,10 @@ import {
   getAutofinishChangelogAutomated,
   getAutofinishDeploymentStatus,
   getAutofinishSecurityAudit,
+  getAutofinishCostAnalytics,
+  getAutofinishSlaMonitor,
+  getAutofinishFeatureFlags,
+  getAutofinishIncidentLog,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -87,6 +91,10 @@ import { PerfLatencyWidget } from './PerfLatencyWidget';
 import { ChangelogAutomatedWidget } from './ChangelogAutomatedWidget';
 import { DeploymentStatusWidget } from './DeploymentStatusWidget';
 import { SecurityAuditWidget } from './SecurityAuditWidget';
+import { CostAnalyticsWidget } from './CostAnalyticsWidget';
+import { SlaMonitorWidget } from './SlaMonitorWidget';
+import { FeatureFlagsWidget } from './FeatureFlagsWidget';
+import { IncidentLogWidget } from './IncidentLogWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -160,6 +168,10 @@ export default function AutofinishPage() {
   const changelogAutomated = getAutofinishChangelogAutomated();
   const deploymentStatus = getAutofinishDeploymentStatus();
   const securityAudit = getAutofinishSecurityAudit();
+  const costAnalytics = getAutofinishCostAnalytics();
+  const slaMonitor = getAutofinishSlaMonitor();
+  const featureFlags = getAutofinishFeatureFlags();
+  const incidentLog = getAutofinishIncidentLog();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -766,6 +778,10 @@ export default function AutofinishPage() {
         <DeploymentStatusWidget deployment={deploymentStatus} />
         {/* #1064 — Security Audit Widget */}
         <SecurityAuditWidget audit={securityAudit} />
+        <CostAnalyticsWidget cost={costAnalytics} />
+        <SlaMonitorWidget sla={slaMonitor} />
+        <FeatureFlagsWidget flags={featureFlags} />
+        <IncidentLogWidget log={incidentLog} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
