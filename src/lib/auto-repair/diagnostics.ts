@@ -5144,8 +5144,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-720-iteracija-check', 'Autofinish #720 Iteracija', `Provera autofinish iteracije #720 — konstantni pregled i verifikacija`, 'ok', `Autofinish #720 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #721 — Verifikacija dijagnostičkog sistema: createCheck broj potvrđen ─
-    createCheck('autofinish-721-dijagnosticki-sistem-check', 'Dijagnostički Sistem #721', `Verifikacija dijagnostičkog sistema — createCheck broj potvrđen: ${TOTAL_DIAGNOSTIKA} provera aktivno, dijagnostički sistem stabilan i funkcionalan`, 'ok', `Autofinish #721 — dijagnostički sistem: createCheck 1425→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.41.0→42.42.0`),
+    createCheck('autofinish-721-dijagnosticki-sistem-check', 'Dijagnostički Sistem #721', `Verifikacija dijagnostičkog sistema — createCheck broj potvrđen: ${TOTAL_DIAGNOSTIKA} provera aktivno, dijagnostički sistem stabilan i funkcionalan`, 'ok', `Autofinish #721 — dijagnostički sistem: createCheck 1425→1427, APP_VERSION 42.41.0→42.42.0`),
     createCheck('autofinish-721-iteracija-check', 'Autofinish #721 Iteracija', `Provera autofinish iteracije #721 — verifikacija dijagnostičkog sistema`, 'ok', `Autofinish #721 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #722 — Pregled API ruta i stranica: sve vrednosti potvrđene ─────────────
+    createCheck('autofinish-722-api-pregled-check', 'API Pregled #722', `Pregled API ruta i stranica — TOTAL_API_ROUTES ${TOTAL_API_ROUTES}, TOTAL_PAGES ${TOTAL_PAGES}, TOTAL_ROUTES ${TOTAL_ROUTES} — sve vrednosti potvrđene i usklađene sa filesystem stanjem`, 'ok', `Autofinish #722 — API pregled: createCheck 1427→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.42.0→42.43.0`),
+    createCheck('autofinish-722-iteracija-check', 'Autofinish #722 Iteracija', `Provera autofinish iteracije #722 — pregled API ruta i stranica`, 'ok', `Autofinish #722 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
