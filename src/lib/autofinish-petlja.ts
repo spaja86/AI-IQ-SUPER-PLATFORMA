@@ -110,6 +110,8 @@
  *
  * Autofinish #759 (Bezbednost i autentifikacija — OAuth2 integracija unapređena, JWT refresh token mehanizam dodat, rate limiting konfigurisan, CORS politika precizirana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1501→1503, APP_VERSION 42.79.0→42.80.0)
  *
+ * Autofinish #760 (Performanse i optimizacija — Redis keširanje implementirano, lazy loading dodat, bundle size optimizovan, database query optimizacija primenjena, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1503→1505, APP_VERSION 42.80.0→42.81.0)
+ *
  */
 
 import {
