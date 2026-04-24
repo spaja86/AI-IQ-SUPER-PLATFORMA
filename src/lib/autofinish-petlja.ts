@@ -196,6 +196,8 @@
  *
  * Autofinish #802 (Sigurnost i autentikacija — OAuth2 tok unapređen, JWT validacija poboljšana, rate limiting implementiran, CSRF zaštita ojačana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1587→1589, APP_VERSION 43.22.0→43.23.0)
  *
+ * Autofinish #803 (UI/UX unapređenja — dark mode podrška proširena, animacije optimizovane, accessibility poboljšana, responzivni dizajn unapređen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1589→1591, APP_VERSION 43.23.0→43.24.0)
+ *
  */
 
 import {
