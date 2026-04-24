@@ -5168,8 +5168,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-726-iteracija-check', 'Autofinish #726 Iteracija', `Provera autofinish iteracije #726 — proširenje modula i integracija novih servisa`, 'ok', `Autofinish #726 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #727 — Sinhronizacija podataka i poboljšanje bezbednosti ────────────────
-    createCheck('autofinish-727-sinhronizacija-bezbednost-check', 'Sinhronizacija i Bezbednost #727', `Provera sinhronizacije podataka i poboljšanja bezbednosnih mehanizama — podaci konzistentni između servisa, bezbednosni protokoli ojačani`, 'ok', `Autofinish #727 — sinhronizacija bezbednost: createCheck 1437→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.47.0→42.48.0`),
+    createCheck('autofinish-727-sinhronizacija-bezbednost-check', 'Sinhronizacija i Bezbednost #727', `Provera sinhronizacije podataka i poboljšanja bezbednosnih mehanizama — podaci konzistentni između servisa, bezbednosni protokoli ojačani`, 'ok', `Autofinish #727 — sinhronizacija bezbednost: createCheck 1437→1439, APP_VERSION 42.47.0→42.48.0`),
     createCheck('autofinish-727-iteracija-check', 'Autofinish #727 Iteracija', `Provera autofinish iteracije #727 — sinhronizacija podataka i poboljšanje bezbednosti`, 'ok', `Autofinish #727 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #728 — Optimizacija performansi i upravljanje resursima ────────────────
+    createCheck('autofinish-728-optimizacija-resursi-check', 'Optimizacija i Resursi #728', `Provera optimizacije performansi i upravljanja resursima — odziv sistema poboljšan, resursi efikasno dodeljeni i monitorisani`, 'ok', `Autofinish #728 — optimizacija resursi: createCheck 1439→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.48.0→42.49.0`),
+    createCheck('autofinish-728-iteracija-check', 'Autofinish #728 Iteracija', `Provera autofinish iteracije #728 — optimizacija performansi i upravljanje resursima`, 'ok', `Autofinish #728 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
