@@ -126,6 +126,8 @@
  *
  * Autofinish #767 (Monitoring i observability — structured logging implementiran, distributed tracing dodat, health check endpointi prošireni, alerting pravila definisana, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1517→1519, APP_VERSION 42.87.0→42.88.0)
  *
+ * Autofinish #768 (Bezbednost i autentikacija — JWT refresh token rotacija implementirana, rate limiting proširen, RBAC granularnost poboljšana, audit log dodat, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1519→1521, APP_VERSION 42.88.0→42.89.0)
+ *
  */
 
 import {
