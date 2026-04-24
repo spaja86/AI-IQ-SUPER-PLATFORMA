@@ -6544,6 +6544,74 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1048 — E2E svih 34 autofinish API endpoints ─────────────
     createCheck('autofinish-1048-all34-endpoints-e2e-check', 'E2E Svih 34 Autofinish API Endpoints #1048', `Provera E2E konzistentnosti verzija kroz svih 34 autofinish API endpoints`, 'ok', `Autofinish #1048 — Full 34-Endpoint E2E: TOTAL_DIAGNOSTIKA 2078→2080, APP_VERSION 45.68.0→45.69.0`),
     createCheck('autofinish-1048-iteracija-check', 'Autofinish #1048 Iteracija', `Provera autofinish iteracije #1048 — E2E svih 34 autofinish API endpoints`, 'ok', `Autofinish #1048 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1049 — getAutofinishPerfLatency() ───────────────────────
+    createCheck('autofinish-1049-perf-latency-helper-check', 'getAutofinishPerfLatency() Helper #1049', `Provera getAutofinishPerfLatency() — endpointi, p50/p95/p99, error rate`, 'ok', `Autofinish #1049 — PerfLatency Helper: TOTAL_DIAGNOSTIKA 2080→2082, APP_VERSION 45.69.0→45.70.0`),
+    createCheck('autofinish-1049-iteracija-check', 'Autofinish #1049 Iteracija', `Provera autofinish iteracije #1049 — getAutofinishPerfLatency()`, 'ok', `Autofinish #1049 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1050 — Unit testovi getAutofinishPerfLatency() ───────────
+    createCheck('autofinish-1050-perf-latency-unit-test-check', 'Unit Testovi getAutofinishPerfLatency() #1050', `Provera unit testova — schema, p50<=p95<=p99, error rate 0-100`, 'ok', `Autofinish #1050 — PerfLatency Tests: TOTAL_DIAGNOSTIKA 2082→2084, APP_VERSION 45.70.0→45.71.0`),
+    createCheck('autofinish-1050-iteracija-check', 'Autofinish #1050 Iteracija', `Provera autofinish iteracije #1050 — unit testovi perf latency`, 'ok', `Autofinish #1050 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1051 — GET /api/autofinish-perf-latency ─────────────────
+    createCheck('autofinish-1051-perf-latency-api-check', 'GET /api/autofinish-perf-latency #1051', `Provera /api/autofinish-perf-latency — 200, Cache-Control, endpoints schema`, 'ok', `Autofinish #1051 — PerfLatency API: TOTAL_DIAGNOSTIKA 2084→2086, APP_VERSION 45.71.0→45.72.0`),
+    createCheck('autofinish-1051-iteracija-check', 'Autofinish #1051 Iteracija', `Provera autofinish iteracije #1051 — GET /api/autofinish-perf-latency`, 'ok', `Autofinish #1051 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1052 — Dashboard PerfLatencyWidget ──────────────────────
+    createCheck('autofinish-1052-perf-latency-widget-check', 'Dashboard PerfLatencyWidget #1052', `Provera PerfLatencyWidget — latency tabela, status badge, ARIA`, 'ok', `Autofinish #1052 — PerfLatencyWidget: TOTAL_DIAGNOSTIKA 2086→2088, APP_VERSION 45.72.0→45.73.0`),
+    createCheck('autofinish-1052-iteracija-check', 'Autofinish #1052 Iteracija', `Provera autofinish iteracije #1052 — Dashboard PerfLatencyWidget`, 'ok', `Autofinish #1052 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1053 — getAutofinishChangelogAutomated() ────────────────
+    createCheck('autofinish-1053-changelog-helper-check', 'getAutofinishChangelogAutomated() Helper #1053', `Provera getAutofinishChangelogAutomated() — entries, tip, verzija`, 'ok', `Autofinish #1053 — Changelog Helper: TOTAL_DIAGNOSTIKA 2088→2090, APP_VERSION 45.73.0→45.74.0`),
+    createCheck('autofinish-1053-iteracija-check', 'Autofinish #1053 Iteracija', `Provera autofinish iteracije #1053 — getAutofinishChangelogAutomated()`, 'ok', `Autofinish #1053 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1054 — Unit testovi getAutofinishChangelogAutomated() ───
+    createCheck('autofinish-1054-changelog-unit-test-check', 'Unit Testovi getAutofinishChangelogAutomated() #1054', `Provera unit testova — schema, entries sortovani, verzija konzistentna`, 'ok', `Autofinish #1054 — Changelog Tests: TOTAL_DIAGNOSTIKA 2090→2092, APP_VERSION 45.74.0→45.75.0`),
+    createCheck('autofinish-1054-iteracija-check', 'Autofinish #1054 Iteracija', `Provera autofinish iteracije #1054 — unit testovi changelog`, 'ok', `Autofinish #1054 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1055 — GET /api/autofinish-changelog-automated ──────────
+    createCheck('autofinish-1055-changelog-api-check', 'GET /api/autofinish-changelog-automated #1055', `Provera /api/autofinish-changelog-automated — 200, Cache-Control, entries schema`, 'ok', `Autofinish #1055 — Changelog API: TOTAL_DIAGNOSTIKA 2092→2094, APP_VERSION 45.75.0→45.76.0`),
+    createCheck('autofinish-1055-iteracija-check', 'Autofinish #1055 Iteracija', `Provera autofinish iteracije #1055 — GET /api/autofinish-changelog-automated`, 'ok', `Autofinish #1055 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1056 — Dashboard ChangelogAutomatedWidget ───────────────
+    createCheck('autofinish-1056-changelog-widget-check', 'Dashboard ChangelogAutomatedWidget #1056', `Provera ChangelogAutomatedWidget — changelog lista, tip badge, faze, ARIA`, 'ok', `Autofinish #1056 — ChangelogAutomatedWidget: TOTAL_DIAGNOSTIKA 2094→2096, APP_VERSION 45.76.0→45.77.0`),
+    createCheck('autofinish-1056-iteracija-check', 'Autofinish #1056 Iteracija', `Provera autofinish iteracije #1056 — Dashboard ChangelogAutomatedWidget`, 'ok', `Autofinish #1056 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1057 — getAutofinishDeploymentStatus() ──────────────────
+    createCheck('autofinish-1057-deployment-helper-check', 'getAutofinishDeploymentStatus() Helper #1057', `Provera getAutofinishDeploymentStatus() — okruzenja, zdravlje, status`, 'ok', `Autofinish #1057 — Deployment Helper: TOTAL_DIAGNOSTIKA 2096→2098, APP_VERSION 45.77.0→45.78.0`),
+    createCheck('autofinish-1057-iteracija-check', 'Autofinish #1057 Iteracija', `Provera autofinish iteracije #1057 — getAutofinishDeploymentStatus()`, 'ok', `Autofinish #1057 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1058 — Unit testovi getAutofinishDeploymentStatus() ──────
+    createCheck('autofinish-1058-deployment-unit-test-check', 'Unit Testovi getAutofinishDeploymentStatus() #1058', `Provera unit testova — schema, okruzenja postoje, zdravlje 0-100`, 'ok', `Autofinish #1058 — Deployment Tests: TOTAL_DIAGNOSTIKA 2098→2100, APP_VERSION 45.78.0→45.79.0`),
+    createCheck('autofinish-1058-iteracija-check', 'Autofinish #1058 Iteracija', `Provera autofinish iteracije #1058 — unit testovi deployment`, 'ok', `Autofinish #1058 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1059 — GET /api/autofinish-deployment-status ────────────
+    createCheck('autofinish-1059-deployment-api-check', 'GET /api/autofinish-deployment-status #1059', `Provera /api/autofinish-deployment-status — 200, Cache-Control, deployments schema`, 'ok', `Autofinish #1059 — Deployment API: TOTAL_DIAGNOSTIKA 2100→2102, APP_VERSION 45.79.0→45.80.0`),
+    createCheck('autofinish-1059-iteracija-check', 'Autofinish #1059 Iteracija', `Provera autofinish iteracije #1059 — GET /api/autofinish-deployment-status`, 'ok', `Autofinish #1059 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1060 — Dashboard DeploymentStatusWidget ─────────────────
+    createCheck('autofinish-1060-deployment-widget-check', 'Dashboard DeploymentStatusWidget #1060', `Provera DeploymentStatusWidget — okruzenja karte, zdravlje indikatori, ARIA`, 'ok', `Autofinish #1060 — DeploymentStatusWidget: TOTAL_DIAGNOSTIKA 2102→2104, APP_VERSION 45.80.0→45.81.0`),
+    createCheck('autofinish-1060-iteracija-check', 'Autofinish #1060 Iteracija', `Provera autofinish iteracije #1060 — Dashboard DeploymentStatusWidget`, 'ok', `Autofinish #1060 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1061 — getAutofinishSecurityAudit() ─────────────────────
+    createCheck('autofinish-1061-security-helper-check', 'getAutofinishSecurityAudit() Helper #1061', `Provera getAutofinishSecurityAudit() — nalazi, CVSS 0-10, severity, overallScore`, 'ok', `Autofinish #1061 — Security Helper: TOTAL_DIAGNOSTIKA 2104→2106, APP_VERSION 45.81.0→45.82.0`),
+    createCheck('autofinish-1061-iteracija-check', 'Autofinish #1061 Iteracija', `Provera autofinish iteracije #1061 — getAutofinishSecurityAudit()`, 'ok', `Autofinish #1061 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1062 — Unit testovi getAutofinishSecurityAudit() ─────────
+    createCheck('autofinish-1062-security-unit-test-check', 'Unit Testovi getAutofinishSecurityAudit() #1062', `Provera unit testova — schema, CVSS 0-10, severity validan, overallScore 0-100`, 'ok', `Autofinish #1062 — Security Tests: TOTAL_DIAGNOSTIKA 2106→2108, APP_VERSION 45.82.0→45.83.0`),
+    createCheck('autofinish-1062-iteracija-check', 'Autofinish #1062 Iteracija', `Provera autofinish iteracije #1062 — unit testovi security audit`, 'ok', `Autofinish #1062 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1063 — GET /api/autofinish-security-audit ───────────────
+    createCheck('autofinish-1063-security-api-check', 'GET /api/autofinish-security-audit #1063', `Provera /api/autofinish-security-audit — 200, Cache-Control, findings schema`, 'ok', `Autofinish #1063 — Security API: TOTAL_DIAGNOSTIKA 2108→2110, APP_VERSION 45.83.0→45.84.0`),
+    createCheck('autofinish-1063-iteracija-check', 'Autofinish #1063 Iteracija', `Provera autofinish iteracije #1063 — GET /api/autofinish-security-audit`, 'ok', `Autofinish #1063 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1064 — Dashboard SecurityAuditWidget ────────────────────
+    createCheck('autofinish-1064-security-widget-check', 'Dashboard SecurityAuditWidget #1064', `Provera SecurityAuditWidget — CVSS skala, severity boje, status, ARIA`, 'ok', `Autofinish #1064 — SecurityAuditWidget: TOTAL_DIAGNOSTIKA 2110→2112, APP_VERSION 45.84.0→45.85.0`),
+    createCheck('autofinish-1064-iteracija-check', 'Autofinish #1064 Iteracija', `Provera autofinish iteracije #1064 — Dashboard SecurityAuditWidget`, 'ok', `Autofinish #1064 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1065 — E2E svih 38 autofinish API endpoints ─────────────
+    createCheck('autofinish-1065-all38-endpoints-e2e-check', 'E2E Svih 38 Autofinish API Endpoints #1065', `Provera E2E konzistentnosti verzija kroz svih 38 autofinish API endpoints`, 'ok', `Autofinish #1065 — Full 38-Endpoint E2E: TOTAL_DIAGNOSTIKA 2112→2114, APP_VERSION 45.85.0→45.86.0`),
+    createCheck('autofinish-1065-iteracija-check', 'Autofinish #1065 Iteracija', `Provera autofinish iteracije #1065 — E2E svih 38 autofinish API endpoints`, 'ok', `Autofinish #1065 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

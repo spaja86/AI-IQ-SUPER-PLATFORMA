@@ -50,6 +50,10 @@ import {
   getAutofinishResursi,
   getAutofinishRizici,
   getAutofinishKomunikacioniLog,
+  getAutofinishPerfLatency,
+  getAutofinishChangelogAutomated,
+  getAutofinishDeploymentStatus,
+  getAutofinishSecurityAudit,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -79,6 +83,10 @@ import { NapredakTrackerWidget } from './NapredakTrackerWidget';
 import { ResursiWidget } from './ResursiWidget';
 import { RiziciWidget } from './RiziciWidget';
 import { KomunikacioniLogWidget } from './KomunikacioniLogWidget';
+import { PerfLatencyWidget } from './PerfLatencyWidget';
+import { ChangelogAutomatedWidget } from './ChangelogAutomatedWidget';
+import { DeploymentStatusWidget } from './DeploymentStatusWidget';
+import { SecurityAuditWidget } from './SecurityAuditWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -148,6 +156,10 @@ export default function AutofinishPage() {
   const resursi = getAutofinishResursi();
   const rizici = getAutofinishRizici();
   const komunikacioniLog = getAutofinishKomunikacioniLog();
+  const perfLatency = getAutofinishPerfLatency();
+  const changelogAutomated = getAutofinishChangelogAutomated();
+  const deploymentStatus = getAutofinishDeploymentStatus();
+  const securityAudit = getAutofinishSecurityAudit();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -746,6 +758,14 @@ export default function AutofinishPage() {
 
         {/* #1047 — Komunikacioni Log Widget */}
         <KomunikacioniLogWidget log={komunikacioniLog} />
+        {/* #1052 — Perf Latency Widget */}
+        <PerfLatencyWidget perf={perfLatency} />
+        {/* #1056 — Changelog Automated Widget */}
+        <ChangelogAutomatedWidget changelog={changelogAutomated} />
+        {/* #1060 — Deployment Status Widget */}
+        <DeploymentStatusWidget deployment={deploymentStatus} />
+        {/* #1064 — Security Audit Widget */}
+        <SecurityAuditWidget audit={securityAudit} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
