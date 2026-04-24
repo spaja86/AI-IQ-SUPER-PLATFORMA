@@ -34,6 +34,10 @@ import {
   getAutofinishKategorijePorHijarhijama,
   getAutofinishTrendPoKategorijama,
   getAutofinishKategorijeStats,
+  getAutofinishIterationsPerDay,
+  getAutofinishCoverageReport,
+  getAutofinishMilestoneProjection,
+  getAutofinishPodsistemiDependencies,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -47,6 +51,10 @@ import { TopIteracijeWidget } from './TopIteracijeWidget';
 import { KategorijeWidget } from './KategorijeWidget';
 import { TrendWidget } from './TrendWidget';
 import { KategorijeStatsWidget } from './KategorijeStatsWidget';
+import { VelocityWidget } from './VelocityWidget';
+import { CoverageWidget } from './CoverageWidget';
+import { MilestoneProjectionWidget } from './MilestoneProjectionWidget';
+import { DependencyWidget } from './DependencyWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -94,6 +102,12 @@ export default function AutofinishPage() {
   const zdravljeSummary = getAutofinishHealthSummary();
   // #978 — Kategorije stats widget
   const kategorijeStats = getAutofinishKategorijeStats();
+
+  // #981-#997 — Velocity, Coverage, Milestone Projection, Dependencies
+  const velocity = getAutofinishIterationsPerDay();
+  const coverage = getAutofinishCoverageReport();
+  const projection = getAutofinishMilestoneProjection();
+  const depGraph = getAutofinishPodsistemiDependencies();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -644,6 +658,18 @@ export default function AutofinishPage() {
           autofinishBroj={AUTOFINISH_COUNT}
           verzija={APP_VERSION}
         />
+
+        {/* #984 — Velocity Widget */}
+        <VelocityWidget velocity={velocity} />
+
+        {/* #988 — Coverage Widget */}
+        <CoverageWidget coverage={coverage} />
+
+        {/* #992 — Milestone Projection Widget */}
+        <MilestoneProjectionWidget projection={projection} />
+
+        {/* #996 — Dependency Widget */}
+        <DependencyWidget dependencies={depGraph} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">

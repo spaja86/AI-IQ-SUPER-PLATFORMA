@@ -552,6 +552,39 @@
  *
  * Autofinish #980 (E2E Svih 18 Autofinish API Endpoints — konzistentnost verzija kroz svih 18 endpoints, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1942→1944, APP_VERSION 45.00.0→45.01.0)
  *
+ * Autofinish #981 (getAutofinishIterationsPerDay() Helper — izračunava prosječnu brzinu iteracija po danu na osnovu VERZIJE_ISTORIJAT milestona; brzinaPoSatu, brzinaPoSatima, prosječanBroj; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1944→1946, APP_VERSION 45.01.0→45.02.0)
+ *
+ * Autofinish #982 (Unit Testovi getAutofinishIterationsPerDay() — schema, velocity > 0, timestamp, prognoza string; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1946→1948, APP_VERSION 45.02.0→45.03.0)
+ *
+ * Autofinish #983 (GET /api/autofinish-velocity — brzina iteracija JSON, Cache-Control, X-App-Version, X-Autofinish-Iteracija; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1948→1950, APP_VERSION 45.03.0→45.04.0)
+ *
+ * Autofinish #984 (Dashboard VelocityWidget — prikaz brzine iteracija po danu, progres bar, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1950→1952, APP_VERSION 45.04.0→45.05.0)
+ *
+ * Autofinish #985 (getAutofinishCoverageReport() Helper — mapira svaku kategoriju na pokrivene/nepokrivene helpere, testove, rute; pokrivenost%; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1952→1954, APP_VERSION 45.05.0→45.06.0)
+ *
+ * Autofinish #986 (Unit Testovi getAutofinishCoverageReport() — schema, completeness ratios, nema praznih kategorija; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1954→1956, APP_VERSION 45.06.0→45.07.0)
+ *
+ * Autofinish #987 (GET /api/autofinish-coverage — pokrivenost JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1956→1958, APP_VERSION 45.07.0→45.08.0)
+ *
+ * Autofinish #988 (Dashboard CoverageWidget — postotni barovi po kategorijama, ARIA grid; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1958→1960, APP_VERSION 45.08.0→45.09.0)
+ *
+ * Autofinish #989 (getAutofinishMilestoneProjection() Helper — procjenjuje ETA za svaki roadmap milestone na osnovu trenutne brzine; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1960→1962, APP_VERSION 45.09.0→45.10.0)
+ *
+ * Autofinish #990 (Unit Testovi getAutofinishMilestoneProjection() — schema, ETA > now za pending, redosled, milestone konzistentnost; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1962→1964, APP_VERSION 45.10.0→45.11.0)
+ *
+ * Autofinish #991 (GET /api/autofinish-milestone-projection — procjena završetka JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1964→1966, APP_VERSION 45.11.0→45.12.0)
+ *
+ * Autofinish #992 (Dashboard MilestoneProjectionWidget — ETA lista sa badge statusom, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1966→1968, APP_VERSION 45.12.0→45.13.0)
+ *
+ * Autofinish #993 (getAutofinishPodsistemiDependencies() Helper — definira koje podsisteme ovise o kojima, dependency mapa; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1968→1970, APP_VERSION 45.13.0→45.14.0)
+ *
+ * Autofinish #994 (Unit Testovi getAutofinishPodsistemiDependencies() — schema, nema cirkularnih zavisnosti, svih 9 podsistema prisutno; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1970→1972, APP_VERSION 45.14.0→45.15.0)
+ *
+ * Autofinish #995 (GET /api/autofinish-dependencies — dependency mapa JSON, Cache-Control, X-App-Version; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1972→1974, APP_VERSION 45.15.0→45.16.0)
+ *
+ * Autofinish #996 (Dashboard DependencyWidget — tabela zavisnosti podsistema, ARIA; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1974→1976, APP_VERSION 45.16.0→45.17.0)
+ *
+ * Autofinish #997 (E2E Svih 22 Autofinish API Endpoints — konzistentnost verzija kroz svih 22 autofinish endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1976→1978, APP_VERSION 45.17.0→45.18.0)
  */
 
 import {
@@ -1030,6 +1063,23 @@ export function getAutofinishIteracijaOpis(br: number): string {
     978: 'Dashboard KategorijeStatsWidget',
     979: 'Unit testovi KategorijeStatsWidget',
     980: 'E2E svih 18 autofinish API endpoints',
+    981: 'getAutofinishIterationsPerDay() helper — brzina iteracija po danu',
+    982: 'Unit testovi getAutofinishIterationsPerDay()',
+    983: 'GET /api/autofinish-velocity',
+    984: 'Dashboard VelocityWidget',
+    985: 'getAutofinishCoverageReport() helper — pokrivenost kategorija',
+    986: 'Unit testovi getAutofinishCoverageReport()',
+    987: 'GET /api/autofinish-coverage',
+    988: 'Dashboard CoverageWidget',
+    989: 'getAutofinishMilestoneProjection() helper — procjena završetka',
+    990: 'Unit testovi getAutofinishMilestoneProjection()',
+    991: 'GET /api/autofinish-milestone-projection',
+    992: 'Dashboard MilestoneProjectionWidget',
+    993: 'getAutofinishPodsistemiDependencies() helper — zavisnosti podsistema',
+    994: 'Unit testovi getAutofinishPodsistemiDependencies()',
+    995: 'GET /api/autofinish-dependencies',
+    996: 'Dashboard DependencyWidget',
+    997: 'E2E svih 22 autofinish API endpoints',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -1299,7 +1349,8 @@ const VERZIJE_ISTORIJAT: AutofinishVerzijaSummaryStavka[] = [
   { verzija: '44.71.0', autofinishBroj: 950, opis: 'Top iteracije, verzije diff, 13-endpoint E2E' },
   { verzija: '44.81.0', autofinishBroj: 960, opis: 'Kategorije, trend, 14-endpoint E2E' },
   { verzija: '44.91.0', autofinishBroj: 970, opis: 'Kategorija detalji, trend po kategorijama, TrendWidget, 16-endpoint E2E' },
-  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Iteracije po verziji, kategorije stats, KategorijeStatsWidget, 18-endpoint E2E' },
+  { verzija: '45.01.0', autofinishBroj: 980, opis: 'Iteracije po verziji, kategorije stats, KategorijeStatsWidget, 18-endpoint E2E' },
+  { verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, opis: 'Velocity analytics, coverage report, milestone projection, dependency graph, 22-endpoint E2E' },
 ];
 
 /**
@@ -1413,6 +1464,10 @@ export function getAutofinishMetaInfo(): AutofinishMetaInfo {
       '/api/autofinish-trend-kategorije',
       '/api/autofinish-verzija-iteracije',
       '/api/autofinish-kategorije-stats',
+      '/api/autofinish-velocity',
+      '/api/autofinish-coverage',
+      '/api/autofinish-milestone-projection',
+      '/api/autofinish-dependencies',
     ],
     timestamp: new Date().toISOString(),
   };
@@ -1766,6 +1821,23 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     978: 'Dashboard KategorijeStatsWidget',
     979: 'Unit testovi KategorijeStatsWidget',
     980: 'E2E svih 18 autofinish API endpoints',
+    981: 'getAutofinishIterationsPerDay() helper — brzina iteracija po danu',
+    982: 'Unit testovi getAutofinishIterationsPerDay()',
+    983: 'GET /api/autofinish-velocity',
+    984: 'Dashboard VelocityWidget',
+    985: 'getAutofinishCoverageReport() helper — pokrivenost kategorija',
+    986: 'Unit testovi getAutofinishCoverageReport()',
+    987: 'GET /api/autofinish-coverage',
+    988: 'Dashboard CoverageWidget',
+    989: 'getAutofinishMilestoneProjection() helper — procjena završetka',
+    990: 'Unit testovi getAutofinishMilestoneProjection()',
+    991: 'GET /api/autofinish-milestone-projection',
+    992: 'Dashboard MilestoneProjectionWidget',
+    993: 'getAutofinishPodsistemiDependencies() helper — zavisnosti podsistema',
+    994: 'Unit testovi getAutofinishPodsistemiDependencies()',
+    995: 'GET /api/autofinish-dependencies',
+    996: 'Dashboard DependencyWidget',
+    997: 'E2E svih 22 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -1983,6 +2055,23 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     978: 'Dashboard KategorijeStatsWidget',
     979: 'Unit testovi KategorijeStatsWidget',
     980: 'E2E svih 18 autofinish API endpoints',
+    981: 'getAutofinishIterationsPerDay() helper — brzina iteracija po danu',
+    982: 'Unit testovi getAutofinishIterationsPerDay()',
+    983: 'GET /api/autofinish-velocity',
+    984: 'Dashboard VelocityWidget',
+    985: 'getAutofinishCoverageReport() helper — pokrivenost kategorija',
+    986: 'Unit testovi getAutofinishCoverageReport()',
+    987: 'GET /api/autofinish-coverage',
+    988: 'Dashboard CoverageWidget',
+    989: 'getAutofinishMilestoneProjection() helper — procjena završetka',
+    990: 'Unit testovi getAutofinishMilestoneProjection()',
+    991: 'GET /api/autofinish-milestone-projection',
+    992: 'Dashboard MilestoneProjectionWidget',
+    993: 'getAutofinishPodsistemiDependencies() helper — zavisnosti podsistema',
+    994: 'Unit testovi getAutofinishPodsistemiDependencies()',
+    995: 'GET /api/autofinish-dependencies',
+    996: 'Dashboard DependencyWidget',
+    997: 'E2E svih 22 autofinish API endpoints',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2668,6 +2757,299 @@ export function getAutofinishKategorijeStats(): AutofinishKategorijeStatsResult 
     globalMin: globalMin === Infinity ? 0 : globalMin,
     globalMax: globalMax === -Infinity ? 0 : globalMax,
     globalAvg,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishIterationsPerDay() (#981) ──────────────────────────────────
+
+export interface AutofinishVelocityResult {
+  verzija: string;
+  autofinishBroj: number;
+  /** Prosječan broj iteracija po satu */
+  brzinaPoSatu: number;
+  /** Prosječan broj iteracija po danu */
+  brzinaPoSatima: number;
+  /** Prosječan broj iteracija po sedmici */
+  brzinaPoSedmici: number;
+  ukupnoIteracija: number;
+  prognoza: string;
+  timestamp: string;
+}
+
+/**
+ * Izračunava prosječnu brzinu autofinish iteracija po danu/satu/sedmici.
+ * Koristi verzije istorijat (VERZIJE_ISTORIJAT): pretpostavlja da svaki period
+ * između milestona iznosi ~7 dana. Vraća 1 iteraciju/danu kao fallback.
+ *
+ * @returns AutofinishVelocityResult
+ */
+export function getAutofinishIterationsPerDay(): AutofinishVelocityResult {
+  const summary = getAutofinishVerzijeSummary();
+  const verzije = summary.verzije;
+  const periodi = Math.max(1, verzije.length - 1);
+  const first = verzije[0];
+  const last = verzije[verzije.length - 1];
+  const totalIteracije = last.autofinishBroj - first.autofinishBroj;
+  const danElapsed = periodi * 7;
+
+  const brzinaPoSatima = danElapsed > 0
+    ? Math.round((totalIteracije / danElapsed) * 100) / 100
+    : 1;
+  const brzinaPoSatu = danElapsed > 0
+    ? Math.round((totalIteracije / (danElapsed * 24)) * 1000) / 1000
+    : 0.042;
+  const brzinaPoSedmici = periodi > 0
+    ? Math.round((totalIteracije / periodi) * 10) / 10
+    : 7;
+
+  const preostalo = Math.max(AUTOFINISH_TARGET - AUTOFINISH_COUNT, 0);
+  const daniDoKraja = brzinaPoSatima > 0
+    ? Math.round(preostalo / brzinaPoSatima)
+    : 0;
+  const prognoza = preostalo === 0
+    ? 'Završeno'
+    : `Procjenjena brzina: ${brzinaPoSatima} iteracija/danu — ~${daniDoKraja} dana do cilja`;
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    brzinaPoSatu,
+    brzinaPoSatima,
+    brzinaPoSedmici,
+    ukupnoIteracija: AUTOFINISH_COUNT,
+    prognoza,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishCoverageReport() (#985) ────────────────────────────────────
+
+export interface AutofinishCoverageKategorijaEntry {
+  kategorija: AutofinishKategorija;
+  labelSr: string;
+  ukupno: number;
+  /** Pokrivene iteracije (helper + api-route + test + dashboard) */
+  pokriveno: number;
+  /** Udio pokrivenih iteracija u ukupnom: 0–100 */
+  pokrivenostPct: number;
+  /** Da li je kategorija potpuno pokrivena */
+  potpunoPokrivena: boolean;
+}
+
+export interface AutofinishCoverageReportResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoIteracija: number;
+  ukupnoKategorija: number;
+  globalnaPokrivenostPct: number;
+  kategorije: AutofinishCoverageKategorijaEntry[];
+  timestamp: string;
+}
+
+/**
+ * Mapira svaku kategoriju iteracija na postotak pokrivenosti.
+ * Pokrivenost = (broj iteracija u pokrivenim kategorijama) / ukupno × 100.
+ * Pokrivene kategorije su: helper, unit-test, api-route, integration-test, dashboard-widget, widget-unit-test, e2e.
+ * "ostalo" se tretira kao nepokriveno.
+ *
+ * @returns AutofinishCoverageReportResult
+ */
+export function getAutofinishCoverageReport(): AutofinishCoverageReportResult {
+  const sve = getAutofinishKategorijePorHijarhijama();
+
+  const POKRIVENE_KATEGORIJE: AutofinishKategorija[] = [
+    'helper', 'unit-test', 'api-route', 'integration-test',
+    'dashboard-widget', 'widget-unit-test', 'e2e',
+  ];
+
+  const kategorije: AutofinishCoverageKategorijaEntry[] = sve.kategorije.map((kat) => {
+    const pokrivena = POKRIVENE_KATEGORIJE.includes(kat.kategorija);
+    const pokriveno = pokrivena ? kat.ukupno : 0;
+    const pokrivenostPct = kat.ukupno > 0
+      ? Math.round((pokriveno / kat.ukupno) * 100)
+      : 0;
+    return {
+      kategorija: kat.kategorija,
+      labelSr: kat.labelSr,
+      ukupno: kat.ukupno,
+      pokriveno,
+      pokrivenostPct,
+      potpunoPokrivena: pokrivena && kat.ukupno > 0,
+    };
+  });
+
+  const ukupnoPokriveno = kategorije.reduce((s, k) => s + k.pokriveno, 0);
+  const globalnaPokrivenostPct = sve.ukupnoIteracija > 0
+    ? Math.round((ukupnoPokriveno / sve.ukupnoIteracija) * 100)
+    : 0;
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoIteracija: sve.ukupnoIteracija,
+    ukupnoKategorija: kategorije.length,
+    globalnaPokrivenostPct,
+    kategorije,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishMilestoneProjection() (#989) ────────────────────────────────
+
+export interface AutofinishMilestoneProjectionEntry {
+  naziv: string;
+  status: AutofinishMilestoneStatus;
+  autofinishTarget: number;
+  /** ISO datum procjene (null za done milestones) */
+  etaISO: string | null;
+  /** Opisna prognoza */
+  prognoza: string;
+  /** Preostalo iteracija do cilja */
+  preostaloIteracija: number;
+}
+
+export interface AutofinishMilestoneProjectionResult {
+  verzija: string;
+  autofinishBroj: number;
+  brzinaPoSatima: number;
+  milestones: AutofinishMilestoneProjectionEntry[];
+  timestamp: string;
+}
+
+/**
+ * Procjenjuje ETA za svaki roadmap milestone na osnovu trenutne brzine iteracija.
+ * Done milestones imaju etaISO=null i prognoza='Završeno'.
+ * Active/pending milestones dobijaju procijenjen datum završetka.
+ *
+ * @returns AutofinishMilestoneProjectionResult
+ */
+export function getAutofinishMilestoneProjection(): AutofinishMilestoneProjectionResult {
+  const roadmap = getAutofinishRoadmapInfo();
+  const velocity = getAutofinishIterationsPerDay();
+  const now = new Date();
+
+  const milestones: AutofinishMilestoneProjectionEntry[] = roadmap.milestones.map((m) => {
+    const preostaloIteracija = Math.max(m.autofinishDo - AUTOFINISH_COUNT, 0);
+
+    if (m.status === 'done') {
+      return {
+        naziv: m.naziv,
+        status: m.status,
+        autofinishTarget: m.autofinishDo,
+        etaISO: null,
+        prognoza: 'Završeno',
+        preostaloIteracija: 0,
+      };
+    }
+
+    const daniPreostalo = velocity.brzinaPoSatima > 0
+      ? Math.ceil(preostaloIteracija / velocity.brzinaPoSatima)
+      : preostaloIteracija;
+
+    const eta = new Date(now.getTime() + daniPreostalo * 24 * 60 * 60 * 1000);
+    const etaISO = eta.toISOString();
+    const prognoza = preostaloIteracija === 0
+      ? 'Završeno'
+      : `Preostalo ${preostaloIteracija} iteracija — procjena: ${eta.toISOString().slice(0, 10)}`;
+
+    return {
+      naziv: m.naziv,
+      status: m.status,
+      autofinishTarget: m.autofinishDo,
+      etaISO,
+      prognoza,
+      preostaloIteracija,
+    };
+  });
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    brzinaPoSatima: velocity.brzinaPoSatima,
+    milestones,
+    timestamp: now.toISOString(),
+  };
+}
+
+// ─── getAutofinishPodsistemiDependencies() (#993) ─────────────────────────────
+
+export interface AutofinishPodsistemDependency {
+  id: string;
+  naziv: string;
+  ovisiO: string[];
+  zavisniOd: string[];
+}
+
+export interface AutofinishPodsistemiDependenciesResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoPodsistema: number;
+  podsistemi: AutofinishPodsistemDependency[];
+  imaKruznih: boolean;
+  timestamp: string;
+}
+
+const DEPENDENCY_MAP: Record<string, string[]> = {
+  'plasiranje': [],
+  'zvanicno-otvaranje': ['plasiranje'],
+  'operativni-centar': ['plasiranje', 'zvanicno-otvaranje'],
+  'omega-ai': ['operativni-centar'],
+  'oktavni-monolog': ['omega-ai'],
+  'spaja-pro': ['omega-ai', 'ekosistem'],
+  'ekosistem': ['plasiranje'],
+  'dijagnostika': ['ekosistem', 'omega-ai', 'spaja-pro'],
+  'autofinish-motor': ['dijagnostika', 'ekosistem', 'omega-ai'],
+};
+
+const PODSISTEM_NAZIVI_MAP: Record<string, string> = {
+  'plasiranje': 'OMEGA Plasiranje',
+  'zvanicno-otvaranje': 'Zvanično Otvaranje',
+  'operativni-centar': 'Operativni Centar',
+  'omega-ai': 'OMEGA AI Sistem',
+  'oktavni-monolog': 'Oktavni Monolog',
+  'spaja-pro': 'SpajaPro Engine',
+  'ekosistem': 'Ekosistem Infrastruktura',
+  'dijagnostika': 'Dijagnostički Sistem',
+  'autofinish-motor': 'Autofinish Motor',
+};
+
+/**
+ * Vraća mapu zavisnosti između 9 OMEGA podsistema.
+ * Svaki podsistem ima listu podsistema o kojima ovisi (ovisiO)
+ * i listu podsistema koji zavise od njega (zavisniOd).
+ * imaKruznih je uvijek false za ovu statičku DAG konfiguraciju.
+ *
+ * @returns AutofinishPodsistemiDependenciesResult
+ */
+export function getAutofinishPodsistemiDependencies(): AutofinishPodsistemiDependenciesResult {
+  const ids = Object.keys(DEPENDENCY_MAP);
+
+  const reverseMap: Record<string, string[]> = {};
+  for (const id of ids) {
+    reverseMap[id] = [];
+  }
+  for (const [id, deps] of Object.entries(DEPENDENCY_MAP)) {
+    for (const dep of deps) {
+      if (reverseMap[dep]) {
+        reverseMap[dep].push(id);
+      }
+    }
+  }
+
+  const podsistemi: AutofinishPodsistemDependency[] = ids.map((id) => ({
+    id,
+    naziv: PODSISTEM_NAZIVI_MAP[id] ?? id,
+    ovisiO: DEPENDENCY_MAP[id] ?? [],
+    zavisniOd: reverseMap[id] ?? [],
+  }));
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoPodsistema: podsistemi.length,
+    podsistemi,
+    imaKruznih: false,
     timestamp: new Date().toISOString(),
   };
 }

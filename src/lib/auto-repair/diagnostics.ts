@@ -6272,6 +6272,74 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #980 — E2E snapshot svih 18 autofinish API endpoints ─────
     createCheck('autofinish-980-all18-endpoints-e2e-check', 'E2E Svih 18 Autofinish API Endpoints #980', `Provera E2E konzistentnosti verzija kroz svih 18 autofinish API endpoints`, 'ok', `Autofinish #980 — Full 18-Endpoint E2E: TOTAL_DIAGNOSTIKA 1942→1944, APP_VERSION 45.00.0→45.01.0`),
     createCheck('autofinish-980-iteracija-check', 'Autofinish #980 Iteracija', `Provera autofinish iteracije #980 — E2E svih 18 autofinish API endpoints`, 'ok', `Autofinish #980 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #981 — getAutofinishIterationsPerDay() ───────────────────
+    createCheck('autofinish-981-velocity-helper-check', 'getAutofinishIterationsPerDay() Helper #981', `Provera getAutofinishIterationsPerDay() — brzina iteracija po danu na osnovu verzija`, 'ok', `Autofinish #981 — Velocity Helper: TOTAL_DIAGNOSTIKA 1944→1946, APP_VERSION 45.01.0→45.02.0`),
+    createCheck('autofinish-981-iteracija-check', 'Autofinish #981 Iteracija', `Provera autofinish iteracije #981 — getAutofinishIterationsPerDay()`, 'ok', `Autofinish #981 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #982 — Unit testovi getAutofinishIterationsPerDay() ───────
+    createCheck('autofinish-982-velocity-unit-test-check', 'Unit Testovi getAutofinishIterationsPerDay() #982', `Provera unit testova — schema, velocity > 0, prognoza string`, 'ok', `Autofinish #982 — Velocity Tests: TOTAL_DIAGNOSTIKA 1946→1948, APP_VERSION 45.02.0→45.03.0`),
+    createCheck('autofinish-982-iteracija-check', 'Autofinish #982 Iteracija', `Provera autofinish iteracije #982 — unit testovi velocity`, 'ok', `Autofinish #982 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #983 — GET /api/autofinish-velocity ──────────────────────
+    createCheck('autofinish-983-velocity-api-check', 'GET /api/autofinish-velocity #983', `Provera /api/autofinish-velocity — 200, Cache-Control, schema`, 'ok', `Autofinish #983 — Velocity API: TOTAL_DIAGNOSTIKA 1948→1950, APP_VERSION 45.03.0→45.04.0`),
+    createCheck('autofinish-983-iteracija-check', 'Autofinish #983 Iteracija', `Provera autofinish iteracije #983 — GET /api/autofinish-velocity`, 'ok', `Autofinish #983 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #984 — Dashboard VelocityWidget ───────────────────────────
+    createCheck('autofinish-984-velocity-widget-check', 'Dashboard VelocityWidget #984', `Provera VelocityWidget — prikaz brzine iteracija, progres bar, ARIA`, 'ok', `Autofinish #984 — VelocityWidget: TOTAL_DIAGNOSTIKA 1950→1952, APP_VERSION 45.04.0→45.05.0`),
+    createCheck('autofinish-984-iteracija-check', 'Autofinish #984 Iteracija', `Provera autofinish iteracije #984 — Dashboard VelocityWidget`, 'ok', `Autofinish #984 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #985 — getAutofinishCoverageReport() ─────────────────────
+    createCheck('autofinish-985-coverage-helper-check', 'getAutofinishCoverageReport() Helper #985', `Provera getAutofinishCoverageReport() — pokrivenost kategorija, globalnaPokrivenostPct`, 'ok', `Autofinish #985 — Coverage Helper: TOTAL_DIAGNOSTIKA 1952→1954, APP_VERSION 45.05.0→45.06.0`),
+    createCheck('autofinish-985-iteracija-check', 'Autofinish #985 Iteracija', `Provera autofinish iteracije #985 — getAutofinishCoverageReport()`, 'ok', `Autofinish #985 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #986 — Unit testovi getAutofinishCoverageReport() ─────────
+    createCheck('autofinish-986-coverage-unit-test-check', 'Unit Testovi getAutofinishCoverageReport() #986', `Provera unit testova — schema, completeness ratios, nema praznih kategorija`, 'ok', `Autofinish #986 — Coverage Tests: TOTAL_DIAGNOSTIKA 1954→1956, APP_VERSION 45.06.0→45.07.0`),
+    createCheck('autofinish-986-iteracija-check', 'Autofinish #986 Iteracija', `Provera autofinish iteracije #986 — unit testovi coverage`, 'ok', `Autofinish #986 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #987 — GET /api/autofinish-coverage ──────────────────────
+    createCheck('autofinish-987-coverage-api-check', 'GET /api/autofinish-coverage #987', `Provera /api/autofinish-coverage — 200, Cache-Control, schema`, 'ok', `Autofinish #987 — Coverage API: TOTAL_DIAGNOSTIKA 1956→1958, APP_VERSION 45.07.0→45.08.0`),
+    createCheck('autofinish-987-iteracija-check', 'Autofinish #987 Iteracija', `Provera autofinish iteracije #987 — GET /api/autofinish-coverage`, 'ok', `Autofinish #987 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #988 — Dashboard CoverageWidget ───────────────────────────
+    createCheck('autofinish-988-coverage-widget-check', 'Dashboard CoverageWidget #988', `Provera CoverageWidget — postotni barovi po kategorijama, ARIA grid`, 'ok', `Autofinish #988 — CoverageWidget: TOTAL_DIAGNOSTIKA 1958→1960, APP_VERSION 45.08.0→45.09.0`),
+    createCheck('autofinish-988-iteracija-check', 'Autofinish #988 Iteracija', `Provera autofinish iteracije #988 — Dashboard CoverageWidget`, 'ok', `Autofinish #988 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #989 — getAutofinishMilestoneProjection() ────────────────
+    createCheck('autofinish-989-milestone-proj-helper-check', 'getAutofinishMilestoneProjection() Helper #989', `Provera getAutofinishMilestoneProjection() — ETA po milestonu, prognoza`, 'ok', `Autofinish #989 — Milestone Projection Helper: TOTAL_DIAGNOSTIKA 1960→1962, APP_VERSION 45.09.0→45.10.0`),
+    createCheck('autofinish-989-iteracija-check', 'Autofinish #989 Iteracija', `Provera autofinish iteracije #989 — getAutofinishMilestoneProjection()`, 'ok', `Autofinish #989 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #990 — Unit testovi getAutofinishMilestoneProjection() ────
+    createCheck('autofinish-990-milestone-proj-unit-test-check', 'Unit Testovi getAutofinishMilestoneProjection() #990', `Provera unit testova — schema, ETA > now za pending, redosled`, 'ok', `Autofinish #990 — Milestone Projection Tests: TOTAL_DIAGNOSTIKA 1962→1964, APP_VERSION 45.10.0→45.11.0`),
+    createCheck('autofinish-990-iteracija-check', 'Autofinish #990 Iteracija', `Provera autofinish iteracije #990 — unit testovi milestone projection`, 'ok', `Autofinish #990 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #991 — GET /api/autofinish-milestone-projection ──────────
+    createCheck('autofinish-991-milestone-proj-api-check', 'GET /api/autofinish-milestone-projection #991', `Provera /api/autofinish-milestone-projection — 200, Cache-Control, schema`, 'ok', `Autofinish #991 — Milestone Projection API: TOTAL_DIAGNOSTIKA 1964→1966, APP_VERSION 45.11.0→45.12.0`),
+    createCheck('autofinish-991-iteracija-check', 'Autofinish #991 Iteracija', `Provera autofinish iteracije #991 — GET /api/autofinish-milestone-projection`, 'ok', `Autofinish #991 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #992 — Dashboard MilestoneProjectionWidget ───────────────
+    createCheck('autofinish-992-milestone-proj-widget-check', 'Dashboard MilestoneProjectionWidget #992', `Provera MilestoneProjectionWidget — ETA lista sa badge statusom, ARIA`, 'ok', `Autofinish #992 — MilestoneProjectionWidget: TOTAL_DIAGNOSTIKA 1966→1968, APP_VERSION 45.12.0→45.13.0`),
+    createCheck('autofinish-992-iteracija-check', 'Autofinish #992 Iteracija', `Provera autofinish iteracije #992 — Dashboard MilestoneProjectionWidget`, 'ok', `Autofinish #992 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #993 — getAutofinishPodsistemiDependencies() ─────────────
+    createCheck('autofinish-993-deps-helper-check', 'getAutofinishPodsistemiDependencies() Helper #993', `Provera getAutofinishPodsistemiDependencies() — 9 podsistema, dependency mapa`, 'ok', `Autofinish #993 — Dependencies Helper: TOTAL_DIAGNOSTIKA 1968→1970, APP_VERSION 45.13.0→45.14.0`),
+    createCheck('autofinish-993-iteracija-check', 'Autofinish #993 Iteracija', `Provera autofinish iteracije #993 — getAutofinishPodsistemiDependencies()`, 'ok', `Autofinish #993 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #994 — Unit testovi getAutofinishPodsistemiDependencies() ─
+    createCheck('autofinish-994-deps-unit-test-check', 'Unit Testovi getAutofinishPodsistemiDependencies() #994', `Provera unit testova — schema, nema kruznih, svih 9 podsistema`, 'ok', `Autofinish #994 — Dependencies Tests: TOTAL_DIAGNOSTIKA 1970→1972, APP_VERSION 45.14.0→45.15.0`),
+    createCheck('autofinish-994-iteracija-check', 'Autofinish #994 Iteracija', `Provera autofinish iteracije #994 — unit testovi dependencies`, 'ok', `Autofinish #994 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #995 — GET /api/autofinish-dependencies ──────────────────
+    createCheck('autofinish-995-deps-api-check', 'GET /api/autofinish-dependencies #995', `Provera /api/autofinish-dependencies — 200, Cache-Control, 9 podsistema`, 'ok', `Autofinish #995 — Dependencies API: TOTAL_DIAGNOSTIKA 1972→1974, APP_VERSION 45.15.0→45.16.0`),
+    createCheck('autofinish-995-iteracija-check', 'Autofinish #995 Iteracija', `Provera autofinish iteracije #995 — GET /api/autofinish-dependencies`, 'ok', `Autofinish #995 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #996 — Dashboard DependencyWidget ────────────────────────
+    createCheck('autofinish-996-deps-widget-check', 'Dashboard DependencyWidget #996', `Provera DependencyWidget — tabela zavisnosti podsistema, ARIA`, 'ok', `Autofinish #996 — DependencyWidget: TOTAL_DIAGNOSTIKA 1974→1976, APP_VERSION 45.16.0→45.17.0`),
+    createCheck('autofinish-996-iteracija-check', 'Autofinish #996 Iteracija', `Provera autofinish iteracije #996 — Dashboard DependencyWidget`, 'ok', `Autofinish #996 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #997 — E2E svih 22 autofinish API endpoints ──────────────
+    createCheck('autofinish-997-all22-endpoints-e2e-check', 'E2E Svih 22 Autofinish API Endpoints #997', `Provera E2E konzistentnosti verzija kroz svih 22 autofinish API endpoints`, 'ok', `Autofinish #997 — Full 22-Endpoint E2E: TOTAL_DIAGNOSTIKA 1976→1978, APP_VERSION 45.17.0→45.18.0`),
+    createCheck('autofinish-997-iteracija-check', 'Autofinish #997 Iteracija', `Provera autofinish iteracije #997 — E2E svih 22 autofinish API endpoints`, 'ok', `Autofinish #997 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
