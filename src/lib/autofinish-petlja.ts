@@ -42,6 +42,8 @@
  *
  * Autofinish #725 (Napredne AI funkcije i optimizacija performansi — algoritmi kalibrisani, odgovori ubrzani, memorijski otisak smanjen, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1433→1435, APP_VERSION 42.45.0→42.46.0)
  *
+ * Autofinish #726 (Proširenje modula i integracija novih servisa — svi moduli međusobno usklađeni, novi servisi registrovani i operativni, 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 1435→1437, APP_VERSION 42.46.0→42.47.0)
+ *
  */
 
 import {

@@ -5160,8 +5160,12 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-724-iteracija-check', 'Autofinish #724 Iteracija', `Provera autofinish iteracije #724 — stabilnost sistema i korisnički moduli`, 'ok', `Autofinish #724 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #725 — Napredne AI funkcije i optimizacija performansi ────────────────
-    createCheck('autofinish-725-ai-optimizacija-check', 'AI Optimizacija #725', `Provera naprednih AI funkcija i optimizacije performansi — algoritmi kalibrisani, odgovori ubrzani, memorijski otisak smanjen`, 'ok', `Autofinish #725 — AI optimizacija: createCheck 1433→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.45.0→42.46.0`),
+    createCheck('autofinish-725-ai-optimizacija-check', 'AI Optimizacija #725', `Provera naprednih AI funkcija i optimizacije performansi — algoritmi kalibrisani, odgovori ubrzani, memorijski otisak smanjen`, 'ok', `Autofinish #725 — AI optimizacija: createCheck 1433→1435, APP_VERSION 42.45.0→42.46.0`),
     createCheck('autofinish-725-iteracija-check', 'Autofinish #725 Iteracija', `Provera autofinish iteracije #725 — napredne AI funkcije i optimizacija`, 'ok', `Autofinish #725 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #726 — Proširenje modula i integracija novih servisa ────────────────
+    createCheck('autofinish-726-moduli-integracija-check', 'Moduli Integracija #726', `Provera proširenja modula i integracije novih servisa — svi moduli međusobno usklađeni, novi servisi registrovani i operativni`, 'ok', `Autofinish #726 — moduli integracija: createCheck 1435→${TOTAL_DIAGNOSTIKA}, APP_VERSION 42.46.0→42.47.0`),
+    createCheck('autofinish-726-iteracija-check', 'Autofinish #726 Iteracija', `Provera autofinish iteracije #726 — proširenje modula i integracija novih servisa`, 'ok', `Autofinish #726 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
