@@ -122,9 +122,18 @@ async function runTests(): Promise<void> {
     assertEqual(gamingEndžini.length, endzinNadIgricama.length, 'gaming endžina');
   });
 
-  await test('ukupno spojenih = generisani + gaming', () => {
+  await test('spojeniEndzini sadrže Gaming Tab Endžin', () => {
     const spojeni = glavniEndzinDigitalneIndustrije.spojeniEndzini;
-    const ocekivano = generisaniEngini.length + endzinNadIgricama.length;
+    const gamingTab = spojeni.find((e) => e.id === 'engine-gaming-tab-brouvzer');
+    assert(gamingTab !== undefined, 'Gaming Tab Endžin mora biti spojen');
+    assertEqual(gamingTab?.izvor, 'SPAJA Gaming Tab Endžin', 'izvor Gaming Tab Endžina');
+    assertEqual(gamingTab?.tip, 'gaming', 'tip Gaming Tab Endžina');
+    assertEqual(gamingTab?.optimizacija, 100, 'optimizacija Gaming Tab Endžina');
+  });
+
+  await test('ukupno spojenih = generisani + gaming + 1 (Gaming Tab Endžin)', () => {
+    const spojeni = glavniEndzinDigitalneIndustrije.spojeniEndzini;
+    const ocekivano = generisaniEngini.length + endzinNadIgricama.length + 1;
     assertEqual(spojeni.length, ocekivano, 'ukupno spojenih');
   });
 
@@ -355,6 +364,62 @@ async function runTests(): Promise<void> {
       glavniEndzinDigitalneIndustrije.opis.includes(OMEGA_AI_PERSONA_UKUPNO.toLocaleString()),
       'opis treba da sadrži OMEGA AI persona count',
     );
+  });
+
+  // ── Gaming Tab Endžin ──────────────────────────────────────────────────
+
+  console.log('\n📦 Gaming Tab Endžin — Integracija sa Glavnim Endžinom');
+
+  await test('gamingTabEndzin je prisutan i aktivan', () => {
+    const g = glavniEndzinDigitalneIndustrije.gamingTabEndzin;
+    assert(g.naziv.length > 0, 'naziv non-empty');
+    assertEqual(g.status, 'aktivan', 'status');
+  });
+
+  await test('gamingTabEndzin runnerTipova = 5', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.gamingTabEndzin.runnerTipova, 5, 'runner tipova');
+  });
+
+  await test('gamingTabEndzin dimenzijaNivoa = 5', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.gamingTabEndzin.dimenzijaNivoa, 5, 'dimenzija nivoa');
+  });
+
+  await test('gamingTabEndzin geometrijskihAlata = 4', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.gamingTabEndzin.geometrijskihAlata, 4, 'geometrijskih alata');
+  });
+
+  await test('gamingTabEndzin igricaPokrenutih = sve igrice', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.gamingTabEndzin.igricaPokrenutih, igrice.length, 'igrica pokrenutih');
+  });
+
+  await test('gamingTabEndzin maxEntiteta5760D > 0', () => {
+    assert(glavniEndzinDigitalneIndustrije.gamingTabEndzin.maxEntiteta5760D > 0, 'max entiteta > 0');
+  });
+
+  await test('gamingTabEndzin podrzaneKategorije non-empty', () => {
+    assert(glavniEndzinDigitalneIndustrije.gamingTabEndzin.podrzaneKategorije.length > 0, 'podrzane kategorije non-empty');
+  });
+
+  await test('statistika gamingTabRunnerTipova = 5', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.statistika.gamingTabRunnerTipova, 5, 'stat runner tipova');
+  });
+
+  await test('statistika gamingTabIgricaPokrenutih = sve igrice', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.statistika.gamingTabIgricaPokrenutih, igrice.length, 'stat igrica');
+  });
+
+  await test('evo-gaming-tab-endzin ciklus postoji i ima napredak 100', () => {
+    const evo = glavniEndzinDigitalneIndustrije.evolucija.find((c) => c.id === 'evo-gaming-tab-endzin');
+    assert(evo !== undefined, 'evo-gaming-tab-endzin mora postojati');
+    assertEqual(evo?.napredak, 100, 'napredak gaming tab evo');
+    assertEqual(evo?.faza, 'zavrsena', 'faza gaming tab evo');
+  });
+
+  await test('mogucnosti sadrže gaming tab entrie', () => {
+    const hasMogucnost = glavniEndzinDigitalneIndustrije.mogucnosti.some((m) =>
+      m.includes('GAMING TAB ENDŽIN'),
+    );
+    assert(hasMogucnost, 'mogucnosti moraju sadrzati GAMING TAB ENDZIN entry');
   });
 
   // ── Summary ───────────────────────────────────────────────────────────────

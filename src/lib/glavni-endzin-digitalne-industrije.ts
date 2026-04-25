@@ -139,6 +139,12 @@ import { getSeoNominalniProtokSummary } from './seo-nominalni-protok';
 // ── AUTOFINISH & TESTIRANJE ─────────────────────────────────────────────
 import { spajaUnitTestovi } from './spaja-unit-testovi';
 
+// ── GAMING TAB ENDŽIN ────────────────────────────────────────────────────
+import {
+  dimenzijaNaParametre as gamingDimenzijaNaParametre,
+  getRunnerTip as gamingGetRunnerTip,
+} from './gaming-endzin';
+
 // ─── Tipovi ──────────────────────────────────────────────
 
 export type GlavniEndzinStatus = 'aktivan' | 'sinhronizacija' | 'evolucija' | 'optimizacija';
@@ -265,6 +271,12 @@ export interface GlavniEndzinStatistika {
   // AUTOFINISH & TESTIRANJE
   autofinishIteracija: number;
   unitTestSuita: number;
+  // GAMING TAB ENDŽIN — spojen sa Endžinom
+  gamingTabRunnerTipova: number;
+  gamingTabDimenzijaNivoa: number;
+  gamingTabGeometrijskihAlata: number;
+  gamingTabIgricaPokrenutih: number;
+  gamingTabMaxEntiteta5760D: number;
 }
 
 export interface GlavniEndzinDigitalneIndustrije {
@@ -404,6 +416,17 @@ export interface GlavniEndzinDigitalneIndustrije {
     unitTestova: number;
     prolaznih: number;
   };
+  // GAMING TAB ENDŽIN — spojen sa Endžinom
+  gamingTabEndzin: {
+    naziv: string;
+    status: string;
+    runnerTipova: number;
+    dimenzijaNivoa: number;
+    geometrijskihAlata: number;
+    igricaPokrenutih: number;
+    maxEntiteta5760D: number;
+    podrzaneKategorije: string[];
+  };
 }
 
 // ─── Spajanje svih endžina ──────────────────────────────
@@ -429,7 +452,17 @@ function spojiSveEndzine(): SpojeniEndzin[] {
     izvor: 'SPAJA Univerzalni Endžin za Igrice',
   }));
 
-  return [...generatorEndžini, ...gamingEndžini];
+  // 3. Gaming Tab Endžin (Brouvzer-native engine — bez iframe)
+  const gamingTabEndžin: SpojeniEndzin = {
+    id: 'engine-gaming-tab-brouvzer',
+    naziv: 'SPAJA Gaming Tab Endžin v2.0.0 — Brouvzer Native',
+    tip: 'gaming' as EngineTip,
+    optimizacija: 100,
+    status: 'aktivan',
+    izvor: 'SPAJA Gaming Tab Endžin',
+  };
+
+  return [...generatorEndžini, ...gamingEndžini, gamingTabEndžin];
 }
 
 // ─── Automatsko sklapanje gotovih proizvoda ──────────────
@@ -537,6 +570,14 @@ const _seoNominalniSummary = getSeoNominalniProtokSummary();
 // Autofinish & Testiranje
 // Note: autofinish-petlja imports auto-repair/diagnostics which imports this file
 // To avoid circular dependency, use AUTOFINISH_COUNT constant directly
+
+// ── Gaming Tab Endžin ──────────────────────────────────────────────────
+const _gamingTabRunnerTipova = 5; // akcija, logicka, simulacija, edu, kreativna
+const _gamingTabGeometrijskihAlata = 4; // elipsoid, spirala, hiperbola, rezonanca
+const _gamingTabMaxEntiteta5760D = gamingDimenzijaNaParametre('5760D').maxEntiteta;
+const _gamingTabPodrzaneKategorije = [
+  ...new Set(igrice.map((i) => gamingGetRunnerTip(i.kategorija) as string)),
+];
 
 // ─── Evolucioni ciklusi ──────────────────────────────────
 
@@ -682,6 +723,13 @@ const evolucijaCiklusi: EvolucijaCiklus[] = [
     napredak: 100,
   },
   {
+    id: 'evo-gaming-tab-endzin',
+    naziv: 'Spajanje Gaming Tab Endžina sa Glavnim Endžinom',
+    opis: `SPAJA Gaming Tab Endžin v2.0.0 — ${igrice.length} igrica pokrećeno direktno u Brouvzer tabu (bez iframe), ${_gamingTabRunnerTipova} runner tipa (Akcija, Logička, Simulacija, Edu, Kreativna), ${dimenzije.length} dimenzija (360D–5760D) sa multiplikator sistemom, ${_gamingTabGeometrijskihAlata} geometrijska alata (Elipsoid, Spirala, Hiperbola, Rezonanca), max ${_gamingTabMaxEntiteta5760D} entiteta na 5760D — ZAKAČEN ZA GLAVNI ENDŽIN`,
+    faza: 'zavrsena',
+    napredak: 100,
+  },
+  {
     id: 'evo-potpuna-digitalna-industrija',
     naziv: 'POTPUNO FUNKCIONALNA DIGITALNA INDUSTRIJA',
     opis: 'Sve kombinacije i varijacije Digitalne Industrije zakačene za Glavni Endžin — OMEGA AI, OMEGA PROJEKAT, Proksi & Mreža, Backend Infrastruktura, Digitalni Hardver, SpajaPro Engines, Poslovni Entiteti, Finansije, Nauka, SEO, Autofinish — sve na 100%',
@@ -798,6 +846,12 @@ const mogucnosti: string[] = [
   // ── AUTOFINISH & TESTIRANJE ─────────────────────────────────────────
   `AUTOFINISH PETLJA — ${AUTOFINISH_COUNT} iteracija, ${9} podsistema OMEGA PROJEKTA na 100%`,
   `UNIT TESTOVI — ${spajaUnitTestovi.suite.length} suite-a, ${spajaUnitTestovi.izvestaj.ukupnoTestova} testova (${spajaUnitTestovi.izvestaj.prolaznih} prolaznih)`,
+  // ── GAMING TAB ENDŽIN ────────────────────────────────────────────────
+  `GAMING TAB ENDŽIN — ${igrice.length} igrica pokrećeno direktno u Brouvzer tabu bez iframe — ZAKAČEN ZA GLAVNI ENDŽIN`,
+  `GAMING RUNNERI — ${_gamingTabRunnerTipova} tipa: Akcija/Borbena/Trka, Logička/Arkadna, Simulacija/Strategija, Edukativna/RPG, Kreativna/Muzička`,
+  `GAMING DIMENZIJE — 5 nivoa (360D–5760D), multiplier ×1.0–×3.0, max ${_gamingTabMaxEntiteta5760D} entiteta na 5760D sa particle sistemom`,
+  `GAMING GEOMETRIJA — ${_gamingTabGeometrijskihAlata} canvas alata: Elipsoid, Spirala, Hiperbola, Rezonanca — integrisani u sve runnere`,
+  `GAMING HUD & UI — GamingHUD overlay, GamingPauzeMenu, DimenzijaBadge — vizuelni sistem zakačen za Brouvzer Tab`,
   // ── FINALE ──────────────────────────────────────────────────────────
   'POTPUNO FUNKCIONALNA DIGITALNA INDUSTRIJA — SVE kombinacije i varijacije zakačene za Glavni Endžin na 100%',
 ];
@@ -914,6 +968,12 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
     // AUTOFINISH & TESTIRANJE
     autofinishIteracija: AUTOFINISH_COUNT,
     unitTestSuita: spajaUnitTestovi.suite.length,
+    // GAMING TAB ENDŽIN
+    gamingTabRunnerTipova: _gamingTabRunnerTipova,
+    gamingTabDimenzijaNivoa: dimenzije.length,
+    gamingTabGeometrijskihAlata: _gamingTabGeometrijskihAlata,
+    gamingTabIgricaPokrenutih: igrice.length,
+    gamingTabMaxEntiteta5760D: _gamingTabMaxEntiteta5760D,
   };
 }
 
@@ -1062,6 +1122,16 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     unitTestSuita: spajaUnitTestovi.suite.length,
     unitTestova: spajaUnitTestovi.izvestaj.ukupnoTestova,
     prolaznih: spajaUnitTestovi.izvestaj.prolaznih,
+  },
+  gamingTabEndzin: {
+    naziv: 'SPAJA Gaming Tab Endžin v2.0.0',
+    status: 'aktivan',
+    runnerTipova: _gamingTabRunnerTipova,
+    dimenzijaNivoa: dimenzije.length,
+    geometrijskihAlata: _gamingTabGeometrijskihAlata,
+    igricaPokrenutih: igrice.length,
+    maxEntiteta5760D: _gamingTabMaxEntiteta5760D,
+    podrzaneKategorije: _gamingTabPodrzaneKategorije,
   },
 };
 
@@ -1244,6 +1314,23 @@ export function getAutofinishTestiranjeStatus() {
   };
 }
 
+/** Dohvati status Gaming Tab Endžina iz Glavnog Endžina */
+export function getGamingTabEndzinStatus() {
+  return {
+    ...glavniEndzinDigitalneIndustrije.gamingTabEndzin,
+    igrice: igrice.map((i) => ({
+      id: i.id,
+      naziv: i.naziv,
+      kategorija: i.kategorija,
+      runnerTip: gamingGetRunnerTip(i.kategorija),
+      dimenzija: i.podrazumevanaDimenzija,
+    })),
+    dimenzijeSaParametrima: dimenzije.map((d) => ({
+      ...gamingDimenzijaNaParametre(d.nivo),
+    })),
+  };
+}
+
 /** Dohvati sveobuhvatan pregled cele Digitalne Industrije iz Glavnog Endžina */
 export function getPotpunaDigitalnaIndustrijaPregled() {
   const stats = getGlavniEndzinStatistika();
@@ -1278,5 +1365,12 @@ export function getPotpunaDigitalnaIndustrijaPregled() {
       stats.promptovaBiblioteka +
       stats.univerzalnihPromptova +
       stats.aiPagePromptova,
+    gamingTabEndzin: {
+      runnerTipova: stats.gamingTabRunnerTipova,
+      igricaPokrenutih: stats.gamingTabIgricaPokrenutih,
+      dimenzijaNivoa: stats.gamingTabDimenzijaNivoa,
+      geometrijskihAlata: stats.gamingTabGeometrijskihAlata,
+      maxEntiteta5760D: stats.gamingTabMaxEntiteta5760D,
+    },
   };
 }
