@@ -137,7 +137,15 @@ function normalizeUrl(raw: string): string {
   return trimmed;
 }
 
-// ─── Props ────────────────────────────────────────────────────────────
+// ─── Zoom + Toast konstante ───────────────────────────────────────────
+
+const ZOOM_STEP = 10;
+const ZOOM_MIN = 30;
+const ZOOM_MAX = 200;
+const TOAST_DURATION_MS = 2000;
+/** Kašnjenje za autofokus — dovoljno za React flush + DOM paint */
+const AUTOFOCUS_DELAY_MS = 50;
+
 
 interface Props {
   url: string;
@@ -155,7 +163,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
   // ── Tabs state ──
   const [tabs, setTabs] = useState<Tab[]>(() => {
     const id = newTabId();
-    return [{ id, url, igra, title: urlToTitle(url, igra), dimenzija: null, reloadKey: 0, loading: true, backStack: [url], forwardStack: [], zoom: 100 }];
+    return [{ id, url, igra, title: urlToTitle(url, igra), dimenzija: null, reloadKey: 0, loading: true, backStack: [], forwardStack: [], zoom: 100 }];
   });
   const [activeTabId, setActiveTabId] = useState<string>(() => tabs[0].id);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -325,11 +333,11 @@ export default function BrouvzerViewer({ url, igra }: Props) {
   // ── Zoom ──
 
   const handleZoomIn = useCallback(() => {
-    updateTab(activeTab.id, { zoom: Math.min(activeTab.zoom + 10, 200) });
+    updateTab(activeTab.id, { zoom: Math.min(activeTab.zoom + ZOOM_STEP, ZOOM_MAX) });
   }, [activeTab, updateTab]);
 
   const handleZoomOut = useCallback(() => {
-    updateTab(activeTab.id, { zoom: Math.max(activeTab.zoom - 10, 30) });
+    updateTab(activeTab.id, { zoom: Math.max(activeTab.zoom - ZOOM_STEP, ZOOM_MIN) });
   }, [activeTab, updateTab]);
 
   const handleZoomReset = useCallback(() => {
@@ -342,7 +350,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
     if (!activeTab.url) return;
     navigator.clipboard.writeText(activeTab.url).catch(() => undefined);
     setCopyToast(true);
-    setTimeout(() => setCopyToast(false), 2000);
+    setTimeout(() => setCopyToast(false), TOAST_DURATION_MS);
   }, [activeTab.url]);
 
   // ── Keyboard shortcuts ──
@@ -411,7 +419,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
 
   useEffect(() => {
     if (!activeTab.url) {
-      setTimeout(() => newTabInputRef.current?.focus(), 50);
+      setTimeout(() => newTabInputRef.current?.focus(), AUTOFOCUS_DELAY_MS);
     }
   }, [activeTab.id, activeTab.url]);
 
@@ -480,17 +488,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
                 if (e.key === 'Enter') {
                   const val = (e.currentTarget.value).trim();
                   if (!val) return;
-                  const normalized = normalizeUrl(val);
-                  updateTab(activeTab.id, {
-                    url: normalized,
-                    title: urlToTitle(normalized),
-                    loading: true,
-                    reloadKey: activeTab.reloadKey + 1,
-                    backStack: [],
-                    forwardStack: [],
-                    dimenzija: null,
-                  });
-                  setInputValue(normalized);
+                  handleNavigate(activeTab.id, val);
                 }
               }}
             />
@@ -529,17 +527,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
                     key={b.url}
                     type="button"
                     onClick={() => {
-                      const normalized = normalizeUrl(b.url);
-                      updateTab(activeTab.id, {
-                        url: normalized,
-                        title: b.naziv,
-                        loading: true,
-                        reloadKey: activeTab.reloadKey + 1,
-                        backStack: [],
-                        forwardStack: [],
-                        dimenzija: null,
-                      });
-                      setInputValue(normalized);
+                      handleNavigate(activeTab.id, b.url);
                     }}
                     className="truncate rounded-lg bg-gray-800 px-3 py-2 text-left text-sm text-blue-400 transition hover:bg-gray-700"
                   >
@@ -560,17 +548,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
                     key={`${h.url}-${i}`}
                     type="button"
                     onClick={() => {
-                      const normalized = normalizeUrl(h.url);
-                      updateTab(activeTab.id, {
-                        url: normalized,
-                        title: h.naziv,
-                        loading: true,
-                        reloadKey: activeTab.reloadKey + 1,
-                        backStack: [],
-                        forwardStack: [],
-                        dimenzija: null,
-                      });
-                      setInputValue(normalized);
+                      handleNavigate(activeTab.id, h.url);
                     }}
                     className="flex items-center gap-2 rounded-lg bg-gray-900 px-3 py-2 text-left text-sm transition hover:bg-gray-800"
                   >
@@ -811,7 +789,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
 
         {/* Bookmark dugme */}
         <button
-          onClick={() => toggleBookmark(activeTab.url, activeTab.igra || activeTab.title || activeTab.url)}
+          onClick={() => toggleBookmark(activeTab.url, urlToTitle(activeTab.url, activeTab.igra))}
           className={`rounded-lg p-1.5 transition hover:bg-gray-800 ${isBookmarked(activeTab.url) ? 'text-yellow-400' : 'text-gray-400 hover:text-white'}`}
           title={isBookmarked(activeTab.url) ? 'Ukloni bookmark' : 'Dodaj bookmark (⭐)'}
           aria-label="Bookmark"
@@ -833,9 +811,8 @@ export default function BrouvzerViewer({ url, igra }: Props) {
             <BookmarkPanel
               bookmarks={bookmarks}
               onRemove={(bUrl) => saveBookmarks(bookmarks.filter((b) => b.url !== bUrl))}
-              onNavigate={(bUrl, bNaziv) => {
+              onNavigate={(bUrl) => {
                 handleNavigate(activeTab.id, bUrl);
-                updateTab(activeTab.id, { igra: bNaziv });
                 setShowBookmarks(false);
               }}
               onClose={() => setShowBookmarks(false)}
@@ -857,9 +834,8 @@ export default function BrouvzerViewer({ url, igra }: Props) {
             <HistoryPanel
               history={history}
               onClear={clearHistory}
-              onNavigate={(hUrl, hNaziv) => {
+              onNavigate={(hUrl) => {
                 handleNavigate(activeTab.id, hUrl);
-                updateTab(activeTab.id, { igra: hNaziv });
                 setShowHistory(false);
               }}
               onClose={() => setShowHistory(false)}
@@ -1023,7 +999,15 @@ export default function BrouvzerViewer({ url, igra }: Props) {
                */}
               <div
                 className="h-full w-full origin-top-left"
-                style={tab.zoom !== 100 ? { transform: `scale(${tab.zoom / 100})`, width: `${(100 * 100) / tab.zoom}%`, height: `${(100 * 100) / tab.zoom}%` } : undefined}
+                style={tab.zoom !== 100
+                  ? {
+                      transform: `scale(${tab.zoom / 100})`,
+                      // Kompenzuj scale transform: kontejner mora biti (100/zoom)× veći
+                      // da iframe ostane puno vidljiv unutar roditelja
+                      width: `${(100 * 100) / tab.zoom}%`,
+                      height: `${(100 * 100) / tab.zoom}%`,
+                    }
+                  : undefined}
               >
                 <iframe
                   ref={(el) => setIframeRef(tab.id, el)}
@@ -1151,7 +1135,7 @@ function TabBar({ tabs, activeTabId, onSelect, onClose, onAdd, onReorder, dragTa
 interface BookmarkPanelProps {
   bookmarks: Bookmark[];
   onRemove: (url: string) => void;
-  onNavigate: (url: string, naziv: string) => void;
+  onNavigate: (url: string) => void;
   onClose: () => void;
 }
 
@@ -1170,7 +1154,7 @@ function BookmarkPanel({ bookmarks, onRemove, onNavigate, onClose }: BookmarkPan
             <div key={b.url} className="flex items-center gap-2 border-b border-gray-800/50 px-3 py-2 hover:bg-gray-800">
               <button
                 type="button"
-                onClick={() => onNavigate(b.url, b.naziv)}
+                onClick={() => onNavigate(b.url)}
                 className="min-w-0 flex-1 text-left"
               >
                 <p className="truncate text-xs font-medium text-blue-400">{b.naziv}</p>
@@ -1196,7 +1180,7 @@ function BookmarkPanel({ bookmarks, onRemove, onNavigate, onClose }: BookmarkPan
 interface HistoryPanelProps {
   history: HistoryEntry[];
   onClear: () => void;
-  onNavigate: (url: string, naziv: string) => void;
+  onNavigate: (url: string) => void;
   onClose: () => void;
 }
 
@@ -1220,7 +1204,7 @@ function HistoryPanel({ history, onClear, onNavigate, onClose }: HistoryPanelPro
             <button
               type="button"
               key={`${h.url}-${i}`}
-              onClick={() => onNavigate(h.url, h.naziv)}
+              onClick={() => onNavigate(h.url)}
               className="block w-full border-b border-gray-800/50 px-3 py-2 text-left hover:bg-gray-800"
             >
               <p className="truncate text-xs font-medium text-gray-300">{h.naziv}</p>
