@@ -10,3 +10,10 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* SPAJA Brouvzer — loading progress bar animacija */
+@keyframes loadingBar {
+  0%   { left: -40%; width: 40%; }
+  50%  { left: 30%; width: 40%; }
+  100% { left: 110%; width: 40%; }
+}

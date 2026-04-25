@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { getKompjuterStatistika, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB, KOMPJUTER_VRAM_GB } from '@/lib/spaja-digitalni-kompjuter';
 
@@ -62,9 +62,17 @@ interface Tab {
   id: string;
   url: string;
   igra: string;
+  /** Prikazani naziv u tabu (hostname ili igra naziv) */
+  title: string;
   dimenzija: Dimenzija | null;
   reloadKey: number;
   loading: boolean;
+  /** Istorija URL-ova za back navigaciju (poslednji = trenutni) */
+  backStack: string[];
+  /** URL-ovi za forward navigaciju */
+  forwardStack: string[];
+  /** Zoom nivo u procentima (default 100) */
+  zoom: number;
 }
 
 // ─── Bookmark + History tipovi i localStorage ─────────────────────────
@@ -106,6 +114,29 @@ function newTabId(): string {
   return `tab-${Date.now()}-${tabCounter}`;
 }
 
+/** Izvuci hostname kao display title, ili fallback na igra naziv */
+function urlToTitle(url: string, igra?: string): string {
+  if (!url) return igra || 'Novi Tab';
+  try {
+    const { hostname } = new URL(url);
+    return hostname;
+  } catch {
+    return igra || url;
+  }
+}
+
+/** Normalizuj URL — dodaj https:// ako nedostaje protokol */
+function normalizeUrl(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  // Ako izgleda kao domen (sadrži tačku, bez razmaka) — dodaj https://
+  if (/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/.test(trimmed) && !trimmed.includes(' ')) {
+    return `https://${trimmed}`;
+  }
+  return trimmed;
+}
+
 // ─── Props ────────────────────────────────────────────────────────────
 
 interface Props {
@@ -118,14 +149,25 @@ interface Props {
 export default function BrouvzerViewer({ url, igra }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRefs = useRef<Record<string, HTMLIFrameElement | null>>({});
+  const addressBarRef = useRef<HTMLInputElement>(null);
+  const newTabInputRef = useRef<HTMLInputElement>(null);
 
   // ── Tabs state ──
   const [tabs, setTabs] = useState<Tab[]>(() => {
     const id = newTabId();
-    return [{ id, url, igra, dimenzija: null, reloadKey: 0, loading: true }];
+    return [{ id, url, igra, title: urlToTitle(url, igra), dimenzija: null, reloadKey: 0, loading: true, backStack: [url], forwardStack: [], zoom: 100 }];
   });
   const [activeTabId, setActiveTabId] = useState<string>(() => tabs[0].id);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // ── Address bar input state ──
+  const [inputValue, setInputValue] = useState(url);
+
+  // ── Copy/share toast ──
+  const [copyToast, setCopyToast] = useState(false);
+
+  // ── Drag state for tab reordering ──
+  const [dragTabId, setDragTabId] = useState<string | null>(null);
 
   // ── Bookmark + History state ──
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => loadFromStorage<Bookmark>(BOOKMARKS_KEY));
@@ -139,7 +181,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
 
   const addTab = useCallback(() => {
     const id = newTabId();
-    const noviTab: Tab = { id, url: '', igra: 'Novi Tab', dimenzija: null, reloadKey: 0, loading: false };
+    const noviTab: Tab = { id, url: '', igra: 'Novi Tab', title: 'Novi Tab', dimenzija: null, reloadKey: 0, loading: false, backStack: [], forwardStack: [], zoom: 100 };
     setTabs((prev) => [...prev, noviTab]);
     setActiveTabId(id);
   }, []);
@@ -222,10 +264,171 @@ export default function BrouvzerViewer({ url, igra }: Props) {
     saveHistory([]);
   }, [saveHistory]);
 
+  // ── Navigacija (navigate + back + forward) ──
+
+  const handleNavigate = useCallback((tabId: string, noviUrl: string) => {
+    const normalized = normalizeUrl(noviUrl);
+    if (!normalized) return;
+    setTabs((prev) => prev.map((t) => {
+      if (t.id !== tabId) return t;
+      const newBackStack = t.url ? [...t.backStack, t.url] : t.backStack;
+      return {
+        ...t,
+        url: normalized,
+        title: urlToTitle(normalized, t.igra),
+        backStack: newBackStack,
+        forwardStack: [],
+        loading: true,
+        reloadKey: t.reloadKey + 1,
+        dimenzija: null,
+      };
+    }));
+    setInputValue(normalized);
+  }, []);
+
+  const handleBack = useCallback(() => {
+    setTabs((prev) => prev.map((t) => {
+      if (t.id !== activeTabId || t.backStack.length === 0) return t;
+      const newBackStack = [...t.backStack];
+      const prevUrl = newBackStack.pop()!;
+      return {
+        ...t,
+        url: prevUrl,
+        title: urlToTitle(prevUrl, t.igra),
+        backStack: newBackStack,
+        forwardStack: t.url ? [t.url, ...t.forwardStack] : t.forwardStack,
+        loading: true,
+        reloadKey: t.reloadKey + 1,
+        dimenzija: null,
+      };
+    }));
+  }, [activeTabId]);
+
+  const handleForward = useCallback(() => {
+    setTabs((prev) => prev.map((t) => {
+      if (t.id !== activeTabId || t.forwardStack.length === 0) return t;
+      const newForwardStack = [...t.forwardStack];
+      const nextUrl = newForwardStack.shift()!;
+      return {
+        ...t,
+        url: nextUrl,
+        title: urlToTitle(nextUrl, t.igra),
+        backStack: t.url ? [...t.backStack, t.url] : t.backStack,
+        forwardStack: newForwardStack,
+        loading: true,
+        reloadKey: t.reloadKey + 1,
+        dimenzija: null,
+      };
+    }));
+  }, [activeTabId]);
+
+  // ── Zoom ──
+
+  const handleZoomIn = useCallback(() => {
+    updateTab(activeTab.id, { zoom: Math.min(activeTab.zoom + 10, 200) });
+  }, [activeTab, updateTab]);
+
+  const handleZoomOut = useCallback(() => {
+    updateTab(activeTab.id, { zoom: Math.max(activeTab.zoom - 10, 30) });
+  }, [activeTab, updateTab]);
+
+  const handleZoomReset = useCallback(() => {
+    updateTab(activeTab.id, { zoom: 100 });
+  }, [activeTab, updateTab]);
+
+  // ── Copy/Share ──
+
+  const handleCopyUrl = useCallback(() => {
+    if (!activeTab.url) return;
+    navigator.clipboard.writeText(activeTab.url).catch(() => undefined);
+    setCopyToast(true);
+    setTimeout(() => setCopyToast(false), 2000);
+  }, [activeTab.url]);
+
+  // ── Keyboard shortcuts ──
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      // Ctrl+T → novi tab
+      if (e.ctrlKey && e.key === 't') {
+        e.preventDefault();
+        addTab();
+        return;
+      }
+      // Ctrl+W → zatvori aktivan tab
+      if (e.ctrlKey && e.key === 'w') {
+        e.preventDefault();
+        closeTab(activeTabId);
+        return;
+      }
+      // Ctrl+R ili F5 → reload
+      if ((e.ctrlKey && e.key === 'r') || e.key === 'F5') {
+        e.preventDefault();
+        handleReload();
+        return;
+      }
+      // Alt+D ili Ctrl+L → fokus adresna traka
+      if ((e.altKey && e.key === 'd') || (e.ctrlKey && e.key === 'l')) {
+        e.preventDefault();
+        addressBarRef.current?.focus();
+        addressBarRef.current?.select();
+        return;
+      }
+      // Escape → zatvori fullscreen ili panele
+      if (e.key === 'Escape') {
+        if (document.fullscreenElement) {
+          document.exitFullscreen?.().catch(() => undefined);
+          setIsFullscreen(false);
+        }
+        setShowBookmarks(false);
+        setShowHistory(false);
+        return;
+      }
+      // Alt+Left → back
+      if (e.altKey && e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handleBack();
+        return;
+      }
+      // Alt+Right → forward
+      if (e.altKey && e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleForward();
+        return;
+      }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [addTab, closeTab, activeTabId, handleReload, handleBack, handleForward]);
+
+  // ── Sinhronizuj input vrednost sa aktivnim tabom ──
+
+  useEffect(() => {
+    setInputValue(activeTab.url);
+  }, [activeTab.url, activeTab.id]);
+
+  // ── Autofokus input na novom tabu ──
+
+  useEffect(() => {
+    if (!activeTab.url) {
+      setTimeout(() => newTabInputRef.current?.focus(), 50);
+    }
+  }, [activeTab.id, activeTab.url]);
+
+
+
   // ── iframe onLoad handler ──
 
   const handleIframeLoad = useCallback((tabId: string, tabUrl: string, tabIgra: string) => {
-    updateTab(tabId, { loading: false });
+    // Pokušaj da pročitaš title iz iframe (radi samo za same-origin domene)
+    let iframeTitle: string | undefined;
+    try {
+      const iframe = iframeRefs.current[tabId];
+      if (iframe?.contentDocument?.title) {
+        iframeTitle = iframe.contentDocument.title;
+      }
+    } catch { /* cross-origin — ignoriši */ }
+    updateTab(tabId, { loading: false, title: iframeTitle || urlToTitle(tabUrl, tabIgra) });
     addToHistory(tabUrl, tabIgra || tabUrl);
   }, [updateTab, addToHistory]);
 
@@ -249,11 +452,52 @@ export default function BrouvzerViewer({ url, igra }: Props) {
           onSelect={setActiveTabId}
           onClose={closeTab}
           onAdd={addTab}
+          onReorder={(from, to) => {
+            setTabs((prev) => {
+              const next = [...prev];
+              const [moved] = next.splice(from, 1);
+              next.splice(to, 0, moved);
+              return next;
+            });
+          }}
+          dragTabId={dragTabId}
+          onDragTabId={setDragTabId}
         />
-        <div className="flex flex-1 flex-col items-center justify-center gap-6 px-4 text-center">
+        <div className="flex flex-1 flex-col items-center justify-start gap-6 overflow-y-auto px-4 py-10 text-center">
+          {/* Branding */}
           <div className="text-5xl">🌐</div>
-          <h2 className="text-xl font-bold text-white">SPAJA Digitalni Brouvzer</h2>
-          <p className="text-sm text-gray-400">Novi tab — izaberi igru ili platformu</p>
+          <h2 className="text-2xl font-bold text-white">SPAJA Digitalni Brouvzer</h2>
+          <p className="text-sm text-gray-400">v2.0.0 — EKSTREMNI</p>
+
+          {/* URL input polje */}
+          <div className="w-full max-w-lg">
+            <input
+              ref={newTabInputRef}
+              type="text"
+              placeholder="Unesi URL ili pretraži... (npr. google.com)"
+              className="w-full rounded-xl border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  const val = (e.currentTarget.value).trim();
+                  if (!val) return;
+                  const normalized = normalizeUrl(val);
+                  updateTab(activeTab.id, {
+                    url: normalized,
+                    title: urlToTitle(normalized),
+                    loading: true,
+                    reloadKey: activeTab.reloadKey + 1,
+                    backStack: [],
+                    forwardStack: [],
+                    dimenzija: null,
+                  });
+                  setInputValue(normalized);
+                }
+              }}
+            />
+            <p className="mt-1.5 text-xs text-gray-600">Pritisni Enter za navigaciju</p>
+          </div>
+
+          {/* Quick links */}
           <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/spaja-digitalni-brouvzer"
@@ -274,18 +518,66 @@ export default function BrouvzerViewer({ url, igra }: Props) {
               🌐 Platforme
             </Link>
           </div>
+
+          {/* Svi bookmarkovi */}
           {bookmarks.length > 0 && (
-            <div className="w-full max-w-sm">
-              <p className="mb-2 text-xs font-semibold text-gray-500">⭐ Bookmarkovi</p>
-              <div className="flex flex-col gap-1">
-                {bookmarks.slice(0, 5).map((b) => (
-                  <a
+            <div className="w-full max-w-lg">
+              <p className="mb-2 text-xs font-semibold text-gray-500">⭐ Bookmarkovi ({bookmarks.length})</p>
+              <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                {bookmarks.map((b) => (
+                  <button
                     key={b.url}
-                    href={`/spaja-digitalni-brouvzer?url=${encodeURIComponent(b.url)}&igra=${encodeURIComponent(b.naziv)}`}
+                    type="button"
+                    onClick={() => {
+                      const normalized = normalizeUrl(b.url);
+                      updateTab(activeTab.id, {
+                        url: normalized,
+                        title: b.naziv,
+                        loading: true,
+                        reloadKey: activeTab.reloadKey + 1,
+                        backStack: [],
+                        forwardStack: [],
+                        dimenzija: null,
+                      });
+                      setInputValue(normalized);
+                    }}
                     className="truncate rounded-lg bg-gray-800 px-3 py-2 text-left text-sm text-blue-400 transition hover:bg-gray-700"
                   >
                     ⭐ {b.naziv}
-                  </a>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Poslednjih 10 iz istorije */}
+          {history.length > 0 && (
+            <div className="w-full max-w-lg">
+              <p className="mb-2 text-xs font-semibold text-gray-500">🕐 Nedavno ({Math.min(history.length, 10)})</p>
+              <div className="flex flex-col gap-1">
+                {history.slice(0, 10).map((h, i) => (
+                  <button
+                    key={`${h.url}-${i}`}
+                    type="button"
+                    onClick={() => {
+                      const normalized = normalizeUrl(h.url);
+                      updateTab(activeTab.id, {
+                        url: normalized,
+                        title: h.naziv,
+                        loading: true,
+                        reloadKey: activeTab.reloadKey + 1,
+                        backStack: [],
+                        forwardStack: [],
+                        dimenzija: null,
+                      });
+                      setInputValue(normalized);
+                    }}
+                    className="flex items-center gap-2 rounded-lg bg-gray-900 px-3 py-2 text-left text-sm transition hover:bg-gray-800"
+                  >
+                    <span className="shrink-0 text-gray-500">🕐</span>
+                    <span className="truncate text-gray-300">{h.naziv}</span>
+                    <span className="ml-auto shrink-0 truncate text-xs text-gray-600">{h.url.replace(/^https?:\/\//, '')}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -307,6 +599,16 @@ export default function BrouvzerViewer({ url, igra }: Props) {
           onSelect={setActiveTabId}
           onClose={closeTab}
           onAdd={addTab}
+          onReorder={(from, to) => {
+            setTabs((prev) => {
+              const next = [...prev];
+              const [moved] = next.splice(from, 1);
+              next.splice(to, 0, moved);
+              return next;
+            });
+          }}
+          dragTabId={dragTabId}
+          onDragTabId={setDragTabId}
         />
         <div className="flex flex-1 flex-col items-center justify-center px-4 text-center">
           <div className="mb-4 text-5xl">⚠️</div>
@@ -323,12 +625,13 @@ export default function BrouvzerViewer({ url, igra }: Props) {
             >
               Otvori u novom tabu ↗
             </a>
-            <Link
-              href="/industrija"
+            <button
+              type="button"
+              onClick={() => updateTab(activeTab.id, { url: '', title: 'Novi Tab' })}
               className="rounded-lg bg-gray-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-600"
             >
               ← Nazad
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -345,6 +648,16 @@ export default function BrouvzerViewer({ url, igra }: Props) {
           onSelect={setActiveTabId}
           onClose={closeTab}
           onAdd={addTab}
+          onReorder={(from, to) => {
+            setTabs((prev) => {
+              const next = [...prev];
+              const [moved] = next.splice(from, 1);
+              next.splice(to, 0, moved);
+              return next;
+            });
+          }}
+          dragTabId={dragTabId}
+          onDragTabId={setDragTabId}
         />
         <div className="flex flex-1 flex-col items-center justify-center px-4 py-12">
           <div className="w-full max-w-lg">
@@ -385,18 +698,22 @@ export default function BrouvzerViewer({ url, igra }: Props) {
             </div>
 
             <div className="mt-6 text-center">
-              <Link
-                href="/industrija"
+              <button
+                type="button"
+                onClick={() => updateTab(activeTab.id, { url: '', title: 'Novi Tab' })}
                 className="text-sm text-gray-500 transition hover:text-gray-300"
               >
-                ← Nazad na Digitalnu Industriju
-              </Link>
+                ← Nazad
+              </button>
             </div>
           </div>
         </div>
       </div>
     );
   }
+
+  const canGoBack = activeTab.backStack.length > 0;
+  const canGoForward = activeTab.forwardStack.length > 0;
 
   // ─── Glavni browser viewer ────────────────────────────────────────────
   return (
@@ -408,45 +725,99 @@ export default function BrouvzerViewer({ url, igra }: Props) {
         onSelect={setActiveTabId}
         onClose={closeTab}
         onAdd={addTab}
+        onReorder={(from, to) => {
+          setTabs((prev) => {
+            const next = [...prev];
+            const [moved] = next.splice(from, 1);
+            next.splice(to, 0, moved);
+            return next;
+          });
+        }}
+        dragTabId={dragTabId}
+        onDragTabId={setDragTabId}
       />
 
+      {/* ── Loading progress bar ── */}
+      {activeTab.loading && (
+        <div className="relative h-0.5 w-full overflow-hidden bg-gray-800">
+          <div className="absolute inset-y-0 left-0 animate-[loadingBar_1.5s_ease-in-out_infinite] bg-blue-500" />
+        </div>
+      )}
+
       {/* ── Header ── */}
-      <div className="flex shrink-0 items-center gap-2 border-b border-gray-800 bg-gray-900 px-3 py-2">
-        <Link
-          href="/industrija"
-          className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
-          title="Nazad na Industriju"
-          aria-label="Nazad na Industriju"
+      <div className="flex shrink-0 items-center gap-1.5 border-b border-gray-800 bg-gray-900 px-2 py-1.5">
+        {/* Back dugme */}
+        <button
+          onClick={handleBack}
+          disabled={!canGoBack}
+          className={`rounded-lg p-1.5 transition ${canGoBack ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'cursor-not-allowed text-gray-700'}`}
+          title="Nazad (Alt+←)"
+          aria-label="Nazad"
         >
           ←
-        </Link>
+        </button>
 
+        {/* Forward dugme */}
+        <button
+          onClick={handleForward}
+          disabled={!canGoForward}
+          className={`rounded-lg p-1.5 transition ${canGoForward ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'cursor-not-allowed text-gray-700'}`}
+          title="Napred (Alt+→)"
+          aria-label="Napred"
+        >
+          →
+        </button>
+
+        {/* Reload dugme */}
         <button
           onClick={handleReload}
           className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
-          title="Ponovo učitaj"
+          title="Ponovo učitaj (Ctrl+R)"
           aria-label="Reload"
         >
           ↺
         </button>
 
-        {/* Address bar */}
-        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5">
-          <span className="shrink-0 text-xs text-green-400">🔒</span>
-          <span className="truncate text-xs text-gray-300">{activeTab.url}</span>
+        {/* Editabilna adresna traka */}
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-1 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500/30">
+          <span className="shrink-0 text-xs text-green-400" aria-hidden>🔒</span>
+          <input
+            ref={addressBarRef}
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onFocus={(e) => e.currentTarget.select()}
+            onBlur={() => setInputValue(activeTab.url)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const normalized = normalizeUrl(inputValue);
+                if (normalized) {
+                  handleNavigate(activeTab.id, normalized);
+                  e.currentTarget.blur();
+                }
+              }
+              if (e.key === 'Escape') {
+                setInputValue(activeTab.url);
+                e.currentTarget.blur();
+              }
+            }}
+            className="min-w-0 flex-1 bg-transparent text-xs text-gray-200 outline-none placeholder-gray-600"
+            placeholder="Unesi URL..."
+            aria-label="Adresna traka"
+            spellCheck={false}
+            autoComplete="off"
+          />
         </div>
 
         {/* Bookmark dugme */}
-        <div className="relative">
-          <button
-            onClick={() => toggleBookmark(activeTab.url, activeTab.igra || activeTab.url)}
-            className={`rounded-lg p-1.5 transition hover:bg-gray-800 ${isBookmarked(activeTab.url) ? 'text-yellow-400' : 'text-gray-400 hover:text-white'}`}
-            title={isBookmarked(activeTab.url) ? 'Ukloni bookmark' : 'Dodaj bookmark'}
-            aria-label="Bookmark"
-          >
-            ⭐
-          </button>
-        </div>
+        <button
+          onClick={() => toggleBookmark(activeTab.url, activeTab.igra || activeTab.title || activeTab.url)}
+          className={`rounded-lg p-1.5 transition hover:bg-gray-800 ${isBookmarked(activeTab.url) ? 'text-yellow-400' : 'text-gray-400 hover:text-white'}`}
+          title={isBookmarked(activeTab.url) ? 'Ukloni bookmark' : 'Dodaj bookmark (⭐)'}
+          aria-label="Bookmark"
+        >
+          ⭐
+        </button>
 
         {/* Bookmarks panel dugme */}
         <div className="relative">
@@ -462,6 +833,11 @@ export default function BrouvzerViewer({ url, igra }: Props) {
             <BookmarkPanel
               bookmarks={bookmarks}
               onRemove={(bUrl) => saveBookmarks(bookmarks.filter((b) => b.url !== bUrl))}
+              onNavigate={(bUrl, bNaziv) => {
+                handleNavigate(activeTab.id, bUrl);
+                updateTab(activeTab.id, { igra: bNaziv });
+                setShowBookmarks(false);
+              }}
               onClose={() => setShowBookmarks(false)}
             />
           )}
@@ -481,11 +857,62 @@ export default function BrouvzerViewer({ url, igra }: Props) {
             <HistoryPanel
               history={history}
               onClear={clearHistory}
+              onNavigate={(hUrl, hNaziv) => {
+                handleNavigate(activeTab.id, hUrl);
+                updateTab(activeTab.id, { igra: hNaziv });
+                setShowHistory(false);
+              }}
               onClose={() => setShowHistory(false)}
             />
           )}
         </div>
 
+        {/* Zoom kontrole */}
+        <div className="flex items-center gap-0.5">
+          <button
+            onClick={handleZoomOut}
+            className="rounded-lg px-1.5 py-1 text-xs text-gray-400 transition hover:bg-gray-800 hover:text-white"
+            title="Umanji"
+            aria-label="Umanji"
+          >
+            −
+          </button>
+          <button
+            onClick={handleZoomReset}
+            className="rounded-lg px-1.5 py-1 text-xs text-gray-400 transition hover:bg-gray-800 hover:text-white"
+            title="Resetuj zoom"
+            aria-label="Zoom nivo"
+          >
+            {activeTab.zoom}%
+          </button>
+          <button
+            onClick={handleZoomIn}
+            className="rounded-lg px-1.5 py-1 text-xs text-gray-400 transition hover:bg-gray-800 hover:text-white"
+            title="Uvećaj"
+            aria-label="Uvećaj"
+          >
+            +
+          </button>
+        </div>
+
+        {/* Copy/Share dugme */}
+        <div className="relative">
+          <button
+            onClick={handleCopyUrl}
+            className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
+            title="Kopiraj URL"
+            aria-label="Kopiraj URL"
+          >
+            🔗
+          </button>
+          {copyToast && (
+            <div className="absolute right-0 top-full z-50 mt-1 whitespace-nowrap rounded-lg bg-green-800 px-3 py-1.5 text-xs font-semibold text-green-200 shadow-xl">
+              ✓ Kopirano!
+            </div>
+          )}
+        </div>
+
+        {/* Fullscreen dugme */}
         <button
           onClick={handleFullscreen}
           className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
@@ -496,6 +923,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
           {isFullscreen ? '✕' : '⛶'}
         </button>
 
+        {/* Otvori u novom tabu */}
         <a
           href={activeTab.url}
           target="_blank"
@@ -573,7 +1001,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
           return (
             <div
               key={tab.id}
-              className="absolute inset-0"
+              className="absolute inset-0 overflow-hidden"
               style={{ visibility: isActive ? 'visible' : 'hidden', pointerEvents: isActive ? 'auto' : 'none' }}
             >
               {isActive && tab.loading && (
@@ -591,21 +1019,27 @@ export default function BrouvzerViewer({ url, igra }: Props) {
               {/*
                * allow-same-origin: SPAJA-vlastiti domeni koriste localStorage i sopstveni API.
                * Eksterni https:// domeni dobijaju sandbox bez allow-same-origin.
+               * zoom se implementira kao CSS transform na wrapper div-u (cross-origin safe).
                */}
-              <iframe
-                ref={(el) => setIframeRef(tab.id, el)}
-                key={tab.reloadKey}
-                src={tab.url}
-                className="h-full w-full border-0"
-                onLoad={() => handleIframeLoad(tab.id, tab.url, tab.igra)}
-                sandbox={
-                  getUrlStatus(tab.url) === 'spaja'
-                    ? 'allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-orientation-lock'
-                    : 'allow-scripts allow-forms allow-popups allow-pointer-lock allow-orientation-lock'
-                }
-                title={tab.igra || 'Igrica'}
-                allow="fullscreen; autoplay; gamepad"
-              />
+              <div
+                className="h-full w-full origin-top-left"
+                style={tab.zoom !== 100 ? { transform: `scale(${tab.zoom / 100})`, width: `${(100 * 100) / tab.zoom}%`, height: `${(100 * 100) / tab.zoom}%` } : undefined}
+              >
+                <iframe
+                  ref={(el) => setIframeRef(tab.id, el)}
+                  key={tab.reloadKey}
+                  src={tab.url}
+                  className="h-full w-full border-0"
+                  onLoad={() => handleIframeLoad(tab.id, tab.url, tab.igra)}
+                  sandbox={
+                    getUrlStatus(tab.url) === 'spaja'
+                      ? 'allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-orientation-lock'
+                      : 'allow-scripts allow-forms allow-popups allow-pointer-lock allow-orientation-lock'
+                  }
+                  title={tab.igra || 'Igrica'}
+                  allow="fullscreen; autoplay; gamepad"
+                />
+              </div>
             </div>
           );
         })}
@@ -645,35 +1079,55 @@ interface TabBarProps {
   onSelect: (id: string) => void;
   onClose: (id: string) => void;
   onAdd: () => void;
+  onReorder: (fromIndex: number, toIndex: number) => void;
+  dragTabId: string | null;
+  onDragTabId: (id: string | null) => void;
 }
 
-function TabBar({ tabs, activeTabId, onSelect, onClose, onAdd }: TabBarProps) {
+function TabBar({ tabs, activeTabId, onSelect, onClose, onAdd, onReorder, dragTabId, onDragTabId }: TabBarProps) {
   return (
-    <div className="flex shrink-0 items-center gap-1 overflow-x-auto border-b border-gray-800 bg-gray-950 px-2 pt-1.5">
-      {tabs.map((tab) => (
+    <div className="flex shrink-0 items-center gap-1 overflow-x-auto border-b border-gray-800 bg-gray-950 px-2 pt-1.5" role="tablist">
+      {tabs.map((tab, idx) => (
         <div
           key={tab.id}
+          draggable
+          onDragStart={() => onDragTabId(tab.id)}
+          onDragOver={(e) => { e.preventDefault(); }}
+          onDrop={(e) => {
+            e.preventDefault();
+            if (!dragTabId || dragTabId === tab.id) return;
+            const fromIdx = tabs.findIndex((t) => t.id === dragTabId);
+            onReorder(fromIdx, idx);
+            onDragTabId(null);
+          }}
+          onDragEnd={() => onDragTabId(null)}
           className={`group flex min-w-0 max-w-[180px] shrink-0 cursor-pointer items-center gap-1.5 rounded-t-lg border px-3 py-1.5 text-xs transition ${
             tab.id === activeTabId
               ? 'border-gray-700 border-b-gray-900 bg-gray-900 text-white'
               : 'border-transparent bg-transparent text-gray-500 hover:bg-gray-800 hover:text-gray-300'
-          }`}
+          } ${dragTabId === tab.id ? 'opacity-50' : ''}`}
           onClick={() => onSelect(tab.id)}
           role="tab"
           aria-selected={tab.id === activeTabId}
+          title={tab.url || tab.title || tab.igra}
         >
-          <span className="shrink-0">🎮</span>
-          <span className="min-w-0 truncate">{tab.igra || 'Tab'}</span>
+          <span className="shrink-0">{tab.url ? '🌐' : '+'}</span>
+          <span className="min-w-0 truncate">{tab.title || tab.igra || 'Tab'}</span>
           {tab.dimenzija && (
             <span className="shrink-0 rounded-full bg-blue-700/40 px-1 text-blue-300">
               {tab.dimenzija}
             </span>
           )}
-          {tabs.length > 1 && (
+          {tab.loading && (
+            <span className="ml-auto shrink-0">
+              <span className="inline-block h-2.5 w-2.5 animate-spin rounded-full border border-gray-600 border-t-blue-400" />
+            </span>
+          )}
+          {tabs.length > 1 && !tab.loading && (
             <button
               onClick={(e) => { e.stopPropagation(); onClose(tab.id); }}
               className="ml-auto shrink-0 rounded p-0.5 text-gray-600 opacity-0 transition hover:bg-gray-700 hover:text-gray-200 group-hover:opacity-100"
-              aria-label={`Zatvori tab ${tab.igra}`}
+              aria-label={`Zatvori tab ${tab.title || tab.igra}`}
             >
               ✕
             </button>
@@ -683,7 +1137,7 @@ function TabBar({ tabs, activeTabId, onSelect, onClose, onAdd }: TabBarProps) {
       <button
         onClick={onAdd}
         className="shrink-0 rounded-t-lg px-2.5 py-1.5 text-gray-500 transition hover:bg-gray-800 hover:text-white"
-        title="Novi tab"
+        title="Novi tab (Ctrl+T)"
         aria-label="Novi tab"
       >
         +
@@ -697,10 +1151,11 @@ function TabBar({ tabs, activeTabId, onSelect, onClose, onAdd }: TabBarProps) {
 interface BookmarkPanelProps {
   bookmarks: Bookmark[];
   onRemove: (url: string) => void;
+  onNavigate: (url: string, naziv: string) => void;
   onClose: () => void;
 }
 
-function BookmarkPanel({ bookmarks, onRemove, onClose }: BookmarkPanelProps) {
+function BookmarkPanel({ bookmarks, onRemove, onNavigate, onClose }: BookmarkPanelProps) {
   return (
     <div className="absolute right-0 top-full z-50 mt-1 w-72 rounded-xl border border-gray-700 bg-gray-900 shadow-xl">
       <div className="flex items-center justify-between border-b border-gray-800 px-3 py-2">
@@ -713,14 +1168,14 @@ function BookmarkPanel({ bookmarks, onRemove, onClose }: BookmarkPanelProps) {
         ) : (
           bookmarks.map((b) => (
             <div key={b.url} className="flex items-center gap-2 border-b border-gray-800/50 px-3 py-2 hover:bg-gray-800">
-              <a
-                href={`/spaja-digitalni-brouvzer?url=${encodeURIComponent(b.url)}&igra=${encodeURIComponent(b.naziv)}`}
-                className="min-w-0 flex-1"
-                onClick={onClose}
+              <button
+                type="button"
+                onClick={() => onNavigate(b.url, b.naziv)}
+                className="min-w-0 flex-1 text-left"
               >
                 <p className="truncate text-xs font-medium text-blue-400">{b.naziv}</p>
                 <p className="truncate text-xs text-gray-600">{b.url}</p>
-              </a>
+              </button>
               <button
                 onClick={() => onRemove(b.url)}
                 className="shrink-0 rounded p-0.5 text-gray-600 hover:bg-gray-700 hover:text-red-400"
@@ -741,10 +1196,11 @@ function BookmarkPanel({ bookmarks, onRemove, onClose }: BookmarkPanelProps) {
 interface HistoryPanelProps {
   history: HistoryEntry[];
   onClear: () => void;
+  onNavigate: (url: string, naziv: string) => void;
   onClose: () => void;
 }
 
-function HistoryPanel({ history, onClear, onClose }: HistoryPanelProps) {
+function HistoryPanel({ history, onClear, onNavigate, onClose }: HistoryPanelProps) {
   return (
     <div className="absolute right-0 top-full z-50 mt-1 w-72 rounded-xl border border-gray-700 bg-gray-900 shadow-xl">
       <div className="flex items-center justify-between border-b border-gray-800 px-3 py-2">
@@ -761,17 +1217,17 @@ function HistoryPanel({ history, onClear, onClose }: HistoryPanelProps) {
           <p className="px-3 py-4 text-center text-xs text-gray-500">Nema istorije</p>
         ) : (
           history.map((h, i) => (
-            <a
+            <button
+              type="button"
               key={`${h.url}-${i}`}
-              href={`/spaja-digitalni-brouvzer?url=${encodeURIComponent(h.url)}&igra=${encodeURIComponent(h.naziv)}`}
-              className="block border-b border-gray-800/50 px-3 py-2 hover:bg-gray-800"
-              onClick={onClose}
+              onClick={() => onNavigate(h.url, h.naziv)}
+              className="block w-full border-b border-gray-800/50 px-3 py-2 text-left hover:bg-gray-800"
             >
               <p className="truncate text-xs font-medium text-gray-300">{h.naziv}</p>
               <p className="truncate text-xs text-gray-600">
                 {h.url} · {new Date(h.vreme).toLocaleString('sr-RS')}
               </p>
-            </a>
+            </button>
           ))
         )}
       </div>
