@@ -9,11 +9,22 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ url?: string; igra?: string }>;
+  searchParams: Promise<{ url?: string; igra?: string; igricaId?: string }>;
 };
 
 export default async function SpajaDigitalniBrouvzerPage({ searchParams }: Props) {
-  const { url, igra } = await searchParams;
+  const { url, igra, igricaId } = await searchParams;
+
+  // Gaming engine tab — otvara igricu direktno bez iframe
+  if (igricaId) {
+    let decodedIgricaId = igricaId;
+    try {
+      decodedIgricaId = decodeURIComponent(igricaId);
+    } catch {
+      return <StranicaRenderer sekvence={spajaDigitalniBrouvzerSekvence} />;
+    }
+    return <BrouvzerViewer url="" igra="" igricaId={decodedIgricaId} />;
+  }
 
   if (url) {
     let decodedUrl = url;

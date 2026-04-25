@@ -2,7 +2,12 @@
 
 import { useRef, useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { getKompjuterStatistika, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB, KOMPJUTER_VRAM_GB } from '@/lib/spaja-digitalni-kompjuter';
+import { igrice } from '@/lib/igrice';
+import { dimenzije as dimenzijeSistem } from '@/lib/dimenzije';
+
+const GamingEndzin = dynamic(() => import('./gaming/GamingEndzin'), { ssr: false });
 
 // ─── Dimenzije ───────────────────────────────────────────────────────
 
@@ -73,6 +78,10 @@ interface Tab {
   forwardStack: string[];
   /** Zoom nivo u procentima (default 100) */
   zoom: number;
+  /** Da li je tab gaming engine tab (igrica pokrenuta bez iframe) */
+  isIgra?: boolean;
+  /** ID igrice iz igrice.ts za gaming engine */
+  igricaId?: string;
 }
 
 // ─── Bookmark + History tipovi i localStorage ─────────────────────────
@@ -150,11 +159,13 @@ const AUTOFOCUS_DELAY_MS = 50;
 interface Props {
   url: string;
   igra: string;
+  /** ID igrice iz igrice.ts — ako je postavljeno, otvori gaming engine tab */
+  igricaId?: string;
 }
 
 // ─── Komponenta ───────────────────────────────────────────────────────
 
-export default function BrouvzerViewer({ url, igra }: Props) {
+export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRefs = useRef<Record<string, HTMLIFrameElement | null>>({});
   const addressBarRef = useRef<HTMLInputElement>(null);
@@ -163,6 +174,24 @@ export default function BrouvzerViewer({ url, igra }: Props) {
   // ── Tabs state ──
   const [tabs, setTabs] = useState<Tab[]>(() => {
     const id = newTabId();
+    if (igricaId) {
+      const igricaObj = igrice.find((i) => i.id === igricaId);
+      const igricaNaziv = igricaObj?.naziv ?? igra ?? igricaId;
+      return [{
+        id,
+        url: '',
+        igra: igricaNaziv,
+        title: igricaNaziv,
+        dimenzija: null,
+        reloadKey: 0,
+        loading: false,
+        backStack: [],
+        forwardStack: [],
+        zoom: 100,
+        isIgra: true,
+        igricaId,
+      }];
+    }
     return [{ id, url, igra, title: urlToTitle(url, igra), dimenzija: null, reloadKey: 0, loading: true, backStack: [], forwardStack: [], zoom: 100 }];
   });
   const [activeTabId, setActiveTabId] = useState<string>(() => tabs[0].id);
@@ -450,7 +479,7 @@ export default function BrouvzerViewer({ url, igra }: Props) {
   );
 
   // ─── Prazan tab (novi tab home ekran) ─────────────────────────────
-  if (!activeTab.url) {
+  if (!activeTab.url && !activeTab.isIgra) {
     return (
       <div className="flex h-screen flex-col bg-gray-950">
         {/* Tab bar */}
@@ -565,10 +594,11 @@ export default function BrouvzerViewer({ url, igra }: Props) {
     );
   }
 
-  const urlStatus = getUrlStatus(activeTab.url);
+  // Game tabs don't have a URL — skip URL validation for them
+  const urlStatus = activeTab.isIgra ? 'spaja' : getUrlStatus(activeTab.url);
 
   // ─── Nedozvoljen URL ─────────────────────────────────────────────────
-  if (urlStatus === 'nedozvoljen') {
+  if (!activeTab.isIgra && urlStatus === 'nedozvoljen') {
     return (
       <div className="flex h-screen flex-col bg-gray-950">
         <TabBar
@@ -973,6 +1003,29 @@ export default function BrouvzerViewer({ url, igra }: Props) {
       <div className="relative min-h-0 flex-1">
         {tabs.map((tab) => {
           const isActive = tab.id === activeTabId;
+
+          // ── Gaming Engine tab ──
+          if (tab.isIgra && tab.igricaId && tab.dimenzija) {
+            const igricaObj = igrice.find((i) => i.id === tab.igricaId);
+            const dimenzijaPun = dimenzijeSistem.find((d) => d.nivo === tab.dimenzija);
+            if (!igricaObj || !dimenzijaPun) return null;
+            return (
+              <div
+                key={tab.id}
+                className="absolute inset-0 overflow-hidden"
+                style={{ visibility: isActive ? 'visible' : 'hidden', pointerEvents: isActive ? 'auto' : 'none' }}
+              >
+                <GamingEndzin
+                  igrica={igricaObj}
+                  dimenzija={dimenzijaPun}
+                  onPromeniDimenziju={() => updateTab(tab.id, { dimenzija: null })}
+                  onIzlaz={() => updateTab(tab.id, { url: '', title: 'Novi Tab', isIgra: false, igricaId: undefined, dimenzija: null })}
+                />
+              </div>
+            );
+          }
+
+          // ── URL iframe tab ──
           if (!tab.url || !tab.dimenzija) return null;
           return (
             <div
@@ -1035,14 +1088,16 @@ export default function BrouvzerViewer({ url, igra }: Props) {
           🌐 SPAJA Digitalni Brouvzer v2.0.0 — EKSTREMNI · {tabs.length} tab{tabs.length !== 1 ? 'a' : ''}
         </span>
         <div className="flex items-center gap-3">
-          <a
-            href={activeTab.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-gray-500 transition hover:text-blue-400"
-          >
-            Igrica ne radi? Otvori u novom tabu →
-          </a>
+          {!activeTab.isIgra && (
+            <a
+              href={activeTab.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-500 transition hover:text-blue-400"
+            >
+              Igrica ne radi? Otvori u novom tabu →
+            </a>
+          )}
           <Link
             href="/spaja-digitalni-brouvzer"
             className="text-xs text-gray-600 transition hover:text-gray-400"
@@ -1095,7 +1150,7 @@ function TabBar({ tabs, activeTabId, onSelect, onClose, onAdd, onReorder, dragTa
           aria-selected={tab.id === activeTabId}
           title={tab.url || tab.title || tab.igra}
         >
-          <span className="shrink-0">{tab.url ? '🌐' : '+'}</span>
+          <span className="shrink-0">{tab.isIgra ? '🎮' : tab.url ? '🌐' : '+'}</span>
           <span className="min-w-0 truncate">{tab.title || tab.igra || 'Tab'}</span>
           {tab.dimenzija && (
             <span className="shrink-0 rounded-full bg-blue-700/40 px-1 text-blue-300">
