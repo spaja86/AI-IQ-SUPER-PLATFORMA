@@ -29,13 +29,13 @@ interface Celija {
   nivo: number;
 }
 
-const GRID_VELIICINA = 8;
+const GRID_VELICINA = 8;
 
 function noviGrid(dimSlojevi: number): Celija[][] {
-  const grid: Celija[][] = Array.from({ length: GRID_VELIICINA }, (_, r) =>
-    Array.from({ length: GRID_VELIICINA }, (_, c) => {
+  const grid: Celija[][] = Array.from({ length: GRID_VELICINA }, (_, r) =>
+    Array.from({ length: GRID_VELICINA }, (_, c) => {
       // Baza u centru
-      if (r === Math.floor(GRID_VELIICINA / 2) && c === Math.floor(GRID_VELIICINA / 2)) {
+      if (r === Math.floor(GRID_VELICINA / 2) && c === Math.floor(GRID_VELICINA / 2)) {
         return { tip: 'baza', hp: 50 + dimSlojevi * 20, maxHp: 50 + dimSlojevi * 20, nivo: 1 };
       }
       return { tip: 'prazna', hp: 0, maxHp: 0, nivo: 0 };
@@ -112,8 +112,8 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
       let postavljeno = 0;
       // Postavi neprijatelje po ivicama
       const ivice: [number, number][] = [];
-      for (let i = 0; i < GRID_VELIICINA; i++) {
-        ivice.push([0, i], [GRID_VELIICINA - 1, i], [i, 0], [i, GRID_VELIICINA - 1]);
+      for (let i = 0; i < GRID_VELICINA; i++) {
+        ivice.push([0, i], [GRID_VELICINA - 1, i], [i, 0], [i, GRID_VELICINA - 1]);
       }
       const izmiksane = ivice.sort(() => Math.random() - 0.5);
       for (const [r, c] of izmiksane) {
@@ -136,21 +136,21 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
     timerRef.current = setInterval(() => {
       setGrid((prev) => {
         const noviG = prev.map((r) => r.map((c) => ({ ...c })));
-        let boduziDodati = 0;
+        let boduviDodati = 0;
 
         // Kule napadaju okolne neprijatelje
-        for (let r = 0; r < GRID_VELIICINA; r++) {
-          for (let c = 0; c < GRID_VELIICINA; c++) {
+        for (let r = 0; r < GRID_VELICINA; r++) {
+          for (let c = 0; c < GRID_VELICINA; c++) {
             if (noviG[r][c].tip !== 'kula') continue;
             const dometi = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
             for (const [dr, dc] of dometi) {
               const nr = r + dr;
               const nc = c + dc;
-              if (nr < 0 || nr >= GRID_VELIICINA || nc < 0 || nc >= GRID_VELIICINA) continue;
+              if (nr < 0 || nr >= GRID_VELICINA || nc < 0 || nc >= GRID_VELICINA) continue;
               if (noviG[nr][nc].tip === 'neprijatelj') {
                 noviG[nr][nc].hp -= 5 + noviG[r][c].nivo * 3;
                 if (noviG[nr][nc].hp <= 0) {
-                  boduziDodati += 20 + noviG[nr][nc].nivo * 10;
+                  boduviDodati += 20 + noviG[nr][nc].nivo * 10;
                   noviG[nr][nc] = { tip: 'prazna', hp: 0, maxHp: 0, nivo: 0 };
                 }
                 break;
@@ -160,11 +160,11 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
         }
 
         // Neprijatelji se pomeraju prema centru
-        const centerR = Math.floor(GRID_VELIICINA / 2);
-        const centerC = Math.floor(GRID_VELIICINA / 2);
+        const centerR = Math.floor(GRID_VELICINA / 2);
+        const centerC = Math.floor(GRID_VELICINA / 2);
         const neprijateljiPos: [number, number][] = [];
-        for (let r = 0; r < GRID_VELIICINA; r++) {
-          for (let c = 0; c < GRID_VELIICINA; c++) {
+        for (let r = 0; r < GRID_VELICINA; r++) {
+          for (let c = 0; c < GRID_VELICINA; c++) {
             if (noviG[r][c].tip === 'neprijatelj') neprijateljiPos.push([r, c]);
           }
         }
@@ -177,11 +177,11 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
           if (dc !== 0) mogucPomaci.push([r, c + dc]);
 
           for (const [nr, nc] of mogucPomaci) {
-            if (nr < 0 || nr >= GRID_VELIICINA || nc < 0 || nc >= GRID_VELIICINA) continue;
+            if (nr < 0 || nr >= GRID_VELICINA || nc < 0 || nc >= GRID_VELICINA) continue;
             const meta = noviG[nr][nc];
             if (meta.tip === 'prazna' || meta.tip === 'generator' || meta.tip === 'kula') {
               // Uništava generatore i kule
-              if (meta.tip !== 'prazna') boduziDodati -= 5;
+              if (meta.tip !== 'prazna') boduviDodati -= 5;
               noviG[nr][nc] = { ...noviG[r][c] };
               noviG[r][c] = { tip: 'prazna', hp: 0, maxHp: 0, nivo: 0 };
               break;
@@ -199,9 +199,9 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
           }
         }
 
-        if (boduziDodati !== 0) {
+        if (boduviDodati !== 0) {
           setScore((prev) => {
-            const noviScore = { ...prev, bodovi: Math.max(0, prev.bodovi + Math.round(boduziDodati * parametri.brzinaMultiplikator)) };
+            const noviScore = { ...prev, bodovi: Math.max(0, prev.bodovi + Math.round(boduviDodati * parametri.brzinaMultiplikator)) };
             return noviScore;
           });
         }
@@ -295,7 +295,7 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
       <div className="flex flex-1 items-center justify-center p-4">
         <div
           className="grid gap-1"
-          style={{ gridTemplateColumns: `repeat(${GRID_VELIICINA}, minmax(0, 1fr))` }}
+          style={{ gridTemplateColumns: `repeat(${GRID_VELICINA}, minmax(0, 1fr))` }}
         >
           {grid.map((red, r) =>
             red.map((celija, c) => (

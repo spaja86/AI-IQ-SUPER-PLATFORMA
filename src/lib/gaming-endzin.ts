@@ -170,7 +170,7 @@ export interface GameScore {
   nivo: number;
   vreme: number;
   /** Bonus faktor od dimenzije */
-  dimenzionalniBоnus: number;
+  dimenzionalniBonus: number;
 }
 
 export function noviScore(dimenzijaNivo: DimenzijaNivo): GameScore {
@@ -179,7 +179,7 @@ export function noviScore(dimenzijaNivo: DimenzijaNivo): GameScore {
     bodovi: 0,
     nivo: 1,
     vreme: 0,
-    dimenzionalniBоnus: params.brzinaMultiplikator,
+    dimenzionalniBonus: params.brzinaMultiplikator,
   };
 }
 
