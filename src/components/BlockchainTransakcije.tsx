@@ -193,7 +193,7 @@ export default function BlockchainTransakcije() {
         {/* ─── Tabela transakcija ──────────────────────────── */}
         <div>
           <h2 className="mb-4 text-xl font-semibold text-white">
-            📋 Transakcije {IS_CONTRACT_DEPLOYED ? '(sa Polygon blockchain-a)' : '(lokalni podaci — čekaJ deploy)'}
+            📋 Transakcije {IS_CONTRACT_DEPLOYED ? '(sa Polygon blockchain-a)' : '(lokalni podaci — čeka deploy)'}
           </h2>
 
           {IS_CONTRACT_DEPLOYED && loadingTransakcije ? (
