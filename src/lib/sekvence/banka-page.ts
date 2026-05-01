@@ -491,4 +491,15 @@ export const bankaSekvence: Sekvenca[] = [
       ],
     },
   },
+  {
+    id: 'banka-blockchain',
+    tip: 'baner',
+    naslov: '🔗 Pametni Ugovor — Polygon Blockchain',
+    redosled: 99,
+    podaci: {
+      bedz: '🔗 BLOCKCHAIN VERIFIKACIJA',
+      opis: 'AI IQ World Bank ima pametni ugovor (Smart Contract) na Polygon mreži. Svaka transakcija je upisana na blockchain i ima hash koji je javno proverljiv na polygonscan.com. Niko ne može menjati ni brisati podatke — 50 nabavki ($880,000 USD) je upisano u konstruktoru ugovora.',
+      dugme: { tekst: '🔍 Pogledaj Blockchain Transakcije', href: '/blockchain' },
+    },
+  },
 ];
