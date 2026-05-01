@@ -797,6 +797,8 @@
  * Autofinish #1102 (getAutofinishPostMortem() Helper — post-mortem izvještaji po incidentima, status otvoren/u-pregledu/zatvoren/arhiviran, severity P1-P4, timeline faze, akcione stavke sa odgovornim licem i statusom, korijenska uzrok analiza, zahvaćeni servisi, MTTD/MTTR metrike, vlasnik; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2186→2188, APP_VERSION 46.22.0→46.23.0)
  *
  * Autofinish #1103 (Unit testovi getAutofinishPostMortem() — schema postmortema, status/severity enum, suma statusa=ukupno, otvorenih/uPregledu/zatvorenih/arhiviranih izračun, otvorenihAkcija deriviran, poSeveritetu suma=ukupno i P1 konzistentnost, MTTD/MTTR ≥0, zatvoreno ISO za zatvoren/arhiviran, timeline min 2 faze i schema, akcije schema kanal/prioritet enum, timestamp ISO; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2188→2190, APP_VERSION 46.23.0→46.24.0)
+ *
+ * Autofinish #1104 (GET /api/autofinish-post-mortem — endpoint koji vraća post-mortem izvještaje; rate limiting 60/60s po IP, 429 pri prekoračenju, Cache-Control s-maxage=300, X-App-Version i X-Autofinish-Iteracija headeri, TOTAL_API_ROUTES 972→973, TOTAL_ROUTES 999→1000; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2190→2192, APP_VERSION 46.24.0→46.25.0)
  */
 
 import {
@@ -1398,6 +1400,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1101: 'Unit testovi AlertRulesWidget',
     1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
     1103: 'Unit testovi getAutofinishPostMortem()',
+    1104: 'GET /api/autofinish-post-mortem endpoint',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2287,6 +2290,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1101: 'Unit testovi AlertRulesWidget',
     1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
     1103: 'Unit testovi getAutofinishPostMortem()',
+    1104: 'GET /api/autofinish-post-mortem endpoint',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2627,6 +2631,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1101: 'Unit testovi AlertRulesWidget',
     1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
     1103: 'Unit testovi getAutofinishPostMortem()',
+    1104: 'GET /api/autofinish-post-mortem endpoint',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];

@@ -6764,6 +6764,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1103 — Unit testovi getAutofinishPostMortem() ───────────
     createCheck('autofinish-1103-post-mortem-unit-test-check', 'Unit testovi getAutofinishPostMortem() #1103', `Provera unit testova getAutofinishPostMortem() — schema, status/severity enum, suma statusa=ukupno, otvorenih/uPregledu/zatvorenih/arhiviranih, otvorenihAkcija, poSeveritetu suma/P1, MTTD/MTTR, zatvoreno ISO, timeline schema, akcije schema, TOTAL_DIAGNOSTIKA 2188→2190`, 'ok', `Autofinish #1103 — Unit testovi getAutofinishPostMortem(), TOTAL_DIAGNOSTIKA 2188→2190`),
     createCheck('autofinish-1103-iteracija-check', 'Autofinish #1103 Iteracija', `Provera autofinish iteracije #1103 — Unit testovi getAutofinishPostMortem()`, 'ok', `Autofinish #1103 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1104 — GET /api/autofinish-post-mortem ─────────────────
+    createCheck('autofinish-1104-post-mortem-api-check', 'GET /api/autofinish-post-mortem #1104', `Provera GET /api/autofinish-post-mortem — getAutofinishPostMortem() rezultat, rate limiting 60/60s po IP, 429 pri prekoračenju, Cache-Control s-maxage=300, X-App-Version i X-Autofinish-Iteracija headeri, TOTAL_API_ROUTES 972→973, TOTAL_ROUTES 999→1000`, 'ok', `Autofinish #1104 — GET /api/autofinish-post-mortem, TOTAL_API_ROUTES 973, TOTAL_ROUTES 1000`),
+    createCheck('autofinish-1104-iteracija-check', 'Autofinish #1104 Iteracija', `Provera autofinish iteracije #1104 — GET /api/autofinish-post-mortem endpoint`, 'ok', `Autofinish #1104 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
