@@ -6752,6 +6752,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1100 — Dashboard AlertRulesWidget ───────────────────────
     createCheck('autofinish-1100-alert-rules-widget-check', 'Dashboard AlertRulesWidget #1100', `Provera AlertRulesWidget — lista alert pravila po servisima, dupli filter status/severity, prag metrika/operator/vrijednost/trajanje, prozori tišine, eskalacioni lanac, aktiviranja7Dana, ARIA pristupačnost, JSON API link, TOTAL_DIAGNOSTIKA 2182→2184`, 'ok', `Autofinish #1100 — AlertRulesWidget dashboard komponenta, TOTAL_DIAGNOSTIKA 2182→2184`),
     createCheck('autofinish-1100-iteracija-check', 'Autofinish #1100 Iteracija', `Provera autofinish iteracije #1100 — Dashboard AlertRulesWidget`, 'ok', `Autofinish #1100 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1101 — Unit testovi AlertRulesWidget ────────────────────
+    createCheck('autofinish-1101-alert-rules-widget-test-check', 'Unit testovi AlertRulesWidget #1101', `Provera unit testova AlertRulesWidget — dupli filter status/severity, prag tip/operator/vrijednost/trajanje/jedinica, eskalacije kanal/nivo enum, prozori tišine utišanih, aktiviranja7Dana, poServisima suma=ukupno, kriticnih izračun, poslednjeAktiviranje ISO, timestamp, TOTAL_DIAGNOSTIKA 2184→2186`, 'ok', `Autofinish #1101 — Unit testovi AlertRulesWidget, TOTAL_DIAGNOSTIKA 2184→2186`),
+    createCheck('autofinish-1101-iteracija-check', 'Autofinish #1101 Iteracija', `Provera autofinish iteracije #1101 — Unit testovi AlertRulesWidget`, 'ok', `Autofinish #1101 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

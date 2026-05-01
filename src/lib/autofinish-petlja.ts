@@ -791,6 +791,8 @@
  * Autofinish #1099 (GET /api/autofinish-alert-rules — endpoint koji izlaže getAutofinishAlertRules() podatke; rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2180→2182, APP_VERSION 46.19.0→46.20.0)
  *
  * Autofinish #1100 (Dashboard AlertRulesWidget — lista alert pravila po servisima, dupli filter po statusu i severitetu, prag metrika/operator/vrijednost/trajanje, prozori tišine, eskalacioni lanac, aktiviranja7Dana, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2182→2184, APP_VERSION 46.20.0→46.21.0)
+ *
+ * Autofinish #1101 (Unit testovi AlertRulesWidget — filter svi/aktivan/utišan/privremeno_onemogućen, filter severity kritičan/visok/srednji/nizak, dupli filter intersekcia, prag tip/operator/vrijednost/trajanje/jedinica, eskalacije kanal/nivo enum, prozori tišine utišanih, aktiviranja7Dana, poServisima suma=ukupno, kriticnih izračun, poslednjeAktiviranje ISO, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2184→2186, APP_VERSION 46.21.0→46.22.0)
  */
 
 import {
@@ -1389,6 +1391,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1098: 'Unit testovi getAutofinishAlertRules()',
     1099: 'GET /api/autofinish-alert-rules',
     1100: 'Dashboard AlertRulesWidget',
+    1101: 'Unit testovi AlertRulesWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2275,6 +2278,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1098: 'Unit testovi getAutofinishAlertRules()',
     1099: 'GET /api/autofinish-alert-rules',
     1100: 'Dashboard AlertRulesWidget',
+    1101: 'Unit testovi AlertRulesWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2612,6 +2616,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1098: 'Unit testovi getAutofinishAlertRules()',
     1099: 'GET /api/autofinish-alert-rules',
     1100: 'Dashboard AlertRulesWidget',
+    1101: 'Unit testovi AlertRulesWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
