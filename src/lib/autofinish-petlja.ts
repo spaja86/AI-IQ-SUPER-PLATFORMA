@@ -789,6 +789,8 @@
  * Autofinish #1098 (Unit testovi getAutofinishAlertRules() — schema pravila, status/severity enum, prag tip/operator, eskalacije kanal/nivo enum, prozorTišine za utišana pravila, poServisima suma=ukupno, kriticnih izračun, poslednjeAktiviranje ISO, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2178→2180, APP_VERSION 46.18.0→46.19.0)
  *
  * Autofinish #1099 (GET /api/autofinish-alert-rules — endpoint koji izlaže getAutofinishAlertRules() podatke; rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2180→2182, APP_VERSION 46.19.0→46.20.0)
+ *
+ * Autofinish #1100 (Dashboard AlertRulesWidget — lista alert pravila po servisima, dupli filter po statusu i severitetu, prag metrika/operator/vrijednost/trajanje, prozori tišine, eskalacioni lanac, aktiviranja7Dana, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2182→2184, APP_VERSION 46.20.0→46.21.0)
  */
 
 import {
@@ -1386,6 +1388,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1097: 'getAutofinishAlertRules() Helper',
     1098: 'Unit testovi getAutofinishAlertRules()',
     1099: 'GET /api/autofinish-alert-rules',
+    1100: 'Dashboard AlertRulesWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2271,6 +2274,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1097: 'getAutofinishAlertRules() Helper',
     1098: 'Unit testovi getAutofinishAlertRules()',
     1099: 'GET /api/autofinish-alert-rules',
+    1100: 'Dashboard AlertRulesWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2607,6 +2611,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1097: 'getAutofinishAlertRules() Helper',
     1098: 'Unit testovi getAutofinishAlertRules()',
     1099: 'GET /api/autofinish-alert-rules',
+    1100: 'Dashboard AlertRulesWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
