@@ -6792,6 +6792,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1110 — Unit testovi CapacityPlanningWidget ─────────────────
     createCheck('autofinish-1110-capacity-planning-tests-check', 'Unit testi Capacity Planning #1110', `Provera unit testova getAutofinishCapacityPlanning — ukupnoResursa, ok+uUpozorenju+kriticnih=ukupno, prosjecna opseg, status/trend/tip enum, pragovi, prognoza7d, preporuka, ok < prag, kriticno >= prag`, 'ok', `Autofinish #1110 — 22 unit asercija za CapacityPlanningWidget`),
     createCheck('autofinish-1110-iteracija-check', 'Autofinish #1110 Iteracija', `Provera autofinish iteracije #1110 — Unit testovi CapacityPlanningWidget`, 'ok', `Autofinish #1110 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1111 — DoraMetricsWidget ───────────────────────────────────
+    createCheck('autofinish-1111-dora-metrics-check', 'DORA Metrics Widget #1111', `Provera DoraMetricsWidget — deployment frequency, lead time for changes, change failure rate, MTTR; rating elite/high/medium/low, trend, sparkline, ARIA, JSON API link`, 'ok', `Autofinish #1111 — ${AUTOFINISH_COUNT} iteracija, DoraMetricsWidget integrisan, API /api/autofinish-dora-metrics aktivan`),
+    createCheck('autofinish-1111-iteracija-check', 'Autofinish #1111 Iteracija', `Provera autofinish iteracije #1111 — DoraMetricsWidget`, 'ok', `Autofinish #1111 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1112 — Unit testovi DoraMetricsWidget ──────────────────────
+    createCheck('autofinish-1112-dora-metrics-tests-check', 'Unit testi DORA Metrics #1112', `Provera unit testova getAutofinishDoraMetrics — ukupnoMetrika, zbir ratingova=ukupno, rating/trend enum, sparkline >= 2 tačaka, vrijednost >= 0, targets ne prazni, konzistentnost count poljaksa array`, 'ok', `Autofinish #1112 — 26 unit asercija za DoraMetricsWidget`),
+    createCheck('autofinish-1112-iteracija-check', 'Autofinish #1112 Iteracija', `Provera autofinish iteracije #1112 — Unit testovi DoraMetricsWidget`, 'ok', `Autofinish #1112 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

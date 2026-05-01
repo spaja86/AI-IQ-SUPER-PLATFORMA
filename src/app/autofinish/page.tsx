@@ -65,6 +65,7 @@ import {
   getAutofinishAlertRules,
   getAutofinishPostMortem,
   getAutofinishCapacityPlanning,
+  getAutofinishDoraMetrics,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -108,6 +109,7 @@ import { OnCallWidget } from './OnCallWidget';
 import { AlertRulesWidget } from './AlertRulesWidget';
 import { PostMortemWidget } from './PostMortemWidget';
 import { CapacityPlanningWidget } from './CapacityPlanningWidget';
+import { DoraMetricsWidget } from './DoraMetricsWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -191,6 +193,7 @@ export default function AutofinishPage() {
   const alertRules = getAutofinishAlertRules();
   const postMortem = getAutofinishPostMortem();
   const capacityPlanning = getAutofinishCapacityPlanning();
+  const doraMetrics = getAutofinishDoraMetrics();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -818,6 +821,9 @@ export default function AutofinishPage() {
 
         {/* #1109 — Capacity Planning Widget */}
         <CapacityPlanningWidget capacity={capacityPlanning} />
+
+        {/* #1111 — DORA Metrics Widget */}
+        <DoraMetricsWidget dora={doraMetrics} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">

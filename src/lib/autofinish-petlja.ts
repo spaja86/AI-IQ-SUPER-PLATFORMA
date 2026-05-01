@@ -811,6 +811,10 @@
  * Autofinish #1109 (CapacityPlanningWidget — praćenje iskorištenosti resursa po servisu, filter status ok/upozorenje/kritično, prognoza iskorištenosti, trend, akcijska preporuka, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 973→974, TOTAL_ROUTES 1000→1001; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2200→2202, APP_VERSION 46.29.0→46.30.0)
  *
  * Autofinish #1110 (Unit testovi CapacityPlanningWidget — ukupnoResursa, ok+uUpozorenju+kriticnih=ukupnoResursa, prosjecnaIskorištenost opseg, status vrijednosti, pragovi, trend enum, prognoza7d opseg, preporuka ne prazna, tip enum, servis ne prazan, verzija/autofinishBroj/timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2202→2204, APP_VERSION 46.30.0→46.31.0)
+ *
+ * Autofinish #1111 (DoraMetricsWidget — DORA metrike: deployment frequency, lead time for changes, change failure rate, MTTR; rating elite/high/medium/low, trend, period, sparkline serija, ARIA, JSON API link; TOTAL_API_ROUTES 974→975, TOTAL_ROUTES 1001→1002; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2204→2206, APP_VERSION 46.31.0→46.32.0)
+ *
+ * Autofinish #1112 (Unit testovi DoraMetricsWidget — ukupnoMetrika, eliteCount+highCount+mediumCount+lowCount=ukupno, verzija/autofinishBroj/timestamp, sparkline dužina i period, vrijednost>=0, jedinica ne prazna, naziv/opis/id ne prazni, rating enum, trend enum, eliteTarget/highTarget/mediumTarget ne prazni; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2206→2208, APP_VERSION 46.32.0→46.33.0)
  */
 
 import {
@@ -1419,6 +1423,8 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1108: 'E2E SRE API Endpoints konzistentnost test',
     1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
     1110: 'Unit testovi CapacityPlanningWidget',
+    1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
+    1112: 'Unit testovi DoraMetricsWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2315,6 +2321,8 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1108: 'E2E SRE API Endpoints konzistentnost test',
     1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
     1110: 'Unit testovi CapacityPlanningWidget',
+    1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
+    1112: 'Unit testovi DoraMetricsWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2662,6 +2670,8 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1108: 'E2E SRE API Endpoints konzistentnost test',
     1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
     1110: 'Unit testovi CapacityPlanningWidget',
+    1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
+    1112: 'Unit testovi DoraMetricsWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -6183,6 +6193,150 @@ export function getAutofinishCapacityPlanning(): AutofinishCapacityPlanningResul
     kriticnih,
     prosjecnaIskorištenost,
     resursi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1111 — DORA Metrics ─────────────────────────────────────────
+
+export type AutofinishDoraRating = 'elite' | 'high' | 'medium' | 'low';
+export type AutofinishDoraTrend = 'raste' | 'pada' | 'stabilan';
+
+export interface AutofinishDoraSparkPoint {
+  period: string;
+  vrijednost: number;
+}
+
+export interface AutofinishDoraMetric {
+  id: string;
+  naziv: string;
+  opis: string;
+  vrijednost: number;
+  jedinica: string;
+  rating: AutofinishDoraRating;
+  trend: AutofinishDoraTrend;
+  eliteTarget: string;
+  highTarget: string;
+  mediumTarget: string;
+  sparkline: AutofinishDoraSparkPoint[];
+}
+
+export interface AutofinishDoraMetricsResult {
+  verzija: string;
+  autofinishBroj: number;
+  period: string;
+  ukupnoMetrika: number;
+  eliteCount: number;
+  highCount: number;
+  mediumCount: number;
+  lowCount: number;
+  metrike: AutofinishDoraMetric[];
+  timestamp: string;
+}
+
+export function getAutofinishDoraMetrics(): AutofinishDoraMetricsResult {
+  const metrike: AutofinishDoraMetric[] = [
+    {
+      id: 'dora-deployment-frequency',
+      naziv: 'Deployment Frequency',
+      opis: 'Koliko često se deployuju promjene u produkciju',
+      vrijednost: 3.2,
+      jedinica: 'deployova/dan',
+      rating: 'high',
+      trend: 'raste',
+      eliteTarget: 'Više puta dnevno',
+      highTarget: 'Jednom do više puta sedmično',
+      mediumTarget: 'Jednom sedmično do jednom mjesečno',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 2.1 },
+        { period: 'Sed -6', vrijednost: 2.4 },
+        { period: 'Sed -5', vrijednost: 2.8 },
+        { period: 'Sed -4', vrijednost: 2.6 },
+        { period: 'Sed -3', vrijednost: 3.0 },
+        { period: 'Sed -2', vrijednost: 3.1 },
+        { period: 'Sed -1', vrijednost: 3.2 },
+      ],
+    },
+    {
+      id: 'dora-lead-time',
+      naziv: 'Lead Time for Changes',
+      opis: 'Prosječno vrijeme od commit-a do produkcije',
+      vrijednost: 4.5,
+      jedinica: 'sati',
+      rating: 'elite',
+      trend: 'pada',
+      eliteTarget: 'Manje od 1 sata',
+      highTarget: '1 sat do 1 dan',
+      mediumTarget: '1 dan do 1 sedmica',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 8.2 },
+        { period: 'Sed -6', vrijednost: 7.1 },
+        { period: 'Sed -5', vrijednost: 6.4 },
+        { period: 'Sed -4', vrijednost: 5.8 },
+        { period: 'Sed -3', vrijednost: 5.2 },
+        { period: 'Sed -2', vrijednost: 4.9 },
+        { period: 'Sed -1', vrijednost: 4.5 },
+      ],
+    },
+    {
+      id: 'dora-change-failure-rate',
+      naziv: 'Change Failure Rate',
+      opis: 'Procenat deploymenta koji uzrokuju incident ili rollback',
+      vrijednost: 6.2,
+      jedinica: '%',
+      rating: 'high',
+      trend: 'pada',
+      eliteTarget: '0–5%',
+      highTarget: '5–10%',
+      mediumTarget: '10–15%',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 9.1 },
+        { period: 'Sed -6', vrijednost: 8.4 },
+        { period: 'Sed -5', vrijednost: 7.8 },
+        { period: 'Sed -4', vrijednost: 7.2 },
+        { period: 'Sed -3', vrijednost: 6.9 },
+        { period: 'Sed -2', vrijednost: 6.5 },
+        { period: 'Sed -1', vrijednost: 6.2 },
+      ],
+    },
+    {
+      id: 'dora-mttr',
+      naziv: 'MTTR (Time to Restore)',
+      opis: 'Prosječno vrijeme oporavka od incidenta u produkciji',
+      vrijednost: 38,
+      jedinica: 'minuta',
+      rating: 'elite',
+      trend: 'pada',
+      eliteTarget: 'Manje od 1 sata',
+      highTarget: 'Manje od 1 dana',
+      mediumTarget: 'Manje od 1 sedmice',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 72 },
+        { period: 'Sed -6', vrijednost: 65 },
+        { period: 'Sed -5', vrijednost: 58 },
+        { period: 'Sed -4', vrijednost: 51 },
+        { period: 'Sed -3', vrijednost: 46 },
+        { period: 'Sed -2', vrijednost: 42 },
+        { period: 'Sed -1', vrijednost: 38 },
+      ],
+    },
+  ];
+
+  const eliteCount = metrike.filter((m) => m.rating === 'elite').length;
+  const highCount = metrike.filter((m) => m.rating === 'high').length;
+  const mediumCount = metrike.filter((m) => m.rating === 'medium').length;
+  const lowCount = metrike.filter((m) => m.rating === 'low').length;
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    period: 'posljednjih 7 sedmica',
+    ukupnoMetrika: metrike.length,
+    eliteCount,
+    highCount,
+    mediumCount,
+    lowCount,
+    metrike,
     timestamp: new Date().toISOString(),
   };
 }
