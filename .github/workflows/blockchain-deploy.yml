@@ -1,0 +1,65 @@
+name: 🔗 Deploy AIIQWorldBank Pametni Ugovor
+
+# Pokreće se ručno — kliknite "Run workflow" na GitHub Actions stranici
+# i izaberite mrežu (amoy = besplatno testiranje, polygon = produkcija)
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: 'Mreža za deploy'
+        required: true
+        default: 'amoy'
+        type: choice
+        options:
+          - amoy
+          - polygon
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy na ${{ github.event.inputs.network }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Preuzmi kod
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Postavi Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📦 Instaliraj zavisnosti
+        run: npm ci --legacy-peer-deps
+
+      - name: 🔨 Kompajliraj ugovor
+        run: npx hardhat compile
+
+      - name: 🚀 Deploya ugovor na ${{ github.event.inputs.network }}
+        env:
+          DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+          POLYGON_RPC_URL: ${{ secrets.POLYGON_RPC_URL || 'https://polygon-rpc.com' }}
+          POLYGON_AMOY_RPC_URL: ${{ secrets.POLYGON_AMOY_RPC_URL || 'https://rpc-amoy.polygon.technology' }}
+          POLYGONSCAN_API_KEY: ${{ secrets.POLYGONSCAN_API_KEY }}
+        run: npx hardhat run scripts/deploy.ts --network ${{ github.event.inputs.network }}
+
+      - name: 📋 Prikaži deployovanu adresu
+        run: |
+          if [ -f .env.deployed ]; then
+            echo "## ✅ Ugovor uspešno deployovan!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Mreža:** ${{ github.event.inputs.network }}" >> $GITHUB_STEP_SUMMARY
+            ADDR=$(grep "NEXT_PUBLIC_CONTRACT_ADDRESS" .env.deployed | cut -d'=' -f2)
+            echo "**Adresa:** $ADDR" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ github.event.inputs.network }}" = "amoy" ]; then
+              echo "**Explorer:** https://amoy.polygonscan.com/address/$ADDR" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "**Explorer:** https://polygonscan.com/address/$ADDR" >> $GITHUB_STEP_SUMMARY
+            fi
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**📋 Sledeci korak:** Postavite \`NEXT_PUBLIC_CONTRACT_ADDRESS=$ADDR\` u Cloudflare Pages Environment Variables" >> $GITHUB_STEP_SUMMARY
+          fi

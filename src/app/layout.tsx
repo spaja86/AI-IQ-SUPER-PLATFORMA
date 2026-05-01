@@ -7,8 +7,6 @@ import OmegaAuthProvider from '@/components/OmegaAuthProvider';
 import PWARegistration from '@/components/PWARegistration';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og`;
 
@@ -151,8 +149,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <AiAsistentWrapper />
         <PWARegistration />
-        <Analytics />
-        <SpeedInsights />
+        {/* Cloudflare Web Analytics — aktiviraj u CF Dashboard → Analytics → Web Analytics */}
       </body>
     </html>
   );
