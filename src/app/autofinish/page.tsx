@@ -64,6 +64,7 @@ import {
   getAutofinishOnCall,
   getAutofinishAlertRules,
   getAutofinishPostMortem,
+  getAutofinishCapacityPlanning,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -106,6 +107,7 @@ import { RunbookWidget } from './RunbookWidget';
 import { OnCallWidget } from './OnCallWidget';
 import { AlertRulesWidget } from './AlertRulesWidget';
 import { PostMortemWidget } from './PostMortemWidget';
+import { CapacityPlanningWidget } from './CapacityPlanningWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -188,6 +190,7 @@ export default function AutofinishPage() {
   const onCall = getAutofinishOnCall();
   const alertRules = getAutofinishAlertRules();
   const postMortem = getAutofinishPostMortem();
+  const capacityPlanning = getAutofinishCapacityPlanning();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -812,6 +815,9 @@ export default function AutofinishPage() {
 
         {/* #1105 — Post-mortem Widget */}
         <PostMortemWidget postMortem={postMortem} />
+
+        {/* #1109 — Capacity Planning Widget */}
+        <CapacityPlanningWidget capacity={capacityPlanning} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">

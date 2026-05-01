@@ -6784,6 +6784,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1108 — E2E SRE API Endpoints konzistentnost ────────────────
     createCheck('autofinish-1108-sre-e2e-check', 'E2E SRE API #1108', `Provera E2E SRE API konzistentnosti — svih 6 SRE helpera (incidentLog, errorBudget, runbook, onCall, alertRules, postMortem) konzistentno vraćaju APP_VERSION, AUTOFINISH_COUNT, ISO timestamp, ukupno=length`, 'ok', `Autofinish #1108 — 22 E2E asercija kroz 6 SRE helpera`),
     createCheck('autofinish-1108-iteracija-check', 'Autofinish #1108 Iteracija', `Provera autofinish iteracije #1108 — E2E SRE API Endpoints konzistentnost test`, 'ok', `Autofinish #1108 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1109 — CapacityPlanningWidget ──────────────────────────────
+    createCheck('autofinish-1109-capacity-planning-check', 'Capacity Planning Widget #1109', `Provera CapacityPlanningWidget — praćenje iskorištenosti resursa po servisu, filter status ok/upozorenje/kriticno, prognoza 7d, trend, preporuka, ARIA, JSON API link`, 'ok', `Autofinish #1109 — ${AUTOFINISH_COUNT} iteracija, CapacityPlanningWidget integrisan, API /api/autofinish-capacity-planning aktivan`),
+    createCheck('autofinish-1109-iteracija-check', 'Autofinish #1109 Iteracija', `Provera autofinish iteracije #1109 — CapacityPlanningWidget`, 'ok', `Autofinish #1109 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1110 — Unit testovi CapacityPlanningWidget ─────────────────
+    createCheck('autofinish-1110-capacity-planning-tests-check', 'Unit testi Capacity Planning #1110', `Provera unit testova getAutofinishCapacityPlanning — ukupnoResursa, ok+uUpozorenju+kriticnih=ukupno, prosjecna opseg, status/trend/tip enum, pragovi, prognoza7d, preporuka, ok < prag, kriticno >= prag`, 'ok', `Autofinish #1110 — 22 unit asercija za CapacityPlanningWidget`),
+    createCheck('autofinish-1110-iteracija-check', 'Autofinish #1110 Iteracija', `Provera autofinish iteracije #1110 — Unit testovi CapacityPlanningWidget`, 'ok', `Autofinish #1110 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

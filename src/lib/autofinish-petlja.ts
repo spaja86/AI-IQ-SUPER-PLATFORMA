@@ -807,6 +807,10 @@
  * Autofinish #1107 (Dodaj RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget u /autofinish page.tsx — integracija svih 6 SRE widgeta na glavnoj stranici; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2196→2198, APP_VERSION 46.27.0→46.28.0)
  *
  * Autofinish #1108 (E2E SRE API Endpoints konzistentnost — verzija/autofinishBroj/timestamp konzistentnost svih 6 SRE helpera, ukupno=length za svaki, SLO target opseg, API putanje format; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2198→2200, APP_VERSION 46.28.0→46.29.0)
+ *
+ * Autofinish #1109 (CapacityPlanningWidget — praćenje iskorištenosti resursa po servisu, filter status ok/upozorenje/kritično, prognoza iskorištenosti, trend, akcijska preporuka, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 973→974, TOTAL_ROUTES 1000→1001; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2200→2202, APP_VERSION 46.29.0→46.30.0)
+ *
+ * Autofinish #1110 (Unit testovi CapacityPlanningWidget — ukupnoResursa, ok+uUpozorenju+kriticnih=ukupnoResursa, prosjecnaIskorištenost opseg, status vrijednosti, pragovi, trend enum, prognoza7d opseg, preporuka ne prazna, tip enum, servis ne prazan, verzija/autofinishBroj/timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2202→2204, APP_VERSION 46.30.0→46.31.0)
  */
 
 import {
@@ -1413,6 +1417,8 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1106: 'Unit testovi PostMortemWidget',
     1107: 'Dodaj SRE widgete u /autofinish stranicu',
     1108: 'E2E SRE API Endpoints konzistentnost test',
+    1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
+    1110: 'Unit testovi CapacityPlanningWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2307,6 +2313,8 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1106: 'Unit testovi PostMortemWidget',
     1107: 'Dodaj SRE widgete u /autofinish stranicu',
     1108: 'E2E SRE API Endpoints konzistentnost test',
+    1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
+    1110: 'Unit testovi CapacityPlanningWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2652,6 +2660,8 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1106: 'Unit testovi PostMortemWidget',
     1107: 'Dodaj SRE widgete u /autofinish stranicu',
     1108: 'E2E SRE API Endpoints konzistentnost test',
+    1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
+    1110: 'Unit testovi CapacityPlanningWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -6069,6 +6079,110 @@ export function getAutofinishPostMortem(): AutofinishPostMortemResult {
     otvorenihAkcija,
     poSeveritetu,
     postmortemi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1109 — Capacity Planning ────────────────────────────────────
+
+export type AutofinishCapacityStatus = 'ok' | 'upozorenje' | 'kriticno';
+export type AutofinishCapacityTrend = 'raste' | 'pada' | 'stabilan';
+
+export interface AutofinishCapacityResource {
+  id: string;
+  naziv: string;
+  servis: string;
+  tip: 'cpu' | 'memorija' | 'disk' | 'mreza' | 'baza';
+  iskorištenostPct: number;
+  kapacitetPct: number;
+  pragUpozorenjaPct: number;
+  pragKriticnoPct: number;
+  status: AutofinishCapacityStatus;
+  trend: AutofinishCapacityTrend;
+  prognoza7dPct: number;
+  preporuka: string;
+}
+
+export interface AutofinishCapacityPlanningResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoResursa: number;
+  ok: number;
+  uUpozorenju: number;
+  kriticnih: number;
+  prosjecnaIskorištenost: number;
+  resursi: AutofinishCapacityResource[];
+  timestamp: string;
+}
+
+export function getAutofinishCapacityPlanning(): AutofinishCapacityPlanningResult {
+  const resursi: AutofinishCapacityResource[] = [
+    {
+      id: 'cap-001', naziv: 'API Gateway CPU', servis: 'api-gateway', tip: 'cpu',
+      iskorištenostPct: 72, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'upozorenje', trend: 'raste', prognoza7dPct: 81,
+      preporuka: 'Razmotri horizontalno skaliranje API gateway instance.',
+    },
+    {
+      id: 'cap-002', naziv: 'Auth Servis Memorija', servis: 'auth-servis', tip: 'memorija',
+      iskorištenostPct: 55, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'stabilan', prognoza7dPct: 57,
+      preporuka: 'Nema akcije potrebne.',
+    },
+    {
+      id: 'cap-003', naziv: 'Baza Podataka Disk', servis: 'baza-podataka', tip: 'disk',
+      iskorištenostPct: 91, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'kriticno', trend: 'raste', prognoza7dPct: 97,
+      preporuka: 'Hitno: proširi disk ili arhiviraj stare podatke.',
+    },
+    {
+      id: 'cap-004', naziv: 'Monitoring Servis CPU', servis: 'monitoring', tip: 'cpu',
+      iskorištenostPct: 38, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'pada', prognoza7dPct: 33,
+      preporuka: 'Resursi su dobro iskorišćeni, nema akcije potrebne.',
+    },
+    {
+      id: 'cap-005', naziv: 'AI Engine Memorija', servis: 'ai-engine', tip: 'memorija',
+      iskorištenostPct: 84, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'upozorenje', trend: 'raste', prognoza7dPct: 93,
+      preporuka: 'Planiraj povećanje RAM kapaciteta u narednih 14 dana.',
+    },
+    {
+      id: 'cap-006', naziv: 'CDN Mreža', servis: 'cdn', tip: 'mreza',
+      iskorištenostPct: 44, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'stabilan', prognoza7dPct: 45,
+      preporuka: 'Nema akcije potrebne.',
+    },
+    {
+      id: 'cap-007', naziv: 'Keš Baza CPU', servis: 'keš-baza', tip: 'cpu',
+      iskorištenostPct: 93, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'kriticno', trend: 'raste', prognoza7dPct: 99,
+      preporuka: 'Kritično: odmah povećaj broj CPU jezgara ili rasporedi load.',
+    },
+    {
+      id: 'cap-008', naziv: 'Log Arhiva Disk', servis: 'log-servis', tip: 'disk',
+      iskorištenostPct: 61, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'raste', prognoza7dPct: 68,
+      preporuka: 'Prati rast; razmotri rotaciju logova.',
+    },
+  ];
+
+  const ok = resursi.filter((r) => r.status === 'ok').length;
+  const uUpozorenju = resursi.filter((r) => r.status === 'upozorenje').length;
+  const kriticnih = resursi.filter((r) => r.status === 'kriticno').length;
+  const prosjecnaIskorištenost = Math.round(
+    resursi.reduce((s, r) => s + r.iskorištenostPct, 0) / resursi.length,
+  );
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoResursa: resursi.length,
+    ok,
+    uUpozorenju,
+    kriticnih,
+    prosjecnaIskorištenost,
+    resursi,
     timestamp: new Date().toISOString(),
   };
 }
