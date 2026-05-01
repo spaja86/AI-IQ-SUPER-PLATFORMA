@@ -773,6 +773,8 @@
  * Autofinish #1090 (Dashboard RunbookWidget — runbook lista, filter po prioritetu P1-P4, detalji koraka, vlasnik badge, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2162→2164, APP_VERSION 46.10.0→46.11.0)
  *
  * Autofinish #1091 (Unit testovi RunbookWidget — filter P1-P4, zbir prioriteta, naziv/servis/vlasnik, koraci expand, tagovi, JSON API link, pokriveniServisi konzistentnost, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2164→2166, APP_VERSION 46.11.0→46.12.0)
+ *
+ * Autofinish #1092 (getAutofinishOnCall() Helper — on-call rasporedi po timu, aktivna smjena, eskalacioni nivo, rotacija, kontakti; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2166→2168, APP_VERSION 46.12.0→46.13.0)
  */
 
 import {
@@ -1362,6 +1364,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1089: 'GET /api/autofinish-runbook endpoint',
     1090: 'Dashboard RunbookWidget',
     1091: 'Unit testovi RunbookWidget',
+    1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2239,6 +2242,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1089: 'GET /api/autofinish-runbook endpoint',
     1090: 'Dashboard RunbookWidget',
     1091: 'Unit testovi RunbookWidget',
+    1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2567,6 +2571,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1089: 'GET /api/autofinish-runbook endpoint',
     1090: 'Dashboard RunbookWidget',
     1091: 'Unit testovi RunbookWidget',
+    1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -5395,6 +5400,225 @@ export function getAutofinishRunbook(): AutofinishRunbookResult {
     arhiviranih,
     pokriveniServisi,
     runbooki,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishOnCall() (#1092) ───────────────────────────────────────────
+
+export type AutofinishOnCallNivo = 'L1' | 'L2' | 'L3';
+export type AutofinishOnCallStatus = 'aktivan' | 'rezerva' | 'slobodan';
+
+export interface AutofinishOnCallKontakt {
+  kanal: 'slack' | 'email' | 'pager' | 'telefon';
+  vrijednost: string;
+}
+
+export interface AutofinishOnCallClan {
+  id: string;
+  ime: string;
+  tim: string;
+  nivo: AutofinishOnCallNivo;
+  status: AutofinishOnCallStatus;
+  smjenaOd: string;
+  smjenaDo: string;
+  kontakti: AutofinishOnCallKontakt[];
+  otvoreniIncidenti: number;
+  ukupnoSmjena: number;
+}
+
+export interface AutofinishOnCallTim {
+  id: string;
+  naziv: string;
+  opis: string;
+  aktivniClan: string;
+  rezervniClan: string;
+  rotacijaDani: number;
+  eskalacijaNakon: number;
+  clanovi: AutofinishOnCallClan[];
+}
+
+export interface AutofinishOnCallResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoTimova: number;
+  ukupnoClanova: number;
+  aktivnih: number;
+  uRezervi: number;
+  slobodnih: number;
+  ukupnoOtvorenihIncidenata: number;
+  timovi: AutofinishOnCallTim[];
+  timestamp: string;
+}
+
+/**
+ * Vraća on-call rasporede po timovima — aktivne smjene, eskalacioni nivoi, kontakti.
+ *
+ * @returns AutofinishOnCallResult
+ */
+export function getAutofinishOnCall(): AutofinishOnCallResult {
+  const timovi: AutofinishOnCallTim[] = [
+    {
+      id: 'sre-core',
+      naziv: 'SRE Core',
+      opis: 'Odgovorni za infrastrukturu, deploymente i dostupnost platforme',
+      aktivniClan: 'ana-kovac',
+      rezervniClan: 'marko-petrovic',
+      rotacijaDani: 7,
+      eskalacijaNakon: 15,
+      clanovi: [
+        {
+          id: 'ana-kovac',
+          ime: 'Ana Kovač',
+          tim: 'SRE Core',
+          nivo: 'L1',
+          status: 'aktivan',
+          smjenaOd: '2026-04-28T08:00:00Z',
+          smjenaDo: '2026-05-05T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@ana.kovac' },
+            { kanal: 'pager', vrijednost: '+387-61-100-200' },
+            { kanal: 'email', vrijednost: 'ana.kovac@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 1,
+          ukupnoSmjena: 24,
+        },
+        {
+          id: 'marko-petrovic',
+          ime: 'Marko Petrović',
+          tim: 'SRE Core',
+          nivo: 'L2',
+          status: 'rezerva',
+          smjenaOd: '2026-05-05T08:00:00Z',
+          smjenaDo: '2026-05-12T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@marko.petrovic' },
+            { kanal: 'pager', vrijednost: '+387-61-200-300' },
+            { kanal: 'email', vrijednost: 'marko.petrovic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 31,
+        },
+        {
+          id: 'leila-hadzic',
+          ime: 'Leila Hadžić',
+          tim: 'SRE Core',
+          nivo: 'L3',
+          status: 'slobodan',
+          smjenaOd: '2026-05-12T08:00:00Z',
+          smjenaDo: '2026-05-19T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@leila.hadzic' },
+            { kanal: 'email', vrijednost: 'leila.hadzic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 18,
+        },
+      ],
+    },
+    {
+      id: 'backend-api',
+      naziv: 'Backend API',
+      opis: 'Odgovorni za autofinish API suite i integracije',
+      aktivniClan: 'damir-sehic',
+      rezervniClan: 'ivana-juric',
+      rotacijaDani: 7,
+      eskalacijaNakon: 10,
+      clanovi: [
+        {
+          id: 'damir-sehic',
+          ime: 'Damir Šehić',
+          tim: 'Backend API',
+          nivo: 'L1',
+          status: 'aktivan',
+          smjenaOd: '2026-04-29T08:00:00Z',
+          smjenaDo: '2026-05-06T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@damir.sehic' },
+            { kanal: 'pager', vrijednost: '+387-62-300-400' },
+            { kanal: 'email', vrijednost: 'damir.sehic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 2,
+          ukupnoSmjena: 19,
+        },
+        {
+          id: 'ivana-juric',
+          ime: 'Ivana Jurić',
+          tim: 'Backend API',
+          nivo: 'L2',
+          status: 'rezerva',
+          smjenaOd: '2026-05-06T08:00:00Z',
+          smjenaDo: '2026-05-13T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@ivana.juric' },
+            { kanal: 'telefon', vrijednost: '+387-62-400-500' },
+            { kanal: 'email', vrijednost: 'ivana.juric@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 22,
+        },
+      ],
+    },
+    {
+      id: 'ai-engine',
+      naziv: 'AI Engine',
+      opis: 'Odgovorni za AI/ML modele, OpenAI integraciju i caching sloj',
+      aktivniClan: 'stefan-lukic',
+      rezervniClan: 'nina-boric',
+      rotacijaDani: 14,
+      eskalacijaNakon: 20,
+      clanovi: [
+        {
+          id: 'stefan-lukic',
+          ime: 'Stefan Lukić',
+          tim: 'AI Engine',
+          nivo: 'L1',
+          status: 'aktivan',
+          smjenaOd: '2026-04-25T08:00:00Z',
+          smjenaDo: '2026-05-09T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@stefan.lukic' },
+            { kanal: 'pager', vrijednost: '+387-63-500-600' },
+            { kanal: 'email', vrijednost: 'stefan.lukic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 15,
+        },
+        {
+          id: 'nina-boric',
+          ime: 'Nina Borić',
+          tim: 'AI Engine',
+          nivo: 'L1',
+          status: 'rezerva',
+          smjenaOd: '2026-05-09T08:00:00Z',
+          smjenaDo: '2026-05-23T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@nina.boric' },
+            { kanal: 'email', vrijednost: 'nina.boric@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 12,
+        },
+      ],
+    },
+  ];
+
+  const sviClanovi = timovi.flatMap((t) => t.clanovi);
+  const aktivnih = sviClanovi.filter((c) => c.status === 'aktivan').length;
+  const uRezervi = sviClanovi.filter((c) => c.status === 'rezerva').length;
+  const slobodnih = sviClanovi.filter((c) => c.status === 'slobodan').length;
+  const ukupnoOtvorenihIncidenata = sviClanovi.reduce((s, c) => s + c.otvoreniIncidenti, 0);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoTimova: timovi.length,
+    ukupnoClanova: sviClanovi.length,
+    aktivnih,
+    uRezervi,
+    slobodnih,
+    ukupnoOtvorenihIncidenata,
+    timovi,
     timestamp: new Date().toISOString(),
   };
 }

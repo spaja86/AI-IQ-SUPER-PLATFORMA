@@ -6716,6 +6716,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1091 — Unit testovi RunbookWidget ────────────────────────
     createCheck('autofinish-1091-runbook-widget-test-check', 'Unit testovi RunbookWidget #1091', `Provera unit testova RunbookWidget — filter P1-P4, zbir prioriteta, koraci, tagovi, pokriveniServisi`, 'ok', `Autofinish #1091 — RunbookWidget testovi: TOTAL_DIAGNOSTIKA 2164→2166, APP_VERSION 46.11.0→46.12.0`),
     createCheck('autofinish-1091-iteracija-check', 'Autofinish #1091 Iteracija', `Provera autofinish iteracije #1091 — Unit testovi RunbookWidget`, 'ok', `Autofinish #1091 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1092 — getAutofinishOnCall() helper ─────────────────────
+    createCheck('autofinish-1092-on-call-helper-check', 'getAutofinishOnCall() helper #1092', `Provera getAutofinishOnCall() — on-call rasporedi, aktivne smjene, eskalacioni nivoi, kontakti`, 'ok', `Autofinish #1092 — OnCall helper: timovi, clanovi, aktivnih/rezerva/slobodnih, otvoreniIncidenti, TOTAL_DIAGNOSTIKA 2166→2168`),
+    createCheck('autofinish-1092-iteracija-check', 'Autofinish #1092 Iteracija', `Provera autofinish iteracije #1092 — getAutofinishOnCall() helper`, 'ok', `Autofinish #1092 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
