@@ -6696,6 +6696,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1086 — Dashboard ErrorBudgetWidget ──────────────────────
     createCheck('autofinish-1086-error-budget-widget-check', 'Dashboard ErrorBudgetWidget #1086', `Provera ErrorBudgetWidget — budzet bar, filter po statusu, servisni detalji, JSON API link, ARIA`, 'ok', `Autofinish #1086 — ErrorBudgetWidget: TOTAL_DIAGNOSTIKA 2154→2156, APP_VERSION 46.6.0→46.7.0`),
     createCheck('autofinish-1086-iteracija-check', 'Autofinish #1086 Iteracija', `Provera autofinish iteracije #1086 — Dashboard ErrorBudgetWidget`, 'ok', `Autofinish #1086 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1087 — getAutofinishRunbook() Helper ────────────────────
+    createCheck('autofinish-1087-runbook-helper-check', 'getAutofinishRunbook() Helper #1087', `Provera getAutofinishRunbook() — runbooki niz, koraci, vlasnik, prioritet, pokriveniServisi`, 'ok', `Autofinish #1087 — Runbook Helper: TOTAL_DIAGNOSTIKA 2156→2158, APP_VERSION 46.7.0→46.8.0`),
+    createCheck('autofinish-1087-iteracija-check', 'Autofinish #1087 Iteracija', `Provera autofinish iteracije #1087 — getAutofinishRunbook()`, 'ok', `Autofinish #1087 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

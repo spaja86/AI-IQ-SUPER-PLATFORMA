@@ -763,6 +763,8 @@
  * Autofinish #1085 (GET /api/autofinish-error-budget — rate-limit, Cache-Control s-maxage=300, X-App-Version, X-Autofinish-Iteracija headers; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2152→2154, APP_VERSION 46.5.0→46.6.0)
  *
  * Autofinish #1086 (Dashboard ErrorBudgetWidget — budget bar vizualizacija, filter po statusu, servisni detalji, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2154→2156, APP_VERSION 46.6.0→46.7.0)
+ *
+ * Autofinish #1087 (getAutofinishRunbook() Helper — runbook po servisima i incidentima, koraci za rješavanje, vlasnik, prioritet, SRE metrika; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2156→2158, APP_VERSION 46.7.0→46.8.0)
  */
 
 import {
@@ -1347,6 +1349,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1084: 'Unit testovi getAutofinishErrorBudget()',
     1085: 'GET /api/autofinish-error-budget',
     1086: 'Dashboard ErrorBudgetWidget',
+    1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2219,6 +2222,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1084: 'Unit testovi getAutofinishErrorBudget()',
     1085: 'GET /api/autofinish-error-budget',
     1086: 'Dashboard ErrorBudgetWidget',
+    1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2542,6 +2546,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1084: 'Unit testovi getAutofinishErrorBudget()',
     1085: 'GET /api/autofinish-error-budget',
     1086: 'Dashboard ErrorBudgetWidget',
+    1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -5188,6 +5193,188 @@ export function getAutofinishErrorBudget(): AutofinishErrorBudgetResult {
     iscrpljenih,
     prosjecnaPotrosenjaOst,
     servisi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishRunbook() (#1087) ──────────────────────────────────────────
+
+export type AutofinishRunbookPrioritet = 'P1' | 'P2' | 'P3' | 'P4';
+export type AutofinishRunbookStatus = 'aktivan' | 'u-reviziji' | 'zastarjeo' | 'arhiviran';
+
+export interface AutofinishRunbookKorak {
+  redni: number;
+  opis: string;
+  komanda?: string;
+  napomena?: string;
+}
+
+export interface AutofinishRunbookUnos {
+  id: string;
+  naziv: string;
+  servis: string;
+  prioritet: AutofinishRunbookPrioritet;
+  status: AutofinishRunbookStatus;
+  vlasnik: string;
+  okidac: string;
+  koraci: AutofinishRunbookKorak[];
+  prosjecnoVrijemeMin: number;
+  zadnjaRevizija: string;
+  tagovi: string[];
+}
+
+export interface AutofinishRunbookResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoRunbooka: number;
+  aktivnih: number;
+  uReviziji: number;
+  zastarjelih: number;
+  arhiviranih: number;
+  pokriveniServisi: string[];
+  runbooki: AutofinishRunbookUnos[];
+  timestamp: string;
+}
+
+/**
+ * Vraća runbook biblioteku — koraci za rješavanje incidenata po servisima.
+ *
+ * @returns AutofinishRunbookResult
+ */
+export function getAutofinishRunbook(): AutofinishRunbookResult {
+  const runbooki: AutofinishRunbookUnos[] = [
+    {
+      id: 'rb-api-gateway-down',
+      naziv: 'API Gateway nedostupan',
+      servis: 'API Gateway',
+      prioritet: 'P1',
+      status: 'aktivan',
+      vlasnik: 'SRE Tim',
+      okidac: 'HTTP 502/503 na / ili /health, uptime monitor alarm',
+      koraci: [
+        { redni: 1, opis: 'Provjeri status API Gateway instance', komanda: 'curl -s https://ai-iq-super-platforma.vercel.app/api/autofinish-health-stream' },
+        { redni: 2, opis: 'Provjeri Vercel deployment logs za greške' },
+        { redni: 3, opis: 'Provjeri rate-limit konfiguraciju — moguće blokiranje legitimnih zahtjeva', napomena: 'Pogledaj Redis TTL za rate-limit ključeve' },
+        { redni: 4, opis: 'Restart deployment ako logs pokazuju crash loop', komanda: 'vercel --prod --force' },
+        { redni: 5, opis: 'Obavijesti on-call tim i otvori incident u sistemu' },
+      ],
+      prosjecnoVrijemeMin: 15,
+      zadnjaRevizija: '2026-04-20',
+      tagovi: ['gateway', 'availability', 'P1'],
+    },
+    {
+      id: 'rb-ai-engine-timeout',
+      naziv: 'AI Engine timeout / visoka latencija',
+      servis: 'AI Engine (OpenAI)',
+      prioritet: 'P1',
+      status: 'aktivan',
+      vlasnik: 'AI Tim',
+      okidac: 'p99 latencija > 10s, OpenAI 429 ili 503 greške',
+      koraci: [
+        { redni: 1, opis: 'Provjeri OpenAI status stranicu', komanda: 'curl -s https://status.openai.com/api/v2/status.json' },
+        { redni: 2, opis: 'Provjeri error rate na /api/spaja-chat i /api/spaja-pro/*' },
+        { redni: 3, opis: 'Aktiviraj fallback model konfiguraciju (gpt-4o-mini umjesto gpt-4o)', napomena: 'Izmjeni AI_MODEL env var u Vercel dashboard' },
+        { redni: 4, opis: 'Smanji max_tokens na 2048 dok incident traje' },
+        { redni: 5, opis: 'Obavijesti korisnike putem status banera' },
+      ],
+      prosjecnoVrijemeMin: 20,
+      zadnjaRevizija: '2026-04-25',
+      tagovi: ['ai', 'openai', 'latencija', 'P1'],
+    },
+    {
+      id: 'rb-redis-cache-miss',
+      naziv: 'Redis Cache promašaji / nedostupnost',
+      servis: 'Redis Cache',
+      prioritet: 'P2',
+      status: 'aktivan',
+      vlasnik: 'Infra Tim',
+      okidac: 'Cache hit rate < 60%, Redis CONNECTION_REFUSED greška',
+      koraci: [
+        { redni: 1, opis: 'Provjeri Redis health endpoint', komanda: 'redis-cli ping' },
+        { redni: 2, opis: 'Provjeri memorijsku upotrebu Redis instance', komanda: 'redis-cli info memory | grep used_memory_human' },
+        { redni: 3, opis: 'Flush stale ključeve ako memorija > 80%', komanda: 'redis-cli --scan --pattern "ratelimit:*" | xargs redis-cli del', napomena: 'Oprez — ne brisati session ključeve' },
+        { redni: 4, opis: 'Restart Redis ako ne odgovara' },
+        { redni: 5, opis: 'Aplikacija radi degradirano bez cache — prati latenciju API ruta' },
+      ],
+      prosjecnoVrijemeMin: 10,
+      zadnjaRevizija: '2026-04-18',
+      tagovi: ['redis', 'cache', 'performance', 'P2'],
+    },
+    {
+      id: 'rb-dijagnostika-degradacija',
+      naziv: 'Dijagnostički sistem — zdravlje ispod 90%',
+      servis: 'Dijagnostički Sistem',
+      prioritet: 'P2',
+      status: 'aktivan',
+      vlasnik: 'Platform Tim',
+      okidac: 'zdravlje < 90% na /api/auto-repair ili dijagnostike.ts greška',
+      koraci: [
+        { redni: 1, opis: 'Provjeri /api/auto-repair endpoint i zabilježi greške' },
+        { redni: 2, opis: 'Identificiraj koje createCheck stavke imaju status error ili critical' },
+        { redni: 3, opis: 'Provjeri konzistentnost AUTOFINISH_COUNT, APP_VERSION i TOTAL_DIAGNOSTIKA u constants.ts' },
+        { redni: 4, opis: 'Pokreni lokalni build i testove', komanda: 'npm run build && npm test' },
+        { redni: 5, opis: 'Deploy fix i potvrdi recovery' },
+      ],
+      prosjecnoVrijemeMin: 30,
+      zadnjaRevizija: '2026-04-22',
+      tagovi: ['dijagnostika', 'platform', 'zdravlje', 'P2'],
+    },
+    {
+      id: 'rb-frontend-build-fail',
+      naziv: 'Frontend build / deploy neuspješan',
+      servis: 'Frontend (Next.js)',
+      prioritet: 'P2',
+      status: 'aktivan',
+      vlasnik: 'Frontend Tim',
+      okidac: 'Vercel build error, TypeScript compile greška, broken import',
+      koraci: [
+        { redni: 1, opis: 'Provjeri Vercel build logs za tačnu grešku' },
+        { redni: 2, opis: 'Lokalno pokreni type-check', komanda: 'npx tsc --noEmit' },
+        { redni: 3, opis: 'Provjeri da li su novi export/import konzistentni' },
+        { redni: 4, opis: 'Rollback na prethodni deployment ako fix nije hitan', komanda: 'vercel rollback' },
+        { redni: 5, opis: 'Fix greške i repush' },
+      ],
+      prosjecnoVrijemeMin: 25,
+      zadnjaRevizija: '2026-04-28',
+      tagovi: ['frontend', 'build', 'deploy', 'P2'],
+    },
+    {
+      id: 'rb-error-budget-iscrpljen',
+      naziv: 'Error budget iscrpljen — SLO prekršen',
+      servis: 'Autofinish API Suite',
+      prioritet: 'P3',
+      status: 'aktivan',
+      vlasnik: 'SRE Tim',
+      okidac: 'potrosenoPct >= 100 ili status === iscrpljen na /api/autofinish-error-budget',
+      koraci: [
+        { redni: 1, opis: 'Identificiraj servis s iscrpljenim budžetom na /api/autofinish-error-budget' },
+        { redni: 2, opis: 'Provjeri incident log za uzrok', napomena: 'Koristi /api/autofinish-incident-log' },
+        { redni: 3, opis: 'Zamrzni ne-hitne deploymente za pogođeni servis' },
+        { redni: 4, opis: 'Pripremi postmortem dokument' },
+        { redni: 5, opis: 'Odobri nastavak tek kad error budget obnovljen (novi prozor)' },
+      ],
+      prosjecnoVrijemeMin: 45,
+      zadnjaRevizija: '2026-04-30',
+      tagovi: ['slo', 'error-budget', 'postmortem', 'P3'],
+    },
+  ];
+
+  const aktivnih = runbooki.filter((r) => r.status === 'aktivan').length;
+  const uReviziji = runbooki.filter((r) => r.status === 'u-reviziji').length;
+  const zastarjelih = runbooki.filter((r) => r.status === 'zastarjeo').length;
+  const arhiviranih = runbooki.filter((r) => r.status === 'arhiviran').length;
+  const pokriveniServisi = [...new Set(runbooki.map((r) => r.servis))];
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoRunbooka: runbooki.length,
+    aktivnih,
+    uReviziji,
+    zastarjelih,
+    arhiviranih,
+    pokriveniServisi,
+    runbooki,
     timestamp: new Date().toISOString(),
   };
 }
