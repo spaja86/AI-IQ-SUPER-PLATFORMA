@@ -777,6 +777,8 @@
  * Autofinish #1092 (getAutofinishOnCall() Helper — on-call rasporedi po timu, aktivna smjena, eskalacioni nivo, rotacija, kontakti; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2166→2168, APP_VERSION 46.12.0→46.13.0)
  *
  * Autofinish #1093 (Unit Testovi getAutofinishOnCall() — schema, timovi niz, clanovi, nivo enum, status enum, kontakti kanal enum, aktivniClan/rezervniClan ref, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2168→2170, APP_VERSION 46.13.0→46.14.0)
+ *
+ * Autofinish #1094 (GET /api/autofinish-on-call — endpoint koji izlaže getAutofinishOnCall() podatke; rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2170→2172, APP_VERSION 46.14.0→46.15.0)
  */
 
 import {
@@ -1368,6 +1370,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1091: 'Unit testovi RunbookWidget',
     1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
     1093: 'Unit testovi getAutofinishOnCall()',
+    1094: 'GET /api/autofinish-on-call endpoint',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2247,6 +2250,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1091: 'Unit testovi RunbookWidget',
     1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
     1093: 'Unit testovi getAutofinishOnCall()',
+    1094: 'GET /api/autofinish-on-call endpoint',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2577,6 +2581,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1091: 'Unit testovi RunbookWidget',
     1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
     1093: 'Unit testovi getAutofinishOnCall()',
+    1094: 'GET /api/autofinish-on-call endpoint',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
