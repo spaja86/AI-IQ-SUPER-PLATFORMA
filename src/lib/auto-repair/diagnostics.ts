@@ -6744,6 +6744,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1098 — Unit testovi getAutofinishAlertRules() ───────────
     createCheck('autofinish-1098-alert-rules-unit-tests-check', 'Unit testovi getAutofinishAlertRules() #1098', `Provera unit testova getAutofinishAlertRules() — schema pravila, status/severity enum, prag tip/operator, eskalacije kanal/nivo enum, prozorTišine za utišana pravila, poServisima suma=ukupno, kriticnih izračun, timestamp ISO`, 'ok', `Autofinish #1098 — AlertRules unit testovi, TOTAL_DIAGNOSTIKA 2178→2180`),
     createCheck('autofinish-1098-iteracija-check', 'Autofinish #1098 Iteracija', `Provera autofinish iteracije #1098 — Unit testovi getAutofinishAlertRules()`, 'ok', `Autofinish #1098 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1099 — GET /api/autofinish-alert-rules ──────────────────
+    createCheck('autofinish-1099-alert-rules-api-check', 'GET /api/autofinish-alert-rules #1099', `Provera GET /api/autofinish-alert-rules — izlaže getAutofinishAlertRules(), rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri, TOTAL_DIAGNOSTIKA 2180→2182`, 'ok', `Autofinish #1099 — AlertRules API endpoint, TOTAL_DIAGNOSTIKA 2180→2182`),
+    createCheck('autofinish-1099-iteracija-check', 'Autofinish #1099 Iteracija', `Provera autofinish iteracije #1099 — GET /api/autofinish-alert-rules`, 'ok', `Autofinish #1099 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
