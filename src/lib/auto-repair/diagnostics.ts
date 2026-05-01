@@ -6760,6 +6760,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1102 — getAutofinishPostMortem() Helper ─────────────────
     createCheck('autofinish-1102-post-mortem-helper-check', 'getAutofinishPostMortem() Helper #1102', `Provera getAutofinishPostMortem() helper-a — post-mortem izvještaji, status/severity enum, timeline faze, akcione stavke, korijenUzrok, zahvaceniServisi, MTTD/MTTR metrike, otvorenihAkcija, poSeveritetu suma=ukupno, TOTAL_DIAGNOSTIKA 2186→2188`, 'ok', `Autofinish #1102 — getAutofinishPostMortem() Helper, TOTAL_DIAGNOSTIKA 2186→2188`),
     createCheck('autofinish-1102-iteracija-check', 'Autofinish #1102 Iteracija', `Provera autofinish iteracije #1102 — getAutofinishPostMortem() Helper`, 'ok', `Autofinish #1102 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1103 — Unit testovi getAutofinishPostMortem() ───────────
+    createCheck('autofinish-1103-post-mortem-unit-test-check', 'Unit testovi getAutofinishPostMortem() #1103', `Provera unit testova getAutofinishPostMortem() — schema, status/severity enum, suma statusa=ukupno, otvorenih/uPregledu/zatvorenih/arhiviranih, otvorenihAkcija, poSeveritetu suma/P1, MTTD/MTTR, zatvoreno ISO, timeline schema, akcije schema, TOTAL_DIAGNOSTIKA 2188→2190`, 'ok', `Autofinish #1103 — Unit testovi getAutofinishPostMortem(), TOTAL_DIAGNOSTIKA 2188→2190`),
+    createCheck('autofinish-1103-iteracija-check', 'Autofinish #1103 Iteracija', `Provera autofinish iteracije #1103 — Unit testovi getAutofinishPostMortem()`, 'ok', `Autofinish #1103 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
