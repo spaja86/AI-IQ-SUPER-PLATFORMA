@@ -6720,6 +6720,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1092 — getAutofinishOnCall() helper ─────────────────────
     createCheck('autofinish-1092-on-call-helper-check', 'getAutofinishOnCall() helper #1092', `Provera getAutofinishOnCall() — on-call rasporedi, aktivne smjene, eskalacioni nivoi, kontakti`, 'ok', `Autofinish #1092 — OnCall helper: timovi, clanovi, aktivnih/rezerva/slobodnih, otvoreniIncidenti, TOTAL_DIAGNOSTIKA 2166→2168`),
     createCheck('autofinish-1092-iteracija-check', 'Autofinish #1092 Iteracija', `Provera autofinish iteracije #1092 — getAutofinishOnCall() helper`, 'ok', `Autofinish #1092 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1093 — Unit testovi getAutofinishOnCall() ───────────────
+    createCheck('autofinish-1093-on-call-unit-check', 'Unit testovi getAutofinishOnCall() #1093', `Provera unit testova getAutofinishOnCall() — schema, timovi, clanovi, nivo/status/kanal enum, ref konzistentnost, suma=ukupno, ISO timestamp`, 'ok', `Autofinish #1093 — OnCall unit testovi: 14 testova, TOTAL_DIAGNOSTIKA 2168→2170`),
+    createCheck('autofinish-1093-iteracija-check', 'Autofinish #1093 Iteracija', `Provera autofinish iteracije #1093 — Unit testovi getAutofinishOnCall()`, 'ok', `Autofinish #1093 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
