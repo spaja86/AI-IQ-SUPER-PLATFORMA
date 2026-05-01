@@ -779,6 +779,8 @@
  * Autofinish #1093 (Unit Testovi getAutofinishOnCall() — schema, timovi niz, clanovi, nivo enum, status enum, kontakti kanal enum, aktivniClan/rezervniClan ref, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2168→2170, APP_VERSION 46.13.0→46.14.0)
  *
  * Autofinish #1094 (GET /api/autofinish-on-call — endpoint koji izlaže getAutofinishOnCall() podatke; rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2170→2172, APP_VERSION 46.14.0→46.15.0)
+ *
+ * Autofinish #1095 (Dashboard OnCallWidget — on-call lista po timovima, filter po statusu aktivan/rezerva/slobodan, detalji članova, nivo badge, incident count, kontakti, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2172→2174, APP_VERSION 46.15.0→46.16.0)
  */
 
 import {
@@ -1371,6 +1373,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
     1093: 'Unit testovi getAutofinishOnCall()',
     1094: 'GET /api/autofinish-on-call endpoint',
+    1095: 'Dashboard OnCallWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2251,6 +2254,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
     1093: 'Unit testovi getAutofinishOnCall()',
     1094: 'GET /api/autofinish-on-call endpoint',
+    1095: 'Dashboard OnCallWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2582,6 +2586,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
     1093: 'Unit testovi getAutofinishOnCall()',
     1094: 'GET /api/autofinish-on-call endpoint',
+    1095: 'Dashboard OnCallWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];

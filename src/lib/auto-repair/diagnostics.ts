@@ -6728,6 +6728,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1094 — GET /api/autofinish-on-call ─────────────────────
     createCheck('autofinish-1094-on-call-api-check', 'GET /api/autofinish-on-call #1094', `Provera GET /api/autofinish-on-call endpoint — izlaže getAutofinishOnCall() podatke, rate-limit, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri`, 'ok', `Autofinish #1094 — OnCall API endpoint, TOTAL_DIAGNOSTIKA 2170→2172`),
     createCheck('autofinish-1094-iteracija-check', 'Autofinish #1094 Iteracija', `Provera autofinish iteracije #1094 — GET /api/autofinish-on-call endpoint`, 'ok', `Autofinish #1094 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1095 — Dashboard OnCallWidget ───────────────────────────
+    createCheck('autofinish-1095-on-call-widget-check', 'Dashboard OnCallWidget #1095', `Provera Dashboard OnCallWidget — on-call lista timova, filter aktivan/rezerva/slobodan, nivo badge, incident count, kontakti, ARIA, JSON API link`, 'ok', `Autofinish #1095 — OnCallWidget komponenta, TOTAL_DIAGNOSTIKA 2172→2174`),
+    createCheck('autofinish-1095-iteracija-check', 'Autofinish #1095 Iteracija', `Provera autofinish iteracije #1095 — Dashboard OnCallWidget`, 'ok', `Autofinish #1095 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
