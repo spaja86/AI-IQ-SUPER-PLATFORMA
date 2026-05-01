@@ -6736,6 +6736,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1096 — Unit testovi OnCallWidget ────────────────────────
     createCheck('autofinish-1096-on-call-widget-test-check', 'Unit testovi OnCallWidget #1096', `Provera unit testova OnCallWidget — filter svi/aktivan/rezerva/slobodan, zbir statusa=ukupno, incident suma, naziv/opis/rotacija/eskalacija, nivo badge, smjena datumi, kontakti, JSON API link, timestamp`, 'ok', `Autofinish #1096 — OnCallWidget unit testovi, TOTAL_DIAGNOSTIKA 2174→2176`),
     createCheck('autofinish-1096-iteracija-check', 'Autofinish #1096 Iteracija', `Provera autofinish iteracije #1096 — Unit testovi OnCallWidget`, 'ok', `Autofinish #1096 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1097 — getAutofinishAlertRules() Helper ─────────────────
+    createCheck('autofinish-1097-alert-rules-helper-check', 'getAutofinishAlertRules() Helper #1097', `Provera getAutofinishAlertRules() — alert pravila po servisima, pragovi metrika, prozori tišine, eskalacioni lanci, status aktivan/utišan/privremeno_onemogućen`, 'ok', `Autofinish #1097 — AlertRules helper, TOTAL_DIAGNOSTIKA 2176→2178`),
+    createCheck('autofinish-1097-iteracija-check', 'Autofinish #1097 Iteracija', `Provera autofinish iteracije #1097 — getAutofinishAlertRules() Helper`, 'ok', `Autofinish #1097 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

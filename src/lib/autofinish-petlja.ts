@@ -783,6 +783,8 @@
  * Autofinish #1095 (Dashboard OnCallWidget — on-call lista po timovima, filter po statusu aktivan/rezerva/slobodan, detalji članova, nivo badge, incident count, kontakti, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2172→2174, APP_VERSION 46.15.0→46.16.0)
  *
  * Autofinish #1096 (Unit testovi OnCallWidget — filter svi/aktivan/rezerva/slobodan na timovima i članovima, zbir statusa=ukupno, incident suma, naziv/opis/rotacija/eskalacija, nivo badge, smjena datumi, kontakti kanal enum, JSON API link, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2174→2176, APP_VERSION 46.16.0→46.17.0)
+ *
+ * Autofinish #1097 (getAutofinishAlertRules() Helper — alert pravila po servisima, pragovi metrika, prozori tišine, eskalacioni lanci, status aktivan/utišan/privremeno_onemogućen; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2176→2178, APP_VERSION 46.17.0→46.18.0)
  */
 
 import {
@@ -1377,6 +1379,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1094: 'GET /api/autofinish-on-call endpoint',
     1095: 'Dashboard OnCallWidget',
     1096: 'Unit testovi OnCallWidget',
+    1097: 'getAutofinishAlertRules() Helper',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2259,6 +2262,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1094: 'GET /api/autofinish-on-call endpoint',
     1095: 'Dashboard OnCallWidget',
     1096: 'Unit testovi OnCallWidget',
+    1097: 'getAutofinishAlertRules() Helper',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2592,6 +2596,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1094: 'GET /api/autofinish-on-call endpoint',
     1095: 'Dashboard OnCallWidget',
     1096: 'Unit testovi OnCallWidget',
+    1097: 'getAutofinishAlertRules() Helper',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -5639,6 +5644,189 @@ export function getAutofinishOnCall(): AutofinishOnCallResult {
     slobodnih,
     ukupnoOtvorenihIncidenata,
     timovi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1097 — getAutofinishAlertRules() Helper ─────────────────────
+
+export type AutofinishAlertStatus = 'aktivan' | 'utišan' | 'privremeno_onemogućen';
+export type AutofinishAlertSeverity = 'kritičan' | 'visok' | 'srednji' | 'nizak';
+export type AutofinishAlertTipMetrike = 'latencija' | 'error_rate' | 'cpu' | 'memorija' | 'dostupnost' | 'throughput';
+
+export interface AutofinishAlertEskalacija {
+  nakon: number; // minuta
+  nivo: AutofinishOnCallNivo;
+  kanal: 'slack' | 'pager' | 'email';
+  primatelj: string;
+}
+
+export interface AutofinishAlertPrag {
+  tip: AutofinishAlertTipMetrike;
+  operator: '>' | '<' | '>=' | '<=';
+  vrijednost: number;
+  jedinica: string;
+  trajanjeSekundi: number;
+}
+
+export interface AutofinishAlertPravilo {
+  id: string;
+  naziv: string;
+  servis: string;
+  status: AutofinishAlertStatus;
+  severity: AutofinishAlertSeverity;
+  prag: AutofinishAlertPrag;
+  eskalacije: AutofinishAlertEskalacija[];
+  prozorTišineOd: string | null;
+  prozorTišineDo: string | null;
+  aktiviranja7Dana: number;
+  poslednjeAktiviranje: string | null;
+  kreiran: string;
+}
+
+export interface AutofinishAlertRulesResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoPravila: number;
+  aktivnih: number;
+  utišanih: number;
+  privremeno_onemogućenih: number;
+  kriticnih: number;
+  poServisima: Record<string, number>;
+  pravila: AutofinishAlertPravilo[];
+  timestamp: string;
+}
+
+/**
+ * Vraća alert pravila po servisima — pragovi metrika, prozori tišine, eskalacioni lanci.
+ *
+ * @returns AutofinishAlertRulesResult
+ */
+export function getAutofinishAlertRules(): AutofinishAlertRulesResult {
+  const pravila: AutofinishAlertPravilo[] = [
+    {
+      id: 'alert-sre-latency-p99',
+      naziv: 'SRE Core — P99 Latencija visoka',
+      servis: 'SRE Core',
+      status: 'aktivan',
+      severity: 'kritičan',
+      prag: { tip: 'latencija', operator: '>', vrijednost: 500, jedinica: 'ms', trajanjeSekundi: 60 },
+      eskalacije: [
+        { nakon: 5, nivo: 'L1', kanal: 'pager', primatelj: '@ana.kovac' },
+        { nakon: 15, nivo: 'L2', kanal: 'pager', primatelj: '@marko.petrovic' },
+        { nakon: 30, nivo: 'L3', kanal: 'slack', primatelj: '#sre-incidents' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 3,
+      poslednjeAktiviranje: '2026-04-29T14:22:00Z',
+      kreiran: '2025-01-15T09:00:00Z',
+    },
+    {
+      id: 'alert-backend-error-rate',
+      naziv: 'Backend API — Error rate > 1%',
+      servis: 'Backend API',
+      status: 'aktivan',
+      severity: 'visok',
+      prag: { tip: 'error_rate', operator: '>', vrijednost: 1, jedinica: '%', trajanjeSekundi: 120 },
+      eskalacije: [
+        { nakon: 5, nivo: 'L1', kanal: 'pager', primatelj: '@damir.sehic' },
+        { nakon: 20, nivo: 'L2', kanal: 'slack', primatelj: '#backend-alerts' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 7,
+      poslednjeAktiviranje: '2026-04-30T08:45:00Z',
+      kreiran: '2025-02-01T10:00:00Z',
+    },
+    {
+      id: 'alert-ai-cpu-high',
+      naziv: 'AI Engine — CPU preopterećenje',
+      servis: 'AI Engine',
+      status: 'aktivan',
+      severity: 'visok',
+      prag: { tip: 'cpu', operator: '>', vrijednost: 90, jedinica: '%', trajanjeSekundi: 180 },
+      eskalacije: [
+        { nakon: 10, nivo: 'L1', kanal: 'slack', primatelj: '@stefan.lukic' },
+        { nakon: 25, nivo: 'L2', kanal: 'pager', primatelj: '@nina.boric' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 2,
+      poslednjeAktiviranje: '2026-04-27T21:10:00Z',
+      kreiran: '2025-03-10T11:00:00Z',
+    },
+    {
+      id: 'alert-sre-availability',
+      naziv: 'SRE Core — Dostupnost ispod SLO',
+      servis: 'SRE Core',
+      status: 'aktivan',
+      severity: 'kritičan',
+      prag: { tip: 'dostupnost', operator: '<', vrijednost: 99.9, jedinica: '%', trajanjeSekundi: 300 },
+      eskalacije: [
+        { nakon: 2, nivo: 'L1', kanal: 'pager', primatelj: '@ana.kovac' },
+        { nakon: 10, nivo: 'L3', kanal: 'pager', primatelj: '#sre-critical' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 1,
+      poslednjeAktiviranje: '2026-04-25T03:12:00Z',
+      kreiran: '2025-01-15T09:05:00Z',
+    },
+    {
+      id: 'alert-backend-memory',
+      naziv: 'Backend API — Memorija kritična',
+      servis: 'Backend API',
+      status: 'utišan',
+      severity: 'srednji',
+      prag: { tip: 'memorija', operator: '>', vrijednost: 85, jedinica: '%', trajanjeSekundi: 300 },
+      eskalacije: [
+        { nakon: 15, nivo: 'L2', kanal: 'slack', primatelj: '@ivana.juric' },
+      ],
+      prozorTišineOd: '2026-05-01T00:00:00Z',
+      prozorTišineDo: '2026-05-02T06:00:00Z',
+      aktiviranja7Dana: 0,
+      poslednjeAktiviranje: null,
+      kreiran: '2025-04-01T08:00:00Z',
+    },
+    {
+      id: 'alert-ai-throughput',
+      naziv: 'AI Engine — Throughput ispod minimuma',
+      servis: 'AI Engine',
+      status: 'privremeno_onemogućen',
+      severity: 'nizak',
+      prag: { tip: 'throughput', operator: '<', vrijednost: 100, jedinica: 'req/s', trajanjeSekundi: 120 },
+      eskalacije: [
+        { nakon: 30, nivo: 'L3', kanal: 'email', primatelj: 'stefan.lukic@spaja86.ba' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 0,
+      poslednjeAktiviranje: null,
+      kreiran: '2025-05-20T14:00:00Z',
+    },
+  ];
+
+  const aktivnih = pravila.filter((p) => p.status === 'aktivan').length;
+  const utišanih = pravila.filter((p) => p.status === 'utišan').length;
+  const privremeno_onemogućenih = pravila.filter((p) => p.status === 'privremeno_onemogućen').length;
+  const kriticnih = pravila.filter((p) => p.severity === 'kritičan').length;
+
+  const poServisima: Record<string, number> = {};
+  for (const p of pravila) {
+    poServisima[p.servis] = (poServisima[p.servis] ?? 0) + 1;
+  }
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoPravila: pravila.length,
+    aktivnih,
+    utišanih,
+    privremeno_onemogućenih,
+    kriticnih,
+    poServisima,
+    pravila,
     timestamp: new Date().toISOString(),
   };
 }
