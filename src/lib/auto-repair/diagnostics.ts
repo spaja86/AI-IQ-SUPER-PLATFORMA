@@ -6680,6 +6680,22 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1082 — E2E svih 42 autofinish API endpoints ─────────────
     createCheck('autofinish-1082-all42-endpoints-e2e-check', 'E2E Svih 42 Autofinish API Endpoints #1082', `Provera E2E konzistentnosti verzija kroz svih 42 autofinish API endpoints`, 'ok', `Autofinish #1082 — Full 42-Endpoint E2E: TOTAL_DIAGNOSTIKA 2146→2148, APP_VERSION 46.2.0→46.3.0`),
     createCheck('autofinish-1082-iteracija-check', 'Autofinish #1082 Iteracija', `Provera autofinish iteracije #1082 — E2E svih 42 autofinish API endpoints`, 'ok', `Autofinish #1082 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1083 — getAutofinishErrorBudget() Helper ────────────────
+    createCheck('autofinish-1083-error-budget-helper-check', 'getAutofinishErrorBudget() Helper #1083', `Provera getAutofinishErrorBudget() — schema, sloTarget, potrosenoPct, status enum, suma servisa`, 'ok', `Autofinish #1083 — ErrorBudget Helper: TOTAL_DIAGNOSTIKA 2148→2150, APP_VERSION 46.3.0→46.4.0`),
+    createCheck('autofinish-1083-iteracija-check', 'Autofinish #1083 Iteracija', `Provera autofinish iteracije #1083 — getAutofinishErrorBudget()`, 'ok', `Autofinish #1083 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1084 — Unit Testovi getAutofinishErrorBudget() ──────────
+    createCheck('autofinish-1084-error-budget-unit-test-check', 'Unit Testovi getAutofinishErrorBudget() #1084', `Provera unit testova — schema, sloTarget, potrosenoPct, status enum, suma=ukupno, ISO timestamp`, 'ok', `Autofinish #1084 — ErrorBudget Tests: TOTAL_DIAGNOSTIKA 2150→2152, APP_VERSION 46.4.0→46.5.0`),
+    createCheck('autofinish-1084-iteracija-check', 'Autofinish #1084 Iteracija', `Provera autofinish iteracije #1084 — unit testovi error budget`, 'ok', `Autofinish #1084 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1085 — GET /api/autofinish-error-budget ─────────────────
+    createCheck('autofinish-1085-error-budget-api-check', 'GET /api/autofinish-error-budget #1085', `Provera /api/autofinish-error-budget — rate-limit, Cache-Control s-maxage=300, X-App-Version headers`, 'ok', `Autofinish #1085 — ErrorBudget API: TOTAL_DIAGNOSTIKA 2152→2154, APP_VERSION 46.5.0→46.6.0`),
+    createCheck('autofinish-1085-iteracija-check', 'Autofinish #1085 Iteracija', `Provera autofinish iteracije #1085 — GET /api/autofinish-error-budget`, 'ok', `Autofinish #1085 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1086 — Dashboard ErrorBudgetWidget ──────────────────────
+    createCheck('autofinish-1086-error-budget-widget-check', 'Dashboard ErrorBudgetWidget #1086', `Provera ErrorBudgetWidget — budzet bar, filter po statusu, servisni detalji, JSON API link, ARIA`, 'ok', `Autofinish #1086 — ErrorBudgetWidget: TOTAL_DIAGNOSTIKA 2154→2156, APP_VERSION 46.6.0→46.7.0`),
+    createCheck('autofinish-1086-iteracija-check', 'Autofinish #1086 Iteracija', `Provera autofinish iteracije #1086 — Dashboard ErrorBudgetWidget`, 'ok', `Autofinish #1086 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

@@ -761,6 +761,8 @@
  * Autofinish #1084 (Unit Testovi getAutofinishErrorBudget() — schema, sloTarget, potrosenoPct, status enum, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2150→2152, APP_VERSION 46.4.0→46.5.0)
  *
  * Autofinish #1085 (GET /api/autofinish-error-budget — rate-limit, Cache-Control s-maxage=300, X-App-Version, X-Autofinish-Iteracija headers; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2152→2154, APP_VERSION 46.5.0→46.6.0)
+ *
+ * Autofinish #1086 (Dashboard ErrorBudgetWidget — budget bar vizualizacija, filter po statusu, servisni detalji, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2154→2156, APP_VERSION 46.6.0→46.7.0)
  */
 
 import {
@@ -1341,6 +1343,10 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1080: 'GET /api/autofinish-incident-log',
     1081: 'Dashboard IncidentLogWidget',
     1082: 'E2E svih 42 autofinish API endpoints',
+    1083: 'getAutofinishErrorBudget() helper — error budget po servisima',
+    1084: 'Unit testovi getAutofinishErrorBudget()',
+    1085: 'GET /api/autofinish-error-budget',
+    1086: 'Dashboard ErrorBudgetWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2209,6 +2215,10 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1080: 'GET /api/autofinish-incident-log',
     1081: 'Dashboard IncidentLogWidget',
     1082: 'E2E svih 42 autofinish API endpoints',
+    1083: 'getAutofinishErrorBudget() helper — error budget po servisima',
+    1084: 'Unit testovi getAutofinishErrorBudget()',
+    1085: 'GET /api/autofinish-error-budget',
+    1086: 'Dashboard ErrorBudgetWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2528,6 +2538,10 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1080: 'GET /api/autofinish-incident-log',
     1081: 'Dashboard IncidentLogWidget',
     1082: 'E2E svih 42 autofinish API endpoints',
+    1083: 'getAutofinishErrorBudget() helper — error budget po servisima',
+    1084: 'Unit testovi getAutofinishErrorBudget()',
+    1085: 'GET /api/autofinish-error-budget',
+    1086: 'Dashboard ErrorBudgetWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];

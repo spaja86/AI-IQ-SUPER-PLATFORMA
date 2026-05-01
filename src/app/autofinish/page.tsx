@@ -58,6 +58,7 @@ import {
   getAutofinishSlaMonitor,
   getAutofinishFeatureFlags,
   getAutofinishIncidentLog,
+  getAutofinishErrorBudget,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -95,6 +96,7 @@ import { CostAnalyticsWidget } from './CostAnalyticsWidget';
 import { SlaMonitorWidget } from './SlaMonitorWidget';
 import { FeatureFlagsWidget } from './FeatureFlagsWidget';
 import { IncidentLogWidget } from './IncidentLogWidget';
+import { ErrorBudgetWidget } from './ErrorBudgetWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -172,6 +174,7 @@ export default function AutofinishPage() {
   const slaMonitor = getAutofinishSlaMonitor();
   const featureFlags = getAutofinishFeatureFlags();
   const incidentLog = getAutofinishIncidentLog();
+  const errorBudget = getAutofinishErrorBudget();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -782,6 +785,8 @@ export default function AutofinishPage() {
         <SlaMonitorWidget sla={slaMonitor} />
         <FeatureFlagsWidget flags={featureFlags} />
         <IncidentLogWidget log={incidentLog} />
+        {/* #1086 — Error Budget Widget */}
+        <ErrorBudgetWidget budget={errorBudget} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
