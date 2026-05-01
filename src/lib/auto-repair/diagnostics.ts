@@ -6768,6 +6768,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1104 — GET /api/autofinish-post-mortem ─────────────────
     createCheck('autofinish-1104-post-mortem-api-check', 'GET /api/autofinish-post-mortem #1104', `Provera GET /api/autofinish-post-mortem — getAutofinishPostMortem() rezultat, rate limiting 60/60s po IP, 429 pri prekoračenju, Cache-Control s-maxage=300, X-App-Version i X-Autofinish-Iteracija headeri, TOTAL_API_ROUTES 972→973, TOTAL_ROUTES 999→1000`, 'ok', `Autofinish #1104 — GET /api/autofinish-post-mortem, TOTAL_API_ROUTES 973, TOTAL_ROUTES 1000`),
     createCheck('autofinish-1104-iteracija-check', 'Autofinish #1104 Iteracija', `Provera autofinish iteracije #1104 — GET /api/autofinish-post-mortem endpoint`, 'ok', `Autofinish #1104 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1105 — Dashboard PostMortemWidget ──────────────────────────
+    createCheck('autofinish-1105-post-mortem-widget-check', 'PostMortemWidget #1105', `Provera Dashboard PostMortemWidget — dupli filter po statusu i severitetu, timeline faze, akcione stavke s prioritetom, MTTD/MTTR prikaz, zahvaćeni servisi, korijen uzroka, ARIA pristupačnost, JSON API link`, 'ok', `Autofinish #1105 — PostMortemWidget komponenta, filter status×severity, timeline, akcije`),
+    createCheck('autofinish-1105-iteracija-check', 'Autofinish #1105 Iteracija', `Provera autofinish iteracije #1105 — Dashboard PostMortemWidget`, 'ok', `Autofinish #1105 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1106 — Unit testovi PostMortemWidget ───────────────────────
+    createCheck('autofinish-1106-post-mortem-widget-tests-check', 'Unit testovi PostMortemWidget #1106', `Provera Unit testovi PostMortemWidget — filter svi/otvoren/u-pregledu/zatvoren/arhiviran, filter severity P1-P4, dupli filter intersekcia, zbir statusa=ukupno, otvorenihAkcija, naslov/vlasnik/incidentId, MTTD/MTTR ≥0, timeline ≥2 faze i vrijemeISO, akcije prioritet/odgovoran/status enum, zatvoreno ISO, JSON API link, timestamp`, 'ok', `Autofinish #1106 — Unit testovi PostMortemWidget, 20 asercija`),
+    createCheck('autofinish-1106-iteracija-check', 'Autofinish #1106 Iteracija', `Provera autofinish iteracije #1106 — Unit testovi PostMortemWidget`, 'ok', `Autofinish #1106 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
