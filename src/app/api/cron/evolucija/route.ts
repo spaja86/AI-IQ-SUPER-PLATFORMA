@@ -3,20 +3,19 @@ import { kreirajISnimiCiklus, getKonfiguracija } from '@/lib/evolucija';
 import { APP_VERSION } from '@/lib/constants';
 
 /**
- * Vercel Cron endpoint — Omega Evolucioni Motor
+ * Cron endpoint — Omega Evolucioni Motor
  *
- * Pokreće se automatski svakih 6 sati (konfigurabilno).
+ * Pokreće se automatski svakih 6 sati putem Cloudflare Scheduled Worker.
  * Dijagnostikuje sistem, generiše preporuke, i kreira GitHub Issues.
  * Snima rezultate trajno u Supabase (evolution_cycles tabela).
  *
- * Vercel Cron: GET /api/cron/evolucija
+ * GET /api/cron/evolucija
  */
 export async function GET(request: Request) {
-  // Vercel Cron šalje Authorization header sa CRON_SECRET
+  // Proveravamo CRON_SECRET (Cloudflare Worker šalje Bearer token)
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 
-  // U produkciji, proveravamo CRON_SECRET
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Neautorizovan pristup' }, { status: 401 });
   }

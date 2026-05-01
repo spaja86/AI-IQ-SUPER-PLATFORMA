@@ -5,16 +5,16 @@ import { saveHealthSnapshot } from '@/lib/evolucija';
 import { APP_VERSION } from '@/lib/constants';
 
 /**
- * Vercel Cron endpoint — Zdravlje sistema
+ * Cron endpoint — Zdravlje sistema
  *
- * Pokreće se svakih 30 minuta.
+ * Pokreće se svakih 30 minuta putem Cloudflare Scheduled Worker.
  * Proverava zdravlje platforme i OMEGA AI sistema.
  * Snima health snapshot u Supabase za trend analizu.
  *
- * Vercel Cron: GET /api/cron/zdravlje
+ * GET /api/cron/zdravlje
  */
 export async function GET(request: Request) {
-  // Vercel Cron šalje Authorization header sa CRON_SECRET
+  // Proveravamo CRON_SECRET (Cloudflare Worker šalje Bearer token)
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 

@@ -1,0 +1,9 @@
+# Cloudflare Pages + Workers konfiguracija
+# Kompanija SPAJA — AI IQ SUPER PLATFORMA
+# Migracija sa Vercel → Cloudflare Pages (besplatno, bez ograničenja)
+
+name = "ai-iq-super-platforma"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+pages_build_output_dir = ".vercel/output/static"

@@ -1,15 +1,14 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — Next.js Edge Middleware
-// Autofinish #858 — X-Request-Id header na svakom API odgovoru
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Edge-compatible middleware: IP blocking + rate limiting + X-Request-Id.
-// Runs in the Vercel Edge Runtime before every request.
+// Runs in Cloudflare Pages Edge Runtime before every request.
 //
 // Arhitektura:
 //   1. IP blok lista (OMEGA_BLOCKED_IPS env var)
-//   2. Rate limiting — cross-instance ako je VERCEL_KV konfigurisan, in-memory fallback
+//   2. Rate limiting — cross-instance ako je KV_REST_API_URL konfigurisan, in-memory fallback
 //   3. X-Request-Id — propagira ulazni header ili generiše req-XXXXXXXX fallback
-//   4. Security headers su postavljeni u vercel.json (ne ovde, da bi se izbegli duplikati)
+//   4. Security headers su postavljeni u next.config.ts
 //   5. Brute-force zaštita za auth endpoint-e je u /api/auth/login via omega-security.ts
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -45,9 +44,9 @@ async function checkRateLimit(ip: string, isAuthenticated: boolean): Promise<boo
   const limit = isAuthenticated ? RATE_LIMIT_AUTH : RATE_LIMIT_ANON;
   const key = `rl:edge:${ip}`;
 
-  // Pokušaj Vercel KV (cross-instance) ako je konfigurisan
-  const kvUrl = process.env.VERCEL_KV_REST_API_URL;
-  const kvToken = process.env.VERCEL_KV_REST_API_TOKEN;
+  // Pokušaj KV REST API (cross-instance) ako je konfigurisan
+  const kvUrl = process.env.KV_REST_API_URL ?? process.env.VERCEL_KV_REST_API_URL;
+  const kvToken = process.env.KV_REST_API_TOKEN ?? process.env.VERCEL_KV_REST_API_TOKEN;
 
   if (kvUrl && kvToken) {
     try {

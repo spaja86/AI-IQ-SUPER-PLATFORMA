@@ -61,5 +61,5 @@ jobs:
               echo "**Explorer:** https://polygonscan.com/address/$ADDR" >> $GITHUB_STEP_SUMMARY
             fi
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**📋 Sledeci korak:** Postavite \`NEXT_PUBLIC_CONTRACT_ADDRESS=$ADDR\` u Vercel Environment Variables" >> $GITHUB_STEP_SUMMARY
+            echo "**📋 Sledeci korak:** Postavite \`NEXT_PUBLIC_CONTRACT_ADDRESS=$ADDR\` u Cloudflare Pages Environment Variables" >> $GITHUB_STEP_SUMMARY
           fi

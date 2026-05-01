@@ -64,7 +64,7 @@ async function main() {
   console.log(`💾 Adresa sačuvana u .env.deployed`);
   console.log('');
   console.log('📋 SLEDEĆI KORAK:');
-  console.log('   Postavite u Vercel environment varijable:');
+  console.log('   Postavite u Cloudflare Pages environment varijable:');
   console.log(`   NEXT_PUBLIC_CONTRACT_ADDRESS = ${address}`);
   if (isTestnet) {
     console.log('   NEXT_PUBLIC_BLOCKCHAIN_TESTNET = true');
