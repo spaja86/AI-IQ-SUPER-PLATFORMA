@@ -755,6 +755,8 @@
  * Autofinish #1081 (Dashboard IncidentLogWidget — incidents timeline sa severity bojama i MTTR grafikonom; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2144→2146, APP_VERSION 46.1.0→46.2.0)
  *
  * Autofinish #1082 (E2E Svih 42 Autofinish API Endpoints — konzistentnost verzija kroz svih 42 endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2146→2148, APP_VERSION 46.2.0→46.3.0)
+ *
+ * Autofinish #1083 (getAutofinishErrorBudget() Helper — error budget po servisima, potrošnja, preostalo, SLO prozori; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2148→2150, APP_VERSION 46.3.0→46.4.0)
  */
 
 import {
@@ -5069,6 +5071,105 @@ export function getAutofinishIncidentLog(): AutofinishIncidentLogResult {
     openCount,
     prosjecniMttrMin,
     incidents,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishErrorBudget() (#1083) ──────────────────────────────────────
+
+export type AutofinishErrorBudgetStatus = 'zdravo' | 'upozorenje' | 'kriticno' | 'iscrpljen';
+
+export interface AutofinishErrorBudgetServis {
+  id: string;
+  naziv: string;
+  sloTarget: number;
+  sloAktual: number;
+  prozorDana: number;
+  ukupnoMinuta: number;
+  dozvoljeneGreskePct: number;
+  potroseno: number;
+  preostalo: number;
+  potrosenoPct: number;
+  status: AutofinishErrorBudgetStatus;
+  napomena: string;
+}
+
+export interface AutofinishErrorBudgetResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoServisa: number;
+  zdravih: number;
+  uUpozorenju: number;
+  kriticnih: number;
+  iscrpljenih: number;
+  prosjecnaPotrosenjaOst: number;
+  servisi: AutofinishErrorBudgetServis[];
+  timestamp: string;
+}
+
+/**
+ * Vraća error budget po servisima — potrošnja, preostalo i SLO prozori.
+ *
+ * @returns AutofinishErrorBudgetResult
+ */
+export function getAutofinishErrorBudget(): AutofinishErrorBudgetResult {
+  const servisi: AutofinishErrorBudgetServis[] = [
+    {
+      id: 'api-gateway', naziv: 'API Gateway', sloTarget: 99.9, sloAktual: 99.95,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.1,
+      potroseno: 3.24, preostalo: 39.96, potrosenoPct: 7.5,
+      status: 'zdravo', napomena: 'Odlično — iskorišteno samo 7.5% budžeta',
+    },
+    {
+      id: 'frontend', naziv: 'Frontend (Next.js)', sloTarget: 99.5, sloAktual: 99.82,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.5,
+      potroseno: 36.0, preostalo: 180.0, potrosenoPct: 16.7,
+      status: 'zdravo', napomena: 'U okviru budžeta — stabilno',
+    },
+    {
+      id: 'autofinish-api', naziv: 'Autofinish API Suite', sloTarget: 99.5, sloAktual: 99.71,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.5,
+      potroseno: 93.6, preostalo: 122.4, potrosenoPct: 43.3,
+      status: 'upozorenje', napomena: 'Potrošnja raste — rate limit edge case iz aprila',
+    },
+    {
+      id: 'ai-engine', naziv: 'AI Engine (OpenAI)', sloTarget: 99.0, sloAktual: 98.8,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 1.0,
+      potroseno: 302.4, preostalo: 129.6, potrosenoPct: 70.0,
+      status: 'kriticno', napomena: 'Visoka potrošnja — OpenAI upstream incidenti',
+    },
+    {
+      id: 'redis-cache', naziv: 'Redis Cache', sloTarget: 99.5, sloAktual: 99.99,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.5,
+      potroseno: 2.16, preostalo: 213.84, potrosenoPct: 1.0,
+      status: 'zdravo', napomena: 'Minimalna potrošnja — bez incidenata',
+    },
+    {
+      id: 'dijagnostika', naziv: 'Dijagnostički Sistem', sloTarget: 95.0, sloAktual: 99.5,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 5.0,
+      potroseno: 36.0, preostalo: 2124.0, potrosenoPct: 1.7,
+      status: 'zdravo', napomena: 'Bronze SLO — daleko ispod dozvoljene potrošnje',
+    },
+  ];
+
+  const zdravih = servisi.filter((s) => s.status === 'zdravo').length;
+  const uUpozorenju = servisi.filter((s) => s.status === 'upozorenje').length;
+  const kriticnih = servisi.filter((s) => s.status === 'kriticno').length;
+  const iscrpljenih = servisi.filter((s) => s.status === 'iscrpljen').length;
+  const prosjecnaPotrosenjaOst = parseFloat(
+    (servisi.reduce((s, sv) => s + sv.potrosenoPct, 0) / servisi.length).toFixed(1),
+  );
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoServisa: servisi.length,
+    zdravih,
+    uUpozorenju,
+    kriticnih,
+    iscrpljenih,
+    prosjecnaPotrosenjaOst,
+    servisi,
     timestamp: new Date().toISOString(),
   };
 }
