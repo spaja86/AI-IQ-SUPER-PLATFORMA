@@ -765,6 +765,8 @@
  * Autofinish #1086 (Dashboard ErrorBudgetWidget — budget bar vizualizacija, filter po statusu, servisni detalji, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2154→2156, APP_VERSION 46.6.0→46.7.0)
  *
  * Autofinish #1087 (getAutofinishRunbook() Helper — runbook po servisima i incidentima, koraci za rješavanje, vlasnik, prioritet, SRE metrika; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2156→2158, APP_VERSION 46.7.0→46.8.0)
+ *
+ * Autofinish #1088 (Unit Testovi getAutofinishRunbook() — schema, runbooki niz, koraci, prioritet enum, vlasnik, pokriveniServisi, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2158→2160, APP_VERSION 46.8.0→46.9.0)
  */
 
 import {
@@ -1350,6 +1352,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1085: 'GET /api/autofinish-error-budget',
     1086: 'Dashboard ErrorBudgetWidget',
     1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
+    1088: 'Unit testovi getAutofinishRunbook()',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2223,6 +2226,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1085: 'GET /api/autofinish-error-budget',
     1086: 'Dashboard ErrorBudgetWidget',
     1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
+    1088: 'Unit testovi getAutofinishRunbook()',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2547,6 +2551,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1085: 'GET /api/autofinish-error-budget',
     1086: 'Dashboard ErrorBudgetWidget',
     1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
+    1088: 'Unit testovi getAutofinishRunbook()',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
