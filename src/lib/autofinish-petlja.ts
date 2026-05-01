@@ -793,6 +793,8 @@
  * Autofinish #1100 (Dashboard AlertRulesWidget — lista alert pravila po servisima, dupli filter po statusu i severitetu, prag metrika/operator/vrijednost/trajanje, prozori tišine, eskalacioni lanac, aktiviranja7Dana, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2182→2184, APP_VERSION 46.20.0→46.21.0)
  *
  * Autofinish #1101 (Unit testovi AlertRulesWidget — filter svi/aktivan/utišan/privremeno_onemogućen, filter severity kritičan/visok/srednji/nizak, dupli filter intersekcia, prag tip/operator/vrijednost/trajanje/jedinica, eskalacije kanal/nivo enum, prozori tišine utišanih, aktiviranja7Dana, poServisima suma=ukupno, kriticnih izračun, poslednjeAktiviranje ISO, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2184→2186, APP_VERSION 46.21.0→46.22.0)
+ *
+ * Autofinish #1102 (getAutofinishPostMortem() Helper — post-mortem izvještaji po incidentima, status otvoren/u-pregledu/zatvoren/arhiviran, severity P1-P4, timeline faze, akcione stavke sa odgovornim licem i statusom, korijenska uzrok analiza, zahvaćeni servisi, MTTD/MTTR metrike, vlasnik; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2186→2188, APP_VERSION 46.22.0→46.23.0)
  */
 
 import {
@@ -1392,6 +1394,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1099: 'GET /api/autofinish-alert-rules',
     1100: 'Dashboard AlertRulesWidget',
     1101: 'Unit testovi AlertRulesWidget',
+    1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2279,6 +2282,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1099: 'GET /api/autofinish-alert-rules',
     1100: 'Dashboard AlertRulesWidget',
     1101: 'Unit testovi AlertRulesWidget',
+    1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2617,6 +2621,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1099: 'GET /api/autofinish-alert-rules',
     1100: 'Dashboard AlertRulesWidget',
     1101: 'Unit testovi AlertRulesWidget',
+    1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -5847,6 +5852,193 @@ export function getAutofinishAlertRules(): AutofinishAlertRulesResult {
     kriticnih,
     poServisima,
     pravila,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1102 — getAutofinishPostMortem() Helper ──────────────────────
+
+export type AutofinishPostMortemStatus = 'otvoren' | 'u-pregledu' | 'zatvoren' | 'arhiviran';
+export type AutofinishPostMortemSeverity = 'P1' | 'P2' | 'P3' | 'P4';
+export type AutofinishPostMortemAkcijaStatus = 'otvoren' | 'u-toku' | 'završen' | 'odbijen';
+
+export interface AutofinishPostMortemTimelineFaza {
+  naziv: string; // npr. 'Detekcija', 'Eskalacija', 'Mitigacija', 'Rezolucija'
+  vrijemeISO: string;
+  trajanjeSekundi: number;
+}
+
+export interface AutofinishPostMortemAkcija {
+  id: string;
+  opis: string;
+  odgovoran: string;
+  rokISO: string;
+  status: AutofinishPostMortemAkcijaStatus;
+  prioritet: AutofinishPostMortemSeverity;
+}
+
+export interface AutofinishPostMortem {
+  id: string;
+  naslov: string;
+  incidentId: string;
+  severity: AutofinishPostMortemSeverity;
+  status: AutofinishPostMortemStatus;
+  vlasnik: string;
+  zahvaceniServisi: string[];
+  korijenUzrok: string;
+  timeline: AutofinishPostMortemTimelineFaza[];
+  akcije: AutofinishPostMortemAkcija[];
+  mttdSekundi: number; // Mean Time To Detect
+  mttrSekundi: number; // Mean Time To Resolve
+  otvoreno: string; // ISO
+  zatvoreno: string | null; // ISO ili null ako nije zatvoren
+}
+
+export interface AutofinishPostMortemResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupno: number;
+  otvorenih: number;
+  uPregledu: number;
+  zatvorenih: number;
+  arhiviranih: number;
+  otvorenihAkcija: number;
+  poSeveritetu: Record<AutofinishPostMortemSeverity, number>;
+  postmortemi: AutofinishPostMortem[];
+  timestamp: string;
+}
+
+/**
+ * Vraća post-mortem izvještaje po incidentima — timeline faze, akcione stavke,
+ * korijenska uzrok analiza, zahvaćeni servisi, MTTD/MTTR metrike, vlasnik.
+ *
+ * @returns AutofinishPostMortemResult
+ */
+export function getAutofinishPostMortem(): AutofinishPostMortemResult {
+  const postmortemi: AutofinishPostMortem[] = [
+    {
+      id: 'pm-2026-001',
+      naslov: 'SRE Core — P99 Latencija degradacija (2026-04-15)',
+      incidentId: 'inc-2026-sre-001',
+      severity: 'P1',
+      status: 'zatvoren',
+      vlasnik: 'ana.kovac',
+      zahvaceniServisi: ['SRE Core', 'Backend API', 'AI Engine'],
+      korijenUzrok: 'Nedostatak kapaciteta connection pool-a baze podataka izazvao je kumulativno kašnjenje pod povećanim opterećenjem.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2026-04-15T02:14:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2026-04-15T02:17:00Z', trajanjeSekundi: 180 },
+        { naziv: 'Mitigacija', vrijemeISO: '2026-04-15T02:35:00Z', trajanjeSekundi: 1080 },
+        { naziv: 'Rezolucija', vrijemeISO: '2026-04-15T03:02:00Z', trajanjeSekundi: 1620 },
+      ],
+      akcije: [
+        { id: 'act-pm-001-1', opis: 'Povećati max_connections na 500', odgovoran: 'marko.petrovic', rokISO: '2026-05-01T00:00:00Z', status: 'završen', prioritet: 'P1' },
+        { id: 'act-pm-001-2', opis: 'Dodati alert za connection pool iskorištenost > 80%', odgovoran: 'ana.kovac', rokISO: '2026-04-22T00:00:00Z', status: 'završen', prioritet: 'P1' },
+        { id: 'act-pm-001-3', opis: 'Implementirati circuit breaker na DB sloju', odgovoran: 'damir.sehic', rokISO: '2026-05-15T00:00:00Z', status: 'u-toku', prioritet: 'P2' },
+      ],
+      mttdSekundi: 840,
+      mttrSekundi: 2880,
+      otvoreno: '2026-04-15T09:00:00Z',
+      zatvoreno: '2026-04-18T14:30:00Z',
+    },
+    {
+      id: 'pm-2026-002',
+      naslov: 'Backend API — Error rate spike (2026-04-22)',
+      incidentId: 'inc-2026-backend-002',
+      severity: 'P2',
+      status: 'u-pregledu',
+      vlasnik: 'damir.sehic',
+      zahvaceniServisi: ['Backend API'],
+      korijenUzrok: 'Deploy novog middleware-a nije imao odgovarajuće timeout konfiguracije za downstream servise.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2026-04-22T11:05:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2026-04-22T11:09:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Mitigacija', vrijemeISO: '2026-04-22T11:22:00Z', trajanjeSekundi: 780 },
+        { naziv: 'Rezolucija', vrijemeISO: '2026-04-22T11:45:00Z', trajanjeSekundi: 1380 },
+      ],
+      akcije: [
+        { id: 'act-pm-002-1', opis: 'Dodati timeout konfiguraciju u deployment checklist', odgovoran: 'ivana.juric', rokISO: '2026-05-05T00:00:00Z', status: 'u-toku', prioritet: 'P2' },
+        { id: 'act-pm-002-2', opis: 'Automatizovati smoke test za timeout konfiguraciju nakon deploya', odgovoran: 'damir.sehic', rokISO: '2026-05-10T00:00:00Z', status: 'otvoren', prioritet: 'P2' },
+      ],
+      mttdSekundi: 300,
+      mttrSekundi: 2400,
+      otvoreno: '2026-04-22T12:00:00Z',
+      zatvoreno: null,
+    },
+    {
+      id: 'pm-2026-003',
+      naslov: 'AI Engine — CPU preopterećenje (2026-04-27)',
+      incidentId: 'inc-2026-ai-003',
+      severity: 'P2',
+      status: 'otvoren',
+      vlasnik: 'stefan.lukic',
+      zahvaceniServisi: ['AI Engine'],
+      korijenUzrok: 'Batch procesiranje ML modela pokrenuto bez rate-limiting-a izazvalo je 100% CPU saturaciju.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2026-04-27T21:10:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2026-04-27T21:14:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Mitigacija', vrijemeISO: '2026-04-27T21:28:00Z', trajanjeSekundi: 840 },
+        { naziv: 'Rezolucija', vrijemeISO: '2026-04-27T21:55:00Z', trajanjeSekundi: 1620 },
+      ],
+      akcije: [
+        { id: 'act-pm-003-1', opis: 'Implementirati rate-limiting za batch ML poslove', odgovoran: 'nina.boric', rokISO: '2026-05-08T00:00:00Z', status: 'otvoren', prioritet: 'P1' },
+        { id: 'act-pm-003-2', opis: 'Dodati CPU throttling politiku za batch modove', odgovoran: 'stefan.lukic', rokISO: '2026-05-12T00:00:00Z', status: 'otvoren', prioritet: 'P2' },
+        { id: 'act-pm-003-3', opis: 'Istražiti horizontalno skaliranje AI Engine clustera', odgovoran: 'stefan.lukic', rokISO: '2026-05-31T00:00:00Z', status: 'otvoren', prioritet: 'P3' },
+      ],
+      mttdSekundi: 600,
+      mttrSekundi: 2700,
+      otvoreno: '2026-04-28T08:00:00Z',
+      zatvoreno: null,
+    },
+    {
+      id: 'pm-2025-047',
+      naslov: 'SRE Core — Kratki outage (2025-12-03)',
+      incidentId: 'inc-2025-sre-047',
+      severity: 'P3',
+      status: 'arhiviran',
+      vlasnik: 'ana.kovac',
+      zahvaceniServisi: ['SRE Core'],
+      korijenUzrok: 'Pogrešna konfiguracija health check endpoint-a uzrokovala je false positive restartovanje servisa.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2025-12-03T14:02:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2025-12-03T14:06:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Mitigacija', vrijemeISO: '2025-12-03T14:10:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Rezolucija', vrijemeISO: '2025-12-03T14:18:00Z', trajanjeSekundi: 480 },
+      ],
+      akcije: [
+        { id: 'act-pm-047-1', opis: 'Korigovati health check timeout thresholds', odgovoran: 'ana.kovac', rokISO: '2025-12-10T00:00:00Z', status: 'završen', prioritet: 'P2' },
+      ],
+      mttdSekundi: 120,
+      mttrSekundi: 960,
+      otvoreno: '2025-12-03T15:00:00Z',
+      zatvoreno: '2025-12-05T10:00:00Z',
+    },
+  ];
+
+  const otvorenih = postmortemi.filter((p) => p.status === 'otvoren').length;
+  const uPregledu = postmortemi.filter((p) => p.status === 'u-pregledu').length;
+  const zatvorenih = postmortemi.filter((p) => p.status === 'zatvoren').length;
+  const arhiviranih = postmortemi.filter((p) => p.status === 'arhiviran').length;
+  const otvorenihAkcija = postmortemi
+    .flatMap((p) => p.akcije)
+    .filter((a) => a.status === 'otvoren' || a.status === 'u-toku').length;
+
+  const poSeveritetu: Record<AutofinishPostMortemSeverity, number> = { P1: 0, P2: 0, P3: 0, P4: 0 };
+  for (const p of postmortemi) {
+    poSeveritetu[p.severity]++;
+  }
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupno: postmortemi.length,
+    otvorenih,
+    uPregledu,
+    zatvorenih,
+    arhiviranih,
+    otvorenihAkcija,
+    poSeveritetu,
+    postmortemi,
     timestamp: new Date().toISOString(),
   };
 }
