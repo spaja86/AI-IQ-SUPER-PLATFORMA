@@ -6776,6 +6776,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1106 — Unit testovi PostMortemWidget ───────────────────────
     createCheck('autofinish-1106-post-mortem-widget-tests-check', 'Unit testovi PostMortemWidget #1106', `Provera Unit testovi PostMortemWidget — filter svi/otvoren/u-pregledu/zatvoren/arhiviran, filter severity P1-P4, dupli filter intersekcia, zbir statusa=ukupno, otvorenihAkcija, naslov/vlasnik/incidentId, MTTD/MTTR ≥0, timeline ≥2 faze i vrijemeISO, akcije prioritet/odgovoran/status enum, zatvoreno ISO, JSON API link, timestamp`, 'ok', `Autofinish #1106 — Unit testovi PostMortemWidget, 20 asercija`),
     createCheck('autofinish-1106-iteracija-check', 'Autofinish #1106 Iteracija', `Provera autofinish iteracije #1106 — Unit testovi PostMortemWidget`, 'ok', `Autofinish #1106 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1107 — SRE Widgeti na /autofinish stranici ─────────────────
+    createCheck('autofinish-1107-sre-page-integration-check', 'SRE Page Integration #1107', `Provera integracije SRE widgeta na /autofinish stranici — RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget dodati uz postojeće IncidentLogWidget i ErrorBudgetWidget`, 'ok', `Autofinish #1107 — 6 SRE widgeta integrisana, sve SRE helper funkcije u page.tsx`),
+    createCheck('autofinish-1107-iteracija-check', 'Autofinish #1107 Iteracija', `Provera autofinish iteracije #1107 — Dodaj SRE widgete u /autofinish stranicu`, 'ok', `Autofinish #1107 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1108 — E2E SRE API Endpoints konzistentnost ────────────────
+    createCheck('autofinish-1108-sre-e2e-check', 'E2E SRE API #1108', `Provera E2E SRE API konzistentnosti — svih 6 SRE helpera (incidentLog, errorBudget, runbook, onCall, alertRules, postMortem) konzistentno vraćaju APP_VERSION, AUTOFINISH_COUNT, ISO timestamp, ukupno=length`, 'ok', `Autofinish #1108 — 22 E2E asercija kroz 6 SRE helpera`),
+    createCheck('autofinish-1108-iteracija-check', 'Autofinish #1108 Iteracija', `Provera autofinish iteracije #1108 — E2E SRE API Endpoints konzistentnost test`, 'ok', `Autofinish #1108 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

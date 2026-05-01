@@ -803,6 +803,10 @@
  * Autofinish #1105 (Dashboard PostMortemWidget — post-mortem lista s duplim filterom po statusu i severitetu, timeline faze, akcione stavke s prioritetom/odgovornim, MTTD/MTTR prikaz, zahvaćeni servisi, korijen uzroka, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2192→2194, APP_VERSION 46.25.0→46.26.0)
  *
  * Autofinish #1106 (Unit testovi PostMortemWidget — filter svi/otvoren/u-pregledu/zatvoren/arhiviran, filter severity P1-P4, dupli filter intersekcia, zbir statusa=ukupno, otvorenihAkcija, naslov/vlasnik/incidentId, MTTD/MTTR ≥0, timeline ≥2 faze i vrijemeISO, akcije prioritet/odgovoran/status enum, zatvoreno ISO za zatvoren/arhiviran, JSON API link, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2194→2196, APP_VERSION 46.26.0→46.27.0)
+ *
+ * Autofinish #1107 (Dodaj RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget u /autofinish page.tsx — integracija svih 6 SRE widgeta na glavnoj stranici; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2196→2198, APP_VERSION 46.27.0→46.28.0)
+ *
+ * Autofinish #1108 (E2E SRE API Endpoints konzistentnost — verzija/autofinishBroj/timestamp konzistentnost svih 6 SRE helpera, ukupno=length za svaki, SLO target opseg, API putanje format; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2198→2200, APP_VERSION 46.28.0→46.29.0)
  */
 
 import {
@@ -1407,6 +1411,8 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1104: 'GET /api/autofinish-post-mortem endpoint',
     1105: 'Dashboard PostMortemWidget',
     1106: 'Unit testovi PostMortemWidget',
+    1107: 'Dodaj SRE widgete u /autofinish stranicu',
+    1108: 'E2E SRE API Endpoints konzistentnost test',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2299,6 +2305,8 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1104: 'GET /api/autofinish-post-mortem endpoint',
     1105: 'Dashboard PostMortemWidget',
     1106: 'Unit testovi PostMortemWidget',
+    1107: 'Dodaj SRE widgete u /autofinish stranicu',
+    1108: 'E2E SRE API Endpoints konzistentnost test',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2642,6 +2650,8 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1104: 'GET /api/autofinish-post-mortem endpoint',
     1105: 'Dashboard PostMortemWidget',
     1106: 'Unit testovi PostMortemWidget',
+    1107: 'Dodaj SRE widgete u /autofinish stranicu',
+    1108: 'E2E SRE API Endpoints konzistentnost test',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
