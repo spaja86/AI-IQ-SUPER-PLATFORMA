@@ -771,6 +771,8 @@
  * Autofinish #1089 (GET /api/autofinish-runbook — rate-limit, Cache-Control s-maxage=300, X-App-Version, X-Autofinish-Iteracija headers; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2160→2162, APP_VERSION 46.9.0→46.10.0)
  *
  * Autofinish #1090 (Dashboard RunbookWidget — runbook lista, filter po prioritetu P1-P4, detalji koraka, vlasnik badge, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2162→2164, APP_VERSION 46.10.0→46.11.0)
+ *
+ * Autofinish #1091 (Unit testovi RunbookWidget — filter P1-P4, zbir prioriteta, naziv/servis/vlasnik, koraci expand, tagovi, JSON API link, pokriveniServisi konzistentnost, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2164→2166, APP_VERSION 46.11.0→46.12.0)
  */
 
 import {
@@ -1359,6 +1361,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1088: 'Unit testovi getAutofinishRunbook()',
     1089: 'GET /api/autofinish-runbook endpoint',
     1090: 'Dashboard RunbookWidget',
+    1091: 'Unit testovi RunbookWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2235,6 +2238,7 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1088: 'Unit testovi getAutofinishRunbook()',
     1089: 'GET /api/autofinish-runbook endpoint',
     1090: 'Dashboard RunbookWidget',
+    1091: 'Unit testovi RunbookWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2562,6 +2566,7 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1088: 'Unit testovi getAutofinishRunbook()',
     1089: 'GET /api/autofinish-runbook endpoint',
     1090: 'Dashboard RunbookWidget',
+    1091: 'Unit testovi RunbookWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];

@@ -6712,6 +6712,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1090 — Dashboard RunbookWidget ───────────────────────────
     createCheck('autofinish-1090-runbook-widget-check', 'Dashboard RunbookWidget #1090', `Provera RunbookWidget — lista runbooka, filter po prioritetu P1-P4, detalji koraka, vlasnik badge, ARIA`, 'ok', `Autofinish #1090 — RunbookWidget: TOTAL_DIAGNOSTIKA 2162→2164, APP_VERSION 46.10.0→46.11.0`),
     createCheck('autofinish-1090-iteracija-check', 'Autofinish #1090 Iteracija', `Provera autofinish iteracije #1090 — Dashboard RunbookWidget`, 'ok', `Autofinish #1090 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1091 — Unit testovi RunbookWidget ────────────────────────
+    createCheck('autofinish-1091-runbook-widget-test-check', 'Unit testovi RunbookWidget #1091', `Provera unit testova RunbookWidget — filter P1-P4, zbir prioriteta, koraci, tagovi, pokriveniServisi`, 'ok', `Autofinish #1091 — RunbookWidget testovi: TOTAL_DIAGNOSTIKA 2164→2166, APP_VERSION 46.11.0→46.12.0`),
+    createCheck('autofinish-1091-iteracija-check', 'Autofinish #1091 Iteracija', `Provera autofinish iteracije #1091 — Unit testovi RunbookWidget`, 'ok', `Autofinish #1091 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
