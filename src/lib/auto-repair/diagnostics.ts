@@ -6732,6 +6732,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1095 — Dashboard OnCallWidget ───────────────────────────
     createCheck('autofinish-1095-on-call-widget-check', 'Dashboard OnCallWidget #1095', `Provera Dashboard OnCallWidget — on-call lista timova, filter aktivan/rezerva/slobodan, nivo badge, incident count, kontakti, ARIA, JSON API link`, 'ok', `Autofinish #1095 — OnCallWidget komponenta, TOTAL_DIAGNOSTIKA 2172→2174`),
     createCheck('autofinish-1095-iteracija-check', 'Autofinish #1095 Iteracija', `Provera autofinish iteracije #1095 — Dashboard OnCallWidget`, 'ok', `Autofinish #1095 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1096 — Unit testovi OnCallWidget ────────────────────────
+    createCheck('autofinish-1096-on-call-widget-test-check', 'Unit testovi OnCallWidget #1096', `Provera unit testova OnCallWidget — filter svi/aktivan/rezerva/slobodan, zbir statusa=ukupno, incident suma, naziv/opis/rotacija/eskalacija, nivo badge, smjena datumi, kontakti, JSON API link, timestamp`, 'ok', `Autofinish #1096 — OnCallWidget unit testovi, TOTAL_DIAGNOSTIKA 2174→2176`),
+    createCheck('autofinish-1096-iteracija-check', 'Autofinish #1096 Iteracija', `Provera autofinish iteracije #1096 — Unit testovi OnCallWidget`, 'ok', `Autofinish #1096 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
