@@ -757,6 +757,8 @@
  * Autofinish #1082 (E2E Svih 42 Autofinish API Endpoints — konzistentnost verzija kroz svih 42 endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2146→2148, APP_VERSION 46.2.0→46.3.0)
  *
  * Autofinish #1083 (getAutofinishErrorBudget() Helper — error budget po servisima, potrošnja, preostalo, SLO prozori; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2148→2150, APP_VERSION 46.3.0→46.4.0)
+ *
+ * Autofinish #1084 (Unit Testovi getAutofinishErrorBudget() — schema, sloTarget, potrosenoPct, status enum, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2150→2152, APP_VERSION 46.4.0→46.5.0)
  */
 
 import {
