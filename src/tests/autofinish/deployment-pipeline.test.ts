@@ -182,7 +182,7 @@ async function runTests(): Promise<void> {
     assert(r.pipelines.every((p) => p.faze.length > 0), 'barem jedna faza');
   });
 
-  await test('Postoji barem jedan uspjesan pipeline', () => {
+  await test('uspjesnih >= 0 (nula ili više uspješnih pipeline-a)', () => {
     assert(r.uspjesnih >= 0, `uspjesnih: ${r.uspjesnih}`);
   });
 

@@ -225,7 +225,7 @@ export function KonfiguracijaWidget({ konfiguracija }: Props) {
                       </div>
                       <div className="rounded bg-gray-800 px-2 py-1.5">
                         <div className="text-gray-500 mb-0.5">Zadnja promjena</div>
-                        <div className="text-white font-mono text-xs">{p.zadnjaPromjena.slice(0, 10)}</div>
+                        <div className="text-white font-mono text-xs">{p.zadnjaPromjena.slice(0, 19).replace('T', ' ')}</div>
                       </div>
                     </div>
                   </div>

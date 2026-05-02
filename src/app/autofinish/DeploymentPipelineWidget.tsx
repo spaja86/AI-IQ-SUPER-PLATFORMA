@@ -140,7 +140,7 @@ export function DeploymentPipelineWidget({ pipeline }: Props) {
                     <div className="min-w-0">
                       <span className="block text-sm font-semibold text-white truncate">{p.servis}</span>
                       <span className="block text-xs text-gray-400 font-mono truncate">
-                        {p.grana} · {p.commitSha}
+                        {p.grana} · {p.commitSha.slice(0, 7)}
                       </span>
                     </div>
                   </div>
