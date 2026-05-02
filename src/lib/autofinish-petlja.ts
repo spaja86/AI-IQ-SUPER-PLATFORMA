@@ -833,6 +833,8 @@
  * Autofinish #1120 (DeploymentPipelineWidget — praćenje CI/CD pipeline statusa po servisu: faze build/test/deploy/verify, status ok/running/failed/skipped, trajanje, commit SHA, grana, okidač, prethodna deploy vremena, trend uspjeha, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 984→985, TOTAL_ROUTES 1043→1044; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2222→2224, APP_VERSION 46.40.0→46.41.0)
  *
  * Autofinish #1121 (InfrastrukturMonitorWidget — praćenje infrastrukturnih čvorova: CPU/RAM/disk/mreža po hostu, status ok/warning/critical, uptime posto, uloge aplikacija/baze/keš/proxy/monitoring, region, load average, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 985→986, TOTAL_ROUTES 1044→1045; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2224→2226, APP_VERSION 46.41.0→46.42.0)
+ *
+ * Autofinish #1122 (KonfiguracijaWidget — dashboard integracija konfiguracionih parametara: zdravlje skor 0–100, filter po statusu i kategoriji, maskiranje osjetljivih vrijednosti, okruzenje/izvor/kategorija enum bedževi, expand detalji, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2226→2228, APP_VERSION 46.42.0→46.43.0)
  */
 
 import {

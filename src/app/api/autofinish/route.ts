@@ -303,6 +303,7 @@ function getAutofinishOpis(n: number): string {
     732: `Autofinish #732 — Skalabilnost i infrastruktura: load balancing konfigurisan, auto-scaling aktivan, cloud deployment optimizovan, 2 nove dijagnostičke provere (#732) u diagnostics.ts (TOTAL_DIAGNOSTIKA 1447→1449), APP_VERSION 42.52.0→42.53.0, AUTOFINISH_COUNT 731→732, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     733: `Autofinish #733 — Sigurnost i autentifikacija: JWT validacija ažurirana, rate limiting aktivan, CORS politika konfigurirana, 2 nove dijagnostičke provere (#733) u diagnostics.ts (TOTAL_DIAGNOSTIKA 1449→1451), APP_VERSION 42.53.0→42.54.0, AUTOFINISH_COUNT 732→733, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     734: `Autofinish #734 — Performanse i optimizacija: query optimizacija izvršena, caching sloj aktivan, bundle size smanjen, 2 nove dijagnostičke provere (#734) u diagnostics.ts (TOTAL_DIAGNOSTIKA 1451→${TOTAL_DIAGNOSTIKA}), APP_VERSION 42.54.0→42.55.0, AUTOFINISH_COUNT 733→734, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1122: `Autofinish #1122 — KonfiguracijaWidget dashboard integracija: zdravlje skor, validiran/nevazeci/upozorenje/nedostaje parametri, filter po statusu i kategoriji, maskiranje osjetljivih vrijednosti, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2226→2228, APP_VERSION 46.42.0→46.43.0`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

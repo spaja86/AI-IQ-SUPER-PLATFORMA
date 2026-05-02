@@ -6836,6 +6836,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1121 — InfrastrukturMonitorWidget ────────────────────────
     createCheck('autofinish-1121-infrastruktura-check', 'Infrastruktura Monitor Widget #1121', `Provera InfrastrukturMonitorWidget — CPU/RAM/disk/mreza po hostu, status ok/warning/critical, uptime posto, uloge aplikacija/baza/kes/proxy/monitoring, region, load average, ARIA pristupacnost, JSON API link`, 'ok', `Autofinish #1121 — ${AUTOFINISH_COUNT} iteracija, InfrastrukturMonitorWidget integrisan, API /api/autofinish-infrastruktura aktivan`),
     createCheck('autofinish-1121-iteracija-check', 'Autofinish #1121 Iteracija', `Provera autofinish iteracije #1121 — InfrastrukturMonitorWidget`, 'ok', `Autofinish #1121 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1122 — KonfiguracijaWidget ───────────────────────────────────
+    createCheck('autofinish-1122-konfiguracija-widget-check', 'Konfiguracija Widget #1122', `Provera KonfiguracijaWidget — zdravlje skor 0–100, status validiran/nevazeci/upozorenje/nedostaje, filter po statusu i kategoriji, maskiranje osjetljivih vrijednosti sa ***, okruzenje/izvor/kategorija enum bedževi, expand detalji, JSON API link`, 'ok', `Autofinish #1122 — ${AUTOFINISH_COUNT} iteracija, KonfiguracijaWidget integrisan, API /api/autofinish-konfiguracija aktivan`),
+    createCheck('autofinish-1122-iteracija-check', 'Autofinish #1122 Iteracija', `Provera autofinish iteracije #1122 — KonfiguracijaWidget dashboard integracija`, 'ok', `Autofinish #1122 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
