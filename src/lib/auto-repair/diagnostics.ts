@@ -6844,6 +6844,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1123 — Unit testovi getAutofinishDeploymentPipeline() ────────
     createCheck('autofinish-1123-deployment-pipeline-tests-check', 'Unit testi Deployment Pipeline #1123', `Provera unit testova getAutofinishDeploymentPipeline() — schema (verzija, autofinishBroj, timestamp, pipelines), pipeline faze enum ok/running/failed/skipped, okidac enum push/pr/manual/schedule/tag, trendUspjeha enum, postoUspijeha 0–100, logički invarijanti, E2E simulacija`, 'ok', `Autofinish #1123 — unit testovi deployment-pipeline.test.ts kreirani`),
     createCheck('autofinish-1123-iteracija-check', 'Autofinish #1123 Iteracija', `Provera autofinish iteracije #1123 — Unit testovi getAutofinishDeploymentPipeline()`, 'ok', `Autofinish #1123 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1124 — DeploymentPipelineWidget ──────────────────────────────
+    createCheck('autofinish-1124-deployment-pipeline-widget-check', 'Deployment Pipeline Widget #1124', `Provera DeploymentPipelineWidget — pipeline kartice po servisu, faze build/test/deploy/verify sa status bedževima, commit SHA skracenica, grana, okidac, postoUspijeha progress bar, status ok=zeleno/running=plavo/failed=crveno/skipped=sivo, filter po statusu, ARIA pristupacnost, JSON API link`, 'ok', `Autofinish #1124 — ${AUTOFINISH_COUNT} iteracija, DeploymentPipelineWidget integrisan`),
+    createCheck('autofinish-1124-iteracija-check', 'Autofinish #1124 Iteracija', `Provera autofinish iteracije #1124 — DeploymentPipelineWidget dashboard integracija`, 'ok', `Autofinish #1124 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

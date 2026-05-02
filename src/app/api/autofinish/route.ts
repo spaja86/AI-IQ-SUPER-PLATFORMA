@@ -305,6 +305,7 @@ function getAutofinishOpis(n: number): string {
     734: `Autofinish #734 — Performanse i optimizacija: query optimizacija izvršena, caching sloj aktivan, bundle size smanjen, 2 nove dijagnostičke provere (#734) u diagnostics.ts (TOTAL_DIAGNOSTIKA 1451→${TOTAL_DIAGNOSTIKA}), APP_VERSION 42.54.0→42.55.0, AUTOFINISH_COUNT 733→734, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1122: `Autofinish #1122 — KonfiguracijaWidget dashboard integracija: zdravlje skor, validiran/nevazeci/upozorenje/nedostaje parametri, filter po statusu i kategoriji, maskiranje osjetljivih vrijednosti, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2226→2228, APP_VERSION 46.42.0→46.43.0`,
     1123: `Autofinish #1123 — Unit testovi getAutofinishDeploymentPipeline(): schema, faze enum, okidac enum, trendUspjeha enum, postoUspijeha 0–100, logički invarijanti, E2E simulacija; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2228→2230, APP_VERSION 46.43.0→46.44.0`,
+    1124: `Autofinish #1124 — DeploymentPipelineWidget dashboard integracija: pipeline kartice po servisu, faze build/test/deploy/verify, status badge, commit SHA, grana, trigger, postoUspijeha progress bar, filter po statusu, ARIA pristupačnost; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2230→2232, APP_VERSION 46.44.0→46.45.0`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

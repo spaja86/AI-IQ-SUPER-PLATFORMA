@@ -17,6 +17,7 @@
 // Autofinish #1107 — Dodaj RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget
 // Autofinish #1115 — TehDugWidget (Tehnicki Dug)
 // Autofinish #1122 — KonfiguracijaWidget
+// Autofinish #1124 — DeploymentPipelineWidget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -71,6 +72,7 @@ import {
   getAutofinishPodsistemiZdravlje,
   getAutofinishTehDug,
   getAutofinishKonfiguracija,
+  getAutofinishDeploymentPipeline,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -118,6 +120,7 @@ import { DoraMetricsWidget } from './DoraMetricsWidget';
 import { PodsistemiZdravljeWidget } from './PodsistemiZdravljeWidget';
 import { TehDugWidget } from './TehDugWidget';
 import { KonfiguracijaWidget } from './KonfiguracijaWidget';
+import { DeploymentPipelineWidget } from './DeploymentPipelineWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -205,6 +208,7 @@ export default function AutofinishPage() {
   const podsistemiZdravlje = getAutofinishPodsistemiZdravlje();
   const tehDug = getAutofinishTehDug();
   const konfiguracija = getAutofinishKonfiguracija();
+  const deploymentPipeline = getAutofinishDeploymentPipeline();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -844,6 +848,9 @@ export default function AutofinishPage() {
 
         {/* #1122 — Konfiguracija Widget */}
         <KonfiguracijaWidget konfiguracija={konfiguracija} />
+
+        {/* #1124 — Deployment Pipeline Widget */}
+        <DeploymentPipelineWidget pipeline={deploymentPipeline} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">

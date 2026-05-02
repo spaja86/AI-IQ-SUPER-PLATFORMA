@@ -837,6 +837,8 @@
  * Autofinish #1122 (KonfiguracijaWidget — dashboard integracija konfiguracionih parametara: zdravlje skor 0–100, filter po statusu i kategoriji, maskiranje osjetljivih vrijednosti, okruzenje/izvor/kategorija enum bedževi, expand detalji, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2226→2228, APP_VERSION 46.42.0→46.43.0)
  *
  * Autofinish #1123 (Unit testovi getAutofinishDeploymentPipeline() — schema, pipeline faze enum ok/running/failed/skipped, okidac push/pr/manual/schedule/tag, trendUspjeha, postoUspijeha 0–100, logički invarijanti, E2E simulacija; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2228→2230, APP_VERSION 46.43.0→46.44.0)
+ *
+ * Autofinish #1124 (DeploymentPipelineWidget — dashboard integracija CI/CD pipeline statusa: kartice po servisu, faze build/test/deploy/verify sa status bedževima, commit SHA, grana, okidač, postoUspijeha progress bar, filter po statusu, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2230→2232, APP_VERSION 46.44.0→46.45.0)
  */
 
 import {
