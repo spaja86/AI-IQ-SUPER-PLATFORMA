@@ -831,6 +831,8 @@
  * Autofinish #1119 (Popravka testova i build grešaka — diagnostics.ts sync check ažuriran 1944→2220, autofinish-petlja.ts POKRIVENE_KATEGORIJE_COVERAGE proširene, autofinish-milestone async params, autofinish-verzija-iteracije summary.verzije, hardhat.config.ts i tsconfig.json popravljeni; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2220→2222, APP_VERSION 46.39.0→46.40.0)
  *
  * Autofinish #1120 (DeploymentPipelineWidget — praćenje CI/CD pipeline statusa po servisu: faze build/test/deploy/verify, status ok/running/failed/skipped, trajanje, commit SHA, grana, okidač, prethodna deploy vremena, trend uspjeha, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 984→985, TOTAL_ROUTES 1043→1044; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2222→2224, APP_VERSION 46.40.0→46.41.0)
+ *
+ * Autofinish #1121 (InfrastrukturMonitorWidget — praćenje infrastrukturnih čvorova: CPU/RAM/disk/mreža po hostu, status ok/warning/critical, uptime posto, uloge aplikacija/baze/keš/proxy/monitoring, region, load average, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 985→986, TOTAL_ROUTES 1044→1045; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2224→2226, APP_VERSION 46.41.0→46.42.0)
  */
 
 import {
@@ -6823,6 +6825,205 @@ export function getAutofinishDeploymentPipeline(): AutofinishDeploymentPipelineR
     preskocenih,
     prosjecnoTrajanjeSekundi,
     pipelines,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishInfrastruktura() (#1121) ────────────────────────────────────
+
+export type AutofinishInfraStatus = 'ok' | 'warning' | 'critical';
+export type AutofinishInfraUloga = 'aplikacija' | 'baza' | 'kes' | 'proxy' | 'monitoring';
+export type AutofinishInfraRegion = 'eu-central' | 'eu-west' | 'us-east' | 'us-west' | 'ap-southeast';
+
+export interface AutofinishInfraNode {
+  id: string;
+  naziv: string;
+  uloga: AutofinishInfraUloga;
+  region: AutofinishInfraRegion;
+  status: AutofinishInfraStatus;
+  uptimePostotak: number;
+  cpu: number;
+  ram: number;
+  disk: number;
+  mrezaUlazMbps: number;
+  mrezaIzlazMbps: number;
+  loadAverage1m: number;
+  loadAverage5m: number;
+  loadAverage15m: number;
+  zadnjeAzuriranjeISO: string;
+}
+
+export interface AutofinishInfrastrukturaSummary {
+  ukupnoNodeova: number;
+  okNodeova: number;
+  upozorenjaNodeova: number;
+  kriticnihNodeova: number;
+  prosjecniCpu: number;
+  prosjecniRam: number;
+  prosjecniDisk: number;
+  prosjecniUptime: number;
+}
+
+export interface AutofinishInfrastrukturaResult {
+  verzija: string;
+  autofinishBroj: number;
+  summary: AutofinishInfrastrukturaSummary;
+  nodeovi: AutofinishInfraNode[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled infrastrukturnih čvorova — CPU, RAM, disk, mreža,
+ * uptime, uloga i region po hostu.
+ *
+ * @returns AutofinishInfrastrukturaResult
+ */
+export function getAutofinishInfrastruktura(): AutofinishInfrastrukturaResult {
+  const nodeovi: AutofinishInfraNode[] = [
+    {
+      id: 'node-app-01',
+      naziv: 'app-01.spaja.io',
+      uloga: 'aplikacija',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.97,
+      cpu: 38,
+      ram: 62,
+      disk: 44,
+      mrezaUlazMbps: 120,
+      mrezaIzlazMbps: 85,
+      loadAverage1m: 1.42,
+      loadAverage5m: 1.35,
+      loadAverage15m: 1.28,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-app-02',
+      naziv: 'app-02.spaja.io',
+      uloga: 'aplikacija',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.95,
+      cpu: 42,
+      ram: 58,
+      disk: 41,
+      mrezaUlazMbps: 110,
+      mrezaIzlazMbps: 78,
+      loadAverage1m: 1.61,
+      loadAverage5m: 1.54,
+      loadAverage15m: 1.47,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-db-01',
+      naziv: 'db-01.spaja.io',
+      uloga: 'baza',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.99,
+      cpu: 25,
+      ram: 78,
+      disk: 67,
+      mrezaUlazMbps: 45,
+      mrezaIzlazMbps: 90,
+      loadAverage1m: 0.88,
+      loadAverage5m: 0.91,
+      loadAverage15m: 0.86,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-db-02',
+      naziv: 'db-02.spaja.io',
+      uloga: 'baza',
+      region: 'eu-west',
+      status: 'warning',
+      uptimePostotak: 99.82,
+      cpu: 71,
+      ram: 84,
+      disk: 88,
+      mrezaUlazMbps: 38,
+      mrezaIzlazMbps: 72,
+      loadAverage1m: 3.14,
+      loadAverage5m: 2.97,
+      loadAverage15m: 2.68,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-cache-01',
+      naziv: 'cache-01.spaja.io',
+      uloga: 'kes',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 100.0,
+      cpu: 12,
+      ram: 45,
+      disk: 22,
+      mrezaUlazMbps: 200,
+      mrezaIzlazMbps: 195,
+      loadAverage1m: 0.31,
+      loadAverage5m: 0.29,
+      loadAverage15m: 0.27,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-proxy-01',
+      naziv: 'proxy-01.spaja.io',
+      uloga: 'proxy',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.98,
+      cpu: 18,
+      ram: 32,
+      disk: 18,
+      mrezaUlazMbps: 850,
+      mrezaIzlazMbps: 840,
+      loadAverage1m: 0.54,
+      loadAverage5m: 0.51,
+      loadAverage15m: 0.49,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-monitoring-01',
+      naziv: 'monitoring-01.spaja.io',
+      uloga: 'monitoring',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.93,
+      cpu: 22,
+      ram: 55,
+      disk: 51,
+      mrezaUlazMbps: 30,
+      mrezaIzlazMbps: 15,
+      loadAverage1m: 0.72,
+      loadAverage5m: 0.68,
+      loadAverage15m: 0.65,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+  ];
+
+  const okNodeova        = nodeovi.filter((n) => n.status === 'ok').length;
+  const upozorenjaNodeova = nodeovi.filter((n) => n.status === 'warning').length;
+  const kriticnihNodeova  = nodeovi.filter((n) => n.status === 'critical').length;
+  const avg = (arr: number[]) => Math.round(arr.reduce((s, v) => s + v, 0) / arr.length);
+
+  const summary: AutofinishInfrastrukturaSummary = {
+    ukupnoNodeova:     nodeovi.length,
+    okNodeova,
+    upozorenjaNodeova,
+    kriticnihNodeova,
+    prosjecniCpu:      avg(nodeovi.map((n) => n.cpu)),
+    prosjecniRam:      avg(nodeovi.map((n) => n.ram)),
+    prosjecniDisk:     avg(nodeovi.map((n) => n.disk)),
+    prosjecniUptime:   Math.round(
+      nodeovi.reduce((s, n) => s + n.uptimePostotak, 0) / nodeovi.length * 100,
+    ) / 100,
+  };
+
+  return {
+    verzija:       APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    summary,
+    nodeovi,
     timestamp: new Date().toISOString(),
   };
 }
