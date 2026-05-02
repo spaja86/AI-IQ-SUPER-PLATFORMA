@@ -18,6 +18,7 @@
 // Autofinish #1115 — TehDugWidget (Tehnicki Dug)
 // Autofinish #1122 — KonfiguracijaWidget
 // Autofinish #1124 — DeploymentPipelineWidget
+// Autofinish #1125 — InfrastrukturMonitorWidget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -73,6 +74,7 @@ import {
   getAutofinishTehDug,
   getAutofinishKonfiguracija,
   getAutofinishDeploymentPipeline,
+  getAutofinishInfrastruktura,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -121,6 +123,7 @@ import { PodsistemiZdravljeWidget } from './PodsistemiZdravljeWidget';
 import { TehDugWidget } from './TehDugWidget';
 import { KonfiguracijaWidget } from './KonfiguracijaWidget';
 import { DeploymentPipelineWidget } from './DeploymentPipelineWidget';
+import { InfrastrukturMonitorWidget } from './InfrastrukturMonitorWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -209,6 +212,7 @@ export default function AutofinishPage() {
   const tehDug = getAutofinishTehDug();
   const konfiguracija = getAutofinishKonfiguracija();
   const deploymentPipeline = getAutofinishDeploymentPipeline();
+  const infrastruktura = getAutofinishInfrastruktura();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -851,6 +855,9 @@ export default function AutofinishPage() {
 
         {/* #1124 — Deployment Pipeline Widget */}
         <DeploymentPipelineWidget pipeline={deploymentPipeline} />
+
+        {/* #1125 — Infrastruktura Monitor Widget */}
+        <InfrastrukturMonitorWidget infrastruktura={infrastruktura} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">

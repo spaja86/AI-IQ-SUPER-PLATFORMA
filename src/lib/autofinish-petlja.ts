@@ -839,6 +839,8 @@
  * Autofinish #1123 (Unit testovi getAutofinishDeploymentPipeline() — schema, pipeline faze enum ok/running/failed/skipped, okidac push/pr/manual/schedule/tag, trendUspjeha, postoUspijeha 0–100, logički invarijanti, E2E simulacija; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2228→2230, APP_VERSION 46.43.0→46.44.0)
  *
  * Autofinish #1124 (DeploymentPipelineWidget — dashboard integracija CI/CD pipeline statusa: kartice po servisu, faze build/test/deploy/verify sa status bedževima, commit SHA, grana, okidač, postoUspijeha progress bar, filter po statusu, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2230→2232, APP_VERSION 46.44.0→46.45.0)
+ *
+ * Autofinish #1125 (InfrastrukturMonitorWidget — dashboard integracija infrastrukturnog monitora: summary ok/warning/critical, prosjecni CPU/RAM/disk/uptime barovi, node kartice sa metrika barovima, filter po ulozi i statusu, expand detalji mreža/load average, region bedževi, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2232→2234, APP_VERSION 46.45.0→46.46.0)
  */
 
 import {
