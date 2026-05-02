@@ -6840,6 +6840,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1122 — KonfiguracijaWidget ───────────────────────────────────
     createCheck('autofinish-1122-konfiguracija-widget-check', 'Konfiguracija Widget #1122', `Provera KonfiguracijaWidget — zdravlje skor 0–100, status validiran/nevazeci/upozorenje/nedostaje, filter po statusu i kategoriji, maskiranje osjetljivih vrijednosti sa ***, okruzenje/izvor/kategorija enum bedževi, expand detalji, JSON API link`, 'ok', `Autofinish #1122 — ${AUTOFINISH_COUNT} iteracija, KonfiguracijaWidget integrisan, API /api/autofinish-konfiguracija aktivan`),
     createCheck('autofinish-1122-iteracija-check', 'Autofinish #1122 Iteracija', `Provera autofinish iteracije #1122 — KonfiguracijaWidget dashboard integracija`, 'ok', `Autofinish #1122 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1123 — Unit testovi getAutofinishDeploymentPipeline() ────────
+    createCheck('autofinish-1123-deployment-pipeline-tests-check', 'Unit testi Deployment Pipeline #1123', `Provera unit testova getAutofinishDeploymentPipeline() — schema (verzija, autofinishBroj, timestamp, pipelines), pipeline faze enum ok/running/failed/skipped, okidac enum push/pr/manual/schedule/tag, trendUspjeha enum, postoUspijeha 0–100, logički invarijanti, E2E simulacija`, 'ok', `Autofinish #1123 — unit testovi deployment-pipeline.test.ts kreirani`),
+    createCheck('autofinish-1123-iteracija-check', 'Autofinish #1123 Iteracija', `Provera autofinish iteracije #1123 — Unit testovi getAutofinishDeploymentPipeline()`, 'ok', `Autofinish #1123 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
