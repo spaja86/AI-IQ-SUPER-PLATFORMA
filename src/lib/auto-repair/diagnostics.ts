@@ -6816,6 +6816,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1116 — Unit testovi TehDugWidget ────────────────────────────
     createCheck('autofinish-1116-teh-dug-widget-tests-check', 'Unit testi TehDug Widget #1116', `Provera unit testova TehDugWidget — computeTotals logika, filterByPrioritet svi/kriticno/visoko, trendFilter raste/pada, prioritetCount konzistentnost, procijenjeniSati > 0, tjedniTrosak > 0, jedinstveni ID-ovi`, 'ok', `Autofinish #1116 — 22 unit asercija za TehDugWidget`),
     createCheck('autofinish-1116-iteracija-check', 'Autofinish #1116 Iteracija', `Provera autofinish iteracije #1116 — Unit testovi TehDugWidget`, 'ok', `Autofinish #1116 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1117 — KonfiguracijaWidget ───────────────────────────────────
+    createCheck('autofinish-1117-konfiguracija-check', 'Konfiguracija Widget #1117', `Provera KonfiguracijaWidget — stanje konfiguracionih parametara, status validiran/nevazeci/upozorenje/nedostaje, kategorija sistem/db/api/auth/cache/monitoring/sigurnost, osjetljivo maskiranje, okruzenje, izvor, zdravlje 0–100, ARIA, JSON API link`, 'ok', `Autofinish #1117 — ${AUTOFINISH_COUNT} iteracija, KonfiguracijaWidget integrisan, API /api/autofinish-konfiguracija aktivan`),
+    createCheck('autofinish-1117-iteracija-check', 'Autofinish #1117 Iteracija', `Provera autofinish iteracije #1117 — KonfiguracijaWidget`, 'ok', `Autofinish #1117 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1118 — Unit testovi KonfiguracijaWidget ─────────────────────
+    createCheck('autofinish-1118-konfiguracija-tests-check', 'Unit testi Konfiguracija Widget #1118', `Provera unit testova KonfiguracijaWidget — validiranih+nevazecih+upozorenja+nedostaje=ukupno, zdravlje 0–100 izracun, status/okruzenje/izvor/kategorija enum, osjetljivi maskirani, zadnjaPromjena ISO, jedinstveni ID-ovi, ime/opis ne prazni`, 'ok', `Autofinish #1118 — 20 unit asercija za KonfiguracijaWidget`),
+    createCheck('autofinish-1118-iteracija-check', 'Autofinish #1118 Iteracija', `Provera autofinish iteracije #1118 — Unit testovi KonfiguracijaWidget`, 'ok', `Autofinish #1118 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

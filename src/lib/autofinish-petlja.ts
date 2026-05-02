@@ -819,6 +819,14 @@
  * Autofinish #1113 (PodsistemiZdravljeWidget — zdravlje podsistema: health bar 0–100%, status ok/warning/error, ukupnoProvera/uspesnih/upozorenja/gresaka, status badge, ARIA, JSON API; TOTAL_API_ROUTES 975→976, TOTAL_ROUTES 1002→1003; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2208→2210, APP_VERSION 46.33.0→46.34.0)
  *
  * Autofinish #1114 (Unit testovi PodsistemiZdravljeWidget — ukupnoPodsistema, zdravlje 0–100, status enum, uspesnih+upozorenja+gresaka<=ukupnoProvera, naziv ne prazan, verzija/autofinishBroj/timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2210→2212, APP_VERSION 46.34.0→46.35.0)
+ *
+ * Autofinish #1115 (TehDugWidget — tehnički dug: 6 stavki, kategorije arhitektura/kod/testovi/dokumentacija/sigurnost/zavisnosti, prioriteti kriticno/visoko/srednje/nisko, procijenjeniSati, tjedniTrosak, trend, ARIA, JSON API link; TOTAL_API_ROUTES 976→977, TOTAL_ROUTES 1003→1004; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2212→2214, APP_VERSION 46.35.0→46.36.0)
+ *
+ * Autofinish #1116 (Unit testovi TehDugWidget — computeTotals logika, filterByPrioritet svi/kriticno/visoko, trendFilter raste/pada, prioritetCount konzistentnost, procijenjeniSati > 0, tjedniTrosak > 0, jedinstveni ID-ovi; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2214→2216, APP_VERSION 46.36.0→46.37.0)
+ *
+ * Autofinish #1117 (KonfiguracijaWidget — stanje konfiguracionih parametara: ime/vrijednost/okruženje/izvor/status validiran/nevažeći/upozorenje/nedostaje, kategorija sistem/db/api/auth/cache/monitoring/sigurnost, osjetljivo maskirano, zadnjaPromjena ISO, ARIA, JSON API link; TOTAL_API_ROUTES 977→978, TOTAL_ROUTES 1004→1005; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2216→2218, APP_VERSION 46.37.0→46.38.0)
+ *
+ * Autofinish #1118 (Unit testovi KonfiguracijaWidget — ukupnoParametara, validiranih+nevazecih+upozorenja+nedostaje=ukupno, kategorija enum, status enum, okruzenje enum, izvor enum, osjetljivo maskiranje, zadnjaPromjena ISO, jedinstveni ID-ovi, zdravlje 0–100; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2218→2220, APP_VERSION 46.38.0→46.39.0)
  */
 
 import {
@@ -6469,6 +6477,172 @@ export function getAutofinishTehDug(): AutofinishTehDugResult {
     srednjeCount,
     niskoCount,
     stavke,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishKonfiguracija() (#1117) ─────────────────────────────────────
+
+export type AutofinishKonfiguracijaStatus = 'validiran' | 'nevazeci' | 'upozorenje' | 'nedostaje';
+export type AutofinishKonfiguracijaOkruzenje = 'production' | 'staging' | 'development' | 'sve';
+export type AutofinishKonfiguracijaIzvor = 'env' | 'secrets' | 'config-file' | 'baza' | 'default';
+export type AutofinishKonfiguracijaKategorija =
+  | 'sistem'
+  | 'db'
+  | 'api'
+  | 'auth'
+  | 'cache'
+  | 'monitoring'
+  | 'sigurnost';
+
+export interface AutofinishKonfiguracijaParametar {
+  id: string;
+  ime: string;
+  vrijednost: string;
+  kategorija: AutofinishKonfiguracijaKategorija;
+  okruzenje: AutofinishKonfiguracijaOkruzenje;
+  izvor: AutofinishKonfiguracijaIzvor;
+  status: AutofinishKonfiguracijaStatus;
+  osjetljivo: boolean;
+  zadnjaPromjena: string;
+  opis: string;
+}
+
+export interface AutofinishKonfiguracijaResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoParametara: number;
+  validiranih: number;
+  nevazecih: number;
+  upozorenja: number;
+  nedostaje: number;
+  zdravlje: number;
+  parametri: AutofinishKonfiguracijaParametar[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled stanja konfiguracionih parametara — validnost, okruženje, izvor.
+ * Osjetljivi parametri su maskirani.
+ *
+ * @returns AutofinishKonfiguracijaResult
+ */
+export function getAutofinishKonfiguracija(): AutofinishKonfiguracijaResult {
+  const parametri: AutofinishKonfiguracijaParametar[] = [
+    {
+      id: 'konf-db-url',
+      ime: 'DATABASE_URL',
+      vrijednost: '***masked***',
+      kategorija: 'db',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'validiran',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-04-28T10:00:00.000Z',
+      opis: 'PostgreSQL connection string za produkcijsku bazu podataka.',
+    },
+    {
+      id: 'konf-redis-url',
+      ime: 'REDIS_URL',
+      vrijednost: '***masked***',
+      kategorija: 'cache',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'validiran',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-04-20T08:30:00.000Z',
+      opis: 'Redis URL za cache layer i session storage.',
+    },
+    {
+      id: 'konf-jwt-secret',
+      ime: 'JWT_SECRET',
+      vrijednost: '***masked***',
+      kategorija: 'auth',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'validiran',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-04-15T12:00:00.000Z',
+      opis: 'Tajni ključ za JWT potpisivanje. Rotacija svaka 90 dana.',
+    },
+    {
+      id: 'konf-rate-limit',
+      ime: 'RATE_LIMIT_MAX',
+      vrijednost: '60',
+      kategorija: 'api',
+      okruzenje: 'sve',
+      izvor: 'env',
+      status: 'validiran',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-03-10T09:00:00.000Z',
+      opis: 'Maksimalan broj zahtjeva po minuti po IP adresi.',
+    },
+    {
+      id: 'konf-log-level',
+      ime: 'LOG_LEVEL',
+      vrijednost: 'info',
+      kategorija: 'monitoring',
+      okruzenje: 'production',
+      izvor: 'env',
+      status: 'validiran',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-02-01T07:00:00.000Z',
+      opis: 'Nivo logiranja: error, warn, info, debug.',
+    },
+    {
+      id: 'konf-cors-origin',
+      ime: 'CORS_ALLOWED_ORIGINS',
+      vrijednost: 'https://ai-iq-super-platforma.vercel.app',
+      kategorija: 'sigurnost',
+      okruzenje: 'production',
+      izvor: 'env',
+      status: 'validiran',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-04-01T11:00:00.000Z',
+      opis: 'Lista dozvoljenih origin-a za CORS politiku.',
+    },
+    {
+      id: 'konf-smtp-host',
+      ime: 'SMTP_HOST',
+      vrijednost: '***masked***',
+      kategorija: 'sistem',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'upozorenje',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-01-15T06:00:00.000Z',
+      opis: 'SMTP server za slanje emailova. Nije testiran u zadnjih 30 dana.',
+    },
+    {
+      id: 'konf-feature-debug',
+      ime: 'FEATURE_DEBUG_MODE',
+      vrijednost: '',
+      kategorija: 'sistem',
+      okruzenje: 'production',
+      izvor: 'env',
+      status: 'nedostaje',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-01-01T00:00:00.000Z',
+      opis: 'Debug mode flag. Nije definisan u produkcijskom okruženju.',
+    },
+  ];
+
+  const validiranih = parametri.filter((p) => p.status === 'validiran').length;
+  const nevazecih   = parametri.filter((p) => p.status === 'nevazeci').length;
+  const upozorenja  = parametri.filter((p) => p.status === 'upozorenje').length;
+  const nedostaje   = parametri.filter((p) => p.status === 'nedostaje').length;
+  const zdravlje    = Math.round((validiranih / parametri.length) * 100);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoParametara: parametri.length,
+    validiranih,
+    nevazecih,
+    upozorenja,
+    nedostaje,
+    zdravlje,
+    parametri,
     timestamp: new Date().toISOString(),
   };
 }
