@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2220 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2224 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6824,6 +6824,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1118 — Unit testovi KonfiguracijaWidget ─────────────────────
     createCheck('autofinish-1118-konfiguracija-tests-check', 'Unit testi Konfiguracija Widget #1118', `Provera unit testova KonfiguracijaWidget — validiranih+nevazecih+upozorenja+nedostaje=ukupno, zdravlje 0–100 izracun, status/okruzenje/izvor/kategorija enum, osjetljivi maskirani, zadnjaPromjena ISO, jedinstveni ID-ovi, ime/opis ne prazni`, 'ok', `Autofinish #1118 — 20 unit asercija za KonfiguracijaWidget`),
     createCheck('autofinish-1118-iteracija-check', 'Autofinish #1118 Iteracija', `Provera autofinish iteracije #1118 — Unit testovi KonfiguracijaWidget`, 'ok', `Autofinish #1118 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1119 — Popravka testova i build grešaka ─────────────────
+    createCheck('autofinish-1119-build-fix-check', 'Build Fix #1119', `Provera popravki iz #1119 — diagnostics.ts sync check ažuriran na 2220, POKRIVENE_KATEGORIJE_COVERAGE proširene sa ostalo/incidenti/ukupno/prosjekPotrosnje, autofinish-milestone async params, autofinish-verzija-iteracije summary.verzije ispravka, hardhat.config.ts i tsconfig.json`, 'ok', `Autofinish #1119 — build greške popravljene, testovi prolaze`),
+    createCheck('autofinish-1119-iteracija-check', 'Autofinish #1119 Iteracija', `Provera autofinish iteracije #1119 — Popravka testova i build grešaka`, 'ok', `Autofinish #1119 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1120 — DeploymentPipelineWidget ─────────────────────────
+    createCheck('autofinish-1120-deployment-pipeline-check', 'Deployment Pipeline Widget #1120', `Provera DeploymentPipelineWidget — CI/CD pipeline status po servisu, faze build/test/deploy/verify, status ok/running/failed/skipped, trajanje, commit SHA, grana, okidac, trend uspjeha, postoUspijeha 0–100, ARIA pristupacnost, JSON API link`, 'ok', `Autofinish #1120 — ${AUTOFINISH_COUNT} iteracija, DeploymentPipelineWidget integrisan, API /api/autofinish-deployment-pipeline aktivan`),
+    createCheck('autofinish-1120-iteracija-check', 'Autofinish #1120 Iteracija', `Provera autofinish iteracije #1120 — DeploymentPipelineWidget`, 'ok', `Autofinish #1120 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

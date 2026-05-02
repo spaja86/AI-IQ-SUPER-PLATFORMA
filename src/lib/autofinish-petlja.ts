@@ -827,6 +827,10 @@
  * Autofinish #1117 (KonfiguracijaWidget — stanje konfiguracionih parametara: ime/vrijednost/okruženje/izvor/status validiran/nevažeći/upozorenje/nedostaje, kategorija sistem/db/api/auth/cache/monitoring/sigurnost, osjetljivo maskirano, zadnjaPromjena ISO, ARIA, JSON API link; TOTAL_API_ROUTES 977→978, TOTAL_ROUTES 1004→1005; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2216→2218, APP_VERSION 46.37.0→46.38.0)
  *
  * Autofinish #1118 (Unit testovi KonfiguracijaWidget — ukupnoParametara, validiranih+nevazecih+upozorenja+nedostaje=ukupno, kategorija enum, status enum, okruzenje enum, izvor enum, osjetljivo maskiranje, zadnjaPromjena ISO, jedinstveni ID-ovi, zdravlje 0–100; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2218→2220, APP_VERSION 46.38.0→46.39.0)
+ *
+ * Autofinish #1119 (Popravka testova i build grešaka — diagnostics.ts sync check ažuriran 1944→2220, autofinish-petlja.ts POKRIVENE_KATEGORIJE_COVERAGE proširene, autofinish-milestone async params, autofinish-verzija-iteracije summary.verzije, hardhat.config.ts i tsconfig.json popravljeni; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2220→2222, APP_VERSION 46.39.0→46.40.0)
+ *
+ * Autofinish #1120 (DeploymentPipelineWidget — praćenje CI/CD pipeline statusa po servisu: faze build/test/deploy/verify, status ok/running/failed/skipped, trajanje, commit SHA, grana, okidač, prethodna deploy vremena, trend uspjeha, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 984→985, TOTAL_ROUTES 1043→1044; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2222→2224, APP_VERSION 46.40.0→46.41.0)
  */
 
 import {
@@ -6652,6 +6656,173 @@ export function getAutofinishKonfiguracija(): AutofinishKonfiguracijaResult {
     nedostaje,
     zdravlje,
     parametri,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishDeploymentPipeline() (#1120) ────────────────────────────────
+
+export type AutofinishDeploymentFazaStatus = 'ok' | 'running' | 'failed' | 'skipped';
+export type AutofinishDeploymentOkidac = 'push' | 'pr' | 'manual' | 'schedule' | 'tag';
+export type AutofinishDeploymentTrend = 'raste' | 'pada' | 'stabilno';
+
+export interface AutofinishDeploymentFaza {
+  naziv: string;
+  status: AutofinishDeploymentFazaStatus;
+  trajanjeSekundi: number;
+}
+
+export interface AutofinishDeploymentPipeline {
+  id: string;
+  servis: string;
+  grana: string;
+  commitSha: string;
+  okidac: AutofinishDeploymentOkidac;
+  status: AutofinishDeploymentFazaStatus;
+  faze: AutofinishDeploymentFaza[];
+  pocetakISO: string;
+  trajanjeSekundi: number;
+  prethodniDeployISO: string;
+  trendUspjeha: AutofinishDeploymentTrend;
+  postoUspijeha: number;
+}
+
+export interface AutofinishDeploymentPipelineResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoPipeline: number;
+  aktivnih: number;
+  uspjesnih: number;
+  neuspjesnih: number;
+  preskocenih: number;
+  prosjecnoTrajanjeSekundi: number;
+  pipelines: AutofinishDeploymentPipeline[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled CI/CD deployment pipeline statusa po servisu.
+ * Svaki pipeline sadrži faze build/test/deploy/verify, trajanje i trend.
+ *
+ * @returns AutofinishDeploymentPipelineResult
+ */
+export function getAutofinishDeploymentPipeline(): AutofinishDeploymentPipelineResult {
+  const pipelines: AutofinishDeploymentPipeline[] = [
+    {
+      id: 'dp-ai-iq-platforma',
+      servis: 'AI-IQ-SUPER-PLATFORMA',
+      grana: 'main',
+      commitSha: 'de965d2',
+      okidac: 'push',
+      status: 'ok',
+      faze: [
+        { naziv: 'build',  status: 'ok', trajanjeSekundi: 87 },
+        { naziv: 'test',   status: 'ok', trajanjeSekundi: 142 },
+        { naziv: 'deploy', status: 'ok', trajanjeSekundi: 55 },
+        { naziv: 'verify', status: 'ok', trajanjeSekundi: 18 },
+      ],
+      pocetakISO: '2026-05-02T04:00:00.000Z',
+      trajanjeSekundi: 302,
+      prethodniDeployISO: '2026-05-01T22:15:00.000Z',
+      trendUspjeha: 'raste',
+      postoUspijeha: 97,
+    },
+    {
+      id: 'dp-omega-ai',
+      servis: 'OMEGA-AI',
+      grana: 'main',
+      commitSha: 'a1b2c3d',
+      okidac: 'pr',
+      status: 'ok',
+      faze: [
+        { naziv: 'build',  status: 'ok',      trajanjeSekundi: 64 },
+        { naziv: 'test',   status: 'ok',      trajanjeSekundi: 210 },
+        { naziv: 'deploy', status: 'ok',      trajanjeSekundi: 48 },
+        { naziv: 'verify', status: 'skipped', trajanjeSekundi: 0 },
+      ],
+      pocetakISO: '2026-05-02T03:45:00.000Z',
+      trajanjeSekundi: 322,
+      prethodniDeployISO: '2026-05-01T19:00:00.000Z',
+      trendUspjeha: 'stabilno',
+      postoUspijeha: 94,
+    },
+    {
+      id: 'dp-spaja-pro',
+      servis: 'SpajaPro',
+      grana: 'release/v15',
+      commitSha: 'f4e5d6c',
+      okidac: 'tag',
+      status: 'failed',
+      faze: [
+        { naziv: 'build',  status: 'ok',     trajanjeSekundi: 72 },
+        { naziv: 'test',   status: 'failed', trajanjeSekundi: 95 },
+        { naziv: 'deploy', status: 'skipped', trajanjeSekundi: 0 },
+        { naziv: 'verify', status: 'skipped', trajanjeSekundi: 0 },
+      ],
+      pocetakISO: '2026-05-02T03:10:00.000Z',
+      trajanjeSekundi: 167,
+      prethodniDeployISO: '2026-04-30T14:30:00.000Z',
+      trendUspjeha: 'pada',
+      postoUspijeha: 78,
+    },
+    {
+      id: 'dp-digitalna-industrija',
+      servis: 'DigitalnaIndustrija',
+      grana: 'main',
+      commitSha: 'c7b8a9e',
+      okidac: 'schedule',
+      status: 'running',
+      faze: [
+        { naziv: 'build',  status: 'ok',      trajanjeSekundi: 58 },
+        { naziv: 'test',   status: 'running', trajanjeSekundi: 0 },
+        { naziv: 'deploy', status: 'skipped', trajanjeSekundi: 0 },
+        { naziv: 'verify', status: 'skipped', trajanjeSekundi: 0 },
+      ],
+      pocetakISO: '2026-05-02T04:10:00.000Z',
+      trajanjeSekundi: 58,
+      prethodniDeployISO: '2026-05-01T04:10:00.000Z',
+      trendUspjeha: 'stabilno',
+      postoUspijeha: 91,
+    },
+    {
+      id: 'dp-openai-platform',
+      servis: 'OpenAI-Platform',
+      grana: 'main',
+      commitSha: 'e1f2a3b',
+      okidac: 'push',
+      status: 'ok',
+      faze: [
+        { naziv: 'build',  status: 'ok', trajanjeSekundi: 44 },
+        { naziv: 'test',   status: 'ok', trajanjeSekundi: 88 },
+        { naziv: 'deploy', status: 'ok', trajanjeSekundi: 31 },
+        { naziv: 'verify', status: 'ok', trajanjeSekundi: 12 },
+      ],
+      pocetakISO: '2026-05-02T02:30:00.000Z',
+      trajanjeSekundi: 175,
+      prethodniDeployISO: '2026-05-01T18:45:00.000Z',
+      trendUspjeha: 'raste',
+      postoUspijeha: 99,
+    },
+  ];
+
+  const aktivnih    = pipelines.filter((p) => p.status === 'running').length;
+  const uspjesnih   = pipelines.filter((p) => p.status === 'ok').length;
+  const neuspjesnih = pipelines.filter((p) => p.status === 'failed').length;
+  const preskocenih = pipelines.filter((p) => p.status === 'skipped').length;
+  const prosjecnoTrajanjeSekundi = Math.round(
+    pipelines.reduce((sum, p) => sum + p.trajanjeSekundi, 0) / pipelines.length,
+  );
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoPipeline: pipelines.length,
+    aktivnih,
+    uspjesnih,
+    neuspjesnih,
+    preskocenih,
+    prosjecnoTrajanjeSekundi,
+    pipelines,
     timestamp: new Date().toISOString(),
   };
 }
