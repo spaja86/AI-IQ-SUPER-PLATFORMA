@@ -815,6 +815,10 @@
  * Autofinish #1111 (DoraMetricsWidget — DORA metrike: deployment frequency, lead time for changes, change failure rate, MTTR; rating elite/high/medium/low, trend, period, sparkline serija, ARIA, JSON API link; TOTAL_API_ROUTES 974→975, TOTAL_ROUTES 1001→1002; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2204→2206, APP_VERSION 46.31.0→46.32.0)
  *
  * Autofinish #1112 (Unit testovi DoraMetricsWidget — ukupnoMetrika, eliteCount+highCount+mediumCount+lowCount=ukupno, verzija/autofinishBroj/timestamp, sparkline dužina i period, vrijednost>=0, jedinica ne prazna, naziv/opis/id ne prazni, rating enum, trend enum, eliteTarget/highTarget/mediumTarget ne prazni; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2206→2208, APP_VERSION 46.32.0→46.33.0)
+ *
+ * Autofinish #1113 (PodsistemiZdravljeWidget — zdravlje podsistema: health bar 0–100%, status ok/warning/error, ukupnoProvera/uspesnih/upozorenja/gresaka, status badge, ARIA, JSON API; TOTAL_API_ROUTES 975→976, TOTAL_ROUTES 1002→1003; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2208→2210, APP_VERSION 46.33.0→46.34.0)
+ *
+ * Autofinish #1114 (Unit testovi PodsistemiZdravljeWidget — ukupnoPodsistema, zdravlje 0–100, status enum, uspesnih+upozorenja+gresaka<=ukupnoProvera, naziv ne prazan, verzija/autofinishBroj/timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2210→2212, APP_VERSION 46.34.0→46.35.0)
  */
 
 import {
@@ -1425,6 +1429,8 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1110: 'Unit testovi CapacityPlanningWidget',
     1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
     1112: 'Unit testovi DoraMetricsWidget',
+    1113: 'PodsistemiZdravljeWidget — zdravlje podsistema po statusu i health %',
+    1114: 'Unit testovi PodsistemiZdravljeWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2323,6 +2329,8 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1110: 'Unit testovi CapacityPlanningWidget',
     1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
     1112: 'Unit testovi DoraMetricsWidget',
+    1113: 'PodsistemiZdravljeWidget — zdravlje podsistema po statusu i health %',
+    1114: 'Unit testovi PodsistemiZdravljeWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2672,6 +2680,8 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1110: 'Unit testovi CapacityPlanningWidget',
     1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
     1112: 'Unit testovi DoraMetricsWidget',
+    1113: 'PodsistemiZdravljeWidget — zdravlje podsistema po statusu i health %',
+    1114: 'Unit testovi PodsistemiZdravljeWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];

@@ -6800,6 +6800,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1112 — Unit testovi DoraMetricsWidget ──────────────────────
     createCheck('autofinish-1112-dora-metrics-tests-check', 'Unit testi DORA Metrics #1112', `Provera unit testova getAutofinishDoraMetrics — ukupnoMetrika, zbir ratingova=ukupno, rating/trend enum, sparkline >= 2 tačaka, vrijednost >= 0, targets ne prazni, konzistentnost count poljaksa array`, 'ok', `Autofinish #1112 — 26 unit asercija za DoraMetricsWidget`),
     createCheck('autofinish-1112-iteracija-check', 'Autofinish #1112 Iteracija', `Provera autofinish iteracije #1112 — Unit testovi DoraMetricsWidget`, 'ok', `Autofinish #1112 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1113 — PodsistemiZdravljeWidget ─────────────────────────────
+    createCheck('autofinish-1113-podsistemi-zdravlje-check', 'Podsistemi Zdravlje Widget #1113', `Provera PodsistemiZdravljeWidget — health bar 0-100%, status ok/warning/error/critical, ukupnoProvera/uspesnih/upozorenja/gresaka, status badge, ARIA pristupacnost, JSON API link`, 'ok', `Autofinish #1113 — ${AUTOFINISH_COUNT} iteracija, PodsistemiZdravljeWidget integrisan, API /api/autofinish-podsistemi-zdravlje aktivan`),
+    createCheck('autofinish-1113-iteracija-check', 'Autofinish #1113 Iteracija', `Provera autofinish iteracije #1113 — PodsistemiZdravljeWidget`, 'ok', `Autofinish #1113 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1114 — Unit testovi PodsistemiZdravljeWidget ───────────────
+    createCheck('autofinish-1114-podsistemi-zdravlje-widget-tests-check', 'Unit testi Podsistemi Zdravlje Widget #1114', `Provera unit testova PodsistemiZdravljeWidget — computeSummary logika, filterByStatus svi/ok/warning, healthBarWidth 0-100, status konzistentnost, uspesnih/upozorenja/gresaka<=ukupnoProvera, jedinstveni nazivi`, 'ok', `Autofinish #1114 — 22 unit asercija za PodsistemiZdravljeWidget`),
+    createCheck('autofinish-1114-iteracija-check', 'Autofinish #1114 Iteracija', `Provera autofinish iteracije #1114 — Unit testovi PodsistemiZdravljeWidget`, 'ok', `Autofinish #1114 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
