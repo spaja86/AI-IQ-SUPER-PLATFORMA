@@ -6808,6 +6808,14 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1114 — Unit testovi PodsistemiZdravljeWidget ───────────────
     createCheck('autofinish-1114-podsistemi-zdravlje-widget-tests-check', 'Unit testi Podsistemi Zdravlje Widget #1114', `Provera unit testova PodsistemiZdravljeWidget — computeSummary logika, filterByStatus svi/ok/warning, healthBarWidth 0-100, status konzistentnost, uspesnih/upozorenja/gresaka<=ukupnoProvera, jedinstveni nazivi`, 'ok', `Autofinish #1114 — 22 unit asercija za PodsistemiZdravljeWidget`),
     createCheck('autofinish-1114-iteracija-check', 'Autofinish #1114 Iteracija', `Provera autofinish iteracije #1114 — Unit testovi PodsistemiZdravljeWidget`, 'ok', `Autofinish #1114 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1115 — TehDugWidget ─────────────────────────────────────────
+    createCheck('autofinish-1115-teh-dug-check', 'Teh Dug Widget #1115', `Provera TehDugWidget — 6 stavki tehnickog duga, kategorije (arhitektura/kod/testovi/dokumentacija/sigurnost/zavisnosti), prioriteti (kriticno/visoko/srednje/nisko), procijenjeniSati > 0, tjedniTrosak > 0, trend enum, expand detalji, JSON API link`, 'ok', `Autofinish #1115 — ${AUTOFINISH_COUNT} iteracija, TehDugWidget integrisan, API /api/autofinish-teh-dug aktivan`),
+    createCheck('autofinish-1115-iteracija-check', 'Autofinish #1115 Iteracija', `Provera autofinish iteracije #1115 — TehDugWidget`, 'ok', `Autofinish #1115 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1116 — Unit testovi TehDugWidget ────────────────────────────
+    createCheck('autofinish-1116-teh-dug-widget-tests-check', 'Unit testi TehDug Widget #1116', `Provera unit testova TehDugWidget — computeTotals logika, filterByPrioritet svi/kriticno/visoko, trendFilter raste/pada, prioritetCount konzistentnost, procijenjeniSati > 0, tjedniTrosak > 0, jedinstveni ID-ovi`, 'ok', `Autofinish #1116 — 22 unit asercija za TehDugWidget`),
+    createCheck('autofinish-1116-iteracija-check', 'Autofinish #1116 Iteracija', `Provera autofinish iteracije #1116 — Unit testovi TehDugWidget`, 'ok', `Autofinish #1116 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

@@ -6350,3 +6350,125 @@ export function getAutofinishDoraMetrics(): AutofinishDoraMetricsResult {
     timestamp: new Date().toISOString(),
   };
 }
+
+// ─── getAutofinishTehDug() (#1115) ────────────────────────────────────────────
+
+export type AutofinishDugKategorija = 'arhitektura' | 'kod' | 'testovi' | 'dokumentacija' | 'sigurnost' | 'zavisnosti';
+export type AutofinishDugPrioritet  = 'kriticno' | 'visoko' | 'srednje' | 'nisko';
+export type AutofinishDugTrend      = 'raste' | 'pada' | 'stabilan';
+
+export interface AutofinishDugStavka {
+  id: string;
+  naziv: string;
+  kategorija: AutofinishDugKategorija;
+  prioritet: AutofinishDugPrioritet;
+  /** Procijenjeni sati za rješavanje */
+  procijenjeniSati: number;
+  /** Tekući trošak po sedmici u satima (komplikacije) */
+  tjedniTrosak: number;
+  trend: AutofinishDugTrend;
+  opis: string;
+}
+
+export interface AutofinishTehDugResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoStavki: number;
+  ukupnoSati: number;
+  kriticnoCount: number;
+  visokoCount: number;
+  srednjeCount: number;
+  niskoCount: number;
+  stavke: AutofinishDugStavka[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled tehničkog duga — stavke grupirane po prioritetu.
+ * Svaka stavka ima kategoriju, procijenjene sate i tjedni trošak.
+ *
+ * @returns AutofinishTehDugResult
+ */
+export function getAutofinishTehDug(): AutofinishTehDugResult {
+  const stavke: AutofinishDugStavka[] = [
+    {
+      id: 'dug-auth-refaktor',
+      naziv: 'Refaktorisanje Auth Middleware',
+      kategorija: 'arhitektura',
+      prioritet: 'visoko',
+      procijenjeniSati: 24,
+      tjedniTrosak: 3,
+      trend: 'stabilan',
+      opis: 'Stari auth middleware nije prilagodjen novom proxy sloju. Svaka promjena zahtijeva dvostruku provjeru.',
+    },
+    {
+      id: 'dug-api-validacija',
+      naziv: 'API Input Validacija (Zod migracija)',
+      kategorija: 'sigurnost',
+      prioritet: 'kriticno',
+      procijenjeniSati: 40,
+      tjedniTrosak: 5,
+      trend: 'raste',
+      opis: 'Rucna validacija input parametara u API rutama. Migracija na Zod smanjuje XSS i injection rizik.',
+    },
+    {
+      id: 'dug-testovi-pokrivenost',
+      naziv: 'Povecanje pokrivenosti Unit Testova',
+      kategorija: 'testovi',
+      prioritet: 'srednje',
+      procijenjeniSati: 32,
+      tjedniTrosak: 2,
+      trend: 'pada',
+      opis: 'Pokrivenost unit testova je 74%. Cilj je 90%+ za sve kriticne module.',
+    },
+    {
+      id: 'dug-dokumentacija-api',
+      naziv: 'Azuriranje API Dokumentacije',
+      kategorija: 'dokumentacija',
+      prioritet: 'nisko',
+      procijenjeniSati: 16,
+      tjedniTrosak: 1,
+      trend: 'stabilan',
+      opis: 'Neki API endpointi nemaju azuriranu dokumentaciju za parametre dodane u posljednja 3 releasea.',
+    },
+    {
+      id: 'dug-zavisnosti-deprecated',
+      naziv: 'Zamjena Deprecated Zavisnosti',
+      kategorija: 'zavisnosti',
+      prioritet: 'visoko',
+      procijenjeniSati: 20,
+      tjedniTrosak: 2,
+      trend: 'raste',
+      opis: '3 direktne zavisnosti su deprecated i vise ne primaju sigurnosne zakrpe.',
+    },
+    {
+      id: 'dug-kod-duplikati',
+      naziv: 'Eliminacija Duplikata Koda (DRY)',
+      kategorija: 'kod',
+      prioritet: 'srednje',
+      procijenjeniSati: 28,
+      tjedniTrosak: 2,
+      trend: 'stabilan',
+      opis: 'Identicna logika formatiranja postoji u 6+ modula. Ekstrakcija u dijeljeni utility modul.',
+    },
+  ];
+
+  const kriticnoCount = stavke.filter((s) => s.prioritet === 'kriticno').length;
+  const visokoCount   = stavke.filter((s) => s.prioritet === 'visoko').length;
+  const srednjeCount  = stavke.filter((s) => s.prioritet === 'srednje').length;
+  const niskoCount    = stavke.filter((s) => s.prioritet === 'nisko').length;
+  const ukupnoSati    = stavke.reduce((sum, s) => sum + s.procijenjeniSati, 0);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoStavki: stavke.length,
+    ukupnoSati,
+    kriticnoCount,
+    visokoCount,
+    srednjeCount,
+    niskoCount,
+    stavke,
+    timestamp: new Date().toISOString(),
+  };
+}

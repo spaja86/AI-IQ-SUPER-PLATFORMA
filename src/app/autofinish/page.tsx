@@ -15,6 +15,7 @@
 // Autofinish #955 — Kategorije Widget
 // Autofinish #968 — TrendWidget
 // Autofinish #1107 — Dodaj RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget
+// Autofinish #1115 — TehDugWidget (Tehnicki Dug)
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -67,6 +68,7 @@ import {
   getAutofinishCapacityPlanning,
   getAutofinishDoraMetrics,
   getAutofinishPodsistemiZdravlje,
+  getAutofinishTehDug,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -112,6 +114,7 @@ import { PostMortemWidget } from './PostMortemWidget';
 import { CapacityPlanningWidget } from './CapacityPlanningWidget';
 import { DoraMetricsWidget } from './DoraMetricsWidget';
 import { PodsistemiZdravljeWidget } from './PodsistemiZdravljeWidget';
+import { TehDugWidget } from './TehDugWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -197,6 +200,7 @@ export default function AutofinishPage() {
   const capacityPlanning = getAutofinishCapacityPlanning();
   const doraMetrics = getAutofinishDoraMetrics();
   const podsistemiZdravlje = getAutofinishPodsistemiZdravlje();
+  const tehDug = getAutofinishTehDug();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -830,6 +834,9 @@ export default function AutofinishPage() {
 
         {/* #1113 — Podsistemi Zdravlje Widget */}
         <PodsistemiZdravljeWidget zdravlje={podsistemiZdravlje} />
+
+        {/* #1115 — Tehnicki Dug Widget */}
+        <TehDugWidget tehDug={tehDug} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
