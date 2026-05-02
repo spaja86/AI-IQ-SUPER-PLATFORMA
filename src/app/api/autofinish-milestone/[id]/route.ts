@@ -19,11 +19,12 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
   const allowed = await checkRateLimitGlobal(
-    rateLimitKey(ip, `/api/autofinish-milestone/${params.id}`),
+    rateLimitKey(ip, `/api/autofinish-milestone/${id}`),
     60,
     60,
   );
@@ -39,13 +40,13 @@ export async function GET(
     );
   }
 
-  const detail = getAutofinishMilestoneDetail(params.id);
+  const detail = getAutofinishMilestoneDetail(id);
 
   if (!detail) {
     return NextResponse.json(
       {
         error: 'NOT_FOUND',
-        id: params.id,
+        id: id,
         verzija: APP_VERSION,
         autofinishIteracija: AUTOFINISH_COUNT,
         timestamp: new Date().toISOString(),

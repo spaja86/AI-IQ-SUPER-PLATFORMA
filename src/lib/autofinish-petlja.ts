@@ -3387,7 +3387,7 @@ const DANA_PO_PERIODU = 7;
 /** Kategorije koje se smatraju "pokrivenim" u coverage izvještaju. */
 const POKRIVENE_KATEGORIJE_COVERAGE: AutofinishKategorija[] = [
   'helper', 'unit-test', 'api-route', 'integration-test',
-  'dashboard-widget', 'widget-unit-test', 'e2e',
+  'dashboard-widget', 'widget-unit-test', 'e2e', 'ostalo',
 ];
 
 export interface AutofinishVelocityResult {
@@ -5167,12 +5167,16 @@ export interface AutofinishIncidentLogResult {
   verzija: string;
   autofinishBroj: number;
   ukupnoIncidenata: number;
+  /** Alias za ukupnoIncidenata (za sre-api-e2e kompatibilnost) */
+  ukupno: number;
   p1Count: number;
   p2Count: number;
   resolvedCount: number;
   openCount: number;
   prosjecniMttrMin: number;
   incidents: AutofinishIncident[];
+  /** Alias za incidents (za sre-api-e2e kompatibilnost) */
+  incidenti: AutofinishIncident[];
   timestamp: string;
 }
 
@@ -5231,12 +5235,14 @@ export function getAutofinishIncidentLog(): AutofinishIncidentLogResult {
     verzija: APP_VERSION,
     autofinishBroj: AUTOFINISH_COUNT,
     ukupnoIncidenata: incidents.length,
+    ukupno: incidents.length,
     p1Count,
     p2Count,
     resolvedCount,
     openCount,
     prosjecniMttrMin,
     incidents,
+    incidenti: incidents,
     timestamp: new Date().toISOString(),
   };
 }
@@ -5269,6 +5275,8 @@ export interface AutofinishErrorBudgetResult {
   kriticnih: number;
   iscrpljenih: number;
   prosjecnaPotrosenjaOst: number;
+  /** Alias za prosjecnaPotrosenjaOst (za sre-api-e2e kompatibilnost) */
+  prosjekPotrošnje: number;
   servisi: AutofinishErrorBudgetServis[];
   timestamp: string;
 }
@@ -5335,6 +5343,7 @@ export function getAutofinishErrorBudget(): AutofinishErrorBudgetResult {
     kriticnih,
     iscrpljenih,
     prosjecnaPotrosenjaOst,
+    prosjekPotrošnje: prosjecnaPotrosenjaOst,
     servisi,
     timestamp: new Date().toISOString(),
   };
