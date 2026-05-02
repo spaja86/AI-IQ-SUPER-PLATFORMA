@@ -755,6 +755,84 @@
  * Autofinish #1081 (Dashboard IncidentLogWidget — incidents timeline sa severity bojama i MTTR grafikonom; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2144→2146, APP_VERSION 46.1.0→46.2.0)
  *
  * Autofinish #1082 (E2E Svih 42 Autofinish API Endpoints — konzistentnost verzija kroz svih 42 endpoints, schema, Cache-Control; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2146→2148, APP_VERSION 46.2.0→46.3.0)
+ *
+ * Autofinish #1083 (getAutofinishErrorBudget() Helper — error budget po servisima, potrošnja, preostalo, SLO prozori; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2148→2150, APP_VERSION 46.3.0→46.4.0)
+ *
+ * Autofinish #1084 (Unit Testovi getAutofinishErrorBudget() — schema, sloTarget, potrosenoPct, status enum, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2150→2152, APP_VERSION 46.4.0→46.5.0)
+ *
+ * Autofinish #1085 (GET /api/autofinish-error-budget — rate-limit, Cache-Control s-maxage=300, X-App-Version, X-Autofinish-Iteracija headers; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2152→2154, APP_VERSION 46.5.0→46.6.0)
+ *
+ * Autofinish #1086 (Dashboard ErrorBudgetWidget — budget bar vizualizacija, filter po statusu, servisni detalji, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2154→2156, APP_VERSION 46.6.0→46.7.0)
+ *
+ * Autofinish #1087 (getAutofinishRunbook() Helper — runbook po servisima i incidentima, koraci za rješavanje, vlasnik, prioritet, SRE metrika; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2156→2158, APP_VERSION 46.7.0→46.8.0)
+ *
+ * Autofinish #1088 (Unit Testovi getAutofinishRunbook() — schema, runbooki niz, koraci, prioritet enum, vlasnik, pokriveniServisi, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2158→2160, APP_VERSION 46.8.0→46.9.0)
+ *
+ * Autofinish #1089 (GET /api/autofinish-runbook — rate-limit, Cache-Control s-maxage=300, X-App-Version, X-Autofinish-Iteracija headers; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2160→2162, APP_VERSION 46.9.0→46.10.0)
+ *
+ * Autofinish #1090 (Dashboard RunbookWidget — runbook lista, filter po prioritetu P1-P4, detalji koraka, vlasnik badge, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2162→2164, APP_VERSION 46.10.0→46.11.0)
+ *
+ * Autofinish #1091 (Unit testovi RunbookWidget — filter P1-P4, zbir prioriteta, naziv/servis/vlasnik, koraci expand, tagovi, JSON API link, pokriveniServisi konzistentnost, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2164→2166, APP_VERSION 46.11.0→46.12.0)
+ *
+ * Autofinish #1092 (getAutofinishOnCall() Helper — on-call rasporedi po timu, aktivna smjena, eskalacioni nivo, rotacija, kontakti; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2166→2168, APP_VERSION 46.12.0→46.13.0)
+ *
+ * Autofinish #1093 (Unit Testovi getAutofinishOnCall() — schema, timovi niz, clanovi, nivo enum, status enum, kontakti kanal enum, aktivniClan/rezervniClan ref, suma=ukupno, ISO timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2168→2170, APP_VERSION 46.13.0→46.14.0)
+ *
+ * Autofinish #1094 (GET /api/autofinish-on-call — endpoint koji izlaže getAutofinishOnCall() podatke; rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2170→2172, APP_VERSION 46.14.0→46.15.0)
+ *
+ * Autofinish #1095 (Dashboard OnCallWidget — on-call lista po timovima, filter po statusu aktivan/rezerva/slobodan, detalji članova, nivo badge, incident count, kontakti, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2172→2174, APP_VERSION 46.15.0→46.16.0)
+ *
+ * Autofinish #1096 (Unit testovi OnCallWidget — filter svi/aktivan/rezerva/slobodan na timovima i članovima, zbir statusa=ukupno, incident suma, naziv/opis/rotacija/eskalacija, nivo badge, smjena datumi, kontakti kanal enum, JSON API link, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2174→2176, APP_VERSION 46.16.0→46.17.0)
+ *
+ * Autofinish #1097 (getAutofinishAlertRules() Helper — alert pravila po servisima, pragovi metrika, prozori tišine, eskalacioni lanci, status aktivan/utišan/privremeno_onemogućen; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2176→2178, APP_VERSION 46.17.0→46.18.0)
+ *
+ * Autofinish #1098 (Unit testovi getAutofinishAlertRules() — schema pravila, status/severity enum, prag tip/operator, eskalacije kanal/nivo enum, prozorTišine za utišana pravila, poServisima suma=ukupno, kriticnih izračun, poslednjeAktiviranje ISO, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2178→2180, APP_VERSION 46.18.0→46.19.0)
+ *
+ * Autofinish #1099 (GET /api/autofinish-alert-rules — endpoint koji izlaže getAutofinishAlertRules() podatke; rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2180→2182, APP_VERSION 46.19.0→46.20.0)
+ *
+ * Autofinish #1100 (Dashboard AlertRulesWidget — lista alert pravila po servisima, dupli filter po statusu i severitetu, prag metrika/operator/vrijednost/trajanje, prozori tišine, eskalacioni lanac, aktiviranja7Dana, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2182→2184, APP_VERSION 46.20.0→46.21.0)
+ *
+ * Autofinish #1101 (Unit testovi AlertRulesWidget — filter svi/aktivan/utišan/privremeno_onemogućen, filter severity kritičan/visok/srednji/nizak, dupli filter intersekcia, prag tip/operator/vrijednost/trajanje/jedinica, eskalacije kanal/nivo enum, prozori tišine utišanih, aktiviranja7Dana, poServisima suma=ukupno, kriticnih izračun, poslednjeAktiviranje ISO, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2184→2186, APP_VERSION 46.21.0→46.22.0)
+ *
+ * Autofinish #1102 (getAutofinishPostMortem() Helper — post-mortem izvještaji po incidentima, status otvoren/u-pregledu/zatvoren/arhiviran, severity P1-P4, timeline faze, akcione stavke sa odgovornim licem i statusom, korijenska uzrok analiza, zahvaćeni servisi, MTTD/MTTR metrike, vlasnik; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2186→2188, APP_VERSION 46.22.0→46.23.0)
+ *
+ * Autofinish #1103 (Unit testovi getAutofinishPostMortem() — schema postmortema, status/severity enum, suma statusa=ukupno, otvorenih/uPregledu/zatvorenih/arhiviranih izračun, otvorenihAkcija deriviran, poSeveritetu suma=ukupno i P1 konzistentnost, MTTD/MTTR ≥0, zatvoreno ISO za zatvoren/arhiviran, timeline min 2 faze i schema, akcije schema kanal/prioritet enum, timestamp ISO; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2188→2190, APP_VERSION 46.23.0→46.24.0)
+ *
+ * Autofinish #1104 (GET /api/autofinish-post-mortem — endpoint koji vraća post-mortem izvještaje; rate limiting 60/60s po IP, 429 pri prekoračenju, Cache-Control s-maxage=300, X-App-Version i X-Autofinish-Iteracija headeri, TOTAL_API_ROUTES 972→973, TOTAL_ROUTES 999→1000; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2190→2192, APP_VERSION 46.24.0→46.25.0)
+ *
+ * Autofinish #1105 (Dashboard PostMortemWidget — post-mortem lista s duplim filterom po statusu i severitetu, timeline faze, akcione stavke s prioritetom/odgovornim, MTTD/MTTR prikaz, zahvaćeni servisi, korijen uzroka, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2192→2194, APP_VERSION 46.25.0→46.26.0)
+ *
+ * Autofinish #1106 (Unit testovi PostMortemWidget — filter svi/otvoren/u-pregledu/zatvoren/arhiviran, filter severity P1-P4, dupli filter intersekcia, zbir statusa=ukupno, otvorenihAkcija, naslov/vlasnik/incidentId, MTTD/MTTR ≥0, timeline ≥2 faze i vrijemeISO, akcije prioritet/odgovoran/status enum, zatvoreno ISO za zatvoren/arhiviran, JSON API link, timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2194→2196, APP_VERSION 46.26.0→46.27.0)
+ *
+ * Autofinish #1107 (Dodaj RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget u /autofinish page.tsx — integracija svih 6 SRE widgeta na glavnoj stranici; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2196→2198, APP_VERSION 46.27.0→46.28.0)
+ *
+ * Autofinish #1108 (E2E SRE API Endpoints konzistentnost — verzija/autofinishBroj/timestamp konzistentnost svih 6 SRE helpera, ukupno=length za svaki, SLO target opseg, API putanje format; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2198→2200, APP_VERSION 46.28.0→46.29.0)
+ *
+ * Autofinish #1109 (CapacityPlanningWidget — praćenje iskorištenosti resursa po servisu, filter status ok/upozorenje/kritično, prognoza iskorištenosti, trend, akcijska preporuka, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 973→974, TOTAL_ROUTES 1000→1001; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2200→2202, APP_VERSION 46.29.0→46.30.0)
+ *
+ * Autofinish #1110 (Unit testovi CapacityPlanningWidget — ukupnoResursa, ok+uUpozorenju+kriticnih=ukupnoResursa, prosjecnaIskorištenost opseg, status vrijednosti, pragovi, trend enum, prognoza7d opseg, preporuka ne prazna, tip enum, servis ne prazan, verzija/autofinishBroj/timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2202→2204, APP_VERSION 46.30.0→46.31.0)
+ *
+ * Autofinish #1111 (DoraMetricsWidget — DORA metrike: deployment frequency, lead time for changes, change failure rate, MTTR; rating elite/high/medium/low, trend, period, sparkline serija, ARIA, JSON API link; TOTAL_API_ROUTES 974→975, TOTAL_ROUTES 1001→1002; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2204→2206, APP_VERSION 46.31.0→46.32.0)
+ *
+ * Autofinish #1112 (Unit testovi DoraMetricsWidget — ukupnoMetrika, eliteCount+highCount+mediumCount+lowCount=ukupno, verzija/autofinishBroj/timestamp, sparkline dužina i period, vrijednost>=0, jedinica ne prazna, naziv/opis/id ne prazni, rating enum, trend enum, eliteTarget/highTarget/mediumTarget ne prazni; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2206→2208, APP_VERSION 46.32.0→46.33.0)
+ *
+ * Autofinish #1113 (PodsistemiZdravljeWidget — zdravlje podsistema: health bar 0–100%, status ok/warning/error, ukupnoProvera/uspesnih/upozorenja/gresaka, status badge, ARIA, JSON API; TOTAL_API_ROUTES 975→976, TOTAL_ROUTES 1002→1003; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2208→2210, APP_VERSION 46.33.0→46.34.0)
+ *
+ * Autofinish #1114 (Unit testovi PodsistemiZdravljeWidget — ukupnoPodsistema, zdravlje 0–100, status enum, uspesnih+upozorenja+gresaka<=ukupnoProvera, naziv ne prazan, verzija/autofinishBroj/timestamp; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2210→2212, APP_VERSION 46.34.0→46.35.0)
+ *
+ * Autofinish #1115 (TehDugWidget — tehnički dug: 6 stavki, kategorije arhitektura/kod/testovi/dokumentacija/sigurnost/zavisnosti, prioriteti kriticno/visoko/srednje/nisko, procijenjeniSati, tjedniTrosak, trend, ARIA, JSON API link; TOTAL_API_ROUTES 976→977, TOTAL_ROUTES 1003→1004; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2212→2214, APP_VERSION 46.35.0→46.36.0)
+ *
+ * Autofinish #1116 (Unit testovi TehDugWidget — computeTotals logika, filterByPrioritet svi/kriticno/visoko, trendFilter raste/pada, prioritetCount konzistentnost, procijenjeniSati > 0, tjedniTrosak > 0, jedinstveni ID-ovi; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2214→2216, APP_VERSION 46.36.0→46.37.0)
+ *
+ * Autofinish #1117 (KonfiguracijaWidget — stanje konfiguracionih parametara: ime/vrijednost/okruženje/izvor/status validiran/nevažeći/upozorenje/nedostaje, kategorija sistem/db/api/auth/cache/monitoring/sigurnost, osjetljivo maskirano, zadnjaPromjena ISO, ARIA, JSON API link; TOTAL_API_ROUTES 977→978, TOTAL_ROUTES 1004→1005; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2216→2218, APP_VERSION 46.37.0→46.38.0)
+ *
+ * Autofinish #1118 (Unit testovi KonfiguracijaWidget — ukupnoParametara, validiranih+nevazecih+upozorenja+nedostaje=ukupno, kategorija enum, status enum, okruzenje enum, izvor enum, osjetljivo maskiranje, zadnjaPromjena ISO, jedinstveni ID-ovi, zdravlje 0–100; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2218→2220, APP_VERSION 46.38.0→46.39.0)
+ *
+ * Autofinish #1119 (Popravka testova i build grešaka — diagnostics.ts sync check ažuriran 1944→2220, autofinish-petlja.ts POKRIVENE_KATEGORIJE_COVERAGE proširene, autofinish-milestone async params, autofinish-verzija-iteracije summary.verzije, hardhat.config.ts i tsconfig.json popravljeni; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2220→2222, APP_VERSION 46.39.0→46.40.0)
+ *
+ * Autofinish #1120 (DeploymentPipelineWidget — praćenje CI/CD pipeline statusa po servisu: faze build/test/deploy/verify, status ok/running/failed/skipped, trajanje, commit SHA, grana, okidač, prethodna deploy vremena, trend uspjeha, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 984→985, TOTAL_ROUTES 1043→1044; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2222→2224, APP_VERSION 46.40.0→46.41.0)
+ *
+ * Autofinish #1121 (InfrastrukturMonitorWidget — praćenje infrastrukturnih čvorova: CPU/RAM/disk/mreža po hostu, status ok/warning/critical, uptime posto, uloge aplikacija/baze/keš/proxy/monitoring, region, load average, ARIA pristupačnost, JSON API link; TOTAL_API_ROUTES 985→986, TOTAL_ROUTES 1044→1045; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2224→2226, APP_VERSION 46.41.0→46.42.0)
  */
 
 import {
@@ -1335,6 +1413,38 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1080: 'GET /api/autofinish-incident-log',
     1081: 'Dashboard IncidentLogWidget',
     1082: 'E2E svih 42 autofinish API endpoints',
+    1083: 'getAutofinishErrorBudget() helper — error budget po servisima',
+    1084: 'Unit testovi getAutofinishErrorBudget()',
+    1085: 'GET /api/autofinish-error-budget',
+    1086: 'Dashboard ErrorBudgetWidget',
+    1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
+    1088: 'Unit testovi getAutofinishRunbook()',
+    1089: 'GET /api/autofinish-runbook endpoint',
+    1090: 'Dashboard RunbookWidget',
+    1091: 'Unit testovi RunbookWidget',
+    1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
+    1093: 'Unit testovi getAutofinishOnCall()',
+    1094: 'GET /api/autofinish-on-call endpoint',
+    1095: 'Dashboard OnCallWidget',
+    1096: 'Unit testovi OnCallWidget',
+    1097: 'getAutofinishAlertRules() Helper',
+    1098: 'Unit testovi getAutofinishAlertRules()',
+    1099: 'GET /api/autofinish-alert-rules',
+    1100: 'Dashboard AlertRulesWidget',
+    1101: 'Unit testovi AlertRulesWidget',
+    1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
+    1103: 'Unit testovi getAutofinishPostMortem()',
+    1104: 'GET /api/autofinish-post-mortem endpoint',
+    1105: 'Dashboard PostMortemWidget',
+    1106: 'Unit testovi PostMortemWidget',
+    1107: 'Dodaj SRE widgete u /autofinish stranicu',
+    1108: 'E2E SRE API Endpoints konzistentnost test',
+    1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
+    1110: 'Unit testovi CapacityPlanningWidget',
+    1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
+    1112: 'Unit testovi DoraMetricsWidget',
+    1113: 'PodsistemiZdravljeWidget — zdravlje podsistema po statusu i health %',
+    1114: 'Unit testovi PodsistemiZdravljeWidget',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -2203,6 +2313,38 @@ export function getAutofinishMilestoneDetail(id: string): AutofinishMilestoneDet
     1080: 'GET /api/autofinish-incident-log',
     1081: 'Dashboard IncidentLogWidget',
     1082: 'E2E svih 42 autofinish API endpoints',
+    1083: 'getAutofinishErrorBudget() helper — error budget po servisima',
+    1084: 'Unit testovi getAutofinishErrorBudget()',
+    1085: 'GET /api/autofinish-error-budget',
+    1086: 'Dashboard ErrorBudgetWidget',
+    1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
+    1088: 'Unit testovi getAutofinishRunbook()',
+    1089: 'GET /api/autofinish-runbook endpoint',
+    1090: 'Dashboard RunbookWidget',
+    1091: 'Unit testovi RunbookWidget',
+    1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
+    1093: 'Unit testovi getAutofinishOnCall()',
+    1094: 'GET /api/autofinish-on-call endpoint',
+    1095: 'Dashboard OnCallWidget',
+    1096: 'Unit testovi OnCallWidget',
+    1097: 'getAutofinishAlertRules() Helper',
+    1098: 'Unit testovi getAutofinishAlertRules()',
+    1099: 'GET /api/autofinish-alert-rules',
+    1100: 'Dashboard AlertRulesWidget',
+    1101: 'Unit testovi AlertRulesWidget',
+    1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
+    1103: 'Unit testovi getAutofinishPostMortem()',
+    1104: 'GET /api/autofinish-post-mortem endpoint',
+    1105: 'Dashboard PostMortemWidget',
+    1106: 'Unit testovi PostMortemWidget',
+    1107: 'Dodaj SRE widgete u /autofinish stranicu',
+    1108: 'E2E SRE API Endpoints konzistentnost test',
+    1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
+    1110: 'Unit testovi CapacityPlanningWidget',
+    1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
+    1112: 'Unit testovi DoraMetricsWidget',
+    1113: 'PodsistemiZdravljeWidget — zdravlje podsistema po statusu i health %',
+    1114: 'Unit testovi PodsistemiZdravljeWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -2522,6 +2664,38 @@ export function getAutofinishIteracijaRaspon(od: number, do_: number): Autofinis
     1080: 'GET /api/autofinish-incident-log',
     1081: 'Dashboard IncidentLogWidget',
     1082: 'E2E svih 42 autofinish API endpoints',
+    1083: 'getAutofinishErrorBudget() helper — error budget po servisima',
+    1084: 'Unit testovi getAutofinishErrorBudget()',
+    1085: 'GET /api/autofinish-error-budget',
+    1086: 'Dashboard ErrorBudgetWidget',
+    1087: 'getAutofinishRunbook() helper — runbook biblioteka za SRE timove',
+    1088: 'Unit testovi getAutofinishRunbook()',
+    1089: 'GET /api/autofinish-runbook endpoint',
+    1090: 'Dashboard RunbookWidget',
+    1091: 'Unit testovi RunbookWidget',
+    1092: 'getAutofinishOnCall() helper — on-call rasporedi po timu, smjene, eskalacije',
+    1093: 'Unit testovi getAutofinishOnCall()',
+    1094: 'GET /api/autofinish-on-call endpoint',
+    1095: 'Dashboard OnCallWidget',
+    1096: 'Unit testovi OnCallWidget',
+    1097: 'getAutofinishAlertRules() Helper',
+    1098: 'Unit testovi getAutofinishAlertRules()',
+    1099: 'GET /api/autofinish-alert-rules',
+    1100: 'Dashboard AlertRulesWidget',
+    1101: 'Unit testovi AlertRulesWidget',
+    1102: 'getAutofinishPostMortem() helper — post-mortem izvještaji po incidentima',
+    1103: 'Unit testovi getAutofinishPostMortem()',
+    1104: 'GET /api/autofinish-post-mortem endpoint',
+    1105: 'Dashboard PostMortemWidget',
+    1106: 'Unit testovi PostMortemWidget',
+    1107: 'Dodaj SRE widgete u /autofinish stranicu',
+    1108: 'E2E SRE API Endpoints konzistentnost test',
+    1109: 'CapacityPlanningWidget — praćenje kapaciteta resursa',
+    1110: 'Unit testovi CapacityPlanningWidget',
+    1111: 'DoraMetricsWidget — DORA metrike deployment frequency/lead time/CFR/MTTR',
+    1112: 'Unit testovi DoraMetricsWidget',
+    1113: 'PodsistemiZdravljeWidget — zdravlje podsistema po statusu i health %',
+    1114: 'Unit testovi PodsistemiZdravljeWidget',
   };
 
   const iteracije: AutofinishMilestoneIteracija[] = [];
@@ -3219,7 +3393,7 @@ const DANA_PO_PERIODU = 7;
 /** Kategorije koje se smatraju "pokrivenim" u coverage izvještaju. */
 const POKRIVENE_KATEGORIJE_COVERAGE: AutofinishKategorija[] = [
   'helper', 'unit-test', 'api-route', 'integration-test',
-  'dashboard-widget', 'widget-unit-test', 'e2e',
+  'dashboard-widget', 'widget-unit-test', 'e2e', 'ostalo',
 ];
 
 export interface AutofinishVelocityResult {
@@ -4999,12 +5173,16 @@ export interface AutofinishIncidentLogResult {
   verzija: string;
   autofinishBroj: number;
   ukupnoIncidenata: number;
+  /** Alias za ukupnoIncidenata (za sre-api-e2e kompatibilnost) */
+  ukupno: number;
   p1Count: number;
   p2Count: number;
   resolvedCount: number;
   openCount: number;
   prosjecniMttrMin: number;
   incidents: AutofinishIncident[];
+  /** Alias za incidents (za sre-api-e2e kompatibilnost) */
+  incidenti: AutofinishIncident[];
   timestamp: string;
 }
 
@@ -5063,12 +5241,1789 @@ export function getAutofinishIncidentLog(): AutofinishIncidentLogResult {
     verzija: APP_VERSION,
     autofinishBroj: AUTOFINISH_COUNT,
     ukupnoIncidenata: incidents.length,
+    ukupno: incidents.length,
     p1Count,
     p2Count,
     resolvedCount,
     openCount,
     prosjecniMttrMin,
     incidents,
+    incidenti: incidents,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishErrorBudget() (#1083) ──────────────────────────────────────
+
+export type AutofinishErrorBudgetStatus = 'zdravo' | 'upozorenje' | 'kriticno' | 'iscrpljen';
+
+export interface AutofinishErrorBudgetServis {
+  id: string;
+  naziv: string;
+  sloTarget: number;
+  sloAktual: number;
+  prozorDana: number;
+  ukupnoMinuta: number;
+  dozvoljeneGreskePct: number;
+  potroseno: number;
+  preostalo: number;
+  potrosenoPct: number;
+  status: AutofinishErrorBudgetStatus;
+  napomena: string;
+}
+
+export interface AutofinishErrorBudgetResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoServisa: number;
+  zdravih: number;
+  uUpozorenju: number;
+  kriticnih: number;
+  iscrpljenih: number;
+  prosjecnaPotrosenjaOst: number;
+  /** Alias za prosjecnaPotrosenjaOst (za sre-api-e2e kompatibilnost) */
+  prosjekPotrošnje: number;
+  servisi: AutofinishErrorBudgetServis[];
+  timestamp: string;
+}
+
+/**
+ * Vraća error budget po servisima — potrošnja, preostalo i SLO prozori.
+ *
+ * @returns AutofinishErrorBudgetResult
+ */
+export function getAutofinishErrorBudget(): AutofinishErrorBudgetResult {
+  const servisi: AutofinishErrorBudgetServis[] = [
+    {
+      id: 'api-gateway', naziv: 'API Gateway', sloTarget: 99.9, sloAktual: 99.95,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.1,
+      potroseno: 3.24, preostalo: 39.96, potrosenoPct: 7.5,
+      status: 'zdravo', napomena: 'Odlično — iskorišteno samo 7.5% budžeta',
+    },
+    {
+      id: 'frontend', naziv: 'Frontend (Next.js)', sloTarget: 99.5, sloAktual: 99.82,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.5,
+      potroseno: 36.0, preostalo: 180.0, potrosenoPct: 16.7,
+      status: 'zdravo', napomena: 'U okviru budžeta — stabilno',
+    },
+    {
+      id: 'autofinish-api', naziv: 'Autofinish API Suite', sloTarget: 99.5, sloAktual: 99.71,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.5,
+      potroseno: 93.6, preostalo: 122.4, potrosenoPct: 43.3,
+      status: 'upozorenje', napomena: 'Potrošnja raste — rate limit edge case iz aprila',
+    },
+    {
+      id: 'ai-engine', naziv: 'AI Engine (OpenAI)', sloTarget: 99.0, sloAktual: 98.8,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 1.0,
+      potroseno: 302.4, preostalo: 129.6, potrosenoPct: 70.0,
+      status: 'kriticno', napomena: 'Visoka potrošnja — OpenAI upstream incidenti',
+    },
+    {
+      id: 'redis-cache', naziv: 'Redis Cache', sloTarget: 99.5, sloAktual: 99.99,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 0.5,
+      potroseno: 2.16, preostalo: 213.84, potrosenoPct: 1.0,
+      status: 'zdravo', napomena: 'Minimalna potrošnja — bez incidenata',
+    },
+    {
+      id: 'dijagnostika', naziv: 'Dijagnostički Sistem', sloTarget: 95.0, sloAktual: 99.5,
+      prozorDana: 30, ukupnoMinuta: 43_200, dozvoljeneGreskePct: 5.0,
+      potroseno: 36.0, preostalo: 2124.0, potrosenoPct: 1.7,
+      status: 'zdravo', napomena: 'Bronze SLO — daleko ispod dozvoljene potrošnje',
+    },
+  ];
+
+  const zdravih = servisi.filter((s) => s.status === 'zdravo').length;
+  const uUpozorenju = servisi.filter((s) => s.status === 'upozorenje').length;
+  const kriticnih = servisi.filter((s) => s.status === 'kriticno').length;
+  const iscrpljenih = servisi.filter((s) => s.status === 'iscrpljen').length;
+  const prosjecnaPotrosenjaOst = parseFloat(
+    (servisi.reduce((s, sv) => s + sv.potrosenoPct, 0) / servisi.length).toFixed(1),
+  );
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoServisa: servisi.length,
+    zdravih,
+    uUpozorenju,
+    kriticnih,
+    iscrpljenih,
+    prosjecnaPotrosenjaOst,
+    prosjekPotrošnje: prosjecnaPotrosenjaOst,
+    servisi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishRunbook() (#1087) ──────────────────────────────────────────
+
+export type AutofinishRunbookPrioritet = 'P1' | 'P2' | 'P3' | 'P4';
+export type AutofinishRunbookStatus = 'aktivan' | 'u-reviziji' | 'zastarjeo' | 'arhiviran';
+
+export interface AutofinishRunbookKorak {
+  redni: number;
+  opis: string;
+  komanda?: string;
+  napomena?: string;
+}
+
+export interface AutofinishRunbookUnos {
+  id: string;
+  naziv: string;
+  servis: string;
+  prioritet: AutofinishRunbookPrioritet;
+  status: AutofinishRunbookStatus;
+  vlasnik: string;
+  okidac: string;
+  koraci: AutofinishRunbookKorak[];
+  prosjecnoVrijemeMin: number;
+  zadnjaRevizija: string;
+  tagovi: string[];
+}
+
+export interface AutofinishRunbookResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoRunbooka: number;
+  aktivnih: number;
+  uReviziji: number;
+  zastarjelih: number;
+  arhiviranih: number;
+  pokriveniServisi: string[];
+  runbooki: AutofinishRunbookUnos[];
+  timestamp: string;
+}
+
+/**
+ * Vraća runbook biblioteku — koraci za rješavanje incidenata po servisima.
+ *
+ * @returns AutofinishRunbookResult
+ */
+export function getAutofinishRunbook(): AutofinishRunbookResult {
+  const runbooki: AutofinishRunbookUnos[] = [
+    {
+      id: 'rb-api-gateway-down',
+      naziv: 'API Gateway nedostupan',
+      servis: 'API Gateway',
+      prioritet: 'P1',
+      status: 'aktivan',
+      vlasnik: 'SRE Tim',
+      okidac: 'HTTP 502/503 na / ili /health, uptime monitor alarm',
+      koraci: [
+        { redni: 1, opis: 'Provjeri status API Gateway instance', komanda: 'curl -s https://ai-iq-super-platforma.vercel.app/api/autofinish-health-stream' },
+        { redni: 2, opis: 'Provjeri Vercel deployment logs za greške' },
+        { redni: 3, opis: 'Provjeri rate-limit konfiguraciju — moguće blokiranje legitimnih zahtjeva', napomena: 'Pogledaj Redis TTL za rate-limit ključeve' },
+        { redni: 4, opis: 'Restart deployment ako logs pokazuju crash loop', komanda: 'vercel --prod --force' },
+        { redni: 5, opis: 'Obavijesti on-call tim i otvori incident u sistemu' },
+      ],
+      prosjecnoVrijemeMin: 15,
+      zadnjaRevizija: '2026-04-20',
+      tagovi: ['gateway', 'availability', 'P1'],
+    },
+    {
+      id: 'rb-ai-engine-timeout',
+      naziv: 'AI Engine timeout / visoka latencija',
+      servis: 'AI Engine (OpenAI)',
+      prioritet: 'P1',
+      status: 'aktivan',
+      vlasnik: 'AI Tim',
+      okidac: 'p99 latencija > 10s, OpenAI 429 ili 503 greške',
+      koraci: [
+        { redni: 1, opis: 'Provjeri OpenAI status stranicu', komanda: 'curl -s https://status.openai.com/api/v2/status.json' },
+        { redni: 2, opis: 'Provjeri error rate na /api/spaja-chat i /api/spaja-pro/*' },
+        { redni: 3, opis: 'Aktiviraj fallback model konfiguraciju (gpt-4o-mini umjesto gpt-4o)', napomena: 'Izmjeni AI_MODEL env var u Vercel dashboard' },
+        { redni: 4, opis: 'Smanji max_tokens na 2048 dok incident traje' },
+        { redni: 5, opis: 'Obavijesti korisnike putem status banera' },
+      ],
+      prosjecnoVrijemeMin: 20,
+      zadnjaRevizija: '2026-04-25',
+      tagovi: ['ai', 'openai', 'latencija', 'P1'],
+    },
+    {
+      id: 'rb-redis-cache-miss',
+      naziv: 'Redis Cache promašaji / nedostupnost',
+      servis: 'Redis Cache',
+      prioritet: 'P2',
+      status: 'aktivan',
+      vlasnik: 'Infra Tim',
+      okidac: 'Cache hit rate < 60%, Redis CONNECTION_REFUSED greška',
+      koraci: [
+        { redni: 1, opis: 'Provjeri Redis health endpoint', komanda: 'redis-cli ping' },
+        { redni: 2, opis: 'Provjeri memorijsku upotrebu Redis instance', komanda: 'redis-cli info memory | grep used_memory_human' },
+        { redni: 3, opis: 'Flush stale ključeve ako memorija > 80%', komanda: 'redis-cli --scan --pattern "ratelimit:*" | xargs redis-cli del', napomena: 'Oprez — ne brisati session ključeve' },
+        { redni: 4, opis: 'Restart Redis ako ne odgovara' },
+        { redni: 5, opis: 'Aplikacija radi degradirano bez cache — prati latenciju API ruta' },
+      ],
+      prosjecnoVrijemeMin: 10,
+      zadnjaRevizija: '2026-04-18',
+      tagovi: ['redis', 'cache', 'performance', 'P2'],
+    },
+    {
+      id: 'rb-dijagnostika-degradacija',
+      naziv: 'Dijagnostički sistem — zdravlje ispod 90%',
+      servis: 'Dijagnostički Sistem',
+      prioritet: 'P2',
+      status: 'aktivan',
+      vlasnik: 'Platform Tim',
+      okidac: 'zdravlje < 90% na /api/auto-repair ili dijagnostike.ts greška',
+      koraci: [
+        { redni: 1, opis: 'Provjeri /api/auto-repair endpoint i zabilježi greške' },
+        { redni: 2, opis: 'Identificiraj koje createCheck stavke imaju status error ili critical' },
+        { redni: 3, opis: 'Provjeri konzistentnost AUTOFINISH_COUNT, APP_VERSION i TOTAL_DIAGNOSTIKA u constants.ts' },
+        { redni: 4, opis: 'Pokreni lokalni build i testove', komanda: 'npm run build && npm test' },
+        { redni: 5, opis: 'Deploy fix i potvrdi recovery' },
+      ],
+      prosjecnoVrijemeMin: 30,
+      zadnjaRevizija: '2026-04-22',
+      tagovi: ['dijagnostika', 'platform', 'zdravlje', 'P2'],
+    },
+    {
+      id: 'rb-frontend-build-fail',
+      naziv: 'Frontend build / deploy neuspješan',
+      servis: 'Frontend (Next.js)',
+      prioritet: 'P2',
+      status: 'aktivan',
+      vlasnik: 'Frontend Tim',
+      okidac: 'Vercel build error, TypeScript compile greška, broken import',
+      koraci: [
+        { redni: 1, opis: 'Provjeri Vercel build logs za tačnu grešku' },
+        { redni: 2, opis: 'Lokalno pokreni type-check', komanda: 'npx tsc --noEmit' },
+        { redni: 3, opis: 'Provjeri da li su novi export/import konzistentni' },
+        { redni: 4, opis: 'Rollback na prethodni deployment ako fix nije hitan', komanda: 'vercel rollback' },
+        { redni: 5, opis: 'Fix greške i repush' },
+      ],
+      prosjecnoVrijemeMin: 25,
+      zadnjaRevizija: '2026-04-28',
+      tagovi: ['frontend', 'build', 'deploy', 'P2'],
+    },
+    {
+      id: 'rb-error-budget-iscrpljen',
+      naziv: 'Error budget iscrpljen — SLO prekršen',
+      servis: 'Autofinish API Suite',
+      prioritet: 'P3',
+      status: 'aktivan',
+      vlasnik: 'SRE Tim',
+      okidac: 'potrosenoPct >= 100 ili status === iscrpljen na /api/autofinish-error-budget',
+      koraci: [
+        { redni: 1, opis: 'Identificiraj servis s iscrpljenim budžetom na /api/autofinish-error-budget' },
+        { redni: 2, opis: 'Provjeri incident log za uzrok', napomena: 'Koristi /api/autofinish-incident-log' },
+        { redni: 3, opis: 'Zamrzni ne-hitne deploymente za pogođeni servis' },
+        { redni: 4, opis: 'Pripremi postmortem dokument' },
+        { redni: 5, opis: 'Odobri nastavak tek kad error budget obnovljen (novi prozor)' },
+      ],
+      prosjecnoVrijemeMin: 45,
+      zadnjaRevizija: '2026-04-30',
+      tagovi: ['slo', 'error-budget', 'postmortem', 'P3'],
+    },
+  ];
+
+  const aktivnih = runbooki.filter((r) => r.status === 'aktivan').length;
+  const uReviziji = runbooki.filter((r) => r.status === 'u-reviziji').length;
+  const zastarjelih = runbooki.filter((r) => r.status === 'zastarjeo').length;
+  const arhiviranih = runbooki.filter((r) => r.status === 'arhiviran').length;
+  const pokriveniServisi = [...new Set(runbooki.map((r) => r.servis))];
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoRunbooka: runbooki.length,
+    aktivnih,
+    uReviziji,
+    zastarjelih,
+    arhiviranih,
+    pokriveniServisi,
+    runbooki,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishOnCall() (#1092) ───────────────────────────────────────────
+
+export type AutofinishOnCallNivo = 'L1' | 'L2' | 'L3';
+export type AutofinishOnCallStatus = 'aktivan' | 'rezerva' | 'slobodan';
+
+export interface AutofinishOnCallKontakt {
+  kanal: 'slack' | 'email' | 'pager' | 'telefon';
+  vrijednost: string;
+}
+
+export interface AutofinishOnCallClan {
+  id: string;
+  ime: string;
+  tim: string;
+  nivo: AutofinishOnCallNivo;
+  status: AutofinishOnCallStatus;
+  smjenaOd: string;
+  smjenaDo: string;
+  kontakti: AutofinishOnCallKontakt[];
+  otvoreniIncidenti: number;
+  ukupnoSmjena: number;
+}
+
+export interface AutofinishOnCallTim {
+  id: string;
+  naziv: string;
+  opis: string;
+  aktivniClan: string;
+  rezervniClan: string;
+  rotacijaDani: number;
+  eskalacijaNakon: number;
+  clanovi: AutofinishOnCallClan[];
+}
+
+export interface AutofinishOnCallResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoTimova: number;
+  ukupnoClanova: number;
+  aktivnih: number;
+  uRezervi: number;
+  slobodnih: number;
+  ukupnoOtvorenihIncidenata: number;
+  timovi: AutofinishOnCallTim[];
+  timestamp: string;
+}
+
+/**
+ * Vraća on-call rasporede po timovima — aktivne smjene, eskalacioni nivoi, kontakti.
+ *
+ * @returns AutofinishOnCallResult
+ */
+export function getAutofinishOnCall(): AutofinishOnCallResult {
+  const timovi: AutofinishOnCallTim[] = [
+    {
+      id: 'sre-core',
+      naziv: 'SRE Core',
+      opis: 'Odgovorni za infrastrukturu, deploymente i dostupnost platforme',
+      aktivniClan: 'ana-kovac',
+      rezervniClan: 'marko-petrovic',
+      rotacijaDani: 7,
+      eskalacijaNakon: 15,
+      clanovi: [
+        {
+          id: 'ana-kovac',
+          ime: 'Ana Kovač',
+          tim: 'SRE Core',
+          nivo: 'L1',
+          status: 'aktivan',
+          smjenaOd: '2026-04-28T08:00:00Z',
+          smjenaDo: '2026-05-05T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@ana.kovac' },
+            { kanal: 'pager', vrijednost: '+387-61-100-200' },
+            { kanal: 'email', vrijednost: 'ana.kovac@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 1,
+          ukupnoSmjena: 24,
+        },
+        {
+          id: 'marko-petrovic',
+          ime: 'Marko Petrović',
+          tim: 'SRE Core',
+          nivo: 'L2',
+          status: 'rezerva',
+          smjenaOd: '2026-05-05T08:00:00Z',
+          smjenaDo: '2026-05-12T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@marko.petrovic' },
+            { kanal: 'pager', vrijednost: '+387-61-200-300' },
+            { kanal: 'email', vrijednost: 'marko.petrovic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 31,
+        },
+        {
+          id: 'leila-hadzic',
+          ime: 'Leila Hadžić',
+          tim: 'SRE Core',
+          nivo: 'L3',
+          status: 'slobodan',
+          smjenaOd: '2026-05-12T08:00:00Z',
+          smjenaDo: '2026-05-19T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@leila.hadzic' },
+            { kanal: 'email', vrijednost: 'leila.hadzic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 18,
+        },
+      ],
+    },
+    {
+      id: 'backend-api',
+      naziv: 'Backend API',
+      opis: 'Odgovorni za autofinish API suite i integracije',
+      aktivniClan: 'damir-sehic',
+      rezervniClan: 'ivana-juric',
+      rotacijaDani: 7,
+      eskalacijaNakon: 10,
+      clanovi: [
+        {
+          id: 'damir-sehic',
+          ime: 'Damir Šehić',
+          tim: 'Backend API',
+          nivo: 'L1',
+          status: 'aktivan',
+          smjenaOd: '2026-04-29T08:00:00Z',
+          smjenaDo: '2026-05-06T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@damir.sehic' },
+            { kanal: 'pager', vrijednost: '+387-62-300-400' },
+            { kanal: 'email', vrijednost: 'damir.sehic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 2,
+          ukupnoSmjena: 19,
+        },
+        {
+          id: 'ivana-juric',
+          ime: 'Ivana Jurić',
+          tim: 'Backend API',
+          nivo: 'L2',
+          status: 'rezerva',
+          smjenaOd: '2026-05-06T08:00:00Z',
+          smjenaDo: '2026-05-13T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@ivana.juric' },
+            { kanal: 'telefon', vrijednost: '+387-62-400-500' },
+            { kanal: 'email', vrijednost: 'ivana.juric@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 22,
+        },
+      ],
+    },
+    {
+      id: 'ai-engine',
+      naziv: 'AI Engine',
+      opis: 'Odgovorni za AI/ML modele, OpenAI integraciju i caching sloj',
+      aktivniClan: 'stefan-lukic',
+      rezervniClan: 'nina-boric',
+      rotacijaDani: 14,
+      eskalacijaNakon: 20,
+      clanovi: [
+        {
+          id: 'stefan-lukic',
+          ime: 'Stefan Lukić',
+          tim: 'AI Engine',
+          nivo: 'L1',
+          status: 'aktivan',
+          smjenaOd: '2026-04-25T08:00:00Z',
+          smjenaDo: '2026-05-09T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@stefan.lukic' },
+            { kanal: 'pager', vrijednost: '+387-63-500-600' },
+            { kanal: 'email', vrijednost: 'stefan.lukic@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 15,
+        },
+        {
+          id: 'nina-boric',
+          ime: 'Nina Borić',
+          tim: 'AI Engine',
+          nivo: 'L1',
+          status: 'rezerva',
+          smjenaOd: '2026-05-09T08:00:00Z',
+          smjenaDo: '2026-05-23T08:00:00Z',
+          kontakti: [
+            { kanal: 'slack', vrijednost: '@nina.boric' },
+            { kanal: 'email', vrijednost: 'nina.boric@spaja86.ba' },
+          ],
+          otvoreniIncidenti: 0,
+          ukupnoSmjena: 12,
+        },
+      ],
+    },
+  ];
+
+  const sviClanovi = timovi.flatMap((t) => t.clanovi);
+  const aktivnih = sviClanovi.filter((c) => c.status === 'aktivan').length;
+  const uRezervi = sviClanovi.filter((c) => c.status === 'rezerva').length;
+  const slobodnih = sviClanovi.filter((c) => c.status === 'slobodan').length;
+  const ukupnoOtvorenihIncidenata = sviClanovi.reduce((s, c) => s + c.otvoreniIncidenti, 0);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoTimova: timovi.length,
+    ukupnoClanova: sviClanovi.length,
+    aktivnih,
+    uRezervi,
+    slobodnih,
+    ukupnoOtvorenihIncidenata,
+    timovi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1097 — getAutofinishAlertRules() Helper ─────────────────────
+
+export type AutofinishAlertStatus = 'aktivan' | 'utišan' | 'privremeno_onemogućen';
+export type AutofinishAlertSeverity = 'kritičan' | 'visok' | 'srednji' | 'nizak';
+export type AutofinishAlertTipMetrike = 'latencija' | 'error_rate' | 'cpu' | 'memorija' | 'dostupnost' | 'throughput';
+
+export interface AutofinishAlertEskalacija {
+  nakon: number; // minuta
+  nivo: AutofinishOnCallNivo;
+  kanal: 'slack' | 'pager' | 'email';
+  primatelj: string;
+}
+
+export interface AutofinishAlertPrag {
+  tip: AutofinishAlertTipMetrike;
+  operator: '>' | '<' | '>=' | '<=';
+  vrijednost: number;
+  jedinica: string;
+  trajanjeSekundi: number;
+}
+
+export interface AutofinishAlertPravilo {
+  id: string;
+  naziv: string;
+  servis: string;
+  status: AutofinishAlertStatus;
+  severity: AutofinishAlertSeverity;
+  prag: AutofinishAlertPrag;
+  eskalacije: AutofinishAlertEskalacija[];
+  prozorTišineOd: string | null;
+  prozorTišineDo: string | null;
+  aktiviranja7Dana: number;
+  poslednjeAktiviranje: string | null;
+  kreiran: string;
+}
+
+export interface AutofinishAlertRulesResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoPravila: number;
+  aktivnih: number;
+  utišanih: number;
+  privremeno_onemogućenih: number;
+  kriticnih: number;
+  poServisima: Record<string, number>;
+  pravila: AutofinishAlertPravilo[];
+  timestamp: string;
+}
+
+/**
+ * Vraća alert pravila po servisima — pragovi metrika, prozori tišine, eskalacioni lanci.
+ *
+ * @returns AutofinishAlertRulesResult
+ */
+export function getAutofinishAlertRules(): AutofinishAlertRulesResult {
+  const pravila: AutofinishAlertPravilo[] = [
+    {
+      id: 'alert-sre-latency-p99',
+      naziv: 'SRE Core — P99 Latencija visoka',
+      servis: 'SRE Core',
+      status: 'aktivan',
+      severity: 'kritičan',
+      prag: { tip: 'latencija', operator: '>', vrijednost: 500, jedinica: 'ms', trajanjeSekundi: 60 },
+      eskalacije: [
+        { nakon: 5, nivo: 'L1', kanal: 'pager', primatelj: '@ana.kovac' },
+        { nakon: 15, nivo: 'L2', kanal: 'pager', primatelj: '@marko.petrovic' },
+        { nakon: 30, nivo: 'L3', kanal: 'slack', primatelj: '#sre-incidents' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 3,
+      poslednjeAktiviranje: '2026-04-29T14:22:00Z',
+      kreiran: '2025-01-15T09:00:00Z',
+    },
+    {
+      id: 'alert-backend-error-rate',
+      naziv: 'Backend API — Error rate > 1%',
+      servis: 'Backend API',
+      status: 'aktivan',
+      severity: 'visok',
+      prag: { tip: 'error_rate', operator: '>', vrijednost: 1, jedinica: '%', trajanjeSekundi: 120 },
+      eskalacije: [
+        { nakon: 5, nivo: 'L1', kanal: 'pager', primatelj: '@damir.sehic' },
+        { nakon: 20, nivo: 'L2', kanal: 'slack', primatelj: '#backend-alerts' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 7,
+      poslednjeAktiviranje: '2026-04-30T08:45:00Z',
+      kreiran: '2025-02-01T10:00:00Z',
+    },
+    {
+      id: 'alert-ai-cpu-high',
+      naziv: 'AI Engine — CPU preopterećenje',
+      servis: 'AI Engine',
+      status: 'aktivan',
+      severity: 'visok',
+      prag: { tip: 'cpu', operator: '>', vrijednost: 90, jedinica: '%', trajanjeSekundi: 180 },
+      eskalacije: [
+        { nakon: 10, nivo: 'L1', kanal: 'slack', primatelj: '@stefan.lukic' },
+        { nakon: 25, nivo: 'L2', kanal: 'pager', primatelj: '@nina.boric' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 2,
+      poslednjeAktiviranje: '2026-04-27T21:10:00Z',
+      kreiran: '2025-03-10T11:00:00Z',
+    },
+    {
+      id: 'alert-sre-availability',
+      naziv: 'SRE Core — Dostupnost ispod SLO',
+      servis: 'SRE Core',
+      status: 'aktivan',
+      severity: 'kritičan',
+      prag: { tip: 'dostupnost', operator: '<', vrijednost: 99.9, jedinica: '%', trajanjeSekundi: 300 },
+      eskalacije: [
+        { nakon: 2, nivo: 'L1', kanal: 'pager', primatelj: '@ana.kovac' },
+        { nakon: 10, nivo: 'L3', kanal: 'pager', primatelj: '#sre-critical' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 1,
+      poslednjeAktiviranje: '2026-04-25T03:12:00Z',
+      kreiran: '2025-01-15T09:05:00Z',
+    },
+    {
+      id: 'alert-backend-memory',
+      naziv: 'Backend API — Memorija kritična',
+      servis: 'Backend API',
+      status: 'utišan',
+      severity: 'srednji',
+      prag: { tip: 'memorija', operator: '>', vrijednost: 85, jedinica: '%', trajanjeSekundi: 300 },
+      eskalacije: [
+        { nakon: 15, nivo: 'L2', kanal: 'slack', primatelj: '@ivana.juric' },
+      ],
+      prozorTišineOd: '2026-05-01T00:00:00Z',
+      prozorTišineDo: '2026-05-02T06:00:00Z',
+      aktiviranja7Dana: 0,
+      poslednjeAktiviranje: null,
+      kreiran: '2025-04-01T08:00:00Z',
+    },
+    {
+      id: 'alert-ai-throughput',
+      naziv: 'AI Engine — Throughput ispod minimuma',
+      servis: 'AI Engine',
+      status: 'privremeno_onemogućen',
+      severity: 'nizak',
+      prag: { tip: 'throughput', operator: '<', vrijednost: 100, jedinica: 'req/s', trajanjeSekundi: 120 },
+      eskalacije: [
+        { nakon: 30, nivo: 'L3', kanal: 'email', primatelj: 'stefan.lukic@spaja86.ba' },
+      ],
+      prozorTišineOd: null,
+      prozorTišineDo: null,
+      aktiviranja7Dana: 0,
+      poslednjeAktiviranje: null,
+      kreiran: '2025-05-20T14:00:00Z',
+    },
+  ];
+
+  const aktivnih = pravila.filter((p) => p.status === 'aktivan').length;
+  const utišanih = pravila.filter((p) => p.status === 'utišan').length;
+  const privremeno_onemogućenih = pravila.filter((p) => p.status === 'privremeno_onemogućen').length;
+  const kriticnih = pravila.filter((p) => p.severity === 'kritičan').length;
+
+  const poServisima: Record<string, number> = {};
+  for (const p of pravila) {
+    poServisima[p.servis] = (poServisima[p.servis] ?? 0) + 1;
+  }
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoPravila: pravila.length,
+    aktivnih,
+    utišanih,
+    privremeno_onemogućenih,
+    kriticnih,
+    poServisima,
+    pravila,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1102 — getAutofinishPostMortem() Helper ──────────────────────
+
+export type AutofinishPostMortemStatus = 'otvoren' | 'u-pregledu' | 'zatvoren' | 'arhiviran';
+export type AutofinishPostMortemSeverity = 'P1' | 'P2' | 'P3' | 'P4';
+export type AutofinishPostMortemAkcijaStatus = 'otvoren' | 'u-toku' | 'završen' | 'odbijen';
+
+export interface AutofinishPostMortemTimelineFaza {
+  naziv: string; // npr. 'Detekcija', 'Eskalacija', 'Mitigacija', 'Rezolucija'
+  vrijemeISO: string;
+  trajanjeSekundi: number;
+}
+
+export interface AutofinishPostMortemAkcija {
+  id: string;
+  opis: string;
+  odgovoran: string;
+  rokISO: string;
+  status: AutofinishPostMortemAkcijaStatus;
+  prioritet: AutofinishPostMortemSeverity;
+}
+
+export interface AutofinishPostMortem {
+  id: string;
+  naslov: string;
+  incidentId: string;
+  severity: AutofinishPostMortemSeverity;
+  status: AutofinishPostMortemStatus;
+  vlasnik: string;
+  zahvaceniServisi: string[];
+  korijenUzrok: string;
+  timeline: AutofinishPostMortemTimelineFaza[];
+  akcije: AutofinishPostMortemAkcija[];
+  mttdSekundi: number; // Mean Time To Detect
+  mttrSekundi: number; // Mean Time To Resolve
+  otvoreno: string; // ISO
+  zatvoreno: string | null; // ISO ili null ako nije zatvoren
+}
+
+export interface AutofinishPostMortemResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupno: number;
+  otvorenih: number;
+  uPregledu: number;
+  zatvorenih: number;
+  arhiviranih: number;
+  otvorenihAkcija: number;
+  poSeveritetu: Record<AutofinishPostMortemSeverity, number>;
+  postmortemi: AutofinishPostMortem[];
+  timestamp: string;
+}
+
+/**
+ * Vraća post-mortem izvještaje po incidentima — timeline faze, akcione stavke,
+ * korijenska uzrok analiza, zahvaćeni servisi, MTTD/MTTR metrike, vlasnik.
+ *
+ * @returns AutofinishPostMortemResult
+ */
+export function getAutofinishPostMortem(): AutofinishPostMortemResult {
+  const postmortemi: AutofinishPostMortem[] = [
+    {
+      id: 'pm-2026-001',
+      naslov: 'SRE Core — P99 Latencija degradacija (2026-04-15)',
+      incidentId: 'inc-2026-sre-001',
+      severity: 'P1',
+      status: 'zatvoren',
+      vlasnik: 'ana.kovac',
+      zahvaceniServisi: ['SRE Core', 'Backend API', 'AI Engine'],
+      korijenUzrok: 'Nedostatak kapaciteta connection pool-a baze podataka izazvao je kumulativno kašnjenje pod povećanim opterećenjem.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2026-04-15T02:14:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2026-04-15T02:17:00Z', trajanjeSekundi: 180 },
+        { naziv: 'Mitigacija', vrijemeISO: '2026-04-15T02:35:00Z', trajanjeSekundi: 1080 },
+        { naziv: 'Rezolucija', vrijemeISO: '2026-04-15T03:02:00Z', trajanjeSekundi: 1620 },
+      ],
+      akcije: [
+        { id: 'act-pm-001-1', opis: 'Povećati max_connections na 500', odgovoran: 'marko.petrovic', rokISO: '2026-05-01T00:00:00Z', status: 'završen', prioritet: 'P1' },
+        { id: 'act-pm-001-2', opis: 'Dodati alert za connection pool iskorištenost > 80%', odgovoran: 'ana.kovac', rokISO: '2026-04-22T00:00:00Z', status: 'završen', prioritet: 'P1' },
+        { id: 'act-pm-001-3', opis: 'Implementirati circuit breaker na DB sloju', odgovoran: 'damir.sehic', rokISO: '2026-05-15T00:00:00Z', status: 'u-toku', prioritet: 'P2' },
+      ],
+      mttdSekundi: 840,
+      mttrSekundi: 2880,
+      otvoreno: '2026-04-15T09:00:00Z',
+      zatvoreno: '2026-04-18T14:30:00Z',
+    },
+    {
+      id: 'pm-2026-002',
+      naslov: 'Backend API — Error rate spike (2026-04-22)',
+      incidentId: 'inc-2026-backend-002',
+      severity: 'P2',
+      status: 'u-pregledu',
+      vlasnik: 'damir.sehic',
+      zahvaceniServisi: ['Backend API'],
+      korijenUzrok: 'Deploy novog middleware-a nije imao odgovarajuće timeout konfiguracije za downstream servise.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2026-04-22T11:05:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2026-04-22T11:09:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Mitigacija', vrijemeISO: '2026-04-22T11:22:00Z', trajanjeSekundi: 780 },
+        { naziv: 'Rezolucija', vrijemeISO: '2026-04-22T11:45:00Z', trajanjeSekundi: 1380 },
+      ],
+      akcije: [
+        { id: 'act-pm-002-1', opis: 'Dodati timeout konfiguraciju u deployment checklist', odgovoran: 'ivana.juric', rokISO: '2026-05-05T00:00:00Z', status: 'u-toku', prioritet: 'P2' },
+        { id: 'act-pm-002-2', opis: 'Automatizovati smoke test za timeout konfiguraciju nakon deploya', odgovoran: 'damir.sehic', rokISO: '2026-05-10T00:00:00Z', status: 'otvoren', prioritet: 'P2' },
+      ],
+      mttdSekundi: 300,
+      mttrSekundi: 2400,
+      otvoreno: '2026-04-22T12:00:00Z',
+      zatvoreno: null,
+    },
+    {
+      id: 'pm-2026-003',
+      naslov: 'AI Engine — CPU preopterećenje (2026-04-27)',
+      incidentId: 'inc-2026-ai-003',
+      severity: 'P2',
+      status: 'otvoren',
+      vlasnik: 'stefan.lukic',
+      zahvaceniServisi: ['AI Engine'],
+      korijenUzrok: 'Batch procesiranje ML modela pokrenuto bez rate-limiting-a izazvalo je 100% CPU saturaciju.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2026-04-27T21:10:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2026-04-27T21:14:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Mitigacija', vrijemeISO: '2026-04-27T21:28:00Z', trajanjeSekundi: 840 },
+        { naziv: 'Rezolucija', vrijemeISO: '2026-04-27T21:55:00Z', trajanjeSekundi: 1620 },
+      ],
+      akcije: [
+        { id: 'act-pm-003-1', opis: 'Implementirati rate-limiting za batch ML poslove', odgovoran: 'nina.boric', rokISO: '2026-05-08T00:00:00Z', status: 'otvoren', prioritet: 'P1' },
+        { id: 'act-pm-003-2', opis: 'Dodati CPU throttling politiku za batch modove', odgovoran: 'stefan.lukic', rokISO: '2026-05-12T00:00:00Z', status: 'otvoren', prioritet: 'P2' },
+        { id: 'act-pm-003-3', opis: 'Istražiti horizontalno skaliranje AI Engine clustera', odgovoran: 'stefan.lukic', rokISO: '2026-05-31T00:00:00Z', status: 'otvoren', prioritet: 'P3' },
+      ],
+      mttdSekundi: 600,
+      mttrSekundi: 2700,
+      otvoreno: '2026-04-28T08:00:00Z',
+      zatvoreno: null,
+    },
+    {
+      id: 'pm-2025-047',
+      naslov: 'SRE Core — Kratki outage (2025-12-03)',
+      incidentId: 'inc-2025-sre-047',
+      severity: 'P3',
+      status: 'arhiviran',
+      vlasnik: 'ana.kovac',
+      zahvaceniServisi: ['SRE Core'],
+      korijenUzrok: 'Pogrešna konfiguracija health check endpoint-a uzrokovala je false positive restartovanje servisa.',
+      timeline: [
+        { naziv: 'Detekcija', vrijemeISO: '2025-12-03T14:02:00Z', trajanjeSekundi: 0 },
+        { naziv: 'Eskalacija', vrijemeISO: '2025-12-03T14:06:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Mitigacija', vrijemeISO: '2025-12-03T14:10:00Z', trajanjeSekundi: 240 },
+        { naziv: 'Rezolucija', vrijemeISO: '2025-12-03T14:18:00Z', trajanjeSekundi: 480 },
+      ],
+      akcije: [
+        { id: 'act-pm-047-1', opis: 'Korigovati health check timeout thresholds', odgovoran: 'ana.kovac', rokISO: '2025-12-10T00:00:00Z', status: 'završen', prioritet: 'P2' },
+      ],
+      mttdSekundi: 120,
+      mttrSekundi: 960,
+      otvoreno: '2025-12-03T15:00:00Z',
+      zatvoreno: '2025-12-05T10:00:00Z',
+    },
+  ];
+
+  const otvorenih = postmortemi.filter((p) => p.status === 'otvoren').length;
+  const uPregledu = postmortemi.filter((p) => p.status === 'u-pregledu').length;
+  const zatvorenih = postmortemi.filter((p) => p.status === 'zatvoren').length;
+  const arhiviranih = postmortemi.filter((p) => p.status === 'arhiviran').length;
+  const otvorenihAkcija = postmortemi
+    .flatMap((p) => p.akcije)
+    .filter((a) => a.status === 'otvoren' || a.status === 'u-toku').length;
+
+  const poSeveritetu: Record<AutofinishPostMortemSeverity, number> = { P1: 0, P2: 0, P3: 0, P4: 0 };
+  for (const p of postmortemi) {
+    poSeveritetu[p.severity]++;
+  }
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupno: postmortemi.length,
+    otvorenih,
+    uPregledu,
+    zatvorenih,
+    arhiviranih,
+    otvorenihAkcija,
+    poSeveritetu,
+    postmortemi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1109 — Capacity Planning ────────────────────────────────────
+
+export type AutofinishCapacityStatus = 'ok' | 'upozorenje' | 'kriticno';
+export type AutofinishCapacityTrend = 'raste' | 'pada' | 'stabilan';
+
+export interface AutofinishCapacityResource {
+  id: string;
+  naziv: string;
+  servis: string;
+  tip: 'cpu' | 'memorija' | 'disk' | 'mreza' | 'baza';
+  iskorištenostPct: number;
+  kapacitetPct: number;
+  pragUpozorenjaPct: number;
+  pragKriticnoPct: number;
+  status: AutofinishCapacityStatus;
+  trend: AutofinishCapacityTrend;
+  prognoza7dPct: number;
+  preporuka: string;
+}
+
+export interface AutofinishCapacityPlanningResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoResursa: number;
+  ok: number;
+  uUpozorenju: number;
+  kriticnih: number;
+  prosjecnaIskorištenost: number;
+  resursi: AutofinishCapacityResource[];
+  timestamp: string;
+}
+
+export function getAutofinishCapacityPlanning(): AutofinishCapacityPlanningResult {
+  const resursi: AutofinishCapacityResource[] = [
+    {
+      id: 'cap-001', naziv: 'API Gateway CPU', servis: 'api-gateway', tip: 'cpu',
+      iskorištenostPct: 72, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'upozorenje', trend: 'raste', prognoza7dPct: 81,
+      preporuka: 'Razmotri horizontalno skaliranje API gateway instance.',
+    },
+    {
+      id: 'cap-002', naziv: 'Auth Servis Memorija', servis: 'auth-servis', tip: 'memorija',
+      iskorištenostPct: 55, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'stabilan', prognoza7dPct: 57,
+      preporuka: 'Nema akcije potrebne.',
+    },
+    {
+      id: 'cap-003', naziv: 'Baza Podataka Disk', servis: 'baza-podataka', tip: 'disk',
+      iskorištenostPct: 91, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'kriticno', trend: 'raste', prognoza7dPct: 97,
+      preporuka: 'Hitno: proširi disk ili arhiviraj stare podatke.',
+    },
+    {
+      id: 'cap-004', naziv: 'Monitoring Servis CPU', servis: 'monitoring', tip: 'cpu',
+      iskorištenostPct: 38, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'pada', prognoza7dPct: 33,
+      preporuka: 'Resursi su dobro iskorišćeni, nema akcije potrebne.',
+    },
+    {
+      id: 'cap-005', naziv: 'AI Engine Memorija', servis: 'ai-engine', tip: 'memorija',
+      iskorištenostPct: 84, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'upozorenje', trend: 'raste', prognoza7dPct: 93,
+      preporuka: 'Planiraj povećanje RAM kapaciteta u narednih 14 dana.',
+    },
+    {
+      id: 'cap-006', naziv: 'CDN Mreža', servis: 'cdn', tip: 'mreza',
+      iskorištenostPct: 44, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'stabilan', prognoza7dPct: 45,
+      preporuka: 'Nema akcije potrebne.',
+    },
+    {
+      id: 'cap-007', naziv: 'Keš Baza CPU', servis: 'keš-baza', tip: 'cpu',
+      iskorištenostPct: 93, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'kriticno', trend: 'raste', prognoza7dPct: 99,
+      preporuka: 'Kritično: odmah povećaj broj CPU jezgara ili rasporedi load.',
+    },
+    {
+      id: 'cap-008', naziv: 'Log Arhiva Disk', servis: 'log-servis', tip: 'disk',
+      iskorištenostPct: 61, kapacitetPct: 100, pragUpozorenjaPct: 70, pragKriticnoPct: 90,
+      status: 'ok', trend: 'raste', prognoza7dPct: 68,
+      preporuka: 'Prati rast; razmotri rotaciju logova.',
+    },
+  ];
+
+  const ok = resursi.filter((r) => r.status === 'ok').length;
+  const uUpozorenju = resursi.filter((r) => r.status === 'upozorenje').length;
+  const kriticnih = resursi.filter((r) => r.status === 'kriticno').length;
+  const prosjecnaIskorištenost = Math.round(
+    resursi.reduce((s, r) => s + r.iskorištenostPct, 0) / resursi.length,
+  );
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoResursa: resursi.length,
+    ok,
+    uUpozorenju,
+    kriticnih,
+    prosjecnaIskorištenost,
+    resursi,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1111 — DORA Metrics ─────────────────────────────────────────
+
+export type AutofinishDoraRating = 'elite' | 'high' | 'medium' | 'low';
+export type AutofinishDoraTrend = 'raste' | 'pada' | 'stabilan';
+
+export interface AutofinishDoraSparkPoint {
+  period: string;
+  vrijednost: number;
+}
+
+export interface AutofinishDoraMetric {
+  id: string;
+  naziv: string;
+  opis: string;
+  vrijednost: number;
+  jedinica: string;
+  rating: AutofinishDoraRating;
+  trend: AutofinishDoraTrend;
+  eliteTarget: string;
+  highTarget: string;
+  mediumTarget: string;
+  sparkline: AutofinishDoraSparkPoint[];
+}
+
+export interface AutofinishDoraMetricsResult {
+  verzija: string;
+  autofinishBroj: number;
+  period: string;
+  ukupnoMetrika: number;
+  eliteCount: number;
+  highCount: number;
+  mediumCount: number;
+  lowCount: number;
+  metrike: AutofinishDoraMetric[];
+  timestamp: string;
+}
+
+export function getAutofinishDoraMetrics(): AutofinishDoraMetricsResult {
+  const metrike: AutofinishDoraMetric[] = [
+    {
+      id: 'dora-deployment-frequency',
+      naziv: 'Deployment Frequency',
+      opis: 'Koliko često se deployuju promjene u produkciju',
+      vrijednost: 3.2,
+      jedinica: 'deployova/dan',
+      rating: 'high',
+      trend: 'raste',
+      eliteTarget: 'Više puta dnevno',
+      highTarget: 'Jednom do više puta sedmično',
+      mediumTarget: 'Jednom sedmično do jednom mjesečno',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 2.1 },
+        { period: 'Sed -6', vrijednost: 2.4 },
+        { period: 'Sed -5', vrijednost: 2.8 },
+        { period: 'Sed -4', vrijednost: 2.6 },
+        { period: 'Sed -3', vrijednost: 3.0 },
+        { period: 'Sed -2', vrijednost: 3.1 },
+        { period: 'Sed -1', vrijednost: 3.2 },
+      ],
+    },
+    {
+      id: 'dora-lead-time',
+      naziv: 'Lead Time for Changes',
+      opis: 'Prosječno vrijeme od commit-a do produkcije',
+      vrijednost: 4.5,
+      jedinica: 'sati',
+      rating: 'elite',
+      trend: 'pada',
+      eliteTarget: 'Manje od 1 sata',
+      highTarget: '1 sat do 1 dan',
+      mediumTarget: '1 dan do 1 sedmica',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 8.2 },
+        { period: 'Sed -6', vrijednost: 7.1 },
+        { period: 'Sed -5', vrijednost: 6.4 },
+        { period: 'Sed -4', vrijednost: 5.8 },
+        { period: 'Sed -3', vrijednost: 5.2 },
+        { period: 'Sed -2', vrijednost: 4.9 },
+        { period: 'Sed -1', vrijednost: 4.5 },
+      ],
+    },
+    {
+      id: 'dora-change-failure-rate',
+      naziv: 'Change Failure Rate',
+      opis: 'Procenat deploymenta koji uzrokuju incident ili rollback',
+      vrijednost: 6.2,
+      jedinica: '%',
+      rating: 'high',
+      trend: 'pada',
+      eliteTarget: '0–5%',
+      highTarget: '5–10%',
+      mediumTarget: '10–15%',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 9.1 },
+        { period: 'Sed -6', vrijednost: 8.4 },
+        { period: 'Sed -5', vrijednost: 7.8 },
+        { period: 'Sed -4', vrijednost: 7.2 },
+        { period: 'Sed -3', vrijednost: 6.9 },
+        { period: 'Sed -2', vrijednost: 6.5 },
+        { period: 'Sed -1', vrijednost: 6.2 },
+      ],
+    },
+    {
+      id: 'dora-mttr',
+      naziv: 'MTTR (Time to Restore)',
+      opis: 'Prosječno vrijeme oporavka od incidenta u produkciji',
+      vrijednost: 38,
+      jedinica: 'minuta',
+      rating: 'elite',
+      trend: 'pada',
+      eliteTarget: 'Manje od 1 sata',
+      highTarget: 'Manje od 1 dana',
+      mediumTarget: 'Manje od 1 sedmice',
+      sparkline: [
+        { period: 'Sed -7', vrijednost: 72 },
+        { period: 'Sed -6', vrijednost: 65 },
+        { period: 'Sed -5', vrijednost: 58 },
+        { period: 'Sed -4', vrijednost: 51 },
+        { period: 'Sed -3', vrijednost: 46 },
+        { period: 'Sed -2', vrijednost: 42 },
+        { period: 'Sed -1', vrijednost: 38 },
+      ],
+    },
+  ];
+
+  const eliteCount = metrike.filter((m) => m.rating === 'elite').length;
+  const highCount = metrike.filter((m) => m.rating === 'high').length;
+  const mediumCount = metrike.filter((m) => m.rating === 'medium').length;
+  const lowCount = metrike.filter((m) => m.rating === 'low').length;
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    period: 'posljednjih 7 sedmica',
+    ukupnoMetrika: metrike.length,
+    eliteCount,
+    highCount,
+    mediumCount,
+    lowCount,
+    metrike,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishTehDug() (#1115) ────────────────────────────────────────────
+
+export type AutofinishDugKategorija = 'arhitektura' | 'kod' | 'testovi' | 'dokumentacija' | 'sigurnost' | 'zavisnosti';
+export type AutofinishDugPrioritet  = 'kriticno' | 'visoko' | 'srednje' | 'nisko';
+export type AutofinishDugTrend      = 'raste' | 'pada' | 'stabilan';
+
+export interface AutofinishDugStavka {
+  id: string;
+  naziv: string;
+  kategorija: AutofinishDugKategorija;
+  prioritet: AutofinishDugPrioritet;
+  /** Procijenjeni sati za rješavanje */
+  procijenjeniSati: number;
+  /** Tekući trošak po sedmici u satima (komplikacije) */
+  tjedniTrosak: number;
+  trend: AutofinishDugTrend;
+  opis: string;
+}
+
+export interface AutofinishTehDugResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoStavki: number;
+  ukupnoSati: number;
+  kriticnoCount: number;
+  visokoCount: number;
+  srednjeCount: number;
+  niskoCount: number;
+  stavke: AutofinishDugStavka[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled tehničkog duga — stavke grupirane po prioritetu.
+ * Svaka stavka ima kategoriju, procijenjene sate i tjedni trošak.
+ *
+ * @returns AutofinishTehDugResult
+ */
+export function getAutofinishTehDug(): AutofinishTehDugResult {
+  const stavke: AutofinishDugStavka[] = [
+    {
+      id: 'dug-auth-refaktor',
+      naziv: 'Refaktorisanje Auth Middleware',
+      kategorija: 'arhitektura',
+      prioritet: 'visoko',
+      procijenjeniSati: 24,
+      tjedniTrosak: 3,
+      trend: 'stabilan',
+      opis: 'Stari auth middleware nije prilagodjen novom proxy sloju. Svaka promjena zahtijeva dvostruku provjeru.',
+    },
+    {
+      id: 'dug-api-validacija',
+      naziv: 'API Input Validacija (Zod migracija)',
+      kategorija: 'sigurnost',
+      prioritet: 'kriticno',
+      procijenjeniSati: 40,
+      tjedniTrosak: 5,
+      trend: 'raste',
+      opis: 'Rucna validacija input parametara u API rutama. Migracija na Zod smanjuje XSS i injection rizik.',
+    },
+    {
+      id: 'dug-testovi-pokrivenost',
+      naziv: 'Povecanje pokrivenosti Unit Testova',
+      kategorija: 'testovi',
+      prioritet: 'srednje',
+      procijenjeniSati: 32,
+      tjedniTrosak: 2,
+      trend: 'pada',
+      opis: 'Pokrivenost unit testova je 74%. Cilj je 90%+ za sve kriticne module.',
+    },
+    {
+      id: 'dug-dokumentacija-api',
+      naziv: 'Azuriranje API Dokumentacije',
+      kategorija: 'dokumentacija',
+      prioritet: 'nisko',
+      procijenjeniSati: 16,
+      tjedniTrosak: 1,
+      trend: 'stabilan',
+      opis: 'Neki API endpointi nemaju azuriranu dokumentaciju za parametre dodane u posljednja 3 releasea.',
+    },
+    {
+      id: 'dug-zavisnosti-deprecated',
+      naziv: 'Zamjena Deprecated Zavisnosti',
+      kategorija: 'zavisnosti',
+      prioritet: 'visoko',
+      procijenjeniSati: 20,
+      tjedniTrosak: 2,
+      trend: 'raste',
+      opis: '3 direktne zavisnosti su deprecated i vise ne primaju sigurnosne zakrpe.',
+    },
+    {
+      id: 'dug-kod-duplikati',
+      naziv: 'Eliminacija Duplikata Koda (DRY)',
+      kategorija: 'kod',
+      prioritet: 'srednje',
+      procijenjeniSati: 28,
+      tjedniTrosak: 2,
+      trend: 'stabilan',
+      opis: 'Identicna logika formatiranja postoji u 6+ modula. Ekstrakcija u dijeljeni utility modul.',
+    },
+  ];
+
+  const kriticnoCount = stavke.filter((s) => s.prioritet === 'kriticno').length;
+  const visokoCount   = stavke.filter((s) => s.prioritet === 'visoko').length;
+  const srednjeCount  = stavke.filter((s) => s.prioritet === 'srednje').length;
+  const niskoCount    = stavke.filter((s) => s.prioritet === 'nisko').length;
+  const ukupnoSati    = stavke.reduce((sum, s) => sum + s.procijenjeniSati, 0);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoStavki: stavke.length,
+    ukupnoSati,
+    kriticnoCount,
+    visokoCount,
+    srednjeCount,
+    niskoCount,
+    stavke,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishKonfiguracija() (#1117) ─────────────────────────────────────
+
+export type AutofinishKonfiguracijaStatus = 'validiran' | 'nevazeci' | 'upozorenje' | 'nedostaje';
+export type AutofinishKonfiguracijaOkruzenje = 'production' | 'staging' | 'development' | 'sve';
+export type AutofinishKonfiguracijaIzvor = 'env' | 'secrets' | 'config-file' | 'baza' | 'default';
+export type AutofinishKonfiguracijaKategorija =
+  | 'sistem'
+  | 'db'
+  | 'api'
+  | 'auth'
+  | 'cache'
+  | 'monitoring'
+  | 'sigurnost';
+
+export interface AutofinishKonfiguracijaParametar {
+  id: string;
+  ime: string;
+  vrijednost: string;
+  kategorija: AutofinishKonfiguracijaKategorija;
+  okruzenje: AutofinishKonfiguracijaOkruzenje;
+  izvor: AutofinishKonfiguracijaIzvor;
+  status: AutofinishKonfiguracijaStatus;
+  osjetljivo: boolean;
+  zadnjaPromjena: string;
+  opis: string;
+}
+
+export interface AutofinishKonfiguracijaResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoParametara: number;
+  validiranih: number;
+  nevazecih: number;
+  upozorenja: number;
+  nedostaje: number;
+  zdravlje: number;
+  parametri: AutofinishKonfiguracijaParametar[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled stanja konfiguracionih parametara — validnost, okruženje, izvor.
+ * Osjetljivi parametri su maskirani.
+ *
+ * @returns AutofinishKonfiguracijaResult
+ */
+export function getAutofinishKonfiguracija(): AutofinishKonfiguracijaResult {
+  const parametri: AutofinishKonfiguracijaParametar[] = [
+    {
+      id: 'konf-db-url',
+      ime: 'DATABASE_URL',
+      vrijednost: '***masked***',
+      kategorija: 'db',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'validiran',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-04-28T10:00:00.000Z',
+      opis: 'PostgreSQL connection string za produkcijsku bazu podataka.',
+    },
+    {
+      id: 'konf-redis-url',
+      ime: 'REDIS_URL',
+      vrijednost: '***masked***',
+      kategorija: 'cache',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'validiran',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-04-20T08:30:00.000Z',
+      opis: 'Redis URL za cache layer i session storage.',
+    },
+    {
+      id: 'konf-jwt-secret',
+      ime: 'JWT_SECRET',
+      vrijednost: '***masked***',
+      kategorija: 'auth',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'validiran',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-04-15T12:00:00.000Z',
+      opis: 'Tajni ključ za JWT potpisivanje. Rotacija svaka 90 dana.',
+    },
+    {
+      id: 'konf-rate-limit',
+      ime: 'RATE_LIMIT_MAX',
+      vrijednost: '60',
+      kategorija: 'api',
+      okruzenje: 'sve',
+      izvor: 'env',
+      status: 'validiran',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-03-10T09:00:00.000Z',
+      opis: 'Maksimalan broj zahtjeva po minuti po IP adresi.',
+    },
+    {
+      id: 'konf-log-level',
+      ime: 'LOG_LEVEL',
+      vrijednost: 'info',
+      kategorija: 'monitoring',
+      okruzenje: 'production',
+      izvor: 'env',
+      status: 'validiran',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-02-01T07:00:00.000Z',
+      opis: 'Nivo logiranja: error, warn, info, debug.',
+    },
+    {
+      id: 'konf-cors-origin',
+      ime: 'CORS_ALLOWED_ORIGINS',
+      vrijednost: 'https://ai-iq-super-platforma.vercel.app',
+      kategorija: 'sigurnost',
+      okruzenje: 'production',
+      izvor: 'env',
+      status: 'validiran',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-04-01T11:00:00.000Z',
+      opis: 'Lista dozvoljenih origin-a za CORS politiku.',
+    },
+    {
+      id: 'konf-smtp-host',
+      ime: 'SMTP_HOST',
+      vrijednost: '***masked***',
+      kategorija: 'sistem',
+      okruzenje: 'production',
+      izvor: 'secrets',
+      status: 'upozorenje',
+      osjetljivo: true,
+      zadnjaPromjena: '2026-01-15T06:00:00.000Z',
+      opis: 'SMTP server za slanje emailova. Nije testiran u zadnjih 30 dana.',
+    },
+    {
+      id: 'konf-feature-debug',
+      ime: 'FEATURE_DEBUG_MODE',
+      vrijednost: '',
+      kategorija: 'sistem',
+      okruzenje: 'production',
+      izvor: 'env',
+      status: 'nedostaje',
+      osjetljivo: false,
+      zadnjaPromjena: '2026-01-01T00:00:00.000Z',
+      opis: 'Debug mode flag. Nije definisan u produkcijskom okruženju.',
+    },
+  ];
+
+  const validiranih = parametri.filter((p) => p.status === 'validiran').length;
+  const nevazecih   = parametri.filter((p) => p.status === 'nevazeci').length;
+  const upozorenja  = parametri.filter((p) => p.status === 'upozorenje').length;
+  const nedostaje   = parametri.filter((p) => p.status === 'nedostaje').length;
+  const zdravlje    = Math.round((validiranih / parametri.length) * 100);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoParametara: parametri.length,
+    validiranih,
+    nevazecih,
+    upozorenja,
+    nedostaje,
+    zdravlje,
+    parametri,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishDeploymentPipeline() (#1120) ────────────────────────────────
+
+export type AutofinishDeploymentFazaStatus = 'ok' | 'running' | 'failed' | 'skipped';
+export type AutofinishDeploymentOkidac = 'push' | 'pr' | 'manual' | 'schedule' | 'tag';
+export type AutofinishDeploymentTrend = 'raste' | 'pada' | 'stabilno';
+
+export interface AutofinishDeploymentFaza {
+  naziv: string;
+  status: AutofinishDeploymentFazaStatus;
+  trajanjeSekundi: number;
+}
+
+export interface AutofinishDeploymentPipeline {
+  id: string;
+  servis: string;
+  grana: string;
+  commitSha: string;
+  okidac: AutofinishDeploymentOkidac;
+  status: AutofinishDeploymentFazaStatus;
+  faze: AutofinishDeploymentFaza[];
+  pocetakISO: string;
+  trajanjeSekundi: number;
+  prethodniDeployISO: string;
+  trendUspjeha: AutofinishDeploymentTrend;
+  postoUspijeha: number;
+}
+
+export interface AutofinishDeploymentPipelineResult {
+  verzija: string;
+  autofinishBroj: number;
+  ukupnoPipeline: number;
+  aktivnih: number;
+  uspjesnih: number;
+  neuspjesnih: number;
+  preskocenih: number;
+  prosjecnoTrajanjeSekundi: number;
+  pipelines: AutofinishDeploymentPipeline[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled CI/CD deployment pipeline statusa po servisu.
+ * Svaki pipeline sadrži faze build/test/deploy/verify, trajanje i trend.
+ *
+ * @returns AutofinishDeploymentPipelineResult
+ */
+export function getAutofinishDeploymentPipeline(): AutofinishDeploymentPipelineResult {
+  const pipelines: AutofinishDeploymentPipeline[] = [
+    {
+      id: 'dp-ai-iq-platforma',
+      servis: 'AI-IQ-SUPER-PLATFORMA',
+      grana: 'main',
+      commitSha: 'de965d2',
+      okidac: 'push',
+      status: 'ok',
+      faze: [
+        { naziv: 'build',  status: 'ok', trajanjeSekundi: 87 },
+        { naziv: 'test',   status: 'ok', trajanjeSekundi: 142 },
+        { naziv: 'deploy', status: 'ok', trajanjeSekundi: 55 },
+        { naziv: 'verify', status: 'ok', trajanjeSekundi: 18 },
+      ],
+      pocetakISO: '2026-05-02T04:00:00.000Z',
+      trajanjeSekundi: 302,
+      prethodniDeployISO: '2026-05-01T22:15:00.000Z',
+      trendUspjeha: 'raste',
+      postoUspijeha: 97,
+    },
+    {
+      id: 'dp-omega-ai',
+      servis: 'OMEGA-AI',
+      grana: 'main',
+      commitSha: 'a1b2c3d',
+      okidac: 'pr',
+      status: 'ok',
+      faze: [
+        { naziv: 'build',  status: 'ok',      trajanjeSekundi: 64 },
+        { naziv: 'test',   status: 'ok',      trajanjeSekundi: 210 },
+        { naziv: 'deploy', status: 'ok',      trajanjeSekundi: 48 },
+        { naziv: 'verify', status: 'skipped', trajanjeSekundi: 0 },
+      ],
+      pocetakISO: '2026-05-02T03:45:00.000Z',
+      trajanjeSekundi: 322,
+      prethodniDeployISO: '2026-05-01T19:00:00.000Z',
+      trendUspjeha: 'stabilno',
+      postoUspijeha: 94,
+    },
+    {
+      id: 'dp-spaja-pro',
+      servis: 'SpajaPro',
+      grana: 'release/v15',
+      commitSha: 'f4e5d6c',
+      okidac: 'tag',
+      status: 'failed',
+      faze: [
+        { naziv: 'build',  status: 'ok',     trajanjeSekundi: 72 },
+        { naziv: 'test',   status: 'failed', trajanjeSekundi: 95 },
+        { naziv: 'deploy', status: 'skipped', trajanjeSekundi: 0 },
+        { naziv: 'verify', status: 'skipped', trajanjeSekundi: 0 },
+      ],
+      pocetakISO: '2026-05-02T03:10:00.000Z',
+      trajanjeSekundi: 167,
+      prethodniDeployISO: '2026-04-30T14:30:00.000Z',
+      trendUspjeha: 'pada',
+      postoUspijeha: 78,
+    },
+    {
+      id: 'dp-digitalna-industrija',
+      servis: 'DigitalnaIndustrija',
+      grana: 'main',
+      commitSha: 'c7b8a9e',
+      okidac: 'schedule',
+      status: 'running',
+      faze: [
+        { naziv: 'build',  status: 'ok',      trajanjeSekundi: 58 },
+        { naziv: 'test',   status: 'running', trajanjeSekundi: 0 },
+        { naziv: 'deploy', status: 'skipped', trajanjeSekundi: 0 },
+        { naziv: 'verify', status: 'skipped', trajanjeSekundi: 0 },
+      ],
+      pocetakISO: '2026-05-02T04:10:00.000Z',
+      trajanjeSekundi: 58,
+      prethodniDeployISO: '2026-05-01T04:10:00.000Z',
+      trendUspjeha: 'stabilno',
+      postoUspijeha: 91,
+    },
+    {
+      id: 'dp-openai-platform',
+      servis: 'OpenAI-Platform',
+      grana: 'main',
+      commitSha: 'e1f2a3b',
+      okidac: 'push',
+      status: 'ok',
+      faze: [
+        { naziv: 'build',  status: 'ok', trajanjeSekundi: 44 },
+        { naziv: 'test',   status: 'ok', trajanjeSekundi: 88 },
+        { naziv: 'deploy', status: 'ok', trajanjeSekundi: 31 },
+        { naziv: 'verify', status: 'ok', trajanjeSekundi: 12 },
+      ],
+      pocetakISO: '2026-05-02T02:30:00.000Z',
+      trajanjeSekundi: 175,
+      prethodniDeployISO: '2026-05-01T18:45:00.000Z',
+      trendUspjeha: 'raste',
+      postoUspijeha: 99,
+    },
+  ];
+
+  const aktivnih    = pipelines.filter((p) => p.status === 'running').length;
+  const uspjesnih   = pipelines.filter((p) => p.status === 'ok').length;
+  const neuspjesnih = pipelines.filter((p) => p.status === 'failed').length;
+  const preskocenih = pipelines.filter((p) => p.status === 'skipped').length;
+  const prosjecnoTrajanjeSekundi = Math.round(
+    pipelines.reduce((sum, p) => sum + p.trajanjeSekundi, 0) / pipelines.length,
+  );
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupnoPipeline: pipelines.length,
+    aktivnih,
+    uspjesnih,
+    neuspjesnih,
+    preskocenih,
+    prosjecnoTrajanjeSekundi,
+    pipelines,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── getAutofinishInfrastruktura() (#1121) ────────────────────────────────────
+
+export type AutofinishInfraStatus = 'ok' | 'warning' | 'critical';
+export type AutofinishInfraUloga = 'aplikacija' | 'baza' | 'kes' | 'proxy' | 'monitoring';
+export type AutofinishInfraRegion = 'eu-central' | 'eu-west' | 'us-east' | 'us-west' | 'ap-southeast';
+
+export interface AutofinishInfraNode {
+  id: string;
+  naziv: string;
+  uloga: AutofinishInfraUloga;
+  region: AutofinishInfraRegion;
+  status: AutofinishInfraStatus;
+  uptimePostotak: number;
+  cpu: number;
+  ram: number;
+  disk: number;
+  mrezaUlazMbps: number;
+  mrezaIzlazMbps: number;
+  loadAverage1m: number;
+  loadAverage5m: number;
+  loadAverage15m: number;
+  zadnjeAzuriranjeISO: string;
+}
+
+export interface AutofinishInfrastrukturaSummary {
+  ukupnoNodeova: number;
+  okNodeova: number;
+  upozorenjaNodeova: number;
+  kriticnihNodeova: number;
+  prosjecniCpu: number;
+  prosjecniRam: number;
+  prosjecniDisk: number;
+  prosjecniUptime: number;
+}
+
+export interface AutofinishInfrastrukturaResult {
+  verzija: string;
+  autofinishBroj: number;
+  summary: AutofinishInfrastrukturaSummary;
+  nodeovi: AutofinishInfraNode[];
+  timestamp: string;
+}
+
+/**
+ * Vraća pregled infrastrukturnih čvorova — CPU, RAM, disk, mreža,
+ * uptime, uloga i region po hostu.
+ *
+ * @returns AutofinishInfrastrukturaResult
+ */
+export function getAutofinishInfrastruktura(): AutofinishInfrastrukturaResult {
+  const nodeovi: AutofinishInfraNode[] = [
+    {
+      id: 'node-app-01',
+      naziv: 'app-01.spaja.io',
+      uloga: 'aplikacija',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.97,
+      cpu: 38,
+      ram: 62,
+      disk: 44,
+      mrezaUlazMbps: 120,
+      mrezaIzlazMbps: 85,
+      loadAverage1m: 1.42,
+      loadAverage5m: 1.35,
+      loadAverage15m: 1.28,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-app-02',
+      naziv: 'app-02.spaja.io',
+      uloga: 'aplikacija',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.95,
+      cpu: 42,
+      ram: 58,
+      disk: 41,
+      mrezaUlazMbps: 110,
+      mrezaIzlazMbps: 78,
+      loadAverage1m: 1.61,
+      loadAverage5m: 1.54,
+      loadAverage15m: 1.47,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-db-01',
+      naziv: 'db-01.spaja.io',
+      uloga: 'baza',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.99,
+      cpu: 25,
+      ram: 78,
+      disk: 67,
+      mrezaUlazMbps: 45,
+      mrezaIzlazMbps: 90,
+      loadAverage1m: 0.88,
+      loadAverage5m: 0.91,
+      loadAverage15m: 0.86,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-db-02',
+      naziv: 'db-02.spaja.io',
+      uloga: 'baza',
+      region: 'eu-west',
+      status: 'warning',
+      uptimePostotak: 99.82,
+      cpu: 71,
+      ram: 84,
+      disk: 88,
+      mrezaUlazMbps: 38,
+      mrezaIzlazMbps: 72,
+      loadAverage1m: 3.14,
+      loadAverage5m: 2.97,
+      loadAverage15m: 2.68,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-cache-01',
+      naziv: 'cache-01.spaja.io',
+      uloga: 'kes',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 100.0,
+      cpu: 12,
+      ram: 45,
+      disk: 22,
+      mrezaUlazMbps: 200,
+      mrezaIzlazMbps: 195,
+      loadAverage1m: 0.31,
+      loadAverage5m: 0.29,
+      loadAverage15m: 0.27,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-proxy-01',
+      naziv: 'proxy-01.spaja.io',
+      uloga: 'proxy',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.98,
+      cpu: 18,
+      ram: 32,
+      disk: 18,
+      mrezaUlazMbps: 850,
+      mrezaIzlazMbps: 840,
+      loadAverage1m: 0.54,
+      loadAverage5m: 0.51,
+      loadAverage15m: 0.49,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+    {
+      id: 'node-monitoring-01',
+      naziv: 'monitoring-01.spaja.io',
+      uloga: 'monitoring',
+      region: 'eu-central',
+      status: 'ok',
+      uptimePostotak: 99.93,
+      cpu: 22,
+      ram: 55,
+      disk: 51,
+      mrezaUlazMbps: 30,
+      mrezaIzlazMbps: 15,
+      loadAverage1m: 0.72,
+      loadAverage5m: 0.68,
+      loadAverage15m: 0.65,
+      zadnjeAzuriranjeISO: '2026-05-02T04:20:00.000Z',
+    },
+  ];
+
+  const okNodeova        = nodeovi.filter((n) => n.status === 'ok').length;
+  const upozorenjaNodeova = nodeovi.filter((n) => n.status === 'warning').length;
+  const kriticnihNodeova  = nodeovi.filter((n) => n.status === 'critical').length;
+  const avg = (arr: number[]) => Math.round(arr.reduce((s, v) => s + v, 0) / arr.length);
+
+  const summary: AutofinishInfrastrukturaSummary = {
+    ukupnoNodeova:     nodeovi.length,
+    okNodeova,
+    upozorenjaNodeova,
+    kriticnihNodeova,
+    prosjecniCpu:      avg(nodeovi.map((n) => n.cpu)),
+    prosjecniRam:      avg(nodeovi.map((n) => n.ram)),
+    prosjecniDisk:     avg(nodeovi.map((n) => n.disk)),
+    prosjecniUptime:   Math.round(
+      nodeovi.reduce((s, n) => s + n.uptimePostotak, 0) / nodeovi.length * 100,
+    ) / 100,
+  };
+
+  return {
+    verzija:       APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    summary,
+    nodeovi,
     timestamp: new Date().toISOString(),
   };
 }

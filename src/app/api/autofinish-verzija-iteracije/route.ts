@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
 
   if (!targetVerzija) {
     const summary = getAutofinishVerzijeSummary();
-    const validneVerzije = summary.milestones.map((m) => m.verzija);
+    const validneVerzije = summary.verzije.map((m) => m.verzija);
     return NextResponse.json(
       {
         error: 'INVALID_PARAMS',

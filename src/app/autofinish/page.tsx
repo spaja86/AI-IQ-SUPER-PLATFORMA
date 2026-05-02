@@ -14,6 +14,8 @@
 // Autofinish #945 — Top Iteracije Widget
 // Autofinish #955 — Kategorije Widget
 // Autofinish #968 — TrendWidget
+// Autofinish #1107 — Dodaj RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget
+// Autofinish #1115 — TehDugWidget (Tehnicki Dug)
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -58,6 +60,15 @@ import {
   getAutofinishSlaMonitor,
   getAutofinishFeatureFlags,
   getAutofinishIncidentLog,
+  getAutofinishErrorBudget,
+  getAutofinishRunbook,
+  getAutofinishOnCall,
+  getAutofinishAlertRules,
+  getAutofinishPostMortem,
+  getAutofinishCapacityPlanning,
+  getAutofinishDoraMetrics,
+  getAutofinishPodsistemiZdravlje,
+  getAutofinishTehDug,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -95,6 +106,15 @@ import { CostAnalyticsWidget } from './CostAnalyticsWidget';
 import { SlaMonitorWidget } from './SlaMonitorWidget';
 import { FeatureFlagsWidget } from './FeatureFlagsWidget';
 import { IncidentLogWidget } from './IncidentLogWidget';
+import { ErrorBudgetWidget } from './ErrorBudgetWidget';
+import { RunbookWidget } from './RunbookWidget';
+import { OnCallWidget } from './OnCallWidget';
+import { AlertRulesWidget } from './AlertRulesWidget';
+import { PostMortemWidget } from './PostMortemWidget';
+import { CapacityPlanningWidget } from './CapacityPlanningWidget';
+import { DoraMetricsWidget } from './DoraMetricsWidget';
+import { PodsistemiZdravljeWidget } from './PodsistemiZdravljeWidget';
+import { TehDugWidget } from './TehDugWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -172,6 +192,15 @@ export default function AutofinishPage() {
   const slaMonitor = getAutofinishSlaMonitor();
   const featureFlags = getAutofinishFeatureFlags();
   const incidentLog = getAutofinishIncidentLog();
+  const errorBudget = getAutofinishErrorBudget();
+  const runbook = getAutofinishRunbook();
+  const onCall = getAutofinishOnCall();
+  const alertRules = getAutofinishAlertRules();
+  const postMortem = getAutofinishPostMortem();
+  const capacityPlanning = getAutofinishCapacityPlanning();
+  const doraMetrics = getAutofinishDoraMetrics();
+  const podsistemiZdravlje = getAutofinishPodsistemiZdravlje();
+  const tehDug = getAutofinishTehDug();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -782,6 +811,32 @@ export default function AutofinishPage() {
         <SlaMonitorWidget sla={slaMonitor} />
         <FeatureFlagsWidget flags={featureFlags} />
         <IncidentLogWidget log={incidentLog} />
+        {/* #1086 — Error Budget Widget */}
+        <ErrorBudgetWidget budget={errorBudget} />
+
+        {/* #1090 — Runbook Widget */}
+        <RunbookWidget runbook={runbook} />
+
+        {/* #1095 — OnCall Widget */}
+        <OnCallWidget onCall={onCall} />
+
+        {/* #1100 — Alert Rules Widget */}
+        <AlertRulesWidget alertRules={alertRules} />
+
+        {/* #1105 — Post-mortem Widget */}
+        <PostMortemWidget postMortem={postMortem} />
+
+        {/* #1109 — Capacity Planning Widget */}
+        <CapacityPlanningWidget capacity={capacityPlanning} />
+
+        {/* #1111 — DORA Metrics Widget */}
+        <DoraMetricsWidget dora={doraMetrics} />
+
+        {/* #1113 — Podsistemi Zdravlje Widget */}
+        <PodsistemiZdravljeWidget zdravlje={podsistemiZdravlje} />
+
+        {/* #1115 — Tehnicki Dug Widget */}
+        <TehDugWidget tehDug={tehDug} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">

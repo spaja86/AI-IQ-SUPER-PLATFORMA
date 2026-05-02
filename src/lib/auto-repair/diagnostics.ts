@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 1944 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2224 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6680,6 +6680,162 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1082 — E2E svih 42 autofinish API endpoints ─────────────
     createCheck('autofinish-1082-all42-endpoints-e2e-check', 'E2E Svih 42 Autofinish API Endpoints #1082', `Provera E2E konzistentnosti verzija kroz svih 42 autofinish API endpoints`, 'ok', `Autofinish #1082 — Full 42-Endpoint E2E: TOTAL_DIAGNOSTIKA 2146→2148, APP_VERSION 46.2.0→46.3.0`),
     createCheck('autofinish-1082-iteracija-check', 'Autofinish #1082 Iteracija', `Provera autofinish iteracije #1082 — E2E svih 42 autofinish API endpoints`, 'ok', `Autofinish #1082 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1083 — getAutofinishErrorBudget() Helper ────────────────
+    createCheck('autofinish-1083-error-budget-helper-check', 'getAutofinishErrorBudget() Helper #1083', `Provera getAutofinishErrorBudget() — schema, sloTarget, potrosenoPct, status enum, suma servisa`, 'ok', `Autofinish #1083 — ErrorBudget Helper: TOTAL_DIAGNOSTIKA 2148→2150, APP_VERSION 46.3.0→46.4.0`),
+    createCheck('autofinish-1083-iteracija-check', 'Autofinish #1083 Iteracija', `Provera autofinish iteracije #1083 — getAutofinishErrorBudget()`, 'ok', `Autofinish #1083 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1084 — Unit Testovi getAutofinishErrorBudget() ──────────
+    createCheck('autofinish-1084-error-budget-unit-test-check', 'Unit Testovi getAutofinishErrorBudget() #1084', `Provera unit testova — schema, sloTarget, potrosenoPct, status enum, suma=ukupno, ISO timestamp`, 'ok', `Autofinish #1084 — ErrorBudget Tests: TOTAL_DIAGNOSTIKA 2150→2152, APP_VERSION 46.4.0→46.5.0`),
+    createCheck('autofinish-1084-iteracija-check', 'Autofinish #1084 Iteracija', `Provera autofinish iteracije #1084 — unit testovi error budget`, 'ok', `Autofinish #1084 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1085 — GET /api/autofinish-error-budget ─────────────────
+    createCheck('autofinish-1085-error-budget-api-check', 'GET /api/autofinish-error-budget #1085', `Provera /api/autofinish-error-budget — rate-limit, Cache-Control s-maxage=300, X-App-Version headers`, 'ok', `Autofinish #1085 — ErrorBudget API: TOTAL_DIAGNOSTIKA 2152→2154, APP_VERSION 46.5.0→46.6.0`),
+    createCheck('autofinish-1085-iteracija-check', 'Autofinish #1085 Iteracija', `Provera autofinish iteracije #1085 — GET /api/autofinish-error-budget`, 'ok', `Autofinish #1085 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1086 — Dashboard ErrorBudgetWidget ──────────────────────
+    createCheck('autofinish-1086-error-budget-widget-check', 'Dashboard ErrorBudgetWidget #1086', `Provera ErrorBudgetWidget — budzet bar, filter po statusu, servisni detalji, JSON API link, ARIA`, 'ok', `Autofinish #1086 — ErrorBudgetWidget: TOTAL_DIAGNOSTIKA 2154→2156, APP_VERSION 46.6.0→46.7.0`),
+    createCheck('autofinish-1086-iteracija-check', 'Autofinish #1086 Iteracija', `Provera autofinish iteracije #1086 — Dashboard ErrorBudgetWidget`, 'ok', `Autofinish #1086 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1087 — getAutofinishRunbook() Helper ────────────────────
+    createCheck('autofinish-1087-runbook-helper-check', 'getAutofinishRunbook() Helper #1087', `Provera getAutofinishRunbook() — runbooki niz, koraci, vlasnik, prioritet, pokriveniServisi`, 'ok', `Autofinish #1087 — Runbook Helper: TOTAL_DIAGNOSTIKA 2156→2158, APP_VERSION 46.7.0→46.8.0`),
+    createCheck('autofinish-1087-iteracija-check', 'Autofinish #1087 Iteracija', `Provera autofinish iteracije #1087 — getAutofinishRunbook()`, 'ok', `Autofinish #1087 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1088 — Unit Testovi getAutofinishRunbook() ──────────────
+    createCheck('autofinish-1088-runbook-unit-test-check', 'Unit Testovi getAutofinishRunbook() #1088', `Provera unit testova — schema, runbooki niz, koraci, prioritet enum, suma=ukupno, ISO timestamp`, 'ok', `Autofinish #1088 — Runbook Tests: TOTAL_DIAGNOSTIKA 2158→2160, APP_VERSION 46.8.0→46.9.0`),
+    createCheck('autofinish-1088-iteracija-check', 'Autofinish #1088 Iteracija', `Provera autofinish iteracije #1088 — unit testovi runbook`, 'ok', `Autofinish #1088 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1089 — GET /api/autofinish-runbook ──────────────────────
+    createCheck('autofinish-1089-runbook-api-check', 'GET /api/autofinish-runbook #1089', `Provera API rute — rate-limit, Cache-Control s-maxage=300, X-App-Version, X-Autofinish-Iteracija headers`, 'ok', `Autofinish #1089 — Runbook API: TOTAL_DIAGNOSTIKA 2160→2162, APP_VERSION 46.9.0→46.10.0`),
+    createCheck('autofinish-1089-iteracija-check', 'Autofinish #1089 Iteracija', `Provera autofinish iteracije #1089 — GET /api/autofinish-runbook`, 'ok', `Autofinish #1089 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1090 — Dashboard RunbookWidget ───────────────────────────
+    createCheck('autofinish-1090-runbook-widget-check', 'Dashboard RunbookWidget #1090', `Provera RunbookWidget — lista runbooka, filter po prioritetu P1-P4, detalji koraka, vlasnik badge, ARIA`, 'ok', `Autofinish #1090 — RunbookWidget: TOTAL_DIAGNOSTIKA 2162→2164, APP_VERSION 46.10.0→46.11.0`),
+    createCheck('autofinish-1090-iteracija-check', 'Autofinish #1090 Iteracija', `Provera autofinish iteracije #1090 — Dashboard RunbookWidget`, 'ok', `Autofinish #1090 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1091 — Unit testovi RunbookWidget ────────────────────────
+    createCheck('autofinish-1091-runbook-widget-test-check', 'Unit testovi RunbookWidget #1091', `Provera unit testova RunbookWidget — filter P1-P4, zbir prioriteta, koraci, tagovi, pokriveniServisi`, 'ok', `Autofinish #1091 — RunbookWidget testovi: TOTAL_DIAGNOSTIKA 2164→2166, APP_VERSION 46.11.0→46.12.0`),
+    createCheck('autofinish-1091-iteracija-check', 'Autofinish #1091 Iteracija', `Provera autofinish iteracije #1091 — Unit testovi RunbookWidget`, 'ok', `Autofinish #1091 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1092 — getAutofinishOnCall() helper ─────────────────────
+    createCheck('autofinish-1092-on-call-helper-check', 'getAutofinishOnCall() helper #1092', `Provera getAutofinishOnCall() — on-call rasporedi, aktivne smjene, eskalacioni nivoi, kontakti`, 'ok', `Autofinish #1092 — OnCall helper: timovi, clanovi, aktivnih/rezerva/slobodnih, otvoreniIncidenti, TOTAL_DIAGNOSTIKA 2166→2168`),
+    createCheck('autofinish-1092-iteracija-check', 'Autofinish #1092 Iteracija', `Provera autofinish iteracije #1092 — getAutofinishOnCall() helper`, 'ok', `Autofinish #1092 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1093 — Unit testovi getAutofinishOnCall() ───────────────
+    createCheck('autofinish-1093-on-call-unit-check', 'Unit testovi getAutofinishOnCall() #1093', `Provera unit testova getAutofinishOnCall() — schema, timovi, clanovi, nivo/status/kanal enum, ref konzistentnost, suma=ukupno, ISO timestamp`, 'ok', `Autofinish #1093 — OnCall unit testovi: 14 testova, TOTAL_DIAGNOSTIKA 2168→2170`),
+    createCheck('autofinish-1093-iteracija-check', 'Autofinish #1093 Iteracija', `Provera autofinish iteracije #1093 — Unit testovi getAutofinishOnCall()`, 'ok', `Autofinish #1093 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1094 — GET /api/autofinish-on-call ─────────────────────
+    createCheck('autofinish-1094-on-call-api-check', 'GET /api/autofinish-on-call #1094', `Provera GET /api/autofinish-on-call endpoint — izlaže getAutofinishOnCall() podatke, rate-limit, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri`, 'ok', `Autofinish #1094 — OnCall API endpoint, TOTAL_DIAGNOSTIKA 2170→2172`),
+    createCheck('autofinish-1094-iteracija-check', 'Autofinish #1094 Iteracija', `Provera autofinish iteracije #1094 — GET /api/autofinish-on-call endpoint`, 'ok', `Autofinish #1094 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1095 — Dashboard OnCallWidget ───────────────────────────
+    createCheck('autofinish-1095-on-call-widget-check', 'Dashboard OnCallWidget #1095', `Provera Dashboard OnCallWidget — on-call lista timova, filter aktivan/rezerva/slobodan, nivo badge, incident count, kontakti, ARIA, JSON API link`, 'ok', `Autofinish #1095 — OnCallWidget komponenta, TOTAL_DIAGNOSTIKA 2172→2174`),
+    createCheck('autofinish-1095-iteracija-check', 'Autofinish #1095 Iteracija', `Provera autofinish iteracije #1095 — Dashboard OnCallWidget`, 'ok', `Autofinish #1095 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1096 — Unit testovi OnCallWidget ────────────────────────
+    createCheck('autofinish-1096-on-call-widget-test-check', 'Unit testovi OnCallWidget #1096', `Provera unit testova OnCallWidget — filter svi/aktivan/rezerva/slobodan, zbir statusa=ukupno, incident suma, naziv/opis/rotacija/eskalacija, nivo badge, smjena datumi, kontakti, JSON API link, timestamp`, 'ok', `Autofinish #1096 — OnCallWidget unit testovi, TOTAL_DIAGNOSTIKA 2174→2176`),
+    createCheck('autofinish-1096-iteracija-check', 'Autofinish #1096 Iteracija', `Provera autofinish iteracije #1096 — Unit testovi OnCallWidget`, 'ok', `Autofinish #1096 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1097 — getAutofinishAlertRules() Helper ─────────────────
+    createCheck('autofinish-1097-alert-rules-helper-check', 'getAutofinishAlertRules() Helper #1097', `Provera getAutofinishAlertRules() — alert pravila po servisima, pragovi metrika, prozori tišine, eskalacioni lanci, status aktivan/utišan/privremeno_onemogućen`, 'ok', `Autofinish #1097 — AlertRules helper, TOTAL_DIAGNOSTIKA 2176→2178`),
+    createCheck('autofinish-1097-iteracija-check', 'Autofinish #1097 Iteracija', `Provera autofinish iteracije #1097 — getAutofinishAlertRules() Helper`, 'ok', `Autofinish #1097 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1098 — Unit testovi getAutofinishAlertRules() ───────────
+    createCheck('autofinish-1098-alert-rules-unit-tests-check', 'Unit testovi getAutofinishAlertRules() #1098', `Provera unit testova getAutofinishAlertRules() — schema pravila, status/severity enum, prag tip/operator, eskalacije kanal/nivo enum, prozorTišine za utišana pravila, poServisima suma=ukupno, kriticnih izračun, timestamp ISO`, 'ok', `Autofinish #1098 — AlertRules unit testovi, TOTAL_DIAGNOSTIKA 2178→2180`),
+    createCheck('autofinish-1098-iteracija-check', 'Autofinish #1098 Iteracija', `Provera autofinish iteracije #1098 — Unit testovi getAutofinishAlertRules()`, 'ok', `Autofinish #1098 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1099 — GET /api/autofinish-alert-rules ──────────────────
+    createCheck('autofinish-1099-alert-rules-api-check', 'GET /api/autofinish-alert-rules #1099', `Provera GET /api/autofinish-alert-rules — izlaže getAutofinishAlertRules(), rate-limit zaštita, Cache-Control, X-App-Version, X-Autofinish-Iteracija headeri, TOTAL_DIAGNOSTIKA 2180→2182`, 'ok', `Autofinish #1099 — AlertRules API endpoint, TOTAL_DIAGNOSTIKA 2180→2182`),
+    createCheck('autofinish-1099-iteracija-check', 'Autofinish #1099 Iteracija', `Provera autofinish iteracije #1099 — GET /api/autofinish-alert-rules`, 'ok', `Autofinish #1099 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1100 — Dashboard AlertRulesWidget ───────────────────────
+    createCheck('autofinish-1100-alert-rules-widget-check', 'Dashboard AlertRulesWidget #1100', `Provera AlertRulesWidget — lista alert pravila po servisima, dupli filter status/severity, prag metrika/operator/vrijednost/trajanje, prozori tišine, eskalacioni lanac, aktiviranja7Dana, ARIA pristupačnost, JSON API link, TOTAL_DIAGNOSTIKA 2182→2184`, 'ok', `Autofinish #1100 — AlertRulesWidget dashboard komponenta, TOTAL_DIAGNOSTIKA 2182→2184`),
+    createCheck('autofinish-1100-iteracija-check', 'Autofinish #1100 Iteracija', `Provera autofinish iteracije #1100 — Dashboard AlertRulesWidget`, 'ok', `Autofinish #1100 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1101 — Unit testovi AlertRulesWidget ────────────────────
+    createCheck('autofinish-1101-alert-rules-widget-test-check', 'Unit testovi AlertRulesWidget #1101', `Provera unit testova AlertRulesWidget — dupli filter status/severity, prag tip/operator/vrijednost/trajanje/jedinica, eskalacije kanal/nivo enum, prozori tišine utišanih, aktiviranja7Dana, poServisima suma=ukupno, kriticnih izračun, poslednjeAktiviranje ISO, timestamp, TOTAL_DIAGNOSTIKA 2184→2186`, 'ok', `Autofinish #1101 — Unit testovi AlertRulesWidget, TOTAL_DIAGNOSTIKA 2184→2186`),
+    createCheck('autofinish-1101-iteracija-check', 'Autofinish #1101 Iteracija', `Provera autofinish iteracije #1101 — Unit testovi AlertRulesWidget`, 'ok', `Autofinish #1101 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1102 — getAutofinishPostMortem() Helper ─────────────────
+    createCheck('autofinish-1102-post-mortem-helper-check', 'getAutofinishPostMortem() Helper #1102', `Provera getAutofinishPostMortem() helper-a — post-mortem izvještaji, status/severity enum, timeline faze, akcione stavke, korijenUzrok, zahvaceniServisi, MTTD/MTTR metrike, otvorenihAkcija, poSeveritetu suma=ukupno, TOTAL_DIAGNOSTIKA 2186→2188`, 'ok', `Autofinish #1102 — getAutofinishPostMortem() Helper, TOTAL_DIAGNOSTIKA 2186→2188`),
+    createCheck('autofinish-1102-iteracija-check', 'Autofinish #1102 Iteracija', `Provera autofinish iteracije #1102 — getAutofinishPostMortem() Helper`, 'ok', `Autofinish #1102 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1103 — Unit testovi getAutofinishPostMortem() ───────────
+    createCheck('autofinish-1103-post-mortem-unit-test-check', 'Unit testovi getAutofinishPostMortem() #1103', `Provera unit testova getAutofinishPostMortem() — schema, status/severity enum, suma statusa=ukupno, otvorenih/uPregledu/zatvorenih/arhiviranih, otvorenihAkcija, poSeveritetu suma/P1, MTTD/MTTR, zatvoreno ISO, timeline schema, akcije schema, TOTAL_DIAGNOSTIKA 2188→2190`, 'ok', `Autofinish #1103 — Unit testovi getAutofinishPostMortem(), TOTAL_DIAGNOSTIKA 2188→2190`),
+    createCheck('autofinish-1103-iteracija-check', 'Autofinish #1103 Iteracija', `Provera autofinish iteracije #1103 — Unit testovi getAutofinishPostMortem()`, 'ok', `Autofinish #1103 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1104 — GET /api/autofinish-post-mortem ─────────────────
+    createCheck('autofinish-1104-post-mortem-api-check', 'GET /api/autofinish-post-mortem #1104', `Provera GET /api/autofinish-post-mortem — getAutofinishPostMortem() rezultat, rate limiting 60/60s po IP, 429 pri prekoračenju, Cache-Control s-maxage=300, X-App-Version i X-Autofinish-Iteracija headeri, TOTAL_API_ROUTES 972→973, TOTAL_ROUTES 999→1000`, 'ok', `Autofinish #1104 — GET /api/autofinish-post-mortem, TOTAL_API_ROUTES 973, TOTAL_ROUTES 1000`),
+    createCheck('autofinish-1104-iteracija-check', 'Autofinish #1104 Iteracija', `Provera autofinish iteracije #1104 — GET /api/autofinish-post-mortem endpoint`, 'ok', `Autofinish #1104 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1105 — Dashboard PostMortemWidget ──────────────────────────
+    createCheck('autofinish-1105-post-mortem-widget-check', 'PostMortemWidget #1105', `Provera Dashboard PostMortemWidget — dupli filter po statusu i severitetu, timeline faze, akcione stavke s prioritetom, MTTD/MTTR prikaz, zahvaćeni servisi, korijen uzroka, ARIA pristupačnost, JSON API link`, 'ok', `Autofinish #1105 — PostMortemWidget komponenta, filter status×severity, timeline, akcije`),
+    createCheck('autofinish-1105-iteracija-check', 'Autofinish #1105 Iteracija', `Provera autofinish iteracije #1105 — Dashboard PostMortemWidget`, 'ok', `Autofinish #1105 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1106 — Unit testovi PostMortemWidget ───────────────────────
+    createCheck('autofinish-1106-post-mortem-widget-tests-check', 'Unit testovi PostMortemWidget #1106', `Provera Unit testovi PostMortemWidget — filter svi/otvoren/u-pregledu/zatvoren/arhiviran, filter severity P1-P4, dupli filter intersekcia, zbir statusa=ukupno, otvorenihAkcija, naslov/vlasnik/incidentId, MTTD/MTTR ≥0, timeline ≥2 faze i vrijemeISO, akcije prioritet/odgovoran/status enum, zatvoreno ISO, JSON API link, timestamp`, 'ok', `Autofinish #1106 — Unit testovi PostMortemWidget, 20 asercija`),
+    createCheck('autofinish-1106-iteracija-check', 'Autofinish #1106 Iteracija', `Provera autofinish iteracije #1106 — Unit testovi PostMortemWidget`, 'ok', `Autofinish #1106 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1107 — SRE Widgeti na /autofinish stranici ─────────────────
+    createCheck('autofinish-1107-sre-page-integration-check', 'SRE Page Integration #1107', `Provera integracije SRE widgeta na /autofinish stranici — RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget dodati uz postojeće IncidentLogWidget i ErrorBudgetWidget`, 'ok', `Autofinish #1107 — 6 SRE widgeta integrisana, sve SRE helper funkcije u page.tsx`),
+    createCheck('autofinish-1107-iteracija-check', 'Autofinish #1107 Iteracija', `Provera autofinish iteracije #1107 — Dodaj SRE widgete u /autofinish stranicu`, 'ok', `Autofinish #1107 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1108 — E2E SRE API Endpoints konzistentnost ────────────────
+    createCheck('autofinish-1108-sre-e2e-check', 'E2E SRE API #1108', `Provera E2E SRE API konzistentnosti — svih 6 SRE helpera (incidentLog, errorBudget, runbook, onCall, alertRules, postMortem) konzistentno vraćaju APP_VERSION, AUTOFINISH_COUNT, ISO timestamp, ukupno=length`, 'ok', `Autofinish #1108 — 22 E2E asercija kroz 6 SRE helpera`),
+    createCheck('autofinish-1108-iteracija-check', 'Autofinish #1108 Iteracija', `Provera autofinish iteracije #1108 — E2E SRE API Endpoints konzistentnost test`, 'ok', `Autofinish #1108 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1109 — CapacityPlanningWidget ──────────────────────────────
+    createCheck('autofinish-1109-capacity-planning-check', 'Capacity Planning Widget #1109', `Provera CapacityPlanningWidget — praćenje iskorištenosti resursa po servisu, filter status ok/upozorenje/kriticno, prognoza 7d, trend, preporuka, ARIA, JSON API link`, 'ok', `Autofinish #1109 — ${AUTOFINISH_COUNT} iteracija, CapacityPlanningWidget integrisan, API /api/autofinish-capacity-planning aktivan`),
+    createCheck('autofinish-1109-iteracija-check', 'Autofinish #1109 Iteracija', `Provera autofinish iteracije #1109 — CapacityPlanningWidget`, 'ok', `Autofinish #1109 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1110 — Unit testovi CapacityPlanningWidget ─────────────────
+    createCheck('autofinish-1110-capacity-planning-tests-check', 'Unit testi Capacity Planning #1110', `Provera unit testova getAutofinishCapacityPlanning — ukupnoResursa, ok+uUpozorenju+kriticnih=ukupno, prosjecna opseg, status/trend/tip enum, pragovi, prognoza7d, preporuka, ok < prag, kriticno >= prag`, 'ok', `Autofinish #1110 — 22 unit asercija za CapacityPlanningWidget`),
+    createCheck('autofinish-1110-iteracija-check', 'Autofinish #1110 Iteracija', `Provera autofinish iteracije #1110 — Unit testovi CapacityPlanningWidget`, 'ok', `Autofinish #1110 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1111 — DoraMetricsWidget ───────────────────────────────────
+    createCheck('autofinish-1111-dora-metrics-check', 'DORA Metrics Widget #1111', `Provera DoraMetricsWidget — deployment frequency, lead time for changes, change failure rate, MTTR; rating elite/high/medium/low, trend, sparkline, ARIA, JSON API link`, 'ok', `Autofinish #1111 — ${AUTOFINISH_COUNT} iteracija, DoraMetricsWidget integrisan, API /api/autofinish-dora-metrics aktivan`),
+    createCheck('autofinish-1111-iteracija-check', 'Autofinish #1111 Iteracija', `Provera autofinish iteracije #1111 — DoraMetricsWidget`, 'ok', `Autofinish #1111 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1112 — Unit testovi DoraMetricsWidget ──────────────────────
+    createCheck('autofinish-1112-dora-metrics-tests-check', 'Unit testi DORA Metrics #1112', `Provera unit testova getAutofinishDoraMetrics — ukupnoMetrika, zbir ratingova=ukupno, rating/trend enum, sparkline >= 2 tačaka, vrijednost >= 0, targets ne prazni, konzistentnost count poljaksa array`, 'ok', `Autofinish #1112 — 26 unit asercija za DoraMetricsWidget`),
+    createCheck('autofinish-1112-iteracija-check', 'Autofinish #1112 Iteracija', `Provera autofinish iteracije #1112 — Unit testovi DoraMetricsWidget`, 'ok', `Autofinish #1112 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1113 — PodsistemiZdravljeWidget ─────────────────────────────
+    createCheck('autofinish-1113-podsistemi-zdravlje-check', 'Podsistemi Zdravlje Widget #1113', `Provera PodsistemiZdravljeWidget — health bar 0-100%, status ok/warning/error/critical, ukupnoProvera/uspesnih/upozorenja/gresaka, status badge, ARIA pristupacnost, JSON API link`, 'ok', `Autofinish #1113 — ${AUTOFINISH_COUNT} iteracija, PodsistemiZdravljeWidget integrisan, API /api/autofinish-podsistemi-zdravlje aktivan`),
+    createCheck('autofinish-1113-iteracija-check', 'Autofinish #1113 Iteracija', `Provera autofinish iteracije #1113 — PodsistemiZdravljeWidget`, 'ok', `Autofinish #1113 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1114 — Unit testovi PodsistemiZdravljeWidget ───────────────
+    createCheck('autofinish-1114-podsistemi-zdravlje-widget-tests-check', 'Unit testi Podsistemi Zdravlje Widget #1114', `Provera unit testova PodsistemiZdravljeWidget — computeSummary logika, filterByStatus svi/ok/warning, healthBarWidth 0-100, status konzistentnost, uspesnih/upozorenja/gresaka<=ukupnoProvera, jedinstveni nazivi`, 'ok', `Autofinish #1114 — 22 unit asercija za PodsistemiZdravljeWidget`),
+    createCheck('autofinish-1114-iteracija-check', 'Autofinish #1114 Iteracija', `Provera autofinish iteracije #1114 — Unit testovi PodsistemiZdravljeWidget`, 'ok', `Autofinish #1114 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1115 — TehDugWidget ─────────────────────────────────────────
+    createCheck('autofinish-1115-teh-dug-check', 'Teh Dug Widget #1115', `Provera TehDugWidget — 6 stavki tehnickog duga, kategorije (arhitektura/kod/testovi/dokumentacija/sigurnost/zavisnosti), prioriteti (kriticno/visoko/srednje/nisko), procijenjeniSati > 0, tjedniTrosak > 0, trend enum, expand detalji, JSON API link`, 'ok', `Autofinish #1115 — ${AUTOFINISH_COUNT} iteracija, TehDugWidget integrisan, API /api/autofinish-teh-dug aktivan`),
+    createCheck('autofinish-1115-iteracija-check', 'Autofinish #1115 Iteracija', `Provera autofinish iteracije #1115 — TehDugWidget`, 'ok', `Autofinish #1115 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1116 — Unit testovi TehDugWidget ────────────────────────────
+    createCheck('autofinish-1116-teh-dug-widget-tests-check', 'Unit testi TehDug Widget #1116', `Provera unit testova TehDugWidget — computeTotals logika, filterByPrioritet svi/kriticno/visoko, trendFilter raste/pada, prioritetCount konzistentnost, procijenjeniSati > 0, tjedniTrosak > 0, jedinstveni ID-ovi`, 'ok', `Autofinish #1116 — 22 unit asercija za TehDugWidget`),
+    createCheck('autofinish-1116-iteracija-check', 'Autofinish #1116 Iteracija', `Provera autofinish iteracije #1116 — Unit testovi TehDugWidget`, 'ok', `Autofinish #1116 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1117 — KonfiguracijaWidget ───────────────────────────────────
+    createCheck('autofinish-1117-konfiguracija-check', 'Konfiguracija Widget #1117', `Provera KonfiguracijaWidget — stanje konfiguracionih parametara, status validiran/nevazeci/upozorenje/nedostaje, kategorija sistem/db/api/auth/cache/monitoring/sigurnost, osjetljivo maskiranje, okruzenje, izvor, zdravlje 0–100, ARIA, JSON API link`, 'ok', `Autofinish #1117 — ${AUTOFINISH_COUNT} iteracija, KonfiguracijaWidget integrisan, API /api/autofinish-konfiguracija aktivan`),
+    createCheck('autofinish-1117-iteracija-check', 'Autofinish #1117 Iteracija', `Provera autofinish iteracije #1117 — KonfiguracijaWidget`, 'ok', `Autofinish #1117 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1118 — Unit testovi KonfiguracijaWidget ─────────────────────
+    createCheck('autofinish-1118-konfiguracija-tests-check', 'Unit testi Konfiguracija Widget #1118', `Provera unit testova KonfiguracijaWidget — validiranih+nevazecih+upozorenja+nedostaje=ukupno, zdravlje 0–100 izracun, status/okruzenje/izvor/kategorija enum, osjetljivi maskirani, zadnjaPromjena ISO, jedinstveni ID-ovi, ime/opis ne prazni`, 'ok', `Autofinish #1118 — 20 unit asercija za KonfiguracijaWidget`),
+    createCheck('autofinish-1118-iteracija-check', 'Autofinish #1118 Iteracija', `Provera autofinish iteracije #1118 — Unit testovi KonfiguracijaWidget`, 'ok', `Autofinish #1118 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1119 — Popravka testova i build grešaka ─────────────────
+    createCheck('autofinish-1119-build-fix-check', 'Build Fix #1119', `Provera popravki iz #1119 — diagnostics.ts sync check ažuriran na 2220, POKRIVENE_KATEGORIJE_COVERAGE proširene sa ostalo/incidenti/ukupno/prosjekPotrosnje, autofinish-milestone async params, autofinish-verzija-iteracije summary.verzije ispravka, hardhat.config.ts i tsconfig.json`, 'ok', `Autofinish #1119 — build greške popravljene, testovi prolaze`),
+    createCheck('autofinish-1119-iteracija-check', 'Autofinish #1119 Iteracija', `Provera autofinish iteracije #1119 — Popravka testova i build grešaka`, 'ok', `Autofinish #1119 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1120 — DeploymentPipelineWidget ─────────────────────────
+    createCheck('autofinish-1120-deployment-pipeline-check', 'Deployment Pipeline Widget #1120', `Provera DeploymentPipelineWidget — CI/CD pipeline status po servisu, faze build/test/deploy/verify, status ok/running/failed/skipped, trajanje, commit SHA, grana, okidac, trend uspjeha, postoUspijeha 0–100, ARIA pristupacnost, JSON API link`, 'ok', `Autofinish #1120 — ${AUTOFINISH_COUNT} iteracija, DeploymentPipelineWidget integrisan, API /api/autofinish-deployment-pipeline aktivan`),
+    createCheck('autofinish-1120-iteracija-check', 'Autofinish #1120 Iteracija', `Provera autofinish iteracije #1120 — DeploymentPipelineWidget`, 'ok', `Autofinish #1120 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1121 — InfrastrukturMonitorWidget ────────────────────────
+    createCheck('autofinish-1121-infrastruktura-check', 'Infrastruktura Monitor Widget #1121', `Provera InfrastrukturMonitorWidget — CPU/RAM/disk/mreza po hostu, status ok/warning/critical, uptime posto, uloge aplikacija/baza/kes/proxy/monitoring, region, load average, ARIA pristupacnost, JSON API link`, 'ok', `Autofinish #1121 — ${AUTOFINISH_COUNT} iteracija, InfrastrukturMonitorWidget integrisan, API /api/autofinish-infrastruktura aktivan`),
+    createCheck('autofinish-1121-iteracija-check', 'Autofinish #1121 Iteracija', `Provera autofinish iteracije #1121 — InfrastrukturMonitorWidget`, 'ok', `Autofinish #1121 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

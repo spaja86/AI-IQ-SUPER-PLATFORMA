@@ -42,7 +42,6 @@ export default defineConfig({
   },
   paths: {
     sources: './contracts',
-    scripts: './scripts',
     cache: './cache-hardhat',
     artifacts: './artifacts',
   },
