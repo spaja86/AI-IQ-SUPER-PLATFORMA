@@ -16,6 +16,9 @@
 // Autofinish #968 — TrendWidget
 // Autofinish #1107 — Dodaj RunbookWidget, OnCallWidget, AlertRulesWidget, PostMortemWidget
 // Autofinish #1115 — TehDugWidget (Tehnicki Dug)
+// Autofinish #1122 — KonfiguracijaWidget
+// Autofinish #1124 — DeploymentPipelineWidget
+// Autofinish #1125 — InfrastrukturMonitorWidget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -69,6 +72,9 @@ import {
   getAutofinishDoraMetrics,
   getAutofinishPodsistemiZdravlje,
   getAutofinishTehDug,
+  getAutofinishKonfiguracija,
+  getAutofinishDeploymentPipeline,
+  getAutofinishInfrastruktura,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -115,6 +121,9 @@ import { CapacityPlanningWidget } from './CapacityPlanningWidget';
 import { DoraMetricsWidget } from './DoraMetricsWidget';
 import { PodsistemiZdravljeWidget } from './PodsistemiZdravljeWidget';
 import { TehDugWidget } from './TehDugWidget';
+import { KonfiguracijaWidget } from './KonfiguracijaWidget';
+import { DeploymentPipelineWidget } from './DeploymentPipelineWidget';
+import { InfrastrukturMonitorWidget } from './InfrastrukturMonitorWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -201,6 +210,9 @@ export default function AutofinishPage() {
   const doraMetrics = getAutofinishDoraMetrics();
   const podsistemiZdravlje = getAutofinishPodsistemiZdravlje();
   const tehDug = getAutofinishTehDug();
+  const konfiguracija = getAutofinishKonfiguracija();
+  const deploymentPipeline = getAutofinishDeploymentPipeline();
+  const infrastruktura = getAutofinishInfrastruktura();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -837,6 +849,15 @@ export default function AutofinishPage() {
 
         {/* #1115 — Tehnicki Dug Widget */}
         <TehDugWidget tehDug={tehDug} />
+
+        {/* #1122 — Konfiguracija Widget */}
+        <KonfiguracijaWidget konfiguracija={konfiguracija} />
+
+        {/* #1124 — Deployment Pipeline Widget */}
+        <DeploymentPipelineWidget pipeline={deploymentPipeline} />
+
+        {/* #1125 — Infrastruktura Monitor Widget */}
+        <InfrastrukturMonitorWidget infrastruktura={infrastruktura} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
