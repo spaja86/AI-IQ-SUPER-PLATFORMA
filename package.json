@@ -43,7 +43,7 @@
     "remark-math": "^6.0.0",
     "stripe": "^22.1.0",
     "viem": "^2.21.56",
-    "wagmi": "^2.14.16"
+    "wagmi": "^3.6.9"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.4",
