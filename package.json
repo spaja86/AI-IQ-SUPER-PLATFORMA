@@ -42,7 +42,7 @@
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "stripe": "^22.1.0",
-    "viem": "^2.21.56",
+    "viem": "^2.48.8",
     "wagmi": "^2.14.16"
   },
   "devDependencies": {
