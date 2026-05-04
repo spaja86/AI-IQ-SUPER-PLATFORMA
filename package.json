@@ -52,7 +52,7 @@
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "dotenv": "^16.4.7",
+    "dotenv": "^17.4.2",
     "eslint": "^10",
     "eslint-config-next": "16.2.4",
     "hardhat": "^3.4.3",
