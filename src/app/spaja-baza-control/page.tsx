@@ -1,0 +1,121 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface HealthResponse {
+  status: 'healthy' | 'warning' | 'critical';
+  totals: {
+    sources: number;
+    documents: number;
+    chunks: number;
+    jobs24h: number;
+    failedJobs24h: number;
+  };
+}
+
+interface MetricsResponse {
+  metrics24h: {
+    retrievalCount: number;
+    citationRate: number;
+    averageLatencyMs: number;
+    averageQualityScore: number;
+  };
+}
+
+interface SourceItem {
+  id: string;
+  name: string;
+  domain: string;
+  status: string;
+  trust_score: number;
+  updated_at: string;
+}
+
+export default function SpajaBazaControlPage() {
+  const [health, setHealth] = useState<HealthResponse | null>(null);
+  const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
+  const [sources, setSources] = useState<SourceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      setLoading(true);
+      const [healthRes, metricsRes, sourcesRes] = await Promise.all([
+        fetch('/api/spaja-baza-knowledge/health', { cache: 'no-store' }),
+        fetch('/api/spaja-baza-knowledge/metrics', { cache: 'no-store' }),
+        fetch('/api/spaja-baza-knowledge/sources', { cache: 'no-store' }),
+      ]);
+
+      const healthJson = await healthRes.json();
+      const metricsJson = await metricsRes.json();
+      const sourcesJson = await sourcesRes.json();
+
+      setHealth(healthJson as HealthResponse);
+      setMetrics(metricsJson as MetricsResponse);
+      setSources((sourcesJson.sources ?? []) as SourceItem[]);
+      setLoading(false);
+    }
+
+    void load();
+  }, []);
+
+  return (
+    <main className="mx-auto max-w-6xl px-4 py-8 text-gray-100">
+      <h1 className="mb-2 text-3xl font-bold">💾 SPAJA BAZA Control</h1>
+      <p className="mb-6 text-sm text-gray-400">
+        Operativni pregled ingest/retrieval pipeline-a, kvaliteta i pokrivenosti izvora.
+      </p>
+
+      {loading && <p className="text-sm text-gray-400">Učitavanje...</p>}
+
+      {!loading && (
+        <div className="space-y-6">
+          <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard label="Status" value={health?.status ?? 'unknown'} />
+            <StatCard label="Izvori" value={String(health?.totals.sources ?? 0)} />
+            <StatCard label="Dokumenti" value={String(health?.totals.documents ?? 0)} />
+            <StatCard label="Chunk-ovi" value={String(health?.totals.chunks ?? 0)} />
+            <StatCard label="Jobovi 24h" value={String(health?.totals.jobs24h ?? 0)} />
+            <StatCard label="Neuspešni 24h" value={String(health?.totals.failedJobs24h ?? 0)} />
+            <StatCard label="Retrieval 24h" value={String(metrics?.metrics24h.retrievalCount ?? 0)} />
+            <StatCard label="Citation rate" value={String(metrics?.metrics24h.citationRate ?? 0)} />
+            <StatCard label="Prosečna latencija" value={`${metrics?.metrics24h.averageLatencyMs ?? 0} ms`} />
+            <StatCard label="Quality score" value={String(metrics?.metrics24h.averageQualityScore ?? 0)} />
+          </section>
+
+          <section className="rounded-xl border border-gray-800 bg-gray-900/40 p-4">
+            <h2 className="mb-3 text-lg font-semibold">Top izvori</h2>
+            <div className="space-y-2">
+              {sources.slice(0, 20).map((source) => (
+                <div key={source.id} className="rounded-lg border border-gray-800 bg-gray-950/60 p-3 text-sm">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-semibold">{source.name}</span>
+                    <span className="rounded bg-gray-800 px-2 py-0.5 text-xs">{source.domain}</span>
+                    <span className="rounded bg-blue-900/50 px-2 py-0.5 text-xs">{source.status}</span>
+                    <span className="rounded bg-emerald-900/50 px-2 py-0.5 text-xs">
+                      trust {source.trust_score}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">
+                    Ažurirano: {new Date(source.updated_at).toLocaleString('sr-RS')}
+                  </p>
+                </div>
+              ))}
+              {sources.length === 0 && <p className="text-sm text-gray-500">Nema registrovanih izvora.</p>}
+            </div>
+          </section>
+        </div>
+      )}
+    </main>
+  );
+}
+
+function StatCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-gray-800 bg-gray-900/40 p-3">
+      <p className="text-xs uppercase tracking-wide text-gray-500">{label}</p>
+      <p className="mt-1 text-xl font-semibold text-white">{value}</p>
+    </div>
+  );
+}
+
