@@ -26,6 +26,7 @@ import { analizirajKontekst, generisiKontekstInstrukciju } from '@/lib/spaja-pro
 import { generisiCitatInstrukciju } from '@/lib/spaja-pro-mozak/citati';
 import { jeSlozeniZahtev, kreirajPlan } from '@/lib/spaja-pro-mozak/planiranje';
 import { detektujSablon } from '@/lib/spaja-pro-mozak/prompt-sabloni';
+import { buildKnowledgeContext, saveKnowledgeCitations } from '@/lib/spaja-baza-knowledge';
 
 export const runtime = 'nodejs';
 
@@ -249,6 +250,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // 8. SPAJA BAZA Knowledge Retrieval (RAG sloj)
+    const knowledge = await buildKnowledgeContext(efektivnaPoruka, {
+      limit: 4,
+      userId: user.id,
+      threadId: activeThreadId,
+    });
+    if (knowledge.citations.length > 0) {
+      systemPrompt += `\n\n## SPAJA BAZA KNOWLEDGE (verifikovani izvori)\nKoristi sledeće izvore kao prioritetni kontekst.\n${knowledge.contextBlock}\n\nAko koristiš ove informacije, eksplicitno referenciraj oznake [KB-1], [KB-2]...`;
+    }
+
     const openai = getOpenAI();
 
     // Reasoning modeli (o1, o3) ne podržavaju system poruke ni streaming
@@ -289,6 +300,11 @@ export async function POST(request: NextRequest) {
                   razlog: rutingRezultat.razlog,
                 },
                 piiDetektovano: zastitaRezultat.detektovaniPII.length > 0,
+                knowledge: {
+                  used: knowledge.citations.length > 0,
+                  citationsCount: knowledge.citations.length,
+                  retrievalLatencyMs: knowledge.latencyMs,
+                },
               })}\n\n`),
             );
 
@@ -333,6 +349,12 @@ export async function POST(request: NextRequest) {
               tokens_used: tokensUsed,
               cost_eur: costEur,
             });
+            await saveKnowledgeCitations({
+              query: efektivnaPoruka,
+              citations: knowledge.citations,
+              userId: user.id,
+              threadId: activeThreadId,
+            });
 
             // Keširaj odgovor za buduće identične upite
             sacuvajUKes(cacheKljuc, fullReply, model, tokensUsed);
@@ -372,6 +394,11 @@ export async function POST(request: NextRequest) {
                   sadrzKod: kodAnaliza.sadrzKod,
                   jeSlozeni,
                   zapamceno: zapamtiRezultat.jeZahtev,
+                },
+                knowledge: {
+                  used: knowledge.citations.length > 0,
+                  citations: knowledge.citations,
+                  retrievalLatencyMs: knowledge.latencyMs,
                 },
               })}\n\n`),
             );
@@ -461,6 +488,12 @@ export async function POST(request: NextRequest) {
         tokens_used: tokensUsed,
         cost_eur: costEur,
       });
+      await saveKnowledgeCitations({
+        query: efektivnaPoruka,
+        citations: knowledge.citations,
+        userId: user.id,
+        threadId: activeThreadId,
+      });
 
       return NextResponse.json({
         reply,
@@ -493,6 +526,11 @@ export async function POST(request: NextRequest) {
           zapamceno: zapamtiRezultat.jeZahtev,
         },
         piiDetektovano: zastitaRezultat.detektovaniPII.length > 0,
+        knowledge: {
+          used: knowledge.citations.length > 0,
+          citations: knowledge.citations,
+          retrievalLatencyMs: knowledge.latencyMs,
+        },
       });
     }
   } catch (error) {
