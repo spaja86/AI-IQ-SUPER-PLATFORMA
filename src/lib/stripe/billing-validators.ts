@@ -335,3 +335,126 @@ export const GRACE_PERIOD_DAYS = 3;
 export function graceExpiresAt(fromMs = Date.now()): string {
   return new Date(fromMs + GRACE_PERIOD_DAYS * 24 * 60 * 60 * 1000).toISOString();
 }
+
+// ─── Tax / VAT Validacija po regionu (#80) ────────────────────────────────────
+
+/** Podržane valute po regionu. */
+export const REGION_CURRENCY_MAP: Record<string, string> = {
+  RS: 'rsd',
+  DE: 'eur',
+  FR: 'eur',
+  IT: 'eur',
+  ES: 'eur',
+  AT: 'eur',
+  NL: 'eur',
+  BE: 'eur',
+  PT: 'eur',
+  SI: 'eur',
+  HR: 'eur',
+  US: 'usd',
+  GB: 'gbp',
+  CH: 'chf',
+};
+
+/** VAT stope po zemlji (u procentima). */
+export const REGION_VAT_RATE: Record<string, number> = {
+  RS: 20,
+  DE: 19,
+  FR: 20,
+  IT: 22,
+  ES: 21,
+  AT: 20,
+  NL: 21,
+  BE: 21,
+  PT: 23,
+  SI: 22,
+  HR: 25,
+  US: 0,
+  GB: 20,
+  CH: 7.7,
+};
+
+/** Regex za validaciju EU VAT broj formata. */
+const EU_VAT_PATTERNS: Record<string, RegExp> = {
+  DE: /^DE\d{9}$/,
+  FR: /^FR[A-Z0-9]{2}\d{9}$/,
+  IT: /^IT\d{11}$/,
+  ES: /^ES[A-Z\d]\d{7}[A-Z\d]$/,
+  AT: /^ATU\d{8}$/,
+  NL: /^NL\d{9}B\d{2}$/,
+  BE: /^BE0\d{9}$/,
+  PT: /^PT\d{9}$/,
+  SI: /^SI\d{8}$/,
+  HR: /^HR\d{11}$/,
+};
+
+export interface TaxValidationResult {
+  valid: boolean;
+  countryCode: string;
+  expectedCurrency: string | null;
+  vatRate: number | null;
+  vatNumberValid: boolean | null;
+  errors: string[];
+}
+
+/**
+ * Validira billing adresu (valuta + VAT) za dati region.
+ * #80 — zaštita od currency mismatch i VAT grešaka po zemlji.
+ */
+export function validateTaxRegion(params: {
+  countryCode: string;
+  currency: string;
+  vatNumber?: string | null;
+}): TaxValidationResult {
+  const { countryCode, currency, vatNumber } = params;
+  const code = countryCode.toUpperCase();
+  const errors: string[] = [];
+
+  const expectedCurrency = REGION_CURRENCY_MAP[code] ?? null;
+  const vatRate = REGION_VAT_RATE[code] ?? null;
+
+  if (expectedCurrency && currency.toLowerCase() !== expectedCurrency) {
+    errors.push(
+      `Neusklađena valuta: zemlja ${code} zahteva ${expectedCurrency.toUpperCase()}, primljeno ${currency.toUpperCase()}`,
+    );
+  }
+
+  let vatNumberValid: boolean | null = null;
+  if (vatNumber) {
+    const pattern = EU_VAT_PATTERNS[code];
+    if (pattern) {
+      vatNumberValid = pattern.test(vatNumber.replace(/\s/g, '').toUpperCase());
+      if (!vatNumberValid) {
+        errors.push(`VAT broj "${vatNumber}" nije validan format za zemlju ${code}`);
+      }
+    } else {
+      vatNumberValid = true; // Nema poznati format — ne validiramo
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    countryCode: code,
+    expectedCurrency,
+    vatRate,
+    vatNumberValid,
+    errors,
+  };
+}
+
+/**
+ * Zaštita od currency mismatch između app config i Stripe price.
+ * #79 — proverava da je valuta Stripe price ID-a konzistentna sa lokalnim planom.
+ */
+export function validateCurrencyConsistency(
+  localCurrency: string,
+  stripePriceCurrency: string,
+): { consistent: boolean; error?: string } {
+  if (localCurrency.toLowerCase() !== stripePriceCurrency.toLowerCase()) {
+    return {
+      consistent: false,
+      error: `Currency mismatch: lokalni plan koristi ${localCurrency.toUpperCase()}, Stripe cena koristi ${stripePriceCurrency.toUpperCase()}`,
+    };
+  }
+  return { consistent: true };
+}

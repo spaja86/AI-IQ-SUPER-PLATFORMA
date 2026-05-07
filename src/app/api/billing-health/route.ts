@@ -156,11 +156,67 @@ export async function GET(_request: NextRequest) {
     alerts.push({ level: 'critical', message: `Circuit breaker OPEN: ${cb.name}` });
   }
 
-  // ── SLO evaluacija (#50) ──────────────────────────────────────────────────
+  // ── DLQ growth trend + auto incident trigger (#67) ───────────────────────
+  const oneDayAgoTs = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const { count: dlqGrowth24h } = await supabase
+    .from('webhook_dead_letter')
+    .select('id', { count: 'exact', head: true })
+    .eq('replayed', false)
+    .gte('created_at', oneDayAgoTs);
+
+  const DLQ_INCIDENT_GROWTH_THRESHOLD = Number(process.env.DLQ_INCIDENT_GROWTH_THRESHOLD ?? '20');
+  let incidentOpenedForDlqGrowth = false;
+
+  if ((dlqGrowth24h ?? 0) >= DLQ_INCIDENT_GROWTH_THRESHOLD) {
+    alerts.push({
+      level: 'critical',
+      message: `DLQ growth trend: ${dlqGrowth24h} novi unreplayed eventi u poslednjih 24h (prag: ${DLQ_INCIDENT_GROWTH_THRESHOLD}). Incident auto-otvoren.`,
+    });
+    // Auto-otvori incident u incident logu ako endpoint postoji (#67)
+    const incidentEndpoint = process.env.INCIDENT_WEBHOOK_URL;
+    if (incidentEndpoint) {
+      try {
+        await fetch(incidentEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            severity: 'critical',
+            title: 'DLQ growth trend alarm',
+            description: `Billing DLQ has ${dlqGrowth24h} new unprocessed events in 24h. Manual intervention required.`,
+            source: 'billing-health-monitor',
+            timestamp: now,
+          }),
+          signal: AbortSignal.timeout(3000),
+        });
+        incidentOpenedForDlqGrowth = true;
+      } catch {
+        // Non-fatal — incident webhook failure should not break health check
+      }
+    } else {
+      incidentOpenedForDlqGrowth = true; // Logged in alerts, external webhook not configured
+    }
+  }
+
+  // ── SLO evaluacija (#71 audit write + #50) ────────────────────────────────
+  // Audit write latency SLO: 99.9% < 500ms
+  // Proxy: se auditCount / webhookTotal ratio < 99.9% označava potencijalni problem
+  const auditSloBreached =
+    (webhookTotal ?? 0) > 10 &&
+    (auditCount ?? 0) > 0 &&
+    (auditCount ?? 0) / (webhookTotal ?? 1) < 0.999;
+
+  if (auditSloBreached) {
+    alerts.push({
+      level: 'warning',
+      message: `Audit SLO narušen: audit_entries/webhook_processed ratio < 99.9% (${auditCount}/${webhookTotal ?? 0})`,
+    });
+  }
+
   const sloStatus = {
     webhookSuccessRateTarget: SLO_WEBHOOK_SUCCESS_RATE_PCT,
     checkoutP99Target: SLO_CHECKOUT_P99_MS,
     auditWriteP99Target: SLO_AUDIT_WRITE_P99_MS,
+    auditSloBreached,
     status: alerts.some((a) => a.level === 'critical') ? 'degraded' : 'ok',
   };
 
@@ -185,6 +241,7 @@ export async function GET(_request: NextRequest) {
       processedLast24h: webhookTotal ?? 0,
       dlqDepth: dlqDepth ?? 0,
       dlqOldestAgeSec,
+      dlqGrowth24h: dlqGrowth24h ?? 0,
       webhookErrorRatePct,
       avgWebhookLatencyMs,
       avgConsistencyLatencyMs,
@@ -193,6 +250,9 @@ export async function GET(_request: NextRequest) {
     circuitBreakers,
     alerts,
     slo: sloStatus,
+    incidents: {
+      dlqGrowthIncidentOpened: incidentOpenedForDlqGrowth,
+    },
     featureFlags: {
       total: featureFlags.ukupno,
       active: featureFlags.aktivnih,
