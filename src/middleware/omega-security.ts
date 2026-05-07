@@ -4,6 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
+import { getSecurityHeaders } from '@/lib/security-headers';
 
 // Rate limiting in-memory store
 // Format: IP -> { count, resetAt }
@@ -76,28 +77,6 @@ const PUBLIC_ROUTES = [
 // Rute koje zahtevaju OMEGA_CORE nivo
 const OMEGA_CORE_ROUTES = ['/security', '/api/omega-core'];
 
-// Security headers — HSTS, CSP, X-Frame, Permissions, Referrer
-const SECURITY_HEADERS: Record<string, string> = {
-  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
-  'Content-Security-Policy': [
-    "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
-    "font-src 'self' data:",
-    "connect-src 'self'",
-    "frame-ancestors 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-  ].join('; '),
-  'X-Frame-Options': 'DENY',
-  'X-Content-Type-Options': 'nosniff',
-  'X-XSS-Protection': '1; mode=block',
-  'Referrer-Policy': 'no-referrer',
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
-  'Cache-Control': 'no-store, no-cache, must-revalidate',
-};
-
 function getClientIP(request: NextRequest): string {
   return (
     request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
@@ -107,9 +86,11 @@ function getClientIP(request: NextRequest): string {
 }
 
 function applySecurityHeaders(response: NextResponse): NextResponse {
-  for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+  const { headers } = getSecurityHeaders({ withNonce: false });
+  for (const [key, value] of Object.entries(headers)) {
     response.headers.set(key, value);
   }
+  response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
   return response;
 }
 

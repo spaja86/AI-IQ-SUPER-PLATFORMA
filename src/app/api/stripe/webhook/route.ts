@@ -61,9 +61,14 @@ export async function POST(request: NextRequest) {
 
   const stripe = getStripe();
   let event: Stripe.Event;
+  const configuredToleranceSec = Number.parseInt(process.env.STRIPE_WEBHOOK_TOLERANCE_SEC ?? '300', 10);
+  const toleranceSec =
+    Number.isFinite(configuredToleranceSec) && configuredToleranceSec >= 60 && configuredToleranceSec <= 900
+      ? configuredToleranceSec
+      : 300;
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret, toleranceSec);
   } catch (err) {
     traceWebhookError({ requestId: trace.requestId, step: 'signature-verification', error: err });
     traceEnd(trace, 'error', 'invalid-signature');

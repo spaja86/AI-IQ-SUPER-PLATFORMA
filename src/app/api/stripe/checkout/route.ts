@@ -26,6 +26,11 @@ import {
 import { createTraceContext, traceStart, traceEnd } from '@/lib/stripe/billing-tracing';
 import { isBillingFlagEnabled } from '@/lib/stripe/billing-feature-flags';
 import { randomUUID } from 'crypto';
+import {
+  extractIdempotencyKey,
+  generateIdempotencyKey,
+  validateIdempotencyKey,
+} from '@/lib/idempotency';
 
 export async function POST(request: NextRequest) {
   const trace = createTraceContext(request, '/api/stripe/checkout');
@@ -67,12 +72,24 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const body = (await request.json()) as { planId?: string };
-    const { planId } = body;
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      traceEnd(trace, 'error', 'invalid-json');
+      return NextResponse.json({ error: 'Neispravan JSON payload.', code: 'INVALID_JSON' }, { status: 400 });
+    }
 
-    if (!planId) {
+    if (!body || typeof body !== 'object') {
+      traceEnd(trace, 'error', 'invalid-body');
+      return NextResponse.json({ error: 'Neispravan payload format.', code: 'INVALID_PAYLOAD' }, { status: 400 });
+    }
+
+    const { planId } = body as { planId?: unknown };
+
+    if (!planId || typeof planId !== 'string') {
       traceEnd(trace, 'error', 'missing-plan-id');
-      return NextResponse.json({ error: 'planId je obavezan.' }, { status: 400 });
+      return NextResponse.json({ error: 'planId je obavezan.', code: 'MISSING_PLAN_ID' }, { status: 400 });
     }
 
     const plan = getPlanById(planId);
@@ -193,7 +210,16 @@ export async function POST(request: NextRequest) {
 
     // ── Idempotency ključ (#10) ───────────────────────────────────────────────
     // Sprečava kreiranje duplih sesija ako klijent pošalje isti zahtev dva puta.
-    const idempotencyKey = `checkout-${user.id}-${planId}-${Date.now()}`;
+    const requestIdempotencyKey = extractIdempotencyKey(request.headers) ?? generateIdempotencyKey();
+    const keyValidation = validateIdempotencyKey(requestIdempotencyKey);
+    if (!keyValidation.valid) {
+      traceEnd(trace, 'error', 'invalid-idempotency-key');
+      return NextResponse.json(
+        { error: keyValidation.reason ?? 'Neispravan Idempotency-Key.', code: 'INVALID_IDEMPOTENCY_KEY' },
+        { status: 400 },
+      );
+    }
+    const idempotencyKey = `checkout:${user.id}:${planId}:${requestIdempotencyKey}`.slice(0, 255);
 
     // ── Circuit breaker za Stripe API (#9) ────────────────────────────────────
     const session = await stripeCheckoutCircuit.execute(
