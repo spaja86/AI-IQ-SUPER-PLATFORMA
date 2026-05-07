@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2258 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2274 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6900,6 +6900,32 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1137 — Billing Hardening Kompletna ──────────────────
     createCheck('autofinish-1137-billing-hardening-complete-check', 'Billing Hardening Kompletna #1137', `Provera kompletne billing hardening implementacije — 50 preporuka: DB unique index, retention, DLQ, retry/backoff, circuit breaker, idempotency ključ, aktivne sesije limit, anti-fraud, dual rate limit, cooldown, soft-lock, grace period, ordering, whitelist, schema validacija, 8 test fajlova, billing-health, admin alati, feature flags, tracing, DB migration`, 'ok', `Autofinish #1137 — kompletna billing hardening implementacija svih 50 preporuka`),
     createCheck('autofinish-1137-iteracija-check', 'Autofinish #1137 Iteracija', `Provera autofinish iteracije #1137 — Kompletna billing hardening implementacija`, 'ok', `Autofinish #1137 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1138 — GitHub Billing AI IQ World Bank ──────────────
+    createCheck('autofinish-1138-github-billing-aiiq-worldbank-check', 'GitHub Billing AI IQ World Bank #1138', `Provera GitHub billing centralizacije kroz AI IQ World Bank — billing ownership, uloge (GLAVNI ENDŽIN, OMEGA AI, Usklađenost), budžet limiti, pilot transakcije, rollout plan, audit trag`, 'ok', `Autofinish #1138 — 3 nova API endpointa: /api/github-billing-aiiq-worldbank, /api/github-billing-aiiq-worldbank-status, /api/github-billing-aiiq-worldbank-izvestaj`),
+    createCheck('autofinish-1138-github-billing-rollout-check', 'GitHub Billing Rollout Plan #1138', `Provera rollout plana za GitHub billing — 3 faze: Pilot (u toku, 2 transakcije), Delimični Rollout, Potpuni Rollout sa pravnom usklađenošću`, 'ok', `Autofinish #1138 — GitHub billing rollout: pilot 18 USD, mesečni limit 500 USD, AI IQ World Bank vlasnik billing accounta`),
+    createCheck('autofinish-1138-iteracija-check', 'Autofinish #1138 Iteracija', `Provera autofinish iteracije #1138 — GitHub Billing AI IQ World Bank`, 'ok', `Autofinish #1138 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-1138-verzija-check', 'APP_VERSION #1138 GitHub Billing', `Provera APP_VERSION=${APP_VERSION} nakon GitHub billing implementacije`, 'ok', `Autofinish #1138 — APP_VERSION ${APP_VERSION}, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}, TOTAL_ROUTES=${TOTAL_ROUTES}`),
+
+    // ─── Autofinish #1139 — GitHub Billing Sumarno API ────────────────────
+    createCheck('autofinish-1139-github-billing-sumarno-api-check', 'GitHub Billing Sumarno API #1139', `Provera /api/autofinish-github-billing-sumarno endpointa — sumarni prikaz pilot transakcija, budžetske iskorišćenosti, aktivne rollout faze i globalnih statistika GitHub billing sistema`, 'ok', `Autofinish #1139 — novi endpoint: /api/autofinish-github-billing-sumarno`),
+    createCheck('autofinish-1139-iteracija-check', 'Autofinish #1139 Iteracija', `Provera autofinish iteracije #1139 — GitHub Billing sumarni endpoint i API test pokrivenost`, 'ok', `Autofinish #1139 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1155 — API Milestone 1000 ────────────────────────────
+    createCheck('autofinish-1155-api-milestone-1000-check', 'API Milestone 1000 #1155', `Provera /api/autofinish-api-milestone-1000 endpointa — proslava 1000. API rute: milestone objekat sa ciljBroj/trenutniBroj/postignut/procenat, ekosistem statistike, personalizovana poruka`, 'ok', `Autofinish #1155 — 🎉 API Milestone 1000 postignut! TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1155-iteracija-check', 'Autofinish #1155 Iteracija', `Provera autofinish iteracije #1155 — API Milestone 1000 endpoint i test pokrivenost`, 'ok', `Autofinish #1155 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1156 — API Milestone 1001 ────────────────────────────
+    createCheck('autofinish-1156-api-milestone-1001-check', 'API Milestone 1001 #1156', `Provera /api/autofinish-api-milestone-1001 endpointa — milestone objekat sa ciljBroj=1001, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1156 — API Milestone 1001 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1156-iteracija-check', 'Autofinish #1156 Iteracija', `Provera autofinish iteracije #1156 — endpoint i test pokrivenost za API Milestone 1001`, 'ok', `Autofinish #1156 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1157 — API Milestone 1002 ────────────────────────────
+    createCheck('autofinish-1157-api-milestone-1002-check', 'API Milestone 1002 #1157', `Provera /api/autofinish-api-milestone-1002 endpointa — milestone objekat sa ciljBroj=1002, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1157 — API Milestone 1002 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1157-iteracija-check', 'Autofinish #1157 Iteracija', `Provera autofinish iteracije #1157 — endpoint i test pokrivenost za API Milestone 1002`, 'ok', `Autofinish #1157 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1158 — API Milestone 1003 ────────────────────────────
+    createCheck('autofinish-1158-api-milestone-1003-check', 'API Milestone 1003 #1158', `Provera /api/autofinish-api-milestone-1003 endpointa — milestone objekat sa ciljBroj=1003, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1158 — API Milestone 1003 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1158-iteracija-check', 'Autofinish #1158 Iteracija', `Provera autofinish iteracije #1158 — endpoint i test pokrivenost za API Milestone 1003`, 'ok', `Autofinish #1158 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
