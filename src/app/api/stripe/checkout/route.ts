@@ -24,6 +24,7 @@ import {
   assessFraudRisk,
 } from '@/lib/stripe/billing-validators';
 import { createTraceContext, traceStart, traceEnd } from '@/lib/stripe/billing-tracing';
+import { isBillingFlagEnabled } from '@/lib/stripe/billing-feature-flags';
 import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
@@ -90,6 +91,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Stripe Price ID nije konfigurisan za ovaj plan.' }, { status: 500 });
     }
 
+    if (isBillingFlagEnabled('billing-read-only-mode', user.id)) {
+      traceEnd(trace, 'blocked', 'billing-read-only-mode');
+      return NextResponse.json({ error: 'Billing je privremeno u read-only modu.' }, { status: 503 });
+    }
+
+    if (isBillingFlagEnabled('billing-kill-switch-checkout', user.id)) {
+      traceEnd(trace, 'blocked', 'checkout-kill-switch');
+      return NextResponse.json({ error: 'Checkout je privremeno suspendovan.' }, { status: 503 });
+    }
+
+    if (planId === 'enterprise' && isBillingFlagEnabled('billing-kill-switch-enterprise', user.id)) {
+      traceEnd(trace, 'blocked', 'enterprise-kill-switch');
+      return NextResponse.json({ error: 'Enterprise checkout je privremeno suspendovan.' }, { status: 503 });
+    }
+
     const supabase = getSupabaseServerClient();
 
     // Dohvati profil za cooldown, fraud, active-session provjere
@@ -110,7 +126,6 @@ export async function POST(request: NextRequest) {
 
     // ── Anti-fraud heuristike (#12) ──────────────────────────────────────────
     const checkoutAttemptsLastHour = await (async () => {
-      const rlKey = rateLimitKey(user.id, '/api/stripe/checkout');
       // Koristimo isti rate-limit store — count je inkrementiran gore
       // Ovde procenujemo iz stored count-a (gruba heuristika)
       return 1; // Minimalna vrednost; u produkciji: čitati iz KV store-a
@@ -151,6 +166,16 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = getStripe();
+
+    // ── Currency mismatch zaštita (#79) ───────────────────────────────────────
+    const stripePrice = await stripe.prices.retrieve(plan.stripePriceId, { expand: ['currency_options'] });
+    if (stripePrice.currency !== 'eur') {
+      traceEnd(trace, 'error', `currency-mismatch:${stripePrice.currency}`);
+      return NextResponse.json(
+        { error: `Currency mismatch: očekivan EUR, dobijen ${stripePrice.currency.toUpperCase()}.` },
+        { status: 409 },
+      );
+    }
     let customerId = profile?.stripe_customer_id;
 
     if (!customerId) {
@@ -184,6 +209,7 @@ export async function POST(request: NextRequest) {
             plan_id: planId,
             request_id: trace.requestId,
           },
+          automatic_tax: { enabled: true },
         },
         { idempotencyKey },
       ),

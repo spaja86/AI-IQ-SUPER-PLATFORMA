@@ -1,0 +1,6 @@
+# Billing modules require mandatory reviewers
+/src/app/api/stripe/ @spaja86
+/src/app/api/admin/billing-* @spaja86
+/src/app/api/billing-* @spaja86
+/src/lib/stripe/ @spaja86
+/supabase/migrations/00*_billing* @spaja86

@@ -600,14 +600,27 @@ export interface Database {
           event_id: string;   // Stripe event ID (evt_...) — unique
           event_type: string;
           processed_at: string;
+          handler_version: string;
+          webhook_latency_ms: number | null;
+          consistency_latency_ms: number | null;
+          quarantined: boolean;
         };
         Insert: {
           id?: string;
           event_id: string;
           event_type: string;
           processed_at?: string;
+          handler_version?: string;
+          webhook_latency_ms?: number | null;
+          consistency_latency_ms?: number | null;
+          quarantined?: boolean;
         };
-        Update: Record<string, never>;
+        Update: {
+          webhook_latency_ms?: number | null;
+          consistency_latency_ms?: number | null;
+          quarantined?: boolean;
+          handler_version?: string;
+        };
         Relationships: [];
       };
       // Finansijski audit trail — beleži svaku promenu plana/pretplate
@@ -624,6 +637,10 @@ export interface Database {
           stripe_customer_id: string | null;
           metadata: Record<string, unknown>;
           created_at: string;
+          request_id: string | null;
+          payload_hash: string | null;
+          prev_hash: string | null;
+          chain_hash: string | null;
         };
         Insert: {
           id?: string;
@@ -637,6 +654,10 @@ export interface Database {
           stripe_customer_id?: string | null;
           metadata?: Record<string, unknown>;
           created_at?: string;
+          request_id?: string | null;
+          payload_hash?: string | null;
+          prev_hash?: string | null;
+          chain_hash?: string | null;
         };
         Update: Record<string, never>;
         Relationships: [
@@ -657,10 +678,18 @@ export interface Database {
           payload: string;
           failure_reason: string;
           retry_count: number;
+          replay_attempts: number;
           replayed: boolean;
           replayed_at: string | null;
           occurred_at: string;
           created_at: string;
+          quarantine: boolean;
+          quarantine_reason: string | null;
+          poison: boolean;
+          poison_reason: string | null;
+          approved_by: string | null;
+          approved_at: string | null;
+          last_replayed_by: string | null;
         };
         Insert: {
           id?: string;
@@ -669,15 +698,31 @@ export interface Database {
           payload: string;
           failure_reason: string;
           retry_count?: number;
+          replay_attempts?: number;
           replayed?: boolean;
           replayed_at?: string | null;
           occurred_at?: string;
           created_at?: string;
+          quarantine?: boolean;
+          quarantine_reason?: string | null;
+          poison?: boolean;
+          poison_reason?: string | null;
+          approved_by?: string | null;
+          approved_at?: string | null;
+          last_replayed_by?: string | null;
         };
         Update: {
           retry_count?: number;
+          replay_attempts?: number;
           replayed?: boolean;
           replayed_at?: string | null;
+          quarantine?: boolean;
+          quarantine_reason?: string | null;
+          poison?: boolean;
+          poison_reason?: string | null;
+          approved_by?: string | null;
+          approved_at?: string | null;
+          last_replayed_by?: string | null;
         };
         Relationships: [];
       };

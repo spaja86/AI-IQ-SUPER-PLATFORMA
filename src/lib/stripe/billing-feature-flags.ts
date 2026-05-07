@@ -103,6 +103,38 @@ export const BILLING_FLAGS: BillingFlag[] = [
     rolloutPct: 0,
     activeFrom: '2026-05-07',
   },
+  {
+    id: 'billing-read-only-mode',
+    naziv: 'Billing Read-Only Emergency Mode',
+    opis: 'Blokira checkout mutacije i dozvoljava samo read-only billing operacije',
+    enabled: false,
+    rolloutPct: 0,
+    activeFrom: '2026-05-07',
+  },
+  {
+    id: 'billing-kill-switch-checkout',
+    naziv: 'Global Checkout Kill Switch',
+    opis: 'Globalno gasi checkout endpoint u incident scenarijima',
+    enabled: false,
+    rolloutPct: 0,
+    activeFrom: '2026-05-07',
+  },
+  {
+    id: 'billing-kill-switch-enterprise',
+    naziv: 'Per-plan Kill Switch Enterprise',
+    opis: 'Privremeno suspenduje enterprise plan checkout',
+    enabled: false,
+    rolloutPct: 0,
+    activeFrom: '2026-05-07',
+  },
+  {
+    id: 'billing-webhook-quarantine',
+    naziv: 'Webhook Quarantine Mode',
+    opis: 'Sumnjivi webhook događaji idu u karantin umesto direktne obrade',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-07',
+  },
 ];
 
 /**

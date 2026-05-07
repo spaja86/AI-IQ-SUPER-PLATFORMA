@@ -105,6 +105,33 @@ export function validateInvoice(obj: Record<string, unknown>): ValidationResult 
   return { valid: errors.length === 0, errors };
 }
 
+// ─── Quarantine Heuristike (#52) ──────────────────────────────────────────────
+
+export function isSuspiciousWebhookEvent(
+  eventType: string,
+  obj: Record<string, unknown>,
+): { suspicious: boolean; reason?: string } {
+  if (eventType === 'invoice.payment_failed') {
+    const amountDue = typeof obj['amount_due'] === 'number' ? obj['amount_due'] : null;
+    const customer = obj['customer'];
+    if (amountDue !== null && amountDue > 10_000_00) {
+      return { suspicious: true, reason: `invoice.amount_due too high (${amountDue})` };
+    }
+    if (!customer) {
+      return { suspicious: true, reason: 'invoice.payment_failed without customer' };
+    }
+  }
+
+  if (eventType.startsWith('customer.subscription.')) {
+    const status = obj['status'];
+    if (status === 'active' && !obj['items']) {
+      return { suspicious: true, reason: 'active subscription without items payload' };
+    }
+  }
+
+  return { suspicious: false };
+}
+
 // ─── Event Ordering Guard (#17) ───────────────────────────────────────────────
 
 /**

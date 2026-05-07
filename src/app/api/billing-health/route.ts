@@ -20,6 +20,7 @@ import { PLANOVI } from '@/lib/stripe/config';
 // SLA ciljevi (#50)
 const SLO_WEBHOOK_SUCCESS_RATE_PCT = 99.5;
 const SLO_CHECKOUT_P99_MS = 3000;
+const SLO_AUDIT_WRITE_P99_MS = 500;
 const ALERT_PAST_DUE_THRESHOLD = 100; // Broj past_due koji okida alert (#29)
 const ALERT_DLQ_DEPTH_THRESHOLD = 50;  // DLQ dubina koja okida alert
 const ALERT_WEBHOOK_ERROR_RATE_PCT = 5; // Greška-rate koji okida alert (#4)
@@ -31,18 +32,29 @@ export async function GET(_request: NextRequest) {
   // ── Plan distribucija ─────────────────────────────────────────────────────
   const { data: planCounts } = await supabase
     .from('profiles')
-    .select('plan, subscription_status')
+    .select('plan, subscription_status, stripe_subscription_id, grace_period_expires_at')
     .not('plan', 'is', null);
 
   const planDist: Record<string, number> = {};
   let pastDueCount = 0;
   let activeCount = 0;
   let gracePeriodCount = 0;
+  let activeWithoutSubscriptionId = 0;
+  let stalePastDueCount = 0;
+  const nowMs = Date.now();
 
   for (const row of planCounts ?? []) {
     planDist[row.plan] = (planDist[row.plan] ?? 0) + 1;
-    if (row.subscription_status === 'past_due' || row.subscription_status === 'past_due_locked') pastDueCount++;
-    if (row.subscription_status === 'active') activeCount++;
+    if (row.subscription_status === 'past_due' || row.subscription_status === 'past_due_locked') {
+      pastDueCount++;
+      if (row.grace_period_expires_at && Date.parse(row.grace_period_expires_at) < nowMs - 24 * 60 * 60 * 1000) {
+        stalePastDueCount++;
+      }
+    }
+    if (row.subscription_status === 'active') {
+      activeCount++;
+      if (!row.stripe_subscription_id) activeWithoutSubscriptionId++;
+    }
     if (row.subscription_status === 'grace_period') gracePeriodCount++;
   }
 
@@ -62,17 +74,52 @@ export async function GET(_request: NextRequest) {
     .select('id', { count: 'exact', head: true })
     .gte('processed_at', oneDayAgo);
 
+  const { data: webhookLatencyRows } = await supabase
+    .from('stripe_webhook_events')
+    .select('webhook_latency_ms, consistency_latency_ms')
+    .gte('processed_at', oneDayAgo)
+    .order('processed_at', { ascending: false })
+    .limit(1000);
+
   // ── DLQ dubina ─────────────────────────────────────────────────────────────
   const { count: dlqDepth } = await supabase
     .from('webhook_dead_letter')
     .select('id', { count: 'exact', head: true })
     .eq('replayed', false);
 
+  const { data: dlqOldest } = await supabase
+    .from('webhook_dead_letter')
+    .select('created_at')
+    .eq('replayed', false)
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .single();
+
   // ── Audit log konzistentnost (poslednja 24h) (#6) ───────────────────────
   const { count: auditCount } = await supabase
     .from('financial_audit_log')
     .select('id', { count: 'exact', head: true })
     .gte('created_at', oneDayAgo);
+
+  const dlqUnreplayed = dlqDepth ?? 0;
+  const webhookErrors = dlqUnreplayed;
+  const webhookErrorRatePct = (webhookTotal ?? 0) > 0 ? (webhookErrors / (webhookTotal ?? 1)) * 100 : 0;
+  const webhookLatencies = (webhookLatencyRows ?? [])
+    .map((r) => r.webhook_latency_ms)
+    .filter((v): v is number => typeof v === 'number');
+  const consistencyLatencies = (webhookLatencyRows ?? [])
+    .map((r) => r.consistency_latency_ms)
+    .filter((v): v is number => typeof v === 'number');
+  const avgWebhookLatencyMs = webhookLatencies.length ? Math.round(webhookLatencies.reduce((a, b) => a + b, 0) / webhookLatencies.length) : null;
+  const avgConsistencyLatencyMs = consistencyLatencies.length ? Math.round(consistencyLatencies.reduce((a, b) => a + b, 0) / consistencyLatencies.length) : null;
+  const dlqOldestAgeSec = dlqOldest?.created_at ? Math.max(0, Math.floor((Date.now() - Date.parse(dlqOldest.created_at)) / 1000)) : 0;
+  const billingConsistencyScore = Math.max(
+    0,
+    100
+      - Math.min(30, activeWithoutSubscriptionId * 5)
+      - Math.min(30, stalePastDueCount * 3)
+      - Math.min(40, dlqUnreplayed * 2),
+  );
 
   // ── Circuit Breaker stanje ────────────────────────────────────────────────
   const circuitBreakers = [
@@ -92,6 +139,18 @@ export async function GET(_request: NextRequest) {
     alerts.push({ level: 'warning', message: `Dead-letter queue dubina: ${dlqDepth} (prag: ${ALERT_DLQ_DEPTH_THRESHOLD})` });
   }
 
+  if (activeWithoutSubscriptionId > 0) {
+    alerts.push({ level: 'critical', message: `Active korisnici bez stripe_subscription_id: ${activeWithoutSubscriptionId}` });
+  }
+
+  if (stalePastDueCount > 0) {
+    alerts.push({ level: 'warning', message: `past_due duže od 24h (indikator): ${stalePastDueCount}` });
+  }
+
+  if (webhookErrorRatePct >= ALERT_WEBHOOK_ERROR_RATE_PCT) {
+    alerts.push({ level: 'warning', message: `Webhook error-rate: ${webhookErrorRatePct.toFixed(2)}% (prag: ${ALERT_WEBHOOK_ERROR_RATE_PCT}%)` });
+  }
+
   const openCircuits = circuitBreakers.filter((cb) => cb.state === 'open');
   for (const cb of openCircuits) {
     alerts.push({ level: 'critical', message: `Circuit breaker OPEN: ${cb.name}` });
@@ -101,6 +160,7 @@ export async function GET(_request: NextRequest) {
   const sloStatus = {
     webhookSuccessRateTarget: SLO_WEBHOOK_SUCCESS_RATE_PCT,
     checkoutP99Target: SLO_CHECKOUT_P99_MS,
+    auditWriteP99Target: SLO_AUDIT_WRITE_P99_MS,
     status: alerts.some((a) => a.level === 'critical') ? 'degraded' : 'ok',
   };
 
@@ -116,11 +176,18 @@ export async function GET(_request: NextRequest) {
       activeSubscriptions: activeCount,
       pastDueSubscriptions: pastDueCount,
       gracePeriodSubscriptions: gracePeriodCount,
+      activeWithoutSubscriptionId,
+      stalePastDueCount,
+      billingConsistencyScore,
       planDistribution: planDist,
     },
     webhook: {
       processedLast24h: webhookTotal ?? 0,
       dlqDepth: dlqDepth ?? 0,
+      dlqOldestAgeSec,
+      webhookErrorRatePct,
+      avgWebhookLatencyMs,
+      avgConsistencyLatencyMs,
       auditEntriesLast24h: auditCount ?? 0,
     },
     circuitBreakers,

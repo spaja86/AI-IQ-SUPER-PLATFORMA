@@ -33,13 +33,16 @@ import {
   isValidPlanTransition,
   shouldSoftLock,
   graceExpiresAt,
+  isSuspiciousWebhookEvent,
 } from '@/lib/stripe/billing-validators';
 import { createTraceContext, traceStart, traceEnd, traceStripeUserCorrelation, traceWebhookError } from '@/lib/stripe/billing-tracing';
 import { isBillingFlagEnabled } from '@/lib/stripe/billing-feature-flags';
+import { buildAuditChainHash } from '@/lib/stripe/billing-audit-chain';
 
 export async function POST(request: NextRequest) {
   const trace = createTraceContext(request, '/api/stripe/webhook');
   traceStart(trace);
+  const handlerVersion = request.headers.get('x-billing-webhook-version') === 'v1' ? 'v1' : 'v2';
 
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
@@ -101,13 +104,15 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = getSupabaseServerClient();
+  const webhookLatencyMs = Math.max(0, Date.now() - event.created * 1000);
+  let consistencyLatencyMs: number | null = null;
 
   // ── Idempotency guard ──────────────────────────────────────────────────────
   const idempotencyResult = await stripeWebhookCircuit.execute(
     () => withRetry(async () =>
       supabase
         .from('stripe_webhook_events')
-        .insert({ event_id: event.id, event_type: event.type })
+        .insert({ event_id: event.id, event_type: event.type, handler_version: handlerVersion })
         .then((r) => r)
     ),
     () => ({ data: null, error: null, count: null, status: 200, statusText: 'OK', success: true as const }),
@@ -120,6 +125,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ received: true, duplicate: true });
     }
     console.error('Webhook idempotency insert failed:', idempotencyError);
+  }
+
+  // ── Quarantine mode za sumnjive evente (#52) ───────────────────────────────
+  if (isBillingFlagEnabled('billing-webhook-quarantine')) {
+    const suspicious = isSuspiciousWebhookEvent(event.type, obj);
+    if (suspicious.suspicious) {
+      await supabase.from('webhook_dead_letter').insert({
+        event_id: event.id,
+        event_type: event.type,
+        payload: body,
+        failure_reason: `quarantine: ${suspicious.reason ?? 'suspicious payload'}`,
+        retry_count: 0,
+        replay_attempts: 0,
+        quarantine: true,
+        quarantine_reason: suspicious.reason ?? 'suspicious payload',
+        occurred_at: new Date().toISOString(),
+      });
+      await supabase
+        .from('stripe_webhook_events')
+        .update({
+          quarantined: true,
+          webhook_latency_ms: webhookLatencyMs,
+          consistency_latency_ms: null,
+        })
+        .eq('event_id', event.id);
+      traceEnd(trace, 'blocked', 'quarantined');
+      return NextResponse.json({ received: true, quarantined: true, reason: suspicious.reason, handlerVersion });
+    }
   }
 
   // ── Event ordering guard (#17) ─────────────────────────────────────────────
@@ -153,7 +186,27 @@ export async function POST(request: NextRequest) {
     stripeCustomerId?: string | null;
     metadata?: Record<string, unknown>;
   }) {
+    const now = new Date().toISOString();
+    const { data: prevAudit } = await supabase
+      .from('financial_audit_log')
+      .select('chain_hash')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
+
     const maskedMeta = maskSensitiveMetadata(params.metadata ?? {});
+    const payloadToHash = {
+      eventId: event.id,
+      eventType: event.type,
+      userId: params.userId ?? null,
+      action: params.action,
+      metadata: maskedMeta,
+    };
+    const { payloadHash, chainHash } = buildAuditChainHash({
+      payload: payloadToHash,
+      prevHash: prevAudit?.chain_hash ?? null,
+      timestampIso: now,
+    });
     const { error } = await withRetry(async () =>
       supabase.from('financial_audit_log').insert({
         user_id: params.userId ?? null,
@@ -165,6 +218,10 @@ export async function POST(request: NextRequest) {
         stripe_event_id: event.id,
         stripe_customer_id: params.stripeCustomerId ?? null,
         metadata: maskedMeta,
+        request_id: trace.requestId,
+        payload_hash: payloadHash,
+        prev_hash: prevAudit?.chain_hash ?? null,
+        chain_hash: chainHash,
       })
     );
     if (error) {
@@ -249,6 +306,7 @@ export async function POST(request: NextRequest) {
           });
 
           await notifyUser(userId, 'subscription.activated', { planId });
+          consistencyLatencyMs = Math.max(0, Date.now() - event.created * 1000);
         }
         break;
       }
@@ -309,6 +367,7 @@ export async function POST(request: NextRequest) {
             });
 
             await notifyUser(profile.id, 'subscription.updated', { newStatus: subscription.status });
+            consistencyLatencyMs = Math.max(0, Date.now() - event.created * 1000);
           }
         }
         break;
@@ -350,6 +409,7 @@ export async function POST(request: NextRequest) {
           });
 
           if (profile) await notifyUser(profile.id, 'subscription.canceled');
+          consistencyLatencyMs = Math.max(0, Date.now() - event.created * 1000);
         }
         break;
       }
@@ -395,6 +455,7 @@ export async function POST(request: NextRequest) {
           });
 
           if (profile) await notifyUser(profile.id, 'payment.failed', { failureCount: newFailureCount, softLocked: shouldLock });
+          consistencyLatencyMs = Math.max(0, Date.now() - event.created * 1000);
         }
         break;
       }
@@ -426,6 +487,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true, queued_for_retry: true });
   }
 
+  await supabase
+    .from('stripe_webhook_events')
+    .update({
+      webhook_latency_ms: webhookLatencyMs,
+      consistency_latency_ms: consistencyLatencyMs,
+      quarantined: false,
+    })
+    .eq('event_id', event.id);
+
   traceEnd(trace, 'ok');
-  return NextResponse.json({ received: true });
+  return NextResponse.json({ received: true, handlerVersion });
 }
