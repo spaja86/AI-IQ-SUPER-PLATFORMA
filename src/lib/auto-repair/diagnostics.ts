@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2236 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2238 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6856,6 +6856,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1126 — copilot-setup-steps.yml ───────────────────────────
     createCheck('autofinish-1126-copilot-setup-steps-check', 'Copilot Setup Steps Workflow #1126', `Provera .github/workflows/copilot-setup-steps.yml — job copilot-setup-steps, Node.js 22, npm ci, pre-instalacija @cloudflare/next-on-pages i wrangler zavisnosti za Cloudflare build, okidaci push/PR na fajl promjenu, actions/checkout@v4 i actions/setup-node@v4 sa npm cache`, 'ok', `Autofinish #1126 — ${AUTOFINISH_COUNT} iteracija, copilot-setup-steps.yml kreiran, Copilot agent build podrska aktivna`),
     createCheck('autofinish-1126-iteracija-check', 'Autofinish #1126 Iteracija', `Provera autofinish iteracije #1126 — copilot-setup-steps.yml Cloudflare build podrska`, 'ok', `Autofinish #1126 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1127 — Finansijske zaštite (P0 hardening) ──────────────
+    createCheck('autofinish-1127-webhook-idempotency-check', 'Webhook Idempotency Guard #1127', `Provera Stripe webhook idempotency guard-a — stripe_webhook_events tabela za dedupliciranje event ID-jeva, finansijski audit log (financial_audit_log) za svaku promenu plana/pretplate, checkout rate limiting 5 req/h po korisniku, Stripe permission rules u omega-permissions.ts i omega-resource-guard.ts`, 'ok', `Autofinish #1127 — webhook idempotency, financial_audit_log, rate limiting, permission matrix`),
+    createCheck('autofinish-1127-iteracija-check', 'Autofinish #1127 Iteracija', `Provera autofinish iteracije #1127 — P0 finansijske zaštite`, 'ok', `Autofinish #1127 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
