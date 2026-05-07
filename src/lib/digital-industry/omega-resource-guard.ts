@@ -111,6 +111,34 @@ const DIGITAL_INDUSTRY_RESOURCES: ΩResourceDefinition[] = [
     encryptedAtRest: true,
     auditAccess: true,
   },
+  // Stripe finansijski endpointi
+  {
+    resourceId: 'di:api:stripe:webhook',
+    path: '/api/stripe/webhook',
+    type: 'API',
+    classification: 'INTERNAL',
+    requiredClearance: ΩClearanceLevel.VISITOR,
+    encryptedAtRest: false,
+    auditAccess: true,   // Uvek audituj webhook pozive
+  },
+  {
+    resourceId: 'di:api:stripe:checkout',
+    path: '/api/stripe/checkout',
+    type: 'API',
+    classification: 'CONFIDENTIAL',
+    requiredClearance: ΩClearanceLevel.USER,
+    encryptedAtRest: false,
+    auditAccess: true,
+  },
+  {
+    resourceId: 'di:api:stripe:portal',
+    path: '/api/stripe/portal',
+    type: 'API',
+    classification: 'CONFIDENTIAL',
+    requiredClearance: ΩClearanceLevel.USER,
+    encryptedAtRest: false,
+    auditAccess: true,
+  },
 ];
 
 // ΩResourceGuard — štiti SVE resurse "Digitalne Industrije"

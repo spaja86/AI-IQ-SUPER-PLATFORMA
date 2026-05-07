@@ -23,6 +23,13 @@ const eslintConfig = defineConfig([
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+      "no-restricted-properties": [
+        "warn",
+        {
+          property: "query",
+          message: "Avoid raw SQL for billing tables; use Supabase query builder and audited helpers.",
+        },
+      ],
     },
   },
   // Override default ignores of eslint-config-next.

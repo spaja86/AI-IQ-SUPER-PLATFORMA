@@ -24,6 +24,10 @@ export interface Database {
           preferred_model: ModelId | null;
           preferred_language: string | null;
           memory: string | null;
+          billing_locked: boolean | null;
+          failed_payment_count: number | null;
+          grace_period_expires_at: string | null;
+          last_plan_changed_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -58,6 +62,10 @@ export interface Database {
           preferred_model?: ModelId | null;
           preferred_language?: string | null;
           memory?: string | null;
+          billing_locked?: boolean | null;
+          failed_payment_count?: number | null;
+          grace_period_expires_at?: string | null;
+          last_plan_changed_at?: string | null;
           updated_at?: string;
         };
         Relationships: [];
@@ -584,6 +592,198 @@ export interface Database {
             referencedColumns: ['id'];
           },
         ];
+      };
+      // Idempotency store — čuva obrađene Stripe event ID-jeve da se spreči dvostruka obrada
+      stripe_webhook_events: {
+        Row: {
+          id: string;
+          event_id: string;   // Stripe event ID (evt_...) — unique
+          event_type: string;
+          processed_at: string;
+          handler_version: string;
+          webhook_latency_ms: number | null;
+          consistency_latency_ms: number | null;
+          quarantined: boolean;
+        };
+        Insert: {
+          id?: string;
+          event_id: string;
+          event_type: string;
+          processed_at?: string;
+          handler_version?: string;
+          webhook_latency_ms?: number | null;
+          consistency_latency_ms?: number | null;
+          quarantined?: boolean;
+        };
+        Update: {
+          webhook_latency_ms?: number | null;
+          consistency_latency_ms?: number | null;
+          quarantined?: boolean;
+          handler_version?: string;
+        };
+        Relationships: [];
+      };
+      // Finansijski audit trail — beleži svaku promenu plana/pretplate
+      financial_audit_log: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          action: string;
+          old_plan: string | null;
+          new_plan: string | null;
+          old_status: string | null;
+          new_status: string | null;
+          stripe_event_id: string | null;
+          stripe_customer_id: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+          request_id: string | null;
+          payload_hash: string | null;
+          prev_hash: string | null;
+          chain_hash: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          action: string;
+          old_plan?: string | null;
+          new_plan?: string | null;
+          old_status?: string | null;
+          new_status?: string | null;
+          stripe_event_id?: string | null;
+          stripe_customer_id?: string | null;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+          request_id?: string | null;
+          payload_hash?: string | null;
+          prev_hash?: string | null;
+          chain_hash?: string | null;
+        };
+        Update: Record<string, never>;
+        Relationships: [
+          {
+            foreignKeyName: 'financial_audit_log_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      // Dead-letter queue — čuva webhook evente koji padnu za kasniji replay (#7)
+      webhook_dead_letter: {
+        Row: {
+          id: string;
+          event_id: string;
+          event_type: string;
+          payload: string;
+          failure_reason: string;
+          retry_count: number;
+          replay_attempts: number;
+          replayed: boolean;
+          replayed_at: string | null;
+          occurred_at: string;
+          created_at: string;
+          quarantine: boolean;
+          quarantine_reason: string | null;
+          poison: boolean;
+          poison_reason: string | null;
+          approved_by: string | null;
+          approved_at: string | null;
+          last_replayed_by: string | null;
+        };
+        Insert: {
+          id?: string;
+          event_id: string;
+          event_type: string;
+          payload: string;
+          failure_reason: string;
+          retry_count?: number;
+          replay_attempts?: number;
+          replayed?: boolean;
+          replayed_at?: string | null;
+          occurred_at?: string;
+          created_at?: string;
+          quarantine?: boolean;
+          quarantine_reason?: string | null;
+          poison?: boolean;
+          poison_reason?: string | null;
+          approved_by?: string | null;
+          approved_at?: string | null;
+          last_replayed_by?: string | null;
+        };
+        Update: {
+          retry_count?: number;
+          replay_attempts?: number;
+          replayed?: boolean;
+          replayed_at?: string | null;
+          quarantine?: boolean;
+          quarantine_reason?: string | null;
+          poison?: boolean;
+          poison_reason?: string | null;
+          approved_by?: string | null;
+          approved_at?: string | null;
+          last_replayed_by?: string | null;
+        };
+        Relationships: [];
+      };
+      // Korisničke notifikacije za billing promene (#49)
+      user_notifications: {
+        Row: {
+          id: string;
+          user_id: string;
+          type: string;
+          action: string;
+          metadata: Record<string, unknown>;
+          read: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          type?: string;
+          action: string;
+          metadata?: Record<string, unknown>;
+          read?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          read?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'user_notifications_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      // Billing feature flags tabela (#33)
+      billing_feature_flags: {
+        Row: {
+          id: string;
+          naziv: string;
+          enabled: boolean;
+          rollout_pct: number;
+          updated_at: string;
+          updated_by: string | null;
+        };
+        Insert: {
+          id: string;
+          naziv: string;
+          enabled?: boolean;
+          rollout_pct?: number;
+          updated_at?: string;
+          updated_by?: string | null;
+        };
+        Update: {
+          naziv?: string;
+          enabled?: boolean;
+          rollout_pct?: number;
+          updated_at?: string;
+          updated_by?: string | null;
+        };
+        Relationships: [];
       };
     };
     Views: Record<string, never>;

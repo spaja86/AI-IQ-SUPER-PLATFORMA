@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { applySecurityHeaders } from '@/lib/security-headers';
 
 /**
  * 📡 OMEGA Proxy — Request Logger & Monitor
@@ -14,6 +15,7 @@ export function proxy(_request: NextRequest) {
   const startTime = Date.now();
 
   const response = NextResponse.next();
+  applySecurityHeaders(response.headers, { withNonce: false });
 
   // Dodaj request ID za praćenje
   response.headers.set('X-Request-Id', requestId);
