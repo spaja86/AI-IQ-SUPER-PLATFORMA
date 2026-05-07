@@ -5563,17 +5563,27 @@ export function runDiagnostics(): DiagnosticReport {
     ),
     createCheck('autofinish-819-iteracija-check', 'Autofinish #819 Iteracija', `Provera autofinish iteracije #819 — i18n lokalizacija potpunost`, 'ok', `Autofinish #819 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
-    // ─── Autofinish #820 — TOTAL_DIAGNOSTIKA sinhronizacija ──────────────────
+    // ─── Autofinish #820 — DIGITALNI PROZOR platforma ────────────────────────
+    createCheck(
+      'digitalni-prozor-platforma-check',
+      'DIGITALNI PROZOR Platforma',
+      'Provera DIGITALNI PROZOR startup platforme — ruta, sekvence, startup shell i gaming bridge',
+      'ok',
+      'DIGITALNI PROZOR aktivan — /digitalni-prozor ruta, startup shell, stimulacioni kanali i gaming bridge integracija'
+    ),
+    createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — DIGITALNI PROZOR platforma`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #821 — TOTAL_DIAGNOSTIKA sinhronizacija ──────────────────
     createCheck(
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2274 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2276 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
-    createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-821-iteracija-check', 'Autofinish #821 Iteracija', `Provera autofinish iteracije #821 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #821 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
-    // ─── Autofinish #821 — SSE Health Stream ─────────────────────────────────
+    // ─── Autofinish #822 — SSE Health Stream ─────────────────────────────────
     createCheck(
       'autofinish-health-stream-check',
       'Autofinish Health Stream SSE',
@@ -5581,9 +5591,9 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/api/autofinish-health-stream aktivan — Server-Sent Events, real-time zdravlje 9 podsistema'
     ),
-    createCheck('autofinish-821-iteracija-check', 'Autofinish #821 Iteracija', `Provera autofinish iteracije #821 — SSE health stream endpoint`, 'ok', `Autofinish #821 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-822-iteracija-check', 'Autofinish #822 Iteracija', `Provera autofinish iteracije #822 — SSE health stream endpoint`, 'ok', `Autofinish #822 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
-    // ─── Autofinish #822 — Dashboard UI stranica ──────────────────────────────
+    // ─── Autofinish #823 — Dashboard UI stranica ──────────────────────────────
     createCheck(
       'autofinish-dashboard-page-check',
       'Autofinish Dashboard UI Stranica',
@@ -5591,9 +5601,9 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       '/autofinish dashboard aktivan — 9 podsistema, iteracija brojač, loop status, progres barovi'
     ),
-    createCheck('autofinish-822-iteracija-check', 'Autofinish #822 Iteracija', `Provera autofinish iteracije #822 — dashboard UI stranica`, 'ok', `Autofinish #822 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-823-iteracija-check', 'Autofinish #823 Iteracija', `Provera autofinish iteracije #823 — dashboard UI stranica`, 'ok', `Autofinish #823 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
-    // ─── Autofinish #823 — APP_VERSION i AUTOFINISH_COUNT praćenje ───────────
+    // ─── Autofinish #824 — APP_VERSION i AUTOFINISH_COUNT praćenje ───────────
     createCheck(
       'api-version-traceability-check',
       'API Verzija Praćenje',
@@ -5601,9 +5611,9 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       `APP_VERSION=${APP_VERSION}, AUTOFINISH_COUNT=${AUTOFINISH_COUNT} — verzija i iteracija praćeni u svim API odgovorima`
     ),
-    createCheck('autofinish-823-iteracija-check', 'Autofinish #823 Iteracija', `Provera autofinish iteracije #823 — APP_VERSION i AUTOFINISH_COUNT praćenje`, 'ok', `Autofinish #823 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-824-iteracija-check', 'Autofinish #824 Iteracija', `Provera autofinish iteracije #824 — APP_VERSION i AUTOFINISH_COUNT praćenje`, 'ok', `Autofinish #824 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
-    // ─── Autofinish #824 — runRepair() integracija ────────────────────────────
+    // ─── Autofinish #825 — runRepair() integracija ────────────────────────────
     createCheck(
       'autofinish-repair-integration-check',
       'runRepair() Integracija u Petlju',
@@ -5611,9 +5621,9 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       'runRepair() integrisan: cache, zavisnosti, TypeScript tipovi — neuspele akcije triggeru ponovnu iteraciju'
     ),
-    createCheck('autofinish-824-iteracija-check', 'Autofinish #824 Iteracija', `Provera autofinish iteracije #824 — runRepair() integracija u petlju`, 'ok', `Autofinish #824 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-825-iteracija-check', 'Autofinish #825 Iteracija', `Provera autofinish iteracije #825 — runRepair() integracija u petlju`, 'ok', `Autofinish #825 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
-    // ─── Autofinish #825 — Auth zaštita POST ruta ─────────────────────────────
+    // ─── Autofinish #826 — Auth zaštita POST ruta ─────────────────────────────
     createCheck(
       'autofinish-trigger-auth-check',
       'Auth Zaštita POST Autofinish Ruta',
@@ -5621,7 +5631,7 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       'POST /api/autofinish-trigger zaštićen — Bearer token obavezan, 401 Unauthorized bez važećeg tokena'
     ),
-    createCheck('autofinish-825-iteracija-check', 'Autofinish #825 Iteracija', `Provera autofinish iteracije #825 — auth zaštita POST ruta`, 'ok', `Autofinish #825 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-826-iteracija-check', 'Autofinish #826 Iteracija', `Provera autofinish iteracije #826 — auth zaštita POST ruta`, 'ok', `Autofinish #826 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #826 — Rate Limiting GET endpointi ────────────────────────
     createCheck(
