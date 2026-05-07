@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2266 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2268 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6910,6 +6910,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1139 — GitHub Billing Sumarno API ────────────────────
     createCheck('autofinish-1139-github-billing-sumarno-api-check', 'GitHub Billing Sumarno API #1139', `Provera /api/autofinish-github-billing-sumarno endpointa — sumarni prikaz pilot transakcija, budžetske iskorišćenosti, aktivne rollout faze i globalnih statistika GitHub billing sistema`, 'ok', `Autofinish #1139 — novi endpoint: /api/autofinish-github-billing-sumarno`),
     createCheck('autofinish-1139-iteracija-check', 'Autofinish #1139 Iteracija', `Provera autofinish iteracije #1139 — GitHub Billing sumarni endpoint i API test pokrivenost`, 'ok', `Autofinish #1139 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1155 — API Milestone 1000 ────────────────────────────
+    createCheck('autofinish-1155-api-milestone-1000-check', 'API Milestone 1000 #1155', `Provera /api/autofinish-api-milestone-1000 endpointa — proslava 1000. API rute: milestone objekat sa ciljBroj/trenutniBroj/postignut/procenat, ekosistem statistike, personalizovana poruka`, 'ok', `Autofinish #1155 — 🎉 API Milestone 1000 postignut! TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1155-iteracija-check', 'Autofinish #1155 Iteracija', `Provera autofinish iteracije #1155 — API Milestone 1000 endpoint i test pokrivenost`, 'ok', `Autofinish #1155 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
