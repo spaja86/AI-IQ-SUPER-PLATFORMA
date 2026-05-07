@@ -41,15 +41,21 @@ export default function ProzorViewer({ igricaId, dimenzija, onNazadUBrouvzer }: 
   }, [dimenzija, igrica]);
 
   const [izabranaDimenzija, setIzabranaDimenzija] = useState<DimenzijaNivo | null>(initialDimenzija);
-  const [startupAktivan, setStartupAktivan] = useState(false);
+  const [startupAktivan, setStartupAktivan] = useState(Boolean(initialDimenzija));
   const [aktivniKanalCount, setAktivniKanalCount] = useState(0);
   const [odrazPrikaz, setOdrazPrikaz] = useState(0);
+  const [startupToken, setStartupToken] = useState(initialDimenzija ? 1 : 0);
 
-  useEffect(() => {
-    if (!izabranaDimenzija) return;
+  const startStartup = useCallback((nivo: DimenzijaNivo) => {
+    setIzabranaDimenzija(nivo);
     setStartupAktivan(true);
     setAktivniKanalCount(0);
     setOdrazPrikaz(0);
+    setStartupToken((prev) => prev + 1);
+  }, []);
+
+  useEffect(() => {
+    if (!izabranaDimenzija || !startupAktivan) return;
 
     const target = kalkulisiEksponencijalniOdraz(izabranaDimenzija);
     const kanalInterval = setInterval(() => {
@@ -79,7 +85,7 @@ export default function ProzorViewer({ igricaId, dimenzija, onNazadUBrouvzer }: 
       clearInterval(odrazInterval);
       clearTimeout(startupTimeout);
     };
-  }, [izabranaDimenzija, kanali]);
+  }, [izabranaDimenzija, kanali, startupAktivan, startupToken]);
 
   const handleNazad = useCallback(() => {
     if (onNazadUBrouvzer) {
@@ -126,7 +132,7 @@ export default function ProzorViewer({ igricaId, dimenzija, onNazadUBrouvzer }: 
                 <button
                   key={nivo}
                   type="button"
-                  onClick={() => setIzabranaDimenzija(nivo)}
+                  onClick={() => startStartup(nivo)}
                   className="rounded-xl border border-gray-700 bg-gray-800 px-3 py-3 text-left text-sm text-gray-200 transition hover:border-blue-500 hover:bg-gray-700"
                 >
                   <span className="font-bold text-white">{nivo}</span>

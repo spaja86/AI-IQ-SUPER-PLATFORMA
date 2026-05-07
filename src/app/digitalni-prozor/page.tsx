@@ -22,21 +22,23 @@ function pickSingle(v?: string | string[]): string | undefined {
   return Array.isArray(v) ? v[0] : v;
 }
 
+function safeDecode(value?: string): string | undefined {
+  if (!value) return undefined;
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return undefined;
+  }
+}
+
 export default async function DigitalniProzorPage({ searchParams }: Props) {
   const resolved = await searchParams;
-  const igricaIdRaw = pickSingle(resolved.igricaId);
-  const dimenzijaRaw = pickSingle(resolved.dimenzija);
+  const igricaIdDecoded = safeDecode(pickSingle(resolved.igricaId));
+  const dimenzijaDecoded = safeDecode(pickSingle(resolved.dimenzija));
 
-  if (igricaIdRaw) {
-    try {
-      const decodedIgricaId = decodeURIComponent(igricaIdRaw);
-      const decodedDimenzija = dimenzijaRaw ? decodeURIComponent(dimenzijaRaw) : undefined;
-      return <ProzorViewer igricaId={decodedIgricaId} dimenzija={decodedDimenzija} />;
-    } catch {
-      return <StranicaRenderer sekvence={digitalniProzorSekvence} />;
-    }
+  if (igricaIdDecoded) {
+    return <ProzorViewer igricaId={igricaIdDecoded} dimenzija={dimenzijaDecoded} />;
   }
 
   return <StranicaRenderer sekvence={digitalniProzorSekvence} />;
 }
-
