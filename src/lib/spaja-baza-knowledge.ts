@@ -89,30 +89,31 @@ function isDomainMatch(domain: string, rule: string): boolean {
 }
 
 export function isUrlAllowed(url: string, policy = getKnowledgePolicy()): boolean {
-  const domain = extractDomain(url);
+  const parsed = new URL(url);
+  if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
+  const domain = parsed.hostname.toLowerCase();
   if (policy.denylistDomains.some((rule) => isDomainMatch(domain, rule))) return false;
   return policy.allowlistDomains.some((rule) => isDomainMatch(domain, rule));
 }
 
 function sanitizeText(raw: string): string {
-  return raw
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
+  const withoutScript = stripTagBlock(raw, 'script');
+  const withoutStyle = stripTagBlock(withoutScript, 'style');
+  const withoutNoScript = stripTagBlock(withoutStyle, 'noscript');
+
+  return withoutNoScript
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
     .replace(/\s+/g, ' ')
     .trim();
 }
 
 function sanitizeForPrompt(raw: string): string {
   return raw
-    .replace(/\b(ignore|disregard|override)\s+(all|previous|system)\s+(instructions?)\b/gi, '[REMOVED_UNTRUSTED_INSTRUCTION]')
+    .replace(/ignore\s+all\s+instructions?/gi, '[REMOVED_UNTRUSTED_INSTRUCTION]')
+    .replace(/disregard\s+all\s+instructions?/gi, '[REMOVED_UNTRUSTED_INSTRUCTION]')
+    .replace(/override\s+previous\s+instructions?/gi, '[REMOVED_UNTRUSTED_INSTRUCTION]')
+    .replace(/override\s+system\s+instructions?/gi, '[REMOVED_UNTRUSTED_INSTRUCTION]')
     .replace(/```[\s\S]*?```/g, '[CODE_BLOCK_REMOVED]')
     .trim();
 }
@@ -128,14 +129,51 @@ function estimateTokens(text: string): number {
 function chunkContent(text: string, maxLength: number, overlap: number): string[] {
   const chunks: string[] = [];
   if (!text) return chunks;
+  const safeMaxLength = Math.max(200, maxLength);
+  const safeOverlap = Math.max(0, Math.min(overlap, safeMaxLength - 1));
   let cursor = 0;
   while (cursor < text.length) {
-    const end = Math.min(cursor + maxLength, text.length);
+    const end = Math.min(cursor + safeMaxLength, text.length);
     chunks.push(text.slice(cursor, end).trim());
-    if (end >= text.length) break;
-    cursor = Math.max(0, end - overlap);
+    if (end >= text.length) {
+      cursor = end;
+      break;
+    }
+    cursor = Math.max(0, end - safeOverlap);
   }
   return chunks.filter(Boolean);
+}
+
+function stripTagBlock(input: string, tagName: string): string {
+  const lowerInput = input.toLowerCase();
+  const lowerTag = tagName.toLowerCase();
+  const openToken = `<${lowerTag}`;
+  const closeToken = `</${lowerTag}`;
+
+  let result = '';
+  let cursor = 0;
+
+  while (cursor < input.length) {
+    const start = lowerInput.indexOf(openToken, cursor);
+    if (start === -1) {
+      result += input.slice(cursor);
+      break;
+    }
+
+    result += input.slice(cursor, start);
+    const closeStart = lowerInput.indexOf(closeToken, start);
+    if (closeStart === -1) break;
+    const closeEnd = lowerInput.indexOf('>', closeStart);
+    if (closeEnd === -1) break;
+    cursor = closeEnd + 1;
+  }
+
+  return result;
+}
+
+export function normalizeLimit(rawLimit: number, fallback = 5, min = 1, max = 10): number {
+  if (!Number.isFinite(rawLimit)) return fallback;
+  return Math.max(min, Math.min(rawLimit, max));
 }
 
 async function createOrUpdateSource(
@@ -262,6 +300,7 @@ export async function ingestKnowledgeUrls(
   const supabase = getSupabaseServerClient();
   const limited = urls.slice(0, policy.maxUrlsPerJob);
   const start = Date.now();
+  const userAgent = process.env.SPAJA_BAZA_USER_AGENT ?? 'SpajaBazaKnowledgeBot/1.0';
 
   const { data: job, error: jobError } = await supabase
     .from('knowledge_crawl_jobs')
@@ -292,9 +331,9 @@ export async function ingestKnowledgeUrls(
       const source = await createOrUpdateSource(supabase, candidate, options?.userId);
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 12_000);
-      const response = await fetch(candidate, {
+      const response = await fetch(source.source_url, {
         signal: controller.signal,
-        headers: { 'User-Agent': 'SpajaBazaKnowledgeBot/1.0 (+https://ai-iq-super-platforma.vercel.app)' },
+        headers: { 'User-Agent': userAgent },
       });
       clearTimeout(timeout);
 
@@ -522,4 +561,3 @@ export async function getKnowledgeHealth(): Promise<{
 
   return { status, totals };
 }
-

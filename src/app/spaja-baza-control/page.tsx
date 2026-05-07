@@ -36,24 +36,35 @@ export default function SpajaBazaControlPage() {
   const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
   const [sources, setSources] = useState<SourceItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function load() {
       setLoading(true);
-      const [healthRes, metricsRes, sourcesRes] = await Promise.all([
-        fetch('/api/spaja-baza-knowledge/health', { cache: 'no-store' }),
-        fetch('/api/spaja-baza-knowledge/metrics', { cache: 'no-store' }),
-        fetch('/api/spaja-baza-knowledge/sources', { cache: 'no-store' }),
-      ]);
+      setError('');
+      try {
+        const [healthRes, metricsRes, sourcesRes] = await Promise.all([
+          fetch('/api/spaja-baza-knowledge/health', { cache: 'no-store' }),
+          fetch('/api/spaja-baza-knowledge/metrics', { cache: 'no-store' }),
+          fetch('/api/spaja-baza-knowledge/sources', { cache: 'no-store' }),
+        ]);
 
-      const healthJson = await healthRes.json();
-      const metricsJson = await metricsRes.json();
-      const sourcesJson = await sourcesRes.json();
+        if (!healthRes.ok || !metricsRes.ok || !sourcesRes.ok) {
+          throw new Error('Neuspešno učitavanje kontrolnog panela.');
+        }
 
-      setHealth(healthJson as HealthResponse);
-      setMetrics(metricsJson as MetricsResponse);
-      setSources((sourcesJson.sources ?? []) as SourceItem[]);
-      setLoading(false);
+        const healthJson = await healthRes.json();
+        const metricsJson = await metricsRes.json();
+        const sourcesJson = await sourcesRes.json();
+
+        setHealth(healthJson as HealthResponse);
+        setMetrics(metricsJson as MetricsResponse);
+        setSources((sourcesJson.sources ?? []) as SourceItem[]);
+      } catch {
+        setError('Greška pri učitavanju SPAJA BAZA panela.');
+      } finally {
+        setLoading(false);
+      }
     }
 
     void load();
@@ -67,8 +78,9 @@ export default function SpajaBazaControlPage() {
       </p>
 
       {loading && <p className="text-sm text-gray-400">Učitavanje...</p>}
+      {!loading && error && <p className="rounded-lg border border-red-900 bg-red-950/30 p-3 text-sm text-red-300">{error}</p>}
 
-      {!loading && (
+      {!loading && !error && (
         <div className="space-y-6">
           <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Status" value={health?.status ?? 'unknown'} />
@@ -118,4 +130,3 @@ function StatCard({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-

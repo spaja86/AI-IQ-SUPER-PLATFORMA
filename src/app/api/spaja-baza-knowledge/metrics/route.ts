@@ -29,7 +29,7 @@ export async function GET() {
   const rows = retrievals.data ?? [];
   const latencyRows = avgLatency.data ?? [];
   const qualityRows = avgQuality.data ?? [];
-  const citationRate =
+  const citationCoverageRate =
     rows.length === 0 ? 0 : rows.reduce((sum, row) => sum + (row.citations_count > 0 ? 1 : 0), 0) / rows.length;
   const averageLatency =
     latencyRows.length === 0
@@ -45,11 +45,10 @@ export async function GET() {
     health,
     metrics24h: {
       retrievalCount: rows.length,
-      citationRate: Number(citationRate.toFixed(3)),
+      citationRate: Number(citationCoverageRate.toFixed(3)),
       averageLatencyMs: averageLatency,
       averageQualityScore: averageQuality,
     },
     timestamp: new Date().toISOString(),
   });
 }
-

@@ -5,8 +5,8 @@
 - Body:
 ```json
 {
-  "name": "docs.github.com",
-  "url": "https://docs.github.com",
+  "name": "github.com",
+  "url": "https://github.com",
   "trustScore": 0.9,
   "language": "en",
   "category": "docs"
@@ -49,4 +49,3 @@
 - Koristiti trusted izvore (visok `trust_score`).
 - Ograničiti batch URL-ova po job-u.
 - Redovno pratiti trendove failed job-ova i retrieval kvaliteta.
-
