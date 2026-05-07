@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2258 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2264 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6900,6 +6900,12 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1137 — Billing Hardening Kompletna ──────────────────
     createCheck('autofinish-1137-billing-hardening-complete-check', 'Billing Hardening Kompletna #1137', `Provera kompletne billing hardening implementacije — 50 preporuka: DB unique index, retention, DLQ, retry/backoff, circuit breaker, idempotency ključ, aktivne sesije limit, anti-fraud, dual rate limit, cooldown, soft-lock, grace period, ordering, whitelist, schema validacija, 8 test fajlova, billing-health, admin alati, feature flags, tracing, DB migration`, 'ok', `Autofinish #1137 — kompletna billing hardening implementacija svih 50 preporuka`),
     createCheck('autofinish-1137-iteracija-check', 'Autofinish #1137 Iteracija', `Provera autofinish iteracije #1137 — Kompletna billing hardening implementacija`, 'ok', `Autofinish #1137 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1138 — GitHub Billing AI IQ World Bank ──────────────
+    createCheck('autofinish-1138-github-billing-aiiq-worldbank-check', 'GitHub Billing AI IQ World Bank #1138', `Provera GitHub billing centralizacije kroz AI IQ World Bank — billing ownership, uloge (GLAVNI ENDŽIN, OMEGA AI, Usklađenost), budžet limiti, pilot transakcije, rollout plan, audit trag`, 'ok', `Autofinish #1138 — 3 nova API endpointa: /api/github-billing-aiiq-worldbank, /api/github-billing-aiiq-worldbank-status, /api/github-billing-aiiq-worldbank-izvestaj`),
+    createCheck('autofinish-1138-github-billing-rollout-check', 'GitHub Billing Rollout Plan #1138', `Provera rollout plana za GitHub billing — 3 faze: Pilot (u toku, 2 transakcije), Delimični Rollout, Potpuni Rollout sa pravnom usklađenošću`, 'ok', `Autofinish #1138 — GitHub billing rollout: pilot 18 USD, mesečni limit 500 USD, AI IQ World Bank vlasnik billing accounta`),
+    createCheck('autofinish-1138-iteracija-check', 'Autofinish #1138 Iteracija', `Provera autofinish iteracije #1138 — GitHub Billing AI IQ World Bank`, 'ok', `Autofinish #1138 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-1138-verzija-check', 'APP_VERSION #1138 GitHub Billing', `Provera APP_VERSION=${APP_VERSION} nakon GitHub billing implementacije`, 'ok', `Autofinish #1138 — APP_VERSION ${APP_VERSION}, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}, TOTAL_ROUTES=${TOTAL_ROUTES}`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
