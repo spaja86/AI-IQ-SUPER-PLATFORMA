@@ -585,6 +585,61 @@ export interface Database {
           },
         ];
       };
+      // Idempotency store — čuva obrađene Stripe event ID-jeve da se spreči dvostruka obrada
+      stripe_webhook_events: {
+        Row: {
+          id: string;
+          event_id: string;   // Stripe event ID (evt_...) — unique
+          event_type: string;
+          processed_at: string;
+        };
+        Insert: {
+          id?: string;
+          event_id: string;
+          event_type: string;
+          processed_at?: string;
+        };
+        Update: Record<string, never>;
+        Relationships: [];
+      };
+      // Finansijski audit trail — beleži svaku promenu plana/pretplate
+      financial_audit_log: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          action: string;
+          old_plan: string | null;
+          new_plan: string | null;
+          old_status: string | null;
+          new_status: string | null;
+          stripe_event_id: string | null;
+          stripe_customer_id: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          action: string;
+          old_plan?: string | null;
+          new_plan?: string | null;
+          old_status?: string | null;
+          new_status?: string | null;
+          stripe_event_id?: string | null;
+          stripe_customer_id?: string | null;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+        };
+        Update: Record<string, never>;
+        Relationships: [
+          {
+            foreignKeyName: 'financial_audit_log_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

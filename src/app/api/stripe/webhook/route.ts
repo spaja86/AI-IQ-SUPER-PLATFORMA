@@ -3,6 +3,7 @@
 // POST /api/stripe/webhook — Stripe webhook handler
 
 import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
 import { getStripe, getPlanById, getPlanByPriceId, UNLIMITED_CHAT } from '@/lib/stripe/config';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
   }
 
   const stripe = getStripe();
-  let event;
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
@@ -31,6 +32,49 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = getSupabaseServerClient();
+
+  // ── Idempotency guard ────────────────────────────────────────────────────────
+  // Sprečava duplu obradu ako Stripe ponovo pošalje isti event (retry logika).
+  const { error: idempotencyError } = await supabase
+    .from('stripe_webhook_events')
+    .insert({ event_id: event.id, event_type: event.type });
+
+  if (idempotencyError) {
+    // Kod 23505 = unique constraint violation → event već obrađen
+    if (idempotencyError.code === '23505') {
+      return NextResponse.json({ received: true, duplicate: true });
+    }
+    // Za ostale greške logujemo ali nastavljamo s obradom
+    console.error('Webhook idempotency insert failed:', idempotencyError);
+  }
+  // ── Kraj idempotency guard-a ─────────────────────────────────────────────────
+
+  /** Upisuje zapis u finansijski audit log. */
+  async function auditLog(params: {
+    userId?: string | null;
+    action: string;
+    oldPlan?: string | null;
+    newPlan?: string | null;
+    oldStatus?: string | null;
+    newStatus?: string | null;
+    stripeCustomerId?: string | null;
+    metadata?: Record<string, unknown>;
+  }) {
+    const { error } = await supabase.from('financial_audit_log').insert({
+      user_id: params.userId ?? null,
+      action: params.action,
+      old_plan: params.oldPlan ?? null,
+      new_plan: params.newPlan ?? null,
+      old_status: params.oldStatus ?? null,
+      new_status: params.newStatus ?? null,
+      stripe_event_id: event.id,
+      stripe_customer_id: params.stripeCustomerId ?? null,
+      metadata: params.metadata ?? {},
+    });
+    if (error) {
+      console.error('Financial audit log write failed:', error);
+    }
+  }
 
   switch (event.type) {
     case 'checkout.session.completed': {
@@ -44,6 +88,13 @@ export async function POST(request: NextRequest) {
       if (userId && planId) {
         const plan = getPlanById(planId) ?? { chatLimit: 100 };
 
+        // Dohvati stari plan za audit log
+        const { data: oldProfile } = await supabase
+          .from('profiles')
+          .select('plan, subscription_status')
+          .eq('id', userId)
+          .single();
+
         await supabase.from('profiles').update({
           plan: planId,
           stripe_subscription_id: subscriptionId ?? null,
@@ -51,6 +102,17 @@ export async function POST(request: NextRequest) {
           chat_messages_limit: plan.chatLimit === UNLIMITED_CHAT ? 999999 : plan.chatLimit,
           chat_messages_used: 0,
         }).eq('id', userId);
+
+        await auditLog({
+          userId,
+          action: 'subscription.activated',
+          oldPlan: oldProfile?.plan ?? null,
+          newPlan: planId,
+          oldStatus: oldProfile?.subscription_status ?? null,
+          newStatus: 'active',
+          stripeCustomerId: typeof session.customer === 'string' ? session.customer : null,
+          metadata: { subscription_id: subscriptionId },
+        });
       }
       break;
     }
@@ -64,7 +126,7 @@ export async function POST(request: NextRequest) {
       if (customerId) {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('id')
+          .select('id, plan, subscription_status')
           .eq('stripe_customer_id', customerId)
           .single();
 
@@ -79,6 +141,16 @@ export async function POST(request: NextRequest) {
               chat_messages_limit: plan.chatLimit === UNLIMITED_CHAT ? 999999 : plan.chatLimit,
             } : {}),
           }).eq('id', profile.id);
+
+          await auditLog({
+            userId: profile.id,
+            action: 'subscription.updated',
+            oldPlan: profile.plan ?? null,
+            newPlan: plan?.id ?? null,
+            oldStatus: profile.subscription_status ?? null,
+            newStatus: subscription.status,
+            stripeCustomerId: customerId,
+          });
         }
       }
       break;
@@ -91,11 +163,28 @@ export async function POST(request: NextRequest) {
         : subscription.customer?.toString();
 
       if (customerId) {
+        // Dohvati profil pre izmene za audit log
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('id, plan, subscription_status')
+          .eq('stripe_customer_id', customerId)
+          .single();
+
         await supabase.from('profiles').update({
           plan: 'starter',
           subscription_status: 'canceled',
           chat_messages_limit: 10,
         }).eq('stripe_customer_id', customerId);
+
+        await auditLog({
+          userId: profile?.id ?? null,
+          action: 'subscription.canceled',
+          oldPlan: profile?.plan ?? null,
+          newPlan: 'starter',
+          oldStatus: profile?.subscription_status ?? null,
+          newStatus: 'canceled',
+          stripeCustomerId: customerId,
+        });
       }
       break;
     }
@@ -107,9 +196,29 @@ export async function POST(request: NextRequest) {
         : invoice.customer?.toString();
 
       if (customerId) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('id, plan, subscription_status')
+          .eq('stripe_customer_id', customerId)
+          .single();
+
         await supabase.from('profiles').update({
           subscription_status: 'past_due',
         }).eq('stripe_customer_id', customerId);
+
+        await auditLog({
+          userId: profile?.id ?? null,
+          action: 'payment.failed',
+          oldPlan: profile?.plan ?? null,
+          newPlan: profile?.plan ?? null,
+          oldStatus: profile?.subscription_status ?? null,
+          newStatus: 'past_due',
+          stripeCustomerId: customerId,
+          metadata: {
+            invoice_id: typeof invoice.id === 'string' ? invoice.id : null,
+            amount_due: typeof invoice.amount_due === 'number' ? invoice.amount_due : null,
+          },
+        });
       }
       break;
     }

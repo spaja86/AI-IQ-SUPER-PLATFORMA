@@ -7,12 +7,23 @@ import { getStripe, getPlanById } from '@/lib/stripe/config';
 import { verifyUserFromToken } from '@/lib/supabase/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { BASE_URL } from '@/lib/constants';
+import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
   try {
     const user = await verifyUserFromToken(request.headers.get('authorization'));
     if (!user) {
       return NextResponse.json({ error: 'Niste prijavljeni.' }, { status: 401 });
+    }
+
+    // Rate limiting: max 5 checkout sesija po korisniku na sat
+    const rlKey = rateLimitKey(user.id, '/api/stripe/checkout');
+    const allowed = await checkRateLimitGlobal(rlKey, 5, 3600);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Previše zahteva za checkout. Pokušajte opet za sat vremena.' },
+        { status: 429 },
+      );
     }
 
     const body = (await request.json()) as { planId?: string };

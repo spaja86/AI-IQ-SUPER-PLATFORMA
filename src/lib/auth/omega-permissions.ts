@@ -65,6 +65,17 @@ const PERMISSION_MATRIX: ΩPermissionRule[] = [
     requiredClearance: ΩClearanceLevel.OMEGA_CORE,
     requiredScopes: ['omega_core:access'],
   },
+  // Stripe finansijski endpointi
+  {
+    // Webhook koristi Stripe signature autentifikaciju — dostupan bez Bearer tokena
+    resourcePattern: /^\/api\/stripe\/webhook$/,
+    requiredClearance: ΩClearanceLevel.VISITOR,
+  },
+  {
+    // Checkout i portal zahtevaju prijavljenog korisnika
+    resourcePattern: /^\/api\/stripe\/(checkout|portal)$/,
+    requiredClearance: ΩClearanceLevel.USER,
+  },
 ];
 
 // ΩPermissionMatrix — upravljanje dozvolama
