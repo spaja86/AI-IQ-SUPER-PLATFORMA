@@ -24,6 +24,10 @@ export interface Database {
           preferred_model: ModelId | null;
           preferred_language: string | null;
           memory: string | null;
+          billing_locked: boolean | null;
+          failed_payment_count: number | null;
+          grace_period_expires_at: string | null;
+          last_plan_changed_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -58,6 +62,10 @@ export interface Database {
           preferred_model?: ModelId | null;
           preferred_language?: string | null;
           memory?: string | null;
+          billing_locked?: boolean | null;
+          failed_payment_count?: number | null;
+          grace_period_expires_at?: string | null;
+          last_plan_changed_at?: string | null;
           updated_at?: string;
         };
         Relationships: [];
@@ -639,6 +647,98 @@ export interface Database {
             referencedColumns: ['id'];
           },
         ];
+      };
+      // Dead-letter queue — čuva webhook evente koji padnu za kasniji replay (#7)
+      webhook_dead_letter: {
+        Row: {
+          id: string;
+          event_id: string;
+          event_type: string;
+          payload: string;
+          failure_reason: string;
+          retry_count: number;
+          replayed: boolean;
+          replayed_at: string | null;
+          occurred_at: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          event_id: string;
+          event_type: string;
+          payload: string;
+          failure_reason: string;
+          retry_count?: number;
+          replayed?: boolean;
+          replayed_at?: string | null;
+          occurred_at?: string;
+          created_at?: string;
+        };
+        Update: {
+          retry_count?: number;
+          replayed?: boolean;
+          replayed_at?: string | null;
+        };
+        Relationships: [];
+      };
+      // Korisničke notifikacije za billing promene (#49)
+      user_notifications: {
+        Row: {
+          id: string;
+          user_id: string;
+          type: string;
+          action: string;
+          metadata: Record<string, unknown>;
+          read: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          type?: string;
+          action: string;
+          metadata?: Record<string, unknown>;
+          read?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          read?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'user_notifications_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      // Billing feature flags tabela (#33)
+      billing_feature_flags: {
+        Row: {
+          id: string;
+          naziv: string;
+          enabled: boolean;
+          rollout_pct: number;
+          updated_at: string;
+          updated_by: string | null;
+        };
+        Insert: {
+          id: string;
+          naziv: string;
+          enabled?: boolean;
+          rollout_pct?: number;
+          updated_at?: string;
+          updated_by?: string | null;
+        };
+        Update: {
+          naziv?: string;
+          enabled?: boolean;
+          rollout_pct?: number;
+          updated_at?: string;
+          updated_by?: string | null;
+        };
+        Relationships: [];
       };
     };
     Views: Record<string, never>;

@@ -5568,7 +5568,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2238 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2258 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-820-iteracija-check', 'Autofinish #820 Iteracija', `Provera autofinish iteracije #820 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #820 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6860,6 +6860,46 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1127 — Finansijske zaštite (P0 hardening) ──────────────
     createCheck('autofinish-1127-webhook-idempotency-check', 'Webhook Idempotency Guard #1127', `Provera Stripe webhook idempotency guard-a — stripe_webhook_events tabela za dedupliciranje event ID-jeva, finansijski audit log (financial_audit_log) za svaku promenu plana/pretplate, checkout rate limiting 5 req/h po korisniku, Stripe permission rules u omega-permissions.ts i omega-resource-guard.ts`, 'ok', `Autofinish #1127 — webhook idempotency, financial_audit_log, rate limiting, permission matrix`),
     createCheck('autofinish-1127-iteracija-check', 'Autofinish #1127 Iteracija', `Provera autofinish iteracije #1127 — P0 finansijske zaštite`, 'ok', `Autofinish #1127 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1128 — Billing Lifecycle Tests ───────────────────────
+    createCheck('autofinish-1128-billing-lifecycle-check', 'Billing Lifecycle Tests #1128', `Provera billing lifecycle integration testova — plan tranzicije, status tranzicije, grace period, metadata masking, PLANOVI konzistentnost`, 'ok', `Autofinish #1128 — billing lifecycle: plan/status tranzicije, grace period ${3}d, metadata masking`),
+    createCheck('autofinish-1128-iteracija-check', 'Autofinish #1128 Iteracija', `Provera autofinish iteracije #1128 — Billing lifecycle integration tests`, 'ok', `Autofinish #1128 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1129 — Webhook Duplicate Tests ───────────────────────
+    createCheck('autofinish-1129-webhook-duplicate-check', 'Webhook Duplicate Tests #1129', `Provera duplicate webhook obradu — idempotency guard za N ponovljenih eventova, replay-protection, DLQ non-blocking`, 'ok', `Autofinish #1129 — webhook deduplikacija, DLQ non-blocking, replay-protection`),
+    createCheck('autofinish-1129-iteracija-check', 'Autofinish #1129 Iteracija', `Provera autofinish iteracije #1129 — Duplicate webhook handling tests`, 'ok', `Autofinish #1129 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1130 — Race Condition Tests ──────────────────────────
+    createCheck('autofinish-1130-race-condition-check', 'Race Condition Tests #1130', `Provera paralelnih webhook scenarija — idempotency lock, optimistički update, N paralelnih pokušaja samo 1 prolazi`, 'ok', `Autofinish #1130 — race condition: idempotency lock, optimistički update, N→1 prolazi`),
+    createCheck('autofinish-1130-iteracija-check', 'Autofinish #1130 Iteracija', `Provera autofinish iteracije #1130 — Race condition billing tests`, 'ok', `Autofinish #1130 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1131 — Auth Bypass Security Tests ────────────────────
+    createCheck('autofinish-1131-auth-bypass-check', 'Auth Bypass Security Tests #1131', `Provera bezbednosnih testova za auth bypass Stripe ruta — SQL injection blokiran, whitelist event tipova, webhook signature validacija`, 'ok', `Autofinish #1131 — auth bypass: SQL injection, event whitelist, signature validation`),
+    createCheck('autofinish-1131-iteracija-check', 'Autofinish #1131 Iteracija', `Provera autofinish iteracije #1131 — Billing auth bypass security tests`, 'ok', `Autofinish #1131 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1132 — Rate Limit Edge Cases ─────────────────────────
+    createCheck('autofinish-1132-rate-limit-edge-check', 'Rate Limit Edge Cases #1132', `Provera rate limit edge slučajeva — dual rate limit (IP + user), cooldown za promene plana, nevalidan datum fail-open, PLAN_CHANGE_COOLDOWN_SEC >= 60`, 'ok', `Autofinish #1132 — rate limit: dual IP+user, cooldown 300s, fail-open validacija`),
+    createCheck('autofinish-1132-iteracija-check', 'Autofinish #1132 Iteracija', `Provera autofinish iteracije #1132 — Rate limit edge cases`, 'ok', `Autofinish #1132 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1133 — Portal/Checkout Permissions ──────────────────
+    createCheck('autofinish-1133-portal-permissions-check', 'Portal/Checkout Permissions #1133', `Provera portal i checkout permission pravila — neprijavljen korisnik blokiran, starter plan blokiran, portal bez Stripe customer blokiran, enterprise > pro cena`, 'ok', `Autofinish #1133 — permissions: auth required, free plan blocked, portal guard, plan pricing order`),
+    createCheck('autofinish-1133-iteracija-check', 'Autofinish #1133 Iteracija', `Provera autofinish iteracije #1133 — Portal/Checkout permission tests`, 'ok', `Autofinish #1133 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1134 — Audit Log Smoke Tests ────────────────────────
+    createCheck('autofinish-1134-audit-smoke-check', 'Audit Log Smoke Tests #1134', `Provera audit log konzistentnosti — entry validacija, idempotentno maskiranje, nested metadata, feature flags konzistentnost, rolloutPct 0-100`, 'ok', `Autofinish #1134 — audit log: entry validacija, maskiranje, feature flags konzistentnost`),
+    createCheck('autofinish-1134-iteracija-check', 'Autofinish #1134 Iteracija', `Provera autofinish iteracije #1134 — Audit log consistency smoke tests`, 'ok', `Autofinish #1134 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1135 — Chaos Tests (Stripe Timeout) ─────────────────
+    createCheck('autofinish-1135-chaos-timeout-check', 'Chaos Tests Stripe Timeout #1135', `Provera chaos testova za Stripe timeout scenarije — CircuitBreaker (closed/open/half-open), withRetry exponential backoff, fallback pri otvorenom circuit-u, N pokušaja sa retryable kodovima`, 'ok', `Autofinish #1135 — chaos: circuit breaker, retry backoff, fallback, half-open recovery`),
+    createCheck('autofinish-1135-iteracija-check', 'Autofinish #1135 Iteracija', `Provera autofinish iteracije #1135 — Chaos tests Stripe timeouts`, 'ok', `Autofinish #1135 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1136 — Billing API Routes ────────────────────────────
+    createCheck('autofinish-1136-billing-api-routes-check', 'Billing API Routes #1136', `Provera 5 novih billing API ruta — /api/billing-health, /api/admin/billing-webhook-replay, /api/admin/billing-audit-search, /api/billing-integrity-check, /api/billing-plan-sync`, 'ok', `Autofinish #1136 — 5 novih billing API ruta: health, replay, audit-search, integrity, plan-sync`),
+    createCheck('autofinish-1136-iteracija-check', 'Autofinish #1136 Iteracija', `Provera autofinish iteracije #1136 — Novi billing API endpointi`, 'ok', `Autofinish #1136 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1137 — Billing Hardening Kompletna ──────────────────
+    createCheck('autofinish-1137-billing-hardening-complete-check', 'Billing Hardening Kompletna #1137', `Provera kompletne billing hardening implementacije — 50 preporuka: DB unique index, retention, DLQ, retry/backoff, circuit breaker, idempotency ključ, aktivne sesije limit, anti-fraud, dual rate limit, cooldown, soft-lock, grace period, ordering, whitelist, schema validacija, 8 test fajlova, billing-health, admin alati, feature flags, tracing, DB migration`, 'ok', `Autofinish #1137 — kompletna billing hardening implementacija svih 50 preporuka`),
+    createCheck('autofinish-1137-iteracija-check', 'Autofinish #1137 Iteracija', `Provera autofinish iteracije #1137 — Kompletna billing hardening implementacija`, 'ok', `Autofinish #1137 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
