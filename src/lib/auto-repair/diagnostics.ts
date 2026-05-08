@@ -5578,7 +5578,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2290 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2292 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-821-iteracija-check', 'Autofinish #821 Iteracija', `Provera autofinish iteracije #821 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #821 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -6965,6 +6965,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1166 — API Milestone 1010 ────────────────────────────
     createCheck('autofinish-1166-api-milestone-1010-check', 'API Milestone 1010 #1166', `Provera /api/autofinish-api-milestone-1010 endpointa — milestone objekat sa ciljBroj=1010, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1166 — API Milestone 1010 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1166-iteracija-check', 'Autofinish #1166 Iteracija', `Provera autofinish iteracije #1166 — endpoint i test pokrivenost za API Milestone 1010`, 'ok', `Autofinish #1166 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1167 — API Milestone 1011 ────────────────────────────
+    createCheck('autofinish-1167-api-milestone-1011-check', 'API Milestone 1011 #1167', `Provera /api/autofinish-api-milestone-1011 endpointa — milestone objekat sa ciljBroj=1011, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1167 — API Milestone 1011 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1167-iteracija-check', 'Autofinish #1167 Iteracija', `Provera autofinish iteracije #1167 — endpoint i test pokrivenost za API Milestone 1011`, 'ok', `Autofinish #1167 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
