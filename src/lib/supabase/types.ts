@@ -28,6 +28,7 @@ export interface Database {
           failed_payment_count: number | null;
           grace_period_expires_at: string | null;
           last_plan_changed_at: string | null;
+          paypal_subscription_id: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -66,6 +67,7 @@ export interface Database {
           failed_payment_count?: number | null;
           grace_period_expires_at?: string | null;
           last_plan_changed_at?: string | null;
+          paypal_subscription_id?: string | null;
           updated_at?: string;
         };
         Relationships: [];
@@ -782,6 +784,25 @@ export interface Database {
           rollout_pct?: number;
           updated_at?: string;
           updated_by?: string | null;
+        };
+        Relationships: [];
+      };
+      // PayPal idempotency store — čuva obrađene PayPal event ID-jeve
+      paypal_webhook_events: {
+        Row: {
+          id: string;
+          event_id: string;
+          event_type: string;
+          processed_at: string;
+        };
+        Insert: {
+          id?: string;
+          event_id: string;
+          event_type: string;
+          processed_at?: string;
+        };
+        Update: {
+          event_type?: string;
         };
         Relationships: [];
       };

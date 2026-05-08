@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       .from('profiles')
       .select('paypal_subscription_id')
       .eq('id', user.id)
-      .single() as unknown as { data: { paypal_subscription_id: string | null } | null };
+      .single();
 
     if (!profile?.paypal_subscription_id) {
       return NextResponse.json({ error: 'Nemate aktivnu PayPal pretplatu.' }, { status: 400 });

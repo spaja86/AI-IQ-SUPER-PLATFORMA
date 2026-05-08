@@ -14,6 +14,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { getPayPalPlanByPayPalId, getPayPalAccessToken, PAYPAL_API_BASE } from '@/lib/paypal/config';
 import { processBillingEvent } from '@/lib/billing/orchestration';
 import type { BillingEvent } from '@/lib/billing/events';
+import type { PlanTip } from '@/lib/supabase/types';
 import { randomUUID } from 'crypto';
 
 const ALLOWED_PAYPAL_EVENT_TYPES = new Set([
@@ -102,11 +103,15 @@ export async function POST(request: NextRequest) {
   }
 
   // Zabilježi event
-  await supabase.from('paypal_webhook_events').insert({
-    event_id: event.id,
-    event_type: event.event_type,
-    processed_at: new Date().toISOString(),
-  }).throwOnError().then(() => {}).catch(() => {});
+  try {
+    await supabase.from('paypal_webhook_events').insert({
+      event_id: event.id,
+      event_type: event.event_type,
+      processed_at: new Date().toISOString(),
+    });
+  } catch {
+    // Ne blokiraj obradu ako insert ne uspe
+  }
 
   const resource = event.resource;
 
@@ -121,12 +126,12 @@ export async function POST(request: NextRequest) {
       const planTip = plan?.id ?? 'starter';
 
       if (userId) {
-        await (supabase.from('profiles').update({
-          plan: planTip,
+        await supabase.from('profiles').update({
+          plan: planTip as PlanTip,
           subscription_status: 'active',
           paypal_subscription_id: subscriptionId,
           chat_messages_limit: plan?.cenaEur === 0 ? 10 : plan?.cenaEur === 9 ? 100 : plan?.cenaEur === 29 ? 1000 : plan?.cenaEur === 99 ? 10000 : 999999,
-        } as unknown as Record<string, unknown>).eq('id', userId));
+        }).eq('id', userId);
 
         const billingEvent: BillingEvent = {
           id: randomUUID(),
@@ -146,7 +151,7 @@ export async function POST(request: NextRequest) {
       const { data: profiles } = await supabase
         .from('profiles')
         .select('id')
-        .eq('paypal_subscription_id' as unknown as string, subscriptionId);
+        .eq('paypal_subscription_id', subscriptionId);
 
       for (const profile of profiles ?? []) {
         await supabase.from('profiles').update({
@@ -173,7 +178,7 @@ export async function POST(request: NextRequest) {
         const { data: profiles } = await supabase
           .from('profiles')
           .select('id')
-          .eq('paypal_subscription_id' as unknown as string, billingAgreementId);
+          .eq('paypal_subscription_id', billingAgreementId);
 
         for (const profile of profiles ?? []) {
           const billingEvent: BillingEvent = {
