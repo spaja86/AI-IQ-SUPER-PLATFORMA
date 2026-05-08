@@ -5,9 +5,8 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { getKompjuterStatistika, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB, KOMPJUTER_VRAM_GB } from '@/lib/spaja-digitalni-kompjuter';
 import { igrice } from '@/lib/igrice';
-import { dimenzije as dimenzijeSistem } from '@/lib/dimenzije';
 
-const GamingEndzin = dynamic(() => import('./gaming/GamingEndzin'), { ssr: false });
+const ProzorViewer = dynamic(() => import('./ProzorViewer'), { ssr: false });
 
 // ─── Dimenzije ───────────────────────────────────────────────────────
 
@@ -965,7 +964,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           {activeTab.dimenzija}
         </span>
         <span className="rounded-full bg-green-600/20 px-2 py-0.5 text-xs text-green-400">
-          ▶ Igra u Brouvzeru
+          ▶ DIGITALNI PROZOR aktivan
         </span>
         <button
           onClick={() => updateTab(activeTab.id, { dimenzija: null })}
@@ -1005,21 +1004,17 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           const isActive = tab.id === activeTabId;
 
           // ── Gaming Engine tab ──
-          if (tab.isIgra && tab.igricaId && tab.dimenzija) {
-            const igricaObj = igrice.find((i) => i.id === tab.igricaId);
-            const dimenzijaPun = dimenzijeSistem.find((d) => d.nivo === tab.dimenzija);
-            if (!igricaObj || !dimenzijaPun) return null;
+          if (tab.isIgra && tab.igricaId) {
             return (
               <div
                 key={tab.id}
                 className="absolute inset-0 overflow-hidden"
                 style={{ visibility: isActive ? 'visible' : 'hidden', pointerEvents: isActive ? 'auto' : 'none' }}
               >
-                <GamingEndzin
-                  igrica={igricaObj}
-                  dimenzija={dimenzijaPun}
-                  onPromeniDimenziju={() => updateTab(tab.id, { dimenzija: null })}
-                  onIzlaz={() => updateTab(tab.id, { url: '', title: 'Novi Tab', isIgra: false, igricaId: undefined, dimenzija: null })}
+                <ProzorViewer
+                  igricaId={tab.igricaId}
+                  dimenzija={tab.dimenzija ?? undefined}
+                  onNazadUBrouvzer={() => updateTab(tab.id, { url: '', title: 'Novi Tab', isIgra: false, igricaId: undefined, dimenzija: null })}
                 />
               </div>
             );
