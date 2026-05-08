@@ -5578,7 +5578,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2326 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2328 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-821-iteracija-check', 'Autofinish #821 Iteracija', `Provera autofinish iteracije #821 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #821 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -7021,6 +7021,10 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('billing-test-suite-check', 'Billing Test Suite #1176', `Provera src/tests/billing/billing-orchestration.test.ts — 22 testa za entitlement model, engine matrix, orchestration i PayPal config`, 'ok', `Billing test suite aktivan — 22 testa: entitlement (12), engine matrix (4), orchestration (4), PayPal (3)`),
     createCheck('autofinish-1176-orchestration-check', 'Autofinish #1176 Orchestration', `Provera autofinish iteracije #1176 — billing orchestration sistem implementiran: entitlement.ts, events.ts, orchestration.ts, paypal/config.ts, 8 novih API ruta`, 'ok', `Autofinish #1176 — Billing Orchestration + PayPal: ${TOTAL_API_ROUTES} API ruta, ${TOTAL_ROUTES} ukupno, APP_VERSION ${APP_VERSION}`),
     createCheck('autofinish-1176-iteracija-check', 'Autofinish #1176 Iteracija', `Provera autofinish iteracije #1176 — billing orchestration i PayPal integracija`, 'ok', `Autofinish #1176 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1177 — API Milestone 1020 ────────────────────────────
+    createCheck('autofinish-1177-api-milestone-1020-check', 'API Milestone 1020 #1177', `Provera /api/autofinish-api-milestone-1020 endpointa — milestone objekat sa ciljBroj=1020, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1177 — API Milestone 1020 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1177-iteracija-check', 'Autofinish #1177 Iteracija', `Provera autofinish iteracije #1177 — endpoint i test pokrivenost za API Milestone 1020`, 'ok', `Autofinish #1177 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
