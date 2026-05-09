@@ -349,20 +349,20 @@ async function runTests(): Promise<void> {
   });
 
   // ── Konstante ───────────────────────────────────────────────────────────
-  await test('AUTOFINISH_COUNT je 1190', () => {
-    assert(AUTOFINISH_COUNT === 1190, `AUTOFINISH_COUNT expected 1190, got ${AUTOFINISH_COUNT}`);
+  await test('AUTOFINISH_COUNT je 1191', () => {
+    assert(AUTOFINISH_COUNT === 1191, `AUTOFINISH_COUNT expected 1191, got ${AUTOFINISH_COUNT}`);
   });
 
-  await test('TOTAL_API_ROUTES je 1043', () => {
-    assert(TOTAL_API_ROUTES === 1043, `TOTAL_API_ROUTES expected 1043, got ${TOTAL_API_ROUTES}`);
+  await test('TOTAL_API_ROUTES je 1044', () => {
+    assert(TOTAL_API_ROUTES === 1044, `TOTAL_API_ROUTES expected 1044, got ${TOTAL_API_ROUTES}`);
   });
 
-  await test('TOTAL_ROUTES je 1102', () => {
-    assert(TOTAL_ROUTES === 1102, `TOTAL_ROUTES expected 1102, got ${TOTAL_ROUTES}`);
+  await test('TOTAL_ROUTES je 1103', () => {
+    assert(TOTAL_ROUTES === 1103, `TOTAL_ROUTES expected 1103, got ${TOTAL_ROUTES}`);
   });
 
-  await test('TOTAL_DIAGNOSTIKA je 2354', () => {
-    assert(TOTAL_DIAGNOSTIKA === 2354, `TOTAL_DIAGNOSTIKA expected 2354, got ${TOTAL_DIAGNOSTIKA}`);
+  await test('TOTAL_DIAGNOSTIKA je 2356', () => {
+    assert(TOTAL_DIAGNOSTIKA === 2356, `TOTAL_DIAGNOSTIKA expected 2356, got ${TOTAL_DIAGNOSTIKA}`);
   });
 
   // ── Finalni izveštaj ─────────────────────────────────────────────────────
