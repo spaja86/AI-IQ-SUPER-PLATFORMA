@@ -52,6 +52,7 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true` i `SPAJA_VERCEL_ENTERPRISE_REQUESTED=true`
 - [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja Vercel sales forme
 - [ ] `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja GitHub enterprise forme
+- [ ] `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true` nakon podnošenja OpenAI enterprise + partnerskog zahteva
 
 ### Vercel Cron
 - [ ] `vercel.json` cron konfiguracija aktivna:
@@ -158,6 +159,7 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] Vercel Enterprise readiness paket pripremljen i poslat iz operativnog naloga
 - [ ] `/api/enterprise-zahtevi` pregledan i copy/paste sadržaj unet u `https://vercel.com/contact/sales`
 - [ ] `/api/enterprise-zahtevi` pregledan i copy/paste sadržaj unet u `https://github.com/enterprises/contact`
+- [ ] `/api/enterprise-zahtevi` pregledan i Nikola Spajić (spajicn@yahoo.com) podneo OpenAI Enterprise + partnerski zahtev na `https://openai.com/business/`
 
 ---
 

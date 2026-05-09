@@ -97,7 +97,7 @@ export async function GET() {
       { id: 'openai-gov-003', naziv: 'Revizija sistem', status: 'ok', opis: 'Logovanje aktivnosti, trag pristupa, nepromenljivi logovi, forenzicka analiza, 3.5M revizija, 10 god cuvanje' },
       { id: 'openai-gov-004', naziv: 'Rizik menadzer', status: 'ok', opis: 'Procena rizika, kategorizacija, mitigacioni planovi, kontinuirani monitoring, 180K rizika, < 200ms odgovor' },
       { id: 'openai-gov-005', naziv: 'Upravljanje resursima', status: 'ok', opis: 'Kvote korisnika, alokacija resursa, dinamicko skaliranje, pravedna raspodela, 2.8M resursa, 87.3% iskoriscenost' },
-      { id: 'openai-gov-006', naziv: 'Enterprise request paketi', status: enterpriseZahtevi.every((paket) => paket.status !== 'u_pripremi') ? 'ok' : 'warning', opis: 'Vercel i GitHub enterprise paketi pripremljeni preko kompanijskih mejlova i zvaničnih contact form kanala' },
+      { id: 'openai-gov-006', naziv: 'Enterprise request paketi', status: enterpriseZahtevi.every((paket) => paket.status !== 'u_pripremi') ? 'ok' : 'warning', opis: 'Vercel, GitHub i OpenAI enterprise paketi pripremljeni preko kompanijskih mejlova i zvaničnih contact form kanala (OpenAI: https://openai.com/business/)' },
     ],
 
     timestamp: new Date().toISOString(),

@@ -160,11 +160,12 @@ async function runTests(): Promise<void> {
   // ── 2b. Enterprise request paketi ──────────────────────────────────────────
   console.log('\n🏢 Enterprise request paketi');
 
-  await test('Vercel i GitHub enterprise paketi su definisani', () => {
+  await test('Vercel, GitHub i OpenAI enterprise paketi su definisani', () => {
     const paketi = getEnterpriseZahtevi();
-    assertEqual(paketi.length, 2, 'moraju postojati 2 enterprise paketa');
+    assertEqual(paketi.length, 3, 'moraju postojati 3 enterprise paketa');
     assert(paketi.some((paket) => paket.id === 'vercel'), 'mora postojati Vercel paket');
     assert(paketi.some((paket) => paket.id === 'github'), 'mora postojati GitHub paket');
+    assert(paketi.some((paket) => paket.id === 'openai'), 'mora postojati OpenAI paket');
   });
 
   await test('Enterprise paketi koriste kompanijske mejlove i zvanične kanale', () => {
@@ -177,6 +178,17 @@ async function runTests(): Promise<void> {
       assert(paket.naslov.length > 20, `${paket.id} naslov mora biti smislen`);
       assert(paket.telo.includes('Kompanija SPAJA'), `${paket.id} telo mora pomenuti kompaniju`);
     }
+  });
+
+  await test('OpenAI paket sadrži owner nalog i partnerske opcije', () => {
+    const paketi = getEnterpriseZahtevi();
+    const openai = paketi.find((paket) => paket.id === 'openai');
+    assertDefined(openai, 'openai paket');
+    assert(openai.telo.includes('spajicn@yahoo.com'), 'telo mora pomenuti primarni owner nalog');
+    assert(openai.telo.includes('SpajaPro'), 'telo mora pomenuti SpajaPro');
+    assert(openai.trazeniPlanovi.some((p) => p.includes('Enterprise')), 'mora tražiti Enterprise plan');
+    assert(openai.cc.includes('spajicn@yahoo.com'), 'primarni owner mora biti u CC');
+    assert(openai.kanalPodnosenja.url.includes('openai.com'), 'kanal mora biti openai.com');
   });
 
   // ── 3. Billing — Stripe Planovi ───────────────────────────────────────────

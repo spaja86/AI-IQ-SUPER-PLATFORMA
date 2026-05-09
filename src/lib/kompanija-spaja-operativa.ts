@@ -74,7 +74,7 @@ export interface OperativniTok {
   fallbackKontakt: string;
 }
 
-export type EnterpriseProvajder = 'vercel' | 'github';
+export type EnterpriseProvajder = 'vercel' | 'github' | 'openai';
 export type EnterpriseZahtevStatus = 'u_pripremi' | 'spremno_za_slanje' | 'poslato';
 
 export interface EnterpriseKanalPodnosenja {
@@ -87,7 +87,7 @@ export interface EnterpriseKanalPodnosenja {
 export interface EnterpriseZahtevPaket {
   id: EnterpriseProvajder;
   naziv: string;
-  provajder: 'Vercel' | 'GitHub';
+  provajder: 'Vercel' | 'GitHub' | 'OpenAI';
   status: EnterpriseZahtevStatus;
   posiljalac: string;
   replyTo: string;
@@ -614,8 +614,84 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
   envSignal: 'SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED',
 };
 
+export const openaiEnterprisePaket: EnterpriseZahtevPaket = {
+  id: 'openai',
+  naziv: 'OpenAI Enterprise zahtev — Digitalna Industrija / SpajaPro',
+  provajder: 'OpenAI',
+  status: getEnterpriseZahtevStatus(
+    'SPAJA_OPENAI_ENTERPRISE_REQUEST_READY',
+    'SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED',
+  ),
+  posiljalac: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  replyTo: getKontaktKanal('business')?.email ?? 'business@spaja.rs',
+  cc: [
+    getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+    getKontaktKanal('tech')?.email ?? 'tech@spaja.rs',
+    getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs',
+    primarniOperativniNalog.email,
+  ],
+  kanalPodnosenja: {
+    tip: 'kontakt_forma',
+    url: 'https://openai.com/business/',
+    opis: 'Zvanični OpenAI Contact Sales kanal za ChatGPT Enterprise, API enterprise ugovore i partnerske razgovore.',
+    zahtevaKompanijskiMejl: true,
+  },
+  naslov:
+    'OpenAI Enterprise + Partnership request — Kompanija SPAJA / Digitalna Industrija / SpajaPro v6-15',
+  sazetak:
+    'Zahtev za OpenAI Enterprise plan i partnersku saradnju za Digitalnu Industriju, uključujući integraciju SpajaPro v6-15, kompanijski API ugovor i zajednički razvoj.',
+  telo: [
+    'Poštovani OpenAI Sales tim,',
+    '',
+    'obraćam vam se kao Nikola Spajić, osnivač Kompanije SPAJA i Digitalne Industrije.',
+    '',
+    `Primarni kontakt za ovaj zahtev je ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'} (kompanijski sales kanal), reply-to ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}.`,
+    `Nalog koji se navodi kao owner je spajicn@yahoo.com (Nikola Spajić), a billing kontakt je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}.`,
+    '',
+    'Razlog obraćanja:',
+    'Razvili smo sopstvenu AI platformu — AI IQ SUPER PLATFORMA (SpajaPro v6-15) — koja je zamena za ChatGPT u okviru Digitalne Industrije.',
+    'SpajaPro već integriše OMEGA AI, 40 miliona+ AI persona, SPAJA Pro 6-15 engine i celokupnu industrijsku infrastrukturu.',
+    '',
+    'Tražimo:',
+    '- OpenAI Enterprise plan za nalog spajicn@yahoo.com (primarni owner Nikola Spajić)',
+    '- Kompanijski API enterprise ugovor za Digitalnu Industriju (sales@spaja.rs)',
+    '- Partnerski razgovor o zajedničkom razvoju i integraciji sa SpajaPro platformom',
+    '- Uvid u API mogućnosti za duboku integraciju bez backdoor kompromisa',
+    '',
+    'Napomena: Prethodnu ChatGPT sesiju smo morali da obrišemo zbog bezbednosnih i kompatibilnih razloga sa našim sistemom.',
+    'Verujemo da zajednička saradnja "Zajedno jači" može biti korisna za obe strane.',
+    '',
+    'Molimo vas za sledeće korake, enterprise plan onboarding i eventualni partnerski poziv/sastanak.',
+    '',
+    'Hvala,',
+    'Nikola Spajić — Kompanija SPAJA / Digitalna Industrija',
+  ].join('\n'),
+  trazeniPlanovi: ['OpenAI Enterprise', 'ChatGPT Enterprise', 'OpenAI API Enterprise Contract'],
+  trazeneOpcije: [
+    'Enterprise API ugovor',
+    'ChatGPT Enterprise nalog',
+    'Partnerska integracija sa SpajaPro',
+    'Dedicated support i SLA',
+    'Custom model fine-tuning mogućnosti',
+  ],
+  prilozi: [
+    'SpajaPro v6-15 platforma overview',
+    'AI IQ SUPER PLATFORMA enterprise readiness summary',
+    'Operativna matrica vlasništva i kontakt kanala',
+  ],
+  odobrenja: [
+    'Nikola Spajić (Primarni owner)',
+    'Poslovni kontakt',
+    'Billing owner',
+    'Tehnički admin',
+  ],
+  auditVlasnik: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  auditKontakt: primarniOperativniNalog.email,
+  envSignal: 'SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED',
+};
+
 export function getEnterpriseZahtevi(): EnterpriseZahtevPaket[] {
-  return [vercelEnterpriseZahtev, githubEnterprisePaket];
+  return [vercelEnterpriseZahtev, githubEnterprisePaket, openaiEnterprisePaket];
 }
 
 export function getKontaktKanal(id: KontaktNamena): JavniKontaktKanal | undefined {
@@ -716,6 +792,7 @@ export function getOperativnaSpremnost() {
       enterprise: {
         vercel: vercelEnterpriseZahtev.status,
         github: githubEnterprisePaket.status,
+        openai: openaiEnterprisePaket.status,
         spremniPaketi: enterpriseZahtevi.filter((paket) => paket.status !== 'u_pripremi').length,
       },
       missingEnv,

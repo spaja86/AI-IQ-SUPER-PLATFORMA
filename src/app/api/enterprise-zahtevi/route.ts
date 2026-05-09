@@ -8,10 +8,10 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'aktivan',
-    naziv: 'Enterprise Zahtevi — Vercel i GitHub',
+    naziv: 'Enterprise Zahtevi — Vercel, GitHub i OpenAI',
     verzija: APP_VERSION,
     opis:
-      'Ready-to-send enterprise paketi za Vercel i GitHub, pripremljeni za slanje preko kompanijskih mejlova i zvaničnih sales/contact formi.',
+      'Ready-to-send enterprise paketi za Vercel, GitHub i OpenAI, pripremljeni za slanje preko kompanijskih mejlova i zvaničnih sales/contact formi.',
     kompanija: operativa.primarniOperativniNalog.kompanija,
     primarniFallback: operativa.primarniOperativniNalog.email,
     posiljalac: {
@@ -34,7 +34,7 @@ export async function GET() {
       })),
     },
     napomena:
-      'Vercel i GitHub u ovom modelu koriste zvanične sales/contact forme; kompanijski mejlovi su pripremljeni kao work-email sender, reply-to i audit kontakti.',
+      'Vercel i GitHub koriste zvanične sales/contact forme; OpenAI se kontaktira kroz https://openai.com/business/; kompanijski mejlovi su work-email sender, reply-to i audit kontakti.',
     timestamp: new Date().toISOString(),
   });
 }

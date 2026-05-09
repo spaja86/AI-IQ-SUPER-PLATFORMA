@@ -178,6 +178,7 @@
 - [ ] Potvrditi GitHub governance matricu (`spaja86` owner, billing owner, repo admin backup, workflow owner, security kontakt)
 - [ ] Otvoriti `/api/enterprise-zahtevi` i iz kompanijskih mejlova podneti Vercel zahtev preko `https://vercel.com/contact/sales`
 - [ ] Otvoriti `/api/enterprise-zahtevi` i iz kompanijskih mejlova podneti GitHub zahtev preko `https://github.com/enterprises/contact`
+- [ ] Otvoriti `/api/enterprise-zahtevi` i kao Nikola Spajić (spajicn@yahoo.com) podneti OpenAI Enterprise + partnerski zahtev preko `https://openai.com/business/`
 
 ### 📊 Monitoring
 
@@ -356,6 +357,7 @@ Deployment je dozvoljen samo ako prođu:
 - [ ] Proveriti `operativnaSpremnost` u `GET /api/health` i `GET /api/status` — mail/vercel/github/support ne smeju biti `blokirano`
 - [ ] Poslati test mejlove na `support@spaja.rs`, `billing@spaja.rs`, `sales@spaja.rs` i proveriti fallback na `spajicn@yahoo.com`
 - [ ] Nakon slanja enterprise formi postaviti `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` i `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true`
+- [ ] Nakon slanja OpenAI enterprise forme kao Nikola Spajić postaviti `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true`
 
 ### Prva sedmica
 - [ ] Dnevni pregled Vercel Analytics
