@@ -275,6 +275,38 @@ async function runTests(): Promise<void> {
     assert(body['verzija'] === APP_VERSION, 'verzija mora biti tačna');
   });
 
+  await test('GET /api/poslovni-tok vraća ličnu statistiku i evidenciju rikvestova', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      licnaStatistika?: Record<string, unknown>;
+      evidencijaRikvestova?: Array<Record<string, unknown>>;
+    };
+
+    assert(body.licnaStatistika !== undefined, 'licnaStatistika mora biti prisutna');
+    assert(body.evidencijaRikvestova !== undefined, 'evidencijaRikvestova mora biti prisutna');
+    assert(Array.isArray(body.evidencijaRikvestova), 'evidencijaRikvestova mora biti niz');
+    assert(
+      Number(body.licnaStatistika?.ukupnoRikvestova ?? 0) >= 4,
+      'ukupnoRikvestova mora obuhvatiti OpenAI, Vercel, GitHub i Lamborghini',
+    );
+  });
+
+  await test('GET /api/poslovni-tok evidencija sadrži OpenAI, Vercel, GitHub i Lamborghini', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      evidencijaRikvestova?: Array<{ id?: string; naziv?: string }>;
+    };
+    const evidencija = body.evidencijaRikvestova ?? [];
+
+    assert(evidencija.some((item) => item.id === 'openai'), 'mora sadržati OpenAI evidenciju');
+    assert(evidencija.some((item) => item.id === 'vercel'), 'mora sadržati Vercel evidenciju');
+    assert(evidencija.some((item) => item.id === 'github'), 'mora sadržati GitHub evidenciju');
+    assert(
+      evidencija.some((item) => (item.naziv ?? '').toLowerCase().includes('lamborghini')),
+      'mora sadržati Lamborghini evidenciju',
+    );
+  });
+
   await test('GET /api/kpi-dashboard vraća 200', async () => {
     const response = await getKpiDashboard();
     assert(response.status === 200, `status expected 200, got ${response.status}`);
