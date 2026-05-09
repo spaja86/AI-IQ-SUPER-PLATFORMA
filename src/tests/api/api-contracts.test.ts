@@ -188,7 +188,7 @@ async function runTests(): Promise<void> {
     assert(openai.telo.includes('SpajaPro'), 'telo mora pomenuti SpajaPro');
     assert(openai.trazeniPlanovi.some((p) => p.includes('Enterprise')), 'mora tražiti Enterprise plan');
     assert(openai.cc.includes('spajicn@yahoo.com'), 'primarni owner mora biti u CC');
-    assert(new URL(openai.kanalPodnosenja.url).hostname.endsWith('openai.com'), 'kanal mora biti openai.com domen');
+    assert(new URL(openai.kanalPodnosenja.url).hostname === 'openai.com', 'kanal mora biti tačno openai.com domen');
   });
 
   // ── 3. Billing — Stripe Planovi ───────────────────────────────────────────
