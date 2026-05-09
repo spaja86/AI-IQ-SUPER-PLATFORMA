@@ -31,22 +31,21 @@ interface ChecklistPayload {
 }
 
 export default function ProcurementB2BDashboardKlijent() {
-  const [sesija, setSesija] = useState<OmegaSesija | null>(() => {
+  const [sesija] = useState<OmegaSesija | null>(() => {
     if (typeof window === 'undefined') return null;
     return dohvatiSesiju();
+  });
+  const [loading, setLoading] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    return !!dohvatiSesiju()?.token;
   });
   const [cases, setCases] = useState<B2BCaseUI[]>([]);
   const [checklist, setChecklist] = useState<B2BChecklistStavka[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const active = dohvatiSesiju();
-    setSesija(active);
-    if (!active?.token) {
-      setLoading(false);
-      return;
-    }
+    const active = sesija;
+    if (!active?.token) return;
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${active.token}`,
@@ -68,7 +67,7 @@ export default function ProcurementB2BDashboardKlijent() {
         setError(e instanceof Error ? e.message : 'Neočekivana greška.');
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [sesija]);
 
   const checklistById = useMemo(() => new Map(checklist.map((item) => [item.caseId, item])), [checklist]);
 

@@ -612,17 +612,19 @@ export async function patchB2BProcurementCase(input: {
   const now = new Date().toISOString();
   const next = cloneCase(found);
 
-  switch (input.action.type) {
+  const action = input.action;
+  switch (action.type) {
     case 'offer_upsert': {
-      const existingIdx = next.ponude.findIndex((offer) => offer.id === input.action.payload.id);
+      const payload = action.payload;
+      const existingIdx = next.ponude.findIndex((offer) => offer.id === payload.id);
       const offer: B2BOffer = {
-        id: input.action.payload.id ?? crypto.randomUUID(),
-        izvor: input.action.payload.izvor,
-        cena: input.action.payload.cena,
-        valuta: input.action.payload.valuta,
-        fullOpremaStavke: input.action.payload.fullOpremaStavke,
-        vaziDo: input.action.payload.vaziDo,
-        status: input.action.payload.status,
+        id: payload.id ?? crypto.randomUUID(),
+        izvor: payload.izvor,
+        cena: payload.cena,
+        valuta: payload.valuta,
+        fullOpremaStavke: payload.fullOpremaStavke,
+        vaziDo: payload.vaziDo,
+        status: payload.status,
         createdAt: now,
       };
       if (existingIdx >= 0) next.ponude[existingIdx] = offer;
@@ -630,58 +632,64 @@ export async function patchB2BProcurementCase(input: {
       break;
     }
     case 'negotiation_add': {
+      const payload = action.payload;
       next.pregovori.unshift({
-        id: input.action.payload.id ?? crypto.randomUUID(),
-        kanal: input.action.payload.kanal,
-        napomena: input.action.payload.napomena,
-        sledeciKorak: input.action.payload.sledeciKorak ?? null,
-        odgovornaOsoba: input.action.payload.odgovornaOsoba,
+        id: payload.id ?? crypto.randomUUID(),
+        kanal: payload.kanal,
+        napomena: payload.napomena,
+        sledeciKorak: payload.sledeciKorak ?? null,
+        odgovornaOsoba: payload.odgovornaOsoba,
         createdAt: now,
       });
       break;
     }
     case 'document_update': {
-      const idx = next.dokumentacija.findIndex((doc) => doc.kljuc === input.action.payload.kljuc);
-      if (idx < 0) return { error: `Dokument nije pronađen: ${input.action.payload.kljuc}` };
+      const payload = action.payload;
+      const idx = next.dokumentacija.findIndex((doc) => doc.kljuc === payload.kljuc);
+      if (idx < 0) return { error: `Dokument nije pronađen: ${payload.kljuc}` };
       next.dokumentacija[idx] = {
         ...next.dokumentacija[idx],
-        status: input.action.payload.status,
-        verifikovao: input.action.payload.verifikovao ?? next.dokumentacija[idx].verifikovao,
+        status: payload.status,
+        verifikovao: payload.verifikovao ?? next.dokumentacija[idx].verifikovao,
         updatedAt: now,
       };
       break;
     }
     case 'approval_update': {
-      const idx = next.odobrenja.findIndex((approval) => approval.kljuc === input.action.payload.kljuc);
-      if (idx < 0) return { error: `Approval nije pronađen: ${input.action.payload.kljuc}` };
+      const payload = action.payload;
+      const idx = next.odobrenja.findIndex((approval) => approval.kljuc === payload.kljuc);
+      if (idx < 0) return { error: `Approval nije pronađen: ${payload.kljuc}` };
       next.odobrenja[idx] = {
         ...next.odobrenja[idx],
-        status: input.action.payload.status,
-        odobrio: input.action.payload.odobrio ?? next.odobrenja[idx].odobrio,
+        status: payload.status,
+        odobrio: payload.odobrio ?? next.odobrenja[idx].odobrio,
         updatedAt: now,
       };
       break;
     }
     case 'payment_update': {
+      const payload = action.payload;
       next.payment = {
         ...next.payment,
-        ...input.action.payload,
+        ...payload,
         updatedAt: now,
       };
       break;
     }
     case 'delivery_update': {
+      const payload = action.payload;
       next.delivery = {
         ...next.delivery,
-        ...input.action.payload,
+        ...payload,
         updatedAt: now,
       };
       break;
     }
     case 'status_transition': {
-      const check = canTransition(next, input.action.payload.status);
+      const payload = action.payload;
+      const check = canTransition(next, payload.status);
       if (!check.ok) return { error: check.reason ?? 'Status tranzicija nije dozvoljena.' };
-      next.status = input.action.payload.status;
+      next.status = payload.status;
       break;
     }
     default:
