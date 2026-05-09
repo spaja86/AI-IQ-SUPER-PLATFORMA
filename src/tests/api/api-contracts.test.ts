@@ -22,6 +22,14 @@ import {
 } from '../../lib/evolucija/engine';
 import { APP_VERSION } from '../../lib/constants';
 import { getEnterpriseZahtevi } from '../../lib/kompanija-spaja-operativa';
+import {
+  buildKomunikacioniSablon,
+  canTransition,
+  createB2BProcurementCase,
+  getB2BProcurementChecklist,
+  getB2BProcurementCaseById,
+  patchB2BProcurementCase,
+} from '../../lib/b2b-procurement-workflow';
 
 // ─── Minimal test runner ──────────────────────────────────────────────────────
 
@@ -215,6 +223,127 @@ async function runTests(): Promise<void> {
     assert(github.telo.includes('GitHub agente'), 'github telo mora pomenuti GitHub agente');
     assert(github.telo.includes('kupovinu licenci'), 'github telo mora pomenuti kupovinu licenci');
     assert(github.trazeneOpcije.includes('GitHub agent enablement'), 'github opcije moraju pokriti agente');
+  });
+
+  // ── 2c. Internal B2B procurement workflow ───────────────────────────────────
+  console.log('\n🏎️ Internal B2B procurement workflow');
+
+  const procurementCase = await createB2BProcurementCase({
+    partner: {
+      naziv: 'Test Partner Srbija',
+      tip: 'ovlasceni_diler',
+      trziste: 'Srbija',
+      kanalKontakta: 'sales@spaja.rs',
+    },
+    vozilo: {
+      marka: 'Lamborghini',
+      model: 'Urus',
+      oprema: 'FULL OPREMA',
+      trziste: 'Srbija',
+      budzet: 500000,
+      valuta: 'EUR',
+      prioritet: 'kritican',
+      rok: null,
+    },
+    paymentSource: 'AI IQ World Bank',
+    deliveryAddress: 'Danila Kiša 18, Smederevo 11300',
+    deliveryContact: 'interni-vlasnik-kontakt',
+    privateOwnerName: 'Test Vlasnik',
+    privatePhone: '+381600000000',
+  });
+
+  await test('B2B slučaj kreiran sa početnim statusom upit', () => {
+    assertEqual(procurementCase.status, 'upit', 'početni status mora biti upit');
+    assert(procurementCase.sifra.startsWith('B2B-'), 'sifra mora imati B2B prefiks');
+    assert(procurementCase.dokumentacija.length >= 5, 'mora sadržati obaveznu dokumentaciju');
+    assert(procurementCase.odobrenja.length >= 3, 'mora sadržati approval chain');
+  });
+
+  await test('Privatni podaci su redigovani kada includeSensitive nije uključen', async () => {
+    const redacted = await getB2BProcurementCaseById(procurementCase.id, { includeSensitive: false });
+    assertDefined(redacted, 'redacted case');
+    assertEqual(redacted.privatniKontakt.privatniTelefon, 'INTERNAL_ONLY', 'telefon mora biti sakriven');
+    assertEqual(redacted.delivery.adresaIsporuke, 'INTERNAL_ONLY', 'adresa mora biti sakrivena');
+  });
+
+  await test('Status ne može direktno u placanje bez checklist uslova', async () => {
+    const blocked = await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'status_transition', payload: { status: 'placanje' } },
+    });
+    assertDefined(blocked.error, 'transition error');
+  });
+
+  await test('Checklist i status tranzicije rade kroz ceo lifecycle', async () => {
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: {
+        type: 'document_update',
+        payload: { kljuc: 'pravno-lice', status: 'verifikovano', verifikovao: 'legal@spaja.rs' },
+      },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: {
+        type: 'document_update',
+        payload: { kljuc: 'dokumentacija-kupca', status: 'verifikovano', verifikovao: 'legal@spaja.rs' },
+      },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: {
+        type: 'document_update',
+        payload: { kljuc: 'dokumentacija-prodavca', status: 'verifikovano', verifikovao: 'legal@spaja.rs' },
+      },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'document_update', payload: { kljuc: 'faktura-predracun', status: 'primljeno' } },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'document_update', payload: { kljuc: 'potvrda-logistike', status: 'primljeno' } },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'approval_update', payload: { kljuc: 'vlasnicko-odobrenje', status: 'approved', odobrio: 'vlasnik' } },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'approval_update', payload: { kljuc: 'billing-approval', status: 'approved', odobrio: 'billing@spaja.rs' } },
+    });
+
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'status_transition', payload: { status: 'ponuda' } },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'status_transition', payload: { status: 'pregovori' } },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'status_transition', payload: { status: 'odobrenje' } },
+    });
+    const allowed = await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'status_transition', payload: { status: 'placanje' } },
+    });
+    assert(!allowed.error, `status_transition mora biti dozvoljen: ${allowed.error ?? ''}`);
+    const checklist = await getB2BProcurementChecklist(procurementCase.id);
+    assert(checklist.readyForPayment, 'checklista mora biti spremna za uplatu');
+    assertEqual(checklist.missing.length, 0, 'ne sme biti missing stavki');
+  });
+
+  await test('Sabloni komunikacije uključuju full opremu i finansiranje', () => {
+    const template = buildKomunikacioniSablon('zahtev_full_oprema', procurementCase);
+    assert(template.naslov.includes('FULL OPREMA') || template.telo.includes('full opremu'), 'template mora pomenuti full opremu');
+    assert(template.telo.includes('AI IQ World Bank'), 'template mora pomenuti izvor finansiranja');
+  });
+
+  await test('canTransition validira nedozvoljene skokove', () => {
+    const direct = canTransition(procurementCase, 'isporuka');
+    assert(!direct.ok, 'skok upit -> isporuka ne sme biti dozvoljen');
   });
 
   // ── 3. Billing — Stripe Planovi ───────────────────────────────────────────
