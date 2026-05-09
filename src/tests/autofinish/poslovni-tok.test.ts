@@ -275,6 +275,38 @@ async function runTests(): Promise<void> {
     assert(body['verzija'] === APP_VERSION, 'verzija mora biti tačna');
   });
 
+  await test('GET /api/poslovni-tok vraća ličnu statistiku i evidenciju rikvestova', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      licnaStatistika?: Record<string, unknown>;
+      evidencijaRikvestova?: Array<Record<string, unknown>>;
+    };
+
+    assert(body.licnaStatistika !== undefined, 'licnaStatistika mora biti prisutna');
+    assert(body.evidencijaRikvestova !== undefined, 'evidencijaRikvestova mora biti prisutna');
+    assert(Array.isArray(body.evidencijaRikvestova), 'evidencijaRikvestova mora biti niz');
+    assert(
+      Number(body.licnaStatistika?.ukupnoRikvestova ?? 0) >= 4,
+      'ukupnoRikvestova mora obuhvatiti OpenAI, Vercel, GitHub i Lamborghini',
+    );
+  });
+
+  await test('GET /api/poslovni-tok evidencija sadrži OpenAI, Vercel, GitHub i Lamborghini', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      evidencijaRikvestova?: Array<{ id?: string; naziv?: string }>;
+    };
+    const evidencija = body.evidencijaRikvestova ?? [];
+
+    assert(evidencija.some((item) => item.id === 'openai'), 'mora sadržati OpenAI evidenciju');
+    assert(evidencija.some((item) => item.id === 'vercel'), 'mora sadržati Vercel evidenciju');
+    assert(evidencija.some((item) => item.id === 'github'), 'mora sadržati GitHub evidenciju');
+    assert(
+      evidencija.some((item) => (item.naziv ?? '').toLowerCase().includes('lamborghini')),
+      'mora sadržati Lamborghini evidenciju',
+    );
+  });
+
   await test('GET /api/kpi-dashboard vraća 200', async () => {
     const response = await getKpiDashboard();
     assert(response.status === 200, `status expected 200, got ${response.status}`);
@@ -317,20 +349,20 @@ async function runTests(): Promise<void> {
   });
 
   // ── Konstante ───────────────────────────────────────────────────────────
-  await test('AUTOFINISH_COUNT je 1187', () => {
-    assert(AUTOFINISH_COUNT === 1187, `AUTOFINISH_COUNT expected 1187, got ${AUTOFINISH_COUNT}`);
+  await test('AUTOFINISH_COUNT je 1192', () => {
+    assert(AUTOFINISH_COUNT === 1192, `AUTOFINISH_COUNT expected 1192, got ${AUTOFINISH_COUNT}`);
   });
 
-  await test('TOTAL_API_ROUTES je 1040', () => {
-    assert(TOTAL_API_ROUTES === 1040, `TOTAL_API_ROUTES expected 1040, got ${TOTAL_API_ROUTES}`);
+  await test('TOTAL_API_ROUTES je 1045', () => {
+    assert(TOTAL_API_ROUTES === 1045, `TOTAL_API_ROUTES expected 1045, got ${TOTAL_API_ROUTES}`);
   });
 
-  await test('TOTAL_ROUTES je 1099', () => {
-    assert(TOTAL_ROUTES === 1099, `TOTAL_ROUTES expected 1099, got ${TOTAL_ROUTES}`);
+  await test('TOTAL_ROUTES je 1104', () => {
+    assert(TOTAL_ROUTES === 1104, `TOTAL_ROUTES expected 1104, got ${TOTAL_ROUTES}`);
   });
 
-  await test('TOTAL_DIAGNOSTIKA je 2348', () => {
-    assert(TOTAL_DIAGNOSTIKA === 2348, `TOTAL_DIAGNOSTIKA expected 2348, got ${TOTAL_DIAGNOSTIKA}`);
+  await test('TOTAL_DIAGNOSTIKA je 2358', () => {
+    assert(TOTAL_DIAGNOSTIKA === 2358, `TOTAL_DIAGNOSTIKA expected 2358, got ${TOTAL_DIAGNOSTIKA}`);
   });
 
   // ── Finalni izveštaj ─────────────────────────────────────────────────────
