@@ -121,7 +121,7 @@ export const sajtovi: Sajt[] = [
     url: 'https://www.github.com',
     ikona: '💻',
     kategorija: 'tehnoloski-partner',
-    opis: 'Platforma za upravljanje kodom — svi repozitorijumi Digitalne Industrije',
+    opis: 'Poslovni partner za upravljanje kodom, GitHub agente i enterprise licence — svi repozitorijumi Digitalne Industrije',
   },
   {
     id: 'android',

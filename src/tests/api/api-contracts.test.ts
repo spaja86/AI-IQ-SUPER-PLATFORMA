@@ -206,6 +206,17 @@ async function runTests(): Promise<void> {
     assert(new URL(openai.kanalPodnosenja.url).hostname === 'openai.com', 'kanal mora biti tačno openai.com domen');
   });
 
+  await test('GitHub paket naglašava partnerstvo, agente i licence', () => {
+    const paketi = getEnterpriseZahtevi();
+    const github = paketi.find((paket) => paket.id === 'github');
+    assertDefined(github, 'github paket');
+    assert(github.sazetak.includes('licence'), 'github sažetak mora pomenuti licence');
+    assert(github.telo.includes('poslovnog partnera'), 'github telo mora pomenuti poslovno partnerstvo');
+    assert(github.telo.includes('GitHub agente'), 'github telo mora pomenuti GitHub agente');
+    assert(github.telo.includes('kupovinu licenci'), 'github telo mora pomenuti kupovinu licenci');
+    assert(github.trazeneOpcije.includes('GitHub agent enablement'), 'github opcije moraju pokriti agente');
+  });
+
   // ── 3. Billing — Stripe Planovi ───────────────────────────────────────────
   console.log('\n💳 Billing — Stripe Planovi');
 

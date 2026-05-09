@@ -48,7 +48,7 @@ export async function GET() {
         id: 'github',
         naziv: 'GitHub',
         tip: 'razvoj',
-        opis: 'Platforma za razvoj koda i upravljanje repozitorijumima',
+        opis: 'Poslovni partner za razvoj koda, GitHub agente i enterprise licence Digitalne Industrije',
         status: 'aktivan',
       },
     ],
