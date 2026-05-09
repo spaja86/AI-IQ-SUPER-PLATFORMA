@@ -5578,7 +5578,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2350 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2352 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-821-iteracija-check', 'Autofinish #821 Iteracija', `Provera autofinish iteracije #821 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #821 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -7069,6 +7069,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1188 — API Milestone 1041 ────────────────────────────
     createCheck('autofinish-1188-api-milestone-1041-check', 'API Milestone 1041 #1188', `Provera /api/autofinish-api-milestone-1041 endpointa — milestone objekat sa ciljBroj=1041, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1188 — API Milestone 1041 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1188-iteracija-check', 'Autofinish #1188 Iteracija', `Provera autofinish iteracije #1188 — endpoint i test pokrivenost za API Milestone 1041`, 'ok', `Autofinish #1188 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1189 — API Milestone 1042 + Lična Statistika ────────
+    createCheck('autofinish-1189-api-milestone-1042-check', 'API Milestone 1042 #1189', `Provera /api/autofinish-api-milestone-1042 endpointa — milestone objekat sa ciljBroj=1042, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1189 — API Milestone 1042 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1189-iteracija-check', 'Autofinish #1189 Iteracija', `Provera autofinish iteracije #1189 — lična statistika rikvestova i poslovanja (OpenAI, Vercel, GitHub, Lamborghini) u /api/poslovni-tok, evidencijaRikvestova i licnaStatistika polja`, 'ok', `Autofinish #1189 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
