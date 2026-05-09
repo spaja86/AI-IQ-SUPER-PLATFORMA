@@ -13,6 +13,7 @@
  */
 
 import { APP_VERSION } from '@/lib/constants';
+import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 
 // ─── Tipovi ─────────────────────────────────────────────────────────────────
 
@@ -114,7 +115,7 @@ export const gitHubBillingUloge: GitHubBillingUloga[] = [
       'Praćenje ROI za svaki GitHub trošak',
       'Odobravanje novih GitHub Enterprise licence',
     ],
-    kontakt: 'spajicn@yahoo.com',
+    kontakt: getKontaktKanal('sales')?.email ?? primarniOperativniNalog.email,
   },
   {
     uloga: 'omega_ai_operativa',
@@ -127,7 +128,7 @@ export const gitHubBillingUloge: GitHubBillingUloga[] = [
       'Upravljanje GitHub Copilot seatovima',
       'Generisanje mesečnih troškovnih izveštaja',
     ],
-    kontakt: 'omega-ai@digitalna-industrija.rs',
+    kontakt: getKontaktKanal('tech')?.email ?? 'tech@spaja.rs',
   },
   {
     uloga: 'uskladjenost',
@@ -140,7 +141,7 @@ export const gitHubBillingUloge: GitHubBillingUloga[] = [
       'Mesečni audit izveštaj',
       'Praćenje GDPR usklađenosti za GitHub podatke',
     ],
-    kontakt: 'uskladjenost@digitalna-industrija.rs',
+    kontakt: getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs',
   },
 ];
 

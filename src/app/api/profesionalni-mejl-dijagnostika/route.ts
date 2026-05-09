@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { profesionalniMejlSistem, mejlSabloni } from '@/lib/spaja-profesionalni-mejl';
 import { industrijskiMejlSistem, suportDepartmani } from '@/lib/omega-ai-suport-mejlovi';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import { getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
 
 /**
  * 📧 Profesionalni Mejl Dijagnostika — AI IQ World Bank Poslovni Mejlovi
@@ -22,6 +23,13 @@ interface MejlDijagnostika {
 
 function proveraMejlInfrastrukture(): MejlDijagnostika[] {
   const dijagnostike: MejlDijagnostika[] = [];
+  const operativa = getOperativnaSpremnost();
+  const smtpEnvSpreman = !operativa.spremnost.missingEnv.some((env) =>
+    ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS'].includes(env),
+  );
+  const domeniSpremni =
+    operativa.spremnost.mail.status === 'spremno' ||
+    operativa.spremnost.mail.status === 'delimicno';
 
   // 1. Provera SMTP konfiguracije
   const smtpKonfig = profesionalniMejlSistem.konfiguracija;
@@ -29,11 +37,14 @@ function proveraMejlInfrastrukture(): MejlDijagnostika[] {
   dijagnostike.push({
     id: 'smtp-konfiguracija',
     naziv: 'SMTP Server Konfiguracija',
-    status: smtpSpreman ? 'upozorenje' : 'kriticno',
-    poruka: smtpSpreman
-      ? `SMTP konfigurisan: ${smtpKonfig.smtpServer}:${smtpKonfig.smtpPort} (TLS: ${smtpKonfig.tls ? 'da' : 'ne'}) — ceka se aktivacija servera`
-      : 'SMTP server nije konfigurisan',
-    preporuka: 'Registruj domen spaja.rs kod registra domena, zatim postavi SMTP server (preporuka: Resend, Mailgun ili SendGrid). Dodaj SMTP kredencijale kao Vercel environment varijable.',
+    status: smtpEnvSpreman ? 'ok' : smtpSpreman ? 'upozorenje' : 'kriticno',
+    poruka: smtpEnvSpreman
+      ? 'SMTP env varijable su prisutne — runtime slanje je spremno za validaciju'
+      : smtpSpreman
+        ? `SMTP model postoji u kodu (${smtpKonfig.smtpServer}:${smtpKonfig.smtpPort}), ali runtime env aktivacija jos nije kompletna`
+        : 'SMTP server nije konfigurisan',
+    preporuka:
+      'Registruj domen spaja.rs kod registra domena, zatim postavi SMTP server (preporuka: Resend, Mailgun ili SendGrid). Dodaj SMTP kredencijale kao Vercel environment varijable.',
   });
 
   // 2. Provera domena
@@ -41,8 +52,10 @@ function proveraMejlInfrastrukture(): MejlDijagnostika[] {
   dijagnostike.push({
     id: 'dns-domeni',
     naziv: 'Email Domeni',
-    status: 'upozorenje',
-    poruka: `${domeni.length} domena definisano: ${domeni.join(', ')} — DNS zapisi moraju se konfigurisati`,
+    status: domeniSpremni ? 'ok' : 'upozorenje',
+    poruka: domeniSpremni
+      ? `${domeni.length} domena definisano: ${domeni.join(', ')} — DNS readiness signal je prijavljen kroz env zastavice`
+      : `${domeni.length} domena definisano: ${domeni.join(', ')} — DNS zapisi moraju se konfigurisati`,
     preporuka: 'Za svaki domen postavi MX, SPF, DKIM i DMARC DNS zapise. Primer SPF: "v=spf1 include:_spf.google.com ~all". Primer DMARC: "v=DMARC1; p=quarantine; rua=mailto:postmaster@spaja.rs".',
   });
 
@@ -61,6 +74,22 @@ function proveraMejlInfrastrukture(): MejlDijagnostika[] {
     naziv: 'OMEGA AI Suport Mejlovi',
     status: industrijskiMejlSistem.status === 'aktivan' ? 'ok' : 'upozorenje',
     poruka: `${industrijskiMejlSistem.ukupnoMejlova} persona mejlova na domenu ${industrijskiMejlSistem.domen}, ${suportDepartmani.length} departmana`,
+  });
+
+  dijagnostike.push({
+    id: 'kompanijski-aliasi',
+    naziv: 'Kompanijski aliasi i source-of-truth',
+    status: profesionalniMejlSistem.operativniKanali.length >= 6 ? 'ok' : 'upozorenje',
+    poruka: `${profesionalniMejlSistem.operativniKanali.length} javnih aliasa definisano sa fallback kontaktom ${profesionalniMejlSistem.fallbackKontakt}`,
+    preporuka: 'Potvrdi ownership model za support, billing, business, sales, confirmations, tech i security kanale kroz Vercel/GitHub operativni proces.',
+  });
+
+  dijagnostike.push({
+    id: 'operativni-tokovi',
+    naziv: 'Poslovni mejl tokovi',
+    status: profesionalniMejlSistem.operativniTokovi.length >= 3 ? 'ok' : 'upozorenje',
+    poruka: `${profesionalniMejlSistem.operativniTokovi.length} operativna toka definisana za biznis, operativu i korisnicke potvrde`,
+    preporuka: 'Povezi tokove sa stvarnim mailbox-ovima i audit tragom pre punog go-live procesa.',
   });
 
   // 5. Provera TLS enkripcije
@@ -101,6 +130,7 @@ function proveraMejlInfrastrukture(): MejlDijagnostika[] {
 
 export async function GET() {
   const dijagnostike = proveraMejlInfrastrukture();
+  const operativa = getOperativnaSpremnost();
 
   const ukupno = dijagnostike.length;
   const ok = dijagnostike.filter((d) => d.status === 'ok').length;
@@ -183,9 +213,13 @@ export async function GET() {
       smtpPort: profesionalniMejlSistem.konfiguracija.smtpPort,
       tls: profesionalniMejlSistem.konfiguracija.tls,
       dnevniLimit: profesionalniMejlSistem.konfiguracija.maxMejlovaDnevno,
+      operativniKanali: profesionalniMejlSistem.operativniKanali.length,
+      operativniTokovi: profesionalniMejlSistem.operativniTokovi.length,
+      runtimeStatus: operativa.spremnost.mail.status,
       status: profesionalniMejlSistem.status,
     },
-    zakljucak: 'Mejl sistem je definisan u kodu sa svim sablonima, domenima i persona suportom. Za pokretanje je potrebna infrastruktura: registracija domena spaja.rs, SMTP servis i DNS konfiguracija.',
+    zakljucak:
+      'Mejl sistem je definisan u kodu sa sablonima, kompanijskim aliasima, fallback kontaktom i OMEGA AI suportom. Za punu produkcionu aktivaciju i dalje su potrebni domen, DNS, SMTP provajder, Vercel env varijable i potvrda ownership/governance procesa.',
     timestamp: new Date().toISOString(),
   });
 }

@@ -11,12 +11,14 @@ import { autentifikacijaSistem } from '@/lib/autentifikacija';
 import { profesionalniMejlSistem } from '@/lib/spaja-profesionalni-mejl';
 import { spajaPlatniSistem } from '@/lib/spaja-platni-sistem';
 import { spajaRealtimeSistem } from '@/lib/spaja-realtime';
+import { getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
 
 export async function GET() {
   const stats = getStatistike();
   const diagnostics = runDiagnostics();
   const dispatch = getDispatchSummary();
   const aktivneVerzije = getAktivneVerzije();
+  const operativa = getOperativnaSpremnost();
 
   return NextResponse.json({
     status: 'operational',
@@ -100,6 +102,39 @@ export async function GET() {
         kanala: spajaRealtimeSistem.kanali.length,
         tehnologije: spajaRealtimeSistem.tehnologije,
       },
+    },
+    operativa: {
+      status: operativa.spremnost.status,
+      ukupanScore: operativa.spremnost.ukupanScore,
+      primarniNalog: operativa.primarniOperativniNalog.email,
+      fallbackKontakt: operativa.primarniOperativniNalog.email,
+      javniKontakti: operativa.javniKontakti.map((kanal) => ({
+        id: kanal.id,
+        email: kanal.email,
+        rokOdgovora: kanal.rokOdgovora,
+        status: kanal.status,
+      })),
+      mail: operativa.spremnost.mail,
+      vercel: {
+        ...operativa.spremnost.vercel,
+        primarniPosiljalac: operativa.vercelEnterprisePaket.primarniPosiljalac,
+        trazeneOpcije: operativa.vercelEnterprisePaket.trazeneOpcije,
+      },
+      github: {
+        ...operativa.spremnost.github,
+        owner: operativa.githubGovernanceModel.owner,
+        billingOwner: operativa.githubGovernanceModel.billingOwner,
+      },
+      support: operativa.spremnost.support,
+      enterprise: operativa.spremnost.enterprise,
+      enterpriseZahtevi: operativa.enterpriseZahtevi.map((paket) => ({
+        id: paket.id,
+        provajder: paket.provajder,
+        status: paket.status,
+        posiljalac: paket.posiljalac,
+        kanal: paket.kanalPodnosenja.url,
+      })),
+      missingEnv: operativa.spremnost.missingEnv,
     },
   });
 }

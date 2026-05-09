@@ -21,6 +21,7 @@ import {
   getEvolucijskaIstorijaAsync,
 } from '../../lib/evolucija/engine';
 import { APP_VERSION } from '../../lib/constants';
+import { getEnterpriseZahtevi } from '../../lib/kompanija-spaja-operativa';
 
 // ─── Minimal test runner ──────────────────────────────────────────────────────
 
@@ -154,6 +155,40 @@ async function runTests(): Promise<void> {
     const result = isKVConfigured();
     assert(typeof result === 'boolean', 'isKVConfigured mora vratiti boolean');
     assert(result === false, 'u test okruženju KV nije konfigurisan');
+  });
+
+  // ── 2b. Enterprise request paketi ──────────────────────────────────────────
+  console.log('\n🏢 Enterprise request paketi');
+
+  await test('Vercel, GitHub i OpenAI enterprise paketi su definisani', () => {
+    const paketi = getEnterpriseZahtevi();
+    assertEqual(paketi.length, 3, 'moraju postojati 3 enterprise paketa');
+    assert(paketi.some((paket) => paket.id === 'vercel'), 'mora postojati Vercel paket');
+    assert(paketi.some((paket) => paket.id === 'github'), 'mora postojati GitHub paket');
+    assert(paketi.some((paket) => paket.id === 'openai'), 'mora postojati OpenAI paket');
+  });
+
+  await test('Enterprise paketi koriste kompanijske mejlove i zvanične kanale', () => {
+    const paketi = getEnterpriseZahtevi();
+    for (const paket of paketi) {
+      assert(paket.posiljalac.endsWith('@spaja.rs'), `${paket.id} mora koristiti kompanijski @spaja.rs mejl`);
+      assert(paket.replyTo.endsWith('@spaja.rs'), `${paket.id} replyTo mora koristiti kompanijski @spaja.rs mejl`);
+      assert(paket.kanalPodnosenja.url.startsWith('https://'), `${paket.id} kanal mora biti https URL`);
+      assert(paket.kanalPodnosenja.zahtevaKompanijskiMejl, `${paket.id} kanal mora zahtevati kompanijski mejl`);
+      assert(paket.naslov.length > 20, `${paket.id} naslov mora biti smislen`);
+      assert(paket.telo.includes('Kompanija SPAJA'), `${paket.id} telo mora pomenuti kompaniju`);
+    }
+  });
+
+  await test('OpenAI paket sadrži owner nalog i partnerske opcije', () => {
+    const paketi = getEnterpriseZahtevi();
+    const openai = paketi.find((paket) => paket.id === 'openai');
+    assertDefined(openai, 'openai paket');
+    assert(openai.telo.includes('spajicn@yahoo.com'), 'telo mora pomenuti primarni owner nalog');
+    assert(openai.telo.includes('SpajaPro'), 'telo mora pomenuti SpajaPro');
+    assert(openai.trazeniPlanovi.some((p) => p.includes('Enterprise')), 'mora tražiti Enterprise plan');
+    assert(openai.cc.includes('spajicn@yahoo.com'), 'primarni owner mora biti u CC');
+    assert(new URL(openai.kanalPodnosenja.url).hostname === 'openai.com', 'kanal mora biti tačno openai.com domen');
   });
 
   // ── 3. Billing — Stripe Planovi ───────────────────────────────────────────

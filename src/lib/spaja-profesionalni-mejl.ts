@@ -32,6 +32,11 @@ import {
   OMEGA_AI_PERSONA_COUNT,
   OMEGA_AI_PERSONA_UKUPNO,
 } from './constants';
+import {
+  javniKontaktKanali,
+  operativniTokovi,
+  primarniOperativniNalog,
+} from './kompanija-spaja-operativa';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -112,6 +117,28 @@ export interface MejlGeneratorKonfiguracija {
   domeni: MejlDomen[];
 }
 
+export interface OperativniMejlKanal {
+  id: string;
+  naziv: string;
+  adresa: string;
+  namena: string;
+  domen: string;
+  vlasnikUloge: string;
+  rokOdgovora: string;
+  fallbackKontakt: string;
+  status: 'aktivan' | 'u_pripremi';
+}
+
+export interface OperativniMejlTok {
+  id: string;
+  naziv: string;
+  ulazniKanal: string;
+  vlasnik: string;
+  sla: string;
+  audit: boolean;
+  fallbackKontakt: string;
+}
+
 export interface ProfesionalniMejlSistem {
   naziv: string;
   opis: string;
@@ -120,15 +147,20 @@ export interface ProfesionalniMejlSistem {
   domeni: MejlDomen[];
   sabloni: MejlSablon[];
   konfiguracija: MejlGeneratorKonfiguracija;
+  operativniKanali: OperativniMejlKanal[];
+  operativniTokovi: OperativniMejlTok[];
   mogucnosti: string[];
   statistika: {
     ukupnoMejlova: number;
     ukupnoSablona: number;
     ukupnoNotifikacija: number;
     ukupnoDomena: number;
+    ukupnoOperativnihKanala: number;
+    ukupnoOperativnihTokova: number;
     ukupnoPersona: number;
     ukupnoPersonaGlobalno: number;
   };
+  fallbackKontakt: string;
   status: 'aktivan' | 'konfiguracija';
 }
 
@@ -445,15 +477,37 @@ export const profesionalniMejlSistem: ProfesionalniMejlSistem = {
   domeni: ['@spaja.rs', '@omega-ai.spaja.rs', '@banka.spaja.rs', '@industrija.spaja.rs'],
   sabloni: mejlSabloni,
   konfiguracija: mejlGeneratorKonfiguracija,
+  operativniKanali: javniKontaktKanali.map((kanal) => ({
+    id: kanal.id,
+    naziv: kanal.naziv,
+    adresa: kanal.email,
+    namena: kanal.opis,
+    domen: kanal.domen,
+    vlasnikUloge: kanal.vlasnikUloge,
+    rokOdgovora: kanal.rokOdgovora,
+    fallbackKontakt: kanal.fallbackKontakt,
+    status: kanal.status,
+  })),
+  operativniTokovi: operativniTokovi.map((tok) => ({
+    id: tok.id,
+    naziv: tok.naziv,
+    ulazniKanal: tok.ulazniKanal,
+    vlasnik: tok.vlasnik,
+    sla: tok.sla,
+    audit: tok.audit,
+    fallbackKontakt: tok.fallbackKontakt,
+  })),
   mogucnosti: [
     'Generisanje korisničkih mejlova (ime.prezime@spaja.rs)',
     'Generisanje bankarskih mejlova sa IBAN potpisom',
     'OMEGA AI suport mejlovi za 21 personu i 9 departmana',
+    'Javni kompanijski aliasi za support, billing, business, sales i confirmations tokove',
     'Profesionalni šabloni za poslovne mejlove',
     'Notifikacioni sistem za transakcije i pretplate',
     'Newsletter engine za marketing i onboarding',
     'Verifikacioni mejlovi sa jednokratnim kodovima',
     'Bezbednosna upozorenja i monitoring naloga',
+    'Operativni radni tokovi sa audit tragom i fallback kontaktom',
     'Multi-domenski sistem (@spaja.rs, @omega-ai.spaja.rs, @banka.spaja.rs, @industrija.spaja.rs)',
     'TLS enkripcija za sve mejlove',
     'Retry mehanizam za neuspešna slanja',
@@ -464,9 +518,12 @@ export const profesionalniMejlSistem: ProfesionalniMejlSistem = {
     ukupnoSablona: mejlSabloni.length,
     ukupnoNotifikacija: 0,
     ukupnoDomena: 4,
+    ukupnoOperativnihKanala: javniKontaktKanali.length,
+    ukupnoOperativnihTokova: operativniTokovi.length,
     ukupnoPersona: OMEGA_AI_PERSONA_COUNT,
     ukupnoPersonaGlobalno: OMEGA_AI_PERSONA_UKUPNO,
   },
+  fallbackKontakt: primarniOperativniNalog.email,
   status: 'aktivan',
 };
 
@@ -508,6 +565,9 @@ export function getMejlSistemPregled() {
     ukupnoDomena: profesionalniMejlSistem.domeni.length,
     domeni: profesionalniMejlSistem.domeni,
     ukupnoSablona: mejlSabloni.length,
+    ukupnoOperativnihKanala: profesionalniMejlSistem.operativniKanali.length,
+    ukupnoOperativnihTokova: profesionalniMejlSistem.operativniTokovi.length,
+    fallbackKontakt: profesionalniMejlSistem.fallbackKontakt,
     sabloniPoKategoriji: {
       dobrodoslica: getSabloniPoKategoriji('dobrodoslica').length,
       verifikacija: getSabloniPoKategoriji('verifikacija').length,

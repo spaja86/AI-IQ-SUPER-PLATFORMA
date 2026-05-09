@@ -1,5 +1,10 @@
 import type { Sekvenca } from '@/lib/types';
 import { OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
+import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
+
+const bankaSupportKontakt = getKontaktKanal('support');
+const bankaBillingKontakt = getKontaktKanal('billing');
+const bankaSalesKontakt = getKontaktKanal('sales');
 
 export const bankaSekvence: Sekvenca[] = [
   {
@@ -336,8 +341,10 @@ export const bankaSekvence: Sekvenca[] = [
     redosled: 19,
     podaci: {
       stavke: [
-        { ikona: '📧', naslov: 'Email: spajicn@yahoo.com', opis: 'Primarni kontakt mejl za sve upite i saradnju' },
-        { ikona: '📧', naslov: 'Email: spajicn@gmail.com', opis: 'Sekundarni kontakt mejl za tehnicku podrsku' },
+        { ikona: '📧', naslov: `Email: ${bankaSupportKontakt?.email ?? 'support@spaja.rs'}`, opis: 'Primarni kanal za korisnicku podrsku, onboarding i opste upite' },
+        { ikona: '💳', naslov: `Email: ${bankaBillingKontakt?.email ?? 'billing@spaja.rs'}`, opis: 'Potvrde, fakture, Vercel/GitHub troskovi i finansijska administracija' },
+        { ikona: '🤝', naslov: `Email: ${bankaSalesKontakt?.email ?? 'sales@spaja.rs'}`, opis: 'Poslovna saradnja, pregovori i enterprise zahtevi' },
+        { ikona: '🛟', naslov: `Fallback: ${primarniOperativniNalog.email}`, opis: 'Privremeni fallback dok svi kompanijski kanali ne budu potvrdeni na produkcionim sistemima' },
         { ikona: '📘', naslov: 'Facebook: Spaja86', opis: 'Pratite nas na Facebook stranici za najnovije vesti — facebook.com/Spaja86' },
         { ikona: '📸', naslov: 'Instagram: @spaja.1986', opis: 'Pratite nas na Instagramu za vizuelni sadrzaj — instagram.com/spaja.1986' },
         { ikona: '🎵', naslov: 'TikTok: @spaja.1986', opis: 'Kratki video sadrzaji i finansijski saveti — tiktok.com/@spaja.1986' },

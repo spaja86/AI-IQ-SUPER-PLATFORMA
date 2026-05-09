@@ -15,6 +15,7 @@ export async function GET() {
     ikona: omegaAiMaksimalniSuport.ikona,
     status: omegaAiMaksimalniSuport.status,
     ukupnoTelefona: omegaAiMaksimalniSuport.telefoni.length,
+    javniBrojevi: omegaAiMaksimalniSuport.javniBrojevi,
     ukupnoTiketa: omegaAiMaksimalniSuport.statistika.ukupnoTiketa,
     telefoni: omegaAiMaksimalniSuport.telefoni.map((t) => ({
       persona: t.personaNaziv,
@@ -28,6 +29,8 @@ export async function GET() {
     tiketi: omegaAiMaksimalniSuport.tiketi.length,
     slaPravila: omegaAiMaksimalniSuport.slaPravila.length,
     dispeCi: omegaAiMaksimalniSuport.dispeCi.length,
+    routingPravila: omegaAiMaksimalniSuport.routingPravila,
+    operativniOpseg: omegaAiMaksimalniSuport.operativniOpseg,
     statistika: omegaAiMaksimalniSuport.statistika,
     mogucnosti: omegaAiMaksimalniSuport.mogucnosti,
     timestamp: new Date().toISOString(),

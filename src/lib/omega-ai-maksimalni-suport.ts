@@ -13,6 +13,11 @@
  */
 
 import { OMEGA_AI_PERSONA_COUNT, OMEGA_AI_PERSONA_UKUPNO, MOBILNI_POZIVNI, APP_VERSION } from './constants';
+import {
+  javniTelefonskiKanali,
+  omegaDispatchRoutingPravila,
+  operativniTokovi,
+} from './kompanija-spaja-operativa';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -86,15 +91,49 @@ export interface DispeCSistem {
   prosecnoCekanje: string;
 }
 
+export interface JavniSuportBroj {
+  id: string;
+  broj: string;
+  naziv: string;
+  opis: string;
+  ivrOpcija: string;
+  prioritet: 'javni' | 'prioritetni' | 'incidentni';
+  fallbackKontakt: string;
+}
+
+export interface RoutingPravilo {
+  id: string;
+  kanal: SuportKanal;
+  tipZahteva: string;
+  departman: string;
+  odgovornaPersonaId: string;
+  odgovornaPersonaNaziv: string;
+  slaKategorija: SLAKategorija;
+  eskalacijaNivo: EskalacijaNivo;
+}
+
+export interface OperativniOpseg {
+  id: string;
+  naziv: string;
+  ulazniKanal: string;
+  vlasnik: string;
+  sla: string;
+  audit: boolean;
+  fallbackKontakt: string;
+}
+
 export interface OmegaAiMaksimalniSuport {
   naziv: string;
   opis: string;
   ikona: string;
   verzija: string;
   telefoni: PersonaTelefon[];
+  javniBrojevi: JavniSuportBroj[];
   tiketi: SuportTiket[];
   slaPravila: SLAPravilo[];
   dispeCi: DispeCSistem[];
+  routingPravila: RoutingPravilo[];
+  operativniOpseg: OperativniOpseg[];
   statistika: SuportStatistika;
   mogucnosti: string[];
   status: 'aktivan' | 'konfiguracija';
@@ -612,9 +651,37 @@ export const omegaAiMaksimalniSuport: OmegaAiMaksimalniSuport = {
   ikona: '📞',
   verzija: APP_VERSION,
   telefoni: personaTelefoni,
+  javniBrojevi: javniTelefonskiKanali.map((kanal) => ({
+    id: kanal.id,
+    broj: kanal.broj,
+    naziv: kanal.naziv,
+    opis: kanal.opis,
+    ivrOpcija: kanal.ivrOpcija,
+    prioritet: kanal.prioritet,
+    fallbackKontakt: kanal.fallbackKontakt,
+  })),
   tiketi: suportTiketi,
   slaPravila,
   dispeCi: dispeCiSistemi,
+  routingPravila: omegaDispatchRoutingPravila.map((pravilo) => ({
+    id: pravilo.id,
+    kanal: pravilo.kanal,
+    tipZahteva: pravilo.tipZahteva,
+    departman: pravilo.departman,
+    odgovornaPersonaId: pravilo.odgovornaPersonaId,
+    odgovornaPersonaNaziv: pravilo.odgovornaPersonaNaziv,
+    slaKategorija: pravilo.sla,
+    eskalacijaNivo: pravilo.eskalacijaNivo,
+  })),
+  operativniOpseg: operativniTokovi.map((tok) => ({
+    id: tok.id,
+    naziv: tok.naziv,
+    ulazniKanal: tok.ulazniKanal,
+    vlasnik: tok.vlasnik,
+    sla: tok.sla,
+    audit: tok.audit,
+    fallbackKontakt: tok.fallbackKontakt,
+  })),
   statistika: suportStatistika,
   mogucnosti,
   status: 'aktivan',
@@ -642,11 +709,16 @@ export function getDispeCPoKanalu(kanal: SuportKanal): DispeCSistem | undefined 
   return dispeCiSistemi.find((d) => d.kanali.includes(kanal));
 }
 
+export function getRoutingPravilaPoKanalu(kanal: SuportKanal): RoutingPravilo[] {
+  return omegaAiMaksimalniSuport.routingPravila.filter((pravilo) => pravilo.kanal === kanal);
+}
+
 export interface MaksimalniSuportPregled {
   naziv: string;
   verzija: string;
   status: string;
   ukupnoTelefona: number;
+  javnihBrojeva: number;
   aktivnihTelefona: number;
   tiketi: {
     ukupno: number;
@@ -668,6 +740,7 @@ export function getMaksimalniSuportPregled(): MaksimalniSuportPregled {
     verzija: omegaAiMaksimalniSuport.verzija,
     status: omegaAiMaksimalniSuport.status,
     ukupnoTelefona: personaTelefoni.length,
+    javnihBrojeva: omegaAiMaksimalniSuport.javniBrojevi.length,
     aktivnihTelefona: personaTelefoni.filter((t) => t.aktivan).length,
     tiketi: {
       ukupno: suportStatistika.ukupnoTiketa,

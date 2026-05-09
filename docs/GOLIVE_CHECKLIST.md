@@ -48,6 +48,11 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] Verifikovati da nema `_placeholder` vrednosti u produkcijskim env vars
 - [ ] `NODE_ENV` = `production` (automatski od Vercel-a)
 - [ ] `NEXT_PUBLIC_*` varijable su ispravno prefiksovane
+- [ ] `VERCEL_PROJECT_ID`, `VERCEL_TEAM_ID`, `VERCEL_TOKEN` postavljeni za operativni readiness
+- [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true` i `SPAJA_VERCEL_ENTERPRISE_REQUESTED=true`
+- [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja Vercel sales forme
+- [ ] `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja GitHub enterprise forme
+- [ ] `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true` nakon podnošenja OpenAI enterprise + partnerskog zahteva
 
 ### Vercel Cron
 - [ ] `vercel.json` cron konfiguracija aktivna:
@@ -96,6 +101,8 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] Vercel Logs prikazuju strukturirani JSON u produkciji
 - [ ] Greške se pojavljuju u Vercel Log Drains (ako konfigurisan)
 - [ ] Nema `console.log` sa osetljivim podacima (ključevi, lozinke, tokeni)
+- [ ] `GET /api/status` prikazuje `operativa.status` različit od `blokirano`
+- [ ] `GET /api/health` prikazuje `operativnaSpremnost.missingEnv = 0` za produkciju
 
 ### Health Dashboard
 - [ ] `GET /api/health` vraća `zdravlje >= 80`
@@ -145,6 +152,14 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] API dokumentacija konzistentna sa implementacijom
 - [ ] Interni tim obavešten o svim novim env vars koji moraju biti postavljeni
 - [ ] Korisnici obavešteni o downtime-u (ako je planiran)
+- [ ] Javni kontakt kanali potvrđeni: `support@spaja.rs`, `billing@spaja.rs`, `business@spaja.rs`, `sales@spaja.rs`, `confirmations@spaja.rs`, `tech@spaja.rs`
+- [ ] `security@kompanija-spaja.rs` potvrđen kao incident/security kontakt
+- [ ] `spajicn@yahoo.com` dokumentovan kao fallback/owner kontakt
+- [ ] GitHub governance matrica potvrđena (`spaja86` owner, billing owner, repo admin backup, workflow owner)
+- [ ] Vercel Enterprise readiness paket pripremljen i poslat iz operativnog naloga
+- [ ] `/api/enterprise-zahtevi` pregledan i copy/paste sadržaj unet u `https://vercel.com/contact/sales`
+- [ ] `/api/enterprise-zahtevi` pregledan i copy/paste sadržaj unet u `https://github.com/enterprises/contact`
+- [ ] `/api/enterprise-zahtevi` pregledan i Nikola Spajić (spajicn@yahoo.com) podneo OpenAI Enterprise + partnerski zahtev na `https://openai.com/business/`
 
 ---
 
