@@ -93,6 +93,7 @@ export async function GET(req: NextRequest) {
         vercel: operativa.spremnost.vercel.status,
         github: operativa.spremnost.github.status,
         support: operativa.spremnost.support.status,
+        enterprise: operativa.spremnost.enterprise,
       },
       timestamp: new Date().toISOString(),
     },

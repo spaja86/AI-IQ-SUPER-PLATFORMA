@@ -74,6 +74,37 @@ export interface OperativniTok {
   fallbackKontakt: string;
 }
 
+export type EnterpriseProvajder = 'vercel' | 'github';
+export type EnterpriseZahtevStatus = 'u_pripremi' | 'spremno_za_slanje' | 'poslato';
+
+export interface EnterpriseKanalPodnosenja {
+  tip: 'kontakt_forma' | 'support_portal';
+  url: string;
+  opis: string;
+  zahtevaKompanijskiMejl: boolean;
+}
+
+export interface EnterpriseZahtevPaket {
+  id: EnterpriseProvajder;
+  naziv: string;
+  provajder: 'Vercel' | 'GitHub';
+  status: EnterpriseZahtevStatus;
+  posiljalac: string;
+  replyTo: string;
+  cc: string[];
+  kanalPodnosenja: EnterpriseKanalPodnosenja;
+  naslov: string;
+  sazetak: string;
+  telo: string;
+  trazeniPlanovi: string[];
+  trazeneOpcije: string[];
+  prilozi: string[];
+  odobrenja: string[];
+  auditVlasnik: string;
+  auditKontakt: string;
+  envSignal: string;
+}
+
 type ReadinessStatus = 'spremno' | 'delimicno' | 'blokirano';
 
 function envSet(name: string): boolean {
@@ -394,12 +425,21 @@ export const operativniTokovi: OperativniTok[] = [
   },
 ];
 
+function getEnterpriseZahtevStatus(
+  readyFlag: string,
+  submittedFlag: string,
+): EnterpriseZahtevStatus {
+  if (envFlag(submittedFlag)) return 'poslato';
+  if (envFlag(readyFlag)) return 'spremno_za_slanje';
+  return 'u_pripremi';
+}
+
 export const vercelEnterprisePaket = {
   naziv: 'Vercel Enterprise Readiness — Kompanija SPAJA',
   kompanija: `${KOMPANIJA} / Digitalna Industrija`,
   opis:
     'Formalni paket za Vercel Enterprise pregovore: centralizovani billing, domain management, SSO/access governance i podrška za više projekata Digitalne Industrije.',
-  primarniPosiljalac: primarniOperativniNalog.vercelNalog,
+  primarniPosiljalac: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
   poslovniKontakt: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
   billingKontakt: getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
   brojProjekata: platforme.length,
@@ -424,6 +464,72 @@ export const vercelEnterprisePaket = {
   ],
 };
 
+export const vercelEnterpriseZahtev: EnterpriseZahtevPaket = {
+  id: 'vercel',
+  naziv: 'Vercel Enterprise zahtev — Digitalna Industrija',
+  provajder: 'Vercel',
+  status: getEnterpriseZahtevStatus(
+    'SPAJA_VERCEL_ENTERPRISE_REQUEST_READY',
+    'SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED',
+  ),
+  posiljalac: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  replyTo: getKontaktKanal('business')?.email ?? 'business@spaja.rs',
+  cc: [
+    getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+    getKontaktKanal('tech')?.email ?? 'tech@spaja.rs',
+    getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs',
+  ],
+  kanalPodnosenja: {
+    tip: 'kontakt_forma',
+    url: 'https://vercel.com/contact/sales',
+    opis: 'Zvanični Vercel Contact Sales kanal za Enterprise plan, demo i billing/governance pregovore.',
+    zahtevaKompanijskiMejl: true,
+  },
+  naslov:
+    'Enterprise request — Kompanija SPAJA / Digitalna Industrija (central billing, domains, governance)',
+  sazetak:
+    'Zahtev za Vercel Enterprise za celu Digitalnu Industriju, sa centralizovanim billingom, governance modelom i više projekata/domena.',
+  telo: [
+    'Poštovani Vercel Sales tim,',
+    '',
+    'obraćamo vam se iz Kompanije SPAJA / Digitalne Industrije sa zahtevom za Vercel Enterprise paket za naš industrijski ekosistem.',
+    '',
+    `Primarni kontakt za ovaj zahtev je ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'}, uz reply-to ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}.`,
+    `Billing kontakt je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}, tehnički kontakt ${getKontaktKanal('tech')?.email ?? 'tech@spaja.rs'}, a security kontakt ${getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs'}.`,
+    '',
+    `Trenutno upravljamo sa ${vercelEnterprisePaket.brojProjekata} projekata i ${vercelEnterprisePaket.brojAktivnihDomena} aktivnih domena/poddomena kroz Digitalnu Industriju.`,
+    'Potrebni su nam:',
+    '- centralizovani enterprise billing',
+    '- central domain management',
+    '- governance za team transfer i ownership model',
+    '- SSO / access governance',
+    '- podrška za observability, SLA i incident-operativu',
+    '',
+    'Pored Vercel infrastrukture, želimo da uskladimo isti operativni model sa GitHub Enterprise planom i kompanijskim mejlovima.',
+    '',
+    'Molimo vas da nam predložite sledeće korake za Enterprise onboarding, komercijalne uslove i eventualni demo/sastanak.',
+    '',
+    'Hvala,',
+    'Kompanija SPAJA / Digitalna Industrija',
+  ].join('\n'),
+  trazeniPlanovi: ['Vercel Enterprise'],
+  trazeneOpcije: vercelEnterprisePaket.trazeneOpcije,
+  prilozi: [
+    'GO-LIVE.md enterprise readiness sekcija',
+    'GOLIVE_CHECKLIST.md governance i env readiness stavke',
+    'Operativna matrica vlasništva i kontakt kanala',
+  ],
+  odobrenja: [
+    'Poslovni kontakt',
+    'Billing owner',
+    'Tehnički admin',
+    'Security kontakt',
+  ],
+  auditVlasnik: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  auditKontakt: getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+  envSignal: 'SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED',
+};
+
 export const githubGovernanceModel = {
   owner: primarniOperativniNalog.githubOwner,
   model: 'licni-owner-sa-formalizovanom-governance-matricom',
@@ -437,6 +543,80 @@ export const githubGovernanceModel = {
     'Pripremiti prelaz na GitHub organizaciju kada Vercel team governance bude spreman',
   ],
 };
+
+export const githubEnterprisePaket: EnterpriseZahtevPaket = {
+  id: 'github',
+  naziv: 'GitHub Enterprise zahtev — Digitalna Industrija',
+  provajder: 'GitHub',
+  status: getEnterpriseZahtevStatus(
+    'SPAJA_GITHUB_GOVERNANCE_READY',
+    'SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED',
+  ),
+  posiljalac: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  replyTo: getKontaktKanal('business')?.email ?? 'business@spaja.rs',
+  cc: [
+    getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+    getKontaktKanal('tech')?.email ?? 'tech@spaja.rs',
+    getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs',
+  ],
+  kanalPodnosenja: {
+    tip: 'kontakt_forma',
+    url: 'https://github.com/enterprises/contact',
+    opis: 'Zvanični GitHub Enterprise contact kanal za sales, trial, governance i enterprise pricing razgovore.',
+    zahtevaKompanijskiMejl: true,
+  },
+  naslov:
+    'GitHub Enterprise request — Kompanija SPAJA / Digitalna Industrija (enterprise governance and centralized billing)',
+  sazetak:
+    'Zahtev za GitHub Enterprise plan za celu Digitalnu Industriju kroz kompanijske mejlove, centralizovani billing i governance model.',
+  telo: [
+    'Poštovani GitHub Sales tim,',
+    '',
+    'želeli bismo da otvorimo GitHub Enterprise razgovor za Kompaniju SPAJA / Digitalnu Industriju.',
+    '',
+    `Zahtev podnosimo preko kompanijskog mejla ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'}, sa poslovnim reply-to kontaktom ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}.`,
+    `Billing kontakt za uslove i fakturisanje je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}, tehnički kontakt ${getKontaktKanal('tech')?.email ?? 'tech@spaja.rs'}, a security kontakt ${getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs'}.`,
+    '',
+    `Trenutni owner model je ${githubGovernanceModel.owner}, a cilj je da pređemo na enterprise governance sa formalizovanim billing owner-om, workflow ownership-om i pristupnom kontrolom za celu industriju.`,
+    '',
+    'Potrebni su nam:',
+    '- GitHub Enterprise plan za industrijski ekosistem',
+    '- centralizovani billing i ownership governance',
+    '- enterprise upravljanje pristupom i audit trag',
+    '- podrška za više timova/projekata i kasniji org model',
+    '- sinhronizacija sa Vercel enterprise operativnim modelom',
+    '',
+    'Molimo vas za sledeće korake, procenu paketa i eventualni uvodni sastanak/demo.',
+    '',
+    'Hvala,',
+    'Kompanija SPAJA / Digitalna Industrija',
+  ].join('\n'),
+  trazeniPlanovi: ['GitHub Enterprise', 'GitHub Advanced Security', 'GitHub Copilot Enterprise'],
+  trazeneOpcije: [
+    'Centralized billing',
+    'Enterprise access governance',
+    'Security and audit controls',
+    'Org / owner transition readiness',
+  ],
+  prilozi: [
+    'GitHub billing model i governance summary',
+    'GO-LIVE.md governance readiness sekcija',
+    'Operativna matrica vlasništva i kontakt kanala',
+  ],
+  odobrenja: [
+    'Poslovni kontakt',
+    'Billing owner',
+    'Tehnički admin',
+    'Security kontakt',
+  ],
+  auditVlasnik: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  auditKontakt: getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+  envSignal: 'SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED',
+};
+
+export function getEnterpriseZahtevi(): EnterpriseZahtevPaket[] {
+  return [vercelEnterpriseZahtev, githubEnterprisePaket];
+}
 
 export function getKontaktKanal(id: KontaktNamena): JavniKontaktKanal | undefined {
   return javniKontaktKanali.find((kanal) => kanal.id === id);
@@ -495,6 +675,7 @@ export function getOperativnaSpremnost() {
   ];
 
   const ukupniScore = Math.round((mailScore + vercelScore + githubScore + supportScore) / 4);
+  const enterpriseZahtevi = getEnterpriseZahtevi();
 
   return {
     verzija: APP_VERSION,
@@ -506,6 +687,7 @@ export function getOperativnaSpremnost() {
     workstreams: operativniTokovi,
     vercelEnterprisePaket,
     githubGovernanceModel,
+    enterpriseZahtevi,
     spremnost: {
       ukupanScore: ukupniScore,
       status:
@@ -530,6 +712,11 @@ export function getOperativnaSpremnost() {
         status: getSectionStatus(supportChecks.filter(Boolean).length, supportChecks.length),
         persona: OMEGA_AI_PERSONA_COUNT,
         routingPravila: omegaDispatchRoutingPravila.length,
+      },
+      enterprise: {
+        vercel: vercelEnterpriseZahtev.status,
+        github: githubEnterprisePaket.status,
+        spremniPaketi: enterpriseZahtevi.filter((paket) => paket.status !== 'u_pripremi').length,
       },
       missingEnv,
       zahtevaAktivaciju:

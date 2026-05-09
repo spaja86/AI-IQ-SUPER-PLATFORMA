@@ -21,6 +21,7 @@ import {
   getEvolucijskaIstorijaAsync,
 } from '../../lib/evolucija/engine';
 import { APP_VERSION } from '../../lib/constants';
+import { getEnterpriseZahtevi } from '../../lib/kompanija-spaja-operativa';
 
 // ─── Minimal test runner ──────────────────────────────────────────────────────
 
@@ -154,6 +155,28 @@ async function runTests(): Promise<void> {
     const result = isKVConfigured();
     assert(typeof result === 'boolean', 'isKVConfigured mora vratiti boolean');
     assert(result === false, 'u test okruženju KV nije konfigurisan');
+  });
+
+  // ── 2b. Enterprise request paketi ──────────────────────────────────────────
+  console.log('\n🏢 Enterprise request paketi');
+
+  await test('Vercel i GitHub enterprise paketi su definisani', () => {
+    const paketi = getEnterpriseZahtevi();
+    assertEqual(paketi.length, 2, 'moraju postojati 2 enterprise paketa');
+    assert(paketi.some((paket) => paket.id === 'vercel'), 'mora postojati Vercel paket');
+    assert(paketi.some((paket) => paket.id === 'github'), 'mora postojati GitHub paket');
+  });
+
+  await test('Enterprise paketi koriste kompanijske mejlove i zvanične kanale', () => {
+    const paketi = getEnterpriseZahtevi();
+    for (const paket of paketi) {
+      assert(paket.posiljalac.endsWith('@spaja.rs'), `${paket.id} mora koristiti kompanijski @spaja.rs mejl`);
+      assert(paket.replyTo.endsWith('@spaja.rs'), `${paket.id} replyTo mora koristiti kompanijski @spaja.rs mejl`);
+      assert(paket.kanalPodnosenja.url.startsWith('https://'), `${paket.id} kanal mora biti https URL`);
+      assert(paket.kanalPodnosenja.zahtevaKompanijskiMejl, `${paket.id} kanal mora zahtevati kompanijski mejl`);
+      assert(paket.naslov.length > 20, `${paket.id} naslov mora biti smislen`);
+      assert(paket.telo.includes('Kompanija SPAJA'), `${paket.id} telo mora pomenuti kompaniju`);
+    }
   });
 
   // ── 3. Billing — Stripe Planovi ───────────────────────────────────────────

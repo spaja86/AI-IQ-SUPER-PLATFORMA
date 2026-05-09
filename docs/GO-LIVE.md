@@ -176,6 +176,8 @@
 - [ ] Potvrditi da je `spajicn@yahoo.com` dokumentovan kao fallback/owner kontakt
 - [ ] Potvrditi Vercel Enterprise readiness paket (`team transfer`, `enterprise billing`, `central domain management`, `SSO/access governance`)
 - [ ] Potvrditi GitHub governance matricu (`spaja86` owner, billing owner, repo admin backup, workflow owner, security kontakt)
+- [ ] Otvoriti `/api/enterprise-zahtevi` i iz kompanijskih mejlova podneti Vercel zahtev preko `https://vercel.com/contact/sales`
+- [ ] Otvoriti `/api/enterprise-zahtevi` i iz kompanijskih mejlova podneti GitHub zahtev preko `https://github.com/enterprises/contact`
 
 ### 📊 Monitoring
 
@@ -266,9 +268,11 @@ VERCEL_TEAM_ID=<vercel-team-id>
 VERCEL_TOKEN=<vercel-token>
 SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true
 SPAJA_VERCEL_ENTERPRISE_REQUESTED=true
+SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true
 SPAJA_GITHUB_OWNER_CONFIRMED=true
 SPAJA_GITHUB_GOVERNANCE_READY=true
 SPAJA_GITHUB_BILLING_READY=true
+SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true
 OMEGA_SUPPORT_MAIL_TRIAGE_READY=true
 OMEGA_SUPPORT_DISPATCH_READY=true
 OMEGA_SUPPORT_QUEUE_READY=true
@@ -351,6 +355,7 @@ Deployment je dozvoljen samo ako prođu:
 - [ ] Potvrditi da Stripe webhook prima događaje (Stripe Dashboard → Developers → Webhooks)
 - [ ] Proveriti `operativnaSpremnost` u `GET /api/health` i `GET /api/status` — mail/vercel/github/support ne smeju biti `blokirano`
 - [ ] Poslati test mejlove na `support@spaja.rs`, `billing@spaja.rs`, `sales@spaja.rs` i proveriti fallback na `spajicn@yahoo.com`
+- [ ] Nakon slanja enterprise formi postaviti `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` i `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true`
 
 ### Prva sedmica
 - [ ] Dnevni pregled Vercel Analytics

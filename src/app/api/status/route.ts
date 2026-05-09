@@ -126,6 +126,14 @@ export async function GET() {
         billingOwner: operativa.githubGovernanceModel.billingOwner,
       },
       support: operativa.spremnost.support,
+      enterprise: operativa.spremnost.enterprise,
+      enterpriseZahtevi: operativa.enterpriseZahtevi.map((paket) => ({
+        id: paket.id,
+        provajder: paket.provajder,
+        status: paket.status,
+        posiljalac: paket.posiljalac,
+        kanal: paket.kanalPodnosenja.url,
+      })),
       missingEnv: operativa.spremnost.missingEnv,
     },
   });

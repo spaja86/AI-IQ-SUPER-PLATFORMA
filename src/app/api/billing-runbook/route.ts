@@ -77,6 +77,12 @@ export async function GET() {
       security: securityKontakt?.email ?? 'security@kompanija-spaja.rs',
       emergencyEscalation: primarniOperativniNalog.email,
     },
+    enterpriseRunbook: {
+      route: '/api/enterprise-zahtevi',
+      vercelKanal: 'https://vercel.com/contact/sales',
+      githubKanal: 'https://github.com/enterprises/contact',
+      posiljalac: 'sales@spaja.rs / business@spaja.rs',
+    },
     timestamp: new Date().toISOString(),
   });
 }
