@@ -34,7 +34,7 @@ export async function GET() {
       })),
     },
     napomena:
-      'Vercel i GitHub koriste zvanične sales/contact forme; OpenAI se kontaktira kroz https://openai.com/business/; kompanijski mejlovi su work-email sender, reply-to i audit kontakti.',
+      'Vercel, GitHub i OpenAI koriste zvanične sales/contact forme; OpenAI kanal je https://openai.com/contact-sales; ako dokumenta nisu digitalno razmenjiva, traži se kontakt/poziv/sastanak za potpisivanje ugovora.',
     timestamp: new Date().toISOString(),
   });
 }

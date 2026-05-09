@@ -170,13 +170,28 @@ async function runTests(): Promise<void> {
 
   await test('Enterprise paketi koriste kompanijske mejlove i zvanične kanale', () => {
     const paketi = getEnterpriseZahtevi();
+    const expectedKanali = {
+      vercel: 'https://vercel.com/contact/sales',
+      github: 'https://github.com/enterprise/contact',
+      openai: 'https://openai.com/contact-sales',
+    } as const;
+
     for (const paket of paketi) {
       assert(paket.posiljalac.endsWith('@spaja.rs'), `${paket.id} mora koristiti kompanijski @spaja.rs mejl`);
       assert(paket.replyTo.endsWith('@spaja.rs'), `${paket.id} replyTo mora koristiti kompanijski @spaja.rs mejl`);
       assert(paket.kanalPodnosenja.url.startsWith('https://'), `${paket.id} kanal mora biti https URL`);
+      assertEqual(
+        paket.kanalPodnosenja.url,
+        expectedKanali[paket.id],
+        `${paket.id} kanal mora koristiti zvanični URL`,
+      );
       assert(paket.kanalPodnosenja.zahtevaKompanijskiMejl, `${paket.id} kanal mora zahtevati kompanijski mejl`);
       assert(paket.naslov.length > 20, `${paket.id} naslov mora biti smislen`);
       assert(paket.telo.includes('Kompanija SPAJA'), `${paket.id} telo mora pomenuti kompaniju`);
+      assert(
+        paket.telo.includes('Ako dokumenta ne možemo razmeniti digitalno'),
+        `${paket.id} telo mora sadržati fallback za kontakt/posetu radi potpisivanja ugovora`,
+      );
     }
   });
 
