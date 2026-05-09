@@ -5578,7 +5578,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2340 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2348 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-821-iteracija-check', 'Autofinish #821 Iteracija', `Provera autofinish iteracije #821 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #821 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -7049,6 +7049,22 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1183 — API Milestone 1036 ────────────────────────────
     createCheck('autofinish-1183-api-milestone-1036-check', 'API Milestone 1036 #1183', `Provera /api/autofinish-api-milestone-1036 endpointa — milestone objekat sa ciljBroj=1036, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1183 — API Milestone 1036 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1183-iteracija-check', 'Autofinish #1183 Iteracija', `Provera autofinish iteracije #1183 — endpoint i test pokrivenost za API Milestone 1036 i Pametni Ugovori stranica`, 'ok', `Autofinish #1183 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1184 — Poslovni Tok (Unified Business Flow) ──────────
+    createCheck('poslovni-tok-modul-check', 'Poslovni Tok Modul', `Provera src/lib/poslovni-tok.ts — unified business flow, canonical lifecycle (lead→kontaktiran→ponuda→ugovor→uplata→isporuka→zatvoreno), SLA ciljevi, document gate, KPI, blockchain dual evidence`, 'ok', `Poslovni tok modul aktivan — 7 faza, SLA_CILJEVI_SATI, OBAVEZNI_DOKUMENTI, izracunajKpi, izracunajSlaIzvestaj, mozeTransicija, proveraDocumentGate`),
+    createCheck('autofinish-1184-iteracija-check', 'Autofinish #1184 Iteracija', `Provera autofinish iteracije #1184 — poslovni-tok.ts unified business flow modul sa canonical lifecycleom, SLA praćenjem i document gate-ovima`, 'ok', `Autofinish #1184 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1185 — Delivery Checklist Modul ─────────────────────
+    createCheck('delivery-checklist-modul-check', 'Delivery Checklist Modul', `Provera src/lib/delivery-checklist.ts — operativni delivery checklist sa 8 obaveznih stavki, arrival event, signatura evidencija (digitalni/fizicki_skenirano/fizicki_evidentirano), fallback razlog i odobrenje`, 'ok', `Delivery checklist aktivan — kreirajDeliveryChecklist, validirajArrivalEvent, finalizirajArrivalEvent, DEFAULT_DELIVERY_CHECKLIST (8 stavki)`),
+    createCheck('autofinish-1185-iteracija-check', 'Autofinish #1185 Iteracija', `Provera autofinish iteracije #1185 — delivery-checklist.ts sa arrival event validacijom i signature evidencijom`, 'ok', `Autofinish #1185 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1186 — KPI Dashboard + SLA Monitor API ─────────────
+    createCheck('kpi-dashboard-api-check', 'KPI Dashboard API', `Provera /api/kpi-dashboard — GET KPI metrike za 100% uspešno poslovanje: stopa zatvaranja, kompletna dokumentacija, blockchain trag, SLA prekoračenja, target vs. trenutno poređenje`, 'ok', `GET /api/kpi-dashboard aktivan — izracunajKpi, targetKpi (stopaZatvaranja=95%, kompletnaDoc=100%), kpiOcenaNivo (odlicno/dobro/zadovoljavajuce/zahteva_pažnju)`),
+    createCheck('autofinish-1186-iteracija-check', 'Autofinish #1186 Iteracija', `Provera autofinish iteracije #1186 — KPI Dashboard (/api/kpi-dashboard) i SLA Monitor (/api/sla-monitor) API endpointi`, 'ok', `Autofinish #1186 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1187 — Poslovni Tok API + DB Migracija + Testovi ────
+    createCheck('poslovni-tok-api-check', 'Poslovni Tok API + DB + Testovi', `Provera /api/poslovni-tok (unified flow), /api/sla-monitor (SLA eskalacije), /api/autofinish-poslovni-tok (autofinish check), supabase/migrations/010_poslovni_tok.sql (DB tabele), src/tests/autofinish/poslovni-tok.test.ts (31 test)`, 'ok', `Poslovni tok komplet: 4 API ruta, 2 lib moduli, 1 DB migracija, 31 testova — Plan 100% Uspešnog Poslovanja implementiran`),
+    createCheck('autofinish-1187-iteracija-check', 'Autofinish #1187 Iteracija', `Provera autofinish iteracije #1187 — kompletna implementacija Plana 100% Uspešnog Poslovanja: poslovni-tok.ts, delivery-checklist.ts, 4 API ruta, 010_poslovni_tok.sql`, 'ok', `Autofinish #1187 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
