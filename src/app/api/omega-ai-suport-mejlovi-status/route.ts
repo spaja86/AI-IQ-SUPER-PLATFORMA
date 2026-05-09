@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { industrijskiMejlSistem, getAktivniMejlovi, getUkupnoOsoblja } from '@/lib/omega-ai-suport-mejlovi';
+import { getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
 
 /**
  * 📧 OMEGA AI Industrijski Suport Mejlovi — Status API
@@ -8,6 +9,7 @@ import { industrijskiMejlSistem, getAktivniMejlovi, getUkupnoOsoblja } from '@/l
  */
 export async function GET() {
   const aktivni = getAktivniMejlovi();
+  const operativa = getOperativnaSpremnost();
 
   return NextResponse.json({
     sistem: 'OMEGA AI Suport Mejlovi — Status',
@@ -23,6 +25,8 @@ export async function GET() {
       prosecnoVremeOdgovora: industrijskiMejlSistem.prosecnoVremeOdgovora,
     },
     sviAktivni: aktivni.length === industrijskiMejlSistem.ukupnoMejlova,
+    operativniKanali: operativa.javniKontakti,
+    runtimeSpremnost: operativa.spremnost.mail,
     timestamp: new Date().toISOString(),
   });
 }

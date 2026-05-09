@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import { APP_VERSION } from '@/lib/constants';
+import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 
 export async function GET() {
+  const supportKontakt = getKontaktKanal('support');
+  const businessKontakt = getKontaktKanal('business');
+  const salesKontakt = getKontaktKanal('sales');
+
   return NextResponse.json({
     sistem: 'AI IQ Menjacnica — Svetska Menjacnica',
     appVerzija: APP_VERSION,
@@ -73,7 +78,12 @@ export async function GET() {
     ],
     kontakt: {
       vlasnik: 'Nikola Spajic',
-      mejlovi: ['spajicn@yahoo.com', 'spajicn@gmail.com'],
+      mejlovi: [
+        supportKontakt?.email ?? 'support@spaja.rs',
+        businessKontakt?.email ?? 'business@spaja.rs',
+        salesKontakt?.email ?? 'sales@spaja.rs',
+      ],
+      fallback: primarniOperativniNalog.email,
       drustvneMreze: [
         { naziv: 'Facebook', url: 'https://www.facebook.com/Spaja86' },
         { naziv: 'Facebook (Digitalna Industrija)', url: 'https://www.facebook.com/profile.php?id=61583240952997' },

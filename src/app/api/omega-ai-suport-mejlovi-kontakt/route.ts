@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { industrijskiMejlSistem, getSviDepartmanskiMejlovi } from '@/lib/omega-ai-suport-mejlovi';
+import { javniKontaktKanali, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 
 /**
  * 📧 OMEGA AI Industrijski Suport Mejlovi — Kontakt API
@@ -30,6 +31,13 @@ export async function GET() {
       platforma: 'platforma@omega-ai.spaja.rs',
       korporacije: 'korporacije@omega-ai.spaja.rs',
     },
+    kompanijskiKanali: javniKontaktKanali.map((kanal) => ({
+      id: kanal.id,
+      email: kanal.email,
+      opis: kanal.opis,
+      fallback: kanal.fallbackKontakt,
+    })),
+    fallbackKontakt: primarniOperativniNalog.email,
     napomena: 'Svaka OMEGA AI persona odgovara u kontekstu svog domena — objašnjava stvari vezane za rad na platformi, industriji, menjačnici, banci, IT proizvodima, kompanijama i korporacijama.',
     timestamp: new Date().toISOString(),
   });

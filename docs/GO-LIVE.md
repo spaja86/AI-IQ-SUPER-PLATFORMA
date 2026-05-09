@@ -171,6 +171,11 @@
 - [ ] Potvrditi da svi domeni u `platforme` podaci su ispravni
 - [ ] Testirati `GET /api/health` — mora biti `"status": "healthy"`
 - [ ] Testirati `GET /api/industrija` — mora biti `"status": "operational"`
+- [ ] Potvrditi `support@spaja.rs`, `billing@spaja.rs`, `business@spaja.rs`, `sales@spaja.rs`, `confirmations@spaja.rs`, `tech@spaja.rs`
+- [ ] Potvrditi `security@kompanija-spaja.rs` kao incident/security kontakt
+- [ ] Potvrditi da je `spajicn@yahoo.com` dokumentovan kao fallback/owner kontakt
+- [ ] Potvrditi Vercel Enterprise readiness paket (`team transfer`, `enterprise billing`, `central domain management`, `SSO/access governance`)
+- [ ] Potvrditi GitHub governance matricu (`spaja86` owner, billing owner, repo admin backup, workflow owner, security kontakt)
 
 ### 📊 Monitoring
 
@@ -247,6 +252,28 @@ OPENAI_API_KEY=sk-<your-key>
 # Cron
 CRON_SECRET=<random-string-za-cron-zaštitu>
 
+# Operativna spremnost — kompanijski mejl i governance
+SPAJA_MAIL_PROVIDER=<resend|mailgun|sendgrid|smtp>
+SPAJA_MAIL_DOMAINS_VERIFIED=true
+SPAJA_MAIL_DNS_READY=true
+SPAJA_MAIL_AUDIT_READY=true
+SMTP_HOST=<smtp-host>
+SMTP_PORT=587
+SMTP_USER=<smtp-user>
+SMTP_PASS=<smtp-pass>
+VERCEL_PROJECT_ID=<vercel-project-id>
+VERCEL_TEAM_ID=<vercel-team-id>
+VERCEL_TOKEN=<vercel-token>
+SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true
+SPAJA_VERCEL_ENTERPRISE_REQUESTED=true
+SPAJA_GITHUB_OWNER_CONFIRMED=true
+SPAJA_GITHUB_GOVERNANCE_READY=true
+SPAJA_GITHUB_BILLING_READY=true
+OMEGA_SUPPORT_MAIL_TRIAGE_READY=true
+OMEGA_SUPPORT_DISPATCH_READY=true
+OMEGA_SUPPORT_QUEUE_READY=true
+OMEGA_SUPPORT_TELEPHONY_READY=true
+
 # Opciono — IP blokiranje (comma-separated)
 OMEGA_BLOCKED_IPS=
 
@@ -322,12 +349,15 @@ Deployment je dozvoljen samo ako prođu:
 - [ ] Svaka 2 sata: proveriti `GET /api/health` — mora biti `"status": "healthy"`
 - [ ] Svaka sat: proveriti Vercel error logs
 - [ ] Potvrditi da Stripe webhook prima događaje (Stripe Dashboard → Developers → Webhooks)
+- [ ] Proveriti `operativnaSpremnost` u `GET /api/health` i `GET /api/status` — mail/vercel/github/support ne smeju biti `blokirano`
+- [ ] Poslati test mejlove na `support@spaja.rs`, `billing@spaja.rs`, `sales@spaja.rs` i proveriti fallback na `spajicn@yahoo.com`
 
 ### Prva sedmica
 - [ ] Dnevni pregled Vercel Analytics
 - [ ] Dnevni pregled Supabase auth logova
 - [ ] Proveriti cron evolucija izveštaj (svakih 6h) — GitHub Issues se kreiraju?
 - [ ] Pratiti `chat_messages_used` — da li se pravilno inkrementuje?
+- [ ] Potvrditi da Vercel Enterprise request i GitHub governance imaju audit trag i vlasnika procesa
 
 ### KPI-jevi za Launch
 | KPI | Cilj | Alert Prag |

@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import { APP_VERSION } from '@/lib/constants';
+import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 
 export async function GET() {
+  const supportKontakt = getKontaktKanal('support');
+  const billingKontakt = getKontaktKanal('billing');
+  const salesKontakt = getKontaktKanal('sales');
+
   return NextResponse.json({
     naziv: 'AI IQ World Bank — Kontakt i drustvene mreze',
     verzija: APP_VERSION,
@@ -11,8 +16,10 @@ export async function GET() {
       kompanija: 'Digitalna Industrija',
     },
     mejlovi: [
-      { tip: 'primarni', adresa: 'spajicn@yahoo.com', namena: 'Svi upiti i saradnja' },
-      { tip: 'sekundarni', adresa: 'spajicn@gmail.com', namena: 'Tehnicka podrska' },
+      { tip: 'podrska', adresa: supportKontakt?.email ?? 'support@spaja.rs', namena: 'Korisnicka podrska i onboarding' },
+      { tip: 'billing', adresa: billingKontakt?.email ?? 'billing@spaja.rs', namena: 'Fakture, potvrde i operativni troskovi' },
+      { tip: 'biznis', adresa: salesKontakt?.email ?? 'sales@spaja.rs', namena: 'Pregovori, saradnja i enterprise zahtevi' },
+      { tip: 'fallback', adresa: primarniOperativniNalog.email, namena: 'Privremeni fallback dok se kompanijski kanali ne potvrde na svim sistemima' },
     ],
     drustvneMreze: [
       { naziv: 'Facebook', url: 'https://www.facebook.com/Spaja86', korisnickoIme: 'Spaja86' },
@@ -34,7 +41,7 @@ export async function GET() {
       opis: 'Sediste AI IQ World Bank i Digitalne Industrije',
       status: 'aktivna',
     },
-    ukupnoKontakata: 2,
+    ukupnoKontakata: 4,
     ukupnoDrustvnihMreza: 5,
     ukupnoPartnera: 6,
     timestamp: new Date().toISOString(),

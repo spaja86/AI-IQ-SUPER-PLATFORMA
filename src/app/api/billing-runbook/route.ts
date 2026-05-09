@@ -4,8 +4,12 @@
 
 import { NextResponse } from 'next/server';
 import { APP_VERSION } from '@/lib/constants';
+import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 
 export async function GET() {
+  const billingKontakt = getKontaktKanal('billing');
+  const techKontakt = getKontaktKanal('tech');
+  const securityKontakt = getKontaktKanal('security');
   return NextResponse.json({
     sistem: 'Billing Runbook — SPAJA',
     verzija: APP_VERSION,
@@ -68,9 +72,10 @@ export async function GET() {
       },
     ],
     kontakti: {
-      billing: 'billing@spaja.rs',
-      tehnickaPodrska: 'tech@spaja.rs',
-      emergencyEscalation: 'spajicn@yahoo.com',
+      billing: billingKontakt?.email ?? 'billing@spaja.rs',
+      tehnickaPodrska: techKontakt?.email ?? 'tech@spaja.rs',
+      security: securityKontakt?.email ?? 'security@kompanija-spaja.rs',
+      emergencyEscalation: primarniOperativniNalog.email,
     },
     timestamp: new Date().toISOString(),
   });

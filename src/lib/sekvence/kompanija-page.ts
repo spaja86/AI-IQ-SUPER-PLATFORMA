@@ -2,9 +2,14 @@ import type { Sekvenca } from '@/lib/types';
 import { getStatistike } from '@/lib/statistika';
 import { osnivacProfil, getOsnivacFotografije } from '@/lib/vizuelni-identitet';
 import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
+import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 
 const stats = getStatistike();
 const fotografije = getOsnivacFotografije();
+const supportKontakt = getKontaktKanal('support');
+const businessKontakt = getKontaktKanal('business');
+const salesKontakt = getKontaktKanal('sales');
+const securityKontakt = getKontaktKanal('security');
 
 export const kompanijaSekvence: Sekvenca[] = [
   {
@@ -96,10 +101,25 @@ export const kompanijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'kompanija-operativni-kontakti',
+    tip: 'lista',
+    naslov: '📞 Operativni kontakti',
+    redosled: 7,
+    podaci: {
+      stavke: [
+        { ikona: '📧', naslov: supportKontakt?.email ?? 'support@spaja.rs', opis: 'Korisnicka podrska, onboarding i standardni upiti' },
+        { ikona: '💼', naslov: businessKontakt?.email ?? 'business@spaja.rs', opis: 'Biznis/B2B saradnja i partnerstva' },
+        { ikona: '🤝', naslov: salesKontakt?.email ?? 'sales@spaja.rs', opis: 'Pregovori i enterprise upiti za Vercel/GitHub operativu' },
+        { ikona: '🛡️', naslov: securityKontakt?.email ?? 'security@kompanija-spaja.rs', opis: 'Security incidenti i privatne prijave ranjivosti' },
+        { ikona: '🛟', naslov: primarniOperativniNalog.email, opis: 'Fallback owner kontakt dok se svi kompanijski kanali ne potvrde kroz produkcionu operativu' },
+      ],
+    },
+  },
+  {
     id: 'kompanija-cta',
     tip: 'cta',
     naslov: '🚀 Priduzite se ekosistemu',
-    redosled: 7,
+    redosled: 8,
     podaci: {
       opis: 'Kompanija SPAJA — digitalna industrija buducnosti.',
       dugmad: [

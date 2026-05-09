@@ -7,6 +7,7 @@ import type { NextRequest } from 'next/server';
 import { runDiagnostics } from '@/lib/auto-repair';
 import { getStatistike } from '@/lib/statistika';
 import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
+import { getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
 
 // Bilježi vreme starta procesa za uptime izračun.
 // Napomena: U serverless okruženjima (Vercel) ovo se resetuje pri svakom cold startu.
@@ -50,6 +51,7 @@ export async function GET(req: NextRequest) {
   // Readiness: puna provjera
   const dijagnostika = runDiagnostics();
   const stats = getStatistike();
+  const operativa = getOperativnaSpremnost();
 
   const status =
     dijagnostika.zdravlje >= 90
@@ -82,6 +84,15 @@ export async function GET(req: NextRequest) {
         omegaAI: stats.ukupnoOmegaPersona,
         promptovi: stats.ukupnoPromptova,
         stranice: stats.ukupnoStranica,
+      },
+      operativnaSpremnost: {
+        status: operativa.spremnost.status,
+        score: operativa.spremnost.ukupanScore,
+        missingEnv: operativa.spremnost.missingEnv.length,
+        mail: operativa.spremnost.mail.status,
+        vercel: operativa.spremnost.vercel.status,
+        github: operativa.spremnost.github.status,
+        support: operativa.spremnost.support.status,
       },
       timestamp: new Date().toISOString(),
     },

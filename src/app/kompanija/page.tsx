@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
 import { kompanijaSekvence } from '@/lib/sekvence/kompanija-page';
 import { BASE_URL, KOMPANIJA } from '@/lib/constants';
+import { getKontaktKanal } from '@/lib/kompanija-spaja-operativa';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og?title=${encodeURIComponent(KOMPANIJA)}&description=${encodeURIComponent('O maticnoj kompaniji SPAJA - Digitalna Industrija')}`;
+const supportKontakt = getKontaktKanal('support');
 
 export const metadata: Metadata = {
   title: KOMPANIJA,
@@ -32,7 +34,7 @@ const jsonLdOrganization = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
-    email: 'support@spaja.rs',
+    email: supportKontakt?.email ?? 'support@spaja.rs',
     availableLanguage: ['Serbian', 'English'],
   },
   sameAs: [BASE_URL],

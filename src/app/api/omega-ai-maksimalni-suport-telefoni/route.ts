@@ -12,6 +12,7 @@ export async function GET() {
     sistem: 'OMEGA AI Maksimalni Suport — Telefoni',
     verzija: APP_VERSION,
     telefoni: omegaAiMaksimalniSuport.telefoni,
+    javniBrojevi: omegaAiMaksimalniSuport.javniBrojevi,
     timestamp: new Date().toISOString(),
   });
 }
