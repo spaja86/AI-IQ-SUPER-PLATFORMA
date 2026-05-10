@@ -20,7 +20,7 @@ export default function PWARegistration() {
     const onMessage = (event: MessageEvent) => {
       if (event.data?.type === 'SW_UPDATED') {
         navigator.serviceWorker.getRegistration().then((registration) => registration?.update()).catch((error) => {
-          console.warn('SW update check failed:', error);
+          console.warn('SW update check failed during SW_UPDATED message handling:', error);
         });
       }
     };
