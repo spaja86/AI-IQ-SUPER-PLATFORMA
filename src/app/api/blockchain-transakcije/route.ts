@@ -92,7 +92,7 @@ export async function GET() {
           korak6: 'Kliknite Deploy',
           korak7: 'Kopirajte adresu deployovanog ugovora',
           korak8:
-            'Postavite NEXT_PUBLIC_CONTRACT_ADDRESS=0x... u Cloudflare Pages environment varijable',
+            'Postavite NEXT_PUBLIC_CONTRACT_ADDRESS=0x... u produkcione environment varijable aplikacije',
         },
     frontend: {
       tehnologije: ['wagmi v2', 'viem v2', '@tanstack/react-query v5'],

@@ -17,8 +17,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "pages:deploy": "npm run pages:build && wrangler pages deploy",
     "start": "next start",
     "lint": "eslint",
     "test": "npx tsx src/tests/auth/omega-auth.test.ts && npx tsx src/tests/spaja-ultra/spaja-ultra-core.test.ts && npx tsx src/tests/glavni-endzin/glavni-endzin.test.ts && npx tsx src/tests/api/api-contracts.test.ts",
@@ -47,7 +45,6 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.4",
-    "@cloudflare/next-on-pages": "^1.13.16",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^25",
     "@types/react": "^19",
@@ -57,7 +54,6 @@
     "eslint-config-next": "16.2.4",
     "hardhat": "^3.4.3",
     "tailwindcss": "^4",
-    "typescript": "^6",
-    "wrangler": "^4.87.0"
+    "typescript": "^6"
   }
 }

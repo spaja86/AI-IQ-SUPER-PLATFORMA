@@ -71,7 +71,7 @@ export const products: Product[] = [
     icon: '🛡️',
     version: '2.1.0',
     features: ['WAF', 'Rate limiting', 'DDoS protection', 'IP blocking'],
-    techStack: ['Cloudflare', 'Vercel Edge', 'Custom rules'],
+    techStack: ['Edge WAF', 'Vercel Edge', 'Custom rules'],
   },
   {
     id: 'auth-service',
@@ -602,7 +602,7 @@ export const products: Product[] = [
     icon: '🌍',
     version: '1.0.0',
     features: ['Edge computing', 'Distribuirana obrada', 'Niža latencija', 'CDN integracija'],
-    techStack: ['Vercel Edge', 'Cloudflare Workers', 'Deno Deploy'],
+    techStack: ['Vercel Edge', 'Edge Workers', 'Deno Deploy'],
   },
   {
     id: 'digitalni-dns-engine',
@@ -624,7 +624,7 @@ export const products: Product[] = [
     icon: '🌐',
     version: '1.0.0',
     features: ['Content delivery', 'Globalna distribucija', 'Cache', 'Image optimization'],
-    techStack: ['Vercel CDN', 'Cloudflare', 'Edge Functions'],
+    techStack: ['Vercel CDN', 'Global CDN', 'Edge Functions'],
   },
   {
     id: 'digitalni-load-balancer-plus',
@@ -756,7 +756,7 @@ export const products: Product[] = [
     icon: '🔥',
     version: '1.0.0',
     features: ['WAF', 'Firewall', 'DDoS zaštita', 'IP filtriranje'],
-    techStack: ['Cloudflare', 'iptables', 'ModSecurity'],
+    techStack: ['Edge Firewall', 'iptables', 'ModSecurity'],
   },
   {
     id: 'digitalni-vpn-gateway',

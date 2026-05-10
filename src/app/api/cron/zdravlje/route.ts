@@ -7,14 +7,14 @@ import { APP_VERSION } from '@/lib/constants';
 /**
  * Cron endpoint — Zdravlje sistema
  *
- * Pokreće se svakih 30 minuta putem Cloudflare Scheduled Worker.
+ * Pokreće se svakih 30 minuta putem eksternog scheduler-a.
  * Proverava zdravlje platforme i OMEGA AI sistema.
  * Snima health snapshot u Supabase za trend analizu.
  *
  * GET /api/cron/zdravlje
  */
 export async function GET(request: Request) {
-  // Proveravamo CRON_SECRET (Cloudflare Worker šalje Bearer token)
+  // Proveravamo CRON_SECRET (scheduler šalje Bearer token)
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 
