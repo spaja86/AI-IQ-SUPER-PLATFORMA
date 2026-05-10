@@ -2,11 +2,13 @@
 // Kompanija SPAJA — Digitalna Industrija
 // PWA offline support sa caching strategijom
 
-const CACHE_NAME = 'spajapro-v1';
+const SW_VERSION = new URL(self.location.href).searchParams.get('v') || 'dev';
+const CACHE_NAME = `spajapro-v${SW_VERSION}`;
 const STATIC_ASSETS = [
   '/',
   '/spaja-pro',
   '/favicon.ico',
+  '/manifest.webmanifest',
 ];
 
 // Install event — cache static assets
@@ -22,15 +24,24 @@ self.addEventListener('install', (event) => {
 // Activate event — clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
+    caches.keys().then(async (cacheNames) => {
+      await Promise.all(
         cacheNames
           .filter((name) => name !== CACHE_NAME)
           .map((name) => caches.delete(name))
       );
+      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      clients.forEach((client) => client.postMessage({ type: 'SW_UPDATED', version: SW_VERSION }));
+      return undefined;
     })
   );
   self.clients.claim();
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Fetch event — network-first with cache fallback

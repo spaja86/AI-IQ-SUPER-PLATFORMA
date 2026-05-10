@@ -2,13 +2,83 @@
 @import "katex/dist/katex.min.css";
 
 :root {
-  --background: #030712;
-  --foreground: #f9fafb;
+  --background: #060914;
+  --foreground: #eef2ff;
+  --surface-1: #0b1223;
+  --surface-2: #111a2f;
+  --surface-3: #18233d;
+  --border-subtle: rgba(148, 163, 184, 0.25);
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #3b82f6;
+  --brand-accent: #7c3aed;
+  --text-muted: #a5b4d6;
+  --focus-ring: rgba(59, 130, 246, 0.5);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  font-feature-settings: "ss01", "cv05";
+}
+
+.spaja-shell {
+  background: radial-gradient(1200px 600px at 20% -10%, rgba(37, 99, 235, 0.16), transparent 50%),
+              radial-gradient(1000px 500px at 80% -10%, rgba(124, 58, 237, 0.14), transparent 50%),
+              var(--background);
+}
+
+.spaja-section {
+  padding-inline: 1.5rem;
+}
+
+.spaja-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+}
+
+.spaja-card {
+  border: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--surface-2) 85%, transparent);
+  border-radius: 1rem;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.spaja-card:hover {
+  border-color: color-mix(in srgb, var(--brand-primary) 45%, var(--border-subtle));
+  box-shadow: 0 10px 35px rgba(37, 99, 235, 0.15);
+}
+
+.spaja-btn-primary {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+  color: #fff;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: transform 150ms ease, filter 150ms ease, box-shadow 150ms ease;
+}
+
+.spaja-btn-primary:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+.spaja-btn-secondary {
+  border: 1px solid var(--border-subtle);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.spaja-btn-secondary:hover {
+  background: color-mix(in srgb, var(--surface-2) 85%, transparent);
+  border-color: color-mix(in srgb, var(--brand-primary) 45%, var(--border-subtle));
+}
+
+.spaja-focus-ring:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 /* SPAJA Brouvzer — loading progress bar animacija */

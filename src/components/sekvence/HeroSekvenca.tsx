@@ -6,9 +6,9 @@ export default function HeroSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
   const dugmad = (sekvenca.podaci.dugmad ?? []) as Array<{ tekst: string; href: string; stil?: string }>;
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 px-6 py-20 text-center">
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 py-20 text-center">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent" />
-      <div className="relative mx-auto max-w-4xl">
+      <div className="spaja-container relative max-w-4xl">
         {sekvenca.ikona && (
           <div className="mb-6 text-6xl" role="img" aria-label={sekvenca.naslov ?? 'Ikona'}>{sekvenca.ikona}</div>
         )}
@@ -31,8 +31,8 @@ export default function HeroSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
                 href={d.href}
                 className={
                   d.stil === 'sekundarno'
-                    ? 'rounded-lg border border-gray-600 px-6 py-3 text-sm font-medium text-gray-200 transition hover:border-gray-400 hover:text-white'
-                    : 'rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-blue-500'
+                    ? 'spaja-btn-secondary spaja-focus-ring px-6 py-3 text-sm'
+                    : 'spaja-btn-primary spaja-focus-ring px-6 py-3 text-sm'
                 }
               >
                 {d.tekst}

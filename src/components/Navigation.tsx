@@ -4,63 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useSyncExternalStore } from 'react';
 import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
+import { navigation } from '@/lib/navigation';
 
-const navLinks = [
-  { href: '/', label: '🏠 Početna' },
-  { href: '/dashboard', label: '📊 Dashboard' },
-  { href: '/industrija', label: '🏭 Industrija' },
-  { href: '/platforme', label: '🌐 Platforme' },
-  { href: '/kompanije', label: '🏛️ Kompanije' },
-  { href: '/organizacije', label: '🏢 Organizacije' },
-  { href: '/proizvodi', label: '📦 Proizvodi' },
-  { href: '/it-proizvodi', label: '⚡ IT Proizvodi' },
-  { href: '/omega-ai', label: '🧠 OMEGA AI' },
-  { href: '/spaja-pro', label: '🌟 SpajaPro' },
-  { href: '/prompt', label: '📝 Prompt' },
-  { href: '/igrice', label: '🎮 Igrice' },
-  { href: '/dimenzije', label: '🌀 Dimenzije' },
-  { href: '/proksi', label: '📡 Proksi' },
-  { href: '/mobilna-mreza', label: '📱 Mobilna' },
-  { href: '/ekosistem', label: '🔗 Ekosistem' },
-  { href: '/deploy', label: '🚀 Deploy' },
-  { href: '/auto-popravka', label: '🔧 Auto-Popravka' },
-  { href: '/ai-platforma', label: '🤖 AI Platforma' },
-  { href: '/banka', label: '🏦 Banka' },
-  { href: '/menjacnica', label: '💱 Menjačnica' },
-  { href: '/kompanija', label: '🏗️ Kompanija' },
-  { href: '/organizacija', label: '🌍 Organizacija' },
-  { href: '/proksi-github-deploy', label: '🐙 GitHub Deploy' },
-  { href: '/proksi-wifi-antena', label: '📶 WiFi Antena' },
-  { href: '/spaja-univerzalni-prompt', label: '🎯 SPAJA Prompt' },
-  { href: '/spaja-generator-engine', label: '⚙️ Generator Endžin' },
-  { href: '/spaja-digitalni-brouvzer', label: '🌐 Digitalni Brouvzer' },
-  { href: '/digitalni-prozor', label: '🪟 Digitalni Prozor' },
-  { href: '/spaja-render-medija', label: '🎬 Render Medija' },
-  { href: '/io-openui-ao-laboratorija', label: '🔬 Laboratorija' },
-  { href: '/io-openui-ao-gaming-platforma', label: '🎮 Gaming Platforma' },
-  { href: '/io-openui-ao-analitika', label: '📊 Analitika' },
-  { href: '/pricing', label: '💰 Pricing' },
-  { href: '/digitalni-televizor', label: '📺 Digitalni TV' },
-  { href: '/monitoring-live', label: '🎥 Monitoring Live' },
-  { href: '/ai-iq-monitoring', label: '🔍 AI Monitoring' },
-  { href: '/blog', label: '📝 Blog & FAQ' },
-  { href: '/unit-testovi', label: '🧪 Unit Testovi' },
-  { href: '/omega-ai-suport', label: '📞 OMEGA Suport' },
-  { href: '/omega-projekat-plasiranje', label: '🚀 OMEGA Plasiranje' },
-  { href: '/omega-projekat-zvanicno-otvaranje', label: '🏛️ OMEGA Otvaranje' },
-  { href: '/oktavne-eksponencijalne-funkcije', label: '📈 Oktavne Funkcije' },
-  { href: '/digitalna-platforma', label: '🌐 Digitalna Platforma' },
-  { href: '/spaja-digitalni-kompjuter', label: '💻 Digitalni Kompjuter' },
-  { href: '/spaja-ultra-repl', label: '⌨️ SpajaUltra REPL' },
-  { href: '/glavni-endzin', label: '🔑 Glavni Endžin' },
-  { href: '/glavni-sistem-nabavka', label: '📋 Sistem Nabavka' },
-  { href: '/reklame-i-partnerstva', label: '📢 Reklame & Partnerstva' },
-  { href: '/dnevna-raspodela-zarade', label: '💵 Raspodela Zarade' },
-  { href: '/login', label: '🔐 Prijava' },
-  { href: '/registracija', label: '📝 Registracija' },
-  { href: '/zaboravljena-lozinka', label: '🔓 Zaboravljena Lozinka' },
-  { href: '/security', label: '🛡️ Bezbednost' },
-];
+const navLinks = navigation.map((item) => ({
+  href: item.href,
+  label: `${item.icon} ${item.label}`,
+}));
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -98,7 +47,7 @@ export default function Navigation() {
   const isLoggedIn = !!sesija;
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-800 bg-gray-900/95 backdrop-blur" aria-label="Glavna navigacija">
+    <nav className="sticky top-0 z-50 border-b border-slate-700/60 bg-slate-950/90 backdrop-blur" aria-label="Glavna navigacija">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-600 focus:p-2 focus:text-white">
         Preskoči na sadržaj
       </a>
@@ -175,7 +124,7 @@ export default function Navigation() {
             <span className="text-xs text-green-400" title={sesija?.email}>●</span>
           )}
           <button
-            className="rounded-lg p-2 text-gray-400 hover:text-white"
+            className="spaja-focus-ring rounded-lg p-2 text-gray-400 hover:text-white"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Zatvori meni' : 'Otvori meni'}
             aria-expanded={menuOpen}

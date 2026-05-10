@@ -30,36 +30,36 @@ export default function KompanijePage() {
       {/* Parent Company */}
       {parentCompany && (
         <section className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold">
-            <span>🏛️</span> Matična kompanija
-          </h2>
-          <div className="rounded-xl border-2 border-zinc-300 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-900">
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+              <span>🏛️</span> Matična kompanija
+            </h2>
+          <div className="spaja-card border-2 p-6">
             <div className="flex items-start gap-4">
               <span className="text-5xl">{parentCompany.icon}</span>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold">{parentCompany.name}</h3>
-                <p className="mt-1 text-zinc-600 dark:text-zinc-400">{parentCompany.description}</p>
+                <h3 className="text-2xl font-bold text-white">{parentCompany.name}</h3>
+                <p className="mt-1 text-[var(--text-muted)]">{parentCompany.description}</p>
                 <div className="mt-4 grid gap-4 sm:grid-cols-3">
                   <div>
-                    <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Industrija</p>
-                    <p className="font-semibold">{parentCompany.industry}</p>
+                    <p className="text-xs font-medium text-[var(--text-muted)]">Industrija</p>
+                    <p className="font-semibold text-white">{parentCompany.industry}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Platforme</p>
-                    <p className="font-semibold">{parentCompany.platformIds.length}</p>
+                    <p className="text-xs font-medium text-[var(--text-muted)]">Platforme</p>
+                    <p className="font-semibold text-white">{parentCompany.platformIds.length}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Organizacije</p>
-                    <p className="font-semibold">{parentCompany.organizationIds.length}</p>
+                    <p className="text-xs font-medium text-[var(--text-muted)]">Organizacije</p>
+                    <p className="font-semibold text-white">{parentCompany.organizationIds.length}</p>
                   </div>
                 </div>
                 <div className="mt-4">
-                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Proizvodi</p>
+                  <p className="text-xs font-medium text-[var(--text-muted)]">Proizvodi</p>
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {parentCompany.products.map((p: string) => (
                       <span
                         key={p}
-                        className="rounded-md bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400"
+                        className="rounded-md border border-emerald-700/40 bg-emerald-900/30 px-2 py-0.5 text-xs font-medium text-emerald-300"
                       >
                         {p}
                       </span>
@@ -93,7 +93,7 @@ export default function KompanijePage() {
                     status={company.status}
                     tags={company.products}
                   >
-                    <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
+                    <div className="mt-3 text-xs text-[var(--text-muted)]">
                       <p>
                         <span className="font-medium">Industrija:</span> {company.industry}
                       </p>
@@ -111,23 +111,23 @@ export default function KompanijePage() {
 
       {/* Corporate Structure Visual */}
       <section>
-        <h2 className="mb-4 text-xl font-semibold">Korporativna struktura</h2>
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+        <h2 className="mb-4 text-xl font-semibold text-white">Korporativna struktura</h2>
+        <div className="spaja-card p-6">
           {parentCompany && (
             <div className="text-center">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-xl border-2 border-zinc-300 px-6 py-3 text-lg font-bold dark:border-zinc-600">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-xl border-2 border-slate-600 px-6 py-3 text-lg font-bold text-white">
                 <span>{parentCompany.icon}</span> {parentCompany.name}
               </div>
-              <div className="mx-auto h-8 w-0.5 bg-zinc-300 dark:bg-zinc-600" />
+              <div className="mx-auto h-8 w-0.5 bg-slate-600" />
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {subsidiaries.map((sub) => (
                   <div
                     key={sub.id}
-                    className="rounded-lg border border-zinc-200 px-4 py-3 text-center dark:border-zinc-700"
+                    className="rounded-lg border border-slate-700/50 bg-slate-900/40 px-4 py-3 text-center"
                   >
                     <span className="text-2xl">{sub.icon}</span>
-                    <p className="mt-1 text-sm font-medium">{sub.name}</p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">{sub.industry}</p>
+                    <p className="mt-1 text-sm font-medium text-white">{sub.name}</p>
+                    <p className="text-xs text-[var(--text-muted)]">{sub.industry}</p>
                   </div>
                 ))}
               </div>

@@ -31,8 +31,8 @@ export default function OrganizacijePage() {
 
       {/* Org Hierarchy */}
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold">Organizaciona hijerarhija</h2>
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+        <h2 className="mb-4 text-xl font-semibold text-white">Organizaciona hijerarhija</h2>
+        <div className="spaja-card p-6">
           {organizations
             .filter((o) => !o.parentId)
             .map((root) => (
@@ -40,22 +40,22 @@ export default function OrganizacijePage() {
                 <div className="flex items-center gap-2 text-lg font-semibold">
                   <span>{root.icon}</span> {root.name}
                 </div>
-                <div className="ml-8 mt-2 space-y-2 border-l-2 border-zinc-200 pl-4 dark:border-zinc-700">
+                <div className="ml-8 mt-2 space-y-2 border-l-2 border-slate-700 pl-4">
                   {organizations
                     .filter((o) => o.parentId === root.id)
                     .map((child) => (
                       <div key={child.id}>
                         <div className="flex items-center gap-2 font-medium">
                           <span>{child.icon}</span> {child.name}
-                          <span className="text-xs text-zinc-500 dark:text-zinc-400">({typeLabels[child.type]?.label})</span>
+                          <span className="text-xs text-[var(--text-muted)]">({typeLabels[child.type]?.label})</span>
                         </div>
-                        <div className="ml-8 mt-1 space-y-1 border-l-2 border-zinc-100 pl-4 dark:border-zinc-800">
+                        <div className="ml-8 mt-1 space-y-1 border-l-2 border-slate-800 pl-4">
                           {organizations
                             .filter((o) => o.parentId === child.id)
                             .map((grandchild) => (
                               <div key={grandchild.id} className="flex items-center gap-2 text-sm">
                                 <span>{grandchild.icon}</span> {grandchild.name}
-                                <span className="text-xs text-zinc-500 dark:text-zinc-400">({typeLabels[grandchild.type]?.label})</span>
+                                <span className="text-xs text-[var(--text-muted)]">({typeLabels[grandchild.type]?.label})</span>
                               </div>
                             ))}
                         </div>
@@ -73,9 +73,9 @@ export default function OrganizacijePage() {
         if (typeOrgs.length === 0) return null;
         return (
           <section key={key} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold">
-              <span>{info.icon}</span> {info.label}
-            </h2>
+              <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
+                <span>{info.icon}</span> {info.label}
+              </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {typeOrgs.map((org) => (
                 <EntityCard
@@ -86,8 +86,8 @@ export default function OrganizacijePage() {
                   status={org.status}
                   tags={org.capabilities}
                 >
-                  <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
-                    <p><span className="font-medium">Misija:</span> {org.mission}</p>
+                    <div className="mt-3 text-xs text-[var(--text-muted)]">
+                      <p><span className="font-medium">Misija:</span> {org.mission}</p>
                     {org.platformIds.length > 0 && (
                       <p className="mt-1"><span className="font-medium">Platforme:</span> {org.platformIds.length} povezanih</p>
                     )}

@@ -21,16 +21,16 @@ export default function SlikaSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
         : 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3';
 
   return (
-    <div className="bg-gray-900/50 px-6 py-12">
-      <div className="mx-auto max-w-6xl">
+    <div className="py-12">
+      <div className="spaja-container max-w-6xl">
         {sekvenca.naslov && (
           <h2 className="mb-2 text-center text-2xl font-bold text-white">{sekvenca.naslov}</h2>
         )}
         {sekvenca.podnaslov && (
-          <p className="mb-6 text-center text-gray-400">{sekvenca.podnaslov}</p>
+          <p className="mb-6 text-center text-[var(--text-muted)]">{sekvenca.podnaslov}</p>
         )}
         {opis && (
-          <p className="mx-auto mb-8 max-w-3xl text-center text-gray-300">{opis}</p>
+          <p className="mx-auto mb-8 max-w-3xl text-center text-slate-200">{opis}</p>
         )}
         <div className={gridClass}>
           {slike.map((s) => (

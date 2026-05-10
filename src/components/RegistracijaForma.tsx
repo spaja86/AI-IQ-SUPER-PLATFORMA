@@ -113,7 +113,7 @@ export default function RegistracijaForma() {
   }
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-4 py-16">
+    <div className="spaja-shell flex min-h-[80vh] items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-600/20">
@@ -125,10 +125,7 @@ export default function RegistracijaForma() {
           </p>
         </div>
 
-        <form
-          onSubmit={handleRegister}
-          className="rounded-2xl border border-gray-700/50 bg-gray-800/60 p-8 shadow-2xl backdrop-blur"
-        >
+        <form onSubmit={handleRegister} className="spaja-card p-8 shadow-2xl backdrop-blur">
           {/* Ime */}
           <div className="mb-5">
             <label htmlFor="reg-ime" className="mb-1.5 block text-sm font-medium text-gray-300">
@@ -145,7 +142,7 @@ export default function RegistracijaForma() {
                 value={ime}
                 onChange={(e) => setIme(e.target.value)}
                 placeholder="Vase ime"
-                className="w-full rounded-lg border border-gray-600 bg-gray-900 py-3 pl-10 pr-4 text-white placeholder-gray-500 transition focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/40"
+                className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-4 text-white placeholder-slate-500 transition"
               />
             </div>
           </div>
@@ -167,7 +164,7 @@ export default function RegistracijaForma() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="vas@email.com"
-                className="w-full rounded-lg border border-gray-600 bg-gray-900 py-3 pl-10 pr-4 text-white placeholder-gray-500 transition focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/40"
+                className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-4 text-white placeholder-slate-500 transition"
               />
             </div>
           </div>
@@ -190,7 +187,7 @@ export default function RegistracijaForma() {
                 value={lozinka}
                 onChange={(e) => setLozinka(e.target.value)}
                 placeholder="Minimum 8 karaktera"
-                className="w-full rounded-lg border border-gray-600 bg-gray-900 py-3 pl-10 pr-12 text-white placeholder-gray-500 transition focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/40"
+                className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-12 text-white placeholder-slate-500 transition"
               />
               <button
                 type="button"

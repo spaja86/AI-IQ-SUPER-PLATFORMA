@@ -19,18 +19,18 @@ export default function Card({
 }: CardProps) {
   const content = (
     <div
-      className={`group rounded-xl border border-white/10 bg-white/5 p-6 transition-all duration-200 hover:border-[#7c3aed]/40 hover:bg-white/[0.07] hover:shadow-lg hover:shadow-[#7c3aed]/5 ${className}`}
+      className={`spaja-card group p-6 ${className}`}
     >
       <div className="mb-3 text-3xl">{icon}</div>
       <h3 className="text-lg font-semibold text-white">{title}</h3>
       {subtitle && (
-        <p className="mt-0.5 text-sm text-zinc-400">{subtitle}</p>
+        <p className="mt-0.5 text-sm text-[var(--text-muted)]">{subtitle}</p>
       )}
-      <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+      <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
         {description}
       </p>
       {href && (
-        <span className="mt-4 inline-flex items-center text-sm font-medium text-[#7c3aed] transition-colors group-hover:text-[#2563eb]">
+        <span className="mt-4 inline-flex items-center text-sm font-medium text-blue-400 transition-colors group-hover:text-blue-300">
           Saznajte više →
         </span>
       )}
