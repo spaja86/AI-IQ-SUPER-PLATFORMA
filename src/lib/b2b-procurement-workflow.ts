@@ -4,6 +4,8 @@ import { getKontaktKanal } from '@/lib/kompanija-spaja-operativa';
 
 export type B2BPartnerTip = 'proizvodjac' | 'ovlasceni_diler' | 'posrednik' | 'tehnoloski_partner';
 export type B2BPartnerStatus = 'lead' | 'kontaktiran' | 'u_pregovorima' | 'aktivan' | 'odbijen';
+export type B2BPartnerstvoTip = 'retail_partnerstvo' | 'enterprise_partnerstvo' | 'strategijsko_partnerstvo';
+export type B2BPregovorStatus = 'inicijalno' | 'u_toku' | 'zakljuceno' | 'blokirano';
 
 export type B2BProcurementStatus =
   | 'upit'
@@ -19,6 +21,7 @@ export type B2BDokumentStatus = 'nedostaje' | 'primljeno' | 'verifikovano';
 export type B2BOdobrenjeStatus = 'pending' | 'approved' | 'rejected';
 export type B2BPaymentStatus = 'ceka_odobrenje' | 'spremno_za_uplatu' | 'uplaceno';
 export type B2BDeliveryStatus = 'nije_zakazano' | 'zakazano' | 'u_toku' | 'isporuceno' | 'preuzeto';
+export type B2BGamePlanAnalizaStatus = 'u_analizi' | 'predlog' | 'odbijen' | 'izabran';
 
 export interface B2BPartner {
   id: string;
@@ -27,6 +30,9 @@ export interface B2BPartner {
   trziste: string;
   kanalKontakta: string;
   status: B2BPartnerStatus;
+  lokacija: string;
+  partnerstvoTip: B2BPartnerstvoTip;
+  statusPregovora: B2BPregovorStatus;
 }
 
 export interface B2BVehicleSpec {
@@ -102,15 +108,48 @@ export interface B2BPrivateKontakt {
   privatniTelefon: string;
 }
 
+export interface B2BWorkflowProfil {
+  id: 'gigatron-usce';
+  naziv: string;
+  lokacijaPartnera: string;
+  scenario: string;
+}
+
+export interface B2BGamePlan {
+  id: string;
+  naziv: string;
+  cena: number;
+  valuta: 'EUR' | 'USD' | 'RSD';
+  fullOpremaStavke: string[];
+  statusAnalize: B2BGamePlanAnalizaStatus;
+}
+
+export interface B2BBestGamePlan {
+  selectedPlanId: string | null;
+  razlog: string | null;
+  kriterijumi: string[];
+}
+
+export interface B2BPaymentReadiness {
+  ready: boolean;
+  missing: string[];
+  sourceLocked: boolean;
+}
+
 export interface B2BProcurementCase {
   id: string;
   sifra: string;
   status: B2BProcurementStatus;
+  workflowProfil: B2BWorkflowProfil;
   partner: B2BPartner;
   vozilo: B2BVehicleSpec;
   payment: B2BPaymentInfo;
   delivery: B2BDeliveryInfo;
   privatniKontakt: B2BPrivateKontakt;
+  gamePlanovi: B2BGamePlan[];
+  bestGamePlan: B2BBestGamePlan;
+  fullOpremaPotvrdjena: boolean;
+  paymentReadiness: B2BPaymentReadiness;
   dokumentacija: B2BDokument[];
   odobrenja: B2BOdobrenje[];
   ponude: B2BOffer[];
@@ -155,18 +194,85 @@ const STATUS_TRANSITIONS: Record<B2BProcurementStatus, B2BProcurementStatus[]> =
 const FALLBACK_CASE_ID = 'b2b-proc-001';
 const salesKontakt = getKontaktKanal('sales')?.email ?? 'sales@spaja.rs';
 const billingKontakt = getKontaktKanal('billing')?.email ?? 'billing@spaja.rs';
+const PAYMENT_SOURCE_LOCKED = 'AI IQ World Bank';
+
+function isValidPhoneFormat(phone: string): boolean {
+  const normalized = phone.replace(/[\s()-]/g, '');
+  return /^\+[1-9][0-9]{6,14}$/.test(normalized);
+}
+
+function createDefaultGamePlanovi(): B2BGamePlan[] {
+  return [
+    {
+      id: 'gigatron-plan-1',
+      naziv: 'GIGATRON Ušće Gejm Plan 1 (Enterprise)',
+      cena: 0,
+      valuta: 'EUR',
+      fullOpremaStavke: ['FULL OPREMA'],
+      statusAnalize: 'u_analizi',
+    },
+    {
+      id: 'gigatron-plan-2',
+      naziv: 'GIGATRON Ušće Gejm Plan 2 (Enterprise)',
+      cena: 0,
+      valuta: 'EUR',
+      fullOpremaStavke: ['FULL OPREMA'],
+      statusAnalize: 'u_analizi',
+    },
+  ];
+}
+
+function hasExactlyTwoDistinctGamePlans(gamePlanovi: B2BGamePlan[]): boolean {
+  if (gamePlanovi.length !== 2) return false;
+  const unique = new Set(gamePlanovi.map((p) => p.id));
+  return unique.size === 2;
+}
+
+function normalizeCase(caseItem: B2BProcurementCase): B2BProcurementCase {
+  const normalized = cloneCase(caseItem);
+  normalized.workflowProfil ??= {
+    id: 'gigatron-usce',
+    naziv: 'GIGATRON Ušće B2B workflow',
+    lokacijaPartnera: 'Ušće tržni centar, Beograd',
+    scenario: 'partnerstvo + 2 gejm plana + full oprema',
+  };
+  normalized.partner.lokacija ??= 'Ušće tržni centar, Beograd';
+  normalized.partner.partnerstvoTip ??= 'retail_partnerstvo';
+  normalized.partner.statusPregovora ??= 'inicijalno';
+  normalized.payment.izvorSredstava = PAYMENT_SOURCE_LOCKED;
+  normalized.gamePlanovi = normalized.gamePlanovi?.length ? normalized.gamePlanovi : createDefaultGamePlanovi();
+  normalized.bestGamePlan ??= {
+    selectedPlanId: null,
+    razlog: null,
+    kriterijumi: ['najpovoljnija cena', 'full oprema', 'enterprise uslovi', 'rok isporuke'],
+  };
+  normalized.fullOpremaPotvrdjena ??=
+    normalized.vozilo.oprema.toUpperCase().includes('FULL OPREMA') &&
+    normalized.gamePlanovi.every((plan) => plan.fullOpremaStavke.length > 0);
+  normalized.paymentReadiness = getPaymentReadiness(normalized);
+  return normalized;
+}
 
 const fallbackCase: B2BProcurementCase = {
   id: FALLBACK_CASE_ID,
   sifra: 'B2B-LUX-001',
   status: 'upit',
+  workflowProfil: {
+    id: 'gigatron-usce',
+    naziv: 'GIGATRON Ušće B2B workflow',
+    lokacijaPartnera: 'Ušće tržni centar, Beograd',
+    scenario: 'partnerstvo + 2 gejm plana + full oprema',
+  },
   partner: {
-    id: 'partner-lux-auto',
-    naziv: 'Luksuzni auto partner Srbija',
+    id: 'partner-gigatron-usce',
+    naziv: 'GIGATRON (Ušće)',
     tip: 'ovlasceni_diler',
     trziste: 'Srbija',
     kanalKontakta: salesKontakt,
     status: 'lead',
+    lokacija: 'Ušće tržni centar, Beograd',
+    partnerstvoTip: 'retail_partnerstvo',
+    statusPregovora: 'u_toku',
   },
   vozilo: {
     marka: 'Lamborghini',
@@ -180,7 +286,7 @@ const fallbackCase: B2BProcurementCase = {
   },
   payment: {
     status: 'ceka_odobrenje',
-    izvorSredstava: 'AI IQ World Bank',
+    izvorSredstava: PAYMENT_SOURCE_LOCKED,
     fakturaBroj: null,
     predracunBroj: null,
     potvrdaUplate: null,
@@ -197,6 +303,18 @@ const fallbackCase: B2BProcurementCase = {
   privatniKontakt: {
     vlasnik: 'Nikola Spajić',
     privatniTelefon: '+381642396577',
+  },
+  gamePlanovi: createDefaultGamePlanovi(),
+  bestGamePlan: {
+    selectedPlanId: null,
+    razlog: null,
+    kriterijumi: ['najpovoljnija cena', 'full oprema', 'enterprise uslovi', 'rok isporuke'],
+  },
+  fullOpremaPotvrdjena: true,
+  paymentReadiness: {
+    ready: false,
+    missing: ['Nedostaje izbor najboljeg gejm plana.'],
+    sourceLocked: true,
   },
   dokumentacija: DEFAULT_DOKUMENTA.map((doc, idx) => ({
     id: `doc-${idx + 1}`,
@@ -266,7 +384,7 @@ async function loadFromSupabase(): Promise<B2BProcurementCase[] | null> {
   const items: B2BProcurementCase[] = [];
   for (const row of data) {
     const normalized = normalizeFromSnapshot(row.snapshot);
-    if (normalized) items.push(normalized);
+    if (normalized) items.push(normalizeCase(normalized));
   }
   if (items.length === 0) return null;
   return items;
@@ -406,12 +524,12 @@ async function appendTimelineRows(caseItem: B2BProcurementCase): Promise<void> {
 
 async function getAllCasesRaw(): Promise<B2BProcurementCase[]> {
   const dbCases = await loadFromSupabase();
-  if (dbCases && dbCases.length > 0) return dbCases;
-  return Array.from(memoryStore.values()).map(cloneCase);
+  if (dbCases && dbCases.length > 0) return dbCases.map(normalizeCase);
+  return Array.from(memoryStore.values()).map((item) => normalizeCase(cloneCase(item)));
 }
 
 async function saveCase(caseItem: B2BProcurementCase): Promise<B2BProcurementCase> {
-  const normalized = cloneCase(caseItem);
+  const normalized = normalizeCase(caseItem);
   memoryStore.set(normalized.id, normalized);
   await saveSnapshotToSupabase(normalized);
   await appendTimelineRows(normalized);
@@ -420,6 +538,32 @@ async function saveCase(caseItem: B2BProcurementCase): Promise<B2BProcurementCas
 
 export function getMissingChecklist(caseItem: B2BProcurementCase): string[] {
   const missing: string[] = [];
+  if (!hasExactlyTwoDistinctGamePlans(caseItem.gamePlanovi)) {
+    missing.push('Moraju postojati tačno 2 gejm plana sa jedinstvenim ID-jevima.');
+  }
+  if (!caseItem.bestGamePlan.selectedPlanId) {
+    missing.push('Nedostaje izbor najboljeg gejm plana.');
+  }
+  if (
+    caseItem.bestGamePlan.selectedPlanId &&
+    !caseItem.gamePlanovi.some((plan) => plan.id === caseItem.bestGamePlan.selectedPlanId)
+  ) {
+    missing.push('Izabrani najbolji gejm plan nije u listi planova.');
+  }
+  if (!caseItem.bestGamePlan.razlog?.trim()) {
+    missing.push('Nedostaje razlog izbora najboljeg gejm plana.');
+  }
+  if (!caseItem.fullOpremaPotvrdjena) {
+    missing.push('FULL OPREMA uslov nije potvrđen.');
+  }
+  if (
+    !caseItem.gamePlanovi.every((plan) => Array.isArray(plan.fullOpremaStavke) && plan.fullOpremaStavke.length > 0)
+  ) {
+    missing.push('Svaki gejm plan mora sadržati stavke full opreme.');
+  }
+  if (caseItem.payment.izvorSredstava !== PAYMENT_SOURCE_LOCKED) {
+    missing.push(`Izvor sredstava mora biti "${PAYMENT_SOURCE_LOCKED}".`);
+  }
   if (!caseItem.dokumentacija.some((d) => d.kljuc === 'pravno-lice' && d.status === 'verifikovano')) {
     missing.push('Pravno lice nije verifikovano.');
   }
@@ -444,6 +588,15 @@ export function getMissingChecklist(caseItem: B2BProcurementCase): string[] {
   return missing;
 }
 
+export function getPaymentReadiness(caseItem: B2BProcurementCase): B2BPaymentReadiness {
+  const missing = getMissingChecklist(caseItem);
+  return {
+    ready: missing.length === 0,
+    missing,
+    sourceLocked: caseItem.payment.izvorSredstava === PAYMENT_SOURCE_LOCKED,
+  };
+}
+
 export function canTransition(caseItem: B2BProcurementCase, nextStatus: B2BProcurementStatus): {
   ok: boolean;
   reason?: string;
@@ -452,17 +605,30 @@ export function canTransition(caseItem: B2BProcurementCase, nextStatus: B2BProcu
   if (!allowed.includes(nextStatus)) {
     return { ok: false, reason: `Nedozvoljen prelaz iz ${caseItem.status} u ${nextStatus}.` };
   }
-  if (nextStatus === 'placanje') {
+  if (nextStatus === 'odobrenje' || nextStatus === 'placanje') {
     const missing = getMissingChecklist(caseItem);
     if (missing.length > 0) {
-      return { ok: false, reason: `Nije spremno za plaćanje: ${missing.join(' ')}` };
+      return {
+        ok: false,
+        reason: `${nextStatus === 'placanje' ? 'Nije spremno za plaćanje' : 'Nije spremno za odobrenje'}: ${missing.join(' ')}`,
+      };
     }
   }
   return { ok: true };
 }
 
 export function buildKomunikacioniSablon(
-  tip: 'inicijalni_upit' | 'zahtev_full_oprema' | 'zahtev_dostava' | 'zahtev_dokumentacija' | 'potvrda_uplate',
+  tip:
+    | 'inicijalni_upit'
+    | 'zahtev_full_oprema'
+    | 'zahtev_dostava'
+    | 'zahtev_dokumentacija'
+    | 'potvrda_uplate'
+    | 'gigatron_inicijalna_ponuda'
+    | 'gigatron_dva_gejm_plana'
+    | 'gigatron_full_oprema_pregovori'
+    | 'gigatron_potvrda_uplate_aiiq'
+    | 'gigatron_zahtev_dostava',
   caseItem: B2BProcurementCase,
 ): { naslov: string; telo: string } {
   const common = [
@@ -472,6 +638,31 @@ export function buildKomunikacioniSablon(
   ].join(' ');
 
   switch (tip) {
+    case 'gigatron_inicijalna_ponuda':
+      return {
+        naslov: `Ponuda partnerstva — GIGATRON Ušće / ${caseItem.sifra}`,
+        telo: `${common}\n\nMolimo inicijalnu enterprise ponudu za partnerstvo sa Digitalnom industrijom i Kompanijom SPAJA.`,
+      };
+    case 'gigatron_dva_gejm_plana':
+      return {
+        naslov: `Zahtev za 2 gejm plana (enterprise) — ${caseItem.sifra}`,
+        telo: `${common}\n\nTražimo tačno dva enterprise gejm plana sa punom specifikacijom, cenom i uslovima saradnje.`,
+      };
+    case 'gigatron_full_oprema_pregovori':
+      return {
+        naslov: `Pregovori za FULL OPREMA uslove — ${caseItem.sifra}`,
+        telo: `${common}\n\nPotrebno je potvrditi da oba gejm plana uključuju FULL OPREMA paket bez izuzetaka.`,
+      };
+    case 'gigatron_potvrda_uplate_aiiq':
+      return {
+        naslov: `Potvrda spremnosti za uplatu preko AI IQ World Bank — ${caseItem.sifra}`,
+        telo: `${common}\n\nPotvrđujemo spremnost za uplatu preko ${PAYMENT_SOURCE_LOCKED} po finalnim enterprise uslovima.`,
+      };
+    case 'gigatron_zahtev_dostava':
+      return {
+        naslov: `Zahtev za dostavu na kućnu adresu — ${caseItem.sifra}`,
+        telo: `${common}\n\nMolimo potvrdu logistike i isporuke na internu kućnu adresu iz admin evidencije.`,
+      };
     case 'zahtev_full_oprema':
       return {
         naslov: `Zahtev za FULL OPREMA paket — ${caseItem.sifra}`,
@@ -519,21 +710,43 @@ export async function getB2BProcurementCaseById(
 }
 
 export async function createB2BProcurementCase(input: {
-  partner: Pick<B2BPartner, 'naziv' | 'tip' | 'trziste' | 'kanalKontakta'>;
+  partner: Pick<B2BPartner, 'naziv' | 'tip' | 'trziste' | 'kanalKontakta'> &
+    Partial<Pick<B2BPartner, 'lokacija' | 'partnerstvoTip' | 'statusPregovora'>>;
   vozilo: Pick<B2BVehicleSpec, 'marka' | 'model' | 'oprema' | 'trziste' | 'budzet' | 'valuta' | 'prioritet' | 'rok'>;
   paymentSource?: string;
   deliveryAddress: string;
   deliveryContact: string;
   privateOwnerName: string;
   privatePhone: string;
+  gamePlanovi?: B2BGamePlan[];
+  bestGamePlan?: Partial<B2BBestGamePlan>;
+  fullOpremaPotvrdjena?: boolean;
 }): Promise<B2BProcurementCase> {
+  if (!isValidPhoneFormat(input.privatePhone)) {
+    throw new Error('privatePhone mora biti u međunarodnom formatu (npr. +381642396577).');
+  }
+  if (!input.deliveryAddress?.trim()) {
+    throw new Error('deliveryAddress je obavezno polje.');
+  }
+
   const now = new Date().toISOString();
   const id = crypto.randomUUID();
   const partnerId = crypto.randomUUID();
+  const gamePlanovi = input.gamePlanovi?.length ? input.gamePlanovi : createDefaultGamePlanovi();
+  if (!hasExactlyTwoDistinctGamePlans(gamePlanovi)) {
+    throw new Error('B2B slučaj mora sadržati tačno 2 gejm plana.');
+  }
+
   const caseItem: B2BProcurementCase = {
     id,
     sifra: `B2B-${now.slice(0, 10).replace(/-/g, '')}-${id.slice(0, 6).toUpperCase()}`,
     status: 'upit',
+    workflowProfil: {
+      id: 'gigatron-usce',
+      naziv: 'GIGATRON Ušće B2B workflow',
+      lokacijaPartnera: input.partner.lokacija ?? 'Ušće tržni centar, Beograd',
+      scenario: 'partnerstvo + 2 gejm plana + full oprema',
+    },
     partner: {
       id: partnerId,
       naziv: input.partner.naziv,
@@ -541,11 +754,14 @@ export async function createB2BProcurementCase(input: {
       trziste: input.partner.trziste,
       kanalKontakta: input.partner.kanalKontakta,
       status: 'lead',
+      lokacija: input.partner.lokacija ?? 'Ušće tržni centar, Beograd',
+      partnerstvoTip: input.partner.partnerstvoTip ?? 'retail_partnerstvo',
+      statusPregovora: input.partner.statusPregovora ?? 'inicijalno',
     },
     vozilo: { ...input.vozilo },
     payment: {
       status: 'ceka_odobrenje',
-      izvorSredstava: input.paymentSource ?? 'AI IQ World Bank',
+      izvorSredstava: PAYMENT_SOURCE_LOCKED,
       fakturaBroj: null,
       predracunBroj: null,
       potvrdaUplate: null,
@@ -563,6 +779,18 @@ export async function createB2BProcurementCase(input: {
       vlasnik: input.privateOwnerName,
       privatniTelefon: input.privatePhone,
     },
+    gamePlanovi,
+    bestGamePlan: {
+      selectedPlanId: input.bestGamePlan?.selectedPlanId ?? null,
+      razlog: input.bestGamePlan?.razlog ?? null,
+      kriterijumi:
+        input.bestGamePlan?.kriterijumi ?? ['najpovoljnija cena', 'full oprema', 'enterprise uslovi', 'rok isporuke'],
+    },
+    fullOpremaPotvrdjena:
+      input.fullOpremaPotvrdjena ??
+      (input.vozilo.oprema.toUpperCase().includes('FULL OPREMA') &&
+        gamePlanovi.every((plan) => plan.fullOpremaStavke.length > 0)),
+    paymentReadiness: { ready: false, missing: [], sourceLocked: true },
     dokumentacija: DEFAULT_DOKUMENTA.map((doc) => ({
       id: crypto.randomUUID(),
       kljuc: doc.kljuc,
@@ -585,6 +813,7 @@ export async function createB2BProcurementCase(input: {
     createdAt: now,
     updatedAt: now,
   };
+  caseItem.paymentReadiness = getPaymentReadiness(caseItem);
   return saveCase(caseItem);
 }
 
@@ -603,6 +832,9 @@ export async function patchB2BProcurementCase(input: {
         type: 'delivery_update';
         payload: Partial<Omit<B2BDeliveryInfo, 'updatedAt'>> & { status?: B2BDeliveryStatus };
       }
+    | { type: 'game_plan_set'; payload: { planovi: B2BGamePlan[] } }
+    | { type: 'best_plan_select'; payload: { planId: string; razlog: string } }
+    | { type: 'full_oprema_confirm'; payload: { potvrdjeno: boolean } }
     | { type: 'status_transition'; payload: { status: B2BProcurementStatus } };
 }): Promise<{ updated?: B2BProcurementCase; error?: string }> {
   const all = await getAllCasesRaw();
@@ -672,6 +904,7 @@ export async function patchB2BProcurementCase(input: {
       next.payment = {
         ...next.payment,
         ...payload,
+        izvorSredstava: PAYMENT_SOURCE_LOCKED,
         updatedAt: now,
       };
       break;
@@ -683,6 +916,40 @@ export async function patchB2BProcurementCase(input: {
         ...payload,
         updatedAt: now,
       };
+      if (!next.delivery.adresaIsporuke?.trim()) {
+        return { error: 'Adresa isporuke je obavezna.' };
+      }
+      break;
+    }
+    case 'game_plan_set': {
+      const payload = action.payload;
+      if (!hasExactlyTwoDistinctGamePlans(payload.planovi)) {
+        return { error: 'Moraju biti postavljena tačno 2 gejm plana sa jedinstvenim ID-jevima.' };
+      }
+      next.gamePlanovi = payload.planovi;
+      if (next.bestGamePlan.selectedPlanId && !next.gamePlanovi.some((plan) => plan.id === next.bestGamePlan.selectedPlanId)) {
+        next.bestGamePlan = { ...next.bestGamePlan, selectedPlanId: null };
+      }
+      break;
+    }
+    case 'best_plan_select': {
+      const payload = action.payload;
+      if (!next.gamePlanovi.some((plan) => plan.id === payload.planId)) {
+        return { error: `Plan nije pronađen: ${payload.planId}` };
+      }
+      next.bestGamePlan = {
+        ...next.bestGamePlan,
+        selectedPlanId: payload.planId,
+        razlog: payload.razlog,
+      };
+      next.gamePlanovi = next.gamePlanovi.map((plan) => ({
+        ...plan,
+        statusAnalize: plan.id === payload.planId ? 'izabran' : plan.statusAnalize === 'izabran' ? 'predlog' : plan.statusAnalize,
+      }));
+      break;
+    }
+    case 'full_oprema_confirm': {
+      next.fullOpremaPotvrdjena = action.payload.potvrdjeno;
       break;
     }
     case 'status_transition': {
@@ -696,6 +963,8 @@ export async function patchB2BProcurementCase(input: {
       return { error: 'Nepoznata akcija.' };
   }
 
+  next.payment.izvorSredstava = PAYMENT_SOURCE_LOCKED;
+  next.paymentReadiness = getPaymentReadiness(next);
   next.updatedAt = now;
   const updated = await saveCase(next);
   return { updated };
@@ -721,7 +990,7 @@ export async function getB2BProcurementChecklist(caseId: string): Promise<{
     caseId,
     status: caseItem.status,
     missing,
-    readyForPayment: missing.length === 0,
+    readyForPayment: caseItem.paymentReadiness.ready,
   };
 }
 
@@ -759,6 +1028,8 @@ export function getB2BWorkflowMeta() {
     domeni: ['partneri', 'nabavke', 'ponude', 'pregovori', 'dokumentacija', 'payment', 'delivery'],
     napomena:
       'Privatni kontakt podaci i adresa isporuke su dostupni samo uz admin pristup; javni kanali koriste kompanijske email adrese.',
+    workflowProfil: 'gigatron-usce',
+    paymentSource: PAYMENT_SOURCE_LOCKED,
     defaultKontakti: {
       sales: salesKontakt,
       billing: billingKontakt,

@@ -58,7 +58,15 @@ export async function POST(request: NextRequest) {
   }
 
   const payload = (body ?? {}) as {
-    partner?: { naziv?: string; tip?: string; trziste?: string; kanalKontakta?: string };
+    partner?: {
+      naziv?: string;
+      tip?: string;
+      trziste?: string;
+      kanalKontakta?: string;
+      lokacija?: string;
+      partnerstvoTip?: 'retail_partnerstvo' | 'enterprise_partnerstvo' | 'strategijsko_partnerstvo';
+      statusPregovora?: 'inicijalno' | 'u_toku' | 'zakljuceno' | 'blokirano';
+    };
     vozilo?: {
       marka?: string;
       model?: string;
@@ -74,6 +82,16 @@ export async function POST(request: NextRequest) {
     deliveryContact?: string;
     privateOwnerName?: string;
     privatePhone?: string;
+    gamePlanovi?: Array<{
+      id?: string;
+      naziv?: string;
+      cena?: number;
+      valuta?: 'EUR' | 'USD' | 'RSD';
+      fullOpremaStavke?: string[];
+      statusAnalize?: 'u_analizi' | 'predlog' | 'odbijen' | 'izabran';
+    }>;
+    bestGamePlan?: { selectedPlanId?: string; razlog?: string; kriterijumi?: string[] };
+    fullOpremaPotvrdjena?: boolean;
   };
 
   if (!payload.partner?.naziv || !payload.vozilo?.marka || !payload.vozilo?.model) {
@@ -88,30 +106,63 @@ export async function POST(request: NextRequest) {
       { status: 422 },
     );
   }
+  if (!/^\+[1-9][0-9]{6,14}$/.test(payload.privatePhone.replace(/[\s()-]/g, ''))) {
+    return NextResponse.json(
+      { error: 'privatePhone mora biti u međunarodnom formatu (npr. +381642396577).' },
+      { status: 422 },
+    );
+  }
+  if (!payload.deliveryAddress.trim()) {
+    return NextResponse.json({ error: 'deliveryAddress je obavezna.' }, { status: 422 });
+  }
+  if (payload.gamePlanovi && payload.gamePlanovi.length !== 2) {
+    return NextResponse.json({ error: 'gamePlanovi mora sadržati tačno 2 plana.' }, { status: 422 });
+  }
 
-  const created = await createB2BProcurementCase({
-    partner: {
-      naziv: payload.partner.naziv,
-      tip: (payload.partner.tip as 'proizvodjac' | 'ovlasceni_diler' | 'posrednik' | 'tehnoloski_partner') ?? 'ovlasceni_diler',
-      trziste: payload.partner.trziste ?? 'Srbija',
-      kanalKontakta: payload.partner.kanalKontakta ?? 'sales@spaja.rs',
-    },
-    vozilo: {
-      marka: payload.vozilo.marka,
-      model: payload.vozilo.model,
-      oprema: payload.vozilo.oprema ?? 'FULL OPREMA',
-      trziste: payload.vozilo.trziste ?? 'Srbija',
-      budzet: Number(payload.vozilo.budzet ?? 0),
-      valuta: payload.vozilo.valuta ?? 'EUR',
-      prioritet: payload.vozilo.prioritet ?? 'visok',
-      rok: payload.vozilo.rok ?? null,
-    },
-    paymentSource: payload.paymentSource ?? 'AI IQ World Bank',
-    deliveryAddress: payload.deliveryAddress,
-    deliveryContact: payload.deliveryContact ?? 'interni-kontakt',
-    privateOwnerName: payload.privateOwnerName,
-    privatePhone: payload.privatePhone,
-  });
+  let created;
+  try {
+    created = await createB2BProcurementCase({
+      partner: {
+        naziv: payload.partner.naziv,
+        tip: (payload.partner.tip as 'proizvodjac' | 'ovlasceni_diler' | 'posrednik' | 'tehnoloski_partner') ?? 'ovlasceni_diler',
+        trziste: payload.partner.trziste ?? 'Srbija',
+        kanalKontakta: payload.partner.kanalKontakta ?? 'sales@spaja.rs',
+        lokacija: payload.partner.lokacija ?? 'Ušće tržni centar, Beograd',
+        partnerstvoTip: payload.partner.partnerstvoTip ?? 'retail_partnerstvo',
+        statusPregovora: payload.partner.statusPregovora ?? 'inicijalno',
+      },
+      vozilo: {
+        marka: payload.vozilo.marka,
+        model: payload.vozilo.model,
+        oprema: payload.vozilo.oprema ?? 'FULL OPREMA',
+        trziste: payload.vozilo.trziste ?? 'Srbija',
+        budzet: Number(payload.vozilo.budzet ?? 0),
+        valuta: payload.vozilo.valuta ?? 'EUR',
+        prioritet: payload.vozilo.prioritet ?? 'visok',
+        rok: payload.vozilo.rok ?? null,
+      },
+      paymentSource: payload.paymentSource ?? 'AI IQ World Bank',
+      deliveryAddress: payload.deliveryAddress,
+      deliveryContact: payload.deliveryContact ?? 'interni-kontakt',
+      privateOwnerName: payload.privateOwnerName,
+      privatePhone: payload.privatePhone,
+      gamePlanovi: payload.gamePlanovi?.map((plan, idx) => ({
+        id: plan.id ?? `gigatron-plan-${idx + 1}`,
+        naziv: plan.naziv ?? `GIGATRON Ušće Gejm Plan ${idx + 1} (Enterprise)`,
+        cena: Number(plan.cena ?? 0),
+        valuta: plan.valuta ?? 'EUR',
+        fullOpremaStavke: plan.fullOpremaStavke?.length ? plan.fullOpremaStavke : ['FULL OPREMA'],
+        statusAnalize: plan.statusAnalize ?? 'u_analizi',
+      })),
+      bestGamePlan: payload.bestGamePlan,
+      fullOpremaPotvrdjena: payload.fullOpremaPotvrdjena,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Kreiranje B2B slučaja nije uspelo.' },
+      { status: 422 },
+    );
+  }
 
   return NextResponse.json(
     {
@@ -142,9 +193,9 @@ export async function PATCH(request: NextRequest) {
 
   const payload = (body ?? {}) as {
     caseId?: string;
-    action?: {
-      type?: string;
-      payload?: Record<string, unknown>;
+      action?: {
+        type?: string;
+        payload?: Record<string, unknown>;
     };
   };
   if (!payload.caseId || !payload.action?.type) {
@@ -161,6 +212,9 @@ export async function PATCH(request: NextRequest) {
         | 'approval_update'
         | 'payment_update'
         | 'delivery_update'
+        | 'game_plan_set'
+        | 'best_plan_select'
+        | 'full_oprema_confirm'
         | 'status_transition',
       payload: (payload.action.payload ?? {}) as never,
     },
