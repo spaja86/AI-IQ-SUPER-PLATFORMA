@@ -143,7 +143,7 @@ export async function GET() {
     {
       prioritet: 1,
       naslov: 'Registracija domena spaja.rs',
-      opis: 'Registruj domen spaja.rs kod registra (preporuka: Namecheap, Cloudflare, ili srpski registar). Ovo je preduslov za sve mejl funkcionalnosti.',
+      opis: 'Registruj domen spaja.rs kod registra (preporuka: Namecheap ili srpski registar). Ovo je preduslov za sve mejl funkcionalnosti.',
       status: 'potrebno',
     },
     {

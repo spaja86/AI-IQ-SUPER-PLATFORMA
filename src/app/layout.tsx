@@ -149,7 +149,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <AiAsistentWrapper />
         <PWARegistration />
-        {/* Cloudflare Web Analytics — aktiviraj u CF Dashboard → Analytics → Web Analytics */}
       </body>
     </html>
   );

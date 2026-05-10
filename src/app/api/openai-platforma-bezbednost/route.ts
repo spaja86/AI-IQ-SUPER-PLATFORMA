@@ -30,7 +30,7 @@ export async function GET() {
         hsmPodrska: true,
       },
       zastitaOdNapada: {
-        ddos: { status: 'aktivan', mitigacija: 'Cloudflare + rate limiting' },
+        ddos: { status: 'aktivan', mitigacija: 'perimetarska zastita + rate limiting' },
         xss: { status: 'aktivan', csp: 'strict-dynamic' },
         csrf: { status: 'aktivan', tokenValidacija: true },
         sqlInjection: { status: 'aktivan', parametrizovaniUpiti: true },
@@ -53,7 +53,7 @@ export async function GET() {
     dijagnostike: [
       { id: 'openai-bez-001', naziv: 'Autentifikacija', status: 'ok', opis: 'OAuth 2.0 + JWT sa MFA aktivni' },
       { id: 'openai-bez-002', naziv: 'Enkripcija', status: 'ok', opis: 'TLS 1.3 transport, AES-256-GCM mirovanje' },
-      { id: 'openai-bez-003', naziv: 'DDoS zastita', status: 'ok', opis: 'Cloudflare mitigacija aktivna sa rate limiting' },
+      { id: 'openai-bez-003', naziv: 'DDoS zastita', status: 'ok', opis: 'Perimetarska mitigacija aktivna sa rate limiting' },
       { id: 'openai-bez-004', naziv: 'XSS/CSRF zastita', status: 'ok', opis: 'CSP strict-dynamic i CSRF token validacija' },
       { id: 'openai-bez-005', naziv: 'Revizija logova', status: 'ok', opis: 'Kompletno logovanje sa 365 dana retencije' },
       { id: 'openai-bez-006', naziv: 'Uskladjenost', status: 'ok', opis: 'GDPR, SOC 2, ISO 27001 uskladjeno' },

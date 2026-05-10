@@ -2,7 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Edge-compatible middleware: IP blocking + rate limiting + X-Request-Id.
-// Runs in Cloudflare Pages Edge Runtime before every request.
+// Runs in Next.js Edge Runtime before every request.
 //
 // Arhitektura:
 //   1. IP blok lista (OMEGA_BLOCKED_IPS env var)

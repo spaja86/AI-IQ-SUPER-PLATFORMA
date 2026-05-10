@@ -5,14 +5,14 @@ import { APP_VERSION } from '@/lib/constants';
 /**
  * Cron endpoint — Omega Evolucioni Motor
  *
- * Pokreće se automatski svakih 6 sati putem Cloudflare Scheduled Worker.
+ * Pokreće se automatski svakih 6 sati putem eksternog scheduler-a.
  * Dijagnostikuje sistem, generiše preporuke, i kreira GitHub Issues.
  * Snima rezultate trajno u Supabase (evolution_cycles tabela).
  *
  * GET /api/cron/evolucija
  */
 export async function GET(request: Request) {
-  // Proveravamo CRON_SECRET (Cloudflare Worker šalje Bearer token)
+  // Proveravamo CRON_SECRET (scheduler šalje Bearer token)
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 
