@@ -32,7 +32,6 @@ self.addEventListener('activate', (event) => {
       );
       const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
       clients.forEach((client) => client.postMessage({ type: 'SW_UPDATED', version: SW_VERSION }));
-      return undefined;
     })
   );
   self.clients.claim();
