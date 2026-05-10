@@ -34,7 +34,7 @@ jobs:
       zdravlje: ${{ steps.dijag.outputs.zdravlje }}
     steps:
       - name: ⬇️ Checkout koda
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout koda
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 📊 Kreiranje evolucijskog Issue-a
         if: needs.dijagnostika.outputs.zdravlje != '100'
