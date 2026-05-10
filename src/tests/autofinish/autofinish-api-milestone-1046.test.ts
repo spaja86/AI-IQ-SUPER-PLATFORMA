@@ -29,7 +29,7 @@ async function test(name: string, fn: () => Promise<void> | void): Promise<void>
 }
 
 async function run(): Promise<void> {
-  console.log('\n📋 Autofinish API Milestone 1046 Test (#1193)\n');
+  console.log('\n📋 Autofinish API Milestone 1046 Test (#1194)\n');
 
   await test('GET vraća 200', async () => {
     const res = await GET();
@@ -64,20 +64,20 @@ async function run(): Promise<void> {
     assert(Number(eco.ukupnoDijagnostika) === TOTAL_DIAGNOSTIKA, 'ukupnoDijagnostika mismatch');
   });
 
-  await test('AUTOFINISH_COUNT je 1193', () => {
-    assert(AUTOFINISH_COUNT === 1193, `AUTOFINISH_COUNT expected 1193, got ${AUTOFINISH_COUNT}`);
+  await test('AUTOFINISH_COUNT je 1194', () => {
+    assert(AUTOFINISH_COUNT === 1194, `AUTOFINISH_COUNT expected 1194, got ${AUTOFINISH_COUNT}`);
   });
 
-  await test('TOTAL_API_ROUTES je 1046', () => {
-    assert(TOTAL_API_ROUTES === 1046, `TOTAL_API_ROUTES expected 1046, got ${TOTAL_API_ROUTES}`);
+  await test('TOTAL_API_ROUTES je 1047', () => {
+    assert(TOTAL_API_ROUTES === 1047, `TOTAL_API_ROUTES expected 1047, got ${TOTAL_API_ROUTES}`);
   });
 
-  await test('TOTAL_ROUTES je 1105', () => {
-    assert(TOTAL_ROUTES === 1105, `TOTAL_ROUTES expected 1105, got ${TOTAL_ROUTES}`);
+  await test('TOTAL_ROUTES je 1106', () => {
+    assert(TOTAL_ROUTES === 1106, `TOTAL_ROUTES expected 1106, got ${TOTAL_ROUTES}`);
   });
 
-  await test('TOTAL_DIAGNOSTIKA je 2360', () => {
-    assert(TOTAL_DIAGNOSTIKA === 2360, `TOTAL_DIAGNOSTIKA expected 2360, got ${TOTAL_DIAGNOSTIKA}`);
+  await test('TOTAL_DIAGNOSTIKA je 2362', () => {
+    assert(TOTAL_DIAGNOSTIKA === 2362, `TOTAL_DIAGNOSTIKA expected 2362, got ${TOTAL_DIAGNOSTIKA}`);
   });
 
   await test('Poruka sadrži 1046', async () => {
