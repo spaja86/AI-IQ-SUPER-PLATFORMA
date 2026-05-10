@@ -5,18 +5,18 @@ export default function TekstSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
   const istaknuteStavke = (sekvenca.podaci.istaknuteStavke ?? []) as string[];
 
   return (
-    <div className="bg-gray-900 px-6 py-12">
-      <div className="mx-auto max-w-4xl">
+    <div className="py-12">
+      <div className="spaja-container max-w-4xl">
         {sekvenca.naslov && (
           <h2 className="mb-4 text-2xl font-bold text-white">{sekvenca.naslov}</h2>
         )}
         {sadrzaj && (
-          <div className="mb-6 text-gray-300 leading-relaxed whitespace-pre-line">{sadrzaj}</div>
+          <div className="mb-6 whitespace-pre-line leading-relaxed text-[var(--text-muted)]">{sadrzaj}</div>
         )}
         {istaknuteStavke.length > 0 && (
           <ul className="space-y-2">
             {istaknuteStavke.map((s) => (
-              <li key={s} className="flex items-start gap-2 text-gray-300">
+              <li key={s} className="flex items-start gap-2 text-slate-200">
                 <span className="text-blue-400">●</span>
                 <span>{s}</span>
               </li>

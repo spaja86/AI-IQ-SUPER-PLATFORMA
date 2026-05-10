@@ -134,7 +134,7 @@ export default function LoginForma() {
   }
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-4 py-16">
+    <div className="spaja-shell flex min-h-[80vh] items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         {/* Logo i naslov */}
         <div className="mb-8 text-center">
@@ -148,10 +148,7 @@ export default function LoginForma() {
         </div>
 
         {/* Forma */}
-        <form
-          onSubmit={handleLogin}
-          className="rounded-2xl border border-gray-700/50 bg-gray-800/60 p-8 shadow-2xl backdrop-blur"
-        >
+        <form onSubmit={handleLogin} className="spaja-card p-8 shadow-2xl backdrop-blur">
           {/* Email */}
           <div className="mb-5">
             <label htmlFor="login-email" className="mb-1.5 block text-sm font-medium text-gray-300">
@@ -169,7 +166,7 @@ export default function LoginForma() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="vas@email.com"
-                className="w-full rounded-lg border border-gray-600 bg-gray-900 py-3 pl-10 pr-4 text-white placeholder-gray-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-4 text-white placeholder-slate-500 transition"
               />
             </div>
           </div>
@@ -200,7 +197,7 @@ export default function LoginForma() {
                 value={lozinka}
                 onChange={(e) => setLozinka(e.target.value)}
                 placeholder="Unesite lozinku"
-                className="w-full rounded-lg border border-gray-600 bg-gray-900 py-3 pl-10 pr-12 text-white placeholder-gray-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-12 text-white placeholder-slate-500 transition"
               />
               <button
                 type="button"
@@ -231,7 +228,7 @@ export default function LoginForma() {
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+            className="spaja-btn-primary spaja-focus-ring flex w-full items-center justify-center gap-2 px-6 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-60"
           >
             {status === 'loading' ? (
               <>

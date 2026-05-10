@@ -841,6 +841,8 @@
  * Autofinish #1124 (DeploymentPipelineWidget — dashboard integracija CI/CD pipeline statusa: kartice po servisu, faze build/test/deploy/verify sa status bedževima, commit SHA, grana, okidač, postoUspijeha progress bar, filter po statusu, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2230→2232, APP_VERSION 46.44.0→46.45.0)
  *
  * Autofinish #1125 (InfrastrukturMonitorWidget — dashboard integracija infrastrukturnog monitora: summary ok/warning/critical, prosjecni CPU/RAM/disk/uptime barovi, node kartice sa metrika barovima, filter po ulozi i statusu, expand detalji mreža/load average, region bedževi, ARIA pristupačnost, JSON API link; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2232→2234, APP_VERSION 46.45.0→46.46.0)
+ *
+ * Autofinish #1195 (Site-wide Refresh + API Milestone 1048 — globalni vizuelni tokeni i dizajn sloj (globals.css, vizuelni-identitet.ts, ui.tsx, Card.tsx), osvežen shell (layout.tsx, Navigation.tsx iz navigation.ts, Footer.tsx), standardizacija svih sekvence komponenti (Hero/Kartice/Tekst/CTA/Baner/Statistika/Progres/Tabela/Lista/Hijerarhija/Slika), usklađivanje non-sekvenca stranica (proizvodi/kompanije/organizacije + auth forme), verzionisani PWA SW (spajapro-v<APP_VERSION> keš), refresh-scope.ts DoD; novi API endpoint /api/autofinish-api-milestone-1048; 2 nove dijagnostičke provere, TOTAL_DIAGNOSTIKA 2362→2364, TOTAL_API_ROUTES 1047→1048, TOTAL_ROUTES 1106→1107, APP_VERSION 46.93.0→46.94.0)
  */
 
 import {

@@ -42,7 +42,7 @@ export default function SekvencaRenderer({ sekvenca }: { sekvenca: Sekvenca }) {
   }
 
   return (
-    <section id={sekvenca.id} aria-label={sekvenca.naslov ?? sekvenca.tip}>
+    <section id={sekvenca.id} aria-label={sekvenca.naslov ?? sekvenca.tip} className="spaja-section">
       <Komponenta sekvenca={sekvenca} />
     </section>
   );

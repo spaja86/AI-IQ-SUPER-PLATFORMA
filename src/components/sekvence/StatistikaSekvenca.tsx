@@ -11,17 +11,17 @@ export default function StatistikaSekvenca({ sekvenca }: { sekvenca: Sekvenca })
   const stavke = (sekvenca.podaci.stavke ?? []) as Stavka[];
 
   return (
-    <div className="bg-gray-900 px-6 py-12">
-      <div className="mx-auto max-w-6xl">
+    <div className="py-12">
+      <div className="spaja-container max-w-6xl">
         {sekvenca.naslov && (
           <h2 className="mb-8 text-center text-2xl font-bold text-white">{sekvenca.naslov}</h2>
         )}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {stavke.map((s) => (
-            <div key={s.naziv} className="rounded-2xl border border-gray-700/50 bg-gray-800/50 p-6 text-center transition hover:border-gray-600">
+            <div key={s.naziv} className="spaja-card p-6 text-center">
               <div className="mb-2 text-3xl" role="img" aria-label={s.naziv}>{s.ikona}</div>
               <div className="mb-1 text-2xl font-bold text-white">{s.vrednost}</div>
-              <div className="text-sm text-gray-400">{s.naziv}</div>
+              <div className="text-sm text-[var(--text-muted)]">{s.naziv}</div>
             </div>
           ))}
         </div>

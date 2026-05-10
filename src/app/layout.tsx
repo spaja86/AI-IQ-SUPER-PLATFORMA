@@ -7,6 +7,7 @@ import OmegaAuthProvider from '@/components/OmegaAuthProvider';
 import PWARegistration from '@/components/PWARegistration';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
+import { REFRESH_V1_SCOPE } from '@/lib/refresh-scope';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og`;
 
@@ -124,7 +125,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="sr-Latn">
-      <body className="flex min-h-screen flex-col bg-gray-950 text-white antialiased">
+      <body className="spaja-shell flex min-h-screen flex-col text-white antialiased" data-refresh-scope={REFRESH_V1_SCOPE.version}>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white">
           Preskoči na sadržaj
         </a>

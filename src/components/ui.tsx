@@ -1,10 +1,10 @@
 import type { EntityStatus } from '@/lib/types';
 
 const statusConfig: Record<EntityStatus, { label: string; color: string; dot: string }> = {
-  active: { label: 'Aktivno', color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400', dot: 'bg-emerald-500' },
-  development: { label: 'U razvoju', color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400', dot: 'bg-amber-500' },
-  planned: { label: 'Planirano', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400', dot: 'bg-blue-500' },
-  archived: { label: 'Arhivirano', color: 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400', dot: 'bg-zinc-400' },
+  active: { label: 'Aktivno', color: 'bg-emerald-900/35 text-emerald-300 border border-emerald-700/40', dot: 'bg-emerald-400' },
+  development: { label: 'U razvoju', color: 'bg-amber-900/35 text-amber-300 border border-amber-700/40', dot: 'bg-amber-400' },
+  planned: { label: 'Planirano', color: 'bg-blue-900/35 text-blue-300 border border-blue-700/40', dot: 'bg-blue-400' },
+  archived: { label: 'Arhivirano', color: 'bg-slate-800/80 text-slate-300 border border-slate-700/50', dot: 'bg-slate-400' },
 };
 
 export function StatusBadge({ status }: { status: EntityStatus }) {
@@ -19,12 +19,12 @@ export function StatusBadge({ status }: { status: EntityStatus }) {
 
 export function StatCard({ label, value, icon }: { label: string; value: number; icon: string }) {
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="spaja-card p-6">
       <div className="flex items-center justify-between">
         <span className="text-2xl">{icon}</span>
-        <span className="text-3xl font-bold">{value}</span>
+        <span className="text-3xl font-bold text-white">{value}</span>
       </div>
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{label}</p>
+      <p className="mt-2 text-sm text-[var(--text-muted)]">{label}</p>
     </div>
   );
 }
@@ -45,23 +45,23 @@ export function EntityCard({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="group rounded-xl border border-zinc-200 bg-white p-6 transition-shadow hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="spaja-card group p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <span className="text-3xl">{icon}</span>
           <div>
-            <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">{name}</h3>
+            <h3 className="font-semibold text-white">{name}</h3>
             <StatusBadge status={status} />
           </div>
         </div>
       </div>
-      <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
+      <p className="mt-3 text-sm text-[var(--text-muted)]">{description}</p>
       {tags && tags.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+              className="rounded-md border border-slate-700/50 bg-slate-900/70 px-2 py-0.5 text-xs text-slate-300"
             >
               {tag}
             </span>
@@ -76,18 +76,18 @@ export function EntityCard({
 export function SectionHeader({ icon, title, subtitle }: { icon: string; title: string; subtitle?: string }) {
   return (
     <div className="mb-8">
-      <h1 className="flex items-center gap-3 text-3xl font-bold text-zinc-900 dark:text-zinc-100">
+      <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
         <span className="text-4xl">{icon}</span>
         {title}
       </h1>
-      {subtitle && <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
+      {subtitle && <p className="mt-2 text-lg text-[var(--text-muted)]">{subtitle}</p>}
     </div>
   );
 }
 
 export function PageContainer({ children }: { children: React.ReactNode }) {
   return (
-    <main className="mx-auto max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+    <main className="spaja-shell mx-auto max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
       {children}
     </main>
   );

@@ -7,18 +7,18 @@ export default function BanerSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
   const dugme = sekvenca.podaci.dugme as { tekst: string; href: string } | undefined;
 
   return (
-    <div className="bg-gray-950 px-6 py-12">
-      <div className="mx-auto max-w-4xl">
-        <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 md:p-12">
+    <div className="py-12">
+      <div className="spaja-container max-w-4xl">
+        <div className="spaja-card overflow-hidden bg-gradient-to-r from-purple-900/45 to-blue-900/45 p-8 md:p-12">
           {bedz && (
             <span className="mb-4 inline-block rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-300">{bedz}</span>
           )}
           {sekvenca.naslov && (
             <h2 className="mb-4 text-2xl font-bold text-white md:text-3xl">{sekvenca.naslov}</h2>
           )}
-          {opis && <p className="mb-6 max-w-2xl text-gray-300">{opis}</p>}
+          {opis && <p className="mb-6 max-w-2xl text-slate-200">{opis}</p>}
           {dugme && (
-            <Link href={dugme.href} className="inline-flex rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-purple-500">
+            <Link href={dugme.href} className="spaja-btn-primary spaja-focus-ring inline-flex px-6 py-3 text-sm">
               {dugme.tekst}
             </Link>
           )}

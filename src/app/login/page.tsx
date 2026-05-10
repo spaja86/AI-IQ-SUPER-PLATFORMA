@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="flex min-h-[80vh] items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900" role="status" aria-live="polite">
-        <div className="text-gray-400">Učitavanje...</div>
+      <div className="spaja-shell flex min-h-[80vh] items-center justify-center" role="status" aria-live="polite">
+        <div className="text-slate-300">Učitavanje...</div>
       </div>
     }>
       <LoginForma />

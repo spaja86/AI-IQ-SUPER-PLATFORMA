@@ -13,21 +13,21 @@ export default function StranicaRenderer({ sekvence, skeleton }: Props) {
 
   if (skeleton) {
     return (
-      <main>
+      <div className="spaja-shell">
         {sortirane.map((s) => (
           <section key={s.id} id={s.id} aria-label={s.naslov ?? s.tip} aria-busy="true">
             <SekvencaSkeleton tip={s.tip as SekvencaTip} />
           </section>
         ))}
-      </main>
+      </div>
     );
   }
 
   return (
-    <main>
+    <div className="spaja-shell">
       {sortirane.map((s) => (
         <SekvencaRenderer key={s.id} sekvenca={s} />
       ))}
-    </main>
+    </div>
   );
 }

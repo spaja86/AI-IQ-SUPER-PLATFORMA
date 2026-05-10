@@ -64,12 +64,12 @@ export default function ProizvodiPage() {
 
         return (
           <section key={key} className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold">
-              <span>{cat.icon}</span> {cat.label}
-              <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400">
-                ({categoryProducts.length})
-              </span>
-            </h2>
+              <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
+                <span>{cat.icon}</span> {cat.label}
+                <span className="text-sm font-normal text-[var(--text-muted)]">
+                  ({categoryProducts.length})
+                </span>
+              </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {categoryProducts.map((product) => (
                 <EntityCard
@@ -80,21 +80,21 @@ export default function ProizvodiPage() {
                   status={product.status}
                   tags={product.techStack}
                 >
-                  <div className="mt-3">
-                    <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
-                      <span>v{product.version}</span>
-                      {product.platformId && (
-                        <span className="rounded bg-zinc-100 px-1.5 py-0.5 dark:bg-zinc-800">
-                          {product.platformId}
-                        </span>
-                      )}
+                    <div className="mt-3">
+                      <div className="flex items-center justify-between text-xs text-[var(--text-muted)]">
+                        <span>v{product.version}</span>
+                        {product.platformId && (
+                          <span className="rounded border border-slate-700/50 bg-slate-900/70 px-1.5 py-0.5 text-slate-200">
+                            {product.platformId}
+                          </span>
+                        )}
                     </div>
                     {product.features.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1">
                         {product.features.map((f: string) => (
                           <span
                             key={f}
-                            className="rounded bg-purple-50 px-1.5 py-0.5 text-xs text-purple-700 dark:bg-purple-900/20 dark:text-purple-400"
+                            className="rounded border border-purple-800/40 bg-purple-900/25 px-1.5 py-0.5 text-xs text-purple-300"
                           >
                             {f}
                           </span>

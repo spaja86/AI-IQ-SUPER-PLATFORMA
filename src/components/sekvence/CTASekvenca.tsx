@@ -7,16 +7,16 @@ export default function CTASekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
   const dugmad = (sekvenca.podaci.dugmad ?? []) as Array<{ tekst: string; href: string; stil?: string }>;
 
   return (
-    <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 px-6 py-16">
-      <div className="mx-auto max-w-4xl text-center">
+    <div className="rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 py-16">
+      <div className="spaja-container max-w-4xl text-center">
         {sekvenca.naslov && (
           <h2 className="mb-4 text-3xl font-bold text-white">{sekvenca.naslov}</h2>
         )}
-        {opis && <p className="mb-8 text-gray-300">{opis}</p>}
+        {opis && <p className="mb-8 text-blue-100/90">{opis}</p>}
         {stavke.length > 0 && (
           <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
             {stavke.map((s) => (
-              <div key={s.naziv} className="rounded-xl bg-white/10 p-4">
+              <div key={s.naziv} className="rounded-xl border border-white/15 bg-white/10 p-4">
                 <div className="text-2xl" role="img" aria-label={s.naziv}>{s.ikona}</div>
                 <div className="text-xl font-bold text-white">{s.vrednost}</div>
                 <div className="text-xs text-gray-300">{s.naziv}</div>
@@ -32,8 +32,8 @@ export default function CTASekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
                 href={d.href}
                 className={
                   d.stil === 'sekundarno'
-                    ? 'rounded-lg border border-white/30 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/10'
-                    : 'rounded-lg bg-white px-6 py-3 text-sm font-medium text-gray-900 transition hover:bg-gray-100'
+                    ? 'spaja-btn-secondary spaja-focus-ring border-white/25 bg-white/10 px-6 py-3 text-sm text-white hover:bg-white/20'
+                    : 'spaja-btn-primary spaja-focus-ring px-6 py-3 text-sm'
                 }
               >
                 {d.tekst}

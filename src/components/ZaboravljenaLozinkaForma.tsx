@@ -45,7 +45,7 @@ export default function ZaboravljenaLozinkaForma() {
   }
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 px-4 py-16">
+    <div className="spaja-shell flex min-h-[80vh] items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-600/20">
@@ -57,10 +57,7 @@ export default function ZaboravljenaLozinkaForma() {
           </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-2xl border border-gray-700/50 bg-gray-800/60 p-8 shadow-2xl backdrop-blur"
-        >
+        <form onSubmit={handleSubmit} className="spaja-card p-8 shadow-2xl backdrop-blur">
           <div className="mb-6">
             <label htmlFor="forgot-email" className="mb-1.5 block text-sm font-medium text-gray-300">
               Email adresa
@@ -78,7 +75,7 @@ export default function ZaboravljenaLozinkaForma() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="vas@email.com"
                 disabled={status === 'success'}
-                className="w-full rounded-lg border border-gray-600 bg-gray-900 py-3 pl-10 pr-4 text-white placeholder-gray-500 transition focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/40 disabled:opacity-60"
+                className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-4 text-white placeholder-slate-500 transition disabled:opacity-60"
               />
             </div>
           </div>
