@@ -257,6 +257,9 @@ async function runTests(): Promise<void> {
     assert(procurementCase.sifra.startsWith('B2B-'), 'sifra mora imati B2B prefiks');
     assert(procurementCase.dokumentacija.length >= 5, 'mora sadržati obaveznu dokumentaciju');
     assert(procurementCase.odobrenja.length >= 3, 'mora sadržati approval chain');
+    assertEqual(procurementCase.gamePlanovi.length, 2, 'mora sadržati tačno 2 gejm plana');
+    assertEqual(procurementCase.payment.izvorSredstava, 'AI IQ World Bank', 'payment source mora biti zaključan');
+    assertEqual(procurementCase.workflowProfil.id, 'gigatron-usce', 'workflow profil mora biti gigatron-usce');
   });
 
   await test('Privatni podaci su redigovani kada includeSensitive nije uključen', async () => {
@@ -264,6 +267,46 @@ async function runTests(): Promise<void> {
     assertDefined(redacted, 'redacted case');
     assertEqual(redacted.privatniKontakt.privatniTelefon, 'INTERNAL_ONLY', 'telefon mora biti sakriven');
     assertEqual(redacted.delivery.adresaIsporuke, 'INTERNAL_ONLY', 'adresa mora biti sakrivena');
+  });
+
+  await test('Tranzicija u odobrenje je blokirana bez izbora najboljeg plana', async () => {
+    const tempCase = await createB2BProcurementCase({
+      partner: {
+        naziv: 'Temp Gigatron Partner',
+        tip: 'ovlasceni_diler',
+        trziste: 'Srbija',
+        kanalKontakta: 'sales@spaja.rs',
+      },
+      vozilo: {
+        marka: 'Lamborghini',
+        model: 'Urus',
+        oprema: 'FULL OPREMA',
+        trziste: 'Srbija',
+        budzet: 0,
+        valuta: 'EUR',
+        prioritet: 'kritican',
+        rok: null,
+      },
+      deliveryAddress: 'Danila Kiša 18, Smederevo 11300',
+      deliveryContact: 'interni-vlasnik-kontakt',
+      privateOwnerName: 'Temp Vlasnik',
+      privatePhone: '+381600000001',
+    });
+    const blocked = await patchB2BProcurementCase({
+      caseId: tempCase.id,
+      action: { type: 'status_transition', payload: { status: 'ponuda' } },
+    });
+    assert(!blocked.error, `upit->ponuda mora biti dozvoljeno: ${blocked.error ?? ''}`);
+    const blockedPregovori = await patchB2BProcurementCase({
+      caseId: tempCase.id,
+      action: { type: 'status_transition', payload: { status: 'pregovori' } },
+    });
+    assert(!blockedPregovori.error, `ponuda->pregovori mora biti dozvoljeno: ${blockedPregovori.error ?? ''}`);
+    const blockedOdobrenje = await patchB2BProcurementCase({
+      caseId: tempCase.id,
+      action: { type: 'status_transition', payload: { status: 'odobrenje' } },
+    });
+    assertDefined(blockedOdobrenje.error, 'odobrenje mora biti blokirano bez gejm-plan odluke');
   });
 
   await test('Status ne može direktno u placanje bez checklist uslova', async () => {
@@ -312,6 +355,50 @@ async function runTests(): Promise<void> {
       caseId: procurementCase.id,
       action: { type: 'approval_update', payload: { kljuc: 'billing-approval', status: 'approved', odobrio: 'billing@spaja.rs' } },
     });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'approval_update', payload: { kljuc: 'operativa-approval', status: 'approved', odobrio: 'tech@spaja.rs' } },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: {
+        type: 'game_plan_set',
+        payload: {
+          planovi: [
+            {
+              id: 'gigatron-plan-1',
+              naziv: 'GIGATRON Ušće Gejm Plan 1 (Enterprise)',
+              cena: 12000,
+              valuta: 'EUR',
+              fullOpremaStavke: ['FULL OPREMA', 'GPU', 'Periferije'],
+              statusAnalize: 'predlog',
+            },
+            {
+              id: 'gigatron-plan-2',
+              naziv: 'GIGATRON Ušće Gejm Plan 2 (Enterprise)',
+              cena: 12500,
+              valuta: 'EUR',
+              fullOpremaStavke: ['FULL OPREMA', 'Dodatna garancija'],
+              statusAnalize: 'predlog',
+            },
+          ],
+        },
+      },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: {
+        type: 'best_plan_select',
+        payload: {
+          planId: 'gigatron-plan-1',
+          razlog: 'Najbolji odnos enterprise uslova i full-oprema paketa.',
+        },
+      },
+    });
+    await patchB2BProcurementCase({
+      caseId: procurementCase.id,
+      action: { type: 'full_oprema_confirm', payload: { potvrdjeno: true } },
+    });
 
     await patchB2BProcurementCase({
       caseId: procurementCase.id,
@@ -339,6 +426,17 @@ async function runTests(): Promise<void> {
     const template = buildKomunikacioniSablon('zahtev_full_oprema', procurementCase);
     assert(template.naslov.includes('FULL OPREMA') || template.telo.includes('full opremu'), 'template mora pomenuti full opremu');
     assert(template.telo.includes('AI IQ World Bank'), 'template mora pomenuti izvor finansiranja');
+  });
+
+  await test('Gigatron šabloni pokrivaju ponudu, gejm planove, plaćanje i dostavu', () => {
+    const ponuda = buildKomunikacioniSablon('gigatron_inicijalna_ponuda', procurementCase);
+    const gejmPlanovi = buildKomunikacioniSablon('gigatron_dva_gejm_plana', procurementCase);
+    const uplata = buildKomunikacioniSablon('gigatron_potvrda_uplate_aiiq', procurementCase);
+    const dostava = buildKomunikacioniSablon('gigatron_zahtev_dostava', procurementCase);
+    assert(ponuda.naslov.includes('GIGATRON'), 'ponuda šablon mora sadržati GIGATRON');
+    assert(gejmPlanovi.telo.includes('dva enterprise gejm plana') || gejmPlanovi.telo.includes('2 gejm plana'), 'gejm plan šablon mora tražiti 2 plana');
+    assert(uplata.telo.includes('AI IQ World Bank'), 'uplata šablon mora imati AI IQ World Bank');
+    assert(dostava.naslov.includes('dostavu'), 'dostava šablon mora tražiti dostavu');
   });
 
   await test('canTransition validira nedozvoljene skokove', () => {

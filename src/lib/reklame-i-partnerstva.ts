@@ -392,6 +392,23 @@ export const partnerstva: Partnerstvo[] = [
     kontakt: 'gaming@kompanija-spaja.com',
   },
   {
+    id: 'partner-gigatron-usce',
+    naziv: 'GIGATRON (Ušće) — Gejm Plan Partnerstvo',
+    opis:
+      'Lokalno retail partnerstvo za dva enterprise gejm plana, FULL OPREMA uslove, pregovore i isporuku prema B2B proceduri Digitalne industrije.',
+    ikona: '🛍️',
+    bransa: 'gaming',
+    status: 'u_pregovorima',
+    benefiti: [
+      '2 enterprise gejm plana za poređenje i izbor najboljeg',
+      'FULL OPREMA komercijalni paket',
+      'B2B pregovori i dokumentacioni tok kroz Kompaniju SPAJA',
+      'Plaćanje preko AI IQ World Bank uz audit trag',
+      'Dogovor logistike i kućne isporuke',
+    ],
+    kontakt: 'sales@spaja.rs',
+  },
+  {
     id: 'partner-medijske-kuce',
     naziv: 'Medijske Kuće & Influenseri',
     opis: 'Partnerstva sa medijskim kućama, novinarima i influenserima za širenje dosega.',

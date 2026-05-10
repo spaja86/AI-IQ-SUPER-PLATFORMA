@@ -14,10 +14,22 @@ interface B2BCaseUI {
   id: string;
   sifra: string;
   status: string;
-  partner: { naziv: string; status: string; kanalKontakta: string };
+  workflowProfil: { naziv: string; lokacijaPartnera: string };
+  partner: { naziv: string; status: string; kanalKontakta: string; statusPregovora: string };
   vozilo: { marka: string; model: string; oprema: string; budzet: number; valuta: string };
   payment: { status: string; izvorSredstava: string; fakturaBroj: string | null };
   delivery: { status: string; adresaIsporuke: string };
+  gamePlanovi: Array<{
+    id: string;
+    naziv: string;
+    cena: number;
+    valuta: string;
+    statusAnalize: string;
+    fullOpremaStavke: string[];
+  }>;
+  bestGamePlan: { selectedPlanId: string | null; razlog: string | null };
+  fullOpremaPotvrdjena: boolean;
+  paymentReadiness: { ready: boolean; missing: string[] };
   ponude: Array<{ id: string; cena: number; valuta: string; status: string }>;
   pregovori: Array<{ id: string; kanal: string; napomena: string }>;
 }
@@ -133,18 +145,23 @@ export default function ProcurementB2BDashboardKlijent() {
                 </span>
               </div>
 
-              <div className="mt-3 grid gap-3 text-sm text-gray-300 md:grid-cols-2">
-                <div>
-                  <div>Partner: {item.partner.naziv}</div>
-                  <div>Kontakt: {item.partner.kanalKontakta}</div>
-                  <div>Vozilo/oprema: {item.vozilo.oprema}</div>
-                </div>
-                <div>
+                <div className="mt-3 grid gap-3 text-sm text-gray-300 md:grid-cols-2">
+                  <div>
+                    <div>Partner: {item.partner.naziv}</div>
+                    <div>Kontakt: {item.partner.kanalKontakta}</div>
+                    <div>Pregovori: {item.partner.statusPregovora}</div>
+                    <div>Profil: {item.workflowProfil?.naziv ?? 'B2B workflow'}</div>
+                    <div>Vozilo/oprema: {item.vozilo.oprema}</div>
+                  </div>
+                  <div>
                   <div>
                     Budžet: {item.vozilo.budzet.toLocaleString()} {item.vozilo.valuta}
                   </div>
                   <div>Payment status: {item.payment.status}</div>
                   <div>Delivery status: {item.delivery.status}</div>
+                  <div className={item.fullOpremaPotvrdjena ? 'text-emerald-300' : 'text-orange-300'}>
+                    FULL OPREMA: {item.fullOpremaPotvrdjena ? 'potvrđena' : 'nije potvrđena'}
+                  </div>
                 </div>
               </div>
 
@@ -162,6 +179,25 @@ export default function ProcurementB2BDashboardKlijent() {
               </div>
 
               <div className="mt-4 grid gap-3 md:grid-cols-2">
+                <div className="rounded-lg border border-gray-800 bg-black/20 p-3 text-sm text-gray-300">
+                  <div className="mb-1 font-medium text-white">2 gejm plana (enterprise)</div>
+                  {item.gamePlanovi.length === 0 ? (
+                    <div>Nema unetih gejm planova.</div>
+                  ) : (
+                    item.gamePlanovi.map((plan) => (
+                      <div key={plan.id} className="mb-2">
+                        <div>
+                          {plan.naziv} — {plan.cena.toLocaleString()} {plan.valuta} ({plan.statusAnalize})
+                        </div>
+                        <div className="text-xs text-gray-400">FULL OPREMA: {plan.fullOpremaStavke.join(', ')}</div>
+                      </div>
+                    ))
+                  )}
+                  <div className="mt-2 text-xs text-blue-200">
+                    Najbolji plan: {item.bestGamePlan.selectedPlanId ?? 'nije izabran'}
+                    {item.bestGamePlan.razlog ? ` — ${item.bestGamePlan.razlog}` : ''}
+                  </div>
+                </div>
                 <div className="rounded-lg border border-gray-800 bg-black/20 p-3 text-sm text-gray-300">
                   <div className="mb-1 font-medium text-white">Ponude</div>
                   {item.ponude.length === 0 ? (
@@ -186,6 +222,19 @@ export default function ProcurementB2BDashboardKlijent() {
                     ))
                   )}
                 </div>
+              </div>
+
+              <div className="mt-4 rounded-lg border border-gray-800 bg-black/20 p-3 text-sm">
+                <div className="font-medium text-white">Payment readiness</div>
+                {item.paymentReadiness?.ready ? (
+                  <p className="mt-2 text-emerald-300">Slučaj je spreman za plaćanje i delivery korake.</p>
+                ) : (
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-orange-300">
+                    {(item.paymentReadiness?.missing ?? []).map((missingItem) => (
+                      <li key={missingItem}>{missingItem}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           );

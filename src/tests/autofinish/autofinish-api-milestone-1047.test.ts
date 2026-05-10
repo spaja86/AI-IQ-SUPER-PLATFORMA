@@ -5,7 +5,7 @@ import {
   TOTAL_DIAGNOSTIKA,
   TOTAL_ROUTES,
 } from '../../lib/constants';
-import { GET } from '../../app/api/autofinish-api-milestone-1045/route';
+import { GET } from '../../app/api/autofinish-api-milestone-1047/route';
 
 let passed = 0;
 let failed = 0;
@@ -29,7 +29,7 @@ async function test(name: string, fn: () => Promise<void> | void): Promise<void>
 }
 
 async function run(): Promise<void> {
-  console.log('\n📋 Autofinish API Milestone 1045 Test (#1194)\n');
+  console.log('\n📋 Autofinish API Milestone 1047 Test (#1194)\n');
 
   await test('GET vraća 200', async () => {
     const res = await GET();
@@ -39,7 +39,7 @@ async function run(): Promise<void> {
   await test('Payload ima osnovna polja', async () => {
     const res = await GET();
     const body = (await res.json()) as Record<string, unknown>;
-    assert(body.naziv === 'Autofinish API Milestone 1045', 'naziv mismatch');
+    assert(body.naziv === 'Autofinish API Milestone 1047', 'naziv mismatch');
     assert(body.status === 'aktivan', 'status mismatch');
     assert(body.appVerzija === APP_VERSION, 'appVerzija mismatch');
     assert(body.autofinishIteracija === AUTOFINISH_COUNT, 'autofinishIteracija mismatch');
@@ -49,7 +49,7 @@ async function run(): Promise<void> {
     const res = await GET();
     const body = (await res.json()) as Record<string, unknown>;
     const milestone = body.milestone as Record<string, unknown>;
-    assert(Number(milestone.ciljBroj) === 1045, 'ciljBroj must be 1045');
+    assert(Number(milestone.ciljBroj) === 1047, 'ciljBroj must be 1047');
     assert(Number(milestone.trenutniBroj) === TOTAL_API_ROUTES, 'trenutniBroj mismatch');
     assert(Boolean(milestone.postignut) === true, 'postignut must be true');
     assert(Number(milestone.procenat) >= 100, 'procenat must be >= 100');
@@ -80,11 +80,11 @@ async function run(): Promise<void> {
     assert(TOTAL_DIAGNOSTIKA === 2362, `TOTAL_DIAGNOSTIKA expected 2362, got ${TOTAL_DIAGNOSTIKA}`);
   });
 
-  await test('Poruka sadrži 1045', async () => {
+  await test('Poruka sadrži 1047', async () => {
     const res = await GET();
     const body = (await res.json()) as Record<string, unknown>;
     const poruka = String(body.poruka ?? '');
-    assert(poruka.includes('1045'), 'poruka mora sadržati 1045');
+    assert(poruka.includes('1047'), 'poruka mora sadržati 1047');
   });
 
   console.log(`\n📊 Rezultati: ${passed} prošlo, ${failed} nije prošlo\n`);
