@@ -221,6 +221,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     activeFrom: '2026-05-11',
   },
   {
+    id: 'kripto-trezor-benchmark',
+    naziv: 'Kripto Trezor — Vault Benchmark',
+    opis: 'Benchmark komparacija: vault portfolio vs BTC, ETH i Crypto Market Index sa alpha metrikama',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
     id: 'kripto-trezor-liquidity',
     naziv: 'Kripto Trezor — Vault Liquidity',
     opis: 'Likvidnosni izvještaj: instant/24h/7d kapacitet isplate i operativni buffer po tierovima',

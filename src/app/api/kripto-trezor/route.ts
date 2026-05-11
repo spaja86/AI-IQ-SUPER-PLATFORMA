@@ -43,6 +43,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/forecast',       opis: 'Performance forecast: bull/base/bear scenariji za odabrani horizont', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/stress',         opis: 'Stress test izvještaj: tržišni, likvidnosni i custody incident scenariji', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/resilience',     opis: 'Resilience score: coverage + liquidity + stress + risk mitigacija', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/benchmark',      opis: 'Benchmark komparacija: vault portfolio vs BTC, ETH i Crypto Market Index', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,

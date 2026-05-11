@@ -1899,6 +1899,134 @@ export function buildVaultResilienceReport(userId: string): VaultResilienceRepor
   };
 }
 
+// ─── Vault Benchmark ──────────────────────────────────────────────────────────
+
+export type BenchmarkId = 'BTC' | 'ETH' | 'crypto-market-index';
+
+export interface BenchmarkEntry {
+  id: BenchmarkId;
+  naziv: string;
+  returnPct7d: number;
+  returnPct30d: number;
+  returnPct90d: number;
+  returnPct365d: number;
+}
+
+export interface VaultBenchmarkComparison {
+  benchmarkId: BenchmarkId;
+  benchmarkNaziv: string;
+  benchmarkReturn30dPct: number;
+  vaultReturn30dPct: number;
+  alphaPct: number;
+  outperforms: boolean;
+}
+
+export interface VaultBenchmarkReport {
+  userId: string;
+  vaultAprPct: number;
+  vaultReturn7dPct: number;
+  vaultReturn30dPct: number;
+  vaultReturn90dPct: number;
+  vaultReturn365dPct: number;
+  benchmarks: BenchmarkEntry[];
+  comparisons: VaultBenchmarkComparison[];
+  bestBenchmark: BenchmarkId;
+  worstBenchmark: BenchmarkId;
+  outperformsCount: number;
+  insights: string[];
+  timestamp: string;
+}
+
+const VAULT_BENCHMARKS: BenchmarkEntry[] = [
+  {
+    id: 'BTC',
+    naziv: 'Bitcoin (BTC)',
+    returnPct7d: 4.2,
+    returnPct30d: 12.1,
+    returnPct90d: 28.4,
+    returnPct365d: 82.3,
+  },
+  {
+    id: 'ETH',
+    naziv: 'Ethereum (ETH)',
+    returnPct7d: 6.8,
+    returnPct30d: 9.4,
+    returnPct90d: 21.7,
+    returnPct365d: 61.8,
+  },
+  {
+    id: 'crypto-market-index',
+    naziv: 'Crypto Market Index',
+    returnPct7d: 5.5,
+    returnPct30d: 10.8,
+    returnPct90d: 25.0,
+    returnPct365d: 72.1,
+  },
+];
+
+/** Gradi benchmark izvještaj — upoređuje vault portfolio performanse sa tržišnim benchmarkima. */
+export function buildVaultBenchmarkReport(userId: string): VaultBenchmarkReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+
+  const vaultAprPct = analytics.portfolioAprPct;
+  // Derive period returns from APR (simplified linear approximation)
+  const vaultReturn7dPct = roundLedger(vaultAprPct / 365 * 7);
+  const vaultReturn30dPct = roundLedger(vaultAprPct / 365 * 30);
+  const vaultReturn90dPct = roundLedger(vaultAprPct / 365 * 90);
+  const vaultReturn365dPct = roundLedger(vaultAprPct);
+
+  const comparisons: VaultBenchmarkComparison[] = VAULT_BENCHMARKS.map((bm) => {
+    const alphaPct = roundLedger(vaultReturn30dPct - bm.returnPct30d);
+    return {
+      benchmarkId: bm.id,
+      benchmarkNaziv: bm.naziv,
+      benchmarkReturn30dPct: bm.returnPct30d,
+      vaultReturn30dPct,
+      alphaPct,
+      outperforms: alphaPct > 0,
+    };
+  });
+
+  const best = VAULT_BENCHMARKS.reduce((a, b) =>
+    b.returnPct30d > a.returnPct30d ? b : a,
+  VAULT_BENCHMARKS[0]);
+  const worst = VAULT_BENCHMARKS.reduce((a, b) =>
+    b.returnPct30d < a.returnPct30d ? b : a,
+  VAULT_BENCHMARKS[0]);
+
+  const outperformsCount = comparisons.filter((c) => c.outperforms).length;
+
+  const insights: string[] = [];
+  if (outperformsCount === comparisons.length) {
+    insights.push('Vault portfolio nadmašuje sve praćene benchmark-e u 30-dnevnom periodu — odlična aktivna alokacija.');
+  } else if (outperformsCount === 0) {
+    insights.push('Vault portfolio zaostaje za svim benchmarkima; razmotriti rebalans prema višeprinosnim segmentima tržišta.');
+  } else {
+    insights.push(`Vault nadmašuje ${outperformsCount} od ${comparisons.length} benchmark-a — selektivna izloženost daje mješovite rezultate.`);
+  }
+  const btcAlpha = comparisons.find((c) => c.benchmarkId === 'BTC')?.alphaPct ?? 0;
+  if (btcAlpha < -5) {
+    insights.push('Značajno zaostajanje za BTC sugerira prenisko prisustvo kripto asseta s visokim beta-om.');
+  }
+  insights.push(`Annualized vault APR od ${vaultAprPct.toFixed(2)}% odražava konzervativnu custody strategiju s naglaskom na zaštiti kapitala.`);
+
+  return {
+    userId,
+    vaultAprPct,
+    vaultReturn7dPct,
+    vaultReturn30dPct,
+    vaultReturn90dPct,
+    vaultReturn365dPct,
+    benchmarks: VAULT_BENCHMARKS,
+    comparisons,
+    bestBenchmark: best.id,
+    worstBenchmark: worst.id,
+    outperformsCount,
+    insights,
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

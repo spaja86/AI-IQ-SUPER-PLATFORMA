@@ -24,6 +24,7 @@ import {
   buildVaultForecastReport,
   buildVaultStressReport,
   buildVaultResilienceReport,
+  buildVaultBenchmarkReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -991,6 +992,68 @@ async function runTests(): Promise<void> {
 
   await test('resilience timestamp je validan ISO 8601', () => {
     const report = buildVaultResilienceReport('rsl-user-7');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultBenchmarkReport ───────────────────────────────────────────────
+
+  console.log('\n📊 buildVaultBenchmarkReport');
+
+  await test('vraća benchmark report za korisnika', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-1');
+    assert(report.userId === 'bmk-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.vaultAprPct) && report.vaultAprPct >= 0, 'vaultAprPct mora biti ne-negativan');
+    assert(Array.isArray(report.benchmarks) && report.benchmarks.length === 3, 'mora biti 3 benchmark-a');
+  });
+
+  await test('komparacije pokrivaju sve benchmark-e', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-2');
+    const ids = new Set(report.comparisons.map((c) => c.benchmarkId));
+    for (const id of ['BTC', 'ETH', 'crypto-market-index']) {
+      assert(ids.has(id), `nedostaje komparacija za ${id}`);
+    }
+    assert(report.comparisons.length === 3, 'mora biti tačno 3 komparacije');
+  });
+
+  await test('alpha je konzistentan sa outperforms zastavicom', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-3');
+    for (const c of report.comparisons) {
+      const expectedOutperforms = c.alphaPct > 0;
+      assert(c.outperforms === expectedOutperforms,
+        `outperforms nije konzistentan sa alphaPct za ${c.benchmarkId}`);
+    }
+  });
+
+  await test('outperformsCount odgovara broju komparacija sa pozitivnom alpha', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-4');
+    const expected = report.comparisons.filter((c) => c.outperforms).length;
+    assert(report.outperformsCount === expected,
+      `outperformsCount nije konzistentan: ${report.outperformsCount} vs ${expected}`);
+  });
+
+  await test('period returnovi su konzistentni (7d <= 365d)', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-5');
+    assert(report.vaultReturn7dPct <= report.vaultReturn365dPct,
+      `vaultReturn7dPct (${report.vaultReturn7dPct}) mora biti <= vaultReturn365dPct (${report.vaultReturn365dPct})`);
+  });
+
+  await test('bestBenchmark i worstBenchmark su validni benchmark ID-ovi', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-6');
+    const validIds = ['BTC', 'ETH', 'crypto-market-index'];
+    assert(validIds.includes(report.bestBenchmark), `bestBenchmark nije validan: ${report.bestBenchmark}`);
+    assert(validIds.includes(report.worstBenchmark), `worstBenchmark nije validan: ${report.worstBenchmark}`);
+  });
+
+  await test('insights je neprazan niz stringova', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-7');
+    assert(Array.isArray(report.insights) && report.insights.length > 0, 'insights mora biti neprazan niz');
+    for (const ins of report.insights) {
+      assert(typeof ins === 'string' && ins.length > 0, 'svaki insight mora biti neprazan string');
+    }
+  });
+
+  await test('benchmark timestamp je validan ISO 8601', () => {
+    const report = buildVaultBenchmarkReport('bmk-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 
