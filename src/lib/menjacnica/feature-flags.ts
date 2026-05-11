@@ -156,6 +156,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-recovery',
+    naziv: 'Kripto Trezor — Vault Recovery Plan',
+    opis: 'Plan oporavka vault-a: čuvari ključa, koraci oporavka i kontakti za hitne slučajeve',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

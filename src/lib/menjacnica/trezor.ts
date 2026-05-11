@@ -646,6 +646,149 @@ export interface VaultPolicyReport {
   timestamp: string;
 }
 
+// ─── Vault Recovery ───────────────────────────────────────────────────────────
+
+export type VaultRecoveryKeyholderRole =
+  | 'primary-owner'
+  | 'backup-keyholder'
+  | 'compliance-officer'
+  | 'security-lead';
+
+export interface VaultRecoveryKeyholder {
+  id: string;
+  alias: string;
+  role: VaultRecoveryKeyholderRole;
+  publicKeyFingerprint: string;
+  activatedAt: string;
+  contactMethod: 'email' | 'signal' | 'hardware-token';
+}
+
+export type VaultRecoveryStepStatus = 'pending' | 'ready' | 'completed' | 'skipped';
+
+export interface VaultRecoveryStep {
+  order: number;
+  title: string;
+  description: string;
+  requiredRole: VaultRecoveryKeyholderRole;
+  estimatedDurationMinutes: number;
+  status: VaultRecoveryStepStatus;
+}
+
+export interface VaultRecoveryReport {
+  userId: string;
+  planVersion: string;
+  lastTestedAt: string;
+  recoveryThreshold: number;
+  keyholders: VaultRecoveryKeyholder[];
+  steps: VaultRecoveryStep[];
+  emergencyContacts: Array<{ label: string; value: string }>;
+  notes: string[];
+  timestamp: string;
+}
+
+/** Gradi plan oporavka vault-a (keyholders, koraci, kontakti). */
+export function buildVaultRecoveryReport(userId: string): VaultRecoveryReport {
+  const now = new Date().toISOString();
+
+  const keyholders: VaultRecoveryKeyholder[] = [
+    {
+      id: `kh-${userId}-primary`,
+      alias: 'Vlasnik Naloga',
+      role: 'primary-owner',
+      publicKeyFingerprint: 'A1:B2:C3:D4:E5:F6:00:11',
+      activatedAt: '2026-01-01T00:00:00.000Z',
+      contactMethod: 'hardware-token',
+    },
+    {
+      id: `kh-${userId}-backup`,
+      alias: 'Rezervni Čuvar Ključa',
+      role: 'backup-keyholder',
+      publicKeyFingerprint: 'F1:E2:D3:C4:B5:A6:99:88',
+      activatedAt: '2026-01-15T00:00:00.000Z',
+      contactMethod: 'signal',
+    },
+    {
+      id: `kh-${userId}-compliance`,
+      alias: 'Compliance Tim SPAJA',
+      role: 'compliance-officer',
+      publicKeyFingerprint: '11:22:33:44:55:66:77:88',
+      activatedAt: '2026-02-01T00:00:00.000Z',
+      contactMethod: 'email',
+    },
+    {
+      id: `kh-${userId}-security`,
+      alias: 'Security Lead SPAJA',
+      role: 'security-lead',
+      publicKeyFingerprint: 'AA:BB:CC:DD:EE:FF:01:02',
+      activatedAt: '2026-02-01T00:00:00.000Z',
+      contactMethod: 'hardware-token',
+    },
+  ];
+
+  const steps: VaultRecoveryStep[] = [
+    {
+      order: 1,
+      title: 'Prijaviti Incident',
+      description: 'Vlasnik ili security lead prijavljuje potencijalni gubitak pristupa i otvara oporavak naloga.',
+      requiredRole: 'primary-owner',
+      estimatedDurationMinutes: 5,
+      status: 'ready',
+    },
+    {
+      order: 2,
+      title: 'Verifikacija Identiteta',
+      description: 'Compliance tim potvrđuje identitet podnosioca putem KYC i internog registra.',
+      requiredRole: 'compliance-officer',
+      estimatedDurationMinutes: 30,
+      status: 'pending',
+    },
+    {
+      order: 3,
+      title: 'Aktivacija Rezervnog Ključa',
+      description: 'Rezervni čuvar aktivira backup ključ i pruža privremeni pristup recovery flow-u.',
+      requiredRole: 'backup-keyholder',
+      estimatedDurationMinutes: 15,
+      status: 'pending',
+    },
+    {
+      order: 4,
+      title: 'Multi-Sig Potpisivanje Oporavka',
+      description: 'Recovery transakcija zahteva potpis od minimalno 3 od 4 čuvara ključa.',
+      requiredRole: 'security-lead',
+      estimatedDurationMinutes: 60,
+      status: 'pending',
+    },
+    {
+      order: 5,
+      title: 'Audit Oporavka',
+      description: 'Security lead i compliance tim završavaju post-recovery audit i ažuriraju policy.',
+      requiredRole: 'compliance-officer',
+      estimatedDurationMinutes: 20,
+      status: 'pending',
+    },
+  ];
+
+  return {
+    userId,
+    planVersion: 'v1.2',
+    lastTestedAt: '2026-04-01T10:00:00.000Z',
+    recoveryThreshold: 3,
+    keyholders,
+    steps,
+    emergencyContacts: [
+      { label: 'SPAJA Security Hotline', value: '+38177-000-0001' },
+      { label: 'Compliance Email', value: 'compliance@spaja.digital' },
+      { label: 'Security Signal', value: '@spaja-security' },
+    ],
+    notes: [
+      'Plan oporavka se testira kvartalno u kontrolisanom okruženju.',
+      'Promene u listi čuvara ključa zahtevaju odobrenje compliance tima.',
+      'Nakon svakog oporavka mandatory je rotacija svih ključeva.',
+    ],
+    timestamp: now,
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

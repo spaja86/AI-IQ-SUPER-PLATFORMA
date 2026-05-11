@@ -15,6 +15,7 @@ import {
   buildVaultAuditLog,
   buildVaultSecurityCheckReport,
   buildVaultPolicyReport,
+  buildVaultRecoveryReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -446,6 +447,69 @@ async function runTests(): Promise<void> {
     assert(VAULT_MULTISIG_THRESHOLD['warm'] >= 2, 'warm mora biti >=2');
     assert(VAULT_MULTISIG_THRESHOLD['cold'] >= VAULT_MULTISIG_THRESHOLD['warm'], 'cold >= warm');
     assert(VAULT_MULTISIG_THRESHOLD['deep-cold'] >= VAULT_MULTISIG_THRESHOLD['cold'], 'deep-cold >= cold');
+  });
+
+  // ─── buildVaultRecoveryReport ─────────────────────────────────────────────────
+
+  console.log('\n🔑 buildVaultRecoveryReport');
+
+  await test('vraća recovery report za korisnika', () => {
+    const report = buildVaultRecoveryReport('rec-user-1');
+    assert(report.userId === 'rec-user-1', 'userId ne odgovara');
+    assert(typeof report.planVersion === 'string', 'planVersion mora biti string');
+    assert(Array.isArray(report.keyholders), 'keyholders mora biti niz');
+    assert(Array.isArray(report.steps), 'steps mora biti niz');
+  });
+
+  await test('ima bar 2 čuvara ključa', () => {
+    const report = buildVaultRecoveryReport('rec-user-2');
+    assert(report.keyholders.length >= 2, `Mora imati bar 2 čuvara ključa: ${report.keyholders.length}`);
+  });
+
+  await test('recoveryThreshold je pozitivan i <= broj čuvara', () => {
+    const report = buildVaultRecoveryReport('rec-user-3');
+    assert(report.recoveryThreshold >= 1, 'recoveryThreshold mora biti >=1');
+    assert(report.recoveryThreshold <= report.keyholders.length, 'threshold ne sme biti veći od broja čuvara');
+  });
+
+  await test('svaki korak ima ispravan order, title i estimatedDurationMinutes', () => {
+    const report = buildVaultRecoveryReport('rec-user-4');
+    for (const step of report.steps) {
+      assert(typeof step.order === 'number' && step.order >= 1, `Nevažeći order: ${step.order}`);
+      assert(typeof step.title === 'string' && step.title.length > 0, 'title mora biti neprazan string');
+      assert(step.estimatedDurationMinutes > 0, `estimatedDurationMinutes mora biti pozitivan: ${step.estimatedDurationMinutes}`);
+    }
+  });
+
+  await test('koraci su sortirani po order polju', () => {
+    const report = buildVaultRecoveryReport('rec-user-5');
+    for (let i = 1; i < report.steps.length; i++) {
+      assert(report.steps[i].order > report.steps[i - 1].order, `Koraci nisu sortirani na indexu ${i}`);
+    }
+  });
+
+  await test('ima bar jedan kontakt za hitne slučajeve', () => {
+    const report = buildVaultRecoveryReport('rec-user-6');
+    assert(report.emergencyContacts.length >= 1, 'Mora imati bar jedan hitni kontakt');
+    for (const contact of report.emergencyContacts) {
+      assert(typeof contact.label === 'string' && contact.label.length > 0, 'label mora biti neprazan');
+      assert(typeof contact.value === 'string' && contact.value.length > 0, 'value mora biti neprazan');
+    }
+  });
+
+  await test('timestamp je validan ISO 8601', () => {
+    const report = buildVaultRecoveryReport('rec-user-7');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  await test('svaki keyholder ima javni ključ i kontakt metodu', () => {
+    const report = buildVaultRecoveryReport('rec-user-8');
+    const validMethods = new Set(['email', 'signal', 'hardware-token']);
+    for (const kh of report.keyholders) {
+      assert(typeof kh.publicKeyFingerprint === 'string' && kh.publicKeyFingerprint.length > 0,
+        `publicKeyFingerprint mora biti neprazan za ${kh.alias}`);
+      assert(validMethods.has(kh.contactMethod), `Nevažeći contactMethod: ${kh.contactMethod}`);
+    }
   });
 
   // ─── Rezime ──────────────────────────────────────────────────────────────
