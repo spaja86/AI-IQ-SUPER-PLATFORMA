@@ -25,6 +25,7 @@ import {
   buildVaultStressReport,
   buildVaultResilienceReport,
   buildVaultBenchmarkReport,
+  buildVaultAttributionReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1054,6 +1055,65 @@ async function runTests(): Promise<void> {
 
   await test('benchmark timestamp je validan ISO 8601', () => {
     const report = buildVaultBenchmarkReport('bmk-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultAttributionReport ────────────────────────────────────────────
+
+  console.log('\n🧩 buildVaultAttributionReport');
+
+  await test('vraća attribution report za korisnika', () => {
+    const report = buildVaultAttributionReport('att-user-1');
+    assert(report.userId === 'att-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.totalValueUsd) && report.totalValueUsd >= 0, 'totalValueUsd mora biti ne-negativan');
+    assert(Number.isFinite(report.totalAnnualYieldUsd) && report.totalAnnualYieldUsd >= 0, 'totalAnnualYieldUsd mora biti ne-negativan');
+  });
+
+  await test('assetAttribution i tierAttribution nisu prazni', () => {
+    const report = buildVaultAttributionReport('att-user-2');
+    assert(Array.isArray(report.assetAttribution) && report.assetAttribution.length > 0, 'assetAttribution ne smije biti prazan');
+    assert(Array.isArray(report.tierAttribution) && report.tierAttribution.length > 0, 'tierAttribution ne smije biti prazan');
+  });
+
+  await test('topAssetContributor postoji u asset attribution listi', () => {
+    const report = buildVaultAttributionReport('att-user-3');
+    const keys = new Set(report.assetAttribution.map((slice) => slice.key));
+    assert(keys.has(report.topAssetContributor), `topAssetContributor nije prisutan: ${report.topAssetContributor}`);
+  });
+
+  await test('topTierContributor je validan tier', () => {
+    const report = buildVaultAttributionReport('att-user-4');
+    assert(['hot', 'warm', 'cold', 'deep-cold'].includes(report.topTierContributor),
+      `topTierContributor nije validan: ${report.topTierContributor}`);
+  });
+
+  await test('concentrationRisk je validna vrijednost', () => {
+    const report = buildVaultAttributionReport('att-user-5');
+    assert(['low', 'watch', 'high'].includes(report.concentrationRisk),
+      `concentrationRisk nije validan: ${report.concentrationRisk}`);
+  });
+
+  await test('svaka attribution stavka ima validne numeričke vrijednosti', () => {
+    const report = buildVaultAttributionReport('att-user-6');
+    const all = [...report.assetAttribution, ...report.tierAttribution];
+    for (const slice of all) {
+      assert(Number.isFinite(slice.valueUsd) && slice.valueUsd >= 0, `valueUsd nije validan za ${slice.key}`);
+      assert(Number.isFinite(slice.weightPct) && slice.weightPct >= 0, `weightPct nije validan za ${slice.key}`);
+      assert(Number.isFinite(slice.annualYieldUsd), `annualYieldUsd nije validan za ${slice.key}`);
+      assert(Number.isFinite(slice.contributionPct), `contributionPct nije validan za ${slice.key}`);
+    }
+  });
+
+  await test('insights je neprazan niz stringova', () => {
+    const report = buildVaultAttributionReport('att-user-7');
+    assert(Array.isArray(report.insights) && report.insights.length > 0, 'insights mora biti neprazan niz');
+    for (const insight of report.insights) {
+      assert(typeof insight === 'string' && insight.length > 0, 'insight mora biti neprazan string');
+    }
+  });
+
+  await test('attribution timestamp je validan ISO 8601', () => {
+    const report = buildVaultAttributionReport('att-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

@@ -1937,6 +1937,29 @@ export interface VaultBenchmarkReport {
   timestamp: string;
 }
 
+export type VaultAttributionRisk = 'low' | 'watch' | 'high';
+
+export interface VaultAttributionSlice {
+  key: string;
+  valueUsd: number;
+  weightPct: number;
+  annualYieldUsd: number;
+  contributionPct: number;
+}
+
+export interface VaultAttributionReport {
+  userId: string;
+  totalValueUsd: number;
+  totalAnnualYieldUsd: number;
+  assetAttribution: VaultAttributionSlice[];
+  tierAttribution: VaultAttributionSlice[];
+  topAssetContributor: string;
+  topTierContributor: VaultTier;
+  concentrationRisk: VaultAttributionRisk;
+  insights: string[];
+  timestamp: string;
+}
+
 const VAULT_BENCHMARKS: BenchmarkEntry[] = [
   {
     id: 'BTC',
@@ -2022,6 +2045,80 @@ export function buildVaultBenchmarkReport(userId: string): VaultBenchmarkReport 
     bestBenchmark: best.id,
     worstBenchmark: worst.id,
     outperformsCount,
+    insights,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+function attributionRisk(maxWeightPct: number): VaultAttributionRisk {
+  if (maxWeightPct >= 60) return 'high';
+  if (maxWeightPct >= 40) return 'watch';
+  return 'low';
+}
+
+/** Gradi attribution izvještaj — razdvaja doprinos prinosa po asetu i tieru. */
+export function buildVaultAttributionReport(userId: string): VaultAttributionReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+
+  const totalAnnualYieldUsd = Math.max(analytics.totalEstimatedAnnualYieldUsd, 0);
+  const totalValueUsd = Math.max(analytics.totalValueUsd, 0);
+
+  const assetAttribution: VaultAttributionSlice[] = analytics.assetPerformance
+    .map((asset) => {
+      const weightPct = totalValueUsd > 0 ? roundLedger((asset.totalHeldUsd / totalValueUsd) * 100) : 0;
+      const annualYieldUsd = roundLedger(asset.totalHeldUsd * (analytics.portfolioAprPct / 100));
+      const contributionPct = totalAnnualYieldUsd > 0
+        ? roundLedger((annualYieldUsd / totalAnnualYieldUsd) * 100)
+        : 0;
+      return {
+        key: asset.assetId,
+        valueUsd: roundLedger(asset.totalHeldUsd),
+        weightPct,
+        annualYieldUsd,
+        contributionPct,
+      };
+    })
+    .sort((a, b) => b.annualYieldUsd - a.annualYieldUsd);
+
+  const tierAttribution: VaultAttributionSlice[] = analytics.tierYields
+    .map((tier) => {
+      const weightPct = totalValueUsd > 0 ? roundLedger((tier.balanceUsd / totalValueUsd) * 100) : 0;
+      const contributionPct = totalAnnualYieldUsd > 0
+        ? roundLedger((tier.estimatedAnnualYieldUsd / totalAnnualYieldUsd) * 100)
+        : 0;
+      return {
+        key: tier.tier,
+        valueUsd: roundLedger(tier.balanceUsd),
+        weightPct,
+        annualYieldUsd: roundLedger(tier.estimatedAnnualYieldUsd),
+        contributionPct,
+      };
+    })
+    .sort((a, b) => b.annualYieldUsd - a.annualYieldUsd);
+
+  const topAssetContributor = assetAttribution[0]?.key ?? 'BTC';
+  const topTierContributor = (tierAttribution[0]?.key as VaultTier | undefined) ?? 'warm';
+  const maxAssetWeight = assetAttribution[0]?.weightPct ?? 0;
+  const concentrationRisk = attributionRisk(maxAssetWeight);
+
+  const insights: string[] = [
+    `Najveći doprinos godišnjem prinosu dolazi od asseta ${topAssetContributor}.`,
+    `Tier sa najvećim prinosnim doprinosom je ${topTierContributor}.`,
+    `Koncentracioni rizik je procijenjen kao ${concentrationRisk} (max asset weight ${maxAssetWeight.toFixed(2)}%).`,
+  ];
+  if (concentrationRisk !== 'low') {
+    insights.push('Razmotriti dodatnu diverzifikaciju kako bi pojedinačni asset imao manji udio u ukupnom portfoliu.');
+  }
+
+  return {
+    userId,
+    totalValueUsd,
+    totalAnnualYieldUsd,
+    assetAttribution,
+    tierAttribution,
+    topAssetContributor,
+    topTierContributor,
+    concentrationRisk,
     insights,
     timestamp: new Date().toISOString(),
   };
