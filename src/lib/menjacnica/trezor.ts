@@ -617,3 +617,96 @@ export function buildVaultSecurityCheckReport(userId: string): VaultSecurityChec
     timestamp: new Date().toISOString(),
   };
 }
+
+// ─── Vault Policy ─────────────────────────────────────────────────────────────
+
+export interface VaultTierPolicy {
+  tier: VaultTier;
+  minDepositNative: number;
+  timeLockDays: number;
+  multiSigThreshold: number;
+  maxDailyWithdrawUsd: number;
+  maxSingleWithdrawUsd: number;
+  whitelistRequired: boolean;
+  auditIntervalHours: number;
+}
+
+export interface VaultPolicyReport {
+  userId: string;
+  version: string;
+  effectiveFrom: string;
+  tiers: VaultTierPolicy[];
+  globalRules: {
+    maxConcurrentUnlocks: number;
+    withdrawCooldownMinutes: number;
+    kycRequiredAboveUsd: number;
+    supportedAssets: string[];
+  };
+  complianceNotes: string[];
+  timestamp: string;
+}
+
+/** Gradi prikaz aktivnih vault politika za sve tierove. */
+export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
+  const tiers: VaultTierPolicy[] = [
+    {
+      tier: 'hot',
+      minDepositNative: VAULT_MIN_DEPOSIT['hot'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['hot'],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['hot'],
+      maxDailyWithdrawUsd: 10_000,
+      maxSingleWithdrawUsd: 5_000,
+      whitelistRequired: false,
+      auditIntervalHours: 24,
+    },
+    {
+      tier: 'warm',
+      minDepositNative: VAULT_MIN_DEPOSIT['warm'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['warm'],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['warm'],
+      maxDailyWithdrawUsd: 100_000,
+      maxSingleWithdrawUsd: 50_000,
+      whitelistRequired: true,
+      auditIntervalHours: 48,
+    },
+    {
+      tier: 'cold',
+      minDepositNative: VAULT_MIN_DEPOSIT['cold'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['cold'],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['cold'],
+      maxDailyWithdrawUsd: 500_000,
+      maxSingleWithdrawUsd: 250_000,
+      whitelistRequired: true,
+      auditIntervalHours: 72,
+    },
+    {
+      tier: 'deep-cold',
+      minDepositNative: VAULT_MIN_DEPOSIT['deep-cold'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['deep-cold'],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['deep-cold'],
+      maxDailyWithdrawUsd: 5_000_000,
+      maxSingleWithdrawUsd: 2_000_000,
+      whitelistRequired: true,
+      auditIntervalHours: 168,
+    },
+  ];
+
+  return {
+    userId,
+    version: 'v2.0',
+    effectiveFrom: '2026-01-01T00:00:00.000Z',
+    tiers,
+    globalRules: {
+      maxConcurrentUnlocks: 3,
+      withdrawCooldownMinutes: 15,
+      kycRequiredAboveUsd: 10_000,
+      supportedAssets: ['BTC', 'ETH', 'SOL', 'USDT', 'SPAJA'],
+    },
+    complianceNotes: [
+      'Sve isplate iznad $10,000 USD podležu KYC verifikaciji.',
+      'Whitelist adrese moraju biti potvrđene od compliance tima.',
+      'Policy promene stupaju na snagu 24h nakon odobrenja.',
+    ],
+    timestamp: new Date().toISOString(),
+  };
+}

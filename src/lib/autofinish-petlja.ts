@@ -851,6 +851,8 @@
  * Autofinish #1203 (Kripto Trezor Audit Log — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultAuditEvent modelom i buildVaultAuditLog(userId, limit), nova auth API ruta GET /api/kripto-trezor/audit-log sa rate-limitom i feature flag-om kripto-trezor-audit-log, root info endpoint dopunjen audit-log capabilities, test suite proširen audit-log proverama; TOTAL_API_ROUTES 1070, TOTAL_ROUTES 1131, TOTAL_PAGES 56, APP_VERSION 47.2.0, AUTOFINISH_COUNT 1203)
  *
  * Autofinish #1204 (Kripto Trezor Security Check — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultSecurityCheckReport modelima i buildVaultSecurityCheckReport(userId), nova auth API ruta GET /api/kripto-trezor/security-check sa rate-limitom i feature flag-om kripto-trezor-security-check, root info endpoint dopunjen security-check capabilities, test suite proširen security-check proverama; TOTAL_API_ROUTES 1071, TOTAL_ROUTES 1132, TOTAL_PAGES 56, APP_VERSION 47.3.0, AUTOFINISH_COUNT 1204)
+ *
+ * Autofinish #1205 (Kripto Trezor Vault Policy — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultPolicyReport i VaultTierPolicy modelima i buildVaultPolicyReport(userId), nova auth API ruta GET /api/kripto-trezor/policy sa rate-limitom i feature flag-om kripto-trezor-policy, root info endpoint dopunjen policy capabilities, test suite proširen policy proverama; TOTAL_API_ROUTES 1072, TOTAL_ROUTES 1133, TOTAL_PAGES 56, APP_VERSION 47.4.0, AUTOFINISH_COUNT 1205)
  */
 
 import {

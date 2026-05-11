@@ -14,6 +14,7 @@ import {
   buildVaultWithdrawalRecord,
   buildVaultAuditLog,
   buildVaultSecurityCheckReport,
+  buildVaultPolicyReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -381,6 +382,43 @@ async function runTests(): Promise<void> {
     for (const check of report.checks) {
       assert(check.score >= 0 && check.score <= 100, `Nevažeći score za ${check.id}: ${check.score}`);
     }
+  });
+
+  // ─── buildVaultPolicyReport ───────────────────────────────────────────────────
+
+  console.log('\n📋 buildVaultPolicyReport');
+
+  await test('vraća policy report za korisnika', () => {
+    const report = buildVaultPolicyReport('pol-user-1');
+    assert(report.userId === 'pol-user-1', 'userId ne odgovara');
+    assert(typeof report.version === 'string', 'version mora biti string');
+    assert(Array.isArray(report.tiers), 'tiers mora biti niz');
+    assert(report.tiers.length === 4, 'mora imati politiku za sva 4 tiera');
+  });
+
+  await test('policy ima sve tierove', () => {
+    const report = buildVaultPolicyReport('pol-user-2');
+    const tierNames = new Set(report.tiers.map((t) => t.tier));
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold'] as const) {
+      assert(tierNames.has(tier), `Nedostaje tier: ${tier}`);
+    }
+  });
+
+  await test('maxDailyWithdrawUsd raste sa sigurnosnim nivoom', () => {
+    const report = buildVaultPolicyReport('pol-user-3');
+    const get = (tier: string) => report.tiers.find((t) => t.tier === tier)!.maxDailyWithdrawUsd;
+    assert(get('hot') < get('warm'), 'warm > hot');
+    assert(get('warm') < get('cold'), 'cold > warm');
+    assert(get('cold') < get('deep-cold'), 'deep-cold > cold');
+  });
+
+  await test('globalRules ima sve obavezne atribute', () => {
+    const report = buildVaultPolicyReport('pol-user-4');
+    const gr = report.globalRules;
+    assert(Number.isFinite(gr.maxConcurrentUnlocks), 'maxConcurrentUnlocks mora biti broj');
+    assert(Number.isFinite(gr.withdrawCooldownMinutes), 'withdrawCooldownMinutes mora biti broj');
+    assert(Number.isFinite(gr.kycRequiredAboveUsd), 'kycRequiredAboveUsd mora biti broj');
+    assert(Array.isArray(gr.supportedAssets) && gr.supportedAssets.length > 0, 'supportedAssets mora biti neprazan niz');
   });
 
   // ─── Vault Konstante ────────────────────────────────────────────────────────
