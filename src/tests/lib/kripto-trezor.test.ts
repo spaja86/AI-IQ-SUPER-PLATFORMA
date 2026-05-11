@@ -1071,8 +1071,8 @@ async function runTests(): Promise<void> {
 
   await test('assetAttribution i tierAttribution nisu prazni', () => {
     const report = buildVaultAttributionReport('att-user-2');
-    assert(Array.isArray(report.assetAttribution) && report.assetAttribution.length > 0, 'assetAttribution ne smije biti prazan');
-    assert(Array.isArray(report.tierAttribution) && report.tierAttribution.length > 0, 'tierAttribution ne smije biti prazan');
+    assert(Array.isArray(report.assetAttribution) && report.assetAttribution.length > 0, 'assetAttribution ne sme biti prazan');
+    assert(Array.isArray(report.tierAttribution) && report.tierAttribution.length > 0, 'tierAttribution ne sme biti prazan');
   });
 
   await test('topAssetContributor postoji u asset attribution listi', () => {
@@ -1087,13 +1087,13 @@ async function runTests(): Promise<void> {
       `topTierContributor nije validan: ${report.topTierContributor}`);
   });
 
-  await test('concentrationRisk je validna vrijednost', () => {
+  await test('concentrationRisk je validna vrednost', () => {
     const report = buildVaultAttributionReport('att-user-5');
     assert(['low', 'watch', 'high'].includes(report.concentrationRisk),
       `concentrationRisk nije validan: ${report.concentrationRisk}`);
   });
 
-  await test('svaka attribution stavka ima validne numeričke vrijednosti', () => {
+  await test('svaka attribution stavka ima validne numeričke vrednosti', () => {
     const report = buildVaultAttributionReport('att-user-6');
     const all = [...report.assetAttribution, ...report.tierAttribution];
     for (const slice of all) {
