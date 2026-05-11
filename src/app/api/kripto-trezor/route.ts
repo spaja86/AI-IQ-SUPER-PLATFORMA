@@ -36,6 +36,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/policy',         opis: 'Aktivne vault politike: limiti, tierovi i compliance', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/recovery',       opis: 'Recovery plan: keyholder-i, koraci i hitni kontakti', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/coverage',       opis: 'Coverage sloj: reserve fund, guarantee i uncovered gap', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/risk',           opis: 'Risk assessment: tržišni, koncentracijski i likvidnosni rizik', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,

@@ -54,7 +54,7 @@ export const kriptoTrezorSekvence: Sekvenca[] = [
     id: 'kripto-trezor-api-pregled',
     tip: 'tabela',
     naslov: '🔌 API Endpointi Kripto Trezora',
-    podnaslov: 'Devet API ruta koje grade vault sloj iznad menjačnice i novčanika',
+    podnaslov: 'Deset API ruta koje grade vault sloj iznad menjačnice i novčanika',
     redosled: 3,
     podaci: {
       zaglavlje: ['Endpoint', 'Metod', 'Opis', 'Auth', 'Feature Flag'],
@@ -68,6 +68,7 @@ export const kriptoTrezorSekvence: Sekvenca[] = [
         ['GET /api/kripto-trezor/policy', 'GET', 'Aktivne vault politike: limiti, tierovi i compliance', '✅', 'kripto-trezor-policy'],
         ['GET /api/kripto-trezor/recovery', 'GET', 'Recovery plan: keyholder-i, koraci i hitni kontakti', '✅', 'kripto-trezor-recovery'],
         ['GET /api/kripto-trezor/coverage', 'GET', 'Coverage sloj: reserve fund, guarantee i uncovered gap', '✅', 'kripto-trezor-coverage'],
+        ['GET /api/kripto-trezor/risk', 'GET', 'Risk assessment: tržišni, koncentracijski i likvidnosni rizik', '✅', 'kripto-trezor-risk'],
       ],
     },
   },

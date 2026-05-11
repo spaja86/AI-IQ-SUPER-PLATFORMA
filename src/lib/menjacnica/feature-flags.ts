@@ -172,6 +172,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-risk',
+    naziv: 'Kripto Trezor — Vault Risk Assessment',
+    opis: 'Procjena tržišnog, koncentracijskog, likvidnosnog i custody rizika vault portfolia',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

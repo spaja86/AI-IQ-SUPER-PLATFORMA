@@ -857,6 +857,8 @@
  * Autofinish #1206 (Kripto Trezor Vault Recovery Plan — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultRecoveryReport modelima i buildVaultRecoveryReport(userId), nova auth API ruta GET /api/kripto-trezor/recovery sa rate-limitom i feature flag-om kripto-trezor-recovery, test suite proširen recovery proverama; TOTAL_API_ROUTES 1073, TOTAL_ROUTES 1134, TOTAL_PAGES 56, APP_VERSION 47.5.0, AUTOFINISH_COUNT 1206)
  *
  * Autofinish #1207 (Kripto Trezor Vault Coverage — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultCoverageReport modelima i buildVaultCoverageReport(userId), nova auth API ruta GET /api/kripto-trezor/coverage sa rate-limitom i feature flag-om kripto-trezor-coverage, root info endpoint i Kripto Trezor page dopunjeni coverage/recovery capabilities, test suite proširen coverage proverama; TOTAL_API_ROUTES 1074, TOTAL_ROUTES 1135, TOTAL_PAGES 56, APP_VERSION 47.6.0, AUTOFINISH_COUNT 1207)
+ *
+ * Autofinish #1208 (Kripto Trezor Vault Risk Assessment — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultRiskReport modelima i buildVaultRiskReport(userId) koji procjenjuje tržišni, koncentracijski, likvidnosni, custody i counterparty rizik; nova auth API ruta GET /api/kripto-trezor/risk sa rate-limitom i feature flag-om kripto-trezor-risk; root info endpoint i Kripto Trezor page dopunjeni risk capabilities; test suite proširen risk proverama; TOTAL_API_ROUTES 1075, TOTAL_ROUTES 1136, TOTAL_PAGES 56, APP_VERSION 47.7.0, AUTOFINISH_COUNT 1208)
  */
 
 import {

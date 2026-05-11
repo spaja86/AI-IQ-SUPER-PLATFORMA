@@ -17,6 +17,7 @@ import {
   buildVaultPolicyReport,
   buildVaultRecoveryReport,
   buildVaultCoverageReport,
+  buildVaultRiskReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -558,6 +559,63 @@ async function runTests(): Promise<void> {
 
   await test('coverage timestamp je validan ISO 8601', () => {
     const report = buildVaultCoverageReport('cov-user-6');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultRiskReport ─────────────────────────────────────────────────────
+
+  console.log('\n⚠️ buildVaultRiskReport');
+
+  await test('vraća risk report za korisnika', () => {
+    const report = buildVaultRiskReport('risk-user-1');
+    assert(report.userId === 'risk-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.overallScore), 'overallScore mora biti broj');
+    assert(Array.isArray(report.factors) && report.factors.length > 0, 'factors mora biti neprazan niz');
+  });
+
+  await test('overallScore je između 0 i 100', () => {
+    const report = buildVaultRiskReport('risk-user-2');
+    assert(report.overallScore >= 0 && report.overallScore <= 100, `overallScore van opsega: ${report.overallScore}`);
+  });
+
+  await test('overallLevel je validan risk level', () => {
+    const report = buildVaultRiskReport('risk-user-3');
+    const valid = new Set(['low', 'medium', 'high', 'critical']);
+    assert(valid.has(report.overallLevel), `Nevažeći overallLevel: ${report.overallLevel}`);
+  });
+
+  await test('report ima sve očekivane kategorije rizika', () => {
+    const report = buildVaultRiskReport('risk-user-4');
+    const cats = new Set(report.factors.map((f) => f.category));
+    const expected = ['market-risk', 'concentration-risk', 'liquidity-risk', 'custody-risk', 'counterparty-risk'];
+    for (const cat of expected) {
+      assert(cats.has(cat), `Nedostaje kategorija: ${cat}`);
+    }
+  });
+
+  await test('svaki faktor ima validne score i level vrednosti', () => {
+    const report = buildVaultRiskReport('risk-user-5');
+    const validLevels = new Set(['low', 'medium', 'high', 'critical']);
+    for (const f of report.factors) {
+      assert(f.score >= 0 && f.score <= 100, `score van opsega za ${f.id}: ${f.score}`);
+      assert(validLevels.has(f.level), `Nevažeći level za ${f.id}: ${f.level}`);
+    }
+  });
+
+  await test('tier ratio-i su između 0 i 100', () => {
+    const report = buildVaultRiskReport('risk-user-6');
+    assert(report.hotTierRatio >= 0 && report.hotTierRatio <= 100, `hotTierRatio van opsega: ${report.hotTierRatio}`);
+    assert(report.coldTierRatio >= 0 && report.coldTierRatio <= 100, `coldTierRatio van opsega: ${report.coldTierRatio}`);
+  });
+
+  await test('singleAssetMaxPct je između 0 i 100', () => {
+    const report = buildVaultRiskReport('risk-user-7');
+    assert(report.singleAssetMaxPct >= 0 && report.singleAssetMaxPct <= 100,
+      `singleAssetMaxPct van opsega: ${report.singleAssetMaxPct}`);
+  });
+
+  await test('risk timestamp je validan ISO 8601', () => {
+    const report = buildVaultRiskReport('risk-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

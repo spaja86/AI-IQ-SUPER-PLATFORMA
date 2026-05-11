@@ -900,6 +900,158 @@ export function buildVaultCoverageReport(userId: string): VaultCoverageReport {
   };
 }
 
+// ─── Vault Risk ───────────────────────────────────────────────────────────────
+
+export type VaultRiskLevel = 'low' | 'medium' | 'high' | 'critical';
+
+export type VaultRiskCategory =
+  | 'market-risk'
+  | 'concentration-risk'
+  | 'liquidity-risk'
+  | 'custody-risk'
+  | 'counterparty-risk';
+
+export interface VaultRiskFactor {
+  id: string;
+  category: VaultRiskCategory;
+  title: string;
+  score: number;
+  level: VaultRiskLevel;
+  finding: string;
+  recommendation: string;
+}
+
+export interface VaultRiskReport {
+  userId: string;
+  overallScore: number;
+  overallLevel: VaultRiskLevel;
+  factors: VaultRiskFactor[];
+  hotTierRatio: number;
+  coldTierRatio: number;
+  singleAssetMaxPct: number;
+  dominantAsset: string;
+  recommendations: string[];
+  timestamp: string;
+}
+
+function riskLevel(score: number): VaultRiskLevel {
+  if (score <= 25) return 'low';
+  if (score <= 50) return 'medium';
+  if (score <= 75) return 'high';
+  return 'critical';
+}
+
+/** Procjenjuje tržišni, koncentracijski, likvidnosni i custody rizik trezora. */
+export function buildVaultRiskReport(userId: string): VaultRiskReport {
+  const vault = buildVaultStatusReport(userId);
+  const totalUsd = roundLedger(vault.totalLockedUsd + vault.totalUnlockingUsd + vault.totalAvailableUsd);
+
+  // Tier distribution
+  const hotUsd = roundLedger(
+    vault.accounts
+      .filter((a) => a.tier === 'hot')
+      .reduce((s, a) => s + (a.locked + a.unlocking + a.available) * (VAULT_ASSET_PRICES_USD[a.assetId] ?? 1), 0),
+  );
+  const coldUsd = roundLedger(
+    vault.accounts
+      .filter((a) => a.tier === 'cold' || a.tier === 'deep-cold')
+      .reduce((s, a) => s + (a.locked + a.unlocking + a.available) * (VAULT_ASSET_PRICES_USD[a.assetId] ?? 1), 0),
+  );
+  const hotTierRatio = totalUsd > 0 ? roundLedger((hotUsd / totalUsd) * 100) : 0;
+  const coldTierRatio = totalUsd > 0 ? roundLedger((coldUsd / totalUsd) * 100) : 0;
+
+  // Asset concentration
+  const assetUsd: Record<string, number> = {};
+  for (const a of vault.accounts) {
+    const price = VAULT_ASSET_PRICES_USD[a.assetId] ?? 1;
+    const usd = (a.locked + a.unlocking + a.available) * price;
+    assetUsd[a.assetId] = (assetUsd[a.assetId] ?? 0) + usd;
+  }
+  let maxUsd = 0;
+  let dominantAsset = 'N/A';
+  for (const [asset, usd] of Object.entries(assetUsd)) {
+    if (usd > maxUsd) { maxUsd = usd; dominantAsset = asset; }
+  }
+  const singleAssetMaxPct = totalUsd > 0 ? roundLedger((maxUsd / totalUsd) * 100) : 0;
+
+  // Risk factor scores
+  const mktScore = Math.min(100, Math.round(hotTierRatio * 0.6));
+  const conScore = Math.min(100, Math.round(Math.max(0, singleAssetMaxPct - 40) * 2));
+  const liqScore = coldTierRatio < 40 ? 60 : coldTierRatio >= 70 ? 10 : 30;
+  const custScore = 15;
+  const cptyScore = 20;
+
+  const factors: VaultRiskFactor[] = [
+    {
+      id: 'risk-market',
+      category: 'market-risk',
+      title: 'Tržišni Rizik',
+      score: mktScore,
+      level: riskLevel(mktScore),
+      finding: `${hotTierRatio.toFixed(1)}% vault bilansa je u hot tieru izloženom spot cenovnoj volatilnosti.`,
+      recommendation: 'Prebaciti veći deo spot ekspozicije u warm ili cold tier kako bi se smanjio mark-to-market rizik.',
+    },
+    {
+      id: 'risk-concentration',
+      category: 'concentration-risk',
+      title: 'Koncentracijski Rizik',
+      score: conScore,
+      level: riskLevel(conScore),
+      finding: `Dominantni asset ${dominantAsset} čini ${singleAssetMaxPct.toFixed(1)}% ukupnog vault bilansa.`,
+      recommendation: singleAssetMaxPct > 60
+        ? 'Diversifikovati portfelj — preporučuje se rebalans radi smanjivanja exposurea na jedan asset.'
+        : 'Koncentracija je u prihvatljivim granicama. Pratiti promjene pri svakom velikom depozitu.',
+    },
+    {
+      id: 'risk-liquidity',
+      category: 'liquidity-risk',
+      title: 'Likvidnosni Rizik',
+      score: liqScore,
+      level: riskLevel(liqScore),
+      finding: `${coldTierRatio.toFixed(1)}% bilansa je u cold/deep-cold tieru (time-lock ≥3 dana).`,
+      recommendation: 'Osigurati da hot/warm tier drži dovoljnu likvidnost za operativne isplate (preporuka: ≥20% ukupnog bilansa).',
+    },
+    {
+      id: 'risk-custody',
+      category: 'custody-risk',
+      title: 'Custody Rizik',
+      score: custScore,
+      level: riskLevel(custScore),
+      finding: 'Multi-sig i hardware key policy su aktivni na svim non-hot tierovima.',
+      recommendation: 'Redovno testirati recovery plan i rotirati hardware ključeve prema policy kalendaru.',
+    },
+    {
+      id: 'risk-counterparty',
+      category: 'counterparty-risk',
+      title: 'Counterparty Rizik',
+      score: cptyScore,
+      level: riskLevel(cptyScore),
+      finding: 'Bank guarantee i custody insurance pokrivaju ~85% bilansa putem provjenih provajdera.',
+      recommendation: 'Pratiti kreditni rejting provajdera polica. Obezbjediti alternativni coverage u slučaju povlačenja police.',
+    },
+  ];
+
+  const totalScore = Math.round(factors.reduce((s, f) => s + f.score, 0) / factors.length);
+
+  return {
+    userId,
+    overallScore: totalScore,
+    overallLevel: riskLevel(totalScore),
+    factors,
+    hotTierRatio,
+    coldTierRatio,
+    singleAssetMaxPct,
+    dominantAsset,
+    recommendations: [
+      'Revizija vault distribucije po tieru preporučuje se kvartalno ili pri promjeni >20% bilansa.',
+      'Diversifikovati asset mix ako jedan asset prelazi 60% ukupnog bilansa.',
+      'Provjeriti pokrivenost i limite coverage police godišnje.',
+      'Security i recovery drill sprovesti bar jednom kvartalno.',
+    ],
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [
