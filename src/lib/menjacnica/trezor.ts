@@ -2429,6 +2429,158 @@ export function buildVaultPerformanceReport(userId: string): VaultPerformanceRep
   };
 }
 
+// ─── Vault Yield (#1220) ──────────────────────────────────────────────────────
+
+export type YieldHorizon = '30d' | '90d' | '365d';
+export type CompoundFrequency = 'daily' | 'weekly' | 'monthly';
+
+export interface VaultAssetYield {
+  assetId: string;
+  tier: VaultTier;
+  principalUsd: number;
+  aprPct: number;
+  yieldSource: string;
+  compoundFrequency: CompoundFrequency;
+  dailyRewardUsd: number;
+  weeklyRewardUsd: number;
+  monthlyRewardUsd: number;
+  annualRewardUsd: number;
+  accumulatedLast30dUsd: number;
+}
+
+export interface VaultYieldProjection {
+  horizon: YieldHorizon;
+  projectedPrincipalUsd: number;
+  projectedRewardUsd: number;
+  projectedTotalUsd: number;
+  effectiveAprPct: number;
+}
+
+export interface VaultYieldReport {
+  userId: string;
+  totalPrincipalUsd: number;
+  weightedAprPct: number;
+  totalDailyRewardUsd: number;
+  totalWeeklyRewardUsd: number;
+  totalMonthlyRewardUsd: number;
+  totalAnnualRewardUsd: number;
+  totalAccumulatedLast30dUsd: number;
+  assetYields: VaultAssetYield[];
+  projections: VaultYieldProjection[];
+  insights: string[];
+  timestamp: string;
+}
+
+const COMPOUND_FREQ: Record<VaultTier, CompoundFrequency> = {
+  hot: 'daily',
+  warm: 'weekly',
+  cold: 'weekly',
+  'deep-cold': 'monthly',
+};
+
+const YIELD_HORIZON_DAYS: Record<YieldHorizon, number> = {
+  '30d': 30,
+  '90d': 90,
+  '365d': 365,
+};
+
+/** Gradi yield/staking reward izvještaj za vault portfolio korisnika. */
+export function buildVaultYieldReport(userId: string): VaultYieldReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+  const vault = buildVaultStatusReport(userId);
+  const totalPrincipalUsd = Math.max(analytics.totalValueUsd, 0);
+
+  // Aggregate per-asset-tier principal using vault accounts
+  const assetTierMap: Record<string, { tier: VaultTier; principalUsd: number }[]> = {};
+  for (const account of vault.accounts) {
+    const price = VAULT_ASSET_PRICES_USD[account.assetId] ?? 1;
+    const principalUsd = roundLedger((account.locked + account.unlocking + account.available) * price);
+    if (principalUsd <= 0) continue;
+    if (!assetTierMap[account.assetId]) assetTierMap[account.assetId] = [];
+    const existing = assetTierMap[account.assetId].find((e) => e.tier === account.tier);
+    if (existing) {
+      existing.principalUsd = roundLedger(existing.principalUsd + principalUsd);
+    } else {
+      assetTierMap[account.assetId].push({ tier: account.tier, principalUsd });
+    }
+  }
+
+  // Build per-asset yield entries (dominant tier = tier with largest balance)
+  const assetYields: VaultAssetYield[] = Object.entries(assetTierMap).map(([assetId, entries]) => {
+    const dominant = entries.reduce((best, e) => e.principalUsd > best.principalUsd ? e : best, entries[0]);
+    const tier = dominant.tier;
+    const aprPct = VAULT_TIER_APR[tier];
+    const yieldSource = VAULT_TIER_YIELD_SOURCE[tier];
+    const compoundFrequency = COMPOUND_FREQ[tier];
+    const principalUsd = roundLedger(entries.reduce((s, e) => s + e.principalUsd, 0));
+    const annualRewardUsd = roundLedger(principalUsd * (aprPct / 100));
+    const dailyRewardUsd = roundLedger(annualRewardUsd / 365);
+    const weeklyRewardUsd = roundLedger(annualRewardUsd / 52);
+    const monthlyRewardUsd = roundLedger(annualRewardUsd / 12);
+    const accumulatedLast30dUsd = roundLedger(monthlyRewardUsd);
+    return {
+      assetId,
+      tier,
+      principalUsd,
+      aprPct,
+      yieldSource,
+      compoundFrequency,
+      dailyRewardUsd,
+      weeklyRewardUsd,
+      monthlyRewardUsd,
+      annualRewardUsd,
+      accumulatedLast30dUsd,
+    };
+  }).sort((a, b) => b.annualRewardUsd - a.annualRewardUsd);
+
+  const totalAnnualRewardUsd = roundLedger(assetYields.reduce((s, a) => s + a.annualRewardUsd, 0));
+  const totalDailyRewardUsd = roundLedger(totalAnnualRewardUsd / 365);
+  const totalWeeklyRewardUsd = roundLedger(totalAnnualRewardUsd / 52);
+  const totalMonthlyRewardUsd = roundLedger(totalAnnualRewardUsd / 12);
+  const totalAccumulatedLast30dUsd = roundLedger(totalMonthlyRewardUsd);
+  const weightedAprPct = totalPrincipalUsd > 0
+    ? roundLedger((totalAnnualRewardUsd / totalPrincipalUsd) * 100)
+    : 0;
+
+  const projections: VaultYieldProjection[] = (['30d', '90d', '365d'] as YieldHorizon[]).map((horizon) => {
+    const days = YIELD_HORIZON_DAYS[horizon];
+    const dailyRate = weightedAprPct / 100 / 365;
+    const projectedTotalUsd = roundLedger(totalPrincipalUsd * Math.pow(1 + dailyRate, days));
+    const projectedRewardUsd = roundLedger(projectedTotalUsd - totalPrincipalUsd);
+    const effectiveAprPct = days > 0 ? roundLedger((projectedRewardUsd / (totalPrincipalUsd || 1)) * (365 / days) * 100) : weightedAprPct;
+    return {
+      horizon,
+      projectedPrincipalUsd: totalPrincipalUsd,
+      projectedRewardUsd,
+      projectedTotalUsd,
+      effectiveAprPct,
+    };
+  });
+
+  const topAsset = assetYields[0];
+  const insights: string[] = [
+    `Portfolio yield: ${totalAnnualRewardUsd.toFixed(2)} USD godišnje pri weighted APR-u od ${weightedAprPct.toFixed(2)}%.`,
+    `Dnevni prinos: ~${totalDailyRewardUsd.toFixed(4)} USD, mjesečni: ~${totalMonthlyRewardUsd.toFixed(2)} USD.`,
+    `Najinosniji asset: ${topAsset?.assetId ?? 'N/A'} — ${topAsset?.annualRewardUsd?.toFixed(2) ?? '0'} USD/godišnje (APR: ${topAsset?.aprPct?.toFixed(2) ?? 0}%).`,
+    `Procijenjeni prinos za 365d uz compounding: +${projections.find((p) => p.horizon === '365d')?.projectedRewardUsd?.toFixed(2) ?? '0'} USD.`,
+  ];
+
+  return {
+    userId,
+    totalPrincipalUsd,
+    weightedAprPct,
+    totalDailyRewardUsd,
+    totalWeeklyRewardUsd,
+    totalMonthlyRewardUsd,
+    totalAnnualRewardUsd,
+    totalAccumulatedLast30dUsd,
+    assetYields,
+    projections,
+    insights,
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

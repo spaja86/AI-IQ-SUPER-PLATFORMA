@@ -268,6 +268,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-yield',
+    naziv: 'Kripto Trezor — Vault Yield',
+    opis: 'Yield/staking reward izvještaj: APR po tieru, dnevni/mjesečni/godišnji prinos i compounding projekcije',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

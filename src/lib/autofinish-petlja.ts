@@ -7075,3 +7075,8 @@ export function getAutofinishInfrastruktura(): AutofinishInfrastrukturaResult {
     timestamp: new Date().toISOString(),
   };
 }
+
+// ─── Autofinish #1220 — Kripto Trezor Vault Yield ────────────────────────────
+// VaultYieldReport + buildVaultYieldReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-yield. Nova ruta: GET /api/kripto-trezor/yield.
+// APP_VERSION=48.9.0 | AUTOFINISH_COUNT=1220 | TOTAL_API_ROUTES=1087 | TOTAL_ROUTES=1148

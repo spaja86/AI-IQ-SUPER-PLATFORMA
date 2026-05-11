@@ -29,6 +29,7 @@ import {
   buildVaultExposureReport,
   buildVaultAllocationReport,
   buildVaultPerformanceReport,
+  buildVaultYieldReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1307,6 +1308,79 @@ async function runTests(): Promise<void> {
 
   await test('performance timestamp je validan ISO 8601', () => {
     const report = buildVaultPerformanceReport('perf-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultYieldReport ────────────────────────────────────────────────
+
+  console.log('\n💰 buildVaultYieldReport');
+
+  await test('vrača VaultYieldReport sa svim obaveznim poljima', () => {
+    const report = buildVaultYieldReport('yield-user-1');
+    assert(typeof report.userId === 'string' && report.userId.length > 0, 'userId mora biti neprazan string');
+    assert(typeof report.totalPrincipalUsd === 'number', 'totalPrincipalUsd mora biti broj');
+    assert(typeof report.weightedAprPct === 'number', 'weightedAprPct mora biti broj');
+    assert(typeof report.totalDailyRewardUsd === 'number', 'totalDailyRewardUsd mora biti broj');
+    assert(typeof report.totalWeeklyRewardUsd === 'number', 'totalWeeklyRewardUsd mora biti broj');
+    assert(typeof report.totalMonthlyRewardUsd === 'number', 'totalMonthlyRewardUsd mora biti broj');
+    assert(typeof report.totalAnnualRewardUsd === 'number', 'totalAnnualRewardUsd mora biti broj');
+    assert(typeof report.totalAccumulatedLast30dUsd === 'number', 'totalAccumulatedLast30dUsd mora biti broj');
+    assert(Array.isArray(report.assetYields), 'assetYields mora biti niz');
+    assert(Array.isArray(report.projections), 'projections mora biti niz');
+    assert(Array.isArray(report.insights), 'insights mora biti niz');
+    assert(typeof report.timestamp === 'string', 'timestamp mora biti string');
+  });
+
+  await test('sve vrijednosti su >= 0', () => {
+    const report = buildVaultYieldReport('yield-user-2');
+    assert(report.totalPrincipalUsd >= 0, 'totalPrincipalUsd >= 0');
+    assert(report.weightedAprPct >= 0, 'weightedAprPct >= 0');
+    assert(report.totalDailyRewardUsd >= 0, 'totalDailyRewardUsd >= 0');
+    assert(report.totalMonthlyRewardUsd >= 0, 'totalMonthlyRewardUsd >= 0');
+    assert(report.totalAnnualRewardUsd >= 0, 'totalAnnualRewardUsd >= 0');
+  });
+
+  await test('svaki asset yield ima validna polja', () => {
+    const report = buildVaultYieldReport('yield-user-3');
+    report.assetYields.forEach((a) => {
+      assert(typeof a.assetId === 'string' && a.assetId.length > 0, `assetId je prazan`);
+      assert(['hot', 'warm', 'cold', 'deep-cold'].includes(a.tier), `tier nije validan: ${a.tier}`);
+      assert(typeof a.principalUsd === 'number' && a.principalUsd >= 0, `principalUsd mora biti >= 0`);
+      assert(typeof a.aprPct === 'number' && a.aprPct >= 0, `aprPct mora biti >= 0`);
+      assert(typeof a.dailyRewardUsd === 'number', `dailyRewardUsd mora biti broj`);
+      assert(typeof a.annualRewardUsd === 'number', `annualRewardUsd mora biti broj`);
+    });
+  });
+
+  await test('projekcije pokrivaju 30d, 90d i 365d horizonte', () => {
+    const report = buildVaultYieldReport('yield-user-4');
+    const horizons = report.projections.map((p) => p.horizon);
+    assert(horizons.includes('30d'), 'projekcije moraju sadržati 30d');
+    assert(horizons.includes('90d'), 'projekcije moraju sadržati 90d');
+    assert(horizons.includes('365d'), 'projekcije moraju sadržati 365d');
+  });
+
+  await test('svaka projekcija ima pozitivan ili nulti projectedTotalUsd', () => {
+    const report = buildVaultYieldReport('yield-user-5');
+    report.projections.forEach((p) => {
+      assert(p.projectedTotalUsd >= 0, `projectedTotalUsd mora biti >= 0 za ${p.horizon}`);
+      assert(p.projectedRewardUsd >= 0, `projectedRewardUsd mora biti >= 0 za ${p.horizon}`);
+    });
+  });
+
+  await test('insights sadrži barem 4 stavke', () => {
+    const report = buildVaultYieldReport('yield-user-6');
+    assert(report.insights.length >= 4, `insights mora imati >= 4 stavki, ima ${report.insights.length}`);
+    report.insights.forEach((s) => assert(typeof s === 'string' && s.length > 0, 'svaki insight mora biti neprazan string'));
+  });
+
+  await test('userId se pravilno prenosi', () => {
+    const report = buildVaultYieldReport('yield-user-7');
+    assert(report.userId === 'yield-user-7', `userId mora biti 'yield-user-7', dobiveno '${report.userId}'`);
+  });
+
+  await test('timestamp je validan ISO 8601', () => {
+    const report = buildVaultYieldReport('yield-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 
