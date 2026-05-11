@@ -1612,6 +1612,184 @@ export function buildVaultForecastReport(userId: string, horizon: ForecastHorizo
   };
 }
 
+// ─── Vault Stress ──────────────────────────────────────────────────────────────
+
+export type VaultStressScenarioId =
+  | 'flash-crash'
+  | 'liquidity-freeze'
+  | 'custody-incident';
+
+export interface VaultStressScenario {
+  id: VaultStressScenarioId;
+  naziv: string;
+  marketShockPct: number;
+  liquidityShockPct: number;
+  recoveryDays: number;
+  estimatedDrawdownUsd: number;
+  projectedValueUsd: number;
+  projectedCoveragePct: number;
+  projectedLiquidityScore: number;
+  pass: boolean;
+  notes: string[];
+}
+
+export interface VaultStressReport {
+  userId: string;
+  baselineValueUsd: number;
+  baselineCoveragePct: number;
+  baselineLiquidityScore: number;
+  scenarios: VaultStressScenario[];
+  worstScenarioId: VaultStressScenarioId;
+  resilienceScore: number;
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi stress test izvještaj za ključne tržišne i operativne šokove. */
+export function buildVaultStressReport(userId: string): VaultStressReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+  const liquidity = buildVaultLiquidityReport(userId);
+  const coverage = buildVaultCoverageReport(userId);
+
+  const baselineValueUsd = analytics.totalValueUsd;
+  const baselineCoveragePct = coverage.coverageRatio;
+  const baselineLiquidityScore = liquidity.liquidityScore;
+
+  const scenarioInputs: Array<{
+    id: VaultStressScenarioId;
+    naziv: string;
+    marketShockPct: number;
+    liquidityShockPct: number;
+    recoveryDays: number;
+    notes: string[];
+  }> = [
+    {
+      id: 'flash-crash',
+      naziv: 'Flash Crash -35%',
+      marketShockPct: 35,
+      liquidityShockPct: 20,
+      recoveryDays: 21,
+      notes: [
+        'Brzi pad glavnih crypto tržišta uz kratkoročan spread spike.',
+        'Likvidnost warm/cold tierova se smanjuje zbog povećanih povlačenja.',
+      ],
+    },
+    {
+      id: 'liquidity-freeze',
+      naziv: 'Liquidity Freeze',
+      marketShockPct: 18,
+      liquidityShockPct: 45,
+      recoveryDays: 30,
+      notes: [
+        'Smanjen market depth i usporen execution većih OTC naloga.',
+        'Prioritet daje instant i 24h prozorima povlačenja.',
+      ],
+    },
+    {
+      id: 'custody-incident',
+      naziv: 'Custody Incident',
+      marketShockPct: 12,
+      liquidityShockPct: 30,
+      recoveryDays: 14,
+      notes: [
+        'Privremena izolacija dijela cold/deep-cold sredstava tokom sigurnosnog incidenta.',
+        'Aktivacija reserve + insurance sloja umanjuje dugoročni gubitak.',
+      ],
+    },
+  ];
+
+  const scenarios: VaultStressScenario[] = scenarioInputs.map((input) => {
+    const blendedShockPct = input.marketShockPct * 0.7 + input.liquidityShockPct * 0.3;
+    const estimatedDrawdownUsd = roundLedger(baselineValueUsd * (blendedShockPct / 100));
+    const projectedValueUsd = roundLedger(Math.max(0, baselineValueUsd - estimatedDrawdownUsd));
+
+    const recoveryReliefPct = input.id === 'custody-incident' ? 12 : input.id === 'flash-crash' ? 9 : 7;
+    const projectedCoveragePct = Math.max(
+      0,
+      Math.min(
+        100,
+        roundLedger(
+          baselineCoveragePct
+          - input.marketShockPct * 0.3
+          + recoveryReliefPct,
+        ),
+      ),
+    );
+
+    const projectedLiquidityScore = Math.max(
+      0,
+      Math.min(
+        100,
+        roundLedger(
+          baselineLiquidityScore
+          - input.liquidityShockPct * 0.6
+          + (input.id === 'liquidity-freeze' ? 4 : 7),
+        ),
+      ),
+    );
+
+    const pass = projectedValueUsd >= baselineValueUsd * 0.6
+      && projectedCoveragePct >= 45
+      && projectedLiquidityScore >= 35;
+
+    return {
+      id: input.id,
+      naziv: input.naziv,
+      marketShockPct: input.marketShockPct,
+      liquidityShockPct: input.liquidityShockPct,
+      recoveryDays: input.recoveryDays,
+      estimatedDrawdownUsd,
+      projectedValueUsd,
+      projectedCoveragePct,
+      projectedLiquidityScore,
+      pass,
+      notes: input.notes,
+    };
+  });
+
+  const worstScenario = scenarios.reduce((worst, current) =>
+    current.projectedValueUsd < worst.projectedValueUsd ? current : worst,
+  scenarios[0]);
+
+  const passRatePct = scenarios.length > 0
+    ? (scenarios.filter((s) => s.pass).length / scenarios.length) * 100
+    : 0;
+  const resilienceScore = Math.max(
+    0,
+    Math.min(
+      100,
+      roundLedger(
+        passRatePct * 0.5
+        + baselineCoveragePct * 0.3
+        + baselineLiquidityScore * 0.2,
+      ),
+    ),
+  );
+
+  const recommendations: string[] = [];
+  if (scenarios.some((s) => s.projectedLiquidityScore < 40)) {
+    recommendations.push('Povećati operativni buffer hot/warm tiera radi boljeg preživljavanja liquidity shock scenarija.');
+  }
+  if (scenarios.some((s) => s.projectedCoveragePct < 50)) {
+    recommendations.push('Proširiti coverage limite (reserve fund / bank guarantee / custody insurance) za stres periode.');
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Stress profil je stabilan; nastaviti mesečne stress simulacije i kvartalne policy revizije.');
+  }
+
+  return {
+    userId,
+    baselineValueUsd,
+    baselineCoveragePct,
+    baselineLiquidityScore,
+    scenarios,
+    worstScenarioId: worstScenario.id,
+    resilienceScore,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

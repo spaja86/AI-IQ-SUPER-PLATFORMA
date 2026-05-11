@@ -22,6 +22,7 @@ import {
   buildVaultRebalanceReport,
   buildVaultLiquidityReport,
   buildVaultForecastReport,
+  buildVaultStressReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -872,6 +873,70 @@ async function runTests(): Promise<void> {
 
   await test('forecast timestamp je validan ISO 8601', () => {
     const report = buildVaultForecastReport('frc-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultStressReport ───────────────────────────────────────────────────
+
+  console.log('\n🔥 buildVaultStressReport');
+
+  await test('vraća stress report za korisnika', () => {
+    const report = buildVaultStressReport('str-user-1');
+    assert(report.userId === 'str-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.baselineValueUsd) && report.baselineValueUsd > 0, 'baselineValueUsd mora biti pozitivan');
+    assert(Array.isArray(report.scenarios) && report.scenarios.length === 3, 'mora postojati 3 stress scenarija');
+  });
+
+  await test('stress scenariji imaju očekivane id vrednosti', () => {
+    const report = buildVaultStressReport('str-user-2');
+    const ids = new Set(report.scenarios.map((s) => s.id));
+    for (const id of ['flash-crash', 'liquidity-freeze', 'custody-incident']) {
+      assert(ids.has(id), `nedostaje scenario ${id}`);
+    }
+  });
+
+  await test('drawdown i projected value su konzistentni', () => {
+    const report = buildVaultStressReport('str-user-3');
+    for (const s of report.scenarios) {
+      assert(s.estimatedDrawdownUsd >= 0, 'drawdown mora biti ne-negativan');
+      assert(s.projectedValueUsd >= 0, 'projectedValueUsd mora biti ne-negativan');
+      assert(s.projectedValueUsd <= report.baselineValueUsd, 'projectedValueUsd ne sme preći baseline');
+    }
+  });
+
+  await test('projected coverage i liquidity score su u opsegu 0-100', () => {
+    const report = buildVaultStressReport('str-user-4');
+    for (const s of report.scenarios) {
+      assert(s.projectedCoveragePct >= 0 && s.projectedCoveragePct <= 100,
+        `projectedCoveragePct van opsega za ${s.id}: ${s.projectedCoveragePct}`);
+      assert(s.projectedLiquidityScore >= 0 && s.projectedLiquidityScore <= 100,
+        `projectedLiquidityScore van opsega za ${s.id}: ${s.projectedLiquidityScore}`);
+    }
+  });
+
+  await test('worstScenarioId odgovara scenariju sa najmanjom projectedValueUsd', () => {
+    const report = buildVaultStressReport('str-user-5');
+    const sorted = [...report.scenarios].sort((a, b) => a.projectedValueUsd - b.projectedValueUsd);
+    assert(report.worstScenarioId === sorted[0].id, 'worstScenarioId nije konzistentan');
+  });
+
+  await test('resilienceScore je u opsegu 0-100', () => {
+    const report = buildVaultStressReport('str-user-6');
+    assert(report.resilienceScore >= 0 && report.resilienceScore <= 100,
+      `resilienceScore van opsega: ${report.resilienceScore}`);
+  });
+
+  await test('recommendations je neprazan niz', () => {
+    const report = buildVaultStressReport('str-user-7');
+    assert(Array.isArray(report.recommendations) && report.recommendations.length > 0,
+      'recommendations mora biti neprazan niz');
+    for (const rec of report.recommendations) {
+      assert(typeof rec === 'string' && rec.length > 0, 'preporuka mora biti neprazan string');
+    }
+  });
+
+  await test('stress timestamp je validan ISO 8601', () => {
+    const report = buildVaultStressReport('str-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

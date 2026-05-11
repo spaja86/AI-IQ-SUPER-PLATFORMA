@@ -41,6 +41,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/rebalance',      opis: 'Rebalance prijedlozi: optimalna raspodjela sredstava po tierovima', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/liquidity',      opis: 'Likvidnost trezora: instant/24h/7d kapacitet isplate i liquidity score', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/forecast',       opis: 'Performance forecast: bull/base/bear scenariji za odabrani horizont', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/stress',         opis: 'Stress test izvještaj: tržišni, likvidnosni i custody incident scenariji', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,
