@@ -213,6 +213,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     activeFrom: '2026-05-11',
   },
   {
+    id: 'kripto-trezor-resilience',
+    naziv: 'Kripto Trezor — Vault Resilience',
+    opis: 'Objedinjeni resilience score iz coverage, liquidity, stress i risk signala sa hardening preporukama',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
     id: 'kripto-trezor-liquidity',
     naziv: 'Kripto Trezor — Vault Liquidity',
     opis: 'Likvidnosni izvještaj: instant/24h/7d kapacitet isplate i operativni buffer po tierovima',

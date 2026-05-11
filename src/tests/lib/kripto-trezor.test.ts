@@ -23,6 +23,7 @@ import {
   buildVaultLiquidityReport,
   buildVaultForecastReport,
   buildVaultStressReport,
+  buildVaultResilienceReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -937,6 +938,59 @@ async function runTests(): Promise<void> {
 
   await test('stress timestamp je validan ISO 8601', () => {
     const report = buildVaultStressReport('str-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultResilienceReport ───────────────────────────────────────────────
+
+  console.log('\n🧭 buildVaultResilienceReport');
+
+  await test('vraća resilience report za korisnika', () => {
+    const report = buildVaultResilienceReport('rsl-user-1');
+    assert(report.userId === 'rsl-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.overallScore), 'overallScore mora biti broj');
+    assert(['strong', 'watch', 'critical'].includes(report.status), 'status nije validan');
+  });
+
+  await test('overallScore je u opsegu 0-100', () => {
+    const report = buildVaultResilienceReport('rsl-user-2');
+    assert(report.overallScore >= 0 && report.overallScore <= 100,
+      `overallScore van opsega: ${report.overallScore}`);
+  });
+
+  await test('komponente pokrivaju coverage, liquidity, stress i risk-mitigation', () => {
+    const report = buildVaultResilienceReport('rsl-user-3');
+    const ids = new Set(report.components.map((c) => c.id));
+    for (const id of ['coverage', 'liquidity', 'stress', 'risk-mitigation']) {
+      assert(ids.has(id), `nedostaje komponenta ${id}`);
+    }
+    assert(report.components.length === 4, 'mora biti tačno 4 komponente');
+  });
+
+  await test('sve komponente imaju score u opsegu 0-100', () => {
+    const report = buildVaultResilienceReport('rsl-user-4');
+    for (const c of report.components) {
+      assert(c.score >= 0 && c.score <= 100, `score van opsega za ${c.id}: ${c.score}`);
+    }
+  });
+
+  await test('stressPassRatePct je u opsegu 0-100', () => {
+    const report = buildVaultResilienceReport('rsl-user-5');
+    assert(report.stressPassRatePct >= 0 && report.stressPassRatePct <= 100,
+      `stressPassRatePct van opsega: ${report.stressPassRatePct}`);
+  });
+
+  await test('hardeningActions je neprazan niz stringova', () => {
+    const report = buildVaultResilienceReport('rsl-user-6');
+    assert(Array.isArray(report.hardeningActions) && report.hardeningActions.length > 0,
+      'hardeningActions mora biti neprazan niz');
+    for (const action of report.hardeningActions) {
+      assert(typeof action === 'string' && action.length > 0, 'svaka akcija mora biti neprazan string');
+    }
+  });
+
+  await test('resilience timestamp je validan ISO 8601', () => {
+    const report = buildVaultResilienceReport('rsl-user-7');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

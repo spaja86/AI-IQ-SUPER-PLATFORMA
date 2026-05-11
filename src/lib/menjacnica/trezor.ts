@@ -1790,6 +1790,115 @@ export function buildVaultStressReport(userId: string): VaultStressReport {
   };
 }
 
+// ─── Vault Resilience ──────────────────────────────────────────────────────────
+
+export type VaultResilienceStatus = 'strong' | 'watch' | 'critical';
+
+export interface VaultResilienceComponent {
+  id: 'coverage' | 'liquidity' | 'stress' | 'risk-mitigation';
+  score: number;
+  status: VaultResilienceStatus;
+  detail: string;
+}
+
+export interface VaultResilienceReport {
+  userId: string;
+  overallScore: number;
+  status: VaultResilienceStatus;
+  baselineRiskLevel: VaultRiskLevel;
+  stressPassRatePct: number;
+  components: VaultResilienceComponent[];
+  hardeningActions: string[];
+  timestamp: string;
+}
+
+function resilienceStatus(score: number): VaultResilienceStatus {
+  if (score >= 75) return 'strong';
+  if (score >= 55) return 'watch';
+  return 'critical';
+}
+
+/** Gradi objedinjeni resilience izvještaj zasnovan na coverage, liquidity, stress i risk signalima. */
+export function buildVaultResilienceReport(userId: string): VaultResilienceReport {
+  const coverage = buildVaultCoverageReport(userId);
+  const liquidity = buildVaultLiquidityReport(userId);
+  const stress = buildVaultStressReport(userId);
+  const risk = buildVaultRiskReport(userId);
+
+  const stressPassRatePct = stress.scenarios.length > 0
+    ? roundLedger((stress.scenarios.filter((s) => s.pass).length / stress.scenarios.length) * 100)
+    : 0;
+  const riskMitigationScore = Math.max(0, roundLedger(100 - risk.overallScore));
+
+  const components: VaultResilienceComponent[] = [
+    {
+      id: 'coverage',
+      score: coverage.coverageRatio,
+      status: resilienceStatus(coverage.coverageRatio),
+      detail: `Coverage ratio iznosi ${coverage.coverageRatio.toFixed(2)}%.`,
+    },
+    {
+      id: 'liquidity',
+      score: liquidity.liquidityScore,
+      status: resilienceStatus(liquidity.liquidityScore),
+      detail: `Likvidnosni score iznosi ${liquidity.liquidityScore.toFixed(2)} za instant/24h/7d prozore.`,
+    },
+    {
+      id: 'stress',
+      score: stress.resilienceScore,
+      status: resilienceStatus(stress.resilienceScore),
+      detail: `Stress resilience score iznosi ${stress.resilienceScore.toFixed(2)} uz prolaznost ${stressPassRatePct.toFixed(2)}%.`,
+    },
+    {
+      id: 'risk-mitigation',
+      score: riskMitigationScore,
+      status: resilienceStatus(riskMitigationScore),
+      detail: `Risk mitigation score iznosi ${riskMitigationScore.toFixed(2)} (izvedeno iz risk overallScore ${risk.overallScore}).`,
+    },
+  ];
+
+  const overallScore = Math.max(
+    0,
+    Math.min(
+      100,
+      roundLedger(
+        coverage.coverageRatio * 0.3
+        + liquidity.liquidityScore * 0.25
+        + stress.resilienceScore * 0.3
+        + riskMitigationScore * 0.15,
+      ),
+    ),
+  );
+
+  const hardeningActions: string[] = [];
+  if (coverage.coverageRatio < 70) {
+    hardeningActions.push('Povećati coverage kapacitet i limit polisa kako bi pokrivenost bila ≥70%.');
+  }
+  if (liquidity.liquidityScore < 55) {
+    hardeningActions.push('Poboljšati operativni buffer hot/warm tiera radi bržeg odgovora na talase povlačenja.');
+  }
+  if (stressPassRatePct < 67) {
+    hardeningActions.push('Pojačati stress readiness plan i smanjiti osjetljivost na liquidity-freeze scenarije.');
+  }
+  if (risk.overallLevel === 'high' || risk.overallLevel === 'critical') {
+    hardeningActions.push('Sprovesti prioritetni risk-rebalance i smanjiti koncentraciju dominantnog asseta.');
+  }
+  if (hardeningActions.length === 0) {
+    hardeningActions.push('Resilience profil je stabilan; nastaviti mjesečni monitoring i kvartalni drill.');
+  }
+
+  return {
+    userId,
+    overallScore,
+    status: resilienceStatus(overallScore),
+    baselineRiskLevel: risk.overallLevel,
+    stressPassRatePct,
+    components,
+    hardeningActions,
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

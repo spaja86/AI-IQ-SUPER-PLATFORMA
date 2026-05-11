@@ -42,6 +42,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/liquidity',      opis: 'Likvidnost trezora: instant/24h/7d kapacitet isplate i liquidity score', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/forecast',       opis: 'Performance forecast: bull/base/bear scenariji za odabrani horizont', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/stress',         opis: 'Stress test izvještaj: tržišni, likvidnosni i custody incident scenariji', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/resilience',     opis: 'Resilience score: coverage + liquidity + stress + risk mitigacija', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,
