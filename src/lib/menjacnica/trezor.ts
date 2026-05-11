@@ -1369,6 +1369,15 @@ export interface VaultLiquidityReport {
   timestamp: string;
 }
 
+const COLD_TIER_24H_AVAILABILITY_FACTOR = 0.2;
+const DEEP_COLD_TIER_7D_AVAILABILITY_FACTOR = 0.35;
+
+const LIQUIDITY_SCORE_WEIGHTS = {
+  instant: 0.5,
+  day1: 0.3,
+  day7: 0.2,
+} as const;
+
 /** Gradi izvještaj o likvidnosti trezora i kapacitetu isplate po vremenskim prozorima. */
 export function buildVaultLiquidityReport(userId: string): VaultLiquidityReport {
   const vault = buildVaultStatusReport(userId);
@@ -1419,13 +1428,15 @@ export function buildVaultLiquidityReport(userId: string): VaultLiquidityReport 
   const operationalBufferUsd = roundLedger(hot.availableUsd + warm.availableUsd + warm.unlockingUsd);
 
   const instantCapacityUsd = instantLiquidityUsd;
-  const day1CapacityUsd = roundLedger(instantLiquidityUsd + warm.unlockingUsd + cold.availableUsd * 0.2);
+  const day1CapacityUsd = roundLedger(
+    instantLiquidityUsd + warm.unlockingUsd + cold.availableUsd * COLD_TIER_24H_AVAILABILITY_FACTOR,
+  );
   const day7CapacityUsd = roundLedger(
     instantLiquidityUsd
     + warm.unlockingUsd
     + cold.availableUsd
     + cold.unlockingUsd
-    + deepCold.availableUsd * 0.35,
+    + deepCold.availableUsd * DEEP_COLD_TIER_7D_AVAILABILITY_FACTOR,
   );
 
   const withdrawalWindows: VaultLiquidityWindow[] = [
@@ -1451,7 +1462,14 @@ export function buildVaultLiquidityReport(userId: string): VaultLiquidityReport 
 
   const liquidityScore = Math.max(
     0,
-    Math.min(100, roundLedger(withdrawalWindows[0].coveragePct * 0.5 + withdrawalWindows[1].coveragePct * 0.3 + withdrawalWindows[2].coveragePct * 0.2)),
+    Math.min(
+      100,
+      roundLedger(
+        withdrawalWindows[0].coveragePct * LIQUIDITY_SCORE_WEIGHTS.instant
+        + withdrawalWindows[1].coveragePct * LIQUIDITY_SCORE_WEIGHTS.day1
+        + withdrawalWindows[2].coveragePct * LIQUIDITY_SCORE_WEIGHTS.day7,
+      ),
+    ),
   );
 
   const recommendations: string[] = [];
