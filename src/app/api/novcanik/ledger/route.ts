@@ -10,6 +10,7 @@ import { apiSuccess, apiError, apiInternalError } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { verifyUserFromToken, getSupabaseServerClient } from '@/lib/supabase/server';
 import { isExchangeFlagEnabled } from '@/lib/menjacnica/feature-flags';
+import type { LedgerEntryType } from '@/lib/novcanik/types';
 
 export async function GET(request: NextRequest) {
   try {
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest) {
       .range(offset, offset + limit - 1);
 
     if (assetId) query = query.eq('asset_id', assetId);
-    if (entryType) query = query.eq('entry_type', entryType as 'deposit' | 'withdrawal' | 'trade_debit' | 'trade_credit' | 'fee' | 'transfer_out' | 'transfer_in' | 'adjustment');
+    if (entryType) query = query.eq('entry_type', entryType as LedgerEntryType);
 
     const { data, error, count } = await query;
     if (error) return apiInternalError('novcanik-ledger', error);

@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
         opis: 'SPAJA Bitkoin (SPAJA) je ekskluzivna kripto valuta platforme AI IQ SUPER PLATFORMA. Vrednost SPAJA = 10 × vrednost BTC. Pokrenuta na Polygon mreži.',
         mreza: 'Polygon (MATIC)',
         decimals: asset.decimals,
-        isSpajabtc: true,
+        isSpajaBtc: true,
         simulationMode: true,
         faza: 'M4 — Kontrolisana dostupnost',
       },

@@ -11,7 +11,7 @@ export const ASSETS: Asset[] = [
     decimals: 8,
     minOrderQty: 0.00001,
     mreza: 'bitcoin',
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
   {
@@ -21,7 +21,7 @@ export const ASSETS: Asset[] = [
     decimals: 18,
     minOrderQty: 0.001,
     mreza: 'ethereum',
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
   {
@@ -31,7 +31,7 @@ export const ASSETS: Asset[] = [
     decimals: 6,
     minOrderQty: 1,
     mreza: 'ethereum',
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
   {
@@ -41,7 +41,7 @@ export const ASSETS: Asset[] = [
     decimals: 9,
     minOrderQty: 0.01,
     mreza: 'solana',
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
   {
@@ -51,7 +51,7 @@ export const ASSETS: Asset[] = [
     decimals: 18,
     minOrderQty: 1,
     mreza: 'polygon',
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
   {
@@ -61,7 +61,7 @@ export const ASSETS: Asset[] = [
     decimals: 8,
     minOrderQty: 0.00001,
     mreza: 'polygon',
-    isSpajabtc: true,
+    isSpajaBtc: true,
     enabled: true,
   },
   {
@@ -70,7 +70,7 @@ export const ASSETS: Asset[] = [
     tip: 'fiat',
     decimals: 2,
     minOrderQty: 1,
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
   {
@@ -79,7 +79,7 @@ export const ASSETS: Asset[] = [
     tip: 'fiat',
     decimals: 2,
     minOrderQty: 100,
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
   {
@@ -88,7 +88,7 @@ export const ASSETS: Asset[] = [
     tip: 'fiat',
     decimals: 2,
     minOrderQty: 1,
-    isSpajabtc: false,
+    isSpajaBtc: false,
     enabled: true,
   },
 ];

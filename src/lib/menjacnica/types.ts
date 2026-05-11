@@ -14,7 +14,7 @@ export interface Asset {
   maxOrderQty?: number;
   mreza?: string;
   ugovorAdresa?: string;
-  isSpajabtc: boolean;
+  isSpajaBtc: boolean;
   enabled: boolean;
 }
 
