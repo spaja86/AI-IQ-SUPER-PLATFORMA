@@ -13,6 +13,7 @@ import {
   buildVaultDepositRecord,
   buildVaultWithdrawalRecord,
   buildVaultAuditLog,
+  buildVaultSecurityCheckReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -346,6 +347,39 @@ async function runTests(): Promise<void> {
     const allowed = new Set(['info', 'warning', 'critical']);
     for (const e of events) {
       assert(allowed.has(e.severity), `Nevažeći severity: ${e.severity}`);
+    }
+  });
+
+  // ─── buildVaultSecurityCheckReport ───────────────────────────────────────────
+
+  console.log('\n🛡️ buildVaultSecurityCheckReport');
+
+  await test('vraća security report za korisnika', () => {
+    const report = buildVaultSecurityCheckReport('sec-user-1');
+    assert(report.userId === 'sec-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.overallScore), 'overallScore mora biti broj');
+    assert(Array.isArray(report.checks), 'checks mora biti niz');
+    assert(Array.isArray(report.alerts), 'alerts mora biti niz');
+  });
+
+  await test('overallScore je između 0 i 100', () => {
+    const report = buildVaultSecurityCheckReport('sec-user-2');
+    assert(report.overallScore >= 0 && report.overallScore <= 100, `overallScore van opsega: ${report.overallScore}`);
+  });
+
+  await test('report ima očekivane check tipove', () => {
+    const report = buildVaultSecurityCheckReport('sec-user-3');
+    const kinds = new Set(report.checks.map((c) => c.kind));
+    const expected = ['cold-storage-ratio', 'multi-sig-policy', 'time-lock-policy', 'whitelist-hygiene', 'audit-freshness'];
+    for (const kind of expected) {
+      assert(kinds.has(kind), `Nedostaje check kind: ${kind}`);
+    }
+  });
+
+  await test('svi check score-ovi su između 0 i 100', () => {
+    const report = buildVaultSecurityCheckReport('sec-user-4');
+    for (const check of report.checks) {
+      assert(check.score >= 0 && check.score <= 100, `Nevažeći score za ${check.id}: ${check.score}`);
     }
   });
 

@@ -140,6 +140,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-security-check',
+    naziv: 'Kripto Trezor — Security Check',
+    opis: 'Agregovani sigurnosni pregled trezora sa alertima i preporukama',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

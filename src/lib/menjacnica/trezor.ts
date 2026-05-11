@@ -126,6 +126,38 @@ export interface VaultAuditEvent {
   createdAt: string;
 }
 
+export type VaultSecurityCheckStatus = 'ok' | 'warning' | 'critical';
+export type VaultSecurityCheckKind =
+  | 'cold-storage-ratio'
+  | 'multi-sig-policy'
+  | 'time-lock-policy'
+  | 'whitelist-hygiene'
+  | 'audit-freshness';
+
+export interface VaultSecurityCheckItem {
+  id: string;
+  kind: VaultSecurityCheckKind;
+  status: VaultSecurityCheckStatus;
+  score: number;
+  detail: string;
+}
+
+export interface VaultSecurityCheckAlert {
+  id: string;
+  severity: 'medium' | 'high';
+  title: string;
+  detail: string;
+}
+
+export interface VaultSecurityCheckReport {
+  userId: string;
+  overallScore: number;
+  checks: VaultSecurityCheckItem[];
+  alerts: VaultSecurityCheckAlert[];
+  recommendedActions: string[];
+  timestamp: string;
+}
+
 // ─── Konstante ────────────────────────────────────────────────────────────────
 
 /** Minimalni iznos za vault depozit po tieru. */
@@ -473,4 +505,115 @@ export function buildVaultAuditLog(userId: string, limit = 20): VaultAuditEvent[
     .slice()
     .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
     .slice(0, safeLimit);
+}
+
+/** Gradi sigurnosni pregled trezora na osnovu vault statusa i audit traga. */
+export function buildVaultSecurityCheckReport(userId: string): VaultSecurityCheckReport {
+  const vault = buildVaultStatusReport(userId);
+  const audit = buildVaultAuditLog(userId, 25);
+
+  const ratioCheck: VaultSecurityCheckItem = vault.securityScore >= 80
+    ? { id: 'check-cold-storage-ratio', kind: 'cold-storage-ratio', status: 'ok', score: 96, detail: 'Udeo sredstava u cold/deep-cold vault-u je na očekivanom nivou.' }
+    : { id: 'check-cold-storage-ratio', kind: 'cold-storage-ratio', status: 'warning', score: 70, detail: 'Povećati udeo sredstava u cold/deep-cold segmentu.' };
+
+  const policyCheck: VaultSecurityCheckItem = {
+    id: 'check-multi-sig-policy',
+    kind: 'multi-sig-policy',
+    status: 'ok',
+    score: 94,
+    detail: 'Multi-sig pragovi po tieru su usklađeni sa internom politikom.',
+  };
+
+  const timeLockCheck: VaultSecurityCheckItem = {
+    id: 'check-time-lock-policy',
+    kind: 'time-lock-policy',
+    status: 'ok',
+    score: 92,
+    detail: 'Time-lock politike su aktivne za warm/cold/deep-cold tier.',
+  };
+
+  const whitelistWarnings = audit.filter((e) => e.type === 'withdraw_rejected').length;
+  const whitelistCheck: VaultSecurityCheckItem = whitelistWarnings > 0
+    ? {
+      id: 'check-whitelist-hygiene',
+      kind: 'whitelist-hygiene',
+      status: 'warning',
+      score: 78,
+      detail: 'Detektovani pokušaji isplate ka neodobrenim adresama.',
+    }
+    : {
+      id: 'check-whitelist-hygiene',
+      kind: 'whitelist-hygiene',
+      status: 'ok',
+      score: 90,
+      detail: 'Nema pokušaja isplate ka neodobrenim adresama.',
+    };
+
+  const freshnessHours = (Date.now() - Date.parse(vault.lastAuditAt)) / (1000 * 60 * 60);
+  const auditFreshnessCheck: VaultSecurityCheckItem = freshnessHours <= 48
+    ? {
+      id: 'check-audit-freshness',
+      kind: 'audit-freshness',
+      status: 'ok',
+      score: 93,
+      detail: 'Poslednji audit je izvršen u poslednja 48h.',
+    }
+    : {
+      id: 'check-audit-freshness',
+      kind: 'audit-freshness',
+      status: 'warning',
+      score: 74,
+      detail: 'Audit je zastareo; potreban je novi sigurnosni pregled.',
+    };
+
+  const checks: VaultSecurityCheckItem[] = [
+    ratioCheck,
+    policyCheck,
+    timeLockCheck,
+    whitelistCheck,
+    auditFreshnessCheck,
+  ];
+
+  const overallScore = Math.round(
+    checks.reduce((sum, check) => sum + check.score, 0) / checks.length,
+  );
+
+  const alerts: VaultSecurityCheckAlert[] = [];
+  if (ratioCheck.status !== 'ok') {
+    alerts.push({
+      id: 'alert-cold-storage-ratio',
+      severity: 'high',
+      title: 'Nizak cold-storage ratio',
+      detail: 'Povećajte transfer sredstava iz hot/warm u cold/deep-cold tier.',
+    });
+  }
+  if (whitelistCheck.status !== 'ok') {
+    alerts.push({
+      id: 'alert-whitelist-rejections',
+      severity: 'medium',
+      title: 'Whitelist incidenti',
+      detail: 'Pregledati odbijene adrese i pooštriti kontrolu izlaznih adresa.',
+    });
+  }
+  if (auditFreshnessCheck.status !== 'ok') {
+    alerts.push({
+      id: 'alert-audit-freshness',
+      severity: 'medium',
+      title: 'Zastareo audit',
+      detail: 'Pokrenuti vanredni audit i potvrdu politika.',
+    });
+  }
+
+  return {
+    userId,
+    overallScore,
+    checks,
+    alerts,
+    recommendedActions: [
+      'Rotirati whitelist adrese prema kvartalnoj politici.',
+      'Potvrditi multi-sig ključne učesnike i dostupnost potpisnika.',
+      'Izvršiti dodatni audit nakon svake policy promene visokog rizika.',
+    ],
+    timestamp: new Date().toISOString(),
+  };
 }

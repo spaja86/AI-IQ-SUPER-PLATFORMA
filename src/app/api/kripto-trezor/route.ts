@@ -32,6 +32,7 @@ export async function GET() {
       { metod: 'POST', putanja: '/api/kripto-trezor/deposit',      opis: 'Vault depozit (zaključavanje)', auth: true },
       { metod: 'POST', putanja: '/api/kripto-trezor/withdraw',     opis: 'Vault isplata (time-lock + multi-sig)', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/audit-log',    opis: 'Audit trag događaja i sigurnosnih akcija', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/security-check', opis: 'Sigurnosni pregled i alerti trezora', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,

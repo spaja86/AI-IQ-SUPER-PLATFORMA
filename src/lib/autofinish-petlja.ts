@@ -849,6 +849,8 @@
  * Autofinish #1202 (SPAJA Kripto Trezor — domain lib src/lib/menjacnica/trezor.ts (validateVaultDepositAmount, isAddressWhitelisted, requiresTimeLock, requiresMultiSig, calcTimeLockExpiry, buildVaultStatusReport, buildVaultDepositRecord, buildVaultWithdrawalRecord), 4 API rute pod /api/kripto-trezor/* (root info, vault-status, deposit, withdraw), stranica /kripto-trezor, 7 sekvenci, 34 unit testova u kripto-trezor.test.ts svi prolaze, 3 nova feature flag-a kripto-trezor-*, nav stavka Kripto Trezor 🔐; 4 sigurnosna nivoa: hot/warm/cold/deep-cold sa time-lock 0–7 dana i multi-sig 1–5 potpisnika; TOTAL_API_ROUTES 1069, TOTAL_ROUTES 1130, TOTAL_PAGES 56, APP_VERSION 47.1.0, AUTOFINISH_COUNT 1202)
  *
  * Autofinish #1203 (Kripto Trezor Audit Log — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultAuditEvent modelom i buildVaultAuditLog(userId, limit), nova auth API ruta GET /api/kripto-trezor/audit-log sa rate-limitom i feature flag-om kripto-trezor-audit-log, root info endpoint dopunjen audit-log capabilities, test suite proširen audit-log proverama; TOTAL_API_ROUTES 1070, TOTAL_ROUTES 1131, TOTAL_PAGES 56, APP_VERSION 47.2.0, AUTOFINISH_COUNT 1203)
+ *
+ * Autofinish #1204 (Kripto Trezor Security Check — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultSecurityCheckReport modelima i buildVaultSecurityCheckReport(userId), nova auth API ruta GET /api/kripto-trezor/security-check sa rate-limitom i feature flag-om kripto-trezor-security-check, root info endpoint dopunjen security-check capabilities, test suite proširen security-check proverama; TOTAL_API_ROUTES 1071, TOTAL_ROUTES 1132, TOTAL_PAGES 56, APP_VERSION 47.3.0, AUTOFINISH_COUNT 1204)
  */
 
 import {
