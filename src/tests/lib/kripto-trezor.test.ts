@@ -18,6 +18,7 @@ import {
   buildVaultRecoveryReport,
   buildVaultCoverageReport,
   buildVaultRiskReport,
+  buildVaultAnalyticsReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -616,6 +617,69 @@ async function runTests(): Promise<void> {
 
   await test('risk timestamp je validan ISO 8601', () => {
     const report = buildVaultRiskReport('risk-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultAnalyticsReport ───────────────────────────────────────────────
+
+  console.log('\n📊 buildVaultAnalyticsReport');
+
+  await test('vraća analytics report za korisnika', () => {
+    const report = buildVaultAnalyticsReport('ana-user-1');
+    assert(report.userId === 'ana-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.totalValueUsd) && report.totalValueUsd > 0, 'totalValueUsd mora biti pozitivan');
+    assert(Array.isArray(report.assetPerformance) && report.assetPerformance.length > 0, 'assetPerformance mora biti neprazan niz');
+  });
+
+  await test('portfolioAprPct je između 0 i 100', () => {
+    const report = buildVaultAnalyticsReport('ana-user-2');
+    assert(report.portfolioAprPct >= 0 && report.portfolioAprPct <= 100,
+      `portfolioAprPct van opsega: ${report.portfolioAprPct}`);
+  });
+
+  await test('tierYields pokriva sve tierove', () => {
+    const report = buildVaultAnalyticsReport('ana-user-3');
+    const tiers = new Set(report.tierYields.map((t) => t.tier));
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+      assert(tiers.has(tier), `Nedostaje tier: ${tier}`);
+    }
+  });
+
+  await test('svaki tier yield ima ne-negativan balans i APR', () => {
+    const report = buildVaultAnalyticsReport('ana-user-4');
+    for (const t of report.tierYields) {
+      assert(t.balanceUsd >= 0, `balanceUsd negativan za ${t.tier}`);
+      assert(t.estimatedAprPct >= 0, `estimatedAprPct negativan za ${t.tier}`);
+      assert(t.estimatedAnnualYieldUsd >= 0, `estimatedAnnualYieldUsd negativan za ${t.tier}`);
+    }
+  });
+
+  await test('asset performance ima validne price change vrijednosti', () => {
+    const report = buildVaultAnalyticsReport('ana-user-5');
+    for (const ap of report.assetPerformance) {
+      assert(ap.totalHeldUsd > 0, `totalHeldUsd mora biti pozitivan za ${ap.assetId}`);
+      assert(ap.priceUsd > 0, `priceUsd mora biti pozitivan za ${ap.assetId}`);
+    }
+  });
+
+  await test('totalEstimatedAnnualYieldUsd je konzistentan sa tierYields', () => {
+    const report = buildVaultAnalyticsReport('ana-user-6');
+    const sumYield = report.tierYields.reduce((s, t) => s + t.estimatedAnnualYieldUsd, 0);
+    assert(Math.abs(report.totalEstimatedAnnualYieldUsd - sumYield) < 0.01,
+      `totalEstimatedAnnualYieldUsd (${report.totalEstimatedAnnualYieldUsd}) ne odgovara sumi tierYields (${sumYield})`);
+  });
+
+  await test('topGainerAsset i topLoserAsset su validni aseti', () => {
+    const report = buildVaultAnalyticsReport('ana-user-7');
+    const assetIds = new Set(report.assetPerformance.map((a) => a.assetId));
+    assert(assetIds.has(report.topGainerAsset) || report.topGainerAsset === 'N/A',
+      `topGainerAsset nije validan: ${report.topGainerAsset}`);
+    assert(assetIds.has(report.topLoserAsset) || report.topLoserAsset === 'N/A',
+      `topLoserAsset nije validan: ${report.topLoserAsset}`);
+  });
+
+  await test('analytics timestamp je validan ISO 8601', () => {
+    const report = buildVaultAnalyticsReport('ana-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

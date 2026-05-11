@@ -1052,6 +1052,166 @@ export function buildVaultRiskReport(userId: string): VaultRiskReport {
   };
 }
 
+// ─── Vault Analytics ─────────────────────────────────────────────────────────
+
+export interface VaultAssetPerformance {
+  assetId: string;
+  priceUsd: number;
+  priceChangePct7d: number;
+  priceChangePct30d: number;
+  totalHeld: number;
+  totalHeldUsd: number;
+  realizedGainUsd: number;
+  unrealizedGainUsd: number;
+}
+
+export interface VaultTierYield {
+  tier: VaultTier;
+  balanceUsd: number;
+  estimatedAprPct: number;
+  estimatedAnnualYieldUsd: number;
+  yieldSource: string;
+}
+
+export interface VaultAnalyticsReport {
+  userId: string;
+  totalValueUsd: number;
+  totalRealizedGainUsd: number;
+  totalUnrealizedGainUsd: number;
+  totalEstimatedAnnualYieldUsd: number;
+  portfolioAprPct: number;
+  assetPerformance: VaultAssetPerformance[];
+  tierYields: VaultTierYield[];
+  topGainerAsset: string;
+  topLoserAsset: string;
+  notes: string[];
+  timestamp: string;
+}
+
+const VAULT_PRICE_CHANGE_7D: Record<string, number> = {
+  BTC: 4.2,
+  ETH: 6.8,
+  SOL: 11.5,
+  USDT: 0.0,
+  SPAJA: 18.3,
+};
+
+const VAULT_PRICE_CHANGE_30D: Record<string, number> = {
+  BTC: 12.1,
+  ETH: 9.4,
+  SOL: 27.8,
+  USDT: 0.0,
+  SPAJA: 45.6,
+};
+
+const VAULT_TIER_APR: Record<VaultTier, number> = {
+  hot: 0.5,
+  warm: 2.0,
+  cold: 4.5,
+  'deep-cold': 6.0,
+};
+
+const VAULT_TIER_YIELD_SOURCE: Record<VaultTier, string> = {
+  hot: 'Operativna likvidnost (bez prinosa)',
+  warm: 'Kratkoročni DeFi lending protokol',
+  cold: 'Strukturirani kripto prinos (cold staking)',
+  'deep-cold': 'Institucioni yield vault (Custody APR Program)',
+};
+
+/** Gradi analytics i yield izvještaj za vault portfolio korisnika. */
+export function buildVaultAnalyticsReport(userId: string): VaultAnalyticsReport {
+  const vault = buildVaultStatusReport(userId);
+
+  // Per-asset performance
+  const assetMap: Record<string, { total: number; priceUsd: number }> = {};
+  for (const a of vault.accounts) {
+    const price = VAULT_ASSET_PRICES_USD[a.assetId] ?? 1;
+    const total = a.locked + a.unlocking + a.available;
+    if (!assetMap[a.assetId]) {
+      assetMap[a.assetId] = { total: 0, priceUsd: price };
+    }
+    assetMap[a.assetId].total += total;
+  }
+
+  const assetPerformance: VaultAssetPerformance[] = Object.entries(assetMap).map(
+    ([assetId, { total, priceUsd }]) => {
+      const totalHeldUsd = roundLedger(total * priceUsd);
+      const change7d = VAULT_PRICE_CHANGE_7D[assetId] ?? 0;
+      const change30d = VAULT_PRICE_CHANGE_30D[assetId] ?? 0;
+      const unrealizedGainUsd = roundLedger(totalHeldUsd * (change30d / 100));
+      const realizedGainUsd = roundLedger(totalHeldUsd * 0.03);
+      return {
+        assetId,
+        priceUsd,
+        priceChangePct7d: change7d,
+        priceChangePct30d: change30d,
+        totalHeld: roundLedger(total),
+        totalHeldUsd,
+        realizedGainUsd,
+        unrealizedGainUsd,
+      };
+    },
+  );
+
+  const totalValueUsd = roundLedger(assetPerformance.reduce((s, a) => s + a.totalHeldUsd, 0));
+  const totalRealizedGainUsd = roundLedger(assetPerformance.reduce((s, a) => s + a.realizedGainUsd, 0));
+  const totalUnrealizedGainUsd = roundLedger(assetPerformance.reduce((s, a) => s + a.unrealizedGainUsd, 0));
+
+  // Top gainer / loser
+  let topGainerAsset = 'N/A';
+  let topLoserAsset = 'N/A';
+  let maxChange = -Infinity;
+  let minChange = Infinity;
+  for (const ap of assetPerformance) {
+    if (ap.priceChangePct30d > maxChange) { maxChange = ap.priceChangePct30d; topGainerAsset = ap.assetId; }
+    if (ap.priceChangePct30d < minChange) { minChange = ap.priceChangePct30d; topLoserAsset = ap.assetId; }
+  }
+
+  // Tier yields
+  const tierBalances: Record<VaultTier, number> = { hot: 0, warm: 0, cold: 0, 'deep-cold': 0 };
+  for (const a of vault.accounts) {
+    const price = VAULT_ASSET_PRICES_USD[a.assetId] ?? 1;
+    tierBalances[a.tier] += (a.locked + a.unlocking + a.available) * price;
+  }
+
+  const tierYields: VaultTierYield[] = (['hot', 'warm', 'cold', 'deep-cold'] as VaultTier[]).map((tier) => {
+    const balanceUsd = roundLedger(tierBalances[tier]);
+    const estimatedAprPct = VAULT_TIER_APR[tier];
+    const estimatedAnnualYieldUsd = roundLedger(balanceUsd * (estimatedAprPct / 100));
+    return {
+      tier,
+      balanceUsd,
+      estimatedAprPct,
+      estimatedAnnualYieldUsd,
+      yieldSource: VAULT_TIER_YIELD_SOURCE[tier],
+    };
+  });
+
+  const totalEstimatedAnnualYieldUsd = roundLedger(tierYields.reduce((s, t) => s + t.estimatedAnnualYieldUsd, 0));
+  const portfolioAprPct = totalValueUsd > 0
+    ? roundLedger((totalEstimatedAnnualYieldUsd / totalValueUsd) * 100)
+    : 0;
+
+  return {
+    userId,
+    totalValueUsd,
+    totalRealizedGainUsd,
+    totalUnrealizedGainUsd,
+    totalEstimatedAnnualYieldUsd,
+    portfolioAprPct,
+    assetPerformance,
+    tierYields,
+    topGainerAsset,
+    topLoserAsset,
+    notes: [
+      'Prinos je simuliran na osnovu tier APR modela. Stvarni prinos zavisi od tržišnih uslova.',
+      'Unrealized gain se izračunava na bazi 30-dnevne promjene cijene.',
+      'Realized gain prikazuje procijenjeni realizovani prinos u tekućem periodu.',
+    ],
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

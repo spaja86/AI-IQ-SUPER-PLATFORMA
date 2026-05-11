@@ -37,6 +37,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/recovery',       opis: 'Recovery plan: keyholder-i, koraci i hitni kontakti', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/coverage',       opis: 'Coverage sloj: reserve fund, guarantee i uncovered gap', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/risk',           opis: 'Risk assessment: tržišni, koncentracijski i likvidnosni rizik', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/analytics',      opis: 'Analytics i yield: performance po asetu, tier APR i portfolio APR', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,

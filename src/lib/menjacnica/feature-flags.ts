@@ -180,6 +180,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-analytics',
+    naziv: 'Kripto Trezor — Vault Analytics',
+    opis: 'Analytics i yield izvještaj: performance po asetu, tier APR, prinos i portfolio ukupni APR',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
