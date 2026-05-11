@@ -27,6 +27,7 @@ import {
   buildVaultBenchmarkReport,
   buildVaultAttributionReport,
   buildVaultExposureReport,
+  buildVaultAllocationReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1171,6 +1172,68 @@ async function runTests(): Promise<void> {
 
   await test('exposure timestamp je validan ISO 8601', () => {
     const report = buildVaultExposureReport('exp-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultAllocationReport ─────────────────────────────────────────────
+
+  console.log('\n🎯 buildVaultAllocationReport');
+
+  await test('vraća allocation report za korisnika', () => {
+    const report = buildVaultAllocationReport('alloc-user-1');
+    assert(report.userId === 'alloc-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.totalValueUsd) && report.totalValueUsd >= 0, 'totalValueUsd mora biti ne-negativan');
+    assert(Number.isFinite(report.totalAnnualYieldUsd) && report.totalAnnualYieldUsd >= 0, 'totalAnnualYieldUsd mora biti ne-negativan');
+  });
+
+  await test('assetAllocations i tierAllocations nisu prazni', () => {
+    const report = buildVaultAllocationReport('alloc-user-2');
+    assert(Array.isArray(report.assetAllocations) && report.assetAllocations.length > 0, 'assetAllocations ne sme biti prazan');
+    assert(Array.isArray(report.tierAllocations) && report.tierAllocations.length > 0, 'tierAllocations ne sme biti prazan');
+  });
+
+  await test('mostOverweightAsset i mostUnderweightAsset postoje u asset allocation listi', () => {
+    const report = buildVaultAllocationReport('alloc-user-3');
+    const ids = new Set(report.assetAllocations.map((asset) => asset.assetId));
+    assert(ids.has(report.mostOverweightAsset), `mostOverweightAsset nije prisutan: ${report.mostOverweightAsset}`);
+    assert(ids.has(report.mostUnderweightAsset), `mostUnderweightAsset nije prisutan: ${report.mostUnderweightAsset}`);
+  });
+
+  await test('svaka asset allocation stavka ima validne procente', () => {
+    const report = buildVaultAllocationReport('alloc-user-4');
+    for (const asset of report.assetAllocations) {
+      assert(Number.isFinite(asset.currentPct) && asset.currentPct >= 0 && asset.currentPct <= 100,
+        `currentPct nije validan za ${asset.assetId}`);
+      assert(Number.isFinite(asset.targetPct) && asset.targetPct >= 0 && asset.targetPct <= 100,
+        `targetPct nije validan za ${asset.assetId}`);
+      assert(Number.isFinite(asset.deviationPct), `deviationPct nije validan za ${asset.assetId}`);
+    }
+  });
+
+  await test('tierAllocations pokriva sve tierove', () => {
+    const report = buildVaultAllocationReport('alloc-user-5');
+    const tiers = new Set(report.tierAllocations.map((tier) => tier.tier));
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+      assert(tiers.has(tier), `nedostaje tier ${tier}`);
+    }
+  });
+
+  await test('suggestedShiftUsd je ne-negativan', () => {
+    const report = buildVaultAllocationReport('alloc-user-6');
+    assert(Number.isFinite(report.suggestedShiftUsd) && report.suggestedShiftUsd >= 0,
+      `suggestedShiftUsd nije validan: ${report.suggestedShiftUsd}`);
+  });
+
+  await test('actions je neprazan niz stringova', () => {
+    const report = buildVaultAllocationReport('alloc-user-7');
+    assert(Array.isArray(report.actions) && report.actions.length > 0, 'actions mora biti neprazan niz');
+    for (const action of report.actions) {
+      assert(typeof action === 'string' && action.length > 0, 'svaka action mora biti neprazan string');
+    }
+  });
+
+  await test('allocation timestamp je validan ISO 8601', () => {
+    const report = buildVaultAllocationReport('alloc-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

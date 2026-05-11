@@ -1990,6 +1990,28 @@ export interface VaultExposureReport {
   timestamp: string;
 }
 
+export interface VaultAssetAllocation {
+  assetId: string;
+  valueUsd: number;
+  annualYieldUsd: number;
+  currentPct: number;
+  targetPct: number;
+  deviationPct: number;
+}
+
+export interface VaultAllocationReport {
+  userId: string;
+  totalValueUsd: number;
+  totalAnnualYieldUsd: number;
+  assetAllocations: VaultAssetAllocation[];
+  tierAllocations: VaultTierAllocation[];
+  mostOverweightAsset: string;
+  mostUnderweightAsset: string;
+  suggestedShiftUsd: number;
+  actions: string[];
+  timestamp: string;
+}
+
 const VAULT_BENCHMARKS: BenchmarkEntry[] = [
   {
     id: 'BTC',
@@ -2016,6 +2038,14 @@ const VAULT_BENCHMARKS: BenchmarkEntry[] = [
     returnPct365d: 72.1,
   },
 ];
+
+const VAULT_TARGET_ASSET_ALLOCATION: Record<string, number> = {
+  BTC: 40,
+  ETH: 25,
+  SOL: 15,
+  USDT: 10,
+  SPAJA: 10,
+};
 
 /** Gradi benchmark izvještaj — upoređuje vault portfolio performanse sa tržišnim benchmarkima. */
 export function buildVaultBenchmarkReport(userId: string): VaultBenchmarkReport {
@@ -2221,6 +2251,67 @@ export function buildVaultExposureReport(userId: string): VaultExposureReport {
     lockedExposurePct,
     concentrationRisk,
     mitigationActions,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+/** Gradi allocation izvještaj — poredi trenutnu raspodjelu sa ciljanim asset i tier miksom. */
+export function buildVaultAllocationReport(userId: string): VaultAllocationReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+  const rebalance = buildVaultRebalanceReport(userId);
+  const attribution = buildVaultAttributionReport(userId);
+
+  const totalValueUsd = Math.max(analytics.totalValueUsd, 0);
+  const totalAnnualYieldUsd = Math.max(analytics.totalEstimatedAnnualYieldUsd, 0);
+
+  const assetAllocations: VaultAssetAllocation[] = analytics.assetPerformance
+    .map((asset) => {
+      const currentPct = totalValueUsd > 0 ? roundLedger((asset.totalHeldUsd / totalValueUsd) * 100) : 0;
+      const targetPct = VAULT_TARGET_ASSET_ALLOCATION[asset.assetId] ?? 0;
+      return {
+        assetId: asset.assetId,
+        valueUsd: roundLedger(asset.totalHeldUsd),
+        annualYieldUsd: roundLedger(asset.totalHeldUsd * (analytics.portfolioAprPct / 100)),
+        currentPct,
+        targetPct,
+        deviationPct: roundLedger(currentPct - targetPct),
+      };
+    })
+    .sort((a, b) => Math.abs(b.deviationPct) - Math.abs(a.deviationPct));
+
+  const overweight = assetAllocations
+    .filter((asset) => asset.deviationPct > 0)
+    .sort((a, b) => b.deviationPct - a.deviationPct)[0];
+  const underweight = assetAllocations
+    .filter((asset) => asset.deviationPct < 0)
+    .sort((a, b) => a.deviationPct - b.deviationPct)[0];
+
+  const mostOverweightAsset = overweight?.assetId ?? attribution.topAssetContributor;
+  const mostUnderweightAsset = underweight?.assetId ?? 'USDT';
+  const suggestedShiftUsd = roundLedger(Math.max(
+    overweight?.deviationPct ?? 0,
+    Math.abs(underweight?.deviationPct ?? 0),
+  ) / 100 * totalValueUsd);
+
+  const actions: string[] = [
+    `Smanjiti overweight poziciju u assetu ${mostOverweightAsset} prema ciljanoj raspodjeli od ${VAULT_TARGET_ASSET_ALLOCATION[mostOverweightAsset] ?? 0}%.`,
+    `Povećati alokaciju prema assetu ${mostUnderweightAsset} kako bi se približila ciljanoj raspodjeli.`,
+    `Tier raspodjelu uskladiti sa ciljem ${rebalance.tierAllocations.map((tier) => `${tier.tier}:${tier.targetPct}%`).join(', ')}.`,
+  ];
+  if (!rebalance.isBalanced) {
+    actions.push(`Procijenjeni prioritetni shift iznosi oko ${suggestedShiftUsd.toFixed(2)} USD uz oslanjanje na postojeće rebalance prijedloge.`);
+  }
+
+  return {
+    userId,
+    totalValueUsd,
+    totalAnnualYieldUsd,
+    assetAllocations,
+    tierAllocations: rebalance.tierAllocations,
+    mostOverweightAsset,
+    mostUnderweightAsset,
+    suggestedShiftUsd,
+    actions,
     timestamp: new Date().toISOString(),
   };
 }
