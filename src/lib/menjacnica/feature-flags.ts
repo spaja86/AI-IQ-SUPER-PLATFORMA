@@ -253,6 +253,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     activeFrom: '2026-05-11',
   },
   {
+    id: 'kripto-trezor-performance',
+    naziv: 'Kripto Trezor — Vault Performance',
+    opis: 'Performance izvještaj: PnL, ukupni return, annualized return i period returns po assetu',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
     id: 'kripto-trezor-liquidity',
     naziv: 'Kripto Trezor — Vault Liquidity',
     opis: 'Likvidnosni izvještaj: instant/24h/7d kapacitet isplate i operativni buffer po tierovima',

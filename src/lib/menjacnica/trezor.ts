@@ -2012,6 +2012,40 @@ export interface VaultAllocationReport {
   timestamp: string;
 }
 
+export type PerformancePeriod = '7d' | '30d' | '90d' | '365d';
+
+export interface VaultAssetPerformanceEntry {
+  assetId: string;
+  valueUsd: number;
+  pnlUsd: number;
+  returnPct: number;
+  contributionPct: number;
+}
+
+export interface VaultPeriodReturn {
+  period: PerformancePeriod;
+  startValueUsd: number;
+  endValueUsd: number;
+  pnlUsd: number;
+  returnPct: number;
+  annualizedReturnPct: number;
+}
+
+export interface VaultPerformanceReport {
+  userId: string;
+  totalValueUsd: number;
+  totalPnlUsd: number;
+  totalReturnPct: number;
+  annualizedReturnPct: number;
+  portfolioAprPct: number;
+  assetPerformance: VaultAssetPerformanceEntry[];
+  periodReturns: VaultPeriodReturn[];
+  bestPeriod: PerformancePeriod;
+  worstPeriod: PerformancePeriod;
+  insights: string[];
+  timestamp: string;
+}
+
 const VAULT_BENCHMARKS: BenchmarkEntry[] = [
   {
     id: 'BTC',
@@ -2045,6 +2079,13 @@ const VAULT_TARGET_ASSET_ALLOCATION: Record<string, number> = {
   SOL: 15,
   USDT: 10,
   SPAJA: 10,
+};
+
+const PERIOD_DAYS: Record<PerformancePeriod, number> = {
+  '7d': 7,
+  '30d': 30,
+  '90d': 90,
+  '365d': 365,
 };
 
 /** Gradi benchmark izvještaj — upoređuje vault portfolio performanse sa tržišnim benchmarkima. */
@@ -2312,6 +2353,78 @@ export function buildVaultAllocationReport(userId: string): VaultAllocationRepor
     mostUnderweightAsset,
     suggestedShiftUsd,
     actions,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+/** Gradi performance izvještaj — PnL, return i annualized return po periodu i assetu. */
+export function buildVaultPerformanceReport(userId: string): VaultPerformanceReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+  const benchmark = buildVaultBenchmarkReport(userId);
+
+  const totalValueUsd = Math.max(analytics.totalValueUsd, 0);
+  const portfolioAprPct = Math.max(analytics.portfolioAprPct, 0);
+
+  // PnL po assetu na osnovu 7d price change iz analytics-a
+  const assetPerformance: VaultAssetPerformanceEntry[] = analytics.assetPerformance.map((asset) => {
+    const returnPct = asset.priceChangePct7d;
+    const pnlUsd = roundLedger(asset.totalHeldUsd * (returnPct / 100));
+    const contributionPct = totalValueUsd > 0 ? roundLedger((asset.totalHeldUsd / totalValueUsd) * returnPct) : 0;
+    return {
+      assetId: asset.assetId,
+      valueUsd: roundLedger(asset.totalHeldUsd),
+      pnlUsd,
+      returnPct: roundLedger(returnPct),
+      contributionPct,
+    };
+  }).sort((a, b) => b.returnPct - a.returnPct);
+
+  const totalPnlUsd = roundLedger(assetPerformance.reduce((sum, a) => sum + a.pnlUsd, 0));
+  const totalReturnPct = totalValueUsd > 0 ? roundLedger((totalPnlUsd / (totalValueUsd - totalPnlUsd || 1)) * 100) : 0;
+
+  // Period returns koristeći vault return polja iz benchmark reporta
+  const periodReturns: VaultPeriodReturn[] = (['7d', '30d', '90d', '365d'] as PerformancePeriod[]).map((period) => {
+    const periodReturn =
+      period === '7d' ? benchmark.vaultReturn7dPct
+      : period === '30d' ? benchmark.vaultReturn30dPct
+      : period === '90d' ? benchmark.vaultReturn90dPct
+      : benchmark.vaultReturn365dPct;
+    const days = PERIOD_DAYS[period];
+    const annualizedReturnPct = roundLedger(periodReturn * (365 / days));
+    const startValueUsd = roundLedger(totalValueUsd / (1 + periodReturn / 100));
+    return {
+      period,
+      startValueUsd,
+      endValueUsd: totalValueUsd,
+      pnlUsd: roundLedger(totalValueUsd - startValueUsd),
+      returnPct: roundLedger(periodReturn),
+      annualizedReturnPct,
+    };
+  });
+
+  const bestPeriod = periodReturns.reduce((best, p) => p.returnPct > best.returnPct ? p : best, periodReturns[0]).period;
+  const worstPeriod = periodReturns.reduce((worst, p) => p.returnPct < worst.returnPct ? p : worst, periodReturns[0]).period;
+  const annualizedReturnPct = periodReturns.find((p) => p.period === '365d')?.annualizedReturnPct ?? portfolioAprPct;
+
+  const insights: string[] = [
+    `Ukupni PnL iznosi ${totalPnlUsd >= 0 ? '+' : ''}${totalPnlUsd.toFixed(2)} USD (${totalReturnPct >= 0 ? '+' : ''}${totalReturnPct.toFixed(2)}%).`,
+    `Annualized return vaulta: ${annualizedReturnPct.toFixed(2)}% godišnje, portfolio APR: ${portfolioAprPct.toFixed(2)}%.`,
+    `Najbolji asset po performansi: ${assetPerformance[0]?.assetId ?? 'N/A'} (${assetPerformance[0]?.returnPct?.toFixed(2) ?? 0}% 7d return).`,
+    `Najslabiji period: ${worstPeriod} uz return ${periodReturns.find((p) => p.period === worstPeriod)?.returnPct?.toFixed(2) ?? 0}%.`,
+  ];
+
+  return {
+    userId,
+    totalValueUsd,
+    totalPnlUsd,
+    totalReturnPct,
+    annualizedReturnPct,
+    portfolioAprPct,
+    assetPerformance,
+    periodReturns,
+    bestPeriod,
+    worstPeriod,
+    insights,
     timestamp: new Date().toISOString(),
   };
 }

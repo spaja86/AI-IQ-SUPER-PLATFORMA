@@ -28,6 +28,7 @@ import {
   buildVaultAttributionReport,
   buildVaultExposureReport,
   buildVaultAllocationReport,
+  buildVaultPerformanceReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1234,6 +1235,78 @@ async function runTests(): Promise<void> {
 
   await test('allocation timestamp je validan ISO 8601', () => {
     const report = buildVaultAllocationReport('alloc-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultPerformanceReport ─────────────────────────────────────────────
+
+  console.log('\n📈 buildVaultPerformanceReport');
+
+  await test('vraća performance report za korisnika', () => {
+    const report = buildVaultPerformanceReport('perf-user-1');
+    assert(report.userId === 'perf-user-1', 'userId mora biti perf-user-1');
+    assert(typeof report.totalValueUsd === 'number', 'totalValueUsd mora biti broj');
+    assert(typeof report.totalPnlUsd === 'number', 'totalPnlUsd mora biti broj');
+    assert(typeof report.totalReturnPct === 'number', 'totalReturnPct mora biti broj');
+    assert(typeof report.annualizedReturnPct === 'number', 'annualizedReturnPct mora biti broj');
+    assert(typeof report.portfolioAprPct === 'number', 'portfolioAprPct mora biti broj');
+    assert(Array.isArray(report.assetPerformance), 'assetPerformance mora biti niz');
+    assert(Array.isArray(report.periodReturns), 'periodReturns mora biti niz');
+    assert(Array.isArray(report.insights), 'insights mora biti niz');
+    assert(typeof report.timestamp === 'string', 'timestamp mora biti string');
+  });
+
+  await test('periodReturns sadrži sva 4 perioda', () => {
+    const report = buildVaultPerformanceReport('perf-user-2');
+    const periods = report.periodReturns.map((p) => p.period);
+    assert(periods.includes('7d'), 'mora imati 7d period');
+    assert(periods.includes('30d'), 'mora imati 30d period');
+    assert(periods.includes('90d'), 'mora imati 90d period');
+    assert(periods.includes('365d'), 'mora imati 365d period');
+  });
+
+  await test('bestPeriod i worstPeriod su validni periodi', () => {
+    const report = buildVaultPerformanceReport('perf-user-3');
+    const validPeriods = ['7d', '30d', '90d', '365d'];
+    assert(validPeriods.includes(report.bestPeriod), `bestPeriod ${report.bestPeriod} nije validan`);
+    assert(validPeriods.includes(report.worstPeriod), `worstPeriod ${report.worstPeriod} nije validan`);
+  });
+
+  await test('svaka asset performance stavka ima validna polja', () => {
+    const report = buildVaultPerformanceReport('perf-user-4');
+    report.assetPerformance.forEach((a) => {
+      assert(typeof a.assetId === 'string' && a.assetId.length > 0, `assetId je prazan`);
+      assert(typeof a.valueUsd === 'number', `valueUsd mora biti broj za ${a.assetId}`);
+      assert(typeof a.pnlUsd === 'number', `pnlUsd mora biti broj za ${a.assetId}`);
+      assert(typeof a.returnPct === 'number', `returnPct mora biti broj za ${a.assetId}`);
+      assert(typeof a.contributionPct === 'number', `contributionPct mora biti broj za ${a.assetId}`);
+    });
+  });
+
+  await test('svaki period return ima validna numerička polja', () => {
+    const report = buildVaultPerformanceReport('perf-user-5');
+    report.periodReturns.forEach((p) => {
+      assert(typeof p.startValueUsd === 'number', `startValueUsd mora biti broj za ${p.period}`);
+      assert(typeof p.endValueUsd === 'number', `endValueUsd mora biti broj za ${p.period}`);
+      assert(typeof p.pnlUsd === 'number', `pnlUsd mora biti broj za ${p.period}`);
+      assert(typeof p.returnPct === 'number', `returnPct mora biti broj za ${p.period}`);
+      assert(typeof p.annualizedReturnPct === 'number', `annualizedReturnPct mora biti broj za ${p.period}`);
+    });
+  });
+
+  await test('insights sadrži barem 4 stavke', () => {
+    const report = buildVaultPerformanceReport('perf-user-6');
+    assert(report.insights.length >= 4, `insights mora imati >= 4 stavki, ima ${report.insights.length}`);
+    report.insights.forEach((s) => assert(typeof s === 'string' && s.length > 0, 'svaki insight mora biti neprazan string'));
+  });
+
+  await test('totalValueUsd je >= 0', () => {
+    const report = buildVaultPerformanceReport('perf-user-7');
+    assert(report.totalValueUsd >= 0, `totalValueUsd mora biti >= 0, dobiveno ${report.totalValueUsd}`);
+  });
+
+  await test('performance timestamp je validan ISO 8601', () => {
+    const report = buildVaultPerformanceReport('perf-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

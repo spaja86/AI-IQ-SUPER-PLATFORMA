@@ -79,6 +79,7 @@ export const kriptoTrezorSekvence: Sekvenca[] = [
         ['GET /api/kripto-trezor/attribution', 'GET', 'Attribution analiza: doprinos prinosa po asetu i tieru uz koncentracioni rizik', '✅', 'kripto-trezor-attribution'],
         ['GET /api/kripto-trezor/exposure', 'GET', 'Exposure analiza: raspodjela izloženosti po asetu i tieru sa fokusom na koncentraciju', '✅', 'kripto-trezor-exposure'],
         ['GET /api/kripto-trezor/allocation', 'GET', 'Allocation analiza: trenutna vs ciljana raspodjela po asetu i tieru uz preporučeni shift', '✅', 'kripto-trezor-allocation'],
+        ['GET /api/kripto-trezor/performance', 'GET', 'Performance izvještaj: PnL, ukupni return, annualized return i period returns po assetu', '✅', 'kripto-trezor-performance'],
       ],
     },
   },
