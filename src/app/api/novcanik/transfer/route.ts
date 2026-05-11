@@ -153,10 +153,10 @@ export async function POST(request: NextRequest) {
       referenceId: transferId,
       referenceType: 'transfer',
       idempotencyKey: `${rawKey}:credit`,
-      description: `Transfer primljem od ${body.fromAssetId}`,
+      description: `Transfer primljen od ${body.fromAssetId}`,
     });
 
-    // Ažuriraj account balanse i kreiraij ledger zapise
+    // Ažuriraj account balanse i kreiraj ledger zapise
     const [debitLedger, creditLedger, fromUpdate, toUpdate] = await Promise.all([
       supabase.from('novcanik_ledger').insert({
         account_id: debitEntry.accountId,

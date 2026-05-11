@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 
     return apiSuccess({
       tickers,
-      ukupnoParcvi: pairs.length,
+      ukupnoParova: pairs.length,
       simulationMode: true,
       timestamp: new Date().toISOString(),
     });

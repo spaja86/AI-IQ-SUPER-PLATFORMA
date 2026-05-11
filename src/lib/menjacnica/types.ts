@@ -30,7 +30,7 @@ export interface MarketPair {
   qtyPrecision: number;
   takerFeePct: number;
   makerFeePct: number;
-  isSpajaПair: boolean;
+  isSpajaPair: boolean;
   simulationOnly: boolean;
   enabled: boolean;
 }
