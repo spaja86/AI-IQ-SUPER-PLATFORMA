@@ -857,7 +857,9 @@ async function runTests(): Promise<void> {
     const report = buildVaultForecastReport('frc-user-6', '365d');
     assert(report.horizon === '365d', `horizont mora biti 365d`);
     assert(report.horizonDays === 365, `horizonDays mora biti 365`);
-    assert(report.baseScenario.dataPoints.length >= report.baseScenario.dataPoints.length, 'mora imati data points');
+    assert(report.baseScenario.dataPoints.length > 0, 'mora imati data points');
+    assert(report.baseScenario.dataPoints.length >= report.bullScenario.dataPoints.length,
+      'base i bull scenariji moraju imati isti broj data points');
   });
 
   await test('assumptions je neprazan niz stringova', () => {
