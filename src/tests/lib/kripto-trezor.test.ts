@@ -21,6 +21,7 @@ import {
   buildVaultAnalyticsReport,
   buildVaultRebalanceReport,
   buildVaultLiquidityReport,
+  buildVaultForecastReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -804,6 +805,71 @@ async function runTests(): Promise<void> {
 
   await test('liquidity timestamp je validan ISO 8601', () => {
     const report = buildVaultLiquidityReport('liq-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultForecastReport ─────────────────────────────────────────────────
+
+  console.log('\n📈 buildVaultForecastReport');
+
+  await test('vraća forecast report za korisnika (podrazumevani horizont 90d)', () => {
+    const report = buildVaultForecastReport('frc-user-1');
+    assert(report.userId === 'frc-user-1', 'userId ne odgovara');
+    assert(report.horizon === '90d', `horizont mora biti 90d, dobijen: ${report.horizon}`);
+    assert(report.horizonDays === 90, `horizonDays mora biti 90, dobijen: ${report.horizonDays}`);
+    assert(Number.isFinite(report.currentValueUsd) && report.currentValueUsd > 0, 'currentValueUsd mora biti pozitivan');
+  });
+
+  await test('svi scenariji su prisutni i imaju konzistentne vrednosti', () => {
+    const report = buildVaultForecastReport('frc-user-2');
+    for (const sc of [report.baseScenario, report.bullScenario, report.bearScenario]) {
+      assert(Number.isFinite(sc.aprPct) && sc.aprPct >= 0, `aprPct mora biti ne-negativan za ${sc.scenario}`);
+      assert(Number.isFinite(sc.endValueUsd) && sc.endValueUsd > 0, `endValueUsd mora biti pozitivan za ${sc.scenario}`);
+      assert(Array.isArray(sc.dataPoints) && sc.dataPoints.length > 0, `dataPoints mora biti neprazan za ${sc.scenario}`);
+    }
+  });
+
+  await test('bull endValue >= base endValue >= bear endValue', () => {
+    const report = buildVaultForecastReport('frc-user-3');
+    assert(report.bullScenario.endValueUsd >= report.baseScenario.endValueUsd,
+      `bull (${report.bullScenario.endValueUsd}) mora biti >= base (${report.baseScenario.endValueUsd})`);
+    assert(report.baseScenario.endValueUsd >= report.bearScenario.endValueUsd,
+      `base (${report.baseScenario.endValueUsd}) mora biti >= bear (${report.bearScenario.endValueUsd})`);
+  });
+
+  await test('data points imaju monotono rastuće cumulative yield vrednosti', () => {
+    const report = buildVaultForecastReport('frc-user-4');
+    const pts = report.baseScenario.dataPoints;
+    for (let i = 1; i < pts.length; i++) {
+      assert(pts[i].cumulativeYieldUsd >= pts[i - 1].cumulativeYieldUsd,
+        `cumulativeYieldUsd nije monotono rastući na indeksu ${i}`);
+    }
+  });
+
+  await test('forecast radi za horizont 30d', () => {
+    const report = buildVaultForecastReport('frc-user-5', '30d');
+    assert(report.horizon === '30d', `horizont mora biti 30d`);
+    assert(report.horizonDays === 30, `horizonDays mora biti 30`);
+    assert(report.baseScenario.dataPoints.length > 0, 'mora imati data points');
+  });
+
+  await test('forecast radi za horizont 365d', () => {
+    const report = buildVaultForecastReport('frc-user-6', '365d');
+    assert(report.horizon === '365d', `horizont mora biti 365d`);
+    assert(report.horizonDays === 365, `horizonDays mora biti 365`);
+    assert(report.baseScenario.dataPoints.length >= report.baseScenario.dataPoints.length, 'mora imati data points');
+  });
+
+  await test('assumptions je neprazan niz stringova', () => {
+    const report = buildVaultForecastReport('frc-user-7');
+    assert(Array.isArray(report.assumptions) && report.assumptions.length > 0, 'assumptions mora biti neprazan niz');
+    for (const a of report.assumptions) {
+      assert(typeof a === 'string' && a.length > 0, 'svaka pretpostavka mora biti neprazan string');
+    }
+  });
+
+  await test('forecast timestamp je validan ISO 8601', () => {
+    const report = buildVaultForecastReport('frc-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

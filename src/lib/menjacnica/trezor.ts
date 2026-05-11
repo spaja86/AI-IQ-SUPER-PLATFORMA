@@ -1496,6 +1496,122 @@ export function buildVaultLiquidityReport(userId: string): VaultLiquidityReport 
   };
 }
 
+// ─── Vault Forecast ──────────────────────────────────────────────────────────
+
+export type ForecastHorizon = '30d' | '90d' | '180d' | '365d';
+
+export interface VaultForecastDataPoint {
+  date: string;
+  estimatedValueUsd: number;
+  estimatedYieldUsd: number;
+  cumulativeYieldUsd: number;
+}
+
+export interface VaultForecastScenario {
+  scenario: 'bull' | 'base' | 'bear';
+  aprPct: number;
+  endValueUsd: number;
+  totalYieldUsd: number;
+  returnPct: number;
+  dataPoints: VaultForecastDataPoint[];
+}
+
+export interface VaultForecastReport {
+  userId: string;
+  currentValueUsd: number;
+  horizon: ForecastHorizon;
+  horizonDays: number;
+  baseScenario: VaultForecastScenario;
+  bullScenario: VaultForecastScenario;
+  bearScenario: VaultForecastScenario;
+  assumptions: string[];
+  timestamp: string;
+}
+
+const HORIZON_DAYS: Record<ForecastHorizon, number> = {
+  '30d': 30,
+  '90d': 90,
+  '180d': 180,
+  '365d': 365,
+};
+
+// Scenario APR multipliers relative to portfolio baseline APR
+const SCENARIO_APR_MULTIPLIER = {
+  bull: 1.6,
+  base: 1.0,
+  bear: 0.35,
+} as const;
+
+const FORECAST_MONTHLY_POINTS = 4; // data points per 30-day block
+
+function buildForecastScenario(
+  scenario: 'bull' | 'base' | 'bear',
+  currentValueUsd: number,
+  baseAprPct: number,
+  horizonDays: number,
+): VaultForecastScenario {
+  const aprPct = roundLedger(baseAprPct * SCENARIO_APR_MULTIPLIER[scenario]);
+  const dailyRate = aprPct / 100 / 365;
+  const totalPoints = Math.max(1, Math.round((horizonDays / 30) * FORECAST_MONTHLY_POINTS));
+  const intervalDays = horizonDays / totalPoints;
+  const now = new Date('2026-05-11T00:00:00.000Z');
+
+  const dataPoints: VaultForecastDataPoint[] = [];
+  let cumulativeYieldUsd = 0;
+  let prevValue = currentValueUsd;
+
+  for (let i = 1; i <= totalPoints; i++) {
+    const daysElapsed = Math.round(i * intervalDays);
+    const date = new Date(now.getTime() + daysElapsed * 86_400_000).toISOString().substring(0, 10);
+    const periodDays = intervalDays;
+    const yieldForPeriod = roundLedger(prevValue * dailyRate * periodDays);
+    const estimatedValueUsd = roundLedger(prevValue + yieldForPeriod);
+    cumulativeYieldUsd = roundLedger(cumulativeYieldUsd + yieldForPeriod);
+    dataPoints.push({
+      date,
+      estimatedValueUsd,
+      estimatedYieldUsd: yieldForPeriod,
+      cumulativeYieldUsd,
+    });
+    prevValue = estimatedValueUsd;
+  }
+
+  const endValueUsd = dataPoints[dataPoints.length - 1]?.estimatedValueUsd ?? currentValueUsd;
+  const totalYieldUsd = roundLedger(endValueUsd - currentValueUsd);
+  const returnPct = currentValueUsd > 0 ? roundLedger((totalYieldUsd / currentValueUsd) * 100) : 0;
+
+  return { scenario, aprPct, endValueUsd, totalYieldUsd, returnPct, dataPoints };
+}
+
+/** Gradi vault performance forecast za zadani horizont. */
+export function buildVaultForecastReport(userId: string, horizon: ForecastHorizon = '90d'): VaultForecastReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+  const currentValueUsd = analytics.totalValueUsd;
+  const baseAprPct = analytics.portfolioAprPct > 0 ? analytics.portfolioAprPct : 3.5;
+  const horizonDays = HORIZON_DAYS[horizon];
+
+  const baseScenario = buildForecastScenario('base', currentValueUsd, baseAprPct, horizonDays);
+  const bullScenario = buildForecastScenario('bull', currentValueUsd, baseAprPct, horizonDays);
+  const bearScenario = buildForecastScenario('bear', currentValueUsd, baseAprPct, horizonDays);
+
+  return {
+    userId,
+    currentValueUsd,
+    horizon,
+    horizonDays,
+    baseScenario,
+    bullScenario,
+    bearScenario,
+    assumptions: [
+      `Bazni APR scenarij koristi trenutni portfolio APR od ${baseAprPct.toFixed(2)}%.`,
+      `Bull scenarij pretpostavlja ${(SCENARIO_APR_MULTIPLIER.bull * 100).toFixed(0)}% od baznog APR-a (povoljni tržišni uslovi).`,
+      `Bear scenarij pretpostavlja ${(SCENARIO_APR_MULTIPLIER.bear * 100).toFixed(0)}% od baznog APR-a (nepovoljni tržišni uslovi).`,
+      'Prognoza je simulirana i ne predstavlja financijski savjet. Stvarni prinos zavisi od tržišnih uslova.',
+    ],
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [
