@@ -1747,9 +1747,11 @@ export function buildVaultStressReport(userId: string): VaultStressReport {
     };
   });
 
-  const worstScenario = scenarios.reduce((worst, current) =>
-    current.projectedValueUsd < worst.projectedValueUsd ? current : worst,
-  scenarios[0]);
+  const worstScenario = scenarios.length > 0
+    ? scenarios.reduce((worst, current) =>
+      current.projectedValueUsd < worst.projectedValueUsd ? current : worst,
+    scenarios[0])
+    : undefined;
 
   const passRatePct = scenarios.length > 0
     ? (scenarios.filter((s) => s.pass).length / scenarios.length) * 100
@@ -1783,7 +1785,7 @@ export function buildVaultStressReport(userId: string): VaultStressReport {
     baselineCoveragePct,
     baselineLiquidityScore,
     scenarios,
-    worstScenarioId: worstScenario.id,
+    worstScenarioId: worstScenario?.id ?? 'flash-crash',
     resilienceScore,
     recommendations,
     timestamp: new Date().toISOString(),
