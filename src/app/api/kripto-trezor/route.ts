@@ -1,0 +1,46 @@
+// SpajaUltraOmegaCore -∞Ω+∞ — Kripto Trezor — Info Root
+// Kompanija SPAJA — Digitalna Industrija
+//
+// GET /api/kripto-trezor
+// Javno dostupan info endpoint — capabilities i status vault skeleton-a.
+
+import { NextResponse } from 'next/server';
+import { APP_VERSION } from '@/lib/constants';
+import { EXCHANGE_FLAGS } from '@/lib/menjacnica/feature-flags';
+
+export async function GET() {
+  const trezorFlags = EXCHANGE_FLAGS.filter((f) => f.id.startsWith('kripto-trezor'));
+
+  return NextResponse.json({
+    sistem: 'SPAJA Kripto Trezor',
+    appVerzija: APP_VERSION,
+    status: 'aktivan',
+    opis: 'Institucionalni kripto custody vault — cold storage, multi-sig i time-lock zaštita za sva SPAJA digitalna sredstva.',
+    nadovezujeSe: [
+      'AI IQ Menjačnica (/api/menjacnica)',
+      'AI IQ Pro Novčanik (/api/menjacnica-novcanik)',
+      'Poslovni Novčanik (/api/novcanik)',
+    ],
+    sigurnosniNivoi: [
+      { tier: 'hot',       multiSig: '1-of-1', timeLockDays: 0,  minDepozit: 0.001, opis: 'Instant likvidnost' },
+      { tier: 'warm',      multiSig: '2-of-3', timeLockDays: 1,  minDepozit: 0.01,  opis: 'Operativna rezerva' },
+      { tier: 'cold',      multiSig: '3-of-5', timeLockDays: 3,  minDepozit: 0.1,   opis: 'Strateška rezerva' },
+      { tier: 'deep-cold', multiSig: '5-of-7', timeLockDays: 7,  minDepozit: 1.0,   opis: 'Institucioni vault' },
+    ],
+    endpoints: [
+      { metod: 'GET',  putanja: '/api/kripto-trezor/vault-status', opis: 'Vault stanje + security score', auth: true },
+      { metod: 'POST', putanja: '/api/kripto-trezor/deposit',      opis: 'Vault depozit (zaključavanje)', auth: true },
+      { metod: 'POST', putanja: '/api/kripto-trezor/withdraw',     opis: 'Vault isplata (time-lock + multi-sig)', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/audit-log',    opis: 'Audit trag događaja i sigurnosnih akcija', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/security-check', opis: 'Sigurnosni pregled i alerti trezora', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/policy',         opis: 'Aktivne vault politike: limiti, tierovi i compliance', auth: true },
+    ],
+    featureFlags: trezorFlags.map((f) => ({
+      id: f.id,
+      naziv: f.naziv,
+      enabled: f.enabled,
+      rolloutPct: f.rolloutPct,
+    })),
+    timestamp: new Date().toISOString(),
+  });
+}
