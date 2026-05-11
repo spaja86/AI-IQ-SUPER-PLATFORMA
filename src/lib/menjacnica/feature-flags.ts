@@ -108,6 +108,30 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-vault-status',
+    naziv: 'Kripto Trezor — Vault Status',
+    opis: 'Vault stanje, security score i detalji po tieru (hot/warm/cold/deep-cold)',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
+    id: 'kripto-trezor-deposit',
+    naziv: 'Kripto Trezor — Vault Depozit',
+    opis: 'Zaključavanje sredstava u vault (simulovano, sa potvrdama)',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
+    id: 'kripto-trezor-withdraw',
+    naziv: 'Kripto Trezor — Vault Isplata',
+    opis: 'Inicijacija vault isplate — time-lock + multi-sig protokol',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

@@ -24,6 +24,7 @@ export const navigation: NavItem[] = [
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Menjačnica', href: '/menjacnica', icon: '💱', description: 'SPAJA Menjačnica platforma' },
   { label: 'Pro Novčanik', href: '/menjacnica-novcanik', icon: '💼', description: 'AI IQ MENJAČNICA Profesionalni Novčanik — portfolio, P&L, orderbook, settlement' },
+  { label: 'Kripto Trezor', href: '/kripto-trezor', icon: '🔐', description: 'SPAJA Kripto Trezor — cold storage, multi-sig i time-lock zaštita za sva digitalna sredstva' },
   { label: 'Kompanija SPAJA', href: '/kompanija', icon: '🏗️', description: 'O matičnoj kompaniji SPAJA' },
   { label: 'Organizacija SPAJA', href: '/organizacija', icon: '🏛️', description: 'Interna organizaciona struktura SPAJA' },
   { label: 'Proksi GitHub', href: '/proksi-github-deploy', icon: '🐙', description: 'Proksi GitHub Deploy sistem' },

@@ -1,0 +1,352 @@
+// SpajaUltraOmegaCore -∞Ω+∞ — SPAJA Kripto Trezor (domain logic)
+// Kompanija SPAJA — Digitalna Industrija
+//
+// Kripto Trezor je custody/vault sloj iznad AI IQ Menjačnice i Pro Novčanika.
+// Pruža:
+//   - Vault naloge (cold storage, multi-sig, hardware-wallet simulacija)
+//   - Vault depozit: korisnik "zaključava" sredstva u trezor
+//   - Vault isplata: zahteva dodatne sigurnosne potvrde (time-lock, multi-sig)
+//   - Sigurnosni nivo po asetu: hot / warm / cold / deep-cold
+//   - Provjera limita i whitelisted adresa
+
+import { roundLedger } from '../novcanik/ledger';
+
+// ─── Tipovi ───────────────────────────────────────────────────────────────────
+
+export type VaultTier = 'hot' | 'warm' | 'cold' | 'deep-cold';
+export type VaultDepositStatus = 'pending' | 'confirming' | 'locked' | 'failed';
+export type VaultWithdrawStatus =
+  | 'pending'
+  | 'time-lock'
+  | 'multi-sig-required'
+  | 'approved'
+  | 'broadcasting'
+  | 'completed'
+  | 'rejected';
+
+export interface VaultAccount {
+  id: string;
+  userId: string;
+  assetId: string;
+  tier: VaultTier;
+  locked: number;
+  unlocking: number;
+  available: number;
+  whitelistedAddresses: string[];
+  multiSigThreshold: number;
+  timeLockDays: number;
+  lastAuditAt: string;
+  enabled: boolean;
+  createdAt: string;
+}
+
+export interface VaultDeposit {
+  id: string;
+  idempotencyKey: string;
+  userId: string;
+  assetId: string;
+  amount: number;
+  sourceTier: 'exchange' | 'novcanik' | 'external';
+  targetTier: VaultTier;
+  status: VaultDepositStatus;
+  txHash?: string;
+  confirmations: number;
+  requiredConfirmations: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface VaultWithdrawal {
+  id: string;
+  idempotencyKey: string;
+  userId: string;
+  assetId: string;
+  amount: number;
+  destinationAddress: string;
+  sourceTier: VaultTier;
+  destinationTier: 'exchange' | 'novcanik' | 'external';
+  status: VaultWithdrawStatus;
+  timeLockExpiresAt?: string;
+  multiSigSignaturesCollected: number;
+  multiSigThreshold: number;
+  txHash?: string;
+  rejectReason?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface VaultDepositRequest {
+  assetId: string;
+  amount: number;
+  sourceTier?: 'exchange' | 'novcanik' | 'external';
+  targetTier?: VaultTier;
+  idempotencyKey?: string;
+}
+
+export interface VaultWithdrawRequest {
+  assetId: string;
+  amount: number;
+  destinationAddress: string;
+  destinationTier?: 'exchange' | 'novcanik' | 'external';
+  idempotencyKey?: string;
+}
+
+export interface VaultStatusReport {
+  userId: string;
+  accounts: VaultAccount[];
+  totalLockedUsd: number;
+  totalUnlockingUsd: number;
+  totalAvailableUsd: number;
+  securityScore: number;
+  lastAuditAt: string;
+  timestamp: string;
+}
+
+// ─── Konstante ────────────────────────────────────────────────────────────────
+
+/** Minimalni iznos za vault depozit po tieru. */
+export const VAULT_MIN_DEPOSIT: Record<VaultTier, number> = {
+  hot: 0.001,
+  warm: 0.01,
+  cold: 0.1,
+  'deep-cold': 1.0,
+};
+
+/** Time-lock trajanje u danima po tieru. */
+export const VAULT_TIME_LOCK_DAYS: Record<VaultTier, number> = {
+  hot: 0,
+  warm: 1,
+  cold: 3,
+  'deep-cold': 7,
+};
+
+/** Multi-sig prag po tieru (koliko potpisa treba). */
+export const VAULT_MULTISIG_THRESHOLD: Record<VaultTier, number> = {
+  hot: 1,
+  warm: 2,
+  cold: 3,
+  'deep-cold': 5,
+};
+
+// ─── Validacija ───────────────────────────────────────────────────────────────
+
+export interface VaultValidationResult {
+  valid: boolean;
+  reason?: string;
+}
+
+/** Validira iznos vault depozita za dati tier. */
+export function validateVaultDepositAmount(
+  amount: number,
+  tier: VaultTier,
+): VaultValidationResult {
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return { valid: false, reason: 'Iznos mora biti pozitivan konačan broj.' };
+  }
+  const min = VAULT_MIN_DEPOSIT[tier];
+  if (amount < min) {
+    return { valid: false, reason: `Minimalni iznos za ${tier} tier je ${min}.` };
+  }
+  if (amount > 1e9) {
+    return { valid: false, reason: 'Iznos premašuje maksimalnu granicu trezora.' };
+  }
+  return { valid: true };
+}
+
+/** Provjera da li je adresa u whitelist-u naloga. */
+export function isAddressWhitelisted(account: VaultAccount, address: string): boolean {
+  return account.whitelistedAddresses.includes(address);
+}
+
+/** Određuje da li isplata iz vault-a zahteva time-lock. */
+export function requiresTimeLock(tier: VaultTier): boolean {
+  return VAULT_TIME_LOCK_DAYS[tier] > 0;
+}
+
+/** Određuje da li isplata zahteva multi-sig. */
+export function requiresMultiSig(tier: VaultTier): boolean {
+  return VAULT_MULTISIG_THRESHOLD[tier] > 1;
+}
+
+/** Izračunava datum isteka time-lock-a za isplatu. */
+export function calcTimeLockExpiry(tier: VaultTier, fromDate = new Date()): Date {
+  const days = VAULT_TIME_LOCK_DAYS[tier];
+  const expiry = new Date(fromDate.getTime());
+  expiry.setDate(expiry.getDate() + days);
+  return expiry;
+}
+
+// ─── Simulovani Vault Status ──────────────────────────────────────────────────
+
+/** Simulovane cene po asetu u USD (za vrednost trezora). */
+const VAULT_ASSET_PRICES_USD: Record<string, number> = {
+  BTC:   67_000,
+  ETH:    3_500,
+  SOL:      160,
+  USDT:     1.0,
+  SPAJA: 670_000, // SPAJA = 10× BTC
+};
+
+function assetPriceUsd(assetId: string): number {
+  return VAULT_ASSET_PRICES_USD[assetId] ?? 1;
+}
+
+/** Gradi simulovani vault status report za korisnika. */
+export function buildVaultStatusReport(userId: string): VaultStatusReport {
+  const now = new Date().toISOString();
+
+  const accounts: VaultAccount[] = [
+    {
+      id: `vault-${userId}-spaja-cold`,
+      userId,
+      assetId: 'SPAJA',
+      tier: 'cold',
+      locked: 1.2,
+      unlocking: 0,
+      available: 0,
+      whitelistedAddresses: ['0xSpajaVaultCold01', '0xSpajaVaultCold02'],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['cold'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['cold'],
+      lastAuditAt: '2026-05-01T12:00:00.000Z',
+      enabled: true,
+      createdAt: '2026-01-01T00:00:00.000Z',
+    },
+    {
+      id: `vault-${userId}-btc-deep-cold`,
+      userId,
+      assetId: 'BTC',
+      tier: 'deep-cold',
+      locked: 0.25,
+      unlocking: 0.01,
+      available: 0,
+      whitelistedAddresses: ['bc1qVaultMain01', 'bc1qVaultBackup01'],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['deep-cold'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['deep-cold'],
+      lastAuditAt: '2026-04-28T09:00:00.000Z',
+      enabled: true,
+      createdAt: '2026-01-01T00:00:00.000Z',
+    },
+    {
+      id: `vault-${userId}-eth-warm`,
+      userId,
+      assetId: 'ETH',
+      tier: 'warm',
+      locked: 5.0,
+      unlocking: 0.5,
+      available: 0.2,
+      whitelistedAddresses: ['0xEthVaultWarm01'],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['warm'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['warm'],
+      lastAuditAt: '2026-05-10T14:30:00.000Z',
+      enabled: true,
+      createdAt: '2026-02-15T00:00:00.000Z',
+    },
+    {
+      id: `vault-${userId}-usdt-hot`,
+      userId,
+      assetId: 'USDT',
+      tier: 'hot',
+      locked: 10_000,
+      unlocking: 0,
+      available: 2_500,
+      whitelistedAddresses: [],
+      multiSigThreshold: VAULT_MULTISIG_THRESHOLD['hot'],
+      timeLockDays: VAULT_TIME_LOCK_DAYS['hot'],
+      lastAuditAt: '2026-05-11T00:00:00.000Z',
+      enabled: true,
+      createdAt: '2026-03-01T00:00:00.000Z',
+    },
+  ];
+
+  let totalLockedUsd = 0;
+  let totalUnlockingUsd = 0;
+  let totalAvailableUsd = 0;
+
+  for (const acc of accounts) {
+    const price = assetPriceUsd(acc.assetId);
+    totalLockedUsd += acc.locked * price;
+    totalUnlockingUsd += acc.unlocking * price;
+    totalAvailableUsd += acc.available * price;
+  }
+
+  // Security score: ponderisan prema udelu cold/deep-cold u ukupnoj vrednosti
+  const coldLockedUsd = accounts
+    .filter((a) => a.tier === 'cold' || a.tier === 'deep-cold')
+    .reduce((s, a) => s + a.locked * assetPriceUsd(a.assetId), 0);
+  const totalAllUsd = totalLockedUsd + totalUnlockingUsd + totalAvailableUsd;
+  const securityScore = totalAllUsd > 0
+    ? Math.round((coldLockedUsd / totalAllUsd) * 100)
+    : 0;
+
+  return {
+    userId,
+    accounts,
+    totalLockedUsd: roundLedger(totalLockedUsd),
+    totalUnlockingUsd: roundLedger(totalUnlockingUsd),
+    totalAvailableUsd: roundLedger(totalAvailableUsd),
+    securityScore,
+    lastAuditAt: '2026-05-11T00:00:00.000Z',
+    timestamp: now,
+  };
+}
+
+// ─── Simulovani Depozit ───────────────────────────────────────────────────────
+
+/** Kreira simulovani vault depozit zapis (bez DB upisa). */
+export function buildVaultDepositRecord(
+  userId: string,
+  req: VaultDepositRequest,
+): VaultDeposit {
+  const tier: VaultTier = req.targetTier ?? 'cold';
+  const now = new Date().toISOString();
+  const requiredConfirmations = tier === 'hot' ? 1 : tier === 'warm' ? 3 : 6;
+
+  return {
+    id: `vdep-${userId}-${Date.now()}`,
+    idempotencyKey: req.idempotencyKey ?? `vdep-auto-${Date.now()}`,
+    userId,
+    assetId: req.assetId,
+    amount: req.amount,
+    sourceTier: req.sourceTier ?? 'novcanik',
+    targetTier: tier,
+    status: 'pending',
+    confirmations: 0,
+    requiredConfirmations,
+    createdAt: now,
+    updatedAt: now,
+  };
+}
+
+// ─── Simulovana Isplata ───────────────────────────────────────────────────────
+
+/** Kreira simulovani vault withdrawal zapis (bez DB upisa). */
+export function buildVaultWithdrawalRecord(
+  userId: string,
+  req: VaultWithdrawRequest,
+  sourceTier: VaultTier = 'cold',
+): VaultWithdrawal {
+  const now = new Date();
+  const needsTimeLock = requiresTimeLock(sourceTier);
+  const threshold = VAULT_MULTISIG_THRESHOLD[sourceTier];
+  const timeLockExpiresAt = needsTimeLock
+    ? calcTimeLockExpiry(sourceTier, now).toISOString()
+    : undefined;
+  const initialStatus: VaultWithdrawStatus = needsTimeLock ? 'time-lock' : 'multi-sig-required';
+
+  return {
+    id: `vwit-${userId}-${now.getTime()}`,
+    idempotencyKey: req.idempotencyKey ?? `vwit-auto-${now.getTime()}`,
+    userId,
+    assetId: req.assetId,
+    amount: req.amount,
+    destinationAddress: req.destinationAddress,
+    sourceTier,
+    destinationTier: req.destinationTier ?? 'novcanik',
+    status: initialStatus,
+    timeLockExpiresAt,
+    multiSigSignaturesCollected: 0,
+    multiSigThreshold: threshold,
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+  };
+}
