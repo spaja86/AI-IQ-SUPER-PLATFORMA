@@ -1212,6 +1212,133 @@ export function buildVaultAnalyticsReport(userId: string): VaultAnalyticsReport 
   };
 }
 
+// ─── Vault Rebalance ─────────────────────────────────────────────────────────
+
+export type RebalanceAction = 'move' | 'none';
+
+export interface VaultRebalanceSuggestion {
+  id: string;
+  fromTier: VaultTier;
+  toTier: VaultTier;
+  assetId: string;
+  amountNative: number;
+  amountUsd: number;
+  reason: string;
+  action: RebalanceAction;
+  priority: 'high' | 'medium' | 'low';
+}
+
+export interface VaultTierAllocation {
+  tier: VaultTier;
+  currentPct: number;
+  targetPct: number;
+  deviationPct: number;
+  balanceUsd: number;
+}
+
+export interface VaultRebalanceReport {
+  userId: string;
+  totalValueUsd: number;
+  isBalanced: boolean;
+  suggestions: VaultRebalanceSuggestion[];
+  tierAllocations: VaultTierAllocation[];
+  rebalanceCostEstimateUsd: number;
+  notes: string[];
+  timestamp: string;
+}
+
+// Target allocation percentages per tier
+const VAULT_TARGET_ALLOCATION: Record<VaultTier, number> = {
+  hot: 10,
+  warm: 20,
+  cold: 35,
+  'deep-cold': 35,
+};
+
+const REBALANCE_THRESHOLD_PCT = 5; // suggest rebalance if deviation > 5%
+
+/** Gradi vault rebalance prijedlog za optimalnu raspodjelu sredstava po tierovima. */
+export function buildVaultRebalanceReport(userId: string): VaultRebalanceReport {
+  const vault = buildVaultStatusReport(userId);
+
+  // Compute per-tier balances
+  const tierBalances: Record<VaultTier, number> = { hot: 0, warm: 0, cold: 0, 'deep-cold': 0 };
+  const tierAssetAmounts: Record<VaultTier, { assetId: string; native: number; usd: number }[]> = {
+    hot: [], warm: [], cold: [], 'deep-cold': [],
+  };
+
+  for (const a of vault.accounts) {
+    const price = VAULT_ASSET_PRICES_USD[a.assetId] ?? 1;
+    const total = a.locked + a.unlocking + a.available;
+    const totalUsd = total * price;
+    tierBalances[a.tier] = roundLedger(tierBalances[a.tier] + totalUsd);
+    tierAssetAmounts[a.tier].push({ assetId: a.assetId, native: total, usd: roundLedger(totalUsd) });
+  }
+
+  const totalValueUsd = roundLedger(Object.values(tierBalances).reduce((s, v) => s + v, 0));
+
+  // Compute allocations
+  const tierAllocations: VaultTierAllocation[] = (['hot', 'warm', 'cold', 'deep-cold'] as VaultTier[]).map((tier) => {
+    const balanceUsd = tierBalances[tier];
+    const currentPct = totalValueUsd > 0 ? roundLedger((balanceUsd / totalValueUsd) * 100) : 0;
+    const targetPct = VAULT_TARGET_ALLOCATION[tier];
+    const deviationPct = roundLedger(currentPct - targetPct);
+    return { tier, currentPct, targetPct, deviationPct, balanceUsd };
+  });
+
+  // Build suggestions
+  const suggestions: VaultRebalanceSuggestion[] = [];
+  let suggestionId = 1;
+
+  for (const alloc of tierAllocations) {
+    if (alloc.deviationPct > REBALANCE_THRESHOLD_PCT) {
+      // Over-allocated — suggest moving excess to under-allocated tier
+      const overUsd = roundLedger((alloc.deviationPct / 100) * totalValueUsd);
+      // Pick best asset to move
+      const assets = tierAssetAmounts[alloc.tier];
+      const topAsset = assets.sort((a, b) => b.usd - a.usd)[0];
+      if (topAsset && topAsset.usd > 0) {
+        // Move to the most under-allocated tier
+        const underAlloc = tierAllocations
+          .filter((t) => t.deviationPct < -REBALANCE_THRESHOLD_PCT)
+          .sort((a, b) => a.deviationPct - b.deviationPct)[0];
+        const toTier: VaultTier = underAlloc?.tier ?? 'cold';
+        const moveUsd = Math.min(overUsd, topAsset.usd);
+        const price = VAULT_ASSET_PRICES_USD[topAsset.assetId] ?? 1;
+        suggestions.push({
+          id: `reb-${suggestionId++}`,
+          fromTier: alloc.tier,
+          toTier,
+          assetId: topAsset.assetId,
+          amountNative: roundLedger(moveUsd / price),
+          amountUsd: roundLedger(moveUsd),
+          reason: `${alloc.tier} tier je prekomjerno popunjen (${alloc.currentPct}% vs cilj ${alloc.targetPct}%). Preporučena migracija u ${toTier} tier radi optimizacije.`,
+          action: 'move',
+          priority: alloc.deviationPct > 15 ? 'high' : alloc.deviationPct > 10 ? 'medium' : 'low',
+        });
+      }
+    }
+  }
+
+  const isBalanced = suggestions.length === 0;
+  const rebalanceCostEstimateUsd = roundLedger(suggestions.reduce((s, sg) => s + sg.amountUsd * 0.001, 0));
+
+  return {
+    userId,
+    totalValueUsd,
+    isBalanced,
+    suggestions,
+    tierAllocations,
+    rebalanceCostEstimateUsd,
+    notes: [
+      `Ciljana raspodjela: Hot ${VAULT_TARGET_ALLOCATION.hot}%, Warm ${VAULT_TARGET_ALLOCATION.warm}%, Cold ${VAULT_TARGET_ALLOCATION.cold}%, Deep-Cold ${VAULT_TARGET_ALLOCATION['deep-cold']}%.`,
+      `Rebalans se preporučuje kada devijacija premašuje ${REBALANCE_THRESHOLD_PCT}%.`,
+      'Procjena troška rebalansa iznosi 0.1% od prenesene vrijednosti.',
+    ],
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

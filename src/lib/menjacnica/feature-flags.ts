@@ -188,6 +188,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-rebalance',
+    naziv: 'Kripto Trezor — Vault Rebalance',
+    opis: 'Rebalance prijedlozi za optimalnu raspodjelu sredstava po tierovima prema ciljnoj alokaciji',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

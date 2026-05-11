@@ -19,6 +19,7 @@ import {
   buildVaultCoverageReport,
   buildVaultRiskReport,
   buildVaultAnalyticsReport,
+  buildVaultRebalanceReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -680,6 +681,67 @@ async function runTests(): Promise<void> {
 
   await test('analytics timestamp je validan ISO 8601', () => {
     const report = buildVaultAnalyticsReport('ana-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultRebalanceReport ───────────────────────────────────────────────
+
+  console.log('\n⚖️ buildVaultRebalanceReport');
+
+  await test('vraća rebalance report za korisnika', () => {
+    const report = buildVaultRebalanceReport('reb-user-1');
+    assert(report.userId === 'reb-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.totalValueUsd) && report.totalValueUsd > 0, 'totalValueUsd mora biti pozitivan');
+    assert(Array.isArray(report.tierAllocations) && report.tierAllocations.length === 4, 'tierAllocations mora imati 4 elementa');
+  });
+
+  await test('tierAllocations pokriva sve tierove', () => {
+    const report = buildVaultRebalanceReport('reb-user-2');
+    const tiers = new Set(report.tierAllocations.map((t) => t.tier));
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+      assert(tiers.has(tier), `Nedostaje tier: ${tier}`);
+    }
+  });
+
+  await test('currentPct zbir je blizu 100%', () => {
+    const report = buildVaultRebalanceReport('reb-user-3');
+    const total = report.tierAllocations.reduce((s, t) => s + t.currentPct, 0);
+    assert(Math.abs(total - 100) < 1, `Zbir currentPct nije 100%: ${total}`);
+  });
+
+  await test('sugestije imaju validne from/to tierove', () => {
+    const report = buildVaultRebalanceReport('reb-user-4');
+    const validTiers = new Set(['hot', 'warm', 'cold', 'deep-cold']);
+    for (const s of report.suggestions) {
+      assert(validTiers.has(s.fromTier), `fromTier nije validan: ${s.fromTier}`);
+      assert(validTiers.has(s.toTier), `toTier nije validan: ${s.toTier}`);
+      assert(s.amountUsd > 0, `amountUsd mora biti pozitivan za ${s.id}`);
+    }
+  });
+
+  await test('rebalanceCostEstimateUsd je ne-negativan', () => {
+    const report = buildVaultRebalanceReport('reb-user-5');
+    assert(report.rebalanceCostEstimateUsd >= 0,
+      `rebalanceCostEstimateUsd negativan: ${report.rebalanceCostEstimateUsd}`);
+  });
+
+  await test('isBalanced je konzistentan sa suggestions', () => {
+    const report = buildVaultRebalanceReport('reb-user-6');
+    const expectedBalanced = report.suggestions.length === 0;
+    assert(report.isBalanced === expectedBalanced,
+      `isBalanced (${report.isBalanced}) nije konzistentan sa suggestions.length (${report.suggestions.length})`);
+  });
+
+  await test('sugestije imaju validne priority vrijednosti', () => {
+    const report = buildVaultRebalanceReport('reb-user-7');
+    const validPriorities = new Set(['high', 'medium', 'low']);
+    for (const s of report.suggestions) {
+      assert(validPriorities.has(s.priority), `priority nije validan: ${s.priority}`);
+    }
+  });
+
+  await test('rebalance timestamp je validan ISO 8601', () => {
+    const report = buildVaultRebalanceReport('reb-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 
