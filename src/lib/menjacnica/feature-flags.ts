@@ -164,6 +164,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-coverage',
+    naziv: 'Kripto Trezor — Vault Coverage',
+    opis: 'Pregled coverage sloja: reserve fund, bank guarantee, insurance i uncovered gap analiza',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

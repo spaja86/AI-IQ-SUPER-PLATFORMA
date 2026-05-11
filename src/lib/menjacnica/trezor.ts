@@ -789,6 +789,117 @@ export function buildVaultRecoveryReport(userId: string): VaultRecoveryReport {
   };
 }
 
+// ─── Vault Coverage ────────────────────────────────────────────────────────────
+
+export type VaultCoverageProviderKind =
+  | 'internal-reserve'
+  | 'bank-guarantee'
+  | 'custody-insurance';
+
+export interface VaultCoverageProvider {
+  id: string;
+  name: string;
+  kind: VaultCoverageProviderKind;
+  coveredUsd: number;
+  coverageRatio: number;
+  backedAssets: string[];
+  settlementWindowHours: number;
+}
+
+export interface VaultCoverageGap {
+  assetId: string;
+  uncoveredUsd: number;
+  reason: string;
+  action: string;
+}
+
+export interface VaultCoverageReport {
+  userId: string;
+  totalVaultUsd: number;
+  totalCoveredUsd: number;
+  uncoveredUsd: number;
+  coverageRatio: number;
+  providers: VaultCoverageProvider[];
+  gaps: VaultCoverageGap[];
+  notes: string[];
+  timestamp: string;
+}
+
+/** Gradi pregled coverage/insurance sloja za vault bilans korisnika. */
+export function buildVaultCoverageReport(userId: string): VaultCoverageReport {
+  const vault = buildVaultStatusReport(userId);
+  const totalVaultUsd = roundLedger(
+    vault.totalLockedUsd + vault.totalUnlockingUsd + vault.totalAvailableUsd,
+  );
+
+  const providers: VaultCoverageProvider[] = [
+    {
+      id: 'coverage-internal-reserve',
+      name: 'SPAJA Reserve Fund',
+      kind: 'internal-reserve',
+      coveredUsd: roundLedger(totalVaultUsd * 0.35),
+      coverageRatio: 35,
+      backedAssets: ['USDT', 'SPAJA'],
+      settlementWindowHours: 2,
+    },
+    {
+      id: 'coverage-bank-guarantee',
+      name: 'ERSTE Fiat Guarantee',
+      kind: 'bank-guarantee',
+      coveredUsd: roundLedger(totalVaultUsd * 0.3),
+      coverageRatio: 30,
+      backedAssets: ['BTC', 'ETH'],
+      settlementWindowHours: 24,
+    },
+    {
+      id: 'coverage-custody-insurance',
+      name: 'Cold Shield Custody Cover',
+      kind: 'custody-insurance',
+      coveredUsd: roundLedger(totalVaultUsd * 0.2),
+      coverageRatio: 20,
+      backedAssets: ['BTC', 'ETH', 'SOL'],
+      settlementWindowHours: 72,
+    },
+  ];
+
+  const totalCoveredUsd = roundLedger(
+    Math.min(
+      totalVaultUsd,
+      providers.reduce((sum, provider) => sum + provider.coveredUsd, 0),
+    ),
+  );
+  const uncoveredUsd = roundLedger(Math.max(totalVaultUsd - totalCoveredUsd, 0));
+
+  const gaps: VaultCoverageGap[] = uncoveredUsd > 0
+    ? [
+      {
+        assetId: 'SPAJA',
+        uncoveredUsd,
+        reason: 'Deo bilansa ostaje van aktivnog bank guarantee i custody insurance sloja.',
+        action: 'Prebaciti dodatni deo hot/warm ekspozicije u cold tier i povećati limit police.',
+      },
+    ]
+    : [];
+
+  return {
+    userId,
+    totalVaultUsd,
+    totalCoveredUsd,
+    uncoveredUsd,
+    coverageRatio: totalVaultUsd > 0
+      ? roundLedger((totalCoveredUsd / totalVaultUsd) * 100)
+      : 0,
+    providers,
+    gaps,
+    notes: [
+      'Coverage model kombinuje interni reserve fund, bank guarantee i custody insurance sloj.',
+      'Deep-cold segment dobija prioritet pri aktivaciji custody insurance police.',
+      'Coverage pregled se ažurira posle svake veće promene vault balansa ili policy limita.',
+    ],
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

@@ -16,6 +16,7 @@ import {
   buildVaultSecurityCheckReport,
   buildVaultPolicyReport,
   buildVaultRecoveryReport,
+  buildVaultCoverageReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -510,6 +511,54 @@ async function runTests(): Promise<void> {
         `publicKeyFingerprint mora biti neprazan za ${kh.alias}`);
       assert(validMethods.has(kh.contactMethod), `Nevažeći contactMethod: ${kh.contactMethod}`);
     }
+  });
+
+  // ─── buildVaultCoverageReport ─────────────────────────────────────────────────
+
+  console.log('\n🛡️ buildVaultCoverageReport');
+
+  await test('vraća coverage report za korisnika', () => {
+    const report = buildVaultCoverageReport('cov-user-1');
+    assert(report.userId === 'cov-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.totalVaultUsd) && report.totalVaultUsd > 0, 'totalVaultUsd mora biti pozitivan');
+    assert(Array.isArray(report.providers), 'providers mora biti niz');
+  });
+
+  await test('coverage ratio je između 0 i 100', () => {
+    const report = buildVaultCoverageReport('cov-user-2');
+    assert(report.coverageRatio >= 0 && report.coverageRatio <= 100, `coverageRatio van opsega: ${report.coverageRatio}`);
+  });
+
+  await test('ukupni covered iznos ne prelazi vault bilans', () => {
+    const report = buildVaultCoverageReport('cov-user-3');
+    assert(report.totalCoveredUsd <= report.totalVaultUsd, 'covered iznos ne sme biti veći od ukupnog vault bilansa');
+    assert(report.uncoveredUsd >= 0, 'uncoveredUsd ne sme biti negativan');
+  });
+
+  await test('provideri imaju validne coverage podatke', () => {
+    const report = buildVaultCoverageReport('cov-user-4');
+    const validKinds = new Set(['internal-reserve', 'bank-guarantee', 'custody-insurance']);
+    for (const provider of report.providers) {
+      assert(validKinds.has(provider.kind), `Nevažeći kind: ${provider.kind}`);
+      assert(provider.coveredUsd > 0, `coveredUsd mora biti pozitivan za ${provider.name}`);
+      assert(Array.isArray(provider.backedAssets) && provider.backedAssets.length > 0,
+        `backedAssets mora biti neprazan za ${provider.name}`);
+    }
+  });
+
+  await test('coverage gap analiza je konzistentna', () => {
+    const report = buildVaultCoverageReport('cov-user-5');
+    if (report.uncoveredUsd === 0) {
+      assert(report.gaps.length === 0, 'Ako nema uncovered iznosa, gaps mora biti prazan');
+    } else {
+      assert(report.gaps.length > 0, 'Ako postoji uncovered iznos, mora postojati gap zapis');
+      assert(report.gaps.every((gap) => gap.uncoveredUsd > 0), 'Svaki gap mora imati pozitivan uncoveredUsd');
+    }
+  });
+
+  await test('coverage timestamp je validan ISO 8601', () => {
+    const report = buildVaultCoverageReport('cov-user-6');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 
   // ─── Rezime ──────────────────────────────────────────────────────────────

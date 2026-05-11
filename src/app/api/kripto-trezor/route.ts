@@ -34,6 +34,8 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/audit-log',    opis: 'Audit trag događaja i sigurnosnih akcija', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/security-check', opis: 'Sigurnosni pregled i alerti trezora', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/policy',         opis: 'Aktivne vault politike: limiti, tierovi i compliance', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/recovery',       opis: 'Recovery plan: keyholder-i, koraci i hitni kontakti', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/coverage',       opis: 'Coverage sloj: reserve fund, guarantee i uncovered gap', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,
