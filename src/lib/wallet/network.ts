@@ -14,6 +14,9 @@ export interface WalletNetworkHealth {
   generatedAt: string;
 }
 
+const MAX_JITTER_MS = 250;
+const JITTER_PERCENTAGE = 0.1;
+
 export const defaultWalletRetryPolicy: WalletRetryPolicy = {
   maxRetries: 5,
   baseDelayMs: 250,
@@ -24,7 +27,7 @@ export const defaultWalletRetryPolicy: WalletRetryPolicy = {
 export function computeBackoffDelay(attempt: number, policy = defaultWalletRetryPolicy): number {
   const exp = Math.min(policy.baseDelayMs * 2 ** attempt, policy.maxDelayMs);
   if (!policy.jitter) return exp;
-  const jitter = Math.round(Math.random() * Math.min(250, exp * 0.1));
+  const jitter = Math.round(Math.random() * Math.min(MAX_JITTER_MS, exp * JITTER_PERCENTAGE));
   return exp + jitter;
 }
 

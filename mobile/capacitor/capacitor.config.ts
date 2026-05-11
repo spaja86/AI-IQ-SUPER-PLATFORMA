@@ -11,7 +11,7 @@ interface LocalCapacitorConfig {
 const config: LocalCapacitorConfig = {
   appId: 'rs.spaja.wallet',
   appName: 'Spaja Poslovni Novcanik',
-  webDir: '../../.next',
+  webDir: '../../out',
   bundledWebRuntime: false,
   server: {
     androidScheme: 'https',

@@ -4,6 +4,29 @@ import { verifyUserFromToken } from '@/lib/supabase/server';
 import { getStripe } from '@/lib/stripe/config';
 import { routePayment } from '@/lib/wallet/payment-orchestration';
 
+type WalletCardNetwork = 'visa' | 'mastercard' | 'amex' | 'diners' | 'discover' | 'jcb' | 'unionpay' | 'unknown';
+
+function mapStripeBrand(brand: string | null | undefined): WalletCardNetwork {
+  switch ((brand ?? '').toLowerCase()) {
+    case 'visa':
+      return 'visa';
+    case 'mastercard':
+      return 'mastercard';
+    case 'amex':
+      return 'amex';
+    case 'diners':
+      return 'diners';
+    case 'discover':
+      return 'discover';
+    case 'jcb':
+      return 'jcb';
+    case 'unionpay':
+      return 'unionpay';
+    default:
+      return 'unknown';
+  }
+}
+
 interface TokenizeRequestBody {
   paymentMethodId?: string;
   region?: 'RS' | 'EU' | 'US' | 'GLOBAL';
@@ -35,7 +58,7 @@ export async function POST(request: NextRequest) {
     const decision = routePayment({
       region,
       currency,
-      cardNetwork: (paymentMethod.card.brand as 'visa' | 'mastercard' | 'amex' | 'diners' | 'discover' | 'jcb' | 'unionpay' | 'unknown') ?? 'unknown',
+      cardNetwork: mapStripeBrand(paymentMethod.card.brand),
       amountMinor,
     });
 

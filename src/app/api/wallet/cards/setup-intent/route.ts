@@ -16,6 +16,11 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = getStripe();
+    const idempotencyKey = candidateKey ? `wallet-setup-intent:${user.id}:${candidateKey}` : null;
+    if (idempotencyKey && idempotencyKey.length > 255) {
+      return apiError('BAD_REQUEST', 'Idempotency-Key je predugačak za wallet setup tok.');
+    }
+
     const setupIntent = await stripe.setupIntents.create({
       usage: 'off_session',
       payment_method_types: ['card'],
@@ -23,7 +28,7 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         flow: 'wallet-manual-card-entry',
       },
-    }, candidateKey ? { idempotencyKey: `wallet-setup-intent:${user.id}:${candidateKey}`.slice(0, 255) } : undefined);
+    }, idempotencyKey ? { idempotencyKey } : undefined);
 
     return apiSuccess({
       setupIntentId: setupIntent.id,

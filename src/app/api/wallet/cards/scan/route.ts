@@ -22,8 +22,13 @@ export async function POST(request: NextRequest) {
       return apiError('BAD_REQUEST', 'scanSessionId je obavezan.');
     }
 
-    if (body.extracted?.maskedNumber && /\d{8,}/.test(body.extracted.maskedNumber.replace(/\*/g, ''))) {
-      return apiError('BAD_REQUEST', 'Dozvoljen je samo maskirani broj kartice u scan payload-u.');
+    if (body.extracted?.maskedNumber) {
+      const compact = body.extracted.maskedNumber.replace(/[\s\-]/g, '');
+      const unmasked = compact.replace(/\*/g, '');
+      const hasMasking = compact.includes('*');
+      if (!hasMasking || unmasked.length > 10 || /\d{8,}/.test(unmasked)) {
+        return apiError('BAD_REQUEST', 'Dozvoljen je isključivo bezbedno maskirani broj kartice (maks. first6+last4).');
+      }
     }
 
     const result = evaluateScanPayload({

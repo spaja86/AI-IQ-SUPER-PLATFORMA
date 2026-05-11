@@ -17,6 +17,8 @@ export interface CardValidationResult {
   reasons: string[];
 }
 
+const MAX_EXPIRY_YEARS_FROM_NOW = 20;
+
 const NETWORK_PATTERNS: Array<{ network: WalletCardNetwork; regex: RegExp; lengths: number[] }> = [
   { network: 'visa', regex: /^4/, lengths: [13, 16, 19] },
   { network: 'mastercard', regex: /^(5[1-5]|2[2-7])/, lengths: [16] },
@@ -69,7 +71,7 @@ export function isExpiryValid(month?: number, year?: number): boolean {
   const currentMonth = now.getMonth() + 1;
   if (year < currentYear) return false;
   if (year === currentYear && month < currentMonth) return false;
-  if (year > currentYear + 20) return false;
+  if (year > currentYear + MAX_EXPIRY_YEARS_FROM_NOW) return false;
   return true;
 }
 

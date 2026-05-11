@@ -13,6 +13,8 @@ export interface RoutingDecision {
   reason: string;
 }
 
+export const HIGH_AMOUNT_THRESHOLD_MINOR = 1_000_000;
+
 export const walletCoverageMatrix: WalletCoverageEntry[] = [
   {
     region: 'RS',
@@ -66,7 +68,7 @@ export function routePayment(request: RoutingRequest): RoutingDecision {
     };
   }
 
-  const highAmountFallback = request.amountMinor > 1_000_000;
+  const highAmountFallback = request.amountMinor > HIGH_AMOUNT_THRESHOLD_MINOR;
   return {
     primaryProcessor: coverage.processors[0] ?? 'stripe',
     fallbackProcessors: highAmountFallback ? [...coverage.fallbackProcessors, 'manual-review'] : coverage.fallbackProcessors,

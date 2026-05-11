@@ -1,4 +1,4 @@
-import { detectCardNetwork } from './card-validation';
+export const MIN_OCR_CONFIDENCE_THRESHOLD = 0.85;
 
 export interface WalletScanPayload {
   consent: boolean;
@@ -29,8 +29,7 @@ export function evaluateScanPayload(payload: WalletScanPayload) {
     };
   }
 
-  const confidenceLow = payload.extracted.confidence < 0.85;
-  const maybeNetwork = detectCardNetwork(`000000${payload.extracted.last4}`);
+  const confidenceLow = payload.extracted.confidence < MIN_OCR_CONFIDENCE_THRESHOLD;
 
   return {
     accepted: true,
@@ -38,6 +37,5 @@ export function evaluateScanPayload(payload: WalletScanPayload) {
     reason: confidenceLow
       ? 'Nizak OCR confidence; korisnik mora potvrditi i dopuniti ručno.'
       : 'Sken uspešan; nastavak na tokenizaciju nakon korisničke potvrde.',
-    networkHint: maybeNetwork,
   };
 }
