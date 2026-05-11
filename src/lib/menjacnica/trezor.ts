@@ -2380,7 +2380,7 @@ export function buildVaultPerformanceReport(userId: string): VaultPerformanceRep
   }).sort((a, b) => b.returnPct - a.returnPct);
 
   const totalPnlUsd = roundLedger(assetPerformance.reduce((sum, a) => sum + a.pnlUsd, 0));
-  const totalReturnPct = totalValueUsd > 0 ? roundLedger((totalPnlUsd / (totalValueUsd - totalPnlUsd || 1)) * 100) : 0;
+  const totalReturnPct = totalValueUsd > 0 ? roundLedger((totalPnlUsd / ((totalValueUsd - totalPnlUsd) || 1)) * 100) : 0;
 
   // Period returns koristeći vault return polja iz benchmark reporta
   const periodReturns: VaultPeriodReturn[] = (['7d', '30d', '90d', '365d'] as PerformancePeriod[]).map((period) => {
