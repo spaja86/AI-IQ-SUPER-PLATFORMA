@@ -10,6 +10,7 @@ const EKOSISTEM_URLS = {
   'Ai Iq Menjacnica': 'https://ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app/index.html',
   'Kompanija SPAJA': 'https://www.kompanija-spaja.com',
   'AI-IQ Super Platforma': 'https://ai-iq-super-platforma-fb43rn7r0-nikolas-projects-b8a8458f.vercel.app/platforme',
+  'Poslovni Novcanik': 'https://ai-iq-super-platforma.vercel.app/poslovni-novcanik',
 };
 
 const EKOSISTEM_IKONE = {
@@ -18,6 +19,7 @@ const EKOSISTEM_IKONE = {
   'Ai Iq Menjacnica': '💱',
   'Kompanija SPAJA': '🏢',
   'AI-IQ Super Platforma': '🧠',
+  'Poslovni Novcanik': '💼',
 };
 
 const EKOSISTEM_OPISI = {
@@ -26,6 +28,7 @@ const EKOSISTEM_OPISI = {
   'Ai Iq Menjacnica': 'Svetska menjacnica sa BTC, SPAJA BTC i 150+ kripto valuta',
   'Kompanija SPAJA': 'Korporativna platforma — spajamo sve timove i procese',
   'AI-IQ Super Platforma': 'Centralna platforma za upravljanje celim ekosistemom',
+  'Poslovni Novcanik': 'Poslovni wallet modul povezan sa AI IQ World Bank',
 };
 
 /**

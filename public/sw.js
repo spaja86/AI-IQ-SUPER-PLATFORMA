@@ -7,6 +7,8 @@ const CACHE_NAME = `spajapro-v${SW_VERSION}`;
 const STATIC_ASSETS = [
   '/',
   '/spaja-pro',
+  '/banka',
+  '/poslovni-novcanik',
   '/favicon.ico',
   '/manifest.webmanifest',
 ];

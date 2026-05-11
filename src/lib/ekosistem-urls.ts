@@ -14,6 +14,7 @@ export const EKOSISTEM_URLS = {
   AI_IQ_MENJACNICA: 'https://ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app/index.html',
   KOMPANIJA_SPAJA: 'https://www.kompanija-spaja.com',
   AI_IQ_SUPER_PLATFORMA: 'https://ai-iq-super-platforma-fb43rn7r0-nikolas-projects-b8a8458f.vercel.app/platforme',
+  POSLOVNI_NOVCANIK: 'https://ai-iq-super-platforma.vercel.app/poslovni-novcanik',
 } as const;
 
 export interface EkosistemPlatforma {
@@ -47,6 +48,12 @@ export const ekosistemPlatforme: EkosistemPlatforma[] = [
     url: EKOSISTEM_URLS.KOMPANIJA_SPAJA,
     ikona: '🏢',
     opis: 'Korporativna platforma — spajamo sve timove i procese',
+  },
+  {
+    naziv: 'Poslovni Novcanik',
+    url: EKOSISTEM_URLS.POSLOVNI_NOVCANIK,
+    ikona: '💼',
+    opis: 'Poslovni wallet modul povezan sa AI IQ World Bank',
   },
   {
     naziv: 'AI-IQ Super Platforma',
