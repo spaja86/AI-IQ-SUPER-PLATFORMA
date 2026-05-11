@@ -787,6 +787,469 @@ export interface Database {
         };
         Relationships: [];
       };
+      // ─── Menjačnica + Poslovni Novčanik ─────────────────────────────────
+
+      // Asset katalog
+      exchange_assets: {
+        Row: {
+          id: string;
+          naziv: string;
+          tip: 'crypto' | 'fiat' | 'stablecoin';
+          decimals: number;
+          min_order_qty: number;
+          max_order_qty: number | null;
+          mreza: string | null;
+          ugovor_adresa: string | null;
+          is_spaja_btc: boolean;
+          enabled: boolean;
+          metadata: Record<string, unknown>;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id: string;
+          naziv: string;
+          tip: 'crypto' | 'fiat' | 'stablecoin';
+          decimals?: number;
+          min_order_qty?: number;
+          max_order_qty?: number | null;
+          mreza?: string | null;
+          ugovor_adresa?: string | null;
+          is_spaja_btc?: boolean;
+          enabled?: boolean;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          naziv?: string;
+          tip?: 'crypto' | 'fiat' | 'stablecoin';
+          decimals?: number;
+          min_order_qty?: number;
+          max_order_qty?: number | null;
+          mreza?: string | null;
+          ugovor_adresa?: string | null;
+          is_spaja_btc?: boolean;
+          enabled?: boolean;
+          metadata?: Record<string, unknown>;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+
+      // Market pair konfiguracije
+      exchange_market_pairs: {
+        Row: {
+          id: string;
+          base_asset_id: string;
+          quote_asset_id: string;
+          min_qty: number;
+          max_qty: number | null;
+          price_precision: number;
+          qty_precision: number;
+          taker_fee_pct: number;
+          maker_fee_pct: number;
+          is_spaja_pair: boolean;
+          simulation_only: boolean;
+          enabled: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id: string;
+          base_asset_id: string;
+          quote_asset_id: string;
+          min_qty?: number;
+          max_qty?: number | null;
+          price_precision?: number;
+          qty_precision?: number;
+          taker_fee_pct?: number;
+          maker_fee_pct?: number;
+          is_spaja_pair?: boolean;
+          simulation_only?: boolean;
+          enabled?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          min_qty?: number;
+          max_qty?: number | null;
+          taker_fee_pct?: number;
+          maker_fee_pct?: number;
+          is_spaja_pair?: boolean;
+          simulation_only?: boolean;
+          enabled?: boolean;
+          updated_at?: string;
+        };
+        Relationships: [
+          { foreignKeyName: 'exchange_market_pairs_base_asset_id_fkey'; columns: ['base_asset_id']; referencedRelation: 'exchange_assets'; referencedColumns: ['id'] },
+          { foreignKeyName: 'exchange_market_pairs_quote_asset_id_fkey'; columns: ['quote_asset_id']; referencedRelation: 'exchange_assets'; referencedColumns: ['id'] },
+        ];
+      };
+
+      // Quote snapshots (price feed)
+      exchange_quote_snapshots: {
+        Row: {
+          id: string;
+          pair_id: string;
+          bid: number;
+          ask: number;
+          last: number;
+          volume_24h: number;
+          change_pct_24h: number | null;
+          source: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          pair_id: string;
+          bid: number;
+          ask: number;
+          last: number;
+          volume_24h?: number;
+          change_pct_24h?: number | null;
+          source?: string;
+          created_at?: string;
+        };
+        Update: {
+          bid?: number;
+          ask?: number;
+          last?: number;
+          volume_24h?: number;
+          change_pct_24h?: number | null;
+        };
+        Relationships: [
+          { foreignKeyName: 'exchange_quote_snapshots_pair_id_fkey'; columns: ['pair_id']; referencedRelation: 'exchange_market_pairs'; referencedColumns: ['id'] },
+        ];
+      };
+
+      // Order book
+      exchange_orders: {
+        Row: {
+          id: string;
+          idempotency_key: string | null;
+          user_id: string;
+          pair_id: string;
+          side: 'buy' | 'sell';
+          tip: 'market' | 'limit';
+          qty: number;
+          price: number | null;
+          filled_qty: number;
+          avg_fill_price: number | null;
+          fee_asset_id: string | null;
+          fee_total: number;
+          status: 'pending' | 'open' | 'partially_filled' | 'filled' | 'cancelled' | 'rejected' | 'expired';
+          simulation_mode: boolean;
+          reject_reason: string | null;
+          aml_score: number | null;
+          risk_flags: string[];
+          metadata: Record<string, unknown>;
+          created_at: string;
+          updated_at: string;
+          expires_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          idempotency_key?: string | null;
+          user_id: string;
+          pair_id: string;
+          side: 'buy' | 'sell';
+          tip: 'market' | 'limit';
+          qty: number;
+          price?: number | null;
+          filled_qty?: number;
+          avg_fill_price?: number | null;
+          fee_asset_id?: string | null;
+          fee_total?: number;
+          status?: 'pending' | 'open' | 'partially_filled' | 'filled' | 'cancelled' | 'rejected' | 'expired';
+          simulation_mode?: boolean;
+          reject_reason?: string | null;
+          aml_score?: number | null;
+          risk_flags?: string[];
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+          updated_at?: string;
+          expires_at?: string | null;
+        };
+        Update: {
+          filled_qty?: number;
+          avg_fill_price?: number | null;
+          fee_total?: number;
+          status?: 'pending' | 'open' | 'partially_filled' | 'filled' | 'cancelled' | 'rejected' | 'expired';
+          reject_reason?: string | null;
+          aml_score?: number | null;
+          risk_flags?: string[];
+          updated_at?: string;
+        };
+        Relationships: [
+          { foreignKeyName: 'exchange_orders_pair_id_fkey'; columns: ['pair_id']; referencedRelation: 'exchange_market_pairs'; referencedColumns: ['id'] },
+        ];
+      };
+
+      // Executed trades
+      exchange_trades: {
+        Row: {
+          id: string;
+          order_id: string;
+          pair_id: string;
+          user_id: string;
+          side: 'buy' | 'sell';
+          qty: number;
+          price: number;
+          fee: number;
+          fee_asset_id: string | null;
+          simulation_mode: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          order_id: string;
+          pair_id: string;
+          user_id: string;
+          side: 'buy' | 'sell';
+          qty: number;
+          price: number;
+          fee?: number;
+          fee_asset_id?: string | null;
+          simulation_mode?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          fee?: number;
+        };
+        Relationships: [
+          { foreignKeyName: 'exchange_trades_order_id_fkey'; columns: ['order_id']; referencedRelation: 'exchange_orders'; referencedColumns: ['id'] },
+        ];
+      };
+
+      // AML/risk signali
+      exchange_aml_signals: {
+        Row: {
+          id: string;
+          user_id: string;
+          reference_id: string;
+          reference_type: string;
+          score: number;
+          flags: string[];
+          action: 'allow' | 'review' | 'block';
+          reviewed_by: string | null;
+          resolved_at: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          reference_id: string;
+          reference_type: string;
+          score: number;
+          flags?: string[];
+          action: 'allow' | 'review' | 'block';
+          reviewed_by?: string | null;
+          resolved_at?: string | null;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+        };
+        Update: {
+          action?: 'allow' | 'review' | 'block';
+          reviewed_by?: string | null;
+          resolved_at?: string | null;
+        };
+        Relationships: [];
+      };
+
+      // Wallet accounts (per user, per asset)
+      novcanik_accounts: {
+        Row: {
+          id: string;
+          user_id: string;
+          asset_id: string;
+          available: number;
+          reserved: number;
+          total: number;
+          kyc_tier: 'basic' | 'verified' | 'enterprise';
+          enabled: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          asset_id: string;
+          available?: number;
+          reserved?: number;
+          kyc_tier?: 'basic' | 'verified' | 'enterprise';
+          enabled?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          available?: number;
+          reserved?: number;
+          kyc_tier?: 'basic' | 'verified' | 'enterprise';
+          enabled?: boolean;
+          updated_at?: string;
+        };
+        Relationships: [
+          { foreignKeyName: 'novcanik_accounts_asset_id_fkey'; columns: ['asset_id']; referencedRelation: 'exchange_assets'; referencedColumns: ['id'] },
+        ];
+      };
+
+      // Wallet ledger (double-entry)
+      novcanik_ledger: {
+        Row: {
+          id: string;
+          account_id: string;
+          user_id: string;
+          asset_id: string;
+          entry_type: 'deposit' | 'withdrawal' | 'trade_debit' | 'trade_credit' | 'fee' | 'transfer_out' | 'transfer_in' | 'adjustment';
+          amount: number;
+          direction: 'credit' | 'debit';
+          balance_after: number;
+          reference_id: string | null;
+          reference_type: string | null;
+          idempotency_key: string | null;
+          description: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          account_id: string;
+          user_id: string;
+          asset_id: string;
+          entry_type: 'deposit' | 'withdrawal' | 'trade_debit' | 'trade_credit' | 'fee' | 'transfer_out' | 'transfer_in' | 'adjustment';
+          amount: number;
+          direction: 'credit' | 'debit';
+          balance_after: number;
+          reference_id?: string | null;
+          reference_type?: string | null;
+          idempotency_key?: string | null;
+          description?: string | null;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+        };
+        Update: {
+          description?: string | null;
+          metadata?: Record<string, unknown>;
+        };
+        Relationships: [
+          { foreignKeyName: 'novcanik_ledger_account_id_fkey'; columns: ['account_id']; referencedRelation: 'novcanik_accounts'; referencedColumns: ['id'] },
+        ];
+      };
+
+      // Deposits
+      novcanik_deposits: {
+        Row: {
+          id: string;
+          idempotency_key: string;
+          user_id: string;
+          asset_id: string;
+          amount: number;
+          status: 'pending' | 'confirming' | 'credited' | 'failed' | 'rejected';
+          network: string | null;
+          tx_hash: string | null;
+          confirmations: number;
+          required_confirmations: number;
+          source_address: string | null;
+          destination_address: string | null;
+          kyc_tier_required: string;
+          aml_score: number | null;
+          aml_flags: string[];
+          ledger_entry_id: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          idempotency_key: string;
+          user_id: string;
+          asset_id: string;
+          amount: number;
+          status?: 'pending' | 'confirming' | 'credited' | 'failed' | 'rejected';
+          network?: string | null;
+          tx_hash?: string | null;
+          confirmations?: number;
+          required_confirmations?: number;
+          source_address?: string | null;
+          destination_address?: string | null;
+          kyc_tier_required?: string;
+          aml_score?: number | null;
+          aml_flags?: string[];
+          ledger_entry_id?: string | null;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          status?: 'pending' | 'confirming' | 'credited' | 'failed' | 'rejected';
+          tx_hash?: string | null;
+          confirmations?: number;
+          aml_score?: number | null;
+          aml_flags?: string[];
+          ledger_entry_id?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+
+      // Withdrawals
+      novcanik_withdrawals: {
+        Row: {
+          id: string;
+          idempotency_key: string;
+          user_id: string;
+          asset_id: string;
+          amount: number;
+          fee: number;
+          amount_net: number;
+          status: 'pending' | 'review' | 'approved' | 'processing' | 'completed' | 'failed' | 'rejected';
+          network: string | null;
+          tx_hash: string | null;
+          destination_address: string;
+          kyc_tier_required: string;
+          aml_score: number | null;
+          aml_flags: string[];
+          review_reason: string | null;
+          approved_by: string | null;
+          ledger_entry_id: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          idempotency_key: string;
+          user_id: string;
+          asset_id: string;
+          amount: number;
+          fee?: number;
+          status?: 'pending' | 'review' | 'approved' | 'processing' | 'completed' | 'failed' | 'rejected';
+          network?: string | null;
+          tx_hash?: string | null;
+          destination_address: string;
+          kyc_tier_required?: string;
+          aml_score?: number | null;
+          aml_flags?: string[];
+          review_reason?: string | null;
+          approved_by?: string | null;
+          ledger_entry_id?: string | null;
+          metadata?: Record<string, unknown>;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          status?: 'pending' | 'review' | 'approved' | 'processing' | 'completed' | 'failed' | 'rejected';
+          tx_hash?: string | null;
+          review_reason?: string | null;
+          approved_by?: string | null;
+          ledger_entry_id?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+
       // PayPal idempotency store — čuva obrađene PayPal event ID-jeve
       paypal_webhook_events: {
         Row: {
