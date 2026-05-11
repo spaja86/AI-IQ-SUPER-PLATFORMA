@@ -30,6 +30,7 @@ import {
   buildVaultAllocationReport,
   buildVaultPerformanceReport,
   buildVaultYieldReport,
+  buildVaultGovernanceReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1381,6 +1382,60 @@ async function runTests(): Promise<void> {
 
   await test('timestamp je validan ISO 8601', () => {
     const report = buildVaultYieldReport('yield-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultGovernanceReport ───────────────────────────────────────────
+
+  console.log('\n🏛️ buildVaultGovernanceReport');
+
+  await test('governance report sadrži userId', () => {
+    const report = buildVaultGovernanceReport('gov-user-1');
+    assert(report.userId === 'gov-user-1', `userId mora biti 'gov-user-1', dobiveno '${report.userId}'`);
+  });
+
+  await test('governance report ima pozitivnu glasačku moć', () => {
+    const report = buildVaultGovernanceReport('gov-user-2');
+    assert(report.votingPower > 0, `votingPower mora biti > 0, dobiveno ${report.votingPower}`);
+  });
+
+  await test('governance report summary ima ukupan broj prijedloga > 0', () => {
+    const report = buildVaultGovernanceReport('gov-user-3');
+    assert(report.summary.totalProposals > 0, `totalProposals mora biti > 0`);
+  });
+
+  await test('proposals niz nije prazan', () => {
+    const report = buildVaultGovernanceReport('gov-user-4');
+    assert(report.proposals.length > 0, `proposals mora imati bar jedan prijedlog`);
+  });
+
+  await test('svaki prijedlog ima proposalId, title i status', () => {
+    const report = buildVaultGovernanceReport('gov-user-5');
+    for (const p of report.proposals) {
+      assert(p.proposalId.length > 0, `proposalId je prazan za prijedlog`);
+      assert(p.title.length > 0, `title je prazan za ${p.proposalId}`);
+      assert(['active', 'passed', 'rejected', 'executed', 'expired'].includes(p.status),
+        `status '${p.status}' nije validan za ${p.proposalId}`);
+    }
+  });
+
+  await test('svaki prijedlog ima parameterChanges niz', () => {
+    const report = buildVaultGovernanceReport('gov-user-6');
+    for (const p of report.proposals) {
+      assert(Array.isArray(p.parameterChanges), `parameterChanges mora biti niz za ${p.proposalId}`);
+      assert(p.parameterChanges.length > 0, `parameterChanges ne smije biti prazan za ${p.proposalId}`);
+    }
+  });
+
+  await test('summary activeProposals odgovara broju aktivnih prijedloga', () => {
+    const report = buildVaultGovernanceReport('gov-user-7');
+    const counted = report.proposals.filter((p) => p.status === 'active').length;
+    assert(report.summary.activeProposals === counted,
+      `activeProposals=${report.summary.activeProposals} ne odgovara broju aktivnih=${counted}`);
+  });
+
+  await test('governance timestamp je validan ISO 8601', () => {
+    const report = buildVaultGovernanceReport('gov-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

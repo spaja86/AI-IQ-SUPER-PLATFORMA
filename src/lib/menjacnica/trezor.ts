@@ -2645,3 +2645,170 @@ export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
     timestamp: new Date().toISOString(),
   };
 }
+
+// ─── Vault Governance ────────────────────────────────────────────────────────
+
+export type VaultProposalStatus = 'active' | 'passed' | 'rejected' | 'executed' | 'expired';
+
+export interface VaultGovernanceProposal {
+  proposalId:    string;
+  title:         string;
+  description:   string;
+  proposedBy:    string;
+  status:        VaultProposalStatus;
+  votesFor:      number;
+  votesAgainst:  number;
+  quorumPct:     number;
+  reachedQuorum: boolean;
+  createdAt:     string;
+  expiresAt:     string;
+  executedAt:    string | null;
+  category:      'time-lock' | 'multi-sig' | 'limits' | 'assets' | 'compliance';
+  parameterChanges: Array<{ param: string; from: string; to: string }>;
+}
+
+export interface VaultGovernanceSummary {
+  totalProposals:  number;
+  activeProposals: number;
+  passedTotal:     number;
+  rejectedTotal:   number;
+  executedTotal:   number;
+  avgTurnoutPct:   number;
+}
+
+export interface VaultGovernanceReport {
+  userId:     string;
+  votingPower: number;
+  summary:    VaultGovernanceSummary;
+  proposals:  VaultGovernanceProposal[];
+  timestamp:  string;
+}
+
+const GOVERNANCE_PROPOSALS: Omit<VaultGovernanceProposal, 'proposedBy'>[] = [
+  {
+    proposalId:      'GOV-2026-001',
+    title:           'Smanjenje time-lock Hot Tiera na 0 dana',
+    description:     'Prijedlog za uklanjanje minimalnog time-lock perioda iz Hot Tiera radi bolje instant likvidnosti za male iznose.',
+    status:          'executed',
+    votesFor:        1240,
+    votesAgainst:    185,
+    quorumPct:       67.0,
+    reachedQuorum:   true,
+    createdAt:       '2026-01-10T09:00:00.000Z',
+    expiresAt:       '2026-01-17T09:00:00.000Z',
+    executedAt:      '2026-01-18T14:30:00.000Z',
+    category:        'time-lock',
+    parameterChanges: [
+      { param: 'hot.timeLockDays', from: '0.5', to: '0' },
+    ],
+  },
+  {
+    proposalId:      'GOV-2026-002',
+    title:           'Povećanje KYC praga na $25,000 USD',
+    description:     'Prijedlog da se KYC verifikacija zahtijeva tek za isplate iznad $25,000 USD umjesto $10,000 USD.',
+    status:          'rejected',
+    votesFor:        640,
+    votesAgainst:    920,
+    quorumPct:       59.3,
+    reachedQuorum:   true,
+    createdAt:       '2026-02-01T09:00:00.000Z',
+    expiresAt:       '2026-02-08T09:00:00.000Z',
+    executedAt:      null,
+    category:        'compliance',
+    parameterChanges: [
+      { param: 'global.kycRequiredAboveUsd', from: '10000', to: '25000' },
+    ],
+  },
+  {
+    proposalId:      'GOV-2026-003',
+    title:           'Dodavanje MATIC kao podržanog aseta',
+    description:     'Prijedlog za dodavanje Polygon (MATIC) u listu podržanih vault aseta sa minimalnim depozitom 100 MATIC.',
+    status:          'passed',
+    votesFor:        1580,
+    votesAgainst:    210,
+    quorumPct:       72.5,
+    reachedQuorum:   true,
+    createdAt:       '2026-03-05T09:00:00.000Z',
+    expiresAt:       '2026-03-12T09:00:00.000Z',
+    executedAt:      null,
+    category:        'assets',
+    parameterChanges: [
+      { param: 'global.supportedAssets', from: 'BTC,ETH,SOL,USDT,SPAJA', to: 'BTC,ETH,SOL,USDT,SPAJA,MATIC' },
+    ],
+  },
+  {
+    proposalId:      'GOV-2026-004',
+    title:           'Smanjenje Warm Tier multi-sig praga na 1-of-3',
+    description:     'Prijedlog za smanjenje obaveznog broja potpisa za Warm Tier sa 2-of-3 na 1-of-3 radi operativne fleksibilnosti.',
+    status:          'active',
+    votesFor:        420,
+    votesAgainst:    380,
+    quorumPct:       32.1,
+    reachedQuorum:   false,
+    createdAt:       '2026-05-08T09:00:00.000Z',
+    expiresAt:       '2026-05-15T09:00:00.000Z',
+    executedAt:      null,
+    category:        'multi-sig',
+    parameterChanges: [
+      { param: 'warm.multiSigThreshold', from: '2', to: '1' },
+    ],
+  },
+  {
+    proposalId:      'GOV-2026-005',
+    title:           'Povećanje Cold Tier dnevnog limita na $200,000 USD',
+    description:     'Prijedlog za povećanje maksimalnog dnevnog iznosa isplate iz Cold Tiera sa $100,000 na $200,000 USD.',
+    status:          'active',
+    votesFor:        890,
+    votesAgainst:    310,
+    quorumPct:       48.7,
+    reachedQuorum:   false,
+    createdAt:       '2026-05-10T09:00:00.000Z',
+    expiresAt:       '2026-05-17T09:00:00.000Z',
+    executedAt:      null,
+    category:        'limits',
+    parameterChanges: [
+      { param: 'cold.maxDailyWithdrawUsd', from: '100000', to: '200000' },
+    ],
+  },
+];
+
+/** Gradi governance izvještaj sa prijedlozima i glasačkom moći korisnika. */
+export function buildVaultGovernanceReport(userId: string): VaultGovernanceReport {
+  const proposals: VaultGovernanceProposal[] = GOVERNANCE_PROPOSALS.map((p) => ({
+    ...p,
+    proposedBy: p.status === 'active' ? 'community' : 'spaja-governance-council',
+  }));
+
+  const activeProposals  = proposals.filter((p) => p.status === 'active').length;
+  const passedTotal      = proposals.filter((p) => p.status === 'passed' || p.status === 'executed').length;
+  const rejectedTotal    = proposals.filter((p) => p.status === 'rejected').length;
+  const executedTotal    = proposals.filter((p) => p.status === 'executed').length;
+  const totalTurnout     = proposals.reduce((s, p) => s + p.votesFor + p.votesAgainst, 0);
+  const maxTurnout       = proposals.length * 2_000;
+  const avgTurnoutPct    = Math.round((totalTurnout / maxTurnout) * 100 * 10) / 10;
+
+  const summary: VaultGovernanceSummary = {
+    totalProposals: proposals.length,
+    activeProposals,
+    passedTotal,
+    rejectedTotal,
+    executedTotal,
+    avgTurnoutPct,
+  };
+
+  const seed         = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+  const votingPower  = Math.round(100 + (seed % 4_900));
+
+  return {
+    userId,
+    votingPower,
+    summary,
+    proposals,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1221 — Kripto Trezor Vault Governance ───────────────────────
+// VaultGovernanceReport + buildVaultGovernanceReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-governance. Nova ruta: GET /api/kripto-trezor/governance.
+// APP_VERSION=49.0.0 | AUTOFINISH_COUNT=1221 | TOTAL_API_ROUTES=1088 | TOTAL_ROUTES=1149

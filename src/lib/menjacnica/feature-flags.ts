@@ -276,6 +276,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-governance',
+    naziv: 'Kripto Trezor — Vault Governance',
+    opis: 'Governance prijedlozi i glasanje: promjene parametara vault politike, time-lock i multi-sig konfiguracije',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
