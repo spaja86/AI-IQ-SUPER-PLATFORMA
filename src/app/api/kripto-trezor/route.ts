@@ -39,6 +39,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/risk',           opis: 'Risk assessment: tržišni, koncentracijski i likvidnosni rizik', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/analytics',      opis: 'Analytics i yield: performance po asetu, tier APR i portfolio APR', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/rebalance',      opis: 'Rebalance prijedlozi: optimalna raspodjela sredstava po tierovima', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/liquidity',      opis: 'Likvidnost trezora: instant/24h/7d kapacitet isplate i liquidity score', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,

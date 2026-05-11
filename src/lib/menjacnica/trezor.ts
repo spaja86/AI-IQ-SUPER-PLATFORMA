@@ -1339,6 +1339,145 @@ export function buildVaultRebalanceReport(userId: string): VaultRebalanceReport 
   };
 }
 
+// ─── Vault Liquidity ─────────────────────────────────────────────────────────
+
+export interface VaultLiquidityTier {
+  tier: VaultTier;
+  availableUsd: number;
+  unlockingUsd: number;
+  lockedUsd: number;
+  totalUsd: number;
+  sharePct: number;
+}
+
+export interface VaultLiquidityWindow {
+  label: 'instant' | '24h' | '7d';
+  capacityUsd: number;
+  coveragePct: number;
+  includesTiers: VaultTier[];
+}
+
+export interface VaultLiquidityReport {
+  userId: string;
+  totalValueUsd: number;
+  instantLiquidityUsd: number;
+  operationalBufferUsd: number;
+  liquidityScore: number;
+  tierBreakdown: VaultLiquidityTier[];
+  withdrawalWindows: VaultLiquidityWindow[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi izvještaj o likvidnosti trezora i kapacitetu isplate po vremenskim prozorima. */
+export function buildVaultLiquidityReport(userId: string): VaultLiquidityReport {
+  const vault = buildVaultStatusReport(userId);
+
+  const tierRaw: Record<VaultTier, { availableUsd: number; unlockingUsd: number; lockedUsd: number; totalUsd: number }> = {
+    hot: { availableUsd: 0, unlockingUsd: 0, lockedUsd: 0, totalUsd: 0 },
+    warm: { availableUsd: 0, unlockingUsd: 0, lockedUsd: 0, totalUsd: 0 },
+    cold: { availableUsd: 0, unlockingUsd: 0, lockedUsd: 0, totalUsd: 0 },
+    'deep-cold': { availableUsd: 0, unlockingUsd: 0, lockedUsd: 0, totalUsd: 0 },
+  };
+
+  for (const account of vault.accounts) {
+    const price = VAULT_ASSET_PRICES_USD[account.assetId] ?? 1;
+    const availableUsd = roundLedger(account.available * price);
+    const unlockingUsd = roundLedger(account.unlocking * price);
+    const lockedUsd = roundLedger(account.locked * price);
+    const totalUsd = roundLedger(availableUsd + unlockingUsd + lockedUsd);
+
+    tierRaw[account.tier].availableUsd = roundLedger(tierRaw[account.tier].availableUsd + availableUsd);
+    tierRaw[account.tier].unlockingUsd = roundLedger(tierRaw[account.tier].unlockingUsd + unlockingUsd);
+    tierRaw[account.tier].lockedUsd = roundLedger(tierRaw[account.tier].lockedUsd + lockedUsd);
+    tierRaw[account.tier].totalUsd = roundLedger(tierRaw[account.tier].totalUsd + totalUsd);
+  }
+
+  const totalValueUsd = roundLedger(
+    Object.values(tierRaw).reduce((sum, t) => sum + t.totalUsd, 0),
+  );
+
+  const tierBreakdown: VaultLiquidityTier[] = (['hot', 'warm', 'cold', 'deep-cold'] as VaultTier[]).map((tier) => {
+    const row = tierRaw[tier];
+    const sharePct = totalValueUsd > 0 ? roundLedger((row.totalUsd / totalValueUsd) * 100) : 0;
+    return {
+      tier,
+      availableUsd: row.availableUsd,
+      unlockingUsd: row.unlockingUsd,
+      lockedUsd: row.lockedUsd,
+      totalUsd: row.totalUsd,
+      sharePct,
+    };
+  });
+
+  const hot = tierRaw.hot;
+  const warm = tierRaw.warm;
+  const cold = tierRaw.cold;
+  const deepCold = tierRaw['deep-cold'];
+
+  const instantLiquidityUsd = roundLedger(hot.availableUsd + warm.availableUsd);
+  const operationalBufferUsd = roundLedger(hot.availableUsd + warm.availableUsd + warm.unlockingUsd);
+
+  const instantCapacityUsd = instantLiquidityUsd;
+  const day1CapacityUsd = roundLedger(instantLiquidityUsd + warm.unlockingUsd + cold.availableUsd * 0.2);
+  const day7CapacityUsd = roundLedger(
+    instantLiquidityUsd
+    + warm.unlockingUsd
+    + cold.availableUsd
+    + cold.unlockingUsd
+    + deepCold.availableUsd * 0.35,
+  );
+
+  const withdrawalWindows: VaultLiquidityWindow[] = [
+    {
+      label: 'instant',
+      capacityUsd: instantCapacityUsd,
+      coveragePct: totalValueUsd > 0 ? roundLedger((instantCapacityUsd / totalValueUsd) * 100) : 0,
+      includesTiers: ['hot', 'warm'],
+    },
+    {
+      label: '24h',
+      capacityUsd: day1CapacityUsd,
+      coveragePct: totalValueUsd > 0 ? roundLedger((day1CapacityUsd / totalValueUsd) * 100) : 0,
+      includesTiers: ['hot', 'warm', 'cold'],
+    },
+    {
+      label: '7d',
+      capacityUsd: day7CapacityUsd,
+      coveragePct: totalValueUsd > 0 ? roundLedger((day7CapacityUsd / totalValueUsd) * 100) : 0,
+      includesTiers: ['hot', 'warm', 'cold', 'deep-cold'],
+    },
+  ];
+
+  const liquidityScore = Math.max(
+    0,
+    Math.min(100, roundLedger(withdrawalWindows[0].coveragePct * 0.5 + withdrawalWindows[1].coveragePct * 0.3 + withdrawalWindows[2].coveragePct * 0.2)),
+  );
+
+  const recommendations: string[] = [];
+  if (withdrawalWindows[0].coveragePct < 20) {
+    recommendations.push('Povećati hot/warm likvidnost za operativna instant povlačenja (cilj: ≥20% ukupnog vault bilansa).');
+  }
+  if (withdrawalWindows[1].coveragePct < 35) {
+    recommendations.push('Poboljšati 24h likvidnost kroz dio prebacivanja iz cold u warm tier ili kroz staged unlock schedule.');
+  }
+  if (liquidityScore >= 70) {
+    recommendations.push('Likvidnosni profil je stabilan; zadržati postojeću tier raspodjelu uz sedmični monitoring.');
+  }
+
+  return {
+    userId,
+    totalValueUsd,
+    instantLiquidityUsd,
+    operationalBufferUsd,
+    liquidityScore,
+    tierBreakdown,
+    withdrawalWindows,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
 /** Gradi prikaz aktivnih vault politika za sve tierove. */
 export function buildVaultPolicyReport(userId: string): VaultPolicyReport {
   const tiers: VaultTierPolicy[] = [

@@ -863,6 +863,8 @@
  * Autofinish #1209 (Kripto Trezor Vault Analytics — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultAnalyticsReport modelima i buildVaultAnalyticsReport(userId) koji izračunava performance po asetu, tier APR, yield i portfolio APR; nova auth API ruta GET /api/kripto-trezor/analytics sa rate-limitom i feature flag-om kripto-trezor-analytics; root info endpoint i Kripto Trezor page dopunjeni analytics capabilities; test suite proširen analytics proverama; TOTAL_API_ROUTES 1076, TOTAL_ROUTES 1137, TOTAL_PAGES 56, APP_VERSION 47.8.0, AUTOFINISH_COUNT 1209)
  *
  * Autofinish #1210 (Kripto Trezor Vault Rebalance — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultRebalanceReport modelima i buildVaultRebalanceReport(userId) koji gradi rebalance prijedloge za optimalnu raspodjelu sredstava po tierovima; nova auth API ruta GET /api/kripto-trezor/rebalance sa rate-limitom i feature flag-om kripto-trezor-rebalance; root info endpoint i Kripto Trezor page dopunjeni rebalance capabilities; test suite proširen rebalance proverama; TOTAL_API_ROUTES 1077, TOTAL_ROUTES 1138, TOTAL_PAGES 56, APP_VERSION 47.9.0, AUTOFINISH_COUNT 1210)
+ *
+ * Autofinish #1211 (Kripto Trezor Vault Liquidity — proširen domain lib src/lib/menjacnica/trezor.ts sa VaultLiquidityReport modelima i buildVaultLiquidityReport(userId) koji računa instant/24h/7d kapacitet isplate, operational buffer i liquidity score po tierovima; nova auth API ruta GET /api/kripto-trezor/liquidity sa rate-limitom i feature flag-om kripto-trezor-liquidity; root info endpoint i Kripto Trezor page dopunjeni liquidity capabilities; test suite proširen liquidity proverama; TOTAL_API_ROUTES 1078, TOTAL_ROUTES 1139, TOTAL_PAGES 56, APP_VERSION 48.0.0, AUTOFINISH_COUNT 1211)
  */
 
 import {

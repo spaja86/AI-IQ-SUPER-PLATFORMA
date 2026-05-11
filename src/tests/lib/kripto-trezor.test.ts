@@ -20,6 +20,7 @@ import {
   buildVaultRiskReport,
   buildVaultAnalyticsReport,
   buildVaultRebalanceReport,
+  buildVaultLiquidityReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -742,6 +743,67 @@ async function runTests(): Promise<void> {
 
   await test('rebalance timestamp je validan ISO 8601', () => {
     const report = buildVaultRebalanceReport('reb-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultLiquidityReport ───────────────────────────────────────────────
+
+  console.log('\n💧 buildVaultLiquidityReport');
+
+  await test('vraća liquidity report za korisnika', () => {
+    const report = buildVaultLiquidityReport('liq-user-1');
+    assert(report.userId === 'liq-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.totalValueUsd) && report.totalValueUsd > 0, 'totalValueUsd mora biti pozitivan');
+    assert(Array.isArray(report.tierBreakdown) && report.tierBreakdown.length === 4, 'tierBreakdown mora imati 4 elementa');
+  });
+
+  await test('tierBreakdown pokriva sve tierove', () => {
+    const report = buildVaultLiquidityReport('liq-user-2');
+    const tiers = new Set(report.tierBreakdown.map((t) => t.tier));
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+      assert(tiers.has(tier), `Nedostaje tier: ${tier}`);
+    }
+  });
+
+  await test('sharePct zbir je blizu 100%', () => {
+    const report = buildVaultLiquidityReport('liq-user-3');
+    const total = report.tierBreakdown.reduce((s, t) => s + t.sharePct, 0);
+    assert(Math.abs(total - 100) < 1, `Zbir sharePct nije 100%: ${total}`);
+  });
+
+  await test('withdrawal windows imaju očekivane labele i ne-negativne kapacitete', () => {
+    const report = buildVaultLiquidityReport('liq-user-4');
+    const labels = report.withdrawalWindows.map((w) => w.label);
+    assert(labels.includes('instant') && labels.includes('24h') && labels.includes('7d'), 'Nedostaju očekivani windows');
+    for (const w of report.withdrawalWindows) {
+      assert(w.capacityUsd >= 0, `capacityUsd negativan za ${w.label}`);
+      assert(w.coveragePct >= 0, `coveragePct negativan za ${w.label}`);
+    }
+  });
+
+  await test('instantLiquidityUsd i operationalBufferUsd su konzistentni', () => {
+    const report = buildVaultLiquidityReport('liq-user-5');
+    assert(report.instantLiquidityUsd >= 0, 'instantLiquidityUsd mora biti ne-negativan');
+    assert(report.operationalBufferUsd >= report.instantLiquidityUsd,
+      'operationalBufferUsd mora biti >= instantLiquidityUsd');
+  });
+
+  await test('liquidityScore je u opsegu 0-100', () => {
+    const report = buildVaultLiquidityReport('liq-user-6');
+    assert(report.liquidityScore >= 0 && report.liquidityScore <= 100,
+      `liquidityScore van opsega: ${report.liquidityScore}`);
+  });
+
+  await test('instant <= 24h <= 7d kapacitet', () => {
+    const report = buildVaultLiquidityReport('liq-user-7');
+    const instant = report.withdrawalWindows.find((w) => w.label === 'instant')?.capacityUsd ?? 0;
+    const day1 = report.withdrawalWindows.find((w) => w.label === '24h')?.capacityUsd ?? 0;
+    const day7 = report.withdrawalWindows.find((w) => w.label === '7d')?.capacityUsd ?? 0;
+    assert(instant <= day1 && day1 <= day7, `Kapaciteti nisu monotoni: instant=${instant}, 24h=${day1}, 7d=${day7}`);
+  });
+
+  await test('liquidity timestamp je validan ISO 8601', () => {
+    const report = buildVaultLiquidityReport('liq-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

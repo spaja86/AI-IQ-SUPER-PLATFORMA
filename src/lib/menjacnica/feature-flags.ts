@@ -196,6 +196,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-liquidity',
+    naziv: 'Kripto Trezor — Vault Liquidity',
+    opis: 'Likvidnosni izvještaj: instant/24h/7d kapacitet isplate i operativni buffer po tierovima',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
