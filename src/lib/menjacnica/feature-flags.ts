@@ -75,6 +75,39 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     enabled: false,
     rolloutPct: 0,
   },
+  // ─── P1-P4: Profesionalni Novčanik skeleton ──────────────────────────────────
+  {
+    id: 'pro-novcanik-portfolio',
+    naziv: 'Pro Novčanik — Portfolio & P&L',
+    opis: 'Portfolio ekspozicija i P&L per user, VWAP prosečna ulazna cena',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
+    id: 'pro-novcanik-orderbook',
+    naziv: 'Pro Novčanik — Orderbook Snapshot',
+    opis: 'Simulovani orderbook snapshot (bid/ask nivoi) za sve aktivne parove',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
+    id: 'pro-novcanik-trades',
+    naziv: 'Pro Novčanik — Recent Trades Feed',
+    opis: 'Simulovani feed poslednjih trade-ova po paru',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
+    id: 'pro-novcanik-settlement',
+    naziv: 'Pro Novčanik — Settlement Status',
+    opis: 'Agregat settlement statusa po svim aktivnim parovima',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
