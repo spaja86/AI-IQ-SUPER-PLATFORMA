@@ -1962,6 +1962,34 @@ export interface VaultAttributionReport {
   timestamp: string;
 }
 
+export interface VaultExposureAsset {
+  assetId: string;
+  valueUsd: number;
+  sharePct: number;
+  priceChangePct30d: number;
+}
+
+export interface VaultExposureTier {
+  tier: VaultTier;
+  valueUsd: number;
+  sharePct: number;
+  unlockProfile: 'instant' | '24h' | '3d+' | '7d+';
+}
+
+export interface VaultExposureReport {
+  userId: string;
+  totalValueUsd: number;
+  assetExposure: VaultExposureAsset[];
+  tierExposure: VaultExposureTier[];
+  dominantAsset: string;
+  dominantTier: VaultTier;
+  instantExposurePct: number;
+  lockedExposurePct: number;
+  concentrationRisk: VaultAttributionRisk;
+  mitigationActions: string[];
+  timestamp: string;
+}
+
 const VAULT_BENCHMARKS: BenchmarkEntry[] = [
   {
     id: 'BTC',
@@ -2122,6 +2150,77 @@ export function buildVaultAttributionReport(userId: string): VaultAttributionRep
     topTierContributor,
     concentrationRisk,
     insights,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+function exposureUnlockProfile(tier: VaultTier): VaultExposureTier['unlockProfile'] {
+  if (tier === 'hot') return 'instant';
+  if (tier === 'warm') return '24h';
+  if (tier === 'cold') return '3d+';
+  return '7d+';
+}
+
+/** Gradi exposure izvještaj — prikazuje raspodjelu izloženosti po asetu i tieru. */
+export function buildVaultExposureReport(userId: string): VaultExposureReport {
+  const analytics = buildVaultAnalyticsReport(userId);
+  const liquidity = buildVaultLiquidityReport(userId);
+  const risk = buildVaultRiskReport(userId);
+
+  const totalValueUsd = Math.max(analytics.totalValueUsd, 0);
+
+  const assetExposure: VaultExposureAsset[] = analytics.assetPerformance
+    .map((asset) => ({
+      assetId: asset.assetId,
+      valueUsd: roundLedger(asset.totalHeldUsd),
+      sharePct: totalValueUsd > 0 ? roundLedger((asset.totalHeldUsd / totalValueUsd) * 100) : 0,
+      priceChangePct30d: asset.priceChangePct30d,
+    }))
+    .sort((a, b) => b.valueUsd - a.valueUsd);
+
+  const tierExposure: VaultExposureTier[] = liquidity.tierBreakdown
+    .map((tier) => ({
+      tier: tier.tier,
+      valueUsd: roundLedger(tier.totalUsd),
+      sharePct: roundLedger(tier.sharePct),
+      unlockProfile: exposureUnlockProfile(tier.tier),
+    }))
+    .sort((a, b) => b.valueUsd - a.valueUsd);
+
+  const dominantAsset = assetExposure[0]?.assetId ?? risk.dominantAsset;
+  const dominantTier = tierExposure[0]?.tier ?? 'warm';
+  const instantExposurePct = totalValueUsd > 0
+    ? roundLedger((liquidity.instantLiquidityUsd / totalValueUsd) * 100)
+    : 0;
+  const lockedExposureUsd = liquidity.tierBreakdown.reduce((sum, tier) => sum + tier.lockedUsd, 0);
+  const lockedExposurePct = totalValueUsd > 0
+    ? roundLedger((lockedExposureUsd / totalValueUsd) * 100)
+    : 0;
+  const concentrationRisk = attributionRisk(Math.max(
+    risk.singleAssetMaxPct,
+    tierExposure[0]?.sharePct ?? 0,
+  ));
+
+  const mitigationActions: string[] = [
+    `Pratiti dominantni asset ${dominantAsset} i održavati ga ispod 60% ukupne izloženosti.`,
+    `Održavati instant exposure iznad 15% ukupnog portfolia (trenutno ${instantExposurePct.toFixed(2)}%).`,
+    `Zaključana izloženost od ${lockedExposurePct.toFixed(2)}% treba biti usklađena sa planiranim isplatama i time-lock politikom.`,
+  ];
+  if (concentrationRisk !== 'low') {
+    mitigationActions.push('Pokrenuti rebalance ili dodatne depozite u slabije zastupljene assete/tierove radi smanjenja koncentracije.');
+  }
+
+  return {
+    userId,
+    totalValueUsd,
+    assetExposure,
+    tierExposure,
+    dominantAsset,
+    dominantTier,
+    instantExposurePct,
+    lockedExposurePct,
+    concentrationRisk,
+    mitigationActions,
     timestamp: new Date().toISOString(),
   };
 }

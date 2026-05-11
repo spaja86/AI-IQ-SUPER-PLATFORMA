@@ -237,6 +237,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     activeFrom: '2026-05-11',
   },
   {
+    id: 'kripto-trezor-exposure',
+    naziv: 'Kripto Trezor — Vault Exposure',
+    opis: 'Exposure analiza: raspodjela izloženosti po asetu i tieru sa fokusom na koncentraciju i likvidnost',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-11',
+  },
+  {
     id: 'kripto-trezor-liquidity',
     naziv: 'Kripto Trezor — Vault Liquidity',
     opis: 'Likvidnosni izvještaj: instant/24h/7d kapacitet isplate i operativni buffer po tierovima',

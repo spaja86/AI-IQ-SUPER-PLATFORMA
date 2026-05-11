@@ -45,6 +45,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/resilience',     opis: 'Resilience score: coverage + liquidity + stress + risk mitigacija', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/benchmark',      opis: 'Benchmark komparacija: vault portfolio vs BTC, ETH i Crypto Market Index', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/attribution',    opis: 'Attribution analiza: doprinos prinosa po asetu i tieru uz koncentracioni rizik', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/exposure',       opis: 'Exposure analiza: raspodjela izloženosti po asetu i tieru sa fokusom na koncentraciju', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,

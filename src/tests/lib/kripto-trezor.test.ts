@@ -26,6 +26,7 @@ import {
   buildVaultResilienceReport,
   buildVaultBenchmarkReport,
   buildVaultAttributionReport,
+  buildVaultExposureReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1114,6 +1115,62 @@ async function runTests(): Promise<void> {
 
   await test('attribution timestamp je validan ISO 8601', () => {
     const report = buildVaultAttributionReport('att-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultExposureReport ───────────────────────────────────────────────
+
+  console.log('\n🌐 buildVaultExposureReport');
+
+  await test('vraća exposure report za korisnika', () => {
+    const report = buildVaultExposureReport('exp-user-1');
+    assert(report.userId === 'exp-user-1', 'userId ne odgovara');
+    assert(Number.isFinite(report.totalValueUsd) && report.totalValueUsd >= 0, 'totalValueUsd mora biti ne-negativan');
+  });
+
+  await test('assetExposure i tierExposure nisu prazni', () => {
+    const report = buildVaultExposureReport('exp-user-2');
+    assert(Array.isArray(report.assetExposure) && report.assetExposure.length > 0, 'assetExposure ne sme biti prazan');
+    assert(Array.isArray(report.tierExposure) && report.tierExposure.length > 0, 'tierExposure ne sme biti prazan');
+  });
+
+  await test('dominantAsset postoji u asset exposure listi', () => {
+    const report = buildVaultExposureReport('exp-user-3');
+    const ids = new Set(report.assetExposure.map((slice) => slice.assetId));
+    assert(ids.has(report.dominantAsset), `dominantAsset nije prisutan: ${report.dominantAsset}`);
+  });
+
+  await test('dominantTier je validan tier', () => {
+    const report = buildVaultExposureReport('exp-user-4');
+    assert(['hot', 'warm', 'cold', 'deep-cold'].includes(report.dominantTier),
+      `dominantTier nije validan: ${report.dominantTier}`);
+  });
+
+  await test('procenti exposure-a su u validnom opsegu', () => {
+    const report = buildVaultExposureReport('exp-user-5');
+    assert(report.instantExposurePct >= 0 && report.instantExposurePct <= 100,
+      `instantExposurePct nije validan: ${report.instantExposurePct}`);
+    assert(report.lockedExposurePct >= 0 && report.lockedExposurePct <= 100,
+      `lockedExposurePct nije validan: ${report.lockedExposurePct}`);
+  });
+
+  await test('concentrationRisk je validna vrednost', () => {
+    const report = buildVaultExposureReport('exp-user-6');
+    assert(['low', 'watch', 'high'].includes(report.concentrationRisk),
+      `concentrationRisk nije validan: ${report.concentrationRisk}`);
+  });
+
+  await test('mitigationActions je neprazan niz stringova', () => {
+    const report = buildVaultExposureReport('exp-user-7');
+    assert(Array.isArray(report.mitigationActions) && report.mitigationActions.length > 0,
+      'mitigationActions mora biti neprazan niz');
+    for (const action of report.mitigationActions) {
+      assert(typeof action === 'string' && action.length > 0, 'svaka akcija mora biti neprazan string');
+    }
+  });
+
+  await test('exposure timestamp je validan ISO 8601', () => {
+    const report = buildVaultExposureReport('exp-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 
