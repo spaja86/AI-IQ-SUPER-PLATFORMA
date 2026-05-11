@@ -656,7 +656,7 @@ async function runTests(): Promise<void> {
     }
   });
 
-  await test('asset performance ima validne price change vrijednosti', () => {
+  await test('asset performance ima validne price change vrednosti', () => {
     const report = buildVaultAnalyticsReport('ana-user-5');
     for (const ap of report.assetPerformance) {
       assert(ap.totalHeldUsd > 0, `totalHeldUsd mora biti pozitivan za ${ap.assetId}`);
@@ -733,7 +733,7 @@ async function runTests(): Promise<void> {
       `isBalanced (${report.isBalanced}) nije konzistentan sa suggestions.length (${report.suggestions.length})`);
   });
 
-  await test('sugestije imaju validne priority vrijednosti', () => {
+  await test('sugestije imaju validne priority vrednosti', () => {
     const report = buildVaultRebalanceReport('reb-user-7');
     const validPriorities = new Set(['high', 'medium', 'low']);
     for (const s of report.suggestions) {
