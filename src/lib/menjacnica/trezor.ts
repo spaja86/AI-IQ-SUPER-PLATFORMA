@@ -102,6 +102,30 @@ export interface VaultStatusReport {
   timestamp: string;
 }
 
+export type VaultAuditSeverity = 'info' | 'warning' | 'critical';
+export type VaultAuditEventType =
+  | 'deposit_initiated'
+  | 'deposit_locked'
+  | 'withdraw_initiated'
+  | 'withdraw_time_lock_started'
+  | 'withdraw_approved'
+  | 'withdraw_rejected'
+  | 'policy_updated'
+  | 'whitelist_updated'
+  | 'security_check';
+
+export interface VaultAuditEvent {
+  id: string;
+  userId: string;
+  assetId: string;
+  tier: VaultTier;
+  type: VaultAuditEventType;
+  severity: VaultAuditSeverity;
+  message: string;
+  actor: 'user' | 'system' | 'compliance' | 'security-bot';
+  createdAt: string;
+}
+
 // ─── Konstante ────────────────────────────────────────────────────────────────
 
 /** Minimalni iznos za vault depozit po tieru. */
@@ -349,4 +373,104 @@ export function buildVaultWithdrawalRecord(
     createdAt: now.toISOString(),
     updatedAt: now.toISOString(),
   };
+}
+
+/** Simulira audit log događaje za Kripto Trezor (najnoviji prvi). */
+export function buildVaultAuditLog(userId: string, limit = 20): VaultAuditEvent[] {
+  const safeLimit = Number.isFinite(limit) ? Math.min(Math.max(Math.trunc(limit), 1), 100) : 20;
+  const baseEvents: VaultAuditEvent[] = [
+    {
+      id: `vaud-${userId}-001`,
+      userId,
+      assetId: 'BTC',
+      tier: 'deep-cold',
+      type: 'security_check',
+      severity: 'info',
+      message: 'Periodični sigurnosni sken završen bez anomalija.',
+      actor: 'security-bot',
+      createdAt: '2026-05-11T19:45:00.000Z',
+    },
+    {
+      id: `vaud-${userId}-002`,
+      userId,
+      assetId: 'ETH',
+      tier: 'warm',
+      type: 'withdraw_rejected',
+      severity: 'warning',
+      message: 'Isplata odbijena: adresa nije na whitelist listi.',
+      actor: 'compliance',
+      createdAt: '2026-05-11T18:10:00.000Z',
+    },
+    {
+      id: `vaud-${userId}-003`,
+      userId,
+      assetId: 'SPAJA',
+      tier: 'cold',
+      type: 'withdraw_time_lock_started',
+      severity: 'info',
+      message: 'Pokrenut time-lock od 3 dana za zahtev isplate.',
+      actor: 'system',
+      createdAt: '2026-05-11T17:00:00.000Z',
+    },
+    {
+      id: `vaud-${userId}-004`,
+      userId,
+      assetId: 'SPAJA',
+      tier: 'cold',
+      type: 'withdraw_initiated',
+      severity: 'info',
+      message: 'Korisnik inicirao isplatu iz Cold Vault naloga.',
+      actor: 'user',
+      createdAt: '2026-05-11T16:58:00.000Z',
+    },
+    {
+      id: `vaud-${userId}-005`,
+      userId,
+      assetId: 'BTC',
+      tier: 'deep-cold',
+      type: 'deposit_locked',
+      severity: 'info',
+      message: 'Depozit uspešno zaključan nakon 6 potvrda mreže.',
+      actor: 'system',
+      createdAt: '2026-05-11T10:12:00.000Z',
+    },
+    {
+      id: `vaud-${userId}-006`,
+      userId,
+      assetId: 'BTC',
+      tier: 'deep-cold',
+      type: 'deposit_initiated',
+      severity: 'info',
+      message: 'Iniciran depozit u Deep-Cold Vault.',
+      actor: 'user',
+      createdAt: '2026-05-11T09:50:00.000Z',
+    },
+    {
+      id: `vaud-${userId}-007`,
+      userId,
+      assetId: 'ETH',
+      tier: 'warm',
+      type: 'whitelist_updated',
+      severity: 'warning',
+      message: 'Whitelist adresa ažurirana za ETH Warm Vault.',
+      actor: 'compliance',
+      createdAt: '2026-05-10T22:20:00.000Z',
+    },
+    {
+      id: `vaud-${userId}-008`,
+      userId,
+      assetId: 'USDT',
+      tier: 'hot',
+      type: 'policy_updated',
+      severity: 'critical',
+      message: 'Promenjena politika limita isplate za Hot Vault.',
+      actor: 'security-bot',
+      createdAt: '2026-05-10T20:00:00.000Z',
+    },
+  ];
+
+  return baseEvents
+    .slice()
+    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+    .slice(0, safeLimit);
 }

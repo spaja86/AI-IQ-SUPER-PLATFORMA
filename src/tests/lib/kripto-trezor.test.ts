@@ -12,6 +12,7 @@ import {
   buildVaultStatusReport,
   buildVaultDepositRecord,
   buildVaultWithdrawalRecord,
+  buildVaultAuditLog,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -298,6 +299,54 @@ async function runTests(): Promise<void> {
     assert(wit.multiSigThreshold === 5, `Threshold mora biti 5: ${wit.multiSigThreshold}`);
     const lockDays = VAULT_TIME_LOCK_DAYS['deep-cold'];
     assert(lockDays === 7, `Deep-cold time-lock mora biti 7 dana: ${lockDays}`);
+  });
+
+  // ─── buildVaultAuditLog ─────────────────────────────────────────────────────
+
+  console.log('\n📚 buildVaultAuditLog');
+
+  await test('vraća audit događaje za korisnika', () => {
+    const events = buildVaultAuditLog('audit-user-1');
+    assert(Array.isArray(events), 'Mora vratiti niz');
+    assert(events.length > 0, 'Mora vratiti bar jedan događaj');
+  });
+
+  await test('svi eventi pripadaju prosleđenom userId', () => {
+    const userId = 'audit-user-2';
+    const events = buildVaultAuditLog(userId);
+    assert(events.every((e) => e.userId === userId), 'Svi eventi moraju imati isti userId');
+  });
+
+  await test('limit parametar ograničava broj događaja', () => {
+    const events = buildVaultAuditLog('audit-user-3', 3);
+    assert(events.length === 3, `Očekivano 3 događaja, dobili ${events.length}`);
+  });
+
+  await test('limit > 100 se clamp-uje na 100', () => {
+    const events = buildVaultAuditLog('audit-user-4', 999);
+    assert(events.length <= 100, `Broj događaja ne sme biti >100: ${events.length}`);
+  });
+
+  await test('limit < 1 se clamp-uje na 1', () => {
+    const events = buildVaultAuditLog('audit-user-5', 0);
+    assert(events.length === 1, `Broj događaja mora biti 1: ${events.length}`);
+  });
+
+  await test('događaji su sortirani opadajuće po createdAt', () => {
+    const events = buildVaultAuditLog('audit-user-6');
+    for (let i = 1; i < events.length; i++) {
+      const prev = Date.parse(events[i - 1].createdAt);
+      const curr = Date.parse(events[i].createdAt);
+      assert(prev >= curr, `Sortiranje nije opadajuće na indexu ${i}`);
+    }
+  });
+
+  await test('audit eventi imaju validne severity vrednosti', () => {
+    const events = buildVaultAuditLog('audit-user-7');
+    const allowed = new Set(['info', 'warning', 'critical']);
+    for (const e of events) {
+      assert(allowed.has(e.severity), `Nevažeći severity: ${e.severity}`);
+    }
   });
 
   // ─── Vault Konstante ────────────────────────────────────────────────────────
