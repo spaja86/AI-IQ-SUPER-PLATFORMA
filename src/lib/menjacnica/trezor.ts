@@ -941,7 +941,7 @@ function riskLevel(score: number): VaultRiskLevel {
   return 'critical';
 }
 
-/** Procjenjuje tržišni, koncentracijski, likvidnosni i custody rizik trezora. */
+/** Procenjuje tržišni, koncentracijski, likvidnosni i custody rizik trezora. */
 export function buildVaultRiskReport(userId: string): VaultRiskReport {
   const vault = buildVaultStatusReport(userId);
   const totalUsd = roundLedger(vault.totalLockedUsd + vault.totalUnlockingUsd + vault.totalAvailableUsd);
