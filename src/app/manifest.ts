@@ -14,6 +14,20 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: 'sr-Latn',
     scope: '/',
     categories: ['business', 'productivity', 'utilities'],
+    shortcuts: [
+      {
+        name: 'Poslovni Novčanik',
+        short_name: 'Novčanik',
+        description: 'Otvori poslovni wallet modul',
+        url: '/poslovni-novcanik',
+      },
+      {
+        name: 'AI IQ World Bank',
+        short_name: 'Banka',
+        description: 'Otvori bankarski modul',
+        url: '/banka',
+      },
+    ],
     icons: [
       {
         src: '/favicon.ico',

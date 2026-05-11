@@ -45,6 +45,21 @@ export const platforme: Platforma[] = [
     deploy: { status: 'aktivan', domen: 'ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app', vercelProjekt: 'ai-iq-menjacnica', framework: 'Next.js', buildKomanda: 'next build' },
   },
   {
+    id: 'ai-iq-poslovni-novcanik',
+    naziv: 'Poslovni Novcanik',
+    opis: 'Wallet modul za poslovna placanja, tokenizaciju kartica i regionalnu orkestraciju uz fallback tokove.',
+    kategorija: 'finansije',
+    repo: 'spaja86/AI-IQ-SUPER-PLATFORMA',
+    url: EKOSISTEM_URLS.POSLOVNI_NOVCANIK,
+    ikona: '💼',
+    status: 'aktivna',
+    progres: 78,
+    tehnologije: ['Next.js 16', 'TypeScript', 'Stripe', 'PWA'],
+    funkcije: ['Rucni unos kartice', 'Kamera sken fallback', 'Tokenizacija', 'Regionalno rutiranje', 'KPI/SLO monitoring'],
+    deploy: { status: 'aktivan', domen: 'ai-iq-super-platforma.vercel.app/poslovni-novcanik', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
+  },
+
+  {
     id: 'ai-iq-world-bank',
     naziv: 'Ai Iq World Bank',
     opis: 'Digitalna banka sa globalnim dometom. Linkovi u repozitorijumu sadrže sve potrebno za rad i ONLINE proceduru.',

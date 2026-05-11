@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poslovni Novčanik — AI IQ World Bank povezan wallet</title>
+  <link rel="stylesheet" href="../../shared/styles/platform-base.css" />
+  <style>
+    .platform-color { --accent: #1d4ed8; }
+    .wallet-banner { background: linear-gradient(135deg, #1d4ed8, #2563eb); color: #fff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; }
+    .wallet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .wallet-card { background: #fff; border: 1px solid rgba(29,78,216,0.2); border-radius: 10px; padding: 1rem; }
+    .wallet-card h4 { margin: 0 0 .5rem; }
+    .steps-list { list-style: none; padding: 0; }
+    .steps-list li { padding: .75rem 0; border-bottom: 1px solid rgba(0,0,0,.05); display: flex; gap: .75rem; }
+  </style>
+</head>
+<body class="platform-color">
+  <header class="platform-header">
+    <a href="../../portal/public/index.html" class="back-link">&larr; Portal</a>
+    <h1>💼 Poslovni Novčanik</h1>
+  </header>
+  <main class="platform-main">
+    <section class="hero">
+      <h2>Wallet modul za poslovna plaćanja</h2>
+      <p>Povezan sa AI IQ World Bank skeletonom kroz zajedničke tokove kartica, tokenizaciju i fallback mrežne strategije.</p>
+    </section>
+
+    <div class="wallet-banner">
+      <h3>📱 Android + iOS + PWA</h3>
+      <p>Dev/Beta/Production lane-ovi, fallback tokovi i regionalna orkestracija plaćanja.</p>
+    </div>
+
+    <section>
+      <h3>💳 Tokovi kartica</h3>
+      <ul class="steps-list">
+        <li><span>1️⃣</span><span><strong>Ručni unos</strong> — validacije (format/Luhn/expiry) pre tokenizacije</span></li>
+        <li><span>2️⃣</span><span><strong>Kamera sken</strong> — obavezan consent + korisnička potvrda rezultata</span></li>
+        <li><span>3️⃣</span><span><strong>Tokenizacija</strong> — PCI-prihvatljiv pristup bez čuvanja PAN/CVV</span></li>
+        <li><span>4️⃣</span><span><strong>Fallback</strong> — ručni unos kad OCR/kamera nije dostupna</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>🌍 Globalna pokrivenost</h3>
+      <div class="wallet-grid">
+        <div class="wallet-card"><h4>RS region</h4><p>RSD/EUR/USD sa Stripe primarnim i PayPal fallback tokovima.</p></div>
+        <div class="wallet-card"><h4>EU region</h4><p>PSD2/SCA planirana usklađenost i regionalno rutiranje.</p></div>
+        <div class="wallet-card"><h4>US region</h4><p>USD fokus sa fallback rutama i telemetrijom latencije.</p></div>
+        <div class="wallet-card"><h4>GLOBAL</h4><p>Kontrolisani rollout po regionima uz kill-switch i incident runbook.</p></div>
+      </div>
+    </section>
+
+    <section class="ecosystem-section">
+      <h3>🔗 Ekosistem Kompanija SPAJA</h3>
+      <p>Dvosmerna navigacija ka AI IQ World Bank i ostalim platformama</p>
+      <div class="ecosystem-grid" id="ekosistem-linkovi"></div>
+    </section>
+  </main>
+  <script src="../../../shared/ecosystem-urls.js"></script>
+  <script>renderEkosistem('Poslovni Novcanik', 'ekosistem-linkovi');</script>
+</body>
+</html>

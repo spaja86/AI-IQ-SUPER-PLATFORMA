@@ -1,0 +1,10 @@
+{
+  "name": "poslovni-novcanik",
+  "version": "1.0.0",
+  "description": "Poslovni Novčanik — wallet skeleton platforma",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve src -p 3004",
+    "build": "echo 'poslovni-novcanik build complete'"
+  }
+}

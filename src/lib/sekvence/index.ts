@@ -66,3 +66,5 @@ export { spajaDigitalniKompjuterSekvence } from './spaja-digitalni-kompjuter-pag
 export { spajaGeneratorEngineSekvence } from './spaja-generator-engine-page';
 export { spajaRenderMedijaSekvence } from './spaja-render-medija-page';
 export { oktavneEksponencijalneFunkcijeSekvence } from './oktavne-eksponencijalne-funkcije-page';
+
+export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
