@@ -1315,7 +1315,7 @@ async function runTests(): Promise<void> {
 
   console.log('\n💰 buildVaultYieldReport');
 
-  await test('vrača VaultYieldReport sa svim obaveznim poljima', () => {
+  await test('vraća VaultYieldReport sa svim obaveznim poljima', () => {
     const report = buildVaultYieldReport('yield-user-1');
     assert(typeof report.userId === 'string' && report.userId.length > 0, 'userId mora biti neprazan string');
     assert(typeof report.totalPrincipalUsd === 'number', 'totalPrincipalUsd mora biti broj');
@@ -1331,7 +1331,7 @@ async function runTests(): Promise<void> {
     assert(typeof report.timestamp === 'string', 'timestamp mora biti string');
   });
 
-  await test('sve vrijednosti su >= 0', () => {
+  await test('sve vrednosti su >= 0', () => {
     const report = buildVaultYieldReport('yield-user-2');
     assert(report.totalPrincipalUsd >= 0, 'totalPrincipalUsd >= 0');
     assert(report.weightedAprPct >= 0, 'weightedAprPct >= 0');

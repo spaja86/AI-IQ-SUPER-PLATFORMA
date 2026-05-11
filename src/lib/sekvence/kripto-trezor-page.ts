@@ -54,7 +54,7 @@ export const kriptoTrezorSekvence: Sekvenca[] = [
     id: 'kripto-trezor-api-pregled',
     tip: 'tabela',
     naslov: '🔌 API Endpointi Kripto Trezora',
-    podnaslov: 'Dvadeset i dvije API rute koje grade vault sloj iznad menjačnice i novčanika',
+    podnaslov: 'Dvadeset i dve API rute koje grade vault sloj iznad menjačnice i novčanika',
     redosled: 3,
     podaci: {
       zaglavlje: ['Endpoint', 'Metod', 'Opis', 'Auth', 'Feature Flag'],
