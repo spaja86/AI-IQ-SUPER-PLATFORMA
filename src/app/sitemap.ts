@@ -37,6 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/proksi-github-deploy',
     '/proksi-wifi-antena',
     '/mobilna-mreza',
+    '/call-centar',
     '/igrice',
     '/dimenzije',
     '/proizvodi',

@@ -16,6 +16,7 @@ export const navigation: NavItem[] = [
   { label: 'Dimenzije', href: '/dimenzije', icon: '🌀', description: 'Dimenzionalni sistem 360D-5760D' },
   { label: 'Proksi', href: '/proksi', icon: '📡', description: 'Proksi mreža i signali' },
   { label: 'Mobilna Mreža', href: '/mobilna-mreza', icon: '📱', description: 'SPAJA Mobilna Mreža sa 4 centrale' },
+  { label: 'Call Centar', href: '/call-centar', icon: '📞', description: 'Moblini SPAJA licence, digitalne usluge i dodela paketa' },
   { label: 'Ekosistem', href: '/ekosistem', icon: '🌐', description: 'Celokupan pregled ekosistema' },
   { label: 'Deploy', href: '/deploy', icon: '🚀', description: 'Status deploy-a platformi' },
   { label: 'Auto-Popravka', href: '/auto-popravka', icon: '🔧', description: 'Autonomni sistem za popravku' },
