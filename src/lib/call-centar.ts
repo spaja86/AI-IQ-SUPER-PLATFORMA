@@ -172,7 +172,15 @@ function randomIntInclusive(min: number, max: number): number {
 }
 
 export function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!email || email.includes(' ')) return false;
+  const parts = email.split('@');
+  if (parts.length !== 2) return false;
+  const [local, domain] = parts;
+  if (!local || !domain) return false;
+  if (domain.startsWith('.') || domain.endsWith('.')) return false;
+  const labels = domain.split('.');
+  if (labels.length < 2) return false;
+  return labels.every((label) => label.length > 0);
 }
 
 export function generisiInstalacioniBroj(tip: PaketTip): string {

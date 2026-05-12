@@ -81,8 +81,13 @@ export default function CallCentarPage() {
         throw new Error(json.error ?? 'Neuspešno generisanje instalacionog broja.');
       }
 
+      const datumAktivacije = json.licenca?.datumAktivacije;
+      const formatiranDatum = datumAktivacije
+        ? new Date(datumAktivacije).toLocaleString('sr-RS')
+        : '-';
+
       setPoruka(
-        `Instalacioni broj: ${json.licenca?.instalacioniBroj ?? '-'} | Paket: ${json.licenca?.naziv ?? '-'} | Aktivacija: ${new Date(json.licenca?.datumAktivacije ?? '').toLocaleString('sr-RS')}`,
+        `Instalacioni broj: ${json.licenca?.instalacioniBroj ?? '-'} | Paket: ${json.licenca?.naziv ?? '-'} | Aktivacija: ${formatiranDatum}`,
       );
       setEmailKorisnika('');
     } catch (error) {
