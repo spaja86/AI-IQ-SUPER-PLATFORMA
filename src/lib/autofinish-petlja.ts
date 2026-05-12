@@ -7331,3 +7331,9 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // AutofinishReleaseReadinessResult + getAutofinishReleaseReadiness dodati u autofinish-petlja.ts.
 // Nova ruta: GET /api/autofinish-release-readiness. Novi dashboard widget: ReleaseReadinessWidget.
 // APP_VERSION=49.2.0 | AUTOFINISH_COUNT=1223 | TOTAL_API_ROUTES=1090 | TOTAL_ROUTES=1151
+
+// ─── Autofinish #1224 — Call Centar Moblini SPAJA ────────────────────────────
+// call-centar.ts biblioteka (licence, paketi, agenti, email distribucija instalacionih brojeva).
+// Nove rute: GET /api/call-centar, POST /api/call-centar/licenca, GET /api/call-centar/paketi.
+// Nova stranica: /call-centar. Dodati testovi za call-centar licenciranje i izveštaj.
+// APP_VERSION=49.3.0 | AUTOFINISH_COUNT=1224 | TOTAL_API_ROUTES=1093 | TOTAL_ROUTES=1155

@@ -5,7 +5,7 @@
  * Sve komponente koriste ove konstante umesto hardkodovanih vrednosti.
  */
 
-export const APP_VERSION = '49.2.0';
+export const APP_VERSION = '49.3.0';
 export const APP_NAME = 'AI IQ SUPER PLATFORMA';
 export const KOMPANIJA = 'Kompanija SPAJA';
 export const BASE_URL = 'https://ai-iq-super-platforma.vercel.app';
@@ -24,14 +24,14 @@ export const OMEGA_AI_MUSKIH = 20_000_281;
 export const OMEGA_AI_ZENSKIH = 20_000_281;
 
 // Ekosistem
-export const TOTAL_PAGES = 56;
-export const TOTAL_API_ROUTES = 1090;
-export const TOTAL_ROUTES = 1151;
+export const TOTAL_PAGES = 57;
+export const TOTAL_API_ROUTES = 1093;
+export const TOTAL_ROUTES = 1155;
 export const TOTAL_IGRICA = 96;
 export const TOTAL_DIAGNOSTIKA = 2364;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 1223;
+export const AUTOFINISH_COUNT = 1224;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
@@ -40,6 +40,8 @@ export const PROKSI_KAPACITET = '10²²⁸ TB';
 // Mobilna Mreža
 export const MOBILNE_CENTRALE = 4;
 export const MOBILNI_POZIVNI = ['+38177', '+38188', '+38178', '+38187'];
+export const CALL_CENTAR_AGENATA = 12;
+export const CALL_CENTAR_PAKETA = 4;
 
 // Nabavka
 export const NABAVKA_VARIJACIJA = 50;
