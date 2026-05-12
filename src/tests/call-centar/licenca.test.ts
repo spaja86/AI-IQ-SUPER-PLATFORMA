@@ -9,9 +9,9 @@ let passed = 0;
 let failed = 0;
 const failures: string[] = [];
 
-async function test(name: string, fn: () => void): Promise<void> {
+async function test(name: string, testFn: () => void): Promise<void> {
   try {
-    fn();
+    testFn();
     console.log(`  ✅ ${name}`);
     passed++;
   } catch (e) {
