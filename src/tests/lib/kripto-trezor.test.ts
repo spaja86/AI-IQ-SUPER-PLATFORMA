@@ -31,6 +31,7 @@ import {
   buildVaultPerformanceReport,
   buildVaultYieldReport,
   buildVaultGovernanceReport,
+  buildVaultComplianceReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1436,6 +1437,71 @@ async function runTests(): Promise<void> {
 
   await test('governance timestamp je validan ISO 8601', () => {
     const report = buildVaultGovernanceReport('gov-user-8');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultComplianceReport ───────────────────────────────────────────
+
+  console.log('\n🧾 buildVaultComplianceReport');
+
+  await test('compliance report sadrži userId', () => {
+    const report = buildVaultComplianceReport('com-user-1');
+    assert(report.userId === 'com-user-1', `userId mora biti 'com-user-1', dobiveno '${report.userId}'`);
+  });
+
+  await test('compliance summary ima ukupan broj provjera > 0', () => {
+    const report = buildVaultComplianceReport('com-user-2');
+    assert(report.summary.totalChecks > 0, 'totalChecks mora biti > 0');
+  });
+
+  await test('checks niz nije prazan i status je validan', () => {
+    const report = buildVaultComplianceReport('com-user-3');
+    assert(report.checks.length > 0, 'checks mora imati bar jednu stavku');
+    for (const check of report.checks) {
+      assert(['compliant', 'warning', 'breach'].includes(check.status),
+        `status '${check.status}' nije validan za check ${check.id}`);
+    }
+  });
+
+  await test('summary counts odgovara stvarnim check statusima', () => {
+    const report = buildVaultComplianceReport('com-user-4');
+    const compliant = report.checks.filter((c) => c.status === 'compliant').length;
+    const warning = report.checks.filter((c) => c.status === 'warning').length;
+    const breach = report.checks.filter((c) => c.status === 'breach').length;
+    assert(report.summary.compliantChecks === compliant, 'compliantChecks ne odgovara');
+    assert(report.summary.warningChecks === warning, 'warningChecks ne odgovara');
+    assert(report.summary.breachChecks === breach, 'breachChecks ne odgovara');
+  });
+
+  await test('overallScore je u opsegu 0-100', () => {
+    const report = buildVaultComplianceReport('com-user-5');
+    assert(report.summary.overallScore >= 0 && report.summary.overallScore <= 100,
+      `overallScore mora biti 0-100, dobiveno ${report.summary.overallScore}`);
+  });
+
+  await test('controls imaju očekivana polja', () => {
+    const report = buildVaultComplianceReport('com-user-6');
+    assert(typeof report.controls.amlEnabled === 'boolean', 'amlEnabled mora biti boolean');
+    assert(['basic', 'advanced', 'institutional'].includes(report.controls.kycTier),
+      `kycTier '${report.controls.kycTier}' nije validan`);
+    assert(report.controls.sanctionsScreeningIntervalHours > 0,
+      'sanctionsScreeningIntervalHours mora biti > 0');
+    assert(typeof report.controls.travelRuleEnabled === 'boolean',
+      'travelRuleEnabled mora biti boolean');
+  });
+
+  await test('svaki check ima validan severity i lastCheckedAt', () => {
+    const report = buildVaultComplianceReport('com-user-7');
+    for (const check of report.checks) {
+      assert(['low', 'medium', 'high', 'critical'].includes(check.severity),
+        `severity '${check.severity}' nije validan za check ${check.id}`);
+      assert(!isNaN(Date.parse(check.lastCheckedAt)),
+        `lastCheckedAt nije validan datum za check ${check.id}: ${check.lastCheckedAt}`);
+    }
+  });
+
+  await test('compliance timestamp je validan ISO 8601', () => {
+    const report = buildVaultComplianceReport('com-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
   });
 

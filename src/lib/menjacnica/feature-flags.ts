@@ -284,6 +284,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-11',
   },
+  {
+    id: 'kripto-trezor-compliance',
+    naziv: 'Kripto Trezor — Vault Compliance',
+    opis: 'Compliance izvještaj: AML/KYC/sanctions kontrole, warning i breach status provjera',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-12',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

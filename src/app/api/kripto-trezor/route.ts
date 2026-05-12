@@ -50,6 +50,7 @@ export async function GET() {
       { metod: 'GET',  putanja: '/api/kripto-trezor/performance',    opis: 'Performance izvještaj: PnL, ukupni return, annualized return i period returns po assetu', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/yield',           opis: 'Yield/staking reward izvještaj: APR po tieru, dnevni/mjesečni/godišnji prinos i compounding projekcije', auth: true },
       { metod: 'GET',  putanja: '/api/kripto-trezor/governance',      opis: 'Governance prijedlozi i glasanje: promjene parametara vault politike, time-lock i multi-sig konfiguracije', auth: true },
+      { metod: 'GET',  putanja: '/api/kripto-trezor/compliance',      opis: 'Compliance izvještaj: AML/KYC/sanctions kontrole, warning i breach status provjera', auth: true },
     ],
     featureFlags: trezorFlags.map((f) => ({
       id: f.id,

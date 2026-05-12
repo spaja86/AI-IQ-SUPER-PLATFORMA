@@ -7085,3 +7085,8 @@ export function getAutofinishInfrastruktura(): AutofinishInfrastrukturaResult {
 // VaultGovernanceReport + buildVaultGovernanceReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-governance. Nova ruta: GET /api/kripto-trezor/governance.
 // APP_VERSION=49.0.0 | AUTOFINISH_COUNT=1221 | TOTAL_API_ROUTES=1088 | TOTAL_ROUTES=1149
+
+// ─── Autofinish #1222 — Kripto Trezor Vault Compliance ───────────────────────
+// VaultComplianceReport + buildVaultComplianceReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-compliance. Nova ruta: GET /api/kripto-trezor/compliance.
+// APP_VERSION=49.1.0 | AUTOFINISH_COUNT=1222 | TOTAL_API_ROUTES=1089 | TOTAL_ROUTES=1150

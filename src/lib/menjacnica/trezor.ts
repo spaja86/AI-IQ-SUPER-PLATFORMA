@@ -2812,3 +2812,118 @@ export function buildVaultGovernanceReport(userId: string): VaultGovernanceRepor
 // VaultGovernanceReport + buildVaultGovernanceReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-governance. Nova ruta: GET /api/kripto-trezor/governance.
 // APP_VERSION=49.0.0 | AUTOFINISH_COUNT=1221 | TOTAL_API_ROUTES=1088 | TOTAL_ROUTES=1149
+
+// ─── Vault Compliance ─────────────────────────────────────────────────────────
+
+export type VaultComplianceStatus = 'compliant' | 'warning' | 'breach';
+
+export interface VaultComplianceCheck {
+  id:             string;
+  title:          string;
+  status:         VaultComplianceStatus;
+  severity:       'low' | 'medium' | 'high' | 'critical';
+  lastCheckedAt:  string;
+  details:        string;
+  requiredAction: string | null;
+}
+
+export interface VaultComplianceSummary {
+  totalChecks:      number;
+  compliantChecks:  number;
+  warningChecks:    number;
+  breachChecks:     number;
+  overallScore:     number;
+}
+
+export interface VaultComplianceReport {
+  userId:     string;
+  summary:    VaultComplianceSummary;
+  checks:     VaultComplianceCheck[];
+  controls:   {
+    amlEnabled: boolean;
+    kycTier: 'basic' | 'advanced' | 'institutional';
+    sanctionsScreeningIntervalHours: number;
+    travelRuleEnabled: boolean;
+  };
+  timestamp:  string;
+}
+
+/** Gradi compliance izvještaj za vault: AML/KYC/sanctions kontrole i status provjera. */
+export function buildVaultComplianceReport(userId: string): VaultComplianceReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+  const kycTier: VaultComplianceReport['controls']['kycTier'] =
+    seed % 3 === 0 ? 'institutional' : seed % 2 === 0 ? 'advanced' : 'basic';
+
+  const checks: VaultComplianceCheck[] = [
+    {
+      id: 'kyc-refresh',
+      title: 'KYC dokumentacija ažurirana',
+      status: 'compliant',
+      severity: 'medium',
+      lastCheckedAt: '2026-05-10T08:00:00.000Z',
+      details: 'Svi obavezni KYC dokumenti su validni i ne isteknu u narednih 30 dana.',
+      requiredAction: null,
+    },
+    {
+      id: 'sanctions-screening',
+      title: 'Sanctions screening adresa',
+      status: 'compliant',
+      severity: 'high',
+      lastCheckedAt: '2026-05-11T07:00:00.000Z',
+      details: 'Nema pogodaka na OFAC/EU listama za aktivne withdrawal adrese.',
+      requiredAction: null,
+    },
+    {
+      id: 'aml-patterns',
+      title: 'AML monitoring transakcijskih obrazaca',
+      status: 'warning',
+      severity: 'medium',
+      lastCheckedAt: '2026-05-11T09:30:00.000Z',
+      details: 'Uočen je pojačan broj transfera blizu internog AML praga u poslednja 24h.',
+      requiredAction: 'Pokrenuti enhanced due diligence za narednu veću isplatu.',
+    },
+    {
+      id: 'travel-rule',
+      title: 'Travel Rule metadata kompletnost',
+      status: seed % 5 === 0 ? 'breach' : 'compliant',
+      severity: seed % 5 === 0 ? 'critical' : 'low',
+      lastCheckedAt: '2026-05-11T10:00:00.000Z',
+      details: seed % 5 === 0
+        ? 'Nedostaje originator beneficiary metadata za deo outbound transfera.'
+        : 'Travel Rule payload je kompletan za sve transfer događaje.',
+      requiredAction: seed % 5 === 0
+        ? 'Blokirati nove outbound transfere dok se metadata ne dopuni.'
+        : null,
+    },
+  ];
+
+  const compliantChecks = checks.filter((c) => c.status === 'compliant').length;
+  const warningChecks   = checks.filter((c) => c.status === 'warning').length;
+  const breachChecks    = checks.filter((c) => c.status === 'breach').length;
+  const totalChecks     = checks.length;
+  const overallScore    = Math.max(0, 100 - warningChecks * 12 - breachChecks * 35);
+
+  return {
+    userId,
+    summary: {
+      totalChecks,
+      compliantChecks,
+      warningChecks,
+      breachChecks,
+      overallScore,
+    },
+    checks,
+    controls: {
+      amlEnabled: true,
+      kycTier,
+      sanctionsScreeningIntervalHours: 6,
+      travelRuleEnabled: true,
+    },
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1222 — Kripto Trezor Vault Compliance ───────────────────────
+// VaultComplianceReport + buildVaultComplianceReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-compliance. Nova ruta: GET /api/kripto-trezor/compliance.
+// APP_VERSION=49.1.0 | AUTOFINISH_COUNT=1222 | TOTAL_API_ROUTES=1089 | TOTAL_ROUTES=1150
