@@ -3561,7 +3561,7 @@ const VAULT_RESERVE_WATCH_RATIO = 1.1;
 
 /** Gradi reserve izvještaj: pokriće rezervama i preporuke po klasama imovine. */
 export function buildVaultReserveReport(userId: string): VaultReserveReport {
-  const seed = userId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
   const rawBuckets: Array<{
     id: string;
     assetClass: ReserveAssetClass;
