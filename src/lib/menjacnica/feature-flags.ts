@@ -292,6 +292,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-12',
   },
+  {
+    id: 'kripto-trezor-insurance',
+    naziv: 'Kripto Trezor — Vault Insurance',
+    opis: 'Insurance izvještaj: pokrivenost cold/hot/cyber polica, premije i status zahtjeva',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-13',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
