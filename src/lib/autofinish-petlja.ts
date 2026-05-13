@@ -7337,3 +7337,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nove rute: GET /api/call-centar, POST /api/call-centar/licenca, GET /api/call-centar/paketi.
 // Nova stranica: /call-centar. Dodati testovi za call-centar licenciranje i izveštaj.
 // APP_VERSION=49.3.0 | AUTOFINISH_COUNT=1224 | TOTAL_API_ROUTES=1093 | TOTAL_ROUTES=1155
+
+// ─── Autofinish #1225 — Kripto Trezor Vault Insurance ────────────────────────
+// VaultInsuranceReport + buildVaultInsuranceReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-insurance. Nova ruta: GET /api/kripto-trezor/insurance.
+// APP_VERSION=49.4.0 | AUTOFINISH_COUNT=1225 | TOTAL_API_ROUTES=1094 | TOTAL_ROUTES=1156

@@ -2927,3 +2927,173 @@ export function buildVaultComplianceReport(userId: string): VaultComplianceRepor
 // VaultComplianceReport + buildVaultComplianceReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-compliance. Nova ruta: GET /api/kripto-trezor/compliance.
 // APP_VERSION=49.1.0 | AUTOFINISH_COUNT=1222 | TOTAL_API_ROUTES=1089 | TOTAL_ROUTES=1150
+
+// ─── Autofinish #1225 — Kripto Trezor Vault Insurance ────────────────────────
+
+export type VaultInsuranceCoverageType =
+  | 'cold-storage'
+  | 'hot-wallet'
+  | 'smart-contract'
+  | 'custodian-failure'
+  | 'cyber-theft';
+
+export type VaultInsuranceClaimStatus =
+  | 'no-claim'
+  | 'under-review'
+  | 'approved'
+  | 'rejected'
+  | 'paid';
+
+export interface VaultInsuranceCoverage {
+  type: VaultInsuranceCoverageType;
+  label: string;
+  maxCoverageUsd: number;
+  premiumAnnualPct: number;
+  deductibleUsd: number;
+  active: boolean;
+}
+
+export interface VaultInsuranceClaim {
+  id: string;
+  coverageType: VaultInsuranceCoverageType;
+  amountUsd: number;
+  filedAt: string;
+  status: VaultInsuranceClaimStatus;
+  description: string;
+}
+
+export interface VaultInsuranceSummary {
+  totalCoverageUsd: number;
+  activePolicies: number;
+  inactivePolicies: number;
+  totalAnnualPremiumUsd: number;
+  openClaims: number;
+  paidClaimsUsd: number;
+  insuranceScore: number;
+}
+
+export interface VaultInsuranceReport {
+  userId: string;
+  summary: VaultInsuranceSummary;
+  coverages: VaultInsuranceCoverage[];
+  claims: VaultInsuranceClaim[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi insurance izvještaj za vault: pokrivenost, premije i status zahtjeva. */
+export function buildVaultInsuranceReport(userId: string): VaultInsuranceReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+
+  const coverages: VaultInsuranceCoverage[] = [
+    {
+      type: 'cold-storage',
+      label: 'Cold Storage Pokrivenost',
+      maxCoverageUsd: 5_000_000,
+      premiumAnnualPct: 0.25,
+      deductibleUsd: 10_000,
+      active: true,
+    },
+    {
+      type: 'hot-wallet',
+      label: 'Hot Wallet Pokrivenost',
+      maxCoverageUsd: 500_000,
+      premiumAnnualPct: 1.2,
+      deductibleUsd: 5_000,
+      active: true,
+    },
+    {
+      type: 'smart-contract',
+      label: 'Smart Contract Rizik',
+      maxCoverageUsd: 1_000_000,
+      premiumAnnualPct: 0.8,
+      deductibleUsd: 20_000,
+      active: seed % 3 !== 0,
+    },
+    {
+      type: 'custodian-failure',
+      label: 'Custodian Neuspjeh',
+      maxCoverageUsd: 2_000_000,
+      premiumAnnualPct: 0.5,
+      deductibleUsd: 15_000,
+      active: true,
+    },
+    {
+      type: 'cyber-theft',
+      label: 'Cyber Krađa i Hakovanje',
+      maxCoverageUsd: 3_000_000,
+      premiumAnnualPct: 0.95,
+      deductibleUsd: 25_000,
+      active: seed % 2 === 0,
+    },
+  ];
+
+  const activePolicies  = coverages.filter((c) => c.active).length;
+  const inactivePolicies = coverages.filter((c) => !c.active).length;
+  const totalCoverageUsd = coverages
+    .filter((c) => c.active)
+    .reduce((s, c) => s + c.maxCoverageUsd, 0);
+  const totalAnnualPremiumUsd = roundLedger(
+    coverages
+      .filter((c) => c.active)
+      .reduce((s, c) => s + c.maxCoverageUsd * (c.premiumAnnualPct / 100), 0),
+  );
+
+  const claimStatus: VaultInsuranceClaimStatus = seed % 7 === 0 ? 'under-review' : 'no-claim';
+  const claimDate = new Date(Date.now() - (seed % 7) * 24 * 60 * 60 * 1000).toISOString();
+  const claims: VaultInsuranceClaim[] = claimStatus === 'under-review'
+    ? [
+        {
+          id: `clm-${seed % 10000}`,
+          coverageType: 'cyber-theft',
+          amountUsd: 45_000,
+          filedAt: claimDate,
+          status: 'under-review',
+          description: 'Sumnjiva aktivnost na hot wallet adresi — istraga u toku.',
+        },
+      ]
+    : [];
+
+  const openClaims   = claims.filter((c) => c.status === 'under-review').length;
+  const paidClaimsUsd = 0;
+  const insuranceScore = Math.max(
+    0,
+    100 - inactivePolicies * 10 - openClaims * 15,
+  );
+
+  const recommendations: string[] = [];
+  if (inactivePolicies > 0) {
+    recommendations.push('Aktivirati sve neaktivne police za potpunu zaštitu vault imovine.');
+  }
+  if (openClaims > 0) {
+    recommendations.push('Pratiti status otvorenih zahtjeva i dostaviti svu traženu dokumentaciju.');
+  }
+  if (insuranceScore < 80) {
+    recommendations.push('Razmotriti povećanje pokrivenosti cyber-theft i smart-contract policyja.');
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Sve police su aktivne i nema otvorenih zahtjeva — vault je optimalno zaštićen.');
+  }
+
+  return {
+    userId,
+    summary: {
+      totalCoverageUsd,
+      activePolicies,
+      inactivePolicies,
+      totalAnnualPremiumUsd,
+      openClaims,
+      paidClaimsUsd,
+      insuranceScore,
+    },
+    coverages,
+    claims,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1225 — Kripto Trezor Vault Insurance ────────────────────────
+// VaultInsuranceReport + buildVaultInsuranceReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-insurance. Nova ruta: GET /api/kripto-trezor/insurance.
+// APP_VERSION=49.4.0 | AUTOFINISH_COUNT=1225 | TOTAL_API_ROUTES=1094 | TOTAL_ROUTES=1156
