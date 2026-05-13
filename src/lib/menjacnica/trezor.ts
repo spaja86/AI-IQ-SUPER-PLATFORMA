@@ -3686,3 +3686,164 @@ export function buildVaultReserveReport(userId: string): VaultReserveReport {
 // VaultReserveReport + buildVaultReserveReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-reserve. Nova ruta: GET /api/kripto-trezor/reserve.
 // APP_VERSION=49.8.0 | AUTOFINISH_COUNT=1229 | TOTAL_API_ROUTES=1098 | TOTAL_ROUTES=1160
+
+// ─── Vault Custody ─────────────────────────────────────────────────────────────
+
+export type CustodyTierLevel = 'self-custody' | 'qualified-custodian' | 'sub-custodian' | 'prime-broker';
+
+export interface VaultCustodyAccount {
+  id: string;
+  tier: CustodyTierLevel;
+  label: string;
+  custodianName: string;
+  assetsUsd: number;
+  segregatedUsd: number;
+  omnibusUsd: number;
+  insuranceCoverageUsd: number;
+  status: 'active' | 'restricted' | 'frozen';
+}
+
+export interface VaultCustodySummary {
+  totalAssetsUsd: number;
+  totalSegregatedUsd: number;
+  totalOmnibusUsd: number;
+  totalInsuranceCoverageUsd: number;
+  segregationRatio: number;
+  insuranceCoverageRatio: number;
+  activeAccounts: number;
+  restrictedAccounts: number;
+  frozenAccounts: number;
+  custodyScore: number;
+}
+
+export interface VaultCustodyReport {
+  userId: string;
+  summary: VaultCustodySummary;
+  accounts: VaultCustodyAccount[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi custody izvještaj: raspodjela imovine po custodian nivoima i segregacija. */
+export function buildVaultCustodyReport(userId: string): VaultCustodyReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+  const rawAccounts: Array<{
+    id: string;
+    tier: CustodyTierLevel;
+    label: string;
+    custodianName: string;
+    assetsUsd: number;
+    segregatedUsd: number;
+    omnibusUsd: number;
+    insuranceCoverageUsd: number;
+    status: VaultCustodyAccount['status'];
+  }> = [
+    {
+      id: 'cust-self',
+      tier: 'self-custody',
+      label: 'Self-Custody Trezor Layer',
+      custodianName: 'Kompanija SPAJA',
+      assetsUsd: 1_100_000 + (seed % 200_000),
+      segregatedUsd: 1_100_000 + (seed % 200_000),
+      omnibusUsd: 0,
+      insuranceCoverageUsd: 500_000,
+      status: 'active',
+    },
+    {
+      id: 'cust-qualified',
+      tier: 'qualified-custodian',
+      label: 'Qualified Custodian — Institucionalni Sloj',
+      custodianName: 'SPAJA Custody AG',
+      assetsUsd: 3_200_000 + (seed % 420_000),
+      segregatedUsd: 2_800_000 + (seed % 380_000),
+      omnibusUsd: 400_000 + (seed % 60_000),
+      insuranceCoverageUsd: 5_000_000,
+      status: 'active',
+    },
+    {
+      id: 'cust-sub',
+      tier: 'sub-custodian',
+      label: 'Sub-Custodian — Regionalni Depozitar',
+      custodianName: 'Balkanska Banka d.d.',
+      assetsUsd: 860_000 + (seed % 140_000),
+      segregatedUsd: 600_000 + (seed % 100_000),
+      omnibusUsd: 260_000 + (seed % 50_000),
+      insuranceCoverageUsd: 1_000_000,
+      status: seed % 7 === 0 ? 'restricted' : 'active',
+    },
+    {
+      id: 'cust-prime',
+      tier: 'prime-broker',
+      label: 'Prime Broker — Maržni Sloj',
+      custodianName: 'SPAJA Prime Services',
+      assetsUsd: 540_000 + (seed % 90_000),
+      segregatedUsd: 200_000 + (seed % 40_000),
+      omnibusUsd: 340_000 + (seed % 60_000),
+      insuranceCoverageUsd: 800_000,
+      status: seed % 11 === 0 ? 'frozen' : 'active',
+    },
+  ];
+
+  const accounts: VaultCustodyAccount[] = rawAccounts.map((acct) => ({ ...acct }));
+
+  const totalAssetsUsd = accounts.reduce((s, a) => s + a.assetsUsd, 0);
+  const totalSegregatedUsd = accounts.reduce((s, a) => s + a.segregatedUsd, 0);
+  const totalOmnibusUsd = accounts.reduce((s, a) => s + a.omnibusUsd, 0);
+  const totalInsuranceCoverageUsd = accounts.reduce((s, a) => s + a.insuranceCoverageUsd, 0);
+  const segregationRatio = roundLedger(totalSegregatedUsd / totalAssetsUsd);
+  const insuranceCoverageRatio = roundLedger(totalInsuranceCoverageUsd / totalAssetsUsd);
+  const activeAccounts = accounts.filter((a) => a.status === 'active').length;
+  const restrictedAccounts = accounts.filter((a) => a.status === 'restricted').length;
+  const frozenAccounts = accounts.filter((a) => a.status === 'frozen').length;
+  const custodyScore = Math.max(0, Math.round(100 - restrictedAccounts * 15 - frozenAccounts * 30));
+
+  const recommendations: string[] = [];
+  for (const acct of accounts) {
+    if (acct.status === 'frozen') {
+      recommendations.push(
+        `Kritično: ${acct.label} (${acct.custodianName}) je zamrznut. Potrebna je hitna koordinacija sa custodianom.`,
+      );
+    } else if (acct.status === 'restricted') {
+      recommendations.push(
+        `Upozorenje: ${acct.label} (${acct.custodianName}) je u ograničenom statusu. Provjeriti compliance dokumentaciju.`,
+      );
+    }
+  }
+  if (segregationRatio < 0.75) {
+    recommendations.push(
+      `Segregacioni ratio ${segregationRatio.toFixed(2)} je ispod 75%; preporučuje se povećanje segregiranih pozicija.`,
+    );
+  }
+  if (insuranceCoverageRatio < 1.0) {
+    recommendations.push(
+      `Insurance pokriće ${insuranceCoverageRatio.toFixed(2)} je ispod 100% ukupne imovine; razmotriti proširenje polica.`,
+    );
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Svi custody računi su aktivni sa zadovoljavajućim stepenom segregacije i pokrića osiguranjem.');
+  }
+
+  return {
+    userId,
+    summary: {
+      totalAssetsUsd,
+      totalSegregatedUsd,
+      totalOmnibusUsd,
+      totalInsuranceCoverageUsd,
+      segregationRatio,
+      insuranceCoverageRatio,
+      activeAccounts,
+      restrictedAccounts,
+      frozenAccounts,
+      custodyScore,
+    },
+    accounts,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1230 — Kripto Trezor Vault Custody ──────────────────────────
+// VaultCustodyReport + buildVaultCustodyReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-custody. Nova ruta: GET /api/kripto-trezor/custody.
+// APP_VERSION=49.9.0 | AUTOFINISH_COUNT=1230 | TOTAL_API_ROUTES=1099 | TOTAL_ROUTES=1161

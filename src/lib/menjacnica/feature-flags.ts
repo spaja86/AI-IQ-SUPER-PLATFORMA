@@ -332,6 +332,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-13',
   },
+  {
+    id: 'kripto-trezor-custody',
+    naziv: 'Kripto Trezor — Vault Custody',
+    opis: 'Custody izvještaj: raspodjela imovine po custodian nivoima, segregacija, osiguranje i status računa',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-13',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
