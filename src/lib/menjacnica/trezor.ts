@@ -3097,3 +3097,1113 @@ export function buildVaultInsuranceReport(userId: string): VaultInsuranceReport 
 // VaultInsuranceReport + buildVaultInsuranceReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-insurance. Nova ruta: GET /api/kripto-trezor/insurance.
 // APP_VERSION=49.4.0 | AUTOFINISH_COUNT=1225 | TOTAL_API_ROUTES=1094 | TOTAL_ROUTES=1156
+
+// ─── Vault Diversification ────────────────────────────────────────────────────
+
+export type DiversificationAssetClass =
+  | 'btc'
+  | 'eth'
+  | 'stablecoins'
+  | 'altcoins'
+  | 'defi'
+  | 'nft'
+  | 'rwa';
+
+export interface VaultDiversificationSlice {
+  assetClass: DiversificationAssetClass;
+  label: string;
+  valueUsd: number;
+  weightPct: number;
+  targetWeightPct: number;
+  deviation: number;
+  status: 'balanced' | 'overweight' | 'underweight';
+}
+
+export interface VaultDiversificationSummary {
+  totalValueUsd: number;
+  numberOfAssetClasses: number;
+  herfindahlIndex: number;
+  diversificationScore: number;
+  maxSingleWeightPct: number;
+  balancedSlices: number;
+  rebalanceNeeded: boolean;
+}
+
+export interface VaultDiversificationReport {
+  userId: string;
+  summary: VaultDiversificationSummary;
+  slices: VaultDiversificationSlice[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi diversification izvještaj za vault: raspodjela po asset klasama, HHI i preporuke. */
+export function buildVaultDiversificationReport(userId: string): VaultDiversificationReport {
+  // HHI > 0.25 označava visoku koncentraciju portfolio-a prema standardu OECD/DOJ smjernica
+  const HHI_CONCENTRATION_THRESHOLD = 0.25;
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+
+  const rawSlices: { assetClass: DiversificationAssetClass; label: string; rawWeight: number; targetPct: number }[] = [
+    { assetClass: 'btc',         label: 'Bitcoin (BTC)',        rawWeight: 30 + (seed % 15),     targetPct: 35 },
+    { assetClass: 'eth',         label: 'Ethereum (ETH)',       rawWeight: 20 + (seed % 10),     targetPct: 25 },
+    { assetClass: 'stablecoins', label: 'Stablecoins',          rawWeight: 15 + (seed % 8),      targetPct: 15 },
+    { assetClass: 'altcoins',    label: 'Altcoins',             rawWeight: 10 + (seed % 7),      targetPct: 10 },
+    { assetClass: 'defi',        label: 'DeFi Protokoli',       rawWeight: 8  + (seed % 5),      targetPct: 8  },
+    { assetClass: 'nft',         label: 'NFT i Digitalna Imovina', rawWeight: 5 + (seed % 4),   targetPct: 4  },
+    { assetClass: 'rwa',         label: 'Real-World Assets',    rawWeight: 3  + (seed % 3),      targetPct: 3  },
+  ];
+
+  const totalRaw = rawSlices.reduce((s, r) => s + r.rawWeight, 0);
+  const totalValueUsd = 1_200_000 + (seed % 800_000);
+
+  const slices: VaultDiversificationSlice[] = rawSlices.map((r) => {
+    const weightPct = roundLedger((r.rawWeight / totalRaw) * 100);
+    const deviation = roundLedger(weightPct - r.targetPct);
+    const status: VaultDiversificationSlice['status'] =
+      Math.abs(deviation) <= 2 ? 'balanced' : deviation > 0 ? 'overweight' : 'underweight';
+    return {
+      assetClass: r.assetClass,
+      label: r.label,
+      valueUsd: roundLedger((weightPct / 100) * totalValueUsd),
+      weightPct,
+      targetWeightPct: r.targetPct,
+      deviation,
+      status,
+    };
+  });
+
+  const maxSingleWeightPct = Math.max(...slices.map((s) => s.weightPct));
+  const herfindahlIndex = roundLedger(
+    slices.reduce((s, sl) => s + Math.pow(sl.weightPct / 100, 2), 0),
+  );
+  const balancedSlices = slices.filter((s) => s.status === 'balanced').length;
+  const rebalanceNeeded = slices.some((s) => s.status !== 'balanced');
+  const diversificationScore = Math.max(
+    0,
+    Math.round(100 - herfindahlIndex * 100 - (slices.length - balancedSlices) * 4),
+  );
+
+  const recommendations: string[] = [];
+  for (const s of slices) {
+    if (s.status === 'overweight') {
+      recommendations.push(`Smanjiti ${s.label} sa ${s.weightPct}% na ciljanih ${s.targetWeightPct}% (prekomjerno +${s.deviation}%).`);
+    } else if (s.status === 'underweight') {
+      recommendations.push(`Povećati ${s.label} sa ${s.weightPct}% na ciljanih ${s.targetWeightPct}% (nedostatak ${s.deviation}%).`);
+    }
+  }
+  if (!rebalanceNeeded) {
+    recommendations.push('Portfolio je u okviru ciljane raspodjele — nije potreban rebalans.');
+  }
+  if (herfindahlIndex > HHI_CONCENTRATION_THRESHOLD) {
+    recommendations.push(`Visoka koncentracija portfolio-a (HHI > ${HHI_CONCENTRATION_THRESHOLD}) — razmotriti povećanje diversifikacije.`);
+  }
+
+  return {
+    userId,
+    summary: {
+      totalValueUsd,
+      numberOfAssetClasses: slices.length,
+      herfindahlIndex,
+      diversificationScore,
+      maxSingleWeightPct,
+      balancedSlices,
+      rebalanceNeeded,
+    },
+    slices,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1226 — Kripto Trezor Vault Diversification ──────────────────
+// VaultDiversificationReport + buildVaultDiversificationReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-diversification. Nova ruta: GET /api/kripto-trezor/diversification.
+// APP_VERSION=49.5.0 | AUTOFINISH_COUNT=1226 | TOTAL_API_ROUTES=1095 | TOTAL_ROUTES=1157
+
+// ─── Vault Collateral ─────────────────────────────────────────────────────────
+
+export type CollateralAssetClass = 'btc' | 'eth' | 'stablecoin' | 'cbdc' | 'tokenized-bond' | 'lp-token';
+export type CollateralStatus = 'healthy' | 'margin-call' | 'liquidation-risk' | 'liquidated';
+
+export interface VaultCollateralPosition {
+  id: string;
+  assetClass: CollateralAssetClass;
+  label: string;
+  collateralValueUsd: number;
+  loanValueUsd: number;
+  ltv: number;
+  maxLtv: number;
+  liquidationLtv: number;
+  status: CollateralStatus;
+  healthFactor: number;
+}
+
+export interface VaultCollateralSummary {
+  totalCollateralUsd: number;
+  totalLoanUsd: number;
+  weightedLtv: number;
+  healthyPositions: number;
+  marginCallPositions: number;
+  liquidationRiskPositions: number;
+  liquidatedPositions: number;
+  overallHealthFactor: number;
+  collateralScore: number;
+}
+
+export interface VaultCollateralReport {
+  userId: string;
+  summary: VaultCollateralSummary;
+  positions: VaultCollateralPosition[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** LTV pri kojoj se pozicija smatra u zoni likvidacije (85%). */
+const VAULT_COLLATERAL_LIQUIDATION_LTV = 0.85;
+/** LTV pri kojoj se aktivira margin call upozorenje (75%). */
+const VAULT_COLLATERAL_MARGIN_CALL_LTV = 0.75;
+
+/** Gradi collateral izvještaj za vault: pozicije, LTV, zdravlje i preporuke. */
+export function buildVaultCollateralReport(userId: string): VaultCollateralReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+
+  const rawPositions: {
+    id: string;
+    assetClass: CollateralAssetClass;
+    label: string;
+    collateralUsd: number;
+    currentLtv: number;
+    maxLtv: number;
+  }[] = [
+    { id: 'col-btc',   assetClass: 'btc',            label: 'Bitcoin Kolateral',       collateralUsd: 800_000 + (seed % 200_000), currentLtv: 0.55 + (seed % 20) / 100, maxLtv: 0.70 },
+    { id: 'col-eth',   assetClass: 'eth',            label: 'Ethereum Kolateral',      collateralUsd: 400_000 + (seed % 100_000), currentLtv: 0.60 + (seed % 15) / 100, maxLtv: 0.65 },
+    { id: 'col-usdc',  assetClass: 'stablecoin',     label: 'USDC Stablecoin',         collateralUsd: 200_000 + (seed % 50_000),  currentLtv: 0.80 + (seed % 10) / 100, maxLtv: 0.90 },
+    { id: 'col-cbdc',  assetClass: 'cbdc',           label: 'CBDC Dinar Digitalni',    collateralUsd: 100_000 + (seed % 30_000),  currentLtv: 0.70 + (seed % 8)  / 100, maxLtv: 0.80 },
+    { id: 'col-bond',  assetClass: 'tokenized-bond', label: 'Tokenizovane Obveznice',  collateralUsd: 150_000 + (seed % 40_000),  currentLtv: 0.50 + (seed % 12) / 100, maxLtv: 0.60 },
+    { id: 'col-lp',    assetClass: 'lp-token',       label: 'LP Token Kolateral',      collateralUsd: 80_000  + (seed % 20_000),  currentLtv: 0.42 + (seed % 10) / 100, maxLtv: 0.55 },
+  ];
+
+  const positions: VaultCollateralPosition[] = rawPositions.map((r) => {
+    const ltv = Math.min(0.99, roundLedger(r.currentLtv));
+    const loanValueUsd = roundLedger(r.collateralUsd * ltv);
+    const healthFactor = roundLedger(r.maxLtv / ltv);
+    const status: CollateralStatus =
+      ltv >= VAULT_COLLATERAL_LIQUIDATION_LTV ? 'liquidation-risk' :
+      ltv >= VAULT_COLLATERAL_MARGIN_CALL_LTV ? 'margin-call' : 'healthy';
+    return {
+      id: r.id,
+      assetClass: r.assetClass,
+      label: r.label,
+      collateralValueUsd: r.collateralUsd,
+      loanValueUsd,
+      ltv,
+      maxLtv: r.maxLtv,
+      liquidationLtv: VAULT_COLLATERAL_LIQUIDATION_LTV,
+      status,
+      healthFactor,
+    };
+  });
+
+  const totalCollateralUsd = positions.reduce((s, p) => s + p.collateralValueUsd, 0);
+  const totalLoanUsd        = roundLedger(positions.reduce((s, p) => s + p.loanValueUsd, 0));
+  const weightedLtv         = roundLedger(totalLoanUsd / totalCollateralUsd);
+  const healthyPositions          = positions.filter((p) => p.status === 'healthy').length;
+  const marginCallPositions       = positions.filter((p) => p.status === 'margin-call').length;
+  const liquidationRiskPositions  = positions.filter((p) => p.status === 'liquidation-risk').length;
+  const liquidatedPositions       = positions.filter((p) => p.status === 'liquidated').length;
+  const overallHealthFactor       = roundLedger(
+    positions.reduce((s, p) => s + p.healthFactor, 0) / positions.length,
+  );
+  const collateralScore = Math.max(
+    0,
+    Math.round(
+      100 - liquidationRiskPositions * 25 - marginCallPositions * 10 - liquidatedPositions * 30,
+    ),
+  );
+
+  const recommendations: string[] = [];
+  for (const p of positions) {
+    if (p.status === 'liquidation-risk') {
+      recommendations.push(`Kritično: ${p.label} — LTV ${(p.ltv * 100).toFixed(1)}% blizu likvidacione granice (${(p.liquidationLtv * 100).toFixed(0)}%). Odmah dodati kolateral ili smanjiti kredit.`);
+    } else if (p.status === 'margin-call') {
+      recommendations.push(`Upozorenje: ${p.label} — LTV ${(p.ltv * 100).toFixed(1)}% dostigao margin call zonu. Razmotriti dopunu kolaterala.`);
+    }
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Sve pozicije su zdrave — LTV je ispod margin call praga za sve instrumente.');
+  }
+  if (weightedLtv > 0.70) {
+    recommendations.push(`Ukupni ponderisani LTV od ${(weightedLtv * 100).toFixed(1)}% je visok — razmotriti smanjenje leveridža.`);
+  }
+
+  return {
+    userId,
+    summary: {
+      totalCollateralUsd,
+      totalLoanUsd,
+      weightedLtv,
+      healthyPositions,
+      marginCallPositions,
+      liquidationRiskPositions,
+      liquidatedPositions,
+      overallHealthFactor,
+      collateralScore,
+    },
+    positions,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1227 — Kripto Trezor Vault Collateral ───────────────────────
+// VaultCollateralReport + buildVaultCollateralReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-collateral. Nova ruta: GET /api/kripto-trezor/collateral.
+// APP_VERSION=49.6.0 | AUTOFINISH_COUNT=1227 | TOTAL_API_ROUTES=1096 | TOTAL_ROUTES=1158
+
+// ─── Vault Solvency ────────────────────────────────────────────────────────────
+
+export type SolvencyTier = 'hot' | 'warm' | 'cold' | 'deep-cold';
+
+export interface VaultSolvencyBucket {
+  id: string;
+  tier: SolvencyTier;
+  label: string;
+  assetValueUsd: number;
+  liabilityValueUsd: number;
+  solvencyRatio: number;
+  targetRatio: number;
+  capitalBufferUsd: number;
+  status: 'healthy' | 'watch' | 'critical';
+}
+
+export interface VaultSolvencySummary {
+  totalAssetsUsd: number;
+  totalLiabilitiesUsd: number;
+  totalCapitalBufferUsd: number;
+  aggregateSolvencyRatio: number;
+  stressedSolvencyRatio: number;
+  healthyBuckets: number;
+  watchBuckets: number;
+  criticalBuckets: number;
+  solvencyScore: number;
+}
+
+export interface VaultSolvencyReport {
+  userId: string;
+  summary: VaultSolvencySummary;
+  buckets: VaultSolvencyBucket[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+const VAULT_SOLVENCY_MIN_RATIO = 1.1;
+const VAULT_SOLVENCY_WATCH_RATIO = 1.2;
+
+/** Gradi solvency izvještaj: assets/liabilities odnos, buffer i stress signal. */
+export function buildVaultSolvencyReport(userId: string): VaultSolvencyReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+  const rawBuckets: Array<{
+    id: string;
+    tier: SolvencyTier;
+    label: string;
+    assetsUsd: number;
+    liabilitiesUsd: number;
+    targetRatio: number;
+  }> = [
+    {
+      id: 'sol-hot',
+      tier: 'hot',
+      label: 'Hot Operativni Layer',
+      assetsUsd: 420_000 + (seed % 90_000),
+      liabilitiesUsd: 320_000 + (seed % 75_000),
+      targetRatio: 1.25,
+    },
+    {
+      id: 'sol-warm',
+      tier: 'warm',
+      label: 'Warm Transfer Layer',
+      assetsUsd: 680_000 + (seed % 120_000),
+      liabilitiesUsd: 500_000 + (seed % 85_000),
+      targetRatio: 1.30,
+    },
+    {
+      id: 'sol-cold',
+      tier: 'cold',
+      label: 'Cold Custody Layer',
+      assetsUsd: 2_800_000 + (seed % 240_000),
+      liabilitiesUsd: 2_150_000 + (seed % 180_000),
+      targetRatio: 1.22,
+    },
+    {
+      id: 'sol-deep-cold',
+      tier: 'deep-cold',
+      label: 'Deep Cold Rezervni Layer',
+      assetsUsd: 4_100_000 + (seed % 300_000),
+      liabilitiesUsd: 3_050_000 + (seed % 210_000),
+      targetRatio: 1.28,
+    },
+  ];
+
+  const buckets: VaultSolvencyBucket[] = rawBuckets.map((bucket) => {
+    const solvencyRatio = roundLedger(bucket.assetsUsd / bucket.liabilitiesUsd);
+    const capitalBufferUsd = roundLedger(bucket.assetsUsd - bucket.liabilitiesUsd);
+    const status: VaultSolvencyBucket['status'] =
+      solvencyRatio < VAULT_SOLVENCY_MIN_RATIO
+        ? 'critical'
+        : solvencyRatio < VAULT_SOLVENCY_WATCH_RATIO
+          ? 'watch'
+          : 'healthy';
+    return {
+      id: bucket.id,
+      tier: bucket.tier,
+      label: bucket.label,
+      assetValueUsd: bucket.assetsUsd,
+      liabilityValueUsd: bucket.liabilitiesUsd,
+      solvencyRatio,
+      targetRatio: bucket.targetRatio,
+      capitalBufferUsd,
+      status,
+    };
+  });
+
+  const totalAssetsUsd = buckets.reduce((sum, bucket) => sum + bucket.assetValueUsd, 0);
+  const totalLiabilitiesUsd = buckets.reduce((sum, bucket) => sum + bucket.liabilityValueUsd, 0);
+  const totalCapitalBufferUsd = roundLedger(totalAssetsUsd - totalLiabilitiesUsd);
+  const aggregateSolvencyRatio = roundLedger(totalAssetsUsd / totalLiabilitiesUsd);
+  const stressedSolvencyRatio = roundLedger(aggregateSolvencyRatio * 0.92);
+  const healthyBuckets = buckets.filter((bucket) => bucket.status === 'healthy').length;
+  const watchBuckets = buckets.filter((bucket) => bucket.status === 'watch').length;
+  const criticalBuckets = buckets.filter((bucket) => bucket.status === 'critical').length;
+  const solvencyScore = Math.max(0, Math.round(100 - watchBuckets * 14 - criticalBuckets * 28));
+
+  const recommendations: string[] = [];
+  for (const bucket of buckets) {
+    if (bucket.status === 'critical') {
+      recommendations.push(
+        `Kritično: ${bucket.label} ratio ${bucket.solvencyRatio.toFixed(2)} je ispod minimuma ${VAULT_SOLVENCY_MIN_RATIO.toFixed(2)}. Potrebna je hitna dokapitalizacija.`,
+      );
+    } else if (bucket.status === 'watch') {
+      recommendations.push(
+        `Upozorenje: ${bucket.label} ratio ${bucket.solvencyRatio.toFixed(2)} je u watch zoni. Razmotriti dodatni buffer ili smanjenje obaveza.`,
+      );
+    }
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Svi solvency bucket-i su iznad watch praga; kapitalni buffer je stabilan.');
+  }
+  if (stressedSolvencyRatio < VAULT_SOLVENCY_MIN_RATIO) {
+    recommendations.push(
+      `Stress scenario signalizira ratio ${stressedSolvencyRatio.toFixed(2)} ispod minimuma; preporučen je dodatni rezervni sloj.`,
+    );
+  }
+
+  return {
+    userId,
+    summary: {
+      totalAssetsUsd,
+      totalLiabilitiesUsd,
+      totalCapitalBufferUsd,
+      aggregateSolvencyRatio,
+      stressedSolvencyRatio,
+      healthyBuckets,
+      watchBuckets,
+      criticalBuckets,
+      solvencyScore,
+    },
+    buckets,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1228 — Kripto Trezor Vault Solvency ─────────────────────────
+// VaultSolvencyReport + buildVaultSolvencyReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-solvency. Nova ruta: GET /api/kripto-trezor/solvency.
+// APP_VERSION=49.7.0 | AUTOFINISH_COUNT=1228 | TOTAL_API_ROUTES=1097 | TOTAL_ROUTES=1159
+
+// ─── Vault Reserve ─────────────────────────────────────────────────────────────
+
+export type ReserveAssetClass = 'btc' | 'eth' | 'stablecoin' | 'fiat' | 'tokenized-bond';
+
+export interface VaultReserveBucket {
+  id: string;
+  assetClass: ReserveAssetClass;
+  label: string;
+  reserveUsd: number;
+  requiredReserveUsd: number;
+  coverageRatio: number;
+  targetRatio: number;
+  status: 'healthy' | 'watch' | 'critical';
+}
+
+export interface VaultReserveSummary {
+  totalReserveUsd: number;
+  totalRequiredReserveUsd: number;
+  aggregateCoverageRatio: number;
+  stressedCoverageRatio: number;
+  healthyBuckets: number;
+  watchBuckets: number;
+  criticalBuckets: number;
+  reserveGapUsd: number;
+  reserveScore: number;
+}
+
+export interface VaultReserveReport {
+  userId: string;
+  summary: VaultReserveSummary;
+  buckets: VaultReserveBucket[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+const VAULT_RESERVE_CRITICAL_RATIO = 1.0;
+const VAULT_RESERVE_WATCH_RATIO = 1.1;
+
+/** Gradi reserve izvještaj: pokriće rezervama i preporuke po klasama imovine. */
+export function buildVaultReserveReport(userId: string): VaultReserveReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+  const rawBuckets: Array<{
+    id: string;
+    assetClass: ReserveAssetClass;
+    label: string;
+    reserveUsd: number;
+    requiredReserveUsd: number;
+    targetRatio: number;
+  }> = [
+    {
+      id: 'res-btc',
+      assetClass: 'btc',
+      label: 'BTC Rezerve',
+      reserveUsd: 1_250_000 + (seed % 220_000),
+      requiredReserveUsd: 1_020_000 + (seed % 180_000),
+      targetRatio: 1.15,
+    },
+    {
+      id: 'res-eth',
+      assetClass: 'eth',
+      label: 'ETH Rezerve',
+      reserveUsd: 920_000 + (seed % 160_000),
+      requiredReserveUsd: 810_000 + (seed % 130_000),
+      targetRatio: 1.12,
+    },
+    {
+      id: 'res-stable',
+      assetClass: 'stablecoin',
+      label: 'Stablecoin Rezerve',
+      reserveUsd: 1_650_000 + (seed % 260_000),
+      requiredReserveUsd: 1_420_000 + (seed % 220_000),
+      targetRatio: 1.18,
+    },
+    {
+      id: 'res-fiat',
+      assetClass: 'fiat',
+      label: 'FIAT Operativne Rezerve',
+      reserveUsd: 680_000 + (seed % 110_000),
+      requiredReserveUsd: 620_000 + (seed % 100_000),
+      targetRatio: 1.10,
+    },
+    {
+      id: 'res-bond',
+      assetClass: 'tokenized-bond',
+      label: 'Tokenizovane Obveznice (Rezervni sloj)',
+      reserveUsd: 540_000 + (seed % 90_000),
+      requiredReserveUsd: 500_000 + (seed % 85_000),
+      targetRatio: 1.08,
+    },
+  ];
+
+  const buckets: VaultReserveBucket[] = rawBuckets.map((bucket) => {
+    const coverageRatio = roundLedger(bucket.reserveUsd / bucket.requiredReserveUsd);
+    const status: VaultReserveBucket['status'] =
+      coverageRatio < VAULT_RESERVE_CRITICAL_RATIO
+        ? 'critical'
+        : coverageRatio < VAULT_RESERVE_WATCH_RATIO
+          ? 'watch'
+          : 'healthy';
+    return {
+      id: bucket.id,
+      assetClass: bucket.assetClass,
+      label: bucket.label,
+      reserveUsd: bucket.reserveUsd,
+      requiredReserveUsd: bucket.requiredReserveUsd,
+      coverageRatio,
+      targetRatio: bucket.targetRatio,
+      status,
+    };
+  });
+
+  const totalReserveUsd = buckets.reduce((sum, bucket) => sum + bucket.reserveUsd, 0);
+  const totalRequiredReserveUsd = buckets.reduce((sum, bucket) => sum + bucket.requiredReserveUsd, 0);
+  const aggregateCoverageRatio = roundLedger(totalReserveUsd / totalRequiredReserveUsd);
+  const stressedCoverageRatio = roundLedger(aggregateCoverageRatio * 0.93);
+  const healthyBuckets = buckets.filter((bucket) => bucket.status === 'healthy').length;
+  const watchBuckets = buckets.filter((bucket) => bucket.status === 'watch').length;
+  const criticalBuckets = buckets.filter((bucket) => bucket.status === 'critical').length;
+  const reserveGapUsd = Math.max(0, roundLedger(totalRequiredReserveUsd - totalReserveUsd));
+  const reserveScore = Math.max(0, Math.round(100 - watchBuckets * 12 - criticalBuckets * 30));
+
+  const recommendations: string[] = [];
+  for (const bucket of buckets) {
+    if (bucket.status === 'critical') {
+      recommendations.push(
+        `Kritično: ${bucket.label} coverage ${bucket.coverageRatio.toFixed(2)} je ispod 1.00. Prioritetno povećati rezerve.`,
+      );
+    } else if (bucket.status === 'watch') {
+      recommendations.push(
+        `Upozorenje: ${bucket.label} coverage ${bucket.coverageRatio.toFixed(2)} je u watch zoni. Dodati zaštitni buffer prema targetu ${bucket.targetRatio.toFixed(2)}.`,
+      );
+    }
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Sve klase imovine imaju zdravo reserve pokriće iznad watch praga.');
+  }
+  if (stressedCoverageRatio < VAULT_RESERVE_CRITICAL_RATIO) {
+    recommendations.push(
+      `Stress scenario spušta aggregate coverage na ${stressedCoverageRatio.toFixed(2)}; preporučeno je hitno povećanje rezervnog sloja.`,
+    );
+  }
+
+  return {
+    userId,
+    summary: {
+      totalReserveUsd,
+      totalRequiredReserveUsd,
+      aggregateCoverageRatio,
+      stressedCoverageRatio,
+      healthyBuckets,
+      watchBuckets,
+      criticalBuckets,
+      reserveGapUsd,
+      reserveScore,
+    },
+    buckets,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1229 — Kripto Trezor Vault Reserve ──────────────────────────
+// VaultReserveReport + buildVaultReserveReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-reserve. Nova ruta: GET /api/kripto-trezor/reserve.
+// APP_VERSION=49.8.0 | AUTOFINISH_COUNT=1229 | TOTAL_API_ROUTES=1098 | TOTAL_ROUTES=1160
+
+// ─── Vault Custody ─────────────────────────────────────────────────────────────
+
+export type CustodyTierLevel = 'self-custody' | 'qualified-custodian' | 'sub-custodian' | 'prime-broker';
+
+export interface VaultCustodyAccount {
+  id: string;
+  tier: CustodyTierLevel;
+  label: string;
+  custodianName: string;
+  assetsUsd: number;
+  segregatedUsd: number;
+  omnibusUsd: number;
+  insuranceCoverageUsd: number;
+  status: 'active' | 'restricted' | 'frozen';
+}
+
+export interface VaultCustodySummary {
+  totalAssetsUsd: number;
+  totalSegregatedUsd: number;
+  totalOmnibusUsd: number;
+  totalInsuranceCoverageUsd: number;
+  segregationRatio: number;
+  insuranceCoverageRatio: number;
+  activeAccounts: number;
+  restrictedAccounts: number;
+  frozenAccounts: number;
+  custodyScore: number;
+}
+
+export interface VaultCustodyReport {
+  userId: string;
+  summary: VaultCustodySummary;
+  accounts: VaultCustodyAccount[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi custody izvještaj: raspodjela imovine po custodian nivoima i segregacija. */
+export function buildVaultCustodyReport(userId: string): VaultCustodyReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+  const rawAccounts: Array<{
+    id: string;
+    tier: CustodyTierLevel;
+    label: string;
+    custodianName: string;
+    assetsUsd: number;
+    segregatedUsd: number;
+    omnibusUsd: number;
+    insuranceCoverageUsd: number;
+    status: VaultCustodyAccount['status'];
+  }> = [
+    {
+      id: 'cust-self',
+      tier: 'self-custody',
+      label: 'Self-Custody Trezor Layer',
+      custodianName: 'Kompanija SPAJA',
+      assetsUsd: 1_100_000 + (seed % 200_000),
+      segregatedUsd: 1_100_000 + (seed % 200_000),
+      omnibusUsd: 0,
+      insuranceCoverageUsd: 500_000,
+      status: 'active',
+    },
+    {
+      id: 'cust-qualified',
+      tier: 'qualified-custodian',
+      label: 'Qualified Custodian — Institucionalni Sloj',
+      custodianName: 'SPAJA Custody AG',
+      assetsUsd: 3_200_000 + (seed % 420_000),
+      segregatedUsd: 2_800_000 + (seed % 380_000),
+      omnibusUsd: 400_000 + (seed % 60_000),
+      insuranceCoverageUsd: 5_000_000,
+      status: 'active',
+    },
+    {
+      id: 'cust-sub',
+      tier: 'sub-custodian',
+      label: 'Sub-Custodian — Regionalni Depozitar',
+      custodianName: 'Balkanska Banka d.d.',
+      assetsUsd: 860_000 + (seed % 140_000),
+      segregatedUsd: 600_000 + (seed % 100_000),
+      omnibusUsd: 260_000 + (seed % 50_000),
+      insuranceCoverageUsd: 1_000_000,
+      status: seed % 7 === 0 ? 'restricted' : 'active',
+    },
+    {
+      id: 'cust-prime',
+      tier: 'prime-broker',
+      label: 'Prime Broker — Maržni Sloj',
+      custodianName: 'SPAJA Prime Services',
+      assetsUsd: 540_000 + (seed % 90_000),
+      segregatedUsd: 200_000 + (seed % 40_000),
+      omnibusUsd: 340_000 + (seed % 60_000),
+      insuranceCoverageUsd: 800_000,
+      status: seed % 11 === 0 ? 'frozen' : 'active',
+    },
+  ];
+
+  const accounts: VaultCustodyAccount[] = rawAccounts.map((acct) => ({ ...acct }));
+
+  const totalAssetsUsd = accounts.reduce((s, a) => s + a.assetsUsd, 0);
+  const totalSegregatedUsd = accounts.reduce((s, a) => s + a.segregatedUsd, 0);
+  const totalOmnibusUsd = accounts.reduce((s, a) => s + a.omnibusUsd, 0);
+  const totalInsuranceCoverageUsd = accounts.reduce((s, a) => s + a.insuranceCoverageUsd, 0);
+  const segregationRatio = roundLedger(totalSegregatedUsd / totalAssetsUsd);
+  const insuranceCoverageRatio = roundLedger(totalInsuranceCoverageUsd / totalAssetsUsd);
+  const activeAccounts = accounts.filter((a) => a.status === 'active').length;
+  const restrictedAccounts = accounts.filter((a) => a.status === 'restricted').length;
+  const frozenAccounts = accounts.filter((a) => a.status === 'frozen').length;
+  const custodyScore = Math.max(0, Math.round(100 - restrictedAccounts * 15 - frozenAccounts * 30));
+
+  const recommendations: string[] = [];
+  for (const acct of accounts) {
+    if (acct.status === 'frozen') {
+      recommendations.push(
+        `Kritično: ${acct.label} (${acct.custodianName}) je zamrznut. Potrebna je hitna koordinacija sa custodianom.`,
+      );
+    } else if (acct.status === 'restricted') {
+      recommendations.push(
+        `Upozorenje: ${acct.label} (${acct.custodianName}) je u ograničenom statusu. Provjeriti compliance dokumentaciju.`,
+      );
+    }
+  }
+  if (segregationRatio < 0.75) {
+    recommendations.push(
+      `Segregacioni ratio ${segregationRatio.toFixed(2)} je ispod 75%; preporučuje se povećanje segregiranih pozicija.`,
+    );
+  }
+  if (insuranceCoverageRatio < 1.0) {
+    recommendations.push(
+      `Insurance pokriće ${insuranceCoverageRatio.toFixed(2)} je ispod 100% ukupne imovine; razmotriti proširenje polica.`,
+    );
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Svi custody računi su aktivni sa zadovoljavajućim stepenom segregacije i pokrića osiguranjem.');
+  }
+
+  return {
+    userId,
+    summary: {
+      totalAssetsUsd,
+      totalSegregatedUsd,
+      totalOmnibusUsd,
+      totalInsuranceCoverageUsd,
+      segregationRatio,
+      insuranceCoverageRatio,
+      activeAccounts,
+      restrictedAccounts,
+      frozenAccounts,
+      custodyScore,
+    },
+    accounts,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1230 — Kripto Trezor Vault Custody ──────────────────────────
+// VaultCustodyReport + buildVaultCustodyReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-custody. Nova ruta: GET /api/kripto-trezor/custody.
+// APP_VERSION=49.9.0 | AUTOFINISH_COUNT=1230 | TOTAL_API_ROUTES=1099 | TOTAL_ROUTES=1161
+
+// ─── Vault Tokenization ────────────────────────────────────────────────────────
+
+export type TokenStandard = 'ERC-20' | 'ERC-721' | 'ERC-1155' | 'BEP-20' | 'SPL' | 'native';
+
+export interface TokenizedAsset {
+  id: string;
+  name: string;
+  symbol: string;
+  standard: TokenStandard;
+  underlyingAsset: string;
+  totalSupply: number;
+  circulatingSupply: number;
+  priceUsd: number;
+  marketCapUsd: number;
+  smartContractAddress: string;
+  contractStatus: 'active' | 'paused' | 'deprecated';
+  complianceVerified: boolean;
+  lockupDays: number;
+}
+
+export interface VaultTokenizationSummary {
+  totalTokenizedAssetsUsd: number;
+  totalMarketCapUsd: number;
+  activeContracts: number;
+  pausedContracts: number;
+  deprecatedContracts: number;
+  complianceVerifiedCount: number;
+  complianceRate: number;
+  averageLockupDays: number;
+  tokenizationScore: number;
+}
+
+export interface VaultTokenizationReport {
+  userId: string;
+  summary: VaultTokenizationSummary;
+  assets: TokenizedAsset[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi tokenization izvještaj: tokenizovana imovina, emisija, market cap i smart-contract status. */
+export function buildVaultTokenizationReport(userId: string): VaultTokenizationReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+
+  const assets: TokenizedAsset[] = [
+    {
+      id: 'tok-btc-wrapped',
+      name: 'Wrapped Bitcoin',
+      symbol: 'WBTC',
+      standard: 'ERC-20',
+      underlyingAsset: 'BTC',
+      totalSupply: 50_000 + (seed % 10_000),
+      circulatingSupply: 45_000 + (seed % 9_000),
+      priceUsd: 67_000 + (seed % 3_000),
+      marketCapUsd: (45_000 + (seed % 9_000)) * (67_000 + (seed % 3_000)),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}BTC`,
+      contractStatus: 'active',
+      complianceVerified: true,
+      lockupDays: 0,
+    },
+    {
+      id: 'tok-eth-staked',
+      name: 'Staked Ether',
+      symbol: 'stETH',
+      standard: 'ERC-20',
+      underlyingAsset: 'ETH',
+      totalSupply: 300_000 + (seed % 50_000),
+      circulatingSupply: 280_000 + (seed % 45_000),
+      priceUsd: 3_800 + (seed % 400),
+      marketCapUsd: (280_000 + (seed % 45_000)) * (3_800 + (seed % 400)),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}ETH`,
+      contractStatus: 'active',
+      complianceVerified: true,
+      lockupDays: 7,
+    },
+    {
+      id: 'tok-rwa-bonds',
+      name: 'SPAJA RWA Bonds',
+      symbol: 'SRWAB',
+      standard: 'ERC-1155',
+      underlyingAsset: 'Government Bonds',
+      totalSupply: 1_000_000,
+      circulatingSupply: 750_000 + (seed % 100_000),
+      priceUsd: 100,
+      marketCapUsd: (750_000 + (seed % 100_000)) * 100,
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}RWA`,
+      contractStatus: seed % 9 === 0 ? 'paused' : 'active',
+      complianceVerified: seed % 9 === 0 ? false : true,
+      lockupDays: 30,
+    },
+    {
+      id: 'tok-stablecoin',
+      name: 'SPAJA Stablecoin',
+      symbol: 'SPAJAUSD',
+      standard: 'ERC-20',
+      underlyingAsset: 'USD',
+      totalSupply: 5_000_000 + (seed % 1_000_000),
+      circulatingSupply: 4_800_000 + (seed % 900_000),
+      priceUsd: 1.0,
+      marketCapUsd: 4_800_000 + (seed % 900_000),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}USD`,
+      contractStatus: 'active',
+      complianceVerified: true,
+      lockupDays: 0,
+    },
+    {
+      id: 'tok-nft-real-estate',
+      name: 'SPAJA Real Estate NFT',
+      symbol: 'SRENFT',
+      standard: 'ERC-721',
+      underlyingAsset: 'Commercial Real Estate',
+      totalSupply: 500,
+      circulatingSupply: 420 + (seed % 50),
+      priceUsd: 25_000 + (seed % 5_000),
+      marketCapUsd: (420 + (seed % 50)) * (25_000 + (seed % 5_000)),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}NFT`,
+      contractStatus: seed % 13 === 0 ? 'deprecated' : 'active',
+      complianceVerified: true,
+      lockupDays: 90,
+    },
+  ];
+
+  const totalTokenizedAssetsUsd = assets.reduce((s, a) => s + a.circulatingSupply * a.priceUsd, 0);
+  const totalMarketCapUsd = assets.reduce((s, a) => s + a.marketCapUsd, 0);
+  const activeContracts = assets.filter((a) => a.contractStatus === 'active').length;
+  const pausedContracts = assets.filter((a) => a.contractStatus === 'paused').length;
+  const deprecatedContracts = assets.filter((a) => a.contractStatus === 'deprecated').length;
+  const complianceVerifiedCount = assets.filter((a) => a.complianceVerified).length;
+  const complianceRate = roundLedger(complianceVerifiedCount / assets.length);
+  const averageLockupDays = Math.round(assets.reduce((s, a) => s + a.lockupDays, 0) / assets.length);
+  const tokenizationScore = Math.max(
+    0,
+    Math.round(100 - pausedContracts * 10 - deprecatedContracts * 20 - (1 - complianceRate) * 30),
+  );
+
+  const recommendations: string[] = [];
+  for (const asset of assets) {
+    if (asset.contractStatus === 'deprecated') {
+      recommendations.push(
+        `Migrirajte ${asset.name} (${asset.symbol}) sa deprecated ugovora na novi smart-contract standard.`,
+      );
+    } else if (asset.contractStatus === 'paused') {
+      recommendations.push(
+        `${asset.name} (${asset.symbol}) je pauziran. Razriješite compliance blokadu ili pokrenite audit.`,
+      );
+    }
+    if (!asset.complianceVerified) {
+      recommendations.push(
+        `${asset.name} (${asset.symbol}) nema verifikovan compliance. Priložite KYC/AML dokumentaciju.`,
+      );
+    }
+  }
+  if (complianceRate < 0.9) {
+    recommendations.push(
+      `Compliance rate ${(complianceRate * 100).toFixed(0)}% je ispod 90%; pokrenite masovnu verifikaciju tokena.`,
+    );
+  }
+  if (recommendations.length === 0) {
+    recommendations.push(
+      'Svi tokenizovani instrumenti su aktivni, compliance-verified i bez deprecation upozorenja.',
+    );
+  }
+
+  return {
+    userId,
+    summary: {
+      totalTokenizedAssetsUsd,
+      totalMarketCapUsd,
+      activeContracts,
+      pausedContracts,
+      deprecatedContracts,
+      complianceVerifiedCount,
+      complianceRate,
+      averageLockupDays,
+      tokenizationScore,
+    },
+    assets,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1231 — Kripto Trezor Vault Tokenization ─────────────────────
+// VaultTokenizationReport + buildVaultTokenizationReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-tokenization. Nova ruta: GET /api/kripto-trezor/tokenization.
+// APP_VERSION=50.0.0 | AUTOFINISH_COUNT=1231 | TOTAL_API_ROUTES=1100 | TOTAL_ROUTES=1162
+
+export interface VaultRedemptionRequest {
+  id: string;
+  assetId: string;
+  symbol: string;
+  requestedUnits: number;
+  requestedUsd: number;
+  feeUsd: number;
+  netUsd: number;
+  initiatedAt: string;
+  expectedSettlementAt: string;
+  settlementStatus: 'scheduled' | 'processing' | 'settled' | 'delayed';
+  liquiditySource: 'stablecoin-reserve' | 'market-maker' | 'treasury-desk';
+  complianceHold: boolean;
+}
+
+export interface VaultRedemptionSummary {
+  totalRequestedUsd: number;
+  totalNetUsd: number;
+  totalFeesUsd: number;
+  settledCount: number;
+  processingCount: number;
+  delayedCount: number;
+  complianceHoldCount: number;
+  averageSettlementHours: number;
+  liquidityCoverageRatio: number;
+  redemptionScore: number;
+}
+
+export interface VaultRedemptionReport {
+  userId: string;
+  summary: VaultRedemptionSummary;
+  requests: VaultRedemptionRequest[];
+  actionItems: string[];
+  timestamp: string;
+}
+
+/** Gradi redemption izvještaj: zahtjevi za otkup, naknade, settlement status i compliance hold. */
+export function buildVaultRedemptionReport(userId: string): VaultRedemptionReport {
+  const seed = userId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const baseTime = Date.UTC(2026, 4, 13, 8, 0, 0);
+  const mkIso = (offsetHours: number) => new Date(baseTime + offsetHours * 60 * 60 * 1000).toISOString();
+
+  const baseRequests: VaultRedemptionRequest[] = [
+    {
+      id: `red-wbtc-${seed}`,
+      assetId: 'BTC',
+      symbol: 'WBTC',
+      requestedUnits: roundLedger(2 + (seed % 30) / 10),
+      requestedUsd: 180_000 + (seed % 25_000),
+      feeUsd: 450 + (seed % 120),
+      netUsd: 0,
+      initiatedAt: mkIso(0),
+      expectedSettlementAt: mkIso(8),
+      settlementStatus: 'settled',
+      liquiditySource: 'market-maker',
+      complianceHold: false,
+    },
+    {
+      id: `red-steth-${seed}`,
+      assetId: 'ETH',
+      symbol: 'stETH',
+      requestedUnits: roundLedger(45 + (seed % 20)),
+      requestedUsd: 160_000 + (seed % 18_000),
+      feeUsd: 380 + (seed % 90),
+      netUsd: 0,
+      initiatedAt: mkIso(2),
+      expectedSettlementAt: mkIso(26),
+      settlementStatus: 'processing',
+      liquiditySource: 'stablecoin-reserve',
+      complianceHold: false,
+    },
+    {
+      id: `red-rwa-${seed}`,
+      assetId: 'RWA-BONDS',
+      symbol: 'SRWAB',
+      requestedUnits: 1_500 + (seed % 700),
+      requestedUsd: 150_000 + (seed % 30_000),
+      feeUsd: 520 + (seed % 110),
+      netUsd: 0,
+      initiatedAt: mkIso(5),
+      expectedSettlementAt: mkIso(53),
+      settlementStatus: seed % 4 === 0 ? 'delayed' : 'scheduled',
+      liquiditySource: 'treasury-desk',
+      complianceHold: seed % 6 === 0,
+    },
+    {
+      id: `red-usd-${seed}`,
+      assetId: 'USD',
+      symbol: 'SPAJAUSD',
+      requestedUnits: 250_000 + (seed % 40_000),
+      requestedUsd: 250_000 + (seed % 40_000),
+      feeUsd: 150 + (seed % 40),
+      netUsd: 0,
+      initiatedAt: mkIso(6),
+      expectedSettlementAt: mkIso(10),
+      settlementStatus: 'settled',
+      liquiditySource: 'stablecoin-reserve',
+      complianceHold: false,
+    },
+  ];
+
+  const requests: VaultRedemptionRequest[] = baseRequests.map((request) => ({
+    ...request,
+    netUsd: roundLedger(request.requestedUsd - request.feeUsd),
+  }));
+
+  const totalRequestedUsd = roundLedger(requests.reduce((sum, request) => sum + request.requestedUsd, 0));
+  const totalFeesUsd = roundLedger(requests.reduce((sum, request) => sum + request.feeUsd, 0));
+  const totalNetUsd = roundLedger(requests.reduce((sum, request) => sum + request.netUsd, 0));
+  const settledCount = requests.filter((request) => request.settlementStatus === 'settled').length;
+  const processingCount = requests.filter((request) => request.settlementStatus === 'processing').length;
+  const delayedCount = requests.filter((request) => request.settlementStatus === 'delayed').length;
+  const complianceHoldCount = requests.filter((request) => request.complianceHold).length;
+  const averageSettlementHours = roundLedger(
+    requests.reduce((sum, request) => {
+      const initiated = new Date(request.initiatedAt).getTime();
+      const expected = new Date(request.expectedSettlementAt).getTime();
+      return sum + (expected - initiated) / (1000 * 60 * 60);
+    }, 0) / requests.length,
+  );
+  const liquidityCoverageRatio = roundLedger(
+    (totalNetUsd + settledCount * 5_000) / Math.max(totalRequestedUsd, 1),
+  );
+  const redemptionScore = Math.max(
+    0,
+    Math.round(100 - delayedCount * 18 - complianceHoldCount * 12 - processingCount * 6),
+  );
+
+  const actionItems: string[] = [];
+  for (const request of requests) {
+    if (request.settlementStatus === 'delayed') {
+      actionItems.push(
+        `${request.symbol} redemption ${request.id} kasni; povećajte treasury liquidity ili uključite dodatnog market makera.`,
+      );
+    }
+    if (request.complianceHold) {
+      actionItems.push(
+        `${request.symbol} redemption ${request.id} je na compliance hold-u; završite dodatni KYC/AML pregled prije settlementa.`,
+      );
+    }
+  }
+  if (liquidityCoverageRatio < 0.99) {
+    actionItems.push('Likvidnosno pokriće redemption zahtjeva je ispod 99%; dopunite stablecoin reserve prije većeg otkupa.');
+  }
+  if (actionItems.length === 0) {
+    actionItems.push('Svi redemption zahtjevi imaju uredan settlement tok, bez compliance hold-a i sa dovoljnim likvidnosnim pokrićem.');
+  }
+
+  return {
+    userId,
+    summary: {
+      totalRequestedUsd,
+      totalNetUsd,
+      totalFeesUsd,
+      settledCount,
+      processingCount,
+      delayedCount,
+      complianceHoldCount,
+      averageSettlementHours,
+      liquidityCoverageRatio,
+      redemptionScore,
+    },
+    requests,
+    actionItems,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1232 — Kripto Trezor Vault Redemption ───────────────────────
+// VaultRedemptionReport + buildVaultRedemptionReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-redemption. Nova ruta: GET /api/kripto-trezor/redemption.
+// APP_VERSION=50.1.0 | AUTOFINISH_COUNT=1232 | TOTAL_API_ROUTES=1101 | TOTAL_ROUTES=1163

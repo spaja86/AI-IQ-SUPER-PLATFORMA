@@ -7342,3 +7342,38 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // VaultInsuranceReport + buildVaultInsuranceReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-insurance. Nova ruta: GET /api/kripto-trezor/insurance.
 // APP_VERSION=49.4.0 | AUTOFINISH_COUNT=1225 | TOTAL_API_ROUTES=1094 | TOTAL_ROUTES=1156
+
+// ─── Autofinish #1226 — Kripto Trezor Vault Diversification ──────────────────
+// VaultDiversificationReport + buildVaultDiversificationReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-diversification. Nova ruta: GET /api/kripto-trezor/diversification.
+// APP_VERSION=49.5.0 | AUTOFINISH_COUNT=1226 | TOTAL_API_ROUTES=1095 | TOTAL_ROUTES=1157
+
+// ─── Autofinish #1227 — Kripto Trezor Vault Collateral ───────────────────────
+// VaultCollateralReport + buildVaultCollateralReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-collateral. Nova ruta: GET /api/kripto-trezor/collateral.
+// APP_VERSION=49.6.0 | AUTOFINISH_COUNT=1227 | TOTAL_API_ROUTES=1096 | TOTAL_ROUTES=1158
+
+// ─── Autofinish #1228 — Kripto Trezor Vault Solvency ─────────────────────────
+// VaultSolvencyReport + buildVaultSolvencyReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-solvency. Nova ruta: GET /api/kripto-trezor/solvency.
+// APP_VERSION=49.7.0 | AUTOFINISH_COUNT=1228 | TOTAL_API_ROUTES=1097 | TOTAL_ROUTES=1159
+
+// ─── Autofinish #1229 — Kripto Trezor Vault Reserve ──────────────────────────
+// VaultReserveReport + buildVaultReserveReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-reserve. Nova ruta: GET /api/kripto-trezor/reserve.
+// APP_VERSION=49.8.0 | AUTOFINISH_COUNT=1229 | TOTAL_API_ROUTES=1098 | TOTAL_ROUTES=1160
+
+// ─── Autofinish #1230 — Kripto Trezor Vault Custody ──────────────────────────
+// VaultCustodyReport + buildVaultCustodyReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-custody. Nova ruta: GET /api/kripto-trezor/custody.
+// APP_VERSION=49.9.0 | AUTOFINISH_COUNT=1230 | TOTAL_API_ROUTES=1099 | TOTAL_ROUTES=1161
+
+// ─── Autofinish #1231 — Kripto Trezor Vault Tokenization ─────────────────────
+// VaultTokenizationReport + buildVaultTokenizationReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-tokenization. Nova ruta: GET /api/kripto-trezor/tokenization.
+// APP_VERSION=50.0.0 | AUTOFINISH_COUNT=1231 | TOTAL_API_ROUTES=1100 | TOTAL_ROUTES=1162
+
+// ─── Autofinish #1232 — Kripto Trezor Vault Redemption ───────────────────────
+// VaultRedemptionReport + buildVaultRedemptionReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-redemption. Nova ruta: GET /api/kripto-trezor/redemption.
+// APP_VERSION=50.1.0 | AUTOFINISH_COUNT=1232 | TOTAL_API_ROUTES=1101 | TOTAL_ROUTES=1163
