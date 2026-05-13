@@ -7357,3 +7357,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // VaultSolvencyReport + buildVaultSolvencyReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-solvency. Nova ruta: GET /api/kripto-trezor/solvency.
 // APP_VERSION=49.7.0 | AUTOFINISH_COUNT=1228 | TOTAL_API_ROUTES=1097 | TOTAL_ROUTES=1159
+
+// ─── Autofinish #1229 — Kripto Trezor Vault Reserve ──────────────────────────
+// VaultReserveReport + buildVaultReserveReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-reserve. Nova ruta: GET /api/kripto-trezor/reserve.
+// APP_VERSION=49.8.0 | AUTOFINISH_COUNT=1229 | TOTAL_API_ROUTES=1098 | TOTAL_ROUTES=1160

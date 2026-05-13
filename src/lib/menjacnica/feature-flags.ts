@@ -324,6 +324,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-13',
   },
+  {
+    id: 'kripto-trezor-reserve',
+    naziv: 'Kripto Trezor — Vault Reserve',
+    opis: 'Reserve izvještaj: pokriće rezervama po klasama imovine, aggregate coverage ratio i stress signal',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-13',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

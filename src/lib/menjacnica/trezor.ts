@@ -3520,3 +3520,169 @@ export function buildVaultSolvencyReport(userId: string): VaultSolvencyReport {
 // VaultSolvencyReport + buildVaultSolvencyReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-solvency. Nova ruta: GET /api/kripto-trezor/solvency.
 // APP_VERSION=49.7.0 | AUTOFINISH_COUNT=1228 | TOTAL_API_ROUTES=1097 | TOTAL_ROUTES=1159
+
+// ─── Vault Reserve ─────────────────────────────────────────────────────────────
+
+export type ReserveAssetClass = 'btc' | 'eth' | 'stablecoin' | 'fiat' | 'tokenized-bond';
+
+export interface VaultReserveBucket {
+  id: string;
+  assetClass: ReserveAssetClass;
+  label: string;
+  reserveUsd: number;
+  requiredReserveUsd: number;
+  coverageRatio: number;
+  targetRatio: number;
+  status: 'healthy' | 'watch' | 'critical';
+}
+
+export interface VaultReserveSummary {
+  totalReserveUsd: number;
+  totalRequiredReserveUsd: number;
+  aggregateCoverageRatio: number;
+  stressedCoverageRatio: number;
+  healthyBuckets: number;
+  watchBuckets: number;
+  criticalBuckets: number;
+  reserveGapUsd: number;
+  reserveScore: number;
+}
+
+export interface VaultReserveReport {
+  userId: string;
+  summary: VaultReserveSummary;
+  buckets: VaultReserveBucket[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+const VAULT_RESERVE_CRITICAL_RATIO = 1.0;
+const VAULT_RESERVE_WATCH_RATIO = 1.1;
+
+/** Gradi reserve izvještaj: pokriće rezervama i preporuke po klasama imovine. */
+export function buildVaultReserveReport(userId: string): VaultReserveReport {
+  const seed = userId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const rawBuckets: Array<{
+    id: string;
+    assetClass: ReserveAssetClass;
+    label: string;
+    reserveUsd: number;
+    requiredReserveUsd: number;
+    targetRatio: number;
+  }> = [
+    {
+      id: 'res-btc',
+      assetClass: 'btc',
+      label: 'BTC Rezerve',
+      reserveUsd: 1_250_000 + (seed % 220_000),
+      requiredReserveUsd: 1_020_000 + (seed % 180_000),
+      targetRatio: 1.15,
+    },
+    {
+      id: 'res-eth',
+      assetClass: 'eth',
+      label: 'ETH Rezerve',
+      reserveUsd: 920_000 + (seed % 160_000),
+      requiredReserveUsd: 810_000 + (seed % 130_000),
+      targetRatio: 1.12,
+    },
+    {
+      id: 'res-stable',
+      assetClass: 'stablecoin',
+      label: 'Stablecoin Rezerve',
+      reserveUsd: 1_650_000 + (seed % 260_000),
+      requiredReserveUsd: 1_420_000 + (seed % 220_000),
+      targetRatio: 1.18,
+    },
+    {
+      id: 'res-fiat',
+      assetClass: 'fiat',
+      label: 'FIAT Operativne Rezerve',
+      reserveUsd: 680_000 + (seed % 110_000),
+      requiredReserveUsd: 620_000 + (seed % 100_000),
+      targetRatio: 1.10,
+    },
+    {
+      id: 'res-bond',
+      assetClass: 'tokenized-bond',
+      label: 'Tokenizovane Obveznice (Rezervni sloj)',
+      reserveUsd: 540_000 + (seed % 90_000),
+      requiredReserveUsd: 500_000 + (seed % 85_000),
+      targetRatio: 1.08,
+    },
+  ];
+
+  const buckets: VaultReserveBucket[] = rawBuckets.map((bucket) => {
+    const coverageRatio = roundLedger(bucket.reserveUsd / bucket.requiredReserveUsd);
+    const status: VaultReserveBucket['status'] =
+      coverageRatio < VAULT_RESERVE_CRITICAL_RATIO
+        ? 'critical'
+        : coverageRatio < VAULT_RESERVE_WATCH_RATIO
+          ? 'watch'
+          : 'healthy';
+    return {
+      id: bucket.id,
+      assetClass: bucket.assetClass,
+      label: bucket.label,
+      reserveUsd: bucket.reserveUsd,
+      requiredReserveUsd: bucket.requiredReserveUsd,
+      coverageRatio,
+      targetRatio: bucket.targetRatio,
+      status,
+    };
+  });
+
+  const totalReserveUsd = buckets.reduce((sum, bucket) => sum + bucket.reserveUsd, 0);
+  const totalRequiredReserveUsd = buckets.reduce((sum, bucket) => sum + bucket.requiredReserveUsd, 0);
+  const aggregateCoverageRatio = roundLedger(totalReserveUsd / totalRequiredReserveUsd);
+  const stressedCoverageRatio = roundLedger(aggregateCoverageRatio * 0.93);
+  const healthyBuckets = buckets.filter((bucket) => bucket.status === 'healthy').length;
+  const watchBuckets = buckets.filter((bucket) => bucket.status === 'watch').length;
+  const criticalBuckets = buckets.filter((bucket) => bucket.status === 'critical').length;
+  const reserveGapUsd = Math.max(0, roundLedger(totalRequiredReserveUsd - totalReserveUsd));
+  const reserveScore = Math.max(0, Math.round(100 - watchBuckets * 12 - criticalBuckets * 30));
+
+  const recommendations: string[] = [];
+  for (const bucket of buckets) {
+    if (bucket.status === 'critical') {
+      recommendations.push(
+        `Kritično: ${bucket.label} coverage ${bucket.coverageRatio.toFixed(2)} je ispod 1.00. Prioritetno povećati rezerve.`,
+      );
+    } else if (bucket.status === 'watch') {
+      recommendations.push(
+        `Upozorenje: ${bucket.label} coverage ${bucket.coverageRatio.toFixed(2)} je u watch zoni. Dodati zaštitni buffer prema targetu ${bucket.targetRatio.toFixed(2)}.`,
+      );
+    }
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Sve klase imovine imaju zdravo reserve pokriće iznad watch praga.');
+  }
+  if (stressedCoverageRatio < VAULT_RESERVE_CRITICAL_RATIO) {
+    recommendations.push(
+      `Stress scenario spušta aggregate coverage na ${stressedCoverageRatio.toFixed(2)}; preporučeno je hitno povećanje rezervnog sloja.`,
+    );
+  }
+
+  return {
+    userId,
+    summary: {
+      totalReserveUsd,
+      totalRequiredReserveUsd,
+      aggregateCoverageRatio,
+      stressedCoverageRatio,
+      healthyBuckets,
+      watchBuckets,
+      criticalBuckets,
+      reserveGapUsd,
+      reserveScore,
+    },
+    buckets,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1229 — Kripto Trezor Vault Reserve ──────────────────────────
+// VaultReserveReport + buildVaultReserveReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-reserve. Nova ruta: GET /api/kripto-trezor/reserve.
+// APP_VERSION=49.8.0 | AUTOFINISH_COUNT=1229 | TOTAL_API_ROUTES=1098 | TOTAL_ROUTES=1160
