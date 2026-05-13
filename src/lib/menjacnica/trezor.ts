@@ -3097,3 +3097,125 @@ export function buildVaultInsuranceReport(userId: string): VaultInsuranceReport 
 // VaultInsuranceReport + buildVaultInsuranceReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-insurance. Nova ruta: GET /api/kripto-trezor/insurance.
 // APP_VERSION=49.4.0 | AUTOFINISH_COUNT=1225 | TOTAL_API_ROUTES=1094 | TOTAL_ROUTES=1156
+
+// ─── Vault Diversification ────────────────────────────────────────────────────
+
+export type DiversificationAssetClass =
+  | 'btc'
+  | 'eth'
+  | 'stablecoins'
+  | 'altcoins'
+  | 'defi'
+  | 'nft'
+  | 'rwa';
+
+export interface VaultDiversificationSlice {
+  assetClass: DiversificationAssetClass;
+  label: string;
+  valueUsd: number;
+  weightPct: number;
+  targetWeightPct: number;
+  deviation: number;
+  status: 'balanced' | 'overweight' | 'underweight';
+}
+
+export interface VaultDiversificationSummary {
+  totalValueUsd: number;
+  numberOfAssetClasses: number;
+  herfindahlIndex: number;
+  diversificationScore: number;
+  maxSingleWeightPct: number;
+  balancedSlices: number;
+  rebalanceNeeded: boolean;
+}
+
+export interface VaultDiversificationReport {
+  userId: string;
+  summary: VaultDiversificationSummary;
+  slices: VaultDiversificationSlice[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi diversification izvještaj za vault: raspodjela po asset klasama, HHI i preporuke. */
+export function buildVaultDiversificationReport(userId: string): VaultDiversificationReport {
+  // HHI > 0.25 označava visoku koncentraciju portfolio-a prema standardu OECD/DOJ smjernica
+  const HHI_CONCENTRATION_THRESHOLD = 0.25;
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+
+  const rawSlices: { assetClass: DiversificationAssetClass; label: string; rawWeight: number; targetPct: number }[] = [
+    { assetClass: 'btc',         label: 'Bitcoin (BTC)',        rawWeight: 30 + (seed % 15),     targetPct: 35 },
+    { assetClass: 'eth',         label: 'Ethereum (ETH)',       rawWeight: 20 + (seed % 10),     targetPct: 25 },
+    { assetClass: 'stablecoins', label: 'Stablecoins',          rawWeight: 15 + (seed % 8),      targetPct: 15 },
+    { assetClass: 'altcoins',    label: 'Altcoins',             rawWeight: 10 + (seed % 7),      targetPct: 10 },
+    { assetClass: 'defi',        label: 'DeFi Protokoli',       rawWeight: 8  + (seed % 5),      targetPct: 8  },
+    { assetClass: 'nft',         label: 'NFT i Digitalna Imovina', rawWeight: 5 + (seed % 4),   targetPct: 4  },
+    { assetClass: 'rwa',         label: 'Real-World Assets',    rawWeight: 3  + (seed % 3),      targetPct: 3  },
+  ];
+
+  const totalRaw = rawSlices.reduce((s, r) => s + r.rawWeight, 0);
+  const totalValueUsd = 1_200_000 + (seed % 800_000);
+
+  const slices: VaultDiversificationSlice[] = rawSlices.map((r) => {
+    const weightPct = roundLedger((r.rawWeight / totalRaw) * 100);
+    const deviation = roundLedger(weightPct - r.targetPct);
+    const status: VaultDiversificationSlice['status'] =
+      Math.abs(deviation) <= 2 ? 'balanced' : deviation > 0 ? 'overweight' : 'underweight';
+    return {
+      assetClass: r.assetClass,
+      label: r.label,
+      valueUsd: roundLedger((weightPct / 100) * totalValueUsd),
+      weightPct,
+      targetWeightPct: r.targetPct,
+      deviation,
+      status,
+    };
+  });
+
+  const maxSingleWeightPct = Math.max(...slices.map((s) => s.weightPct));
+  const herfindahlIndex = roundLedger(
+    slices.reduce((s, sl) => s + Math.pow(sl.weightPct / 100, 2), 0),
+  );
+  const balancedSlices = slices.filter((s) => s.status === 'balanced').length;
+  const rebalanceNeeded = slices.some((s) => s.status !== 'balanced');
+  const diversificationScore = Math.max(
+    0,
+    Math.round(100 - herfindahlIndex * 100 - (slices.length - balancedSlices) * 4),
+  );
+
+  const recommendations: string[] = [];
+  for (const s of slices) {
+    if (s.status === 'overweight') {
+      recommendations.push(`Smanjiti ${s.label} sa ${s.weightPct}% na ciljanih ${s.targetWeightPct}% (prekomjerno +${s.deviation}%).`);
+    } else if (s.status === 'underweight') {
+      recommendations.push(`Povećati ${s.label} sa ${s.weightPct}% na ciljanih ${s.targetWeightPct}% (nedostatak ${s.deviation}%).`);
+    }
+  }
+  if (!rebalanceNeeded) {
+    recommendations.push('Portfolio je u okviru ciljane raspodjele — nije potreban rebalans.');
+  }
+  if (herfindahlIndex > HHI_CONCENTRATION_THRESHOLD) {
+    recommendations.push(`Visoka koncentracija portfolio-a (HHI > ${HHI_CONCENTRATION_THRESHOLD}) — razmotriti povećanje diversifikacije.`);
+  }
+
+  return {
+    userId,
+    summary: {
+      totalValueUsd,
+      numberOfAssetClasses: slices.length,
+      herfindahlIndex,
+      diversificationScore,
+      maxSingleWeightPct,
+      balancedSlices,
+      rebalanceNeeded,
+    },
+    slices,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1226 — Kripto Trezor Vault Diversification ──────────────────
+// VaultDiversificationReport + buildVaultDiversificationReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-diversification. Nova ruta: GET /api/kripto-trezor/diversification.
+// APP_VERSION=49.5.0 | AUTOFINISH_COUNT=1226 | TOTAL_API_ROUTES=1095 | TOTAL_ROUTES=1157

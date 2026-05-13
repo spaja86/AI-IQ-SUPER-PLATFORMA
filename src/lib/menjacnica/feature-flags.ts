@@ -300,6 +300,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-13',
   },
+  {
+    id: 'kripto-trezor-diversification',
+    naziv: 'Kripto Trezor — Vault Diversification',
+    opis: 'Diversification izvještaj: raspodjela po asset klasama, HHI i rebalans preporuke',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-13',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
