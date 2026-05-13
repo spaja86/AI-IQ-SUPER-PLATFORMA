@@ -4034,3 +4034,176 @@ export function buildVaultTokenizationReport(userId: string): VaultTokenizationR
 // VaultTokenizationReport + buildVaultTokenizationReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-tokenization. Nova ruta: GET /api/kripto-trezor/tokenization.
 // APP_VERSION=50.0.0 | AUTOFINISH_COUNT=1231 | TOTAL_API_ROUTES=1100 | TOTAL_ROUTES=1162
+
+export interface VaultRedemptionRequest {
+  id: string;
+  assetId: string;
+  symbol: string;
+  requestedUnits: number;
+  requestedUsd: number;
+  feeUsd: number;
+  netUsd: number;
+  initiatedAt: string;
+  expectedSettlementAt: string;
+  settlementStatus: 'scheduled' | 'processing' | 'settled' | 'delayed';
+  liquiditySource: 'stablecoin-reserve' | 'market-maker' | 'treasury-desk';
+  complianceHold: boolean;
+}
+
+export interface VaultRedemptionSummary {
+  totalRequestedUsd: number;
+  totalNetUsd: number;
+  totalFeesUsd: number;
+  settledCount: number;
+  processingCount: number;
+  delayedCount: number;
+  complianceHoldCount: number;
+  averageSettlementHours: number;
+  liquidityCoverageRatio: number;
+  redemptionScore: number;
+}
+
+export interface VaultRedemptionReport {
+  userId: string;
+  summary: VaultRedemptionSummary;
+  requests: VaultRedemptionRequest[];
+  actionItems: string[];
+  timestamp: string;
+}
+
+/** Gradi redemption izvještaj: zahtjevi za otkup, naknade, settlement status i compliance hold. */
+export function buildVaultRedemptionReport(userId: string): VaultRedemptionReport {
+  const seed = userId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const baseTime = Date.UTC(2026, 4, 13, 8, 0, 0);
+  const mkIso = (offsetHours: number) => new Date(baseTime + offsetHours * 60 * 60 * 1000).toISOString();
+
+  const baseRequests: VaultRedemptionRequest[] = [
+    {
+      id: `red-wbtc-${seed}`,
+      assetId: 'BTC',
+      symbol: 'WBTC',
+      requestedUnits: roundLedger(2 + (seed % 30) / 10),
+      requestedUsd: 180_000 + (seed % 25_000),
+      feeUsd: 450 + (seed % 120),
+      netUsd: 0,
+      initiatedAt: mkIso(0),
+      expectedSettlementAt: mkIso(8),
+      settlementStatus: 'settled',
+      liquiditySource: 'market-maker',
+      complianceHold: false,
+    },
+    {
+      id: `red-steth-${seed}`,
+      assetId: 'ETH',
+      symbol: 'stETH',
+      requestedUnits: roundLedger(45 + (seed % 20)),
+      requestedUsd: 160_000 + (seed % 18_000),
+      feeUsd: 380 + (seed % 90),
+      netUsd: 0,
+      initiatedAt: mkIso(2),
+      expectedSettlementAt: mkIso(26),
+      settlementStatus: 'processing',
+      liquiditySource: 'stablecoin-reserve',
+      complianceHold: false,
+    },
+    {
+      id: `red-rwa-${seed}`,
+      assetId: 'RWA-BONDS',
+      symbol: 'SRWAB',
+      requestedUnits: 1_500 + (seed % 700),
+      requestedUsd: 150_000 + (seed % 30_000),
+      feeUsd: 520 + (seed % 110),
+      netUsd: 0,
+      initiatedAt: mkIso(5),
+      expectedSettlementAt: mkIso(53),
+      settlementStatus: seed % 4 === 0 ? 'delayed' : 'scheduled',
+      liquiditySource: 'treasury-desk',
+      complianceHold: seed % 6 === 0,
+    },
+    {
+      id: `red-usd-${seed}`,
+      assetId: 'USD',
+      symbol: 'SPAJAUSD',
+      requestedUnits: 250_000 + (seed % 40_000),
+      requestedUsd: 250_000 + (seed % 40_000),
+      feeUsd: 150 + (seed % 40),
+      netUsd: 0,
+      initiatedAt: mkIso(6),
+      expectedSettlementAt: mkIso(10),
+      settlementStatus: 'settled',
+      liquiditySource: 'stablecoin-reserve',
+      complianceHold: false,
+    },
+  ];
+
+  const requests: VaultRedemptionRequest[] = baseRequests.map((request) => ({
+    ...request,
+    netUsd: roundLedger(request.requestedUsd - request.feeUsd),
+  }));
+
+  const totalRequestedUsd = roundLedger(requests.reduce((sum, request) => sum + request.requestedUsd, 0));
+  const totalFeesUsd = roundLedger(requests.reduce((sum, request) => sum + request.feeUsd, 0));
+  const totalNetUsd = roundLedger(requests.reduce((sum, request) => sum + request.netUsd, 0));
+  const settledCount = requests.filter((request) => request.settlementStatus === 'settled').length;
+  const processingCount = requests.filter((request) => request.settlementStatus === 'processing').length;
+  const delayedCount = requests.filter((request) => request.settlementStatus === 'delayed').length;
+  const complianceHoldCount = requests.filter((request) => request.complianceHold).length;
+  const averageSettlementHours = roundLedger(
+    requests.reduce((sum, request) => {
+      const initiated = new Date(request.initiatedAt).getTime();
+      const expected = new Date(request.expectedSettlementAt).getTime();
+      return sum + (expected - initiated) / (1000 * 60 * 60);
+    }, 0) / requests.length,
+  );
+  const liquidityCoverageRatio = roundLedger(
+    (totalNetUsd + settledCount * 5_000) / Math.max(totalRequestedUsd, 1),
+  );
+  const redemptionScore = Math.max(
+    0,
+    Math.round(100 - delayedCount * 18 - complianceHoldCount * 12 - processingCount * 6),
+  );
+
+  const actionItems: string[] = [];
+  for (const request of requests) {
+    if (request.settlementStatus === 'delayed') {
+      actionItems.push(
+        `${request.symbol} redemption ${request.id} kasni; povećajte treasury liquidity ili uključite dodatnog market makera.`,
+      );
+    }
+    if (request.complianceHold) {
+      actionItems.push(
+        `${request.symbol} redemption ${request.id} je na compliance hold-u; završite dodatni KYC/AML pregled prije settlementa.`,
+      );
+    }
+  }
+  if (liquidityCoverageRatio < 0.99) {
+    actionItems.push('Likvidnosno pokriće redemption zahtjeva je ispod 99%; dopunite stablecoin reserve prije većeg otkupa.');
+  }
+  if (actionItems.length === 0) {
+    actionItems.push('Svi redemption zahtjevi imaju uredan settlement tok, bez compliance hold-a i sa dovoljnim likvidnosnim pokrićem.');
+  }
+
+  return {
+    userId,
+    summary: {
+      totalRequestedUsd,
+      totalNetUsd,
+      totalFeesUsd,
+      settledCount,
+      processingCount,
+      delayedCount,
+      complianceHoldCount,
+      averageSettlementHours,
+      liquidityCoverageRatio,
+      redemptionScore,
+    },
+    requests,
+    actionItems,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1232 — Kripto Trezor Vault Redemption ───────────────────────
+// VaultRedemptionReport + buildVaultRedemptionReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-redemption. Nova ruta: GET /api/kripto-trezor/redemption.
+// APP_VERSION=50.1.0 | AUTOFINISH_COUNT=1232 | TOTAL_API_ROUTES=1101 | TOTAL_ROUTES=1163

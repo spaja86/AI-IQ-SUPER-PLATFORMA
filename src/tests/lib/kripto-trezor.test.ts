@@ -32,6 +32,7 @@ import {
   buildVaultYieldReport,
   buildVaultGovernanceReport,
   buildVaultComplianceReport,
+  buildVaultRedemptionReport,
   VAULT_MIN_DEPOSIT,
   VAULT_TIME_LOCK_DAYS,
   VAULT_MULTISIG_THRESHOLD,
@@ -1503,6 +1504,70 @@ async function runTests(): Promise<void> {
   await test('compliance timestamp je validan ISO 8601', () => {
     const report = buildVaultComplianceReport('com-user-8');
     assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+  });
+
+  // ─── buildVaultRedemptionReport ───────────────────────────────────────────
+
+  console.log('\n💸 buildVaultRedemptionReport');
+
+  await test('redemption report sadrži userId i neprazan requests niz', () => {
+    const report = buildVaultRedemptionReport('red-user-1');
+    assert(report.userId === 'red-user-1', `userId mora biti 'red-user-1', dobiveno '${report.userId}'`);
+    assert(report.requests.length > 0, 'requests mora imati bar jednu stavku');
+  });
+
+  await test('summary totals su nenegativni i redemptionScore je u opsegu 0-100', () => {
+    const report = buildVaultRedemptionReport('red-user-2');
+    assert(report.summary.totalRequestedUsd >= 0, 'totalRequestedUsd mora biti >= 0');
+    assert(report.summary.totalNetUsd >= 0, 'totalNetUsd mora biti >= 0');
+    assert(report.summary.totalFeesUsd >= 0, 'totalFeesUsd mora biti >= 0');
+    assert(report.summary.redemptionScore >= 0 && report.summary.redemptionScore <= 100,
+      `redemptionScore mora biti 0-100, dobiveno ${report.summary.redemptionScore}`);
+  });
+
+  await test('summary counts odgovaraju stvarnim redemption statusima', () => {
+    const report = buildVaultRedemptionReport('red-user-3');
+    const settled = report.requests.filter((request) => request.settlementStatus === 'settled').length;
+    const processing = report.requests.filter((request) => request.settlementStatus === 'processing').length;
+    const delayed = report.requests.filter((request) => request.settlementStatus === 'delayed').length;
+    const complianceHold = report.requests.filter((request) => request.complianceHold).length;
+    assert(report.summary.settledCount === settled, 'settledCount ne odgovara');
+    assert(report.summary.processingCount === processing, 'processingCount ne odgovara');
+    assert(report.summary.delayedCount === delayed, 'delayedCount ne odgovara');
+    assert(report.summary.complianceHoldCount === complianceHold, 'complianceHoldCount ne odgovara');
+  });
+
+  await test('svaki redemption request ima validna polja', () => {
+    const report = buildVaultRedemptionReport('red-user-4');
+    for (const request of report.requests) {
+      assert(request.id.length > 0, 'id mora biti neprazan');
+      assert(request.assetId.length > 0, 'assetId mora biti neprazan');
+      assert(request.symbol.length > 0, 'symbol mora biti neprazan');
+      assert(request.requestedUnits >= 0, 'requestedUnits mora biti >= 0');
+      assert(request.requestedUsd >= 0, 'requestedUsd mora biti >= 0');
+      assert(request.feeUsd >= 0, 'feeUsd mora biti >= 0');
+      assert(request.netUsd >= 0, 'netUsd mora biti >= 0');
+      assert(['scheduled', 'processing', 'settled', 'delayed'].includes(request.settlementStatus),
+        `settlementStatus '${request.settlementStatus}' nije validan`);
+      assert(['stablecoin-reserve', 'market-maker', 'treasury-desk'].includes(request.liquiditySource),
+        `liquiditySource '${request.liquiditySource}' nije validan`);
+      assert(!isNaN(Date.parse(request.initiatedAt)), `initiatedAt nije validan datum: ${request.initiatedAt}`);
+      assert(!isNaN(Date.parse(request.expectedSettlementAt)),
+        `expectedSettlementAt nije validan datum: ${request.expectedSettlementAt}`);
+    }
+  });
+
+  await test('netUsd odgovara requestedUsd - feeUsd', () => {
+    const report = buildVaultRedemptionReport('red-user-5');
+    for (const request of report.requests) {
+      assertClose(request.netUsd, request.requestedUsd - request.feeUsd, 1e-6, 'netUsd ');
+    }
+  });
+
+  await test('redemption timestamp je validan ISO 8601 i actionItems nije prazan', () => {
+    const report = buildVaultRedemptionReport('red-user-6');
+    assert(!isNaN(Date.parse(report.timestamp)), `timestamp nije validan: ${report.timestamp}`);
+    assert(report.actionItems.length > 0, 'actionItems mora imati bar jednu stavku');
   });
 
   // ─── Rezime ──────────────────────────────────────────────────────────────

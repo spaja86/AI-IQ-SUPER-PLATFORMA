@@ -348,6 +348,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-13',
   },
+  {
+    id: 'kripto-trezor-redemption',
+    naziv: 'Kripto Trezor — Vault Redemption',
+    opis: 'Redemption izvještaj: zahtjevi za otkup, likvidnosni izvor, settlement status, naknade i compliance hold',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-13',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
