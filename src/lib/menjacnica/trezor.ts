@@ -3359,3 +3359,164 @@ export function buildVaultCollateralReport(userId: string): VaultCollateralRepor
 // VaultCollateralReport + buildVaultCollateralReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-collateral. Nova ruta: GET /api/kripto-trezor/collateral.
 // APP_VERSION=49.6.0 | AUTOFINISH_COUNT=1227 | TOTAL_API_ROUTES=1096 | TOTAL_ROUTES=1158
+
+// ─── Vault Solvency ────────────────────────────────────────────────────────────
+
+export type SolvencyTier = 'hot' | 'warm' | 'cold' | 'deep-cold';
+
+export interface VaultSolvencyBucket {
+  id: string;
+  tier: SolvencyTier;
+  label: string;
+  assetValueUsd: number;
+  liabilityValueUsd: number;
+  solvencyRatio: number;
+  targetRatio: number;
+  capitalBufferUsd: number;
+  status: 'healthy' | 'watch' | 'critical';
+}
+
+export interface VaultSolvencySummary {
+  totalAssetsUsd: number;
+  totalLiabilitiesUsd: number;
+  totalCapitalBufferUsd: number;
+  aggregateSolvencyRatio: number;
+  stressedSolvencyRatio: number;
+  healthyBuckets: number;
+  watchBuckets: number;
+  criticalBuckets: number;
+  solvencyScore: number;
+}
+
+export interface VaultSolvencyReport {
+  userId: string;
+  summary: VaultSolvencySummary;
+  buckets: VaultSolvencyBucket[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+const VAULT_SOLVENCY_MIN_RATIO = 1.1;
+const VAULT_SOLVENCY_WATCH_RATIO = 1.2;
+
+/** Gradi solvency izvještaj: assets/liabilities odnos, buffer i stress signal. */
+export function buildVaultSolvencyReport(userId: string): VaultSolvencyReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+  const rawBuckets: Array<{
+    id: string;
+    tier: SolvencyTier;
+    label: string;
+    assetsUsd: number;
+    liabilitiesUsd: number;
+    targetRatio: number;
+  }> = [
+    {
+      id: 'sol-hot',
+      tier: 'hot',
+      label: 'Hot Operativni Layer',
+      assetsUsd: 420_000 + (seed % 90_000),
+      liabilitiesUsd: 320_000 + (seed % 75_000),
+      targetRatio: 1.25,
+    },
+    {
+      id: 'sol-warm',
+      tier: 'warm',
+      label: 'Warm Transfer Layer',
+      assetsUsd: 680_000 + (seed % 120_000),
+      liabilitiesUsd: 500_000 + (seed % 85_000),
+      targetRatio: 1.30,
+    },
+    {
+      id: 'sol-cold',
+      tier: 'cold',
+      label: 'Cold Custody Layer',
+      assetsUsd: 2_800_000 + (seed % 240_000),
+      liabilitiesUsd: 2_150_000 + (seed % 180_000),
+      targetRatio: 1.22,
+    },
+    {
+      id: 'sol-deep-cold',
+      tier: 'deep-cold',
+      label: 'Deep Cold Rezervni Layer',
+      assetsUsd: 4_100_000 + (seed % 300_000),
+      liabilitiesUsd: 3_050_000 + (seed % 210_000),
+      targetRatio: 1.28,
+    },
+  ];
+
+  const buckets: VaultSolvencyBucket[] = rawBuckets.map((bucket) => {
+    const solvencyRatio = roundLedger(bucket.assetsUsd / bucket.liabilitiesUsd);
+    const capitalBufferUsd = roundLedger(bucket.assetsUsd - bucket.liabilitiesUsd);
+    const status: VaultSolvencyBucket['status'] =
+      solvencyRatio < VAULT_SOLVENCY_MIN_RATIO
+        ? 'critical'
+        : solvencyRatio < VAULT_SOLVENCY_WATCH_RATIO
+          ? 'watch'
+          : 'healthy';
+    return {
+      id: bucket.id,
+      tier: bucket.tier,
+      label: bucket.label,
+      assetValueUsd: bucket.assetsUsd,
+      liabilityValueUsd: bucket.liabilitiesUsd,
+      solvencyRatio,
+      targetRatio: bucket.targetRatio,
+      capitalBufferUsd,
+      status,
+    };
+  });
+
+  const totalAssetsUsd = buckets.reduce((sum, bucket) => sum + bucket.assetValueUsd, 0);
+  const totalLiabilitiesUsd = buckets.reduce((sum, bucket) => sum + bucket.liabilityValueUsd, 0);
+  const totalCapitalBufferUsd = roundLedger(totalAssetsUsd - totalLiabilitiesUsd);
+  const aggregateSolvencyRatio = roundLedger(totalAssetsUsd / totalLiabilitiesUsd);
+  const stressedSolvencyRatio = roundLedger(aggregateSolvencyRatio * 0.92);
+  const healthyBuckets = buckets.filter((bucket) => bucket.status === 'healthy').length;
+  const watchBuckets = buckets.filter((bucket) => bucket.status === 'watch').length;
+  const criticalBuckets = buckets.filter((bucket) => bucket.status === 'critical').length;
+  const solvencyScore = Math.max(0, Math.round(100 - watchBuckets * 14 - criticalBuckets * 28));
+
+  const recommendations: string[] = [];
+  for (const bucket of buckets) {
+    if (bucket.status === 'critical') {
+      recommendations.push(
+        `Kritično: ${bucket.label} ratio ${bucket.solvencyRatio.toFixed(2)} je ispod minimuma ${VAULT_SOLVENCY_MIN_RATIO.toFixed(2)}. Potrebna je hitna dokapitalizacija.`,
+      );
+    } else if (bucket.status === 'watch') {
+      recommendations.push(
+        `Upozorenje: ${bucket.label} ratio ${bucket.solvencyRatio.toFixed(2)} je u watch zoni. Razmotriti dodatni buffer ili smanjenje obaveza.`,
+      );
+    }
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Svi solvency bucket-i su iznad watch praga; kapitalni buffer je stabilan.');
+  }
+  if (stressedSolvencyRatio < VAULT_SOLVENCY_MIN_RATIO) {
+    recommendations.push(
+      `Stress scenario signalizira ratio ${stressedSolvencyRatio.toFixed(2)} ispod minimuma; preporučen je dodatni rezervni sloj.`,
+    );
+  }
+
+  return {
+    userId,
+    summary: {
+      totalAssetsUsd,
+      totalLiabilitiesUsd,
+      totalCapitalBufferUsd,
+      aggregateSolvencyRatio,
+      stressedSolvencyRatio,
+      healthyBuckets,
+      watchBuckets,
+      criticalBuckets,
+      solvencyScore,
+    },
+    buckets,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1228 — Kripto Trezor Vault Solvency ─────────────────────────
+// VaultSolvencyReport + buildVaultSolvencyReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-solvency. Nova ruta: GET /api/kripto-trezor/solvency.
+// APP_VERSION=49.7.0 | AUTOFINISH_COUNT=1228 | TOTAL_API_ROUTES=1097 | TOTAL_ROUTES=1159

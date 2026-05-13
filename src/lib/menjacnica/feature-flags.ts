@@ -316,6 +316,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-13',
   },
+  {
+    id: 'kripto-trezor-solvency',
+    naziv: 'Kripto Trezor — Vault Solvency',
+    opis: 'Solvency izvještaj: assets/liabilities ratio, kapitalni buffer i stres signal po vault tierovima',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-13',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(
