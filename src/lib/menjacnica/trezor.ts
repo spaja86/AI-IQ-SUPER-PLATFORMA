@@ -3219,3 +3219,143 @@ export function buildVaultDiversificationReport(userId: string): VaultDiversific
 // VaultDiversificationReport + buildVaultDiversificationReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-diversification. Nova ruta: GET /api/kripto-trezor/diversification.
 // APP_VERSION=49.5.0 | AUTOFINISH_COUNT=1226 | TOTAL_API_ROUTES=1095 | TOTAL_ROUTES=1157
+
+// ─── Vault Collateral ─────────────────────────────────────────────────────────
+
+export type CollateralAssetClass = 'btc' | 'eth' | 'stablecoin' | 'cbdc' | 'tokenized-bond' | 'lp-token';
+export type CollateralStatus = 'healthy' | 'margin-call' | 'liquidation-risk' | 'liquidated';
+
+export interface VaultCollateralPosition {
+  id: string;
+  assetClass: CollateralAssetClass;
+  label: string;
+  collateralValueUsd: number;
+  loanValueUsd: number;
+  ltv: number;
+  maxLtv: number;
+  liquidationLtv: number;
+  status: CollateralStatus;
+  healthFactor: number;
+}
+
+export interface VaultCollateralSummary {
+  totalCollateralUsd: number;
+  totalLoanUsd: number;
+  weightedLtv: number;
+  healthyPositions: number;
+  marginCallPositions: number;
+  liquidationRiskPositions: number;
+  liquidatedPositions: number;
+  overallHealthFactor: number;
+  collateralScore: number;
+}
+
+export interface VaultCollateralReport {
+  userId: string;
+  summary: VaultCollateralSummary;
+  positions: VaultCollateralPosition[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** LTV pri kojoj se pozicija smatra u zoni likvidacije (85%). */
+const VAULT_COLLATERAL_LIQUIDATION_LTV = 0.85;
+/** LTV pri kojoj se aktivira margin call upozorenje (75%). */
+const VAULT_COLLATERAL_MARGIN_CALL_LTV = 0.75;
+
+/** Gradi collateral izvještaj za vault: pozicije, LTV, zdravlje i preporuke. */
+export function buildVaultCollateralReport(userId: string): VaultCollateralReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+
+  const rawPositions: {
+    id: string;
+    assetClass: CollateralAssetClass;
+    label: string;
+    collateralUsd: number;
+    currentLtv: number;
+    maxLtv: number;
+  }[] = [
+    { id: 'col-btc',   assetClass: 'btc',            label: 'Bitcoin Kolateral',       collateralUsd: 800_000 + (seed % 200_000), currentLtv: 0.55 + (seed % 20) / 100, maxLtv: 0.70 },
+    { id: 'col-eth',   assetClass: 'eth',            label: 'Ethereum Kolateral',      collateralUsd: 400_000 + (seed % 100_000), currentLtv: 0.60 + (seed % 15) / 100, maxLtv: 0.65 },
+    { id: 'col-usdc',  assetClass: 'stablecoin',     label: 'USDC Stablecoin',         collateralUsd: 200_000 + (seed % 50_000),  currentLtv: 0.80 + (seed % 10) / 100, maxLtv: 0.90 },
+    { id: 'col-cbdc',  assetClass: 'cbdc',           label: 'CBDC Dinar Digitalni',    collateralUsd: 100_000 + (seed % 30_000),  currentLtv: 0.70 + (seed % 8)  / 100, maxLtv: 0.80 },
+    { id: 'col-bond',  assetClass: 'tokenized-bond', label: 'Tokenizovane Obveznice',  collateralUsd: 150_000 + (seed % 40_000),  currentLtv: 0.50 + (seed % 12) / 100, maxLtv: 0.60 },
+    { id: 'col-lp',    assetClass: 'lp-token',       label: 'LP Token Kolateral',      collateralUsd: 80_000  + (seed % 20_000),  currentLtv: 0.65 + (seed % 18) / 100, maxLtv: 0.55 },
+  ];
+
+  const positions: VaultCollateralPosition[] = rawPositions.map((r) => {
+    const ltv = Math.min(0.99, roundLedger(r.currentLtv));
+    const loanValueUsd = roundLedger(r.collateralUsd * ltv);
+    const healthFactor = roundLedger(r.maxLtv / ltv);
+    const status: CollateralStatus =
+      ltv >= VAULT_COLLATERAL_LIQUIDATION_LTV ? 'liquidation-risk' :
+      ltv >= VAULT_COLLATERAL_MARGIN_CALL_LTV ? 'margin-call' : 'healthy';
+    return {
+      id: r.id,
+      assetClass: r.assetClass,
+      label: r.label,
+      collateralValueUsd: r.collateralUsd,
+      loanValueUsd,
+      ltv,
+      maxLtv: r.maxLtv,
+      liquidationLtv: VAULT_COLLATERAL_LIQUIDATION_LTV,
+      status,
+      healthFactor,
+    };
+  });
+
+  const totalCollateralUsd = positions.reduce((s, p) => s + p.collateralValueUsd, 0);
+  const totalLoanUsd        = roundLedger(positions.reduce((s, p) => s + p.loanValueUsd, 0));
+  const weightedLtv         = roundLedger(totalLoanUsd / totalCollateralUsd);
+  const healthyPositions          = positions.filter((p) => p.status === 'healthy').length;
+  const marginCallPositions       = positions.filter((p) => p.status === 'margin-call').length;
+  const liquidationRiskPositions  = positions.filter((p) => p.status === 'liquidation-risk').length;
+  const liquidatedPositions       = positions.filter((p) => p.status === 'liquidated').length;
+  const overallHealthFactor       = roundLedger(
+    positions.reduce((s, p) => s + p.healthFactor, 0) / positions.length,
+  );
+  const collateralScore = Math.max(
+    0,
+    Math.round(
+      100 - liquidationRiskPositions * 25 - marginCallPositions * 10 - liquidatedPositions * 30,
+    ),
+  );
+
+  const recommendations: string[] = [];
+  for (const p of positions) {
+    if (p.status === 'liquidation-risk') {
+      recommendations.push(`Kritično: ${p.label} — LTV ${(p.ltv * 100).toFixed(1)}% blizu likvidacione granice (${(p.liquidationLtv * 100).toFixed(0)}%). Odmah dodati kolateral ili smanjiti kredit.`);
+    } else if (p.status === 'margin-call') {
+      recommendations.push(`Upozorenje: ${p.label} — LTV ${(p.ltv * 100).toFixed(1)}% dostigao margin call zonu. Razmotriti dopunu kolaterala.`);
+    }
+  }
+  if (recommendations.length === 0) {
+    recommendations.push('Sve pozicije su zdrave — LTV je ispod margin call praga za sve instrumente.');
+  }
+  if (weightedLtv > 0.70) {
+    recommendations.push(`Ukupni ponderisani LTV od ${(weightedLtv * 100).toFixed(1)}% je visok — razmotriti smanjenje leveridža.`);
+  }
+
+  return {
+    userId,
+    summary: {
+      totalCollateralUsd,
+      totalLoanUsd,
+      weightedLtv,
+      healthyPositions,
+      marginCallPositions,
+      liquidationRiskPositions,
+      liquidatedPositions,
+      overallHealthFactor,
+      collateralScore,
+    },
+    positions,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1227 — Kripto Trezor Vault Collateral ───────────────────────
+// VaultCollateralReport + buildVaultCollateralReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-collateral. Nova ruta: GET /api/kripto-trezor/collateral.
+// APP_VERSION=49.6.0 | AUTOFINISH_COUNT=1227 | TOTAL_API_ROUTES=1096 | TOTAL_ROUTES=1158

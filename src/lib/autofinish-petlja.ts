@@ -7347,3 +7347,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // VaultDiversificationReport + buildVaultDiversificationReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-diversification. Nova ruta: GET /api/kripto-trezor/diversification.
 // APP_VERSION=49.5.0 | AUTOFINISH_COUNT=1226 | TOTAL_API_ROUTES=1095 | TOTAL_ROUTES=1157
+
+// ─── Autofinish #1227 — Kripto Trezor Vault Collateral ───────────────────────
+// VaultCollateralReport + buildVaultCollateralReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-collateral. Nova ruta: GET /api/kripto-trezor/collateral.
+// APP_VERSION=49.6.0 | AUTOFINISH_COUNT=1227 | TOTAL_API_ROUTES=1096 | TOTAL_ROUTES=1158
