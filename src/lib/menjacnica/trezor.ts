@@ -3280,11 +3280,11 @@ export function buildVaultCollateralReport(userId: string): VaultCollateralRepor
     { id: 'col-usdc',  assetClass: 'stablecoin',     label: 'USDC Stablecoin',         collateralUsd: 200_000 + (seed % 50_000),  currentLtv: 0.80 + (seed % 10) / 100, maxLtv: 0.90 },
     { id: 'col-cbdc',  assetClass: 'cbdc',           label: 'CBDC Dinar Digitalni',    collateralUsd: 100_000 + (seed % 30_000),  currentLtv: 0.70 + (seed % 8)  / 100, maxLtv: 0.80 },
     { id: 'col-bond',  assetClass: 'tokenized-bond', label: 'Tokenizovane Obveznice',  collateralUsd: 150_000 + (seed % 40_000),  currentLtv: 0.50 + (seed % 12) / 100, maxLtv: 0.60 },
-    { id: 'col-lp',    assetClass: 'lp-token',       label: 'LP Token Kolateral',      collateralUsd: 80_000  + (seed % 20_000),  currentLtv: 0.65 + (seed % 18) / 100, maxLtv: 0.55 },
+    { id: 'col-lp',    assetClass: 'lp-token',       label: 'LP Token Kolateral',      collateralUsd: 80_000  + (seed % 20_000),  currentLtv: 0.42 + (seed % 10) / 100, maxLtv: 0.55 },
   ];
 
   const positions: VaultCollateralPosition[] = rawPositions.map((r) => {
-    const ltv = Math.min(0.99, roundLedger(Math.min(r.currentLtv, r.maxLtv)));
+    const ltv = Math.min(0.99, roundLedger(r.currentLtv));
     const loanValueUsd = roundLedger(r.collateralUsd * ltv);
     const healthFactor = roundLedger(r.maxLtv / ltv);
     const status: CollateralStatus =
