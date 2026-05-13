@@ -3284,7 +3284,7 @@ export function buildVaultCollateralReport(userId: string): VaultCollateralRepor
   ];
 
   const positions: VaultCollateralPosition[] = rawPositions.map((r) => {
-    const ltv = Math.min(0.99, roundLedger(r.currentLtv));
+    const ltv = Math.min(0.99, roundLedger(Math.min(r.currentLtv, r.maxLtv)));
     const loanValueUsd = roundLedger(r.collateralUsd * ltv);
     const healthFactor = roundLedger(r.maxLtv / ltv);
     const status: CollateralStatus =
