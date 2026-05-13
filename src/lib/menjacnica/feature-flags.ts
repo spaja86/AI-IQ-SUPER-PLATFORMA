@@ -340,6 +340,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     rolloutPct: 100,
     activeFrom: '2026-05-13',
   },
+  {
+    id: 'kripto-trezor-tokenization',
+    naziv: 'Kripto Trezor — Vault Tokenization',
+    opis: 'Tokenization izvještaj: tokenizovana imovina, emisija tokena, tržišna kapitalizacija, smart-contract status i compliance',
+    enabled: true,
+    rolloutPct: 100,
+    activeFrom: '2026-05-13',
+  },
 ];
 
 const FLAG_MAP = new Map<string, ExchangeFlag>(

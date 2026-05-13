@@ -3847,3 +3847,190 @@ export function buildVaultCustodyReport(userId: string): VaultCustodyReport {
 // VaultCustodyReport + buildVaultCustodyReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-custody. Nova ruta: GET /api/kripto-trezor/custody.
 // APP_VERSION=49.9.0 | AUTOFINISH_COUNT=1230 | TOTAL_API_ROUTES=1099 | TOTAL_ROUTES=1161
+
+// ─── Vault Tokenization ────────────────────────────────────────────────────────
+
+export type TokenStandard = 'ERC-20' | 'ERC-721' | 'ERC-1155' | 'BEP-20' | 'SPL' | 'native';
+
+export interface TokenizedAsset {
+  id: string;
+  name: string;
+  symbol: string;
+  standard: TokenStandard;
+  underlyingAsset: string;
+  totalSupply: number;
+  circulatingSupply: number;
+  priceUsd: number;
+  marketCapUsd: number;
+  smartContractAddress: string;
+  contractStatus: 'active' | 'paused' | 'deprecated';
+  complianceVerified: boolean;
+  lockupDays: number;
+}
+
+export interface VaultTokenizationSummary {
+  totalTokenizedAssetsUsd: number;
+  totalMarketCapUsd: number;
+  activeContracts: number;
+  pausedContracts: number;
+  deprecatedContracts: number;
+  complianceVerifiedCount: number;
+  complianceRate: number;
+  averageLockupDays: number;
+  tokenizationScore: number;
+}
+
+export interface VaultTokenizationReport {
+  userId: string;
+  summary: VaultTokenizationSummary;
+  assets: TokenizedAsset[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+/** Gradi tokenization izvještaj: tokenizovana imovina, emisija, market cap i smart-contract status. */
+export function buildVaultTokenizationReport(userId: string): VaultTokenizationReport {
+  const seed = userId.split('').reduce((s, c) => s + c.charCodeAt(0), 0);
+
+  const assets: TokenizedAsset[] = [
+    {
+      id: 'tok-btc-wrapped',
+      name: 'Wrapped Bitcoin',
+      symbol: 'WBTC',
+      standard: 'ERC-20',
+      underlyingAsset: 'BTC',
+      totalSupply: 50_000 + (seed % 10_000),
+      circulatingSupply: 45_000 + (seed % 9_000),
+      priceUsd: 67_000 + (seed % 3_000),
+      marketCapUsd: (45_000 + (seed % 9_000)) * (67_000 + (seed % 3_000)),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}BTC`,
+      contractStatus: 'active',
+      complianceVerified: true,
+      lockupDays: 0,
+    },
+    {
+      id: 'tok-eth-staked',
+      name: 'Staked Ether',
+      symbol: 'stETH',
+      standard: 'ERC-20',
+      underlyingAsset: 'ETH',
+      totalSupply: 300_000 + (seed % 50_000),
+      circulatingSupply: 280_000 + (seed % 45_000),
+      priceUsd: 3_800 + (seed % 400),
+      marketCapUsd: (280_000 + (seed % 45_000)) * (3_800 + (seed % 400)),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}ETH`,
+      contractStatus: 'active',
+      complianceVerified: true,
+      lockupDays: 7,
+    },
+    {
+      id: 'tok-rwa-bonds',
+      name: 'SPAJA RWA Bonds',
+      symbol: 'SRWAB',
+      standard: 'ERC-1155',
+      underlyingAsset: 'Government Bonds',
+      totalSupply: 1_000_000,
+      circulatingSupply: 750_000 + (seed % 100_000),
+      priceUsd: 100,
+      marketCapUsd: (750_000 + (seed % 100_000)) * 100,
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}RWA`,
+      contractStatus: seed % 9 === 0 ? 'paused' : 'active',
+      complianceVerified: seed % 9 === 0 ? false : true,
+      lockupDays: 30,
+    },
+    {
+      id: 'tok-stablecoin',
+      name: 'SPAJA Stablecoin',
+      symbol: 'SPAJAUSD',
+      standard: 'ERC-20',
+      underlyingAsset: 'USD',
+      totalSupply: 5_000_000 + (seed % 1_000_000),
+      circulatingSupply: 4_800_000 + (seed % 900_000),
+      priceUsd: 1.0,
+      marketCapUsd: 4_800_000 + (seed % 900_000),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}USD`,
+      contractStatus: 'active',
+      complianceVerified: true,
+      lockupDays: 0,
+    },
+    {
+      id: 'tok-nft-real-estate',
+      name: 'SPAJA Real Estate NFT',
+      symbol: 'SRENFT',
+      standard: 'ERC-721',
+      underlyingAsset: 'Commercial Real Estate',
+      totalSupply: 500,
+      circulatingSupply: 420 + (seed % 50),
+      priceUsd: 25_000 + (seed % 5_000),
+      marketCapUsd: (420 + (seed % 50)) * (25_000 + (seed % 5_000)),
+      smartContractAddress: `0xSPAJA${seed.toString(16).padStart(4, '0')}NFT`,
+      contractStatus: seed % 13 === 0 ? 'deprecated' : 'active',
+      complianceVerified: true,
+      lockupDays: 90,
+    },
+  ];
+
+  const totalTokenizedAssetsUsd = assets.reduce((s, a) => s + a.circulatingSupply * a.priceUsd, 0);
+  const totalMarketCapUsd = assets.reduce((s, a) => s + a.marketCapUsd, 0);
+  const activeContracts = assets.filter((a) => a.contractStatus === 'active').length;
+  const pausedContracts = assets.filter((a) => a.contractStatus === 'paused').length;
+  const deprecatedContracts = assets.filter((a) => a.contractStatus === 'deprecated').length;
+  const complianceVerifiedCount = assets.filter((a) => a.complianceVerified).length;
+  const complianceRate = roundLedger(complianceVerifiedCount / assets.length);
+  const averageLockupDays = Math.round(assets.reduce((s, a) => s + a.lockupDays, 0) / assets.length);
+  const tokenizationScore = Math.max(
+    0,
+    Math.round(100 - pausedContracts * 10 - deprecatedContracts * 20 - (1 - complianceRate) * 30),
+  );
+
+  const recommendations: string[] = [];
+  for (const asset of assets) {
+    if (asset.contractStatus === 'deprecated') {
+      recommendations.push(
+        `Migrirajte ${asset.name} (${asset.symbol}) sa deprecated ugovora na novi smart-contract standard.`,
+      );
+    } else if (asset.contractStatus === 'paused') {
+      recommendations.push(
+        `${asset.name} (${asset.symbol}) je pauziran. Razriješite compliance blokadu ili pokrenite audit.`,
+      );
+    }
+    if (!asset.complianceVerified) {
+      recommendations.push(
+        `${asset.name} (${asset.symbol}) nema verifikovan compliance. Priložite KYC/AML dokumentaciju.`,
+      );
+    }
+  }
+  if (complianceRate < 0.9) {
+    recommendations.push(
+      `Compliance rate ${(complianceRate * 100).toFixed(0)}% je ispod 90%; pokrenite masovnu verifikaciju tokena.`,
+    );
+  }
+  if (recommendations.length === 0) {
+    recommendations.push(
+      'Svi tokenizovani instrumenti su aktivni, compliance-verified i bez deprecation upozorenja.',
+    );
+  }
+
+  return {
+    userId,
+    summary: {
+      totalTokenizedAssetsUsd,
+      totalMarketCapUsd,
+      activeContracts,
+      pausedContracts,
+      deprecatedContracts,
+      complianceVerifiedCount,
+      complianceRate,
+      averageLockupDays,
+      tokenizationScore,
+    },
+    assets,
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+// ─── Autofinish #1231 — Kripto Trezor Vault Tokenization ─────────────────────
+// VaultTokenizationReport + buildVaultTokenizationReport dodati u trezor.ts.
+// Feature flag: kripto-trezor-tokenization. Nova ruta: GET /api/kripto-trezor/tokenization.
+// APP_VERSION=50.0.0 | AUTOFINISH_COUNT=1231 | TOTAL_API_ROUTES=1100 | TOTAL_ROUTES=1162
