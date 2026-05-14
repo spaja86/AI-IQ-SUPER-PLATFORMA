@@ -7419,3 +7419,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-signal. Nova stranica: /laureatski-signal.
 // Sekvence: src/lib/sekvence/laureatski-signal-page.ts + barrel export.
 // APP_VERSION=50.7.0 | AUTOFINISH_COUNT=1238 | TOTAL_API_ROUTES=1107 | TOTAL_ROUTES=1175
+
+// ─── Autofinish #1239 — LAUREATSKI TALAS ─────────────────────────────────────
+// lib modul: src/lib/laureatski-talas.ts — buildLaureatskiTalas(), TalasniCvor,
+// LaureatskiTalasRezultat.
+// Nova ruta: GET /api/laureatski-talas. Nova stranica: /laureatski-talas.
+// Sekvence: src/lib/sekvence/laureatski-talas-page.ts + barrel export.
+// APP_VERSION=50.8.0 | AUTOFINISH_COUNT=1239 | TOTAL_API_ROUTES=1108 | TOTAL_ROUTES=1177
