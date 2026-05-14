@@ -1,4 +1,4 @@
-// Autofinish #1235/#1236 — Unit Testovi buildLaureatskiPuls()
+// Autofinish #1235/#1236/#1237 — Unit Testovi buildLaureatskiPuls()
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Pokretanje: npx tsx src/tests/autofinish/laureatski-puls.test.ts
@@ -110,17 +110,17 @@ async function runTests(): Promise<void> {
   });
 
   console.log('\n📦 Globalni invarijanti (#1235)');
-  await test('AUTOFINISH_COUNT === 1236', () => {
-    assertEqual(AUTOFINISH_COUNT, 1236, 'AUTOFINISH_COUNT=1236');
+  await test('AUTOFINISH_COUNT === 1237', () => {
+    assertEqual(AUTOFINISH_COUNT, 1237, 'AUTOFINISH_COUNT=1237');
   });
-  await test('APP_VERSION === "50.5.0"', () => {
-    assertEqual(APP_VERSION, '50.5.0', 'APP_VERSION=50.5.0');
+  await test('APP_VERSION === "50.6.0"', () => {
+    assertEqual(APP_VERSION, '50.6.0', 'APP_VERSION=50.6.0');
   });
-  await test('TOTAL_API_ROUTES === 1105', () => {
-    assertEqual(TOTAL_API_ROUTES, 1105, 'TOTAL_API_ROUTES=1105');
+  await test('TOTAL_API_ROUTES === 1106', () => {
+    assertEqual(TOTAL_API_ROUTES, 1106, 'TOTAL_API_ROUTES=1106');
   });
-  await test('TOTAL_ROUTES === 1171', () => {
-    assertEqual(TOTAL_ROUTES, 1171, 'TOTAL_ROUTES=1171');
+  await test('TOTAL_ROUTES === 1173', () => {
+    assertEqual(TOTAL_ROUTES, 1173, 'TOTAL_ROUTES=1173');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
