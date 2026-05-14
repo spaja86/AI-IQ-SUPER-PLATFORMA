@@ -93,5 +93,8 @@ export { laureatskiOdjekSekvence } from './laureatski-odjek-page';
 // ── LAUREATSKI EHO ───────────────────────────────────────────────────────────
 export { laureatskiEhoSekvence } from './laureatski-eho-page';
 
+// ── LAUREATSKI REZONATOR ─────────────────────────────────────────────────────
+export { laureatskiRezonatorSekvence } from './laureatski-rezonator-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

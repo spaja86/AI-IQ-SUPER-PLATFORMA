@@ -1,9 +1,9 @@
-// Autofinish #1241 — Unit Testovi buildLaureatskiEho()
+// Autofinish #1242 — Unit Testovi buildLaureatskiRezonator()
 // Kompanija SPAJA — Digitalna Industrija
 //
-// Pokretanje: npx tsx src/tests/autofinish/laureatski-eho.test.ts
+// Pokretanje: npx tsx src/tests/autofinish/laureatski-rezonator.test.ts
 
-import { buildLaureatskiEho } from '../../lib/laureatski-eho';
+import { buildLaureatskiRezonator } from '../../lib/laureatski-rezonator';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -42,11 +42,11 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📣  LAUREATSKI EHO — Unit Test Suite (#1241)\n');
+  console.log('\n🎛️  LAUREATSKI REZONATOR — Unit Test Suite (#1242)\n');
 
-  const r = buildLaureatskiEho('test-user-id');
+  const r = buildLaureatskiRezonator('test-user-id');
 
-  console.log('📦 Top-level schema (#1241)');
+  console.log('📦 Top-level schema (#1242)');
   await test('Vraća objekat', () => {
     assert(typeof r === 'object' && r !== null, 'vraća objekat');
   });
@@ -60,24 +60,24 @@ async function runTests(): Promise<void> {
     assertEqual(r.impulsi.length, 32, 'impulsi.length');
   });
 
-  console.log('\n📦 Eho indikatori (#1241)');
-  await test('ehoIndeks je 0–1', () => {
-    assert(r.ehoIndeks >= 0 && r.ehoIndeks <= 1, `ehoIndeks: ${r.ehoIndeks}`);
+  console.log('\n📦 Rezonatorski indikatori (#1242)');
+  await test('rezonatorskiIndeks je 0–1', () => {
+    assert(r.rezonatorskiIndeks >= 0 && r.rezonatorskiIndeks <= 1, `rezonatorskiIndeks: ${r.rezonatorskiIndeks}`);
   });
-  await test('ehoStabilnost je 0–1', () => {
-    assert(r.ehoStabilnost >= 0 && r.ehoStabilnost <= 1, `ehoStabilnost: ${r.ehoStabilnost}`);
+  await test('rezonatorskaStabilnost je 0–1', () => {
+    assert(r.rezonatorskaStabilnost >= 0 && r.rezonatorskaStabilnost <= 1, `rezonatorskaStabilnost: ${r.rezonatorskaStabilnost}`);
   });
-  await test('prosecniEhoHz > 0', () => {
-    assert(r.prosecniEhoHz > 0, `prosecniEhoHz: ${r.prosecniEhoHz}`);
+  await test('prosecniRezonatorHz > 0', () => {
+    assert(r.prosecniRezonatorHz > 0, `prosecniRezonatorHz: ${r.prosecniRezonatorHz}`);
   });
-  await test('maksimalniEhoHz >= minimalniEhoHz', () => {
-    assert(r.maksimalniEhoHz >= r.minimalniEhoHz, `${r.maksimalniEhoHz} >= ${r.minimalniEhoHz}`);
+  await test('maksimalniRezonatorHz >= minimalniRezonatorHz', () => {
+    assert(r.maksimalniRezonatorHz >= r.minimalniRezonatorHz, `${r.maksimalniRezonatorHz} >= ${r.minimalniRezonatorHz}`);
   });
-  await test('ehoOpsegHz >= 0', () => {
-    assert(r.ehoOpsegHz >= 0, `ehoOpsegHz: ${r.ehoOpsegHz}`);
+  await test('rezonatorskiOpsegHz >= 0', () => {
+    assert(r.rezonatorskiOpsegHz >= 0, `rezonatorskiOpsegHz: ${r.rezonatorskiOpsegHz}`);
   });
 
-  console.log('\n📦 Eho impulsi (#1241)');
+  console.log('\n📦 Rezonatorski impulsi (#1242)');
   await test('svaki impuls ima validan sloj 1–4', () => {
     for (const i of r.impulsi) {
       assert(i.sloj >= 1 && i.sloj <= 4, `sloj: ${i.sloj}`);
@@ -103,14 +103,14 @@ async function runTests(): Promise<void> {
       assert(i.faza >= 0 && i.faza <= 2, `faza: ${i.faza}`);
     }
   });
-  await test('ehoHz > 0', () => {
+  await test('rezonatorHz > 0', () => {
     for (const i of r.impulsi) {
-      assert(i.ehoHz > 0, `ehoHz: ${i.ehoHz}`);
+      assert(i.rezonatorHz > 0, `rezonatorHz: ${i.rezonatorHz}`);
     }
   });
-  await test('povratnaSprega je 0–1', () => {
+  await test('rezonatorskaVeza je 0–1', () => {
     for (const i of r.impulsi) {
-      assert(i.povratnaSprega >= 0 && i.povratnaSprega <= 1, `povratnaSprega: ${i.povratnaSprega}`);
+      assert(i.rezonatorskaVeza >= 0 && i.rezonatorskaVeza <= 1, `rezonatorskaVeza: ${i.rezonatorskaVeza}`);
     }
   });
   await test('normalizovano je 0–1', () => {
@@ -119,7 +119,7 @@ async function runTests(): Promise<void> {
     }
   });
 
-  console.log('\n📦 Globalni invarijanti (#1241)');
+  console.log('\n📦 Globalni invarijanti (#1242)');
   await test('AUTOFINISH_COUNT === 1242', () => {
     assertEqual(AUTOFINISH_COUNT, 1242, 'AUTOFINISH_COUNT=1242');
   });
