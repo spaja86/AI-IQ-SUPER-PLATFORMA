@@ -46,6 +46,7 @@ export const navigation: NavItem[] = [
   { label: 'Unit Testovi', href: '/unit-testovi', icon: '🧪', description: 'SPAJA Unit Testovi — 12 suita, 94.8% pokrivenost' },
   { label: 'OMEGA AI Suport', href: '/omega-ai-suport', icon: '📞', description: 'OMEGA AI Maksimalni Suport — 21 persona, telefoni, mejlovi, dispeč' },
   { label: 'OMEGA Plasiranje', href: '/omega-projekat-plasiranje', icon: '🚀', description: 'OMEGA PROJEKAT — automatsko plasiranje u opticaj, 10 faza, 10 sistema' },
+  { label: 'DIGATALNA EUREKA', href: '/digatalna-eureka', icon: '💡', description: 'Ektridonalna eksinometrijska ekstaza — epicentrični eklubrion — simetrsko digitalno jedinjenje u oktavnom sistemu' },
   { label: 'Eksponencijalne Funkcije', href: '/oktavne-eksponencijalne-funkcije', icon: '📈', description: 'Oktavni monolog eksponencijalnog ekvivalenta — figuracioni centar — matricno jedinjenje — OMEGA PROJEKAT' },
   { label: 'Zvanično Otvaranje', href: '/omega-projekat-zvanicno-otvaranje', icon: '🎉', description: 'OMEGA PROJEKAT — zvanično otvaranje prema monolizmima, verifikacija, saglasnost osnivača' },
   { label: 'Digitalni Kompjuter', href: '/spaja-digitalni-kompjuter', icon: '🖥️', description: 'SPAJA Digitalni Kompjuter — GPU 8.700.000, RAM 276.000 GB, zakup kao usluga' },

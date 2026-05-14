@@ -68,3 +68,6 @@ export { spajaRenderMedijaSekvence } from './spaja-render-medija-page';
 export { oktavneEksponencijalneFunkcijeSekvence } from './oktavne-eksponencijalne-funkcije-page';
 
 export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
+
+// ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
+export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

@@ -7377,3 +7377,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // VaultRedemptionReport + buildVaultRedemptionReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-redemption. Nova ruta: GET /api/kripto-trezor/redemption.
 // APP_VERSION=50.1.0 | AUTOFINISH_COUNT=1232 | TOTAL_API_ROUTES=1101 | TOTAL_ROUTES=1163
+
+// ─── Autofinish #1233 — DIGATALNA EUREKA ─────────────────────────────────────
+// lib modul: src/lib/digatalna-eureka.ts — buildDigatalnaEureka(), EktridonalnaEksinometrija,
+// EpicentricniEklubrion, DigatalnaEurekaRezultat.
+// Nova ruta: GET /api/digatalna-eureka. Nova stranica: /digatalna-eureka.
+// Sekvence: src/lib/sekvence/digatalna-eureka-page.ts + barrel export.
+// APP_VERSION=50.2.0 | AUTOFINISH_COUNT=1233 | TOTAL_API_ROUTES=1102 | TOTAL_ROUTES=1165
