@@ -1,4 +1,4 @@
-// Autofinish #1235/#1236/#1237 — Unit Testovi buildLaureatskiPuls()
+// Autofinish #1235 — Unit Testovi buildLaureatskiPuls()
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Pokretanje: npx tsx src/tests/autofinish/laureatski-puls.test.ts

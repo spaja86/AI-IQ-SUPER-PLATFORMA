@@ -1,4 +1,4 @@
-// Autofinish #1236/#1237 — Unit Testovi buildLaureatskiRitam()
+// Autofinish #1236 — Unit Testovi buildLaureatskiRitam()
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Pokretanje: npx tsx src/tests/autofinish/laureatski-ritam.test.ts
