@@ -46,6 +46,7 @@ export const navigation: NavItem[] = [
   { label: 'Unit Testovi', href: '/unit-testovi', icon: '🧪', description: 'SPAJA Unit Testovi — 12 suita, 94.8% pokrivenost' },
   { label: 'OMEGA AI Suport', href: '/omega-ai-suport', icon: '📞', description: 'OMEGA AI Maksimalni Suport — 21 persona, telefoni, mejlovi, dispeč' },
   { label: 'OMEGA Plasiranje', href: '/omega-projekat-plasiranje', icon: '🚀', description: 'OMEGA PROJEKAT — automatsko plasiranje u opticaj, 10 faza, 10 sistema' },
+  { label: 'LAUREATSKI DEMODULATOR', href: '/laureatski-demodulator', icon: '📻', description: 'Demodulatorska matrica laureatskog centra kroz demodulatorsku vezu i koherentnost demodulatora' },
   { label: 'LAUREATSKI MODULATOR', href: '/laureatski-modulator', icon: '🎚️', description: 'Modulatorska matrica laureatskog centra kroz modulatorsku vezu i koherentnost modulatora' },
   { label: 'LAUREATSKI OSCILATOR', href: '/laureatski-oscilator', icon: '🌀', description: 'Oscilatorska matrica laureatskog centra kroz oscilatorsku vezu i koherentnost oscilatora' },
   { label: 'LAUREATSKI REZONATOR', href: '/laureatski-rezonator', icon: '🎛️', description: 'Rezonatorska matrica laureatskog centra kroz impulsnu vezu i koherentnost rezonatora' },

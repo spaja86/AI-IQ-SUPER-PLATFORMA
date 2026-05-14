@@ -102,5 +102,8 @@ export { laureatskiOscilatorSekvence } from './laureatski-oscilator-page';
 // ── LAUREATSKI MODULATOR ─────────────────────────────────────────────────────
 export { laureatskiModulatorSekvence } from './laureatski-modulator-page';
 
+// ── LAUREATSKI DEMODULATOR ───────────────────────────────────────────────────
+export { laureatskiDemodulatorSekvence } from './laureatski-demodulator-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';
