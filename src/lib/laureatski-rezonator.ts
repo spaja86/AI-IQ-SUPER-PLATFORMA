@@ -6,7 +6,7 @@
  * koherentnost kroz rezonatorski indeks.
  *
  * Model:
- *   rezonatorHz = ehoHz × (0.9 + normalizovano × 0.24)
+ *   rezonatorHz = ehoHz * (0.9 + normalizovano * 0.24)
  *   rezonatorskaVeza = (povratnaSprega + rezonanca + normalizovano) / 3
  *   rezonatorskaStabilnost = 1 - std(rezonatorskaVeza)
  *   rezonatorskiIndeks = (rezonatorskaStabilnost + ehoIndeks + odjecniIndeks) / 3
