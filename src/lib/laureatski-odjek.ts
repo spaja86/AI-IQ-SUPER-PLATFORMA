@@ -7,7 +7,7 @@
  *
  * Model:
  *   odjekHz = frekvencijaHz × (0.9 + normalizovano × 0.25)
- *   rezonanса = (faza + amplituda + normalizovano) / 3
+ *   rezonanca = (faza + amplituda + normalizovano) / 3
  *   odjecnaStabilnost = 1 - std(rezonanca)
  *   odjecniIndeks = (odjecnaStabilnost + talasniIndeks + signalniIndeks) / 3
  *
