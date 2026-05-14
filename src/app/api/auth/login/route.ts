@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Validacija email formata
-  const emailTrimmed = body.email.trim();
+  const emailTrimmed = body.email.trim().toLowerCase();
   if (!emailTrimmed.includes('@') || !emailTrimmed.includes('.') || emailTrimmed.length < 5) {
     return NextResponse.json({ error: 'Neispravan format email adrese' }, { status: 400 });
   }

@@ -176,13 +176,16 @@ export class ΩAuthProvider {
   ): Promise<ΩLoginResponse | null> {
     const vault = getGlobalVault();
 
+    // Normalizuj email — case-insensitive pretraga (isto kao pri registraciji)
+    const normalizedEmail = request.email.trim().toLowerCase();
+
     // Pronađi korisnika po email-u
     const allIds = vault.listIds();
     let identity: ΩIdentity | null = null;
 
     for (const id of allIds) {
       const candidate = vault.retrieveIdentity(id);
-      if (candidate?.email === request.email) {
+      if (candidate?.email === normalizedEmail) {
         identity = candidate;
         break;
       }
@@ -245,18 +248,21 @@ export class ΩAuthProvider {
   }): Promise<ΩLoginResponse | null> {
     const vault = getGlobalVault();
 
+    // Normalizuj email — uvek čuvaj lowercase (isto kao pri prijavi)
+    const normalizedEmail = params.email.trim().toLowerCase();
+
     // Proveri da li email već postoji
     const allIds = vault.listIds();
     for (const id of allIds) {
       const existing = vault.retrieveIdentity(id);
-      if (existing?.email === params.email) {
+      if (existing?.email === normalizedEmail) {
         return null; // Korisnik već postoji
       }
     }
 
     // Kreiraj novi identitet
     const identity = await createIdentity({
-      email: params.email,
+      email: normalizedEmail,
       password: params.password,
       roles: ['user'],
       clearanceLevel: ΩClearanceLevel.USER,
