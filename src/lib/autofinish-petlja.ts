@@ -7447,3 +7447,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-rezonator. Nova stranica: /laureatski-rezonator.
 // Sekvence: src/lib/sekvence/laureatski-rezonator-page.ts + barrel export.
 // APP_VERSION=51.1.0 | AUTOFINISH_COUNT=1242 | TOTAL_API_ROUTES=1111 | TOTAL_ROUTES=1183
+
+// ─── Autofinish #1243 — LAUREATSKI OSCILATOR ─────────────────────────────────
+// lib modul: src/lib/laureatski-oscilator.ts — buildLaureatskiOscilator(),
+// OscilatorImpuls, LaureatskiOscilatorRezultat.
+// Nova ruta: GET /api/laureatski-oscilator. Nova stranica: /laureatski-oscilator.
+// Sekvence: src/lib/sekvence/laureatski-oscilator-page.ts + barrel export.
+// APP_VERSION=51.2.0 | AUTOFINISH_COUNT=1243 | TOTAL_API_ROUTES=1112 | TOTAL_ROUTES=1185
