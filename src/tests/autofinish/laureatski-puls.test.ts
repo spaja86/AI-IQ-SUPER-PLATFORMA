@@ -125,7 +125,7 @@ async function runTests(): Promise<void> {
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
-    console.error('\n❌ Neuspješni testovi:');
+    console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
     process.exit(1);
   }
