@@ -69,5 +69,8 @@ export { oktavneEksponencijalneFunkcijeSekvence } from './oktavne-eksponencijaln
 
 export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
 
+// ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
+export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

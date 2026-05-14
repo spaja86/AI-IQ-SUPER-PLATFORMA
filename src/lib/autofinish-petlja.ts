@@ -7384,3 +7384,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/digatalna-eureka. Nova stranica: /digatalna-eureka.
 // Sekvence: src/lib/sekvence/digatalna-eureka-page.ts + barrel export.
 // APP_VERSION=50.2.0 | AUTOFINISH_COUNT=1233 | TOTAL_API_ROUTES=1102 | TOTAL_ROUTES=1165
+
+// ─── Autofinish #1234 — LAUCENTRICNI SPEKTAR ─────────────────────────────────
+// lib modul: src/lib/laucentricni-spektar.ts — buildLaucentricniSpektar(), SpektralniSloj,
+// SpektralniHarmonik, LaucentricniSpektarRezultat.
+// Nova ruta: GET /api/laucentricni-spektar. Nova stranica: /laucentricni-spektar.
+// Sekvence: src/lib/sekvence/laucentricni-spektar-page.ts + barrel export.
+// APP_VERSION=50.3.0 | AUTOFINISH_COUNT=1234 | TOTAL_API_ROUTES=1103 | TOTAL_ROUTES=1167
