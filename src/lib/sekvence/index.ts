@@ -114,5 +114,8 @@ export { laureatskiEnkoderSekvence } from './laureatski-enkoder-page';
 // ── LAUREATSKI TRANSKODER ──────────────────────────────────────────────────────
 export { laureatskiTranskoderSekvence } from './laureatski-transkoder-page';
 
+// ── LAUREATSKI REKODER ─────────────────────────────────────────────────────────
+export { laureatskiRekoderSekvence } from './laureatski-rekoder-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';
