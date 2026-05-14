@@ -152,16 +152,11 @@ function izracunajIlustrovaniOktavniSistem(): IlustrovaniOktavniSistem {
   );
 
   // Srazmerni faktor konvergencije — izvedeno iz figuracionog centra
+  // Formula: 1 - k/(k+1) mapira k ∈ [0, ∞) na [0, 1), inverzno proporcionalno
+  // sa konvergencioniKoeficijent — veći koeficijent daje manji faktor konvergencije.
+  const kk = figCentar.konvergencioniKoeficijent;
   const srazmerniFaktorKonvergencije = round4(
-    Math.min(
-      1,
-      Math.max(
-        0,
-        1 -
-          figCentar.konvergencioniKoeficijent /
-            (figCentar.konvergencioniKoeficijent + 1),
-      ),
-    ),
+    Math.min(1, Math.max(0, 1 - kk / (kk + 1))),
   );
 
   return {
