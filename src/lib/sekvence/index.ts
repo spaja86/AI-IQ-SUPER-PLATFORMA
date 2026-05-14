@@ -87,5 +87,8 @@ export { laureatskiSignalSekvence } from './laureatski-signal-page';
 // ── LAUREATSKI TALAS ─────────────────────────────────────────────────────────
 export { laureatskiTalasSekvence } from './laureatski-talas-page';
 
+// ── LAUREATSKI ODJEK ─────────────────────────────────────────────────────────
+export { laureatskiOdjekSekvence } from './laureatski-odjek-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';
