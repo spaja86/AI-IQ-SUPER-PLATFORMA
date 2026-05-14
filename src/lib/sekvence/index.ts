@@ -90,5 +90,8 @@ export { laureatskiTalasSekvence } from './laureatski-talas-page';
 // ── LAUREATSKI ODJEK ─────────────────────────────────────────────────────────
 export { laureatskiOdjekSekvence } from './laureatski-odjek-page';
 
+// ── LAUREATSKI EHO ───────────────────────────────────────────────────────────
+export { laureatskiEhoSekvence } from './laureatski-eho-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

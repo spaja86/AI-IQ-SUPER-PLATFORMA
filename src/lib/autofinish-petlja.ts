@@ -7433,3 +7433,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-odjek. Nova stranica: /laureatski-odjek.
 // Sekvence: src/lib/sekvence/laureatski-odjek-page.ts + barrel export.
 // APP_VERSION=50.9.0 | AUTOFINISH_COUNT=1240 | TOTAL_API_ROUTES=1109 | TOTAL_ROUTES=1179
+
+// ─── Autofinish #1241 — LAUREATSKI EHO ───────────────────────────────────────
+// lib modul: src/lib/laureatski-eho.ts — buildLaureatskiEho(), EhoImpuls,
+// LaureatskiEhoRezultat.
+// Nova ruta: GET /api/laureatski-eho. Nova stranica: /laureatski-eho.
+// Sekvence: src/lib/sekvence/laureatski-eho-page.ts + barrel export.
+// APP_VERSION=51.0.0 | AUTOFINISH_COUNT=1241 | TOTAL_API_ROUTES=1110 | TOTAL_ROUTES=1181
