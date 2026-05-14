@@ -4,7 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { ΩAuthProvider } from '@/lib/auth/omega-auth';
-import { checkBruteForce, recordFailedLoginAttempt, resetLoginAttempts } from '@/middleware/omega-security';
+import { checkRegisterBruteForce, recordFailedRegisterAttempt, resetRegisterAttempts } from '@/middleware/omega-security';
 import { ΩAuditLogger } from '@/middleware/omega-audit';
 
 interface RegisterBody {
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') ?? 'unknown';
 
   // Brute-force zastita: max 5 pokusaja / 15 min po IP
-  if (!checkBruteForce(ip)) {
+  if (!checkRegisterBruteForce(ip)) {
     ΩAuditLogger.log({
       userId: 'anonymous',
       action: 'REGISTER_BLOCKED_BRUTE_FORCE',
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (!result) {
-    recordFailedLoginAttempt(ip);
+    recordFailedRegisterAttempt(ip);
 
     ΩAuditLogger.log({
       userId: emailTrimmed,
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Uspesna registracija
-  resetLoginAttempts(ip);
+  resetRegisterAttempts(ip);
 
   ΩAuditLogger.log({
     userId: result.identity.id,

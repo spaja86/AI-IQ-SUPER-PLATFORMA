@@ -25,15 +25,18 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     // Podrži oba formata: { email, lozinka } i { email, password }
-    const email = body.email as string | undefined;
+    const emailRaw = body.email as string | undefined;
     const password = (body.password ?? body.lozinka) as string | undefined;
 
-    if (!email || !password) {
+    if (!emailRaw || !password) {
       return NextResponse.json(
         { greska: 'Email i lozinka su obavezni.' },
         { status: 400 },
       );
     }
+
+    // Normalizuj email — case-insensitive, isto kao pri registraciji
+    const email = emailRaw.trim().toLowerCase();
 
     if (!email.includes('@') || !email.includes('.') || email.length < 5) {
       return NextResponse.json(

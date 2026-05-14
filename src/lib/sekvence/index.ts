@@ -111,5 +111,20 @@ export { laureatskiDekoderSekvence } from './laureatski-dekoder-page';
 // ── LAUREATSKI ENKODER ────────────────────────────────────────────────────────
 export { laureatskiEnkoderSekvence } from './laureatski-enkoder-page';
 
+// ── LAUREATSKI TRANSKODER ──────────────────────────────────────────────────────
+export { laureatskiTranskoderSekvence } from './laureatski-transkoder-page';
+
+// ── LAUREATSKI REKODER ─────────────────────────────────────────────────────────
+export { laureatskiRekoderSekvence } from './laureatski-rekoder-page';
+
+// ── LAUREATSKI KODER ───────────────────────────────────────────────────────────
+export { laureatskiKoderSekvence } from './laureatski-koder-page';
+
+// ── LAUREATSKI KODEK ───────────────────────────────────────────────────────────
+export { laureatskiKodekSekvence } from './laureatski-kodek-page';
+
+// ── LAUREATSKI KODEKS ──────────────────────────────────────────────────────────
+export { laureatskiKodeksSekvence } from './laureatski-kodeks-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

@@ -22,6 +22,14 @@ import { ΩSessionManager } from '../../lib/digital-industry/omega-session';
 import { ΩResourceGuard } from '../../lib/digital-industry/omega-resource-guard';
 import { ΩIdentityVault, createIdentity, getGlobalVault } from '../../lib/auth/omega-identity';
 import type { ΩIdentity } from '../../lib/auth/types';
+import {
+  checkBruteForce,
+  recordFailedLoginAttempt,
+  resetLoginAttempts,
+  checkRegisterBruteForce,
+  recordFailedRegisterAttempt,
+  resetRegisterAttempts,
+} from '../../middleware/omega-security';
 
 // ─── Test Runner ──────────────────────────────────────────────────────────────
 
@@ -428,6 +436,32 @@ async function runTests(): Promise<void> {
     assert(getStoredTOTPSecret(userId) === null, 'deleted secret');
   });
 
+  await test('login is case-insensitive for email (uppercase input)', async () => {
+    const base = ΩCryptoEngine.generateId();
+    const lowerEmail = `ci-${base}@test.local`;
+    const upperEmail = `CI-${base}@TEST.LOCAL`;
+    await ΩAuthProvider.register({ email: lowerEmail, password: 'CasePass!123' });
+    const result = await ΩAuthProvider.login({ email: upperEmail, password: 'CasePass!123' });
+    assert(result !== null, 'login with uppercase email should succeed');
+    assertEqual(result?.identity.email, lowerEmail, 'stored email should be lowercase');
+  });
+
+  await test('register is case-insensitive — duplicate email with different casing is rejected', async () => {
+    const base = ΩCryptoEngine.generateId();
+    const first = await ΩAuthProvider.register({ email: `dup-ci-${base}@test.local`, password: 'Pass!1234' });
+    const second = await ΩAuthProvider.register({ email: `DUP-CI-${base}@TEST.LOCAL`, password: 'Pass!1234' });
+    assert(first !== null, 'first registration should succeed');
+    assert(second === null, 'duplicate (different case) registration should fail');
+  });
+
+  await test('login normalizes email before lookup — mixed case succeeds', async () => {
+    const base = ΩCryptoEngine.generateId();
+    const email = `mixed-${base}@Test.Local`;
+    await ΩAuthProvider.register({ email, password: 'MixedPass!1' });
+    const result = await ΩAuthProvider.login({ email: `MIXED-${base}@TEST.LOCAL`, password: 'MixedPass!1' });
+    assert(result !== null, 'mixed-case login should succeed after normalization');
+  });
+
   await test('ensureDemoSeeded is idempotent and keeps demo account available', async () => {
     await ensureDemoSeeded();
     await ensureDemoSeeded();
@@ -437,6 +471,63 @@ async function runTests(): Promise<void> {
       .map((id) => vault.retrieveIdentity(id))
       .some((identity) => identity?.email === 'demo@spaja.ai');
     assert(foundDemo, 'demo account should exist');
+  });
+
+  // ── Brute-force isolation ─────────────────────────────────────────────────
+
+  console.log('\n📦 Brute-force isolation (login vs register)');
+
+  await test('login brute-force does not affect register brute-force', () => {
+    const ip = '10.0.0.1';
+    resetLoginAttempts(ip);
+    resetRegisterAttempts(ip);
+
+    // Exhaust login attempts
+    for (let i = 0; i < 5; i++) {
+      recordFailedLoginAttempt(ip);
+    }
+
+    assert(!checkBruteForce(ip), 'login should be blocked after 5 attempts');
+    assert(checkRegisterBruteForce(ip), 'register should NOT be blocked by login failures');
+
+    resetLoginAttempts(ip);
+  });
+
+  await test('register brute-force does not affect login brute-force', () => {
+    const ip = '10.0.0.2';
+    resetLoginAttempts(ip);
+    resetRegisterAttempts(ip);
+
+    // Exhaust register attempts
+    for (let i = 0; i < 5; i++) {
+      recordFailedRegisterAttempt(ip);
+    }
+
+    assert(!checkRegisterBruteForce(ip), 'register should be blocked after 5 attempts');
+    assert(checkBruteForce(ip), 'login should NOT be blocked by register failures');
+
+    resetRegisterAttempts(ip);
+  });
+
+  await test('resetLoginAttempts unblocks login without affecting register', () => {
+    const ip = '10.0.0.3';
+    resetLoginAttempts(ip);
+    resetRegisterAttempts(ip);
+
+    for (let i = 0; i < 5; i++) {
+      recordFailedLoginAttempt(ip);
+      recordFailedRegisterAttempt(ip);
+    }
+
+    assert(!checkBruteForce(ip), 'login blocked');
+    assert(!checkRegisterBruteForce(ip), 'register blocked');
+
+    resetLoginAttempts(ip);
+
+    assert(checkBruteForce(ip), 'login unblocked after reset');
+    assert(!checkRegisterBruteForce(ip), 'register still blocked — independent');
+
+    resetRegisterAttempts(ip);
   });
 
   // ── ΩAuditLogger ─────────────────────────────────────────────────────────

@@ -7482,3 +7482,38 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-enkoder. Nova stranica: /laureatski-enkoder.
 // Sekvence: src/lib/sekvence/laureatski-enkoder-page.ts + barrel export.
 // APP_VERSION=51.6.0 | AUTOFINISH_COUNT=1247 | TOTAL_API_ROUTES=1116 | TOTAL_ROUTES=1193
+
+// ─── Autofinish #1248 — LAUREATSKI TRANSKODER ────────────────────────────────
+// lib modul: src/lib/laureatski-transkoder.ts — buildLaureatskiTranskoder(),
+// TranskoderImpuls, LaureatskiTranskoderRezultat.
+// Nova ruta: GET /api/laureatski-transkoder. Nova stranica: /laureatski-transkoder.
+// Sekvence: src/lib/sekvence/laureatski-transkoder-page.ts + barrel export.
+// APP_VERSION=51.7.0 | AUTOFINISH_COUNT=1248 | TOTAL_API_ROUTES=1117 | TOTAL_ROUTES=1195
+
+// ─── Autofinish #1249 — LAUREATSKI REKODER ───────────────────────────────────
+// lib modul: src/lib/laureatski-rekoder.ts — buildLaureatskiRekoder(),
+// RekoderImpuls, LaureatskiRekoderRezultat.
+// Nova ruta: GET /api/laureatski-rekoder. Nova stranica: /laureatski-rekoder.
+// Sekvence: src/lib/sekvence/laureatski-rekoder-page.ts + barrel export.
+// APP_VERSION=51.8.0 | AUTOFINISH_COUNT=1249 | TOTAL_API_ROUTES=1118 | TOTAL_ROUTES=1197
+
+// ─── Autofinish #1250 — LAUREATSKI KODER ─────────────────────────────────────
+// lib modul: src/lib/laureatski-koder.ts — buildLaureatskiKoder(),
+// KoderImpuls, LaureatskiKoderRezultat.
+// Nova ruta: GET /api/laureatski-koder. Nova stranica: /laureatski-koder.
+// Sekvence: src/lib/sekvence/laureatski-koder-page.ts + barrel export.
+// APP_VERSION=51.9.0 | AUTOFINISH_COUNT=1250 | TOTAL_API_ROUTES=1119 | TOTAL_ROUTES=1199
+
+// ─── Autofinish #1251 — LAUREATSKI KODEK ─────────────────────────────────────
+// lib modul: src/lib/laureatski-kodek.ts — buildLaureatskiKodek(),
+// KodekImpuls, LaureatskiKodekRezultat.
+// Nova ruta: GET /api/laureatski-kodek. Nova stranica: /laureatski-kodek.
+// Sekvence: src/lib/sekvence/laureatski-kodek-page.ts + barrel export.
+// APP_VERSION=52.0.0 | AUTOFINISH_COUNT=1251 | TOTAL_API_ROUTES=1120 | TOTAL_ROUTES=1201
+
+// ─── Autofinish #1252 — LAUREATSKI KODEKS ────────────────────────────────────
+// lib modul: src/lib/laureatski-kodeks.ts — buildLaureatskiKodeks(),
+// KodeksImpuls, LaureatskiKodeksRezultat.
+// Nova ruta: GET /api/laureatski-kodeks. Nova stranica: /laureatski-kodeks.
+// Sekvence: src/lib/sekvence/laureatski-kodeks-page.ts + barrel export.
+// APP_VERSION=52.1.0 | AUTOFINISH_COUNT=1252 | TOTAL_API_ROUTES=1121 | TOTAL_ROUTES=1203

@@ -14,6 +14,10 @@ const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 // Format: IP -> { attempts, blockedUntil }
 const bruteForceStore = new Map<string, { attempts: number; blockedUntil: number }>();
 
+// Brute force protection za register (odvojen od login-a)
+// Format: IP -> { attempts, blockedUntil }
+const registerBruteForceStore = new Map<string, { attempts: number; blockedUntil: number }>();
+
 // Poznate maliciozne IP adrese (u produkciji: dinamički iz threat intelligence)
 const BLOCKED_IPS = new Set<string>();
 
@@ -47,8 +51,8 @@ if (process.env.OMEGA_BLOCKED_IPS) {
 const RATE_LIMIT_ANON = 100; // 100 req/min za anonimne korisnike
 const RATE_LIMIT_AUTH = 1000; // 1000 req/min za autentifikovane
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minut
-const LOGIN_MAX_ATTEMPTS = 5;
-const LOGIN_BLOCK_DURATION_MS = 15 * 60 * 1000; // 15 minuta
+const AUTH_MAX_ATTEMPTS = 5; // max pokusaja za login i register po IP
+const AUTH_BLOCK_DURATION_MS = 15 * 60 * 1000; // 15 minuta
 
 // Rute koje ne zahtevaju autentifikaciju
 const PUBLIC_ROUTES = [
@@ -134,7 +138,8 @@ export function recordFailedLoginAttempt(ip: string): void {
   const now = Date.now();
   const existing = bruteForceStore.get(ip);
 
-  if (existing && now > existing.blockedUntil) {
+  // Reset only when a real block period has fully expired (blockedUntil > 0)
+  if (existing && existing.blockedUntil > 0 && now > existing.blockedUntil) {
     bruteForceStore.set(ip, { attempts: 1, blockedUntil: 0 });
     return;
   }
@@ -142,8 +147,8 @@ export function recordFailedLoginAttempt(ip: string): void {
   const current = existing ?? { attempts: 0, blockedUntil: 0 };
   current.attempts++;
 
-  if (current.attempts >= LOGIN_MAX_ATTEMPTS) {
-    current.blockedUntil = now + LOGIN_BLOCK_DURATION_MS;
+  if (current.attempts >= AUTH_MAX_ATTEMPTS) {
+    current.blockedUntil = now + AUTH_BLOCK_DURATION_MS;
   }
 
   bruteForceStore.set(ip, current);
@@ -151,6 +156,41 @@ export function recordFailedLoginAttempt(ip: string): void {
 
 export function resetLoginAttempts(ip: string): void {
   bruteForceStore.delete(ip);
+}
+
+// ── Register brute-force protection ──────────────────────────────────────────
+// Odvojen od login-a da bi registracioni neuspesi ne blokirali login
+
+export function checkRegisterBruteForce(ip: string): boolean {
+  const now = Date.now();
+  const existing = registerBruteForceStore.get(ip);
+
+  if (existing && now < existing.blockedUntil) return false;
+  return true;
+}
+
+export function recordFailedRegisterAttempt(ip: string): void {
+  const now = Date.now();
+  const existing = registerBruteForceStore.get(ip);
+
+  // Reset only when a real block period has fully expired (blockedUntil > 0)
+  if (existing && existing.blockedUntil > 0 && now > existing.blockedUntil) {
+    registerBruteForceStore.set(ip, { attempts: 1, blockedUntil: 0 });
+    return;
+  }
+
+  const current = existing ?? { attempts: 0, blockedUntil: 0 };
+  current.attempts++;
+
+  if (current.attempts >= AUTH_MAX_ATTEMPTS) {
+    current.blockedUntil = now + AUTH_BLOCK_DURATION_MS;
+  }
+
+  registerBruteForceStore.set(ip, current);
+}
+
+export function resetRegisterAttempts(ip: string): void {
+  registerBruteForceStore.delete(ip);
 }
 
 function validateCSRF(request: NextRequest): boolean {
