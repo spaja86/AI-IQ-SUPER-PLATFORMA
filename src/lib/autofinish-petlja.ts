@@ -7377,3 +7377,108 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // VaultRedemptionReport + buildVaultRedemptionReport dodati u trezor.ts.
 // Feature flag: kripto-trezor-redemption. Nova ruta: GET /api/kripto-trezor/redemption.
 // APP_VERSION=50.1.0 | AUTOFINISH_COUNT=1232 | TOTAL_API_ROUTES=1101 | TOTAL_ROUTES=1163
+
+// ─── Autofinish #1233 — DIGATALNA EUREKA ─────────────────────────────────────
+// lib modul: src/lib/digatalna-eureka.ts — buildDigatalnaEureka(), EktridonalnaEksinometrija,
+// EpicentricniEklubrion, DigatalnaEurekaRezultat.
+// Nova ruta: GET /api/digatalna-eureka. Nova stranica: /digatalna-eureka.
+// Sekvence: src/lib/sekvence/digatalna-eureka-page.ts + barrel export.
+// APP_VERSION=50.2.0 | AUTOFINISH_COUNT=1233 | TOTAL_API_ROUTES=1102 | TOTAL_ROUTES=1165
+
+// ─── Autofinish #1234 — LAUCENTRICNI SPEKTAR ─────────────────────────────────
+// lib modul: src/lib/laucentricni-spektar.ts — buildLaucentricniSpektar(), SpektralniSloj,
+// SpektralniHarmonik, LaucentricniSpektarRezultat.
+// Nova ruta: GET /api/laucentricni-spektar. Nova stranica: /laucentricni-spektar.
+// Sekvence: src/lib/sekvence/laucentricni-spektar-page.ts + barrel export.
+// APP_VERSION=50.3.0 | AUTOFINISH_COUNT=1234 | TOTAL_API_ROUTES=1103 | TOTAL_ROUTES=1167
+
+// ─── Autofinish #1235 — LAUREATSKI PULS ──────────────────────────────────────
+// lib modul: src/lib/laureatski-puls.ts — buildLaureatskiPuls(), PulsOtkucaj,
+// LaureatskiPulsRezultat.
+// Nova ruta: GET /api/laureatski-puls. Nova stranica: /laureatski-puls.
+// Sekvence: src/lib/sekvence/laureatski-puls-page.ts + barrel export.
+// APP_VERSION=50.4.0 | AUTOFINISH_COUNT=1235 | TOTAL_API_ROUTES=1104 | TOTAL_ROUTES=1169
+
+// ─── Autofinish #1236 — LAUREATSKI RITAM ─────────────────────────────────────
+// lib modul: src/lib/laureatski-ritam.ts — buildLaureatskiRitam(), RitamFaza,
+// LaureatskiRitamRezultat.
+// Nova ruta: GET /api/laureatski-ritam. Nova stranica: /laureatski-ritam.
+// Sekvence: src/lib/sekvence/laureatski-ritam-page.ts + barrel export.
+// APP_VERSION=50.5.0 | AUTOFINISH_COUNT=1236 | TOTAL_API_ROUTES=1105 | TOTAL_ROUTES=1171
+
+// ─── Autofinish #1237 — LAUREATSKI TAKT ──────────────────────────────────────
+// lib modul: src/lib/laureatski-takt.ts — buildLaureatskiTakt(), TaktSegment,
+// LaureatskiTaktRezultat.
+// Nova ruta: GET /api/laureatski-takt. Nova stranica: /laureatski-takt.
+// Sekvence: src/lib/sekvence/laureatski-takt-page.ts + barrel export.
+// APP_VERSION=50.6.0 | AUTOFINISH_COUNT=1237 | TOTAL_API_ROUTES=1106 | TOTAL_ROUTES=1173
+
+// ─── Autofinish #1238 — LAUREATSKI SIGNAL ────────────────────────────────────
+// lib modul: src/lib/laureatski-signal.ts — buildLaureatskiSignal(), SignalImpuls,
+// LaureatskiSignalRezultat.
+// Nova ruta: GET /api/laureatski-signal. Nova stranica: /laureatski-signal.
+// Sekvence: src/lib/sekvence/laureatski-signal-page.ts + barrel export.
+// APP_VERSION=50.7.0 | AUTOFINISH_COUNT=1238 | TOTAL_API_ROUTES=1107 | TOTAL_ROUTES=1175
+
+// ─── Autofinish #1239 — LAUREATSKI TALAS ─────────────────────────────────────
+// lib modul: src/lib/laureatski-talas.ts — buildLaureatskiTalas(), TalasniCvor,
+// LaureatskiTalasRezultat.
+// Nova ruta: GET /api/laureatski-talas. Nova stranica: /laureatski-talas.
+// Sekvence: src/lib/sekvence/laureatski-talas-page.ts + barrel export.
+// APP_VERSION=50.8.0 | AUTOFINISH_COUNT=1239 | TOTAL_API_ROUTES=1108 | TOTAL_ROUTES=1177
+
+// ─── Autofinish #1240 — LAUREATSKI ODJEK ─────────────────────────────────────
+// lib modul: src/lib/laureatski-odjek.ts — buildLaureatskiOdjek(), OdjecniImpuls,
+// LaureatskiOdjekRezultat.
+// Nova ruta: GET /api/laureatski-odjek. Nova stranica: /laureatski-odjek.
+// Sekvence: src/lib/sekvence/laureatski-odjek-page.ts + barrel export.
+// APP_VERSION=50.9.0 | AUTOFINISH_COUNT=1240 | TOTAL_API_ROUTES=1109 | TOTAL_ROUTES=1179
+
+// ─── Autofinish #1241 — LAUREATSKI EHO ───────────────────────────────────────
+// lib modul: src/lib/laureatski-eho.ts — buildLaureatskiEho(), EhoImpuls,
+// LaureatskiEhoRezultat.
+// Nova ruta: GET /api/laureatski-eho. Nova stranica: /laureatski-eho.
+// Sekvence: src/lib/sekvence/laureatski-eho-page.ts + barrel export.
+// APP_VERSION=51.0.0 | AUTOFINISH_COUNT=1241 | TOTAL_API_ROUTES=1110 | TOTAL_ROUTES=1181
+
+// ─── Autofinish #1242 — LAUREATSKI REZONATOR ─────────────────────────────────
+// lib modul: src/lib/laureatski-rezonator.ts — buildLaureatskiRezonator(),
+// RezonatorImpuls, LaureatskiRezonatorRezultat.
+// Nova ruta: GET /api/laureatski-rezonator. Nova stranica: /laureatski-rezonator.
+// Sekvence: src/lib/sekvence/laureatski-rezonator-page.ts + barrel export.
+// APP_VERSION=51.1.0 | AUTOFINISH_COUNT=1242 | TOTAL_API_ROUTES=1111 | TOTAL_ROUTES=1183
+
+// ─── Autofinish #1243 — LAUREATSKI OSCILATOR ─────────────────────────────────
+// lib modul: src/lib/laureatski-oscilator.ts — buildLaureatskiOscilator(),
+// OscilatorImpuls, LaureatskiOscilatorRezultat.
+// Nova ruta: GET /api/laureatski-oscilator. Nova stranica: /laureatski-oscilator.
+// Sekvence: src/lib/sekvence/laureatski-oscilator-page.ts + barrel export.
+// APP_VERSION=51.2.0 | AUTOFINISH_COUNT=1243 | TOTAL_API_ROUTES=1112 | TOTAL_ROUTES=1185
+
+// ─── Autofinish #1244 — LAUREATSKI MODULATOR ─────────────────────────────────
+// lib modul: src/lib/laureatski-modulator.ts — buildLaureatskiModulator(),
+// ModulatorImpuls, LaureatskiModulatorRezultat.
+// Nova ruta: GET /api/laureatski-modulator. Nova stranica: /laureatski-modulator.
+// Sekvence: src/lib/sekvence/laureatski-modulator-page.ts + barrel export.
+// APP_VERSION=51.3.0 | AUTOFINISH_COUNT=1244 | TOTAL_API_ROUTES=1113 | TOTAL_ROUTES=1187
+
+// ─── Autofinish #1245 — LAUREATSKI DEMODULATOR ───────────────────────────────
+// lib modul: src/lib/laureatski-demodulator.ts — buildLaureatskiDemodulator(),
+// DemodulatorImpuls, LaureatskiDemodulatorRezultat.
+// Nova ruta: GET /api/laureatski-demodulator. Nova stranica: /laureatski-demodulator.
+// Sekvence: src/lib/sekvence/laureatski-demodulator-page.ts + barrel export.
+// APP_VERSION=51.4.0 | AUTOFINISH_COUNT=1245 | TOTAL_API_ROUTES=1114 | TOTAL_ROUTES=1189
+
+// ─── Autofinish #1246 — LAUREATSKI DEKODER ───────────────────────────────────
+// lib modul: src/lib/laureatski-dekoder.ts — buildLaureatskiDekoder(),
+// DekoderImpuls, LaureatskiDekoderRezultat.
+// Nova ruta: GET /api/laureatski-dekoder. Nova stranica: /laureatski-dekoder.
+// Sekvence: src/lib/sekvence/laureatski-dekoder-page.ts + barrel export.
+// APP_VERSION=51.5.0 | AUTOFINISH_COUNT=1246 | TOTAL_API_ROUTES=1115 | TOTAL_ROUTES=1191
+
+// ─── Autofinish #1247 — LAUREATSKI ENKODER ───────────────────────────────────
+// lib modul: src/lib/laureatski-enkoder.ts — buildLaureatskiEnkoder(),
+// EnkoderImpuls, LaureatskiEnkoderRezultat.
+// Nova ruta: GET /api/laureatski-enkoder. Nova stranica: /laureatski-enkoder.
+// Sekvence: src/lib/sekvence/laureatski-enkoder-page.ts + barrel export.
+// APP_VERSION=51.6.0 | AUTOFINISH_COUNT=1247 | TOTAL_API_ROUTES=1116 | TOTAL_ROUTES=1193
