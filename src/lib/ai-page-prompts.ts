@@ -683,6 +683,20 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Koliko puta mogu da resetujem lozinku?', ikona: '🔄', kategorija: 'spaja-pro-ai' },
     ],
   },
+  {
+    putanja: '/eksponat-glavnog-jezgra',
+    naslov: 'EKSPONAT GLAVNOG JEZGRA',
+    opis: 'Ilustrovani oktavni sistem — cinemetričan oblik jedinjenja',
+    kontekst: 'Eksponat glavnog jezgra u ilustrovanom oktavnom sistemu — eksponicionalni oblik cinemetričnog jedinjenja u srazmernom centimentarnom sjedinjavanju.',
+    promptovi: [
+      { pitanje: 'Šta je eksponat glavnog jezgra?', ikona: '🔬', kategorija: 'ai' },
+      { pitanje: 'Kako funkcioniše cinemetričan oblik jedinjenja?', ikona: '🧪', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi ilustrovani oktavni sistem', ikona: '🎵', kategorija: 'ai' },
+      { pitanje: 'Šta je oktodomolni kuzmetrijski paravan?', ikona: '🌐', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako se računa eksponat koeficijent?', ikona: '📐', kategorija: 'ai' },
+      { pitanje: 'Kako se eksponat jezgra uklapa u OMEGA AI sistem?', ikona: '🧠', kategorija: 'spaja-pro-ai' },
+    ],
+  },
 ];
 
 /**
