@@ -7412,3 +7412,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-takt. Nova stranica: /laureatski-takt.
 // Sekvence: src/lib/sekvence/laureatski-takt-page.ts + barrel export.
 // APP_VERSION=50.6.0 | AUTOFINISH_COUNT=1237 | TOTAL_API_ROUTES=1106 | TOTAL_ROUTES=1173
+
+// ─── Autofinish #1238 — LAUREATSKI SIGNAL ────────────────────────────────────
+// lib modul: src/lib/laureatski-signal.ts — buildLaureatskiSignal(), SignalImpuls,
+// LaureatskiSignalRezultat.
+// Nova ruta: GET /api/laureatski-signal. Nova stranica: /laureatski-signal.
+// Sekvence: src/lib/sekvence/laureatski-signal-page.ts + barrel export.
+// APP_VERSION=50.7.0 | AUTOFINISH_COUNT=1238 | TOTAL_API_ROUTES=1107 | TOTAL_ROUTES=1175

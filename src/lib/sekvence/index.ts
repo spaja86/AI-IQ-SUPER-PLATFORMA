@@ -81,5 +81,8 @@ export { laureatskiRitamSekvence } from './laureatski-ritam-page';
 // ── LAUREATSKI TAKT ──────────────────────────────────────────────────────────
 export { laureatskiTaktSekvence } from './laureatski-takt-page';
 
+// ── LAUREATSKI SIGNAL ────────────────────────────────────────────────────────
+export { laureatskiSignalSekvence } from './laureatski-signal-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

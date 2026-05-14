@@ -1,9 +1,9 @@
-// Autofinish #1237 — Unit Testovi buildLaureatskiTakt()
+// Autofinish #1238 — Unit Testovi buildLaureatskiSignal()
 // Kompanija SPAJA — Digitalna Industrija
 //
-// Pokretanje: npx tsx src/tests/autofinish/laureatski-takt.test.ts
+// Pokretanje: npx tsx src/tests/autofinish/laureatski-signal.test.ts
 
-import { buildLaureatskiTakt } from '../../lib/laureatski-takt';
+import { buildLaureatskiSignal } from '../../lib/laureatski-signal';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -42,74 +42,79 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🥁  LAUREATSKI TAKT — Unit Test Suite (#1237)\n');
+  console.log('\n📡  LAUREATSKI SIGNAL — Unit Test Suite (#1238)\n');
 
-  const r = buildLaureatskiTakt('test-user-id');
+  const r = buildLaureatskiSignal('test-user-id');
 
-  console.log('📦 Top-level schema (#1237)');
+  console.log('📦 Top-level schema (#1238)');
   await test('Vraća objekat', () => {
     assert(typeof r === 'object' && r !== null, 'vraća objekat');
   });
   await test('status === "aktivan"', () => {
     assertEqual(r.status, 'aktivan', 'status');
   });
-  await test('segmenti je niz', () => {
-    assert(Array.isArray(r.segmenti), 'segmenti niz');
+  await test('impulsi je niz', () => {
+    assert(Array.isArray(r.impulsi), 'impulsi niz');
   });
-  await test('segmenti ima 32 elementa', () => {
-    assertEqual(r.segmenti.length, 32, 'segmenti.length');
-  });
-
-  console.log('\n📦 Taktički indikatori (#1237)');
-  await test('taktniIndeks je 0–1', () => {
-    assert(r.taktniIndeks >= 0 && r.taktniIndeks <= 1, `taktniIndeks: ${r.taktniIndeks}`);
-  });
-  await test('metarStabilnost je 0–1', () => {
-    assert(r.metarStabilnost >= 0 && r.metarStabilnost <= 1, `metarStabilnost: ${r.metarStabilnost}`);
-  });
-  await test('prosecniTaktBpm > 0', () => {
-    assert(r.prosecniTaktBpm > 0, `prosecniTaktBpm: ${r.prosecniTaktBpm}`);
-  });
-  await test('maksimalniTaktBpm >= minimalniTaktBpm', () => {
-    assert(r.maksimalniTaktBpm >= r.minimalniTaktBpm, `${r.maksimalniTaktBpm} >= ${r.minimalniTaktBpm}`);
-  });
-  await test('taktOpsegBpm >= 0', () => {
-    assert(r.taktOpsegBpm >= 0, `taktOpsegBpm: ${r.taktOpsegBpm}`);
+  await test('impulsi ima 32 elementa', () => {
+    assertEqual(r.impulsi.length, 32, 'impulsi.length');
   });
 
-  console.log('\n📦 Taktni segmenti (#1237)');
-  await test('svaki segment ima validan sloj 1–4', () => {
-    for (const s of r.segmenti) {
+  console.log('\n📦 Signalni indikatori (#1238)');
+  await test('signalniIndeks je 0–1', () => {
+    assert(r.signalniIndeks >= 0 && r.signalniIndeks <= 1, `signalniIndeks: ${r.signalniIndeks}`);
+  });
+  await test('signalStabilnost je 0–1', () => {
+    assert(r.signalStabilnost >= 0 && r.signalStabilnost <= 1, `signalStabilnost: ${r.signalStabilnost}`);
+  });
+  await test('prosecniImpulsHz > 0', () => {
+    assert(r.prosecniImpulsHz > 0, `prosecniImpulsHz: ${r.prosecniImpulsHz}`);
+  });
+  await test('maksimalniImpulsHz >= minimalniImpulsHz', () => {
+    assert(r.maksimalniImpulsHz >= r.minimalniImpulsHz, `${r.maksimalniImpulsHz} >= ${r.minimalniImpulsHz}`);
+  });
+  await test('signalOpsegHz >= 0', () => {
+    assert(r.signalOpsegHz >= 0, `signalOpsegHz: ${r.signalOpsegHz}`);
+  });
+
+  console.log('\n📦 Signalni impulsi (#1238)');
+  await test('svaki impuls ima validan sloj 1–4', () => {
+    for (const s of r.impulsi) {
       assert(s.sloj >= 1 && s.sloj <= 4, `sloj: ${s.sloj}`);
     }
   });
-  await test('svaki segment ima validan t 0–7', () => {
-    for (const s of r.segmenti) {
+  await test('svaki impuls ima validan t 0–7', () => {
+    for (const s of r.impulsi) {
       assert(s.t >= 0 && s.t <= 7, `t: ${s.t}`);
     }
   });
-  await test('svaki segment ima harmonik 1–4', () => {
-    for (const s of r.segmenti) {
+  await test('svaki impuls ima harmonik 1–4', () => {
+    for (const s of r.impulsi) {
       assert(s.harmonik >= 1 && s.harmonik <= 4, `harmonik: ${s.harmonik}`);
     }
   });
   await test('metar je 0–2', () => {
-    for (const s of r.segmenti) {
+    for (const s of r.impulsi) {
       assert(s.metar >= 0 && s.metar <= 2, `metar: ${s.metar}`);
     }
   });
-  await test('segmentBpm > 0', () => {
-    for (const s of r.segmenti) {
-      assert(s.segmentBpm > 0, `segmentBpm: ${s.segmentBpm}`);
+  await test('impulsHz > 0', () => {
+    for (const s of r.impulsi) {
+      assert(s.impulsHz > 0, `impulsHz: ${s.impulsHz}`);
+    }
+  });
+  await test('amplituda je 0–1', () => {
+    for (const s of r.impulsi) {
+      assert(s.amplituda >= 0 && s.amplituda <= 1, `amplituda: ${s.amplituda}`);
     }
   });
   await test('normalizovano je 0–1', () => {
-    for (const s of r.segmenti) {
+    for (const s of r.impulsi) {
       assert(s.normalizovano >= 0 && s.normalizovano <= 1, `normalizovano: ${s.normalizovano}`);
     }
   });
 
-  console.log('\n📦 Globalni invarijanti (#1237)');
+  console.log('\n📦 Globalni invarijanti (#1238)');
   await test('AUTOFINISH_COUNT === 1238', () => {
     assertEqual(AUTOFINISH_COUNT, 1238, 'AUTOFINISH_COUNT=1238');
   });

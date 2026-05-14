@@ -46,6 +46,7 @@ export const navigation: NavItem[] = [
   { label: 'Unit Testovi', href: '/unit-testovi', icon: '🧪', description: 'SPAJA Unit Testovi — 12 suita, 94.8% pokrivenost' },
   { label: 'OMEGA AI Suport', href: '/omega-ai-suport', icon: '📞', description: 'OMEGA AI Maksimalni Suport — 21 persona, telefoni, mejlovi, dispeč' },
   { label: 'OMEGA Plasiranje', href: '/omega-projekat-plasiranje', icon: '🚀', description: 'OMEGA PROJEKAT — automatsko plasiranje u opticaj, 10 faza, 10 sistema' },
+  { label: 'LAUREATSKI SIGNAL', href: '/laureatski-signal', icon: '📡', description: 'Signalna matrica laureatskog centra kroz impulse i koherentnost signala' },
   { label: 'LAUREATSKI TAKT', href: '/laureatski-takt', icon: '🥁', description: 'Taktička matrica laureatskog centra kroz segmentisani metar i koherentnost takta' },
   { label: 'LAUREATSKI RITAM', href: '/laureatski-ritam', icon: '🥁', description: 'Ritmička matrica laureatskog centra kroz metronomske faze i tempo koherentnost' },
   { label: 'LAUREATSKI PULS', href: '/laureatski-puls', icon: '🫀', description: 'Pulsna dinamika laureatskog centra kroz harmonijsku rezonancu i vremenske otkucaje' },
