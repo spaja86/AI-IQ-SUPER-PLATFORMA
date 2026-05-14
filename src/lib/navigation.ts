@@ -50,6 +50,7 @@ export const navigation: NavItem[] = [
   { label: 'LAUREATSKI TRANSKODER', href: '/laureatski-transkoder', icon: '🔄', description: 'Transkoderska matrica laureatskog centra kroz transkodersku vezu i koherentnost transkodera' },
   { label: 'LAUREATSKI REKODER', href: '/laureatski-rekoder', icon: '♻️', description: 'Rekoderska matrica laureatskog centra kroz rekodersku vezu i koherentnost rekodera' },
   { label: 'LAUREATSKI KODER', href: '/laureatski-koder', icon: '🧬', description: 'Koderska matrica laureatskog centra kroz kodersku vezu i koherentnost kodera' },
+  { label: 'LAUREATSKI KODEK', href: '/laureatski-kodek', icon: '🎞️', description: 'Kodek matrica laureatskog centra kroz kodek vezu i koherentnost kodeka' },
   { label: 'LAUREATSKI DEKODER', href: '/laureatski-dekoder', icon: '🧩', description: 'Dekoderska matrica laureatskog centra kroz dekodersku vezu i koherentnost dekodera' },
   { label: 'LAUREATSKI DEMODULATOR', href: '/laureatski-demodulator', icon: '📻', description: 'Demodulatorska matrica laureatskog centra kroz demodulatorsku vezu i koherentnost demodulatora' },
   { label: 'LAUREATSKI MODULATOR', href: '/laureatski-modulator', icon: '🎚️', description: 'Modulatorska matrica laureatskog centra kroz modulatorsku vezu i koherentnost modulatora' },
