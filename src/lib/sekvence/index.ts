@@ -72,5 +72,8 @@ export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
 // ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
 export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';
 
+// ── LAUREATSKI PULS ──────────────────────────────────────────────────────────
+export { laureatskiPulsSekvence } from './laureatski-puls-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

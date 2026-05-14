@@ -7391,3 +7391,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laucentricni-spektar. Nova stranica: /laucentricni-spektar.
 // Sekvence: src/lib/sekvence/laucentricni-spektar-page.ts + barrel export.
 // APP_VERSION=50.3.0 | AUTOFINISH_COUNT=1234 | TOTAL_API_ROUTES=1103 | TOTAL_ROUTES=1167
+
+// ─── Autofinish #1235 — LAUREATSKI PULS ──────────────────────────────────────
+// lib modul: src/lib/laureatski-puls.ts — buildLaureatskiPuls(), PulsOtkucaj,
+// LaureatskiPulsRezultat.
+// Nova ruta: GET /api/laureatski-puls. Nova stranica: /laureatski-puls.
+// Sekvence: src/lib/sekvence/laureatski-puls-page.ts + barrel export.
+// APP_VERSION=50.4.0 | AUTOFINISH_COUNT=1235 | TOTAL_API_ROUTES=1104 | TOTAL_ROUTES=1169
