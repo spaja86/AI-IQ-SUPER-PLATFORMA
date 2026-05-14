@@ -7482,3 +7482,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-enkoder. Nova stranica: /laureatski-enkoder.
 // Sekvence: src/lib/sekvence/laureatski-enkoder-page.ts + barrel export.
 // APP_VERSION=51.6.0 | AUTOFINISH_COUNT=1247 | TOTAL_API_ROUTES=1116 | TOTAL_ROUTES=1193
+
+// ─── Autofinish #1248 — LAUREATSKI TRANSKODER ────────────────────────────────
+// lib modul: src/lib/laureatski-transkoder.ts — buildLaureatskiTranskoder(),
+// TranskoderImpuls, LaureatskiTranskoderRezultat.
+// Nova ruta: GET /api/laureatski-transkoder. Nova stranica: /laureatski-transkoder.
+// Sekvence: src/lib/sekvence/laureatski-transkoder-page.ts + barrel export.
+// APP_VERSION=51.7.0 | AUTOFINISH_COUNT=1248 | TOTAL_API_ROUTES=1117 | TOTAL_ROUTES=1195
