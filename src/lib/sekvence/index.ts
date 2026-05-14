@@ -123,5 +123,8 @@ export { laureatskiKoderSekvence } from './laureatski-koder-page';
 // ── LAUREATSKI KODEK ───────────────────────────────────────────────────────────
 export { laureatskiKodekSekvence } from './laureatski-kodek-page';
 
+// ── LAUREATSKI KODEKS ──────────────────────────────────────────────────────────
+export { laureatskiKodeksSekvence } from './laureatski-kodeks-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';
