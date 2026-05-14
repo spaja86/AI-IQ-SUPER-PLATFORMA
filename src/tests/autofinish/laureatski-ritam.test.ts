@@ -110,17 +110,17 @@ async function runTests(): Promise<void> {
   });
 
   console.log('\n📦 Globalni invarijanti (#1236)');
-  await test('AUTOFINISH_COUNT === 1243', () => {
-    assertEqual(AUTOFINISH_COUNT, 1243, 'AUTOFINISH_COUNT=1243');
+  await test('AUTOFINISH_COUNT === 1244', () => {
+    assertEqual(AUTOFINISH_COUNT, 1244, 'AUTOFINISH_COUNT=1244');
   });
-  await test('APP_VERSION === "51.2.0"', () => {
-    assertEqual(APP_VERSION, '51.2.0', 'APP_VERSION=51.2.0');
+  await test('APP_VERSION === "51.3.0"', () => {
+    assertEqual(APP_VERSION, '51.3.0', 'APP_VERSION=51.3.0');
   });
-  await test('TOTAL_API_ROUTES === 1112', () => {
-    assertEqual(TOTAL_API_ROUTES, 1112, 'TOTAL_API_ROUTES=1112');
+  await test('TOTAL_API_ROUTES === 1113', () => {
+    assertEqual(TOTAL_API_ROUTES, 1113, 'TOTAL_API_ROUTES=1113');
   });
-  await test('TOTAL_ROUTES === 1185', () => {
-    assertEqual(TOTAL_ROUTES, 1185, 'TOTAL_ROUTES=1185');
+  await test('TOTAL_ROUTES === 1187', () => {
+    assertEqual(TOTAL_ROUTES, 1187, 'TOTAL_ROUTES=1187');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

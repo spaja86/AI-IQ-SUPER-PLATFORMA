@@ -1,9 +1,9 @@
-// Autofinish #1242 — Unit Testovi buildLaureatskiRezonator()
+// Autofinish #1244 — Unit Testovi buildLaureatskiModulator()
 // Kompanija SPAJA — Digitalna Industrija
 //
-// Pokretanje: npx tsx src/tests/autofinish/laureatski-rezonator.test.ts
+// Pokretanje: npx tsx src/tests/autofinish/laureatski-modulator.test.ts
 
-import { buildLaureatskiRezonator } from '../../lib/laureatski-rezonator';
+import { buildLaureatskiModulator } from '../../lib/laureatski-modulator';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -42,11 +42,11 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🎛️  LAUREATSKI REZONATOR — Unit Test Suite (#1242)\n');
+  console.log('\n🎚️  LAUREATSKI MODULATOR — Unit Test Suite (#1244)\n');
 
-  const r = buildLaureatskiRezonator('test-user-id');
+  const r = buildLaureatskiModulator('test-user-id');
 
-  console.log('📦 Top-level schema (#1242)');
+  console.log('📦 Top-level schema (#1244)');
   await test('Vraća objekat', () => {
     assert(typeof r === 'object' && r !== null, 'vraća objekat');
   });
@@ -60,24 +60,24 @@ async function runTests(): Promise<void> {
     assertEqual(r.impulsi.length, 32, 'impulsi.length');
   });
 
-  console.log('\n📦 Rezonatorski indikatori (#1242)');
-  await test('rezonatorskiIndeks je 0–1', () => {
-    assert(r.rezonatorskiIndeks >= 0 && r.rezonatorskiIndeks <= 1, `rezonatorskiIndeks: ${r.rezonatorskiIndeks}`);
+  console.log('\n📦 Modulatorski indikatori (#1244)');
+  await test('modulatorskiIndeks je 0–1', () => {
+    assert(r.modulatorskiIndeks >= 0 && r.modulatorskiIndeks <= 1, `modulatorskiIndeks: ${r.modulatorskiIndeks}`);
   });
-  await test('rezonatorskaStabilnost je 0–1', () => {
-    assert(r.rezonatorskaStabilnost >= 0 && r.rezonatorskaStabilnost <= 1, `rezonatorskaStabilnost: ${r.rezonatorskaStabilnost}`);
+  await test('modulatorskaStabilnost je 0–1', () => {
+    assert(r.modulatorskaStabilnost >= 0 && r.modulatorskaStabilnost <= 1, `modulatorskaStabilnost: ${r.modulatorskaStabilnost}`);
   });
-  await test('prosecniRezonatorHz > 0', () => {
-    assert(r.prosecniRezonatorHz > 0, `prosecniRezonatorHz: ${r.prosecniRezonatorHz}`);
+  await test('prosecniModulatorHz > 0', () => {
+    assert(r.prosecniModulatorHz > 0, `prosecniModulatorHz: ${r.prosecniModulatorHz}`);
   });
-  await test('maksimalniRezonatorHz >= minimalniRezonatorHz', () => {
-    assert(r.maksimalniRezonatorHz >= r.minimalniRezonatorHz, `${r.maksimalniRezonatorHz} >= ${r.minimalniRezonatorHz}`);
+  await test('maksimalniModulatorHz >= minimalniModulatorHz', () => {
+    assert(r.maksimalniModulatorHz >= r.minimalniModulatorHz, `${r.maksimalniModulatorHz} >= ${r.minimalniModulatorHz}`);
   });
-  await test('rezonatorskiOpsegHz >= 0', () => {
-    assert(r.rezonatorskiOpsegHz >= 0, `rezonatorskiOpsegHz: ${r.rezonatorskiOpsegHz}`);
+  await test('modulatorskiOpsegHz >= 0', () => {
+    assert(r.modulatorskiOpsegHz >= 0, `modulatorskiOpsegHz: ${r.modulatorskiOpsegHz}`);
   });
 
-  console.log('\n📦 Rezonatorski impulsi (#1242)');
+  console.log('\n📦 Modulatorski impulsi (#1244)');
   await test('svaki impuls ima validan sloj 1–4', () => {
     for (const i of r.impulsi) {
       assert(i.sloj >= 1 && i.sloj <= 4, `sloj: ${i.sloj}`);
@@ -103,14 +103,14 @@ async function runTests(): Promise<void> {
       assert(i.faza >= 0 && i.faza <= 2, `faza: ${i.faza}`);
     }
   });
-  await test('rezonatorHz > 0', () => {
+  await test('modulatorHz > 0', () => {
     for (const i of r.impulsi) {
-      assert(i.rezonatorHz > 0, `rezonatorHz: ${i.rezonatorHz}`);
+      assert(i.modulatorHz > 0, `modulatorHz: ${i.modulatorHz}`);
     }
   });
-  await test('rezonatorskaVeza je 0–1', () => {
+  await test('modulatorskaVeza je 0–1', () => {
     for (const i of r.impulsi) {
-      assert(i.rezonatorskaVeza >= 0 && i.rezonatorskaVeza <= 1, `rezonatorskaVeza: ${i.rezonatorskaVeza}`);
+      assert(i.modulatorskaVeza >= 0 && i.modulatorskaVeza <= 1, `modulatorskaVeza: ${i.modulatorskaVeza}`);
     }
   });
   await test('normalizovano je 0–1', () => {
@@ -119,7 +119,7 @@ async function runTests(): Promise<void> {
     }
   });
 
-  console.log('\n📦 Globalni invarijanti (#1242)');
+  console.log('\n📦 Globalni invarijanti (#1244)');
   await test('AUTOFINISH_COUNT === 1244', () => {
     assertEqual(AUTOFINISH_COUNT, 1244, 'AUTOFINISH_COUNT=1244');
   });
