@@ -75,5 +75,8 @@ export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';
 // ── LAUREATSKI PULS ──────────────────────────────────────────────────────────
 export { laureatskiPulsSekvence } from './laureatski-puls-page';
 
+// ── LAUREATSKI RITAM ─────────────────────────────────────────────────────────
+export { laureatskiRitamSekvence } from './laureatski-ritam-page';
+
 // ── DIGATALNA EUREKA ────────────────────────────────────────────────────────
 export { digatalnaEurekaSekvence } from './digatalna-eureka-page';

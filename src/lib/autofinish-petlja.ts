@@ -7398,3 +7398,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-puls. Nova stranica: /laureatski-puls.
 // Sekvence: src/lib/sekvence/laureatski-puls-page.ts + barrel export.
 // APP_VERSION=50.4.0 | AUTOFINISH_COUNT=1235 | TOTAL_API_ROUTES=1104 | TOTAL_ROUTES=1169
+
+// ─── Autofinish #1236 — LAUREATSKI RITAM ─────────────────────────────────────
+// lib modul: src/lib/laureatski-ritam.ts — buildLaureatskiRitam(), RitamFaza,
+// LaureatskiRitamRezultat.
+// Nova ruta: GET /api/laureatski-ritam. Nova stranica: /laureatski-ritam.
+// Sekvence: src/lib/sekvence/laureatski-ritam-page.ts + barrel export.
+// APP_VERSION=50.5.0 | AUTOFINISH_COUNT=1236 | TOTAL_API_ROUTES=1105 | TOTAL_ROUTES=1171
