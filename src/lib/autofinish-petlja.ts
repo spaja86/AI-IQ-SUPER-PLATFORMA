@@ -7468,3 +7468,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/laureatski-demodulator. Nova stranica: /laureatski-demodulator.
 // Sekvence: src/lib/sekvence/laureatski-demodulator-page.ts + barrel export.
 // APP_VERSION=51.4.0 | AUTOFINISH_COUNT=1245 | TOTAL_API_ROUTES=1114 | TOTAL_ROUTES=1189
+
+// ─── Autofinish #1246 — LAUREATSKI DEKODER ───────────────────────────────────
+// lib modul: src/lib/laureatski-dekoder.ts — buildLaureatskiDekoder(),
+// DekoderImpuls, LaureatskiDekoderRezultat.
+// Nova ruta: GET /api/laureatski-dekoder. Nova stranica: /laureatski-dekoder.
+// Sekvence: src/lib/sekvence/laureatski-dekoder-page.ts + barrel export.
+// APP_VERSION=51.5.0 | AUTOFINISH_COUNT=1246 | TOTAL_API_ROUTES=1115 | TOTAL_ROUTES=1191

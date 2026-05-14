@@ -1,9 +1,9 @@
-// Autofinish #1241 — Unit Testovi buildLaureatskiEho()
+// Autofinish #1246 — Unit Testovi buildLaureatskiDekoder()
 // Kompanija SPAJA — Digitalna Industrija
 //
-// Pokretanje: npx tsx src/tests/autofinish/laureatski-eho.test.ts
+// Pokretanje: npx tsx src/tests/autofinish/laureatski-dekoder.test.ts
 
-import { buildLaureatskiEho } from '../../lib/laureatski-eho';
+import { buildLaureatskiDekoder } from '../../lib/laureatski-dekoder';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -42,11 +42,11 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📣  LAUREATSKI EHO — Unit Test Suite (#1241)\n');
+  console.log('\n🧩  LAUREATSKI DEKODER — Unit Test Suite (#1246)\n');
 
-  const r = buildLaureatskiEho('test-user-id');
+  const r = buildLaureatskiDekoder('test-user-id');
 
-  console.log('📦 Top-level schema (#1241)');
+  console.log('📦 Top-level schema (#1246)');
   await test('Vraća objekat', () => {
     assert(typeof r === 'object' && r !== null, 'vraća objekat');
   });
@@ -60,24 +60,24 @@ async function runTests(): Promise<void> {
     assertEqual(r.impulsi.length, 32, 'impulsi.length');
   });
 
-  console.log('\n📦 Eho indikatori (#1241)');
-  await test('ehoIndeks je 0–1', () => {
-    assert(r.ehoIndeks >= 0 && r.ehoIndeks <= 1, `ehoIndeks: ${r.ehoIndeks}`);
+  console.log('\n📦 Dekoderski indikatori (#1246)');
+  await test('dekoderskiIndeks je 0–1', () => {
+    assert(r.dekoderskiIndeks >= 0 && r.dekoderskiIndeks <= 1, `dekoderskiIndeks: ${r.dekoderskiIndeks}`);
   });
-  await test('ehoStabilnost je 0–1', () => {
-    assert(r.ehoStabilnost >= 0 && r.ehoStabilnost <= 1, `ehoStabilnost: ${r.ehoStabilnost}`);
+  await test('dekoderskaStabilnost je 0–1', () => {
+    assert(r.dekoderskaStabilnost >= 0 && r.dekoderskaStabilnost <= 1, `dekoderskaStabilnost: ${r.dekoderskaStabilnost}`);
   });
-  await test('prosecniEhoHz > 0', () => {
-    assert(r.prosecniEhoHz > 0, `prosecniEhoHz: ${r.prosecniEhoHz}`);
+  await test('prosecniDekoderHz > 0', () => {
+    assert(r.prosecniDekoderHz > 0, `prosecniDekoderHz: ${r.prosecniDekoderHz}`);
   });
-  await test('maksimalniEhoHz >= minimalniEhoHz', () => {
-    assert(r.maksimalniEhoHz >= r.minimalniEhoHz, `${r.maksimalniEhoHz} >= ${r.minimalniEhoHz}`);
+  await test('maksimalniDekoderHz >= minimalniDekoderHz', () => {
+    assert(r.maksimalniDekoderHz >= r.minimalniDekoderHz, `${r.maksimalniDekoderHz} >= ${r.minimalniDekoderHz}`);
   });
-  await test('ehoOpsegHz >= 0', () => {
-    assert(r.ehoOpsegHz >= 0, `ehoOpsegHz: ${r.ehoOpsegHz}`);
+  await test('dekoderskiOpsegHz >= 0', () => {
+    assert(r.dekoderskiOpsegHz >= 0, `dekoderskiOpsegHz: ${r.dekoderskiOpsegHz}`);
   });
 
-  console.log('\n📦 Eho impulsi (#1241)');
+  console.log('\n📦 Dekoderski impulsi (#1246)');
   await test('svaki impuls ima validan sloj 1–4', () => {
     for (const i of r.impulsi) {
       assert(i.sloj >= 1 && i.sloj <= 4, `sloj: ${i.sloj}`);
@@ -103,14 +103,14 @@ async function runTests(): Promise<void> {
       assert(i.faza >= 0 && i.faza <= 2, `faza: ${i.faza}`);
     }
   });
-  await test('ehoHz > 0', () => {
+  await test('dekoderHz > 0', () => {
     for (const i of r.impulsi) {
-      assert(i.ehoHz > 0, `ehoHz: ${i.ehoHz}`);
+      assert(i.dekoderHz > 0, `dekoderHz: ${i.dekoderHz}`);
     }
   });
-  await test('povratnaSprega je 0–1', () => {
+  await test('dekoderskaVeza je 0–1', () => {
     for (const i of r.impulsi) {
-      assert(i.povratnaSprega >= 0 && i.povratnaSprega <= 1, `povratnaSprega: ${i.povratnaSprega}`);
+      assert(i.dekoderskaVeza >= 0 && i.dekoderskaVeza <= 1, `dekoderskaVeza: ${i.dekoderskaVeza}`);
     }
   });
   await test('normalizovano je 0–1', () => {
@@ -119,7 +119,7 @@ async function runTests(): Promise<void> {
     }
   });
 
-  console.log('\n📦 Globalni invarijanti (#1241)');
+  console.log('\n📦 Globalni invarijanti (#1246)');
   await test('AUTOFINISH_COUNT === 1246', () => {
     assertEqual(AUTOFINISH_COUNT, 1246, 'AUTOFINISH_COUNT=1246');
   });
