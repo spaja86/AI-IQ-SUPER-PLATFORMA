@@ -134,3 +134,6 @@ export { eksponatGlavnogJezgraSekvence } from './eksponat-glavnog-jezgra-page';
 
 // ── DIGITALNI VORTEKS ────────────────────────────────────────────────────────
 export { digitalniVorteksSekvence } from './digitalni-vorteks-page';
+
+// ── MOZAK LOGIKA ─────────────────────────────────────────────────────────────
+export { mozakLogikaSekvence } from './mozak-logika-page';

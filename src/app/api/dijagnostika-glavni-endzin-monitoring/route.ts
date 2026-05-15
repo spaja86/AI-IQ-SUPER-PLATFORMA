@@ -7,6 +7,8 @@ import {
   getUkupnoPokrenutih,
   getKompletnostSistema,
   getGlavniEndzinPregled,
+  getMozakLogikaStatus,
+  getPovratniOdazivStatus,
 } from '@/lib/glavni-endzin-digitalne-industrije';
 import { APP_VERSION, KOMPANIJA, AUTOFINISH_COUNT } from '@/lib/constants';
 
@@ -22,6 +24,8 @@ import { APP_VERSION, KOMPANIJA, AUTOFINISH_COUNT } from '@/lib/constants';
 export async function GET() {
   const stats = getGlavniEndzinStatistika();
   const pregled = getGlavniEndzinPregled();
+  const mozakLogika = getMozakLogikaStatus();
+  const povratniOdaziv = getPovratniOdazivStatus();
   const spojeni = glavniEndzinDigitalneIndustrije.spojeniEndzini;
 
   const aktivniEndžini = spojeni.filter((e) => e.status === 'aktivan');
@@ -89,6 +93,15 @@ export async function GET() {
         glavniEndzinDigitalneIndustrije.evolucija.reduce((a, c) => a + c.napredak, 0) /
         glavniEndzinDigitalneIndustrije.evolucija.length,
       ),
+    },
+
+    mozakLogika: {
+      status: mozakLogika.status,
+      ciklusZdravlja: mozakLogika.operativniStatus.ciklusZdravlja,
+      novihIdeja: mozakLogika.generisaneIdeje.length,
+      reviewNaCekanju: povratniOdaziv.ukupnoStavki,
+      povezanihSistema: mozakLogika.povezaniSistemi.length,
+      planGenerisanjeStatus: mozakLogika.operativniStatus.planGenerisanjeStatus,
     },
 
     pregled,

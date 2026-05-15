@@ -23,6 +23,8 @@ import {
   getUkupnoPokrenutih,
   getKompletnostSistema,
   getGlavniEndzinPregled,
+  getMozakLogikaStatus,
+  getPovratniOdazivStatus,
 } from '../../lib/glavni-endzin-digitalne-industrije';
 
 import { generisaniEngini } from '../../lib/spaja-generator-engine';
@@ -98,6 +100,11 @@ async function runTests(): Promise<void> {
 
   await test('vizija je definisana', () => {
     assert(glavniEndzinDigitalneIndustrije.vizija.length > 0, 'vizija ne sme biti prazna');
+  });
+
+  await test('MOZAK LOGIKA sekcija je definisana', () => {
+    assert(glavniEndzinDigitalneIndustrije.mozakLogika.aktivniCiklusi.length > 0, 'mozak logika mora imati cikluse');
+    assert(glavniEndzinDigitalneIndustrije.povratniOdaziv.ukupnoStavki > 0, 'povratni odaziv mora imati stavke');
   });
 
   await test('mogucnosti su neprazne', () => {
@@ -331,6 +338,22 @@ async function runTests(): Promise<void> {
     assert(pregled.verzija.length > 0, 'verzija non-empty');
   });
 
+  await test('getMozakLogikaStatus vraća validan pregled', () => {
+    const mozak = getMozakLogikaStatus();
+    assertEqual(mozak.status, glavniEndzinDigitalneIndustrije.mozakLogika.status, 'mozak status');
+    assert(mozak.aktivniCiklusi.length > 0, 'aktivni ciklusi');
+    assert(mozak.reviewQueue.length > 0, 'review queue');
+  });
+
+  await test('getPovratniOdazivStatus vraća validan zbir', () => {
+    const odaziv = getPovratniOdazivStatus();
+    assertEqual(
+      odaziv.autoIzvrsivo + odaziv.cekaPotvrdu + odaziv.blokirano + odaziv.delegirano,
+      odaziv.ukupnoStavki,
+      'zbir povratnog odaziva',
+    );
+  });
+
   // ── Integritet podataka ─────────────────────────────────────────────────
 
   console.log('\n📦 Integritet podataka');
@@ -420,6 +443,15 @@ async function runTests(): Promise<void> {
       m.includes('GAMING TAB ENDŽIN'),
     );
     assert(hasMogucnost, 'mogucnosti moraju sadrzati GAMING TAB ENDZIN entry');
+  });
+
+  await test('MOZAK LOGIKA review queue ima sve klasifikacije', () => {
+    const queue = glavniEndzinDigitalneIndustrije.mozakLogika.reviewQueue;
+    const klasifikacije = new Set(queue.map((q) => q.klasifikacija));
+    assert(klasifikacije.has('auto-executable'), 'mora postojati auto-executable');
+    assert(klasifikacije.has('requires-confirmation'), 'mora postojati requires-confirmation');
+    assert(klasifikacije.has('blocked-unknown'), 'mora postojati blocked-unknown');
+    assert(klasifikacije.has('delegated-to-human'), 'mora postojati delegated-to-human');
   });
 
   // ── Summary ───────────────────────────────────────────────────────────────

@@ -22,6 +22,7 @@ export const glavniEndzinSekvence: Sekvenca[] = [
     podaci: {
       opis: glavniEndzinDigitalneIndustrije.opis,
       dugmad: [
+        { tekst: 'MOZAK LOGIKA', href: '/mozak-logika' },
         { tekst: 'Generator Endžina', href: '/spaja-generator-engine' },
         { tekst: 'Gaming Platforma', href: '/io-openui-ao-gaming-platforma', stil: 'sekundarno' },
         { tekst: 'Industrija', href: '/industrija', stil: 'sekundarno' },
@@ -211,6 +212,7 @@ export const glavniEndzinSekvence: Sekvenca[] = [
         `${platformeSklopljene.length + igriceSklopljene.length + proizvodiSklopljeni.length} sklopljenih proizvoda, neprekidna evolucija.`,
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
+        { tekst: 'MOZAK LOGIKA', href: '/mozak-logika', stil: 'sekundarno' },
         { tekst: 'Industrija', href: '/industrija', stil: 'sekundarno' },
         { tekst: 'Generator Endžina', href: '/spaja-generator-engine', stil: 'sekundarno' },
         { tekst: 'Gaming', href: '/io-openui-ao-gaming-platforma', stil: 'sekundarno' },

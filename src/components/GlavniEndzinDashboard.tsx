@@ -35,6 +35,14 @@ interface MonitoringData {
     planiranih: number;
     prosecniNapredak: number;
   };
+  mozakLogika: {
+    status: string;
+    ciklusZdravlja: number;
+    novihIdeja: number;
+    reviewNaCekanju: number;
+    povezanihSistema: number;
+    planGenerisanjeStatus: string;
+  };
 }
 
 const tipIkone: Record<string, string> = {
@@ -245,6 +253,23 @@ export default function GlavniEndzinDashboard() {
         </div>
         <div className="mt-3">
           <ProgressBar vrednost={data.evolucija.prosecniNapredak} label="Ukupni napredak evolucije" />
+        </div>
+      </div>
+
+      {/* MOZAK LOGIKA */}
+      <div className="rounded-xl border border-purple-600/30 bg-purple-900/10 p-5">
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-purple-300">🧠 MOZAK LOGIKA</h3>
+          <span className="rounded-full border border-purple-500/30 bg-purple-500/10 px-2.5 py-1 text-xs text-purple-300">
+            {data.mozakLogika.status}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+          <MetrikaKartica naslov="Ciklus zdravlja" vrednost={`${data.mozakLogika.ciklusZdravlja}%`} ikona="💓" />
+          <MetrikaKartica naslov="Nove ideje" vrednost={data.mozakLogika.novihIdeja} ikona="💡" />
+          <MetrikaKartica naslov="Review queue" vrednost={data.mozakLogika.reviewNaCekanju} ikona="📋" />
+          <MetrikaKartica naslov="Povezani sistemi" vrednost={data.mozakLogika.povezanihSistema} ikona="🔗" />
+          <MetrikaKartica naslov="Plan status" vrednost={data.mozakLogika.planGenerisanjeStatus} ikona="🗺️" />
         </div>
       </div>
 

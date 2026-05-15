@@ -36,6 +36,21 @@ export async function GET() {
       mogucnosti: glavniEndzinDigitalneIndustrije.mogucnosti,
     },
 
+    mozakLogika: {
+      status: glavniEndzinDigitalneIndustrije.mozakLogika.status,
+      ciklusa: glavniEndzinDigitalneIndustrije.mozakLogika.aktivniCiklusi.length,
+      ideja: glavniEndzinDigitalneIndustrije.mozakLogika.generisaneIdeje.length,
+      planova: glavniEndzinDigitalneIndustrije.mozakLogika.projektniPlanovi.length,
+      povezanihSistema: glavniEndzinDigitalneIndustrije.mozakLogika.povezaniSistemi.length,
+    },
+
+    povratniOdaziv: {
+      ukupnoStavki: glavniEndzinDigitalneIndustrije.povratniOdaziv.ukupnoStavki,
+      cekaPotvrdu: glavniEndzinDigitalneIndustrije.povratniOdaziv.cekaPotvrdu,
+      blokirano: glavniEndzinDigitalneIndustrije.povratniOdaziv.blokirano,
+      delegirano: glavniEndzinDigitalneIndustrije.povratniOdaziv.delegirano,
+    },
+
     statistika: {
       ukupnoSpojenih: stats.ukupnoSpojenih,
       aktivnihEndžina: stats.aktivnihEndžina,
