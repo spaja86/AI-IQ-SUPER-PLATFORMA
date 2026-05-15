@@ -96,20 +96,20 @@ async function runTests(): Promise<void> {
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
-  await test('AUTOFINISH_COUNT === 1254', () => {
-    assertEqual(AUTOFINISH_COUNT, 1254, 'AUTOFINISH_COUNT=1254');
+  await test('AUTOFINISH_COUNT === 1255', () => {
+    assertEqual(AUTOFINISH_COUNT, 1255, 'AUTOFINISH_COUNT=1255');
   });
 
-  await test('APP_VERSION === 52.3.0', () => {
-    assertEqual(APP_VERSION, '52.3.0', 'APP_VERSION=52.3.0');
+  await test('APP_VERSION === 52.4.0', () => {
+    assertEqual(APP_VERSION, '52.4.0', 'APP_VERSION=52.4.0');
   });
 
-  await test('TOTAL_API_ROUTES ostaje 1122', () => {
-    assertEqual(TOTAL_API_ROUTES, 1122, 'TOTAL_API_ROUTES=1122');
+  await test('TOTAL_API_ROUTES ostaje 1123', () => {
+    assertEqual(TOTAL_API_ROUTES, 1123, 'TOTAL_API_ROUTES=1123');
   });
 
-  await test('TOTAL_ROUTES ostaje 1205', () => {
-    assertEqual(TOTAL_ROUTES, 1205, 'TOTAL_ROUTES=1205');
+  await test('TOTAL_ROUTES ostaje 1206', () => {
+    assertEqual(TOTAL_ROUTES, 1206, 'TOTAL_ROUTES=1206');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

@@ -7522,3 +7522,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Test modul: src/tests/autofinish/eksponat-glavnog-jezgra-route.test.ts.
 // Pokrivenost: metadata, navigation, sitemap i API wiring shape.
 // APP_VERSION=52.3.0 | AUTOFINISH_COUNT=1254 | TOTAL_API_ROUTES=1122 | TOTAL_ROUTES=1205
+
+// ─── Autofinish #1255 — DIGITALNI VORTEKS ────────────────────────────────────
+// lib modul: src/lib/digitalni-vorteks.ts — buildDigitalniVorteks(),
+// VorteksnaOktava, VorteksniCentar, DigitalniVorteksRezultat.
+// Nova ruta: GET /api/digitalni-vorteks. Nova stranica: /digitalni-vorteks.
+// Sekvence: src/lib/sekvence/digitalni-vorteks-page.ts + barrel export.
+// APP_VERSION=52.4.0 | AUTOFINISH_COUNT=1255 | TOTAL_API_ROUTES=1123 | TOTAL_ROUTES=1206

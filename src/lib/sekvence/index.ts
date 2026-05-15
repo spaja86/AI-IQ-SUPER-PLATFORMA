@@ -131,3 +131,6 @@ export { digatalnaEurekaSekvence } from './digatalna-eureka-page';
 
 // ── EKSPONAT GLAVNOG JEZGRA ──────────────────────────────────────────────────
 export { eksponatGlavnogJezgraSekvence } from './eksponat-glavnog-jezgra-page';
+
+// ── DIGITALNI VORTEKS ────────────────────────────────────────────────────────
+export { digitalniVorteksSekvence } from './digitalni-vorteks-page';

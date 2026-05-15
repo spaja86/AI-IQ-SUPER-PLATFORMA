@@ -67,6 +67,7 @@ export const navigation: NavItem[] = [
   { label: 'LAUCENTRICNI SPEKTAR', href: '/laucentricni-spektar', icon: '🌊', description: 'Spektralna analiza laucentričnog sistema — harmoničko razlaganje četiri koncentrična sloja oko laureatskog centra' },
   { label: 'DIGATALNA EUREKA', href: '/digatalna-eureka', icon: '💡', description: 'Ektridonalna eksinometrijska ekstaza — epicentrični eklubrion — simetrsko digitalno jedinjenje u oktavnom sistemu' },
   { label: 'EKSPONAT GLAVNOG JEZGRA', href: '/eksponat-glavnog-jezgra', icon: '🔬', description: 'Eksponicionalni oblik cinemetričnog jedinjenja u oktavi — ilustrovani oktavni sistem — eksponat glavnog jezgra' },
+  { label: 'DIGITALNI VORTEKS', href: '/digitalni-vorteks', icon: '🌀', description: 'Vorteksna dinamika digitalnog sistema — rotacioni model oktavnih energija u spiralnom jedinjenju ka centru Digitalne Industrije' },
   { label: 'Eksponencijalne Funkcije', href: '/oktavne-eksponencijalne-funkcije', icon: '📈', description: 'Oktavni monolog eksponencijalnog ekvivalenta — figuracioni centar — matricno jedinjenje — OMEGA PROJEKAT' },
   { label: 'Zvanično Otvaranje', href: '/omega-projekat-zvanicno-otvaranje', icon: '🎉', description: 'OMEGA PROJEKAT — zvanično otvaranje prema monolizmima, verifikacija, saglasnost osnivača' },
   { label: 'Digitalni Kompjuter', href: '/spaja-digitalni-kompjuter', icon: '🖥️', description: 'SPAJA Digitalni Kompjuter — GPU 8.700.000, RAM 276.000 GB, zakup kao usluga' },
