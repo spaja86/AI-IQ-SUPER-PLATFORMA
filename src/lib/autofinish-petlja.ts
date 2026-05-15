@@ -7511,9 +7511,21 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Sekvence: src/lib/sekvence/laureatski-kodek-page.ts + barrel export.
 // APP_VERSION=52.0.0 | AUTOFINISH_COUNT=1251 | TOTAL_API_ROUTES=1120 | TOTAL_ROUTES=1201
 
-// ─── Autofinish #1252 — LAUREATSKI KODEKS ────────────────────────────────────
-// lib modul: src/lib/laureatski-kodeks.ts — buildLaureatskiKodeks(),
-// KodeksImpuls, LaureatskiKodeksRezultat.
-// Nova ruta: GET /api/laureatski-kodeks. Nova stranica: /laureatski-kodeks.
-// Sekvence: src/lib/sekvence/laureatski-kodeks-page.ts + barrel export.
-// APP_VERSION=52.1.0 | AUTOFINISH_COUNT=1252 | TOTAL_API_ROUTES=1121 | TOTAL_ROUTES=1203
+// ─── Autofinish #1253 — EKSPONAT GLAVNOG JEZGRA ───────────────────────────────
+// lib modul: src/lib/eksponat-glavnog-jezgra.ts — buildEksponatGlavnogJezgra(),
+// CinemetricnoJedinjenje, IlustrovaniOktavniSistem, EksponatGlavnogJezgraRezultat.
+// Nova ruta: GET /api/eksponat-glavnog-jezgra. Nova stranica: /eksponat-glavnog-jezgra.
+// Sekvence: src/lib/sekvence/eksponat-glavnog-jezgra-page.ts + barrel export.
+// APP_VERSION=52.2.0 | AUTOFINISH_COUNT=1253 | TOTAL_API_ROUTES=1122 | TOTAL_ROUTES=1205
+
+// ─── Autofinish #1254 — EKSPONAT GLAVNOG JEZGRA route coverage ───────────────
+// Test modul: src/tests/autofinish/eksponat-glavnog-jezgra-route.test.ts.
+// Pokrivenost: metadata, navigation, sitemap i API wiring shape.
+// APP_VERSION=52.3.0 | AUTOFINISH_COUNT=1254 | TOTAL_API_ROUTES=1122 | TOTAL_ROUTES=1205
+
+// ─── Autofinish #1255 — DIGITALNI VORTEKS ────────────────────────────────────
+// lib modul: src/lib/digitalni-vorteks.ts — buildDigitalniVorteks(),
+// VorteksnaOktava, VorteksniCentar, DigitalniVorteksRezultat.
+// Nova ruta: GET /api/digitalni-vorteks. Nova stranica: /digitalni-vorteks.
+// Sekvence: src/lib/sekvence/digitalni-vorteks-page.ts + barrel export.
+// APP_VERSION=52.4.0 | AUTOFINISH_COUNT=1255 | TOTAL_API_ROUTES=1123 | TOTAL_ROUTES=1206
