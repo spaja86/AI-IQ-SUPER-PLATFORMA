@@ -1,14 +1,15 @@
-// Autofinish #1254 — EKSPONAT GLAVNOG JEZGRA route coverage
+// Autofinish #1256 — MOZAK LOGIKA route coverage
 // Kompanija SPAJA — Digitalna Industrija
 //
-// Pokretanje: npx tsx src/tests/autofinish/eksponat-glavnog-jezgra-route.test.ts
+// Pokretanje: npx tsx src/tests/autofinish/mozak-logika-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/eksponat-glavnog-jezgra/page';
+import { metadata } from '../../app/mozak-logika/page';
 import { navigation } from '../../lib/navigation';
-import { buildEksponatGlavnogJezgra } from '../../lib/eksponat-glavnog-jezgra';
+import { glavniEndzinDigitalneIndustrije, getGlavniEndzinStatistika } from '../../lib/glavni-endzin-digitalne-industrije';
+import { buildMozakLogika } from '../../lib/mozak-logika';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -48,52 +49,53 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🔬 EKSPONAT GLAVNOG JEZGRA ruta — Unit Test Suite (#1254)\n');
+  console.log('\n🧠 MOZAK LOGIKA ruta — Unit Test Suite (#1256)\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/eksponat-glavnog-jezgra`;
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/eksponat-glavnog-jezgra/route.ts');
+  const routeUrl = `${BASE_URL}/mozak-logika`;
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/mozak-logika/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildEksponatGlavnogJezgra('test-user-id');
-
-  await test('Sitemap sadrži /eksponat-glavnog-jezgra', () => {
-    assert(entries.some((entry) => entry.url === routeUrl), `/eksponat-glavnog-jezgra nije u sitemap-u (${routeUrl})`);
+  const rezultat = buildMozakLogika('test-user-id', {
+    glavniEndzinId: glavniEndzinDigitalneIndustrije.id,
+    glavniEndzinNaziv: glavniEndzinDigitalneIndustrije.naziv,
+    glavniEndzinVerzija: glavniEndzinDigitalneIndustrije.verzija,
+    statistika: getGlavniEndzinStatistika(),
+    spojeniEndzini: glavniEndzinDigitalneIndustrije.spojeniEndzini,
+    evolucija: glavniEndzinDigitalneIndustrije.evolucija,
+    mogucnosti: glavniEndzinDigitalneIndustrije.mogucnosti,
   });
 
-  await test('metadata.title sadrži EKSPONAT GLAVNOG JEZGRA', () => {
+  await test('Sitemap sadrži /mozak-logika', () => {
+    assert(entries.some((entry) => entry.url === routeUrl), `/mozak-logika nije u sitemap-u (${routeUrl})`);
+  });
+
+  await test('metadata.title sadrži MOZAK LOGIKA', () => {
     assert(
-      typeof metadata.title === 'string' && metadata.title.includes('EKSPONAT GLAVNOG JEZGRA'),
+      typeof metadata.title === 'string' && metadata.title.includes('MOZAK LOGIKA'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /eksponat-glavnog-jezgra', () => {
+  await test('Navigation sadrži /mozak-logika', () => {
     assert(
-      navigation.some((item) => item.href === '/eksponat-glavnog-jezgra' && item.label === 'EKSPONAT GLAVNOG JEZGRA'),
-      'navigation nema EKSPONAT GLAVNOG JEZGRA link',
+      navigation.some((item) => item.href === '/mozak-logika' && item.label === 'MOZAK LOGIKA'),
+      'navigation nema MOZAK LOGIKA link',
     );
   });
 
-  await test('API ruta koristi buildEksponatGlavnogJezgra()', () => {
-    assert(
-      apiRouteSource.includes('buildEksponatGlavnogJezgra'),
-      'API route ne koristi buildEksponatGlavnogJezgra',
-    );
+  await test('API ruta koristi buildMozakLogika()', () => {
+    assert(apiRouteSource.includes('buildMozakLogika'), 'API route ne koristi buildMozakLogika');
   });
 
   await test('API ruta vraća apiSuccess({ rezultat }) shape', () => {
-    assert(
-      apiRouteSource.includes('apiSuccess({ rezultat })'),
-      'API route ne vraća apiSuccess({ rezultat })',
-    );
+    assert(apiRouteSource.includes('apiSuccess({ rezultat })'), 'API route ne vraća apiSuccess({ rezultat })');
   });
 
   await test('Model rezultata ima očekivana ključna polja za API', () => {
-    assert(typeof rezultat.eksponatKoeficijent === 'number', 'eksponatKoeficijent broj');
-    assert(Array.isArray(rezultat.ilustrovaniOktavniSistem.jedinjenja), 'jedinjenja niz');
-    assertEqual(rezultat.ilustrovaniOktavniSistem.jedinjenja.length, 8, 'jedinjenja.length');
-    assert(rezultat.status === 'aktivan', 'status=aktivan');
-    assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
+    assert(Array.isArray(rezultat.aktivniCiklusi), 'aktivniCiklusi niz');
+    assert(Array.isArray(rezultat.reviewQueue), 'reviewQueue niz');
+    assert(typeof rezultat.operativniStatus.ciklusZdravlja === 'number', 'ciklusZdravlja broj');
+    assert(typeof rezultat.povratniOdaziv.ukupnoStavki === 'number', 'ukupnoStavki broj');
   });
 
   await test('AUTOFINISH_COUNT === 1256', () => {

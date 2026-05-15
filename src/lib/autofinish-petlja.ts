@@ -7529,3 +7529,11 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/digitalni-vorteks. Nova stranica: /digitalni-vorteks.
 // Sekvence: src/lib/sekvence/digitalni-vorteks-page.ts + barrel export.
 // APP_VERSION=52.4.0 | AUTOFINISH_COUNT=1255 | TOTAL_API_ROUTES=1123 | TOTAL_ROUTES=1206
+
+// ─── Autofinish #1256 — MOZAK LOGIKA ──────────────────────────────────────────
+// lib modul: src/lib/mozak-logika.ts — buildMozakLogika(),
+// MozakLogikaRezultat, MozakLogikaReviewStavka, MozakLogikaPovratniOdaziv.
+// Nova ruta: GET /api/mozak-logika. Nova stranica: /mozak-logika.
+// Sekvence: src/lib/sekvence/mozak-logika-page.ts + barrel export.
+// Glavni Endžin proširen sa mozakLogika i povratniOdaziv sekcijama.
+// APP_VERSION=52.5.0 | AUTOFINISH_COUNT=1256 | TOTAL_API_ROUTES=1124 | TOTAL_ROUTES=1207

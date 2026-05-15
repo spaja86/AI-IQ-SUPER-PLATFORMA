@@ -144,6 +144,11 @@ import {
   dimenzijaNaParametre as gamingDimenzijaNaParametre,
   getRunnerTip as gamingGetRunnerTip,
 } from './gaming-endzin';
+import {
+  buildMozakLogika,
+  type MozakLogikaPovratniOdaziv,
+  type MozakLogikaRezultat,
+} from './mozak-logika';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -293,6 +298,8 @@ export interface GlavniEndzinDigitalneIndustrije {
   mogucnosti: string[];
   misija: string;
   vizija: string;
+  mozakLogika: MozakLogikaRezultat;
+  povratniOdaziv: MozakLogikaPovratniOdaziv;
   // Glavni Sistem Nabavke — spojen
   glavniSistem: {
     naziv: string;
@@ -736,6 +743,13 @@ const evolucijaCiklusi: EvolucijaCiklus[] = [
     faza: 'aktivna',
     napredak: 100,
   },
+  {
+    id: 'evo-mozak-logika',
+    naziv: 'MOZAK LOGIKA — human-in-the-loop orkestracija',
+    opis: 'MOZAK LOGIKA proširuje Glavni Endžin neprekidnom samoanalizom, sakupljanjem ideja, projektnih planova i review queue povratnim odazivom za sve što traži ljudsku potvrdu.',
+    faza: 'aktivna',
+    napredak: 100,
+  },
 ];
 
 // ─── Mogućnosti ──────────────────────────────────────────
@@ -837,6 +851,8 @@ const mogucnosti: string[] = [
   `VLASNIČKO VIP PLAN — ${vlasnickiVipPlan.naziv}, ekstremna autorizacija na sve platforme`,
   `VIZUELNI IDENTITET — ${vizuelniIdentitetSistem.ukupnoResursa} resursa, osnivač: ${osnivacProfil.ime} ${osnivacProfil.prezime}`,
   `PRICING LOGIN — ${_pricingLoginPregled.ukupnoPlanova} planova, ${_pricingLoginPregled.ukupnoLoginMetoda} login metoda`,
+  'MOZAK LOGIKA — neprekidna samoanaliza, sakupljanje ideja, projektnih planova i kontrolisani human-in-the-loop review queue',
+  'POVRATNI ODAZIV — detaljan task list za sve što traži potvrdu, ručni pregled ili dodatno pojašnjenje',
   // ── NAUKA, DIMENZIJE & SEO ──────────────────────────────────────────
   `DIMENZIONALNI SISTEM — ${dimenzije.length} dimenzija (360D–5760D), ${dimenzionalniSistem.naziv}`,
   `OKTAVNE EKSPONENCIJALNE FUNKCIJE — ${eksponencijalneFunkcije.length} funkcija, ${_oktavniSistemPregled.ukupnoFunkcija} ukupno, figuracioni centar aktivan`,
@@ -981,10 +997,23 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
 
 const spojeniEndzini = spojiSveEndzine();
 const sklopljeniProizvodi = autoSklopiProizvode();
+const glavniEndzinId = 'glavni-endzin-digitalne-industrije';
+const glavniEndzinNaziv = 'Glavni Endžin + Glavni Sistem — Digitalna Industrija';
+const glavniEndzinVerzija = '5.0.0';
+const glavniEndzinStatistika = izracunajStatistiku(spojeniEndzini, sklopljeniProizvodi);
+const mozakLogika = buildMozakLogika('system', {
+  glavniEndzinId,
+  glavniEndzinNaziv,
+  glavniEndzinVerzija,
+  statistika: glavniEndzinStatistika,
+  spojeniEndzini,
+  evolucija: evolucijaCiklusi,
+  mogucnosti,
+});
 
 export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = {
-  id: 'glavni-endzin-digitalne-industrije',
-  naziv: 'Glavni Endžin + Glavni Sistem — Digitalna Industrija',
+  id: glavniEndzinId,
+  naziv: glavniEndzinNaziv,
   opis:
     'Glavni Endžin i Glavni Sistem SPOJENI U JEDNO — spaja SVE endžine, module, sisteme i entitete Digitalne Industrije. ' +
     `Objedinjuje ${spojeniEndzini.length} endžina, ${sklopljeniProizvodi.length} sklopljenih proizvoda, ` +
@@ -997,12 +1026,12 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     `Svi Promptovi (${_promptBrojPromptova} centralnih + ${univerzalniPromptSistem.ukupnoPromptova} univerzalnih + ${_aiPagePromptova} page) zakačeni. ` +
     'SVE kombinacije i varijacije Digitalne Industrije zakačene za Glavni Endžin — 100% funkcionalna Digitalna Industrija.',
   ikona: '🏭⚙️💰💬🌐🔬🎮🛡️📡',
-  verzija: '5.0.0',
+  verzija: glavniEndzinVerzija,
   status: 'aktivan',
   spojeniEndzini,
   autoSklapanje: sklopljeniProizvodi,
   evolucija: evolucijaCiklusi,
-  statistika: izracunajStatistiku(spojeniEndzini, sklopljeniProizvodi),
+  statistika: glavniEndzinStatistika,
   mogucnosti,
   misija:
     'Spajanje SVIH endžina, sistema, entiteta i varijacija Digitalne Industrije u jedan Glavni Endžin — ' +
@@ -1013,6 +1042,8 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     'Potpuno Funkcionalna Digitalna Industrija koja NIKAD ne staje — sve kombinacije i varijacije ' +
     'zakačene za Glavni Endžin, svaki entitet pokrenut, svaki endžin optimizovan, svaka varijacija kupljena. ' +
     'Kompanija SPAJA — Digitalna Industrija na 100% sa svim sistemima u savršenoj sinergiji.',
+  mozakLogika,
+  povratniOdaziv: mozakLogika.povratniOdaziv,
   glavniSistem: {
     naziv: glavniSistemNabavka.naziv,
     status: glavniSistemNabavka.status,
@@ -1192,6 +1223,9 @@ export function getGlavniEndzinPregled() {
     ukupnoProizvoda: stats.ukupnoProizvodaSklopljenih,
     kompletnost: stats.kompletnostSistema,
     evolucija: evolucijaCiklusi.length,
+    mozakLogikaStatus: glavniEndzinDigitalneIndustrije.mozakLogika.status,
+    mozakLogikaCiklusi: glavniEndzinDigitalneIndustrije.mozakLogika.aktivniCiklusi.length,
+    povratniOdazivNaCekanju: glavniEndzinDigitalneIndustrije.povratniOdaziv.ukupnoStavki,
   };
 }
 
@@ -1331,6 +1365,23 @@ export function getGamingTabEndzinStatus() {
   };
 }
 
+/** Dohvati status MOZAK LOGIKA podsistema iz Glavnog Endžina */
+export function getMozakLogikaStatus() {
+  return {
+    ...glavniEndzinDigitalneIndustrije.mozakLogika,
+    pregled: {
+      engine: glavniEndzinDigitalneIndustrije.naziv,
+      ukupnoSpojenih: glavniEndzinDigitalneIndustrije.statistika.ukupnoSpojenih,
+      ukupnoMogucnosti: glavniEndzinDigitalneIndustrije.mogucnosti.length,
+    },
+  };
+}
+
+/** Dohvati povratni odaziv Glavnog Endžina */
+export function getPovratniOdazivStatus() {
+  return glavniEndzinDigitalneIndustrije.povratniOdaziv;
+}
+
 /** Dohvati sveobuhvatan pregled cele Digitalne Industrije iz Glavnog Endžina */
 export function getPotpunaDigitalnaIndustrijaPregled() {
   const stats = getGlavniEndzinStatistika();
@@ -1361,6 +1412,8 @@ export function getPotpunaDigitalnaIndustrijaPregled() {
     laboratorijskihSimulacija: stats.laboratorijskihSimulacija,
     autofinishIteracija: stats.autofinishIteracija,
     unitTestSuita: stats.unitTestSuita,
+    mozakLogikaCiklusi: glavniEndzinDigitalneIndustrije.mozakLogika.aktivniCiklusi.length,
+    reviewNaCekanju: glavniEndzinDigitalneIndustrije.povratniOdaziv.ukupnoStavki,
     ukupnoPromptova:
       stats.promptovaBiblioteka +
       stats.univerzalnihPromptova +
