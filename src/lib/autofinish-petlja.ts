@@ -7542,3 +7542,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Widget: src/app/autofinish/AuditReportWidget.tsx.
 // Integracija: src/app/autofinish/page.tsx — getAutofinishAuditReport() + widget render.
 // APP_VERSION=52.6.0 | AUTOFINISH_COUNT=1257 | TOTAL_API_ROUTES=1124 | TOTAL_ROUTES=1207
+
+// ─── Autofinish #1258 — System Report Widget ──────────────────────────────────
+// Widget: src/app/autofinish/SystemReportWidget.tsx.
+// Integracija: src/app/autofinish/page.tsx — getAutofinishSystemReport() + widget render.
+// APP_VERSION=52.7.0 | AUTOFINISH_COUNT=1258 | TOTAL_API_ROUTES=1124 | TOTAL_ROUTES=1207

@@ -106,12 +106,12 @@ async function runTests(): Promise<void> {
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
-  await test('AUTOFINISH_COUNT === 1257', () => {
-    assertEqual(AUTOFINISH_COUNT, 1257, 'AUTOFINISH_COUNT=1257');
+  await test('AUTOFINISH_COUNT === 1258', () => {
+    assertEqual(AUTOFINISH_COUNT, 1258, 'AUTOFINISH_COUNT=1258');
   });
 
-  await test('APP_VERSION === "52.6.0"', () => {
-    assertEqual(APP_VERSION, '52.6.0', 'APP_VERSION=52.6.0');
+  await test('APP_VERSION === "52.7.0"', () => {
+    assertEqual(APP_VERSION, '52.7.0', 'APP_VERSION=52.7.0');
   });
 
   await test('TOTAL_API_ROUTES === 1124', () => {
