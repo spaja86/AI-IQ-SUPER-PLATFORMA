@@ -20,6 +20,7 @@
 // Autofinish #1124 — DeploymentPipelineWidget
 // Autofinish #1125 — InfrastrukturMonitorWidget
 // Autofinish #1223 — ReleaseReadinessWidget
+// Autofinish #1257 — AuditReportWidget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -77,6 +78,7 @@ import {
   getAutofinishDeploymentPipeline,
   getAutofinishInfrastruktura,
   getAutofinishReleaseReadiness,
+  getAutofinishAuditReport,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -127,6 +129,7 @@ import { KonfiguracijaWidget } from './KonfiguracijaWidget';
 import { DeploymentPipelineWidget } from './DeploymentPipelineWidget';
 import { InfrastrukturMonitorWidget } from './InfrastrukturMonitorWidget';
 import { ReleaseReadinessWidget } from './ReleaseReadinessWidget';
+import { AuditReportWidget } from './AuditReportWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -217,6 +220,7 @@ export default function AutofinishPage() {
   const deploymentPipeline = getAutofinishDeploymentPipeline();
   const infrastruktura = getAutofinishInfrastruktura();
   const releaseReadiness = getAutofinishReleaseReadiness();
+  const auditReport = getAutofinishAuditReport();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -865,6 +869,9 @@ export default function AutofinishPage() {
 
         {/* #1223 — Release Readiness Widget */}
         <ReleaseReadinessWidget readiness={releaseReadiness} />
+
+        {/* #1257 — Audit Report Widget */}
+        <AuditReportWidget report={auditReport} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">
