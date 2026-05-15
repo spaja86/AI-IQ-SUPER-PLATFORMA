@@ -7517,3 +7517,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Nova ruta: GET /api/eksponat-glavnog-jezgra. Nova stranica: /eksponat-glavnog-jezgra.
 // Sekvence: src/lib/sekvence/eksponat-glavnog-jezgra-page.ts + barrel export.
 // APP_VERSION=52.2.0 | AUTOFINISH_COUNT=1253 | TOTAL_API_ROUTES=1122 | TOTAL_ROUTES=1205
+
+// ─── Autofinish #1254 — EKSPONAT GLAVNOG JEZGRA route coverage ───────────────
+// Test modul: src/tests/autofinish/eksponat-glavnog-jezgra-route.test.ts.
+// Pokrivenost: metadata, navigation, sitemap i API wiring shape.
+// APP_VERSION=52.3.0 | AUTOFINISH_COUNT=1254 | TOTAL_API_ROUTES=1122 | TOTAL_ROUTES=1205
