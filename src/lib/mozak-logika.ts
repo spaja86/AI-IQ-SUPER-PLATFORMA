@@ -153,10 +153,6 @@ function brojAktivnih(spojeniEndzini: SpojeniEndzin[], tip: EngineTip): number {
   return spojeniEndzini.filter((e) => e.tip === tip && e.status === 'aktivan').length;
 }
 
-function brojUkupno(spojeniEndzini: SpojeniEndzin[], tip: EngineTip): number {
-  return spojeniEndzini.filter((e) => e.tip === tip).length;
-}
-
 function buildPovezaniSistemi(
   statistika: GlavniEndzinStatistika,
   spojeniEndzini: SpojeniEndzin[],
