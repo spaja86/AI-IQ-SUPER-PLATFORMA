@@ -194,12 +194,12 @@ async function runTests(): Promise<void> {
   // ── 6. Konzistentnost konstanti ───────────────────────────────────────────
   console.log('\n📦 Globalni Invarijanti (#1253)');
 
-  await test('AUTOFINISH_COUNT === 1253', () => {
-    assertEqual(AUTOFINISH_COUNT, 1253, 'AUTOFINISH_COUNT=1253');
+  await test('AUTOFINISH_COUNT === 1254', () => {
+    assertEqual(AUTOFINISH_COUNT, 1254, 'AUTOFINISH_COUNT=1254');
   });
 
-  await test('APP_VERSION === "52.2.0"', () => {
-    assertEqual(APP_VERSION, '52.2.0', 'APP_VERSION=52.2.0');
+  await test('APP_VERSION === "52.3.0"', () => {
+    assertEqual(APP_VERSION, '52.3.0', 'APP_VERSION=52.3.0');
   });
 
   await test('TOTAL_API_ROUTES === 1122', () => {
