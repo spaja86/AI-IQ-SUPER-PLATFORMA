@@ -36,6 +36,7 @@ export const igriceSekvence: Sekvenca[] = [
       opis: igriceSistem.opis,
       dugmad: [
         { tekst: `Gaming Platforma (${IOOPENUIAO_DOMEN})`, href: '/io-openui-ao-gaming-platforma' },
+        { tekst: 'Gejming Industrija', href: '/gejming-industrija', stil: 'sekundarno' },
         { tekst: 'Dimenzije', href: '/dimenzije', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },
@@ -323,6 +324,7 @@ export const igriceSekvence: Sekvenca[] = [
       opis: `${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija — od RPG i Battle Royale do Muzike i eSporta. Sve u dimenzionalnom prostoru 360D–5760D. ${itProizvodi.filter((p) => p.kategorija === 'gaming').length} specijalizovanih gaming IT proizvoda. Zahtevi: Digitalni Kompjuter + Digitalni Brauzer. Gaming Platforma: ${IOOPENUIAO_URL}. Izaberi dimenziju (D) i igraj!`,
       dugmad: [
         { tekst: `Gaming Platforma (${IOOPENUIAO_DOMEN})`, href: '/io-openui-ao-gaming-platforma' },
+        { tekst: 'Gejming Industrija', href: '/gejming-industrija', stil: 'sekundarno' },
         { tekst: 'Dimenzije', href: '/dimenzije', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
         { tekst: 'SpajaUltraOmegaCore', href: '/spaja-univerzalni-prompt', stil: 'sekundarno' },

@@ -25,6 +25,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
       opis: `${ioOpenUIAOGamingPlatforma.opis} Link: ${ioOpenUIAOGamingPlatforma.link}`,
       dugmad: [
         { tekst: 'Igrice', href: '/igrice' },
+        { tekst: 'Gejming Industrija', href: '/gejming-industrija', stil: 'sekundarno' },
         { tekst: 'Laboratorija', href: '/io-openui-ao-laboratorija', stil: 'sekundarno' },
         { tekst: 'Generator Endžina', href: '/spaja-generator-engine', stil: 'sekundarno' },
         { tekst: 'Dimenzije', href: '/dimenzije', stil: 'sekundarno' },
@@ -184,6 +185,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
       tekst: `Pristupi IO/OPENUI/AO Gaming Platformi sa svih ${endzinNadIgricama.length} igrica na ${IOOPENUIAO_URL}`,
       dugmad: [
         { tekst: 'Igrice', href: '/igrice' },
+        { tekst: 'Gejming Industrija', href: '/gejming-industrija', stil: 'sekundarno' },
         { tekst: 'Laboratorija', href: '/io-openui-ao-laboratorija', stil: 'sekundarno' },
         { tekst: 'Generator Endžina', href: '/spaja-generator-engine', stil: 'sekundarno' },
       ],

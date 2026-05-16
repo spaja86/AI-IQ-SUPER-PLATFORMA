@@ -13,6 +13,7 @@ export const navigation: NavItem[] = [
   { label: 'SpajaPro', href: '/spaja-pro', icon: '🚀', description: 'SpajaPro Engine verzije 6-15' },
   { label: 'Prompt', href: '/prompt', icon: '💬', description: 'Prompt sistem sa 28 promptova' },
   { label: 'Igrice', href: '/igrice', icon: '🎮', description: '95 igrica u 18 kategorija' },
+  { label: 'Gejming Industrija', href: '/gejming-industrija', icon: '🕹️', description: 'Nad-sloj gejming industrije — katalog, lifecycle, creation pipeline i distribucija' },
   { label: 'Dimenzije', href: '/dimenzije', icon: '🌀', description: 'Dimenzionalni sistem 360D-5760D' },
   { label: 'Proksi', href: '/proksi', icon: '📡', description: 'Proksi mreža i signali' },
   { label: 'Mobilna Mreža', href: '/mobilna-mreza', icon: '📱', description: 'SPAJA Mobilna Mreža sa 4 centrale' },

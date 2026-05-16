@@ -432,6 +432,7 @@ export const industrijaSekvence: Sekvenca[] = [
         { tekst: 'Glavni Endžin', href: '/glavni-endzin', stil: 'sekundarno' },
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
         { tekst: 'IT Proizvodi', href: '/it-proizvodi', stil: 'sekundarno' },
+        { tekst: 'Gejming Industrija', href: '/gejming-industrija', stil: 'sekundarno' },
         { tekst: 'Proksi', href: '/proksi', stil: 'sekundarno' },
         { tekst: 'Mobilna', href: '/mobilna-mreza', stil: 'sekundarno' },
         { tekst: 'Generator', href: '/spaja-generator-engine', stil: 'sekundarno' },

@@ -7547,3 +7547,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Widget: src/app/autofinish/SystemReportWidget.tsx.
 // Integracija: src/app/autofinish/page.tsx — getAutofinishSystemReport() + widget render.
 // APP_VERSION=52.7.0 | AUTOFINISH_COUNT=1258 | TOTAL_API_ROUTES=1124 | TOTAL_ROUTES=1207
+
+// ─── Autofinish #1259 — GEJMING INDUSTRIJA ─────────────────────────────────────
+// lib modul: src/lib/gejming-industrija.ts — buildGejmingIndustrija(),
+// GejmingLifecycleTok, GejmingIndustrijaRezultat.
+// Nova ruta: GET /api/gejming-industrija. Nova stranica: /gejming-industrija.
+// Sekvence: src/lib/sekvence/gejming-industrija-page.ts + barrel export.
+// Integracija: navigation + sitemap + CTA linkovi iz igrice/industrija/io-openui-ao-gaming-platforma.
+// Testovi: src/tests/autofinish/gejming-industrija.test.ts + gejming-industrija-route.test.ts.
+// APP_VERSION=52.8.0 | AUTOFINISH_COUNT=1259 | TOTAL_API_ROUTES=1125 | TOTAL_ROUTES=1208
