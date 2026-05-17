@@ -15,7 +15,7 @@ export const poslovniNovcanikSekvence: Sekvenca[] = [
       opis: 'Poslovni novčanik uvodi identitet, račune, kartice, plaćanja i evidencije u jedinstven domen. Tokenizacija je PCI-prihvatljiva, a fallback tokovi pokrivaju mrežne i regionalne izazove.',
       dugmad: [
         { tekst: 'AI IQ World Bank', href: '/banka' },
-        { tekst: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', stil: 'sekundarno' },
+        { tekst: 'Generator za Poslovne Račune', href: '/generator-za-poslovne-racune', stil: 'sekundarno' },
         { tekst: 'Platforme', href: '/platforme', stil: 'sekundarno' },
         { tekst: 'Menjačnica', href: '/menjacnica', stil: 'sekundarno' },
       ],
