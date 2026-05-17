@@ -11,4 +11,3 @@ export const metadata: Metadata = {
 export default function GeneratorZaPoslovneRacunePage() {
   return <StranicaRenderer sekvence={generatorZaPoslovneRacuneSekvence} />;
 }
-

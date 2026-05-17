@@ -103,4 +103,3 @@ runTests().catch((e) => {
   console.error('Kritična greška u test runneru:', e);
   process.exit(1);
 });
-

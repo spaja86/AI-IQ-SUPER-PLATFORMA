@@ -84,7 +84,7 @@ export interface GeneratorZaPoslovneRacuneRezultat {
 const TIPOVI_V1: PoslovniRacunTip[] = ['dinarski-poslovni', 'devizni-eur', 'devizni-usd'];
 const VALUTE_V1: PoslovniRacunValuta[] = ['RSD', 'EUR', 'USD'];
 
-function hash(input: string): string {
+function generateAccountSeedHash(input: string): string {
   let h = 0;
   for (let i = 0; i < input.length; i++) h = (h * 31 + input.charCodeAt(i)) >>> 0;
   return String(h).padStart(10, '0');
@@ -130,16 +130,17 @@ export function buildGeneratorZaPoslovneRacune(
   userId: string,
   subjekt?: Partial<PoslovniSubjektInput>
 ): GeneratorZaPoslovneRacuneRezultat {
+  const kontaktEmailFallback = getKontaktKanal('billing')?.email ?? primarniOperativniNalog.email;
   const finalniSubjekt: PoslovniSubjektInput = {
     naziv: subjekt?.naziv ?? 'Digitalna Industrija',
     pib: subjekt?.pib ?? '108001122',
     maticniBroj: subjekt?.maticniBroj ?? '22110033',
-    email: subjekt?.email ?? getKontaktKanal('billing')?.email ?? primarniOperativniNalog.email,
+    email: subjekt?.email ?? kontaktEmailFallback,
     zemlja: subjekt?.zemlja ?? 'RS',
     kycKybStatus: subjekt?.kycKybStatus ?? 'u-toku',
   };
 
-  const seed = hash(`${userId}:${finalniSubjekt.naziv}:${finalniSubjekt.pib}`);
+  const seed = generateAccountSeedHash(`${userId}:${finalniSubjekt.naziv}:${finalniSubjekt.pib}`);
   const bazeValidacije = validirajSubjekt(finalniSubjekt);
   const kycOk = finalniSubjekt.kycKybStatus === 'verifikovan';
 
@@ -235,4 +236,3 @@ export function buildGeneratorZaPoslovneRacune(
     audit,
   };
 }
-

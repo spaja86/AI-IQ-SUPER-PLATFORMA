@@ -92,4 +92,3 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     },
   },
 ];
-
