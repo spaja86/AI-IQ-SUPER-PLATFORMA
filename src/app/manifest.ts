@@ -27,6 +27,12 @@ export default function manifest(): MetadataRoute.Manifest {
         description: 'Otvori bankarski modul',
         url: '/banka',
       },
+      {
+        name: 'Generator Poslovnih Računa',
+        short_name: 'Generator',
+        description: 'Otvori AI IQ World Bank generator poslovnih računa',
+        url: '/generator-za-poslovne-racune',
+      },
     ],
     icons: [
       {

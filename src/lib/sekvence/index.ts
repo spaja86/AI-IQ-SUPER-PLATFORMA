@@ -69,6 +69,8 @@ export { spajaRenderMedijaSekvence } from './spaja-render-medija-page';
 export { oktavneEksponencijalneFunkcijeSekvence } from './oktavne-eksponencijalne-funkcije-page';
 
 export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
+export { generatorZaPoslovneRacuneSekvence } from './generator-za-poslovne-racune-page';
+export { validatorPoslovnihRacunaSekvence } from './validator-poslovnih-racuna-page';
 
 // ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
 export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';

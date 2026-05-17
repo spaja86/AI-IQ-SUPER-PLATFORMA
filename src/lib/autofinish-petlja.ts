@@ -7556,3 +7556,21 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap + CTA linkovi iz igrice/industrija/io-openui-ao-gaming-platforma.
 // Testovi: src/tests/autofinish/gejming-industrija.test.ts + gejming-industrija-route.test.ts.
 // APP_VERSION=52.8.0 | AUTOFINISH_COUNT=1259 | TOTAL_API_ROUTES=1125 | TOTAL_ROUTES=1208
+
+// ─── Autofinish #1260 — GENERATOR ZA POSLOVNE RAČUNE ───────────────────────────
+// lib modul: src/lib/generator-za-poslovne-racune.ts — buildGeneratorZaPoslovneRacune(),
+// PoslovniSubjektInput, GenerisaniPoslovniRacun, GeneratorZaPoslovneRacuneRezultat.
+// Nova ruta: GET /api/generator-za-poslovne-racune. Nova stranica: /generator-za-poslovne-racune.
+// Sekvence: src/lib/sekvence/generator-za-poslovne-racune-page.ts + barrel export.
+// Integracija: navigation + sitemap + manifest + CTA linkovi iz banka/poslovni-novcanik.
+// Testovi: src/tests/autofinish/generator-za-poslovne-racune.test.ts + generator-za-poslovne-racune-route.test.ts.
+// APP_VERSION=52.9.0 | AUTOFINISH_COUNT=1260 | TOTAL_API_ROUTES=1126 | TOTAL_ROUTES=1210
+
+// ─── Autofinish #1261 — VALIDATOR POSLOVNIH RAČUNA ──────────────────────────────
+// lib modul: src/lib/validator-poslovnih-racuna.ts — buildValidatorPoslovnihRacuna(),
+// ValidatorStavka, ValidacijaRacuna, ValidatorPoslovnihRacunaRezultat.
+// Nova ruta: GET /api/validator-poslovnih-racuna. Nova stranica: /validator-poslovnih-racuna.
+// Sekvence: src/lib/sekvence/validator-poslovnih-racuna-page.ts + barrel export.
+// Integracija: navigation + sitemap + CTA linkovi ka generatoru/banci/novčaniku.
+// Testovi: src/tests/autofinish/validator-poslovnih-racuna.test.ts + validator-poslovnih-racuna-route.test.ts.
+// APP_VERSION=53.0.0 | AUTOFINISH_COUNT=1261 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212
