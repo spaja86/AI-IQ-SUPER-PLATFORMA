@@ -25,6 +25,7 @@ export const navigation: NavItem[] = [
   { label: 'Banka', href: '/banka', icon: '🏦', description: 'SPAJA Banka platforma' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
+  { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },
   { label: 'Menjačnica', href: '/menjacnica', icon: '💱', description: 'SPAJA Menjačnica platforma' },
   { label: 'Pro Novčanik', href: '/menjacnica-novcanik', icon: '💼', description: 'AI IQ MENJAČNICA Profesionalni Novčanik — portfolio, P&L, orderbook, settlement' },
   { label: 'Kripto Trezor', href: '/kripto-trezor', icon: '🔐', description: 'SPAJA Kripto Trezor — cold storage, multi-sig i time-lock zaštita za sva digitalna sredstva' },
