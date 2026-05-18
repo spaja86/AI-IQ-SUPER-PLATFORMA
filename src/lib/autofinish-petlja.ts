@@ -906,6 +906,7 @@ import { getOperativniCentarSummary } from './omega-projekat-operativni-centar';
 import { getOktavniMonologSummary } from './oktavni-monolog';
 import { runDiagnostics } from './auto-repair';
 import { runRepair } from './auto-repair';
+import { buildLicencniBudzetSrbija } from './licencni-budzet-srbija';
 
 // ─── In-memory iteracijska istorija (#815) ───────────────
 
@@ -2444,6 +2445,42 @@ export function getAutofinishSystemReport(): AutofinishSystemReport {
     roadmap: getAutofinishRoadmapStatusSummary(),
     statistika: getAutofinishStatistikaSummary(),
     nextSteps: getAutofinishNextSteps(),
+  };
+}
+
+// ─── getAutofinishSrbijaLicencniReport() (#1263) ──────────────────────────────
+
+export interface AutofinishSrbijaLicencniReport {
+  verzija: string;
+  autofinishBroj: number;
+  timestamp: string;
+  jurisdikcija: string;
+  ukupnoLicenci: number;
+  aktivnaNabavka: number;
+  godisnjiBudzetRSD: number;
+  rezervisanoRSD: number;
+  slobodnoRSD: number;
+  prosecniTrosakRSD: number;
+  stavke: ReturnType<typeof buildLicencniBudzetSrbija>['stavke'];
+}
+
+/**
+ * Agregirani izveštaj za dashboard widget nabavke licenci u Srbiji.
+ */
+export function getAutofinishSrbijaLicencniReport(): AutofinishSrbijaLicencniReport {
+  const licencni = buildLicencniBudzetSrbija('autofinish');
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    timestamp: new Date().toISOString(),
+    jurisdikcija: licencni.jurisdikcija,
+    ukupnoLicenci: licencni.kpi.ukupnoLicenci,
+    aktivnaNabavka: licencni.kpi.aktivnaNabavka,
+    godisnjiBudzetRSD: licencni.ukupanGodisnjiBudzetRSD,
+    rezervisanoRSD: licencni.rezervisanoRSD,
+    slobodnoRSD: licencni.slobodnoRSD,
+    prosecniTrosakRSD: licencni.kpi.prosecniTrosakRSD,
+    stavke: licencni.stavke,
   };
 }
 
@@ -7587,3 +7624,18 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // GitHub Billing governance: centralizovano iz github-billing-aiiq-worldbank.ts.
 // Testovi: src/tests/autofinish/ai-iq-world-bank.test.ts + ai-iq-world-bank-route.test.ts.
 // APP_VERSION=53.1.0 | AUTOFINISH_COUNT=1262 | TOTAL_API_ROUTES=1128 | TOTAL_ROUTES=1213
+
+// ─── Autofinish #1263 — SRBIJA LICENCNI REPORT WIDGET ─────────────────────────
+// Helper: getAutofinishSrbijaLicencniReport() u src/lib/autofinish-petlja.ts.
+// API: GET /api/autofinish-srbija-licencni-report.
+// Dashboard: src/app/autofinish/SrbijaLicencniReportWidget.tsx + integracija u /autofinish/page.tsx.
+// APP_VERSION=53.2.0 | AUTOFINISH_COUNT=1263 | TOTAL_API_ROUTES=1129 | TOTAL_ROUTES=1213
+
+// ─── Autofinish #1264 — LICENCNI BUDZET SRBIJA ────────────────────────────────
+// lib modul: src/lib/licencni-budzet-srbija.ts — buildLicencniBudzetSrbija(),
+// LicencniBudzetSrbijaRezultat i licencne stavke za regulatornu nabavku u Srbiji.
+// Nova ruta: GET /api/licencni-budzet-srbija. Nova stranica: /licencni-budzet-srbija.
+// Sekvence: src/lib/sekvence/licencni-budzet-srbija-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/licencni-budzet-srbija.test.ts + licencni-budzet-srbija-route.test.ts.
+// APP_VERSION=53.3.0 | AUTOFINISH_COUNT=1264 | TOTAL_API_ROUTES=1130 | TOTAL_ROUTES=1214
