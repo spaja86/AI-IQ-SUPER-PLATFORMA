@@ -7574,3 +7574,11 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap + CTA linkovi ka generatoru/banci/novčaniku.
 // Testovi: src/tests/autofinish/validator-poslovnih-racuna.test.ts + validator-poslovnih-racuna-route.test.ts.
 // APP_VERSION=53.0.0 | AUTOFINISH_COUNT=1261 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212
+
+// ─── Autofinish #1262 — AI IQ WORLD BANK LICENCE SRBIJA ──────────────────────────
+// Ažuriranje: src/lib/aiiq-world-bank-licencni-registar.ts — jurisdikcija Srbija,
+// NBS/Komisija lokalne licence i centralni režim "kupujemo sve licence".
+// Integracija: API opis + metadata + sekvence za /ai-iq-world-bank-licencna-analiza.
+// Testovi: src/tests/autofinish/aiiq-world-bank-licencni-registar.test.ts +
+// aiiq-world-bank-licencni-registar-route.test.ts.
+// APP_VERSION=53.1.0 | AUTOFINISH_COUNT=1262 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212

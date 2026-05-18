@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
     return apiSuccess({
       sistem: 'AI IQ WORLD BANK Licencni Registar',
-      opis: 'Centralni registar licenci po delatnostima sa mapiranjem statusa, dokaza, gap analize i nabavke.',
+      opis: 'Centralni registar licenci za Srbiju sa mapiranjem statusa, dokaza, gap analize i nabavke.',
       izvor: KOMPANIJA,
       verzija: APP_VERSION,
       registar,

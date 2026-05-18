@@ -43,6 +43,7 @@ async function runTests(): Promise<void> {
     assert(reg.naziv.includes('Licencni registar'), 'naziv');
     assertEqual(reg.verzija, APP_VERSION, 'verzija');
     assert(!Number.isNaN(Date.parse(reg.timestamp)), 'timestamp');
+    assertEqual(reg.jurisdikcija.drzava, 'Srbija', 'jurisdikcija');
   });
 
   await test('Postoji scope i delatnosti', () => {
@@ -54,7 +55,7 @@ async function runTests(): Promise<void> {
     assert(reg.licence.length > 0, 'licence.length > 0');
     const statuses = new Set(reg.licence.map((x) => x.status));
     assert(statuses.has('potvrdjena'), 'ima potvrdjene');
-    assert(statuses.has('nedostaje') || statuses.has('u_nabavci') || statuses.has('istekla'), 'ima otvorene gap statuse');
+    assert(statuses.has('u_nabavci'), 'ima aktivne nabavke');
   });
 
   await test('Gap analiza vraća prioritetne stavke', () => {
@@ -63,9 +64,17 @@ async function runTests(): Promise<void> {
     assert(typeof first.prioritet === 'number' && first.prioritet > 0, 'first.prioritet');
   });
 
+  await test('Srbija regulatorne licence su prebačene u kupovinu', () => {
+    const srRegulatorne = reg.licence.filter(
+      (item) => item.zahtev.klasifikacija === 'regulatorna' && /srbij|nbs|komisija/i.test(item.zahtev.regulatorIliIzdavalac),
+    );
+    assert(srRegulatorne.length > 0, 'srRegulatorne.length');
+    assert(srRegulatorne.every((item) => item.status === 'u_nabavci'), 'srpske regulatorne licence nisu sve u nabavci');
+  });
+
   await test('Nabavka status postoji za nedostajuće licence', () => {
     assert(reg.nabavka.length > 0, 'nabavka.length');
-    assert(reg.nabavka.some((x) => x.status === 'u_toku' || x.status === 'nije_pokrenuto'), 'aktivne nabavke');
+    assert(reg.nabavka.every((x) => x.status === 'u_toku'), 'aktivne nabavke');
   });
 
   await test('Checklista po delatnosti je dostupna', () => {

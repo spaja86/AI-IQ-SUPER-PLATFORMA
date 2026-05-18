@@ -121,11 +121,20 @@ export interface LicencniComplianceIzvestaj {
   kriticniGapovi: number;
 }
 
+export interface LicencnaJurisdikcija {
+  drzava: 'Srbija';
+  oznaka: 'RS';
+  valuta: 'RSD';
+  regulatori: string[];
+  rezimNabavke: 'kupujemo_sve_licence';
+}
+
 export interface AIIQWorldBankLicencniRegistar {
   naziv: string;
   kompanija: string;
   verzija: string;
   timestamp: string;
+  jurisdikcija: LicencnaJurisdikcija;
   scope: AIIQWorldBankScopeModul[];
   delatnosti: PoslovnaDelatnost[];
   licence: LicencaPoDelatnosti[];
@@ -136,6 +145,19 @@ export interface AIIQWorldBankLicencniRegistar {
   roleMatrica: Record<'viewer' | 'editor' | 'approver', string[]>;
   b2bMeta: ReturnType<typeof getB2BWorkflowMeta>;
 }
+
+const SRBIJA_JURISDIKCIJA: LicencnaJurisdikcija = {
+  drzava: 'Srbija',
+  oznaka: 'RS',
+  valuta: 'RSD',
+  regulatori: [
+    'Narodna banka Srbije (NBS)',
+    'Komisija za hartije od vrednosti',
+    'Uprava za sprečavanje pranja novca',
+    'Poverenik za informacije od javnog značaja i zaštitu podataka o ličnosti',
+  ],
+  rezimNabavke: 'kupujemo_sve_licence',
+};
 
 const LICENCNI_SCOPE: AIIQWorldBankScopeModul[] = [
   {
@@ -237,20 +259,8 @@ function buildDelatnosti(): PoslovnaDelatnost[] {
 }
 
 function seedStatusForRequirement(req: LicencniZahtev): LicencaStatus {
-  switch (req.code) {
-    case 'REG-NBS-EMI':
-      return 'nedostaje';
-    case 'REG-PSD2-SCA':
-    case 'SW-GH-ENTERPRISE':
-    case 'SW-GH-COPILOT-ENTERPRISE':
-      return 'u_nabavci';
-    case 'REG-SOC2-TYPE2':
-      return 'istekla';
-    case 'OPS-RBAC-MATRIX':
-      return 'potvrdjena';
-    default:
-      return 'potvrdjena';
-  }
+  if (req.klasifikacija === 'operativna') return 'potvrdjena';
+  return 'u_nabavci';
 }
 
 function dokazZa(req: LicencniZahtev, status: LicencaStatus): LicencniDokaz | null {
@@ -284,8 +294,7 @@ function dokazZa(req: LicencniZahtev, status: LicencaStatus): LicencniDokaz | nu
 
 function validToByCode(req: LicencniZahtev, status: LicencaStatus): string | null {
   if (status === 'neprimenljivo') return null;
-  if (status === 'istekla') return '2026-03-15';
-  if (req.code === 'REG-SOC2-TYPE2') return '2026-03-15';
+  if (status === 'u_nabavci' || status === 'nedostaje') return null;
   if (req.code === 'SW-GH-ENTERPRISE' || req.code === 'SW-GH-COPILOT-ENTERPRISE') return '2027-01-31';
   return '2026-12-31';
 }
@@ -294,28 +303,28 @@ function requirementsForActivity(activity: PoslovnaDelatnost): LicencniZahtev[] 
   const commonRegulatorne: LicencniZahtev[] = [
     {
       code: 'REG-KYC-KYB',
-      naziv: 'KYC/KYB verifikacijski okvir',
+      naziv: 'KYC/KYB verifikacijski okvir za Srbiju',
       klasifikacija: 'regulatorna',
-      regulatorIliIzdavalac: 'Interni compliance + lokalni regulator',
+      regulatorIliIzdavalac: 'Interni compliance + lokalni regulator u Srbiji',
       rizik: 'kriticno',
     },
     {
-      code: 'REG-AML-CTF',
-      naziv: 'AML/CTF kontrolni okvir',
+      code: 'REG-RS-AML-CTF',
+      naziv: 'AML/CTF program i prijava odgovornog lica za Srbiju',
       klasifikacija: 'regulatorna',
-      regulatorIliIzdavalac: 'Interni AML officer + regulator',
+      regulatorIliIzdavalac: 'Uprava za sprečavanje pranja novca + NBS',
       rizik: 'kriticno',
     },
     {
-      code: 'REG-GDPR-DPO',
-      naziv: 'GDPR/DPO program usklađenosti',
+      code: 'REG-RS-DPO',
+      naziv: 'Program zaštite podataka i DPO evidencija za Srbiju',
       klasifikacija: 'regulatorna',
-      regulatorIliIzdavalac: 'EU GDPR okvir',
+      regulatorIliIzdavalac: 'Poverenik za informacije od javnog značaja i zaštitu podataka o ličnosti',
       rizik: 'visoko',
     },
     {
       code: 'REG-SOC2-TYPE2',
-      naziv: 'SOC2 Type II atestacija',
+      naziv: 'SOC2 Type II atestacija za operativu AI IQ World Bank',
       klasifikacija: 'regulatorna',
       regulatorIliIzdavalac: 'Nezavisni audit partner',
       rizik: 'srednje',
@@ -334,24 +343,59 @@ function requirementsForActivity(activity: PoslovnaDelatnost): LicencniZahtev[] 
 
   const naziv = activity.naziv.toLowerCase();
   const dodatne: LicencniZahtev[] = [];
+  const jeFinansijskaDelatnost =
+    activity.domen === 'finansije' ||
+    naziv.includes('finans') ||
+    naziv.includes('banka') ||
+    naziv.includes('menja') ||
+    naziv.includes('novcan') ||
+    naziv.includes('novč');
+  const jeKriptoDelatnost = naziv.includes('kripto') || naziv.includes('digital asset') || naziv.includes('trezor');
 
-  if (naziv.includes('finans') || naziv.includes('banka') || naziv.includes('menja')) {
+  if (jeFinansijskaDelatnost) {
     dodatne.push(
       {
-        code: 'REG-NBS-EMI',
-        naziv: 'Dozvola za platne usluge / EMI model',
+        code: 'REG-RS-NBS-PI-EMI',
+        naziv: 'NBS dozvola za platnu instituciju / EMI model u Srbiji',
         klasifikacija: 'regulatorna',
-        regulatorIliIzdavalac: 'NBS ili nadležni regulator',
+        regulatorIliIzdavalac: 'Narodna banka Srbije (NBS)',
         rizik: 'kriticno',
       },
       {
-        code: 'REG-PSD2-SCA',
-        naziv: 'PSD2 SCA usklađenost',
+        code: 'REG-RS-NBS-FX',
+        naziv: 'NBS odobrenje za menjačke i devizne poslove u Srbiji',
         klasifikacija: 'regulatorna',
-        regulatorIliIzdavalac: 'EU PSD2 okvir',
+        regulatorIliIzdavalac: 'Narodna banka Srbije (NBS)',
+        rizik: 'kriticno',
+      },
+      {
+        code: 'REG-RS-PSD2-AISP-PISP',
+        naziv: 'PSD2 / open banking AISP-PISP usklađenost za Srbiju',
+        klasifikacija: 'regulatorna',
+        regulatorIliIzdavalac: 'Narodna banka Srbije (NBS)',
         rizik: 'visoko',
       },
     );
+  }
+
+  if (naziv.includes('banka')) {
+    dodatne.push({
+      code: 'REG-RS-NBS-BANKA',
+      naziv: 'NBS dozvola za bankarsko poslovanje u Srbiji',
+      klasifikacija: 'regulatorna',
+      regulatorIliIzdavalac: 'Narodna banka Srbije (NBS)',
+      rizik: 'kriticno',
+    });
+  }
+
+  if (jeKriptoDelatnost || naziv.includes('menja')) {
+    dodatne.push({
+      code: 'REG-RS-DIGITALNA-IMOVINA',
+      naziv: 'Dozvola po Zakonu o digitalnoj imovini za Srbiju',
+      klasifikacija: 'regulatorna',
+      regulatorIliIzdavalac: 'NBS i/ili Komisija za hartije od vrednosti',
+      rizik: 'visoko',
+    });
   }
 
   if (naziv.includes('github') || naziv.includes('spajapro') || naziv.includes('openai') || naziv.includes('ai')) {
@@ -433,7 +477,7 @@ function buildLicenceRows(delatnosti: PoslovnaDelatnost[]): LicencaPoDelatnosti[
         delatnost: delatnost.naziv,
         zahtev: req,
         status,
-        validFrom: status === 'neprimenljivo' ? null : '2026-01-01',
+        validFrom: status === 'potvrdjena' ? '2026-01-01' : null,
         validTo,
         dokaz,
         procurementStatus,
@@ -531,6 +575,13 @@ function buildAudit(licence: LicencaPoDelatnosti[], gaps: LicencniGapStavka[]): 
     },
     {
       id: `AUD-LIC-${Date.now()}-03`,
+      akcija: 'serbia_procurement_wave_started',
+      status: 'uspesno',
+      detalji: 'Aktivirana je centralna kupovina svih primenljivih licenci za Srbiju kroz AI IQ World Bank.',
+      timestamp: new Date().toISOString(),
+    },
+    {
+      id: `AUD-LIC-${Date.now()}-04`,
       akcija: 'gap_analysis_completed',
       status: kriticni > 0 ? 'upozorenje' : 'uspesno',
       detalji: `Gap analiza završena: ${gaps.length} otvorenih gap-ova, kritičnih: ${kriticni}, u nabavci: ${uNabavci}.`,
@@ -547,10 +598,11 @@ export function buildAIIQWorldBankLicencniRegistar(): AIIQWorldBankLicencniRegis
   const nabavka = buildNabavkaStavke(licence);
 
   return {
-    naziv: 'AI IQ WORLD BANK — Licencni registar po delatnostima',
+    naziv: 'AI IQ WORLD BANK — Licencni registar za Srbiju',
     kompanija: KOMPANIJA,
     verzija: APP_VERSION,
     timestamp: new Date().toISOString(),
+    jurisdikcija: SRBIJA_JURISDIKCIJA,
     scope: LICENCNI_SCOPE,
     delatnosti,
     licence,

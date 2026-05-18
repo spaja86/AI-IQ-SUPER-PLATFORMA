@@ -48,7 +48,7 @@ async function runTests(): Promise<void> {
 
   await test('Metadata title je postavljen', () => {
     assert(
-      typeof metadata.title === 'string' && metadata.title.includes('Licencna Analiza'),
+      typeof metadata.title === 'string' && metadata.title.includes('Licencna Analiza') && metadata.title.includes('Srbija'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });

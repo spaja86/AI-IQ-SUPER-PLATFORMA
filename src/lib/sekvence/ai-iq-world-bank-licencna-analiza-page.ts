@@ -12,13 +12,13 @@ export const aiiqWorldBankLicencnaAnalizaSekvence: Sekvenca[] = [
   {
     id: 'aiiq-license-hero',
     tip: 'hero',
-    naslov: '📑 AI IQ WORLD BANK — Licencna Analiza',
-    podnaslov: 'Centralni registar licenci po poslovnim delatnostima sa gap analizom i nabavkom',
+    naslov: '📑 AI IQ WORLD BANK — Licencna Analiza za Srbiju',
+    podnaslov: 'Centralni registar licenci za Srbiju sa aktivnom kupovinom svih primenljivih licenci',
     ikona: '📑',
     redosled: 1,
     podaci: {
       opis:
-        'Jedinstveni pregled: obavezne regulatorne, softverske i operativne licence; status, dokazi, istek i prioritet nabavke.',
+        'Jedinstveni pregled za tržište Srbije: obavezne regulatorne, softverske i operativne licence; status kupovine, dokazi, regulatori i prioritet nabavke.',
       dugmad: [
         { tekst: 'Licencni registar API', href: '/api/aiiq-world-bank-licencni-registar' },
         { tekst: 'Gap izvestaj API', href: '/api/aiiq-world-bank-licencni-gap-izvestaj', stil: 'sekundarno' },
@@ -55,7 +55,7 @@ export const aiiqWorldBankLicencnaAnalizaSekvence: Sekvenca[] = [
   {
     id: 'aiiq-license-gaps',
     tip: 'kartice',
-    naslov: '🧩 Kriticni gapovi — kupiti sada',
+    naslov: '🧩 Srbija — kriticni gapovi u kupovini',
     redosled: 4,
     podaci: {
       kartice: reg.gapovi.slice(0, 10).map((gap) => ({
@@ -69,13 +69,13 @@ export const aiiqWorldBankLicencnaAnalizaSekvence: Sekvenca[] = [
   {
     id: 'aiiq-license-procurement',
     tip: 'lista',
-    naslov: '🛒 Nabavka licenci — operativni tok',
+    naslov: '🛒 Nabavka licenci za Srbiju — operativni tok',
     redosled: 5,
     podaci: {
       stavke: reg.nabavka.slice(0, 12).map((item) => ({
         ikona: item.status === 'u_toku' ? '🔄' : item.status === 'zavrseno' ? '✅' : '⏳',
         naslov: `${item.licenca} (${item.delatnost})`,
-        opis: `Status: ${item.status}. Endpoint: ${item.b2bEndpoint}. Izvor: ${item.paymentSource}.`,
+        opis: `Status: ${item.status}. Tržište: ${reg.jurisdikcija.drzava}. Endpoint: ${item.b2bEndpoint}. Izvor: ${item.paymentSource}.`,
       })),
     },
   },
@@ -86,7 +86,7 @@ export const aiiqWorldBankLicencnaAnalizaSekvence: Sekvenca[] = [
     redosled: 6,
     podaci: {
       opis:
-        'Koristi mesečni/kvartalni izveštaj za kontinuiranu usklađenost, a expirations endpoint za preventivnu obnovu licenci pre isteka.',
+        'Koristi mesečni/kvartalni izveštaj za kontinuiranu usklađenost u Srbiji, a expirations endpoint za preventivnu obnovu potvrđenih licenci pre isteka.',
       dugmad: [
         { tekst: 'Mesecni izvestaj', href: '/api/aiiq-world-bank-licencni-compliance-izvestaj?periodTip=mesecni' },
         { tekst: 'Kvartalni izvestaj', href: '/api/aiiq-world-bank-licencni-compliance-izvestaj?periodTip=kvartalni', stil: 'sekundarno' },

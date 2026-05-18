@@ -4,8 +4,8 @@ import { aiiqWorldBankLicencnaAnalizaSekvence } from '@/lib/sekvence/ai-iq-world
 import { KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'AI IQ WORLD BANK Licencna Analiza',
-  description: `Centralni registar licenci po delatnostima, gap analiza i nabavka — ${KOMPANIJA}`,
+  title: 'AI IQ WORLD BANK Licencna Analiza — Srbija',
+  description: `Centralni registar licenci za Srbiju, gap analiza i nabavka — ${KOMPANIJA}`,
 };
 
 export default function AiiqWorldBankLicencnaAnalizaPage() {
