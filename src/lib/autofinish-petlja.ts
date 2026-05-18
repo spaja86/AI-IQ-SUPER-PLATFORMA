@@ -7666,3 +7666,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-regulatorni-rokovi.test.ts + digitalna-industrija-regulatorni-rokovi-route.test.ts.
 // APP_VERSION=53.6.0 | AUTOFINISH_COUNT=1267 | TOTAL_API_ROUTES=1133 | TOTAL_ROUTES=1220
+
+// ─── Autofinish #1268 — DIGITALNA INDUSTRIJA IZVOZ FAKTURA REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-izvoz-faktura.ts — buildDigitalnaIndustrijaIzvozFaktura(),
+// DigitalnaIndustrijaIzvozFakturaRezultat i centralni registar izvoznih faktura.
+// Nova ruta: GET /api/digitalna-industrija-izvoz-faktura. Nova stranica: /digitalna-industrija-izvoz-faktura.
+// Sekvence: src/lib/sekvence/digitalna-industrija-izvoz-faktura-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-izvoz-faktura.test.ts + digitalna-industrija-izvoz-faktura-route.test.ts.
+// APP_VERSION=53.7.0 | AUTOFINISH_COUNT=1268 | TOTAL_API_ROUTES=1134 | TOTAL_ROUTES=1222

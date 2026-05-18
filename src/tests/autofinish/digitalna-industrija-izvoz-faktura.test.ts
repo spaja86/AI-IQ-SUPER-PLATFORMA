@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaRegulatorniRokovi } from '../../lib/digitalna-industrija-regulatorni-rokovi';
+import { buildDigitalnaIndustrijaIzvozFaktura } from '../../lib/digitalna-industrija-izvoz-faktura';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📅 Digitalna Industrija Regulatorni Rokovi — Unit Test Suite\n');
+  console.log('\n🧾 Digitalna Industrija Izvoz Faktura — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaRegulatorniRokovi('test-user-id');
+  const r = buildDigitalnaIndustrijaIzvozFaktura('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -55,31 +55,31 @@ async function runTests(): Promise<void> {
     assert(r.registarNosioc.length > 0, 'registarNosioc');
   });
 
-  await test('KPI je konzistentan sa rokovima', () => {
-    assertEqual(r.kpi.ukupnoRokova, r.rokovi.length, 'ukupnoRokova');
+  await test('KPI je konzistentan sa fakturama', () => {
+    assertEqual(r.kpi.ukupnoFaktura, r.fakture.length, 'ukupnoFaktura');
     assertEqual(
-      r.kpi.naVreme,
-      r.rokovi.filter((stavka) => stavka.status === 'na-vreme').length,
-      'naVreme',
+      r.kpi.spremno,
+      r.fakture.filter((stavka) => stavka.status === 'spremno').length,
+      'spremno',
     );
     assertEqual(
-      r.kpi.uToku,
-      r.rokovi.filter((stavka) => stavka.status === 'u-toku').length,
-      'uToku',
+      r.kpi.uPripremi,
+      r.fakture.filter((stavka) => stavka.status === 'u-pripremi').length,
+      'uPripremi',
     );
     assertEqual(
-      r.kpi.kriticno,
-      r.rokovi.filter((stavka) => stavka.status === 'kriticno').length,
-      'kriticno',
+      r.kpi.zahtevaReviziju,
+      r.fakture.filter((stavka) => stavka.status === 'zahteva-reviziju').length,
+      'zahtevaReviziju',
     );
   });
 
-  await test('Rokovi imaju obavezna polja', () => {
-    for (const stavka of r.rokovi) {
+  await test('Fakture imaju obavezna polja', () => {
+    for (const stavka of r.fakture) {
       assert(stavka.entitet.length > 0, 'entitet nije prazan');
-      assert(stavka.regulator.length > 0, 'regulator nije prazan');
-      assert(stavka.obaveza.length > 0, 'obaveza nije prazna');
-      assert(!Number.isNaN(Date.parse(stavka.rok)), 'rok je validan datum');
+      assert(stavka.brojFakture.length > 0, 'brojFakture nije prazan');
+      assert(stavka.trziste.length > 0, 'trziste nije prazno');
+      assert(stavka.iznos > 0, 'iznos > 0');
     }
   });
 

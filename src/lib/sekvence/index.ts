@@ -76,6 +76,7 @@ export { licencniBudzetSrbijaSekvence } from './licencni-budzet-srbija-page';
 export { digitalnaIndustrijaPibMbSekvence } from './digitalna-industrija-pib-mb-page';
 export { digitalnaIndustrijaSifraDelatnostiSekvence } from './digitalna-industrija-sifra-delatnosti-page';
 export { digitalnaIndustrijaRegulatorniRokoviSekvence } from './digitalna-industrija-regulatorni-rokovi-page';
+export { digitalnaIndustrijaIzvozFakturaSekvence } from './digitalna-industrija-izvoz-faktura-page';
 
 // ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
 export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';
