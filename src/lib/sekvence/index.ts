@@ -168,3 +168,6 @@ export { digitalnaIndustrijaOperativniRizikSekvence } from './digitalna-industri
 
 // ── DIGITALNA INDUSTRIJA REPUTACIONI RIZIK ────────────────────────────────────
 export { digitalnaIndustrijaReputacioniRizikSekvence } from './digitalna-industrija-reputacioni-rizik-page';
+
+// ── BAR KOD ────────────────────────────────────────────────────────────────────
+export { barKodSekvence } from './bar-kod-page';
