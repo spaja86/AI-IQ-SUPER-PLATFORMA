@@ -1,4 +1,4 @@
-// Autofinish #1136 — Billing Audit Log Smoke Tests (#26)
+// Autofinish #1137 — Billing Audit Log Smoke Tests (#26)
 // Kompanija SPAJA — Digitalna Industrija
 
 import { AUTOFINISH_COUNT } from '../../lib/constants';
@@ -29,7 +29,7 @@ function validateAuditEntry(entry: Record<string, unknown>): { valid: boolean; e
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📋 Billing Audit Log Smoke Tests (#1136)\n');
+  console.log('\n📋 Billing Audit Log Smoke Tests (#1137)\n');
 
   // ── Audit entry validacija ────────────────────────────────────────────────
   await test('Validan audit entry prolazi validaciju', () => {
@@ -98,7 +98,7 @@ async function runTests(): Promise<void> {
     }
   });
 
-  await test('AUTOFINISH_COUNT >= 1136', () => { assert(AUTOFINISH_COUNT >= 1136, `count=${AUTOFINISH_COUNT}`); });
+  await test('AUTOFINISH_COUNT >= 1137', () => { assert(AUTOFINISH_COUNT >= 1137, `count=${AUTOFINISH_COUNT}`); });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) { console.error('\n❌ Neuspješni testovi:'); failures.forEach((f) => console.error(`  • ${f}`)); process.exit(1); }

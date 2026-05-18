@@ -7693,3 +7693,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-devizni-odlivi.test.ts + digitalna-industrija-devizni-odlivi-route.test.ts.
 // APP_VERSION=53.9.0 | AUTOFINISH_COUNT=1270 | TOTAL_API_ROUTES=1136 | TOTAL_ROUTES=1226
+
+// ─── Autofinish #1271 — DIGITALNA INDUSTRIJA DEVIZNI SALDO REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-devizni-saldo.ts — buildDigitalnaIndustrijaDevizniSaldo(),
+// DigitalnaIndustrijaDevizniSaldoRezultat i centralni registar neto deviznog salda.
+// Nova ruta: GET /api/digitalna-industrija-devizni-saldo. Nova stranica: /digitalna-industrija-devizni-saldo.
+// Sekvence: src/lib/sekvence/digitalna-industrija-devizni-saldo-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-devizni-saldo.test.ts + digitalna-industrija-devizni-saldo-route.test.ts.
+// APP_VERSION=54.0.0 | AUTOFINISH_COUNT=1271 | TOTAL_API_ROUTES=1137 | TOTAL_ROUTES=1228

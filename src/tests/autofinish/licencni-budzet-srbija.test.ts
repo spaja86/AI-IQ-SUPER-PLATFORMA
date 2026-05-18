@@ -86,10 +86,10 @@ async function runTests(): Promise<void> {
   });
 
   await test('Verzije i brojači su ažurirani', () => {
-    assertEqual(APP_VERSION, '53.9.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1270, 'AUTOFINISH_COUNT');
-    assertEqual(TOTAL_API_ROUTES, 1136, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1226, 'TOTAL_ROUTES');
+    assertEqual(APP_VERSION, '54.0.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1271, 'AUTOFINISH_COUNT');
+    assertEqual(TOTAL_API_ROUTES, 1137, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1228, 'TOTAL_ROUTES');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

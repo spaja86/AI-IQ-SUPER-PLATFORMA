@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaIzvozFaktura } from '../../lib/digitalna-industrija-izvoz-faktura';
+import { buildDigitalnaIndustrijaDevizniSaldo } from '../../lib/digitalna-industrija-devizni-saldo';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija Izvoz Faktura — Unit Test Suite\n');
+  console.log('\n⚖️ Digitalna Industrija Devizni Saldo — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaIzvozFaktura('test-user-id');
+  const r = buildDigitalnaIndustrijaDevizniSaldo('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -55,31 +55,25 @@ async function runTests(): Promise<void> {
     assert(r.registarNosioc.length > 0, 'registarNosioc');
   });
 
-  await test('KPI je konzistentan sa fakturama', () => {
-    assertEqual(r.kpi.ukupnoFaktura, r.fakture.length, 'ukupnoFaktura');
+  await test('KPI je konzistentan sa stavkama', () => {
+    assertEqual(r.kpi.ukupnoStavki, r.stavke.length, 'ukupnoStavki');
     assertEqual(
-      r.kpi.spremno,
-      r.fakture.filter((stavka) => stavka.status === 'spremno').length,
-      'spremno',
+      r.kpi.prilivi,
+      r.stavke.filter((stavka) => stavka.tok === 'priliv').length,
+      'prilivi',
     );
     assertEqual(
-      r.kpi.uPripremi,
-      r.fakture.filter((stavka) => stavka.status === 'u-pripremi').length,
-      'uPripremi',
-    );
-    assertEqual(
-      r.kpi.zahtevaReviziju,
-      r.fakture.filter((stavka) => stavka.status === 'zahteva-reviziju').length,
-      'zahtevaReviziju',
+      r.kpi.odlivi,
+      r.stavke.filter((stavka) => stavka.tok === 'odliv').length,
+      'odlivi',
     );
   });
 
-  await test('Fakture imaju obavezna polja', () => {
-    for (const stavka of r.fakture) {
+  await test('Stavke imaju obavezna polja', () => {
+    for (const stavka of r.stavke) {
       assert(stavka.entitet.length > 0, 'entitet nije prazan');
-      assert(stavka.brojFakture.length > 0, 'brojFakture nije prazan');
-      assert(stavka.trziste.length > 0, 'trziste nije prazno');
       assert(stavka.iznos > 0, 'iznos > 0');
+      assert(stavka.tok === 'priliv' || stavka.tok === 'odliv', 'tok je validan');
     }
   });
 
