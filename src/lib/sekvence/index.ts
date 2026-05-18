@@ -165,3 +165,6 @@ export { digitalnaIndustrijaLikvidnosniRizikSekvence } from './digitalna-industr
 
 // ── DIGITALNA INDUSTRIJA OPERATIVNI RIZIK ─────────────────────────────────────
 export { digitalnaIndustrijaOperativniRizikSekvence } from './digitalna-industrija-operativni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA REPUTACIONI RIZIK ────────────────────────────────────
+export { digitalnaIndustrijaReputacioniRizikSekvence } from './digitalna-industrija-reputacioni-rizik-page';
