@@ -245,10 +245,10 @@ async function runTests(): Promise<void> {
 
   // ── Verzije i konstante ───────────────────────────────────────────────────
   await test('Verzije i konstante su ažurirani za AI IQ World Bank modul', () => {
-    assertEqual(APP_VERSION, '53.1.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1262, 'AUTOFINISH_COUNT');
-    assertEqual(TOTAL_API_ROUTES, 1128, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1213, 'TOTAL_ROUTES');
+    assertEqual(APP_VERSION, '53.3.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1264, 'AUTOFINISH_COUNT');
+    assertEqual(TOTAL_API_ROUTES, 1130, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1214, 'TOTAL_ROUTES');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

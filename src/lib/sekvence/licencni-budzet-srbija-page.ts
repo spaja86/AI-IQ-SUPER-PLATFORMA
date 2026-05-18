@@ -7,7 +7,7 @@ export const licencniBudzetSrbijaSekvence: Sekvenca[] = [
   {
     id: 'licencni-budzet-srbija-hero',
     tip: 'hero',
-    naslov: '📜 Licencni Budzet Srbija',
+    naslov: '📜 Licencni Budžet Srbija',
     podnaslov: 'Regulatorna usklađenost, aktivna nabavka i godišnje planiranje licenci',
     ikona: '📜',
     redosled: 1,

@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const rezultat = buildLicencniBudzetSrbija('public');
 
     return apiSuccess({
-      sistem: 'Licencni Budzet Srbija',
+      sistem: 'Licencni Budžet Srbija',
       opis:
         'Objedinjeni endpoint za plan i praćenje licencnog budžeta u Republici Srbiji: regulatorni zahtevi, status nabavke i godišnji troškovi.',
       verzija: APP_VERSION,

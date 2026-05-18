@@ -58,9 +58,9 @@ async function runTests(): Promise<void> {
     );
   });
 
-  await test('metadata.title sadrži Licencni Budzet Srbija', () => {
+  await test('metadata.title sadrži Licencni Budžet Srbija', () => {
     assert(
-      typeof metadata.title === 'string' && metadata.title.includes('Licencni Budzet Srbija'),
+      typeof metadata.title === 'string' && metadata.title.includes('Licencni Budžet Srbija'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
@@ -69,9 +69,9 @@ async function runTests(): Promise<void> {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/licencni-budzet-srbija' && item.label === 'Licencni Budzet Srbija',
-      ),
-      'navigation nema Licencni Budzet Srbija link',
+          item.href === '/licencni-budzet-srbija' && item.label === 'Licencni Budžet Srbija',
+        ),
+      'navigation nema Licencni Budžet Srbija link',
     );
   });
 

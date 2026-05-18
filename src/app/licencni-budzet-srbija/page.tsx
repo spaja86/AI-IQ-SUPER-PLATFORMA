@@ -4,7 +4,7 @@ import { licencniBudzetSrbijaSekvence } from '@/lib/sekvence/licencni-budzet-srb
 import { KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Licencni Budzet Srbija',
+  title: 'Licencni Budžet Srbija',
   description: `Registar i plan licencnog budžeta za Srbiju — ${KOMPANIJA}`,
 };
 

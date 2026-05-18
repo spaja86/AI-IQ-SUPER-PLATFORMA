@@ -24,7 +24,7 @@ export const navigation: NavItem[] = [
   { label: 'AI Platforma', href: '/ai-platforma', icon: '🤖', description: 'AI platforma i modeli' },
   { label: 'Banka', href: '/banka', icon: '🏦', description: 'SPAJA Banka platforma' },
   { label: 'AI IQ World Bank', href: '/ai-iq-world-bank', icon: '🌐', description: 'AI IQ WORLD BANK — sve o njoj: usluge, AI tehnologija, ERSTE računi, partneri, transferi, GitHub billing i ekosistem' },
-  { label: 'Licencni Budzet Srbija', href: '/licencni-budzet-srbija', icon: '📜', description: 'Registar i budžet licenci za Srbiju — aktivna nabavka, regulatorni rokovi i godišnji plan troškova' },
+  { label: 'Licencni Budžet Srbija', href: '/licencni-budzet-srbija', icon: '📜', description: 'Registar i budžet licenci za Srbiju — aktivna nabavka, regulatorni rokovi i godišnji plan troškova' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },
