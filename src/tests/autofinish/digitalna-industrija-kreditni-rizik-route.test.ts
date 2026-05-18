@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-devizni-saldo/page';
+import { metadata } from '../../app/digitalna-industrija-kreditni-rizik/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaDevizniSaldo } from '../../lib/digitalna-industrija-devizni-saldo';
+import { buildDigitalnaIndustrijaKreditniRizik } from '../../lib/digitalna-industrija-kreditni-rizik';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n⚖️ Digitalna Industrija Devizni Saldo route coverage — Unit Test Suite\n');
+  console.log('\n🏦 Digitalna Industrija Kreditni Rizik route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-devizni-saldo`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-kreditni-rizik`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-devizni-saldo/route.ts',
+    'src/app/api/digitalna-industrija-kreditni-rizik/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaDevizniSaldo('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaKreditniRizik('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-devizni-saldo', () => {
+  await test('Sitemap sadrži /digitalna-industrija-kreditni-rizik', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-devizni-saldo nije u sitemap-u',
+      '/digitalna-industrija-kreditni-rizik nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Devizni Saldo', () => {
+  await test('metadata.title sadrži Digitalna Industrija Kreditni Rizik', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Devizni Saldo'),
+        metadata.title.includes('Digitalna Industrija Kreditni Rizik'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-devizni-saldo', () => {
+  await test('Navigation sadrži /digitalna-industrija-kreditni-rizik', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-devizni-saldo' &&
-          item.label === 'Digitalna Industrija Devizni Saldo',
+          item.href === '/digitalna-industrija-kreditni-rizik' &&
+          item.label === 'Digitalna Industrija Kreditni Rizik',
       ),
-      'navigation nema Digitalna Industrija Devizni Saldo link',
+      'navigation nema Digitalna Industrija Kreditni Rizik link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaDevizniSaldo()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaKreditniRizik()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaDevizniSaldo'),
-      'API route ne koristi buildDigitalnaIndustrijaDevizniSaldo',
+      apiRouteSource.includes('buildDigitalnaIndustrijaKreditniRizik'),
+      'API route ne koristi buildDigitalnaIndustrijaKreditniRizik',
     );
   });
 
@@ -96,8 +96,8 @@ async function runTests(): Promise<void> {
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.stavke), 'stavke niz');
-    assert(rezultat.stavke.length > 0, 'stavke nisu prazne');
+    assert(Array.isArray(rezultat.izlozenosti), 'izlozenosti niz');
+    assert(rezultat.izlozenosti.length > 0, 'izlozenosti nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
@@ -108,7 +108,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1240, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🏦 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

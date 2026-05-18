@@ -7747,3 +7747,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-kamatni-rizik.test.ts + digitalna-industrija-kamatni-rizik-route.test.ts.
 // APP_VERSION=54.5.0 | AUTOFINISH_COUNT=1276 | TOTAL_API_ROUTES=1142 | TOTAL_ROUTES=1238
+
+// ─── Autofinish #1277 — DIGITALNA INDUSTRIJA KREDITNI RIZIK REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-kreditni-rizik.ts — buildDigitalnaIndustrijaKreditniRizik(),
+// DigitalnaIndustrijaKreditniRizikRezultat i centralni registar kreditne izloženosti (PD/LGD/kolateral).
+// Nova ruta: GET /api/digitalna-industrija-kreditni-rizik. Nova stranica: /digitalna-industrija-kreditni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kreditni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kreditni-rizik.test.ts + digitalna-industrija-kreditni-rizik-route.test.ts.
+// APP_VERSION=54.6.0 | AUTOFINISH_COUNT=1277 | TOTAL_API_ROUTES=1143 | TOTAL_ROUTES=1240

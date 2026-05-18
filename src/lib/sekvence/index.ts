@@ -156,3 +156,6 @@ export { mozakLogikaSekvence } from './mozak-logika-page';
 
 // ── DIGITALNA INDUSTRIJA KAMATNI RIZIK ────────────────────────────────────────
 export { digitalnaIndustrijaKamatniRizikSekvence } from './digitalna-industrija-kamatni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA KREDITNI RIZIK ───────────────────────────────────────
+export { digitalnaIndustrijaKreditniRizikSekvence } from './digitalna-industrija-kreditni-rizik-page';
