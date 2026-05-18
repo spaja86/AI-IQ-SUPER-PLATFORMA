@@ -7756,3 +7756,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-kreditni-rizik.test.ts + digitalna-industrija-kreditni-rizik-route.test.ts.
 // APP_VERSION=54.6.0 | AUTOFINISH_COUNT=1277 | TOTAL_API_ROUTES=1143 | TOTAL_ROUTES=1240
+
+// ─── Autofinish #1278 — DIGITALNA INDUSTRIJA LIKVIDNOSNI RIZIK REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-likvidnosni-rizik.ts — buildDigitalnaIndustrijaLikvidnosniRizik(),
+// DigitalnaIndustrijaLikvidnosniRizikRezultat i centralni registar likvidnosti (pokriće obaveza, neto tokovi i statusi).
+// Nova ruta: GET /api/digitalna-industrija-likvidnosni-rizik. Nova stranica: /digitalna-industrija-likvidnosni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-likvidnosni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-likvidnosni-rizik.test.ts + digitalna-industrija-likvidnosni-rizik-route.test.ts.
+// APP_VERSION=54.7.0 | AUTOFINISH_COUNT=1278 | TOTAL_API_ROUTES=1144 | TOTAL_ROUTES=1242

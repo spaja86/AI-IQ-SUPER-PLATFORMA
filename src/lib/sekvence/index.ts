@@ -159,3 +159,6 @@ export { digitalnaIndustrijaKamatniRizikSekvence } from './digitalna-industrija-
 
 // ── DIGITALNA INDUSTRIJA KREDITNI RIZIK ───────────────────────────────────────
 export { digitalnaIndustrijaKreditniRizikSekvence } from './digitalna-industrija-kreditni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA LIKVIDNOSNI RIZIK ────────────────────────────────────
+export { digitalnaIndustrijaLikvidnosniRizikSekvence } from './digitalna-industrija-likvidnosni-rizik-page';

@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaDevizniPrilivi } from '../../lib/digitalna-industrija-devizni-prilivi';
+import { buildDigitalnaIndustrijaLikvidnosniRizik } from '../../lib/digitalna-industrija-likvidnosni-rizik';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n💱 Digitalna Industrija Devizni Prilivi — Unit Test Suite\n');
+  console.log('\n💧 Digitalna Industrija Likvidnosni Rizik — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaDevizniPrilivi('test-user-id');
+  const r = buildDigitalnaIndustrijaLikvidnosniRizik('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -50,35 +50,36 @@ async function runTests(): Promise<void> {
     assert(!Number.isNaN(Date.parse(r.timestamp)), 'timestamp ISO');
   });
 
-  await test('Jurisdikcija i nosilac registra su popunjeni', () => {
+  await test('Jurisdikcija i izvor su popunjeni', () => {
     assertEqual(r.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(r.registarNosioc.length > 0, 'registarNosioc');
+    assert(r.izvor.length > 0, 'izvor nije prazan');
   });
 
-  await test('KPI je konzistentan sa prilivima', () => {
-    assertEqual(r.kpi.ukupnoPriliva, r.prilivi.length, 'ukupnoPriliva');
+  await test('KPI je konzistentan sa pozicijama', () => {
+    assertEqual(r.kpi.ukupnoPozicija, r.pozicije.length, 'ukupnoPozicija');
     assertEqual(
-      r.kpi.evidentirano,
-      r.prilivi.filter((stavka) => stavka.status === 'evidentirano').length,
-      'evidentirano',
+      r.kpi.stabilnih,
+      r.pozicije.filter((p) => p.status === 'stabilan').length,
+      'stabilnih',
     );
     assertEqual(
-      r.kpi.naUskladjivanju,
-      r.prilivi.filter((stavka) => stavka.status === 'na-uskladjivanju').length,
-      'naUskladjivanju',
+      r.kpi.upozorenja,
+      r.pozicije.filter((p) => p.status === 'upozorenje').length,
+      'upozorenja',
     );
     assertEqual(
-      r.kpi.blokirano,
-      r.prilivi.filter((stavka) => stavka.status === 'blokirano').length,
-      'blokirano',
+      r.kpi.kriticnih,
+      r.pozicije.filter((p) => p.status === 'kritican').length,
+      'kriticnih',
     );
   });
 
-  await test('Prilivi imaju obavezna polja', () => {
-    for (const stavka of r.prilivi) {
-      assert(stavka.entitet.length > 0, 'entitet nije prazan');
-      assert(stavka.izvor.length > 0, 'izvor nije prazan');
-      assert(stavka.iznos > 0, 'iznos > 0');
+  await test('Pozicije imaju obavezna polja', () => {
+    for (const p of r.pozicije) {
+      assert(p.id.length > 0, 'id nije prazan');
+      assert(p.instrument.length > 0, 'instrument nije prazan');
+      assert(p.raspolozivoRsd >= 0, 'raspolozivoRsd >= 0');
+      assert(p.obavezeRsd >= 0, 'obavezeRsd >= 0');
     }
   });
 
@@ -89,7 +90,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1242, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n💧 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
