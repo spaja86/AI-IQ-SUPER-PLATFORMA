@@ -133,6 +133,7 @@ export function buildGeneratorZaPoslovneRacune(
   const kontaktEmailFallback = getKontaktKanal('billing')?.email ?? primarniOperativniNalog.email;
   const finalniSubjekt: PoslovniSubjektInput = {
     naziv: subjekt?.naziv ?? 'Digitalna Industrija',
+    // Generator koristi sintetičke fallback identifikatore za demo generisanje računa.
     pib: subjekt?.pib ?? '108001122',
     maticniBroj: subjekt?.maticniBroj ?? '22110033',
     email: subjekt?.email ?? kontaktEmailFallback,

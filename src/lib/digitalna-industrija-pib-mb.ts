@@ -29,6 +29,7 @@ export interface DigitalnaIndustrijaPibMbRezultat {
 }
 
 export function buildDigitalnaIndustrijaPibMb(userId: string): DigitalnaIndustrijaPibMbRezultat {
+  // Napomena: PIB/MB vrednosti su operativni primeri registra za internu platformsku evidenciju.
   const entiteti: DigitalnaIndustrijaPibMbEntitet[] = [
     {
       id: 'digitalna-industrija-core',
