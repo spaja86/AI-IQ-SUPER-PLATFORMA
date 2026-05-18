@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaPravniRizik } from '../../lib/digitalna-industrija-pravni-rizik';
+import { buildDigitalnaIndustrijaSajberRizik } from '../../lib/digitalna-industrija-sajber-rizik';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n⚖️ Digitalna Industrija Pravni Rizik — Unit Test Suite\n');
+  console.log('\n🧾 Digitalna Industrija Sajber Rizik — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaPravniRizik('test-user-id');
+  const r = buildDigitalnaIndustrijaSajberRizik('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -95,7 +95,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1253, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n⚖️ Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🧾 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

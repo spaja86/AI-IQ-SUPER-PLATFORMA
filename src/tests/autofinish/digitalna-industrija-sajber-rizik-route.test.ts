@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-esg-rizik/page';
+import { metadata } from '../../app/digitalna-industrija-sajber-rizik/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaEsgRizik } from '../../lib/digitalna-industrija-esg-rizik';
+import { buildDigitalnaIndustrijaSajberRizik } from '../../lib/digitalna-industrija-sajber-rizik';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija ESG Rizik route coverage — Unit Test Suite\n');
+  console.log('\n🧾 Digitalna Industrija Sajber Rizik route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-esg-rizik`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-sajber-rizik`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-esg-rizik/route.ts',
+    'src/app/api/digitalna-industrija-sajber-rizik/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaEsgRizik('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaSajberRizik('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-esg-rizik', () => {
+  await test('Sitemap sadrži /digitalna-industrija-sajber-rizik', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-esg-rizik nije u sitemap-u',
+      '/digitalna-industrija-sajber-rizik nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija ESG Rizik', () => {
+  await test('metadata.title sadrži Digitalna Industrija Sajber Rizik', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija ESG Rizik'),
+        metadata.title.includes('Digitalna Industrija Sajber Rizik'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-esg-rizik', () => {
+  await test('Navigation sadrži /digitalna-industrija-sajber-rizik', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-esg-rizik' &&
-          item.label === 'Digitalna Industrija ESG Rizik',
+          item.href === '/digitalna-industrija-sajber-rizik' &&
+          item.label === 'Digitalna Industrija Sajber Rizik',
       ),
-      'navigation nema Digitalna Industrija ESG Rizik link',
+      'navigation nema Digitalna Industrija Sajber Rizik link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaEsgRizik()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaSajberRizik()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaEsgRizik'),
-      'API route ne koristi buildDigitalnaIndustrijaEsgRizik',
+      apiRouteSource.includes('buildDigitalnaIndustrijaSajberRizik'),
+      'API route ne koristi buildDigitalnaIndustrijaSajberRizik',
     );
   });
 

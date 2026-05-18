@@ -7840,3 +7840,13 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-esg-rizik.test.ts + digitalna-industrija-esg-rizik-route.test.ts.
 // APP_VERSION=55.5.0 | AUTOFINISH_COUNT=1286 | TOTAL_API_ROUTES=1152 | TOTAL_ROUTES=1252
+
+
+// ─── Autofinish #1287 — DIGITALNA INDUSTRIJA SAJBER RIZIK REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-sajber-rizik.ts — buildDigitalnaIndustrijaSajberRizik(),
+// DigitalnaIndustrijaSajberRizikRezultat i centralni registar sajber rizika (mrežna bezbednost, zaštita podataka, pristupi i incidentni odgovor).
+// Nova ruta: GET /api/digitalna-industrija-sajber-rizik. Nova stranica: /digitalna-industrija-sajber-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-sajber-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-sajber-rizik.test.ts + digitalna-industrija-sajber-rizik-route.test.ts.
+// APP_VERSION=55.6.0 | AUTOFINISH_COUNT=1287 | TOTAL_API_ROUTES=1153 | TOTAL_ROUTES=1253

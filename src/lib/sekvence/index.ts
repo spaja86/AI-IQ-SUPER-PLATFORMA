@@ -186,3 +186,6 @@ export { digitalnaIndustrijaComplianceRizikSekvence } from './digitalna-industri
 
 // ── DIGITALNA INDUSTRIJA ESG RIZIK ──────────────────────────────────────────
 export { digitalnaIndustrijaEsgRizikSekvence } from './digitalna-industrija-esg-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA SAJBER RIZIK ───────────────────────────────────────
+export { digitalnaIndustrijaSajberRizikSekvence } from './digitalna-industrija-sajber-rizik-page';
