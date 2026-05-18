@@ -7574,3 +7574,16 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap + CTA linkovi ka generatoru/banci/novčaniku.
 // Testovi: src/tests/autofinish/validator-poslovnih-racuna.test.ts + validator-poslovnih-racuna-route.test.ts.
 // APP_VERSION=53.0.0 | AUTOFINISH_COUNT=1261 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212
+
+// ─── Autofinish #1262 — AI IQ WORLD BANK — SVE O NJOJ ────────────────────────
+// lib modul: src/lib/ai-iq-world-bank.ts — buildAiIqWorldBank(), AiIqWorldBankRezultat,
+// WorldBankProfilBanke, WorldBankServis, WorldBankErsteInfo, WorldBankOmegaAiFunkcija,
+// WorldBankPartner, WorldBankTransfer, WorldBankDug, WorldBankKontaktKanal,
+// WorldBankGitHubBilling, WorldBankKPI i prateće tipove.
+// Nova ruta: GET /api/ai-iq-world-bank. Nova stranica: /ai-iq-world-bank.
+// Sekvence: src/lib/sekvence/ai-iq-world-bank-page.ts + barrel export.
+// Integracija: navigation + sitemap + linkovi ka /banka, /poslovni-novcanik,
+//   /generator-za-poslovne-racune, /validator-poslovnih-racuna, /dnevna-raspodela-zarade.
+// GitHub Billing governance: centralizovano iz github-billing-aiiq-worldbank.ts.
+// Testovi: src/tests/autofinish/ai-iq-world-bank.test.ts + ai-iq-world-bank-route.test.ts.
+// APP_VERSION=53.1.0 | AUTOFINISH_COUNT=1262 | TOTAL_API_ROUTES=1128 | TOTAL_ROUTES=1213

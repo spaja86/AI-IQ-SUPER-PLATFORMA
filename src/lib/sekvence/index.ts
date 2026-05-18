@@ -7,6 +7,7 @@ export { deploySekvence } from './deploy-page';
 export { ekosistemSekvence } from './ekosistem-page';
 export { omegaAISekvence } from './omega-ai-page';
 export { bankaSekvence } from './banka-page';
+export { aiIqWorldBankSekvence } from './ai-iq-world-bank-page';
 export { menjacnicaSekvence } from './menjacnica-page';
 export { kompanijaSekvence } from './kompanija-page';
 export { aiPlatformaSekvence } from './ai-platforma-page';

@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/platforme',
     '/it-proizvodi',
     '/banka',
+    '/ai-iq-world-bank',
     '/menjacnica',
     '/kompanija',
     '/kompanije',
