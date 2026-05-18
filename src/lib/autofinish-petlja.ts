@@ -7648,3 +7648,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-pib-mb.test.ts + digitalna-industrija-pib-mb-route.test.ts.
 // APP_VERSION=53.4.0 | AUTOFINISH_COUNT=1265 | TOTAL_API_ROUTES=1131 | TOTAL_ROUTES=1216
+
+// ─── Autofinish #1266 — DIGITALNA INDUSTRIJA ŠIFRA DELATNOSTI REGISTAR ─────────
+// lib modul: src/lib/digitalna-industrija-sifra-delatnosti.ts — buildDigitalnaIndustrijaSifraDelatnosti(),
+// DigitalnaIndustrijaSifraDelatnostiRezultat i centralni registar šifara delatnosti.
+// Nova ruta: GET /api/digitalna-industrija-sifra-delatnosti. Nova stranica: /digitalna-industrija-sifra-delatnosti.
+// Sekvence: src/lib/sekvence/digitalna-industrija-sifra-delatnosti-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-sifra-delatnosti.test.ts + digitalna-industrija-sifra-delatnosti-route.test.ts.
+// APP_VERSION=53.5.0 | AUTOFINISH_COUNT=1266 | TOTAL_API_ROUTES=1132 | TOTAL_ROUTES=1218

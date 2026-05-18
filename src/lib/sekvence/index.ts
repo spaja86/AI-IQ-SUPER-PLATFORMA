@@ -74,6 +74,7 @@ export { generatorZaPoslovneRacuneSekvence } from './generator-za-poslovne-racun
 export { validatorPoslovnihRacunaSekvence } from './validator-poslovnih-racuna-page';
 export { licencniBudzetSrbijaSekvence } from './licencni-budzet-srbija-page';
 export { digitalnaIndustrijaPibMbSekvence } from './digitalna-industrija-pib-mb-page';
+export { digitalnaIndustrijaSifraDelatnostiSekvence } from './digitalna-industrija-sifra-delatnosti-page';
 
 // ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
 export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';

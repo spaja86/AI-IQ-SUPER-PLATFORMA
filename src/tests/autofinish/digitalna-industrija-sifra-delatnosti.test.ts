@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaPibMb } from '../../lib/digitalna-industrija-pib-mb';
+import { buildDigitalnaIndustrijaSifraDelatnosti } from '../../lib/digitalna-industrija-sifra-delatnosti';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija PIB/MB — Unit Test Suite\n');
+  console.log('\n🏷️ Digitalna Industrija Šifra Delatnosti — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaPibMb('test-user-id');
+  const r = buildDigitalnaIndustrijaSifraDelatnosti('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -55,26 +55,26 @@ async function runTests(): Promise<void> {
     assert(r.registarNosioc.length > 0, 'registarNosioc');
   });
 
-  await test('KPI je konzistentan sa entitetima', () => {
-    assertEqual(r.kpi.ukupnoEntiteta, r.entiteti.length, 'ukupnoEntiteta');
+  await test('KPI je konzistentan sa delatnostima', () => {
+    assertEqual(r.kpi.ukupnoDelatnosti, r.delatnosti.length, 'ukupnoDelatnosti');
     assertEqual(
-      r.kpi.aktivnih,
-      r.entiteti.filter((entitet) => entitet.status === 'aktivan').length,
-      'aktivnih',
+      r.kpi.primarnih,
+      r.delatnosti.filter((stavka) => stavka.status === 'primarna').length,
+      'primarnih',
     );
     assertEqual(
-      r.kpi.uPripremi,
-      r.entiteti.filter((entitet) => entitet.status === 'u-pripremi').length,
-      'uPripremi',
+      r.kpi.sekundarnih,
+      r.delatnosti.filter((stavka) => stavka.status === 'sekundarna').length,
+      'sekundarnih',
     );
   });
 
-  await test('Entiteti imaju PIB i matični broj', () => {
-    for (const entitet of r.entiteti) {
-      assert(entitet.pib.length >= 8, 'PIB je validan format');
-      assert(entitet.maticniBroj.length >= 8, 'matični broj je validan format');
-      assert(entitet.naziv.length > 0, 'naziv nije prazan');
-      assert(entitet.sediste.length > 0, 'sedište nije prazno');
+  await test('Delatnosti imaju šifru i naziv', () => {
+    for (const stavka of r.delatnosti) {
+      assert(stavka.sifraDelatnosti.length >= 4, 'šifra delatnosti je validna');
+      assert(stavka.nazivDelatnosti.length > 0, 'naziv delatnosti nije prazan');
+      assert(stavka.entitet.length > 0, 'entitet nije prazan');
+      assert(stavka.opis.length > 0, 'opis nije prazan');
     }
   });
 
