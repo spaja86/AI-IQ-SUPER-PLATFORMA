@@ -7657,3 +7657,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-sifra-delatnosti.test.ts + digitalna-industrija-sifra-delatnosti-route.test.ts.
 // APP_VERSION=53.5.0 | AUTOFINISH_COUNT=1266 | TOTAL_API_ROUTES=1132 | TOTAL_ROUTES=1218
+
+// ─── Autofinish #1267 — DIGITALNA INDUSTRIJA REGULATORNI ROKOVI REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-regulatorni-rokovi.ts — buildDigitalnaIndustrijaRegulatorniRokovi(),
+// DigitalnaIndustrijaRegulatorniRokoviRezultat i centralni registar regulatornih rokova.
+// Nova ruta: GET /api/digitalna-industrija-regulatorni-rokovi. Nova stranica: /digitalna-industrija-regulatorni-rokovi.
+// Sekvence: src/lib/sekvence/digitalna-industrija-regulatorni-rokovi-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-regulatorni-rokovi.test.ts + digitalna-industrija-regulatorni-rokovi-route.test.ts.
+// APP_VERSION=53.6.0 | AUTOFINISH_COUNT=1267 | TOTAL_API_ROUTES=1133 | TOTAL_ROUTES=1220

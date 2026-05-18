@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-sifra-delatnosti/page';
+import { metadata } from '../../app/digitalna-industrija-regulatorni-rokovi/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaSifraDelatnosti } from '../../lib/digitalna-industrija-sifra-delatnosti';
+import { buildDigitalnaIndustrijaRegulatorniRokovi } from '../../lib/digitalna-industrija-regulatorni-rokovi';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏷️ Digitalna Industrija Šifra Delatnosti route coverage — Unit Test Suite\n');
+  console.log('\n📅 Digitalna Industrija Regulatorni Rokovi route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-sifra-delatnosti`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-regulatorni-rokovi`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-sifra-delatnosti/route.ts',
+    'src/app/api/digitalna-industrija-regulatorni-rokovi/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaSifraDelatnosti('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaRegulatorniRokovi('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-sifra-delatnosti', () => {
+  await test('Sitemap sadrži /digitalna-industrija-regulatorni-rokovi', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-sifra-delatnosti nije u sitemap-u',
+      '/digitalna-industrija-regulatorni-rokovi nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Šifra Delatnosti', () => {
+  await test('metadata.title sadrži Digitalna Industrija Regulatorni Rokovi', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Šifra Delatnosti'),
+        metadata.title.includes('Digitalna Industrija Regulatorni Rokovi'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-sifra-delatnosti', () => {
+  await test('Navigation sadrži /digitalna-industrija-regulatorni-rokovi', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-sifra-delatnosti' &&
-          item.label === 'Digitalna Industrija Šifra Delatnosti',
+          item.href === '/digitalna-industrija-regulatorni-rokovi' &&
+          item.label === 'Digitalna Industrija Regulatorni Rokovi',
       ),
-      'navigation nema Digitalna Industrija Šifra Delatnosti link',
+      'navigation nema Digitalna Industrija Regulatorni Rokovi link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaSifraDelatnosti()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaRegulatorniRokovi()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaSifraDelatnosti'),
-      'API route ne koristi buildDigitalnaIndustrijaSifraDelatnosti',
+      apiRouteSource.includes('buildDigitalnaIndustrijaRegulatorniRokovi'),
+      'API route ne koristi buildDigitalnaIndustrijaRegulatorniRokovi',
     );
   });
 
@@ -96,8 +96,8 @@ async function runTests(): Promise<void> {
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.delatnosti), 'delatnosti niz');
-    assert(rezultat.delatnosti.length > 0, 'delatnosti nisu prazne');
+    assert(Array.isArray(rezultat.rokovi), 'rokovi niz');
+    assert(rezultat.rokovi.length > 0, 'rokovi nisu prazni');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 

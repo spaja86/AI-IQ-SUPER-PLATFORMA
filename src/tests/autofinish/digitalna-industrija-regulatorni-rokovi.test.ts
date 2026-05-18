@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaPibMb } from '../../lib/digitalna-industrija-pib-mb';
+import { buildDigitalnaIndustrijaRegulatorniRokovi } from '../../lib/digitalna-industrija-regulatorni-rokovi';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija PIB/MB — Unit Test Suite\n');
+  console.log('\n📅 Digitalna Industrija Regulatorni Rokovi — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaPibMb('test-user-id');
+  const r = buildDigitalnaIndustrijaRegulatorniRokovi('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -55,26 +55,31 @@ async function runTests(): Promise<void> {
     assert(r.registarNosioc.length > 0, 'registarNosioc');
   });
 
-  await test('KPI je konzistentan sa entitetima', () => {
-    assertEqual(r.kpi.ukupnoEntiteta, r.entiteti.length, 'ukupnoEntiteta');
+  await test('KPI je konzistentan sa rokovima', () => {
+    assertEqual(r.kpi.ukupnoRokova, r.rokovi.length, 'ukupnoRokova');
     assertEqual(
-      r.kpi.aktivnih,
-      r.entiteti.filter((entitet) => entitet.status === 'aktivan').length,
-      'aktivnih',
+      r.kpi.naVreme,
+      r.rokovi.filter((stavka) => stavka.status === 'na-vreme').length,
+      'naVreme',
     );
     assertEqual(
-      r.kpi.uPripremi,
-      r.entiteti.filter((entitet) => entitet.status === 'u-pripremi').length,
-      'uPripremi',
+      r.kpi.uToku,
+      r.rokovi.filter((stavka) => stavka.status === 'u-toku').length,
+      'uToku',
+    );
+    assertEqual(
+      r.kpi.kriticno,
+      r.rokovi.filter((stavka) => stavka.status === 'kriticno').length,
+      'kriticno',
     );
   });
 
-  await test('Entiteti imaju PIB i matični broj', () => {
-    for (const entitet of r.entiteti) {
-      assert(entitet.pib.length >= 8, 'PIB je validan format');
-      assert(entitet.maticniBroj.length >= 8, 'matični broj je validan format');
-      assert(entitet.naziv.length > 0, 'naziv nije prazan');
-      assert(entitet.sediste.length > 0, 'sedište nije prazno');
+  await test('Rokovi imaju obavezna polja', () => {
+    for (const stavka of r.rokovi) {
+      assert(stavka.entitet.length > 0, 'entitet nije prazan');
+      assert(stavka.regulator.length > 0, 'regulator nije prazan');
+      assert(stavka.obaveza.length > 0, 'obaveza nije prazna');
+      assert(!Number.isNaN(Date.parse(stavka.rok)), 'rok je validan datum');
     }
   });
 
