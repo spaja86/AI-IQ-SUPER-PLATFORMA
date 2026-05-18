@@ -71,6 +71,8 @@ export { oktavneEksponencijalneFunkcijeSekvence } from './oktavne-eksponencijaln
 export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
 export { generatorZaPoslovneRacuneSekvence } from './generator-za-poslovne-racune-page';
 export { validatorPoslovnihRacunaSekvence } from './validator-poslovnih-racuna-page';
+export { aiiqWorldBankLicencnaAnalizaSekvence } from './ai-iq-world-bank-licencna-analiza-page';
+export { licencniBudzetSrbijaSekvence } from './licencni-budzet-srbija-page';
 
 // ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
 export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';

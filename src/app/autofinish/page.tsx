@@ -22,6 +22,7 @@
 // Autofinish #1223 — ReleaseReadinessWidget
 // Autofinish #1257 — AuditReportWidget
 // Autofinish #1258 — SystemReportWidget
+// Autofinish #1263 — SrbijaLicencniReportWidget
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { Metadata } from 'next';
@@ -81,6 +82,7 @@ import {
   getAutofinishReleaseReadiness,
   getAutofinishAuditReport,
   getAutofinishSystemReport,
+  getAutofinishSrbijaLicencniReport,
 } from '@/lib/autofinish-petlja';
 import {
   APP_VERSION,
@@ -133,6 +135,7 @@ import { InfrastrukturMonitorWidget } from './InfrastrukturMonitorWidget';
 import { ReleaseReadinessWidget } from './ReleaseReadinessWidget';
 import { AuditReportWidget } from './AuditReportWidget';
 import { SystemReportWidget } from './SystemReportWidget';
+import { SrbijaLicencniReportWidget } from './SrbijaLicencniReportWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -225,6 +228,7 @@ export default function AutofinishPage() {
   const releaseReadiness = getAutofinishReleaseReadiness();
   const auditReport = getAutofinishAuditReport();
   const systemReport = getAutofinishSystemReport();
+  const srbijaLicencniReport = getAutofinishSrbijaLicencniReport();
 
   // #968 — Trend po kategorijama widget
   const trendKategorije = getAutofinishTrendPoKategorijama(5);
@@ -879,6 +883,9 @@ export default function AutofinishPage() {
 
         {/* #1258 — System Report Widget */}
         <SystemReportWidget report={systemReport} />
+
+        {/* #1263 — Srbija Licencni Report Widget */}
+        <SrbijaLicencniReportWidget report={srbijaLicencniReport} />
 
         {/* Footer */}
         <footer className="text-center text-gray-600 text-xs">

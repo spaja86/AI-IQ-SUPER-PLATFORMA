@@ -906,6 +906,10 @@ import { getOperativniCentarSummary } from './omega-projekat-operativni-centar';
 import { getOktavniMonologSummary } from './oktavni-monolog';
 import { runDiagnostics } from './auto-repair';
 import { runRepair } from './auto-repair';
+import {
+  buildAIIQWorldBankLicencniRegistar,
+  getLicencniComplianceIzvestaj,
+} from './aiiq-world-bank-licencni-registar';
 
 // ─── In-memory iteracijska istorija (#815) ───────────────
 
@@ -2444,6 +2448,99 @@ export function getAutofinishSystemReport(): AutofinishSystemReport {
     roadmap: getAutofinishRoadmapStatusSummary(),
     statistika: getAutofinishStatistikaSummary(),
     nextSteps: getAutofinishNextSteps(),
+  };
+}
+
+// ─── getAutofinishSrbijaLicencniReport() (#1263) ──────────────────────────────
+
+export interface AutofinishSrbijaLicencniStavka {
+  licenca: string;
+  delatnost: string;
+  rizik: 'kriticno' | 'visoko' | 'srednje' | 'nisko';
+  partnerNaziv: string;
+  procurementReferenca: string | null;
+}
+
+export interface AutofinishSrbijaLicencnaDelatnost {
+  delatnost: string;
+  ukupnoLicenci: number;
+  uNabavci: number;
+  kriticniGapovi: number;
+}
+
+export interface AutofinishSrbijaLicencniReport {
+  verzija: string;
+  autofinishBroj: number;
+  timestamp: string;
+  drzava: string;
+  valuta: string;
+  rezimNabavke: string;
+  regulatori: string[];
+  ukupnoLicenci: number;
+  uNabavci: number;
+  potvrdjene: number;
+  coverageProcenat: number;
+  kriticniGapovi: number;
+  topDelatnosti: AutofinishSrbijaLicencnaDelatnost[];
+  topLicenceZaNabavku: AutofinishSrbijaLicencniStavka[];
+}
+
+function riskWeight(rizik: AutofinishSrbijaLicencniStavka['rizik']): number {
+  switch (rizik) {
+    case 'kriticno':
+      return 4;
+    case 'visoko':
+      return 3;
+    case 'srednje':
+      return 2;
+    default:
+      return 1;
+  }
+}
+
+export function getAutofinishSrbijaLicencniReport(): AutofinishSrbijaLicencniReport {
+  const reg = buildAIIQWorldBankLicencniRegistar();
+  const compliance = getLicencniComplianceIzvestaj('mesecni');
+
+  const topDelatnosti = reg.coveragePoDelatnosti
+    .map((coverage) => {
+      const related = reg.licence.filter((item) => item.delatnostId === coverage.delatnostId);
+      return {
+        delatnost: coverage.delatnost,
+        ukupnoLicenci: coverage.ukupnoLicenci,
+        uNabavci: related.filter((item) => item.status === 'u_nabavci').length,
+        kriticniGapovi: reg.gapovi.filter((gap) => gap.delatnost === coverage.delatnost && gap.rizik === 'kriticno').length,
+      };
+    })
+    .sort((a, b) => b.uNabavci - a.uNabavci || b.kriticniGapovi - a.kriticniGapovi || a.delatnost.localeCompare(b.delatnost))
+    .slice(0, 5);
+
+  const topLicenceZaNabavku = reg.nabavka
+    .map((item) => ({
+      licenca: item.licenca,
+      delatnost: item.delatnost,
+      rizik: item.rizik,
+      partnerNaziv: item.preporucenPayload.partnerNaziv,
+      procurementReferenca: reg.licence.find((licenca) => licenca.id === item.licencaId)?.procurementReferenca ?? null,
+    }))
+    .sort((a, b) => riskWeight(b.rizik) - riskWeight(a.rizik) || a.licenca.localeCompare(b.licenca))
+    .slice(0, 6);
+
+  return {
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    timestamp: new Date().toISOString(),
+    drzava: reg.jurisdikcija.drzava,
+    valuta: reg.jurisdikcija.valuta,
+    rezimNabavke: reg.jurisdikcija.rezimNabavke,
+    regulatori: reg.jurisdikcija.regulatori,
+    ukupnoLicenci: compliance.ukupnoLicenci,
+    uNabavci: compliance.uNabavci,
+    potvrdjene: compliance.potvrdjene,
+    coverageProcenat: compliance.coverageProcenat,
+    kriticniGapovi: compliance.kriticniGapovi,
+    topDelatnosti,
+    topLicenceZaNabavku,
   };
 }
 
@@ -7574,3 +7671,27 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap + CTA linkovi ka generatoru/banci/novčaniku.
 // Testovi: src/tests/autofinish/validator-poslovnih-racuna.test.ts + validator-poslovnih-racuna-route.test.ts.
 // APP_VERSION=53.0.0 | AUTOFINISH_COUNT=1261 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212
+
+// ─── Autofinish #1262 — AI IQ WORLD BANK LICENCE SRBIJA ──────────────────────────
+// Ažuriranje: src/lib/aiiq-world-bank-licencni-registar.ts — jurisdikcija Srbija,
+// NBS/Komisija lokalne licence i centralni režim "kupujemo sve licence".
+// Integracija: API opis + metadata + sekvence za /ai-iq-world-bank-licencna-analiza.
+// Testovi: src/tests/autofinish/aiiq-world-bank-licencni-registar.test.ts +
+// aiiq-world-bank-licencni-registar-route.test.ts.
+// APP_VERSION=53.1.0 | AUTOFINISH_COUNT=1262 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212
+
+// ─── Autofinish #1263 — AUTOFINISH SRBIJA LICENCNI REPORT ──────────────────────
+// Helper: getAutofinishSrbijaLicencniReport() u src/lib/autofinish-petlja.ts.
+// Nova ruta: GET /api/autofinish-srbija-licencni-report.
+// Dashboard: src/app/autofinish/SrbijaLicencniReportWidget.tsx + integracija u page.tsx.
+// Testovi: src/tests/autofinish/srbija-licencni-report.test.ts.
+// APP_VERSION=53.2.0 | AUTOFINISH_COUNT=1263 | TOTAL_API_ROUTES=1128 | TOTAL_ROUTES=1213
+
+// ─── Autofinish #1264 — LICENCNI BUDZET SRBIJA ──────────────────────────────
+// lib modul: src/lib/licencni-budzet-srbija.ts — buildLicencniBudzetSrbija(),
+// BudzetStavka, BudzetSumarPoKategoriji, LicencniBudzetSrbijaRezultat.
+// Nova ruta: GET /api/licencni-budzet-srbija. Nova stranica: /licencni-budzet-srbija.
+// Sekvence: src/lib/sekvence/licencni-budzet-srbija-page.ts + barrel export.
+// Integracija: navigation + sitemap + CTA linkovi ka licencnom registru/banci/validatoru.
+// Testovi: src/tests/autofinish/licencni-budzet-srbija.test.ts + licencni-budzet-srbija-route.test.ts.
+// APP_VERSION=53.3.0 | AUTOFINISH_COUNT=1264 | TOTAL_API_ROUTES=1129 | TOTAL_ROUTES=1215
