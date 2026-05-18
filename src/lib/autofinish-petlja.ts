@@ -7800,3 +7800,13 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-strateski-rizik.test.ts + digitalna-industrija-strateski-rizik-route.test.ts.
 // APP_VERSION=55.1.0 | AUTOFINISH_COUNT=1282 | TOTAL_API_ROUTES=1148 | TOTAL_ROUTES=1248
+
+
+// ─── Autofinish #1283 — DIGITALNA INDUSTRIJA PRAVNI RIZIK REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-pravni-rizik.ts — buildDigitalnaIndustrijaPravniRizik(),
+// DigitalnaIndustrijaPravniRizikRezultat i centralni registar pravnog rizika (ugovorni, sudski, intelektualna svojina, regulatorni).
+// Nova ruta: GET /api/digitalna-industrija-pravni-rizik. Nova stranica: /digitalna-industrija-pravni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-pravni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-pravni-rizik.test.ts + digitalna-industrija-pravni-rizik-route.test.ts.
+// APP_VERSION=55.2.0 | AUTOFINISH_COUNT=1283 | TOTAL_API_ROUTES=1149 | TOTAL_ROUTES=1249

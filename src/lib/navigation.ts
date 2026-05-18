@@ -42,6 +42,7 @@ export const navigation: NavItem[] = [
   { label: 'Digitalna Industrija Operativni Rizik', href: '/digitalna-industrija-operativni-rizik', icon: '🧭', description: 'Centralni registar operativnog rizika (procesni, tehnološki, ljudski faktor i usklađenost) Digitalne Industrije u Srbiji' },
   { label: 'BAR KOD', href: '/bar-kod', icon: '🔢', description: 'Centralni BAR KOD registar svih platformi i generatorskog obrtaja po jedinici funkcije za digitalno fakturisanje' },
   { label: 'Digitalna Industrija Strateški Rizik', href: '/digitalna-industrija-strateski-rizik', icon: '🎯', description: 'Centralni registar strateškog rizika (konkurentski, tržišni, inovacioni i regulatorni) Digitalne Industrije u Srbiji' },
+  { label: 'Digitalna Industrija Pravni Rizik', href: '/digitalna-industrija-pravni-rizik', icon: '⚖️', description: 'Centralni registar pravnog rizika (ugovorni, sudski, intelektualna svojina i regulatorni) Digitalne Industrije u Srbiji' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },

@@ -174,3 +174,6 @@ export { barKodSekvence } from './bar-kod-page';
 
 // ── DIGITALNA INDUSTRIJA STRATEŠKI RIZIK ─────────────────────────────────────
 export { digitalnaIndustrijaStrateskiRizikSekvence } from './digitalna-industrija-strateski-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA PRAVNI RIZIK ────────────────────────────────────────
+export { digitalnaIndustrijaPravniRizikSekvence } from './digitalna-industrija-pravni-rizik-page';
