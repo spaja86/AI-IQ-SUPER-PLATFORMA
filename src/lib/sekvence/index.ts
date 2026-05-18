@@ -168,3 +168,24 @@ export { digitalnaIndustrijaOperativniRizikSekvence } from './digitalna-industri
 
 // ── DIGITALNA INDUSTRIJA REPUTACIONI RIZIK ────────────────────────────────────
 export { digitalnaIndustrijaReputacioniRizikSekvence } from './digitalna-industrija-reputacioni-rizik-page';
+
+// ── BAR KOD ────────────────────────────────────────────────────────────────────
+export { barKodSekvence } from './bar-kod-page';
+
+// ── DIGITALNA INDUSTRIJA STRATEŠKI RIZIK ─────────────────────────────────────
+export { digitalnaIndustrijaStrateskiRizikSekvence } from './digitalna-industrija-strateski-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA PRAVNI RIZIK ────────────────────────────────────────
+export { digitalnaIndustrijaPravniRizikSekvence } from './digitalna-industrija-pravni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA PORESKI RIZIK ───────────────────────────────────────
+export { digitalnaIndustrijaPoreskiRizikSekvence } from './digitalna-industrija-poreski-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA COMPLIANCE RIZIK ───────────────────────────────────
+export { digitalnaIndustrijaComplianceRizikSekvence } from './digitalna-industrija-compliance-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA ESG RIZIK ──────────────────────────────────────────
+export { digitalnaIndustrijaEsgRizikSekvence } from './digitalna-industrija-esg-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA SAJBER RIZIK ───────────────────────────────────────
+export { digitalnaIndustrijaSajberRizikSekvence } from './digitalna-industrija-sajber-rizik-page';

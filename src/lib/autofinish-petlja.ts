@@ -7774,3 +7774,79 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-operativni-rizik.test.ts + digitalna-industrija-operativni-rizik-route.test.ts.
 // APP_VERSION=54.8.0 | AUTOFINISH_COUNT=1279 | TOTAL_API_ROUTES=1145 | TOTAL_ROUTES=1244
+
+// ─── Autofinish #1280 — DIGITALNA INDUSTRIJA REPUTACIONI RIZIK REGISTAR ──────
+// lib modul: src/lib/digitalna-industrija-reputacioni-rizik.ts — buildDigitalnaIndustrijaReputacioniRizik(),
+// DigitalnaIndustrijaReputacioniRizikRezultat i centralni registar reputacionog rizika (medijski, socijalni, regulatorni, partnerski).
+// Nova ruta: GET /api/digitalna-industrija-reputacioni-rizik. Nova stranica: /digitalna-industrija-reputacioni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-reputacioni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-reputacioni-rizik.test.ts + digitalna-industrija-reputacioni-rizik-route.test.ts.
+// APP_VERSION=54.9.0 | AUTOFINISH_COUNT=1280 | TOTAL_API_ROUTES=1146 | TOTAL_ROUTES=1246
+
+// ─── Autofinish #1281 — BAR KOD REGISTAR ─────────────────────────────────────
+// lib modul: src/lib/bar-kod.ts — buildBarKod(), generatePlatformBarKod(), generateJedinicaFunkcije(),
+// BarKodStavka, BarKodRezultat i KPI (ukupnoBarKodova, sumaJedinicaFunkcije, minBarKod, maxBarKod).
+// Nova ruta: GET /api/bar-kod. Nova stranica: /bar-kod.
+// Sekvence: src/lib/sekvence/bar-kod-page.ts + barrel export.
+// Integracija: navigation + sitemap. Faktura integracija: barKod: number na IzvozFakturaStavka.
+// APP_VERSION=55.0.0 | AUTOFINISH_COUNT=1281 | TOTAL_API_ROUTES=1147 | TOTAL_ROUTES=1247
+
+// ─── Autofinish #1282 — DIGITALNA INDUSTRIJA STRATEŠKI RIZIK REGISTAR ────────
+// lib modul: src/lib/digitalna-industrija-strateski-rizik.ts — buildDigitalnaIndustrijaStrateskiRizik(),
+// DigitalnaIndustrijaStrateskiRizikRezultat i centralni registar strateškog rizika (konkurentski, tržišni, inovacioni, regulatorni).
+// Nova ruta: GET /api/digitalna-industrija-strateski-rizik. Nova stranica: /digitalna-industrija-strateski-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-strateski-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-strateski-rizik.test.ts + digitalna-industrija-strateski-rizik-route.test.ts.
+// APP_VERSION=55.1.0 | AUTOFINISH_COUNT=1282 | TOTAL_API_ROUTES=1148 | TOTAL_ROUTES=1248
+
+
+// ─── Autofinish #1283 — DIGITALNA INDUSTRIJA PRAVNI RIZIK REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-pravni-rizik.ts — buildDigitalnaIndustrijaPravniRizik(),
+// DigitalnaIndustrijaPravniRizikRezultat i centralni registar pravnog rizika (ugovorni, sudski, intelektualna svojina, regulatorni).
+// Nova ruta: GET /api/digitalna-industrija-pravni-rizik. Nova stranica: /digitalna-industrija-pravni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-pravni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-pravni-rizik.test.ts + digitalna-industrija-pravni-rizik-route.test.ts.
+// APP_VERSION=55.2.0 | AUTOFINISH_COUNT=1283 | TOTAL_API_ROUTES=1149 | TOTAL_ROUTES=1249
+
+
+// ─── Autofinish #1284 — DIGITALNA INDUSTRIJA PORESKI RIZIK REGISTAR ──────────
+// lib modul: src/lib/digitalna-industrija-poreski-rizik.ts — buildDigitalnaIndustrijaPoreskiRizik(),
+// DigitalnaIndustrijaPoreskiRizikRezultat i centralni registar poreskog rizika (PDV, prijave, transferne cene, kaznena izloženost).
+// Nova ruta: GET /api/digitalna-industrija-poreski-rizik. Nova stranica: /digitalna-industrija-poreski-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-poreski-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-poreski-rizik.test.ts + digitalna-industrija-poreski-rizik-route.test.ts.
+// APP_VERSION=55.3.0 | AUTOFINISH_COUNT=1284 | TOTAL_API_ROUTES=1150 | TOTAL_ROUTES=1250
+
+
+// ─── Autofinish #1285 — DIGITALNA INDUSTRIJA COMPLIANCE RIZIK REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-compliance-rizik.ts — buildDigitalnaIndustrijaComplianceRizik(),
+// DigitalnaIndustrijaComplianceRizikRezultat i centralni registar compliance rizika (regulatorna usklađenost, kontrolne procedure, interni audit, kaznena izloženost).
+// Nova ruta: GET /api/digitalna-industrija-compliance-rizik. Nova stranica: /digitalna-industrija-compliance-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-compliance-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-compliance-rizik.test.ts + digitalna-industrija-compliance-rizik-route.test.ts.
+// APP_VERSION=55.4.0 | AUTOFINISH_COUNT=1285 | TOTAL_API_ROUTES=1151 | TOTAL_ROUTES=1251
+
+
+// ─── Autofinish #1286 — DIGITALNA INDUSTRIJA ESG RIZIK REGISTAR ──────────────
+// lib modul: src/lib/digitalna-industrija-esg-rizik.ts — buildDigitalnaIndustrijaEsgRizik(),
+// DigitalnaIndustrijaEsgRizikRezultat i centralni registar ESG rizika (ekološki, socijalni, upravljački i kaznena izloženost).
+// Nova ruta: GET /api/digitalna-industrija-esg-rizik. Nova stranica: /digitalna-industrija-esg-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-esg-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-esg-rizik.test.ts + digitalna-industrija-esg-rizik-route.test.ts.
+// APP_VERSION=55.5.0 | AUTOFINISH_COUNT=1286 | TOTAL_API_ROUTES=1152 | TOTAL_ROUTES=1252
+
+
+// ─── Autofinish #1287 — DIGITALNA INDUSTRIJA SAJBER RIZIK REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-sajber-rizik.ts — buildDigitalnaIndustrijaSajberRizik(),
+// DigitalnaIndustrijaSajberRizikRezultat i centralni registar sajber rizika (mrežna bezbednost, zaštita podataka, pristupi i incidentni odgovor).
+// Nova ruta: GET /api/digitalna-industrija-sajber-rizik. Nova stranica: /digitalna-industrija-sajber-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-sajber-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-sajber-rizik.test.ts + digitalna-industrija-sajber-rizik-route.test.ts.
+// APP_VERSION=55.6.0 | AUTOFINISH_COUNT=1287 | TOTAL_API_ROUTES=1153 | TOTAL_ROUTES=1253

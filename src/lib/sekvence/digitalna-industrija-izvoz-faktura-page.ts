@@ -41,10 +41,12 @@ export const digitalnaIndustrijaIzvozFakturaSekvence: Sekvenca[] = [
     naslov: '🌍 Izvozne fakture po tržištima',
     redosled: 3,
     podaci: {
-      zaglavlje: ['Entitet', 'Broj fakture', 'Tržište', 'Valuta', 'Iznos', 'Status'],
+      zaglavlje: ['Entitet', 'Platforma ID', 'Broj fakture', 'BAR KOD', 'Tržište', 'Valuta', 'Iznos', 'Status'],
       redovi: r.fakture.map((stavka) => [
         stavka.entitet,
+        stavka.platformaId,
         stavka.brojFakture,
+        String(stavka.barKod),
         stavka.trziste,
         stavka.valuta,
         String(stavka.iznos),
