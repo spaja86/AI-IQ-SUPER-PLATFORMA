@@ -1,5 +1,6 @@
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
+import { getPrimarniPibMbDigitalneIndustrije } from '@/lib/digitalna-industrija-pib-mb';
 
 export type PoslovniRacunValuta = 'RSD' | 'EUR' | 'USD';
 export type PoslovniRacunTip = 'dinarski-poslovni' | 'devizni-eur' | 'devizni-usd';
@@ -131,6 +132,7 @@ export function buildGeneratorZaPoslovneRacune(
   subjekt?: Partial<PoslovniSubjektInput>
 ): GeneratorZaPoslovneRacuneRezultat {
   const kontaktEmailFallback = getKontaktKanal('billing')?.email ?? primarniOperativniNalog.email;
+  const identitetDigitalneIndustrije = getPrimarniPibMbDigitalneIndustrije();
   const finalniSubjekt: PoslovniSubjektInput = {
     naziv: subjekt?.naziv ?? 'Digitalna Industrija',
     // Generator koristi sintetičke fallback identifikatore za demo generisanje računa.
