@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaSifraDelatnosti } from '../../lib/digitalna-industrija-sifra-delatnosti';
+import { buildDigitalnaIndustrijaKursnaLista } from '../../lib/digitalna-industrija-kursna-lista';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏷️ Digitalna Industrija Šifra Delatnosti — Unit Test Suite\n');
+  console.log('\n💱 Digitalna Industrija Kursna Lista — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaSifraDelatnosti('test-user-id');
+  const r = buildDigitalnaIndustrijaKursnaLista('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -50,31 +50,32 @@ async function runTests(): Promise<void> {
     assert(!Number.isNaN(Date.parse(r.timestamp)), 'timestamp ISO');
   });
 
-  await test('Jurisdikcija i nosilac registra su popunjeni', () => {
+  await test('Jurisdikcija i izvor su popunjeni', () => {
     assertEqual(r.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(r.registarNosioc.length > 0, 'registarNosioc');
+    assert(r.izvor.length > 0, 'izvor nije prazan');
   });
 
-  await test('KPI je konzistentan sa delatnostima', () => {
-    assertEqual(r.kpi.ukupnoDelatnosti, r.delatnosti.length, 'ukupnoDelatnosti');
+  await test('KPI je konzistentan sa kursnom listom', () => {
+    assertEqual(r.kpi.ukupnoParova, r.kursnaLista.length, 'ukupnoParova');
     assertEqual(
-      r.kpi.primarnih,
-      r.delatnosti.filter((stavka) => stavka.status === 'primarna').length,
-      'primarnih',
+      r.kpi.aktivniParovi,
+      r.kursnaLista.filter((stavka) => stavka.status === 'aktivan').length,
+      'aktivniParovi',
     );
     assertEqual(
-      r.kpi.sekundarnih,
-      r.delatnosti.filter((stavka) => stavka.status === 'sekundarna').length,
-      'sekundarnih',
+      r.kpi.proveraParovi,
+      r.kursnaLista.filter((stavka) => stavka.status === 'na-proveri').length,
+      'proveraParovi',
     );
   });
 
-  await test('Delatnosti imaju šifru i naziv', () => {
-    for (const stavka of r.delatnosti) {
-      assert(stavka.sifraDelatnosti.length >= 4, 'šifra delatnosti je validna');
-      assert(stavka.nazivDelatnosti.length > 0, 'naziv delatnosti nije prazan');
-      assert(stavka.entitet.length > 0, 'entitet nije prazan');
-      assert(stavka.opis.length > 0, 'opis nije prazan');
+  await test('Kursevi imaju obavezna polja i validan spread', () => {
+    for (const stavka of r.kursnaLista) {
+      assert(stavka.par.length > 0, 'par nije prazan');
+      assert(stavka.kupovni > 0, 'kupovni > 0');
+      assert(stavka.srednji > 0, 'srednji > 0');
+      assert(stavka.prodajni > 0, 'prodajni > 0');
+      assert(stavka.prodajni >= stavka.kupovni, 'prodajni >= kupovni');
     }
   });
 

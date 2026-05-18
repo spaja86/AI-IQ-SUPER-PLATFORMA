@@ -1,4 +1,4 @@
-// Autofinish #1137 — Billing Chaos Tests — Stripe Timeout Scenariji (#48)
+// Autofinish #1138 — Billing Chaos Tests — Stripe Timeout Scenariji (#48)
 // Kompanija SPAJA — Digitalna Industrija
 
 import { AUTOFINISH_COUNT } from '../../lib/constants';
@@ -13,7 +13,7 @@ function assert(c: boolean, m: string): asserts c { if (!c) throw new Error(`Ass
 function assertEqual<T>(a: T, e: T, l?: string): void { if (a !== e) throw new Error(`${l ?? 'assertEqual'}: expected ${JSON.stringify(e)}, got ${JSON.stringify(a)}`); }
 
 async function runTests(): Promise<void> {
-  console.log('\n📋 Billing Chaos Tests — Stripe Timeouts (#1137)\n');
+  console.log('\n📋 Billing Chaos Tests — Stripe Timeouts (#1138)\n');
 
   // ── Circuit Breaker testovi ───────────────────────────────────────────────
   await test('CircuitBreaker počinje u closed stanju', () => {
@@ -114,7 +114,7 @@ async function runTests(): Promise<void> {
     assertEqual(attempts, 2, 'attempts=2');
   });
 
-  await test('AUTOFINISH_COUNT >= 1137', () => { assert(AUTOFINISH_COUNT >= 1137, `count=${AUTOFINISH_COUNT}`); });
+  await test('AUTOFINISH_COUNT >= 1138', () => { assert(AUTOFINISH_COUNT >= 1138, `count=${AUTOFINISH_COUNT}`); });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) { console.error('\n❌ Neuspješni testovi:'); failures.forEach((f) => console.error(`  • ${f}`)); process.exit(1); }

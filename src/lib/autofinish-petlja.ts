@@ -7702,3 +7702,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-devizni-saldo.test.ts + digitalna-industrija-devizni-saldo-route.test.ts.
 // APP_VERSION=54.0.0 | AUTOFINISH_COUNT=1271 | TOTAL_API_ROUTES=1137 | TOTAL_ROUTES=1228
+
+// ─── Autofinish #1272 — DIGITALNA INDUSTRIJA KURSNA LISTA REGISTAR ─────────────
+// lib modul: src/lib/digitalna-industrija-kursna-lista.ts — buildDigitalnaIndustrijaKursnaLista(),
+// DigitalnaIndustrijaKursnaListaRezultat i centralni FX registar kursne liste valutnih parova.
+// Nova ruta: GET /api/digitalna-industrija-kursna-lista. Nova stranica: /digitalna-industrija-kursna-lista.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kursna-lista-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kursna-lista.test.ts + digitalna-industrija-kursna-lista-route.test.ts.
+// APP_VERSION=54.1.0 | AUTOFINISH_COUNT=1272 | TOTAL_API_ROUTES=1138 | TOTAL_ROUTES=1230
