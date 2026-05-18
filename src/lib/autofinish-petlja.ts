@@ -7830,3 +7830,13 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-compliance-rizik.test.ts + digitalna-industrija-compliance-rizik-route.test.ts.
 // APP_VERSION=55.4.0 | AUTOFINISH_COUNT=1285 | TOTAL_API_ROUTES=1151 | TOTAL_ROUTES=1251
+
+
+// ─── Autofinish #1286 — DIGITALNA INDUSTRIJA ESG RIZIK REGISTAR ──────────────
+// lib modul: src/lib/digitalna-industrija-esg-rizik.ts — buildDigitalnaIndustrijaEsgRizik(),
+// DigitalnaIndustrijaEsgRizikRezultat i centralni registar ESG rizika (ekološki, socijalni, upravljački i kaznena izloženost).
+// Nova ruta: GET /api/digitalna-industrija-esg-rizik. Nova stranica: /digitalna-industrija-esg-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-esg-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-esg-rizik.test.ts + digitalna-industrija-esg-rizik-route.test.ts.
+// APP_VERSION=55.5.0 | AUTOFINISH_COUNT=1286 | TOTAL_API_ROUTES=1152 | TOTAL_ROUTES=1252

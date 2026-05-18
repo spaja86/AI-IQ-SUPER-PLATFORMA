@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-pravni-rizik/page';
+import { metadata } from '../../app/digitalna-industrija-esg-rizik/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaPravniRizik } from '../../lib/digitalna-industrija-pravni-rizik';
+import { buildDigitalnaIndustrijaEsgRizik } from '../../lib/digitalna-industrija-esg-rizik';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n⚖️ Digitalna Industrija Pravni Rizik route coverage — Unit Test Suite\n');
+  console.log('\n🧾 Digitalna Industrija ESG Rizik route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-pravni-rizik`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-esg-rizik`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-pravni-rizik/route.ts',
+    'src/app/api/digitalna-industrija-esg-rizik/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaPravniRizik('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaEsgRizik('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-pravni-rizik', () => {
+  await test('Sitemap sadrži /digitalna-industrija-esg-rizik', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-pravni-rizik nije u sitemap-u',
+      '/digitalna-industrija-esg-rizik nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Pravni Rizik', () => {
+  await test('metadata.title sadrži Digitalna Industrija ESG Rizik', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Pravni Rizik'),
+        metadata.title.includes('Digitalna Industrija ESG Rizik'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-pravni-rizik', () => {
+  await test('Navigation sadrži /digitalna-industrija-esg-rizik', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-pravni-rizik' &&
-          item.label === 'Digitalna Industrija Pravni Rizik',
+          item.href === '/digitalna-industrija-esg-rizik' &&
+          item.label === 'Digitalna Industrija ESG Rizik',
       ),
-      'navigation nema Digitalna Industrija Pravni Rizik link',
+      'navigation nema Digitalna Industrija ESG Rizik link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaPravniRizik()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaEsgRizik()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaPravniRizik'),
-      'API route ne koristi buildDigitalnaIndustrijaPravniRizik',
+      apiRouteSource.includes('buildDigitalnaIndustrijaEsgRizik'),
+      'API route ne koristi buildDigitalnaIndustrijaEsgRizik',
     );
   });
 
@@ -108,7 +108,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1252, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n⚖️ Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🧾 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

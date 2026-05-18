@@ -183,3 +183,6 @@ export { digitalnaIndustrijaPoreskiRizikSekvence } from './digitalna-industrija-
 
 // ── DIGITALNA INDUSTRIJA COMPLIANCE RIZIK ───────────────────────────────────
 export { digitalnaIndustrijaComplianceRizikSekvence } from './digitalna-industrija-compliance-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA ESG RIZIK ──────────────────────────────────────────
+export { digitalnaIndustrijaEsgRizikSekvence } from './digitalna-industrija-esg-rizik-page';
