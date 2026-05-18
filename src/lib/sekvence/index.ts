@@ -180,3 +180,6 @@ export { digitalnaIndustrijaPravniRizikSekvence } from './digitalna-industrija-p
 
 // ── DIGITALNA INDUSTRIJA PORESKI RIZIK ───────────────────────────────────────
 export { digitalnaIndustrijaPoreskiRizikSekvence } from './digitalna-industrija-poreski-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA COMPLIANCE RIZIK ───────────────────────────────────
+export { digitalnaIndustrijaComplianceRizikSekvence } from './digitalna-industrija-compliance-rizik-page';

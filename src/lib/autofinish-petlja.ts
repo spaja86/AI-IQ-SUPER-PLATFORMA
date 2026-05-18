@@ -7820,3 +7820,13 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-poreski-rizik.test.ts + digitalna-industrija-poreski-rizik-route.test.ts.
 // APP_VERSION=55.3.0 | AUTOFINISH_COUNT=1284 | TOTAL_API_ROUTES=1150 | TOTAL_ROUTES=1250
+
+
+// ─── Autofinish #1285 — DIGITALNA INDUSTRIJA COMPLIANCE RIZIK REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-compliance-rizik.ts — buildDigitalnaIndustrijaComplianceRizik(),
+// DigitalnaIndustrijaComplianceRizikRezultat i centralni registar compliance rizika (regulatorna usklađenost, kontrolne procedure, interni audit, kaznena izloženost).
+// Nova ruta: GET /api/digitalna-industrija-compliance-rizik. Nova stranica: /digitalna-industrija-compliance-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-compliance-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-compliance-rizik.test.ts + digitalna-industrija-compliance-rizik-route.test.ts.
+// APP_VERSION=55.4.0 | AUTOFINISH_COUNT=1285 | TOTAL_API_ROUTES=1151 | TOTAL_ROUTES=1251
