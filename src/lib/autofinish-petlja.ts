@@ -7684,3 +7684,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-devizni-prilivi.test.ts + digitalna-industrija-devizni-prilivi-route.test.ts.
 // APP_VERSION=53.8.0 | AUTOFINISH_COUNT=1269 | TOTAL_API_ROUTES=1135 | TOTAL_ROUTES=1224
+
+// ─── Autofinish #1270 — DIGITALNA INDUSTRIJA DEVIZNI ODLIVI REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-devizni-odlivi.ts — buildDigitalnaIndustrijaDevizniOdlivi(),
+// DigitalnaIndustrijaDevizniOdliviRezultat i centralni registar deviznih odliva.
+// Nova ruta: GET /api/digitalna-industrija-devizni-odlivi. Nova stranica: /digitalna-industrija-devizni-odlivi.
+// Sekvence: src/lib/sekvence/digitalna-industrija-devizni-odlivi-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-devizni-odlivi.test.ts + digitalna-industrija-devizni-odlivi-route.test.ts.
+// APP_VERSION=53.9.0 | AUTOFINISH_COUNT=1270 | TOTAL_API_ROUTES=1136 | TOTAL_ROUTES=1226

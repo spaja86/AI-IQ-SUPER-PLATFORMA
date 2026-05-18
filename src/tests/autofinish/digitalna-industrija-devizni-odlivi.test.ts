@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaSifraDelatnosti } from '../../lib/digitalna-industrija-sifra-delatnosti';
+import { buildDigitalnaIndustrijaDevizniOdlivi } from '../../lib/digitalna-industrija-devizni-odlivi';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏷️ Digitalna Industrija Šifra Delatnosti — Unit Test Suite\n');
+  console.log('\n💸 Digitalna Industrija Devizni Odlivi — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaSifraDelatnosti('test-user-id');
+  const r = buildDigitalnaIndustrijaDevizniOdlivi('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -55,26 +55,30 @@ async function runTests(): Promise<void> {
     assert(r.registarNosioc.length > 0, 'registarNosioc');
   });
 
-  await test('KPI je konzistentan sa delatnostima', () => {
-    assertEqual(r.kpi.ukupnoDelatnosti, r.delatnosti.length, 'ukupnoDelatnosti');
+  await test('KPI je konzistentan sa odlivima', () => {
+    assertEqual(r.kpi.ukupnoOdliva, r.odlivi.length, 'ukupnoOdliva');
     assertEqual(
-      r.kpi.primarnih,
-      r.delatnosti.filter((stavka) => stavka.status === 'primarna').length,
-      'primarnih',
+      r.kpi.odobreno,
+      r.odlivi.filter((stavka) => stavka.status === 'odobreno').length,
+      'odobreno',
     );
     assertEqual(
-      r.kpi.sekundarnih,
-      r.delatnosti.filter((stavka) => stavka.status === 'sekundarna').length,
-      'sekundarnih',
+      r.kpi.naProveri,
+      r.odlivi.filter((stavka) => stavka.status === 'na-proveri').length,
+      'naProveri',
+    );
+    assertEqual(
+      r.kpi.zadrzano,
+      r.odlivi.filter((stavka) => stavka.status === 'zadrzano').length,
+      'zadrzano',
     );
   });
 
-  await test('Delatnosti imaju šifru i naziv', () => {
-    for (const stavka of r.delatnosti) {
-      assert(stavka.sifraDelatnosti.length >= 4, 'šifra delatnosti je validna');
-      assert(stavka.nazivDelatnosti.length > 0, 'naziv delatnosti nije prazan');
+  await test('Odlivi imaju obavezna polja', () => {
+    for (const stavka of r.odlivi) {
       assert(stavka.entitet.length > 0, 'entitet nije prazan');
-      assert(stavka.opis.length > 0, 'opis nije prazan');
+      assert(stavka.namena.length > 0, 'namena nije prazna');
+      assert(stavka.iznos > 0, 'iznos > 0');
     }
   });
 
