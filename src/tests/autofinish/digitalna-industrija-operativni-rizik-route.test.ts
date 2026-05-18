@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-devizni-odlivi/page';
+import { metadata } from '../../app/digitalna-industrija-operativni-rizik/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaDevizniOdlivi } from '../../lib/digitalna-industrija-devizni-odlivi';
+import { buildDigitalnaIndustrijaOperativniRizik } from '../../lib/digitalna-industrija-operativni-rizik';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n💸 Digitalna Industrija Devizni Odlivi route coverage — Unit Test Suite\n');
+  console.log('\n🧭 Digitalna Industrija Operativni Rizik route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-devizni-odlivi`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-operativni-rizik`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-devizni-odlivi/route.ts',
+    'src/app/api/digitalna-industrija-operativni-rizik/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaDevizniOdlivi('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaOperativniRizik('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-devizni-odlivi', () => {
+  await test('Sitemap sadrži /digitalna-industrija-operativni-rizik', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-devizni-odlivi nije u sitemap-u',
+      '/digitalna-industrija-operativni-rizik nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Devizni Odlivi', () => {
+  await test('metadata.title sadrži Digitalna Industrija Operativni Rizik', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Devizni Odlivi'),
+        metadata.title.includes('Digitalna Industrija Operativni Rizik'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-devizni-odlivi', () => {
+  await test('Navigation sadrži /digitalna-industrija-operativni-rizik', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-devizni-odlivi' &&
-          item.label === 'Digitalna Industrija Devizni Odlivi',
+          item.href === '/digitalna-industrija-operativni-rizik' &&
+          item.label === 'Digitalna Industrija Operativni Rizik',
       ),
-      'navigation nema Digitalna Industrija Devizni Odlivi link',
+      'navigation nema Digitalna Industrija Operativni Rizik link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaDevizniOdlivi()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaOperativniRizik()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaDevizniOdlivi'),
-      'API route ne koristi buildDigitalnaIndustrijaDevizniOdlivi',
+      apiRouteSource.includes('buildDigitalnaIndustrijaOperativniRizik'),
+      'API route ne koristi buildDigitalnaIndustrijaOperativniRizik',
     );
   });
 
@@ -96,8 +96,8 @@ async function runTests(): Promise<void> {
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.odlivi), 'odlivi niz');
-    assert(rezultat.odlivi.length > 0, 'odlivi nisu prazni');
+    assert(Array.isArray(rezultat.stavke), 'stavke niz');
+    assert(rezultat.stavke.length > 0, 'stavke nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
@@ -108,7 +108,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1244, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🧭 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

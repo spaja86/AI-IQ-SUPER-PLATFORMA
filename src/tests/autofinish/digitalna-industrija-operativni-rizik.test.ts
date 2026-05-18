@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaKursneRazlike } from '../../lib/digitalna-industrija-kursne-razlike';
+import { buildDigitalnaIndustrijaOperativniRizik } from '../../lib/digitalna-industrija-operativni-rizik';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📉 Digitalna Industrija Kursne Razlike — Unit Test Suite\n');
+  console.log('\n🧭 Digitalna Industrija Operativni Rizik — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaKursneRazlike('test-user-id');
+  const r = buildDigitalnaIndustrijaOperativniRizik('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -55,32 +55,36 @@ async function runTests(): Promise<void> {
     assert(r.izvor.length > 0, 'izvor nije prazan');
   });
 
-  await test('KPI je konzistentan sa kursnim razlikama', () => {
-    assertEqual(r.kpi.ukupnoDokumenata, r.kursneRazlike.length, 'ukupnoDokumenata');
+  await test('KPI je konzistentan sa stavkama', () => {
+    assertEqual(r.kpi.ukupnoStavki, r.stavke.length, 'ukupnoStavki');
     assertEqual(
-      r.kpi.knjizeno,
-      r.kursneRazlike.filter((stavka) => stavka.status === 'knjizeno').length,
-      'knjizeno',
+      r.kpi.kriticnih,
+      r.stavke.filter((s) => s.status === 'kritican').length,
+      'kriticnih',
     );
     assertEqual(
-      r.kpi.naUsaglasavanju,
-      r.kursneRazlike.filter((stavka) => stavka.status === 'na-usaglasavanju').length,
-      'naUsaglasavanju',
+      r.kpi.visokih,
+      r.stavke.filter((s) => s.status === 'visok').length,
+      'visokih',
     );
     assertEqual(
-      r.kpi.netoRazlikaRsd,
-      r.kursneRazlike.reduce((sum, stavka) => sum + stavka.kursnaRazlikaRsd, 0),
-      'netoRazlikaRsd',
+      r.kpi.umerenih,
+      r.stavke.filter((s) => s.status === 'umeren').length,
+      'umerenih',
+    );
+    assertEqual(
+      r.kpi.niskih,
+      r.stavke.filter((s) => s.status === 'nizak').length,
+      'niskih',
     );
   });
 
-  await test('Stavke imaju obavezna polja i validne kurseve', () => {
-    for (const stavka of r.kursneRazlike) {
-      assert(stavka.dokument.length > 0, 'dokument nije prazan');
-      assert(stavka.valuta.length > 0, 'valuta nije prazna');
-      assert(stavka.iznosOsnovice > 0, 'osnovica > 0');
-      assert(stavka.prethodniKurs > 0, 'prethodniKurs > 0');
-      assert(stavka.tekuciKurs > 0, 'tekuciKurs > 0');
+  await test('Stavke imaju obavezna polja', () => {
+    for (const s of r.stavke) {
+      assert(s.id.length > 0, 'id nije prazan');
+      assert(s.oblast.length > 0, 'oblast nije prazna');
+      assert(s.rizikSkor >= 0, 'rizikSkor >= 0');
+      assert(s.rizikSkor <= 1, 'rizikSkor <= 1');
     }
   });
 
@@ -91,7 +95,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1244, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🧭 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

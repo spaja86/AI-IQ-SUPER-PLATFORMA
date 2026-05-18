@@ -7765,3 +7765,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-likvidnosni-rizik.test.ts + digitalna-industrija-likvidnosni-rizik-route.test.ts.
 // APP_VERSION=54.7.0 | AUTOFINISH_COUNT=1278 | TOTAL_API_ROUTES=1144 | TOTAL_ROUTES=1242
+
+// ─── Autofinish #1279 — DIGITALNA INDUSTRIJA OPERATIVNI RIZIK REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-operativni-rizik.ts — buildDigitalnaIndustrijaOperativniRizik(),
+// DigitalnaIndustrijaOperativniRizikRezultat i centralni registar operativnih rizika (proces, tehnologija, ljudi, usklađenost).
+// Nova ruta: GET /api/digitalna-industrija-operativni-rizik. Nova stranica: /digitalna-industrija-operativni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-operativni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-operativni-rizik.test.ts + digitalna-industrija-operativni-rizik-route.test.ts.
+// APP_VERSION=54.8.0 | AUTOFINISH_COUNT=1279 | TOTAL_API_ROUTES=1145 | TOTAL_ROUTES=1244
