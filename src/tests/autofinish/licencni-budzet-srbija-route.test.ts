@@ -87,6 +87,11 @@ async function runTests(): Promise<void> {
     assert(apiRouteSource.includes('rezultat'), 'API route ne vraća rezultat');
   });
 
+  await test('API ruta ima rate limiting', () => {
+    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'API route nema rate limiting');
+    assert(apiRouteSource.includes('rateLimitKey'), 'API route nema rate limit key');
+  });
+
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');

@@ -8,7 +8,10 @@ interface Props {
 }
 
 export function SrbijaLicencniReportWidget({ report }: Props) {
-  const topStavke = report.stavke.slice(0, 4);
+  const prioritetRang = { visok: 0, srednji: 1, nizak: 2 } as const;
+  const topStavke = [...report.stavke]
+    .sort((a, b) => prioritetRang[a.prioritet] - prioritetRang[b.prioritet])
+    .slice(0, 4);
 
   return (
     <section
