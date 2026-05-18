@@ -7686,3 +7686,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Dashboard: src/app/autofinish/SrbijaLicencniReportWidget.tsx + integracija u page.tsx.
 // Testovi: src/tests/autofinish/srbija-licencni-report.test.ts.
 // APP_VERSION=53.2.0 | AUTOFINISH_COUNT=1263 | TOTAL_API_ROUTES=1128 | TOTAL_ROUTES=1213
+
+// ─── Autofinish #1264 — LICENCNI BUDZET SRBIJA ──────────────────────────────
+// lib modul: src/lib/licencni-budzet-srbija.ts — buildLicencniBudzetSrbija(),
+// BudzetStavka, BudzetSumarPoKategoriji, LicencniBudzetSrbijaRezultat.
+// Nova ruta: GET /api/licencni-budzet-srbija. Nova stranica: /licencni-budzet-srbija.
+// Sekvence: src/lib/sekvence/licencni-budzet-srbija-page.ts + barrel export.
+// Integracija: navigation + sitemap + CTA linkovi ka licencnom registru/banci/validatoru.
+// Testovi: src/tests/autofinish/licencni-budzet-srbija.test.ts + licencni-budzet-srbija-route.test.ts.
+// APP_VERSION=53.3.0 | AUTOFINISH_COUNT=1264 | TOTAL_API_ROUTES=1129 | TOTAL_ROUTES=1215
