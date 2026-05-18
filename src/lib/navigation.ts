@@ -29,6 +29,7 @@ export const navigation: NavItem[] = [
   { label: 'Digitalna Industrija Šifra Delatnosti', href: '/digitalna-industrija-sifra-delatnosti', icon: '🏷️', description: 'Centralni registar šifara delatnosti ključnih entiteta Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Regulatorni Rokovi', href: '/digitalna-industrija-regulatorni-rokovi', icon: '📅', description: 'Centralni registar regulatornih rokova ključnih entiteta Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Izvoz Faktura', href: '/digitalna-industrija-izvoz-faktura', icon: '🧾', description: 'Centralni registar izvoznih faktura ključnih entiteta Digitalne Industrije u Srbiji' },
+  { label: 'Digitalna Industrija Devizni Prilivi', href: '/digitalna-industrija-devizni-prilivi', icon: '💱', description: 'Centralni registar deviznih priliva ključnih entiteta Digitalne Industrije u Srbiji' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },

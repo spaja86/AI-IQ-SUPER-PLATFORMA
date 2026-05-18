@@ -1,4 +1,4 @@
-// Autofinish #1134 — Billing Portal/Checkout Permission Tests (#24)
+// Autofinish #1135 — Billing Portal/Checkout Permission Tests (#24)
 // Kompanija SPAJA — Digitalna Industrija
 
 import { AUTOFINISH_COUNT } from '../../lib/constants';
@@ -29,7 +29,7 @@ function canOpenPortal(user: { id: string | null } | null, hasStripeCustomer: bo
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📋 Billing Portal/Checkout Permission Tests (#1134)\n');
+  console.log('\n📋 Billing Portal/Checkout Permission Tests (#1135)\n');
 
   const authUser = { id: 'user-123' };
   const noUser = null;
@@ -99,7 +99,7 @@ async function runTests(): Promise<void> {
     assert((unlimited?.cenaEur ?? 0) >= maxOthers, 'unlimited je najskuplji ili isti');
   });
 
-  await test('AUTOFINISH_COUNT >= 1134', () => { assert(AUTOFINISH_COUNT >= 1134, `count=${AUTOFINISH_COUNT}`); });
+  await test('AUTOFINISH_COUNT >= 1135', () => { assert(AUTOFINISH_COUNT >= 1135, `count=${AUTOFINISH_COUNT}`); });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) { console.error('\n❌ Neuspješni testovi:'); failures.forEach((f) => console.error(`  • ${f}`)); process.exit(1); }
