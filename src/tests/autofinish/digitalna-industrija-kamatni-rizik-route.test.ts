@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-sifra-delatnosti/page';
+import { metadata } from '../../app/digitalna-industrija-kamatni-rizik/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaSifraDelatnosti } from '../../lib/digitalna-industrija-sifra-delatnosti';
+import { buildDigitalnaIndustrijaKamatniRizik } from '../../lib/digitalna-industrija-kamatni-rizik';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏷️ Digitalna Industrija Šifra Delatnosti route coverage — Unit Test Suite\n');
+  console.log('\n📊 Digitalna Industrija Kamatni Rizik route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-sifra-delatnosti`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-kamatni-rizik`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-sifra-delatnosti/route.ts',
+    'src/app/api/digitalna-industrija-kamatni-rizik/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaSifraDelatnosti('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaKamatniRizik('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-sifra-delatnosti', () => {
+  await test('Sitemap sadrži /digitalna-industrija-kamatni-rizik', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-sifra-delatnosti nije u sitemap-u',
+      '/digitalna-industrija-kamatni-rizik nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Šifra Delatnosti', () => {
+  await test('metadata.title sadrži Digitalna Industrija Kamatni Rizik', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Šifra Delatnosti'),
+        metadata.title.includes('Digitalna Industrija Kamatni Rizik'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-sifra-delatnosti', () => {
+  await test('Navigation sadrži /digitalna-industrija-kamatni-rizik', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-sifra-delatnosti' &&
-          item.label === 'Digitalna Industrija Šifra Delatnosti',
+          item.href === '/digitalna-industrija-kamatni-rizik' &&
+          item.label === 'Digitalna Industrija Kamatni Rizik',
       ),
-      'navigation nema Digitalna Industrija Šifra Delatnosti link',
+      'navigation nema Digitalna Industrija Kamatni Rizik link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaSifraDelatnosti()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaKamatniRizik()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaSifraDelatnosti'),
-      'API route ne koristi buildDigitalnaIndustrijaSifraDelatnosti',
+      apiRouteSource.includes('buildDigitalnaIndustrijaKamatniRizik'),
+      'API route ne koristi buildDigitalnaIndustrijaKamatniRizik',
     );
   });
 
@@ -96,8 +96,8 @@ async function runTests(): Promise<void> {
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.delatnosti), 'delatnosti niz');
-    assert(rezultat.delatnosti.length > 0, 'delatnosti nisu prazne');
+    assert(Array.isArray(rezultat.pozicije), 'pozicije niz');
+    assert(rezultat.pozicije.length > 0, 'pozicije nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 

@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaIzvozFaktura } from '../../lib/digitalna-industrija-izvoz-faktura';
+import { buildDigitalnaIndustrijaKamatniRizik } from '../../lib/digitalna-industrija-kamatni-rizik';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija Izvoz Faktura — Unit Test Suite\n');
+  console.log('\n📊 Digitalna Industrija Kamatni Rizik — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaIzvozFaktura('test-user-id');
+  const r = buildDigitalnaIndustrijaKamatniRizik('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -50,36 +50,32 @@ async function runTests(): Promise<void> {
     assert(!Number.isNaN(Date.parse(r.timestamp)), 'timestamp ISO');
   });
 
-  await test('Jurisdikcija i nosilac registra su popunjeni', () => {
+  await test('Jurisdikcija i izvor su popunjeni', () => {
     assertEqual(r.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(r.registarNosioc.length > 0, 'registarNosioc');
+    assert(r.izvor.length > 0, 'izvor nije prazan');
   });
 
-  await test('KPI je konzistentan sa fakturama', () => {
-    assertEqual(r.kpi.ukupnoFaktura, r.fakture.length, 'ukupnoFaktura');
+  await test('KPI je konzistentan sa pozicijama', () => {
+    assertEqual(r.kpi.ukupnoPozicija, r.pozicije.length, 'ukupnoPozicija');
     assertEqual(
-      r.kpi.spremno,
-      r.fakture.filter((stavka) => stavka.status === 'spremno').length,
-      'spremno',
+      r.kpi.aktivnih,
+      r.pozicije.filter((p) => p.status === 'aktivan').length,
+      'aktivnih',
     );
     assertEqual(
-      r.kpi.uPripremi,
-      r.fakture.filter((stavka) => stavka.status === 'u-pripremi').length,
-      'uPripremi',
-    );
-    assertEqual(
-      r.kpi.zahtevaReviziju,
-      r.fakture.filter((stavka) => stavka.status === 'zahteva-reviziju').length,
-      'zahtevaReviziju',
+      r.kpi.zatvorenih,
+      r.pozicije.filter((p) => p.status === 'zatvoren').length,
+      'zatvorenih',
     );
   });
 
-  await test('Fakture imaju obavezna polja', () => {
-    for (const stavka of r.fakture) {
-      assert(stavka.entitet.length > 0, 'entitet nije prazan');
-      assert(stavka.brojFakture.length > 0, 'brojFakture nije prazan');
-      assert(stavka.trziste.length > 0, 'trziste nije prazno');
-      assert(stavka.iznos > 0, 'iznos > 0');
+  await test('Pozicije imaju obavezna polja', () => {
+    for (const p of r.pozicije) {
+      assert(p.id.length > 0, 'id nije prazan');
+      assert(p.instrument.length > 0, 'instrument nije prazan');
+      assert(p.nominalnaVrednostRsd > 0, 'nominalnaVrednostRsd > 0');
+      assert(p.kamatnaStopaGodisnjaPct > 0, 'kamatnaStopaGodisnjaPct > 0');
+      assert(p.trajanjeMeseci > 0, 'trajanjeMeseci > 0');
     }
   });
 
