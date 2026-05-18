@@ -7695,3 +7695,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap + CTA linkovi ka licencnom registru/banci/validatoru.
 // Testovi: src/tests/autofinish/licencni-budzet-srbija.test.ts + licencni-budzet-srbija-route.test.ts.
 // APP_VERSION=53.3.0 | AUTOFINISH_COUNT=1264 | TOTAL_API_ROUTES=1129 | TOTAL_ROUTES=1215
+
+// ─── Autofinish #1265 — DIGITALNA INDUSTRIJA PIB/M/B ─────────────────────────
+// lib modul: src/lib/digitalna-industrija-pib-mb.ts — buildDigitalnaIndustrijaPibMb(),
+// buildPibMbRegistar(), getPrimarniPibMbDigitalneIndustrije().
+// Nova ruta: GET /api/digitalna-industrija-pib-mb. Nova stranica: /digitalna-industrija-pib-mb.
+// Sekvence: src/lib/sekvence/digitalna-industrija-pib-mb-page.ts + barrel export.
+// Integracija: navigation + sitemap + generator-za-poslovne-racune koristi centralni PIB/M/B registar.
+// Testovi: src/tests/autofinish/digitalna-industrija-pib-mb.test.ts + digitalna-industrija-pib-mb-route.test.ts.
+// APP_VERSION=53.4.0 | AUTOFINISH_COUNT=1265 | TOTAL_API_ROUTES=1130 | TOTAL_ROUTES=1216

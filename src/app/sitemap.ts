@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const corePages = new Date('2026-04-19');
   const standardPages = new Date('2026-04-14');
 
-  const recentRoutes = ['/', '/dashboard', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/mozak-logika', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka', '/oktavni-gpu-ram', '/spaja-digitalni-kompjuter', '/digitalni-prozor', '/eksponat-glavnog-jezgra', '/digitalni-vorteks', '/generator-za-poslovne-racune', '/validator-poslovnih-racuna', '/ai-iq-world-bank-licencna-analiza', '/licencni-budzet-srbija'];
+  const recentRoutes = ['/', '/dashboard', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/mozak-logika', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka', '/oktavni-gpu-ram', '/spaja-digitalni-kompjuter', '/digitalni-prozor', '/eksponat-glavnog-jezgra', '/digitalni-vorteks', '/generator-za-poslovne-racune', '/validator-poslovnih-racuna', '/ai-iq-world-bank-licencna-analiza', '/licencni-budzet-srbija', '/digitalna-industrija-pib-mb'];
   const coreRoutes = ['/ekosistem', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/pricing', '/it-proizvodi', '/igrice', '/gejming-industrija', '/omega-ai-suport', '/spaja-digitalni-brouvzer'];
 
   const routes = [
@@ -65,9 +65,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
      '/mozak-logika',
      '/glavni-sistem-nabavka',
       '/generator-za-poslovne-racune',
-      '/validator-poslovnih-racuna',
-      '/ai-iq-world-bank-licencna-analiza',
-      '/licencni-budzet-srbija',
+       '/validator-poslovnih-racuna',
+       '/ai-iq-world-bank-licencna-analiza',
+       '/licencni-budzet-srbija',
+       '/digitalna-industrija-pib-mb',
     '/reklame-i-partnerstva',
     '/dnevna-raspodela-zarade',
     '/spaja-ultra-repl',

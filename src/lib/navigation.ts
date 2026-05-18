@@ -28,6 +28,7 @@ export const navigation: NavItem[] = [
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },
   { label: 'AI IQ WORLD BANK Licencna Analiza', href: '/ai-iq-world-bank-licencna-analiza', icon: '📑', description: 'Centralni registar licenci po delatnostima, gap analiza i prioritetna nabavka' },
   { label: 'Licencni Budžet Srbija', href: '/licencni-budzet-srbija', icon: '💰', description: 'Budžetski plan nabavke svih licenci u AI IQ World Bank Srbija procurement režimu — troškovi, kategorije i faze' },
+  { label: 'Digitalna Industrija PIB/M/B', href: '/digitalna-industrija-pib-mb', icon: '🧾', description: 'Centralni PIB/M/B registar sa hitnom procedurom za APR i Poresku upravu po svim entitetima Digitalne Industrije' },
   { label: 'Menjačnica', href: '/menjacnica', icon: '💱', description: 'SPAJA Menjačnica platforma' },
   { label: 'Pro Novčanik', href: '/menjacnica-novcanik', icon: '💼', description: 'AI IQ MENJAČNICA Profesionalni Novčanik — portfolio, P&L, orderbook, settlement' },
   { label: 'Kripto Trezor', href: '/kripto-trezor', icon: '🔐', description: 'SPAJA Kripto Trezor — cold storage, multi-sig i time-lock zaštita za sva digitalna sredstva' },
