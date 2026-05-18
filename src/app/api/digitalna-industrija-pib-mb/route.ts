@@ -7,17 +7,21 @@ import { buildDigitalnaIndustrijaPibMb } from '@/lib/digitalna-industrija-pib-mb
 export async function GET(request: NextRequest) {
   try {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
-    const allowed = await checkRateLimitGlobal(rateLimitKey(ip, '/api/digitalna-industrija-pib-mb'), 120, 60);
+    const allowed = await checkRateLimitGlobal(
+      rateLimitKey(ip, '/api/digitalna-industrija-pib-mb'),
+      120,
+      60,
+    );
     if (!allowed) return apiRateLimited(60);
 
     const rezultat = buildDigitalnaIndustrijaPibMb('public');
 
     return apiSuccess({
-      sistem: 'Digitalna Industrija PIB/M/B',
+      sistem: 'Digitalna Industrija PIB/MB',
       opis:
-        'Centralni registar PIB i M/B za Digitalnu Industriju, sa posebnim identitetima po entitetu i hitnom procedurom za APR/Poresku Upravu.',
-      izvor: KOMPANIJA,
+        'Centralni registar PIB i matičnih brojeva za Digitalnu Industriju i povezane entitete u Republici Srbiji.',
       verzija: APP_VERSION,
+      izvor: KOMPANIJA,
       rezultat,
     });
   } catch (error) {

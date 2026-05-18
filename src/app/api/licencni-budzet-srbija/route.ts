@@ -15,9 +15,9 @@ export async function GET(request: NextRequest) {
     return apiSuccess({
       sistem: 'Licencni Budžet Srbija',
       opis:
-        'Budžetski plan nabavke svih licenci u okviru AI IQ World Bank Srbija procurement režima — raspored troškova, kategorije i faze plaćanja.',
-      izvor: KOMPANIJA,
+        'Objedinjeni endpoint za plan i praćenje licencnog budžeta u Republici Srbiji: regulatorni zahtevi, status nabavke i godišnji troškovi.',
       verzija: APP_VERSION,
+      izvor: KOMPANIJA,
       rezultat,
     });
   } catch (error) {

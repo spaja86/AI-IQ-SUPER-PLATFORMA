@@ -1,4 +1,4 @@
-// Autofinish #1139 — GitHub Billing Sumarno API Test
+// Autofinish #1140 — GitHub Billing Sumarno API Test
 
 import { APP_VERSION, AUTOFINISH_COUNT } from '../../lib/constants';
 import { GET } from '../../app/api/autofinish-github-billing-sumarno/route';
@@ -25,7 +25,7 @@ function assert(condition: boolean, message: string): asserts condition {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📋 Autofinish GitHub Billing Sumarno API Test (#1139)\n');
+  console.log('\n📋 Autofinish GitHub Billing Sumarno API Test (#1140)\n');
 
   await test('GET vraća 200', async () => {
     const response = await GET();

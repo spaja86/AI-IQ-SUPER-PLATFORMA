@@ -7,86 +7,64 @@ export const licencniBudzetSrbijaSekvence: Sekvenca[] = [
   {
     id: 'licencni-budzet-srbija-hero',
     tip: 'hero',
-    naslov: '💰 Licencni Budžet Srbija',
-    podnaslov: 'AI IQ World Bank — budžetski plan nabavke svih licenci za Srbiju',
-    ikona: '💰',
+    naslov: '📜 Licencni Budžet Srbija',
+    podnaslov: 'Regulatorna usklađenost, aktivna nabavka i godišnje planiranje licenci',
+    ikona: '📜',
     redosled: 1,
     podaci: {
       opis:
-        'Kompletni pregled procenjenih troškova nabavke svih licenci u okviru Serbia jurisdiction procurement režima — po kategorijama, fazama i modelima plaćanja.',
+        `Centralni pregled licenci za jurisdikciju ${r.jurisdikcija}. ` +
+        `Ukupan budžet: ${r.ukupanGodisnjiBudzetRSD.toLocaleString('sr-Latn')} RSD.`,
       dugmad: [
-        { tekst: 'Licencni registar', href: '/ai-iq-world-bank-licencna-analiza' },
-        { tekst: 'Validator računa', href: '/validator-poslovnih-racuna', stil: 'sekundarno' },
-        { tekst: 'Banka', href: '/banka', stil: 'sekundarno' },
+        { tekst: 'AI IQ World Bank', href: '/ai-iq-world-bank' },
+        { tekst: 'Licencna analiza', href: '/autofinish', stil: 'sekundarno' },
       ],
     },
   },
   {
-    id: 'licencni-budzet-srbija-summary',
+    id: 'licencni-budzet-srbija-kpi',
     tip: 'statistika',
-    naslov: '📊 Budžetski rezime',
+    naslov: '📊 KPI licencnog budžeta',
     redosled: 2,
     podaci: {
       stavke: [
-        { naziv: 'Ukupno stavki', vrednost: r.summary.ukupnoStavki, ikona: '📋' },
-        { naziv: 'Ukupno RSD', vrednost: r.summary.ukupnoRSD.toLocaleString('sr-RS'), ikona: '💵' },
-        { naziv: 'Jednokratno RSD', vrednost: r.summary.jednokratnoBudzet.toLocaleString('sr-RS'), ikona: '🏦' },
-        { naziv: 'Godišnje RSD', vrednost: r.summary.godisnjeBudzet.toLocaleString('sr-RS'), ikona: '📆' },
-        { naziv: 'Kritične stavke', vrednost: r.summary.kriticneStavke, ikona: '🚨' },
+        { naziv: 'Ukupno licenci', vrednost: r.kpi.ukupnoLicenci, ikona: '📄' },
+        { naziv: 'Aktivna nabavka', vrednost: r.kpi.aktivnaNabavka, ikona: '✅' },
+        { naziv: 'Visok prioritet', vrednost: r.kpi.visokiPrioritet, ikona: '⚠️' },
+        { naziv: 'Rezervisano', vrednost: `${r.rezervisanoRSD.toLocaleString('sr-Latn')} RSD`, ikona: '💰' },
+        { naziv: 'Slobodno', vrednost: `${r.slobodnoRSD.toLocaleString('sr-Latn')} RSD`, ikona: '🟢' },
       ],
-    },
-  },
-  {
-    id: 'licencni-budzet-srbija-kategorije',
-    tip: 'tabela',
-    naslov: '🗂️ Budžet po kategorijama',
-    redosled: 3,
-    podaci: {
-      zaglavlje: ['Kategorija', 'Broj stavki', 'Ukupno RSD'],
-      redovi: r.sumarPoKategoriji.map((kategorija) => [
-        kategorija.kategorija.replace(/_/g, ' '),
-        String(kategorija.ukupnoStavki),
-        kategorija.ukupnoRSD.toLocaleString('sr-RS'),
-      ]),
     },
   },
   {
     id: 'licencni-budzet-srbija-stavke',
     tip: 'tabela',
-    naslov: '📋 Sve budžetske stavke',
-    redosled: 4,
+    naslov: '📋 Registar licenci',
+    redosled: 3,
     podaci: {
-      zaglavlje: ['Licenca', 'Delatnost', 'Rizik', 'RSD', 'Model', 'Faza'],
-      redovi: r.stavke.map((stavka) => [
-        stavka.licencaNaziv,
-        stavka.delatnost,
-        stavka.rizik,
-        stavka.procenjeniTrosak.toLocaleString('sr-RS'),
-        stavka.placanjeModel,
-        stavka.faza,
+      zaglavlje: ['Licenca', 'Regulator', 'Status', 'Prioritet', 'Godišnji trošak (RSD)', 'Rok'],
+      redovi: r.stavke.map((s) => [
+        s.naziv,
+        s.regulator,
+        s.status,
+        s.prioritet,
+        s.godisnjiTrosakRSD.toLocaleString('sr-Latn'),
+        s.rok,
       ]),
-    },
-  },
-  {
-    id: 'licencni-budzet-srbija-preporuke',
-    tip: 'lista',
-    naslov: '📌 Preporuke',
-    redosled: 5,
-    podaci: {
-      stavke: r.preporuke.map((preporuka) => ({ tekst: preporuka })),
     },
   },
   {
     id: 'licencni-budzet-srbija-cta',
     tip: 'cta',
-    naslov: '🚀 API za integraciju budžeta',
-    redosled: 6,
+    naslov: '🚀 Operativna aktivacija nabavke',
+    redosled: 4,
     podaci: {
       opis:
-        'Koristi API endpoint za preuzimanje kompletnog budžetskog plana u JSON formatu za integraciju sa ERP ili finansijskim sistemom.',
+        `Plan uključuje ${r.kpi.ukupnoLicenci} licenci i prosečni trošak ` +
+        `${r.kpi.prosecniTrosakRSD.toLocaleString('sr-Latn')} RSD po licenci.`,
       dugmad: [
-        { tekst: 'API endpoint', href: '/api/licencni-budzet-srbija' },
-        { tekst: 'Licencni registar', href: '/ai-iq-world-bank-licencna-analiza', stil: 'sekundarno' },
+        { tekst: 'Licencni budžet API', href: '/api/licencni-budzet-srbija' },
+        { tekst: 'Autofinish dashboard', href: '/autofinish', stil: 'sekundarno' },
       ],
     },
   },

@@ -906,10 +906,7 @@ import { getOperativniCentarSummary } from './omega-projekat-operativni-centar';
 import { getOktavniMonologSummary } from './oktavni-monolog';
 import { runDiagnostics } from './auto-repair';
 import { runRepair } from './auto-repair';
-import {
-  buildAIIQWorldBankLicencniRegistar,
-  getLicencniComplianceIzvestaj,
-} from './aiiq-world-bank-licencni-registar';
+import { buildLicencniBudzetSrbija } from './licencni-budzet-srbija';
 
 // ─── In-memory iteracijska istorija (#815) ───────────────
 
@@ -2453,94 +2450,37 @@ export function getAutofinishSystemReport(): AutofinishSystemReport {
 
 // ─── getAutofinishSrbijaLicencniReport() (#1263) ──────────────────────────────
 
-export interface AutofinishSrbijaLicencniStavka {
-  licenca: string;
-  delatnost: string;
-  rizik: 'kriticno' | 'visoko' | 'srednje' | 'nisko';
-  partnerNaziv: string;
-  procurementReferenca: string | null;
-}
-
-export interface AutofinishSrbijaLicencnaDelatnost {
-  delatnost: string;
-  ukupnoLicenci: number;
-  uNabavci: number;
-  kriticniGapovi: number;
-}
-
 export interface AutofinishSrbijaLicencniReport {
   verzija: string;
   autofinishBroj: number;
   timestamp: string;
-  drzava: string;
-  valuta: string;
-  rezimNabavke: string;
-  regulatori: string[];
+  jurisdikcija: string;
   ukupnoLicenci: number;
-  uNabavci: number;
-  potvrdjene: number;
-  coverageProcenat: number;
-  kriticniGapovi: number;
-  topDelatnosti: AutofinishSrbijaLicencnaDelatnost[];
-  topLicenceZaNabavku: AutofinishSrbijaLicencniStavka[];
+  aktivnaNabavka: number;
+  godisnjiBudzetRSD: number;
+  rezervisanoRSD: number;
+  slobodnoRSD: number;
+  prosecniTrosakRSD: number;
+  stavke: ReturnType<typeof buildLicencniBudzetSrbija>['stavke'];
 }
 
-function riskWeight(rizik: AutofinishSrbijaLicencniStavka['rizik']): number {
-  switch (rizik) {
-    case 'kriticno':
-      return 4;
-    case 'visoko':
-      return 3;
-    case 'srednje':
-      return 2;
-    default:
-      return 1;
-  }
-}
-
+/**
+ * Agregirani izveštaj za dashboard widget nabavke licenci u Srbiji.
+ */
 export function getAutofinishSrbijaLicencniReport(): AutofinishSrbijaLicencniReport {
-  const reg = buildAIIQWorldBankLicencniRegistar();
-  const compliance = getLicencniComplianceIzvestaj('mesecni');
-
-  const topDelatnosti = reg.coveragePoDelatnosti
-    .map((coverage) => {
-      const related = reg.licence.filter((item) => item.delatnostId === coverage.delatnostId);
-      return {
-        delatnost: coverage.delatnost,
-        ukupnoLicenci: coverage.ukupnoLicenci,
-        uNabavci: related.filter((item) => item.status === 'u_nabavci').length,
-        kriticniGapovi: reg.gapovi.filter((gap) => gap.delatnost === coverage.delatnost && gap.rizik === 'kriticno').length,
-      };
-    })
-    .sort((a, b) => b.uNabavci - a.uNabavci || b.kriticniGapovi - a.kriticniGapovi || a.delatnost.localeCompare(b.delatnost))
-    .slice(0, 5);
-
-  const topLicenceZaNabavku = reg.nabavka
-    .map((item) => ({
-      licenca: item.licenca,
-      delatnost: item.delatnost,
-      rizik: item.rizik,
-      partnerNaziv: item.preporucenPayload.partnerNaziv,
-      procurementReferenca: reg.licence.find((licenca) => licenca.id === item.licencaId)?.procurementReferenca ?? null,
-    }))
-    .sort((a, b) => riskWeight(b.rizik) - riskWeight(a.rizik) || a.licenca.localeCompare(b.licenca))
-    .slice(0, 6);
-
+  const licencni = buildLicencniBudzetSrbija('autofinish');
   return {
     verzija: APP_VERSION,
     autofinishBroj: AUTOFINISH_COUNT,
     timestamp: new Date().toISOString(),
-    drzava: reg.jurisdikcija.drzava,
-    valuta: reg.jurisdikcija.valuta,
-    rezimNabavke: reg.jurisdikcija.rezimNabavke,
-    regulatori: reg.jurisdikcija.regulatori,
-    ukupnoLicenci: compliance.ukupnoLicenci,
-    uNabavci: compliance.uNabavci,
-    potvrdjene: compliance.potvrdjene,
-    coverageProcenat: compliance.coverageProcenat,
-    kriticniGapovi: compliance.kriticniGapovi,
-    topDelatnosti,
-    topLicenceZaNabavku,
+    jurisdikcija: licencni.jurisdikcija,
+    ukupnoLicenci: licencni.kpi.ukupnoLicenci,
+    aktivnaNabavka: licencni.kpi.aktivnaNabavka,
+    godisnjiBudzetRSD: licencni.ukupanGodisnjiBudzetRSD,
+    rezervisanoRSD: licencni.rezervisanoRSD,
+    slobodnoRSD: licencni.slobodnoRSD,
+    prosecniTrosakRSD: licencni.kpi.prosecniTrosakRSD,
+    stavke: licencni.stavke,
   };
 }
 
@@ -7672,35 +7612,165 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Testovi: src/tests/autofinish/validator-poslovnih-racuna.test.ts + validator-poslovnih-racuna-route.test.ts.
 // APP_VERSION=53.0.0 | AUTOFINISH_COUNT=1261 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212
 
-// ─── Autofinish #1262 — AI IQ WORLD BANK LICENCE SRBIJA ──────────────────────────
-// Ažuriranje: src/lib/aiiq-world-bank-licencni-registar.ts — jurisdikcija Srbija,
-// NBS/Komisija lokalne licence i centralni režim "kupujemo sve licence".
-// Integracija: API opis + metadata + sekvence za /ai-iq-world-bank-licencna-analiza.
-// Testovi: src/tests/autofinish/aiiq-world-bank-licencni-registar.test.ts +
-// aiiq-world-bank-licencni-registar-route.test.ts.
-// APP_VERSION=53.1.0 | AUTOFINISH_COUNT=1262 | TOTAL_API_ROUTES=1127 | TOTAL_ROUTES=1212
+// ─── Autofinish #1262 — AI IQ WORLD BANK — SVE O NJOJ ────────────────────────
+// lib modul: src/lib/ai-iq-world-bank.ts — buildAiIqWorldBank(), AiIqWorldBankRezultat,
+// WorldBankProfilBanke, WorldBankServis, WorldBankErsteInfo, WorldBankOmegaAiFunkcija,
+// WorldBankPartner, WorldBankTransfer, WorldBankDug, WorldBankKontaktKanal,
+// WorldBankGitHubBilling, WorldBankKPI i prateće tipove.
+// Nova ruta: GET /api/ai-iq-world-bank. Nova stranica: /ai-iq-world-bank.
+// Sekvence: src/lib/sekvence/ai-iq-world-bank-page.ts + barrel export.
+// Integracija: navigation + sitemap + linkovi ka /banka, /poslovni-novcanik,
+//   /generator-za-poslovne-racune, /validator-poslovnih-racuna, /dnevna-raspodela-zarade.
+// GitHub Billing governance: centralizovano iz github-billing-aiiq-worldbank.ts.
+// Testovi: src/tests/autofinish/ai-iq-world-bank.test.ts + ai-iq-world-bank-route.test.ts.
+// APP_VERSION=53.1.0 | AUTOFINISH_COUNT=1262 | TOTAL_API_ROUTES=1128 | TOTAL_ROUTES=1213
 
-// ─── Autofinish #1263 — AUTOFINISH SRBIJA LICENCNI REPORT ──────────────────────
+// ─── Autofinish #1263 — SRBIJA LICENCNI REPORT WIDGET ─────────────────────────
 // Helper: getAutofinishSrbijaLicencniReport() u src/lib/autofinish-petlja.ts.
-// Nova ruta: GET /api/autofinish-srbija-licencni-report.
-// Dashboard: src/app/autofinish/SrbijaLicencniReportWidget.tsx + integracija u page.tsx.
-// Testovi: src/tests/autofinish/srbija-licencni-report.test.ts.
-// APP_VERSION=53.2.0 | AUTOFINISH_COUNT=1263 | TOTAL_API_ROUTES=1128 | TOTAL_ROUTES=1213
+// API: GET /api/autofinish-srbija-licencni-report.
+// Dashboard: src/app/autofinish/SrbijaLicencniReportWidget.tsx + integracija u /autofinish/page.tsx.
+// APP_VERSION=53.2.0 | AUTOFINISH_COUNT=1263 | TOTAL_API_ROUTES=1129 | TOTAL_ROUTES=1213
 
-// ─── Autofinish #1264 — LICENCNI BUDZET SRBIJA ──────────────────────────────
+// ─── Autofinish #1264 — LICENCNI BUDZET SRBIJA ────────────────────────────────
 // lib modul: src/lib/licencni-budzet-srbija.ts — buildLicencniBudzetSrbija(),
-// BudzetStavka, BudzetSumarPoKategoriji, LicencniBudzetSrbijaRezultat.
+// LicencniBudzetSrbijaRezultat i licencne stavke za regulatornu nabavku u Srbiji.
 // Nova ruta: GET /api/licencni-budzet-srbija. Nova stranica: /licencni-budzet-srbija.
 // Sekvence: src/lib/sekvence/licencni-budzet-srbija-page.ts + barrel export.
-// Integracija: navigation + sitemap + CTA linkovi ka licencnom registru/banci/validatoru.
+// Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/licencni-budzet-srbija.test.ts + licencni-budzet-srbija-route.test.ts.
-// APP_VERSION=53.3.0 | AUTOFINISH_COUNT=1264 | TOTAL_API_ROUTES=1129 | TOTAL_ROUTES=1215
+// APP_VERSION=53.3.0 | AUTOFINISH_COUNT=1264 | TOTAL_API_ROUTES=1130 | TOTAL_ROUTES=1214
 
-// ─── Autofinish #1265 — DIGITALNA INDUSTRIJA PIB/M/B ─────────────────────────
+// ─── Autofinish #1265 — DIGITALNA INDUSTRIJA PIB/MB REGISTAR ──────────────────
 // lib modul: src/lib/digitalna-industrija-pib-mb.ts — buildDigitalnaIndustrijaPibMb(),
-// buildPibMbRegistar(), getPrimarniPibMbDigitalneIndustrije().
+// DigitalnaIndustrijaPibMbRezultat i centralni registar entiteta sa PIB/MB podacima.
 // Nova ruta: GET /api/digitalna-industrija-pib-mb. Nova stranica: /digitalna-industrija-pib-mb.
 // Sekvence: src/lib/sekvence/digitalna-industrija-pib-mb-page.ts + barrel export.
-// Integracija: navigation + sitemap + generator-za-poslovne-racune koristi centralni PIB/M/B registar.
+// Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-pib-mb.test.ts + digitalna-industrija-pib-mb-route.test.ts.
-// APP_VERSION=53.4.0 | AUTOFINISH_COUNT=1265 | TOTAL_API_ROUTES=1130 | TOTAL_ROUTES=1216
+// APP_VERSION=53.4.0 | AUTOFINISH_COUNT=1265 | TOTAL_API_ROUTES=1131 | TOTAL_ROUTES=1216
+
+// ─── Autofinish #1266 — DIGITALNA INDUSTRIJA ŠIFRA DELATNOSTI REGISTAR ─────────
+// lib modul: src/lib/digitalna-industrija-sifra-delatnosti.ts — buildDigitalnaIndustrijaSifraDelatnosti(),
+// DigitalnaIndustrijaSifraDelatnostiRezultat i centralni registar šifara delatnosti.
+// Nova ruta: GET /api/digitalna-industrija-sifra-delatnosti. Nova stranica: /digitalna-industrija-sifra-delatnosti.
+// Sekvence: src/lib/sekvence/digitalna-industrija-sifra-delatnosti-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-sifra-delatnosti.test.ts + digitalna-industrija-sifra-delatnosti-route.test.ts.
+// APP_VERSION=53.5.0 | AUTOFINISH_COUNT=1266 | TOTAL_API_ROUTES=1132 | TOTAL_ROUTES=1218
+
+// ─── Autofinish #1267 — DIGITALNA INDUSTRIJA REGULATORNI ROKOVI REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-regulatorni-rokovi.ts — buildDigitalnaIndustrijaRegulatorniRokovi(),
+// DigitalnaIndustrijaRegulatorniRokoviRezultat i centralni registar regulatornih rokova.
+// Nova ruta: GET /api/digitalna-industrija-regulatorni-rokovi. Nova stranica: /digitalna-industrija-regulatorni-rokovi.
+// Sekvence: src/lib/sekvence/digitalna-industrija-regulatorni-rokovi-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-regulatorni-rokovi.test.ts + digitalna-industrija-regulatorni-rokovi-route.test.ts.
+// APP_VERSION=53.6.0 | AUTOFINISH_COUNT=1267 | TOTAL_API_ROUTES=1133 | TOTAL_ROUTES=1220
+
+// ─── Autofinish #1268 — DIGITALNA INDUSTRIJA IZVOZ FAKTURA REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-izvoz-faktura.ts — buildDigitalnaIndustrijaIzvozFaktura(),
+// DigitalnaIndustrijaIzvozFakturaRezultat i centralni registar izvoznih faktura.
+// Nova ruta: GET /api/digitalna-industrija-izvoz-faktura. Nova stranica: /digitalna-industrija-izvoz-faktura.
+// Sekvence: src/lib/sekvence/digitalna-industrija-izvoz-faktura-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-izvoz-faktura.test.ts + digitalna-industrija-izvoz-faktura-route.test.ts.
+// APP_VERSION=53.7.0 | AUTOFINISH_COUNT=1268 | TOTAL_API_ROUTES=1134 | TOTAL_ROUTES=1222
+
+// ─── Autofinish #1269 — DIGITALNA INDUSTRIJA DEVIZNI PRILIVI REGISTAR ──────────
+// lib modul: src/lib/digitalna-industrija-devizni-prilivi.ts — buildDigitalnaIndustrijaDevizniPrilivi(),
+// DigitalnaIndustrijaDevizniPriliviRezultat i centralni registar deviznih priliva.
+// Nova ruta: GET /api/digitalna-industrija-devizni-prilivi. Nova stranica: /digitalna-industrija-devizni-prilivi.
+// Sekvence: src/lib/sekvence/digitalna-industrija-devizni-prilivi-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-devizni-prilivi.test.ts + digitalna-industrija-devizni-prilivi-route.test.ts.
+// APP_VERSION=53.8.0 | AUTOFINISH_COUNT=1269 | TOTAL_API_ROUTES=1135 | TOTAL_ROUTES=1224
+
+// ─── Autofinish #1270 — DIGITALNA INDUSTRIJA DEVIZNI ODLIVI REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-devizni-odlivi.ts — buildDigitalnaIndustrijaDevizniOdlivi(),
+// DigitalnaIndustrijaDevizniOdliviRezultat i centralni registar deviznih odliva.
+// Nova ruta: GET /api/digitalna-industrija-devizni-odlivi. Nova stranica: /digitalna-industrija-devizni-odlivi.
+// Sekvence: src/lib/sekvence/digitalna-industrija-devizni-odlivi-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-devizni-odlivi.test.ts + digitalna-industrija-devizni-odlivi-route.test.ts.
+// APP_VERSION=53.9.0 | AUTOFINISH_COUNT=1270 | TOTAL_API_ROUTES=1136 | TOTAL_ROUTES=1226
+
+// ─── Autofinish #1271 — DIGITALNA INDUSTRIJA DEVIZNI SALDO REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-devizni-saldo.ts — buildDigitalnaIndustrijaDevizniSaldo(),
+// DigitalnaIndustrijaDevizniSaldoRezultat i centralni registar neto deviznog salda.
+// Nova ruta: GET /api/digitalna-industrija-devizni-saldo. Nova stranica: /digitalna-industrija-devizni-saldo.
+// Sekvence: src/lib/sekvence/digitalna-industrija-devizni-saldo-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-devizni-saldo.test.ts + digitalna-industrija-devizni-saldo-route.test.ts.
+// APP_VERSION=54.0.0 | AUTOFINISH_COUNT=1271 | TOTAL_API_ROUTES=1137 | TOTAL_ROUTES=1228
+
+// ─── Autofinish #1272 — DIGITALNA INDUSTRIJA KURSNA LISTA REGISTAR ─────────────
+// lib modul: src/lib/digitalna-industrija-kursna-lista.ts — buildDigitalnaIndustrijaKursnaLista(),
+// DigitalnaIndustrijaKursnaListaRezultat i centralni FX registar kursne liste valutnih parova.
+// Nova ruta: GET /api/digitalna-industrija-kursna-lista. Nova stranica: /digitalna-industrija-kursna-lista.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kursna-lista-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kursna-lista.test.ts + digitalna-industrija-kursna-lista-route.test.ts.
+// APP_VERSION=54.1.0 | AUTOFINISH_COUNT=1272 | TOTAL_API_ROUTES=1138 | TOTAL_ROUTES=1230
+
+// ─── Autofinish #1273 — DIGITALNA INDUSTRIJA KURSNE RAZLIKE REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-kursne-razlike.ts — buildDigitalnaIndustrijaKursneRazlike(),
+// DigitalnaIndustrijaKursneRazlikeRezultat i centralni FX obračun kursnih razlika po dokumentima.
+// Nova ruta: GET /api/digitalna-industrija-kursne-razlike. Nova stranica: /digitalna-industrija-kursne-razlike.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kursne-razlike-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kursne-razlike.test.ts + digitalna-industrija-kursne-razlike-route.test.ts.
+// APP_VERSION=54.2.0 | AUTOFINISH_COUNT=1273 | TOTAL_API_ROUTES=1139 | TOTAL_ROUTES=1232
+
+// ─── Autofinish #1274 — DIGITALNA INDUSTRIJA VALUTNI RIZIK REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-valutni-rizik.ts — buildDigitalnaIndustrijaValutniRizik(),
+// DigitalnaIndustrijaValutniRizikRezultat i centralni registar valutne izloženosti i limita.
+// Nova ruta: GET /api/digitalna-industrija-valutni-rizik. Nova stranica: /digitalna-industrija-valutni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-valutni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-valutni-rizik.test.ts + digitalna-industrija-valutni-rizik-route.test.ts.
+// APP_VERSION=54.3.0 | AUTOFINISH_COUNT=1274 | TOTAL_API_ROUTES=1140 | TOTAL_ROUTES=1234
+
+// ─── Autofinish #1275 — DIGITALNA INDUSTRIJA HEDZING REGISTAR ──────────────────
+// lib modul: src/lib/digitalna-industrija-hedzing.ts — buildDigitalnaIndustrijaHedzing(),
+// DigitalnaIndustrijaHedzingRezultat i centralni registar hedzing ugovora (forvard, svop, opcija, fjucers).
+// Nova ruta: GET /api/digitalna-industrija-hedzing. Nova stranica: /digitalna-industrija-hedzing.
+// Sekvence: src/lib/sekvence/digitalna-industrija-hedzing-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-hedzing.test.ts + digitalna-industrija-hedzing-route.test.ts.
+// APP_VERSION=54.4.0 | AUTOFINISH_COUNT=1275 | TOTAL_API_ROUTES=1141 | TOTAL_ROUTES=1236
+
+// ─── Autofinish #1276 — DIGITALNA INDUSTRIJA KAMATNI RIZIK REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-kamatni-rizik.ts — buildDigitalnaIndustrijaKamatniRizik(),
+// DigitalnaIndustrijaKamatniRizikRezultat i centralni registar kamatnog rizika po pozicijama (fiksne/varijabilne/mešovite).
+// Nova ruta: GET /api/digitalna-industrija-kamatni-rizik. Nova stranica: /digitalna-industrija-kamatni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kamatni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kamatni-rizik.test.ts + digitalna-industrija-kamatni-rizik-route.test.ts.
+// APP_VERSION=54.5.0 | AUTOFINISH_COUNT=1276 | TOTAL_API_ROUTES=1142 | TOTAL_ROUTES=1238
+
+// ─── Autofinish #1277 — DIGITALNA INDUSTRIJA KREDITNI RIZIK REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-kreditni-rizik.ts — buildDigitalnaIndustrijaKreditniRizik(),
+// DigitalnaIndustrijaKreditniRizikRezultat i centralni registar kreditne izloženosti (PD/LGD/kolateral).
+// Nova ruta: GET /api/digitalna-industrija-kreditni-rizik. Nova stranica: /digitalna-industrija-kreditni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kreditni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kreditni-rizik.test.ts + digitalna-industrija-kreditni-rizik-route.test.ts.
+// APP_VERSION=54.6.0 | AUTOFINISH_COUNT=1277 | TOTAL_API_ROUTES=1143 | TOTAL_ROUTES=1240
+
+// ─── Autofinish #1278 — DIGITALNA INDUSTRIJA LIKVIDNOSNI RIZIK REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-likvidnosni-rizik.ts — buildDigitalnaIndustrijaLikvidnosniRizik(),
+// DigitalnaIndustrijaLikvidnosniRizikRezultat i centralni registar likvidnosti (pokriće obaveza, neto tokovi i statusi).
+// Nova ruta: GET /api/digitalna-industrija-likvidnosni-rizik. Nova stranica: /digitalna-industrija-likvidnosni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-likvidnosni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-likvidnosni-rizik.test.ts + digitalna-industrija-likvidnosni-rizik-route.test.ts.
+// APP_VERSION=54.7.0 | AUTOFINISH_COUNT=1278 | TOTAL_API_ROUTES=1144 | TOTAL_ROUTES=1242
+
+// ─── Autofinish #1279 — DIGITALNA INDUSTRIJA OPERATIVNI RIZIK REGISTAR ───────
+// lib modul: src/lib/digitalna-industrija-operativni-rizik.ts — buildDigitalnaIndustrijaOperativniRizik(),
+// DigitalnaIndustrijaOperativniRizikRezultat i centralni registar operativnih rizika (proces, tehnologija, ljudi, usklađenost).
+// Nova ruta: GET /api/digitalna-industrija-operativni-rizik. Nova stranica: /digitalna-industrija-operativni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-operativni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-operativni-rizik.test.ts + digitalna-industrija-operativni-rizik-route.test.ts.
+// APP_VERSION=54.8.0 | AUTOFINISH_COUNT=1279 | TOTAL_API_ROUTES=1145 | TOTAL_ROUTES=1244

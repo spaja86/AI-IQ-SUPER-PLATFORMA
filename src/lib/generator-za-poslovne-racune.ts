@@ -135,8 +135,9 @@ export function buildGeneratorZaPoslovneRacune(
   const identitetDigitalneIndustrije = getPrimarniPibMbDigitalneIndustrije();
   const finalniSubjekt: PoslovniSubjektInput = {
     naziv: subjekt?.naziv ?? 'Digitalna Industrija',
-    pib: subjekt?.pib ?? identitetDigitalneIndustrije.pib,
-    maticniBroj: subjekt?.maticniBroj ?? identitetDigitalneIndustrije.maticniBroj,
+    // Generator koristi sintetičke fallback identifikatore za demo generisanje računa.
+    pib: subjekt?.pib ?? '108001122',
+    maticniBroj: subjekt?.maticniBroj ?? '22110033',
     email: subjekt?.email ?? kontaktEmailFallback,
     zemlja: subjekt?.zemlja ?? 'RS',
     kycKybStatus: subjekt?.kycKybStatus ?? 'u-toku',

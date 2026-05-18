@@ -1,10 +1,9 @@
 import { buildDigitalnaIndustrijaPibMb } from '../../lib/digitalna-industrija-pib-mb';
-import { companies } from '../../lib/companies';
-import { platforms } from '../../lib/platforms';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
   TOTAL_ROUTES,
+  AUTOFINISH_COUNT,
 } from '../../lib/constants';
 
 let passed = 0;
@@ -38,44 +37,52 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija PIB/M/B — Unit Test Suite (#1265)\n');
+  console.log('\n🧾 Digitalna Industrija PIB/MB — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaPibMb('test-user');
+  const r = buildDigitalnaIndustrijaPibMb('test-user-id');
 
-  await test('Vraća status=aktivan i validan timestamp', () => {
+  await test('Vraća objekat i status=aktivan', () => {
+    assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
     assertEqual(r.status, 'aktivan', 'status');
+  });
+
+  await test('Timestamp je validan ISO string', () => {
     assert(!Number.isNaN(Date.parse(r.timestamp)), 'timestamp ISO');
   });
 
-  await test('Krovni identitet ima hitnu proceduru', () => {
-    assertEqual(r.digitalnaIndustrija.statusZahteva, 'hitna_procedura', 'digitalnaIndustrija.statusZahteva');
-    assert(r.digitalnaIndustrija.pib.includes('ZAHTEV_U_TOKU'), 'krovni PIB placeholder');
-    assert(r.digitalnaIndustrija.maticniBroj.includes('ZAHTEV_U_TOKU'), 'krovni MB placeholder');
+  await test('Jurisdikcija i nosilac registra su popunjeni', () => {
+    assertEqual(r.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
+    assert(r.registarNosioc.length > 0, 'registarNosioc');
   });
 
-  await test('Registar pokriva sve kompanije i sve platforme', () => {
-    assertEqual(r.registar.kompanije.length, companies.length, 'registar kompanije count');
-    assertEqual(r.registar.platforme.length, platforms.length, 'registar platforme count');
-  });
-
-  await test('Entiteti sadrže krovni + kompanije + platforme', () => {
+  await test('KPI je konzistentan sa entitetima', () => {
+    assertEqual(r.kpi.ukupnoEntiteta, r.entiteti.length, 'ukupnoEntiteta');
     assertEqual(
-      r.entiteti.length,
-      1 + companies.length + platforms.length,
-      'entiteti count',
+      r.kpi.aktivnih,
+      r.entiteti.filter((entitet) => entitet.status === 'aktivan').length,
+      'aktivnih',
+    );
+    assertEqual(
+      r.kpi.uPripremi,
+      r.entiteti.filter((entitet) => entitet.status === 'u-pripremi').length,
+      'uPripremi',
     );
   });
 
-  await test('Za svaki entitet postoje APR i Poreska zahtevi', () => {
-    assertEqual(r.zahtevi.length, r.entiteti.length * 2, 'zahtevi count');
-    assert(r.zahtevi.every((z) => z.statusZahteva === 'hitna_procedura'), 'statusZahteva hitna_procedura');
-    assert(r.zahtevi.every((z) => z.status === 'spreman_za_slanje'), 'status spreman_za_slanje');
+  await test('Entiteti imaju PIB i matični broj', () => {
+    for (const entitet of r.entiteti) {
+      assert(entitet.pib.length >= 8, 'PIB je validan format');
+      assert(entitet.maticniBroj.length >= 8, 'matični broj je validan format');
+      assert(entitet.naziv.length > 0, 'naziv nije prazan');
+      assert(entitet.sediste.length > 0, 'sedište nije prazno');
+    }
   });
 
-  await test('Konstante su ažurirane za #1265', () => {
-    assertEqual(APP_VERSION, '53.4.0', 'APP_VERSION');
-    assertEqual(TOTAL_API_ROUTES, 1130, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1216, 'TOTAL_ROUTES');
+  await test('Verzije i brojači su ažurirani', () => {
+    assertEqual(APP_VERSION, '54.8.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1279, 'AUTOFINISH_COUNT');
+    assertEqual(TOTAL_API_ROUTES, 1145, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1244, 'TOTAL_ROUTES');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

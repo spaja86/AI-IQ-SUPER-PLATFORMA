@@ -9,6 +9,7 @@ import {
   BASE_URL,
   TOTAL_API_ROUTES,
   TOTAL_ROUTES,
+  AUTOFINISH_COUNT,
 } from '../../lib/constants';
 
 let passed = 0;
@@ -42,16 +43,19 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n💰 Licencni Budžet Srbija — Route Coverage Test Suite (#1264)\n');
+  console.log('\n📜 Licencni Budzet Srbija route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
   const routeUrl = `${BASE_URL}/licencni-budzet-srbija`;
   const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/licencni-budzet-srbija/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildLicencniBudzetSrbija('test-user');
+  const rezultat = buildLicencniBudzetSrbija('test-user-id');
 
   await test('Sitemap sadrži /licencni-budzet-srbija', () => {
-    assert(entries.some((entry) => entry.url === routeUrl), 'ruta nije u sitemap-u');
+    assert(
+      entries.some((entry) => entry.url === routeUrl),
+      '/licencni-budzet-srbija nije u sitemap-u',
+    );
   });
 
   await test('metadata.title sadrži Licencni Budžet Srbija', () => {
@@ -63,39 +67,44 @@ async function runTests(): Promise<void> {
 
   await test('Navigation sadrži /licencni-budzet-srbija', () => {
     assert(
-      navigation.some((item) => item.href === '/licencni-budzet-srbija' && item.label === 'Licencni Budžet Srbija'),
+      navigation.some(
+        (item) =>
+          item.href === '/licencni-budzet-srbija' && item.label === 'Licencni Budžet Srbija',
+        ),
       'navigation nema Licencni Budžet Srbija link',
     );
   });
 
   await test('API ruta koristi buildLicencniBudzetSrbija()', () => {
-    assert(apiRouteSource.includes('buildLicencniBudzetSrbija'), 'API route ne koristi builder');
+    assert(
+      apiRouteSource.includes('buildLicencniBudzetSrbija'),
+      'API route ne koristi buildLicencniBudzetSrbija',
+    );
   });
 
-  await test('API ruta koristi apiSuccess i rate limit', () => {
+  await test('API ruta vraća apiSuccess payload', () => {
     assert(apiRouteSource.includes('apiSuccess'), 'API route ne koristi apiSuccess');
-    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'API route nema rate limit');
+    assert(apiRouteSource.includes('rezultat'), 'API route ne vraća rezultat');
   });
 
-  await test('Lib fajl i page fajl postoje', () => {
-    const libPath = path.resolve(process.cwd(), 'src/lib/licencni-budzet-srbija.ts');
-    const pagePath = path.resolve(process.cwd(), 'src/app/licencni-budzet-srbija/page.tsx');
-    assert(fs.existsSync(libPath), 'lib fajl postoji');
-    assert(fs.existsSync(pagePath), 'page fajl postoji');
+  await test('API ruta ima rate limiting', () => {
+    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'API route nema rate limiting');
+    assert(apiRouteSource.includes('rateLimitKey'), 'API route nema rate limit key');
   });
 
-  await test('Model rezultata ima očekivana ključna polja', () => {
+  await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
+    assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
     assert(Array.isArray(rezultat.stavke), 'stavke niz');
-    assert(Array.isArray(rezultat.sumarPoKategoriji), 'sumarPoKategoriji niz');
-    assert(Array.isArray(rezultat.preporuke), 'preporuke niz');
+    assert(rezultat.stavke.length > 0, 'stavke nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
-  await test('Konstante su ažurirane za #1264', () => {
-    assertEqual(APP_VERSION, '53.3.0', 'APP_VERSION');
-    assertEqual(TOTAL_API_ROUTES, 1129, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1215, 'TOTAL_ROUTES');
+  await test('Konstante su ažurirane', () => {
+    assertEqual(APP_VERSION, '54.3.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1274, 'AUTOFINISH_COUNT');
+    assertEqual(TOTAL_API_ROUTES, 1140, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1234, 'TOTAL_ROUTES');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

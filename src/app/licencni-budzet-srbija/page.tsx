@@ -5,7 +5,7 @@ import { KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Licencni Budžet Srbija',
-  description: `AI IQ World Bank budžetski plan nabavke svih licenci za Srbiju (RSD, po kategorijama i fazama) — ${KOMPANIJA}`,
+  description: `Registar i plan licencnog budžeta za Srbiju — ${KOMPANIJA}`,
 };
 
 export default function LicencniBudzetSrbijaPage() {

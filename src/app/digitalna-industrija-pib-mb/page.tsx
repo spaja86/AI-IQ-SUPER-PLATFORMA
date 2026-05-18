@@ -4,8 +4,8 @@ import { digitalnaIndustrijaPibMbSekvence } from '@/lib/sekvence/digitalna-indus
 import { KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Digitalna Industrija PIB/M/B',
-  description: `Centralni PIB/M/B registar Digitalne Industrije sa hitnom procedurom za APR i Poresku upravu — ${KOMPANIJA}`,
+  title: 'Digitalna Industrija PIB/MB',
+  description: `Centralni registar PIB i matičnih brojeva Digitalne Industrije — ${KOMPANIJA}`,
 };
 
 export default function DigitalnaIndustrijaPibMbPage() {

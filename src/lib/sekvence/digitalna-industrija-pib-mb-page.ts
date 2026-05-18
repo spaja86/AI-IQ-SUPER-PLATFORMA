@@ -7,72 +7,62 @@ export const digitalnaIndustrijaPibMbSekvence: Sekvenca[] = [
   {
     id: 'digitalna-industrija-pib-mb-hero',
     tip: 'hero',
-    naslov: '🧾 Digitalna Industrija — PIB i M/B registar',
-    podnaslov: 'Centralni registar identiteta + HITNA PROCEDURA za APR i Poresku upravu',
+    naslov: '🧾 Digitalna Industrija PIB/MB Registar',
+    podnaslov: 'Centralni pregled PIB i matičnih brojeva za ključne entitete',
     ikona: '🧾',
     redosled: 1,
     podaci: {
       opis:
-        'PIB i M/B za Digitalnu Industriju kao celinu i posebni PIB/M/B za sve entitete unutar ekosistema, uz status hitne procedure.',
+        `Registar za jurisdikciju ${r.jurisdikcija} vodi ${r.registarNosioc}. ` +
+        `Ukupno entiteta: ${r.kpi.ukupnoEntiteta}.`,
       dugmad: [
-        { tekst: 'API endpoint', href: '/api/digitalna-industrija-pib-mb' },
-        { tekst: 'Industrija', href: '/industrija', stil: 'sekundarno' },
+        { tekst: 'AI IQ World Bank', href: '/ai-iq-world-bank' },
+        { tekst: 'Licencni Budžet Srbija', href: '/licencni-budzet-srbija', stil: 'sekundarno' },
       ],
     },
   },
   {
-    id: 'digitalna-industrija-pib-mb-krovni',
+    id: 'digitalna-industrija-pib-mb-kpi',
     tip: 'statistika',
-    naslov: '🏛️ Krovni identitet Digitalne Industrije',
+    naslov: '📊 KPI registar',
     redosled: 2,
     podaci: {
       stavke: [
-        { naziv: 'Naziv', vrednost: r.digitalnaIndustrija.naziv, ikona: '🏛️' },
-        { naziv: 'PIB', vrednost: r.digitalnaIndustrija.pib, ikona: '🧾' },
-        { naziv: 'M/B', vrednost: r.digitalnaIndustrija.maticniBroj, ikona: '🏷️' },
-        { naziv: 'Status', vrednost: 'HITNA PROCEDURA', ikona: '🚨' },
+        { naziv: 'Ukupno entiteta', vrednost: r.kpi.ukupnoEntiteta, ikona: '🏢' },
+        { naziv: 'Aktivni', vrednost: r.kpi.aktivnih, ikona: '✅' },
+        { naziv: 'U pripremi', vrednost: r.kpi.uPripremi, ikona: '🛠️' },
       ],
     },
   },
   {
-    id: 'digitalna-industrija-pib-mb-entiteti',
+    id: 'digitalna-industrija-pib-mb-tabela',
     tip: 'tabela',
-    naslov: '🏢 Posebni PIB/M/B po entitetu',
+    naslov: '📋 PIB i Matični broj po entitetu',
     redosled: 3,
     podaci: {
-      zaglavlje: ['Entitet', 'Tip', 'PIB', 'M/B', 'Status'],
+      zaglavlje: ['Entitet', 'Tip', 'PIB', 'Matični broj', 'Sedište', 'Status'],
       redovi: r.entiteti.map((entitet) => [
         entitet.naziv,
         entitet.tip,
         entitet.pib,
         entitet.maticniBroj,
-        'HITNA PROCEDURA',
+        entitet.sediste,
+        entitet.status,
       ]),
     },
   },
   {
-    id: 'digitalna-industrija-pib-mb-zahtevi',
-    tip: 'tabela',
-    naslov: '📨 Status zahteva — APR + Poreska uprava',
+    id: 'digitalna-industrija-pib-mb-cta',
+    tip: 'cta',
+    naslov: '🚀 Operativni pristup registru',
     redosled: 4,
     podaci: {
-      zaglavlje: ['Entitet', 'Instanca', 'Tip zahteva', 'Prioritet', 'Status'],
-      redovi: r.zahtevi.map((zahtev) => [
-        zahtev.entitetNaziv,
-        zahtev.instanca,
-        zahtev.tip,
-        zahtev.prioritet,
-        'HITNA PROCEDURA',
-      ]),
-    },
-  },
-  {
-    id: 'digitalna-industrija-pib-mb-preporuke',
-    tip: 'lista',
-    naslov: '📌 Sledeći koraci',
-    redosled: 5,
-    podaci: {
-      stavke: r.preporuke.map((preporuka) => ({ tekst: preporuka })),
+      opis:
+        'Registar omogućava centralizovanu proveru PIB/MB podataka za finansije, compliance i tehničku operativu.',
+      dugmad: [
+        { tekst: 'PIB/MB API', href: '/api/digitalna-industrija-pib-mb' },
+        { tekst: 'Autofinish dashboard', href: '/autofinish', stil: 'sekundarno' },
+      ],
     },
   },
 ];

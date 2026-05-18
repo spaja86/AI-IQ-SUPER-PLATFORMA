@@ -1,6 +1,3 @@
-// Autofinish #1263 — GET /api/autofinish-srbija-licencni-report
-// Kompanija SPAJA — Digitalna Industrija
-
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getAutofinishSrbijaLicencniReport } from '@/lib/autofinish-petlja';
@@ -11,7 +8,11 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  const allowed = await checkRateLimitGlobal(rateLimitKey(ip, '/api/autofinish-srbija-licencni-report'), 60, 60);
+  const allowed = await checkRateLimitGlobal(
+    rateLimitKey(ip, '/api/autofinish-srbija-licencni-report'),
+    60,
+    60,
+  );
   if (!allowed) {
     return NextResponse.json(
       {

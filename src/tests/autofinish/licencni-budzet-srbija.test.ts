@@ -3,6 +3,7 @@ import {
   APP_VERSION,
   TOTAL_API_ROUTES,
   TOTAL_ROUTES,
+  AUTOFINISH_COUNT,
 } from '../../lib/constants';
 
 let passed = 0;
@@ -36,55 +37,59 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n💰 Licencni Budžet Srbija — Unit Test Suite (#1264)\n');
+  console.log('\n📜 Licencni Budzet Srbija — Unit Test Suite\n');
 
-  const r = buildLicencniBudzetSrbija('test-user');
+  const r = buildLicencniBudzetSrbija('test-user-id');
 
-  await test('Vraća status=aktivan i validan timestamp', () => {
+  await test('Vraća objekat i status=aktivan', () => {
+    assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
     assertEqual(r.status, 'aktivan', 'status');
+  });
+
+  await test('Timestamp je validan ISO string', () => {
     assert(!Number.isNaN(Date.parse(r.timestamp)), 'timestamp ISO');
   });
 
-  await test('Kontekst je zaključan na Srbiju i RSD', () => {
-    assertEqual(r.kontekst.drzava, 'Srbija', 'drzava');
-    assertEqual(r.kontekst.valuta, 'RSD', 'valuta');
-    assertEqual(r.kontekst.rezimNabavke, 'kupujemo_sve_licence', 'rezimNabavke');
+  await test('Jurisdikcija je Republika Srbija', () => {
+    assertEqual(r.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
   });
 
-  await test('Summary je konzistentan', () => {
-    assertEqual(r.summary.ukupnoStavki, r.stavke.length, 'ukupnoStavki == stavke.length');
-    const totalModeli =
-      r.summary.godisnjeBudzet + r.summary.mesecnoBudzet + r.summary.jednokratnoBudzet;
-    assertEqual(totalModeli, r.summary.ukupnoRSD, 'suma modela == ukupnoRSD');
+  await test('Budžet je konzistentan', () => {
+    const suma = r.stavke.reduce((acc, s) => acc + s.godisnjiTrosakRSD, 0);
+    assertEqual(r.rezervisanoRSD, suma, 'rezervisanoRSD');
+    assertEqual(r.ukupanGodisnjiBudzetRSD - r.rezervisanoRSD, r.slobodnoRSD, 'slobodnoRSD');
+    assert(r.slobodnoRSD >= 0, 'slobodnoRSD >= 0');
   });
 
-  await test('Svaka stavka ima validna polja', () => {
+  await test('KPI vrednosti su konzistentne', () => {
+    assertEqual(r.kpi.ukupnoLicenci, r.stavke.length, 'ukupnoLicenci');
+    assertEqual(
+      r.kpi.aktivnaNabavka,
+      r.stavke.filter((s) => s.status === 'aktivna-nabavka').length,
+      'aktivnaNabavka',
+    );
+    assertEqual(
+      r.kpi.visokiPrioritet,
+      r.stavke.filter((s) => s.prioritet === 'visok').length,
+      'visokiPrioritet',
+    );
+  });
+
+  await test('Sve stavke imaju obavezna polja', () => {
     for (const s of r.stavke) {
-      assert(s.id.length > 0, `id prazno: ${s.id}`);
-      assert(s.licencaCode.length > 0, `licencaCode prazno`);
-      assert(s.valuta === 'RSD', `valuta nije RSD za ${s.licencaCode}`);
-      assert(s.procenjeniTrosak >= 0, `negativni trošak za ${s.licencaCode}`);
+      assert(s.id.length > 0, 'id');
+      assert(s.naziv.length > 0, 'naziv');
+      assert(s.regulator.length > 0, 'regulator');
+      assert(s.rok.length > 0, 'rok');
+      assert(s.godisnjiTrosakRSD > 0, 'godišnji trošak > 0');
     }
   });
 
-  await test('Sumar po kategorijama zbrojeva == ukupnoRSD', () => {
-    const sumaKat = r.sumarPoKategoriji.reduce((s, k) => s + k.ukupnoRSD, 0);
-    assertEqual(sumaKat, r.summary.ukupnoRSD, 'sumaKat == ukupnoRSD');
-  });
-
-  await test('Kritične stavke tačno prebrojane', () => {
-    const kriticnih = r.stavke.filter((s) => s.rizik === 'kriticno').length;
-    assertEqual(r.summary.kriticneStavke, kriticnih, 'kriticneStavke');
-  });
-
-  await test('Preporuke nisu prazne', () => {
-    assert(r.preporuke.length >= 3, 'preporuke >= 3');
-  });
-
-  await test('Konstante su ažurirane za #1264', () => {
-    assertEqual(APP_VERSION, '53.3.0', 'APP_VERSION');
-    assertEqual(TOTAL_API_ROUTES, 1129, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1215, 'TOTAL_ROUTES');
+  await test('Verzije i brojači su ažurirani', () => {
+    assertEqual(APP_VERSION, '54.3.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1274, 'AUTOFINISH_COUNT');
+    assertEqual(TOTAL_API_ROUTES, 1140, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1234, 'TOTAL_ROUTES');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

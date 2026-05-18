@@ -7,6 +7,7 @@ export { deploySekvence } from './deploy-page';
 export { ekosistemSekvence } from './ekosistem-page';
 export { omegaAISekvence } from './omega-ai-page';
 export { bankaSekvence } from './banka-page';
+export { aiIqWorldBankSekvence } from './ai-iq-world-bank-page';
 export { menjacnicaSekvence } from './menjacnica-page';
 export { kompanijaSekvence } from './kompanija-page';
 export { aiPlatformaSekvence } from './ai-platforma-page';
@@ -71,9 +72,18 @@ export { oktavneEksponencijalneFunkcijeSekvence } from './oktavne-eksponencijaln
 export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
 export { generatorZaPoslovneRacuneSekvence } from './generator-za-poslovne-racune-page';
 export { validatorPoslovnihRacunaSekvence } from './validator-poslovnih-racuna-page';
-export { aiiqWorldBankLicencnaAnalizaSekvence } from './ai-iq-world-bank-licencna-analiza-page';
 export { licencniBudzetSrbijaSekvence } from './licencni-budzet-srbija-page';
 export { digitalnaIndustrijaPibMbSekvence } from './digitalna-industrija-pib-mb-page';
+export { digitalnaIndustrijaSifraDelatnostiSekvence } from './digitalna-industrija-sifra-delatnosti-page';
+export { digitalnaIndustrijaRegulatorniRokoviSekvence } from './digitalna-industrija-regulatorni-rokovi-page';
+export { digitalnaIndustrijaIzvozFakturaSekvence } from './digitalna-industrija-izvoz-faktura-page';
+export { digitalnaIndustrijaDevizniPriliviSekvence } from './digitalna-industrija-devizni-prilivi-page';
+export { digitalnaIndustrijaDevizniOdliviSekvence } from './digitalna-industrija-devizni-odlivi-page';
+export { digitalnaIndustrijaDevizniSaldoSekvence } from './digitalna-industrija-devizni-saldo-page';
+export { digitalnaIndustrijaKursnaListaSekvence } from './digitalna-industrija-kursna-lista-page';
+export { digitalnaIndustrijaKursneRazlikeSekvence } from './digitalna-industrija-kursne-razlike-page';
+export { digitalnaIndustrijaValutniRizikSekvence } from './digitalna-industrija-valutni-rizik-page';
+export { digitalnaIndustrijaHedzingSekvence } from './digitalna-industrija-hedzing-page';
 
 // ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
 export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';
@@ -143,3 +153,18 @@ export { digitalniVorteksSekvence } from './digitalni-vorteks-page';
 
 // ── MOZAK LOGIKA ─────────────────────────────────────────────────────────────
 export { mozakLogikaSekvence } from './mozak-logika-page';
+
+// ── DIGITALNA INDUSTRIJA KAMATNI RIZIK ────────────────────────────────────────
+export { digitalnaIndustrijaKamatniRizikSekvence } from './digitalna-industrija-kamatni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA KREDITNI RIZIK ───────────────────────────────────────
+export { digitalnaIndustrijaKreditniRizikSekvence } from './digitalna-industrija-kreditni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA LIKVIDNOSNI RIZIK ────────────────────────────────────
+export { digitalnaIndustrijaLikvidnosniRizikSekvence } from './digitalna-industrija-likvidnosni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA OPERATIVNI RIZIK ─────────────────────────────────────
+export { digitalnaIndustrijaOperativniRizikSekvence } from './digitalna-industrija-operativni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA REPUTACIONI RIZIK ────────────────────────────────────
+export { digitalnaIndustrijaReputacioniRizikSekvence } from './digitalna-industrija-reputacioni-rizik-page';
