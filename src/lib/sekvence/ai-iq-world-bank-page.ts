@@ -162,11 +162,13 @@ export const aiIqWorldBankSekvence: Sekvenca[] = [
     redosled: 9,
     podaci: {
       zaglavlje: ['Kartica', 'Valuta', 'Broj računa', 'Namena', 'Status'],
-      redovi: [
-        ['Dinarska kartica', 'RSD 🇷🇸', '025897158', 'Domaći platni promet, plate, lokalne uplate', '✅ Aktivna'],
-        ['Evro kartica', 'EUR 🇪🇺', '038971285', 'EU transakcije, međunarodna plaćanja', '✅ Aktivna'],
-        ['Dolar kartica', 'USD 🇺🇸', '05364215985', 'Globalne transakcije, US plaćanja, Vercel', '✅ Aktivna'],
-      ],
+      redovi: r.ersteInfo.racuni.map((racun) => [
+        `${racun.ikona} ${racun.tip.charAt(0).toUpperCase() + racun.tip.slice(1)} kartica`,
+        `${racun.valuta} ${racun.ikona}`,
+        racun.brojRacuna,
+        racun.opis,
+        '✅ Aktivna',
+      ]),
     },
   },
 
