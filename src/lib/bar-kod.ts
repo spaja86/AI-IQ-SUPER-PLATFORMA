@@ -31,6 +31,7 @@ const JEDINICA_MOD = 1_000_000n;
 function hashId(id: string): bigint {
   let h = 0n;
   for (let i = 0; i < id.length; i++) {
+    // 131 je mali prost broj sa dobrom raspodelom u rolling-hash obrascu.
     h = (h * 131n + BigInt(id.charCodeAt(i))) % BAR_KOD_BODY_MOD;
   }
   return h;
@@ -49,7 +50,11 @@ function calculateCheckDigit(body12: string): number {
 export function generatePlatformBarKod(id: string): number {
   const body12 = hashId(id).toString().padStart(12, '0');
   const checkDigit = calculateCheckDigit(body12);
-  return Number(`${body12}${checkDigit}`);
+  const barKod = Number(`${body12}${checkDigit}`);
+  if (!Number.isSafeInteger(barKod)) {
+    throw new Error('Generisani BAR KOD nije bezbedan celobrojni broj.');
+  }
+  return barKod;
 }
 
 export function generateJedinicaFunkcije(id: string, redBroj: number): number {
@@ -69,7 +74,7 @@ export function buildBarKod(userId: string): BarKodRezultat {
   }));
 
   const sumaJedinicaFunkcije = stavke.reduce((sum, stavka) => sum + stavka.jedinicaFunkcije, 0);
-  const minBarKod = stavke.reduce((min, stavka) => Math.min(min, stavka.barKod), Number.MAX_SAFE_INTEGER);
+  const minBarKod = stavke.reduce((min, stavka) => Math.min(min, stavka.barKod), Infinity);
   const maxBarKod = stavke.reduce((max, stavka) => Math.max(max, stavka.barKod), 0);
 
   return {
