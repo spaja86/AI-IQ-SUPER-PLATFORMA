@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaValutniRizik } from '../../lib/digitalna-industrija-valutni-rizik';
+import { buildDigitalnaIndustrijaHedzing } from '../../lib/digitalna-industrija-hedzing';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📊 Digitalna Industrija Valutni Rizik — Unit Test Suite\n');
+  console.log('\n🛡️ Digitalna Industrija Hedzing — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaValutniRizik('test-user-id');
+  const r = buildDigitalnaIndustrijaHedzing('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -55,32 +55,32 @@ async function runTests(): Promise<void> {
     assert(r.izvor.length > 0, 'izvor nije prazan');
   });
 
-  await test('KPI je konzistentan sa izloženostima', () => {
-    assertEqual(r.kpi.ukupnoPortfolija, r.izlozenosti.length, 'ukupnoPortfolija');
+  await test('KPI je konzistentan sa ugovorima', () => {
+    assertEqual(r.kpi.ukupnoUgovora, r.ugovori.length, 'ukupnoUgovora');
     assertEqual(
-      r.kpi.stabilni,
-      r.izlozenosti.filter((stavka) => stavka.status === 'stabilan').length,
-      'stabilni',
+      r.kpi.aktivnih,
+      r.ugovori.filter((u) => u.status === 'aktivan').length,
+      'aktivnih',
     );
     assertEqual(
-      r.kpi.povecani,
-      r.izlozenosti.filter((stavka) => stavka.status === 'povecan').length,
-      'povecani',
+      r.kpi.istek,
+      r.ugovori.filter((u) => u.status === 'istekao').length,
+      'istek',
     );
     assertEqual(
-      r.kpi.kriticni,
-      r.izlozenosti.filter((stavka) => stavka.status === 'kritican').length,
-      'kriticni',
+      r.kpi.zatvorenih,
+      r.ugovori.filter((u) => u.status === 'zatvoren').length,
+      'zatvorenih',
     );
   });
 
-  await test('Stavke imaju obavezna polja i validne limite', () => {
-    for (const stavka of r.izlozenosti) {
-      assert(stavka.portfolio.length > 0, 'portfolio nije prazan');
-      assert(stavka.valuta.length > 0, 'valuta nije prazna');
-      assert(stavka.otvorenaPozicijaRsd > 0, 'otvorenaPozicijaRsd > 0');
-      assert(stavka.limitRsd > 0, 'limitRsd > 0');
-      assert(stavka.iskoriscenostLimitaPct > 0, 'iskoriscenostLimitaPct > 0');
+  await test('Ugovori imaju obavezna polja', () => {
+    for (const u of r.ugovori) {
+      assert(u.id.length > 0, 'id nije prazan');
+      assert(u.valutaPar.length > 0, 'valutaPar nije prazan');
+      assert(u.nominalnaVrednostRsd > 0, 'nominalnaVrednostRsd > 0');
+      assert(u.stopa > 0, 'stopa > 0');
+      assert(u.pokriveniRizikPct > 0, 'pokriveniRizikPct > 0');
     }
   });
 
@@ -91,7 +91,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1236, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🛡️ Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

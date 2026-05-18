@@ -7729,3 +7729,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-valutni-rizik.test.ts + digitalna-industrija-valutni-rizik-route.test.ts.
 // APP_VERSION=54.3.0 | AUTOFINISH_COUNT=1274 | TOTAL_API_ROUTES=1140 | TOTAL_ROUTES=1234
+
+// ─── Autofinish #1275 — DIGITALNA INDUSTRIJA HEDZING REGISTAR ──────────────────
+// lib modul: src/lib/digitalna-industrija-hedzing.ts — buildDigitalnaIndustrijaHedzing(),
+// DigitalnaIndustrijaHedzingRezultat i centralni registar hedzing ugovora (forvard, svop, opcija, fjucers).
+// Nova ruta: GET /api/digitalna-industrija-hedzing. Nova stranica: /digitalna-industrija-hedzing.
+// Sekvence: src/lib/sekvence/digitalna-industrija-hedzing-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-hedzing.test.ts + digitalna-industrija-hedzing-route.test.ts.
+// APP_VERSION=54.4.0 | AUTOFINISH_COUNT=1275 | TOTAL_API_ROUTES=1141 | TOTAL_ROUTES=1236
