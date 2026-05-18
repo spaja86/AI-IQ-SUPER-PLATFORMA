@@ -7774,3 +7774,29 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-operativni-rizik.test.ts + digitalna-industrija-operativni-rizik-route.test.ts.
 // APP_VERSION=54.8.0 | AUTOFINISH_COUNT=1279 | TOTAL_API_ROUTES=1145 | TOTAL_ROUTES=1244
+
+// ─── Autofinish #1280 — DIGITALNA INDUSTRIJA REPUTACIONI RIZIK REGISTAR ──────
+// lib modul: src/lib/digitalna-industrija-reputacioni-rizik.ts — buildDigitalnaIndustrijaReputacioniRizik(),
+// DigitalnaIndustrijaReputacioniRizikRezultat i centralni registar reputacionog rizika (medijski, socijalni, regulatorni, partnerski).
+// Nova ruta: GET /api/digitalna-industrija-reputacioni-rizik. Nova stranica: /digitalna-industrija-reputacioni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-reputacioni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-reputacioni-rizik.test.ts + digitalna-industrija-reputacioni-rizik-route.test.ts.
+// APP_VERSION=54.9.0 | AUTOFINISH_COUNT=1280 | TOTAL_API_ROUTES=1146 | TOTAL_ROUTES=1246
+
+// ─── Autofinish #1281 — BAR KOD REGISTAR ─────────────────────────────────────
+// lib modul: src/lib/bar-kod.ts — buildBarKod(), generatePlatformBarKod(), generateJedinicaFunkcije(),
+// BarKodStavka, BarKodRezultat i KPI (ukupnoBarKodova, sumaJedinicaFunkcije, minBarKod, maxBarKod).
+// Nova ruta: GET /api/bar-kod. Nova stranica: /bar-kod.
+// Sekvence: src/lib/sekvence/bar-kod-page.ts + barrel export.
+// Integracija: navigation + sitemap. Faktura integracija: barKod: number na IzvozFakturaStavka.
+// APP_VERSION=55.0.0 | AUTOFINISH_COUNT=1281 | TOTAL_API_ROUTES=1147 | TOTAL_ROUTES=1247
+
+// ─── Autofinish #1282 — DIGITALNA INDUSTRIJA STRATEŠKI RIZIK REGISTAR ────────
+// lib modul: src/lib/digitalna-industrija-strateski-rizik.ts — buildDigitalnaIndustrijaStrateskiRizik(),
+// DigitalnaIndustrijaStrateskiRizikRezultat i centralni registar strateškog rizika (konkurentski, tržišni, inovacioni, regulatorni).
+// Nova ruta: GET /api/digitalna-industrija-strateski-rizik. Nova stranica: /digitalna-industrija-strateski-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-strateski-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-strateski-rizik.test.ts + digitalna-industrija-strateski-rizik-route.test.ts.
+// APP_VERSION=55.1.0 | AUTOFINISH_COUNT=1282 | TOTAL_API_ROUTES=1148 | TOTAL_ROUTES=1248
