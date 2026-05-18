@@ -7810,3 +7810,13 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-pravni-rizik.test.ts + digitalna-industrija-pravni-rizik-route.test.ts.
 // APP_VERSION=55.2.0 | AUTOFINISH_COUNT=1283 | TOTAL_API_ROUTES=1149 | TOTAL_ROUTES=1249
+
+
+// ─── Autofinish #1284 — DIGITALNA INDUSTRIJA PORESKI RIZIK REGISTAR ──────────
+// lib modul: src/lib/digitalna-industrija-poreski-rizik.ts — buildDigitalnaIndustrijaPoreskiRizik(),
+// DigitalnaIndustrijaPoreskiRizikRezultat i centralni registar poreskog rizika (PDV, prijave, transferne cene, kaznena izloženost).
+// Nova ruta: GET /api/digitalna-industrija-poreski-rizik. Nova stranica: /digitalna-industrija-poreski-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-poreski-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-poreski-rizik.test.ts + digitalna-industrija-poreski-rizik-route.test.ts.
+// APP_VERSION=55.3.0 | AUTOFINISH_COUNT=1284 | TOTAL_API_ROUTES=1150 | TOTAL_ROUTES=1250

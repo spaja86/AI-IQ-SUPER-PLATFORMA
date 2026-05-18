@@ -177,3 +177,6 @@ export { digitalnaIndustrijaStrateskiRizikSekvence } from './digitalna-industrij
 
 // ── DIGITALNA INDUSTRIJA PRAVNI RIZIK ────────────────────────────────────────
 export { digitalnaIndustrijaPravniRizikSekvence } from './digitalna-industrija-pravni-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA PORESKI RIZIK ───────────────────────────────────────
+export { digitalnaIndustrijaPoreskiRizikSekvence } from './digitalna-industrija-poreski-rizik-page';
