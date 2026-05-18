@@ -75,7 +75,7 @@ export function buildBarKod(userId: string): BarKodRezultat {
 
   const sumaJedinicaFunkcije = stavke.reduce((sum, stavka) => sum + stavka.jedinicaFunkcije, 0);
   const minBarKod = stavke.reduce((min, stavka) => Math.min(min, stavka.barKod), Infinity);
-  const maxBarKod = stavke.reduce((max, stavka) => Math.max(max, stavka.barKod), 0);
+  const maxBarKod = stavke.reduce((max, stavka) => Math.max(max, stavka.barKod), -Infinity);
 
   return {
     status: 'aktivan',
