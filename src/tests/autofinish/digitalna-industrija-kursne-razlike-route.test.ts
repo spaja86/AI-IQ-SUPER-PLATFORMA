@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-izvoz-faktura/page';
+import { metadata } from '../../app/digitalna-industrija-kursne-razlike/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaIzvozFaktura } from '../../lib/digitalna-industrija-izvoz-faktura';
+import { buildDigitalnaIndustrijaKursneRazlike } from '../../lib/digitalna-industrija-kursne-razlike';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija Izvoz Faktura route coverage — Unit Test Suite\n');
+  console.log('\n📉 Digitalna Industrija Kursne Razlike route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-izvoz-faktura`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-kursne-razlike`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-izvoz-faktura/route.ts',
+    'src/app/api/digitalna-industrija-kursne-razlike/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaIzvozFaktura('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaKursneRazlike('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-izvoz-faktura', () => {
+  await test('Sitemap sadrži /digitalna-industrija-kursne-razlike', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-izvoz-faktura nije u sitemap-u',
+      '/digitalna-industrija-kursne-razlike nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Izvoz Faktura', () => {
+  await test('metadata.title sadrži Digitalna Industrija Kursne Razlike', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Izvoz Faktura'),
+        metadata.title.includes('Digitalna Industrija Kursne Razlike'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-izvoz-faktura', () => {
+  await test('Navigation sadrži /digitalna-industrija-kursne-razlike', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-izvoz-faktura' &&
-          item.label === 'Digitalna Industrija Izvoz Faktura',
+          item.href === '/digitalna-industrija-kursne-razlike' &&
+          item.label === 'Digitalna Industrija Kursne Razlike',
       ),
-      'navigation nema Digitalna Industrija Izvoz Faktura link',
+      'navigation nema Digitalna Industrija Kursne Razlike link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaIzvozFaktura()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaKursneRazlike()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaIzvozFaktura'),
-      'API route ne koristi buildDigitalnaIndustrijaIzvozFaktura',
+      apiRouteSource.includes('buildDigitalnaIndustrijaKursneRazlike'),
+      'API route ne koristi buildDigitalnaIndustrijaKursneRazlike',
     );
   });
 
@@ -96,8 +96,8 @@ async function runTests(): Promise<void> {
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.fakture), 'fakture niz');
-    assert(rezultat.fakture.length > 0, 'fakture nisu prazne');
+    assert(Array.isArray(rezultat.kursneRazlike), 'kursneRazlike niz');
+    assert(rezultat.kursneRazlike.length > 0, 'kursneRazlike nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 

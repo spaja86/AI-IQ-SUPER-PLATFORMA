@@ -7711,3 +7711,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-kursna-lista.test.ts + digitalna-industrija-kursna-lista-route.test.ts.
 // APP_VERSION=54.1.0 | AUTOFINISH_COUNT=1272 | TOTAL_API_ROUTES=1138 | TOTAL_ROUTES=1230
+
+// ─── Autofinish #1273 — DIGITALNA INDUSTRIJA KURSNE RAZLIKE REGISTAR ───────────
+// lib modul: src/lib/digitalna-industrija-kursne-razlike.ts — buildDigitalnaIndustrijaKursneRazlike(),
+// DigitalnaIndustrijaKursneRazlikeRezultat i centralni FX obračun kursnih razlika po dokumentima.
+// Nova ruta: GET /api/digitalna-industrija-kursne-razlike. Nova stranica: /digitalna-industrija-kursne-razlike.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kursne-razlike-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kursne-razlike.test.ts + digitalna-industrija-kursne-razlike-route.test.ts.
+// APP_VERSION=54.2.0 | AUTOFINISH_COUNT=1273 | TOTAL_API_ROUTES=1139 | TOTAL_ROUTES=1232
