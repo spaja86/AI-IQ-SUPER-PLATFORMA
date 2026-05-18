@@ -43,10 +43,10 @@ export const licencniBudzetSrbijaSekvence: Sekvenca[] = [
     redosled: 3,
     podaci: {
       zaglavlje: ['Kategorija', 'Broj stavki', 'Ukupno RSD'],
-      redovi: r.sumarPoKategoriji.map((k) => [
-        k.kategorija.replace(/_/g, ' '),
-        String(k.ukupnoStavki),
-        k.ukupnoRSD.toLocaleString('sr-RS'),
+      redovi: r.sumarPoKategoriji.map((kategorija) => [
+        kategorija.kategorija.replace(/_/g, ' '),
+        String(kategorija.ukupnoStavki),
+        kategorija.ukupnoRSD.toLocaleString('sr-RS'),
       ]),
     },
   },
@@ -57,13 +57,13 @@ export const licencniBudzetSrbijaSekvence: Sekvenca[] = [
     redosled: 4,
     podaci: {
       zaglavlje: ['Licenca', 'Delatnost', 'Rizik', 'RSD', 'Model', 'Faza'],
-      redovi: r.stavke.map((s) => [
-        s.licencaNaziv,
-        s.delatnost,
-        s.rizik,
-        s.procenjeniTrosak.toLocaleString('sr-RS'),
-        s.placanjeModel,
-        s.faza,
+      redovi: r.stavke.map((stavka) => [
+        stavka.licencaNaziv,
+        stavka.delatnost,
+        stavka.rizik,
+        stavka.procenjeniTrosak.toLocaleString('sr-RS'),
+        stavka.placanjeModel,
+        stavka.faza,
       ]),
     },
   },
@@ -73,7 +73,7 @@ export const licencniBudzetSrbijaSekvence: Sekvenca[] = [
     naslov: '📌 Preporuke',
     redosled: 5,
     podaci: {
-      stavke: r.preporuke.map((p) => ({ tekst: p })),
+      stavke: r.preporuke.map((preporuka) => ({ tekst: preporuka })),
     },
   },
   {
