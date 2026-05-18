@@ -86,9 +86,9 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '53.0.0', 'APP_VERSION');
-    assertEqual(TOTAL_API_ROUTES, 1127, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1212, 'TOTAL_ROUTES');
+    assertEqual(APP_VERSION, '53.4.0', 'APP_VERSION');
+    assertEqual(TOTAL_API_ROUTES, 1130, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1216, 'TOTAL_ROUTES');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

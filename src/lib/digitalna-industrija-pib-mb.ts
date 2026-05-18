@@ -151,7 +151,7 @@ export function buildDigitalnaIndustrijaPibMb(userId = 'public'): DigitalnaIndus
       statusZahteva: 'hitna_procedura',
       napomena: registar.digitalnaIndustrija.napomena ?? 'Hitna procedura u toku.',
     },
-    ...registar.kompanije.map((stavka) => ({
+    ...registar.kompanije.map((stavka): DigitalnaIndustrijaPibMbEntitet => ({
       id: stavka.id,
       naziv: stavka.naziv,
       tip: stavka.tip,
@@ -160,7 +160,7 @@ export function buildDigitalnaIndustrijaPibMb(userId = 'public'): DigitalnaIndus
       statusZahteva: 'hitna_procedura',
       napomena: stavka.napomena ?? 'Hitna procedura u toku.',
     })),
-    ...registar.platforme.map((stavka) => ({
+    ...registar.platforme.map((stavka): DigitalnaIndustrijaPibMbEntitet => ({
       id: stavka.id,
       naziv: stavka.naziv,
       tip: stavka.tip,
