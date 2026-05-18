@@ -36,6 +36,7 @@ export const navigation: NavItem[] = [
   { label: 'Digitalna Industrija Kursne Razlike', href: '/digitalna-industrija-kursne-razlike', icon: '📉', description: 'Centralni FX obračun kursnih razlika ključnih dokumenata Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Valutni Rizik', href: '/digitalna-industrija-valutni-rizik', icon: '📊', description: 'Centralni registar valutne izloženosti i limita ključnih FX portfolija Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Hedzing', href: '/digitalna-industrija-hedzing', icon: '🛡️', description: 'Centralni registar hedzing ugovora za zaštitu od valutnog rizika Digitalne Industrije u Srbiji' },
+  { label: 'Digitalna Industrija Kamatni Rizik', href: '/digitalna-industrija-kamatni-rizik', icon: '📊', description: 'Centralni registar kamatnog rizika (fiksne, varijabilne i mešovite pozicije) Digitalne Industrije u Srbiji' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },

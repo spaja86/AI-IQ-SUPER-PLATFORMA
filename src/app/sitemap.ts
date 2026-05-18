@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const corePages = new Date('2026-04-19');
   const standardPages = new Date('2026-04-14');
 
-  const recentRoutes = ['/', '/dashboard', '/ai-iq-world-bank', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/mozak-logika', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka', '/oktavni-gpu-ram', '/spaja-digitalni-kompjuter', '/digitalni-prozor', '/eksponat-glavnog-jezgra', '/digitalni-vorteks', '/generator-za-poslovne-racune', '/validator-poslovnih-racuna', '/licencni-budzet-srbija', '/digitalna-industrija-pib-mb', '/digitalna-industrija-sifra-delatnosti', '/digitalna-industrija-regulatorni-rokovi', '/digitalna-industrija-izvoz-faktura', '/digitalna-industrija-devizni-prilivi', '/digitalna-industrija-devizni-odlivi', '/digitalna-industrija-devizni-saldo', '/digitalna-industrija-kursna-lista', '/digitalna-industrija-kursne-razlike', '/digitalna-industrija-valutni-rizik', '/digitalna-industrija-hedzing'];
+  const recentRoutes = ['/', '/dashboard', '/ai-iq-world-bank', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/mozak-logika', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka', '/oktavni-gpu-ram', '/spaja-digitalni-kompjuter', '/digitalni-prozor', '/eksponat-glavnog-jezgra', '/digitalni-vorteks', '/generator-za-poslovne-racune', '/validator-poslovnih-racuna', '/licencni-budzet-srbija', '/digitalna-industrija-pib-mb', '/digitalna-industrija-sifra-delatnosti', '/digitalna-industrija-regulatorni-rokovi', '/digitalna-industrija-izvoz-faktura', '/digitalna-industrija-devizni-prilivi', '/digitalna-industrija-devizni-odlivi', '/digitalna-industrija-devizni-saldo', '/digitalna-industrija-kursna-lista', '/digitalna-industrija-kursne-razlike', '/digitalna-industrija-valutni-rizik', '/digitalna-industrija-hedzing', '/digitalna-industrija-kamatni-rizik'];
   const coreRoutes = ['/ekosistem', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/pricing', '/it-proizvodi', '/igrice', '/gejming-industrija', '/omega-ai-suport', '/spaja-digitalni-brouvzer'];
 
   const routes = [
@@ -79,7 +79,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
          '/digitalna-industrija-kursne-razlike',
          '/digitalna-industrija-valutni-rizik',
          '/digitalna-industrija-hedzing',
+         '/digitalna-industrija-kamatni-rizik',
          '/api/digitalna-industrija-hedzing',
+         '/api/digitalna-industrija-kamatni-rizik',
          '/reklame-i-partnerstva',
     '/dnevna-raspodela-zarade',
     '/spaja-ultra-repl',

@@ -7738,3 +7738,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-hedzing.test.ts + digitalna-industrija-hedzing-route.test.ts.
 // APP_VERSION=54.4.0 | AUTOFINISH_COUNT=1275 | TOTAL_API_ROUTES=1141 | TOTAL_ROUTES=1236
+
+// ─── Autofinish #1276 — DIGITALNA INDUSTRIJA KAMATNI RIZIK REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-kamatni-rizik.ts — buildDigitalnaIndustrijaKamatniRizik(),
+// DigitalnaIndustrijaKamatniRizikRezultat i centralni registar kamatnog rizika po pozicijama (fiksne/varijabilne/mešovite).
+// Nova ruta: GET /api/digitalna-industrija-kamatni-rizik. Nova stranica: /digitalna-industrija-kamatni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-kamatni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-kamatni-rizik.test.ts + digitalna-industrija-kamatni-rizik-route.test.ts.
+// APP_VERSION=54.5.0 | AUTOFINISH_COUNT=1276 | TOTAL_API_ROUTES=1142 | TOTAL_ROUTES=1238

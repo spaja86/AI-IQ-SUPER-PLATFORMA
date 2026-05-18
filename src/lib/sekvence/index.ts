@@ -153,3 +153,6 @@ export { digitalniVorteksSekvence } from './digitalni-vorteks-page';
 
 // ── MOZAK LOGIKA ─────────────────────────────────────────────────────────────
 export { mozakLogikaSekvence } from './mozak-logika-page';
+
+// ── DIGITALNA INDUSTRIJA KAMATNI RIZIK ────────────────────────────────────────
+export { digitalnaIndustrijaKamatniRizikSekvence } from './digitalna-industrija-kamatni-rizik-page';
