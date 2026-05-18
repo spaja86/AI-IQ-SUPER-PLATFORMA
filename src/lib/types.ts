@@ -117,6 +117,8 @@ export interface Company {
   status: EntityStatus;
   icon: string;
   industry: string;
+  pib?: string;
+  maticniBroj?: string;
   products: string[];
   platformIds: string[];
   organizationIds: string[];
@@ -163,10 +165,30 @@ export interface Platform {
   category: string;
   status: EntityStatus;
   icon: string;
+  pib?: string;
+  maticniBroj?: string;
   techStack: string[];
   features: string[];
   deploy?: PlatformDeploy;
   repoUrl?: string;
+}
+
+export interface PibMbRegistarStavka {
+  id: string;
+  naziv: string;
+  tip: 'digitalna-industrija' | 'kompanija' | 'platforma';
+  pib: string;
+  maticniBroj: string;
+  statusZahteva: 'hitna_procedura';
+  napomena?: string;
+}
+
+export interface PibMbRegistar {
+  status: 'aktivan';
+  azurirano: string;
+  digitalnaIndustrija: PibMbRegistarStavka;
+  kompanije: PibMbRegistarStavka[];
+  platforme: PibMbRegistarStavka[];
 }
 
 export interface IndustrijaStats {

@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/generator-za-poslovne-racune/page';
+import { metadata } from '../../app/digitalna-industrija-pib-mb/page';
 import { navigation } from '../../lib/navigation';
-import { buildGeneratorZaPoslovneRacune } from '../../lib/generator-za-poslovne-racune';
+import { buildDigitalnaIndustrijaPibMb } from '../../lib/digitalna-industrija-pib-mb';
 import {
   APP_VERSION,
   BASE_URL,
@@ -42,34 +42,34 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏦 Generator za Poslovne Račune route coverage — Unit Test Suite\n');
+  console.log('\n🧾 Digitalna Industrija PIB/M/B — Route Coverage Test Suite (#1265)\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/generator-za-poslovne-racune`;
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/generator-za-poslovne-racune/route.ts');
+  const routeUrl = `${BASE_URL}/digitalna-industrija-pib-mb`;
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/digitalna-industrija-pib-mb/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildGeneratorZaPoslovneRacune('test-user');
+  const rezultat = buildDigitalnaIndustrijaPibMb('test-user');
 
-  await test('Sitemap sadrži /generator-za-poslovne-racune', () => {
+  await test('Sitemap sadrži /digitalna-industrija-pib-mb', () => {
     assert(entries.some((entry) => entry.url === routeUrl), 'ruta nije u sitemap-u');
   });
 
-  await test('metadata.title sadrži Generator za Poslovne Račune', () => {
+  await test('metadata.title sadrži Digitalna Industrija PIB/M/B', () => {
     assert(
-      typeof metadata.title === 'string' && metadata.title.includes('Generator za Poslovne Račune'),
+      typeof metadata.title === 'string' && metadata.title.includes('Digitalna Industrija PIB/M/B'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /generator-za-poslovne-racune', () => {
+  await test('Navigation sadrži /digitalna-industrija-pib-mb', () => {
     assert(
-      navigation.some((item) => item.href === '/generator-za-poslovne-racune' && item.label === 'Generator Poslovnih Računa'),
-      'navigation nema Generator Poslovnih Računa link',
+      navigation.some((item) => item.href === '/digitalna-industrija-pib-mb' && item.label === 'Digitalna Industrija PIB/M/B'),
+      'navigation nema Digitalna Industrija PIB/M/B link',
     );
   });
 
-  await test('API ruta koristi buildGeneratorZaPoslovneRacune()', () => {
-    assert(apiRouteSource.includes('buildGeneratorZaPoslovneRacune'), 'API route ne koristi builder');
+  await test('API ruta koristi buildDigitalnaIndustrijaPibMb()', () => {
+    assert(apiRouteSource.includes('buildDigitalnaIndustrijaPibMb'), 'API route ne koristi builder');
   });
 
   await test('API ruta koristi apiSuccess i rate limit', () => {
@@ -79,13 +79,13 @@ async function runTests(): Promise<void> {
 
   await test('Model rezultata ima očekivana ključna polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
-    assert(Array.isArray(rezultat.racuni), 'racuni niz');
-    assert(Array.isArray(rezultat.audit), 'audit niz');
+    assert(Array.isArray(rezultat.entiteti), 'entiteti niz');
+    assert(Array.isArray(rezultat.zahtevi), 'zahtevi niz');
     assert(Array.isArray(rezultat.preporuke), 'preporuke niz');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
-  await test('Konstante su ažurirane', () => {
+  await test('Konstante su ažurirane za #1265', () => {
     assertEqual(APP_VERSION, '53.4.0', 'APP_VERSION');
     assertEqual(TOTAL_API_ROUTES, 1130, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1216, 'TOTAL_ROUTES');
