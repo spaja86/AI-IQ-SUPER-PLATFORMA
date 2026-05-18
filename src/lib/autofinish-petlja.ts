@@ -7720,3 +7720,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-kursne-razlike.test.ts + digitalna-industrija-kursne-razlike-route.test.ts.
 // APP_VERSION=54.2.0 | AUTOFINISH_COUNT=1273 | TOTAL_API_ROUTES=1139 | TOTAL_ROUTES=1232
+
+// ─── Autofinish #1274 — DIGITALNA INDUSTRIJA VALUTNI RIZIK REGISTAR ────────────
+// lib modul: src/lib/digitalna-industrija-valutni-rizik.ts — buildDigitalnaIndustrijaValutniRizik(),
+// DigitalnaIndustrijaValutniRizikRezultat i centralni registar valutne izloženosti i limita.
+// Nova ruta: GET /api/digitalna-industrija-valutni-rizik. Nova stranica: /digitalna-industrija-valutni-rizik.
+// Sekvence: src/lib/sekvence/digitalna-industrija-valutni-rizik-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-valutni-rizik.test.ts + digitalna-industrija-valutni-rizik-route.test.ts.
+// APP_VERSION=54.3.0 | AUTOFINISH_COUNT=1274 | TOTAL_API_ROUTES=1140 | TOTAL_ROUTES=1234

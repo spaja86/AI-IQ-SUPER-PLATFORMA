@@ -1,4 +1,4 @@
-// Autofinish #1139 — GitHub Billing AI IQ World Bank Tests
+// Autofinish #1140 — GitHub Billing AI IQ World Bank Tests
 // Kompanija SPAJA — Digitalna Industrija
 
 import { AUTOFINISH_COUNT, APP_VERSION, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
@@ -23,7 +23,7 @@ function assert(c: boolean, m: string): asserts c { if (!c) throw new Error(`Ass
 function assertEqual<T>(a: T, e: T, l?: string): void { if (a !== e) throw new Error(`${l ?? 'assertEqual'}: expected ${JSON.stringify(e)}, got ${JSON.stringify(a)}`); }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏦💳 GitHub Billing AI IQ World Bank Tests (#1139)\n');
+  console.log('\n🏦💳 GitHub Billing AI IQ World Bank Tests (#1140)\n');
 
   // ── Billing račun ──────────────────────────────────────────────────────────
   await test('gitHubBillingRacun ima ispravne podatke', () => {

@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-regulatorni-rokovi/page';
+import { metadata } from '../../app/digitalna-industrija-valutni-rizik/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaRegulatorniRokovi } from '../../lib/digitalna-industrija-regulatorni-rokovi';
+import { buildDigitalnaIndustrijaValutniRizik } from '../../lib/digitalna-industrija-valutni-rizik';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📅 Digitalna Industrija Regulatorni Rokovi route coverage — Unit Test Suite\n');
+  console.log('\n📊 Digitalna Industrija Valutni Rizik route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-regulatorni-rokovi`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-valutni-rizik`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-regulatorni-rokovi/route.ts',
+    'src/app/api/digitalna-industrija-valutni-rizik/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaRegulatorniRokovi('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaValutniRizik('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-regulatorni-rokovi', () => {
+  await test('Sitemap sadrži /digitalna-industrija-valutni-rizik', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-regulatorni-rokovi nije u sitemap-u',
+      '/digitalna-industrija-valutni-rizik nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Regulatorni Rokovi', () => {
+  await test('metadata.title sadrži Digitalna Industrija Valutni Rizik', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Regulatorni Rokovi'),
+        metadata.title.includes('Digitalna Industrija Valutni Rizik'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-regulatorni-rokovi', () => {
+  await test('Navigation sadrži /digitalna-industrija-valutni-rizik', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-regulatorni-rokovi' &&
-          item.label === 'Digitalna Industrija Regulatorni Rokovi',
+          item.href === '/digitalna-industrija-valutni-rizik' &&
+          item.label === 'Digitalna Industrija Valutni Rizik',
       ),
-      'navigation nema Digitalna Industrija Regulatorni Rokovi link',
+      'navigation nema Digitalna Industrija Valutni Rizik link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaRegulatorniRokovi()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaValutniRizik()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaRegulatorniRokovi'),
-      'API route ne koristi buildDigitalnaIndustrijaRegulatorniRokovi',
+      apiRouteSource.includes('buildDigitalnaIndustrijaValutniRizik'),
+      'API route ne koristi buildDigitalnaIndustrijaValutniRizik',
     );
   });
 
@@ -96,8 +96,8 @@ async function runTests(): Promise<void> {
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.rokovi), 'rokovi niz');
-    assert(rezultat.rokovi.length > 0, 'rokovi nisu prazni');
+    assert(Array.isArray(rezultat.izlozenosti), 'izlozenosti niz');
+    assert(rezultat.izlozenosti.length > 0, 'izlozenosti nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 

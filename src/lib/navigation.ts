@@ -34,6 +34,7 @@ export const navigation: NavItem[] = [
   { label: 'Digitalna Industrija Devizni Saldo', href: '/digitalna-industrija-devizni-saldo', icon: '⚖️', description: 'Centralni registar neto deviznog salda ključnih entiteta Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Kursna Lista', href: '/digitalna-industrija-kursna-lista', icon: '💱', description: 'Centralni FX registar kursne liste ključnih valutnih parova Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Kursne Razlike', href: '/digitalna-industrija-kursne-razlike', icon: '📉', description: 'Centralni FX obračun kursnih razlika ključnih dokumenata Digitalne Industrije u Srbiji' },
+  { label: 'Digitalna Industrija Valutni Rizik', href: '/digitalna-industrija-valutni-rizik', icon: '📊', description: 'Centralni registar valutne izloženosti i limita ključnih FX portfolija Digitalne Industrije u Srbiji' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },

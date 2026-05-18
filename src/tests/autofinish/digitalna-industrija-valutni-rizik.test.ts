@@ -1,4 +1,4 @@
-import { buildDigitalnaIndustrijaDevizniOdlivi } from '../../lib/digitalna-industrija-devizni-odlivi';
+import { buildDigitalnaIndustrijaValutniRizik } from '../../lib/digitalna-industrija-valutni-rizik';
 import {
   APP_VERSION,
   TOTAL_API_ROUTES,
@@ -37,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n💸 Digitalna Industrija Devizni Odlivi — Unit Test Suite\n');
+  console.log('\n📊 Digitalna Industrija Valutni Rizik — Unit Test Suite\n');
 
-  const r = buildDigitalnaIndustrijaDevizniOdlivi('test-user-id');
+  const r = buildDigitalnaIndustrijaValutniRizik('test-user-id');
 
   await test('Vraća objekat i status=aktivan', () => {
     assert(typeof r === 'object' && r !== null, 'rezultat je objekat');
@@ -50,35 +50,37 @@ async function runTests(): Promise<void> {
     assert(!Number.isNaN(Date.parse(r.timestamp)), 'timestamp ISO');
   });
 
-  await test('Jurisdikcija i nosilac registra su popunjeni', () => {
+  await test('Jurisdikcija i izvor su popunjeni', () => {
     assertEqual(r.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(r.registarNosioc.length > 0, 'registarNosioc');
+    assert(r.izvor.length > 0, 'izvor nije prazan');
   });
 
-  await test('KPI je konzistentan sa odlivima', () => {
-    assertEqual(r.kpi.ukupnoOdliva, r.odlivi.length, 'ukupnoOdliva');
+  await test('KPI je konzistentan sa izloženostima', () => {
+    assertEqual(r.kpi.ukupnoPortfolija, r.izlozenosti.length, 'ukupnoPortfolija');
     assertEqual(
-      r.kpi.odobreno,
-      r.odlivi.filter((stavka) => stavka.status === 'odobreno').length,
-      'odobreno',
+      r.kpi.stabilni,
+      r.izlozenosti.filter((stavka) => stavka.status === 'stabilan').length,
+      'stabilni',
     );
     assertEqual(
-      r.kpi.naProveri,
-      r.odlivi.filter((stavka) => stavka.status === 'na-proveri').length,
-      'naProveri',
+      r.kpi.povecani,
+      r.izlozenosti.filter((stavka) => stavka.status === 'povecan').length,
+      'povecani',
     );
     assertEqual(
-      r.kpi.zadrzano,
-      r.odlivi.filter((stavka) => stavka.status === 'zadrzano').length,
-      'zadrzano',
+      r.kpi.kriticni,
+      r.izlozenosti.filter((stavka) => stavka.status === 'kritican').length,
+      'kriticni',
     );
   });
 
-  await test('Odlivi imaju obavezna polja', () => {
-    for (const stavka of r.odlivi) {
-      assert(stavka.entitet.length > 0, 'entitet nije prazan');
-      assert(stavka.namena.length > 0, 'namena nije prazna');
-      assert(stavka.iznos > 0, 'iznos > 0');
+  await test('Stavke imaju obavezna polja i validne limite', () => {
+    for (const stavka of r.izlozenosti) {
+      assert(stavka.portfolio.length > 0, 'portfolio nije prazan');
+      assert(stavka.valuta.length > 0, 'valuta nije prazna');
+      assert(stavka.otvorenaPozicijaRsd > 0, 'otvorenaPozicijaRsd > 0');
+      assert(stavka.limitRsd > 0, 'limitRsd > 0');
+      assert(stavka.iskoriscenostLimitaPct > 0, 'iskoriscenostLimitaPct > 0');
     }
   });
 

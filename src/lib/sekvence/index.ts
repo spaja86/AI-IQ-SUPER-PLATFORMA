@@ -82,6 +82,7 @@ export { digitalnaIndustrijaDevizniOdliviSekvence } from './digitalna-industrija
 export { digitalnaIndustrijaDevizniSaldoSekvence } from './digitalna-industrija-devizni-saldo-page';
 export { digitalnaIndustrijaKursnaListaSekvence } from './digitalna-industrija-kursna-lista-page';
 export { digitalnaIndustrijaKursneRazlikeSekvence } from './digitalna-industrija-kursne-razlike-page';
+export { digitalnaIndustrijaValutniRizikSekvence } from './digitalna-industrija-valutni-rizik-page';
 
 // ── LAUCENTRICNI SPEKTAR ────────────────────────────────────────────────────
 export { laucentricniSpektarSekvence } from './laucentricni-spektar-page';
