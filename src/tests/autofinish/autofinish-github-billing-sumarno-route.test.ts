@@ -1,16 +1,9 @@
-// Autofinish #1296 — API Milestone 1042 Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-api-milestone-1042-route.test.ts
+// Autofinish #1297 — GitHub Billing Sumarno Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/autofinish-api-milestone-1042/route';
-import {
-  APP_VERSION,
-  AUTOFINISH_COUNT,
-  TOTAL_API_ROUTES,
-  TOTAL_ROUTES,
-  TOTAL_DIAGNOSTIKA,
-} from '../../lib/constants';
+import { GET } from '../../app/api/autofinish-github-billing-sumarno/route';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
 let failed = 0;
@@ -43,21 +36,23 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish API Milestone 1042 — Route Coverage Test Suite (#1296)\n');
+  console.log('\n📋 Autofinish GitHub Billing Sumarno — Route Coverage Test (#1297)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-api-milestone-1042/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-github-billing-sumarno/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
   const response = await GET();
   const body = (await response.json()) as Record<string, unknown>;
-  const milestone = body['milestone'] as Record<string, unknown>;
-  const ekosistem = body['ekosistem'] as Record<string, unknown>;
+  const pilot = body['pilot'] as Record<string, unknown>;
+  const rollout = body['rollout'] as Record<string, unknown>;
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(apiRoutePath), `${apiRoutePath} ne postoji`);
   });
 
-  await test('API ruta koristi TOTAL_API_ROUTES', () => {
-    assert(apiRouteSource.includes('TOTAL_API_ROUTES'), 'API route ne koristi TOTAL_API_ROUTES');
+  await test('API ruta koristi github billing izvore i statistike', () => {
+    assert(apiRouteSource.includes('gitHubPilotTransakcije'), 'API route ne koristi gitHubPilotTransakcije');
+    assert(apiRouteSource.includes('gitHubBillingRolloutFaze'), 'API route ne koristi gitHubBillingRolloutFaze');
+    assert(apiRouteSource.includes('getGitHubBillingStatistike'), 'API route ne koristi getGitHubBillingStatistike');
   });
 
   await test('GET vraća 200', () => {
@@ -65,32 +60,19 @@ async function runTests(): Promise<void> {
   });
 
   await test('Payload ima osnovna polja', () => {
-    assertEqual(body['naziv'] as string, 'Autofinish API Milestone 1042', 'naziv');
+    assertEqual(body['naziv'] as string, 'Autofinish GitHub Billing Sumarno', 'naziv');
     assertEqual(body['status'] as string, 'aktivan', 'status');
     assertEqual(body['appVerzija'] as string, APP_VERSION, 'appVerzija');
     assertEqual(body['autofinishIteracija'] as number, AUTOFINISH_COUNT, 'autofinishIteracija');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
   });
 
-  await test('milestone objekat ima ispravne vrednosti', () => {
-    assert(typeof milestone === 'object' && milestone !== null, 'milestone je objekat');
-    assertEqual(milestone['ciljBroj'] as number, 1042, 'ciljBroj');
-    assertEqual(milestone['trenutniBroj'] as number, TOTAL_API_ROUTES, 'trenutniBroj');
-    assert(typeof milestone['postignut'] === 'boolean', 'postignut boolean');
-    assert(Number(milestone['procenat']) >= 0, 'procenat >= 0');
-  });
-
-  await test('ekosistem objekat odgovara konstantama', () => {
-    assert(typeof ekosistem === 'object' && ekosistem !== null, 'ekosistem je objekat');
-    assertEqual(ekosistem['ukupnoApiRuta'] as number, TOTAL_API_ROUTES, 'ukupnoApiRuta');
-    assertEqual(ekosistem['ukupnoRuta'] as number, TOTAL_ROUTES, 'ukupnoRuta');
-    assertEqual(ekosistem['ukupnoDijagnostika'] as number, TOTAL_DIAGNOSTIKA, 'ukupnoDijagnostika');
-  });
-
-  await test('poruka je string i pominje 1042', () => {
-    const poruka = body['poruka'] as string;
-    assert(typeof poruka === 'string' && poruka.length > 0, 'poruka neprazna');
-    assert(poruka.includes('1042'), 'poruka sadrzi 1042');
+  await test('pilot i rollout objekti imaju očekivane vrednosti', () => {
+    assert(typeof pilot === 'object' && pilot !== null, 'pilot je objekat');
+    assert(typeof rollout === 'object' && rollout !== null, 'rollout je objekat');
+    assert(Number(pilot['ukupnoTransakcija']) >= 1, 'ukupnoTransakcija >= 1');
+    assert(Number(pilot['ukupnoPilotUSD']) >= 0, 'ukupnoPilotUSD >= 0');
+    assert(Number(rollout['ukupnoFaza']) >= 1, 'ukupnoFaza >= 1');
   });
 
   await test('Konstante su ažurirane', () => {
@@ -100,7 +82,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
