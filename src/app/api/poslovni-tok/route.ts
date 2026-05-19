@@ -14,6 +14,8 @@ import {
 } from '@/lib/poslovni-tok';
 import type { B2BProcurementCase } from '@/lib/b2b-procurement-workflow';
 
+// Uplata se smatra potvrđenom ili kada je status eksplicitno "uplaceno"
+// ili kada je pristigla potvrda uplate, čak i ako status kasni sa sinkronizacijom.
 function hasSuccessfulPayment(slucaj: B2BProcurementCase) {
   return slucaj.payment.status === 'uplaceno' || slucaj.payment.potvrdaUplate !== null;
 }
@@ -26,7 +28,6 @@ function buildB2BDeliveryTracking(slucaj: B2BProcurementCase) {
     uplataProsla,
     statusIsporuke: slucaj.delivery.status,
     stize: slucaj.delivery.terminIsporuke,
-    cekaZakazivanjeIsporuke: slucaj.delivery.terminIsporuke === null,
     gamePlanoviEnterprise: slucaj.gamePlanovi.map((plan) => ({
       id: plan.id,
       naziv: plan.naziv,

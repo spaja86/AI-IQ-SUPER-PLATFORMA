@@ -339,7 +339,10 @@ async function runTests(): Promise<void> {
       lamborghini.statusUplate === PAYMENT_STATUS_CEKA_ODOBRENJE,
       'Lamborghini statusUplate mora biti ceka_odobrenje',
     );
-    assert(lamborghini.uplataProsla === false, 'Lamborghini uplataProsla mora biti false dok nema potvrde uplate');
+    assert(
+      lamborghini.uplataProsla === false,
+      'Lamborghini uplataProsla mora biti false jer fallback scenario još nema potvrdu uplate',
+    );
     assert(
       lamborghini.statusIsporuke === DELIVERY_STATUS_NIJE_ZAKAZANO,
       'Lamborghini statusIsporuke mora biti nije_zakazano',
