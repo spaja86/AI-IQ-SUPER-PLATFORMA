@@ -14,8 +14,12 @@ import {
 } from '@/lib/poslovni-tok';
 import type { B2BProcurementCase } from '@/lib/b2b-procurement-workflow';
 
+function hasSuccessfulPayment(slucaj: B2BProcurementCase) {
+  return slucaj.payment.status === 'uplaceno' || slucaj.payment.potvrdaUplate !== null;
+}
+
 function buildB2BDeliveryTracking(slucaj: B2BProcurementCase) {
-  const uplataProsla = slucaj.payment.status === 'uplaceno' || slucaj.payment.potvrdaUplate !== null;
+  const uplataProsla = hasSuccessfulPayment(slucaj);
 
   return {
     statusUplate: slucaj.payment.status,
@@ -120,7 +124,7 @@ export async function GET() {
   const prosloRikvestova = evidencija.filter((item) => item.proslo).length;
   const digitalnaIndustrijaPregled = {
     ukupnoB2BSlucajeva: b2bSlucajevi.length,
-    uplateProsle: b2bSlucajevi.filter((item) => item.payment.status === 'uplaceno' || item.payment.potvrdaUplate !== null).length,
+    uplateProsle: b2bSlucajevi.filter(hasSuccessfulPayment).length,
     isporukeZakazane: b2bSlucajevi.filter((item) => item.delivery.terminIsporuke !== null).length,
     artikli: b2bSlucajevi.flatMap((item) => {
       const tracking = buildB2BDeliveryTracking(item);

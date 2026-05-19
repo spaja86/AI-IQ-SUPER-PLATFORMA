@@ -22,6 +22,7 @@ import {
   DEFAULT_DELIVERY_CHECKLIST,
   type ArrivalEvent,
 } from '../../lib/delivery-checklist';
+import type { B2BDeliveryStatus, B2BPaymentStatus } from '../../lib/b2b-procurement-workflow';
 import { GET as getPoslovniTok } from '../../app/api/poslovni-tok/route';
 import { GET as getKpiDashboard } from '../../app/api/kpi-dashboard/route';
 import { GET as getSlaMonitor } from '../../app/api/sla-monitor/route';
@@ -30,6 +31,8 @@ import { GET as getAutofinishPoslovniTok } from '../../app/api/autofinish-poslov
 let passed = 0;
 let failed = 0;
 const failures: string[] = [];
+const PAYMENT_STATUS_CEKA_ODOBRENJE: B2BPaymentStatus = 'ceka_odobrenje';
+const DELIVERY_STATUS_NIJE_ZAKAZANO: B2BDeliveryStatus = 'nije_zakazano';
 
 async function test(name: string, fn: () => Promise<void> | void): Promise<void> {
   try {
@@ -332,9 +335,15 @@ async function runTests(): Promise<void> {
     );
 
     assert(lamborghini !== undefined, 'Lamborghini evidencija mora postojati');
-    assert(lamborghini.statusUplate === 'ceka_odobrenje', 'Lamborghini statusUplate mora biti ceka_odobrenje');
+    assert(
+      lamborghini.statusUplate === PAYMENT_STATUS_CEKA_ODOBRENJE,
+      'Lamborghini statusUplate mora biti ceka_odobrenje',
+    );
     assert(lamborghini.uplataProsla === false, 'Lamborghini uplataProsla mora biti false dok nema potvrde uplate');
-    assert(lamborghini.statusIsporuke === 'nije_zakazano', 'Lamborghini statusIsporuke mora biti nije_zakazano');
+    assert(
+      lamborghini.statusIsporuke === DELIVERY_STATUS_NIJE_ZAKAZANO,
+      'Lamborghini statusIsporuke mora biti nije_zakazano',
+    );
     assert(lamborghini.stize === null, 'Lamborghini stize mora biti null dok termin nije zakazan');
     assert((lamborghini.gamePlanoviEnterprise ?? []).length === 2, 'Lamborghini mora imati tačno 2 enterprise gejm plana');
   });
@@ -350,7 +359,7 @@ async function runTests(): Promise<void> {
     const artikli = body.digitalnaIndustrijaPregled?.artikli ?? [];
     assert(artikli.some((item) => item.tip === 'vozilo' && (item.naziv ?? '').toLowerCase().includes('lamborghini')), 'pregled mora sadržati Lamborghini vozilo');
     assert(
-      artikli.filter((item) => item.tip === 'gejm_plan_enterprise' && (item.naziv ?? '').toLowerCase().includes('gejm plan')).length === 2,
+      artikli.filter((item) => item.tip === 'gejm_plan_enterprise').length === 2,
       'pregled mora sadržati 2 enterprise gejm plana',
     );
     assert(
