@@ -195,3 +195,6 @@ export { digitalnaIndustrijaPozicijeSekvence } from './digitalna-industrija-pozi
 
 // ── DIGITALNA INDUSTRIJA PLATE ────────────────────────────────────────────────
 export { digitalnaIndustrijaPlateSekvence } from './digitalna-industrija-plate-page';
+
+// ── DIGITALNA INDUSTRIJA BENEFICIJE ──────────────────────────────────────────
+export { digitalnaIndustrijaBeneficijeSekvence } from './digitalna-industrija-beneficije-page';
