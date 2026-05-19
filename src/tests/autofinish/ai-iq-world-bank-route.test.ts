@@ -151,8 +151,8 @@ async function runTests(): Promise<void> {
 
   // ── Konstante ─────────────────────────────────────────────────────────────
   await test('Konstante su ažurirane za AI IQ World Bank modul', () => {
-    assertEqual(APP_VERSION, '56.6.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1297, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '56.7.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1298, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1158, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
   });
