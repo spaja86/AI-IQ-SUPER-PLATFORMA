@@ -294,7 +294,15 @@ async function runTests(): Promise<void> {
   await test('GET /api/poslovni-tok evidencija sadrži OpenAI, Vercel, GitHub i Lamborghini', async () => {
     const response = await getPoslovniTok();
     const body = (await response.json()) as {
-      evidencijaRikvestova?: Array<{ id?: string; naziv?: string }>;
+      evidencijaRikvestova?: Array<{
+        id?: string;
+        naziv?: string;
+        statusUplate?: string;
+        uplataProsla?: boolean;
+        statusIsporuke?: string;
+        stize?: string | null;
+        gamePlanoviEnterprise?: Array<{ naziv?: string }>;
+      }>;
     };
     const evidencija = body.evidencijaRikvestova ?? [];
 
@@ -304,6 +312,51 @@ async function runTests(): Promise<void> {
     assert(
       evidencija.some((item) => (item.naziv ?? '').toLowerCase().includes('lamborghini')),
       'mora sadržati Lamborghini evidenciju',
+    );
+  });
+
+  await test('GET /api/poslovni-tok Lamborghini evidencija vraća status uplate, isporuke i gejm planove', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      evidencijaRikvestova?: Array<{
+        naziv?: string;
+        statusUplate?: string;
+        uplataProsla?: boolean;
+        statusIsporuke?: string;
+        stize?: string | null;
+        gamePlanoviEnterprise?: Array<{ naziv?: string }>;
+      }>;
+    };
+
+    const lamborghini = (body.evidencijaRikvestova ?? []).find((item) =>
+      (item.naziv ?? '').toLowerCase().includes('lamborghini'),
+    );
+
+    assert(lamborghini !== undefined, 'Lamborghini evidencija mora postojati');
+    assert(lamborghini.statusUplate === 'ceka_odobrenje', 'Lamborghini statusUplate mora biti ceka_odobrenje');
+    assert(lamborghini.uplataProsla === false, 'Lamborghini uplataProsla mora biti false dok nema potvrde uplate');
+    assert(lamborghini.statusIsporuke === 'nije_zakazano', 'Lamborghini statusIsporuke mora biti nije_zakazano');
+    assert(lamborghini.stize === null, 'Lamborghini stize mora biti null dok termin nije zakazan');
+    assert((lamborghini.gamePlanoviEnterprise ?? []).length === 2, 'Lamborghini mora imati tačno 2 enterprise gejm plana');
+  });
+
+  await test('GET /api/poslovni-tok vraća Digitalna industrija pregled za Lamborghini i gejm planove enterprise', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      digitalnaIndustrijaPregled?: {
+        artikli?: Array<{ tip?: string; naziv?: string; statusUplate?: string; statusIsporuke?: string }>;
+      };
+    };
+
+    const artikli = body.digitalnaIndustrijaPregled?.artikli ?? [];
+    assert(artikli.some((item) => item.tip === 'vozilo' && (item.naziv ?? '').toLowerCase().includes('lamborghini')), 'pregled mora sadržati Lamborghini vozilo');
+    assert(
+      artikli.filter((item) => item.tip === 'gejm_plan_enterprise' && (item.naziv ?? '').toLowerCase().includes('gejm plan')).length === 2,
+      'pregled mora sadržati 2 enterprise gejm plana',
+    );
+    assert(
+      artikli.every((item) => item.statusUplate !== undefined && item.statusIsporuke !== undefined),
+      'svaka stavka pregleda mora imati status uplate i isporuke',
     );
   });
 

@@ -12,6 +12,29 @@ import {
   proveraDocumentGate,
   type PoslovniTokStatus,
 } from '@/lib/poslovni-tok';
+import type { B2BProcurementCase } from '@/lib/b2b-procurement-workflow';
+
+function buildB2BDeliveryTracking(slucaj: B2BProcurementCase) {
+  const uplataProsla = slucaj.payment.status === 'uplaceno' || slucaj.payment.potvrdaUplate !== null;
+
+  return {
+    statusUplate: slucaj.payment.status,
+    uplataProsla,
+    statusIsporuke: slucaj.delivery.status,
+    stize: slucaj.delivery.terminIsporuke,
+    cekaZakazivanjeIsporuke: slucaj.delivery.terminIsporuke === null,
+    gamePlanoviEnterprise: slucaj.gamePlanovi.map((plan) => ({
+      id: plan.id,
+      naziv: plan.naziv,
+      statusAnalize: plan.statusAnalize,
+      izabran: slucaj.bestGamePlan.selectedPlanId === plan.id,
+      statusUplate: slucaj.payment.status,
+      uplataProsla,
+      statusIsporuke: slucaj.delivery.status,
+      stize: slucaj.delivery.terminIsporuke,
+    })),
+  };
+}
 
 export async function GET() {
   const [enterpriseZahtevi, enterpriseUgovori, b2bSlucajevi] = await Promise.all([
@@ -76,21 +99,57 @@ export async function GET() {
 
   const lamborghiniEvidencija = b2bSlucajevi
     .filter((item) => /lamborghini|lamburgini/i.test(item.vozilo.marka))
-    .map((item) => ({
-      tip: 'b2b' as const,
-      id: item.id,
-      naziv: `${item.vozilo.marka} ${item.vozilo.model}`.trim(),
-      statusRikvesta: item.status,
-      statusPoslovanja: item.status,
-      poslato: item.status !== 'upit',
-      proslo: item.status === 'preuzeto',
-      spremnoZaUplatu: getMissingChecklist(item).length === 0,
-    }));
+    .map((item) => {
+      const tracking = buildB2BDeliveryTracking(item);
+      return {
+        tip: 'b2b' as const,
+        id: item.id,
+        naziv: `${item.vozilo.marka} ${item.vozilo.model}`.trim(),
+        statusRikvesta: item.status,
+        statusPoslovanja: item.status,
+        poslato: item.status !== 'upit',
+        proslo: item.status === 'preuzeto',
+        spremnoZaUplatu: getMissingChecklist(item).length === 0,
+        ...tracking,
+      };
+    });
 
   const evidencija = [...enterpriseEvidencija, ...lamborghiniEvidencija];
   const ukupnoRikvestova = evidencija.length;
   const poslatoRikvestova = evidencija.filter((item) => item.poslato).length;
   const prosloRikvestova = evidencija.filter((item) => item.proslo).length;
+  const digitalnaIndustrijaPregled = {
+    ukupnoB2BSlucajeva: b2bSlucajevi.length,
+    uplateProsle: b2bSlucajevi.filter((item) => item.payment.status === 'uplaceno' || item.payment.potvrdaUplate !== null).length,
+    isporukeZakazane: b2bSlucajevi.filter((item) => item.delivery.terminIsporuke !== null).length,
+    artikli: b2bSlucajevi.flatMap((item) => {
+      const tracking = buildB2BDeliveryTracking(item);
+      return [
+        {
+          id: `${item.id}-vozilo`,
+          tip: 'vozilo' as const,
+          naziv: `${item.vozilo.marka} ${item.vozilo.model}`.trim(),
+          statusRikvesta: item.status,
+          statusUplate: tracking.statusUplate,
+          uplataProsla: tracking.uplataProsla,
+          statusIsporuke: tracking.statusIsporuke,
+          stize: tracking.stize,
+        },
+        ...tracking.gamePlanoviEnterprise.map((plan) => ({
+          id: `${item.id}-${plan.id}`,
+          tip: 'gejm_plan_enterprise' as const,
+          naziv: plan.naziv,
+          statusRikvesta: item.status,
+          statusAnalize: plan.statusAnalize,
+          izabran: plan.izabran,
+          statusUplate: plan.statusUplate,
+          uplataProsla: plan.uplataProsla,
+          statusIsporuke: plan.statusIsporuke,
+          stize: plan.stize,
+        })),
+      ];
+    }),
+  };
 
   return NextResponse.json({
     status: 'aktivan',
@@ -108,6 +167,7 @@ export async function GET() {
       ukupnoPoslovanja: evidencija.length,
       prosloPoslovanja: prosloRikvestova,
     },
+    digitalnaIndustrijaPregled,
     evidencijaRikvestova: evidencija,
     timestamp: new Date().toISOString(),
   });
