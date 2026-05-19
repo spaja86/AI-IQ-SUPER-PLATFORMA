@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-poreski-rizik/page';
+import { metadata } from '../../app/digitalni-vorteks/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaPoreskiRizik } from '../../lib/digitalna-industrija-poreski-rizik';
+import { buildDigitalniVorteks } from '../../lib/digitalni-vorteks';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,61 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija Poreski Rizik route coverage — Unit Test Suite\n');
+  console.log('\n🌀 DIGITALNI VORTEKS route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-poreski-rizik`;
-  const apiRoutePath = path.resolve(
-    process.cwd(),
-    'src/app/api/digitalna-industrija-poreski-rizik/route.ts',
-  );
+  const routeUrl = `${BASE_URL}/digitalni-vorteks`;
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/digitalni-vorteks/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaPoreskiRizik('test-user-id');
+  const rezultat = buildDigitalniVorteks('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-poreski-rizik', () => {
-    assert(
-      entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-poreski-rizik nije u sitemap-u',
-    );
+  await test('Sitemap sadrži /digitalni-vorteks', () => {
+    assert(entries.some((entry) => entry.url === routeUrl), '/digitalni-vorteks nije u sitemap-u');
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Poreski Rizik', () => {
+  await test('metadata.title sadrži DIGITALNI VORTEKS', () => {
     assert(
-      typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Poreski Rizik'),
+      typeof metadata.title === 'string' && metadata.title.includes('DIGITALNI VORTEKS'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-poreski-rizik', () => {
+  await test('Navigation sadrži /digitalni-vorteks', () => {
     assert(
-      navigation.some(
-        (item) =>
-          item.href === '/digitalna-industrija-poreski-rizik' &&
-          item.label === 'Digitalna Industrija Poreski Rizik',
-      ),
-      'navigation nema Digitalna Industrija Poreski Rizik link',
+      navigation.some((item) => item.href === '/digitalni-vorteks' && item.label === 'DIGITALNI VORTEKS'),
+      'navigation nema DIGITALNI VORTEKS link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaPoreskiRizik()', () => {
-    assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaPoreskiRizik'),
-      'API route ne koristi buildDigitalnaIndustrijaPoreskiRizik',
-    );
+  await test('API ruta koristi buildDigitalniVorteks()', () => {
+    assert(apiRouteSource.includes('buildDigitalniVorteks'), 'API route ne koristi buildDigitalniVorteks');
   });
 
-  await test('API ruta ima apiSuccess i rate limiting', () => {
-    assert(apiRouteSource.includes('apiSuccess'), 'API route ne koristi apiSuccess');
+  await test('API ruta ima auth, rate limiting i apiSuccess', () => {
+    assert(apiRouteSource.includes('verifyUserFromToken'), 'API route nema auth proveru');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'API route nema rate limiting');
-    assert(apiRouteSource.includes('rateLimitKey'), 'API route nema rate limit key');
+    assert(apiRouteSource.includes('apiSuccess'), 'API route ne koristi apiSuccess');
   });
 
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
-    assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.stavke), 'stavke niz');
-    assert(rezultat.stavke.length > 0, 'stavke nisu prazne');
+    assert(typeof rezultat.userId === 'string' && rezultat.userId.length > 0, 'userId string');
+    assert(typeof rezultat.vorteksniKoeficijent === 'number', 'vorteksniKoeficijent broj');
+    assert(Array.isArray(rezultat.vorteksniCentar.oktave), 'vorteksniCentar.oktave niz');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
@@ -108,7 +94,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n🧾 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🌀 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
