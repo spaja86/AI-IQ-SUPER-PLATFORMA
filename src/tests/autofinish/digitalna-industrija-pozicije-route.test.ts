@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-strateski-rizik/page';
+import { metadata } from '../../app/digitalna-industrija-pozicije/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaStrateskiRizik } from '../../lib/digitalna-industrija-strateski-rizik';
+import { buildDigitalnaIndustrijaPozicije } from '../../lib/digitalna-industrija-pozicije';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,47 +43,47 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🎯 Digitalna Industrija Strateški Rizik route coverage — Unit Test Suite\n');
+  console.log('\n👥 Digitalna Industrija Pozicije route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-strateski-rizik`;
+  const routeUrl = `${BASE_URL}/digitalna-industrija-pozicije`;
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/digitalna-industrija-strateski-rizik/route.ts',
+    'src/app/api/digitalna-industrija-pozicije/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaStrateskiRizik('test-user-id');
+  const rezultat = buildDigitalnaIndustrijaPozicije('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-strateski-rizik', () => {
+  await test('Sitemap sadrži /digitalna-industrija-pozicije', () => {
     assert(
       entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-strateski-rizik nije u sitemap-u',
+      '/digitalna-industrija-pozicije nije u sitemap-u',
     );
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Strateški Rizik', () => {
+  await test('metadata.title sadrži Digitalna Industrija Pozicije', () => {
     assert(
       typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Strateški Rizik'),
+        metadata.title.includes('Digitalna Industrija Pozicije'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-strateski-rizik', () => {
+  await test('Navigation sadrži /digitalna-industrija-pozicije', () => {
     assert(
       navigation.some(
         (item) =>
-          item.href === '/digitalna-industrija-strateski-rizik' &&
-          item.label === 'Digitalna Industrija Strateški Rizik',
+          item.href === '/digitalna-industrija-pozicije' &&
+          item.label === 'Digitalna Industrija Pozicije',
       ),
-      'navigation nema Digitalna Industrija Strateški Rizik link',
+      'navigation nema Digitalna Industrija Pozicije link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaStrateskiRizik()', () => {
+  await test('API ruta koristi buildDigitalnaIndustrijaPozicije()', () => {
     assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaStrateskiRizik'),
-      'API route ne koristi buildDigitalnaIndustrijaStrateskiRizik',
+      apiRouteSource.includes('buildDigitalnaIndustrijaPozicije'),
+      'API route ne koristi buildDigitalnaIndustrijaPozicije',
     );
   });
 
@@ -96,8 +96,8 @@ async function runTests(): Promise<void> {
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
     assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
-    assert(Array.isArray(rezultat.stavke), 'stavke niz');
-    assert(rezultat.stavke.length > 0, 'stavke nisu prazne');
+    assert(Array.isArray(rezultat.pozicije), 'pozicije niz');
+    assert(rezultat.pozicije.length > 0, 'pozicije nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
   });
 
@@ -108,7 +108,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1254, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n🎯 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n👥 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

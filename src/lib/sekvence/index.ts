@@ -189,3 +189,6 @@ export { digitalnaIndustrijaEsgRizikSekvence } from './digitalna-industrija-esg-
 
 // ── DIGITALNA INDUSTRIJA SAJBER RIZIK ───────────────────────────────────────
 export { digitalnaIndustrijaSajberRizikSekvence } from './digitalna-industrija-sajber-rizik-page';
+
+// ── DIGITALNA INDUSTRIJA POZICIJE ────────────────────────────────────────────
+export { digitalnaIndustrijaPozicijeSekvence } from './digitalna-industrija-pozicije-page';
