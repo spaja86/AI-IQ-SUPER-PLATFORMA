@@ -198,3 +198,6 @@ export { digitalnaIndustrijaPlateSekvence } from './digitalna-industrija-plate-p
 
 // ── DIGITALNA INDUSTRIJA BENEFICIJE ──────────────────────────────────────────
 export { digitalnaIndustrijaBeneficijeSekvence } from './digitalna-industrija-beneficije-page';
+
+// ── DIGITALNA INDUSTRIJA NAGRADE ─────────────────────────────────────────────
+export { digitalnaIndustrijaNagradeSekvence } from './digitalna-industrija-nagrade-page';

@@ -50,6 +50,7 @@ export const navigation: NavItem[] = [
   { label: 'Digitalna Industrija Pozicije', href: '/digitalna-industrija-pozicije', icon: '👥', description: 'Centralni registar pozicija, popunjenosti i kadrovskih potreba Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Plate', href: '/digitalna-industrija-plate', icon: '💰', description: 'Centralni registar plata, fondova i poreskih obaveza Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Beneficije', href: '/digitalna-industrija-beneficije', icon: '🎁', description: 'Centralni registar beneficija i paketa pogodnosti Digitalne Industrije u Srbiji' },
+  { label: 'Digitalna Industrija Nagrade', href: '/digitalna-industrija-nagrade', icon: '🏆', description: 'Centralni registar nagrada, bonusa i premija Digitalne Industrije u Srbiji' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },
