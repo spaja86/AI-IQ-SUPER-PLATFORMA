@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sitemap from '../../app/sitemap';
-import { metadata } from '../../app/digitalna-industrija-sajber-rizik/page';
+import { metadata } from '../../app/bar-kod/page';
 import { navigation } from '../../lib/navigation';
-import { buildDigitalnaIndustrijaSajberRizik } from '../../lib/digitalna-industrija-sajber-rizik';
+import { buildBarKod } from '../../lib/bar-kod';
 import {
   APP_VERSION,
   BASE_URL,
@@ -43,48 +43,34 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🧾 Digitalna Industrija Sajber Rizik route coverage — Unit Test Suite\n');
+  console.log('\n🔢 BAR KOD route coverage — Unit Test Suite\n');
 
   const entries = sitemap();
-  const routeUrl = `${BASE_URL}/digitalna-industrija-sajber-rizik`;
-  const apiRoutePath = path.resolve(
-    process.cwd(),
-    'src/app/api/digitalna-industrija-sajber-rizik/route.ts',
-  );
+  const routeUrl = `${BASE_URL}/bar-kod`;
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/bar-kod/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const rezultat = buildDigitalnaIndustrijaSajberRizik('test-user-id');
+  const rezultat = buildBarKod('test-user-id');
 
-  await test('Sitemap sadrži /digitalna-industrija-sajber-rizik', () => {
-    assert(
-      entries.some((entry) => entry.url === routeUrl),
-      '/digitalna-industrija-sajber-rizik nije u sitemap-u',
-    );
+  await test('Sitemap sadrži /bar-kod', () => {
+    assert(entries.some((entry) => entry.url === routeUrl), '/bar-kod nije u sitemap-u');
   });
 
-  await test('metadata.title sadrži Digitalna Industrija Sajber Rizik', () => {
+  await test('metadata.title sadrži BAR KOD', () => {
     assert(
-      typeof metadata.title === 'string' &&
-        metadata.title.includes('Digitalna Industrija Sajber Rizik'),
+      typeof metadata.title === 'string' && metadata.title.includes('BAR KOD'),
       `metadata.title: ${String(metadata.title)}`,
     );
   });
 
-  await test('Navigation sadrži /digitalna-industrija-sajber-rizik', () => {
+  await test('Navigation sadrži /bar-kod', () => {
     assert(
-      navigation.some(
-        (item) =>
-          item.href === '/digitalna-industrija-sajber-rizik' &&
-          item.label === 'Digitalna Industrija Sajber Rizik',
-      ),
-      'navigation nema Digitalna Industrija Sajber Rizik link',
+      navigation.some((item) => item.href === '/bar-kod' && item.label === 'BAR KOD'),
+      'navigation nema BAR KOD link',
     );
   });
 
-  await test('API ruta koristi buildDigitalnaIndustrijaSajberRizik()', () => {
-    assert(
-      apiRouteSource.includes('buildDigitalnaIndustrijaSajberRizik'),
-      'API route ne koristi buildDigitalnaIndustrijaSajberRizik',
-    );
+  await test('API ruta koristi buildBarKod()', () => {
+    assert(apiRouteSource.includes('buildBarKod'), 'API route ne koristi buildBarKod');
   });
 
   await test('API ruta ima apiSuccess i rate limiting', () => {
@@ -95,7 +81,6 @@ async function runTests(): Promise<void> {
 
   await test('Model rezultata ima očekivana polja', () => {
     assertEqual(rezultat.status, 'aktivan', 'status');
-    assertEqual(rezultat.jurisdikcija, 'Republika Srbija', 'jurisdikcija');
     assert(Array.isArray(rezultat.stavke), 'stavke niz');
     assert(rezultat.stavke.length > 0, 'stavke nisu prazne');
     assert(!Number.isNaN(Date.parse(rezultat.timestamp)), 'timestamp ISO');
@@ -108,7 +93,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n🧾 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🔢 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
