@@ -47,6 +47,7 @@ export const navigation: NavItem[] = [
   { label: 'Digitalna Industrija Compliance Rizik', href: '/digitalna-industrija-compliance-rizik', icon: '🛡️', description: 'Centralni registar compliance rizika (regulatorna usklađenost, kontrolne procedure, interni audit i kaznena izloženost) Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija ESG Rizik', href: '/digitalna-industrija-esg-rizik', icon: '🌱', description: 'Centralni registar ESG rizika (ekološki, socijalni i upravljački rizici sa kaznenom izloženošću) Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Sajber Rizik', href: '/digitalna-industrija-sajber-rizik', icon: '🛡️', description: 'Centralni registar sajber rizika (mrežna bezbednost, zaštita podataka, pristupi i incidentni odgovor) Digitalne Industrije u Srbiji' },
+  { label: 'Digitalna Industrija Pozicije', href: '/digitalna-industrija-pozicije', icon: '👥', description: 'Centralni registar pozicija, popunjenosti i kadrovskih potreba Digitalne Industrije u Srbiji' },
   { label: 'Poslovni Novčanik', href: '/poslovni-novcanik', icon: '💼', description: 'Wallet modul povezan sa AI IQ World Bank tokovima' },
   { label: 'Generator Poslovnih Računa', href: '/generator-za-poslovne-racune', icon: '🧾', description: 'AI IQ World Bank generator poslovnih računa za korisnike (RSD/EUR/USD)' },
   { label: 'Validator Poslovnih Računa', href: '/validator-poslovnih-racuna', icon: '✅', description: 'AI IQ World Bank validator izlaza generatora kroz format, compliance i operativne provere' },

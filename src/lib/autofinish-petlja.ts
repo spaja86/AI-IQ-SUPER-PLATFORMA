@@ -7850,3 +7850,13 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-sajber-rizik.test.ts + digitalna-industrija-sajber-rizik-route.test.ts.
 // APP_VERSION=55.6.0 | AUTOFINISH_COUNT=1287 | TOTAL_API_ROUTES=1153 | TOTAL_ROUTES=1253
+
+
+// ─── Autofinish #1288 — DIGITALNA INDUSTRIJA POZICIJE REGISTAR ───────────────
+// lib modul: src/lib/digitalna-industrija-pozicije.ts — buildDigitalnaIndustrijaPozicije(),
+// DigitalnaIndustrijaPozicijeRezultat i centralni registar pozicija Digitalne Industrije (inženjering i razvoj, AI/analitika, operacije/infrastruktura i prodaja/rast).
+// Nova ruta: GET /api/digitalna-industrija-pozicije. Nova stranica: /digitalna-industrija-pozicije.
+// Sekvence: src/lib/sekvence/digitalna-industrija-pozicije-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-pozicije.test.ts + digitalna-industrija-pozicije-route.test.ts.
+// APP_VERSION=55.7.0 | AUTOFINISH_COUNT=1288 | TOTAL_API_ROUTES=1154 | TOTAL_ROUTES=1254
