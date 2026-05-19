@@ -413,8 +413,8 @@ async function runTests(): Promise<void> {
   });
 
   // ── Konstante ───────────────────────────────────────────────────────────
-  await test('AUTOFINISH_COUNT je 1293', () => {
-    assert(AUTOFINISH_COUNT === 1293, `AUTOFINISH_COUNT expected 1293, got ${AUTOFINISH_COUNT}`);
+  await test('AUTOFINISH_COUNT je 1294', () => {
+    assert(AUTOFINISH_COUNT === 1294, `AUTOFINISH_COUNT expected 1294, got ${AUTOFINISH_COUNT}`);
   });
 
   await test('TOTAL_API_ROUTES je 1158', () => {

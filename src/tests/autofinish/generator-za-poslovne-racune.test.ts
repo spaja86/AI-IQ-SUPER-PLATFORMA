@@ -78,7 +78,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('Verzija i brojači su ažurirani za novu rutu + API', () => {
-    assertEqual(APP_VERSION, '56.2.0', 'APP_VERSION');
+    assertEqual(APP_VERSION, '56.3.0', 'APP_VERSION');
     assertEqual(TOTAL_API_ROUTES, 1158, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
   });
