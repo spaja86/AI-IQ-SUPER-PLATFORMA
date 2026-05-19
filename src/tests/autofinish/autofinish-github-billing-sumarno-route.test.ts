@@ -1,4 +1,4 @@
-// Autofinish #1297 — GitHub Billing Sumarno Route Coverage Test
+// Autofinish #1297 — GitHub Billing Summary Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
