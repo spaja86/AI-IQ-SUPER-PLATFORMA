@@ -1,8 +1,8 @@
-// Autofinish #1297 — GitHub Billing Summary Route Coverage Test
+// Autofinish #1299 — GitHub Billing AI IQ World Bank Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/autofinish-github-billing-sumarno/route';
+import { GET } from '../../app/api/github-billing-aiiq-worldbank/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -36,46 +36,44 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📋 Autofinish GitHub Billing Sumarno — Route Coverage Test (#1297)\n');
+  console.log('\n🏦 GitHub Billing AI IQ World Bank — Route Coverage Test (#1299)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-github-billing-sumarno/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/github-billing-aiiq-worldbank/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const response = await GET();
-  const body = (await response.json()) as Record<string, unknown>;
-  const pilot = body['pilot'] as Record<string, unknown>;
-  const rollout = body['rollout'] as Record<string, unknown>;
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(apiRoutePath), `${apiRoutePath} ne postoji`);
   });
 
-  await test('API ruta koristi github billing izvore i statistike', () => {
-    assert(apiRouteSource.includes('gitHubPilotTransakcije'), 'API route ne koristi gitHubPilotTransakcije');
-    assert(apiRouteSource.includes('gitHubBillingRolloutFaze'), 'API route ne koristi gitHubBillingRolloutFaze');
+  await test('API ruta koristi GitHub billing module i konstante', () => {
     assert(apiRouteSource.includes('getGitHubBillingStatistike'), 'API route ne koristi getGitHubBillingStatistike');
+    assert(apiRouteSource.includes('gitHubBillingRacun'), 'API route ne koristi gitHubBillingRacun');
+    assert(apiRouteSource.includes('APP_VERSION'), 'API route ne koristi APP_VERSION');
+    assert(apiRouteSource.includes('AUTOFINISH_COUNT'), 'API route ne koristi AUTOFINISH_COUNT');
   });
 
-  await test('GET vraća 200', () => {
+  await test('GET vraća očekivani payload', async () => {
+    const response = await GET();
     assertEqual(response.status, 200, 'status');
-  });
+    const body = (await response.json()) as Record<string, unknown>;
 
-  await test('Payload ima osnovna polja', () => {
-    assertEqual(body['naziv'] as string, 'Autofinish GitHub Billing Sumarno', 'naziv');
-    assertEqual(body['status'] as string, 'aktivan', 'status');
+    assertEqual(body['naziv'] as string, 'GitHub Billing — AI IQ World Bank Integracija', 'naziv');
     assertEqual(body['appVerzija'] as string, APP_VERSION, 'appVerzija');
     assertEqual(body['autofinishIteracija'] as number, AUTOFINISH_COUNT, 'autofinishIteracija');
-    assert(typeof body['timestamp'] === 'string', 'timestamp string');
+    assertEqual(body['status'] as string, 'aktivan', 'status payload');
+    assert(typeof body['opis'] === 'string' && (body['opis'] as string).includes('AI IQ World Bank'), 'opis');
+    assert(typeof body['timestamp'] === 'string' && !Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp');
+
+    const statistike = body['statistike'] as Record<string, unknown>;
+    assert(statistike !== null && typeof statistike === 'object', 'statistike objekat');
+    assertEqual(statistike['verzija'] as string, APP_VERSION, 'statistike.verzija');
+    assert(typeof statistike['ukupnoIznosUSD'] === 'number', 'statistike.ukupnoIznosUSD');
+
+    const billingRacun = body['billingRacun'] as Record<string, unknown>;
+    assertEqual(billingRacun['banka'] as string, 'AI IQ World Bank', 'billingRacun.banka');
   });
 
-  await test('pilot i rollout objekti imaju očekivane vrednosti', () => {
-    assert(typeof pilot === 'object' && pilot !== null, 'pilot je objekat');
-    assert(typeof rollout === 'object' && rollout !== null, 'rollout je objekat');
-    assert(Number(pilot['ukupnoTransakcija']) >= 1, 'ukupnoTransakcija >= 1');
-    assert(Number(pilot['ukupnoPilotUSD']) >= 0, 'ukupnoPilotUSD >= 0');
-    assert(Number(rollout['ukupnoFaza']) >= 1, 'ukupnoFaza >= 1');
-  });
-
-  await test('Konstante su ažurirane', () => {
+  await test('Konstante su ažurirane bez promene broja ruta', () => {
     assertEqual(APP_VERSION, '56.8.0', 'APP_VERSION');
     assertEqual(AUTOFINISH_COUNT, 1299, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1158, 'TOTAL_API_ROUTES');
