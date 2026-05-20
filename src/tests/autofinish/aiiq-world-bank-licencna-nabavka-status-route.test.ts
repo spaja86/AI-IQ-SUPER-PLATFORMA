@@ -1,8 +1,8 @@
-// Autofinish #1299 — GitHub Billing AI IQ World Bank Route Coverage Test
+// Autofinish #1305 — AIIQ World Bank Licencna Nabavka Status Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/github-billing-aiiq-worldbank/route';
+import { GET } from '../../app/api/aiiq-world-bank-licencna-nabavka-status/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -36,41 +36,38 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏦 GitHub Billing AI IQ World Bank — Route Coverage Test (#1299)\n');
+  console.log('\n📋 AIIQ World Bank Licencna Nabavka Status — Route Coverage Test (#1305)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/github-billing-aiiq-worldbank/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/aiiq-world-bank-licencna-nabavka-status/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(apiRoutePath), `${apiRoutePath} ne postoji`);
   });
 
-  await test('API ruta koristi GitHub billing module i konstante', () => {
-    assert(apiRouteSource.includes('getGitHubBillingStatistike'), 'API route ne koristi getGitHubBillingStatistike');
-    assert(apiRouteSource.includes('gitHubBillingRacun'), 'API route ne koristi gitHubBillingRacun');
-    assert(apiRouteSource.includes('APP_VERSION'), 'API route ne koristi APP_VERSION');
-    assert(apiRouteSource.includes('AUTOFINISH_COUNT'), 'API route ne koristi AUTOFINISH_COUNT');
+  await test('API ruta koristi očekivane gradivne funkcije', () => {
+    assert(apiRouteSource.includes('buildAIIQWorldBankLicencniRegistar'), 'Nedostaje buildAIIQWorldBankLicencniRegistar');
+    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
+    assert(apiRouteSource.includes('apiSuccess'), 'Nedostaje apiSuccess');
   });
 
   await test('GET vraća očekivani payload', async () => {
-    const response = await GET();
+    const request = {
+      headers: new Headers({ 'x-forwarded-for': `1305.${Date.now()}` }),
+      nextUrl: new URL('http://localhost/api/aiiq-world-bank-licencna-nabavka-status'),
+    } as never;
+
+    const response = await GET(request);
     assertEqual(response.status, 200, 'status');
     const body = (await response.json()) as Record<string, unknown>;
+    const data = body['data'] as Record<string, unknown>;
 
-    assertEqual(body['naziv'] as string, 'GitHub Billing — AI IQ World Bank Integracija', 'naziv');
-    assertEqual(body['appVerzija'] as string, APP_VERSION, 'appVerzija');
-    assertEqual(body['autofinishIteracija'] as number, AUTOFINISH_COUNT, 'autofinishIteracija');
-    assertEqual(body['status'] as string, 'aktivan', 'status payload');
-    assert(typeof body['opis'] === 'string' && (body['opis'] as string).includes('AI IQ World Bank'), 'opis');
-    assert(typeof body['timestamp'] === 'string' && !Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp');
-
-    const statistike = body['statistike'] as Record<string, unknown>;
-    assert(statistike !== null && typeof statistike === 'object', 'statistike objekat');
-    assertEqual(statistike['verzija'] as string, APP_VERSION, 'statistike.verzija');
-    assert(typeof statistike['ukupnoIznosUSD'] === 'number', 'statistike.ukupnoIznosUSD');
-
-    const billingRacun = body['billingRacun'] as Record<string, unknown>;
-    assertEqual(billingRacun['banka'] as string, 'AI IQ World Bank', 'billingRacun.banka');
+    assert(data && typeof data === 'object', 'data payload mora postojati');
+    assertEqual(data['sistem'] as string, 'AI IQ WORLD BANK Licencna Nabavka Status', 'sistem');
+    assertEqual(data['verzija'] as string, APP_VERSION, 'verzija');
+    assert(typeof data['summary'] === 'object' && data['summary'] !== null, 'summary mora biti objekat');
+    assert(Array.isArray(data['nabavka']), 'nabavka mora biti niz');
+    assert(Array.isArray(data['aktivne']), 'aktivne mora biti niz');
   });
 
   await test('Konstante su ažurirane bez promene broja ruta', () => {
