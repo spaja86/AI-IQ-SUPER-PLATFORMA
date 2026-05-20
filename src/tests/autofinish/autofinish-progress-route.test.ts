@@ -49,7 +49,7 @@ async function runTests(): Promise<void> {
     assert(fs.existsSync(apiRoutePath), `${apiRoutePath} ne postoji`);
   });
 
-  await test('API ruta koristi expected gradivne blokove', () => {
+  await test('API ruta koristi očekivane gradivne blokove', () => {
     assert(apiRouteSource.includes('getAutofinishProgressInfo'), 'Nedostaje getAutofinishProgressInfo');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
