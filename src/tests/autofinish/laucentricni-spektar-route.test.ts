@@ -1,8 +1,8 @@
-// Autofinish #1298 — DIGATALNA EUREKA Route Coverage Test
+// Autofinish #1300 — Laucentricni Spektar Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/digatalna-eureka/route';
+import { GET } from '../../app/api/laucentricni-spektar/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -36,17 +36,17 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n💡 DIGATALNA EUREKA — Route Coverage Test (#1298)\n');
+  console.log('\n🌈 Laucentricni Spektar — Route Coverage Test (#1300)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/digatalna-eureka/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/laucentricni-spektar/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(apiRoutePath), `${apiRoutePath} ne postoji`);
   });
 
-  await test('API ruta koristi buildDigatalnaEureka', () => {
-    assert(apiRouteSource.includes('buildDigatalnaEureka'), 'API route ne koristi buildDigatalnaEureka');
+  await test('API ruta koristi buildLaucentricniSpektar', () => {
+    assert(apiRouteSource.includes('buildLaucentricniSpektar'), 'API route ne koristi buildLaucentricniSpektar');
   });
 
   await test('API ruta ima auth, rate limit i standardne API odgovore', () => {
@@ -58,7 +58,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET bez auth vraća 401 Unauthorized', async () => {
-    const request = new Request('http://localhost/api/digatalna-eureka');
+    const request = new Request('http://localhost/api/laucentricni-spektar');
     const response = await GET(request as never);
     assertEqual(response.status, 401, 'status');
     const body = (await response.json()) as Record<string, unknown>;
