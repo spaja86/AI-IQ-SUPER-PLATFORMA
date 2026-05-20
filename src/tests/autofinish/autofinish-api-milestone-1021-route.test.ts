@@ -100,7 +100,7 @@ async function runTests(): Promise<void> {
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} grešaka`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
