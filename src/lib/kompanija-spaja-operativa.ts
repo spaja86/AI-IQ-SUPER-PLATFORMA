@@ -107,6 +107,8 @@ export interface EnterpriseZahtevPaket {
 
 type ReadinessStatus = 'spremno' | 'delimicno' | 'blokirano';
 type ReadinessMode = 'runtime-ready' | 'runtime-incomplete' | 'ops-ready' | 'ops-incomplete' | 'enterprise-in-progress' | 'enterprise-ready';
+const RUNTIME_READY_THRESHOLD = 67;
+const OPS_READY_THRESHOLD = 50;
 
 function envSet(name: string): boolean {
   const value = process.env[name];
@@ -738,8 +740,11 @@ export function getOperativnaSpremnost() {
     envSet('VERCEL_TEAM_ID') || envSet('VERCEL_ORG_ID'),
   ];
   const vercelEnterpriseChecks = [
+    // READY: paket je finalizovan i spreman za slanje.
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_READY'),
+    // REQUESTED: proces podnošenja je pokrenut (operativni signal).
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUESTED'),
+    // SUBMITTED: zahtev je zvanično poslat Vercel Sales timu.
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED'),
   ];
   const githubChecks = [
@@ -783,15 +788,15 @@ export function getOperativnaSpremnost() {
 
   const ukupniScore = Math.round((runtimeScore + opsScore) / 2);
   const enterpriseZahtevi = getEnterpriseZahtevi();
-  const runtimeMode: ReadinessMode = runtimeScore >= 67 ? 'runtime-ready' : 'runtime-incomplete';
-  const opsMode: ReadinessMode = opsScore >= 50 ? 'ops-ready' : 'ops-incomplete';
+  const runtimeMode: ReadinessMode = runtimeScore >= RUNTIME_READY_THRESHOLD ? 'runtime-ready' : 'runtime-incomplete';
+  const opsMode: ReadinessMode = opsScore >= OPS_READY_THRESHOLD ? 'ops-ready' : 'ops-incomplete';
   const enterpriseReady = enterpriseZahtevi.filter((paket) => paket.status !== 'u_pripremi').length;
   const enterpriseMode: ReadinessMode = enterpriseReady >= enterpriseZahtevi.length ? 'enterprise-ready' : 'enterprise-in-progress';
   const acceptanceCriteria = {
     statusApi: {
       runtimeReady: runtimeMode === 'runtime-ready',
       opsReady: opsMode === 'ops-ready',
-      vercelNotBlocking: missingVercelEnv.length >= 0,
+      vercelNotBlocking: missingVercelEnv.length === 0,
     },
     healthApi: {
       runtimeReady: runtimeMode === 'runtime-ready',

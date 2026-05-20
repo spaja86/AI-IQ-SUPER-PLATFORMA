@@ -255,6 +255,7 @@ async function runTests(): Promise<void> {
     assert(validateCronAuth(bearerReq, secret).authorized, 'Bearer header mora biti prihvaćen');
     assert(validateCronAuth(headerReq, secret).authorized, 'x-cron-secret header mora biti prihvaćen');
     assert(!validateCronAuth(invalidReq, secret).authorized, 'neispravan secret mora biti odbijen');
+    assert(!validateCronAuth(headerReq, '').authorized, 'prazan CRON_SECRET mora odbiti zahtev');
   });
 
   await test('vercel.json cron konfiguracija je usklađena sa očekivanim endpointima', () => {
