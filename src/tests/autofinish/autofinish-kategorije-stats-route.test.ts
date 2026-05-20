@@ -1,9 +1,9 @@
-// Autofinish #1321 — Autofinish Kategorije Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-kategorije-route.test.ts
+// Autofinish #1322 — Autofinish Kategorije Stats Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-kategorije-stats-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/autofinish-kategorije/route';
+import { GET } from '../../app/api/autofinish-kategorije-stats/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -37,11 +37,11 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Kategorije — Route Coverage Test Suite (#1321)\n');
+  console.log('\n🏁 Autofinish Kategorije Stats — Route Coverage Test Suite (#1322)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-kategorije/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-kategorije-stats/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
-  const request = new Request('http://localhost/api/autofinish-kategorije', {
+  const request = new Request('http://localhost/api/autofinish-kategorije-stats', {
     headers: { 'x-forwarded-for': '127.0.0.1' },
   });
 
@@ -50,10 +50,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(
-      apiRouteSource.includes('getAutofinishKategorijePorHijarhijama'),
-      'Nedostaje getAutofinishKategorijePorHijarhijama',
-    );
+    assert(apiRouteSource.includes('getAutofinishKategorijeStats'), 'Nedostaje getAutofinishKategorijeStats');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
   });
@@ -68,6 +65,9 @@ async function runTests(): Promise<void> {
     assert(typeof body['ukupnoIteracija'] === 'number', 'ukupnoIteracija number');
     assert(typeof body['ukupnoKategorija'] === 'number', 'ukupnoKategorija number');
     assert(Array.isArray(body['kategorije']), 'kategorije niz');
+    assert(typeof body['globalMin'] === 'number', 'globalMin number');
+    assert(typeof body['globalMax'] === 'number', 'globalMax number');
+    assert(typeof body['globalAvg'] === 'number', 'globalAvg number');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
 
     const kategorije = body['kategorije'] as Array<Record<string, unknown>>;
@@ -77,7 +77,10 @@ async function runTests(): Promise<void> {
     if (helper) {
       assert(typeof helper['labelSr'] === 'string', 'helper.labelSr string');
       assert(typeof helper['ukupno'] === 'number', 'helper.ukupno number');
-      assert(Array.isArray(helper['iteracije']), 'helper.iteracije niz');
+      assert('minBroj' in helper, 'helper.minBroj prisutan');
+      assert('maxBroj' in helper, 'helper.maxBroj prisutan');
+      assert('avgBroj' in helper, 'helper.avgBroj prisutan');
+      assert('medianBroj' in helper, 'helper.medianBroj prisutan');
     }
 
     assertEqual(
