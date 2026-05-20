@@ -101,8 +101,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '57.2.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1303, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '57.3.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1304, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1158, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
   });
