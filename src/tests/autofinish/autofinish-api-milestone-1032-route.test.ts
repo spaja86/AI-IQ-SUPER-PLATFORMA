@@ -1,9 +1,9 @@
-// Autofinish #1311 — API Milestone 1021 Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-api-milestone-1021-route.test.ts
+// Autofinish #1312 — API Milestone 1032 Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-api-milestone-1032-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/autofinish-api-milestone-1021/route';
+import { GET } from '../../app/api/autofinish-api-milestone-1032/route';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -43,9 +43,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish API Milestone 1021 — Route Coverage Test Suite (#1311)\n');
+  console.log('\n🏁 Autofinish API Milestone 1032 — Route Coverage Test Suite (#1312)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-api-milestone-1021/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-api-milestone-1032/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
   const response = await GET();
   const body = (await response.json()) as Record<string, unknown>;
@@ -65,7 +65,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('Payload ima osnovna polja', () => {
-    assertEqual(body['naziv'] as string, 'Autofinish API Milestone 1021', 'naziv');
+    assertEqual(body['naziv'] as string, 'Autofinish API Milestone 1032', 'naziv');
     assertEqual(body['status'] as string, 'aktivan', 'status');
     assertEqual(body['appVerzija'] as string, APP_VERSION, 'appVerzija');
     assertEqual(body['autofinishIteracija'] as number, AUTOFINISH_COUNT, 'autofinishIteracija');
@@ -74,7 +74,7 @@ async function runTests(): Promise<void> {
 
   await test('milestone objekat ima ispravne vrednosti', () => {
     assert(typeof milestone === 'object' && milestone !== null, 'milestone je objekat');
-    assertEqual(milestone['ciljBroj'] as number, 1021, 'ciljBroj');
+    assertEqual(milestone['ciljBroj'] as number, 1032, 'ciljBroj');
     assertEqual(milestone['trenutniBroj'] as number, TOTAL_API_ROUTES, 'trenutniBroj');
     assert(typeof milestone['postignut'] === 'boolean', 'postignut boolean');
     assert(Number(milestone['procenat']) >= 0, 'procenat >= 0');
@@ -87,10 +87,10 @@ async function runTests(): Promise<void> {
     assertEqual(ekosistem['ukupnoDijagnostika'] as number, TOTAL_DIAGNOSTIKA, 'ukupnoDijagnostika');
   });
 
-  await test('poruka je string i pominje 1021', () => {
+  await test('poruka je string i pominje 1032', () => {
     const poruka = body['poruka'] as string;
     assert(typeof poruka === 'string' && poruka.length > 0, 'poruka neprazna');
-    assert(poruka.includes('1021'), 'poruka sadrzi 1021');
+    assert(poruka.includes('1032'), 'poruka sadrzi 1032');
   });
 
   await test('Konstante su ažurirane', () => {
