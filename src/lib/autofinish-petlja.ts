@@ -7860,3 +7860,9 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Integracija: navigation + sitemap.
 // Testovi: src/tests/autofinish/digitalna-industrija-pozicije.test.ts + digitalna-industrija-pozicije-route.test.ts.
 // APP_VERSION=55.7.0 | AUTOFINISH_COUNT=1288 | TOTAL_API_ROUTES=1154 | TOTAL_ROUTES=1254
+
+
+// ─── Autofinish #1311 — API MILESTONE 1021 ROUTE COVERAGE TEST ───────────────
+// Dedicated route coverage test za /api/autofinish-api-milestone-1021.
+// Test: src/tests/autofinish/autofinish-api-milestone-1021-route.test.ts
+// APP_VERSION=58.0.0 | AUTOFINISH_COUNT=1311 | TOTAL_API_ROUTES=1158 | TOTAL_ROUTES=1258
