@@ -1,8 +1,8 @@
-// Autofinish #1304 — AIIQ World Bank Licencna Checklista Route Coverage Test
+// Autofinish #1308 — AIIQ World Bank Licencni Gap Izvestaj Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/aiiq-world-bank-licencna-checklista/route';
+import { GET } from '../../app/api/aiiq-world-bank-licencni-gap-izvestaj/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -36,9 +36,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n📋 AIIQ World Bank Licencna Checklista — Route Coverage Test (#1304)\n');
+  console.log('\n📋 AIIQ World Bank Licencni Gap Izvestaj — Route Coverage Test (#1308)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/aiiq-world-bank-licencna-checklista/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/aiiq-world-bank-licencni-gap-izvestaj/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -47,15 +47,14 @@ async function runTests(): Promise<void> {
 
   await test('API ruta koristi očekivane gradivne funkcije', () => {
     assert(apiRouteSource.includes('buildAIIQWorldBankLicencniRegistar'), 'Nedostaje buildAIIQWorldBankLicencniRegistar');
-    assert(apiRouteSource.includes('getLicencniChecklistPoDelatnosti'), 'Nedostaje getLicencniChecklistPoDelatnosti');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('apiSuccess'), 'Nedostaje apiSuccess');
   });
 
-  await test('GET vraća očekivani payload za konkretan delatnostId', async () => {
+  await test('GET vraća očekivani payload', async () => {
     const request = {
-      headers: new Headers({ 'x-forwarded-for': `1304.${Date.now()}` }),
-      nextUrl: new URL('http://localhost/api/aiiq-world-bank-licencna-checklista?delatnostId=delatnost-poljoprivreda'),
+      headers: new Headers({ 'x-forwarded-for': `1308.${Date.now()}` }),
+      nextUrl: new URL('http://localhost/api/aiiq-world-bank-licencni-gap-izvestaj'),
     } as never;
 
     const response = await GET(request);
@@ -64,11 +63,10 @@ async function runTests(): Promise<void> {
     const data = body['data'] as Record<string, unknown>;
 
     assert(data && typeof data === 'object', 'data payload mora postojati');
-    assertEqual(data['sistem'] as string, 'AI IQ WORLD BANK Licencna Checklista', 'sistem');
+    assertEqual(data['sistem'] as string, 'AI IQ WORLD BANK Gap Izvestaj', 'sistem');
     assertEqual(data['verzija'] as string, APP_VERSION, 'verzija');
-    assertEqual(data['delatnostId'] as string, 'delatnost-poljoprivreda', 'delatnostId');
-    assert(Array.isArray(data['stavke']), 'stavke mora biti niz');
-    assert(Array.isArray(data['dostupneDelatnosti']), 'dostupneDelatnosti mora biti niz');
+    assert(typeof data['summary'] === 'object' && data['summary'] !== null, 'summary mora biti objekat');
+    assert(Array.isArray(data['gapovi']), 'gapovi mora biti niz');
   });
 
   await test('Konstante su ažurirane bez promene broja ruta', () => {
