@@ -1,8 +1,8 @@
-// Autofinish #1298 — DIGATALNA EUREKA Route Coverage Test
+// Autofinish #1303 — AI Asistent Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/digatalna-eureka/route';
+import { GET, POST } from '../../app/api/ai-asistent/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -36,34 +36,45 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n💡 DIGATALNA EUREKA — Route Coverage Test (#1298)\n');
+  console.log('\n🤖 AI Asistent — Route Coverage Test (#1303)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/digatalna-eureka/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/ai-asistent/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(apiRoutePath), `${apiRoutePath} ne postoji`);
   });
 
-  await test('API ruta koristi buildDigatalnaEureka', () => {
-    assert(apiRouteSource.includes('buildDigatalnaEureka'), 'API route ne koristi buildDigatalnaEureka');
+  await test('API ruta ima GET i POST handlere', () => {
+    assert(apiRouteSource.includes('export async function GET'), 'API route nema GET handler');
+    assert(apiRouteSource.includes('export async function POST'), 'API route nema POST handler');
   });
 
-  await test('API ruta ima auth, rate limit i standardne API odgovore', () => {
-    assert(apiRouteSource.includes('verifyUserFromToken'), 'API route nema auth proveru');
-    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'API route nema rate limiting');
-    assert(apiRouteSource.includes('apiSuccess'), 'API route nema apiSuccess');
-    assert(apiRouteSource.includes('apiError'), 'API route nema apiError');
-    assert(apiRouteSource.includes('apiInternalError'), 'API route nema apiInternalError');
+  await test('API ruta koristi SpajaPro prompt engine', () => {
+    assert(apiRouteSource.includes('obradiPrompt'), 'API route ne koristi obradiPrompt');
+    assert(apiRouteSource.includes('formatOdgovor'), 'API route ne koristi formatOdgovor');
+    assert(apiRouteSource.includes('getVerziju'), 'API route ne koristi getVerziju');
   });
 
-  await test('GET bez auth vraća 401 Unauthorized', async () => {
-    const request = new Request('http://localhost/api/digatalna-eureka');
-    const response = await GET(request as never);
-    assertEqual(response.status, 401, 'status');
+  await test('API ruta validira pitanje — POST bez body vraća grešku', async () => {
+    const request = new Request('http://localhost/api/ai-asistent', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ pitanje: '', putanja: '/', kontekst: '', naslovStranice: 'Test', kategorija: 'ai' }),
+    });
+    const response = await POST(request as never);
     const body = (await response.json()) as Record<string, unknown>;
-    assertEqual(body['code'] as string, 'UNAUTHORIZED', 'code');
-    assert(typeof body['error'] === 'string' && (body['error'] as string).length > 0, 'error');
+    assert(typeof body['error'] === 'string' && (body['error'] as string).length > 0, 'Nema error poruke za prazno pitanje');
+    assertEqual(response.status, 400, 'status za prazno pitanje');
+  });
+
+  await test('GET vraća engine info sa statusom aktivan', async () => {
+    const response = await GET();
+    assertEqual(response.status, 200, 'GET status');
+    const body = (await response.json()) as Record<string, unknown>;
+    assert(typeof body['engine'] === 'string', 'Nema engine polja');
+    assertEqual(body['status'] as string, 'aktivan', 'status');
+    assert(typeof body['verzija'] === 'string', 'Nema verzija polja');
   });
 
   await test('Konstante su ažurirane', () => {
