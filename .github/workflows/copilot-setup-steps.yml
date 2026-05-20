@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: 🔌 Instalacija Vercel plugina za Codex
-        run: npx -y plugins add vercel/vercel-plugin --target codex --scope user -y
+        run: npm_config_yes=true npx plugins add vercel/vercel-plugin --target codex --scope user -y
 
       - name: ⚛️ Instalacija Vercel React best practices skill-a
-        run: npx -y skills add vercel-labs/agent-skills -g --agent codex --skill vercel-react-best-practices -y
+        run: npm_config_yes=true npx skills add vercel-labs/agent-skills -g --agent codex --skill vercel-react-best-practices -y
