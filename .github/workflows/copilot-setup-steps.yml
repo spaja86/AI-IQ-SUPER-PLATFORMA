@@ -28,3 +28,9 @@ jobs:
 
       - name: 📥 Instalacija zavisnosti
         run: npm ci
+
+      - name: 🔌 Instalacija Vercel plugina za Codex
+        run: npm_config_yes=true npx plugins add vercel/vercel-plugin --target codex --scope user -y
+
+      - name: ⚛️ Instalacija Vercel React best practices skill-a
+        run: npm_config_yes=true npx skills add vercel-labs/agent-skills -g --agent codex --skill vercel-react-best-practices -y
