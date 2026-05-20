@@ -40,7 +40,7 @@ export interface DeployInfo {
   domen?: string;
   projectId?: string;
   /**
-   * @deprecated Koristiti projectId.
+   * @deprecated Koristiti projectId; planirano uklanjanje posle v60 stabilizacije.
    */
   vercelProjekt?: string;
   framework: string;
@@ -162,7 +162,7 @@ export interface PlatformDeploy {
   domain?: string;
   projectId?: string;
   /**
-   * @deprecated Koristiti projectId.
+   * @deprecated Koristiti projectId; planirano uklanjanje posle v60 stabilizacije.
    */
   vercelProject?: string;
   framework: string;

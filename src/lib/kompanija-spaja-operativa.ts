@@ -739,12 +739,14 @@ export function getOperativnaSpremnost() {
     envSet('VERCEL_PROJECT_ID'),
     envSet('VERCEL_TEAM_ID') || envSet('VERCEL_ORG_ID'),
   ];
+  /*
+   * READY: paket je finalizovan i spreman za slanje.
+   * REQUESTED: proces podnošenja je pokrenut (operativni signal).
+   * SUBMITTED: zahtev je zvanično poslat Vercel Sales timu.
+   */
   const vercelEnterpriseChecks = [
-    // READY: paket je finalizovan i spreman za slanje.
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_READY'),
-    // REQUESTED: proces podnošenja je pokrenut (operativni signal).
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUESTED'),
-    // SUBMITTED: zahtev je zvanično poslat Vercel Sales timu.
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED'),
   ];
   const githubChecks = [

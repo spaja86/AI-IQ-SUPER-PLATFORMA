@@ -3,6 +3,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import type { NextRequest } from 'next/server';
 import { GET } from '../../app/api/autofinish/route';
 import {
   APP_VERSION,
@@ -63,7 +64,7 @@ async function runTests(): Promise<void> {
     const request = new Request('http://localhost/api/autofinish', {
       headers: { 'x-forwarded-for': '127.0.0.1' },
     });
-    const response = await GET(request as never);
+    const response = await GET(request as NextRequest);
     assertEqual(response.status, 200, 'status');
 
     const body = (await response.json()) as Record<string, unknown>;
@@ -99,7 +100,7 @@ async function runTests(): Promise<void> {
     const request = new Request('http://localhost/api/autofinish?pageSize=999&offset=100', {
       headers: { 'x-forwarded-for': '127.0.0.2' },
     });
-    const response = await GET(request as never);
+    const response = await GET(request as NextRequest);
     assertEqual(response.status, 200, 'status');
 
     const body = (await response.json()) as Record<string, unknown>;
