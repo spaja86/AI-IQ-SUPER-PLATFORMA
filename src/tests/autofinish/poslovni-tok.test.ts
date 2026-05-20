@@ -12,7 +12,6 @@ import {
   SLA_CILJEVI_SATI,
   OBAVEZNI_DOKUMENTI,
   STATUS_TRANZICIJE,
-  type PoslovniTokSlucaj,
   type PoslovniDokument,
 } from '../../lib/poslovni-tok';
 import {
@@ -23,6 +22,7 @@ import {
   DEFAULT_DELIVERY_CHECKLIST,
   type ArrivalEvent,
 } from '../../lib/delivery-checklist';
+import type { B2BDeliveryStatus, B2BPaymentStatus } from '../../lib/b2b-procurement-workflow';
 import { GET as getPoslovniTok } from '../../app/api/poslovni-tok/route';
 import { GET as getKpiDashboard } from '../../app/api/kpi-dashboard/route';
 import { GET as getSlaMonitor } from '../../app/api/sla-monitor/route';
@@ -31,6 +31,8 @@ import { GET as getAutofinishPoslovniTok } from '../../app/api/autofinish-poslov
 let passed = 0;
 let failed = 0;
 const failures: string[] = [];
+const PAYMENT_STATUS_CEKA_ODOBRENJE: B2BPaymentStatus = 'ceka_odobrenje';
+const DELIVERY_STATUS_NIJE_ZAKAZANO: B2BDeliveryStatus = 'nije_zakazano';
 
 async function test(name: string, fn: () => Promise<void> | void): Promise<void> {
   try {
@@ -294,7 +296,15 @@ async function runTests(): Promise<void> {
   await test('GET /api/poslovni-tok evidencija sadrži OpenAI, Vercel, GitHub i Lamborghini', async () => {
     const response = await getPoslovniTok();
     const body = (await response.json()) as {
-      evidencijaRikvestova?: Array<{ id?: string; naziv?: string }>;
+      evidencijaRikvestova?: Array<{
+        id?: string;
+        naziv?: string;
+        statusUplate?: string;
+        uplataProsla?: boolean;
+        statusIsporuke?: string;
+        stize?: string | null;
+        gamePlanoviEnterprise?: Array<{ naziv?: string }>;
+      }>;
     };
     const evidencija = body.evidencijaRikvestova ?? [];
 
@@ -304,6 +314,60 @@ async function runTests(): Promise<void> {
     assert(
       evidencija.some((item) => (item.naziv ?? '').toLowerCase().includes('lamborghini')),
       'mora sadržati Lamborghini evidenciju',
+    );
+  });
+
+  await test('GET /api/poslovni-tok Lamborghini evidencija vraća status uplate, isporuke i gejm planove', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      evidencijaRikvestova?: Array<{
+        naziv?: string;
+        statusUplate?: string;
+        uplataProsla?: boolean;
+        statusIsporuke?: string;
+        stize?: string | null;
+        gamePlanoviEnterprise?: Array<{ naziv?: string }>;
+      }>;
+    };
+
+    const lamborghini = (body.evidencijaRikvestova ?? []).find((item) =>
+      (item.naziv ?? '').toLowerCase().includes('lamborghini'),
+    );
+
+    assert(lamborghini !== undefined, 'Lamborghini evidencija mora postojati');
+    assert(
+      lamborghini.statusUplate === PAYMENT_STATUS_CEKA_ODOBRENJE,
+      'Lamborghini statusUplate mora biti ceka_odobrenje',
+    );
+    assert(
+      lamborghini.uplataProsla === false,
+      'Lamborghini uplataProsla mora biti false jer fallback scenario još nema potvrdu uplate',
+    );
+    assert(
+      lamborghini.statusIsporuke === DELIVERY_STATUS_NIJE_ZAKAZANO,
+      'Lamborghini statusIsporuke mora biti nije_zakazano',
+    );
+    assert(lamborghini.stize === null, 'Lamborghini stize mora biti null dok termin nije zakazan');
+    assert((lamborghini.gamePlanoviEnterprise ?? []).length === 2, 'Lamborghini mora imati tačno 2 enterprise gejm plana');
+  });
+
+  await test('GET /api/poslovni-tok vraća Digitalna industrija pregled za Lamborghini i gejm planove enterprise', async () => {
+    const response = await getPoslovniTok();
+    const body = (await response.json()) as {
+      digitalnaIndustrijaPregled?: {
+        artikli?: Array<{ tip?: string; naziv?: string; statusUplate?: string; statusIsporuke?: string }>;
+      };
+    };
+
+    const artikli = body.digitalnaIndustrijaPregled?.artikli ?? [];
+    assert(artikli.some((item) => item.tip === 'vozilo' && (item.naziv ?? '').toLowerCase().includes('lamborghini')), 'pregled mora sadržati Lamborghini vozilo');
+    assert(
+      artikli.filter((item) => item.tip === 'gejm_plan_enterprise').length === 2,
+      'pregled mora sadržati 2 enterprise gejm plana',
+    );
+    assert(
+      artikli.every((item) => item.statusUplate !== undefined && item.statusIsporuke !== undefined),
+      'svaka stavka pregleda mora imati status uplate i isporuke',
     );
   });
 
@@ -349,20 +413,20 @@ async function runTests(): Promise<void> {
   });
 
   // ── Konstante ───────────────────────────────────────────────────────────
-  await test('AUTOFINISH_COUNT je 1194', () => {
-    assert(AUTOFINISH_COUNT === 1194, `AUTOFINISH_COUNT expected 1194, got ${AUTOFINISH_COUNT}`);
+  await test('AUTOFINISH_COUNT je 1298', () => {
+    assert(AUTOFINISH_COUNT === 1308, `AUTOFINISH_COUNT expected 1298, got ${AUTOFINISH_COUNT}`);
   });
 
-  await test('TOTAL_API_ROUTES je 1047', () => {
-    assert(TOTAL_API_ROUTES === 1047, `TOTAL_API_ROUTES expected 1047, got ${TOTAL_API_ROUTES}`);
+  await test('TOTAL_API_ROUTES je 1158', () => {
+    assert(TOTAL_API_ROUTES === 1158, `TOTAL_API_ROUTES expected 1158, got ${TOTAL_API_ROUTES}`);
   });
 
-  await test('TOTAL_ROUTES je 1106', () => {
-    assert(TOTAL_ROUTES === 1106, `TOTAL_ROUTES expected 1106, got ${TOTAL_ROUTES}`);
+  await test('TOTAL_ROUTES je 1258', () => {
+    assert(TOTAL_ROUTES === 1258, `TOTAL_ROUTES expected 1258, got ${TOTAL_ROUTES}`);
   });
 
-  await test('TOTAL_DIAGNOSTIKA je 2362', () => {
-    assert(TOTAL_DIAGNOSTIKA === 2362, `TOTAL_DIAGNOSTIKA expected 2362, got ${TOTAL_DIAGNOSTIKA}`);
+  await test('TOTAL_DIAGNOSTIKA je 2364', () => {
+    assert(TOTAL_DIAGNOSTIKA === 2364, `TOTAL_DIAGNOSTIKA expected 2364, got ${TOTAL_DIAGNOSTIKA}`);
   });
 
   // ── Finalni izveštaj ─────────────────────────────────────────────────────

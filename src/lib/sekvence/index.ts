@@ -192,3 +192,12 @@ export { digitalnaIndustrijaSajberRizikSekvence } from './digitalna-industrija-s
 
 // ── DIGITALNA INDUSTRIJA POZICIJE ────────────────────────────────────────────
 export { digitalnaIndustrijaPozicijeSekvence } from './digitalna-industrija-pozicije-page';
+
+// ── DIGITALNA INDUSTRIJA PLATE ────────────────────────────────────────────────
+export { digitalnaIndustrijaPlateSekvence } from './digitalna-industrija-plate-page';
+
+// ── DIGITALNA INDUSTRIJA BENEFICIJE ──────────────────────────────────────────
+export { digitalnaIndustrijaBeneficijeSekvence } from './digitalna-industrija-beneficije-page';
+
+// ── DIGITALNA INDUSTRIJA NAGRADE ─────────────────────────────────────────────
+export { digitalnaIndustrijaNagradeSekvence } from './digitalna-industrija-nagrade-page';
