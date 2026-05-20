@@ -17,6 +17,15 @@ export const EKOSISTEM_URLS = {
   POSLOVNI_NOVCANIK: 'https://ai-iq-super-platforma.vercel.app/poslovni-novcanik',
 } as const;
 
+export const EKOSISTEM_DEPLOY_PROVIDER = {
+  IO_OPENUI_AO: 'vercel',
+  AI_IQ_WORLD_BANK: 'vercel',
+  AI_IQ_MENJACNICA: 'vercel',
+  KOMPANIJA_SPAJA: 'custom',
+  AI_IQ_SUPER_PLATFORMA: 'vercel',
+  POSLOVNI_NOVCANIK: 'vercel',
+} as const;
+
 export interface EkosistemPlatforma {
   naziv: string;
   url: string;

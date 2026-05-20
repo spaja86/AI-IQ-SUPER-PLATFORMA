@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { kreirajISnimiCiklus, getKonfiguracija } from '@/lib/evolucija';
 import { APP_VERSION } from '@/lib/constants';
+import { validateCronAuth } from '@/lib/cron-auth';
 
 /**
  * Cron endpoint — Omega Evolucioni Motor
@@ -12,11 +13,10 @@ import { APP_VERSION } from '@/lib/constants';
  * GET /api/cron/evolucija
  */
 export async function GET(request: Request) {
-  // Proveravamo CRON_SECRET (scheduler šalje Bearer token)
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  // Provider-neutral cron autentifikacija:
+  // - Authorization: Bearer <CRON_SECRET>
+  // - x-cron-secret: <CRON_SECRET>
+  if (!validateCronAuth(request).authorized) {
     return NextResponse.json({ error: 'Neautorizovan pristup' }, { status: 401 });
   }
 

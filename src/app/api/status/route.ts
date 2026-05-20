@@ -106,6 +106,8 @@ export async function GET() {
     operativa: {
       status: operativa.spremnost.status,
       ukupanScore: operativa.spremnost.ukupanScore,
+      modelStanja: operativa.spremnost.modelStanja,
+      acceptanceCriteria: operativa.spremnost.acceptanceCriteria,
       primarniNalog: operativa.primarniOperativniNalog.email,
       fallbackKontakt: operativa.primarniOperativniNalog.email,
       javniKontakti: operativa.javniKontakti.map((kanal) => ({
@@ -135,6 +137,7 @@ export async function GET() {
         kanal: paket.kanalPodnosenja.url,
       })),
       missingEnv: operativa.spremnost.missingEnv,
+      missingVercelEnv: operativa.spremnost.missingVercelEnv,
     },
   });
 }

@@ -49,7 +49,7 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] `NODE_ENV` = `production` (automatski od Vercel-a)
 - [ ] `NEXT_PUBLIC_*` varijable su ispravno prefiksovane
 - [ ] `VERCEL_PROJECT_ID`, `VERCEL_TEAM_ID`, `VERCEL_TOKEN` postavljeni za operativni readiness
-- [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true` i `SPAJA_VERCEL_ENTERPRISE_REQUESTED=true`
+- [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true` i `SPAJA_VERCEL_ENTERPRISE_REQUESTED=true` (enterprise/procurement, ne runtime blocker)
 - [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja Vercel sales forme
 - [ ] `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja GitHub enterprise forme
 - [ ] `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true` nakon podnošenja OpenAI enterprise + partnerskog zahteva
@@ -59,7 +59,8 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
   - `GET /api/cron/zdravlje` — svakih 30 minuta
   - `GET /api/cron/evolucija` — svakih 6 sati
 - [ ] Cron jobovi se pojavljuju u Vercel Dashboard → Cron Jobs tabeli
-- [ ] Ručno testiranje cron endpoint-a sa `CRON_SECRET` headerom → 200
+- [ ] Ručno testiranje cron endpoint-a sa `Authorization: Bearer <CRON_SECRET>` ili `x-cron-secret` → 200
+- [ ] Ako nije Vercel Cron: dokumentovan eksterni scheduler sa istim endpointima i intervalima
 
 ### KV (opciono ali preporučeno za rate limiting)
 - [ ] Vercel KV baza kreirana u Dashboard
@@ -101,7 +102,7 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] Vercel Logs prikazuju strukturirani JSON u produkciji
 - [ ] Greške se pojavljuju u Vercel Log Drains (ako konfigurisan)
 - [ ] Nema `console.log` sa osetljivim podacima (ključevi, lozinke, tokeni)
-- [ ] `GET /api/status` prikazuje `operativa.status` različit od `blokirano`
+- [ ] `GET /api/status` prikazuje `operativa.modelStanja.runtime=runtime-ready` i `operativa.modelStanja.ops=ops-ready` (ili planirano odstupanje)
 - [ ] `GET /api/health` prikazuje `operativnaSpremnost.missingEnv = 0` za produkciju
 
 ### Health Dashboard

@@ -13,6 +13,15 @@ const EKOSISTEM_URLS = {
   'Poslovni Novcanik': 'https://ai-iq-super-platforma.vercel.app/poslovni-novcanik',
 };
 
+const EKOSISTEM_DEPLOY_PROVIDER = {
+  'IO-OPENUI-AO': 'vercel',
+  'Ai Iq World Bank': 'vercel',
+  'Ai Iq Menjacnica': 'vercel',
+  'Kompanija SPAJA': 'custom',
+  'AI-IQ Super Platforma': 'vercel',
+  'Poslovni Novcanik': 'vercel',
+};
+
 const EKOSISTEM_IKONE = {
   'IO-OPENUI-AO': '🖥️',
   'Ai Iq World Bank': '🏦',
@@ -63,5 +72,5 @@ function renderEkosistem(currentPlatform, containerId) {
 
 // Export for CommonJS/ES module environments
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { EKOSISTEM_URLS, EKOSISTEM_IKONE, EKOSISTEM_OPISI, renderEkosistem };
+  module.exports = { EKOSISTEM_URLS, EKOSISTEM_DEPLOY_PROVIDER, EKOSISTEM_IKONE, EKOSISTEM_OPISI, renderEkosistem };
 }

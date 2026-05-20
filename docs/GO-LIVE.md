@@ -141,7 +141,7 @@
 - [ ] Postaviti `SUPABASE_SERVICE_ROLE_KEY` (produkcioni service role key)
 - [ ] Postaviti `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - [ ] Postaviti `OPENAI_API_KEY`
-- [ ] Postaviti `CRON_SECRET` (random string za Vercel Cron zaštitu)
+- [ ] Postaviti `CRON_SECRET` (random string za scheduler zaštitu)
 - [ ] Proveriti da nema hardkodovanih kredencijala u kodu (`git grep -i "password\|secret\|key" --include="*.ts"`)
 - [ ] Potvrditi `NODE_ENV=production` na Vercel
 
@@ -165,9 +165,9 @@
 
 ### 🌐 Deployment
 
-- [ ] Potvrditi da `vercel.json` cron jobovi su aktivni
-- [ ] Testirati `GET /api/cron/zdravlje` sa ispravnim Authorization headerom
-- [ ] Testirati `GET /api/cron/evolucija` sa ispravnim Authorization headerom
+- [ ] Potvrditi da scheduler konfiguracija je aktivna (`vercel.json` cron ili eksterni scheduler)
+- [ ] Testirati `GET /api/cron/zdravlje` sa ispravnim `Authorization: Bearer <CRON_SECRET>` ili `x-cron-secret`
+- [ ] Testirati `GET /api/cron/evolucija` sa ispravnim `Authorization: Bearer <CRON_SECRET>` ili `x-cron-secret`
 - [ ] Potvrditi da svi domeni u `platforme` podaci su ispravni
 - [ ] Testirati `GET /api/health` — mora biti `"status": "healthy"`
 - [ ] Testirati `GET /api/industrija` — mora biti `"status": "operational"`
@@ -354,7 +354,7 @@ Deployment je dozvoljen samo ako prođu:
 - [ ] Svaka 2 sata: proveriti `GET /api/health` — mora biti `"status": "healthy"`
 - [ ] Svaka sat: proveriti Vercel error logs
 - [ ] Potvrditi da Stripe webhook prima događaje (Stripe Dashboard → Developers → Webhooks)
-- [ ] Proveriti `operativnaSpremnost` u `GET /api/health` i `GET /api/status` — mail/vercel/github/support ne smeju biti `blokirano`
+- [ ] Proveriti `operativnaSpremnost.modelStanja` u `GET /api/health` i `GET /api/status` (`runtime`, `ops`, `enterprise`)
 - [ ] Poslati test mejlove na `support@spaja.rs`, `billing@spaja.rs`, `sales@spaja.rs` i proveriti fallback na `spajicn@yahoo.com`
 - [ ] Nakon slanja enterprise formi postaviti `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` i `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true`
 - [ ] Nakon slanja OpenAI enterprise forme kao Nikola Spajić postaviti `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true`

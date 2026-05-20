@@ -1,3 +1,13 @@
 {
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/cron/zdravlje",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/evolucija",
+      "schedule": "0 */6 * * *"
+    }
+  ]
 }

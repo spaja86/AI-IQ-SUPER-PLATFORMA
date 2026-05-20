@@ -102,11 +102,15 @@ async function runSmokeTests(): Promise<void> {
     assert(platforme.length > 0, 'mora postojati bar jedna platforma');
   });
 
-  await test('svaka platforma ima id, naziv, opis, deploy.domen', () => {
+  await test('svaka platforma ima id, naziv, opis, deploy.provider i deploy.domen', () => {
     for (const p of platforme) {
       assert(p.id !== undefined && p.id.length > 0, `platforma nema id`);
       assert(p.naziv !== undefined && p.naziv.length > 0, `platforma ${p.id} nema naziv`);
       assert(p.opis !== undefined && p.opis.length > 0, `platforma ${p.id} nema opis`);
+      assert(
+        p.deploy !== undefined && p.deploy.provider !== undefined && p.deploy.provider.length > 0,
+        `platforma ${p.id} nema deploy.provider — morate definisati deploy provider`,
+      );
       assert(
         p.deploy !== undefined && p.deploy.domen !== undefined && p.deploy.domen.length > 0,
         `platforma ${p.id} nema deploy.domen — morate dodati domen pre go-live`,

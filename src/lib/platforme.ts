@@ -14,7 +14,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['Next.js 16', 'TypeScript', 'Tailwind CSS 4', 'Vercel'],
     funkcije: ['Dashboard', 'Monitoring', 'Deploy Management', 'Sekvence', 'SPAJA Generator za Endžine'],
-    deploy: { status: 'aktivan', domen: 'ai-iq-super-platforma.vercel.app', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
   },
   {
     id: 'io-openui-ao',
@@ -28,7 +28,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['React', 'SpajaPro Engine', 'Prompt System', 'WebRTC', 'Socket.IO', 'Vercel', 'B2B Software'],
     funkcije: ['SpajaPro Prompt Chat', 'Laboratorija i Demo', 'AI modul sa Prompt-om', 'SpajaPro 6-15 integracija', 'Fizička laboratorija', 'Razvoj B2B softvera', 'Dota 1350', 'TRANSFORMERS 1350', 'BUBLI BABLI 1250', 'SPAJA POKER'],
-    deploy: { status: 'aktivan', domen: 'io-openui-ao.vercel.app', vercelProjekt: 'io-openui-ao', framework: 'React + SpajaPro', buildKomanda: 'npm run build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'io-openui-ao.vercel.app', projectId: 'io-openui-ao', vercelProjekt: 'io-openui-ao', framework: 'React + SpajaPro', buildKomanda: 'npm run build' },
   },
   {
     id: 'ai-iq-menjacnica',
@@ -42,7 +42,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['Next.js', 'TypeScript', 'TradingView', 'API'],
     funkcije: ['Kripto trading', 'Fiat konverzija', 'AI predikcije', 'Portfolio', 'ONLINE rad i procedura'],
-    deploy: { status: 'aktivan', domen: 'ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app', vercelProjekt: 'ai-iq-menjacnica', framework: 'Next.js', buildKomanda: 'next build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app', projectId: 'ai-iq-menjacnica', vercelProjekt: 'ai-iq-menjacnica', framework: 'Next.js', buildKomanda: 'next build' },
   },
   {
     id: 'ai-iq-poslovni-novcanik',
@@ -56,7 +56,7 @@ export const platforme: Platforma[] = [
     progres: 78,
     tehnologije: ['Next.js 16', 'TypeScript', 'Stripe', 'PWA'],
     funkcije: ['Rucni unos kartice', 'Kamera sken fallback', 'Tokenizacija', 'Regionalno rutiranje', 'KPI/SLO monitoring'],
-    deploy: { status: 'aktivan', domen: 'ai-iq-super-platforma.vercel.app/poslovni-novcanik', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app/poslovni-novcanik', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
   },
 
   {
@@ -71,7 +71,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
     funkcije: ['Racuni', 'Transferi', 'Krediti', 'Investicije', 'ONLINE rad i procedura'],
-    deploy: { status: 'aktivan', domen: 'ai-iq-world-bank-git-copilot-n-697903-nikolas-projects-b8a8458f.vercel.app', vercelProjekt: 'ai-iq-world-bank', framework: 'Next.js', buildKomanda: 'next build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-world-bank-git-copilot-n-697903-nikolas-projects-b8a8458f.vercel.app', projectId: 'ai-iq-world-bank', vercelProjekt: 'ai-iq-world-bank', framework: 'Next.js', buildKomanda: 'next build' },
   },
   {
     id: 'svetska-organizacija',
@@ -85,7 +85,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['Next.js', 'TypeScript', 'i18n', 'API'],
     funkcije: ['Upravljanje projektima', 'Koordinacija timova', 'Izvestaji', 'ONLINE rad i procedura'],
-    deploy: { status: 'aktivan', domen: 'svetska-organizacija-git-copil-0ce22a-nikolas-projects-b8a8458f.vercel.app', vercelProjekt: 'svetska-organizacija', framework: 'Next.js', buildKomanda: 'next build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'svetska-organizacija-git-copil-0ce22a-nikolas-projects-b8a8458f.vercel.app', projectId: 'svetska-organizacija', vercelProjekt: 'svetska-organizacija', framework: 'Next.js', buildKomanda: 'next build' },
   },
   {
     id: 'omega-ai-github',
@@ -99,7 +99,7 @@ export const platforme: Platforma[] = [
     progres: 92,
     tehnologije: ['TypeScript', 'GitHub API', 'SpajaPro Engine', 'Prompt System', 'Vercel'],
     funkcije: ['SpajaPro Prompt code review', 'PR automation', 'Issue triage', 'CI/CD', 'Prompt-based suggestions'],
-    deploy: { status: 'aktivan', domen: 'github.com/spaja86/OMEGA-AI-za-GIT-HUB', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
+    deploy: { status: 'aktivan', provider: 'github', domen: 'github.com/spaja86/OMEGA-AI-za-GIT-HUB', projectId: 'OMEGA-AI-za-GIT-HUB', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
   },
   {
     id: 'omega-ai-vercel',
@@ -113,7 +113,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['TypeScript', 'Vercel API', 'OpenAI'],
     funkcije: ['Auto deploy', 'Performance monitoring', 'Error tracking'],
-    deploy: { status: 'aktivan', domen: 'omega-ai-vercel.vercel.app', vercelProjekt: 'omega-ai-vercel', framework: 'Node.js', buildKomanda: 'tsc' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'omega-ai-vercel.vercel.app', projectId: 'omega-ai-vercel', vercelProjekt: 'omega-ai-vercel', framework: 'Node.js', buildKomanda: 'tsc' },
   },
   {
     id: 'omega-ai-google',
@@ -127,7 +127,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['TypeScript', 'Google Cloud', 'BigQuery', 'Analytics'],
     funkcije: ['SEO optimizacija', 'Analytics izvestaji', 'Cloud funkcije'],
-    deploy: { status: 'aktivan', domen: 'omega-ai-google.vercel.app', vercelProjekt: 'omega-ai-google', framework: 'Node.js', buildKomanda: 'tsc' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'omega-ai-google.vercel.app', projectId: 'omega-ai-google', vercelProjekt: 'omega-ai-google', framework: 'Node.js', buildKomanda: 'tsc' },
   },
   {
     id: 'omega-ai-5-persona',
@@ -141,7 +141,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['TypeScript', 'SpajaPro Engine', 'Prompt System', 'LangChain'],
     funkcije: ['Multi-persona Prompt AI', 'SpajaPro Prompt agenti', 'Prompt kolaboracija', 'Facebook AI', 'Instagram AI', 'TikTok AI', 'Threads AI', 'YouTube AI'],
-    deploy: { status: 'aktivan', domen: 'omega-ai-5-persona.vercel.app', vercelProjekt: 'omega-ai-5-persona', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'omega-ai-5-persona.vercel.app', projectId: 'omega-ai-5-persona', vercelProjekt: 'omega-ai-5-persona', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
   },
   {
     id: 'spajapro-platforma',
@@ -155,7 +155,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['TypeScript', 'SpajaPro 6-15', 'Prompt Engine', 'Kompanija-SPAJA'],
     funkcije: ['SpajaPro Prompt Engine', '10 verzija (6-15)', 'Univerzalni Prompt', 'Multi-language Prompt', 'Fine-tuning', 'Aktivni Promptovi za programiranje'],
-    deploy: { status: 'aktivan', domen: 'spajapro-platforma.vercel.app', vercelProjekt: 'spajapro-platforma', framework: 'Next.js + SpajaPro', buildKomanda: 'next build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'spajapro-platforma.vercel.app', projectId: 'spajapro-platforma', vercelProjekt: 'spajapro-platforma', framework: 'Next.js + SpajaPro', buildKomanda: 'next build' },
   },
   {
     id: 'input-output-copilot',
@@ -169,7 +169,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['TypeScript', 'GitHub Copilot API', 'SpajaPro Prompt', 'Python'],
     funkcije: ['SpajaPro Prompt suggestions', 'Context management', 'Custom Prompt šabloni', 'SpajaPro 10 integracija', 'Aktivna komunikacija sa korisnicima'],
-    deploy: { status: 'aktivan', domen: 'io-copilot.vercel.app', vercelProjekt: 'io-copilot', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'io-copilot.vercel.app', projectId: 'io-copilot', vercelProjekt: 'io-copilot', framework: 'Node.js + SpajaPro', buildKomanda: 'tsc' },
   },
   {
     id: 'openai-platforma',
@@ -183,7 +183,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['TypeScript', 'OpenAI API', 'SpajaPro v6-15 Engine', 'OMEGA AI', 'Vercel', 'Digitalna Industrija'],
     funkcije: ['SpajaPro v6-15 umesto ChatGPT-a', 'OpenAI API integracija', 'OMEGA AI povezivanje', 'SpajaPro Prompt sistem', 'AI servisi za ekosistem', 'Vercel deploy integracija', 'Planovi: Starter/Pro/Biznis/Enterprise/Unlimited VIP', 'API ključ u repo', 'Non-stop evolucija u Digitalnoj Industriji', 'Povezana sa celim sistemom'],
-    deploy: { status: 'aktivan', domen: 'openai.com', vercelProjekt: 'openai-platform', framework: 'Node.js + SpajaPro v6-15', buildKomanda: 'tsc' },
+    deploy: { status: 'aktivan', provider: 'custom', domen: 'openai.com', projectId: 'openai-platform', vercelProjekt: 'openai-platform', framework: 'Node.js + SpajaPro v6-15', buildKomanda: 'tsc' },
   },
   {
     id: 'omega-ai-sistem',
@@ -197,7 +197,7 @@ export const platforme: Platforma[] = [
     progres: 100,
     tehnologije: ['TypeScript', 'OMEGA AI', 'SpajaPro 6-15', 'Evolucija Engine', '40M persona'],
     funkcije: ['21 OMEGA AI persona', '8 oktava interakcije', 'Autonomna evolucija', '40.000.562 OMEGA AI persona', 'Masovno skaliranje', 'Cross-repo integracija'],
-    deploy: { status: 'aktivan', domen: 'ai-iq-super-platforma.vercel.app', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16 + OMEGA AI', buildKomanda: 'next build' },
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16 + OMEGA AI', buildKomanda: 'next build' },
   },
 ];
 
