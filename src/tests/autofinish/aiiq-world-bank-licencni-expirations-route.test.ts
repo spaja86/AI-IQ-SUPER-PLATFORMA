@@ -1,8 +1,8 @@
-// Autofinish #1300 — Laucentricni Spektar Route Coverage Test
+// Autofinish #1307 — AIIQ World Bank Licencni Expirations Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/laucentricni-spektar/route';
+import { GET } from '../../app/api/aiiq-world-bank-licencni-expirations/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -36,37 +36,40 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🌈 Laucentricni Spektar — Route Coverage Test (#1300)\n');
+  console.log('\n📋 AIIQ World Bank Licencni Expirations — Route Coverage Test (#1307)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/laucentricni-spektar/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/aiiq-world-bank-licencni-expirations/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(apiRoutePath), `${apiRoutePath} ne postoji`);
   });
 
-  await test('API ruta koristi buildLaucentricniSpektar', () => {
-    assert(apiRouteSource.includes('buildLaucentricniSpektar'), 'API route ne koristi buildLaucentricniSpektar');
+  await test('API ruta koristi očekivane gradivne funkcije', () => {
+    assert(apiRouteSource.includes('getLicencniExpirations'), 'Nedostaje getLicencniExpirations');
+    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
+    assert(apiRouteSource.includes('apiSuccess'), 'Nedostaje apiSuccess');
   });
 
-  await test('API ruta ima auth, rate limit i standardne API odgovore', () => {
-    assert(apiRouteSource.includes('verifyUserFromToken'), 'API route nema auth proveru');
-    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'API route nema rate limiting');
-    assert(apiRouteSource.includes('apiSuccess'), 'API route nema apiSuccess');
-    assert(apiRouteSource.includes('apiError'), 'API route nema apiError');
-    assert(apiRouteSource.includes('apiInternalError'), 'API route nema apiInternalError');
-  });
+  await test('GET vraća očekivani payload', async () => {
+    const request = {
+      headers: new Headers({ 'x-forwarded-for': `1307.${Date.now()}` }),
+      nextUrl: new URL('http://localhost/api/aiiq-world-bank-licencni-expirations?windowDays=120'),
+    } as never;
 
-  await test('GET bez auth vraća 401 Unauthorized', async () => {
-    const request = new Request('http://localhost/api/laucentricni-spektar');
-    const response = await GET(request as never);
-    assertEqual(response.status, 401, 'status');
+    const response = await GET(request);
+    assertEqual(response.status, 200, 'status');
     const body = (await response.json()) as Record<string, unknown>;
-    assertEqual(body['code'] as string, 'UNAUTHORIZED', 'code');
-    assert(typeof body['error'] === 'string' && (body['error'] as string).length > 0, 'error');
+    const data = body['data'] as Record<string, unknown>;
+
+    assert(data && typeof data === 'object', 'data payload mora postojati');
+    assertEqual(data['sistem'] as string, 'AI IQ WORLD BANK Licencni Expirations', 'sistem');
+    assertEqual(data['verzija'] as string, APP_VERSION, 'verzija');
+    assertEqual(data['windowDays'] as number, 120, 'windowDays');
+    assert(Array.isArray(data['stavke']), 'stavke mora biti niz');
   });
 
-  await test('Konstante su ažurirane', () => {
+  await test('Konstante su ažurirane bez promene broja ruta', () => {
     assertEqual(APP_VERSION, '57.6.0', 'APP_VERSION');
     assertEqual(AUTOFINISH_COUNT, 1307, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1158, 'TOTAL_API_ROUTES');
