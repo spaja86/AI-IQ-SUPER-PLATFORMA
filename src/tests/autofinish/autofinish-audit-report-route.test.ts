@@ -1,10 +1,10 @@
-// Autofinish #1326 — Autofinish Alert Rules Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-alert-rules-route.test.ts
+// Autofinish #1326 — Autofinish Audit Report Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-audit-report-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/autofinish-alert-rules/route';
+import { GET } from '../../app/api/autofinish-audit-report/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -38,9 +38,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Alert Rules — Route Coverage Test Suite (#1326)\n');
+  console.log('\n🏁 Autofinish Audit Report — Route Coverage Test Suite (#1326)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-alert-rules/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-audit-report/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -48,13 +48,13 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(apiRouteSource.includes('getAutofinishAlertRules'), 'Nedostaje getAutofinishAlertRules');
+    assert(apiRouteSource.includes('getAutofinishAuditReport'), 'Nedostaje getAutofinishAuditReport');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
   });
 
   await test('GET vraća 200, payload i heder-e', async () => {
-    const request = new Request('http://localhost/api/autofinish-alert-rules', {
+    const request = new Request('http://localhost/api/autofinish-audit-report', {
       headers: { 'x-forwarded-for': '127.0.0.1' },
     });
     const response = await GET(request as NextRequest);
@@ -63,25 +63,20 @@ async function runTests(): Promise<void> {
     const body = (await response.json()) as Record<string, unknown>;
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
     assertEqual(body['autofinishBroj'] as number, AUTOFINISH_COUNT, 'autofinishBroj');
-    assert(typeof body['ukupnoPravila'] === 'number', 'ukupnoPravila number');
-    assert(typeof body['aktivnih'] === 'number', 'aktivnih number');
-    assert(typeof body['kriticnih'] === 'number', 'kriticnih number');
-    assert(typeof body['poServisima'] === 'object' && body['poServisima'] !== null, 'poServisima objekt');
-    assert(Array.isArray(body['pravila']), 'pravila niz');
+    assert(typeof body['petljaStatus'] === 'object' && body['petljaStatus'] !== null, 'petljaStatus objekat');
+    assert(typeof body['ekosistem'] === 'object' && body['ekosistem'] !== null, 'ekosistem objekat');
+    assert(typeof body['zdravlje'] === 'object' && body['zdravlje'] !== null, 'zdravlje objekat');
+    assert(typeof body['progress'] === 'object' && body['progress'] !== null, 'progress objekat');
+    assert(typeof body['podsistemi'] === 'object' && body['podsistemi'] !== null, 'podsistemi objekat');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
 
-    const pravila = body['pravila'] as Array<Record<string, unknown>>;
-    assert(pravila.length > 0, 'pravila nije prazan');
-    for (const pravilo of pravila) {
-      assert(typeof pravilo['id'] === 'string', 'pravilo.id string');
-      assert(typeof pravilo['naziv'] === 'string', 'pravilo.naziv string');
-      assert(typeof pravilo['servis'] === 'string', 'pravilo.servis string');
-      assert(Array.isArray(pravilo['eskalacije']), 'pravilo.eskalacije niz');
-    }
+    const ekosistem = body['ekosistem'] as Record<string, unknown>;
+    assertEqual(ekosistem['apiRute'] as number, TOTAL_API_ROUTES, 'ekosistem.apiRute');
+    assertEqual(ekosistem['rute'] as number, TOTAL_ROUTES, 'ekosistem.rute');
 
     assertEqual(
       response.headers.get('Cache-Control'),
-      'public, s-maxage=300, stale-while-revalidate=1800',
+      'public, s-maxage=30, stale-while-revalidate=60',
       'Cache-Control',
     );
     assertEqual(response.headers.get('X-App-Version'), APP_VERSION, 'X-App-Version');
