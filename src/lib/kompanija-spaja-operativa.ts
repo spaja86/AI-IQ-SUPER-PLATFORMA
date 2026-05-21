@@ -106,6 +106,9 @@ export interface EnterpriseZahtevPaket {
 }
 
 type ReadinessStatus = 'spremno' | 'delimicno' | 'blokirano';
+type ReadinessMode = 'runtime-ready' | 'runtime-incomplete' | 'ops-ready' | 'ops-incomplete' | 'enterprise-in-progress' | 'enterprise-ready';
+const RUNTIME_READY_THRESHOLD = 67;
+const OPS_READY_THRESHOLD = 50;
 
 function envSet(name: string): boolean {
   const value = process.env[name];
@@ -716,6 +719,11 @@ export function getJavniKontaktEmailove(): string[] {
 }
 
 export function getOperativnaSpremnost() {
+  const runtimeChecks = [
+    envSet('OMEGA_JWT_SECRET'),
+    envSet('CRON_SECRET'),
+    envSet('NEXT_PUBLIC_SUPABASE_URL') && envSet('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
+  ];
   const mailChecks = [
     envSet('SPAJA_MAIL_PROVIDER') || envSet('MAIL_PROVIDER'),
     envSet('SMTP_HOST'),
@@ -726,12 +734,20 @@ export function getOperativnaSpremnost() {
     envFlag('SPAJA_MAIL_DNS_READY'),
     envFlag('SPAJA_MAIL_AUDIT_READY'),
   ];
-  const vercelChecks = [
+  const vercelRuntimeChecks = [
     envSet('VERCEL_TOKEN'),
     envSet('VERCEL_PROJECT_ID'),
     envSet('VERCEL_TEAM_ID') || envSet('VERCEL_ORG_ID'),
+  ];
+  /*
+   * READY: paket je finalizovan i spreman za slanje.
+   * REQUESTED: proces podnošenja je pokrenut (operativni signal).
+   * SUBMITTED: zahtev je zvanično poslat Vercel Sales timu.
+   */
+  const vercelEnterpriseChecks = [
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_READY'),
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUESTED'),
+    envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED'),
   ];
   const githubChecks = [
     envSet('GITHUB_TOKEN'),
@@ -746,25 +762,50 @@ export function getOperativnaSpremnost() {
     envFlag('OMEGA_SUPPORT_TELEPHONY_READY'),
   ];
 
+  const runtimeScore = getSectionScore(runtimeChecks.filter(Boolean).length, runtimeChecks.length);
   const mailScore = getSectionScore(mailChecks.filter(Boolean).length, mailChecks.length);
-  const vercelScore = getSectionScore(vercelChecks.filter(Boolean).length, vercelChecks.length);
+  const vercelRuntimeScore = getSectionScore(vercelRuntimeChecks.filter(Boolean).length, vercelRuntimeChecks.length);
+  const vercelEnterpriseScore = getSectionScore(vercelEnterpriseChecks.filter(Boolean).length, vercelEnterpriseChecks.length);
   const githubScore = getSectionScore(githubChecks.filter(Boolean).length, githubChecks.length);
   const supportScore = getSectionScore(supportChecks.filter(Boolean).length, supportChecks.length);
+  const opsScore = Math.round((mailScore + githubScore + supportScore) / 3);
 
   const missingEnv = [
+    ...(!envSet('OMEGA_JWT_SECRET') ? ['OMEGA_JWT_SECRET'] : []),
+    ...(!envSet('CRON_SECRET') ? ['CRON_SECRET'] : []),
+    ...(!envSet('NEXT_PUBLIC_SUPABASE_URL') ? ['NEXT_PUBLIC_SUPABASE_URL'] : []),
+    ...(!envSet('NEXT_PUBLIC_SUPABASE_ANON_KEY') ? ['NEXT_PUBLIC_SUPABASE_ANON_KEY'] : []),
     ...(!envSet('SPAJA_MAIL_PROVIDER') && !envSet('MAIL_PROVIDER') ? ['SPAJA_MAIL_PROVIDER'] : []),
     ...(!envSet('SMTP_HOST') ? ['SMTP_HOST'] : []),
     ...(!envSet('SMTP_PORT') ? ['SMTP_PORT'] : []),
     ...(!envSet('SMTP_USER') ? ['SMTP_USER'] : []),
     ...(!envSet('SMTP_PASS') ? ['SMTP_PASS'] : []),
+    ...(!envSet('GITHUB_TOKEN') ? ['GITHUB_TOKEN'] : []),
+  ];
+  const missingVercelEnv = [
     ...(!envSet('VERCEL_TOKEN') ? ['VERCEL_TOKEN'] : []),
     ...(!envSet('VERCEL_PROJECT_ID') ? ['VERCEL_PROJECT_ID'] : []),
     ...(!envSet('VERCEL_TEAM_ID') && !envSet('VERCEL_ORG_ID') ? ['VERCEL_TEAM_ID'] : []),
-    ...(!envSet('GITHUB_TOKEN') ? ['GITHUB_TOKEN'] : []),
   ];
 
-  const ukupniScore = Math.round((mailScore + vercelScore + githubScore + supportScore) / 4);
+  const ukupniScore = Math.round((runtimeScore + opsScore) / 2);
   const enterpriseZahtevi = getEnterpriseZahtevi();
+  const runtimeMode: ReadinessMode = runtimeScore >= RUNTIME_READY_THRESHOLD ? 'runtime-ready' : 'runtime-incomplete';
+  const opsMode: ReadinessMode = opsScore >= OPS_READY_THRESHOLD ? 'ops-ready' : 'ops-incomplete';
+  const enterpriseReady = enterpriseZahtevi.filter((paket) => paket.status !== 'u_pripremi').length;
+  const enterpriseMode: ReadinessMode = enterpriseReady >= enterpriseZahtevi.length ? 'enterprise-ready' : 'enterprise-in-progress';
+  const acceptanceCriteria = {
+    statusApi: {
+      runtimeReady: runtimeMode === 'runtime-ready',
+      opsReady: opsMode === 'ops-ready',
+      vercelNotBlocking: missingVercelEnv.length === 0,
+    },
+    healthApi: {
+      runtimeReady: runtimeMode === 'runtime-ready',
+      opsReady: opsMode === 'ops-ready',
+      enterpriseState: enterpriseMode,
+    },
+  };
 
   return {
     verzija: APP_VERSION,
@@ -781,14 +822,32 @@ export function getOperativnaSpremnost() {
       ukupanScore: ukupniScore,
       status:
         ukupniScore >= 85 ? 'spremno' : ukupniScore >= 50 ? 'delimicno' : 'blokirano',
+      modelStanja: {
+        runtime: runtimeMode,
+        ops: opsMode,
+        enterprise: enterpriseMode,
+      },
+      acceptanceCriteria,
+      runtime: {
+        score: runtimeScore,
+        status: getSectionStatus(runtimeChecks.filter(Boolean).length, runtimeChecks.length),
+      },
       mail: {
         score: mailScore,
         status: getSectionStatus(mailChecks.filter(Boolean).length, mailChecks.length),
         domenskiKanali: javniKontaktKanali.length,
       },
       vercel: {
-        score: vercelScore,
-        status: getSectionStatus(vercelChecks.filter(Boolean).length, vercelChecks.length),
+        score: vercelRuntimeScore,
+        status: getSectionStatus(vercelRuntimeChecks.filter(Boolean).length, vercelRuntimeChecks.length),
+        runtime: {
+          score: vercelRuntimeScore,
+          status: getSectionStatus(vercelRuntimeChecks.filter(Boolean).length, vercelRuntimeChecks.length),
+        },
+        enterprise: {
+          score: vercelEnterpriseScore,
+          status: getSectionStatus(vercelEnterpriseChecks.filter(Boolean).length, vercelEnterpriseChecks.length),
+        },
         enterpriseOpcije: vercelEnterprisePaket.trazeneOpcije.length,
       },
       github: {
@@ -806,13 +865,13 @@ export function getOperativnaSpremnost() {
         vercel: vercelEnterpriseZahtev.status,
         github: githubEnterprisePaket.status,
         openai: openaiEnterprisePaket.status,
-        spremniPaketi: enterpriseZahtevi.filter((paket) => paket.status !== 'u_pripremi').length,
+        spremniPaketi: enterpriseReady,
       },
       missingEnv,
+      missingVercelEnv,
       zahtevaAktivaciju:
         missingEnv.length > 0 ||
         !envFlag('SPAJA_MAIL_DOMAINS_VERIFIED') ||
-        !envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_READY') ||
         !envFlag('SPAJA_GITHUB_GOVERNANCE_READY'),
     },
   };

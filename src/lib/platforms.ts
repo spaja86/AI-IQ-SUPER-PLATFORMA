@@ -33,7 +33,7 @@ export const platforms: Platform[] = [
     icon: '🧠',
     techStack: ['Next.js 16', 'TypeScript', 'Tailwind CSS 4', 'Vercel'],
     features: ['Centralni dashboard', 'Ekosistem pregled', 'Deploy management', 'API Gateway'],
-    deploy: { status: 'deployed', domain: 'ai-iq-super-platforma.vercel.app', vercelProject: 'ai-iq-super-platforma', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'ai-iq-super-platforma.vercel.app', projectId: 'ai-iq-super-platforma', vercelProject: 'ai-iq-super-platforma', framework: 'nextjs', buildCommand: 'npm run build' },
     repoUrl: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA',
   },
   {
@@ -45,7 +45,7 @@ export const platforms: Platform[] = [
     icon: '🌐',
     techStack: ['React', 'WebRTC', 'Socket.IO', 'Vercel', 'SpajaPro Engine'],
     features: ['Bank modul', 'Exchange modul', 'Company modul', 'AI modul', 'Real-time chat', 'SpajaPro Prompt'],
-    deploy: { status: 'deployed', domain: 'io-openui-ao.vercel.app', vercelProject: 'io-openui-ao', framework: 'react', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'io-openui-ao.vercel.app', projectId: 'io-openui-ao', vercelProject: 'io-openui-ao', framework: 'react', buildCommand: 'npm run build' },
     repoUrl: 'https://github.com/spaja86/IO-OPENUI-AO',
   },
   // ── Finance ───────────────────────────────────────────────────────────
@@ -58,7 +58,7 @@ export const platforms: Platform[] = [
     icon: '🏦',
     techStack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Stripe'],
     features: ['Digitalni računi', 'Transakcije', 'Krediti', 'Investicije', 'KYC/AML'],
-    deploy: { status: 'deployed', domain: 'spaja-banka.vercel.app', vercelProject: 'spaja-banka', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-banka.vercel.app', projectId: 'spaja-banka', vercelProject: 'spaja-banka', framework: 'nextjs', buildCommand: 'npm run build' },
     repoUrl: 'https://github.com/spaja86/Ai-Iq-World-Bank',
   },
   {
@@ -70,7 +70,7 @@ export const platforms: Platform[] = [
     icon: '💱',
     techStack: ['Next.js', 'TypeScript', 'WebSocket', 'Redis'],
     features: ['Fiat exchange', 'Crypto exchange', 'Real-time rates', 'Portfolio tracking'],
-    deploy: { status: 'deployed', domain: 'spaja-menjacnica.vercel.app', vercelProject: 'spaja-menjacnica', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-menjacnica.vercel.app', projectId: 'spaja-menjacnica', vercelProject: 'spaja-menjacnica', framework: 'nextjs', buildCommand: 'npm run build' },
     repoUrl: 'https://github.com/spaja86/Ai-Iq-Menja-nica',
   },
   // ── AI ────────────────────────────────────────────────────────────────
@@ -83,7 +83,7 @@ export const platforms: Platform[] = [
     icon: '🤖',
     techStack: ['Python', 'FastAPI', 'TensorFlow', 'OpenAI API'],
     features: ['NLP procesiranje', 'ML modeli', 'Automatizacija', 'AI asistenti', '40M OMEGA AI', 'OpenAI API integracija'],
-    deploy: { status: 'deployed', domain: 'openai.com', vercelProject: 'spaja-ai-engine', framework: 'fastapi', buildCommand: 'pip install -r requirements.txt' },
+    deploy: { status: 'deployed', provider: 'custom', domain: 'openai.com', projectId: 'spaja-ai-engine', vercelProject: 'spaja-ai-engine', framework: 'fastapi', buildCommand: 'pip install -r requirements.txt' },
     repoUrl: 'https://github.com/spaja86/openai-platform',
   },
   {
@@ -95,7 +95,7 @@ export const platforms: Platform[] = [
     icon: '🤖',
     techStack: ['TypeScript', 'OpenAI API', 'SpajaPro v6-15', 'OMEGA AI', 'Vercel'],
     features: ['OpenAI API integracija', 'SpajaPro v6-15 Engine', 'OMEGA AI povezivanje', 'Non-stop evolucija', 'Digitalna Industrija platforma', 'Planovi: Starter/Pro/Biznis/Enterprise/Unlimited VIP'],
-    deploy: { status: 'deployed', domain: 'openai.com', vercelProject: 'openai-platform', framework: 'nodejs', buildCommand: 'tsc' },
+    deploy: { status: 'deployed', provider: 'custom', domain: 'openai.com', projectId: 'openai-platform', vercelProject: 'openai-platform', framework: 'nodejs', buildCommand: 'tsc' },
     repoUrl: 'https://github.com/spaja86/openai-platform',
   },
   {
@@ -107,7 +107,7 @@ export const platforms: Platform[] = [
     icon: '📊',
     techStack: ['Python', 'Next.js', 'D3.js', 'BigQuery'],
     features: ['Dashboards', 'Predictive analytics', 'Custom reports', 'Data visualization'],
-    deploy: { status: 'deployed', domain: 'spaja-ai-analytics.vercel.app', vercelProject: 'spaja-ai-analytics', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-ai-analytics.vercel.app', projectId: 'spaja-ai-analytics', vercelProject: 'spaja-ai-analytics', framework: 'nextjs', buildCommand: 'npm run build' },
   },
   // ── Social ────────────────────────────────────────────────────────────
   {
@@ -119,7 +119,7 @@ export const platforms: Platform[] = [
     icon: '👥',
     techStack: ['Next.js', 'GraphQL', 'PostgreSQL', 'Redis'],
     features: ['Profili', 'Feed', 'Grupe', 'Poruke', 'Događaji'],
-    deploy: { status: 'deployed', domain: 'spaja-social.vercel.app', vercelProject: 'spaja-social', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-social.vercel.app', projectId: 'spaja-social', vercelProject: 'spaja-social', framework: 'nextjs', buildCommand: 'npm run build' },
   },
   // ── Commerce ──────────────────────────────────────────────────────────
   {
@@ -131,7 +131,7 @@ export const platforms: Platform[] = [
     icon: '🛒',
     techStack: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
     features: ['Prodavnice', 'Proizvodi', 'Narudžbe', 'Plaćanja', 'Recenzije', 'Digitalni Hardver zakup'],
-    deploy: { status: 'deployed', domain: 'spaja-marketplace.vercel.app', vercelProject: 'spaja-marketplace', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-marketplace.vercel.app', projectId: 'spaja-marketplace', vercelProject: 'spaja-marketplace', framework: 'nextjs', buildCommand: 'npm run build' },
   },
   // ── Global ────────────────────────────────────────────────────────────
   {
@@ -143,7 +143,7 @@ export const platforms: Platform[] = [
     icon: '🌍',
     techStack: ['Next.js', 'TypeScript', 'i18n', 'CDN'],
     features: ['Multi-language', 'Regional hubs', 'Partneri', 'Compliance'],
-    deploy: { status: 'deployed', domain: 'spaja-global.vercel.app', vercelProject: 'spaja-global', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-global.vercel.app', projectId: 'spaja-global', vercelProject: 'spaja-global', framework: 'nextjs', buildCommand: 'npm run build' },
     repoUrl: 'https://github.com/spaja86/SVETSKA-ORGANIZACIJA',
   },
   // ── Tools ─────────────────────────────────────────────────────────────
@@ -156,7 +156,7 @@ export const platforms: Platform[] = [
     icon: '🔧',
     techStack: ['Docker', 'GitHub Actions', 'Vercel', 'Grafana'],
     features: ['CI/CD pipelines', 'Monitoring', 'Logging', 'Alerting'],
-    deploy: { status: 'deployed', domain: 'spaja-devops.vercel.app', vercelProject: 'spaja-devops', framework: 'docker', buildCommand: 'docker build .' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-devops.vercel.app', projectId: 'spaja-devops', vercelProject: 'spaja-devops', framework: 'docker', buildCommand: 'docker build .' },
   },
   {
     id: 'admin-panel',
@@ -167,7 +167,7 @@ export const platforms: Platform[] = [
     icon: '⚙️',
     techStack: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
     features: ['User management', 'Roles & permissions', 'Audit log', 'Settings'],
-    deploy: { status: 'deployed', domain: 'spaja-admin.vercel.app', vercelProject: 'spaja-admin', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-admin.vercel.app', projectId: 'spaja-admin', vercelProject: 'spaja-admin', framework: 'nextjs', buildCommand: 'npm run build' },
   },
 ];
 

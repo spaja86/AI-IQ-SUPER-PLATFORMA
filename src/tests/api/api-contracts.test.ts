@@ -12,6 +12,8 @@
 // ─── Importi ──────────────────────────────────────────────────────────────────
 
 import type { ApiError, ApiSuccess, ApiErrorCode } from '../../lib/api/response';
+import fs from 'node:fs';
+import path from 'node:path';
 import { checkRateLimitGlobal, rateLimitKey, isKVConfigured } from '../../lib/rate-limit';
 import { PLANOVI, getPlanById, getPlanByPriceId, UNLIMITED_CHAT } from '../../lib/stripe/config';
 import {
@@ -21,7 +23,8 @@ import {
   getEvolucijskaIstorijaAsync,
 } from '../../lib/evolucija/engine';
 import { APP_VERSION } from '../../lib/constants';
-import { getEnterpriseZahtevi } from '../../lib/kompanija-spaja-operativa';
+import { getEnterpriseZahtevi, getOperativnaSpremnost } from '../../lib/kompanija-spaja-operativa';
+import { validateCronAuth } from '../../lib/cron-auth';
 import {
   buildKomunikacioniSablon,
   canTransition,
@@ -223,6 +226,45 @@ async function runTests(): Promise<void> {
     assert(github.telo.includes('GitHub agente'), 'github telo mora pomenuti GitHub agente');
     assert(github.telo.includes('kupovinu licenci'), 'github telo mora pomenuti kupovinu licenci');
     assert(github.trazeneOpcije.includes('GitHub agent enablement'), 'github opcije moraju pokriti agente');
+  });
+
+  await test('Operativna spremnost ima runtime/ops/enterprise modove', () => {
+    const operativa = getOperativnaSpremnost();
+    assertDefined(operativa.spremnost.modelStanja, 'modelStanja');
+    const mode = operativa.spremnost.modelStanja;
+    assert(['runtime-ready', 'runtime-incomplete'].includes(mode.runtime), 'runtime mode mora biti validan');
+    assert(['ops-ready', 'ops-incomplete'].includes(mode.ops), 'ops mode mora biti validan');
+    assert(['enterprise-in-progress', 'enterprise-ready'].includes(mode.enterprise), 'enterprise mode mora biti validan');
+    assertDefined(operativa.spremnost.acceptanceCriteria.statusApi, 'statusApi acceptance');
+    assertDefined(operativa.spremnost.acceptanceCriteria.healthApi, 'healthApi acceptance');
+    assert(Array.isArray(operativa.spremnost.missingVercelEnv), 'missingVercelEnv mora biti niz');
+  });
+
+  await test('Cron auth helper podržava Bearer i x-cron-secret', () => {
+    const secret = 'cron-test-secret';
+    const bearerReq = new Request('https://example.com/api/cron/zdravlje', {
+      headers: { authorization: `Bearer ${secret}` },
+    });
+    const headerReq = new Request('https://example.com/api/cron/zdravlje', {
+      headers: { 'x-cron-secret': secret },
+    });
+    const invalidReq = new Request('https://example.com/api/cron/zdravlje', {
+      headers: { authorization: 'Bearer wrong' },
+    });
+
+    assert(validateCronAuth(bearerReq, secret).authorized, 'Bearer header mora biti prihvaćen');
+    assert(validateCronAuth(headerReq, secret).authorized, 'x-cron-secret header mora biti prihvaćen');
+    assert(!validateCronAuth(invalidReq, secret).authorized, 'neispravan secret mora biti odbijen');
+    assert(!validateCronAuth(headerReq, '').authorized, 'prazan CRON_SECRET mora odbiti zahtev');
+  });
+
+  await test('vercel.json cron konfiguracija je usklađena sa očekivanim endpointima', () => {
+    const root = path.join(__dirname, '..', '..', '..');
+    const raw = fs.readFileSync(path.join(root, 'vercel.json'), 'utf8');
+    const parsed = JSON.parse(raw) as { crons?: Array<{ path: string; schedule: string }> };
+    const crons = parsed.crons ?? [];
+    assert(crons.some((c) => c.path === '/api/cron/zdravlje'), 'vercel.json mora imati /api/cron/zdravlje cron');
+    assert(crons.some((c) => c.path === '/api/cron/evolucija'), 'vercel.json mora imati /api/cron/evolucija cron');
   });
 
   // ── 2c. Internal B2B procurement workflow ───────────────────────────────────

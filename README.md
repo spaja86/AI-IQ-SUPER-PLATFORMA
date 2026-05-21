@@ -81,8 +81,8 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | 🔄 Auto-merge | GitHub Actions | Po završetku CI | Merge passing PR-ova |
 | 📦 Zavisnosti | Dependabot | Dnevno | Update npm + Actions |
 | 🔀 Branch sync | GitHub Actions cron | Dnevno u 03:00 | Sinhronizacija grana |
-| 👁️ Zdravlje | Vercel Cron | Svakih 30min | Health monitoring |
-| 🧬 Cron evolucija | Vercel Cron | Svakih 6h | Server-side evolucija |
+| 👁️ Zdravlje | Scheduler (Vercel Cron / eksterni) | Svakih 30min | Health monitoring |
+| 🧬 Cron evolucija | Scheduler (Vercel Cron / eksterni) | Svakih 6h | Server-side evolucija |
 
 ### GitHub Actions Workflows
 
@@ -93,7 +93,7 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | 🔄 Omega Auto Merge | `omega-auto-merge.yml` | CI success |
 | 🔀 Omega Branch Sync | `omega-branch-sync.yml` | Cron dnevno + manual |
 
-### Vercel Cron Jobs
+### Cron Jobs (scheduler-agnostic)
 
 | Endpoint | Interval | Opis |
 |----------|----------|------|
@@ -285,14 +285,14 @@ Ektracionalni akcelatorski signal krojen od matričnog jedinjenja kolocentrično
 - Eksterni sajt platformi — svaka platforma otvara Vercel domen u novom tabu
 - 18 stranica + 9 API ruta + sitemap + robots + skeleton loaders
 
-## 🌐 Eksterni Sajt Platformi — Vercel Domeni
+## 🌐 Eksterni Sajt Platformi — domeni platformi
 
-Svaka platforma u Digitalnoj Industriji ima svoj eksterni Vercel domen. Klikom na platformu na `/platforme` stranici, sajt platforme se otvara u **novom brauzer tabu** (`target="_blank"`).
+Svaka platforma u Digitalnoj Industriji ima eksterni domen (provider može biti Vercel ili drugi hosting). Klikom na platformu na `/platforme` stranici, sajt platforme se otvara u **novom brauzer tabu** (`target="_blank"`).
 
 ### Domeni platformi
 
-| Platforma | Vercel Domen |
-|-----------|-------------|
+| Platforma | Domen |
+|-----------|-------|
 | AI IQ SUPER PLATFORMA | ai-iq-super-platforma.vercel.app |
 | IO OPENUI AO — SpajaPro Engine | io-openui-ao.vercel.app |
 | AI IQ Menjacnica | ai-iq-menja-nica-6cnf-git-copi-0e2b0a-nikolas-projects-b8a8458f.vercel.app |
@@ -316,7 +316,7 @@ kartice: platforme.map((p) => ({
   ikona: p.ikona,
   progres: p.progres,
   oznake: [...p.tehnologije, p.status],
-  eksterniLink: p.url,  // Vercel domen → otvara se u novom tabu
+  eksterniLink: p.url,  // eksterni domen → otvara se u novom tabu
 }))
 ```
 
@@ -340,7 +340,16 @@ npm run lint
 ## Environment varijable (opcione)
 
 ```bash
-CRON_SECRET=<tajni-kljuc>          # Za Vercel Cron autentifikaciju
+CRON_SECRET=<tajni-kljuc>          # Za cron autentifikaciju (Bearer ili x-cron-secret)
 GITHUB_TOKEN=<github-pat>          # Za automatsko kreiranje Issues
 GITHUB_REPOSITORY=spaja86/AI-IQ-SUPER-PLATFORMA
 ```
+
+## ☁️ Multi-provider napomena
+
+- `deploy.provider` + `deploy.projectId` u platform metadata modelu su primarni način za označavanje hosting provajdera.
+- `deploy.vercelProjekt` ostaje samo radi kompatibilnosti sa starijim podacima.
+- Operativna spremnost je podeljena na:
+  - `runtime-ready` (runtime env i kritični servisi),
+  - `ops-ready` (operativni procesi),
+  - `enterprise-in-progress` / `enterprise-ready` (procurement, bez blokiranja runtime-a).

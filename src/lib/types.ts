@@ -32,10 +32,16 @@ export interface StranicaKonfiguracija {
 
 export type StatusPlatforme = 'aktivna' | 'razvoj' | 'planiranje' | 'spremna';
 export type KategorijaPlatforme = 'jezgro' | 'finansije' | 'globalno' | 'ai' | 'socijalno' | 'alati';
+export type DeployProvider = 'vercel' | 'github' | 'custom' | 'self-hosted' | 'other';
 
 export interface DeployInfo {
   status: 'aktivan' | 'neaktivan' | 'u_pripremi';
+  provider: DeployProvider;
   domen?: string;
+  projectId?: string;
+  /**
+   * @deprecated Koristiti projectId; planirano uklanjanje posle v60 stabilizacije.
+   */
   vercelProjekt?: string;
   framework: string;
   buildKomanda: string;
@@ -152,7 +158,12 @@ export interface Product {
 
 export interface PlatformDeploy {
   status: string;
+  provider: DeployProvider;
   domain?: string;
+  projectId?: string;
+  /**
+   * @deprecated Koristiti projectId; planirano uklanjanje posle v60 stabilizacije.
+   */
   vercelProject?: string;
   framework: string;
   buildCommand: string;

@@ -88,7 +88,13 @@ export async function GET(req: NextRequest) {
       operativnaSpremnost: {
         status: operativa.spremnost.status,
         score: operativa.spremnost.ukupanScore,
+        modelStanja: operativa.spremnost.modelStanja,
+        acceptanceCriteria: operativa.spremnost.acceptanceCriteria,
         missingEnv: operativa.spremnost.missingEnv.length,
+        missingVercelEnv: operativa.spremnost.missingVercelEnv.length,
+        runtime: operativa.spremnost.runtime.status,
+        ops: operativa.spremnost.modelStanja.ops,
+        enterpriseMode: operativa.spremnost.modelStanja.enterprise,
         mail: operativa.spremnost.mail.status,
         vercel: operativa.spremnost.vercel.status,
         github: operativa.spremnost.github.status,
