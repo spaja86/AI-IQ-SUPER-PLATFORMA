@@ -1,11 +1,11 @@
-// Autofinish #1328 — Autofinish Capacity Planning Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-capacity-planning-route.test.ts
+// Autofinish #1329 — Autofinish Changelog Automated Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-changelog-automated-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/autofinish-capacity-planning/route';
-import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
+import { GET } from '../../app/api/autofinish-changelog-automated/route';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_DIAGNOSTIKA, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
 let failed = 0;
@@ -38,9 +38,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Capacity Planning — Route Coverage Test Suite (#1328)\n');
+  console.log('\n🏁 Autofinish Changelog Automated — Route Coverage Test Suite (#1329)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-capacity-planning/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-changelog-automated/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -48,13 +48,13 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(apiRouteSource.includes('getAutofinishCapacityPlanning'), 'Nedostaje getAutofinishCapacityPlanning');
+    assert(apiRouteSource.includes('getAutofinishChangelogAutomated'), 'Nedostaje getAutofinishChangelogAutomated');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
   });
 
   await test('GET vraća 200, payload i heder-e', async () => {
-    const request = new Request('http://localhost/api/autofinish-capacity-planning', {
+    const request = new Request('http://localhost/api/autofinish-changelog-automated', {
       headers: { 'x-forwarded-for': '127.0.0.1' },
     });
     const response = await GET(request as NextRequest);
@@ -63,23 +63,21 @@ async function runTests(): Promise<void> {
     const body = (await response.json()) as Record<string, unknown>;
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
     assertEqual(body['autofinishBroj'] as number, AUTOFINISH_COUNT, 'autofinishBroj');
-    assert(typeof body['ukupnoResursa'] === 'number', 'ukupnoResursa number');
-    assert(typeof body['ok'] === 'number', 'ok number');
-    assert(typeof body['uUpozorenju'] === 'number', 'uUpozorenju number');
-    assert(typeof body['kriticnih'] === 'number', 'kriticnih number');
-    assert(typeof body['prosjecnaIskorištenost'] === 'number', 'prosjecnaIskorištenost number');
-    assert(Array.isArray(body['resursi']), 'resursi niz');
+    assert(typeof body['ukupnoEntries'] === 'number' && (body['ukupnoEntries'] as number) > 0, 'ukupnoEntries > 0');
+    assert(typeof body['features'] === 'number' && (body['features'] as number) >= 1, 'features >= 1');
+    assert(Array.isArray(body['entries']), 'entries je niz');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
+    assert(!Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp ISO');
 
-    const resursi = body['resursi'] as Array<Record<string, unknown>>;
-    assert(resursi.length > 0, 'resursi nije prazan');
-    for (const resurs of resursi) {
-      assert(typeof resurs['id'] === 'string', 'resurs.id string');
-      assert(typeof resurs['naziv'] === 'string', 'resurs.naziv string');
-      assert(typeof resurs['servis'] === 'string', 'resurs.servis string');
-      assert(typeof resurs['tip'] === 'string', 'resurs.tip string');
-      assert(typeof resurs['status'] === 'string', 'resurs.status string');
-      assert(typeof resurs['trend'] === 'string', 'resurs.trend string');
+    const entries = body['entries'] as Array<Record<string, unknown>>;
+    assertEqual(body['ukupnoEntries'] as number, entries.length, 'ukupnoEntries=entries.length');
+    assert(entries.length > 0, 'entries nije prazan');
+    for (const entry of entries) {
+      assert(typeof entry['verzija'] === 'string', 'entry.verzija string');
+      assert(typeof entry['opis'] === 'string', 'entry.opis string');
+      assert(typeof entry['autofinishBroj'] === 'number', 'entry.autofinishBroj number');
+      assert(typeof entry['tip'] === 'string', 'entry.tip string');
+      assert(typeof entry['breakingChange'] === 'boolean', 'entry.breakingChange boolean');
     }
 
     assertEqual(
@@ -100,6 +98,7 @@ async function runTests(): Promise<void> {
     assertEqual(AUTOFINISH_COUNT, 1329, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1158, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
+    assertEqual(TOTAL_DIAGNOSTIKA, 2364, 'TOTAL_DIAGNOSTIKA');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
