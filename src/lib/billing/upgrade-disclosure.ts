@@ -1,3 +1,5 @@
+import { createHash } from 'crypto';
+
 export interface UpgradeDisclosureLineItem {
   id: 'pro' | 'member' | 'preview-deployment-suffix';
   label: string;
@@ -17,11 +19,14 @@ export interface UpgradeDisclosure {
 export interface UpgradeCompanyRequestPayload {
   expectedTotalUsd: number;
   version: string;
-  accountEmail: string;
-  ownerName: string;
   acceptanceText: string;
   autoSendToCompanyBilling: boolean;
   sendMode?: 'ready_to_send' | 'dispatch_internal';
+}
+
+export interface UpgradeCompanyRequestContext {
+  accountEmail: string;
+  ownerName: string;
 }
 
 export interface UpgradeCompanyRequestRecord {
@@ -55,6 +60,11 @@ export const BILLING_UPGRADE_DISCLOSURE: UpgradeDisclosure = {
 };
 
 export const UPGRADE_ACCEPTANCE_TEXT = `${BILLING_UPGRADE_DISCLOSURE.legalDisclosure} ${BILLING_UPGRADE_DISCLOSURE.billingThresholdPolicy}`;
+
+export const DEFAULT_UPGRADE_COMPANY_REQUEST_CONTEXT: UpgradeCompanyRequestContext = {
+  accountEmail: 'spajicn@yahoo.com',
+  ownerName: 'Nikola Spajić',
+};
 
 export function calculateUpgradeDisclosureTotal(items: UpgradeDisclosureLineItem[]): number {
   return items.reduce((sum, item) => sum + item.costUsd, 0);
@@ -101,14 +111,6 @@ export function validateUpgradeCompanyRequestPayload(payload: unknown): {
     errors.push('Nevažeća verzija upgrade disclosure modela.');
   }
 
-  if (typeof data.accountEmail !== 'string' || data.accountEmail.trim().toLowerCase() !== 'spajicn@yahoo.com') {
-    errors.push('accountEmail mora biti spajicn@yahoo.com.');
-  }
-
-  if (typeof data.ownerName !== 'string' || data.ownerName.trim() !== 'Nikola Spajić') {
-    errors.push('ownerName mora biti Nikola Spajić.');
-  }
-
   if (typeof data.acceptanceText !== 'string' || data.acceptanceText.trim() !== UPGRADE_ACCEPTANCE_TEXT) {
     errors.push('acceptanceText mora biti tačan pravni tekst za nadogradnju.');
   }
@@ -124,22 +126,22 @@ export function validateUpgradeCompanyRequestPayload(payload: unknown): {
   return { valid: errors.length === 0, errors };
 }
 
-export function buildUpgradeCompanyRequestRecord(payload: UpgradeCompanyRequestPayload): UpgradeCompanyRequestRecord {
+export function buildUpgradeCompanyRequestRecord(
+  payload: UpgradeCompanyRequestPayload,
+  context: UpgradeCompanyRequestContext = DEFAULT_UPGRADE_COMPANY_REQUEST_CONTEXT,
+): UpgradeCompanyRequestRecord {
   const createdAt = new Date().toISOString();
   const sendMode = payload.sendMode ?? 'dispatch_internal';
-  const base = `${payload.version}|${payload.accountEmail}|${payload.ownerName}|${payload.expectedTotalUsd}|${createdAt}`;
-
-  const auditHash = typeof crypto?.subtle === 'undefined'
-    ? Buffer.from(base).toString('base64url')
-    : Buffer.from(base).toString('base64url');
+  const base = `${payload.version}|${context.accountEmail}|${context.ownerName}|${payload.expectedTotalUsd}|${createdAt}`;
+  const auditHash = createHash('sha256').update(base).digest('hex');
 
   return {
     requestId: `UPG-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
     auditHash,
     createdAt,
     version: payload.version,
-    accountEmail: payload.accountEmail,
-    ownerName: payload.ownerName,
+    accountEmail: context.accountEmail,
+    ownerName: context.ownerName,
     acceptanceText: payload.acceptanceText,
     autoSendToCompanyBilling: payload.autoSendToCompanyBilling,
     sendMode,

@@ -39,8 +39,6 @@ export default function PricingUpgradeConfirmation() {
         body: JSON.stringify({
           version: BILLING_UPGRADE_DISCLOSURE.version,
           expectedTotalUsd: BILLING_UPGRADE_DISCLOSURE.totalUsd,
-          accountEmail: 'spajicn@yahoo.com',
-          ownerName: 'Nikola Spajić',
           acceptanceText: UPGRADE_ACCEPTANCE_TEXT,
           autoSendToCompanyBilling: true,
           sendMode: 'dispatch_internal',

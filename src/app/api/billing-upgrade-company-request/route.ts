@@ -3,6 +3,7 @@ import { rateLimitKey, checkRateLimitGlobal } from '@/lib/rate-limit';
 import {
   BILLING_UPGRADE_DISCLOSURE,
   buildUpgradeCompanyRequestRecord,
+  DEFAULT_UPGRADE_COMPANY_REQUEST_CONTEXT,
   validateUpgradeCompanyRequestPayload,
 } from '@/lib/billing/upgrade-disclosure';
 import { getEnterpriseZahtevi, getKontaktKanal } from '@/lib/kompanija-spaja-operativa';
@@ -38,14 +39,12 @@ export async function POST(request: NextRequest) {
   const payload = body as {
     expectedTotalUsd: number;
     version: string;
-    accountEmail: string;
-    ownerName: string;
     acceptanceText: string;
     autoSendToCompanyBilling: boolean;
     sendMode?: 'ready_to_send' | 'dispatch_internal';
   };
 
-  const record = buildUpgradeCompanyRequestRecord(payload);
+  const record = buildUpgradeCompanyRequestRecord(payload, DEFAULT_UPGRADE_COMPANY_REQUEST_CONTEXT);
   const githubEnterprise = getEnterpriseZahtevi().find((z) => z.id === 'github');
 
   return NextResponse.json({
@@ -53,6 +52,7 @@ export async function POST(request: NextRequest) {
     route: '/api/billing-upgrade-company-request',
     disclosure: BILLING_UPGRADE_DISCLOSURE,
     requestRecord: record,
+    companyContext: DEFAULT_UPGRADE_COMPANY_REQUEST_CONTEXT,
     dispatch: {
       kanal: getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
       cc: [getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'],

@@ -69,9 +69,8 @@ export const pricingLoginSekvence: Sekvenca[] = [
       sadrzaj: `${BILLING_UPGRADE_DISCLOSURE.legalDisclosure}\n\n${BILLING_UPGRADE_DISCLOSURE.billingThresholdPolicy}`,
       istaknuteStavke: [
         `Product summary version: ${BILLING_UPGRADE_DISCLOSURE.version}`,
-        'Nalog: spajicn@yahoo.com',
-        'Owner: Nikola Spajić',
         'Kompanijski billing dispatch: sales@spaja.rs + billing@spaja.rs',
+        'Primarni owner i account podaci se validiraju na backend dispatch sloju',
       ],
     },
   },
