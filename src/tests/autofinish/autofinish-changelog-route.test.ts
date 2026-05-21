@@ -1,10 +1,10 @@
-// Autofinish #1332 — Autofinish Full Report Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-full-report-route.test.ts
+// Autofinish #1334 — Autofinish Changelog Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-changelog-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/autofinish-full-report/route';
+import { GET } from '../../app/api/autofinish-changelog/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_DIAGNOSTIKA, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -38,9 +38,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Full Report — Route Coverage Test Suite (#1332)\n');
+  console.log('\n🏁 Autofinish Changelog — Route Coverage Test Suite (#1334)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-full-report/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-changelog/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -48,55 +48,60 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(apiRouteSource.includes('getAutofinishPetljaSummary'), 'Nedostaje getAutofinishPetljaSummary');
-    assert(apiRouteSource.includes('getAutofinishEkosistemSnapshot'), 'Nedostaje getAutofinishEkosistemSnapshot');
-    assert(apiRouteSource.includes('getAutofinishHealthSummary'), 'Nedostaje getAutofinishHealthSummary');
-    assert(apiRouteSource.includes('getLastNIterations(10)'), 'Nedostaje getLastNIterations(10)');
+    assert(apiRouteSource.includes('getLastNIterations'), 'Nedostaje getLastNIterations');
+    assert(apiRouteSource.includes('DEFAULT_N = 10'), 'Nedostaje DEFAULT_N');
+    assert(apiRouteSource.includes('MAX_N = 100'), 'Nedostaje MAX_N');
+    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
   });
 
-  await test('GET vraća 200, payload i heder-e', async () => {
-    const request = new Request('http://localhost/api/autofinish-full-report', {
+  await test('GET vraća 200, payload i heder-e za default query', async () => {
+    const request = new Request('http://localhost/api/autofinish-changelog', {
       headers: { 'x-forwarded-for': '127.0.0.1' },
     });
-
     const response = await GET(request as NextRequest);
     assertEqual(response.status, 200, 'status');
 
     const body = (await response.json()) as Record<string, unknown>;
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
     assertEqual(body['autofinishIteracija'] as number, AUTOFINISH_COUNT, 'autofinishIteracija');
-
-    const status = body['status'] as Record<string, unknown>;
-    assert(typeof status['status'] === 'string', 'status.status string');
-    assert(typeof status['podsistemi'] === 'string', 'status.podsistemi string');
-    assert(typeof status['progres'] === 'string', 'status.progres string');
-    assert(typeof status['iteracije'] === 'number', 'status.iteracije number');
-    assertEqual(status['autofinish'] as number, AUTOFINISH_COUNT, 'status.autofinish');
-
-    const ekosistem = body['ekosistem'] as Record<string, unknown>;
-    assertEqual(ekosistem['apiRute'] as number, TOTAL_API_ROUTES, 'ekosistem.apiRute');
-    assertEqual(ekosistem['rute'] as number, TOTAL_ROUTES, 'ekosistem.rute');
-    assertEqual(ekosistem['dijagnostike'] as number, TOTAL_DIAGNOSTIKA, 'ekosistem.dijagnostike');
-
-    const zdravlje = body['zdravlje'] as Record<string, unknown>;
-    assert(typeof zdravlje['zdravlje'] === 'number', 'zdravlje.zdravlje number');
-    assert(typeof zdravlje['ukupnoProvera'] === 'number', 'zdravlje.ukupnoProvera number');
-    assert(Array.isArray(zdravlje['podsistemi']), 'zdravlje.podsistemi niz');
-
-    const changelog = body['changelog'] as Record<string, unknown>;
-    assert(typeof changelog['ukupno'] === 'number', 'changelog.ukupno number');
-    assert(Array.isArray(changelog['stavke']), 'changelog.stavke niz');
-    assert((changelog['ukupno'] as number) <= 10, 'changelog.ukupno <= 10');
+    assertEqual(body['n'] as number, 10, 'n');
+    assert(typeof body['ukupno'] === 'number', 'ukupno number');
+    assert(Array.isArray(body['stavke']), 'stavke niz');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
+    assert(!Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp ISO');
+
+    const stavke = body['stavke'] as Array<Record<string, unknown>>;
+    assertEqual(body['ukupno'] as number, stavke.length, 'ukupno=stavke.length');
+    assert(stavke.length > 0, 'stavke nije prazan');
+    assert(stavke.length <= 10, 'stavke.length <= 10');
+
+    for (const stavka of stavke) {
+      assert(typeof stavka['verzija'] === 'string', 'stavka.verzija string');
+      assert(typeof stavka['opis'] === 'string', 'stavka.opis string');
+      assert(typeof stavka['autofinishBroj'] === 'number', 'stavka.autofinishBroj number');
+    }
 
     assertEqual(
       response.headers.get('Cache-Control'),
-      'public, s-maxage=30, stale-while-revalidate=120',
+      'public, s-maxage=60, stale-while-revalidate=300',
       'Cache-Control',
     );
     assertEqual(response.headers.get('X-App-Version'), APP_VERSION, 'X-App-Version');
     assertEqual(response.headers.get('X-Autofinish-Iteracija'), String(AUTOFINISH_COUNT), 'X-Autofinish-Iteracija');
+  });
+
+  await test('GET primenjuje max limit na query n', async () => {
+    const request = new Request('http://localhost/api/autofinish-changelog?n=999', {
+      headers: { 'x-forwarded-for': '127.0.0.2' },
+    });
+    const response = await GET(request as NextRequest);
+    assertEqual(response.status, 200, 'status');
+
+    const body = (await response.json()) as Record<string, unknown>;
+    assertEqual(body['n'] as number, 100, 'n max');
+    assert(typeof body['ukupno'] === 'number', 'ukupno number');
+    assert((body['ukupno'] as number) <= 100, 'ukupno <= 100');
   });
 
   await test('Konstante su ažurirane', () => {
