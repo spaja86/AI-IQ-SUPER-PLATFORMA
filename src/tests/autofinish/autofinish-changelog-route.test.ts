@@ -77,9 +77,8 @@ async function runTests(): Promise<void> {
     assert(stavke.length <= 10, 'stavke.length <= 10');
 
     for (const stavka of stavke) {
-      assert(typeof stavka['verzija'] === 'string', 'stavka.verzija string');
+      assert(typeof stavka['broj'] === 'number', 'stavka.broj number');
       assert(typeof stavka['opis'] === 'string', 'stavka.opis string');
-      assert(typeof stavka['autofinishBroj'] === 'number', 'stavka.autofinishBroj number');
     }
 
     assertEqual(
