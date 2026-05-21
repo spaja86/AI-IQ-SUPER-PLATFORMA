@@ -21,30 +21,31 @@ export interface VercelProbeResult {
   signal: DeploymentFailureSignal;
 }
 
-const BUILD_PATTERNS: RegExp[] = [
-  /build error occurred/i,
-  /failed to compile/i,
-  /turbopack build failed/i,
-  /command ["']next build["'] exited/i,
-  /module not found/i,
-  /export .* doesn't exist/i,
-];
+const BUILD_MARKERS = [
+  'build error occurred',
+  'failed to compile',
+  'turbopack build failed',
+  'next build',
+  'module not found',
+  `doesn't exist`,
+] as const;
 
-const RUNTIME_PATTERNS: RegExp[] = [
-  /function_invocation_failed/i,
-  /runtime/i,
-  /cannot read properties of undefined/i,
-  /is not configured/i,
-  /timeout/i,
-  /edge function/i,
-];
+const RUNTIME_MARKERS = [
+  'function_invocation_failed',
+  'runtime',
+  'cannot read properties of undefined',
+  'is not configured',
+  'timeout',
+  'edge function',
+] as const;
 
 function detectSignal(text: string): DeploymentFailureSignal {
-  for (const pattern of BUILD_PATTERNS) {
-    if (pattern.test(text)) return { kind: 'build', reason: `match:${pattern.source}` };
+  const normalized = text.toLowerCase();
+  for (const marker of BUILD_MARKERS) {
+    if (normalized.includes(marker)) return { kind: 'build', reason: `marker:${marker}` };
   }
-  for (const pattern of RUNTIME_PATTERNS) {
-    if (pattern.test(text)) return { kind: 'runtime', reason: `match:${pattern.source}` };
+  for (const marker of RUNTIME_MARKERS) {
+    if (normalized.includes(marker)) return { kind: 'runtime', reason: `marker:${marker}` };
   }
   return { kind: 'unknown', reason: 'no-known-pattern-match' };
 }
@@ -100,9 +101,21 @@ export async function probeVercelDeployment(deploymentId?: string): Promise<Verc
     };
   }
 
+  if (!/^[a-zA-Z0-9_-]{1,64}$/.test(deploymentId)) {
+    return {
+      available: false,
+      deploymentId,
+      inspector: 'vercel-api',
+      error: 'invalid-deployment-id-format',
+      signal: { kind: 'unknown', reason: 'invalid-deployment-id-format' },
+    };
+  }
+
+  const safeDeploymentId = encodeURIComponent(deploymentId);
+
   try {
-    const deployment = await fetchVercelJson(`/v13/deployments/${deploymentId}`, token);
-    const events = await fetchVercelJson(`/v13/deployments/${deploymentId}/events?limit=100`, token).catch(() => ({}));
+    const deployment = await fetchVercelJson(`/v13/deployments/${safeDeploymentId}`, token);
+    const events = await fetchVercelJson(`/v13/deployments/${safeDeploymentId}/events?limit=100`, token).catch(() => ({}));
     const sample = `${normalizeSample(deployment.errorMessage)}\n${normalizeSample(events)}`.slice(0, 8000);
     const signal = detectSignal(sample);
     return {
