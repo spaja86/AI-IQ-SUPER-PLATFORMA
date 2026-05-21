@@ -488,7 +488,7 @@ export const gejmingEntiteti: GejmingEntitet[] = [
     dimenzije: ['360D', '720D'],
     status: 'aktivan',
     atributi: ['Kapacitet: 100 studenata', 'Nivo: dimenzionalni', 'Atmosfera: inspirativna'],
-    sposobnosti: ['Prompt materiijalizacija', 'Rune aktivacija', 'AI mentorstvo okruženje'],
+    sposobnosti: ['Prompt materijalizacija', 'Rune aktivacija', 'AI mentorstvo okruženje'],
     vizuelniStil: 'Anime škola, lebdeće knjige, rune na zidovima, mekan osvjet',
   },
   {
