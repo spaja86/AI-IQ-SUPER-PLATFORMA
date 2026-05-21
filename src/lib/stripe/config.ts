@@ -21,6 +21,18 @@ export function getStripe(): Stripe {
   return _stripe;
 }
 
+/**
+ * Graceful varijanta za dijagnostiku i javne read-only endpoint-e.
+ * Checkout/webhook/admin tokovi treba da koriste strict getStripe().
+ */
+export function getStripeSafe(): Stripe | null {
+  try {
+    return getStripe();
+  } catch {
+    return null;
+  }
+}
+
 import type { PlanTip } from '@/lib/supabase/types';
 
 // Definicije planova — mapiraju se na Stripe Price ID-jeve

@@ -19,6 +19,18 @@ export function getOpenAI(): OpenAI {
   return _openai;
 }
 
+/**
+ * Graceful varijanta za javne read-only use-case-ove.
+ * Za AI izvršavanje u kritičnim rutama koristiti strict getOpenAI().
+ */
+export function getOpenAISafe(): OpenAI | null {
+  try {
+    return getOpenAI();
+  } catch {
+    return null;
+  }
+}
+
 // SpajaPro system prompt — definise ponasanje AI asistenta
 export const SPAJA_PRO_SYSTEM_PROMPT = `Ti si SpajaPro AI asistent — napredni AI sistem Kompanije SPAJA, deo Digitalne Industrije.
 

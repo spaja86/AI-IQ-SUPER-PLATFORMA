@@ -29,3 +29,15 @@ export function getSupabaseClient() {
 
   return _client;
 }
+
+/**
+ * Graceful varijanta za javne rute/stranice: vraća null kada env nije spreman.
+ * Ne koristi se za kritične tokove (billing/auth mutacije).
+ */
+export function getSupabaseClientSafe() {
+  try {
+    return getSupabaseClient();
+  } catch {
+    return null;
+  }
+}

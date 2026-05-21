@@ -29,6 +29,18 @@ export function getSupabaseServerClient() {
 }
 
 /**
+ * Graceful varijanta za read-only i javne dijagnostike.
+ * Kritične API mutacije i auth tokovi i dalje treba da koriste strict varijantu.
+ */
+export function getSupabaseServerClientSafe() {
+  try {
+    return getSupabaseServerClient();
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Verifikuje JWT token iz Authorization headera i vraca korisnika.
  * Podržava DVA auth sistema:
  *   1. Supabase Auth — standardni Supabase JWT
