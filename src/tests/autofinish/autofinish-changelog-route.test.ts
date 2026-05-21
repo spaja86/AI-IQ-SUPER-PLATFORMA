@@ -1,4 +1,4 @@
-// Autofinish #1334 — Autofinish Changelog Route Coverage Test
+// Autofinish #1335 — Autofinish Changelog Route Coverage Test
 // Pokretanje: npx tsx src/tests/autofinish/autofinish-changelog-route.test.ts
 
 import fs from 'node:fs';
@@ -38,7 +38,7 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Changelog — Route Coverage Test Suite (#1334)\n');
+  console.log('\n🏁 Autofinish Changelog — Route Coverage Test Suite (#1335)\n');
 
   const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-changelog/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
@@ -104,10 +104,10 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.13.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1334, 'AUTOFINISH_COUNT');
-    assertEqual(TOTAL_API_ROUTES, 1158, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1258, 'TOTAL_ROUTES');
+    assertEqual(APP_VERSION, '59.14.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1335, 'AUTOFINISH_COUNT');
+    assertEqual(TOTAL_API_ROUTES, 1159, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1260, 'TOTAL_ROUTES');
     assertEqual(TOTAL_DIAGNOSTIKA, 2364, 'TOTAL_DIAGNOSTIKA');
   });
 
