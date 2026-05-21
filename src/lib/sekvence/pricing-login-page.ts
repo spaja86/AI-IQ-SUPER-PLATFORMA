@@ -1,4 +1,5 @@
 import type { Sekvenca } from '@/lib/types';
+import { BILLING_UPGRADE_DISCLOSURE } from '@/lib/billing/upgrade-disclosure';
 
 export const pricingLoginSekvence: Sekvenca[] = [
   {
@@ -39,9 +40,38 @@ export const pricingLoginSekvence: Sekvenca[] = [
       kartice: [
         { naslov: 'Starter', opis: 'Osnovni plan za pojedince i pocetnike', ikona: '🌱', oznake: ['Besplatno', 'Osnovne funkcije', '1 korisnik'] },
         { naslov: 'Basic', opis: 'Plan za male timove sa prosirenim mogucnostima', ikona: '⭐', oznake: ['$9/mesec', 'API pristup', '5 korisnika'] },
-        { naslov: 'Pro', opis: 'Profesionalni plan sa naprednim alatima', ikona: '🚀', oznake: ['$29/mesec', 'Prioritetna podrska', '25 korisnika'] },
+        { naslov: 'Pro', opis: 'Profesionalni plan sa naprednim alatima', ikona: '🚀', oznake: ['$20/mesec (upgrade tok)', 'Prioritetna podrska', '25 korisnika'] },
         { naslov: 'Enterprise', opis: 'Korporativni plan sa punom podrskom', ikona: '🏢', oznake: ['$99/mesec', 'SLA garancija', '100 korisnika'] },
         { naslov: 'Unlimited', opis: 'Neogranicen pristup svim funkcijama', ikona: '♾️', oznake: ['$199/mesec', 'Sve funkcije', 'Neograniceno'] },
+      ],
+    },
+  },
+  {
+    id: 'pricing-login-upgrade-summary',
+    tip: 'tabela',
+    naslov: '🧾 Upgrade Summary — Product / Cost',
+    podnaslov: 'Kompanijski billing zahtev za upgrade tok',
+    redosled: 4,
+    podaci: {
+      zaglavlje: ['Product', 'Cost'],
+      redovi: [
+        ...BILLING_UPGRADE_DISCLOSURE.lineItems.map((item) => [item.label, `$${item.costUsd}`]),
+        ['Total', `$${BILLING_UPGRADE_DISCLOSURE.totalUsd} / month`],
+      ],
+    },
+  },
+  {
+    id: 'pricing-login-upgrade-disclosure',
+    tip: 'tekst',
+    naslov: '⚖️ Upgrade Billing Disclosure',
+    redosled: 5,
+    podaci: {
+      sadrzaj: `${BILLING_UPGRADE_DISCLOSURE.legalDisclosure}\n\n${BILLING_UPGRADE_DISCLOSURE.billingThresholdPolicy}`,
+      istaknuteStavke: [
+        `Product summary version: ${BILLING_UPGRADE_DISCLOSURE.version}`,
+        'Nalog: spajicn@yahoo.com',
+        'Owner: Nikola Spajić',
+        'Kompanijski billing dispatch: sales@spaja.rs + billing@spaja.rs',
       ],
     },
   },
@@ -49,7 +79,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     id: 'pricing-login-tekst',
     tip: 'tekst',
     naslov: 'O registraciji i pristupu',
-    redosled: 4,
+    redosled: 6,
     podaci: {
       sadrzaj: 'SPAJA platforma nudi jednostavan proces registracije sa viseslojnom autentifikacijom. Korisnici mogu pristupiti putem email-a, Google naloga, GitHub-a ili telefona. Svaki plan ukljucuje razlicite nivoe dozvola i pristupa funkcijama.',
       istaknuteStavke: [
@@ -65,7 +95,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     tip: 'cta',
     naslov: '🚀 Zapocnite odmah',
     podnaslov: 'Kreirajte besplatan nalog i isprobajte SpajaPro AI',
-    redosled: 5,
+    redosled: 7,
     podaci: {
       dugmad: [
         { tekst: 'Registruj se besplatno', href: '/registracija' },
@@ -78,7 +108,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     tip: 'login',
     naslov: '🔐 Prijava',
     podnaslov: 'Prijavite se na svoj nalog',
-    redosled: 6,
+    redosled: 8,
     podaci: {
       opis: 'Unesite email i lozinku za pristup platformi.',
       metode: [
