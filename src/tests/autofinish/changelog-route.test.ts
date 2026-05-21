@@ -1,19 +1,10 @@
-// Autofinish #1336 — Verzija Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/verzija-route.test.ts
+// Autofinish #1337 — Changelog Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/changelog-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/verzija/route';
-import {
-  APP_VERSION,
-  AUTOFINISH_COUNT,
-  AUTOFINISH_TARGET,
-  TOTAL_API_ROUTES,
-  TOTAL_DIAGNOSTIKA,
-  TOTAL_IGRICA,
-  TOTAL_PAGES,
-  TOTAL_ROUTES,
-} from '../../lib/constants';
+import { GET } from '../../app/api/changelog/route';
+import { APP_VERSION, AUTOFINISH_COUNT, AUTOFINISH_TARGET, TOTAL_API_ROUTES, TOTAL_DIAGNOSTIKA, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
 let failed = 0;
@@ -46,9 +37,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Verzija — Route Coverage Test Suite (#1336)\n');
+  console.log('\n🏁 Changelog — Route Coverage Test Suite (#1337)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/verzija/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/changelog/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -58,9 +49,8 @@ async function runTests(): Promise<void> {
   await test('API ruta koristi očekivane gradivne blokove', () => {
     assert(apiRouteSource.includes('APP_VERSION'), 'Nedostaje APP_VERSION');
     assert(apiRouteSource.includes('AUTOFINISH_COUNT'), 'Nedostaje AUTOFINISH_COUNT');
-    assert(apiRouteSource.includes('TOTAL_API_ROUTES'), 'Nedostaje TOTAL_API_ROUTES');
-    assert(apiRouteSource.includes('TOTAL_ROUTES'), 'Nedostaje TOTAL_ROUTES');
-    assert(apiRouteSource.includes('TOTAL_DIAGNOSTIKA'), 'Nedostaje TOTAL_DIAGNOSTIKA');
+    assert(apiRouteSource.includes('AUTOFINISH_TARGET'), 'Nedostaje AUTOFINISH_TARGET');
+    assert(apiRouteSource.includes('changelog'), 'Nedostaje changelog');
     assert(apiRouteSource.includes('NextResponse.json'), 'Nedostaje NextResponse.json');
   });
 
@@ -69,30 +59,15 @@ async function runTests(): Promise<void> {
     assertEqual(response.status, 200, 'status');
 
     const body = (await response.json()) as Record<string, unknown>;
-    assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
-    assertEqual(body['status'] as string, 'operational', 'status');
-    assert(typeof body['naziv'] === 'string', 'naziv string');
-    assert(typeof body['kompanija'] === 'string', 'kompanija string');
+    assertEqual(body['platforma'] as string, 'AI IQ SUPER PLATFORMA', 'platforma');
+    assertEqual(body['trenutnaVerzija'] as string, APP_VERSION, 'trenutnaVerzija');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
     assert(!Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp ISO');
+    assert(Array.isArray(body['changelog']), 'changelog niz');
+    assert(typeof body['ukupnoVerzija'] === 'number', 'ukupnoVerzija number');
   });
 
-  await test('GET vraća ispravan blok brojevi', async () => {
-    const response = await GET();
-    const body = (await response.json()) as Record<string, unknown>;
-    const brojevi = body['brojevi'] as Record<string, unknown>;
-
-    assert(typeof brojevi === 'object' && brojevi !== null, 'brojevi objekat');
-    assertEqual(brojevi['stranice'] as number, TOTAL_PAGES, 'brojevi.stranice');
-    assertEqual(brojevi['apiRute'] as number, TOTAL_API_ROUTES, 'brojevi.apiRute');
-    assertEqual(brojevi['ukupnoRuta'] as number, TOTAL_ROUTES, 'brojevi.ukupnoRuta');
-    assertEqual(brojevi['dijagnostike'] as number, TOTAL_DIAGNOSTIKA, 'brojevi.dijagnostike');
-    assertEqual(brojevi['igrice'] as number, TOTAL_IGRICA, 'brojevi.igrice');
-    assert(typeof brojevi['omegaAIPersone'] === 'number', 'brojevi.omegaAIPersone number');
-    assert(typeof brojevi['spajaProVerzije'] === 'number', 'brojevi.spajaProVerzije number');
-  });
-
-  await test('GET vraća ispravan blok autofinish', async () => {
+  await test('GET vraća ispravan autofinish blok', async () => {
     const response = await GET();
     const body = (await response.json()) as Record<string, unknown>;
     const autofinish = body['autofinish'] as Record<string, unknown>;
@@ -100,18 +75,23 @@ async function runTests(): Promise<void> {
     assert(typeof autofinish === 'object' && autofinish !== null, 'autofinish objekat');
     assertEqual(autofinish['iteracija'] as number, AUTOFINISH_COUNT, 'autofinish.iteracija');
     assertEqual(autofinish['cilj'] as number, AUTOFINISH_TARGET, 'autofinish.cilj');
-    assert(typeof autofinish['ciljFormatiran'] === 'string', 'autofinish.ciljFormatiran string');
+    assertEqual(autofinish['ciljFormatiran'] as string, '3×10¹⁷', 'autofinish.ciljFormatiran');
   });
 
-  await test('GET vraća listu tehnologija', async () => {
+  await test('Changelog stavke imaju očekivanu strukturu', async () => {
     const response = await GET();
     const body = (await response.json()) as Record<string, unknown>;
-    const tehnologije = body['tehnologije'] as string[];
+    const changelog = body['changelog'] as Array<Record<string, unknown>>;
 
-    assert(Array.isArray(tehnologije), 'tehnologije niz');
-    assert(tehnologije.length > 0, 'tehnologije nije prazan');
-    assert(tehnologije.some((t) => t.includes('Next.js')), 'tehnologije sadrži Next.js');
-    assert(tehnologije.some((t) => t.includes('TypeScript')), 'tehnologije sadrži TypeScript');
+    assert(changelog.length > 0, 'changelog nije prazan');
+    assertEqual(body['ukupnoVerzija'] as number, changelog.length, 'ukupnoVerzija');
+
+    const prva = changelog[0]!;
+    assert(typeof prva['verzija'] === 'string', 'verzija string');
+    assert(typeof prva['datum'] === 'string', 'datum string');
+    assert(typeof prva['opis'] === 'string', 'opis string');
+    assert(!Number.isNaN(Date.parse(prva['datum'] as string)), 'datum validan');
+    assert((prva['opis'] as string).includes('Autofinish'), 'opis sadrži Autofinish');
   });
 
   await test('Konstante su ažurirane', () => {
