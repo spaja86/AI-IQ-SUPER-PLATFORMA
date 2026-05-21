@@ -3,7 +3,7 @@ import { BASE_URL } from '@/lib/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const highPriority = ['/', '/dashboard', '/ekosistem'];
-  const mediumHighPriority = ['/platforme', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/it-proizvodi'];
+  const mediumHighPriority = ['/platforme', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
 
   // Dynamic lastModified dates per page category
   const recentlyUpdated = new Date('2026-04-20');
@@ -41,6 +41,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/call-centar',
     '/igrice',
     '/gejming-industrija',
+    '/gejming-likovi',
+    '/api/gejming-likovi',
     '/dimenzije',
     '/proizvodi',
     '/spaja-generator-engine',
