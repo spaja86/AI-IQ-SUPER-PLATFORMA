@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
 import { pricingLoginSekvence } from '@/lib/sekvence/pricing-login-page';
+import PricingUpgradeConfirmation from '@/components/PricingUpgradeConfirmation';
 
 export const metadata: Metadata = {
   title: 'SPAJA Pricing & Login',
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function PricingPage() {
-  return <StranicaRenderer sekvence={pricingLoginSekvence} />;
+  return (
+    <>
+      <StranicaRenderer sekvence={pricingLoginSekvence} />
+      <PricingUpgradeConfirmation />
+    </>
+  );
 }

@@ -92,6 +92,12 @@ export interface EnterpriseZahtevPaket {
   posiljalac: string;
   replyTo: string;
   cc: string[];
+  eksplicitniKontekst?: {
+    accountEmail: string;
+    ownerName: string;
+    companyBillingIntent: string;
+    najboljePretplate: boolean;
+  };
   kanalPodnosenja: EnterpriseKanalPodnosenja;
   naslov: string;
   sazetak: string;
@@ -573,7 +579,13 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
   naslov:
     'GitHub Enterprise request — Kompanija SPAJA / Digitalna Industrija (enterprise governance and centralized billing)',
   sazetak:
-    'Zahtev za GitHub Enterprise licence i GitHub Copilot Enterprise za celu Digitalnu Industriju kroz kompanijske mejlove, centralizovani billing i governance model.',
+    'Zahtev za GitHub Enterprise licence i GitHub Copilot Enterprise za celu Digitalnu Industriju kroz kompanijske mejlove, centralizovani billing i governance model, uključujući transfer plaćanja za nalog spajicn@yahoo.com (Nikola Spajić).',
+  eksplicitniKontekst: {
+    accountEmail: 'spajicn@yahoo.com',
+    ownerName: 'Nikola Spajić',
+    companyBillingIntent: 'Transferisati plaćanja na kompanijski billing kanal i aktivirati najbolji enterprise/subscription paket.',
+    najboljePretplate: true,
+  },
   telo: [
     'Poštovani GitHub Sales tim,',
     '',
@@ -591,6 +603,8 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
     '- GitHub Enterprise licence za industrijski ekosistem',
     '- GitHub Copilot Enterprise i agents readiness za poslovne i tehničke timove',
     '- centralizovani billing i ownership governance',
+    '- transfer plaćanja sa naloga spajicn@yahoo.com (Nikola Spajić) na kompanijski billing model',
+    '- preporuka i aktivacija najboljeg enterprise/subscription paketa',
     '- enterprise upravljanje pristupom i audit trag',
     '- podrška za više timova/projekata i kasniji org model',
     '- sinhronizacija sa Vercel enterprise operativnim modelom',
@@ -604,7 +618,7 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
     'Hvala,',
     'Kompanija SPAJA / Digitalna Industrija',
   ].join('\n'),
-  trazeniPlanovi: ['GitHub Enterprise', 'GitHub Advanced Security', 'GitHub Copilot Enterprise'],
+  trazeniPlanovi: ['GitHub Enterprise', 'GitHub Advanced Security', 'GitHub Copilot Enterprise', 'Best available enterprise subscription package'],
   trazeneOpcije: [
     'Centralized billing',
     'Enterprise access governance',
