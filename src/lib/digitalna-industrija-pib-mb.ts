@@ -28,6 +28,13 @@ export interface DigitalnaIndustrijaPibMbRezultat {
   };
 }
 
+export interface PrimarniPibMbDigitalneIndustrije {
+  naziv: string;
+  pib: string;
+  maticniBroj: string;
+  status: RegistarStatus;
+}
+
 export function buildDigitalnaIndustrijaPibMb(userId: string): DigitalnaIndustrijaPibMbRezultat {
   // Napomena: PIB/MB vrednosti su operativni primeri registra za internu platformsku evidenciju.
   const entiteti: DigitalnaIndustrijaPibMbEntitet[] = [
@@ -79,5 +86,17 @@ export function buildDigitalnaIndustrijaPibMb(userId: string): DigitalnaIndustri
       aktivnih,
       uPripremi,
     },
+  };
+}
+
+export function getPrimarniPibMbDigitalneIndustrije(): PrimarniPibMbDigitalneIndustrije {
+  const { entiteti } = buildDigitalnaIndustrijaPibMb('system');
+  const primarni = entiteti.find((entitet) => entitet.tip === 'maticni-subjekt') ?? entiteti[0];
+
+  return {
+    naziv: primarni.naziv,
+    pib: primarni.pib,
+    maticniBroj: primarni.maticniBroj,
+    status: primarni.status,
   };
 }
