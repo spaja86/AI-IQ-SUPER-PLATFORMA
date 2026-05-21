@@ -68,16 +68,19 @@ async function runTests(): Promise<void> {
     assertEqual(body['autofinishIteracija'] as number, AUTOFINISH_COUNT, 'autofinishIteracija');
 
     const status = body['status'] as Record<string, unknown>;
-    assert(typeof status['iteracija'] === 'number', 'status.iteracija number');
-    assert(typeof status['target'] === 'number', 'status.target number');
+    assert(typeof status['status'] === 'string', 'status.status string');
+    assert(typeof status['podsistemi'] === 'string', 'status.podsistemi string');
+    assert(typeof status['progres'] === 'string', 'status.progres string');
+    assert(typeof status['iteracije'] === 'number', 'status.iteracije number');
+    assertEqual(status['autofinish'] as number, AUTOFINISH_COUNT, 'status.autofinish');
 
     const ekosistem = body['ekosistem'] as Record<string, unknown>;
-    assertEqual(ekosistem['totalApiRoutes'] as number, TOTAL_API_ROUTES, 'ekosistem.totalApiRoutes');
-    assertEqual(ekosistem['totalRoutes'] as number, TOTAL_ROUTES, 'ekosistem.totalRoutes');
-    assertEqual(ekosistem['totalDijagnostika'] as number, TOTAL_DIAGNOSTIKA, 'ekosistem.totalDijagnostika');
+    assertEqual(ekosistem['apiRute'] as number, TOTAL_API_ROUTES, 'ekosistem.apiRute');
+    assertEqual(ekosistem['rute'] as number, TOTAL_ROUTES, 'ekosistem.rute');
+    assertEqual(ekosistem['dijagnostike'] as number, TOTAL_DIAGNOSTIKA, 'ekosistem.dijagnostike');
 
     const zdravlje = body['zdravlje'] as Record<string, unknown>;
-    assert(typeof zdravlje['zdravlje'] === 'string', 'zdravlje.zdravlje string');
+    assert(typeof zdravlje['zdravlje'] === 'number', 'zdravlje.zdravlje number');
     assert(typeof zdravlje['ukupnoProvera'] === 'number', 'zdravlje.ukupnoProvera number');
     assert(Array.isArray(zdravlje['podsistemi']), 'zdravlje.podsistemi niz');
 
