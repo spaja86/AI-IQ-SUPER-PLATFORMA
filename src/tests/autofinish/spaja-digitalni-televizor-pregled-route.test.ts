@@ -75,12 +75,12 @@ async function runTests(): Promise<void> {
     assert(typeof body['timestamp'] === 'string', 'timestamp mora biti string');
   });
 
-  await test('APP_VERSION je 59.17.0', () => {
-    assertEqual(APP_VERSION, '59.17.0', 'APP_VERSION');
+  await test('APP_VERSION je 59.22.0', () => {
+    assertEqual(APP_VERSION, '59.22.0', 'APP_VERSION');
   });
 
-  await test('AUTOFINISH_COUNT je 1346', () => {
-    assertEqual(AUTOFINISH_COUNT, 1346, 'AUTOFINISH_COUNT');
+  await test('AUTOFINISH_COUNT je 1351', () => {
+    assertEqual(AUTOFINISH_COUNT, 1351, 'AUTOFINISH_COUNT');
   });
 
   await test('Konstante su konzistentne', () => {

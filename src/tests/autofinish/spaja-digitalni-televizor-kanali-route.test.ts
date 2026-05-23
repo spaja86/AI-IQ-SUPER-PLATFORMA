@@ -92,12 +92,12 @@ async function runTests(): Promise<void> {
     }
   });
 
-  await test('APP_VERSION je 59.19.0', () => {
-    assertEqual(APP_VERSION, '59.19.0', 'APP_VERSION');
+  await test('APP_VERSION je 59.22.0', () => {
+    assertEqual(APP_VERSION, '59.22.0', 'APP_VERSION');
   });
 
-  await test('AUTOFINISH_COUNT je 1348', () => {
-    assertEqual(AUTOFINISH_COUNT, 1348, 'AUTOFINISH_COUNT');
+  await test('AUTOFINISH_COUNT je 1351', () => {
+    assertEqual(AUTOFINISH_COUNT, 1351, 'AUTOFINISH_COUNT');
   });
 
   await test('Konstante su konzistentne', () => {

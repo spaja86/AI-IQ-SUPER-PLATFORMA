@@ -88,12 +88,12 @@ async function runTests(): Promise<void> {
     assertEqual(config['jwtTajna'] as string, '***ZAŠTIĆENO***', 'jwtTajna mora biti maskirana');
   });
 
-  await test('APP_VERSION je 59.21.0', () => {
-    assertEqual(APP_VERSION, '59.21.0', 'APP_VERSION');
+  await test('APP_VERSION je 59.22.0', () => {
+    assertEqual(APP_VERSION, '59.22.0', 'APP_VERSION');
   });
 
-  await test('AUTOFINISH_COUNT je 1350', () => {
-    assertEqual(AUTOFINISH_COUNT, 1350, 'AUTOFINISH_COUNT');
+  await test('AUTOFINISH_COUNT je 1351', () => {
+    assertEqual(AUTOFINISH_COUNT, 1351, 'AUTOFINISH_COUNT');
   });
 
   await test('Konstante su konzistentne', () => {
