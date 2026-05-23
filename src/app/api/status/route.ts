@@ -129,6 +129,7 @@ export async function GET() {
       },
       support: operativa.spremnost.support,
       enterprise: operativa.spremnost.enterprise,
+      kastlerTv: operativa.spremnost.kastlerTv,
       enterpriseZahtevi: operativa.enterpriseZahtevi.map((paket) => ({
         id: paket.id,
         provajder: paket.provajder,
@@ -137,7 +138,15 @@ export async function GET() {
         kanal: paket.kanalPodnosenja.url,
       })),
       missingEnv: operativa.spremnost.missingEnv,
+      missingKastlerEnv: operativa.spremnost.missingKastlerEnv,
       missingVercelEnv: operativa.spremnost.missingVercelEnv,
+      kastlerTvPaket: {
+        id: operativa.kastlerTvPaket.id,
+        statusRikvesta: operativa.kastlerTvPaket.statusRikvesta,
+        signalLifecycle: operativa.kastlerTvPaket.signalLifecycle,
+        monetizacijaStatus: operativa.kastlerTvPaket.monetizacijaStatus,
+        trazenihKanala: operativa.kastlerTvPaket.trazeniKanali.length,
+      },
     },
   });
 }

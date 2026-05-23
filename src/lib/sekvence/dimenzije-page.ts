@@ -7,11 +7,15 @@ import {
   getBrojAktivnihDimenzija,
   getBrojSpoljasnjihDimenzija,
   getBrojUnutrasnjihDimenzija,
+  getTVKanaliKrozDimenzije,
+  getTVKrozDimenzijePregled,
 } from '@/lib/dimenzije';
 
 const aktivnih = getBrojAktivnihDimenzija();
 const spoljasnjihD = getBrojSpoljasnjihDimenzija();
 const unutrasnjihD = getBrojUnutrasnjihDimenzija();
+const tvKrozDimenzije = getTVKanaliKrozDimenzije();
+const tvPregled = getTVKrozDimenzijePregled();
 
 export const dimenzijeSekvence: Sekvenca[] = [
   {
@@ -60,7 +64,24 @@ export const dimenzijeSekvence: Sekvenca[] = [
         { naziv: 'Unutrašnje', vrednost: unutrasnjihD, ikona: '🔬' },
         { naziv: 'Forme', vrednost: geometrijskeForme.length, ikona: '🔮' },
         { naziv: 'Zakoni', vrednost: zakoniManifestacije.length, ikona: '⚡' },
+        { naziv: 'TV kroz dimenzije', vrednost: tvPregled.ukupnoTVKanala, ikona: '📺' },
       ],
+    },
+  },
+  {
+    id: 'dimenzije-tv-kroz-sistem',
+    tip: 'tabela',
+    naslov: '📺 TV kanali propisani kroz Dimenzije',
+    redosled: 3.5,
+    podaci: {
+      zaglavlje: ['TV kanal', 'Dimenzija', 'Signal', 'Monetizacija', 'Razlog'],
+      redovi: tvKrozDimenzije.map((kanal) => [
+        kanal.kanalNaziv,
+        kanal.dimenzija,
+        kanal.signalLifecycle,
+        kanal.monetizacijaStatus,
+        kanal.razlog,
+      ]),
     },
   },
   {

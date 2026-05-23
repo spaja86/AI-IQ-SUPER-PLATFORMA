@@ -37,9 +37,12 @@ import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
 import { vizuelniIdentitetSistem } from './vizuelni-identitet';
 import { getReklameMetrike } from './reklame-i-partnerstva';
 import { racuniRaspodela, primerSimulacije, PROCENAT_RASPODELE, OPERATIVNA_REZERVA } from './dnevna-raspodela-zarade';
+import { getKastlerSignalReadinessSummary, getKastlerTVMonetizationSummary } from './kastler-tv-signal-request';
 
 export function getStatistike() {
   const dijagnostika = runDiagnostics();
+  const kastler = getKastlerSignalReadinessSummary();
+  const kastlerMonetizacija = getKastlerTVMonetizationSummary();
 
   return {
     // Platforme
@@ -127,6 +130,15 @@ export function getStatistike() {
     tvKanala: spajaDigitalniTelevizor.kanali.length,
     tvPrograma: spajaDigitalniTelevizor.programi.length,
     tvStatus: spajaDigitalniTelevizor.status,
+    tvSignalLifecycle: spajaDigitalniTelevizor.signalLifecycle,
+    tvSignalAktivnihKanala: spajaDigitalniTelevizor.statistika.signalAktivnihKanala,
+    tvKastlerRikvestStatus: spajaDigitalniTelevizor.kastlerRikvestStatus,
+    tvMonetizacijaStatus: spajaDigitalniTelevizor.monetizacijaStatus,
+    kastlerTvPreduslovaIspunjeno: kastler.ispunjenihPreduslova,
+    kastlerTvPreduslovaUkupno: kastler.ukupnoPreduslova,
+    kastlerTvBlokatora: kastler.blokatori.length,
+    kastlerTvMonetizacijaModel: kastlerMonetizacija.model,
+    kastlerTvMonetizacijaAktivna: kastlerMonetizacija.tvMonetizationEnabled,
     monitoringLiveStreamova: spajaMonitoringLive.streamovi.length,
     monitoringLiveStreamera: spajaMonitoringLive.streameri.length,
     monitoringLiveStatus: spajaMonitoringLive.status,

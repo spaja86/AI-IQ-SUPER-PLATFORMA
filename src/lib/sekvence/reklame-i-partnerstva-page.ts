@@ -7,9 +7,12 @@ import {
   getReklameSummary,
 } from '@/lib/reklame-i-partnerstva';
 import { KOMPANIJA, OMEGA_AI_PERSONA_UKUPNO } from '@/lib/constants';
+import { getKastlerSignalReadinessSummary, getKastlerTVMonetizationSummary } from '@/lib/kastler-tv-signal-request';
 
 const metrike = getReklameMetrike();
 const summary = getReklameSummary();
+const kastler = getKastlerSignalReadinessSummary();
+const kastlerMonetizacija = getKastlerTVMonetizationSummary();
 
 export const reklameIPartnerstvaSekvence: Sekvenca[] = [
   {
@@ -44,6 +47,7 @@ export const reklameIPartnerstvaSekvence: Sekvenca[] = [
         { naziv: 'U pregovorima', vrednost: metrike.uPregovorima, ikona: '💬' },
         { naziv: 'Monetizacija', vrednost: metrike.monetizacijaKanala, ikona: '💰' },
         { naziv: 'Aktivni kanali', vrednost: metrike.aktivnihKanala, ikona: '🟢' },
+        { naziv: 'TV Signal', vrednost: kastler.signalLifecycle, ikona: '📺' },
       ],
     },
   },
@@ -137,6 +141,21 @@ export const reklameIPartnerstvaSekvence: Sekvenca[] = [
           m.status === 'aktivna' ? '✅ Aktivna' : m.status === 'u_pripremi' ? '⏳ U pripremi' : '📋 Planirana',
         ],
       })),
+    },
+  },
+  {
+    id: 'reklame-kastler-tv',
+    tip: 'tekst',
+    naslov: '📺 Kastler TV partnerstvo i monetizacija',
+    redosled: 7.5,
+    podaci: {
+      sadrzaj: `Kastler TV rikvest je u statusu "${kastler.requestStatus}", signal lifecycle je "${kastler.signalLifecycle}", a TV monetizacija je "${kastlerMonetizacija.status}".`,
+      istaknuteStavke: [
+        `Traženih TV kanala: ${kastler.trazenihKanala}`,
+        `Ispunjenih preduslova: ${kastler.ispunjenihPreduslova}/${kastler.ukupnoPreduslova}`,
+        `Model monetizacije: ${kastlerMonetizacija.model}`,
+        kastler.blokatori.length > 0 ? `Blokatori: ${kastler.blokatori.join(', ')}` : 'Kastler TV je spreman za produkciju',
+      ],
     },
   },
   {

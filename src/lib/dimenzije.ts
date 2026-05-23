@@ -17,6 +17,8 @@
  * SpajaUltraOmegaCore -∞Ω+∞ programski jezik
  */
 
+import { spajaDigitalniTelevizor, type TVKanal } from './spaja-digitalni-televizor';
+
 // ─── Tipovi dimenzija ───────────────────────────────────────────────
 
 export type DimenzijaNivo = '360D' | '720D' | '1440D' | '2880D' | '5760D';
@@ -86,6 +88,20 @@ export interface DimenzionalniSistem {
   ukupnihDimenzija: number;
   cirkularnaBaza: number;
   podrzava3D: boolean;
+}
+
+export interface TVKanalDimenzionalniTok {
+  kanalId: string;
+  kanalNaziv: string;
+  broj: number;
+  kategorija: TVKanal['kategorija'];
+  rezolucija: TVKanal['rezolucija'];
+  signalLifecycle: TVKanal['signalLifecycle'];
+  signalDostupnost: TVKanal['signalDostupnost'];
+  monetizacijaStatus: TVKanal['monetizacijaStatus'];
+  dimenzija: DimenzijaNivo;
+  dimenzijaTip: DimenzijaTip;
+  razlog: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -348,4 +364,63 @@ export function getBrojSpoljasnjihDimenzija(): number {
 /** Broj unutrašnjih dimenzija */
 export function getBrojUnutrasnjihDimenzija(): number {
   return getDimenzijePo('unutrasnja').length;
+}
+
+function getDimenzijaZaTVKanal(kanal: TVKanal): Dimenzija {
+  if (kanal.signalLifecycle === 'mock') {
+    return dimenzije.find((d) => d.nivo === '360D')!;
+  }
+  if (kanal.signalLifecycle === 'pending') {
+    return dimenzije.find((d) => d.nivo === '720D')!;
+  }
+  if (kanal.signalLifecycle === 'approved') {
+    return dimenzije.find((d) => d.nivo === '1440D')!;
+  }
+  if (kanal.signalLifecycle === 'active' && kanal.monetizacijaStatus !== 'enabled') {
+    return dimenzije.find((d) => d.nivo === '2880D')!;
+  }
+  return dimenzije.find((d) => d.nivo === '5760D')!;
+}
+
+function getRazlogDimenzije(kanal: TVKanal): string {
+  if (kanal.signalLifecycle === 'mock') return 'Mock signal pre partner odobrenja.';
+  if (kanal.signalLifecycle === 'pending') return 'Signal request je u toku partner odobrenja.';
+  if (kanal.signalLifecycle === 'approved') return 'Signal je odobren, čeka punu produkcionu aktivaciju.';
+  if (kanal.signalLifecycle === 'active' && kanal.monetizacijaStatus !== 'enabled') {
+    return 'Signal je aktivan, monetizacija još nije potpuno uključena.';
+  }
+  return 'Signal i monetizacija su aktivni u produkciji.';
+}
+
+export function getTVKanaliKrozDimenzije(): TVKanalDimenzionalniTok[] {
+  return spajaDigitalniTelevizor.kanali.map((kanal) => {
+    const dim = getDimenzijaZaTVKanal(kanal);
+    return {
+      kanalId: kanal.id,
+      kanalNaziv: kanal.naziv,
+      broj: kanal.broj,
+      kategorija: kanal.kategorija,
+      rezolucija: kanal.rezolucija,
+      signalLifecycle: kanal.signalLifecycle,
+      signalDostupnost: kanal.signalDostupnost,
+      monetizacijaStatus: kanal.monetizacijaStatus,
+      dimenzija: dim.nivo,
+      dimenzijaTip: dim.tip,
+      razlog: getRazlogDimenzije(kanal),
+    };
+  });
+}
+
+export function getTVKrozDimenzijePregled() {
+  const tok = getTVKanaliKrozDimenzije();
+  const poNivou = dimenzije.map((d) => ({
+    nivo: d.nivo,
+    kanala: tok.filter((item) => item.dimenzija === d.nivo).length,
+  }));
+  return {
+    ukupnoTVKanala: tok.length,
+    aktivnihSignala: tok.filter((item) => item.signalLifecycle === 'active').length,
+    monetizovanih: tok.filter((item) => item.monetizacijaStatus === 'enabled').length,
+    poNivou,
+  };
 }

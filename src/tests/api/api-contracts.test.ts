@@ -25,6 +25,7 @@ import {
 import { APP_VERSION } from '../../lib/constants';
 import { getEnterpriseZahtevi, getOperativnaSpremnost } from '../../lib/kompanija-spaja-operativa';
 import { validateCronAuth } from '../../lib/cron-auth';
+import { getKastlerSignalReadinessSummary, getKastlerTVSignalRequestPackage } from '../../lib/kastler-tv-signal-request';
 import {
   buildKomunikacioniSablon,
   canTransition,
@@ -226,6 +227,31 @@ async function runTests(): Promise<void> {
     assert(github.telo.includes('GitHub agente'), 'github telo mora pomenuti GitHub agente');
     assert(github.telo.includes('kupovinu licenci'), 'github telo mora pomenuti kupovinu licenci');
     assert(github.trazeneOpcije.includes('GitHub agent enablement'), 'github opcije moraju pokriti agente');
+  });
+
+  await test('Kastler TV signal paket ima validan operativni sadržaj', () => {
+    const paket = getKastlerTVSignalRequestPackage();
+    assertEqual(paket.id, 'kastler-tv-signal-request', 'paket.id');
+    assertEqual(paket.partner.id, 'kastler', 'partner.id');
+    assert(paket.trazeniKanali.length >= 1, 'mora imati bar jedan trazeni kanal');
+    assert(paket.audit.dispatchKanal.includes('@'), 'dispatch kanal mora biti email');
+    assert(
+      ['u_pripremi', 'spremno_za_slanje', 'poslato'].includes(paket.statusRikvesta),
+      'status rikvesta mora biti validan',
+    );
+  });
+
+  await test('Operativna spremnost uključuje Kastler TV readiness', () => {
+    const operativa = getOperativnaSpremnost();
+    const kastler = getKastlerSignalReadinessSummary();
+    assertDefined(operativa.spremnost.kastlerTv, 'operativa.spremnost.kastlerTv');
+    assertEqual(
+      operativa.spremnost.kastlerTv.signalLifecycle,
+      kastler.signalLifecycle,
+      'kastler lifecycle u operativi',
+    );
+    assert(Array.isArray(operativa.spremnost.missingKastlerEnv), 'missingKastlerEnv mora biti niz');
+    assertDefined(operativa.kastlerTvPaket, 'operativa.kastlerTvPaket');
   });
 
   await test('Operativna spremnost ima runtime/ops/enterprise modove', () => {

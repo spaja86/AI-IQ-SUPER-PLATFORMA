@@ -3,6 +3,7 @@ import { APP_VERSION } from '@/lib/constants';
 import { getEnterpriseZahtevi } from '@/lib/kompanija-spaja-operativa';
 import { ucitajEnterpriseUgovore } from '@/lib/enterprise-ugovor-modul';
 import { getB2BProcurementCases, getMissingChecklist } from '@/lib/b2b-procurement-workflow';
+import { getKastlerSignalReadinessSummary } from '@/lib/kastler-tv-signal-request';
 import {
   demoSlucajevi,
   getPoslovniTokMeta,
@@ -49,6 +50,7 @@ export async function GET() {
   ]);
 
   const meta = getPoslovniTokMeta();
+  const kastlerTv = getKastlerSignalReadinessSummary();
   const kpi = izracunajKpi(demoSlucajevi);
   const slaIzvestaji = demoSlucajevi.map((s) => izracunajSlaIzvestaj(s));
   const ugovoriMap = new Map(enterpriseUgovori.map((item) => [item.provider, item]));
@@ -102,6 +104,17 @@ export async function GET() {
     };
   });
 
+  const kastlerEvidencija = {
+    tip: 'kastler-tv' as const,
+    id: 'kastler-tv-signal-request',
+    naziv: 'Kastler TV Signal Partnerstvo',
+    statusRikvesta: kastlerTv.requestStatus,
+    statusPoslovanja: kastlerTv.signalLifecycle,
+    poslato: kastlerTv.requestStatus === 'poslato',
+    proslo: kastlerTv.signalLifecycle === 'active',
+    kanal: 'partners@kastler.tv',
+  };
+
   const lamborghiniEvidencija = b2bSlucajevi
     .filter((item) => /lamborghini|lamburgini/i.test(item.vozilo.marka))
     .map((item) => {
@@ -119,7 +132,7 @@ export async function GET() {
       };
     });
 
-  const evidencija = [...enterpriseEvidencija, ...lamborghiniEvidencija];
+  const evidencija = [kastlerEvidencija, ...enterpriseEvidencija, ...lamborghiniEvidencija];
   const ukupnoRikvestova = evidencija.length;
   const poslatoRikvestova = evidencija.filter((item) => item.poslato).length;
   const prosloRikvestova = evidencija.filter((item) => item.proslo).length;

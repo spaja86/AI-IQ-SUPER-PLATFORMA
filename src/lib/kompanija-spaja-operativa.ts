@@ -6,6 +6,7 @@ import {
   OMEGA_AI_PERSONA_COUNT,
 } from './constants';
 import { platforme } from './platforme';
+import { getKastlerSignalReadinessSummary, getKastlerTVSignalRequestPackage } from './kastler-tv-signal-request';
 
 export type KontaktNamena =
   | 'support'
@@ -775,6 +776,12 @@ export function getOperativnaSpremnost() {
     envFlag('OMEGA_SUPPORT_QUEUE_READY'),
     envFlag('OMEGA_SUPPORT_TELEPHONY_READY'),
   ];
+  const kastlerChecks = [
+    envFlag('SPAJA_KASTLER_REQUEST_READY'),
+    envFlag('SPAJA_KASTLER_REQUEST_SUBMITTED'),
+    envFlag('SPAJA_KASTLER_SIGNAL_APPROVED'),
+    envFlag('SPAJA_TV_MONETIZATION_ENABLED'),
+  ];
 
   const runtimeScore = getSectionScore(runtimeChecks.filter(Boolean).length, runtimeChecks.length);
   const mailScore = getSectionScore(mailChecks.filter(Boolean).length, mailChecks.length);
@@ -782,6 +789,7 @@ export function getOperativnaSpremnost() {
   const vercelEnterpriseScore = getSectionScore(vercelEnterpriseChecks.filter(Boolean).length, vercelEnterpriseChecks.length);
   const githubScore = getSectionScore(githubChecks.filter(Boolean).length, githubChecks.length);
   const supportScore = getSectionScore(supportChecks.filter(Boolean).length, supportChecks.length);
+  const kastlerScore = getSectionScore(kastlerChecks.filter(Boolean).length, kastlerChecks.length);
   const opsScore = Math.round((mailScore + githubScore + supportScore) / 3);
 
   const missingEnv = [
@@ -796,6 +804,12 @@ export function getOperativnaSpremnost() {
     ...(!envSet('SMTP_PASS') ? ['SMTP_PASS'] : []),
     ...(!envSet('GITHUB_TOKEN') ? ['GITHUB_TOKEN'] : []),
   ];
+  const missingKastlerEnv = [
+    ...(!envFlag('SPAJA_KASTLER_REQUEST_READY') ? ['SPAJA_KASTLER_REQUEST_READY'] : []),
+    ...(!envFlag('SPAJA_KASTLER_REQUEST_SUBMITTED') ? ['SPAJA_KASTLER_REQUEST_SUBMITTED'] : []),
+    ...(!envFlag('SPAJA_KASTLER_SIGNAL_APPROVED') ? ['SPAJA_KASTLER_SIGNAL_APPROVED'] : []),
+    ...(!envFlag('SPAJA_TV_MONETIZATION_ENABLED') ? ['SPAJA_TV_MONETIZATION_ENABLED'] : []),
+  ];
   const missingVercelEnv = [
     ...(!envSet('VERCEL_TOKEN') ? ['VERCEL_TOKEN'] : []),
     ...(!envSet('VERCEL_PROJECT_ID') ? ['VERCEL_PROJECT_ID'] : []),
@@ -808,6 +822,8 @@ export function getOperativnaSpremnost() {
   const opsMode: ReadinessMode = opsScore >= OPS_READY_THRESHOLD ? 'ops-ready' : 'ops-incomplete';
   const enterpriseReady = enterpriseZahtevi.filter((paket) => paket.status !== 'u_pripremi').length;
   const enterpriseMode: ReadinessMode = enterpriseReady >= enterpriseZahtevi.length ? 'enterprise-ready' : 'enterprise-in-progress';
+  const kastlerPaket = getKastlerTVSignalRequestPackage();
+  const kastlerSummary = getKastlerSignalReadinessSummary();
   const acceptanceCriteria = {
     statusApi: {
       runtimeReady: runtimeMode === 'runtime-ready',
@@ -881,12 +897,22 @@ export function getOperativnaSpremnost() {
         openai: openaiEnterprisePaket.status,
         spremniPaketi: enterpriseReady,
       },
-      missingEnv,
-      missingVercelEnv,
-      zahtevaAktivaciju:
-        missingEnv.length > 0 ||
-        !envFlag('SPAJA_MAIL_DOMAINS_VERIFIED') ||
-        !envFlag('SPAJA_GITHUB_GOVERNANCE_READY'),
-    },
+        kastlerTv: {
+          score: kastlerScore,
+          status: getSectionStatus(kastlerChecks.filter(Boolean).length, kastlerChecks.length),
+          requestStatus: kastlerSummary.requestStatus,
+          signalLifecycle: kastlerSummary.signalLifecycle,
+          monetizationStatus: kastlerSummary.monetizationStatus,
+          trazenihKanala: kastlerSummary.trazenihKanala,
+        },
+        missingEnv,
+        missingKastlerEnv,
+        missingVercelEnv,
+        zahtevaAktivaciju:
+          missingEnv.length > 0 ||
+          !envFlag('SPAJA_MAIL_DOMAINS_VERIFIED') ||
+          !envFlag('SPAJA_GITHUB_GOVERNANCE_READY'),
+      },
+      kastlerTvPaket: kastlerPaket,
   };
 }

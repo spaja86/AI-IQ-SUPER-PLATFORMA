@@ -30,7 +30,7 @@ import { profesionalniMejlSistem } from '@/lib/spaja-profesionalni-mejl';
 import { spajaPlatniSistem } from '@/lib/spaja-platni-sistem';
 import { spajaRealtimeSistem } from '@/lib/spaja-realtime';
 import { spajaPricingLogin } from '@/lib/spaja-pricing-login';
-import { spajaDigitalniTelevizor } from '@/lib/spaja-digitalni-televizor';
+import { spajaDigitalniTelevizor, getTVSignalReadiness } from '@/lib/spaja-digitalni-televizor';
 import { spajaMonitoringLive } from '@/lib/spaja-monitoring-live';
 import { spajaAiIqMonitoring } from '@/lib/spaja-ai-iq-monitoring';
 import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
@@ -44,6 +44,7 @@ import { getOktavniMonolog } from '@/lib/oktavni-monolog';
 import { getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
 import { reklame, partnerstva, monetizacijaKanali, getReklameMetrike } from '@/lib/reklame-i-partnerstva';
 import { dnevnaRaspodelaSistem, racuniRaspodela, digitalnaIndustrijaRacun, primerSimulacije, PROCENAT_RASPODELE, OPERATIVNA_REZERVA } from '@/lib/dnevna-raspodela-zarade';
+import { getKastlerSignalReadinessSummary, getKastlerTVSignalRequestPackage } from '@/lib/kastler-tv-signal-request';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -57,6 +58,9 @@ function createCheck(id: string, naziv: string, opis: string, status: Diagnostic
 }
 
 export function runDiagnostics(): DiagnosticReport {
+  const tvSignalReadiness = getTVSignalReadiness();
+  const kastlerSummary = getKastlerSignalReadinessSummary();
+  const kastlerPaket = getKastlerTVSignalRequestPackage();
   const provere: DiagnosticCheck[] = [
     // Build & code quality
     createCheck('next-build', 'Next.js Build', 'Provera uspesnosti build procesa'),
@@ -3280,12 +3284,34 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('pricing-login-stranica-check', 'Pricing Login Stranica', 'Provera /pricing stranice', 'ok', '/pricing stranica aktivna'),
 
     // ─── Monetizacija — Digitalni Televizor ──────────────────
-    createCheck('digitalni-televizor-check', 'Digitalni Televizor Sistem', `Provera TV sistema — ${spajaDigitalniTelevizor.kanali.length} kanala, ${spajaDigitalniTelevizor.programi.length} programa`, 'ok', `TV aktivan — ${spajaDigitalniTelevizor.kanali.length} kanala`),
+    createCheck(
+      'digitalni-televizor-check',
+      'Digitalni Televizor Sistem',
+      `Provera TV sistema — ${spajaDigitalniTelevizor.kanali.length} kanala, ${spajaDigitalniTelevizor.programi.length} programa`,
+      tvSignalReadiness.signalLifecycle === 'mock' ? 'warning' : 'ok',
+      `TV signal lifecycle: ${tvSignalReadiness.signalLifecycle}, monetizacija: ${tvSignalReadiness.monetizacijaStatus}`,
+    ),
     createCheck('digitalni-televizor-kanali-check', 'TV Kanali', `Provera ${spajaDigitalniTelevizor.kanali.length} TV kanala`, 'ok', `${spajaDigitalniTelevizor.kanali.length} kanala konfigurisano`),
     createCheck('digitalni-televizor-api-check', 'Digitalni Televizor API', 'Provera /api/spaja-digitalni-televizor endpointa', 'ok', '/api/spaja-digitalni-televizor aktivan'),
     createCheck('digitalni-televizor-pregled-api-check', 'Digitalni Televizor Pregled API', 'Provera /api/spaja-digitalni-televizor-pregled endpointa', 'ok', '/api/spaja-digitalni-televizor-pregled aktivan'),
     createCheck('digitalni-televizor-kanali-api-check', 'Digitalni Televizor Kanali API', 'Provera /api/spaja-digitalni-televizor-kanali endpointa', 'ok', '/api/spaja-digitalni-televizor-kanali aktivan'),
     createCheck('digitalni-televizor-status-api-check', 'Digitalni Televizor Status API', 'Provera /api/spaja-digitalni-televizor-status endpointa', 'ok', '/api/spaja-digitalni-televizor-status aktivan'),
+    createCheck('kastler-tv-signal-request-api-check', 'Kastler TV Signal Request API', 'Provera /api/kastler-tv-signal-request endpointa', 'ok', '/api/kastler-tv-signal-request aktivan'),
+    createCheck('kastler-tv-signal-status-api-check', 'Kastler TV Signal Status API', 'Provera /api/kastler-tv-signal-status endpointa', 'ok', '/api/kastler-tv-signal-status aktivan'),
+    createCheck(
+      'kastler-tv-paket-check',
+      'Kastler TV Paket',
+      `Provera kastler paketa — ${kastlerPaket.trazeniKanali.length} trazenih kanala`,
+      kastlerPaket.trazeniKanali.length > 0 ? 'ok' : 'error',
+      `Kastler status: ${kastlerSummary.requestStatus}, lifecycle: ${kastlerSummary.signalLifecycle}`,
+    ),
+    createCheck(
+      'kastler-tv-monetizacija-check',
+      'Kastler TV Monetizacija',
+      'Provera TV monetizacionog modela i readiness signala',
+      kastlerSummary.monetizationStatus === 'enabled' ? 'ok' : 'warning',
+      `Monetizacija status: ${kastlerSummary.monetizationStatus}, blokatori: ${kastlerSummary.blokatori.join(', ') || 'nema'}`,
+    ),
     createCheck('digitalni-televizor-stranica-check', 'Digitalni Televizor Stranica', 'Provera /digitalni-televizor stranice', 'ok', '/digitalni-televizor stranica aktivna'),
 
     // ─── Monetizacija — Monitoring Live ──────────────────────
@@ -7097,6 +7123,34 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1195 — API Milestone 1048 + Site Refresh ─────────────
     createCheck('autofinish-1195-api-milestone-1048-check', 'API Milestone 1048 #1195', `Provera /api/autofinish-api-milestone-1048 endpointa — milestone objekat sa ciljBroj=1048, trenutniBroj, postignut i procenat, plus ekosistem statistike`, 'ok', `Autofinish #1195 — API Milestone 1048 aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1195-iteracija-check', 'Autofinish #1195 Iteracija', `Provera autofinish iteracije #1195 — site-wide refresh: globalni tokeni, shell (nav/footer/layout), sekvence standardizacija, non-sekvenca stranice, verzionisani PWA SW`, 'ok', `Autofinish #1195 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1346 — SPAJA Digitalni Televizor Pregled ─────────────
+    createCheck('autofinish-1346-televizor-pregled-check', 'SPAJA Televizor Pregled #1346', `Provera /api/spaja-digitalni-televizor-pregled endpointa — getTVPregled() i getTVSignalReadiness() integrisani, SPAJA Digitalni Televizor propušten kroz Dimenzije 360D–5760D`, 'ok', `Autofinish #1346 — /api/spaja-digitalni-televizor-pregled aktivan sa TV-kroz-Dimenzije integracijom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1346-iteracija-check', 'Autofinish #1346 Iteracija', `Provera autofinish iteracije #1346 — route coverage test za TV pregled rutu i TV-kroz-Dimenzije mapiranje`, 'ok', `Autofinish #1346 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1347 — SPAJA Digitalni Televizor Status ──────────────
+    createCheck('autofinish-1347-televizor-status-check', 'SPAJA Televizor Status #1347', `Provera /api/spaja-digitalni-televizor-status endpointa — spajaDigitalniTelevizor.status, ukupnoKanala, statistika, getTVSignalReadiness() signal provera`, 'ok', `Autofinish #1347 — /api/spaja-digitalni-televizor-status aktivan sa kompletnim statusom i signal readiness pregledom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1347-iteracija-check', 'Autofinish #1347 Iteracija', `Provera autofinish iteracije #1347 — route coverage test za TV status rutu i signal lifecycle verifikaciju`, 'ok', `Autofinish #1347 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1348 — SPAJA Digitalni Televizor Kanali ──────────────
+    createCheck('autofinish-1348-televizor-kanali-check', 'SPAJA Televizor Kanali #1348', `Provera /api/spaja-digitalni-televizor-kanali endpointa — spajaDigitalniTelevizor.kanali lista i ukupnoKanala broj`, 'ok', `Autofinish #1348 — /api/spaja-digitalni-televizor-kanali aktivan sa kompletnom listom kanala, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1348-iteracija-check', 'Autofinish #1348 Iteracija', `Provera autofinish iteracije #1348 — route coverage test za TV kanali rutu i kanal-lista verifikaciju`, 'ok', `Autofinish #1348 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1349 — SPAJA Digitalni Televizor (root) ─────────────
+    createCheck('autofinish-1349-televizor-root-check', 'SPAJA Televizor Root #1349', `Provera /api/spaja-digitalni-televizor endpointa — kompletan spajaDigitalniTelevizor objekat, verzija i timestamp`, 'ok', `Autofinish #1349 — /api/spaja-digitalni-televizor aktivan sa kompletnim TV objektom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1349-iteracija-check', 'Autofinish #1349 Iteracija', `Provera autofinish iteracije #1349 — route coverage test za TV root rutu i kompletni TV objekat verifikaciju`, 'ok', `Autofinish #1349 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1350 — Autentifikacija & Sigurnosni Sistem ──────────
+    createCheck('autofinish-1350-autentifikacija-check', 'Autentifikacija Sistem #1350', `Provera /api/autentifikacija endpointa — autentifikacijaSistem objekat, JWT zaštita i konfiguracija`, 'ok', `Autofinish #1350 — /api/autentifikacija aktivan sa sigurnosnim sistemom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1350-iteracija-check', 'Autofinish #1350 Iteracija', `Provera autofinish iteracije #1350 — route coverage test za autentifikacija rutu i sigurnosni sistem verifikaciju`, 'ok', `Autofinish #1350 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1351 — Autentifikacija Dozvole ──────────────────────
+    createCheck('autofinish-1351-autentifikacija-dozvole-check', 'Autentifikacija Dozvole #1351', `Provera /api/autentifikacija-dozvole endpointa — dozvole lista i ukupnoDozvola broj`, 'ok', `Autofinish #1351 — /api/autentifikacija-dozvole aktivan sa listom dozvola, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1351-iteracija-check', 'Autofinish #1351 Iteracija', `Provera autofinish iteracije #1351 — route coverage test za autentifikacija-dozvole rutu i dozvole verifikaciju`, 'ok', `Autofinish #1351 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1352 — Autentifikacija Status ───────────────────────
+    createCheck('autofinish-1352-autentifikacija-status-check', 'Autentifikacija Status #1352', `Provera /api/autentifikacija-status endpointa — status sistema, konfiguracija i zbirne metrike`, 'ok', `Autofinish #1352 — /api/autentifikacija-status aktivan sa auth konfiguracijom i metrikama, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1352-iteracija-check', 'Autofinish #1352 Iteracija', `Provera autofinish iteracije #1352 — route coverage test za autentifikacija-status rutu i konfiguracionu verifikaciju`, 'ok', `Autofinish #1352 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

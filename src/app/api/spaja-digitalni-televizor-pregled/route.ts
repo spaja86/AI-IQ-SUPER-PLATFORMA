@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getTVPregled } from '@/lib/spaja-digitalni-televizor';
+import { getTVPregled, getTVSignalReadiness } from '@/lib/spaja-digitalni-televizor';
 import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
@@ -7,6 +7,7 @@ export async function GET() {
     sistem: 'SPAJA Digitalni Televizor — Pregled',
     verzija: APP_VERSION,
     pregled: getTVPregled(),
+    signalReadiness: getTVSignalReadiness(),
     timestamp: new Date().toISOString(),
   });
 }

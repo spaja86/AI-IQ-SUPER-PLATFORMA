@@ -6,12 +6,16 @@ import {
   dimenzionalniSistem,
   getBrojAktivnihDimenzija,
   getBrojSpoljasnjihDimenzija,
+  getTVKanaliKrozDimenzije,
+  getTVKrozDimenzijePregled,
 } from '@/lib/dimenzije';
 import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
   const aktivnih = getBrojAktivnihDimenzija();
   const spoljasnje = getBrojSpoljasnjihDimenzija();
+  const tvKrozDimenzije = getTVKanaliKrozDimenzije();
+  const tvPregled = getTVKrozDimenzijePregled();
 
   return NextResponse.json({
     status: 'aktivan',
@@ -30,6 +34,7 @@ export async function GET() {
       naziv: dimenzionalniSistem.naziv,
       ukupnihDimenzija: dimenzionalniSistem.ukupnihDimenzija,
       cirkularnaBaza: dimenzionalniSistem.cirkularnaBaza,
+      tvKrozDimenzije: tvPregled,
     },
 
     dimenzije: dimenzije.map((d) => ({
@@ -45,6 +50,13 @@ export async function GET() {
       naziv: f.naziv,
       ikona: f.ikona,
       sloj: f.sloj,
+    })),
+    tvKanali: tvKrozDimenzije.map((kanal) => ({
+      kanalId: kanal.kanalId,
+      kanalNaziv: kanal.kanalNaziv,
+      dimenzija: kanal.dimenzija,
+      signalLifecycle: kanal.signalLifecycle,
+      monetizacijaStatus: kanal.monetizacijaStatus,
     })),
 
     timestamp: new Date().toISOString(),
