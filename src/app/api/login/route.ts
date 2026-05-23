@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import { isOwnerEmail } from '@/lib/owner-identity';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
 import { REFRESH_TOKEN_TTL } from '@/lib/auth/types';
@@ -65,8 +66,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Odredjivanje uloge na osnovu email-a
-    const jeVlasnik = email.toLowerCase() === 'spajicn@yahoo.com';
+    // Odredjivanje vlasnicke uloge iz centralnog owner identity modela
+    const jeVlasnik = isOwnerEmail(email);
 
     // Aktivacija Digitalnog Kompjutera za svakog ulogovanog korisnika
     const sistem = spajaDigitalniKompjuterSistem;

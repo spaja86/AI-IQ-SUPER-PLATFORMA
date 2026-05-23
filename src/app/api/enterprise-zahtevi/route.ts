@@ -1,12 +1,23 @@
 import { NextResponse } from 'next/server';
-import { APP_VERSION } from '@/lib/constants';
+import { APP_VERSION, OWNER_PHONE_NUMBER_ENV_KEY, OWNER_PHONE_DEFAULT } from '@/lib/constants';
 import { getEnterpriseZahtevi, getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
 import { getKastlerSignalReadinessSummary } from '@/lib/kastler-tv-signal-request';
+import { getOwnerIdentity } from '@/lib/owner-identity';
+import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
 
 export async function GET() {
   const operativa = getOperativnaSpremnost();
   const zahtevi = getEnterpriseZahtevi();
   const kastlerTv = getKastlerSignalReadinessSummary();
+
+  // Owner identity & phone verification blocker
+  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
+  const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
+  const ownerIdentity = getOwnerIdentity(phoneStatus);
+
+  const ownerChecklist = ownerIdentity.vercel.checklist;
+  const vercelBlokator = ownerIdentity.vercel.blokator;
+  const vercelSpremnoZaSlanje = !vercelBlokator;
 
   return NextResponse.json({
     status: 'aktivan',
@@ -24,12 +35,24 @@ export async function GET() {
       security:
         operativa.javniKontakti.find((kanal) => kanal.id === 'security')?.email ?? 'security@kompanija-spaja.rs',
     },
+    ownerIdentity: {
+      email: ownerIdentity.email,
+      telefonStatus: ownerIdentity.telefon.status,
+      maskiranTelefon: ownerIdentity.telefon.maskiranBroj,
+      verifikovan: ownerIdentity.verifikovan,
+      bankRacunId: ownerIdentity.bankRacun.id,
+    },
+    ownerChecklist,
+    vercelBlokator,
+    vercelSpremnoZaSlanje,
     zahtevi,
     kastlerTv,
     summary: {
       ukupno: zahtevi.length,
       spremnoZaSlanje: zahtevi.filter((paket) => paket.status === 'spremno_za_slanje').length,
       poslato: zahtevi.filter((paket) => paket.status === 'poslato').length,
+      vercelOwnerPhoneVerified: ownerChecklist.phoneVerified,
+      vercelOwnerAccountAktivan: ownerChecklist.ownerAccountAktivan,
       kastlerRequestStatus: kastlerTv.requestStatus,
       kastlerSignalLifecycle: kastlerTv.signalLifecycle,
       kanali: zahtevi.map((paket) => ({
