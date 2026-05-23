@@ -15,7 +15,7 @@
  * Sve owner konstante definisane su ovde ili u constants.ts.
  */
 
-import { MOBILNI_POZIVNI, OWNER_EMAIL, OWNER_IME, OWNER_GITHUB, OWNER_VERCEL_EMAIL, OWNER_BANK_RACUN_ID } from './constants';
+import { MOBILNI_POZIVNI, OWNER_EMAIL, OWNER_IME, OWNER_GITHUB, OWNER_VERCEL_EMAIL, OWNER_BANK_RACUN_ID, OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from './constants';
 
 // ─── Tipovi ───────────────────────────────────────────────────────────────────
 
@@ -118,10 +118,14 @@ export function maskirajTelefon(broj: string): string {
 
 /** Vlasnički telefon — iz env var ili default centrale #1 */
 function getOwnerTelefonBroj(): string {
-  const envBroj = process.env['OWNER_PHONE_NUMBER'];
+  const envBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY];
   if (envBroj && envBroj.trim()) return envBroj.trim();
-  // Default: prva centrala, serijski broj 001-0001
-  return `${MOBILNI_POZIVNI[0]!}-001-0001`;
+  return OWNER_PHONE_DEFAULT;
+}
+
+/** Pozivni broj prve centrale — guardirano */
+function getPozivniBroj(): string {
+  return MOBILNI_POZIVNI[0] ?? '+38177';
 }
 
 // ─── Owner Identity model ─────────────────────────────────────────────────────
@@ -160,7 +164,7 @@ export function getOwnerIdentity(phoneStatus: PhoneVerifikacijaStatus = 'nije-ve
 
   const telefon: OwnerPhoneIdentitet = {
     broj: telefonBroj,
-    pozivniBroj: MOBILNI_POZIVNI[0]!,
+    pozivniBroj: getPozivniBroj(),
     status: phoneStatus,
     poslednja_verifikacija,
     maskiranBroj,

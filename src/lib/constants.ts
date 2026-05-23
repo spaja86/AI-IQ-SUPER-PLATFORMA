@@ -61,3 +61,5 @@ export const OWNER_VERCEL_EMAIL = 'spajicn@yahoo.com';
 export const OWNER_BANK_RACUN_ID = 'DIGI-IND-001';
 /** Env var ključ za vlasnički broj telefona */
 export const OWNER_PHONE_NUMBER_ENV_KEY = 'OWNER_PHONE_NUMBER';
+/** Default vlasnički telefon (prva centrala, serijski 001-0001) */
+export const OWNER_PHONE_DEFAULT = '+38177-001-0001';

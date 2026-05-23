@@ -253,7 +253,8 @@ async function runTests(): Promise<void> {
       'utf8',
     );
     assert(src.includes('isOwnerEmail'), 'isOwnerEmail');
-    assert(!src.includes("'spajicn@yahoo.com'"), 'Nema hardkodovanog email stringa u login ruti');
+    // Proveravamo da email nije hardkodovan ni sa single ni sa double quotes
+    assert(!src.includes('spajicn@yahoo.com'), 'Nema hardkodovanog email stringa u login ruti');
   });
 
   await test('enterprise-zahtevi route sadrži ownerChecklist i vercelBlokator', () => {

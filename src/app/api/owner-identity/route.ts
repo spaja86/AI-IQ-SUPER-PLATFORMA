@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getOwnerIdentity, getOwnerInstalacionaPoruka } from '@/lib/owner-identity';
 import { getOwnerPhoneVerifikacijaStatus, getOwnerPoslednja_verifikacija } from '@/lib/owner-phone-auth';
-import { APP_VERSION, KOMPANIJA, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/constants';
+import { APP_VERSION, KOMPANIJA, OWNER_PHONE_NUMBER_ENV_KEY, OWNER_PHONE_DEFAULT } from '@/lib/constants';
 
 /**
  * GET /api/owner-identity
@@ -17,7 +17,7 @@ import { APP_VERSION, KOMPANIJA, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/consta
  * Autofinish #1353
  */
 export async function GET() {
-  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? '+38177-001-0001';
+  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
   const poslednja_verifikacija = getOwnerPoslednja_verifikacija(telefonBroj);
 

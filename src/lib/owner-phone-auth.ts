@@ -16,7 +16,8 @@
  *  - production: OTP se nikada ne šalje u odgovoru; isključivo putem SMS-a
  */
 
-import { OWNER_EMAIL, OWNER_BANK_RACUN_ID } from './constants';
+import { randomInt } from 'node:crypto';
+import { OWNER_EMAIL, OWNER_BANK_RACUN_ID, OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from './constants';
 import { maskirajTelefon, PhoneVerifikacijaStatus } from './owner-identity';
 
 // ─── Tipovi ───────────────────────────────────────────────────────────────────
@@ -71,8 +72,9 @@ const requestCounts = new Map<string, RequestEntry>();
 
 // ─── Helper funkcije ──────────────────────────────────────────────────────────
 
+/** Kriptografski sigurni OTP generisanja */
 function generisiOtp(): string {
-  return Array.from({ length: OTP_DUZINA }, () => Math.floor(Math.random() * 10)).join('');
+  return String(randomInt(0, 1_000_000)).padStart(OTP_DUZINA, '0');
 }
 
 function normalizeTelefon(telefon: string): string {
@@ -80,10 +82,9 @@ function normalizeTelefon(telefon: string): string {
 }
 
 function getOwnerPhoneBroj(): string {
-  const envBroj = process.env['OWNER_PHONE_NUMBER'];
+  const envBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY];
   if (envBroj && envBroj.trim()) return normalizeTelefon(envBroj.trim());
-  // Default: +38177-001-0001 (prva centrala)
-  return normalizeTelefon('+38177-001-0001');
+  return normalizeTelefon(OWNER_PHONE_DEFAULT);
 }
 
 function isOwnerPhone(telefon: string): boolean {
@@ -103,11 +104,14 @@ function checkRequestLimit(normTel: string): boolean {
 }
 
 function sendMockSms(telefon: string, kod: string): void {
-  const isProd = process.env.NODE_ENV === 'production';
-  // Maskiran broj uvek — nikad pun broj u logu u produkciji
+  // Mock SMS — u produkciji zameni sa Twilio ili sličnim provajderom
+  // Nikad ne logujemo pun kod u produkciji; u dev logujemo samo maskiran broj
   const displayBroj = maskirajTelefon(telefon);
-  const displayKod = isProd ? '******' : kod;
-  console.log(`[OWNER-OTP] SMS → ${displayBroj}: OTP=${displayKod}`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`[OWNER-OTP] SMS → ${displayBroj}: OTP=${kod}`);
+  } else {
+    console.log(`[OWNER-OTP] SMS sent → ${displayBroj}`);
+  }
 }
 
 // ─── Javne funkcije ───────────────────────────────────────────────────────────

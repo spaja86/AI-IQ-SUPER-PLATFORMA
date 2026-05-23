@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getOwnerIdentity } from '@/lib/owner-identity';
 import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
-import { APP_VERSION, KOMPANIJA, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/constants';
+import { APP_VERSION, KOMPANIJA, OWNER_PHONE_NUMBER_ENV_KEY, OWNER_PHONE_DEFAULT } from '@/lib/constants';
 
 /**
  * GET /api/owner-account-bank
@@ -15,7 +15,7 @@ import { APP_VERSION, KOMPANIJA, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/consta
  *  - Napomenu da se ovaj ID koristi u svim enterprise zahtevima
  */
 export async function GET() {
-  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? '+38177-001-0001';
+  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
   const identity = getOwnerIdentity(phoneStatus);
   const racun = identity.bankRacun;

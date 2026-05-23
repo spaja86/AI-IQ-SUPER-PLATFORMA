@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { APP_VERSION, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/constants';
+import { APP_VERSION, OWNER_PHONE_NUMBER_ENV_KEY, OWNER_PHONE_DEFAULT } from '@/lib/constants';
 import { getEnterpriseZahtevi, getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
 import { getKastlerSignalReadinessSummary } from '@/lib/kastler-tv-signal-request';
 import { getOwnerIdentity } from '@/lib/owner-identity';
@@ -11,7 +11,7 @@ export async function GET() {
   const kastlerTv = getKastlerSignalReadinessSummary();
 
   // Owner identity & phone verification blocker
-  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? '+38177-001-0001';
+  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
   const ownerIdentity = getOwnerIdentity(phoneStatus);
 
