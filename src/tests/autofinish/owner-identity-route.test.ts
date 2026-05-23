@@ -63,8 +63,8 @@ async function runTests(): Promise<void> {
   // ─── Konstante ────────────────────────────────────────────────────────────
 
   await test('Konstante su ispravne', () => {
-    assertEqual(APP_VERSION, '59.27.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1356, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.28.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1357, 'AUTOFINISH_COUNT');
     assertEqual(OWNER_EMAIL, 'spajicn@yahoo.com', 'OWNER_EMAIL');
     assertEqual(OWNER_BANK_RACUN_ID, 'DIGI-IND-001', 'OWNER_BANK_RACUN_ID');
   });
