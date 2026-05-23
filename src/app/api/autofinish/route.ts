@@ -320,6 +320,7 @@ function getAutofinishOpis(n: number): string {
     1344: `Autofinish #1344 — Route coverage test za /api/admin/billing-reconcile-invoices, AUTOFINISH_COUNT 1343→1344, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1345: `Autofinish #1345 — Route coverage test za /api/admin/billing-reconcile-subscriptions, AUTOFINISH_COUNT 1344→1345, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1346: `Autofinish #1346 — Route coverage test za /api/spaja-digitalni-televizor-pregled (SPAJA Digitalni Televizor kroz Dimenzije — getTVPregled, getTVSignalReadiness), APP_VERSION 59.16.0→59.17.0, AUTOFINISH_COUNT 1345→1346, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1347: `Autofinish #1347 — Route coverage test za /api/spaja-digitalni-televizor-status (SPAJA TV Status — spajaDigitalniTelevizor.status, statistika, getTVSignalReadiness), APP_VERSION 59.17.0→59.18.0, AUTOFINISH_COUNT 1346→1347, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
