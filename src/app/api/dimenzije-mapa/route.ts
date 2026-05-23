@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import { dimenzije, geometrijskeForme } from '@/lib/dimenzije';
+import { dimenzije, geometrijskeForme, getTVKanaliKrozDimenzije } from '@/lib/dimenzije';
 import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
+  const tvKanali = getTVKanaliKrozDimenzije();
   return NextResponse.json({
     status: 'aktivan',
     naziv: 'Dimenzije Mapa — Vizuelni Pregled Dimenzija',
@@ -24,6 +25,12 @@ export async function GET() {
       id: f.id,
       naziv: f.naziv,
       sloj: f.sloj,
+    })),
+    tvKanali: tvKanali.map((kanal) => ({
+      kanalId: kanal.kanalId,
+      kanalNaziv: kanal.kanalNaziv,
+      dimenzija: kanal.dimenzija,
+      dimenzijaTip: kanal.dimenzijaTip,
     })),
 
     timestamp: new Date().toISOString(),

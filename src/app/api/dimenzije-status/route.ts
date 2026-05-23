@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
-import { dimenzije } from '@/lib/dimenzije';
+import { dimenzije, getTVKrozDimenzijePregled } from '@/lib/dimenzije';
 import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
   const nivoi = dimenzije.map((d) => d.nivo);
   const unikatniNivoi = [...new Set(nivoi)];
+  const tvPregled = getTVKrozDimenzijePregled();
 
   return NextResponse.json({
     status: 'aktivan',
@@ -17,6 +18,7 @@ export async function GET() {
       raspon: `${unikatniNivoi[0]} — ${unikatniNivoi[unikatniNivoi.length - 1]}`,
       geometrijskiSlojevi: ['elipsoid', 'rezonanca', 'hiperbola', 'spirala'],
       zakoni: ['manifestacija', 'materijalizacija', 'hiperbolicki', 'algoritam-ekstazi', 'autorealizacija', 'sinhonometrijski'],
+      tv: tvPregled,
     },
 
     dimenzije: dimenzije.map((d) => ({
