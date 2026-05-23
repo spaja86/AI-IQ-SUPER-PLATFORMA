@@ -1,5 +1,6 @@
 // Autofinish #1353 — Owner Identity & Phone Auth Route Coverage Test
 // Pokretanje: npx tsx src/tests/autofinish/owner-identity-route.test.ts
+// Napomena: Ovaj test je inicijalno dodat u iteraciji #1353 i održava se kroz naredne iteracije.
 
 import fs from 'node:fs';
 import path from 'node:path';
