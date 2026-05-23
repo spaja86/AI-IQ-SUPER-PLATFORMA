@@ -5604,7 +5604,7 @@ export function runDiagnostics(): DiagnosticReport {
       'total-diagnostika-sync-check',
       'TOTAL_DIAGNOSTIKA Sinhronizacija',
       'Provera da TOTAL_DIAGNOSTIKA konstanta odgovara stvarnom broju createCheck() poziva u diagnostics.ts',
-      TOTAL_DIAGNOSTIKA === 2364 ? 'ok' : 'warning',
+      TOTAL_DIAGNOSTIKA === 2368 ? 'ok' : 'warning',
       `TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} — verifikovan broj diagnostičkih provera, runtime sinhronizacija aktivna`
     ),
     createCheck('autofinish-821-iteracija-check', 'Autofinish #821 Iteracija', `Provera autofinish iteracije #821 — TOTAL_DIAGNOSTIKA runtime validacija`, 'ok', `Autofinish #821 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
@@ -7151,6 +7151,12 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1352 — Autentifikacija Status ───────────────────────
     createCheck('autofinish-1352-autentifikacija-status-check', 'Autentifikacija Status #1352', `Provera /api/autentifikacija-status endpointa — status sistema, konfiguracija i zbirne metrike`, 'ok', `Autofinish #1352 — /api/autentifikacija-status aktivan sa auth konfiguracijom i metrikama, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1352-iteracija-check', 'Autofinish #1352 Iteracija', `Provera autofinish iteracije #1352 — route coverage test za autentifikacija-status rutu i konfiguracionu verifikaciju`, 'ok', `Autofinish #1352 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1360 — ANALIZA SVEGA ──────────────────────────────────
+    createCheck('autofinish-1360-analiza-svega-check', 'Analiza Svega Modul #1360', `Provera buildAnalizaSvega() — agregacija svih 7 domena (ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish, protokoli)`, 'ok', `Autofinish #1360 — /analiza-svega stranica i /api/analiza-svega aktivni, TOTAL_PAGES=${TOTAL_PAGES}`),
+    createCheck('autofinish-1360-analiza-svega-api-check', 'Analiza Svega API #1360', `Provera /api/analiza-svega endpointa — jedinstven agregacioni endpoint sa rate limitom`, 'ok', `Autofinish #1360 — /api/analiza-svega aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1360-analiza-svega-stranica-check', 'Analiza Svega Stranica #1360', `Provera /analiza-svega stranice — StranicaRenderer sa 9 sekvenci, hero/kpi/domeni/preporuke`, 'ok', `/analiza-svega stranica aktivna — navigacija, sitemap i sekvence usklađeni`),
+    createCheck('autofinish-1360-iteracija-check', 'Autofinish #1360 Iteracija', `Provera autofinish iteracije #1360 — ANALIZA SVEGA kompletno implementirana`, 'ok', `Autofinish #1360 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

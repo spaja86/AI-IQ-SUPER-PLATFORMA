@@ -201,3 +201,6 @@ export { digitalnaIndustrijaBeneficijeSekvence } from './digitalna-industrija-be
 
 // ── DIGITALNA INDUSTRIJA NAGRADE ─────────────────────────────────────────────
 export { digitalnaIndustrijaNagradeSekvence } from './digitalna-industrija-nagrade-page';
+
+// ── ANALIZA SVEGA ──────────────────────────────────────────────────────────────
+export { analizaSvegaSekvence } from './analiza-svega-page';
