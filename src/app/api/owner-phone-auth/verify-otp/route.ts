@@ -45,8 +45,8 @@ export async function POST(request: NextRequest) {
     return apiSuccess({
       uspesno: true,
       jeOwner: rezultat.jeOwner,
-      ...(rezultat.ownerEmail !== undefined ? { ownerEmail: rezultat.ownerEmail } : {}),
-      ...(rezultat.ownerRacun !== undefined ? { ownerRacun: rezultat.ownerRacun } : {}),
+      ownerEmail: rezultat.ownerEmail,
+      ownerRacun: rezultat.ownerRacun,
       napomena: rezultat.napomena,
     });
   } catch (error) {

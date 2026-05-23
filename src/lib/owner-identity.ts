@@ -145,12 +145,16 @@ const ownerBankRacun: OwnerBankRacun = {
   ],
 };
 
+function parseBooleanEnvVar(key: string): boolean {
+  return /^(1|true|yes)$/i.test(process.env[key] ?? '');
+}
+
 function getVercelOwnershipChecklist(phoneStatus: PhoneVerifikacijaStatus): VercelOwnershipChecklist {
   return {
     phoneVerified: phoneStatus === 'verifikovan',
     ownerAccountAktivan: ownerBankRacun.status === 'aktivan',
-    enterpriseRequestSpreman: /^(1|true|yes)$/i.test(process.env['SPAJA_VERCEL_ENTERPRISE_REQUEST_READY'] ?? ''),
-    enterpriseRequestPoslato: /^(1|true|yes)$/i.test(process.env['SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED'] ?? ''),
+    enterpriseRequestSpreman: parseBooleanEnvVar('SPAJA_VERCEL_ENTERPRISE_REQUEST_READY'),
+    enterpriseRequestPoslato: parseBooleanEnvVar('SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED'),
   };
 }
 
