@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
 import { APP_VERSION } from '@/lib/constants';
 import { getEnterpriseZahtevi, getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
+import { getKastlerSignalReadinessSummary } from '@/lib/kastler-tv-signal-request';
 
 export async function GET() {
   const operativa = getOperativnaSpremnost();
   const zahtevi = getEnterpriseZahtevi();
+  const kastlerTv = getKastlerSignalReadinessSummary();
 
   return NextResponse.json({
     status: 'aktivan',
@@ -23,10 +25,13 @@ export async function GET() {
         operativa.javniKontakti.find((kanal) => kanal.id === 'security')?.email ?? 'security@kompanija-spaja.rs',
     },
     zahtevi,
+    kastlerTv,
     summary: {
       ukupno: zahtevi.length,
       spremnoZaSlanje: zahtevi.filter((paket) => paket.status === 'spremno_za_slanje').length,
       poslato: zahtevi.filter((paket) => paket.status === 'poslato').length,
+      kastlerRequestStatus: kastlerTv.requestStatus,
+      kastlerSignalLifecycle: kastlerTv.signalLifecycle,
       kanali: zahtevi.map((paket) => ({
         provajder: paket.provajder,
         status: paket.status,

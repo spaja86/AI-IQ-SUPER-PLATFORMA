@@ -1,15 +1,18 @@
 import type { Sekvenca } from '@/lib/types';
+import { spajaDigitalniTelevizor, getTVSignalReadiness } from '@/lib/spaja-digitalni-televizor';
+
+const signalReadiness = getTVSignalReadiness();
 
 export const digitalniTelevizorSekvence: Sekvenca[] = [
   {
     id: 'digitalni-televizor-hero',
     tip: 'hero',
     naslov: '📺 Digitalni Televizor',
-    podnaslov: 'SPAJA Digitalni Televizor — Streaming kanali u najvišem kvalitetu',
+    podnaslov: `SPAJA Digitalni Televizor — signal ${signalReadiness.signalLifecycle}, partner status ${signalReadiness.partnerStatus}`,
     ikona: '📺',
     redosled: 1,
     podaci: {
-      opis: 'SPAJA Digitalni Televizor platforma pruza pristup premium kanalima uzivo sa podrskom za rezolucije do 8K, naprednim programskim vodicem i 99.9% garancijom dostupnosti.',
+      opis: `SPAJA Digitalni Televizor platforma trenutno radi u modu "${signalReadiness.signalLifecycle}" sa izvorom signala "${signalReadiness.signalSource}" i statusom monetizacije "${signalReadiness.monetizacijaStatus}".`,
       dugmad: [
         { tekst: 'Pregledaj kanale', href: '/digitalni-televizor' },
         { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
@@ -24,9 +27,10 @@ export const digitalniTelevizorSekvence: Sekvenca[] = [
     podaci: {
       stavke: [
         { naziv: 'Kanala', vrednost: '12', ikona: '📺' },
-        { naziv: 'Programa', vrednost: '8', ikona: '📋' },
-        { naziv: 'Max rezolucija', vrednost: '8K', ikona: '🖥️' },
-        { naziv: 'Uptime', vrednost: '99.9%', ikona: '✅' },
+        { naziv: 'Signali aktivni', vrednost: `${signalReadiness.signalAktivnihKanala}/${signalReadiness.ukupnoKanala}`, ikona: '📡' },
+        { naziv: 'Programa', vrednost: `${spajaDigitalniTelevizor.programi.length}`, ikona: '📋' },
+        { naziv: 'Monetizacija', vrednost: signalReadiness.monetizacijaStatus, ikona: '💰' },
+        { naziv: 'Partner', vrednost: signalReadiness.partnerStatus, ikona: '🤝' },
       ],
     },
   },
@@ -50,12 +54,12 @@ export const digitalniTelevizorSekvence: Sekvenca[] = [
     naslov: 'O TV platformi',
     redosled: 4,
     podaci: {
-      sadrzaj: 'SPAJA Digitalni Televizor je moderna streaming platforma koja kombinuje tradicionalnu televiziju sa naprednom AI tehnologijom. Uzivajte u premium sadrzaju u rezolucijama do 8K sa garantovanim uptime-om od 99.9%.',
+      sadrzaj: `SPAJA Digitalni Televizor povezuje TV domenu sa partnerstvom i monetizacijom. Kastler rikvest je trenutno "${signalReadiness.requestStatus}", signal je "${signalReadiness.signalLifecycle}", a monetizacioni model je "${signalReadiness.monetizacijaModel}".`,
       istaknuteStavke: [
-        'Podrska za rezolucije od 720p do 8K',
-        'Programski vodic sa AI preporukama',
-        'Snimanje i gledanje repriza',
-        '99.9% garantovana dostupnost servisa',
+        `Signal readiness: ${signalReadiness.signalLifecycle}`,
+        `Partner approval: ${signalReadiness.partnerStatus}`,
+        `Monetizacija: ${signalReadiness.monetizacijaStatus}`,
+        signalReadiness.blokatori.length > 0 ? `Blokatori: ${signalReadiness.blokatori.join(', ')}` : 'Nema blokatora za produkciju',
       ],
     },
   },

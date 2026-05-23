@@ -10,6 +10,16 @@
  */
 
 import { APP_VERSION, KOMPANIJA } from './constants';
+import {
+  type KastlerMonetizationStatus,
+  type KastlerSignalAvailability,
+  type KastlerSignalLifecycle,
+  type KastlerSignalSource,
+  type TVMonetizationModel,
+  getKastlerSignalOperationalState,
+  getKastlerTvKanaliSignalMap,
+  getKastlerTVMonetizationSummary,
+} from './kastler-tv-signal-request';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -40,6 +50,11 @@ export interface TVKanal {
   status: TVStreamStatus;
   gledaoca: number;
   url: string;
+  signalLifecycle: KastlerSignalLifecycle;
+  signalIzvor: KastlerSignalSource;
+  signalDostupnost: KastlerSignalAvailability;
+  monetizacijaModel: TVMonetizationModel;
+  monetizacijaStatus: KastlerMonetizationStatus;
 }
 
 export interface TVProgram {
@@ -57,10 +72,14 @@ export interface TVProgram {
 export interface TVStatistika {
   ukupnoKanala: number;
   aktivnihKanala: number;
+  signalAktivnihKanala: number;
   ukupnoPrograma: number;
   prosecnaGledanost: number;
   maxRezolucija: string;
   proksiIntegracija: boolean;
+  signalLifecycle: KastlerSignalLifecycle;
+  partnerStatus: 'u_pripremi' | 'u_odobravanju' | 'odobreno' | 'aktivno';
+  monetizacijaStatus: KastlerMonetizationStatus;
 }
 
 export interface SpajaDigitalniTelevizor {
@@ -75,11 +94,24 @@ export interface SpajaDigitalniTelevizor {
   mogucnosti: string[];
   tehnologije: string[];
   status: 'aktivan' | 'testiranje';
+  signalIzvor: KastlerSignalSource;
+  partnerStatus: 'u_pripremi' | 'u_odobravanju' | 'odobreno' | 'aktivno';
+  kastlerRikvestStatus: 'u_pripremi' | 'spremno_za_slanje' | 'poslato';
+  signalLifecycle: KastlerSignalLifecycle;
+  monetizacijaModel: TVMonetizationModel;
+  monetizacijaStatus: KastlerMonetizationStatus;
+  licencaStatus: 'nije_potvrdjena' | 'u_pregovorima' | 'potvrdjena';
+  operativniBlokatori: string[];
 }
 
 // ─── TV Kanali ───────────────────────────────────────────
 
-const tvKanali: TVKanal[] = [
+type TVKanalBase = Omit<
+  TVKanal,
+  'signalLifecycle' | 'signalIzvor' | 'signalDostupnost' | 'monetizacijaModel' | 'monetizacijaStatus'
+>;
+
+const tvKanaliBase: TVKanalBase[] = [
   {
     id: 'kanal-spaja-tech',
     naziv: 'SPAJA Tech',
@@ -226,6 +258,21 @@ const tvKanali: TVKanal[] = [
   },
 ];
 
+const kastlerState = getKastlerSignalOperationalState();
+const kastlerSignalMap = new Map(getKastlerTvKanaliSignalMap().map((item) => [item.kanalId, item]));
+
+const tvKanali: TVKanal[] = tvKanaliBase.map((kanal) => {
+  const mapped = kastlerSignalMap.get(kanal.id);
+  return {
+    ...kanal,
+    signalLifecycle: mapped?.signalLifecycle ?? kastlerState.signalLifecycle,
+    signalIzvor: mapped?.signalSource ?? 'interni-mock',
+    signalDostupnost: mapped?.dostupnost ?? 'ceka',
+    monetizacijaModel: mapped?.monetizacijaModel ?? kastlerState.monetizationModel,
+    monetizacijaStatus: mapped?.monetizacijaStatus ?? kastlerState.monetizationStatus,
+  };
+});
+
 // ─── TV Programi ─────────────────────────────────────────
 
 const tvProgrami: TVProgram[] = [
@@ -345,16 +392,29 @@ const tvTehnologije: string[] = [
 
 function izracunajStatistiku(): TVStatistika {
   const aktivnihKanala = tvKanali.filter((k) => k.status === 'uzivo').length;
+  const signalAktivnihKanala = tvKanali.filter((k) => k.signalDostupnost === 'dostupan').length;
   const ukupnoGledaoca = tvKanali.reduce((sum, k) => sum + k.gledaoca, 0);
   const prosecnaGledanost = Math.round(ukupnoGledaoca / tvKanali.length);
+  const partnerStatus: TVStatistika['partnerStatus'] =
+    kastlerState.signalLifecycle === 'active'
+      ? 'aktivno'
+      : kastlerState.signalLifecycle === 'approved'
+        ? 'odobreno'
+        : kastlerState.requestStatus === 'u_pripremi'
+          ? 'u_pripremi'
+          : 'u_odobravanju';
 
   return {
     ukupnoKanala: tvKanali.length,
     aktivnihKanala,
+    signalAktivnihKanala,
     ukupnoPrograma: tvProgrami.length,
     prosecnaGledanost,
     maxRezolucija: '16K',
     proksiIntegracija: true,
+    signalLifecycle: kastlerState.signalLifecycle,
+    partnerStatus,
+    monetizacijaStatus: kastlerState.monetizationStatus,
   };
 }
 
@@ -371,7 +431,27 @@ export const spajaDigitalniTelevizor: SpajaDigitalniTelevizor = {
   statistika: izracunajStatistiku(),
   mogucnosti: tvMogucnosti,
   tehnologije: tvTehnologije,
-  status: 'aktivan',
+  status: kastlerState.signalLifecycle === 'mock' ? 'testiranje' : 'aktivan',
+  signalIzvor: kastlerState.signalLifecycle === 'mock' ? 'interni-mock' : 'kastler',
+  partnerStatus:
+    kastlerState.signalLifecycle === 'active'
+      ? 'aktivno'
+      : kastlerState.signalLifecycle === 'approved'
+        ? 'odobreno'
+        : kastlerState.requestStatus === 'u_pripremi'
+          ? 'u_pripremi'
+          : 'u_odobravanju',
+  kastlerRikvestStatus: kastlerState.requestStatus,
+  signalLifecycle: kastlerState.signalLifecycle,
+  monetizacijaModel: kastlerState.monetizationModel,
+  monetizacijaStatus: kastlerState.monetizationStatus,
+  licencaStatus:
+    kastlerState.signalLifecycle === 'approved' || kastlerState.signalLifecycle === 'active'
+      ? 'potvrdjena'
+      : kastlerState.requestStatus === 'u_pripremi'
+        ? 'nije_potvrdjena'
+        : 'u_pregovorima',
+  operativniBlokatori: kastlerState.blokatori,
 };
 
 // ─── Helper funkcije ─────────────────────────────────────
@@ -403,6 +483,10 @@ export function getTVPregled(): {
   maxRezolucija: string;
   ukupnoMogucnosti: number;
   ukupnoTehnologija: number;
+  signalAktivnihKanala: number;
+  signalLifecycle: KastlerSignalLifecycle;
+  partnerStatus: string;
+  monetizacijaStatus: KastlerMonetizationStatus;
 } {
   const statistika = izracunajStatistiku();
 
@@ -417,5 +501,26 @@ export function getTVPregled(): {
     maxRezolucija: statistika.maxRezolucija,
     ukupnoMogucnosti: tvMogucnosti.length,
     ukupnoTehnologija: tvTehnologije.length,
+    signalAktivnihKanala: statistika.signalAktivnihKanala,
+    signalLifecycle: statistika.signalLifecycle,
+    partnerStatus: statistika.partnerStatus,
+    monetizacijaStatus: statistika.monetizacijaStatus,
+  };
+}
+
+export function getTVSignalReadiness() {
+  const statistika = izracunajStatistiku();
+  const monetizacija = getKastlerTVMonetizationSummary();
+  return {
+    requestStatus: spajaDigitalniTelevizor.kastlerRikvestStatus,
+    signalLifecycle: spajaDigitalniTelevizor.signalLifecycle,
+    partnerStatus: spajaDigitalniTelevizor.partnerStatus,
+    signalSource: spajaDigitalniTelevizor.signalIzvor,
+    signalAktivnihKanala: statistika.signalAktivnihKanala,
+    ukupnoKanala: statistika.ukupnoKanala,
+    monetizacijaModel: spajaDigitalniTelevizor.monetizacijaModel,
+    monetizacijaStatus: spajaDigitalniTelevizor.monetizacijaStatus,
+    blokatori: [...spajaDigitalniTelevizor.operativniBlokatori],
+    monetizacija,
   };
 }

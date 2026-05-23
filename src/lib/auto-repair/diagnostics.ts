@@ -30,7 +30,7 @@ import { profesionalniMejlSistem } from '@/lib/spaja-profesionalni-mejl';
 import { spajaPlatniSistem } from '@/lib/spaja-platni-sistem';
 import { spajaRealtimeSistem } from '@/lib/spaja-realtime';
 import { spajaPricingLogin } from '@/lib/spaja-pricing-login';
-import { spajaDigitalniTelevizor } from '@/lib/spaja-digitalni-televizor';
+import { spajaDigitalniTelevizor, getTVSignalReadiness } from '@/lib/spaja-digitalni-televizor';
 import { spajaMonitoringLive } from '@/lib/spaja-monitoring-live';
 import { spajaAiIqMonitoring } from '@/lib/spaja-ai-iq-monitoring';
 import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
@@ -44,6 +44,7 @@ import { getOktavniMonolog } from '@/lib/oktavni-monolog';
 import { getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
 import { reklame, partnerstva, monetizacijaKanali, getReklameMetrike } from '@/lib/reklame-i-partnerstva';
 import { dnevnaRaspodelaSistem, racuniRaspodela, digitalnaIndustrijaRacun, primerSimulacije, PROCENAT_RASPODELE, OPERATIVNA_REZERVA } from '@/lib/dnevna-raspodela-zarade';
+import { getKastlerSignalReadinessSummary, getKastlerTVSignalRequestPackage } from '@/lib/kastler-tv-signal-request';
 
 function createCheck(id: string, naziv: string, opis: string, status: DiagnosticCheck['status'] = 'ok', poruka?: string): DiagnosticCheck {
   return {
@@ -57,6 +58,9 @@ function createCheck(id: string, naziv: string, opis: string, status: Diagnostic
 }
 
 export function runDiagnostics(): DiagnosticReport {
+  const tvSignalReadiness = getTVSignalReadiness();
+  const kastlerSummary = getKastlerSignalReadinessSummary();
+  const kastlerPaket = getKastlerTVSignalRequestPackage();
   const provere: DiagnosticCheck[] = [
     // Build & code quality
     createCheck('next-build', 'Next.js Build', 'Provera uspesnosti build procesa'),
@@ -3280,12 +3284,34 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('pricing-login-stranica-check', 'Pricing Login Stranica', 'Provera /pricing stranice', 'ok', '/pricing stranica aktivna'),
 
     // ─── Monetizacija — Digitalni Televizor ──────────────────
-    createCheck('digitalni-televizor-check', 'Digitalni Televizor Sistem', `Provera TV sistema — ${spajaDigitalniTelevizor.kanali.length} kanala, ${spajaDigitalniTelevizor.programi.length} programa`, 'ok', `TV aktivan — ${spajaDigitalniTelevizor.kanali.length} kanala`),
+    createCheck(
+      'digitalni-televizor-check',
+      'Digitalni Televizor Sistem',
+      `Provera TV sistema — ${spajaDigitalniTelevizor.kanali.length} kanala, ${spajaDigitalniTelevizor.programi.length} programa`,
+      tvSignalReadiness.signalLifecycle === 'mock' ? 'warning' : 'ok',
+      `TV signal lifecycle: ${tvSignalReadiness.signalLifecycle}, monetizacija: ${tvSignalReadiness.monetizacijaStatus}`,
+    ),
     createCheck('digitalni-televizor-kanali-check', 'TV Kanali', `Provera ${spajaDigitalniTelevizor.kanali.length} TV kanala`, 'ok', `${spajaDigitalniTelevizor.kanali.length} kanala konfigurisano`),
     createCheck('digitalni-televizor-api-check', 'Digitalni Televizor API', 'Provera /api/spaja-digitalni-televizor endpointa', 'ok', '/api/spaja-digitalni-televizor aktivan'),
     createCheck('digitalni-televizor-pregled-api-check', 'Digitalni Televizor Pregled API', 'Provera /api/spaja-digitalni-televizor-pregled endpointa', 'ok', '/api/spaja-digitalni-televizor-pregled aktivan'),
     createCheck('digitalni-televizor-kanali-api-check', 'Digitalni Televizor Kanali API', 'Provera /api/spaja-digitalni-televizor-kanali endpointa', 'ok', '/api/spaja-digitalni-televizor-kanali aktivan'),
     createCheck('digitalni-televizor-status-api-check', 'Digitalni Televizor Status API', 'Provera /api/spaja-digitalni-televizor-status endpointa', 'ok', '/api/spaja-digitalni-televizor-status aktivan'),
+    createCheck('kastler-tv-signal-request-api-check', 'Kastler TV Signal Request API', 'Provera /api/kastler-tv-signal-request endpointa', 'ok', '/api/kastler-tv-signal-request aktivan'),
+    createCheck('kastler-tv-signal-status-api-check', 'Kastler TV Signal Status API', 'Provera /api/kastler-tv-signal-status endpointa', 'ok', '/api/kastler-tv-signal-status aktivan'),
+    createCheck(
+      'kastler-tv-paket-check',
+      'Kastler TV Paket',
+      `Provera kastler paketa — ${kastlerPaket.trazeniKanali.length} trazenih kanala`,
+      kastlerPaket.trazeniKanali.length > 0 ? 'ok' : 'error',
+      `Kastler status: ${kastlerSummary.requestStatus}, lifecycle: ${kastlerSummary.signalLifecycle}`,
+    ),
+    createCheck(
+      'kastler-tv-monetizacija-check',
+      'Kastler TV Monetizacija',
+      'Provera TV monetizacionog modela i readiness signala',
+      kastlerSummary.monetizationStatus === 'enabled' ? 'ok' : 'warning',
+      `Monetizacija status: ${kastlerSummary.monetizationStatus}, blokatori: ${kastlerSummary.blokatori.join(', ') || 'nema'}`,
+    ),
     createCheck('digitalni-televizor-stranica-check', 'Digitalni Televizor Stranica', 'Provera /digitalni-televizor stranice', 'ok', '/digitalni-televizor stranica aktivna'),
 
     // ─── Monetizacija — Monitoring Live ──────────────────────
