@@ -7,14 +7,19 @@ import {
   AUTOFINISH_COUNT,
   AUTOFINISH_TARGET,
 } from '@/lib/constants';
+import { protokolManager } from '@/lib/protokoli/manager';
 
 export async function GET() {
-  const protokolProvere = [
-    { naziv: 'Protokol Integritet', tip: 'Protocol-Integrity', status: 'aktivan', opis: 'Verifikacija integriteta komunikacionih protokola u ekosistemu' },
-    { naziv: 'Enkripcija Validacija', tip: 'Encryption-Validation', status: 'aktivan', opis: 'Provera ispravnosti enkripcije na svim protokolima' },
-    { naziv: 'Autentifikacija Protokol', tip: 'Auth-Protocol', status: 'aktivan', opis: 'Validacija autentifikacionih protokola i tokena' },
-    { naziv: 'Transport Sigurnost', tip: 'Transport-Security', status: 'aktivan', opis: 'Provera sigurnosti transportnog sloja komunikacije' },
-  ];
+  const protokolProvere = protokolManager
+    .getAll()
+    .filter((protokol) => protokol.izvor === 'autofinish-protokol-verifikacija')
+    .map((protokol) => ({
+      naziv: protokol.naziv,
+      tip: protokol.id,
+      status: protokol.status,
+      opis: protokol.opis,
+    }));
+  const sveUspesne = protokolProvere.every((protokol) => protokol.status === 'aktivan');
 
   const procenat = (AUTOFINISH_COUNT / AUTOFINISH_TARGET) * 100;
 
@@ -25,7 +30,7 @@ export async function GET() {
 
     protokolVerifikacija: {
       ukupnoProvera: protokolProvere.length,
-      sveUspesne: true,
+      sveUspesne,
       model: 'AUTOFINISH-PROTOKOL-VERIFIKACIJA v1.0',
       provere: protokolProvere,
     },
