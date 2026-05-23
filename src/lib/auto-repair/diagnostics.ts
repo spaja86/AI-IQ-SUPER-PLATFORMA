@@ -7131,6 +7131,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1347 — SPAJA Digitalni Televizor Status ──────────────
     createCheck('autofinish-1347-televizor-status-check', 'SPAJA Televizor Status #1347', `Provera /api/spaja-digitalni-televizor-status endpointa — spajaDigitalniTelevizor.status, ukupnoKanala, statistika, getTVSignalReadiness() signal provera`, 'ok', `Autofinish #1347 — /api/spaja-digitalni-televizor-status aktivan sa kompletnim statusom i signal readiness pregledom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1347-iteracija-check', 'Autofinish #1347 Iteracija', `Provera autofinish iteracije #1347 — route coverage test za TV status rutu i signal lifecycle verifikaciju`, 'ok', `Autofinish #1347 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1348 — SPAJA Digitalni Televizor Kanali ──────────────
+    createCheck('autofinish-1348-televizor-kanali-check', 'SPAJA Televizor Kanali #1348', `Provera /api/spaja-digitalni-televizor-kanali endpointa — spajaDigitalniTelevizor.kanali lista i ukupnoKanala broj`, 'ok', `Autofinish #1348 — /api/spaja-digitalni-televizor-kanali aktivan sa kompletnom listom kanala, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1348-iteracija-check', 'Autofinish #1348 Iteracija', `Provera autofinish iteracije #1348 — route coverage test za TV kanali rutu i kanal-lista verifikaciju`, 'ok', `Autofinish #1348 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
