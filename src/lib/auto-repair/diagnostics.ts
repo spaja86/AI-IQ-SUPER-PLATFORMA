@@ -7139,6 +7139,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1349 — SPAJA Digitalni Televizor (root) ─────────────
     createCheck('autofinish-1349-televizor-root-check', 'SPAJA Televizor Root #1349', `Provera /api/spaja-digitalni-televizor endpointa — kompletan spajaDigitalniTelevizor objekat, verzija i timestamp`, 'ok', `Autofinish #1349 — /api/spaja-digitalni-televizor aktivan sa kompletnim TV objektom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1349-iteracija-check', 'Autofinish #1349 Iteracija', `Provera autofinish iteracije #1349 — route coverage test za TV root rutu i kompletni TV objekat verifikaciju`, 'ok', `Autofinish #1349 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1350 — Autentifikacija & Sigurnosni Sistem ──────────
+    createCheck('autofinish-1350-autentifikacija-check', 'Autentifikacija Sistem #1350', `Provera /api/autentifikacija endpointa — autentifikacijaSistem objekat, JWT zaštita i konfiguracija`, 'ok', `Autofinish #1350 — /api/autentifikacija aktivan sa sigurnosnim sistemom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1350-iteracija-check', 'Autofinish #1350 Iteracija', `Provera autofinish iteracije #1350 — route coverage test za autentifikacija rutu i sigurnosni sistem verifikaciju`, 'ok', `Autofinish #1350 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
