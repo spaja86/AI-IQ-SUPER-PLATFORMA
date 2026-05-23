@@ -8,6 +8,10 @@
     {
       "path": "/api/cron/evolucija",
       "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/protokoli-verifikacija",
+      "schedule": "*/15 * * * *"
     }
   ]
 }

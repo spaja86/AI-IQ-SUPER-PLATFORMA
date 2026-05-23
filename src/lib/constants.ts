@@ -47,6 +47,10 @@ export const CALL_CENTAR_PAKETA = 4;
 // Nabavka
 export const NABAVKA_VARIJACIJA = 50;
 
+// Protokoli
+export const TOTAL_PROTOKOLA = 17;
+export const PROTOKOLI_VERZIJA = '1.0.0';
+
 // Sitemap prioriteti
 export const SITEMAP_PRIORITY_HOME = 1;
 export const SITEMAP_PRIORITY_HIGH = 0.9;
