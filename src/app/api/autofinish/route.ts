@@ -322,6 +322,7 @@ function getAutofinishOpis(n: number): string {
     1346: `Autofinish #1346 — Route coverage test za /api/spaja-digitalni-televizor-pregled (SPAJA Digitalni Televizor kroz Dimenzije — getTVPregled, getTVSignalReadiness), APP_VERSION 59.16.0→59.17.0, AUTOFINISH_COUNT 1345→1346, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1347: `Autofinish #1347 — Route coverage test za /api/spaja-digitalni-televizor-status (SPAJA TV Status — spajaDigitalniTelevizor.status, statistika, getTVSignalReadiness), APP_VERSION 59.17.0→59.18.0, AUTOFINISH_COUNT 1346→1347, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1348: `Autofinish #1348 — Route coverage test za /api/spaja-digitalni-televizor-kanali (SPAJA TV Kanali — spajaDigitalniTelevizor.kanali, ukupnoKanala), APP_VERSION 59.18.0→59.19.0, AUTOFINISH_COUNT 1347→1348, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1349: `Autofinish #1349 — Route coverage test za /api/spaja-digitalni-televizor (SPAJA Digitalni Televizor — kompletan spajaDigitalniTelevizor objekat), APP_VERSION 59.19.0→59.20.0, AUTOFINISH_COUNT 1348→1349, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
