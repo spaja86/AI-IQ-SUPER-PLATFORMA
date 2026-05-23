@@ -52,8 +52,9 @@ export async function upisiAuditZapis(
             timestamp: entry.timestamp,
           });
       }
-    } catch {
+    } catch (error) {
       // Best-effort upis; in-memory audit je i dalje izvor za runtime tok.
+      console.warn('[PROTOKOLI_AUDIT] Supabase upis nije uspeo.', error);
     }
   }
 

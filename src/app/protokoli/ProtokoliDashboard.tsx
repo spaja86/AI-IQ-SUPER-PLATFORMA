@@ -75,7 +75,8 @@ export function ProtokoliDashboard() {
       setProtokoli(listJson.data?.results ?? []);
       setStatusSummary(statusJson.data?.status ?? null);
       setLogs((exportJson.data?.logs ?? []).slice(0, 20));
-    } catch {
+    } catch (error) {
+      console.error('[PROTOKOLI_UI] Učitavanje nije uspelo.', error);
       setActionMessage('Greška pri učitavanju podataka o protokolima.');
     } finally {
       setLoading(false);
@@ -107,7 +108,8 @@ export function ProtokoliDashboard() {
       }
       setActionMessage(`Verifikacija uspešno pokrenuta za protokol: ${id}`);
       await loadData();
-    } catch {
+    } catch (error) {
+      console.error('[PROTOKOLI_UI] Verifikacija nije uspela.', error);
       setActionMessage('Greška pri pokretanju verifikacije.');
     }
   }

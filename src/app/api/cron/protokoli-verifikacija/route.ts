@@ -3,6 +3,8 @@ import { APP_VERSION } from '@/lib/constants';
 import { validateCronAuth } from '@/lib/cron-auth';
 import { protokolManager } from '@/lib/protokoli/manager';
 
+const INCIDENT_THRESHOLD = 0.5;
+
 export async function GET(request: Request) {
   if (!validateCronAuth(request).authorized) {
     return NextResponse.json({ error: 'Neautorizovan pristup' }, { status: 401 });
@@ -13,7 +15,7 @@ export async function GET(request: Request) {
   const failRatio = results.length === 0 ? 0 : neuspesni.length / results.length;
 
   let incidentUpdated = 0;
-  if (failRatio > 0.5) {
+  if (failRatio > INCIDENT_THRESHOLD) {
     for (const result of neuspesni) {
       await protokolManager.updateStatus(result.protokolId, 'incident', {
         reqId: `cron-protokoli-verifikacija-${Date.now()}`,
