@@ -51,7 +51,7 @@ async function runTests(): Promise<void> {
     assert(apiRouteSource.includes('AUTOFINISH_TARGET'), 'Nedostaje AUTOFINISH_TARGET');
     assert(apiRouteSource.includes('validacijeProvere'), 'Nedostaje validacijeProvere');
     assert(apiRouteSource.includes('sveUspesne: true'), 'Nedostaje sveUspesne');
-    assert(apiRouteSource.includes('toExponential(2)'), 'Nedostaje procenat formatiranje');
+    assert(apiRouteSource.includes('toExponential(2)'), 'Nedostaje formatiranje procenta');
   });
 
   await test('Konstante su ažurirane', () => {
