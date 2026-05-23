@@ -7143,6 +7143,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1350 — Autentifikacija & Sigurnosni Sistem ──────────
     createCheck('autofinish-1350-autentifikacija-check', 'Autentifikacija Sistem #1350', `Provera /api/autentifikacija endpointa — autentifikacijaSistem objekat, JWT zaštita i konfiguracija`, 'ok', `Autofinish #1350 — /api/autentifikacija aktivan sa sigurnosnim sistemom, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1350-iteracija-check', 'Autofinish #1350 Iteracija', `Provera autofinish iteracije #1350 — route coverage test za autentifikacija rutu i sigurnosni sistem verifikaciju`, 'ok', `Autofinish #1350 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1351 — Autentifikacija Dozvole ──────────────────────
+    createCheck('autofinish-1351-autentifikacija-dozvole-check', 'Autentifikacija Dozvole #1351', `Provera /api/autentifikacija-dozvole endpointa — dozvole lista i ukupnoDozvola broj`, 'ok', `Autofinish #1351 — /api/autentifikacija-dozvole aktivan sa listom dozvola, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1351-iteracija-check', 'Autofinish #1351 Iteracija', `Provera autofinish iteracije #1351 — route coverage test za autentifikacija-dozvole rutu i dozvole verifikaciju`, 'ok', `Autofinish #1351 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
