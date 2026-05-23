@@ -55,8 +55,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.28.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1357, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.29.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1358, 'AUTOFINISH_COUNT');
   });
 
   await test('GET vraća 200 i očekivanu strukturu', async () => {
