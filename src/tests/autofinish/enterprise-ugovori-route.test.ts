@@ -1,4 +1,4 @@
-// Autofinish #1354 — Enterprise Ugovori Route Coverage Test
+// Autofinish #1355 — Enterprise Ugovori Route Coverage Test
 // Pokretanje: npx tsx src/tests/autofinish/enterprise-ugovori-route.test.ts
 
 import fs from 'node:fs';
@@ -38,7 +38,7 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Enterprise Ugovori — Route Coverage Test Suite (#1354)\n');
+  console.log('\n🏁 Enterprise Ugovori — Route Coverage Test Suite (#1355)\n');
 
   const routePath = path.resolve(process.cwd(), 'src/app/api/enterprise-ugovori/route.ts');
   const routeSource = fs.readFileSync(routePath, 'utf8');
@@ -57,8 +57,13 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.25.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1354, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.26.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1355, 'AUTOFINISH_COUNT');
+  });
+
+  await test('Ruta validacija je dodata kao naredni autofinish korak', () => {
+    const validacijaPath = path.resolve(process.cwd(), 'src/tests/autofinish/autofinish-validacija-route.test.ts');
+    assert(fs.existsSync(validacijaPath), `${validacijaPath} ne postoji`);
   });
 
   await test('GET vraća 200 i očekivanu strukturu', async () => {
