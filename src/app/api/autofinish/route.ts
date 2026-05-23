@@ -311,6 +311,15 @@ function getAutofinishOpis(n: number): string {
     1177: `Autofinish #1177 — API Milestone 1020: /api/autofinish-api-milestone-1020 aktivan, TOTAL_API_ROUTES 1028→1029, TOTAL_ROUTES 1087→1088, TOTAL_DIAGNOSTIKA 2326→2328, APP_VERSION 46.76.0→46.77.0, AUTOFINISH_COUNT 1176→1177`,
     1178: `Autofinish #1178 — API Milestone 1021: /api/autofinish-api-milestone-1021 aktivan, TOTAL_API_ROUTES 1029→1030, TOTAL_ROUTES 1088→1089, TOTAL_DIAGNOSTIKA 2328→2330, APP_VERSION 46.77.0→46.78.0, AUTOFINISH_COUNT 1177→1178`,
     1288: `Autofinish #1288 — Digitalna Industrija Pozicije: buildDigitalnaIndustrijaPozicije(), /api/digitalna-industrija-pozicije + /digitalna-industrija-pozicije, sekvence/navigacija/sitemap/testovi ažurirani, APP_VERSION 55.6.0→55.7.0, AUTOFINISH_COUNT 1287→1288, TOTAL_API_ROUTES 1153→1154, TOTAL_ROUTES 1253→1254`,
+    1338: `Autofinish #1338 — Route coverage test za /api/autofinish-coverage, AUTOFINISH_COUNT 1337→1338, APP_VERSION 59.16.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1339: `Autofinish #1339 — Route coverage testovi za /api/autofinish-dependencies i /api/kastler-tv-signal-status, AUTOFINISH_COUNT 1338→1339, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1340: `Autofinish #1340 — Route coverage testovi za /api/autofinish-cost-analytics i /api/kastler-tv-signal-request, AUTOFINISH_COUNT 1339→1340, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1341: `Autofinish #1341 — Route coverage testovi za /api/autofinish-dependency-audit i Dimenzije TV Flow (TV kanali propisani kroz Dimenzije 360D-5760D), AUTOFINISH_COUNT 1340→1341, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1342: `Autofinish #1342 — Route coverage test za /api/admin/billing-audit-search, AUTOFINISH_COUNT 1341→1342, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1343: `Autofinish #1343 — Route coverage test za /api/admin/billing-pii-scan, AUTOFINISH_COUNT 1342→1343, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1344: `Autofinish #1344 — Route coverage test za /api/admin/billing-reconcile-invoices, AUTOFINISH_COUNT 1343→1344, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1345: `Autofinish #1345 — Route coverage test za /api/admin/billing-reconcile-subscriptions, AUTOFINISH_COUNT 1344→1345, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1346: `Autofinish #1346 — Route coverage test za /api/spaja-digitalni-televizor-pregled (SPAJA Digitalni Televizor kroz Dimenzije — getTVPregled, getTVSignalReadiness), APP_VERSION 59.16.0→59.17.0, AUTOFINISH_COUNT 1345→1346, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
