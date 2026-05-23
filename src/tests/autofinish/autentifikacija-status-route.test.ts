@@ -1,10 +1,10 @@
-// Autofinish #1351 — Autentifikacija Dozvole Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autentifikacija-dozvole-route.test.ts
+// Autofinish #1352 — Autentifikacija Status Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autentifikacija-status-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/autentifikacija-dozvole/route';
-import { dozvole } from '../../lib/autentifikacija';
+import { GET } from '../../app/api/autentifikacija-status/route';
+import { autentifikacijaSistem, authKonfiguracija } from '../../lib/autentifikacija';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES, TOTAL_DIAGNOSTIKA } from '../../lib/constants';
 
 let passed = 0;
@@ -38,11 +38,11 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autentifikacija Dozvole — Route Coverage Test Suite (#1351)\n');
+  console.log('\n🏁 Autentifikacija Status — Route Coverage Test Suite (#1352)\n');
 
   const apiRoutePath = path.resolve(
     process.cwd(),
-    'src/app/api/autentifikacija-dozvole/route.ts',
+    'src/app/api/autentifikacija-status/route.ts',
   );
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
@@ -54,42 +54,43 @@ async function runTests(): Promise<void> {
     assert(apiRouteSource.includes('export async function GET'), 'Nedostaje export async function GET');
   });
 
-  await test('Ruta koristi dozvole i ukupnoDozvola', () => {
-    assert(apiRouteSource.includes('dozvole'), 'Nedostaje dozvole');
-    assert(apiRouteSource.includes('ukupnoDozvola'), 'Nedostaje ukupnoDozvola');
+  await test('Ruta koristi autentifikacijaSistem i authKonfiguracija', () => {
+    assert(apiRouteSource.includes('autentifikacijaSistem'), 'Nedostaje autentifikacijaSistem');
+    assert(apiRouteSource.includes('authKonfiguracija'), 'Nedostaje authKonfiguracija');
   });
 
-  await test('Ruta vraća sistem, verzija i timestamp polja', () => {
-    assert(apiRouteSource.includes("'Autentifikacija — Dozvole'"), 'Nedostaje sistem naziv');
-    assert(apiRouteSource.includes('APP_VERSION'), 'Nedostaje APP_VERSION');
-    assert(apiRouteSource.includes('timestamp'), 'Nedostaje timestamp');
+  await test('Ruta vraća status, konfiguracija i zbirna polja', () => {
+    assert(apiRouteSource.includes("'Autentifikacija — Status'"), 'Nedostaje sistem naziv');
+    assert(apiRouteSource.includes('ukupnoDozvola'), 'Nedostaje ukupnoDozvola');
+    assert(apiRouteSource.includes('ukupnoMogucnosti'), 'Nedostaje ukupnoMogucnosti');
   });
 
   await test('GET vraća 200 sa korektnim payload-om', async () => {
     const response = await GET();
     assertEqual(response.status, 200, 'HTTP status');
     const body = (await response.json()) as Record<string, unknown>;
-    assertEqual(body['sistem'] as string, 'Autentifikacija — Dozvole', 'sistem');
+    assertEqual(body['sistem'] as string, 'Autentifikacija — Status', 'sistem');
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
-    assert(Array.isArray(body['dozvole']), 'dozvole mora biti niz');
-    assert(typeof body['ukupnoDozvola'] === 'number', 'ukupnoDozvola mora biti broj');
+    assertEqual(body['status'] as string, autentifikacijaSistem.status, 'status');
+    assert(typeof body['konfiguracija'] === 'object' && body['konfiguracija'] !== null, 'konfiguracija mora biti objekat');
     assert(typeof body['timestamp'] === 'string', 'timestamp mora biti string');
   });
 
-  await test('ukupnoDozvola odgovara dužini dozvole niza', async () => {
+  await test('Konfiguracija u API-ju prati authKonfiguracija vrednosti', async () => {
     const response = await GET();
     const body = (await response.json()) as Record<string, unknown>;
-    const list = body['dozvole'] as unknown[];
-    const total = body['ukupnoDozvola'] as number;
-    assertEqual(total, list.length, 'ukupnoDozvola mora pratiti dobijeni niz');
+    const konfiguracija = body['konfiguracija'] as Record<string, unknown>;
+    assertEqual(konfiguracija['jwtIsticanje'] as string, authKonfiguracija.jwtIsticanje, 'jwtIsticanje');
+    assertEqual(konfiguracija['refreshIsticanje'] as string, authKonfiguracija.refreshIsticanje, 'refreshIsticanje');
+    assertEqual(konfiguracija['maxSesija'] as number, authKonfiguracija.maxSesija, 'maxSesija');
+    assertEqual(konfiguracija['dvofaktorObavezan'] as boolean, authKonfiguracija.dvofaktorObavezan, 'dvofaktorObavezan');
   });
 
-  await test('dozvole iz API-ja odgovaraju lib/autentifikacija eksportu', async () => {
+  await test('Zbirne metrike prate autentifikacijaSistem', async () => {
     const response = await GET();
     const body = (await response.json()) as Record<string, unknown>;
-    const list = body['dozvole'] as unknown[];
-    assertEqual(list.length, dozvole.length, 'dužina dozvola');
-    assertEqual(body['ukupnoDozvola'] as number, dozvole.length, 'ukupnoDozvola');
+    assertEqual(body['ukupnoDozvola'] as number, autentifikacijaSistem.dozvole.length, 'ukupnoDozvola');
+    assertEqual(body['ukupnoMogucnosti'] as number, autentifikacijaSistem.mogucnosti.length, 'ukupnoMogucnosti');
   });
 
   await test('APP_VERSION je 59.23.0', () => {

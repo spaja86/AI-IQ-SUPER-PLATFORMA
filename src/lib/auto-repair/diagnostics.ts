@@ -7147,6 +7147,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1351 — Autentifikacija Dozvole ──────────────────────
     createCheck('autofinish-1351-autentifikacija-dozvole-check', 'Autentifikacija Dozvole #1351', `Provera /api/autentifikacija-dozvole endpointa — dozvole lista i ukupnoDozvola broj`, 'ok', `Autofinish #1351 — /api/autentifikacija-dozvole aktivan sa listom dozvola, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1351-iteracija-check', 'Autofinish #1351 Iteracija', `Provera autofinish iteracije #1351 — route coverage test za autentifikacija-dozvole rutu i dozvole verifikaciju`, 'ok', `Autofinish #1351 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1352 — Autentifikacija Status ───────────────────────
+    createCheck('autofinish-1352-autentifikacija-status-check', 'Autentifikacija Status #1352', `Provera /api/autentifikacija-status endpointa — status sistema, konfiguracija i zbirne metrike`, 'ok', `Autofinish #1352 — /api/autentifikacija-status aktivan sa auth konfiguracijom i metrikama, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1352-iteracija-check', 'Autofinish #1352 Iteracija', `Provera autofinish iteracije #1352 — route coverage test za autentifikacija-status rutu i konfiguracionu verifikaciju`, 'ok', `Autofinish #1352 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

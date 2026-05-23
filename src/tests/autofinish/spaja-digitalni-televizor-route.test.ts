@@ -82,12 +82,12 @@ async function runTests(): Promise<void> {
     assert((tv['kanali'] as unknown[]).length > 0, 'digitalniTelevizor.kanali mora biti neprazan');
   });
 
-  await test('APP_VERSION je 59.22.0', () => {
-    assertEqual(APP_VERSION, '59.22.0', 'APP_VERSION');
+  await test('APP_VERSION je 59.23.0', () => {
+    assertEqual(APP_VERSION, '59.23.0', 'APP_VERSION');
   });
 
-  await test('AUTOFINISH_COUNT je 1351', () => {
-    assertEqual(AUTOFINISH_COUNT, 1351, 'AUTOFINISH_COUNT');
+  await test('AUTOFINISH_COUNT je 1352', () => {
+    assertEqual(AUTOFINISH_COUNT, 1352, 'AUTOFINISH_COUNT');
   });
 
   await test('Konstante su konzistentne', () => {

@@ -325,6 +325,7 @@ function getAutofinishOpis(n: number): string {
     1349: `Autofinish #1349 — Route coverage test za /api/spaja-digitalni-televizor (SPAJA Digitalni Televizor — kompletan spajaDigitalniTelevizor objekat), APP_VERSION 59.19.0→59.20.0, AUTOFINISH_COUNT 1348→1349, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1350: `Autofinish #1350 — Route coverage test za /api/autentifikacija (Autentifikacija & Sigurnosni Sistem — autentifikacijaSistem objekat, JWT zaštita), APP_VERSION 59.20.0→59.21.0, AUTOFINISH_COUNT 1349→1350, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1351: `Autofinish #1351 — Route coverage test za /api/autentifikacija-dozvole (Autentifikacija Dozvole — dozvole lista i ukupnoDozvola), APP_VERSION 59.21.0→59.22.0, AUTOFINISH_COUNT 1350→1351, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1352: `Autofinish #1352 — Route coverage test za /api/autentifikacija-status (Autentifikacija Status — konfiguracija, ukupnoDozvola i ukupnoMogucnosti), APP_VERSION 59.22.0→59.23.0, AUTOFINISH_COUNT 1351→1352, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
