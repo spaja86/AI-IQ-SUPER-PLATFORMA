@@ -124,6 +124,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/zaboravljena-lozinka',
     '/eksponat-glavnog-jezgra',
     '/digitalni-vorteks',
+    '/analiza-svega',
+    '/api/analiza-svega',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

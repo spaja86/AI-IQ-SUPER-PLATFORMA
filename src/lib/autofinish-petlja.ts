@@ -1494,10 +1494,15 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1112: 'Unit testovi DoraMetricsWidget',
     1113: 'PodsistemiZdravljeWidget — zdravlje podsistema po statusu i health %',
     1114: 'Unit testovi PodsistemiZdravljeWidget',
+    1115: 'ANALIZA SVEGA — lib/analiza-svega.ts agregacioni servis modul',
+    1116: 'GET /api/analiza-svega endpoint sa rate limitom',
+    1117: 'Stranica /analiza-svega — StranicaRenderer sa 9 sekvenci',
+    1118: 'Navigacija, sitemap i sekvence usklađeni za Analiza Svega',
+    1119: 'Dijagnostičke provere za Analiza Svega (4 checka)',
+    1120: 'Route coverage test — analiza-svega-route.test.ts',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
-
 export interface AutofinishChangelogStavka {
   broj: number;
   opis: string;
