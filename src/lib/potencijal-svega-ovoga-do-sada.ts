@@ -28,6 +28,8 @@ export type PotencijalTrendDirection = 'up' | 'down' | 'flat';
 export const POTENCIJAL_CONTRACT_VERSION = 'v1';
 export const POTENCIJAL_MODEL_VERSION = '1.0.0';
 
+// Težine su raspodeljene tako da finansije/operativa imaju veći uticaj na ukupan
+// potencijal jer direktno određuju kratkoročni rast i izvršnu spremnost sistema.
 export const POTENCIJAL_DOMAIN_WEIGHTS = {
   ekosistem: 0.14,
   infrastruktura: 0.14,
@@ -37,6 +39,13 @@ export const POTENCIJAL_DOMAIN_WEIGHTS = {
   autofinish: 0.12,
   aiProizvod: 0.14,
 } as const;
+// Pragovi su usklađeni sa postojećim agregacionim modulima:
+// - 30 promptova kao prag pune prompt pokrivenosti
+// - 1500 API ruta kao infrastrukturni target
+// - 1500 autofinish iteracija kao stabilizacioni cilj petlje
+const MAX_PROMPTS_FOR_SCORE = 30;
+const TARGET_API_ROUTES = 1500;
+const TARGET_AUTOFINISH_ITERATIONS = 1500;
 
 type PotencijalDomenKljuc = keyof typeof POTENCIJAL_DOMAIN_WEIGHTS;
 
@@ -135,9 +144,12 @@ interface PotencijalSnapshot {
   timestamp: string;
 }
 
+// Napomena: snapshot je procesno-lokalan (in-memory) i resetuje se pri cold startu.
+// U serverless okruženju trend može biti nepouzdan između invokacija.
 let previousSnapshot: PotencijalSnapshot | null = null;
 
 function clampScore(score: number): number {
+  // Score se prvo clamping-uje u opseg 0-100, zatim zaokružuje na najbliži ceo broj.
   const clamped = Math.max(0, Math.min(100, score));
   return Math.round(clamped);
 }
@@ -219,13 +231,17 @@ export function buildPotencijalSvegaOvogaDoSada(): PotencijalSvegaOvogaDoSada {
 
   const autofinishStatus = autofinishSummary?.status ?? 'nepoznat';
   const autofinishZdravlje = autofinishHealth?.zdravlje ?? 0;
-  const autofinishProgressPct = Math.min(100, Math.round((AUTOFINISH_COUNT / 1500) * 100));
+  const autofinishProgressPct = Math.min(100, Math.round((AUTOFINISH_COUNT / TARGET_AUTOFINISH_ITERATIONS) * 100));
 
   const ekosistemCoverage = ukupnoPlatformi > 0 ? Math.round((aktivnihPlatformi / ukupnoPlatformi) * 100) : 0;
-  const ekosistemOstvareni = clampScore((ekosistemCoverage * 0.6) + (Math.min(ukupnoPromptova, 30) / 30 * 100 * 0.4));
+  const ekosistemOstvareni = clampScore(
+    (ekosistemCoverage * 0.6) + (Math.min(ukupnoPromptova, MAX_PROMPTS_FOR_SCORE) / MAX_PROMPTS_FOR_SCORE * 100 * 0.4),
+  );
   const ekosistemPotencijal = clampScore(ekosistemOstvareni + ((100 - ekosistemCoverage) * 0.4));
 
-  const infrastrukturaOstvareni = clampScore((zdravljeSistema * 0.6) + (Math.min(TOTAL_API_ROUTES, 1500) / 1500 * 100 * 0.4));
+  const infrastrukturaOstvareni = clampScore(
+    (zdravljeSistema * 0.6) + (Math.min(TOTAL_API_ROUTES, TARGET_API_ROUTES) / TARGET_API_ROUTES * 100 * 0.4),
+  );
   const infrastrukturaPotencijal = clampScore(infrastrukturaOstvareni + Math.min(20, (100 - zdravljeSistema) * 0.5));
 
   const finansijeOstvareni = clampScore(
@@ -250,7 +266,7 @@ export function buildPotencijalSvegaOvogaDoSada(): PotencijalSvegaOvogaDoSada {
 
   const aiProizvodOstvareni = clampScore(
     (Math.min(ukupnoOmegaPersona, 21) / 21 * 100 * 0.4) +
-    (Math.min(ukupnoPromptova, 30) / 30 * 100 * 0.4) +
+    (Math.min(ukupnoPromptova, MAX_PROMPTS_FOR_SCORE) / MAX_PROMPTS_FOR_SCORE * 100 * 0.4) +
     (Math.min(TOTAL_PROTOKOLA, 12) / 12 * 100 * 0.2),
   );
   const aiProizvodPotencijal = clampScore(aiProizvodOstvareni + 12);
@@ -359,7 +375,7 @@ export function buildPotencijalSvegaOvogaDoSada(): PotencijalSvegaOvogaDoSada {
       id: 'operativa-missing-env',
       domen: 'operativa',
       naslov: 'Nedostaju produkcione env varijable',
-      opis: `Nedostaje ${missingEnvCount} env varijabli koje direktno utiču na runtime/ops readiness.`,
+      opis: `Nedostaje ${missingEnvCount} env varijable koje direktno utiču na runtime/ops readiness.`,
       prioritet: 'visok',
       klasa: 'blocking',
       expectedUplift: 14,

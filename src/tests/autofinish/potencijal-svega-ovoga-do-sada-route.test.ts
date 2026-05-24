@@ -8,6 +8,7 @@ import {
   GET,
   POTENCIJAL_SVEGA_RATE_LIMIT,
 } from '../../app/api/potencijal-svega-ovoga-do-sada/route';
+import { POTENCIJAL_DOMAIN_WEIGHTS } from '../../lib/potencijal-svega-ovoga-do-sada';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -109,7 +110,7 @@ async function runTests(): Promise<void> {
     const data = body['data'] as Record<string, unknown>;
     const domeni = data['domeni'] as Record<string, unknown>;
 
-    const ocekivaniDomeni = ['ekosistem', 'infrastruktura', 'finansije', 'bezbednost', 'operativa', 'autofinish', 'aiProizvod'];
+    const ocekivaniDomeni = Object.keys(POTENCIJAL_DOMAIN_WEIGHTS);
     for (const naziv of ocekivaniDomeni) {
       const domen = domeni[naziv] as Record<string, unknown>;
       assert(domen !== undefined, `domen '${naziv}' nedostaje`);

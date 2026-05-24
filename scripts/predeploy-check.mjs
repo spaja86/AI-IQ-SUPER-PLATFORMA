@@ -64,6 +64,7 @@ const potencijalContractReady = [
   sitemapSrc.includes('/api/potencijal-svega-ovoga-do-sada'),
   navigationSrc.includes('/potencijal-svega-ovoga-do-sada'),
 ].every(Boolean);
+const hasDeploymentBlockers = missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady;
 
 const report = {
   appVersion,
@@ -82,13 +83,13 @@ const report = {
     modelVersion: potencijalModelVersion,
     contractReady: potencijalContractReady,
   },
-  status: missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady ? 'warning' : 'ok',
+  status: hasDeploymentBlockers ? 'warning' : 'ok',
 };
 
 console.log('=== Predeploy Check ===');
 console.log(JSON.stringify(report, null, 2));
 
-if (process.argv.includes('--strict') && (missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady)) {
+if (process.argv.includes('--strict') && hasDeploymentBlockers) {
   console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL contract is not ready.');
   process.exit(1);
 }
