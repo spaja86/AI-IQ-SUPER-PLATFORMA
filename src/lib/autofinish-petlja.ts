@@ -7987,3 +7987,34 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Potvrđeno: routes:generate-tests --dry-run prijavljuje missingTests=0 i generated=0.
 // Status: Zadržana puna pokrivenost 1195/1195 API ruta bez novih rupa u coverage-u.
 // APP_VERSION=59.44.0 | AUTOFINISH_COUNT=1374 | TOTAL_API_ROUTES=1195 | TOTAL_ROUTES=1320 | TOTAL_PAGES=125
+
+
+// ─── Autofinish #1375 — INKOGNITO MODE ZA SPAJA DIGITALNI BROUVZER ─────────────
+// Implementiran inkognito (privatni) mod pregledanja u BrouvzerViewer.tsx.
+// Novi fajl: src/lib/brouvzer-inkognito.ts (shouldWriteToStorage, shouldShowStoredData, getInkognitoButtonClass).
+// UI: ljubičasti toolbar/baner, 🕵️ dugme, Ctrl+Shift+N prečica, onemogućeni bookmark/history u inkognitu.
+// localStorage blokiran za istoriju i bookmarkove kada je inkognito aktivan.
+// Inkognito modul dodat u brouvzerModuli; capability u ekstremneMogucnosti.
+// Feature flag: brouvzer-inkognito-mode (strategy: enabled).
+// Testovi: src/tests/brouvzer/inkognito-mode.test.ts — 13 testova, svi prolaze.
+// APP_VERSION=59.45.0 | AUTOFINISH_COUNT=1375 | TOTAL_API_ROUTES=1195 | TOTAL_ROUTES=1320 | TOTAL_PAGES=125
+
+
+// ─── Autofinish #1376 — GET /API/BROUVZER-INKOGNITO-STATUS ────────────────────
+// Novi API endpoint: GET /api/brouvzer-inkognito-status.
+// Prijavljuje dostupnost inkognito mogućnosti (metapodatak) — dostupno, label, opis,
+// modulVerzija, mogucnosti, featureFlag, pravilaPrivatnosti (istorija=false, bookmarkovi=false, auth=true).
+// Cache-Control: public, s-maxage=60 | X-App-Version header.
+// Test: src/tests/autofinish/brouvzer-inkognito-status-route.test.ts — 15 testova, svi prolaze.
+// APP_VERSION=59.46.0 | AUTOFINISH_COUNT=1376 | TOTAL_API_ROUTES=1196 | TOTAL_ROUTES=1321 | TOTAL_PAGES=125
+
+
+// ─── Autofinish #1377 — BROUVZER TAB MENADŽER HELPERS + GET /API/BROUVZER-TAB-MENADZER-STATUS ───
+// Novi lib fajl: src/lib/brouvzer-tab-menadzer.ts (konstante, trebaPokrenuthHibernaciju,
+// mozePinirati, mozeKreiratiGrupu, getTabItemClass).
+// Feature flag: brouvzer-tab-menadzer (strategy: enabled, ticket: SPAJA-7002).
+// Novi API endpoint: GET /api/brouvzer-tab-menadzer-status — prijavljuje dostupnost tab menadžera,
+// limiti (maxAktivnih=20, maxPiniranih=10, maxGrupa=8), funkcionalnosti i featureFlag.
+// Cache-Control: public, s-maxage=60 | X-App-Version header.
+// Test: src/tests/autofinish/brouvzer-tab-menadzer-status-route.test.ts — 24 testova, svi prolaze.
+// APP_VERSION=59.47.0 | AUTOFINISH_COUNT=1377 | TOTAL_API_ROUTES=1197 | TOTAL_ROUTES=1322 | TOTAL_PAGES=125

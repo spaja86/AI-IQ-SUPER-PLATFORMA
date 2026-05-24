@@ -354,6 +354,15 @@ export const brouvzerModuli: BrouvzerModul[] = [
     verzija: '3.0.0',
     mogucnosti: ['Inspektor elemenata', 'JavaScript konzola', 'Mrežni monitor', 'Performanse profajler', 'Storage inspektor'],
   },
+  {
+    id: 'modul-inkognito',
+    naziv: 'Inkognito Modul',
+    opis: 'Privatni (inkognito) mod pregledanja — istorija i bookmarkovi se ne čuvaju u localStorage. Autentifikacija ostaje aktivna. Sandbox politika iframes-a nepromenjena.',
+    ikona: '🕵️',
+    status: 'aktivan',
+    verzija: '1.0.0',
+    mogucnosti: ['Privatna sesija', 'Blokiranje localStorage upisa', 'UI indikator (ljubičasti toolbar)', 'Ctrl+Shift+N prečica', 'Onemogućeni bookmark/history paneli'],
+  },
 ];
 
 // ─── Kompletni SPAJA Digitalni Brouvzer ──────────────────
@@ -584,6 +593,7 @@ const ekstremneMogucnosti: string[] = [
   'Dev Tools za programere',
   'PWA standalone aplikacija',
   'Cross-origin komunikacija sa PostMessage API',
+  'Inkognito (privatni) režim pregledanja — istorija i bookmarkovi se ne čuvaju',
 ];
 
 export const spajaDigitalniBrouvzer: SpajaDigitalniBrouvzer = {

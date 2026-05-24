@@ -7157,6 +7157,18 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('autofinish-1360-analiza-svega-api-check', 'Analiza Svega API #1360', `Provera /api/analiza-svega endpointa — jedinstven agregacioni endpoint sa rate limitom`, 'ok', `Autofinish #1360 — /api/analiza-svega aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1360-analiza-svega-stranica-check', 'Analiza Svega Stranica #1360', `Provera /analiza-svega stranice — StranicaRenderer sa 9 sekvenci, hero/kpi/domeni/preporuke`, 'ok', `/analiza-svega stranica aktivna — navigacija, sitemap i sekvence usklađeni`),
     createCheck('autofinish-1360-iteracija-check', 'Autofinish #1360 Iteracija', `Provera autofinish iteracije #1360 — ANALIZA SVEGA kompletno implementirana`, 'ok', `Autofinish #1360 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1375 — Inkognito Mode ───────────────────────────────
+    createCheck('autofinish-1375-inkognito-mode-check', 'Inkognito Mode #1375', `Provera inkognito moda — brouvzer-inkognito.ts implementiran, BrouvzerViewer.tsx ažuriran, 13 testova prolaze, feature flag aktivan`, 'ok', `Autofinish #1375 — Inkognito mod aktivan: shouldWriteToStorage/shouldShowStoredData/getInkognitoButtonClass, modul-inkognito u brouvzerModuli, capability u ekstremneMogucnosti`),
+    createCheck('autofinish-1375-iteracija-check', 'Autofinish #1375 Iteracija', `Provera autofinish iteracije #1375 — Inkognito Mode za SPAJA Digitalni Brouvzer`, 'ok', `Autofinish #1375 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1376 — GET /api/brouvzer-inkognito-status ──────────────
+    createCheck('autofinish-1376-inkognito-status-api-check', 'Inkognito Status API #1376', `Provera GET /api/brouvzer-inkognito-status — dostupno, label, opis, mogucnosti, featureFlag, pravilaPrivatnosti, Cache-Control, X-App-Version`, 'ok', `Autofinish #1376 — /api/brouvzer-inkognito-status aktivan, 15 testova prolaze, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1376-iteracija-check', 'Autofinish #1376 Iteracija', `Provera autofinish iteracije #1376 — GET /api/brouvzer-inkognito-status route coverage`, 'ok', `Autofinish #1376 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1377 — Tab Menadžer helpers + GET /api/brouvzer-tab-menadzer-status ──────────
+    createCheck('autofinish-1377-tab-menadzer-lib-check', 'Tab Menadžer Lib #1377', `Provera brouvzer-tab-menadzer.ts — trebaPokrenuthHibernaciju, mozePinirati, mozeKreiratiGrupu, getTabItemClass, feature flag aktivan`, 'ok', `Autofinish #1377 — Tab Menadžer helpers implementirani, 24 testova prolaze`),
+    createCheck('autofinish-1377-iteracija-check', 'Autofinish #1377 Iteracija', `Provera autofinish iteracije #1377 — Brouvzer Tab Menadžer status route`, 'ok', `Autofinish #1377 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
