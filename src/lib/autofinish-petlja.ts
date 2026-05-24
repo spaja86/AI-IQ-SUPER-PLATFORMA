@@ -7911,3 +7911,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // procesuiranjeSvegaSekvence (./procesuiranje-svega-page)
 // Autofinish-petlja.ts dokumentacija za #1361 i #1362 dodana.
 // APP_VERSION=59.33.0 | AUTOFINISH_COUNT=1363 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
+
+
+// ─── Autofinish #1364 — /API/AUTOFINISH-TOP-ITERACIJE ROUTE COVERAGE TEST ───
+// Dedicated route coverage test dodat za /api/autofinish-top-iteracije.
+// Test: src/tests/autofinish/autofinish-top-iteracije-route.test.ts
+// Pokriveno: 200 default + n=5 + validacija grešaka (n=0, n=201) + response header-i.
+// APP_VERSION=59.34.0 | AUTOFINISH_COUNT=1364 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
