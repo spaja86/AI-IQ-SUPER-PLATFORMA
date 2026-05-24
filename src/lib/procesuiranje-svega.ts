@@ -173,6 +173,7 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     { id: 'eko-004', opis: 'Cron jobs — raspoređivanje i monitoring', status: 'aktivno', tip: 'cron' },
     { id: 'eko-005', opis: 'Dijagnostika sistema — auto-repair', status: 'zavrseno', tip: 'dijagnostika' },
     { id: 'eko-006', opis: 'Deploy pipeline — Vercel automatski deploy', status: 'zavrseno', tip: 'deploy' },
+    { id: 'eko-007', opis: `Pokrivenost ruta — ${TOTAL_API_ROUTES}/${TOTAL_API_ROUTES} API route coverage testova`, status: 'zavrseno', tip: 'pokrivenostRuta' },
   ];
 
   const ekosistem: ProcesuiranjeDomen = {
