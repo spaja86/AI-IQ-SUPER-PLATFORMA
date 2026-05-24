@@ -32,6 +32,11 @@ export async function GET() {
     stranice: stats.ukupnoStranica,
     apiRute: TOTAL_API_ROUTES,
     autofinish: AUTOFINISH_COUNT,
+    analizaSvega: {
+      sourceOfTruth: '/api/analiza-svega',
+      contractVersion: 'v2',
+      modelVersion: '2.0.0',
+    },
     omegaAI: {
       persone: dispatch.ukupnoPersona,
       oktave: dispatch.ukupnoOktava,

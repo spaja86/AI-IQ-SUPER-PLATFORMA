@@ -41,6 +41,11 @@ export async function GET(req: NextRequest) {
         status: 'alive',
         verzija: APP_VERSION,
         autofinishIteracija: AUTOFINISH_COUNT,
+        analizaSvega: {
+          sourceOfTruth: '/api/analiza-svega',
+          contractVersion: 'v2',
+          modelVersion: '2.0.0',
+        },
         uptime: uptimeSeconds(),
         timestamp: new Date().toISOString(),
       },

@@ -5,7 +5,7 @@
 // ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish, protokoli.
 
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
+import { apiInternalError, apiRateLimited, apiSuccess } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { buildAnalizaSvega } from '@/lib/analiza-svega';
 
@@ -25,12 +25,15 @@ export async function GET(req: NextRequest) {
   );
 
   if (!allowed) {
-    return apiError('TOO_MANY_REQUESTS', 'Previše zahteva. Pokušajte ponovo za 60 sekundi.');
+    return apiRateLimited(60);
   }
 
   try {
     const analiza = buildAnalizaSvega();
-    return apiSuccess(analiza, 200);
+    const response = apiSuccess(analiza, 200);
+    response.headers.set('X-Analiza-Contract-Version', analiza.meta.contractVersion);
+    response.headers.set('X-Analiza-Model-Version', analiza.meta.modelVersion);
+    return response;
   } catch (error) {
     return apiInternalError('analiza-svega', error);
   }
