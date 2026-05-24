@@ -1,20 +1,15 @@
-// Autofinish #1369 — Autofinish Ekosistem Snapshot Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-ekosistem-snapshot-route.test.ts
+// Autofinish #1372 — Autofinish Error Budget Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-error-budget-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/autofinish-ekosistem-snapshot/route';
+import { GET } from '../../app/api/autofinish-error-budget/route';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
-  OMEGA_AI_OKTAVA_COUNT,
-  OMEGA_AI_PERSONA_COUNT,
-  OMEGA_AI_PERSONA_UKUPNO,
   TOTAL_API_ROUTES,
   TOTAL_DIAGNOSTIKA,
-  TOTAL_IGRICA,
-  TOTAL_PAGES,
   TOTAL_ROUTES,
 } from '../../lib/constants';
 
@@ -48,16 +43,10 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
   }
 }
 
-function buildRequest(ip = '127.0.0.1'): NextRequest {
-  return {
-    headers: new Headers({ 'x-forwarded-for': ip }),
-  } as unknown as NextRequest;
-}
-
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Ekosistem Snapshot — Route Coverage Test Suite (#1369)\n');
+  console.log('\n🏁 Autofinish Error Budget — Route Coverage Test Suite (#1372)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-ekosistem-snapshot/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-error-budget/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -65,39 +54,52 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(apiRouteSource.includes('getAutofinishEkosistemSnapshot'), 'Nedostaje snapshot helper');
-    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje rate limit');
-    assert(apiRouteSource.includes("'X-App-Version'"), 'Nedostaje X-App-Version header');
+    assert(apiRouteSource.includes('getAutofinishErrorBudget'), 'Nedostaje getAutofinishErrorBudget');
+    assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
+    assert(apiRouteSource.includes('Retry-After'), 'Nedostaje Retry-After');
+    assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
   });
 
-  await test('GET vraća 200, payload i response header-e', async () => {
-    const response = await GET(buildRequest('10.10.10.10'));
+  await test('GET vraća 200, payload i heder-e', async () => {
+    const request = new Request('http://localhost/api/autofinish-error-budget', {
+      headers: { 'x-forwarded-for': '127.0.0.72' },
+    });
+
+    const response = await GET(request as NextRequest);
     assertEqual(response.status, 200, 'status');
-    assertEqual(response.headers.get('X-App-Version'), APP_VERSION, 'header.X-App-Version');
-    assertEqual(
-      response.headers.get('X-Autofinish-Iteracija'),
-      String(AUTOFINISH_COUNT),
-      'header.X-Autofinish-Iteracija',
-    );
-    assertEqual(
-      response.headers.get('Cache-Control'),
-      'public, s-maxage=60, stale-while-revalidate=300',
-      'header.Cache-Control',
-    );
 
     const body = (await response.json()) as Record<string, unknown>;
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
     assertEqual(body['autofinishBroj'] as number, AUTOFINISH_COUNT, 'autofinishBroj');
-    assertEqual(body['rute'] as number, TOTAL_ROUTES, 'rute');
-    assertEqual(body['apiRute'] as number, TOTAL_API_ROUTES, 'apiRute');
-    assertEqual(body['stranice'] as number, TOTAL_PAGES, 'stranice');
-    assertEqual(body['dijagnostike'] as number, TOTAL_DIAGNOSTIKA, 'dijagnostike');
-    assertEqual(body['igrice'] as number, TOTAL_IGRICA, 'igrice');
-    assertEqual(body['omegaAiPersone'] as number, OMEGA_AI_PERSONA_COUNT, 'omegaAiPersone');
-    assertEqual(body['omegaAiOktave'] as number, OMEGA_AI_OKTAVA_COUNT, 'omegaAiOktave');
-    assertEqual(body['omegaAiUkupno'] as number, OMEGA_AI_PERSONA_UKUPNO, 'omegaAiUkupno');
+    assert(typeof body['ukupnoServisa'] === 'number', 'ukupnoServisa number');
+    assert(typeof body['zdravih'] === 'number', 'zdravih number');
+    assert(typeof body['uUpozorenju'] === 'number', 'uUpozorenju number');
+    assert(typeof body['kriticnih'] === 'number', 'kriticnih number');
+    assert(typeof body['iscrpljenih'] === 'number', 'iscrpljenih number');
+    assert(typeof body['prosjecnaPotrosenjaOst'] === 'number', 'prosjecnaPotrosenjaOst number');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
     assert(!Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp ISO');
+
+    const servisi = body['servisi'] as Array<Record<string, unknown>>;
+    assert(Array.isArray(servisi), 'servisi niz');
+    assert(servisi.length > 0, 'servisi nije prazan');
+    const apiGateway = servisi.find((s) => s['id'] === 'api-gateway');
+    assert(!!apiGateway, 'postoji api-gateway servis');
+    assert(typeof apiGateway['sloTarget'] === 'number', 'api-gateway sloTarget number');
+    assert(typeof apiGateway['potrosenoPct'] === 'number', 'api-gateway potrosenoPct number');
+    assert(typeof apiGateway['status'] === 'string', 'api-gateway status string');
+
+    assertEqual(
+      response.headers.get('Cache-Control'),
+      'public, s-maxage=300, stale-while-revalidate=1800',
+      'Cache-Control',
+    );
+    assertEqual(response.headers.get('X-App-Version'), APP_VERSION, 'X-App-Version');
+    assertEqual(
+      response.headers.get('X-Autofinish-Iteracija'),
+      String(AUTOFINISH_COUNT),
+      'X-Autofinish-Iteracija',
+    );
   });
 
   await test('Konstante su ažurirane', () => {
@@ -105,7 +107,6 @@ async function runTests(): Promise<void> {
     assertEqual(AUTOFINISH_COUNT, 1372, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1166, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1270, 'TOTAL_ROUTES');
-    assertEqual(TOTAL_PAGES, 62, 'TOTAL_PAGES');
     assertEqual(TOTAL_DIAGNOSTIKA, 2368, 'TOTAL_DIAGNOSTIKA');
   });
 
