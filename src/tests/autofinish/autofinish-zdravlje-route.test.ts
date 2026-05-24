@@ -1,11 +1,11 @@
-// Autofinish #1364 — Autofinish Top Iteracije Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-top-iteracije-route.test.ts
+// Autofinish #1365 — Autofinish Zdravlje Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-zdravlje-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/autofinish-top-iteracije/route';
-import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
+import { GET } from '../../app/api/autofinish-zdravlje/route';
+import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_DIAGNOSTIKA, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
 let failed = 0;
@@ -38,9 +38,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Top Iteracije — Route Coverage Test Suite (#1364)\n');
+  console.log('\n🏁 Autofinish Zdravlje — Route Coverage Test Suite (#1365)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-top-iteracije/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-zdravlje/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -48,59 +48,41 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(apiRouteSource.includes('getAutofinishTopIteracije'), 'Nedostaje getAutofinishTopIteracije');
+    assert(apiRouteSource.includes('getAutofinishHealthSummary'), 'Nedostaje getAutofinishHealthSummary');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
+    assert(apiRouteSource.includes('Retry-After'), 'Nedostaje Retry-After');
   });
 
-  await test('GET vraća 200 i payload za default n', async () => {
-    const request = new Request('http://localhost/api/autofinish-top-iteracije', {
-      headers: { 'x-forwarded-for': '127.0.0.64' },
+  await test('GET vraća 200, payload i heder-e', async () => {
+    const request = new Request('http://localhost/api/autofinish-zdravlje', {
+      headers: { 'x-forwarded-for': '127.0.0.68' },
     });
     const response = await GET(request as NextRequest);
-
     assertEqual(response.status, 200, 'status');
+
     const body = (await response.json()) as Record<string, unknown>;
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
     assertEqual(body['autofinishBroj'] as number, AUTOFINISH_COUNT, 'autofinishBroj');
-    assertEqual(body['n'] as number, 10, 'n default');
-    assert(Array.isArray(body['iteracije']), 'iteracije niz');
+    assert(typeof body['ukupnoProvera'] === 'number', 'ukupnoProvera number');
+    assert((body['ukupnoProvera'] as number) > 0, 'ukupnoProvera > 0');
+    assert(typeof body['zdravlje'] === 'number', 'zdravlje number');
+    assert(typeof body['uspesnih'] === 'number', 'uspesnih number');
+    assert(typeof body['status'] === 'string', 'status string');
+    assert(typeof body['timestamp'] === 'string', 'timestamp string');
+    assert(!Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp ISO');
+
+    assertEqual(
+      response.headers.get('Cache-Control'),
+      'public, s-maxage=30, stale-while-revalidate=60',
+      'Cache-Control',
+    );
     assertEqual(response.headers.get('X-App-Version'), APP_VERSION, 'X-App-Version');
-    assertEqual(response.headers.get('X-Autofinish-Iteracija'), String(AUTOFINISH_COUNT), 'X-Autofinish-Iteracija');
-  });
-
-  await test('GET vraća 200 i payload za n=5', async () => {
-    const request = new Request('http://localhost/api/autofinish-top-iteracije?n=5', {
-      headers: { 'x-forwarded-for': '127.0.0.65' },
-    });
-    const response = await GET(request as NextRequest);
-
-    assertEqual(response.status, 200, 'status');
-    const body = (await response.json()) as Record<string, unknown>;
-    assertEqual(body['n'] as number, 5, 'n');
-    assertEqual((body['iteracije'] as unknown[]).length, 5, 'iteracije.length');
-  });
-
-  await test('GET vraća 400 za n=0', async () => {
-    const request = new Request('http://localhost/api/autofinish-top-iteracije?n=0', {
-      headers: { 'x-forwarded-for': '127.0.0.66' },
-    });
-    const response = await GET(request as NextRequest);
-
-    assertEqual(response.status, 400, 'status');
-    const body = (await response.json()) as Record<string, unknown>;
-    assertEqual(body['error'] as string, 'INVALID_PARAMS', 'error');
-  });
-
-  await test('GET vraća 400 za n=201', async () => {
-    const request = new Request('http://localhost/api/autofinish-top-iteracije?n=201', {
-      headers: { 'x-forwarded-for': '127.0.0.67' },
-    });
-    const response = await GET(request as NextRequest);
-
-    assertEqual(response.status, 400, 'status');
-    const body = (await response.json()) as Record<string, unknown>;
-    assertEqual(body['error'] as string, 'N_PREVELIK', 'error');
+    assertEqual(
+      response.headers.get('X-Autofinish-Iteracija'),
+      String(AUTOFINISH_COUNT),
+      'X-Autofinish-Iteracija',
+    );
   });
 
   await test('Konstante su ažurirane', () => {
@@ -108,6 +90,7 @@ async function runTests(): Promise<void> {
     assertEqual(AUTOFINISH_COUNT, 1365, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1166, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1270, 'TOTAL_ROUTES');
+    assertEqual(TOTAL_DIAGNOSTIKA, 2368, 'TOTAL_DIAGNOSTIKA');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);

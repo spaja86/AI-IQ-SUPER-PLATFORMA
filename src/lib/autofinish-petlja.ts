@@ -7918,3 +7918,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Test: src/tests/autofinish/autofinish-top-iteracije-route.test.ts
 // Pokriveno: 200 default + n=5 + validacija grešaka (n=0, n=201) + response header-i.
 // APP_VERSION=59.34.0 | AUTOFINISH_COUNT=1364 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
+
+
+// ─── Autofinish #1365 — /API/AUTOFINISH-ZDRAVLJE ROUTE COVERAGE TEST ─────────
+// Dedicated route coverage test dodat za /api/autofinish-zdravlje.
+// Test: src/tests/autofinish/autofinish-zdravlje-route.test.ts
+// Pokriveno: 200 payload + Cache-Control + X-App-Version + X-Autofinish-Iteracija.
+// APP_VERSION=59.35.0 | AUTOFINISH_COUNT=1365 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
