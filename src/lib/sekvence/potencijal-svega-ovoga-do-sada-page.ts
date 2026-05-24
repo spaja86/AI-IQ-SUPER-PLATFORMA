@@ -7,6 +7,7 @@ import {
 import { KOMPANIJA, AUTOFINISH_COUNT, TOTAL_API_ROUTES } from '@/lib/constants';
 
 const potencijal = buildPotencijalSvegaOvogaDoSada();
+const MAX_DISPLAYED_LEVERAGE_FACTORS = 6;
 const domenNazivi: Record<string, string> = {
   ekosistem: '🌐 Ekosistem',
   infrastruktura: '🏗️ Infrastruktura',
@@ -96,7 +97,7 @@ export const potencijalSvegaOvogaDoSadaSekvence: Sekvenca[] = [
     naslov: '🚀 Najveći leverage faktori',
     redosled: 4,
     podaci: {
-      kartice: potencijal.unlockFaktori.slice(0, 6).map((faktor) => ({
+      kartice: potencijal.unlockFaktori.slice(0, MAX_DISPLAYED_LEVERAGE_FACTORS).map((faktor) => ({
         naslov: `${domenNazivi[faktor.domen] ?? faktor.domen} • +${faktor.expectedUplift}%`,
         opis: faktor.naslov,
         ikona: blokerIkona(faktor.klasa, faktor.prioritet),

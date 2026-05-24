@@ -146,6 +146,7 @@ interface PotencijalSnapshot {
 
 // Napomena: snapshot je procesno-lokalan (in-memory) i resetuje se pri cold startu.
 // U serverless okruženju trend može biti nepouzdan između invokacija.
+// Za pouzdan trend između invokacija koristiti eksterni storage (npr. Redis/baza).
 let previousSnapshot: PotencijalSnapshot | null = null;
 
 function clampScore(score: number): number {
