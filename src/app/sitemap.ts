@@ -126,6 +126,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/digitalni-vorteks',
     '/analiza-svega',
     '/api/analiza-svega',
+    '/potencijal-svega-ovoga-do-sada',
+    '/api/potencijal-svega-ovoga-do-sada',
     '/ai-iq-world-bank-procesiranje',
     '/api/ai-iq-world-bank-procesiranje',
     '/procesuiranje-svega',
