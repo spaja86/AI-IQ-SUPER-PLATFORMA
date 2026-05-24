@@ -1,10 +1,10 @@
-// Autofinish #1366 — Autofinish Deployment Pipeline Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-deployment-pipeline-route.test.ts
+// Autofinish #1367 — Autofinish Deployment Status Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-deployment-status-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/autofinish-deployment-pipeline/route';
+import { GET } from '../../app/api/autofinish-deployment-status/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_DIAGNOSTIKA, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -38,9 +38,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Deployment Pipeline — Route Coverage Test Suite (#1366)\n');
+  console.log('\n🏁 Autofinish Deployment Status — Route Coverage Test Suite (#1367)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-deployment-pipeline/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-deployment-status/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -48,15 +48,15 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(apiRouteSource.includes('getAutofinishDeploymentPipeline'), 'Nedostaje getAutofinishDeploymentPipeline');
+    assert(apiRouteSource.includes('getAutofinishDeploymentStatus'), 'Nedostaje getAutofinishDeploymentStatus');
     assert(apiRouteSource.includes('checkRateLimitGlobal'), 'Nedostaje checkRateLimitGlobal');
     assert(apiRouteSource.includes('X-Autofinish-Iteracija'), 'Nedostaje X-Autofinish-Iteracija header');
     assert(apiRouteSource.includes('Retry-After'), 'Nedostaje Retry-After');
   });
 
   await test('GET vraća 200, payload i heder-e', async () => {
-    const request = new Request('http://localhost/api/autofinish-deployment-pipeline', {
-      headers: { 'x-forwarded-for': '127.0.0.71' },
+    const request = new Request('http://localhost/api/autofinish-deployment-status', {
+      headers: { 'x-forwarded-for': '127.0.0.72' },
     });
     const response = await GET(request as NextRequest);
     assertEqual(response.status, 200, 'status');
@@ -64,32 +64,25 @@ async function runTests(): Promise<void> {
     const body = (await response.json()) as Record<string, unknown>;
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
     assertEqual(body['autofinishBroj'] as number, AUTOFINISH_COUNT, 'autofinishBroj');
-    assert(typeof body['ukupnoPipeline'] === 'number', 'ukupnoPipeline number');
+    assert(typeof body['ukupnoDeploymenata'] === 'number', 'ukupnoDeploymenata number');
     assert(typeof body['aktivnih'] === 'number', 'aktivnih number');
-    assert(typeof body['uspjesnih'] === 'number', 'uspjesnih number');
-    assert(typeof body['neuspjesnih'] === 'number', 'neuspjesnih number');
-    assert(typeof body['preskocenih'] === 'number', 'preskocenih number');
-    assert(typeof body['prosjecnoTrajanjeSekundi'] === 'number', 'prosjecnoTrajanjeSekundi number');
-    assert(Array.isArray(body['pipelines']), 'pipelines niz');
-    assertEqual((body['pipelines'] as unknown[]).length, body['ukupnoPipeline'] as number, 'pipelines.length');
+    assert(typeof body['degradovanih'] === 'number', 'degradovanih number');
+    assert(typeof body['prosjecnoZdravlje'] === 'number', 'prosjecnoZdravlje number');
+    assert(Array.isArray(body['deployments']), 'deployments niz');
+    assertEqual((body['deployments'] as unknown[]).length, body['ukupnoDeploymenata'] as number, 'deployments.length');
 
-    const firstPipeline = (body['pipelines'] as Record<string, unknown>[])[0];
-    assert(typeof firstPipeline['id'] === 'string', 'pipeline.id string');
-    assert(typeof firstPipeline['servis'] === 'string', 'pipeline.servis string');
-    assert(typeof firstPipeline['status'] === 'string', 'pipeline.status string');
-    assert(Array.isArray(firstPipeline['faze']), 'pipeline.faze niz');
-    assert((firstPipeline['faze'] as unknown[]).length > 0, 'pipeline.faze.length > 0');
-
-    const firstFaza = (firstPipeline['faze'] as Record<string, unknown>[])[0];
-    assert(typeof firstFaza['naziv'] === 'string', 'faza.naziv string');
-    assert(typeof firstFaza['status'] === 'string', 'faza.status string');
-    assert(typeof firstFaza['trajanjeSekundi'] === 'number', 'faza.trajanjeSekundi number');
+    const firstDeployment = (body['deployments'] as Record<string, unknown>[])[0];
+    assert(typeof firstDeployment['id'] === 'string', 'deployment.id string');
+    assert(typeof firstDeployment['okruzenje'] === 'string', 'deployment.okruzenje string');
+    assert(typeof firstDeployment['status'] === 'string', 'deployment.status string');
+    assert(typeof firstDeployment['zdravlje'] === 'number', 'deployment.zdravlje number');
+    assert(typeof firstDeployment['url'] === 'string', 'deployment.url string');
     assert(typeof body['timestamp'] === 'string', 'timestamp string');
     assert(!Number.isNaN(Date.parse(body['timestamp'] as string)), 'timestamp ISO');
 
     assertEqual(
       response.headers.get('Cache-Control'),
-      'public, s-maxage=30, stale-while-revalidate=60',
+      'public, s-maxage=30, stale-while-revalidate=120',
       'Cache-Control',
     );
     assertEqual(response.headers.get('X-App-Version'), APP_VERSION, 'X-App-Version');
