@@ -7953,3 +7953,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Test: src/tests/autofinish/autofinish-ekosistem-snapshot-route.test.ts
 // Pokriveno: 200 payload schema + response header-i + snapshot metrika.
 // APP_VERSION=59.39.0 | AUTOFINISH_COUNT=1369 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
+
+
+// ─── Autofinish #1370 — /API/AUTOFINISH-EKOSISTEM-ZDRAVLJE ROUTE COVERAGE ─────
+// Dedicated route coverage test dodat za /api/autofinish-ekosistem-zdravlje.
+// Test: src/tests/autofinish/autofinish-ekosistem-zdravlje-route.test.ts
+// Pokriveno: 200 payload schema + zdravlje/progres/ekosistem sekcije.
+// APP_VERSION=59.40.0 | AUTOFINISH_COUNT=1370 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62

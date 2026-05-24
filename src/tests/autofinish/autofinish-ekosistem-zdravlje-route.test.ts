@@ -1,9 +1,9 @@
-// Autofinish #1368 — Autofinish Ekosistem Monitor Route Coverage Test
-// Pokretanje: npx tsx src/tests/autofinish/autofinish-ekosistem-monitor-route.test.ts
+// Autofinish #1370 — Autofinish Ekosistem Zdravlje Route Coverage Test
+// Pokretanje: npx tsx src/tests/autofinish/autofinish-ekosistem-zdravlje-route.test.ts
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/autofinish-ekosistem-monitor/route';
+import { GET } from '../../app/api/autofinish-ekosistem-zdravlje/route';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -44,9 +44,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 Autofinish Ekosistem Monitor — Route Coverage Test Suite (#1368)\n');
+  console.log('\n🏁 Autofinish Ekosistem Zdravlje — Route Coverage Test Suite (#1370)\n');
 
-  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-ekosistem-monitor/route.ts');
+  const apiRoutePath = path.resolve(process.cwd(), 'src/app/api/autofinish-ekosistem-zdravlje/route.ts');
   const apiRouteSource = fs.readFileSync(apiRoutePath, 'utf8');
 
   await test('API route fajl postoji', () => {
@@ -54,9 +54,12 @@ async function runTests(): Promise<void> {
   });
 
   await test('API ruta koristi očekivane gradivne blokove', () => {
-    assert(apiRouteSource.includes('AUTOFINISH-EKOSISTEM-MONITOR v1.0'), 'Nedostaje monitor model');
+    assert(
+      apiRouteSource.includes('AUTOFINISH-EKOSISTEM-ZDRAVLJE v1.0'),
+      'Nedostaje zdravlje model',
+    );
     assert(apiRouteSource.includes('procenat.toExponential(2)'), 'Nedostaje procenat formula');
-    assert(apiRouteSource.includes('monitorProvere'), 'Nedostaje monitorProvere niz');
+    assert(apiRouteSource.includes('zdravljeProvere'), 'Nedostaje zdravljeProvere niz');
   });
 
   await test('GET vraća 200, payload i ključne sekcije', async () => {
@@ -68,17 +71,17 @@ async function runTests(): Promise<void> {
     assertEqual(body['verzija'] as string, APP_VERSION, 'verzija');
     assert(typeof body['naziv'] === 'string', 'naziv string');
 
-    const ekosistemMonitor = body['ekosistemMonitor'] as Record<string, unknown>;
-    assertEqual(ekosistemMonitor['sveUspesne'] as boolean, true, 'ekosistemMonitor.sveUspesne');
+    const zdravlje = body['zdravlje'] as Record<string, unknown>;
+    assertEqual(zdravlje['sveUspesne'] as boolean, true, 'zdravlje.sveUspesne');
     assertEqual(
-      ekosistemMonitor['model'] as string,
-      'AUTOFINISH-EKOSISTEM-MONITOR v1.0',
-      'ekosistemMonitor.model',
+      zdravlje['model'] as string,
+      'AUTOFINISH-EKOSISTEM-ZDRAVLJE v1.0',
+      'zdravlje.model',
     );
-    assertEqual(ekosistemMonitor['ukupnoProvera'] as number, 4, 'ekosistemMonitor.ukupnoProvera');
-    const provere = ekosistemMonitor['provere'] as Array<Record<string, unknown>>;
+    assertEqual(zdravlje['ukupnoProvera'] as number, 6, 'zdravlje.ukupnoProvera');
+    const provere = zdravlje['provere'] as Array<Record<string, unknown>>;
     assert(Array.isArray(provere), 'provere niz');
-    assertEqual(provere.length, 4, 'provere.length');
+    assertEqual(provere.length, 6, 'provere.length');
     for (const provera of provere) {
       assert(typeof provera['naziv'] === 'string', 'provera.naziv string');
       assert(typeof provera['tip'] === 'string', 'provera.tip string');
