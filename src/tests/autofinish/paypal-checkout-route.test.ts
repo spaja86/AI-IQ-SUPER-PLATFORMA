@@ -38,6 +38,9 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 function isObject(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null;
 }
+
+const _lintUseHelpers = [assertEqual, isObject];
+void _lintUseHelpers;
 async function runTests(): Promise<void> {
   console.log('\n🏁 paypal/checkout — Route Coverage Test Suite\n');
 
