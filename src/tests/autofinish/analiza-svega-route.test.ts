@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/analiza-svega/route';
+import { ANALIZA_SVEGA_RATE_LIMIT, GET } from '../../app/api/analiza-svega/route';
 import { scoreToAnalizaOcena } from '../../lib/analiza-svega';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_PAGES, TOTAL_ROUTES } from '../../lib/constants';
 
@@ -89,6 +89,8 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(data['preporukeDetaljno']), 'preporukeDetaljno niz');
     assert(Array.isArray(data['kriticniDomeni']), 'kriticniDomeni niz');
     assert(typeof data['trend'] === 'object' && data['trend'] !== null, 'trend objekat');
+    const trend = data['trend'] as Record<string, unknown>;
+    assert(typeof trend['reliable'] === 'boolean', 'trend.reliable boolean');
     assert(typeof data['meta'] === 'object' && data['meta'] !== null, 'meta objekat');
     const meta = data['meta'] as Record<string, unknown>;
     assertEqual(meta['contractVersion'] as string, 'v2', 'meta.contractVersion');
@@ -149,20 +151,27 @@ async function runTests(): Promise<void> {
 
   await test('Rate limit vraća 429 nakon prekoračenja limita', async () => {
     const ip = '127.0.0.99';
-    let poslednjiStatus = 0;
-    for (let i = 0; i < 61; i++) {
+    const statusi: number[] = [];
+    for (let i = 0; i < ANALIZA_SVEGA_RATE_LIMIT + 1; i++) {
       const req = new Request('http://localhost/api/analiza-svega', {
         headers: { 'x-forwarded-for': ip },
       });
       const res = await GET(req as NextRequest);
-      poslednjiStatus = res.status;
+      statusi.push(res.status);
     }
-    assertEqual(poslednjiStatus, 429, 'poslednji status nakon 61 zahteva');
+    for (let i = 0; i < ANALIZA_SVEGA_RATE_LIMIT; i++) {
+      assertEqual(statusi[i], 200, `status zahtev #${i + 1}`);
+    }
+    assertEqual(statusi[ANALIZA_SVEGA_RATE_LIMIT], 429, `status zahtev #${ANALIZA_SVEGA_RATE_LIMIT + 1}`);
   });
 
   await test('Konstante imaju validne granice', () => {
+    const MIN_AUTOFINISH_COUNT_FOR_ANALIZA_SVEGA = 1360;
     assert(typeof APP_VERSION === 'string' && APP_VERSION.length > 0, 'APP_VERSION string');
-    assert(AUTOFINISH_COUNT >= 1360, 'AUTOFINISH_COUNT >= 1360');
+    assert(
+      AUTOFINISH_COUNT >= MIN_AUTOFINISH_COUNT_FOR_ANALIZA_SVEGA,
+      `AUTOFINISH_COUNT >= ${MIN_AUTOFINISH_COUNT_FOR_ANALIZA_SVEGA}`,
+    );
     assert(TOTAL_API_ROUTES > 0, 'TOTAL_API_ROUTES > 0');
     assert(TOTAL_ROUTES >= TOTAL_API_ROUTES, 'TOTAL_ROUTES >= TOTAL_API_ROUTES');
     assert(TOTAL_PAGES > 0, 'TOTAL_PAGES > 0');

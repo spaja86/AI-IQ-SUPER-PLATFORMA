@@ -49,6 +49,31 @@ export const ANALIZA_DOMAIN_WEIGHTS = {
 
 type AnalizaDomenKljuc = keyof typeof ANALIZA_DOMAIN_WEIGHTS;
 
+const ANALIZA_CONFIDENCE_VARIANCE = {
+  odlicno: 8,
+  spremno: 5,
+  delimicno: 2,
+  potrebnoPoboljsanje: 0,
+} as const;
+
+const ANALIZA_SIGNAL_VALUES = {
+  COMPLIANCE_READY: 100,
+  COMPLIANCE_IN_PROGRESS: 65,
+  READINESS_READY: 100,
+  READINESS_NOT_READY: 55,
+} as const;
+
+const ANALIZA_PREPORUKA_PRIORITET_RANK = {
+  visok: 0,
+  srednji: 1,
+  nizak: 2,
+} as const;
+const ANALIZA_DOMAIN_WEIGHT_SUM = Object.values(ANALIZA_DOMAIN_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
+// Fail-fast zaštita: neispravna konfiguracija težina mora oboriti proces odmah.
+if (Math.abs(ANALIZA_DOMAIN_WEIGHT_SUM - 1) > 0.0001) {
+  throw new Error(`ANALIZA_DOMAIN_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${ANALIZA_DOMAIN_WEIGHT_SUM})`);
+}
+
 export interface AnalizaDomen {
   naziv: string;
   ocena: AnalizaOcena;
@@ -82,7 +107,7 @@ export interface AnalizaTrend {
   deltaScore: number;
   previousScore: number | null;
   currentScore: number;
-  kriticniDomeni: string[];
+  reliable: boolean;
 }
 
 export interface AnalizaSvega {
@@ -124,10 +149,13 @@ interface AnalizaSnapshot {
   timestamp: string;
 }
 
+// Napomena: snapshot je procesno-lokalan (in-memory) i resetuje se pri cold startu.
+// U serverless okruženju to znači da trend delta može biti nepouzdana između invokacija.
 let previousAnalizaSnapshot: AnalizaSnapshot | null = null;
 
 function clampScore(score: number): number {
-  return Math.max(0, Math.min(100, Math.round(score)));
+  const clamped = Math.max(0, Math.min(100, score));
+  return Math.round(clamped);
 }
 
 export function scoreToAnalizaOcena(score: number): AnalizaOcena {
@@ -139,7 +167,13 @@ export function scoreToAnalizaOcena(score: number): AnalizaOcena {
 
 function domenConfidence(score: number, degraded: boolean): number {
   const base = degraded ? 60 : 88;
-  const variance = score >= 90 ? 8 : score >= 75 ? 5 : score >= 50 ? 2 : 0;
+  const variance = score >= 90
+    ? ANALIZA_CONFIDENCE_VARIANCE.odlicno
+    : score >= 75
+      ? ANALIZA_CONFIDENCE_VARIANCE.spremno
+      : score >= 50
+        ? ANALIZA_CONFIDENCE_VARIANCE.delimicno
+        : ANALIZA_CONFIDENCE_VARIANCE.potrebnoPoboljsanje;
   return clampScore(base + variance);
 }
 
@@ -162,6 +196,8 @@ function safeCall<T>(sourceName: string, degradedSources: string[], fn: () => T)
 /**
  * Gradi kompletnu analizu celokupnog ekosistema.
  * Koristi se i u /api/analiza-svega i u sekvence stranici.
+ * Napomena: trend polja (`deltaScore`, `direction`) koriste in-memory snapshot i
+ * u serverless okruženju mogu biti resetovana pri cold startu.
  */
 export function buildAnalizaSvega(): AnalizaSvega {
   const degradedSources: string[] = [];
@@ -194,8 +230,12 @@ export function buildAnalizaSvega(): AnalizaSvega {
   const opsReady = operativaSpremnost?.modelStanja?.ops === 'ops-ready';
   const enterpriseMode = operativaSpremnost?.modelStanja?.enterprise ?? 'enterprise-in-progress';
   const acceptanceCriteriaIspunjeni = runtimeReady && opsReady;
-  const complianceSignal = enterpriseMode === 'enterprise-ready' ? 100 : 65;
-  const readinessSignal = acceptanceCriteriaIspunjeni ? 100 : 55;
+  const complianceSignal = enterpriseMode === 'enterprise-ready'
+    ? ANALIZA_SIGNAL_VALUES.COMPLIANCE_READY
+    : ANALIZA_SIGNAL_VALUES.COMPLIANCE_IN_PROGRESS;
+  const readinessSignal = acceptanceCriteriaIspunjeni
+    ? ANALIZA_SIGNAL_VALUES.READINESS_READY
+    : ANALIZA_SIGNAL_VALUES.READINESS_NOT_READY;
   const autofinishStatus = autofinishSummary?.status ?? 'nepoznat';
   const autofinishHealth = autofinishZdravlje?.zdravlje ?? 0;
   const autofinishUkupnoProvera = autofinishZdravlje?.ukupnoProvera ?? 0;
@@ -503,8 +543,12 @@ export function buildAnalizaSvega(): AnalizaSvega {
     domeni: ['finansije'],
   });
 
-  const prioritetRank = { visok: 0, srednji: 1, nizak: 2 };
-  preporukeDetaljno.sort((a, b) => prioritetRank[a.prioritet] - prioritetRank[b.prioritet]);
+  preporukeDetaljno.sort((a, b) => {
+    if (a.klasa !== b.klasa) {
+      return a.klasa === 'blocking' ? -1 : 1;
+    }
+    return ANALIZA_PREPORUKA_PRIORITET_RANK[a.prioritet] - ANALIZA_PREPORUKA_PRIORITET_RANK[b.prioritet];
+  });
   const preporuke = preporukeDetaljno.map((p) => p.poruka);
 
   return {
@@ -524,7 +568,7 @@ export function buildAnalizaSvega(): AnalizaSvega {
       deltaScore,
       previousScore,
       currentScore: ukupanScore,
-      kriticniDomeni,
+      reliable: previousScore !== null,
     },
     meta: {
       contractVersion: ANALIZA_CONTRACT_VERSION,

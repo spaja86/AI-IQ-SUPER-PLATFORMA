@@ -1,5 +1,5 @@
 import type { Sekvenca } from '@/lib/types';
-import { buildAnalizaSvega } from '@/lib/analiza-svega';
+import { buildAnalizaSvega, type AnalizaPreporuka, type AnalizaTrendDirection } from '@/lib/analiza-svega';
 import { KOMPANIJA, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_PAGES } from '@/lib/constants';
 
 const analiza = buildAnalizaSvega();
@@ -12,6 +12,27 @@ const domenNazivi: Record<string, string> = {
   autofinish: '♻️ Autofinish',
   protokoli: '📋 Protokoli',
 };
+
+function trendIkona(direction: AnalizaTrendDirection): string {
+  switch (direction) {
+    case 'up':
+      return '🟢';
+    case 'down':
+      return '🔴';
+    default:
+      return '🟡';
+  }
+}
+
+function preporukaIkona(klasa: AnalizaPreporuka['klasa'], prioritet: AnalizaPreporuka['prioritet']): string {
+  if (klasa === 'blocking') return '🚨';
+  if (prioritet === 'visok') return '⚠️';
+  return 'ℹ️';
+}
+
+function formatPreviousScore(score: number | null): string {
+  return score === null ? 'N/A' : `${score}%`;
+}
 
 export const analizaSvegaSekvence: Sekvenca[] = [
   {
@@ -256,12 +277,7 @@ export const analizaSvegaSekvence: Sekvenca[] = [
     redosled: 8,
     podaci: {
       stavke: analiza.preporukeDetaljno.map((preporuka) => ({
-        ikona:
-          preporuka.klasa === 'blocking'
-            ? '🚨'
-            : preporuka.prioritet === 'visok'
-              ? '⚠️'
-              : 'ℹ️',
+        ikona: preporukaIkona(preporuka.klasa, preporuka.prioritet),
         naslov: preporuka.poruka,
         opis: `${preporuka.klasa.toUpperCase()} • prioritet ${preporuka.prioritet} • domeni: ${preporuka.domeni.join(', ')}`,
       })),
@@ -277,12 +293,12 @@ export const analizaSvegaSekvence: Sekvenca[] = [
         {
           naslov: `Trend: ${analiza.trend.direction}`,
           opis: `Promena skora: ${analiza.trend.deltaScore >= 0 ? '+' : ''}${analiza.trend.deltaScore}%`,
-          ikona: analiza.trend.direction === 'up' ? '🟢' : analiza.trend.direction === 'down' ? '🔴' : '🟡',
+          ikona: trendIkona(analiza.trend.direction),
           oznake: ['trend'],
         },
         {
-          naslov: `Prethodni score: ${analiza.trend.previousScore ?? 'N/A'}%`,
-          opis: `Trenutni score: ${analiza.trend.currentScore}%`,
+          naslov: `Prethodni score: ${formatPreviousScore(analiza.trend.previousScore)}`,
+          opis: `Trenutni score: ${analiza.trend.currentScore}% • pouzdanost trenda: ${analiza.trend.reliable ? 'visoka' : 'ograničena'}`,
           ikona: '🧮',
           oznake: ['history'],
         },
