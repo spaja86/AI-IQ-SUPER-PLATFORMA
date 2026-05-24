@@ -7998,3 +7998,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Feature flag: brouvzer-inkognito-mode (strategy: enabled).
 // Testovi: src/tests/brouvzer/inkognito-mode.test.ts — 13 testova, svi prolaze.
 // APP_VERSION=59.45.0 | AUTOFINISH_COUNT=1375 | TOTAL_API_ROUTES=1195 | TOTAL_ROUTES=1320 | TOTAL_PAGES=125
+
+
+// ─── Autofinish #1376 — GET /API/BROUVZER-INKOGNITO-STATUS ────────────────────
+// Novi API endpoint: GET /api/brouvzer-inkognito-status.
+// Prijavljuje dostupnost inkognito mogućnosti (metapodatak) — dostupno, label, opis,
+// modulVerzija, mogucnosti, featureFlag, pravilaPrivatnosti (istorija=false, bookmarkovi=false, auth=true).
+// Cache-Control: public, s-maxage=60 | X-App-Version header.
+// Test: src/tests/autofinish/brouvzer-inkognito-status-route.test.ts — 15 testova, svi prolaze.
+// APP_VERSION=59.46.0 | AUTOFINISH_COUNT=1376 | TOTAL_API_ROUTES=1196 | TOTAL_ROUTES=1321 | TOTAL_PAGES=125
