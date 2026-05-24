@@ -7982,3 +7982,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Kreirani coverage testovi za sve preostale API rute u src/tests/autofinish/*-route.test.ts.
 // Finalni status: Sve 1195 ruta pokrivene coverage testovima.
 // APP_VERSION=59.43.0 | AUTOFINISH_COUNT=1373 | TOTAL_API_ROUTES=1195 | TOTAL_ROUTES=1320 | TOTAL_PAGES=125
+
+// ─── Autofinish #1374 — VALIDACIJA PUNE API ROUTE POKRIVENOSTI ─────────────────
+// Potvrđeno: routes:generate-tests --dry-run prijavljuje missingTests=0 i generated=0.
+// Status: Zadržana puna pokrivenost 1195/1195 API ruta bez novih rupa u coverage-u.
+// APP_VERSION=59.44.0 | AUTOFINISH_COUNT=1374 | TOTAL_API_ROUTES=1195 | TOTAL_ROUTES=1320 | TOTAL_PAGES=125
