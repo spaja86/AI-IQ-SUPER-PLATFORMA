@@ -7946,3 +7946,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Test: src/tests/autofinish/autofinish-ekosistem-monitor-route.test.ts
 // Pokriveno: 200 payload schema + monitor/progres/ekosistem sekcije.
 // APP_VERSION=59.38.0 | AUTOFINISH_COUNT=1368 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
+
+
+// ─── Autofinish #1369 — /API/AUTOFINISH-EKOSISTEM-SNAPSHOT ROUTE COVERAGE ─────
+// Dedicated route coverage test dodat za /api/autofinish-ekosistem-snapshot.
+// Test: src/tests/autofinish/autofinish-ekosistem-snapshot-route.test.ts
+// Pokriveno: 200 payload schema + response header-i + snapshot metrika.
+// APP_VERSION=59.39.0 | AUTOFINISH_COUNT=1369 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62

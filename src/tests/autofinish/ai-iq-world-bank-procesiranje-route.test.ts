@@ -165,8 +165,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.38.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1368, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.39.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1369, 'AUTOFINISH_COUNT');
     assertEqual(TOTAL_API_ROUTES, 1166, 'TOTAL_API_ROUTES');
     assertEqual(TOTAL_ROUTES, 1270, 'TOTAL_ROUTES');
     assertEqual(TOTAL_PAGES, 62, 'TOTAL_PAGES');
