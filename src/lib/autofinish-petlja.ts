@@ -7960,3 +7960,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Test: src/tests/autofinish/autofinish-ekosistem-zdravlje-route.test.ts
 // Pokriveno: 200 payload schema + zdravlje/progres/ekosistem sekcije.
 // APP_VERSION=59.40.0 | AUTOFINISH_COUNT=1370 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
+
+
+// ─── Autofinish #1371 — /API/AUTOFINISH-ENDPOINT-INVENTAR ROUTE COVERAGE ─────
+// Dedicated route coverage test dodat za /api/autofinish-endpoint-inventar.
+// Test: src/tests/autofinish/autofinish-endpoint-inventar-route.test.ts
+// Pokriveno: 200 payload schema + inventar/progres/ekosistem sekcije.
+// APP_VERSION=59.41.0 | AUTOFINISH_COUNT=1371 | TOTAL_API_ROUTES=1166 | TOTAL_ROUTES=1270 | TOTAL_PAGES=62
