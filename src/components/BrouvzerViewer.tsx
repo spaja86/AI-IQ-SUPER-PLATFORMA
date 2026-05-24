@@ -5,6 +5,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { getKompjuterStatistika, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB, KOMPJUTER_VRAM_GB } from '@/lib/spaja-digitalni-kompjuter';
 import { igrice } from '@/lib/igrice';
+import { INKOGNITO_OPIS, shouldWriteToStorage, getInkognitoButtonClass } from '@/lib/brouvzer-inkognito';
 
 const ProzorViewer = dynamic(() => import('./ProzorViewer'), { ssr: false });
 
@@ -211,6 +212,9 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
 
+  // ── Inkognito mod ──
+  const [isInkognito, setIsInkognito] = useState(false);
+
   const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
 
   // ── Tab operacije ──
@@ -275,13 +279,14 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
 
   const toggleBookmark = useCallback((tabUrl: string, naziv: string) => {
     if (!tabUrl) return;
+    if (!shouldWriteToStorage(isInkognito)) return; // Inkognito — ne čuvaj bookmarkove
     const exists = bookmarks.some((b) => b.url === tabUrl);
     saveBookmarks(
       exists
         ? bookmarks.filter((b) => b.url !== tabUrl)
         : [{ url: tabUrl, naziv, vreme: new Date().toISOString() }, ...bookmarks],
     );
-  }, [bookmarks, saveBookmarks]);
+  }, [bookmarks, saveBookmarks, isInkognito]);
 
   // ── History operacije ──
 
@@ -292,13 +297,20 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
 
   const addToHistory = useCallback((tabUrl: string, naziv: string) => {
     if (!tabUrl) return;
+    if (!shouldWriteToStorage(isInkognito)) return; // Inkognito — ne čuvaj istoriju
     const entry: HistoryEntry = { url: tabUrl, naziv, vreme: new Date().toISOString() };
     saveHistory([entry, ...history.filter((h) => h.url !== tabUrl)].slice(0, MAX_HISTORY));
-  }, [history, saveHistory]);
+  }, [history, saveHistory, isInkognito]);
 
   const clearHistory = useCallback(() => {
     saveHistory([]);
   }, [saveHistory]);
+
+  const handleToggleInkognito = useCallback(() => {
+    setIsInkognito((v) => !v);
+    setShowBookmarks(false);
+    setShowHistory(false);
+  }, []);
 
   // ── Navigacija (navigate + back + forward) ──
 
@@ -391,6 +403,12 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         addTab();
         return;
       }
+      // Ctrl+Shift+N → inkognito mod
+      if (e.ctrlKey && e.shiftKey && (e.key === 'N' || e.key === 'n')) {
+        e.preventDefault();
+        handleToggleInkognito();
+        return;
+      }
       // Ctrl+W → zatvori aktivan tab
       if (e.ctrlKey && e.key === 'w') {
         e.preventDefault();
@@ -435,7 +453,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
     }
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [addTab, closeTab, activeTabId, handleReload, handleBack, handleForward]);
+  }, [addTab, closeTab, activeTabId, handleReload, handleBack, handleForward, handleToggleInkognito]);
 
   // ── Sinhronizuj input vrednost sa aktivnim tabom ──
 
@@ -480,7 +498,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
   // ─── Prazan tab (novi tab home ekran) ─────────────────────────────
   if (!activeTab.url && !activeTab.isIgra) {
     return (
-      <div className="flex h-screen flex-col bg-gray-950">
+      <div className={`flex h-screen flex-col ${isInkognito ? 'bg-[#1a1025]' : 'bg-gray-950'}`}>
         {/* Tab bar */}
         <TabBar
           tabs={tabs}
@@ -499,11 +517,20 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           dragTabId={dragTabId}
           onDragTabId={setDragTabId}
         />
+        {/* Inkognito baner */}
+        {isInkognito && (
+          <div className="flex shrink-0 items-center gap-2 border-b border-purple-800/40 bg-purple-950/40 px-4 py-1.5 text-xs text-purple-300">
+            <span>🕵️</span>
+            <span>{INKOGNITO_OPIS}</span>
+          </div>
+        )}
         <div className="flex flex-1 flex-col items-center justify-start gap-6 overflow-y-auto px-4 py-10 text-center">
           {/* Branding */}
-          <div className="text-5xl">🌐</div>
-          <h2 className="text-2xl font-bold text-white">SPAJA Digitalni Brouvzer</h2>
-          <p className="text-sm text-gray-400">v2.0.0 — EKSTREMNI</p>
+          <div className="text-5xl">{isInkognito ? '🕵️' : '🌐'}</div>
+          <h2 className="text-2xl font-bold text-white">
+            {isInkognito ? 'SPAJA Inkognito Brouvzer' : 'SPAJA Digitalni Brouvzer'}
+          </h2>
+          <p className="text-sm text-gray-400">{isInkognito ? '🔒 Privatna sesija' : 'v2.0.0 — EKSTREMNI'}</p>
 
           {/* URL input polje */}
           <div className="w-full max-w-lg">
@@ -511,7 +538,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
               ref={newTabInputRef}
               type="text"
               placeholder="Unesi URL ili pretraži... (npr. google.com)"
-              className="w-full rounded-xl border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+              className={`w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:ring-2 ${isInkognito ? 'border-purple-700 bg-purple-950/30 focus:border-purple-500 focus:ring-purple-500/30' : 'border-gray-700 bg-gray-800 focus:border-blue-500 focus:ring-blue-500/30'}`}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   const val = (e.currentTarget.value).trim();
@@ -527,7 +554,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/spaja-digitalni-brouvzer"
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-500"
+              className={`rounded-lg px-4 py-2 text-sm font-medium text-white transition ${isInkognito ? 'bg-purple-700 hover:bg-purple-600' : 'bg-blue-600 hover:bg-blue-500'}`}
             >
               🎮 Lista Igrica
             </Link>
@@ -545,48 +572,67 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
             </Link>
           </div>
 
-          {/* Svi bookmarkovi */}
-          {bookmarks.length > 0 && (
-            <div className="w-full max-w-lg">
-              <p className="mb-2 text-xs font-semibold text-gray-500">⭐ Bookmarkovi ({bookmarks.length})</p>
-              <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-                {bookmarks.map((b) => (
-                  <button
-                    key={b.url}
-                    type="button"
-                    onClick={() => {
-                      handleNavigate(activeTab.id, b.url);
-                    }}
-                    className="truncate rounded-lg bg-gray-800 px-3 py-2 text-left text-sm text-blue-400 transition hover:bg-gray-700"
-                  >
-                    ⭐ {b.naziv}
-                  </button>
-                ))}
-              </div>
+          {/* Inkognito info ili bookmarkovi/istorija */}
+          {isInkognito ? (
+            <div className="w-full max-w-lg rounded-xl border border-purple-800/40 bg-purple-950/20 p-5 text-left">
+              <p className="mb-3 text-sm font-semibold text-purple-300">🕵️ Šta inkognito mod obuhvata:</p>
+              <ul className="space-y-1 text-xs text-purple-200/80">
+                <li>✅ Istorija pregledanja se NE čuva</li>
+                <li>✅ Bookmarkovi se NE čuvaju</li>
+                <li>✅ Podaci nestaju kada zatvorite tab/brouvzer</li>
+                <li>⚠️ Autentifikacija ostaje aktivna</li>
+                <li>⚠️ Sandbox politika iframes-a ostaje ista</li>
+              </ul>
+              <p className="mt-3 text-xs text-purple-400">
+                Isključi inkognito: klikni 🕵️ u toolbar-u ili pritisni Ctrl+Shift+N
+              </p>
             </div>
-          )}
+          ) : (
+            <>
+              {/* Svi bookmarkovi */}
+              {bookmarks.length > 0 && (
+                <div className="w-full max-w-lg">
+                  <p className="mb-2 text-xs font-semibold text-gray-500">⭐ Bookmarkovi ({bookmarks.length})</p>
+                  <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                    {bookmarks.map((b) => (
+                      <button
+                        key={b.url}
+                        type="button"
+                        onClick={() => {
+                          handleNavigate(activeTab.id, b.url);
+                        }}
+                        className="truncate rounded-lg bg-gray-800 px-3 py-2 text-left text-sm text-blue-400 transition hover:bg-gray-700"
+                      >
+                        ⭐ {b.naziv}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* Poslednjih 10 iz istorije */}
-          {history.length > 0 && (
-            <div className="w-full max-w-lg">
-              <p className="mb-2 text-xs font-semibold text-gray-500">🕐 Nedavno ({Math.min(history.length, 10)})</p>
-              <div className="flex flex-col gap-1">
-                {history.slice(0, 10).map((h, i) => (
-                  <button
-                    key={`${h.url}-${i}`}
-                    type="button"
-                    onClick={() => {
-                      handleNavigate(activeTab.id, h.url);
-                    }}
-                    className="flex items-center gap-2 rounded-lg bg-gray-900 px-3 py-2 text-left text-sm transition hover:bg-gray-800"
-                  >
-                    <span className="shrink-0 text-gray-500">🕐</span>
-                    <span className="truncate text-gray-300">{h.naziv}</span>
-                    <span className="ml-auto shrink-0 truncate text-xs text-gray-600">{h.url.replace(/^https?:\/\//, '')}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+              {/* Poslednjih 10 iz istorije */}
+              {history.length > 0 && (
+                <div className="w-full max-w-lg">
+                  <p className="mb-2 text-xs font-semibold text-gray-500">🕐 Nedavno ({Math.min(history.length, 10)})</p>
+                  <div className="flex flex-col gap-1">
+                    {history.slice(0, 10).map((h, i) => (
+                      <button
+                        key={`${h.url}-${i}`}
+                        type="button"
+                        onClick={() => {
+                          handleNavigate(activeTab.id, h.url);
+                        }}
+                        className="flex items-center gap-2 rounded-lg bg-gray-900 px-3 py-2 text-left text-sm transition hover:bg-gray-800"
+                      >
+                        <span className="shrink-0 text-gray-500">🕐</span>
+                        <span className="truncate text-gray-300">{h.naziv}</span>
+                        <span className="ml-auto shrink-0 truncate text-xs text-gray-600">{h.url.replace(/^https?:\/\//, '')}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -751,8 +797,23 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         </div>
       )}
 
+      {/* ── Inkognito baner ── */}
+      {isInkognito && (
+        <div className="flex shrink-0 items-center gap-2 border-b border-purple-800/40 bg-purple-950/30 px-3 py-1 text-xs text-purple-300">
+          <span>🕵️</span>
+          <span className="flex-1">Inkognito mod aktivan — istorija i bookmarkovi se ne čuvaju</span>
+          <button
+            onClick={handleToggleInkognito}
+            className="shrink-0 text-purple-400 hover:text-purple-200"
+            aria-label="Isključi inkognito mod"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* ── Header ── */}
-      <div className="flex shrink-0 items-center gap-1.5 border-b border-gray-800 bg-gray-900 px-2 py-1.5">
+      <div className={`flex shrink-0 items-center gap-1.5 border-b px-2 py-1.5 ${isInkognito ? 'border-purple-800/40 bg-[#1a1025]' : 'border-gray-800 bg-gray-900'}`}>
         {/* Back dugme */}
         <button
           onClick={handleBack}
@@ -786,7 +847,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         </button>
 
         {/* Editabilna adresna traka */}
-        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-1 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500/30">
+        <div className={`flex min-w-0 flex-1 items-center gap-2 rounded-lg border px-3 py-1 ${isInkognito ? 'border-purple-700/50 bg-purple-950/30 focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500/30' : 'border-gray-700 bg-gray-800 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500/30'}`}>
           <span className="shrink-0 text-xs text-green-400" aria-hidden>🔒</span>
           <input
             ref={addressBarRef}
@@ -814,29 +875,34 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
             spellCheck={false}
             autoComplete="off"
           />
+          {isInkognito && <span className="shrink-0 text-xs text-purple-400" aria-hidden title="Inkognito mod">🕵️</span>}
         </div>
 
-        {/* Bookmark dugme */}
+        {/* Bookmark dugme — onemogućen u inkognito modu */}
         <button
           onClick={() => toggleBookmark(activeTab.url, urlToTitle(activeTab.url, activeTab.igra))}
-          className={`rounded-lg p-1.5 transition hover:bg-gray-800 ${isBookmarked(activeTab.url) ? 'text-yellow-400' : 'text-gray-400 hover:text-white'}`}
-          title={isBookmarked(activeTab.url) ? 'Ukloni bookmark' : 'Dodaj bookmark (⭐)'}
+          disabled={isInkognito}
+          className={`rounded-lg p-1.5 transition ${isInkognito ? 'cursor-not-allowed text-gray-700' : `hover:bg-gray-800 ${isBookmarked(activeTab.url) ? 'text-yellow-400' : 'text-gray-400 hover:text-white'}`}`}
+          title={isInkognito ? 'Bookmarkovi nisu dostupni u inkognito modu' : (isBookmarked(activeTab.url) ? 'Ukloni bookmark' : 'Dodaj bookmark (⭐)')}
           aria-label="Bookmark"
+          aria-disabled={isInkognito}
         >
           ⭐
         </button>
 
-        {/* Bookmarks panel dugme */}
+        {/* Bookmarks panel dugme — onemogućen u inkognito modu */}
         <div className="relative">
           <button
-            onClick={() => { setShowBookmarks((v) => !v); setShowHistory(false); }}
-            className={`rounded-lg p-1.5 transition hover:bg-gray-800 ${showBookmarks ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-white'}`}
-            title="Bookmarkovi"
+            onClick={() => { if (!isInkognito) { setShowBookmarks((v) => !v); setShowHistory(false); } }}
+            disabled={isInkognito}
+            className={`rounded-lg p-1.5 transition ${isInkognito ? 'cursor-not-allowed text-gray-700' : `hover:bg-gray-800 ${showBookmarks ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-white'}`}`}
+            title={isInkognito ? 'Bookmarkovi nisu dostupni u inkognito modu' : 'Bookmarkovi'}
             aria-label="Bookmarkovi"
+            aria-disabled={isInkognito}
           >
             📚
           </button>
-          {showBookmarks && (
+          {showBookmarks && !isInkognito && (
             <BookmarkPanel
               bookmarks={bookmarks}
               onRemove={(bUrl) => saveBookmarks(bookmarks.filter((b) => b.url !== bUrl))}
@@ -849,17 +915,19 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           )}
         </div>
 
-        {/* History panel dugme */}
+        {/* History panel dugme — onemogućen u inkognito modu */}
         <div className="relative">
           <button
-            onClick={() => { setShowHistory((v) => !v); setShowBookmarks(false); }}
-            className={`rounded-lg p-1.5 transition hover:bg-gray-800 ${showHistory ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-white'}`}
-            title="Istorija"
+            onClick={() => { if (!isInkognito) { setShowHistory((v) => !v); setShowBookmarks(false); } }}
+            disabled={isInkognito}
+            className={`rounded-lg p-1.5 transition ${isInkognito ? 'cursor-not-allowed text-gray-700' : `hover:bg-gray-800 ${showHistory ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-white'}`}`}
+            title={isInkognito ? 'Istorija nije dostupna u inkognito modu' : 'Istorija'}
             aria-label="Istorija"
+            aria-disabled={isInkognito}
           >
             🕐
           </button>
-          {showHistory && (
+          {showHistory && !isInkognito && (
             <HistoryPanel
               history={history}
               onClear={clearHistory}
@@ -871,6 +939,17 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
             />
           )}
         </div>
+
+        {/* Inkognito mod dugme */}
+        <button
+          onClick={handleToggleInkognito}
+          className={getInkognitoButtonClass(isInkognito)}
+          title={`Inkognito mod${isInkognito ? ' — aktivan' : ''} (Ctrl+Shift+N)`}
+          aria-label="Inkognito mod"
+          aria-pressed={isInkognito}
+        >
+          🕵️
+        </button>
 
         {/* Zoom kontrole */}
         <div className="flex items-center gap-0.5">

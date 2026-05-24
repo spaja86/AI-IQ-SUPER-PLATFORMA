@@ -7987,3 +7987,14 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Potvrđeno: routes:generate-tests --dry-run prijavljuje missingTests=0 i generated=0.
 // Status: Zadržana puna pokrivenost 1195/1195 API ruta bez novih rupa u coverage-u.
 // APP_VERSION=59.44.0 | AUTOFINISH_COUNT=1374 | TOTAL_API_ROUTES=1195 | TOTAL_ROUTES=1320 | TOTAL_PAGES=125
+
+
+// ─── Autofinish #1375 — INKOGNITO MODE ZA SPAJA DIGITALNI BROUVZER ─────────────
+// Implementiran inkognito (privatni) mod pregledanja u BrouvzerViewer.tsx.
+// Novi fajl: src/lib/brouvzer-inkognito.ts (shouldWriteToStorage, shouldShowStoredData, getInkognitoButtonClass).
+// UI: ljubičasti toolbar/baner, 🕵️ dugme, Ctrl+Shift+N prečica, onemogućeni bookmark/history u inkognitu.
+// localStorage blokiran za istoriju i bookmarkove kada je inkognito aktivan.
+// Inkognito modul dodat u brouvzerModuli; capability u ekstremneMogucnosti.
+// Feature flag: brouvzer-inkognito-mode (strategy: enabled).
+// Testovi: src/tests/brouvzer/inkognito-mode.test.ts — 13 testova, svi prolaze.
+// APP_VERSION=59.45.0 | AUTOFINISH_COUNT=1375 | TOTAL_API_ROUTES=1195 | TOTAL_ROUTES=1320 | TOTAL_PAGES=125
