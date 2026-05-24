@@ -1,6 +1,6 @@
 import type { Sekvenca } from '@/lib/types';
-import { buildAnalizaSvega } from '@/lib/analiza-svega';
-import { KOMPANIJA, APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_PAGES } from '@/lib/constants';
+import { buildAnalizaSvega, type AnalizaPreporuka, type AnalizaTrendDirection } from '@/lib/analiza-svega';
+import { KOMPANIJA, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_PAGES } from '@/lib/constants';
 
 const analiza = buildAnalizaSvega();
 const domenNazivi: Record<string, string> = {
@@ -13,6 +13,27 @@ const domenNazivi: Record<string, string> = {
   protokoli: '📋 Protokoli',
 };
 
+function trendIkona(direction: AnalizaTrendDirection): string {
+  switch (direction) {
+    case 'up':
+      return '🟢';
+    case 'down':
+      return '🔴';
+    default:
+      return '🟡';
+  }
+}
+
+function preporukaIkona(klasa: AnalizaPreporuka['klasa'], prioritet: AnalizaPreporuka['prioritet']): string {
+  if (klasa === 'blocking') return '🚨';
+  if (prioritet === 'visok') return '⚠️';
+  return 'ℹ️';
+}
+
+function formatPreviousScore(score: number | null): string {
+  return score === null ? 'N/A' : `${score}%`;
+}
+
 export const analizaSvegaSekvence: Sekvenca[] = [
   {
     id: 'analiza-svega-hero',
@@ -22,7 +43,7 @@ export const analizaSvegaSekvence: Sekvenca[] = [
     ikona: '🔭',
     redosled: 1,
     podaci: {
-      opis: `Jedinstven pregled svih domena: ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish i protokoli. Ukupna ocena: ${analiza.konacnaOcena} (${analiza.ukupanScore}%). Verzija platforme: v${APP_VERSION}.`,
+      opis: `Jedinstven pregled svih domena: ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish i protokoli. Ukupna ocena: ${analiza.konacnaOcena} (${analiza.ukupanScore}%). Contract: ${analiza.meta.contractVersion}, model: ${analiza.meta.modelVersion}.`,
       dugmad: [
         { tekst: 'API: Analiza Svega', href: '/api/analiza-svega' },
         { tekst: 'Masovna Analiza', href: '/api/masovna-analiza', stil: 'sekundarno' },
@@ -42,7 +63,9 @@ export const analizaSvegaSekvence: Sekvenca[] = [
         { naziv: 'API Ruta', vrednost: TOTAL_API_ROUTES, ikona: '🔌' },
         { naziv: 'Stranica', vrednost: TOTAL_PAGES, ikona: '📄' },
         { naziv: 'Autofinish #', vrednost: AUTOFINISH_COUNT, ikona: '♻️' },
-        { naziv: 'Verzija', vrednost: `v${APP_VERSION}`, ikona: '🏷️' },
+        { naziv: 'Trend', vrednost: `${analiza.trend.deltaScore >= 0 ? '+' : ''}${analiza.trend.deltaScore}% (${analiza.trend.direction})`, ikona: '📈' },
+        { naziv: 'Kritični domeni', vrednost: analiza.kriticniDomeni.length, ikona: '🚨' },
+        { naziv: 'Contract', vrednost: analiza.meta.contractVersion, ikona: '🧾' },
       ],
     },
   },
@@ -52,11 +75,14 @@ export const analizaSvegaSekvence: Sekvenca[] = [
     naslov: '📋 Score po domenima',
     redosled: 3,
     podaci: {
-      zaglavlje: ['Domen', 'Score', 'Ocena'],
+      zaglavlje: ['Domen', 'Score', 'Ocena', 'Confidence', 'Freshness', 'Izvori'],
       redovi: Object.entries(analiza.domeni).map(([kljuc, domen]) => [
         domenNazivi[kljuc] ?? domen.naziv,
         `${domen.score}%`,
         domen.ocena.replace(/_/g, ' '),
+        `${domen.confidence}%`,
+        domen.freshness,
+        domen.izvori.join(', '),
       ]),
     },
   },
@@ -250,18 +276,52 @@ export const analizaSvegaSekvence: Sekvenca[] = [
     naslov: '📌 Akcione Preporuke',
     redosled: 8,
     podaci: {
-      stavke: analiza.preporuke.map((preporuka, i) => ({
-        ikona: i === 0 ? '🚨' : i < 3 ? '⚠️' : 'ℹ️',
-        naslov: preporuka,
-        opis: 'Prioritetna akcija za poboljšanje ukupnog score-a',
+      stavke: analiza.preporukeDetaljno.map((preporuka) => ({
+        ikona: preporukaIkona(preporuka.klasa, preporuka.prioritet),
+        naslov: preporuka.poruka,
+        opis: `${preporuka.klasa.toUpperCase()} • prioritet ${preporuka.prioritet} • domeni: ${preporuka.domeni.join(', ')}`,
       })),
+    },
+  },
+  {
+    id: 'analiza-svega-trend-kriticni',
+    tip: 'kartice',
+    naslov: '📈 Trend & Kritični Domeni',
+    redosled: 9,
+    podaci: {
+      kartice: [
+        {
+          naslov: `Trend: ${analiza.trend.direction}`,
+          opis: `Promena skora: ${analiza.trend.deltaScore >= 0 ? '+' : ''}${analiza.trend.deltaScore}%`,
+          ikona: trendIkona(analiza.trend.direction),
+          oznake: ['trend'],
+        },
+        {
+          naslov: `Prethodni score: ${formatPreviousScore(analiza.trend.previousScore)}`,
+          opis: `Trenutni score: ${analiza.trend.currentScore}% • pouzdanost trenda: ${analiza.trend.reliable ? 'visoka' : 'ograničena'}`,
+          ikona: '🧮',
+          oznake: ['history'],
+        },
+        {
+          naslov: `Kritični domeni: ${analiza.kriticniDomeni.length}`,
+          opis: analiza.kriticniDomeni.length > 0 ? analiza.kriticniDomeni.join(', ') : 'Nema kritičnih domena',
+          ikona: '🚨',
+          oznake: ['critical'],
+        },
+        {
+          naslov: `Degradacija izvora: ${analiza.meta.degraded ? 'DA' : 'NE'}`,
+          opis: analiza.meta.degradedSources.length > 0 ? analiza.meta.degradedSources.join(', ') : 'Svi izvori aktivni',
+          ikona: analiza.meta.degraded ? '⚠️' : '✅',
+          oznake: ['source-health'],
+        },
+      ],
     },
   },
   {
     id: 'analiza-svega-cta',
     tip: 'cta',
     naslov: '🔭 Analiza Svega — Pokretanje',
-    redosled: 9,
+    redosled: 10,
     podaci: {
       opis: `Celokupna analiza Digitalne Industrije. Ukupan score: ${analiza.ukupanScore}% — ${analiza.konacnaOcena.replace(/_/g, ' ')}. Koristite /api/analiza-svega za programatski pristup svim domenima.`,
       dugmad: [

@@ -5,11 +5,15 @@
 // ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish, protokoli.
 
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
+import { apiInternalError, apiRateLimited, apiSuccess } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { buildAnalizaSvega } from '@/lib/analiza-svega';
 
 export const dynamic = 'force-dynamic';
+/** Maksimalan broj zahteva po IP ključu za /api/analiza-svega u jednom prozoru. */
+export const ANALIZA_SVEGA_RATE_LIMIT = 60;
+/** Dužina rate-limit prozora u sekundama za /api/analiza-svega. */
+export const ANALIZA_SVEGA_RATE_WINDOW_SECONDS = 60;
 
 /**
  * GET /api/analiza-svega
@@ -20,17 +24,20 @@ export async function GET(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
   const allowed = await checkRateLimitGlobal(
     rateLimitKey(ip, '/api/analiza-svega'),
-    60,
-    60,
+    ANALIZA_SVEGA_RATE_LIMIT,
+    ANALIZA_SVEGA_RATE_WINDOW_SECONDS,
   );
 
   if (!allowed) {
-    return apiError('TOO_MANY_REQUESTS', 'Previše zahteva. Pokušajte ponovo za 60 sekundi.');
+    return apiRateLimited(ANALIZA_SVEGA_RATE_WINDOW_SECONDS);
   }
 
   try {
     const analiza = buildAnalizaSvega();
-    return apiSuccess(analiza, 200);
+    const response = apiSuccess(analiza, 200);
+    response.headers.set('X-Analiza-Contract-Version', analiza.meta.contractVersion);
+    response.headers.set('X-Analiza-Model-Version', analiza.meta.modelVersion);
+    return response;
   } catch (error) {
     return apiInternalError('analiza-svega', error);
   }
