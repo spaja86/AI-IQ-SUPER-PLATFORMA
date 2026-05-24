@@ -148,7 +148,7 @@ export function buildAiIqWorldBankProcesiranje(): AiIqWorldBankProcesiranjeRezul
   ];
 
   const kamatnaObrada: KamatnaIzracunavanje[] = [
-    { ulog: 1_000, valuta: 'RSD', stopaProcent: AIIQWB_PROC_SUCCESS_RATE > 0 ? AIIQ_WORLD_BANK_KAMATNA_STOPA : 40, period: '30 dana', zarada: 400, ukupno: 1_400, statusObrade: 'aktivno' },
+    { ulog: 1_000, valuta: 'RSD', stopaProcent: AIIQ_WORLD_BANK_KAMATNA_STOPA, period: '30 dana', zarada: 400, ukupno: 1_400, statusObrade: 'aktivno' },
     { ulog: 5_000, valuta: 'RSD', stopaProcent: AIIQ_WORLD_BANK_KAMATNA_STOPA, period: '30 dana', zarada: 2_000, ukupno: 7_000, statusObrade: 'aktivno' },
     { ulog: 10_000, valuta: 'RSD', stopaProcent: AIIQ_WORLD_BANK_KAMATNA_STOPA, period: '30 dana', zarada: 4_000, ukupno: 14_000, statusObrade: 'aktivno' },
     { ulog: 50_000, valuta: 'RSD', stopaProcent: AIIQ_WORLD_BANK_KAMATNA_STOPA, period: '30 dana', zarada: 20_000, ukupno: 70_000, statusObrade: 'aktivno' },
