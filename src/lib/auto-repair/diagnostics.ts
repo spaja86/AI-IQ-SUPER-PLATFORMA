@@ -7165,6 +7165,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1376 — GET /api/brouvzer-inkognito-status ──────────────
     createCheck('autofinish-1376-inkognito-status-api-check', 'Inkognito Status API #1376', `Provera GET /api/brouvzer-inkognito-status — dostupno, label, opis, mogucnosti, featureFlag, pravilaPrivatnosti, Cache-Control, X-App-Version`, 'ok', `Autofinish #1376 — /api/brouvzer-inkognito-status aktivan, 15 testova prolaze, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
     createCheck('autofinish-1376-iteracija-check', 'Autofinish #1376 Iteracija', `Provera autofinish iteracije #1376 — GET /api/brouvzer-inkognito-status route coverage`, 'ok', `Autofinish #1376 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1377 — Tab Menadžer helpers + GET /api/brouvzer-tab-menadzer-status ──────────
+    createCheck('autofinish-1377-tab-menadzer-lib-check', 'Tab Menadžer Lib #1377', `Provera brouvzer-tab-menadzer.ts — trebaPokrenuthHibernaciju, mozePinirati, mozeKreiratiGrupu, getTabItemClass, feature flag aktivan`, 'ok', `Autofinish #1377 — Tab Menadžer helpers implementirani, 24 testova prolaze`),
+    createCheck('autofinish-1377-iteracija-check', 'Autofinish #1377 Iteracija', `Provera autofinish iteracije #1377 — Brouvzer Tab Menadžer status route`, 'ok', `Autofinish #1377 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

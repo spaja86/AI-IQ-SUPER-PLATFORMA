@@ -219,6 +219,15 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     activeFrom: '2026-05-24',
     meta: { owner: 'browser-team', ticket: 'SPAJA-7001' },
   },
+  {
+    id: 'brouvzer-tab-menadzer',
+    naziv: 'Brouvzer Tab Menadžer',
+    opis: 'Aktivira napredni tab menadžer u SPAJA Digitalnom Brouvzeru — grupisanje, hibernacija, pin tabovi i sinhronizacija između uređaja.',
+    strategy: 'enabled',
+    envs: ['all'],
+    activeFrom: '2026-05-24',
+    meta: { owner: 'browser-team', ticket: 'SPAJA-7002' },
+  },
   // ── Kill Switches ─────────────────────────────────────────────
   {
     id: 'kill-switch-checkout',

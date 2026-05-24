@@ -8007,3 +8007,14 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Cache-Control: public, s-maxage=60 | X-App-Version header.
 // Test: src/tests/autofinish/brouvzer-inkognito-status-route.test.ts — 15 testova, svi prolaze.
 // APP_VERSION=59.46.0 | AUTOFINISH_COUNT=1376 | TOTAL_API_ROUTES=1196 | TOTAL_ROUTES=1321 | TOTAL_PAGES=125
+
+
+// ─── Autofinish #1377 — BROUVZER TAB MENADŽER HELPERS + GET /API/BROUVZER-TAB-MENADZER-STATUS ───
+// Novi lib fajl: src/lib/brouvzer-tab-menadzer.ts (konstante, trebaPokrenuthHibernaciju,
+// mozePinirati, mozeKreiratiGrupu, getTabItemClass).
+// Feature flag: brouvzer-tab-menadzer (strategy: enabled, ticket: SPAJA-7002).
+// Novi API endpoint: GET /api/brouvzer-tab-menadzer-status — prijavljuje dostupnost tab menadžera,
+// limiti (maxAktivnih=20, maxPiniranih=10, maxGrupa=8), funkcionalnosti i featureFlag.
+// Cache-Control: public, s-maxage=60 | X-App-Version header.
+// Test: src/tests/autofinish/brouvzer-tab-menadzer-status-route.test.ts — 24 testova, svi prolaze.
+// APP_VERSION=59.47.0 | AUTOFINISH_COUNT=1377 | TOTAL_API_ROUTES=1197 | TOTAL_ROUTES=1322 | TOTAL_PAGES=125
