@@ -204,3 +204,9 @@ export { digitalnaIndustrijaNagradeSekvence } from './digitalna-industrija-nagra
 
 // ── ANALIZA SVEGA ──────────────────────────────────────────────────────────────
 export { analizaSvegaSekvence } from './analiza-svega-page';
+
+// ── AI IQ WORLD BANK PROCESIRANJE ────────────────────────────────────────────
+export { aiIqWorldBankProcesiranjeSekvence } from './ai-iq-world-bank-procesiranje-page';
+
+// ── PROCESUIRANJE SVEGA ───────────────────────────────────────────────────────
+export { procesuiranjeSvegaSekvence } from './procesuiranje-svega-page';

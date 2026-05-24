@@ -126,6 +126,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/digitalni-vorteks',
     '/analiza-svega',
     '/api/analiza-svega',
+    '/ai-iq-world-bank-procesiranje',
+    '/api/ai-iq-world-bank-procesiranje',
+    '/procesuiranje-svega',
+    '/api/procesuiranje-svega',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

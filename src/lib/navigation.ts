@@ -25,6 +25,7 @@ export const navigation: NavItem[] = [
   { label: 'AI Platforma', href: '/ai-platforma', icon: '🤖', description: 'AI platforma i modeli' },
   { label: 'Banka', href: '/banka', icon: '🏦', description: 'SPAJA Banka platforma' },
   { label: 'AI IQ World Bank', href: '/ai-iq-world-bank', icon: '🌐', description: 'AI IQ WORLD BANK — sve o njoj: usluge, AI tehnologija, ERSTE računi, partneri, transferi, GitHub billing i ekosistem' },
+  { label: 'AI IQ World Bank Procesiranje', href: '/ai-iq-world-bank-procesiranje', icon: '⚙️', description: 'Aktivni sloj procesiranja AI IQ World Bank: transakcije, kamatna obrada, AI fraud detekcija, SWIFT/blockchain rutiranje' },
   { label: 'Licencni Budžet Srbija', href: '/licencni-budzet-srbija', icon: '📜', description: 'Registar i budžet licenci za Srbiju — aktivna nabavka, regulatorni rokovi i godišnji plan troškova' },
   { label: 'Digitalna Industrija PIB/MB', href: '/digitalna-industrija-pib-mb', icon: '🧾', description: 'Centralni registar PIB i matičnih brojeva ključnih entiteta Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Šifra Delatnosti', href: '/digitalna-industrija-sifra-delatnosti', icon: '🏷️', description: 'Centralni registar šifara delatnosti ključnih entiteta Digitalne Industrije u Srbiji' },
@@ -118,6 +119,7 @@ export const navigation: NavItem[] = [
   { label: 'SpajaUltra REPL', href: '/spaja-ultra-repl', icon: '⌨️', description: 'SpajaUltraOmegaCore REPL — DSL parser, transpajler, runtime audit log' },
   { label: 'Digitalna Platforma', href: '/digitalna-platforma', icon: '🌐', description: 'AI IQ SUPER PLATFORMA — kompletni digitalni ekosistem Kompanije SPAJA' },
   { label: 'Analiza Svega', href: '/analiza-svega', icon: '🔭', description: 'Celokupna analiza ekosistema — ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish i protokoli' },
+  { label: 'Procesuiranje Svega', href: '/procesuiranje-svega', icon: '⚙️', description: 'Aktivni pipeline procesiranja svih domena — bankarski, AI, finansijski, licencni, ekosistem, autofinish, bezbednosni i analitički' },
   { label: 'Prijava', href: '/login', icon: '🔑', description: 'Prijava na platformu — pristup Digitalnoj Industriji' },
   { label: 'Zaboravljena Lozinka', href: '/zaboravljena-lozinka', icon: '🔓', description: 'Resetovanje lozinke za pristup platformi' },
 ];
