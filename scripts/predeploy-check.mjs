@@ -12,6 +12,8 @@ const constantsPath = resolve(repoRoot, 'src/lib/constants.ts');
 const vercelPath = resolve(repoRoot, 'vercel.json');
 const analizaLibPath = resolve(repoRoot, 'src/lib/analiza-svega.ts');
 const analizaRoutePath = resolve(repoRoot, 'src/app/api/analiza-svega/route.ts');
+const potencijalLibPath = resolve(repoRoot, 'src/lib/potencijal-svega-ovoga-do-sada.ts');
+const potencijalRoutePath = resolve(repoRoot, 'src/app/api/potencijal-svega-ovoga-do-sada/route.ts');
 const sitemapPath = resolve(repoRoot, 'src/app/sitemap.ts');
 const navigationPath = resolve(repoRoot, 'src/lib/navigation.ts');
 
@@ -19,6 +21,8 @@ const constantsSrc = readFileSync(constantsPath, 'utf8');
 const vercel = readJson(vercelPath);
 const analizaLibSrc = readFileSync(analizaLibPath, 'utf8');
 const analizaRouteSrc = readFileSync(analizaRoutePath, 'utf8');
+const potencijalLibSrc = readFileSync(potencijalLibPath, 'utf8');
+const potencijalRouteSrc = readFileSync(potencijalRoutePath, 'utf8');
 const sitemapSrc = readFileSync(sitemapPath, 'utf8');
 const navigationSrc = readFileSync(navigationPath, 'utf8');
 
@@ -52,6 +56,14 @@ const analizaContractReady = [
   sitemapSrc.includes('/api/analiza-svega'),
   navigationSrc.includes('/analiza-svega'),
 ].every(Boolean);
+const potencijalContractVersion = potencijalLibSrc.match(/export const POTENCIJAL_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const potencijalModelVersion = potencijalLibSrc.match(/export const POTENCIJAL_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const potencijalContractReady = [
+  potencijalLibSrc.includes('sourceOfTruth: \'/api/potencijal-svega-ovoga-do-sada\''),
+  potencijalRouteSrc.includes('X-Potencijal-Contract-Version'),
+  sitemapSrc.includes('/api/potencijal-svega-ovoga-do-sada'),
+  navigationSrc.includes('/potencijal-svega-ovoga-do-sada'),
+].every(Boolean);
 
 const report = {
   appVersion,
@@ -65,13 +77,18 @@ const report = {
     modelVersion: analizaModelVersion,
     contractReady: analizaContractReady,
   },
-  status: missingRequiredEnv.length > 0 || !analizaContractReady ? 'warning' : 'ok',
+  potencijalSvegaOvogaDoSada: {
+    contractVersion: potencijalContractVersion,
+    modelVersion: potencijalModelVersion,
+    contractReady: potencijalContractReady,
+  },
+  status: missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady ? 'warning' : 'ok',
 };
 
 console.log('=== Predeploy Check ===');
 console.log(JSON.stringify(report, null, 2));
 
-if (process.argv.includes('--strict') && (missingRequiredEnv.length > 0 || !analizaContractReady)) {
-  console.error('Strict mode: missing required env vars or ANALIZA SVEGA contract is not ready.');
+if (process.argv.includes('--strict') && (missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady)) {
+  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL contract is not ready.');
   process.exit(1);
 }

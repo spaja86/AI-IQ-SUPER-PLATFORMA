@@ -119,6 +119,7 @@ export const navigation: NavItem[] = [
   { label: 'SpajaUltra REPL', href: '/spaja-ultra-repl', icon: '⌨️', description: 'SpajaUltraOmegaCore REPL — DSL parser, transpajler, runtime audit log' },
   { label: 'Digitalna Platforma', href: '/digitalna-platforma', icon: '🌐', description: 'AI IQ SUPER PLATFORMA — kompletni digitalni ekosistem Kompanije SPAJA' },
   { label: 'Analiza Svega', href: '/analiza-svega', icon: '🔭', description: 'Celokupna analiza ekosistema — ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish i protokoli' },
+  { label: 'Potencijal Svega Ovoga Do Sada', href: '/potencijal-svega-ovoga-do-sada', icon: '🧭', description: 'Stanje sada vs potencijal posle sledećih koraka — blokeri, unlock faktori i expected uplift po domenima' },
   { label: 'Procesuiranje Svega', href: '/procesuiranje-svega', icon: '⚙️', description: 'Aktivni pipeline procesiranja svih domena — bankarski, AI, finansijski, licencni, ekosistem, autofinish, bezbednosni i analitički' },
   { label: 'Prijava', href: '/login', icon: '🔑', description: 'Prijava na platformu — pristup Digitalnoj Industriji' },
   { label: 'Zaboravljena Lozinka', href: '/zaboravljena-lozinka', icon: '🔓', description: 'Resetovanje lozinke za pristup platformi' },

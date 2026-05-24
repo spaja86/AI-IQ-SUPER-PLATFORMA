@@ -46,6 +46,11 @@ export async function GET(req: NextRequest) {
           contractVersion: 'v2',
           modelVersion: '2.0.0',
         },
+        potencijalSvegaOvogaDoSada: {
+          sourceOfTruth: '/api/potencijal-svega-ovoga-do-sada',
+          contractVersion: 'v1',
+          modelVersion: '1.0.0',
+        },
         uptime: uptimeSeconds(),
         timestamp: new Date().toISOString(),
       },
