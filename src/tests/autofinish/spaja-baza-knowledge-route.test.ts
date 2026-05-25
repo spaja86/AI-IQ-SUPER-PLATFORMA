@@ -1,4 +1,4 @@
-// Autofinish #1386 — SPAJA BAZA Knowledge Route Coverage Test
+// Autofinish #1386/#1387 — SPAJA BAZA Knowledge Route Coverage Test
 // Pokretanje: npx tsx src/tests/autofinish/spaja-baza-knowledge-route.test.ts
 //
 // Pokriva strukturne i funkcionalne provjere za /api/spaja-baza-knowledge/*
@@ -49,13 +49,13 @@ const API_ROOT = path.resolve(process.cwd(), 'src/app/api/spaja-baza-knowledge')
 const LIB_PATH = path.resolve(process.cwd(), 'src/lib/spaja-baza-knowledge.ts');
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 SPAJA BAZA Knowledge — Route Coverage Test Suite (#1386)\n');
+  console.log('\n🏁 SPAJA BAZA Knowledge — Route Coverage Test Suite (#1386/#1387)\n');
 
   // ─── Konstante ─────────────────────────────────────────────────────────────
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.52.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1386, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.53.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1387, 'AUTOFINISH_COUNT');
   });
 
   // ─── Lib fajl ───────────────────────────────────────────────────────────────
@@ -172,14 +172,12 @@ async function runTests(): Promise<void> {
     assert(result.startsWith('https://spaja.rs'), 'Domen mora ostati');
   });
 
-  await test('canonicalizeUrl uklanja UTM parametre (barem jedan)', () => {
-    // Poznata limitacija: URLSearchParams.forEach+delete tokom iteracije može preskočiti
-    // neke parametre zbog reindeksiranja (Node.js behavior). Npr. prvi UTM param je uklonjen
-    // ali drugi može ostati. Ovo je bug u implementaciji (spaja-baza-knowledge.ts:74-78) koji
-    // bi trebalo popraviti korištenjem Array.from(searchParams.keys()) pre delete.
-    // Minimalna garancija: bar jedan UTM param mora biti uklonjen.
-    const result = canonicalizeUrl('https://spaja.rs/?utm_source=google&q=test');
+  await test('canonicalizeUrl uklanja sve UTM parametre bez preskakanja', () => {
+    const result =
+      canonicalizeUrl('https://spaja.rs/?utm_source=google&utm_medium=cpc&utm_campaign=launch&q=test');
     assert(!result.includes('utm_source'), 'utm_source mora biti uklonjen');
+    assert(!result.includes('utm_medium'), 'utm_medium mora biti uklonjen');
+    assert(!result.includes('utm_campaign'), 'utm_campaign mora biti uklonjen');
     assert(result.includes('q=test'), 'Ostali parametri moraju ostati');
   });
 

@@ -71,8 +71,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.52.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1386, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.53.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1387, 'AUTOFINISH_COUNT');
   });
 
   // ─── GET /api/owner-phone-auth/request-otp ───────────────────────────────
