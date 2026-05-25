@@ -295,9 +295,9 @@ const seedAuthorities = (): IssuerLicensingAuthority[] => [
   },
 ];
 
-let issuerAuthoritiesStore: IssuerLicensingAuthority[] = seedAuthorities();
-let issuerIssuedStore: IssuerLicenseIssueRecord[] = [];
-let issuerAuditStore: IssuerLicensingAuditEvent[] = [
+const issuerAuthoritiesStore: IssuerLicensingAuthority[] = seedAuthorities();
+const issuerIssuedStore: IssuerLicenseIssueRecord[] = [];
+const issuerAuditStore: IssuerLicensingAuditEvent[] = [
   {
     id: makeId('issuer-audit'),
     authorityId: null,
