@@ -90,8 +90,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.51.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1385, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.52.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1386, 'AUTOFINISH_COUNT');
   });
 
   await test('GET vraća 200 i očekivanu strukturu', async () => {

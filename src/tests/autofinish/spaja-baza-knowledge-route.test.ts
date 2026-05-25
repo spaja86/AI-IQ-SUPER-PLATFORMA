@@ -173,8 +173,11 @@ async function runTests(): Promise<void> {
   });
 
   await test('canonicalizeUrl uklanja UTM parametre (barem jedan)', () => {
-    // Napomena: forEach+delete tokom iteracije može preskočiti neke param zbog reindeksiranja
-    // — minimalna garancija: bar jedan UTM param mora biti uklonjen
+    // Poznata limitacija: URLSearchParams.forEach+delete tokom iteracije može preskočiti
+    // neke parametre zbog reindeksiranja (Node.js behavior). Npr. prvi UTM param je uklonjen
+    // ali drugi može ostati. Ovo je bug u implementaciji (spaja-baza-knowledge.ts:74-78) koji
+    // bi trebalo popraviti korištenjem Array.from(searchParams.keys()) pre delete.
+    // Minimalna garancija: bar jedan UTM param mora biti uklonjen.
     const result = canonicalizeUrl('https://spaja.rs/?utm_source=google&q=test');
     assert(!result.includes('utm_source'), 'utm_source mora biti uklonjen');
     assert(result.includes('q=test'), 'Ostali parametri moraju ostati');
