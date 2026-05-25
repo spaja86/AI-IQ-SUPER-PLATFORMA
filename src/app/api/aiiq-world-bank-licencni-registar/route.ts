@@ -18,6 +18,7 @@ export async function GET(request: NextRequest) {
       izvor: KOMPANIJA,
       verzija: APP_VERSION,
       registar,
+      issuerLicensing: registar.issuerLicensing,
     });
   } catch (error) {
     return apiInternalError('aiiq-world-bank-licencni-registar', error);

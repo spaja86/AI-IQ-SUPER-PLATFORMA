@@ -6,6 +6,7 @@ import {
   getLicencniPortfolioProcurementQueue,
   getLicencniPortfolioBlokatori,
 } from '@/lib/digitalna-industrija-licencni-portfolio';
+import { getIssuerLicensingAuthorities } from '@/lib/issuer-licensing';
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,6 +20,10 @@ export async function GET(request: NextRequest) {
 
     const queue = getLicencniPortfolioProcurementQueue();
     const blokatori = getLicencniPortfolioBlokatori();
+    const issuerAuthorityDependencies = new Set(
+      getIssuerLicensingAuthorities().flatMap((authority) => authority.zavisnostiNabavke),
+    );
+    const issuerRelatedQueue = queue.filter((stavka) => issuerAuthorityDependencies.has(stavka.id));
 
     return apiSuccess({
       status: 'aktivan',
@@ -40,6 +45,15 @@ export async function GET(request: NextRequest) {
       },
       blokatori,
       queue,
+      issuerKontekst: {
+        ukupnoPovezanihStavki: issuerRelatedQueue.length,
+        povezaneStavke: issuerRelatedQueue.slice(0, 10).map((s) => ({
+          id: s.id,
+          naziv: s.naziv,
+          status: s.status,
+        })),
+        napomena: 'Issuer readiness koristi procurement zavisnosti definisane u issuer authority modelu.',
+      },
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

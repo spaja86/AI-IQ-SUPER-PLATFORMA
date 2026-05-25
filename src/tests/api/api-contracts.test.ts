@@ -34,6 +34,13 @@ import {
   getB2BProcurementCaseById,
   patchB2BProcurementCase,
 } from '../../lib/b2b-procurement-workflow';
+import {
+  buildIssuerLicensingState,
+  createIssuerAuthorityRequest,
+  getIssuerLicensingComplianceReport,
+  issueLicenseFromAuthority,
+  transitionIssuerAuthorityStatus,
+} from '../../lib/issuer-licensing';
 
 // ─── Minimal test runner ──────────────────────────────────────────────────────
 
@@ -510,6 +517,79 @@ async function runTests(): Promise<void> {
   await test('canTransition validira nedozvoljene skokove', () => {
     const direct = canTransition(procurementCase, 'isporuka');
     assert(!direct.ok, 'skok upit -> isporuka ne sme biti dozvoljen');
+  });
+
+  // ── 2d. Issuer licensing lifecycle ───────────────────────────────────────────
+  console.log('\n🪪 Issuer licensing lifecycle');
+
+  await test('Issuer state ima summary i blockers', () => {
+    const issuer = buildIssuerLicensingState();
+    assert(issuer.summary.ukupnoOvlascenja > 0, 'issuer ovlašćenja moraju postojati');
+    assert(Array.isArray(issuer.blockers), 'issuer blockers mora biti niz');
+    assert(Array.isArray(issuer.pendingApproval), 'issuer pendingApproval mora biti niz');
+  });
+
+  let issuerAuthorityId = '';
+  await test('Editor kreira issuer zahtev i approver odobrava', () => {
+    const created = createIssuerAuthorityRequest(
+      {
+        naziv: 'API Issuer Test Paket',
+        issuerEntitet: 'Digitalna Industrija',
+        kategorija: 'api-pristup',
+        pravniOsnov: 'Test issuer pravni osnov',
+        regulatorIliVendor: 'Test regulator',
+        checklistaPreIzdavanja: ['dokaz-ugovora'],
+      },
+      { role: 'editor', id: 'issuer-editor' },
+    );
+    assert(created.ok, 'issuer create');
+    if (!created.ok) return;
+    issuerAuthorityId = created.authority.id;
+
+    const toReview = transitionIssuerAuthorityStatus(
+      { authorityId: issuerAuthorityId, noviStatus: 'u_proveri', razlog: 'review start' },
+      { role: 'editor', id: 'issuer-editor' },
+    );
+    assert(toReview.ok, 'draft -> u_proveri');
+
+    const approved = transitionIssuerAuthorityStatus(
+      { authorityId: issuerAuthorityId, noviStatus: 'odobreno', razlog: 'privremeno odobrenje' },
+      { role: 'approver', id: 'issuer-approver' },
+    );
+    assert(approved.ok, 'u_proveri -> odobreno');
+  });
+
+  await test('Izdavanje je blokirano bez checkliste i dozvoljeno sa checklistom', () => {
+    const blocked = issueLicenseFromAuthority(
+      {
+        authorityId: issuerAuthorityId,
+        primalacNaziv: 'Partner A',
+        primalacEmail: 'partner-a@example.com',
+        izdavanjeTip: 'direktna',
+        checklistKeys: [],
+      },
+      { role: 'admin', id: 'issuer-admin' },
+    );
+    assert(!blocked.ok, 'issue bez checkliste mora biti blokiran');
+
+    const issued = issueLicenseFromAuthority(
+      {
+        authorityId: issuerAuthorityId,
+        primalacNaziv: 'Partner A',
+        primalacEmail: 'partner-a@example.com',
+        izdavanjeTip: 'direktna',
+        checklistKeys: ['dokaz-ugovora'],
+      },
+      { role: 'admin', id: 'issuer-admin' },
+    );
+    assert(issued.ok, 'issue sa checklistom');
+  });
+
+  await test('Issuer compliance izveštaj vraća validne brojeve', () => {
+    const mesecni = getIssuerLicensingComplianceReport('mesecni');
+    assert(mesecni.ukupnoOvlascenja >= 1, 'ukupno ovlašćenja');
+    assert(typeof mesecni.approvalCoverageProcenat === 'number', 'approval coverage');
+    assert(mesecni.approvalCoverageProcenat >= 0, 'coverage >= 0');
   });
 
   // ── 3. Billing — Stripe Planovi ───────────────────────────────────────────

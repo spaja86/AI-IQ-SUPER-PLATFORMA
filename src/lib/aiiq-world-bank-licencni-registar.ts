@@ -3,6 +3,7 @@ import { platforme } from '@/lib/platforme';
 import { platforms } from '@/lib/platforms';
 import { companies } from '@/lib/companies';
 import { getB2BWorkflowMeta } from '@/lib/b2b-procurement-workflow';
+import { getIssuerLicensingBlockers, getIssuerLicensingSummary } from '@/lib/issuer-licensing';
 
 export type LicencaKlasifikacija = 'regulatorna' | 'softverska' | 'operativna';
 export type LicencaStatus = 'potvrdjena' | 'nedostaje' | 'u_nabavci' | 'istekla' | 'neprimenljivo';
@@ -144,6 +145,10 @@ export interface AIIQWorldBankLicencniRegistar {
   audit: LicencniAuditZapis[];
   roleMatrica: Record<'viewer' | 'editor' | 'approver', string[]>;
   b2bMeta: ReturnType<typeof getB2BWorkflowMeta>;
+  issuerLicensing: {
+    summary: ReturnType<typeof getIssuerLicensingSummary>;
+    blockers: ReturnType<typeof getIssuerLicensingBlockers>;
+  };
 }
 
 const SRBIJA_JURISDIKCIJA: LicencnaJurisdikcija = {
@@ -596,6 +601,8 @@ export function buildAIIQWorldBankLicencniRegistar(): AIIQWorldBankLicencniRegis
   const gapovi = buildGapovi(licence);
   const coveragePoDelatnosti = buildCoverage(licence, delatnosti);
   const nabavka = buildNabavkaStavke(licence);
+  const issuerSummary = getIssuerLicensingSummary();
+  const issuerBlockers = getIssuerLicensingBlockers();
 
   return {
     naziv: 'AI IQ WORLD BANK — Licencni registar za Srbiju',
@@ -616,6 +623,10 @@ export function buildAIIQWorldBankLicencniRegistar(): AIIQWorldBankLicencniRegis
       approver: ['potvrda-licence', 'zatvaranje-gap-a', 'odobrenje-compliance-izvestaja'],
     },
     b2bMeta: getB2BWorkflowMeta(),
+    issuerLicensing: {
+      summary: issuerSummary,
+      blockers: issuerBlockers,
+    },
   };
 }
 

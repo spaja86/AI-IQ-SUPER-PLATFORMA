@@ -73,6 +73,7 @@ export { poslovniNovcanikSekvence } from './poslovni-novcanik-page';
 export { generatorZaPoslovneRacuneSekvence } from './generator-za-poslovne-racune-page';
 export { validatorPoslovnihRacunaSekvence } from './validator-poslovnih-racuna-page';
 export { licencniBudzetSrbijaSekvence } from './licencni-budzet-srbija-page';
+export { issuerLicenseControlCenterSekvence } from './issuer-license-control-center-page';
 export { digitalnaIndustrijaPibMbSekvence } from './digitalna-industrija-pib-mb-page';
 export { digitalnaIndustrijaSifraDelatnostiSekvence } from './digitalna-industrija-sifra-delatnosti-page';
 export { digitalnaIndustrijaRegulatorniRokoviSekvence } from './digitalna-industrija-regulatorni-rokovi-page';
