@@ -212,7 +212,7 @@ call-centar/paketi,GET,call-centar,yes,call-centar-paketi-route.test.ts
 changelog,GET,changelog,yes,changelog-route.test.ts
 claude-ai-stream,POST,claude-ai-stream,yes,claude-ai-stream-route.test.ts
 cron-status,GET,cron-status,yes,cron-status-route.test.ts
-cron/ekstremno-procesuiranje-svega,GET,cron,no,cron-ekstremno-procesuiranje-svega-route.test.ts
+cron/ekstremno-procesuiranje-svega,GET,cron,yes,cron-ekstremno-procesuiranje-svega-route.test.ts
 cron/evolucija,GET,cron,yes,cron-evolucija-route.test.ts
 cron/protokoli-verifikacija,GET,cron,yes,cron-protokoli-verifikacija-route.test.ts
 cron/zdravlje,GET,cron,yes,cron-zdravlje-route.test.ts
