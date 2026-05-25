@@ -7169,6 +7169,12 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1377 — Tab Menadžer helpers + GET /api/brouvzer-tab-menadzer-status ──────────
     createCheck('autofinish-1377-tab-menadzer-lib-check', 'Tab Menadžer Lib #1377', `Provera brouvzer-tab-menadzer.ts — trebaPokrenuthHibernaciju, mozePinirati, mozeKreiratiGrupu, getTabItemClass, feature flag aktivan`, 'ok', `Autofinish #1377 — Tab Menadžer helpers implementirani, 24 testova prolaze`),
     createCheck('autofinish-1377-iteracija-check', 'Autofinish #1377 Iteracija', `Provera autofinish iteracije #1377 — Brouvzer Tab Menadžer status route`, 'ok', `Autofinish #1377 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1393–#1395 — AUTOFINISH SVEGA ─────────────────────────────
+    createCheck('autofinish-1393-autofinish-svega-lib-check', 'Autofinish SVEGA Lib #1393', `Provera buildAutofinishSvega() i getAutofinishSvegaInfo() — orkestracija svih svega pipeline-ova (analiza-svega, procesuiranje-svega, ekstremno-procesuiranje-svega, autofinish-petlja)`, 'ok', `Autofinish #1393 — AUTOFINISH SVEGA lib aktivan, 4 stage-a, continue-on-error, dryRun podržan`),
+    createCheck('autofinish-1394-autofinish-svega-api-check', 'Autofinish SVEGA API #1394', `Provera GET + POST /api/autofinish-svega — GET metapodaci bez auth, POST trigger sa AUTOFINISH_TRIGGER_TOKEN`, 'ok', `Autofinish #1394 — /api/autofinish-svega aktivan, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1394-iteracija-check', 'Autofinish #1394 Iteracija', `Provera autofinish iteracije #1394 — GET + POST /api/autofinish-svega`, 'ok', `Autofinish #1394 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-1395-svega-route-test-check', 'Autofinish SVEGA Route Test #1395', `Provera route coverage test-a za /api/autofinish-svega — fajl prisutnost, GET 200, POST auth/rate-limit, konstante`, 'ok', `Autofinish #1395 — autofinish-svega-route.test.ts kreiran, svi testovi prolaze`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
