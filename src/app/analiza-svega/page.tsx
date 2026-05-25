@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
-import { analizaSvegaSekvence } from '@/lib/sekvence/analiza-svega-page';
+import { getAnalizaSvegaSekvence } from '@/lib/sekvence/analiza-svega-page';
 import { KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description: `Celokupna analiza ekosistema: ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish i protokoli — ${KOMPANIJA}`,
 };
 
-export default function AnalizaSvegaPage() {
-  return <StranicaRenderer sekvence={analizaSvegaSekvence} />;
+export default async function AnalizaSvegaPage() {
+  const sekvence = await getAnalizaSvegaSekvence();
+  return <StranicaRenderer sekvence={sekvence} />;
 }

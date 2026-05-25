@@ -80,6 +80,16 @@ export const ENV_VARIJABLE: EnvVarDefinicija[] = [
     grupa: 'OPTIONAL',
     opis: 'Vercel KV token za distribuirani rate limiting',
   },
+  {
+    kljuc: 'ANALIZA_ALERT_WEBHOOK_URL',
+    grupa: 'OPTIONAL',
+    opis: 'Webhook URL za alerting kada ANALIZA SVEGA detektuje kritična odstupanja',
+  },
+  {
+    kljuc: 'ANALIZA_ALERT_THRESHOLD',
+    grupa: 'OPTIONAL',
+    opis: 'Threshold (0-100) ispod kojeg ANALIZA SVEGA šalje alert',
+  },
   // App URL
   {
     kljuc: 'NEXT_PUBLIC_APP_URL',

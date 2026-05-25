@@ -96,6 +96,7 @@ async function runTests(): Promise<void> {
     assertEqual(meta['contractVersion'] as string, 'v2', 'meta.contractVersion');
     assertEqual(meta['sourceOfTruth'] as string, '/api/analiza-svega', 'meta.sourceOfTruth');
     assert(typeof data['timestamp'] === 'string', 'data.timestamp string');
+    assert(Array.isArray(data['trendHistorija']), 'trendHistorija niz');
   });
 
   await test('Domeni su svi prisutni i validni', async () => {
@@ -181,7 +182,7 @@ async function runTests(): Promise<void> {
     const pagePath = path.resolve(process.cwd(), 'src/app/analiza-svega/page.tsx');
     assert(fs.existsSync(pagePath), `${pagePath} ne postoji`);
     const src = fs.readFileSync(pagePath, 'utf8');
-    assert(src.includes('analizaSvegaSekvence'), 'Nedostaje analizaSvegaSekvence');
+    assert(src.includes('getAnalizaSvegaSekvence'), 'Nedostaje getAnalizaSvegaSekvence');
     assert(src.includes('StranicaRenderer'), 'Nedostaje StranicaRenderer');
   });
 
@@ -189,7 +190,32 @@ async function runTests(): Promise<void> {
     const sekvencePath = path.resolve(process.cwd(), 'src/lib/sekvence/analiza-svega-page.ts');
     assert(fs.existsSync(sekvencePath), `${sekvencePath} ne postoji`);
     const src = fs.readFileSync(sekvencePath, 'utf8');
-    assert(src.includes('analizaSvegaSekvence'), 'Nedostaje analizaSvegaSekvence export');
+    assert(src.includes('getAnalizaSvegaSekvence'), 'Nedostaje getAnalizaSvegaSekvence export');
+  });
+
+  await test('GET podržava domen filtriranje', async () => {
+    const request = new Request('http://localhost/api/analiza-svega?domen=ekosistem,infrastruktura', {
+      headers: { 'x-forwarded-for': '127.0.0.46' },
+    });
+    const response = await GET(request as NextRequest);
+    assertEqual(response.status, 200, 'status');
+    const body = (await response.json()) as Record<string, unknown>;
+    const data = body['data'] as Record<string, unknown>;
+    const domeni = data['domeni'] as Record<string, unknown>;
+    assertEqual(Object.keys(domeni).length, 2, 'broj filtriranih domena');
+    assert(domeni['ekosistem'] !== undefined, 'ekosistem postoji');
+    assert(domeni['infrastruktura'] !== undefined, 'infrastruktura postoji');
+  });
+
+  await test('GET podržava CSV export', async () => {
+    const request = new Request('http://localhost/api/analiza-svega?format=csv', {
+      headers: { 'x-forwarded-for': '127.0.0.47' },
+    });
+    const response = await GET(request as NextRequest);
+    assertEqual(response.status, 200, 'status');
+    assertEqual(response.headers.get('content-type')?.includes('text/csv'), true, 'content-type csv');
+    const csv = await response.text();
+    assert(csv.includes('domen,score,ocena,confidence,freshness,izvori'), 'csv zaglavlje');
   });
 
   await test('Navigacija sadrži analiza-svega link', () => {

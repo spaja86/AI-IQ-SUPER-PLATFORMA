@@ -1,8 +1,8 @@
 import type { Sekvenca } from '@/lib/types';
 import { buildAnalizaSvega, type AnalizaPreporuka, type AnalizaTrendDirection } from '@/lib/analiza-svega';
 import { KOMPANIJA, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_PAGES } from '@/lib/constants';
+import { getCachedAnalizaSvega, setCachedAnalizaSvega } from '@/lib/analiza-svega-store';
 
-const analiza = buildAnalizaSvega();
 const domenNazivi: Record<string, string> = {
   ekosistem: '🌐 Ekosistem',
   infrastruktura: '🏗️ Infrastruktura',
@@ -34,7 +34,26 @@ function formatPreviousScore(score: number | null): string {
   return score === null ? 'N/A' : `${score}%`;
 }
 
-export const analizaSvegaSekvence: Sekvenca[] = [
+function formatTrendTimestamp(timestamp: string): string {
+  return new Date(timestamp).toLocaleString('sr-RS', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+}
+
+export async function getAnalizaSvegaSekvence(): Promise<Sekvenca[]> {
+  const cached = await getCachedAnalizaSvega();
+  const analiza = cached ?? await buildAnalizaSvega();
+  if (!cached) {
+    await setCachedAnalizaSvega(analiza);
+  }
+
+  return [
   {
     id: 'analiza-svega-hero',
     tip: 'hero',
@@ -318,10 +337,23 @@ export const analizaSvegaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'analiza-svega-trend-historija',
+    tip: 'tabela',
+    naslov: '🗂️ Istorija trenda (30 snimaka)',
+    redosled: 10,
+    podaci: {
+      zaglavlje: ['Timestamp', 'Ukupan score'],
+      redovi: analiza.trendHistorija
+        .slice()
+        .reverse()
+        .map((snapshot) => [formatTrendTimestamp(snapshot.timestamp), `${snapshot.ukupanScore}%`]),
+    },
+  },
+  {
     id: 'analiza-svega-cta',
     tip: 'cta',
     naslov: '🔭 Analiza Svega — Pokretanje',
-    redosled: 10,
+    redosled: 11,
     podaci: {
       opis: `Celokupna analiza Digitalne Industrije. Ukupan score: ${analiza.ukupanScore}% — ${analiza.konacnaOcena.replace(/_/g, ' ')}. Koristite /api/analiza-svega za programatski pristup svim domenima.`,
       dugmad: [
@@ -331,4 +363,5 @@ export const analizaSvegaSekvence: Sekvenca[] = [
       ],
     },
   },
-];
+  ];
+}

@@ -18,6 +18,11 @@ import { getAutofinishPetljaSummary, getAutofinishHealthSummary } from './autofi
 import { autentifikacijaSistem } from './autentifikacija';
 import { spajaPricingLogin } from './spaja-pricing-login';
 import {
+  appendAnalizaTrendSnapshot,
+  getAnalizaLastSnapshot,
+  setAnalizaLastSnapshot,
+} from './analiza-svega-store';
+import {
   APP_VERSION,
   AUTOFINISH_COUNT,
   TOTAL_API_ROUTES,
@@ -68,11 +73,25 @@ const ANALIZA_PREPORUKA_PRIORITET_RANK = {
   srednji: 1,
   nizak: 2,
 } as const;
+
 const ANALIZA_DOMAIN_WEIGHT_SUM = Object.values(ANALIZA_DOMAIN_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
 // Fail-fast zaštita: neispravna konfiguracija težina mora oboriti proces odmah.
 if (Math.abs(ANALIZA_DOMAIN_WEIGHT_SUM - 1) > 0.0001) {
   throw new Error(`ANALIZA_DOMAIN_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${ANALIZA_DOMAIN_WEIGHT_SUM})`);
 }
+
+const ANALIZA_DOMENI_KLJUCEVI: AnalizaDomenKljuc[] = [
+  'ekosistem',
+  'infrastruktura',
+  'finansije',
+  'bezbednost',
+  'operativa',
+  'autofinish',
+  'protokoli',
+];
+export type AnalizaScoreWeights = Record<AnalizaDomenKljuc, number>;
+
+let domainWeightsOverride: AnalizaScoreWeights | null = null;
 
 export interface AnalizaDomen {
   naziv: string;
@@ -137,6 +156,7 @@ export interface AnalizaSvega {
   preporukeDetaljno: AnalizaPreporuka[];
   kriticniDomeni: string[];
   trend: AnalizaTrend;
+  trendHistorija: AnalizaSnapshot[];
   meta: AnalizaMeta;
 
   timestamp: string;
@@ -144,14 +164,10 @@ export interface AnalizaSvega {
 
 // ─── Pomocne funkcije ─────────────────────────────────────────────────────────
 
-interface AnalizaSnapshot {
+export interface AnalizaSnapshot {
   ukupanScore: number;
   timestamp: string;
 }
-
-// Napomena: snapshot je procesno-lokalan (in-memory) i resetuje se pri cold startu.
-// U serverless okruženju to znači da trend delta može biti nepouzdana između invokacija.
-let previousAnalizaSnapshot: AnalizaSnapshot | null = null;
 
 function clampScore(score: number): number {
   const clamped = Math.max(0, Math.min(100, score));
@@ -191,22 +207,48 @@ function safeCall<T>(sourceName: string, degradedSources: string[], fn: () => T)
   }
 }
 
+function validateWeights(weights: AnalizaScoreWeights): AnalizaScoreWeights {
+  const sum = ANALIZA_DOMENI_KLJUCEVI.reduce((acc, key) => acc + weights[key], 0);
+  if (Math.abs(sum - 1) > 0.0001) {
+    throw new Error(`ANALIZA_DOMAIN_WEIGHTS override mora biti normalizovan na 1.0 (trenutno: ${sum})`);
+  }
+  return { ...weights };
+}
+
+export function getAnalizaDomainWeights(): AnalizaScoreWeights {
+  return domainWeightsOverride ? { ...domainWeightsOverride } : { ...ANALIZA_DOMAIN_WEIGHTS };
+}
+
+export function getAnalizaDomainWeightsOverride(): AnalizaScoreWeights | null {
+  return domainWeightsOverride ? { ...domainWeightsOverride } : null;
+}
+
+export function setAnalizaDomainWeightsOverride(weights: AnalizaScoreWeights): void {
+  domainWeightsOverride = validateWeights(weights);
+}
+
+export function clearAnalizaDomainWeightsOverride(): void {
+  domainWeightsOverride = null;
+}
+
 // ─── Agregacija ───────────────────────────────────────────────────────────────
 
 /**
  * Gradi kompletnu analizu celokupnog ekosistema.
  * Koristi se i u /api/analiza-svega i u sekvence stranici.
- * Napomena: trend polja (`deltaScore`, `direction`) koriste in-memory snapshot i
- * u serverless okruženju mogu biti resetovana pri cold startu.
+ * Napomena: trend polja (`deltaScore`, `direction`) koriste Vercel KV kada je
+ * dostupno, uz in-memory fallback.
  */
-export function buildAnalizaSvega(): AnalizaSvega {
+export async function buildAnalizaSvega(): Promise<AnalizaSvega> {
   const degradedSources: string[] = [];
   const stats = safeCall('statistika', degradedSources, () => getStatistike());
   const dijagnostika = safeCall('auto-repair.diagnostics', degradedSources, () => runDiagnostics());
   const operativa = safeCall('kompanija-spaja-operativa', degradedSources, () => getOperativnaSpremnost());
   const autofinishSummary = safeCall('autofinish-petlja.summary', degradedSources, () => getAutofinishPetljaSummary());
   const autofinishZdravlje = safeCall('autofinish-petlja.health', degradedSources, () => getAutofinishHealthSummary());
+  const previousSnapshot = await getAnalizaLastSnapshot();
   const nowIso = new Date().toISOString();
+  const activeWeights = getAnalizaDomainWeights();
 
   const ukupnoPlatformi = stats?.ukupnoPlatformi ?? 0;
   const aktivnihPlatformi = stats?.aktivnihPlatformi ?? 0;
@@ -452,7 +494,7 @@ export function buildAnalizaSvega(): AnalizaSvega {
   // ── Ukupni score ─────────────────────────────────────────────────────────────
   const domeni = { ekosistem, infrastruktura, finansije, bezbednost, operativa: operativa_domen, autofinish, protokoli };
   const weightedScore = (Object.entries(domeni) as Array<[AnalizaDomenKljuc, AnalizaDomen]>)
-    .reduce((sum, [key, domen]) => sum + (domen.score * ANALIZA_DOMAIN_WEIGHTS[key]), 0);
+    .reduce((sum, [key, domen]) => sum + (domen.score * activeWeights[key]), 0);
   const ukupanScore = clampScore(weightedScore);
   const procenatSpremnosti = ukupanScore;
 
@@ -461,14 +503,16 @@ export function buildAnalizaSvega(): AnalizaSvega {
     .filter(([, domen]) => domen.score < 75)
     .map(([naziv]) => naziv);
 
-  const previousScore = previousAnalizaSnapshot?.ukupanScore ?? null;
+  const previousScore = previousSnapshot?.ukupanScore ?? null;
   const deltaScore = previousScore === null ? 0 : ukupanScore - previousScore;
   const trendDirection: AnalizaTrendDirection =
     deltaScore > 0 ? 'up' : deltaScore < 0 ? 'down' : 'flat';
-  previousAnalizaSnapshot = {
+  const currentSnapshot: AnalizaSnapshot = {
     ukupanScore,
     timestamp: nowIso,
   };
+  const trendHistorija = await appendAnalizaTrendSnapshot(currentSnapshot);
+  await setAnalizaLastSnapshot(currentSnapshot);
 
   // ── Preporuke ─────────────────────────────────────────────────────────────────
   const preporukeDetaljno: AnalizaPreporuka[] = [];
@@ -570,12 +614,13 @@ export function buildAnalizaSvega(): AnalizaSvega {
       currentScore: ukupanScore,
       reliable: previousScore !== null,
     },
+    trendHistorija,
     meta: {
       contractVersion: ANALIZA_CONTRACT_VERSION,
       modelVersion: ANALIZA_MODEL_VERSION,
       sourceOfTruth: '/api/analiza-svega',
       generatedAt: nowIso,
-      scoreWeights: { ...ANALIZA_DOMAIN_WEIGHTS },
+      scoreWeights: { ...activeWeights },
       degraded: degradedSources.length > 0,
       degradedSources,
     },
