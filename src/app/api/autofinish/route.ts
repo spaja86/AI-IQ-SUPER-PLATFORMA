@@ -332,6 +332,7 @@ function getAutofinishOpis(n: number): string {
     1381: `Autofinish #1381 — Lib unit test za digitalna-industrija-licencni-portfolio.ts (buildDigitalnaIndustrijaLicencniPortfolio, helper funkcije, invarijanti, entiteti), AUTOFINISH_COUNT 1380→1381, APP_VERSION 59.48.0→59.49.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1382: `Autofinish #1382 — Route coverage test za /api/og (OpenGraph image generator, edge runtime, ImageResponse 1200×630, APP_NAME/KOMPANIJA/APP_VERSION), AUTOFINISH_COUNT 1381→1382, APP_VERSION 59.49.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1383: `Autofinish #1383 — Konzistentnost i invarijanti test za licencni portfolio (jedinstveni ID-ovi, zavisnosti, summary konzistentnost, vendor<→portfolio cross-reference), AUTOFINISH_COUNT 1382→1383, APP_VERSION 59.49.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1384: `Autofinish #1384 — Licencni Program Saradnje Vercel/GitHub/OpenAI: src/lib/eksterni-partneri-licencni-program.ts (faze A–F: 6 licenci, 6 eksternih partnera, financial+partner readiness, B2B checklist-to-payment pipeline, KPI signali, audit trag), /api/licencni-program-saradnja (GET + 5 parcijalnih pogleda), 16 route coverage testova, AUTOFINISH_COUNT 1383→1384, APP_VERSION 59.50.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
