@@ -3,7 +3,7 @@ import { BASE_URL } from '@/lib/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const highPriority = ['/', '/dashboard', '/ekosistem'];
-  const mediumHighPriority = ['/platforme', '/palasterizacija', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
+  const mediumHighPriority = ['/platforme', '/palasterizacija', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
 
   // Dynamic lastModified dates per page category
   const recentlyUpdated = new Date('2026-04-20');
@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const standardPages = new Date('2026-04-14');
 
   const recentRoutes = ['/', '/dashboard', '/ai-iq-world-bank', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/mozak-logika', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka', '/oktavni-gpu-ram', '/spaja-digitalni-kompjuter', '/digitalni-prozor', '/eksponat-glavnog-jezgra', '/digitalni-vorteks', '/generator-za-poslovne-racune', '/validator-poslovnih-racuna', '/licencni-budzet-srbija', '/digitalna-industrija-pib-mb', '/digitalna-industrija-sifra-delatnosti', '/digitalna-industrija-regulatorni-rokovi', '/digitalna-industrija-izvoz-faktura', '/digitalna-industrija-devizni-prilivi', '/digitalna-industrija-devizni-odlivi', '/digitalna-industrija-devizni-saldo', '/digitalna-industrija-kursna-lista', '/digitalna-industrija-kursne-razlike', '/digitalna-industrija-valutni-rizik', '/digitalna-industrija-hedzing', '/digitalna-industrija-kamatni-rizik', '/digitalna-industrija-kreditni-rizik', '/digitalna-industrija-likvidnosni-rizik', '/digitalna-industrija-operativni-rizik', '/digitalna-industrija-reputacioni-rizik', '/bar-kod', '/digitalna-industrija-strateski-rizik', '/digitalna-industrija-pravni-rizik', '/digitalna-industrija-poreski-rizik', '/digitalna-industrija-compliance-rizik', '/digitalna-industrija-esg-rizik', '/digitalna-industrija-sajber-rizik', '/digitalna-industrija-pozicije', '/digitalna-industrija-plate', '/digitalna-industrija-beneficije', '/digitalna-industrija-nagrade', '/digitalna-industrija-licencni-portfolio', '/issuer-license-control-center'];
-  const coreRoutes = ['/ekosistem', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/palasterizacija', '/pricing', '/it-proizvodi', '/igrice', '/gejming-industrija', '/omega-ai-suport', '/spaja-digitalni-brouvzer'];
+  const coreRoutes = ['/ekosistem', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/palasterizacija', '/pricing', '/it-proizvodi', '/igrice', '/gejming-industrija', '/omega-ai-suport', '/spaja-digitalni-brouvzer'];
 
   const routes = [
     '/',
@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/industrija',
     '/platforme',
     '/palasterizacija',
+    '/eksosistzdacija',
     '/it-proizvodi',
     '/banka',
     '/ai-iq-world-bank',

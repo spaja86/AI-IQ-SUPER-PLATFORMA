@@ -5,7 +5,7 @@ import { APP_VERSION, TOTAL_PAGES, TOTAL_ROUTES } from '@/lib/constants';
 export async function GET() {
   const kategorije = {
     glavne: navigation.filter((_, i) => i < 4),
-    ekosistem: navigation.filter((n) => ['/platforme', '/ekosistem', '/deploy', '/industrija'].includes(n.href)),
+    ekosistem: navigation.filter((n) => ['/platforme', '/ekosistem', '/eksosistzdacija', '/deploy', '/industrija'].includes(n.href)),
     ai: navigation.filter((n) => ['/omega-ai', '/spaja-pro', '/prompt', '/ai-platforma', '/spaja-univerzalni-prompt'].includes(n.href)),
     infrastruktura: navigation.filter((n) => ['/proksi', '/mobilna-mreza', '/proksi-github-deploy', '/proksi-wifi-antena'].includes(n.href)),
     finansije: navigation.filter((n) => ['/banka', '/menjacnica'].includes(n.href)),

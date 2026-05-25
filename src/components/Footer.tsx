@@ -5,6 +5,7 @@ import { REFRESH_V1_SCOPE } from '@/lib/refresh-scope';
 const footerNavLinks = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/platforme', label: 'Platforme' },
+  { href: '/eksosistzdacija', label: 'Eksosistzdacija' },
   { href: '/kompanije', label: 'Kompanije' },
   { href: '/organizacije', label: 'Organizacije' },
   { href: '/proizvodi', label: 'Proizvodi' },
@@ -23,6 +24,7 @@ const footerNavLinks = [
 const footerPlatformLinks = [
   { href: '/platforme', label: APP_NAME },
   { href: '/ekosistem', label: 'IO OPENUI AO' },
+  { href: '/eksosistzdacija', label: 'Eksosistzdacija' },
   { href: '/banka', label: 'AI IQ World Bank' },
   { href: '/menjacnica', label: 'AI IQ Menjačnica' },
   { href: '/organizacija', label: 'SVETSKA ORGANIZACIJA' },

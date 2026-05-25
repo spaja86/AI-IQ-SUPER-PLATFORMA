@@ -16,6 +16,7 @@ export const EKOSISTEM_URLS = {
   AI_IQ_SUPER_PLATFORMA: 'https://ai-iq-super-platforma-fb43rn7r0-nikolas-projects-b8a8458f.vercel.app/platforme',
   POSLOVNI_NOVCANIK: 'https://ai-iq-super-platforma.vercel.app/poslovni-novcanik',
   PALASTERIZACIJA: 'https://ai-iq-super-platforma.vercel.app/palasterizacija',
+  EKSOSISTZDACIJA: 'https://ai-iq-super-platforma.vercel.app/eksosistzdacija',
 } as const;
 
 export const EKOSISTEM_DEPLOY_PROVIDER = {
@@ -26,6 +27,7 @@ export const EKOSISTEM_DEPLOY_PROVIDER = {
   AI_IQ_SUPER_PLATFORMA: 'vercel',
   POSLOVNI_NOVCANIK: 'vercel',
   PALASTERIZACIJA: 'vercel',
+  EKSOSISTZDACIJA: 'vercel',
 } as const;
 
 export interface EkosistemPlatforma {
@@ -71,6 +73,12 @@ export const ekosistemPlatforme: EkosistemPlatforma[] = [
     url: EKOSISTEM_URLS.PALASTERIZACIJA,
     ikona: '🧱',
     opis: 'Modul za standardizaciju i stabilizaciju procesa Digitalne Industrije',
+  },
+  {
+    naziv: 'Eksosistzdacija',
+    url: EKOSISTEM_URLS.EKSOSISTZDACIJA,
+    ikona: '🧩',
+    opis: 'Modul za mapiranje i konsolidaciju ekosistemskih tokova Digitalne Industrije',
   },
   {
     naziv: 'AI-IQ Super Platforma',

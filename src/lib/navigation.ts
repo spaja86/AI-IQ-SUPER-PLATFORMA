@@ -6,6 +6,7 @@ export const navigation: NavItem[] = [
   { label: 'Industrija', href: '/industrija', icon: '🏭', description: 'O digitalnoj industriji' },
   { label: 'Platforme', href: '/platforme', icon: '🧩', description: 'Sve platforme u ekosistemu' },
   { label: 'Palasterizacija', href: '/palasterizacija', icon: '🧱', description: 'Novi modul za standardizaciju i stabilizaciju procesa' },
+  { label: 'Eksosistzdacija', href: '/eksosistzdacija', icon: '🧩', description: 'Modul za povezivanje i konsolidaciju ekosistemskih tokova' },
   { label: 'Organizacije', href: '/organizacije', icon: '🏢', description: 'Organizaciona struktura' },
   { label: 'Kompanije', href: '/kompanije', icon: '🏛️', description: 'Kompanije u ekosistemu' },
   { label: 'Proizvodi (EN)', href: '/proizvodi', icon: '📦', description: 'IT proizvodi i alati (engleski prikaz)' },

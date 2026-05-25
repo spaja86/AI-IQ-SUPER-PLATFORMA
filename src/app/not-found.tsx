@@ -10,6 +10,7 @@ const popularneStanice = [
   { href: '/prompt', label: '📝 Prompt', opis: 'Prompt sistem' },
   { href: '/auto-popravka', label: '🔧 Auto-Popravka', opis: 'Dijagnostika i popravka' },
   { href: '/ekosistem', label: '🌍 Ekosistem', opis: `${TOTAL_PAGES} stranica ekosistema` },
+  { href: '/eksosistzdacija', label: '🧩 Eksosistzdacija', opis: 'Konsolidacija i mapiranje ekosistemskih tokova' },
   { href: '/blog', label: '📰 Blog & FAQ', opis: 'Novosti i česta pitanja' },
 ];
 
