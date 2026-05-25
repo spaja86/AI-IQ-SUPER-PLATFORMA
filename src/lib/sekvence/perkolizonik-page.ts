@@ -28,7 +28,7 @@ export const perkolizonikSekvence: Sekvenca[] = [
       stavke: [
         { naziv: 'Operativni indeks', vrednost: perkolizonik.operativniIndeks, ikona: '🎯' },
         { naziv: 'Stabilnost', vrednost: perkolizonik.stabilnost, ikona: '🛡️' },
-        { naziv: 'Prosek iskoriscenosti', vrednost: `${Math.round(perkolizonik.prosekIskoriscenosti * 100)}%`, ikona: '📈' },
+        { naziv: 'Prosek iskorišćenosti', vrednost: `${Math.round(perkolizonik.prosekIskoriscenosti * 100)}%`, ikona: '📈' },
         { naziv: 'Prosek latencije', vrednost: `${perkolizonik.prosekLatencijeMs} ms`, ikona: '⏱️' },
         { naziv: 'Kapacitet/sat', vrednost: perkolizonik.ukupniKapacitetPoSatu, ikona: '🏭' },
         { naziv: 'Output/sat', vrednost: perkolizonik.procenjeniOutputPoSatu, ikona: '📦' },
@@ -69,7 +69,7 @@ export const perkolizonikSekvence: Sekvenca[] = [
     naslov: '📋 Tokovi — operativni pregled',
     redosled: 4,
     podaci: {
-      zaglavlje: ['Tok', 'Kapacitet/sat', 'Iškoriscenost', 'Latencija (ms)', 'Greške/1000', 'Status'],
+      zaglavlje: ['Tok', 'Kapacitet/sat', 'Iskorišćenost', 'Latencija (ms)', 'Greške/1000', 'Status'],
       redovi: perkolizonik.tokovi.map((tok) => [
         tok.naziv,
         String(tok.kapacitetPoSatu),
@@ -95,4 +95,3 @@ export const perkolizonikSekvence: Sekvenca[] = [
     },
   },
 ];
-

@@ -94,7 +94,7 @@ export function buildPerkolizonik(userId: string): PerkolizonikRezultat {
     tokoviSaStatusom.reduce((sum, t) => sum + t.greskePo1000, 0) / tokoviSaStatusom.length;
 
   const stabilnost = clamp01(
-    round4(1 - (prosecnaErrorPenalizacija(prosecanErrorScore) + prosecnaLatencijaPenalizacija(prosekLatencijeMs))),
+    round4(1 - (prosecnaGreskaPenalizacija(prosecanErrorScore) + prosecnaLatencijskaPenalizacija(prosekLatencijeMs))),
   );
   const operativniIndeks = clamp01(
     round4(stabilnost * 0.45 + prosekIskoriscenosti * 0.4 + throughputScore(procenjeniOutputPoSatu, ukupniKapacitetPoSatu) * 0.15),
@@ -119,11 +119,10 @@ function throughputScore(output: number, capacity: number): number {
   return clamp01(round4(output / capacity));
 }
 
-function prosecnaErrorPenalizacija(v: number): number {
+function prosecnaGreskaPenalizacija(v: number): number {
   return clamp01(round4(v / 20));
 }
 
-function prosecnaLatencijaPenalizacija(v: number): number {
+function prosecnaLatencijskaPenalizacija(v: number): number {
   return clamp01(round4(v / 500));
 }
-
