@@ -58,7 +58,7 @@ async function runTests(): Promise<void> {
     }
   });
 
-  await test('Agregatni KPI su u očekivanim opsezima', () => {
+  await test('Agregatni KPI su u očekivanim granicama', () => {
     assert(rezultat.operativniIndeks >= 0 && rezultat.operativniIndeks <= 1, 'operativniIndeks 0..1');
     assert(rezultat.stabilnost >= 0 && rezultat.stabilnost <= 1, 'stabilnost 0..1');
     assert(
@@ -98,4 +98,3 @@ runTests().catch((e) => {
   console.error('Kritična greška u test runneru:', e);
   process.exit(1);
 });
-
