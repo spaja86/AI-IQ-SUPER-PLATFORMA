@@ -152,6 +152,20 @@ export const aiPagePrompts: PagePromptConfig[] = [
     ],
   },
   {
+    putanja: '/eksosistzdacija',
+    naslov: 'Eksosistzdacija',
+    opis: 'Konsolidacija i mapiranje ekosistemskih tokova',
+    kontekst: 'Eksosistzdacija je modul za povezivanje platformi, operativnih procesa i AI podsistema u jedan centralni pregled sa fokusom na stabilnost i usklađenost.',
+    promptovi: [
+      { pitanje: 'Šta je Eksosistzdacija i čemu služi?', ikona: '🧩', kategorija: 'ai' },
+      { pitanje: 'Kako se Eksosistzdacija razlikuje od stranice Ekosistem?', ikona: '⚖️', kategorija: 'ai' },
+      { pitanje: 'Koji su ključni operativni tokovi koje ovaj modul povezuje?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako da pratim stabilnost i usklađenost kroz ovaj modul?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koje platforme i API rute su obuhvaćene u pregledu?', ikona: '🗺️', kategorija: 'ai' },
+      { pitanje: 'Kako Eksosistzdacija pomaže za dalju evoluciju sistema?', ikona: '📈', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
     putanja: '/banka',
     naslov: 'Banka',
     opis: 'SPAJA Banka platforma',

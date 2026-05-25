@@ -19,7 +19,7 @@ export async function GET() {
       },
       prioriteti: {
         highest: sitemapRoutes.filter((r) => ['/', '/dashboard', '/ekosistem'].includes(r)).length,
-        high: sitemapRoutes.filter((r) => ['/platforme', '/omega-ai', '/spaja-pro', '/igrice', '/it-proizvodi'].includes(r)).length,
+        high: sitemapRoutes.filter((r) => ['/platforme', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice', '/it-proizvodi'].includes(r)).length,
         default: sitemapRoutes.length - 8,
       },
     },

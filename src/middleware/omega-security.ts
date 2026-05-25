@@ -72,6 +72,7 @@ const PUBLIC_ROUTES = [
   '/kompanija',
   '/organizacija',
   '/ekosistem',
+  '/eksosistzdacija',
   '/dashboard',
   '/omega-ai',
   '/deploy',
