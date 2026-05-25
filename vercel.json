@@ -16,6 +16,10 @@
     {
       "path": "/api/cron/ekstremno-procesuiranje-svega",
       "schedule": "*/20 * * * *"
+    },
+    {
+      "path": "/api/analiza-svega-refresh",
+      "schedule": "*/20 * * * *"
     }
   ]
 }
