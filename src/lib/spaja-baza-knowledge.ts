@@ -71,11 +71,11 @@ export function getKnowledgePolicy(): KnowledgePolicy {
 export function canonicalizeUrl(url: string): string {
   const parsed = new URL(url);
   parsed.hash = '';
-  parsed.searchParams.forEach((_, key) => {
+  for (const key of Array.from(parsed.searchParams.keys())) {
     if (key.toLowerCase().startsWith('utm_') || key.toLowerCase() === 'fbclid') {
       parsed.searchParams.delete(key);
     }
-  });
+  }
   parsed.pathname = parsed.pathname.replace(/\/+$/, '') || '/';
   return parsed.toString();
 }
