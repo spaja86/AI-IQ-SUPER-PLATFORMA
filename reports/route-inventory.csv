@@ -14,6 +14,8 @@ aiiq-world-bank-licencni-expirations,GET,aiiq-world-bank-licencni-expirations,ye
 aiiq-world-bank-licencni-gap-izvestaj,GET,aiiq-world-bank-licencni-gap-izvestaj,yes,aiiq-world-bank-licencni-gap-izvestaj-route.test.ts
 aiiq-world-bank-licencni-registar,GET,aiiq-world-bank-licencni-registar,yes,aiiq-world-bank-licencni-registar-route.test.ts
 analiza-svega,GET,analiza-svega,yes,analiza-svega-route.test.ts
+analiza-svega-config,GET|POST,analiza-svega-config,yes,analiza-svega-config-route.test.ts
+analiza-svega-refresh,GET,analiza-svega-refresh,yes,analiza-svega-refresh-route.test.ts
 autentifikacija,GET,autentifikacija,yes,autentifikacija-route.test.ts
 autentifikacija-dozvole,GET,autentifikacija-dozvole,yes,autentifikacija-dozvole-route.test.ts
 autentifikacija-pregled,GET,autentifikacija-pregled,yes,autentifikacija-pregled-route.test.ts
@@ -32,6 +34,7 @@ auto-repair/history,GET,auto-repair,yes,auto-repair-history-route.test.ts
 autofinish,GET,autofinish,yes,autofinish-route.test.ts
 autofinish-ai-asistent-pregled,GET,autofinish-ai-asistent-pregled,yes,autofinish-ai-asistent-pregled-route.test.ts
 autofinish-alert-rules,GET,autofinish-alert-rules,yes,autofinish-alert-rules-route.test.ts
+autofinish-analiza-svega,GET|POST,autofinish-analiza-svega,yes,autofinish-analiza-svega-route.test.ts
 autofinish-api-milestone-1000,GET,autofinish-api-milestone-1000,yes,autofinish-api-milestone-1000-route.test.ts
 autofinish-api-milestone-1001,GET,autofinish-api-milestone-1001,yes,autofinish-api-milestone-1001-route.test.ts
 autofinish-api-milestone-1002,GET,autofinish-api-milestone-1002,yes,autofinish-api-milestone-1002-route.test.ts
@@ -168,6 +171,7 @@ autofinish-stabilnost-pregled,GET,autofinish-stabilnost-pregled,yes,autofinish-s
 autofinish-statistika,GET,autofinish-statistika,yes,autofinish-statistika-route.test.ts
 autofinish-status-extended,GET,autofinish-status-extended,yes,autofinish-status-extended-route.test.ts
 autofinish-summary,GET,autofinish-summary,yes,autofinish-summary-route.test.ts
+autofinish-svega,GET|POST,autofinish-svega,yes,autofinish-svega-route.test.ts
 autofinish-system-report,GET,autofinish-system-report,yes,autofinish-system-report-route.test.ts
 autofinish-tag-system,GET,autofinish-tag-system,yes,autofinish-tag-system-route.test.ts
 autofinish-timeline,GET,autofinish-timeline,yes,autofinish-timeline-route.test.ts
@@ -232,6 +236,9 @@ digitalna-industrija-kamatni-rizik,GET,digitalna-industrija-kamatni-rizik,yes,di
 digitalna-industrija-kreditni-rizik,GET,digitalna-industrija-kreditni-rizik,yes,digitalna-industrija-kreditni-rizik-route.test.ts
 digitalna-industrija-kursna-lista,GET,digitalna-industrija-kursna-lista,yes,digitalna-industrija-kursna-lista-route.test.ts
 digitalna-industrija-kursne-razlike,GET,digitalna-industrija-kursne-razlike,yes,digitalna-industrija-kursne-razlike-route.test.ts
+digitalna-industrija-licencni-portfolio,GET,digitalna-industrija-licencni-portfolio,yes,digitalna-industrija-licencni-portfolio-route.test.ts
+digitalna-industrija-licencni-procurement-queue,GET,digitalna-industrija-licencni-procurement-queue,yes,digitalna-industrija-licencni-procurement-queue-route.test.ts
+digitalna-industrija-licencni-vendor-status,GET,digitalna-industrija-licencni-vendor-status,yes,digitalna-industrija-licencni-vendor-status-route.test.ts
 digitalna-industrija-likvidnosni-rizik,GET,digitalna-industrija-likvidnosni-rizik,yes,digitalna-industrija-likvidnosni-rizik-route.test.ts
 digitalna-industrija-nagrade,GET,digitalna-industrija-nagrade,yes,digitalna-industrija-nagrade-route.test.ts
 digitalna-industrija-operativni-rizik,GET,digitalna-industrija-operativni-rizik,yes,digitalna-industrija-operativni-rizik-route.test.ts
@@ -268,6 +275,7 @@ ekosistem-indeks,GET,ekosistem-indeks,yes,ekosistem-indeks-route.test.ts
 ekosistem-status,GET,ekosistem-status,yes,ekosistem-status-route.test.ts
 ekosistem-url-registar,GET,ekosistem-url-registar,yes,ekosistem-url-registar-route.test.ts
 ekosistem-zdravlje,GET,ekosistem-zdravlje,yes,ekosistem-zdravlje-route.test.ts
+eksosistzdacija,GET,eksosistzdacija,yes,eksosistzdacija-route.test.ts
 eksponat-glavnog-jezgra,GET,eksponat-glavnog-jezgra,yes,eksponat-glavnog-jezgra-route.test.ts
 ekstremno-procesuiranje-svega,GET,ekstremno-procesuiranje-svega,yes,ekstremno-procesuiranje-svega-route.test.ts
 enterprise-ugovori,GET|POST,enterprise-ugovori,yes,enterprise-ugovori-route.test.ts
@@ -312,6 +320,11 @@ io-openui-ao-laboratorija-pregled,GET,io-openui-ao-laboratorija-pregled,yes,io-o
 io-openui-ao-laboratorija-simulacije,GET,io-openui-ao-laboratorija-simulacije,yes,io-openui-ao-laboratorija-simulacije-route.test.ts
 io-openui-ao-laboratorija-status,GET,io-openui-ao-laboratorija-status,yes,io-openui-ao-laboratorija-status-route.test.ts
 io-openui-ao-pregled,GET,io-openui-ao-pregled,yes,io-openui-ao-pregled-route.test.ts
+issuer-licensing,GET|POST,issuer-licensing,yes,issuer-licensing-route.test.ts
+issuer-licensing/[authorityId]/status,PATCH,issuer-licensing,yes,issuer-licensing-[authorityId]-status-route.test.ts
+issuer-licensing/compliance,GET,issuer-licensing,yes,issuer-licensing-compliance-route.test.ts
+issuer-licensing/expirations,GET,issuer-licensing,yes,issuer-licensing-expirations-route.test.ts
+issuer-licensing/issue,POST,issuer-licensing,yes,issuer-licensing-issue-route.test.ts
 it-proizvodi-pregled,GET,it-proizvodi-pregled,yes,it-proizvodi-pregled-route.test.ts
 it-proizvodi-status,GET,it-proizvodi-status,yes,it-proizvodi-status-route.test.ts
 kastler-tv-signal-request,GET|POST,kastler-tv-signal-request,yes,kastler-tv-signal-request-route.test.ts
@@ -376,6 +389,7 @@ laureatski-takt,GET,laureatski-takt,yes,laureatski-takt-route.test.ts
 laureatski-talas,GET,laureatski-talas,yes,laureatski-talas-route.test.ts
 laureatski-transkoder,GET,laureatski-transkoder,yes,laureatski-transkoder-route.test.ts
 licencni-budzet-srbija,GET,licencni-budzet-srbija,yes,licencni-budzet-srbija-route.test.ts
+licencni-program-saradnja,GET,licencni-program-saradnja,yes,licencni-program-saradnja-route.test.ts
 login,GET|POST,login,yes,login-route.test.ts
 login-industrija-pristup,GET,login-industrija-pristup,yes,login-industrija-pristup-route.test.ts
 masovna-analiza,GET,masovna-analiza,yes,masovna-analiza-route.test.ts
@@ -611,6 +625,7 @@ owner-phone-auth/verify-otp,GET|POST,owner-phone-auth,yes,owner-phone-auth-verif
 paypal/checkout,POST,paypal,yes,paypal-checkout-route.test.ts
 paypal/portal,POST,paypal,yes,paypal-portal-route.test.ts
 paypal/webhook,POST,paypal,yes,paypal-webhook-route.test.ts
+perkolizonik,GET,perkolizonik,yes,perkolizonik-route.test.ts
 platforma-arhitektura,GET,platforma-arhitektura,yes,platforma-arhitektura-route.test.ts
 platforma-autonomija,GET,platforma-autonomija,yes,platforma-autonomija-route.test.ts
 platforma-biofotonski-analizator,GET,platforma-biofotonski-analizator,yes,platforma-biofotonski-analizator-route.test.ts

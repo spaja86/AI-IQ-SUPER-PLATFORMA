@@ -213,3 +213,4 @@ export { aiIqWorldBankProcesiranjeSekvence } from './ai-iq-world-bank-procesiran
 
 // ── PROCESUIRANJE SVEGA ───────────────────────────────────────────────────────
 export { procesuiranjeSvegaSekvence } from './procesuiranje-svega-page';
+export { perkolizonikSekvence } from './perkolizonik-page';
