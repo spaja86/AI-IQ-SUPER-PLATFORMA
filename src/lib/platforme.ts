@@ -58,6 +58,20 @@ export const platforme: Platforma[] = [
     funkcije: ['Rucni unos kartice', 'Kamera sken fallback', 'Tokenizacija', 'Regionalno rutiranje', 'KPI/SLO monitoring'],
     deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app/poslovni-novcanik', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
   },
+  {
+    id: 'palasterizacija',
+    naziv: 'Palasterizacija',
+    opis: 'Platformski modul za standardizaciju i stabilizaciju operativnih procesa u Digitalnoj Industriji.',
+    kategorija: 'alati',
+    repo: 'spaja86/AI-IQ-SUPER-PLATFORMA',
+    url: EKOSISTEM_URLS.PALASTERIZACIJA,
+    ikona: '🧱',
+    status: 'aktivna',
+    progres: 62,
+    tehnologije: ['Next.js 16', 'TypeScript', 'Sekvence', 'Vercel'],
+    funkcije: ['Standardizacija procesa', 'Operativna stabilizacija', 'KPI praćenje', 'Integracija sa platformama'],
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app/palasterizacija', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
+  },
 
   {
     id: 'ai-iq-world-bank',
