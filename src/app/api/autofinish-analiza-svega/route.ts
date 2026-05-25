@@ -6,6 +6,10 @@ import { buildAnalizaSvega } from '@/lib/analiza-svega';
 
 const TRIGGER_TOKEN = process.env.AUTOFINISH_TRIGGER_TOKEN;
 
+interface GitHubIssueCreateResponse {
+  number?: number;
+}
+
 export async function POST(req: NextRequest) {
   if (!TRIGGER_TOKEN) {
     return NextResponse.json(
@@ -80,16 +84,23 @@ export async function POST(req: NextRequest) {
           }),
         });
         if (response.ok) {
-          const issue = (await response.json()) as Record<string, unknown>;
+          const issue = (await response.json()) as GitHubIssueCreateResponse;
           kreiraniIssues.push({
             naslov,
             broj: typeof issue.number === 'number' ? issue.number : undefined,
             status: 'kreiran',
           });
         } else {
+          const responseBody = await response.text();
+          console.warn('[autofinish-analiza-svega] GitHub issue create failed', {
+            status: response.status,
+            responseBody,
+            naslov,
+          });
           kreiraniIssues.push({ naslov, status: `greska-${response.status}` });
         }
-      } catch {
+      } catch (error) {
+        console.warn('[autofinish-analiza-svega] GitHub issue create fetch error', { error, naslov });
         kreiraniIssues.push({ naslov, status: 'greska-fetch' });
       }
     }

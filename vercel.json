@@ -19,7 +19,7 @@
     },
     {
       "path": "/api/analiza-svega-refresh",
-      "schedule": "*/20 * * * *"
+      "schedule": "10,30,50 * * * *"
     }
   ]
 }

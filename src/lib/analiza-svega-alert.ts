@@ -9,10 +9,17 @@ function getThreshold(): number {
   const raw = process.env.ANALIZA_ALERT_THRESHOLD;
   if (!raw) return 75;
   const parsed = Number(raw);
-  if (!Number.isFinite(parsed)) return 75;
+  if (!Number.isFinite(parsed)) {
+    console.warn('[analiza-svega-alert] ANALIZA_ALERT_THRESHOLD nije validan broj, koristi se fallback 75');
+    return 75;
+  }
   return Math.max(0, Math.min(100, Math.round(parsed)));
 }
 
+/**
+ * Šalje webhook alert kada ukupan score padne ispod threshold-a
+ * ili kada postoje kritični domeni.
+ */
 export async function dispatchAnalizaSvegaAlert(analiza: AnalizaSvega): Promise<AnalizaAlertResult> {
   const webhookUrl = process.env.ANALIZA_ALERT_WEBHOOK_URL;
   if (!webhookUrl) {
@@ -61,7 +68,8 @@ export async function dispatchAnalizaSvegaAlert(analiza: AnalizaSvega): Promise<
     }
 
     return { sent: true, reason: 'sent' };
-  } catch {
+  } catch (error) {
+    console.warn('[analiza-svega-alert] webhook fetch error', error);
     return { sent: false, reason: 'webhook-fetch-error' };
   }
 }

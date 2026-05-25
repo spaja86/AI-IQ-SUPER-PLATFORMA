@@ -80,8 +80,7 @@ if (Math.abs(ANALIZA_DOMAIN_WEIGHT_SUM - 1) > 0.0001) {
   throw new Error(`ANALIZA_DOMAIN_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${ANALIZA_DOMAIN_WEIGHT_SUM})`);
 }
 
-type AnalizaDomenKljucNiz = AnalizaDomenKljuc[];
-const ANALIZA_DOMENI_KLJUCEVI: AnalizaDomenKljucNiz = [
+const ANALIZA_DOMENI_KLJUCEVI: AnalizaDomenKljuc[] = [
   'ekosistem',
   'infrastruktura',
   'finansije',
@@ -208,7 +207,7 @@ function safeCall<T>(sourceName: string, degradedSources: string[], fn: () => T)
   }
 }
 
-function normalizeWeights(weights: AnalizaScoreWeights): AnalizaScoreWeights {
+function validateWeights(weights: AnalizaScoreWeights): AnalizaScoreWeights {
   const sum = ANALIZA_DOMENI_KLJUCEVI.reduce((acc, key) => acc + weights[key], 0);
   if (Math.abs(sum - 1) > 0.0001) {
     throw new Error(`ANALIZA_DOMAIN_WEIGHTS override mora biti normalizovan na 1.0 (trenutno: ${sum})`);
@@ -225,7 +224,7 @@ export function getAnalizaDomainWeightsOverride(): AnalizaScoreWeights | null {
 }
 
 export function setAnalizaDomainWeightsOverride(weights: AnalizaScoreWeights): void {
-  domainWeightsOverride = normalizeWeights(weights);
+  domainWeightsOverride = validateWeights(weights);
 }
 
 export function clearAnalizaDomainWeightsOverride(): void {

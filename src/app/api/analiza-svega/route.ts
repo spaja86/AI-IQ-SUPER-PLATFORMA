@@ -81,7 +81,14 @@ export async function GET(req: NextRequest) {
       await setCachedAnalizaSvega(analiza, ANALIZA_SVEGA_CACHE_TTL_SECONDS);
     }
 
-    void dispatchAnalizaSvegaAlert(analiza);
+    // Fire-and-forget: alert ne sme da blokira API odgovor.
+    void dispatchAnalizaSvegaAlert(analiza).then((result) => {
+      if (!result.sent && result.reason !== 'threshold-not-breached' && result.reason !== 'webhook-not-configured') {
+        console.warn('[analiza-svega] alert dispatch skipped/failure', { reason: result.reason });
+      }
+    }).catch((error) => {
+      console.warn('[analiza-svega] alert dispatch promise rejected', error);
+    });
 
     const filtered = filterAnalizaDomains(analiza, domainFilter);
 

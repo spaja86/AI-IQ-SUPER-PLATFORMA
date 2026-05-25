@@ -36,6 +36,12 @@ function formatPreviousScore(score: number | null): string {
 
 function formatTrendTimestamp(timestamp: string): string {
   return new Date(timestamp).toLocaleString('sr-RS', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
     hour12: false,
   });
 }
@@ -337,7 +343,8 @@ export async function getAnalizaSvegaSekvence(): Promise<Sekvenca[]> {
     redosled: 10,
     podaci: {
       zaglavlje: ['Timestamp', 'Ukupan score'],
-      redovi: [...analiza.trendHistorija]
+      redovi: analiza.trendHistorija
+        .slice()
         .reverse()
         .map((snapshot) => [formatTrendTimestamp(snapshot.timestamp), `${snapshot.ukupanScore}%`]),
     },

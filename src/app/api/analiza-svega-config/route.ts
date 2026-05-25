@@ -74,6 +74,12 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error('[analiza-svega-config] failure', error);
-    return NextResponse.json({ error: 'Neuspešna konfiguracija ANALIZA SVEGA' }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Neuspešna konfiguracija ANALIZA SVEGA',
+        code: 'ANALIZA_SVEGA_CONFIG_ERROR',
+      },
+      { status: 500 },
+    );
   }
 }

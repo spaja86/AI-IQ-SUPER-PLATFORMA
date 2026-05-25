@@ -2,12 +2,16 @@ import type { AnalizaSvega } from './analiza-svega';
 
 function csvEscape(value: unknown): string {
   const str = String(value ?? '');
-  if (str.includes('"') || str.includes(',') || str.includes('\n')) {
+  if (str.includes('"') || str.includes(',') || str.includes('\n') || str.includes('\r')) {
     return `"${str.replace(/"/g, '""')}"`;
   }
   return str;
 }
 
+/**
+ * Serializuje ANALIZA SVEGA payload u CSV.
+ * Prvi deo sadrži redove po domenu, a drugi deo summary sekciju.
+ */
 export function serializeAnalizaSvegaCSV(analiza: AnalizaSvega): string {
   const header = [
     'domen',
