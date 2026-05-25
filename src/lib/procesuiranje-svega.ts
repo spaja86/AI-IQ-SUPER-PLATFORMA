@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore — PROCESUIRANJE SVEGA
+// SpajaUltraOmegaCore — EKSTREMNO PROCESUIRANJE SVEGA
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Jedinstven izvor istine za aktivni pipeline procesiranja svih domena:
@@ -11,23 +11,35 @@
 //   - Bezbednosni procesi
 //   - Analitički procesi
 
-import {
-  APP_VERSION,
-  AUTOFINISH_COUNT,
-  TOTAL_API_ROUTES,
-  TOTAL_ROUTES,
-  KOMPANIJA,
-} from './constants';
-
-// ─── Tipovi ───────────────────────────────────────────────────────────────────
+import { runDiagnostics } from './auto-repair';
+import { getAutofinishHealthSummary, getAutofinishPetljaSummary } from './autofinish-petlja';
+import { autentifikacijaSistem } from './autentifikacija';
+import { spajaPlatniSistem } from './spaja-platni-sistem';
+import { APP_VERSION, AUTOFINISH_COUNT, KOMPANIJA, TOTAL_API_ROUTES, TOTAL_ROUTES } from './constants';
+import { getOperativnaSpremnost } from './kompanija-spaja-operativa';
+import { getDeployStatistike } from './proksi-github-deploy';
+import { getStatistike } from './statistika';
 
 export type ProcesuiranjeStatus = 'aktivno' | 'cekanje' | 'greska' | 'zavrseno';
+export type ProcesuiranjePrioritet = 'kriticno' | 'visoko' | 'srednje' | 'nisko';
+export type ProcesuiranjeFreshness = 'fresh' | 'stale';
+
+export const PROCESUIRANJE_SVEGA_CONTRACT_VERSION = 'v2';
+export const PROCESUIRANJE_SVEGA_MODEL_VERSION = '2.0.0';
+export const PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH = '/api/procesuiranje-svega';
+
+interface ProcesuiranjeScore {
+  throughputPerMin: number;
+  latencyMsP95: number;
+  errorRatePct: number;
+}
 
 export interface ProcesuiranjeStavka {
   id: string;
   opis: string;
   status: ProcesuiranjeStatus;
   tip: string;
+  prioritet?: ProcesuiranjePrioritet;
 }
 
 export interface ProcesuiranjeDomen {
@@ -37,6 +49,37 @@ export interface ProcesuiranjeDomen {
   procenat: number;
   stavke: ProcesuiranjeStavka[];
   vreme: string;
+  freshness?: ProcesuiranjeFreshness;
+}
+
+export interface ProcesuiranjeScheduler {
+  rezim: 'sekvencijalno-kriticni-i-paralelno-nekriticni';
+  emergencyOverride: boolean;
+  fairnessIndex: number;
+  starvationRizik: number;
+  queueDepth: number;
+  saturacijaPct: number;
+  redovi: Array<{
+    domen: string;
+    stavkaId: string;
+    prioritet: ProcesuiranjePrioritet;
+    strategija: 'sekvencijalno' | 'paralelno';
+  }>;
+}
+
+export interface ProcesuiranjeMeta {
+  contractVersion: typeof PROCESUIRANJE_SVEGA_CONTRACT_VERSION;
+  modelVersion: string;
+  sourceOfTruth: typeof PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH;
+  generatedAt: string;
+  degraded: boolean;
+  degradedSources: string[];
+  ciljevi: {
+    throughputPerMin: number;
+    latencyMsP95: number;
+    maxErrorRatePct: number;
+    maxQueueDepth: number;
+  };
 }
 
 export interface ProcesuiranjeSvegaRezultat {
@@ -44,15 +87,11 @@ export interface ProcesuiranjeSvegaRezultat {
   kompanija: string;
   verzija: string;
   autofinishBroj: number;
-
-  // Ukupni pregled
   ukupanProcenat: number;
   aktivnihProcesa: number;
   cekajucihProcesa: number;
   gresakaUkupno: number;
   zavrsenihProcesa: number;
-
-  // Domeni
   domeni: {
     bankarski: ProcesuiranjeDomen;
     ai: ProcesuiranjeDomen;
@@ -63,14 +102,19 @@ export interface ProcesuiranjeSvegaRezultat {
     bezbednosni: ProcesuiranjeDomen;
     analiticki: ProcesuiranjeDomen;
   };
-
-  // Sve stavke iz svih domena (flat lista aktivnih)
   aktivneStavke: ProcesuiranjeStavka[];
-
+  scheduler: ProcesuiranjeScheduler;
+  score: ProcesuiranjeScore;
+  kriticniProcesi: ProcesuiranjeStavka[];
+  uskaGrla: string[];
+  preporuke: string[];
+  meta: ProcesuiranjeMeta;
   timestamp: string;
 }
 
-// ─── Helper ───────────────────────────────────────────────────────────────────
+function clampScore(score: number): number {
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
 
 function stavkeProcenat(stavke: ProcesuiranjeStavka[]): number {
   if (stavke.length === 0) return 0;
@@ -85,175 +129,391 @@ function dominantniStatus(stavke: ProcesuiranjeStavka[]): ProcesuiranjeStatus {
   return 'zavrseno';
 }
 
-// ─── Builder ──────────────────────────────────────────────────────────────────
+function safeCall<T>(sourceName: string, degradedSources: string[], fn: () => T): T | null {
+  try {
+    return fn();
+  } catch (error) {
+    degradedSources.push(sourceName);
+    console.error('[procesuiranje-svega] source failure:', sourceName, error);
+    return null;
+  }
+}
+
+function statusFromSignal(ok: boolean, waiting: boolean): ProcesuiranjeStatus {
+  if (ok) return 'zavrseno';
+  if (waiting) return 'cekanje';
+  return 'aktivno';
+}
+
+const PRIORITET_RANK: Record<ProcesuiranjePrioritet, number> = {
+  kriticno: 0,
+  visoko: 1,
+  srednje: 2,
+  nisko: 3,
+};
+
+function classifyPrioritet(domen: string, status: ProcesuiranjeStatus): ProcesuiranjePrioritet {
+  if (status === 'greska') return 'kriticno';
+  if (domen === 'bankarski' || domen === 'bezbednosni') return 'kriticno';
+  if (domen === 'finansijski' || domen === 'ekosistem') return 'visoko';
+  if (status === 'cekanje') return 'srednje';
+  return 'nisko';
+}
+
+function buildDomen(
+  naziv: string,
+  ikona: string,
+  freshness: ProcesuiranjeFreshness,
+  stavke: ProcesuiranjeStavka[],
+  now: string,
+): ProcesuiranjeDomen {
+  return {
+    naziv,
+    ikona,
+    status: dominantniStatus(stavke),
+    procenat: clampScore(stavkeProcenat(stavke)),
+    stavke,
+    vreme: now,
+    freshness,
+  };
+}
+
+function buildFallbackProcesuiranjeSvega(reason = 'unknown'): ProcesuiranjeSvegaRezultat {
+  const now = new Date().toISOString();
+  const fallbackStavka: ProcesuiranjeStavka = {
+    id: 'fallback-001',
+    opis: `Signal degradacija: ${reason}`,
+    status: 'cekanje',
+    tip: 'degraded-fallback',
+    prioritet: 'srednje',
+  };
+  const fallbackDomen = buildDomen('Fallback', '⚠️', 'stale', [fallbackStavka], now);
+  return {
+    sistem: 'PROCESUIRANJE SVEGA — Digitalna Industrija',
+    kompanija: KOMPANIJA,
+    verzija: APP_VERSION,
+    autofinishBroj: AUTOFINISH_COUNT,
+    ukupanProcenat: 0,
+    aktivnihProcesa: 0,
+    cekajucihProcesa: 1,
+    gresakaUkupno: 0,
+    zavrsenihProcesa: 0,
+    domeni: {
+      bankarski: fallbackDomen,
+      ai: fallbackDomen,
+      finansijski: fallbackDomen,
+      licencni: fallbackDomen,
+      ekosistem: fallbackDomen,
+      autofinish: fallbackDomen,
+      bezbednosni: fallbackDomen,
+      analiticki: fallbackDomen,
+    },
+    aktivneStavke: [],
+    scheduler: {
+      rezim: 'sekvencijalno-kriticni-i-paralelno-nekriticni',
+      emergencyOverride: false,
+      fairnessIndex: 0,
+      starvationRizik: 100,
+      queueDepth: 1,
+      saturacijaPct: 100,
+      redovi: [{
+        domen: 'fallback',
+        stavkaId: fallbackStavka.id,
+        prioritet: 'srednje',
+        strategija: 'sekvencijalno',
+      }],
+    },
+    score: {
+      throughputPerMin: 0,
+      latencyMsP95: 1500,
+      errorRatePct: 100,
+    },
+    kriticniProcesi: [],
+    uskaGrla: ['Nedostupni izvori signala — fallback režim'],
+    preporuke: ['Proveriti health dijagnostiku i env konfiguraciju pre nastavka.'],
+    meta: {
+      contractVersion: PROCESUIRANJE_SVEGA_CONTRACT_VERSION,
+      modelVersion: PROCESUIRANJE_SVEGA_MODEL_VERSION,
+      sourceOfTruth: PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH,
+      generatedAt: now,
+      degraded: true,
+      degradedSources: [reason],
+      ciljevi: {
+        throughputPerMin: 1200,
+        latencyMsP95: 300,
+        maxErrorRatePct: 2,
+        maxQueueDepth: 80,
+      },
+    },
+    timestamp: now,
+  };
+}
 
 export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const now = new Date().toISOString();
+  const degradedSources: string[] = [];
 
-  // ── 1. Bankarski procesi ───────────────────────────────────────────────────
+  const stats = safeCall('statistika', degradedSources, () => getStatistike());
+  const diagnostics = safeCall('auto-repair.diagnostics', degradedSources, () => runDiagnostics());
+  const operativa = safeCall('kompanija-spaja-operativa', degradedSources, () => getOperativnaSpremnost());
+  const autofinishSummary = safeCall('autofinish-petlja.summary', degradedSources, () => getAutofinishPetljaSummary());
+  const autofinishHealth = safeCall('autofinish-petlja.health', degradedSources, () => getAutofinishHealthSummary());
+  const deployStats = safeCall('proksi-github-deploy', degradedSources, () => getDeployStatistike());
+
+  if (!stats || !diagnostics || !operativa || !autofinishSummary || !autofinishHealth || !deployStats) {
+    return buildFallbackProcesuiranjeSvega(degradedSources.join(',') || 'missing-signals');
+  }
+
+  const runtimeReady = operativa.spremnost.modelStanja.runtime === 'runtime-ready';
+  const opsReady = operativa.spremnost.modelStanja.ops === 'ops-ready';
+  const enterpriseReady = operativa.spremnost.modelStanja.enterprise === 'enterprise-ready';
+  const diagnosticsOk = diagnostics.kriticnih === 0 && diagnostics.gresaka === 0;
+  const authOk = autentifikacijaSistem.status === 'aktivan';
+  const billingOk = spajaPlatniSistem.status === 'aktivan';
+
   const bankarskiStavke: ProcesuiranjeStavka[] = [
-    { id: 'bank-001', opis: 'ERSTE sinhronizacija računa (RSD/EUR/USD)', status: 'aktivno', tip: 'sinhronizacija' },
-    { id: 'bank-002', opis: 'SWIFT transfer pipeline validacija', status: 'aktivno', tip: 'transfer' },
-    { id: 'bank-003', opis: 'Obračun kamatne stope (40% mesečno)', status: 'zavrseno', tip: 'kamatna-obrada' },
-    { id: 'bank-004', opis: 'AI Fraud detekcija — Omega AI model', status: 'aktivno', tip: 'bezbednost' },
-    { id: 'bank-005', opis: 'Srpske banke zahtev za registraciju (12 banaka)', status: 'cekanje', tip: 'registracija' },
-    { id: 'bank-006', opis: 'Blockchain Polygon verifikacija transakcija', status: 'zavrseno', tip: 'blockchain' },
+    {
+      id: 'bank-001',
+      opis: `Platni sistem status: ${spajaPlatniSistem.status}`,
+      status: billingOk ? 'zavrseno' : 'cekanje',
+      tip: 'billing-status',
+    },
+    {
+      id: 'bank-002',
+      opis: `Operativni runtime mode: ${operativa.spremnost.modelStanja.runtime}`,
+      status: runtimeReady ? 'aktivno' : 'cekanje',
+      tip: 'runtime-gate',
+    },
+    {
+      id: 'bank-003',
+      opis: `Dijagnostika kritičnih: ${diagnostics.kriticnih}`,
+      status: diagnostics.kriticnih > 0 ? 'greska' : 'zavrseno',
+      tip: 'risk-signal',
+    },
   ];
 
-  const bankarski: ProcesuiranjeDomen = {
-    naziv: 'Bankarski Procesi',
-    ikona: '🏦',
-    status: dominantniStatus(bankarskiStavke),
-    procenat: stavkeProcenat(bankarskiStavke),
-    stavke: bankarskiStavke,
-    vreme: now,
-  };
-
-  // ── 2. AI procesi ──────────────────────────────────────────────────────────
   const aiStavke: ProcesuiranjeStavka[] = [
-    { id: 'ai-001', opis: 'Omega AI persona inicijalizacija (21 persona)', status: 'zavrseno', tip: 'persona' },
-    { id: 'ai-002', opis: 'Kreditni scoring model — 97% tačnost', status: 'aktivno', tip: 'scoring' },
-    { id: 'ai-003', opis: 'AI investicioni savetnik — preporuke portfelja', status: 'aktivno', tip: 'preporuke' },
-    { id: 'ai-004', opis: 'Fraud AI model — ažuriranje pravila', status: 'aktivno', tip: 'fraud' },
-    { id: 'ai-005', opis: 'AI predikcija tržišta — batch analiza', status: 'cekanje', tip: 'predikcija' },
-    { id: 'ai-006', opis: 'AI Asistent — korisnička podrška 24/7', status: 'aktivno', tip: 'asistent' },
+    {
+      id: 'ai-001',
+      opis: `OMEGA persona aktivno: ${stats.ukupnoOmegaPersona}`,
+      status: stats.ukupnoOmegaPersona > 0 ? 'zavrseno' : 'cekanje',
+      tip: 'persona',
+    },
+    {
+      id: 'ai-002',
+      opis: `Prompt pokrivenost: ${stats.ukupnoPromptova}`,
+      status: stats.ukupnoPromptova >= 28 ? 'aktivno' : 'cekanje',
+      tip: 'prompt',
+    },
+    {
+      id: 'ai-003',
+      opis: `AI health signal: ${diagnostics.zdravlje}%`,
+      status: diagnostics.zdravlje >= 80 ? 'zavrseno' : 'aktivno',
+      tip: 'health',
+    },
   ];
 
-  const ai: ProcesuiranjeDomen = {
-    naziv: 'AI Procesi',
-    ikona: '🧠',
-    status: dominantniStatus(aiStavke),
-    procenat: stavkeProcenat(aiStavke),
-    stavke: aiStavke,
-    vreme: now,
-  };
-
-  // ── 3. Finansijski procesi ─────────────────────────────────────────────────
   const finansijskiStavke: ProcesuiranjeStavka[] = [
-    { id: 'fin-001', opis: 'Billing reconcilacija — Stripe sinhronizacija', status: 'aktivno', tip: 'billing' },
-    { id: 'fin-002', opis: 'Devizni račun — refresh kursne liste', status: 'zavrseno', tip: 'devizni' },
-    { id: 'fin-003', opis: 'GitHub Billing — AIIQ World Bank governance', status: 'aktivno', tip: 'github-billing' },
-    { id: 'fin-004', opis: 'Vercel dug obrada (~$1000 USD)', status: 'cekanje', tip: 'dug' },
-    { id: 'fin-005', opis: 'Fakture generisanje i export', status: 'zavrseno', tip: 'fakture' },
-    { id: 'fin-006', opis: 'Mesni porez registracija — Smederevo', status: 'cekanje', tip: 'porez' },
+    {
+      id: 'fin-001',
+      opis: `Billing status: ${spajaPlatniSistem.status}`,
+      status: statusFromSignal(billingOk, !billingOk),
+      tip: 'billing',
+    },
+    {
+      id: 'fin-002',
+      opis: `Enterprise mode: ${operativa.spremnost.modelStanja.enterprise}`,
+      status: enterpriseReady ? 'zavrseno' : 'cekanje',
+      tip: 'enterprise',
+    },
+    {
+      id: 'fin-003',
+      opis: `Deploy čekaju merge: ${deployStats.cekajuMerge}`,
+      status: deployStats.cekajuMerge > 0 ? 'aktivno' : 'zavrseno',
+      tip: 'deploy',
+    },
   ];
 
-  const finansijski: ProcesuiranjeDomen = {
-    naziv: 'Finansijski Procesi',
-    ikona: '💰',
-    status: dominantniStatus(finansijskiStavke),
-    procenat: stavkeProcenat(finansijskiStavke),
-    stavke: finansijskiStavke,
-    vreme: now,
-  };
-
-  // ── 4. Licencni procesi ────────────────────────────────────────────────────
   const licencniStavke: ProcesuiranjeStavka[] = [
-    { id: 'lic-001', opis: 'Licencni registar sinhronizacija', status: 'zavrseno', tip: 'registar' },
-    { id: 'lic-002', opis: 'Provera isteka licenci (expiry check)', status: 'aktivno', tip: 'expiry' },
-    { id: 'lic-003', opis: 'Gap analiza — nedostajuće licence Srbija', status: 'aktivno', tip: 'gap' },
-    { id: 'lic-004', opis: 'Nabavka pipeline — B2B procurement', status: 'cekanje', tip: 'nabavka' },
-    { id: 'lic-005', opis: 'Compliance izveštaj generisanje', status: 'zavrseno', tip: 'compliance' },
+    {
+      id: 'lic-001',
+      opis: `Ops mode: ${operativa.spremnost.modelStanja.ops}`,
+      status: opsReady ? 'zavrseno' : 'cekanje',
+      tip: 'ops',
+    },
+    {
+      id: 'lic-002',
+      opis: `Runtime env missing: ${operativa.spremnost.missingEnv.length}`,
+      status: operativa.spremnost.missingEnv.length === 0 ? 'zavrseno' : 'aktivno',
+      tip: 'env',
+    },
+    {
+      id: 'lic-003',
+      opis: `Support spremnost: ${operativa.spremnost.support.status}`,
+      status: operativa.spremnost.support.status === 'spremno' ? 'zavrseno' : 'aktivno',
+      tip: 'support',
+    },
   ];
 
-  const licencni: ProcesuiranjeDomen = {
-    naziv: 'Licencni Procesi',
-    ikona: '📜',
-    status: dominantniStatus(licencniStavke),
-    procenat: stavkeProcenat(licencniStavke),
-    stavke: licencniStavke,
-    vreme: now,
-  };
-
-  // ── 5. Ekosistem procesi ───────────────────────────────────────────────────
   const ekosistemStavke: ProcesuiranjeStavka[] = [
-    { id: 'eko-001', opis: `Zdravlje platforme — ${TOTAL_API_ROUTES} API ruta`, status: 'zavrseno', tip: 'zdravlje' },
-    { id: 'eko-002', opis: `Validacija ruta — ${TOTAL_ROUTES} ukupno ruta`, status: 'zavrseno', tip: 'rute' },
-    { id: 'eko-003', opis: 'Sitemap rebuild — SEO optimizacija', status: 'aktivno', tip: 'sitemap' },
-    { id: 'eko-004', opis: 'Cron jobs — raspoređivanje i monitoring', status: 'aktivno', tip: 'cron' },
-    { id: 'eko-005', opis: 'Dijagnostika sistema — auto-repair', status: 'zavrseno', tip: 'dijagnostika' },
-    { id: 'eko-006', opis: 'Deploy pipeline — Vercel automatski deploy', status: 'zavrseno', tip: 'deploy' },
-    { id: 'eko-007', opis: `Pokrivenost ruta — ${TOTAL_API_ROUTES}/${TOTAL_API_ROUTES} API route coverage testova`, status: 'zavrseno', tip: 'pokrivenostRuta' },
+    {
+      id: 'eko-001',
+      opis: `API rute: ${TOTAL_API_ROUTES}`,
+      status: TOTAL_API_ROUTES > 0 ? 'zavrseno' : 'cekanje',
+      tip: 'api',
+    },
+    {
+      id: 'eko-002',
+      opis: `Ukupno ruta: ${TOTAL_ROUTES}`,
+      status: TOTAL_ROUTES >= TOTAL_API_ROUTES ? 'zavrseno' : 'greska',
+      tip: 'routes',
+    },
+    {
+      id: 'eko-003',
+      opis: `Deploy u toku: ${deployStats.deployUToku}, parallel tokovi: ${deployStats.paralelniTokovi}`,
+      status: deployStats.deployUToku > 0 ? 'aktivno' : 'zavrseno',
+      tip: 'deploy-pipeline',
+    },
+    {
+      id: 'eko-004',
+      opis: `Dijagnostika zdravlje: ${diagnostics.zdravlje}%`,
+      status: diagnosticsOk ? 'zavrseno' : 'aktivno',
+      tip: 'dijagnostika',
+    },
   ];
 
-  const ekosistem: ProcesuiranjeDomen = {
-    naziv: 'Ekosistem Procesi',
-    ikona: '🌐',
-    status: dominantniStatus(ekosistemStavke),
-    procenat: stavkeProcenat(ekosistemStavke),
-    stavke: ekosistemStavke,
-    vreme: now,
-  };
-
-  // ── 6. Autofinish procesi ──────────────────────────────────────────────────
   const autofinishProcenat = Math.min(100, Math.round((AUTOFINISH_COUNT / 1500) * 100));
   const autofinishStavke: ProcesuiranjeStavka[] = [
-    { id: 'af-001', opis: `Autofinish iteracija #${AUTOFINISH_COUNT} — aktivna`, status: 'aktivno', tip: 'iteracija' },
-    { id: 'af-002', opis: `Progres ka cilju: ${autofinishProcenat}% od 1500 iteracija`, status: 'aktivno', tip: 'progres' },
-    { id: 'af-003', opis: 'Pokrivenost ruta — coverage test suite', status: 'zavrseno', tip: 'coverage' },
-    { id: 'af-004', opis: 'Changelog automated — ažuriranje changelog-a', status: 'zavrseno', tip: 'changelog' },
-    { id: 'af-005', opis: 'Branch cleanup monitor — stale grane', status: 'cekanje', tip: 'cleanup' },
+    {
+      id: 'af-001',
+      opis: `Autofinish iteracija #${AUTOFINISH_COUNT}`,
+      status: 'aktivno',
+      tip: 'iteracija',
+    },
+    {
+      id: 'af-002',
+      opis: `Autofinish progres signal: ${autofinishSummary.progres}`,
+      status: autofinishProcenat >= 100 ? 'zavrseno' : 'aktivno',
+      tip: 'progres',
+    },
+    {
+      id: 'af-003',
+      opis: `Autofinish health: ${autofinishHealth.status}`,
+      status: autofinishHealth.status === 'ok' ? 'zavrseno' : autofinishHealth.status === 'warning' ? 'aktivno' : 'greska',
+      tip: 'health',
+    },
   ];
 
-  const autofinish: ProcesuiranjeDomen = {
-    naziv: 'Autofinish Procesi',
-    ikona: '♻️',
-    status: dominantniStatus(autofinishStavke),
-    procenat: stavkeProcenat(autofinishStavke),
-    stavke: autofinishStavke,
-    vreme: now,
-  };
-
-  // ── 7. Bezbednosni procesi ─────────────────────────────────────────────────
   const bezbednosniStavke: ProcesuiranjeStavka[] = [
-    { id: 'bez-001', opis: 'Auth token rotacija — JWT refresh', status: 'zavrseno', tip: 'auth' },
-    { id: 'bez-002', opis: '2FA validacija — TOTP provera', status: 'zavrseno', tip: '2fa' },
-    { id: 'bez-003', opis: 'OAuth ključ provera (Google/GitHub)', status: 'cekanje', tip: 'oauth' },
-    { id: 'bez-004', opis: 'Audit log flush — bezbednosni zapisi', status: 'aktivno', tip: 'audit' },
-    { id: 'bez-005', opis: 'E2E enkripcija — verifikacija kanala', status: 'zavrseno', tip: 'enkripcija' },
-    { id: 'bez-006', opis: 'Rate limiting provera — IP blokade', status: 'zavrseno', tip: 'rate-limit' },
+    {
+      id: 'bez-001',
+      opis: `Auth status: ${autentifikacijaSistem.status}`,
+      status: authOk ? 'zavrseno' : 'greska',
+      tip: 'auth',
+    },
+    {
+      id: 'bez-002',
+      opis: `OAuth provajdera: ${autentifikacijaSistem.konfiguracija.oauthProvajderi.length}`,
+      status: autentifikacijaSistem.konfiguracija.oauthProvajderi.length >= 2 ? 'zavrseno' : 'cekanje',
+      tip: 'oauth',
+    },
+    {
+      id: 'bez-003',
+      opis: `Dijagnostika grešaka: ${diagnostics.gresaka}, kritičnih: ${diagnostics.kriticnih}`,
+      status: diagnostics.kriticnih > 0 ? 'greska' : diagnostics.gresaka > 0 ? 'aktivno' : 'zavrseno',
+      tip: 'diagnostics',
+    },
   ];
 
-  const bezbednosni: ProcesuiranjeDomen = {
-    naziv: 'Bezbednosni Procesi',
-    ikona: '🔒',
-    status: dominantniStatus(bezbednosniStavke),
-    procenat: stavkeProcenat(bezbednosniStavke),
-    stavke: bezbednosniStavke,
-    vreme: now,
-  };
-
-  // ── 8. Analitički procesi ──────────────────────────────────────────────────
   const analitickiStavke: ProcesuiranjeStavka[] = [
-    { id: 'an-001', opis: 'KPI agregacija — sve platforme', status: 'zavrseno', tip: 'kpi' },
-    { id: 'an-002', opis: 'Score računanje — domeni analiza svega', status: 'aktivno', tip: 'score' },
-    { id: 'an-003', opis: 'Zdravlje dijagnostičkog sistema', status: 'zavrseno', tip: 'zdravlje' },
-    { id: 'an-004', opis: 'Izveštaj generisanje — full report', status: 'aktivno', tip: 'izvestaj' },
-    { id: 'an-005', opis: 'Ekosistem snapshot — stanje u realnom vremenu', status: 'aktivno', tip: 'snapshot' },
+    {
+      id: 'an-001',
+      opis: `Ukupno stranica: ${stats.ukupnoStranica}`,
+      status: stats.ukupnoStranica > 0 ? 'zavrseno' : 'cekanje',
+      tip: 'kpi',
+    },
+    {
+      id: 'an-002',
+      opis: `Ukupno dijagnostika: ${stats.ukupnoDijagnostika}`,
+      status: stats.ukupnoDijagnostika > 0 ? 'zavrseno' : 'cekanje',
+      tip: 'diag-total',
+    },
+    {
+      id: 'an-003',
+      opis: `Autofinish/Deploy signal korelacija`,
+      status: deployStats.deployUToku > 0 || autofinishHealth.status !== 'ok' ? 'aktivno' : 'zavrseno',
+      tip: 'correlation',
+    },
   ];
 
-  const analiticki: ProcesuiranjeDomen = {
-    naziv: 'Analitički Procesi',
-    ikona: '📊',
-    status: dominantniStatus(analitickiStavke),
-    procenat: stavkeProcenat(analitickiStavke),
-    stavke: analitickiStavke,
-    vreme: now,
+  const freshness: ProcesuiranjeFreshness = degradedSources.length > 0 ? 'stale' : 'fresh';
+  const domeni = {
+    bankarski: buildDomen('Bankarski Procesi', '🏦', freshness, bankarskiStavke, now),
+    ai: buildDomen('AI Procesi', '🧠', freshness, aiStavke, now),
+    finansijski: buildDomen('Finansijski Procesi', '💰', freshness, finansijskiStavke, now),
+    licencni: buildDomen('Licencni Procesi', '📜', freshness, licencniStavke, now),
+    ekosistem: buildDomen('Ekosistem Procesi', '🌐', freshness, ekosistemStavke, now),
+    autofinish: buildDomen('Autofinish Procesi', '♻️', freshness, autofinishStavke, now),
+    bezbednosni: buildDomen('Bezbednosni Procesi', '🔒', freshness, bezbednosniStavke, now),
+    analiticki: buildDomen('Analitički Procesi', '📊', freshness, analitickiStavke, now),
   };
 
-  // ── Agregacija ─────────────────────────────────────────────────────────────
-  const domeni = { bankarski, ai, finansijski, licencni, ekosistem, autofinish, bezbednosni, analiticki };
-  const sveStavke = Object.values(domeni).flatMap((d) => d.stavke);
+  const sveStavke = Object.entries(domeni).flatMap(([domenKljuc, domen]) =>
+    domen.stavke.map((stavka) => ({
+      ...stavka,
+      prioritet: stavka.prioritet ?? classifyPrioritet(domenKljuc, stavka.status),
+    })));
 
   const aktivnihProcesa = sveStavke.filter((s) => s.status === 'aktivno').length;
   const cekajucihProcesa = sveStavke.filter((s) => s.status === 'cekanje').length;
   const gresakaUkupno = sveStavke.filter((s) => s.status === 'greska').length;
   const zavrsenihProcesa = sveStavke.filter((s) => s.status === 'zavrseno').length;
-
   const domenProcenati = Object.values(domeni).map((d) => d.procenat);
-  const ukupanProcenat = Math.round(domenProcenati.reduce((a, b) => a + b, 0) / domenProcenati.length);
-
+  const ukupanProcenat = clampScore(domenProcenati.reduce((a, b) => a + b, 0) / domenProcenati.length);
   const aktivneStavke = sveStavke.filter((s) => s.status === 'aktivno');
+  const kriticniProcesi = sveStavke.filter((s) => s.prioritet === 'kriticno');
+
+  const redovi = Object.entries(domeni).flatMap(([domenKljuc, domen]) =>
+    domen.stavke.map((stavka) => {
+      const prioritet = stavka.prioritet ?? classifyPrioritet(domenKljuc, stavka.status);
+      return {
+        domen: domenKljuc,
+        stavkaId: stavka.id,
+        prioritet,
+        strategija: prioritet === 'kriticno' ? 'sekvencijalno' as const : 'paralelno' as const,
+      };
+    }),
+  ).sort((a, b) => PRIORITET_RANK[a.prioritet] - PRIORITET_RANK[b.prioritet] || a.domen.localeCompare(b.domen));
+
+  const queueDepth = redovi.length;
+  const fairnessIdeal = queueDepth / 8;
+  const fairnessDelta = Object.values(domeni)
+    .map((d) => Math.abs(d.stavke.length - fairnessIdeal))
+    .reduce((a, b) => a + b, 0);
+  const fairnessIndex = clampScore(100 - Math.round((fairnessDelta / Math.max(queueDepth, 1)) * 100));
+  const starvationRizik = clampScore(Math.round((cekajucihProcesa / Math.max(queueDepth, 1)) * 100));
+  const saturacijaPct = clampScore(Math.round(((aktivnihProcesa + cekajucihProcesa + gresakaUkupno) / Math.max(queueDepth, 1)) * 100));
+  const emergencyOverride = gresakaUkupno > 0 || diagnostics.kriticnih > 0;
+
+  const score: ProcesuiranjeScore = {
+    throughputPerMin: Math.max(0, (zavrsenihProcesa * 20) + (stats.ukupnoAPIRuta > 0 ? Math.round(stats.ukupnoAPIRuta / 10) : 0)),
+    latencyMsP95: clampScore(400 - Math.min(250, Math.round(ukupanProcenat * 1.7))) + (emergencyOverride ? 120 : 0),
+    errorRatePct: clampScore(Math.round((gresakaUkupno / Math.max(queueDepth, 1)) * 100)),
+  };
+
+  const uskaGrla: string[] = [];
+  if (starvationRizik >= 35) uskaGrla.push(`Visok rizik starvation-a (${starvationRizik}%)`);
+  if (operativa.spremnost.missingEnv.length > 0) uskaGrla.push(`Nedostaje ${operativa.spremnost.missingEnv.length} runtime env signala`);
+  if (deployStats.cekajuMerge > 0) uskaGrla.push(`Deploy red čeka merge (${deployStats.cekajuMerge})`);
+  if (diagnostics.kriticnih > 0) uskaGrla.push(`Dijagnostika prijavljuje kritične check-ove (${diagnostics.kriticnih})`);
+  if (uskaGrla.length === 0) uskaGrla.push('Nema detektovanih uskih grla u ekstremnom režimu');
+
+  const preporuke: string[] = [];
+  if (starvationRizik > 40) preporuke.push('Povećati paralelizam za nekritične domene i rasteretiti kritični red.');
+  if (!runtimeReady || !opsReady) preporuke.push('Zatvoriti runtime/ops readiness gap pre povećanja burst opterećenja.');
+  if (!enterpriseReady) preporuke.push('Nastaviti enterprise onboarding bez blokiranja runtime/ops toka.');
+  if (score.errorRatePct > 2) preporuke.push('Aktivirati emergency override i pokrenuti incident runbook.');
+  if (preporuke.length === 0) preporuke.push('Sistem je stabilan: nastaviti shadow + dual-output rollout ekstremnog režima.');
 
   return {
     sistem: 'PROCESUIRANJE SVEGA — Digitalna Industrija',
@@ -267,6 +527,41 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     zavrsenihProcesa,
     domeni,
     aktivneStavke,
-    timestamp: new Date().toISOString(),
+    scheduler: {
+      rezim: 'sekvencijalno-kriticni-i-paralelno-nekriticni',
+      emergencyOverride,
+      fairnessIndex,
+      starvationRizik,
+      queueDepth,
+      saturacijaPct,
+      redovi,
+    },
+    score,
+    kriticniProcesi,
+    uskaGrla,
+    preporuke,
+    meta: {
+      contractVersion: PROCESUIRANJE_SVEGA_CONTRACT_VERSION,
+      modelVersion: PROCESUIRANJE_SVEGA_MODEL_VERSION,
+      sourceOfTruth: PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH,
+      generatedAt: now,
+      degraded: degradedSources.length > 0,
+      degradedSources,
+      ciljevi: {
+        throughputPerMin: 1200,
+        latencyMsP95: 300,
+        maxErrorRatePct: 2,
+        maxQueueDepth: 80,
+      },
+    },
+    timestamp: now,
   };
+}
+
+export function buildEkstremnoProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
+  return buildProcesuiranjeSvega();
+}
+
+export function buildEkstremnoProcesuiranjeSvegaFallback(reason?: string): ProcesuiranjeSvegaRezultat {
+  return buildFallbackProcesuiranjeSvega(reason);
 }

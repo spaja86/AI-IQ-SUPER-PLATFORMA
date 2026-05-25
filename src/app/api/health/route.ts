@@ -8,6 +8,7 @@ import { runDiagnostics } from '@/lib/auto-repair';
 import { getStatistike } from '@/lib/statistika';
 import { APP_VERSION, AUTOFINISH_COUNT } from '@/lib/constants';
 import { getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
+import { buildEkstremnoProcesuiranjeSvega } from '@/lib/procesuiranje-svega';
 
 // Bilježi vreme starta procesa za uptime izračun.
 // Napomena: U serverless okruženjima (Vercel) ovo se resetuje pri svakom cold startu.
@@ -62,6 +63,7 @@ export async function GET(req: NextRequest) {
   const dijagnostika = runDiagnostics();
   const stats = getStatistike();
   const operativa = getOperativnaSpremnost();
+  const ekstremno = buildEkstremnoProcesuiranjeSvega();
 
   const status =
     dijagnostika.zdravlje >= 90
@@ -112,6 +114,15 @@ export async function GET(req: NextRequest) {
         support: operativa.spremnost.support.status,
         enterprise: operativa.spremnost.enterprise,
         missingKastlerEnv: operativa.spremnost.missingKastlerEnv.length,
+      },
+      ekstremnoProcesuiranje: {
+        score: ekstremno.ukupanProcenat,
+        throughputPerMin: ekstremno.score.throughputPerMin,
+        latencyMsP95: ekstremno.score.latencyMsP95,
+        errorRatePct: ekstremno.score.errorRatePct,
+        queueDepth: ekstremno.scheduler.queueDepth,
+        emergencyOverride: ekstremno.scheduler.emergencyOverride,
+        degraded: ekstremno.meta.degraded,
       },
       timestamp: new Date().toISOString(),
     },

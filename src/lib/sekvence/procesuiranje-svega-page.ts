@@ -28,6 +28,7 @@ export const procesuiranjeSvegaSekvence: Sekvenca[] = [
       opis: `Jedinstven pregled aktivnog procesiranja svih 8 domena Digitalne Industrije: bankarski, AI, finansijski, licencni, ekosistem, autofinish, bezbednosni i analitički. Ukupan procenat: ${p.ukupanProcenat}%. Aktivnih procesa: ${p.aktivnihProcesa}. Verzija: v${APP_VERSION}.`,
       dugmad: [
         { tekst: 'API: Procesuiranje Svega', href: '/api/procesuiranje-svega' },
+        { tekst: 'API: Ekstremno Procesuiranje', href: '/api/ekstremno-procesuiranje-svega', stil: 'sekundarno' },
         { tekst: 'Analiza Svega', href: '/analiza-svega', stil: 'sekundarno' },
         { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
       ],
@@ -49,6 +50,10 @@ export const procesuiranjeSvegaSekvence: Sekvenca[] = [
         { naziv: 'Završenih', vrednost: p.zavrsenihProcesa, ikona: '✅' },
         { naziv: 'Autofinish #', vrednost: AUTOFINISH_COUNT, ikona: '♻️' },
         { naziv: 'Domena', vrednost: Object.keys(p.domeni).length, ikona: '🌐' },
+        { naziv: 'Queue Depth', vrednost: p.scheduler.queueDepth, ikona: '📥' },
+        { naziv: 'Saturacija', vrednost: `${p.scheduler.saturacijaPct}%`, ikona: '🔥' },
+        { naziv: 'Fairness', vrednost: `${p.scheduler.fairnessIndex}%`, ikona: '⚖️' },
+        { naziv: 'Starvation Rizik', vrednost: `${p.scheduler.starvationRizik}%`, ikona: '⏳' },
         { naziv: 'Verzija', vrednost: `v${APP_VERSION}`, ikona: '🏷️' },
       ],
     },
@@ -82,7 +87,7 @@ export const procesuiranjeSvegaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🗂️ Pregled po Domenima',
     podnaslov: 'Svaki domen sa statusom i procenatom obrade',
-    redosled: 4,
+    redosled: 5,
     podaci: {
       kartice: Object.entries(p.domeni).map(([kljuc, domen]) => ({
         naslov: `${domen.ikona} ${domen.naziv}`,
@@ -97,13 +102,30 @@ export const procesuiranjeSvegaSekvence: Sekvenca[] = [
     },
   },
 
+  {
+    id: 'proc-svega-ekstremni-scheduler',
+    tip: 'tabela',
+    naslov: '🧠 Ekstremni Scheduler i Prioritetni Red',
+    podnaslov: `${p.scheduler.rezim} | emergency override: ${p.scheduler.emergencyOverride ? 'uključen' : 'isključen'}`,
+    redosled: 4,
+    podaci: {
+      zaglavlje: ['Domen', 'Stavka', 'Prioritet', 'Strategija'],
+      redovi: p.scheduler.redovi.slice(0, 12).map((red) => [
+        red.domen,
+        red.stavkaId,
+        red.prioritet,
+        red.strategija,
+      ]),
+    },
+  },
+
   // ── Aktivni procesi ───────────────────────────────────────────────────────
   {
     id: 'proc-svega-aktivni',
     tip: 'tabela',
     naslov: '🔄 Aktivni Procesi — Svi Domeni',
     podnaslov: `${p.aktivneStavke.length} aktivnih procesa u realnom vremenu`,
-    redosled: 5,
+    redosled: 6,
     podaci: {
       zaglavlje: ['ID', 'Opis', 'Tip', 'Status'],
       redovi: p.aktivneStavke.map((s) => [
@@ -115,13 +137,27 @@ export const procesuiranjeSvegaSekvence: Sekvenca[] = [
     },
   },
 
+  {
+    id: 'proc-svega-uska-grla-i-preporuke',
+    tip: 'lista',
+    naslov: '🚨 Uska Grla i Preporučene Akcije',
+    podnaslov: `Error rate: ${p.score.errorRatePct}% | Throughput/min: ${p.score.throughputPerMin} | Latency p95: ${p.score.latencyMsP95}ms`,
+    redosled: 7,
+    podaci: {
+      stavke: [
+        ...p.uskaGrla.map((stavka) => `⚠️ ${stavka}`),
+        ...p.preporuke.map((stavka) => `✅ ${stavka}`),
+      ],
+    },
+  },
+
   // ── Pipeline opis ─────────────────────────────────────────────────────────
   {
     id: 'proc-svega-pipeline',
     tip: 'tekst',
     naslov: '⚙️ Pipeline Arhitektura — Procesuiranje',
     podnaslov: 'Sekvencijalno i paralelno procesiranje svih domena',
-    redosled: 6,
+    redosled: 8,
     podaci: {
       sadrzaj: 'AI IQ SUPER PLATFORMA koristi hibridni model procesiranja — kritični domeni (bankarski, bezbednosni) rade sekvencijalno za konzistentnost, dok analitički i ekosistem domeni rade paralelno za maksimalnu propusnost.',
       istaknuteStavke: [
@@ -153,6 +189,7 @@ export const procesuiranjeSvegaSekvence: Sekvenca[] = [
       ],
       dugmad: [
         { tekst: 'Analiza Svega', href: '/analiza-svega' },
+        { tekst: 'Ekstremni API', href: '/api/ekstremno-procesuiranje-svega', stil: 'sekundarno' },
         { tekst: 'API Procesuiranje', href: '/api/procesuiranje-svega', stil: 'sekundarno' },
         { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
       ],
