@@ -204,12 +204,15 @@ billing-runbook,GET,billing-runbook,yes,billing-runbook-route.test.ts
 billing-upgrade-company-request,POST,billing-upgrade-company-request,yes,billing-upgrade-company-request-route.test.ts
 blockchain-transakcije,GET,blockchain-transakcije,yes,blockchain-transakcije-route.test.ts
 brouvzer-deploy,GET|POST,brouvzer-deploy,yes,brouvzer-deploy-route.test.ts
+brouvzer-inkognito-status,GET,brouvzer-inkognito-status,yes,brouvzer-inkognito-status-route.test.ts
+brouvzer-tab-menadzer-status,GET,brouvzer-tab-menadzer-status,yes,brouvzer-tab-menadzer-status-route.test.ts
 call-centar,GET,call-centar,yes,call-centar-route.test.ts
 call-centar/licenca,POST,call-centar,yes,call-centar-licenca-route.test.ts
 call-centar/paketi,GET,call-centar,yes,call-centar-paketi-route.test.ts
 changelog,GET,changelog,yes,changelog-route.test.ts
 claude-ai-stream,POST,claude-ai-stream,yes,claude-ai-stream-route.test.ts
 cron-status,GET,cron-status,yes,cron-status-route.test.ts
+cron/ekstremno-procesuiranje-svega,GET,cron,no,cron-ekstremno-procesuiranje-svega-route.test.ts
 cron/evolucija,GET,cron,yes,cron-evolucija-route.test.ts
 cron/protokoli-verifikacija,GET,cron,yes,cron-protokoli-verifikacija-route.test.ts
 cron/zdravlje,GET,cron,yes,cron-zdravlje-route.test.ts
@@ -266,6 +269,7 @@ ekosistem-status,GET,ekosistem-status,yes,ekosistem-status-route.test.ts
 ekosistem-url-registar,GET,ekosistem-url-registar,yes,ekosistem-url-registar-route.test.ts
 ekosistem-zdravlje,GET,ekosistem-zdravlje,yes,ekosistem-zdravlje-route.test.ts
 eksponat-glavnog-jezgra,GET,eksponat-glavnog-jezgra,yes,eksponat-glavnog-jezgra-route.test.ts
+ekstremno-procesuiranje-svega,GET,ekstremno-procesuiranje-svega,yes,ekstremno-procesuiranje-svega-route.test.ts
 enterprise-ugovori,GET|POST,enterprise-ugovori,yes,enterprise-ugovori-route.test.ts
 enterprise-zahtevi,GET,enterprise-zahtevi,yes,enterprise-zahtevi-route.test.ts
 erste-banka-racuni,GET,erste-banka-racuni,yes,erste-banka-racuni-route.test.ts
@@ -643,6 +647,7 @@ platforme,GET,platforme,yes,platforme-route.test.ts
 platforme-pregled,GET,platforme-pregled,yes,platforme-pregled-route.test.ts
 platforme-status,GET,platforme-status,yes,platforme-status-route.test.ts
 poslovni-tok,GET,poslovni-tok,yes,poslovni-tok-route.test.ts
+potencijal-svega-ovoga-do-sada,GET,potencijal-svega-ovoga-do-sada,yes,potencijal-svega-ovoga-do-sada-route.test.ts
 procesuiranje-svega,GET,procesuiranje-svega,yes,procesuiranje-svega-route.test.ts
 profesionalni-login-mejl-verifikacija,GET,profesionalni-login-mejl-verifikacija,yes,profesionalni-login-mejl-verifikacija-route.test.ts
 profesionalni-login-paypal,GET|POST,profesionalni-login-paypal,yes,profesionalni-login-paypal-route.test.ts
