@@ -15,6 +15,7 @@ export const EKOSISTEM_URLS = {
   KOMPANIJA_SPAJA: 'https://www.kompanija-spaja.com',
   AI_IQ_SUPER_PLATFORMA: 'https://ai-iq-super-platforma-fb43rn7r0-nikolas-projects-b8a8458f.vercel.app/platforme',
   POSLOVNI_NOVCANIK: 'https://ai-iq-super-platforma.vercel.app/poslovni-novcanik',
+  PALASTERIZACIJA: 'https://ai-iq-super-platforma.vercel.app/palasterizacija',
 } as const;
 
 export const EKOSISTEM_DEPLOY_PROVIDER = {
@@ -24,6 +25,7 @@ export const EKOSISTEM_DEPLOY_PROVIDER = {
   KOMPANIJA_SPAJA: 'custom',
   AI_IQ_SUPER_PLATFORMA: 'vercel',
   POSLOVNI_NOVCANIK: 'vercel',
+  PALASTERIZACIJA: 'vercel',
 } as const;
 
 export interface EkosistemPlatforma {
@@ -63,6 +65,12 @@ export const ekosistemPlatforme: EkosistemPlatforma[] = [
     url: EKOSISTEM_URLS.POSLOVNI_NOVCANIK,
     ikona: '💼',
     opis: 'Poslovni wallet modul povezan sa AI IQ World Bank',
+  },
+  {
+    naziv: 'Palasterizacija',
+    url: EKOSISTEM_URLS.PALASTERIZACIJA,
+    ikona: '🧱',
+    opis: 'Modul za standardizaciju i stabilizaciju procesa Digitalne Industrije',
   },
   {
     naziv: 'AI-IQ Super Platforma',
