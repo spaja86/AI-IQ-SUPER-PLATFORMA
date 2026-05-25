@@ -110,10 +110,10 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body['dostupniStepovi']), 'dostupniStepovi niz');
     assert((body['dostupniStepovi'] as unknown[]).length === 4, 'dostupniStepovi length=4');
 
-    const prvaStepa = (body['dostupniStepovi'] as Array<Record<string, unknown>>)[0]!;
-    assert(typeof prvaStepa['id'] === 'string', 'stepa.id string');
-    assert(typeof prvaStepa['naziv'] === 'string', 'stepa.naziv string');
-    assert(typeof prvaStepa['endpoint'] === 'string', 'stepa.endpoint string');
+    const prvaStepa = (body['dostupniStepovi'] as Array<Record<string, unknown>>)[0];
+    assert(typeof prvaStepa?.['id'] === 'string', 'stepa.id string');
+    assert(typeof prvaStepa?.['naziv'] === 'string', 'stepa.naziv string');
+    assert(typeof prvaStepa?.['endpoint'] === 'string', 'stepa.endpoint string');
 
     assert(isObject(body['ekosistem']), 'ekosistem objekat');
     const eko = body['ekosistem'] as Record<string, unknown>;

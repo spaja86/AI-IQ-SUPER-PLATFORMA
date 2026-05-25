@@ -110,7 +110,10 @@ const STAGE_ENDPOINTI: Record<AutofinishSvegaStageId, string> = {
   'autofinish-petlja': '/api/autofinish-petlja-status',
 };
 
-/** Kanonski redosled izvršavanja — ne menjati. */
+/** Kanonski redosled izvršavanja — ne menjati.
+ * Redosled je determinišan: analiza dolazi prva jer njen rezultat utiče na alerting downstream;
+ * procesuiranje i ekstremno procesiranje su nezavisni ali moraju biti pre autofinish petlje
+ * kako bi dijagnostički signal bio svež kada petlja prijavlja status. */
 const ALL_STAGES: AutofinishSvegaStageId[] = [
   'analiza-svega',
   'procesuiranje-svega',
@@ -213,6 +216,32 @@ export async function buildAutofinishSvega(opcije?: AutofinishSvegaOpcije): Prom
   const odabraniIds = opcije?.stages ?? ALL_STAGES;
   // Kanonski redosled — preskačemo one koji nisu odabrani.
   const stepIds = ALL_STAGES.filter((id) => odabraniIds.includes(id));
+
+  if (stepIds.length === 0) {
+    const nowIso = new Date().toISOString();
+    return {
+      sistem: 'AUTOFINISH SVEGA — Digitalna Industrija',
+      kompanija: KOMPANIJA,
+      verzija: APP_VERSION,
+      autofinishBroj: AUTOFINISH_COUNT,
+      status: 'ok',
+      ukupnoStepova: 0,
+      uspesnihStepova: 0,
+      preskocenihStepova: 0,
+      gresaka: 0,
+      stepovi: [],
+      trajanjeMs: 0,
+      ekosistem: { apiRute: TOTAL_API_ROUTES, ukupnoRuta: TOTAL_ROUTES },
+      meta: {
+        contractVersion: AUTOFINISH_SVEGA_CONTRACT_VERSION,
+        modelVersion: AUTOFINISH_SVEGA_MODEL_VERSION,
+        sourceOfTruth: AUTOFINISH_SVEGA_SOURCE_OF_TRUTH,
+        dryRun,
+        generatedAt: nowIso,
+      },
+      timestamp: nowIso,
+    };
+  }
 
   const start = Date.now();
   const stepovi: AutofinishSvegaStageRezultat[] = [];
