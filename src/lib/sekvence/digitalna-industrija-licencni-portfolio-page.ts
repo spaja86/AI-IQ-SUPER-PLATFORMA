@@ -41,6 +41,7 @@ export const digitalnaIndustrijaLicencniPortfolioSekvence: Sekvenca[] = [
         { naziv: 'Završenost (%)', vrednost: `${summary.procenatZavrsenih}%`, ikona: '🎯' },
         { naziv: 'Blokira legalan rad', vrednost: summary.blokirajucihLegalanRad, ikona: '🚨' },
         { naziv: 'Blokira platforme', vrednost: summary.blokirajucihPlatforme, ikona: '⚠️' },
+        { naziv: 'Issuer odobreno', vrednost: portfolio.issuerReadiness.summary.odobreno, ikona: '🪪' },
         { naziv: 'Budžet (RSD)', vrednost: summary.ukupniBudzetRSD.toLocaleString('sr-Latn'), ikona: '💰' },
       ],
     },
@@ -136,6 +137,7 @@ export const digitalnaIndustrijaLicencniPortfolioSekvence: Sekvenca[] = [
       dugmad: [
         { tekst: 'AI IQ World Bank', href: '/ai-iq-world-bank' },
         { tekst: 'Licencna Analiza', href: '/ai-iq-world-bank-licencna-analiza', stil: 'sekundarno' },
+        { tekst: 'Issuer Control Center', href: '/issuer-license-control-center', stil: 'sekundarno' },
         { tekst: 'Licencni Budžet', href: '/licencni-budzet-srbija', stil: 'sekundarno' },
         { tekst: 'Enterprise Ugovori', href: '/api/enterprise-ugovori', stil: 'sekundarno' },
       ],

@@ -17,6 +17,11 @@
 import { APP_VERSION, KOMPANIJA } from './constants';
 import { buildDigitalnaIndustrijaPibMb } from './digitalna-industrija-pib-mb';
 import { getEnterpriseZahtevi } from './kompanija-spaja-operativa';
+import {
+  getIssuerLicensingAuthorities,
+  getIssuerLicensingBlockers,
+  getIssuerLicensingSummary,
+} from './issuer-licensing';
 
 export type LicencniPortfolioTip =
   | 'regulatorna'
@@ -97,6 +102,11 @@ export interface DigitalnaIndustrijaLicencniPortfolio {
   summary: LicencniPortfolioSummary;
   procurementQueue: LicencniPortfolioStavka[];
   vendorEnterpriseIntegrisan: VendorEnterpriseStatus[];
+  issuerReadiness: {
+    summary: ReturnType<typeof getIssuerLicensingSummary>;
+    blockers: ReturnType<typeof getIssuerLicensingBlockers>;
+    povezaneNabavke: LicencniPortfolioStavka[];
+  };
 }
 
 export interface VendorEnterpriseStatus {
@@ -690,6 +700,15 @@ export function buildDigitalnaIndustrijaLicencniPortfolio(): DigitalnaIndustrija
   const summary = buildSummary(stavke);
   const procurementQueue = buildProcurementQueue(stavke);
   const vendorEnterpriseIntegrisan = buildVendorEnterpriseIntegrisan(stavke);
+  const issuerSummary = getIssuerLicensingSummary();
+  const issuerBlockers = getIssuerLicensingBlockers();
+  const issuerAuthorities = getIssuerLicensingAuthorities();
+  const issuerDependencies = new Set(
+    issuerAuthorities
+      .flatMap((authority) => authority.zavisnostiNabavke)
+      .filter((id) => typeof id === 'string' && id.length > 0),
+  );
+  const povezaneNabavke = procurementQueue.filter((s) => issuerDependencies.has(s.id));
 
   return {
     naziv: 'Digitalna Industrija — Licencni Portfolio',
@@ -703,6 +722,11 @@ export function buildDigitalnaIndustrijaLicencniPortfolio(): DigitalnaIndustrija
     summary,
     procurementQueue,
     vendorEnterpriseIntegrisan,
+    issuerReadiness: {
+      summary: issuerSummary,
+      blockers: issuerBlockers,
+      povezaneNabavke,
+    },
   };
 }
 

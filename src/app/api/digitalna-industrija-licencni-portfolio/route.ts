@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
       stavke: portfolio.stavke,
       summary: portfolio.summary,
       vendorEnterpriseIntegrisan: portfolio.vendorEnterpriseIntegrisan,
+      issuerReadiness: portfolio.issuerReadiness,
       timestamp: portfolio.timestamp,
     });
   } catch (error) {

@@ -40,6 +40,10 @@ export async function GET(request: NextRequest) {
       },
       blokatori,
       queue,
+      issuerKontekst: {
+        ukupnoPovezanihStavki: queue.filter((s) => s.napomena.toLowerCase().includes('enterprise')).length,
+        napomena: 'Issuer readiness koristi procurement zavisnosti definisane u issuer authority modelu.',
+      },
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
