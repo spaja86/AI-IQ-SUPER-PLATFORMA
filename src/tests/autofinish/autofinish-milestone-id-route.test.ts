@@ -80,8 +80,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.54.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1391, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.55.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1392, 'AUTOFINISH_COUNT');
   });
 
   await test('GET s nepostojećim ID-om vraća 404', async () => {
