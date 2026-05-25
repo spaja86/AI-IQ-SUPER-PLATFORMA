@@ -14,7 +14,7 @@ export const palasterizacijaSekvence: Sekvenca[] = [
     podaci: {
       opis: 'Palasterizacija je novi modul u AI IQ SUPER PLATFORMA ekosistemu koji uvodi standardizovane tokove, bolju kontrolu procesa i jasne operativne korake za timove Digitalne Industrije.',
       dugmad: [
-        { tekst: 'Otvori Palasterizaciju', href: '/palasterizacija' },
+        { tekst: 'Pregled Platformi', href: '/platforme' },
         { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
       ],
     },
