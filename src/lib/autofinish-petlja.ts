@@ -1500,6 +1500,9 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1118: 'Navigacija, sitemap i sekvence usklađeni za Analiza Svega',
     1119: 'Dijagnostičke provere za Analiza Svega (4 checka)',
     1120: 'Route coverage test — analiza-svega-route.test.ts',
+    1393: 'buildAutofinishSvega() helper — orkestracija svih svega pipeline-ova',
+    1394: 'GET + POST /api/autofinish-svega endpoint sa auth i rate limitom',
+    1395: 'Route coverage test — autofinish-svega-route.test.ts',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8018,3 +8021,26 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Cache-Control: public, s-maxage=60 | X-App-Version header.
 // Test: src/tests/autofinish/brouvzer-tab-menadzer-status-route.test.ts — 24 testova, svi prolaze.
 // APP_VERSION=59.47.0 | AUTOFINISH_COUNT=1377 | TOTAL_API_ROUTES=1197 | TOTAL_ROUTES=1322 | TOTAL_PAGES=125
+
+
+// ─── Autofinish #1393 — AUTOFINISH SVEGA LIB ─────────────────────────────────
+// Novi lib modul: src/lib/autofinish-svega.ts — buildAutofinishSvega(), getAutofinishSvegaInfo().
+// Orkestrira sve "svega" pipeline-ove: analiza-svega, procesuiranje-svega,
+// ekstremno-procesuiranje-svega, autofinish-petlja.
+// Politika: continue-on-error; dry-run i odabir stage-ova podržani.
+// APP_VERSION=59.56.0 | AUTOFINISH_COUNT=1393 | TOTAL_API_ROUTES=1201 | TOTAL_ROUTES=1327 | TOTAL_PAGES=126
+
+
+// ─── Autofinish #1394 — GET + POST /API/AUTOFINISH-SVEGA ──────────────────────
+// Nova ruta: src/app/api/autofinish-svega/route.ts.
+// GET  — Metapodaci (bez auth), 60 req/min rate limit, Cache-Control: s-maxage=60.
+// POST — Trigger svih svega pipeline-ova, zahteva AUTOFINISH_TRIGGER_TOKEN.
+//        10 req/min rate limit; dryRun i stages parametri podržani u JSON body-u.
+// APP_VERSION=59.57.0 | AUTOFINISH_COUNT=1394 | TOTAL_API_ROUTES=1202 | TOTAL_ROUTES=1328 | TOTAL_PAGES=126
+
+
+// ─── Autofinish #1395 — AUTOFINISH SVEGA ROUTE COVERAGE TEST ─────────────────
+// Route coverage test: src/tests/autofinish/autofinish-svega-route.test.ts.
+// Pokriveno: fajl prisutnost, GET 200 payload/header-i, POST auth guard (401/503),
+// POST rate-limit guard (429), POST neispravan JSON (400), konstante validacija.
+// APP_VERSION=59.58.0 | AUTOFINISH_COUNT=1395 | TOTAL_API_ROUTES=1202 | TOTAL_ROUTES=1328 | TOTAL_PAGES=126
