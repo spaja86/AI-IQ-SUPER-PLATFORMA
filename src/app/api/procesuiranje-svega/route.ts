@@ -5,11 +5,17 @@
 // bankarski, AI, finansijski, licencni, ekosistem, autofinish, bezbednosni, analitički.
 
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
+import { apiInternalError, apiRateLimited, apiSuccess } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
-import { buildProcesuiranjeSvega } from '@/lib/procesuiranje-svega';
+import {
+  buildProcesuiranjeSvega,
+  PROCESUIRANJE_SVEGA_CONTRACT_VERSION,
+  PROCESUIRANJE_SVEGA_MODEL_VERSION,
+} from '@/lib/procesuiranje-svega';
 
 export const dynamic = 'force-dynamic';
+export const PROCESUIRANJE_SVEGA_RATE_LIMIT = 60;
+export const PROCESUIRANJE_SVEGA_RATE_WINDOW_SECONDS = 60;
 
 /**
  * GET /api/procesuiranje-svega
@@ -20,17 +26,20 @@ export async function GET(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
   const allowed = await checkRateLimitGlobal(
     rateLimitKey(ip, '/api/procesuiranje-svega'),
-    60,
-    60,
+    PROCESUIRANJE_SVEGA_RATE_LIMIT,
+    PROCESUIRANJE_SVEGA_RATE_WINDOW_SECONDS,
   );
 
   if (!allowed) {
-    return apiError('TOO_MANY_REQUESTS', 'Previše zahteva. Pokušajte ponovo za 60 sekundi.');
+    return apiRateLimited(PROCESUIRANJE_SVEGA_RATE_WINDOW_SECONDS);
   }
 
   try {
     const rezultat = buildProcesuiranjeSvega();
-    return apiSuccess(rezultat, 200);
+    const response = apiSuccess(rezultat, 200);
+    response.headers.set('X-Procesuiranje-Contract-Version', PROCESUIRANJE_SVEGA_CONTRACT_VERSION);
+    response.headers.set('X-Procesuiranje-Model-Version', PROCESUIRANJE_SVEGA_MODEL_VERSION);
+    return response;
   } catch (error) {
     return apiInternalError('procesuiranje-svega', error);
   }

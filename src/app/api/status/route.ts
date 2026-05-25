@@ -12,6 +12,7 @@ import { profesionalniMejlSistem } from '@/lib/spaja-profesionalni-mejl';
 import { spajaPlatniSistem } from '@/lib/spaja-platni-sistem';
 import { spajaRealtimeSistem } from '@/lib/spaja-realtime';
 import { getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
+import { buildEkstremnoProcesuiranjeSvega } from '@/lib/procesuiranje-svega';
 
 export async function GET() {
   const stats = getStatistike();
@@ -19,6 +20,7 @@ export async function GET() {
   const dispatch = getDispatchSummary();
   const aktivneVerzije = getAktivneVerzije();
   const operativa = getOperativnaSpremnost();
+  const ekstremno = buildEkstremnoProcesuiranjeSvega();
 
   return NextResponse.json({
     status: 'operational',
@@ -157,6 +159,18 @@ export async function GET() {
         monetizacijaStatus: operativa.kastlerTvPaket.monetizacijaStatus,
         trazenihKanala: operativa.kastlerTvPaket.trazeniKanali.length,
       },
+    },
+    ekstremnoProcesuiranje: {
+      sourceOfTruth: '/api/ekstremno-procesuiranje-svega',
+      contractVersion: ekstremno.meta.contractVersion,
+      modelVersion: ekstremno.meta.modelVersion,
+      ukupanProcenat: ekstremno.ukupanProcenat,
+      queueDepth: ekstremno.scheduler.queueDepth,
+      saturacijaPct: ekstremno.scheduler.saturacijaPct,
+      fairnessIndex: ekstremno.scheduler.fairnessIndex,
+      starvationRizik: ekstremno.scheduler.starvationRizik,
+      emergencyOverride: ekstremno.scheduler.emergencyOverride,
+      degraded: ekstremno.meta.degraded,
     },
   });
 }

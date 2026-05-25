@@ -132,6 +132,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/api/ai-iq-world-bank-procesiranje',
     '/procesuiranje-svega',
     '/api/procesuiranje-svega',
+    '/api/ekstremno-procesuiranje-svega',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,

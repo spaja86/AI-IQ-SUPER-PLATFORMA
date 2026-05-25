@@ -14,6 +14,8 @@ const analizaLibPath = resolve(repoRoot, 'src/lib/analiza-svega.ts');
 const analizaRoutePath = resolve(repoRoot, 'src/app/api/analiza-svega/route.ts');
 const potencijalLibPath = resolve(repoRoot, 'src/lib/potencijal-svega-ovoga-do-sada.ts');
 const potencijalRoutePath = resolve(repoRoot, 'src/app/api/potencijal-svega-ovoga-do-sada/route.ts');
+const procesuiranjeLibPath = resolve(repoRoot, 'src/lib/procesuiranje-svega.ts');
+const ekstremnoRoutePath = resolve(repoRoot, 'src/app/api/ekstremno-procesuiranje-svega/route.ts');
 const sitemapPath = resolve(repoRoot, 'src/app/sitemap.ts');
 const navigationPath = resolve(repoRoot, 'src/lib/navigation.ts');
 
@@ -23,6 +25,8 @@ const analizaLibSrc = readFileSync(analizaLibPath, 'utf8');
 const analizaRouteSrc = readFileSync(analizaRoutePath, 'utf8');
 const potencijalLibSrc = readFileSync(potencijalLibPath, 'utf8');
 const potencijalRouteSrc = readFileSync(potencijalRoutePath, 'utf8');
+const procesuiranjeLibSrc = readFileSync(procesuiranjeLibPath, 'utf8');
+const ekstremnoRouteSrc = readFileSync(ekstremnoRoutePath, 'utf8');
 const sitemapSrc = readFileSync(sitemapPath, 'utf8');
 const navigationSrc = readFileSync(navigationPath, 'utf8');
 
@@ -64,7 +68,15 @@ const potencijalContractReady = [
   sitemapSrc.includes('/api/potencijal-svega-ovoga-do-sada'),
   navigationSrc.includes('/potencijal-svega-ovoga-do-sada'),
 ].every(Boolean);
-const hasDeploymentBlockers = missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady;
+const procesuiranjeContractVersion = procesuiranjeLibSrc.match(/export const PROCESUIRANJE_SVEGA_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const procesuiranjeModelVersion = procesuiranjeLibSrc.match(/export const PROCESUIRANJE_SVEGA_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const procesuiranjeContractReady = [
+  procesuiranjeLibSrc.includes('PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH = \'/api/procesuiranje-svega\''),
+  ekstremnoRouteSrc.includes('X-Procesuiranje-Contract-Version'),
+  sitemapSrc.includes('/api/ekstremno-procesuiranje-svega'),
+  navigationSrc.includes('/procesuiranje-svega'),
+].every(Boolean);
+const hasDeploymentBlockers = missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady || !procesuiranjeContractReady;
 
 const report = {
   appVersion,
@@ -83,6 +95,11 @@ const report = {
     modelVersion: potencijalModelVersion,
     contractReady: potencijalContractReady,
   },
+  ekstremnoProcesuiranjeSvega: {
+    contractVersion: procesuiranjeContractVersion,
+    modelVersion: procesuiranjeModelVersion,
+    contractReady: procesuiranjeContractReady,
+  },
   status: hasDeploymentBlockers ? 'warning' : 'ok',
 };
 
@@ -90,6 +107,6 @@ console.log('=== Predeploy Check ===');
 console.log(JSON.stringify(report, null, 2));
 
 if (process.argv.includes('--strict') && hasDeploymentBlockers) {
-  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL contract is not ready.');
+  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE contract is not ready.');
   process.exit(1);
 }
