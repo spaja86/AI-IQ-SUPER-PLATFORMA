@@ -16,7 +16,6 @@
 
 import { APP_VERSION, KOMPANIJA } from './constants';
 import { buildDigitalnaIndustrijaPibMb } from './digitalna-industrija-pib-mb';
-import { buildLicencniBudzetSrbija } from './licencni-budzet-srbija';
 import { getEnterpriseZahtevi } from './kompanija-spaja-operativa';
 
 export type LicencniPortfolioTip =
@@ -675,12 +674,11 @@ function buildVendorEnterpriseIntegrisan(
 
 export function buildDigitalnaIndustrijaLicencniPortfolio(): DigitalnaIndustrijaLicencniPortfolio {
   const pibMb = buildDigitalnaIndustrijaPibMb('system');
-  const budzet = buildLicencniBudzetSrbija('system');
 
   const entiteti = pibMb.entiteti.map((e) => e.naziv);
 
-  // Budzet mapping hint (informativno — budžetske stavke su integrisan u portfolio)
-  void budzet;
+  // Napomena: buildLicencniBudzetSrbija() je dostupan za buduću integraciju
+  // budžetskih stavki po kategorijama direktno u portfolio stavke.
 
   const stavke: LicencniPortfolioStavka[] = [
     ...buildMaticniSubjektStavke(),

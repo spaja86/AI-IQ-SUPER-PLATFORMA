@@ -130,7 +130,7 @@ export const digitalnaIndustrijaLicencniPortfolioSekvence: Sekvenca[] = [
     redosled: 8,
     podaci: {
       opis:
-        `Procurement queue sadrži ${portfolio.procurementQueue.length} licenci čekaju nabavku. ` +
+        `Procurement queue sadrži ${portfolio.procurementQueue.length} licenci koje čekaju nabavku. ` +
         `Prioritet: ${blokatori.filter((s) => s.blokator === 'blokira_legalan_rad').length} kritičnih blokatora legalnog rada. ` +
         `Vendor enterprise usklađenost: ${portfolio.vendorEnterpriseIntegrisan.filter((v) => v.uskladen).length}/${portfolio.vendorEnterpriseIntegrisan.length}.`,
       dugmad: [

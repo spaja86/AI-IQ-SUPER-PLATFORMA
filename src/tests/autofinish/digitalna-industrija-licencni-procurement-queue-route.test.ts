@@ -113,9 +113,6 @@ async function runTests(): Promise<void> {
     const hasLegalRadBlocker = queue.some((s) => s['blokator'] === 'blokira_legalan_rad');
     if (hasLegalRadBlocker) {
       const firstLegalRad = queue.findIndex((s) => s['blokator'] === 'blokira_legalan_rad');
-      const lastPlatforme = queue.reduce((last, s, i) =>
-        s['blokator'] === 'blokira_platforme' ? i : last, -1,
-      );
       const firstNeblokirajuca = queue.findIndex((s) => s['blokator'] === 'neblokirajuca');
       if (firstNeblokirajuca >= 0) {
         assert(
@@ -123,7 +120,6 @@ async function runTests(): Promise<void> {
           `blokira_legalan_rad (idx ${firstLegalRad}) treba da je pre neblokirajuca (idx ${firstNeblokirajuca})`,
         );
       }
-      void lastPlatforme;
     }
   });
 
