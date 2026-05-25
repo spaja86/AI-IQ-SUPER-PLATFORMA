@@ -232,6 +232,9 @@ digitalna-industrija-kamatni-rizik,GET,digitalna-industrija-kamatni-rizik,yes,di
 digitalna-industrija-kreditni-rizik,GET,digitalna-industrija-kreditni-rizik,yes,digitalna-industrija-kreditni-rizik-route.test.ts
 digitalna-industrija-kursna-lista,GET,digitalna-industrija-kursna-lista,yes,digitalna-industrija-kursna-lista-route.test.ts
 digitalna-industrija-kursne-razlike,GET,digitalna-industrija-kursne-razlike,yes,digitalna-industrija-kursne-razlike-route.test.ts
+digitalna-industrija-licencni-portfolio,GET,digitalna-industrija-licencni-portfolio,yes,digitalna-industrija-licencni-portfolio-route.test.ts
+digitalna-industrija-licencni-procurement-queue,GET,digitalna-industrija-licencni-procurement-queue,yes,digitalna-industrija-licencni-procurement-queue-route.test.ts
+digitalna-industrija-licencni-vendor-status,GET,digitalna-industrija-licencni-vendor-status,yes,digitalna-industrija-licencni-vendor-status-route.test.ts
 digitalna-industrija-likvidnosni-rizik,GET,digitalna-industrija-likvidnosni-rizik,yes,digitalna-industrija-likvidnosni-rizik-route.test.ts
 digitalna-industrija-nagrade,GET,digitalna-industrija-nagrade,yes,digitalna-industrija-nagrade-route.test.ts
 digitalna-industrija-operativni-rizik,GET,digitalna-industrija-operativni-rizik,yes,digitalna-industrija-operativni-rizik-route.test.ts
@@ -312,6 +315,11 @@ io-openui-ao-laboratorija-pregled,GET,io-openui-ao-laboratorija-pregled,yes,io-o
 io-openui-ao-laboratorija-simulacije,GET,io-openui-ao-laboratorija-simulacije,yes,io-openui-ao-laboratorija-simulacije-route.test.ts
 io-openui-ao-laboratorija-status,GET,io-openui-ao-laboratorija-status,yes,io-openui-ao-laboratorija-status-route.test.ts
 io-openui-ao-pregled,GET,io-openui-ao-pregled,yes,io-openui-ao-pregled-route.test.ts
+issuer-licensing,GET|POST,issuer-licensing,yes,issuer-licensing-route.test.ts
+issuer-licensing/[authorityId]/status,PATCH,issuer-licensing,no,issuer-licensing-[authorityId]-status-route.test.ts
+issuer-licensing/compliance,GET,issuer-licensing,yes,issuer-licensing-compliance-route.test.ts
+issuer-licensing/expirations,GET,issuer-licensing,yes,issuer-licensing-expirations-route.test.ts
+issuer-licensing/issue,POST,issuer-licensing,yes,issuer-licensing-issue-route.test.ts
 it-proizvodi-pregled,GET,it-proizvodi-pregled,yes,it-proizvodi-pregled-route.test.ts
 it-proizvodi-status,GET,it-proizvodi-status,yes,it-proizvodi-status-route.test.ts
 kastler-tv-signal-request,GET|POST,kastler-tv-signal-request,yes,kastler-tv-signal-request-route.test.ts
