@@ -34,6 +34,13 @@ interface ProcesuiranjeScore {
   errorRatePct: number;
 }
 
+const CRITICAL_SIGNAL_SOURCES = {
+  stats: 'statistika',
+  diagnostics: 'auto-repair.diagnostics',
+  operativa: 'kompanija-spaja-operativa',
+  autofinishHealth: 'autofinish-petlja.health',
+} as const;
+
 export interface ProcesuiranjeStavka {
   id: string;
   opis: string;
@@ -116,6 +123,10 @@ function clampScore(score: number): number {
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
+function clampNonNegative(value: number): number {
+  return Math.max(0, Math.round(value));
+}
+
 function stavkeProcenat(stavke: ProcesuiranjeStavka[]): number {
   if (stavke.length === 0) return 0;
   const zavrsene = stavke.filter((s) => s.status === 'zavrseno' || s.status === 'aktivno').length;
@@ -151,6 +162,35 @@ const PRIORITET_RANK: Record<ProcesuiranjePrioritet, number> = {
   srednje: 2,
   nisko: 3,
 };
+
+/**
+ * Ekstremni scheduler kalibracija (jedinice):
+ * - THROUGHPUT_*: procenjeni "procesni događaji/min".
+ * - LATENCY_*: ms (p95 modelovani signal).
+ * - STARVATION_*: procenat reda čekanja.
+ *
+ * Kalibracija je heuristička i konzervativna:
+ * - završeni proces nosi veći doprinos (x20) od dijagnostičkog događaja
+ *   jer predstavlja kraj end-to-end toka;
+ * - baseline p95 je 400ms, uz maksimalnu redukciju 250ms po rastu spremnosti;
+ * - emergency override uvodi +120ms penal radi zaštitnog throttling signala.
+ */
+const SCHEDULER_CONFIG = {
+  throughput: {
+    zavrseniMultiplier: 20,
+    dijagnostikaMultiplier: 1,
+  },
+  latency: {
+    baseMs: 400,
+    maxReductionMs: 250,
+    procenatMultiplier: 1.7,
+    emergencyPenaltyMs: 120,
+  },
+  starvation: {
+    warningThreshold: 35,
+    actionThreshold: 40,
+  },
+} as const;
 
 function classifyPrioritet(domen: string, status: ProcesuiranjeStatus): ProcesuiranjePrioritet {
   if (status === 'greska') return 'kriticno';
@@ -260,9 +300,31 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const autofinishHealth = safeCall('autofinish-petlja.health', degradedSources, () => getAutofinishHealthSummary());
   const deployStats = safeCall('proksi-github-deploy', degradedSources, () => getDeployStatistike());
 
-  if (!stats || !diagnostics || !operativa || !autofinishSummary || !autofinishHealth || !deployStats) {
-    return buildFallbackProcesuiranjeSvega(degradedSources.join(',') || 'missing-signals');
+  // Tiered degradacija: samo CRITICAL_SIGNAL_SOURCES obaraju payload na fallback.
+  // Dodatni izvori imaju bezbedne default vrednosti da API ostane dostupan.
+  const missingCriticalSources: string[] = [
+    ...(!stats ? [CRITICAL_SIGNAL_SOURCES.stats] : []),
+    ...(!diagnostics ? [CRITICAL_SIGNAL_SOURCES.diagnostics] : []),
+    ...(!operativa ? [CRITICAL_SIGNAL_SOURCES.operativa] : []),
+    ...(!autofinishHealth ? [CRITICAL_SIGNAL_SOURCES.autofinishHealth] : []),
+  ];
+  if (missingCriticalSources.length > 0) {
+    return buildFallbackProcesuiranjeSvega(
+      `critical:${missingCriticalSources.join('|')}`,
+    );
   }
+  const stableAutofinishSummary = autofinishSummary ?? {
+    status: 'DEGRADED',
+    podsistemi: '0/0',
+    progres: '0%',
+    iteracije: 0,
+    autofinish: AUTOFINISH_COUNT,
+  };
+  const stableDeployStats = deployStats ?? {
+    deployUToku: 0,
+    cekajuMerge: 0,
+    paralelniTokovi: 0,
+  };
 
   const runtimeReady = operativa.spremnost.modelStanja.runtime === 'runtime-ready';
   const opsReady = operativa.spremnost.modelStanja.ops === 'ops-ready';
@@ -328,8 +390,8 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'fin-003',
-      opis: `Deploy čekaju merge: ${deployStats.cekajuMerge}`,
-      status: deployStats.cekajuMerge > 0 ? 'aktivno' : 'zavrseno',
+      opis: `Deploy čekaju merge: ${stableDeployStats.cekajuMerge}`,
+      status: stableDeployStats.cekajuMerge > 0 ? 'aktivno' : 'zavrseno',
       tip: 'deploy',
     },
   ];
@@ -370,8 +432,8 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'eko-003',
-      opis: `Deploy u toku: ${deployStats.deployUToku}, parallel tokovi: ${deployStats.paralelniTokovi}`,
-      status: deployStats.deployUToku > 0 ? 'aktivno' : 'zavrseno',
+      opis: `Deploy u toku: ${stableDeployStats.deployUToku}, parallel tokovi: ${stableDeployStats.paralelniTokovi}`,
+      status: stableDeployStats.deployUToku > 0 ? 'aktivno' : 'zavrseno',
       tip: 'deploy-pipeline',
     },
     {
@@ -392,7 +454,7 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'af-002',
-      opis: `Autofinish progres signal: ${autofinishSummary.progres}`,
+      opis: `Autofinish progres signal: ${stableAutofinishSummary.progres}`,
       status: autofinishProcenat >= 100 ? 'zavrseno' : 'aktivno',
       tip: 'progres',
     },
@@ -441,7 +503,7 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     {
       id: 'an-003',
       opis: `Autofinish/Deploy signal korelacija`,
-      status: deployStats.deployUToku > 0 || autofinishHealth.status !== 'ok' ? 'aktivno' : 'zavrseno',
+      status: stableDeployStats.deployUToku > 0 || autofinishHealth.status !== 'ok' ? 'aktivno' : 'zavrseno',
       tip: 'correlation',
     },
   ];
@@ -486,7 +548,10 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   ).sort((a, b) => PRIORITET_RANK[a.prioritet] - PRIORITET_RANK[b.prioritet] || a.domen.localeCompare(b.domen));
 
   const queueDepth = redovi.length;
-  const fairnessIdeal = queueDepth / 8;
+  const brojDomena = Object.keys(domeni).length;
+  const fairnessIdeal = queueDepth / Math.max(1, brojDomena);
+  // fairnessIndex meri ravnomernost raspodele po domenima:
+  // 100 = potpuno balansirano, niže vrednosti = veća neravnomernost.
   const fairnessDelta = Object.values(domeni)
     .map((d) => Math.abs(d.stavke.length - fairnessIdeal))
     .reduce((a, b) => a + b, 0);
@@ -496,20 +561,34 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const emergencyOverride = gresakaUkupno > 0 || diagnostics.kriticnih > 0;
 
   const score: ProcesuiranjeScore = {
-    throughputPerMin: Math.max(0, (zavrsenihProcesa * 20) + (stats.ukupnoAPIRuta > 0 ? Math.round(stats.ukupnoAPIRuta / 10) : 0)),
-    latencyMsP95: clampScore(400 - Math.min(250, Math.round(ukupanProcenat * 1.7))) + (emergencyOverride ? 120 : 0),
+    // Composite throughput: završeni procesi + broj uspešnih dijagnostičkih događaja.
+    throughputPerMin: Math.max(
+      0,
+      (zavrsenihProcesa * SCHEDULER_CONFIG.throughput.zavrseniMultiplier) +
+        Math.round(diagnostics.uspesnih * SCHEDULER_CONFIG.throughput.dijagnostikaMultiplier),
+    ),
+    latencyMsP95: clampNonNegative(
+      SCHEDULER_CONFIG.latency.baseMs - Math.min(
+        SCHEDULER_CONFIG.latency.maxReductionMs,
+        Math.round(ukupanProcenat * SCHEDULER_CONFIG.latency.procenatMultiplier),
+      ),
+    ) + (emergencyOverride ? SCHEDULER_CONFIG.latency.emergencyPenaltyMs : 0),
     errorRatePct: clampScore(Math.round((gresakaUkupno / Math.max(queueDepth, 1)) * 100)),
   };
 
   const uskaGrla: string[] = [];
-  if (starvationRizik >= 35) uskaGrla.push(`Visok rizik starvation-a (${starvationRizik}%)`);
+  if (starvationRizik >= SCHEDULER_CONFIG.starvation.warningThreshold) {
+    uskaGrla.push(`Visok rizik starvation-a (${starvationRizik}%)`);
+  }
   if (operativa.spremnost.missingEnv.length > 0) uskaGrla.push(`Nedostaje ${operativa.spremnost.missingEnv.length} runtime env signala`);
-  if (deployStats.cekajuMerge > 0) uskaGrla.push(`Deploy red čeka merge (${deployStats.cekajuMerge})`);
+  if (stableDeployStats.cekajuMerge > 0) uskaGrla.push(`Deploy red čeka merge (${stableDeployStats.cekajuMerge})`);
   if (diagnostics.kriticnih > 0) uskaGrla.push(`Dijagnostika prijavljuje kritične check-ove (${diagnostics.kriticnih})`);
   if (uskaGrla.length === 0) uskaGrla.push('Nema detektovanih uskih grla u ekstremnom režimu');
 
   const preporuke: string[] = [];
-  if (starvationRizik > 40) preporuke.push('Povećati paralelizam za nekritične domene i rasteretiti kritični red.');
+  if (starvationRizik > SCHEDULER_CONFIG.starvation.actionThreshold) {
+    preporuke.push('Povećati paralelizam za nekritične domene i rasteretiti kritični red.');
+  }
   if (!runtimeReady || !opsReady) preporuke.push('Zatvoriti runtime/ops readiness gap pre povećanja burst opterećenja.');
   if (!enterpriseReady) preporuke.push('Nastaviti enterprise onboarding bez blokiranja runtime/ops toka.');
   if (score.errorRatePct > 2) preporuke.push('Aktivirati emergency override i pokrenuti incident runbook.');
@@ -558,8 +637,19 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   };
 }
 
-export function buildEkstremnoProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
-  return buildProcesuiranjeSvega();
+export function buildEkstremnoProcesuiranjeSvega(
+  mode: 'shadow' | 'extreme' = 'extreme',
+): ProcesuiranjeSvegaRezultat {
+  // Trenutno ekstremni API koristi isti signal-driven builder kao i standardni endpoint.
+  // `mode` je feature-hook za rollout (shadow/extreme) bez menjanja call-site ugovora.
+  const rezultat = buildProcesuiranjeSvega();
+  if (mode === 'shadow') {
+    return {
+      ...rezultat,
+      preporuke: [...rezultat.preporuke, 'Shadow mode aktivan: signal-only evaluacija bez promene izvršnog toka.'],
+    };
+  }
+  return rezultat;
 }
 
 export function buildEkstremnoProcesuiranjeSvegaFallback(reason?: string): ProcesuiranjeSvegaRezultat {

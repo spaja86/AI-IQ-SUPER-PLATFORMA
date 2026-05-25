@@ -39,9 +39,8 @@ export async function GET(req: NextRequest) {
     response.headers.set('X-Procesuiranje-Degraded', rezultat.meta.degraded ? '1' : '0');
     return response;
   } catch (error) {
-    const fallback = buildEkstremnoProcesuiranjeSvegaFallback(
-      error instanceof Error ? error.message : 'extreme-build-error',
-    );
+    console.error('[ekstremno-procesuiranje-svega] degraded fallback', error);
+    const fallback = buildEkstremnoProcesuiranjeSvegaFallback('extreme-build-error');
     const response = apiSuccess(fallback, 200);
     response.headers.set('X-Procesuiranje-Contract-Version', PROCESUIRANJE_SVEGA_CONTRACT_VERSION);
     response.headers.set('X-Procesuiranje-Model-Version', PROCESUIRANJE_SVEGA_MODEL_VERSION);

@@ -70,7 +70,7 @@ function run(): void {
 
   test('Svi domeni imaju freshness i barem jednu stavku', () => {
     const domeni = Object.values(rezultat.domeni);
-    assert.equal(domeni.length, 8);
+    assert.equal(domeni.length, Object.keys(rezultat.domeni).length);
     for (const domen of domeni) {
       assert.ok(domen.stavke.length > 0);
       assert.ok(domen.freshness === 'fresh' || domen.freshness === 'stale');

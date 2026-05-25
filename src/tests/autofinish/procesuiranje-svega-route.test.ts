@@ -154,7 +154,7 @@ async function runTests(): Promise<void> {
     });
 
     await test('Rate limit vraća 429 nakon prekoračenja limita', async () => {
-      const ip = '127.0.0.249';
+      const ip = `procesuiranje-rate-test-${process.pid}-${Date.now()}`;
       const statusi: number[] = [];
       for (let i = 0; i < PROCESUIRANJE_SVEGA_RATE_LIMIT + 1; i++) {
         const req = new Request('http://localhost/api/procesuiranje-svega', {

@@ -106,7 +106,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('Rate limit vraća 429 nakon prekoračenja limita', async () => {
-    const ip = '127.0.0.250';
+    const ip = `ekstremno-rate-test-${process.pid}-${Date.now()}`;
     const statusi: number[] = [];
     for (let i = 0; i < EKSTREMNO_PROCESUIRANJE_SVEGA_RATE_LIMIT + 1; i++) {
       const req = new Request('http://localhost/api/ekstremno-procesuiranje-svega', {
