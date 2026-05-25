@@ -454,7 +454,7 @@ function buildPaymentPipeline(stavka: LicencniProgramStavka): LicencniPaymentPip
 export interface EnterpriseKPI {
   procenatAktivnihLicenci: number;
   procenatSpremniZaUplatu: number;
-  brojeOtvorenihBlokatora: number;
+  brojOtvorenihBlokatora: number;
   ukupnoLicenci: number;
   aktivnihLicenci: number;
   potpisanihUgovora: number;
@@ -475,7 +475,7 @@ function izracunajKPI(pipelines: LicencniPaymentPipeline[]): EnterpriseKPI {
   return {
     procenatAktivnihLicenci: ukupno === 0 ? 0 : Math.round((aktivnih / ukupno) * 100),
     procenatSpremniZaUplatu: ukupno === 0 ? 0 : Math.round((spremniZaUplatu / ukupno) * 100),
-    brojeOtvorenihBlokatora: blokatori,
+    brojOtvorenihBlokatora: blokatori,
     ukupnoLicenci: ukupno,
     aktivnihLicenci: aktivnih,
     potpisanihUgovora: potpisanih,

@@ -155,7 +155,7 @@ async function runTests(): Promise<void> {
 
     assert(typeof kpi['procenatAktivnihLicenci'] === 'number', 'kpi.procenatAktivnihLicenci');
     assert(typeof kpi['procenatSpremniZaUplatu'] === 'number', 'kpi.procenatSpremniZaUplatu');
-    assert(typeof kpi['brojeOtvorenihBlokatora'] === 'number', 'kpi.brojeOtvorenihBlokatora');
+    assert(typeof kpi['brojOtvorenihBlokatora'] === 'number', 'kpi.brojOtvorenihBlokatora');
     assert(typeof kpi['ukupnoLicenci'] === 'number', 'kpi.ukupnoLicenci');
     assert((kpi['ukupnoLicenci'] as number) > 0, 'kpi.ukupnoLicenci > 0');
     assert(typeof kpi['centralniPayer'] === 'string', 'kpi.centralniPayer');
