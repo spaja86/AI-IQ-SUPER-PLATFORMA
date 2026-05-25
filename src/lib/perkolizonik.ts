@@ -90,11 +90,11 @@ export function buildPerkolizonik(userId: string): PerkolizonikRezultat {
     tokoviSaStatusom.reduce((sum, t) => sum + t.iskoriscenost, 0) / tokoviSaStatusom.length;
   const prosekLatencijeMs =
     tokoviSaStatusom.reduce((sum, t) => sum + t.latencijaMs, 0) / tokoviSaStatusom.length;
-  const prosecnaOcenaGreske =
+  const prosekGresaka =
     tokoviSaStatusom.reduce((sum, t) => sum + t.greskePo1000, 0) / tokoviSaStatusom.length;
 
   const stabilnost = clamp01(
-    round4(1 - (prosecnaGreskaPenalizacija(prosecnaOcenaGreske) + prosecnaLatencijskaPenalizacija(prosekLatencijeMs))),
+    round4(1 - (prosecnaGreskaPenalizacija(prosekGresaka) + prosecnaLatencijskaPenalizacija(prosekLatencijeMs))),
   );
   const operativniIndeks = clamp01(
     round4(stabilnost * 0.45 + prosekIskoriscenosti * 0.4 + throughputScore(procenjeniOutputPoSatu, ukupniKapacitetPoSatu) * 0.15),

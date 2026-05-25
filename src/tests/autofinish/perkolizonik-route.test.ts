@@ -48,7 +48,7 @@ function isObject(v: unknown): v is Record<string, unknown> {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 perkolizonik — Route Coverage Test Suite\n');
+  console.log('\n🏁 perkolizonik - Route Coverage Test Suite\n');
 
   const entries = sitemap();
   const routeUrl = `${BASE_URL}/perkolizonik`;
@@ -139,4 +139,3 @@ runTests().catch((e) => {
   console.error('Kritična greška u test runneru:', e);
   process.exit(1);
 });
-

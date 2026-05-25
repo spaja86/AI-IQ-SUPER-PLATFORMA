@@ -31,7 +31,7 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n⚙️ Perkolizonik — Unit Test Suite\n');
+  console.log('\n⚙️ Perkolizonik - Unit Test Suite\n');
 
   const rezultat = buildPerkolizonik('test-user');
 
