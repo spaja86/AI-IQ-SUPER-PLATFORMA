@@ -81,6 +81,13 @@ export interface OperativniTok {
 export type EnterpriseProvajder = 'vercel' | 'github' | 'openai';
 export type EnterpriseZahtevStatus = 'u_pripremi' | 'spremno_za_slanje' | 'poslato';
 export type EnterpriseZahtevPodtip = 'osnovni' | 'vercel-cdn-proxy-trust';
+export const ENTERPRISE_PROVAJDERI: readonly EnterpriseProvajder[] = ['vercel', 'github', 'openai'];
+export const ENTERPRISE_PODTIPOVI: readonly EnterpriseZahtevPodtip[] = ['osnovni', 'vercel-cdn-proxy-trust'];
+export const ENTERPRISE_PODTIPOVI_PO_PROVIDERU: Readonly<Record<EnterpriseProvajder, readonly EnterpriseZahtevPodtip[]>> = {
+  vercel: ['osnovni', 'vercel-cdn-proxy-trust'],
+  github: ['osnovni'],
+  openai: ['osnovni'],
+};
 
 export interface EnterpriseZahtevScope {
   razlog: string;
@@ -612,7 +619,7 @@ export const vercelCdnProxyTrustZahtev: EnterpriseZahtevPaket = {
     `Billing: ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}`,
     `Tehnički kontakt: ${getKontaktKanal('tech')?.email ?? 'tech@spaja.rs'}`,
     '',
-    'Ako dokumenta ne možemo razmeniti digitalno, molimo vas da organizujemo poziv/sastanak za formalizaciju ugovora.',
+    'Ako dokumenta ne možemo razmeniti digitalno, molimo vas da organizujmo poziv/sastanak za formalizaciju ugovora.',
     'Molimo vas za sledeće korake, potrebnu dokumentaciju i operativni onboarding plan.',
     '',
     'Hvala,',

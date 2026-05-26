@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { APP_VERSION } from '@/lib/constants';
 import {
+  ENTERPRISE_PODTIPOVI,
+  ENTERPRISE_PROVAJDERI,
   getEnterpriseZahtevByProviderAndSubtype,
   type EnterpriseProvajder,
   type EnterpriseZahtevPodtip,
@@ -83,6 +85,15 @@ function resolveEnterprisePaket(
   return getEnterpriseZahtevByProviderAndSubtype(provider, podtip);
 }
 
+function extractPodtipFromMetadata(
+  metadata: Record<string, unknown> | null,
+): EnterpriseZahtevPodtip {
+  const podtip = metadata?.podtip;
+  return ENTERPRISE_PODTIPOVI.includes(podtip as EnterpriseZahtevPodtip)
+    ? (podtip as EnterpriseZahtevPodtip)
+    : 'osnovni';
+}
+
 export function kreirajFormalniKontaktRikvest(paket: EnterpriseZahtevPaket): {
   naslov: string;
   telo: string;
@@ -98,7 +109,7 @@ export function kreirajFormalniKontaktRikvest(paket: EnterpriseZahtevPaket): {
 
 export function getEnterpriseUgovorPlan(): EnterpriseUgovorEvidencija[] {
   const nowIso = new Date().toISOString();
-  return (['vercel', 'github', 'openai'] as const).map((provider) => {
+  return ENTERPRISE_PROVAJDERI.map((provider) => {
     const paket = resolveEnterprisePaket(provider, 'osnovni');
     if (!paket) {
       throw new Error(`Enterprise paket nije pronađen za provider: ${provider}`);
@@ -209,7 +220,7 @@ export async function ucitajEnterpriseKomunikacijaIstoriju(
   return data.map((item) => ({
     id: String(item.id),
     provider: item.provider as EnterpriseProvajder,
-    podtip: ((item.metadata as Record<string, unknown> | null)?.podtip as EnterpriseZahtevPodtip | undefined) ?? 'osnovni',
+    podtip: extractPodtipFromMetadata((item.metadata as Record<string, unknown> | null) ?? null),
     status: item.status as EnterpriseUgovorStatus,
     kanal: item.kanal as EnterpriseKontaktKanal,
     naslov: String(item.naslov),

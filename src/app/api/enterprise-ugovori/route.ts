@@ -9,13 +9,16 @@ import {
   type EnterpriseUgovorStatus,
 } from '@/lib/enterprise-ugovor-modul';
 import {
+  ENTERPRISE_PODTIPOVI,
+  ENTERPRISE_PODTIPOVI_PO_PROVIDERU,
+  ENTERPRISE_PROVAJDERI,
   getEnterprisePodzahtevi,
   type EnterpriseProvajder,
   type EnterpriseZahtevPodtip,
 } from '@/lib/kompanija-spaja-operativa';
 
-const VALID_PROVAJDERI = new Set<EnterpriseProvajder>(['vercel', 'github', 'openai']);
-const VALID_PODTIPOVI = new Set<EnterpriseZahtevPodtip>(['osnovni', 'vercel-cdn-proxy-trust']);
+const VALID_PROVAJDERI = new Set<EnterpriseProvajder>(ENTERPRISE_PROVAJDERI);
+const VALID_PODTIPOVI = new Set<EnterpriseZahtevPodtip>(ENTERPRISE_PODTIPOVI);
 const VALID_STATUSI = new Set<EnterpriseUgovorStatus>(['pending', 'kontaktiran', 'potpisano']);
 const VALID_KANALI = new Set<EnterpriseKontaktKanal>(['kontakt_forma', 'email', 'poziv', 'sastanak']);
 
@@ -118,10 +121,12 @@ export async function POST(request: NextRequest) {
       { status: 422 },
     );
   }
-  if ((payload.provider as EnterpriseProvajder) !== 'vercel' && podtip !== 'osnovni') {
+  const provider = payload.provider as EnterpriseProvajder;
+  const validniZaProvider = ENTERPRISE_PODTIPOVI_PO_PROVIDERU[provider];
+  if (!validniZaProvider.includes(podtip)) {
     return NextResponse.json(
       {
-        error: 'vercel-cdn-proxy-trust podtip je dozvoljen samo za provider=vercel.',
+        error: `podtip "${podtip}" nije dozvoljen za provider "${provider}".`,
         code: 'UNPROCESSABLE_ENTITY',
         verzija: APP_VERSION,
         timestamp: new Date().toISOString(),
@@ -131,7 +136,7 @@ export async function POST(request: NextRequest) {
   }
 
   const result = await upisiEnterpriseKomunikaciju({
-    provider: payload.provider as EnterpriseProvajder,
+    provider,
     podtip,
     status: payload.status as EnterpriseUgovorStatus,
     kanal: payload.kanal as EnterpriseKontaktKanal,
