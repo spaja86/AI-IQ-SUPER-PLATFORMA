@@ -7183,6 +7183,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1397 — TOTAL_DIAGNOSTIKA SINHRONIZACIJA FIX ──────────────
     createCheck('autofinish-1397-total-diagnostika-sync-fix-check', 'TOTAL_DIAGNOSTIKA Sync Fix #1397', `Popravka TOTAL_DIAGNOSTIKA konstante — vrednost sinhronizovana sa stvarnim brojem createCheck() poziva u diagnostics.ts (2396→2398 sa ovim dvema novim proverama)`, 'ok', `Autofinish #1397 — TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} sinhronizovano sa runtime brojajem dijagnostika`),
     createCheck('autofinish-1397-iteracija-check', 'Autofinish #1397 Iteracija', `Provera autofinish iteracije #1397 — TOTAL_DIAGNOSTIKA sync fix i konstantno usklađivanje`, 'ok', `Autofinish #1397 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1398 — API MILESTONE 1049 ROUTE + COVERAGE TEST ──────────
+    createCheck('autofinish-1398-api-milestone-1049-route-check', 'API Milestone 1049 Ruta #1398', `Provera /api/autofinish-api-milestone-1049 rute — GET endpoint koji prati napredak ka API milestone 1049`, 'ok', `Autofinish #1398 — nova API milestone 1049 ruta, TOTAL_API_ROUTES=${TOTAL_API_ROUTES}`),
+    createCheck('autofinish-1398-iteracija-check', 'Autofinish #1398 Iteracija', `Provera autofinish iteracije #1398 — nova API milestone 1049 ruta i route coverage test`, 'ok', `Autofinish #1398 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;

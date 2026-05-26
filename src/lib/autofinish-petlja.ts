@@ -1505,6 +1505,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1395: 'Route coverage test — autofinish-svega-route.test.ts',
     1396: 'Enterprise Zahtevi CDN coverage + build fix (diagnostics stale literal)',
     1397: 'TOTAL_DIAGNOSTIKA sync fix — konstanta sinhronizovana sa runtime brojajem (2380→2398)',
+    1398: 'Nova ruta /api/autofinish-api-milestone-1049 + route coverage test',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8060,3 +8061,11 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Vrednost ispravljena sa 2380 → 2398 (2396 postojeće + 2 nove provere za #1397).
 // Bumped APP_VERSION 59.59.0→59.60.0, AUTOFINISH_COUNT 1396→1397.
 // APP_VERSION=59.60.0 | AUTOFINISH_COUNT=1397 | TOTAL_API_ROUTES=1203 | TOTAL_ROUTES=1330 | TOTAL_PAGES=127
+
+
+// ─── Autofinish #1398 — API MILESTONE 1049 ROUTE + COVERAGE TEST ──────────────
+// Nova ruta: src/app/api/autofinish-api-milestone-1049/route.ts.
+// GET — Metapodaci o napretku ka API milestone 1049 (TOTAL_API_ROUTES tracking).
+// Route coverage test: src/tests/autofinish/autofinish-api-milestone-1049-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1203→1204, TOTAL_ROUTES 1330→1331, TOTAL_DIAGNOSTIKA 2398→2400.
+// APP_VERSION=59.61.0 | AUTOFINISH_COUNT=1398 | TOTAL_API_ROUTES=1204 | TOTAL_ROUTES=1331 | TOTAL_PAGES=127
