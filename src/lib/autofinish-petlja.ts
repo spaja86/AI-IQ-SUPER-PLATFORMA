@@ -1503,6 +1503,9 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1393: 'buildAutofinishSvega() helper — orkestracija svih svega pipeline-ova',
     1394: 'GET + POST /api/autofinish-svega endpoint sa auth i rate limitom',
     1395: 'Route coverage test — autofinish-svega-route.test.ts',
+    1396: 'Enterprise Zahtevi CDN coverage + build fix (diagnostics stale literal)',
+    1397: 'TOTAL_DIAGNOSTIKA sync fix — konstanta sinhronizovana sa runtime brojajem (2380→2398)',
+    1398: 'Nova ruta /api/autofinish-api-milestone-1049 + route coverage test',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8044,3 +8047,25 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Pokriveno: fajl prisutnost, GET 200 payload/header-i, POST auth guard (401/503),
 // POST rate-limit guard (429), POST neispravan JSON (400), konstante validacija.
 // APP_VERSION=59.58.0 | AUTOFINISH_COUNT=1395 | TOTAL_API_ROUTES=1202 | TOTAL_ROUTES=1328 | TOTAL_PAGES=126
+
+
+// ─── Autofinish #1396 — ENTERPRISE ZAHTEVI CDN COVERAGE + BUILD FIX ──────────
+// Popravka build greške u diagnostics.ts (stale literal TOTAL_DIAGNOSTIKA === 2368 → typeof provera).
+// Proširen enterprise-zahtevi-route.test.ts: CDN proxy trust assertions (podzahtevi, vercelCdnProxyTrust,
+// summary.ukupnoPodzahteva, formalniIdentitet), verifikacija naslov/sazetak/telo/dispatchChecklist.
+// APP_VERSION=59.59.0 | AUTOFINISH_COUNT=1396 | TOTAL_API_ROUTES=1203 | TOTAL_ROUTES=1330 | TOTAL_PAGES=127
+
+
+// ─── Autofinish #1397 — TOTAL_DIAGNOSTIKA SINHRONIZACIJA FIX ─────────────────
+// Sinhronizovana TOTAL_DIAGNOSTIKA konstanta sa stvarnim brojem createCheck() poziva.
+// Vrednost ispravljena sa 2380 → 2398 (2396 postojeće + 2 nove provere za #1397).
+// Bumped APP_VERSION 59.59.0→59.60.0, AUTOFINISH_COUNT 1396→1397.
+// APP_VERSION=59.60.0 | AUTOFINISH_COUNT=1397 | TOTAL_API_ROUTES=1203 | TOTAL_ROUTES=1330 | TOTAL_PAGES=127
+
+
+// ─── Autofinish #1398 — API MILESTONE 1049 ROUTE + COVERAGE TEST ──────────────
+// Nova ruta: src/app/api/autofinish-api-milestone-1049/route.ts.
+// GET — Metapodaci o napretku ka API milestone 1049 (TOTAL_API_ROUTES tracking).
+// Route coverage test: src/tests/autofinish/autofinish-api-milestone-1049-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1203→1204, TOTAL_ROUTES 1330→1331, TOTAL_DIAGNOSTIKA 2398→2400.
+// APP_VERSION=59.61.0 | AUTOFINISH_COUNT=1398 | TOTAL_API_ROUTES=1204 | TOTAL_ROUTES=1331 | TOTAL_PAGES=127

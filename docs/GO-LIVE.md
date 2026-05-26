@@ -175,8 +175,10 @@
 - [ ] Potvrditi `security@kompanija-spaja.rs` kao incident/security kontakt
 - [ ] Potvrditi da je `spajicn@yahoo.com` dokumentovan kao fallback/owner kontakt
 - [ ] Potvrditi Vercel Enterprise readiness paket (`team transfer`, `enterprise billing`, `central domain management`, `SSO/access governance`)
+- [ ] Potvrditi Vercel CDN/proxy trust podzahtev (`trusted reverse proxy onboarding`, `CDN governance`, `domain-level CDN routing`) za MEGA CENTAR SVEGA, SMEDEREVO 11300 SRBIJA
 - [ ] Potvrditi GitHub governance matricu (`spaja86` owner, billing owner, repo admin backup, workflow owner, security kontakt)
 - [ ] Otvoriti `/api/enterprise-zahtevi` i iz kompanijskih mejlova podneti Vercel zahtev preko `https://vercel.com/contact/sales`
+- [ ] Otvoriti `/api/enterprise-zahtevi` i copy/paste podneti `vercelCdnProxyTrust` sadržaj preko `https://vercel.com/contact/sales`
 - [ ] Otvoriti `/api/enterprise-zahtevi` i iz kompanijskih mejlova podneti GitHub zahtev preko `https://github.com/enterprises/contact`
 - [ ] Otvoriti `/api/enterprise-zahtevi` i kao Nikola Spajić (spajicn@yahoo.com) podneti OpenAI Enterprise + partnerski zahtev preko `https://openai.com/business/`
 
@@ -357,6 +359,7 @@ Deployment je dozvoljen samo ako prođu:
 - [ ] Proveriti `operativnaSpremnost.modelStanja` u `GET /api/health` i `GET /api/status` (`runtime`, `ops`, `enterprise`)
 - [ ] Poslati test mejlove na `support@spaja.rs`, `billing@spaja.rs`, `sales@spaja.rs` i proveriti fallback na `spajicn@yahoo.com`
 - [ ] Nakon slanja enterprise formi postaviti `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` i `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true`
+- [ ] Nakon slanja Vercel CDN/proxy trust zahteva postaviti `SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED=true`
 - [ ] Nakon slanja OpenAI enterprise forme kao Nikola Spajić postaviti `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true`
 
 ### Prva sedmica

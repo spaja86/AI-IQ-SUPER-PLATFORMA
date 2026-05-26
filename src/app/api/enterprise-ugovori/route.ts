@@ -8,11 +8,23 @@ import {
   type EnterpriseKontaktKanal,
   type EnterpriseUgovorStatus,
 } from '@/lib/enterprise-ugovor-modul';
-import { type EnterpriseProvajder } from '@/lib/kompanija-spaja-operativa';
+import {
+  ENTERPRISE_PODTIPOVI,
+  ENTERPRISE_PODTIPOVI_PO_PROVIDERU,
+  ENTERPRISE_PROVAJDERI,
+  getEnterprisePodzahtevi,
+  type EnterpriseProvajder,
+  type EnterpriseZahtevPodtip,
+} from '@/lib/kompanija-spaja-operativa';
 
-const VALID_PROVAJDERI = new Set<EnterpriseProvajder>(['vercel', 'github', 'openai']);
+const VALID_PROVAJDERI = new Set<EnterpriseProvajder>(ENTERPRISE_PROVAJDERI);
+const VALID_PODTIPOVI = new Set<EnterpriseZahtevPodtip>(ENTERPRISE_PODTIPOVI);
 const VALID_STATUSI = new Set<EnterpriseUgovorStatus>(['pending', 'kontaktiran', 'potpisano']);
 const VALID_KANALI = new Set<EnterpriseKontaktKanal>(['kontakt_forma', 'email', 'poziv', 'sastanak']);
+
+function isEnterprisePodtip(value: unknown): value is EnterpriseZahtevPodtip {
+  return typeof value === 'string' && VALID_PODTIPOVI.has(value as EnterpriseZahtevPodtip);
+}
 
 export async function GET() {
   const [ugovori, istorija] = await Promise.all([
@@ -27,6 +39,7 @@ export async function GET() {
     opis:
       'Modul za formalne enterprise kontakt zahteve, status ugovora (pending → kontaktiran → potpisano) i istoriju komunikacije u Supabase.',
     plan: getEnterpriseUgovorPlan(),
+    podzahtevi: getEnterprisePodzahtevi(),
     ugovori,
     istorija,
     summary: {
@@ -60,6 +73,7 @@ export async function POST(request: NextRequest) {
 
   const payload = (body ?? {}) as {
     provider?: string;
+    podtip?: string;
     status?: string;
     kanal?: string;
     kontaktOsoba?: string;
@@ -99,9 +113,36 @@ export async function POST(request: NextRequest) {
       { status: 422 },
     );
   }
+  const podtipValue = payload.podtip ?? 'osnovni';
+  if (!isEnterprisePodtip(podtipValue)) {
+    return NextResponse.json(
+      {
+        error: 'podtip mora biti string: osnovni ili vercel-cdn-proxy-trust.',
+        code: 'UNPROCESSABLE_ENTITY',
+        verzija: APP_VERSION,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 422 },
+    );
+  }
+  const podtip = podtipValue;
+  const provider = payload.provider as EnterpriseProvajder;
+  const validniZaProvider = ENTERPRISE_PODTIPOVI_PO_PROVIDERU[provider];
+  if (!validniZaProvider.includes(podtip)) {
+    return NextResponse.json(
+      {
+        error: `podtip "${podtip}" nije dozvoljen za provider "${provider}".`,
+        code: 'UNPROCESSABLE_ENTITY',
+        verzija: APP_VERSION,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 422 },
+    );
+  }
 
   const result = await upisiEnterpriseKomunikaciju({
-    provider: payload.provider as EnterpriseProvajder,
+    provider,
+    podtip,
     status: payload.status as EnterpriseUgovorStatus,
     kanal: payload.kanal as EnterpriseKontaktKanal,
     kontaktOsoba: payload.kontaktOsoba?.trim() || null,

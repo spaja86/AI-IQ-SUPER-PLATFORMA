@@ -51,6 +51,8 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] `VERCEL_PROJECT_ID`, `VERCEL_TEAM_ID`, `VERCEL_TOKEN` postavljeni za operativni readiness
 - [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true` i `SPAJA_VERCEL_ENTERPRISE_REQUESTED=true` (enterprise/procurement, ne runtime blocker)
 - [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja Vercel sales forme
+- [ ] `SPAJA_VERCEL_CDN_PROXY_REQUEST_READY=true` i `SPAJA_VERCEL_CDN_PROXY_REQUESTED=true` za Vercel CDN/proxy trust podzahtev
+- [ ] `SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED=true` nakon realnog podnošenja Vercel CDN/proxy trust zahteva
 - [ ] `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true` nakon realnog podnošenja GitHub enterprise forme
 - [ ] `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true` nakon podnošenja OpenAI enterprise + partnerskog zahteva
 
@@ -159,6 +161,7 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] GitHub governance matrica potvrđena (`spaja86` owner, billing owner, repo admin backup, workflow owner)
 - [ ] Vercel Enterprise readiness paket pripremljen i poslat iz operativnog naloga
 - [ ] `/api/enterprise-zahtevi` pregledan i copy/paste sadržaj unet u `https://vercel.com/contact/sales`
+- [ ] `/api/enterprise-zahtevi` pregledan i `vercelCdnProxyTrust` copy/paste sadržaj unet u `https://vercel.com/contact/sales` (formalni identitet: MEGA CENTAR SVEGA, SMEDEREVO 11300 SRBIJA)
 - [ ] `/api/enterprise-zahtevi` pregledan i copy/paste sadržaj unet u `https://github.com/enterprises/contact`
 - [ ] `/api/enterprise-zahtevi` pregledan i Nikola Spajić (spajicn@yahoo.com) podneo OpenAI Enterprise + partnerski zahtev na `https://openai.com/business/`
 
