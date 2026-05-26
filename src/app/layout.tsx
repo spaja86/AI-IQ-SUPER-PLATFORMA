@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import AiAsistentWrapper from '@/components/AiAsistentWrapper';
 import OmegaAuthProvider from '@/components/OmegaAuthProvider';
 import PWARegistration from '@/components/PWARegistration';
+import { BotIdClient } from 'botid/client';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
 import { REFRESH_V1_SCOPE } from '@/lib/refresh-scope';
@@ -150,6 +151,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <AiAsistentWrapper />
         <PWARegistration />
+        <BotIdClient protect={[
+          { path: '/api/stripe', method: 'POST' },
+          { path: '/api/auth', method: 'POST' },
+          { path: '/api/login', method: 'POST' },
+          { path: '/api/billing-upgrade-company-request', method: 'POST' },
+          { path: '/api/ai-asistent', method: 'POST' },
+        ]} />
       </body>
     </html>
   );
