@@ -104,6 +104,7 @@ export async function GET(req: NextRequest) {
         acceptanceCriteria: operativa.spremnost.acceptanceCriteria,
         missingEnv: operativa.spremnost.missingEnv.length,
         missingVercelEnv: operativa.spremnost.missingVercelEnv.length,
+        missingVercelCdnEnv: operativa.spremnost.missingVercelCdnEnv.length,
         runtime: operativa.spremnost.runtime.status,
         ops: operativa.spremnost.modelStanja.ops,
         enterpriseMode: operativa.spremnost.modelStanja.enterprise,
@@ -113,6 +114,7 @@ export async function GET(req: NextRequest) {
         github: operativa.spremnost.github.status,
         support: operativa.spremnost.support.status,
         enterprise: operativa.spremnost.enterprise,
+        vercelCdnProxy: operativa.spremnost.vercel.cdn,
         missingKastlerEnv: operativa.spremnost.missingKastlerEnv.length,
       },
       ekstremnoProcesuiranje: {

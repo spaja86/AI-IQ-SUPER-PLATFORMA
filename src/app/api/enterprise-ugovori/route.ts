@@ -8,9 +8,14 @@ import {
   type EnterpriseKontaktKanal,
   type EnterpriseUgovorStatus,
 } from '@/lib/enterprise-ugovor-modul';
-import { type EnterpriseProvajder } from '@/lib/kompanija-spaja-operativa';
+import {
+  getEnterprisePodzahtevi,
+  type EnterpriseProvajder,
+  type EnterpriseZahtevPodtip,
+} from '@/lib/kompanija-spaja-operativa';
 
 const VALID_PROVAJDERI = new Set<EnterpriseProvajder>(['vercel', 'github', 'openai']);
+const VALID_PODTIPOVI = new Set<EnterpriseZahtevPodtip>(['osnovni', 'vercel-cdn-proxy-trust']);
 const VALID_STATUSI = new Set<EnterpriseUgovorStatus>(['pending', 'kontaktiran', 'potpisano']);
 const VALID_KANALI = new Set<EnterpriseKontaktKanal>(['kontakt_forma', 'email', 'poziv', 'sastanak']);
 
@@ -27,6 +32,7 @@ export async function GET() {
     opis:
       'Modul za formalne enterprise kontakt zahteve, status ugovora (pending → kontaktiran → potpisano) i istoriju komunikacije u Supabase.',
     plan: getEnterpriseUgovorPlan(),
+    podzahtevi: getEnterprisePodzahtevi(),
     ugovori,
     istorija,
     summary: {
@@ -60,6 +66,7 @@ export async function POST(request: NextRequest) {
 
   const payload = (body ?? {}) as {
     provider?: string;
+    podtip?: string;
     status?: string;
     kanal?: string;
     kontaktOsoba?: string;
@@ -99,9 +106,33 @@ export async function POST(request: NextRequest) {
       { status: 422 },
     );
   }
+  const podtip = (payload.podtip ?? 'osnovni') as EnterpriseZahtevPodtip;
+  if (!VALID_PODTIPOVI.has(podtip)) {
+    return NextResponse.json(
+      {
+        error: 'podtip mora biti: osnovni ili vercel-cdn-proxy-trust.',
+        code: 'UNPROCESSABLE_ENTITY',
+        verzija: APP_VERSION,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 422 },
+    );
+  }
+  if ((payload.provider as EnterpriseProvajder) !== 'vercel' && podtip !== 'osnovni') {
+    return NextResponse.json(
+      {
+        error: 'vercel-cdn-proxy-trust podtip je dozvoljen samo za provider=vercel.',
+        code: 'UNPROCESSABLE_ENTITY',
+        verzija: APP_VERSION,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 422 },
+    );
+  }
 
   const result = await upisiEnterpriseKomunikaciju({
     provider: payload.provider as EnterpriseProvajder,
+    podtip,
     status: payload.status as EnterpriseUgovorStatus,
     kanal: payload.kanal as EnterpriseKontaktKanal,
     kontaktOsoba: payload.kontaktOsoba?.trim() || null,

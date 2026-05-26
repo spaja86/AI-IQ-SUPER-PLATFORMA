@@ -8,6 +8,9 @@
 export const APP_VERSION = '59.58.0';
 export const APP_NAME = 'AI IQ SUPER PLATFORMA';
 export const KOMPANIJA = 'Kompanija SPAJA';
+export const KOMPANIJA_FORMALNI_NAZIV = 'MEGA CENTAR SVEGA';
+export const KOMPANIJA_FORMALNA_ADRESA = 'SMEDEREVO 11300 SRBIJA';
+export const KOMPANIJA_FORMALNI_IDENTITET = `${KOMPANIJA_FORMALNI_NAZIV}, ${KOMPANIJA_FORMALNA_ADRESA}`;
 export const BASE_URL = 'https://ai-iq-super-platforma.vercel.app';
 
 // SpajaPro

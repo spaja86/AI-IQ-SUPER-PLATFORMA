@@ -2,6 +2,9 @@ import {
   APP_VERSION,
   BASE_URL,
   KOMPANIJA,
+  KOMPANIJA_FORMALNA_ADRESA,
+  KOMPANIJA_FORMALNI_IDENTITET,
+  KOMPANIJA_FORMALNI_NAZIV,
   MOBILNI_POZIVNI,
   OMEGA_AI_PERSONA_COUNT,
 } from './constants';
@@ -77,6 +80,20 @@ export interface OperativniTok {
 
 export type EnterpriseProvajder = 'vercel' | 'github' | 'openai';
 export type EnterpriseZahtevStatus = 'u_pripremi' | 'spremno_za_slanje' | 'poslato';
+export type EnterpriseZahtevPodtip = 'osnovni' | 'vercel-cdn-proxy-trust';
+
+export interface EnterpriseZahtevScope {
+  razlog: string;
+  ocekivaniIshod: string;
+  tehnickiDetaljiProksija: string[];
+  kontaktKanali: string[];
+  pravniIdentitet: {
+    naziv: string;
+    adresa: string;
+    punNaziv: string;
+  };
+  lifecycle: EnterpriseZahtevStatus[];
+}
 
 export interface EnterpriseKanalPodnosenja {
   tip: 'kontakt_forma' | 'support_portal';
@@ -87,6 +104,7 @@ export interface EnterpriseKanalPodnosenja {
 
 export interface EnterpriseZahtevPaket {
   id: EnterpriseProvajder;
+  podtip: EnterpriseZahtevPodtip;
   naziv: string;
   provajder: 'Vercel' | 'GitHub' | 'OpenAI';
   status: EnterpriseZahtevStatus;
@@ -110,6 +128,8 @@ export interface EnterpriseZahtevPaket {
   auditVlasnik: string;
   auditKontakt: string;
   envSignal: string;
+  scope?: EnterpriseZahtevScope;
+  dispatchChecklist?: string[];
 }
 
 type ReadinessStatus = 'spremno' | 'delimicno' | 'blokirano';
@@ -476,6 +496,7 @@ export const vercelEnterprisePaket = {
 
 export const vercelEnterpriseZahtev: EnterpriseZahtevPaket = {
   id: 'vercel',
+  podtip: 'osnovni',
   naziv: 'Vercel Enterprise zahtev — Digitalna Industrija',
   provajder: 'Vercel',
   status: getEnterpriseZahtevStatus(
@@ -506,6 +527,7 @@ export const vercelEnterpriseZahtev: EnterpriseZahtevPaket = {
     '',
     `Primarni kontakt za ovaj zahtev je ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'}, uz reply-to ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}.`,
     `Billing kontakt je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}, tehnički kontakt ${getKontaktKanal('tech')?.email ?? 'tech@spaja.rs'}, a security kontakt ${getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs'}.`,
+    `Formalni identitet kompanije: ${KOMPANIJA_FORMALNI_IDENTITET}.`,
     '',
     `Trenutno upravljamo sa ${vercelEnterprisePaket.brojProjekata} projekata i ${vercelEnterprisePaket.brojAktivnihDomena} aktivnih domena/poddomena kroz Digitalnu Industriju.`,
     'Potrebni su nam:',
@@ -542,6 +564,112 @@ export const vercelEnterpriseZahtev: EnterpriseZahtevPaket = {
   envSignal: 'SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED',
 };
 
+export const vercelCdnProxyTrustZahtev: EnterpriseZahtevPaket = {
+  id: 'vercel',
+  podtip: 'vercel-cdn-proxy-trust',
+  naziv: 'Vercel CDN / Proxy Trust zahtev — Digitalna Industrija',
+  provajder: 'Vercel',
+  status: getEnterpriseZahtevStatus(
+    'SPAJA_VERCEL_CDN_PROXY_REQUEST_READY',
+    'SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED',
+  ),
+  posiljalac: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  replyTo: getKontaktKanal('business')?.email ?? 'business@spaja.rs',
+  cc: [
+    getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+    getKontaktKanal('tech')?.email ?? 'tech@spaja.rs',
+    getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs',
+  ],
+  kanalPodnosenja: {
+    tip: 'kontakt_forma',
+    url: 'https://vercel.com/contact/sales',
+    opis: 'Zvanični Vercel sales kontakt kanal za CDN/proxy trust onboarding i enterprise mrežne dogovore.',
+    zahtevaKompanijskiMejl: true,
+  },
+  naslov:
+    'Vercel CDN / Trusted Proxy onboarding request — MEGA CENTAR SVEGA (SMEDEREVO 11300 SRBIJA)',
+  sazetak:
+    'Formalni zahtev da Vercel prihvati naš proksi kao trusted/official CDN integraciju za Digitalnu Industriju, uz kanonski identitet kompanije i enterprise governance.',
+  telo: [
+    'Poštovani Vercel Sales / Solutions tim,',
+    '',
+    `obraćamo vam se iz ${KOMPANIJA_FORMALNI_NAZIV} (${KOMPANIJA}) sa formalnim zahtevom za CDN/proxy trust onboarding.`,
+    `Zvanična adresa: ${KOMPANIJA_FORMALNA_ADRESA}.`,
+    `Pun formalni identitet: ${KOMPANIJA_FORMALNI_IDENTITET}.`,
+    '',
+    'Cilj:',
+    '- da naš reverse proxy bude prepoznat kao trusted/official u Vercel CDN ekosistemu',
+    '- da ga možemo koristiti kao standardni, zvanični CDN sloj kroz naše enterprise procese',
+    '',
+    'Tehnički scope:',
+    '- trusted reverse proxy onboarding',
+    '- usklađivanje forwarding/header i cache ponašanja za enterprise saobraćaj',
+    '- potvrda podrške za domain-level CDN routing model',
+    '- usaglašavanje sa postojećim Vercel Enterprise governance i billing modelom',
+    '',
+    `Primarni kontakt: ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'}`,
+    `Reply-to: ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}`,
+    `Billing: ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}`,
+    `Tehnički kontakt: ${getKontaktKanal('tech')?.email ?? 'tech@spaja.rs'}`,
+    '',
+    'Ako dokumenta ne možemo razmeniti digitalno, molimo vas da organizujemo poziv/sastanak za formalizaciju ugovora.',
+    'Molimo vas za sledeće korake, potrebnu dokumentaciju i operativni onboarding plan.',
+    '',
+    'Hvala,',
+    `${KOMPANIJA_FORMALNI_NAZIV} / ${KOMPANIJA}`,
+  ].join('\n'),
+  trazeniPlanovi: ['Vercel Enterprise', 'Vercel CDN proxy trust onboarding'],
+  trazeneOpcije: [
+    'Trusted reverse proxy onboarding',
+    'CDN governance and audit alignment',
+    'Domain-level CDN routing alignment',
+    'Enterprise support for proxy + CDN model',
+  ],
+  prilozi: [
+    'Operativna matrica vlasništva i kontakt kanala',
+    'GO-LIVE.md enterprise/CDN readiness sekcija',
+    'GOLIVE_CHECKLIST.md koraci za Vercel CDN/proxy request',
+  ],
+  odobrenja: [
+    'Poslovni kontakt',
+    'Billing owner',
+    'Tehnički admin',
+    'Security kontakt',
+  ],
+  auditVlasnik: getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+  auditKontakt: getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+  envSignal: 'SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED',
+  scope: {
+    razlog: 'Zvanična enterprise validacija i trust status za naš proxy/CDN tok.',
+    ocekivaniIshod:
+      'Vercel potvrđuje trusted/official CDN proxy onboarding i operativni model za produkcioni saobraćaj.',
+    tehnickiDetaljiProksija: [
+      'Trusted reverse proxy onboarding',
+      'Forwarded header i cache ponašanje',
+      'Domain-level CDN routing usklađivanje',
+      'Audit-ready governance i support model',
+    ],
+    kontaktKanali: [
+      getKontaktKanal('sales')?.email ?? 'sales@spaja.rs',
+      getKontaktKanal('business')?.email ?? 'business@spaja.rs',
+      getKontaktKanal('tech')?.email ?? 'tech@spaja.rs',
+      getKontaktKanal('billing')?.email ?? 'billing@spaja.rs',
+    ],
+    pravniIdentitet: {
+      naziv: KOMPANIJA_FORMALNI_NAZIV,
+      adresa: KOMPANIJA_FORMALNA_ADRESA,
+      punNaziv: KOMPANIJA_FORMALNI_IDENTITET,
+    },
+    lifecycle: ['u_pripremi', 'spremno_za_slanje', 'poslato'],
+  },
+  dispatchChecklist: [
+    'Preuzeti naslov, sažetak i telo iz API izlaza bez izmene formalnog identiteta.',
+    'Podneti zahtev preko zvaničnog Vercel sales kanala.',
+    'Evidentirati komunikaciju kroz /api/enterprise-ugovori sa podtipom vercel-cdn-proxy-trust.',
+    'Nakon realnog slanja postaviti SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED=true.',
+  ],
+};
+
 export const githubGovernanceModel = {
   owner: primarniOperativniNalog.githubOwner,
   model: 'licni-owner-sa-formalizovanom-governance-matricom',
@@ -558,6 +686,7 @@ export const githubGovernanceModel = {
 
 export const githubEnterprisePaket: EnterpriseZahtevPaket = {
   id: 'github',
+  podtip: 'osnovni',
   naziv: 'GitHub Enterprise zahtev — Digitalna Industrija',
   provajder: 'GitHub',
   status: getEnterpriseZahtevStatus(
@@ -595,6 +724,7 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
     '',
     `Zahtev podnosimo preko kompanijskog mejla ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'}, sa poslovnim reply-to kontaktom ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}.`,
     `Billing kontakt za uslove i fakturisanje je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}, tehnički kontakt ${getKontaktKanal('tech')?.email ?? 'tech@spaja.rs'}, a security kontakt ${getKontaktKanal('security')?.email ?? 'security@kompanija-spaja.rs'}.`,
+    `Formalni identitet kompanije: ${KOMPANIJA_FORMALNI_IDENTITET}.`,
     '',
     `Trenutni owner model je ${githubGovernanceModel.owner}, a cilj je da pređemo na enterprise governance sa formalizovanim billing owner-om, workflow ownership-om i pristupnom kontrolom za celu industriju.`,
     'Već posedujemo licence za više ključnih digitalnih sistema, a sada želimo da standardizujemo i GitHub licence kako bismo mogli da širimo poslovanje maksimalnim tempom i uđemo u novu eru digitalizacije.',
@@ -645,6 +775,7 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
 
 export const openaiEnterprisePaket: EnterpriseZahtevPaket = {
   id: 'openai',
+  podtip: 'osnovni',
   naziv: 'OpenAI Enterprise zahtev — Digitalna Industrija / SpajaPro',
   provajder: 'OpenAI',
   status: getEnterpriseZahtevStatus(
@@ -676,6 +807,7 @@ export const openaiEnterprisePaket: EnterpriseZahtevPaket = {
     '',
     `Primarni kontakt za ovaj zahtev je ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'} (kompanijski sales kanal), reply-to ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}.`,
     `Nalog koji se navodi kao owner je spajicn@yahoo.com (Nikola Spajić), a billing kontakt je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}.`,
+    `Formalni identitet kompanije: ${KOMPANIJA_FORMALNI_IDENTITET}.`,
     '',
     'Razlog obraćanja:',
     'Razvili smo sopstvenu AI platformu — AI IQ SUPER PLATFORMA (SpajaPro v6-15) — koja je zamena za ChatGPT u okviru Digitalne Industrije.',
@@ -725,6 +857,20 @@ export function getEnterpriseZahtevi(): EnterpriseZahtevPaket[] {
   return [vercelEnterpriseZahtev, githubEnterprisePaket, openaiEnterprisePaket];
 }
 
+export function getEnterprisePodzahtevi(): EnterpriseZahtevPaket[] {
+  return [vercelCdnProxyTrustZahtev];
+}
+
+export function getEnterpriseZahtevByProviderAndSubtype(
+  provider: EnterpriseProvajder,
+  podtip: EnterpriseZahtevPodtip = 'osnovni',
+): EnterpriseZahtevPaket | undefined {
+  if (podtip === 'osnovni') {
+    return getEnterpriseZahtevi().find((paket) => paket.id === provider);
+  }
+  return getEnterprisePodzahtevi().find((paket) => paket.id === provider && paket.podtip === podtip);
+}
+
 export function getKontaktKanal(id: KontaktNamena): JavniKontaktKanal | undefined {
   return javniKontaktKanali.find((kanal) => kanal.id === id);
 }
@@ -764,6 +910,11 @@ export function getOperativnaSpremnost() {
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUESTED'),
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED'),
   ];
+  const vercelCdnChecks = [
+    envFlag('SPAJA_VERCEL_CDN_PROXY_REQUEST_READY'),
+    envFlag('SPAJA_VERCEL_CDN_PROXY_REQUESTED'),
+    envFlag('SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED'),
+  ];
   const githubChecks = [
     envSet('GITHUB_TOKEN'),
     envFlag('SPAJA_GITHUB_OWNER_CONFIRMED'),
@@ -787,6 +938,7 @@ export function getOperativnaSpremnost() {
   const mailScore = getSectionScore(mailChecks.filter(Boolean).length, mailChecks.length);
   const vercelRuntimeScore = getSectionScore(vercelRuntimeChecks.filter(Boolean).length, vercelRuntimeChecks.length);
   const vercelEnterpriseScore = getSectionScore(vercelEnterpriseChecks.filter(Boolean).length, vercelEnterpriseChecks.length);
+  const vercelCdnScore = getSectionScore(vercelCdnChecks.filter(Boolean).length, vercelCdnChecks.length);
   const githubScore = getSectionScore(githubChecks.filter(Boolean).length, githubChecks.length);
   const supportScore = getSectionScore(supportChecks.filter(Boolean).length, supportChecks.length);
   const kastlerScore = getSectionScore(kastlerChecks.filter(Boolean).length, kastlerChecks.length);
@@ -815,9 +967,15 @@ export function getOperativnaSpremnost() {
     ...(!envSet('VERCEL_PROJECT_ID') ? ['VERCEL_PROJECT_ID'] : []),
     ...(!envSet('VERCEL_TEAM_ID') && !envSet('VERCEL_ORG_ID') ? ['VERCEL_TEAM_ID'] : []),
   ];
+  const missingVercelCdnEnv = [
+    ...(!envFlag('SPAJA_VERCEL_CDN_PROXY_REQUEST_READY') ? ['SPAJA_VERCEL_CDN_PROXY_REQUEST_READY'] : []),
+    ...(!envFlag('SPAJA_VERCEL_CDN_PROXY_REQUESTED') ? ['SPAJA_VERCEL_CDN_PROXY_REQUESTED'] : []),
+    ...(!envFlag('SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED') ? ['SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED'] : []),
+  ];
 
   const ukupniScore = Math.round((runtimeScore + opsScore) / 2);
   const enterpriseZahtevi = getEnterpriseZahtevi();
+  const enterprisePodzahtevi = getEnterprisePodzahtevi();
   const runtimeMode: ReadinessMode = runtimeScore >= RUNTIME_READY_THRESHOLD ? 'runtime-ready' : 'runtime-incomplete';
   const opsMode: ReadinessMode = opsScore >= OPS_READY_THRESHOLD ? 'ops-ready' : 'ops-incomplete';
   const enterpriseReady = enterpriseZahtevi.filter((paket) => paket.status !== 'u_pripremi').length;
@@ -878,6 +1036,13 @@ export function getOperativnaSpremnost() {
           score: vercelEnterpriseScore,
           status: getSectionStatus(vercelEnterpriseChecks.filter(Boolean).length, vercelEnterpriseChecks.length),
         },
+        cdn: {
+          score: vercelCdnScore,
+          status: getSectionStatus(vercelCdnChecks.filter(Boolean).length, vercelCdnChecks.length),
+          podtip: vercelCdnProxyTrustZahtev.podtip,
+          paketStatus: vercelCdnProxyTrustZahtev.status,
+          envSignal: vercelCdnProxyTrustZahtev.envSignal,
+        },
         enterpriseOpcije: vercelEnterprisePaket.trazeneOpcije.length,
       },
       github: {
@@ -893,6 +1058,7 @@ export function getOperativnaSpremnost() {
       },
       enterprise: {
         vercel: vercelEnterpriseZahtev.status,
+        vercelCdnProxyTrust: vercelCdnProxyTrustZahtev.status,
         github: githubEnterprisePaket.status,
         openai: openaiEnterprisePaket.status,
         spremniPaketi: enterpriseReady,
@@ -908,11 +1074,13 @@ export function getOperativnaSpremnost() {
         missingEnv,
         missingKastlerEnv,
         missingVercelEnv,
+        missingVercelCdnEnv,
         zahtevaAktivaciju:
           missingEnv.length > 0 ||
           !envFlag('SPAJA_MAIL_DOMAINS_VERIFIED') ||
           !envFlag('SPAJA_GITHUB_GOVERNANCE_READY'),
       },
+      enterprisePodzahtevi,
       kastlerTvPaket: kastlerPaket,
   };
 }

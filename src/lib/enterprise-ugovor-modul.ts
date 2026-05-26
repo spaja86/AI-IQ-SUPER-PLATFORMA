@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 import { APP_VERSION } from '@/lib/constants';
 import {
-  getEnterpriseZahtevi,
+  getEnterpriseZahtevByProviderAndSubtype,
   type EnterpriseProvajder,
+  type EnterpriseZahtevPodtip,
   type EnterpriseZahtevPaket,
 } from '@/lib/kompanija-spaja-operativa';
 
@@ -21,6 +22,7 @@ export interface EnterpriseUgovorEvidencija {
 export interface EnterpriseKomunikacijaIstorijaStavka {
   id: string;
   provider: EnterpriseProvajder;
+  podtip: EnterpriseZahtevPodtip;
   status: EnterpriseUgovorStatus;
   kanal: EnterpriseKontaktKanal;
   naslov: string;
@@ -33,6 +35,7 @@ export interface EnterpriseKomunikacijaIstorijaStavka {
 
 interface UpisKomunikacijeInput {
   provider: EnterpriseProvajder;
+  podtip?: EnterpriseZahtevPodtip;
   status: EnterpriseUgovorStatus;
   kanal: EnterpriseKontaktKanal;
   kontaktOsoba?: string | null;
@@ -73,6 +76,13 @@ function getKontaktOsobaFallback(provider: EnterpriseProvajder): string {
   return 'Poslovni kontakt';
 }
 
+function resolveEnterprisePaket(
+  provider: EnterpriseProvajder,
+  podtip: EnterpriseZahtevPodtip = 'osnovni',
+): EnterpriseZahtevPaket | undefined {
+  return getEnterpriseZahtevByProviderAndSubtype(provider, podtip);
+}
+
 export function kreirajFormalniKontaktRikvest(paket: EnterpriseZahtevPaket): {
   naslov: string;
   telo: string;
@@ -88,14 +98,20 @@ export function kreirajFormalniKontaktRikvest(paket: EnterpriseZahtevPaket): {
 
 export function getEnterpriseUgovorPlan(): EnterpriseUgovorEvidencija[] {
   const nowIso = new Date().toISOString();
-  return getEnterpriseZahtevi().map((paket) => ({
+  return (['vercel', 'github', 'openai'] as const).map((provider) => {
+    const paket = resolveEnterprisePaket(provider, 'osnovni');
+    if (!paket) {
+      throw new Error(`Enterprise paket nije pronađen za provider: ${provider}`);
+    }
+    return {
     provider: paket.id,
     status: getStatusFromEnv(paket.id),
     poslednjaAktivnostAt: nowIso,
     kontaktOsoba: getKontaktOsobaFallback(paket.id),
     poslednjaNapomena: 'Čeka se odgovor enterprise sales tima ili termin sastanka za potpisivanje ugovora.',
     poslednjiKontaktKanal: paket.kanalPodnosenja.tip === 'kontakt_forma' ? 'kontakt_forma' : 'email',
-  }));
+    };
+  });
 }
 
 export async function upisiEnterpriseKomunikaciju(
@@ -106,9 +122,10 @@ export async function upisiEnterpriseKomunikaciju(
     return { stored: false, reason: 'Supabase nije konfigurisan.' };
   }
 
-  const paket = getEnterpriseZahtevi().find((p) => p.id === input.provider);
+  const podtip = input.podtip ?? 'osnovni';
+  const paket = resolveEnterprisePaket(input.provider, podtip);
   if (!paket) {
-    return { stored: false, reason: `Nepoznat enterprise provider: ${input.provider}` };
+    return { stored: false, reason: `Nepoznat enterprise provider/podtip: ${input.provider}/${podtip}` };
   }
 
   const requestPayload = kreirajFormalniKontaktRikvest(paket);
@@ -128,6 +145,7 @@ export async function upisiEnterpriseKomunikaciju(
       napomena,
       metadata: {
         appVerzija: APP_VERSION,
+        podtip,
         kanalPodnosenja: paket.kanalPodnosenja.url,
         trazeniPlanovi: paket.trazeniPlanovi,
       },
@@ -191,6 +209,7 @@ export async function ucitajEnterpriseKomunikacijaIstoriju(
   return data.map((item) => ({
     id: String(item.id),
     provider: item.provider as EnterpriseProvajder,
+    podtip: ((item.metadata as Record<string, unknown> | null)?.podtip as EnterpriseZahtevPodtip | undefined) ?? 'osnovni',
     status: item.status as EnterpriseUgovorStatus,
     kanal: item.kanal as EnterpriseKontaktKanal,
     naslov: String(item.naslov),
