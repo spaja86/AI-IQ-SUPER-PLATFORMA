@@ -593,8 +593,7 @@ export const vercelCdnProxyTrustZahtev: EnterpriseZahtevPaket = {
     opis: 'Zvanični Vercel sales kontakt kanal za CDN/proxy trust onboarding i enterprise mrežne dogovore.',
     zahtevaKompanijskiMejl: true,
   },
-  naslov:
-    'Vercel CDN / Trusted Proxy onboarding request — MEGA CENTAR SVEGA (SMEDEREVO 11300 SRBIJA)',
+  naslov: `Vercel CDN / Trusted Proxy onboarding request — ${KOMPANIJA_FORMALNI_NAZIV} (${KOMPANIJA_FORMALNA_ADRESA})`,
   sazetak:
     'Formalni zahtev da Vercel prihvati naš proksi kao trusted/official CDN integraciju za Digitalnu Industriju, uz kanonski identitet kompanije i enterprise governance.',
   telo: [
@@ -619,7 +618,7 @@ export const vercelCdnProxyTrustZahtev: EnterpriseZahtevPaket = {
     `Billing: ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}`,
     `Tehnički kontakt: ${getKontaktKanal('tech')?.email ?? 'tech@spaja.rs'}`,
     '',
-    'Ako dokumenta ne možemo razmeniti digitalno, molimo vas da organizujmo poziv/sastanak za formalizaciju ugovora.',
+    'Ako dokumenta ne možemo razmeniti digitalno, molimo vas da organizujemo poziv/sastanak za formalizaciju ugovora.',
     'Molimo vas za sledeće korake, potrebnu dokumentaciju i operativni onboarding plan.',
     '',
     'Hvala,',

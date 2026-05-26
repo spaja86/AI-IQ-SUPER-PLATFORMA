@@ -22,6 +22,10 @@ const VALID_PODTIPOVI = new Set<EnterpriseZahtevPodtip>(ENTERPRISE_PODTIPOVI);
 const VALID_STATUSI = new Set<EnterpriseUgovorStatus>(['pending', 'kontaktiran', 'potpisano']);
 const VALID_KANALI = new Set<EnterpriseKontaktKanal>(['kontakt_forma', 'email', 'poziv', 'sastanak']);
 
+function isEnterprisePodtip(value: unknown): value is EnterpriseZahtevPodtip {
+  return typeof value === 'string' && VALID_PODTIPOVI.has(value as EnterpriseZahtevPodtip);
+}
+
 export async function GET() {
   const [ugovori, istorija] = await Promise.all([
     ucitajEnterpriseUgovore(),
@@ -109,11 +113,11 @@ export async function POST(request: NextRequest) {
       { status: 422 },
     );
   }
-  const podtip = (payload.podtip ?? 'osnovni') as EnterpriseZahtevPodtip;
-  if (!VALID_PODTIPOVI.has(podtip)) {
+  const podtipValue = payload.podtip ?? 'osnovni';
+  if (!isEnterprisePodtip(podtipValue)) {
     return NextResponse.json(
       {
-        error: 'podtip mora biti: osnovni ili vercel-cdn-proxy-trust.',
+        error: 'podtip mora biti string: osnovni ili vercel-cdn-proxy-trust.',
         code: 'UNPROCESSABLE_ENTITY',
         verzija: APP_VERSION,
         timestamp: new Date().toISOString(),
@@ -121,6 +125,7 @@ export async function POST(request: NextRequest) {
       { status: 422 },
     );
   }
+  const podtip = podtipValue;
   const provider = payload.provider as EnterpriseProvajder;
   const validniZaProvider = ENTERPRISE_PODTIPOVI_PO_PROVIDERU[provider];
   if (!validniZaProvider.includes(podtip)) {
