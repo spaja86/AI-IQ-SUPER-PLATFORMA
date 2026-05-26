@@ -1503,6 +1503,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1393: 'buildAutofinishSvega() helper — orkestracija svih svega pipeline-ova',
     1394: 'GET + POST /api/autofinish-svega endpoint sa auth i rate limitom',
     1395: 'Route coverage test — autofinish-svega-route.test.ts',
+    1396: 'Enterprise Zahtevi CDN coverage + build fix (diagnostics stale literal)',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8044,3 +8045,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Pokriveno: fajl prisutnost, GET 200 payload/header-i, POST auth guard (401/503),
 // POST rate-limit guard (429), POST neispravan JSON (400), konstante validacija.
 // APP_VERSION=59.58.0 | AUTOFINISH_COUNT=1395 | TOTAL_API_ROUTES=1202 | TOTAL_ROUTES=1328 | TOTAL_PAGES=126
+
+
+// ─── Autofinish #1396 — ENTERPRISE ZAHTEVI CDN COVERAGE + BUILD FIX ──────────
+// Popravka build greške u diagnostics.ts (stale literal TOTAL_DIAGNOSTIKA === 2368 → typeof provera).
+// Proširen enterprise-zahtevi-route.test.ts: CDN proxy trust assertions (podzahtevi, vercelCdnProxyTrust,
+// summary.ukupnoPodzahteva, formalniIdentitet), verifikacija naslov/sazetak/telo/dispatchChecklist.
+// APP_VERSION=59.59.0 | AUTOFINISH_COUNT=1396 | TOTAL_API_ROUTES=1203 | TOTAL_ROUTES=1330 | TOTAL_PAGES=127

@@ -57,8 +57,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.58.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1395, 'AUTOFINISH_COUNT');
+    assertEqual(APP_VERSION, '59.59.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1396, 'AUTOFINISH_COUNT');
   });
 
   await test('Ruta summary je dodata kao naredni autofinish korak', () => {

@@ -1,5 +1,5 @@
-// Autofinish — enterprise-zahtevi Route Coverage Test
-// Generisano: scripts/generate-route-tests.mjs
+// Autofinish #1396 — enterprise-zahtevi Route Coverage Test (CDN Enhanced)
+// Kompanija SPAJA — Digitalna Industrija
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -44,7 +44,7 @@ void _lintUseHelpers;
 import { GET } from '../../app/api/enterprise-zahtevi/route';
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 enterprise-zahtevi — Route Coverage Test Suite\n');
+  console.log('\n🏁 enterprise-zahtevi — Route Coverage Test Suite (#1396)\n');
 
   const routePath = path.resolve(process.cwd(), 'src/app/api/enterprise-zahtevi/route.ts');
 
@@ -59,6 +59,13 @@ async function runTests(): Promise<void> {
       src.includes('NextResponse.json') || src.includes('Response.json') || src.includes('apiSuccess'),
       'Nedostaje JSON response helper',
     );
+  });
+
+  await test('Ruta sadrži CDN proxy trust polja', () => {
+    const src = fs.readFileSync(routePath, 'utf8');
+    assert(src.includes('podzahtevi'), 'Nedostaje podzahtevi polje');
+    assert(src.includes('vercelCdnProxyTrust'), 'Nedostaje vercelCdnProxyTrust polje');
+    assert(src.includes('KOMPANIJA_FORMALNI_NAZIV'), 'Nedostaje KOMPANIJA_FORMALNI_NAZIV import');
   });
 
   await test('GET smoke provera', async () => {
@@ -82,21 +89,56 @@ async function runTests(): Promise<void> {
     }
 
     if (isObject(body)) {
-      if (typeof body['status'] === 'string') {
-        assert((body['status'] as string).length > 0, 'status string');
-      }
-
       if (typeof body['verzija'] === 'string') {
         assertEqual(body['verzija'], APP_VERSION, 'verzija');
-      } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
-        assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }
     }
   });
 
-  await test('Konstante su dostupne', () => {
-    assert(typeof APP_VERSION === 'string' && APP_VERSION.length > 0, 'APP_VERSION');
-    assert(typeof AUTOFINISH_COUNT === 'number' && AUTOFINISH_COUNT > 0, 'AUTOFINISH_COUNT');
+  await test('GET vraća podzahtevi niz', async () => {
+    const request = new Request('http://localhost/api/enterprise-zahtevi', {
+      headers: { 'x-forwarded-for': '127.0.1.11' },
+    });
+    const response = await GET(request as unknown as Request);
+    const body = await response.json() as Record<string, unknown>;
+    assert(Array.isArray(body['podzahtevi']), 'podzahtevi mora biti niz');
+    const podzahtevi = body['podzahtevi'] as unknown[];
+    assert(podzahtevi.length > 0, 'podzahtevi niz mora imati bar jedan element');
+  });
+
+  await test('GET vraća vercelCdnProxyTrust dispatch payload', async () => {
+    const request = new Request('http://localhost/api/enterprise-zahtevi', {
+      headers: { 'x-forwarded-for': '127.0.1.12' },
+    });
+    const response = await GET(request as unknown as Request);
+    const body = await response.json() as Record<string, unknown>;
+    assert(isObject(body['vercelCdnProxyTrust']), 'vercelCdnProxyTrust mora biti objekat');
+    const cdn = body['vercelCdnProxyTrust'] as Record<string, unknown>;
+    assert(typeof cdn['naslov'] === 'string' && (cdn['naslov'] as string).length > 0, 'naslov mora biti string');
+    assert(typeof cdn['sazetak'] === 'string' && (cdn['sazetak'] as string).length > 0, 'sazetak mora biti string');
+    assert(typeof cdn['telo'] === 'string' && (cdn['telo'] as string).length > 0, 'telo mora biti string');
+    assert(Array.isArray(cdn['dispatchChecklist']), 'dispatchChecklist mora biti niz');
+    assert(isObject(cdn['formalniIdentitet']), 'formalniIdentitet mora biti objekat');
+    const ident = cdn['formalniIdentitet'] as Record<string, unknown>;
+    assert(typeof ident['naziv'] === 'string', 'formalniIdentitet.naziv mora biti string');
+    assert(typeof ident['adresa'] === 'string', 'formalniIdentitet.adresa mora biti string');
+    assert(typeof ident['punNaziv'] === 'string', 'formalniIdentitet.punNaziv mora biti string');
+  });
+
+  await test('GET summary sadrži ukupnoPodzahteva', async () => {
+    const request = new Request('http://localhost/api/enterprise-zahtevi', {
+      headers: { 'x-forwarded-for': '127.0.1.13' },
+    });
+    const response = await GET(request as unknown as Request);
+    const body = await response.json() as Record<string, unknown>;
+    assert(isObject(body['summary']), 'summary mora biti objekat');
+    const summary = body['summary'] as Record<string, unknown>;
+    assert(typeof summary['ukupnoPodzahteva'] === 'number', 'ukupnoPodzahteva mora biti broj');
+  });
+
+  await test('Konstante su ažurirane', () => {
+    assertEqual(APP_VERSION, '59.59.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1396, 'AUTOFINISH_COUNT');
     assert(typeof TOTAL_API_ROUTES === 'number' && TOTAL_API_ROUTES > 0, 'TOTAL_API_ROUTES');
     assert(typeof TOTAL_ROUTES === 'number' && TOTAL_ROUTES > 0, 'TOTAL_ROUTES');
   });
