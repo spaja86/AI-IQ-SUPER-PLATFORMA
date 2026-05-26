@@ -8,6 +8,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { APP_NAME } from '@/lib/constants';
+import Button from '@/components/Button';
 
 interface AiPagePrompt {
   pitanje: string;
@@ -129,14 +130,14 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
   return (
     <>
       {/* Floating Button */}
-      <button
+      <Button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-2xl shadow-2xl shadow-blue-600/30 transition-all hover:scale-110 hover:shadow-blue-500/40 active:scale-95"
         aria-label={isOpen ? 'Zatvori AI Asistenta' : 'Otvori AI Asistenta'}
         title="AI & SpajaPro AI Asistent"
       >
         {isOpen ? '✕' : '🤖'}
-      </button>
+      </Button>
 
       {/* Chat Panel */}
       {isOpen && (
@@ -150,7 +151,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                 </h3>
                 <p className="text-xs text-gray-400">{currentPageConfig.opis}</p>
               </div>
-              <button
+              <Button
                 onClick={() => {
                   setMessages([]);
                   setShowPrompts(true);
@@ -159,12 +160,12 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                 title="Resetuj razgovor"
               >
                 🔄
-              </button>
+              </Button>
             </div>
 
             {/* Tabs: AI vs SpajaPro AI */}
             <div className="mt-2 flex gap-1">
-              <button
+              <Button
                 onClick={() => setActiveTab('ai')}
                 className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                   activeTab === 'ai'
@@ -173,8 +174,8 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                 }`}
               >
                 🧠 AI Preporuke
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setActiveTab('spaja-pro-ai')}
                 className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                   activeTab === 'spaja-pro-ai'
@@ -183,7 +184,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                 }`}
               >
                 🚀 SpajaPro AI
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -198,7 +199,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                     : '🚀 SpajaPro AI preporuke za ovu stranicu:'}
                 </p>
                 {filteredPrompts.map((prompt, i) => (
-                  <button
+                  <Button
                     key={i}
                     onClick={() => handlePromptClick(prompt)}
                     className="group flex w-full items-center gap-2 rounded-xl border border-gray-700/30 bg-gray-800/40 px-3 py-2.5 text-left text-sm text-gray-300 transition hover:border-blue-500/30 hover:bg-gray-800/70 hover:text-white"
@@ -210,7 +211,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                     <span className="text-xs text-gray-600 transition group-hover:text-blue-400">
                       →
                     </span>
-                  </button>
+                  </Button>
                 ))}
                 <p className="mt-3 text-center text-[10px] text-gray-600">
                   Ili postavite sopstveno pitanje ispod ↓
@@ -285,13 +286,13 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                 disabled={loading}
                 className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-xs text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none disabled:opacity-60"
               />
-              <button
+              <Button
                 type="submit"
                 disabled={loading || !input.trim()}
                 className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-500 disabled:opacity-60"
               >
                 {loading ? '...' : '↑'}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

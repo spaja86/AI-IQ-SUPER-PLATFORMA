@@ -24,6 +24,7 @@ import {
   EXPLORER_CONTRACT_URL,
 } from '@/lib/blockchain';
 import type { ValutaEnum, TransakcijaStatusEnum } from '@/lib/blockchain';
+import Button from '@/components/Button';
 
 const IS_TESTNET = process.env.NEXT_PUBLIC_BLOCKCHAIN_TESTNET === 'true';
 
@@ -150,20 +151,20 @@ export default function BlockchainTransakcije() {
                     <p className="text-xs font-semibold text-yellow-400">👑 Vlasnik ugovora</p>
                   )}
                 </div>
-                <button
+                <Button
                   onClick={() => disconnect()}
                   className="rounded-lg bg-red-900/40 px-4 py-2 text-sm font-medium text-red-300 transition hover:bg-red-900/60"
                 >
                   Odspoji
-                </button>
+                </Button>
               </div>
             ) : (
-              <button
+              <Button
                 onClick={() => connect({ connector: injected() })}
                 className="rounded-lg bg-purple-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-purple-600"
               >
                 🦊 Poveži MetaMask
-              </button>
+              </Button>
             )}
           </div>
         </div>

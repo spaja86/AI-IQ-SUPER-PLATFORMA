@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishNapredakTrackerResult } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { tracker: AutofinishNapredakTrackerResult; }
 
@@ -28,13 +29,13 @@ export function NapredakTrackerWidget({ tracker }: Props) {
           const isOpen = openFaza === f.fazaId;
           return (
             <li key={f.fazaId}>
-              <button className="w-full flex items-center justify-between text-sm px-2 py-2 text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setOpenFaza(isOpen ? null : f.fazaId)} aria-expanded={isOpen} aria-label={`${f.naziv}: ${f.progres}% progres`}>
+              <Button className="w-full flex items-center justify-between text-sm px-2 py-2 text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setOpenFaza(isOpen ? null : f.fazaId)} aria-expanded={isOpen} aria-label={`${f.naziv}: ${f.progres}% progres`}>
                 <span className="text-gray-300 truncate">{f.naziv}</span>
                 <span className="ml-2 flex items-center gap-2 flex-shrink-0">
                   <span className="text-gray-400 font-mono text-xs">{f.progres}%</span>
                   <span aria-hidden="true" className="text-gray-600">{isOpen ? '▲' : '▼'}</span>
                 </span>
-              </button>
+              </Button>
               <ProgressBar value={f.progres} className="mx-2 mb-1" />
               {isOpen && (
                 <ul className="ml-4 mt-1 mb-2 space-y-1" role="list" aria-label={`Kategorije: ${f.naziv}`}>

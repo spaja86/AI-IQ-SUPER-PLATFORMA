@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
 import { TOTAL_IGRICA } from '@/lib/constants';
+import Button from '@/components/Button';
 
 function getSavedEmail(): string {
   if (typeof window === 'undefined') return '';
@@ -199,14 +200,16 @@ export default function LoginForma() {
                 placeholder="Unesite lozinku"
                 className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-12 text-white placeholder-slate-500 transition"
               />
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => setPrikaziLozinku(!prikaziLozinku)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-gray-300"
+                className="absolute right-3 top-1/2 -translate-y-1/2 border-0 text-gray-500 hover:bg-transparent hover:text-gray-300"
                 aria-label={prikaziLozinku ? 'Sakrij lozinku' : 'Pokazi lozinku'}
               >
                 {prikaziLozinku ? '🙈' : '👁️'}
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -225,23 +228,15 @@ export default function LoginForma() {
           </div>
 
           {/* Submit */}
-          <button
+          <Button
             type="submit"
-            disabled={status === 'loading'}
-            className="spaja-btn-primary spaja-focus-ring flex w-full items-center justify-center gap-2 px-6 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+            size="lg"
+            loading={status === 'loading'}
+            loadingLabel="Prijavljivanje..."
+            className="w-full"
           >
-            {status === 'loading' ? (
-              <>
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Prijavljivanje...
-              </>
-            ) : (
-              'Prijavi se'
-            )}
-          </button>
+            Prijavi se
+          </Button>
 
           {/* Poruka */}
           {poruka && (
@@ -278,17 +273,18 @@ export default function LoginForma() {
           <p className="mb-3 text-xs text-gray-400">
             Isprobajte platformu odmah sa demo nalogom — bez registracije.
           </p>
-          <button
+          <Button
             type="button"
+            variant="warning"
             onClick={() => {
               setEmail('demo@spaja.ai');
               setLozinka('Demo2024!');
             }}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-yellow-600/40 bg-yellow-600/20 px-4 py-2.5 text-sm font-medium text-yellow-300 transition hover:bg-yellow-600/30 hover:text-yellow-200"
+            className="w-full border-yellow-600/40 bg-yellow-600/20 text-yellow-300 hover:bg-yellow-600/30 hover:text-yellow-200"
           >
             <span>🔑</span>
             Popuni demo podatke
-          </button>
+          </Button>
           <div className="mt-2 flex items-center gap-3 text-[11px] text-gray-500">
             <span>📧 demo@spaja.ai</span>
             <span>🔒 Demo2024!</span>

@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
 import { OMEGA_AI_PERSONA_COUNT, SPAJA_PRO_RANGE, TOTAL_PAGES, TOTAL_IGRICA } from '@/lib/constants';
+import Button from '@/components/Button';
 
 export default function DashboardKlijent() {
   const [sesija, setSesija] = useState<OmegaSesija | null>(() => {
@@ -80,12 +81,12 @@ export default function DashboardKlijent() {
             <h2 className="text-3xl font-bold text-white">📊 Dashboard</h2>
             <p className="text-sm text-gray-400">{sesija?.email}</p>
           </div>
-          <button
+          <Button
             onClick={handleLogout}
             className="rounded-lg border border-gray-600 px-4 py-2 text-sm text-gray-300 transition hover:border-red-500 hover:text-red-400"
           >
             Odjavi se
-          </button>
+          </Button>
         </div>
 
         {/* Kartice */}

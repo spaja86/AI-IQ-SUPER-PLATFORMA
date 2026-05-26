@@ -5,6 +5,7 @@ import {
   BILLING_UPGRADE_DISCLOSURE,
   UPGRADE_ACCEPTANCE_TEXT,
 } from '@/lib/billing/upgrade-disclosure';
+import Button from '@/components/Button';
 
 interface UpgradeApiResponse {
   requestRecord?: {
@@ -105,14 +106,14 @@ export default function PricingUpgradeConfirmation() {
           </label>
 
           <div className="flex flex-wrap gap-3">
-            <button
+            <Button
               type="button"
               onClick={handleConfirmAndRequestDispatch}
               disabled={!accepted || loading}
               className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? 'Slanje zahteva…' : 'Potvrdi i pošalji kompanijski billing zahtev'}
-            </button>
+            </Button>
             <a
               href="/dashboard"
               className="rounded-lg border border-slate-500 px-5 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-300 hover:text-white"

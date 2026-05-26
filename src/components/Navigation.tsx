@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect, useSyncExternalStore } from 'react';
 import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
 import { navigation } from '@/lib/navigation';
+import Button, { buttonClassName } from '@/components/Button';
 
 const navLinks = navigation.map((item) => ({
   href: item.href,
@@ -87,12 +88,14 @@ export default function Navigation() {
                 <span className="text-xs text-gray-500" title={sesija?.email}>
                   {sesija?.email?.split('@')[0]}
                 </span>
-                <button
+                <Button
                   onClick={handleLogout}
-                  className="rounded-lg border border-gray-600 px-3 py-1.5 text-xs text-gray-300 transition hover:border-red-500 hover:text-red-400"
+                  variant="ghost"
+                  size="sm"
+                  className="border-gray-600 text-gray-300 hover:border-red-500 hover:bg-transparent hover:text-red-400"
                 >
                   Odjavi se
-                </button>
+                </Button>
               </>
             ) : (
               <>
@@ -108,7 +111,11 @@ export default function Navigation() {
                 </Link>
                 <Link
                   href="/registracija"
-                  className="rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-500"
+                  className={buttonClassName({
+                    variant: 'success',
+                    size: 'sm',
+                    className: 'border-green-600',
+                  })}
                 >
                   Registracija
                 </Link>
@@ -123,14 +130,16 @@ export default function Navigation() {
           {isLoggedIn && (
             <span className="text-xs text-green-400" title={sesija?.email}>●</span>
           )}
-          <button
-            className="spaja-focus-ring rounded-lg p-2 text-gray-400 hover:text-white"
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-gray-400 hover:bg-transparent hover:text-white"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Zatvori meni' : 'Otvori meni'}
             aria-expanded={menuOpen}
           >
             {menuOpen ? '✕' : '☰'}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -142,26 +151,34 @@ export default function Navigation() {
             {isLoggedIn ? (
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-400">{sesija?.email}</span>
-                <button
+                <Button
                   onClick={() => { setMenuOpen(false); handleLogout(); }}
-                  className="rounded-lg border border-gray-600 px-3 py-1.5 text-xs text-gray-300 transition hover:border-red-500 hover:text-red-400"
+                  variant="ghost"
+                  size="sm"
+                  className="border-gray-600 text-gray-300 hover:border-red-500 hover:bg-transparent hover:text-red-400"
                 >
                   Odjavi se
-                </button>
+                </Button>
               </div>
             ) : (
               <div className="flex gap-2">
                 <Link
                   href="/login"
                   onClick={() => setMenuOpen(false)}
-                  className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white transition hover:bg-blue-500"
+                  className={buttonClassName({
+                    variant: 'primary',
+                    className: 'flex-1',
+                  })}
                 >
                   🔐 Prijava
                 </Link>
                 <Link
                   href="/registracija"
                   onClick={() => setMenuOpen(false)}
-                  className="flex-1 rounded-lg bg-green-600 px-4 py-2 text-center text-sm font-medium text-white transition hover:bg-green-500"
+                  className={buttonClassName({
+                    variant: 'success',
+                    className: 'flex-1 border-green-600',
+                  })}
                 >
                   Registracija
                 </Link>

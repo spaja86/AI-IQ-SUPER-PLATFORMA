@@ -8,6 +8,7 @@ import type {
   AutofinishDeploymentOkidac,
   AutofinishDeploymentTrend,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { pipeline: AutofinishDeploymentPipelineResult; }
 
@@ -104,7 +105,7 @@ export function DeploymentPipelineWidget({ pipeline }: Props) {
       {/* Status filter */}
       <div className="flex flex-wrap gap-1 mb-4" role="group" aria-label="Filter po statusu">
         {ALL_STATUSI.map((s) => (
-          <button
+          <Button
             key={s}
             onClick={() => setStatusFilter(s)}
             className={`text-xs px-2 py-0.5 rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${
@@ -115,7 +116,7 @@ export function DeploymentPipelineWidget({ pipeline }: Props) {
             aria-pressed={statusFilter === s}
           >
             {s === 'svi' ? 'Svi' : `${FAZA_STATUS_EMOJI[s as AutofinishDeploymentFazaStatus]} ${s}`}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -158,14 +159,14 @@ export function DeploymentPipelineWidget({ pipeline }: Props) {
                       {TREND_BADGE[p.trendUspjeha]}
                     </span>
                     <span className="text-xs text-gray-400 font-mono">{p.trajanjeSekundi}s</span>
-                    <button
+                    <Button
                       onClick={() => setExpanded(isOpen ? null : p.id)}
                       className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                       aria-expanded={isOpen}
                       aria-controls={`pipeline-detail-${p.id}`}
                     >
                       {isOpen ? '▲' : '▼'}
-                    </button>
+                    </Button>
                   </div>
                 </div>
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { CallCentarAgent, PaketUsluga, PaketTip } from '@/lib/call-centar';
+import Button from '@/components/Button';
 
 interface CallCentarResponse {
   pregled: {
@@ -150,13 +151,13 @@ export default function CallCentarPage() {
                   </option>
                 ))}
               </select>
-              <button
+              <Button
                 type="submit"
                 disabled={submitting}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
               >
                 {submitting ? 'Obrada...' : 'Generiši broj'}
-              </button>
+              </Button>
             </form>
 
             {poruka && <p className="mt-3 rounded-lg border border-emerald-900 bg-emerald-950/40 p-3 text-sm text-emerald-300">{poruka}</p>}

@@ -7,6 +7,7 @@ import type {
   AutofinishCapacityResource,
   AutofinishCapacityStatus,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { capacity: AutofinishCapacityPlanningResult; }
 
@@ -76,7 +77,7 @@ export function CapacityPlanningWidget({ capacity }: Props) {
 
       <div className="flex flex-wrap gap-1 mb-4" role="group" aria-label="Filter po statusu kapaciteta">
         {statusi.map((s) => (
-          <button
+          <Button
             key={s}
             onClick={() => setFilter(s)}
             className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${
@@ -88,7 +89,7 @@ export function CapacityPlanningWidget({ capacity }: Props) {
             aria-label={`Filter: ${s}`}
           >
             {s === 'svi' ? 'Svi' : `${STATUS_EMOJI[s]} ${s}`}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -118,14 +119,14 @@ export function CapacityPlanningWidget({ capacity }: Props) {
                     >
                       {STATUS_EMOJI[r.status]} {r.status}
                     </span>
-                    <button
+                    <Button
                       onClick={() => setExpanded(isOpen ? null : r.id)}
                       className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                       aria-expanded={isOpen}
                       aria-controls={`cap-detail-${r.id}`}
                     >
                       {isOpen ? '▲ manje' : '▼ više'}
-                    </button>
+                    </Button>
                   </div>
                 </div>
 

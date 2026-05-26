@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { APP_NAME } from '@/lib/constants';
+import Button, { buttonClassName } from '@/components/Button';
 
 function getErrorKategorija(error: Error): { ikona: string; kategorija: string; boja: string } {
   const msg = error.message?.toLowerCase() ?? '';
@@ -45,19 +46,20 @@ export default function Error({
           </p>
         )}
         <div className="flex items-center justify-center gap-3">
-          <button
+          <Button
             onClick={() => unstable_retry()}
-            className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-blue-500"
+            variant="primary"
+            size="lg"
           >
             🔄 Pokušaj ponovo
-          </button>
-          <Link href="/auto-popravka" className="rounded-lg border border-gray-700 px-6 py-3 text-sm text-gray-300 transition hover:bg-gray-800">
+          </Button>
+          <Link href="/auto-popravka" className={buttonClassName({ variant: 'secondary', size: 'lg' })}>
             🔧 Auto-Popravka
           </Link>
-          <Link href="/dashboard" className="rounded-lg border border-gray-700 px-6 py-3 text-sm text-gray-300 transition hover:bg-gray-800">
+          <Link href="/dashboard" className={buttonClassName({ variant: 'secondary', size: 'lg' })}>
             📊 Dashboard
           </Link>
-          <Link href="/" className="rounded-lg border border-gray-700 px-6 py-3 text-sm text-gray-300 transition hover:bg-gray-800">
+          <Link href="/" className={buttonClassName({ variant: 'secondary', size: 'lg' })}>
             🏠 Početna
           </Link>
         </div>

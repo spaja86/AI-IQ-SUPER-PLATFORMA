@@ -7,6 +7,7 @@ import type {
   AutofinishDoraMetric,
   AutofinishDoraRating,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { dora: AutofinishDoraMetricsResult; }
 
@@ -110,14 +111,14 @@ export function DoraMetricsWidget({ dora }: Props) {
                   >
                     {RATING_EMOJI[m.rating]} {m.rating}
                   </span>
-                  <button
+                  <Button
                     onClick={() => setExpanded(isOpen ? null : m.id)}
                     className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                     aria-expanded={isOpen}
                     aria-controls={`dora-detail-${m.id}`}
                   >
                     {isOpen ? '▲' : '▼'}
-                  </button>
+                  </Button>
                 </div>
               </div>
 

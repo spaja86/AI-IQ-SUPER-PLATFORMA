@@ -2,6 +2,7 @@
 
 import type { GameScore, DimenzionalnParametri } from '@/lib/gaming-endzin';
 import DimenzijaBadge from './DimenzijaBadge';
+import Button from '@/components/Button';
 
 interface Props {
   score: GameScore;
@@ -37,13 +38,13 @@ export default function GamingHUD({ score, parametri, igricaNaziv, igricaIkona, 
       <div className="pointer-events-auto flex items-center gap-2 rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-sm">
         <DimenzijaBadge dimenzija={parametri.nivo} mali />
         <span className="text-xs font-mono text-gray-300">{vremeStr}</span>
-        <button
+        <Button
           onClick={onPauza}
           className="rounded-md bg-gray-700/80 px-2 py-1 text-xs text-gray-200 transition hover:bg-gray-600"
           aria-label="Pauza"
         >
           ⏸
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishErrorBudgetResult, AutofinishErrorBudgetServis, AutofinishErrorBudgetStatus } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { budget: AutofinishErrorBudgetResult; }
 
@@ -55,14 +56,14 @@ export function ErrorBudgetWidget({ budget }: Props) {
       </p>
       <div className="flex flex-wrap gap-1 mb-3" role="group" aria-label="Filter po statusu">
         {statusi.map((s) => (
-          <button
+          <Button
             key={s}
             onClick={() => setFilter(s)}
             className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${filter === s ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`}
             aria-pressed={filter === s}
           >
             {s}
-          </button>
+          </Button>
         ))}
       </div>
       <ul className="space-y-1" role="list">
@@ -70,7 +71,7 @@ export function ErrorBudgetWidget({ budget }: Props) {
           const isOpen = selected === servis.id;
           return (
             <li key={servis.id}>
-              <button
+              <Button
                 className="w-full flex items-center gap-2 text-sm px-2 py-2 text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors"
                 onClick={() => setSelected(isOpen ? null : servis.id)}
                 aria-expanded={isOpen}
@@ -81,7 +82,7 @@ export function ErrorBudgetWidget({ budget }: Props) {
                 <span className={`px-1.5 py-0.5 rounded text-[10px] ${STATUS_STYLE[servis.status]}`}>{servis.status}</span>
                 <span className="text-gray-500 font-mono text-xs w-14 text-right">{servis.potrosenoPct}%</span>
                 <span aria-hidden="true" className="text-gray-600">{isOpen ? '▲' : '▼'}</span>
-              </button>
+              </Button>
               {isOpen && (
                 <div className="ml-4 mb-2 space-y-1.5">
                   <BudzetBar pct={servis.potrosenoPct} />

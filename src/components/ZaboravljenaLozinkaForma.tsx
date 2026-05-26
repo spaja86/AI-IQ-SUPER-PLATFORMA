@@ -4,6 +4,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 import { useState } from 'react';
+import Button from '@/components/Button';
 
 export default function ZaboravljenaLozinkaForma() {
   const [email, setEmail] = useState('');
@@ -80,25 +81,21 @@ export default function ZaboravljenaLozinkaForma() {
             </div>
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={status === 'loading' || status === 'success'}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-yellow-500 disabled:cursor-not-allowed disabled:opacity-60"
+            variant="warning"
+            size="lg"
+            loading={status === 'loading'}
+            loadingLabel="Slanje..."
+            disabled={status === 'success'}
+            className="w-full border-yellow-600"
           >
-            {status === 'loading' ? (
-              <>
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Slanje...
-              </>
-            ) : status === 'success' ? (
+            {status === 'success' ? (
               'Poslato ✓'
             ) : (
               'Posalji instrukcije'
             )}
-          </button>
+          </Button>
 
           {poruka && (
             <div

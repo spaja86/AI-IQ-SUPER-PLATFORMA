@@ -13,6 +13,7 @@
  */
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import Button from '@/components/Button';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -286,7 +287,7 @@ export default function PromptCet({ prompt }: Props) {
       {/* Tab Navigation */}
       <div className="flex border-b border-gray-700/50">
         {tabovi.map((tab) => (
-          <button
+          <Button
             key={tab.id}
             onClick={() => setAktivniTab(tab.id)}
             className={`flex-1 px-3 py-2 text-xs font-medium transition ${
@@ -297,7 +298,7 @@ export default function PromptCet({ prompt }: Props) {
           >
             <span className="mr-1">{tab.ikona}</span>
             {tab.naziv}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -353,13 +354,13 @@ export default function PromptCet({ prompt }: Props) {
               disabled={ucitavanje}
               className="flex-1 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none disabled:opacity-60"
             />
-            <button
+            <Button
               type="submit"
               disabled={ucitavanje || !unos.trim()}
               className="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-blue-500 disabled:opacity-60"
             >
               {ucitavanje ? '...' : 'Pošalji'}
-            </button>
+            </Button>
           </form>
         </div>
       )}
@@ -372,12 +373,12 @@ export default function PromptCet({ prompt }: Props) {
               <p className="text-3xl mb-2">✅</p>
               <p className="text-sm font-medium text-green-400">Hvala na povratnim informacijama!</p>
               <p className="text-xs text-gray-400 mt-1">Vaše mišljenje pomaže da poboljšamo {prompt.naziv}.</p>
-              <button
+              <Button
                 onClick={() => { setPovratnaPoslata(false); setPovratna({ ocena: null, komentar: '', tipovi: [] }); }}
                 className="mt-4 rounded-lg border border-gray-600 px-4 py-2 text-xs text-gray-300 transition hover:bg-gray-800"
               >
                 Pošalji novu povratnu informaciju
-              </button>
+              </Button>
             </div>
           ) : (
             <>
@@ -388,7 +389,7 @@ export default function PromptCet({ prompt }: Props) {
                 </label>
                 <div className="flex gap-2">
                   {[1, 2, 3, 4, 5].map((ocena) => (
-                    <button
+                    <Button
                       key={ocena}
                       onClick={() => setPovratna((prev) => ({ ...prev, ocena }))}
                       className={`flex h-10 w-10 items-center justify-center rounded-lg text-lg transition ${
@@ -400,7 +401,7 @@ export default function PromptCet({ prompt }: Props) {
                       }`}
                     >
                       ⭐
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -419,7 +420,7 @@ export default function PromptCet({ prompt }: Props) {
                     { naziv: 'Brzina', ikona: '⚡' },
                     { naziv: 'Tačnost', ikona: '🎯' },
                   ].map((tip) => (
-                    <button
+                    <Button
                       key={tip.naziv}
                       onClick={() => togglePovratnaTip(tip.naziv)}
                       className={`rounded-full px-3 py-1.5 text-xs transition ${
@@ -429,7 +430,7 @@ export default function PromptCet({ prompt }: Props) {
                       }`}
                     >
                       {tip.ikona} {tip.naziv}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -450,13 +451,13 @@ export default function PromptCet({ prompt }: Props) {
               </div>
 
               {/* Dugme za slanje */}
-              <button
+              <Button
                 onClick={posaljiPovratnu}
                 disabled={povratna.ocena === null}
                 className="w-full rounded-lg bg-blue-600 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 📋 Pošalji povratnu informaciju
-              </button>
+              </Button>
             </>
           )}
         </div>

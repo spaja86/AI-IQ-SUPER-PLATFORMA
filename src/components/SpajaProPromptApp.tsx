@@ -6,6 +6,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
+import Button from '@/components/Button';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -305,7 +306,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
             <label className="mb-1 block text-xs font-medium text-gray-500">SpajaPro Engine Verzija</label>
             <div className="flex flex-wrap gap-1">
               {verzije.map((v) => (
-                <button
+                <Button
                   key={v.verzija}
                   onClick={() => setIzabranaVerzija(v.verzija)}
                   className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
@@ -319,7 +320,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                   }`}
                 >
                   {v.ikona} v{v.verzija}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -328,7 +329,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
         {/* ─── Tab Navigation ──────────────────────────────────── */}
         <div className="mb-6 flex flex-wrap gap-2">
           {tabs.map((tab) => (
-            <button
+            <Button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition ${
@@ -340,7 +341,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
               <span>{tab.ikona}</span>
               <span>{tab.naziv}</span>
               <span className="hidden text-xs opacity-60 sm:inline">— {tab.opis}</span>
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -369,7 +370,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                 </div>
                 <div className="max-h-[500px] space-y-2 overflow-y-auto pr-1">
                   {filtrirani.slice(0, 20).map((p) => (
-                    <button
+                    <Button
                       key={p.id}
                       onClick={() => izaberiPrompt(p)}
                       className={`w-full rounded-xl border p-2.5 text-left transition ${
@@ -392,7 +393,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                           </div>
                         </div>
                       </div>
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -526,13 +527,13 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                 <div className="mt-3 flex items-center justify-between">
                   <div className="text-xs text-gray-500">{korisnikUnos.length} karaktera</div>
                   <div className="flex gap-2">
-                    <button
+                    <Button
                       onClick={() => { setKorisnikUnos(''); setOdgovor(''); setIzabraniPrompt(null); }}
                       className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-sm text-gray-400 transition hover:bg-gray-700"
                     >
                       Očisti
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={izvrsiPrompt}
                       disabled={ucitavanje || !korisnikUnos.trim()}
                       className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
@@ -545,7 +546,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                       ) : (
                         `🚀 Izvrši — v${izabranaVerzija}`
                       )}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -563,16 +564,16 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                 <div className="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-4">
                   <div className="mb-3 flex items-center justify-between">
                     <h3 className="text-sm font-semibold text-gray-300">📜 Poslednji Prompt-ovi ({Math.min(istorija.length, 5)})</h3>
-                    <button
+                    <Button
                       onClick={() => { setIstorija([]); try { localStorage.removeItem('spaja-prompt-app-istorija'); } catch { /* ignore */ } }}
                       className="rounded-lg px-3 py-1 text-xs text-red-400 transition hover:bg-gray-800 hover:text-red-300"
                     >
                       Obriši sve
-                    </button>
+                    </Button>
                   </div>
                   <div className="max-h-48 space-y-2 overflow-y-auto">
                     {istorija.slice(0, 5).map((item, i) => (
-                      <button
+                      <Button
                         key={i}
                         onClick={() => { setKorisnikUnos(item.prompt); setIzabranaVerzija(item.verzija); setOdgovor(item.odgovor); setIzabraniPrompt(null); }}
                         className="w-full rounded-lg border border-gray-700/30 bg-gray-800/30 p-2 text-left text-xs transition hover:border-gray-600 hover:bg-gray-800/60"
@@ -582,7 +583,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                           <span className="text-gray-500">{item.vreme}</span>
                         </div>
                         <div className="mt-1 truncate text-gray-400">📝 {item.prompt}</div>
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -625,7 +626,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
             {/* Prompt cards grid */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtrirani.map((p) => (
-                <button
+                <Button
                   key={p.id}
                   onClick={() => izaberiPrompt(p)}
                   className="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-4 text-left transition hover:border-blue-500/30 hover:bg-gray-800/50 hover:shadow-lg hover:shadow-blue-900/10"
@@ -664,7 +665,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                       <span key={t} className="text-[10px] text-gray-500">#{t}</span>
                     ))}
                   </div>
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -743,13 +744,13 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                   disabled={chatLoading}
                   className="flex-1 rounded-xl border border-gray-600 bg-gray-800 px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-60"
                 />
-                <button
+                <Button
                   type="submit"
                   disabled={chatLoading || !chatInput.trim()}
                   className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:opacity-60"
                 >
                   {chatLoading ? '...' : 'Pošalji'}
-                </button>
+                </Button>
               </form>
             </div>
           </div>

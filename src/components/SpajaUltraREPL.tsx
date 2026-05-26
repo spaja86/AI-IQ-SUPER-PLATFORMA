@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { createRuntime, parseSpajaUltra, transpile, type ASTNode, type AuditRecord } from '@/lib/spaja-ultra-core';
+import Button from '@/components/Button';
 
 const DEFAULT_CODE = `MOŽE: pristup_sistemu
 MOŽE: upravljanje_korisnicima
@@ -147,36 +148,36 @@ export default function SpajaUltraREPL() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <button
+        <Button
           type="button"
           onClick={runCode}
           disabled={isRunning}
           className="rounded-lg bg-[#e84393] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#ff5ca9] disabled:cursor-not-allowed disabled:opacity-60"
         >
           ▶ Pokreni
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={clearAll}
           className="rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-sm text-gray-300 transition hover:border-gray-500 hover:text-white"
         >
           🗑 Obriši
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={copyAst}
           className="rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-sm text-gray-300 transition hover:border-gray-500 hover:text-white"
         >
           📋 Kopiraj AST
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={exportAudit}
           disabled={auditLog.length === 0}
           className="rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-sm text-gray-300 transition hover:border-gray-500 hover:text-white disabled:opacity-50"
         >
           📥 Eksport JSON
-        </button>
+        </Button>
       </div>
 
       {error && (

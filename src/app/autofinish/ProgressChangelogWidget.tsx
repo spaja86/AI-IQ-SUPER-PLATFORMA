@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishProgressChangelogResult } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { changelog: AutofinishProgressChangelogResult; }
 
@@ -17,10 +18,10 @@ export function ProgressChangelogWidget({ changelog }: Props) {
           const isOpen = open === f.fazaId;
           return (
             <li key={f.fazaId}>
-              <button className="w-full flex items-center justify-between text-sm text-left px-2 py-2 hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setOpen(isOpen ? null : f.fazaId)} aria-expanded={isOpen} aria-label={`${f.fazaNaziv}: ${f.ukupnoIteracija} iteracija`}>
+              <Button className="w-full flex items-center justify-between text-sm text-left px-2 py-2 hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setOpen(isOpen ? null : f.fazaId)} aria-expanded={isOpen} aria-label={`${f.fazaNaziv}: ${f.ukupnoIteracija} iteracija`}>
                 <span className="text-gray-300">{f.fazaNaziv}</span>
                 <span className="text-gray-500 font-mono text-xs">{f.ukupnoIteracija} iter <span aria-hidden="true">{isOpen ? '▲' : '▼'}</span></span>
-              </button>
+              </Button>
               {isOpen && (
                 <ol className="ml-4 mt-1 mb-2 space-y-0.5 max-h-40 overflow-y-auto text-xs text-gray-500" role="list">
                   {f.iteracije.map((it) => (<li key={it.broj} className="flex gap-2 px-1 py-0.5"><span className="text-gray-600 font-mono">#{it.broj}</span><span>{it.opis}</span></li>))}

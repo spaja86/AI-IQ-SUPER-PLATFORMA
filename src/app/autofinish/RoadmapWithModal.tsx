@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 import type { AutofinishMilestoneDetailResult, AutofinishMilestoneStatus } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface RoadmapMilestone {
   naziv: string;
@@ -133,13 +134,13 @@ export function RoadmapWithModal({ milestones, milestoneDetails, progres, done, 
                 <h3 className="text-lg font-semibold text-white">{selectedDetail.naziv}</h3>
                 <p className="text-sm text-gray-400 mt-0.5">{selectedDetail.opis}</p>
               </div>
-              <button
+              <Button
                 onClick={closeModal}
                 className="ml-4 mt-0.5 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                 aria-label="Zatvori modal"
               >
                 ✕
-              </button>
+              </Button>
             </div>
 
             <div className="flex items-center gap-3 mb-4 text-sm">

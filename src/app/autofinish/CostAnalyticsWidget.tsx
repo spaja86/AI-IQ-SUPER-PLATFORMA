@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishCostAnalyticsResult, AutofinishCostService } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { cost: AutofinishCostAnalyticsResult; }
 
@@ -30,7 +31,7 @@ export function CostAnalyticsWidget({ cost }: Props) {
       </p>
       <div className="flex gap-1 mb-3" role="group" aria-label="Sortiraj">
         {(['aktual', 'budzet'] as const).map((k) => (
-          <button key={k} onClick={() => setSort(k)} className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${sort === k ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`} aria-pressed={sort === k}>{k}</button>
+          <Button key={k} onClick={() => setSort(k)} className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${sort === k ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`} aria-pressed={sort === k}>{k}</Button>
         ))}
       </div>
       <div className="space-y-2">

@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { getKompjuterStatistika, KOMPJUTER_GPU_JEZGRA, KOMPJUTER_RAM_GB, KOMPJUTER_VRAM_GB } from '@/lib/spaja-digitalni-kompjuter';
 import { igrice } from '@/lib/igrice';
 import { INKOGNITO_OPIS, shouldWriteToStorage, getInkognitoButtonClass } from '@/lib/brouvzer-inkognito';
+import Button from '@/components/Button';
 
 const ProzorViewer = dynamic(() => import('./ProzorViewer'), { ssr: false });
 
@@ -595,7 +596,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
                   <p className="mb-2 text-xs font-semibold text-gray-500">⭐ Bookmarkovi ({bookmarks.length})</p>
                   <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
                     {bookmarks.map((b) => (
-                      <button
+                      <Button
                         key={b.url}
                         type="button"
                         onClick={() => {
@@ -604,7 +605,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
                         className="truncate rounded-lg bg-gray-800 px-3 py-2 text-left text-sm text-blue-400 transition hover:bg-gray-700"
                       >
                         ⭐ {b.naziv}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -616,7 +617,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
                   <p className="mb-2 text-xs font-semibold text-gray-500">🕐 Nedavno ({Math.min(history.length, 10)})</p>
                   <div className="flex flex-col gap-1">
                     {history.slice(0, 10).map((h, i) => (
-                      <button
+                      <Button
                         key={`${h.url}-${i}`}
                         type="button"
                         onClick={() => {
@@ -627,7 +628,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
                         <span className="shrink-0 text-gray-500">🕐</span>
                         <span className="truncate text-gray-300">{h.naziv}</span>
                         <span className="ml-auto shrink-0 truncate text-xs text-gray-600">{h.url.replace(/^https?:\/\//, '')}</span>
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -678,13 +679,13 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
             >
               Otvori u novom tabu ↗
             </a>
-            <button
+            <Button
               type="button"
               onClick={() => updateTab(activeTab.id, { url: '', title: 'Novi Tab' })}
               className="rounded-lg bg-gray-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-600"
             >
               ← Nazad
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -732,7 +733,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
 
             <div className="flex flex-col gap-3">
               {DIMENZIJE.map((d) => (
-                <button
+                <Button
                   key={d}
                   onClick={() => handleIzaberiDimenziju(activeTab.id, d)}
                   className={`rounded-xl border p-4 text-left transition ${DIMENZIJA_BOJA[d]}`}
@@ -746,18 +747,18 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
                     )}
                   </div>
                   <p className="mt-1 text-sm text-gray-400">{DIMENZIJA_OPIS[d]}</p>
-                </button>
+                </Button>
               ))}
             </div>
 
             <div className="mt-6 text-center">
-              <button
+              <Button
                 type="button"
                 onClick={() => updateTab(activeTab.id, { url: '', title: 'Novi Tab' })}
                 className="text-sm text-gray-500 transition hover:text-gray-300"
               >
                 ← Nazad
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -802,20 +803,20 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         <div className="flex shrink-0 items-center gap-2 border-b border-purple-800/40 bg-purple-950/30 px-3 py-1 text-xs text-purple-300">
           <span>🕵️</span>
           <span className="flex-1">Inkognito mod aktivan — istorija i bookmarkovi se ne čuvaju</span>
-          <button
+          <Button
             onClick={handleToggleInkognito}
             className="shrink-0 text-purple-400 hover:text-purple-200"
             aria-label="Isključi inkognito mod"
           >
             ✕
-          </button>
+          </Button>
         </div>
       )}
 
       {/* ── Header ── */}
       <div className={`flex shrink-0 items-center gap-1.5 border-b px-2 py-1.5 ${isInkognito ? 'border-purple-800/40 bg-[#1a1025]' : 'border-gray-800 bg-gray-900'}`}>
         {/* Back dugme */}
-        <button
+        <Button
           onClick={handleBack}
           disabled={!canGoBack}
           className={`rounded-lg p-1.5 transition ${canGoBack ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'cursor-not-allowed text-gray-700'}`}
@@ -823,10 +824,10 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           aria-label="Nazad"
         >
           ←
-        </button>
+        </Button>
 
         {/* Forward dugme */}
-        <button
+        <Button
           onClick={handleForward}
           disabled={!canGoForward}
           className={`rounded-lg p-1.5 transition ${canGoForward ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'cursor-not-allowed text-gray-700'}`}
@@ -834,17 +835,17 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           aria-label="Napred"
         >
           →
-        </button>
+        </Button>
 
         {/* Reload dugme */}
-        <button
+        <Button
           onClick={handleReload}
           className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
           title="Ponovo učitaj (Ctrl+R)"
           aria-label="Reload"
         >
           ↺
-        </button>
+        </Button>
 
         {/* Editabilna adresna traka */}
         <div className={`flex min-w-0 flex-1 items-center gap-2 rounded-lg border px-3 py-1 ${isInkognito ? 'border-purple-700/50 bg-purple-950/30 focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500/30' : 'border-gray-700 bg-gray-800 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500/30'}`}>
@@ -879,7 +880,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         </div>
 
         {/* Bookmark dugme — onemogućen u inkognito modu */}
-        <button
+        <Button
           onClick={() => toggleBookmark(activeTab.url, urlToTitle(activeTab.url, activeTab.igra))}
           disabled={isInkognito}
           className={`rounded-lg p-1.5 transition ${isInkognito ? 'cursor-not-allowed text-gray-700' : `hover:bg-gray-800 ${isBookmarked(activeTab.url) ? 'text-yellow-400' : 'text-gray-400 hover:text-white'}`}`}
@@ -888,11 +889,11 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           aria-disabled={isInkognito}
         >
           ⭐
-        </button>
+        </Button>
 
         {/* Bookmarks panel dugme — onemogućen u inkognito modu */}
         <div className="relative">
-          <button
+          <Button
             onClick={() => { if (!isInkognito) { setShowBookmarks((v) => !v); setShowHistory(false); } }}
             disabled={isInkognito}
             className={`rounded-lg p-1.5 transition ${isInkognito ? 'cursor-not-allowed text-gray-700' : `hover:bg-gray-800 ${showBookmarks ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-white'}`}`}
@@ -901,7 +902,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
             aria-disabled={isInkognito}
           >
             📚
-          </button>
+          </Button>
           {showBookmarks && !isInkognito && (
             <BookmarkPanel
               bookmarks={bookmarks}
@@ -917,7 +918,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
 
         {/* History panel dugme — onemogućen u inkognito modu */}
         <div className="relative">
-          <button
+          <Button
             onClick={() => { if (!isInkognito) { setShowHistory((v) => !v); setShowBookmarks(false); } }}
             disabled={isInkognito}
             className={`rounded-lg p-1.5 transition ${isInkognito ? 'cursor-not-allowed text-gray-700' : `hover:bg-gray-800 ${showHistory ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-white'}`}`}
@@ -926,7 +927,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
             aria-disabled={isInkognito}
           >
             🕐
-          </button>
+          </Button>
           {showHistory && !isInkognito && (
             <HistoryPanel
               history={history}
@@ -941,7 +942,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         </div>
 
         {/* Inkognito mod dugme */}
-        <button
+        <Button
           onClick={handleToggleInkognito}
           className={getInkognitoButtonClass(isInkognito)}
           title={`Inkognito mod${isInkognito ? ' — aktivan' : ''} (Ctrl+Shift+N)`}
@@ -949,46 +950,46 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           aria-pressed={isInkognito}
         >
           🕵️
-        </button>
+        </Button>
 
         {/* Zoom kontrole */}
         <div className="flex items-center gap-0.5">
-          <button
+          <Button
             onClick={handleZoomOut}
             className="rounded-lg px-1.5 py-1 text-xs text-gray-400 transition hover:bg-gray-800 hover:text-white"
             title="Umanji"
             aria-label="Umanji"
           >
             −
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleZoomReset}
             className="rounded-lg px-1.5 py-1 text-xs text-gray-400 transition hover:bg-gray-800 hover:text-white"
             title="Resetuj zoom"
             aria-label="Zoom nivo"
           >
             {activeTab.zoom}%
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleZoomIn}
             className="rounded-lg px-1.5 py-1 text-xs text-gray-400 transition hover:bg-gray-800 hover:text-white"
             title="Uvećaj"
             aria-label="Uvećaj"
           >
             +
-          </button>
+          </Button>
         </div>
 
         {/* Copy/Share dugme */}
         <div className="relative">
-          <button
+          <Button
             onClick={handleCopyUrl}
             className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
             title="Kopiraj URL"
             aria-label="Kopiraj URL"
           >
             🔗
-          </button>
+          </Button>
           {copyToast && (
             <div className="absolute right-0 top-full z-50 mt-1 whitespace-nowrap rounded-lg bg-green-800 px-3 py-1.5 text-xs font-semibold text-green-200 shadow-xl">
               ✓ Kopirano!
@@ -997,7 +998,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         </div>
 
         {/* Fullscreen dugme */}
-        <button
+        <Button
           onClick={handleFullscreen}
           className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
           title={isFullscreen ? 'Izlaz iz fullscreen' : 'Fullscreen'}
@@ -1005,7 +1006,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           aria-pressed={isFullscreen}
         >
           {isFullscreen ? '✕' : '⛶'}
-        </button>
+        </Button>
 
         {/* Otvori u novom tabu */}
         <a
@@ -1045,12 +1046,12 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
         <span className="rounded-full bg-green-600/20 px-2 py-0.5 text-xs text-green-400">
           ▶ DIGITALNI PROZOR aktivan
         </span>
-        <button
+        <Button
           onClick={() => updateTab(activeTab.id, { dimenzija: null })}
           className="ml-auto text-xs text-gray-500 transition hover:text-gray-300"
         >
           Promeni dimenziju
-        </button>
+        </Button>
       </div>
 
       {/* ── Hardware Status Bar ── */}
@@ -1237,24 +1238,24 @@ function TabBar({ tabs, activeTabId, onSelect, onClose, onAdd, onReorder, dragTa
             </span>
           )}
           {tabs.length > 1 && !tab.loading && (
-            <button
+            <Button
               onClick={(e) => { e.stopPropagation(); onClose(tab.id); }}
               className="ml-auto shrink-0 rounded p-0.5 text-gray-600 opacity-0 transition hover:bg-gray-700 hover:text-gray-200 group-hover:opacity-100"
               aria-label={`Zatvori tab ${tab.title || tab.igra}`}
             >
               ✕
-            </button>
+            </Button>
           )}
         </div>
       ))}
-      <button
+      <Button
         onClick={onAdd}
         className="shrink-0 rounded-t-lg px-2.5 py-1.5 text-gray-500 transition hover:bg-gray-800 hover:text-white"
         title="Novi tab (Ctrl+T)"
         aria-label="Novi tab"
       >
         +
-      </button>
+      </Button>
     </div>
   );
 }
@@ -1273,7 +1274,7 @@ function BookmarkPanel({ bookmarks, onRemove, onNavigate, onClose }: BookmarkPan
     <div className="absolute right-0 top-full z-50 mt-1 w-72 rounded-xl border border-gray-700 bg-gray-900 shadow-xl">
       <div className="flex items-center justify-between border-b border-gray-800 px-3 py-2">
         <span className="text-xs font-semibold text-gray-300">⭐ Bookmarkovi ({bookmarks.length})</span>
-        <button onClick={onClose} className="text-xs text-gray-500 hover:text-gray-300">✕</button>
+        <Button onClick={onClose} className="text-xs text-gray-500 hover:text-gray-300">✕</Button>
       </div>
       <div className="max-h-64 overflow-y-auto">
         {bookmarks.length === 0 ? (
@@ -1281,21 +1282,21 @@ function BookmarkPanel({ bookmarks, onRemove, onNavigate, onClose }: BookmarkPan
         ) : (
           bookmarks.map((b) => (
             <div key={b.url} className="flex items-center gap-2 border-b border-gray-800/50 px-3 py-2 hover:bg-gray-800">
-              <button
+              <Button
                 type="button"
                 onClick={() => onNavigate(b.url)}
                 className="min-w-0 flex-1 text-left"
               >
                 <p className="truncate text-xs font-medium text-blue-400">{b.naziv}</p>
                 <p className="truncate text-xs text-gray-600">{b.url}</p>
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => onRemove(b.url)}
                 className="shrink-0 rounded p-0.5 text-gray-600 hover:bg-gray-700 hover:text-red-400"
                 aria-label="Ukloni bookmark"
               >
                 🗑
-              </button>
+              </Button>
             </div>
           ))
         )}
@@ -1320,9 +1321,9 @@ function HistoryPanel({ history, onClear, onNavigate, onClose }: HistoryPanelPro
         <span className="text-xs font-semibold text-gray-300">🕐 Istorija ({history.length})</span>
         <div className="flex gap-2">
           {history.length > 0 && (
-            <button onClick={onClear} className="text-xs text-red-500 hover:text-red-400">Obriši sve</button>
+            <Button onClick={onClear} className="text-xs text-red-500 hover:text-red-400">Obriši sve</Button>
           )}
-          <button onClick={onClose} className="text-xs text-gray-500 hover:text-gray-300">✕</button>
+          <Button onClick={onClose} className="text-xs text-gray-500 hover:text-gray-300">✕</Button>
         </div>
       </div>
       <div className="max-h-64 overflow-y-auto">
@@ -1330,7 +1331,7 @@ function HistoryPanel({ history, onClear, onNavigate, onClose }: HistoryPanelPro
           <p className="px-3 py-4 text-center text-xs text-gray-500">Nema istorije</p>
         ) : (
           history.map((h, i) => (
-            <button
+            <Button
               type="button"
               key={`${h.url}-${i}`}
               onClick={() => onNavigate(h.url)}
@@ -1340,7 +1341,7 @@ function HistoryPanel({ history, onClear, onNavigate, onClose }: HistoryPanelPro
               <p className="truncate text-xs text-gray-600">
                 {h.url} · {new Date(h.vreme).toLocaleString('sr-RS')}
               </p>
-            </button>
+            </Button>
           ))
         )}
       </div>

@@ -6,6 +6,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
+import Button from '@/components/Button';
 
 function izracunajJacinaLozinke(lozinka: string): { score: number; label: string; color: string } {
   let score = 0;
@@ -189,14 +190,16 @@ export default function RegistracijaForma() {
                 placeholder="Minimum 8 karaktera"
                 className="spaja-focus-ring w-full rounded-lg border border-slate-600 bg-slate-900 py-3 pl-10 pr-12 text-white placeholder-slate-500 transition"
               />
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => setPrikaziLozinku(!prikaziLozinku)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-gray-300"
+                className="absolute right-3 top-1/2 -translate-y-1/2 border-0 text-gray-500 hover:bg-transparent hover:text-gray-300"
                 aria-label={prikaziLozinku ? 'Sakrij lozinku' : 'Pokazi lozinku'}
               >
                 {prikaziLozinku ? '🙈' : '👁️'}
-              </button>
+              </Button>
             </div>
 
             {/* Jacina lozinke */}
@@ -277,23 +280,16 @@ export default function RegistracijaForma() {
           </div>
 
           {/* Submit */}
-          <button
+          <Button
             type="submit"
-            disabled={status === 'loading'}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-60"
+            variant="success"
+            size="lg"
+            loading={status === 'loading'}
+            loadingLabel="Registracija..."
+            className="w-full border-green-600"
           >
-            {status === 'loading' ? (
-              <>
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Registracija...
-              </>
-            ) : (
-              'Kreiraj nalog'
-            )}
-          </button>
+            Kreiraj nalog
+          </Button>
 
           {poruka && (
             <div
