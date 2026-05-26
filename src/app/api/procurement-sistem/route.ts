@@ -39,6 +39,5 @@ export async function GET(request: NextRequest) {
     naziv: 'Prkitandejrski sistem — Unified Procurement System',
     verzija: APP_VERSION,
     ...sistemStatus,
-    timestamp: new Date().toISOString(),
   });
 }
