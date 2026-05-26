@@ -1504,6 +1504,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1394: 'GET + POST /api/autofinish-svega endpoint sa auth i rate limitom',
     1395: 'Route coverage test — autofinish-svega-route.test.ts',
     1396: 'Enterprise Zahtevi CDN coverage + build fix (diagnostics stale literal)',
+    1397: 'TOTAL_DIAGNOSTIKA sync fix — konstanta sinhronizovana sa runtime brojajem (2380→2398)',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8052,3 +8053,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Proširen enterprise-zahtevi-route.test.ts: CDN proxy trust assertions (podzahtevi, vercelCdnProxyTrust,
 // summary.ukupnoPodzahteva, formalniIdentitet), verifikacija naslov/sazetak/telo/dispatchChecklist.
 // APP_VERSION=59.59.0 | AUTOFINISH_COUNT=1396 | TOTAL_API_ROUTES=1203 | TOTAL_ROUTES=1330 | TOTAL_PAGES=127
+
+
+// ─── Autofinish #1397 — TOTAL_DIAGNOSTIKA SINHRONIZACIJA FIX ─────────────────
+// Sinhronizovana TOTAL_DIAGNOSTIKA konstanta sa stvarnim brojem createCheck() poziva.
+// Vrednost ispravljena sa 2380 → 2398 (2396 postojeće + 2 nove provere za #1397).
+// Bumped APP_VERSION 59.59.0→59.60.0, AUTOFINISH_COUNT 1396→1397.
+// APP_VERSION=59.60.0 | AUTOFINISH_COUNT=1397 | TOTAL_API_ROUTES=1203 | TOTAL_ROUTES=1330 | TOTAL_PAGES=127

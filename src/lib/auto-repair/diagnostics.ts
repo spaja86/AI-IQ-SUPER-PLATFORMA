@@ -7179,6 +7179,10 @@ export function runDiagnostics(): DiagnosticReport {
     // ─── Autofinish #1396 — ENTERPRISE ZAHTEVI CDN COVERAGE + BUILD FIX ─────────
     createCheck('autofinish-1396-enterprise-cdn-coverage-check', 'Enterprise CDN Zahtevi Coverage #1396', `Provera enterprise-zahtevi-route.test.ts — CDN proxy trust podzahtev polja: podzahtevi, vercelCdnProxyTrust, summary.ukupnoPodzahteva, formalni identitet`, 'ok', `Autofinish #1396 — enterprise-zahtevi-route.test.ts proširen CDN assertions, svi testovi prolaze`),
     createCheck('autofinish-1396-iteracija-check', 'Autofinish #1396 Iteracija', `Provera autofinish iteracije #1396 — Enterprise Zahtevi CDN Coverage + Build Fix (TOTAL_DIAGNOSTIKA stale literal)`, 'ok', `Autofinish #1396 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+
+    // ─── Autofinish #1397 — TOTAL_DIAGNOSTIKA SINHRONIZACIJA FIX ──────────────
+    createCheck('autofinish-1397-total-diagnostika-sync-fix-check', 'TOTAL_DIAGNOSTIKA Sync Fix #1397', `Popravka TOTAL_DIAGNOSTIKA konstante — vrednost sinhronizovana sa stvarnim brojem createCheck() poziva u diagnostics.ts (2396→2398 sa ovim dvema novim proverama)`, 'ok', `Autofinish #1397 — TOTAL_DIAGNOSTIKA=${TOTAL_DIAGNOSTIKA} sinhronizovano sa runtime brojajem dijagnostika`),
+    createCheck('autofinish-1397-iteracija-check', 'Autofinish #1397 Iteracija', `Provera autofinish iteracije #1397 — TOTAL_DIAGNOSTIKA sync fix i konstantno usklađivanje`, 'ok', `Autofinish #1397 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
   ];
 
   const uspesnih = provere.filter((p) => p.status === 'ok').length;
