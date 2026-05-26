@@ -13,6 +13,7 @@
 
 import { useState } from 'react';
 import PromptCet from './PromptCet';
+import Button from '@/components/Button';
 
 interface PromptImportInfo {
   naziv: string;
@@ -72,7 +73,7 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
 
         {/* Filter */}
         <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
-          <button
+          <Button
             onClick={() => setFilterKategorija('sve')}
             className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
               filterKategorija === 'sve'
@@ -81,9 +82,9 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
             }`}
           >
             Sve ({promptovi.length})
-          </button>
+          </Button>
           {kategorije.map((kat) => (
-            <button
+            <Button
               key={kat}
               onClick={() => setFilterKategorija(kat)}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
@@ -93,7 +94,7 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
               }`}
             >
               {kat} ({promptovi.filter((p) => p.kategorija === kat).length})
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -107,7 +108,7 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
               </h3>
               <div className="max-h-[600px] space-y-1.5 overflow-y-auto pr-1">
                 {filtrirani.map((p) => (
-                  <button
+                  <Button
                     key={p.id}
                     onClick={() => setIzabraniPrompt(p)}
                     className={`w-full rounded-xl border p-2.5 text-left transition ${
@@ -141,7 +142,7 @@ export default function PromptCetSviPromptovi({ promptovi }: Props) {
                         </div>
                       </div>
                     </div>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

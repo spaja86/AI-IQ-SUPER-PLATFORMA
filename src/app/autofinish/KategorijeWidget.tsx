@@ -6,6 +6,7 @@
 
 import React, { useState } from 'react';
 import type { AutofinishKategorijaEntry } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props {
   /** Kategorije pre-computed server-side */
@@ -61,7 +62,7 @@ export function KategorijeWidget({ kategorije, ukupnoIteracija, autofinishBroj, 
 
             return (
               <li key={kat.kategorija}>
-                <button
+                <Button
                   className="w-full flex items-center gap-3 text-sm text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded px-2 py-2 transition-colors"
                   onClick={() => setExpanded((prev) => (prev === kat.kategorija ? null : kat.kategorija))}
                   aria-expanded={isOpen}
@@ -75,7 +76,7 @@ export function KategorijeWidget({ kategorije, ukupnoIteracija, autofinishBroj, 
                   <span className="text-gray-600 text-xs flex-shrink-0 ml-1" aria-hidden="true">
                     {isOpen ? '▲' : '▼'}
                   </span>
-                </button>
+                </Button>
 
                 {isOpen && (
                   <div className="ml-8 mt-1 mb-2">

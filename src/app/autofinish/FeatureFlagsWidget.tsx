@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishFeatureFlagsResult, AutofinishFeatureFlag } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { flags: AutofinishFeatureFlagsResult; }
 
@@ -35,7 +36,7 @@ export function FeatureFlagsWidget({ flags }: Props) {
       </p>
       <div className="flex flex-wrap gap-1 mb-3" role="group" aria-label="Filter">
         {tipovi.map((t) => (
-          <button key={t} onClick={() => setFilter(t)} className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${filter === t ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`} aria-pressed={filter === t}>{t}</button>
+          <Button key={t} onClick={() => setFilter(t)} className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${filter === t ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`} aria-pressed={filter === t}>{t}</Button>
         ))}
       </div>
       <ul className="space-y-2" role="list">

@@ -6,6 +6,7 @@ import type {
   AutofinishPodsistemiZdravljeResult,
   AutofinishPodsistemZdravlje,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { zdravlje: AutofinishPodsistemiZdravljeResult; }
 
@@ -84,14 +85,14 @@ export function PodsistemiZdravljeWidget({ zdravlje: result }: Props) {
                         {p.status}
                       </span>
                       <span className="text-white font-mono text-sm font-bold">{p.zdravlje}%</span>
-                      <button
+                      <Button
                         onClick={() => setExpanded(isOpen ? null : p.naziv)}
                         className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                         aria-expanded={isOpen}
                         aria-controls={`podsistem-detail-${p.naziv.replace(/\s+/g, '-')}`}
                       >
                         {isOpen ? '▲' : '▼'}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                   <HealthBar zdravlje={p.zdravlje} status={p.status} />

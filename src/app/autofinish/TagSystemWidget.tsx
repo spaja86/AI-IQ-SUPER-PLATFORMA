@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishTagSystemResult } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { tagSystem: AutofinishTagSystemResult; }
 
@@ -28,7 +29,7 @@ export function TagSystemWidget({ tagSystem }: Props) {
       <p className="text-sm text-gray-500 mb-4"><span className="text-white font-mono">{tagSystem.ukupnoTagova}</span> aktivnih tagova</p>
       <div className="flex flex-wrap gap-2 mb-4" role="group" aria-label="Filter po kategoriji">
         {kategorije.map((k) => (
-          <button key={k} onClick={() => setFilter(k)} className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${filter === k ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`} aria-pressed={filter === k}>{k}</button>
+          <Button key={k} onClick={() => setFilter(k)} className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${filter === k ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`} aria-pressed={filter === k}>{k}</Button>
         ))}
       </div>
       <ul className="flex flex-wrap gap-2" role="list" aria-label="Tagovi">

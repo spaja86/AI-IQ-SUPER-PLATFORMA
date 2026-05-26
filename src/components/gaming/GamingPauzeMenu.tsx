@@ -3,6 +3,7 @@
 import type { GameScore, DimenzionalnParametri } from '@/lib/gaming-endzin';
 import DimenzijaBadge from './DimenzijaBadge';
 import type { DimenzijaNivo } from '@/lib/dimenzije';
+import Button from '@/components/Button';
 
 interface Props {
   score: GameScore;
@@ -90,30 +91,30 @@ export default function GamingPauzeMenu({
 
         {/* Akcije */}
         <div className="flex flex-col gap-2">
-          <button
+          <Button
             onClick={onNastavi}
             className="w-full rounded-xl bg-green-600 py-3 text-sm font-bold text-white transition hover:bg-green-500"
           >
             ▶ Nastavi igru
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onRestart}
             className="w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
           >
             🔄 Restart
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onPromeniDimenziju}
             className="w-full rounded-xl bg-purple-600/80 py-3 text-sm font-bold text-white transition hover:bg-purple-600"
           >
             🌀 Promeni dimenziju
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onIzlaz}
             className="w-full rounded-xl bg-gray-700 py-3 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
           >
             ✕ Izlaz iz igre
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import Button from '@/components/Button';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -166,7 +167,7 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
             <label className="mb-1 block text-xs font-medium text-gray-400">SpajaPro Verzija</label>
             <div className="flex flex-wrap gap-1">
               {verzije.map((v) => (
-                <button
+                <Button
                   key={v.verzija}
                   onClick={() => setIzabranaVerzija(v.verzija)}
                   className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
@@ -180,7 +181,7 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                   }`}
                 >
                   {v.ikona} v{v.verzija}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -211,7 +212,7 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
               </h3>
               <div className="max-h-[600px] space-y-2 overflow-y-auto pr-1">
                 {filtrirani.map((p) => (
-                  <button
+                  <Button
                     key={p.id}
                     onClick={() => izaberiPrompt(p)}
                     className={`w-full rounded-xl border p-3 text-left transition ${
@@ -246,7 +247,7 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                         </div>
                       </div>
                     </div>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -386,13 +387,13 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                   {korisnikUnos.length} karaktera
                 </div>
                 <div className="flex gap-2">
-                  <button
+                  <Button
                     onClick={() => { setKorisnikUnos(''); setOdgovor(''); setIzabraniPrompt(null); }}
                     className="rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-sm text-gray-400 transition hover:bg-gray-700"
                   >
                     Očisti
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={izvrsiPrompt}
                     disabled={ucitavanje || !korisnikUnos.trim()}
                     className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
@@ -405,7 +406,7 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                     ) : (
                       `🚀 Izvrši — SpajaPro v${izabranaVerzija}`
                     )}
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -431,14 +432,14 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                   </h3>
                   <div className="flex items-center gap-2">
                     {istorija.length > 5 && (
-                      <button
+                      <Button
                         onClick={() => setPrikaziSveIstorije(!prikaziSveIstorije)}
                         className="rounded-lg px-3 py-1 text-xs text-blue-400 transition hover:bg-gray-800 hover:text-blue-300"
                       >
                         {prikaziSveIstorije ? 'Sakrij' : `Prikaži sve (${istorija.length})`}
-                      </button>
+                      </Button>
                     )}
-                    <button
+                    <Button
                       onClick={() => {
                         setIstorija([]);
                         try { localStorage.removeItem('spaja-prompt-istorija'); } catch { /* ignore */ }
@@ -446,12 +447,12 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                       className="rounded-lg px-3 py-1 text-xs text-red-400 transition hover:bg-gray-800 hover:text-red-300"
                     >
                       Obrisi sve
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <div className={`space-y-2 overflow-y-auto ${prikaziSveIstorije ? 'max-h-96' : 'max-h-48'}`}>
                   {(prikaziSveIstorije ? istorija : istorija.slice(0, 5)).map((item, i) => (
-                    <button
+                    <Button
                       key={i}
                       onClick={() => {
                         setKorisnikUnos(item.prompt);
@@ -467,7 +468,7 @@ export default function SpajaProPromptKonzola({ promptovi, verzije, kategorije }
                       </div>
                       <div className="mt-1 truncate text-gray-400">📝 {item.prompt}</div>
                       <div className="mt-0.5 truncate text-green-400/70">✅ {item.odgovor}</div>
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>

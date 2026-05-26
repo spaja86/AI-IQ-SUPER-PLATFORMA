@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import Button from '@/components/Button';
 
 interface DiagnosticResult {
   status: string;
@@ -78,41 +79,26 @@ export default function AutoRepairActions() {
       )}
       {/* Action buttons */}
       <div className="flex flex-wrap gap-4">
-        <button
+        <Button
           onClick={runDiagnostic}
-          disabled={loading}
-          className="rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#2563eb] px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-[#7c3aed]/25 hover:brightness-110 disabled:opacity-50"
+          size="lg"
+          loading={loading && action === 'diagnose'}
+          loadingLabel="Dijagnostika u toku..."
+          className="rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#2563eb] shadow-lg transition-all hover:shadow-[#7c3aed]/25 hover:brightness-110 disabled:opacity-50"
         >
-          {loading && action === 'diagnose' ? (
-            <span className="flex items-center gap-2">
-              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Dijagnostika u toku...
-            </span>
-          ) : (
-            '🔍 Pokreni Dijagnostiku'
-          )}
-        </button>
+          🔍 Pokreni Dijagnostiku
+        </Button>
 
-        <button
+        <Button
           onClick={runRepair}
-          disabled={loading}
-          className="rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25 hover:brightness-110 disabled:opacity-50"
+          variant="success"
+          size="lg"
+          loading={loading && action === 'repair'}
+          loadingLabel="Auto-Popravka u toku..."
+          className="rounded-xl border-0 bg-gradient-to-r from-green-600 to-emerald-500 shadow-lg transition-all hover:shadow-green-500/25 hover:brightness-110 disabled:opacity-50"
         >
-          {loading && action === 'repair' ? (
-            <span className="flex items-center gap-2">
-              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Auto-Popravka u toku...
-            </span>
-          ) : (
-            '🔧 Pokreni Auto-Popravku'
-          )}
-        </button>
+          🔧 Pokreni Auto-Popravku
+        </Button>
       </div>
 
       {/* Result panel */}

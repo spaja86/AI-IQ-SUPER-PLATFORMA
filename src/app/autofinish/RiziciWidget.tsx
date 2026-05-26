@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishRiziciResult, AutofinishRizikNivo, AutofinishRizikStatus } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { rizici: AutofinishRiziciResult; }
 
@@ -42,13 +43,13 @@ export function RiziciWidget({ rizici }: Props) {
           const nivoStyle = NIVO_STYLE[r.nivo];
           return (
             <li key={r.id}>
-              <button className="w-full flex items-center gap-2 text-sm px-2 py-2 text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setSelected(isOpen ? null : r.id)} aria-expanded={isOpen} aria-label={`${r.naziv}: score ${r.rizikScore}, ${r.nivo}`}>
+              <Button className="w-full flex items-center gap-2 text-sm px-2 py-2 text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setSelected(isOpen ? null : r.id)} aria-expanded={isOpen} aria-label={`${r.naziv}: score ${r.rizikScore}, ${r.nivo}`}>
                 <span aria-hidden="true">{STATUS_EMOJI[r.status]}</span>
                 <span className="flex-1 text-gray-300 truncate">{r.naziv}</span>
                 <span className={`px-1.5 py-0.5 rounded text-[10px] ${nivoStyle}`}>{r.nivo}</span>
                 <span className="text-gray-500 font-mono text-xs">S={r.rizikScore}</span>
                 <span aria-hidden="true" className="text-gray-600">{isOpen ? '▲' : '▼'}</span>
-              </button>
+              </Button>
               {isOpen && (
                 <div className="ml-4 mb-2 text-xs space-y-1">
                   <p className="text-gray-400">{r.opis}</p>

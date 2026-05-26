@@ -11,6 +11,7 @@ import remarkMath from 'remark-math';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import type { Components } from 'react-markdown';
+import Button from '@/components/Button';
 
 interface MarkdownRendererProps {
   content: string;
@@ -39,13 +40,13 @@ function CopyButton({ text }: { text: string }) {
   };
 
   return (
-    <button
+    <Button
       onClick={handleCopy}
       className="rounded px-2 py-1 text-xs text-gray-400 transition hover:bg-gray-600 hover:text-white"
       title="Kopiraj kod"
     >
       {copied ? '✓ Kopirano' : '📋 Kopiraj'}
-    </button>
+    </Button>
   );
 }
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { Protokol, ProtokolKategorija, ProtokolStatus } from '@/lib/protokoli/types';
+import Button from '@/components/Button';
 
 interface ProtokoliApiResponse {
   data?: {
@@ -163,13 +164,13 @@ export function ProtokoliDashboard() {
           ))}
         </select>
 
-        <button
+        <Button
           type="button"
           onClick={() => void loadData()}
           className="rounded-md border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-300 hover:bg-cyan-500/20"
         >
           Osveži
-        </button>
+        </Button>
       </div>
 
       {actionMessage ? (
@@ -210,13 +211,13 @@ export function ProtokoliDashboard() {
                       </td>
                       <td className="py-3 pr-3 text-zinc-300">{protokol.latency}</td>
                       <td className="py-3">
-                        <button
+                        <Button
                           type="button"
                           onClick={() => void verifyProtocol(protokol.id)}
                           className="rounded-md border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-300 hover:bg-emerald-500/20"
                         >
                           Verifikuj
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   ))}

@@ -7,6 +7,7 @@ import type {
   AutofinishDugPrioritet,
   AutofinishDugKategorija,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { tehDug: AutofinishTehDugResult; }
 
@@ -101,14 +102,14 @@ export function TehDugWidget({ tehDug }: Props) {
                   >
                     {PRIORITET_EMOJI[st.prioritet]} {st.prioritet}
                   </span>
-                  <button
+                  <Button
                     onClick={() => setExpanded(isOpen ? null : st.id)}
                     className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                     aria-expanded={isOpen}
                     aria-controls={`teh-dug-detail-${st.id}`}
                   >
                     {isOpen ? '▲' : '▼'}
-                  </button>
+                  </Button>
                 </div>
               </div>
 

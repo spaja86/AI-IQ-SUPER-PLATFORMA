@@ -76,6 +76,34 @@ body {
   border-color: color-mix(in srgb, var(--brand-primary) 45%, var(--border-subtle));
 }
 
+.spaja-btn-ghost {
+  border: 1px solid transparent;
+  color: var(--foreground);
+  background: transparent;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.spaja-btn-ghost:hover {
+  background: color-mix(in srgb, var(--surface-2) 75%, transparent);
+  border-color: var(--border-subtle);
+}
+
+.spaja-btn-destructive {
+  border: 1px solid color-mix(in srgb, #ef4444 60%, transparent);
+  color: #fca5a5;
+  background: color-mix(in srgb, #7f1d1d 48%, transparent);
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.spaja-btn-destructive:hover {
+  background: color-mix(in srgb, #7f1d1d 62%, transparent);
+  color: #fecaca;
+}
+
 .spaja-focus-ring:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;

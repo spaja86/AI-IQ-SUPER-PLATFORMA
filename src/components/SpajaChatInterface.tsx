@@ -8,6 +8,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
 import MarkdownRenderer from './MarkdownRenderer';
+import Button from '@/components/Button';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -514,13 +515,13 @@ export default function SpajaChatInterface() {
         <div className="flex h-full flex-col">
           {/* Sidebar header */}
           <div className="border-b border-gray-700/50 p-4">
-            <button
+            <Button
               onClick={startNewConversation}
               className="flex w-full items-center gap-2 rounded-lg border border-gray-600 px-4 py-3 text-sm font-medium text-gray-300 transition hover:border-gray-400 hover:bg-gray-800 hover:text-white"
             >
               <span>✨</span>
               <span>Nova konverzacija</span>
-            </button>
+            </Button>
           </div>
 
           {/* Thread list */}
@@ -539,15 +540,15 @@ export default function SpajaChatInterface() {
                       : 'text-gray-400 hover:bg-gray-800/60 hover:text-gray-200'
                   }`}
                 >
-                  <button
+                  <Button
                     onClick={() => selectThread(thread.id)}
                     className="flex-1 truncate text-left"
                     title={thread.title}
                   >
                     {thread.title}
-                  </button>
+                  </Button>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100">
-                    <button
+                    <Button
                       onClick={(e) => {
                         e.stopPropagation();
                         shareThread(thread.id);
@@ -556,8 +557,8 @@ export default function SpajaChatInterface() {
                       title="Podeli"
                     >
                       🔗
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={(e) => {
                         e.stopPropagation();
                         deleteThread(thread.id);
@@ -566,7 +567,7 @@ export default function SpajaChatInterface() {
                       title="Obriši"
                     >
                       🗑️
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))
@@ -575,13 +576,13 @@ export default function SpajaChatInterface() {
 
           {/* Sidebar footer */}
           <div className="border-t border-gray-700/50 p-3">
-            <button
+            <Button
               onClick={() => setShowSettings(true)}
               className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-400 transition hover:bg-gray-800 hover:text-white"
             >
               <span>⚙️</span>
               <span>Podešavanja</span>
-            </button>
+            </Button>
             <div className="mt-2 px-3 text-xs text-gray-600">
               Plan: <span className="text-gray-400">{currentPlan}</span>
             </div>
@@ -602,30 +603,30 @@ export default function SpajaChatInterface() {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700/50 px-4 py-3">
           <div className="flex items-center gap-3">
-            <button
+            <Button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-800 hover:text-white lg:hidden"
             >
               ☰
-            </button>
+            </Button>
             <h2 className="text-lg font-bold text-white">🤖 SpajaPro AI</h2>
           </div>
 
           {/* Model picker */}
           <div className="relative">
-            <button
+            <Button
               onClick={() => setShowModelPicker(!showModelPicker)}
               className="flex items-center gap-2 rounded-lg border border-gray-600 px-3 py-1.5 text-sm text-gray-300 transition hover:border-gray-400 hover:text-white"
             >
               <span>🧠</span>
               <span>{activeModelName}</span>
               <span className="text-xs text-gray-500">▼</span>
-            </button>
+            </Button>
 
             {showModelPicker && (
               <div className="absolute right-0 top-full z-50 mt-2 w-80 rounded-xl border border-gray-700 bg-gray-900 p-2 shadow-2xl">
                 {models.map((model) => (
-                  <button
+                  <Button
                     key={model.id}
                     onClick={() => {
                       if (model.available) {
@@ -654,7 +655,7 @@ export default function SpajaChatInterface() {
                       </div>
                       <div className="mt-0.5 text-xs text-gray-500">{model.opis}</div>
                     </div>
-                  </button>
+                  </Button>
                 ))}
               </div>
             )}
@@ -678,7 +679,7 @@ export default function SpajaChatInterface() {
                       'Napiši React komponentu za todo listu',
                       'Šta je RAG u AI kontekstu?',
                     ].map((suggestion) => (
-                      <button
+                      <Button
                         key={suggestion}
                         onClick={() => {
                           setInput(suggestion);
@@ -687,7 +688,7 @@ export default function SpajaChatInterface() {
                         className="rounded-lg border border-gray-700 px-3 py-2 text-xs text-gray-400 transition hover:border-gray-500 hover:text-gray-300"
                       >
                         {suggestion}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -787,21 +788,21 @@ export default function SpajaChatInterface() {
                 />
               </div>
               {loading ? (
-                <button
+                <Button
                   type="button"
                   onClick={stopStreaming}
                   className="rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-500"
                 >
                   ■ Stop
-                </button>
+                </Button>
               ) : (
-                <button
+                <Button
                   type="submit"
                   disabled={!input.trim()}
                   className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:opacity-60"
                 >
                   Pošalji
-                </button>
+                </Button>
               )}
             </form>
             <div className="mt-1.5 flex items-center justify-between text-xs text-gray-600">
@@ -818,12 +819,12 @@ export default function SpajaChatInterface() {
           <div className="w-full max-w-lg rounded-2xl border border-gray-700 bg-gray-900 p-6">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-bold text-white">⚙️ Podešavanja</h3>
-              <button
+              <Button
                 onClick={() => setShowSettings(false)}
                 className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-800 hover:text-white"
               >
                 ✕
-              </button>
+              </Button>
             </div>
 
             {/* Custom Instructions */}
@@ -888,19 +889,19 @@ export default function SpajaChatInterface() {
 
             {/* Save button */}
             <div className="flex justify-end gap-3">
-              <button
+              <Button
                 onClick={() => setShowSettings(false)}
                 className="rounded-lg border border-gray-600 px-4 py-2 text-sm text-gray-300 transition hover:bg-gray-800"
               >
                 Otkaži
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={saveSettings}
                 disabled={settingsLoading}
                 className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:opacity-60"
               >
                 {settingsLoading ? 'Čuvanje...' : 'Sačuvaj'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@
 
 import React, { useState } from 'react';
 import type { AutofinishMilestoneIteracija } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props {
   /** Top N iterations pre-computed server-side (sorted descending) */
@@ -46,7 +47,7 @@ export function TopIteracijeWidget({ iteracije, n, autofinishBroj, verzija }: Pr
         >
           {iteracije.map((it, idx) => (
             <li key={it.broj}>
-              <button
+              <Button
                 className="w-full flex items-start gap-3 text-sm text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded px-2 py-1.5 transition-colors"
                 onClick={() => setExpanded((prev) => (prev === it.broj ? null : it.broj))}
                 aria-expanded={expanded === it.broj}
@@ -62,7 +63,7 @@ export function TopIteracijeWidget({ iteracije, n, autofinishBroj, verzija }: Pr
                 <span className="text-gray-600 text-xs flex-shrink-0" aria-hidden="true">
                   {expanded === it.broj ? '▲' : '▼'}
                 </span>
-              </button>
+              </Button>
               {expanded === it.broj && (
                 <div className="ml-16 mt-1 mb-2 text-xs text-gray-500 bg-gray-800 rounded px-3 py-2">
                   <div>

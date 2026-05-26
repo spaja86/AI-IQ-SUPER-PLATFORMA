@@ -11,6 +11,7 @@ import {
   getStimulacioneKanale,
   kalkulisiEksponencijalniOdraz,
 } from '@/lib/digitalni-prozor';
+import Button from '@/components/Button';
 
 const GamingEndzin = dynamic(() => import('./gaming/GamingEndzin'), { ssr: false });
 
@@ -102,13 +103,13 @@ export default function ProzorViewer({ igricaId, dimenzija, onNazadUBrouvzer }: 
           <p className="mb-2 text-3xl">⚠️</p>
           <h2 className="text-xl font-bold text-white">Igrica nije pronađena</h2>
           <p className="mt-2 text-sm text-gray-400">ID: {igricaId}</p>
-          <button
+          <Button
             type="button"
             onClick={handleNazad}
             className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
           >
             Nazad u BROUVZER
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -129,7 +130,7 @@ export default function ProzorViewer({ igricaId, dimenzija, onNazadUBrouvzer }: 
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
               {igrica.podrzaneDimenzije.map((nivo) => (
-                <button
+                <Button
                   key={nivo}
                   type="button"
                   onClick={() => startStartup(nivo)}
@@ -137,16 +138,16 @@ export default function ProzorViewer({ igricaId, dimenzija, onNazadUBrouvzer }: 
                 >
                   <span className="font-bold text-white">{nivo}</span>
                   <p className="mt-1 text-xs text-gray-400">Eksponencijalni odraz: {kalkulisiEksponencijalniOdraz(nivo)}</p>
-                </button>
+                </Button>
               ))}
             </div>
-            <button
+            <Button
               type="button"
               onClick={handleNazad}
               className="mt-5 text-xs text-gray-500 hover:text-gray-300"
             >
               ← Nazad u BROUVZER
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -216,13 +217,13 @@ export default function ProzorViewer({ igricaId, dimenzija, onNazadUBrouvzer }: 
         <span className="rounded-full bg-green-700/20 px-2 py-0.5 text-green-300">
           Snaga {spajaDigitalniProzor.statistika.snagaProzora}
         </span>
-        <button
+        <Button
           type="button"
           onClick={handleNazad}
           className="ml-auto rounded-md border border-gray-700 px-2 py-1 text-gray-300 hover:border-gray-500 hover:text-white"
         >
           Nazad u BROUVZER
-        </button>
+        </Button>
       </div>
 
       <div className="min-h-0 flex-1">

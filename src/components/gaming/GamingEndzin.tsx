@@ -19,6 +19,7 @@ import GamingPauzeMenu from './GamingPauzeMenu';
 import DimenzijaBadge from './DimenzijaBadge';
 
 import dynamic from 'next/dynamic';
+import Button from '@/components/Button';
 
 const AkcijaRunner = dynamic(() => import('./runners/AkcijaRunner'), { ssr: false });
 const LogickaRunner = dynamic(() => import('./runners/LogickaRunner'), { ssr: false });
@@ -130,26 +131,26 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
             </div>
           )}
 
-          <button
+          <Button
             onClick={handlePokreni}
             className="w-full rounded-2xl bg-green-600 py-4 text-base font-bold text-white shadow-lg transition hover:bg-green-500"
           >
             ▶ Pokreni Igru
-          </button>
+          </Button>
 
           <div className="mt-3 flex gap-2">
-            <button
+            <Button
               onClick={onPromeniDimenziju}
               className="flex-1 rounded-xl bg-purple-600/80 py-2 text-sm font-medium text-white transition hover:bg-purple-600"
             >
               🌀 Promeni dimenziju
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={onIzlaz}
               className="flex-1 rounded-xl bg-gray-700 py-2 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
             >
               ✕ Izlaz
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -187,24 +188,24 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           </div>
 
           <div className="flex flex-col gap-2">
-            <button
+            <Button
               onClick={handleRestart}
               className="w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
             >
               🔄 Igraj ponovo
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={onPromeniDimenziju}
               className="w-full rounded-xl bg-purple-600/80 py-3 text-sm font-bold text-white transition hover:bg-purple-600"
             >
               🌀 Promeni dimenziju
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={onIzlaz}
               className="w-full rounded-xl bg-gray-700 py-3 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
             >
               ✕ Izlaz iz igre
-            </button>
+            </Button>
           </div>
         </div>
       </div>

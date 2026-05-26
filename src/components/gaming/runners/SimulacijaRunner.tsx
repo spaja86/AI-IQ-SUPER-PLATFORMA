@@ -12,6 +12,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore } from '@/lib/gaming-endzin';
 import DimenzijaBadge from '../DimenzijaBadge';
+import Button from '@/components/Button';
 
 interface Props {
   konfiguracija: GamingEndzinKonfiguracija;
@@ -299,7 +300,7 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
         >
           {grid.map((red, r) =>
             red.map((celija, c) => (
-              <button
+              <Button
                 key={`${r}-${c}`}
                 onClick={() => handleKlik(r, c)}
                 className={`flex h-12 w-12 items-center justify-center rounded-lg border text-xl transition ${BOJE[celija.tip]}`}
@@ -312,7 +313,7 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
                     style={{ width: `${(celija.hp / celija.maxHp) * 100}%` }}
                   />
                 )}
-              </button>
+              </Button>
             )),
           )}
         </div>
@@ -320,18 +321,18 @@ export default function SimulacijaRunner({ konfiguracija, isPauziran, onScoreUpd
 
       {/* Kontrole */}
       <div className="flex shrink-0 items-center justify-center gap-3 border-t border-gray-800 px-4 py-2">
-        <button
+        <Button
           onClick={() => setIzabrano('generator')}
           className={`rounded-lg px-3 py-2 text-sm font-bold transition ${izabrano === 'generator' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
         >
           ⚡ Generator ({CENA.generator} 💰)
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => setIzabrano('kula')}
           className={`rounded-lg px-3 py-2 text-sm font-bold transition ${izabrano === 'kula' ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
         >
           🔫 Kula ({CENA.kula} 💰)
-        </button>
+        </Button>
         <span className="text-xs text-gray-500">Klikni praznu ćeliju da gradiš</span>
       </div>
     </div>

@@ -7,6 +7,7 @@ import type {
   AutofinishRunbookUnos,
   AutofinishRunbookPrioritet,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { runbook: AutofinishRunbookResult; }
 
@@ -47,14 +48,14 @@ export function RunbookWidget({ runbook }: Props) {
       </p>
       <div className="flex flex-wrap gap-1 mb-3" role="group" aria-label="Filter po prioritetu">
         {prioriteti.map((p) => (
-          <button
+          <Button
             key={p}
             onClick={() => setFilter(p)}
             className={`px-2 py-0.5 text-xs rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${filter === p ? 'bg-gray-700 border-gray-500 text-white' : 'bg-transparent border-gray-700 text-gray-400 hover:border-gray-500'}`}
             aria-pressed={filter === p}
           >
             {p !== 'svi' && <span aria-hidden="true">{PRIORITET_EMOJI[p]} </span>}{p}
-          </button>
+          </Button>
         ))}
       </div>
       <ul className="space-y-1" role="list">
@@ -62,7 +63,7 @@ export function RunbookWidget({ runbook }: Props) {
           const isOpen = selected === rb.id;
           return (
             <li key={rb.id}>
-              <button
+              <Button
                 className="w-full flex items-center gap-2 text-sm px-2 py-2 text-left hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors"
                 onClick={() => setSelected(isOpen ? null : rb.id)}
                 aria-expanded={isOpen}
@@ -73,7 +74,7 @@ export function RunbookWidget({ runbook }: Props) {
                 <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono ${PRIORITET_STYLE[rb.prioritet]}`}>{rb.prioritet}</span>
                 <span className="text-gray-500 text-xs truncate max-w-[80px]">{rb.vlasnik}</span>
                 <span aria-hidden="true" className="text-gray-600">{isOpen ? '▲' : '▼'}</span>
-              </button>
+              </Button>
               {isOpen && (
                 <div className="ml-4 mb-2 space-y-2 pb-1">
                   <div className="flex flex-wrap gap-3 text-xs text-gray-500">

@@ -7,6 +7,7 @@ import type {
   AutofinishInfraStatus,
   AutofinishInfraUloga,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { infrastruktura: AutofinishInfrastrukturaResult; }
 
@@ -115,7 +116,7 @@ export function InfrastrukturMonitorWidget({ infrastruktura }: Props) {
       <div className="flex flex-wrap gap-2 mb-4">
         <div className="flex flex-wrap gap-1" role="group" aria-label="Filter po ulozi">
           {ALL_ULOGE.map((u) => (
-            <button
+            <Button
               key={u}
               onClick={() => setUlogaFilter(u)}
               className={`text-xs px-2 py-0.5 rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${
@@ -126,12 +127,12 @@ export function InfrastrukturMonitorWidget({ infrastruktura }: Props) {
               aria-pressed={ulogaFilter === u}
             >
               {u === 'sve' ? 'Sve uloge' : `${ULOGA_EMOJI[u as AutofinishInfraUloga]} ${u}`}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="flex flex-wrap gap-1" role="group" aria-label="Filter po statusu">
           {ALL_STATUSI.map((s) => (
-            <button
+            <Button
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`text-xs px-2 py-0.5 rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${
@@ -142,7 +143,7 @@ export function InfrastrukturMonitorWidget({ infrastruktura }: Props) {
               aria-pressed={statusFilter === s}
             >
               {s === 'svi' ? 'Svi statusi' : `${STATUS_EMOJI[s as AutofinishInfraStatus]} ${s}`}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -181,14 +182,14 @@ export function InfrastrukturMonitorWidget({ infrastruktura }: Props) {
                     >
                       {STATUS_EMOJI[node.status]} {node.status}
                     </span>
-                    <button
+                    <Button
                       onClick={() => setExpanded(isOpen ? null : node.id)}
                       className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                       aria-expanded={isOpen}
                       aria-controls={`infra-detail-${node.id}`}
                     >
                       {isOpen ? '▲' : '▼'}
-                    </button>
+                    </Button>
                   </div>
                 </div>
 

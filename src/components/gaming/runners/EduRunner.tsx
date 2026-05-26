@@ -12,6 +12,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore } from '@/lib/gaming-endzin';
 import DimenzijaBadge from '../DimenzijaBadge';
+import Button from '@/components/Button';
 
 interface Props {
   konfiguracija: GamingEndzinKonfiguracija;
@@ -280,7 +281,7 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
               else klasa = 'bg-gray-800 border-gray-700 text-gray-500';
             }
             return (
-              <button
+              <Button
                 key={idx}
                 onClick={() => handleOdgovor(idx)}
                 disabled={pokaziPojas}
@@ -288,7 +289,7 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
               >
                 <span className="mr-2 font-bold">{String.fromCharCode(65 + idx)}.</span>
                 {odg}
-              </button>
+              </Button>
             );
           })}
         </div>
@@ -304,12 +305,12 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
         )}
 
         {pokaziPojas && (
-          <button
+          <Button
             onClick={sledecePitanje}
             className="w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
           >
             Sledeće pitanje →
-          </button>
+          </Button>
         )}
       </div>
     </div>

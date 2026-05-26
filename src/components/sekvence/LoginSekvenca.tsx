@@ -3,6 +3,7 @@
 import type { Sekvenca } from '@/lib/types';
 import { useState, useSyncExternalStore } from 'react';
 import { sacuvajSesiju, dohvatiSesiju } from '@/lib/auth/omega-session-client';
+import Button from '@/components/Button';
 
 type LoginMetoda = { naziv: string; ikona: string; metod: string };
 
@@ -196,14 +197,14 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
           <p className="mb-3 text-xs text-gray-400">
             Isprobajte platformu odmah sa demo nalogom — bez registracije.
           </p>
-          <button
+          <Button
             type="button"
             onClick={popuniDemoNalog}
             className="flex w-full items-center justify-center gap-2 rounded-lg border border-yellow-600/40 bg-yellow-600/20 px-4 py-2.5 text-sm font-medium text-yellow-300 transition hover:bg-yellow-600/30 hover:text-yellow-200"
           >
             <span>🔑</span>
             Popuni demo podatke
-          </button>
+          </Button>
           <div className="mt-2 flex items-center gap-3 text-[11px] text-gray-500">
             <span>📧 demo@spaja.ai</span>
             <span>🔒 Demo2024!</span>
@@ -252,18 +253,18 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
                 placeholder="Unesite lozinku"
                 className="w-full rounded-lg border border-gray-600 bg-gray-900 py-3 pl-10 pr-12 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
               />
-              <button
+              <Button
                 type="button"
                 onClick={() => setPrikaziLozinku(!prikaziLozinku)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-gray-300"
                 aria-label={prikaziLozinku ? 'Sakrij lozinku' : 'Pokazi lozinku'}
               >
                 {prikaziLozinku ? '🙈' : '👁️'}
-              </button>
+              </Button>
             </div>
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={status === 'loading'}
             className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
@@ -279,7 +280,7 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
             ) : (
               'Prijavi se'
             )}
-          </button>
+          </Button>
 
           {poruka && (
             <div
@@ -308,7 +309,7 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
             </div>
             <div className="grid grid-cols-2 gap-3">
               {metode.map((m) => (
-                <button
+                <Button
                   key={m.metod}
                   type="button"
                   onClick={() => {
@@ -319,7 +320,7 @@ export default function LoginSekvenca({ sekvenca }: { sekvenca: Sekvenca }) {
                 >
                   <span role="img" aria-label={m.naziv}>{m.ikona}</span>
                   {m.naziv}
-                </button>
+                </Button>
               ))}
             </div>
           </div>

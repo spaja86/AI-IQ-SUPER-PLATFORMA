@@ -14,6 +14,7 @@ import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore, crtajElipsoid, crtajSpiralu, crtajHiperbolu, crtajRezonancu } from '@/lib/gaming-endzin';
 import type { DimenzionalnParametri } from '@/lib/gaming-endzin';
 import DimenzijaBadge from '../DimenzijaBadge';
+import Button from '@/components/Button';
 
 interface Props {
   konfiguracija: GamingEndzinKonfiguracija;
@@ -204,14 +205,14 @@ export default function KreativnaRunner({ konfiguracija, isPauziran, onScoreUpda
         {/* Alati */}
         <div className="flex gap-1">
           {dostupniAlati.map((a) => (
-            <button
+            <Button
               key={a.id}
               onClick={() => setAlat(a.id)}
               title={`${a.naziv} (+${a.bodovi} bod/klik)`}
               className={`rounded-lg px-2 py-1 text-sm transition ${alat === a.id ? 'bg-white/20 text-white' : 'text-gray-400 hover:bg-gray-700'}`}
             >
               {a.ikona}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -220,7 +221,7 @@ export default function KreativnaRunner({ konfiguracija, isPauziran, onScoreUpda
         {/* Boje */}
         <div className="flex gap-1">
           {BOJE.map((b) => (
-            <button
+            <Button
               key={b}
               onClick={() => setBojaTrenutna(b)}
               className={`h-5 w-5 rounded-full transition ${bojaTrenutna === b ? 'ring-2 ring-white ring-offset-1 ring-offset-gray-950' : ''}`}
@@ -248,12 +249,12 @@ export default function KreativnaRunner({ konfiguracija, isPauziran, onScoreUpda
         <div className="ml-auto flex items-center gap-3">
           <span className="text-xs text-gray-500">🎨 {brOblika} oblika</span>
           <span className="text-sm font-bold text-yellow-400">{score.bodovi.toLocaleString('sr-RS')}</span>
-          <button
+          <Button
             onClick={ocistiPlatno}
             className="rounded-lg bg-gray-700 px-2 py-1 text-xs text-gray-300 transition hover:bg-gray-600"
           >
             🗑️ Očisti
-          </button>
+          </Button>
         </div>
       </div>
 

@@ -3,6 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import type { AutofinishRetrospektivaResult } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { retrospektiva: AutofinishRetrospektivaResult; }
 
@@ -18,10 +19,10 @@ export function RetrospektivaWidget({ retrospektiva }: Props) {
           const isOpen = openSprint === s.sprintId;
           return (
             <li key={s.sprintId}>
-              <button className="w-full flex items-center justify-between text-sm text-left px-2 py-2 hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setOpenSprint(isOpen ? null : s.sprintId)} aria-expanded={isOpen} aria-label={`${s.naziv}: brzina ${s.brzina}`}>
+              <Button className="w-full flex items-center justify-between text-sm text-left px-2 py-2 hover:bg-gray-800/50 focus:outline-none focus:bg-gray-800/50 rounded transition-colors" onClick={() => setOpenSprint(isOpen ? null : s.sprintId)} aria-expanded={isOpen} aria-label={`${s.naziv}: brzina ${s.brzina}`}>
                 <span className="text-gray-300">{s.naziv}</span>
                 <span className="text-gray-500 font-mono text-xs">⚡{s.brzina} iter <span aria-hidden="true">{isOpen ? '▲' : '▼'}</span></span>
-              </button>
+              </Button>
               {isOpen && (
                 <div className="ml-4 mt-1 mb-2 space-y-2 text-xs">
                   <div><p className="text-green-400 font-semibold mb-0.5">✅ Dobro:</p><ul className="text-gray-400 space-y-0.5" role="list">{s.dobro.map((d, i) => <li key={i}>• {d}</li>)}</ul></div>

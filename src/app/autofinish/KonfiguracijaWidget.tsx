@@ -9,6 +9,7 @@ import type {
   AutofinishKonfiguracijaOkruzenje,
   AutofinishKonfiguracijaIzvor,
 } from '@/lib/autofinish-petlja';
+import Button from '@/components/Button';
 
 interface Props { konfiguracija: AutofinishKonfiguracijaResult; }
 
@@ -129,7 +130,7 @@ export function KonfiguracijaWidget({ konfiguracija }: Props) {
       <div className="flex flex-wrap gap-2 mb-4">
         <div className="flex flex-wrap gap-1" role="group" aria-label="Filter po statusu">
           {ALL_STATUSI.map((s) => (
-            <button
+            <Button
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`text-xs px-2 py-0.5 rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${
@@ -140,12 +141,12 @@ export function KonfiguracijaWidget({ konfiguracija }: Props) {
               aria-pressed={statusFilter === s}
             >
               {s === 'svi' ? 'Svi statusi' : `${STATUS_EMOJI[s as AutofinishKonfiguracijaStatus]} ${s}`}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="flex flex-wrap gap-1" role="group" aria-label="Filter po kategoriji">
           {ALL_KATEGORIJE.map((k) => (
-            <button
+            <Button
               key={k}
               onClick={() => setKategorijaFilter(k)}
               className={`text-xs px-2 py-0.5 rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 ${
@@ -156,7 +157,7 @@ export function KonfiguracijaWidget({ konfiguracija }: Props) {
               aria-pressed={kategorijaFilter === k}
             >
               {k === 'sve' ? 'Sve kategorije' : `${KATEGORIJA_EMOJI[k as AutofinishKonfiguracijaKategorija]} ${k}`}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -201,14 +202,14 @@ export function KonfiguracijaWidget({ konfiguracija }: Props) {
                     >
                       {STATUS_EMOJI[p.status]} {p.status}
                     </span>
-                    <button
+                    <Button
                       onClick={() => setExpanded(isOpen ? null : p.id)}
                       className="text-xs text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                       aria-expanded={isOpen}
                       aria-controls={`konf-detail-${p.id}`}
                     >
                       {isOpen ? '▲' : '▼'}
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
