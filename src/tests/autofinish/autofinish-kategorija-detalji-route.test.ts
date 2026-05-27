@@ -3,19 +3,8 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { GET } from '../../app/api/autofinish-kategorija-detalji/route';
+import { GET, VALIDNE_KATEGORIJE } from '../../app/api/autofinish-kategorija-detalji/route';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
-
-const VALIDNE_KATEGORIJE = [
-  'helper',
-  'unit-test',
-  'api-route',
-  'integration-test',
-  'dashboard-widget',
-  'widget-unit-test',
-  'e2e',
-  'ostalo',
-] as const;
 
 let passed = 0;
 let failed = 0;

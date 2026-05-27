@@ -11,7 +11,7 @@ import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
-const VALIDNE_KATEGORIJE = [
+export const VALIDNE_KATEGORIJE = [
   'helper',
   'unit-test',
   'api-route',
