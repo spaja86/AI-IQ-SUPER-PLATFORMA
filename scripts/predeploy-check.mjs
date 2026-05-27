@@ -16,6 +16,8 @@ const potencijalLibPath = resolve(repoRoot, 'src/lib/potencijal-svega-ovoga-do-s
 const potencijalRoutePath = resolve(repoRoot, 'src/app/api/potencijal-svega-ovoga-do-sada/route.ts');
 const procesuiranjeLibPath = resolve(repoRoot, 'src/lib/procesuiranje-svega.ts');
 const ekstremnoRoutePath = resolve(repoRoot, 'src/app/api/ekstremno-procesuiranje-svega/route.ts');
+const maksimusLibPath = resolve(repoRoot, 'src/lib/maksimus-svega.ts');
+const maksimusRoutePath = resolve(repoRoot, 'src/app/api/maksimus-svega/route.ts');
 const sitemapPath = resolve(repoRoot, 'src/app/sitemap.ts');
 const navigationPath = resolve(repoRoot, 'src/lib/navigation.ts');
 
@@ -27,6 +29,8 @@ const potencijalLibSrc = readFileSync(potencijalLibPath, 'utf8');
 const potencijalRouteSrc = readFileSync(potencijalRoutePath, 'utf8');
 const procesuiranjeLibSrc = readFileSync(procesuiranjeLibPath, 'utf8');
 const ekstremnoRouteSrc = readFileSync(ekstremnoRoutePath, 'utf8');
+const maksimusLibSrc = readFileSync(maksimusLibPath, 'utf8');
+const maksimusRouteSrc = readFileSync(maksimusRoutePath, 'utf8');
 const sitemapSrc = readFileSync(sitemapPath, 'utf8');
 const navigationSrc = readFileSync(navigationPath, 'utf8');
 
@@ -76,7 +80,15 @@ const procesuiranjeContractReady = [
   sitemapSrc.includes('/api/ekstremno-procesuiranje-svega'),
   navigationSrc.includes('/procesuiranje-svega'),
 ].every(Boolean);
-const hasDeploymentBlockers = missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady || !procesuiranjeContractReady;
+const maksimusContractVersion = maksimusLibSrc.match(/export const MAKSIMUS_SVEGA_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const maksimusModelVersion = maksimusLibSrc.match(/export const MAKSIMUS_SVEGA_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const maksimusContractReady = [
+  maksimusLibSrc.includes('MAKSIMUS_SVEGA_SOURCE_OF_TRUTH = \'/api/maksimus-svega\''),
+  maksimusRouteSrc.includes('X-Maksimus-Contract-Version'),
+  sitemapSrc.includes('/api/maksimus-svega'),
+  navigationSrc.includes('/maksimus-svega'),
+].every(Boolean);
+const hasDeploymentBlockers = missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady || !procesuiranjeContractReady || !maksimusContractReady;
 
 const report = {
   appVersion,
@@ -100,6 +112,11 @@ const report = {
     modelVersion: procesuiranjeModelVersion,
     contractReady: procesuiranjeContractReady,
   },
+  maksimusSvega: {
+    contractVersion: maksimusContractVersion,
+    modelVersion: maksimusModelVersion,
+    contractReady: maksimusContractReady,
+  },
   status: hasDeploymentBlockers ? 'warning' : 'ok',
 };
 
@@ -107,6 +124,6 @@ console.log('=== Predeploy Check ===');
 console.log(JSON.stringify(report, null, 2));
 
 if (process.argv.includes('--strict') && hasDeploymentBlockers) {
-  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE contract is not ready.');
+  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE/MAKSIMUS contract is not ready.');
   process.exit(1);
 }

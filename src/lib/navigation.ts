@@ -126,6 +126,7 @@ export const navigation: NavItem[] = [
   { label: 'Analiza Svega', href: '/analiza-svega', icon: '🔭', description: 'Celokupna analiza ekosistema — ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish i protokoli' },
   { label: 'Potencijal Svega Ovoga Do Sada', href: '/potencijal-svega-ovoga-do-sada', icon: '🧭', description: 'Stanje sada vs potencijal posle sledećih koraka — blokeri, unlock faktori i expected uplift po domenima' },
   { label: 'Procesuiranje Svega', href: '/procesuiranje-svega', icon: '⚙️', description: 'Aktivni pipeline procesiranja svih domena — bankarski, AI, finansijski, licencni, ekosistem, autofinish, bezbednosni i analitički' },
+  { label: 'Maksimus Svega', href: '/maksimus-svega', icon: '🚀', description: 'Master signal svih ključnih svega domena — analiza, potencijal, procesuiranje i autofinish orkestracija' },
   { label: 'Prijava', href: '/login', icon: '🔑', description: 'Prijava na platformu — pristup Digitalnoj Industriji' },
   { label: 'Zaboravljena Lozinka', href: '/zaboravljena-lozinka', icon: '🔓', description: 'Resetovanje lozinke za pristup platformi' },
 ];

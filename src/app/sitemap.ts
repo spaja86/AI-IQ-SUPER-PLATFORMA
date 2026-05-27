@@ -141,6 +141,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/procesuiranje-svega',
     '/api/procesuiranje-svega',
     '/api/ekstremno-procesuiranje-svega',
+    '/maksimus-svega',
+    '/api/maksimus-svega',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
