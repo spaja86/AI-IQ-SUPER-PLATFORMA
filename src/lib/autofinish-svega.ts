@@ -14,6 +14,7 @@ import { buildAnalizaSvega } from './analiza-svega';
 import { buildProcesuiranjeSvega, buildEkstremnoProcesuiranjeSvega } from './procesuiranje-svega';
 import { pokreniAutofinishPetlju } from './autofinish-petlja';
 import { buildMaksimusSvega } from './maksimus-svega';
+import { buildMaksimus2 } from './maksimus-2';
 import { APP_VERSION, AUTOFINISH_COUNT, KOMPANIJA, TOTAL_API_ROUTES, TOTAL_ROUTES } from './constants';
 
 // ─── Konstante ────────────────────────────────────────────────────────────────
@@ -29,7 +30,8 @@ export type AutofinishSvegaStageId =
   | 'procesuiranje-svega'
   | 'ekstremno-procesuiranje-svega'
   | 'autofinish-petlja'
-  | 'maksimus-svega';
+  | 'maksimus-svega'
+  | 'maksimus-2';
 
 export type AutofinishSvegaStageStatus = 'ok' | 'greska' | 'preskoceno';
 export type AutofinishSvegaStatus = 'ok' | 'delimicno' | 'greska';
@@ -104,6 +106,7 @@ const STAGE_NAZIVI: Record<AutofinishSvegaStageId, string> = {
   'ekstremno-procesuiranje-svega': 'Ekstremno Procesuiranje Svega',
   'autofinish-petlja': 'Autofinish Petlja',
   'maksimus-svega': 'Maksimus Svega',
+  'maksimus-2': 'Maksimus 2',
 };
 
 const STAGE_ENDPOINTI: Record<AutofinishSvegaStageId, string> = {
@@ -112,6 +115,7 @@ const STAGE_ENDPOINTI: Record<AutofinishSvegaStageId, string> = {
   'ekstremno-procesuiranje-svega': '/api/ekstremno-procesuiranje-svega',
   'autofinish-petlja': '/api/autofinish-petlja-status',
   'maksimus-svega': '/api/maksimus-svega',
+  'maksimus-2': '/api/maksimus-2',
 };
 
 /** Kanonski redosled izvršavanja — ne menjati.
@@ -124,6 +128,7 @@ const ALL_STAGES: AutofinishSvegaStageId[] = [
   'ekstremno-procesuiranje-svega',
   'autofinish-petlja',
   'maksimus-svega',
+  'maksimus-2',
 ];
 
 // ─── Interni pomoćnici ───────────────────────────────────────────────────────
@@ -164,6 +169,16 @@ function buildSazetakMaksimus(maksimusSvega: Awaited<ReturnType<typeof buildMaks
   };
 }
 
+function buildSazetakMaksimus2(maksimus2: Awaited<ReturnType<typeof buildMaksimus2>>): Record<string, unknown> {
+  return {
+    ukupanScore: maksimus2.ukupanScore,
+    konacnaOcena: maksimus2.konacnaOcena,
+    kriticniDomeni: maksimus2.kriticniDomeni,
+    trend: maksimus2.trend.direction,
+    degraded: maksimus2.meta.degraded,
+  };
+}
+
 async function runStage(id: AutofinishSvegaStageId): Promise<AutofinishSvegaStageRezultat> {
   const naziv = STAGE_NAZIVI[id];
   const start = Date.now();
@@ -177,6 +192,8 @@ async function runStage(id: AutofinishSvegaStageId): Promise<AutofinishSvegaStag
       sazetak = buildSazetakProcesuiranje(buildEkstremnoProcesuiranjeSvega());
     } else if (id === 'maksimus-svega') {
       sazetak = buildSazetakMaksimus(await buildMaksimusSvega());
+    } else if (id === 'maksimus-2') {
+      sazetak = buildSazetakMaksimus2(await buildMaksimus2());
     } else {
       sazetak = buildSazetakPetlja(pokreniAutofinishPetlju());
     }

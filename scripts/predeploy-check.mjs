@@ -18,6 +18,8 @@ const procesuiranjeLibPath = resolve(repoRoot, 'src/lib/procesuiranje-svega.ts')
 const ekstremnoRoutePath = resolve(repoRoot, 'src/app/api/ekstremno-procesuiranje-svega/route.ts');
 const maksimusLibPath = resolve(repoRoot, 'src/lib/maksimus-svega.ts');
 const maksimusRoutePath = resolve(repoRoot, 'src/app/api/maksimus-svega/route.ts');
+const maksimus2LibPath = resolve(repoRoot, 'src/lib/maksimus-2.ts');
+const maksimus2RoutePath = resolve(repoRoot, 'src/app/api/maksimus-2/route.ts');
 const sitemapPath = resolve(repoRoot, 'src/app/sitemap.ts');
 const navigationPath = resolve(repoRoot, 'src/lib/navigation.ts');
 
@@ -31,6 +33,8 @@ const procesuiranjeLibSrc = readFileSync(procesuiranjeLibPath, 'utf8');
 const ekstremnoRouteSrc = readFileSync(ekstremnoRoutePath, 'utf8');
 const maksimusLibSrc = readFileSync(maksimusLibPath, 'utf8');
 const maksimusRouteSrc = readFileSync(maksimusRoutePath, 'utf8');
+const maksimus2LibSrc = readFileSync(maksimus2LibPath, 'utf8');
+const maksimus2RouteSrc = readFileSync(maksimus2RoutePath, 'utf8');
 const sitemapSrc = readFileSync(sitemapPath, 'utf8');
 const navigationSrc = readFileSync(navigationPath, 'utf8');
 
@@ -88,7 +92,20 @@ const maksimusContractReady = [
   sitemapSrc.includes('/api/maksimus-svega'),
   navigationSrc.includes('/maksimus-svega'),
 ].every(Boolean);
-const hasDeploymentBlockers = missingRequiredEnv.length > 0 || !analizaContractReady || !potencijalContractReady || !procesuiranjeContractReady || !maksimusContractReady;
+const maksimus2ContractVersion = maksimus2LibSrc.match(/export const MAKSIMUS_2_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const maksimus2ModelVersion = maksimus2LibSrc.match(/export const MAKSIMUS_2_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const maksimus2ContractReady = [
+  maksimus2LibSrc.includes('MAKSIMUS_2_SOURCE_OF_TRUTH = \'/api/maksimus-2\''),
+  maksimus2RouteSrc.includes('X-Maksimus2-Contract-Version'),
+  sitemapSrc.includes('/api/maksimus-2'),
+  navigationSrc.includes('/maksimus-2'),
+].every(Boolean);
+const hasDeploymentBlockers = missingRequiredEnv.length > 0
+  || !analizaContractReady
+  || !potencijalContractReady
+  || !procesuiranjeContractReady
+  || !maksimusContractReady
+  || !maksimus2ContractReady;
 
 const report = {
   appVersion,
@@ -117,6 +134,11 @@ const report = {
     modelVersion: maksimusModelVersion,
     contractReady: maksimusContractReady,
   },
+  maksimus2: {
+    contractVersion: maksimus2ContractVersion,
+    modelVersion: maksimus2ModelVersion,
+    contractReady: maksimus2ContractReady,
+  },
   status: hasDeploymentBlockers ? 'warning' : 'ok',
 };
 
@@ -124,6 +146,6 @@ console.log('=== Predeploy Check ===');
 console.log(JSON.stringify(report, null, 2));
 
 if (process.argv.includes('--strict') && hasDeploymentBlockers) {
-  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE/MAKSIMUS contract is not ready.');
+  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE/MAKSIMUS/MAKSIMUS2 contract is not ready.');
   process.exit(1);
 }

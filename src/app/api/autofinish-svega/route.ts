@@ -30,6 +30,7 @@ const VALID_STAGE_IDS = new Set<AutofinishSvegaStageId>([
   'ekstremno-procesuiranje-svega',
   'autofinish-petlja',
   'maksimus-svega',
+  'maksimus-2',
 ]);
 
 function parseStages(value: string | null): AutofinishSvegaStageId[] | undefined {
