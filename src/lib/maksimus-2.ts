@@ -39,6 +39,8 @@ const MAKSIMUS_2_CONFIDENCE_VARIANCE = {
   delimicno: 2,
   potrebnoPoboljsanje: 0,
 } as const;
+const MAKSIMUS_2_CRITICAL_THRESHOLD = 75;
+const MAKSIMUS_2_EXPECTED_AUTOFINISH_STAGES = 6;
 
 const weightSum = Object.values(MAKSIMUS_2_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
 if (Math.abs(weightSum - 1) > 0.0001) {
@@ -177,7 +179,7 @@ export async function buildMaksimus2(): Promise<Maksimus2Svega> {
   const potencijalScore = potencijal?.ukupniPotencijal ?? 0;
   const procesuiranjeScore = procesuiranje?.ukupanProcenat ?? 0;
   const orkestracijaScore = autofinishInfo
-    ? clampScore((autofinishInfo.dostupniStepovi.length / 6) * 100)
+    ? clampScore((autofinishInfo.dostupniStepovi.length / MAKSIMUS_2_EXPECTED_AUTOFINISH_STAGES) * 100)
     : 0;
   const ekstremnoProcesuiranjeScore = ekstremnoProcesuiranje?.ukupanProcenat ?? 0;
   const operativnaSpremnostScore = operativnaSpremnost?.spremnost?.ukupanScore ?? 0;
@@ -258,13 +260,15 @@ export async function buildMaksimus2(): Promise<Maksimus2Svega> {
     } satisfies Maksimus2DomenSignal,
   };
 
-  const kriticniDomeni = Object.values(domeni).filter((domen) => domen.score < 75).map((domen) => domen.naziv);
+  const kriticniDomeni = Object.values(domeni)
+    .filter((domen) => domen.score < MAKSIMUS_2_CRITICAL_THRESHOLD)
+    .map((domen) => domen.naziv);
   const preporuke: string[] = [];
 
   if (kriticniDomeni.length > 0) {
     preporuke.push(`Prioritetno unaprediti domene ispod 75%: ${kriticniDomeni.join(', ')}`);
   }
-  if (operativnaSpremnostScore < 75) {
+  if (operativnaSpremnostScore < MAKSIMUS_2_CRITICAL_THRESHOLD) {
     preporuke.push('Podići runtime i ops readiness kako bi MAKSIMUS 2 ostao stabilan u produkciji.');
   }
   if (degradedSources.length > 0) {
