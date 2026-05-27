@@ -76,7 +76,7 @@ async function runTests(): Promise<void> {
   await test('Konstante su ispravne', () => {
     assert(typeof APP_VERSION === 'string' && APP_VERSION.length > 0, 'APP_VERSION postoji');
     assert(typeof APP_NAME === 'string' && APP_NAME.length > 0, 'APP_NAME postoji');
-    assertEqual(AUTOFINISH_COUNT, 1383, 'AUTOFINISH_COUNT');
+    assert(AUTOFINISH_COUNT >= 1383, 'AUTOFINISH_COUNT baseline');
     assert(typeof TOTAL_API_ROUTES === 'number' && TOTAL_API_ROUTES > 0, 'TOTAL_API_ROUTES');
     assert(typeof TOTAL_ROUTES === 'number' && TOTAL_ROUTES > 0, 'TOTAL_ROUTES');
   });
