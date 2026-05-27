@@ -89,6 +89,8 @@ async function runTests(): Promise<void> {
     assert(libSource.includes("'procesuiranje-svega'"), 'Nedostaje procesuiranje-svega stage');
     assert(libSource.includes("'ekstremno-procesuiranje-svega'"), 'Nedostaje ekstremno stage');
     assert(libSource.includes("'autofinish-petlja'"), 'Nedostaje autofinish-petlja stage');
+    assert(libSource.includes("'maksimus-svega'"), 'Nedostaje maksimus-svega stage');
+    assert(libSource.includes("'maksimus-2'"), 'Nedostaje maksimus-2 stage');
   });
 
   // ─── GET smoke provera ────────────────────────────────────────────────────
@@ -108,7 +110,7 @@ async function runTests(): Promise<void> {
     assert(typeof body['autofinishBroj'] === 'number', 'autofinishBroj number');
     assertEqual(body['autofinishBroj'] as number, AUTOFINISH_COUNT, 'autofinishBroj');
     assert(Array.isArray(body['dostupniStepovi']), 'dostupniStepovi niz');
-    assert((body['dostupniStepovi'] as unknown[]).length === 4, 'dostupniStepovi length=4');
+    assert((body['dostupniStepovi'] as unknown[]).length === 6, 'dostupniStepovi length=6');
 
     const prvaStepa = (body['dostupniStepovi'] as Array<Record<string, unknown>>)[0];
     assert(typeof prvaStepa?.['id'] === 'string', 'stepa.id string');

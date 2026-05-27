@@ -393,6 +393,7 @@ licencni-budzet-srbija,GET,licencni-budzet-srbija,yes,licencni-budzet-srbija-rou
 licencni-program-saradnja,GET,licencni-program-saradnja,yes,licencni-program-saradnja-route.test.ts
 login,GET|POST,login,yes,login-route.test.ts
 login-industrija-pristup,GET,login-industrija-pristup,yes,login-industrija-pristup-route.test.ts
+maksimus-2,GET,maksimus-2,yes,maksimus-2-route.test.ts
 maksimus-svega,GET,maksimus-svega,yes,maksimus-svega-route.test.ts
 masovna-analiza,GET,masovna-analiza,yes,masovna-analiza-route.test.ts
 mega-antimaterija-generator,GET,mega-antimaterija-generator,yes,mega-antimaterija-generator-route.test.ts
