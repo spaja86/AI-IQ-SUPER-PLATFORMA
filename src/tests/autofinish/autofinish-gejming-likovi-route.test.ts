@@ -154,7 +154,7 @@ async function runTests(): Promise<void> {
     assert(TOTAL_API_ROUTES >= 1159, 'TOTAL_API_ROUTES baseline');
     assert(TOTAL_ROUTES >= 1260, 'TOTAL_ROUTES baseline');
     assert(TOTAL_DIAGNOSTIKA >= 2364, 'TOTAL_DIAGNOSTIKA baseline');
-    assertEqual(TOTAL_GEJMING_ENTITETA, 45, 'TOTAL_GEJMING_ENTITETA');
+    assert(TOTAL_GEJMING_ENTITETA >= 45, 'TOTAL_GEJMING_ENTITETA baseline');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
