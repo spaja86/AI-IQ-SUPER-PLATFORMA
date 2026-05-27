@@ -100,12 +100,6 @@ function safeCallSync<T>(sourceName: string, degradedSources: string[], fn: () =
   }
 }
 
-function freshnessFromSignals(...signals: Array<'fresh' | 'stale' | 'unknown'>): 'fresh' | 'stale' | 'unknown' {
-  if (signals.includes('stale')) return 'stale';
-  if (signals.includes('unknown')) return 'unknown';
-  return 'fresh';
-}
-
 export async function buildMaksimusSvega(): Promise<MaksimusSvega> {
   const nowIso = new Date().toISOString();
   const degradedSources: string[] = [];
