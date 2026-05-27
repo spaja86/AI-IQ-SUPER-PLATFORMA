@@ -155,12 +155,12 @@ function buildSazetakPetlja(result: ReturnType<typeof pokreniAutofinishPetlju>):
   };
 }
 
-function buildSazetakMaksimus(result: Awaited<ReturnType<typeof buildMaksimusSvega>>): Record<string, unknown> {
+function buildSazetakMaksimus(maksimusSvega: Awaited<ReturnType<typeof buildMaksimusSvega>>): Record<string, unknown> {
   return {
-    ukupanScore: result.ukupanScore,
-    konacnaOcena: result.konacnaOcena,
-    kriticniDomeni: result.kriticniDomeni,
-    degraded: result.meta.degraded,
+    ukupanScore: maksimusSvega.ukupanScore,
+    konacnaOcena: maksimusSvega.konacnaOcena,
+    kriticniDomeni: maksimusSvega.kriticniDomeni,
+    degraded: maksimusSvega.meta.degraded,
   };
 }
 

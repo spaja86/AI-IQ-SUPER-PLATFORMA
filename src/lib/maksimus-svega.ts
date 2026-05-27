@@ -105,22 +105,11 @@ export async function buildMaksimusSvega(): Promise<MaksimusSvega> {
   const degradedSources: string[] = [];
 
   const analizaPromise = safeCallAsync('analiza-svega', degradedSources, () => buildAnalizaSvega());
-  const potencijalPromise = Promise.resolve(
-    safeCallSync('potencijal-svega-ovoga-do-sada', degradedSources, () => buildPotencijalSvegaOvogaDoSada()),
-  );
-  const procesuiranjePromise = Promise.resolve(
-    safeCallSync('procesuiranje-svega', degradedSources, () => buildProcesuiranjeSvega()),
-  );
-  const autofinishInfoPromise = Promise.resolve(
-    safeCallSync('autofinish-svega', degradedSources, () => getAutofinishSvegaInfo()),
-  );
+  const potencijal = safeCallSync('potencijal-svega-ovoga-do-sada', degradedSources, () => buildPotencijalSvegaOvogaDoSada());
+  const procesuiranje = safeCallSync('procesuiranje-svega', degradedSources, () => buildProcesuiranjeSvega());
+  const autofinishInfo = safeCallSync('autofinish-svega', degradedSources, () => getAutofinishSvegaInfo());
 
-  const [analiza, potencijal, procesuiranje, autofinishInfo] = await Promise.all([
-    analizaPromise,
-    potencijalPromise,
-    procesuiranjePromise,
-    autofinishInfoPromise,
-  ]);
+  const analiza = await analizaPromise;
 
   const analizaScore = analiza?.ukupanScore ?? 0;
   const potencijalScore = potencijal?.ukupniPotencijal ?? 0;
