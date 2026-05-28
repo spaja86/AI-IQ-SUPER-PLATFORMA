@@ -5,7 +5,7 @@
  * Sve komponente koriste ove konstante umesto hardkodovanih vrednosti.
  */
 
-export const APP_VERSION = '59.63.0';
+export const APP_VERSION = '59.64.0';
 export const APP_NAME = 'AI IQ SUPER PLATFORMA';
 export const KOMPANIJA = 'Kompanija SPAJA';
 export const KOMPANIJA_FORMALNI_NAZIV = 'MEGA CENTAR SVEGA';
@@ -32,10 +32,10 @@ export const TOTAL_API_ROUTES = 1206;
 export const TOTAL_ROUTES = 1333;
 export const TOTAL_IGRICA = 97;
 export const TOTAL_GEJMING_ENTITETA = 45;
-export const TOTAL_DIAGNOSTIKA = 2400;
+export const TOTAL_DIAGNOSTIKA = 2402;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 1400;
+export const AUTOFINISH_COUNT = 1401;
 export const AUTOFINISH_TARGET = 300_000_000_000_000_000;
 
 // Proksi
