@@ -15,6 +15,7 @@ import { buildProcesuiranjeSvega, buildEkstremnoProcesuiranjeSvega } from './pro
 import { pokreniAutofinishPetlju } from './autofinish-petlja';
 import { buildMaksimusSvega } from './maksimus-svega';
 import { buildMaksimus2 } from './maksimus-2';
+import { buildMaksimus3 } from './maksimus-3';
 import { APP_VERSION, AUTOFINISH_COUNT, KOMPANIJA, TOTAL_API_ROUTES, TOTAL_ROUTES } from './constants';
 
 // ─── Konstante ────────────────────────────────────────────────────────────────
@@ -31,7 +32,8 @@ export type AutofinishSvegaStageId =
   | 'ekstremno-procesuiranje-svega'
   | 'autofinish-petlja'
   | 'maksimus-svega'
-  | 'maksimus-2';
+  | 'maksimus-2'
+  | 'maksimus-3';
 
 export type AutofinishSvegaStageStatus = 'ok' | 'greska' | 'preskoceno';
 export type AutofinishSvegaStatus = 'ok' | 'delimicno' | 'greska';
@@ -107,6 +109,7 @@ const STAGE_NAZIVI: Record<AutofinishSvegaStageId, string> = {
   'autofinish-petlja': 'Autofinish Petlja',
   'maksimus-svega': 'Maksimus Svega',
   'maksimus-2': 'Maksimus 2',
+  'maksimus-3': 'Maksimus 3',
 };
 
 const STAGE_ENDPOINTI: Record<AutofinishSvegaStageId, string> = {
@@ -116,6 +119,7 @@ const STAGE_ENDPOINTI: Record<AutofinishSvegaStageId, string> = {
   'autofinish-petlja': '/api/autofinish-petlja-status',
   'maksimus-svega': '/api/maksimus-svega',
   'maksimus-2': '/api/maksimus-2',
+  'maksimus-3': '/api/maksimus-3',
 };
 
 /** Kanonski redosled izvršavanja — ne menjati.
@@ -129,6 +133,7 @@ const ALL_STAGES: AutofinishSvegaStageId[] = [
   'autofinish-petlja',
   'maksimus-svega',
   'maksimus-2',
+  'maksimus-3',
 ];
 
 // ─── Interni pomoćnici ───────────────────────────────────────────────────────
@@ -179,6 +184,16 @@ function buildSazetakMaksimus2(maksimus2: Awaited<ReturnType<typeof buildMaksimu
   };
 }
 
+function buildSazetakMaksimus3(maksimus3: Awaited<ReturnType<typeof buildMaksimus3>>): Record<string, unknown> {
+  return {
+    ukupanScore: maksimus3.ukupanScore,
+    konacnaOcena: maksimus3.konacnaOcena,
+    kriticniDomeni: maksimus3.kriticniDomeni,
+    trend: maksimus3.trend.direction,
+    degraded: maksimus3.meta.degraded,
+  };
+}
+
 async function runStage(id: AutofinishSvegaStageId): Promise<AutofinishSvegaStageRezultat> {
   const naziv = STAGE_NAZIVI[id];
   const start = Date.now();
@@ -194,6 +209,8 @@ async function runStage(id: AutofinishSvegaStageId): Promise<AutofinishSvegaStag
       sazetak = buildSazetakMaksimus(await buildMaksimusSvega());
     } else if (id === 'maksimus-2') {
       sazetak = buildSazetakMaksimus2(await buildMaksimus2());
+    } else if (id === 'maksimus-3') {
+      sazetak = buildSazetakMaksimus3(await buildMaksimus3());
     } else {
       sazetak = buildSazetakPetlja(pokreniAutofinishPetlju());
     }
