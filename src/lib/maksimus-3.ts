@@ -54,7 +54,7 @@ export const MAKSIMUS_3_SLA_THRESHOLDS = {
   gejmingIndustrija: 50,
 } as const;
 
-const MAKSIMUS_3_EXPECTED_AUTOFINISH_STAGES = 7;
+const MAKSIMUS_3_EXPECTED_AUTOFINISH_STAGES = 8;
 
 const weightSum = Object.values(MAKSIMUS_3_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
 if (Math.abs(weightSum - 1) > 0.0001) {
