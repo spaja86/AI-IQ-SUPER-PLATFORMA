@@ -215,4 +215,5 @@ export { aiIqWorldBankProcesiranjeSekvence } from './ai-iq-world-bank-procesiran
 export { procesuiranjeSvegaSekvence } from './procesuiranje-svega-page';
 export { getMaksimusSvegaSekvence } from './maksimus-svega-page';
 export { getMaksimus2Sekvence } from './maksimus-2-page';
+export { getMaksimus3Sekvence } from './maksimus-3-page';
 export { perkolizonikSekvence } from './perkolizonik-page';

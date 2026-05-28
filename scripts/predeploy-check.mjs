@@ -20,6 +20,8 @@ const maksimusLibPath = resolve(repoRoot, 'src/lib/maksimus-svega.ts');
 const maksimusRoutePath = resolve(repoRoot, 'src/app/api/maksimus-svega/route.ts');
 const maksimus2LibPath = resolve(repoRoot, 'src/lib/maksimus-2.ts');
 const maksimus2RoutePath = resolve(repoRoot, 'src/app/api/maksimus-2/route.ts');
+const maksimus3LibPath = resolve(repoRoot, 'src/lib/maksimus-3.ts');
+const maksimus3RoutePath = resolve(repoRoot, 'src/app/api/maksimus-3/route.ts');
 const sitemapPath = resolve(repoRoot, 'src/app/sitemap.ts');
 const navigationPath = resolve(repoRoot, 'src/lib/navigation.ts');
 
@@ -35,6 +37,8 @@ const maksimusLibSrc = readFileSync(maksimusLibPath, 'utf8');
 const maksimusRouteSrc = readFileSync(maksimusRoutePath, 'utf8');
 const maksimus2LibSrc = readFileSync(maksimus2LibPath, 'utf8');
 const maksimus2RouteSrc = readFileSync(maksimus2RoutePath, 'utf8');
+const maksimus3LibSrc = readFileSync(maksimus3LibPath, 'utf8');
+const maksimus3RouteSrc = readFileSync(maksimus3RoutePath, 'utf8');
 const sitemapSrc = readFileSync(sitemapPath, 'utf8');
 const navigationSrc = readFileSync(navigationPath, 'utf8');
 
@@ -100,12 +104,21 @@ const maksimus2ContractReady = [
   sitemapSrc.includes('/api/maksimus-2'),
   navigationSrc.includes('/maksimus-2'),
 ].every(Boolean);
+const maksimus3ContractVersion = maksimus3LibSrc.match(/export const MAKSIMUS_3_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const maksimus3ModelVersion = maksimus3LibSrc.match(/export const MAKSIMUS_3_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const maksimus3ContractReady = [
+  maksimus3LibSrc.includes('MAKSIMUS_3_SOURCE_OF_TRUTH = \'/api/maksimus-3\''),
+  maksimus3RouteSrc.includes('X-Maksimus3-Contract-Version'),
+  sitemapSrc.includes('/api/maksimus-3'),
+  navigationSrc.includes('/maksimus-3'),
+].every(Boolean);
 const hasDeploymentBlockers = missingRequiredEnv.length > 0
   || !analizaContractReady
   || !potencijalContractReady
   || !procesuiranjeContractReady
   || !maksimusContractReady
-  || !maksimus2ContractReady;
+  || !maksimus2ContractReady
+  || !maksimus3ContractReady;
 
 const report = {
   appVersion,
@@ -139,6 +152,11 @@ const report = {
     modelVersion: maksimus2ModelVersion,
     contractReady: maksimus2ContractReady,
   },
+  maksimus3: {
+    contractVersion: maksimus3ContractVersion,
+    modelVersion: maksimus3ModelVersion,
+    contractReady: maksimus3ContractReady,
+  },
   status: hasDeploymentBlockers ? 'warning' : 'ok',
 };
 
@@ -146,6 +164,6 @@ console.log('=== Predeploy Check ===');
 console.log(JSON.stringify(report, null, 2));
 
 if (process.argv.includes('--strict') && hasDeploymentBlockers) {
-  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE/MAKSIMUS/MAKSIMUS2 contract is not ready.');
+  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE/MAKSIMUS/MAKSIMUS2/MAKSIMUS3 contract is not ready.');
   process.exit(1);
 }

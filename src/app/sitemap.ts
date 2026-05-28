@@ -145,6 +145,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/api/maksimus-svega',
     '/maksimus-2',
     '/api/maksimus-2',
+    '/maksimus-3',
+    '/api/maksimus-3',
   ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
