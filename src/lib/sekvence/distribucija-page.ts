@@ -4,6 +4,17 @@ import { getDistribucijaModel } from '@/lib/distribucija';
 
 const d = getDistribucijaModel();
 
+function kanalStatusIkona(status: string): string {
+  switch (status) {
+    case 'aktivan':
+      return '✅';
+    case 'degradiran':
+      return '⚠️';
+    default:
+      return '🛠️';
+  }
+}
+
 export const distribucijaSekvence: Sekvenca[] = [
   {
     id: 'distribucija-hero',
@@ -64,7 +75,7 @@ export const distribucijaSekvence: Sekvenca[] = [
       kartice: d.kanali.map((kanal) => ({
         naslov: kanal.naziv,
         opis: `Tip: ${kanal.tip} | Status: ${kanal.status}`,
-        ikona: kanal.status === 'aktivan' ? '✅' : kanal.status === 'degradiran' ? '⚠️' : '🛠️',
+        ikona: kanalStatusIkona(kanal.status),
         oznake: [`${kanal.dnevniPrometTb} TB/dan`, `ERR ${kanal.errorRatePct}%`],
       })),
     },
@@ -103,4 +114,3 @@ export const distribucijaSekvence: Sekvenca[] = [
     },
   },
 ];
-
