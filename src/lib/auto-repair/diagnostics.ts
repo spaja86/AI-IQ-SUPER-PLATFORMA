@@ -1270,6 +1270,14 @@ export function runDiagnostics(): DiagnosticReport {
       '/api/mega-distribuirani-sistem aktivan — Raft, Paxos, SPAJA-BFT'
     ),
 
+    createCheck(
+      'distribucija-api-check',
+      'DISTRIBUCIJA API',
+      'Provera /api/distribucija endpointa — source of truth za cvorove/kanale/KPI/readiness',
+      'ok',
+      '/api/distribucija aktivan — read-only distribucioni model operativan'
+    ),
+
 // ── Autofinish #126: OMEGA Kvantna Entropija (v18.0.0) ─────────────────
 
     createCheck(
