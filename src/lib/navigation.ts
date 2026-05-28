@@ -39,6 +39,7 @@ export const navigation: NavItem[] = [
   { label: 'Digitalna Industrija Devizni Saldo', href: '/digitalna-industrija-devizni-saldo', icon: '⚖️', description: 'Centralni registar neto deviznog salda ključnih entiteta Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Kursna Lista', href: '/digitalna-industrija-kursna-lista', icon: '💱', description: 'Centralni FX registar kursne liste ključnih valutnih parova Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Kursne Razlike', href: '/digitalna-industrija-kursne-razlike', icon: '📉', description: 'Centralni FX obračun kursnih razlika ključnih dokumenata Digitalne Industrije u Srbiji' },
+  { label: 'Digitalna Industrija Inflacije', href: '/digitalna-industrija-inflacije', icon: '📈', description: 'Centralni makroekonomski registar inflacije (CPI, mesečna, godišnja i bazna stopa) Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Valutni Rizik', href: '/digitalna-industrija-valutni-rizik', icon: '📊', description: 'Centralni registar valutne izloženosti i limita ključnih FX portfolija Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Hedzing', href: '/digitalna-industrija-hedzing', icon: '🛡️', description: 'Centralni registar hedzing ugovora za zaštitu od valutnog rizika Digitalne Industrije u Srbiji' },
   { label: 'Digitalna Industrija Kamatni Rizik', href: '/digitalna-industrija-kamatni-rizik', icon: '📊', description: 'Centralni registar kamatnog rizika (fiksne, varijabilne i mešovite pozicije) Digitalne Industrije u Srbiji' },

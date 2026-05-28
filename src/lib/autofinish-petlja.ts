@@ -8104,3 +8104,13 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // wiring (navigacija, sitemap, autofinish-svega, predeploy-check) i konstante.
 // Rezultat: 6/6 testova prošlo.
 // APP_VERSION=59.63.0→59.64.0 | AUTOFINISH_COUNT=1400→1401 | TOTAL_API_ROUTES=1206 | TOTAL_ROUTES=1333 | TOTAL_PAGES=128
+
+// ─── Autofinish #1404 — DIGITALNA INDUSTRIJA INFLACIJE MODUL ─────────────────
+// Novi lib modul: src/lib/digitalna-industrija-inflacije.ts — buildDigitalnaIndustrijaInflacije(),
+// tipovi InflacijaStavka / DigitalnaIndustrijaInflacijeRezultat i KPI agregati.
+// Nova ruta: GET /api/digitalna-industrija-inflacije. Nova stranica: /digitalna-industrija-inflacije.
+// Sekvence: src/lib/sekvence/digitalna-industrija-inflacije-page.ts + barrel export.
+// Integracija: navigation + sitemap.
+// Testovi: src/tests/autofinish/digitalna-industrija-inflacije.test.ts
+// + src/tests/autofinish/digitalna-industrija-inflacije-route.test.ts.
+// APP_VERSION=59.65.0→59.66.0 | AUTOFINISH_COUNT=1403→1404 | TOTAL_API_ROUTES=1208 | TOTAL_ROUTES=1337 | TOTAL_PAGES=128
