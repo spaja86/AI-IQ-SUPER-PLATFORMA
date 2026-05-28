@@ -1506,7 +1506,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1396: 'Enterprise Zahtevi CDN coverage + build fix (diagnostics stale literal)',
     1397: 'TOTAL_DIAGNOSTIKA sync fix — konstanta sinhronizovana sa runtime brojajem (2380→2398)',
     1398: 'Nova ruta /api/autofinish-api-milestone-1049 + route coverage test',
-    1399: 'Maksimus Svega route coverage + stabilizacija autofinish test konstanti',
+    1399: 'Stabilizacija test konstanti: zamena hardkodovanih assertEqual provera baseline/format proverama',
     1400: 'Maksimus 2 signal: novi lib + API ruta + stranica + wiring',
     1401: 'Route coverage test — maksimus-3-route.test.ts',
     1402: 'Digitalna Industrija Diskriminacija: lib model + /api ruta + stranica + navigacija',
