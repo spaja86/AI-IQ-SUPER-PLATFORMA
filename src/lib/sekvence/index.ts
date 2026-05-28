@@ -85,6 +85,7 @@ export { digitalnaIndustrijaDevizniOdliviSekvence } from './digitalna-industrija
 export { digitalnaIndustrijaDevizniSaldoSekvence } from './digitalna-industrija-devizni-saldo-page';
 export { digitalnaIndustrijaKursnaListaSekvence } from './digitalna-industrija-kursna-lista-page';
 export { digitalnaIndustrijaKursneRazlikeSekvence } from './digitalna-industrija-kursne-razlike-page';
+export { digitalnaIndustrijaInflacijeSekvence } from './digitalna-industrija-inflacije-page';
 export { digitalnaIndustrijaValutniRizikSekvence } from './digitalna-industrija-valutni-rizik-page';
 export { digitalnaIndustrijaHedzingSekvence } from './digitalna-industrija-hedzing-page';
 
