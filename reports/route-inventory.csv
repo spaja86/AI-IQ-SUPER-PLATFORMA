@@ -230,8 +230,10 @@ digitalna-industrija-compliance-rizik,GET,digitalna-industrija-compliance-rizik,
 digitalna-industrija-devizni-odlivi,GET,digitalna-industrija-devizni-odlivi,yes,digitalna-industrija-devizni-odlivi-route.test.ts
 digitalna-industrija-devizni-prilivi,GET,digitalna-industrija-devizni-prilivi,yes,digitalna-industrija-devizni-prilivi-route.test.ts
 digitalna-industrija-devizni-saldo,GET,digitalna-industrija-devizni-saldo,yes,digitalna-industrija-devizni-saldo-route.test.ts
+digitalna-industrija-diskriminacija,GET,digitalna-industrija-diskriminacija,yes,digitalna-industrija-diskriminacija-route.test.ts
 digitalna-industrija-esg-rizik,GET,digitalna-industrija-esg-rizik,yes,digitalna-industrija-esg-rizik-route.test.ts
 digitalna-industrija-hedzing,GET,digitalna-industrija-hedzing,yes,digitalna-industrija-hedzing-route.test.ts
+digitalna-industrija-inflacije,GET,digitalna-industrija-inflacije,yes,digitalna-industrija-inflacije-route.test.ts
 digitalna-industrija-izvoz-faktura,GET,digitalna-industrija-izvoz-faktura,yes,digitalna-industrija-izvoz-faktura-route.test.ts
 digitalna-industrija-kamatni-rizik,GET,digitalna-industrija-kamatni-rizik,yes,digitalna-industrija-kamatni-rizik-route.test.ts
 digitalna-industrija-kreditni-rizik,GET,digitalna-industrija-kreditni-rizik,yes,digitalna-industrija-kreditni-rizik-route.test.ts
@@ -267,6 +269,7 @@ dimenzije-mapa,GET,dimenzije-mapa,yes,dimenzije-mapa-route.test.ts
 dimenzije-pregled,GET,dimenzije-pregled,yes,dimenzije-pregled-route.test.ts
 dimenzije-status,GET,dimenzije-status,yes,dimenzije-status-route.test.ts
 dispatch-pregled,GET,dispatch-pregled,yes,dispatch-pregled-route.test.ts
+distribucija,GET,distribucija,yes,distribucija-route.test.ts
 dnevna-raspodela-zarade,GET,dnevna-raspodela-zarade,yes,dnevna-raspodela-zarade-route.test.ts
 dnevna-raspodela-zarade-pregled,GET,dnevna-raspodela-zarade-pregled,yes,dnevna-raspodela-zarade-pregled-route.test.ts
 ecosystem-graph,GET,ecosystem-graph,yes,ecosystem-graph-route.test.ts
@@ -394,6 +397,7 @@ licencni-program-saradnja,GET,licencni-program-saradnja,yes,licencni-program-sar
 login,GET|POST,login,yes,login-route.test.ts
 login-industrija-pristup,GET,login-industrija-pristup,yes,login-industrija-pristup-route.test.ts
 maksimus-2,GET,maksimus-2,yes,maksimus-2-route.test.ts
+maksimus-3,GET,maksimus-3,yes,maksimus-3-route.test.ts
 maksimus-svega,GET,maksimus-svega,yes,maksimus-svega-route.test.ts
 masovna-analiza,GET,masovna-analiza,yes,masovna-analiza-route.test.ts
 mega-antimaterija-generator,GET,mega-antimaterija-generator,yes,mega-antimaterija-generator-route.test.ts
