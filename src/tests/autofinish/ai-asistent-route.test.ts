@@ -68,6 +68,48 @@ async function runTests(): Promise<void> {
     assertEqual(response.status, 400, 'status za prazno pitanje');
   });
 
+  await test('API ruta odbija pitanje koje premašuje 2000 karaktera', async () => {
+    const dugoPitanje = 'a'.repeat(2001);
+    const request = new Request('http://localhost/api/ai-asistent', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ pitanje: dugoPitanje, putanja: '/', kontekst: '', naslovStranice: 'Test', kategorija: 'ai' }),
+    });
+    const response = await POST(request as never);
+    const body = (await response.json()) as Record<string, unknown>;
+    assertEqual(response.status, 400, 'status za predugacko pitanje');
+    assert(typeof body['error'] === 'string', 'Nema error poruke za predugacko pitanje');
+  });
+
+  await test('API ruta odbija pitanje od samo razmaka (whitespace)', async () => {
+    const request = new Request('http://localhost/api/ai-asistent', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ pitanje: '   ', putanja: '/', kontekst: '', naslovStranice: 'Test', kategorija: 'ai' }),
+    });
+    const response = await POST(request as never);
+    assertEqual(response.status, 400, 'status za whitespace pitanje');
+  });
+
+  await test('POST sa validnim pitanjem vraća ocekivana polja', async () => {
+    const request = new Request('http://localhost/api/ai-asistent', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ pitanje: 'Šta je platforma?', putanja: '/', kontekst: 'Test kontekst', naslovStranice: 'Test', kategorija: 'ai' }),
+    });
+    const response = await POST(request as never);
+    assertEqual(response.status, 200, 'status za validno pitanje');
+    const body = (await response.json()) as Record<string, unknown>;
+    assertEqual(body['status'] as string, 'uspesno', 'status polje');
+    assert(typeof body['odgovor'] === 'string', 'Nema odgovor polja');
+    assert(typeof body['engine'] === 'string', 'Nema engine polja');
+    assert(typeof body['meta'] === 'object' && body['meta'] !== null, 'Nema meta polja');
+    const meta = body['meta'] as Record<string, unknown>;
+    assert(typeof meta['timestamp'] === 'string', 'Meta nema timestamp');
+    assert(typeof meta['putanja'] === 'string', 'Meta nema putanja');
+    assert(typeof meta['aiTip'] === 'string', 'Meta nema aiTip');
+  });
+
   await test('GET vraća engine info sa statusom aktivan', async () => {
     const response = await GET();
     assertEqual(response.status, 200, 'GET status');
@@ -75,6 +117,8 @@ async function runTests(): Promise<void> {
     assert(typeof body['engine'] === 'string', 'Nema engine polja');
     assertEqual(body['status'] as string, 'aktivan', 'status');
     assert(typeof body['verzija'] === 'string', 'Nema verzija polja');
+    assert(typeof body['ukupnoStranica'] === 'number', 'Nema ukupnoStranica polja');
+    assert(typeof body['ukupnoPromptova'] === 'number', 'Nema ukupnoPromptova polja');
   });
 
   await test('Konstante su ažurirane', () => {
