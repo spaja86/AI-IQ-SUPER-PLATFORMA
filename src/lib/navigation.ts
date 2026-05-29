@@ -85,6 +85,7 @@ export const navigation: NavItem[] = [
   { label: 'IO/OPENUI/AO Analitika', href: '/io-openui-ao-analitika', icon: '📊', description: 'IO/OPENUI/AO Analitika — kombinovani pregled gaming platforme i laboratorije' },
   { label: 'Pricing & Login', href: '/pricing', icon: '💰', description: 'Pricing planovi i registracija — Stripe integracija' },
   { label: 'Digitalni Televizor', href: '/digitalni-televizor', icon: '📺', description: 'SPAJA Univerzalni Digitalni Televizor — 12 kanala, live TV' },
+  { label: 'Distribucija', href: '/distribucija', icon: '📡', description: 'Centralni read-only modul distribucije: čvorovi, kanali, KPI i readiness' },
   { label: 'Monitoring Live', href: '/monitoring-live', icon: '🎥', description: 'SPAJA Monitoring Live — Twitch-like streaming platforma' },
   { label: 'AI IQ Monitoring', href: '/ai-iq-monitoring', icon: '🔍', description: 'SPAJA AI IQ Monitoring — Sentry-like praćenje grešaka' },
   { label: 'Blog & FAQ', href: '/blog', icon: '📝', description: 'SPAJA Blog & FAQ — članci, vodiči, pitanja' },
