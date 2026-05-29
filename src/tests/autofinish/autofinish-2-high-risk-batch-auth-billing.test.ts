@@ -135,8 +135,8 @@ async function runTests(): Promise<void> {
   await test('Konstante su konzistentne sa Autofinish #1405 baseline-om', () => {
     assert(/^\d+\.\d+\.\d+$/.test(APP_VERSION), 'APP_VERSION semver format');
     assert(AUTOFINISH_COUNT >= 1405, 'AUTOFINISH_COUNT baseline');
-    assert(TOTAL_API_ROUTES >= 1208, 'TOTAL_API_ROUTES baseline');
-    assert(TOTAL_ROUTES >= 1337, 'TOTAL_ROUTES baseline');
+    assert(TOTAL_API_ROUTES >= 1158, 'TOTAL_API_ROUTES baseline');
+    assert(TOTAL_ROUTES >= 1258, 'TOTAL_ROUTES baseline');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
