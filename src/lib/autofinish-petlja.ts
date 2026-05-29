@@ -1511,6 +1511,8 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1401: 'Route coverage test — maksimus-3-route.test.ts',
     1402: 'Digitalna Industrija Diskriminacija: lib model + /api ruta + stranica + navigacija',
     1403: 'Coverage testovi za Digitalna Industrija Diskriminacija (lib + route)',
+    1404: 'Digitalna Industrija Inflacije: lib modul + /api ruta + stranica + sekvence + sitemap/navigation + testovi',
+    1405: 'AUTOFINISH 2 Batch #1: high-risk auth/billing/admin route contract i safety testovi + sync source-of-truth',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8114,3 +8116,16 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Testovi: src/tests/autofinish/digitalna-industrija-inflacije.test.ts
 // + src/tests/autofinish/digitalna-industrija-inflacije-route.test.ts.
 // APP_VERSION=59.65.0→59.66.0 | AUTOFINISH_COUNT=1403→1404 | TOTAL_API_ROUTES=1208 | TOTAL_ROUTES=1337 | TOTAL_PAGES=128
+
+// ─── Autofinish #1405 — AUTOFINISH 2 BATCH #1 (HIGH-RISK ROUTES) ──────────────
+// Scope alignment: AUTOFINISH 2 = nastavak iteracija od #1405 (posle #1404),
+// fokusiran na route coverage expansion + quality/safety hardening.
+// Batch #1 (5 ruta, auth/billing/admin):
+// - /api/auth/login
+// - /api/auth/register
+// - /api/auth/refresh
+// - /api/billing-upgrade-company-request
+// - /api/admin/billing-webhook-replay
+// Gate-ovi: validacija kontrakta, validacija grešaka, prisustvo rate-limit/brute-force zaštite gde je primenjivo.
+// Sinhronizacija source-of-truth: constants + getAutofinishOpis + getAutofinishIteracijaOpis.
+// APP_VERSION=59.66.0→59.67.0 | AUTOFINISH_COUNT=1404→1405 | TOTAL_API_ROUTES=1208 | TOTAL_ROUTES=1337 | TOTAL_PAGES=128

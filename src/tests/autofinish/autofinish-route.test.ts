@@ -82,6 +82,11 @@ async function runTests(): Promise<void> {
     assertEqual(platforma['apiRute'] as number, TOTAL_API_ROUTES, 'platforma.apiRute');
     assertEqual(platforma['ukupnoRuta'] as number, TOTAL_ROUTES, 'platforma.ukupnoRuta');
 
+    const autofinish2 = body['autofinish2'] as Record<string, unknown>;
+    assertEqual(autofinish2['oznaka'] as string, 'AUTOFINISH 2', 'autofinish2.oznaka');
+    assertEqual(autofinish2['startIteracija'] as number, 1405, 'autofinish2.startIteracija');
+    assert(typeof autofinish2['scope'] === 'string' && (autofinish2['scope'] as string).length > 10, 'autofinish2.scope');
+
     const istorija = body['istorija'] as Array<Record<string, unknown>>;
     assert(Array.isArray(istorija), 'istorija niz');
     assertEqual(istorija.length, 50, 'istorija default page size');
@@ -114,9 +119,31 @@ async function runTests(): Promise<void> {
     assertEqual(paginacija['sledeci'] as number, 200, 'paginacija.sledeci');
   });
 
+  await test('Najnovija iteracija ima eksplicitan opis (nema fallback poruke)', async () => {
+    const latestOffset = Math.max(0, AUTOFINISH_COUNT - 1);
+    const request = new Request(
+      `http://localhost/api/autofinish?pageSize=1&offset=${latestOffset}`,
+      {
+        headers: { 'x-forwarded-for': '127.0.0.3' },
+      },
+    );
+    const response = await GET(request as NextRequest);
+    assertEqual(response.status, 200, 'status');
+
+    const body = (await response.json()) as Record<string, unknown>;
+    const istorija = body['istorija'] as Array<Record<string, unknown>>;
+    assertEqual(istorija.length, 1, 'istorija length');
+
+    const latest = istorija[0] as Record<string, unknown>;
+    assertEqual(latest['iteracija'] as number, AUTOFINISH_COUNT, 'latest iteracija');
+    const opis = latest['opis'] as string;
+    assert(typeof opis === 'string' && opis.length > 0, 'latest opis');
+    assert(!opis.startsWith('Autofinish iteracija #'), 'latest opis nije fallback');
+  });
+
   await test('Konstante su ažurirane', () => {
     assert(/^\d+\.\d+\.\d+$/.test(APP_VERSION), 'APP_VERSION semver format');
-    assert(AUTOFINISH_COUNT >= 1326, 'AUTOFINISH_COUNT baseline');
+    assert(AUTOFINISH_COUNT >= 1405, 'AUTOFINISH_COUNT baseline');
     assert(TOTAL_API_ROUTES >= 1158, 'TOTAL_API_ROUTES baseline');
     assert(TOTAL_ROUTES >= 1258, 'TOTAL_ROUTES baseline');
   });

@@ -3,6 +3,8 @@ import type { NextRequest } from 'next/server';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
+  AUTOFINISH_2_START,
+  AUTOFINISH_2_SCOPE,
   AUTOFINISH_TARGET,
   TOTAL_ROUTES,
   TOTAL_API_ROUTES,
@@ -60,6 +62,20 @@ export async function GET(req: NextRequest) {
       ciljFormatiran: '3×10¹⁷',
       procenat: procenat.toExponential(2),
       verzija: APP_VERSION,
+    },
+    autofinish2: {
+      oznaka: 'AUTOFINISH 2',
+      startIteracija: AUTOFINISH_2_START,
+      scope: AUTOFINISH_2_SCOPE,
+      deliveryUnit: [
+        'domain lib modul',
+        'API ruta',
+        'sekvence export/wiring',
+        'navigation + sitemap wiring',
+        'route coverage test + lib/unit test po potrebi',
+        'Autofinish history entry + counter/version sync',
+      ],
+      prioriteti: ['auth', 'billing/admin', 'stateful POST', 'rate-limited endpointi'],
     },
 
     platforma: {
@@ -341,6 +357,8 @@ function getAutofinishOpis(n: number): string {
     1401: `Autofinish #1401 — Route coverage test za /api/maksimus-3 (payload domeni, history, rate-limit i wiring provere), APP_VERSION 59.63.0→59.64.0, AUTOFINISH_COUNT 1400→1401, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1402: `Autofinish #1402 — Digitalna Industrija Diskriminacija: novi domen lib, GET /api/digitalna-industrija-diskriminacija i stranica sa sitemap/navigation integracijom, AUTOFINISH_COUNT 1401→1402, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1403: `Autofinish #1403 — Coverage testovi za Digitalna Industrija Diskriminacija (lib + route + sitemap + metadata + navigation), AUTOFINISH_COUNT 1402→1403, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1404: `Autofinish #1404 — Digitalna Industrija Inflacije: novi lib modul + GET /api/digitalna-industrija-inflacije + stranica + sekvence + sitemap/navigation + route/lib testovi, APP_VERSION 59.65.0→59.66.0, AUTOFINISH_COUNT 1403→1404, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1405: `Autofinish #1405 — AUTOFINISH 2 Batch #1: high-risk hardening za /api/auth/login, /api/auth/register, /api/auth/refresh, /api/billing-upgrade-company-request i /api/admin/billing-webhook-replay (contract + validation + rate-limit/security gate testovi) uz source-of-truth sync, APP_VERSION 59.66.0→59.67.0, AUTOFINISH_COUNT 1404→1405, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
