@@ -41,6 +41,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Pitanje je obavezno.' }, { status: 400 });
     }
 
+    const pitanjeTrimmed = pitanje.trim();
+
+    if (pitanjeTrimmed.length < 2) {
+      return NextResponse.json({ error: 'Pitanje mora imati najmanje 2 karaktera.' }, { status: 400 });
+    }
+
+    if (pitanjeTrimmed.length > 2000) {
+      return NextResponse.json({ error: 'Pitanje ne može biti duže od 2000 karaktera.' }, { status: 400 });
+    }
+
+    const validnaKategorija: 'ai' | 'spaja-pro-ai' =
+      kategorija === 'spaja-pro-ai' ? 'spaja-pro-ai' : 'ai';
+
     // Dohvati SpajaPro v15 engine (najnovija)
     const spajaVerzija = getVerziju(15);
     if (!spajaVerzija) {
@@ -54,8 +67,8 @@ export async function POST(request: Request) {
     const kontekstualniPrompt = [
       `[Kontekst stranice: ${naslovStranice ?? pageConfig.naslov}]`,
       kontekst ?? pageConfig.kontekst,
-      `[Pitanje korisnika]: ${pitanje.trim()}`,
-      kategorija === 'spaja-pro-ai'
+      `[Pitanje korisnika]: ${pitanjeTrimmed}`,
+      validnaKategorija === 'spaja-pro-ai'
         ? '[Odgovori kao SpajaPro AI asistent sa tehnickim detaljima]'
         : '[Odgovori kao AI asistent jasno i prijateljski]',
     ].join('\n');
@@ -87,12 +100,13 @@ export async function POST(request: Request) {
       status: 'uspesno',
       odgovor: finalOdgovor,
       stranica: naslovStranice ?? pageConfig.naslov,
-      kategorija,
+      kategorija: validnaKategorija,
       engine: `SpajaPro v${spajaVerzija.verzija}`,
       meta: {
         appVerzija: APP_VERSION,
         putanja,
-        aiTip: kategorija,
+        aiTip: validnaKategorija,
+        timestamp: new Date().toISOString(),
       },
     });
   } catch {

@@ -166,7 +166,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
             {/* Tabs: AI vs SpajaPro AI */}
             <div className="mt-2 flex gap-1">
               <Button
-                onClick={() => setActiveTab('ai')}
+                onClick={() => { setActiveTab('ai'); setMessages([]); setShowPrompts(true); }}
                 className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                   activeTab === 'ai'
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
@@ -176,7 +176,7 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
                 🧠 AI Preporuke
               </Button>
               <Button
-                onClick={() => setActiveTab('spaja-pro-ai')}
+                onClick={() => { setActiveTab('spaja-pro-ai'); setMessages([]); setShowPrompts(true); }}
                 className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
                   activeTab === 'spaja-pro-ai'
                     ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25'
@@ -189,7 +189,11 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
           </div>
 
           {/* Content Area */}
-          <div className="flex max-h-[400px] min-h-[280px] flex-col overflow-y-auto p-3">
+          <div
+            className="flex max-h-[400px] min-h-[280px] flex-col overflow-y-auto p-3"
+            aria-busy={loading}
+            aria-live="polite"
+          >
             {/* Prompt Recommendations */}
             {showPrompts && messages.length === 0 && (
               <div className="space-y-2">
