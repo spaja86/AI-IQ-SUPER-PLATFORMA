@@ -136,6 +136,7 @@ import { ReleaseReadinessWidget } from './ReleaseReadinessWidget';
 import { AuditReportWidget } from './AuditReportWidget';
 import { SystemReportWidget } from './SystemReportWidget';
 import { SrbijaLicencniReportWidget } from './SrbijaLicencniReportWidget';
+import { AutofinishCommandCenterWidget } from './AutofinishCommandCenterWidget';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://ai-iq-super-platforma.vercel.app';
 
@@ -281,6 +282,14 @@ export default function AutofinishPage() {
           <p className="text-gray-400 text-sm">
             {KOMPANIJA} — Verzija {APP_VERSION} — Iteracija #{AUTOFINISH_COUNT}
           </p>
+          <div className="mt-3">
+            <a
+              href="/autofinish-nexus"
+              className="inline-flex items-center rounded-md border border-cyan-700 px-3 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-950 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            >
+              Otvori Autofinish Nexus
+            </a>
+          </div>
         </header>
 
         {/* Status kartica */}
@@ -737,6 +746,14 @@ export default function AutofinishPage() {
             </a>
           </div>
         </section>
+
+        {/* #978 — Kategorije Stats Widget */}
+        <AutofinishCommandCenterWidget
+          healthScore={healthScore}
+          readiness={releaseReadiness}
+          dora={doraMetrics}
+          errorBudget={errorBudget}
+        />
 
         {/* #978 — Kategorije Stats Widget */}
         <KategorijeStatsWidget
