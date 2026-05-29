@@ -41,11 +41,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Pitanje je obavezno.' }, { status: 400 });
     }
 
-    if (pitanje.trim().length < 2) {
+    const pitanjeTrimmed = pitanje.trim();
+
+    if (pitanjeTrimmed.length < 2) {
       return NextResponse.json({ error: 'Pitanje mora imati najmanje 2 karaktera.' }, { status: 400 });
     }
 
-    if (pitanje.length > 2000) {
+    if (pitanjeTrimmed.length > 2000) {
       return NextResponse.json({ error: 'Pitanje ne može biti duže od 2000 karaktera.' }, { status: 400 });
     }
 
@@ -65,7 +67,7 @@ export async function POST(request: Request) {
     const kontekstualniPrompt = [
       `[Kontekst stranice: ${naslovStranice ?? pageConfig.naslov}]`,
       kontekst ?? pageConfig.kontekst,
-      `[Pitanje korisnika]: ${pitanje.trim()}`,
+      `[Pitanje korisnika]: ${pitanjeTrimmed}`,
       validnaKategorija === 'spaja-pro-ai'
         ? '[Odgovori kao SpajaPro AI asistent sa tehnickim detaljima]'
         : '[Odgovori kao AI asistent jasno i prijateljski]',

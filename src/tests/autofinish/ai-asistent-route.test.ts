@@ -106,6 +106,7 @@ async function runTests(): Promise<void> {
     assert(typeof body['meta'] === 'object' && body['meta'] !== null, 'Nema meta polja');
     const meta = body['meta'] as Record<string, unknown>;
     assert(typeof meta['timestamp'] === 'string', 'Meta nema timestamp');
+    assert(!isNaN(Date.parse(meta['timestamp'] as string)), 'Meta timestamp nije validan ISO format');
     assert(typeof meta['putanja'] === 'string', 'Meta nema putanja');
     assert(typeof meta['aiTip'] === 'string', 'Meta nema aiTip');
   });
