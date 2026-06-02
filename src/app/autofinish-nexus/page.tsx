@@ -17,6 +17,8 @@ export default function AutofinishNexusPage() {
   const readiness = getAutofinishReleaseReadiness();
   const budget = getAutofinishErrorBudget();
   const dora = getAutofinishDoraMetrics();
+  const deployFrequency = dora.metrike.find((metric) => metric.id === 'dora-deployment-frequency');
+  const leadTime = dora.metrike.find((metric) => metric.id === 'dora-lead-time');
 
   const progressPct = Math.min(100, Math.round((AUTOFINISH_COUNT / AUTOFINISH_TARGET) * 100));
 
@@ -53,20 +55,24 @@ export default function AutofinishNexusPage() {
 
           <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
             <h2 className="text-sm text-slate-400">Release readiness</h2>
-            <p className="mt-2 text-3xl font-bold text-indigo-300">{readiness.score}%</p>
+            <p className="mt-2 text-3xl font-bold text-indigo-300">{readiness.summary.overallScore}%</p>
             <p className="text-xs text-slate-500">{readiness.status}</p>
           </article>
 
           <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
             <h2 className="text-sm text-slate-400">Error budget</h2>
-            <p className="mt-2 text-3xl font-bold text-amber-300">{budget.preostalo}%</p>
-            <p className="text-xs text-slate-500">SLO: {budget.slo}%</p>
+            <p className="mt-2 text-3xl font-bold text-amber-300">{budget.prosjecnaPotrosenjaOst}%</p>
+            <p className="text-xs text-slate-500">Zdravi servisi: {budget.zdravih}/{budget.ukupnoServisa}</p>
           </article>
 
           <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
             <h2 className="text-sm text-slate-400">DORA deploy frequency</h2>
-            <p className="mt-2 text-3xl font-bold text-fuchsia-300">{dora.deployFrequency}</p>
-            <p className="text-xs text-slate-500">Lead time: {dora.leadTime}</p>
+            <p className="mt-2 text-3xl font-bold text-fuchsia-300">
+              {deployFrequency ? `${deployFrequency.vrijednost} ${deployFrequency.jedinica}` : 'N/A'}
+            </p>
+            <p className="text-xs text-slate-500">
+              Lead time: {leadTime ? `${leadTime.vrijednost} ${leadTime.jedinica}` : 'N/A'}
+            </p>
           </article>
         </section>
 
