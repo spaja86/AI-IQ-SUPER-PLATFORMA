@@ -71,13 +71,15 @@ async function runTests(): Promise<void> {
     assert(src.includes('export function normalizeLimit'), 'Nedostaje normalizeLimit');
     assert(src.includes('export function getKnowledgePolicy'), 'Nedostaje getKnowledgePolicy');
     assert(src.includes('export async function searchKnowledge'), 'Nedostaje searchKnowledge');
+    assert(src.includes('export async function runKnowledgeIndexing'), 'Nedostaje runKnowledgeIndexing');
+    assert(src.includes('export async function getKnowledgeIndexStatus'), 'Nedostaje getKnowledgeIndexStatus');
     assert(src.includes('export async function getKnowledgeHealth'), 'Nedostaje getKnowledgeHealth');
     assert(src.includes('export async function ingestKnowledgeUrls'), 'Nedostaje ingestKnowledgeUrls');
   });
 
   // ─── Route fajlovi ──────────────────────────────────────────────────────────
 
-  const subRoutes = ['health', 'search', 'metrics', 'sources', 'crawl', 'citations'];
+  const subRoutes = ['health', 'search', 'metrics', 'sources', 'crawl', 'citations', 'index'];
 
   for (const sub of subRoutes) {
     const routePath = path.join(API_ROOT, sub, 'route.ts');

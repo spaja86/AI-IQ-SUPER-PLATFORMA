@@ -31,6 +31,8 @@
 - Jobovi: `GET /api/spaja-baza-knowledge/crawl`
 - Health: `GET /api/spaja-baza-knowledge/health`
 - Metrike: `GET /api/spaja-baza-knowledge/metrics`
+- Index status: `GET /api/spaja-baza-knowledge/index`
+- Pokretanje index batch-a: `POST /api/spaja-baza-knowledge/index`
 - UI: `/spaja-baza-control`
 
 ## 4) Pretraga i citati
@@ -48,4 +50,5 @@
 - Držati ingest u legalnom opsegu (robots/TOS).
 - Koristiti trusted izvore (visok `trust_score`).
 - Ograničiti batch URL-ova po job-u.
+- Ograničiti index batch (`batchSize`, `maxBatches`) da se izbegne overload.
 - Redovno pratiti trendove failed job-ova i retrieval kvaliteta.

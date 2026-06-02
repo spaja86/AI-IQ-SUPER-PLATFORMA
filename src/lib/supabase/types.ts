@@ -338,9 +338,15 @@ export interface Database {
           document_id: string;
           chunk_index: number;
           content: string;
+          indexed_content: string;
           token_count: number;
           embedding_model: string | null;
           embedding_status: 'not_indexed' | 'indexed' | 'failed';
+          indexing_attempts: number;
+          indexing_error: string | null;
+          last_index_attempt_at: string | null;
+          indexed_at: string | null;
+          index_version: string;
           safety_label: 'safe' | 'needs_review' | 'blocked';
           metadata: Record<string, unknown>;
           created_at: string;
@@ -350,18 +356,30 @@ export interface Database {
           document_id: string;
           chunk_index: number;
           content: string;
+          indexed_content?: string;
           token_count?: number;
           embedding_model?: string | null;
           embedding_status?: 'not_indexed' | 'indexed' | 'failed';
+          indexing_attempts?: number;
+          indexing_error?: string | null;
+          last_index_attempt_at?: string | null;
+          indexed_at?: string | null;
+          index_version?: string;
           safety_label?: 'safe' | 'needs_review' | 'blocked';
           metadata?: Record<string, unknown>;
           created_at?: string;
         };
         Update: {
+          indexed_content?: string;
           content?: string;
           token_count?: number;
           embedding_model?: string | null;
           embedding_status?: 'not_indexed' | 'indexed' | 'failed';
+          indexing_attempts?: number;
+          indexing_error?: string | null;
+          last_index_attempt_at?: string | null;
+          indexed_at?: string | null;
+          index_version?: string;
           safety_label?: 'safe' | 'needs_review' | 'blocked';
           metadata?: Record<string, unknown>;
         };
@@ -436,6 +454,83 @@ export interface Database {
           {
             foreignKeyName: 'knowledge_crawl_jobs_created_by_fkey';
             columns: ['created_by'];
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      knowledge_index_jobs: {
+        Row: {
+          id: string;
+          status: 'queued' | 'running' | 'completed' | 'failed' | 'partial';
+          trigger_type: 'manual' | 'schedule' | 'reindex';
+          source_id: string | null;
+          document_id: string | null;
+          requested_by: string | null;
+          batch_size: number;
+          max_batches: number;
+          processed_chunks: number;
+          indexed_chunks: number;
+          failed_chunks: number;
+          throughput_per_minute: number;
+          average_latency_ms: number;
+          started_at: string | null;
+          finished_at: string | null;
+          error_log: unknown;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          status?: 'queued' | 'running' | 'completed' | 'failed' | 'partial';
+          trigger_type?: 'manual' | 'schedule' | 'reindex';
+          source_id?: string | null;
+          document_id?: string | null;
+          requested_by?: string | null;
+          batch_size?: number;
+          max_batches?: number;
+          processed_chunks?: number;
+          indexed_chunks?: number;
+          failed_chunks?: number;
+          throughput_per_minute?: number;
+          average_latency_ms?: number;
+          started_at?: string | null;
+          finished_at?: string | null;
+          error_log?: unknown;
+          created_at?: string;
+        };
+        Update: {
+          status?: 'queued' | 'running' | 'completed' | 'failed' | 'partial';
+          trigger_type?: 'manual' | 'schedule' | 'reindex';
+          source_id?: string | null;
+          document_id?: string | null;
+          requested_by?: string | null;
+          batch_size?: number;
+          max_batches?: number;
+          processed_chunks?: number;
+          indexed_chunks?: number;
+          failed_chunks?: number;
+          throughput_per_minute?: number;
+          average_latency_ms?: number;
+          started_at?: string | null;
+          finished_at?: string | null;
+          error_log?: unknown;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'knowledge_index_jobs_source_id_fkey';
+            columns: ['source_id'];
+            referencedRelation: 'knowledge_sources';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'knowledge_index_jobs_document_id_fkey';
+            columns: ['document_id'];
+            referencedRelation: 'knowledge_documents';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'knowledge_index_jobs_requested_by_fkey';
+            columns: ['requested_by'];
             referencedRelation: 'profiles';
             referencedColumns: ['id'];
           },
