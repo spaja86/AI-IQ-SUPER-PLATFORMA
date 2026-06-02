@@ -71,6 +71,7 @@ autofinish-api-milestone-1046,GET,autofinish-api-milestone-1046,yes,autofinish-a
 autofinish-api-milestone-1047,GET,autofinish-api-milestone-1047,yes,autofinish-api-milestone-1047-route.test.ts
 autofinish-api-milestone-1048,GET,autofinish-api-milestone-1048,yes,autofinish-api-milestone-1048-route.test.ts
 autofinish-api-milestone-1049,GET,autofinish-api-milestone-1049,yes,autofinish-api-milestone-1049-route.test.ts
+autofinish-api-milestone-1250,GET,autofinish-api-milestone-1250,yes,autofinish-api-milestone-1250-route.test.ts
 autofinish-audit-report,GET,autofinish-audit-report,yes,autofinish-audit-report-route.test.ts
 autofinish-autologin-rikvrst-eksponencijalne-funkcije,GET,autofinish-autologin-rikvrst-eksponencijalne-funkcije,yes,autofinish-autologin-rikvrst-eksponencijalne-funkcije-route.test.ts
 autofinish-branch-cleanup-monitor,GET,autofinish-branch-cleanup-monitor,yes,autofinish-branch-cleanup-monitor-route.test.ts
@@ -670,6 +671,7 @@ platforme-pregled,GET,platforme-pregled,yes,platforme-pregled-route.test.ts
 platforme-status,GET,platforme-status,yes,platforme-status-route.test.ts
 poslovni-tok,GET,poslovni-tok,yes,poslovni-tok-route.test.ts
 potencijal-svega-ovoga-do-sada,GET,potencijal-svega-ovoga-do-sada,yes,potencijal-svega-ovoga-do-sada-route.test.ts
+procesuiranje-3,GET,procesuiranje-3,yes,procesuiranje-3-route.test.ts
 procesuiranje-svega,GET,procesuiranje-svega,yes,procesuiranje-svega-route.test.ts
 procurement-sistem,GET,procurement-sistem,yes,procurement-sistem-route.test.ts
 profesionalni-login-mejl-verifikacija,GET,profesionalni-login-mejl-verifikacija,yes,profesionalni-login-mejl-verifikacija-route.test.ts

@@ -15,6 +15,8 @@ const analizaRoutePath = resolve(repoRoot, 'src/app/api/analiza-svega/route.ts')
 const potencijalLibPath = resolve(repoRoot, 'src/lib/potencijal-svega-ovoga-do-sada.ts');
 const potencijalRoutePath = resolve(repoRoot, 'src/app/api/potencijal-svega-ovoga-do-sada/route.ts');
 const procesuiranjeLibPath = resolve(repoRoot, 'src/lib/procesuiranje-svega.ts');
+const procesuiranje3LibPath = resolve(repoRoot, 'src/lib/procesuiranje-3.ts');
+const procesuiranje3RoutePath = resolve(repoRoot, 'src/app/api/procesuiranje-3/route.ts');
 const ekstremnoRoutePath = resolve(repoRoot, 'src/app/api/ekstremno-procesuiranje-svega/route.ts');
 const maksimusLibPath = resolve(repoRoot, 'src/lib/maksimus-svega.ts');
 const maksimusRoutePath = resolve(repoRoot, 'src/app/api/maksimus-svega/route.ts');
@@ -32,6 +34,8 @@ const analizaRouteSrc = readFileSync(analizaRoutePath, 'utf8');
 const potencijalLibSrc = readFileSync(potencijalLibPath, 'utf8');
 const potencijalRouteSrc = readFileSync(potencijalRoutePath, 'utf8');
 const procesuiranjeLibSrc = readFileSync(procesuiranjeLibPath, 'utf8');
+const procesuiranje3LibSrc = readFileSync(procesuiranje3LibPath, 'utf8');
+const procesuiranje3RouteSrc = readFileSync(procesuiranje3RoutePath, 'utf8');
 const ekstremnoRouteSrc = readFileSync(ekstremnoRoutePath, 'utf8');
 const maksimusLibSrc = readFileSync(maksimusLibPath, 'utf8');
 const maksimusRouteSrc = readFileSync(maksimusRoutePath, 'utf8');
@@ -88,6 +92,14 @@ const procesuiranjeContractReady = [
   sitemapSrc.includes('/api/ekstremno-procesuiranje-svega'),
   navigationSrc.includes('/procesuiranje-svega'),
 ].every(Boolean);
+const procesuiranje3ContractVersion = procesuiranje3LibSrc.match(/export const PROCESUIRANJE_3_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const procesuiranje3ModelVersion = procesuiranje3LibSrc.match(/export const PROCESUIRANJE_3_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
+const procesuiranje3ContractReady = [
+  procesuiranje3LibSrc.includes('PROCESUIRANJE_3_SOURCE_OF_TRUTH = \'/api/procesuiranje-3\''),
+  procesuiranje3RouteSrc.includes('X-Procesuiranje3-Contract-Version'),
+  sitemapSrc.includes('/api/procesuiranje-3'),
+  navigationSrc.includes('/procesuiranje-3'),
+].every(Boolean);
 const maksimusContractVersion = maksimusLibSrc.match(/export const MAKSIMUS_SVEGA_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
 const maksimusModelVersion = maksimusLibSrc.match(/export const MAKSIMUS_SVEGA_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
 const maksimusContractReady = [
@@ -116,6 +128,7 @@ const hasDeploymentBlockers = missingRequiredEnv.length > 0
   || !analizaContractReady
   || !potencijalContractReady
   || !procesuiranjeContractReady
+  || !procesuiranje3ContractReady
   || !maksimusContractReady
   || !maksimus2ContractReady
   || !maksimus3ContractReady;
@@ -142,6 +155,11 @@ const report = {
     modelVersion: procesuiranjeModelVersion,
     contractReady: procesuiranjeContractReady,
   },
+  procesuiranje3: {
+    contractVersion: procesuiranje3ContractVersion,
+    modelVersion: procesuiranje3ModelVersion,
+    contractReady: procesuiranje3ContractReady,
+  },
   maksimusSvega: {
     contractVersion: maksimusContractVersion,
     modelVersion: maksimusModelVersion,
@@ -164,6 +182,6 @@ console.log('=== Predeploy Check ===');
 console.log(JSON.stringify(report, null, 2));
 
 if (process.argv.includes('--strict') && hasDeploymentBlockers) {
-  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE/MAKSIMUS/MAKSIMUS2/MAKSIMUS3 contract is not ready.');
+  console.error('Strict mode: missing required env vars or ANALIZA/POTENCIJAL/PROCESUIRANJE/PROCESUIRANJE3/MAKSIMUS/MAKSIMUS2/MAKSIMUS3 contract is not ready.');
   process.exit(1);
 }

@@ -129,6 +129,7 @@ export const navigation: NavItem[] = [
   { label: 'Analiza Svega', href: '/analiza-svega', icon: '🔭', description: 'Celokupna analiza ekosistema — ekosistem, infrastruktura, finansije, bezbednost, operativa, autofinish i protokoli' },
   { label: 'Potencijal Svega Ovoga Do Sada', href: '/potencijal-svega-ovoga-do-sada', icon: '🧭', description: 'Stanje sada vs potencijal posle sledećih koraka — blokeri, unlock faktori i expected uplift po domenima' },
   { label: 'Procesuiranje Svega', href: '/procesuiranje-svega', icon: '⚙️', description: 'Aktivni pipeline procesiranja svih domena — bankarski, AI, finansijski, licencni, ekosistem, autofinish, bezbednosni i analitički' },
+  { label: 'Procesuiranje 3', href: '/procesuiranje-3', icon: '⚙️', description: 'Kanonski v3 processing signal: dual-run kompatibilnost sa v2, SLA pragovi, trend i history snapshot-i' },
   { label: 'Maksimus Svega', href: '/maksimus-svega', icon: '🚀', description: 'Master signal svih ključnih svega domena — analiza, potencijal, procesuiranje i autofinish orkestracija' },
   { label: 'Maksimus 2', href: '/maksimus-2', icon: '🚀', description: 'V2 master signal sa 6 domena — analiza, potencijal, procesuiranje, ekstremno procesuiranje, operativna spremnost i autofinish' },
   { label: 'Maksimus 3', href: '/maksimus-3', icon: '🚀', description: 'V3 master signal — 8 domena sa SLA pragovima i istorijom' },
