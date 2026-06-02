@@ -1,4 +1,4 @@
-// Autofinish — autofinish-iteracija-opis Route Coverage Test
+// Autofinish — pentracija/nalazi Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
 import fs from 'node:fs';
@@ -42,12 +42,12 @@ function isObject(v: unknown): v is Record<string, unknown> {
 
 const _lintUseHelpers = [assertEqual, isObject];
 void _lintUseHelpers;
-import { GET } from '../../app/api/autofinish-iteracija-opis/route';
+import { GET } from '../../app/api/pentracija/nalazi/route';
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 autofinish-iteracija-opis — Route Coverage Test Suite\n');
+  console.log('\n🏁 pentracija/nalazi — Route Coverage Test Suite\n');
 
-  const routePath = path.resolve(process.cwd(), 'src/app/api/autofinish-iteracija-opis/route.ts');
+  const routePath = path.resolve(process.cwd(), 'src/app/api/pentracija/nalazi/route.ts');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(routePath), `${routePath} ne postoji`);
@@ -63,7 +63,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET smoke provera', async () => {
-    const request = new NextRequest(new Request('http://localhost/api/autofinish-iteracija-opis', {
+    const request = new NextRequest(new Request('http://localhost/api/pentracija/nalazi', {
       headers: { 'x-forwarded-for': '127.0.1.10' },
     }));
 

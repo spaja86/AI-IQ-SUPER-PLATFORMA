@@ -72,6 +72,8 @@ autofinish-api-milestone-1047,GET,autofinish-api-milestone-1047,yes,autofinish-a
 autofinish-api-milestone-1048,GET,autofinish-api-milestone-1048,yes,autofinish-api-milestone-1048-route.test.ts
 autofinish-api-milestone-1049,GET,autofinish-api-milestone-1049,yes,autofinish-api-milestone-1049-route.test.ts
 autofinish-api-milestone-1250,GET,autofinish-api-milestone-1250,yes,autofinish-api-milestone-1250-route.test.ts
+autofinish-api-milestone-1300,GET,autofinish-api-milestone-1300,yes,autofinish-api-milestone-1300-route.test.ts
+autofinish-api-milestone-1350,GET,autofinish-api-milestone-1350,yes,autofinish-api-milestone-1350-route.test.ts
 autofinish-audit-report,GET,autofinish-audit-report,yes,autofinish-audit-report-route.test.ts
 autofinish-autologin-rikvrst-eksponencijalne-funkcije,GET,autofinish-autologin-rikvrst-eksponencijalne-funkcije,yes,autofinish-autologin-rikvrst-eksponencijalne-funkcije-route.test.ts
 autofinish-branch-cleanup-monitor,GET,autofinish-branch-cleanup-monitor,yes,autofinish-branch-cleanup-monitor-route.test.ts
@@ -633,6 +635,10 @@ owner-phone-auth/verify-otp,GET|POST,owner-phone-auth,yes,owner-phone-auth-verif
 paypal/checkout,POST,paypal,yes,paypal-checkout-route.test.ts
 paypal/portal,POST,paypal,yes,paypal-portal-route.test.ts
 paypal/webhook,POST,paypal,yes,paypal-webhook-route.test.ts
+pentracija,GET,pentracija,yes,pentracija-route.test.ts
+pentracija/nalazi,GET,pentracija,yes,pentracija-nalazi-route.test.ts
+pentracija/sken,POST,pentracija,yes,pentracija-sken-route.test.ts
+pentracija/status,GET,pentracija,yes,pentracija-status-route.test.ts
 perkolizonik,GET,perkolizonik,yes,perkolizonik-route.test.ts
 platforma-arhitektura,GET,platforma-arhitektura,yes,platforma-arhitektura-route.test.ts
 platforma-autonomija,GET,platforma-autonomija,yes,platforma-autonomija-route.test.ts

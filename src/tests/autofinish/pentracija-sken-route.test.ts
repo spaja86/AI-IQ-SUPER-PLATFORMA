@@ -1,9 +1,8 @@
-// Autofinish — autofinish-iteracija-opis Route Coverage Test
+// Autofinish — pentracija/sken Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { NextRequest } from 'next/server';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -42,57 +41,18 @@ function isObject(v: unknown): v is Record<string, unknown> {
 
 const _lintUseHelpers = [assertEqual, isObject];
 void _lintUseHelpers;
-import { GET } from '../../app/api/autofinish-iteracija-opis/route';
-
 async function runTests(): Promise<void> {
-  console.log('\n🏁 autofinish-iteracija-opis — Route Coverage Test Suite\n');
+  console.log('\n🏁 pentracija/sken — Route Coverage Test Suite\n');
 
-  const routePath = path.resolve(process.cwd(), 'src/app/api/autofinish-iteracija-opis/route.ts');
+  const routePath = path.resolve(process.cwd(), 'src/app/api/pentracija/sken/route.ts');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(routePath), `${routePath} ne postoji`);
   });
 
-  await test('Ruta eksportuje GET i response helper', () => {
+  await test('Ruta eksportuje očekivane metode', () => {
     const src = fs.readFileSync(routePath, 'utf8');
-    assert(src.includes('export async function GET'), 'Nedostaje GET handler');
-    assert(
-      src.includes('NextResponse.json') || src.includes('Response.json') || src.includes('apiSuccess'),
-      'Nedostaje JSON response helper',
-    );
-  });
-
-  await test('GET smoke provera', async () => {
-    const request = new NextRequest(new Request('http://localhost/api/autofinish-iteracija-opis', {
-      headers: { 'x-forwarded-for': '127.0.1.10' },
-    }));
-
-    const response = await GET(request);
-    assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
-
-    const xAppVersion = response.headers.get('X-App-Version');
-    if (xAppVersion !== null) {
-      assertEqual(xAppVersion, APP_VERSION, 'X-App-Version');
-    }
-
-    let body: unknown = null;
-    try {
-      body = await response.clone().json();
-    } catch {
-      body = null;
-    }
-
-    if (isObject(body)) {
-      if (typeof body['status'] === 'string') {
-        assert((body['status'] as string).length > 0, 'status string');
-      }
-
-      if (typeof body['verzija'] === 'string') {
-        assertEqual(body['verzija'], APP_VERSION, 'verzija');
-      } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
-        assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
-      }
-    }
+    assert(src.includes('export async function POST'), 'Nedostaje POST handler');
   });
 
   await test('Konstante su dostupne', () => {

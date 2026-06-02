@@ -76,6 +76,27 @@ const PERMISSION_MATRIX: ΩPermissionRule[] = [
     resourcePattern: /^\/api\/stripe\/(checkout|portal)$/,
     requiredClearance: ΩClearanceLevel.USER,
   },
+  // Pentracija — modul za automatizovano testiranje penetracije
+  {
+    resourcePattern: /^\/pentracija/,
+    requiredClearance: ΩClearanceLevel.ADMIN,
+    requiredScopes: ['pentracija:read'],
+  },
+  {
+    resourcePattern: /^\/api\/pentracija\/(nalazi|status)$/,
+    requiredClearance: ΩClearanceLevel.ADMIN,
+    requiredScopes: ['pentracija:read'],
+  },
+  {
+    resourcePattern: /^\/api\/pentracija$/,
+    requiredClearance: ΩClearanceLevel.ADMIN,
+    requiredScopes: ['pentracija:read'],
+  },
+  {
+    resourcePattern: /^\/api\/pentracija\/sken$/,
+    requiredClearance: ΩClearanceLevel.SUPER_ADMIN,
+    requiredScopes: ['pentracija:execute'],
+  },
 ];
 
 // ΩPermissionMatrix — upravljanje dozvolama
