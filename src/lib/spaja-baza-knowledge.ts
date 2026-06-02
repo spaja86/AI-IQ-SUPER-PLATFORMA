@@ -757,9 +757,8 @@ async function executeKnowledgeSearch(
           index_version: rpcRow.index_version,
           keyword_density: rpcRow.keyword_density ?? 0,
           position_score: rpcRow.position_score ?? 0,
-          // semantic_score u runtime scoring-u tretiramo kao similarity signal;
-          // za v4 RPC primaran izvor je semantic_similarity.
-          semantic_score: rpcRow.semantic_similarity ?? rpcRow.semantic_score ?? 0,
+          // Za v4 RPC runtime scoring koristi realni semantic similarity signal.
+          semantic_score: rpcRow.semantic_similarity ?? 0,
           knowledge_documents: {
             id: rpcRow.document_id,
             title: rpcRow.title,

@@ -18,7 +18,7 @@ BEGIN
   ) THEN
     ALTER TABLE public.knowledge_chunks
       ADD CONSTRAINT knowledge_chunks_semantic_score_check
-      CHECK (semantic_score BETWEEN 0 AND 1);
+      CHECK (semantic_score IN (0, 1));
   END IF;
 END $$;
 
