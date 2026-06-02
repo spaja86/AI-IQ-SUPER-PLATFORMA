@@ -347,6 +347,8 @@ export interface Database {
           last_index_attempt_at: string | null;
           indexed_at: string | null;
           index_version: string;
+          keyword_density: number;
+          unique_term_count: number;
           safety_label: 'safe' | 'needs_review' | 'blocked';
           metadata: Record<string, unknown>;
           created_at: string;
@@ -365,6 +367,8 @@ export interface Database {
           last_index_attempt_at?: string | null;
           indexed_at?: string | null;
           index_version?: string;
+          keyword_density?: number;
+          unique_term_count?: number;
           safety_label?: 'safe' | 'needs_review' | 'blocked';
           metadata?: Record<string, unknown>;
           created_at?: string;
@@ -380,6 +384,8 @@ export interface Database {
           last_index_attempt_at?: string | null;
           indexed_at?: string | null;
           index_version?: string;
+          keyword_density?: number;
+          unique_term_count?: number;
           safety_label?: 'safe' | 'needs_review' | 'blocked';
           metadata?: Record<string, unknown>;
         };
