@@ -37,8 +37,8 @@ export async function GET(request: NextRequest) {
       preferred_model: profile.preferred_model,
       preferred_language: profile.preferred_language ?? null,
       personalization_version: profile.personalization_version ?? 'v1',
-      stable_preferences: profile.stable_preferences as Record<string, unknown> | null ?? null,
-      contextual_preferences: profile.contextual_preferences as Record<string, unknown> | null ?? null,
+      stable_preferences: profile.stable_preferences as Record<string, unknown> | null,
+      contextual_preferences: profile.contextual_preferences as Record<string, unknown> | null,
       personalization_confidence: profile.personalization_confidence ?? 0,
       personalization_updated_at: profile.personalization_updated_at ?? null,
       personalization_enabled: profile.personalization_enabled ?? true,
@@ -156,7 +156,7 @@ export async function PUT(request: NextRequest) {
           .eq('id', user.id)
           .single();
         const merged = applyStablePreferenceUpdate(
-          current?.stable_preferences as Record<string, unknown> | null ?? null,
+          current?.stable_preferences as Record<string, unknown> | null,
           body.stablePreferences,
         );
         updateData.stable_preferences = merged;
