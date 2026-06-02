@@ -8156,3 +8156,10 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Korekcija: TOTAL_API_ROUTES usklađen sa stvarnim brojem ruta u repozitorijumu (1231+1=1232).
 // Bumped TOTAL_API_ROUTES 1230→1232, TOTAL_ROUTES 1359→1361.
 // APP_VERSION=59.72.0 | AUTOFINISH_COUNT=1415→1416 | TOTAL_API_ROUTES=1232 | TOTAL_ROUTES=1361 | TOTAL_PAGES=130
+
+// ─── Autofinish #1417 — API MILESTONE 1350 ROUTE + COVERAGE TEST ──────────────
+// Nova ruta: src/app/api/autofinish-api-milestone-1350/route.ts.
+// GET — Metapodaci o napretku ka API milestone 1350 (TOTAL_API_ROUTES tracking).
+// Route coverage test: src/tests/autofinish/autofinish-api-milestone-1350-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1232→1233, TOTAL_ROUTES 1361→1362.
+// APP_VERSION=59.72.0→59.73.0 | AUTOFINISH_COUNT=1416→1417 | TOTAL_API_ROUTES=1233 | TOTAL_ROUTES=1362 | TOTAL_PAGES=130
