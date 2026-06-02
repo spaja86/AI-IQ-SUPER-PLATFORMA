@@ -183,3 +183,57 @@
 2. Proveri posljednjih 20 jobova u `latestJobs` → filter na `status = failed`.
 3. Pokreni upgrade sa manjim `batchSize` (npr. 10) i `maxBatches: 2`.
 4. Provjeri `knowledge_dead_letters` za ozbiljne greške.
+
+## 10) INDEKSIRANJE 4 (v4 semantic + hybrid pipeline)
+
+### Pokretanje v4 indeksiranja (novi chunk-ovi)
+- API: `POST /api/spaja-baza-knowledge/index`
+- Body:
+```json
+{
+  "indexVersion": "v4",
+  "batchSize": 25,
+  "maxBatches": 4
+}
+```
+
+### Upgrade postojećih v1/v2/v3 chunk-ova na v4
+- API: `POST /api/spaja-baza-knowledge/index`
+- Body:
+```json
+{
+  "indexVersion": "v4",
+  "upgradeToV4": true,
+  "batchSize": 25,
+  "maxBatches": 10
+}
+```
+- `upgradeToV4: true` odabira i već indeksirane v1/v2/v3 chunk-ove.
+- Chunk-ovi koji su već na v4 (`index_version = 'v4'`) se automatski preskaču.
+
+### v4 retrieval i fallback
+- Primarna pretraga: semantic vector retrieval (`match_knowledge_chunks_v4`).
+- Fallback #1: v3 FTS (`textSearch`, `simple` config).
+- Fallback #2: `ilike` pretraga kada FTS vrati 0 rezultata.
+
+### v4 scoring
+- **v4**: semanticSimilarity 35% + lexical 20% + termFrequency 15% + trust 15% + keywordDensity 10% + positionScore 5%.
+
+### Praćenje v4 pokrivenosti
+- `GET /api/spaja-baza-knowledge/index` vraća `status.queue.indexedV4`.
+- UI: `/spaja-baza-control` prikazuje "Indexed v4" karticu.
+
+### Metrike po retrieval verziji
+- `GET /api/spaja-baza-knowledge/metrics` vraća:
+  - `metrics24h.retrievalByVersion`
+  - `metrics24h.semanticUsageRate`
+
+### Incident: v4 embedding pipeline ne indeksira
+1. Proveri `OPENAI_API_KEY` i embedding model konfiguraciju.
+2. Proveri `GET /api/spaja-baza-knowledge/index` → `indexedV4` i failed trend.
+3. Pokreni manji batch (`batchSize: 10`, `maxBatches: 2`) sa `upgradeToV4`.
+4. Ako je potrebno, privremeno vrati indexing na `indexVersion: v3`.
+
+### Rollback
+- Za rollback retrieval-a na lexical putanje, pokrenite indexiranje sa `indexVersion: v3` i pratite metric baseline.
+- v4 kolone ostaju u šemi (rollback-safe), bez gubitka postojećih podataka.

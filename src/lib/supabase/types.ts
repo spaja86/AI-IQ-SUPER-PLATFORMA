@@ -341,6 +341,9 @@ export interface Database {
           indexed_content: string;
           token_count: number;
           embedding_model: string | null;
+          embedding_model_version: string | null;
+          embedding_generated_at: string | null;
+          embedding_vector: string | null;
           embedding_status: 'not_indexed' | 'indexed' | 'failed';
           indexing_attempts: number;
           indexing_error: string | null;
@@ -350,6 +353,7 @@ export interface Database {
           keyword_density: number;
           unique_term_count: number;
           position_score: number;
+          semantic_score: number;
           safety_label: 'safe' | 'needs_review' | 'blocked';
           metadata: Record<string, unknown>;
           created_at: string;
@@ -362,6 +366,9 @@ export interface Database {
           indexed_content?: string;
           token_count?: number;
           embedding_model?: string | null;
+          embedding_model_version?: string | null;
+          embedding_generated_at?: string | null;
+          embedding_vector?: string | null;
           embedding_status?: 'not_indexed' | 'indexed' | 'failed';
           indexing_attempts?: number;
           indexing_error?: string | null;
@@ -371,6 +378,7 @@ export interface Database {
           keyword_density?: number;
           unique_term_count?: number;
           position_score?: number;
+          semantic_score?: number;
           safety_label?: 'safe' | 'needs_review' | 'blocked';
           metadata?: Record<string, unknown>;
           created_at?: string;
@@ -380,6 +388,9 @@ export interface Database {
           content?: string;
           token_count?: number;
           embedding_model?: string | null;
+          embedding_model_version?: string | null;
+          embedding_generated_at?: string | null;
+          embedding_vector?: string | null;
           embedding_status?: 'not_indexed' | 'indexed' | 'failed';
           indexing_attempts?: number;
           indexing_error?: string | null;
@@ -389,6 +400,7 @@ export interface Database {
           keyword_density?: number;
           unique_term_count?: number;
           position_score?: number;
+          semantic_score?: number;
           safety_label?: 'safe' | 'needs_review' | 'blocked';
           metadata?: Record<string, unknown>;
         };
@@ -663,6 +675,8 @@ export interface Database {
           citations_count: number;
           citation_rate: number;
           quality_score: number;
+          retrieval_index_version: string;
+          semantic_retrieval_used: boolean;
           created_at: string;
         };
         Insert: {
@@ -675,6 +689,8 @@ export interface Database {
           citations_count?: number;
           citation_rate?: number;
           quality_score?: number;
+          retrieval_index_version?: string;
+          semantic_retrieval_used?: boolean;
           created_at?: string;
         };
         Update: {
@@ -683,6 +699,8 @@ export interface Database {
           citations_count?: number;
           citation_rate?: number;
           quality_score?: number;
+          retrieval_index_version?: string;
+          semantic_retrieval_used?: boolean;
         };
         Relationships: [
           {
@@ -1375,7 +1393,32 @@ export interface Database {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      match_knowledge_chunks_v4: {
+        Args: {
+          query_vector_literal: string;
+          match_count?: number;
+          min_similarity?: number;
+        };
+        Returns: {
+          id: string;
+          chunk_index: number;
+          content: string;
+          indexed_content: string;
+          embedding_status: string;
+          index_version: string;
+          keyword_density: number;
+          position_score: number;
+          semantic_similarity: number;
+          semantic_score: number;
+          document_id: string;
+          title: string;
+          canonical_url: string;
+          trust_score: number;
+          source_name: string | null;
+        }[];
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

@@ -366,6 +366,8 @@ function getAutofinishOpis(n: number): string {
     1410: `Autofinish #1410 — AUTOFINISH 2 kontinuitet: verifikacija sekvencijalnih API batch-eva i održavanje potpune pokrivenosti za inventar ruta, AUTOFINISH_COUNT 1409→1410, APP_VERSION 59.68.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1411: `Autofinish #1411 — AUTOFINISH 2 kontinuitet: finalna validacija da fallback opis nije aktivan za najnoviju iteraciju i da istorija ostaje eksplicitna, AUTOFINISH_COUNT 1410→1411, APP_VERSION 59.69.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1412: `Autofinish #1412 — Usklađivanje platformskih konstanti sa route inventory izveštajem (TOTAL_API_ROUTES 1208→1225, TOTAL_ROUTES 1337→1354), APP_VERSION 59.69.0→59.70.0, AUTOFINISH_COUNT 1411→1412, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1413: `Autofinish #1413 — Indeksiranje v4 kontinuitet: pooštreni semantic score constraints i mapiranje + eksplicitan istorijski opis da fallback poruka ne bude aktivna u /api/autofinish paginaciji, AUTOFINISH_COUNT 1412→1413, APP_VERSION 59.70.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1414: `Autofinish #1414 — API Milestone 1250 route + coverage test + TOTAL_API_ROUTES 1225→1226 + TOTAL_ROUTES 1354→1355 + TOTAL_DIAGNOSTIKA 2402→2404, AUTOFINISH_COUNT 1413→1414, APP_VERSION 59.70.0→59.71.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

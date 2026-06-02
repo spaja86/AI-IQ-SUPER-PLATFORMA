@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import type { Database } from '@/lib/supabase/types';
+import { getOpenAISafe } from '@/lib/openai/client';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 
 type SupabaseClient = ReturnType<typeof getSupabaseServerClient>;
@@ -47,12 +48,14 @@ interface KnowledgeIndexingOptions {
   forceReindex?: boolean;
   triggerType?: 'manual' | 'schedule' | 'reindex';
   requestedBy?: string | null;
-  /** v1 (default), v2 (INDEKSIRANJE 2) ili v3 (INDEKSIRANJE 3 FTS + position pipeline). */
-  indexVersion?: 'v1' | 'v2' | 'v3';
+  /** v1 (default), v2, v3 ili v4 (INDEKSIRANJE 4 semantic/hybrid pipeline). */
+  indexVersion?: 'v1' | 'v2' | 'v3' | 'v4';
   /** Kada true, odabira i već v1-indeksirane chunk-ove za upgrade na v2. */
   upgradeToV2?: boolean;
   /** Kada true, odabira v1 i v2 indeksirane chunk-ove za upgrade na v3. */
   upgradeToV3?: boolean;
+  /** Kada true, odabira v1/v2/v3 indeksirane chunk-ove za upgrade na v4. */
+  upgradeToV4?: boolean;
 }
 
 export interface KnowledgeIndexingResult {
@@ -71,6 +74,7 @@ export interface KnowledgeIndexStatus {
     indexedV1: number;
     indexedV2: number;
     indexedV3: number;
+    indexedV4: number;
     failed: number;
   };
   jobs24h: {
@@ -96,6 +100,10 @@ const DEFAULT_DENYLIST = ['accounts.google.com', 'drive.google.com', 'mail.googl
 const KNOWLEDGE_INDEX_VERSION = 'v1';
 const KNOWLEDGE_INDEX_VERSION_V2 = 'v2';
 const KNOWLEDGE_INDEX_VERSION_V3 = 'v3';
+const KNOWLEDGE_INDEX_VERSION_V4 = 'v4';
+const KNOWLEDGE_EMBEDDING_MODEL_V4 = process.env.SPAJA_BAZA_EMBEDDING_MODEL ?? 'text-embedding-3-small';
+const KNOWLEDGE_EMBEDDING_MODEL_VERSION_V4 = process.env.SPAJA_BAZA_EMBEDDING_MODEL_VERSION ?? 'v4';
+const KNOWLEDGE_EMBEDDING_DIM_V4 = Number(process.env.SPAJA_BAZA_EMBEDDING_DIM ?? 1536);
 const SEARCH_SCORE_WEIGHTS = {
   lexical: 0.6,
   trust: 0.25,
@@ -114,6 +122,14 @@ const SEARCH_SCORE_WEIGHTS_V3 = {
   termFrequency: 0.25,
   trust: 0.20,
   keywordDensity: 0.15,
+  positionScore: 0.05,
+} as const;
+const SEARCH_SCORE_WEIGHTS_V4 = {
+  semanticSimilarity: 0.35,
+  lexical: 0.20,
+  termFrequency: 0.15,
+  trust: 0.15,
+  keywordDensity: 0.10,
   positionScore: 0.05,
 } as const;
 const INDEXING_DEFAULT_MAX_RETRIES = 5;
@@ -506,6 +522,8 @@ interface ChunkRow {
   keyword_density: number;
   // Pre-izračunati pozicioni score (0–1); koristi se samo za v3 scoring.
   position_score: number;
+  // Semantic score (0-1), primarno za v4 monitoring.
+  semantic_score?: number;
   knowledge_documents: {
     id: string;
     title: string;
@@ -515,6 +533,37 @@ interface ChunkRow {
       name: string;
     } | null;
   } | null;
+}
+
+interface V4RpcChunkRow {
+  id: string;
+  chunk_index: number;
+  content: string;
+  indexed_content: string;
+  embedding_status: 'not_indexed' | 'indexed' | 'failed';
+  index_version: string;
+  keyword_density: number;
+  position_score: number;
+  semantic_similarity: number;
+  semantic_score: number;
+  document_id: string;
+  title: string;
+  canonical_url: string;
+  trust_score: number;
+  source_name: string | null;
+}
+
+interface KnowledgeSearchExecution {
+  citations: KnowledgeCitation[];
+  retrievalIndexVersion: 'v1' | 'v2' | 'v3' | 'v4';
+  semanticRetrievalUsed: boolean;
+}
+
+function getChunkIndexVersion(indexVersion: string): 'v1' | 'v2' | 'v3' | 'v4' {
+  if (indexVersion === KNOWLEDGE_INDEX_VERSION_V4) return 'v4';
+  if (indexVersion === KNOWLEDGE_INDEX_VERSION_V3) return 'v3';
+  if (indexVersion === KNOWLEDGE_INDEX_VERSION_V2) return 'v2';
+  return 'v1';
 }
 
 function normalizeIndexText(input: string): string {
@@ -614,6 +663,46 @@ function computePositionScore(chunkIndex: number): number {
   return Math.round(Math.exp(-idx * 0.1) * 10000) / 10000;
 }
 
+function toVectorLiteral(vector: number[]): string {
+  return `[${vector.map((v) => Number(v.toFixed(8))).join(',')}]`;
+}
+
+function normalizeEmbeddingInput(content: string): string {
+  const normalized = sanitizeForPrompt(content).replace(/\s+/g, ' ').trim();
+  // 4000 karaktera drži input unutar sigurnog token budžeta za embeddings API.
+  return normalized.slice(0, 4000);
+}
+
+async function createEmbeddingVector(content: string): Promise<number[]> {
+  const openai = getOpenAISafe();
+  if (!openai) {
+    throw new Error('OPENAI_API_KEY nije postavljen; v4 embedding pipeline nije dostupan.');
+  }
+  const input = normalizeEmbeddingInput(content);
+  if (!input) {
+    throw new Error('Chunk je prazan nakon normalizacije za embedding.');
+  }
+
+  let response: Awaited<ReturnType<typeof openai.embeddings.create>>;
+  try {
+    response = await openai.embeddings.create({
+      model: KNOWLEDGE_EMBEDDING_MODEL_V4,
+      input,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'embedding API unknown error';
+    throw new Error(`Embedding API greška (${KNOWLEDGE_EMBEDDING_MODEL_V4}): ${message}`);
+  }
+  const vector = response.data?.[0]?.embedding;
+  if (!Array.isArray(vector) || vector.length === 0) {
+    throw new Error('Embedding provider nije vratio validan vektor.');
+  }
+  if (vector.length !== KNOWLEDGE_EMBEDDING_DIM_V4) {
+    throw new Error(`Neočekivana embedding dimenzija: ${vector.length} (očekivano ${KNOWLEDGE_EMBEDDING_DIM_V4})`);
+  }
+  return vector;
+}
+
 function getIndexableStatuses(forceReindex: boolean): Array<'not_indexed' | 'failed' | 'indexed'> {
   return forceReindex ? ['not_indexed', 'failed', 'indexed'] : ['not_indexed', 'failed'];
 }
@@ -624,13 +713,19 @@ function shouldRetryChunk(candidate: IndexCandidateRow, retryBackoffMs: number):
   return Date.now() - new Date(candidate.last_index_attempt_at).getTime() >= retryBackoffMs;
 }
 
-export async function searchKnowledge(
+async function executeKnowledgeSearch(
   query: string,
   options?: KnowledgeSearchOptions,
-): Promise<KnowledgeCitation[]> {
+): Promise<KnowledgeSearchExecution> {
   const supabase = getSupabaseServerClient();
   const normalized = query.trim().toLowerCase();
-  if (!normalized) return [];
+  if (!normalized) {
+    return {
+      citations: [],
+      retrievalIndexVersion: KNOWLEDGE_INDEX_VERSION,
+      semanticRetrievalUsed: false,
+    };
+  }
 
   const limit = Math.max(1, Math.min(options?.limit ?? 5, 10));
   const terms = normalized
@@ -639,9 +734,48 @@ export async function searchKnowledge(
     .filter((t) => t.length > 2)
     .slice(0, 8);
 
-  // v3: primary search uses PostgreSQL FTS (textSearch) which leverages the GIN index
-  // from migration 012 and matches ALL query terms, not just the first one.
-  // Fallback to single-term ilike when FTS returns 0 results (e.g. very short queries).
+  // v4: semantic retrieval (vector similarity) je primarni put,
+  // zatim v3 FTS i na kraju ilike fallback.
+  let semanticRows: ChunkRow[] = [];
+  let semanticRetrievalUsed = false;
+  try {
+    const queryEmbedding = await createEmbeddingVector(normalized);
+    const semanticResult = await supabase.rpc('match_knowledge_chunks_v4', {
+      query_vector_literal: toVectorLiteral(queryEmbedding),
+      match_count: 80,
+      min_similarity: 0.2,
+    });
+    if (!semanticResult.error && (semanticResult.data ?? []).length > 0) {
+      semanticRows = (semanticResult.data ?? []).map((row) => {
+        const rpcRow = row as unknown as V4RpcChunkRow;
+        return {
+          id: rpcRow.id,
+          chunk_index: rpcRow.chunk_index,
+          content: rpcRow.content,
+          indexed_content: rpcRow.indexed_content,
+          embedding_status: rpcRow.embedding_status,
+          index_version: rpcRow.index_version,
+          keyword_density: rpcRow.keyword_density ?? 0,
+          position_score: rpcRow.position_score ?? 0,
+          // Za v4 RPC runtime scoring koristi realni semantic similarity signal.
+          semantic_score: rpcRow.semantic_similarity ?? 0,
+          knowledge_documents: {
+            id: rpcRow.document_id,
+            title: rpcRow.title,
+            canonical_url: rpcRow.canonical_url,
+            trust_score: rpcRow.trust_score ?? 0,
+            knowledge_sources: { name: rpcRow.source_name ?? 'nepoznat-izvor' },
+          },
+        } satisfies ChunkRow;
+      });
+      semanticRetrievalUsed = true;
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'unknown semantic retrieval error';
+    console.error('[searchKnowledge] v4 semantic retrieval failed, falling back to lexical path:', message);
+    semanticRows = [];
+  }
+
   const ftsQuery = terms.join(' ');
   const likeTerm = `%${terms[0] ?? normalized}%`;
 
@@ -679,7 +813,7 @@ export async function searchKnowledge(
     .ilike('content', likeTerm)
     .limit(80);
 
-  const primaryRows = indexedSearchData ?? [];
+  const primaryRows = semanticRows.length > 0 ? semanticRows : (indexedSearchData ?? []);
   const fallbackRows = fallbackSearch.data ?? [];
   const mergedRows = primaryRows.length > 0
     ? primaryRows
@@ -687,17 +821,37 @@ export async function searchKnowledge(
     // da se izbegne dupliranje istog chunk-a kroz dva upita.
     : fallbackRows.filter((row) => row.embedding_status !== 'indexed');
 
-  if (mergedRows.length === 0) return [];
+  if (mergedRows.length === 0) {
+    return {
+      citations: [],
+      retrievalIndexVersion: KNOWLEDGE_INDEX_VERSION,
+      semanticRetrievalUsed,
+    };
+  }
 
   const scored = (mergedRows as unknown as ChunkRow[])
     .map((row) => {
       const lexicalScore = computeScore(row.content, terms);
       const trustScore = row.knowledge_documents?.trust_score ?? 0;
+      const isV4Chunk = row.index_version === KNOWLEDGE_INDEX_VERSION_V4;
       const isV3Chunk = row.index_version === KNOWLEDGE_INDEX_VERSION_V3;
       const isV2Chunk = row.index_version === KNOWLEDGE_INDEX_VERSION_V2;
 
       let score: number;
-      if (isV3Chunk) {
+      if (isV4Chunk) {
+        const termFreqScore = computeTermFrequencyScore(row.content, terms);
+        const kdScore = Math.min(row.keyword_density ?? 0, 1);
+        const posScore = Math.min(row.position_score ?? 0, 1);
+        const semanticSimilarity = Math.min(row.semantic_score ?? 0, 1);
+        score = Number((
+          semanticSimilarity * SEARCH_SCORE_WEIGHTS_V4.semanticSimilarity +
+          lexicalScore * SEARCH_SCORE_WEIGHTS_V4.lexical +
+          termFreqScore * SEARCH_SCORE_WEIGHTS_V4.termFrequency +
+          trustScore * SEARCH_SCORE_WEIGHTS_V4.trust +
+          kdScore * SEARCH_SCORE_WEIGHTS_V4.keywordDensity +
+          posScore * SEARCH_SCORE_WEIGHTS_V4.positionScore
+        ).toFixed(4));
+      } else if (isV3Chunk) {
         // v3: FTS-retrieved + term-frequency + keyword density + position signal.
         const termFreqScore = computeTermFrequencyScore(row.content, terms);
         const kdScore = Math.min(row.keyword_density ?? 0, 1);
@@ -735,13 +889,36 @@ export async function searchKnowledge(
         snippet: row.content.slice(0, 320),
         score,
         sourceName: row.knowledge_documents?.knowledge_sources?.name ?? 'nepoznat-izvor',
-      } satisfies KnowledgeCitation;
+        indexVersionForMetrics: getChunkIndexVersion(row.index_version),
+      };
     })
     .filter((item) => Boolean(item.sourceUrl))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 
-  return scored;
+  const retrievalIndexVersion = scored[0]?.indexVersionForMetrics ?? KNOWLEDGE_INDEX_VERSION;
+  const citations = scored.map((item) => ({
+    id: item.id,
+    title: item.title,
+    sourceUrl: item.sourceUrl,
+    snippet: item.snippet,
+    score: item.score,
+    sourceName: item.sourceName,
+  })) satisfies KnowledgeCitation[];
+
+  return {
+    citations,
+    retrievalIndexVersion,
+    semanticRetrievalUsed,
+  };
+}
+
+export async function searchKnowledge(
+  query: string,
+  options?: KnowledgeSearchOptions,
+): Promise<KnowledgeCitation[]> {
+  const result = await executeKnowledgeSearch(query, options);
+  return result.citations;
 }
 
 interface IndexCandidateRow {
@@ -781,6 +958,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
   const targetVersion = options?.indexVersion ?? KNOWLEDGE_INDEX_VERSION;
   const upgradeToV2 = Boolean(options?.upgradeToV2);
   const upgradeToV3 = Boolean(options?.upgradeToV3);
+  const upgradeToV4 = Boolean(options?.upgradeToV4);
 
   const { data: job, error: jobError } = await supabase
     .from('knowledge_index_jobs')
@@ -828,7 +1006,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
     }
   }
 
-  const allowedStatuses = (upgradeToV2 || upgradeToV3)
+  const allowedStatuses = (upgradeToV2 || upgradeToV3 || upgradeToV4)
     ? (['not_indexed', 'failed', 'indexed'] as Array<'not_indexed' | 'failed' | 'indexed'>)
     : getIndexableStatuses(Boolean(options?.forceReindex));
 
@@ -843,7 +1021,10 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
     if (!options?.forceReindex) {
       chunkSelect = chunkSelect.lt('indexing_attempts', maxRetries);
     }
-    if (upgradeToV3) {
+    if (upgradeToV4) {
+      // Isključi chunk-ove koji su već na v4 da se izbegne nepotreban re-index.
+      chunkSelect = chunkSelect.neq('index_version', KNOWLEDGE_INDEX_VERSION_V4);
+    } else if (upgradeToV3) {
       // Isključi chunk-ove koji su već na v3 da se izbegne nepotreban re-index.
       chunkSelect = chunkSelect.neq('index_version', KNOWLEDGE_INDEX_VERSION_V3);
     } else if (upgradeToV2) {
@@ -868,13 +1049,17 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
 
       try {
         const isV3 = targetVersion === KNOWLEDGE_INDEX_VERSION_V3;
+        const isV4 = targetVersion === KNOWLEDGE_INDEX_VERSION_V4;
         const isV2 = targetVersion === KNOWLEDGE_INDEX_VERSION_V2;
-        const indexedContent = (isV2 || isV3)
+        const indexedContent = (isV2 || isV3 || isV4)
           ? buildIndexedContentV2(chunk.content)
           : buildIndexedContent(chunk.content);
-        const keywordDensity = (isV2 || isV3) ? computeKeywordDensity(chunk.content) : 0;
-        const uniqueTermCount = (isV2 || isV3) ? computeUniqueTermCount(chunk.content) : 0;
-        const positionScore = isV3 ? computePositionScore(chunk.chunk_index) : 0;
+        const keywordDensity = (isV2 || isV3 || isV4) ? computeKeywordDensity(chunk.content) : 0;
+        const uniqueTermCount = (isV2 || isV3 || isV4) ? computeUniqueTermCount(chunk.content) : 0;
+        const positionScore = (isV3 || isV4) ? computePositionScore(chunk.chunk_index) : 0;
+        const embeddingVector = isV4 ? await createEmbeddingVector(chunk.content) : null;
+        // semantic_score je coverage signal (0/1): da li chunk ima validan v4 embedding.
+        const hasSemanticEmbedding = isV4 && embeddingVector ? 1 : 0;
 
         const { error } = await supabase
           .from('knowledge_chunks')
@@ -889,6 +1074,11 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
             keyword_density: keywordDensity,
             unique_term_count: uniqueTermCount,
             position_score: positionScore,
+            embedding_model: isV4 ? KNOWLEDGE_EMBEDDING_MODEL_V4 : null,
+            embedding_model_version: isV4 ? KNOWLEDGE_EMBEDDING_MODEL_VERSION_V4 : null,
+            embedding_generated_at: isV4 ? attemptAt : null,
+            embedding_vector: embeddingVector ? toVectorLiteral(embeddingVector) : null,
+            semantic_score: hasSemanticEmbedding,
           })
           .eq('id', chunk.id);
 
@@ -942,13 +1132,14 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
   const supabase = getSupabaseServerClient();
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  const [notIndexed, indexed, failed, indexedV1, indexedV2, indexedV3, jobs24h, latestJobs] = await Promise.all([
+  const [notIndexed, indexed, failed, indexedV1, indexedV2, indexedV3, indexedV4, jobs24h, latestJobs] = await Promise.all([
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'not_indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'failed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V2),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V3),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V4),
     supabase
       .from('knowledge_index_jobs')
       .select('*')
@@ -975,6 +1166,7 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
       indexedV1: indexedV1.count ?? 0,
       indexedV2: indexedV2.count ?? 0,
       indexedV3: indexedV3.count ?? 0,
+      indexedV4: indexedV4.count ?? 0,
       failed: failed.count ?? 0,
     },
     jobs24h: {
@@ -997,7 +1189,8 @@ export async function buildKnowledgeContext(
   },
 ): Promise<KnowledgeContextResult> {
   const start = Date.now();
-  const citations = await searchKnowledge(query, { limit: options?.limit ?? 4 });
+  const searchResult = await executeKnowledgeSearch(query, { limit: options?.limit ?? 4 });
+  const citations = searchResult.citations;
 
   const contextLines = citations.map(
     (citation, index) =>
@@ -1017,6 +1210,8 @@ export async function buildKnowledgeContext(
     citations_count: citations.length,
     citation_rate: citations.length > 0 ? 1 : 0,
     quality_score: citations.length > 0 ? citations[0].score : 0,
+    retrieval_index_version: searchResult.retrievalIndexVersion,
+    semantic_retrieval_used: searchResult.semanticRetrievalUsed,
   });
 
   return { contextBlock, citations, latencyMs };
