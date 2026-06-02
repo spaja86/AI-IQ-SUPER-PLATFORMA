@@ -22,6 +22,11 @@ export function AutofinishCommandCenterWidget({
   const leadTime = dora.metrike.find((metric) => metric.id === 'dora-lead-time');
   const mttr = dora.metrike.find((metric) => metric.id === 'dora-mttr');
   const changeFailureRate = dora.metrike.find((metric) => metric.id === 'dora-change-failure-rate');
+  const doraSummary = [
+    `Lead ${leadTime ? `${leadTime.vrijednost} ${leadTime.jedinica}` : 'N/A'}`,
+    `MTTR ${mttr ? `${mttr.vrijednost} ${mttr.jedinica}` : 'N/A'}`,
+    `CFR ${changeFailureRate ? `${changeFailureRate.vrijednost}${changeFailureRate.jedinica}` : 'N/A'}`,
+  ].join(' • ');
 
   return (
     <section className="rounded-xl p-6 mb-6 bg-gray-900 border border-gray-800" aria-label="Autofinish command center">
@@ -51,9 +56,7 @@ export function AutofinishCommandCenterWidget({
           <p className="text-sm font-semibold text-cyan-300">
             {deployFrequency ? `${deployFrequency.vrijednost} ${deployFrequency.jedinica}` : 'N/A'}
           </p>
-          <p className="text-xs text-gray-500">
-            Lead {leadTime ? `${leadTime.vrijednost} ${leadTime.jedinica}` : 'N/A'} • MTTR {mttr ? `${mttr.vrijednost} ${mttr.jedinica}` : 'N/A'} • CFR {changeFailureRate ? `${changeFailureRate.vrijednost}${changeFailureRate.jedinica}` : 'N/A'}
-          </p>
+          <p className="text-xs text-gray-500">{doraSummary}</p>
         </article>
       </div>
     </section>
