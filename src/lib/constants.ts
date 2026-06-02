@@ -5,7 +5,7 @@
  * Sve komponente koriste ove konstante umesto hardkodovanih vrednosti.
  */
 
-export const APP_VERSION = '59.73.0';
+export const APP_VERSION = '59.74.0';
 export const APP_NAME = 'AI IQ SUPER PLATFORMA';
 export const KOMPANIJA = 'Kompanija SPAJA';
 export const KOMPANIJA_FORMALNI_NAZIV = 'MEGA CENTAR SVEGA';
@@ -35,7 +35,7 @@ export const TOTAL_GEJMING_ENTITETA = 45;
 export const TOTAL_DIAGNOSTIKA = 2404;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 1419;
+export const AUTOFINISH_COUNT = 1420;
 export const AUTOFINISH_2_START = 1405;
 export const AUTOFINISH_2_SCOPE =
   'Nastavak Autofinish iteracija posle #1404 sa fokusom na high-risk route coverage, kontrakte i bezbednosne gate-ove.';

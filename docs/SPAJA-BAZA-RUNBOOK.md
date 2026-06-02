@@ -237,3 +237,67 @@
 ### Rollback
 - Za rollback retrieval-a na lexical putanje, pokrenite indexiranje sa `indexVersion: v3` i pratite metric baseline.
 - v4 kolone ostaju u šemi (rollback-safe), bez gubitka postojećih podataka.
+
+---
+
+## PERTENIZACIJA 2 — Operativni koraci
+
+### Aktivacija v2 po korisniku
+```bash
+# Ažurirati korisnikov profil direktno (admin SQL) ili kroz API:
+PUT /api/spaja-pro/settings
+Body: { "personalizationVersion": "v2" }
+```
+
+### Praćenje adoption metrika
+```bash
+GET /api/spaja-baza-knowledge/metrics
+# Prati: personalizacijaV2.v2AdoptionRate, averageConfidence, optOutCount
+```
+
+### Explainability (zašto je odgovor personalizovan)
+```bash
+GET /api/spaja-pro/personalizacija-explain
+# Headers: Authorization: ******
+```
+
+### Reset personalizacije za korisnika
+```bash
+PUT /api/spaja-pro/settings
+Body: { "resetPersonalization": true }
+# Briše stable_preferences, contextual_preferences, confidence; vraća na v1
+```
+
+### Opt-out (isključuje v2 za korisnika)
+```bash
+PUT /api/spaja-pro/settings
+Body: { "personalizationOptOut": true }
+```
+
+### Globalni kill-switch
+```bash
+# U .env / Vercel env vars:
+PERSONALIZATION_V2_ENABLED=false
+# Odmah vraća sve korisnike na v1 bez deploymenta
+```
+
+### Incident: v2 engine generiše neočekivane odgovore
+1. Isključi globalni kill-switch: `PERSONALIZATION_V2_ENABLED=false`.
+2. Proveri explainability payload za pogođenog korisnika (`GET /api/spaja-pro/personalizacija-explain`).
+3. Resetuj korisnikove preference: PUT `/api/spaja-pro/settings` sa `{ "resetPersonalization": true }`.
+4. Analiza: provjeri `stable_preferences` i `contextual_preferences` JSONB direktno u Supabase.
+5. Rollback: set `personalization_version = 'v1'` u SQL za pogođene korisnike.
+
+### Rollback na v1
+- Globalni rollback: `PERSONALIZATION_V2_ENABLED=false` (bez deploymenta).
+- Per-user rollback: PUT `/api/spaja-pro/settings` sa `{ "resetPersonalization": true }`.
+- v2 kolone ostaju u šemi (rollback-safe); nema gubitka v1 podataka.
+
+### KPI praćenje (metrike uspeha)
+| Metrika | Endpoint | Cilj |
+|---------|----------|------|
+| v2 adoption rate | `/api/spaja-baza-knowledge/metrics` → `personalizacijaV2.v2AdoptionRate` | ≥ 0.7 |
+| avg confidence | `/api/spaja-baza-knowledge/metrics` → `personalizacijaV2.averageConfidence` | ≥ 0.6 |
+| opt-out rate | `optOutCount / totalProfiles` | < 0.05 |
+| citation rate | `metrics24h.citationRate` | ≥ 0.45 |
+
