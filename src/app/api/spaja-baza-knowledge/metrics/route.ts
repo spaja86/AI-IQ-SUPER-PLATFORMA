@@ -12,7 +12,7 @@ export async function GET() {
   const [retrievals, avgLatency, avgQuality] = await Promise.all([
     supabase
       .from('knowledge_retrieval_metrics')
-      .select('id, latency_ms, quality_score, citations_count')
+      .select('id, latency_ms, quality_score, citations_count, retrieval_index_version, semantic_retrieval_used')
       .gte('created_at', since24h),
     supabase
       .from('knowledge_retrieval_metrics')
@@ -39,6 +39,15 @@ export async function GET() {
     qualityRows.length === 0
       ? 0
       : Number((qualityRows.reduce((sum, row) => sum + row.quality_score, 0) / qualityRows.length).toFixed(3));
+  const retrievalByVersion = rows.reduce((acc, row) => {
+    const version = row.retrieval_index_version ?? 'v1';
+    acc[version] = (acc[version] ?? 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  const semanticUsageRate =
+    rows.length === 0
+      ? 0
+      : Number((rows.reduce((sum, row) => sum + (row.semantic_retrieval_used ? 1 : 0), 0) / rows.length).toFixed(3));
 
   return NextResponse.json({
     sistem: 'SPAJA BAZA Knowledge Metrics',
@@ -48,6 +57,8 @@ export async function GET() {
       citationRate: Number(citationCoverageRate.toFixed(3)),
       averageLatencyMs: averageLatency,
       averageQualityScore: averageQuality,
+      retrievalByVersion,
+      semanticUsageRate,
     },
     timestamp: new Date().toISOString(),
   });
