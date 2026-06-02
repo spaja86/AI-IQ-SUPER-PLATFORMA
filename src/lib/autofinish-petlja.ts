@@ -1513,6 +1513,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1403: 'Coverage testovi za Digitalna Industrija Diskriminacija (lib + route)',
     1404: 'Digitalna Industrija Inflacije: lib modul + /api ruta + stranica + sekvence + sitemap/navigation + testovi',
     1405: 'AUTOFINISH 2 Batch #1: high-risk auth/billing/admin route contract i safety testovi + sync source-of-truth',
+    1414: 'API Milestone 1250 route + coverage test + TOTAL_API_ROUTES 1225→1226 + TOTAL_DIAGNOSTIKA 2402→2404',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8129,3 +8130,11 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Gate-ovi: validacija kontrakta, validacija grešaka, prisustvo rate-limit/brute-force zaštite gde je primenjivo.
 // Sinhronizacija source-of-truth: constants + getAutofinishOpis + getAutofinishIteracijaOpis.
 // APP_VERSION=59.66.0→59.67.0 | AUTOFINISH_COUNT=1404→1405 | TOTAL_API_ROUTES=1208 | TOTAL_ROUTES=1337 | TOTAL_PAGES=128
+
+
+// ─── Autofinish #1414 — API MILESTONE 1250 ROUTE + COVERAGE TEST ──────────────
+// Nova ruta: src/app/api/autofinish-api-milestone-1250/route.ts.
+// GET — Metapodaci o napretku ka API milestone 1250 (TOTAL_API_ROUTES tracking).
+// Route coverage test: src/tests/autofinish/autofinish-api-milestone-1250-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1225→1226, TOTAL_ROUTES 1354→1355, TOTAL_DIAGNOSTIKA 2402→2404.
+// APP_VERSION=59.70.0→59.71.0 | AUTOFINISH_COUNT=1413→1414 | TOTAL_API_ROUTES=1226 | TOTAL_ROUTES=1355 | TOTAL_PAGES=129
