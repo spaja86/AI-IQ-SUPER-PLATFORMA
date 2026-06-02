@@ -68,6 +68,9 @@ export default function PricingUpgradeConfirmation() {
       <div className="spaja-container max-w-4xl">
         <div className="rounded-2xl border border-slate-700/70 bg-slate-900/70 p-6">
           <h2 className="mb-2 text-2xl font-bold text-white">Upgrade Confirmation</h2>
+          <p className="mb-2 text-xs uppercase tracking-wide text-slate-400">
+            Internal SPAJA upgrade flow
+          </p>
           <p className="mb-4 whitespace-pre-line text-sm text-slate-200">{disclosureText}</p>
 
           <div className="mb-4 overflow-x-auto rounded-xl border border-slate-700/60">
