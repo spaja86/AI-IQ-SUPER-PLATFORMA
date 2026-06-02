@@ -732,6 +732,7 @@ spaja-baza,GET,spaja-baza,yes,spaja-baza-route.test.ts
 spaja-baza-knowledge/citations,POST,spaja-baza-knowledge,yes,spaja-baza-knowledge-citations-route.test.ts
 spaja-baza-knowledge/crawl,GET|POST,spaja-baza-knowledge,yes,spaja-baza-knowledge-crawl-route.test.ts
 spaja-baza-knowledge/health,GET,spaja-baza-knowledge,yes,spaja-baza-knowledge-health-route.test.ts
+spaja-baza-knowledge/index,GET|POST,spaja-baza-knowledge,yes,spaja-baza-knowledge-index-route.test.ts
 spaja-baza-knowledge/metrics,GET,spaja-baza-knowledge,yes,spaja-baza-knowledge-metrics-route.test.ts
 spaja-baza-knowledge/search,GET,spaja-baza-knowledge,yes,spaja-baza-knowledge-search-route.test.ts
 spaja-baza-knowledge/sources,GET|POST,spaja-baza-knowledge,yes,spaja-baza-knowledge-sources-route.test.ts
@@ -1204,6 +1205,7 @@ univerzalni-sistem-kompatibilnost,GET,univerzalni-sistem-kompatibilnost,yes,univ
 univerzalni-sistem-kompatibilnost-pregled,GET,univerzalni-sistem-kompatibilnost-pregled,yes,univerzalni-sistem-kompatibilnost-pregled-route.test.ts
 upgrade-pregled,GET,upgrade-pregled,yes,upgrade-pregled-route.test.ts
 validator-poslovnih-racuna,GET,validator-poslovnih-racuna,yes,validator-poslovnih-racuna-route.test.ts
+vercel-dx-platform-pricing,GET,vercel-dx-platform-pricing,yes,vercel-dx-platform-pricing-route.test.ts
 verzija,GET,verzija,yes,verzija-route.test.ts
 verzija-istorija,GET,verzija-istorija,yes,verzija-istorija-route.test.ts
 verzija-roadmap,GET,verzija-roadmap,yes,verzija-roadmap-route.test.ts
