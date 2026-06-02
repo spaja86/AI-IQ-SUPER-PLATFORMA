@@ -11,6 +11,7 @@
 // ne prekida ostale. Svaki stage beleži trajanje i status nezavisno.
 
 import { buildAnalizaSvega } from './analiza-svega';
+import { buildProcesuiranje3 } from './procesuiranje-3';
 import { buildProcesuiranjeSvega, buildEkstremnoProcesuiranjeSvega } from './procesuiranje-svega';
 import { pokreniAutofinishPetlju } from './autofinish-petlja';
 import { buildMaksimusSvega } from './maksimus-svega';
@@ -29,6 +30,7 @@ export const AUTOFINISH_SVEGA_SOURCE_OF_TRUTH = '/api/autofinish-svega';
 export type AutofinishSvegaStageId =
   | 'analiza-svega'
   | 'procesuiranje-svega'
+  | 'procesuiranje-3'
   | 'ekstremno-procesuiranje-svega'
   | 'autofinish-petlja'
   | 'maksimus-svega'
@@ -105,6 +107,7 @@ export interface AutofinishSvegaInfoRezultat {
 const STAGE_NAZIVI: Record<AutofinishSvegaStageId, string> = {
   'analiza-svega': 'Analiza Svega',
   'procesuiranje-svega': 'Procesuiranje Svega',
+  'procesuiranje-3': 'Procesuiranje 3',
   'ekstremno-procesuiranje-svega': 'Ekstremno Procesuiranje Svega',
   'autofinish-petlja': 'Autofinish Petlja',
   'maksimus-svega': 'Maksimus Svega',
@@ -115,6 +118,7 @@ const STAGE_NAZIVI: Record<AutofinishSvegaStageId, string> = {
 const STAGE_ENDPOINTI: Record<AutofinishSvegaStageId, string> = {
   'analiza-svega': '/api/analiza-svega',
   'procesuiranje-svega': '/api/procesuiranje-svega',
+  'procesuiranje-3': '/api/procesuiranje-3',
   'ekstremno-procesuiranje-svega': '/api/ekstremno-procesuiranje-svega',
   'autofinish-petlja': '/api/autofinish-petlja-status',
   'maksimus-svega': '/api/maksimus-svega',
@@ -129,6 +133,7 @@ const STAGE_ENDPOINTI: Record<AutofinishSvegaStageId, string> = {
 const ALL_STAGES: AutofinishSvegaStageId[] = [
   'analiza-svega',
   'procesuiranje-svega',
+  'procesuiranje-3',
   'ekstremno-procesuiranje-svega',
   'autofinish-petlja',
   'maksimus-svega',
@@ -153,6 +158,17 @@ function buildSazetakProcesuiranje(result: ReturnType<typeof buildProcesuiranjeS
     aktivnihProcesa: result.aktivnihProcesa,
     gresakaUkupno: result.gresakaUkupno,
     degraded: result.meta.degraded,
+  };
+}
+
+function buildSazetakProcesuiranje3(result: ReturnType<typeof buildProcesuiranje3>): Record<string, unknown> {
+  return {
+    ukupanScore: result.ukupanScore,
+    aktivnihProcesa: result.aktivnihProcesa,
+    queueDepth: result.scheduler.queueDepth,
+    trend: result.trend.direction,
+    degraded: result.meta.degraded,
+    compatibilityMode: result.meta.compatibilityMode,
   };
 }
 
@@ -203,6 +219,8 @@ async function runStage(id: AutofinishSvegaStageId): Promise<AutofinishSvegaStag
       sazetak = buildSazetakAnaliza(await buildAnalizaSvega());
     } else if (id === 'procesuiranje-svega') {
       sazetak = buildSazetakProcesuiranje(buildProcesuiranjeSvega());
+    } else if (id === 'procesuiranje-3') {
+      sazetak = buildSazetakProcesuiranje3(buildProcesuiranje3());
     } else if (id === 'ekstremno-procesuiranje-svega') {
       sazetak = buildSazetakProcesuiranje(buildEkstremnoProcesuiranjeSvega());
     } else if (id === 'maksimus-svega') {

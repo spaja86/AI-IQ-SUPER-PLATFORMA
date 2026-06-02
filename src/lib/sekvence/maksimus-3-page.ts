@@ -24,7 +24,7 @@ export async function getMaksimus3Sekvence(): Promise<Sekvenca[]> {
         dugmad: [
           { tekst: 'API: Maksimus 3', href: '/api/maksimus-3' },
           { tekst: 'Analiza Svega', href: '/analiza-svega', stil: 'sekundarno' },
-          { tekst: 'Procesuiranje Svega', href: '/procesuiranje-svega', stil: 'sekundarno' },
+          { tekst: 'Procesuiranje 3', href: '/procesuiranje-3', stil: 'sekundarno' },
           { tekst: 'Potencijal Svega', href: '/potencijal-svega-ovoga-do-sada', stil: 'sekundarno' },
           { tekst: 'Ekstremno Procesuiranje', href: '/api/ekstremno-procesuiranje-svega', stil: 'sekundarno' },
           { tekst: 'SpajaPro', href: '/spaja-pro', stil: 'sekundarno' },

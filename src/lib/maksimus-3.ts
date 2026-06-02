@@ -13,7 +13,8 @@
 
 import { buildAnalizaSvega } from './analiza-svega';
 import { buildPotencijalSvegaOvogaDoSada } from './potencijal-svega-ovoga-do-sada';
-import { buildProcesuiranjeSvega, buildEkstremnoProcesuiranjeSvega } from './procesuiranje-svega';
+import { buildProcesuiranje3 } from './procesuiranje-3';
+import { buildEkstremnoProcesuiranjeSvega } from './procesuiranje-svega';
 import { getAutofinishSvegaInfo } from './autofinish-svega';
 import { getOperativnaSpremnost } from './kompanija-spaja-operativa';
 import { spajaProVerzije } from './spaja-pro';
@@ -198,7 +199,7 @@ export async function buildMaksimus3(): Promise<Maksimus3Svega> {
 
   const analizaPromise = safeCallAsync('analiza-svega', degradedSources, () => buildAnalizaSvega());
   const potencijal = safeCallSync('potencijal-svega-ovoga-do-sada', degradedSources, () => buildPotencijalSvegaOvogaDoSada());
-  const procesuiranje = safeCallSync('procesuiranje-svega', degradedSources, () => buildProcesuiranjeSvega());
+  const procesuiranje = safeCallSync('procesuiranje-3', degradedSources, () => buildProcesuiranje3());
   const autofinishInfo = safeCallSync('autofinish-svega', degradedSources, () => getAutofinishSvegaInfo());
   const ekstremnoProcesuiranje = safeCallSync('ekstremno-procesuiranje-svega', degradedSources, () => buildEkstremnoProcesuiranjeSvega());
   const operativnaSpremnost = safeCallSync('kompanija-spaja-operativa', degradedSources, () => getOperativnaSpremnost());
@@ -214,7 +215,7 @@ export async function buildMaksimus3(): Promise<Maksimus3Svega> {
 
   const analizaScore = analiza?.ukupanScore ?? 0;
   const potencijalScore = potencijal?.ukupniPotencijal ?? 0;
-  const procesuiranjeScore = procesuiranje?.ukupanProcenat ?? 0;
+  const procesuiranjeScore = procesuiranje?.ukupanScore ?? 0;
   const orkestracijaScore = autofinishInfo
     ? clampScore((autofinishInfo.dostupniStepovi.length / MAKSIMUS_3_EXPECTED_AUTOFINISH_STAGES) * 100)
     : 0;
@@ -272,12 +273,12 @@ export async function buildMaksimus3(): Promise<Maksimus3Svega> {
       slaThreshold: MAKSIMUS_3_SLA_THRESHOLDS.potencijal,
     } satisfies Maksimus3DomenSignal,
     procesuiranje: {
-      naziv: 'Procesuiranje Svega',
+      naziv: 'Procesuiranje 3',
       score: procesuiranjeScore,
       confidence: computeConfidence(procesuiranjeScore, procesuiranje !== null, procesuiranje?.meta.degraded ?? false),
       tezina: MAKSIMUS_3_WEIGHTS.procesuiranje,
       doprinos: clampScore(procesuiranjeScore * MAKSIMUS_3_WEIGHTS.procesuiranje),
-      sourceOfTruth: procesuiranje?.meta.sourceOfTruth ?? '/api/procesuiranje-svega',
+      sourceOfTruth: procesuiranje?.meta.sourceOfTruth ?? '/api/procesuiranje-3',
       freshness: freshnessFromSourceState(procesuiranje !== null, procesuiranje?.meta.degraded ?? false),
       trendDirection: scoreDeltaDirection(procesuiranjeScore, previousSnapshot?.domenScores.procesuiranje ?? null),
       slaThreshold: MAKSIMUS_3_SLA_THRESHOLDS.procesuiranje,
