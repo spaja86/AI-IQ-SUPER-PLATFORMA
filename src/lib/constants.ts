@@ -28,14 +28,14 @@ export const OMEGA_AI_ZENSKIH = 20_000_281;
 
 // Ekosistem
 export const TOTAL_PAGES = 130;
-export const TOTAL_API_ROUTES = 1230;
-export const TOTAL_ROUTES = 1359;
+export const TOTAL_API_ROUTES = 1232;
+export const TOTAL_ROUTES = 1361;
 export const TOTAL_IGRICA = 97;
 export const TOTAL_GEJMING_ENTITETA = 45;
 export const TOTAL_DIAGNOSTIKA = 2404;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 1415;
+export const AUTOFINISH_COUNT = 1416;
 export const AUTOFINISH_2_START = 1405;
 export const AUTOFINISH_2_SCOPE =
   'Nastavak Autofinish iteracija posle #1404 sa fokusom na high-risk route coverage, kontrakte i bezbednosne gate-ove.';
