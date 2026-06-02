@@ -848,6 +848,7 @@ spaja-pro/feedback,GET|POST,spaja-pro,yes,spaja-pro-feedback-route.test.ts
 spaja-pro/kpi,GET,spaja-pro,yes,spaja-pro-kpi-route.test.ts
 spaja-pro/memory,GET|PUT,spaja-pro,yes,spaja-pro-memory-route.test.ts
 spaja-pro/models,GET,spaja-pro,yes,spaja-pro-models-route.test.ts
+spaja-pro/personalizacija-explain,GET,spaja-pro,yes,spaja-pro-personalizacija-explain-route.test.ts
 spaja-pro/plan,POST,spaja-pro,yes,spaja-pro-plan-route.test.ts
 spaja-pro/settings,GET|PUT,spaja-pro,yes,spaja-pro-settings-route.test.ts
 spaja-pro/summarize,POST,spaja-pro,yes,spaja-pro-summarize-route.test.ts

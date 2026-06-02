@@ -9,7 +9,7 @@ export async function GET() {
   const health = await getKnowledgeHealth();
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  const [retrievals, avgLatency, avgQuality] = await Promise.all([
+  const [retrievals, avgLatency, avgQuality, personalizationStats] = await Promise.all([
     supabase
       .from('knowledge_retrieval_metrics')
       .select('id, latency_ms, quality_score, citations_count, retrieval_index_version, semantic_retrieval_used')
@@ -24,11 +24,17 @@ export async function GET() {
       .select('quality_score')
       .gte('created_at', since24h)
       .limit(500),
+    // v2 personalization adoption metrics from profiles
+    supabase
+      .from('profiles')
+      .select('personalization_version, personalization_enabled, personalization_opt_out, personalization_confidence'),
   ]);
 
   const rows = retrievals.data ?? [];
   const latencyRows = avgLatency.data ?? [];
   const qualityRows = avgQuality.data ?? [];
+  const profileRows = personalizationStats.data ?? [];
+
   const citationCoverageRate =
     rows.length === 0 ? 0 : rows.reduce((sum, row) => sum + (row.citations_count > 0 ? 1 : 0), 0) / rows.length;
   const averageLatency =
@@ -49,6 +55,21 @@ export async function GET() {
       ? 0
       : Number((rows.reduce((sum, row) => sum + (row.semantic_retrieval_used ? 1 : 0), 0) / rows.length).toFixed(3));
 
+  // ── Personalization v2 metrics ────────────────────────────────────
+  const totalProfiles = profileRows.length;
+  const v2AdoptionCount = profileRows.filter((r) => r.personalization_version === 'v2').length;
+  const optOutCount = profileRows.filter((r) => r.personalization_opt_out === true).length;
+  const disabledCount = profileRows.filter((r) => r.personalization_enabled === false).length;
+  const avgConfidence =
+    totalProfiles === 0
+      ? 0
+      : Number(
+          (
+            profileRows.reduce((sum, r) => sum + (r.personalization_confidence ?? 0), 0) /
+            totalProfiles
+          ).toFixed(3),
+        );
+
   return NextResponse.json({
     sistem: 'SPAJA BAZA Knowledge Metrics',
     health,
@@ -60,6 +81,15 @@ export async function GET() {
       retrievalByVersion,
       semanticUsageRate,
     },
+    personalizacijaV2: {
+      totalProfiles,
+      v2AdoptionCount,
+      v2AdoptionRate: totalProfiles === 0 ? 0 : Number((v2AdoptionCount / totalProfiles).toFixed(3)),
+      optOutCount,
+      disabledCount,
+      averageConfidence: avgConfidence,
+    },
     timestamp: new Date().toISOString(),
   });
 }
+

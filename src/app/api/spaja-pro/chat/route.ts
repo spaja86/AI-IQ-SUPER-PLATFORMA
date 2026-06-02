@@ -27,6 +27,12 @@ import { generisiCitatInstrukciju } from '@/lib/spaja-pro-mozak/citati';
 import { jeSlozeniZahtev, kreirajPlan } from '@/lib/spaja-pro-mozak/planiranje';
 import { detektujSablon } from '@/lib/spaja-pro-mozak/prompt-sabloni';
 import { buildKnowledgeContext, saveKnowledgeCitations } from '@/lib/spaja-baza-knowledge';
+import {
+  buildPersonalizationProfile,
+  computePersonalizationSignals,
+  mergePersonalizationIntoPrompt,
+  type PersonalizationSignals,
+} from '@/lib/personalizacija/engine-v2';
 
 export const runtime = 'nodejs';
 
@@ -73,7 +79,7 @@ export async function POST(request: NextRequest) {
     // Proveri korisnikov plan i limite
     const { data: profile } = await supabase
       .from('profiles')
-      .select('plan, chat_messages_used, chat_messages_limit, custom_instructions, preferred_model, memory')
+      .select('plan, chat_messages_used, chat_messages_limit, custom_instructions, preferred_model, preferred_language, memory, personalization_version, stable_preferences, contextual_preferences, personalization_confidence, personalization_updated_at, personalization_enabled, personalization_opt_out')
       .eq('id', user.id)
       .single();
 
@@ -90,11 +96,30 @@ export async function POST(request: NextRequest) {
       }, { status: 429 });
     }
 
+    // ── 1b. Personalization v2 — compute signals (pre-routing) ────────
+    const personalizationProfile = buildPersonalizationProfile(user.id, {
+      custom_instructions: profile.custom_instructions,
+      memory: profile.memory,
+      preferred_model: profile.preferred_model,
+      preferred_language: profile.preferred_language ?? null,
+      personalization_version: profile.personalization_version ?? 'v1',
+      stable_preferences: profile.stable_preferences as Record<string, unknown> | null,
+      contextual_preferences: profile.contextual_preferences as Record<string, unknown> | null,
+      personalization_confidence: profile.personalization_confidence ?? 0,
+      personalization_updated_at: profile.personalization_updated_at ?? null,
+      personalization_enabled: profile.personalization_enabled ?? true,
+      personalization_opt_out: profile.personalization_opt_out ?? false,
+    });
+    const personalizationSignals: PersonalizationSignals = computePersonalizationSignals(personalizationProfile);
+
     // ── 2. Smart Model Routing ─────────────────────────────────────────
+    // v2 routing hint: prefer the user's last active model if v2 engine suggests it
+    const effectivePreferredModel =
+      personalizationSignals.routingHint.preferredModel ?? profile.preferred_model;
     const rutingRezultat = rutirajModel(
       obradjenaPoruka,
       profile.plan,
-      profile.preferred_model,
+      effectivePreferredModel,
       requestedModel,
     );
 
@@ -198,6 +223,11 @@ export async function POST(request: NextRequest) {
     if (profile.memory) {
       systemPrompt += `\n\nKorisnikova memorija (kontekst iz prethodnih sesija):\n${profile.memory}`;
     }
+
+    // ── 0. Personalization v2 — safe-merge injection (pre pre-processing) ──
+    // Security rule: v2 signals are appended AFTER base prompt and custom
+    // instructions — they can never override security or limit policy text.
+    systemPrompt = mergePersonalizationIntoPrompt(systemPrompt, personalizationSignals);
 
     // ── Novi moduli — pre-processing middleware ─────────────────────
 
@@ -400,6 +430,12 @@ export async function POST(request: NextRequest) {
                   citations: knowledge.citations,
                   retrievalLatencyMs: knowledge.latencyMs,
                 },
+                personalizacija: {
+                  verzija: personalizationSignals.explainability.version,
+                  aktivniSignali: personalizationSignals.explainability.activeSignals,
+                  konfidens: personalizationSignals.explainability.confidence,
+                  optOut: personalizationSignals.explainability.optOut,
+                },
               })}\n\n`),
             );
 
@@ -530,6 +566,12 @@ export async function POST(request: NextRequest) {
           used: knowledge.citations.length > 0,
           citations: knowledge.citations,
           retrievalLatencyMs: knowledge.latencyMs,
+        },
+        personalizacija: {
+          verzija: personalizationSignals.explainability.version,
+          aktivniSignali: personalizationSignals.explainability.activeSignals,
+          konfidens: personalizationSignals.explainability.confidence,
+          optOut: personalizationSignals.explainability.optOut,
         },
       });
     }
