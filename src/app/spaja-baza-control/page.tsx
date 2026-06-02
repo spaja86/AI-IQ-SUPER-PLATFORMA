@@ -31,9 +31,27 @@ interface SourceItem {
   updated_at: string;
 }
 
+interface IndexStatusResponse {
+  status: {
+    queue: {
+      notIndexed: number;
+      indexed: number;
+      failed: number;
+    };
+    jobs24h: {
+      total: number;
+      successful: number;
+      failed: number;
+      averageLatencyMs: number;
+      throughputPerMinute: number;
+    };
+  };
+}
+
 export default function SpajaBazaControlPage() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
+  const [indexStatus, setIndexStatus] = useState<IndexStatusResponse | null>(null);
   const [sources, setSources] = useState<SourceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -43,22 +61,25 @@ export default function SpajaBazaControlPage() {
       setLoading(true);
       setError('');
       try {
-        const [healthRes, metricsRes, sourcesRes] = await Promise.all([
+        const [healthRes, metricsRes, sourcesRes, indexRes] = await Promise.all([
           fetch('/api/spaja-baza-knowledge/health', { cache: 'no-store' }),
           fetch('/api/spaja-baza-knowledge/metrics', { cache: 'no-store' }),
           fetch('/api/spaja-baza-knowledge/sources', { cache: 'no-store' }),
+          fetch('/api/spaja-baza-knowledge/index', { cache: 'no-store' }),
         ]);
 
-        if (!healthRes.ok || !metricsRes.ok || !sourcesRes.ok) {
+        if (!healthRes.ok || !metricsRes.ok || !sourcesRes.ok || !indexRes.ok) {
           throw new Error('Neuspešno učitavanje kontrolnog panela.');
         }
 
         const healthJson = await healthRes.json();
         const metricsJson = await metricsRes.json();
         const sourcesJson = await sourcesRes.json();
+        const indexJson = await indexRes.json();
 
         setHealth(healthJson as HealthResponse);
         setMetrics(metricsJson as MetricsResponse);
+        setIndexStatus(indexJson as IndexStatusResponse);
         setSources((sourcesJson.sources ?? []) as SourceItem[]);
       } catch {
         setError('Greška pri učitavanju SPAJA BAZA panela.');
@@ -93,6 +114,12 @@ export default function SpajaBazaControlPage() {
             <StatCard label="Citation rate" value={String(metrics?.metrics24h.citationRate ?? 0)} />
             <StatCard label="Prosečna latencija" value={`${metrics?.metrics24h.averageLatencyMs ?? 0} ms`} />
             <StatCard label="Quality score" value={String(metrics?.metrics24h.averageQualityScore ?? 0)} />
+            <StatCard label="Queue not_indexed" value={String(indexStatus?.status.queue.notIndexed ?? 0)} />
+            <StatCard label="Queue indexed" value={String(indexStatus?.status.queue.indexed ?? 0)} />
+            <StatCard label="Queue failed" value={String(indexStatus?.status.queue.failed ?? 0)} />
+            <StatCard label="Index jobs 24h" value={String(indexStatus?.status.jobs24h.total ?? 0)} />
+            <StatCard label="Index throughput/min" value={String(indexStatus?.status.jobs24h.throughputPerMinute ?? 0)} />
+            <StatCard label="Index avg latency" value={`${indexStatus?.status.jobs24h.averageLatencyMs ?? 0} ms`} />
           </section>
 
           <section className="rounded-xl border border-gray-800 bg-gray-900/40 p-4">

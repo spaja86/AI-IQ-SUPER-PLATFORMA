@@ -35,6 +35,45 @@ interface IngestResult {
   canonicalUrl: string;
 }
 
+interface KnowledgeSearchOptions {
+  limit?: number;
+}
+
+interface KnowledgeIndexingOptions {
+  batchSize?: number;
+  maxBatches?: number;
+  sourceId?: string | null;
+  documentId?: string | null;
+  forceReindex?: boolean;
+  triggerType?: 'manual' | 'schedule' | 'reindex';
+  requestedBy?: string | null;
+}
+
+export interface KnowledgeIndexingResult {
+  jobId: string;
+  processed: number;
+  indexed: number;
+  failed: number;
+  durationMs: number;
+  errors: Array<{ chunkId: string; reason: string }>;
+}
+
+export interface KnowledgeIndexStatus {
+  queue: {
+    notIndexed: number;
+    indexed: number;
+    failed: number;
+  };
+  jobs24h: {
+    total: number;
+    successful: number;
+    failed: number;
+    averageLatencyMs: number;
+    throughputPerMinute: number;
+  };
+  latestJobs: Array<Database['public']['Tables']['knowledge_index_jobs']['Row']>;
+}
+
 const DEFAULT_ALLOWLIST = [
   'spaja.rs',
   'spaja.com',
@@ -45,6 +84,7 @@ const DEFAULT_ALLOWLIST = [
 ];
 
 const DEFAULT_DENYLIST = ['accounts.google.com', 'drive.google.com', 'mail.google.com'];
+const KNOWLEDGE_INDEX_VERSION = 'v1';
 
 function splitCsv(raw: string | undefined): string[] {
   if (!raw) return [];
@@ -258,8 +298,14 @@ async function insertDocumentAndChunks(
       document_id: document.id,
       chunk_index: index,
       content: sanitizeForPrompt(chunk),
+      indexed_content: '',
       token_count: estimateTokens(chunk),
       embedding_status: 'not_indexed' as const,
+      indexing_attempts: 0,
+      indexing_error: null,
+      last_index_attempt_at: null,
+      indexed_at: null,
+      index_version: KNOWLEDGE_INDEX_VERSION,
       safety_label: 'safe' as const,
     }));
 
@@ -396,6 +442,8 @@ interface ChunkRow {
   id: string;
   chunk_index: number;
   content: string;
+  indexed_content: string;
+  embedding_status: 'not_indexed' | 'indexed' | 'failed';
   knowledge_documents: {
     id: string;
     title: string;
@@ -407,6 +455,16 @@ interface ChunkRow {
   } | null;
 }
 
+function normalizeIndexText(input: string): string {
+  return input
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function computeScore(content: string, terms: string[]): number {
   const lower = content.toLowerCase();
   const matches = terms.reduce((sum, term) => sum + (lower.includes(term) ? 1 : 0), 0);
@@ -414,9 +472,17 @@ function computeScore(content: string, terms: string[]): number {
   return Math.min(1, density);
 }
 
+function computeSemanticProxyScore(indexedContent: string): number {
+  return indexedContent.length > 0 ? 1 : 0;
+}
+
+function buildIndexedContent(content: string): string {
+  return normalizeIndexText(sanitizeForPrompt(content)).slice(0, 6000);
+}
+
 export async function searchKnowledge(
   query: string,
-  options?: { limit?: number },
+  options?: KnowledgeSearchOptions,
 ): Promise<KnowledgeCitation[]> {
   const supabase = getSupabaseServerClient();
   const normalized = query.trim().toLowerCase();
@@ -430,35 +496,65 @@ export async function searchKnowledge(
     .slice(0, 8);
 
   const likeTerm = `%${terms[0] ?? normalized}%`;
-  const { data, error } = await supabase
-    .from('knowledge_chunks')
-    .select(`
-      id,
-      chunk_index,
-      content,
-      knowledge_documents!inner (
+  const [indexedSearch, fallbackSearch] = await Promise.all([
+    supabase
+      .from('knowledge_chunks')
+      .select(`
         id,
-        title,
-        canonical_url,
-        trust_score,
-        knowledge_sources!inner (name)
-      )
-    `)
-    .ilike('content', likeTerm)
-    .limit(80);
+        chunk_index,
+        content,
+        indexed_content,
+        embedding_status,
+        knowledge_documents!inner (
+          id,
+          title,
+          canonical_url,
+          trust_score,
+          knowledge_sources!inner (name)
+        )
+      `)
+      .eq('embedding_status', 'indexed')
+      .ilike('indexed_content', likeTerm)
+      .limit(80),
+    supabase
+      .from('knowledge_chunks')
+      .select(`
+        id,
+        chunk_index,
+        content,
+        indexed_content,
+        embedding_status,
+        knowledge_documents!inner (
+          id,
+          title,
+          canonical_url,
+          trust_score,
+          knowledge_sources!inner (name)
+        )
+      `)
+      .ilike('content', likeTerm)
+      .limit(80),
+  ]);
 
-  if (error || !data) return [];
+  const primaryRows = indexedSearch.data ?? [];
+  const fallbackRows = fallbackSearch.data ?? [];
+  const mergedRows = primaryRows.length > 0
+    ? primaryRows
+    : fallbackRows.filter((row) => row.embedding_status !== 'indexed');
 
-  const scored = (data as unknown as ChunkRow[])
+  if (mergedRows.length === 0) return [];
+
+  const scored = (mergedRows as unknown as ChunkRow[])
     .map((row) => {
-      const score = computeScore(row.content, terms);
+      const lexicalScore = computeScore(row.content, terms);
+      const semanticScore = computeSemanticProxyScore(row.indexed_content);
       const trustScore = row.knowledge_documents?.trust_score ?? 0;
       return {
         id: row.id,
         title: row.knowledge_documents?.title ?? 'Nepoznat dokument',
         sourceUrl: row.knowledge_documents?.canonical_url ?? '',
         snippet: row.content.slice(0, 320),
-        score: Number((score * 0.7 + trustScore * 0.3).toFixed(4)),
+        score: Number((lexicalScore * 0.6 + trustScore * 0.25 + semanticScore * 0.15).toFixed(4)),
         sourceName: row.knowledge_documents?.knowledge_sources?.name ?? 'nepoznat-izvor',
       } satisfies KnowledgeCitation;
     })
@@ -467,6 +563,219 @@ export async function searchKnowledge(
     .slice(0, limit);
 
   return scored;
+}
+
+interface IndexCandidateRow {
+  id: string;
+  document_id: string;
+  content: string;
+  embedding_status: 'not_indexed' | 'indexed' | 'failed';
+  indexing_attempts: number;
+  last_index_attempt_at: string | null;
+}
+
+function normalizeBatchSize(raw?: number): number {
+  if (!Number.isFinite(raw)) return 25;
+  return Math.max(1, Math.min(Number(raw), 200));
+}
+
+function normalizeMaxBatches(raw?: number): number {
+  if (!Number.isFinite(raw)) return 1;
+  return Math.max(1, Math.min(Number(raw), 100));
+}
+
+export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): Promise<KnowledgeIndexingResult> {
+  const supabase = getSupabaseServerClient();
+  const batchSize = normalizeBatchSize(options?.batchSize);
+  const maxBatches = normalizeMaxBatches(options?.maxBatches);
+  const maxRetries = Math.max(1, Math.min(Number(process.env.SPAJA_BAZA_INDEX_MAX_RETRIES ?? 5), 10));
+  const retryBackoffMs = Math.max(5_000, Number(process.env.SPAJA_BAZA_INDEX_RETRY_BACKOFF_MS ?? 60_000));
+  const now = Date.now();
+
+  const { data: job, error: jobError } = await supabase
+    .from('knowledge_index_jobs')
+    .insert({
+      status: 'running',
+      trigger_type: options?.triggerType ?? (options?.forceReindex ? 'reindex' : 'manual'),
+      source_id: options?.sourceId ?? null,
+      document_id: options?.documentId ?? null,
+      requested_by: options?.requestedBy ?? null,
+      batch_size: batchSize,
+      max_batches: maxBatches,
+      started_at: new Date(now).toISOString(),
+    })
+    .select('id')
+    .single();
+
+  if (jobError || !job) {
+    throw new Error(`Neuspešno kreiranje index job-a: ${jobError?.message ?? 'unknown error'}`);
+  }
+
+  const errors: Array<{ chunkId: string; reason: string }> = [];
+  let processed = 0;
+  let indexed = 0;
+  let failed = 0;
+
+  let documentFilterIds: string[] | null = null;
+  if (options?.documentId) {
+    documentFilterIds = [options.documentId];
+  } else if (options?.sourceId) {
+    const { data: documents } = await supabase
+      .from('knowledge_documents')
+      .select('id')
+      .eq('source_id', options.sourceId)
+      .limit(2000);
+    documentFilterIds = (documents ?? []).map((doc) => doc.id);
+    if (documentFilterIds.length === 0) {
+      await supabase
+        .from('knowledge_index_jobs')
+        .update({
+          status: 'completed',
+          finished_at: new Date().toISOString(),
+        })
+        .eq('id', job.id);
+      return { jobId: job.id, processed: 0, indexed: 0, failed: 0, durationMs: Date.now() - now, errors: [] };
+    }
+  }
+
+  const allowedStatuses = options?.forceReindex ? ['not_indexed', 'failed', 'indexed'] : ['not_indexed', 'failed'];
+
+  for (let batch = 0; batch < maxBatches; batch++) {
+    let query = supabase
+      .from('knowledge_chunks')
+      .select('id, document_id, content, embedding_status, indexing_attempts, last_index_attempt_at')
+      .in('embedding_status', allowedStatuses)
+      .order('created_at', { ascending: true })
+      .limit(batchSize);
+
+    if (!options?.forceReindex) {
+      query = query.lt('indexing_attempts', maxRetries);
+    }
+    if (documentFilterIds) {
+      query = query.in('document_id', documentFilterIds);
+    }
+
+    const { data } = await query;
+    const candidates = (data ?? []) as IndexCandidateRow[];
+    if (candidates.length === 0) break;
+
+    const runnable = candidates.filter((candidate) => {
+      if (candidate.embedding_status !== 'failed') return true;
+      if (!candidate.last_index_attempt_at) return true;
+      return Date.now() - new Date(candidate.last_index_attempt_at).getTime() >= retryBackoffMs;
+    });
+    if (runnable.length === 0) break;
+
+    for (const chunk of runnable) {
+      processed += 1;
+      const attemptAt = new Date().toISOString();
+      const attempts = (chunk.indexing_attempts ?? 0) + 1;
+
+      try {
+        const indexedContent = buildIndexedContent(chunk.content);
+        if (!indexedContent) throw new Error('Prazan sadržaj za indeksiranje.');
+
+        const { error } = await supabase
+          .from('knowledge_chunks')
+          .update({
+            indexed_content: indexedContent,
+            embedding_status: 'indexed',
+            indexing_attempts: attempts,
+            indexing_error: null,
+            last_index_attempt_at: attemptAt,
+            indexed_at: attemptAt,
+            index_version: KNOWLEDGE_INDEX_VERSION,
+          })
+          .eq('id', chunk.id);
+
+        if (error) throw new Error(error.message);
+        indexed += 1;
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : 'Nepoznata greška';
+        failed += 1;
+        errors.push({ chunkId: chunk.id, reason });
+
+        await supabase
+          .from('knowledge_chunks')
+          .update({
+            embedding_status: 'failed',
+            indexing_attempts: attempts,
+            indexing_error: reason,
+            last_index_attempt_at: attemptAt,
+          })
+          .eq('id', chunk.id);
+      }
+    }
+  }
+
+  const durationMs = Date.now() - now;
+  const throughput = durationMs > 0 ? Number(((indexed * 60_000) / durationMs).toFixed(2)) : 0;
+  await supabase
+    .from('knowledge_index_jobs')
+    .update({
+      status: failed === 0 ? 'completed' : indexed > 0 ? 'partial' : 'failed',
+      processed_chunks: processed,
+      indexed_chunks: indexed,
+      failed_chunks: failed,
+      average_latency_ms: processed > 0 ? Math.round(durationMs / processed) : 0,
+      throughput_per_minute: throughput,
+      finished_at: new Date().toISOString(),
+      error_log: errors,
+    })
+    .eq('id', job.id);
+
+  return {
+    jobId: job.id,
+    processed,
+    indexed,
+    failed,
+    durationMs,
+    errors,
+  };
+}
+
+export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
+  const supabase = getSupabaseServerClient();
+  const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+  const [notIndexed, indexed, failed, jobs24h, latestJobs] = await Promise.all([
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'not_indexed'),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed'),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'failed'),
+    supabase
+      .from('knowledge_index_jobs')
+      .select('*')
+      .gte('created_at', since24h)
+      .order('created_at', { ascending: false })
+      .limit(100),
+    supabase.from('knowledge_index_jobs').select('*').order('created_at', { ascending: false }).limit(20),
+  ]);
+
+  const rows24h = jobs24h.data ?? [];
+  const successful = rows24h.filter((job) => job.status === 'completed').length;
+  const failedCount = rows24h.filter((job) => job.status === 'failed').length;
+  const avgLatency = rows24h.length > 0
+    ? Math.round(rows24h.reduce((sum, row) => sum + (row.average_latency_ms ?? 0), 0) / rows24h.length)
+    : 0;
+  const throughputPerMinute = rows24h.length > 0
+    ? Number((rows24h.reduce((sum, row) => sum + Number(row.throughput_per_minute ?? 0), 0) / rows24h.length).toFixed(2))
+    : 0;
+
+  return {
+    queue: {
+      notIndexed: notIndexed.count ?? 0,
+      indexed: indexed.count ?? 0,
+      failed: failed.count ?? 0,
+    },
+    jobs24h: {
+      total: rows24h.length,
+      successful,
+      failed: failedCount,
+      averageLatencyMs: avgLatency,
+      throughputPerMinute,
+    },
+    latestJobs: (latestJobs.data ?? []) as Array<Database['public']['Tables']['knowledge_index_jobs']['Row']>,
+  };
 }
 
 export async function buildKnowledgeContext(
