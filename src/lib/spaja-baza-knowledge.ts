@@ -47,10 +47,12 @@ interface KnowledgeIndexingOptions {
   forceReindex?: boolean;
   triggerType?: 'manual' | 'schedule' | 'reindex';
   requestedBy?: string | null;
-  /** v1 (default) ili v2 (INDEKSIRANJE 2 poboljšani pipeline). */
-  indexVersion?: 'v1' | 'v2';
+  /** v1 (default), v2 (INDEKSIRANJE 2) ili v3 (INDEKSIRANJE 3 FTS + position pipeline). */
+  indexVersion?: 'v1' | 'v2' | 'v3';
   /** Kada true, odabira i već v1-indeksirane chunk-ove za upgrade na v2. */
   upgradeToV2?: boolean;
+  /** Kada true, odabira v1 i v2 indeksirane chunk-ove za upgrade na v3. */
+  upgradeToV3?: boolean;
 }
 
 export interface KnowledgeIndexingResult {
@@ -68,6 +70,7 @@ export interface KnowledgeIndexStatus {
     indexed: number;
     indexedV1: number;
     indexedV2: number;
+    indexedV3: number;
     failed: number;
   };
   jobs24h: {
@@ -92,6 +95,7 @@ const DEFAULT_ALLOWLIST = [
 const DEFAULT_DENYLIST = ['accounts.google.com', 'drive.google.com', 'mail.google.com'];
 const KNOWLEDGE_INDEX_VERSION = 'v1';
 const KNOWLEDGE_INDEX_VERSION_V2 = 'v2';
+const KNOWLEDGE_INDEX_VERSION_V3 = 'v3';
 const SEARCH_SCORE_WEIGHTS = {
   lexical: 0.6,
   trust: 0.25,
@@ -104,10 +108,37 @@ const SEARCH_SCORE_WEIGHTS_V2 = {
   trust: 0.20,
   keywordDensity: 0.15,
 } as const;
+// v3 scoring: FTS multi-term + pozicioni signal unutar dokumenta.
+const SEARCH_SCORE_WEIGHTS_V3 = {
+  lexical: 0.35,
+  termFrequency: 0.25,
+  trust: 0.20,
+  keywordDensity: 0.15,
+  positionScore: 0.05,
+} as const;
 const INDEXING_DEFAULT_MAX_RETRIES = 5;
 const INDEXING_MAX_RETRIES_CAP = 10;
 const INDEXING_DEFAULT_RETRY_BACKOFF_MS = 60_000;
 const INDEXING_MIN_RETRY_BACKOFF_MS = 5_000;
+
+// Shared select string for knowledge_chunks search queries (FTS, ilike, fallback).
+const KNOWLEDGE_SEARCH_SELECT = `
+  id,
+  chunk_index,
+  content,
+  indexed_content,
+  embedding_status,
+  index_version,
+  keyword_density,
+  position_score,
+  knowledge_documents!inner (
+    id,
+    title,
+    canonical_url,
+    trust_score,
+    knowledge_sources!inner (name)
+  )
+`;
 
 function splitCsv(raw: string | undefined): string[] {
   if (!raw) return [];
@@ -469,10 +500,12 @@ interface ChunkRow {
   // Normalizovan sadržaj koji služi kao indeksni tekst za bržu pretragu.
   indexed_content: string;
   embedding_status: 'not_indexed' | 'indexed' | 'failed';
-  // v1 ili v2 — određuje koja scoring formula se primenjuje.
+  // v1, v2 ili v3 — određuje koja scoring formula se primenjuje.
   index_version: string;
-  // Pre-izračunata gustina ključnih reči (0–1); koristi se samo za v2 scoring.
+  // Pre-izračunata gustina ključnih reči (0–1); koristi se za v2/v3 scoring.
   keyword_density: number;
+  // Pre-izračunati pozicioni score (0–1); koristi se samo za v3 scoring.
+  position_score: number;
   knowledge_documents: {
     id: string;
     title: string;
@@ -569,6 +602,18 @@ function computeTermFrequencyScore(content: string, terms: string[]): number {
   return freqs.reduce((sum, s) => sum + s, 0) / terms.length;
 }
 
+// ─── INDEKSIRANJE 3 — v3 helper funkcije ────────────────────────────────────
+
+/**
+ * v3 position score: eksponencijalno opadanje po chunk_index unutar dokumenta.
+ * chunk 0 → 1.0; chunk 10 → ≈0.37; chunk 20 → ≈0.14.
+ * Nagrađuje chunk-ove koji se pojavljuju ranije (naslov, uvod, ključni pojmovi).
+ */
+function computePositionScore(chunkIndex: number): number {
+  const idx = Math.max(0, chunkIndex);
+  return Math.round(Math.exp(-idx * 0.1) * 10000) / 10000;
+}
+
 function getIndexableStatuses(forceReindex: boolean): Array<'not_indexed' | 'failed' | 'indexed'> {
   return forceReindex ? ['not_indexed', 'failed', 'indexed'] : ['not_indexed', 'failed'];
 }
@@ -594,52 +639,47 @@ export async function searchKnowledge(
     .filter((t) => t.length > 2)
     .slice(0, 8);
 
+  // v3: primary search uses PostgreSQL FTS (textSearch) which leverages the GIN index
+  // from migration 012 and matches ALL query terms, not just the first one.
+  // Fallback to single-term ilike when FTS returns 0 results (e.g. very short queries).
+  const ftsQuery = terms.join(' ');
   const likeTerm = `%${terms[0] ?? normalized}%`;
-  const [indexedSearch, fallbackSearch] = await Promise.all([
-    supabase
+
+  // Primary: FTS textSearch (uses GIN index, all terms)
+  let indexedSearchData = null;
+  if (ftsQuery) {
+    const ftsResult = await supabase
       .from('knowledge_chunks')
-      .select(`
-        id,
-        chunk_index,
-        content,
-        indexed_content,
-        embedding_status,
-        index_version,
-        keyword_density,
-        knowledge_documents!inner (
-          id,
-          title,
-          canonical_url,
-          trust_score,
-          knowledge_sources!inner (name)
-        )
-      `)
+      .select(KNOWLEDGE_SEARCH_SELECT)
+      .eq('embedding_status', 'indexed')
+      .textSearch('indexed_content', ftsQuery, { type: 'plain', config: 'simple' })
+      .limit(80);
+    if (ftsResult.error) {
+      console.error('[searchKnowledge] FTS error, falling back to ilike:', ftsResult.error.message);
+    } else {
+      indexedSearchData = ftsResult.data;
+    }
+  }
+
+  // FTS fallback: ilike on first term when FTS returns nothing (short/stopword queries)
+  if (!indexedSearchData || indexedSearchData.length === 0) {
+    const ilikeResult = await supabase
+      .from('knowledge_chunks')
+      .select(KNOWLEDGE_SEARCH_SELECT)
       .eq('embedding_status', 'indexed')
       .ilike('indexed_content', likeTerm)
-      .limit(80),
-    supabase
-      .from('knowledge_chunks')
-      .select(`
-        id,
-        chunk_index,
-        content,
-        indexed_content,
-        embedding_status,
-        index_version,
-        keyword_density,
-        knowledge_documents!inner (
-          id,
-          title,
-          canonical_url,
-          trust_score,
-          knowledge_sources!inner (name)
-        )
-      `)
-      .ilike('content', likeTerm)
-      .limit(80),
-  ]);
+      .limit(80);
+    indexedSearchData = ilikeResult.data;
+  }
 
-  const primaryRows = indexedSearch.data ?? [];
+  // Fallback for non-indexed chunks
+  const fallbackSearch = await supabase
+    .from('knowledge_chunks')
+    .select(KNOWLEDGE_SEARCH_SELECT)
+    .ilike('content', likeTerm)
+    .limit(80);
+
+  const primaryRows = indexedSearchData ?? [];
   const fallbackRows = fallbackSearch.data ?? [];
   const mergedRows = primaryRows.length > 0
     ? primaryRows
@@ -653,10 +693,23 @@ export async function searchKnowledge(
     .map((row) => {
       const lexicalScore = computeScore(row.content, terms);
       const trustScore = row.knowledge_documents?.trust_score ?? 0;
+      const isV3Chunk = row.index_version === KNOWLEDGE_INDEX_VERSION_V3;
       const isV2Chunk = row.index_version === KNOWLEDGE_INDEX_VERSION_V2;
 
       let score: number;
-      if (isV2Chunk) {
+      if (isV3Chunk) {
+        // v3: FTS-retrieved + term-frequency + keyword density + position signal.
+        const termFreqScore = computeTermFrequencyScore(row.content, terms);
+        const kdScore = Math.min(row.keyword_density ?? 0, 1);
+        const posScore = Math.min(row.position_score ?? 0, 1);
+        score = Number((
+          lexicalScore * SEARCH_SCORE_WEIGHTS_V3.lexical +
+          termFreqScore * SEARCH_SCORE_WEIGHTS_V3.termFrequency +
+          trustScore * SEARCH_SCORE_WEIGHTS_V3.trust +
+          kdScore * SEARCH_SCORE_WEIGHTS_V3.keywordDensity +
+          posScore * SEARCH_SCORE_WEIGHTS_V3.positionScore
+        ).toFixed(4));
+      } else if (isV2Chunk) {
         // v2: koristi term-frequency i keyword density kao dodatne signale.
         const termFreqScore = computeTermFrequencyScore(row.content, terms);
         const kdScore = Math.min(row.keyword_density ?? 0, 1);
@@ -694,6 +747,7 @@ export async function searchKnowledge(
 interface IndexCandidateRow {
   id: string;
   document_id: string;
+  chunk_index: number;
   content: string;
   embedding_status: 'not_indexed' | 'indexed' | 'failed';
   indexing_attempts: number;
@@ -726,6 +780,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
   const now = Date.now();
   const targetVersion = options?.indexVersion ?? KNOWLEDGE_INDEX_VERSION;
   const upgradeToV2 = Boolean(options?.upgradeToV2);
+  const upgradeToV3 = Boolean(options?.upgradeToV3);
 
   const { data: job, error: jobError } = await supabase
     .from('knowledge_index_jobs')
@@ -773,14 +828,14 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
     }
   }
 
-  const allowedStatuses = upgradeToV2
+  const allowedStatuses = (upgradeToV2 || upgradeToV3)
     ? (['not_indexed', 'failed', 'indexed'] as Array<'not_indexed' | 'failed' | 'indexed'>)
     : getIndexableStatuses(Boolean(options?.forceReindex));
 
   for (let batch = 0; batch < maxBatches; batch++) {
     let chunkSelect = supabase
       .from('knowledge_chunks')
-      .select('id, document_id, content, embedding_status, indexing_attempts, last_index_attempt_at, index_version')
+      .select('id, document_id, chunk_index, content, embedding_status, indexing_attempts, last_index_attempt_at, index_version')
       .in('embedding_status', allowedStatuses)
       .order('created_at', { ascending: true })
       .limit(batchSize);
@@ -788,7 +843,10 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
     if (!options?.forceReindex) {
       chunkSelect = chunkSelect.lt('indexing_attempts', maxRetries);
     }
-    if (upgradeToV2) {
+    if (upgradeToV3) {
+      // Isključi chunk-ove koji su već na v3 da se izbegne nepotreban re-index.
+      chunkSelect = chunkSelect.neq('index_version', KNOWLEDGE_INDEX_VERSION_V3);
+    } else if (upgradeToV2) {
       // Isključi chunk-ove koji su već na v2 da se izbegne nepotreban re-index.
       chunkSelect = chunkSelect.neq('index_version', KNOWLEDGE_INDEX_VERSION_V2);
     }
@@ -809,12 +867,14 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
       const attempts = (chunk.indexing_attempts ?? 0) + 1;
 
       try {
+        const isV3 = targetVersion === KNOWLEDGE_INDEX_VERSION_V3;
         const isV2 = targetVersion === KNOWLEDGE_INDEX_VERSION_V2;
-        const indexedContent = isV2
+        const indexedContent = (isV2 || isV3)
           ? buildIndexedContentV2(chunk.content)
           : buildIndexedContent(chunk.content);
-        const keywordDensity = isV2 ? computeKeywordDensity(chunk.content) : 0;
-        const uniqueTermCount = isV2 ? computeUniqueTermCount(chunk.content) : 0;
+        const keywordDensity = (isV2 || isV3) ? computeKeywordDensity(chunk.content) : 0;
+        const uniqueTermCount = (isV2 || isV3) ? computeUniqueTermCount(chunk.content) : 0;
+        const positionScore = isV3 ? computePositionScore(chunk.chunk_index) : 0;
 
         const { error } = await supabase
           .from('knowledge_chunks')
@@ -828,6 +888,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
             index_version: targetVersion,
             keyword_density: keywordDensity,
             unique_term_count: uniqueTermCount,
+            position_score: positionScore,
           })
           .eq('id', chunk.id);
 
@@ -881,12 +942,13 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
   const supabase = getSupabaseServerClient();
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  const [notIndexed, indexed, failed, indexedV1, indexedV2, jobs24h, latestJobs] = await Promise.all([
+  const [notIndexed, indexed, failed, indexedV1, indexedV2, indexedV3, jobs24h, latestJobs] = await Promise.all([
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'not_indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'failed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V2),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V3),
     supabase
       .from('knowledge_index_jobs')
       .select('*')
@@ -912,6 +974,7 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
       indexed: indexed.count ?? 0,
       indexedV1: indexedV1.count ?? 0,
       indexedV2: indexedV2.count ?? 0,
+      indexedV3: indexedV3.count ?? 0,
       failed: failed.count ?? 0,
     },
     jobs24h: {

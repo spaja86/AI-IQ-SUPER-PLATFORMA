@@ -25,8 +25,9 @@ export async function POST(request: NextRequest) {
     sourceId?: string;
     documentId?: string;
     forceReindex?: boolean;
-    indexVersion?: 'v1' | 'v2';
+    indexVersion?: 'v1' | 'v2' | 'v3';
     upgradeToV2?: boolean;
+    upgradeToV3?: boolean;
   };
 
   const result = await runKnowledgeIndexing({
@@ -39,6 +40,7 @@ export async function POST(request: NextRequest) {
     requestedBy: user.id,
     indexVersion: body.indexVersion ?? 'v1',
     upgradeToV2: Boolean(body.upgradeToV2),
+    upgradeToV3: Boolean(body.upgradeToV3),
   });
 
   return NextResponse.json({

@@ -38,6 +38,7 @@ interface IndexStatusResponse {
       indexed: number;
       indexedV1: number;
       indexedV2: number;
+      indexedV3: number;
       failed: number;
     };
     jobs24h: {
@@ -120,6 +121,7 @@ export default function SpajaBazaControlPage() {
             <StatCard label="Indexed chunks" value={String(indexStatus?.status.queue.indexed ?? 0)} />
             <StatCard label="Indexed v1" value={String(indexStatus?.status.queue.indexedV1 ?? 0)} />
             <StatCard label="Indexed v2" value={String(indexStatus?.status.queue.indexedV2 ?? 0)} />
+            <StatCard label="Indexed v3" value={String(indexStatus?.status.queue.indexedV3 ?? 0)} />
             <StatCard label="Failed chunks" value={String(indexStatus?.status.queue.failed ?? 0)} />
             <StatCard label="Index jobs 24h" value={String(indexStatus?.status.jobs24h.total ?? 0)} />
             <StatCard label="Index throughput/min" value={String(indexStatus?.status.jobs24h.throughputPerMinute ?? 0)} />
