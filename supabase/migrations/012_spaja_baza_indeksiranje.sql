@@ -9,6 +9,19 @@ ALTER TABLE public.knowledge_chunks
   ADD COLUMN IF NOT EXISTS index_version TEXT NOT NULL DEFAULT 'v1',
   ADD COLUMN IF NOT EXISTS indexed_content TEXT NOT NULL DEFAULT '';
 
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'knowledge_chunks_indexed_content_length_check'
+  ) THEN
+    ALTER TABLE public.knowledge_chunks
+      ADD CONSTRAINT knowledge_chunks_indexed_content_length_check
+      CHECK (char_length(indexed_content) <= 6000);
+  END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_knowledge_chunks_status_retry
   ON public.knowledge_chunks (embedding_status, indexing_attempts, created_at DESC)
   WHERE embedding_status IN ('not_indexed', 'failed');

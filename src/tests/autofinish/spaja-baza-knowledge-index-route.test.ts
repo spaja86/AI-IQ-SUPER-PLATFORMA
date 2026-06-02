@@ -60,11 +60,6 @@ async function runTests(): Promise<void> {
     assert(src.includes('getKnowledgeIndexStatus'), 'Nedostaje getKnowledgeIndexStatus');
   });
 
-  await test('GET smoke provera', async () => {
-    const response = await GET();
-    assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
-  });
-
   await test('POST bez auth vraća 401', async () => {
     const req = new Request('http://localhost/api/spaja-baza-knowledge/index', {
       method: 'POST',
@@ -73,6 +68,14 @@ async function runTests(): Promise<void> {
     });
     const res = await POST(req as unknown as Request);
     assertEqual(res.status, 401, 'status');
+  });
+
+  await test('GET smoke provera (uz dostupne Supabase kredencijale)', async () => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return;
+    }
+    const response = await GET();
+    assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
   });
 
   await test('Konstante su dostupne', () => {

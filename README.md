@@ -343,6 +343,8 @@ npm run lint
 CRON_SECRET=<tajni-kljuc>          # Za cron autentifikaciju (Bearer ili x-cron-secret)
 GITHUB_TOKEN=<github-pat>          # Za automatsko kreiranje Issues
 GITHUB_REPOSITORY=spaja86/AI-IQ-SUPER-PLATFORMA
+SPAJA_BAZA_INDEX_MAX_RETRIES=5     # Max retry pokušaja za failed chunk-ove pri indeksiranju
+SPAJA_BAZA_INDEX_RETRY_BACKOFF_MS=60000 # Backoff između retry pokušaja (ms)
 ```
 
 ## ☁️ Multi-provider napomena

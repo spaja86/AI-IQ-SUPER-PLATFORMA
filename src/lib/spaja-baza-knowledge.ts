@@ -85,6 +85,15 @@ const DEFAULT_ALLOWLIST = [
 
 const DEFAULT_DENYLIST = ['accounts.google.com', 'drive.google.com', 'mail.google.com'];
 const KNOWLEDGE_INDEX_VERSION = 'v1';
+const SEARCH_SCORE_WEIGHTS = {
+  lexical: 0.6,
+  trust: 0.25,
+  indexCoverage: 0.15,
+} as const;
+const INDEXING_DEFAULT_MAX_RETRIES = 5;
+const INDEXING_MAX_RETRIES_CAP = 10;
+const INDEXING_DEFAULT_RETRY_BACKOFF_MS = 60_000;
+const INDEXING_MIN_RETRY_BACKOFF_MS = 5_000;
 
 function splitCsv(raw: string | undefined): string[] {
   if (!raw) return [];
@@ -298,6 +307,7 @@ async function insertDocumentAndChunks(
       document_id: document.id,
       chunk_index: index,
       content: sanitizeForPrompt(chunk),
+      // Popunjava se kroz runKnowledgeIndexing kada chunk pređe u indexed status.
       indexed_content: '',
       token_count: estimateTokens(chunk),
       embedding_status: 'not_indexed' as const,
@@ -442,6 +452,7 @@ interface ChunkRow {
   id: string;
   chunk_index: number;
   content: string;
+  // Normalizovan sadržaj koji služi kao indeksni tekst za bržu pretragu.
   indexed_content: string;
   embedding_status: 'not_indexed' | 'indexed' | 'failed';
   knowledge_documents: {
@@ -472,12 +483,23 @@ function computeScore(content: string, terms: string[]): number {
   return Math.min(1, density);
 }
 
-function computeSemanticProxyScore(indexedContent: string): number {
+function computeIndexedCoverageScore(indexedContent: string): number {
+  // Binarnost je namerna: indeksni pipeline je gate signal (indeksirano/nije indeksirano).
   return indexedContent.length > 0 ? 1 : 0;
 }
 
 function buildIndexedContent(content: string): string {
   return normalizeIndexText(sanitizeForPrompt(content)).slice(0, 6000);
+}
+
+function getIndexableStatuses(forceReindex: boolean): Array<'not_indexed' | 'failed' | 'indexed'> {
+  return forceReindex ? ['not_indexed', 'failed', 'indexed'] : ['not_indexed', 'failed'];
+}
+
+function shouldRetryChunk(candidate: IndexCandidateRow, retryBackoffMs: number): boolean {
+  if (candidate.embedding_status !== 'failed') return true;
+  if (!candidate.last_index_attempt_at) return true;
+  return Date.now() - new Date(candidate.last_index_attempt_at).getTime() >= retryBackoffMs;
 }
 
 export async function searchKnowledge(
@@ -540,6 +562,8 @@ export async function searchKnowledge(
   const fallbackRows = fallbackSearch.data ?? [];
   const mergedRows = primaryRows.length > 0
     ? primaryRows
+    // Ako indexed skup postoji, fallback čuva samo neindeksirane/fail redove
+    // da se izbegne dupliranje istog chunk-a kroz dva upita.
     : fallbackRows.filter((row) => row.embedding_status !== 'indexed');
 
   if (mergedRows.length === 0) return [];
@@ -547,14 +571,20 @@ export async function searchKnowledge(
   const scored = (mergedRows as unknown as ChunkRow[])
     .map((row) => {
       const lexicalScore = computeScore(row.content, terms);
-      const semanticScore = computeSemanticProxyScore(row.indexed_content);
+      const semanticScore = computeIndexedCoverageScore(row.indexed_content);
       const trustScore = row.knowledge_documents?.trust_score ?? 0;
       return {
         id: row.id,
         title: row.knowledge_documents?.title ?? 'Nepoznat dokument',
         sourceUrl: row.knowledge_documents?.canonical_url ?? '',
         snippet: row.content.slice(0, 320),
-        score: Number((lexicalScore * 0.6 + trustScore * 0.25 + semanticScore * 0.15).toFixed(4)),
+        // Hybrid scoring: lexical je primaran signal, trust smanjuje rizik izvora,
+        // a indexed coverage potvrđuje da je chunk prošao indeksni pipeline.
+        score: Number((
+          lexicalScore * SEARCH_SCORE_WEIGHTS.lexical +
+          trustScore * SEARCH_SCORE_WEIGHTS.trust +
+          semanticScore * SEARCH_SCORE_WEIGHTS.indexCoverage
+        ).toFixed(4)),
         sourceName: row.knowledge_documents?.knowledge_sources?.name ?? 'nepoznat-izvor',
       } satisfies KnowledgeCitation;
     })
@@ -588,8 +618,14 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
   const supabase = getSupabaseServerClient();
   const batchSize = normalizeBatchSize(options?.batchSize);
   const maxBatches = normalizeMaxBatches(options?.maxBatches);
-  const maxRetries = Math.max(1, Math.min(Number(process.env.SPAJA_BAZA_INDEX_MAX_RETRIES ?? 5), 10));
-  const retryBackoffMs = Math.max(5_000, Number(process.env.SPAJA_BAZA_INDEX_RETRY_BACKOFF_MS ?? 60_000));
+  const maxRetries = Math.max(
+    1,
+    Math.min(Number(process.env.SPAJA_BAZA_INDEX_MAX_RETRIES ?? INDEXING_DEFAULT_MAX_RETRIES), INDEXING_MAX_RETRIES_CAP),
+  );
+  const retryBackoffMs = Math.max(
+    INDEXING_MIN_RETRY_BACKOFF_MS,
+    Number(process.env.SPAJA_BAZA_INDEX_RETRY_BACKOFF_MS ?? INDEXING_DEFAULT_RETRY_BACKOFF_MS),
+  );
   const now = Date.now();
 
   const { data: job, error: jobError } = await supabase
@@ -638,10 +674,10 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
     }
   }
 
-  const allowedStatuses = options?.forceReindex ? ['not_indexed', 'failed', 'indexed'] : ['not_indexed', 'failed'];
+  const allowedStatuses = getIndexableStatuses(Boolean(options?.forceReindex));
 
   for (let batch = 0; batch < maxBatches; batch++) {
-    let query = supabase
+    let chunkSelect = supabase
       .from('knowledge_chunks')
       .select('id, document_id, content, embedding_status, indexing_attempts, last_index_attempt_at')
       .in('embedding_status', allowedStatuses)
@@ -649,21 +685,17 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
       .limit(batchSize);
 
     if (!options?.forceReindex) {
-      query = query.lt('indexing_attempts', maxRetries);
+      chunkSelect = chunkSelect.lt('indexing_attempts', maxRetries);
     }
     if (documentFilterIds) {
-      query = query.in('document_id', documentFilterIds);
+      chunkSelect = chunkSelect.in('document_id', documentFilterIds);
     }
 
-    const { data } = await query;
+    const { data } = await chunkSelect;
     const candidates = (data ?? []) as IndexCandidateRow[];
     if (candidates.length === 0) break;
 
-    const runnable = candidates.filter((candidate) => {
-      if (candidate.embedding_status !== 'failed') return true;
-      if (!candidate.last_index_attempt_at) return true;
-      return Date.now() - new Date(candidate.last_index_attempt_at).getTime() >= retryBackoffMs;
-    });
+    const runnable = candidates.filter((candidate) => shouldRetryChunk(candidate, retryBackoffMs));
     if (runnable.length === 0) break;
 
     for (const chunk of runnable) {
@@ -673,7 +705,6 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
 
       try {
         const indexedContent = buildIndexedContent(chunk.content);
-        if (!indexedContent) throw new Error('Prazan sadržaj za indeksiranje.');
 
         const { error } = await supabase
           .from('knowledge_chunks')

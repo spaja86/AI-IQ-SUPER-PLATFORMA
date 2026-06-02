@@ -114,9 +114,9 @@ export default function SpajaBazaControlPage() {
             <StatCard label="Citation rate" value={String(metrics?.metrics24h.citationRate ?? 0)} />
             <StatCard label="Prosečna latencija" value={`${metrics?.metrics24h.averageLatencyMs ?? 0} ms`} />
             <StatCard label="Quality score" value={String(metrics?.metrics24h.averageQualityScore ?? 0)} />
-            <StatCard label="Queue not_indexed" value={String(indexStatus?.status.queue.notIndexed ?? 0)} />
-            <StatCard label="Queue indexed" value={String(indexStatus?.status.queue.indexed ?? 0)} />
-            <StatCard label="Queue failed" value={String(indexStatus?.status.queue.failed ?? 0)} />
+            <StatCard label="Pending indexing" value={String(indexStatus?.status.queue.notIndexed ?? 0)} />
+            <StatCard label="Indexed chunks" value={String(indexStatus?.status.queue.indexed ?? 0)} />
+            <StatCard label="Failed chunks" value={String(indexStatus?.status.queue.failed ?? 0)} />
             <StatCard label="Index jobs 24h" value={String(indexStatus?.status.jobs24h.total ?? 0)} />
             <StatCard label="Index throughput/min" value={String(indexStatus?.status.jobs24h.throughputPerMinute ?? 0)} />
             <StatCard label="Index avg latency" value={`${indexStatus?.status.jobs24h.averageLatencyMs ?? 0} ms`} />
