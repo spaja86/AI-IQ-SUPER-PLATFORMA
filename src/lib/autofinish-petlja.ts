@@ -1514,6 +1514,9 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1404: 'Digitalna Industrija Inflacije: lib modul + /api ruta + stranica + sekvence + sitemap/navigation + testovi',
     1405: 'AUTOFINISH 2 Batch #1: high-risk auth/billing/admin route contract i safety testovi + sync source-of-truth',
     1414: 'API Milestone 1250 route + coverage test + TOTAL_API_ROUTES 1225→1226 + TOTAL_DIAGNOSTIKA 2402→2404',
+    1415: 'Pentracija modul: lib + 4 API rute + dashboard + route/unit testovi',
+    1416: 'API Milestone 1300 ruta + coverage test + TOTAL_API_ROUTES sync na 1232',
+    1417: 'API Milestone 1350 ruta + coverage test + route inventory sync na 1233 API rute',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
