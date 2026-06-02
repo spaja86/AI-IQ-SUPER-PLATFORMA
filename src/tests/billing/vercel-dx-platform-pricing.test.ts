@@ -20,7 +20,7 @@ function testPricingSekvenceAlignment() {
   const enterpriseCard = cards.find((card) => card.naslov === 'Enterprise');
   assert.ok(enterpriseCard, 'Enterprise card must exist');
   assert.ok(
-    enterpriseCard?.oznake?.some((label) => label.toLowerCase().includes('kontakt sales tim')),
+    enterpriseCard?.oznake?.some((label) => label.toLowerCase().includes('sales tim')),
     'Enterprise card must direct users to contact sales',
   );
   assert.ok(

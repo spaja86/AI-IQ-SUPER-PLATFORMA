@@ -42,7 +42,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
         { naslov: 'Starter', opis: 'Osnovni plan za pojedince i pocetnike', ikona: '🌱', oznake: ['Besplatno', 'Osnovne funkcije', '1 korisnik'] },
         { naslov: 'Basic', opis: 'Plan za male timove sa prosirenim mogucnostima', ikona: '⭐', oznake: ['$9/mesec', 'API pristup', '5 korisnika'] },
         { naslov: 'Pro', opis: 'Profesionalni plan sa naprednim alatima', ikona: '🚀', oznake: ['$20/mesec (upgrade tok)', 'Prioritetna podrska', '25 korisnika'] },
-        { naslov: 'Enterprise', opis: 'Korporativni plan sa punom podrskom', ikona: '🏢', oznake: ['Enterprise pricing: kontakt sales tim', 'SLA garancija', 'Custom seat model'] },
+        { naslov: 'Enterprise', opis: 'Korporativni plan sa punom podrskom', ikona: '🏢', oznake: ['Enterprise cena: kontaktirajte sales tim', 'SLA garancija', 'Custom seat model'] },
         { naslov: 'Unlimited', opis: 'Neogranicen pristup svim funkcijama', ikona: '♾️', oznake: ['$199/mesec', 'Sve funkcije', 'Neograniceno'] },
       ],
     },
