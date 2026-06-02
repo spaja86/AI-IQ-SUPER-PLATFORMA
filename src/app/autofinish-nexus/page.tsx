@@ -47,8 +47,8 @@ export default function AutofinishNexusPage() {
         <section className="grid gap-4 md:grid-cols-2" aria-label="Kljucne metrike">
           <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
             <h2 className="text-sm text-slate-400">Health score</h2>
-            <p className="mt-2 text-3xl font-bold text-emerald-300">{healthScore.score}%</p>
-            <p className="text-xs text-slate-500">{healthScore.status}</p>
+            <p className="mt-2 text-3xl font-bold text-emerald-300">{healthScore.skor}%</p>
+            <p className="text-xs text-slate-500">{healthScore.ocjena}</p>
           </article>
 
           <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
