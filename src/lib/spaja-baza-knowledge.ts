@@ -121,6 +121,25 @@ const INDEXING_MAX_RETRIES_CAP = 10;
 const INDEXING_DEFAULT_RETRY_BACKOFF_MS = 60_000;
 const INDEXING_MIN_RETRY_BACKOFF_MS = 5_000;
 
+// Shared select string for knowledge_chunks search queries (FTS, ilike, fallback).
+const KNOWLEDGE_SEARCH_SELECT = `
+  id,
+  chunk_index,
+  content,
+  indexed_content,
+  embedding_status,
+  index_version,
+  keyword_density,
+  position_score,
+  knowledge_documents!inner (
+    id,
+    title,
+    canonical_url,
+    trust_score,
+    knowledge_sources!inner (name)
+  )
+`;
+
 function splitCsv(raw: string | undefined): string[] {
   if (!raw) return [];
   return raw
@@ -592,7 +611,7 @@ function computeTermFrequencyScore(content: string, terms: string[]): number {
  */
 function computePositionScore(chunkIndex: number): number {
   const idx = Math.max(0, chunkIndex);
-  return Number(Math.exp(-idx * 0.1).toFixed(4));
+  return Math.round(Math.exp(-idx * 0.1) * 10000) / 10000;
 }
 
 function getIndexableStatuses(forceReindex: boolean): Array<'not_indexed' | 'failed' | 'indexed'> {
@@ -626,41 +645,27 @@ export async function searchKnowledge(
   const ftsQuery = terms.join(' ');
   const likeTerm = `%${terms[0] ?? normalized}%`;
 
-  const ftsSelect = `
-    id,
-    chunk_index,
-    content,
-    indexed_content,
-    embedding_status,
-    index_version,
-    keyword_density,
-    position_score,
-    knowledge_documents!inner (
-      id,
-      title,
-      canonical_url,
-      trust_score,
-      knowledge_sources!inner (name)
-    )
-  `;
-
   // Primary: FTS textSearch (uses GIN index, all terms)
   let indexedSearchData = null;
   if (ftsQuery) {
     const ftsResult = await supabase
       .from('knowledge_chunks')
-      .select(ftsSelect)
+      .select(KNOWLEDGE_SEARCH_SELECT)
       .eq('embedding_status', 'indexed')
       .textSearch('indexed_content', ftsQuery, { type: 'plain', config: 'simple' })
       .limit(80);
-    indexedSearchData = ftsResult.data;
+    if (ftsResult.error) {
+      console.error('[searchKnowledge] FTS error, falling back to ilike:', ftsResult.error.message);
+    } else {
+      indexedSearchData = ftsResult.data;
+    }
   }
 
   // FTS fallback: ilike on first term when FTS returns nothing (short/stopword queries)
   if (!indexedSearchData || indexedSearchData.length === 0) {
     const ilikeResult = await supabase
       .from('knowledge_chunks')
-      .select(ftsSelect)
+      .select(KNOWLEDGE_SEARCH_SELECT)
       .eq('embedding_status', 'indexed')
       .ilike('indexed_content', likeTerm)
       .limit(80);
@@ -670,7 +675,7 @@ export async function searchKnowledge(
   // Fallback for non-indexed chunks
   const fallbackSearch = await supabase
     .from('knowledge_chunks')
-    .select(ftsSelect)
+    .select(KNOWLEDGE_SEARCH_SELECT)
     .ilike('content', likeTerm)
     .limit(80);
 
