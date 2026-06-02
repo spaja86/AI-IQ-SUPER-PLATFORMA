@@ -35,7 +35,7 @@ export const TOTAL_GEJMING_ENTITETA = 45;
 export const TOTAL_DIAGNOSTIKA = 2404;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 1418;
+export const AUTOFINISH_COUNT = 1419;
 export const AUTOFINISH_2_START = 1405;
 export const AUTOFINISH_2_SCOPE =
   'Nastavak Autofinish iteracija posle #1404 sa fokusom na high-risk route coverage, kontrakte i bezbednosne gate-ove.';
