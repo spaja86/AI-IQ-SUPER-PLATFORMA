@@ -73,6 +73,7 @@ autofinish-api-milestone-1048,GET,autofinish-api-milestone-1048,yes,autofinish-a
 autofinish-api-milestone-1049,GET,autofinish-api-milestone-1049,yes,autofinish-api-milestone-1049-route.test.ts
 autofinish-api-milestone-1250,GET,autofinish-api-milestone-1250,yes,autofinish-api-milestone-1250-route.test.ts
 autofinish-api-milestone-1300,GET,autofinish-api-milestone-1300,yes,autofinish-api-milestone-1300-route.test.ts
+autofinish-api-milestone-1350,GET,autofinish-api-milestone-1350,yes,autofinish-api-milestone-1350-route.test.ts
 autofinish-audit-report,GET,autofinish-audit-report,yes,autofinish-audit-report-route.test.ts
 autofinish-autologin-rikvrst-eksponencijalne-funkcije,GET,autofinish-autologin-rikvrst-eksponencijalne-funkcije,yes,autofinish-autologin-rikvrst-eksponencijalne-funkcije-route.test.ts
 autofinish-branch-cleanup-monitor,GET,autofinish-branch-cleanup-monitor,yes,autofinish-branch-cleanup-monitor-route.test.ts
