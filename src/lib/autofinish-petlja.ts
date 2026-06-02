@@ -8138,3 +8138,14 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Route coverage test: src/tests/autofinish/autofinish-api-milestone-1250-route.test.ts.
 // Bumped TOTAL_API_ROUTES 1225→1226, TOTAL_ROUTES 1354→1355, TOTAL_DIAGNOSTIKA 2402→2404.
 // APP_VERSION=59.70.0→59.71.0 | AUTOFINISH_COUNT=1413→1414 | TOTAL_API_ROUTES=1226 | TOTAL_ROUTES=1355 | TOTAL_PAGES=129
+
+// ─── Autofinish #1415 — PENTRACIJA MODULE ─────────────────────────────────────
+// Novi modul: src/lib/pentracija.ts — core engine za automatizovano pen-testing.
+// Tipovi: PentestFinding, PentestReport, PentestKategorija (OWASP Top 10).
+// Funkcije: buildPentestReport(), getPentestFindings(), calculatePentestScore(), getPentestSummary().
+// API rute: GET /api/pentracija, GET /api/pentracija/nalazi, GET /api/pentracija/status, POST /api/pentracija/sken.
+// UI: src/app/pentracija/page.tsx — Penetration Testing Dashboard sa OWASP Grid i CVSS tabela.
+// ΩPermissionMatrix: pentracija:read (ADMIN), pentracija:execute (SUPER_ADMIN).
+// Testovi: pentracija-lib.test.ts (unit), pentracija-route.test.ts (route coverage).
+// Bumped TOTAL_API_ROUTES 1226→1230, TOTAL_ROUTES 1355→1359, TOTAL_PAGES 129→130.
+// APP_VERSION=59.71.0→59.72.0 | AUTOFINISH_COUNT=1414→1415 | TOTAL_API_ROUTES=1230 | TOTAL_ROUTES=1359 | TOTAL_PAGES=130
