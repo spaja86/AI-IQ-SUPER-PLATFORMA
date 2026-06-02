@@ -1396,7 +1396,7 @@ export interface Database {
     Functions: {
       match_knowledge_chunks_v4: {
         Args: {
-          query_embedding_text: string;
+          query_vector_literal: string;
           match_count?: number;
           min_similarity?: number;
         };

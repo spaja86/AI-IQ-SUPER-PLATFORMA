@@ -741,7 +741,7 @@ async function executeKnowledgeSearch(
   try {
     const queryEmbedding = await createEmbeddingVector(normalized);
     const semanticResult = await supabase.rpc('match_knowledge_chunks_v4', {
-      query_embedding_text: toVectorLiteral(queryEmbedding),
+      query_vector_literal: toVectorLiteral(queryEmbedding),
       match_count: 80,
       min_similarity: 0.2,
     });
@@ -890,14 +890,14 @@ async function executeKnowledgeSearch(
         snippet: row.content.slice(0, 320),
         score,
         sourceName: row.knowledge_documents?.knowledge_sources?.name ?? 'nepoznat-izvor',
-        __indexVersion: getChunkIndexVersion(row.index_version),
+        indexVersionForMetrics: getChunkIndexVersion(row.index_version),
       };
     })
     .filter((item) => Boolean(item.sourceUrl))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 
-  const retrievalIndexVersion = scored[0]?.__indexVersion ?? KNOWLEDGE_INDEX_VERSION;
+  const retrievalIndexVersion = scored[0]?.indexVersionForMetrics ?? KNOWLEDGE_INDEX_VERSION;
   const citations = scored.map((item) => ({
     id: item.id,
     title: item.title,
@@ -1060,7 +1060,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
         const positionScore = (isV3 || isV4) ? computePositionScore(chunk.chunk_index) : 0;
         const embeddingVector = isV4 ? await createEmbeddingVector(chunk.content) : null;
         // semantic_score je coverage signal (0/1): da li chunk ima validan v4 embedding.
-        const semanticCoverageScore = isV4 && embeddingVector ? 1 : 0;
+        const hasSemanticEmbedding = isV4 && embeddingVector ? 1 : 0;
 
         const { error } = await supabase
           .from('knowledge_chunks')
@@ -1079,7 +1079,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
             embedding_model_version: isV4 ? KNOWLEDGE_EMBEDDING_MODEL_VERSION_V4 : null,
             embedding_generated_at: isV4 ? attemptAt : null,
             embedding_vector: embeddingVector ? toVectorLiteral(embeddingVector) : null,
-            semantic_score: semanticCoverageScore,
+            semantic_score: hasSemanticEmbedding,
           })
           .eq('id', chunk.id);
 

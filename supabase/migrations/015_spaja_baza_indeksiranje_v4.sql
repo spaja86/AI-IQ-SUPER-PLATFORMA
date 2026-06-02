@@ -31,6 +31,7 @@ CREATE INDEX IF NOT EXISTS idx_knowledge_chunks_embedding_generated_at
   WHERE embedding_generated_at IS NOT NULL;
 
 -- ANN indeks (cosine distance) za semantic retrieval; parcijalni indeks da ne utiče na stare verzije.
+-- lists=100 je inicijalna operativna vrednost za srednje korpuse; podešavati kroz observability kako dataset raste.
 CREATE INDEX IF NOT EXISTS idx_knowledge_chunks_v4_embedding_ivfflat
   ON public.knowledge_chunks
   USING ivfflat (embedding_vector vector_cosine_ops)
@@ -49,7 +50,7 @@ CREATE INDEX IF NOT EXISTS idx_knowledge_retrieval_metrics_index_version
 
 -- RPC helper za v4 semantic retrieval (service_role only).
 CREATE OR REPLACE FUNCTION public.match_knowledge_chunks_v4(
-  query_embedding_text TEXT,
+  query_vector_literal TEXT,
   match_count INTEGER DEFAULT 80,
   min_similarity DOUBLE PRECISION DEFAULT 0.2
 )
@@ -74,7 +75,10 @@ LANGUAGE sql
 STABLE
 SECURITY DEFINER
 AS $$
-  WITH scored_chunks AS (
+  WITH query_vector AS (
+    SELECT query_vector_literal::vector AS value
+  ),
+  scored_chunks AS (
     SELECT
       kc.id,
       kc.chunk_index,
@@ -86,8 +90,9 @@ AS $$
       kc.position_score,
       kc.semantic_score,
       kc.document_id,
-      (kc.embedding_vector <=> (query_embedding_text::vector)) AS cosine_distance
+      (kc.embedding_vector <=> qv.value) AS cosine_distance
     FROM public.knowledge_chunks kc
+    CROSS JOIN query_vector qv
     WHERE kc.embedding_status = 'indexed'
       AND kc.index_version = 'v4'
       AND kc.embedding_vector IS NOT NULL
