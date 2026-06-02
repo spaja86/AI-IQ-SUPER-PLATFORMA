@@ -88,6 +88,9 @@ const SLA_PRAGOVI: Procesuiranje3SLA['pragovi'] = {
   opsReady: true,
 };
 
+const AKTIVNA_STAVKA_WEIGHT = 0.6;
+const PROCESUIRANJE_3_SNAPSHOT_MIN_INTERVAL_MS = 30_000;
+
 function clampScore(score: number): number {
   return Math.max(0, Math.min(100, Math.round(score)));
 }
@@ -151,7 +154,7 @@ function buildPlatformskiDomen(
   const zavrsenih = stavke.filter((s) => s.status === 'zavrseno').length;
   const aktivnih = stavke.filter((s) => s.status === 'aktivno').length;
   const gresaka = stavke.filter((s) => s.status === 'greska').length;
-  const procenat = clampScore(((zavrsenih + aktivnih * 0.6) / Math.max(1, stavke.length)) * 100);
+  const procenat = clampScore(((zavrsenih + aktivnih * AKTIVNA_STAVKA_WEIGHT) / Math.max(1, stavke.length)) * 100);
   const status = gresaka > 0
     ? 'greska'
     : aktivnih > 0
@@ -262,14 +265,25 @@ export function buildProcesuiranje3(): Procesuiranje3Rezultat {
   const deltaScore = previousSnapshot ? ukupanScore - previousSnapshot.ukupanScore : 0;
   const trendDirection = scoreDeltaDirection(ukupanScore, previousSnapshot?.ukupanScore ?? null);
 
-  addProcesuiranje3Snapshot({
-    ukupanScore,
-    queueDepth: rezultatV2.scheduler.queueDepth + platformski.stavke.length,
-    throughputPerMin: rezultatV2.score.throughputPerMin,
-    latencyMsP95: rezultatV2.score.latencyMsP95,
-    errorRatePct: rezultatV2.score.errorRatePct,
-    timestamp: now,
-  });
+  const shouldPersistSnapshot = (() => {
+    if (!previousSnapshot) return true;
+    const previousTs = Date.parse(previousSnapshot.timestamp);
+    if (Number.isNaN(previousTs)) return true;
+    const elapsedMs = Date.now() - previousTs;
+    const scoreChanged = previousSnapshot.ukupanScore !== ukupanScore;
+    return scoreChanged || elapsedMs >= PROCESUIRANJE_3_SNAPSHOT_MIN_INTERVAL_MS;
+  })();
+
+  if (shouldPersistSnapshot) {
+    addProcesuiranje3Snapshot({
+      ukupanScore,
+      queueDepth: rezultatV2.scheduler.queueDepth + platformski.stavke.length,
+      throughputPerMin: rezultatV2.score.throughputPerMin,
+      latencyMsP95: rezultatV2.score.latencyMsP95,
+      errorRatePct: rezultatV2.score.errorRatePct,
+      timestamp: now,
+    });
+  }
 
   const priorityBuckets = sveStavke.reduce<Record<ProcesuiranjePrioritet, number>>((acc, stavka) => {
     const p = stavka.prioritet ?? classifyPrioritet(stavka.status);
