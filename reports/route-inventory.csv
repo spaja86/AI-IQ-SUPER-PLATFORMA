@@ -633,6 +633,10 @@ owner-phone-auth/verify-otp,GET|POST,owner-phone-auth,yes,owner-phone-auth-verif
 paypal/checkout,POST,paypal,yes,paypal-checkout-route.test.ts
 paypal/portal,POST,paypal,yes,paypal-portal-route.test.ts
 paypal/webhook,POST,paypal,yes,paypal-webhook-route.test.ts
+pentracija,GET,pentracija,yes,pentracija-route.test.ts
+pentracija/nalazi,GET,pentracija,no,pentracija-nalazi-route.test.ts
+pentracija/sken,POST,pentracija,no,pentracija-sken-route.test.ts
+pentracija/status,GET,pentracija,no,pentracija-status-route.test.ts
 perkolizonik,GET,perkolizonik,yes,perkolizonik-route.test.ts
 platforma-arhitektura,GET,platforma-arhitektura,yes,platforma-arhitektura-route.test.ts
 platforma-autonomija,GET,platforma-autonomija,yes,platforma-autonomija-route.test.ts
