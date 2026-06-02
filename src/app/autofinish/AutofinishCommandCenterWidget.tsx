@@ -22,6 +22,7 @@ export function AutofinishCommandCenterWidget({
   const leadTime = dora.metrike.find((metric) => metric.id === 'dora-lead-time');
   const mttr = dora.metrike.find((metric) => metric.id === 'dora-mttr');
   const changeFailureRate = dora.metrike.find((metric) => metric.id === 'dora-change-failure-rate');
+  const criticalServices = errorBudget.kriticnih + errorBudget.iscrpljenih;
   const doraSummary = [
     `Lead ${leadTime ? `${leadTime.vrijednost} ${leadTime.jedinica}` : 'N/A'}`,
     `MTTR ${mttr ? `${mttr.vrijednost} ${mttr.jedinica}` : 'N/A'}`,
@@ -48,7 +49,7 @@ export function AutofinishCommandCenterWidget({
           <p className="text-xs text-gray-400">Error budget</p>
           <p className="text-2xl font-bold text-yellow-300">{errorBudget.prosjecnaPotrosenjaOst}%</p>
           <p className="text-xs text-gray-500">
-            Zdravi {errorBudget.zdravih} • Kritični {errorBudget.kriticnih + errorBudget.iscrpljenih}
+            Zdravi {errorBudget.zdravih} • Kritični {criticalServices}
           </p>
         </article>
         <article className="rounded-lg bg-gray-800 p-3">
