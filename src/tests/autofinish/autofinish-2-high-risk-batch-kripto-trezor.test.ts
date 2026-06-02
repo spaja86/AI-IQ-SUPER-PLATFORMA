@@ -131,7 +131,6 @@ async function runTests(): Promise<void> {
     const req = new Request('http://localhost/api/kripto-trezor/deposit', {
       method: 'POST',
       headers: {
-        authorization: '******',
         'content-type': 'application/json',
       },
       body: '{',
@@ -144,7 +143,6 @@ async function runTests(): Promise<void> {
     const req = new Request('http://localhost/api/kripto-trezor/withdraw', {
       method: 'POST',
       headers: {
-        authorization: '******',
         'content-type': 'application/json',
       },
       body: '{',

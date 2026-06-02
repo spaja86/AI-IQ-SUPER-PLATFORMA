@@ -161,7 +161,7 @@ async function runTests(): Promise<void> {
     process.env['CRON_SECRET'] = 'pravi-secret';
     try {
       const req = new Request('http://localhost/api/cron/zdravlje', {
-        headers: { authorization: '******' },
+        headers: { 'x-cron-secret': 'pogresni-secret' },
       });
       const res = await zdravljeGET(req);
       assertEqual(res.status, 401, 'cron/zdravlje invalid-secret status');
