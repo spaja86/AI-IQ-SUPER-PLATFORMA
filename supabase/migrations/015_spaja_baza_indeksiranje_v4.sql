@@ -9,6 +9,19 @@ ALTER TABLE public.knowledge_chunks
   ADD COLUMN IF NOT EXISTS embedding_vector vector(1536),
   ADD COLUMN IF NOT EXISTS semantic_score NUMERIC(8,4) NOT NULL DEFAULT 0;
 
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'knowledge_chunks_semantic_score_check'
+  ) THEN
+    ALTER TABLE public.knowledge_chunks
+      ADD CONSTRAINT knowledge_chunks_semantic_score_check
+      CHECK (semantic_score BETWEEN 0 AND 1);
+  END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_knowledge_chunks_v4_status
   ON public.knowledge_chunks (embedding_status, index_version, created_at DESC)
   WHERE embedding_status = 'indexed' AND index_version = 'v4';
@@ -61,30 +74,45 @@ LANGUAGE sql
 STABLE
 SECURITY DEFINER
 AS $$
+  WITH scored_chunks AS (
+    SELECT
+      kc.id,
+      kc.chunk_index,
+      kc.content,
+      kc.indexed_content,
+      kc.embedding_status,
+      kc.index_version,
+      kc.keyword_density,
+      kc.position_score,
+      kc.semantic_score,
+      kc.document_id,
+      (kc.embedding_vector <=> (query_embedding_text::vector)) AS cosine_distance
+    FROM public.knowledge_chunks kc
+    WHERE kc.embedding_status = 'indexed'
+      AND kc.index_version = 'v4'
+      AND kc.embedding_vector IS NOT NULL
+  )
   SELECT
-    kc.id,
-    kc.chunk_index,
-    kc.content,
-    kc.indexed_content,
-    kc.embedding_status,
-    kc.index_version,
-    kc.keyword_density,
-    kc.position_score,
-    GREATEST(0::double precision, 1 - (kc.embedding_vector <=> (query_embedding_text::vector(1536)))) AS semantic_similarity,
-    kc.semantic_score,
+    sc.id,
+    sc.chunk_index,
+    sc.content,
+    sc.indexed_content,
+    sc.embedding_status,
+    sc.index_version,
+    sc.keyword_density,
+    sc.position_score,
+    GREATEST(0::double precision, 1 - sc.cosine_distance) AS semantic_similarity,
+    sc.semantic_score,
     kd.id AS document_id,
     kd.title,
     kd.canonical_url,
     kd.trust_score,
     ks.name AS source_name
-  FROM public.knowledge_chunks kc
-  JOIN public.knowledge_documents kd ON kd.id = kc.document_id
+  FROM scored_chunks sc
+  JOIN public.knowledge_documents kd ON kd.id = sc.document_id
   LEFT JOIN public.knowledge_sources ks ON ks.id = kd.source_id
-  WHERE kc.embedding_status = 'indexed'
-    AND kc.index_version = 'v4'
-    AND kc.embedding_vector IS NOT NULL
-    AND (1 - (kc.embedding_vector <=> (query_embedding_text::vector(1536)))) >= min_similarity
-  ORDER BY kc.embedding_vector <=> (query_embedding_text::vector(1536))
+  WHERE (1 - sc.cosine_distance) >= min_similarity
+  ORDER BY sc.cosine_distance
   LIMIT GREATEST(1, LEAST(match_count, 200));
 $$;
 

@@ -102,6 +102,7 @@ const KNOWLEDGE_INDEX_VERSION_V2 = 'v2';
 const KNOWLEDGE_INDEX_VERSION_V3 = 'v3';
 const KNOWLEDGE_INDEX_VERSION_V4 = 'v4';
 const KNOWLEDGE_EMBEDDING_MODEL_V4 = process.env.SPAJA_BAZA_EMBEDDING_MODEL ?? 'text-embedding-3-small';
+const KNOWLEDGE_EMBEDDING_MODEL_VERSION_V4 = process.env.SPAJA_BAZA_EMBEDDING_MODEL_VERSION ?? 'v4';
 const KNOWLEDGE_EMBEDDING_DIM_V4 = Number(process.env.SPAJA_BAZA_EMBEDDING_DIM ?? 1536);
 const SEARCH_SCORE_WEIGHTS = {
   lexical: 0.6,
@@ -558,6 +559,13 @@ interface KnowledgeSearchExecution {
   semanticRetrievalUsed: boolean;
 }
 
+function getChunkIndexVersion(indexVersion: string): 'v1' | 'v2' | 'v3' | 'v4' {
+  if (indexVersion === KNOWLEDGE_INDEX_VERSION_V4) return 'v4';
+  if (indexVersion === KNOWLEDGE_INDEX_VERSION_V3) return 'v3';
+  if (indexVersion === KNOWLEDGE_INDEX_VERSION_V2) return 'v2';
+  return 'v1';
+}
+
 function normalizeIndexText(input: string): string {
   return input
     .toLowerCase()
@@ -661,6 +669,7 @@ function toVectorLiteral(vector: number[]): string {
 
 function normalizeEmbeddingInput(content: string): string {
   const normalized = sanitizeForPrompt(content).replace(/\s+/g, ' ').trim();
+  // 4000 karaktera drži input unutar sigurnog token budžeta za embeddings API.
   return normalized.slice(0, 4000);
 }
 
@@ -674,10 +683,16 @@ async function createEmbeddingVector(content: string): Promise<number[]> {
     throw new Error('Chunk je prazan nakon normalizacije za embedding.');
   }
 
-  const response = await openai.embeddings.create({
-    model: KNOWLEDGE_EMBEDDING_MODEL_V4,
-    input,
-  });
+  let response: Awaited<ReturnType<typeof openai.embeddings.create>>;
+  try {
+    response = await openai.embeddings.create({
+      model: KNOWLEDGE_EMBEDDING_MODEL_V4,
+      input,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'embedding API unknown error';
+    throw new Error(`Embedding API greška (${KNOWLEDGE_EMBEDDING_MODEL_V4}): ${message}`);
+  }
   const vector = response.data?.[0]?.embedding;
   if (!Array.isArray(vector) || vector.length === 0) {
     throw new Error('Embedding provider nije vratio validan vektor.');
@@ -742,6 +757,8 @@ async function executeKnowledgeSearch(
           index_version: rpcRow.index_version,
           keyword_density: rpcRow.keyword_density ?? 0,
           position_score: rpcRow.position_score ?? 0,
+          // semantic_score u runtime scoring-u tretiramo kao similarity signal;
+          // za v4 RPC primaran izvor je semantic_similarity.
           semantic_score: rpcRow.semantic_similarity ?? rpcRow.semantic_score ?? 0,
           knowledge_documents: {
             id: rpcRow.document_id,
@@ -754,7 +771,9 @@ async function executeKnowledgeSearch(
       });
       semanticRetrievalUsed = true;
     }
-  } catch {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'unknown semantic retrieval error';
+    console.error('[searchKnowledge] v4 semantic retrieval failed, falling back to lexical path:', message);
     semanticRows = [];
   }
 
@@ -871,7 +890,7 @@ async function executeKnowledgeSearch(
         snippet: row.content.slice(0, 320),
         score,
         sourceName: row.knowledge_documents?.knowledge_sources?.name ?? 'nepoznat-izvor',
-        __indexVersion: (isV4Chunk ? 'v4' : isV3Chunk ? 'v3' : isV2Chunk ? 'v2' : 'v1') as 'v1' | 'v2' | 'v3' | 'v4',
+        __indexVersion: getChunkIndexVersion(row.index_version),
       };
     })
     .filter((item) => Boolean(item.sourceUrl))
@@ -1040,7 +1059,8 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
         const uniqueTermCount = (isV2 || isV3 || isV4) ? computeUniqueTermCount(chunk.content) : 0;
         const positionScore = (isV3 || isV4) ? computePositionScore(chunk.chunk_index) : 0;
         const embeddingVector = isV4 ? await createEmbeddingVector(chunk.content) : null;
-        const semanticScore = isV4 && embeddingVector ? 1 : 0;
+        // semantic_score je coverage signal (0/1): da li chunk ima validan v4 embedding.
+        const semanticCoverageScore = isV4 && embeddingVector ? 1 : 0;
 
         const { error } = await supabase
           .from('knowledge_chunks')
@@ -1056,10 +1076,10 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
             unique_term_count: uniqueTermCount,
             position_score: positionScore,
             embedding_model: isV4 ? KNOWLEDGE_EMBEDDING_MODEL_V4 : null,
-            embedding_model_version: isV4 ? KNOWLEDGE_EMBEDDING_MODEL_V4 : null,
+            embedding_model_version: isV4 ? KNOWLEDGE_EMBEDDING_MODEL_VERSION_V4 : null,
             embedding_generated_at: isV4 ? attemptAt : null,
             embedding_vector: embeddingVector ? toVectorLiteral(embeddingVector) : null,
-            semantic_score: semanticScore,
+            semantic_score: semanticCoverageScore,
           })
           .eq('id', chunk.id);
 
