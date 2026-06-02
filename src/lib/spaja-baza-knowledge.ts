@@ -516,7 +516,7 @@ function buildIndexedContent(content: string): string {
 function extractBigrams(words: string[]): string[] {
   const bigrams: string[] = [];
   for (let i = 0; i < words.length - 1; i++) {
-    if ((words[i]?.length ?? 0) > 2 && (words[i + 1]?.length ?? 0) > 2) {
+    if (words[i].length > 2 && words[i + 1].length > 2) {
       bigrams.push(`${words[i]}_${words[i + 1]}`);
     }
   }
@@ -785,9 +785,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
       .order('created_at', { ascending: true })
       .limit(batchSize);
 
-    if (!options?.forceReindex && !upgradeToV2) {
-      chunkSelect = chunkSelect.lt('indexing_attempts', maxRetries);
-    } else if (!options?.forceReindex) {
+    if (!options?.forceReindex) {
       chunkSelect = chunkSelect.lt('indexing_attempts', maxRetries);
     }
     if (upgradeToV2) {

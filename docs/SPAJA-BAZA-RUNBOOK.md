@@ -108,6 +108,8 @@
 3. Pokreni upgrade sa manjim `batchSize` (npr. 10) i `maxBatches: 2`.
 4. Provjeri `knowledge_dead_letters` za ozbiljne greške.
 
+## 8) Operativne smernice
+
 - Držati ingest u legalnom opsegu (robots/TOS).
 - Koristiti trusted izvore (visok `trust_score`).
 - Ograničiti batch URL-ova po job-u.
