@@ -227,12 +227,14 @@ export default function PentestPage() {
           Rezultati biće dostupni na <code className="text-[#a78bfa]">GET /api/pentracija</code>.
         </p>
         <div className="flex items-center gap-4">
-          <a
-            href="/api/pentracija/sken"
-            className="rounded-lg bg-[#f97316] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#ea6e0a] transition-colors"
-          >
-            POST /api/pentracija/sken
-          </a>
+          <form method="POST" action="/api/pentracija/sken">
+            <button
+              type="submit"
+              className="rounded-lg bg-[#f97316] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#ea6e0a] transition-colors"
+            >
+              POST /api/pentracija/sken
+            </button>
+          </form>
           <a
             href="/api/pentracija"
             className="rounded-lg border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:bg-white/10 transition-colors"

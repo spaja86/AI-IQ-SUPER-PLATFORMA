@@ -175,7 +175,7 @@ const PENTEST_FINDINGS: PentestFinding[] = [
   },
   {
     id: 'pen-009',
-    naziv: 'Nedostaje autorization na autofinish API rutama',
+    naziv: 'Nedostaje authorization na autofinish API rutama',
     opis: 'Autofinish endpointi (monitoring, status) dostupni bez autentifikacije',
     kategorija: 'broken-access-control',
     owaspRef: 'A01:2021 — Broken Access Control',
