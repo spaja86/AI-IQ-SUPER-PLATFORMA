@@ -3,6 +3,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { NextRequest } from 'next/server';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -62,11 +63,11 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET smoke provera', async () => {
-    const request = new Request('http://localhost/api/pentracija/status', {
+    const request = new NextRequest(new Request('http://localhost/api/pentracija/status', {
       headers: { 'x-forwarded-for': '127.0.1.10' },
-    });
+    }));
 
-    const response = await GET(request as unknown as Request);
+    const response = await GET(request);
     assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
 
     const xAppVersion = response.headers.get('X-App-Version');

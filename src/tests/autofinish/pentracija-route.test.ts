@@ -5,6 +5,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { NextRequest } from 'next/server';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -91,10 +92,10 @@ async function runTests(): Promise<void> {
 
   // ─── GET /api/pentracija smoke ────────────────────────────────────────────
   await test('GET /api/pentracija — 200 i status === "ok"', async () => {
-    const req = new Request('http://localhost/api/pentracija', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija', {
       headers: { 'x-forwarded-for': '127.0.1.10' },
-    });
-    const res = await getPentracija(req as Parameters<typeof getPentracija>[0]);
+    }));
+    const res = await getPentracija(req);
     assert(res.status >= 200 && res.status < 300, `Status: ${res.status}`);
     const body = await res.clone().json() as Record<string, unknown>;
     assertEqual(body['status'] as string, 'ok', 'status');
@@ -103,10 +104,10 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET /api/pentracija — X-App-Version header', async () => {
-    const req = new Request('http://localhost/api/pentracija', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija', {
       headers: { 'x-forwarded-for': '127.0.1.11' },
-    });
-    const res = await getPentracija(req as Parameters<typeof getPentracija>[0]);
+    }));
+    const res = await getPentracija(req);
     const version = res.headers.get('X-App-Version');
     if (version !== null) {
       assertEqual(version, APP_VERSION, 'X-App-Version');
@@ -114,10 +115,10 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET /api/pentracija — verzija === APP_VERSION', async () => {
-    const req = new Request('http://localhost/api/pentracija', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija', {
       headers: { 'x-forwarded-for': '127.0.1.12' },
-    });
-    const res = await getPentracija(req as Parameters<typeof getPentracija>[0]);
+    }));
+    const res = await getPentracija(req);
     const body = await res.clone().json() as Record<string, unknown>;
     if (typeof body['verzija'] === 'string') {
       assertEqual(body['verzija'], APP_VERSION, 'verzija');
@@ -126,20 +127,20 @@ async function runTests(): Promise<void> {
 
   // ─── GET /api/pentracija/nalazi smoke ─────────────────────────────────────
   await test('GET /api/pentracija/nalazi — vraća niz', async () => {
-    const req = new Request('http://localhost/api/pentracija/nalazi', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija/nalazi', {
       headers: { 'x-forwarded-for': '127.0.1.20' },
-    });
-    const res = await getNalazi(req as Parameters<typeof getNalazi>[0]);
+    }));
+    const res = await getNalazi(req);
     assert(res.status >= 200 && res.status < 300, `Status: ${res.status}`);
     const body = await res.clone().json() as Record<string, unknown>;
     assert(Array.isArray(body['nalazi']), 'nalazi mora biti niz');
   });
 
   await test('GET /api/pentracija/nalazi?severity=medium — filtrira po severity', async () => {
-    const req = new Request('http://localhost/api/pentracija/nalazi?severity=medium', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija/nalazi?severity=medium', {
       headers: { 'x-forwarded-for': '127.0.1.21' },
-    });
-    const res = await getNalazi(req as Parameters<typeof getNalazi>[0]);
+    }));
+    const res = await getNalazi(req);
     assert(res.status >= 200 && res.status < 300, `Status: ${res.status}`);
     const body = await res.clone().json() as Record<string, unknown>;
     const nalazi = body['nalazi'] as Array<Record<string, unknown>>;
@@ -150,19 +151,19 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET /api/pentracija/nalazi?severity=invalid — vraća 400', async () => {
-    const req = new Request('http://localhost/api/pentracija/nalazi?severity=invalid', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija/nalazi?severity=invalid', {
       headers: { 'x-forwarded-for': '127.0.1.22' },
-    });
-    const res = await getNalazi(req as Parameters<typeof getNalazi>[0]);
+    }));
+    const res = await getNalazi(req);
     assertEqual(res.status, 400, 'mora biti 400 za nevalidan severity');
   });
 
   // ─── GET /api/pentracija/status smoke ────────────────────────────────────
   await test('GET /api/pentracija/status — vraća status polje', async () => {
-    const req = new Request('http://localhost/api/pentracija/status', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija/status', {
       headers: { 'x-forwarded-for': '127.0.1.30' },
-    });
-    const res = await getStatus(req as Parameters<typeof getStatus>[0]);
+    }));
+    const res = await getStatus(req);
     assert(res.status >= 200 && res.status < 300, `Status: ${res.status}`);
     const body = await res.clone().json() as Record<string, unknown>;
     assert(typeof body['status'] === 'string', 'status mora biti string');
@@ -171,11 +172,11 @@ async function runTests(): Promise<void> {
 
   // ─── POST /api/pentracija/sken smoke ─────────────────────────────────────
   await test('POST /api/pentracija/sken — vraća 202 i scanId', async () => {
-    const req = new Request('http://localhost/api/pentracija/sken', {
+    const req = new NextRequest(new Request('http://localhost/api/pentracija/sken', {
       method: 'POST',
       headers: { 'x-forwarded-for': '127.0.1.40' },
-    });
-    const res = await postSken(req as Parameters<typeof postSken>[0]);
+    }));
+    const res = await postSken(req);
     assert(res.status === 202 || res.status === 429, `Neočekivan status: ${res.status}`);
     if (res.status === 202) {
       const body = await res.clone().json() as Record<string, unknown>;
@@ -194,7 +195,7 @@ async function runTests(): Promise<void> {
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
-    console.error('\n❌ Neuspješni testovi:');
+    console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
     process.exit(1);
   }

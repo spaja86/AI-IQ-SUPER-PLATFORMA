@@ -63,9 +63,9 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET smoke provera', async () => {
-    const request = new NextRequest('http://localhost/api/autofinish-iteracija-opis', {
+    const request = new NextRequest(new Request('http://localhost/api/autofinish-iteracija-opis', {
       headers: { 'x-forwarded-for': '127.0.1.10' },
-    });
+    }));
 
     const response = await GET(request);
     assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
