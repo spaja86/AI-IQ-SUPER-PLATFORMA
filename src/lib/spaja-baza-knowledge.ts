@@ -47,6 +47,10 @@ interface KnowledgeIndexingOptions {
   forceReindex?: boolean;
   triggerType?: 'manual' | 'schedule' | 'reindex';
   requestedBy?: string | null;
+  /** v1 (default) ili v2 (INDEKSIRANJE 2 poboljšani pipeline). */
+  indexVersion?: 'v1' | 'v2';
+  /** Kada true, odabira i već v1-indeksirane chunk-ove za upgrade na v2. */
+  upgradeToV2?: boolean;
 }
 
 export interface KnowledgeIndexingResult {
@@ -62,6 +66,8 @@ export interface KnowledgeIndexStatus {
   queue: {
     notIndexed: number;
     indexed: number;
+    indexedV1: number;
+    indexedV2: number;
     failed: number;
   };
   jobs24h: {
@@ -85,10 +91,18 @@ const DEFAULT_ALLOWLIST = [
 
 const DEFAULT_DENYLIST = ['accounts.google.com', 'drive.google.com', 'mail.google.com'];
 const KNOWLEDGE_INDEX_VERSION = 'v1';
+const KNOWLEDGE_INDEX_VERSION_V2 = 'v2';
 const SEARCH_SCORE_WEIGHTS = {
   lexical: 0.6,
   trust: 0.25,
   indexCoverage: 0.15,
+} as const;
+// v2 scoring: nagrada za učestalost pojave termina i bogatstvo vokabulara.
+const SEARCH_SCORE_WEIGHTS_V2 = {
+  lexical: 0.45,
+  termFrequency: 0.20,
+  trust: 0.20,
+  keywordDensity: 0.15,
 } as const;
 const INDEXING_DEFAULT_MAX_RETRIES = 5;
 const INDEXING_MAX_RETRIES_CAP = 10;
@@ -455,6 +469,10 @@ interface ChunkRow {
   // Normalizovan sadržaj koji služi kao indeksni tekst za bržu pretragu.
   indexed_content: string;
   embedding_status: 'not_indexed' | 'indexed' | 'failed';
+  // v1 ili v2 — određuje koja scoring formula se primenjuje.
+  index_version: string;
+  // Pre-izračunata gustina ključnih reči (0–1); koristi se samo za v2 scoring.
+  keyword_density: number;
   knowledge_documents: {
     id: string;
     title: string;
@@ -492,6 +510,65 @@ function buildIndexedContent(content: string): string {
   return normalizeIndexText(sanitizeForPrompt(content)).slice(0, 6000);
 }
 
+// ─── INDEKSIRANJE 2 — v2 helper funkcije ────────────────────────────────────
+
+/** Izvlači bigrame iz susednih reči (minimalna dužina 3 slova). */
+function extractBigrams(words: string[]): string[] {
+  const bigrams: string[] = [];
+  for (let i = 0; i < words.length - 1; i++) {
+    if ((words[i]?.length ?? 0) > 2 && (words[i + 1]?.length ?? 0) > 2) {
+      bigrams.push(`${words[i]}_${words[i + 1]}`);
+    }
+  }
+  return bigrams;
+}
+
+/**
+ * v2 varijanta buildIndexedContent:
+ * normalizovani tekst + top bigrami za poboljšano višerečno poklapanje.
+ */
+function buildIndexedContentV2(content: string): string {
+  const normalized = normalizeIndexText(sanitizeForPrompt(content));
+  const words = normalized.split(/\s+/).filter((w) => w.length > 2);
+  const bigrams = extractBigrams(words).slice(0, 40);
+  const enriched = bigrams.length > 0 ? `${normalized} ${bigrams.join(' ')}` : normalized;
+  return enriched.slice(0, 6000);
+}
+
+/**
+ * Gustina ključnih reči: udeo jedinstvenih tokena u ukupnom broju tokena.
+ * Vrednost 0–1; visoka vrednost = bogat, raznoliki vokabular.
+ */
+function computeKeywordDensity(content: string): number {
+  const normalized = normalizeIndexText(content);
+  const words = normalized.split(/\s+/).filter((w) => w.length > 2);
+  if (words.length === 0) return 0;
+  const unique = new Set(words);
+  return Number((unique.size / words.length).toFixed(4));
+}
+
+/** Broj distinktnih značajnih tokena u sadržaju (tokeni dužine > 2). */
+function computeUniqueTermCount(content: string): number {
+  const normalized = normalizeIndexText(content);
+  const words = normalized.split(/\s+/).filter((w) => w.length > 2);
+  return new Set(words).size;
+}
+
+/**
+ * v2 term-frequency score: nagrada za ponavljanje termina upita.
+ * Svaki term se cappuje na 5 pojavljivanja = score 1.
+ */
+function computeTermFrequencyScore(content: string, terms: string[]): number {
+  if (terms.length === 0) return 0;
+  const lower = content.toLowerCase();
+  const freqs = terms.map((term) => {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const count = (lower.match(new RegExp(escaped, 'g')) ?? []).length;
+    return Math.min(count / 5, 1);
+  });
+  return freqs.reduce((sum, s) => sum + s, 0) / terms.length;
+}
+
 function getIndexableStatuses(forceReindex: boolean): Array<'not_indexed' | 'failed' | 'indexed'> {
   return forceReindex ? ['not_indexed', 'failed', 'indexed'] : ['not_indexed', 'failed'];
 }
@@ -527,6 +604,8 @@ export async function searchKnowledge(
         content,
         indexed_content,
         embedding_status,
+        index_version,
+        keyword_density,
         knowledge_documents!inner (
           id,
           title,
@@ -546,6 +625,8 @@ export async function searchKnowledge(
         content,
         indexed_content,
         embedding_status,
+        index_version,
+        keyword_density,
         knowledge_documents!inner (
           id,
           title,
@@ -571,20 +652,35 @@ export async function searchKnowledge(
   const scored = (mergedRows as unknown as ChunkRow[])
     .map((row) => {
       const lexicalScore = computeScore(row.content, terms);
-      const semanticScore = computeIndexedCoverageScore(row.indexed_content);
       const trustScore = row.knowledge_documents?.trust_score ?? 0;
+      const isV2Chunk = row.index_version === KNOWLEDGE_INDEX_VERSION_V2;
+
+      let score: number;
+      if (isV2Chunk) {
+        // v2: koristi term-frequency i keyword density kao dodatne signale.
+        const termFreqScore = computeTermFrequencyScore(row.content, terms);
+        const kdScore = Math.min(row.keyword_density ?? 0, 1);
+        score = Number((
+          lexicalScore * SEARCH_SCORE_WEIGHTS_V2.lexical +
+          termFreqScore * SEARCH_SCORE_WEIGHTS_V2.termFrequency +
+          trustScore * SEARCH_SCORE_WEIGHTS_V2.trust +
+          kdScore * SEARCH_SCORE_WEIGHTS_V2.keywordDensity
+        ).toFixed(4));
+      } else {
+        // v1: originalni hybrid scoring (lexical + trust + index coverage).
+        const semanticScore = computeIndexedCoverageScore(row.indexed_content);
+        score = Number((
+          lexicalScore * SEARCH_SCORE_WEIGHTS.lexical +
+          trustScore * SEARCH_SCORE_WEIGHTS.trust +
+          semanticScore * SEARCH_SCORE_WEIGHTS.indexCoverage
+        ).toFixed(4));
+      }
       return {
         id: row.id,
         title: row.knowledge_documents?.title ?? 'Nepoznat dokument',
         sourceUrl: row.knowledge_documents?.canonical_url ?? '',
         snippet: row.content.slice(0, 320),
-        // Hybrid scoring: lexical je primaran signal, trust smanjuje rizik izvora,
-        // a indexed coverage potvrđuje da je chunk prošao indeksni pipeline.
-        score: Number((
-          lexicalScore * SEARCH_SCORE_WEIGHTS.lexical +
-          trustScore * SEARCH_SCORE_WEIGHTS.trust +
-          semanticScore * SEARCH_SCORE_WEIGHTS.indexCoverage
-        ).toFixed(4)),
+        score,
         sourceName: row.knowledge_documents?.knowledge_sources?.name ?? 'nepoznat-izvor',
       } satisfies KnowledgeCitation;
     })
@@ -602,6 +698,7 @@ interface IndexCandidateRow {
   embedding_status: 'not_indexed' | 'indexed' | 'failed';
   indexing_attempts: number;
   last_index_attempt_at: string | null;
+  index_version: string;
 }
 
 function normalizeBatchSize(raw?: number): number {
@@ -627,6 +724,8 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
     Number(process.env.SPAJA_BAZA_INDEX_RETRY_BACKOFF_MS ?? INDEXING_DEFAULT_RETRY_BACKOFF_MS),
   );
   const now = Date.now();
+  const targetVersion = options?.indexVersion ?? KNOWLEDGE_INDEX_VERSION;
+  const upgradeToV2 = Boolean(options?.upgradeToV2);
 
   const { data: job, error: jobError } = await supabase
     .from('knowledge_index_jobs')
@@ -674,18 +773,26 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
     }
   }
 
-  const allowedStatuses = getIndexableStatuses(Boolean(options?.forceReindex));
+  const allowedStatuses = upgradeToV2
+    ? (['not_indexed', 'failed', 'indexed'] as Array<'not_indexed' | 'failed' | 'indexed'>)
+    : getIndexableStatuses(Boolean(options?.forceReindex));
 
   for (let batch = 0; batch < maxBatches; batch++) {
     let chunkSelect = supabase
       .from('knowledge_chunks')
-      .select('id, document_id, content, embedding_status, indexing_attempts, last_index_attempt_at')
+      .select('id, document_id, content, embedding_status, indexing_attempts, last_index_attempt_at, index_version')
       .in('embedding_status', allowedStatuses)
       .order('created_at', { ascending: true })
       .limit(batchSize);
 
-    if (!options?.forceReindex) {
+    if (!options?.forceReindex && !upgradeToV2) {
       chunkSelect = chunkSelect.lt('indexing_attempts', maxRetries);
+    } else if (!options?.forceReindex) {
+      chunkSelect = chunkSelect.lt('indexing_attempts', maxRetries);
+    }
+    if (upgradeToV2) {
+      // Isključi chunk-ove koji su već na v2 da se izbegne nepotreban re-index.
+      chunkSelect = chunkSelect.neq('index_version', KNOWLEDGE_INDEX_VERSION_V2);
     }
     if (documentFilterIds) {
       chunkSelect = chunkSelect.in('document_id', documentFilterIds);
@@ -704,7 +811,12 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
       const attempts = (chunk.indexing_attempts ?? 0) + 1;
 
       try {
-        const indexedContent = buildIndexedContent(chunk.content);
+        const isV2 = targetVersion === KNOWLEDGE_INDEX_VERSION_V2;
+        const indexedContent = isV2
+          ? buildIndexedContentV2(chunk.content)
+          : buildIndexedContent(chunk.content);
+        const keywordDensity = isV2 ? computeKeywordDensity(chunk.content) : 0;
+        const uniqueTermCount = isV2 ? computeUniqueTermCount(chunk.content) : 0;
 
         const { error } = await supabase
           .from('knowledge_chunks')
@@ -715,7 +827,9 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
             indexing_error: null,
             last_index_attempt_at: attemptAt,
             indexed_at: attemptAt,
-            index_version: KNOWLEDGE_INDEX_VERSION,
+            index_version: targetVersion,
+            keyword_density: keywordDensity,
+            unique_term_count: uniqueTermCount,
           })
           .eq('id', chunk.id);
 
@@ -769,10 +883,12 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
   const supabase = getSupabaseServerClient();
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  const [notIndexed, indexed, failed, jobs24h, latestJobs] = await Promise.all([
+  const [notIndexed, indexed, failed, indexedV1, indexedV2, jobs24h, latestJobs] = await Promise.all([
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'not_indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'failed'),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V2),
     supabase
       .from('knowledge_index_jobs')
       .select('*')
@@ -796,6 +912,8 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
     queue: {
       notIndexed: notIndexed.count ?? 0,
       indexed: indexed.count ?? 0,
+      indexedV1: indexedV1.count ?? 0,
+      indexedV2: indexedV2.count ?? 0,
       failed: failed.count ?? 0,
     },
     jobs24h: {
