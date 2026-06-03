@@ -8166,3 +8166,24 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Route coverage test: src/tests/autofinish/autofinish-api-milestone-1350-route.test.ts.
 // Bumped TOTAL_API_ROUTES 1232→1233, TOTAL_ROUTES 1361→1362.
 // APP_VERSION=59.72.0→59.73.0 | AUTOFINISH_COUNT=1416→1417 | TOTAL_API_ROUTES=1233 | TOTAL_ROUTES=1362 | TOTAL_PAGES=130
+
+// ─── Autofinish #1421 — PANETRACIJA 2 MODUL ───────────────────────────────────
+// V2 modul za automatizovano testiranje penetracije sa proširenim tipovima i scan session store-om.
+// Novi lib: src/lib/panetracija-2.ts — PentestFindingV2 (CVSS 3.1 vector, CWE ID, prioritet, nosioc, rok),
+// PentestScanSession, PentestReportV2 (history + trendovi), in-memory ring-buffer (MAX_HISTORY=10).
+// Funkcije: buildPentestReportV2(), startScanSession(), completeScanSession(), getScanHistory(),
+// getPentestTrend(), getPentestFindingsV2(), getPentestSummaryV2(), calculatePentestScoreV2().
+// 20 proširenih nalaza: injection, broken-auth, xss, xxe, deserialization, vuln-components,
+// security-misconfig, sensitive-data, broken-access, logging, csrf, ssrf, race-condition, supply-chain.
+// API rute (6): GET /api/panetracija-2, GET /api/panetracija-2/status, GET /api/panetracija-2/nalazi,
+// POST /api/panetracija-2/sken, GET /api/panetracija-2/istorija, GET /api/panetracija-2/trendovi.
+// UI: src/app/panetracija-2/page.tsx — dashboard sa score, trend sparkline, OWASP+CWE grid,
+// client-side filter table (severity/status/kategorija), scan istorija panel i link panel.
+// Client component: src/app/panetracija-2/PentestFilterTable.tsx.
+// ΩPermissionMatrix: panetracija2:read (ADMIN), panetracija2:execute (SUPER_ADMIN).
+// Testovi: panetracija-2-lib.test.ts (unit), panetracija-2-route.test.ts + 5 route tests.
+// Bumped TOTAL_API_ROUTES 1233→1239, TOTAL_ROUTES 1362→1369, TOTAL_PAGES 130→131.
+// APP_VERSION=59.74.0→59.75.0 | AUTOFINISH_COUNT=1420→1421 | TOTAL_API_ROUTES=1239 | TOTAL_ROUTES=1369 | TOTAL_PAGES=131
+
+// Autofinish #1421 — Fix panetracija-2/nalazi: added 'auth' to VALID_KATEGORIJE (alias for broken-auth filter).
+// APP_VERSION=59.75.0→59.75.1 | AUTOFINISH_COUNT=1421→1422
