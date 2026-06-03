@@ -36,6 +36,9 @@ export interface Database {
           personalization_updated_at: string | null;
           personalization_enabled: boolean;
           personalization_opt_out: boolean;
+          adaptive_preferences: Record<string, unknown> | null;
+          personalization_feedback: Record<string, unknown> | null;
+          personalization_v3_score: number;
           created_at: string;
           updated_at: string;
         };
@@ -60,6 +63,9 @@ export interface Database {
           personalization_updated_at?: string | null;
           personalization_enabled?: boolean;
           personalization_opt_out?: boolean;
+          adaptive_preferences?: Record<string, unknown> | null;
+          personalization_feedback?: Record<string, unknown> | null;
+          personalization_v3_score?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -89,6 +95,9 @@ export interface Database {
           personalization_updated_at?: string | null;
           personalization_enabled?: boolean;
           personalization_opt_out?: boolean;
+          adaptive_preferences?: Record<string, unknown> | null;
+          personalization_feedback?: Record<string, unknown> | null;
+          personalization_v3_score?: number;
           updated_at?: string;
         };
         Relationships: [];

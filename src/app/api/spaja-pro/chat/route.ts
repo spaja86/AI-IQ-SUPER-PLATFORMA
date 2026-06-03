@@ -33,6 +33,11 @@ import {
   mergePersonalizationIntoPrompt,
   type PersonalizationSignals,
 } from '@/lib/personalizacija/engine-v2';
+import {
+  buildPersonalizationProfileV3,
+  computePersonalizationSignalsV3,
+  isPersonalizationV3Enabled,
+} from '@/lib/personalizacija/engine-v3';
 
 export const runtime = 'nodejs';
 
@@ -79,7 +84,7 @@ export async function POST(request: NextRequest) {
     // Proveri korisnikov plan i limite
     const { data: profile } = await supabase
       .from('profiles')
-      .select('plan, chat_messages_used, chat_messages_limit, custom_instructions, preferred_model, preferred_language, memory, personalization_version, stable_preferences, contextual_preferences, personalization_confidence, personalization_updated_at, personalization_enabled, personalization_opt_out')
+      .select('plan, chat_messages_used, chat_messages_limit, custom_instructions, preferred_model, preferred_language, memory, personalization_version, stable_preferences, contextual_preferences, personalization_confidence, personalization_updated_at, personalization_enabled, personalization_opt_out, adaptive_preferences, personalization_feedback, personalization_v3_score')
       .eq('id', user.id)
       .single();
 
@@ -96,21 +101,43 @@ export async function POST(request: NextRequest) {
       }, { status: 429 });
     }
 
-    // ── 1b. Personalization v2 — compute signals (pre-routing) ────────
-    const personalizationProfile = buildPersonalizationProfile(user.id, {
-      custom_instructions: profile.custom_instructions,
-      memory: profile.memory,
-      preferred_model: profile.preferred_model,
-      preferred_language: profile.preferred_language ?? null,
-      personalization_version: profile.personalization_version ?? 'v1',
-      stable_preferences: profile.stable_preferences as Record<string, unknown> | null,
-      contextual_preferences: profile.contextual_preferences as Record<string, unknown> | null,
-      personalization_confidence: profile.personalization_confidence ?? 0,
-      personalization_updated_at: profile.personalization_updated_at ?? null,
-      personalization_enabled: profile.personalization_enabled ?? true,
-      personalization_opt_out: profile.personalization_opt_out ?? false,
-    });
-    const personalizationSignals: PersonalizationSignals = computePersonalizationSignals(personalizationProfile);
+    // ── 1b. Personalization v2/v3 — compute signals (pre-routing) ────────
+    const profileVersion = profile.personalization_version ?? 'v1';
+    const personalizationSignals: PersonalizationSignals =
+      profileVersion === 'v3' && isPersonalizationV3Enabled()
+        ? computePersonalizationSignalsV3(
+            buildPersonalizationProfileV3(user.id, {
+              custom_instructions: profile.custom_instructions,
+              memory: profile.memory,
+              preferred_model: profile.preferred_model,
+              preferred_language: profile.preferred_language ?? null,
+              personalization_version: profileVersion,
+              stable_preferences: profile.stable_preferences as Record<string, unknown> | null,
+              contextual_preferences: profile.contextual_preferences as Record<string, unknown> | null,
+              personalization_confidence: profile.personalization_confidence ?? 0,
+              personalization_updated_at: profile.personalization_updated_at ?? null,
+              personalization_enabled: profile.personalization_enabled ?? true,
+              personalization_opt_out: profile.personalization_opt_out ?? false,
+              adaptive_preferences: profile.adaptive_preferences as Record<string, unknown> | null,
+              personalization_feedback: profile.personalization_feedback as Record<string, unknown> | null,
+              personalization_v3_score: profile.personalization_v3_score ?? 0,
+            }),
+          )
+        : computePersonalizationSignals(
+            buildPersonalizationProfile(user.id, {
+              custom_instructions: profile.custom_instructions,
+              memory: profile.memory,
+              preferred_model: profile.preferred_model,
+              preferred_language: profile.preferred_language ?? null,
+              personalization_version: profileVersion,
+              stable_preferences: profile.stable_preferences as Record<string, unknown> | null,
+              contextual_preferences: profile.contextual_preferences as Record<string, unknown> | null,
+              personalization_confidence: profile.personalization_confidence ?? 0,
+              personalization_updated_at: profile.personalization_updated_at ?? null,
+              personalization_enabled: profile.personalization_enabled ?? true,
+              personalization_opt_out: profile.personalization_opt_out ?? false,
+            }),
+          );
 
     // ── 2. Smart Model Routing ─────────────────────────────────────────
     // v2 routing hint: prefer the user's last active model if v2 engine suggests it

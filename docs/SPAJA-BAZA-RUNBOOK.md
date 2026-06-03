@@ -301,3 +301,81 @@ PERSONALIZATION_V2_ENABLED=false
 | opt-out rate | `optOutCount / totalProfiles` | < 0.05 |
 | citation rate | `metrics24h.citationRate` | ≥ 0.45 |
 
+
+## 14) PERTENIZACIJA 3 — Personalization v3
+
+### Pregled
+
+PERTENIZACIJA 3 uvodi adaptivno učenje (topic weights, session tempo), feedback signale i kompozitni v3 score iznad v2 temelja.  
+ADR: `docs/ADR-PERTENIZACIJA-3.md`  
+Engine: `src/lib/personalizacija/engine-v3.ts`
+
+### Aktivacija v3 per korisniku
+
+```json
+PUT /api/spaja-pro/settings
+{
+  "personalizationVersion": "v3"
+}
+```
+
+### Ažuriranje adaptivnih preferencija
+
+```json
+PUT /api/spaja-pro/settings
+{
+  "adaptivePreferences": {
+    "topicWeights": { "AI": 0.9, "TypeScript": 0.75 },
+    "sessionTempo": "deep"
+  }
+}
+```
+
+### Reset samo v3 podataka (zadržava v2)
+
+```json
+PUT /api/spaja-pro/settings
+{
+  "resetPersonalizationV3": true
+}
+```
+
+### Full reset (v2 + v3 → v1)
+
+```json
+PUT /api/spaja-pro/settings
+{
+  "resetPersonalization": true
+}
+```
+
+### Kill-switch
+
+- **Globalni v3 kill-switch**: `PERSONALIZATION_V3_ENABLED=false` — vraća sve na v2/v1 bez deploymenta.
+- **Globalni v2 kill-switch**: `PERSONALIZATION_V2_ENABLED=false` — isključuje i v2 i v3.
+- **Per-user**: `{ "personalizationOptOut": true }` ili `{ "personalizationEnabled": false }`.
+
+### Incident / rollback procedura
+
+1. Proveriti avg v3 score i citation rate u `/api/spaja-baza-knowledge/metrics` → `personalizacijaV2`.
+2. Ako citation rate padne ispod v2 baseline-a: setovati `PERSONALIZATION_V3_ENABLED=false`.
+3. Za par-usera koji imaju degradiranu personalizaciju: PUT sa `{ "resetPersonalizationV3": true }`.
+4. Za pun rollback na v1: PUT sa `{ "resetPersonalization": true }`.
+5. Re-deploy sa env varom kada je uzrok otklonjen; postepeno ponovo aktivirati v3.
+
+### KPI praćenje (v3 metrike)
+
+| Metrika | Endpoint | Cilj |
+|---------|----------|------|
+| v3 adoption rate | `/api/spaja-baza-knowledge/metrics` → `personalizacijaV2.v3AdoptionRate` | ≥ 0.5 (parcijalni rollout) |
+| avg v3 score | `personalizacijaV2.averageV3Score` | ≥ 0.55 |
+| opt-out rate | `optOutCount / totalProfiles` | < 0.05 |
+| citation rate | `metrics24h.citationRate` | ≥ 0.50 |
+
+### DB kolone (migracija 017)
+
+| Kolona | Tip | Opis |
+|--------|-----|------|
+| `adaptive_preferences` | JSONB | Learned adaptive preferences (topic weights, session tempo) |
+| `personalization_feedback` | JSONB | Feedback signali (positiveCount, negativeCount, lastFeedbackAt) |
+| `personalization_v3_score` | NUMERIC(4,3) | Kompozitni v3 score 0–1 |
