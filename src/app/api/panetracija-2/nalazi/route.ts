@@ -21,6 +21,7 @@ export const dynamic = 'force-dynamic';
 const VALID_SEVERITIES = ['info', 'low', 'medium', 'high', 'critical'] as const;
 const VALID_KATEGORIJE = [
   'injection',
+  'auth',
   'broken-auth',
   'xss',
   'xxe',
