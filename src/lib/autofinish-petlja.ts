@@ -8184,3 +8184,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Testovi: panetracija-2-lib.test.ts (unit), panetracija-2-route.test.ts + 5 route tests.
 // Bumped TOTAL_API_ROUTES 1233→1239, TOTAL_ROUTES 1362→1369, TOTAL_PAGES 130→131.
 // APP_VERSION=59.74.0→59.75.0 | AUTOFINISH_COUNT=1420→1421 | TOTAL_API_ROUTES=1239 | TOTAL_ROUTES=1369 | TOTAL_PAGES=131
+
+// Autofinish #1421 — Fix panetracija-2/nalazi: added 'auth' to VALID_KATEGORIJE (alias for broken-auth filter).
+// APP_VERSION=59.75.0→59.75.1 | AUTOFINISH_COUNT=1421→1422

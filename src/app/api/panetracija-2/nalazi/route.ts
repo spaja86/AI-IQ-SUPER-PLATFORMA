@@ -21,7 +21,7 @@ export const dynamic = 'force-dynamic';
 const VALID_SEVERITIES = ['info', 'low', 'medium', 'high', 'critical'] as const;
 const VALID_KATEGORIJE = [
   'injection',
-  'auth',
+  'auth', // shorthand alias accepted alongside canonical 'broken-auth'
   'broken-auth',
   'xss',
   'xxe',
