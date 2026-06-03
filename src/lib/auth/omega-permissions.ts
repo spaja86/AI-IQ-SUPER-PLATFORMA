@@ -97,6 +97,27 @@ const PERMISSION_MATRIX: ΩPermissionRule[] = [
     requiredClearance: ΩClearanceLevel.SUPER_ADMIN,
     requiredScopes: ['pentracija:execute'],
   },
+  // Panetracija 2 — V2 modul za automatizovano testiranje penetracije
+  {
+    resourcePattern: /^\/panetracija-2/,
+    requiredClearance: ΩClearanceLevel.ADMIN,
+    requiredScopes: ['panetracija2:read'],
+  },
+  {
+    resourcePattern: /^\/api\/panetracija-2\/(nalazi|status|istorija|trendovi)$/,
+    requiredClearance: ΩClearanceLevel.ADMIN,
+    requiredScopes: ['panetracija2:read'],
+  },
+  {
+    resourcePattern: /^\/api\/panetracija-2$/,
+    requiredClearance: ΩClearanceLevel.ADMIN,
+    requiredScopes: ['panetracija2:read'],
+  },
+  {
+    resourcePattern: /^\/api\/panetracija-2\/sken$/,
+    requiredClearance: ΩClearanceLevel.SUPER_ADMIN,
+    requiredScopes: ['panetracija2:execute'],
+  },
 ];
 
 // ΩPermissionMatrix — upravljanje dozvolama
