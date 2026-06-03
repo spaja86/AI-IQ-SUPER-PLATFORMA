@@ -95,6 +95,21 @@ const DEFAULT_FEEDBACK: PersonalizationFeedback = {
   lastFeedbackAt: null,
 };
 
+// ── Scoring constants ─────────────────────────────────────────────────────────
+
+/** Sessions needed to reach full adaptive maturity (used in score normalization). */
+const MAX_NORMALIZED_SESSIONS = 20;
+
+/** Distinct topic count considered 'fully rich' for adaptive normalization. */
+const MAX_NORMALIZED_TOPICS = 5;
+
+/**
+ * Default feedback score when the user has given no feedback yet.
+ * 0.5 (neutral) is used rather than 0 so that new users are not penalized
+ * before they have had a chance to provide feedback.
+ */
+const DEFAULT_FEEDBACK_SCORE = 0.5;
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function parseAdaptivePreferences(raw: Record<string, unknown> | null): AdaptivePreferences {
@@ -131,15 +146,19 @@ function computeV3Score(
   // Base: v2 confidence (weight 0.5)
   const baseScore = confidence * 0.5;
 
-  // Adaptive signal contribution (weight 0.3): normalize sessionCount up to 20
-  const sessionNorm = Math.min(adaptive.sessionCount / 20, 1);
-  const topicRichness = Math.min(Object.keys(adaptive.topicWeights).length / 5, 1);
+  // Adaptive signal contribution (weight 0.3): normalize sessionCount up to MAX_NORMALIZED_SESSIONS
+  const sessionNorm = Math.min(adaptive.sessionCount / MAX_NORMALIZED_SESSIONS, 1);
+  const topicRichness = Math.min(Object.keys(adaptive.topicWeights).length / MAX_NORMALIZED_TOPICS, 1);
   const adaptiveScore = (sessionNorm * 0.6 + topicRichness * 0.4) * 0.3;
 
-  // Feedback ratio contribution (weight 0.2): net positive ratio
+  // Feedback ratio contribution (weight 0.2): net positive ratio.
+  // DEFAULT_FEEDBACK_SCORE (0.5 neutral) is used when no feedback exists so
+  // new users are not penalized before they have provided any feedback.
   const totalFeedback = feedback.positiveCount + feedback.negativeCount;
   const feedbackScore =
-    totalFeedback === 0 ? 0.5 : (feedback.positiveCount / totalFeedback) * 0.2;
+    totalFeedback === 0
+      ? DEFAULT_FEEDBACK_SCORE * 0.2
+      : (feedback.positiveCount / totalFeedback) * 0.2;
 
   return Math.min(Number((baseScore + adaptiveScore + feedbackScore).toFixed(3)), 1);
 }
