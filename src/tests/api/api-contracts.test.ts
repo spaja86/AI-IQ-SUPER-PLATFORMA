@@ -26,6 +26,8 @@ import { APP_VERSION } from '../../lib/constants';
 import { getEnterpriseZahtevi, getOperativnaSpremnost } from '../../lib/kompanija-spaja-operativa';
 import { validateCronAuth } from '../../lib/cron-auth';
 import { getKastlerSignalReadinessSummary, getKastlerTVSignalRequestPackage } from '../../lib/kastler-tv-signal-request';
+import { GET as getStatusRoute } from '../../app/api/status/route';
+import { GET as getHealthRoute } from '../../app/api/health/route';
 import {
   buildKomunikacioniSablon,
   canTransition,
@@ -264,13 +266,38 @@ async function runTests(): Promise<void> {
   await test('Operativna spremnost ima runtime/ops/enterprise modove', () => {
     const operativa = getOperativnaSpremnost();
     assertDefined(operativa.spremnost.modelStanja, 'modelStanja');
+    assertDefined(operativa.spremnost.normalizedReady, 'normalizedReady');
     const mode = operativa.spremnost.modelStanja;
+    const normalized = operativa.spremnost.normalizedReady;
     assert(['runtime-ready', 'runtime-incomplete'].includes(mode.runtime), 'runtime mode mora biti validan');
     assert(['ops-ready', 'ops-incomplete'].includes(mode.ops), 'ops mode mora biti validan');
     assert(['enterprise-in-progress', 'enterprise-ready'].includes(mode.enterprise), 'enterprise mode mora biti validan');
+    assert(['READY', 'NOT_READY'].includes(operativa.spremnost.readyState), 'readyState mora biti validan');
+    assert(['READY', 'NOT_READY'].includes(normalized.runtime), 'normalized runtime');
+    assert(['READY', 'NOT_READY'].includes(normalized.ops), 'normalized ops');
+    assert(['READY', 'NOT_READY'].includes(normalized.enterprise), 'normalized enterprise');
+    assert(['READY', 'NOT_READY'].includes(normalized.statusApi), 'normalized statusApi');
+    assert(['READY', 'NOT_READY'].includes(normalized.healthApi), 'normalized healthApi');
     assertDefined(operativa.spremnost.acceptanceCriteria.statusApi, 'statusApi acceptance');
     assertDefined(operativa.spremnost.acceptanceCriteria.healthApi, 'healthApi acceptance');
     assert(Array.isArray(operativa.spremnost.missingVercelEnv), 'missingVercelEnv mora biti niz');
+  });
+
+  await test('Status i health API izlažu READY tranziciona polja', async () => {
+    const statusResponse = await getStatusRoute();
+    const healthRequest = new Request('https://example.com/api/health?check=readiness');
+    const healthResponse = await getHealthRoute(healthRequest as unknown as Request);
+    const statusBody = await statusResponse.json() as {
+      operativa?: { readyState?: string; normalizedReady?: Record<string, string> };
+    };
+    const healthBody = await healthResponse.json() as {
+      operativnaSpremnost?: { readyState?: string; normalizedReady?: Record<string, string> };
+    };
+
+    assert(['READY', 'NOT_READY'].includes(statusBody.operativa?.readyState ?? ''), 'status route readyState');
+    assert(['READY', 'NOT_READY'].includes(statusBody.operativa?.normalizedReady?.statusApi ?? ''), 'status route normalizedReady');
+    assert(['READY', 'NOT_READY'].includes(healthBody.operativnaSpremnost?.readyState ?? ''), 'health route readyState');
+    assert(['READY', 'NOT_READY'].includes(healthBody.operativnaSpremnost?.normalizedReady?.healthApi ?? ''), 'health route normalizedReady');
   });
 
   await test('Cron auth helper podržava Bearer i x-cron-secret', () => {

@@ -37,6 +37,7 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 }
 
 const VALID_STATUSI = ['spremno', 'na-rubu', 'blokirano'] as const;
+const VALID_READY_STATES = ['READY', 'NOT_READY'] as const;
 const VALID_KATEGORIJE = [
   'deploy',
   'pipeline',
@@ -70,6 +71,10 @@ async function runTests(): Promise<void> {
     assert((VALID_STATUSI as readonly string[]).includes(r.status), `status: ${r.status}`);
   });
 
+  await test('readyState je validan enum', () => {
+    assert((VALID_READY_STATES as readonly string[]).includes(r.readyState), `readyState: ${r.readyState}`);
+  });
+
   await test('timestamp je validan ISO', () => {
     assert(!isNaN(Date.parse(r.timestamp)), 'timestamp ISO');
   });
@@ -87,6 +92,15 @@ async function runTests(): Promise<void> {
   await test('spremno + naRubu + blokirano === ukupnoCheckova', () => {
     const suma = r.summary.spremnoCount + r.summary.naRubuCount + r.summary.blokiranoCount;
     assertEqual(suma, r.summary.ukupnoCheckova, 'suma summary statusa');
+  });
+
+  await test('ready + notReady === ukupnoCheckova', () => {
+    const suma = r.summary.readyCount + r.summary.notReadyCount;
+    assertEqual(suma, r.summary.ukupnoCheckova, 'suma ready statusa');
+  });
+
+  await test('summary.readyState prati top-level readyState', () => {
+    assertEqual(r.summary.readyState, r.readyState, 'summary.readyState');
   });
 
   await test('overallScore je 0–100', () => {
@@ -118,6 +132,10 @@ async function runTests(): Promise<void> {
 
     await test(`${check.id}: status je validan`, () => {
       assert((VALID_STATUSI as readonly string[]).includes(check.status), `status=${check.status}`);
+    });
+
+    await test(`${check.id}: readyState je validan`, () => {
+      assert((VALID_READY_STATES as readonly string[]).includes(check.readyState), `readyState=${check.readyState}`);
     });
 
     await test(`${check.id}: score je 0–100`, () => {
@@ -165,6 +183,7 @@ async function runTests(): Promise<void> {
         'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
         'X-App-Version': APP_VERSION,
         'X-Autofinish-Iteracija': String(AUTOFINISH_COUNT),
+        'X-Ready-State': data.readyState,
       },
       body: data,
     };
@@ -190,6 +209,13 @@ async function runTests(): Promise<void> {
       simulateReleaseReadinessGET().headers['X-Autofinish-Iteracija'],
       String(AUTOFINISH_COUNT),
       'X-Autofinish-Iteracija',
+    );
+  });
+
+  await test('X-Ready-State je validan', () => {
+    assert(
+      (VALID_READY_STATES as readonly string[]).includes(simulateReleaseReadinessGET().headers['X-Ready-State']),
+      'X-Ready-State',
     );
   });
 

@@ -356,7 +356,7 @@ Deployment je dozvoljen samo ako prođu:
 - [ ] Svaka 2 sata: proveriti `GET /api/health` — mora biti `"status": "healthy"`
 - [ ] Svaka sat: proveriti Vercel error logs
 - [ ] Potvrditi da Stripe webhook prima događaje (Stripe Dashboard → Developers → Webhooks)
-- [ ] Proveriti `operativnaSpremnost.modelStanja` u `GET /api/health` i `GET /api/status` (`runtime`, `ops`, `enterprise`)
+- [ ] Proveriti `operativnaSpremnost.modelStanja` u `GET /api/health` i `GET /api/status` (`runtime`, `ops`, `enterprise`) i potvrditi `readyState=READY` / `normalizedReady.healthApi=READY` kada su runtime i ops spremni
 - [ ] Poslati test mejlove na `support@spaja.rs`, `billing@spaja.rs`, `sales@spaja.rs` i proveriti fallback na `spajicn@yahoo.com`
 - [ ] Nakon slanja enterprise formi postaviti `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` i `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true`
 - [ ] Nakon slanja Vercel CDN/proxy trust zahteva postaviti `SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED=true`

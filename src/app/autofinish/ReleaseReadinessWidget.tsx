@@ -4,6 +4,7 @@
 import React from 'react';
 import type {
   AutofinishReleaseReadinessCheck,
+  AutofinishReleaseReadyState,
   AutofinishReleaseReadinessResult,
   AutofinishReleaseReadinessStatus,
 } from '@/lib/autofinish-petlja';
@@ -24,6 +25,11 @@ const CATEGORY_STYLE: Record<AutofinishReleaseReadinessCheck['kategorija'], stri
   incidenti: 'text-orange-300 bg-orange-900/20',
   operativa: 'text-green-300 bg-green-900/20',
   infrastruktura: 'text-purple-300 bg-purple-900/20',
+};
+
+const READY_STATE_STYLE: Record<AutofinishReleaseReadyState, string> = {
+  READY: 'text-emerald-300 bg-emerald-950/40 border-emerald-800',
+  NOT_READY: 'text-amber-300 bg-amber-950/40 border-amber-800',
 };
 
 function ScoreBar({ value }: { value: number }) {
@@ -75,9 +81,12 @@ export function ReleaseReadinessWidget({ readiness }: Props) {
       </div>
 
       <div className={`rounded-lg border px-3 py-2 mb-4 ${overallStyle.cls}`}>
-        <div className="flex items-center gap-2 text-sm font-semibold">
+        <div className="flex items-center gap-2 text-sm font-semibold flex-wrap">
           <span aria-hidden="true">{overallStyle.emoji}</span>
           <span>Status: {readiness.status}</span>
+          <span className={`rounded border px-2 py-0.5 text-[11px] ${READY_STATE_STYLE[readiness.readyState]}`}>
+            {readiness.readyState}
+          </span>
         </div>
         <p className="text-xs mt-1 text-gray-200">{readiness.preporuka}</p>
       </div>
@@ -118,6 +127,9 @@ export function ReleaseReadinessWidget({ readiness }: Props) {
                   </span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] border ${READY_STATE_STYLE[check.readyState]}`}>
+                    {check.readyState}
+                  </span>
                   <span className={`px-1.5 py-0.5 rounded text-[10px] border ${style.cls}`}>
                     {check.status}
                   </span>

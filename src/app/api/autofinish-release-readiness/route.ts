@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
       'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
       'X-App-Version': APP_VERSION,
       'X-Autofinish-Iteracija': String(AUTOFINISH_COUNT),
+      'X-Ready-State': result.readyState,
     },
   });
 }

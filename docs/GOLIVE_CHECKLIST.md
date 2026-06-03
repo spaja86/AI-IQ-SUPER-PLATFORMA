@@ -104,7 +104,7 @@ Svaki tim/okruženje ima sopstvenu sekciju. Nijedan item ne sme ostati neoznače
 - [ ] Vercel Logs prikazuju strukturirani JSON u produkciji
 - [ ] Greške se pojavljuju u Vercel Log Drains (ako konfigurisan)
 - [ ] Nema `console.log` sa osetljivim podacima (ključevi, lozinke, tokeni)
-- [ ] `GET /api/status` prikazuje `operativa.modelStanja.runtime=runtime-ready` i `operativa.modelStanja.ops=ops-ready` (ili planirano odstupanje)
+- [ ] `GET /api/status` prikazuje `operativa.modelStanja.runtime=runtime-ready` i `operativa.modelStanja.ops=ops-ready` (ili planirano odstupanje), uz `operativa.readyState=READY` i `operativa.normalizedReady.statusApi=READY`
 - [ ] `GET /api/health` prikazuje `operativnaSpremnost.missingEnv = 0` za produkciju
 
 ### Health Dashboard

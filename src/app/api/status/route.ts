@@ -117,8 +117,10 @@ export async function GET() {
     },
     operativa: {
       status: operativa.spremnost.status,
+      readyState: operativa.spremnost.readyState,
       ukupanScore: operativa.spremnost.ukupanScore,
       modelStanja: operativa.spremnost.modelStanja,
+      normalizedReady: operativa.spremnost.normalizedReady,
       acceptanceCriteria: operativa.spremnost.acceptanceCriteria,
       primarniNalog: operativa.primarniOperativniNalog.email,
       fallbackKontakt: operativa.primarniOperativniNalog.email,

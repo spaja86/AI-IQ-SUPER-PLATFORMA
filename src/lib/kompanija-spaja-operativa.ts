@@ -141,8 +141,11 @@ export interface EnterpriseZahtevPaket {
 
 type ReadinessStatus = 'spremno' | 'delimicno' | 'blokirano';
 type ReadinessMode = 'runtime-ready' | 'runtime-incomplete' | 'ops-ready' | 'ops-incomplete' | 'enterprise-in-progress' | 'enterprise-ready';
+export type ReadyState = 'READY' | 'NOT_READY';
 const RUNTIME_READY_THRESHOLD = 67;
 const OPS_READY_THRESHOLD = 50;
+const OVERALL_READY_THRESHOLD = 85;
+const OVERALL_PARTIAL_THRESHOLD = 50;
 
 function envSet(name: string): boolean {
   const value = process.env[name];
@@ -161,6 +164,18 @@ function getSectionStatus(completed: number, total: number): ReadinessStatus {
 
 function getSectionScore(completed: number, total: number): number {
   return Math.round((completed / total) * 100);
+}
+
+function getReadyState(isReady: boolean): ReadyState {
+  return isReady ? 'READY' : 'NOT_READY';
+}
+
+function getModeReadyState(mode: ReadinessMode): ReadyState {
+  return getReadyState(mode.endsWith('-ready'));
+}
+
+function getStatusReadyState(status: ReadinessStatus): ReadyState {
+  return getReadyState(status === 'spremno');
 }
 
 export const primarniOperativniNalog = {
@@ -1000,6 +1015,25 @@ export function getOperativnaSpremnost() {
       enterpriseState: enterpriseMode,
     },
   };
+  const overallStatus =
+    ukupniScore >= OVERALL_READY_THRESHOLD
+      ? 'spremno'
+      : ukupniScore >= OVERALL_PARTIAL_THRESHOLD
+        ? 'delimicno'
+        : 'blokirano';
+  const runtimeReadyState = getModeReadyState(runtimeMode);
+  const opsReadyState = getModeReadyState(opsMode);
+  const enterpriseReadyState = getModeReadyState(enterpriseMode);
+  const statusApiIsReady =
+    acceptanceCriteria.statusApi.runtimeReady
+    && acceptanceCriteria.statusApi.opsReady
+    && acceptanceCriteria.statusApi.vercelNotBlocking;
+  const healthApiIsReady =
+    acceptanceCriteria.healthApi.runtimeReady
+    && acceptanceCriteria.healthApi.opsReady;
+  const statusApiReadyState = getReadyState(statusApiIsReady);
+  const healthApiReadyState = getReadyState(healthApiIsReady);
+  const overallReadyState = getStatusReadyState(overallStatus);
 
   return {
     verzija: APP_VERSION,
@@ -1014,17 +1048,26 @@ export function getOperativnaSpremnost() {
     enterpriseZahtevi,
     spremnost: {
       ukupanScore: ukupniScore,
-      status:
-        ukupniScore >= 85 ? 'spremno' : ukupniScore >= 50 ? 'delimicno' : 'blokirano',
+      status: overallStatus,
+      readyState: overallReadyState,
       modelStanja: {
         runtime: runtimeMode,
         ops: opsMode,
         enterprise: enterpriseMode,
       },
+      normalizedReady: {
+        overall: overallReadyState,
+        runtime: runtimeReadyState,
+        ops: opsReadyState,
+        enterprise: enterpriseReadyState,
+        statusApi: statusApiReadyState,
+        healthApi: healthApiReadyState,
+      },
       acceptanceCriteria,
       runtime: {
         score: runtimeScore,
         status: getSectionStatus(runtimeChecks.filter(Boolean).length, runtimeChecks.length),
+        readyState: runtimeReadyState,
       },
       mail: {
         score: mailScore,
@@ -1034,6 +1077,7 @@ export function getOperativnaSpremnost() {
       vercel: {
         score: vercelRuntimeScore,
         status: getSectionStatus(vercelRuntimeChecks.filter(Boolean).length, vercelRuntimeChecks.length),
+        readyState: getStatusReadyState(getSectionStatus(vercelRuntimeChecks.filter(Boolean).length, vercelRuntimeChecks.length)),
         runtime: {
           score: vercelRuntimeScore,
           status: getSectionStatus(vercelRuntimeChecks.filter(Boolean).length, vercelRuntimeChecks.length),
@@ -1054,11 +1098,13 @@ export function getOperativnaSpremnost() {
       github: {
         score: githubScore,
         status: getSectionStatus(githubChecks.filter(Boolean).length, githubChecks.length),
+        readyState: getStatusReadyState(getSectionStatus(githubChecks.filter(Boolean).length, githubChecks.length)),
         owner: githubGovernanceModel.owner,
       },
       support: {
         score: supportScore,
         status: getSectionStatus(supportChecks.filter(Boolean).length, supportChecks.length),
+        readyState: getStatusReadyState(getSectionStatus(supportChecks.filter(Boolean).length, supportChecks.length)),
         persona: OMEGA_AI_PERSONA_COUNT,
         routingPravila: omegaDispatchRoutingPravila.length,
       },
@@ -1072,6 +1118,7 @@ export function getOperativnaSpremnost() {
         kastlerTv: {
           score: kastlerScore,
           status: getSectionStatus(kastlerChecks.filter(Boolean).length, kastlerChecks.length),
+          readyState: getStatusReadyState(getSectionStatus(kastlerChecks.filter(Boolean).length, kastlerChecks.length)),
           requestStatus: kastlerSummary.requestStatus,
           signalLifecycle: kastlerSummary.signalLifecycle,
           monetizationStatus: kastlerSummary.monetizationStatus,

@@ -355,3 +355,4 @@ SPAJA_BAZA_INDEX_RETRY_BACKOFF_MS=60000 # Backoff između retry pokušaja (ms)
   - `runtime-ready` (runtime env i kritični servisi),
   - `ops-ready` (operativni procesi),
   - `enterprise-in-progress` / `enterprise-ready` (procurement, bez blokiranja runtime-a).
+- API kompatibilnost zadržava postojeće status vrednosti, a novi normalizovani signal koristi `READY` / `NOT_READY` kroz `readyState` i `normalizedReady`.
