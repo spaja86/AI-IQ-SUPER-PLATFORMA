@@ -144,6 +144,8 @@ type ReadinessMode = 'runtime-ready' | 'runtime-incomplete' | 'ops-ready' | 'ops
 export type ReadyState = 'READY' | 'NOT_READY';
 const RUNTIME_READY_THRESHOLD = 67;
 const OPS_READY_THRESHOLD = 50;
+const OVERALL_READY_THRESHOLD = 85;
+const OVERALL_PARTIAL_THRESHOLD = 50;
 
 function envSet(name: string): boolean {
   const value = process.env[name];
@@ -1014,7 +1016,11 @@ export function getOperativnaSpremnost() {
     },
   };
   const overallStatus =
-    ukupniScore >= 85 ? 'spremno' : ukupniScore >= 50 ? 'delimicno' : 'blokirano';
+    ukupniScore >= OVERALL_READY_THRESHOLD
+      ? 'spremno'
+      : ukupniScore >= OVERALL_PARTIAL_THRESHOLD
+        ? 'delimicno'
+        : 'blokirano';
   const runtimeReadyState = getModeReadyState(runtimeMode);
   const opsReadyState = getModeReadyState(opsMode);
   const enterpriseReadyState = getModeReadyState(enterpriseMode);

@@ -7139,6 +7139,7 @@ export function getAutofinishInfrastruktura(): AutofinishInfrastrukturaResult {
 
 export type AutofinishReleaseReadinessStatus = 'spremno' | 'na-rubu' | 'blokirano';
 export type AutofinishReleaseReadyState = 'READY' | 'NOT_READY';
+const READINESS_WARNING_OFFSET = 15;
 export type AutofinishReleaseReadinessKategorija =
   | 'deploy'
   | 'pipeline'
@@ -7351,7 +7352,7 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
   ];
 
   for (const check of checks) {
-    check.status = toReadinessStatus(check.score, check.threshold, check.threshold - 15);
+    check.status = toReadinessStatus(check.score, check.threshold, check.threshold - READINESS_WARNING_OFFSET);
     check.readyState = toReadyState(check.status);
     check.isReady = check.readyState === 'READY';
   }
