@@ -240,7 +240,7 @@ async function runTests(): Promise<void> {
     assertEqual(res.status, 400, 'mora biti 400');
     const body = await res.clone().json() as Record<string, unknown>;
     assert(typeof body['greska'] === 'string', 'greska poruka mora biti string');
-    assert(Array.isArray(body['dozvoljeni']), 'dozvoljeni lista mora biti niz');
+    assert(Array.isArray(body['dozvoljene']), 'dozvoljene lista mora biti niz');
   });
 
   await test('?kategorija=INVALID — vraća 400', async () => {

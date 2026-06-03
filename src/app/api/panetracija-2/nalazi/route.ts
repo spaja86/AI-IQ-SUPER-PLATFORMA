@@ -56,8 +56,8 @@ export async function GET(req: NextRequest) {
   if (severity !== undefined && !(VALID_SEVERITIES as readonly string[]).includes(severity)) {
     return NextResponse.json(
       {
-        error: 'INVALID_SEVERITY',
-        dozvoljeni: [...VALID_SEVERITIES],
+        greska: 'INVALID_SEVERITY',
+        dozvoljene: [...VALID_SEVERITIES],
         verzija: APP_VERSION,
         timestamp: new Date().toISOString(),
       },
@@ -68,8 +68,8 @@ export async function GET(req: NextRequest) {
   if (kategorija !== undefined && !(VALID_KATEGORIJE as readonly string[]).includes(kategorija)) {
     return NextResponse.json(
       {
-        error: 'INVALID_KATEGORIJA',
-        dozvoljeni: [...VALID_KATEGORIJE],
+        greska: 'INVALID_KATEGORIJA',
+        dozvoljene: [...VALID_KATEGORIJE],
         verzija: APP_VERSION,
         timestamp: new Date().toISOString(),
       },
@@ -80,8 +80,8 @@ export async function GET(req: NextRequest) {
   if (status !== undefined && !(VALID_STATUSI as readonly string[]).includes(status)) {
     return NextResponse.json(
       {
-        error: 'INVALID_STATUS',
-        dozvoljeni: [...VALID_STATUSI],
+        greska: 'INVALID_STATUS',
+        dozvoljene: [...VALID_STATUSI],
         verzija: APP_VERSION,
         timestamp: new Date().toISOString(),
       },

@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
   const summary = getPentestSummaryV2();
   return NextResponse.json(
     {
-      status: 'ready' as const,
+      status: 'ok' as const,
       ...summary,
       verzija: APP_VERSION,
       autofinishIteracija: AUTOFINISH_COUNT,

@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           error: 'INVALID_N',
-          poruka: 'Parametar n mora biti ceo broj od 1 do 10',
+          greska: 'Parametar n mora biti ceo broj od 1 do 10',
           verzija: APP_VERSION,
           timestamp: new Date().toISOString(),
         },
