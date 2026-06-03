@@ -73,7 +73,6 @@ async function runTests(): Promise<void> {
 
   await test('readyState je validan enum', () => {
     assert((VALID_READY_STATES as readonly string[]).includes(r.readyState), `readyState: ${r.readyState}`);
-    assertEqual(r.isReady, r.readyState === 'READY', 'isReady');
   });
 
   await test('timestamp je validan ISO', () => {
@@ -102,7 +101,6 @@ async function runTests(): Promise<void> {
 
   await test('summary.readyState prati top-level readyState', () => {
     assertEqual(r.summary.readyState, r.readyState, 'summary.readyState');
-    assertEqual(r.summary.isReady, r.isReady, 'summary.isReady');
   });
 
   await test('overallScore je 0–100', () => {
@@ -138,7 +136,6 @@ async function runTests(): Promise<void> {
 
     await test(`${check.id}: readyState je validan`, () => {
       assert((VALID_READY_STATES as readonly string[]).includes(check.readyState), `readyState=${check.readyState}`);
-      assertEqual(check.isReady, check.readyState === 'READY', 'check.isReady');
     });
 
     await test(`${check.id}: score je 0–100`, () => {

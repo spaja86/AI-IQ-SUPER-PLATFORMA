@@ -7155,7 +7155,6 @@ export interface AutofinishReleaseReadinessCheck {
   kategorija: AutofinishReleaseReadinessKategorija;
   status: AutofinishReleaseReadinessStatus;
   readyState: AutofinishReleaseReadyState;
-  isReady: boolean;
   score: number;
   threshold: number;
   owner: string;
@@ -7172,7 +7171,6 @@ export interface AutofinishReleaseReadinessSummary {
   notReadyCount: number;
   overallScore: number;
   readyState: AutofinishReleaseReadyState;
-  isReady: boolean;
   releaseWindow: string;
   releaseCaptain: string;
 }
@@ -7182,7 +7180,6 @@ export interface AutofinishReleaseReadinessResult {
   autofinishBroj: number;
   status: AutofinishReleaseReadinessStatus;
   readyState: AutofinishReleaseReadyState;
-  isReady: boolean;
   summary: AutofinishReleaseReadinessSummary;
   blockers: string[];
   warnings: string[];
@@ -7249,7 +7246,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       akcija: 'Potvrditi da su production, staging i preview deployi poravnati prije release cut-off-a.',
       status: 'spremno',
       readyState: 'READY',
-      isReady: true,
     },
     {
       id: 'release-pipeline-discipline',
@@ -7265,7 +7261,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       akcija: 'Sanirati neuspješni pipeline i potvrditi green build/test/deploy sekvencu za release granu.',
       status: 'spremno',
       readyState: 'READY',
-      isReady: true,
     },
     {
       id: 'release-security-posture',
@@ -7278,7 +7273,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       akcija: 'Zatvoriti ili formalno prihvatiti otvorene medium nalaze prije javnog release-a.',
       status: 'spremno',
       readyState: 'READY',
-      isReady: true,
     },
     {
       id: 'release-config-health',
@@ -7291,7 +7285,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       akcija: 'Popuniti nedostajuće env varijable i ponovo potvrditi produkcijsku konfiguraciju.',
       status: 'spremno',
       readyState: 'READY',
-      isReady: true,
     },
     {
       id: 'release-sla-incidents',
@@ -7309,7 +7302,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       akcija: 'Potvrditi da nema kritičnih otvorenih incidenata i zamrznuti release ako MTTR trend krene naviše.',
       status: 'spremno',
       readyState: 'READY',
-      isReady: true,
     },
     {
       id: 'release-operability',
@@ -7327,7 +7319,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       akcija: 'Potvrditi release war-room kontakte i linkovati runbook za rollback uz release checklistu.',
       status: 'spremno',
       readyState: 'READY',
-      isReady: true,
     },
     {
       id: 'release-infra-capacity',
@@ -7347,14 +7338,12 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       akcija: 'Smanjiti warning/kritične čvorove i potvrditi capacity headroom za release prozor.',
       status: 'spremno',
       readyState: 'READY',
-      isReady: true,
     },
   ];
 
   for (const check of checks) {
     check.status = toReadinessStatus(check.score, check.threshold, check.threshold - READINESS_WARNING_OFFSET);
     check.readyState = toReadyState(check.status);
-    check.isReady = check.readyState === 'READY';
   }
 
   const spremnoCount = checks.filter((check) => check.status === 'spremno').length;
@@ -7388,7 +7377,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
     autofinishBroj: AUTOFINISH_COUNT,
     status,
     readyState,
-    isReady: readyState === 'READY',
     summary: {
       ukupnoCheckova: checks.length,
       spremnoCount,
@@ -7398,7 +7386,6 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       notReadyCount,
       overallScore,
       readyState,
-      isReady: readyState === 'READY',
       releaseWindow: 'Naredni kontrolisani deploy prozor (30 min)',
       releaseCaptain: 'SRE Core / Release Captain',
     },

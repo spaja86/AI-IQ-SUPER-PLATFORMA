@@ -1024,15 +1024,15 @@ export function getOperativnaSpremnost() {
   const runtimeReadyState = getModeReadyState(runtimeMode);
   const opsReadyState = getModeReadyState(opsMode);
   const enterpriseReadyState = getModeReadyState(enterpriseMode);
-  const statusApiReadyState = getReadyState(
+  const statusApiIsReady =
     acceptanceCriteria.statusApi.runtimeReady
     && acceptanceCriteria.statusApi.opsReady
-    && acceptanceCriteria.statusApi.vercelNotBlocking,
-  );
-  const healthApiReadyState = getReadyState(
+    && acceptanceCriteria.statusApi.vercelNotBlocking;
+  const healthApiIsReady =
     acceptanceCriteria.healthApi.runtimeReady
-    && acceptanceCriteria.healthApi.opsReady,
-  );
+    && acceptanceCriteria.healthApi.opsReady;
+  const statusApiReadyState = getReadyState(statusApiIsReady);
+  const healthApiReadyState = getReadyState(healthApiIsReady);
   const overallReadyState = getStatusReadyState(overallStatus);
 
   return {
