@@ -43,7 +43,7 @@ export function AutofinishCommandCenterWidget({
         <article className="rounded-lg bg-gray-800 p-3">
           <p className="text-xs text-gray-400">Readiness</p>
           <p className="text-2xl font-bold text-indigo-300">{readiness.summary.overallScore}%</p>
-          <p className="text-xs text-gray-500">{readiness.status}</p>
+          <p className="text-xs text-gray-500">{readiness.readyState} · {readiness.status}</p>
         </article>
         <article className="rounded-lg bg-gray-800 p-3">
           <p className="text-xs text-gray-400">Error budget</p>

@@ -264,13 +264,31 @@ async function runTests(): Promise<void> {
   await test('Operativna spremnost ima runtime/ops/enterprise modove', () => {
     const operativa = getOperativnaSpremnost();
     assertDefined(operativa.spremnost.modelStanja, 'modelStanja');
+    assertDefined(operativa.spremnost.normalizedReady, 'normalizedReady');
     const mode = operativa.spremnost.modelStanja;
+    const normalized = operativa.spremnost.normalizedReady;
     assert(['runtime-ready', 'runtime-incomplete'].includes(mode.runtime), 'runtime mode mora biti validan');
     assert(['ops-ready', 'ops-incomplete'].includes(mode.ops), 'ops mode mora biti validan');
     assert(['enterprise-in-progress', 'enterprise-ready'].includes(mode.enterprise), 'enterprise mode mora biti validan');
+    assert(['READY', 'NOT_READY'].includes(operativa.spremnost.readyState), 'readyState mora biti validan');
+    assert(['READY', 'NOT_READY'].includes(normalized.runtime), 'normalized runtime');
+    assert(['READY', 'NOT_READY'].includes(normalized.ops), 'normalized ops');
+    assert(['READY', 'NOT_READY'].includes(normalized.enterprise), 'normalized enterprise');
+    assert(['READY', 'NOT_READY'].includes(normalized.statusApi), 'normalized statusApi');
+    assert(['READY', 'NOT_READY'].includes(normalized.healthApi), 'normalized healthApi');
     assertDefined(operativa.spremnost.acceptanceCriteria.statusApi, 'statusApi acceptance');
     assertDefined(operativa.spremnost.acceptanceCriteria.healthApi, 'healthApi acceptance');
     assert(Array.isArray(operativa.spremnost.missingVercelEnv), 'missingVercelEnv mora biti niz');
+  });
+
+  await test('Status i health API izlažu READY tranziciona polja', () => {
+    const root = path.join(__dirname, '..', '..', '..');
+    const statusRouteSrc = fs.readFileSync(path.join(root, 'src/app/api/status/route.ts'), 'utf8');
+    const healthRouteSrc = fs.readFileSync(path.join(root, 'src/app/api/health/route.ts'), 'utf8');
+    assert(statusRouteSrc.includes('readyState: operativa.spremnost.readyState'), 'status route readyState');
+    assert(statusRouteSrc.includes('normalizedReady: operativa.spremnost.normalizedReady'), 'status route normalizedReady');
+    assert(healthRouteSrc.includes('readyState: operativa.spremnost.readyState'), 'health route readyState');
+    assert(healthRouteSrc.includes('normalizedReady: operativa.spremnost.normalizedReady'), 'health route normalizedReady');
   });
 
   await test('Cron auth helper podržava Bearer i x-cron-secret', () => {

@@ -99,8 +99,10 @@ export async function GET(req: NextRequest) {
       },
       operativnaSpremnost: {
         status: operativa.spremnost.status,
+        readyState: operativa.spremnost.readyState,
         score: operativa.spremnost.ukupanScore,
         modelStanja: operativa.spremnost.modelStanja,
+        normalizedReady: operativa.spremnost.normalizedReady,
         acceptanceCriteria: operativa.spremnost.acceptanceCriteria,
         missingEnv: operativa.spremnost.missingEnv.length,
         missingVercelEnv: operativa.spremnost.missingVercelEnv.length,

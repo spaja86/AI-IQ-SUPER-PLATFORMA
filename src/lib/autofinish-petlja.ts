@@ -7138,6 +7138,7 @@ export function getAutofinishInfrastruktura(): AutofinishInfrastrukturaResult {
 // ─── getAutofinishReleaseReadiness() (#1223) ──────────────────────────────────
 
 export type AutofinishReleaseReadinessStatus = 'spremno' | 'na-rubu' | 'blokirano';
+export type AutofinishReleaseReadyState = 'READY' | 'NOT_READY';
 export type AutofinishReleaseReadinessKategorija =
   | 'deploy'
   | 'pipeline'
@@ -7152,6 +7153,8 @@ export interface AutofinishReleaseReadinessCheck {
   naziv: string;
   kategorija: AutofinishReleaseReadinessKategorija;
   status: AutofinishReleaseReadinessStatus;
+  readyState: AutofinishReleaseReadyState;
+  isReady: boolean;
   score: number;
   threshold: number;
   owner: string;
@@ -7164,7 +7167,11 @@ export interface AutofinishReleaseReadinessSummary {
   spremnoCount: number;
   naRubuCount: number;
   blokiranoCount: number;
+  readyCount: number;
+  notReadyCount: number;
   overallScore: number;
+  readyState: AutofinishReleaseReadyState;
+  isReady: boolean;
   releaseWindow: string;
   releaseCaptain: string;
 }
@@ -7173,6 +7180,8 @@ export interface AutofinishReleaseReadinessResult {
   verzija: string;
   autofinishBroj: number;
   status: AutofinishReleaseReadinessStatus;
+  readyState: AutofinishReleaseReadyState;
+  isReady: boolean;
   summary: AutofinishReleaseReadinessSummary;
   blockers: string[];
   warnings: string[];
@@ -7189,6 +7198,10 @@ function toReadinessStatus(
   if (score >= readyThreshold) return 'spremno';
   if (score >= warningThreshold) return 'na-rubu';
   return 'blokirano';
+}
+
+function toReadyState(status: AutofinishReleaseReadinessStatus): AutofinishReleaseReadyState {
+  return status === 'spremno' ? 'READY' : 'NOT_READY';
 }
 
 /**
@@ -7234,6 +7247,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       detalj: `${deployment.aktivnih}/${deployment.ukupnoDeploymenata} okruženja su aktivna; prosječno zdravlje je ${deployment.prosjecnoZdravlje}%.`,
       akcija: 'Potvrditi da su production, staging i preview deployi poravnati prije release cut-off-a.',
       status: 'spremno',
+      readyState: 'READY',
+      isReady: true,
     },
     {
       id: 'release-pipeline-discipline',
@@ -7248,6 +7263,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       detalj: `${pipeline.uspjesnih} uspješnih, ${pipeline.neuspjesnih} neuspješnih i ${pipeline.aktivnih} aktivnih pipeline-a u posljednjem presjeku.`,
       akcija: 'Sanirati neuspješni pipeline i potvrditi green build/test/deploy sekvencu za release granu.',
       status: 'spremno',
+      readyState: 'READY',
+      isReady: true,
     },
     {
       id: 'release-security-posture',
@@ -7259,6 +7276,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       detalj: `${security.openNalaza} nalaza je i dalje otvoreno; overall security score je ${security.overallScore}.`,
       akcija: 'Zatvoriti ili formalno prihvatiti otvorene medium nalaze prije javnog release-a.',
       status: 'spremno',
+      readyState: 'READY',
+      isReady: true,
     },
     {
       id: 'release-config-health',
@@ -7270,6 +7289,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       detalj: `${konfiguracija.validiranih}/${konfiguracija.ukupnoParametara} parametara je validirano; nedostaje=${konfiguracija.nedostaje}, upozorenja=${konfiguracija.upozorenja}.`,
       akcija: 'Popuniti nedostajuće env varijable i ponovo potvrditi produkcijsku konfiguraciju.',
       status: 'spremno',
+      readyState: 'READY',
+      isReady: true,
     },
     {
       id: 'release-sla-incidents',
@@ -7286,6 +7307,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       detalj: `${sla.ispunjenih}/${sla.ukupnoServisa} SLA targeta je ispunjeno; otvorenih incidenata=${incidents.openCount}, P1=${incidents.p1Count}.`,
       akcija: 'Potvrditi da nema kritičnih otvorenih incidenata i zamrznuti release ako MTTR trend krene naviše.',
       status: 'spremno',
+      readyState: 'READY',
+      isReady: true,
     },
     {
       id: 'release-operability',
@@ -7302,6 +7325,8 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       detalj: `${runbook.aktivnih}/${runbook.ukupnoRunbooka} runbooka je aktivno; ${onCall.ukupnoTimova}/${onCall.ukupnoTimova} timova ima aktivnu on-call smjenu.`,
       akcija: 'Potvrditi release war-room kontakte i linkovati runbook za rollback uz release checklistu.',
       status: 'spremno',
+      readyState: 'READY',
+      isReady: true,
     },
     {
       id: 'release-infra-capacity',
@@ -7320,11 +7345,15 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
       detalj: `Infrastruktura ima ${infrastruktura.summary.kriticnihNodeova} kritična i ${infrastruktura.summary.upozorenjaNodeova} warning čvora; DORA prosjek je ${doraWeightedScore}.`,
       akcija: 'Smanjiti warning/kritične čvorove i potvrditi capacity headroom za release prozor.',
       status: 'spremno',
+      readyState: 'READY',
+      isReady: true,
     },
   ];
 
   for (const check of checks) {
     check.status = toReadinessStatus(check.score, check.threshold, check.threshold - 15);
+    check.readyState = toReadyState(check.status);
+    check.isReady = check.readyState === 'READY';
   }
 
   const spremnoCount = checks.filter((check) => check.status === 'spremno').length;
@@ -7336,6 +7365,9 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
   const status =
     blokiranoCount > 0 ? 'blokirano' :
     naRubuCount > 0 ? 'na-rubu' : 'spremno';
+  const readyState = toReadyState(status);
+  const readyCount = checks.filter((check) => check.readyState === 'READY').length;
+  const notReadyCount = checks.length - readyCount;
   const blockers = checks
     .filter((check) => check.status === 'blokirano')
     .map((check) => `${check.naziv}: ${check.akcija}`);
@@ -7354,12 +7386,18 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
     verzija: APP_VERSION,
     autofinishBroj: AUTOFINISH_COUNT,
     status,
+    readyState,
+    isReady: readyState === 'READY',
     summary: {
       ukupnoCheckova: checks.length,
       spremnoCount,
       naRubuCount,
       blokiranoCount,
+      readyCount,
+      notReadyCount,
       overallScore,
+      readyState,
+      isReady: readyState === 'READY',
       releaseWindow: 'Naredni kontrolisani deploy prozor (30 min)',
       releaseCaptain: 'SRE Core / Release Captain',
     },
