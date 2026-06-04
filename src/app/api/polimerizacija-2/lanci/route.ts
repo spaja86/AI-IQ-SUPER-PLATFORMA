@@ -1,8 +1,12 @@
 import { type NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiRateLimited, apiSuccess } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
-import { buildPolimerizacija2Report, filterLanci, type PolimerizacijaFazaProcesa } from '@/lib/polimerizacija-2';
-import type { PolimerzacijaLanac } from '@/lib/polimerzacija';
+import {
+  buildPolimerizacija2Report,
+  filterLanci,
+  type PolimerizacijaFazaProcesa,
+  type PolimerizacijaLanac,
+} from '@/lib/polimerizacija-2';
 
 const VALID_FAZE: PolimerizacijaFazaProcesa[] = [
   'inicijacija',
@@ -12,7 +16,7 @@ const VALID_FAZE: PolimerizacijaFazaProcesa[] = [
   'umrezavanje',
   'purifikacija',
 ];
-const VALID_STATUSI: PolimerzacijaLanac['status'][] = ['aktivan', 'optimizacija', 'kritican'];
+const VALID_STATUSI: PolimerizacijaLanac['status'][] = ['aktivan', 'optimizacija', 'kritican'];
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,7 +32,7 @@ export async function GET(request: NextRequest) {
     if (fazaRaw && !VALID_FAZE.includes(fazaRaw as PolimerizacijaFazaProcesa)) {
       return apiError('BAD_REQUEST', `Nevalidna faza. Dozvoljeno: ${VALID_FAZE.join(', ')}`);
     }
-    if (statusRaw && !VALID_STATUSI.includes(statusRaw as PolimerzacijaLanac['status'])) {
+    if (statusRaw && !VALID_STATUSI.includes(statusRaw as PolimerizacijaLanac['status'])) {
       return apiError('BAD_REQUEST', `Nevalidan status. Dozvoljeno: ${VALID_STATUSI.join(', ')}`);
     }
 
@@ -46,7 +50,7 @@ export async function GET(request: NextRequest) {
       report.lanci,
       fazaRaw as PolimerizacijaFazaProcesa | undefined,
       minKohezija,
-      statusRaw as PolimerzacijaLanac['status'] | undefined,
+      statusRaw as PolimerizacijaLanac['status'] | undefined,
     );
 
     return apiSuccess({

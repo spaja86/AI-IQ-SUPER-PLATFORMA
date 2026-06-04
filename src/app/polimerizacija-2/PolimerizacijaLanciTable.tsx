@@ -1,14 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { PolimerizacijaFazaProcesa, PolimerzacijaLanacV2 } from '@/lib/polimerizacija-2';
+import type { PolimerizacijaFazaProcesa, PolimerizacijaLanacV2 } from '@/lib/polimerizacija-2';
 
 type SortBy = 'reakcionaStopa' | 'molekularnaTezina';
 type StatusFilter = 'all' | 'aktivan' | 'optimizacija' | 'kritican';
 type FazaFilter = 'all' | PolimerizacijaFazaProcesa;
 
 interface PolimerizacijaLanciTableProps {
-  lanci: PolimerzacijaLanacV2[];
+  lanci: PolimerizacijaLanacV2[];
 }
 
 export default function PolimerizacijaLanciTable({ lanci }: PolimerizacijaLanciTableProps) {

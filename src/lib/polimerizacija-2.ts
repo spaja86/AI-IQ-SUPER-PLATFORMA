@@ -1,5 +1,5 @@
 import { APP_VERSION } from '@/lib/constants';
-import type { PolimerzacijaLanac } from '@/lib/polimerzacija';
+import type { PolimerzacijaLanac as PolimerizacijaLanacBase } from '@/lib/polimerizacija';
 
 export type PolimerizacijaFazaProcesa =
   | 'inicijacija'
@@ -11,7 +11,9 @@ export type PolimerizacijaFazaProcesa =
 
 export type PolimerizacijaScanStatus = 'pending' | 'running' | 'completed' | 'failed';
 
-export interface PolimerzacijaLanacV2 extends PolimerzacijaLanac {
+export type PolimerizacijaLanac = PolimerizacijaLanacBase;
+
+export interface PolimerizacijaLanacV2 extends PolimerizacijaLanac {
   molekularnaTezina: number;
   viskoznost: number;
   gustina: number;
@@ -60,7 +62,7 @@ export interface PolimerizacijaReportV2 {
   aktivnih: number;
   optimizacija: number;
   kriticnih: number;
-  lanci: PolimerzacijaLanacV2[];
+  lanci: PolimerizacijaLanacV2[];
   history: PolimerizacijaScanSummary[];
   trendovi: PolimerizacijaTrend[];
   userId: string;
@@ -89,7 +91,7 @@ export interface PolimerizacijaStatusV2 {
 }
 
 const MAX_HISTORY = 10;
-const BASE_LANCI: Array<Omit<PolimerzacijaLanacV2, 'status'>> = [
+const BASE_LANCI: Array<Omit<PolimerizacijaLanacV2, 'status'>> = [
   {
     id: 'pz2-inicijacija',
     naziv: 'Inicijacija Lanac V2',
@@ -196,7 +198,7 @@ function buildScanId(): string {
   return `pz2-${Date.now().toString(36)}-${scanCounter.toString(36)}`;
 }
 
-function classifyStatus(reakcionaStopa: number, iskoriscenost: number, stepen: number): PolimerzacijaLanac['status'] {
+function classifyStatus(reakcionaStopa: number, iskoriscenost: number, stepen: number): PolimerizacijaLanac['status'] {
   if (stepen < 2.5 || reakcionaStopa < 0.55 || iskoriscenost < 0.7) return 'kritican';
   if (stepen < 3.3 || reakcionaStopa < 0.72 || iskoriscenost < 0.8) return 'optimizacija';
   return 'aktivan';
@@ -237,7 +239,7 @@ function buildTrend(history: PolimerizacijaScanSummary[]): PolimerizacijaTrend[]
     });
 }
 
-function buildLanci(seedOffset: number): PolimerzacijaLanacV2[] {
+function buildLanci(seedOffset: number): PolimerizacijaLanacV2[] {
   const drift = (seedOffset % 7) * 0.003;
   return BASE_LANCI.map((lanac, index) => {
     const direction = index % 2 === 0 ? 1 : -1;
@@ -254,7 +256,7 @@ function buildLanci(seedOffset: number): PolimerzacijaLanacV2[] {
   });
 }
 
-function computeKpi(lanci: PolimerzacijaLanacV2[]) {
+function computeKpi(lanci: PolimerizacijaLanacV2[]) {
   const ukupnaStopa = round4(lanci.reduce((sum, l) => sum + l.reakcionaStopa, 0) / lanci.length);
   const prosekStepena = round4(lanci.reduce((sum, l) => sum + l.stepen, 0) / lanci.length);
   const prosekIskoriscenosti = round4(lanci.reduce((sum, l) => sum + l.iskoriscenost, 0) / lanci.length);
@@ -318,11 +320,11 @@ export function completePolimerizacija2Scan(
 }
 
 export function filterLanci(
-  lanci: PolimerzacijaLanacV2[],
+  lanci: PolimerizacijaLanacV2[],
   faza?: PolimerizacijaFazaProcesa,
   minKohezija?: number,
-  status?: PolimerzacijaLanac['status'],
-): PolimerzacijaLanacV2[] {
+  status?: PolimerizacijaLanac['status'],
+): PolimerizacijaLanacV2[] {
   return lanci.filter((lanac) => {
     if (faza && lanac.fazaProcesa !== faza) return false;
     if (status && lanac.status !== status) return false;
