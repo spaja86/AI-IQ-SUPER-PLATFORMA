@@ -1521,6 +1521,11 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1427: 'KRISTALIZACIJA modul: lib + GET /api/kristalizacija + UI /kristalizacija + sekvenca + route coverage test',
     1428: 'POLIMERIZACIJA 2 modul: lib + 6 API ruta + UI /polimerizacija-2 + sekvenca + lib+route testovi',
     1429: 'VEKTORIZACIJA modul: lib + GET /api/vektorizacija + UI /vektorizacija + sekvenca + route coverage test',
+    1430: 'SINTETIZACIJA modul: lib + GET /api/sintetizacija + UI /sintetizacija + sekvenca + route coverage test',
+    1431: 'REZONANCIJA modul: lib + GET /api/rezonancija + UI /rezonancija + sekvenca + route coverage test',
+    1432: 'MODULACIJA modul: lib + GET /api/modulacija + UI /modulacija + sekvenca + route coverage test',
+    1433: 'DEMODULACIJA modul: lib + GET /api/demodulacija + UI /demodulacija + sekvenca + route coverage test',
+    1434: 'Dedicated route coverage test za /api/polimerizacija-2/istorija',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
