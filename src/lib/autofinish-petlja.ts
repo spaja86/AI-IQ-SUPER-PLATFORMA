@@ -8213,3 +8213,25 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 
 // Autofinish #1421 — Fix panetracija-2/nalazi: added 'auth' to VALID_KATEGORIJE (alias for broken-auth filter).
 // APP_VERSION=59.75.0→59.75.1 | AUTOFINISH_COUNT=1421→1422
+
+// ─── Autofinish #1423 — KONSTANTNI PREGLED + APP_VERSION SINHRONIZACIJA ───────
+// Usklađivanje APP_VERSION 59.75.1→59.76.0.
+// Potvrda svih konstanti: TOTAL_API_ROUTES=1239, TOTAL_ROUTES=1369, TOTAL_PAGES=131.
+// APP_VERSION=59.75.1→59.76.0 | AUTOFINISH_COUNT=1422→1423 | TOTAL_API_ROUTES=1239 | TOTAL_ROUTES=1369 | TOTAL_PAGES=131
+
+// ─── Autofinish #1424 — POLIMERZACIJA MODUL ───────────────────────────────────
+// Novi lib: src/lib/polimerzacija.ts — PolimerzacijaLanac, PolimerzacijaRezultat,
+// buildPolimerzacija(), indeksKohezije, stabilnost, lanci procesnih jedinica.
+// API ruta: GET /api/polimerzacija.
+// UI: src/app/polimerzacija/page.tsx, src/lib/sekvence/polimerzacija-page.ts.
+// Route coverage test: src/tests/autofinish/polimerzacija-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1239→1240, TOTAL_ROUTES 1369→1370.
+// APP_VERSION=59.76.0 | AUTOFINISH_COUNT=1423→1424 | TOTAL_API_ROUTES=1240 | TOTAL_ROUTES=1370 | TOTAL_PAGES=131
+
+// ─── Autofinish #1425 — API MILESTONE 1400 ROUTE + CONSTANTS SYNC ────────────
+// Nova ruta: src/app/api/autofinish-api-milestone-1400/route.ts.
+// GET — Metapodaci o napretku ka API milestone 1400 (TOTAL_API_ROUTES tracking).
+// Route coverage test: src/tests/autofinish/autofinish-api-milestone-1400-route.test.ts.
+// Backfill opisi #1415–#1424 u /api/autofinish/route.ts.
+// Bumped TOTAL_API_ROUTES 1240→1241, TOTAL_ROUTES 1370→1371.
+// APP_VERSION=59.76.0→59.77.0 | AUTOFINISH_COUNT=1424→1425 | TOTAL_API_ROUTES=1241 | TOTAL_ROUTES=1371 | TOTAL_PAGES=131
