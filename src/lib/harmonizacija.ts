@@ -73,7 +73,7 @@ export function buildHarmonizacija(userId: string): HarmonizacijaRezultat {
     },
   ];
 
-  const slejeviSaStatusom: HarmonizacijaSloj[] = slojevi.map((sloj) => {
+  const slojeviSaStatusom: HarmonizacijaSloj[] = slojevi.map((sloj) => {
     const status: HarmonizacijaSloj['status'] =
       sloj.sinhronizacija < 0.5 || sloj.kalibracija < 0.5
         ? 'disharmonija'
@@ -84,13 +84,13 @@ export function buildHarmonizacija(userId: string): HarmonizacijaRezultat {
   });
 
   const prosekSinhronizacije = round4(
-    slejeviSaStatusom.reduce((sum, s) => sum + s.sinhronizacija, 0) / slejeviSaStatusom.length,
+    slojeviSaStatusom.reduce((sum, s) => sum + s.sinhronizacija, 0) / slojeviSaStatusom.length,
   );
   const prosekKalibracije = round4(
-    slejeviSaStatusom.reduce((sum, s) => sum + s.kalibracija, 0) / slejeviSaStatusom.length,
+    slojeviSaStatusom.reduce((sum, s) => sum + s.kalibracija, 0) / slojeviSaStatusom.length,
   );
   const prosekAmplitude = round4(
-    slejeviSaStatusom.reduce((sum, s) => sum + s.amplituda, 0) / slejeviSaStatusom.length,
+    slojeviSaStatusom.reduce((sum, s) => sum + s.amplituda, 0) / slojeviSaStatusom.length,
   );
 
   const stabilnost = clamp01(
@@ -108,7 +108,7 @@ export function buildHarmonizacija(userId: string): HarmonizacijaRezultat {
     prosekKalibracije,
     rezonancija,
     stabilnost,
-    slojevi: slejeviSaStatusom,
+    slojevi: slojeviSaStatusom,
     userId,
     timestamp: new Date().toISOString(),
   };
