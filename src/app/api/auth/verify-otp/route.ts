@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { randomUUID } from 'node:crypto';
 import { apiError, apiInternalError, apiRateLimited, apiSuccess } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { verifyOwnerOtp } from '@/lib/owner-phone-auth';
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
     const rezultat = verifyOwnerOtp(telefon, otp);
     if (!rezultat.uspesno) return apiError('UNAUTHORIZED', rezultat.napomena);
 
-    const userId = rezultat.jeOwner ? 'owner' : `user-${telefon.replace(/\D+/g, '').slice(-8) || 'anon'}`;
+    const userId = rezultat.jeOwner ? 'owner' : `user-${randomUUID()}`;
     const bundle = createPlatformScopedSession(userId, [...ALL_PLATFORM_SCOPES]);
 
     return apiSuccess({

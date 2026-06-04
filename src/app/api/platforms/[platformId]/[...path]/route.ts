@@ -17,7 +17,7 @@ async function handle(request: NextRequest, context: RouteContext, method: 'GET'
     const { platformId, path } = await context.params;
     const parsedPlatformId = PlatformIdSchema.safeParse(platformId);
     if (!parsedPlatformId.success) {
-      return apiError('BAD_REQUEST', `Nepodržan platformId '${platformId}'.`);
+      return apiError('BAD_REQUEST', `Unsupported platformId '${platformId}'.`);
     }
 
     const middleware = await enforceGatewayMiddleware(
@@ -33,7 +33,7 @@ async function handle(request: NextRequest, context: RouteContext, method: 'GET'
       try {
         body = await request.json();
       } catch {
-        return apiError('BAD_REQUEST', 'Nevalidan JSON body.');
+        return apiError('BAD_REQUEST', 'Invalid JSON body.');
       }
     }
 
@@ -48,7 +48,7 @@ async function handle(request: NextRequest, context: RouteContext, method: 'GET'
     if (result.status >= 400) {
       return NextResponse.json(
         {
-          error: String(result.payload.error ?? 'Gateway greška.'),
+          error: String(result.payload.error ?? 'Gateway error.'),
           code: result.status === 404 ? 'NOT_FOUND' : 'BAD_REQUEST',
           details: result.payload,
         },

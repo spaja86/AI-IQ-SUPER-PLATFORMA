@@ -139,15 +139,15 @@ async function runTests(): Promise<void> {
     assert(typeof body.data?.accessToken === 'string', 'access token in response');
   });
 
-  console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🏁 Results: ${passed} passed, ${failed} failed`);
   if (failures.length > 0) {
-    console.error('\n❌ Neuspešni testovi:');
+    console.error('\n❌ Failed tests:');
     failures.forEach((f) => console.error(`  • ${f}`));
     process.exit(1);
   }
 }
 
 runTests().catch((e) => {
-  console.error('Kritična greška u test runneru:', e);
+  console.error('Critical error in test runner:', e);
   process.exit(1);
 });

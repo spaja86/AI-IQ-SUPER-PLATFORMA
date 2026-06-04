@@ -12,6 +12,7 @@ export interface PlatformSession {
 const sessionStore = new Map<string, PlatformSession>();
 const refreshToSession = new Map<string, string>();
 const userSessions = new Map<string, Set<string>>();
+// NOTE: in-memory store is suitable for local/dev usage. Use persistent store (KV/Redis/DB) for production scale.
 
 export function createSession(userId: string, scopes: string[], ttlSec = 60 * 60 * 24 * 30): PlatformSession {
   const now = Date.now();

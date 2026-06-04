@@ -26,6 +26,7 @@ contract IntegratedPlatformHub {
     mapping(address => Account) public bankAccounts;
     mapping(address => mapping(bytes32 => Wallet)) private wallets;
     mapping(bytes32 => TransactionRecord) public transactions;
+    uint256 public txNonce;
 
     event AccountCreated(address indexed user, uint256 balance);
     event WalletCreated(address indexed user, string crypto);
@@ -53,7 +54,8 @@ contract IntegratedPlatformHub {
         bankAccounts[msg.sender].balance -= amount;
         bankAccounts[to].balance += amount;
 
-        bytes32 txHash = keccak256(abi.encodePacked(block.timestamp, msg.sender, to, amount));
+        txNonce += 1;
+        bytes32 txHash = keccak256(abi.encodePacked(txNonce, block.timestamp, msg.sender, to, amount));
         transactions[txHash] = TransactionRecord({
             exists: true,
             from: msg.sender,

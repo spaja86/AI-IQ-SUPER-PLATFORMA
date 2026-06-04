@@ -12,10 +12,15 @@ export interface PlatformTokenPayload {
   jti: string;
 }
 
-const DEFAULT_SECRET = 'spaja-platform-unified-auth-dev-secret';
+const DEFAULT_SECRET = 'spaja-platform-unified-auth-dev-secret-32-char-minimum-2026';
 
 function getSecret(): string {
-  return process.env.PLATFORM_JWT_SECRET?.trim() || DEFAULT_SECRET;
+  const secret = process.env.PLATFORM_JWT_SECRET?.trim();
+  if (secret) return secret;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('PLATFORM_JWT_SECRET must be configured in production.');
+  }
+  return DEFAULT_SECRET;
 }
 
 function toBase64Url(input: string | Buffer): string {

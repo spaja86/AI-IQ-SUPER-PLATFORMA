@@ -1,6 +1,7 @@
 import { apiError } from '@/lib/api/response';
 import {
   bindRefreshToken,
+  cleanupExpiredSessions,
   createSession,
   getSessionById,
   getSessionByRefreshToken,
@@ -31,6 +32,7 @@ export interface PlatformAuthBundle {
 }
 
 export function createPlatformScopedSession(userId: string, scopes: string[] = [...ALL_PLATFORM_SCOPES]): PlatformAuthBundle {
+  cleanupExpiredSessions();
   const normalizedScopes = [...new Set(scopes)];
   const session = createSession(userId, normalizedScopes);
   const accessToken = mintAccessToken(userId, session.sessionId, normalizedScopes);
@@ -53,10 +55,11 @@ export function verifyPlatformBearer(
   | { ok: true; userId: string; sessionId: string; scopes: string[] }
   | { ok: false; response: ReturnType<typeof apiError> } {
   if (!authorizationHeader?.startsWith('Bearer ')) {
-    return { ok: false, response: apiError('UNAUTHORIZED', 'Autorizacioni token je obavezan.') };
+    return { ok: false, response: apiError('UNAUTHORIZED', 'Authorization token is required.') };
   }
 
   const token = authorizationHeader.slice('Bearer '.length).trim();
+  cleanupExpiredSessions();
   const payload = verifyToken(token, 'access');
   if (!payload) {
     return { ok: false, response: apiError('AUTH_TOKEN_INVALID', 'Nevažeći ili istekli access token.') };
@@ -75,6 +78,7 @@ export function verifyPlatformBearer(
 }
 
 export function refreshPlatformSession(refreshToken: string): PlatformAuthBundle | null {
+  cleanupExpiredSessions();
   const payload = verifyToken(refreshToken, 'refresh');
   if (!payload) return null;
 

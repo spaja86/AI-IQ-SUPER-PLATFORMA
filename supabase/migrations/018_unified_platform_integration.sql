@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS world_bank_accounts (
   balance DECIMAL(18,8) NOT NULL DEFAULT 0,
   currency TEXT NOT NULL DEFAULT 'USD',
   status TEXT NOT NULL DEFAULT 'active',
-  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-  blockchain_address TEXT NOT NULL
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  blockchain_address TEXT
 );
 
 CREATE TABLE IF NOT EXISTS world_bank_transactions (
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS world_bank_transactions (
   amount DECIMAL(18,8) NOT NULL,
   status TEXT NOT NULL,
   tx_hash TEXT,
-  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS menja_nica_wallets (
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS menja_nica_wallets (
   balance DECIMAL(36,18) NOT NULL DEFAULT 0,
   wallet_address TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
-  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS menja_nica_trades (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS menja_nica_trades (
   to_amount DECIMAL(36,18) NOT NULL,
   status TEXT NOT NULL,
   tx_hash TEXT,
-  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS io_openui_user_sessions (
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS io_openui_user_sessions (
   user_id UUID REFERENCES profiles(id),
   session_token TEXT NOT NULL,
   platform_token TEXT NOT NULL,
-  expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
+  expires_at TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS platform_sync_log (
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS platform_sync_log (
   event_type TEXT NOT NULL,
   payload JSONB NOT NULL,
   status TEXT NOT NULL,
-  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_world_bank_accounts_user_id ON world_bank_accounts(user_id);
@@ -67,5 +67,8 @@ CREATE INDEX IF NOT EXISTS idx_world_bank_transactions_to_account_id ON world_ba
 CREATE INDEX IF NOT EXISTS idx_menja_nica_wallets_user_id ON menja_nica_wallets(user_id);
 CREATE INDEX IF NOT EXISTS idx_menja_nica_trades_user_id ON menja_nica_trades(user_id);
 CREATE INDEX IF NOT EXISTS idx_io_openui_user_sessions_user_id ON io_openui_user_sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_io_openui_user_sessions_expires_at ON io_openui_user_sessions(expires_at);
+CREATE INDEX IF NOT EXISTS idx_io_openui_user_sessions_session_token ON io_openui_user_sessions(session_token);
+CREATE INDEX IF NOT EXISTS idx_io_openui_user_sessions_platform_token ON io_openui_user_sessions(platform_token);
 CREATE INDEX IF NOT EXISTS idx_platform_sync_log_platform_from ON platform_sync_log(platform_from);
 CREATE INDEX IF NOT EXISTS idx_platform_sync_log_event_type ON platform_sync_log(event_type);
