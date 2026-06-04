@@ -15,6 +15,7 @@ export const navigation: NavItem[] = [
   { label: 'Sintetizacija', href: '/sintetizacija', icon: '🔬', description: 'Sinteza i integracija procesnih entiteta u koherentne strukture' },
   { label: 'Rezonancija', href: '/rezonancija', icon: '🎛️', description: 'Usklađivanje frekvencija i stabilizacija oscilatornih tokova' },
   { label: 'Modulacija', href: '/modulacija', icon: '📡', description: 'Adaptivno kodovanje signala i višekanalni prenosni tokovi' },
+  { label: 'Demodulacija', href: '/demodulacija', icon: '📶', description: 'Rekonstrukcija modulisanih tokova i verifikacija kvaliteta izlaza' },
   { label: 'Eksosistzdacija', href: '/eksosistzdacija', icon: '🧩', description: 'Modul za povezivanje i konsolidaciju ekosistemskih tokova' },
   { label: 'Organizacije', href: '/organizacije', icon: '🏢', description: 'Organizaciona struktura' },
   { label: 'Kompanije', href: '/kompanije', icon: '🏛️', description: 'Kompanije u ekosistemu' },
