@@ -8,6 +8,7 @@ export const navigation: NavItem[] = [
   { label: 'Palasterizacija', href: '/palasterizacija', icon: '🧱', description: 'Novi modul za standardizaciju i stabilizaciju procesa' },
   { label: 'Perkolizonik', href: '/perkolizonik', icon: '⚙️', description: 'Operativni modul za stabilizaciju tokova, kapaciteta i latencije sistema' },
   { label: 'Polimerzacija', href: '/polimerzacija', icon: '🧬', description: 'Lančano vezivanje i kohezija procesnih jedinica' },
+  { label: 'Polimerizacija 2', href: '/polimerizacija-2', icon: '🧬', description: 'V2 prošireni katalog lanaca, scan istorija i trendovi' },
   { label: 'Harmonizacija', href: '/harmonizacija', icon: '🎵', description: 'Sinhronizacija procesnih slojeva i optimizacija protoka podataka' },
   { label: 'Kristalizacija', href: '/kristalizacija', icon: '💎', description: 'Stabilizacija procesnog jezgra i purifikacija izlaznih tokova' },
   { label: 'Eksosistzdacija', href: '/eksosistzdacija', icon: '🧩', description: 'Modul za povezivanje i konsolidaciju ekosistemskih tokova' },
