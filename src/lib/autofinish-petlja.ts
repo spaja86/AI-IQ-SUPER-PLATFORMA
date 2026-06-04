@@ -1527,6 +1527,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1433: 'DEMODULACIJA modul: lib + GET /api/demodulacija + UI /demodulacija + sekvenca + route coverage test',
     1434: 'Dedicated route coverage test za /api/polimerizacija-2/istorija',
     1435: 'Dedicated route coverage test za /api/polimerizacija-2/trendovi',
+    1436: 'Dedicated route coverage test za /api/polimerizacija-2/lanci',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
