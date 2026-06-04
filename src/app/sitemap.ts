@@ -3,7 +3,7 @@ import { BASE_URL } from '@/lib/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const highPriority = ['/', '/dashboard', '/ekosistem'];
-  const mediumHighPriority = ['/platforme', '/palasterizacija', '/perkolizonik', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
+  const mediumHighPriority = ['/platforme', '/palasterizacija', '/perkolizonik', '/polimerzacija', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
 
   // Dynamic lastModified dates per page category
   const recentlyUpdated = new Date('2026-04-20');
@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/platforme',
     '/palasterizacija',
     '/perkolizonik',
+    '/polimerzacija',
     '/eksosistzdacija',
     '/it-proizvodi',
     '/banka',
