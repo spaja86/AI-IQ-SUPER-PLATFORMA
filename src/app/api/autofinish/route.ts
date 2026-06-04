@@ -388,6 +388,7 @@ function getAutofinishOpis(n: number): string {
     1432: `Autofinish #1432 — MODULACIJA modul: src/lib/modulacija.ts, GET /api/modulacija, UI /modulacija, sekvenca modulacija-page.ts, route coverage test, TOTAL_API_ROUTES 1252→1253, TOTAL_ROUTES 1389→1391, TOTAL_PAGES 137→138, AUTOFINISH_COUNT 1431→1432, APP_VERSION 59.83.0→59.84.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1433: `Autofinish #1433 — DEMODULACIJA modul: src/lib/demodulacija.ts, GET /api/demodulacija, UI /demodulacija, sekvenca demodulacija-page.ts, route coverage test, TOTAL_API_ROUTES 1253→1254, TOTAL_ROUTES 1391→1393, TOTAL_PAGES 138→139, AUTOFINISH_COUNT 1432→1433, APP_VERSION 59.84.0→59.85.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1434: `Autofinish #1434 — Dedicated route coverage test za /api/polimerizacija-2/istorija (GET smoke + response helper + konstante), TOTAL_API_ROUTES 1254→1254, TOTAL_ROUTES 1393→1393, TOTAL_PAGES 139→139, AUTOFINISH_COUNT 1433→1434, APP_VERSION 59.85.0→59.86.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1435: `Autofinish #1435 — Dedicated route coverage test za /api/polimerizacija-2/trendovi (GET smoke + response helper + konstante), TOTAL_API_ROUTES 1254→1254, TOTAL_ROUTES 1393→1393, TOTAL_PAGES 139→139, AUTOFINISH_COUNT 1434→1435, APP_VERSION 59.86.0→59.87.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
