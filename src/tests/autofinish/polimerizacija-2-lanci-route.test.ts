@@ -101,8 +101,7 @@ async function runTests(): Promise<void> {
     assert(typeof TOTAL_ROUTES === 'number' && TOTAL_ROUTES > 0, 'TOTAL_ROUTES');
   });
 
-  console.log(`
-🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
