@@ -158,9 +158,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/api/maksimus-2',
     '/maksimus-3',
     '/api/maksimus-3',
-    '/kristalizacija',
     '/api/kristalizacija',
-    '/harmonizacija',
     '/api/harmonizacija',
   ];
   return routes.map((route) => ({
