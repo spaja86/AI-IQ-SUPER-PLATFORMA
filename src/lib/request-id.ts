@@ -11,9 +11,20 @@ function secureRandomString(length: number): string {
   if (!cryptoApi || typeof cryptoApi.getRandomValues !== 'function') {
     throw new Error('Secure random generator is not available.');
   }
-  const bytes = new Uint8Array(length);
-  cryptoApi.getRandomValues(bytes);
-  return Array.from(bytes, (byte) => ID_CHARS[byte % ID_CHARS.length]).join('');
+  const output: string[] = [];
+  // Rejection sampling: odbaci vrednosti koje bi modulo mapiranjem napravile bias.
+  const maxUnbiased = Math.floor(256 / ID_CHARS.length) * ID_CHARS.length;
+  while (output.length < length) {
+    const remaining = length - output.length;
+    const bytes = new Uint8Array(Math.max(remaining * 2, 8));
+    cryptoApi.getRandomValues(bytes);
+    for (const byte of bytes) {
+      if (byte >= maxUnbiased) continue;
+      output.push(ID_CHARS[byte % ID_CHARS.length]);
+      if (output.length === length) break;
+    }
+  }
+  return output.join('');
 }
 
 export function createSecureId(prefix: string, suffixLength = 8): string {

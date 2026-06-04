@@ -10,16 +10,24 @@ function getReqId(request: NextRequest): string {
   return resolveRequestId(request.headers);
 }
 
-const VALID_KATEGORIJE = new Set<ProtokolKategorija>([
+const VALID_KATEGORIJE: readonly ProtokolKategorija[] = [
   'komunikacioni',
   'bezbednosni',
   'poslovni',
   'operativni',
   'autentifikacioni',
   'transfer',
-]);
+];
 
-const VALID_STATUSI = new Set<ProtokolStatus>(['aktivan', 'neaktivan', 'deprecated', 'u-testu', 'incident']);
+const VALID_STATUSI: readonly ProtokolStatus[] = ['aktivan', 'neaktivan', 'deprecated', 'u-testu', 'incident'];
+
+function isValidKategorija(value: string): value is ProtokolKategorija {
+  return (VALID_KATEGORIJE as readonly string[]).includes(value);
+}
+
+function isValidStatus(value: string): value is ProtokolStatus {
+  return (VALID_STATUSI as readonly string[]).includes(value);
+}
 
 function parseBoundedInt(rawValue: string | null, fallback: number, min: number, max: number): number {
   const parsed = Number.parseInt(rawValue ?? String(fallback), 10);
@@ -54,18 +62,14 @@ export async function GET(request: NextRequest) {
     const limit = parseBoundedInt(searchParams.get('limit'), 50, 1, 200);
     const kategorijaRaw = searchParams.get('kategorija');
     const statusRaw = searchParams.get('status');
-    const kategorija =
-      kategorijaRaw && VALID_KATEGORIJE.has(kategorijaRaw as ProtokolKategorija)
-        ? (kategorijaRaw as ProtokolKategorija)
-        : null;
-    const status =
-      statusRaw && VALID_STATUSI.has(statusRaw as ProtokolStatus) ? (statusRaw as ProtokolStatus) : null;
+    const kategorija = kategorijaRaw && isValidKategorija(kategorijaRaw) ? kategorijaRaw : null;
+    const status = statusRaw && isValidStatus(statusRaw) ? statusRaw : null;
 
     if (kategorijaRaw && !kategorija) {
-      return apiError('BAD_REQUEST', `Nepoznata kategorija protokola: '${kategorijaRaw}'.`);
+      return apiError('BAD_REQUEST', `Nepoznata kategorija protokola. Dozvoljeno: ${VALID_KATEGORIJE.join(', ')}.`);
     }
     if (statusRaw && !status) {
-      return apiError('BAD_REQUEST', `Nepoznat status protokola: '${statusRaw}'.`);
+      return apiError('BAD_REQUEST', `Nepoznat status protokola. Dozvoljeno: ${VALID_STATUSI.join(', ')}.`);
     }
     const offset = (page - 1) * limit;
 
