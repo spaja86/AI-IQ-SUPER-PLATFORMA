@@ -176,11 +176,11 @@ async function runTests(): Promise<void> {
   });
 
   await test('Konstante su ažurirane', () => {
-    assertEqual(APP_VERSION, '59.80.0', 'APP_VERSION');
-    assertEqual(AUTOFINISH_COUNT, 1428, 'AUTOFINISH_COUNT');
-    assertEqual(TOTAL_API_ROUTES, 1249, 'TOTAL_API_ROUTES');
-    assertEqual(TOTAL_ROUTES, 1383, 'TOTAL_ROUTES');
-    assertEqual(TOTAL_PAGES, 134, 'TOTAL_PAGES');
+    assertEqual(APP_VERSION, '59.81.0', 'APP_VERSION');
+    assertEqual(AUTOFINISH_COUNT, 1429, 'AUTOFINISH_COUNT');
+    assertEqual(TOTAL_API_ROUTES, 1250, 'TOTAL_API_ROUTES');
+    assertEqual(TOTAL_ROUTES, 1385, 'TOTAL_ROUTES');
+    assertEqual(TOTAL_PAGES, 135, 'TOTAL_PAGES');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
