@@ -13,6 +13,7 @@ export const navigation: NavItem[] = [
   { label: 'Kristalizacija', href: '/kristalizacija', icon: '💎', description: 'Stabilizacija procesnog jezgra i purifikacija izlaznih tokova' },
   { label: 'Vektorizacija', href: '/vektorizacija', icon: '📐', description: 'Transformacija procesnog prostora i projekcija multi-dimenzionalnih entiteta' },
   { label: 'Sintetizacija', href: '/sintetizacija', icon: '🔬', description: 'Sinteza i integracija procesnih entiteta u koherentne strukture' },
+  { label: 'Rezonancija', href: '/rezonancija', icon: '🎛️', description: 'Usklađivanje frekvencija i stabilizacija oscilatornih tokova' },
   { label: 'Eksosistzdacija', href: '/eksosistzdacija', icon: '🧩', description: 'Modul za povezivanje i konsolidaciju ekosistemskih tokova' },
   { label: 'Organizacije', href: '/organizacije', icon: '🏢', description: 'Organizaciona struktura' },
   { label: 'Kompanije', href: '/kompanije', icon: '🏛️', description: 'Kompanije u ekosistemu' },
