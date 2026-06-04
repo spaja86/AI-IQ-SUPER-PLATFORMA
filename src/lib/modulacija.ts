@@ -3,7 +3,7 @@
  *
  * Operativni modul za modulaciju signala i adaptivno kodovanje
  * kroz višekanalne prenosne tokove. Modeluje ciklus modulacije —
- * kodovanje, prenos, dekodovanje i verifikaciju integritetea signala.
+ * kodovanje, prenos, dekodovanje i verifikaciju integriteta signala.
  */
 
 export interface ModulacijaKanal {
