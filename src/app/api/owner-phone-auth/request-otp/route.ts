@@ -3,6 +3,7 @@ import { apiError, apiInternalError, apiRateLimited, apiSuccess } from '@/lib/ap
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { requestOwnerOtp } from '@/lib/owner-phone-auth';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import { ALL_PLATFORM_SCOPES } from '@/lib/platform-auth/unified-auth';
 
 /**
  * POST /api/owner-phone-auth/request-otp
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
       maskiranTelefon: rezultat.maskiranTelefon,
       isteceZaSekundi: rezultat.isteceZaSekundi,
       napomena: rezultat.napomena,
+      platformScopes: [...ALL_PLATFORM_SCOPES],
       // Dev/test only — nikad u produkciji
       ...(rezultat.devOtp !== undefined ? { devOtp: rezultat.devOtp } : {}),
     });

@@ -3,6 +3,7 @@ import { apiError, apiInternalError, apiRateLimited, apiSuccess } from '@/lib/ap
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { verifyOwnerOtp } from '@/lib/owner-phone-auth';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import { ALL_PLATFORM_SCOPES, createPlatformScopedSession } from '@/lib/platform-auth/unified-auth';
 
 /**
  * POST /api/owner-phone-auth/verify-otp
@@ -42,12 +43,16 @@ export async function POST(request: NextRequest) {
       return apiError('UNAUTHORIZED', rezultat.napomena);
     }
 
+    const userId = rezultat.jeOwner ? 'owner' : `user-${telefon.replace(/\D+/g, '').slice(-8) || 'anon'}`;
+    const platformAuth = createPlatformScopedSession(userId, [...ALL_PLATFORM_SCOPES]);
+
     return apiSuccess({
       uspesno: true,
       jeOwner: rezultat.jeOwner,
       ownerEmail: rezultat.ownerEmail,
       ownerRacun: rezultat.ownerRacun,
       napomena: rezultat.napomena,
+      platformAuth,
     });
   } catch (error) {
     return apiInternalError('owner-phone-auth/verify-otp', error);
