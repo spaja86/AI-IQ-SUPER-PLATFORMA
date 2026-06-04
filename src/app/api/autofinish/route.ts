@@ -391,6 +391,7 @@ function getAutofinishOpis(n: number): string {
     1435: `Autofinish #1435 — Dedicated route coverage test za /api/polimerizacija-2/trendovi (GET smoke + response helper + konstante), TOTAL_API_ROUTES 1254→1254, TOTAL_ROUTES 1393→1393, TOTAL_PAGES 139→139, AUTOFINISH_COUNT 1434→1435, APP_VERSION 59.86.0→59.87.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1436: `Autofinish #1436 — Dedicated route coverage test za /api/polimerizacija-2/lanci (GET smoke + response helper + konstante), TOTAL_API_ROUTES 1254→1254, TOTAL_ROUTES 1393→1393, TOTAL_PAGES 139→139, AUTOFINISH_COUNT 1435→1436, APP_VERSION 59.87.0→59.88.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1437: `Autofinish #1437 — Dedicated route coverage test za /api/polimerizacija-2/sken (GET smoke + response helper + konstante), TOTAL_API_ROUTES 1254→1254, TOTAL_ROUTES 1393→1393, TOTAL_PAGES 139→139, AUTOFINISH_COUNT 1436→1437, APP_VERSION 59.88.0→59.89.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1438: `Autofinish #1438 — Dedicated route coverage test za /api/polimerizacija-2/status (GET smoke + response helper + konstante), TOTAL_API_ROUTES 1254→1255, TOTAL_ROUTES 1393→1394, TOTAL_PAGES 139→139, AUTOFINISH_COUNT 1437→1438, APP_VERSION 59.89.0→59.90.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }

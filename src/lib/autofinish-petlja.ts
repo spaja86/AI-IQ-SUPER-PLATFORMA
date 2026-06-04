@@ -1529,6 +1529,7 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1435: 'Dedicated route coverage test za /api/polimerizacija-2/trendovi',
     1436: 'Dedicated route coverage test za /api/polimerizacija-2/lanci',
     1437: 'Dedicated route coverage test za /api/polimerizacija-2/sken',
+    1438: 'Dedicated route coverage test za /api/polimerizacija-2/status',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
