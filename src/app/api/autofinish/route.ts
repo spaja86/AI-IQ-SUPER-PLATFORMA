@@ -380,6 +380,7 @@ function getAutofinishOpis(n: number): string {
     1424: `Autofinish #1424 — POLIMERZACIJA modul: src/lib/polimerzacija.ts, GET /api/polimerzacija, UI /polimerzacija, sekvenca polimerzacija-page.ts, route coverage test, TOTAL_API_ROUTES 1239→1240, TOTAL_ROUTES 1369→1370, AUTOFINISH_COUNT 1423→1424, APP_VERSION 59.76.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1425: `Autofinish #1425 — API Milestone 1400 route + coverage test, backfill opisi #1415–#1424, sinhronizacija konstanti TOTAL_API_ROUTES 1240→1241, TOTAL_ROUTES 1370→1371, AUTOFINISH_COUNT 1424→1425, APP_VERSION 59.76.0→59.77.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
     1426: `Autofinish #1426 — HARMONIZACIJA modul: src/lib/harmonizacija.ts, GET /api/harmonizacija, UI /harmonizacija, sekvenca harmonizacija-page.ts, route coverage test, TOTAL_API_ROUTES 1241→1242, TOTAL_ROUTES 1371→1373, TOTAL_PAGES 131→132, AUTOFINISH_COUNT 1425→1426, APP_VERSION 59.77.0→59.78.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
+    1427: `Autofinish #1427 — KRISTALIZACIJA modul: src/lib/kristalizacija.ts, GET /api/kristalizacija, UI /kristalizacija, sekvenca kristalizacija-page.ts, route coverage test, TOTAL_API_ROUTES 1242→1243, TOTAL_ROUTES 1373→1375, TOTAL_PAGES 132→133, AUTOFINISH_COUNT 1426→1427, APP_VERSION 59.78.0→59.79.0, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`,
   };
   return opisi[n] ?? `Autofinish iteracija #${n}`;
 }
