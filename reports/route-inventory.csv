@@ -74,6 +74,7 @@ autofinish-api-milestone-1049,GET,autofinish-api-milestone-1049,yes,autofinish-a
 autofinish-api-milestone-1250,GET,autofinish-api-milestone-1250,yes,autofinish-api-milestone-1250-route.test.ts
 autofinish-api-milestone-1300,GET,autofinish-api-milestone-1300,yes,autofinish-api-milestone-1300-route.test.ts
 autofinish-api-milestone-1350,GET,autofinish-api-milestone-1350,yes,autofinish-api-milestone-1350-route.test.ts
+autofinish-api-milestone-1400,GET,autofinish-api-milestone-1400,yes,autofinish-api-milestone-1400-route.test.ts
 autofinish-audit-report,GET,autofinish-audit-report,yes,autofinish-audit-report-route.test.ts
 autofinish-autologin-rikvrst-eksponencijalne-funkcije,GET,autofinish-autologin-rikvrst-eksponencijalne-funkcije,yes,autofinish-autologin-rikvrst-eksponencijalne-funkcije-route.test.ts
 autofinish-branch-cleanup-monitor,GET,autofinish-branch-cleanup-monitor,yes,autofinish-branch-cleanup-monitor-route.test.ts
@@ -224,6 +225,7 @@ cron/ekstremno-procesuiranje-svega,GET,cron,yes,cron-ekstremno-procesuiranje-sve
 cron/evolucija,GET,cron,yes,cron-evolucija-route.test.ts
 cron/protokoli-verifikacija,GET,cron,yes,cron-protokoli-verifikacija-route.test.ts
 cron/zdravlje,GET,cron,yes,cron-zdravlje-route.test.ts
+demodulacija,GET,demodulacija,yes,demodulacija-route.test.ts
 deploy-diagnostics,GET,deploy-diagnostics,yes,deploy-diagnostics-route.test.ts
 deploy-pregled,GET,deploy-pregled,yes,deploy-pregled-route.test.ts
 deploy-status,GET,deploy-status,yes,deploy-status-route.test.ts
@@ -304,6 +306,7 @@ github-billing-aiiq-worldbank-izvestaj,GET,github-billing-aiiq-worldbank-izvesta
 github-billing-aiiq-worldbank-status,GET,github-billing-aiiq-worldbank-status,yes,github-billing-aiiq-worldbank-status-route.test.ts
 glavni-endzin-digitalne-industrije,GET,glavni-endzin-digitalne-industrije,yes,glavni-endzin-digitalne-industrije-route.test.ts
 glavni-sistem-nabavka,GET,glavni-sistem-nabavka,yes,glavni-sistem-nabavka-route.test.ts
+harmonizacija,GET,harmonizacija,yes,harmonizacija-route.test.ts
 health,GET,health,yes,health-route.test.ts
 igrice,GET,igrice,yes,igrice-route.test.ts
 igrice-kategorije,GET,igrice-kategorije,yes,igrice-kategorije-route.test.ts
@@ -374,6 +377,7 @@ kripto-trezor/tokenization,GET,kripto-trezor,yes,kripto-trezor-tokenization-rout
 kripto-trezor/vault-status,GET,kripto-trezor,yes,kripto-trezor-vault-status-route.test.ts
 kripto-trezor/withdraw,POST,kripto-trezor,yes,kripto-trezor-withdraw-route.test.ts
 kripto-trezor/yield,GET,kripto-trezor,yes,kripto-trezor-yield-route.test.ts
+kristalizacija,GET,kristalizacija,yes,kristalizacija-route.test.ts
 kvantna-koherencija-status,GET,kvantna-koherencija-status,yes,kvantna-koherencija-status-route.test.ts
 kvantna-optimizacija,GET,kvantna-optimizacija,yes,kvantna-optimizacija-route.test.ts
 laucentricni-spektar,GET,laucentricni-spektar,yes,laucentricni-spektar-route.test.ts
@@ -455,6 +459,7 @@ mobilna-mreza,GET,mobilna-mreza,yes,mobilna-mreza-route.test.ts
 mobilna-mreza-pregled,GET,mobilna-mreza-pregled,yes,mobilna-mreza-pregled-route.test.ts
 mobilna-mreza-status,GET,mobilna-mreza-status,yes,mobilna-mreza-status-route.test.ts
 mobilna-statistika,GET,mobilna-statistika,yes,mobilna-statistika-route.test.ts
+modulacija,GET,modulacija,yes,modulacija-route.test.ts
 mozak-logika,GET,mozak-logika,yes,mozak-logika-route.test.ts
 navigacija,GET,navigacija,yes,navigacija-route.test.ts
 navigation-info,GET,navigation-info,yes,navigation-info-route.test.ts
@@ -632,6 +637,12 @@ owner-account-bank,GET,owner-account-bank,yes,owner-account-bank-route.test.ts
 owner-identity,GET,owner-identity,yes,owner-identity-route.test.ts
 owner-phone-auth/request-otp,GET|POST,owner-phone-auth,yes,owner-phone-auth-request-otp-route.test.ts
 owner-phone-auth/verify-otp,GET|POST,owner-phone-auth,yes,owner-phone-auth-verify-otp-route.test.ts
+panetracija-2,GET,panetracija-2,yes,panetracija-2-route.test.ts
+panetracija-2/istorija,GET,panetracija-2,yes,panetracija-2-istorija-route.test.ts
+panetracija-2/nalazi,GET,panetracija-2,yes,panetracija-2-nalazi-route.test.ts
+panetracija-2/sken,POST,panetracija-2,yes,panetracija-2-sken-route.test.ts
+panetracija-2/status,GET,panetracija-2,yes,panetracija-2-status-route.test.ts
+panetracija-2/trendovi,GET,panetracija-2,yes,panetracija-2-trendovi-route.test.ts
 paypal/checkout,POST,paypal,yes,paypal-checkout-route.test.ts
 paypal/portal,POST,paypal,yes,paypal-portal-route.test.ts
 paypal/webhook,POST,paypal,yes,paypal-webhook-route.test.ts
@@ -675,6 +686,13 @@ platforma-replikacija,GET,platforma-replikacija,yes,platforma-replikacija-route.
 platforme,GET,platforme,yes,platforme-route.test.ts
 platforme-pregled,GET,platforme-pregled,yes,platforme-pregled-route.test.ts
 platforme-status,GET,platforme-status,yes,platforme-status-route.test.ts
+polimerizacija-2,GET,polimerizacija-2,yes,polimerizacija-2-route.test.ts
+polimerizacija-2/istorija,GET,polimerizacija-2,yes,polimerizacija-2-istorija-route.test.ts
+polimerizacija-2/lanci,GET,polimerizacija-2,yes,polimerizacija-2-lanci-route.test.ts
+polimerizacija-2/sken,GET,polimerizacija-2,yes,polimerizacija-2-sken-route.test.ts
+polimerizacija-2/status,GET,polimerizacija-2,yes,polimerizacija-2-status-route.test.ts
+polimerizacija-2/trendovi,GET,polimerizacija-2,yes,polimerizacija-2-trendovi-route.test.ts
+polimerzacija,GET,polimerzacija,yes,polimerzacija-route.test.ts
 poslovni-tok,GET,poslovni-tok,yes,poslovni-tok-route.test.ts
 potencijal-svega-ovoga-do-sada,GET,potencijal-svega-ovoga-do-sada,yes,potencijal-svega-ovoga-do-sada-route.test.ts
 procesuiranje-3,GET,procesuiranje-3,yes,procesuiranje-3-route.test.ts
@@ -706,6 +724,7 @@ rast-pregled,GET,rast-pregled,yes,rast-pregled-route.test.ts
 reklame-i-partnerstva,GET,reklame-i-partnerstva,yes,reklame-i-partnerstva-route.test.ts
 reklame-i-partnerstva-pregled,GET,reklame-i-partnerstva-pregled,yes,reklame-i-partnerstva-pregled-route.test.ts
 repair-pregled,GET,repair-pregled,yes,repair-pregled-route.test.ts
+rezonancija,GET,rezonancija,yes,rezonancija-route.test.ts
 runtime-info,GET,runtime-info,yes,runtime-info-route.test.ts
 sajt-funkcionalnost-analiza,GET,sajt-funkcionalnost-analiza,yes,sajt-funkcionalnost-analiza-route.test.ts
 sajtovi,GET,sajtovi,yes,sajtovi-route.test.ts
@@ -718,6 +737,7 @@ seo-audit-status,GET,seo-audit-status,yes,seo-audit-status-route.test.ts
 seo-matricni-sekvencijalni-dizajn,GET,seo-matricni-sekvencijalni-dizajn,yes,seo-matricni-sekvencijalni-dizajn-route.test.ts
 seo-matricni-sekvencijalni-dizajn-status,GET,seo-matricni-sekvencijalni-dizajn-status,yes,seo-matricni-sekvencijalni-dizajn-status-route.test.ts
 seo-nominalni-protok,GET,seo-nominalni-protok,yes,seo-nominalni-protok-route.test.ts
+sintetizacija,GET,sintetizacija,yes,sintetizacija-route.test.ts
 sistem-pregled,GET,sistem-pregled,yes,sistem-pregled-route.test.ts
 sitemap-status,GET,sitemap-status,yes,sitemap-status-route.test.ts
 sla-monitor,GET,sla-monitor,yes,sla-monitor-route.test.ts
@@ -1214,6 +1234,7 @@ univerzalni-sistem-kompatibilnost,GET,univerzalni-sistem-kompatibilnost,yes,univ
 univerzalni-sistem-kompatibilnost-pregled,GET,univerzalni-sistem-kompatibilnost-pregled,yes,univerzalni-sistem-kompatibilnost-pregled-route.test.ts
 upgrade-pregled,GET,upgrade-pregled,yes,upgrade-pregled-route.test.ts
 validator-poslovnih-racuna,GET,validator-poslovnih-racuna,yes,validator-poslovnih-racuna-route.test.ts
+vektorizacija,GET,vektorizacija,yes,vektorizacija-route.test.ts
 vercel-dx-platform-pricing,GET,vercel-dx-platform-pricing,yes,vercel-dx-platform-pricing-route.test.ts
 verzija,GET,verzija,yes,verzija-route.test.ts
 verzija-istorija,GET,verzija-istorija,yes,verzija-istorija-route.test.ts
