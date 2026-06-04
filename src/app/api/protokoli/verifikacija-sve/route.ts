@@ -3,10 +3,11 @@ import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import { logApiCall } from '@/lib/logger';
 import { protokolManager } from '@/lib/protokoli/manager';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
+import { resolveRequestId } from '@/lib/request-id';
 import { verifyUserFromToken } from '@/lib/supabase/server';
 
 function getReqId(request: NextRequest): string {
-  return request.headers.get('x-request-id') ?? `req-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  return resolveRequestId(request.headers);
 }
 
 function isAdminUser(user: { user_metadata?: Record<string, unknown> } | null): boolean {

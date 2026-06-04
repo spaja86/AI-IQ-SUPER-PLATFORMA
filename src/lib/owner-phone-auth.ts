@@ -18,6 +18,7 @@
 
 import { randomInt } from 'node:crypto';
 import { OWNER_EMAIL, OWNER_BANK_RACUN_ID, OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from './constants';
+import { logger } from './logger';
 import { maskirajTelefon, PhoneVerifikacijaStatus } from './owner-identity';
 
 // ─── Tipovi ───────────────────────────────────────────────────────────────────
@@ -108,9 +109,13 @@ function sendMockSms(telefon: string, kod: string): void {
   // Nikad ne logujemo pun kod u produkciji; u dev logujemo samo maskiran broj
   const displayBroj = maskirajTelefon(telefon);
   if (process.env.NODE_ENV !== 'production') {
-    console.log(`[OWNER-OTP] SMS → ${displayBroj}: OTP=${kod}`);
+    logger.info('OWNER-OTP', 'Mock SMS payload generated', {
+      telefon: displayBroj,
+      otpLength: kod.length,
+      environment: process.env.NODE_ENV ?? 'development',
+    });
   } else {
-    console.log(`[OWNER-OTP] SMS sent → ${displayBroj}`);
+    logger.info('OWNER-OTP', 'SMS sent', { telefon: displayBroj });
   }
 }
 

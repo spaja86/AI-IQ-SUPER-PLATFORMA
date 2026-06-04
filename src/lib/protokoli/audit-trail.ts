@@ -1,11 +1,13 @@
 import { getSupabaseServerClientSafe } from '@/lib/supabase/server';
+import { createSecureId } from '@/lib/request-id';
+import { logger } from '@/lib/logger';
 import type { AuditZapis } from './types';
 
 const AUDIT_MAX = 500;
 const auditBuffer: AuditZapis[] = [];
 
 function nextAuditId(): string {
-  return `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  return createSecureId('audit');
 }
 
 function pushAudit(entry: AuditZapis): void {
@@ -54,7 +56,7 @@ export async function upisiAuditZapis(
       }
     } catch (error) {
       // Best-effort upis; in-memory audit je i dalje izvor za runtime tok.
-      console.warn('[PROTOKOLI_AUDIT] Supabase upis nije uspeo.', error);
+      logger.warn('PROTOKOLI_AUDIT', 'Supabase upis nije uspeo.', error);
     }
   }
 

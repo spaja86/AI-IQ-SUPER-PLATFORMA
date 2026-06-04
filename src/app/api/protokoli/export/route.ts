@@ -3,9 +3,10 @@ import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import { logApiCall } from '@/lib/logger';
 import { protokolManager } from '@/lib/protokoli/manager';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
+import { resolveRequestId } from '@/lib/request-id';
 
 function getReqId(request: NextRequest): string {
-  return request.headers.get('x-request-id') ?? `req-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  return resolveRequestId(request.headers);
 }
 
 export async function GET(request: NextRequest) {

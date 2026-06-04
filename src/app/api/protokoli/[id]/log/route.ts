@@ -3,11 +3,18 @@ import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import { logApiCall } from '@/lib/logger';
 import { protokolManager } from '@/lib/protokoli/manager';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
+import { resolveRequestId } from '@/lib/request-id';
 
 type RouteContext = { params: Promise<{ id: string }> };
 
 function getReqId(request: NextRequest): string {
-  return request.headers.get('x-request-id') ?? `req-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  return resolveRequestId(request.headers);
+}
+
+function parseLimit(rawValue: string | null): number {
+  const parsed = Number.parseInt(rawValue ?? '50', 10);
+  if (!Number.isFinite(parsed)) return 50;
+  return Math.min(200, Math.max(1, parsed));
 }
 
 export async function GET(request: NextRequest, context: RouteContext) {
@@ -34,7 +41,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
       'nextUrl' in request && request.nextUrl
         ? request.nextUrl.searchParams
         : new URL(request.url).searchParams;
-    const limit = Math.min(200, Math.max(1, Number.parseInt(searchParams.get('limit') ?? '50', 10)));
+    const limit = parseLimit(searchParams.get('limit'));
     const events = protokolManager.getLog(id, limit);
 
     logApiCall('PROTOKOLI', {
