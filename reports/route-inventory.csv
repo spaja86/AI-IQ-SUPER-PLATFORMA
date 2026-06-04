@@ -690,7 +690,7 @@ polimerizacija-2,GET,polimerizacija-2,yes,polimerizacija-2-route.test.ts
 polimerizacija-2/istorija,GET,polimerizacija-2,yes,polimerizacija-2-istorija-route.test.ts
 polimerizacija-2/lanci,GET,polimerizacija-2,yes,polimerizacija-2-lanci-route.test.ts
 polimerizacija-2/sken,GET,polimerizacija-2,yes,polimerizacija-2-sken-route.test.ts
-polimerizacija-2/status,GET,polimerizacija-2,no,polimerizacija-2-status-route.test.ts
+polimerizacija-2/status,GET,polimerizacija-2,yes,polimerizacija-2-status-route.test.ts
 polimerizacija-2/trendovi,GET,polimerizacija-2,yes,polimerizacija-2-trendovi-route.test.ts
 polimerzacija,GET,polimerzacija,yes,polimerzacija-route.test.ts
 poslovni-tok,GET,poslovni-tok,yes,poslovni-tok-route.test.ts
