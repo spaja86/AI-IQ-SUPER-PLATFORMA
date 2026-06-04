@@ -1517,6 +1517,10 @@ export function getAutofinishIteracijaOpis(br: number): string {
     1415: 'Pentracija modul: lib + 4 API rute + dashboard + route/unit testovi',
     1416: 'API Milestone 1300 ruta + coverage test + TOTAL_API_ROUTES sync na 1232',
     1417: 'API Milestone 1350 ruta + coverage test + route inventory sync na 1233 API rute',
+    1426: 'HARMONIZACIJA modul: lib + GET /api/harmonizacija + UI /harmonizacija + sekvenca + route coverage test',
+    1427: 'KRISTALIZACIJA modul: lib + GET /api/kristalizacija + UI /kristalizacija + sekvenca + route coverage test',
+    1428: 'POLIMERIZACIJA 2 modul: lib + 6 API ruta + UI /polimerizacija-2 + sekvenca + lib+route testovi',
+    1429: 'VEKTORIZACIJA modul: lib + GET /api/vektorizacija + UI /vektorizacija + sekvenca + route coverage test',
   };
   return opisi[br] ?? `Autofinish iteracija #${br}`;
 }
@@ -8235,3 +8239,39 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 // Backfill opisi #1415–#1424 u /api/autofinish/route.ts.
 // Bumped TOTAL_API_ROUTES 1240→1241, TOTAL_ROUTES 1370→1371.
 // APP_VERSION=59.76.0→59.77.0 | AUTOFINISH_COUNT=1424→1425 | TOTAL_API_ROUTES=1241 | TOTAL_ROUTES=1371 | TOTAL_PAGES=131
+
+// ─── Autofinish #1426 — HARMONIZACIJA MODUL ───────────────────────────────────
+// Novi lib: src/lib/harmonizacija.ts — HarmonizacijaSloj, HarmonizacijaRezultat,
+// buildHarmonizacija(), indeksHarmonizacije, stabilnost, sinhronizovani slojevi.
+// API ruta: GET /api/harmonizacija.
+// UI: src/app/harmonizacija/page.tsx, src/lib/sekvence/harmonizacija-page.ts.
+// Route coverage test: src/tests/autofinish/harmonizacija-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1241→1242, TOTAL_ROUTES 1371→1373, TOTAL_PAGES 131→132.
+// APP_VERSION=59.77.0→59.78.0 | AUTOFINISH_COUNT=1425→1426 | TOTAL_API_ROUTES=1242 | TOTAL_ROUTES=1373 | TOTAL_PAGES=132
+
+// ─── Autofinish #1427 — KRISTALIZACIJA MODUL ─────────────────────────────────
+// Novi lib: src/lib/kristalizacija.ts — KristalizacijaJezgro, KristalizacijaRezultat,
+// buildKristalizacija(), indeksKristalizacije, stabilnost, purifikacija jezgara.
+// API ruta: GET /api/kristalizacija.
+// UI: src/app/kristalizacija/page.tsx, src/lib/sekvence/kristalizacija-page.ts.
+// Route coverage test: src/tests/autofinish/kristalizacija-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1242→1243, TOTAL_ROUTES 1373→1375, TOTAL_PAGES 132→133.
+// APP_VERSION=59.78.0→59.79.0 | AUTOFINISH_COUNT=1426→1427 | TOTAL_API_ROUTES=1243 | TOTAL_ROUTES=1375 | TOTAL_PAGES=133
+
+// ─── Autofinish #1428 — POLIMERIZACIJA 2 MODUL ───────────────────────────────
+// Novi lib: src/lib/polimerizacija-2.ts — PolimerizacijaLanac, PolimerizacijaRezultat,
+// buildPolimerizacija2(), 6 API ruta, UI i sekvenca.
+// API rute (6): GET /api/polimerizacija-2, /status, /lanci, /sken, /istorija, /trendovi.
+// UI: src/app/polimerizacija-2/page.tsx, src/lib/sekvence/polimerizacija-2-page.ts.
+// Testovi: polimerizacija-2-lib.test.ts (unit), polimerizacija-2-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1243→1249, TOTAL_ROUTES 1375→1383, TOTAL_PAGES 133→134.
+// APP_VERSION=59.79.0→59.80.0 | AUTOFINISH_COUNT=1427→1428 | TOTAL_API_ROUTES=1249 | TOTAL_ROUTES=1383 | TOTAL_PAGES=134
+
+// ─── Autofinish #1429 — VEKTORIZACIJA MODUL ──────────────────────────────────
+// Novi lib: src/lib/vektorizacija.ts — VektorizacijaVektor, VektorizacijaRezultat,
+// buildVektorizacija(), indeksVektorizacije, stabilnostProstora, vektori.
+// API ruta: GET /api/vektorizacija.
+// UI: src/app/vektorizacija/page.tsx, src/lib/sekvence/vektorizacija-page.ts.
+// Route coverage test: src/tests/autofinish/vektorizacija-route.test.ts.
+// Bumped TOTAL_API_ROUTES 1249→1250, TOTAL_ROUTES 1383→1385, TOTAL_PAGES 134→135.
+// APP_VERSION=59.80.0→59.81.0 | AUTOFINISH_COUNT=1428→1429 | TOTAL_API_ROUTES=1250 | TOTAL_ROUTES=1385 | TOTAL_PAGES=135

@@ -11,6 +11,7 @@ export const navigation: NavItem[] = [
   { label: 'Polimerizacija 2', href: '/polimerizacija-2', icon: '🧬', description: 'V2 prošireni katalog lanaca, scan istorija i trendovi' },
   { label: 'Harmonizacija', href: '/harmonizacija', icon: '🎵', description: 'Sinhronizacija procesnih slojeva i optimizacija protoka podataka' },
   { label: 'Kristalizacija', href: '/kristalizacija', icon: '💎', description: 'Stabilizacija procesnog jezgra i purifikacija izlaznih tokova' },
+  { label: 'Vektorizacija', href: '/vektorizacija', icon: '📐', description: 'Transformacija procesnog prostora i projekcija multi-dimenzionalnih entiteta' },
   { label: 'Eksosistzdacija', href: '/eksosistzdacija', icon: '🧩', description: 'Modul za povezivanje i konsolidaciju ekosistemskih tokova' },
   { label: 'Organizacije', href: '/organizacije', icon: '🏢', description: 'Organizaciona struktura' },
   { label: 'Kompanije', href: '/kompanije', icon: '🏛️', description: 'Kompanije u ekosistemu' },
