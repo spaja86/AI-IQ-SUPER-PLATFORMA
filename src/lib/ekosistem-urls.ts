@@ -17,6 +17,7 @@ export const EKOSISTEM_URLS = {
   POSLOVNI_NOVCANIK: 'https://ai-iq-super-platforma.vercel.app/poslovni-novcanik',
   PALASTERIZACIJA: 'https://ai-iq-super-platforma.vercel.app/palasterizacija',
   EKSOSISTZDACIJA: 'https://ai-iq-super-platforma.vercel.app/eksosistzdacija',
+  POLIMERZACIJA: 'https://ai-iq-super-platforma.vercel.app/polimerzacija',
 } as const;
 
 export const EKOSISTEM_DEPLOY_PROVIDER = {
@@ -28,6 +29,7 @@ export const EKOSISTEM_DEPLOY_PROVIDER = {
   POSLOVNI_NOVCANIK: 'vercel',
   PALASTERIZACIJA: 'vercel',
   EKSOSISTZDACIJA: 'vercel',
+  POLIMERZACIJA: 'vercel',
 } as const;
 
 export interface EkosistemPlatforma {

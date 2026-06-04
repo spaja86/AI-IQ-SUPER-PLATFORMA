@@ -86,6 +86,20 @@ export const platforme: Platforma[] = [
     funkcije: ['Mapiranje tokova', 'Konsolidacija ruta', 'Operativna stabilizacija', 'Integracija sa ekosistemom'],
     deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app/eksosistzdacija', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
   },
+  {
+    id: 'polimerzacija',
+    naziv: 'Polimerzacija',
+    opis: 'Platformski modul za lančano vezivanje i koheziju procesnih jedinica kroz inicijaciju, propagaciju, terminaciju i kroslink.',
+    kategorija: 'alati',
+    repo: 'spaja86/AI-IQ-SUPER-PLATFORMA',
+    url: EKOSISTEM_URLS.POLIMERZACIJA,
+    ikona: '🧬',
+    status: 'aktivna',
+    progres: 60,
+    tehnologije: ['Next.js 16', 'TypeScript', 'Sekvence', 'Vercel'],
+    funkcije: ['Inicijacija lanca', 'Propagacija', 'Terminacija', 'Kroslink kohezija'],
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app/polimerzacija', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
+  },
 
   {
     id: 'ai-iq-world-bank',
