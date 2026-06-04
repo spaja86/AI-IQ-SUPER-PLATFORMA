@@ -8213,3 +8213,20 @@ export function getAutofinishReleaseReadiness(): AutofinishReleaseReadinessResul
 
 // Autofinish #1421 — Fix panetracija-2/nalazi: added 'auth' to VALID_KATEGORIJE (alias for broken-auth filter).
 // APP_VERSION=59.75.0→59.75.1 | AUTOFINISH_COUNT=1421→1422
+
+// ─── Autofinish #1422–#1423 — PRIPREMA POLIMERZACIJA ──────────────────────────
+// Konstantni pregled i priprema modula POLIMERZACIJA; wiring navigacije i sitemap.
+// APP_VERSION=59.75.1→59.76.0 | AUTOFINISH_COUNT=1422→1423 | AUTOFINISH_COUNT=1423→1424
+
+// ─── Autofinish #1424 — POLIMERZACIJA MODULE ───────────────────────────────────
+// Novi lib: src/lib/polimerzacija.ts — hemijska polimerizacija, PolimerTip, PolimerSvojstvo, PolimerProces.
+// API ruta: GET /api/polimerzacija — buildPolimerzacija() sa statusom i metapodacima.
+// UI: src/app/polimerzacija/page.tsx — Polimerizacijski Dashboard.
+// Navigacija/sitemap wiring + route coverage test: polimerzacija-route.test.ts.
+// TOTAL_API_ROUTES 1240 | TOTAL_ROUTES 1370 | TOTAL_PAGES 131
+// APP_VERSION=59.76.0 | AUTOFINISH_COUNT=1423→1424
+
+// ─── Autofinish #1425 — KONSTANTNI SYNC ────────────────────────────────────────
+// Korekcija: TOTAL_API_ROUTES 1240→1241 i TOTAL_ROUTES 1370→1371 (polimerzacija ruta uračunata u inventory).
+// Backfill opisi #1415–#1424 u /api/autofinish paginaciji (route.ts opisi mapa).
+// APP_VERSION=59.76.0→59.77.0 | AUTOFINISH_COUNT=1424→1425 | TOTAL_API_ROUTES=1241 | TOTAL_ROUTES=1371 | TOTAL_PAGES=131
