@@ -77,6 +77,14 @@ async function runTests(): Promise<void> {
     assert(body.data.total >= TOTAL_PROTOKOLA, 'total mora biti >= TOTAL_PROTOKOLA');
   });
 
+  await test('GET vraća 400 za nepoznatu kategoriju', async () => {
+    const request = new Request('http://localhost/api/protokoli?kategorija=nepostojeca', {
+      headers: { 'x-forwarded-for': '127.0.0.1' },
+    });
+    const response = await GET(request as NextRequest);
+    assertEqual(response.status, 400, 'status');
+  });
+
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');

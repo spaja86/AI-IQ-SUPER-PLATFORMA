@@ -1,6 +1,7 @@
 import { getAuditLog, upisiAuditZapis } from './audit-trail';
 import { findProtokolById, getProtokolRegistar, getProtokolRegistarMeta } from './registar';
 import { runProtokolVerifikacija } from './verifikator';
+import { createSecureId } from '@/lib/request-id';
 import type {
   Protokol,
   ProtokolDogadjaj,
@@ -21,7 +22,7 @@ function pushEvent(event: ProtokolDogadjaj): void {
 }
 
 function createReqId(): string {
-  return `protokol-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  return createSecureId('protokol');
 }
 
 function withStatusOverrides(protocols: Protokol[]): Protokol[] {

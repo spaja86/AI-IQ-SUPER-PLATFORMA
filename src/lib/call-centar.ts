@@ -7,6 +7,10 @@
  * kroz call-centar tokove i dodelu paketa usluga.
  */
 
+import { randomInt } from 'node:crypto';
+import { createSecureId } from './request-id';
+import { logger } from './logger';
+
 export type PaketTip = 'Starter' | 'Pro' | 'Enterprise' | 'VIP';
 
 export interface LicencaPaketa {
@@ -168,7 +172,14 @@ const callCentarTiketi: CallCentarTiket[] = [
 const licence: LicencaPaketa[] = [];
 
 function randomIntInclusive(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return randomInt(min, max + 1);
+}
+
+function maskEmail(email: string): string {
+  const [local = '', domain = ''] = email.split('@');
+  if (!local || !domain) return '***';
+  const visibleLocal = local.length <= 2 ? `${local[0] ?? '*'}*` : `${local.slice(0, 2)}***`;
+  return `${visibleLocal}@${domain}`;
 }
 
 export function isValidEmail(email: string): boolean {
@@ -202,7 +213,10 @@ export function posaljiEmailSaInstalacionimBrojem(
   const predmet = `Moblini SPAJA aktivacija — ${paketNaziv}`;
   const poruka = `Poštovani, vaš instalacioni broj je ${instalacioniBroj}. Paket: ${paketNaziv}.`;
 
-  console.log(`[CALL-CENTAR][EMAIL] ${emailKorisnika} | ${predmet} | ${poruka}`);
+  logger.info('CALL-CENTAR', 'Aktivacioni email pripremljen', {
+    email: maskEmail(emailKorisnika),
+    predmet,
+  });
 
   return {
     status: 'poslato' as const,
@@ -225,7 +239,7 @@ export function dodeliPaketUsluga(emailKorisnika: string, tip: PaketTip): Licenc
   const instalacioniBroj = generisiInstalacioniBroj(tip);
 
   const licenca: LicencaPaketa = {
-    id: `lic-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    id: createSecureId('lic'),
     naziv: paket.naziv,
     tip,
     instalacioniBroj,

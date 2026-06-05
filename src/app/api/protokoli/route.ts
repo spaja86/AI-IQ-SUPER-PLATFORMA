@@ -4,9 +4,35 @@ import { logApiCall } from '@/lib/logger';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { protokolManager } from '@/lib/protokoli/manager';
 import type { ProtokolFilter, ProtokolKategorija, ProtokolStatus } from '@/lib/protokoli/types';
+import { resolveRequestId } from '@/lib/request-id';
 
 function getReqId(request: NextRequest): string {
-  return request.headers.get('x-request-id') ?? `req-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  return resolveRequestId(request.headers);
+}
+
+const VALID_KATEGORIJE: readonly ProtokolKategorija[] = [
+  'komunikacioni',
+  'bezbednosni',
+  'poslovni',
+  'operativni',
+  'autentifikacioni',
+  'transfer',
+];
+
+const VALID_STATUSI: readonly ProtokolStatus[] = ['aktivan', 'neaktivan', 'deprecated', 'u-testu', 'incident'];
+
+function isValidKategorija(value: string): value is ProtokolKategorija {
+  return (VALID_KATEGORIJE as readonly string[]).includes(value);
+}
+
+function isValidStatus(value: string): value is ProtokolStatus {
+  return (VALID_STATUSI as readonly string[]).includes(value);
+}
+
+function parseBoundedInt(rawValue: string | null, fallback: number, min: number, max: number): number {
+  const parsed = Number.parseInt(rawValue ?? String(fallback), 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(max, Math.max(min, parsed));
 }
 
 export async function GET(request: NextRequest) {
@@ -32,10 +58,19 @@ export async function GET(request: NextRequest) {
       'nextUrl' in request && request.nextUrl
         ? request.nextUrl.searchParams
         : new URL(request.url).searchParams;
-    const page = Math.max(1, Number.parseInt(searchParams.get('page') ?? '1', 10));
-    const limit = Math.min(200, Math.max(1, Number.parseInt(searchParams.get('limit') ?? '50', 10)));
-    const kategorija = searchParams.get('kategorija') as ProtokolKategorija | null;
-    const status = searchParams.get('status') as ProtokolStatus | null;
+    const page = parseBoundedInt(searchParams.get('page'), 1, 1, 10000);
+    const limit = parseBoundedInt(searchParams.get('limit'), 50, 1, 200);
+    const kategorijaRaw = searchParams.get('kategorija');
+    const statusRaw = searchParams.get('status');
+    const kategorija = kategorijaRaw && isValidKategorija(kategorijaRaw) ? kategorijaRaw : null;
+    const status = statusRaw && isValidStatus(statusRaw) ? statusRaw : null;
+
+    if (kategorijaRaw && !kategorija) {
+      return apiError('BAD_REQUEST', `Nepoznata kategorija protokola. Dozvoljeno: ${VALID_KATEGORIJE.join(', ')}.`);
+    }
+    if (statusRaw && !status) {
+      return apiError('BAD_REQUEST', `Nepoznat status protokola. Dozvoljeno: ${VALID_STATUSI.join(', ')}.`);
+    }
     const offset = (page - 1) * limit;
 
     const filter: ProtokolFilter = {
