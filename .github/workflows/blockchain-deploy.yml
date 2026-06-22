@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: 📥 Preuzmi kod
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: ⚙️ Postavi Node.js 22
         uses: actions/setup-node@v4
