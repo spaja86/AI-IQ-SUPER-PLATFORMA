@@ -1,0 +1,73 @@
+{
+  "agents": {
+    "ci-bot": {
+      "enabled": true,
+      "languages": ["typescript", "javascript"],
+      "autoFix": true,
+      "requireApproval": false,
+      "testCommand": "npm run test",
+      "lintCommand": "npm run lint"
+    },
+    "human-review": {
+      "enabled": true,
+      "requireApproval": true,
+      "minReviewers": 1
+    },
+    "deploy-bot": {
+      "enabled": false,
+      "trigger": "merge-to-main",
+      "requireGreenCI": true,
+      "environments": ["staging", "production"]
+    },
+    "security-scanner": {
+      "enabled": true,
+      "scanOnPR": true,
+      "nightly": true,
+      "blockCritical": true,
+      "scanSecrets": true,
+      "auditDependencies": true
+    },
+    "multi-repo-sync-agent": {
+      "enabled": true,
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "syncInterval": "weekly",
+      "syncOnPush": true,
+      "fields": [
+        "versions",
+        "labels",
+        "milestones",
+        "agent-config",
+        "readme-links"
+      ],
+      "excludePrivate": false
+    },
+    "calculator-validator-agent": {
+      "enabled": false,
+      "scope": "IO-OPENUI-AO",
+      "performanceThreshold": 100,
+      "testSuite": "calculator-tests"
+    },
+    "analytics-bot": {
+      "enabled": true,
+      "schedules": {
+        "nightly": "0 2 * * *",
+        "weekly": "0 0 ? * MON"
+      },
+      "generateReports": true,
+      "trackMetrics": [
+        "pr-review-time",
+        "automated-merges",
+        "security-findings",
+        "deployment-frequency"
+      ]
+    }
+  },
+  "orgSettings": {
+    "signCommits": true,
+    "autoMergeAllowed": ["hotfix/*"],
+    "protectedBranches": ["main", "develop"],
+    "requireAllChecks": true
+  }
+}
