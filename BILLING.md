@@ -85,6 +85,12 @@ Sve dalje korišćenje, saradnja i razvoj na ovoj platformi je **PLAĆENO** i za
 > Svi budući zahtjevi MORAJU biti plaćeni PRIJE početka rada.
 > Bez plaćanja = Bez koda, bez deploy-a, bez podrške.
 
+### 🏦 Status „priznata banka” (Vercel/GitHub)
+
+- Status se vodi eksplicitno kroz sistemske signale: `pending`, `submitted`, `approved`, `rejected`.
+- Oznaka **„priznata banka”** prikazuje se samo kada je status `approved` i postoji dokazni trag u sistemu.
+- Dok je status `pending` ili `submitted`, koristi se isključivo formulacija „u procesu potvrde”.
+
 ---
 
 ## 🎯 SLEDEĆI KORACI
