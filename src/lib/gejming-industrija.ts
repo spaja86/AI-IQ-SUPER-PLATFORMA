@@ -2,7 +2,7 @@ import { APP_VERSION } from './constants';
 import { igrice, getSveKategorijeIgrica, type StatusIgrice } from './igrice';
 import {
   gamingStatistika,
-  gamingKonfiguracija,
+  gamingKonfiguracija as _gamingKonfiguracija,
   getAktivneIgriceSaEndzinom,
   IOOPENUIAO_URL,
 } from './io-openui-ao-gaming-platforma';

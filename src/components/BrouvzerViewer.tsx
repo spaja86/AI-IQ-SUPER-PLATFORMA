@@ -459,6 +459,7 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
   // ── Sinhronizuj input vrednost sa aktivnim tabom ──
 
   useEffect(() => {
+    // eslint-disable-next-line react-compiler/react-compiler
     setInputValue(activeTab.url);
   }, [activeTab.url, activeTab.id]);
 

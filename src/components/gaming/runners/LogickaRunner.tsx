@@ -120,6 +120,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
   });
 
   const rafRef = useRef<number>(0);
+  const stableGameLoopRef = useRef<FrameRequestCallback>(() => {});
 
   // ── Tastatura ──
 
@@ -160,7 +161,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
   const pomeranjeInterval = 120;
 
   const gameLoop = useCallback((timestamp: number) => {
-    if (isPauziran) { rafRef.current = requestAnimationFrame(gameLoop); return; }
+    if (isPauziran) { rafRef.current = requestAnimationFrame(stableGameLoopRef.current); return; }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -293,8 +294,11 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
       ctx.fillText('A/D Strelice = pomak | W/↑ = rotacija | S/↓ = ubrzano', canvas.width / 2, canvas.height - 10);
     }
 
-    rafRef.current = requestAnimationFrame(gameLoop);
+    rafRef.current = requestAnimationFrame(stableGameLoopRef.current);
   }, [isPauziran, padInterval, pomeranjeInterval, parametri, onScoreUpdate, onKraj]);
+
+  // Keep stableGameLoopRef in sync so the running rAF loop always calls the latest version.
+  stableGameLoopRef.current = gameLoop;
 
   useEffect(() => {
     const canvas = canvasRef.current;

@@ -8,7 +8,7 @@ import {
   formatJoke,
   validateFilters,
   type Joke,
-  type JokeFilters,
+  type JokeFilters as _JokeFilters,
 } from '@/lib/jokes/joke-api';
 
 let passed = 0;
@@ -119,11 +119,13 @@ async function runTests(): Promise<void> {
   });
 
   await test('Odbija nevalidne kategorije', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const valid = validateFilters({ category: 'invalid' as any });
     assert(valid === false, 'invalid category');
   });
 
   await test('Odbija nevalidne tipove', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const valid = validateFilters({ type: 'invalid' as any });
     assert(valid === false, 'invalid type');
   });

@@ -10,9 +10,7 @@
  */
 
 import { useRef, useEffect, useCallback, useState } from 'react';
-import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore, crtajElipsoid, crtajSpiralu, crtajHiperbolu, crtajRezonancu } from '@/lib/gaming-endzin';
-import type { DimenzionalnParametri } from '@/lib/gaming-endzin';
 import DimenzijaBadge from '../DimenzijaBadge';
 import Button from '@/components/Button';
 
@@ -67,7 +65,7 @@ function crtajAlat(
   }
 }
 
-export default function KreativnaRunner({ konfiguracija, isPauziran, onScoreUpdate, onKraj }: Props) {
+export default function KreativnaRunner({ konfiguracija, isPauziran, onScoreUpdate, onKraj: _onKraj }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { parametri } = konfiguracija;
 
@@ -79,7 +77,7 @@ export default function KreativnaRunner({ konfiguracija, isPauziran, onScoreUpda
   const [brOblika, setBrOblika] = useState(0);
 
   const dostupniAlati = ALATI.filter((a) => a.minSloj <= parametri.slojevi);
-  const rafRef = useRef<number>(0);
+  const _rafRef = useRef<number>(0);
   const vremeRef = useRef(0);
 
   // ── Animacioni loop za pozadinu ──
