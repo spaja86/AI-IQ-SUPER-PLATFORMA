@@ -1,4 +1,11 @@
-import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import {
+  APP_VERSION,
+  KOMPANIJA,
+  OWNER_BANK_RACUN_ID,
+  OWNER_IME,
+  OWNER_PHONE_DEFAULT,
+  OWNER_PHONE_NUMBER_ENV_KEY,
+} from '@/lib/constants';
 import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 import { getPrimarniPibMbDigitalneIndustrije } from '@/lib/digitalna-industrija-pib-mb';
 
@@ -6,6 +13,7 @@ export type PoslovniRacunValuta = 'RSD' | 'EUR' | 'USD';
 export type PoslovniRacunTip = 'dinarski-poslovni' | 'devizni-eur' | 'devizni-usd';
 export type PoslovniRacunStatus = 'predlog' | 'aktivan';
 export type KycKybStatus = 'nije-pokrenut' | 'u-toku' | 'verifikovan' | 'odbijen';
+export type FormalniRacunStatus = 'draft' | 'verified';
 
 export interface PoslovniSubjektInput {
   naziv: string;
@@ -78,6 +86,15 @@ export interface GeneratorZaPoslovneRacuneRezultat {
     verifikovanKyc: boolean;
   };
   racuni: GenerisaniPoslovniRacun[];
+  formalniRacun: {
+    issuer: 'AI IQ WORLD BANK';
+    ownerName: string;
+    ownerPhone: string;
+    ownerAccountId: string;
+    status: FormalniRacunStatus;
+    model: 'simulacioni-in-memory';
+    legalDisclaimer: string;
+  };
   preporuke: string[];
   audit: GeneratorAuditZapis[];
 }
@@ -105,6 +122,18 @@ function tipUValutu(tip: PoslovniRacunTip): PoslovniRacunValuta {
   if (tip === 'dinarski-poslovni') return 'RSD';
   if (tip === 'devizni-eur') return 'EUR';
   return 'USD';
+}
+
+function normalizujTelefon(input: string): string {
+  const digits = input.replace(/\D+/g, '');
+  if (!digits) return OWNER_PHONE_DEFAULT;
+  if (digits.startsWith('381')) return digits;
+  if (digits.startsWith('00')) {
+    const bez00 = digits.slice(2);
+    return bez00.startsWith('381') ? bez00 : `381${bez00}`;
+  }
+  if (digits.startsWith('0')) return `381${digits.slice(1)}`;
+  return `381${digits}`;
 }
 
 function validirajSubjekt(subjekt: PoslovniSubjektInput): PoslovniRacunValidacija[] {
@@ -145,6 +174,10 @@ export function buildGeneratorZaPoslovneRacune(
   const seed = generateAccountSeedHash(`${userId}:${finalniSubjekt.naziv}:${finalniSubjekt.pib}`);
   const bazeValidacije = validirajSubjekt(finalniSubjekt);
   const kycOk = finalniSubjekt.kycKybStatus === 'verifikovan';
+  const ownerPhone = normalizujTelefon(
+    process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT,
+  );
+  const formalniRacunStatus: FormalniRacunStatus = kycOk ? 'verified' : 'draft';
 
   const racuni: GenerisaniPoslovniRacun[] = TIPOVI_V1.map((tip, idx) => {
     const valuta = tipUValutu(tip);
@@ -228,6 +261,16 @@ export function buildGeneratorZaPoslovneRacune(
       verifikovanKyc: kycOk,
     },
     racuni,
+    formalniRacun: {
+      issuer: 'AI IQ WORLD BANK',
+      ownerName: OWNER_IME,
+      ownerPhone,
+      ownerAccountId: OWNER_BANK_RACUN_ID,
+      status: formalniRacunStatus,
+      model: 'simulacioni-in-memory',
+      legalDisclaimer:
+        'Ovo je simulacioni izlaz generatora računa. Status "verified" označava internu KYC/KYB verifikaciju, ne pravnu potvrdu izdatu od treće strane.',
+    },
     preporuke: [
       kycOk
         ? 'KYC/KYB je verifikovan — možete aktivirati produkcioni tok računa.'

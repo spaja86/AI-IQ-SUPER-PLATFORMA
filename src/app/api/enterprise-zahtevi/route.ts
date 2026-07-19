@@ -7,7 +7,12 @@ import {
   OWNER_PHONE_NUMBER_ENV_KEY,
   OWNER_PHONE_DEFAULT,
 } from '@/lib/constants';
-import { getEnterprisePodzahtevi, getEnterpriseZahtevi, getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
+import {
+  getEnterprisePodzahtevi,
+  getEnterpriseZahtevi,
+  getOperativnaSpremnost,
+  getProviderRecognitionModels,
+} from '@/lib/kompanija-spaja-operativa';
 import { getKastlerSignalReadinessSummary } from '@/lib/kastler-tv-signal-request';
 import { getOwnerIdentity } from '@/lib/owner-identity';
 import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
@@ -16,6 +21,7 @@ export async function GET() {
   const operativa = getOperativnaSpremnost();
   const zahtevi = getEnterpriseZahtevi();
   const podzahtevi = getEnterprisePodzahtevi();
+  const providerRecognition = getProviderRecognitionModels();
   const vercelCdnZahtev = podzahtevi.find((paket) => paket.podtip === 'vercel-cdn-proxy-trust');
   const kastlerTv = getKastlerSignalReadinessSummary();
 
@@ -54,6 +60,7 @@ export async function GET() {
     ownerChecklist,
     vercelBlokator,
     vercelSpremnoZaSlanje,
+    providerRecognition,
     zahtevi,
     podzahtevi,
     vercelCdnProxyTrust:
@@ -93,6 +100,11 @@ export async function GET() {
       podzahteviSpremnoZaSlanje: podzahtevi.filter((paket) => paket.status === 'spremno_za_slanje').length,
       poslato: zahtevi.filter((paket) => paket.status === 'poslato').length,
       podzahteviPoslato: podzahtevi.filter((paket) => paket.status === 'poslato').length,
+      providerRecognized: {
+        vercel: providerRecognition.vercel.recognized,
+        github: providerRecognition.github.recognized,
+        openai: providerRecognition.openai.recognized,
+      },
       vercelOwnerPhoneVerified: ownerChecklist.phoneVerified,
       vercelOwnerAccountAktivan: ownerChecklist.ownerAccountAktivan,
       kastlerRequestStatus: kastlerTv.requestStatus,

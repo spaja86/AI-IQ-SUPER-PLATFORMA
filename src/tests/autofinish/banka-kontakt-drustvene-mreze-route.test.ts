@@ -91,7 +91,20 @@ async function runTests(): Promise<void> {
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }
+      if (isObject(body['vlasnik']) && typeof body['vlasnik']['ime'] === 'string') {
+        assertEqual(body['vlasnik']['ime'], 'NIKOLA SPAJIĆ', 'vlasnik.ime');
+      }
     }
+  });
+
+  await test('GET vraća providerRecognition status i partnere', async () => {
+    const request = new Request('http://localhost/api/banka-kontakt-drustvene-mreze', {
+      headers: { 'x-forwarded-for': '127.0.1.20' },
+    });
+    const response = await GET(request as unknown as Request);
+    const body = await response.json() as Record<string, unknown>;
+    assert(isObject(body['providerRecognition']), 'providerRecognition mora biti objekat');
+    assert(Array.isArray(body['partneri']), 'partneri mora biti niz');
   });
 
   await test('Konstante su dostupne', () => {

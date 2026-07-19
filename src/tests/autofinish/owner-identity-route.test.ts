@@ -72,10 +72,10 @@ async function runTests(): Promise<void> {
   // ─── maskirajTelefon ───────────────────────────────────────────────────────
 
   await test('maskirajTelefon maskira sredinu broja', () => {
-    const maskiran = maskirajTelefon('+38177-001-0001');
-    assert(!maskiran.includes('001-0'), 'Sredina broja ne sme biti vidljiva');
-    assert(maskiran.startsWith('+381'), 'Treba početi sa +381');
-    assert(maskiran.endsWith('0001'), 'Treba završiti sa 0001');
+    const maskiran = maskirajTelefon('381642396577');
+    assert(!maskiran.includes('2396'), 'Sredina broja ne sme biti vidljiva');
+    assert(maskiran.startsWith('3816'), 'Treba početi sa 3816');
+    assert(maskiran.endsWith('6577'), 'Treba završiti sa 6577');
   });
 
   await test('maskirajTelefon vraća **** za kratke brojeve', () => {
@@ -97,6 +97,7 @@ async function runTests(): Promise<void> {
   await test('getOwnerIdentity vraća ispravne podatke', () => {
     const identity = getOwnerIdentity('nije-verifikovan');
     assertEqual(identity.email, 'spajicn@yahoo.com', 'email');
+    assertEqual(identity.ime, 'NIKOLA SPAJIĆ', 'owner ime');
     assertEqual(identity.githubOwner, 'spaja86', 'githubOwner');
     assertEqual(identity.bankRacun.id, 'DIGI-IND-001', 'bankRacun.id');
     assertEqual(identity.bankRacun.banka, 'AI IQ World Bank', 'bankRacun.banka');
@@ -123,8 +124,7 @@ async function runTests(): Promise<void> {
   await test('getOwnerIdentity — telefon je uvek maskiran', () => {
     const identity = getOwnerIdentity('nije-verifikovan');
     const maskiranBroj = identity.telefon.maskiranBroj;
-    // Pun broj ne sme biti vidljiv (ne sme sadržati 001-0001 ni razmaknuto)
-    assert(!maskiranBroj.includes('001-0'), 'Sredina nije maskirana');
+    assert(!maskiranBroj.includes('2396'), 'Sredina nije maskirana');
   });
 
   // ─── getOwnerInstalacionaPoruka ───────────────────────────────────────────
@@ -145,10 +145,10 @@ async function runTests(): Promise<void> {
   // ─── OTP flow ──────────────────────────────────────────────────────────────
 
   await test('requestOwnerOtp vraća maskiran telefon i devOtp u dev okruženju', () => {
-    const rezultat = requestOwnerOtp('+38177-001-0001');
+    const rezultat = requestOwnerOtp('381642396577');
     assert(rezultat.uspesno, 'uspesno');
     assert(typeof rezultat.maskiranTelefon === 'string', 'maskiranTelefon string');
-    assert(!rezultat.maskiranTelefon.includes('001-0'), 'maskiran — sredina nije vidljiva');
+    assert(!rezultat.maskiranTelefon.includes('2396'), 'maskiran — sredina nije vidljiva');
     assert(rezultat.isteceZaSekundi > 0, 'isteceZaSekundi > 0');
     // devOtp dostupan van produkcije
     if (process.env.NODE_ENV !== 'production') {
@@ -159,7 +159,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('verifyOwnerOtp — neispravan OTP vraća grešku', () => {
-    const tel = '+38177-777-0001';
+    const tel = '381647770001';
     requestOwnerOtp(tel);
     const rez = verifyOwnerOtp(tel, '000000');
     assert(!rez.uspesno, 'nije uspesno');
@@ -167,7 +167,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('verifyOwnerOtp — ispravni OTP za vlasnički broj', () => {
-    const tel = '+38177-001-0001';
+    const tel = '381642396577';
     const reqRez = requestOwnerOtp(tel);
     assert(reqRez.uspesno, 'OTP zahtev uspešan');
 
@@ -181,7 +181,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('verifyOwnerOtp — iskorišćeni OTP se ne može reupotrebiti', () => {
-    const tel = '+38177-002-0002';
+    const tel = '381640020002';
     const reqRez = requestOwnerOtp(tel);
 
     if (process.env.NODE_ENV !== 'production' && reqRez.devOtp) {
@@ -197,7 +197,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('Anti-flood: previše zahteva blokira naredni', () => {
-    const tel = '+38177-flood-001';
+    const tel = '381649990001';
     // Koristimo novi broj — prve 3 su ok, 4. blokira
     requestOwnerOtp(tel);
     requestOwnerOtp(tel);
@@ -338,7 +338,7 @@ async function runTests(): Promise<void> {
     const req = new Request('http://localhost/api/owner-phone-auth/verify-otp', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-forwarded-for': '127.0.0.99' },
-      body: JSON.stringify({ telefon: '+38177-999-9999', otp: '000000' }),
+      body: JSON.stringify({ telefon: '381649999999', otp: '000000' }),
     });
     const response = await POST(req as NextRequest);
     assertEqual(response.status, 401, 'status 401');

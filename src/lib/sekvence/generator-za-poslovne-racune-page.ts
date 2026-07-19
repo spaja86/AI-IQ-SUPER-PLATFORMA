@@ -36,10 +36,27 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'generator-poslovni-racuni-formalni-racun',
+    tip: 'tekst',
+    naslov: '🧾 Formalni račun (issuer/owner/phone)',
+    redosled: 3,
+    podaci: {
+      sadrzaj:
+        'Generator izlaže formalni invoice blok za AI IQ WORLD BANK, sa vlasnikom, telefonom i statusom (draft/verified).',
+      istaknuteStavke: [
+        `🏦 Issuer: ${r.formalniRacun.issuer}`,
+        `👤 Owner: ${r.formalniRacun.ownerName}`,
+        `📱 Phone: ${r.formalniRacun.ownerPhone}`,
+        `🧾 Owner račun: ${r.formalniRacun.ownerAccountId}`,
+        `📌 Status: ${r.formalniRacun.status}`,
+      ],
+    },
+  },
+  {
     id: 'generator-poslovni-racuni-tabela',
     tip: 'tabela',
     naslov: '📋 Generisani računi',
-    redosled: 3,
+    redosled: 4,
     podaci: {
       zaglavlje: ['Tip', 'Valuta', 'Status', 'Broj računa', 'IBAN-like', 'Dnevni limit', 'Mesečni limit'],
       redovi: r.racuni.map((racun) => [
@@ -57,7 +74,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     id: 'generator-poslovni-racuni-compliance',
     tip: 'kartice',
     naslov: '⚖️ Compliance i validacije',
-    redosled: 4,
+    redosled: 5,
     podaci: {
       kartice: r.racuni.map((racun) => ({
         naslov: `${racun.tip} (${racun.valuta})`,
@@ -71,7 +88,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     id: 'generator-poslovni-racuni-preporuke',
     tip: 'lista',
     naslov: '🧠 Sledeći koraci',
-    redosled: 5,
+    redosled: 6,
     podaci: {
       stavke: r.preporuke.map((item) => ({ ikona: '➡️', naslov: 'Preporuka', opis: item })),
     },
@@ -80,7 +97,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     id: 'generator-poslovni-racuni-cta',
     tip: 'cta',
     naslov: '🚀 Aktiviraj tok poslovnih računa',
-    redosled: 6,
+    redosled: 7,
     podaci: {
       opis:
         'Generator je simulacioni (in-memory) i spreman za dalju integraciju sa poslovnim novčanikom, menjačnicom i operativnim bankarskim tokovima.',
