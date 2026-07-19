@@ -11,14 +11,7 @@ export interface Joke {
   joke?: string;
   setup?: string;
   delivery?: string;
-  flags: {
-    nsfw: boolean;
-    religious: boolean;
-    political: boolean;
-    racist: boolean;
-    sexist: boolean;
-    explicit: boolean;
-  };
+  flags: JokeFlags;
   safe: boolean;
   lang: string;
 }
@@ -30,7 +23,7 @@ export interface JokeResponse {
   joke?: string;
   setup?: string;
   delivery?: string;
-  flags?: Record<string, boolean>;
+  flags?: Partial<JokeFlags>;
   safe?: boolean;
   id?: number;
   lang?: string;
@@ -44,6 +37,23 @@ export interface JokeFilters {
 
 const JOKE_API_BASE = 'https://v2.jokeapi.dev/joke';
 const CACHE_TTL = 3600; // 1 sat
+export interface JokeFlags {
+  nsfw: boolean;
+  religious: boolean;
+  political: boolean;
+  racist: boolean;
+  sexist: boolean;
+  explicit: boolean;
+}
+
+export const DEFAULT_JOKE_FLAGS: JokeFlags = {
+  nsfw: false,
+  religious: false,
+  political: false,
+  racist: false,
+  sexist: false,
+  explicit: false,
+};
 
 // In-memory cache
 const jokeCache = new Map<string, { data: Joke; timestamp: number }>();
@@ -93,7 +103,7 @@ export async function getRandomJoke(filters?: JokeFilters): Promise<Joke | null>
       joke: data.joke,
       setup: data.setup,
       delivery: data.delivery,
-      flags: data.flags || {},
+      flags: { ...DEFAULT_JOKE_FLAGS, ...(data.flags ?? {}) },
       safe: data.safe ?? true,
       lang: data.lang || 'en',
     };

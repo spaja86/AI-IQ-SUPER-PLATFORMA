@@ -79,7 +79,15 @@ function generisiOtp(): string {
 }
 
 function normalizeTelefon(telefon: string): string {
-  return telefon.replace(/\s+/g, '').toLowerCase();
+  const samoCifre = telefon.replace(/\D+/g, '');
+  if (!samoCifre) return '';
+  if (samoCifre.startsWith('381')) return samoCifre;
+  if (samoCifre.startsWith('00')) {
+    const bez00 = samoCifre.slice(2);
+    return bez00.startsWith('381') ? bez00 : `381${bez00}`;
+  }
+  if (samoCifre.startsWith('0')) return `381${samoCifre.slice(1)}`;
+  return `381${samoCifre}`;
 }
 
 function getOwnerPhoneBroj(): string {

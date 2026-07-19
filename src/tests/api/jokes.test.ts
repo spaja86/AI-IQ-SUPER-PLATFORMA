@@ -3,12 +3,12 @@
  */
 
 import {
+  DEFAULT_JOKE_FLAGS,
   getRandomJoke,
   getMultipleJokes,
   formatJoke,
   validateFilters,
   type Joke,
-  type JokeFilters,
 } from '@/lib/jokes/joke-api';
 
 let passed = 0;
@@ -76,7 +76,7 @@ async function runTests(): Promise<void> {
     category: 'General',
     type: 'single',
     joke: 'Why did the chicken cross the road?',
-    flags: {},
+    flags: DEFAULT_JOKE_FLAGS,
     safe: true,
     lang: 'en',
   };
@@ -87,7 +87,7 @@ async function runTests(): Promise<void> {
     type: 'twopart',
     setup: 'Why did the chicken cross the road?',
     delivery: 'To get to the other side!',
-    flags: {},
+    flags: DEFAULT_JOKE_FLAGS,
     safe: true,
     lang: 'en',
   };
@@ -119,12 +119,12 @@ async function runTests(): Promise<void> {
   });
 
   await test('Odbija nevalidne kategorije', () => {
-    const valid = validateFilters({ category: 'invalid' as any });
+    const valid = validateFilters({ category: 'invalid' } as unknown as Parameters<typeof validateFilters>[0]);
     assert(valid === false, 'invalid category');
   });
 
   await test('Odbija nevalidne tipove', () => {
-    const valid = validateFilters({ type: 'invalid' as any });
+    const valid = validateFilters({ type: 'invalid' } as unknown as Parameters<typeof validateFilters>[0]);
     assert(valid === false, 'invalid type');
   });
 

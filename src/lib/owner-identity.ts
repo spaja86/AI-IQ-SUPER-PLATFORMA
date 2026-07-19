@@ -114,13 +114,25 @@ export function maskirajTelefon(broj: string): string {
   return `${prefiks}${sredina}${sufiks}`;
 }
 
+function normalizujOwnerTelefon(input: string): string {
+  const samoCifre = input.replace(/\D+/g, '');
+  if (!samoCifre) return OWNER_PHONE_DEFAULT;
+  if (samoCifre.startsWith('381')) return samoCifre;
+  if (samoCifre.startsWith('00')) {
+    const bez00 = samoCifre.slice(2);
+    return bez00.startsWith('381') ? bez00 : `381${bez00}`;
+  }
+  if (samoCifre.startsWith('0')) return `381${samoCifre.slice(1)}`;
+  return `381${samoCifre}`;
+}
+
 // ─── Owner telefon ────────────────────────────────────────────────────────────
 
 /** Vlasnički telefon — iz env var ili default centrale #1 */
 function getOwnerTelefonBroj(): string {
   const envBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY];
-  if (envBroj && envBroj.trim()) return envBroj.trim();
-  return OWNER_PHONE_DEFAULT;
+  if (envBroj && envBroj.trim()) return normalizujOwnerTelefon(envBroj.trim());
+  return normalizujOwnerTelefon(OWNER_PHONE_DEFAULT);
 }
 
 /** Pozivni broj prve centrale — guardirano */

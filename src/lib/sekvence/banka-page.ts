@@ -196,7 +196,7 @@ export const bankaSekvence: Sekvenca[] = [
       istaknuteStavke: [
         '🏦 Banka: ERSTE Banka DOO Smederevo',
         '🏢 Vlasnik racuna: Digitalna Industrija',
-        '👤 Vlasnik svih racuna: Nikola Spajic',
+        '👤 Vlasnik svih racuna: NIKOLA SPAJIĆ',
         '🪪 Registarski broj licne karte: 015639997',
         '🆔 JMBG: 0312986850017',
         '🇷🇸 Dinarski racun (RSD): 025897158',
@@ -361,9 +361,9 @@ export const bankaSekvence: Sekvenca[] = [
     podnaslov: 'Formalni zahtev upućen svim poslovnim bankama u Republici Srbiji',
     redosled: 21,
     podaci: {
-      sadrzaj: 'Kompanija "Digitalna Industrija" — vlasnik Nikola Spajić, JMBG: 0312986850017 — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji. Cilj: otvaranje dinarskog, dolarskog i evro računa sa odgovarajućim bankarskim karticama u svakoj banci.',
+      sadrzaj: 'Kompanija "Digitalna Industrija" — vlasnik NIKOLA SPAJIĆ, JMBG: 0312986850017 — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji. Cilj: otvaranje dinarskog, dolarskog i evro računa sa odgovarajućim bankarskim karticama u svakoj banci.',
       istaknuteStavke: [
-        '🏢 Podnosilac zahteva: Digitalna Industrija — Nikola Spajić',
+        '🏢 Podnosilac zahteva: Digitalna Industrija — NIKOLA SPAJIĆ',
         '📋 Predmet: Registracija poslovnih računa u svim bankama Srbije',
         '💳 Tražene kartice: Dinarska (RSD), Devizna dolar (USD), Devizna evro (EUR)',
         '📜 Traženi ugovor: Ugovor o poslovnoj saradnji i vođenju računa',
@@ -407,7 +407,7 @@ export const bankaSekvence: Sekvenca[] = [
         '🏛️ Vrsta poreza: Mesni porez — lokalna poreska obaveza',
         '🏙️ Teritorija: Smederevo — sedište Digitalne Industrije',
         '📋 Osnov: Zakon o porezima na imovinu + Zakon o finansiranju lokalne samouprave',
-        '🏢 Poreski obveznik: Digitalna Industrija — Nikola Spajić',
+        '🏢 Poreski obveznik: Digitalna Industrija — NIKOLA SPAJIĆ',
         '💼 PIB/MB: Registrovati kod Poreske uprave Srbije (PU Smederevo)',
         '💰 Valuta obračuna: RSD (srpski dinar)',
         '🔄 Period obračuna: Kvartalno / godišnje prema propisu',
@@ -423,10 +423,10 @@ export const bankaSekvence: Sekvenca[] = [
     redosled: 24,
     podaci: {
       stavke: [
-        { ikona: '📝', naslov: 'Ugovor o otvaranju poslovnog računa (RSD)', opis: 'Ugovor sa svakom bankom za otvaranje dinarskog poslovnog tekućeg računa Digitalne Industrije — vlasnik: Nikola Spajić' },
+        { ikona: '📝', naslov: 'Ugovor o otvaranju poslovnog računa (RSD)', opis: 'Ugovor sa svakom bankom za otvaranje dinarskog poslovnog tekućeg računa Digitalne Industrije — vlasnik: NIKOLA SPAJIĆ' },
         { ikona: '📝', naslov: 'Ugovor o otvaranju deviznog računa (EUR)', opis: 'Ugovor za devizni račun u evrima — za međunarodne transakcije i EU plaćanja Digitalne Industrije' },
         { ikona: '📝', naslov: 'Ugovor o otvaranju deviznog računa (USD)', opis: 'Ugovor za devizni račun u dolarima — za globalne transakcije i US plaćanja Digitalne Industrije' },
-        { ikona: '💳', naslov: 'Ugovor o izdavanju bankarskih kartica', opis: 'Ugovor za izdavanje 3 kartice: dinarska (RSD), devizna evro (EUR), devizna dolar (USD) — na ime Nikola Spajić' },
+        { ikona: '💳', naslov: 'Ugovor o izdavanju bankarskih kartica', opis: 'Ugovor za izdavanje 3 kartice: dinarska (RSD), devizna evro (EUR), devizna dolar (USD) — na ime NIKOLA SPAJIĆ' },
         { ikona: '🤝', naslov: 'Ugovor o poslovnoj saradnji', opis: 'Opšti ugovor o poslovnoj saradnji između banke i Digitalne Industrije — platni promet, servisi, uslovi' },
         { ikona: '🏛️', naslov: 'Ugovor o poreskim obavezama', opis: 'Ugovor o registraciji mesnog poreza i poreskih obaveza Digitalne Industrije kod nadležnih organa' },
         { ikona: '✅', naslov: 'Status ugovora', opis: 'Svi ugovori su pripremljeni i čekaju potpisivanje sa bankama — Erste banka DOO Smederevo je prvi aktivni partner' },
@@ -437,25 +437,25 @@ export const bankaSekvence: Sekvenca[] = [
     id: 'banka-tri-kartice',
     tip: 'kartice',
     naslov: '💳 3 Bankarske Kartice — Digitalna Industrija',
-    podnaslov: 'Tri bankarske kartice izdane na ime Nikola Spajić — Erste banka DOO Smederevo',
+    podnaslov: 'Tri bankarske kartice izdane na ime NIKOLA SPAJIĆ — Erste banka DOO Smederevo',
     redosled: 25,
     podaci: {
       kartice: [
         {
           naslov: '💳 Kartica 1 — Dinarska (RSD)',
-          opis: 'Bankarska kartica za dinarski račun (RSD) — primarni instrument plaćanja u Srbiji. Račun: 025897158. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          opis: 'Bankarska kartica za dinarski račun (RSD) — primarni instrument plaćanja u Srbiji. Račun: 025897158. Izdavač: Erste banka DOO Smederevo. Vlasnik: NIKOLA SPAJIĆ.',
           ikona: '🇷🇸',
           oznake: ['RSD', 'Dinarska', 'Erste Smederevo', 'Aktivna'],
         },
         {
           naslov: '💳 Kartica 2 — Evro (EUR)',
-          opis: 'Bankarska kartica za devizni evro račun (EUR) — plaćanja u EU i međunarodne transakcije. Račun: 038971285. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          opis: 'Bankarska kartica za devizni evro račun (EUR) — plaćanja u EU i međunarodne transakcije. Račun: 038971285. Izdavač: Erste banka DOO Smederevo. Vlasnik: NIKOLA SPAJIĆ.',
           ikona: '🇪🇺',
           oznake: ['EUR', 'Evro', 'Erste Smederevo', 'Aktivna'],
         },
         {
           naslov: '💳 Kartica 3 — Dolar (USD)',
-          opis: 'Bankarska kartica za devizni dolar račun (USD) — globalna plaćanja i US transakcije. Račun: 05364215985. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          opis: 'Bankarska kartica za devizni dolar račun (USD) — globalna plaćanja i US transakcije. Račun: 05364215985. Izdavač: Erste banka DOO Smederevo. Vlasnik: NIKOLA SPAJIĆ.',
           ikona: '🇺🇸',
           oznake: ['USD', 'Dolar', 'Erste Smederevo', 'Aktivna'],
         },

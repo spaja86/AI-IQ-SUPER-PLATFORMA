@@ -64,12 +64,12 @@ export const SITEMAP_PRIORITY_DEFAULT = 0.8;
 
 // Owner Identity — kanonski podaci vlasnika platforme
 export const OWNER_EMAIL = 'spajicn@yahoo.com';
-export const OWNER_IME = 'Nikola Spajić';
+export const OWNER_IME = 'NIKOLA SPAJIĆ';
 export const OWNER_GITHUB = 'spaja86';
 export const OWNER_VERCEL_EMAIL = 'spajicn@yahoo.com';
 /** Kanonski AI IQ WORLD BANK identifikator vlasničkog računa */
 export const OWNER_BANK_RACUN_ID = 'DIGI-IND-001';
 /** Env var ključ za vlasnički broj telefona */
 export const OWNER_PHONE_NUMBER_ENV_KEY = 'OWNER_PHONE_NUMBER';
-/** Default vlasnički telefon (prva centrala, serijski 001-0001) */
-export const OWNER_PHONE_DEFAULT = '+38177-001-0001';
+/** Default vlasnički telefon (kanonski međunarodni format bez razmaka/znakova) */
+export const OWNER_PHONE_DEFAULT = '381642396577';

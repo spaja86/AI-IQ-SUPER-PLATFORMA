@@ -15,9 +15,10 @@ export async function GET(request: NextRequest) {
     return apiSuccess({
       sistem: 'Generator za Poslovne Račune',
       opis:
-        'AI IQ World Bank modul za simulaciono generisanje poslovnih računa (RSD/EUR/USD), validacije, KYC/KYB status i operativne preporuke.',
+        'AI IQ World Bank modul za simulaciono generisanje poslovnih računa (RSD/EUR/USD), validacije, KYC/KYB status, formalni invoice blok (issuer/owner/phone) i operativne preporuke.',
       izvor: KOMPANIJA,
       verzija: APP_VERSION,
+      formalniRacun: rezultat.formalniRacun,
       rezultat,
     });
   } catch (error) {

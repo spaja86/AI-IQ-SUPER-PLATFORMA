@@ -136,6 +136,18 @@ async function runTests(): Promise<void> {
     assert(typeof summary['ukupnoPodzahteva'] === 'number', 'ukupnoPodzahteva mora biti broj');
   });
 
+  await test('GET vraća providerRecognition status model', async () => {
+    const request = new Request('http://localhost/api/enterprise-zahtevi', {
+      headers: { 'x-forwarded-for': '127.0.1.14' },
+    });
+    const response = await GET(request as unknown as Request);
+    const body = await response.json() as Record<string, unknown>;
+    assert(isObject(body['providerRecognition']), 'providerRecognition mora biti objekat');
+    const model = body['providerRecognition'] as Record<string, unknown>;
+    assert(isObject(model['vercel']), 'providerRecognition.vercel mora biti objekat');
+    assert(isObject(model['github']), 'providerRecognition.github mora biti objekat');
+  });
+
   await test('Konstante su ažurirane', () => {
     assert(/^\d+\.\d+\.\d+$/.test(APP_VERSION), 'APP_VERSION semver format');
     assert(AUTOFINISH_COUNT >= 1398, 'AUTOFINISH_COUNT baseline');

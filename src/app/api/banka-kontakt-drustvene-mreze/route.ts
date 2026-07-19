@@ -1,18 +1,19 @@
 import { NextResponse } from 'next/server';
-import { APP_VERSION } from '@/lib/constants';
-import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
+import { APP_VERSION, OWNER_IME } from '@/lib/constants';
+import { getKontaktKanal, getProviderRecognitionModels, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 
 export async function GET() {
   const supportKontakt = getKontaktKanal('support');
   const billingKontakt = getKontaktKanal('billing');
   const salesKontakt = getKontaktKanal('sales');
+  const providerRecognition = getProviderRecognitionModels();
 
   return NextResponse.json({
     naziv: 'AI IQ World Bank — Kontakt i drustvene mreze',
     verzija: APP_VERSION,
     status: 'aktivan',
     vlasnik: {
-      ime: 'Nikola Spajic',
+      ime: OWNER_IME,
       kompanija: 'Digitalna Industrija',
     },
     mejlovi: [
@@ -33,9 +34,24 @@ export async function GET() {
       { naziv: 'Kompanija SPAJA', tip: 'maticna', opis: 'Maticna kompanija digitalnog ekosistema' },
       { naziv: 'Omega AI', tip: 'tehnoloski', opis: 'AI tehnoloski partner sa 40M+ persona' },
       { naziv: 'AI IQ Menjacnica', tip: 'finansijski', opis: 'Partnerska menjacnica za konverziju valuta' },
-      { naziv: 'Vercel', tip: 'hosting', opis: 'Hosting i deploy partner' },
-      { naziv: 'GitHub', tip: 'razvoj', opis: 'Platforma za razvoj i repozitorijume' },
+      {
+        naziv: 'Vercel',
+        tip: 'hosting',
+        opis: providerRecognition.vercel.recognized
+          ? 'Hosting i deploy partner (priznata banka status: potvrđeno)'
+          : 'Hosting i deploy partner (priznata banka status: u procesu potvrde)',
+        recognitionStatus: providerRecognition.vercel.status,
+      },
+      {
+        naziv: 'GitHub',
+        tip: 'razvoj',
+        opis: providerRecognition.github.recognized
+          ? 'Platforma za razvoj i repozitorijume (priznata banka status: potvrđeno)'
+          : 'Platforma za razvoj i repozitorijume (priznata banka status: u procesu potvrde)',
+        recognitionStatus: providerRecognition.github.status,
+      },
     ],
+    providerRecognition,
     smederevoEkspanzija: {
       lokacija: 'Smederevo, Srbija',
       opis: 'Sediste AI IQ World Bank i Digitalne Industrije',

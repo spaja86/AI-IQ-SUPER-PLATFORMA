@@ -7,6 +7,7 @@ import {
   KOMPANIJA_FORMALNI_NAZIV,
   MOBILNI_POZIVNI,
   OMEGA_AI_PERSONA_COUNT,
+  OWNER_IME,
 } from './constants';
 import { platforme } from './platforme';
 import { getKastlerSignalReadinessSummary, getKastlerTVSignalRequestPackage } from './kastler-tv-signal-request';
@@ -81,6 +82,7 @@ export interface OperativniTok {
 export type EnterpriseProvajder = 'vercel' | 'github' | 'openai';
 export type EnterpriseZahtevStatus = 'u_pripremi' | 'spremno_za_slanje' | 'poslato';
 export type EnterpriseZahtevPodtip = 'osnovni' | 'vercel-cdn-proxy-trust';
+export type ProviderRecognitionStatus = 'pending' | 'submitted' | 'approved' | 'rejected';
 export const ENTERPRISE_PROVAJDERI: readonly EnterpriseProvajder[] = ['vercel', 'github', 'openai'];
 export const ENTERPRISE_PODTIPOVI: readonly EnterpriseZahtevPodtip[] = ['osnovni', 'vercel-cdn-proxy-trust'];
 export const ENTERPRISE_PODTIPOVI_PO_PROVIDERU: Readonly<Record<EnterpriseProvajder, readonly EnterpriseZahtevPodtip[]>> = {
@@ -137,6 +139,21 @@ export interface EnterpriseZahtevPaket {
   envSignal: string;
   scope?: EnterpriseZahtevScope;
   dispatchChecklist?: string[];
+}
+
+export interface ProviderRecognitionEvidence {
+  source: 'env' | 'manual' | 'api';
+  submittedSignal: string;
+  approvedSignal: string;
+  rejectedSignal: string;
+  note: string;
+}
+
+export interface ProviderRecognitionModel {
+  provider: EnterpriseProvajder;
+  status: ProviderRecognitionStatus;
+  recognized: boolean;
+  evidence: ProviderRecognitionEvidence;
 }
 
 type ReadinessStatus = 'spremno' | 'delimicno' | 'blokirano';
@@ -271,7 +288,7 @@ export const operativnaMatricaVlasnistva: OperativnaUloga[] = [
   {
     id: 'nalog-owner',
     naziv: 'Vlasnik naloga',
-    odgovornoLice: 'Nikola Spajić',
+    odgovornoLice: OWNER_IME,
     kontakt: primarniOperativniNalog.email,
     sistemi: ['Vercel', 'GitHub', 'AI IQ World Bank'],
     odgovornosti: [
@@ -484,6 +501,74 @@ function getEnterpriseZahtevStatus(
   if (envFlag(submittedFlag)) return 'poslato';
   if (envFlag(readyFlag)) return 'spremno_za_slanje';
   return 'u_pripremi';
+}
+
+function getProviderRecognitionStatus(provider: EnterpriseProvajder): ProviderRecognitionStatus {
+  const map: Record<EnterpriseProvajder, { submitted: string; approved: string; rejected: string }> = {
+    vercel: {
+      submitted: 'SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED',
+      approved: 'SPAJA_VERCEL_BANK_RECOGNIZED_APPROVED',
+      rejected: 'SPAJA_VERCEL_BANK_RECOGNIZED_REJECTED',
+    },
+    github: {
+      submitted: 'SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED',
+      approved: 'SPAJA_GITHUB_BANK_RECOGNIZED_APPROVED',
+      rejected: 'SPAJA_GITHUB_BANK_RECOGNIZED_REJECTED',
+    },
+    openai: {
+      submitted: 'SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED',
+      approved: 'SPAJA_OPENAI_BANK_RECOGNIZED_APPROVED',
+      rejected: 'SPAJA_OPENAI_BANK_RECOGNIZED_REJECTED',
+    },
+  };
+
+  const signals = map[provider];
+  if (envFlag(signals.rejected)) return 'rejected';
+  if (envFlag(signals.approved)) return 'approved';
+  if (envFlag(signals.submitted)) return 'submitted';
+  return 'pending';
+}
+
+export function getProviderRecognitionModel(provider: EnterpriseProvajder): ProviderRecognitionModel {
+  const status = getProviderRecognitionStatus(provider);
+  const signalMap: Record<EnterpriseProvajder, ProviderRecognitionEvidence> = {
+    vercel: {
+      source: 'env',
+      submittedSignal: 'SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED',
+      approvedSignal: 'SPAJA_VERCEL_BANK_RECOGNIZED_APPROVED',
+      rejectedSignal: 'SPAJA_VERCEL_BANK_RECOGNIZED_REJECTED',
+      note: 'Priznata banka se prikazuje tek kada postoji eksplicitna env potvrda APPROVED.',
+    },
+    github: {
+      source: 'env',
+      submittedSignal: 'SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED',
+      approvedSignal: 'SPAJA_GITHUB_BANK_RECOGNIZED_APPROVED',
+      rejectedSignal: 'SPAJA_GITHUB_BANK_RECOGNIZED_REJECTED',
+      note: 'Priznata banka se prikazuje tek kada postoji eksplicitna env potvrda APPROVED.',
+    },
+    openai: {
+      source: 'env',
+      submittedSignal: 'SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED',
+      approvedSignal: 'SPAJA_OPENAI_BANK_RECOGNIZED_APPROVED',
+      rejectedSignal: 'SPAJA_OPENAI_BANK_RECOGNIZED_REJECTED',
+      note: 'Status evidencija za enterprise provajdera.',
+    },
+  };
+
+  return {
+    provider,
+    status,
+    recognized: status === 'approved',
+    evidence: signalMap[provider],
+  };
+}
+
+export function getProviderRecognitionModels(): Record<EnterpriseProvajder, ProviderRecognitionModel> {
+  return {
+    vercel: getProviderRecognitionModel('vercel'),
+    github: getProviderRecognitionModel('github'),
+    openai: getProviderRecognitionModel('openai'),
+  };
 }
 
 export const vercelEnterprisePaket = {
@@ -730,10 +815,10 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
   naslov:
     'GitHub Enterprise request — Kompanija SPAJA / Digitalna Industrija (enterprise governance and centralized billing)',
   sazetak:
-    'Zahtev za GitHub Enterprise licence i GitHub Copilot Enterprise za celu Digitalnu Industriju kroz kompanijske mejlove, centralizovani billing i governance model, uključujući transfer plaćanja za nalog spajicn@yahoo.com (Nikola Spajić).',
+    `Zahtev za GitHub Enterprise licence i GitHub Copilot Enterprise za celu Digitalnu Industriju kroz kompanijske mejlove, centralizovani billing i governance model, uključujući transfer plaćanja za nalog spajicn@yahoo.com (${OWNER_IME}).`,
   eksplicitniKontekst: {
     accountEmail: 'spajicn@yahoo.com',
-    ownerName: 'Nikola Spajić',
+    ownerName: OWNER_IME,
     companyBillingIntent: 'Transferisati plaćanja na kompanijski billing kanal i aktivirati najbolji enterprise/subscription paket.',
     najboljePretplate: true,
   },
@@ -755,7 +840,7 @@ export const githubEnterprisePaket: EnterpriseZahtevPaket = {
     '- GitHub Enterprise licence za industrijski ekosistem',
     '- GitHub Copilot Enterprise i agents readiness za poslovne i tehničke timove',
     '- centralizovani billing i ownership governance',
-    '- transfer plaćanja sa naloga spajicn@yahoo.com (Nikola Spajić) na kompanijski billing model',
+    `- transfer plaćanja sa naloga spajicn@yahoo.com (${OWNER_IME}) na kompanijski billing model`,
     '- preporuka i aktivacija najboljeg enterprise/subscription paketa',
     '- enterprise upravljanje pristupom i audit trag',
     '- podrška za više timova/projekata i kasniji org model',
@@ -824,10 +909,10 @@ export const openaiEnterprisePaket: EnterpriseZahtevPaket = {
   telo: [
     'Poštovani OpenAI Sales tim,',
     '',
-    'obraćam vam se kao Nikola Spajić, osnivač Kompanije SPAJA i Digitalne Industrije.',
+    `obraćam vam se kao ${OWNER_IME}, osnivač Kompanije SPAJA i Digitalne Industrije.`,
     '',
     `Primarni kontakt za ovaj zahtev je ${getKontaktKanal('sales')?.email ?? 'sales@spaja.rs'} (kompanijski sales kanal), reply-to ${getKontaktKanal('business')?.email ?? 'business@spaja.rs'}.`,
-    `Nalog koji se navodi kao owner je spajicn@yahoo.com (Nikola Spajić), a billing kontakt je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}.`,
+    `Nalog koji se navodi kao owner je spajicn@yahoo.com (${OWNER_IME}), a billing kontakt je ${getKontaktKanal('billing')?.email ?? 'billing@spaja.rs'}.`,
     `Formalni identitet kompanije: ${KOMPANIJA_FORMALNI_IDENTITET}.`,
     '',
     'Razlog obraćanja:',
@@ -835,7 +920,7 @@ export const openaiEnterprisePaket: EnterpriseZahtevPaket = {
     'SpajaPro već integriše OMEGA AI, 40 miliona+ AI persona, SPAJA Pro 6-15 engine i celokupnu industrijsku infrastrukturu.',
     '',
     'Tražimo:',
-    '- OpenAI Enterprise plan za nalog spajicn@yahoo.com (primarni owner Nikola Spajić)',
+    `- OpenAI Enterprise plan za nalog spajicn@yahoo.com (primarni owner ${OWNER_IME})`,
     '- Kompanijski API enterprise ugovor za Digitalnu Industriju (sales@spaja.rs)',
     '- Partnerski razgovor o zajedničkom razvoju i integraciji sa SpajaPro platformom',
     '- Uvid u API mogućnosti za duboku integraciju bez backdoor kompromisa',
@@ -848,7 +933,7 @@ export const openaiEnterprisePaket: EnterpriseZahtevPaket = {
     'Molimo vas za sledeće korake, enterprise plan onboarding i eventualni partnerski poziv/sastanak.',
     '',
     'Hvala,',
-    'Nikola Spajić — Kompanija SPAJA / Digitalna Industrija',
+    `${OWNER_IME} — Kompanija SPAJA / Digitalna Industrija`,
   ].join('\n'),
   trazeniPlanovi: ['OpenAI Enterprise', 'ChatGPT Enterprise', 'OpenAI API Enterprise Contract'],
   trazeneOpcije: [
@@ -864,7 +949,7 @@ export const openaiEnterprisePaket: EnterpriseZahtevPaket = {
     'Operativna matrica vlasništva i kontakt kanala',
   ],
   odobrenja: [
-    'Nikola Spajić (Primarni owner)',
+    `${OWNER_IME} (Primarni owner)`,
     'Poslovni kontakt',
     'Billing owner',
     'Tehnički admin',

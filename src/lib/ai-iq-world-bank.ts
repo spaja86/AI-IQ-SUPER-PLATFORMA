@@ -9,8 +9,8 @@
  * podatke isključivo odavde, a ne hardkoduju ih direktno.
  */
 
-import { APP_VERSION } from './constants';
-import { getKontaktKanal, primarniOperativniNalog } from './kompanija-spaja-operativa';
+import { APP_VERSION, OWNER_IME } from './constants';
+import { getKontaktKanal, getProviderRecognitionModel, primarniOperativniNalog } from './kompanija-spaja-operativa';
 import {
   gitHubBillingRacun,
   gitHubBillingBudzet,
@@ -99,6 +99,8 @@ export interface WorldBankPartner {
   lokacija?: string;
   url?: string;
   status: string;
+  recognitionStatus?: 'pending' | 'submitted' | 'approved' | 'rejected';
+  recognized?: boolean;
 }
 
 export interface WorldBankTransfer {
@@ -210,13 +212,15 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
   const billingKontakt = getKontaktKanal('billing');
   const salesKontakt = getKontaktKanal('sales');
   const billingStats = getGitHubBillingStatistike();
+  const vercelRecognition = getProviderRecognitionModel('vercel');
+  const githubRecognition = getProviderRecognitionModel('github');
 
   const profil: WorldBankProfilBanke = {
     naziv: 'AI IQ World Bank',
     ikona: '🏦',
     url: AIIQ_WORLD_BANK_URL,
     repo: AIIQ_WORLD_BANK_REPO,
-    vlasnik: 'Nikola Spajić',
+    vlasnik: OWNER_IME,
     kompanija: 'Digitalna Industrija',
     lokacija: 'Smederevo, Srbija',
     misija: 'Globalna digitalna banka sa AI optimizacijom za sve korisnike',
@@ -299,7 +303,7 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
     banka: 'ERSTE Banka DOO Smederevo',
     vlasnikRacuna: 'Digitalna Industrija',
     vlasnik: {
-      ime: 'Nikola Spajić',
+      ime: OWNER_IME,
       registarskiBrojLicneKarte: '015639997',
       jmbg: '0312986850017',
     },
@@ -424,19 +428,27 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
       id: 'vercel',
       naziv: 'Vercel',
       tip: 'hosting',
-      opis: 'Hosting i deploy partner za sve digitalne platforme',
+      opis: vercelRecognition.recognized
+        ? 'Hosting i deploy partner za sve digitalne platforme — status priznata banka: potvrđeno.'
+        : 'Hosting i deploy partner za sve digitalne platforme — status priznata banka: u procesu potvrde.',
       ikona: '▲',
       url: 'https://www.vercel.com',
-      status: 'aktivan',
+      status: vercelRecognition.recognized ? 'priznata-banka' : 'u-procesu-priznanja',
+      recognitionStatus: vercelRecognition.status,
+      recognized: vercelRecognition.recognized,
     },
     {
       id: 'github',
       naziv: 'GitHub',
       tip: 'razvoj',
-      opis: 'Poslovni partner za razvoj koda, GitHub agente i enterprise licence Digitalne Industrije',
+      opis: githubRecognition.recognized
+        ? 'Poslovni partner za razvoj koda, GitHub agente i enterprise licence Digitalne Industrije — status priznata banka: potvrđeno.'
+        : 'Poslovni partner za razvoj koda, GitHub agente i enterprise licence Digitalne Industrije — status priznata banka: u procesu potvrde.',
       ikona: '🐙',
       url: 'https://www.github.com',
-      status: 'aktivan',
+      status: githubRecognition.recognized ? 'priznata-banka' : 'u-procesu-priznanja',
+      recognitionStatus: githubRecognition.status,
+      recognized: githubRecognition.recognized,
     },
   ];
 
@@ -527,7 +539,7 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
 
   const srpskeBanke = {
     zahtev:
-      'Kompanija "Digitalna Industrija" — vlasnik Nikola Spajić, JMBG: 0312986850017 — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji.',
+      `Kompanija "Digitalna Industrija" — vlasnik ${OWNER_IME}, JMBG: 0312986850017 — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji.`,
     banke: [
       { id: 'banca-intesa', naziv: 'Banca Intesa a.d. Beograd', lokacija: 'Beograd', valute: ['RSD', 'EUR', 'USD'], statusZahteva: 'zahtev-poslat' },
       { id: 'unicredit', naziv: 'UniCredit Bank Srbija a.d.', lokacija: 'Beograd', valute: ['RSD', 'EUR', 'USD'], statusZahteva: 'zahtev-poslat' },

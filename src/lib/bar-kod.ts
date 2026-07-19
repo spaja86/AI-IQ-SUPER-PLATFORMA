@@ -25,14 +25,14 @@ export interface BarKodRezultat {
   };
 }
 
-const BAR_KOD_BODY_MOD = 1_000_000_000_000n; // 12 cifara
-const JEDINICA_MOD = 1_000_000n;
+const BAR_KOD_BODY_MOD = BigInt('1000000000000'); // 12 cifara
+const JEDINICA_MOD = BigInt('1000000');
 
 function hashId(id: string): bigint {
-  let h = 0n;
+  let h = BigInt(0);
   for (let i = 0; i < id.length; i++) {
     // 131 je mali prost broj sa dobrom raspodelom u rolling-hash obrascu.
-    h = (h * 131n + BigInt(id.charCodeAt(i))) % BAR_KOD_BODY_MOD;
+    h = (h * BigInt(131) + BigInt(id.charCodeAt(i))) % BAR_KOD_BODY_MOD;
   }
   return h;
 }
