@@ -169,7 +169,7 @@ function inferStatusByExpiry(authority: IssuerLicensingAuthority): IssuerLicensi
   if (authority.status === 'opozvano') return 'opozvano';
   if (!authority.vaziDo) return authority.status;
   const expired = new Date(authority.vaziDo).getTime() < Date.now();
-  if (expired && authority.status !== 'opozvano') return 'isteklo';
+  if (expired) return 'isteklo';
   return authority.status;
 }
 
