@@ -171,6 +171,7 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
   useEffect(() => {
     if (isPauziran || pokaziPojas || gameOver) return;
     if (vremeOstalo <= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIzabraniOdgovor(-1);
       setPokaziPojas(true);
       setGresaka((g) => g + 1);
@@ -186,6 +187,7 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
 
   useEffect(() => {
     if (gresaka >= MAX_GRESAKA) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setGameOver(true);
       onKraj(score);
     }

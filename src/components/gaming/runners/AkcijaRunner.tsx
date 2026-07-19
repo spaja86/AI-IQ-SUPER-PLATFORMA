@@ -193,9 +193,9 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
 
     // ── Update entiteta ──
     // State entiteti are stored in a mutable ref — direct mutation is intentional.
-    // eslint-disable-next-line react-compiler/react-compiler
     const prezivelentiteti: Entitet[] = [];
     for (const e of state.entiteti) {
+      // eslint-disable-next-line react-hooks/immutability
       e.x += e.vx * dt;
       e.y += e.vy * dt;
       e.vreme += dt;

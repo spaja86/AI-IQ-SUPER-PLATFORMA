@@ -8,7 +8,7 @@
  * Dimenzija određuje brzinu pada, broj boja i kompleksnost oblika.
  */
 
-import { useRef, useEffect, useCallback, useState } from 'react';
+import { useRef, useEffect, useCallback, useState, useLayoutEffect } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore, crtajElipsoid, crtajRezonancu } from '@/lib/gaming-endzin';
 
@@ -298,7 +298,9 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
   }, [isPauziran, padInterval, pomeranjeInterval, parametri, onScoreUpdate, onKraj]);
 
   // Keep stableGameLoopRef in sync so the running rAF loop always calls the latest version.
-  stableGameLoopRef.current = gameLoop;
+  useLayoutEffect(() => {
+    stableGameLoopRef.current = gameLoop;
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -318,6 +320,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
       poslednjePomeranjeR: 0,
       gameOver: false,
     };
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setGameOver(false);
     setFinalScore(null);
     rafRef.current = requestAnimationFrame(gameLoop);

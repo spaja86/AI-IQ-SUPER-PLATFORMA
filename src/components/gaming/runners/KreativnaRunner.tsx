@@ -10,7 +10,7 @@
  */
 
 import { useRef, useEffect, useCallback, useState } from 'react';
-import { noviScore, crtajElipsoid, crtajSpiralu, crtajHiperbolu, crtajRezonancu } from '@/lib/gaming-endzin';
+import { noviScore, crtajElipsoid, crtajSpiralu, crtajHiperbolu, crtajRezonancu, type GamingEndzinKonfiguracija, type GameScore } from '@/lib/gaming-endzin';
 import DimenzijaBadge from '../DimenzijaBadge';
 import Button from '@/components/Button';
 
