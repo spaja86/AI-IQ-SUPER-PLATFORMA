@@ -9,7 +9,6 @@ import {
   formatJoke,
   validateFilters,
   type Joke,
-  type JokeFilters,
 } from '@/lib/jokes/joke-api';
 
 let passed = 0;
@@ -120,12 +119,12 @@ async function runTests(): Promise<void> {
   });
 
   await test('Odbija nevalidne kategorije', () => {
-    const valid = validateFilters({ category: 'invalid' as any });
+    const valid = validateFilters({ category: 'invalid' } as unknown as Parameters<typeof validateFilters>[0]);
     assert(valid === false, 'invalid category');
   });
 
   await test('Odbija nevalidne tipove', () => {
-    const valid = validateFilters({ type: 'invalid' as any });
+    const valid = validateFilters({ type: 'invalid' } as unknown as Parameters<typeof validateFilters>[0]);
     assert(valid === false, 'invalid type');
   });
 
