@@ -313,6 +313,9 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
       `critical:${missingCriticalSources.join('|')}`,
     );
   }
+  if (!stats || !diagnostics || !operativa || !autofinishHealth) {
+    return buildFallbackProcesuiranjeSvega('critical:unexpected-null-signal');
+  }
   const stableAutofinishSummary = autofinishSummary ?? {
     status: 'DEGRADED',
     podsistemi: '0/0',
