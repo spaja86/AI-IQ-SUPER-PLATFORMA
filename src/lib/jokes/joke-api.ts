@@ -93,7 +93,7 @@ export async function getRandomJoke(filters?: JokeFilters): Promise<Joke | null>
       joke: data.joke,
       setup: data.setup,
       delivery: data.delivery,
-      flags: data.flags || {},
+      flags: (data.flags as Joke['flags']) || { nsfw: false, religious: false, political: false, racist: false, sexist: false, explicit: false },
       safe: data.safe ?? true,
       lang: data.lang || 'en',
     };

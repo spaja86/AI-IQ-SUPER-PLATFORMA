@@ -1,4 +1,4 @@
-import type { NextRequest } from 'next/server';
+import type { NextRequest, NextResponse } from 'next/server';
 import { apiRateLimited } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import { verifyPlatformBearer } from '@/lib/platform-auth/unified-auth';
@@ -14,7 +14,7 @@ export async function enforceGatewayMiddleware(
   request: NextRequest,
   platformId: string,
   requiredScope: string,
-): Promise<{ ok: true; context: PlatformGatewayContext } | { ok: false; response: ReturnType<typeof verifyPlatformBearer> extends { ok: false; response: infer R } ? R : never }> {
+): Promise<{ ok: true; context: PlatformGatewayContext } | { ok: false; response: NextResponse<unknown> }> {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
 
   const globalAllowed = await checkRateLimitGlobal(rateLimitKey(ip, '/api/platforms/global'), 100, 1);

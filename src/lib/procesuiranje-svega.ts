@@ -326,10 +326,16 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     paralelniTokovi: 0,
   };
 
-  const runtimeReady = operativa.spremnost.modelStanja.runtime === 'runtime-ready';
-  const opsReady = operativa.spremnost.modelStanja.ops === 'ops-ready';
-  const enterpriseReady = operativa.spremnost.modelStanja.enterprise === 'enterprise-ready';
-  const diagnosticsOk = diagnostics.kriticnih === 0 && diagnostics.gresaka === 0;
+  // All critical sources are non-null at this point (guarded above).
+  const safeOperativa = operativa!;
+  const safeDiagnostics = diagnostics!;
+  const safeStats = stats!;
+  const safeAutofinishHealth = autofinishHealth!;
+
+  const runtimeReady = safeOperativa.spremnost.modelStanja.runtime === 'runtime-ready';
+  const opsReady = safeOperativa.spremnost.modelStanja.ops === 'ops-ready';
+  const enterpriseReady = safeOperativa.spremnost.modelStanja.enterprise === 'enterprise-ready';
+  const diagnosticsOk = safeDiagnostics.kriticnih === 0 && safeDiagnostics.gresaka === 0;
   const authOk = autentifikacijaSistem.status === 'aktivan';
   const billingOk = spajaPlatniSistem.status === 'aktivan';
 
@@ -342,14 +348,14 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'bank-002',
-      opis: `Operativni runtime mode: ${operativa.spremnost.modelStanja.runtime}`,
+      opis: `Operativni runtime mode: ${safeOperativa.spremnost.modelStanja.runtime}`,
       status: runtimeReady ? 'aktivno' : 'cekanje',
       tip: 'runtime-gate',
     },
     {
       id: 'bank-003',
-      opis: `Dijagnostika kritičnih: ${diagnostics.kriticnih}`,
-      status: diagnostics.kriticnih > 0 ? 'greska' : 'zavrseno',
+      opis: `Dijagnostika kritičnih: ${safeDiagnostics.kriticnih}`,
+      status: safeDiagnostics.kriticnih > 0 ? 'greska' : 'zavrseno',
       tip: 'risk-signal',
     },
   ];
@@ -357,20 +363,20 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const aiStavke: ProcesuiranjeStavka[] = [
     {
       id: 'ai-001',
-      opis: `OMEGA persona aktivno: ${stats.ukupnoOmegaPersona}`,
-      status: stats.ukupnoOmegaPersona > 0 ? 'zavrseno' : 'cekanje',
+      opis: `OMEGA persona aktivno: ${safeStats.ukupnoOmegaPersona}`,
+      status: safeStats.ukupnoOmegaPersona > 0 ? 'zavrseno' : 'cekanje',
       tip: 'persona',
     },
     {
       id: 'ai-002',
-      opis: `Prompt pokrivenost: ${stats.ukupnoPromptova}`,
-      status: stats.ukupnoPromptova >= 28 ? 'aktivno' : 'cekanje',
+      opis: `Prompt pokrivenost: ${safeStats.ukupnoPromptova}`,
+      status: safeStats.ukupnoPromptova >= 28 ? 'aktivno' : 'cekanje',
       tip: 'prompt',
     },
     {
       id: 'ai-003',
-      opis: `AI health signal: ${diagnostics.zdravlje}%`,
-      status: diagnostics.zdravlje >= 80 ? 'zavrseno' : 'aktivno',
+      opis: `AI health signal: ${safeDiagnostics.zdravlje}%`,
+      status: safeDiagnostics.zdravlje >= 80 ? 'zavrseno' : 'aktivno',
       tip: 'health',
     },
   ];
@@ -384,7 +390,7 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'fin-002',
-      opis: `Enterprise mode: ${operativa.spremnost.modelStanja.enterprise}`,
+      opis: `Enterprise mode: ${safeOperativa.spremnost.modelStanja.enterprise}`,
       status: enterpriseReady ? 'zavrseno' : 'cekanje',
       tip: 'enterprise',
     },
@@ -399,20 +405,20 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const licencniStavke: ProcesuiranjeStavka[] = [
     {
       id: 'lic-001',
-      opis: `Ops mode: ${operativa.spremnost.modelStanja.ops}`,
+      opis: `Ops mode: ${safeOperativa.spremnost.modelStanja.ops}`,
       status: opsReady ? 'zavrseno' : 'cekanje',
       tip: 'ops',
     },
     {
       id: 'lic-002',
-      opis: `Runtime env missing: ${operativa.spremnost.missingEnv.length}`,
-      status: operativa.spremnost.missingEnv.length === 0 ? 'zavrseno' : 'aktivno',
+      opis: `Runtime env missing: ${safeOperativa.spremnost.missingEnv.length}`,
+      status: safeOperativa.spremnost.missingEnv.length === 0 ? 'zavrseno' : 'aktivno',
       tip: 'env',
     },
     {
       id: 'lic-003',
-      opis: `Support spremnost: ${operativa.spremnost.support.status}`,
-      status: operativa.spremnost.support.status === 'spremno' ? 'zavrseno' : 'aktivno',
+      opis: `Support spremnost: ${safeOperativa.spremnost.support.status}`,
+      status: safeOperativa.spremnost.support.status === 'spremno' ? 'zavrseno' : 'aktivno',
       tip: 'support',
     },
   ];
@@ -438,7 +444,7 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'eko-004',
-      opis: `Dijagnostika zdravlje: ${diagnostics.zdravlje}%`,
+      opis: `Dijagnostika zdravlje: ${safeDiagnostics.zdravlje}%`,
       status: diagnosticsOk ? 'zavrseno' : 'aktivno',
       tip: 'dijagnostika',
     },
@@ -460,8 +466,8 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'af-003',
-      opis: `Autofinish health: ${autofinishHealth.status}`,
-      status: autofinishHealth.status === 'ok' ? 'zavrseno' : autofinishHealth.status === 'warning' ? 'aktivno' : 'greska',
+      opis: `Autofinish health: ${safeAutofinishHealth.status}`,
+      status: safeAutofinishHealth.status === 'ok' ? 'zavrseno' : safeAutofinishHealth.status === 'warning' ? 'aktivno' : 'greska',
       tip: 'health',
     },
   ];
@@ -481,8 +487,8 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
     },
     {
       id: 'bez-003',
-      opis: `Dijagnostika grešaka: ${diagnostics.gresaka}, kritičnih: ${diagnostics.kriticnih}`,
-      status: diagnostics.kriticnih > 0 ? 'greska' : diagnostics.gresaka > 0 ? 'aktivno' : 'zavrseno',
+      opis: `Dijagnostika grešaka: ${safeDiagnostics.gresaka}, kritičnih: ${safeDiagnostics.kriticnih}`,
+      status: safeDiagnostics.kriticnih > 0 ? 'greska' : safeDiagnostics.gresaka > 0 ? 'aktivno' : 'zavrseno',
       tip: 'diagnostics',
     },
   ];
@@ -490,20 +496,20 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const analitickiStavke: ProcesuiranjeStavka[] = [
     {
       id: 'an-001',
-      opis: `Ukupno stranica: ${stats.ukupnoStranica}`,
-      status: stats.ukupnoStranica > 0 ? 'zavrseno' : 'cekanje',
+      opis: `Ukupno stranica: ${safeStats.ukupnoStranica}`,
+      status: safeStats.ukupnoStranica > 0 ? 'zavrseno' : 'cekanje',
       tip: 'kpi',
     },
     {
       id: 'an-002',
-      opis: `Ukupno dijagnostika: ${stats.ukupnoDijagnostika}`,
-      status: stats.ukupnoDijagnostika > 0 ? 'zavrseno' : 'cekanje',
+      opis: `Ukupno dijagnostika: ${safeStats.ukupnoDijagnostika}`,
+      status: safeStats.ukupnoDijagnostika > 0 ? 'zavrseno' : 'cekanje',
       tip: 'diag-total',
     },
     {
       id: 'an-003',
       opis: `Autofinish/Deploy signal korelacija`,
-      status: stableDeployStats.deployUToku > 0 || autofinishHealth.status !== 'ok' ? 'aktivno' : 'zavrseno',
+      status: stableDeployStats.deployUToku > 0 || safeAutofinishHealth.status !== 'ok' ? 'aktivno' : 'zavrseno',
       tip: 'correlation',
     },
   ];
@@ -558,14 +564,14 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const fairnessIndex = clampScore(100 - Math.round((fairnessDelta / Math.max(queueDepth, 1)) * 100));
   const starvationRizik = clampScore(Math.round((cekajucihProcesa / Math.max(queueDepth, 1)) * 100));
   const saturacijaPct = clampScore(Math.round(((aktivnihProcesa + cekajucihProcesa + gresakaUkupno) / Math.max(queueDepth, 1)) * 100));
-  const emergencyOverride = gresakaUkupno > 0 || diagnostics.kriticnih > 0;
+  const emergencyOverride = gresakaUkupno > 0 || safeDiagnostics.kriticnih > 0;
 
   const score: ProcesuiranjeScore = {
     // Composite throughput: završeni procesi + broj uspešnih dijagnostičkih događaja.
     throughputPerMin: Math.max(
       0,
       (zavrsenihProcesa * SCHEDULER_CONFIG.throughput.zavrseniMultiplier) +
-        Math.round(diagnostics.uspesnih * SCHEDULER_CONFIG.throughput.dijagnostikaMultiplier),
+        Math.round(safeDiagnostics.uspesnih * SCHEDULER_CONFIG.throughput.dijagnostikaMultiplier),
     ),
     latencyMsP95: clampNonNegative(
       SCHEDULER_CONFIG.latency.baseMs - Math.min(
@@ -580,9 +586,9 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   if (starvationRizik >= SCHEDULER_CONFIG.starvation.warningThreshold) {
     uskaGrla.push(`Visok rizik starvation-a (${starvationRizik}%)`);
   }
-  if (operativa.spremnost.missingEnv.length > 0) uskaGrla.push(`Nedostaje ${operativa.spremnost.missingEnv.length} runtime env signala`);
+  if (safeOperativa.spremnost.missingEnv.length > 0) uskaGrla.push(`Nedostaje ${safeOperativa.spremnost.missingEnv.length} runtime env signala`);
   if (stableDeployStats.cekajuMerge > 0) uskaGrla.push(`Deploy red čeka merge (${stableDeployStats.cekajuMerge})`);
-  if (diagnostics.kriticnih > 0) uskaGrla.push(`Dijagnostika prijavljuje kritične check-ove (${diagnostics.kriticnih})`);
+  if (safeDiagnostics.kriticnih > 0) uskaGrla.push(`Dijagnostika prijavljuje kritične check-ove (${safeDiagnostics.kriticnih})`);
   if (uskaGrla.length === 0) uskaGrla.push('Nema detektovanih uskih grla u ekstremnom režimu');
 
   const preporuke: string[] = [];
