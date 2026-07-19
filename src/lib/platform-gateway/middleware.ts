@@ -10,11 +10,15 @@ export interface PlatformGatewayContext {
   ip: string;
 }
 
+type PlatformGatewayErrorResponse =
+  | ReturnType<typeof apiRateLimited>
+  | (ReturnType<typeof verifyPlatformBearer> extends { ok: false; response: infer R } ? R : never);
+
 export async function enforceGatewayMiddleware(
   request: NextRequest,
   platformId: string,
   requiredScope: string,
-): Promise<{ ok: true; context: PlatformGatewayContext } | { ok: false; response: ReturnType<typeof verifyPlatformBearer> extends { ok: false; response: infer R } ? R : never }> {
+): Promise<{ ok: true; context: PlatformGatewayContext } | { ok: false; response: PlatformGatewayErrorResponse }> {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
 
   const globalAllowed = await checkRateLimitGlobal(rateLimitKey(ip, '/api/platforms/global'), 100, 1);
