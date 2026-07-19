@@ -14,7 +14,7 @@
 
 import { useRef, useEffect, useCallback, useState } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
-import { noviScore, crtajElipsoid, crtajSpiralu, crtajRezonancu, dimenzijaNaParametre } from '@/lib/gaming-endzin';
+import { noviScore, crtajElipsoid, crtajSpiralu, crtajRezonancu } from '@/lib/gaming-endzin';
 
 interface Props {
   konfiguracija: GamingEndzinKonfiguracija;
@@ -53,6 +53,7 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     gameOver: false,
   });
   const rafRef = useRef<number>(0);
+  const stableGameLoopRef = useRef<FrameRequestCallback>(() => {});
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState<GameScore | null>(null);
 
@@ -143,7 +144,7 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
 
   const gameLoop = useCallback((timestamp: number) => {
     if (isPauziran) {
-      rafRef.current = requestAnimationFrame(gameLoop);
+      rafRef.current = requestAnimationFrame(stableGameLoopRef.current);
       return;
     }
     const canvas = canvasRef.current;
@@ -191,8 +192,10 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     }
 
     // ── Update entiteta ──
+    // State entiteti are stored in a mutable ref — direct mutation is intentional.
     const prezivelentiteti: Entitet[] = [];
     for (const e of state.entiteti) {
+      // eslint-disable-next-line react-hooks/immutability
       e.x += e.vx * dt;
       e.y += e.vy * dt;
       e.vreme += dt;
@@ -245,7 +248,6 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     }
 
     const projektiletFinal: Entitet[] = [];
-    const neprFinal: Entitet[] = [];
 
     for (const proj of prezivelentiteti.filter((e) => e.tip === 'projektil')) {
       let pogodio = false;
@@ -341,7 +343,7 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
       ctx.fillText('WASD / Strelice = kretanje  |  Space / Enter = pucaj', canvas.width / 2, canvas.height - 16);
     }
 
-    rafRef.current = requestAnimationFrame(gameLoop);
+    rafRef.current = requestAnimationFrame(stableGameLoopRef.current);
   }, [
     isPauziran,
     brzinaFaktor,
@@ -352,6 +354,9 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     onScoreUpdate,
     onKraj,
   ]);
+
+  // Keep stableGameLoopRef in sync so the running rAF loop always calls the latest version.
+  stableGameLoopRef.current = gameLoop;
 
   // ── Mount / restart ──
 

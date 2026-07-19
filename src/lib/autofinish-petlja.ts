@@ -2859,7 +2859,7 @@ export interface AutofinishPodsistemiZdravljeResult {
   timestamp: string;
 }
 
-const PODSISTEMI_NAZIVI = [
+const _PODSISTEMI_NAZIVI = [
   'Autentifikacija',
   'Baza Podataka',
   'API Sloj',

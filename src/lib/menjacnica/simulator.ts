@@ -59,7 +59,7 @@ function getSpread(priceUsd: number, spreadPct = 0.0005): { bid: number; ask: nu
 }
 
 /** Konvertuje cenu sa jedne valute na drugu. */
-function convertPrice(fromUsd: number, toAssetId: string): number {
+function _convertPrice(fromUsd: number, toAssetId: string): number {
   const toUsd = BASE_PRICES[toAssetId] ?? 1;
   return fromUsd / toUsd;
 }

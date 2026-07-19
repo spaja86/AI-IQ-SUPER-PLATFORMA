@@ -92,8 +92,8 @@ import { wifiAntenaMreza, wifiAntene } from './proksi-wifi-antena';
 // ── BACKEND INFRASTRUKTURA ──────────────────────────────────────────────
 import { spajaBaza, getBazaStatistika } from './spaja-baza';
 import { spajaPlatniSistem, getPlatniSistemPregled } from './spaja-platni-sistem';
-import { spajaRealtimeSistem, getRealtimePregled } from './spaja-realtime';
-import { spajaRenderMedija, getRenderStatistika } from './spaja-render-medija';
+import { spajaRealtimeSistem as _spajaRealtimeSistem, getRealtimePregled } from './spaja-realtime';
+import { spajaRenderMedija as _spajaRenderMedija, getRenderStatistika } from './spaja-render-medija';
 import { spajaAiIqMonitoring, getMonitoringPregled } from './spaja-ai-iq-monitoring';
 import { spajaMonitoringLive } from './spaja-monitoring-live';
 import { spajaBlogFaq, getBlogFaqPregled } from './spaja-blog-faq';

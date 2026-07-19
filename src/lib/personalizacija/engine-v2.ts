@@ -6,7 +6,7 @@ import type { ModelId } from '@/lib/supabase/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-export type PersonalizationVersion = 'v1' | 'v2';
+export type PersonalizationVersion = 'v1' | 'v2' | 'v3';
 
 export interface StablePreferences {
   toneStyle: 'formal' | 'casual' | 'technical' | null;

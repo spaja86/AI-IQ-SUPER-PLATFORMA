@@ -47,6 +47,7 @@ function Sparkline({ points }: { points: AutofinishDoraMetric['sparkline'] }) {
   const xs = points.map((_, i) => (i / (points.length - 1)) * W);
   const ys = points.map((p) => H - ((p.vrijednost - min) / range) * (H - 4) - 2);
   const d = xs.map((x, i) => `${i === 0 ? 'M' : 'L'} ${x} ${ys[i]}`).join(' ');
+  void d; // computed for potential future use; suppress unused-variable warning
   return (
     <svg width={W} height={H} aria-hidden="true" className="shrink-0 opacity-70">
       <polyline points={xs.map((x, i) => `${x},${ys[i]}`).join(' ')} fill="none" stroke="#60a5fa" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />

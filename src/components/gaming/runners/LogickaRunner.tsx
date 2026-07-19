@@ -8,7 +8,7 @@
  * Dimenzija određuje brzinu pada, broj boja i kompleksnost oblika.
  */
 
-import { useRef, useEffect, useCallback, useState } from 'react';
+import { useRef, useEffect, useCallback, useState, useLayoutEffect } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore, crtajElipsoid, crtajRezonancu } from '@/lib/gaming-endzin';
 
@@ -120,6 +120,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
   });
 
   const rafRef = useRef<number>(0);
+  const stableGameLoopRef = useRef<FrameRequestCallback>(() => {});
 
   // ── Tastatura ──
 
@@ -160,7 +161,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
   const pomeranjeInterval = 120;
 
   const gameLoop = useCallback((timestamp: number) => {
-    if (isPauziran) { rafRef.current = requestAnimationFrame(gameLoop); return; }
+    if (isPauziran) { rafRef.current = requestAnimationFrame(stableGameLoopRef.current); return; }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -293,8 +294,13 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
       ctx.fillText('A/D Strelice = pomak | W/↑ = rotacija | S/↓ = ubrzano', canvas.width / 2, canvas.height - 10);
     }
 
-    rafRef.current = requestAnimationFrame(gameLoop);
+    rafRef.current = requestAnimationFrame(stableGameLoopRef.current);
   }, [isPauziran, padInterval, pomeranjeInterval, parametri, onScoreUpdate, onKraj]);
+
+  // Keep stableGameLoopRef in sync so the running rAF loop always calls the latest version.
+  useLayoutEffect(() => {
+    stableGameLoopRef.current = gameLoop;
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -314,6 +320,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
       poslednjePomeranjeR: 0,
       gameOver: false,
     };
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setGameOver(false);
     setFinalScore(null);
     rafRef.current = requestAnimationFrame(gameLoop);
