@@ -3,6 +3,7 @@
  */
 
 import {
+  DEFAULT_JOKE_FLAGS,
   getRandomJoke,
   getMultipleJokes,
   formatJoke,
@@ -76,7 +77,7 @@ async function runTests(): Promise<void> {
     category: 'General',
     type: 'single',
     joke: 'Why did the chicken cross the road?',
-    flags: {},
+    flags: DEFAULT_JOKE_FLAGS,
     safe: true,
     lang: 'en',
   };
@@ -87,7 +88,7 @@ async function runTests(): Promise<void> {
     type: 'twopart',
     setup: 'Why did the chicken cross the road?',
     delivery: 'To get to the other side!',
-    flags: {},
+    flags: DEFAULT_JOKE_FLAGS,
     safe: true,
     lang: 'en',
   };
