@@ -343,7 +343,7 @@ export function validateKastlerRequestPayload(payload: unknown): { valid: boolea
   if (!Array.isArray(data.requestedChannelIds) || data.requestedChannelIds.length === 0) {
     errors.push('requestedChannelIds mora biti neprazan niz.');
   } else {
-    const allowedIds = new Set(TV_CHANNEL_REQUEST_SCOPE.map((item) => item.kanalId));
+    const allowedIds = new Set<string>(TV_CHANNEL_REQUEST_SCOPE.map((item) => item.kanalId));
     const invalid = data.requestedChannelIds.filter((id) => !allowedIds.has(id));
     if (invalid.length > 0) {
       errors.push(`requestedChannelIds sadrži nepoznate kanale: ${invalid.join(', ')}`);
