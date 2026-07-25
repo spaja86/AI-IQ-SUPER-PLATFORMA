@@ -57,6 +57,13 @@ export const FUNNEL_EVENTS = {
   // Error
   ERROR_ENCOUNTERED: 'error_encountered',
   RATE_LIMITED: 'rate_limited',
+  // Deployment
+  DEPLOYMENT_TRIGGERED: 'deployment_triggered',
+  DEPLOYMENT_SUCCESS: 'deployment_success',
+  DEPLOYMENT_FAILED: 'deployment_failed',
+  VERCEL_CONNECTED: 'vercel_connected',
+  VERCEL_KV_PING_SUCCESS: 'vercel_kv_ping_success',
+  VERCEL_KV_PING_FAILED: 'vercel_kv_ping_failed',
 } as const;
 
 export type FunnelEvent = (typeof FUNNEL_EVENTS)[keyof typeof FUNNEL_EVENTS];
