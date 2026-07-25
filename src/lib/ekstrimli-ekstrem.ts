@@ -63,7 +63,7 @@ export const EKSTRIMLI_EKSTREM_SLA_THRESHOLDS = {
   omegaAI: 70,
 } as const;
 
-const EKSTRIMLI_EKSTREM_EXPECTED_AUTOFINISH_STAGES = 8;
+const EKSTRIMLI_EKSTREM_EXPECTED_AUTOFINISH_STAGES = 9;
 
 const weightSum = Object.values(EKSTRIMLI_EKSTREM_WEIGHTS).reduce((sum, w) => sum + w, 0);
 if (Math.abs(weightSum - 1) > 0.0001) {
