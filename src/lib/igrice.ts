@@ -2207,6 +2207,29 @@ export const igrice: Igrica[] = [
     preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-particle-system', 'spaja-shader-compiler', 'spaja-multiplayer-server'],
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
+
+  // ─── MANKAY AND TIGER ─────────────────────────────────────────────
+  {
+    id: 'igrica-mankay-and-tiger',
+    naziv: 'MANKAY AND TIGER',
+    opis: 'Epska životinjska borbena igrica — okretni majmun vs razjareni tigar — u dimenzionalnom prostoru. Igrač kontroliše oba protagonista sa jedinstvenim sposobnostima. Svaka dimenzija pojačava kontrast: u 360D bazična životinjska borba, u 1440D+ agilnost i snaga kreiraju dimenzionalne sinergije, u 5760D potpuna fuzija primalnih instinkta sa spiralnim arenama i hiperboličkim skokovima.',
+    ikona: '🐒',
+    kategorija: 'borbena',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Dualni izbor lika — Mankay (agilnost) ili TIGER (snaga)',
+      'Jedinstveni potezi: Mankay koristi penjanje i bananine napade, TIGER moćne skokove i urlik',
+      'Dimenzionalne kombo kombinacije agilnosti i sile',
+      'Boss borbe sa dimenzionalnim životinjskim protivnicima',
+      'PvP arena sa primalnim duelima',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-particle-system', 'spaja-shader-compiler', 'spaja-multiplayer-server'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
