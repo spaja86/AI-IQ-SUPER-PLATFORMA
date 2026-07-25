@@ -198,6 +198,9 @@ export { digitalnaIndustrijaDiskriminacijaSekvence } from './digitalna-industrij
 // ── DIGITALNA INDUSTRIJA SAJBER RIZIK ───────────────────────────────────────
 export { digitalnaIndustrijaSajberRizikSekvence } from './digitalna-industrija-sajber-rizik-page';
 
+// ── DIGITALNA INDUSTRIJA KAPITALNI RIZIK ────────────────────────────────────
+export { digitalnaIndustrijaKapitalniRizikSekvence } from './digitalna-industrija-kapitalni-rizik-page';
+
 // ── DIGITALNA INDUSTRIJA POZICIJE ────────────────────────────────────────────
 export { digitalnaIndustrijaPozicijeSekvence } from './digitalna-industrija-pozicije-page';
 
