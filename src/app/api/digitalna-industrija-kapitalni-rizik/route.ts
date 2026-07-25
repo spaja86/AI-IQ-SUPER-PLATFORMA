@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     return apiSuccess({
       sistem: 'Digitalna Industrija Kapitalni Rizik',
       opis:
-        'Centralni registar adekvatnosti kapitala (CAR, CET1, Tier1/Tier2 i kapitalnog bafera) Digitalne Industrije u Republici Srbiji.',
+        'Centralni registar adekvatnosti kapitala (CAR, CET1, Tier1/Tier2 i kapitalnih bafera) Digitalne Industrije u Republici Srbiji.',
       verzija: APP_VERSION,
       izvor: KOMPANIJA,
       rezultat,

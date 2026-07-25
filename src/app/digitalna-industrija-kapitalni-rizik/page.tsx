@@ -5,7 +5,7 @@ import { KOMPANIJA } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Digitalna Industrija Kapitalni Rizik',
-  description: `Centralni registar adekvatnosti kapitala (CAR, CET1, Tier1/Tier2 i kapitalni baferi) Digitalne Industrije — ${KOMPANIJA}`,
+  description: `Centralni registar adekvatnosti kapitala (CAR, CET1, Tier1/Tier2 i kapitalnih bafera) Digitalne Industrije — ${KOMPANIJA}`,
 };
 
 export default function DigitalnaIndustrijaKapitalniRizikPage() {

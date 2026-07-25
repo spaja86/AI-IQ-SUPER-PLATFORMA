@@ -8,7 +8,7 @@ export const digitalnaIndustrijaKapitalniRizikSekvence: Sekvenca[] = [
     id: 'digitalna-industrija-kapitalni-rizik-hero',
     tip: 'hero',
     naslov: '🏛️ Digitalna Industrija — Kapitalni Rizik',
-    podnaslov: 'Centralni registar adekvatnosti kapitala — CAR, CET1, Tier1/Tier2 i kapitalni baferi',
+    podnaslov: 'Centralni registar adekvatnosti kapitala — CAR, CET1, Tier1/Tier2 i kapitalnih bafera',
     ikona: '🏛️',
     redosled: 1,
     podaci: {
