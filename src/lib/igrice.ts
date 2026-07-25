@@ -2161,6 +2161,29 @@ export const igrice: Igrica[] = [
     preporuceniProizvodi: ['spaja-game-engine', 'spaja-ai-engine', 'spaja-multiplayer-server', 'spaja-leaderboard'],
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
+
+  // ─── COLD AND FIRE ───────────────────────────────────────────────
+  {
+    id: 'igrica-cold-and-fire',
+    naziv: 'COLD AND FIRE',
+    opis: 'Epska dualistička akciona igrica — led vs vatra — u dimenzionalnom prostoru. Igrač komanduje oba elementa, prebacujući se između ledenih i vatrenih moći. Svaka dimenzija pojačava dualnost: u 360D bazična elementalna borba, u 1440D+ sinergija leda i vatre kreira dimenzionalne eksplozije, u 5760D potpuna fuzija elemenata sa spiralnim stazama i hiperboličkim erupcijama.',
+    ikona: '🔥',
+    kategorija: 'borbena',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Dualni elementalni sistem — led i vatra u jednoj ruci',
+      'Prebacivanje između COLD i FIRE modova u realnom vremenu',
+      'Dimenzionalne kombo eksplozije leda i vatre',
+      'Boss borbe sa dimenzionalnim elementalnim protivnicima',
+      'PvP arena sa elementalnim duelima',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-particle-system', 'spaja-shader-compiler', 'spaja-multiplayer-server'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════

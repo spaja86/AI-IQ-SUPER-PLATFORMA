@@ -30,8 +30,8 @@ export const OMEGA_AI_ZENSKIH = 20_000_281;
 export const TOTAL_PAGES = 139;
 export const TOTAL_API_ROUTES = 1256;
 export const TOTAL_ROUTES = 1396;
-export const TOTAL_IGRICA = 97;
-export const TOTAL_GEJMING_ENTITETA = 45;
+export const TOTAL_IGRICA = 98;
+export const TOTAL_GEJMING_ENTITETA = 48;
 export const TOTAL_DIAGNOSTIKA = 2404;
 
 // Autofinish
