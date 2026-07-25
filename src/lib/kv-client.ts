@@ -1,10 +1,10 @@
-// SpajaUltraOmegaCore -infOmega+inf Centralizovani Vercel KV Klijent
-// Kompanija SPAJA Digitalna Industrija
+// SpajaUltraOmegaCore -∞Ω+∞ — Centralizovani Vercel KV Klijent
+// Kompanija SPAJA — Digitalna Industrija
 //
-// Pruza jedinstven interfejs za Vercel KV REST API sa graceful fallback-om
+// Pruža jedinstven interfejs za Vercel KV REST API sa graceful fallback-om
 // na in-memory store kada KV nije dostupan (lokalni razvoj, CI).
 //
-// Podrzava oba formata kljuceva:
+// Podržava oba formata ključeva:
 //   - VERCEL_KV_REST_API_URL / VERCEL_KV_REST_API_TOKEN
 //   - KV_REST_API_URL / KV_REST_API_TOKEN
 //

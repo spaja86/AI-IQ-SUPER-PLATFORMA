@@ -5,7 +5,7 @@
 # CI/CD pipeline: GitHub → Vercel deployment.
 # Triggeriše se na push na main granu.
 #
-# Sekvencu:
+# Sekvenca:
 #   1. Checkout koda
 #   2. npm ci + TypeScript provera
 #   3. npm run build verifikacija
@@ -64,7 +64,7 @@ jobs:
         run: |
           if [ -z "$VERCEL_DEPLOY_HOOK_AI_IQ" ]; then
             echo "⚠️ VERCEL_DEPLOY_HOOK_AI_IQ nije konfigurisan — preskačem hook poziv"
-            echo "ℹ️ Vercel direktna GitHub integracija ce automatski pokrenuti deploy"
+            echo "ℹ️ Vercel direktna GitHub integracija će automatski pokrenuti deploy"
           else
             echo "🚀 Pokretanje Vercel Deploy Hook..."
             RESPONSE=$(curl -s -o /tmp/vercel_response.json -w "%{http_code}" \
