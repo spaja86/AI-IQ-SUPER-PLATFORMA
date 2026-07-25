@@ -32,9 +32,13 @@ jobs:
       - name: 🔌 Opciona Codex instalacija Vercel alata
         shell: bash
         run: |
+          # Repo-scoped bootstrap (npm ci above) je uvek obavezan.
+          # Codex plugin/skill instalacije su user-scoped i opcionalne;
+          # Copilot cloud agent okruzenje ne garantuje dostupnost codex CLI-ja.
           if command -v codex >/dev/null 2>&1; then
             npm_config_yes=true npx plugins add vercel/vercel-plugin --target codex --scope user -y
             npm_config_yes=true npx skills add vercel-labs/agent-skills -g --agent codex --skill vercel-react-best-practices -y
           else
             echo "Codex CLI nije dostupan u Copilot cloud agent okruzenju; preskacem opcione user-scoped Codex instalacije."
+            echo "Repo-scoped bootstrap (npm ci) je vec zavrsen; ovaj korak je intentionally no-op."
           fi
