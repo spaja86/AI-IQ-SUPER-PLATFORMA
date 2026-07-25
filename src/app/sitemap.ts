@@ -3,7 +3,7 @@ import { BASE_URL } from '@/lib/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const highPriority = ['/', '/dashboard', '/ekosistem'];
-  const mediumHighPriority = ['/platforme', '/palasterizacija', '/perkolizonik', '/polimerzacija', '/polimerizacija-2', '/harmonizacija', '/kristalizacija', '/vektorizacija', '/sintetizacija', '/rezonancija', '/modulacija', '/demodulacija', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
+  const mediumHighPriority = ['/moze-sve', '/platforme', '/palasterizacija', '/perkolizonik', '/polimerzacija', '/polimerizacija-2', '/harmonizacija', '/kristalizacija', '/vektorizacija', '/sintetizacija', '/rezonancija', '/modulacija', '/demodulacija', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
 
   // Dynamic lastModified dates per page category
   const recentlyUpdated = new Date('2026-04-20');
@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const coreRoutes = ['/ekosistem', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/palasterizacija', '/pricing', '/it-proizvodi', '/igrice', '/gejming-industrija', '/omega-ai-suport', '/spaja-digitalni-brouvzer'];
 
   const routes = [
+    '/moze-sve',
     '/',
     '/dashboard',
     '/industrija',

@@ -226,3 +226,6 @@ export { getMaksimusSvegaSekvence } from './maksimus-svega-page';
 export { getMaksimus2Sekvence } from './maksimus-2-page';
 export { getMaksimus3Sekvence } from './maksimus-3-page';
 export { perkolizonikSekvence } from './perkolizonik-page';
+
+// ── MOŽE SVE — Unified Platform Hub ─────────────────────────────────────────
+export { mozeSveSekvence } from './moze-sve-page';
