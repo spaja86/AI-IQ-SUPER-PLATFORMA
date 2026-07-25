@@ -205,7 +205,7 @@ export default function DashboardKlijent() {
             <a href="/io-openui-ao-gaming-platforma" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-4 transition hover:border-green-500/30 hover:bg-green-900/10">
               <div className="mb-2 text-lg">🎮</div>
               <div className="text-sm font-medium text-white group-hover:text-green-300">Gaming Platforma</div>
-              <div className="mt-1 text-xs text-gray-400">{TOTAL_IGRICA} igrica u 18 kategorija — Dota 1350, TRANSFORMERS, BUBLI BABLI, Poker i jos mnogo toga.</div>
+              <div className="mt-1 text-xs text-gray-400">{TOTAL_IGRICA} igrica u 18 kategorija — Dota 1350, DOTAMASTER, TRANSFORMERS, BUBLI BABLI, Poker i jos mnogo toga.</div>
             </a>
             <a href="/digitalni-televizor" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-4 transition hover:border-yellow-500/30 hover:bg-yellow-900/10">
               <div className="mb-2 text-lg">📺</div>

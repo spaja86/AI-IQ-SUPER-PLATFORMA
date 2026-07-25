@@ -35,7 +35,7 @@ export async function GET() {
       oblast: 'Igrice',
       ikona: '🎮',
       ukupno: TOTAL_IGRICA,
-      opis: '95 igrica u 18 kategorija — Dota 1350, TRANSFORMERS, BUBLI BABLI, Poker i jos mnogo toga',
+      opis: '99 igrica u 18 kategorija — Dota 1350, DOTAMASTER, TRANSFORMERS, BUBLI BABLI, Poker i jos mnogo toga',
       linkovi: ['/igrice', '/io-openui-ao-gaming-platforma'],
     },
     {
