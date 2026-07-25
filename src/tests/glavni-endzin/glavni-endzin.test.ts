@@ -423,6 +423,22 @@ async function runTests(): Promise<void> {
     assert(glavniEndzinDigitalneIndustrije.gamingTabEndzin.podrzaneKategorije.length > 0, 'podrzane kategorije non-empty');
   });
 
+  await test('POKERMASTER ostaje dostupan kroz postojeći poker ID', () => {
+    const pokerMaster = igrice.find((i) => i.id === 'igrica-spaja-poker');
+    assert(pokerMaster !== undefined, 'igrica-spaja-poker mora postojati');
+    assertEqual(pokerMaster?.naziv, 'POKERMASTER', 'POKERMASTER naziv');
+    assertEqual(pokerMaster?.kategorija, 'strategija', 'POKERMASTER kategorija');
+  });
+
+  await test('POKERMASTER eksplicitno koristi non-real-money simulacioni opis', () => {
+    const pokerMaster = igrice.find((i) => i.id === 'igrica-spaja-poker');
+    assert(pokerMaster !== undefined, 'igrica-spaja-poker mora postojati');
+    assert(
+      pokerMaster?.opis.includes('bez real-money klađenja'),
+      'POKERMASTER opis mora jasno naglasiti simulacioni scope',
+    );
+  });
+
   await test('statistika gamingTabRunnerTipova = 5', () => {
     assertEqual(glavniEndzinDigitalneIndustrije.statistika.gamingTabRunnerTipova, 5, 'stat runner tipova');
   });

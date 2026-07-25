@@ -2079,8 +2079,8 @@ export const igrice: Igrica[] = [
   },
   {
     id: 'igrica-spaja-poker',
-    naziv: 'SPAJA POKER',
-    opis: 'Ekstremno napredni poker — nije klasična igrica, nego revolucionarni napredak koji ne postoji nigde na planeti! SPAJA dimenzionalne karte i pravila. Svaka dimenzija dodaje nove karte, boje i kombinacije. U 360D klasičan Texas Hold\'em, u 5760D geometrijske karte, dimenzionalni jackpotovi i spiralni turniri. Kompanija SPAJA zvanični poker.',
+    naziv: 'POKERMASTER',
+    opis: 'POKERMASTER je SPAJA poker simulacija za društvenu i turnirsku igru bez real-money klađenja. Koristi SPAJA dimenzionalne karte i pravila: u 360D klasičan Texas Hold\'em, a u 5760D geometrijske karte, spiralni turniri i dimenzionalni bodovni modovi za takmičarsko iskustvo unutar gaming platforme.',
     ikona: '🃏',
     kategorija: 'strategija',
     podrzaneDimenzije: sveDimenzije,
@@ -2089,7 +2089,8 @@ export const igrice: Igrica[] = [
     funkcije: [
       'SPAJA dimenzionalne karte i boje',
       'Texas Hold\'em sa dimenzionalnim pravilima',
-      'Turniri i dimenzionalni jackpotovi',
+      'Društveni multiplayer stolovi bez real-money klađenja',
+      'Turniri, leaderboard i dimenzionalni bodovni modovi',
       'Multiplayer poker stolovi po dimenzijama',
       'Ekstremni napredak — ne postoji na planeti',
       'Pita dimenziju (D) prilikom pokretanja',
