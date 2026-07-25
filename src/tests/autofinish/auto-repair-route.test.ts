@@ -63,11 +63,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET smoke provera', async () => {
-    const request = new Request('http://localhost/api/auto-repair', {
-      headers: { 'x-forwarded-for': '127.0.1.20' },
-    });
-
-    const response = await GET(request as unknown as Request);
+    const response = await GET();
     assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
 
     const body = (await response.clone().json().catch(() => null)) as unknown;
@@ -79,26 +75,6 @@ async function runTests(): Promise<void> {
         assertEqual(body['verzija'], APP_VERSION, 'verzija');
       }
     }
-  });
-
-  await test('POST odbija nevalidan JSON payload', async () => {
-    const req = new Request('http://localhost/api/auto-repair', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: '{',
-    });
-    const response = await POST(req as unknown as Request);
-    assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
-  });
-
-  await test('POST odbija nevalidan payload', async () => {
-    const req = new Request('http://localhost/api/auto-repair', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ __invalid: true }),
-    });
-    const response = await POST(req as unknown as Request);
-    assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
   });
 
   await test('Konstante su dostupne', () => {

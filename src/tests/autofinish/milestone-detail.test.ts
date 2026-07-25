@@ -184,7 +184,7 @@ async function runTests(): Promise<void> {
   function simulateMilestoneGET(id: string): {
     status: number;
     headers: Record<string, string>;
-    body: typeof d | { error: string; id: string; verzija: string };
+    body: NonNullable<typeof d> | { error: string; id: string; verzija: string };
   } {
     const detail = getAutofinishMilestoneDetail(id);
     if (!detail) {

@@ -55,7 +55,7 @@ async function runTests(): Promise<void> {
 
   const endpoints = [
     { name: '/api/autofinish-petlja', fn: () => pokreniAutofinishPetlju() },
-    { name: '/api/autofinish-petlja-status', fn: () => ({ verzija: APP_VERSION, autofinishBroj: AUTOFINISH_COUNT, ...getAutofinishPetljaStatus() }) },
+    { name: '/api/autofinish-petlja-status', fn: () => ({ autofinishBroj: AUTOFINISH_COUNT, ...getAutofinishPetljaStatus(), verzija: APP_VERSION }) },
     { name: '/api/autofinish-ekosistem-snapshot', fn: () => getAutofinishEkosistemSnapshot() },
     { name: '/api/autofinish-audit-report', fn: () => getAutofinishAuditReport() },
     { name: '/api/autofinish-verzije', fn: () => getAutofinishVerzijeSummary() },

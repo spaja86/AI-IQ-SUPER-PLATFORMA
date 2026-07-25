@@ -38,6 +38,10 @@ import {
   VAULT_MULTISIG_THRESHOLD,
   type VaultTier,
   type VaultAccount,
+  type VaultSecurityCheckKind,
+  type VaultRiskCategory,
+  type VaultStressScenarioId,
+  type BenchmarkId,
 } from '../../lib/menjacnica/trezor';
 
 // ─── Test Runner ──────────────────────────────────────────────────────────────
@@ -389,7 +393,7 @@ async function runTests(): Promise<void> {
   await test('report ima očekivane check tipove', () => {
     const report = buildVaultSecurityCheckReport('sec-user-3');
     const kinds = new Set(report.checks.map((c) => c.kind));
-    const expected = ['cold-storage-ratio', 'multi-sig-policy', 'time-lock-policy', 'whitelist-hygiene', 'audit-freshness'];
+    const expected: VaultSecurityCheckKind[] = ['cold-storage-ratio', 'multi-sig-policy', 'time-lock-policy', 'whitelist-hygiene', 'audit-freshness'];
     for (const kind of expected) {
       assert(kinds.has(kind), `Nedostaje check kind: ${kind}`);
     }
@@ -602,7 +606,7 @@ async function runTests(): Promise<void> {
   await test('report ima sve očekivane kategorije rizika', () => {
     const report = buildVaultRiskReport('risk-user-4');
     const cats = new Set(report.factors.map((f) => f.category));
-    const expected = ['market-risk', 'concentration-risk', 'liquidity-risk', 'custody-risk', 'counterparty-risk'];
+    const expected: VaultRiskCategory[] = ['market-risk', 'concentration-risk', 'liquidity-risk', 'custody-risk', 'counterparty-risk'];
     for (const cat of expected) {
       assert(cats.has(cat), `Nedostaje kategorija: ${cat}`);
     }
@@ -654,7 +658,7 @@ async function runTests(): Promise<void> {
   await test('tierYields pokriva sve tierove', () => {
     const report = buildVaultAnalyticsReport('ana-user-3');
     const tiers = new Set(report.tierYields.map((t) => t.tier));
-    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold'] as VaultTier[]) {
       assert(tiers.has(tier), `Nedostaje tier: ${tier}`);
     }
   });
@@ -711,7 +715,7 @@ async function runTests(): Promise<void> {
   await test('tierAllocations pokriva sve tierove', () => {
     const report = buildVaultRebalanceReport('reb-user-2');
     const tiers = new Set(report.tierAllocations.map((t) => t.tier));
-    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold'] as VaultTier[]) {
       assert(tiers.has(tier), `Nedostaje tier: ${tier}`);
     }
   });
@@ -772,7 +776,7 @@ async function runTests(): Promise<void> {
   await test('tierBreakdown pokriva sve tierove', () => {
     const report = buildVaultLiquidityReport('liq-user-2');
     const tiers = new Set(report.tierBreakdown.map((t) => t.tier));
-    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold'] as VaultTier[]) {
       assert(tiers.has(tier), `Nedostaje tier: ${tier}`);
     }
   });
@@ -900,7 +904,7 @@ async function runTests(): Promise<void> {
   await test('stress scenariji imaju očekivane id vrednosti', () => {
     const report = buildVaultStressReport('str-user-2');
     const ids = new Set(report.scenarios.map((s) => s.id));
-    for (const id of ['flash-crash', 'liquidity-freeze', 'custody-incident']) {
+    for (const id of ['flash-crash', 'liquidity-freeze', 'custody-incident'] as VaultStressScenarioId[]) {
       assert(ids.has(id), `nedostaje scenario ${id}`);
     }
   });
@@ -970,7 +974,7 @@ async function runTests(): Promise<void> {
   await test('komponente pokrivaju coverage, liquidity, stress i risk-mitigation', () => {
     const report = buildVaultResilienceReport('rsl-user-3');
     const ids = new Set(report.components.map((c) => c.id));
-    for (const id of ['coverage', 'liquidity', 'stress', 'risk-mitigation']) {
+    for (const id of ['coverage', 'liquidity', 'stress', 'risk-mitigation'] as Array<'coverage' | 'liquidity' | 'stress' | 'risk-mitigation'>) {
       assert(ids.has(id), `nedostaje komponenta ${id}`);
     }
     assert(report.components.length === 4, 'mora biti tačno 4 komponente');
@@ -1017,7 +1021,7 @@ async function runTests(): Promise<void> {
   await test('komparacije pokrivaju sve benchmark-e', () => {
     const report = buildVaultBenchmarkReport('bmk-user-2');
     const ids = new Set(report.comparisons.map((c) => c.benchmarkId));
-    for (const id of ['BTC', 'ETH', 'crypto-market-index']) {
+    for (const id of ['BTC', 'ETH', 'crypto-market-index'] as BenchmarkId[]) {
       assert(ids.has(id), `nedostaje komparacija za ${id}`);
     }
     assert(report.comparisons.length === 3, 'mora biti tačno 3 komparacije');
@@ -1218,7 +1222,7 @@ async function runTests(): Promise<void> {
   await test('tierAllocations pokriva sve tierove', () => {
     const report = buildVaultAllocationReport('alloc-user-5');
     const tiers = new Set(report.tierAllocations.map((tier) => tier.tier));
-    for (const tier of ['hot', 'warm', 'cold', 'deep-cold']) {
+    for (const tier of ['hot', 'warm', 'cold', 'deep-cold'] as VaultTier[]) {
       assert(tiers.has(tier), `nedostaje tier ${tier}`);
     }
   });

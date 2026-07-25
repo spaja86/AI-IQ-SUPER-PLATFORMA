@@ -25,10 +25,13 @@ auth/2fa,POST,auth,yes,auth-2fa-route.test.ts
 auth/forgot-password,POST,auth,yes,auth-forgot-password-route.test.ts
 auth/login,POST,auth,yes,auth-login-route.test.ts
 auth/logout,POST,auth,yes,auth-logout-route.test.ts
+auth/owner-otp,POST,auth,yes,auth-owner-otp-route.test.ts
 auth/refresh,POST,auth,yes,auth-refresh-route.test.ts
 auth/register,POST,auth,yes,auth-register-route.test.ts
 auth/status,GET,auth,yes,auth-status-route.test.ts
+auth/token,POST,auth,yes,auth-token-route.test.ts
 auth/verify,GET,auth,yes,auth-verify-route.test.ts
+auth/verify-otp,POST,auth,yes,auth-verify-otp-route.test.ts
 auto-repair,GET|POST,auto-repair,yes,auto-repair-route.test.ts
 auto-repair/history,GET,auto-repair,yes,auto-repair-history-route.test.ts
 autofinish,GET,autofinish,yes,autofinish-route.test.ts
@@ -241,6 +244,7 @@ digitalna-industrija-hedzing,GET,digitalna-industrija-hedzing,yes,digitalna-indu
 digitalna-industrija-inflacije,GET,digitalna-industrija-inflacije,yes,digitalna-industrija-inflacije-route.test.ts
 digitalna-industrija-izvoz-faktura,GET,digitalna-industrija-izvoz-faktura,yes,digitalna-industrija-izvoz-faktura-route.test.ts
 digitalna-industrija-kamatni-rizik,GET,digitalna-industrija-kamatni-rizik,yes,digitalna-industrija-kamatni-rizik-route.test.ts
+digitalna-industrija-kapitalni-rizik,GET,digitalna-industrija-kapitalni-rizik,yes,digitalna-industrija-kapitalni-rizik-route.test.ts
 digitalna-industrija-kreditni-rizik,GET,digitalna-industrija-kreditni-rizik,yes,digitalna-industrija-kreditni-rizik-route.test.ts
 digitalna-industrija-kursna-lista,GET,digitalna-industrija-kursna-lista,yes,digitalna-industrija-kursna-lista-route.test.ts
 digitalna-industrija-kursne-razlike,GET,digitalna-industrija-kursne-razlike,yes,digitalna-industrija-kursne-razlike-route.test.ts
@@ -287,6 +291,7 @@ ekosistem-zdravlje,GET,ekosistem-zdravlje,yes,ekosistem-zdravlje-route.test.ts
 eksosistzdacija,GET,eksosistzdacija,yes,eksosistzdacija-route.test.ts
 eksponat-glavnog-jezgra,GET,eksponat-glavnog-jezgra,yes,eksponat-glavnog-jezgra-route.test.ts
 ekstremno-procesuiranje-svega,GET,ekstremno-procesuiranje-svega,yes,ekstremno-procesuiranje-svega-route.test.ts
+ekstrimli-ekstrem,GET,ekstrimli-ekstrem,yes,ekstrimli-ekstrem-route.test.ts
 enterprise-ugovori,GET|POST,enterprise-ugovori,yes,enterprise-ugovori-route.test.ts
 enterprise-zahtevi,GET,enterprise-zahtevi,yes,enterprise-zahtevi-route.test.ts
 erste-banka-racuni,GET,erste-banka-racuni,yes,erste-banka-racuni-route.test.ts
@@ -337,6 +342,7 @@ issuer-licensing/expirations,GET,issuer-licensing,yes,issuer-licensing-expiratio
 issuer-licensing/issue,POST,issuer-licensing,yes,issuer-licensing-issue-route.test.ts
 it-proizvodi-pregled,GET,it-proizvodi-pregled,yes,it-proizvodi-pregled-route.test.ts
 it-proizvodi-status,GET,it-proizvodi-status,yes,it-proizvodi-status-route.test.ts
+jokes/random,GET|POST,jokes,yes,jokes-random-route.test.ts
 kastler-tv-signal-request,GET|POST,kastler-tv-signal-request,yes,kastler-tv-signal-request-route.test.ts
 kastler-tv-signal-status,GET,kastler-tv-signal-status,yes,kastler-tv-signal-status-route.test.ts
 kategorije-pregled,GET,kategorije-pregled,yes,kategorije-pregled-route.test.ts
@@ -686,6 +692,9 @@ platforma-replikacija,GET,platforma-replikacija,yes,platforma-replikacija-route.
 platforme,GET,platforme,yes,platforme-route.test.ts
 platforme-pregled,GET,platforme-pregled,yes,platforme-pregled-route.test.ts
 platforme-status,GET,platforme-status,yes,platforme-status-route.test.ts
+platforms/[platformId]/[...path],GET|POST,platforms,yes,platforms-[platformId]-[...path]-route.test.ts
+platforms/health,GET,platforms,yes,platforms-health-route.test.ts
+platforms/sync,POST,platforms,yes,platforms-sync-route.test.ts
 polimerizacija-2,GET,polimerizacija-2,yes,polimerizacija-2-route.test.ts
 polimerizacija-2/istorija,GET,polimerizacija-2,yes,polimerizacija-2-istorija-route.test.ts
 polimerizacija-2/lanci,GET,polimerizacija-2,yes,polimerizacija-2-lanci-route.test.ts
