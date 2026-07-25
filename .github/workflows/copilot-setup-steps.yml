@@ -29,8 +29,12 @@ jobs:
       - name: 📥 Instalacija zavisnosti
         run: npm ci
 
-      - name: 🔌 Instalacija Vercel plugina za Codex
-        run: npm_config_yes=true npx plugins add vercel/vercel-plugin --target codex --scope user -y
-
-      - name: ⚛️ Instalacija Vercel React best practices skill-a
-        run: npm_config_yes=true npx skills add vercel-labs/agent-skills -g --agent codex --skill vercel-react-best-practices -y
+      - name: 🔌 Opciona Codex instalacija Vercel alata
+        shell: bash
+        run: |
+          if command -v codex >/dev/null 2>&1; then
+            npm_config_yes=true npx plugins add vercel/vercel-plugin --target codex --scope user -y
+            npm_config_yes=true npx skills add vercel-labs/agent-skills -g --agent codex --skill vercel-react-best-practices -y
+          else
+            echo "Codex CLI nije dostupan u Copilot cloud agent okruzenju; preskacem opcione user-scoped Codex instalacije."
+          fi
