@@ -10,7 +10,7 @@ import type {
   PokerStreet,
 } from './types';
 
-const DEFAULT_PLAYER_CONFIG = [
+const DEFAULT_POKER_PLAYERS = [
   { id: 'p1-human', ime: 'Ti', isBot: false },
   { id: 'p2-bot', ime: 'Omega Bot', isBot: true },
   { id: 'p3-bot', ime: 'Spaja Bot', isBot: true },
@@ -51,12 +51,12 @@ function bettingPlayers(state: PokerState): PokerPlayerState[] {
   return state.players.filter((p) => !p.folded && !p.allIn);
 }
 
-function findNextActivePlayer(players: PokerPlayerState[], startIndex: number): PokerPlayerState {
+function findNextActivePlayer(players: PokerPlayerState[], startIndex: number): PokerPlayerState | null {
   for (let offset = 1; offset <= players.length; offset++) {
     const idx = (startIndex + offset) % players.length;
     if (!players[idx].folded && !players[idx].allIn) return players[idx];
   }
-  return players[startIndex];
+  return players.find((p) => !p.folded) ?? null;
 }
 
 function postBlind(state: PokerState, playerIndex: number, amount: number): void {
@@ -78,7 +78,8 @@ function prepareStreet(state: PokerState, street: PokerStreet): void {
   }
   const dealer = state.players[state.dealerIndex];
   const currentIdx = state.players.findIndex((p) => p.id === dealer.id);
-  state.currentTurnPlayerId = findNextActivePlayer(state.players, currentIdx).id;
+  const nextTurn = findNextActivePlayer(state.players, currentIdx);
+  state.currentTurnPlayerId = nextTurn?.id ?? state.players[currentIdx]?.id ?? state.players[0]?.id ?? '';
 }
 
 function finalizeHand(state: PokerState): void {
@@ -220,6 +221,8 @@ function setupNewHand(state: PokerState): PokerState {
     p.actedThisStreet = false;
   }
 
+  // Seed ulaz = (tekući seed + hand broj), a izlaz seed iz shuffle-a čuvamo nazad.
+  // Time svaka ruka ostaje deterministička, ali i jedinstvena kroz session tok.
   const shuffled = shuffleDeck(createStandardDeck(), next.seed + next.handNumber);
   next.deck = shuffled.deck;
   next.seed = shuffled.seed;
@@ -238,7 +241,7 @@ function setupNewHand(state: PokerState): PokerState {
   postBlind(next, sbIndex, next.smallBlind);
   postBlind(next, bbIndex, next.bigBlind);
 
-  next.currentTurnPlayerId = findNextActivePlayer(next.players, bbIndex).id;
+  next.currentTurnPlayerId = findNextActivePlayer(next.players, bbIndex)?.id ?? next.players[bbIndex]?.id ?? '';
   next.street = 'preflop';
 
   next.auditLog.push(
@@ -257,7 +260,7 @@ function setupNewHand(state: PokerState): PokerState {
 export function createMasterPokerState(options: CreatePokerStateOptions = {}): PokerState {
   const initialChips = options.initialChips ?? 1_000;
   const base: PokerState = {
-    players: DEFAULT_PLAYER_CONFIG.map((cfg) => ({
+    players: DEFAULT_POKER_PLAYERS.map((cfg) => ({
       ...cfg,
       chips: initialChips,
       holeCards: [],
@@ -393,10 +396,10 @@ export function applyPokerAction(state: PokerState, action: PokerAction): PokerA
   }
 
   const currentIdx = next.players.findIndex((p) => p.id === player.id);
-  next.currentTurnPlayerId = findNextActivePlayer(next.players, currentIdx).id;
+  next.currentTurnPlayerId = findNextActivePlayer(next.players, currentIdx)?.id ?? next.players[currentIdx]?.id ?? '';
   return { state: next };
 }
 
 export function createActionId(prefix: string, hand: number, actionCount: number): string {
-  return `${prefix}-${hand}-${actionCount}-${Date.now()}`;
+  return `${prefix}-${hand}-${actionCount}`;
 }

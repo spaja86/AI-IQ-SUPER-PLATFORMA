@@ -1,19 +1,19 @@
 import type { EvaluatedPokerHand, PokerCard } from './types';
 
-function sortDesc(values: number[]): number[] {
+function sortValuesDescending(values: number[]): number[] {
   return [...values].sort((a, b) => b - a);
 }
 
 function getStraightHigh(values: number[]): number | null {
   const unique = [...new Set(values)].sort((a, b) => b - a);
-  if (unique.includes(14)) unique.push(1); // wheel A-2-3-4-5
+  const normalized = unique.includes(14) ? [...unique, 1] : unique; // wheel A-2-3-4-5
 
   let streak = 1;
-  for (let i = 0; i < unique.length - 1; i++) {
-    if (unique[i] - 1 === unique[i + 1]) {
+  for (let i = 0; i < normalized.length - 1; i++) {
+    if (normalized[i] - 1 === normalized[i + 1]) {
       streak += 1;
       if (streak >= 5) {
-        return unique[i - 3];
+        return normalized[i - 3];
       }
     } else {
       streak = 1;
@@ -37,7 +37,7 @@ export function evaluateFiveCardHand(cards: PokerCard[]): EvaluatedPokerHand {
 
   const values = cards.map((c) => c.value);
   const suits = cards.map((c) => c.suit);
-  const sortedValues = sortDesc(values);
+  const sortedValues = sortValuesDescending(values);
   const freq = new Map<number, number>();
   for (const v of values) freq.set(v, (freq.get(v) ?? 0) + 1);
 
@@ -157,6 +157,9 @@ export function evaluateBestHand(cards: PokerCard[]): EvaluatedPokerHand {
 
   let best: EvaluatedPokerHand | null = null;
 
+  // Brute-force 5-of-N je ovde namerno: proverava sve 5-card kombinacije iz ulaza.
+  // Za standardni Texas Hold'em ulaz (2 hole + 5 community = 7 karata),
+  // to je C(7,5)=21 kombinacija, pa je složenost praktično mala i stabilna.
   for (let a = 0; a < cards.length - 4; a++) {
     for (let b = a + 1; b < cards.length - 3; b++) {
       for (let c = b + 1; c < cards.length - 2; c++) {

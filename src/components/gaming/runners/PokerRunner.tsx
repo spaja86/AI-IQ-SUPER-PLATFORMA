@@ -24,11 +24,12 @@ interface Props {
 
 const HUMAN_PLAYER_ID = 'p1-human';
 
-function formatCard(code: string): string {
-  return code;
-}
-
-function deterministicDecision(state: PokerState, playerId: string): number {
+/**
+ * Lokalni deterministički percentil (0-99, inkluzivno) za bot odluke.
+ * Koristimo prost polynomial rolling hash (×31) jer je brz i reproducibilan
+ * za isti hand/action ulaz bez dodatnog RNG stanja u UI sloju.
+ */
+function getDeterministicPercentile(state: PokerState, playerId: string): number {
   let hash = 17;
   const src = `${state.seed}:${state.handNumber}:${state.actionCount}:${playerId}`;
   for (let i = 0; i < src.length; i++) {
@@ -39,9 +40,11 @@ function deterministicDecision(state: PokerState, playerId: string): number {
 
 function chooseBotAction(state: PokerState, playerId: string): PokerAction {
   const legal = getLegalActions(state, playerId);
-  const roll = deterministicDecision(state, playerId);
+  const roll = getDeterministicPercentile(state, playerId);
 
   let type: PokerAction['type'] = 'fold';
+  // Pragovi su namenski konzervativni za v1 bot:
+  // 70+ češće raise, 35-69 call, ispod toga preferira check/fold.
   if (legal.includes('raise') && roll >= 70) type = 'raise';
   else if (legal.includes('call') && roll >= 35) type = 'call';
   else if (legal.includes('check')) type = 'check';
@@ -248,7 +251,7 @@ export default function PokerRunner({ konfiguracija, isPauziran, onScoreUpdate, 
               {state.communityCards.length === 0 && <span className="text-sm text-gray-500">Još nema otvorenih karata.</span>}
               {state.communityCards.map((card, idx) => (
                 <span key={`${state.handNumber}-${card.code}-${idx}`} className="rounded-md border border-gray-700 bg-gray-800 px-2 py-1 text-sm">
-                  {formatCard(card.code)}
+                  {card.code}
                 </span>
               ))}
             </div>
@@ -274,7 +277,7 @@ export default function PokerRunner({ konfiguracija, isPauziran, onScoreUpdate, 
                     <div className="mt-2 flex gap-2 text-xs">
                       {player.holeCards.map((card) => (
                         <span key={card.code} className="rounded-md border border-yellow-500/40 bg-yellow-900/20 px-2 py-0.5 text-yellow-100">
-                          {formatCard(card.code)}
+                          {card.code}
                         </span>
                       ))}
                     </div>
