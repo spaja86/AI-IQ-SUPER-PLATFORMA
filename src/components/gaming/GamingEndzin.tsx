@@ -26,6 +26,44 @@ const LogickaRunner = dynamic(() => import('./runners/LogickaRunner'), { ssr: fa
 const SimulacijaRunner = dynamic(() => import('./runners/SimulacijaRunner'), { ssr: false });
 const EduRunner = dynamic(() => import('./runners/EduRunner'), { ssr: false });
 const KreativnaRunner = dynamic(() => import('./runners/KreativnaRunner'), { ssr: false });
+const BorbenaRunner = dynamic(() => import('./runners/BorbenaRunner'), { ssr: false });
+
+// ─── COLD AND FIRE karakteri ─────────────────────────────────────────
+
+interface ColdFireKarakter {
+  id: 'cold' | 'fire';
+  naziv: string;
+  ikona: string;
+  opis: string;
+  atributi: { naziv: string; vrednost: number }[];
+}
+
+const COLD_FIRE_KARAKTERI: ColdFireKarakter[] = [
+  {
+    id: 'cold',
+    naziv: 'Cold Ratnik',
+    ikona: '❄️',
+    opis: 'Majstor ledenih moći. Kristalni oklop od dimenzionalnog leda koji menja providnost prema dimenziji.',
+    atributi: [
+      { naziv: 'Hladnoća', vrednost: 95 },
+      { naziv: 'Odbrana', vrednost: 88 },
+      { naziv: 'Brzina', vrednost: 72 },
+      { naziv: 'Elementalna moć', vrednost: 90 },
+    ],
+  },
+  {
+    id: 'fire',
+    naziv: 'Fire Feniks',
+    ikona: '🔥',
+    opis: 'Komandant vatrenih moći. Ognjeni oklop koji tinja i eksplodira prema snazi dimenzije.',
+    atributi: [
+      { naziv: 'Vatra', vrednost: 98 },
+      { naziv: 'Napad', vrednost: 95 },
+      { naziv: 'Brzina', vrednost: 85 },
+      { naziv: 'Elementalna moć', vrednost: 93 },
+    ],
+  },
+];
 
 interface Props {
   igrica: Igrica;
@@ -34,12 +72,17 @@ interface Props {
   onIzlaz: () => void;
 }
 
-type GameFaza = 'uvod' | 'igra' | 'pauza' | 'kraj';
+type GameFaza = 'karakter' | 'uvod' | 'igra' | 'pauza' | 'kraj';
 
 export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, onIzlaz }: Props) {
-  const [faza, setFaza] = useState<GameFaza>('uvod');
+  const isColdAndFire = igrica.id === 'igrica-cold-and-fire';
+
+  const [faza, setFaza] = useState<GameFaza>(isColdAndFire ? 'karakter' : 'uvod');
   const [score, setScore] = useState<GameScore>(() => noviScore(dimenzija.nivo));
   const [restartKey, setRestartKey] = useState(0);
+  const [odabraniKarakter, setOdabraniKarakter] = useState<'cold' | 'fire'>('cold');
+  const [elemMod, setElemMod] = useState<'cold' | 'fire'>('cold');
+  const [fusionGauge, setFusionGauge] = useState(0);
 
   const konfiguracija = kreirajEndzinKonfiguraciju(igrica, dimenzija);
   const { parametri, runnerTip } = konfiguracija;
@@ -69,13 +112,113 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
   const handleRestart = useCallback(() => {
     setScore(noviScore(dimenzija.nivo));
     setRestartKey((k) => k + 1);
-    setFaza('igra');
-  }, [dimenzija.nivo]);
+    if (isColdAndFire) {
+      setFaza('karakter');
+    } else {
+      setFaza('igra');
+    }
+  }, [dimenzija.nivo, isColdAndFire]);
 
   const handleKraj = useCallback((finalScore: GameScore) => {
     setScore(finalScore);
     setFaza('kraj');
   }, []);
+
+  const handleModChange = useCallback((mod: 'cold' | 'fire', gauge: number) => {
+    setElemMod(mod);
+    setFusionGauge(gauge);
+  }, []);
+
+  // ── Ekran za izbor karaktera (samo COLD AND FIRE) ──
+
+  if (faza === 'karakter' && isColdAndFire) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center bg-gray-950 px-4">
+        <div className="w-full max-w-md">
+          <div className="mb-6 text-center">
+            <div className="mb-2 text-5xl">🔥❄️</div>
+            <h1 className="text-2xl font-bold text-white">COLD AND FIRE</h1>
+            <p className="mt-1 text-sm text-gray-400">Izaberi svog heroja</p>
+            <div className="mt-2 flex justify-center">
+              <DimenzijaBadge dimenzija={dimenzija.nivo} />
+            </div>
+          </div>
+
+          <div className="mb-6 grid grid-cols-2 gap-3">
+            {COLD_FIRE_KARAKTERI.map((kar) => (
+              <button
+                key={kar.id}
+                type="button"
+                onClick={() => setOdabraniKarakter(kar.id)}
+                className={`rounded-2xl border-2 p-4 text-left transition ${
+                  odabraniKarakter === kar.id
+                    ? kar.id === 'cold'
+                      ? 'border-cyan-500 bg-cyan-900/30'
+                      : 'border-orange-500 bg-orange-900/30'
+                    : 'border-gray-700 bg-gray-900/60 hover:border-gray-500'
+                }`}
+              >
+                <div className="mb-2 text-3xl text-center">{kar.ikona}</div>
+                <p className={`mb-1 text-center text-sm font-bold ${
+                  kar.id === 'cold' ? 'text-cyan-300' : 'text-orange-300'
+                }`}>
+                  {kar.naziv}
+                </p>
+                <p className="mb-3 text-center text-xs text-gray-500 leading-relaxed">{kar.opis}</p>
+                {/* Atributi kao bar chart */}
+                <div className="space-y-1.5">
+                  {kar.atributi.map((attr) => (
+                    <div key={attr.naziv}>
+                      <div className="mb-0.5 flex justify-between text-[10px]">
+                        <span className="text-gray-500">{attr.naziv}</span>
+                        <span className="font-bold text-gray-300">{attr.vrednost}</span>
+                      </div>
+                      <div className="h-1 rounded-full bg-gray-800">
+                        <div
+                          className={`h-1 rounded-full ${kar.id === 'cold' ? 'bg-cyan-500' : 'bg-orange-500'}`}
+                          style={{ width: `${attr.vrednost}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <Button
+            onClick={() => {
+              setElemMod(odabraniKarakter);
+              setFaza('uvod');
+            }}
+            className={`w-full rounded-2xl py-4 text-base font-bold text-white shadow-lg transition ${
+              odabraniKarakter === 'cold'
+                ? 'bg-cyan-700 hover:bg-cyan-600'
+                : 'bg-orange-700 hover:bg-orange-600'
+            }`}
+          >
+            {odabraniKarakter === 'cold' ? '❄️' : '🔥'} Odaberi{' '}
+            {COLD_FIRE_KARAKTERI.find((k) => k.id === odabraniKarakter)?.naziv}
+          </Button>
+
+          <div className="mt-3 flex gap-2">
+            <Button
+              onClick={onPromeniDimenziju}
+              className="flex-1 rounded-xl bg-purple-600/80 py-2 text-sm font-medium text-white transition hover:bg-purple-600"
+            >
+              🌀 Promeni dimenziju
+            </Button>
+            <Button
+              onClick={onIzlaz}
+              className="flex-1 rounded-xl bg-gray-700 py-2 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
+            >
+              ✕ Izlaz
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // ── Uvod ekran ──
 
@@ -85,6 +228,11 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
         <div className="w-full max-w-md text-center">
           <div className="mb-4 text-6xl">{igrica.ikona}</div>
           <h1 className="mb-2 text-2xl font-bold text-white">{igrica.naziv}</h1>
+          {isColdAndFire && (
+            <p className={`mb-2 text-sm font-semibold ${odabraniKarakter === 'cold' ? 'text-cyan-400' : 'text-orange-400'}`}>
+              {odabraniKarakter === 'cold' ? '❄️ Cold Ratnik' : '🔥 Fire Feniks'}
+            </p>
+          )}
           <div className="mb-4 flex justify-center">
             <DimenzijaBadge dimenzija={dimenzija.nivo} />
           </div>
@@ -139,6 +287,14 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           </Button>
 
           <div className="mt-3 flex gap-2">
+            {isColdAndFire && (
+              <Button
+                onClick={() => setFaza('karakter')}
+                className="flex-1 rounded-xl bg-gray-700 py-2 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
+              >
+                ← Promeni heroja
+              </Button>
+            )}
             <Button
               onClick={onPromeniDimenziju}
               className="flex-1 rounded-xl bg-purple-600/80 py-2 text-sm font-medium text-white transition hover:bg-purple-600"
@@ -232,6 +388,8 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
         igricaNaziv={igrica.naziv}
         igricaIkona={igrica.ikona}
         onPauza={handlePauza}
+        elemMod={isColdAndFire ? elemMod : undefined}
+        fusionGauge={isColdAndFire && parametri.slojevi >= 3 ? fusionGauge : undefined}
       />
 
       {/* Runner */}
@@ -241,6 +399,13 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
         {runnerTip === 'simulacija' && <SimulacijaRunner {...runnerProps} />}
         {runnerTip === 'edu' && <EduRunner {...runnerProps} />}
         {runnerTip === 'kreativna' && <KreativnaRunner {...runnerProps} />}
+        {runnerTip === 'borbena' && (
+          <BorbenaRunner
+            {...runnerProps}
+            startingMod={odabraniKarakter}
+            onModChange={handleModChange}
+          />
+        )}
       </div>
 
       {/* Pauze meni — overlay */}
@@ -259,3 +424,4 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
     </div>
   );
 }
+

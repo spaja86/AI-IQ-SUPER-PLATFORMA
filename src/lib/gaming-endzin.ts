@@ -17,7 +17,7 @@ import type { Igrica, KategorijaIgrice } from './igrice';
 
 // ─── Runner tipovi ─────────────────────────────────────────────────
 
-export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna';
+export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena';
 
 // ─── Dimenzionalni parametri ───────────────────────────────────────
 
@@ -115,7 +115,7 @@ export function dimenzijaNaParametre(nivo: DimenzijaNivo): DimenzionalnParametri
 
 const KATEGORIJA_NA_RUNNER: Record<KategorijaIgrice, RunnerTip> = {
   akcija: 'akcija',
-  borbena: 'akcija',
+  borbena: 'borbena',
   trka: 'akcija',
   logicka: 'logicka',
   arkadna: 'logicka',
