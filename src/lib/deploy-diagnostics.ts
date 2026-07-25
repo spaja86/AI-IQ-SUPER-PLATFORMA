@@ -2,6 +2,7 @@ import { TOTAL_API_ROUTES } from '@/lib/constants';
 import { getAutofinishMetaInfo } from '@/lib/autofinish-petlja';
 import { validateConfig } from '@/lib/config-validation';
 import { getOperativnaSpremnost } from '@/lib/kompanija-spaja-operativa';
+import { isKvAvailable, kvPing } from '@/lib/kv-client';
 
 export type DeploymentFailureKind = 'build' | 'runtime' | 'unknown';
 
@@ -170,6 +171,11 @@ export function getDeployDiagnosticsSnapshot() {
   const autofinishMeta = getAutofinishMetaInfo();
   const routePressure = TOTAL_API_ROUTES >= 1000 ? 'high' : TOTAL_API_ROUTES >= 400 ? 'medium' : 'low';
 
+  const vercelToken = Boolean(process.env.VERCEL_TOKEN);
+  const vercelProjectId = Boolean(process.env.VERCEL_PROJECT_ID);
+  const vercelKvConfigured = isKvAvailable();
+  const vercelPriključeno = vercelToken && vercelProjectId;
+
   return {
     env: {
       missingEnv: operativa.spremnost.missingEnv,
@@ -199,5 +205,40 @@ export function getDeployDiagnosticsSnapshot() {
       'VERCEL_TEAM_ID',
       'VERCEL_TOKEN',
     ],
+    vercelPriključenost: {
+      vercelPriključeno,
+      vercelToken,
+      vercelProjectId,
+      vercelTeamId: Boolean(process.env.VERCEL_TEAM_ID ?? process.env.VERCEL_ORG_ID),
+      vercelKvConfigured,
+      deployHookAiIq: Boolean(process.env.VERCEL_DEPLOY_HOOK_AI_IQ),
+      deployHookIoOpenUiAo: Boolean(process.env.VERCEL_DEPLOY_HOOK_IO_OPENUI_AO),
+    },
+  };
+}
+
+/**
+ * Async health check: proverava Vercel token i KV ping.
+ * Pozivati samo iz server-side konteksta (API route-ovi).
+ */
+export async function getVercelHealthCheck(): Promise<{
+  vercelPriključeno: boolean;
+  tokenKonfigurisan: boolean;
+  projectIdKonfigurisan: boolean;
+  kvOdgovara: boolean;
+  kvKonfigurisan: boolean;
+}> {
+  const tokenKonfigurisan = Boolean(process.env.VERCEL_TOKEN);
+  const projectIdKonfigurisan = Boolean(process.env.VERCEL_PROJECT_ID);
+  const kvKonfigurisan = isKvAvailable();
+  const kvOdgovara = kvKonfigurisan ? await kvPing() : false;
+  const vercelPriključeno = tokenKonfigurisan && projectIdKonfigurisan;
+
+  return {
+    vercelPriključeno,
+    tokenKonfigurisan,
+    projectIdKonfigurisan,
+    kvOdgovara,
+    kvKonfigurisan,
   };
 }

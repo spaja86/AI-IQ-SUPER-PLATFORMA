@@ -1,0 +1,101 @@
+# ═══════════════════════════════════════════════════════════
+# ▲ Vercel Deploy Pipeline — AI IQ SUPER PLATFORMA
+# ═══════════════════════════════════════════════════════════
+#
+# CI/CD pipeline: GitHub → Vercel deployment.
+# Triggeriše se na push na main granu.
+#
+# Sekvenca:
+#   1. Checkout koda
+#   2. npm ci + TypeScript provera
+#   3. npm run build verifikacija
+#   4. Poziv Vercel Deploy Hook (via VERCEL_DEPLOY_HOOK_AI_IQ secret)
+#   5. Audit log u GitHub Summary
+#
+# Env varijable (GitHub Secrets):
+#   VERCEL_DEPLOY_HOOK_AI_IQ — Vercel Deploy Hook URL (Vercel → Settings → Git → Deploy Hooks)
+#
+# Napomena: Ovo je sekundarni trigger. Vercel automatski deploya pri push-u
+# ako je GitHub repo direktno priključen na Vercel projekat.
+
+name: ▲ Vercel Deploy
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+    inputs:
+      razlog:
+        description: 'Razlog manuelnog pokretanja'
+        required: false
+        default: 'Manuelni deploy trigger'
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: ▲ Build & Deploy na Vercel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Instalacija zavisnosti
+        run: npm ci
+
+      - name: 🔍 TypeScript provera
+        run: npx tsc --noEmit
+
+      - name: 🏗️ Next.js Build verifikacija
+        run: npx next build
+
+      - name: 🚀 Pokretanje Vercel Deploy Hook
+        if: ${{ vars.VERCEL_DEPLOY_HOOK_AI_IQ != '' || secrets.VERCEL_DEPLOY_HOOK_AI_IQ != '' }}
+        env:
+          VERCEL_DEPLOY_HOOK_AI_IQ: ${{ secrets.VERCEL_DEPLOY_HOOK_AI_IQ }}
+        run: |
+          if [ -z "$VERCEL_DEPLOY_HOOK_AI_IQ" ]; then
+            echo "⚠️ VERCEL_DEPLOY_HOOK_AI_IQ nije konfigurisan — preskačem hook poziv"
+            echo "ℹ️ Vercel direktna GitHub integracija će automatski pokrenuti deploy"
+          else
+            echo "🚀 Pokretanje Vercel Deploy Hook..."
+            RESPONSE=$(curl -s -o /tmp/vercel_response.json -w "%{http_code}" \
+              -X POST "$VERCEL_DEPLOY_HOOK_AI_IQ" \
+              -H "Content-Type: application/json")
+            
+            if [ "$RESPONSE" -ge 200 ] && [ "$RESPONSE" -lt 300 ]; then
+              echo "✅ Deploy hook uspešno pokrenut (HTTP $RESPONSE)"
+              cat /tmp/vercel_response.json
+            else
+              echo "❌ Deploy hook greška (HTTP $RESPONSE)"
+              cat /tmp/vercel_response.json
+              exit 1
+            fi
+          fi
+
+      - name: 📊 Deploy Audit Log
+        if: always()
+        run: |
+          echo "## ▲ Vercel Deploy — Audit Log" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Polje | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Autor** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Vreme** | $(date -u +%Y-%m-%dT%H:%M:%SZ) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Pokretanje** | ${{ github.event_name }} |" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "| **Razlog** | ${{ github.event.inputs.razlog }} |" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "🔗 **Vercel Dashboard:** https://vercel.com/dashboard" >> "$GITHUB_STEP_SUMMARY"
+          echo "🔗 **Produkcija:** https://ai-iq-super-platforma.vercel.app" >> "$GITHUB_STEP_SUMMARY"

@@ -69,6 +69,27 @@ export const ENV_VARIJABLE: EnvVarDefinicija[] = [
     grupa: 'REQUIRED',
     opis: 'Token za ručno pokretanje Autofinish iteracije',
   },
+  // Vercel API (deploy management)
+  {
+    kljuc: 'VERCEL_TOKEN',
+    grupa: 'OPTIONAL',
+    opis: 'Vercel Personal Access Token za Deploy API i status probe',
+  },
+  {
+    kljuc: 'VERCEL_PROJECT_ID',
+    grupa: 'OPTIONAL',
+    opis: 'Vercel Project ID (iz Vercel dashboard → Project → Settings → General)',
+  },
+  {
+    kljuc: 'VERCEL_TEAM_ID',
+    grupa: 'OPTIONAL',
+    opis: 'Vercel Team/Org ID (opciono, za timske projekte)',
+  },
+  {
+    kljuc: 'VERCEL_DEPLOY_HOOK_AI_IQ',
+    grupa: 'OPTIONAL',
+    opis: 'Vercel Deploy Hook URL za AI IQ SUPER PLATFORMA (Vercel → Settings → Git → Deploy Hooks)',
+  },
   // Vercel KV (rate limiting)
   {
     kljuc: 'VERCEL_KV_REST_API_URL',
@@ -79,6 +100,16 @@ export const ENV_VARIJABLE: EnvVarDefinicija[] = [
     kljuc: 'VERCEL_KV_REST_API_TOKEN',
     grupa: 'OPTIONAL',
     opis: 'Vercel KV token za distribuirani rate limiting',
+  },
+  {
+    kljuc: 'KV_REST_API_URL',
+    grupa: 'OPTIONAL',
+    opis: 'Vercel KV URL (alternativni alias za VERCEL_KV_REST_API_URL)',
+  },
+  {
+    kljuc: 'KV_REST_API_TOKEN',
+    grupa: 'OPTIONAL',
+    opis: 'Vercel KV token (alternativni alias za VERCEL_KV_REST_API_TOKEN)',
   },
   {
     kljuc: 'ANALIZA_ALERT_WEBHOOK_URL',

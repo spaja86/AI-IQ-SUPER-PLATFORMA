@@ -58,14 +58,34 @@ export const deploySekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'deploy-vercel-priklucenje',
+    tip: 'tekst',
+    naslov: '▲ Vercel Priključenje',
+    redosled: 5,
+    podaci: {
+      sadrzaj: 'Platforma je konfigurisana za deployment na Vercel. Za upravljanje Vercel konekcijom, deployment hook-ovima i ownership prenosom posetite Vercel Priključenje stranicu.',
+      istaknuteStavke: [
+        'Vercel Status: GET /api/vercel-status — živu status priključenosti',
+        'Ručni Deploy: POST /api/brouvzer-deploy { "projekat": "ai-iq" }',
+        'Deploy Diagnostics: GET /api/deploy-diagnostics?deploymentId=<id>',
+        'Owner Vercel Ownership: GET /api/owner/vercel-ownership',
+      ],
+      dugmad: [
+        { tekst: 'Vercel Priključenje', href: '/vercel-priklucenje' },
+        { tekst: 'Vercel Status API', href: '/api/vercel-status', stil: 'sekundarno' },
+      ],
+    },
+  },
+  {
     id: 'deploy-cta',
     tip: 'cta',
     naslov: '▲ Vercel Deploy',
-    redosled: 5,
+    redosled: 6,
     podaci: {
       opis: 'Sve platforme se deployuju na Vercel sa automatskim CI/CD.',
       dugmad: [
         { tekst: 'Dashboard', href: '/dashboard' },
+        { tekst: 'Vercel Priključenje', href: '/vercel-priklucenje', stil: 'sekundarno' },
         { tekst: 'Pocetna', href: '/', stil: 'sekundarno' },
       ],
     },
