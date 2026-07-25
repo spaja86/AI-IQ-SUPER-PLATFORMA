@@ -1,7 +1,12 @@
 import type { Sekvenca } from '@/lib/types';
 import { buildMikrofile } from '@/lib/mikrofile';
 
-const r = buildMikrofile('system');
+const mikrofileData = buildMikrofile('system');
+const poslednjiFajlovi = [...mikrofileData.stavke]
+  .map((stavka) => ({ stavka, ts: Date.parse(stavka.timestamp) }))
+  .sort((a, b) => b.ts - a.ts)
+  .slice(0, 8)
+  .map(({ stavka }) => stavka);
 
 const tipIkone: Record<string, string> = {
   faktura: '🧾',
@@ -23,7 +28,7 @@ export const mikrofileSekvence: Sekvenca[] = [
     redosled: 1,
     podaci: {
       opis:
-        `Ukupno mikro-fajlova: ${r.kpi.ukupnoFajlova}. ` +
+        `Ukupno mikro-fajlova: ${mikrofileData.kpi.ukupnoFajlova}. ` +
         'Sistem objedinjeno prati fakture, licence, ugovore, izveštaje i BAR KOD reference.',
       dugmad: [
         { tekst: 'MIKROFILE API', href: '/api/mikrofile' },
@@ -38,10 +43,11 @@ export const mikrofileSekvence: Sekvenca[] = [
     redosled: 2,
     podaci: {
       stavke: [
-        { naziv: 'Ukupno fajlova', vrednost: r.kpi.ukupnoFajlova, ikona: '📄' },
-        { naziv: 'Ukupna veličina (KB)', vrednost: Math.round(r.kpi.ukupnaVelicina / 1024), ikona: '💾' },
-        { naziv: 'Aktivni fajlovi', vrednost: r.kpi.poStatusu.aktivan, ikona: '✅' },
-        { naziv: 'Arhivirani fajlovi', vrednost: r.kpi.poStatusu.arhiviran, ikona: '🗄️' },
+        { naziv: 'Ukupno fajlova', vrednost: mikrofileData.kpi.ukupnoFajlova, ikona: '📄' },
+        // `ukupnaVelicina` je u bajtima; za UI je namerno zaokruženo na cele KB (÷1024).
+        { naziv: 'Ukupna veličina (KB)', vrednost: Math.round(mikrofileData.kpi.ukupnaVelicina / 1024), ikona: '💾' },
+        { naziv: 'Aktivni fajlovi', vrednost: mikrofileData.kpi.poStatusu.aktivan, ikona: '✅' },
+        { naziv: 'Arhivirani fajlovi', vrednost: mikrofileData.kpi.poStatusu.arhiviran, ikona: '🗄️' },
       ],
     },
   },
@@ -52,7 +58,7 @@ export const mikrofileSekvence: Sekvenca[] = [
     redosled: 3,
     podaci: {
       zaglavlje: ['ID', 'Naziv', 'Tip', 'Status', 'Veličina (B)', 'Vlasnik', 'Timestamp'],
-      redovi: r.stavke.map((s) => [
+      redovi: mikrofileData.stavke.map((s) => [
         s.id,
         s.naziv,
         s.tip,
@@ -69,7 +75,7 @@ export const mikrofileSekvence: Sekvenca[] = [
     naslov: '🧩 Distribucija po tipu fajla',
     redosled: 4,
     podaci: {
-      kartice: Object.entries(r.kpi.poTipu).map(([tip, broj]) => ({
+      kartice: Object.entries(mikrofileData.kpi.poTipu).map(([tip, broj]) => ({
         naslov: tip.toUpperCase(),
         opis: `Ukupno stavki: ${broj}`,
         ikona: tipIkone[tip] ?? '📁',
@@ -83,14 +89,11 @@ export const mikrofileSekvence: Sekvenca[] = [
     naslov: '🕒 Poslednje dodati fajlovi',
     redosled: 5,
     podaci: {
-      stavke: [...r.stavke]
-        .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))
-        .slice(0, 8)
-        .map((s) => ({
-          ikona: tipIkone[s.tip] ?? '📁',
-          naslov: s.naziv,
-          opis: `${s.tip} • ${s.status} • ${s.vlasnik} • ${s.timestamp}`,
-        })),
+      stavke: poslednjiFajlovi.map((s) => ({
+        ikona: tipIkone[s.tip] ?? '📁',
+        naslov: s.naziv,
+        opis: `${s.tip} • ${s.status} • ${s.vlasnik} • ${s.timestamp}`,
+      })),
     },
   },
   {

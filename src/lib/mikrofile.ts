@@ -42,8 +42,8 @@ export interface MikrofileRezultat {
   kpi: MikrofileKpi;
 }
 
-const MIKROFILE_ID_MOD = 1_000_000_000_000n;
-const VELICINA_MOD = 120_000n;
+const MIKROFILE_ID_MOD = 1_000_000_000_000n; // 12-cifreni numerički prostor za stabilan mf-ID prefiks.
+const VELICINA_MOD = 120_000n; // Gornja granica za determinističku simulaciju veličine fajla u bajtima.
 
 const TIPOVI: MikrofileTip[] = ['faktura', 'licenca', 'ugovor', 'izvestaj', 'akt', 'barkod', 'ostalo'];
 const STATUSI: MikrofileStatus[] = ['aktivan', 'arhiviran', 'na_cekanju', 'obrisan'];
@@ -67,7 +67,8 @@ function hashValue(input: string): bigint {
 }
 
 function generateMikrofileId(input: string): string {
-  return `mf-${hashValue(input).toString().padStart(12, '0')}`;
+  const idNumeric = hashValue(input) % MIKROFILE_ID_MOD;
+  return `mf-${idNumeric.toString().padStart(12, '0')}`;
 }
 
 function generateVelicina(input: string): number {
@@ -98,6 +99,15 @@ function initPoStatusu(): Record<MikrofileStatus, number> {
 export function buildMikrofile(userId: string): MikrofileRezultat {
   const now = Date.now();
   const timestamp = new Date(now).toISOString();
+  const barKodCache = new Map<string, number>();
+
+  const getBarKod = (platformaId: string): number => {
+    const cached = barKodCache.get(platformaId);
+    if (cached !== undefined) return cached;
+    const generated = generatePlatformBarKod(platformaId);
+    barKodCache.set(platformaId, generated);
+    return generated;
+  };
 
   const stavke: MikrofileStavka[] = platforme.map((platforma, index) => {
     const tip = TIPOVI[index % TIPOVI.length];
@@ -105,7 +115,7 @@ export function buildMikrofile(userId: string): MikrofileRezultat {
     const meta = TIP_META[tip];
     const ts = new Date(now - index * 60_000).toISOString();
     const seed = `${platforma.id}:${tip}:${index + 1}`;
-    const barKod = generatePlatformBarKod(platforma.id);
+    const barKod = getBarKod(platforma.id);
 
     return {
       id: generateMikrofileId(seed),

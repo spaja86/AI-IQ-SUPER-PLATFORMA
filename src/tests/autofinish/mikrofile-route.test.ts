@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/mikrofile/route';
+import { GET, MIKROFILE_SISTEM_NAZIV } from '../../app/api/mikrofile/route';
 
 let passed = 0;
 let failed = 0;
@@ -48,7 +48,7 @@ async function runTests(): Promise<void> {
 
     assert(isObject(body), 'body je objekat');
     assert(isObject(body.data), 'data je objekat');
-    assert(body.data.sistem === 'MIKROFILE — Digitalna Industrija', 'sistem polje je ispravno');
+    assert(body.data.sistem === MIKROFILE_SISTEM_NAZIV, 'sistem polje je ispravno');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
