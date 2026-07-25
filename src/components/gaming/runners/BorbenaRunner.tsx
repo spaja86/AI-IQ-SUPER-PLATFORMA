@@ -76,7 +76,7 @@ interface GameState {
   igrac: { x: number; y: number };
   mod: ElemMod;
   fusionGauge: number; // 0–100
-  poslednjiModUbojstva: ElemMod | null; // pratio alternirano ubijanje
+  poslednjiModUbojstva: ElemMod | null; // prati alternirano ubijanje
   alterniranjaBrojac: number;
   abilityFreeze: { cooldown: number; aktivna: number }; // ms cooldown i preostalo aktivno
   abilityExplosion: { cooldown: number };
@@ -234,6 +234,16 @@ export default function BorbenaRunner({
       aoe: false,
     });
   }, [brzinaFaktor]);
+
+  // ── Game over helper ──
+
+  const triggerGameOver = useCallback(() => {
+    const state = stateRef.current;
+    state.gameOver = true;
+    setGameOver(true);
+    setFinalScore({ ...state.score });
+    onKraj({ ...state.score });
+  }, [onKraj]);
 
   // ── Ability: Freeze ──
 
@@ -464,10 +474,7 @@ export default function BorbenaRunner({
 
       // Prošao ispod ekrana → game over
       if (nepr.y - nepr.r > canvas.height) {
-        state.gameOver = true;
-        setGameOver(true);
-        setFinalScore({ ...state.score });
-        onKraj({ ...state.score });
+        triggerGameOver();
         return;
       }
 
@@ -480,10 +487,7 @@ export default function BorbenaRunner({
         state.fusionGauge = 0;
         // eslint-disable-next-line react-hooks/immutability
         state.alterniranjaBrojac = 0;
-        state.gameOver = true;
-        setGameOver(true);
-        setFinalScore({ ...state.score });
-        onKraj({ ...state.score });
+        triggerGameOver();
         return;
       }
 
@@ -697,11 +701,11 @@ export default function BorbenaRunner({
     aktivirajFreeze,
     aktivirajExplosion,
     aktivirajFusion,
+    triggerGameOver,
     dodajParticle,
     crtajPozadinu,
     crtajIgraca,
     onScoreUpdate,
-    onKraj,
     onModChange,
   ]);
 
