@@ -114,7 +114,7 @@ export const reklame: Reklama[] = [
   },
   {
     id: 'reklama-gaming-platforma',
-    naziv: 'IO/OPENUI/AO Gaming — 95 igrica',
+    naziv: 'IO/OPENUI/AO Gaming — 99 igrica',
     opis: 'Reklamna kampanja za gaming platformu sa 99 igrica u 18 kategorija — Dota 1350, DOTAMASTER, TRANSFORMERS, Poker i još.',
     ikona: '🎮',
     tip: 'video',
