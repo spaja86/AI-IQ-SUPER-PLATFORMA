@@ -152,7 +152,7 @@ export const pocetnaSekvence: Sekvenca[] = [
         },
         {
           naslov: '🎮 Gaming Platforma',
-          opis: `${stats.ukupnoIgrica} igrica u 18 kategorija — Dota 1350, TRANSFORMERS, BUBLI BABLI, Poker, Sabljarka, i jos mnogo toga.`,
+          opis: `${stats.ukupnoIgrica} igrica u 18 kategorija — Dota 1350, DOTAMASTER, TRANSFORMERS, BUBLI BABLI, Poker, Sabljarka, i jos mnogo toga.`,
           ikona: '🎮',
           href: '/io-openui-ao-gaming-platforma',
           oznake: ['Igrice', '18 Kategorija', 'Multiplayer'],
