@@ -793,7 +793,7 @@ export const gejmingEntiteti: GejmingEntitet[] = [
     status: 'aktivan',
     atributi: ['Vatra: 98', 'Napad: 95', 'Brzina: 85', 'Elementalna moć: 93'],
     sposobnosti: ['Vatreni prasak', 'Feniksi let', 'Dimenzionalna erupcija', 'COLD-FIRE fuzija'],
-    vizuelniStil: 'Ognjeni oklop sa живим plamenom, spiralna vatrena krila, feniksi trag',
+    vizuelniStil: 'Ognjeni oklop sa živim plamenom, spiralna vatrena krila, feniksi trag',
     inspiracija: 'Mitološki feniks i dualistički elemental',
   },
   {
