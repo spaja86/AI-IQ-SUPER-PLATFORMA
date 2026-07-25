@@ -133,6 +133,15 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     activeFrom: '2026-05-07',
     meta: { owner: 'gaming-team', ticket: 'SPAJA-3003' },
   },
+  {
+    id: 'gaming-master-poker-runner-v1',
+    naziv: 'MASTER POKER Runner v1',
+    opis: 'Aktivira namenski Texas Hold’em runner sa anti-cheat i audit tragom.',
+    strategy: 'enabled',
+    envs: ['all'],
+    activeFrom: '2026-07-25',
+    meta: { owner: 'gaming-team', ticket: 'SPAJA-3004' },
+  },
   // ── Security ──────────────────────────────────────────────────
   {
     id: 'security-csp-headers',

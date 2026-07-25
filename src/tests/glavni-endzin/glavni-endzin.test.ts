@@ -399,8 +399,8 @@ async function runTests(): Promise<void> {
     assertEqual(g.status, 'aktivan', 'status');
   });
 
-  await test('gamingTabEndzin runnerTipova = 5', () => {
-    assertEqual(glavniEndzinDigitalneIndustrije.gamingTabEndzin.runnerTipova, 5, 'runner tipova');
+  await test('gamingTabEndzin runnerTipova = 6', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.gamingTabEndzin.runnerTipova, 6, 'runner tipova');
   });
 
   await test('gamingTabEndzin dimenzijaNivoa = 5', () => {
@@ -423,24 +423,24 @@ async function runTests(): Promise<void> {
     assert(glavniEndzinDigitalneIndustrije.gamingTabEndzin.podrzaneKategorije.length > 0, 'podrzane kategorije non-empty');
   });
 
-  await test('POKERMASTER ostaje dostupan kroz postojeći poker ID', () => {
+  await test('MASTER POKER ostaje dostupan kroz postojeći poker ID', () => {
     const pokerMaster = igrice.find((i) => i.id === 'igrica-spaja-poker');
     assert(pokerMaster !== undefined, 'igrica-spaja-poker mora postojati');
-    assertEqual(pokerMaster?.naziv, 'POKERMASTER', 'POKERMASTER naziv');
-    assertEqual(pokerMaster?.kategorija, 'strategija', 'POKERMASTER kategorija');
+    assertEqual(pokerMaster?.naziv, 'MASTER POKER', 'MASTER POKER naziv');
+    assertEqual(pokerMaster?.kategorija, 'strategija', 'MASTER POKER kategorija');
   });
 
-  await test('POKERMASTER eksplicitno koristi non-real-money simulacioni opis', () => {
+  await test('MASTER POKER eksplicitno koristi non-real-money simulacioni opis', () => {
     const pokerMaster = igrice.find((i) => i.id === 'igrica-spaja-poker');
     assert(pokerMaster !== undefined, 'igrica-spaja-poker mora postojati');
     assert(
       pokerMaster?.opis.includes('bez real-money klađenja'),
-      'POKERMASTER opis mora jasno naglasiti simulacioni scope',
+      'MASTER POKER opis mora jasno naglasiti simulacioni scope',
     );
   });
 
-  await test('statistika gamingTabRunnerTipova = 5', () => {
-    assertEqual(glavniEndzinDigitalneIndustrije.statistika.gamingTabRunnerTipova, 5, 'stat runner tipova');
+  await test('statistika gamingTabRunnerTipova = 6', () => {
+    assertEqual(glavniEndzinDigitalneIndustrije.statistika.gamingTabRunnerTipova, 6, 'stat runner tipova');
   });
 
   await test('statistika gamingTabIgricaPokrenutih = sve igrice', () => {

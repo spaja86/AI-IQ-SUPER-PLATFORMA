@@ -37,21 +37,21 @@ async function readJson(response: Response): Promise<unknown> {
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🃏 POKERMASTER — Katalog i API test suite\n');
+  console.log('\n🃏 MASTER POKER — Katalog i API test suite\n');
 
   await test('TOTAL_IGRICA ostaje usklađen sa katalogom', () => {
     assertEqual(TOTAL_IGRICA, igrice.length, 'TOTAL_IGRICA === igrice.length');
   });
 
-  await test('POKERMASTER postoji u katalogu sa postojećim ID-jem', () => {
+  await test('MASTER POKER postoji u katalogu sa postojećim ID-jem', () => {
     const pokerMaster = igrice.find((igrica) => igrica.id === 'igrica-spaja-poker');
     assert(pokerMaster !== undefined, 'igrica-spaja-poker mora postojati');
-    assertEqual(pokerMaster?.naziv, 'POKERMASTER', 'naziv');
+    assertEqual(pokerMaster?.naziv, 'MASTER POKER', 'naziv');
     assertEqual(pokerMaster?.status, 'aktivna', 'status');
     assertEqual(pokerMaster?.podrazumevanaDimenzija, '720D', 'podrazumevanaDimenzija');
   });
 
-  await test('POKERMASTER opis i funkcije jasno označavaju simulacioni poker scope', () => {
+  await test('MASTER POKER opis i funkcije jasno označavaju simulacioni poker scope', () => {
     const pokerMaster = igrice.find((igrica) => igrica.id === 'igrica-spaja-poker');
     assert(pokerMaster !== undefined, 'igrica-spaja-poker mora postojati');
     assert(pokerMaster.opis.includes('bez real-money klađenja'), 'opis mora sadržati simulacioni scope');
@@ -61,16 +61,16 @@ async function runTests(): Promise<void> {
     );
   });
 
-  await test('/api/igrice uključuje POKERMASTER', async () => {
+  await test('/api/igrice uključuje MASTER POKER', async () => {
     const body = await readJson(await getIgriceRoute()) as {
       igrice: Array<{ id: string; naziv: string }>;
     };
     const pokerMaster = body.igrice.find((igrica) => igrica.id === 'igrica-spaja-poker');
     assert(pokerMaster !== undefined, '/api/igrice mora vratiti igrica-spaja-poker');
-    assertEqual(pokerMaster?.naziv, 'POKERMASTER', '/api/igrice naziv');
+    assertEqual(pokerMaster?.naziv, 'MASTER POKER', '/api/igrice naziv');
   });
 
-  await test('/api/igrice-stats ostaje konzistentan posle POKERMASTER rename-a', async () => {
+  await test('/api/igrice-stats ostaje konzistentan posle MASTER POKER rename-a', async () => {
     const body = await readJson(await getIgriceStatsRoute()) as {
       pregled: { ukupnoIgrica: number; detektovano: number };
     };
@@ -78,13 +78,13 @@ async function runTests(): Promise<void> {
     assertEqual(body.pregled.detektovano, igrice.length, '/api/igrice-stats detektovano');
   });
 
-  await test('/api/io-openui-ao-gaming-platforma-igrice uključuje POKERMASTER', async () => {
+  await test('/api/io-openui-ao-gaming-platforma-igrice uključuje MASTER POKER', async () => {
     const body = await readJson(await getGamingIgriceRoute()) as {
       igrice: Array<{ id: string; naziv: string }>;
     };
     const pokerMaster = body.igrice.find((igrica) => igrica.id === 'igrica-spaja-poker');
     assert(pokerMaster !== undefined, 'gaming platforma route mora vratiti igrica-spaja-poker');
-    assertEqual(pokerMaster?.naziv, 'POKERMASTER', 'gaming platforma route naziv');
+    assertEqual(pokerMaster?.naziv, 'MASTER POKER', 'gaming platforma route naziv');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
