@@ -176,6 +176,7 @@ export { digitalnaIndustrijaReputacioniRizikSekvence } from './digitalna-industr
 
 // ── BAR KOD ────────────────────────────────────────────────────────────────────
 export { barKodSekvence } from './bar-kod-page';
+export { mikrofileSekvence } from './mikrofile-page';
 
 // ── DIGITALNA INDUSTRIJA STRATEŠKI RIZIK ─────────────────────────────────────
 export { digitalnaIndustrijaStrateskiRizikSekvence } from './digitalna-industrija-strateski-rizik-page';
