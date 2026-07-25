@@ -217,7 +217,7 @@ async function runTests(): Promise<void> {
 
   await test('Body smjer je up | down | stable', () => {
     const resp = simulateTrendGET({ window: '10' });
-    assert(['up', 'down', 'stable'].includes(resp.body.smjer), `smjer validan`);
+    assert('smjer' in resp.body && ['up', 'down', 'stable'].includes(resp.body.smjer as string), `smjer validan`);
   });
 
   // ── 4. E2E svih 14 autofinish API endpoints (#960) ────────────────────────

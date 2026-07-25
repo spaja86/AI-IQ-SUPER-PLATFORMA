@@ -65,19 +65,19 @@ async function run(): Promise<void> {
   });
 
   await test('AUTOFINISH_COUNT je 1194', () => {
-    assert(AUTOFINISH_COUNT === 1194, `AUTOFINISH_COUNT expected 1194, got ${AUTOFINISH_COUNT}`);
+    assert((AUTOFINISH_COUNT as number) === 1194, `AUTOFINISH_COUNT expected 1194, got ${AUTOFINISH_COUNT}`);
   });
 
   await test('TOTAL_API_ROUTES je 1047', () => {
-    assert(TOTAL_API_ROUTES === 1047, `TOTAL_API_ROUTES expected 1047, got ${TOTAL_API_ROUTES}`);
+    assert((TOTAL_API_ROUTES as number) === 1047, `TOTAL_API_ROUTES expected 1047, got ${TOTAL_API_ROUTES}`);
   });
 
   await test('TOTAL_ROUTES je 1106', () => {
-    assert(TOTAL_ROUTES === 1106, `TOTAL_ROUTES expected 1106, got ${TOTAL_ROUTES}`);
+    assert((TOTAL_ROUTES as number) === 1106, `TOTAL_ROUTES expected 1106, got ${TOTAL_ROUTES}`);
   });
 
   await test('TOTAL_DIAGNOSTIKA je 2362', () => {
-    assert(TOTAL_DIAGNOSTIKA === 2362, `TOTAL_DIAGNOSTIKA expected 2362, got ${TOTAL_DIAGNOSTIKA}`);
+    assert((TOTAL_DIAGNOSTIKA as number) === 2362, `TOTAL_DIAGNOSTIKA expected 2362, got ${TOTAL_DIAGNOSTIKA}`);
   });
 
   await test('Poruka sadrži 1047', async () => {

@@ -40,16 +40,16 @@ async function runTests(): Promise<void> {
   await test('Dohvata random šalu bez filtera', async () => {
     const joke = await getRandomJoke();
     assert(joke !== null, 'joke debe biti non-null');
-    assert(joke.id !== undefined, 'joke.id mora biti definisan');
-    assert(joke.category !== undefined, 'joke.category mora biti definisan');
+    assert(joke!.id !== undefined, 'joke.id mora biti definisan');
+    assert(joke!.category !== undefined, 'joke.category mora biti definisan');
   });
 
   await test('Dohvata šalu sa category filtrom', async () => {
     const joke = await getRandomJoke({ category: 'programming' });
     assert(joke !== null, 'joke ne sme biti null');
     assert(
-      joke.category?.toLowerCase().includes('programming') ||
-        joke.category?.toLowerCase().includes('general'),
+      joke!.category?.toLowerCase().includes('programming') ||
+        joke!.category?.toLowerCase().includes('general'),
       'Šala treba biti iz programming kategorije',
     );
   });
@@ -57,14 +57,14 @@ async function runTests(): Promise<void> {
   await test('Dohvata single type šalu', async () => {
     const joke = await getRandomJoke({ type: 'single' });
     assert(joke !== null, 'joke ne sme biti null');
-    assert(joke.type === 'single', 'tip must be single');
-    assert(joke.joke !== undefined, 'single joke must have joke field');
+    assert(joke!.type === 'single', 'tip must be single');
+    assert(joke!.joke !== undefined, 'single joke must have joke field');
   });
 
   await test('Dohvata safe šalu kada je safe=true', async () => {
     const joke = await getRandomJoke({ safe: true });
     assert(joke !== null, 'joke ne sme biti null');
-    assert(joke.safe === true, 'safe mode mora biti true');
+    assert(joke!.safe === true, 'safe mode mora biti true');
   });
 
   // ── formatJoke ────────────────────────────────────────────────────────────
@@ -76,7 +76,7 @@ async function runTests(): Promise<void> {
     category: 'General',
     type: 'single',
     joke: 'Why did the chicken cross the road?',
-    flags: {},
+    flags: { nsfw: false, religious: false, political: false, racist: false, sexist: false, explicit: false },
     safe: true,
     lang: 'en',
   };
@@ -87,7 +87,7 @@ async function runTests(): Promise<void> {
     type: 'twopart',
     setup: 'Why did the chicken cross the road?',
     delivery: 'To get to the other side!',
-    flags: {},
+    flags: { nsfw: false, religious: false, political: false, racist: false, sexist: false, explicit: false },
     safe: true,
     lang: 'en',
   };

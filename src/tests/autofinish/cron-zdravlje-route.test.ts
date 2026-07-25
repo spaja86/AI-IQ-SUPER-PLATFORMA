@@ -41,6 +41,7 @@ function isObject(v: unknown): v is Record<string, unknown> {
 
 const _lintUseHelpers = [assertEqual, isObject];
 void _lintUseHelpers;
+import type { NextRequest } from 'next/server';
 import { GET } from '../../app/api/cron/zdravlje/route';
 
 async function runTests(): Promise<void> {
@@ -66,7 +67,7 @@ async function runTests(): Promise<void> {
       headers: { 'x-forwarded-for': '127.0.1.10' },
     });
 
-    const response = await GET(request as unknown as Request);
+    const response = await GET(request as unknown as NextRequest);
     assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
 
     const xAppVersion = response.headers.get('X-App-Version');

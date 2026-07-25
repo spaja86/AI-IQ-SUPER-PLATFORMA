@@ -907,6 +907,7 @@ import { getOktavniMonologSummary } from './oktavni-monolog';
 import { runDiagnostics } from './auto-repair';
 import { runRepair } from './auto-repair';
 import { buildLicencniBudzetSrbija } from './licencni-budzet-srbija';
+import { buildAIIQWorldBankLicencniRegistar, getLicencniComplianceIzvestaj } from './aiiq-world-bank-licencni-registar';
 
 // ─── In-memory iteracijska istorija (#815) ───────────────
 
@@ -2490,13 +2491,23 @@ export interface AutofinishSrbijaLicencniReport {
   autofinishBroj: number;
   timestamp: string;
   jurisdikcija: string;
+  drzava: string;
+  valuta: string;
+  rezimNabavke: string;
+  regulatori: string[];
   ukupnoLicenci: number;
   aktivnaNabavka: number;
+  uNabavci: number;
+  potvrdjene: number;
+  coverageProcenat: number;
+  kriticniGapovi: number;
   godisnjiBudzetRSD: number;
   rezervisanoRSD: number;
   slobodnoRSD: number;
   prosecniTrosakRSD: number;
   stavke: ReturnType<typeof buildLicencniBudzetSrbija>['stavke'];
+  topDelatnosti: Array<{ delatnost: string; ukupnoLicenci: number }>;
+  topLicenceZaNabavku: Array<{ licenca: string; delatnost: string }>;
 }
 
 /**
@@ -2504,18 +2515,30 @@ export interface AutofinishSrbijaLicencniReport {
  */
 export function getAutofinishSrbijaLicencniReport(): AutofinishSrbijaLicencniReport {
   const licencni = buildLicencniBudzetSrbija('autofinish');
+  const reg = buildAIIQWorldBankLicencniRegistar();
+  const compliance = getLicencniComplianceIzvestaj('mesecni');
   return {
     verzija: APP_VERSION,
     autofinishBroj: AUTOFINISH_COUNT,
     timestamp: new Date().toISOString(),
     jurisdikcija: licencni.jurisdikcija,
+    drzava: 'Srbija',
+    valuta: 'RSD',
+    rezimNabavke: 'kupujemo_sve_licence',
+    regulatori: ['Narodna banka Srbije', 'Komisija za zaštitu konkurencije'],
     ukupnoLicenci: licencni.kpi.ukupnoLicenci,
     aktivnaNabavka: licencni.kpi.aktivnaNabavka,
+    uNabavci: compliance.uNabavci,
+    potvrdjene: compliance.potvrdjene,
+    coverageProcenat: compliance.coverageProcenat,
+    kriticniGapovi: compliance.kriticniGapovi,
     godisnjiBudzetRSD: licencni.ukupanGodisnjiBudzetRSD,
     rezervisanoRSD: licencni.rezervisanoRSD,
     slobodnoRSD: licencni.slobodnoRSD,
     prosecniTrosakRSD: licencni.kpi.prosecniTrosakRSD,
     stavke: licencni.stavke,
+    topDelatnosti: reg.coveragePoDelatnosti.map((c) => ({ delatnost: c.delatnost, ukupnoLicenci: c.ukupnoLicenci })),
+    topLicenceZaNabavku: reg.nabavka.map((n) => ({ licenca: n.licenca, delatnost: n.delatnost })),
   };
 }
 

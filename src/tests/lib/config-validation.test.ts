@@ -269,7 +269,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('requireEnv baca grešku za nepostojeću varijablu', () => {
-    let threw = false;
+    let threw: boolean = false;
     let errorMsg = '';
     withoutEnv(['TEST_REQUIRE_MISSING_XYZ'], () => {
       try {
@@ -279,7 +279,7 @@ async function runTests(): Promise<void> {
         errorMsg = e instanceof Error ? e.message : String(e);
       }
     });
-    assert(threw === true, 'requireEnv mora baciti grešku za nepostojeću varijablu');
+    assert(threw, 'requireEnv mora baciti grešku za nepostojeću varijablu');
     assert(errorMsg.includes('TEST_REQUIRE_MISSING_XYZ'), 'greška mora sadržati ime varijable');
   });
 

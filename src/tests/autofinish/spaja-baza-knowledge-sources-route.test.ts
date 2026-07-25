@@ -41,6 +41,7 @@ function isObject(v: unknown): v is Record<string, unknown> {
 
 const _lintUseHelpers = [assertEqual, isObject];
 void _lintUseHelpers;
+import type { NextRequest } from 'next/server';
 import { GET, POST } from '../../app/api/spaja-baza-knowledge/sources/route';
 
 async function runTests(): Promise<void> {
@@ -63,11 +64,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET smoke provera', async () => {
-    const request = new Request('http://localhost/api/spaja-baza-knowledge/sources', {
-      headers: { 'x-forwarded-for': '127.0.1.20' },
-    });
-
-    const response = await GET(request as unknown as Request);
+    const response = await GET();
     assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
 
     const body = (await response.clone().json().catch(() => null)) as unknown;
@@ -87,7 +84,7 @@ async function runTests(): Promise<void> {
       headers: { 'content-type': 'application/json' },
       body: '{',
     });
-    const response = await POST(req as unknown as Request);
+    const response = await POST(req as unknown as NextRequest);
     assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
   });
 
@@ -97,7 +94,7 @@ async function runTests(): Promise<void> {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ __invalid: true }),
     });
-    const response = await POST(req as unknown as Request);
+    const response = await POST(req as unknown as NextRequest);
     assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
   });
 

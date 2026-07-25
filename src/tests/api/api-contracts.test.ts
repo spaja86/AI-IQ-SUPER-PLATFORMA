@@ -11,6 +11,7 @@
 
 // ─── Importi ──────────────────────────────────────────────────────────────────
 
+import type { NextRequest } from 'next/server';
 import type { ApiError, ApiSuccess, ApiErrorCode } from '../../lib/api/response';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -286,7 +287,7 @@ async function runTests(): Promise<void> {
   await test('Status i health API izlažu READY tranziciona polja', async () => {
     const statusResponse = await getStatusRoute();
     const healthRequest = new Request('https://example.com/api/health?check=readiness');
-    const healthResponse = await getHealthRoute(healthRequest as unknown as Request);
+    const healthResponse = await getHealthRoute(healthRequest as unknown as NextRequest);
     const statusBody = await statusResponse.json() as {
       operativa?: { readyState?: string; normalizedReady?: Record<string, string> };
     };

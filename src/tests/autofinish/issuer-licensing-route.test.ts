@@ -1,3 +1,6 @@
+// Autofinish — issuer-licensing Route Coverage Test
+// Generisano: scripts/generate-route-tests.mjs
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
@@ -9,13 +12,14 @@ const failures: string[] = [];
 async function test(name: string, fn: () => Promise<void> | void): Promise<void> {
   try {
     await fn();
-    passed++;
     console.log(`  ✅ ${name}`);
+    passed++;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    console.error(`  ❌ ${name}`);
+    console.error(`     ${msg}`);
     failed++;
     failures.push(`${name}: ${msg}`);
-    console.error(`  ❌ ${name}\n     ${msg}`);
   }
 }
 
@@ -23,8 +27,26 @@ function assert(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`Assert failed: ${message}`);
 }
 
+function assertEqual<T>(actual: T, expected: T, label?: string): void {
+  if (actual !== expected) {
+    throw new Error(
+      `${label ?? 'assertEqual'}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,
+    );
+  }
+}
+
+function isObject(v: unknown): v is Record<string, unknown> {
+  return typeof v === 'object' && v !== null;
+}
+
+const _lintUseHelpers = [assertEqual, isObject];
+void _lintUseHelpers;
+import type { NextRequest } from 'next/server';
+import { GET, POST } from '../../app/api/issuer-licensing/route';
+
 async function runTests(): Promise<void> {
   console.log('\n🏁 issuer-licensing — Route Coverage Test Suite\n');
+
   const routePath = path.resolve(process.cwd(), 'src/app/api/issuer-licensing/route.ts');
 
   await test('API route fajl postoji', () => {
@@ -35,6 +57,49 @@ async function runTests(): Promise<void> {
     const src = fs.readFileSync(routePath, 'utf8');
     assert(src.includes('export async function GET'), 'Nedostaje GET handler');
     assert(src.includes('export async function POST'), 'Nedostaje POST handler');
+    assert(
+      src.includes('NextResponse.json') || src.includes('Response.json') || src.includes('apiSuccess'),
+      'Nedostaje JSON response helper',
+    );
+  });
+
+  await test('GET smoke provera', async () => {
+    const request = new Request('http://localhost/api/issuer-licensing', {
+      headers: { 'x-forwarded-for': '127.0.1.20' },
+    });
+
+    const response = await GET(request as unknown as NextRequest);
+    assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
+
+    const body = (await response.clone().json().catch(() => null)) as unknown;
+    if (isObject(body)) {
+      if (typeof body['status'] === 'string') {
+        assert((body['status'] as string).length > 0, 'status string');
+      }
+      if (typeof body['verzija'] === 'string') {
+        assertEqual(body['verzija'], APP_VERSION, 'verzija');
+      }
+    }
+  });
+
+  await test('POST odbija nevalidan JSON payload', async () => {
+    const req = new Request('http://localhost/api/issuer-licensing', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{',
+    });
+    const response = await POST(req as unknown as NextRequest);
+    assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
+  });
+
+  await test('POST odbija nevalidan payload', async () => {
+    const req = new Request('http://localhost/api/issuer-licensing', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ __invalid: true }),
+    });
+    const response = await POST(req as unknown as NextRequest);
+    assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
   });
 
   await test('Konstante su dostupne', () => {
@@ -44,8 +109,10 @@ async function runTests(): Promise<void> {
     assert(typeof TOTAL_ROUTES === 'number' && TOTAL_ROUTES > 0, 'TOTAL_ROUTES');
   });
 
-  console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`
+🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
+    console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));
     process.exit(1);
   }
