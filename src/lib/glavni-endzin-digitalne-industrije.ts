@@ -579,7 +579,7 @@ const _seoNominalniSummary = getSeoNominalniProtokSummary();
 // To avoid circular dependency, use AUTOFINISH_COUNT constant directly
 
 // ── Gaming Tab Endžin ──────────────────────────────────────────────────
-const _gamingTabRunnerTipova = new Set(igrice.map((i) => gamingGetRunnerTipZaIgricu(i))).size;
+const _gamingTabRunnerTipova = 6; // akcija, logicka, simulacija, edu, kreativna, poker
 const _gamingTabGeometrijskihAlata = 4; // elipsoid, spirala, hiperbola, rezonanca
 const _gamingTabMaxEntiteta5760D = gamingDimenzijaNaParametre('5760D').maxEntiteta;
 const _gamingTabPodrzaneKategorije = [
