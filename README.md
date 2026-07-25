@@ -374,6 +374,12 @@ This repository uses documented automation agents for CI, security, analytics, a
 - **Security-sensitive changes** — PRs touching auth, payments, or dependencies are automatically flagged; add a security approver.
 - **Cross-repo changes** — if your change affects `IO-OPENUI-AO` or other linked repositories, describe the cross-repo impact in the PR and open any follow-up work there.
 
+### Copilot setup vs Codex user installs
+
+- `.github/workflows/copilot-setup-steps.yml` is for deterministic, repo-scoped Copilot cloud agent bootstrap only.
+- Codex marketplace installs such as `vercel/vercel-plugin` and Codex-specific skills are optional user-scoped tooling and require a working `codex` CLI on the target machine.
+- In Copilot cloud agent runs, Codex-specific installs are skipped automatically when `codex` is unavailable instead of failing repository setup.
+
 ### Source of truth
 
 | Document | Purpose |
