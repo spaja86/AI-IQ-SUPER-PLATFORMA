@@ -347,6 +347,41 @@ SPAJA_BAZA_INDEX_MAX_RETRIES=5     # Max retry pokušaja za failed chunk-ove pri
 SPAJA_BAZA_INDEX_RETRY_BACKOFF_MS=60000 # Backoff između retry pokušaja (ms)
 ```
 
+## 🤖 Automation & Agent Notice — For All Contributors
+
+> **Applies to**: all contributors across `AI-IQ-SUPER-PLATFORMA` and linked repositories (`IO-OPENUI-AO`, etc.)
+
+This repository uses documented automation agents for CI, security, analytics, and multi-repo coordination.
+**Read [`AGENTS.md`](./AGENTS.md) before making workflow, configuration, deployment, or cross-repository changes.**
+
+### Active agents
+
+| Agent | Status | What it does |
+|-------|--------|-------------|
+| `ci-bot` | ✅ Active | Runs lint + tests on every PR and push |
+| `human-review` | ✅ Active | Required code review before merge |
+| `security-scanner` | ✅ Active | Scans for secrets, vulnerable deps on every PR |
+| `multi-repo-sync-agent` | ✅ Active | Syncs config/labels/milestones with `IO-OPENUI-AO` |
+| `analytics-bot` | ✅ Active | Nightly/weekly metrics and automation health reports |
+| `deploy-bot` | ⏳ Planned | Deployment after green CI |
+
+### Contributor expectations
+
+- **Human review is required before merge** (except `hotfix/*` branches tagged `auto-merge: allowed`).
+- **Never commit secrets** — no `.env` files, tokens, API keys, or credentials. Use GitHub Secrets.
+- **CI must be green** — run `npm test` and `npm run build` locally before opening a PR.
+- **Config/CI changes** — PRs that modify `.github/workflows/`, `.agent-config.json`, or deployment config must be labeled `agent:config-change`.
+- **Security-sensitive changes** — PRs touching auth, payments, or dependencies are automatically flagged; add a security approver.
+- **Cross-repo changes** — if your change affects `IO-OPENUI-AO` or other linked repositories, describe the cross-repo impact in the PR and open any follow-up work there.
+
+### Source of truth
+
+| Document | Purpose |
+|----------|---------|
+| [`AGENTS.md`](./AGENTS.md) | Full agent policy, rules, and registry |
+| [`.agent-config.json`](./.agent-config.json) | Per-repo agent behavior flags |
+| [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
+
 ## ☁️ Multi-provider napomena
 
 - `deploy.provider` + `deploy.projectId` u platform metadata modelu su primarni način za označavanje hosting provajdera.
