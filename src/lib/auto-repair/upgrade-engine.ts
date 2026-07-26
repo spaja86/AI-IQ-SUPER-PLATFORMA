@@ -1,3 +1,4 @@
+// Reads package versions at build time via resolveJsonModule (already enabled in tsconfig.json).
 import packageJson from '../../../package.json';
 
 export interface UpgradeInfo {
@@ -18,8 +19,8 @@ function getInstalledVersion(paket: string): string {
     ...(packageJson.devDependencies as AllDeps),
   };
   const raw = allDeps[paket] ?? 'nepoznata';
-  // Strip leading ^ ~ >= symbols
-  return raw.replace(/^[\^~>=]+/, '');
+  // Strip leading range operators (^, ~, >=, <=, >). Handles common semver range prefixes.
+  return raw.replace(/^[~^]|^[<>]=?/, '');
 }
 
 export function checkUpgrades(): UpgradeInfo[] {

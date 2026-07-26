@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Odabir SpajaPro verzije: koristiti zahtevanu, peronu-specifičnu, ili prvu aktivnu
+  // Odabir SpajaPro verzije: koristiti zahtevanu, persona-specifičnu, ili prvu aktivnu
   const aktivne = getAktivneVerzije();
   const targetVerzija = spajaProVerzija ?? persona.spajaProVerzija;
   const engine =
