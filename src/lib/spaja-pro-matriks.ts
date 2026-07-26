@@ -76,7 +76,7 @@ export interface MatriksDispatchOdgovor {
   angažovaniČvorovi: Array<{ redak: number; kolona: number; personaId: string }>;
   odgovori: MatriksPersonaOdgovor[];
   konsolidovaniOdgovor: string;
-  trajanjеMs: number;
+  trajanjeMs: number;
   uspeh: boolean;
 }
 
@@ -86,13 +86,13 @@ export interface MatriksPersonaOdgovor {
   personaId: string;
   odgovor: string;
   fitnessSkor: number;
-  trajanjеMs: number;
+  trajanjeMs: number;
 }
 
 export interface MatriksStatistika {
   ukupnoCvorova: 64;
   aktivnihCvorova: number;
-  ukupnoObradjenихZahteva: number;
+  ukupnoObradjenixZahteva: number;
   prosecnaLatencyMs: number;
   ukupnoSinaptickihVeza: number;
   aktivnihVeza: number;
@@ -298,7 +298,7 @@ export function getMatriksStatistika(): MatriksStatistika {
   return {
     ukupnoCvorova: 64,
     aktivnihCvorova: aktivni.length,
-    ukupnoObradjenихZahteva: sviCvorovi.reduce((sum, c) => sum + c.obradjenoZahteva, 0),
+    ukupnoObradjenixZahteva: sviCvorovi.reduce((sum, c) => sum + c.obradjenoZahteva, 0),
     prosecnaLatencyMs: 25,
     ukupnoSinaptickihVeza: 8 * 8 * 4,  // aproksimacija
     aktivnihVeza: 8 * 8 * 3,

@@ -47,10 +47,10 @@ export interface KvantnaAmplituda {
 
 export interface KvantniSistemState {
   id: string;
-  amplitudа: KvantnaAmplituda[];
+  amplituda: KvantnaAmplituda[];
   ukupnaKoherencija: number;   // 0.0 – 1.0
   stanje: KvantnoStanje;
-  merenjеAt?: string;          // kada je izvršena merenje/kolaps
+  merenjeAt?: string;          // kada je izvršena merenje/kolaps
   entanglementParovi: Array<{ engine1: SuperpozicijaEngine; engine2: SuperpozicijaEngine }>;
 }
 
@@ -70,7 +70,7 @@ export interface TelepatskaSinhronizacija {
   ciljSesijaId: string;
   preneseniKontekst: string[];
   sinhronizovanoAt: string;
-  bidirекционalna: boolean;
+  bidirekcionalna: boolean;
   enkriptovana: boolean;
   latencyMs: number;
 }
@@ -113,7 +113,7 @@ export interface OmegaDispatchRezultat {
   konsolidovaniOdgovor: string;
   koristiKvantniProcesor: boolean;
   holografskaProjekcija?: HolografskaProjekcija;
-  trajanjеMs: number;
+  trajanjeMs: number;
   tokeniPotroseni: number;
   fitnessScore: number;
 }

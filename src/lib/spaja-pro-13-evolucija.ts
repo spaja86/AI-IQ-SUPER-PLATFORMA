@@ -21,7 +21,7 @@
 
 export type EvolucijaSelekcija = 'elitna' | 'turnirska' | 'ruletska' | 'rangirna';
 export type EvolucijaMutacija = 'tačkasta' | 'inverzija' | 'zamena' | 'ekspanzija' | 'kompresija';
-export type EvolucijаStatus = 'inicijalizacija' | 'evaluacija' | 'selekcija' | 'ukrstanje' | 'mutacija' | 'konvergencija' | 'zavrsetak';
+export type EvolucijaStatus = 'inicijalizacija' | 'evaluacija' | 'selekcija' | 'ukrstanje' | 'mutacija' | 'konvergencija' | 'zavrsetak';
 
 export interface PromptHromozom {
   id: string;
@@ -51,14 +51,14 @@ export interface EvolucijaSesija {
   populacija: PromptHromozom[];
   najboljiFitness: number;
   najboljaTekst: string;
-  istorija: EvolucijаGeneracija[];
-  status: EvolucijаStatus;
+  istorija: EvolucijaGeneracija[];
+  status: EvolucijaStatus;
   pocetakAt: string;
   trajanjeSekundi: number;
   parametri: GenetskiParametri;
 }
 
-export interface EvolucijаGeneracija {
+export interface EvolucijaGeneracija {
   broj: number;
   prosecnaFitness: number;
   najboljiFitness: number;
@@ -87,7 +87,7 @@ export interface EvolucijaIzvestaj {
   poboljsanje: number;         // procenat poboljšanja vs početni prompt
   konvergiraloU: number;       // generacija u kojoj je dostignut ciljni fitness
   trajanjeSekundi: number;
-  istorija: EvolucijаGeneracija[];
+  istorija: EvolucijaGeneracija[];
 }
 
 export interface EvolucijaDijagnostika {
@@ -247,7 +247,7 @@ export const spajaPro13Konfiguracija: SpajaPro13Konfiguracija = {
 // ─── Utility Funkcije ─────────────────────────────────────────────────────────
 
 /**
- * Procenjuje fitness hromozoma (promptа) na osnovu metrike.
+ * Procenjuje fitness hromozoma (prompta) na osnovu metrike.
  * Fitness 0.0 = potpuno neprikladan, 1.0 = savršen.
  */
 export function proceniFitness(hromozom: PromptHromozom, metrike: {

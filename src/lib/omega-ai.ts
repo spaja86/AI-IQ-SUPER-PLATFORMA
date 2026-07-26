@@ -480,7 +480,7 @@ export const omegaPersone: OmegaPersona[] = [
   {
     id: 'svemirska-navigatorka',
     naziv: 'Svemirska Navigatorka',
-    uloga: 'SvemirskaNaavigatorka',
+    uloga: 'SvemirskaNavigatorka',
     opis: 'Planira inter-planetarne rute, optimizuje orbitalne putanje i koordinira svemirsku logistiku',
     ikona: '🛸',
     kategorija: 'svemirsko',

@@ -97,7 +97,7 @@ export type OmegaAIUloga =
   // Horizont 2–4 proširenje (Oktave 9–12)
   | 'MetaverumArhitekta' | 'MetaverumEkonomista' | 'MetaverumSocijolog'
   | 'KvantniArhitekta' | 'KvantniProcesor' | 'KvantniKomunikator'
-  | 'SvemirskiPilot' | 'SvemirskaNaavigatorka' | 'KosmickiEkolog'
+  | 'SvemirskiPilot' | 'SvemirskaNavigatorka' | 'KosmickiEkolog'
   | 'BeskonacniEvolver' | 'OmegaSvest' | 'CivilizacijskiArhitekta';
 
 export interface OmegaAI {

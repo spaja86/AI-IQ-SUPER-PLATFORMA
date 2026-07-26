@@ -42,7 +42,7 @@ export type TradingStrategijaTip =
   | 'dca'          // Dollar-Cost Averaging
   | 'ai-predikcija'
   | 'sentiment'
-  | 'tehnickа-analiza'
+  | 'tehnicka-analiza'
   | 'fundamentalna-analiza'
   | 'defi-yield'
   | 'flash-loan';
@@ -68,7 +68,7 @@ export interface TradingAsset {
   cena: number;
   promena24h: number;       // procenat
   volumen24h: number;
-  trzisnаKapitalizacija?: number;
+  trzisnaKapitalizacija?: number;
   esgScore?: number;        // 0–100 ESG rejting
   likvidan: boolean;
 }
@@ -86,7 +86,7 @@ export interface TradingStrategija {
   maxDrawdown: number;              // procenat
   aktivna: boolean;
   aiIntegracija: boolean;
-  spajаProVerzija?: number;
+  spajaProVerzija?: number;
 }
 
 export interface TradingSignal {
@@ -119,7 +119,7 @@ export interface TradingOrder {
   popunjenoKolicina?: number;
   strategijaId?: string;
   kreiranAt: string;
-  izvrsеnAt?: string;
+  izvrsenAt?: string;
 }
 
 export interface Portfolio {
@@ -179,7 +179,7 @@ export interface TradingAIAnaliza {
   pouzadanost: number;           // 0.0 – 1.0
   kljucniFactori: string[];
   rizici: string[];
-  spajаProVerzija: number;
+  spajaProVerzija: number;
   generisanAt: string;
 }
 
@@ -222,13 +222,13 @@ export const tradingStrategije: TradingStrategija[] = [
     maxDrawdown: 28.5,
     aktivna: true,
     aiIntegracija: true,
-    spajаProVerzija: 13,
+    spajaProVerzija: 13,
   },
   {
     id: 'strat-forex-mean-reversion',
     naziv: 'Forex Mean Reversion',
     tip: 'mean-reversion',
-    opis: 'Statstrategija za forex parove zasnovana na statističkim otklonjima od srednje vrednosti.',
+    opis: 'Forex statistička strategija parove zasnovana na statističkim otklonjima od srednje vrednosti.',
     targetAssetKlase: ['forex'],
     parametri: {
       zScorePrag: 2.0,
@@ -261,7 +261,7 @@ export const tradingStrategije: TradingStrategija[] = [
     maxDrawdown: 15.0,
     aktivna: true,
     aiIntegracija: true,
-    spajаProVerzija: 12,
+    spajaProVerzija: 12,
   },
   {
     id: 'strat-akcije-fundamentalna',
@@ -282,7 +282,7 @@ export const tradingStrategije: TradingStrategija[] = [
     maxDrawdown: 18.5,
     aktivna: true,
     aiIntegracija: true,
-    spajаProVerzija: 8,
+    spajaProVerzija: 8,
   },
   {
     id: 'strat-crypto-grid',
@@ -358,7 +358,7 @@ export const tradingStrategije: TradingStrategija[] = [
     maxDrawdown: 35.0,
     aktivna: false,
     aiIntegracija: true,
-    spajаProVerzija: 13,
+    spajaProVerzija: 13,
   },
   {
     id: 'strat-esg-portfolio',
@@ -378,13 +378,13 @@ export const tradingStrategije: TradingStrategija[] = [
     maxDrawdown: 16.0,
     aktivna: true,
     aiIntegracija: true,
-    spajаProVerzija: 8,
+    spajaProVerzija: 8,
   },
   {
     id: 'strat-roba-inflacija',
     naziv: 'Roba Inflaciona Zaštita',
     tip: 'trend-following',
-    opis: 'Portfolio u zlatу, srebru, nafti i poljoprivrednim robama kao zaštita od inflacije i sistemskih rizika.',
+    opis: 'Portfolio u zlatu, srebru, nafti i poljoprivrednim robama kao zaštita od inflacije i sistemskih rizika.',
     targetAssetKlase: ['roba'],
     parametri: {
       assets: 'XAUUSD,XAGUSD,BRENTUSD,WTIUSD,WHEAT,CORN',
