@@ -7,9 +7,11 @@ export async function GET() {
 }
 
 export async function POST() {
-  const repairs = runRepair();
+  const report = runDiagnostics();
+  const repairs = runRepair(report.provere);
   return NextResponse.json({
     status: 'completed',
+    zdravlje: report.zdravlje,
     popravke: repairs,
     timestamp: new Date().toISOString(),
   });

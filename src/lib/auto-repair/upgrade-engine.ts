@@ -1,3 +1,5 @@
+import packageJson from '../../../package.json';
+
 export interface UpgradeInfo {
   paket: string;
   trenutna: string;
@@ -5,11 +7,29 @@ export interface UpgradeInfo {
   tip: 'major' | 'minor' | 'patch';
 }
 
+/** Packages we track for upgrade recommendations. */
+const TRACKED_PACKAGES = ['next', 'react', 'typescript', 'tailwindcss', 'openai', '@supabase/supabase-js', 'stripe', 'viem'] as const;
+
+type AllDeps = Record<string, string>;
+
+function getInstalledVersion(paket: string): string {
+  const allDeps: AllDeps = {
+    ...(packageJson.dependencies as AllDeps),
+    ...(packageJson.devDependencies as AllDeps),
+  };
+  const raw = allDeps[paket] ?? 'nepoznata';
+  // Strip leading ^ ~ >= symbols
+  return raw.replace(/^[\^~>=]+/, '');
+}
+
 export function checkUpgrades(): UpgradeInfo[] {
-  return [
-    { paket: 'next', trenutna: '16.2.1', najnovija: '16.2.1', tip: 'patch' },
-    { paket: 'react', trenutna: '19.2.4', najnovija: '19.2.4', tip: 'patch' },
-    { paket: 'typescript', trenutna: '5.x', najnovija: '5.x', tip: 'minor' },
-    { paket: 'tailwindcss', trenutna: '4.x', najnovija: '4.x', tip: 'minor' },
-  ];
+  return TRACKED_PACKAGES.map((paket) => {
+    const trenutna = getInstalledVersion(paket);
+    return {
+      paket,
+      trenutna,
+      najnovija: trenutna, // Without a live npm registry call, najnovija = trenutna (no pending upgrades known)
+      tip: 'patch' as const,
+    };
+  });
 }
