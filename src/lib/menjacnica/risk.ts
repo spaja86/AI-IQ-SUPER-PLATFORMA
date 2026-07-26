@@ -132,6 +132,34 @@ export function checkWithdrawalRisk(
   };
 }
 
+// ─── Max order value check ────────────────────────────────────────────────────
+
+export interface MaxOrderValueCheckResult {
+  allowed: boolean;
+  limit: number;
+  reason?: string;
+}
+
+/**
+ * Proverava da li USD vrednost ordrea prelazi limit za dati KYC tier.
+ *
+ * Koristi `RISK_LIMITS.maxOrderValueUsd` i vraća allowed=false ako je prekoračen.
+ */
+export function checkMaxOrderValue(
+  totalCostUsd: number,
+  kycTier: 'basic' | 'verified' | 'enterprise',
+): MaxOrderValueCheckResult {
+  const limit = RISK_LIMITS.maxOrderValueUsd[kycTier];
+  if (totalCostUsd > limit) {
+    return {
+      allowed: false,
+      limit,
+      reason: `Order vrednost ${totalCostUsd.toFixed(2)} USD prelazi maksimum ${limit} USD za KYC tier '${kycTier}'.`,
+    };
+  }
+  return { allowed: true, limit };
+}
+
 /** Minimalna KYC tier provjera za withdrawal. */
 export function kycTierAllowsWithdrawal(
   kycTier: 'basic' | 'verified' | 'enterprise',

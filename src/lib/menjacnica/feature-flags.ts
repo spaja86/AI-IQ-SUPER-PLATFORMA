@@ -75,6 +75,14 @@ export const EXCHANGE_FLAGS: ExchangeFlag[] = [
     enabled: false,
     rolloutPct: 0,
   },
+  // ─── M3+: Max order value enforcement (disabled until KYC profil bude dostupan) ──
+  {
+    id: 'exchange-max-order-value',
+    naziv: 'Menjačnica — Maksimalni Iznos Ordrea (KYC tier)',
+    opis: 'Blokira ordere čija USD vrednost prelazi limit za dati KYC tier korisnika. Aktivira se kada user_profiles.kyc_tier bude dostupan u toku narudžbe.',
+    enabled: false,
+    rolloutPct: 0,
+  },
   // ─── P1-P4: Profesionalni Novčanik skeleton ──────────────────────────────────
   {
     id: 'pro-novcanik-portfolio',

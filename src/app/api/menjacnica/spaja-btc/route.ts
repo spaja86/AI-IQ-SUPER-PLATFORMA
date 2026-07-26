@@ -49,6 +49,8 @@ export async function GET(request: NextRequest) {
         id: p.id,
         baseAssetId: p.baseAssetId,
         quoteAssetId: p.quoteAssetId,
+        minQty: p.minQty,
+        maxQty: p.maxQty,
         takerFeePct: p.takerFeePct,
         makerFeePct: p.makerFeePct,
         simulationOnly: p.simulationOnly,
