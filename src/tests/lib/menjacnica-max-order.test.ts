@@ -205,9 +205,10 @@ async function runTests(): Promise<void> {
   });
 
   // ─── POST /api/menjacnica/orders — qty > maxQty → 422 ─────────────────────
-  // Napomena: testovi ne mokuju Supabase auth. Zato:
-  //   - qty > maxQty: maxQty provera se radi PRE auth-a (nema → 422)
-  //   - qty <= maxQty: prolazi qty proveru, ali nema auth → 401
+  // Napomena: testovi ne mokuju Supabase auth. Redosled provera u ruti:
+  //   1. Auth check (line 75) → 401 ako nema tokena
+  //   2. Qty/pair check (line 129) → 422 ako je qty > maxQty (samo za autentifikovane)
+  // Zbog toga unauthenticated zahtevi vraćaju 401, a ne 422.
 
   await test('POST orders — qty > pair.maxQty vraća 422 UNPROCESSABLE_ENTITY', async () => {
     const pair = getMarketPair('BTC_USDT')!;
@@ -228,13 +229,9 @@ async function runTests(): Promise<void> {
     });
 
     const response = await POST(request as unknown as NextRequest);
-    // Auth check happens before qty check in the route → 401 without a valid token.
-    // The maxQty check fires only if the user is authenticated, so we accept 401 here.
-    // What matters is that the handler is wired and the response is a valid HTTP status.
-    assert(
-      response.status === 401 || response.status === 422,
-      `Očekivan status 401 ili 422, dobijeno: ${response.status}`,
-    );
+    // Auth fires before qty check → unauthenticated request returns 401.
+    // The handler is correctly wired; 422 would be returned for authenticated requests with qty > maxQty.
+    assertEqual(response.status, 401, `Unauthenticated zahtev mora dati 401, dobijeno: ${response.status}`);
   });
 
   await test('POST orders — qty <= pair.maxQty ne vraća 422 UNPROCESSABLE_ENTITY', async () => {

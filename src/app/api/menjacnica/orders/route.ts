@@ -176,8 +176,8 @@ export async function POST(request: NextRequest) {
     // Max order value check (KYC tier) — aktivan samo ako je flag uključen
     if (isExchangeFlagEnabled('exchange-max-order-value')) {
       const supabaseForKyc = getSupabaseServerClient();
-      // Uzimamo kyc_tier iz prvog novcanik_accounts zapisa za korisnika
-      // (svi nalozi istog korisnika dele isti tier).
+      // Uzimamo kyc_tier iz prvog novcanik_accounts zapisa za korisnika.
+      // Ako korisnik nema nalog (null), tretiramo ga kao 'basic' tier — najrestriktivniji.
       const { data: account } = await supabaseForKyc
         .from('novcanik_accounts')
         .select('kyc_tier')
@@ -185,7 +185,8 @@ export async function POST(request: NextRequest) {
         .limit(1)
         .maybeSingle();
 
-      const rawTier = account?.kyc_tier;
+      // account je null ako korisnik nema novčanik (npr. novi korisnik) → default: 'basic'
+      const rawTier = account?.kyc_tier ?? null;
       const kycTier: 'basic' | 'verified' | 'enterprise' =
         rawTier === 'verified' || rawTier === 'enterprise' ? rawTier : 'basic';
       const maxValueResult = checkMaxOrderValue(feeResult.grossAmount, kycTier);
