@@ -26,6 +26,12 @@ export const SVE_OD_SVEGA_CONTRACT_VERSION = 'v1';
 export const SVE_OD_SVEGA_MODEL_VERSION = '1.0.0';
 export const SVE_OD_SVEGA_SOURCE_OF_TRUTH = '/api/sve-od-svega';
 
+/** Ukupan broj očekivanih stage-ova u autofinish orkestraciji (sve stage ID-ove). */
+const EXPECTED_AUTOFINISH_STEPOVI_COUNT = 9;
+
+/** Prag ispod kojeg se domen smatra kritičnim (u procentima). */
+const CRITICAL_THRESHOLD = 75;
+
 const SVE_WEIGHTS = {
   analiza: 0.30,
   potencijal: 0.20,
@@ -164,7 +170,7 @@ export async function buildSveOdSvega(): Promise<SveOdSvega> {
   const potencijalScore = clampScore(potencijal?.ukupniPotencijal ?? 0);
   const procesuiranjeScore = clampScore(procesuiranje?.ukupanProcenat ?? 0);
   const orkestracijaScore = autofinishInfo
-    ? clampScore((autofinishInfo.dostupniStepovi.length / 9) * 100)
+    ? clampScore((autofinishInfo.dostupniStepovi.length / EXPECTED_AUTOFINISH_STEPOVI_COUNT) * 100)
     : 0;
 
   const domeni: SveOdSvega['domeni'] = {
@@ -211,7 +217,7 @@ export async function buildSveOdSvega(): Promise<SveOdSvega> {
   );
 
   const kriticniDomeni = Object.values(domeni)
-    .filter((d) => d.score < 75)
+    .filter((d) => d.score < CRITICAL_THRESHOLD)
     .map((d) => d.naziv);
 
   const preporuke: string[] = [];
