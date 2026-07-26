@@ -12,7 +12,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { getMarketPair } from '@/lib/menjacnica/pairs';
 import { getExecutionPrice } from '@/lib/menjacnica/simulator';
 import { calcFee } from '@/lib/menjacnica/fee';
-import { checkRisk } from '@/lib/menjacnica/risk';
+import { checkRisk, checkMaxOrderValue } from '@/lib/menjacnica/risk';
 import { isExchangeFlagEnabled } from '@/lib/menjacnica/feature-flags';
 import { validateIdempotencyKey, extractIdempotencyKey } from '@/lib/idempotency';
 import type { CreateOrderRequest } from '@/lib/menjacnica/types';
@@ -126,6 +126,10 @@ export async function POST(request: NextRequest) {
       return apiError('UNPROCESSABLE_ENTITY', `Minimalna količina je ${pair.minQty}.`);
     }
 
+    if (pair.maxQty !== undefined && body.qty > pair.maxQty) {
+      return apiError('UNPROCESSABLE_ENTITY', `Maksimalna količina za ${pair.id} je ${pair.maxQty}.`);
+    }
+
     // Odredi izvršnu cenu
     let execPrice: number;
     if (body.tip === 'limit' && body.price) {
@@ -167,6 +171,32 @@ export async function POST(request: NextRequest) {
         'Order je blokiran zbog AML/risk provere. Kontaktirajte podršku.',
         { amlScore: riskResult.amlScore, flags: riskResult.flags },
       );
+    }
+
+    // Max order value check (KYC tier) — aktivan samo ako je flag uključen
+    if (isExchangeFlagEnabled('exchange-max-order-value')) {
+      const supabaseForKyc = getSupabaseServerClient();
+      // Uzimamo kyc_tier iz prvog novcanik_accounts zapisa za korisnika.
+      // Ako korisnik nema nalog (null), tretiramo ga kao 'basic' tier — najrestriktivniji.
+      const { data: account } = await supabaseForKyc
+        .from('novcanik_accounts')
+        .select('kyc_tier')
+        .eq('user_id', user.id)
+        .limit(1)
+        .maybeSingle();
+
+      // account je null ako korisnik nema novčanik (npr. novi korisnik) → default: 'basic'
+      const rawTier = account?.kyc_tier ?? null;
+      const kycTier: 'basic' | 'verified' | 'enterprise' =
+        rawTier === 'verified' || rawTier === 'enterprise' ? rawTier : 'basic';
+      const maxValueResult = checkMaxOrderValue(feeResult.grossAmount, kycTier);
+      if (!maxValueResult.allowed) {
+        return apiError(
+          'FORBIDDEN',
+          maxValueResult.reason ?? 'Order vrednost prelazi dozvoljeni maksimum za vaš KYC tier.',
+          { kycTier, maxOrderValueUsd: maxValueResult.limit },
+        );
+      }
     }
 
     const supabase = getSupabaseServerClient();

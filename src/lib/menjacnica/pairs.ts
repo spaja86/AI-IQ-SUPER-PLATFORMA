@@ -4,17 +4,17 @@
 import type { MarketPair } from './types';
 
 export const MARKET_PAIRS: MarketPair[] = [
-  { id: 'BTC_USDT',   baseAssetId: 'BTC',   quoteAssetId: 'USDT',  minQty: 0.00001, pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
-  { id: 'ETH_USDT',   baseAssetId: 'ETH',   quoteAssetId: 'USDT',  minQty: 0.001,   pricePrecision: 2,  qtyPrecision: 6, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
-  { id: 'SOL_USDT',   baseAssetId: 'SOL',   quoteAssetId: 'USDT',  minQty: 0.01,    pricePrecision: 2,  qtyPrecision: 4, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
-  { id: 'MATIC_USDT', baseAssetId: 'MATIC', quoteAssetId: 'USDT',  minQty: 1,       pricePrecision: 4,  qtyPrecision: 2, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
-  { id: 'BTC_EUR',    baseAssetId: 'BTC',   quoteAssetId: 'EUR',   minQty: 0.00001, pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
-  { id: 'ETH_EUR',    baseAssetId: 'ETH',   quoteAssetId: 'EUR',   minQty: 0.001,   pricePrecision: 2,  qtyPrecision: 6, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
-  { id: 'BTC_RSD',    baseAssetId: 'BTC',   quoteAssetId: 'RSD',   minQty: 0.00001, pricePrecision: 0,  qtyPrecision: 8, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
+  { id: 'BTC_USDT',   baseAssetId: 'BTC',   quoteAssetId: 'USDT',  minQty: 0.00001, maxQty: 10,        pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
+  { id: 'ETH_USDT',   baseAssetId: 'ETH',   quoteAssetId: 'USDT',  minQty: 0.001,   maxQty: 100,       pricePrecision: 2,  qtyPrecision: 6, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
+  { id: 'SOL_USDT',   baseAssetId: 'SOL',   quoteAssetId: 'USDT',  minQty: 0.01,    maxQty: 10_000,    pricePrecision: 2,  qtyPrecision: 4, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
+  { id: 'MATIC_USDT', baseAssetId: 'MATIC', quoteAssetId: 'USDT',  minQty: 1,       maxQty: 500_000,   pricePrecision: 4,  qtyPrecision: 2, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
+  { id: 'BTC_EUR',    baseAssetId: 'BTC',   quoteAssetId: 'EUR',   minQty: 0.00001, maxQty: 10,        pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
+  { id: 'ETH_EUR',    baseAssetId: 'ETH',   quoteAssetId: 'EUR',   minQty: 0.001,   maxQty: 100,       pricePrecision: 2,  qtyPrecision: 6, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
+  { id: 'BTC_RSD',    baseAssetId: 'BTC',   quoteAssetId: 'RSD',   minQty: 0.00001, maxQty: 5,         pricePrecision: 0,  qtyPrecision: 8, takerFeePct: 0.002, makerFeePct: 0.001, isSpajaPair: false, simulationOnly: true, enabled: true },
   // SPAJA BTC parovi — ekskluzivni, niže naknade
-  { id: 'SPAJA_BTC',  baseAssetId: 'SPAJA', quoteAssetId: 'BTC',   minQty: 0.00001, pricePrecision: 8,  qtyPrecision: 8, takerFeePct: 0.001, makerFeePct: 0.000, isSpajaPair: true,  simulationOnly: true, enabled: true },
-  { id: 'SPAJA_EUR',  baseAssetId: 'SPAJA', quoteAssetId: 'EUR',   minQty: 0.00001, pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.001, makerFeePct: 0.000, isSpajaPair: true,  simulationOnly: true, enabled: true },
-  { id: 'SPAJA_USDT', baseAssetId: 'SPAJA', quoteAssetId: 'USDT',  minQty: 0.00001, pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.001, makerFeePct: 0.000, isSpajaPair: true,  simulationOnly: true, enabled: true },
+  { id: 'SPAJA_BTC',  baseAssetId: 'SPAJA', quoteAssetId: 'BTC',   minQty: 0.00001, maxQty: 1_000,     pricePrecision: 8,  qtyPrecision: 8, takerFeePct: 0.001, makerFeePct: 0.000, isSpajaPair: true,  simulationOnly: true, enabled: true },
+  { id: 'SPAJA_EUR',  baseAssetId: 'SPAJA', quoteAssetId: 'EUR',   minQty: 0.00001, maxQty: 1_000,     pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.001, makerFeePct: 0.000, isSpajaPair: true,  simulationOnly: true, enabled: true },
+  { id: 'SPAJA_USDT', baseAssetId: 'SPAJA', quoteAssetId: 'USDT',  minQty: 0.00001, maxQty: 1_000,     pricePrecision: 2,  qtyPrecision: 8, takerFeePct: 0.001, makerFeePct: 0.000, isSpajaPair: true,  simulationOnly: true, enabled: true },
 ];
 
 const PAIR_MAP = new Map<string, MarketPair>(MARKET_PAIRS.map((p) => [p.id, p]));
