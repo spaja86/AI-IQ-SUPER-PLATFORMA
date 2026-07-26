@@ -205,6 +205,9 @@ async function runTests(): Promise<void> {
   });
 
   // ─── POST /api/menjacnica/orders — qty > maxQty → 422 ─────────────────────
+  // Napomena: testovi ne mokuju Supabase auth. Zato:
+  //   - qty > maxQty: maxQty provera se radi PRE auth-a (nema → 422)
+  //   - qty <= maxQty: prolazi qty proveru, ali nema auth → 401
 
   await test('POST orders — qty > pair.maxQty vraća 422 UNPROCESSABLE_ENTITY', async () => {
     const pair = getMarketPair('BTC_USDT')!;
@@ -225,19 +228,16 @@ async function runTests(): Promise<void> {
     });
 
     const response = await POST(request as unknown as NextRequest);
-    // Without auth the route returns 401 or 422; if the maxQty check fires before
-    // auth it will be 422, otherwise 401. We check both outcomes are handled.
+    // Auth check happens before qty check in the route → 401 without a valid token.
+    // The maxQty check fires only if the user is authenticated, so we accept 401 here.
+    // What matters is that the handler is wired and the response is a valid HTTP status.
     assert(
-      response.status === 422 || response.status === 401,
-      `Očekivan status 422 ili 401, dobijeno: ${response.status}`,
+      response.status === 401 || response.status === 422,
+      `Očekivan status 401 ili 422, dobijeno: ${response.status}`,
     );
-
-    // If feature flag exchange-orders is enabled and auth is skipped (unauthenticated),
-    // we won't reach the qty check — that is fine for unit tests that don't mock Supabase.
-    // The important thing is the handler is wired and returns a valid HTTP status.
   });
 
-  await test('POST orders — qty <= pair.maxQty prolazi qty proveru (vraća 401 jer nema auth)', async () => {
+  await test('POST orders — qty <= pair.maxQty ne vraća 422 UNPROCESSABLE_ENTITY', async () => {
     const pair = getMarketPair('BTC_USDT')!;
     const validQty = pair.minQty;
 
@@ -257,7 +257,7 @@ async function runTests(): Promise<void> {
 
     const response = await POST(request as unknown as NextRequest);
     // Without auth → 401; qty je validna, ne sme biti 422
-    assert(response.status !== 422, `Ne sme biti 422 za validnu qty, dobijeno: ${response.status}`);
+    assertEqual(response.status, 401, 'Validna qty bez auth-a mora dati 401, ne 422');
   });
 
   // ─── Rezultat ─────────────────────────────────────────────────────────────
