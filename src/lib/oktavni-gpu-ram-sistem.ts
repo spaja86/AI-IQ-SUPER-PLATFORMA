@@ -171,6 +171,38 @@ const SEKTORSKI_PARAMETRI: Record<OktavniNivo, {
     ikona: '🧬',
     opis: 'Evolucioni GPU/RAM sloj — ray tracing evolucija, adaptivni VRAM, prediktivna GPU alokacija za igrice',
   },
+  9: {
+    galaksipozniFaktor: 6.5,
+    matricniKoeficijent: 5.0,
+    ekvalaturniRaspon: 4.0,
+    sektorskiMnozilac: 3.0,
+    ikona: '🌐',
+    opis: 'Metaversum GPU/RAM sloj — holografski rendering, XR streaming, decentralizovani GPU za metaversum',
+  },
+  10: {
+    galaksipozniFaktor: 8.0,
+    matricniKoeficijent: 6.5,
+    ekvalaturniRaspon: 5.0,
+    sektorskiMnozilac: 4.0,
+    ikona: '⚛️',
+    opis: 'Kvantni GPU/RAM sloj — kvantni interferometri, kvantna kola u GPU, Qubit simulacija u VRAM-u',
+  },
+  11: {
+    galaksipozniFaktor: 10.0,
+    matricniKoeficijent: 8.0,
+    ekvalaturniRaspon: 6.5,
+    sektorskiMnozilac: 5.0,
+    ikona: '🚀',
+    opis: 'Svemirski GPU/RAM sloj — svemirske misije rendering, DTN buffer, inter-planetarni GPU compute',
+  },
+  12: {
+    galaksipozniFaktor: 12.5,
+    matricniKoeficijent: 10.0,
+    ekvalaturniRaspon: 8.0,
+    sektorskiMnozilac: 6.5,
+    ikona: '♾️',
+    opis: 'Beskonačni GPU/RAM sloj — MOŽE SVE od MOŽE SVE — neograničeni GPU/RAM kapacitet za beskonačnu platformu',
+  },
 };
 
 // ─── Izračunavanje raspodele ─────────────────────────────────────────
@@ -187,7 +219,7 @@ function izracunajRAMRaspodelu(oktava: OktavniNivo): number {
 
 /** Suma svih težinskih faktora za normalizaciju */
 function getSumuTezina(izracunajFn: (o: OktavniNivo) => number): number {
-  const oktave: OktavniNivo[] = [1, 2, 3, 4, 5, 6, 7, 8];
+  const oktave: OktavniNivo[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   return oktave.reduce((sum, o) => sum + izracunajFn(o), 0);
 }
 
@@ -266,7 +298,7 @@ function kreirajMatricnoJedinjenje(raspodele: OktavnaGPURaspodela[]): MatricnoJe
 
 // ─── Eksportovani sistem ─────────────────────────────────────────────
 
-const oktave: OktavniNivo[] = [1, 2, 3, 4, 5, 6, 7, 8];
+const oktave: OktavniNivo[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const raspodele = oktave.map(kreirajRaspodelu);
 const matricnoJedinjenje = kreirajMatricnoJedinjenje(raspodele);
 

@@ -76,6 +76,10 @@ const PARAMETRI: Record<OktavniNivo, { amplituda: number; baza: number; offset: 
   6: { amplituda: 2.5, baza: 3.2, offset: 25, ikona: '🔬', opis: 'Inteligentni eksponencijalni rast — analiticki kapacitet se udvostručava brzo' },
   7: { amplituda: 3.0, baza: 3.5, offset: 30, ikona: '♟️', opis: 'Koordinacioni eksponencijalni rast — upravljanje kompleksnošcu' },
   8: { amplituda: 4.0, baza: 4.0, offset: 40, ikona: '🧬', opis: 'Evolucioni eksponencijalni rast — najbrzi rast, vizija buducnosti' },
+  9: { amplituda: 5.0, baza: 4.5, offset: 50, ikona: '🌐', opis: 'Metaversum eksponencijalni rast — virtuelni svetovi se šire beskonačno' },
+  10: { amplituda: 6.5, baza: 5.0, offset: 65, ikona: '⚛️', opis: 'Kvantni eksponencijalni rast — kvantno superponiranje ubrzava sve operacije' },
+  11: { amplituda: 8.0, baza: 5.5, offset: 80, ikona: '🚀', opis: 'Svemirski eksponencijalni rast — inter-planetarna ekspanzija bez granica' },
+  12: { amplituda: 10.0, baza: 6.0, offset: 100, ikona: '♾️', opis: 'Beskonačni eksponencijalni rast — MOŽE SVE od MOŽE SVE, beskonačna svestranost' },
 };
 
 // ── Kreiranje funkcija ────────────────────────────────────────────────────────
@@ -135,7 +139,7 @@ function kreirajFunkciju(oktava: OktavniNivo): EksponencijalnaFunkcija {
 // ── Eksportovane funkcije i podaci ────────────────────────────────────────────
 
 export const eksponencijalneFunkcije: EksponencijalnaFunkcija[] = (
-  [1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as OktavniNivo[]
 ).map(kreirajFunkciju);
 
 export function getFunkcijaZaOktavu(oktava: OktavniNivo): EksponencijalnaFunkcija {

@@ -172,6 +172,30 @@ const KANAL_PARAMETRI: Record<OktavniNivo, {
     ikona: '🧬',
     seoMetrike: { indeksiranost: 100, crawlBudget: 99, pageRank: 9.0, organskiSaobracaj: 98, konverzija: 5.2, bounceRate: 15 },
   },
+  9: {
+    bazniProtok: 0.20,
+    rastFaktor: 0.16,
+    ikona: '🌐',
+    seoMetrike: { indeksiranost: 100, crawlBudget: 100, pageRank: 9.5, organskiSaobracaj: 99, konverzija: 6.0, bounceRate: 12 },
+  },
+  10: {
+    bazniProtok: 0.26,
+    rastFaktor: 0.20,
+    ikona: '⚛️',
+    seoMetrike: { indeksiranost: 100, crawlBudget: 100, pageRank: 9.7, organskiSaobracaj: 99.5, konverzija: 6.8, bounceRate: 10 },
+  },
+  11: {
+    bazniProtok: 0.32,
+    rastFaktor: 0.25,
+    ikona: '🚀',
+    seoMetrike: { indeksiranost: 100, crawlBudget: 100, pageRank: 9.9, organskiSaobracaj: 100, konverzija: 7.5, bounceRate: 8 },
+  },
+  12: {
+    bazniProtok: 0.40,
+    rastFaktor: 0.30,
+    ikona: '♾️',
+    seoMetrike: { indeksiranost: 100, crawlBudget: 100, pageRank: 10.0, organskiSaobracaj: 100, konverzija: 8.5, bounceRate: 5 },
+  },
 };
 
 // ── Kreiranje kanala ──────────────────────────────────────────────────────────
@@ -230,7 +254,7 @@ function kreirajKanal(oktava: OktavniNivo): SeoKanal {
 // ── Eksportovani kanali ───────────────────────────────────────────────────────
 
 export const seoKanali: SeoKanal[] = (
-  [1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as OktavniNivo[]
 ).map(kreirajKanal);
 
 // ── Eksplatacioni ciklusi ─────────────────────────────────────────────────────

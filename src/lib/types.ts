@@ -93,7 +93,12 @@ export type OmegaAIUloga =
   | 'Arhitekta' | 'Cuvar' | 'Lekar' | 'Graditelj' | 'Dizajner'
   | 'Optimizator' | 'Strateg' | 'Naucnik' | 'Mentor' | 'Integrator'
   | 'Analiticar' | 'Komunikator' | 'Evolver' | 'Tester' | 'Dokumentar'
-  | 'Finansijer' | 'Kreator' | 'Skalator' | 'Monitor' | 'Ekolog' | 'Vizionar';
+  | 'Finansijer' | 'Kreator' | 'Skalator' | 'Monitor' | 'Ekolog' | 'Vizionar'
+  // Horizont 2–4 proširenje (Oktave 9–12)
+  | 'MetaverumArhitekta' | 'MetaverumEkonomista' | 'MetaverumSocijolog'
+  | 'KvantniArhitekta' | 'KvantniProcesor' | 'KvantniKomunikator'
+  | 'SvemirskiPilot' | 'SvemirskaNaavigatorka' | 'KosmickiEkolog'
+  | 'BeskonacniEvolver' | 'OmegaSvest' | 'CivilizacijskiArhitekta';
 
 export interface OmegaAI {
   uloga: OmegaAIUloga;

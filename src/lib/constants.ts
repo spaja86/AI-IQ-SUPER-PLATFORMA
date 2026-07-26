@@ -5,7 +5,7 @@
  * Sve komponente koriste ove konstante umesto hardkodovanih vrednosti.
  */
 
-export const APP_VERSION = '59.90.0';
+export const APP_VERSION = '60.0.0';
 export const APP_NAME = 'AI IQ SUPER PLATFORMA';
 export const KOMPANIJA = 'Kompanija SPAJA';
 export const KOMPANIJA_FORMALNI_NAZIV = 'MEGA CENTAR SVEGA';
@@ -17,9 +17,9 @@ export const BASE_URL = 'https://ai-iq-super-platforma.vercel.app';
 export const SPAJA_PRO_RANGE = '6-15';
 export const SPAJA_PRO_VERZIJA_COUNT = 10;
 
-// OMEGA AI
-export const OMEGA_AI_PERSONA_COUNT = 21;
-export const OMEGA_AI_OKTAVA_COUNT = 8;
+// OMEGA AI — ekspandovano sa 21 na 33 persona, 8 na 12 oktava
+export const OMEGA_AI_PERSONA_COUNT = 33;
+export const OMEGA_AI_OKTAVA_COUNT = 12;
 /** @deprecated Koristi OMEGA_AI_PERSONA_UKUPNO */
 export const OMEGA_AI_INSTANCI = 40_000_562;
 export const OMEGA_AI_PERSONA_UKUPNO = 40_000_562;
@@ -30,12 +30,12 @@ export const OMEGA_AI_ZENSKIH = 20_000_281;
 export const TOTAL_PAGES = 139;
 export const TOTAL_API_ROUTES = 1256;
 export const TOTAL_ROUTES = 1396;
-export const TOTAL_IGRICA = 100;
-export const TOTAL_GEJMING_ENTITETA = 52;
+export const TOTAL_IGRICA = 120;
+export const TOTAL_GEJMING_ENTITETA = 72;
 export const TOTAL_DIAGNOSTIKA = 2404;
 
 // Autofinish
-export const AUTOFINISH_COUNT = 1441;
+export const AUTOFINISH_COUNT = 1442;
 export const AUTOFINISH_2_START = 1405;
 export const AUTOFINISH_2_SCOPE =
   'Nastavak Autofinish iteracija posle #1404 sa fokusom na high-risk route coverage, kontrakte i bezbednosne gate-ove.';
