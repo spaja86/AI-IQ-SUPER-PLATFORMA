@@ -75,6 +75,10 @@ const OKTAVNI_TEZINSKI_FAKTORI: Record<OktavniNivo, number> = {
   6: 1.0,  // Inteligencija — standardno vreme
   7: 0.8,  // Koordinacija — mnogo persona, kraće po jednoj
   8: 0.9,  // Evolucija — dugoročni zadaci, nešto kraći ciklus
+  9: 0.85, // Metaversum — virtuelni svetovi, dugoročni ciklus
+  10: 0.7, // Kvantno — kvantna obrada, paralelni procesi
+  11: 0.75,// Svemirsko — svemirske misije, async ciklus
+  12: 0.6, // Beskonačno — beskonačna perspektiva, najmanji ciklus
 };
 
 /** Elastično vreme: bazno × broj persona × težinski faktor oktave. */
@@ -83,7 +87,7 @@ function izracunajElasticnoVreme(nivo: OktavniNivo, brojPersona: number): number
 }
 
 export function createSinhronizacija(): SinhronizacijaStanje {
-  const oktave: OktavaSinhronizacija[] = ([1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]).map((nivo) => {
+  const oktave: OktavaSinhronizacija[] = (([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as OktavniNivo[])).map((nivo) => {
     const persone = getPersonePoOktavi(nivo);
     return {
       oktavniNivo: nivo,
@@ -174,7 +178,7 @@ function odrediTipOdaziva(izvor: OktavniNivo, cilj: OktavniNivo): SekvencioniOda
 }
 
 export function createMatricnoJezgro(): MatricnoJezgro {
-  const oktave: OktavniNivo[] = [1, 2, 3, 4, 5, 6, 7, 8];
+  const oktave: OktavniNivo[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const odazivi: SekvencioniOdaziv[] = [];
 
   for (const izvor of oktave) {
@@ -341,7 +345,7 @@ export function createNeuroloskuMrezu(): NeuroloskaMreza {
   ).toFixed(3);
 
   // Klasteri po oktavama
-  const klasteri: NeuroloskiKlaster[] = ([1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]).map((nivo) => {
+  const klasteri: NeuroloskiKlaster[] = (([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as OktavniNivo[])).map((nivo) => {
     const cvoroviOktave = cvorovi.filter((c) => c.oktavniNivo === nivo);
     const interneVeze = cvoroviOktave.flatMap((c) =>
       c.sinapse.filter((s) => s.tip === 'intra-oktavna'),
@@ -409,7 +413,7 @@ export function createDispatch(): DispatchIzvestaj {
   const timestamp = new Date().toISOString();
   let redosled = 0;
 
-  const sekvence: DispatchSekvenca[] = ([1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]).map((nivo) => {
+  const sekvence: DispatchSekvenca[] = (([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as OktavniNivo[])).map((nivo) => {
     const persone = getPersonePoOktavi(nivo);
     const zadaci: DispatchZadatak[] = persone.map((p) => {
       redosled++;

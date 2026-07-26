@@ -362,8 +362,8 @@ export const spajaProVerzije: SpajaProEngine[] = [
       promptTipovi: ['tekst', 'kod', 'slika', 'agent', 'meta', 'evolucioni', 'genetski'],
       finetuning: true,
     },
-    status: 'razvoj',
-    datumIzdanja: '2025-09-01',
+    status: 'beta',
+    datumIzdanja: '2026-07-26',
     kompatibilnost: ['IO-OPENUI-AO', 'AI-IQ-SUPER-PLATFORMA', 'Evolucija-Motor'],
   },
   {
