@@ -96,7 +96,7 @@ async function runTests(): Promise<void> {
     }
   });
 
-  await test('Lib: getSveOdSvegaInfo vraća ispravnu strukturu', async () => {
+  await test('Lib: getSveOdSvegaInfo vraca ispravnu strukturu', async () => {
     const { getSveOdSvegaInfo } = await import('../../lib/sve-od-svega');
     const info = getSveOdSvegaInfo();
     assert(typeof info.endpoint === 'string' && info.endpoint.length > 0, 'endpoint mora biti string');
@@ -104,6 +104,41 @@ async function runTests(): Promise<void> {
     assert(typeof info.modelVersion === 'string', 'modelVersion mora biti string');
     assert(info.endpoint === '/api/sve-od-svega', 'endpoint mora biti /api/sve-od-svega');
     assert(typeof info.scoreWeights === 'object' && info.scoreWeights !== null, 'scoreWeights mora biti objekat');
+  });
+
+  await test('scoreWeights zbir mora biti 1.0', async () => {
+    const { getSveOdSvegaInfo } = await import('../../lib/sve-od-svega');
+    const info = getSveOdSvegaInfo();
+    const sum = Object.values(info.scoreWeights).reduce((s, w) => s + (w as number), 0);
+    assert(Math.abs(sum - 1) < 0.0001, `scoreWeights zbir mora biti 1.0 (trenutno: ${sum})`);
+  });
+
+  await test('domeni sadrze gaming i licensing kljuceve', async () => {
+    const { buildSveOdSvega } = await import('../../lib/sve-od-svega');
+    const rezultat = await buildSveOdSvega();
+    const domenKljucevi = Object.keys(rezultat.domeni);
+    assert(domenKljucevi.some((k) => k.toLowerCase().includes('gaming') || rezultat.domeni[k].naziv.includes('Gaming')), 'Nedostaje gaming domen');
+    assert(domenKljucevi.some((k) => k.toLowerCase().includes('licensing') || rezultat.domeni[k].naziv.includes('Licensing')), 'Nedostaje licensing domen');
+  });
+
+  await test('contractVersion je v2', async () => {
+    const { SVE_OD_SVEGA_CONTRACT_VERSION } = await import('../../lib/sve-od-svega');
+    assertEqual(SVE_OD_SVEGA_CONTRACT_VERSION, 'v2', 'contractVersion mora biti v2');
+  });
+
+  await test('history polje je niz u GET response-u', async () => {
+    const request = new Request('http://localhost/api/sve-od-svega', {
+      headers: { 'x-forwarded-for': '127.0.1.11' },
+    });
+    const response = await GET(request as unknown as NextRequest);
+    if (response.status === 200) {
+      const body = await response.clone().json() as unknown;
+      if (isObject(body) && isObject(body['data'])) {
+        assert(Array.isArray(body['data']['history']), 'data.history mora biti niz');
+      } else if (isObject(body)) {
+        assert(Array.isArray(body['history']), 'history mora biti niz');
+      }
+    }
   });
 
   await test('Konstante su dostupne', () => {

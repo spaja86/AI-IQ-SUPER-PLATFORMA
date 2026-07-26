@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — SVE OD SVEGA
+// SpajaUltraOmegaCore — SVE OD SVEGA
 // Kompanija SPAJA — Digitalna Industrija
 //
 // Ultimativni agregator koji unifikuje sve "svega" domene u jedan
@@ -6,12 +6,22 @@
 //   - Analiza Svega (ekosistem dijagnostika)
 //   - Potencijal Svega Ovoga Do Sada (uplift)
 //   - Procesuiranje Svega (operativni pipeline)
-//   - Autofinish Svega (orkestracija)
+//   - Autofinish Orkestracija
+//   - Gaming Industrija (gaming score)
+//   - Issuer Licensing (licencna uskladenost)
+//
+// Tanak wrapper oko `agregator-svega-core.ts`.
 
-import { buildAnalizaSvega } from './analiza-svega';
-import { buildPotencijalSvegaOvogaDoSada } from './potencijal-svega-ovoga-do-sada';
-import { buildProcesuiranjeSvega } from './procesuiranje-svega';
-import { getAutofinishSvegaInfo } from './autofinish-svega';
+import {
+  type AgregiranDomenSignal,
+  type AgregiranFreshness,
+  type AgregiranMeta,
+  type AgregiranOcena,
+  type AgregiranRezultat,
+  buildAgregiranRezultat,
+  clampScore,
+  safeAgregiranSync,
+} from './agregator-svega-core';
 import {
   APP_VERSION,
   AUTOFINISH_COUNT,
@@ -19,73 +29,39 @@ import {
   TOTAL_API_ROUTES,
   TOTAL_ROUTES,
 } from './constants';
+import { buildGejmingIndustrija } from './gejming-industrija';
+import { getIssuerLicensingSummary } from './issuer-licensing';
 
-// ─── Konstante ────────────────────────────────────────────────────────────────
+// --- Konstante ----------------------------------------------------------------
 
-export const SVE_OD_SVEGA_CONTRACT_VERSION = 'v1';
-export const SVE_OD_SVEGA_MODEL_VERSION = '1.0.0';
+export const SVE_OD_SVEGA_CONTRACT_VERSION = 'v2';
+export const SVE_OD_SVEGA_MODEL_VERSION = '2.0.0';
 export const SVE_OD_SVEGA_SOURCE_OF_TRUTH = '/api/sve-od-svega';
 
-/** Ukupan broj očekivanih stage-ova u autofinish orkestraciji (sve stage ID-ove). */
-const EXPECTED_AUTOFINISH_STEPOVI_COUNT = 9;
-
-/** Prag ispod kojeg se domen smatra kritičnim (u procentima). */
-const CRITICAL_THRESHOLD = 75;
-
 const SVE_WEIGHTS = {
-  analiza: 0.30,
-  potencijal: 0.20,
-  procesuiranje: 0.25,
-  orkestracija: 0.25,
+  analiza: 0.25,
+  potencijal: 0.15,
+  procesuiranje: 0.20,
+  orkestracija: 0.20,
+  gaming: 0.10,
+  licensing: 0.10,
 } as const;
 
-// ─── Tipovi ──────────────────────────────────────────────────────────────────
-
-export type SveOcena = 'ODLICNO' | 'SPREMNO' | 'DELIMICNO' | 'POTREBNO_POBOLJSANJE';
-export type SveFreshness = 'fresh' | 'stale' | 'unknown';
-
-export interface SveDomenSignal {
-  naziv: string;
-  score: number;
-  tezina: number;
-  doprinos: number;
-  sourceOfTruth: string;
-  freshness: SveFreshness;
+// Osiguravamo da zbir tezina = 1.0
+const _weightSum = Object.values(SVE_WEIGHTS).reduce((s, w) => s + w, 0);
+if (Math.abs(_weightSum - 1) > 0.0001) {
+  throw new Error(`SVE_WEIGHTS mora biti normalizovano na 1.0 (trenutno: ${_weightSum})`);
 }
 
-export interface SveOdSvegaMeta {
-  contractVersion: typeof SVE_OD_SVEGA_CONTRACT_VERSION;
-  modelVersion: string;
-  sourceOfTruth: typeof SVE_OD_SVEGA_SOURCE_OF_TRUTH;
-  generatedAt: string;
-  scoreWeights: typeof SVE_WEIGHTS;
-  degraded: boolean;
-  degradedSources: string[];
-}
+type SveWeights = typeof SVE_WEIGHTS;
 
-export interface SveOdSvega {
-  sistem: string;
-  kompanija: string;
-  verzija: string;
-  autofinishBroj: number;
-  ukupanScore: number;
-  konacnaOcena: SveOcena;
-  procenatSpremnosti: number;
-  kriticniDomeni: string[];
-  preporuke: string[];
-  domeni: {
-    analiza: SveDomenSignal;
-    potencijal: SveDomenSignal;
-    procesuiranje: SveDomenSignal;
-    orkestracija: SveDomenSignal;
-  };
-  ekosistem: {
-    apiRute: number;
-    ukupnoRuta: number;
-  };
-  meta: SveOdSvegaMeta;
-  timestamp: string;
-}
+// --- Re-eksporti radi backward kompatibilnosti --------------------------------
+
+export type SveOcena = AgregiranOcena;
+export type SveFreshness = AgregiranFreshness;
+export type SveDomenSignal = AgregiranDomenSignal;
+export type SveOdSvegaMeta = AgregiranMeta<SveWeights>;
+export type SveOdSvega = AgregiranRezultat<SveWeights>;
 
 export interface SveOdSvegaInfo {
   sistem: string;
@@ -95,7 +71,7 @@ export interface SveOdSvegaInfo {
   endpoint: string;
   contractVersion: string;
   modelVersion: string;
-  scoreWeights: typeof SVE_WEIGHTS;
+  scoreWeights: SveWeights;
   ekosistem: {
     apiRute: number;
     ukupnoRuta: number;
@@ -103,164 +79,65 @@ export interface SveOdSvegaInfo {
   timestamp: string;
 }
 
-// ─── Pomoćnici ────────────────────────────────────────────────────────────────
+// --- Extra domeni: Gaming i Licensing ----------------------------------------
 
-function clampScore(score: number): number {
-  return Math.max(0, Math.min(100, Math.round(score)));
+function buildGamingDomen(degradedSources: string[]): AgregiranDomenSignal | null {
+  const gaming = safeAgregiranSync('gejming-industrija', degradedSources, () =>
+    buildGejmingIndustrija('system'),
+  );
+  if (!gaming) return null;
+  const score = clampScore(gaming.pregled.prosecnaOptimizacija);
+  return {
+    naziv: 'Gaming Industrija',
+    score,
+    tezina: SVE_WEIGHTS.gaming,
+    doprinos: clampScore(score * SVE_WEIGHTS.gaming),
+    sourceOfTruth: '/api/gejming-industrija',
+    freshness: 'fresh',
+  };
 }
 
-function scoreToOcena(score: number): SveOcena {
-  if (score >= 90) return 'ODLICNO';
-  if (score >= 75) return 'SPREMNO';
-  if (score >= 50) return 'DELIMICNO';
-  return 'POTREBNO_POBOLJSANJE';
+function buildLicensingDomen(degradedSources: string[]): AgregiranDomenSignal | null {
+  const summary = safeAgregiranSync('issuer-licensing', degradedSources, () =>
+    getIssuerLicensingSummary(),
+  );
+  if (!summary) return null;
+  // Score: procenat slobodne kvote + bonus za aktivno izdavanje - kazna za blokere
+  const kvotaOk = summary.kvotaUkupno > 0
+    ? clampScore(100 - summary.procenatKvota)
+    : 100;
+  const aktivnostBonus = summary.aktivnoIzdavanje > 0 ? 10 : 0;
+  const blockerPenalty = summary.suspendovano * 5 + summary.opozvano * 3;
+  const score = clampScore(kvotaOk + aktivnostBonus - blockerPenalty);
+  return {
+    naziv: 'Issuer Licensing',
+    score,
+    tezina: SVE_WEIGHTS.licensing,
+    doprinos: clampScore(score * SVE_WEIGHTS.licensing),
+    sourceOfTruth: '/api/issuer-licensing',
+    freshness: 'fresh',
+  };
 }
 
-async function safeAsync<T>(
-  naziv: string,
-  degradedSources: string[],
-  fn: () => Promise<T>,
-): Promise<T | null> {
-  try {
-    return await fn();
-  } catch (error) {
-    degradedSources.push(naziv);
-    console.error(`[sve-od-svega] source failure: ${naziv}`, error);
-    return null;
-  }
-}
-
-function safeSync<T>(
-  naziv: string,
-  degradedSources: string[],
-  fn: () => T,
-): T | null {
-  try {
-    return fn();
-  } catch (error) {
-    degradedSources.push(naziv);
-    console.error(`[sve-od-svega] source failure: ${naziv}`, error);
-    return null;
-  }
-}
-
-// ─── Graditelj ───────────────────────────────────────────────────────────────
+// --- Graditelj ----------------------------------------------------------------
 
 export async function buildSveOdSvega(): Promise<SveOdSvega> {
-  const nowIso = new Date().toISOString();
-  const degradedSources: string[] = [];
-
-  // Pokrenuti sve izvore paralelno
-  const [analiza, potencijal, procesuiranje, autofinishInfo] = await Promise.all([
-    safeAsync('analiza-svega', degradedSources, () => buildAnalizaSvega()),
-    Promise.resolve(
-      safeSync('potencijal-svega-ovoga-do-sada', degradedSources, () =>
-        buildPotencijalSvegaOvogaDoSada(),
-      ),
-    ),
-    Promise.resolve(
-      safeSync('procesuiranje-svega', degradedSources, () => buildProcesuiranjeSvega()),
-    ),
-    Promise.resolve(
-      safeSync('autofinish-svega', degradedSources, () => getAutofinishSvegaInfo()),
-    ),
-  ]);
-
-  const analizaScore = clampScore(analiza?.ukupanScore ?? 0);
-  const potencijalScore = clampScore(potencijal?.ukupniPotencijal ?? 0);
-  const procesuiranjeScore = clampScore(procesuiranje?.ukupanProcenat ?? 0);
-  const orkestracijaScore = autofinishInfo
-    ? clampScore((autofinishInfo.dostupniStepovi.length / EXPECTED_AUTOFINISH_STEPOVI_COUNT) * 100)
-    : 0;
-
-  const domeni: SveOdSvega['domeni'] = {
-    analiza: {
-      naziv: 'Analiza Svega',
-      score: analizaScore,
-      tezina: SVE_WEIGHTS.analiza,
-      doprinos: clampScore(analizaScore * SVE_WEIGHTS.analiza),
-      sourceOfTruth: analiza?.meta.sourceOfTruth ?? '/api/analiza-svega',
-      freshness: analiza === null ? 'unknown' : analiza.meta.degraded ? 'stale' : 'fresh',
-    },
-    potencijal: {
-      naziv: 'Potencijal Svega Ovoga Do Sada',
-      score: potencijalScore,
-      tezina: SVE_WEIGHTS.potencijal,
-      doprinos: clampScore(potencijalScore * SVE_WEIGHTS.potencijal),
-      sourceOfTruth: potencijal?.meta.sourceOfTruth ?? '/api/potencijal-svega-ovoga-do-sada',
-      freshness: potencijal === null ? 'unknown' : potencijal.meta.degraded ? 'stale' : 'fresh',
-    },
-    procesuiranje: {
-      naziv: 'Procesuiranje Svega',
-      score: procesuiranjeScore,
-      tezina: SVE_WEIGHTS.procesuiranje,
-      doprinos: clampScore(procesuiranjeScore * SVE_WEIGHTS.procesuiranje),
-      sourceOfTruth: procesuiranje?.meta.sourceOfTruth ?? '/api/procesuiranje-svega',
-      freshness:
-        procesuiranje === null ? 'unknown' : procesuiranje.meta.degraded ? 'stale' : 'fresh',
-    },
-    orkestracija: {
-      naziv: 'Autofinish Orkestracija',
-      score: orkestracijaScore,
-      tezina: SVE_WEIGHTS.orkestracija,
-      doprinos: clampScore(orkestracijaScore * SVE_WEIGHTS.orkestracija),
-      sourceOfTruth: autofinishInfo?.endpoint ?? '/api/autofinish-svega',
-      freshness: 'fresh',
-    },
-  };
-
-  const ukupanScore = clampScore(
-    domeni.analiza.score * SVE_WEIGHTS.analiza +
-      domeni.potencijal.score * SVE_WEIGHTS.potencijal +
-      domeni.procesuiranje.score * SVE_WEIGHTS.procesuiranje +
-      domeni.orkestracija.score * SVE_WEIGHTS.orkestracija,
-  );
-
-  const kriticniDomeni = Object.values(domeni)
-    .filter((d) => d.score < CRITICAL_THRESHOLD)
-    .map((d) => d.naziv);
-
-  const preporuke: string[] = [];
-  if (kriticniDomeni.length > 0) {
-    preporuke.push(
-      `Prioritetno unaprediti domene ispod 75%: ${kriticniDomeni.join(', ')}`,
-    );
-  }
-  if (degradedSources.length > 0) {
-    preporuke.push(`Sanirati degradirane izvore signala: ${degradedSources.join(', ')}`);
-  }
-  if (preporuke.length === 0) {
-    preporuke.push(
-      'Svi domeni su stabilni — SVE OD svega je u optimalnom stanju. Nastaviti monitoring.',
-    );
-  }
-
-  return {
-    sistem: 'SVE OD SVEGA — Digitalna Industrija',
+  return buildAgregiranRezultat<SveWeights>({
+    sistemNaziv: 'SVE OD SVEGA — Digitalna Industrija',
     kompanija: KOMPANIJA,
     verzija: APP_VERSION,
     autofinishBroj: AUTOFINISH_COUNT,
-    ukupanScore,
-    konacnaOcena: scoreToOcena(ukupanScore),
-    procenatSpremnosti: ukupanScore,
-    kriticniDomeni,
-    preporuke,
-    domeni,
+    contractVersion: SVE_OD_SVEGA_CONTRACT_VERSION,
+    modelVersion: SVE_OD_SVEGA_MODEL_VERSION,
+    sourceOfTruth: SVE_OD_SVEGA_SOURCE_OF_TRUTH,
+    weights: SVE_WEIGHTS,
+    coreWeightKeys: ['analiza', 'potencijal', 'procesuiranje', 'orkestracija'],
     ekosistem: {
       apiRute: TOTAL_API_ROUTES,
       ukupnoRuta: TOTAL_ROUTES,
     },
-    meta: {
-      contractVersion: SVE_OD_SVEGA_CONTRACT_VERSION,
-      modelVersion: SVE_OD_SVEGA_MODEL_VERSION,
-      sourceOfTruth: SVE_OD_SVEGA_SOURCE_OF_TRUTH,
-      generatedAt: nowIso,
-      scoreWeights: SVE_WEIGHTS,
-      degraded: degradedSources.length > 0,
-      degradedSources,
-    },
-    timestamp: nowIso,
-  };
+    extraDomeni: [buildGamingDomen, buildLicensingDomen],
+  });
 }
 
 export function getSveOdSvegaInfo(): SveOdSvegaInfo {

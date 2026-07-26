@@ -36,6 +36,8 @@ export const TOTAL_DIAGNOSTIKA = 2404;
 
 // Autofinish
 export const AUTOFINISH_COUNT = 1442;
+/** Ukupan broj autofinish stage-ova u ALL_STAGES nizeu (autofinish-svega.ts). */
+export const EXPECTED_AUTOFINISH_STEPOVI_COUNT = 9;
 export const AUTOFINISH_2_START = 1405;
 export const AUTOFINISH_2_SCOPE =
   'Nastavak Autofinish iteracija posle #1404 sa fokusom na high-risk route coverage, kontrakte i bezbednosne gate-ove.';

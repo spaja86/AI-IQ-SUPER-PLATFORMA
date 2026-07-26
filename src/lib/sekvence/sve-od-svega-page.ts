@@ -14,7 +14,7 @@ export async function getSveOdSvegaSekvence(): Promise<Sekvenca[]> {
       ikona: '🌌',
       redosled: 1,
       podaci: {
-        opis: `Objedinjeni mega-signal: ANALIZA + POTENCIJAL + PROCESUIRANJE + AUTOFINISH ORKESTRACIJA. Contract: ${s.meta.contractVersion}, model: ${s.meta.modelVersion}.`,
+        opis: `Objedinjeni mega-signal: ANALIZA + POTENCIJAL + PROCESUIRANJE + AUTOFINISH + GAMING + LICENSING. Contract: ${s.meta.contractVersion}, model: ${s.meta.modelVersion}.`,
         dugmad: [
           { tekst: 'API: Sve Od Svega', href: '/api/sve-od-svega' },
           { tekst: 'Analiza Svega', href: '/analiza-svega', stil: 'sekundarno' },
