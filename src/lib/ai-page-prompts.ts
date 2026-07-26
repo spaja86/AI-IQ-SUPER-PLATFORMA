@@ -711,6 +711,454 @@ export const aiPagePrompts: PagePromptConfig[] = [
       { pitanje: 'Kako se eksponat jezgra uklapa u OMEGA AI sistem?', ikona: '🧠', kategorija: 'spaja-pro-ai' },
     ],
   },
+  // ── Digitalna Industrija — rizici i finansije ────────────────────────────
+  {
+    putanja: '/digitalna-industrija-valutni-rizik',
+    naslov: 'Digitalna Industrija — Valutni Rizik',
+    opis: 'Centralni registar valutne izloženosti i limita',
+    kontekst: 'Stranica prikazuje FX portfolije, valutnu izloženost i limite Digitalne Industrije Srbije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni valutni rizici Digitalne Industrije?', ikona: '💱', kategorija: 'ai' },
+      { pitanje: 'Kako se upravlja FX izloženošću?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Koji su limiti valutnih pozicija?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi valutni rizik u kontekstu Srbije', ikona: '🇷🇸', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-hedzing',
+    naslov: 'Digitalna Industrija — Hedzing',
+    opis: 'Centralni registar hedzing ugovora',
+    kontekst: 'Registar hedzing instrumenata za zaštitu od valutnog i kamatnog rizika Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji hedzing instrumenti su u upotrebi?', ikona: '🛡️', kategorija: 'ai' },
+      { pitanje: 'Kako hedzing štiti od valutnog rizika?', ikona: '💱', kategorija: 'ai' },
+      { pitanje: 'Koji su troškovi hedzing programa?', ikona: '💰', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi hedzing strategiju platforme', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-kreditni-rizik',
+    naslov: 'Digitalna Industrija — Kreditni Rizik',
+    opis: 'Centralni registar kreditne izloženosti, PD/LGD i kolaterala',
+    kontekst: 'Kreditna izloženost, verovatnoća neplaćanja (PD), gubitak pri neplaćanju (LGD) i kolateralna pokrivenost.',
+    promptovi: [
+      { pitanje: 'Koji je trenutni nivo kreditne izloženosti?', ikona: '🏦', kategorija: 'ai' },
+      { pitanje: 'Šta su PD i LGD i kako se računaju?', ikona: '📐', kategorija: 'ai' },
+      { pitanje: 'Kako je pokrivenost kolateralom?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koje mere za smanjenje kreditnog rizika su aktivne?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-kamatni-rizik',
+    naslov: 'Digitalna Industrija — Kamatni Rizik',
+    opis: 'Centralni registar kamatnog rizika',
+    kontekst: 'Fiksne, varijabilne i mešovite kamatne pozicije Digitalne Industrije Srbije.',
+    promptovi: [
+      { pitanje: 'Koji je odnos fiksnih i varijabilnih kamatnih pozicija?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako kamatni rizik utiče na platformu?', ikona: '📈', kategorija: 'ai' },
+      { pitanje: 'Koji su kamatni limiti i pragovi?', ikona: '🎯', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi upravljanje kamatnim rizikom', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-likvidnosni-rizik',
+    naslov: 'Digitalna Industrija — Likvidnosni Rizik',
+    opis: 'Centralni registar likvidnosnog rizika i neto tokova',
+    kontekst: 'Pokriće obaveza, neto likvidnosni tokovi i LCR (Liquidity Coverage Ratio) Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji je trenutni nivo pokrića likvidnosnih obaveza?', ikona: '💧', kategorija: 'ai' },
+      { pitanje: 'Šta je LCR i koliki je kod nas?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Koji su neto likvidnosni tokovi?', ikona: '🌊', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako se upravlja likvidnosnim rizikom?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-operativni-rizik',
+    naslov: 'Digitalna Industrija — Operativni Rizik',
+    opis: 'Centralni registar operativnog rizika',
+    kontekst: 'Procesni, tehnološki, ljudski faktor i usklađenost kao operativni rizici Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni operativni rizici platforme?', ikona: '🧭', kategorija: 'ai' },
+      { pitanje: 'Kako se prati tehnološki rizik?', ikona: '💻', kategorija: 'ai' },
+      { pitanje: 'Koji su kontrolni mehanizmi za operativni rizik?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi usklađenost sa regulatornim zahtevima', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-reputacioni-rizik',
+    naslov: 'Digitalna Industrija — Reputacioni Rizik',
+    opis: 'Centralni registar reputacionog rizika',
+    kontekst: 'Medijski, socijalni, regulatorni i partnerski reputacioni rizici Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni reputacioni rizici?', ikona: '🏛️', kategorija: 'ai' },
+      { pitanje: 'Kako se prati medijski rizik?', ikona: '📰', kategorija: 'ai' },
+      { pitanje: 'Koje mere za zaštitu reputacije su aktivne?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi upravljanje reputacionim rizikom', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-strateski-rizik',
+    naslov: 'Digitalna Industrija — Strateški Rizik',
+    opis: 'Centralni registar strateškog rizika',
+    kontekst: 'Strateški rizici vezani za poslovne odluke, tržišnu poziciju i dugoročne ciljeve Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni strateški rizici platforme?', ikona: '🎯', kategorija: 'ai' },
+      { pitanje: 'Kako se donose strateške odluke uz upravljanje rizikom?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Koji su dugoročni strateški ciljevi?', ikona: '🚀', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi strateški rizik u kontekstu ekosistema', ikona: '🌐', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-pravni-rizik',
+    naslov: 'Digitalna Industrija — Pravni Rizik',
+    opis: 'Centralni registar pravnog rizika',
+    kontekst: 'Pravna izloženost, sudski sporovi, ugovorni rizici i regulatorna usklađenost Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni pravni rizici platforme?', ikona: '⚖️', kategorija: 'ai' },
+      { pitanje: 'Kako se upravlja ugovornim rizicima?', ikona: '📜', kategorija: 'ai' },
+      { pitanje: 'Koji su aktivni pravni postupci?', ikona: '🏛️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi regulatorne zahteve', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-poreski-rizik',
+    naslov: 'Digitalna Industrija — Poreski Rizik',
+    opis: 'Centralni registar poreskog rizika',
+    kontekst: 'Porezne obaveze, transferne cene, PDV i porez na dobit Digitalne Industrije Srbije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni poreski rizici?', ikona: '🧾', kategorija: 'ai' },
+      { pitanje: 'Kako se prati porezna usklađenost?', ikona: '📋', kategorija: 'ai' },
+      { pitanje: 'Koji su transferne cene i kako utiču?', ikona: '💱', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi poreske obaveze platforme', ikona: '💰', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-compliance-rizik',
+    naslov: 'Digitalna Industrija — Compliance Rizik',
+    opis: 'Centralni registar compliance rizika',
+    kontekst: 'Usklađenost sa regulatornim zahtevima, AML/KYC, GDPR i sektorskim propisima Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni compliance rizici?', ikona: '✅', kategorija: 'ai' },
+      { pitanje: 'Kako se prati AML/KYC usklađenost?', ikona: '🔍', kategorija: 'ai' },
+      { pitanje: 'Koji su GDPR zahtevi i kako se ispunjavaju?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi compliance okvir platforme', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-esg-rizik',
+    naslov: 'Digitalna Industrija — ESG Rizik',
+    opis: 'Centralni registar ESG rizika',
+    kontekst: 'Ekološki (E), socijalni (S) i upravljački (G) rizici Digitalne Industrije Srbije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni ESG rizici platforme?', ikona: '🌱', kategorija: 'ai' },
+      { pitanje: 'Kako se prati ekološki uticaj?', ikona: '♻️', kategorija: 'ai' },
+      { pitanje: 'Koji su socijalni rizici i mere?', ikona: '👥', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi ESG strategiju Digitalne Industrije', ikona: '📊', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-diskriminacija',
+    naslov: 'Digitalna Industrija — Diskriminacija',
+    opis: 'Centralni registar rizika diskriminacije',
+    kontekst: 'Rizici diskriminacije u zapošljavanju, uslugama i pristupačnosti platforme Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni rizici diskriminacije?', ikona: '⚖️', kategorija: 'ai' },
+      { pitanje: 'Kako se osigurava jednak pristup svim korisnicima?', ikona: '👥', kategorija: 'ai' },
+      { pitanje: 'Koji su zakonski okviri za nediskriminaciju?', ikona: '📋', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi politiku jednakih mogućnosti', ikona: '🤝', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-sajber-rizik',
+    naslov: 'Digitalna Industrija — Sajber Rizik',
+    opis: 'Centralni registar sajber rizika',
+    kontekst: 'Sajber pretnje, incidenti, ranjivosti i zaštitne mere Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji su ključni sajber rizici platforme?', ikona: '🔒', kategorija: 'ai' },
+      { pitanje: 'Kako se prate sajber incidenti?', ikona: '🚨', kategorija: 'ai' },
+      { pitanje: 'Koji su zaštitni mehanizmi od sajber napada?', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi sajber bezbednosni okvir', ikona: '🔐', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-kapitalni-rizik',
+    naslov: 'Digitalna Industrija — Kapitalni Rizik',
+    opis: 'Centralni registar kapitalnog rizika',
+    kontekst: 'Kapitalna adekvatnost, CET1, ukupni kapital i kapitalni zahtevi Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji je nivo kapitalne adekvatnosti?', ikona: '🏦', kategorija: 'ai' },
+      { pitanje: 'Šta je CET1 i koliki je kod nas?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Koji su kapitalni zahtevi regulatora?', ikona: '📋', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi upravljanje kapitalnim rizikom', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-beneficije',
+    naslov: 'Digitalna Industrija — Beneficije',
+    opis: 'Centralni registar beneficija Digitalne Industrije',
+    kontekst: 'Beneficije za zaposlene, plate, nagrade i socijalne doprinose Digitalne Industrije Srbije.',
+    promptovi: [
+      { pitanje: 'Koje beneficije nudi Digitalna Industrija?', ikona: '🎁', kategorija: 'ai' },
+      { pitanje: 'Kako je struktura naknada i beneficija?', ikona: '💰', kategorija: 'ai' },
+      { pitanje: 'Koji su socijalni doprinosi i kako se obračunavaju?', ikona: '📊', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi program nagrade za zaposlene', ikona: '🏆', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-nagrade',
+    naslov: 'Digitalna Industrija — Nagrade',
+    opis: 'Centralni registar nagrada Digitalne Industrije',
+    kontekst: 'Program nagrada, bonusi, incentivi i prepoznavanja za zaposlene i partnere.',
+    promptovi: [
+      { pitanje: 'Koji program nagrada postoji?', ikona: '🏆', kategorija: 'ai' },
+      { pitanje: 'Kako se dobijaju bonusi i incentivi?', ikona: '💰', kategorija: 'ai' },
+      { pitanje: 'Koji su kriterijumi za nagrađivanje?', ikona: '🎯', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi sistem nagrađivanja platforme', ikona: '⭐', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-plate',
+    naslov: 'Digitalna Industrija — Plate',
+    opis: 'Centralni registar plata Digitalne Industrije',
+    kontekst: 'Platni razredi, struktura plata i isplate zaposlenih Digitalne Industrije Srbije.',
+    promptovi: [
+      { pitanje: 'Kako je struktura platnih razreda?', ikona: '💰', kategorija: 'ai' },
+      { pitanje: 'Koji su prosečni prihodi po pozicijama?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako se obračunavaju plate i doprinosi?', ikona: '🧮', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi sistem plata Digitalne Industrije', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-pozicije',
+    naslov: 'Digitalna Industrija — Pozicije',
+    opis: 'Centralni registar pozicija Digitalne Industrije',
+    kontekst: 'Organizacione pozicije, uloge, odgovornosti i hijerarhija Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koje pozicije postoje u Digitalnoj Industriji?', ikona: '👔', kategorija: 'ai' },
+      { pitanje: 'Kako je hijerarhija organizovana?', ikona: '🏢', kategorija: 'ai' },
+      { pitanje: 'Koje su ključne uloge i odgovornosti?', ikona: '🎯', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi organizacionu strukturu', ikona: '📋', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-licencni-portfolio',
+    naslov: 'Digitalna Industrija — Licencni Portfolio',
+    opis: 'Centralni registar licencnog portfolija',
+    kontekst: 'Sve licence, softverska prava, patenti i intelektualna svojina Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koje licence čine portfolio Digitalne Industrije?', ikona: '📜', kategorija: 'ai' },
+      { pitanje: 'Koji su troškovi i rokovi licenci?', ikona: '💰', kategorija: 'ai' },
+      { pitanje: 'Kako se prati usklađenost licencnog portfolija?', ikona: '✅', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi upravljanje licencnim portfolijem', ikona: '📊', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/digitalna-industrija-devizni-saldo',
+    naslov: 'Digitalna Industrija — Devizni Saldo',
+    opis: 'Centralni registar neto deviznog salda',
+    kontekst: 'Neto devizni saldo — razlika između deviznih priliva i odliva Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji je trenutni neto devizni saldo?', ikona: '⚖️', kategorija: 'ai' },
+      { pitanje: 'Kako se računa devizni saldo?', ikona: '🧮', kategorija: 'ai' },
+      { pitanje: 'Koji su trendovi deviznog salda?', ikona: '📈', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi upravljanje deviznim saldom', ikona: '💱', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  // ── Laureatski signal processing ────────────────────────────────────────────
+  {
+    putanja: '/laureatski-kodek',
+    naslov: 'Laureatski Kodek',
+    opis: 'Kodek sistem za signal procesiranje',
+    kontekst: 'Laureatski kodek je sistem za kodovanje i dekodovanje signala u platformi.',
+    promptovi: [
+      { pitanje: 'Šta je laureatski kodek i kako radi?', ikona: '🎵', kategorija: 'ai' },
+      { pitanje: 'Koji algoritmi kodiranja se koriste?', ikona: '⚙️', kategorija: 'ai' },
+      { pitanje: 'Objasni mi sistem signal procesiranja', ikona: '📡', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako kodek utiče na performanse sistema?', ikona: '📊', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/laureatski-kodeks',
+    naslov: 'Laureatski Kodeks',
+    opis: 'Skup pravila i protokola signal procesiranja',
+    kontekst: 'Laureatski kodeks definiše pravila, protokole i standarde za signal procesiranje u platformi.',
+    promptovi: [
+      { pitanje: 'Šta je laureatski kodeks?', ikona: '📋', kategorija: 'ai' },
+      { pitanje: 'Koja pravila signal procesiranja su u kodeksu?', ikona: '📜', kategorija: 'ai' },
+      { pitanje: 'Kako se primenjuje kodeks u praksi?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi standarde signal procesiranja', ikona: '📡', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/laureatski-koder',
+    naslov: 'Laureatski Koder',
+    opis: 'Sistem za kodovanje signala',
+    kontekst: 'Laureatski koder transformiše ulazne podatke u standardizovane signal formate platforme.',
+    promptovi: [
+      { pitanje: 'Šta radi laureatski koder?', ikona: '🔧', kategorija: 'ai' },
+      { pitanje: 'Koji su ulazni i izlazni formati kodera?', ikona: '🔄', kategorija: 'ai' },
+      { pitanje: 'Kako se optimizuje performansa kodera?', ikona: '⚡', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi proces kodiranja signala', ikona: '📡', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/laureatski-rekoder',
+    naslov: 'Laureatski Rekoder',
+    opis: 'Sistem za rekodovanje signala',
+    kontekst: 'Laureatski rekoder prevodi signal iz jednog formata u drugi unutar platforme.',
+    promptovi: [
+      { pitanje: 'Šta radi laureatski rekoder?', ikona: '🔄', kategorija: 'ai' },
+      { pitanje: 'Koje konverzije signala podržava rekoder?', ikona: '🔀', kategorija: 'ai' },
+      { pitanje: 'Kako se pokreće rekodovanje?', ikona: '▶️', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi razliku između kodera i rekodera', ikona: '💡', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/laureatski-transkoder',
+    naslov: 'Laureatski Transkoder',
+    opis: 'Sistem za transkodovanje signala',
+    kontekst: 'Laureatski transkoder obavlja kompleksne transformacije i prevođenje između signal protokola.',
+    promptovi: [
+      { pitanje: 'Šta radi laureatski transkoder?', ikona: '🔀', kategorija: 'ai' },
+      { pitanje: 'Koji su podržani protokoli transkodiranja?', ikona: '📡', kategorija: 'ai' },
+      { pitanje: 'Kako se transkoder koristi u ekosistemu?', ikona: '🌐', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi proces transkodiranja signala', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  // ── Autofinish ───────────────────────────────────────────────────────────────
+  {
+    putanja: '/autofinish',
+    naslov: 'Autofinish',
+    opis: 'Autofinish Dashboard — iteracije i metrike',
+    kontekst: 'Autofinish Dashboard prikazuje napredak autonomnog dovršavanja sistema, iteracije, kategorije, SLA metrike i trend analizu.',
+    promptovi: [
+      { pitanje: 'Šta je Autofinish sistem i kako radi?', ikona: '🤖', kategorija: 'ai' },
+      { pitanje: 'Koliko iteracija je završeno i koje su kategorije?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Koji su SLA pragovi i kako se prati performansa?', ikona: '🎯', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi Autofinish trend i health score', ikona: '💚', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/autofinish-nexus',
+    naslov: 'Autofinish Nexus',
+    opis: 'Operativni centar autofinish sistema',
+    kontekst: 'Autofinish Nexus je kontrolni centar koji prikazuje health score, release readiness, error budget i DORA metrike sistema.',
+    promptovi: [
+      { pitanje: 'Koji je trenutni Autofinish health score?', ikona: '💚', kategorija: 'ai' },
+      { pitanje: 'Šta znači release readiness i kako se meri?', ikona: '🚀', kategorija: 'ai' },
+      { pitanje: 'Objasni mi DORA metrike u Nexusu', ikona: '📊', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Koji je error budget i kako ga koristimo?', ikona: '🎯', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  // ── Ostale stranice ──────────────────────────────────────────────────────────
+  {
+    putanja: '/moze-sve',
+    naslov: 'MOŽE SVE — Super Hub',
+    opis: 'Svih 6 core modula u jednom pogledu',
+    kontekst: 'MOŽE SVE je Super Hub koji prikazuje svih 6 core modula platforme: SpajaPro, OMEGA AI, Proksi, Mobilna 1873G, Auto-Popravka i Autonomna Evolucija.',
+    promptovi: [
+      { pitanje: 'Šta sve može SPAJA platforma?', ikona: '💥', kategorija: 'ai' },
+      { pitanje: 'Objasni mi svih 6 core modula', ikona: '🧩', kategorija: 'ai' },
+      { pitanje: 'Koji su ključni kapaciteti platforme?', ikona: '🚀', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Kako se ovi moduli međusobno integrišu?', ikona: '🌐', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/sve-od-svega',
+    naslov: 'SVE OD SVEGA',
+    opis: 'Ultimativni mega-signal svih domena',
+    kontekst: 'SVE OD SVEGA agregira sve domene: analiza, potencijal, procesuiranje i autofinish orkestracija u jedinstven mega-signal.',
+    promptovi: [
+      { pitanje: 'Šta je SVE OD SVEGA i šta agregira?', ikona: '🌌', kategorija: 'ai' },
+      { pitanje: 'Koji su domeni obuhvaćeni mega-signalom?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako se koristi SVE OD SVEGA za donošenje odluka?', ikona: '🎯', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi orkestraciju između domena', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/protokoli',
+    naslov: 'Protokoli',
+    opis: 'Centralni registar protokola i procedura',
+    kontekst: 'Operativni protokoli, procedure, verifikacija i audit trail Digitalne Industrije.',
+    promptovi: [
+      { pitanje: 'Koji protokoli su registrovani u sistemu?', ikona: '📋', kategorija: 'ai' },
+      { pitanje: 'Kako se verifikuju protokoli?', ikona: '✅', kategorija: 'ai' },
+      { pitanje: 'Koji su audit trail zahtevi?', ikona: '🔍', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi upravljanje protokolima', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/pametni-ugovori',
+    naslov: 'Pametni Ugovori',
+    opis: 'Pametni ugovori i blockchain integracija',
+    kontekst: 'Pametni ugovori na blockchain platformi — automatizovano izvršavanje ugovornih obaveza.',
+    promptovi: [
+      { pitanje: 'Šta su pametni ugovori i kako rade?', ikona: '📜', kategorija: 'ai' },
+      { pitanje: 'Koji su pametni ugovori aktivni?', ikona: '⚡', kategorija: 'ai' },
+      { pitanje: 'Kako se verifikuju pametni ugovori na blockchain-u?', ikona: '🔗', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi bezbednost pametnih ugovora', ikona: '🛡️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/spaja-baza-control',
+    naslov: 'Spaja Baza Control',
+    opis: 'Kontrolni centar Spaja baze znanja',
+    kontekst: 'Kontrolni centar za upravljanje Spaja bazom znanja — status indeksiranja, zdravlje i monitoring chunk-ova.',
+    promptovi: [
+      { pitanje: 'Koji je status Spaja baze znanja?', ikona: '🗄️', kategorija: 'ai' },
+      { pitanje: 'Koliko dokumenata i chunk-ova je indeksirano?', ikona: '📊', kategorija: 'ai' },
+      { pitanje: 'Kako se pokreće re-indeksiranje?', ikona: '🔄', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi zdravlje i performanse baze', ikona: '💚', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/vercel-priklucenje',
+    naslov: 'Vercel Priključenje',
+    opis: 'Vercel priključenje i deploy konfiguracija',
+    kontekst: 'Konfiguracija Vercel priključenja za deploy i hosting platforme na Vercel infrastrukturi.',
+    promptovi: [
+      { pitanje: 'Kako se platforma priključuje na Vercel?', ikona: '▲', kategorija: 'ai' },
+      { pitanje: 'Koji su deploy parametri i konfiguracija?', ikona: '⚙️', kategorija: 'ai' },
+      { pitanje: 'Kako se prati Vercel deploy status?', ikona: '🚀', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi Vercel hosting arhitekturu', ikona: '🌐', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/ekstrimli-ekstrem',
+    naslov: 'Ekstrimli Ekstrem',
+    opis: 'Ekstremno procesuiranje i operativna spremnost',
+    kontekst: 'Ekstremni procesuiranje signal koji preseca sve limite sistema i pokazuje operativnu spremnost.',
+    promptovi: [
+      { pitanje: 'Šta je ekstrimli ekstrem signal?', ikona: '⚡', kategorija: 'ai' },
+      { pitanje: 'Koji su limiti sistema i kako ih presecamo?', ikona: '🔥', kategorija: 'ai' },
+      { pitanje: 'Koja je operativna spremnost sistema?', ikona: '✅', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi ekstremno procesuiranje', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/pentracija',
+    naslov: 'Pentracija',
+    opis: 'Dubinska analiza i probe test ekosistema',
+    kontekst: 'Pentracija je modul za dubinsko testiranje, probe analizu i dijagnostiku ekosistema platforme.',
+    promptovi: [
+      { pitanje: 'Šta je pentracija i kako se koristi?', ikona: '🔍', kategorija: 'ai' },
+      { pitanje: 'Koji su probe testovi i kako se pokreću?', ikona: '🧪', kategorija: 'ai' },
+      { pitanje: 'Kakvi su rezultati dubinske analize?', ikona: '📊', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi dijagnostiku ekosistema', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
+    ],
+  },
+  {
+    putanja: '/panetracija-2',
+    naslov: 'Panetracija 2',
+    opis: 'V2 proširena dijagnostika sa SLA i trend praćenjem',
+    kontekst: 'Panetracija V2 proširuje dijagnostičke mogućnosti sa SLA praćenjem, trend analizom i istorijom.',
+    promptovi: [
+      { pitanje: 'Šta novo nosi Panetracija V2?', ikona: '🔬', kategorija: 'ai' },
+      { pitanje: 'Kako SLA praćenje funkcioniše u V2?', ikona: '🎯', kategorija: 'ai' },
+      { pitanje: 'Koji su trendovi u dijagnostici?', ikona: '📈', kategorija: 'spaja-pro-ai' },
+      { pitanje: 'Objasni mi razliku između V1 i V2 panetracije', ikona: '💡', kategorija: 'spaja-pro-ai' },
+    ],
+  },
 ];
 
 /**
@@ -721,14 +1169,38 @@ export function getPagePrompts(putanja: string): PagePromptConfig {
   const found = aiPagePrompts.find((p) => p.putanja === putanja);
   if (found) return found;
 
-  // Genericki promptovi za stranice bez specificne konfiguracije
+  // Genericki fallback za stranice bez specificne konfiguracije
+  // Generise naslov iz URL putanje (npr. '/digitalna-industrija-sajber' → 'Digitalna Industrija Sajber')
+  const generisanNaslov = putanja
+    .replace(/^\//, '')
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+
+  const jeRizik = putanja.includes('rizik');
+  const jeFinansije = putanja.includes('devizn') || putanja.includes('kursn') || putanja.includes('valut');
+  const jeIndustrija = putanja.includes('digitalna-industrija');
+  const jeLaureatski = putanja.includes('laureatski');
+
   return {
     putanja,
-    naslov: 'Stranica',
-    opis: 'AI IQ SUPER PLATFORMA',
-    kontekst: `Stranica na putanji ${putanja} u AI IQ SUPER PLATFORMA.`,
+    naslov: generisanNaslov,
+    opis: `AI IQ SUPER PLATFORMA — ${generisanNaslov}`,
+    kontekst: `Stranica ${generisanNaslov} na putanji ${putanja} u AI IQ SUPER PLATFORMA — Kompanija SPAJA.`,
     promptovi: [
-      { pitanje: 'Šta se dešava na ovoj stranici?', ikona: '❓', kategorija: 'ai' },
+      ...(jeIndustrija && jeRizik ? [
+        { pitanje: `Koji su ključni rizici na ovoj stranici?`, ikona: '⚠️', kategorija: 'ai' as const },
+        { pitanje: `Koje mere upravljanja rizikom su aktivne?`, ikona: '🛡️', kategorija: 'spaja-pro-ai' as const },
+      ] : []),
+      ...(jeFinansije ? [
+        { pitanje: `Objasni mi devizne tokove na ovoj stranici`, ikona: '💱', kategorija: 'ai' as const },
+        { pitanje: `Koji su trendovi finansijskih pokazatelja?`, ikona: '📈', kategorija: 'spaja-pro-ai' as const },
+      ] : []),
+      ...(jeLaureatski ? [
+        { pitanje: `Kako funkcioniše ${generisanNaslov}?`, ikona: '📡', kategorija: 'ai' as const },
+        { pitanje: `Koji su parametri signal procesiranja?`, ikona: '⚙️', kategorija: 'spaja-pro-ai' as const },
+      ] : []),
+      { pitanje: `Šta se dešava na stranici ${generisanNaslov}?`, ikona: '❓', kategorija: 'ai' },
       { pitanje: 'Kako da koristim ovu funkciju?', ikona: '💡', kategorija: 'ai' },
       { pitanje: 'Objasni mi sadržaj ove stranice', ikona: '📖', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koje opcije imam na ovoj stranici?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },

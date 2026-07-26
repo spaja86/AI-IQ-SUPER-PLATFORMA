@@ -1,197 +1,122 @@
+import { readdirSync, existsSync } from 'fs';
+import { join } from 'path';
 import type { MetadataRoute } from 'next';
 import { BASE_URL } from '@/lib/constants';
 
+// ─── Exclude list ─────────────────────────────────────────────────────────────
+// Direktorijumi u src/app koji NISU javne stranice i ne treba da budu u sitemap-u
+const EXCLUDE_DIRS = new Set([
+  'api',
+  'fonts',
+  '(auth)',
+  '(admin)',
+  '_meta',
+]);
+
+// ─── Priority config ──────────────────────────────────────────────────────────
+const HIGH_PRIORITY = new Set(['/', '/dashboard', '/ekosistem', '/moze-sve', '/sve-od-svega']);
+const MEDIUM_HIGH_PRIORITY = new Set([
+  '/platforme', '/palasterizacija', '/perkolizonik', '/polimerzacija', '/polimerizacija-2',
+  '/harmonizacija', '/kristalizacija', '/vektorizacija', '/sintetizacija', '/rezonancija',
+  '/modulacija', '/demodulacija', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice',
+  '/gejming-industrija', '/gejming-likovi', '/it-proizvodi', '/analiza-svega',
+  '/maksimus-svega', '/procesuiranje-svega', '/autofinish', '/autofinish-nexus',
+]);
+
+// ─── Recently updated pages ───────────────────────────────────────────────────
+const RECENTLY_UPDATED = new Set([
+  '/', '/dashboard', '/ai-iq-world-bank', '/omega-projekat-plasiranje',
+  '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog',
+  '/glavni-endzin', '/mozak-logika', '/glavni-sistem-nabavka', '/reklame-i-partnerstva',
+  '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login',
+  '/zaboravljena-lozinka', '/oktavni-gpu-ram', '/spaja-digitalni-kompjuter',
+  '/digitalni-prozor', '/eksponat-glavnog-jezgra', '/digitalni-vorteks',
+  '/generator-za-poslovne-racune', '/validator-poslovnih-racuna', '/licencni-budzet-srbija',
+  '/digitalna-industrija-pib-mb', '/digitalna-industrija-sifra-delatnosti',
+  '/digitalna-industrija-regulatorni-rokovi', '/digitalna-industrija-izvoz-faktura',
+  '/digitalna-industrija-devizni-prilivi', '/digitalna-industrija-devizni-odlivi',
+  '/digitalna-industrija-devizni-saldo', '/digitalna-industrija-kursna-lista',
+  '/digitalna-industrija-kursne-razlike', '/digitalna-industrija-inflacije',
+  '/digitalna-industrija-valutni-rizik', '/digitalna-industrija-hedzing',
+  '/digitalna-industrija-kamatni-rizik', '/digitalna-industrija-kreditni-rizik',
+  '/digitalna-industrija-likvidnosni-rizik', '/digitalna-industrija-operativni-rizik',
+  '/digitalna-industrija-reputacioni-rizik', '/bar-kod',
+  '/digitalna-industrija-strateski-rizik', '/digitalna-industrija-pravni-rizik',
+  '/digitalna-industrija-poreski-rizik', '/digitalna-industrija-compliance-rizik',
+  '/digitalna-industrija-esg-rizik', '/digitalna-industrija-diskriminacija',
+  '/digitalna-industrija-sajber-rizik', '/digitalna-industrija-kapitalni-rizik',
+  '/digitalna-industrija-pozicije', '/digitalna-industrija-plate',
+  '/digitalna-industrija-beneficije', '/digitalna-industrija-nagrade',
+  '/digitalna-industrija-licencni-portfolio', '/issuer-license-control-center',
+  '/moze-sve', '/sve-od-svega', '/autofinish', '/autofinish-nexus',
+  '/protokoli', '/pametni-ugovori', '/spaja-baza-control', '/vercel-priklucenje',
+  '/ekstrimli-ekstrem', '/pentracija', '/panetracija-2',
+]);
+
+const CORE_ROUTES = new Set([
+  '/ekosistem', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/industrija',
+  '/platforme', '/palasterizacija', '/pricing', '/it-proizvodi', '/igrice',
+  '/gejming-industrija', '/omega-ai-suport', '/spaja-digitalni-brouvzer',
+]);
+
+// ─── Date constants ───────────────────────────────────────────────────────────
+const DATE_RECENT = new Date('2026-07-26');
+const DATE_CORE = new Date('2026-04-19');
+const DATE_STANDARD = new Date('2026-04-14');
+
+/**
+ * Automatically discovers all public pages in src/app by scanning for page.tsx files.
+ * Excludes API routes, special Next.js directories, and non-page directories.
+ */
+function discoverPageRoutes(): string[] {
+  const appDir = join(process.cwd(), 'src', 'app');
+  const routes: string[] = [];
+
+  function scanDir(dir: string, routePrefix: string) {
+    let entries: string[];
+    try {
+      entries = readdirSync(dir, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => e.name);
+    } catch {
+      return;
+    }
+
+    for (const entry of entries) {
+      if (EXCLUDE_DIRS.has(entry) || entry.startsWith('_') || entry.startsWith('.')) continue;
+      const fullPath = join(dir, entry);
+      const route = `${routePrefix}/${entry}`;
+      if (existsSync(join(fullPath, 'page.tsx'))) {
+        routes.push(route);
+      }
+      // Recurse into subdirectories (but not too deep to avoid [slug] dynamic routes)
+      scanDir(fullPath, route);
+    }
+  }
+
+  // Root page
+  if (existsSync(join(appDir, 'page.tsx'))) {
+    routes.push('/');
+  }
+
+  scanDir(appDir, '');
+  return routes.sort();
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const highPriority = ['/', '/dashboard', '/ekosistem'];
-  const mediumHighPriority = ['/moze-sve', '/platforme', '/palasterizacija', '/perkolizonik', '/polimerzacija', '/polimerizacija-2', '/harmonizacija', '/kristalizacija', '/vektorizacija', '/sintetizacija', '/rezonancija', '/modulacija', '/demodulacija', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/igrice', '/gejming-industrija', '/gejming-likovi', '/it-proizvodi'];
+  const routes = discoverPageRoutes();
 
-  // Dynamic lastModified dates per page category
-  const recentlyUpdated = new Date('2026-04-20');
-  const corePages = new Date('2026-04-19');
-  const standardPages = new Date('2026-04-14');
-
-  const recentRoutes = ['/', '/dashboard', '/ai-iq-world-bank', '/omega-projekat-plasiranje', '/omega-projekat-zvanicno-otvaranje', '/oktavne-eksponencijalne-funkcije', '/blog', '/glavni-endzin', '/mozak-logika', '/glavni-sistem-nabavka', '/reklame-i-partnerstva', '/dnevna-raspodela-zarade', '/spaja-ultra-repl', '/digitalna-platforma', '/login', '/zaboravljena-lozinka', '/oktavni-gpu-ram', '/spaja-digitalni-kompjuter', '/digitalni-prozor', '/eksponat-glavnog-jezgra', '/digitalni-vorteks', '/generator-za-poslovne-racune', '/validator-poslovnih-racuna', '/licencni-budzet-srbija', '/digitalna-industrija-pib-mb', '/digitalna-industrija-sifra-delatnosti', '/digitalna-industrija-regulatorni-rokovi', '/digitalna-industrija-izvoz-faktura', '/digitalna-industrija-devizni-prilivi', '/digitalna-industrija-devizni-odlivi', '/digitalna-industrija-devizni-saldo', '/digitalna-industrija-kursna-lista', '/digitalna-industrija-kursne-razlike', '/digitalna-industrija-inflacije', '/digitalna-industrija-valutni-rizik', '/digitalna-industrija-hedzing', '/digitalna-industrija-kamatni-rizik', '/digitalna-industrija-kreditni-rizik', '/digitalna-industrija-likvidnosni-rizik', '/digitalna-industrija-operativni-rizik', '/digitalna-industrija-reputacioni-rizik', '/bar-kod', '/digitalna-industrija-strateski-rizik', '/digitalna-industrija-pravni-rizik', '/digitalna-industrija-poreski-rizik', '/digitalna-industrija-compliance-rizik', '/digitalna-industrija-esg-rizik', '/digitalna-industrija-diskriminacija', '/digitalna-industrija-sajber-rizik', '/digitalna-industrija-kapitalni-rizik', '/digitalna-industrija-pozicije', '/digitalna-industrija-plate', '/digitalna-industrija-beneficije', '/digitalna-industrija-nagrade', '/digitalna-industrija-licencni-portfolio', '/issuer-license-control-center', '/perkolizonik', '/polimerizacija-2', '/api/polimerizacija-2', '/api/polimerizacija-2/status', '/api/polimerizacija-2/lanci', '/api/polimerizacija-2/sken', '/api/polimerizacija-2/istorija', '/api/polimerizacija-2/trendovi', '/harmonizacija', '/api/harmonizacija', '/kristalizacija', '/api/kristalizacija', '/distribucija', '/api/distribucija', '/procesuiranje-3', '/api/procesuiranje-3', '/vektorizacija', '/api/vektorizacija', '/sintetizacija', '/api/sintetizacija', '/rezonancija', '/api/rezonancija', '/modulacija', '/api/modulacija', '/demodulacija', '/api/demodulacija'];
-  const coreRoutes = ['/ekosistem', '/eksosistzdacija', '/omega-ai', '/spaja-pro', '/industrija', '/platforme', '/palasterizacija', '/pricing', '/it-proizvodi', '/igrice', '/gejming-industrija', '/omega-ai-suport', '/spaja-digitalni-brouvzer'];
-
-  const routes = [
-    '/moze-sve',
-    '/',
-    '/dashboard',
-    '/industrija',
-    '/platforme',
-    '/palasterizacija',
-    '/perkolizonik',
-    '/polimerzacija',
-    '/polimerizacija-2',
-    '/harmonizacija',
-    '/kristalizacija',
-    '/vektorizacija',
-    '/sintetizacija',
-    '/rezonancija',
-    '/modulacija',
-    '/demodulacija',
-    '/eksosistzdacija',
-    '/it-proizvodi',
-    '/banka',
-    '/ai-iq-world-bank',
-    '/menjacnica',
-    '/kompanija',
-    '/kompanije',
-    '/ai-platforma',
-    '/organizacija',
-    '/organizacije',
-    '/deploy',
-    '/ekosistem',
-    '/omega-ai',
-    '/prompt',
-    '/spaja-pro',
-    '/spaja-univerzalni-prompt',
-    '/auto-popravka',
-    '/proksi',
-    '/proksi-github-deploy',
-    '/proksi-wifi-antena',
-    '/mobilna-mreza',
-    '/call-centar',
-    '/igrice',
-    '/gejming-industrija',
-    '/gejming-likovi',
-    '/api/gejming-likovi',
-    '/dimenzije',
-    '/proizvodi',
-    '/spaja-generator-engine',
-    '/spaja-digitalni-brouvzer',
-    '/digitalni-prozor',
-    '/io-openui-ao-laboratorija',
-    '/spaja-render-medija',
-    '/io-openui-ao-gaming-platforma',
-    '/io-openui-ao-analitika',
-    '/pricing',
-    '/digitalni-televizor',
-    '/distribucija',
-    '/api/distribucija',
-    '/monitoring-live',
-    '/ai-iq-monitoring',
-    '/blog',
-    '/unit-testovi',
-    '/omega-ai-suport',
-    '/omega-projekat-plasiranje',
-    '/oktavne-eksponencijalne-funkcije',
-    '/omega-projekat-zvanicno-otvaranje',
-    '/spaja-digitalni-kompjuter',
-     '/oktavni-gpu-ram',
-     '/glavni-endzin',
-     '/mozak-logika',
-     '/glavni-sistem-nabavka',
-      '/generator-za-poslovne-racune',
-      '/validator-poslovnih-racuna',
-       '/licencni-budzet-srbija',
-       '/digitalna-industrija-pib-mb',
-       '/digitalna-industrija-sifra-delatnosti',
-       '/digitalna-industrija-regulatorni-rokovi',
-        '/digitalna-industrija-izvoz-faktura',
-        '/digitalna-industrija-devizni-prilivi',
-        '/digitalna-industrija-devizni-odlivi',
-        '/digitalna-industrija-devizni-saldo',
-         '/digitalna-industrija-kursna-lista',
-         '/digitalna-industrija-kursne-razlike',
-         '/digitalna-industrija-inflacije',
-         '/api/digitalna-industrija-inflacije',
-         '/digitalna-industrija-valutni-rizik',
-         '/digitalna-industrija-hedzing',
-         '/digitalna-industrija-kamatni-rizik',
-         '/api/digitalna-industrija-hedzing',
-         '/api/digitalna-industrija-kamatni-rizik',
-         '/digitalna-industrija-kreditni-rizik',
-         '/api/digitalna-industrija-kreditni-rizik',
-           '/digitalna-industrija-likvidnosni-rizik',
-           '/api/digitalna-industrija-likvidnosni-rizik',
-           '/digitalna-industrija-operativni-rizik',
-           '/api/digitalna-industrija-operativni-rizik',
-           '/digitalna-industrija-reputacioni-rizik',
-           '/api/digitalna-industrija-reputacioni-rizik',
-           '/bar-kod',
-           '/api/bar-kod',
-          '/digitalna-industrija-strateski-rizik',
-          '/api/digitalna-industrija-strateski-rizik',
-          '/digitalna-industrija-pravni-rizik',
-          '/api/digitalna-industrija-pravni-rizik',
-          '/digitalna-industrija-poreski-rizik',
-          '/api/digitalna-industrija-poreski-rizik',
-          '/digitalna-industrija-compliance-rizik',
-          '/api/digitalna-industrija-compliance-rizik',
-          '/digitalna-industrija-esg-rizik',
-          '/api/digitalna-industrija-esg-rizik',
-          '/digitalna-industrija-diskriminacija',
-          '/api/digitalna-industrija-diskriminacija',
-          '/digitalna-industrija-sajber-rizik',
-          '/api/digitalna-industrija-sajber-rizik',
-          '/digitalna-industrija-kapitalni-rizik',
-          '/api/digitalna-industrija-kapitalni-rizik',
-          '/digitalna-industrija-pozicije',
-          '/api/digitalna-industrija-pozicije',
-          '/digitalna-industrija-plate',
-          '/api/digitalna-industrija-plate',
-          '/digitalna-industrija-beneficije',
-          '/api/digitalna-industrija-beneficije',
-          '/digitalna-industrija-nagrade',
-          '/api/digitalna-industrija-nagrade',
-          '/digitalna-industrija-licencni-portfolio',
-          '/issuer-license-control-center',
-          '/api/digitalna-industrija-licencni-portfolio',
-          '/api/digitalna-industrija-licencni-procurement-queue',
-          '/api/digitalna-industrija-licencni-vendor-status',
-          '/reklame-i-partnerstva',
-    '/dnevna-raspodela-zarade',
-    '/spaja-ultra-repl',
-    '/digitalna-platforma',
-    '/registracija',
-    '/security',
-    '/login',
-    '/zaboravljena-lozinka',
-    '/eksponat-glavnog-jezgra',
-    '/digitalni-vorteks',
-    '/analiza-svega',
-    '/api/analiza-svega',
-    '/potencijal-svega-ovoga-do-sada',
-    '/api/potencijal-svega-ovoga-do-sada',
-    '/ai-iq-world-bank-procesiranje',
-    '/api/ai-iq-world-bank-procesiranje',
-    '/procesuiranje-svega',
-    '/api/procesuiranje-svega',
-    '/procesuiranje-3',
-    '/api/procesuiranje-3',
-    '/api/ekstremno-procesuiranje-svega',
-    '/maksimus-svega',
-    '/api/maksimus-svega',
-    '/maksimus-2',
-    '/api/maksimus-2',
-    '/maksimus-3',
-    '/api/maksimus-3',
-    '/api/polimerizacija-2',
-    '/api/polimerizacija-2/status',
-    '/api/polimerizacija-2/lanci',
-    '/api/polimerizacija-2/sken',
-    '/api/polimerizacija-2/istorija',
-    '/api/polimerizacija-2/trendovi',
-    '/api/kristalizacija',
-    '/api/harmonizacija',
-    '/api/vektorizacija',
-    '/api/sintetizacija',
-    '/api/rezonancija',
-    '/api/modulacija',
-    '/api/demodulacija',
-  ];
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: recentRoutes.includes(route)
-      ? recentlyUpdated
-      : coreRoutes.includes(route)
-        ? corePages
-        : standardPages,
-    changeFrequency: route === '/' ? 'daily' as const : 'weekly' as const,
-    priority: highPriority.includes(route)
+    lastModified: RECENTLY_UPDATED.has(route)
+      ? DATE_RECENT
+      : CORE_ROUTES.has(route)
+        ? DATE_CORE
+        : DATE_STANDARD,
+    changeFrequency: route === '/' ? ('daily' as const) : ('weekly' as const),
+    priority: HIGH_PRIORITY.has(route)
       ? 1
-      : mediumHighPriority.includes(route)
+      : MEDIUM_HIGH_PRIORITY.has(route)
         ? 0.9
         : 0.8,
     alternates: {
@@ -201,3 +126,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   }));
 }
+

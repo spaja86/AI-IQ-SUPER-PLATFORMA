@@ -96,7 +96,7 @@ async function runTests(): Promise<void> {
   console.log('\n🔴 strategy: disabled');
 
   await test('Disabled flag uvek vraća false', () => {
-    const result = isFeatureEnabled('dx-openapi-docs');
+    const result = isFeatureEnabled('enterprise-sso');
     assert(result === false, 'disabled flag mora biti false');
   });
 
@@ -143,14 +143,14 @@ async function runTests(): Promise<void> {
     let trueCount = 0;
     let falseCount = 0;
     for (let i = 0; i < 100; i++) {
-      const result = isFeatureEnabled('gaming-highscore-ledger', `user-${i}`, { env: 'production' });
+      const result = isFeatureEnabled('ai-response-caching', `user-${i}`, { env: 'production' });
       if (result) trueCount++;
       else falseCount++;
     }
-    // Sa 20% rollout, treba i true i false
+    // Sa 50% rollout, treba i true i false
     assert(trueCount + falseCount === 100, 'ukupno mora biti 100');
-    assert(trueCount > 0, 'bar neki userId mora proći sa 20% rollout-om');
-    assert(falseCount > 0, 'bar neki userId ne sme proći sa 20% rollout-om');
+    assert(trueCount > 0, 'bar neki userId mora proći sa 50% rollout-om');
+    assert(falseCount > 0, 'bar neki userId ne sme proći sa 50% rollout-om');
   });
 
   // ── isFeatureEnabled — strategy: users ────────────────────────────────────
