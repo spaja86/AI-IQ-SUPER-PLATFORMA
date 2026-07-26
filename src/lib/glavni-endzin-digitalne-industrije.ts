@@ -142,7 +142,7 @@ import { spajaUnitTestovi } from './spaja-unit-testovi';
 // ── GAMING TAB ENDŽIN ────────────────────────────────────────────────────
 import {
   dimenzijaNaParametre as gamingDimenzijaNaParametre,
-  getRunnerTip as gamingGetRunnerTip,
+  getRunnerTipZaIgricu as gamingGetRunnerTipZaIgricu,
 } from './gaming-endzin';
 import {
   buildMozakLogika,
@@ -579,11 +579,11 @@ const _seoNominalniSummary = getSeoNominalniProtokSummary();
 // To avoid circular dependency, use AUTOFINISH_COUNT constant directly
 
 // ── Gaming Tab Endžin ──────────────────────────────────────────────────
-const _gamingTabRunnerTipova = 5; // akcija, logicka, simulacija, edu, kreativna
+const _gamingTabRunnerTipova = 6; // akcija, logicka, simulacija, edu, kreativna, poker
 const _gamingTabGeometrijskihAlata = 4; // elipsoid, spirala, hiperbola, rezonanca
 const _gamingTabMaxEntiteta5760D = gamingDimenzijaNaParametre('5760D').maxEntiteta;
 const _gamingTabPodrzaneKategorije = [
-  ...new Set(igrice.map((i) => gamingGetRunnerTip(i.kategorija) as string)),
+  ...new Set(igrice.map((i) => gamingGetRunnerTipZaIgricu(i) as string)),
 ];
 
 // ─── Evolucioni ciklusi ──────────────────────────────────
@@ -732,7 +732,7 @@ const evolucijaCiklusi: EvolucijaCiklus[] = [
   {
     id: 'evo-gaming-tab-endzin',
     naziv: 'Spajanje Gaming Tab Endžina sa Glavnim Endžinom',
-    opis: `SPAJA Gaming Tab Endžin v2.0.0 — ${igrice.length} igrica pokrećeno direktno u Brouvzer tabu (bez iframe), ${_gamingTabRunnerTipova} runner tipa (Akcija, Logička, Simulacija, Edu, Kreativna), ${dimenzije.length} dimenzija (360D–5760D) sa multiplikator sistemom, ${_gamingTabGeometrijskihAlata} geometrijska alata (Elipsoid, Spirala, Hiperbola, Rezonanca), max ${_gamingTabMaxEntiteta5760D} entiteta na 5760D — ZAKAČEN ZA GLAVNI ENDŽIN`,
+    opis: `SPAJA Gaming Tab Endžin v2.0.0 — ${igrice.length} igrica pokrećeno direktno u Brouvzer tabu (bez iframe), ${_gamingTabRunnerTipova} runner tipa (Akcija, Logička, Simulacija, Edu, Kreativna, Poker), ${dimenzije.length} dimenzija (360D–5760D) sa multiplikator sistemom, ${_gamingTabGeometrijskihAlata} geometrijska alata (Elipsoid, Spirala, Hiperbola, Rezonanca), max ${_gamingTabMaxEntiteta5760D} entiteta na 5760D — ZAKAČEN ZA GLAVNI ENDŽIN`,
     faza: 'zavrsena',
     napredak: 100,
   },
@@ -864,7 +864,7 @@ const mogucnosti: string[] = [
   `UNIT TESTOVI — ${spajaUnitTestovi.suite.length} suite-a, ${spajaUnitTestovi.izvestaj.ukupnoTestova} testova (${spajaUnitTestovi.izvestaj.prolaznih} prolaznih)`,
   // ── GAMING TAB ENDŽIN ────────────────────────────────────────────────
   `GAMING TAB ENDŽIN — ${igrice.length} igrica pokrećeno direktno u Brouvzer tabu bez iframe — ZAKAČEN ZA GLAVNI ENDŽIN`,
-  `GAMING RUNNERI — ${_gamingTabRunnerTipova} tipa: Akcija/Borbena/Trka, Logička/Arkadna, Simulacija/Strategija, Edukativna/RPG, Kreativna/Muzička`,
+  `GAMING RUNNERI — ${_gamingTabRunnerTipova} tipa: Akcija/Borbena/Trka, Logička/Arkadna, Simulacija/Strategija, Edukativna/RPG, Kreativna/Muzička, Poker/Texas Hold'em`,
   `GAMING DIMENZIJE — 5 nivoa (360D–5760D), multiplier ×1.0–×3.0, max ${_gamingTabMaxEntiteta5760D} entiteta na 5760D sa particle sistemom`,
   `GAMING GEOMETRIJA — ${_gamingTabGeometrijskihAlata} canvas alata: Elipsoid, Spirala, Hiperbola, Rezonanca — integrisani u sve runnere`,
   `GAMING HUD & UI — GamingHUD overlay, GamingPauzeMenu, DimenzijaBadge — vizuelni sistem zakačen za Brouvzer Tab`,
@@ -1356,7 +1356,7 @@ export function getGamingTabEndzinStatus() {
       id: i.id,
       naziv: i.naziv,
       kategorija: i.kategorija,
-      runnerTip: gamingGetRunnerTip(i.kategorija),
+      runnerTip: gamingGetRunnerTipZaIgricu(i),
       dimenzija: i.podrazumevanaDimenzija,
     })),
     dimenzijeSaParametrima: dimenzije.map((d) => ({

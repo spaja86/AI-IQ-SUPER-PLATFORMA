@@ -13,6 +13,7 @@ import type { Igrica } from '@/lib/igrice';
 import type { Dimenzija } from '@/lib/dimenzije';
 import type { GameScore } from '@/lib/gaming-endzin';
 import { kreirajEndzinKonfiguraciju, noviScore } from '@/lib/gaming-endzin';
+import { isFeatureEnabled } from '@/lib/feature-flags';
 
 import GamingHUD from './GamingHUD';
 import GamingPauzeMenu from './GamingPauzeMenu';
@@ -27,6 +28,7 @@ const SimulacijaRunner = dynamic(() => import('./runners/SimulacijaRunner'), { s
 const EduRunner = dynamic(() => import('./runners/EduRunner'), { ssr: false });
 const KreativnaRunner = dynamic(() => import('./runners/KreativnaRunner'), { ssr: false });
 const BorbenaRunner = dynamic(() => import('./runners/BorbenaRunner'), { ssr: false });
+const PokerRunner = dynamic(() => import('./runners/PokerRunner'), { ssr: false });
 
 // ─── COLD AND FIRE karakteri ─────────────────────────────────────────
 
@@ -86,6 +88,8 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
 
   const konfiguracija = kreirajEndzinKonfiguraciju(igrica, dimenzija);
   const { parametri, runnerTip } = konfiguracija;
+  const pokerRunnerEnabled = isFeatureEnabled('gaming-master-poker-runner-v1');
+  const efektivniRunnerTip = runnerTip === 'poker' && !pokerRunnerEnabled ? 'simulacija' : runnerTip;
 
   // ── Keyboard shortcuts ──
 
@@ -394,12 +398,13 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
 
       {/* Runner */}
       <div className="flex-1 min-h-0">
-        {runnerTip === 'akcija' && <AkcijaRunner {...runnerProps} />}
-        {runnerTip === 'logicka' && <LogickaRunner {...runnerProps} />}
-        {runnerTip === 'simulacija' && <SimulacijaRunner {...runnerProps} />}
-        {runnerTip === 'edu' && <EduRunner {...runnerProps} />}
-        {runnerTip === 'kreativna' && <KreativnaRunner {...runnerProps} />}
-        {runnerTip === 'borbena' && (
+        {efektivniRunnerTip === 'akcija' && <AkcijaRunner {...runnerProps} />}
+        {efektivniRunnerTip === 'logicka' && <LogickaRunner {...runnerProps} />}
+        {efektivniRunnerTip === 'simulacija' && <SimulacijaRunner {...runnerProps} />}
+        {efektivniRunnerTip === 'edu' && <EduRunner {...runnerProps} />}
+        {efektivniRunnerTip === 'kreativna' && <KreativnaRunner {...runnerProps} />}
+        {efektivniRunnerTip === 'poker' && <PokerRunner {...runnerProps} />}
+        {efektivniRunnerTip === 'borbena' && (
           <BorbenaRunner
             {...runnerProps}
             startingMod={odabraniKarakter}
@@ -424,4 +429,3 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
     </div>
   );
 }
-

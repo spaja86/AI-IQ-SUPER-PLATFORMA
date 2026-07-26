@@ -14,10 +14,11 @@
 
 import type { DimenzijaNivo, Dimenzija } from './dimenzije';
 import type { Igrica, KategorijaIgrice } from './igrice';
+import { MASTER_POKER_GAME_ID } from './poker/types';
 
 // ─── Runner tipovi ─────────────────────────────────────────────────
 
-export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena';
+export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker';
 
 // ─── Dimenzionalni parametri ───────────────────────────────────────
 
@@ -139,6 +140,12 @@ export function getRunnerTip(kategorija: KategorijaIgrice): RunnerTip {
   return KATEGORIJA_NA_RUNNER[kategorija] ?? 'akcija';
 }
 
+/** Vrati runner tip za konkretnu igricu (podržava specijalizovane runner-e) */
+export function getRunnerTipZaIgricu(igrica: Igrica): RunnerTip {
+  if (igrica.id === MASTER_POKER_GAME_ID) return 'poker';
+  return getRunnerTip(igrica.kategorija);
+}
+
 // ─── Konfiguracija endžina ─────────────────────────────────────────
 
 export interface GamingEndzinKonfiguracija {
@@ -157,7 +164,7 @@ export function kreirajEndzinKonfiguraciju(
     igrica,
     dimenzija,
     parametri: dimenzijaNaParametre(dimenzija.nivo),
-    runnerTip: getRunnerTip(igrica.kategorija),
+    runnerTip: getRunnerTipZaIgricu(igrica),
   };
 }
 

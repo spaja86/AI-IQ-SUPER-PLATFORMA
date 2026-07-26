@@ -19,7 +19,7 @@ export const platforme: Platforma[] = [
   {
     id: 'io-openui-ao',
     naziv: 'IO OPENUI AO — Laboratorija i Demo',
-    opis: 'Laboratorija i demo okruzenje sa SpajaPro 6-15 engine-om, Prompt sistemom, fizickom laboratorijom i B2B softverom. Igrice se primarno koriste kroz Digitalnu Industriju (AI IQ SUPER PLATFORMA), dok IO/OPENUI/AO sluzi kao laboratorija i demo. Razvoj B2B softvera sa vezanim fizickim laboratorijama. Laboratorija link: https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7. Igrice Dota 1350, DOTAMASTER, TRANSFORMERS 1350, BUBLI BABLI 1250, POKERMASTER imaju linkove u ovom repozitorijumu.',
+    opis: 'Laboratorija i demo okruzenje sa SpajaPro 6-15 engine-om, Prompt sistemom, fizickom laboratorijom i B2B softverom. Igrice se primarno koriste kroz Digitalnu Industriju (AI IQ SUPER PLATFORMA), dok IO/OPENUI/AO sluzi kao laboratorija i demo. Razvoj B2B softvera sa vezanim fizickim laboratorijama. Laboratorija link: https://chatgpt.com/c/688e73aa-ecf8-8006-a7bd-b7d796498ae7. Igrice Dota 1350, DOTAMASTER, TRANSFORMERS 1350, BUBLI BABLI 1250, MASTER POKER imaju linkove u ovom repozitorijumu.',
     kategorija: 'jezgro',
     repo: 'spaja86/IO-OPENUI-AO',
     url: EKOSISTEM_URLS.IO_OPENUI_AO,
@@ -27,7 +27,7 @@ export const platforme: Platforma[] = [
     status: 'aktivna',
     progres: 100,
     tehnologije: ['React', 'SpajaPro Engine', 'Prompt System', 'WebRTC', 'Socket.IO', 'Vercel', 'B2B Software'],
-    funkcije: ['SpajaPro Prompt Chat', 'Laboratorija i Demo', 'AI modul sa Prompt-om', 'SpajaPro 6-15 integracija', 'Fizička laboratorija', 'Razvoj B2B softvera', 'Dota 1350', 'DOTAMASTER', 'TRANSFORMERS 1350', 'BUBLI BABLI 1250', 'POKERMASTER'],
+    funkcije: ['SpajaPro Prompt Chat', 'Laboratorija i Demo', 'AI modul sa Prompt-om', 'SpajaPro 6-15 integracija', 'Fizička laboratorija', 'Razvoj B2B softvera', 'Dota 1350', 'DOTAMASTER', 'TRANSFORMERS 1350', 'BUBLI BABLI 1250', 'MASTER POKER'],
     deploy: { status: 'aktivan', provider: 'vercel', domen: 'io-openui-ao.vercel.app', projectId: 'io-openui-ao', vercelProjekt: 'io-openui-ao', framework: 'React + SpajaPro', buildKomanda: 'npm run build' },
   },
   {
