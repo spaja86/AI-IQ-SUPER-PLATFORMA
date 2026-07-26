@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Call Centar — Moblini SPAJA',
+  title: 'Call Centar — Mobilni SPAJA',
   description: 'SPAJA Call Centar — digitalne usluge, dodela paketa i instalacionih brojeva. Starter, Pro, Enterprise i VIP paketi sa mesečnom pretplatom.',
 };
 
