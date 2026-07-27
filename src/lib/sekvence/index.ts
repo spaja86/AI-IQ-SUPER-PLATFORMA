@@ -231,3 +231,6 @@ export { perkolizonikSekvence } from './perkolizonik-page';
 
 // ── MOŽE SVE — Unified Platform Hub ─────────────────────────────────────────
 export { mozeSveSekvence } from './moze-sve-page';
+
+// ── MIROR ────────────────────────────────────────────────────────────────────
+export { getMirorSekvence } from './miror-page';

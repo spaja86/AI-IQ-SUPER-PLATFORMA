@@ -27,9 +27,9 @@ export const OMEGA_AI_MUSKIH = 20_000_281;
 export const OMEGA_AI_ZENSKIH = 20_000_281;
 
 // Ekosistem
-export const TOTAL_PAGES = 140;
-export const TOTAL_API_ROUTES = 1259;
-export const TOTAL_ROUTES = 1399;
+export const TOTAL_PAGES = 141;
+export const TOTAL_API_ROUTES = 1260;
+export const TOTAL_ROUTES = 1401;
 export const TOTAL_IGRICA = 121;
 export const TOTAL_GEJMING_ENTITETA = 76;
 export const TOTAL_DIAGNOSTIKA = 2410;
