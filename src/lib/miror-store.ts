@@ -2,6 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 //
 // In-memory circular buffer za MIROR snapshots.
+// Namerno ephemeralan store za single-instance trend refleksiju u runtime-u.
 
 export interface MirorSnapshot {
   ukupanScore: number;

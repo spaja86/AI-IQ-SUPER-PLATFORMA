@@ -169,6 +169,7 @@ function velocityToTrendDirection(
   if (velocity > 0 && acceleration > 0) return 'accelerating';
   if (velocity > 0 && acceleration <= 0) return 'rising';
   if (velocity < 0 && acceleration < 0) return 'accelerating';
+  if (velocity < 0 && acceleration === 0) return 'falling';
   return 'decelerating';
 }
 
