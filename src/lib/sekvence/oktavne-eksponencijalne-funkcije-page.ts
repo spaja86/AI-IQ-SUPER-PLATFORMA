@@ -17,6 +17,7 @@ const korelacija = getKorelacionaMatrica();
 const figCentar = getFiguracioniCentar();
 const monolog = getOktavniMonolog();
 const razmere = getEksponencionalneGeometrijskeRazmere();
+const oktavaKolone = eksponencijalneFunkcije.map((f) => String(f.oktava));
 
 export const oktavneEksponencijalneFunkcijeSekvence: Sekvenca[] = [
   {
@@ -151,7 +152,7 @@ Za analizu rasta koriste se: izvod f'(x) = a * ln(b) * b^x, integral F(x) = a * 
     podnaslov: 'Korelacija rasta izmedju oktava',
     redosled: 9,
     podaci: {
-      zaglavlje: ['Okt ↓ / Okt →', ...eksponencijalneFunkcije.map((f) => `${f.oktava}`)],
+      zaglavlje: ['Okt ↓ / Okt →', ...oktavaKolone],
       redovi: korelacija.map((red, i) => [
         `${i + 1} ${oktavniNazivi[(i + 1) as OktavniNivo]}`,
         ...red.map(String),
@@ -297,7 +298,7 @@ Konvergencioni koeficijent ${figCentar.konvergencioniKoeficijent} pokazuje kolik
     tip: 'tabela',
     naslov: '📐 Geometrijske razmere oktava (parovi)',
     podnaslov: `Globalni indeks: ${razmere.oktavneRazmere.globalniIndeks} | Trend: ${razmere.oktavneRazmere.trend.smer}`,
-    redosled: 17.5,
+    redosled: 18,
     podaci: {
       zaglavlje: ['Izvor', 'Cilj', 'Razmera', 'Δ rasta', 'Sloj', 'Status'],
       redovi: razmere.oktavneRazmere.parovi.map((p) => [
@@ -314,9 +315,9 @@ Konvergencioni koeficijent ${figCentar.konvergencioniKoeficijent} pokazuje kolik
     id: 'ekspo-ratio-matrica',
     tip: 'tabela',
     naslov: '🧮 Ratio matrica geometrijskih razmera',
-    redosled: 17.6,
+    redosled: 19,
     podaci: {
-      zaglavlje: ['Okt ↓ / Okt →', ...eksponencijalneFunkcije.map((f) => String(f.oktava))],
+      zaglavlje: ['Okt ↓ / Okt →', ...oktavaKolone],
       redovi: razmere.oktavneRazmere.ratioMatrica.map((red, i) => [
         `${i + 1} ${oktavniNazivi[(i + 1) as OktavniNivo]}`,
         ...red.map(String),
@@ -327,7 +328,7 @@ Konvergencioni koeficijent ${figCentar.konvergencioniKoeficijent} pokazuje kolik
     id: 'ekspo-monolog-tekst',
     tip: 'tekst',
     naslov: '🔊 Oktavni monolog eksponencijalnog ekvivalenta',
-    redosled: 18,
+    redosled: 20,
     podaci: {
       sadrzaj: `${monolog.opis}
 
@@ -347,7 +348,7 @@ Eksponencijalni ekvivalent E_i(x) = f_i(x) / S(x) predstavlja udeo svake oktave 
     tip: 'tabela',
     naslov: '📊 Eksponencijalni ekvivalenti E_i(x) = f_i(x) / S(x)',
     podnaslov: 'Udeo svake oktave u super-poziciji',
-    redosled: 19,
+    redosled: 21,
     podaci: {
       zaglavlje: ['Oktava', 'Naziv', ...Array.from({ length: 8 }, (_, i) => `x=${i}`), 'Prosek', 'Trend'],
       redovi: monolog.ekvivalenti.map((e) => [
@@ -364,7 +365,7 @@ Eksponencijalni ekvivalent E_i(x) = f_i(x) / S(x) predstavlja udeo svake oktave 
     tip: 'tabela',
     naslov: '🧮 Matricno jedinjenje J = M*M^T (8x8)',
     podnaslov: `Trag=${monolog.matricnoJedinjenje.trag} | Rang=${monolog.matricnoJedinjenje.rang} | Frobenius=${monolog.matricnoJedinjenje.frobeniusNorma}`,
-    redosled: 20,
+    redosled: 22,
     podaci: {
       zaglavlje: ['Okt', ...([1, 2, 3, 4, 5, 6, 7, 8] as OktavniNivo[]).map((n) => `${n}`)],
       redovi: monolog.matricnoJedinjenje.matrica.map((red, i) => [
@@ -378,7 +379,7 @@ Eksponencijalni ekvivalent E_i(x) = f_i(x) / S(x) predstavlja udeo svake oktave 
     tip: 'tabela',
     naslov: '🎯 Laucentricni sistem — koncentricni slojevi',
     podnaslov: `${monolog.laucentricniSistem.ukupnoSlojeva} slojeva, snaga ${monolog.laucentricniSistem.ukupnaSnaga}`,
-    redosled: 21,
+    redosled: 23,
     podaci: {
       zaglavlje: ['Sloj', 'Naziv', 'Oktave', 'Snaga', 'Gustina', 'Radijus', 'Distribucija'],
       redovi: monolog.laucentricniSistem.slojevi.map((s, i) => [
@@ -396,7 +397,7 @@ Eksponencijalni ekvivalent E_i(x) = f_i(x) / S(x) predstavlja udeo svake oktave 
     id: 'ekspo-monolog-statistika',
     tip: 'statistika',
     naslov: '🔊 Oktavni monolog u brojevima',
-    redosled: 22,
+    redosled: 24,
     podaci: {
       stavke: [
         { naziv: 'Egzocentricnost', vrednost: monolog.egzocentricnoJezgro.egzocentricnost, ikona: '🌀' },
@@ -410,7 +411,7 @@ Eksponencijalni ekvivalent E_i(x) = f_i(x) / S(x) predstavlja udeo svake oktave 
     id: 'ekspo-cta',
     tip: 'cta',
     naslov: '🚀 Eksponencijalne funkcije — figuracioni centar — oktavni monolog — OMEGA PROJEKAT',
-    redosled: 23,
+    redosled: 25,
     podaci: {
       opis: `${pregled.ukupnoOktava} oktava × eksponencijalne funkcije × figuracioni centar × oktavni monolog × matricno jedinjenje = OMEGA PROJEKAT u matematickoj formi.`,
       stavke: [

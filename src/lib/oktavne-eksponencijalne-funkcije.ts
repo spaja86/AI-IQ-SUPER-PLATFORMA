@@ -257,6 +257,7 @@ function izracunajCentroidX(): number {
 
 export function getOktavneRazmereParovi(): OktavnaRazmeraPar[] {
   const parovi: OktavnaRazmeraPar[] = [];
+  // Potreban je kompletan skup parova zbog pune ratio matrice i slojevitog poređenja oktava.
   for (let i = 0; i < eksponencijalneFunkcije.length; i++) {
     for (let j = i + 1; j < eksponencijalneFunkcije.length; j++) {
       const izvor = eksponencijalneFunkcije[i];
