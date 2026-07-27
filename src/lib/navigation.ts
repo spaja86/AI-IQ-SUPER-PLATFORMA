@@ -158,6 +158,8 @@ export const navigation: NavItem[] = [
   { label: 'Vercel Priključenje', href: '/vercel-priklucenje', icon: '▲', description: 'Vercel priključenje i deploy konfiguracija platforme' },
   { label: 'Ekstrimli Ekstrem', href: '/ekstrimli-ekstrem', icon: '⚡', description: 'Ekstremno procesuiranje i operativna spremnost — signal koji preseca sve limite' },
   { label: 'EKSTRENDEND', href: '/ekstrendend', icon: '🌊', description: 'Ekstremni Trend Endzin — cross-domain trend velocity, momentum i projektovana readiness svih 8 domena' },
+  { label: 'EKTOND', href: '/ektond', icon: '🔵', description: 'Ekstremni Kondenzator Tokova Nadzora Digitalnog — kondenzacija 6 platformskih tokova: analiza, potencijal, world bank, call centar, proksi i gejming' },
+  { label: 'MOROK', href: '/morok', icon: '🟣', description: 'Modularna Orkestracija Ritmova i Operativnog Kapaciteta — ritmički engine 6 operativnih domena: mobilna mreža, operativa, procesuiranje, ekstremno, autofinish i SpajaPro' },
   { label: 'Pentracija', href: '/pentracija', icon: '🔍', description: 'Pentracija — dubinska analiza i probe test ekosistema' },
   { label: 'Panetracija 2', href: '/panetracija-2', icon: '🔬', description: 'V2 panetracija — proširena dijagnostika sa SLA i trend praćenjem' },
   { label: 'Prijava', href: '/login', icon: '🔑', description: 'Prijava na platformu — pristup Digitalnoj Industriji' },
