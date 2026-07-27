@@ -23,6 +23,7 @@ export const navigation: NavItem[] = [
   { label: 'IT Proizvodi', href: '/it-proizvodi', icon: '⚙️', description: 'Svi IT proizvodi digitalne industrije' },
   { label: 'Ekslatacija Proizvoda', href: '/ekslatacija-proizvoda', icon: '💸', description: 'Komercijalni lifecycle IT proizvoda — faze, modeli, kanali i potencijal prihoda' },
   { label: 'OMEGA AI', href: '/omega-ai', icon: '🧠', description: '21 OMEGA AI persona u 8 oktava' },
+  { label: 'OmegaEvolution', href: '/omega-evolution', icon: '🧬', description: 'OmegaEvolution — unifikovani evolucioni hub platforme i SpajaNikopEvolution brend' },
   { label: 'SpajaPro', href: '/spaja-pro', icon: '🚀', description: 'SpajaPro Engine verzije 6-15' },
   { label: 'Story of Life', href: '/story-of-life', icon: '📖', description: 'Narativ evolucije i životnog ciklusa AI IQ SUPER PLATFORMA sistema' },
   { label: 'SILJA', href: '/silja', icon: '⚡', description: 'Sistemska Inteligentna Logika Jezgra Automatizacije — cross-domain automation-intelligence engine za 6 operativnih domena' },

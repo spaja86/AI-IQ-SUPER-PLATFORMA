@@ -61,7 +61,7 @@ export async function GET() {
     '/api/dimenzije-mapa', '/api/spaja-pro-benchmark', '/api/igrice-kategorije',
     '/api/evolucija-ciklus', '/api/full-diagnostika-pregled',
     '/api/mega-dijagnostika', '/api/autofinish-timeline',
-    '/api/spaja-mobilna-integracija', '/api/omega-evolucija-mapa',
+    '/api/spaja-mobilna-integracija', '/api/omega-evolucija-mapa', '/api/omega-evolution',
     '/api/platforma-indeks',
     '/api/ekosistem-indeks', '/api/autofinish-predikcija',
     '/api/spaja-pro-evolucija', '/api/omega-sinhronizacija',
