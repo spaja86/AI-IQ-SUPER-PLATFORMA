@@ -19,9 +19,9 @@ function trendIkona(direction: 'rising' | 'falling' | 'accelerating' | 'decelera
 export function getMirorSekvence(): Sekvenca[] {
   const m = buildMiror();
   const domenValues = Object.values(m.domeni);
-  const domenSummary = domenValues.reduce((acc, domen) => ({
-    count: acc.count + 1,
-    confidence: acc.confidence + domen.confidence,
+  const domenSummary = domenValues.reduce((summary, domen) => ({
+    count: summary.count + 1,
+    confidence: summary.confidence + domen.confidence,
   }), { count: 0, confidence: 0 });
   const averageConfidence = domenSummary.count > 0
     ? `${Math.round(domenSummary.confidence / domenSummary.count)}%`

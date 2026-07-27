@@ -193,6 +193,12 @@ function safeCallSync<T>(
   }
 }
 
+function computeBarKodScore(barKod: ReturnType<typeof buildBarKod> | null): number {
+  if (barKod === null) return BAR_KOD_SCORE_UNAVAILABLE;
+  if (barKod.kpi.ukupnoBarKodova > 0) return BAR_KOD_SCORE_FULL;
+  return BAR_KOD_SCORE_PARTIAL;
+}
+
 function observatorijaScoreFromStatistika(
   statistika: ReturnType<typeof getObservatorijaStatistika>,
 ): number {
@@ -230,18 +236,16 @@ export function buildMiror(): MirorRezultat {
 
   const rezonancijaScore = clampScore((rezonancija?.indeksRezonancije ?? 0) * 100);
   const sintetizacijaScore = clampScore((sintetizacija?.indeksSinteze ?? 0) * 100);
-  const distribucijaUkupnoCvorova = distribucijaKpi?.ukupnoCvorova;
-  const distribucijaAktivnihCvorova = distribucijaKpi?.aktivnihCvorova;
+  const ukupnoCvorova = distribucijaKpi?.ukupnoCvorova;
+  const aktivnihCvorova = distribucijaKpi?.aktivnihCvorova;
   const distribucijaScore = (
-    typeof distribucijaUkupnoCvorova === 'number'
-    && distribucijaUkupnoCvorova > 0
-    && typeof distribucijaAktivnihCvorova === 'number'
+    typeof ukupnoCvorova === 'number'
+    && ukupnoCvorova > 0
+    && typeof aktivnihCvorova === 'number'
   )
-    ? clampScore((distribucijaAktivnihCvorova / distribucijaUkupnoCvorova) * 100)
+    ? clampScore((aktivnihCvorova / ukupnoCvorova) * 100)
     : 0;
-  const barKodScore = barKod
-    ? (barKod.kpi.ukupnoBarKodova > 0 ? BAR_KOD_SCORE_FULL : BAR_KOD_SCORE_PARTIAL)
-    : BAR_KOD_SCORE_UNAVAILABLE;
+  const barKodScore = computeBarKodScore(barKod);
   const observatorijaScore = observatorija ? observatorijaScoreFromStatistika(observatorija) : 0;
   const vektorizacijaScore = clampScore((vektorizacija?.indeksVektorizacije ?? 0) * 100);
 
