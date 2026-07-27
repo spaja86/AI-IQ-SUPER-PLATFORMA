@@ -33,6 +33,7 @@ import { spajaPricingLogin } from '@/lib/spaja-pricing-login';
 import { spajaDigitalniTelevizor, getTVSignalReadiness } from '@/lib/spaja-digitalni-televizor';
 import { spajaMonitoringLive } from '@/lib/spaja-monitoring-live';
 import { spajaAiIqMonitoring } from '@/lib/spaja-ai-iq-monitoring';
+import { digitalnaObservatorija, getObservatorijaStatistika } from '@/lib/digitalna-observatorija';
 import { spajaBlogFaq } from '@/lib/spaja-blog-faq';
 import { spajaUnitTestovi } from '@/lib/spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from '@/lib/omega-ai-maksimalni-suport';
@@ -3339,6 +3340,19 @@ export function runDiagnostics(): DiagnosticReport {
     createCheck('ai-iq-monitoring-greske-api-check', 'AI IQ Monitoring Greške API', 'Provera /api/spaja-ai-iq-monitoring-greske endpointa', 'ok', '/api/spaja-ai-iq-monitoring-greske aktivan'),
     createCheck('ai-iq-monitoring-status-api-check', 'AI IQ Monitoring Status API', 'Provera /api/spaja-ai-iq-monitoring-status endpointa', 'ok', '/api/spaja-ai-iq-monitoring-status aktivan'),
     createCheck('ai-iq-monitoring-stranica-check', 'AI IQ Monitoring Stranica', 'Provera /ai-iq-monitoring stranice', 'ok', '/ai-iq-monitoring stranica aktivna'),
+
+    // ─── Nauka — Digitalna Observatorija ────────────────────
+    createCheck(
+      'digitalna-observatorija-check',
+      'Digitalna Observatorija Sistem',
+      `Provera observatorijuma — ${digitalnaObservatorija.instrumenti.length} instrumenata, ${digitalnaObservatorija.sesije.length} sesija`,
+      'ok',
+      `Digitalna Observatorija aktivna — status ${digitalnaObservatorija.status}, ${getObservatorijaStatistika().otvorenihAlarma} otvorenih alarma`,
+    ),
+    createCheck('digitalna-observatorija-api-check', 'Digitalna Observatorija API', 'Provera /api/digitalna-observatorija endpointa', 'ok', '/api/digitalna-observatorija aktivan'),
+    createCheck('digitalna-observatorija-status-api-check', 'Digitalna Observatorija Status API', 'Provera /api/digitalna-observatorija-status endpointa', 'ok', '/api/digitalna-observatorija-status aktivan'),
+    createCheck('digitalna-observatorija-pregled-api-check', 'Digitalna Observatorija Pregled API', 'Provera /api/digitalna-observatorija-pregled endpointa', 'ok', '/api/digitalna-observatorija-pregled aktivan'),
+    createCheck('digitalna-observatorija-stranica-check', 'Digitalna Observatorija Stranica', 'Provera /digitalna-observatorija stranice', 'ok', '/digitalna-observatorija stranica aktivna'),
 
     // ─── Content — Blog & FAQ ────────────────────────────────
     createCheck('blog-faq-check', 'Blog & FAQ Sistem', `Provera blog/FAQ sistema — ${spajaBlogFaq.clanci.length} članaka, ${spajaBlogFaq.faqPitanja.length} FAQ pitanja`, 'ok', `Blog & FAQ aktivan — ${spajaBlogFaq.clanci.length} članaka`),

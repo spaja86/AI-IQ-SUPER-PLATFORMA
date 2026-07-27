@@ -227,6 +227,11 @@ export default function DashboardKlijent() {
               <div className="text-sm font-medium text-white group-hover:text-red-300">Monitoring Live</div>
               <div className="mt-1 text-xs text-gray-400">Twitch-like streaming platforma za pracenje sistema u realnom vremenu.</div>
             </a>
+            <a href="/digitalna-observatorija" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-4 transition hover:border-sky-500/30 hover:bg-sky-900/10">
+              <div className="mb-2 text-lg">🔭</div>
+              <div className="text-sm font-medium text-white group-hover:text-sky-300">Digitalna Observatorija</div>
+              <div className="mt-1 text-xs text-gray-400">Standalone modul za praćenje instrumenata, nebeskih meta, sesija i anomalija.</div>
+            </a>
             <a href="/spaja-render-medija" className="group rounded-xl border border-gray-700/30 bg-gray-800/30 p-4 transition hover:border-pink-500/30 hover:bg-pink-900/10">
               <div className="mb-2 text-lg">🎬</div>
               <div className="text-sm font-medium text-white group-hover:text-pink-300">Render Medija</div>
