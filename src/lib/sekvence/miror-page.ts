@@ -18,6 +18,14 @@ function trendIkona(direction: 'rising' | 'falling' | 'accelerating' | 'decelera
 
 export function getMirorSekvence(): Sekvenca[] {
   const m = buildMiror();
+  const domenValues = Object.values(m.domeni);
+  const domenSummary = domenValues.reduce((acc, domen) => ({
+    count: acc.count + 1,
+    confidence: acc.confidence + domen.confidence,
+  }), { count: 0, confidence: 0 });
+  const averageConfidence = domenSummary.count > 0
+    ? `${Math.round(domenSummary.confidence / domenSummary.count)}%`
+    : '0%';
 
   return [
     {
@@ -53,15 +61,7 @@ export function getMirorSekvence(): Sekvenca[] {
           { naziv: 'Snimci', vrednost: m.trendSnapshotCount, ikona: '📷' },
           { naziv: 'API Ruta', vrednost: TOTAL_API_ROUTES, ikona: '🔌' },
           { naziv: 'Autofinish #', vrednost: AUTOFINISH_COUNT, ikona: '♻️' },
-          {
-            naziv: 'Prosečan confidence',
-            vrednost: (() => {
-              const domenValues = Object.values(m.domeni);
-              if (domenValues.length === 0) return '0%';
-              return `${Math.round(domenValues.reduce((sum, d) => sum + d.confidence, 0) / domenValues.length)}%`;
-            })(),
-            ikona: '🎛️',
-          },
+          { naziv: 'Prosečan confidence', vrednost: averageConfidence, ikona: '🎛️' },
         ],
       },
     },

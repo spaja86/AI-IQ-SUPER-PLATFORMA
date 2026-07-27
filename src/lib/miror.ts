@@ -229,8 +229,14 @@ export function buildMiror(): MirorRezultat {
 
   const rezonancijaScore = clampScore((rezonancija?.indeksRezonancije ?? 0) * 100);
   const sintetizacijaScore = clampScore((sintetizacija?.indeksSinteze ?? 0) * 100);
-  const distribucijaScore = distribucijaKpi?.ukupnoCvorova
-    ? clampScore((distribucijaKpi.aktivnihCvorova / distribucijaKpi.ukupnoCvorova) * 100)
+  const distribucijaUkupnoCvorova = distribucijaKpi?.ukupnoCvorova;
+  const distribucijaAktivnihCvorova = distribucijaKpi?.aktivnihCvorova;
+  const distribucijaScore = (
+    typeof distribucijaUkupnoCvorova === 'number'
+    && distribucijaUkupnoCvorova > 0
+    && typeof distribucijaAktivnihCvorova === 'number'
+  )
+    ? clampScore((distribucijaAktivnihCvorova / distribucijaUkupnoCvorova) * 100)
     : 0;
   const barKodScore = barKod
     ? (barKod.kpi.ukupnoBarKodova > 0 ? BAR_KOD_SCORE_FULL : BAR_KOD_SCORE_PARTIAL)
