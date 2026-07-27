@@ -119,7 +119,7 @@ async function run() {
     const pregled = getDigitalnaIndustrijaNacinPlacanjaPregled();
     assert(pregled.ukupnoRegiona > 0, 'ukupnoRegiona mora biti > 0');
     assert(pregled.ukupnoValuta > 0, 'ukupnoValuta mora biti > 0');
-    assert(pregled.ukupnoKarticihnSema > 0, 'ukupnoKarticihnSema mora biti > 0');
+    assert(pregled.ukupnoKarticnihSema > 0, 'ukupnoKarticnihSema mora biti > 0');
   });
 
   await test('getDigitalnaIndustrijaNacinPlacanjaPregled — aktivniProcesori nije prazan', () => {

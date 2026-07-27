@@ -24,7 +24,7 @@ export interface DigitalnaIndustrijaNacinPlacanjaPregled {
   matrix: WalletCoverageEntry[];
   ukupnoRegiona: number;
   ukupnoValuta: number;
-  ukupnoKarticihnSema: number;
+  ukupnoKarticnihSema: number;
 }
 
 /** Kanonska matrica načina plaćanja po regionu. */
@@ -122,7 +122,7 @@ export function getDigitalnaIndustrijaMatrix(): WalletCoverageEntry[] {
 }
 
 /** Keširani pregled — izračunava se jednom pri inicijalizaciji modula. */
-let _cachedPregled: DigitalnaIndustrijaNacinPlacanjaPregled | null = null;
+let cachedPregled: DigitalnaIndustrijaNacinPlacanjaPregled | null = null;
 
 /**
  * Vraća kompletan pregled načina plaćanja sa metapodacima.
@@ -130,7 +130,7 @@ let _cachedPregled: DigitalnaIndustrijaNacinPlacanjaPregled | null = null;
  * Koristi se u API odgovorima koji izlažu payment konfiguraciju.
  */
 export function getDigitalnaIndustrijaNacinPlacanjaPregled(): DigitalnaIndustrijaNacinPlacanjaPregled {
-  if (_cachedPregled) return _cachedPregled;
+  if (cachedPregled) return cachedPregled;
 
   const matrix = getDigitalnaIndustrijaMatrix();
   const sveValute = new Set<string>();
@@ -144,7 +144,7 @@ export function getDigitalnaIndustrijaNacinPlacanjaPregled(): DigitalnaIndustrij
     entry.fallbackProcessors.forEach((p) => aktivniProcesori.add(p));
   }
 
-  _cachedPregled = {
+  cachedPregled = {
     meta: {
       izvor: 'digitalna-industrija',
       entitet: 'Digitalna Industrija — Kompanija SPAJA',
@@ -155,8 +155,8 @@ export function getDigitalnaIndustrijaNacinPlacanjaPregled(): DigitalnaIndustrij
     matrix,
     ukupnoRegiona: matrix.length,
     ukupnoValuta: sveValute.size,
-    ukupnoKarticihnSema: sveKarticneSheme.size,
+    ukupnoKarticnihSema: sveKarticneSheme.size,
   };
 
-  return _cachedPregled;
+  return cachedPregled;
 }
