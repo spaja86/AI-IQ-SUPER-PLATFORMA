@@ -201,6 +201,27 @@ export interface StressTestScenario {
   verovatnoća: number;
 }
 
+// ─── Market-Making konfiguracija ─────────────────────────────────────────────
+
+export interface MarketMakingKonfiguracija {
+  /** Bazni bid/ask spread u basis points (1 bp = 0.01%) */
+  spreadBps: number;
+  /** Faktor penalizacije za nebalansiran inventory (0.0–1.0) */
+  inventoryRizikFaktor: number;
+  /** Interval refresh-a ordera u ms */
+  refreshInterval: number;
+  /** Maksimalni udeo portoflia u jednoj poziciji (0.0–1.0) */
+  maxInventoryCap: number;
+  /** Dinamična prilagodba spreada prema volatilnosti */
+  volatilityAdjustment: boolean;
+  /** AI prediktivno gašenje pri neodrživi volatilnosti */
+  aiPrediktivnoGašenje: boolean;
+  /** Bid/ask inventar po asetu */
+  inventar?: Record<string, { bid: number; ask: number; midPrice: number }>;
+  /** Spread matrica po dimenziji platforme (D nivo → spread multiplikator) */
+  dimenzionalniSpread?: Record<string, number>;
+}
+
 // ─── Trading Strategije ────────────────────────────────────────────────────────
 
 export const tradingStrategije: TradingStrategija[] = [
@@ -397,6 +418,29 @@ export const tradingStrategije: TradingStrategija[] = [
     maxDrawdown: 20.0,
     aktivna: true,
     aiIntegracija: false,
+  },
+  // ─── MAKIN Market-Making AI ─────────────────────────────────────
+  {
+    id: 'strat-makin-market-making',
+    naziv: 'MAKIN Market-Making AI',
+    tip: 'market-making',
+    opis: 'AI-driven market-making strategija — automatski postavlja bid/ask ordere oko mid-price sa dinamičnim spread-om. SpajaPro AI adaptira spread prema volatilnosti, volumenu i dimenzionalnom faktoru platforme. Dimenzionalni spread matrica omogućuje preciznu likvidnost u svakom D nivou.',
+    targetAssetKlase: ['crypto', 'forex', 'defi'],
+    parametri: {
+      spreadBps: 15,
+      inventoryRizikFaktor: 0.3,
+      refreshInterval: 500,
+      maxInventoryCap: 0.15,
+      volatilityAdjustment: true,
+      aiPrediktivnoGašenje: true,
+    },
+    rizikNivo: 2,
+    prosecniGodisnjiPrinos: 28.5,
+    sharpeRatio: 2.4,
+    maxDrawdown: 6.8,
+    aktivna: true,
+    aiIntegracija: true,
+    spajaProVerzija: 13,
   },
 ];
 
