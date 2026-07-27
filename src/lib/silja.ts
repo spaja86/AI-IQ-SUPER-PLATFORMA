@@ -48,6 +48,7 @@ const SILJA_CONFIDENCE_VARIANCE = {
   delimicno: 2,
   potrebnoPoboljsanje: 0,
 } as const;
+const SILJA_DEGRADATION_THRESHOLD = 0.7;
 
 const weightSum = Object.values(SILJA_WEIGHTS).reduce((sum, w) => sum + w, 0);
 if (Math.abs(weightSum - 1) > 0.0001) {
@@ -250,12 +251,18 @@ export function buildSilja(): SiljaRezultat {
   const rezonancijaVelocity = domainVelocity(rezonancijaScore, 'rezonancija');
   const sintetizacijaVelocity = domainVelocity(sintetizacijaScore, 'sintetizacija');
 
-  const kristalizacijaDegraded = kristalizacija !== null && kristalizacija.stabilnostJezgra < 0.7;
-  const harmonizacijaDegraded = harmonizacija !== null && harmonizacija.stabilnost < 0.7;
-  const modulacijaDegraded = modulacija !== null && modulacija.efikasnostPrenosa < 0.7;
-  const perkolizonikDegraded = perkolizonik !== null && perkolizonik.stabilnost < 0.7;
-  const rezonancijaDegraded = rezonancija !== null && rezonancija.prosekStabilnosti < 0.7;
-  const sintetizacijaDegraded = sintetizacija !== null && sintetizacija.stabilnostSinteze < 0.7;
+  const kristalizacijaDegraded =
+    kristalizacija !== null && kristalizacija.stabilnostJezgra < SILJA_DEGRADATION_THRESHOLD;
+  const harmonizacijaDegraded =
+    harmonizacija !== null && harmonizacija.stabilnost < SILJA_DEGRADATION_THRESHOLD;
+  const modulacijaDegraded =
+    modulacija !== null && modulacija.efikasnostPrenosa < SILJA_DEGRADATION_THRESHOLD;
+  const perkolizonikDegraded =
+    perkolizonik !== null && perkolizonik.stabilnost < SILJA_DEGRADATION_THRESHOLD;
+  const rezonancijaDegraded =
+    rezonancija !== null && rezonancija.prosekStabilnosti < SILJA_DEGRADATION_THRESHOLD;
+  const sintetizacijaDegraded =
+    sintetizacija !== null && sintetizacija.stabilnostSinteze < SILJA_DEGRADATION_THRESHOLD;
 
   const domeni = {
     kristalizacija: {

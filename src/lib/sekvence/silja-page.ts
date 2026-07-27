@@ -16,6 +16,10 @@ function trendIkona(direction: 'rising' | 'falling' | 'accelerating' | 'decelera
   return '➡️';
 }
 
+function formatVelocity(velocity: number): string {
+  return `${velocity >= 0 ? '+' : ''}${velocity}`;
+}
+
 export function getSiljaSekvence(): Sekvenca[] {
   const s = buildSilja();
   const domenValues = Object.values(s.domeni);
@@ -32,7 +36,7 @@ export function getSiljaSekvence(): Sekvenca[] {
       id: 'silja-hero',
       tip: 'hero',
       naslov: '⚡ SILJA — SISTEMSKA INTELIGENTNA LOGIKA JEZGRA AUTOMATIZACIJE',
-      podnaslov: `${KOMPANIJA} — Ukupan Score: ${s.ukupanScore}% • Velocity: ${s.ukupnaVelocity >= 0 ? '+' : ''}${s.ukupnaVelocity} • ${momentumIkona(s.trendMomentum)} ${s.trendMomentum.toUpperCase()}`,
+      podnaslov: `${KOMPANIJA} — Ukupan Score: ${s.ukupanScore}% • Velocity: ${formatVelocity(s.ukupnaVelocity)} • ${momentumIkona(s.trendMomentum)} ${s.trendMomentum.toUpperCase()}`,
       ikona: '⚡',
       redosled: 1,
       podaci: {
@@ -55,7 +59,7 @@ export function getSiljaSekvence(): Sekvenca[] {
           { naziv: 'Ukupan Score', vrednost: `${s.ukupanScore}%`, ikona: '🎯' },
           { naziv: 'Konačna Ocena', vrednost: s.konacnaOcena.replace(/_/g, ' '), ikona: '🏆' },
           { naziv: 'Momentum', vrednost: `${momentumIkona(s.trendMomentum)} ${s.trendMomentum.toUpperCase()}`, ikona: '⚡' },
-          { naziv: 'Ukupna Velocity', vrednost: `${s.ukupnaVelocity >= 0 ? '+' : ''}${s.ukupnaVelocity}`, ikona: '⚙️' },
+          { naziv: 'Ukupna Velocity', vrednost: formatVelocity(s.ukupnaVelocity), ikona: '⚙️' },
           { naziv: 'Domeni', vrednost: Object.keys(s.domeni).length, ikona: '🧩' },
           { naziv: 'Kritični domeni', vrednost: s.domeniBrojKriticnih, ikona: '🚨' },
           { naziv: 'Snimci', vrednost: s.trendSnapshotCount, ikona: '📷' },
@@ -75,7 +79,7 @@ export function getSiljaSekvence(): Sekvenca[] {
         redovi: Object.values(s.domeni).map((domen) => [
           domen.naziv,
           `${domen.score}%`,
-          `${domen.velocity >= 0 ? '+' : ''}${domen.velocity}`,
+          formatVelocity(domen.velocity),
           `${trendIkona(domen.trendDirection)} ${domen.trendDirection}`,
           `${momentumIkona(domen.momentum)} ${domen.momentum}`,
           `${domen.slaThreshold}%`,
@@ -92,7 +96,7 @@ export function getSiljaSekvence(): Sekvenca[] {
       redosled: 4,
       podaci: {
         procenat: s.ukupanScore,
-        oznaka: `${s.konacnaOcena.replace(/_/g, ' ')} • Velocity ${s.ukupnaVelocity >= 0 ? '+' : ''}${s.ukupnaVelocity} • ${s.trendMomentum.toUpperCase()} automatizacija`,
+        oznaka: `${s.konacnaOcena.replace(/_/g, ' ')} • Velocity ${formatVelocity(s.ukupnaVelocity)} • ${s.trendMomentum.toUpperCase()} automatizacija`,
       },
     },
     {
@@ -122,7 +126,7 @@ export function getSiljaSekvence(): Sekvenca[] {
           ? s.history.map((entry, i) => [
               String(i + 1),
               `${entry.score}%`,
-              `${entry.velocity >= 0 ? '+' : ''}${entry.velocity}`,
+              formatVelocity(entry.velocity),
               entry.timestamp,
             ])
           : [['—', '—', '—', 'Nema prethodnih snimaka']],
@@ -138,7 +142,7 @@ export function getSiljaSekvence(): Sekvenca[] {
         stavke: [
           { naziv: 'Ukupan score', vrednost: `${s.ukupanScore}%`, ikona: '🎯' },
           { naziv: 'Momentum', vrednost: s.trendMomentum, ikona: momentumIkona(s.trendMomentum) },
-          { naziv: 'Velocity', vrednost: `${s.ukupnaVelocity >= 0 ? '+' : ''}${s.ukupnaVelocity}`, ikona: '⚡' },
+          { naziv: 'Velocity', vrednost: formatVelocity(s.ukupnaVelocity), ikona: '⚡' },
           { naziv: 'Degradacija', vrednost: s.meta.degraded ? 'DA' : 'NE', ikona: s.meta.degraded ? '⚠️' : '🟢' },
           { naziv: 'Kritični domeni', vrednost: s.domeniBrojKriticnih, ikona: '🚨' },
         ],
