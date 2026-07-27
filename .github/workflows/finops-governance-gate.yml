@@ -24,26 +24,31 @@ jobs:
             const pr = context.payload.pull_request;
             const body = pr.body || "";
 
-            const files = await github.paginate(
-              github.rest.pulls.listFiles,
-              {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pr.number,
-                per_page: 100
-              }
-            );
-
-            const changed = files.map(f => f.filename);
-            const automationTouched = changed.some((f) =>
+            let automationTouched = false;
+            const isAutomationFile = (f) =>
               f.startsWith(".github/workflows/") ||
               f.startsWith(".github/actions/") ||
               f === ".agent-config.json" ||
               f === "vercel.json" ||
               f === "package.json" ||
               f === "next.config.ts" ||
-              f === "tsconfig.json"
-            );
+              f === "tsconfig.json";
+
+            for (let page = 1; page <= 10; page++) {
+              const { data } = await github.rest.pulls.listFiles({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                per_page: 100,
+                page
+              });
+
+              if (!data.length) break;
+              if (data.some((f) => isAutomationFile(f.filename))) {
+                automationTouched = true;
+                break;
+              }
+            }
 
             if (!automationTouched) {
               core.info("No automation/config changes detected; FinOps gate skipped.");
