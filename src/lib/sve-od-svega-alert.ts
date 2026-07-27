@@ -51,7 +51,9 @@ export function getSveOdSvegaAlertNivo(
 export async function dispatchSveOdSvegaAlert(
   rezultat: SveOdSvega,
 ): Promise<SveOdSvegaAlertResult> {
-  const webhookUrl = process.env.ANALIZA_ALERT_WEBHOOK_URL;
+  // Podrzava namenski SVE_OD_SVEGA_ALERT_WEBHOOK_URL ili deli ANALIZA_ALERT_WEBHOOK_URL
+  const webhookUrl =
+    process.env.SVE_OD_SVEGA_ALERT_WEBHOOK_URL ?? process.env.ANALIZA_ALERT_WEBHOOK_URL;
   if (!webhookUrl) {
     return { sent: false, reason: 'webhook-not-configured' };
   }
