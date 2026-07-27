@@ -21,6 +21,7 @@ export const navigation: NavItem[] = [
   { label: 'Kompanije', href: '/kompanije', icon: '🏛️', description: 'Kompanije u ekosistemu' },
   { label: 'Proizvodi (EN)', href: '/proizvodi', icon: '📦', description: 'IT proizvodi i alati (engleski prikaz)' },
   { label: 'IT Proizvodi', href: '/it-proizvodi', icon: '⚙️', description: 'Svi IT proizvodi digitalne industrije' },
+  { label: 'Ekslatacija Proizvoda', href: '/ekslatacija-proizvoda', icon: '💸', description: 'Komercijalni lifecycle IT proizvoda — faze, modeli, kanali i potencijal prihoda' },
   { label: 'OMEGA AI', href: '/omega-ai', icon: '🧠', description: '21 OMEGA AI persona u 8 oktava' },
   { label: 'SpajaPro', href: '/spaja-pro', icon: '🚀', description: 'SpajaPro Engine verzije 6-15' },
   { label: 'Prompt', href: '/prompt', icon: '💬', description: 'Prompt sistem sa 28 promptova' },

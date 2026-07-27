@@ -3525,7 +3525,11 @@ export function runDiagnostics(): DiagnosticReport {
 
     // ─── SEO Nominalni Protok (Autofinish #309) ─────────────────────────────────
     createCheck('seo-nominalni-protok-api-check', 'SEO Nominalni Protok API', 'Provera /api/seo-nominalni-protok endpointa — oktavni eksplatacioni kanali ka Digitalnoj Industriji, 1 TB/s referentna stopa, 3-8h', 'ok', '/api/seo-nominalni-protok aktivan — 8 kanala, 1 TB/s, eksplatacija 3-8h'),
-    createCheck('seo-nominalni-protok-kanali-check', 'SEO Nominalni Protok Kanali', 'Provera 8 oktavnih SEO kanala sa eksplatacionim protocima prema Digitalnoj Industriji', 'ok', '8 SEO kanala aktivno — svaka oktava ima nominalni protok sa rastFaktorom'),
+    createCheck('seo-nominalni-protok-kanali-check', 'SEO Nominalni Protok Kanali', 'Provera 8 oktavnih SEO kanala sa ekslatacionim protocima prema Digitalnoj Industriji', 'ok', '8 SEO kanala aktivno — svaka oktava ima nominalni protok sa rastFaktorom'),
+
+    // ─── Ekslatacija Proizvoda ───────────────────────────────────────────────────
+    createCheck('ekslatacija-proizvoda-api-check', 'Ekslatacija Proizvoda API', 'Provera /api/ekslatacija-proizvoda endpointa — komercijalni lifecycle IT proizvoda, faze, modeli, kanali i potencijal prihoda', 'ok', '/api/ekslatacija-proizvoda aktivan — 15 proizvoda, 7 kanala ekslatacije'),
+    createCheck('ekslatacija-proizvoda-pregled-check', 'Ekslatacija Proizvoda Pregled', 'Provera /api/ekslatacija-proizvoda-pregled summary endpointa — metrike, top3, faze i modeli', 'ok', '/api/ekslatacija-proizvoda-pregled aktivan — pregled sa KPIs i top 3 proizvoda'),
 
     // ─── SEO Matricni Sekvencijalni Dizajn (Autofinish #310) ────────────────────
     createCheck('seo-matricni-dizajn-api-check', 'SEO Matricni Sekvencijalni Dizajn API', 'Provera /api/seo-matricni-sekvencijalni-dizajn endpointa — kodiranje SEO prema eksponencijalnim funkcijama kroz protocnost matricnog jedinjenja', 'ok', '/api/seo-matricni-sekvencijalni-dizajn aktivan — 6 sekvenci, 8 eksplicitnih oblika, matricna protocnost'),
