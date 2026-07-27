@@ -192,8 +192,8 @@ function velocityToTrendDirection(
   const acceleration = velocity - previousVelocity;
   if (velocity > 0 && acceleration > 0) return 'accelerating';
   if (velocity > 0 && acceleration <= 0) return 'rising';
-  if (velocity < 0 && acceleration < 0) return 'decelerating';
-  return 'falling';
+  if (velocity < 0 && acceleration < 0) return 'accelerating';
+  return 'decelerating';
 }
 
 function momentumFromVelocity(velocity: number): EkstrendendMomentum {

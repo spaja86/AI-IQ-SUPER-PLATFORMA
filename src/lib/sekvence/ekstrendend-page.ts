@@ -63,7 +63,10 @@ export async function getEkstrendendSekvence(): Promise<Sekvenca[]> {
           { naziv: 'Autofinish #', vrednost: AUTOFINISH_COUNT, ikona: '♻️' },
           {
             naziv: 'Prosečan confidence',
-            vrednost: `${Math.round(Object.values(e.domeni).reduce((sum, d) => sum + d.confidence, 0) / Object.keys(e.domeni).length)}%`,
+            vrednost: (() => {
+              const domenValues = Object.values(e.domeni);
+              return `${Math.round(domenValues.reduce((sum, d) => sum + d.confidence, 0) / domenValues.length)}%`;
+            })(),
             ikona: '🎛️',
           },
         ],
