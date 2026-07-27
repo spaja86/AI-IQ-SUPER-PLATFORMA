@@ -91,6 +91,7 @@ export const navigation: NavItem[] = [
   { label: 'Generator Endžina', href: '/spaja-generator-engine', icon: '🔧', description: 'SPAJA Generator za Endžine — engine generator' },
   { label: 'Digitalni Brouvzer', href: '/spaja-digitalni-brouvzer', icon: '🌐', description: 'SPAJA Digitalni Brouvzer — EKSTREMNI — sopstveni motor, bekend, providni frontend, deploy, import, export' },
   { label: 'Laboratorija', href: '/io-openui-ao-laboratorija', icon: '🔬', description: 'IOOpenUIAO Laboratorija za Simulacije' },
+  { label: 'Digitalna Observatorija', href: '/digitalna-observatorija', icon: '🔭', description: 'Standalone observatorijum modul — instrumenti, mete, sesije i alarmi' },
   { label: 'Render Medija', href: '/spaja-render-medija', icon: '🎬', description: 'SPAJA Render za Slike i Video' },
   { label: 'Gaming Platforma', href: '/io-openui-ao-gaming-platforma', icon: '🎮', description: 'IO/OPENUI/AO Gaming - SPAJA Univerzalni Endzin nad 97 igrica (io-openui-ao.vercel.app)' },
   { label: 'IO/OPENUI/AO Analitika', href: '/io-openui-ao-analitika', icon: '📊', description: 'IO/OPENUI/AO Analitika — kombinovani pregled gaming platforme i laboratorije' },

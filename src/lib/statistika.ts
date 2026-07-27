@@ -31,6 +31,7 @@ import { spajaPricingLogin } from './spaja-pricing-login';
 import { spajaDigitalniTelevizor } from './spaja-digitalni-televizor';
 import { spajaMonitoringLive } from './spaja-monitoring-live';
 import { spajaAiIqMonitoring } from './spaja-ai-iq-monitoring';
+import { digitalnaObservatorija, getObservatorijaPregled } from './digitalna-observatorija';
 import { spajaBlogFaq } from './spaja-blog-faq';
 import { spajaUnitTestovi } from './spaja-unit-testovi';
 import { omegaAiMaksimalniSuport } from './omega-ai-maksimalni-suport';
@@ -43,6 +44,7 @@ export function getStatistike() {
   const dijagnostika = runDiagnostics();
   const kastler = getKastlerSignalReadinessSummary();
   const kastlerMonetizacija = getKastlerTVMonetizationSummary();
+  const observatorijaPregled = getObservatorijaPregled();
 
   return {
     // Platforme
@@ -145,6 +147,10 @@ export function getStatistike() {
     aiIqMonitoringGresaka: spajaAiIqMonitoring.greske.length,
     aiIqMonitoringUptime: spajaAiIqMonitoring.statistika.uptimeProcenat,
     aiIqMonitoringStatus: spajaAiIqMonitoring.status,
+    observatorijaInstrumenata: digitalnaObservatorija.instrumenti.length,
+    observatorijaSesija: observatorijaPregled.ukupnoSesija,
+    observatorijaOtvorenihAlarma: observatorijaPregled.otvorenihAlarma,
+    observatorijaStatus: observatorijaPregled.status,
     blogClanaka: spajaBlogFaq.clanci.length,
     blogFaqPitanja: spajaBlogFaq.faqPitanja.length,
     blogStatus: spajaBlogFaq.status,

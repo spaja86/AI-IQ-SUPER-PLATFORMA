@@ -96,6 +96,7 @@ import { spajaRealtimeSistem as _spajaRealtimeSistem, getRealtimePregled } from 
 import { spajaRenderMedija as _spajaRenderMedija, getRenderStatistika } from './spaja-render-medija';
 import { spajaAiIqMonitoring, getMonitoringPregled } from './spaja-ai-iq-monitoring';
 import { spajaMonitoringLive } from './spaja-monitoring-live';
+import { digitalnaObservatorija, getObservatorijaPregled } from './digitalna-observatorija';
 import { spajaBlogFaq, getBlogFaqPregled } from './spaja-blog-faq';
 import { profesionalniMejlSistem } from './spaja-profesionalni-mejl';
 
@@ -237,6 +238,8 @@ export interface GlavniEndzinStatistika {
   renderEngina: number;
   renderPipelineKoraka: number;
   monitoringAlerti: number;
+  observatorijaInstrumenata: number;
+  observatorijaSesija: number;
   liveStreamova: number;
   blogClanaka: number;
   faqPitanja: number;
@@ -366,6 +369,9 @@ export interface GlavniEndzinDigitalneIndustrije {
     realtimeKanala: number;
     renderEngina: number;
     monitoringAlerti: number;
+    observatorijaNaziv: string;
+    observatorijaInstrumenata: number;
+    observatorijaOtvorenihAlarma: number;
     liveStreamova: number;
     blogClanaka: number;
     faqPitanja: number;
@@ -552,6 +558,7 @@ const _platniPregled = getPlatniSistemPregled();
 const _realtimePregled = getRealtimePregled();
 const _renderStatistika = getRenderStatistika();
 const _monitoringPregled = getMonitoringPregled();
+const _observatorijaPregled = getObservatorijaPregled();
 const _blogFaqPregled = getBlogFaqPregled();
 const _brouvzerStatistika = getBrouvzerStatistika();
 const _kompjuterStatistika = getKompjuterStatistika();
@@ -825,6 +832,7 @@ const mogucnosti: string[] = [
   `REALTIME SISTEM — ${_realtimePregled.ukupnoKanala} kanala (${_realtimePregled.aktivnihKanala} aktivnih), WebSocket + SSE`,
   `RENDER MEDIJA — ${_renderStatistika.ukupnoEngina} render engina (slike, video, 3D, VR/AR, hologram)`,
   `AI IQ MONITORING — ${_monitoringPregled.aktivnihAlerata} aktivnih alerti, produkcijski nadzor 24/7`,
+  `DIGITALNA OBSERVATORIJA — ${_observatorijaPregled.ukupnoInstrumenata} instrumenata, ${_observatorijaPregled.ukupnoSesija} sesija, ${_observatorijaPregled.otvorenihAlarma} otvorenih alarma`,
   `MONITORING LIVE — ${spajaMonitoringLive.streameri.length} streamera, live streaming aktivan`,
   `BLOG & FAQ — ${_blogFaqPregled.ukupnoClanaka} blog članaka, ${_blogFaqPregled.ukupnoPitanja} FAQ pitanja`,
   `PROFESIONALNI MEJL — ${profesionalniMejlSistem.statistika.ukupnoMejlova} mejl adresa, ${profesionalniMejlSistem.statistika.ukupnoSablona} šablona`,
@@ -945,6 +953,8 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
     renderEngina: _renderStatistika.ukupnoEngina,
     renderPipelineKoraka: _renderStatistika.ukupnoPipeline,
     monitoringAlerti: _monitoringPregled.aktivnihAlerata,
+    observatorijaInstrumenata: _observatorijaPregled.ukupnoInstrumenata,
+    observatorijaSesija: _observatorijaPregled.ukupnoSesija,
     liveStreamova: spajaMonitoringLive.streameri.length,
     blogClanaka: _blogFaqPregled.ukupnoClanaka,
     faqPitanja: _blogFaqPregled.ukupnoPitanja,
@@ -1103,6 +1113,9 @@ export const glavniEndzinDigitalneIndustrije: GlavniEndzinDigitalneIndustrije = 
     realtimeKanala: _realtimePregled.ukupnoKanala,
     renderEngina: _renderStatistika.ukupnoEngina,
     monitoringAlerti: _monitoringPregled.aktivnihAlerata,
+    observatorijaNaziv: digitalnaObservatorija.naziv,
+    observatorijaInstrumenata: _observatorijaPregled.ukupnoInstrumenata,
+    observatorijaOtvorenihAlarma: _observatorijaPregled.otvorenihAlarma,
     liveStreamova: spajaMonitoringLive.streameri.length,
     blogClanaka: _blogFaqPregled.ukupnoClanaka,
     faqPitanja: _blogFaqPregled.ukupnoPitanja,
@@ -1284,6 +1297,7 @@ export function getBackendInfrastrukturaStatus() {
     ...glavniEndzinDigitalneIndustrije.backendInfrastruktura,
     realtimePregled: _realtimePregled,
     monitoringPregled: _monitoringPregled,
+    observatorijaPregled: _observatorijaPregled,
   };
 }
 
