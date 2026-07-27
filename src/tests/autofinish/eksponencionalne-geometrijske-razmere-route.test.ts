@@ -1,9 +1,9 @@
-// Autofinish — oktavne-eksponencijalne-funkcije Route Coverage Test
-// Generisano: scripts/generate-route-tests.mjs
+// Autofinish — eksponencionalne-geometrijske-razmere Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
+import { GET } from '../../app/api/eksponencionalne-geometrijske-razmere/route';
 
 let passed = 0;
 let failed = 0;
@@ -29,9 +29,7 @@ function assert(condition: boolean, message: string): asserts condition {
 
 function assertEqual<T>(actual: T, expected: T, label?: string): void {
   if (actual !== expected) {
-    throw new Error(
-      `${label ?? 'assertEqual'}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,
-    );
+    throw new Error(`${label ?? 'assertEqual'}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
   }
 }
 
@@ -39,60 +37,43 @@ function isObject(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null;
 }
 
-const _lintUseHelpers = [assertEqual, isObject];
-void _lintUseHelpers;
-import { GET } from '../../app/api/oktavne-eksponencijalne-funkcije/route';
-
 async function runTests(): Promise<void> {
-  console.log('\n🏁 oktavne-eksponencijalne-funkcije — Route Coverage Test Suite\n');
+  console.log('\n🏁 eksponencionalne-geometrijske-razmere — Route Coverage Test Suite\n');
 
-  const routePath = path.resolve(process.cwd(), 'src/app/api/oktavne-eksponencijalne-funkcije/route.ts');
+  const routePath = path.resolve(process.cwd(), 'src/app/api/eksponencionalne-geometrijske-razmere/route.ts');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(routePath), `${routePath} ne postoji`);
   });
 
-  await test('Ruta eksportuje GET i response helper', () => {
+  await test('Ruta eksportuje GET', () => {
     const src = fs.readFileSync(routePath, 'utf8');
     assert(src.includes('export async function GET'), 'Nedostaje GET handler');
-    assert(
-      src.includes('NextResponse.json') || src.includes('Response.json') || src.includes('apiSuccess'),
-      'Nedostaje JSON response helper',
-    );
   });
 
-  await test('GET smoke provera', async () => {
+  await test('GET vraća očekivanu strukturu', async () => {
     const response = await GET();
     assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
 
-    const xAppVersion = response.headers.get('X-App-Version');
-    if (xAppVersion !== null) {
-      assertEqual(xAppVersion, APP_VERSION, 'X-App-Version');
-    }
+    const body = await response.clone().json();
+    assert(isObject(body), 'body mora biti objekat');
+    assertEqual(body['verzija'], APP_VERSION, 'verzija');
 
-    let body: unknown = null;
-    try {
-      body = await response.clone().json();
-    } catch {
-      body = null;
-    }
+    assert(isObject(body['sazetak']), 'sazetak mora biti objekat');
+    assert(isObject(body['detalji']), 'detalji mora biti objekat');
 
-    if (isObject(body)) {
-      if (typeof body['status'] === 'string') {
-        assert((body['status'] as string).length > 0, 'status string');
-      }
+    const detalji = body['detalji'];
+    assert(isObject(detalji), 'detalji object check');
+    assertEqual(detalji['scope'], 'kombinovano', 'scope');
+    assertEqual(detalji['oktavniModel'], '12-oktava', 'oktavniModel');
 
-      if (typeof body['verzija'] === 'string') {
-        assertEqual(body['verzija'], APP_VERSION, 'verzija');
-      } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
-        assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
-      }
+    const oktavneRazmere = detalji['oktavneRazmere'];
+    assert(isObject(oktavneRazmere), 'oktavneRazmere mora biti objekat');
+    assert(Array.isArray(oktavneRazmere['ratioMatrica']), 'ratioMatrica mora biti niz');
 
-      assert(isObject(body['geometrijskeRazmere']), 'geometrijskeRazmere mora biti objekat');
-      assert(Array.isArray(body['geometrijskaRatioMatrica']), 'geometrijskaRatioMatrica mora biti niz');
-      assert(typeof body['kombinovaniIndeks'] === 'number', 'kombinovaniIndeks mora biti broj');
-      assert(isObject(body['validacijaRazmera']), 'validacijaRazmera mora biti objekat');
-    }
+    const dimRazmere = detalji['dimenzionalneRazmere'];
+    assert(isObject(dimRazmere), 'dimenzionalneRazmere mora biti objekat');
+    assert(Array.isArray(dimRazmere['prelazi']), 'prelazi moraju biti niz');
   });
 
   await test('Konstante su dostupne', () => {
@@ -102,8 +83,7 @@ async function runTests(): Promise<void> {
     assert(typeof TOTAL_ROUTES === 'number' && TOTAL_ROUTES > 0, 'TOTAL_ROUTES');
   });
 
-  console.log(`
-🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
+  console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);
   if (failures.length > 0) {
     console.error('\n❌ Neuspešni testovi:');
     failures.forEach((f) => console.error(`  • ${f}`));

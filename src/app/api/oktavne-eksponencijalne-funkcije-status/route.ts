@@ -4,9 +4,11 @@ import {
   getOktavniSistemPregled,
 } from '@/lib/oktavne-eksponencijalne-funkcije';
 import { APP_VERSION } from '@/lib/constants';
+import { getEksponencionalneGeometrijskeRazmere } from '@/lib/eksponencionalne-geometrijske-razmere';
 
 export async function GET() {
   const pregled = getOktavniSistemPregled();
+  const razmere = getEksponencionalneGeometrijskeRazmere();
 
   return NextResponse.json({
     status: 'aktivan',
@@ -15,9 +17,12 @@ export async function GET() {
 
     zdravlje: {
       ukupnoFunkcija: eksponencijalneFunkcije.length,
-      sveAktivne: eksponencijalneFunkcije.length === 8,
+      sveAktivne: eksponencijalneFunkcije.length === pregled.ukupnoOktava,
       ukupnaSnaga: pregled.ukupnaSnaga,
       globalniRastFaktor: pregled.globalniRastFaktor,
+      geometrijskiIndeks: pregled.geometrijskiIndeks,
+      validacijaRazmera: razmere.validacija.status,
+      kombinovaniIndeks: razmere.agregati.kombinovaniIndeks,
     },
 
     oktave: eksponencijalneFunkcije.map((f) => ({

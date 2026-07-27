@@ -10,12 +10,14 @@ import {
   getTVKanaliKrozDimenzije,
   getTVKrozDimenzijePregled,
 } from '@/lib/dimenzije';
+import { getEksponencionalneGeometrijskeRazmere } from '@/lib/eksponencionalne-geometrijske-razmere';
 
 const aktivnih = getBrojAktivnihDimenzija();
 const spoljasnjihD = getBrojSpoljasnjihDimenzija();
 const unutrasnjihD = getBrojUnutrasnjihDimenzija();
 const tvKrozDimenzije = getTVKanaliKrozDimenzije();
 const tvPregled = getTVKrozDimenzijePregled();
+const razmere = getEksponencionalneGeometrijskeRazmere();
 
 export const dimenzijeSekvence: Sekvenca[] = [
   {
@@ -65,7 +67,26 @@ export const dimenzijeSekvence: Sekvenca[] = [
         { naziv: 'Forme', vrednost: geometrijskeForme.length, ikona: '🔮' },
         { naziv: 'Zakoni', vrednost: zakoniManifestacije.length, ikona: '⚡' },
         { naziv: 'TV kroz dimenzije', vrednost: tvPregled.ukupnoTVKanala, ikona: '📺' },
+        { naziv: 'Indeks razmera', vrednost: razmere.dimenzionalneRazmere.globalniIndeks, ikona: '📐' },
       ],
+    },
+  },
+  {
+    id: 'dimenzije-razmere',
+    tip: 'tabela',
+    naslov: '📐 Geometrijske razmere dimenzija',
+    podnaslov: `Trend: ${razmere.dimenzionalneRazmere.trend.smer} | Kombinovani indeks: ${razmere.agregati.kombinovaniIndeks}`,
+    redosled: 3.6,
+    podaci: {
+      zaglavlje: ['Od', 'Ka', 'Stepeni razmera', 'Δ stepeni', 'Snaga razmera', 'Status'],
+      redovi: razmere.dimenzionalneRazmere.prelazi.map((p) => [
+        p.od,
+        p.ka,
+        String(p.stepeniRazmera),
+        String(p.deltaStepeni),
+        String(p.snagaRazmera),
+        p.status,
+      ]),
     },
   },
   {

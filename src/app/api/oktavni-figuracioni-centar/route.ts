@@ -6,10 +6,12 @@ import {
 } from '@/lib/oktavne-eksponencijalne-funkcije';
 import { APP_VERSION } from '@/lib/constants';
 import { oktavniNazivi } from '@/lib/omega-ai';
+import { getEksponencionalneGeometrijskeRazmere } from '@/lib/eksponencionalne-geometrijske-razmere';
 
 export async function GET() {
   const centar = getFiguracioniCentar();
   const pregled = getOktavniSistemPregled();
+  const razmere = getEksponencionalneGeometrijskeRazmere();
 
   return NextResponse.json({
     status: 'aktivan',
@@ -44,6 +46,8 @@ export async function GET() {
       ukupnaSnaga: pregled.ukupnaSnaga,
       ukupnoPersona: pregled.ukupnoPersona,
       globalniRastFaktor: pregled.globalniRastFaktor,
+      geometrijskiIndeks: pregled.geometrijskiIndeks,
+      kombinovaniIndeksRazmera: razmere.agregati.kombinovaniIndeks,
     },
 
     funkcije: eksponencijalneFunkcije.map((f) => ({
