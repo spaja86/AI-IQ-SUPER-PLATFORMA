@@ -28,6 +28,7 @@ export const navigation: NavItem[] = [
   { label: 'SILJA', href: '/silja', icon: '⚡', description: 'Sistemska Inteligentna Logika Jezgra Automatizacije — cross-domain automation-intelligence engine za 6 operativnih domena' },
   { label: 'MIKI MAUS I PAJA PATAK', href: '/miki-maus-i-paja-patak', icon: '🐭', description: 'Narativni modul o partnerstvu, ritmu i timskoj koordinaciji kroz sekvence i API izlaz' },
   { label: 'SNUPI', href: '/snupi', icon: '🔗', description: 'Sistemska Napredna Unifikacija Procesnih Tokova — cross-domain unifikacioni engine za 6 operativnih tokova' },
+  { label: 'AUTO', href: '/auto', icon: '🤖', description: 'Autonomna Upravljačka Transformativna Orkestracija — cross-domain engine za 6 domena autonomnih operativnih procesa' },
   { label: 'Prompt', href: '/prompt', icon: '💬', description: 'Prompt sistem sa 28 promptova' },
   { label: 'Igrice', href: '/igrice', icon: '🎮', description: '97 igrica u 18 kategorija' },
   { label: 'Gejming Industrija', href: '/gejming-industrija', icon: '🕹️', description: 'Nad-sloj gejming industrije — katalog, lifecycle, creation pipeline i distribucija' },
