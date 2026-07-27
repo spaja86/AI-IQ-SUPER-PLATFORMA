@@ -278,6 +278,7 @@ Ektracionalni akcelatorski signal krojen od matričnog jedinjenja kolocentrično
 - 21 OMEGA AI persona u 8 oktavnih nivoa — svaka sa SpajaPro Prompt-om
 - SpajaPro engine: 10 verzija (6-15) — zamena za ChatGPT
 - Prompt sistem: 28 Prompt-ova u 10 kategorija — Prompt je svuda
+- STORY OF LIFE modul — narativ evolucije sa sekvencama i timeline prikazom
 - Auto-Popravka sistem (11 dijagnostičkih provera, repair engine, upgrade engine)
 - Evolucioni motor (dijagnostika + preporuke + akcije)
 - Proksi mreža (6 signala, 5 čvorova, hibridna topologija)
@@ -323,10 +324,10 @@ kartice: platforme.map((p) => ({
 ## Rute
 
 ### Stranice
-/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /prompt, /spaja-pro, /auto-popravka, /proksi, /mobilna-mreza
+/, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /prompt, /spaja-pro, /story-of-life, /auto-popravka, /proksi, /mobilna-mreza
 
 ### API
-/api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai, /api/prompt, /api/spaja-pro, /api/cron/evolucija, /api/cron/zdravlje
+/api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai, /api/prompt, /api/spaja-pro, /api/story-of-life, /api/cron/evolucija, /api/cron/zdravlje
 
 ## Pokretanje
 
