@@ -57,8 +57,8 @@ const INDUKCIJA_CONFIDENCE_VARIANCE = {
 const VELOCITY_ACCELERATION_EPSILON = 0.001;
 const MOMENTUM_DIRECTION_THRESHOLD = 2;
 
-function assertIndukcijaWeights(): void {
-  const weightSum = Object.values(INDUKCIJA_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
+export function assertIndukcijaWeights(weights: Record<string, number> = INDUKCIJA_WEIGHTS): void {
+  const weightSum = Object.values(weights).reduce((sum, weight) => sum + weight, 0);
   if (Math.abs(weightSum - 1) > 0.0001) {
     throw new Error(`INDUKCIJA_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${weightSum})`);
   }
@@ -163,7 +163,7 @@ function computeVelocity(current: number, previous: number | null): number {
   return Math.max(-100, Math.min(100, current - previous));
 }
 
-function velocityToTrendDirection(
+export function velocityToTrendDirection(
   velocity: number,
   previousVelocity: number | null,
 ): IndukcijaTrendDirection {
@@ -181,13 +181,13 @@ function velocityToTrendDirection(
   return 'falling';
 }
 
-function momentumFromVelocity(velocity: number): IndukcijaMomentum {
+export function momentumFromVelocity(velocity: number): IndukcijaMomentum {
   if (velocity > MOMENTUM_DIRECTION_THRESHOLD) return 'bullish';
   if (velocity < -MOMENTUM_DIRECTION_THRESHOLD) return 'bearish';
   return 'neutral';
 }
 
-function safeCallSync<T>(
+export function safeCallSync<T>(
   sourceName: string,
   degradedSources: string[],
   fn: () => T,
