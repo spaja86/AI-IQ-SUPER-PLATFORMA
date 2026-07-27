@@ -118,7 +118,7 @@ export function getMirorSekvence(): Sekvenca[] {
       redosled: 6,
       podaci: {
         bedz: `${momentumIkona(m.trendMomentum)} ${m.trendMomentum.toUpperCase()}`,
-        opis: `MIROR reflektuje stanje operativnih ritmova kroz velocity ${m.ukupnaVelocity >= 0 ? '+' : ''}${m.ukupnaVelocity}. Kritični domeni: ${m.kriticniDomeni.length > 0 ? m.kriticniDomeni.join(', ') : 'nema'} .`,
+        opis: `MIROR reflektuje stanje operativnih ritmova kroz velocity ${m.ukupnaVelocity >= 0 ? '+' : ''}${m.ukupnaVelocity}. Kritični domeni: ${m.kriticniDomeni.length > 0 ? m.kriticniDomeni.join(', ') : 'nema'}.`,
         dugme: { tekst: 'Otvori MIROR API', href: '/api/miror' },
       },
     },
