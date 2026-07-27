@@ -20,6 +20,8 @@ export interface SiljaSnapshot {
 
 export const SILJA_MAX_SNAPSHOTS = 10;
 
+// Store je ephemeralan: resetuje se na restart servera i nije deljen između
+// više serverless/runtime instanci, pa istorija važi samo za trenutni proces.
 let snapshots: SiljaSnapshot[] = [];
 
 export function getSiljaSnapshots(): SiljaSnapshot[] {

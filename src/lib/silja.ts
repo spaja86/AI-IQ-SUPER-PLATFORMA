@@ -50,9 +50,11 @@ const SILJA_CONFIDENCE_VARIANCE = {
 } as const;
 const SILJA_DEGRADATION_THRESHOLD = 0.7;
 
-const weightSum = Object.values(SILJA_WEIGHTS).reduce((sum, w) => sum + w, 0);
-if (Math.abs(weightSum - 1) > 0.0001) {
-  throw new Error(`SILJA_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${weightSum})`);
+function assertSiljaWeights(): void {
+  const weightSum = Object.values(SILJA_WEIGHTS).reduce((sum, w) => sum + w, 0);
+  if (Math.abs(weightSum - 1) > 0.0001) {
+    throw new Error(`SILJA_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${weightSum})`);
+  }
 }
 
 export type SiljaOcena = 'ODLICNO' | 'SPREMNO' | 'DELIMICNO' | 'POTREBNO_POBOLJSANJE';
@@ -164,11 +166,13 @@ function velocityToTrendDirection(
     return velocity > 0 ? 'rising' : 'falling';
   }
   const acceleration = velocity - previousVelocity;
-  if (velocity > 0 && acceleration > epsilon) return 'accelerating';
-  if (velocity > 0) return 'rising';
-  if (acceleration < -epsilon) return 'falling';
-  if (Math.abs(acceleration) <= epsilon) return 'falling';
-  return 'decelerating';
+  if (velocity > 0) {
+    if (acceleration > epsilon) return 'accelerating';
+    if (acceleration < -epsilon) return 'decelerating';
+    return 'rising';
+  }
+  if (acceleration > epsilon) return 'decelerating';
+  return 'falling';
 }
 
 function momentumFromVelocity(velocity: number): SiljaMomentum {
@@ -192,6 +196,7 @@ function safeCallSync<T>(
 }
 
 export function buildSilja(): SiljaRezultat {
+  assertSiljaWeights();
   const nowIso = new Date().toISOString();
   const degradedSources: string[] = [];
 
