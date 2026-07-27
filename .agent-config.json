@@ -69,5 +69,31 @@
     "autoMergeAllowed": ["hotfix/*"],
     "protectedBranches": ["main", "develop"],
     "requireAllChecks": true
+  },
+  "finops": {
+    "sourceOfTruth": {
+      "productionDeploy": "vercel-git-integration",
+      "githubActionsRole": "quality-gates-only"
+    },
+    "monthlyBudget": {
+      "currency": "USD",
+      "alertsPercent": [50, 75, 90, 100]
+    },
+    "ownership": {
+      "team": "IO-OPENUI-AO / SUPER-PLATFORMA",
+      "costCenterTagRequired": true
+    },
+    "kpis": [
+      "cost-per-deployment",
+      "cost-per-active-user",
+      "mttr",
+      "build-duration",
+      "deployment-success-rate"
+    ],
+    "reviewCadence": {
+      "monthlyOpsReview": true,
+      "quarterlyBusinessReview": true,
+      "incidentEscalationChannel247": true
+    }
   }
 }

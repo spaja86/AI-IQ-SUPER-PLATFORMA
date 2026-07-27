@@ -77,7 +77,7 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | Sloj | Mehanizam | Interval | Opis |
 |------|-----------|----------|------|
 | 🧬 Evolucija | GitHub Actions cron | Svakih 6h | Dijagnostika + Issue kreiranje |
-| 🏗️ CI/CD | GitHub Actions push | Svaki push | Build + Lint + TypeCheck |
+| 🏗️ CI/CD | GitHub Actions push | Svaki push | Lint + TypeCheck + Test quality gate |
 | 🔄 Auto-merge | GitHub Actions | Po završetku CI | Merge passing PR-ova |
 | 📦 Zavisnosti | Dependabot | Dnevno | Update npm + Actions |
 | 🔀 Branch sync | GitHub Actions cron | Dnevno u 03:00 | Sinhronizacija grana |
@@ -92,6 +92,8 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | 🏗️ Omega Build | `omega-auto-build.yml` | Push + PR |
 | 🔄 Omega Auto Merge | `omega-auto-merge.yml` | CI success |
 | 🔀 Omega Branch Sync | `omega-branch-sync.yml` | Cron dnevno + manual |
+| 💸 FinOps Governance Gate | `finops-governance-gate.yml` | PR sa izmenama automacije/config-a |
+| ▲ Vercel Deploy Hook | `vercel-deploy.yml` | Manual fallback (`workflow_dispatch`) |
 
 ### Cron Jobs (scheduler-agnostic)
 
@@ -381,6 +383,30 @@ This repository uses documented automation agents for CI, security, analytics, a
 - Codex marketplace installs such as `vercel/vercel-plugin` and Codex-specific skills are optional user-scoped tooling and require a working `codex` CLI on the target machine.
 - In Copilot cloud agent runs, Codex-specific installs are skipped automatically when `codex` is unavailable instead of failing repository setup.
 
+### CI troubleshooting — "Setup step failed (no output captured)" / `startup_failure`
+
+When a workflow run shows **`startup_failure`** with **zero jobs created** (no step logs), the problem is **infrastructure- or policy-level** — it is NOT caused by workflow file content or code changes.
+
+**Diagnostic checklist:**
+
+| Step | Action |
+|------|--------|
+| 1 | Check [GitHub Status](https://githubstatus.com) for incidents |
+| 2 | Repo → Settings → Actions → General — confirm Actions are **enabled** |
+| 3 | Repo → Settings → Billing → Actions — check runner-minute quota |
+| 4 | Check org-level Actions policy if the repo is inside an organization |
+| 5 | Contact GitHub Support if all of the above look healthy |
+
+**Key diagnostic signals:**
+- A `startup_failure` run has **`"jobs": []`** (zero jobs) in the API response — this means GitHub never assigned a runner, so no step output will ever appear.
+- If ALL workflows across the repo show `startup_failure` simultaneously (like `copilot-setup-steps`, `omega-auto-build`, `vercel-deploy`), this confirms a runner-availability or account-level issue rather than a per-workflow bug.
+- The **🏥 CI Health Canary** workflow (`.github/workflows/ci-health.yml`) runs daily at 06:00 UTC as a sentinel — if it succeeds, runners are available; if it also shows `startup_failure`, the problem is confirmed infrastructure/policy.
+
+**What will NOT fix `startup_failure`:**
+- Updating action versions (e.g., `actions/checkout@v4` → `@v5`)
+- Changing workflow YAML content
+- Fixing TypeScript or lint errors
+
 ### Source of truth
 
 | Document | Purpose |
@@ -388,6 +414,13 @@ This repository uses documented automation agents for CI, security, analytics, a
 | [`AGENTS.md`](./AGENTS.md) | Full agent policy, rules, and registry |
 | [`.agent-config.json`](./.agent-config.json) | Per-repo agent behavior flags |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
+| [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md) | FinOps, KPI, enterprise collaboration model |
+
+### FinOps source of truth (GitHub + Vercel)
+
+- **Deploy/build source of truth:** Vercel Git integration.
+- **GitHub Actions source of truth:** quality gates + governance checks.
+- Automation/config PR-ovi moraju imati cost impact i rollback plan sekciju u PR opisu.
 
 ## ☁️ Multi-provider napomena
 

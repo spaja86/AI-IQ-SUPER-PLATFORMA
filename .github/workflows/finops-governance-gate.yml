@@ -1,0 +1,78 @@
+name: 💸 FinOps Governance Gate
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: finops-gate-${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  finops-gate:
+    name: 💸 Cost & Rollback Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔍 Validate PR governance fields for automation/config changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || "";
+
+            let automationTouched = false;
+            const isAutomationFile = (f) =>
+              f.startsWith(".github/workflows/") ||
+              f.startsWith(".github/actions/") ||
+              f === ".agent-config.json" ||
+              f === "vercel.json" ||
+              f === "package.json" ||
+              f === "next.config.ts" ||
+              f === "tsconfig.json";
+
+            let page = 1;
+            while (true) {
+              const { data } = await github.rest.pulls.listFiles({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                per_page: 100,
+                page
+              });
+
+              if (!data.length) break;
+              if (data.some((f) => isAutomationFile(f.filename))) {
+                automationTouched = true;
+                break;
+              }
+              page += 1;
+            }
+
+            if (!automationTouched) {
+              core.info("No automation/config changes detected; FinOps gate skipped.");
+              return;
+            }
+
+            const requiredPatterns = [
+              /cost impact/i,
+              /rollback plan/i,
+              /kpi impact/i,
+              /cost center\s*\/\s*owner/i
+            ];
+
+            const missing = requiredPatterns
+              .filter((pattern) => !pattern.test(body))
+              .map((pattern) => pattern.toString());
+            if (missing.length) {
+              core.setFailed(
+                "Automation/config PRs must include cost governance fields in PR body. Missing: " +
+                missing.join(", ")
+              );
+              return;
+            }
+
+            core.info("FinOps governance fields detected.");

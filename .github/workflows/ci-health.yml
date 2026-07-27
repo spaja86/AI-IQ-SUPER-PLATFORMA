@@ -1,0 +1,82 @@
+# ═══════════════════════════════════════════════════════════
+# 🏥 CI Health Canary — Sentinel za dostupnost runner-a
+# ═══════════════════════════════════════════════════════════
+#
+# Svrha: Najjednostavniji mogući workflow koji potvrđuje da su
+# GitHub Actions runner-i dostupni i da workflows startuju.
+#
+# Ako ovaj workflow prikazuje "startup_failure", problem je
+# infrastrukturne/policy prirode (runner kvota, Actions
+# deaktiviran na nivou repo/org), a NE greška u kodu.
+#
+# Operativni odgovor za "startup_failure":
+#   1. Provjeri GitHub Status: https://githubstatus.com
+#   2. Provjeri Actions enabled: Settings → Actions → General
+#   3. Provjeri runner kvotu: Settings → Billing → Actions usage
+#   4. Provjeri org-level Actions policy ako je primjenljivo
+#   5. Ako sve prethodno izgleda OK — kontaktiraj GitHub Support
+#
+# Ovaj sentinel pokreće se jednom dnevno i na ručni zahtjev.
+#
+
+name: 🏥 CI Health Canary
+
+on:
+  schedule:
+    # Svako jutro u 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      napomena:
+        description: 'Opcionalna napomena o razlogu pokretanja'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  canary:
+    name: 🏥 Runner Canary Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: ✅ Runner je dostupan
+        run: |
+          echo "## 🏥 CI Health Canary — $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "✅ Runner je dostupan i workflow je uspješno pokrenuo." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parametar | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Runner OS** | \`$RUNNER_OS\` / \`$RUNNER_ARCH\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Ref** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Vreme** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "${{ github.event.inputs.napomena }}" ]; then
+            echo "| **Napomena** | ${{ github.event.inputs.napomena }} |" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Dijagnostika okruženja" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "Kernel: $(uname -r)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Disk:   $(df -h / | tail -1 | awk '{print $4\" free od \"$2}')" >> "$GITHUB_STEP_SUMMARY"
+          echo "Mem:    $(free -h | awk '/^Mem:/{print $7\" free od \"$2}')" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 📋 Operativna uputstva za startup_failure
+        if: always()
+        run: |
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "---" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 📋 Ako vidite startup_failure na ovom ili drugim workflow-ima:" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Korak | Akcija |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 1 | Provjerite [GitHub Status](https://githubstatus.com) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 2 | Settings → Actions → General → Actions permissions |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 3 | Settings → Billing → Actions — provjeri kvotu |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 4 | Org-level policy ako postoji |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 5 | Kontaktiraj GitHub Support ako sve prethodno izgleda OK |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "*Napomena: startup_failure s 0 job-ova je uvijek infrastrukturni/policy problem — nije uzrokovan sadržajem workflow fajlova.*" >> "$GITHUB_STEP_SUMMARY"

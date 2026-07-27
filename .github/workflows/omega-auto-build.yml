@@ -2,8 +2,9 @@
 # 🏗️ OMEGA Auto Build — CI Pipeline
 # ═══════════════════════════════════════════════════════════
 #
-# Automatski build, lint, i type-check na svaki push/PR.
-# Obezbeđuje da evolucione promene ne kvare sistem.
+# Automatski CI quality gate na svaki push/PR.
+# Source of truth za deploy/build je Vercel; ovaj workflow radi
+# quality validaciju (type-check, lint, test), bez deploy koraka.
 #
 
 name: 🏗️ Omega Build
@@ -13,6 +14,10 @@ on:
     branches: ['main', 'copilot/**']
   pull_request:
     branches: ['main']
+
+concurrency:
+  group: omega-build-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -31,6 +36,24 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
+      - name: 🔍 Preflight — Okruženje i verzije
+        run: |
+          echo "## 🔍 Preflight — Okruženje" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parametar | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Runner** | \`$RUNNER_OS\` / \`$RUNNER_ARCH\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Node.js** | \`$(node --version)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **npm** | \`$(npm --version)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Workflow** | \`${{ github.workflow }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Ref** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Vreme** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **actions/checkout** | \`v4\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **actions/setup-node** | \`v4 (Node 22)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
       - name: 📥 Instalacija zavisnosti
         run: npm ci
 
@@ -43,13 +66,10 @@ jobs:
       - name: 🧪 Smoke testovi (go-live gate)
         run: npx tsx src/tests/smoke/smoke.test.ts
 
-      - name: 🏗️ Next.js Build
-        run: npx next build
-
       - name: 📊 Build izveštaj
         if: always()
         run: |
-          echo "## 🏗️ Build Izveštaj" >> "$GITHUB_STEP_SUMMARY"
+          echo "## 🏗️ CI Quality Izveštaj" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Branch:** ${{ github.ref_name }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Commit:** ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
