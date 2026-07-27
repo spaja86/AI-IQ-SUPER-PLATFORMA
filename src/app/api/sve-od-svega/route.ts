@@ -11,6 +11,7 @@ import {
   SVE_OD_SVEGA_CONTRACT_VERSION,
   SVE_OD_SVEGA_MODEL_VERSION,
 } from '@/lib/sve-od-svega';
+import { getSveOdSvegaHistory } from '@/lib/sve-od-svega-store';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,13 +21,17 @@ const RATE_WINDOW_SECONDS = 60;
 /**
  * GET /api/sve-od-svega
  *
- * Vraća SVE OD SVEGA — ultimativni agregirani signal koji unifikuje:
+ * Vraca SVE OD SVEGA — ultimativni agregirani signal koji unifikuje:
  *   - Analiza Svega
  *   - Potencijal Svega Ovoga Do Sada
  *   - Procesuiranje Svega
  *   - Autofinish Orkestracija
+ *   - Gaming Industrija
+ *   - Issuer Licensing
  *
- * @returns SveOdSvega | 429 | 500
+ * Response ukljucuje `history` niz poslednjih snapshots iz KV store-a.
+ *
+ * @returns SveOdSvega & { history } | 429 | 500
  */
 export async function GET(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
@@ -41,8 +46,12 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const rezultat = await buildSveOdSvega();
-    const response = apiSuccess(rezultat, 200);
+    const [rezultat, history] = await Promise.all([
+      buildSveOdSvega(),
+      getSveOdSvegaHistory(),
+    ]);
+
+    const response = apiSuccess({ ...rezultat, history }, 200);
     response.headers.set('X-Sve-Od-Svega-Contract-Version', SVE_OD_SVEGA_CONTRACT_VERSION);
     response.headers.set('X-Sve-Od-Svega-Model-Version', SVE_OD_SVEGA_MODEL_VERSION);
     return response;
@@ -50,3 +59,4 @@ export async function GET(req: NextRequest) {
     return apiInternalError('sve-od-svega', error);
   }
 }
+
