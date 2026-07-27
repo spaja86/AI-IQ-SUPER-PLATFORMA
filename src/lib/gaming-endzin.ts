@@ -18,7 +18,7 @@ import { MASTER_POKER_GAME_ID } from './poker/types';
 
 // ─── Runner tipovi ─────────────────────────────────────────────────
 
-export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan';
+export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan' | 'makin';
 
 // ─── Dimenzionalni parametri ───────────────────────────────────────
 
@@ -144,6 +144,7 @@ export function getRunnerTip(kategorija: KategorijaIgrice): RunnerTip {
 export function getRunnerTipZaIgricu(igrica: Igrica): RunnerTip {
   if (igrica.id === MASTER_POKER_GAME_ID) return 'poker';
   if (igrica.id === 'igrica-ekstreminacija-eglana') return 'eglan';
+  if (igrica.id === 'igrica-makin') return 'makin';
   return getRunnerTip(igrica.kategorija);
 }
 

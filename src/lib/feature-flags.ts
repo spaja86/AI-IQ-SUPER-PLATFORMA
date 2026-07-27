@@ -141,6 +141,15 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     activeFrom: '2026-07-25',
     meta: { owner: 'gaming-team', ticket: 'SPAJA-3004' },
   },
+  {
+    id: 'gaming-makin-runner-v1',
+    naziv: 'MAKIN Runner v1',
+    opis: 'Aktivira namenski fintech borbeni runner sa Market Maker i Manipulator karakterima, dimenzionalnim spread napadima i AIIQ-Coin nagradama.',
+    strategy: 'enabled',
+    envs: ['all'],
+    activeFrom: '2026-07-27',
+    meta: { owner: 'gaming-team', ticket: 'SPAJA-3005' },
+  },
   // ── Security ──────────────────────────────────────────────────
   {
     id: 'security-csp-headers',
