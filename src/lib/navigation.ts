@@ -25,6 +25,7 @@ export const navigation: NavItem[] = [
   { label: 'OMEGA AI', href: '/omega-ai', icon: '🧠', description: '21 OMEGA AI persona u 8 oktava' },
   { label: 'SpajaPro', href: '/spaja-pro', icon: '🚀', description: 'SpajaPro Engine verzije 6-15' },
   { label: 'Story of Life', href: '/story-of-life', icon: '📖', description: 'Narativ evolucije i životnog ciklusa AI IQ SUPER PLATFORMA sistema' },
+  { label: 'SILJA', href: '/silja', icon: '⚡', description: 'Sistemska Inteligentna Logika Jezgra Automatizacije — cross-domain automation-intelligence engine za 6 operativnih domena' },
   { label: 'MIKI MAUS I PAJA PATAK', href: '/miki-maus-i-paja-patak', icon: '🐭', description: 'Narativni modul o partnerstvu, ritmu i timskoj koordinaciji kroz sekvence i API izlaz' },
   { label: 'Prompt', href: '/prompt', icon: '💬', description: 'Prompt sistem sa 28 promptova' },
   { label: 'Igrice', href: '/igrice', icon: '🎮', description: '97 igrica u 18 kategorija' },
