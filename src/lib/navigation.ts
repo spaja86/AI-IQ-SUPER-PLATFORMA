@@ -157,6 +157,7 @@ export const navigation: NavItem[] = [
   { label: 'Spaja Baza Control', href: '/spaja-baza-control', icon: '🗄️', description: 'Kontrolni centar Spaja baze znanja — status indeksiranja i zdravlje' },
   { label: 'Vercel Priključenje', href: '/vercel-priklucenje', icon: '▲', description: 'Vercel priključenje i deploy konfiguracija platforme' },
   { label: 'Ekstrimli Ekstrem', href: '/ekstrimli-ekstrem', icon: '⚡', description: 'Ekstremno procesuiranje i operativna spremnost — signal koji preseca sve limite' },
+  { label: 'EKSTRENDEND', href: '/ekstrendend', icon: '🌊', description: 'Ekstremni Trend Endzin — cross-domain trend velocity, momentum i projektovana readiness svih 8 domena' },
   { label: 'Pentracija', href: '/pentracija', icon: '🔍', description: 'Pentracija — dubinska analiza i probe test ekosistema' },
   { label: 'Panetracija 2', href: '/panetracija-2', icon: '🔬', description: 'V2 panetracija — proširena dijagnostika sa SLA i trend praćenjem' },
   { label: 'Prijava', href: '/login', icon: '🔑', description: 'Prijava na platformu — pristup Digitalnoj Industriji' },
