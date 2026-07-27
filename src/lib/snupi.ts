@@ -1,7 +1,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — SNUPI
 // Kompanija SPAJA — Digitalna Industrija
 //
-// Sistemska Napredna Unifikacija Procesnih Inteligentnihih tokova —
+// Sistemska Napredna Unifikacija Procesnih Inteligentnih tokova —
 // cross-domain unifikacioni engine za 6 operativnih tokova:
 //   - Sinhronizacija
 //   - Normalizacija
@@ -56,6 +56,8 @@ const SNUPI_CONFIDENCE_VARIANCE = {
   delimicno: 2,
   potrebnoPoboljsanje: 0,
 } as const;
+const UNIFIKACIJA_API_ROUTE_DIVISOR = 60;
+const PROCESUIRANJE_AUTOFINISH_DIVISOR = 60;
 
 function assertSnupiWeights(): void {
   const weightSum = Object.values(SNUPI_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
@@ -218,7 +220,7 @@ function computeNormalizacijaScore(): number {
 function computeUnifikacijaScore(): number {
   return clampScore(
     58
-    + Math.min(22, TOTAL_API_ROUTES / 60)
+    + Math.min(22, TOTAL_API_ROUTES / UNIFIKACIJA_API_ROUTE_DIVISOR)
     + Math.min(20, TOTAL_GEJMING_ENTITETA / 4),
   );
 }
@@ -226,7 +228,7 @@ function computeUnifikacijaScore(): number {
 function computeProcesuiranjeScore(): number {
   return clampScore(
     55
-    + Math.min(25, AUTOFINISH_COUNT / 60)
+    + Math.min(25, AUTOFINISH_COUNT / PROCESUIRANJE_AUTOFINISH_DIVISOR)
     + Math.min(20, TOTAL_DIAGNOSTIKA / 180),
   );
 }
@@ -415,7 +417,7 @@ export function buildSnupi(): SnupiRezultat {
   });
 
   return {
-    sistem: 'SNUPI — Sistemska Napredna Unifikacija Procesnih Inteligentnihih tokova',
+    sistem: 'SNUPI — Sistemska Napredna Unifikacija Procesnih Inteligentnih tokova',
     kompanija: KOMPANIJA,
     verzija: APP_VERSION,
     autofinishBroj: AUTOFINISH_COUNT,

@@ -35,7 +35,7 @@ export function getSnupiSekvence(): Sekvenca[] {
     {
       id: 'snupi-hero',
       tip: 'hero',
-      naslov: '🔗 SNUPI — SISTEMSKA NAPREDNA UNIFIKACIJA PROCESNIH INTELIGENTNIHIH TOKOVA',
+      naslov: '🔗 SNUPI — SISTEMSKA NAPREDNA UNIFIKACIJA PROCESNIH INTELIGENTNIH TOKOVA',
       podnaslov: `${KOMPANIJA} — Ukupan Score: ${s.ukupanScore}% • Velocity: ${formatVelocity(s.ukupnaVelocity)} • ${momentumIkona(s.trendMomentum)} ${s.trendMomentum.toUpperCase()}`,
       ikona: '🔗',
       redosled: 1,
@@ -138,7 +138,7 @@ export function getSnupiSekvence(): Sekvenca[] {
       naslov: '🔗 Kanonski SNUPI endpoint',
       redosled: 7,
       podaci: {
-        opis: `Koristite /api/snupi kao V1 unifikacioni source-of-truth za svih 6 SNUPI domena. ${KOMPANIJA} — Sistemska Napredna Unifikacija Procesnih Inteligentnihih tokova.`,
+        opis: `Koristite /api/snupi kao V1 unifikacioni source-of-truth za svih 6 SNUPI domena. ${KOMPANIJA} — Sistemska Napredna Unifikacija Procesnih Inteligentnih tokova.`,
         stavke: [
           { naziv: 'Ukupan score', vrednost: `${s.ukupanScore}%`, ikona: '🎯' },
           { naziv: 'Momentum', vrednost: s.trendMomentum, ikona: momentumIkona(s.trendMomentum) },

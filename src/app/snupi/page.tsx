@@ -4,7 +4,7 @@ import { KOMPANIJA } from '@/lib/constants';
 import { getSnupiSekvence } from '@/lib/sekvence/snupi-page';
 
 export const metadata: Metadata = {
-  title: 'SNUPI — Sistemska Napredna Unifikacija Procesnih Tokova',
+  title: 'SNUPI — Sistemska Napredna Unifikacija Procesnih Inteligentnih Tokova',
   description: `Cross-domain unifikacioni engine kroz 6 operativnih domena za ${KOMPANIJA}.`,
 };
 
