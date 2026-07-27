@@ -158,15 +158,16 @@ function velocityToTrendDirection(
   velocity: number,
   previousVelocity: number | null,
 ): SiljaTrendDirection {
+  const epsilon = 0.001;
   if (velocity === 0) return 'stable';
   if (previousVelocity === null) {
     return velocity > 0 ? 'rising' : 'falling';
   }
   const acceleration = velocity - previousVelocity;
-  if (velocity > 0 && acceleration > 0) return 'accelerating';
-  if (velocity > 0 && acceleration <= 0) return 'rising';
-  if (velocity < 0 && acceleration < 0) return 'accelerating';
-  if (velocity < 0 && acceleration === 0) return 'falling';
+  if (velocity > 0 && acceleration > epsilon) return 'accelerating';
+  if (velocity > 0) return 'rising';
+  if (acceleration < -epsilon) return 'falling';
+  if (Math.abs(acceleration) <= epsilon) return 'falling';
   return 'decelerating';
 }
 
