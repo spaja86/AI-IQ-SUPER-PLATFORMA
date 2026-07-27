@@ -29,6 +29,7 @@ const EduRunner = dynamic(() => import('./runners/EduRunner'), { ssr: false });
 const KreativnaRunner = dynamic(() => import('./runners/KreativnaRunner'), { ssr: false });
 const BorbenaRunner = dynamic(() => import('./runners/BorbenaRunner'), { ssr: false });
 const PokerRunner = dynamic(() => import('./runners/PokerRunner'), { ssr: false });
+const EglanRunner = dynamic(() => import('./runners/EglanRunner'), { ssr: false });
 
 // ─── COLD AND FIRE karakteri ─────────────────────────────────────────
 
@@ -67,6 +68,43 @@ const COLD_FIRE_KARAKTERI: ColdFireKarakter[] = [
   },
 ];
 
+// ─── EGLAN HEROJI ─────────────────────────────────────────────────────
+
+interface EglanHeroj {
+  id: 'ratnik' | 'senka';
+  naziv: string;
+  ikona: string;
+  opis: string;
+  atributi: { naziv: string; vrednost: number }[];
+}
+
+const EGLAN_HEROJI: EglanHeroj[] = [
+  {
+    id: 'ratnik',
+    naziv: 'Ratnik Svetlosti',
+    ikona: '⚔️',
+    opis: 'Uravnoteženi borac sa štitom i mačem. Q taster reflektuje Eglanove projektile.',
+    atributi: [
+      { naziv: 'Napad', vrednost: 75 },
+      { naziv: 'Odbrana', vrednost: 95 },
+      { naziv: 'Brzina', vrednost: 70 },
+      { naziv: 'Izdržljivost', vrednost: 90 },
+    ],
+  },
+  {
+    id: 'senka',
+    naziv: 'Senka Ubojica',
+    ikona: '🗡️',
+    opis: 'Brza atentatorkinja, stakleni top. Q taster daje privremenu nevidljivost.',
+    atributi: [
+      { naziv: 'Napad', vrednost: 95 },
+      { naziv: 'Odbrana', vrednost: 55 },
+      { naziv: 'Brzina', vrednost: 98 },
+      { naziv: 'Izdržljivost', vrednost: 60 },
+    ],
+  },
+];
+
 interface Props {
   igrica: Igrica;
   dimenzija: Dimenzija;
@@ -78,11 +116,13 @@ type GameFaza = 'karakter' | 'uvod' | 'igra' | 'pauza' | 'kraj';
 
 export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, onIzlaz }: Props) {
   const isColdAndFire = igrica.id === 'igrica-cold-and-fire';
+  const isEglan = igrica.id === 'igrica-ekstreminacija-eglana';
 
-  const [faza, setFaza] = useState<GameFaza>(isColdAndFire ? 'karakter' : 'uvod');
+  const [faza, setFaza] = useState<GameFaza>((isColdAndFire || isEglan) ? 'karakter' : 'uvod');
   const [score, setScore] = useState<GameScore>(() => noviScore(dimenzija.nivo));
   const [restartKey, setRestartKey] = useState(0);
   const [odabraniKarakter, setOdabraniKarakter] = useState<'cold' | 'fire'>('cold');
+  const [odabraniHeroj, setOdabraniHeroj] = useState<'ratnik' | 'senka'>('ratnik');
   const [elemMod, setElemMod] = useState<'cold' | 'fire'>('cold');
   const [fusionGauge, setFusionGauge] = useState(0);
 
@@ -116,12 +156,12 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
   const handleRestart = useCallback(() => {
     setScore(noviScore(dimenzija.nivo));
     setRestartKey((k) => k + 1);
-    if (isColdAndFire) {
+    if (isColdAndFire || isEglan) {
       setFaza('karakter');
     } else {
       setFaza('igra');
     }
-  }, [dimenzija.nivo, isColdAndFire]);
+  }, [dimenzija.nivo, isColdAndFire, isEglan]);
 
   const handleKraj = useCallback((finalScore: GameScore) => {
     setScore(finalScore);
@@ -224,6 +264,94 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
     );
   }
 
+  // ── Ekran za izbor heroja (samo EGLAN) ──
+
+  if (faza === 'karakter' && isEglan) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center bg-gray-950 px-4">
+        <div className="w-full max-w-md">
+          <div className="mb-6 text-center">
+            <div className="mb-2 text-5xl">👁️</div>
+            <h1 className="text-2xl font-bold text-white">EKSTREMINACIJA EGLANA</h1>
+            <p className="mt-1 text-sm text-gray-400">Izaberi svog heroja</p>
+            <div className="mt-2 flex justify-center">
+              <DimenzijaBadge dimenzija={dimenzija.nivo} />
+            </div>
+          </div>
+
+          <div className="mb-6 grid grid-cols-2 gap-3">
+            {EGLAN_HEROJI.map((heroj) => (
+              <button
+                key={heroj.id}
+                type="button"
+                onClick={() => setOdabraniHeroj(heroj.id)}
+                className={`rounded-2xl border-2 p-4 text-left transition ${
+                  odabraniHeroj === heroj.id
+                    ? heroj.id === 'ratnik'
+                      ? 'border-yellow-500 bg-yellow-900/30'
+                      : 'border-purple-500 bg-purple-900/30'
+                    : 'border-gray-700 bg-gray-900/60 hover:border-gray-500'
+                }`}
+              >
+                <div className="mb-2 text-3xl text-center">{heroj.ikona}</div>
+                <p className={`mb-1 text-center text-sm font-bold ${
+                  heroj.id === 'ratnik' ? 'text-yellow-300' : 'text-purple-300'
+                }`}>
+                  {heroj.naziv}
+                </p>
+                <p className="mb-3 text-center text-xs text-gray-500 leading-relaxed">{heroj.opis}</p>
+                {/* Atributi kao bar chart */}
+                <div className="space-y-1.5">
+                  {heroj.atributi.map((attr) => (
+                    <div key={attr.naziv}>
+                      <div className="mb-0.5 flex justify-between text-[10px]">
+                        <span className="text-gray-500">{attr.naziv}</span>
+                        <span className="font-bold text-gray-300">{attr.vrednost}</span>
+                      </div>
+                      <div className="h-1 rounded-full bg-gray-800">
+                        <div
+                          className={`h-1 rounded-full ${heroj.id === 'ratnik' ? 'bg-yellow-500' : 'bg-purple-500'}`}
+                          style={{ width: `${attr.vrednost}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <Button
+            onClick={() => setFaza('uvod')}
+            className={`w-full rounded-2xl py-4 text-base font-bold text-white shadow-lg transition ${
+              odabraniHeroj === 'ratnik'
+                ? 'bg-yellow-700 hover:bg-yellow-600'
+                : 'bg-purple-700 hover:bg-purple-600'
+            }`}
+          >
+            {odabraniHeroj === 'ratnik' ? '⚔️' : '🗡️'} Odaberi{' '}
+            {EGLAN_HEROJI.find((h) => h.id === odabraniHeroj)?.naziv}
+          </Button>
+
+          <div className="mt-3 flex gap-2">
+            <Button
+              onClick={onPromeniDimenziju}
+              className="flex-1 rounded-xl bg-purple-600/80 py-2 text-sm font-medium text-white transition hover:bg-purple-600"
+            >
+              🌀 Promeni dimenziju
+            </Button>
+            <Button
+              onClick={onIzlaz}
+              className="flex-1 rounded-xl bg-gray-700 py-2 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
+            >
+              ✕ Izlaz
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // ── Uvod ekran ──
 
   if (faza === 'uvod') {
@@ -235,6 +363,11 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           {isColdAndFire && (
             <p className={`mb-2 text-sm font-semibold ${odabraniKarakter === 'cold' ? 'text-cyan-400' : 'text-orange-400'}`}>
               {odabraniKarakter === 'cold' ? '❄️ Cold Ratnik' : '🔥 Fire Feniks'}
+            </p>
+          )}
+          {isEglan && (
+            <p className={`mb-2 text-sm font-semibold ${odabraniHeroj === 'ratnik' ? 'text-yellow-400' : 'text-purple-400'}`}>
+              {odabraniHeroj === 'ratnik' ? '⚔️ Ratnik Svetlosti' : '🗡️ Senka Ubojica'}
             </p>
           )}
           <div className="mb-4 flex justify-center">
@@ -291,7 +424,7 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           </Button>
 
           <div className="mt-3 flex gap-2">
-            {isColdAndFire && (
+            {(isColdAndFire || isEglan) && (
               <Button
                 onClick={() => setFaza('karakter')}
                 className="flex-1 rounded-xl bg-gray-700 py-2 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
@@ -409,6 +542,12 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
             {...runnerProps}
             startingMod={odabraniKarakter}
             onModChange={handleModChange}
+          />
+        )}
+        {efektivniRunnerTip === 'eglan' && (
+          <EglanRunner
+            {...runnerProps}
+            startingHero={odabraniHeroj}
           />
         )}
       </div>
