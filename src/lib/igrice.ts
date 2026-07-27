@@ -2653,6 +2653,29 @@ export const igrice: Igrica[] = [
     preporuceniProizvodi: ['spaja-blockchain-engine', 'spaja-game-engine', 'spaja-ekonomija-engine'],
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
+
+  // ─── EKSTREMINACIJA EGLANA ────────────────────────────────────────
+  {
+    id: 'igrica-ekstreminacija-eglana',
+    naziv: 'EKSTREMINACIJA EGLANA',
+    opis: 'Epska boss-fight igrica — suoči se sa EGLANOM, drevnim dimenzionalnim entitetom koji proguta svetlost i realnost. U 360D EGLAN je oslabljeni džin tame; u 5760D potpuna dimenzionalna manifestacija sa 4 faze napada, dimenzionalnim minionima i razornim šok talasima koji tresaju samo platno. Izaberi heroja: Ratnik Svetlosti (štit i mač, veća izdržljivost) ili Senka Ubojica (agilna atentatorkinja, stakleni top). Dimenzija (D) određuje snagu EGLANA, brzinu napada, broj miniona i jačinu posebnih napada.',
+    ikona: '👁️',
+    kategorija: 'borbena',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Izbor heroja — Ratnik Svetlosti (izdržljivost) ili Senka Ubojica (brzina)',
+      'Višefazna boss borba sa EGLANOM — 4 faze prema HP procentu',
+      'Dimenzionalni minioni i screen-wide šok talasi u višim D',
+      'Posebne sposobnosti heroja — Q taster (Štitni odboj ili Nevidljivost)',
+      'Particle efekti i geometrijske rezonance u 2880D+',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-particle-system', 'spaja-shader-compiler', 'spaja-ai-npc'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
