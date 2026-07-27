@@ -65,6 +65,7 @@ export async function getEktondSekvence(): Promise<Sekvenca[]> {
             naziv: 'Prosečan confidence',
             vrednost: (() => {
               const domenValues = Object.values(e.domeni);
+              if (domenValues.length === 0) return '0%';
               return `${Math.round(domenValues.reduce((sum, d) => sum + d.confidence, 0) / domenValues.length)}%`;
             })(),
             ikona: '🎛️',

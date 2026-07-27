@@ -65,6 +65,7 @@ export function getMorokSekvence(): Sekvenca[] {
             naziv: 'Prosečan confidence',
             vrednost: (() => {
               const domenValues = Object.values(m.domeni);
+              if (domenValues.length === 0) return '0%';
               return `${Math.round(domenValues.reduce((sum, d) => sum + d.confidence, 0) / domenValues.length)}%`;
             })(),
             ikona: '🎛️',
