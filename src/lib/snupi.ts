@@ -57,12 +57,13 @@ const SNUPI_CONFIDENCE_VARIANCE = {
   potrebnoPoboljsanje: 0,
 } as const;
 const VELOCITY_ACCELERATION_EPSILON = 0.001;
+// Velocity deltas inside ±2 predstavljaju mikro-pomeranja jednog snapshot koraka i ostaju neutralna.
 const MOMENTUM_DIRECTION_THRESHOLD = 2;
 const SINHRONIZACIJA_ROUTE_COHERENCE_BONUS = 18;
 const SINHRONIZACIJA_ROUTE_INCOHERENCE_BONUS = 4;
-// Normalize large route counts into a 0-22 scoring window without saturating too early.
+// 60 drži trenutni TOTAL_API_ROUTES blizu gornje granice 22 bez trenutne saturacije skora.
 const UNIFIKACIJA_API_ROUTE_NORMALIZATION_DIVISOR = 60;
-// Normalize the large autofinish count into a bounded process-readiness contribution.
+// 60 drži trenutni AUTOFINISH_COUNT blizu gornje granice 25 i ostavlja prostor za budući rast.
 const PROCESUIRANJE_AUTOFINISH_NORMALIZATION_DIVISOR = 60;
 
 function assertSnupiWeights(): void {
@@ -175,7 +176,7 @@ function velocityToTrendDirection(
   velocity: number,
   previousVelocity: number | null,
 ): SnupiTrendDirection {
-  if (velocity === 0) return 'stable';
+  if (Math.abs(velocity) < VELOCITY_ACCELERATION_EPSILON) return 'stable';
   if (previousVelocity === null) {
     return velocity > 0 ? 'rising' : 'falling';
   }

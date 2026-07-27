@@ -129,7 +129,7 @@ export function getSnupiSekvence(): Sekvenca[] {
               formatVelocity(entry.velocity),
               entry.timestamp,
             ])
-          : [['', '', '', 'Nema prethodnih snimaka']],
+          : [['—', '—', '—', 'Nema prethodnih snimaka']],
       },
     },
     {

@@ -20,6 +20,8 @@ export interface SnupiSnapshot {
 
 export const SNUPI_MAX_SNAPSHOTS = 10;
 
+// Store je ephemeralan: resetuje se na restart servera i nije deljen između
+// više runtime instanci, pa istorija važi samo za trenutni proces.
 let snapshots: SnupiSnapshot[] = [];
 
 export function getSnupiSnapshots(): SnupiSnapshot[] {
