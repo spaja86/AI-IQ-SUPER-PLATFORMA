@@ -51,9 +51,8 @@ jobs:
           VERCEL_DEPLOY_HOOK_AI_IQ: ${{ secrets.VERCEL_DEPLOY_HOOK_AI_IQ }}
         run: |
           if [ -z "$VERCEL_DEPLOY_HOOK_AI_IQ" ]; then
-            echo "❌ VERCEL_DEPLOY_HOOK_AI_IQ nije konfigurisan."
-            echo "ℹ️ Konfigurišite secret ili koristite direktni Vercel deploy kroz Git integraciju."
-            exit 1
+            echo "⚠️ VERCEL_DEPLOY_HOOK_AI_IQ nije konfigurisan — preskačem fallback hook."
+            echo "ℹ️ Primarni deploy ostaje Vercel Git integracija."
           else
             echo "🚀 Pokretanje Vercel Deploy Hook..."
             RESPONSE=$(curl -s -o /tmp/vercel_response.json -w "%{http_code}" \

@@ -16,7 +16,7 @@ on:
     branches: ['main']
 
 concurrency:
-  group: omega-build-${{ github.ref }}
+  group: omega-build-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 permissions:
