@@ -94,6 +94,8 @@ const OPTIMIZACIJA_DIAGNOSTIKA_CAP = 18;
 const AUTOMATIZACIJA_BASELINE = 52;
 const AUTOMATIZACIJA_AUTOFINISH_CAP = 24;
 const AUTOMATIZACIJA_API_CAP = 24;
+// Namerno isti divisor kao ORKESTRACIJA ali kao zaseban konstant za Automatizacija domen.
+const AUTOMATIZACIJA_API_NORMALIZATION_DIVISOR = 60;
 
 function assertAutoWeights(): void {
   const weightSum = Object.values(AUTO_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
@@ -283,7 +285,7 @@ function computeAutomatizacijaScore(): number {
   return clampScore(
     AUTOMATIZACIJA_BASELINE
     + Math.min(AUTOMATIZACIJA_AUTOFINISH_CAP, AUTOFINISH_COUNT / AUTOMATIZACIJA_AUTOFINISH_NORMALIZATION_DIVISOR)
-    + Math.min(AUTOMATIZACIJA_API_CAP, TOTAL_API_ROUTES / ORKESTRACIJA_API_ROUTE_NORMALIZATION_DIVISOR),
+    + Math.min(AUTOMATIZACIJA_API_CAP, TOTAL_API_ROUTES / AUTOMATIZACIJA_API_NORMALIZATION_DIVISOR),
   );
 }
 
@@ -430,7 +432,7 @@ export function buildAuto(): AutoOutput {
     .filter((domen) => domen.momentum === 'bearish')
     .map((domen) => domen.naziv);
   if (bearishDomeni.length > 0) {
-    preporuke.push(`Bearish autonomna refleksija detektovana u: ${bearishDomeni.join(', ')} — pratiti pad ritma.`);
+    preporuke.push(`Bearish momentum detektovan u: ${bearishDomeni.join(', ')} — pratiti pad ritma.`);
   }
   if (degradedSources.length > 0) {
     preporuke.push(`Sanirati degradirane izvore za AUTO: ${degradedSources.join(', ')}`);

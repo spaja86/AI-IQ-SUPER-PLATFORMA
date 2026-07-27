@@ -40,7 +40,7 @@ export function getAutoSekvence(): Sekvenca[] {
       ikona: '🤖',
       redosled: 1,
       podaci: {
-        opis: `Cross-domain engine kroz 6 domena autonomnih operativnih procesa: AUTONOMIJA + UPRAVLJANJE + TRANSFORMACIJA + ORKESTRACIJA + OPTIMIZACIJA + AUTOMATIZACIJA. Contract: ${a.meta.contractVersion}, model: ${a.meta.modelVersion}.`,
+        opis: `Cross-domain engine kroz 6 domena autonomnih operativnih procesa: Autonomija + Upravljanje + Transformacija + Orkestracija + Optimizacija + Automatizacija. Contract: ${a.meta.contractVersion}, model: ${a.meta.modelVersion}.`,
         dugmad: [
           { tekst: 'API: AUTO', href: '/api/auto' },
           { tekst: 'SNUPI', href: '/snupi', stil: 'sekundarno' },
