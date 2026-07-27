@@ -56,8 +56,14 @@ const SNUPI_CONFIDENCE_VARIANCE = {
   delimicno: 2,
   potrebnoPoboljsanje: 0,
 } as const;
-const UNIFIKACIJA_API_ROUTE_DIVISOR = 60;
-const PROCESUIRANJE_AUTOFINISH_DIVISOR = 60;
+const VELOCITY_ACCELERATION_EPSILON = 0.001;
+const MOMENTUM_DIRECTION_THRESHOLD = 2;
+const SINHRONIZACIJA_ROUTE_COHERENCE_BONUS = 18;
+const SINHRONIZACIJA_ROUTE_INCOHERENCE_BONUS = 4;
+// Normalize large route counts into a 0-22 scoring window without saturating too early.
+const UNIFIKACIJA_API_ROUTE_NORMALIZATION_DIVISOR = 60;
+// Normalize the large autofinish count into a bounded process-readiness contribution.
+const PROCESUIRANJE_AUTOFINISH_NORMALIZATION_DIVISOR = 60;
 
 function assertSnupiWeights(): void {
   const weightSum = Object.values(SNUPI_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
@@ -169,24 +175,23 @@ function velocityToTrendDirection(
   velocity: number,
   previousVelocity: number | null,
 ): SnupiTrendDirection {
-  const epsilon = 0.001;
   if (velocity === 0) return 'stable';
   if (previousVelocity === null) {
     return velocity > 0 ? 'rising' : 'falling';
   }
   const acceleration = velocity - previousVelocity;
   if (velocity > 0) {
-    if (acceleration > epsilon) return 'accelerating';
-    if (acceleration < -epsilon) return 'decelerating';
+    if (acceleration > VELOCITY_ACCELERATION_EPSILON) return 'accelerating';
+    if (acceleration < -VELOCITY_ACCELERATION_EPSILON) return 'decelerating';
     return 'rising';
   }
-  if (acceleration > epsilon) return 'decelerating';
+  if (acceleration > VELOCITY_ACCELERATION_EPSILON) return 'decelerating';
   return 'falling';
 }
 
 function momentumFromVelocity(velocity: number): SnupiMomentum {
-  if (velocity > 2) return 'bullish';
-  if (velocity < -2) return 'bearish';
+  if (velocity > MOMENTUM_DIRECTION_THRESHOLD) return 'bullish';
+  if (velocity < -MOMENTUM_DIRECTION_THRESHOLD) return 'bearish';
   return 'neutral';
 }
 
@@ -205,7 +210,9 @@ function safeCallSync<T>(
 }
 
 function computeSinhronizacijaScore(): number {
-  const routeCoherence = TOTAL_ROUTES === TOTAL_PAGES + TOTAL_API_ROUTES ? 18 : 4;
+  const routeCoherence = TOTAL_ROUTES === TOTAL_PAGES + TOTAL_API_ROUTES
+    ? SINHRONIZACIJA_ROUTE_COHERENCE_BONUS
+    : SINHRONIZACIJA_ROUTE_INCOHERENCE_BONUS;
   return clampScore(68 + routeCoherence + Math.min(12, TOTAL_PROTOKOLA / 2));
 }
 
@@ -220,7 +227,7 @@ function computeNormalizacijaScore(): number {
 function computeUnifikacijaScore(): number {
   return clampScore(
     58
-    + Math.min(22, TOTAL_API_ROUTES / UNIFIKACIJA_API_ROUTE_DIVISOR)
+    + Math.min(22, TOTAL_API_ROUTES / UNIFIKACIJA_API_ROUTE_NORMALIZATION_DIVISOR)
     + Math.min(20, TOTAL_GEJMING_ENTITETA / 4),
   );
 }
@@ -228,7 +235,7 @@ function computeUnifikacijaScore(): number {
 function computeProcesuiranjeScore(): number {
   return clampScore(
     55
-    + Math.min(25, AUTOFINISH_COUNT / PROCESUIRANJE_AUTOFINISH_DIVISOR)
+    + Math.min(25, AUTOFINISH_COUNT / PROCESUIRANJE_AUTOFINISH_NORMALIZATION_DIVISOR)
     + Math.min(20, TOTAL_DIAGNOSTIKA / 180),
   );
 }
