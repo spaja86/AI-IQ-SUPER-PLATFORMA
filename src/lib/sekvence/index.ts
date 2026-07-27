@@ -28,6 +28,7 @@ export { proksiWifiAntenaSekvence } from './proksi-wifi-antena-page';
 export { storyOfLifeSekvence } from './story-of-life-page';
 export { mikiMausIPajaPatakSekvence } from './miki-maus-i-paja-patak-page';
 export { getSiljaSekvence } from './silja-page';
+export { getSnupiSekvence } from './snupi-page';
 
 export { ioOpenUIAOGamingSekvence } from './io-openui-ao-gaming-platforma-page';
 export { ioOpenUIAOAnalitikaSekvence } from './io-openui-ao-analitika-page';
