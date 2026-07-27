@@ -25,10 +25,6 @@ on:
         required: false
         default: 'Manuelni deploy trigger'
 
-concurrency:
-  group: vercel-deploy-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
 

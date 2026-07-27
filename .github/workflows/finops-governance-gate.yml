@@ -37,8 +37,12 @@ jobs:
             const changed = files.map(f => f.filename);
             const automationTouched = changed.some((f) =>
               f.startsWith(".github/workflows/") ||
+              f.startsWith(".github/actions/") ||
               f === ".agent-config.json" ||
-              f === "vercel.json"
+              f === "vercel.json" ||
+              f === "package.json" ||
+              f === "next.config.ts" ||
+              f === "tsconfig.json"
             );
 
             if (!automationTouched) {
