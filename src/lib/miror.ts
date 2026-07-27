@@ -49,6 +49,10 @@ const MIROR_CONFIDENCE_VARIANCE = {
   potrebnoPoboljsanje: 0,
 } as const;
 
+const BAR_KOD_SCORE_FULL = 100;
+const BAR_KOD_SCORE_PARTIAL = 50;
+const BAR_KOD_SCORE_UNAVAILABLE = 0;
+
 const weightSum = Object.values(MIROR_WEIGHTS).reduce((sum, w) => sum + w, 0);
 if (Math.abs(weightSum - 1) > 0.0001) {
   throw new Error(`MIROR_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${weightSum})`);
@@ -228,7 +232,9 @@ export function buildMiror(): MirorRezultat {
   const distribucijaScore = distribucijaKpi?.ukupnoCvorova
     ? clampScore((distribucijaKpi.aktivnihCvorova / distribucijaKpi.ukupnoCvorova) * 100)
     : 0;
-  const barKodScore = barKod ? (barKod.kpi.ukupnoBarKodova > 0 ? 100 : 50) : 0;
+  const barKodScore = barKod
+    ? (barKod.kpi.ukupnoBarKodova > 0 ? BAR_KOD_SCORE_FULL : BAR_KOD_SCORE_PARTIAL)
+    : BAR_KOD_SCORE_UNAVAILABLE;
   const observatorijaScore = observatorija ? observatorijaScoreFromStatistika(observatorija) : 0;
   const vektorizacijaScore = clampScore((vektorizacija?.indeksVektorizacije ?? 0) * 100);
 
