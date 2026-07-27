@@ -181,7 +181,7 @@ function kreirajParticle4x(x: number, y: number, boja: string, gs: GameState) {
 
 export default function MakinRunner({
   konfiguracija,
-  isPauziran: _isPauziran,
+  isPauziran,
   onScoreUpdate,
   onKraj,
   startingKarakter = 'market-maker',
@@ -350,6 +350,10 @@ export default function MakinRunner({
   // ── Game loop ────────────────────────────────────────────────────
 
   const gameLoop = useCallback((timestamp: number) => {
+    if (isPauziran) {
+      animRef.current = requestAnimationFrame(gameLoop);
+      return;
+    }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -558,7 +562,7 @@ export default function MakinRunner({
 
     draw(ctx, gs, w, h);
     animRef.current = requestAnimationFrame(gameLoop);
-  }, [draw, sk, onScoreUpdate, onKraj, konfiguracija.parametri.slojevi]);
+  }, [draw, sk, onScoreUpdate, onKraj, konfiguracija.parametri.slojevi, isPauziran]);
 
   // ── Tastatura ────────────────────────────────────────────────────
 
