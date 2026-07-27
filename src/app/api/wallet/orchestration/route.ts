@@ -1,6 +1,7 @@
 import { type NextRequest } from 'next/server';
 import { apiSuccess, apiError } from '@/lib/api/response';
-import { routePayment, walletCoverageMatrix } from '@/lib/wallet/payment-orchestration';
+import { routePayment, getWalletCoverageMatrix } from '@/lib/wallet/payment-orchestration';
+import { getDigitalnaIndustrijaNacinPlacanjaPregled } from '@/lib/digitalna-industrija-nacini-placanja';
 import type { WalletRegion, WalletCardNetwork } from '@/lib/wallet/types';
 
 export async function GET(request: NextRequest) {
@@ -13,9 +14,12 @@ export async function GET(request: NextRequest) {
     return apiError('BAD_REQUEST', 'amountMinor mora biti pozitivan broj.');
   }
 
+  const pregled = getDigitalnaIndustrijaNacinPlacanjaPregled();
+
   return apiSuccess({
     request: { region, currency, cardNetwork, amountMinor },
     routingDecision: routePayment({ region, currency, cardNetwork, amountMinor }),
-    matrix: walletCoverageMatrix,
+    matrix: getWalletCoverageMatrix(),
+    izvor: pregled.meta,
   });
 }

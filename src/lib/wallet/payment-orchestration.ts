@@ -1,4 +1,5 @@
 import type { WalletCoverageEntry, WalletCardNetwork, WalletRegion } from './types';
+import { getDigitalnaIndustrijaMatrix } from '../digitalna-industrija-nacini-placanja';
 
 export interface RoutingRequest {
   region: WalletRegion;
@@ -15,39 +16,23 @@ export interface RoutingDecision {
 
 export const HIGH_AMOUNT_THRESHOLD_MINOR = 1_000_000;
 
-export const walletCoverageMatrix: WalletCoverageEntry[] = [
-  {
-    region: 'RS',
-    currencies: ['RSD', 'EUR', 'USD'],
-    cardNetworks: ['visa', 'mastercard', 'amex'],
-    processors: ['stripe'],
-    fallbackProcessors: ['paypal'],
-  },
-  {
-    region: 'EU',
-    currencies: ['EUR', 'USD', 'GBP'],
-    cardNetworks: ['visa', 'mastercard', 'amex', 'jcb'],
-    processors: ['stripe'],
-    fallbackProcessors: ['paypal'],
-  },
-  {
-    region: 'US',
-    currencies: ['USD'],
-    cardNetworks: ['visa', 'mastercard', 'amex', 'discover'],
-    processors: ['stripe'],
-    fallbackProcessors: ['paypal'],
-  },
-  {
-    region: 'GLOBAL',
-    currencies: ['USD', 'EUR'],
-    cardNetworks: ['visa', 'mastercard'],
-    processors: ['stripe'],
-    fallbackProcessors: ['paypal'],
-  },
-];
+/**
+ * Načini plaćanja centralno dolaze iz Digitalne Industrije.
+ * Povlači kanonsku matricu iz `digitalna-industrija-nacini-placanja`.
+ */
+export function getWalletCoverageMatrix(): WalletCoverageEntry[] {
+  return getDigitalnaIndustrijaMatrix();
+}
+
+/**
+ * Backward-compatible named export — uvek reflektuje DI izvor.
+ * @deprecated Koristiti `getWalletCoverageMatrix()` za dinamički pristup.
+ */
+export const walletCoverageMatrix: WalletCoverageEntry[] = getDigitalnaIndustrijaMatrix();
 
 export function routePayment(request: RoutingRequest): RoutingDecision {
-  const coverage = walletCoverageMatrix.find((entry) => entry.region === request.region) ?? walletCoverageMatrix.find((entry) => entry.region === 'GLOBAL');
+  const matrix = getWalletCoverageMatrix();
+  const coverage = matrix.find((entry) => entry.region === request.region) ?? matrix.find((entry) => entry.region === 'GLOBAL');
 
   if (!coverage) {
     return {

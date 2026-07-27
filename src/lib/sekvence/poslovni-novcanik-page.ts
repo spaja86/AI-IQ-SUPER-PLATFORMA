@@ -1,7 +1,11 @@
 import type { Sekvenca } from '@/lib/types';
 import { walletComplianceRequirements, walletDataClassification, walletKpiBaseline } from '@/lib/wallet/compliance';
-import { walletCoverageMatrix } from '@/lib/wallet/payment-orchestration';
+import { getWalletCoverageMatrix } from '@/lib/wallet/payment-orchestration';
+import { getDigitalnaIndustrijaNacinPlacanjaPregled } from '@/lib/digitalna-industrija-nacini-placanja';
 import { walletReleaseLanes } from '@/lib/wallet/mobile-release';
+
+const diPregled = getDigitalnaIndustrijaNacinPlacanjaPregled();
+const coverageMatrix = getWalletCoverageMatrix();
 
 export const poslovniNovcanikSekvence: Sekvenca[] = [
   {
@@ -55,11 +59,11 @@ export const poslovniNovcanikSekvence: Sekvenca[] = [
   {
     id: 'wallet-regionalna-pokrivenost',
     tip: 'tabela',
-    naslov: '🌍 Regionalna pokrivenost i fallback rutiranje',
+    naslov: `🌍 Regionalna pokrivenost i fallback rutiranje (${diPregled.meta.entitet})`,
     redosled: 4,
     podaci: {
       zaglavlje: ['Region', 'Valute', 'Kartične šeme', 'Primarni procesori', 'Fallback'],
-      redovi: walletCoverageMatrix.map((row) => [
+      redovi: coverageMatrix.map((row) => [
         row.region,
         row.currencies.join(', '),
         row.cardNetworks.join(', '),
