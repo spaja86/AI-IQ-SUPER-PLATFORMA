@@ -77,7 +77,7 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | Sloj | Mehanizam | Interval | Opis |
 |------|-----------|----------|------|
 | 🧬 Evolucija | GitHub Actions cron | Svakih 6h | Dijagnostika + Issue kreiranje |
-| 🏗️ CI/CD | GitHub Actions push | Svaki push | Build + Lint + TypeCheck |
+| 🏗️ CI/CD | GitHub Actions push | Svaki push | Lint + TypeCheck + Test quality gate |
 | 🔄 Auto-merge | GitHub Actions | Po završetku CI | Merge passing PR-ova |
 | 📦 Zavisnosti | Dependabot | Dnevno | Update npm + Actions |
 | 🔀 Branch sync | GitHub Actions cron | Dnevno u 03:00 | Sinhronizacija grana |
@@ -92,6 +92,8 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | 🏗️ Omega Build | `omega-auto-build.yml` | Push + PR |
 | 🔄 Omega Auto Merge | `omega-auto-merge.yml` | CI success |
 | 🔀 Omega Branch Sync | `omega-branch-sync.yml` | Cron dnevno + manual |
+| 💸 FinOps Governance Gate | `finops-governance-gate.yml` | PR sa izmenama automacije/config-a |
+| ▲ Vercel Deploy Hook | `vercel-deploy.yml` | Manual fallback (`workflow_dispatch`) |
 
 ### Cron Jobs (scheduler-agnostic)
 
@@ -411,6 +413,13 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | [`AGENTS.md`](./AGENTS.md) | Full agent policy, rules, and registry |
 | [`.agent-config.json`](./.agent-config.json) | Per-repo agent behavior flags |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
+| [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md) | FinOps, KPI, enterprise collaboration model |
+
+### FinOps source of truth (GitHub + Vercel)
+
+- **Deploy/build source of truth:** Vercel Git integration.
+- **GitHub Actions source of truth:** quality gates + governance checks.
+- Automation/config PR-ovi moraju imati cost impact i rollback plan sekciju u PR opisu.
 
 ## ☁️ Multi-provider napomena
 

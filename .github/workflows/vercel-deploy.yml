@@ -2,27 +2,22 @@
 # ▲ Vercel Deploy Pipeline — AI IQ SUPER PLATFORMA
 # ═══════════════════════════════════════════════════════════
 #
-# CI/CD pipeline: GitHub → Vercel deployment.
-# Triggeriše se na push na main granu.
+# Deploy hook pipeline: GitHub → Vercel deployment hook.
+# Triggeriše se isključivo ručno (workflow_dispatch) kao fallback.
 #
 # Sekvenca:
-#   1. Checkout koda
-#   2. npm ci + TypeScript provera
-#   3. npm run build verifikacija
-#   4. Poziv Vercel Deploy Hook (via VERCEL_DEPLOY_HOOK_AI_IQ secret)
-#   5. Audit log u GitHub Summary
+#   1. Poziv Vercel Deploy Hook (via VERCEL_DEPLOY_HOOK_AI_IQ secret)
+#   2. Audit log u GitHub Summary
 #
 # Env varijable (GitHub Secrets):
 #   VERCEL_DEPLOY_HOOK_AI_IQ — Vercel Deploy Hook URL (Vercel → Settings → Git → Deploy Hooks)
 #
-# Napomena: Ovo je sekundarni trigger. Vercel automatski deploya pri push-u
-# ako je GitHub repo direktno priključen na Vercel projekat.
+# Napomena: Primarni source of truth je Vercel Git integracija
+# (automatski deploy pri push-u). Ovaj workflow je manuelni fallback.
 
 name: ▲ Vercel Deploy
 
 on:
-  push:
-    branches: ['main']
   workflow_dispatch:
     inputs:
       razlog:
@@ -30,54 +25,32 @@ on:
         required: false
         default: 'Manuelni deploy trigger'
 
+concurrency:
+  group: vercel-deploy-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   deploy:
-    name: ▲ Build & Deploy na Vercel
+    name: ▲ Manualni Vercel Deploy Hook
     runs-on: ubuntu-latest
 
     steps:
-      - name: ⬇️ Checkout
-        uses: actions/checkout@v4
-
-      - name: 📦 Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: 🔍 Preflight — Okruženje i verzije
+      - name: 🔍 Preflight — kontekst pokretanja
         run: |
-          echo "## 🔍 Preflight — Okruženje" >> "$GITHUB_STEP_SUMMARY"
+          echo "## 🔍 Vercel Deploy Hook — Preflight" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "| Parametar | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-----------|---------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Runner** | \`$RUNNER_OS\` / \`$RUNNER_ARCH\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Node.js** | \`$(node --version)\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **npm** | \`$(npm --version)\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Workflow** | \`${{ github.workflow }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Ref** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Vreme** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **actions/checkout** | \`v4\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **actions/setup-node** | \`v4 (Node 22)\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          node --version || { echo "❌ Node.js nije dostupan na runneru"; exit 1; }
-
-      - name: 📥 Instalacija zavisnosti
-        run: npm ci
-
-      - name: 🔍 TypeScript provera
-        run: npx tsc --noEmit
-
-      - name: 🏗️ Next.js Build verifikacija
-        run: npx next build
 
       - name: 🚀 Pokretanje Vercel Deploy Hook
-        if: ${{ vars.VERCEL_DEPLOY_HOOK_AI_IQ != '' || secrets.VERCEL_DEPLOY_HOOK_AI_IQ != '' }}
         env:
           VERCEL_DEPLOY_HOOK_AI_IQ: ${{ secrets.VERCEL_DEPLOY_HOOK_AI_IQ }}
         run: |

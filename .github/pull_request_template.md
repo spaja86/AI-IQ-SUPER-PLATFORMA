@@ -38,3 +38,10 @@
 - [ ] Feature flags configured
 - [ ] Kill-switch fallback validated
 - [ ] Monitoring/alerts updated
+
+## Cost Impact & Rollback (Required for automation/config PRs)
+
+- Cost impact estimate:
+- Rollback plan:
+- KPI impact:
+- Cost center / owner:

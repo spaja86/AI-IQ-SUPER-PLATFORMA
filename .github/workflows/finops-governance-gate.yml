@@ -1,0 +1,66 @@
+name: 💸 FinOps Governance Gate
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: finops-gate-${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  finops-gate:
+    name: 💸 Cost & Rollback Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔍 Validate PR governance fields for automation/config changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || "";
+
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                per_page: 100
+              }
+            );
+
+            const changed = files.map(f => f.filename);
+            const automationTouched = changed.some((f) =>
+              f.startsWith(".github/workflows/") ||
+              f === ".agent-config.json" ||
+              f === "vercel.json"
+            );
+
+            if (!automationTouched) {
+              core.info("No automation/config changes detected; FinOps gate skipped.");
+              return;
+            }
+
+            const requiredMarkers = [
+              "## Cost Impact & Rollback (Required for automation/config PRs)",
+              "- Cost impact estimate:",
+              "- Rollback plan:",
+              "- KPI impact:",
+              "- Cost center / owner:"
+            ];
+
+            const missing = requiredMarkers.filter((m) => !body.includes(m));
+            if (missing.length) {
+              core.setFailed(
+                "Automation/config PRs must include cost governance fields in PR body. Missing: " +
+                missing.join(", ")
+              );
+              return;
+            }
+
+            core.info("FinOps governance fields detected.");

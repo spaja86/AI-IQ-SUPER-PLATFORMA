@@ -46,7 +46,7 @@ This document defines the architecture, governance, and lifecycle of autonomous 
 | Aspect | Details |
 |--------|---------|
 | **Trigger** | Every push to `main` or `copilot/*` branches, PR updates |
-| **Actions** | TypeScript compilation, ESLint checks, smoke tests, build validation |
+| **Actions** | TypeScript compilation, ESLint checks, smoke tests |
 | **Approval Level** | Autonomous (no human approval needed) |
 | **Success Criteria** | All checks pass with 0 errors |
 | **On Failure** | Creates Issue with detailed error report, blocks merge |
@@ -58,8 +58,7 @@ This document defines the architecture, governance, and lifecycle of autonomous 
 ci-bot Actions:
 ├─ TypeScript Type Checking
 ├─ ESLint Linting
-├─ Smoke Tests (go-live validation)
-└─ Next.js Build
+└─ Smoke Tests (go-live validation)
 ```
 
 ---
@@ -347,6 +346,15 @@ All agent actions must include:
 - ✅ Deployment requires health check > 75%
 - ✅ No direct merges to main by humans (use PR + auto-merge)
 - ✅ All changes require audit trail
+- ✅ Automation/config PRs moraju sadržavati procenu troška i rollback plan
+
+### FinOps & Enterprise Operating Model
+- Deploy source of truth: **Vercel Git integration**.
+- GitHub Actions služi kao quality-gate sloj (type-check/lint/test), ne kao dupli deploy/build trošak.
+- Budget alert pragovi: **50/75/90/100%** mesečnog budžeta.
+- Obavezni cost-center/owner podaci za automation i config izmene.
+- KPI okvir: cost per deployment, cost per active user, MTTR, build duration, deployment success rate.
+- Operativni ritam: mesečni ops review + kvartalni business review (QBR) sa vendor kontaktima.
 
 ---
 
@@ -357,6 +365,8 @@ All agent actions must include:
 - **System Health Score:** 0-100 from diagnostics
 - **Deployment Frequency:** Deployments per day/week
 - **Mean Time to Recovery (MTTR):** Time to fix failures
+- **Cost per Deployment:** Combined GitHub + Vercel cost efficiency
+- **Cost per Active User:** Unit economics by active usage
 
 ### View Dashboard
 1. Go to Repository → Actions
