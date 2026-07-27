@@ -380,6 +380,30 @@ This repository uses documented automation agents for CI, security, analytics, a
 - Codex marketplace installs such as `vercel/vercel-plugin` and Codex-specific skills are optional user-scoped tooling and require a working `codex` CLI on the target machine.
 - In Copilot cloud agent runs, Codex-specific installs are skipped automatically when `codex` is unavailable instead of failing repository setup.
 
+### CI troubleshooting — "Setup step failed (no output captured)" / `startup_failure`
+
+When a workflow run shows **`startup_failure`** with **zero jobs created** (no step logs), the problem is **infrastructure- or policy-level** — it is NOT caused by workflow file content or code changes.
+
+**Diagnostic checklist:**
+
+| Step | Action |
+|------|--------|
+| 1 | Check [GitHub Status](https://githubstatus.com) for incidents |
+| 2 | Repo → Settings → Actions → General — confirm Actions are **enabled** |
+| 3 | Repo → Settings → Billing → Actions — check runner-minute quota |
+| 4 | Check org-level Actions policy if the repo is inside an organization |
+| 5 | Contact GitHub Support if all of the above look healthy |
+
+**Key diagnostic signals:**
+- A `startup_failure` run has **`"jobs": []`** (zero jobs) in the API response — this means GitHub never assigned a runner, so no step output will ever appear.
+- If ALL workflows across the repo show `startup_failure` simultaneously (like `copilot-setup-steps`, `omega-auto-build`, `vercel-deploy`), this confirms a runner-availability or account-level issue rather than a per-workflow bug.
+- The **🏥 CI Health Canary** workflow (`.github/workflows/ci-health.yml`) runs daily at 06:00 UTC as a sentinel — if it succeeds, runners are available; if it also shows `startup_failure`, the problem is confirmed infrastructure/policy.
+
+**What will NOT fix `startup_failure`:**
+- Updating action versions (e.g., `actions/checkout@v4` → `@v5`)
+- Changing workflow YAML content
+- Fixing TypeScript or lint errors
+
 ### Source of truth
 
 | Document | Purpose |

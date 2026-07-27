@@ -46,13 +46,13 @@ function proveraGamingInfrastrukture(): GamingDijagnostika[] {
     preporuka: 'Resenje A: npm install @vitejs/plugin-react@latest (verzija 5+ podrzava Vite 8). Resenje B: npm install vite@^7.0.0 (downgrade). Preporuka je Resenje A jer koristi najnovije verzije.',
   });
 
-  // 3. Node.js verzija
+  // 3. Node.js / CI Actions verzija
   dijagnostike.push({
     id: 'node-verzija',
     naziv: 'Node.js Verzija u CI/CD',
-    status: 'upozorenje',
-    poruka: 'GitHub Actions koristi Node.js 20 — actions/checkout@v4 i actions/setup-node@v4 ce biti primorani na Node.js 24 od juna 2026',
-    preporuka: 'Azuriraj .github/workflows/deploy.yml: node-version: 20 → node-version: 22 (LTS). Takodje azuriraj actions na @v5 verzije ako su dostupne.',
+    status: 'ok',
+    poruka: 'GitHub Actions koristi Node.js 22 (LTS) — actions/checkout@v4 i actions/setup-node@v4 su aktuelne verzije',
+    preporuka: 'Prati GitHub changelog za deprecation upozorenja o action runner-ima. Kada v5 verzije budu stabilno dostupne, ažuriraj .github/workflows/*.yml.',
   });
 
   // 4. Gaming konfiguracija
