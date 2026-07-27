@@ -164,7 +164,7 @@ async function runTests(): Promise<void> {
     assertEqual(arena?.status, 'aktivan', 'status');
   });
 
-  await test('EGLAN ima tačno 4 vezana entiteta', () => {
+  await test('EGLAN ima najmanje 4 vezana entiteta', () => {
     const eglanEntiteti = gejmingEntiteti.filter((e) => e.igricaId === 'igrica-ekstreminacija-eglana');
     assert(eglanEntiteti.length >= 4, `ima najmanje 4 entiteta (ima ${eglanEntiteti.length})`);
   });
