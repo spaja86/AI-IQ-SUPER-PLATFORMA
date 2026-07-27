@@ -25,6 +25,7 @@ export { igriceSekvence } from './igrice-page';
 export { gejmingIndustrijaSekvence } from './gejming-industrija-page';
 export { spajaUniverzalniPromptSekvence } from './spaja-univerzalni-prompt-page';
 export { proksiWifiAntenaSekvence } from './proksi-wifi-antena-page';
+export { storyOfLifeSekvence } from './story-of-life-page';
 
 export { ioOpenUIAOGamingSekvence } from './io-openui-ao-gaming-platforma-page';
 export { ioOpenUIAOAnalitikaSekvence } from './io-openui-ao-analitika-page';
