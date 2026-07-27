@@ -1,11 +1,10 @@
 import type { Sekvenca } from '@/lib/types';
 import { walletComplianceRequirements, walletDataClassification, walletKpiBaseline } from '@/lib/wallet/compliance';
-import { getWalletCoverageMatrix } from '@/lib/wallet/payment-orchestration';
 import { getDigitalnaIndustrijaNacinPlacanjaPregled } from '@/lib/digitalna-industrija-nacini-placanja';
 import { walletReleaseLanes } from '@/lib/wallet/mobile-release';
 
 const diPregled = getDigitalnaIndustrijaNacinPlacanjaPregled();
-const coverageMatrix = getWalletCoverageMatrix();
+const coverageMatrix = diPregled.matrix;
 
 export const poslovniNovcanikSekvence: Sekvenca[] = [
   {

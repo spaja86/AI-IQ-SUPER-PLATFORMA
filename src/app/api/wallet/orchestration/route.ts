@@ -1,6 +1,6 @@
 import { type NextRequest } from 'next/server';
 import { apiSuccess, apiError } from '@/lib/api/response';
-import { routePayment, getWalletCoverageMatrix } from '@/lib/wallet/payment-orchestration';
+import { routePayment } from '@/lib/wallet/payment-orchestration';
 import { getDigitalnaIndustrijaNacinPlacanjaPregled } from '@/lib/digitalna-industrija-nacini-placanja';
 import type { WalletRegion, WalletCardNetwork } from '@/lib/wallet/types';
 
@@ -14,12 +14,13 @@ export async function GET(request: NextRequest) {
     return apiError('BAD_REQUEST', 'amountMinor mora biti pozitivan broj.');
   }
 
+  // Pregled je keširan u DI modulu — nema ponovnog računanja po zahtevu
   const pregled = getDigitalnaIndustrijaNacinPlacanjaPregled();
 
   return apiSuccess({
     request: { region, currency, cardNetwork, amountMinor },
     routingDecision: routePayment({ region, currency, cardNetwork, amountMinor }),
-    matrix: getWalletCoverageMatrix(),
+    matrix: pregled.matrix,
     izvor: pregled.meta,
   });
 }

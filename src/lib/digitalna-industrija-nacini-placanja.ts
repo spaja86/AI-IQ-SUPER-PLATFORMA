@@ -85,9 +85,21 @@ export function validirajNacinPlacanja(entry: WalletCoverageEntry): string[] {
   return greske;
 }
 
+/** Minimalni sigurni fallback koji se koristi samo ako validacija potpuno podbaci. */
+const SAFE_FALLBACK_MATRIX: WalletCoverageEntry[] = [
+  {
+    region: 'GLOBAL' as WalletRegion,
+    currencies: ['USD', 'EUR'],
+    cardNetworks: ['visa', 'mastercard'] as WalletCardNetwork[],
+    processors: ['stripe'],
+    fallbackProcessors: ['paypal'],
+  },
+];
+
 /**
  * Vraća kanonsku matricu načina plaćanja Digitalne Industrije.
  * Filtrira sve nevalidne stavke i prijavljuje greške u konzolu.
+ * Ako nijjedna stavka nije validna, vraća minimalni sigurni fallback (GLOBAL).
  */
 export function getDigitalnaIndustrijaMatrix(): WalletCoverageEntry[] {
   const validne: WalletCoverageEntry[] = [];
@@ -97,25 +109,30 @@ export function getDigitalnaIndustrijaMatrix(): WalletCoverageEntry[] {
     if (greske.length === 0) {
       validne.push(entry);
     } else {
-      console.error(`[digitalna-industrija-nacini-placanja] Nevalidna stavka:`, greske);
+      console.error(`[digitalna-industrija-nacini-placanja] Nevalidna stavka (region: ${entry.region}):`, greske);
     }
   }
 
   if (validne.length === 0) {
-    console.error('[digitalna-industrija-nacini-placanja] Kanonska matrica je prazna — aktiviran hardkodovani fallback.');
-    return DIGITALNA_INDUSTRIJA_PAYMENT_MATRIX;
+    console.error('[digitalna-industrija-nacini-placanja] Kanonska matrica je prazna — aktiviran minimalni sigurni fallback (GLOBAL).');
+    return SAFE_FALLBACK_MATRIX;
   }
 
   return validne;
 }
 
+/** Keširani pregled — izračunava se jednom pri inicijalizaciji modula. */
+let _cachedPregled: DigitalnaIndustrijaNacinPlacanjaPregled | null = null;
+
 /**
  * Vraća kompletan pregled načina plaćanja sa metapodacima.
+ * Rezultat se kešira jer je matrica statična.
  * Koristi se u API odgovorima koji izlažu payment konfiguraciju.
  */
 export function getDigitalnaIndustrijaNacinPlacanjaPregled(): DigitalnaIndustrijaNacinPlacanjaPregled {
-  const matrix = getDigitalnaIndustrijaMatrix();
+  if (_cachedPregled) return _cachedPregled;
 
+  const matrix = getDigitalnaIndustrijaMatrix();
   const sveValute = new Set<string>();
   const sveKarticneSheme = new Set<string>();
   const aktivniProcesori = new Set<string>();
@@ -127,7 +144,7 @@ export function getDigitalnaIndustrijaNacinPlacanjaPregled(): DigitalnaIndustrij
     entry.fallbackProcessors.forEach((p) => aktivniProcesori.add(p));
   }
 
-  return {
+  _cachedPregled = {
     meta: {
       izvor: 'digitalna-industrija',
       entitet: 'Digitalna Industrija — Kompanija SPAJA',
@@ -140,4 +157,6 @@ export function getDigitalnaIndustrijaNacinPlacanjaPregled(): DigitalnaIndustrij
     ukupnoValuta: sveValute.size,
     ukupnoKarticihnSema: sveKarticneSheme.size,
   };
+
+  return _cachedPregled;
 }
