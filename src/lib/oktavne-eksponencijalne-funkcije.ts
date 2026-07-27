@@ -61,8 +61,17 @@ export interface OktavniSistemPregled {
   maksimalnaSnaga: { oktava: OktavniNivo; snaga: number };
   minimalnaSnaga: { oktava: OktavniNivo; snaga: number };
   globalniRastFaktor: number;
+  geometrijskiIndeks: number;
   superPozicija: number[];
   korelacionaMatrica: number[][];
+}
+
+export interface OktavnaRazmeraPar {
+  izvor: OktavniNivo;
+  cilj: OktavniNivo;
+  razmera: number;
+  deltaRasta: number;
+  sloj: 'primarna' | 'sekundarna' | 'tercijarna';
 }
 
 // ── Parametri po oktavama ─────────────────────────────────────────────────────
@@ -246,6 +255,29 @@ function izracunajCentroidX(): number {
   return denominator > 0 ? Math.round((numerator / denominator) * 10000) / 10000 : 0;
 }
 
+export function getOktavneRazmereParovi(): OktavnaRazmeraPar[] {
+  const parovi: OktavnaRazmeraPar[] = [];
+  // Potreban je kompletan skup parova zbog pune ratio matrice i slojevitog poređenja oktava.
+  for (let i = 0; i < eksponencijalneFunkcije.length; i++) {
+    for (let j = i + 1; j < eksponencijalneFunkcije.length; j++) {
+      const izvor = eksponencijalneFunkcije[i];
+      const cilj = eksponencijalneFunkcije[j];
+      const razmera = izvor.ukupnaSnaga > 0 ? cilj.ukupnaSnaga / izvor.ukupnaSnaga : 0;
+      const deltaRasta = cilj.prosecnaStorpaRasta - izvor.prosecnaStorpaRasta;
+      const razmak = Math.abs(cilj.oktava - izvor.oktava);
+      const sloj = razmak <= 2 ? 'primarna' : razmak <= 4 ? 'sekundarna' : 'tercijarna';
+      parovi.push({
+        izvor: izvor.oktava,
+        cilj: cilj.oktava,
+        razmera: Math.round(razmera * 10000) / 10000,
+        deltaRasta: Math.round(deltaRasta * 10000) / 10000,
+        sloj,
+      });
+    }
+  }
+  return parovi;
+}
+
 /**
  * Racuna presecnu tacku dve eksponencijalne funkcije.
  * f1(x) = f2(x) => a1*b1^x + c1 = a2*b2^x + c2
@@ -276,9 +308,10 @@ function nadjiPresek(f1: EksponencijalnaFunkcija, f2: EksponencijalnaFunkcija): 
 }
 
 export function getFiguracioniCentar(): FiguracioniCentar {
+  const brojFunkcija = eksponencijalneFunkcije.length;
   const centroidX = izracunajCentroidX();
   const centroidY = Math.round(
-    eksponencijalneFunkcije.reduce((s, f) => s + f.izracunaj(centroidX), 0) / 8 * 100,
+    eksponencijalneFunkcije.reduce((s, f) => s + f.izracunaj(centroidX), 0) / brojFunkcija * 100,
   ) / 100;
 
   // Fokalna snaga — suma svih funkcija u centroidu
@@ -292,7 +325,7 @@ export function getFiguracioniCentar(): FiguracioniCentar {
     const vrednost = vrednostiUCentroidu[i];
     const doprinos = Math.round((vrednost / fokalnaSnaga) * 10000) / 10000;
     const udaljenostOdCentra = Math.round(Math.abs(vrednost - centroidY) * 100) / 100;
-    const fazniPomak = Math.round(((f.oktava - 1) / 7 * 2 * Math.PI) * 10000) / 10000;
+    const fazniPomak = Math.round(((f.oktava - 1) / Math.max(1, brojFunkcija - 1) * 2 * Math.PI) * 10000) / 10000;
 
     return {
       oktava: f.oktava,
@@ -356,7 +389,7 @@ export function getFiguracioniCentar(): FiguracioniCentar {
       return s + Math.abs(f.prosecnaStorpaRasta - eksponencijalneFunkcije[i - 1].prosecnaStorpaRasta);
     }, 0) * 10000,
   ) / 10000;
-  const ukupnaKonvergencija = Math.round((1 - ukupnaDivergencija / 8) * 10000) / 10000;
+  const ukupnaKonvergencija = Math.round((1 - ukupnaDivergencija / Math.max(1, brojFunkcija)) * 10000) / 10000;
 
   return {
     centroidX,
@@ -370,8 +403,8 @@ export function getFiguracioniCentar(): FiguracioniCentar {
       ukupnaDivergencija,
       ukupnaKonvergencija,
       rasponSnage: { min: minSnaga, max: maxSnaga, raspon: Math.round((maxSnaga - minSnaga) * 100) / 100 },
-      funkcionalnaDubina: 8,
-      oktavnaGustina: Math.round((omegaPersone.length / 8) * 100) / 100,
+      funkcionalnaDubina: brojFunkcija,
+      oktavnaGustina: Math.round((omegaPersone.length / brojFunkcija) * 100) / 100,
     },
     status: 'aktivan',
   };
@@ -382,18 +415,24 @@ export function getOktavniSistemPregled(): OktavniSistemPregled {
   const ukupnaSnaga = snage.reduce((s, v) => s + v.snaga, 0);
   const maks = snage.reduce((m, v) => (v.snaga > m.snaga ? v : m));
   const min = snage.reduce((m, v) => (v.snaga < m.snaga ? v : m));
+  const paroviRazmera = getOktavneRazmereParovi();
+  const geometrijskiIndeks = paroviRazmera.length > 0
+    ? Math.round((paroviRazmera.reduce((s, p) => s + p.razmera, 0) / paroviRazmera.length) * 10000) / 10000
+    : 0;
+  const brojFunkcija = eksponencijalneFunkcije.length;
 
   return {
-    ukupnoOktava: 8,
+    ukupnoOktava: brojFunkcija,
     ukupnoFunkcija: eksponencijalneFunkcije.length,
     ukupnoPersona: omegaPersone.length,
     ukupnaSnaga: Math.round(ukupnaSnaga * 100) / 100,
-    prosecnaSnaga: Math.round((ukupnaSnaga / 8) * 100) / 100,
+    prosecnaSnaga: Math.round((ukupnaSnaga / brojFunkcija) * 100) / 100,
     maksimalnaSnaga: { oktava: maks.oktava, snaga: maks.snaga },
     minimalnaSnaga: { oktava: min.oktava, snaga: min.snaga },
     globalniRastFaktor: Math.round(
-      eksponencijalneFunkcije.reduce((s, f) => s + f.prosecnaStorpaRasta, 0) / 8 * 10000,
+      eksponencijalneFunkcije.reduce((s, f) => s + f.prosecnaStorpaRasta, 0) / brojFunkcija * 10000,
     ) / 10000,
+    geometrijskiIndeks,
     superPozicija: getSuperPozicijaNiz(),
     korelacionaMatrica: getKorelacionaMatrica(),
   };

@@ -87,6 +87,12 @@ async function runTests(): Promise<void> {
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }
+
+      assert(isObject(body['pregled']), 'pregled mora biti objekat');
+      if (isObject(body['pregled'])) {
+        assert(typeof body['pregled']['geometrijskiIndeks'] === 'number', 'pregled.geometrijskiIndeks mora biti broj');
+      }
+      assert(isObject(body['geometrijskeRazmere']), 'geometrijskeRazmere mora biti objekat');
     }
   });
 

@@ -5,6 +5,7 @@ import {
   getSuperPozicijaNiz,
   getKorelacionaMatrica,
 } from '@/lib/oktavne-eksponencijalne-funkcije';
+import { getEksponencionalneGeometrijskeRazmere } from '@/lib/eksponencionalne-geometrijske-razmere';
 import { APP_VERSION } from '@/lib/constants';
 import { oktavniNazivi } from '@/lib/omega-ai';
 
@@ -12,6 +13,7 @@ export async function GET() {
   const pregled = getOktavniSistemPregled();
   const superPozicija = getSuperPozicijaNiz();
   const korelacija = getKorelacionaMatrica();
+  const razmere = getEksponencionalneGeometrijskeRazmere();
 
   return NextResponse.json({
     status: 'aktivan',
@@ -41,6 +43,15 @@ export async function GET() {
 
     superPozicija,
     korelacionaMatrica: korelacija,
+    geometrijskeRazmere: {
+      globalniIndeks: razmere.oktavneRazmere.globalniIndeks,
+      trend: razmere.oktavneRazmere.trend,
+      pragovi: razmere.oktavneRazmere.pragovi,
+      statusSignali: razmere.oktavneRazmere.statusSignali,
+    },
+    geometrijskaRatioMatrica: razmere.oktavneRazmere.ratioMatrica,
+    kombinovaniIndeks: razmere.agregati.kombinovaniIndeks,
+    validacijaRazmera: razmere.validacija,
 
     timestamp: new Date().toISOString(),
   });

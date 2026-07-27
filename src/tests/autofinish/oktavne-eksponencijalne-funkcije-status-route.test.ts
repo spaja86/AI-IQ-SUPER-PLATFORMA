@@ -87,6 +87,13 @@ async function runTests(): Promise<void> {
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }
+
+      assert(isObject(body['zdravlje']), 'zdravlje mora biti objekat');
+      if (isObject(body['zdravlje'])) {
+        assert(typeof body['zdravlje']['geometrijskiIndeks'] === 'number', 'zdravlje.geometrijskiIndeks mora biti broj');
+        assert(typeof body['zdravlje']['kombinovaniIndeks'] === 'number', 'zdravlje.kombinovaniIndeks mora biti broj');
+        assert(typeof body['zdravlje']['validacijaRazmera'] === 'string', 'zdravlje.validacijaRazmera mora biti string');
+      }
     }
   });
 
