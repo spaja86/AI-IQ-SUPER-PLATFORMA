@@ -1,6 +1,10 @@
 import type { Sekvenca } from '@/lib/types';
 import { getOmegaEvolutionPregled } from '@/lib/omega-evolution';
 
+function formatCiklusOznaka(ciklus: { ciklus: number; tacnost: string; status: string }): string {
+  return `C${ciklus.ciklus} ${ciklus.tacnost} (${ciklus.status})`;
+}
+
 export function getOmegaEvolutionSekvence(): Sekvenca[] {
   const pregled = getOmegaEvolutionPregled();
 
@@ -9,7 +13,7 @@ export function getOmegaEvolutionSekvence(): Sekvenca[] {
       id: 'omega-evolution-hero',
       tip: 'hero',
       naslov: '🧬 OmegaEvolution — Evolucija Platforme',
-      podnaslov: 'Unifikovani evolucioni hub: OMEGA Evolucija Motor + SpajaPro 13 + Neuronska Evolucija + SpajaNikOpenEvolution brend',
+      podnaslov: 'Unifikovani evolucioni hub: OMEGA Evolucija Motor + SpajaPro 13 + Neuronska Evolucija + SpajaNikopEvolution brend',
       ikona: '🧬',
       redosled: 1,
       podaci: {
@@ -79,7 +83,7 @@ export function getOmegaEvolutionSekvence(): Sekvenca[] {
             naslov: 'OMEGA Neuronska Evolucija',
             opis: `Genetski algoritam ${pregled.neuronskaEvolucija.genetskiAlgoritam} • mutacijska stopa ${pregled.neuronskaEvolucija.mutacijskaStopa}`,
             ikona: '🧠',
-            oznake: pregled.neuronskaEvolucija.ciklusi.map((c) => `C${c.ciklus} ${c.tacnost} (${c.status})`),
+            oznake: pregled.neuronskaEvolucija.ciklusi.map(formatCiklusOznaka),
           },
         ],
       },

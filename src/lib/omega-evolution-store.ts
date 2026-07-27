@@ -3,7 +3,7 @@ import { getOmegaEvolutionPregled } from '@/lib/omega-evolution';
 
 export interface OmegaEvolutionSnapshot {
   evolucijskiStatus: OmegaEvolutionStatus;
-  brandKonent: SpajaNikOpenBrand;
+  brandContent: SpajaNikOpenBrand;
   timestamp: string;
 }
 
@@ -22,7 +22,7 @@ export function getOmegaEvolutionLastSnapshot(): OmegaEvolutionSnapshot | null {
 export function addOmegaEvolutionSnapshot(snapshot: OmegaEvolutionSnapshot): void {
   snapshots.push(snapshot);
   if (snapshots.length > OMEGA_EVOLUTION_MAX_SNAPSHOTS) {
-    snapshots = snapshots.slice(snapshots.length - OMEGA_EVOLUTION_MAX_SNAPSHOTS);
+    snapshots.shift();
   }
 }
 
@@ -30,7 +30,7 @@ export function fetchStatus(): OmegaEvolutionSnapshot {
   const pregled = getOmegaEvolutionPregled();
   const snapshot: OmegaEvolutionSnapshot = {
     evolucijskiStatus: pregled.status,
-    brandKonent: pregled.brand,
+    brandContent: pregled.brand,
     timestamp: new Date().toISOString(),
   };
   addOmegaEvolutionSnapshot(snapshot);

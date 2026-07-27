@@ -1,5 +1,9 @@
 import { APP_VERSION, AUTOFINISH_COUNT, OMEGA_AI_OKTAVA_COUNT, OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
-import { getEvolucijskaIstorija, getKonfiguracija, pokeniEvolucijskuDijagnostiku } from '@/lib/evolucija';
+import {
+  getEvolucijskaIstorija,
+  getKonfiguracija,
+  pokeniEvolucijskuDijagnostiku as pokreniEvolucijskuDijagnostiku,
+} from '@/lib/evolucija';
 import {
   metaPrompti,
   podrazumevaniGenetskiParametri,
@@ -141,7 +145,7 @@ export function getSpajaNikOpenBrand(): SpajaNikOpenBrand {
 export function getOmegaEvolutionPregled(): OmegaEvolutionPregled {
   const istorija = getEvolucijskaIstorija();
   const konfiguracija = getKonfiguracija();
-  const dijagnostika = pokeniEvolucijskuDijagnostiku();
+  const dijagnostika = pokreniEvolucijskuDijagnostiku();
 
   return {
     status: {
