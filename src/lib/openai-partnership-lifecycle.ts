@@ -459,12 +459,12 @@ export function getFallbackPlan(): FallbackPlan {
       'SpajaPro v6-15 ostaje operativan na svim postojećim planovima',
       'GitHub i Vercel enterprise requests se nastavljaju nezavisno',
       'Interna OMEGA orkestracija ne zavisi od OpenAI enterprise statusa',
-      'Evaluation alternatavnih AI providera startuje odmah po aktivaciji fallback-a',
+      'Evaluation alternativnih AI providera startuje odmah po aktivaciji fallback-a',
     ],
     timeout: '90 dana od slanja zahteva',
     napomena:
       'Fallback nije poraz — OMEGA ekosistem je dizajniran da bude provider-agnostičan. ' +
-      'OpenAI enterprise saradnja je preferirna ali ne i blokator evolucije.',
+      'OpenAI enterprise saradnja je preferirana ali ne i blokator evolucije.',
   };
 }
 

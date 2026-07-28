@@ -79,7 +79,7 @@ export function getOwnershipRunbook(): OwnershipFazaDetalji[] {
         'Vercel je vezan za spaja86. Ovo je stabilan model dok nema OpenAI acceptance.',
       preUslovi: ['Nema — ovo je trenutno stanje'],
       aktivnosti: [
-        'Opearativni nalog spaja86 je aktivan i vlasnik svega',
+        'Operativni nalog spaja86 je aktivan i vlasnik svega',
         'Vercel deployment je aktivan na spaja86 projektu',
         'GitHub Actions runner je konfigurisan za spaja86',
         'Sve secret varijable su pod spaja86 Vercel/GitHub settings',
@@ -287,7 +287,7 @@ export function getOwnershipRunbook(): OwnershipFazaDetalji[] {
         {
           id: 'transfer-04',
           naziv: 'OpenAI acceptance ili formalni OK signal',
-          opis: 'OpenAI je prihvatio ili je formalni inerni OK dat za transfer',
+          opis: 'OpenAI je prihvatio ili je formalni interni OK dat za transfer',
           status: goNoGoFromEnv('SPAJA_GITHUB_ORG_TRANSFER_READY'),
           envSignal: 'SPAJA_GITHUB_ORG_TRANSFER_READY',
           blokiranjeAkoNije: true,
@@ -327,7 +327,7 @@ export function getOwnershipRunbook(): OwnershipFazaDetalji[] {
         'Downtime: praktično nula ako je novo deployment testiran pre DNS switch-a.',
       rollbackPlan: [
         'Ako transfer ne uspe: GitHub je atomic — ili prošao ili nije',
-        'Ako Vercel integracija ne radi: revertovati na spaja86 Vercel projekat (DNS/CNAME back)',
+        'Ako je Vercel integracija ne radi: revertovati na spaja86 Vercel projekat (DNS/CNAME back)',
         'Ako GitHub Actions ne rade: privremeno prebaciti na spaja86 fork dok se ne reši',
         'Emergency kontakt: spaja86 GitHub support',
       ],
