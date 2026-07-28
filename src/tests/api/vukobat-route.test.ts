@@ -1,16 +1,11 @@
 import type { NextRequest } from 'next/server';
+import assert from 'node:assert';
 import { NextRequest as NextServerRequest } from 'next/server';
 import { APP_VERSION } from '../../lib/constants';
 import { GET } from '../../app/api/vukobat/route';
 import { VUKOBAT_CONTRACT_VERSION, VUKOBAT_MODEL_VERSION, VUKOBAT_NAZIV } from '../../lib/vukobat';
 
 const TEST_API_URL = 'http://localhost/api/vukobat';
-
-function assert(condition: boolean, message: string): asserts condition {
-  if (!condition) {
-    throw new Error(message);
-  }
-}
 
 async function run() {
   const request = new NextServerRequest(TEST_API_URL, {

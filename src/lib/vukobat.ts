@@ -367,7 +367,7 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
     : false;
 
   if (previousSnapshotTimestamp && !hasValidPreviousSnapshotTimestamp) {
-    console.warn('[vukobat] invalid snapshot timestamp detected; throttling persistence for safety');
+    console.warn('[vukobat] invalid snapshot timestamp detected; skipping persistence to prevent data corruption');
   }
 
   const enoughTimeElapsed = !previousSnapshotTimestamp

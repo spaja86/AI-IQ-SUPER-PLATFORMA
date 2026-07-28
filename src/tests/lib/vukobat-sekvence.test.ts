@@ -1,10 +1,5 @@
+import assert from 'node:assert';
 import { getVukobatSekvence } from '../../lib/sekvence/vukobat-page';
-
-function assert(condition: boolean, message: string): asserts condition {
-  if (!condition) {
-    throw new Error(message);
-  }
-}
 
 function run() {
   const sekvence = getVukobatSekvence();
