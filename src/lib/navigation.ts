@@ -32,6 +32,7 @@ export const navigation: NavItem[] = [
   { label: 'INDUKCIJA', href: '/indukcija', icon: '⚡', description: 'Inteligentni Napredni Detektor Unificiranih Koherentnih Ciklusa i Jezgra Automatizacije — cross-domain indukcioni engine za 6 operativnih domena' },
   { label: 'AUTO', href: '/auto', icon: '🤖', description: 'Autonomna Upravljačka Transformativna Orkestracija — cross-domain engine za 6 domena autonomnih operativnih procesa' },
   { label: 'VUKOBAT', href: '/vukobat', icon: '🛡️', description: 'Visoko Usklađena Komandna Orkestracija Budnosti, Analitike i Tokova — cross-domain engine za 6 domena operativne budnosti i automatizacije' },
+  { label: 'DIVEEZIJA EKSPESLA', href: '/diveezija-ekspesla', icon: '🔀', description: 'Dinamična Inteligentna Vektorizovana Ekspanzija i Ekspresija Zona Integracije Javnih Automatizovanih sistema — cross-domain engine sa 6 domena ekspresne logike i automatizacije' },
   { label: 'Prompt', href: '/prompt', icon: '💬', description: 'Prompt sistem sa 28 promptova' },
   { label: 'Igrice', href: '/igrice', icon: '🎮', description: '97 igrica u 18 kategorija' },
   { label: 'Gejming Industrija', href: '/gejming-industrija', icon: '🕹️', description: 'Nad-sloj gejming industrije — katalog, lifecycle, creation pipeline i distribucija' },
