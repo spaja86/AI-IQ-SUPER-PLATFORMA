@@ -238,3 +238,6 @@ export { mozeSveSekvence } from './moze-sve-page';
 
 // ── MIROR ────────────────────────────────────────────────────────────────────
 export { getMirorSekvence } from './miror-page';
+
+// ── DIVEEZIJA EKSPESLA ────────────────────────────────────────────────────────
+export { getDivezijaEkspeslaSekvence } from './diveezija-ekspesla-page';
