@@ -51,7 +51,7 @@ export const VUKOBAT_SLA_THRESHOLDS = {
 const VELOCITY_EPSILON = 0.001;
 const MOMENTUM_THRESHOLD = 2;
 const WEIGHT_NORMALIZATION_EPSILON = 0.0001;
-const VUKOBAT_SNAPSHOT_MIN_INTERVAL_MS = 60_000;
+const VUKOBAT_SNAPSHOT_THROTTLE_MS = 60_000;
 
 // Divisors/caps are tuned so current platform inventory keeps domain scores
 // in the "SPREMNO" band while leaving visible headroom for future growth.
@@ -342,7 +342,7 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
     .filter((domen) => domen.momentum === 'bearish')
     .map((domen) => domen.naziv);
   if (bearishDomeni.length > 0) {
-    preporuke.push(`Bearish momentum detektovan u domenima: ${bearishDomeni.join(', ')}.`);
+    preporuke.push(`Negativan momentum detektovan u domenima: ${bearishDomeni.join(', ')}.`);
   }
 
   if (preporuke.length === 0) {
@@ -354,10 +354,11 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
     ? Date.parse(previousSnapshot.timestamp)
     : null;
   const enoughTimeElapsed = previousSnapshotTimestamp === null
-    || Date.now() - previousSnapshotTimestamp >= VUKOBAT_SNAPSHOT_MIN_INTERVAL_MS;
+    || Date.now() - previousSnapshotTimestamp >= VUKOBAT_SNAPSHOT_THROTTLE_MS;
   const completedAt = new Date().toISOString();
+  const persistedSnapshotDelta = shouldPersistSnapshot && enoughTimeElapsed ? 1 : 0;
 
-  if (shouldPersistSnapshot && enoughTimeElapsed) {
+  if (persistedSnapshotDelta === 1) {
     addVukobatSnapshot({
       ukupanScore,
       ukupnaVelocity,
@@ -384,7 +385,7 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
     kriticniDomeni,
     domeniBrojKriticnih: kriticniDomeni.length,
     preporuke,
-    trendSnapshotCount: historyBefore.length + 1,
+    trendSnapshotCount: historyBefore.length + persistedSnapshotDelta,
     domeni,
     history: historyBefore,
     operativniKontekst: {

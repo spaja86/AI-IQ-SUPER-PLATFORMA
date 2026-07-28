@@ -12,11 +12,13 @@ function assert(condition: boolean, message: string): asserts condition {
 }
 
 async function run() {
-  const request = new Request(TEST_API_URL, {
-    headers: { 'x-forwarded-for': '127.0.0.1' },
-  });
+  const request = {
+    headers: new Headers({ 'x-forwarded-for': '127.0.0.1' }),
+    nextUrl: new URL(TEST_API_URL),
+    url: TEST_API_URL,
+  } as NextRequest;
 
-  const response = await GET(request as unknown as NextRequest);
+  const response = await GET(request);
   assert(response.status === 200, `Neočekivan status: ${response.status}`);
   assert(response.headers.get('X-Vukobat-Contract-Version') === VUKOBAT_CONTRACT_VERSION, 'contract header mora postojati');
   assert(response.headers.get('X-Vukobat-Model-Version') === VUKOBAT_MODEL_VERSION, 'model header mora postojati');
