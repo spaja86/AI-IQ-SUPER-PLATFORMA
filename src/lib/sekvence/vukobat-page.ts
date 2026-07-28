@@ -2,6 +2,10 @@ import type { Sekvenca } from '@/lib/types';
 import { AUTOFINISH_COUNT, KOMPANIJA } from '@/lib/constants';
 import { buildVukobat } from '@/lib/vukobat';
 
+function formatOcena(ocena: string): string {
+  return ocena.replace(/_/g, ' ');
+}
+
 function momentumIkona(momentum: 'bullish' | 'bearish' | 'neutral'): string {
   if (momentum === 'bullish') return '🟢';
   if (momentum === 'bearish') return '🔴';
@@ -49,7 +53,7 @@ export function getVukobatSekvence(): Sekvenca[] {
       podaci: {
         stavke: [
           { naziv: 'Ukupan score', vrednost: `${v.ukupanScore}%`, ikona: '🎯' },
-          { naziv: 'Ocena', vrednost: v.konacnaOcena.replace(/_/g, ' '), ikona: '🏆' },
+          { naziv: 'Ocena', vrednost: formatOcena(v.konacnaOcena), ikona: '🏆' },
           { naziv: 'Momentum', vrednost: `${momentumIkona(v.trendMomentum)} ${v.trendMomentum.toUpperCase()}`, ikona: '🧭' },
           { naziv: 'Velocity', vrednost: formatVelocity(v.ukupnaVelocity), ikona: '⚡' },
           { naziv: 'Kritični domeni', vrednost: v.domeniBrojKriticnih, ikona: '🚨' },
@@ -85,7 +89,7 @@ export function getVukobatSekvence(): Sekvenca[] {
       redosled: 4,
       podaci: {
         progres: v.ukupanScore,
-        poruka: `${v.konacnaOcena.replace(/_/g, ' ')} • ${v.trendMomentum.toUpperCase()} ritam • Velocity ${formatVelocity(v.ukupnaVelocity)}`,
+        poruka: `${formatOcena(v.konacnaOcena)} • ${v.trendMomentum.toUpperCase()} ritam • Velocity ${formatVelocity(v.ukupnaVelocity)}`,
       },
     },
     {

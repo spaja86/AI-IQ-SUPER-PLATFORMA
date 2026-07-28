@@ -1,3 +1,4 @@
+import type { NextRequest } from 'next/server';
 import { APP_VERSION } from '../../lib/constants';
 import { GET } from '../../app/api/vukobat/route';
 import { VUKOBAT_CONTRACT_VERSION, VUKOBAT_MODEL_VERSION, VUKOBAT_NAZIV } from '../../lib/vukobat';
@@ -13,7 +14,7 @@ async function run() {
     headers: { 'x-forwarded-for': '127.0.0.1' },
   });
 
-  const response = await GET(request as never);
+  const response = await GET(request as unknown as NextRequest);
   assert(response.status === 200, `Neočekivan status: ${response.status}`);
   assert(response.headers.get('X-Vukobat-Contract-Version') === VUKOBAT_CONTRACT_VERSION, 'contract header mora postojati');
   assert(response.headers.get('X-Vukobat-Model-Version') === VUKOBAT_MODEL_VERSION, 'model header mora postojati');

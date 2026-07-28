@@ -50,6 +50,7 @@ export const VUKOBAT_SLA_THRESHOLDS = {
 
 const VELOCITY_EPSILON = 0.001;
 const MOMENTUM_THRESHOLD = 2;
+const WEIGHT_NORMALIZATION_EPSILON = 0.0001;
 
 export type VukobatOcena = 'ODLICNO' | 'SPREMNO' | 'DELIMICNO' | 'POTREBNO_POBOLJSANJE';
 export type VukobatTrendDirection = 'rising' | 'falling' | 'accelerating' | 'decelerating' | 'stable';
@@ -123,7 +124,7 @@ function clampScore(score: number): number {
 
 function assertVukobatWeights(): void {
   const total = Object.values(VUKOBAT_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
-  if (Math.abs(total - 1) > 0.0001) {
+  if (Math.abs(total - 1) > WEIGHT_NORMALIZATION_EPSILON) {
     throw new Error(`VUKOBAT_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${total})`);
   }
 }
@@ -261,79 +262,35 @@ export function buildVukobat(): VukobatOutput {
     return computeVelocity(previousSnapshot.domenScores[key], prePreviousSnapshot.domenScores[key]);
   }
 
+  function createDomenSignal(
+    key: keyof VukobatSnapshot['domenScores'],
+    naziv: string,
+    score: number,
+    tezina: number,
+    slaThreshold: number,
+  ): VukobatDomenSignal {
+    const velocity = domainVelocity(score, key);
+    return {
+      naziv,
+      score,
+      confidence: computeConfidence(score),
+      tezina,
+      doprinos: clampScore(score * tezina),
+      sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
+      trendDirection: velocityToTrendDirection(velocity, previousDomainVelocity(key)),
+      velocity,
+      momentum: momentumFromVelocity(velocity),
+      slaThreshold,
+    };
+  }
+
   const domeni = {
-    vizija: {
-      naziv: 'Vizija',
-      score: vizijaScore,
-      confidence: computeConfidence(vizijaScore),
-      tezina: VUKOBAT_WEIGHTS.vizija,
-      doprinos: clampScore(vizijaScore * VUKOBAT_WEIGHTS.vizija),
-      sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
-      trendDirection: velocityToTrendDirection(domainVelocity(vizijaScore, 'vizija'), previousDomainVelocity('vizija')),
-      velocity: domainVelocity(vizijaScore, 'vizija'),
-      momentum: momentumFromVelocity(domainVelocity(vizijaScore, 'vizija')),
-      slaThreshold: VUKOBAT_SLA_THRESHOLDS.vizija,
-    } satisfies VukobatDomenSignal,
-    upravljanje: {
-      naziv: 'Upravljanje',
-      score: upravljanjeScore,
-      confidence: computeConfidence(upravljanjeScore),
-      tezina: VUKOBAT_WEIGHTS.upravljanje,
-      doprinos: clampScore(upravljanjeScore * VUKOBAT_WEIGHTS.upravljanje),
-      sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
-      trendDirection: velocityToTrendDirection(domainVelocity(upravljanjeScore, 'upravljanje'), previousDomainVelocity('upravljanje')),
-      velocity: domainVelocity(upravljanjeScore, 'upravljanje'),
-      momentum: momentumFromVelocity(domainVelocity(upravljanjeScore, 'upravljanje')),
-      slaThreshold: VUKOBAT_SLA_THRESHOLDS.upravljanje,
-    } satisfies VukobatDomenSignal,
-    koordinacija: {
-      naziv: 'Koordinacija',
-      score: koordinacijaScore,
-      confidence: computeConfidence(koordinacijaScore),
-      tezina: VUKOBAT_WEIGHTS.koordinacija,
-      doprinos: clampScore(koordinacijaScore * VUKOBAT_WEIGHTS.koordinacija),
-      sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
-      trendDirection: velocityToTrendDirection(domainVelocity(koordinacijaScore, 'koordinacija'), previousDomainVelocity('koordinacija')),
-      velocity: domainVelocity(koordinacijaScore, 'koordinacija'),
-      momentum: momentumFromVelocity(domainVelocity(koordinacijaScore, 'koordinacija')),
-      slaThreshold: VUKOBAT_SLA_THRESHOLDS.koordinacija,
-    } satisfies VukobatDomenSignal,
-    operativa: {
-      naziv: 'Operativa',
-      score: operativaScore,
-      confidence: computeConfidence(operativaScore),
-      tezina: VUKOBAT_WEIGHTS.operativa,
-      doprinos: clampScore(operativaScore * VUKOBAT_WEIGHTS.operativa),
-      sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
-      trendDirection: velocityToTrendDirection(domainVelocity(operativaScore, 'operativa'), previousDomainVelocity('operativa')),
-      velocity: domainVelocity(operativaScore, 'operativa'),
-      momentum: momentumFromVelocity(domainVelocity(operativaScore, 'operativa')),
-      slaThreshold: VUKOBAT_SLA_THRESHOLDS.operativa,
-    } satisfies VukobatDomenSignal,
-    bezbednost: {
-      naziv: 'Bezbednost',
-      score: bezbednostScore,
-      confidence: computeConfidence(bezbednostScore),
-      tezina: VUKOBAT_WEIGHTS.bezbednost,
-      doprinos: clampScore(bezbednostScore * VUKOBAT_WEIGHTS.bezbednost),
-      sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
-      trendDirection: velocityToTrendDirection(domainVelocity(bezbednostScore, 'bezbednost'), previousDomainVelocity('bezbednost')),
-      velocity: domainVelocity(bezbednostScore, 'bezbednost'),
-      momentum: momentumFromVelocity(domainVelocity(bezbednostScore, 'bezbednost')),
-      slaThreshold: VUKOBAT_SLA_THRESHOLDS.bezbednost,
-    } satisfies VukobatDomenSignal,
-    automatizacija: {
-      naziv: 'Automatizacija',
-      score: automatizacijaScore,
-      confidence: computeConfidence(automatizacijaScore),
-      tezina: VUKOBAT_WEIGHTS.automatizacija,
-      doprinos: clampScore(automatizacijaScore * VUKOBAT_WEIGHTS.automatizacija),
-      sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
-      trendDirection: velocityToTrendDirection(domainVelocity(automatizacijaScore, 'automatizacija'), previousDomainVelocity('automatizacija')),
-      velocity: domainVelocity(automatizacijaScore, 'automatizacija'),
-      momentum: momentumFromVelocity(domainVelocity(automatizacijaScore, 'automatizacija')),
-      slaThreshold: VUKOBAT_SLA_THRESHOLDS.automatizacija,
-    } satisfies VukobatDomenSignal,
+    vizija: createDomenSignal('vizija', 'Vizija', vizijaScore, VUKOBAT_WEIGHTS.vizija, VUKOBAT_SLA_THRESHOLDS.vizija),
+    upravljanje: createDomenSignal('upravljanje', 'Upravljanje', upravljanjeScore, VUKOBAT_WEIGHTS.upravljanje, VUKOBAT_SLA_THRESHOLDS.upravljanje),
+    koordinacija: createDomenSignal('koordinacija', 'Koordinacija', koordinacijaScore, VUKOBAT_WEIGHTS.koordinacija, VUKOBAT_SLA_THRESHOLDS.koordinacija),
+    operativa: createDomenSignal('operativa', 'Operativa', operativaScore, VUKOBAT_WEIGHTS.operativa, VUKOBAT_SLA_THRESHOLDS.operativa),
+    bezbednost: createDomenSignal('bezbednost', 'Bezbednost', bezbednostScore, VUKOBAT_WEIGHTS.bezbednost, VUKOBAT_SLA_THRESHOLDS.bezbednost),
+    automatizacija: createDomenSignal('automatizacija', 'Automatizacija', automatizacijaScore, VUKOBAT_WEIGHTS.automatizacija, VUKOBAT_SLA_THRESHOLDS.automatizacija),
   };
 
   const kriticniDomeni = (Object.values(domeni) as VukobatDomenSignal[])
