@@ -25,7 +25,7 @@ function formatVelocity(velocity: number): string {
 }
 
 export function getVukobatSekvence(): Sekvenca[] {
-  const v = buildVukobat();
+  const v = buildVukobat({ persistSnapshot: false });
 
   return [
     {

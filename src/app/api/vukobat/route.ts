@@ -11,7 +11,7 @@ import {
 } from '@/lib/vukobat';
 
 export const dynamic = 'force-dynamic';
-export const VUKOBAT_RATE_LIMIT = 60;
+export const VUKOBAT_RATE_LIMIT = 10;
 export const VUKOBAT_RATE_WINDOW_SECONDS = 60;
 
 export async function GET(req: NextRequest) {
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const data = buildVukobat();
+    const data = buildVukobat({ persistSnapshot: true });
     const response = NextResponse.json({
       status: 'aktivan',
       modul: VUKOBAT_NAZIV,

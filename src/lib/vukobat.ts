@@ -51,6 +51,39 @@ export const VUKOBAT_SLA_THRESHOLDS = {
 const VELOCITY_EPSILON = 0.001;
 const MOMENTUM_THRESHOLD = 2;
 const WEIGHT_NORMALIZATION_EPSILON = 0.0001;
+const VUKOBAT_SNAPSHOT_MIN_INTERVAL_MS = 60_000;
+
+// Divisors/caps are tuned so current platform inventory keeps domain scores
+// in the "SPREMNO" band while leaving visible headroom for future growth.
+const VIZIJA_PAGES_DIVISOR = 8;
+const VIZIJA_PAGES_CAP = 20;
+const VIZIJA_PERSONA_DIVISOR = 3;
+const VIZIJA_PERSONA_CAP = 16;
+
+const UPRAVLJANJE_PROTOKOLI_FACTOR = 1.05;
+const UPRAVLJANJE_PROTOKOLI_CAP = 18;
+const UPRAVLJANJE_API_DIVISOR = 90;
+const UPRAVLJANJE_API_CAP = 18;
+
+const KOORDINACIJA_ROUTE_DIVISOR = 95;
+const KOORDINACIJA_ROUTE_CAP = 20;
+const KOORDINACIJA_DIJAGNOSTIKA_DIVISOR = 220;
+const KOORDINACIJA_DIJAGNOSTIKA_CAP = 16;
+
+const OPERATIVA_API_DIVISOR = 80;
+const OPERATIVA_API_CAP = 18;
+const OPERATIVA_DIJAGNOSTIKA_DIVISOR = 200;
+const OPERATIVA_DIJAGNOSTIKA_CAP = 15;
+
+const BEZBEDNOST_PROTOKOLI_FACTOR = 0.9;
+const BEZBEDNOST_PROTOKOLI_CAP = 18;
+const BEZBEDNOST_DIJAGNOSTIKA_DIVISOR = 260;
+const BEZBEDNOST_DIJAGNOSTIKA_CAP = 14;
+
+const AUTOMATIZACIJA_AUTOFINISH_DIVISOR = 70;
+const AUTOMATIZACIJA_AUTOFINISH_CAP = 20;
+const AUTOMATIZACIJA_API_DIVISOR = 85;
+const AUTOMATIZACIJA_API_CAP = 16;
 
 export type VukobatOcena = 'ODLICNO' | 'SPREMNO' | 'DELIMICNO' | 'POTREBNO_POBOLJSANJE';
 export type VukobatTrendDirection = 'rising' | 'falling' | 'accelerating' | 'decelerating' | 'stable';
@@ -175,52 +208,52 @@ function momentumFromVelocity(velocity: number): VukobatMomentum {
 function computeVizijaScore(): number {
   return clampScore(
     63
-    + Math.min(20, TOTAL_PAGES / 8)
-    + Math.min(16, OMEGA_AI_PERSONA_COUNT / 3),
+    + Math.min(VIZIJA_PAGES_CAP, TOTAL_PAGES / VIZIJA_PAGES_DIVISOR)
+    + Math.min(VIZIJA_PERSONA_CAP, OMEGA_AI_PERSONA_COUNT / VIZIJA_PERSONA_DIVISOR),
   );
 }
 
 function computeUpravljanjeScore(): number {
   return clampScore(
     61
-    + Math.min(18, TOTAL_PROTOKOLA * 1.05)
-    + Math.min(18, TOTAL_API_ROUTES / 90),
+    + Math.min(UPRAVLJANJE_PROTOKOLI_CAP, TOTAL_PROTOKOLA * UPRAVLJANJE_PROTOKOLI_FACTOR)
+    + Math.min(UPRAVLJANJE_API_CAP, TOTAL_API_ROUTES / UPRAVLJANJE_API_DIVISOR),
   );
 }
 
 function computeKoordinacijaScore(): number {
   return clampScore(
     60
-    + Math.min(20, TOTAL_ROUTES / 95)
-    + Math.min(16, TOTAL_DIAGNOSTIKA / 220),
+    + Math.min(KOORDINACIJA_ROUTE_CAP, TOTAL_ROUTES / KOORDINACIJA_ROUTE_DIVISOR)
+    + Math.min(KOORDINACIJA_DIJAGNOSTIKA_CAP, TOTAL_DIAGNOSTIKA / KOORDINACIJA_DIJAGNOSTIKA_DIVISOR),
   );
 }
 
 function computeOperativaScore(): number {
   return clampScore(
     62
-    + Math.min(18, TOTAL_API_ROUTES / 80)
-    + Math.min(15, TOTAL_DIAGNOSTIKA / 200),
+    + Math.min(OPERATIVA_API_CAP, TOTAL_API_ROUTES / OPERATIVA_API_DIVISOR)
+    + Math.min(OPERATIVA_DIJAGNOSTIKA_CAP, TOTAL_DIAGNOSTIKA / OPERATIVA_DIJAGNOSTIKA_DIVISOR),
   );
 }
 
 function computeBezbednostScore(): number {
   return clampScore(
     64
-    + Math.min(18, TOTAL_PROTOKOLA * 0.9)
-    + Math.min(14, TOTAL_DIAGNOSTIKA / 260),
+    + Math.min(BEZBEDNOST_PROTOKOLI_CAP, TOTAL_PROTOKOLA * BEZBEDNOST_PROTOKOLI_FACTOR)
+    + Math.min(BEZBEDNOST_DIJAGNOSTIKA_CAP, TOTAL_DIAGNOSTIKA / BEZBEDNOST_DIJAGNOSTIKA_DIVISOR),
   );
 }
 
 function computeAutomatizacijaScore(): number {
   return clampScore(
     58
-    + Math.min(20, AUTOFINISH_COUNT / 70)
-    + Math.min(16, TOTAL_API_ROUTES / 85),
+    + Math.min(AUTOMATIZACIJA_AUTOFINISH_CAP, AUTOFINISH_COUNT / AUTOMATIZACIJA_AUTOFINISH_DIVISOR)
+    + Math.min(AUTOMATIZACIJA_API_CAP, TOTAL_API_ROUTES / AUTOMATIZACIJA_API_DIVISOR),
   );
 }
 
-export function buildVukobat(): VukobatOutput {
+export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOutput {
   assertVukobatWeights();
   const nowIso = new Date().toISOString();
 
@@ -313,19 +346,27 @@ export function buildVukobat(): VukobatOutput {
     preporuke.push('VUKOBAT održava stabilan ili bullish operativni ritam kroz svih 6 domena.');
   }
 
-  addVukobatSnapshot({
-    ukupanScore,
-    ukupnaVelocity,
-    domenScores: {
-      vizija: vizijaScore,
-      upravljanje: upravljanjeScore,
-      koordinacija: koordinacijaScore,
-      operativa: operativaScore,
-      bezbednost: bezbednostScore,
-      automatizacija: automatizacijaScore,
-    },
-    timestamp: nowIso,
-  });
+  const shouldPersistSnapshot = options?.persistSnapshot ?? false;
+  const previousSnapshotTimestamp = previousSnapshot ? Date.parse(previousSnapshot.timestamp) : null;
+  const enoughTimeElapsed = previousSnapshotTimestamp === null
+    || Number.isNaN(previousSnapshotTimestamp)
+    || Date.now() - previousSnapshotTimestamp >= VUKOBAT_SNAPSHOT_MIN_INTERVAL_MS;
+
+  if (shouldPersistSnapshot && enoughTimeElapsed) {
+    addVukobatSnapshot({
+      ukupanScore,
+      ukupnaVelocity,
+      domenScores: {
+        vizija: vizijaScore,
+        upravljanje: upravljanjeScore,
+        koordinacija: koordinacijaScore,
+        operativa: operativaScore,
+        bezbednost: bezbednostScore,
+        automatizacija: automatizacijaScore,
+      },
+      timestamp: nowIso,
+    });
+  }
 
   return {
     sistem: VUKOBAT_NAZIV,
