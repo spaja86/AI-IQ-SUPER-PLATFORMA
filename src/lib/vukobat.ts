@@ -205,6 +205,10 @@ function momentumFromVelocity(velocity: number): VukobatMomentum {
   return 'neutral';
 }
 
+function isValidIsoTimestamp(timestamp: string): boolean {
+  return !Number.isNaN(Date.parse(timestamp));
+}
+
 function computeVizijaScore(): number {
   return clampScore(
     63
@@ -255,7 +259,6 @@ function computeAutomatizacijaScore(): number {
 
 export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOutput {
   assertVukobatWeights();
-  const nowIso = new Date().toISOString();
 
   const vizijaScore = computeVizijaScore();
   const upravljanjeScore = computeUpravljanjeScore();
@@ -347,10 +350,12 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
   }
 
   const shouldPersistSnapshot = options?.persistSnapshot ?? false;
-  const previousSnapshotTimestamp = previousSnapshot ? Date.parse(previousSnapshot.timestamp) : null;
+  const previousSnapshotTimestamp = previousSnapshot && isValidIsoTimestamp(previousSnapshot.timestamp)
+    ? Date.parse(previousSnapshot.timestamp)
+    : null;
   const enoughTimeElapsed = previousSnapshotTimestamp === null
-    || Number.isNaN(previousSnapshotTimestamp)
     || Date.now() - previousSnapshotTimestamp >= VUKOBAT_SNAPSHOT_MIN_INTERVAL_MS;
+  const completedAt = new Date().toISOString();
 
   if (shouldPersistSnapshot && enoughTimeElapsed) {
     addVukobatSnapshot({
@@ -364,7 +369,7 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
         bezbednost: bezbednostScore,
         automatizacija: automatizacijaScore,
       },
-      timestamp: nowIso,
+      timestamp: completedAt,
     });
   }
 
@@ -395,10 +400,10 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
       contractVersion: VUKOBAT_CONTRACT_VERSION,
       modelVersion: VUKOBAT_MODEL_VERSION,
       sourceOfTruth: VUKOBAT_SOURCE_OF_TRUTH,
-      generatedAt: nowIso,
+      generatedAt: completedAt,
       scoreWeights: VUKOBAT_WEIGHTS,
       slaThresholds: VUKOBAT_SLA_THRESHOLDS,
     },
-    timestamp: nowIso,
+    timestamp: completedAt,
   };
 }
