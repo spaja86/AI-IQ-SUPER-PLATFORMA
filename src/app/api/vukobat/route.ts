@@ -11,6 +11,7 @@ import {
 } from '@/lib/vukobat';
 
 export const dynamic = 'force-dynamic';
+// Limit važi za sve pozivaoce, uključujući automatizovane agente.
 export const VUKOBAT_RATE_LIMIT = 10;
 export const VUKOBAT_RATE_WINDOW_SECONDS = 60;
 

@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { NextRequest as NextServerRequest } from 'next/server';
 import { APP_VERSION } from '../../lib/constants';
 import { GET } from '../../app/api/vukobat/route';
 import { VUKOBAT_CONTRACT_VERSION, VUKOBAT_MODEL_VERSION, VUKOBAT_NAZIV } from '../../lib/vukobat';
@@ -12,11 +13,9 @@ function assert(condition: boolean, message: string): asserts condition {
 }
 
 async function run() {
-  const request = {
-    headers: new Headers({ 'x-forwarded-for': '127.0.0.1' }),
-    nextUrl: new URL(TEST_API_URL),
-    url: TEST_API_URL,
-  } as NextRequest;
+  const request = new NextServerRequest(TEST_API_URL, {
+    headers: { 'x-forwarded-for': '127.0.0.1' },
+  }) as NextRequest;
 
   const response = await GET(request);
   assert(response.status === 200, `Neočekivan status: ${response.status}`);

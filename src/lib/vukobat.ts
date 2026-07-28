@@ -51,6 +51,8 @@ export const VUKOBAT_SLA_THRESHOLDS = {
 const VELOCITY_EPSILON = 0.001;
 const MOMENTUM_THRESHOLD = 2;
 const WEIGHT_NORMALIZATION_EPSILON = 0.0001;
+// Snapshot persistence je dijagnostička i ephemeralan runtime signal;
+// ne zamenjuje commit/PR audit log pravila definisana u AGENTS.md.
 const VUKOBAT_SNAPSHOT_THROTTLE_MS = 60_000;
 
 // Divisors/caps are tuned so current platform inventory keeps domain scores
@@ -206,7 +208,16 @@ function momentumFromVelocity(velocity: number): VukobatMomentum {
 }
 
 function isValidIsoTimestamp(timestamp: string): boolean {
-  return !Number.isNaN(Date.parse(timestamp));
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(timestamp)) {
+    return false;
+  }
+
+  const parsed = Date.parse(timestamp);
+  if (Number.isNaN(parsed)) {
+    return false;
+  }
+
+  return new Date(parsed).toISOString() === timestamp;
 }
 
 function computeVizijaScore(): number {
@@ -350,11 +361,18 @@ export function buildVukobat(options?: { persistSnapshot?: boolean }): VukobatOu
   }
 
   const shouldPersistSnapshot = options?.persistSnapshot ?? false;
-  const previousSnapshotTimestamp = previousSnapshot && isValidIsoTimestamp(previousSnapshot.timestamp)
-    ? Date.parse(previousSnapshot.timestamp)
-    : null;
-  const enoughTimeElapsed = previousSnapshotTimestamp === null
-    || Date.now() - previousSnapshotTimestamp >= VUKOBAT_SNAPSHOT_THROTTLE_MS;
+  const previousSnapshotTimestamp = previousSnapshot?.timestamp;
+  const hasValidPreviousSnapshotTimestamp = previousSnapshotTimestamp
+    ? isValidIsoTimestamp(previousSnapshotTimestamp)
+    : false;
+
+  if (previousSnapshotTimestamp && !hasValidPreviousSnapshotTimestamp) {
+    console.warn('[vukobat] invalid snapshot timestamp detected; throttling persistence for safety');
+  }
+
+  const enoughTimeElapsed = !previousSnapshotTimestamp
+    || (hasValidPreviousSnapshotTimestamp
+      && Date.now() - Date.parse(previousSnapshotTimestamp) >= VUKOBAT_SNAPSHOT_THROTTLE_MS);
   const completedAt = new Date().toISOString();
   const persistedSnapshotDelta = shouldPersistSnapshot && enoughTimeElapsed ? 1 : 0;
 
