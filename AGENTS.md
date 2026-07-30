@@ -101,7 +101,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | ci-bot | Testing & Linting | PR, Push | @spaja86 | ✅ Active | All repos |
 | human-review | Code Review | Manual | @spaja86 | ✅ Active | All repos |
 | deploy-bot | Deployment | Merge to main | @spaja86 | ⏳ Planned | All repos |
-| security-scanner | Security Scanning | PR, Nightly | @spaja86 | ⏳ Planned | All repos |
+| security-scanner | Security Scanning | PR, Nightly | @spaja86 | ✅ Active | All repos |
 | multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | 📋 Ready | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
 | calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
@@ -248,7 +248,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | ci-bot | Testing & Linting | PR, Push | @spaja86 | ✅ Active | All repos |
 | human-review | Code Review | Manual | @spaja86 | ✅ Active | All repos |
 | deploy-bot | Deployment | Merge to main | @spaja86 | ⏳ Planned | All repos |
-| security-scanner | Security Scanning | PR, Nightly | @spaja86 | ⏳ Planned | All repos |
+| security-scanner | Security Scanning | PR, Nightly | @spaja86 | ✅ Active | All repos |
 | multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | 📋 Ready | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
 | calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |

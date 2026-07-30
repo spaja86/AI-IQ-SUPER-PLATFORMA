@@ -61,10 +61,13 @@ jobs:
         run: npx tsc --noEmit
 
       - name: 🔍 ESLint provera
-        run: npx eslint src/
+        run: npm run lint -- src/
 
       - name: 🧪 Smoke testovi (go-live gate)
-        run: npx tsx src/tests/smoke/smoke.test.ts
+        run: npm run test:smoke
+
+      - name: 🚦 Predeploy operativna provera
+        run: npm run predeploy:check
 
       - name: 📊 Build izveštaj
         if: always()

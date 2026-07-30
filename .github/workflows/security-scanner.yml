@@ -1,0 +1,117 @@
+name: 🔐 Security Scanner
+
+on:
+  pull_request:
+    branches: ['main']
+  push:
+    branches: ['main']
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: security-scanner-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: write
+
+jobs:
+  dependency-review:
+    name: 📦 Dependency Review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Review dependency changes
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+
+  secret-heuristics:
+    name: 🔑 Secret Heuristics
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 Scan tracked files for likely secrets
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+
+          repo = Path('.')
+          tracked = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          patterns = {
+              'github_pat': re.compile(r'github_pat_[A-Za-z0-9_]{20,}'),
+              'github_token': re.compile(r'gh[pousr]_[A-Za-z0-9]{20,}'),
+              'stripe_live': re.compile(r'sk_live_[A-Za-z0-9]{16,}'),
+              'stripe_test': re.compile(r'sk_test_[A-Za-z0-9]{16,}'),
+              'stripe_webhook': re.compile(r'whsec_[A-Za-z0-9]{16,}'),
+              'aws_key': re.compile(r'AKIA[0-9A-Z]{16}'),
+              'slack_token': re.compile(r'xox[baprs]-[A-Za-z0-9-]{10,}'),
+              'google_api_key': re.compile(r'AIza[0-9A-Za-z\-_]{35}'),
+              'private_key': re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----'),
+          }
+          ignored_suffixes = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico', '.pdf', '.lock', '.svg'}
+          hits = []
+          for relative in tracked:
+              path = repo / relative
+              if path.suffix.lower() in ignored_suffixes:
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except Exception:
+                  continue
+              for name, pattern in patterns.items():
+                  for match in pattern.finditer(text):
+                      line = text.count('\n', 0, match.start()) + 1
+                      hits.append(f'{relative}:{line}:{name}')
+          if hits:
+              print('Potential secrets detected:')
+              for hit in hits:
+                  print(hit)
+              sys.exit(1)
+          print('No likely secrets detected in tracked files.')
+          PY
+
+  npm-audit:
+    name: 🛡️ npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🛡️ Audit high severity vulnerabilities
+        run: npm audit --audit-level=high
+
+  codeql:
+    name: 🧠 CodeQL
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🧠 Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          build-mode: none
+
+      - name: 🧠 Analyze
+        uses: github/codeql-action/analyze@v3
