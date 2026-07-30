@@ -154,6 +154,28 @@
       "docsAndLinks": "same-change-window"
     }
   },
+  "depon": {
+    "platform": "120M-US-States",
+    "targetUsers": 120000000,
+    "targetStates": 50,
+    "modules": {
+      "total": 12,
+      "active": 4,
+      "planned": 8
+    },
+    "scalingPhases": {
+      "phase1": { "userRange": "0-10M", "regions": 3, "depons": ["DEPON-01","DEPON-02","DEPON-03","DEPON-04"] },
+      "phase2": { "userRange": "10-50M", "regions": 6, "depons": ["DEPON-05","DEPON-06","DEPON-07","DEPON-08"] },
+      "phase3": { "userRange": "50-120M", "regions": 12, "depons": ["DEPON-09","DEPON-10","DEPON-11","DEPON-12"] }
+    },
+    "deployWorkflow": ".github/workflows/depon-deploy.yml",
+    "testSuite": "src/tests/depon/depon-registry.test.ts",
+    "migration": "supabase/migrations/019_depon_us_states_platform.sql",
+    "sla": {
+      "uptimePercent": 99.99,
+      "maxLatencyMs": 100
+    }
+  },
   "kpiTracking": {
     "enabled": true,
     "reportingCadence": "daily",
