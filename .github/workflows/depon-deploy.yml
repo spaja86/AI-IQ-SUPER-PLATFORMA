@@ -25,11 +25,16 @@ concurrency:
   group: depon-deploy-${{ github.ref }}
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   # ─── Validate DEPON modules ──────────────────────────────────────────────────
   validate:
     name: Validate DEPON Modules
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       depon_count: ${{ steps.count.outputs.count }}
     steps:
@@ -70,6 +75,8 @@ jobs:
   security:
     name: Security Scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: validate
     steps:
       - uses: actions/checkout@v4
@@ -94,6 +101,8 @@ jobs:
   deploy-phase-1:
     name: Deploy Phase 1 — DEPON-01 to DEPON-04
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [validate, security]
     if: github.ref == 'refs/heads/main' || github.event.inputs.depon_id == 'all' || startsWith(github.event.inputs.depon_id, 'DEPON-0')
     environment: ${{ github.event.inputs.environment || 'staging' }}
@@ -126,6 +135,8 @@ jobs:
   deploy-phase-2:
     name: Deploy Phase 2 — DEPON-05 to DEPON-08
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: deploy-phase-1
     if: github.event.inputs.depon_id == 'all' || startsWith(github.event.inputs.depon_id, 'DEPON-0')
     environment: ${{ github.event.inputs.environment || 'staging' }}
@@ -157,6 +168,8 @@ jobs:
   deploy-phase-3:
     name: Deploy Phase 3 — DEPON-09 to DEPON-12
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: deploy-phase-2
     if: github.event.inputs.depon_id == 'all' || startsWith(github.event.inputs.depon_id, 'DEPON-1')
     environment: ${{ github.event.inputs.environment || 'staging' }}
@@ -188,6 +201,8 @@ jobs:
   scale-check:
     name: Scale Validation — 120M Users
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: deploy-phase-3
     steps:
       - uses: actions/checkout@v4
@@ -226,6 +241,7 @@ jobs:
   summary:
     name: Deploy Summary
     runs-on: ubuntu-latest
+    permissions: {}
     needs: scale-check
     if: always()
     steps:
