@@ -2,11 +2,15 @@
   "agents": {
     "ci-bot": {
       "enabled": true,
-      "languages": ["typescript", "javascript"],
+      "languages": [
+        "typescript",
+        "javascript"
+      ],
       "autoFix": true,
       "requireApproval": false,
       "testCommand": "npm run test",
-      "lintCommand": "npm run lint"
+      "lintCommand": "npm run lint",
+      "workflowFile": ".github/workflows/omega-auto-build.yml"
     },
     "human-review": {
       "enabled": true,
@@ -17,7 +21,11 @@
       "enabled": false,
       "trigger": "merge-to-main",
       "requireGreenCI": true,
-      "environments": ["staging", "production"]
+      "environments": [
+        "staging",
+        "production"
+      ],
+      "workflowFile": ".github/workflows/vercel-deploy.yml"
     },
     "security-scanner": {
       "enabled": true,
@@ -25,7 +33,12 @@
       "nightly": true,
       "blockCritical": true,
       "scanSecrets": true,
-      "auditDependencies": true
+      "auditDependencies": true,
+      "workflowFile": ".github/workflows/security-scanner.yml",
+      "labels": [
+        "security:needs-review",
+        "security:review-needed"
+      ]
     },
     "multi-repo-sync-agent": {
       "enabled": true,
@@ -41,7 +54,11 @@
         "agent-config",
         "readme-links"
       ],
-      "excludePrivate": false
+      "excludePrivate": false,
+      "sourceOfTruthDocs": [
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/ROADMAP.md"
+      ]
     },
     "calculator-validator-agent": {
       "enabled": false,
@@ -61,13 +78,19 @@
         "automated-merges",
         "security-findings",
         "deployment-frequency"
-      ]
+      ],
+      "sourceOfTruthDoc": "docs/ROADMAP.md"
     }
   },
   "orgSettings": {
     "signCommits": true,
-    "autoMergeAllowed": ["hotfix/*"],
-    "protectedBranches": ["main", "develop"],
+    "autoMergeAllowed": [
+      "hotfix/*"
+    ],
+    "protectedBranches": [
+      "main",
+      "develop"
+    ],
     "requireAllChecks": true
   },
   "finops": {
@@ -77,7 +100,12 @@
     },
     "monthlyBudget": {
       "currency": "USD",
-      "alertsPercent": [50, 75, 90, 100]
+      "alertsPercent": [
+        50,
+        75,
+        90,
+        100
+      ]
     },
     "ownership": {
       "team": "IO-OPENUI-AO / SUPER-PLATFORMA",
@@ -94,6 +122,66 @@
       "monthlyOpsReview": true,
       "quarterlyBusinessReview": true,
       "incidentEscalationChannel247": true
+    }
+  },
+  "sourceOfTruth": {
+    "roadmap": "docs/ROADMAP.md",
+    "multiRepo": "docs/MULTI-REPO-LINKS.md",
+    "finops": "docs/finops-enterprise-operating-model.md",
+    "security": "docs/SECURITY.md",
+    "goLive": "docs/GO-LIVE.md"
+  },
+  "multiRepoLinks": {
+    "primaryRepo": "spaja86/AI-IQ-SUPER-PLATFORMA",
+    "linkedRepos": [
+      {
+        "repo": "spaja86/IO-OPENUI-AO",
+        "syncFields": [
+          "versions",
+          "labels",
+          "milestones",
+          "agent-config",
+          "readme-links",
+          "follow-up-refs"
+        ],
+        "syncTrigger": "weekly",
+        "trackingDoc": "docs/MULTI-REPO-LINKS.md"
+      }
+    ],
+    "crossRepoVersionPolicies": {
+      "npmPackages": "minor-compatible",
+      "githubActions": "patch-exact",
+      "docsAndLinks": "same-change-window"
+    }
+  },
+  "kpiTracking": {
+    "enabled": true,
+    "reportingCadence": "daily",
+    "trackedMetrics": [
+      "cost-per-deployment",
+      "cost-per-active-user",
+      "mttr",
+      "build-duration",
+      "deployment-success-rate",
+      "agent-reliability-score",
+      "security-scan-coverage"
+    ],
+    "owners": {
+      "platformOps": [
+        "build-duration",
+        "deployment-success-rate",
+        "mttr"
+      ],
+      "finops": [
+        "cost-per-deployment",
+        "cost-per-active-user"
+      ],
+      "automation": [
+        "agent-reliability-score"
+      ],
+      "security": [
+        "security-scan-coverage"
+      ]
     }
   }
 }

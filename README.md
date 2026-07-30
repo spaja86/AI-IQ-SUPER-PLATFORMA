@@ -363,9 +363,9 @@ This repository uses documented automation agents for CI, security, analytics, a
 |-------|--------|-------------|
 | `ci-bot` | ✅ Active | Runs lint + tests on every PR and push |
 | `human-review` | ✅ Active | Required code review before merge |
-| `security-scanner` | ✅ Active | Scans for secrets, vulnerable deps on every PR |
-| `multi-repo-sync-agent` | ✅ Active | Syncs config/labels/milestones with `IO-OPENUI-AO` |
-| `analytics-bot` | ✅ Active | Nightly/weekly metrics and automation health reports |
+| `security-scanner` | ✅ Active | Runs CodeQL, dependency review, npm audit, and secret heuristics |
+| `multi-repo-sync-agent` | 📋 Ready | Uses the documented cross-repo sync process for `IO-OPENUI-AO` |
+| `analytics-bot` | 📋 Ready | KPI and automation health reporting are defined in config/docs |
 | `deploy-bot` | ⏳ Planned | Deployment after green CI |
 
 ### Contributor expectations
@@ -376,6 +376,14 @@ This repository uses documented automation agents for CI, security, analytics, a
 - **Config/CI changes** — PRs that modify `.github/workflows/`, `.agent-config.json`, or deployment config must be labeled `agent:config-change`.
 - **Security-sensitive changes** — PRs touching auth, payments, or dependencies are automatically flagged; add a security approver.
 - **Cross-repo changes** — if your change affects `IO-OPENUI-AO` or other linked repositories, describe the cross-repo impact in the PR and open any follow-up work there.
+
+### Repo readiness & roadmap
+
+- **Roadmap:** [`docs/ROADMAP.md`](./docs/ROADMAP.md)
+- **Multi-repo coordination:** [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md)
+- **Security operating model:** [`docs/SECURITY.md`](./docs/SECURITY.md)
+- **Go-live and rollout:** [`docs/GO-LIVE.md`](./docs/GO-LIVE.md)
+- **FinOps and KPI model:** [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md)
 
 ### Copilot setup vs Codex user installs
 
@@ -412,7 +420,9 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | Document | Purpose |
 |----------|---------|
 | [`AGENTS.md`](./AGENTS.md) | Full agent policy, rules, and registry |
-| [`.agent-config.json`](./.agent-config.json) | Per-repo agent behavior flags |
+| [`.agent-config.json`](./.agent-config.json) | Per-repo operational agent settings and linked-repo rules |
+| [`docs/ROADMAP.md`](./docs/ROADMAP.md) | Release roadmap, readiness model, and KPI ownership |
+| [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
 | [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md) | FinOps, KPI, enterprise collaboration model |
 
