@@ -6,12 +6,15 @@ import {
   gamingKonfiguracija,
   getAktivneIgriceSaEndzinom,
   gejmingKonstrukcija,
+  gamingFunkcionalnostObim,
+  getGamingHealthSignal,
   IOOPENUIAO_URL,
   IOOPENUIAO_DOMEN,
 } from '@/lib/io-openui-ao-gaming-platforma';
 import { TOTAL_IGRICA, OMEGA_AI_PERSONA_UKUPNO, SPAJA_PRO_RANGE } from '@/lib/constants';
 
 const aktivnih = getAktivneIgriceSaEndzinom().length;
+const healthSignal = getGamingHealthSignal();
 
 export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
   {
@@ -58,7 +61,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     id: 'gaming-platforma-statistika',
     tip: 'statistika',
     naslov: '📊 Gaming Platforma u brojevima',
-    redosled: 3,
+    redosled: 4,
     podaci: {
       stavke: [
         { naziv: 'Igrice', vrednost: endzinNadIgricama.length, ikona: '🎮' },
@@ -70,10 +73,30 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'gaming-platforma-obim',
+    tip: 'tekst',
+    naslov: '🧭 Funkcionalnost Gejminga — Obim',
+    redosled: 3,
+    podaci: {
+      sadrzaj:
+        'Centralni obim gejming funkcionalnosti obuhvata katalog igrica, status platforme, ' +
+        'engine sloj, sesije i anti-cheat, analitiku i login/industrija integracije.',
+      istaknuteStavke: [
+        `Katalog: ${gamingFunkcionalnostObim.katalogIgrica.ukupno} igrica / ${gamingFunkcionalnostObim.katalogIgrica.kategorija} kategorija`,
+        `Platforma: ${gamingFunkcionalnostObim.platformaStatus.aktivna ? 'aktivna' : 'neaktivna'} (${gamingFunkcionalnostObim.platformaStatus.domen})`,
+        `Engine: ${gamingFunkcionalnostObim.engineSloj.prevucenoEndzinom} prevučeno SPAJA endžinom`,
+        `Anti-cheat: replay=${gamingFunkcionalnostObim.sesijeIAntiCheat.replayGuard ? 'on' : 'off'}, rate-limit=${gamingFunkcionalnostObim.sesijeIAntiCheat.actionRateLimit ? 'on' : 'off'}`,
+        `Analitika: optimizacija ${gamingFunkcionalnostObim.analitika.optimizacija}%`,
+        `Integracije: ${gamingFunkcionalnostObim.integracije.industrijaPristupRuta}, ${gamingFunkcionalnostObim.integracije.loginRuta}`,
+        `Health signal: ${healthSignal.status} (${healthSignal.score}/100)`,
+      ],
+    },
+  },
+  {
     id: 'gaming-platforma-progres',
     tip: 'progres',
     naslov: '🚀 Prosečna optimizacija SPAJA Univerzalnog Endžina',
-    redosled: 4,
+    redosled: 5,
     podaci: {
       progres: gamingStatistika.prosecnaOptimizacija,
       poruka: `SPAJA Univerzalni Endžin je prevučen preko svih ${endzinNadIgricama.length} igrica sa prosečnom optimizacijom od ${gamingStatistika.prosecnaOptimizacija}%.`,
@@ -84,7 +107,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🎮 Igrice sa SPAJA Univerzalnim Endžinom',
     podnaslov: `${endzinNadIgricama.length} igrica — endžin prevučen preko svake`,
-    redosled: 5,
+    redosled: 6,
     podaci: {
       kartice: endzinNadIgricama.map((e) => ({
         naslov: `${e.igricaIkona} ${e.igricaNaziv}`,
@@ -98,7 +121,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     tip: 'tabela',
     naslov: '📂 Igrice po kategorijama',
     podnaslov: `${gamingStatistika.ukupnoKategorija} kategorija`,
-    redosled: 6,
+    redosled: 7,
     podaci: {
       kolone: ['Kategorija', 'Broj igrica'],
       redovi: Object.entries(gamingStatistika.poKategoriji).map(([kat, br]) => [kat, String(br)]),
@@ -109,7 +132,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     tip: 'tabela',
     naslov: '🌐 Platforma Konfiguracija',
     podnaslov: `Standardni URL: ${IOOPENUIAO_URL}`,
-    redosled: 7,
+    redosled: 8,
     podaci: {
       kolone: ['Parametar', 'Vrednost'],
       redovi: [
@@ -127,7 +150,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     id: 'gaming-platforma-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Arhitektura Gaming Platforme',
-    redosled: 8,
+    redosled: 9,
     podaci: {
       stavke: [
         {
@@ -170,7 +193,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     id: 'gaming-platforma-baner',
     tip: 'baner',
     naslov: `🌐 Platforma je na: ${IOOPENUIAO_URL}`,
-    redosled: 9,
+    redosled: 10,
     podaci: {
       poruka: `IO/OPENUI/AO Gaming Platforma — ${endzinNadIgricama.length} igrica sa SPAJA Univerzalnim Endžinom. Standardni URL: ${IOOPENUIAO_URL}`,
       stil: 'info',
@@ -180,7 +203,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     id: 'gaming-platforma-cta',
     tip: 'cta',
     naslov: 'Pokreni Gaming Platformu',
-    redosled: 10,
+    redosled: 11,
     podaci: {
       tekst: `Pristupi IO/OPENUI/AO Gaming Platformi sa svih ${endzinNadIgricama.length} igrica na ${IOOPENUIAO_URL}`,
       dugmad: [
@@ -195,7 +218,7 @@ export const ioOpenUIAOGamingSekvence: Sekvenca[] = [
     id: 'gaming-platforma-konstrukcija',
     tip: 'tekst',
     naslov: '🏗️ Otavna Konstrukcija Gejminga — Ektodanari Kapacitet',
-    redosled: 11,
+    redosled: 12,
     podaci: {
       sadrzaj: gejmingKonstrukcija.opis,
       istaknuteStavke: [

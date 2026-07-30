@@ -8,26 +8,27 @@ import {
 } from '@/lib/io-openui-ao-laboratorija-simulacije';
 import {
   endzinNadIgricama,
-  gamingStatistika,
-  gamingKonfiguracija,
-  IOOPENUIAO_URL,
+  getGamingDomenSnapshot,
 } from '@/lib/io-openui-ao-gaming-platforma';
 
 export async function GET() {
   const labStatistika = getLaboratorijaStatistika();
   const aktivnihSim = getAktivneSimulacije().length;
+  const gamingSnapshot = getGamingDomenSnapshot();
 
   return NextResponse.json({
     sistem: 'IO/OPENUI/AO Analitika',
     verzija: APP_VERSION,
-    url: IOOPENUIAO_URL,
+    url: gamingSnapshot.konfiguracija.standardniUrl,
     gaming: {
       ukupnoIgrica: endzinNadIgricama.length,
-      aktivnihIgrica: gamingStatistika.aktivnihIgrica,
-      prevucenoEndžinom: gamingStatistika.prevucenoEndžinom,
-      ukupnoKategorija: gamingStatistika.ukupnoKategorija,
-      prosecnaOptimizacija: `${gamingStatistika.prosecnaOptimizacija}%`,
-      domen: gamingKonfiguracija.domen,
+      aktivnihIgrica: gamingSnapshot.statistika.aktivnihIgrica,
+      prevucenoEndžinom: gamingSnapshot.statistika.prevucenoEndžinom,
+      ukupnoKategorija: gamingSnapshot.statistika.ukupnoKategorija,
+      prosecnaOptimizacija: `${gamingSnapshot.statistika.prosecnaOptimizacija}%`,
+      domen: gamingSnapshot.konfiguracija.domen,
+      healthSignal: gamingSnapshot.healthSignal,
+      funkcionalnostObim: gamingSnapshot.funkcionalnostObim,
     },
     laboratorija: {
       ukupnoSimulacija: simulacije.length,
@@ -38,9 +39,9 @@ export async function GET() {
     },
     kombinovano: {
       ukupnoModula: endzinNadIgricama.length + simulacije.length + laboratorijskiAlati.length,
-      gamingZdravlje: `${gamingStatistika.prosecnaOptimizacija}%`,
+      gamingZdravlje: `${gamingSnapshot.statistika.prosecnaOptimizacija}%`,
       labZdravlje: `${labStatistika.prosecnaPreciznost}%`,
-      platformaStatus: 'aktivan',
+      platformaStatus: gamingSnapshot.status,
     },
     timestamp: new Date().toISOString(),
   });

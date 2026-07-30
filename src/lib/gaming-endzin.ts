@@ -19,6 +19,7 @@ import { MASTER_POKER_GAME_ID } from './poker/types';
 // ─── Runner tipovi ─────────────────────────────────────────────────
 
 export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan';
+export type RunnerResolver = (igrica: Igrica) => RunnerTip | null;
 
 // ─── Dimenzionalni parametri ───────────────────────────────────────
 
@@ -135,6 +136,9 @@ const KATEGORIJA_NA_RUNNER: Record<KategorijaIgrice, RunnerTip> = {
   retro: 'akcija',
 };
 
+const customRunnerPoIgrici = new Map<string, RunnerTip>();
+const customRunnerResolvers = new Set<RunnerResolver>();
+
 /** Vrati tip runner-a za kategoriju igrice */
 export function getRunnerTip(kategorija: KategorijaIgrice): RunnerTip {
   return KATEGORIJA_NA_RUNNER[kategorija] ?? 'akcija';
@@ -142,9 +146,37 @@ export function getRunnerTip(kategorija: KategorijaIgrice): RunnerTip {
 
 /** Vrati runner tip za konkretnu igricu (podržava specijalizovane runner-e) */
 export function getRunnerTipZaIgricu(igrica: Igrica): RunnerTip {
+  const custom = customRunnerPoIgrici.get(igrica.id);
+  if (custom) return custom;
+
+  for (const resolver of customRunnerResolvers) {
+    const resolved = resolver(igrica);
+    if (resolved) return resolved;
+  }
+
   if (igrica.id === MASTER_POKER_GAME_ID) return 'poker';
   if (igrica.id === 'igrica-ekstreminacija-eglana') return 'eglan';
   return getRunnerTip(igrica.kategorija);
+}
+
+/** Registruj prilagođeni runner za konkretnu igricu. */
+export function registrujCustomRunnerZaIgricu(igricaId: string, runner: RunnerTip): void {
+  customRunnerPoIgrici.set(igricaId, runner);
+}
+
+/** Ukloni prilagođeni runner za konkretnu igricu. */
+export function ukloniCustomRunnerZaIgricu(igricaId: string): void {
+  customRunnerPoIgrici.delete(igricaId);
+}
+
+/** Registruj resolver za dinamičko mapiranje runner-a. */
+export function registrujRunnerResolver(resolver: RunnerResolver): void {
+  customRunnerResolvers.add(resolver);
+}
+
+/** Ukloni registrovani resolver. */
+export function ukloniRunnerResolver(resolver: RunnerResolver): void {
+  customRunnerResolvers.delete(resolver);
 }
 
 // ─── Konfiguracija endžina ─────────────────────────────────────────
