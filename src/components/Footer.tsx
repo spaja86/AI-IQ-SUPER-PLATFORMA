@@ -15,6 +15,7 @@ const footerNavLinks = [
   { href: '/spaja-pro', label: 'SpajaPro' },
   { href: '/prompt', label: 'Prompt' },
   { href: '/igrice', label: 'Igrice' },
+  { href: '/gejming-industrija', label: 'Gejming Industrija' },
   { href: '/dimenzije', label: 'Dimenzije' },
   { href: '/proksi', label: 'Proksi' },
   { href: '/mobilna-mreza', label: 'Mobilna Mreža' },

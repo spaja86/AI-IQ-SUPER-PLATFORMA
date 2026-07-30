@@ -70,11 +70,56 @@ export interface IOOpenUIAOGamingPlatforma {
   statistika: IOOpenUIAOGamingStatistika;
 }
 
+export interface GamingFunkcionalnostObim {
+  katalogIgrica: {
+    ukupno: number;
+    kategorija: number;
+  };
+  platformaStatus: {
+    aktivna: boolean;
+    domen: string;
+    url: string;
+  };
+  engineSloj: {
+    univerzalniEndzin: boolean;
+    prevucenoEndzinom: number;
+  };
+  sesijeIAntiCheat: {
+    sessionGuard: boolean;
+    replayGuard: boolean;
+    actionRateLimit: boolean;
+    scoreAnomalyDetection: boolean;
+  };
+  analitika: {
+    optimizacija: number;
+    aktivnihIgrica: number;
+  };
+  integracije: {
+    industrijaLoginTok: boolean;
+    industrijaPristupRuta: string;
+    loginRuta: string;
+  };
+}
+
+export interface GamingHealthSignal {
+  status: 'zdravo' | 'upozorenje';
+  score: number;
+  poruka: string;
+}
+
+export interface GamingAuditRecord {
+  verzija: string;
+  poslednjaIzmena: string;
+  promene: string[];
+}
+
 // ─── Konfiguracija platforme ─────────────────────────────────
 
 export const IOOPENUIAO_DOMEN = 'io-openui-ao.vercel.app';
 export const IOOPENUIAO_VERCEL = 'io-openui-ao.vercel.app';
 export const IOOPENUIAO_URL = `https://${IOOPENUIAO_DOMEN}`;
+export const GAMING_DOMAIN_ID = 'io-openui-ao-gaming';
+export const GAMING_DOMAIN_VERSION = '1.1.0';
 
 export const gamingKonfiguracija: IOOpenUIAOGamingKonfiguracija = {
   platformaId: 'io-openui-ao-gaming',
@@ -148,6 +193,47 @@ function izracunajStatistiku(): IOOpenUIAOGamingStatistika {
 }
 
 export const gamingStatistika = izracunajStatistiku();
+
+export const gamingAuditTrail: GamingAuditRecord = {
+  verzija: GAMING_DOMAIN_VERSION,
+  poslednjaIzmena: '2026-07-30',
+  promene: [
+    'Konsolidovan centralni domen gejminga u jednom izvoru istine.',
+    'Uvedeni health signal i funkcionalni obim za operativno održavanje.',
+    'Standardizovan payload za API, analitiku i login integracije.',
+  ],
+};
+
+export const gamingFunkcionalnostObim: GamingFunkcionalnostObim = {
+  katalogIgrica: {
+    ukupno: gamingStatistika.ukupnoIgrica,
+    kategorija: gamingStatistika.ukupnoKategorija,
+  },
+  platformaStatus: {
+    aktivna: gamingKonfiguracija.aktivan,
+    domen: gamingKonfiguracija.domen,
+    url: gamingKonfiguracija.standardniUrl,
+  },
+  engineSloj: {
+    univerzalniEndzin: true,
+    prevucenoEndzinom: gamingStatistika.prevucenoEndžinom,
+  },
+  sesijeIAntiCheat: {
+    sessionGuard: true,
+    replayGuard: true,
+    actionRateLimit: true,
+    scoreAnomalyDetection: true,
+  },
+  analitika: {
+    optimizacija: gamingStatistika.prosecnaOptimizacija,
+    aktivnihIgrica: gamingStatistika.aktivnihIgrica,
+  },
+  integracije: {
+    industrijaLoginTok: true,
+    industrijaPristupRuta: '/api/login-industrija-pristup',
+    loginRuta: '/api/login',
+  },
+};
 
 // ─── Glavna platforma ────────────────────────────────────────
 
@@ -263,4 +349,60 @@ export const gejmingKonstrukcija: GejmingKonstrukcija = {
 /** Dohvati gejming konstrukciju */
 export function getGejmingKonstrukcija(): GejmingKonstrukcija {
   return gejmingKonstrukcija;
+}
+
+export function getGamingHealthSignal(): GamingHealthSignal {
+  const score = Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(
+        (gamingStatistika.prosecnaOptimizacija * 0.6)
+        + ((gamingStatistika.aktivnihIgrica / Math.max(1, gamingStatistika.ukupnoIgrica)) * 100 * 0.4),
+      ),
+    ),
+  );
+
+  if (!gamingKonfiguracija.aktivan) {
+    return {
+      status: 'upozorenje',
+      score: Math.min(score, 40),
+      poruka: 'Gaming platforma je neaktivna.',
+    };
+  }
+
+  if (score < 70) {
+    return {
+      status: 'upozorenje',
+      score,
+      poruka: 'Gaming platforma je aktivna, ali zahteva dodatnu optimizaciju.',
+    };
+  }
+
+  return {
+    status: 'zdravo',
+    score,
+    poruka: 'Gaming platforma je stabilna i operativna.',
+  };
+}
+
+export function getGamingDomenSnapshot() {
+  return {
+    domenId: GAMING_DOMAIN_ID,
+    domenVerzija: GAMING_DOMAIN_VERSION,
+    status: gamingKonfiguracija.aktivan ? 'aktivan' : 'neaktivan',
+    platforma: {
+      naziv: ioOpenUIAOGamingPlatforma.naziv,
+      opis: ioOpenUIAOGamingPlatforma.opis,
+      link: ioOpenUIAOGamingPlatforma.link,
+      generatorLink: ioOpenUIAOGamingPlatforma.generatorLink,
+      verzija: ioOpenUIAOGamingPlatforma.verzija,
+    },
+    konfiguracija: gamingKonfiguracija,
+    statistika: gamingStatistika,
+    funkcionalnostObim: gamingFunkcionalnostObim,
+    gejmingKonstrukcija,
+    healthSignal: getGamingHealthSignal(),
+    audit: gamingAuditTrail,
+  };
 }

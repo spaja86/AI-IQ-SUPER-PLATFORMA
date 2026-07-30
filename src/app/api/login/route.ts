@@ -7,11 +7,8 @@ import { REFRESH_TOKEN_TTL } from '@/lib/auth/types';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { platforme } from '@/lib/platforme';
 import {
-  gamingStatistika,
-  gamingKonfiguracija,
-  gejmingKonstrukcija,
+  getGamingDomenSnapshot,
   getAktivneIgriceSaEndzinom,
-  IOOPENUIAO_URL,
 } from '@/lib/io-openui-ao-gaming-platforma';
 
 /**
@@ -104,6 +101,7 @@ export async function POST(request: Request) {
     // Pristup industriji i svim delatnostima nakon logovanja
     const industrijaStats = getIndustrijaStats();
     const aktivneIgrice = getAktivneIgriceSaEndzinom();
+    const gamingSnapshot = getGamingDomenSnapshot();
     const industrijaPristup = {
       aktiviran: true,
       naziv: digitalnaIndustrija.name,
@@ -135,19 +133,21 @@ export async function POST(request: Request) {
     // Gaming platforma i Otavna Konstrukcija Gejminga
     const gamingPristup = {
       aktiviran: true,
-      platforma: gamingKonfiguracija.platformaNaziv,
-      url: IOOPENUIAO_URL,
-      domen: gamingKonfiguracija.domen,
-      ukupnoIgrica: gamingStatistika.ukupnoIgrica,
+      platforma: gamingSnapshot.konfiguracija.platformaNaziv,
+      url: gamingSnapshot.konfiguracija.standardniUrl,
+      domen: gamingSnapshot.konfiguracija.domen,
+      ukupnoIgrica: gamingSnapshot.statistika.ukupnoIgrica,
       aktivnihIgrica: aktivneIgrice.length,
-      kategorija: gamingStatistika.ukupnoKategorija,
-      optimizacija: `${gamingStatistika.prosecnaOptimizacija}%`,
+      kategorija: gamingSnapshot.statistika.ukupnoKategorija,
+      optimizacija: `${gamingSnapshot.statistika.prosecnaOptimizacija}%`,
+      healthSignal: gamingSnapshot.healthSignal,
+      funkcionalnostObim: gamingSnapshot.funkcionalnostObim,
       gejmingKonstrukcija: {
-        id: gejmingKonstrukcija.id,
-        naziv: gejmingKonstrukcija.naziv,
-        opis: gejmingKonstrukcija.opis,
-        ektodanariKapacitet: gejmingKonstrukcija.ektodanariKapacitet,
-        aktivna: gejmingKonstrukcija.aktivna,
+        id: gamingSnapshot.gejmingKonstrukcija.id,
+        naziv: gamingSnapshot.gejmingKonstrukcija.naziv,
+        opis: gamingSnapshot.gejmingKonstrukcija.opis,
+        ektodanariKapacitet: gamingSnapshot.gejmingKonstrukcija.ektodanariKapacitet,
+        aktivna: gamingSnapshot.gejmingKonstrukcija.aktivna,
       },
     };
 

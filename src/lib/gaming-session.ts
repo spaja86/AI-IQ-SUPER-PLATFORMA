@@ -85,6 +85,14 @@ export interface ActionValidationResult {
   antiCheatScore?: number;
 }
 
+const DOZVOLJENI_STATUS_PRELAZI: Record<GamingSessionStatus, GamingSessionStatus[]> = {
+  active: ['paused', 'terminated', 'expired', 'suspended'],
+  paused: ['active', 'terminated', 'expired', 'suspended'],
+  expired: [],
+  terminated: [],
+  suspended: [],
+};
+
 // ─── Session Store ────────────────────────────────────────────────────────────
 
 const sessionStore = new Map<string, GamingSession>();
@@ -154,8 +162,26 @@ export function getGamingSession(sessionId: string): GamingSession | null {
 export function terminateGamingSession(sessionId: string, reason: GamingSessionStatus = 'terminated'): void {
   const session = sessionStore.get(sessionId);
   if (!session) return;
-  session.status = reason;
+  transitionSessionStatus(sessionId, reason);
+}
+
+/**
+ * Kontrolisan prelaz statusa sesije.
+ * Vraća false ako prelaz nije dozvoljen.
+ */
+export function transitionSessionStatus(
+  sessionId: string,
+  nextStatus: GamingSessionStatus,
+): boolean {
+  const session = sessionStore.get(sessionId);
+  if (!session) return false;
+  const dozvoljeni = DOZVOLJENI_STATUS_PRELAZI[session.status] ?? [];
+  if (!dozvoljeni.includes(nextStatus) && session.status !== nextStatus) {
+    return false;
+  }
+  session.status = nextStatus;
   sessionStore.set(sessionId, session);
+  return true;
 }
 
 // ─── Action Validation (Anti-Cheat) ──────────────────────────────────────────
@@ -184,7 +210,7 @@ export function validateGameAction(
   // 2. Sesija je ekspirala
   if (now > session.expiresAt || session.status !== 'active') {
     if (session.status === 'active') {
-      session.status = 'expired';
+      transitionSessionStatus(sessionId, 'expired');
       addViolation(session, 'session_expired', 'Sesija je istekla.');
     }
     return { allowed: false, razlog: 'Sesija je nevažeća ili istekla.' };
@@ -207,10 +233,24 @@ export function validateGameAction(
 
   // 4. Action flood (rate limiting)
   const timeSinceLast = now - session.lastActionAt;
-  if (timeSinceLast < 1000 / MAX_ACTIONS_PER_SEC) {
+  if (session.actionCount > 0 && timeSinceLast < 1000 / MAX_ACTIONS_PER_SEC) {
     addViolation(session, 'action_flood', `Akcija prebrza: ${timeSinceLast}ms od prethodne`);
     checkSuspend(session);
     return { allowed: false, razlog: 'Previše akcija u kratkom vremenu.' };
+  }
+
+  // 4b. Klijentski timestamp ne sme biti nelogičan
+  if (typeof action.clientTimestamp === 'number') {
+    const drift = Math.abs(action.clientTimestamp - now);
+    if (drift > 30_000) {
+      addViolation(session, 'impossible_timing', `Timestamp drift: ${drift}ms`);
+      checkSuspend(session);
+      return {
+        allowed: false,
+        razlog: 'Klijentski timestamp je nelogičan.',
+        antiCheatScore: calculateAntiCheatScore(session),
+      };
+    }
   }
 
   // 5. Score sanity check
@@ -274,17 +314,35 @@ export function getSessionReport(sessionId: string): {
   session: Omit<GamingSession, 'actionHashes'> & { uniqueActionHashes: number };
   antiCheatScore: number;
   isSuspicious: boolean;
+  violationSummary: Record<AntiCheatViolation['tip'], number>;
+  lastViolation: AntiCheatViolation | null;
 } | null {
   const session = sessionStore.get(sessionId);
   if (!session) return null;
 
   const antiCheatScore = calculateAntiCheatScore(session);
   const { actionHashes, ...sessionWithoutHashes } = session;
+  const violationSummary = session.violations.reduce<Record<AntiCheatViolation['tip'], number>>(
+    (acc, current) => {
+      acc[current.tip] = (acc[current.tip] ?? 0) + 1;
+      return acc;
+    },
+    {
+      score_anomaly: 0,
+      action_flood: 0,
+      replay: 0,
+      session_expired: 0,
+      impossible_timing: 0,
+    },
+  );
+  const lastViolation = session.violations.at(-1) ?? null;
 
   return {
     session: { ...sessionWithoutHashes, uniqueActionHashes: actionHashes.size },
     antiCheatScore,
     isSuspicious: antiCheatScore >= 50,
+    violationSummary,
+    lastViolation,
   };
 }
 
@@ -302,7 +360,8 @@ function addViolation(
 function checkSuspend(session: GamingSession): void {
   const replayViolations = session.violations.filter((v) => v.tip === 'replay').length;
   if (replayViolations >= MAX_REPLAY_VIOLATIONS || calculateAntiCheatScore(session) >= 80) {
-    session.status = 'suspended';
+    const transitioned = transitionSessionStatus(session.sessionId, 'suspended');
+    if (!transitioned) return;
     sessionStore.set(session.sessionId, session);
   }
 }

@@ -7,10 +7,7 @@ import { organizations } from '@/lib/organizations';
 import { companies } from '@/lib/companies';
 import { products } from '@/lib/products';
 import {
-  ioOpenUIAOGamingPlatforma,
-  gamingStatistika,
-  gamingKonfiguracija,
-  gejmingKonstrukcija,
+  getGamingDomenSnapshot,
   getAktivneIgriceSaEndzinom,
 } from '@/lib/io-openui-ao-gaming-platforma';
 
@@ -29,6 +26,7 @@ import {
 export async function GET() {
   const stats = getIndustrijaStats();
   const aktivneIgrice = getAktivneIgriceSaEndzinom();
+  const gamingSnapshot = getGamingDomenSnapshot();
 
   return NextResponse.json({
     sistem: 'Login Industrija Pristup — Digitalna Industrija',
@@ -100,24 +98,27 @@ export async function GET() {
     },
 
     gamingPlatforma: {
-      naziv: ioOpenUIAOGamingPlatforma.naziv,
-      verzija: ioOpenUIAOGamingPlatforma.verzija,
-      url: gamingKonfiguracija.standardniUrl,
-      domen: gamingKonfiguracija.domen,
-      aktivan: gamingKonfiguracija.aktivan,
-      statistika: gamingStatistika,
+      naziv: gamingSnapshot.platforma.naziv,
+      verzija: gamingSnapshot.platforma.verzija,
+      url: gamingSnapshot.konfiguracija.standardniUrl,
+      domen: gamingSnapshot.konfiguracija.domen,
+      aktivan: gamingSnapshot.konfiguracija.aktivan,
+      statistika: gamingSnapshot.statistika,
       aktivnihIgrica: aktivneIgrice.length,
+      healthSignal: gamingSnapshot.healthSignal,
+      funkcionalnostObim: gamingSnapshot.funkcionalnostObim,
+      audit: gamingSnapshot.audit,
     },
 
     gejmingKonstrukcija: {
-      id: gejmingKonstrukcija.id,
-      naziv: gejmingKonstrukcija.naziv,
-      opis: gejmingKonstrukcija.opis,
-      ektodanariKapacitet: gejmingKonstrukcija.ektodanariKapacitet,
-      aktivna: gejmingKonstrukcija.aktivna,
-      verzija: gejmingKonstrukcija.verzija,
-      platformaUrl: gejmingKonstrukcija.platformaUrl,
-      ukupnoEndzina: gejmingKonstrukcija.endzini.length,
+      id: gamingSnapshot.gejmingKonstrukcija.id,
+      naziv: gamingSnapshot.gejmingKonstrukcija.naziv,
+      opis: gamingSnapshot.gejmingKonstrukcija.opis,
+      ektodanariKapacitet: gamingSnapshot.gejmingKonstrukcija.ektodanariKapacitet,
+      aktivna: gamingSnapshot.gejmingKonstrukcija.aktivna,
+      verzija: gamingSnapshot.gejmingKonstrukcija.verzija,
+      platformaUrl: gamingSnapshot.gejmingKonstrukcija.platformaUrl,
+      ukupnoEndzina: gamingSnapshot.gejmingKonstrukcija.endzini.length,
     },
 
     delatnosti: [
