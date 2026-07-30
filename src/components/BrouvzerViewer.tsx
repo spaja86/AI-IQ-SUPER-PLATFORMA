@@ -200,6 +200,8 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
 
   // ── Address bar input state ──
   const [inputValue, setInputValue] = useState(url);
+  // Track last synced tab ID to update inputValue when switching tabs (derived-state pattern)
+  const [syncedTabId, setSyncedTabId] = useState(activeTabId);
 
   // ── Copy/share toast ──
   const [copyToast, setCopyToast] = useState(false);
@@ -217,6 +219,12 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
   const [isInkognito, setIsInkognito] = useState(false);
 
   const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
+
+  // Sync input with active tab URL when switching tabs (setState during render — React-idiomatic)
+  if (syncedTabId !== activeTab.id) {
+    setSyncedTabId(activeTab.id);
+    setInputValue(activeTab.url);
+  }
 
   // ── Tab operacije ──
 
@@ -455,12 +463,6 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [addTab, closeTab, activeTabId, handleReload, handleBack, handleForward, handleToggleInkognito]);
-
-  // ── Sinhronizuj input vrednost sa aktivnim tabom ──
-
-  useEffect(() => {
-    setInputValue(activeTab.url);
-  }, [activeTab.url, activeTab.id]);
 
   // ── Autofokus input na novom tabu ──
 
