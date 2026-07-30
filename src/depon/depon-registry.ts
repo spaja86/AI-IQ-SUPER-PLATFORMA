@@ -1,11 +1,14 @@
 /**
  * 🏛️ DEPON Registry — Deployment Operational Nodes
  *
- * Central registry for all 12 DEPON modules of the 120-million-user
- * multi-state mega-platform (AI IQ SUPER PLATFORMA — US States Edition).
+ * Central registry for all 18 DEPON modules of the multi-state mega-platform
+ * (AI IQ SUPER PLATFORMA — US States Edition).
  *
  * Architecture: Each DEPON is an independent deployable unit (1 DEPON = 1 node).
- * Scale target: 120,000,000 users across all 50 US states.
+ * Scale target: 120,000,000 users × 180,000,000 apps across all 50 US states.
+ *
+ * DEPON-01–12: Core platform services (120M users)
+ * DEPON-13–18: App Marketplace & Value Engine (180M apps)
  *
  * Kompanija SPAJA — Digitalna Industrija
  */
@@ -24,7 +27,13 @@ export type DeponId =
   | 'DEPON-09'
   | 'DEPON-10'
   | 'DEPON-11'
-  | 'DEPON-12';
+  | 'DEPON-12'
+  | 'DEPON-13'
+  | 'DEPON-14'
+  | 'DEPON-15'
+  | 'DEPON-16'
+  | 'DEPON-17'
+  | 'DEPON-18';
 
 export type DeponStatus = 'active' | 'planned' | 'degraded' | 'offline';
 
@@ -77,23 +86,23 @@ export const SCALING_PHASES: ScalingPhase[] = [
   {
     phase: 1,
     label: 'Monolith Bootstrap',
-    userRange: '0–10M',
+    userRange: '0–10M apps',
     regions: 3,
-    pattern: 'Monorepo + basic Kubernetes',
+    pattern: 'Monorepo + basic Kubernetes (18 DEPON nodes)',
   },
   {
     phase: 2,
     label: 'Microservices Expansion',
-    userRange: '10–50M',
+    userRange: '10–80M apps',
     regions: 6,
-    pattern: 'Microservices split + auto-scaling',
+    pattern: 'Microservices split + Kafka + Elasticsearch (36 DEPON nodes)',
   },
   {
     phase: 3,
     label: 'Full Multi-Region',
-    userRange: '50–120M',
+    userRange: '80–180M apps',
     regions: 12,
-    pattern: 'Event-driven (Kafka) + CQRS',
+    pattern: 'Event-driven (Kafka) + CQRS + distributed sharding (72 DEPON nodes)',
   },
 ];
 
@@ -231,6 +240,73 @@ export const DEPON_MODULES: DeponModule[] = [
     port: 3012,
     healthPath: '/api/depon/12/health',
     tags: ['reporting', 'exports', 'csv', 'pdf', 'bi'],
+  },
+  // ─── App Marketplace & Value Engine (DEPON-13–18) ───────────────────────────
+  {
+    id: 'DEPON-13',
+    name: 'App Value Registry',
+    description: 'Master registry for all 180M apps with DeponValue score storage and sharded PostgreSQL storage.',
+    scope: '180M apps, sharded by value tier',
+    status: 'planned',
+    phase: 1,
+    port: 3013,
+    healthPath: '/api/depon/13/health',
+    tags: ['app-registry', 'depon-value', 'marketplace', 'sharding'],
+  },
+  {
+    id: 'DEPON-14',
+    name: 'Value Ranking Engine',
+    description: 'Real-time ranking and leaderboard for 180M apps using Redis hot cache and Elasticsearch.',
+    scope: 'Real-time top-N ranking, Redis cache',
+    status: 'planned',
+    phase: 1,
+    port: 3014,
+    healthPath: '/api/depon/14/health',
+    tags: ['ranking', 'leaderboard', 'redis', 'elasticsearch', 'depon-value'],
+  },
+  {
+    id: 'DEPON-15',
+    name: 'App Marketplace Portal',
+    description: 'UI/UX portal for browsing, filtering and ranking apps by DeponValue with DEPON dependency graph.',
+    scope: 'Marketplace frontend, category + state filters',
+    status: 'planned',
+    phase: 1,
+    port: 3015,
+    healthPath: '/api/depon/15/health',
+    tags: ['marketplace', 'portal', 'ui', 'depon-graph', 'search'],
+  },
+  {
+    id: 'DEPON-16',
+    name: 'App Deployment Pipeline',
+    description: 'CI/CD factory that can build, test, and deploy any of the 180M apps on demand.',
+    scope: 'CI/CD factory, 180M app deployments',
+    status: 'planned',
+    phase: 2,
+    port: 3016,
+    healthPath: '/api/depon/16/health',
+    tags: ['ci-cd', 'deployment', 'pipeline', 'factory'],
+  },
+  {
+    id: 'DEPON-17',
+    name: 'Value Monetization',
+    description: 'Revenue share, royalties, and tiered billing based on DeponValue score. DEPON fund management.',
+    scope: 'Revenue share, DEPON fund, tier billing',
+    status: 'planned',
+    phase: 2,
+    port: 3017,
+    healthPath: '/api/depon/17/health',
+    tags: ['monetization', 'revenue-share', 'billing', 'depon-fund'],
+  },
+  {
+    id: 'DEPON-18',
+    name: 'Cross-App Analytics',
+    description: 'Inter-app analytics, DeponValue correlation analysis, and SpajaPro-powered trend insights.',
+    scope: 'Cross-app metrics, correlation, trends',
+    status: 'planned',
+    phase: 3,
+    port: 3018,
+    healthPath: '/api/depon/18/health',
+    tags: ['analytics', 'cross-app', 'correlation', 'spajapro', 'trends'],
   },
 ];
 
