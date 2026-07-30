@@ -137,8 +137,8 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 async function runRegistryTests(): Promise<void> {
   console.log('\n🏛️  DEPON Registry Tests\n');
 
-  await test('should have exactly 12 DEPON modules', () => {
-    assertEqual(DEPON_MODULES.length, 12, 'module count');
+  await test('should have exactly 18 DEPON modules', () => {
+    assertEqual(DEPON_MODULES.length, 18, 'module count');
   });
 
   await test('should cover all 50 US states', () => {
@@ -190,10 +190,10 @@ async function runRegistryTests(): Promise<void> {
 
   await test('getDeponSummary is consistent', () => {
     const summary = getDeponSummary();
-    assertEqual(summary.total, 12, 'total');
-    assertEqual(summary.active + summary.planned, 12, 'active+planned');
+    assertEqual(summary.total, 18, 'total');
+    assertEqual(summary.active + summary.planned, 18, 'active+planned');
     const phaseSum = summary.byPhase[1] + summary.byPhase[2] + summary.byPhase[3];
-    assertEqual(phaseSum, 12, 'phase sum');
+    assertEqual(phaseSum, 18, 'phase sum');
   });
 
   await test('getScalingPhase returns correct data', () => {
