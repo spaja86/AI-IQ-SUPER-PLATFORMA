@@ -8,9 +8,12 @@
 import { type NextRequest } from 'next/server';
 import { apiSuccess, apiError, apiInternalError } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
-import { verifyUserFromToken } from '@/lib/supabase/server';
+import { verifyUserFromToken, getSupabaseServerClientSafe } from '@/lib/supabase/server';
 import { isExchangeFlagEnabled } from '@/lib/menjacnica/feature-flags';
-import { buildSimulatedPortfolioSummary } from '@/lib/menjacnica/pro-novcanik';
+import {
+  buildSimulatedPortfolioSummary,
+  buildPortfolioSummaryFromRecords,
+} from '@/lib/menjacnica/pro-novcanik';
 
 export async function GET(request: NextRequest) {
   try {
@@ -32,9 +35,38 @@ export async function GET(request: NextRequest) {
       return apiError('TOO_MANY_REQUESTS', 'Previše zahteva. Pokušajte za 60 sekundi.');
     }
 
-    const portfolio = buildSimulatedPortfolioSummary(user.id);
+    const supabase = getSupabaseServerClientSafe();
+    if (!supabase) {
+      const portfolio = buildSimulatedPortfolioSummary(user.id);
+      return apiSuccess({ portfolio, simulationFallback: true });
+    }
 
-    return apiSuccess({ portfolio });
+    const [{ data: accounts, error: accountsError }, { data: trades, error: tradesError }] = await Promise.all([
+      supabase
+        .from('novcanik_accounts')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('enabled', true)
+        .order('asset_id'),
+      supabase
+        .from('exchange_trades')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+        .limit(5000),
+    ]);
+
+    if (accountsError) return apiInternalError('menjacnica-novcanik-portfolio-accounts', accountsError);
+    if (tradesError) return apiInternalError('menjacnica-novcanik-portfolio-trades', tradesError);
+
+    const portfolio = buildPortfolioSummaryFromRecords(user.id, accounts ?? [], trades ?? []);
+
+    return apiSuccess({
+      portfolio,
+      filters: {
+        assets: portfolio.positions.map((position) => position.assetId),
+      },
+    });
   } catch (error) {
     return apiInternalError('menjacnica-novcanik-portfolio', error);
   }

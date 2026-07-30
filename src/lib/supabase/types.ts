@@ -1124,14 +1124,24 @@ export interface Database {
           expires_at?: string | null;
         };
         Update: {
+          idempotency_key?: string | null;
+          pair_id?: string;
+          side?: 'buy' | 'sell';
+          tip?: 'market' | 'limit';
+          qty?: number;
+          price?: number | null;
           filled_qty?: number;
           avg_fill_price?: number | null;
+          fee_asset_id?: string | null;
           fee_total?: number;
           status?: 'pending' | 'open' | 'partially_filled' | 'filled' | 'cancelled' | 'rejected' | 'expired';
+          simulation_mode?: boolean;
           reject_reason?: string | null;
           aml_score?: number | null;
           risk_flags?: string[];
+          metadata?: Record<string, unknown>;
           updated_at?: string;
+          expires_at?: string | null;
         };
         Relationships: [
           { foreignKeyName: 'exchange_orders_pair_id_fkey'; columns: ['pair_id']; referencedRelation: 'exchange_market_pairs'; referencedColumns: ['id'] },
