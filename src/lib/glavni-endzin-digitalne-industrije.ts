@@ -28,8 +28,9 @@
  *  - Vizuelni Identitet, SEO Sistem, Dimenzionalni Sistem
  *  - Laboratorija Simulacije, Autofinish Petlja, Unit Testovi
  *  - Svi Promptovi (Centralni, Univerzalni, Page, SpajaPro)
+ *  - Engine Registry (auto-discovery hub za sve engine-e) — 35+ novih engine-a
  *
- * Autofinish #330+
+ * Autofinish #332+
  */
 
 import {
@@ -150,6 +151,16 @@ import {
   type MozakLogikaPovratniOdaziv,
   type MozakLogikaRezultat,
 } from './mozak-logika';
+
+// ── ENGINE REGISTRY (auto-discovery hub) ────────────────────────────────
+// Ovaj import aktivira registraciju svih engine-a iz engine-registry-all.ts.
+// Svaki novi engine wrapper dodat u engine-registry-all.ts se automatski
+// pojavljuje u spojiSveEndzine() bez ijedne ručne izmene ovog fajla.
+import {
+  getAllEngines,
+  getRegistryStatistika,
+  toSpojeniEndzinFormat,
+} from './engine-registry-all';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -285,6 +296,10 @@ export interface GlavniEndzinStatistika {
   gamingTabGeometrijskihAlata: number;
   gamingTabIgricaPokrenutih: number;
   gamingTabMaxEntiteta5760D: number;
+  // ENGINE REGISTRY — auto-discovery engine-i
+  registryEndžina: number;
+  registryAktivnih: number;
+  registryProsekOptimizacija: number;
 }
 
 export interface GlavniEndzinDigitalneIndustrije {
@@ -475,7 +490,12 @@ function spojiSveEndzine(): SpojeniEndzin[] {
     izvor: 'SPAJA Gaming Tab Endžin',
   };
 
-  return [...generatorEndžini, ...gamingEndžini, gamingTabEndžin];
+  // 4. Engine Registry — svi auto-registrovani engine-i
+  // Svaki engine wrapper u src/lib/engines/ koji poziva registerEngine()
+  // automatski se pojavljuje ovde bez ijedne ručne izmene.
+  const registryEndžini: SpojeniEndzin[] = getAllEngines().map(toSpojeniEndzinFormat);
+
+  return [...generatorEndžini, ...gamingEndžini, gamingTabEndžin, ...registryEndžini];
 }
 
 // ─── Automatsko sklapanje gotovih proizvoda ──────────────
@@ -592,6 +612,9 @@ const _gamingTabMaxEntiteta5760D = gamingDimenzijaNaParametre('5760D').maxEntite
 const _gamingTabPodrzaneKategorije = [
   ...new Set(igrice.map((i) => gamingGetRunnerTipZaIgricu(i) as string)),
 ];
+
+// ── Engine Registry Stats ──────────────────────────────────────────────
+const _registryStats = getRegistryStatistika();
 
 // ─── Evolucioni ciklusi ──────────────────────────────────
 
@@ -1000,6 +1023,10 @@ function izracunajStatistiku(spojeni: SpojeniEndzin[], sklopljeni: AutoSklapanje
     gamingTabGeometrijskihAlata: _gamingTabGeometrijskihAlata,
     gamingTabIgricaPokrenutih: igrice.length,
     gamingTabMaxEntiteta5760D: _gamingTabMaxEntiteta5760D,
+    // ENGINE REGISTRY
+    registryEndžina: _registryStats.ukupno,
+    registryAktivnih: _registryStats.aktivnih,
+    registryProsekOptimizacija: _registryStats.prosekOptimizacija,
   };
 }
 

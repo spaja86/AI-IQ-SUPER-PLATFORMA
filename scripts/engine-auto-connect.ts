@@ -1,0 +1,250 @@
+#!/usr/bin/env node
+/**
+ * 🔌 Engine Auto-Connect Script
+ *
+ * Skenira ceo src/lib/ direktorijum i detektuje fajlove koji
+ * eksportuju Engine-like objekte ali nisu u engine-registry-all.ts.
+ *
+ * Pokreće se sa: npm run engines:sync
+ *
+ * Workflow:
+ *  1. Skenira src/lib/*.ts za kandidate (fajlovi koji sadrže Engine-like export)
+ *  2. Proverava koji kandidati nisu u engine-registry-all.ts
+ *  3. Generiše izveštaj nepovezanih engine-a
+ *  4. Opciono: auto-generiše wrapper fajlove za nepovezane engine-e
+ *
+ * Autofinish #333+
+ */
+
+import * as fs from 'fs';
+import * as path from 'path';
+
+// ─── Konfiguracija ──────────────────────────────────────────────────────────
+
+const LIB_DIR = path.join(process.cwd(), 'src', 'lib');
+const ENGINES_DIR = path.join(LIB_DIR, 'engines');
+const REGISTRY_ALL_FILE = path.join(LIB_DIR, 'engine-registry-all.ts');
+
+// Reči koje ukazuju da fajl verovatno sadrži Engine-like funkcionalnost
+const ENGINE_KEYWORDS = [
+  'Engine',
+  'Endžin',
+  'endzin',
+  'engine',
+  'System',
+  'Sistem',
+  'Registry',
+];
+
+// Fajlovi koji se eksplicitno ignorišu (utility, types, config, stores)
+const IGNORED_PATTERNS = [
+  '-store.ts',
+  '-page.ts',
+  'types.ts',
+  'constants.ts',
+  'navigation.ts',
+  'logger.ts',
+  'logger',
+  'request-id',
+  'idempotency',
+  'rate-limit',
+  'refresh-scope',
+  'feature-flags',
+  'config-validation',
+  'perf-budget',
+  'breadcrumb-helper',
+  'metadata-helper',
+  'openapi-meta',
+  'api-error',
+  'security-headers',
+];
+
+// Prefiks mapiranja na EngineTip
+const TIP_MAPIRANJE: Record<string, string> = {
+  'ai-': 'ai',
+  'omega-': 'ai',
+  'spaja-pro': 'ai',
+  'analiza-': 'ai',
+  'finansije': 'finansije',
+  'menjacnica': 'finansije',
+  'wallet': 'finansije',
+  'wollet': 'finansije',
+  'kripto': 'finansije',
+  'digitalna-industrija': 'finansije',
+  'gaming': 'gaming',
+  'igrice': 'gaming',
+  'poker': 'gaming',
+  'gejming': 'gaming',
+  'proksi': 'mreza',
+  'mobilna-mreza': 'mreza',
+  'distribucija': 'mreza',
+  'wifi': 'mreza',
+  'auth': 'bezbednost',
+  'blockchain': 'bezbednost',
+  'licencni': 'bezbednost',
+  'deploy': 'deploy',
+  'supabase': 'deploy',
+  'vercel': 'deploy',
+};
+
+// ─── Funkcije ───────────────────────────────────────────────────────────────
+
+function getEngineTip(filename: string): string {
+  for (const [prefix, tip] of Object.entries(TIP_MAPIRANJE)) {
+    if (filename.includes(prefix)) return tip;
+  }
+  return 'core';
+}
+
+function isEngineCandidate(filePath: string, content: string): boolean {
+  const basename = path.basename(filePath);
+
+  // Preskoči ignorisane fajlove
+  for (const pattern of IGNORED_PATTERNS) {
+    if (basename.includes(pattern)) return false;
+  }
+
+  // Preskoči fajlove iz poddirektorijuma (engine-registry sami handlaju)
+  if (filePath.includes('/engines/')) return false;
+
+  // Proveri da li fajl sadrži engine keywords u exportima
+  const hasEngineKeyword = ENGINE_KEYWORDS.some((kw) =>
+    content.includes(`export`) && content.includes(kw)
+  );
+
+  return hasEngineKeyword;
+}
+
+function isRegisteredInBarrel(filename: string): boolean {
+  const barrelContent = fs.readFileSync(REGISTRY_ALL_FILE, 'utf-8');
+  const basename = path.basename(filename, '.ts');
+  return barrelContent.includes(`/engines/${basename}`) ||
+         barrelContent.includes(`'./${basename}'`) ||
+         barrelContent.includes(`"./${basename}"`);
+}
+
+function isInEnginesFolder(filename: string): boolean {
+  const basename = path.basename(filename, '.ts');
+  const wrapperPath = path.join(ENGINES_DIR, `${basename}.ts`);
+  return fs.existsSync(wrapperPath);
+}
+
+function generateWrapperContent(basename: string, tip: string): string {
+  const titledNaziv = basename
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  return `/**
+ * 🔌 ${titledNaziv} Engine — Auto-Generated Wrapper
+ *
+ * Wraps: src/lib/${basename}.ts
+ *
+ * NAPOMENA: Ovaj fajl je auto-generisan od strane engine-auto-connect.ts
+ * Pregledajte i prilagodite opis, ikonu i tagove pre commit-a.
+ */
+
+import { registerEngine } from '../engine-registry';
+
+registerEngine({
+  id: 'engine-${basename}',
+  naziv: '${titledNaziv} Engine',
+  opis: 'Auto-generisan engine wrapper za ${basename} modul',
+  ikona: '🔌',
+  tip: '${tip}',
+  status: 'aktivan',
+  verzija: '1.0.0',
+  optimizacija: 100,
+  izvor: '${titledNaziv} modul',
+  izvoriFajlovi: ['src/lib/${basename}.ts'],
+  registrovanDatum: '${new Date().toISOString().split('T')[0]}',
+  tagovi: ['auto-generated'],
+});
+`;
+}
+
+// ─── Glavni program ─────────────────────────────────────────────────────────
+
+const autoGenerate = process.argv.includes('--auto-generate');
+
+console.log('\n🔌 Engine Auto-Connect — Skeniranje src/lib/\n');
+
+// Pročitaj sve .ts fajlove u src/lib/ (ne rekurzivno — samo direktni fajlovi)
+const libFiles = fs.readdirSync(LIB_DIR)
+  .filter((f) => f.endsWith('.ts'))
+  .map((f) => path.join(LIB_DIR, f));
+
+const candidates: string[] = [];
+const unregistered: string[] = [];
+const autoGenerated: string[] = [];
+
+for (const filePath of libFiles) {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  if (!isEngineCandidate(filePath, content)) continue;
+
+  const basename = path.basename(filePath, '.ts');
+  candidates.push(basename);
+
+  // Proveri da li postoji u engines/ folderu ili u barrel fajlu
+  if (!isInEnginesFolder(filePath) && !isRegisteredInBarrel(filePath)) {
+    unregistered.push(basename);
+
+    if (autoGenerate) {
+      const tip = getEngineTip(basename);
+      const wrapperContent = generateWrapperContent(basename, tip);
+      const wrapperPath = path.join(ENGINES_DIR, `${basename}-engine.ts`);
+
+      if (!fs.existsSync(wrapperPath)) {
+        fs.writeFileSync(wrapperPath, wrapperContent, 'utf-8');
+        autoGenerated.push(`${basename}-engine.ts`);
+        console.log(`  ✅ Auto-generisan: src/lib/engines/${basename}-engine.ts`);
+      }
+    }
+  }
+}
+
+// ─── Izveštaj ───────────────────────────────────────────────────────────────
+
+console.log(`📊 Rezultati skeniranja:`);
+console.log(`  • Ukupno skeniranih lib fajlova: ${libFiles.length}`);
+console.log(`  • Engine kandidata pronađeno: ${candidates.length}`);
+console.log(`  • Nepovezanih engine-a: ${unregistered.length}`);
+
+if (unregistered.length > 0) {
+  console.log('\n⚠️  Nepovezani engine moduli (nisu u engine-registry-all.ts):');
+  for (const name of unregistered) {
+    console.log(`  • src/lib/${name}.ts`);
+  }
+
+  if (!autoGenerate) {
+    console.log('\n💡 Pokrenite sa --auto-generate da automatski kreirate wrapper fajlove:');
+    console.log('   npm run engines:sync -- --auto-generate\n');
+  }
+}
+
+if (autoGenerated.length > 0) {
+  console.log(`\n✅ Auto-generisano ${autoGenerated.length} wrapper fajl(ova).`);
+  console.log('📌 SLEDEĆI KORACI:');
+  console.log('  1. Pregledajte generisane fajlove u src/lib/engines/');
+  console.log('  2. Prilagodite naziv, opis, ikonu i tagove');
+  console.log('  3. Dodajte import u src/lib/engine-registry-all.ts');
+  console.log('  4. Pokrenite: npm run test\n');
+}
+
+// ─── Postoji li engine-registry-all.ts barrel? ──────────────────────────────
+
+const barrelContent = fs.readFileSync(REGISTRY_ALL_FILE, 'utf-8');
+const registeredInBarrel = (barrelContent.match(/^import '.\/engines\//mg) || []).length;
+const wrapperFiles = fs.readdirSync(ENGINES_DIR).filter((f) => f.endsWith('.ts')).length;
+
+console.log(`\n📦 Engine Registry Status:`);
+console.log(`  • Wrapper fajlova u engines/: ${wrapperFiles}`);
+console.log(`  • Uvezenih u barrel fajlu: ${registeredInBarrel}`);
+
+if (wrapperFiles !== registeredInBarrel) {
+  const diff = wrapperFiles - registeredInBarrel;
+  console.log(`\n⚠️  ${diff} wrapper fajl(ova) nije uvezeno u engine-registry-all.ts!`);
+  console.log('   Dodajte odgovarajuće import linije u src/lib/engine-registry-all.ts\n');
+  process.exit(1);
+} else {
+  console.log(`\n✅ Svi engine wrapper-i su registrovani u barrel fajlu.\n`);
+}
