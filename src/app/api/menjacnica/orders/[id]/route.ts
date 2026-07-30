@@ -8,8 +8,53 @@ import { type NextRequest } from 'next/server';
 import { apiSuccess, apiError, apiInternalError } from '@/lib/api/response';
 import { verifyUserFromToken, getSupabaseServerClient } from '@/lib/supabase/server';
 import { isExchangeFlagEnabled } from '@/lib/menjacnica/feature-flags';
+import { roundLedger } from '@/lib/novcanik/ledger';
+import type { Database } from '@/lib/supabase/types';
 
 type RouteContext = { params: Promise<{ id: string }> };
+type OrderRow = Database['public']['Tables']['exchange_orders']['Row'];
+
+interface WalletMetadata {
+  wallet?: {
+    reservation?: {
+      assetId?: string;
+      amount?: number;
+    };
+  };
+}
+
+async function releaseReservation(
+  userId: string,
+  order: Pick<OrderRow, 'metadata'>,
+) {
+  const wallet = (order.metadata as WalletMetadata | null)?.wallet;
+  const assetId = wallet?.reservation?.assetId?.toUpperCase();
+  const amount = wallet?.reservation?.amount;
+
+  if (!assetId || typeof amount !== 'number' || amount <= 0) return;
+
+  const supabase = getSupabaseServerClient();
+  const { data: account, error } = await supabase
+    .from('novcanik_accounts')
+    .select('id, available, reserved')
+    .eq('user_id', userId)
+    .eq('asset_id', assetId)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!account) return;
+
+  const { error: updateError } = await supabase
+    .from('novcanik_accounts')
+    .update({
+      available: roundLedger(account.available + amount),
+      reserved: roundLedger(Math.max(0, account.reserved - amount)),
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', account.id);
+
+  if (updateError) throw updateError;
+}
 
 // ─── GET ──────────────────────────────────────────────────────────────────────
 
@@ -35,7 +80,6 @@ export async function GET(request: NextRequest, context: RouteContext) {
     if (error) return apiInternalError('menjacnica-order-get', error);
     if (!order) return apiError('NOT_FOUND', `Order '${id}' nije pronađen.`);
 
-    // Dohvati i trade records ako postoje
     const { data: trades } = await supabase
       .from('exchange_trades')
       .select('*')
@@ -64,7 +108,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
 
     const { data: order, error: fetchError } = await supabase
       .from('exchange_orders')
-      .select('id, status, user_id')
+      .select('id, status, user_id, metadata')
       .eq('id', id)
       .eq('user_id', user.id)
       .maybeSingle();
@@ -80,9 +124,11 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
       );
     }
 
+    await releaseReservation(user.id, order);
+
     const { data: updated, error: updateError } = await supabase
       .from('exchange_orders')
-      .update({ status: 'cancelled' })
+      .update({ status: 'cancelled', updated_at: new Date().toISOString() })
       .eq('id', id)
       .eq('user_id', user.id)
       .select()
