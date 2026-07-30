@@ -21,8 +21,8 @@ export async function GET(request: NextRequest) {
 
     // Parse filters
     const filters: JokeFilters = {
-      category: (url.searchParams.get('category') as any) || undefined,
-      type: (url.searchParams.get('type') as any) || undefined,
+      category: (url.searchParams.get('category') as JokeFilters['category']) || undefined,
+      type: (url.searchParams.get('type') as JokeFilters['type']) || undefined,
       safe: url.searchParams.get('safe') === 'true' ? true : url.searchParams.get('safe') === 'false' ? false : undefined,
     };
 

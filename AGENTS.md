@@ -70,4 +70,24 @@ Contact & owner
 - Repo owner / team: AI-IQ-SUPER-PLATFORMA team
 - Security contact: security@spaja86.dev
 
+---
+
+## Registered Agents
+
+### copilot-coding-agent
+
+```json
+{
+  "name": "copilot-coding-agent",
+  "display_name": "Copilot Coding Agent",
+  "role": "ci-bot",
+  "scope": "src/**, shared/**, scripts/**",
+  "identity": "github-copilot-coding-agent",
+  "owner": "AI-IQ-SUPER-PLATFORMA team",
+  "contact": "security@spaja86.dev",
+  "allowed_auto_merge": false,
+  "changelog": "Fixes lint/build errors, adds unit tests for critical lib modules (cron-auth, auto-repair, omega-ai-dispatch), enforces security headers and input validation, and keeps AGENTS.md up to date."
+}
+```
+
 (End)

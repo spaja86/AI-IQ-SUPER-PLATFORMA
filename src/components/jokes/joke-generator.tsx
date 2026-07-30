@@ -140,7 +140,7 @@ export function JokeGenerator({
               </label>
               <select
                 value={jokeType}
-                onChange={(e) => setJokeType(e.target.value as any)}
+                onChange={(e) => setJokeType(e.target.value as 'single' | 'twopart' | 'any')}
                 className="w-full px-3 py-2 bg-purple-700 text-white rounded border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400"
               >
                 <option value="any">Any</option>

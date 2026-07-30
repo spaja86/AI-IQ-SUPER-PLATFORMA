@@ -53,6 +53,7 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     gameOver: false,
   });
   const rafRef = useRef<number>(0);
+  const gameLoopRef = useRef<FrameRequestCallback | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState<GameScore | null>(null);
 
@@ -143,7 +144,7 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
 
   const gameLoop = useCallback((timestamp: number) => {
     if (isPauziran) {
-      rafRef.current = requestAnimationFrame(gameLoop);
+      rafRef.current = requestAnimationFrame(gameLoopRef.current!);
       return;
     }
     const canvas = canvasRef.current;
@@ -193,9 +194,11 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     // ── Update entiteta ──
     const prezivelentiteti: Entitet[] = [];
     for (const e of state.entiteti) {
+      /* eslint-disable react-hooks/immutability -- game-loop mutable ref, intentional */
       e.x += e.vx * dt;
       e.y += e.vy * dt;
       e.vreme += dt;
+      /* eslint-enable react-hooks/immutability */
 
       if (e.tip === 'particle') {
         // Gasimo particle posle ~40 frejmova
@@ -341,7 +344,7 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
       ctx.fillText('WASD / Strelice = kretanje  |  Space / Enter = pucaj', canvas.width / 2, canvas.height - 16);
     }
 
-    rafRef.current = requestAnimationFrame(gameLoop);
+    rafRef.current = requestAnimationFrame(gameLoopRef.current!);
   }, [
     isPauziran,
     brzinaFaktor,
@@ -352,6 +355,11 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     onScoreUpdate,
     onKraj,
   ]);
+
+  // Keep gameLoopRef in sync with the latest gameLoop callback
+  useEffect(() => {
+    gameLoopRef.current = gameLoop;
+  });
 
   // ── Mount / restart ──
 
@@ -377,7 +385,7 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
     setGameOver(false);
     setFinalScore(null);
     initIgrac();
-    rafRef.current = requestAnimationFrame(gameLoop);
+    rafRef.current = requestAnimationFrame(gameLoopRef.current!);
     return () => cancelAnimationFrame(rafRef.current);
   }, [konfiguracija, initIgrac, gameLoop]);
 

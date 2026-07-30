@@ -120,6 +120,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
   });
 
   const rafRef = useRef<number>(0);
+  const gameLoopRef = useRef<FrameRequestCallback | null>(null);
 
   // ── Tastatura ──
 
@@ -160,7 +161,7 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
   const pomeranjeInterval = 120;
 
   const gameLoop = useCallback((timestamp: number) => {
-    if (isPauziran) { rafRef.current = requestAnimationFrame(gameLoop); return; }
+    if (isPauziran) { rafRef.current = requestAnimationFrame(gameLoopRef.current!); return; }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -293,8 +294,13 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
       ctx.fillText('A/D Strelice = pomak | W/↑ = rotacija | S/↓ = ubrzano', canvas.width / 2, canvas.height - 10);
     }
 
-    rafRef.current = requestAnimationFrame(gameLoop);
+    rafRef.current = requestAnimationFrame(gameLoopRef.current!);
   }, [isPauziran, padInterval, pomeranjeInterval, parametri, onScoreUpdate, onKraj]);
+
+  // Keep gameLoopRef in sync with the latest gameLoop callback
+  useEffect(() => {
+    gameLoopRef.current = gameLoop;
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -314,9 +320,11 @@ export default function LogickaRunner({ konfiguracija, isPauziran, onScoreUpdate
       poslednjePomeranjeR: 0,
       gameOver: false,
     };
+    /* eslint-disable react-hooks/set-state-in-effect -- intentional game reset on restart */
     setGameOver(false);
     setFinalScore(null);
-    rafRef.current = requestAnimationFrame(gameLoop);
+    /* eslint-enable react-hooks/set-state-in-effect */
+    rafRef.current = requestAnimationFrame(gameLoopRef.current!);
     return () => cancelAnimationFrame(rafRef.current);
   }, [konfiguracija, parametri, gameLoop]);
 

@@ -8,7 +8,7 @@
  * broj pitanja i vremenski limit.
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore } from '@/lib/gaming-endzin';
 import DimenzijaBadge from '../DimenzijaBadge';
@@ -154,7 +154,7 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
   const tezinaNivo = parametri.slojevi;
   const vremenLimit = Math.max(8, 20 - parametri.slojevi * 2);
 
-  const pitanjaRef = useRef(getSortedPitanja(tezinaNivo));
+  const pitanja = useState(() => getSortedPitanja(tezinaNivo))[0];
   const [indeksPitanja, setIndeksPitanja] = useState(0);
   const [izabraniOdgovor, setIzabraniOdgovor] = useState<number | null>(null);
   const [pokaziPojas, setPokaziPojas] = useState(false);
@@ -164,16 +164,18 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
   const [gresaka, setGresaka] = useState(0);
 
   const MAX_GRESAKA = 3;
-  const pitanje = pitanjaRef.current[indeksPitanja % pitanjaRef.current.length];
+  const pitanje = pitanja[indeksPitanja % pitanja.length];
 
   // ── Timer ──
 
   useEffect(() => {
     if (isPauziran || pokaziPojas || gameOver) return;
     if (vremeOstalo <= 0) {
+      /* eslint-disable react-hooks/set-state-in-effect -- intentional timer expiry game logic */
       setIzabraniOdgovor(-1);
       setPokaziPojas(true);
       setGresaka((g) => g + 1);
+      /* eslint-enable react-hooks/set-state-in-effect */
       return;
     }
     const t = setInterval(() => setVremeOstalo((v) => v - 1), 1000);
@@ -186,6 +188,7 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
 
   useEffect(() => {
     if (gresaka >= MAX_GRESAKA) {
+      /* eslint-disable-next-line react-hooks/set-state-in-effect -- intentional game-over trigger */
       setGameOver(true);
       onKraj(score);
     }
@@ -249,7 +252,7 @@ export default function EduRunner({ konfiguracija, isPauziran, onScoreUpdate, on
         {/* Timer */}
         <div className="mb-4">
           <div className="mb-1 flex justify-between text-xs text-gray-500">
-            <span>Pitanje {(indeksPitanja % pitanjaRef.current.length) + 1} / {pitanjaRef.current.length}</span>
+            <span>Pitanje {(indeksPitanja % pitanja.length) + 1} / {pitanja.length}</span>
             <span className={vremeOstalo <= 5 ? 'text-red-400 font-bold' : ''}>{vremeOstalo}s</span>
           </div>
           <div className="h-1.5 w-full rounded-full bg-gray-700">
