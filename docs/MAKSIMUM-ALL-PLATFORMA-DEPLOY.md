@@ -14,6 +14,7 @@
 
 | Document | Purpose |
 |---|---|
+| [`docs/DIREKŠN-DEPLOY-SPAJA.md`](./DIREKŠN-DEPLOY-SPAJA.md) | **Kanonski operativni vodič — 12-fazna deploy sekvenca (DIREKŠN)** |
 | [`docs/GOLIVE_CHECKLIST.md`](./GOLIVE_CHECKLIST.md) | Operative per-deploy checklist (A–G sections) |
 | [`docs/GO-LIVE.md`](./GO-LIVE.md) | Pre-launch gap report, environment variables, rollback |
 | [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./DEPLOYMENT-POWER-RESOLUTION.md) | Workload split, runtime model, reliability controls |
