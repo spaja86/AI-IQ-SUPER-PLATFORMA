@@ -8,7 +8,8 @@ export const runtime = 'nodejs';
  *
  * INDEKSIRANJE 5 — Stage Distribution Dashboard.
  * Vraća breakdown chunk-ova po indexing stupnju (v1/v2/v3/v4),
- * completionPct do ciljne verzije (v4), i puni queue status.
+ * completionPct do ciljne verzije (v4), puni queue status
+ * i INDEKSIRANJE 750 KPI signal.
  */
 export async function GET() {
   const [status, stageBreakdown] = await Promise.all([
@@ -21,6 +22,7 @@ export async function GET() {
     stageBreakdown,
     queue: status.queue,
     jobs24h: status.jobs24h,
+    indexing750: status.indexing750,
     timestamp: new Date().toISOString(),
   });
 }

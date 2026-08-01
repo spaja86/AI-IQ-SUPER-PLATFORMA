@@ -365,6 +365,50 @@ WHERE index_version <> 'v4' AND embedding_status = 'indexed';
 
 ---
 
+## 12) INDEKSIRANJE 750 — KPI režim za staged auto-promotion
+
+### Šta je INDEKSIRANJE 750?
+
+Operativni režim koji koristi postojeći INDEKSIRANJE 5 tok, ali dodaje KPI evaluaciju, degradacione pragove i run-level audit.
+
+### API: pokretanje 750 režima
+
+- API: `POST /api/spaja-baza-knowledge/index`
+- Body primer:
+```json
+{
+  "promoteAll": true,
+  "indeksiranje750": true,
+  "targetCompletionPct": 75,
+  "degradationThresholdPct": 7.5,
+  "safeStop750": false
+}
+```
+
+### Status i monitoring
+
+- `GET /api/spaja-baza-knowledge/index-status` vraća i polje `indexing750`.
+- Otvoreni alerti dostupni kroz view `knowledge_index_750_alerts`.
+
+### SQL provere
+
+```sql
+SELECT * FROM knowledge_index_750_audit ORDER BY created_at DESC LIMIT 20;
+```
+
+```sql
+SELECT * FROM knowledge_index_750_alerts ORDER BY created_at DESC LIMIT 20;
+```
+
+### Safe stop
+
+- API: `safeStop750: true`
+- CLI/Workflow: `INDEX_750_SAFE_STOP=true`
+
+Safe stop čuva audit zapis i KPI snapshot, ali preskače promociju chunk-ova.
+
+---
+
 ## PERTENIZACIJA 2 — Operativni koraci
 
 ### Aktivacija v2 po korisniku

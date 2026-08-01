@@ -64,6 +64,14 @@ interface KnowledgeIndexingOptions {
   promoteAll?: boolean;
   /** Cooldown u ms između stupnjeva pri promoteAll (default: 500ms). */
   promoteCooldownMs?: number;
+  /** INDEKSIRANJE 750 feature-flag režim sa KPI evaluacijom i audit zapisom. */
+  indeksiranje750?: boolean;
+  /** KPI cilj za v4 completion u procentima u 750 režimu (default: 75). */
+  targetCompletionPct?: number;
+  /** Prag degradacije completion delta u procentnim poenima (default: 7.5). */
+  degradationThresholdPct?: number;
+  /** Bezbedno zaustavljanje 750 režima bez izvršavanja promocije. */
+  safeStop?: boolean;
 }
 
 /** Breakdown chunk-ova po indexing stupnju. */
@@ -86,6 +94,18 @@ export interface KnowledgeIndexingResult {
   errors: Array<{ chunkId: string; reason: string }>;
   /** Distribucija chunk-ova po stupnju nakon operacije (dodata pri promoteAll ili batch-u). */
   stageBreakdown?: KnowledgeStageBreakdown;
+  /** KPI i audit metrika za INDEKSIRANJE 750 režim. */
+  indexing750?: {
+    enabled: boolean;
+    targetCompletionPct: number;
+    degradationThresholdPct: number;
+    completionBeforePct: number;
+    completionAfterPct: number;
+    completionDeltaPct: number;
+    degraded: boolean;
+    meetsTarget: boolean;
+    safeStopTriggered: boolean;
+  };
 }
 
 export interface KnowledgeIndexStatus {
@@ -107,6 +127,17 @@ export interface KnowledgeIndexStatus {
   };
   latestJobs: Array<Database['public']['Tables']['knowledge_index_jobs']['Row']>;
   stageBreakdown: KnowledgeStageBreakdown;
+  indexing750?: {
+    latestRunAt: string | null;
+    openAlerts: number;
+    lastRun: {
+      completionAfterPct: number;
+      completionDeltaPct: number;
+      degraded: boolean;
+      meetsTarget: boolean;
+      safeStopTriggered: boolean;
+    } | null;
+  };
 }
 
 const DEFAULT_ALLOWLIST = [
@@ -166,6 +197,8 @@ const KNOWLEDGE_INDEX_TARGET_VERSION = 'v4' as const;
 const PROMOTE_ALL_DEFAULT_COOLDOWN_MS = 500;
 /** Minimalna dužina sadržaja (znakova) za promociju v1→v2 (quality gate). */
 const PROMOTE_V2_MIN_CONTENT_LENGTH = 100;
+const INDEXING_750_DEFAULT_TARGET_COMPLETION_PCT = 75;
+const INDEXING_750_DEFAULT_DEGRADATION_THRESHOLD_PCT = 7.5;
 
 // Shared select string for knowledge_chunks search queries (FTS, ilike, fallback).
 const KNOWLEDGE_SEARCH_SELECT = `
@@ -1260,6 +1293,74 @@ function normalizeMaxBatches(raw?: number): number {
   return Math.max(1, Math.min(Number(raw), 100));
 }
 
+function normalizeCompletionPct(raw?: number): number {
+  if (!Number.isFinite(raw)) return INDEXING_750_DEFAULT_TARGET_COMPLETION_PCT;
+  return Math.max(0, Math.min(Number(raw), 100));
+}
+
+function normalizeDegradationThreshold(raw?: number): number {
+  if (!Number.isFinite(raw)) return INDEXING_750_DEFAULT_DEGRADATION_THRESHOLD_PCT;
+  return Math.max(0, Math.min(Number(raw), 100));
+}
+
+function buildIndexing750Metrics(params: {
+  enabled: boolean;
+  targetCompletionPct: number;
+  degradationThresholdPct: number;
+  completionBeforePct: number;
+  completionAfterPct: number;
+  safeStopTriggered: boolean;
+}): NonNullable<KnowledgeIndexingResult['indexing750']> {
+  const completionDeltaPct = Number((params.completionAfterPct - params.completionBeforePct).toFixed(2));
+  const degraded = completionDeltaPct < 0 && Math.abs(completionDeltaPct) >= params.degradationThresholdPct;
+  const meetsTarget = params.completionAfterPct >= params.targetCompletionPct && !degraded;
+  return {
+    enabled: params.enabled,
+    targetCompletionPct: params.targetCompletionPct,
+    degradationThresholdPct: params.degradationThresholdPct,
+    completionBeforePct: params.completionBeforePct,
+    completionAfterPct: params.completionAfterPct,
+    completionDeltaPct,
+    degraded,
+    meetsTarget,
+    safeStopTriggered: params.safeStopTriggered,
+  };
+}
+
+async function logIndexing750Audit(
+  supabase: SupabaseClient,
+  params: {
+    jobId: string;
+    batchId: string;
+    processed: number;
+    indexed: number;
+    failed: number;
+    metrics: NonNullable<KnowledgeIndexingResult['indexing750']>;
+  },
+): Promise<void> {
+  // knowledge_index_750_audit is introduced via migration 022.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase as any).from('knowledge_index_750_audit').insert({
+    job_id: params.jobId,
+    batch_id: params.batchId,
+    target_completion_pct: params.metrics.targetCompletionPct,
+    degradation_threshold_pct: params.metrics.degradationThresholdPct,
+    completion_before_pct: params.metrics.completionBeforePct,
+    completion_after_pct: params.metrics.completionAfterPct,
+    completion_delta_pct: params.metrics.completionDeltaPct,
+    processed_chunks: params.processed,
+    indexed_chunks: params.indexed,
+    failed_chunks: params.failed,
+    degraded: params.metrics.degraded,
+    meets_target: params.metrics.meetsTarget,
+    safe_stop_triggered: params.metrics.safeStopTriggered,
+    summary: {
+      mode: 'indeksiranje-750',
+      targetVersion: KNOWLEDGE_INDEX_TARGET_VERSION,
+    },
+  });
+}
+
 export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): Promise<KnowledgeIndexingResult> {
   const supabase = getSupabaseServerClient();
   const batchSize = normalizeBatchSize(options?.batchSize);
@@ -1277,7 +1378,11 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
   const upgradeToV2 = Boolean(options?.upgradeToV2);
   const upgradeToV3 = Boolean(options?.upgradeToV3);
   const upgradeToV4 = Boolean(options?.upgradeToV4);
-  const promoteAll = Boolean(options?.promoteAll);
+  const indexing750Enabled = Boolean(options?.indeksiranje750);
+  const promoteAll = Boolean(options?.promoteAll || indexing750Enabled);
+  const targetCompletionPct = normalizeCompletionPct(options?.targetCompletionPct);
+  const degradationThresholdPct = normalizeDegradationThreshold(options?.degradationThresholdPct);
+  const safeStop750 = Boolean(options?.safeStop);
 
   const { data: job, error: jobError } = await supabase
     .from('knowledge_index_jobs')
@@ -1304,12 +1409,16 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
       0,
       options?.promoteCooldownMs ?? PROMOTE_ALL_DEFAULT_COOLDOWN_MS,
     );
-    const promotionResult = await runStagedAutoPromotion({
-      batchSize,
-      maxBatches,
-      cooldownMs,
-      jobId: job.id,
-    });
+    const beforeBreakdown = await computeStageBreakdown();
+    const batchId = `promote-all-${job.id}`;
+    const promotionResult = safeStop750
+      ? { processed: 0, indexed: 0, failed: 0, errors: [] as Array<{ chunkId: string; reason: string }> }
+      : await runStagedAutoPromotion({
+        batchSize,
+        maxBatches,
+        cooldownMs,
+        jobId: job.id,
+      });
     const durationMs = Date.now() - now;
     const throughput = durationMs > 0 ? Number(((promotionResult.indexed * 60_000) / durationMs).toFixed(2)) : 0;
     await supabase.from('knowledge_index_jobs').update({
@@ -1323,6 +1432,24 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
       error_log: promotionResult.errors,
     }).eq('id', job.id);
     const stageBreakdown = await computeStageBreakdown();
+    const indexing750 = buildIndexing750Metrics({
+      enabled: indexing750Enabled,
+      targetCompletionPct,
+      degradationThresholdPct,
+      completionBeforePct: beforeBreakdown.completionPct,
+      completionAfterPct: stageBreakdown.completionPct,
+      safeStopTriggered: safeStop750,
+    });
+    if (indexing750Enabled) {
+      await logIndexing750Audit(supabase, {
+        jobId: job.id,
+        batchId,
+        processed: promotionResult.processed,
+        indexed: promotionResult.indexed,
+        failed: promotionResult.failed,
+        metrics: indexing750,
+      });
+    }
     return {
       jobId: job.id,
       processed: promotionResult.processed,
@@ -1331,6 +1458,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
       durationMs,
       errors: promotionResult.errors,
       stageBreakdown,
+      indexing750,
     };
   }
 
@@ -1490,7 +1618,7 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
   const supabase = getSupabaseServerClient();
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  const [notIndexed, indexed, failed, indexedV1, indexedV2, indexedV3, indexedV4, jobs24h, latestJobs] = await Promise.all([
+  const [notIndexed, indexed, failed, indexedV1, indexedV2, indexedV3, indexedV4, jobs24h, latestJobs, latest750Run, open750Alerts] = await Promise.all([
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'not_indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed'),
     supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'failed'),
@@ -1505,6 +1633,11 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
       .order('created_at', { ascending: false })
       .limit(100),
     supabase.from('knowledge_index_jobs').select('*').order('created_at', { ascending: false }).limit(20),
+    // knowledge_index_750_audit is introduced via migration 022.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('knowledge_index_750_audit').select('*').order('created_at', { ascending: false }).limit(1),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('knowledge_index_750_alerts').select('*', { count: 'exact', head: true }),
   ]);
 
   const rows24h = jobs24h.data ?? [];
@@ -1517,6 +1650,7 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
     ? Number((rows24h.reduce((sum, row) => sum + Number(row.throughput_per_minute ?? 0), 0) / rows24h.length).toFixed(2))
     : 0;
 
+  const latest750 = (latest750Run as { data?: Array<Record<string, unknown>> } | null)?.data?.[0] ?? null;
   return {
     queue: {
       notIndexed: notIndexed.count ?? 0,
@@ -1546,6 +1680,19 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
         const total = (indexedV1.count ?? 0) + (indexedV2.count ?? 0) + (indexedV3.count ?? 0) + (indexedV4.count ?? 0);
         return total > 0 ? Number((((indexedV4.count ?? 0) / total) * 100).toFixed(2)) : 0;
       })(),
+    },
+    indexing750: {
+      latestRunAt: latest750?.created_at ? String(latest750.created_at) : null,
+      openAlerts: open750Alerts.count ?? 0,
+      lastRun: latest750
+        ? {
+          completionAfterPct: Number(latest750.completion_after_pct ?? 0),
+          completionDeltaPct: Number(latest750.completion_delta_pct ?? 0),
+          degraded: Boolean(latest750.degraded),
+          meetsTarget: Boolean(latest750.meets_target),
+          safeStopTriggered: Boolean(latest750.safe_stop_triggered),
+        }
+        : null,
     },
   };
 }

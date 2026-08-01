@@ -15,6 +15,10 @@
  *   PROMOTE_ALL_BATCH_SIZE     (default: 50)
  *   PROMOTE_ALL_MAX_BATCHES    (default: 10)
  *   PROMOTE_ALL_COOLDOWN_MS    (default: 500)
+ *   INDEX_750_MODE             (default: false)
+ *   INDEX_750_TARGET_PCT       (default: 75)
+ *   INDEX_750_DEGRADE_PCT      (default: 7.5)
+ *   INDEX_750_SAFE_STOP        (default: false)
  */
 
 import { createClient } from '@supabase/supabase-js';
@@ -34,6 +38,10 @@ const MAX_BATCHES = Math.max(1, Math.min(Number(process.env.PROMOTE_ALL_MAX_BATC
 const COOLDOWN_MS = Math.max(0, Number(process.env.PROMOTE_ALL_COOLDOWN_MS ?? 500));
 
 const PROMOTE_V2_MIN_CONTENT_LENGTH = 100;
+const INDEX_750_MODE = String(process.env.INDEX_750_MODE ?? 'false').toLowerCase() === 'true';
+const INDEX_750_TARGET_PCT = Math.max(0, Math.min(Number(process.env.INDEX_750_TARGET_PCT ?? 75), 100));
+const INDEX_750_DEGRADE_PCT = Math.max(0, Math.min(Number(process.env.INDEX_750_DEGRADE_PCT ?? 7.5), 100));
+const INDEX_750_SAFE_STOP = String(process.env.INDEX_750_SAFE_STOP ?? 'false').toLowerCase() === 'true';
 
 function delay(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
@@ -156,7 +164,8 @@ async function updateJob(jobId: string, params: {
 }
 
 async function promoteV1ToV2(batchId: string, jobId: string): Promise<{ promoted: number; blocked: number; failed: number }> {
-  let promoted = 0, blocked = 0, failed = 0;
+  let promoted = 0, failed = 0;
+  const blocked = 0;
   for (let batch = 0; batch < MAX_BATCHES; batch++) {
     const { data } = await supabase
       .from('knowledge_chunks')
@@ -199,7 +208,8 @@ async function promoteV1ToV2(batchId: string, jobId: string): Promise<{ promoted
 }
 
 async function promoteV2ToV3(batchId: string, jobId: string): Promise<{ promoted: number; blocked: number; failed: number }> {
-  let promoted = 0, blocked = 0, failed = 0;
+  let promoted = 0, failed = 0;
+  const blocked = 0;
   for (let batch = 0; batch < MAX_BATCHES; batch++) {
     const { data } = await supabase
       .from('knowledge_chunks')
@@ -245,7 +255,8 @@ async function promoteV2ToV3(batchId: string, jobId: string): Promise<{ promoted
 async function promoteV3ToV4(batchId: string, jobId: string): Promise<{ promoted: number; blocked: number; failed: number }> {
   // v4 requires OpenAI embeddings — skip if not configured
   const openaiApiKey = process.env.OPENAI_API_KEY;
-  let promoted = 0, blocked = 0, failed = 0;
+  let promoted = 0, failed = 0;
+  const blocked = 0;
   if (!openaiApiKey) {
     console.warn('⚠️  OPENAI_API_KEY nije postavljen — v3→v4 promocija preskočena.');
     return { promoted: 0, blocked: 0, failed: 0 };
@@ -320,10 +331,50 @@ async function getStageBreakdown(): Promise<Record<string, number>> {
   return results;
 }
 
+async function logIndex750Audit(params: {
+  jobId: string;
+  batchId: string;
+  processed: number;
+  indexed: number;
+  failed: number;
+  completionBeforePct: number;
+  completionAfterPct: number;
+  safeStopTriggered: boolean;
+}) {
+  if (!INDEX_750_MODE) return;
+  const completionDeltaPct = Number((params.completionAfterPct - params.completionBeforePct).toFixed(2));
+  const degraded = completionDeltaPct < 0 && Math.abs(completionDeltaPct) >= INDEX_750_DEGRADE_PCT;
+  const meetsTarget = params.completionAfterPct >= INDEX_750_TARGET_PCT && !degraded;
+  await supabase.from('knowledge_index_750_audit').insert({
+    job_id: params.jobId,
+    batch_id: params.batchId,
+    mode: 'indeksiranje-750',
+    target_completion_pct: INDEX_750_TARGET_PCT,
+    degradation_threshold_pct: INDEX_750_DEGRADE_PCT,
+    completion_before_pct: params.completionBeforePct,
+    completion_after_pct: params.completionAfterPct,
+    completion_delta_pct: completionDeltaPct,
+    processed_chunks: params.processed,
+    indexed_chunks: params.indexed,
+    failed_chunks: params.failed,
+    degraded,
+    meets_target: meetsTarget,
+    safe_stop_triggered: params.safeStopTriggered,
+    summary: {
+      targetVersion: 'v4',
+      schedule: 'nightly',
+      script: 'scripts/index-auto-promote.ts',
+    },
+  });
+}
+
 async function main() {
   console.log('═══════════════════════════════════════════════════════════');
-  console.log('  INDEKSIRANJE 5 — Staged Auto-Promotion Pipeline');
+  console.log(`  ${INDEX_750_MODE ? 'INDEKSIRANJE 750' : 'INDEKSIRANJE 5'} — Staged Auto-Promotion Pipeline`);
   console.log(`  batchSize: ${BATCH_SIZE} | maxBatches: ${MAX_BATCHES} | cooldown: ${COOLDOWN_MS}ms`);
+  if (INDEX_750_MODE) {
+    console.log(`  750 targetPct: ${INDEX_750_TARGET_PCT} | degradePct: ${INDEX_750_DEGRADE_PCT} | safeStop: ${INDEX_750_SAFE_STOP}`);
+  }
   console.log('═══════════════════════════════════════════════════════════');
 
   const startAt = Date.now();
@@ -336,8 +387,10 @@ async function main() {
   // Stage distribution before
   const before = await getStageBreakdown();
   const totalBefore = Object.values(before).reduce((a, b) => a + b, 0);
+  const completionBeforePct = totalBefore > 0 ? Number((((before.v4 ?? 0) / totalBefore) * 100).toFixed(2)) : 0;
   console.log('Distribucija pre promocije:');
   console.log(`  v1: ${before.v1 ?? 0}  v2: ${before.v2 ?? 0}  v3: ${before.v3 ?? 0}  v4: ${before.v4 ?? 0}  total: ${totalBefore}`);
+  if (INDEX_750_MODE) console.log(`  completionPct pre: ${completionBeforePct}%`);
   console.log('');
 
   let totalProcessed = 0;
@@ -345,39 +398,43 @@ async function main() {
   let totalFailed = 0;
   const allErrors: Array<{ chunkId: string; reason: string }> = [];
 
-  // v1 → v2
-  console.log('──── Faza 1: v1 → v2 ────────────────────────────────────');
-  const r1 = await promoteV1ToV2(batchId, jobId);
-  console.log(`  ✅ Promovisano: ${r1.promoted}  ⏸ Blokirano: ${r1.blocked}  ❌ Neuspešno: ${r1.failed}`);
-  totalProcessed += r1.promoted + r1.blocked + r1.failed;
-  totalIndexed += r1.promoted;
-  totalFailed += r1.failed;
+  if (INDEX_750_SAFE_STOP) {
+    console.log('⏸ INDEKSIRANJE 750 safe stop aktivan — faze promocije preskočene.');
+  } else {
+    // v1 → v2
+    console.log('──── Faza 1: v1 → v2 ────────────────────────────────────');
+    const r1 = await promoteV1ToV2(batchId, jobId);
+    console.log(`  ✅ Promovisano: ${r1.promoted}  ⏸ Blokirano: ${r1.blocked}  ❌ Neuspešno: ${r1.failed}`);
+    totalProcessed += r1.promoted + r1.blocked + r1.failed;
+    totalIndexed += r1.promoted;
+    totalFailed += r1.failed;
 
-  if (COOLDOWN_MS > 0) {
-    console.log(`  ⏱  Cooldown ${COOLDOWN_MS}ms...`);
-    await delay(COOLDOWN_MS);
+    if (COOLDOWN_MS > 0) {
+      console.log(`  ⏱  Cooldown ${COOLDOWN_MS}ms...`);
+      await delay(COOLDOWN_MS);
+    }
+
+    // v2 → v3
+    console.log('──── Faza 2: v2 → v3 ────────────────────────────────────');
+    const r2 = await promoteV2ToV3(batchId, jobId);
+    console.log(`  ✅ Promovisano: ${r2.promoted}  ⏸ Blokirano: ${r2.blocked}  ❌ Neuspešno: ${r2.failed}`);
+    totalProcessed += r2.promoted + r2.blocked + r2.failed;
+    totalIndexed += r2.promoted;
+    totalFailed += r2.failed;
+
+    if (COOLDOWN_MS > 0) {
+      console.log(`  ⏱  Cooldown ${COOLDOWN_MS}ms...`);
+      await delay(COOLDOWN_MS);
+    }
+
+    // v3 → v4
+    console.log('──── Faza 3: v3 → v4 ────────────────────────────────────');
+    const r3 = await promoteV3ToV4(batchId, jobId);
+    console.log(`  ✅ Promovisano: ${r3.promoted}  ⏸ Blokirano: ${r3.blocked}  ❌ Neuspešno: ${r3.failed}`);
+    totalProcessed += r3.promoted + r3.blocked + r3.failed;
+    totalIndexed += r3.promoted;
+    totalFailed += r3.failed;
   }
-
-  // v2 → v3
-  console.log('──── Faza 2: v2 → v3 ────────────────────────────────────');
-  const r2 = await promoteV2ToV3(batchId, jobId);
-  console.log(`  ✅ Promovisano: ${r2.promoted}  ⏸ Blokirano: ${r2.blocked}  ❌ Neuspešno: ${r2.failed}`);
-  totalProcessed += r2.promoted + r2.blocked + r2.failed;
-  totalIndexed += r2.promoted;
-  totalFailed += r2.failed;
-
-  if (COOLDOWN_MS > 0) {
-    console.log(`  ⏱  Cooldown ${COOLDOWN_MS}ms...`);
-    await delay(COOLDOWN_MS);
-  }
-
-  // v3 → v4
-  console.log('──── Faza 3: v3 → v4 ────────────────────────────────────');
-  const r3 = await promoteV3ToV4(batchId, jobId);
-  console.log(`  ✅ Promovisano: ${r3.promoted}  ⏸ Blokirano: ${r3.blocked}  ❌ Neuspešno: ${r3.failed}`);
-  totalProcessed += r3.promoted + r3.blocked + r3.failed;
-  totalIndexed += r3.promoted;
-  totalFailed += r3.failed;
 
   // Stage distribution after
   const after = await getStageBreakdown();
@@ -388,9 +445,26 @@ async function main() {
   console.log('Distribucija posle promocije:');
   console.log(`  v1: ${after.v1 ?? 0}  v2: ${after.v2 ?? 0}  v3: ${after.v3 ?? 0}  v4: ${after.v4 ?? 0}  total: ${totalAfter}`);
   console.log(`  completionPct (v4): ${completionPct}%`);
+  if (INDEX_750_MODE) {
+    const delta = Number((completionPct - completionBeforePct).toFixed(2));
+    const degraded = delta < 0 && Math.abs(delta) >= INDEX_750_DEGRADE_PCT;
+    const meetsTarget = completionPct >= INDEX_750_TARGET_PCT && !degraded;
+    console.log(`  750 completion delta: ${delta}%`);
+    console.log(`  750 degraded: ${degraded ? 'yes' : 'no'} | meetsTarget: ${meetsTarget ? 'yes' : 'no'}`);
+  }
 
   const durationMs = Date.now() - startAt;
   await updateJob(jobId, { processed: totalProcessed, indexed: totalIndexed, failed: totalFailed, durationMs, errors: allErrors });
+  await logIndex750Audit({
+    jobId,
+    batchId,
+    processed: totalProcessed,
+    indexed: totalIndexed,
+    failed: totalFailed,
+    completionBeforePct,
+    completionAfterPct: completionPct,
+    safeStopTriggered: INDEX_750_SAFE_STOP,
+  });
 
   console.log('');
   console.log('═══════════════════════════════════════════════════════════');

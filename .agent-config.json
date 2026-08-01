@@ -349,6 +349,23 @@
   },
   "indeksiranje": {
     "targetIndexVersion": "v4",
+    "indeksiranje750": {
+      "enabled": true,
+      "featureFlag": "indeksiranje-750",
+      "targetCompletionPct": 75,
+      "degradationThresholdPct": 7.5,
+      "safeStopDefault": false,
+      "requiredApiFields": [
+        "indeksiranje750",
+        "targetCompletionPct",
+        "degradationThresholdPct",
+        "safeStop750"
+      ],
+      "auditObjects": [
+        "knowledge_index_750_audit",
+        "knowledge_index_750_alerts"
+      ]
+    },
     "autopromotion": {
       "enabled": true,
       "batchSize": 50,
