@@ -129,6 +129,7 @@
 - [ ] Pokrenuti `npm test` — svi testovi moraju proći
 - [ ] Pokrenuti `npm run test:smoke` — svi smoke testovi moraju proći
 - [ ] Potvrditi da `npm run build` TypeScript kompilacija nema grešaka
+- [ ] Pokrenuti `npx tsx src/tests/lib/back-to-spaces-another-races.test.ts` za race fairness + edge-case validaciju
 
 ### 🔐 Bezbednost
 
@@ -214,6 +215,7 @@
 | P1-03 | OAuth (Google/GitHub) konfiguracija u Supabase | Social login radi |
 | P1-04 | Error monitoring (Sentry/Vercel) | Greške su praćene i alertirane |
 | P1-05 | Vercel KV za globalni rate limiting | Rate limit je konzistentan cross-instance |
+| P1-06 | Another Races fairness rollout (20% → 100%) | KPI i fairness metričke granice potvrđene bez regresija |
 
 ### P2 — Srednji prioritet (unutar prvog meseca)
 

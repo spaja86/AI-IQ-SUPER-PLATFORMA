@@ -61,6 +61,16 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | SpajaPro 14 — Matriks | Development | Ship only after orchestration and observability requirements are documented |
 | SpajaPro 15 — Omega | Planned | Treat as roadmap-only until earlier tracks are stable and measurable |
 
+## Gaming expansion track — Back to Spaces for Another Races
+
+| Item | Status | Delivery rule |
+|---|---|---|
+| Goal and KPI baseline | Defined | Keep 95%+ completion, 100% fairness compliance, <=100ms action evaluation |
+| V1 core mechanics | Beta implementation | Keep fairness constraints (2–8 players, nitro/latency/penalty caps) hard-validated |
+| Feature rollout | Guarded | Rollout through `gaming-back-to-spaces-another-races-v1` with staged percentage |
+| Cross-repo sync | Required | Track labels and follow-up references with `spaja86/IO-OPENUI-AO` |
+| Validation workflow | Active | Use `.github/workflows/back-to-spaces-another-races.yml` for labeled/path changes |
+
 ## Route and API readiness model
 
 | Classification | Meaning | Current examples |
@@ -99,3 +109,4 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 - CI uses the same smoke and predeploy checks as the documented local workflow.
 - Cross-repo work with `IO-OPENUI-AO` follows a repeatable checklist.
 - README and config point contributors to the current roadmap and multi-repo operating model.
+- Another Races rollout remains gated by fairness and regression checks before full activation.

@@ -20,6 +20,7 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 - `.agent-config.json` expectations and agent enablement notes
 - README and documentation links that point contributors across repos
 - Follow-up issue or PR references for linked changes
+- Feature-track metadata for race launches (labels, validation workflow, release docs)
 
 ## Shared label schema
 
@@ -30,6 +31,9 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `calculator:logic-change` | Calculator logic changed in linked repo |
 | `calculator:validated` | Calculator validator completed successfully |
 | `calculator:needs-review` | Calculator validator requires human follow-up |
+| `race:another-races` | Back to Spaces for Another Races change set |
+| `race:fairness-review` | Fairness-rule logic changed and requires focused review |
+| `race:validated` | Race validation workflow and tests completed |
 
 ## Version coherence policy
 
