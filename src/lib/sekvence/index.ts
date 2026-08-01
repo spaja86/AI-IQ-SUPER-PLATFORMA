@@ -6,6 +6,7 @@ export { palasterizacijaSekvence } from './palasterizacija-page';
 export { eksosistzdacijaSekvence } from './eksosistzdacija-page';
 export { itProizvodiSekvence } from './it-proizvodi-page';
 export { deploySekvence } from './deploy-page';
+export { deployPlatformaSekvence } from './deploy-platforma-page';
 export { ekosistemSekvence } from './ekosistem-page';
 export { omegaAISekvence } from './omega-ai-page';
 export { bankaSekvence } from './banka-page';

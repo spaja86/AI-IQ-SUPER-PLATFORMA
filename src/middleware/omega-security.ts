@@ -76,6 +76,7 @@ const PUBLIC_ROUTES = [
   '/dashboard',
   '/omega-ai',
   '/deploy',
+  '/deploy-platforma',
   '/auto-popravka',
 ];
 

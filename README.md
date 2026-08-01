@@ -94,6 +94,7 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | 🔀 Omega Branch Sync | `omega-branch-sync.yml` | Cron dnevno + manual |
 | 💸 FinOps Governance Gate | `finops-governance-gate.yml` | PR sa izmenama automacije/config-a |
 | ▲ Vercel Deploy Hook | `vercel-deploy.yml` | Manual fallback (`workflow_dispatch`) |
+| 🚀 Deploy Platforma | `deploy-platforma.yml` | Push na `src/lib/deploy/**`, `src/app/deploy-platforma/**` + manual |
 
 ### Cron Jobs (scheduler-agnostic)
 
