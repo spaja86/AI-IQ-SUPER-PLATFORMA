@@ -65,6 +65,16 @@ If only one repo changes immediately, document the deferred work as:
 - `Follow-up required in spaja86/IO-OPENUI-AO`
 - `No linked repo change required`
 
+## INDEKSIRANJE 750 downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — INDEKSIRANJE 750 | `spaja86/IO-OPENUI-AO` — Follow-up required | Align `.agent-config.json` indexing flags and stage-monitoring labels |
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#INDEKSIRANJE-750 -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Conflict resolution rules
 
 - If labels or milestone names diverge, align the shared schema before feature rollout.
