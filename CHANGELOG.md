@@ -8,6 +8,56 @@ Format follows: **[version] — date | description**
 
 ---
 
+## [42.36.0] — 2026-08-01 | MAKS PLAN NIVO LEVL
+
+### 🔥 Scope
+
+Formalizacija i implementacija MAKS PLAN NIVO LEVL — apsolutnog maksimum plana za AI IQ SUPER PLATFORMA. Pokriva svih 16 operativnih nivoa od governance gate-a do final sign-off-a, sa ciljem verzije v100.0.0 (SpajaPro 16 Nova Generacija).
+
+### Added
+
+- **`docs/MAKS-PLAN-NIVO-LEVL.md`** — Master operativni tracking dokument sa svih 16 nivoa, checkboxima za praćenje, KPI tabelom i deployment redosledom.
+- **`public/deploy_status.json`** — Ažuriran da reflektuje MAKS PLAN NIVO LEVL inicijativu.
+- **`docs/MULTI-REPO-LINKS.md`** — Dodat MAKS PLAN audit trail entry sa cross-repo referencom.
+
+### Plan tracking (16 nivoa)
+
+| Nivo | Naziv | Tip | Status |
+|---|---|---|---|
+| 0 | Governance Gate | Process | ⬜ Pending |
+| 1 | Quality Gates (7 kapija) | CI/Code | ⬜ Pending |
+| 2 | Secrets & Environment Setup | Operational | ⬜ Pending |
+| 3 | Database Layer (Supabase 001–020) | Operational | ⬜ Pending |
+| 4 | Platforma Stabilizacija (SP13/14/15) | Code | ⬜ Pending |
+| 5 | Nova Generacija Staged Rollout | Code/Feature flags | ⬜ Pending (20% active) |
+| 6 | Multi-Platform Deployment (a–g) | Operational | ⬜ Pending |
+| 7 | Blockchain Deployment | Operational | ⬜ Pending |
+| 8 | DEPON Pipeline (Phase 1–3) | Operational | ⬜ Pending |
+| 9 | Billing & Stripe | Operational | ⬜ Pending |
+| 10 | Enterprise Requests | Operational | ⬜ Pending |
+| 11 | DNS & Vercel Konfiguracija | Operational | ⬜ Pending |
+| 12 | Security & Agent Aktivacija | CI/Code | ⬜ Pending |
+| 13 | SPAJA Baza Knowledge Index v4 | Code | ⬜ Pending |
+| 14 | Post-Deploy Monitoring (24h) | Operational | ⬜ Pending |
+| 15 | Rollback Plan (na standby) | Operational | ⬜ Pending |
+| 16 | Final Sign-Off & Documentation | Process | ⬜ Pending |
+
+### Cross-repo impact
+
+Zahteva follow-up sync u `spaja86/IO-OPENUI-AO`:
+- Verifikovati label schema alignment
+- Ažurirati `docs/MULTI-REPO-LINKS.md` u IO-OPENUI-AO sa bidirekcionalnom referencom na ovaj inicijativi
+
+### Operational requirements
+
+- Svi secrets u Vercel Production env (ne u repo-u)
+- Supabase migracije 001–020 primenjene pre deploymenta
+- Nova Generacija staged rollout: 20% → 50% → 100% sa KPI gate-ovima
+- Blockchain mainnet deployment zahteva human approval
+- Sve enterprise requests van Git repo-a
+
+---
+
 ## [42.35.0] — 2026-08-01 | MAKSIMUM ALL PLATFORMA DEPLOY (SPAJA)
 
 ### 🚀 Scope
