@@ -13,6 +13,17 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | Automation and delivery | CI, cron, branch sync, governance, and deploy fallback exist; security automation needed a dedicated workflow | `.github/workflows/*` |
 | Multi-repo coordination | `IO-OPENUI-AO` is linked in config and docs, but follow-up rules needed to be formalized | `AGENTS.md`, `.agent-config.json` |
 | Reliability and security maturity | FinOps, go-live, auth, payments, and cron guidance exist; KPI ownership needed a unified roadmap entry | `docs/SECURITY.md`, `docs/GO-LIVE.md`, `docs/finops-enterprise-operating-model.md` |
+| Open-code deploy governance | Public code/docs/workflows exist, but contributor flow, deployment boundaries, and XP rules needed one aligned operating model | `README.md`, `CONTRIBUTING.md`, `docs/DEPLOYMENT-POWER-RESOLUTION.md` |
+
+## Open-code deploy operating model
+
+| Surface | Rule | Source of truth |
+|---|---|---|
+| Public repo surfaces | Application code, docs, workflow definitions, and agent policy remain reviewable in Git | `README.md`, `AGENTS.md` |
+| Operational-only controls | Secrets, deploy hooks, environment credentials, and wallet/private keys stay in secret-management systems | `docs/GO-LIVE.md`, `docs/SECURITY.md` |
+| Linked-repo work | `IO-OPENUI-AO` downstream impact must be recorded in PRs and tracked in multi-repo docs | `docs/MULTI-REPO-LINKS.md`, `.github/pull_request_template.md` |
+| Runtime split | Vercel hosts frontend/SSR + light APIs; worker/container runtime handles heavy or long-running compute | `docs/DEPLOYMENT-POWER-RESOLUTION.md` |
+| Release governance | GitHub Actions enforces quality gates, promotion evidence, and audit summaries | `.github/workflows/*`, `.agent-config.json` |
 
 ## Implementation phases
 
@@ -25,7 +36,7 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 ### Phase 2 — Automation and security completion
 
 - Keep `omega-auto-build.yml` as the core quality gate.
-- Run smoke + predeploy validation in CI for every protected change path.
+- Run lint + unit test + smoke + predeploy validation in CI for every protected change path, and treat build as a tracked release gate even when specific workflows still rely on scoped enforcement.
 - Activate the dedicated `security-scanner` workflow for CodeQL, dependency review, npm audit, and secret heuristics.
 
 ### Phase 3 — Multi-repo sync hardening
@@ -33,6 +44,13 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 - Use `.agent-config.json` as the operational source of truth for linked repositories.
 - Standardize sync fields for config, versions, labels, milestones, docs, and follow-up references.
 - Require every cross-repo change to describe downstream impact in the PR template.
+
+### Phase 3.5 — Open contribution and XP cadence
+
+- Standardize the issue → PR → review → release flow for all public changes.
+- Require audit-ready rollout and rollback notes on deployment/configuration PRs.
+- Use human review as the mandatory asynchronous pairing mechanism for risky or cross-repo work.
+- Encourage small, frequent releases and test-first discipline for risky paths instead of large batch changes.
 
 ### Phase 4 — Product roadmap delivery
 
@@ -102,14 +120,18 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | Cost per active user | FinOps / product | Relate platform spend to usage |
 | Agent reliability score | Automation | Measure agent-backed workflow health |
 | Security scan coverage | Security | Ensure critical surfaces stay guarded |
+| PR review time | Human review / automation | Measure delivery feedback loop speed |
+| Cross-repo sync stability | Multi-repo coordination | Track repeated success of downstream follow-up and reference hygiene |
+| Change failure / regression rate | CI / release ops | Detect whether small releases and XP cadence reduce production regressions |
 
 ## Exit criteria for the next roadmap cycle
 
 - Security automation runs on PRs, `main`, schedule, and manual dispatch.
-- CI uses the same smoke and predeploy checks as the documented local workflow.
+- CI and deploy workflows use the same documented lint/test/smoke/predeploy/security gate model, with build tracked as a required release gate.
 - Cross-repo work with `IO-OPENUI-AO` follows a repeatable checklist.
 - README and config point contributors to the current roadmap and multi-repo operating model.
 - Another Races rollout remains gated by fairness and regression checks before full activation.
+- Open-code contribution guidance, deploy governance, and agent policy stay aligned across `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `docs/GO-LIVE.md`, and `.agent-config.json`.
 
 ---
 

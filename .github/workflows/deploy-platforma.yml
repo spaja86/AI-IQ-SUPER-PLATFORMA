@@ -7,12 +7,13 @@
 #
 # Sekvenca:
 #   1. TypeScript gate (tsc --noEmit)
-#   2. Smoke test gate
-#   3. Predeploy check gate
-#   4. Security scan (secrets + npm audit)
-#   5. Vercel deploy hook
-#   6. Post-deploy health check (opciono)
-#   7. Audit log
+#   2. Unit test gate
+#   3. Smoke test gate
+#   4. Predeploy check gate
+#   5. Security scan (secrets + npm audit)
+#   6. Vercel deploy hook
+#   7. Post-deploy health check (opciono)
+#   8. Audit log
 #
 # Env varijable (GitHub Secrets):
 #   VERCEL_DEPLOY_HOOK_AI_IQ — Vercel Deploy Hook URL
@@ -89,6 +90,9 @@ jobs:
 
       - name: 🧹 Lint deploy-platforma
         run: npx eslint src/app/deploy-platforma/ src/app/api/deploy-platforma/ src/lib/deploy/ src/components/deploy/ --max-warnings 0 || true
+
+      - name: 🧪 Unit test gate
+        run: npm test
 
   # ─── Smoke test gate ─────────────────────────────────────────────────────────
   smoke:
@@ -228,6 +232,7 @@ jobs:
           echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Environment** | \`${{ github.event.inputs.environment || 'auto (push)' }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Run ID** | \`${{ github.run_id }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Quality gates** | \`type-check, lint, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🚀 Pokretanje Vercel Deploy Hook
         env:

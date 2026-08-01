@@ -1,165 +1,110 @@
-# 🤝 CONTRIBUTING - AI-IQ-SUPER-PLATFORMA
+# 🤝 CONTRIBUTING — AI-IQ-SUPER-PLATFORMA
 
-## Pravila za Doprinose sa Nakladom
+## Purpose
 
-Hvala što razmatrate saradnju sa **AI-IQ-SUPER-PLATFORMA**. Svi doprinosi su **PLAĆENI** prema cjeniku navedenom u `BILLING.md`.
+This repository follows an **open-code** delivery model for the SPAJA deployment platform:
 
----
+- code, docs, workflows, and governance rules stay reviewable in Git
+- secrets, deploy hooks, private keys, and environment credentials stay outside the repo
+- linked-repo changes must be tracked explicitly, especially for `spaja86/IO-OPENUI-AO`
 
-## 📋 KAKO POČETI SA PLAĆENIM DOPRINOSOM
+## Scope boundaries
 
-### Korak 1️⃣: Provjerite BILLING.md
-- Pročitajte sve cijene i usluge
-- Odaberite tip doprinosa (Code Review, Bug Fix, Feature, itd.)
-- Izračunajte očekivanu naknadu
+### Public in this repository
 
-### Korak 2️⃣: Otvorite GitHub Issue
-```markdown
-Title: [PLAĆENI] - Kratko Beskrivanje Zahtjeva
-Labels: needs-payment, type:feature (ili type:bug)
+- application/runtime code
+- documentation and rollout guidance
+- GitHub workflow definitions
+- agent policy and PR templates
 
-## Opis
-Detaljno opišite šta trebate.
+### Operational-only controls
 
-## Očekivana Cijena
-Prema BILLING.md: $XXX
+- GitHub Secrets
+- Vercel environment variables and deploy hooks
+- wallet/private keys
+- production-only credentials and tokens
 
-## Payment Status
-- [ ] Depozit 50% uplaćen
-- [ ] Finalno plaćanje sprema
+Do not commit `.env` files, tokens, API keys, webhook secrets, or private keys.
+
+## Contribution flow
+
+All changes should follow:
+
+1. **Issue / change driver** — open or link an issue, bug report, roadmap item, or operational reason.
+2. **Small PR** — ship the smallest safe change that moves the work forward.
+3. **Review** — request human review for all merges; config, deploy, workflow, and security changes need especially explicit review.
+4. **Release / promotion** — promote only after the required gates are green and rollout notes are documented.
+
+## XP delivery expectations
+
+- short iterations over large batches
+- continuous integration on every PR/push
+- test-first discipline for risky paths
+- small, frequent releases
+- human review as asynchronous pairing
+- shared ownership through source-of-truth docs
+
+## Required validation
+
+Run the relevant existing checks before opening a PR:
+
+```bash
+npm test
+npm run test:smoke
+npm run predeploy:check
 ```
 
-### Korak 3️⃣: Pošaljite Plaćanje
-- Izračun će biti generiran automatski
-- Odaberite metodu plaćanja (Stripe, PayPal, Blockchain, Bank)
-- Pošaljite proof of payment sa issue-om
+When the touched runtime surface supports it, also validate:
 
-### Korak 4️⃣: Počinje Razvoj
-- Nakon potvrde plaćanja - kreiram branch i počinjem rad
-- Pravilan update-e putem commit-a
-- Otverite PR kada je gotovo
-
-### Korak 5️⃣: Code Review & Merge
-- Izvrši se QA i testiranje
-- Može biti tražene izmjene (bez dodatne naknade do 10% koda)
-- Merge u main nakon aprovale
-
----
-
-## 🏷️ GITHUB LABELS (OBAVEZNI)
-
-Svaki issue MORA imati:
-
-```
-needs-payment       → Čeka plaćanje
-payment-pending     → Plaćanje je u toku
-payment-received    → Plaćanje je primit
-in-progress         → Rad je u toku
-under-review        → Čeka code review
-ready-to-merge      → Spreman za merge
+```bash
+npm run build
+npm run lint
 ```
 
-Primjer pull request-a:
-```
-Title: [PAID] Feature: New Dashboard Components
-Labels: payment-received, in-progress, type:feature
-```
+## Required PR content
 
----
+Every PR should include:
 
-## 💳 METODE PLAĆANJA
+- summary of the change
+- linked issue / reason for change
+- validation evidence
+- rollout plan
+- rollback plan for deploy/config changes
 
-### 1. **Stripe** (Preporučeno)
-```
-Link: [stripe.com/pay/...]
-Vrijeme: Instant
-Valute: USD, EUR, GBP
-```
+If the change affects `IO-OPENUI-AO` or another linked repo, also include:
 
-### 2. **PayPal**
-```
-Email: [paypal email]
-Vrijeme: 1-2 sata
-Valute: Sve glavne
-```
+- **Cross-repo impact**
+- downstream PR/issue reference or explicit “No linked repo change required”
+- any sync-field updates required by `docs/MULTI-REPO-LINKS.md`
 
-### 3. **Blockchain**
-```
-Ethereum: 0x...
-Bitcoin: 1...
-Vrijeme: 10-30 minuta
-Fee: 0.5%
-```
+## Extra requirements for deploy / workflow / config changes
 
-### 4. **Bank Transfer**
-```
-IBAN: [IBAN broj]
-Swift: [SWIFT kod]
-Vrijeme: 2-3 dana
-Fee: Zavisi od banke
-```
+- add label `agent:config-change`
+- describe `dev → staging → production` promotion intent when applicable
+- include KPI impact and monitoring expectations
+- preserve audit-ready workflow summaries and PR notes
 
----
+## Security requirements
 
-## ✅ CHECKLIST ZA PULL REQUEST
+- never commit secrets
+- use GitHub/Vercel secrets management
+- keep dependency and secret scanning enabled
+- request a security-aware reviewer for auth, billing, deploy, or dependency changes
 
-Pre nego što otvorite PR, provjerite:
+## Linked-repo coordination
 
-- [ ] **Plaćanje je 100% gotovo** (Payment Status: PAID)
-- [ ] Branch je kreiran iz `main`
-- [ ] Kod je testiran lokalno
-- [ ] Commit poruke su jasne i deskriptivne
-- [ ] Nema merge conflicts-a
-- [ ] Dokumentacija je ažurirana
-- [ ] TypeScript/JavaScript je bez greške (`npm run lint`)
-- [ ] Testovi prolaze (`npm test`)
-- [ ] PR ima sve potrebne labels-e
+For cross-repo work with `spaja86/IO-OPENUI-AO`:
 
----
+- record the downstream impact in the PR template
+- update shared docs/config when the contract changes
+- keep references bidirectional when follow-up work is required
 
-## 🚫 NEĆE BITI PRIHVAĆENI
+## Source-of-truth references
 
-❌ Pull requests BEZ plaćanja  
-❌ Issues bez `needs-payment` label-a  
-❌ Kod sa greškama ili bez testova  
-❌ Zahtjevi koji krše BILLING.md uslove  
-❌ Neprofesionalne poruke ili format  
-
----
-
-## 📊 PROCESS TIMELINE
-
-| Korak | Vrijeme | Status |
-|-------|---------|--------|
-| Issue otvoren | 0h | `needs-payment` |
-| Plaćanje primljeno | 0-48h | `payment-received` |
-| Razvoj počinje | 48h-72h | `in-progress` |
-| PR otvoren | Ovisno o uslozi | `under-review` |
-| Code review | 24-48h | `under-review` |
-| Approval & Merge | 24h | `ready-to-merge` |
-
----
-
-## 📞 KONTAKT & SUPPORT
-
-**Za pitanja o plaćanju:**
-- 📧 Email: [vaš email]
-- 💬 GitHub Issues: Tag `@billing-team`
-- 📱 Discord: [Link]
-
-**Za probleme sa Pull Request-om:**
-- 📧 Odgovor na PR thread-u
-- 💬 GitHub Discussions
-
----
-
-## ⚖️ PRAVNA NAPOMENA
-
-Svi doprinosi postaju vlasništvo **spaja86** i **AI-IQ-SUPER-PLATFORMA**.  
-Nije dozvoljeno korišćenje koda na drugom mjestu bez dozvole.
-
----
-
-**Verzija**: 1.0  
-**Datum**: 2026-07-15  
-**Status**: ✅ AKTIVNO
+- [`README.md`](./README.md)
+- [`AGENTS.md`](./AGENTS.md)
+- [`.agent-config.json`](./.agent-config.json)
+- [`docs/ROADMAP.md`](./docs/ROADMAP.md)
+- [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md)
+- [`docs/GO-LIVE.md`](./docs/GO-LIVE.md)
+- [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./docs/DEPLOYMENT-POWER-RESOLUTION.md)

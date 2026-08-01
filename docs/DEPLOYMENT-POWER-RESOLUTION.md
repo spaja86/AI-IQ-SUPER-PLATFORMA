@@ -21,6 +21,14 @@ In this repository, "Vercel does not give enough power" is normalized into measu
 | `.github/workflows/omega-auto-build.yml` | CI quality gate (type-check, lint, tests, predeploy checks) | ci-bot |
 | `.github/workflows/security-scanner.yml` | Security scan baseline (deps, secrets, CodeQL) | security-scanner |
 
+## 2.5) Open-code boundaries
+
+| Boundary | What belongs there | What does not belong there |
+|---|---|---|
+| Public repository | App code, docs, workflow definitions, agent policy, rollout guidance | Secrets, private keys, production credentials |
+| Linked-repo coordination | Downstream impact notes, sync fields, labels, milestone references | Silent cross-repo breaking changes |
+| Operational controls | GitHub Secrets, Vercel secrets, deploy hooks, environment credentials | Hardcoded deploy tokens or `.env` files committed to Git |
+
 ## 3) Target deployment model
 
 - **Keep Vercel** for Next.js frontend/SSR and low-latency edge-friendly API routes.
@@ -42,6 +50,9 @@ All deploy workflows must enforce:
 
 1. **Quality gates** before deploy:
    - Type-check
+   - Lint
+   - Unit tests
+   - Build when the touched runtime surface supports it
    - Smoke tests
    - Predeploy checks
    - Security checks (dependency/secret scanning baseline)
@@ -79,6 +90,14 @@ Use these defaults until service-specific overrides are approved:
 - Runbooks linked from deploy summaries for rollback and degraded modes.
 - Incident timeline + RCA link required for production-impacting failures.
 
+## 8.5) XP-aligned delivery expectations
+
+- Keep deployment changes small and frequent instead of batching unrelated runtime, workflow, and cross-repo edits.
+- Use CI on every PR/push as the continuous-integration baseline.
+- Treat human review as the required asynchronous pairing mechanism for risky or config-sensitive work.
+- Prefer test-first changes for risky deploy paths, billing surfaces, and cross-repo contracts.
+- Require every deploy/config PR to carry rollout, rollback, KPI impact, and downstream reference notes.
+
 ## 9) Multi-repo governance alignment
 
 Per `AGENTS.md` and `.agent-config.json`:
@@ -91,6 +110,7 @@ Per `AGENTS.md` and `.agent-config.json`:
 ## 10) Rollout phases
 
 1. **Phase 1**: baseline measurement + workload classification.
-2. **Phase 2**: migrate one heavy path off Vercel to worker compute.
-3. **Phase 3**: expand migration + enforce unified CI/CD gates.
-4. **Phase 4**: finalize docs, ownership matrix, and operational handoff.
+2. **Phase 2**: align docs, PR process, and config around one open-code deploy model.
+3. **Phase 3**: migrate one heavy path off Vercel to worker compute.
+4. **Phase 4**: expand migration + enforce unified CI/CD gates.
+5. **Phase 5**: finalize docs, ownership matrix, KPI review cadence, and operational handoff.

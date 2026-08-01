@@ -63,6 +63,9 @@ jobs:
       - name: 🔍 TypeScript gate
         run: npx tsc --noEmit
 
+      - name: 🧪 Unit test gate
+        run: npm test
+
       - name: 🧪 Smoke test gate
         run: npm run test:smoke
 
@@ -123,5 +126,6 @@ jobs:
           echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Run ID / Attempt** | \`${{ github.run_id }} / ${{ github.run_attempt }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Time** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Quality gates** | \`type-check, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Rollback: redeploy poslednjeg stabilnog contract release taga za isti network i ažurirati `NEXT_PUBLIC_CONTRACT_ADDRESS`." >> "$GITHUB_STEP_SUMMARY"

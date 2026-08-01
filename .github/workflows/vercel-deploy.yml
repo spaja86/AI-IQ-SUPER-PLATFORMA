@@ -82,6 +82,9 @@ jobs:
       - name: 🔍 TypeScript gate
         run: npx tsc --noEmit
 
+      - name: 🧪 Unit test gate
+        run: npm test
+
       - name: 🧪 Smoke test gate
         run: npm run test:smoke
 
@@ -133,6 +136,7 @@ jobs:
           echo "| **Environment** | \`${{ github.event.inputs.environment }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Run ID / Attempt** | \`${{ github.run_id }} / ${{ github.run_attempt }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Vreme** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Quality gates** | \`type-check, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🚀 Pokretanje Vercel Deploy Hook
         env:

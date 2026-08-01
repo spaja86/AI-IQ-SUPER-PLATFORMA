@@ -205,6 +205,7 @@
 | P0-05 | Supabase migracije primenjene | Sve tabele postoje sa RLS |
 | P0-06 | `npm run build` prolazi | Nema build grešaka |
 | P0-07 | `npm run test:smoke` prolazi | Svi kritični tokovi rade |
+| P0-08 | `npm run predeploy:check` + security gate prolaze | Deploy governance je spreman za promociju |
 
 ### P1 — Visok prioritet (unutar prve sedmice)
 
@@ -320,6 +321,18 @@ Deployment je dozvoljen samo ako prođu:
 2. ✅ `npm run lint` — bez grešaka
 3. ✅ `npm test` — svi unit testovi
 4. ✅ `npm run test:smoke` — svi smoke testovi
+5. ✅ `npm run predeploy:check` — operativni deploy guard
+6. ✅ Security gate — dependency audit + secret scanning bez kritičnih nalaza
+
+### Open-code deploy governance gate
+
+Pre produkcionog promovisanja obavezno potvrditi:
+
+1. PR prati tok **issue → PR → review → release**.
+2. Human review je dodeljen i završen za deploy, config, security i cross-repo promene.
+3. PR opis sadrži rollout plan, rollback plan, KPI uticaj i **Cross-repo impact** sekciju kada postoji downstream uticaj.
+4. Deploy kredencijali i integracioni ključevi ostaju u GitHub/Vercel secrets sloju, nikada u repo-u.
+5. Promocija prati redosled `dev → staging → production`, uz eksplicitnu potvrdu za production.
 
 ---
 

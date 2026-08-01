@@ -7,6 +7,13 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 - Koordinacija između više povezanih repozitorijuma (IO-OPENUI-AO, gaming calculator, itd.)
 - Održavanje stabilnosti i sigurnosti kroz multi-repo sinhronizaciju.
 
+## Open Code Program / Program otvorenog koda
+
+- Javno u repozitorijumu ostaju: aplikacioni kod, dokumentacija, workflow definicije, agent pravila i PR proces.
+- Linked-repo promene prema `spaja86/IO-OPENUI-AO` moraju imati jasan downstream opis u PR-u i referencu u `docs/MULTI-REPO-LINKS.md`.
+- Operativne kontrole ostaju van repozitorijuma: GitHub Secrets, Vercel secrets, deploy hook URL-ovi, privatni ključevi i produkcioni kredencijali.
+- Delivery model prati XP principe: kratke iteracije, kontinuirana integracija, test-first za rizične promene, mala/frekventna izdanja i obavezan human-review.
+
 ## Agent Roles / Uloge Agenta
 
 ### human-review
@@ -101,6 +108,10 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 8. **Commit Sign-off** - Svi commits od strane agenta moraju biti potpisani (`git commit -S`).
 9. **Cross-Repo Links** - Multi-repo agenti moraju održavati working linkove i references između PRs, Issues, i commits.
 10. **Dependency Coherence** - Verzije zavisnosti moraju biti sinhronizovane gde je moguće (shared packages).
+11. **Quality Gate Consistency** - Deploy i config workflow-i moraju slediti isti model quality gate-a: lint, test, smoke, predeploy i security provere; build je obavezni release gate kada runtime površina to podržava.
+12. **Issue → PR → Review → Release** - Agenti moraju evidentirati izvorni issue ili razlog promene, otvoriti audit-ready PR i čekati review pre release/promocije.
+13. **Audit Summary** - Deploy/config promene moraju imati rollout, rollback, KPI impact i downstream reference u PR opisu ili workflow summary-ju.
+14. **Operational Secrets Boundary** - Agenti nikada ne smeju premeštati deploy hook-ove, env vrednosti ili privatne ključeve iz secret management sloja u Git repozitorijum.
 
 ## How to Add a New Agent / Kako dodati novog agenta
 
@@ -171,6 +182,13 @@ This file describes agents, their roles, and usage rules for automation in this 
 - Define agent roles, responsibilities, and how they should be used in CI / automation.
 - Coordinate between multiple linked repositories (IO-OPENUI-AO, gaming calculator, etc.)
 - Maintain stability and security through multi-repo synchronization.
+
+## Open Code Program
+
+- Public repository surfaces include application code, documentation, workflow definitions, agent policy, and the PR process.
+- Linked-repo changes for `spaja86/IO-OPENUI-AO` must record downstream impact in the PR and in `docs/MULTI-REPO-LINKS.md`.
+- Operational controls remain outside Git: GitHub Secrets, Vercel secrets, deploy hook URLs, private keys, and production credentials.
+- Delivery follows XP-oriented rules: short iterations, continuous integration, test-first work on risky changes, small/frequent releases, and mandatory human review.
 
 ## Agent Roles
 
@@ -249,6 +267,10 @@ This file describes agents, their roles, and usage rules for automation in this 
 8. **Commit Sign-off** - All agent commits must be signed (`git commit -S`).
 9. **Cross-Repo Links** - Multi-repo agents must maintain working links and references between PRs, Issues, and commits.
 10. **Dependency Coherence** - Dependency versions must be synchronized where possible (shared packages).
+11. **Quality Gate Consistency** - Deploy and configuration workflows must follow the same gate model: lint, test, smoke, predeploy, and security checks; build remains a required release gate when the runtime surface supports it.
+12. **Issue → PR → Review → Release** - Agents must record the originating issue or reason for change, open an audit-ready PR, and wait for review before release/promotion.
+13. **Audit Summary** - Deploy/config changes must include rollout, rollback, KPI impact, and downstream references in the PR description or workflow summary.
+14. **Operational Secrets Boundary** - Agents must never move deploy hooks, env values, or private keys from secret-management systems into the Git repository.
 
 ## How to Add a New Agent
 
