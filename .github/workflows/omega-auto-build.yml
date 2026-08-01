@@ -4,7 +4,7 @@
 #
 # Automatski CI quality gate na svaki push/PR.
 # Source of truth za deploy/build je Vercel; ovaj workflow radi
-# quality validaciju (type-check, lint, test), bez deploy koraka.
+# quality validaciju (type-check, lint, unit test, smoke, predeploy), bez deploy koraka.
 #
 
 name: 🏗️ Omega Build
@@ -63,6 +63,9 @@ jobs:
       - name: 🔍 ESLint provera
         run: npm run lint -- src/
 
+      - name: 🧪 Unit testovi
+        run: npm test
+
       - name: 🧪 Smoke testovi (go-live gate)
         run: npm run test:smoke
 
@@ -77,3 +80,4 @@ jobs:
           echo "- **Branch:** ${{ github.ref_name }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Commit:** ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Vreme:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Quality gates:** type-check, lint, unit test, smoke, predeploy" >> "$GITHUB_STEP_SUMMARY"

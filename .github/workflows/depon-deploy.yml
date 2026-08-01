@@ -64,6 +64,15 @@ jobs:
       - name: Run DEPON tests
         run: npx tsx src/tests/depon/depon-registry.test.ts
 
+      - name: Run repo unit tests
+        run: npm test
+
+      - name: Run smoke tests
+        run: npm run test:smoke
+
+      - name: Run predeploy checks
+        run: npm run predeploy:check
+
       - name: Count DEPON modules
         id: count
         run: |

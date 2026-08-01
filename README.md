@@ -362,21 +362,31 @@ This repository uses documented automation agents for CI, security, analytics, a
 
 | Agent | Status | What it does |
 |-------|--------|-------------|
-| `ci-bot` | ✅ Active | Runs lint + tests on every PR and push |
+| `ci-bot` | ✅ Active | Runs the shared quality gate surfaces for lint, tests, smoke, and predeploy validation |
 | `human-review` | ✅ Active | Required code review before merge |
 | `security-scanner` | ✅ Active | Runs CodeQL, dependency review, npm audit, and secret heuristics |
 | `multi-repo-sync-agent` | 📋 Ready | Uses the documented cross-repo sync process for `IO-OPENUI-AO` |
 | `analytics-bot` | 📋 Ready | KPI and automation health reporting are defined in config/docs |
 | `deploy-bot` | ⏳ Planned | Deployment after green CI |
 
+### Open-code deploy operating model
+
+- **Public in this repository** — application code, documentation, workflow definitions, agent policies, and PR process stay reviewable in Git.
+- **Linked-repo process** — changes that affect `spaja86/IO-OPENUI-AO` must be recorded in the PR under **Cross-repo impact** and tracked through [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md).
+- **Operational controls** — deploy hooks, environment-specific credentials, API keys, wallets, and all secrets stay outside the repo in GitHub Secrets, Vercel secrets, or equivalent secret-management systems.
+- **Runtime split** — Vercel remains the runtime for frontend/SSR and lightweight APIs, worker/container compute is the target for heavy or long-running jobs, and GitHub Actions remains the governance and audit layer.
+- **XP cadence** — short iterations, continuous integration on each PR/push, test-first work on risky changes, small/frequent releases, required human review, and shared ownership through source-of-truth docs.
+
 ### Contributor expectations
 
+- **Flow is issue → PR → review → release** — open or link an issue, ship the smallest safe PR, request review, then release only after gates are green.
 - **Human review is required before merge** (except `hotfix/*` branches tagged `auto-merge: allowed`).
 - **Never commit secrets** — no `.env` files, tokens, API keys, or credentials. Use GitHub Secrets.
-- **CI must be green** — run `npm test` and `npm run build` locally before opening a PR.
+- **Quality gates must be green** — run the relevant `lint`, `test`, `test:smoke`, and `predeploy:check` commands before opening a PR; `build` remains part of the documented release gate and should be verified when the touched surface supports it.
 - **Config/CI changes** — PRs that modify `.github/workflows/`, `.agent-config.json`, or deployment config must be labeled `agent:config-change`.
 - **Security-sensitive changes** — PRs touching auth, payments, or dependencies are automatically flagged; add a security approver.
 - **Cross-repo changes** — if your change affects `IO-OPENUI-AO` or other linked repositories, describe the cross-repo impact in the PR and open any follow-up work there.
+- **Deploy changes require audit evidence** — PRs affecting deploy, workflow, or config surfaces must include rollout, rollback, KPI impact, and downstream follow-up references.
 
 ### Repo readiness & roadmap
 
@@ -423,6 +433,7 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 |----------|---------|
 | [`AGENTS.md`](./AGENTS.md) | Full agent policy, rules, and registry |
 | [`.agent-config.json`](./.agent-config.json) | Per-repo operational agent settings and linked-repo rules |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Open-code contribution flow, XP expectations, and deploy review requirements |
 | [`docs/ROADMAP.md`](./docs/ROADMAP.md) | Release roadmap, readiness model, and KPI ownership |
 | [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
