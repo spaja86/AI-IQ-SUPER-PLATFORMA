@@ -18,7 +18,7 @@ import { MASTER_POKER_GAME_ID } from './poker/types';
 
 // ─── Runner tipovi ─────────────────────────────────────────────────
 
-export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan';
+export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan' | 'reakt';
 export type RunnerResolver = (igrica: Igrica) => RunnerTip | null;
 
 // ─── Dimenzionalni parametri ───────────────────────────────────────
@@ -134,6 +134,7 @@ const KATEGORIJA_NA_RUNNER: Record<KategorijaIgrice, RunnerTip> = {
   avantura: 'edu',
   'zivotna-simulacija': 'simulacija',
   retro: 'akcija',
+  reakt: 'reakt',
 };
 
 const customRunnerPoIgrici = new Map<string, RunnerTip>();
