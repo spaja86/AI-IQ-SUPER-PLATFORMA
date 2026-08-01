@@ -241,3 +241,6 @@ export { getMirorSekvence } from './miror-page';
 
 // ── DIVEEZIJA EKSPESLA ────────────────────────────────────────────────────────
 export { getDivezijaEkspeslaSekvence } from './diveezija-ekspesla-page';
+
+// ── EKSPRITING ────────────────────────────────────────────────────────────────
+export { getEkspritingSekvence } from './ekspriting-page';
