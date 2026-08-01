@@ -3,6 +3,7 @@ import { TOTAL_IGRICA } from '../../lib/constants';
 import { GET as getIgriceRoute } from '../../app/api/igrice/route';
 import { GET as getIgriceStatsRoute } from '../../app/api/igrice-stats/route';
 import { GET as getGamingIgriceRoute } from '../../app/api/io-openui-ao-gaming-platforma-igrice/route';
+import { GET as getRealCreateQvadersRoute } from '../../app/api/master-poker-real-create-qvaders/route';
 
 let passed = 0;
 let failed = 0;
@@ -85,6 +86,19 @@ async function runTests(): Promise<void> {
     const pokerMaster = body.igrice.find((igrica) => igrica.id === 'igrica-spaja-poker');
     assert(pokerMaster !== undefined, 'gaming platforma route mora vratiti igrica-spaja-poker');
     assertEqual(pokerMaster?.naziv, 'MASTER POKER', 'gaming platforma route naziv');
+  });
+
+  await test('/api/master-poker-real-create-qvaders izlaže ugovor', async () => {
+    const body = await readJson(await getRealCreateQvadersRoute()) as {
+      status: string;
+      track: string;
+      contract: { name: string; canonicalRank: string; aliases: string[] };
+    };
+    assertEqual(body.status, 'aktivan', 'status');
+    assertEqual(body.track, 'master-poker', 'track');
+    assertEqual(body.contract.name, 'REAL CREATE QVADERS', 'contract.name');
+    assertEqual(body.contract.canonicalRank, 'four-of-kind', 'canonicalRank');
+    assert(body.contract.aliases.includes('qvaders'), 'aliases mora sadržati qvaders');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

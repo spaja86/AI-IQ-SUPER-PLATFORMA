@@ -1,6 +1,7 @@
 import { drawCards, createStandardDeck, shuffleDeck } from './deck';
 import { evaluateBestHand, compareHands } from './hand-evaluator';
 import { validatePokerActionIntegrity } from './anti-cheat';
+import { isRealCreateQvadersHand, REAL_CREATE_QVADERS_NAME } from './real-create-qvaders';
 import type {
   PokerAction,
   PokerApplyResult,
@@ -142,12 +143,13 @@ function resolveShowdown(state: PokerState): void {
 
   state.winnerIds = winners.map((w) => w.id);
   state.winningHandLabel = best.hand.label;
+  const qvadersMarker = isRealCreateQvadersHand(best.hand) ? ` [${REAL_CREATE_QVADERS_NAME}]` : '';
   state.auditLog.push(
     createAuditEntry(state, {
       hand: state.handNumber,
       street: 'showdown',
       action: 'system',
-      details: `Showdown: ${winners.map((w) => w.ime).join(', ')} (${best.hand.label})`,
+      details: `Showdown: ${winners.map((w) => w.ime).join(', ')} (${best.hand.label})${qvadersMarker}`,
       pot: state.pot,
     }),
   );
