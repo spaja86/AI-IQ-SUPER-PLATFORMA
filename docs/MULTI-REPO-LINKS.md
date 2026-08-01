@@ -121,6 +121,39 @@ The Nova Generacija release track introduces a new coordination layer for all ch
 
 ---
 
+## DIREKŠN ZA PLATFORMU DEPLOY (SPAJA) — Audit Trail
+
+### Initiative
+
+Kanonska 12-fazna deploy sekvenca za AI IQ SUPER PLATFORMA ekosistem.
+
+| Field | Value |
+|---|---|
+| Version | v42.35.0+ |
+| Date | 2026-08-01 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/DIREKŠN-DEPLOY-SPAJA.md` |
+| Master checklist | `docs/MAKSIMUM-ALL-PLATFORMA-DEPLOY.md` |
+
+### Cross-repo references
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — DIREKŠN DEPLOY initiative | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: versions, labels, milestones, nova-generacija-gaming-refs, calculator-validator-agent fairness check |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Trigger `calculator-validator-agent` for gaming fairness verification
+- Confirm label schema alignment with this repo's shared label registry
+- Confirm `multi-repo-sync-agent` sync coverage = 100%
+- Update `docs/MULTI-REPO-LINKS.md` in IO-OPENUI-AO with bidirectional DIREKŠN reference
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#DIREKŠN-DEPLOY -> IO-OPENUI-AO#<follow-up issue>
+```
+
+---
+
 ## MAKSIMUM ALL PLATFORMA DEPLOY — Audit Trail
 
 ### Initiative
