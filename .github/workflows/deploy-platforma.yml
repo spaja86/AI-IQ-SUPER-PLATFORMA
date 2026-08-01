@@ -6,14 +6,16 @@
 # Pipeline za deploy-platforma hub.
 #
 # Sekvenca:
-#   1. TypeScript gate (tsc --noEmit)
-#   2. Unit test gate
-#   3. Smoke test gate
-#   4. Predeploy check gate
-#   5. Security scan (secrets + npm audit)
-#   6. Vercel deploy hook
+#   1. Changes detection (paths-filter — skips chain for SQL-only pushes)
+#   2. TypeScript + Lint gate
+#   3. Quality gate (smoke + predeploy combined)
+#   4. Security scan (composite secret-scan + npm audit)
+#   5. Production gate
+#   6. Vercel deploy hook (no Node needed — plain curl)
 #   7. Post-deploy health check (opciono)
 #   8. Audit log
+#
+# node_modules caching: lock-file key shared across all jobs.
 #
 # Env varijable (GitHub Secrets):
 #   VERCEL_DEPLOY_HOOK_AI_IQ — Vercel Deploy Hook URL
@@ -65,10 +67,38 @@ permissions:
   contents: read
 
 jobs:
+  # ─── Changes detection ────────────────────────────────────────────────────────
+  changes:
+    name: 🔎 Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔎 Path filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            code:
+              - 'src/app/deploy-platforma/**/*.ts'
+              - 'src/app/deploy-platforma/**/*.tsx'
+              - 'src/app/api/deploy-platforma/**/*.ts'
+              - 'src/lib/deploy/**/*.ts'
+              - 'src/components/deploy/**/*.ts'
+              - 'src/components/deploy/**/*.tsx'
+              - 'src/lib/sekvence/deploy-platforma-page.ts'
+
   # ─── TypeScript + Lint gate ───────────────────────────────────────────────────
   validate:
     name: ✅ TypeScript & Lint Gate
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch' }}
     permissions:
       contents: read
 
@@ -85,6 +115,12 @@ jobs:
       - name: 📥 Install dependencies
         run: npm ci
 
+      - name: 💾 Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
       - name: 🔍 TypeScript gate
         run: npx tsc --noEmit
 
@@ -94,9 +130,9 @@ jobs:
       - name: 🧪 Unit test gate
         run: npm test
 
-  # ─── Smoke test gate ─────────────────────────────────────────────────────────
-  smoke:
-    name: 🧪 Smoke Test
+  # ─── Quality gate (smoke + predeploy) ────────────────────────────────────────
+  quality:
+    name: 🧪 Quality Gate
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -111,31 +147,18 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: 📥 Install dependencies
-        run: npm ci
+      - name: 💾 Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 📥 Install dependencies (fallback if cache miss)
+        run: |
+          if [ ! -d node_modules ]; then npm ci; fi
 
       - name: 🧪 Smoke test
         run: npm run test:smoke
-
-  # ─── Predeploy check ─────────────────────────────────────────────────────────
-  predeploy:
-    name: 🚦 Predeploy Check
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    needs: validate
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: 📥 Install dependencies
-        run: npm ci
 
       - name: 🚦 Predeploy gate
         run: npm run predeploy:check
@@ -157,45 +180,34 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: 📥 Install dependencies
-        run: npm ci
+      - name: 💾 Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 📥 Install dependencies (fallback if cache miss)
+        run: |
+          if [ ! -d node_modules ]; then npm ci; fi
 
       - name: 🛡️ Dependency audit gate
         run: npm audit --audit-level=high
 
-      - name: 🔑 Secret heuristics gate (deploy/ files)
-        run: |
-          python <<'PY'
-          import re, subprocess, sys
-          from pathlib import Path
-          tracked = subprocess.check_output(['git', 'ls-files', '--', 'src/lib/deploy/', 'src/app/api/deploy-platforma/', 'src/components/deploy/', 'src/app/deploy-platforma/'], text=True).splitlines()
-          patterns = [
-              re.compile(r'github_pat_[A-Za-z0-9_]{20,}'),
-              re.compile(r'gh[pousr]_[A-Za-z0-9]{20,}'),
-              re.compile(r'AKIA[0-9A-Z]{16}'),
-              re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----'),
-          ]
-          for rel in tracked:
-              p = Path(rel)
-              if p.suffix.lower() in {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico', '.pdf', '.lock', '.svg'}:
-                  continue
-              try:
-                  text = p.read_text(encoding='utf-8')
-              except Exception:
-                  continue
-              for pat in patterns:
-                  if pat.search(text):
-                      print(f'Potential secret detected: {rel}')
-                      sys.exit(1)
-          print('No likely secrets detected in deploy-platforma files.')
-          PY
+      - name: 🔑 Secret heuristics scan (deploy/ files)
+        uses: ./.github/actions/secret-scan
+        with:
+          paths: >-
+            src/lib/deploy/
+            src/app/api/deploy-platforma/
+            src/components/deploy/
+            src/app/deploy-platforma/
 
   # ─── Production gate ─────────────────────────────────────────────────────────
   production_gate:
     name: 🔒 Production Gate
     runs-on: ubuntu-latest
     permissions: {}
-    needs: [validate, smoke, predeploy, security]
+    needs: [validate, quality, security]
 
     steps:
       - name: 🔒 Validate production confirmation token
@@ -207,7 +219,7 @@ jobs:
           fi
           echo "✅ Environment gate prošao za: $TARGET_ENV"
 
-  # ─── Deploy via Vercel hook ───────────────────────────────────────────────────
+  # ─── Deploy via Vercel hook (no Node.js needed) ───────────────────────────────
   deploy:
     name: 🚀 Deploy via Vercel Hook
     runs-on: ubuntu-latest
@@ -217,9 +229,6 @@ jobs:
     environment: ${{ github.event.inputs.environment || 'staging' }}
 
     steps:
-      - name: ⬇️ Checkout
-        uses: actions/checkout@v4
-
       - name: 🔍 Preflight — kontekst
         run: |
           echo "## 🚀 Deploy Platforma — Preflight" >> "$GITHUB_STEP_SUMMARY"
@@ -310,3 +319,4 @@ jobs:
           echo "🔗 **Deploy Platforma:** https://ai-iq-super-platforma.vercel.app/deploy-platforma" >> "$GITHUB_STEP_SUMMARY"
           echo "🔗 **Status API:** https://ai-iq-super-platforma.vercel.app/api/deploy-platforma/status" >> "$GITHUB_STEP_SUMMARY"
           echo "🔗 **Vercel Dashboard:** https://vercel.com/dashboard" >> "$GITHUB_STEP_SUMMARY"
+
