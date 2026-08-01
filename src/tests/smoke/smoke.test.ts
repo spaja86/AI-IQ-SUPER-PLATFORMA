@@ -347,6 +347,54 @@ async function runSmokeTests(): Promise<void> {
     }
   });
 
+  // ── 10. Deploy Registry & Hub ────────────────────────────────────────────
+
+  console.log('\n📦 10. Deploy Registry & Hub');
+
+  const { deployRegistry, getDeployPlatformById, getTriggablePlatforms, getPlatformsWithHealthCheck } =
+    await import('../../lib/deploy/deploy-registry');
+
+  await test('deployRegistry nije prazan', () => {
+    assert(deployRegistry.length > 0, 'deploy registry mora imati bar jednu platformu');
+  });
+
+  await test('svaka platforma u registru ima id, naziv i produktionUrl', () => {
+    for (const p of deployRegistry) {
+      assert(p.id.length > 0, `platforma bez id`);
+      assert(p.naziv.length > 0, `platforma ${p.id} bez naziv`);
+      assert(p.produktionUrl.startsWith('https://'), `platforma ${p.id} ima neispravan produktionUrl`);
+    }
+  });
+
+  await test('ai-iq-super-platforma je aktivan u registru', () => {
+    const p = getDeployPlatformById('ai-iq-super-platforma');
+    assert(p !== undefined, 'ai-iq-super-platforma mora biti u registru');
+    assert(p!.status === 'aktivan', 'ai-iq-super-platforma mora biti aktivan');
+  });
+
+  await test('poslovni-novcanik je u registru', () => {
+    const p = getDeployPlatformById('poslovni-novcanik');
+    assert(p !== undefined, 'poslovni-novcanik mora biti u registru');
+  });
+
+  await test('triggable platforme imaju deployHookEnvVar', () => {
+    const triggable = getTriggablePlatforms();
+    assert(triggable.length > 0, 'mora biti bar jedna triggable platforma');
+    for (const p of triggable) {
+      assert(
+        typeof p.deployHookEnvVar === 'string' && p.deployHookEnvVar.length > 0,
+        `triggable platforma ${p.id} nema deployHookEnvVar`,
+      );
+    }
+  });
+
+  await test('platforme sa healthUrl imaju https:// URL', () => {
+    const withHealth = getPlatformsWithHealthCheck();
+    for (const p of withHealth) {
+      assert(p.healthUrl!.startsWith('https://'), `platforma ${p.id} ima neispravan healthUrl`);
+    }
+  });
+
   // ── Summary ───────────────────────────────────────────────────────────────
 
   console.log(`\n${'─'.repeat(60)}`);
