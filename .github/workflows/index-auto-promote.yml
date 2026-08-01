@@ -1,0 +1,90 @@
+name: Indeksiranje — Staged Auto-Promotion
+
+on:
+  schedule:
+    # Svake noći u 03:00 UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: 'Batch size per stage (default: 50, max: 200)'
+        required: false
+        default: '50'
+        type: string
+      max_batches:
+        description: 'Max batches per stage (default: 10, max: 100)'
+        required: false
+        default: '10'
+        type: string
+      cooldown_ms:
+        description: 'Cooldown ms between stages (default: 500)'
+        required: false
+        default: '500'
+        type: string
+      indeksiranje_750:
+        description: 'Enable INDEKSIRANJE 750 KPI mode (true/false)'
+        required: false
+        default: 'true'
+        type: string
+      index_750_target_pct:
+        description: 'INDEKSIRANJE 750 completion target percent (default: 75)'
+        required: false
+        default: '75'
+        type: string
+      index_750_degrade_pct:
+        description: 'INDEKSIRANJE 750 degradation threshold percent-points (default: 7.5)'
+        required: false
+        default: '7.5'
+        type: string
+      index_750_safe_stop:
+        description: 'Emergency safe-stop for scheduled run (true/false)'
+        required: false
+        default: 'false'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  auto-promote:
+    name: Index Auto-Promotion (v1→v2→v3→v4)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run staged auto-promotion
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SPAJA_BAZA_EMBEDDING_MODEL: ${{ vars.SPAJA_BAZA_EMBEDDING_MODEL }}
+          SPAJA_BAZA_EMBEDDING_DIM: ${{ vars.SPAJA_BAZA_EMBEDDING_DIM }}
+          SPAJA_BAZA_EMBEDDING_MODEL_VERSION: ${{ vars.SPAJA_BAZA_EMBEDDING_MODEL_VERSION }}
+          PROMOTE_ALL_BATCH_SIZE: ${{ inputs.batch_size || '50' }}
+          PROMOTE_ALL_MAX_BATCHES: ${{ inputs.max_batches || '10' }}
+          PROMOTE_ALL_COOLDOWN_MS: ${{ inputs.cooldown_ms || '500' }}
+          INDEX_750_MODE: ${{ inputs.indeksiranje_750 || 'true' }}
+          INDEX_750_TARGET_PCT: ${{ inputs.index_750_target_pct || '75' }}
+          INDEX_750_DEGRADE_PCT: ${{ inputs.index_750_degrade_pct || '7.5' }}
+          INDEX_750_SAFE_STOP: ${{ inputs.index_750_safe_stop || 'false' }}
+        run: npx tsx scripts/index-auto-promote.ts
+
+      - name: Check stage completion
+        if: always()
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Auto-promotion završen. Proverite /api/spaja-baza-knowledge/index-status za stageBreakdown."

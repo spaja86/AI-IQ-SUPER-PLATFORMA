@@ -96,6 +96,8 @@ const deployPlatformaPagePath = resolve(repoRoot, 'src/app/deploy-platforma/page
 const deployPlatformaApiStatusPath = resolve(repoRoot, 'src/app/api/deploy-platforma/status/route.ts');
 
 let deployPlatformaReady = false;
+let deployHistoryExportReady = false;
+let deployRegistryHealthUrlsReady = false;
 try {
   const [registrySrc, pageSrc, apiStatusSrc] = await Promise.all([
     readFileAsync(deployPlatformaRegistryPath, 'utf8'),
@@ -108,6 +110,26 @@ try {
     apiStatusSrc.includes('/api/deploy-platforma/status'),
     src.navigation.includes('/deploy-platforma'),
   ].every(Boolean);
+
+  // Verify deploy-history exports getDeployHistory
+  const deployHistoryPath = resolve(repoRoot, 'src/lib/deploy/deploy-history.ts');
+  try {
+    const deployHistorySrc = await readFileAsync(deployHistoryPath, 'utf8');
+    deployHistoryExportReady = deployHistorySrc.includes('export function getDeployHistory');
+  } catch {
+    deployHistoryExportReady = false;
+  }
+
+  // Verify all 'aktivan' platforms in registry have healthUrl configured
+  const healthUrlWarnings = [];
+  const registryEntries = registrySrc.matchAll(/status:\s*'aktivan'[^}]*healthUrl:\s*(null|'[^']*')/gs);
+  for (const match of registryEntries) {
+    if (match[1] === 'null') {
+      healthUrlWarnings.push('platforma sa statusom=aktivan nema healthUrl');
+    }
+  }
+  deployRegistryHealthUrlsReady = healthUrlWarnings.length === 0;
+
 } catch {
   deployPlatformaReady = false;
 }
@@ -239,7 +261,10 @@ const report = {
   },
   deployPlatforma: {
     ready: deployPlatformaReady,
+    deployHistoryExportReady,
+    deployRegistryHealthUrlsReady,
     registryPath: 'src/lib/deploy/deploy-registry.ts',
+    historyPath: 'src/lib/deploy/deploy-history.ts',
     pagePath: 'src/app/deploy-platforma/page.tsx',
     apiStatusPath: 'src/app/api/deploy-platforma/status/route.ts',
   },
