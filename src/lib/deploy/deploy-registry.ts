@@ -102,6 +102,32 @@ export const deployRegistry: DeployPlatformEntry[] = [
     status: 'aktivan',
     manualTriggerEnabled: false,
   },
+  {
+    id: 'kompanija-spaja',
+    naziv: 'Kompanija SPAJA',
+    opis: 'Korporativni hub — digitalna industrija, nabavka i poslovni procesi',
+    ikona: '🏭',
+    vercelProjectId: 'kompanija-spaja',
+    deployHookEnvVar: null,
+    produktionUrl: 'https://kompanija-spaja.vercel.app',
+    healthUrl: null,
+    framework: 'Next.js',
+    status: 'u_pripremi',
+    manualTriggerEnabled: false,
+  },
+  {
+    id: 'nova-generacija',
+    naziv: 'Nova Generacija',
+    opis: 'SpajaPro 16 Hipermreza — unifikacioni gateway svih platformi (v100.0.0+)',
+    ikona: '⚡',
+    vercelProjectId: 'nova-generacija',
+    deployHookEnvVar: 'VERCEL_DEPLOY_HOOK_NOVA_GENERACIJA',
+    produktionUrl: 'https://ai-iq-super-platforma.vercel.app/nova-generacija',
+    healthUrl: 'https://ai-iq-super-platforma.vercel.app/api/nova-generacija',
+    framework: 'Next.js 16 + SpajaPro 16',
+    status: 'aktivan',
+    manualTriggerEnabled: true,
+  },
 ];
 
 /**
