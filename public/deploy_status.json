@@ -1,13 +1,14 @@
 {
-  "timestamp": "2026-08-01T14:56:00Z",
-  "version": "42.35.0",
-  "commit_sha": "903eb5c2aa282081fc53d83e369a608f2722bccf",
+  "timestamp": "2026-08-01T22:17:00Z",
+  "version": "42.36.0",
+  "commit_sha": "maks-plan-nivo-levl",
   "branch": "main",
   "status": "success",
-  "run_id": "direksn-deploy-spaja",
+  "run_id": "maks-plan-nivo-levl",
   "actor": "spaja86",
-  "deploy_initiative": "DIREKŠN-ZA-PLATFORMU-DEPLOY-SPAJA",
-  "tracking_doc": "docs/DIREKŠN-DEPLOY-SPAJA.md",
+  "deploy_initiative": "MAKS-PLAN-NIVO-LEVL",
+  "tracking_doc": "docs/MAKS-PLAN-NIVO-LEVL.md",
+  "target_version": "100.0.0",
   "platforms": [
     "super-platforma",
     "io-openui-ao",
@@ -16,6 +17,11 @@
     "nova-generacija",
     "kompanija-spaja",
     "poslovni-novcanik",
-    "depon"
-  ]
+    "depon",
+    "mekartor",
+    "blockchain"
+  ],
+  "active_nivoi": 16,
+  "nova_generacija_rollout_pct": 20,
+  "previous_initiative": "DIREKŠN-ZA-PLATFORMU-DEPLOY-SPAJA"
 }

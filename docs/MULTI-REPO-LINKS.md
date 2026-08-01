@@ -250,3 +250,38 @@ MASTER POKER contract extension for canonical `four-of-kind` detection under ali
 ### Audit convention
 
 - `AI-IQ-SUPER-PLATFORMA#REAL-CREATE-QVADERS -> No linked repo change required`
+
+---
+
+## MAKS PLAN NIVO LEVL — Audit Trail
+
+### Initiative
+
+Apsolutni maksimum operativni plan za AI IQ SUPER PLATFORMA — svih 16 nivoa od governance gate-a do final sign-off-a. Cilj: verzija v100.0.0 (SpajaPro 16 Nova Generacija).
+
+| Field | Value |
+|---|---|
+| Version | v42.36.0 → v100.0.0 |
+| Date | 2026-08-01 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/MAKS-PLAN-NIVO-LEVL.md` |
+| Changelog | `CHANGELOG.md` v42.36.0 |
+| Deploy status | `public/deploy_status.json` |
+
+### Cross-repo references
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — MAKS PLAN NIVO LEVL (all 16 levels) | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: versions, labels, milestones, nova-generacija-gaming-refs, calculator-validator-agent fairness, multi-repo-sync-agent config |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Trigger `calculator-validator-agent` for Nova Generacija gaming fairness verification
+- Confirm label schema alignment (nova-generacija, race, mekartor labels) with this repo's shared label registry
+- Update `docs/MULTI-REPO-LINKS.md` in IO-OPENUI-AO with bidirectional reference to MAKS PLAN NIVO LEVL
+- Confirm `multi-repo-sync-agent` sync coverage = 100%
+- Align `.agent-config.json` nova-generacija-agent configuration between repos
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#MAKS-PLAN-NIVO-LEVL -> IO-OPENUI-AO#<follow-up issue>
+```
