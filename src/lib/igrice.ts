@@ -39,7 +39,8 @@ export type KategorijaIgrice =
   | 'trka'
   | 'detektivska'
   | 'zivotna-simulacija'
-  | 'retro';
+  | 'retro'
+  | 'reakt';
 
 export type StatusIgrice = 'aktivna' | 'beta' | 'razvoj' | 'planirana';
 
@@ -2651,6 +2652,29 @@ export const igrice: Igrica[] = [
     ],
     status: 'aktivna',
     preporuceniProizvodi: ['spaja-blockchain-engine', 'spaja-game-engine', 'spaja-ekonomija-engine'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+
+  // ─── REAKT ───────────────────────────────────────────────────────
+  {
+    id: 'igrica-reakt',
+    naziv: 'REAKT',
+    opis: 'Igra refleksa i reakcionog vremena — dimenzionalni stimulusi pojavljuju se na ekranu i moraš kliknuti što brže možeš. Svaka dimenzija (D) povećava brzinu, broj simultanih stimulusa i vizuelnu kompleksnost. Od 1440D naviše pojavljuju se lažni stimulusi (distraktori) koje ne smeš kliknuti. Dimenzionalni bonus multiplikuje svaki pogodak: brža reakcija = više bodova!',
+    ikona: '⚡',
+    kategorija: 'reakt',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '360D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Reakciono vreme — kliktaj stimuluse što brže možeš',
+      'Multi-stimulus mod — više simultanih stimulusa u višim D',
+      'Dimenzionalni multiplikator brzine i bodova',
+      'Streak sistem — uzastopni hitovi daju bonus multiplikator',
+      'Distraktori od 1440D+ — nemoj kliknuti lažne stimuluse',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'beta',
+    preporuceniProizvodi: ['spaja-accelerator', 'spaja-game-engine', 'omega-ai-engine'],
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
 

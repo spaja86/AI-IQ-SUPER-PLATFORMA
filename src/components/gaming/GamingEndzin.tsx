@@ -30,6 +30,7 @@ const KreativnaRunner = dynamic(() => import('./runners/KreativnaRunner'), { ssr
 const BorbenaRunner = dynamic(() => import('./runners/BorbenaRunner'), { ssr: false });
 const PokerRunner = dynamic(() => import('./runners/PokerRunner'), { ssr: false });
 const EglanRunner = dynamic(() => import('./runners/EglanRunner'), { ssr: false });
+const ReaktRunner = dynamic(() => import('./runners/ReaktRunner'), { ssr: false });
 
 // ─── COLD AND FIRE karakteri ─────────────────────────────────────────
 
@@ -550,6 +551,7 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
             startingHero={odabraniHeroj}
           />
         )}
+        {efektivniRunnerTip === 'reakt' && <ReaktRunner {...runnerProps} />}
       </div>
 
       {/* Pauze meni — overlay */}
