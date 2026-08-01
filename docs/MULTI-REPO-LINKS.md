@@ -34,6 +34,9 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `race:another-races` | Back to Spaces for Another Races change set |
 | `race:fairness-review` | Fairness-rule logic changed and requires focused review |
 | `race:validated` | Race validation workflow and tests completed |
+| `mekartor` | Mekartor release track change set |
+| `mekartor:review` | Mekartor rollout/config change requires focused human review |
+| `mekartor:validated` | Mekartor deploy/readiness validation completed |
 
 ## Version coherence policy
 
@@ -209,3 +212,23 @@ The `nova-generacija-agent` enforces these KPIs on every cross-repo change:
 | Gaming completion rate | ≥ 95% | NG gaming fairness checks |
 | Cross-repo sync coverage | 100% | `nova-generacija-agent` |
 | Security scan coverage | 100% | `security-scanner` workflow |
+
+
+---
+
+## Mekartor Release Track — Audit Trail
+
+### Scope
+
+Mekartor je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa runtime rutama `/mekartor` i `/api/mekartor`.
+
+### Cross-repo assessment
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — Mekartor rollout | `spaja86/IO-OPENUI-AO` | No linked repo change required |
+
+### Audit convention
+
+- `AI-IQ-SUPER-PLATFORMA#MEKARTOR -> No linked repo change required`
+- Human review remains required because this is a config/deploy change.

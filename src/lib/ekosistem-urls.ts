@@ -19,6 +19,7 @@ export const EKOSISTEM_URLS = {
   EKSOSISTZDACIJA: 'https://ai-iq-super-platforma.vercel.app/eksosistzdacija',
   POLIMERZACIJA: 'https://ai-iq-super-platforma.vercel.app/polimerzacija',
   DEPLOY_PLATFORMA: 'https://ai-iq-super-platforma.vercel.app/deploy-platforma',
+  MEKARTOR: 'https://ai-iq-super-platforma.vercel.app/mekartor',
 } as const;
 
 export const EKOSISTEM_DEPLOY_PROVIDER = {
@@ -32,6 +33,7 @@ export const EKOSISTEM_DEPLOY_PROVIDER = {
   EKSOSISTZDACIJA: 'vercel',
   POLIMERZACIJA: 'vercel',
   DEPLOY_PLATFORMA: 'vercel',
+  MEKARTOR: 'vercel',
 } as const;
 
 export interface EkosistemPlatforma {
@@ -83,6 +85,12 @@ export const ekosistemPlatforme: EkosistemPlatforma[] = [
     url: EKOSISTEM_URLS.EKSOSISTZDACIJA,
     ikona: '🧩',
     opis: 'Modul za mapiranje i konsolidaciju ekosistemskih tokova Digitalne Industrije',
+  },
+  {
+    naziv: 'Mekartor',
+    url: EKOSISTEM_URLS.MEKARTOR,
+    ikona: '🧭',
+    opis: 'Repo-local staged rollout surface sa health proverom i deploy governance audit trail-om',
   },
   {
     naziv: 'AI-IQ Super Platforma',

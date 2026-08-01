@@ -213,6 +213,8 @@ export function getDeployDiagnosticsSnapshot() {
       vercelKvConfigured,
       deployHookAiIq: Boolean(process.env.VERCEL_DEPLOY_HOOK_AI_IQ),
       deployHookIoOpenUiAo: Boolean(process.env.VERCEL_DEPLOY_HOOK_IO_OPENUI_AO),
+      deployHookMekartor: Boolean(process.env.VERCEL_DEPLOY_HOOK_MEKARTOR),
+      mekartorStatusWebhook: Boolean(process.env.MEKARTOR_STATUS_WEBHOOK_URL),
     },
   };
 }

@@ -34,6 +34,11 @@ on:
       - 'src/lib/deploy/**'
       - 'src/components/deploy/**'
       - 'src/lib/sekvence/deploy-platforma-page.ts'
+      - 'src/app/mekartor/**'
+      - 'src/app/api/mekartor/**'
+      - 'src/lib/mekartor.ts'
+      - 'src/lib/sekvence/mekartor-page.ts'
+      - 'platforms/mekartor/**'
       - 'supabase/migrations/020_deploy_audit_log.sql'
   workflow_dispatch:
     inputs:
@@ -92,6 +97,11 @@ jobs:
               - 'src/components/deploy/**/*.ts'
               - 'src/components/deploy/**/*.tsx'
               - 'src/lib/sekvence/deploy-platforma-page.ts'
+              - 'src/app/mekartor/**/*.ts'
+              - 'src/app/mekartor/**/*.tsx'
+              - 'src/app/api/mekartor/**/*.ts'
+              - 'src/lib/mekartor.ts'
+              - 'src/lib/sekvence/mekartor-page.ts'
 
   # ─── TypeScript + Lint gate ───────────────────────────────────────────────────
   validate:
