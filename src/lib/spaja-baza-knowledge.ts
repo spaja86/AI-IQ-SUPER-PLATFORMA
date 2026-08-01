@@ -56,6 +56,25 @@ interface KnowledgeIndexingOptions {
   upgradeToV3?: boolean;
   /** Kada true, odabira v1/v2/v3 indeksirane chunk-ove za upgrade na v4. */
   upgradeToV4?: boolean;
+  /**
+   * INDEKSIRANJE 5: Kada true, pokreće staged auto-promotion svakog stupnja
+   * (v1→v2→v3→v4) redom, uz quality gates i cooldown između stupnjeva.
+   * Ignorira indexVersion / upgradeToVN — upravlja svim stupnjevima automatski.
+   */
+  promoteAll?: boolean;
+  /** Cooldown u ms između stupnjeva pri promoteAll (default: 500ms). */
+  promoteCooldownMs?: number;
+}
+
+/** Breakdown chunk-ova po indexing stupnju. */
+export interface KnowledgeStageBreakdown {
+  v1: number;
+  v2: number;
+  v3: number;
+  v4: number;
+  total: number;
+  targetVersion: 'v4';
+  completionPct: number;
 }
 
 export interface KnowledgeIndexingResult {
@@ -65,6 +84,8 @@ export interface KnowledgeIndexingResult {
   failed: number;
   durationMs: number;
   errors: Array<{ chunkId: string; reason: string }>;
+  /** Distribucija chunk-ova po stupnju nakon operacije (dodata pri promoteAll ili batch-u). */
+  stageBreakdown?: KnowledgeStageBreakdown;
 }
 
 export interface KnowledgeIndexStatus {
@@ -85,6 +106,7 @@ export interface KnowledgeIndexStatus {
     throughputPerMinute: number;
   };
   latestJobs: Array<Database['public']['Tables']['knowledge_index_jobs']['Row']>;
+  stageBreakdown: KnowledgeStageBreakdown;
 }
 
 const DEFAULT_ALLOWLIST = [
@@ -136,6 +158,14 @@ const INDEXING_DEFAULT_MAX_RETRIES = 5;
 const INDEXING_MAX_RETRIES_CAP = 10;
 const INDEXING_DEFAULT_RETRY_BACKOFF_MS = 60_000;
 const INDEXING_MIN_RETRY_BACKOFF_MS = 5_000;
+
+// ─── INDEKSIRANJE 5 — Staged Auto-Promotion konstante ─────────────────────
+/** Ciljni stupanj za auto-promotion pipeline. */
+const KNOWLEDGE_INDEX_TARGET_VERSION = 'v4' as const;
+/** Default cooldown između stupnjeva u promoteAll batchu. */
+const PROMOTE_ALL_DEFAULT_COOLDOWN_MS = 500;
+/** Minimalna dužina sadržaja (znakova) za promociju v1→v2 (quality gate). */
+const PROMOTE_V2_MIN_CONTENT_LENGTH = 100;
 
 // Shared select string for knowledge_chunks search queries (FTS, ilike, fallback).
 const KNOWLEDGE_SEARCH_SELECT = `
@@ -713,6 +743,294 @@ function shouldRetryChunk(candidate: IndexCandidateRow, retryBackoffMs: number):
   return Date.now() - new Date(candidate.last_index_attempt_at).getTime() >= retryBackoffMs;
 }
 
+// ─── INDEKSIRANJE 5 — Quality Gates i Stage Breakdown ────────────────────────
+
+/**
+ * Quality gate v1→v2: chunk mora imati dovoljno sadržaja za korisne bigrame.
+ * Vraća razlog blokiranja ili null ako chunk može biti promovisan.
+ */
+function checkV2PromotionGate(chunk: IndexCandidateRow): string | null {
+  if ((chunk.content ?? '').length < PROMOTE_V2_MIN_CONTENT_LENGTH) {
+    return `Sadržaj prekratak za v2 bigrams (${(chunk.content ?? '').length} < ${PROMOTE_V2_MIN_CONTENT_LENGTH} znakova)`;
+  }
+  return null;
+}
+
+/**
+ * Quality gate v2→v3: chunk mora imati chunk_index >= 0 da bi position_score bio validan.
+ * Vraća razlog blokiranja ili null ako chunk može biti promovisan.
+ */
+function checkV3PromotionGate(chunk: IndexCandidateRow): string | null {
+  if (chunk.chunk_index == null || chunk.chunk_index < 0) {
+    return `chunk_index nije postavljen — position_score ne može biti izračunat`;
+  }
+  return null;
+}
+
+/**
+ * Quality gate v3→v4: proverava da li je embedding API dostupan.
+ * Vraća razlog blokiranja ili null ako API je dostupan.
+ */
+function checkV4PromotionGate(): string | null {
+  const openai = getOpenAISafe();
+  if (!openai) {
+    return `OPENAI_API_KEY nije postavljen — v4 embedding pipeline nije dostupan`;
+  }
+  return null;
+}
+
+/**
+ * Izračunava stageBreakdown na osnovu trenutnog stanja u bazi.
+ * Koristi se za observability i monitoring completion %.
+ */
+async function computeStageBreakdown(): Promise<KnowledgeStageBreakdown> {
+  const supabase = getSupabaseServerClient();
+  const [v1, v2, v3, v4] = await Promise.all([
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V2),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V3),
+    supabase.from('knowledge_chunks').select('*', { count: 'exact', head: true }).eq('embedding_status', 'indexed').eq('index_version', KNOWLEDGE_INDEX_VERSION_V4),
+  ]);
+  const v1Count = v1.count ?? 0;
+  const v2Count = v2.count ?? 0;
+  const v3Count = v3.count ?? 0;
+  const v4Count = v4.count ?? 0;
+  const total = v1Count + v2Count + v3Count + v4Count;
+  const completionPct = total > 0 ? Number(((v4Count / total) * 100).toFixed(2)) : 0;
+  return {
+    v1: v1Count,
+    v2: v2Count,
+    v3: v3Count,
+    v4: v4Count,
+    total,
+    targetVersion: KNOWLEDGE_INDEX_TARGET_VERSION,
+    completionPct,
+  };
+}
+
+/**
+ * Loguje promociju chunk-a u knowledge_index_stage_log.
+ */
+async function logStagePromotion(
+  supabase: SupabaseClient,
+  params: {
+    chunkId: string;
+    fromVersion: 'v1' | 'v2' | 'v3' | 'v4';
+    toVersion: 'v2' | 'v3' | 'v4';
+    batchId: string;
+    jobId: string;
+    success: boolean;
+    blockedReason?: string;
+  },
+): Promise<void> {
+  // knowledge_index_stage_log is a new table from migration 021 — cast to any
+  // until Supabase types are regenerated.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase as any).from('knowledge_index_stage_log').insert({
+    chunk_id: params.chunkId,
+    from_version: params.fromVersion,
+    to_version: params.toVersion,
+    batch_id: params.batchId,
+    job_id: params.jobId,
+    success: params.success,
+    blocked_reason: params.blockedReason ?? null,
+  });
+}
+
+/**
+ * INDEKSIRANJE 5: Staged auto-promotion pipeline.
+ * Pokreće batch upgrade za svaki stupanj redom: v1→v2, v2→v3, v3→v4.
+ * Svaki stupanj prolazi kroz quality gates pre promocije.
+ * Između stupnjeva čeka `cooldownMs` da se ne preoptereti DB.
+ */
+async function runStagedAutoPromotion(params: {
+  batchSize: number;
+  maxBatches: number;
+  cooldownMs: number;
+  jobId: string;
+}): Promise<{ processed: number; indexed: number; failed: number; errors: Array<{ chunkId: string; reason: string }> }> {
+  const supabase = getSupabaseServerClient();
+  const { batchSize, maxBatches, cooldownMs, jobId } = params;
+  const batchId = `promote-all-${jobId}`;
+  let totalProcessed = 0;
+  let totalIndexed = 0;
+  let totalFailed = 0;
+  const errors: Array<{ chunkId: string; reason: string }> = [];
+
+  // Faza 1: v1 → v2 (quality gate: sadržaj ≥ 100 znakova)
+  {
+    const stageLabel = 'v1→v2';
+    let processed = 0;
+    for (let batch = 0; batch < maxBatches; batch++) {
+      const { data } = await supabase
+        .from('knowledge_chunks')
+        .select('id, document_id, chunk_index, content, embedding_status, indexing_attempts, last_index_attempt_at, index_version')
+        .eq('embedding_status', 'indexed')
+        .eq('index_version', KNOWLEDGE_INDEX_VERSION)
+        .order('created_at', { ascending: true })
+        .limit(batchSize);
+      const candidates = (data ?? []) as IndexCandidateRow[];
+      if (candidates.length === 0) break;
+      for (const chunk of candidates) {
+        processed += 1;
+        const blockReason = checkV2PromotionGate(chunk);
+        if (blockReason) {
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v1', toVersion: 'v2', batchId, jobId, success: false, blockedReason: blockReason });
+          totalFailed += 1;
+          errors.push({ chunkId: chunk.id, reason: `[${stageLabel}] ${blockReason}` });
+          continue;
+        }
+        try {
+          const indexedContent = buildIndexedContentV2(chunk.content);
+          const keywordDensity = computeKeywordDensity(chunk.content);
+          const uniqueTermCount = computeUniqueTermCount(chunk.content);
+          const { error } = await supabase.from('knowledge_chunks').update({
+            indexed_content: indexedContent,
+            indexing_attempts: (chunk.indexing_attempts ?? 0) + 1,
+            indexing_error: null,
+            last_index_attempt_at: new Date().toISOString(),
+            indexed_at: new Date().toISOString(),
+            index_version: KNOWLEDGE_INDEX_VERSION_V2,
+            keyword_density: keywordDensity,
+            unique_term_count: uniqueTermCount,
+          }).eq('id', chunk.id);
+          if (error) throw new Error(error.message);
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v1', toVersion: 'v2', batchId, jobId, success: true });
+          totalIndexed += 1;
+        } catch (err) {
+          const reason = err instanceof Error ? err.message : 'Nepoznata greška';
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v1', toVersion: 'v2', batchId, jobId, success: false, blockedReason: reason });
+          totalFailed += 1;
+          errors.push({ chunkId: chunk.id, reason: `[${stageLabel}] ${reason}` });
+        }
+      }
+    }
+    totalProcessed += processed;
+  }
+
+  // Cooldown između stupnjeva
+  if (cooldownMs > 0) await new Promise((r) => setTimeout(r, cooldownMs));
+
+  // Faza 2: v2 → v3 (quality gate: chunk_index mora biti postavljen)
+  {
+    const stageLabel = 'v2→v3';
+    let processed = 0;
+    for (let batch = 0; batch < maxBatches; batch++) {
+      const { data } = await supabase
+        .from('knowledge_chunks')
+        .select('id, document_id, chunk_index, content, embedding_status, indexing_attempts, last_index_attempt_at, index_version')
+        .eq('embedding_status', 'indexed')
+        .eq('index_version', KNOWLEDGE_INDEX_VERSION_V2)
+        .order('created_at', { ascending: true })
+        .limit(batchSize);
+      const candidates = (data ?? []) as IndexCandidateRow[];
+      if (candidates.length === 0) break;
+      for (const chunk of candidates) {
+        processed += 1;
+        const blockReason = checkV3PromotionGate(chunk);
+        if (blockReason) {
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v2', toVersion: 'v3', batchId, jobId, success: false, blockedReason: blockReason });
+          totalFailed += 1;
+          errors.push({ chunkId: chunk.id, reason: `[${stageLabel}] ${blockReason}` });
+          continue;
+        }
+        try {
+          const indexedContent = buildIndexedContentV2(chunk.content);
+          const keywordDensity = computeKeywordDensity(chunk.content);
+          const uniqueTermCount = computeUniqueTermCount(chunk.content);
+          const positionScore = computePositionScore(chunk.chunk_index);
+          const { error } = await supabase.from('knowledge_chunks').update({
+            indexed_content: indexedContent,
+            indexing_attempts: (chunk.indexing_attempts ?? 0) + 1,
+            indexing_error: null,
+            last_index_attempt_at: new Date().toISOString(),
+            indexed_at: new Date().toISOString(),
+            index_version: KNOWLEDGE_INDEX_VERSION_V3,
+            keyword_density: keywordDensity,
+            unique_term_count: uniqueTermCount,
+            position_score: positionScore,
+          }).eq('id', chunk.id);
+          if (error) throw new Error(error.message);
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v2', toVersion: 'v3', batchId, jobId, success: true });
+          totalIndexed += 1;
+        } catch (err) {
+          const reason = err instanceof Error ? err.message : 'Nepoznata greška';
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v2', toVersion: 'v3', batchId, jobId, success: false, blockedReason: reason });
+          totalFailed += 1;
+          errors.push({ chunkId: chunk.id, reason: `[${stageLabel}] ${reason}` });
+        }
+      }
+    }
+    totalProcessed += processed;
+  }
+
+  // Cooldown između stupnjeva
+  if (cooldownMs > 0) await new Promise((r) => setTimeout(r, cooldownMs));
+
+  // Faza 3: v3 → v4 (quality gate: embedding API mora biti dostupan)
+  {
+    const stageLabel = 'v3→v4';
+    const apiGateReason = checkV4PromotionGate();
+    let processed = 0;
+    for (let batch = 0; batch < maxBatches; batch++) {
+      const { data } = await supabase
+        .from('knowledge_chunks')
+        .select('id, document_id, chunk_index, content, embedding_status, indexing_attempts, last_index_attempt_at, index_version')
+        .eq('embedding_status', 'indexed')
+        .eq('index_version', KNOWLEDGE_INDEX_VERSION_V3)
+        .order('created_at', { ascending: true })
+        .limit(batchSize);
+      const candidates = (data ?? []) as IndexCandidateRow[];
+      if (candidates.length === 0) break;
+      for (const chunk of candidates) {
+        processed += 1;
+        if (apiGateReason) {
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v3', toVersion: 'v4', batchId, jobId, success: false, blockedReason: apiGateReason });
+          totalFailed += 1;
+          errors.push({ chunkId: chunk.id, reason: `[${stageLabel}] ${apiGateReason}` });
+          continue;
+        }
+        try {
+          const indexedContent = buildIndexedContentV2(chunk.content);
+          const keywordDensity = computeKeywordDensity(chunk.content);
+          const uniqueTermCount = computeUniqueTermCount(chunk.content);
+          const positionScore = computePositionScore(chunk.chunk_index);
+          const embeddingVector = await createEmbeddingVector(chunk.content);
+          const attemptAt = new Date().toISOString();
+          const { error } = await supabase.from('knowledge_chunks').update({
+            indexed_content: indexedContent,
+            embedding_status: 'indexed',
+            indexing_attempts: (chunk.indexing_attempts ?? 0) + 1,
+            indexing_error: null,
+            last_index_attempt_at: attemptAt,
+            indexed_at: attemptAt,
+            index_version: KNOWLEDGE_INDEX_VERSION_V4,
+            keyword_density: keywordDensity,
+            unique_term_count: uniqueTermCount,
+            position_score: positionScore,
+            embedding_model: KNOWLEDGE_EMBEDDING_MODEL_V4,
+            embedding_model_version: KNOWLEDGE_EMBEDDING_MODEL_VERSION_V4,
+            embedding_generated_at: attemptAt,
+            embedding_vector: toVectorLiteral(embeddingVector),
+            semantic_score: 1,
+          }).eq('id', chunk.id);
+          if (error) throw new Error(error.message);
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v3', toVersion: 'v4', batchId, jobId, success: true });
+          totalIndexed += 1;
+        } catch (err) {
+          const reason = err instanceof Error ? err.message : 'Nepoznata greška';
+          await logStagePromotion(supabase, { chunkId: chunk.id, fromVersion: 'v3', toVersion: 'v4', batchId, jobId, success: false, blockedReason: reason });
+          totalFailed += 1;
+          errors.push({ chunkId: chunk.id, reason: `[${stageLabel}] ${reason}` });
+        }
+      }
+    }
+    totalProcessed += processed;
+  }
+
+  return { processed: totalProcessed, indexed: totalIndexed, failed: totalFailed, errors };
+}
+
 async function executeKnowledgeSearch(
   query: string,
   options?: KnowledgeSearchOptions,
@@ -959,6 +1277,7 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
   const upgradeToV2 = Boolean(options?.upgradeToV2);
   const upgradeToV3 = Boolean(options?.upgradeToV3);
   const upgradeToV4 = Boolean(options?.upgradeToV4);
+  const promoteAll = Boolean(options?.promoteAll);
 
   const { data: job, error: jobError } = await supabase
     .from('knowledge_index_jobs')
@@ -977,6 +1296,42 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
 
   if (jobError || !job) {
     throw new Error(`Neuspešno kreiranje index job-a: ${jobError?.message ?? 'unknown error'}`);
+  }
+
+  // ─── INDEKSIRANJE 5: promoteAll ───────────────────────────────────────────
+  if (promoteAll) {
+    const cooldownMs = Math.max(
+      0,
+      options?.promoteCooldownMs ?? PROMOTE_ALL_DEFAULT_COOLDOWN_MS,
+    );
+    const promotionResult = await runStagedAutoPromotion({
+      batchSize,
+      maxBatches,
+      cooldownMs,
+      jobId: job.id,
+    });
+    const durationMs = Date.now() - now;
+    const throughput = durationMs > 0 ? Number(((promotionResult.indexed * 60_000) / durationMs).toFixed(2)) : 0;
+    await supabase.from('knowledge_index_jobs').update({
+      status: promotionResult.failed === 0 ? 'completed' : promotionResult.indexed > 0 ? 'partial' : 'failed',
+      processed_chunks: promotionResult.processed,
+      indexed_chunks: promotionResult.indexed,
+      failed_chunks: promotionResult.failed,
+      average_latency_ms: promotionResult.processed > 0 ? Math.round(durationMs / promotionResult.processed) : 0,
+      throughput_per_minute: throughput,
+      finished_at: new Date().toISOString(),
+      error_log: promotionResult.errors,
+    }).eq('id', job.id);
+    const stageBreakdown = await computeStageBreakdown();
+    return {
+      jobId: job.id,
+      processed: promotionResult.processed,
+      indexed: promotionResult.indexed,
+      failed: promotionResult.failed,
+      durationMs,
+      errors: promotionResult.errors,
+      stageBreakdown,
+    };
   }
 
   const errors: Array<{ chunkId: string; reason: string }> = [];
@@ -1128,6 +1483,9 @@ export async function runKnowledgeIndexing(options?: KnowledgeIndexingOptions): 
   };
 }
 
+/** Eksportovana verzija computeStageBreakdown za direktno korišćenje (npr. scripts). */
+export { computeStageBreakdown as getKnowledgeStageBreakdown };
+
 export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
   const supabase = getSupabaseServerClient();
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -1177,6 +1535,18 @@ export async function getKnowledgeIndexStatus(): Promise<KnowledgeIndexStatus> {
       throughputPerMinute,
     },
     latestJobs: (latestJobs.data ?? []) as Array<Database['public']['Tables']['knowledge_index_jobs']['Row']>,
+    stageBreakdown: {
+      v1: indexedV1.count ?? 0,
+      v2: indexedV2.count ?? 0,
+      v3: indexedV3.count ?? 0,
+      v4: indexedV4.count ?? 0,
+      total: (indexedV1.count ?? 0) + (indexedV2.count ?? 0) + (indexedV3.count ?? 0) + (indexedV4.count ?? 0),
+      targetVersion: KNOWLEDGE_INDEX_TARGET_VERSION,
+      completionPct: (() => {
+        const total = (indexedV1.count ?? 0) + (indexedV2.count ?? 0) + (indexedV3.count ?? 0) + (indexedV4.count ?? 0);
+        return total > 0 ? Number((((indexedV4.count ?? 0) / total) * 100).toFixed(2)) : 0;
+      })(),
+    },
   };
 }
 

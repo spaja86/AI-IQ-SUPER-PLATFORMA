@@ -29,6 +29,13 @@ export async function POST(request: NextRequest) {
     upgradeToV2?: boolean;
     upgradeToV3?: boolean;
     upgradeToV4?: boolean;
+    /**
+     * INDEKSIRANJE 5: Kada true, pokreće staged auto-promotion svakog stupnja
+     * (v1→v2→v3→v4) redom, uz quality gates i cooldown između stupnjeva.
+     */
+    promoteAll?: boolean;
+    /** Cooldown u ms između stupnjeva pri promoteAll (default: 500ms). */
+    promoteCooldownMs?: number;
   };
 
   const result = await runKnowledgeIndexing({
@@ -43,6 +50,8 @@ export async function POST(request: NextRequest) {
     upgradeToV2: Boolean(body.upgradeToV2),
     upgradeToV3: Boolean(body.upgradeToV3),
     upgradeToV4: Boolean(body.upgradeToV4),
+    promoteAll: Boolean(body.promoteAll),
+    promoteCooldownMs: body.promoteCooldownMs,
   });
 
   return NextResponse.json({

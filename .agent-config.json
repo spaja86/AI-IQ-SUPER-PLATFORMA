@@ -347,6 +347,34 @@
     "goLive": "docs/GO-LIVE.md",
     "deploymentPowerResolution": "docs/DEPLOYMENT-POWER-RESOLUTION.md"
   },
+  "indeksiranje": {
+    "targetIndexVersion": "v4",
+    "autopromotion": {
+      "enabled": true,
+      "batchSize": 50,
+      "maxBatches": 10,
+      "cooldownMs": 500,
+      "schedule": "nightly",
+      "workflowFile": ".github/workflows/index-auto-promote.yml",
+      "script": "scripts/index-auto-promote.ts",
+      "qualityGates": {
+        "v1_to_v2": "content.length >= 100",
+        "v2_to_v3": "chunk_index >= 0",
+        "v3_to_v4": "OPENAI_API_KEY is set"
+      },
+      "monitoring": {
+        "degradationThresholdPct": 50,
+        "alertLabel": "indexing:degradation",
+        "statusEndpoint": "/api/spaja-baza-knowledge/index-status"
+      }
+    },
+    "pipeline": {
+      "v1": { "mechanism": "ilike", "scoring": "lexical*0.6 + trust*0.25 + coverage*0.15", "status": "legacy-fallback" },
+      "v2": { "mechanism": "ilike+bigrams+keyword_density", "scoring": "lexical*0.45 + termFreq*0.20 + trust*0.20 + kwDensity*0.15", "status": "dual-mode" },
+      "v3": { "mechanism": "FTS textSearch (AND) + position_score", "scoring": "lexical*0.35 + termFreq*0.25 + trust*0.20 + kwDensity*0.15 + pos*0.05", "status": "primary" },
+      "v4": { "mechanism": "pgvector cosine similarity + hybrid", "scoring": "semanticSim*0.35 + lexical*0.20 + termFreq*0.15 + trust*0.15 + kwDensity*0.10 + pos*0.05", "status": "semantic-primary" }
+    }
+  },
   "multiRepoLinks": {
     "primaryRepo": "spaja86/AI-IQ-SUPER-PLATFORMA",
     "linkedRepos": [
