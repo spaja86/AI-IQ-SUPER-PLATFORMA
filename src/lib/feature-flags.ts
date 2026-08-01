@@ -247,6 +247,37 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     activeFrom: '2026-05-24',
     meta: { owner: 'browser-team', ticket: 'SPAJA-7002' },
   },
+  // ── Nova Generacija ───────────────────────────────────────────
+  {
+    id: 'nova-generacija',
+    naziv: 'Nova Generacija — SpajaPro 16+',
+    opis: 'Aktivira novu generaciju platforme: SpajaPro 16 Hipermreza (16×16), 50 OMEGA AI persona, 16 oktava, cross-platform orkestracija i self-healing engine.',
+    strategy: 'percentage',
+    rolloutPct: 20,
+    envs: ['production', 'staging'],
+    activeFrom: '2026-08-01',
+    meta: { owner: 'nova-generacija-agent', ticket: 'SPAJA-NG-001' },
+  },
+  {
+    id: 'nova-generacija-gaming',
+    naziv: 'Nova Generacija Gaming',
+    opis: 'Aktivira novi gaming mode Nova Generacija — naslednik Back to Spaces for Another Races sa kvantnim fairness sistemom.',
+    strategy: 'percentage',
+    rolloutPct: 10,
+    envs: ['staging'],
+    activeFrom: '2026-08-01',
+    meta: { owner: 'nova-generacija-agent', ticket: 'SPAJA-NG-002' },
+  },
+  {
+    id: 'nova-generacija-hipermreza',
+    naziv: 'Hipermreza 16×16 Dispatch',
+    opis: 'Aktivira 16×16 Hipermreza dispatch engine za paralelnu orkestraciju svih 50 OMEGA AI persona kroz 256 matricičnih čvorova.',
+    strategy: 'plans',
+    plans: ['enterprise', 'unlimited'],
+    envs: ['production', 'staging'],
+    activeFrom: '2026-08-01',
+    meta: { owner: 'nova-generacija-agent', ticket: 'SPAJA-NG-003' },
+  },
   // ── Kill Switches ─────────────────────────────────────────────
   {
     id: 'kill-switch-checkout',

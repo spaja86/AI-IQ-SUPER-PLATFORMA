@@ -77,3 +77,57 @@ If only one repo changes immediately, document the deferred work as:
 - Security-sensitive cross-repo changes should include a security approver.
 - Config and workflow changes should carry the `agent:config-change` label.
 - Cross-repo work is not complete until docs, labels, and follow-up references are updated.
+
+---
+
+## Nova Generacija v2 Cross-Repo Contract
+
+### Scope
+
+The Nova Generacija release track introduces a new coordination layer for all changes that touch:
+
+- `src/lib/spaja-pro-nova-generacija.ts` (SpajaPro 16 Hipermreza engine)
+- `src/lib/evolucija/nova-generacija.ts` (Nova Generacija evolution engine)
+- `src/lib/nova-generacija-gaming.ts` (Nova Generacija gaming mode)
+- `platforms/nova-generacija/` (NG platform surface)
+- `docs/NOVA-GENERACIJA.md` (NG specification)
+- `.github/workflows/nova-generacija.yml` (NG CI workflow)
+
+### Nova Generacija Label Schema
+
+| Label | Meaning |
+|---|---|
+| `nova-generacija` | Nova Generacija change set — requires NG validation |
+| `nova-generacija:review` | NG change requires focused human review |
+| `nova-generacija:validated` | NG validation workflow and tests passed |
+| `nova-generacija:needs-review` | NG validator requires human follow-up |
+
+### Nova Generacija Linked Repos
+
+| Repository | NG Sync Fields | Sync Trigger | Tracking Doc |
+|---|---|---|---|
+| `spaja86/IO-OPENUI-AO` | versions, labels, milestones, nova-generacija-gaming-refs | on-change + weekly | `docs/MULTI-REPO-LINKS.md` |
+| Future linked repos | To be defined upon registration | Weekly | `docs/MULTI-REPO-LINKS.md` |
+
+### Nova Generacija Cross-Repo Workflow
+
+1. Identify whether the NG change affects `IO-OPENUI-AO` behavior, docs, labels, milestones, or shared gaming/calculator contracts.
+2. Record the impact in the PR template under **Cross-repo impact**, noting `nova-generacija` scope.
+3. Open or link the downstream PR / issue when the linked repo also needs NG-related updates.
+4. Note the follow-up reference in commit, PR description, or linked issue trail.
+5. Keep `.agent-config.json` `nova-generacija-agent.linkedReposV2` aligned with any newly added linked repo.
+6. All Nova Generacija gaming changes must include a cross-repo fairness audit reference.
+
+### Nova Generacija KPI Enforcement
+
+The `nova-generacija-agent` enforces these KPIs on every cross-repo change:
+
+| KPI | Target | Enforced by |
+|---|---|---|
+| Action evaluation | ≤ 50ms | `.github/workflows/nova-generacija.yml` |
+| Build duration | ≤ 3 min | Build step timeout |
+| Uptime SLA | 99.99% | `enterprise-sla.ts` nova-generacija tier |
+| Gaming completion rate | ≥ 95% | NG gaming fairness checks |
+| Cross-repo sync coverage | 100% | `nova-generacija-agent` |
+| Security scan coverage | 100% | `security-scanner` workflow |
+
