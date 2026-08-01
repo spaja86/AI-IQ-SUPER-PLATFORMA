@@ -236,7 +236,8 @@
     "multiRepo": "docs/MULTI-REPO-LINKS.md",
     "finops": "docs/finops-enterprise-operating-model.md",
     "security": "docs/SECURITY.md",
-    "goLive": "docs/GO-LIVE.md"
+    "goLive": "docs/GO-LIVE.md",
+    "deploymentPowerResolution": "docs/DEPLOYMENT-POWER-RESOLUTION.md"
   },
   "multiRepoLinks": {
     "primaryRepo": "spaja86/AI-IQ-SUPER-PLATFORMA",

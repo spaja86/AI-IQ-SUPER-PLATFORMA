@@ -384,6 +384,7 @@ This repository uses documented automation agents for CI, security, analytics, a
 - **Security operating model:** [`docs/SECURITY.md`](./docs/SECURITY.md)
 - **Go-live and rollout:** [`docs/GO-LIVE.md`](./docs/GO-LIVE.md)
 - **FinOps and KPI model:** [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md)
+- **Deployment power-resolution model:** [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./docs/DEPLOYMENT-POWER-RESOLUTION.md)
 
 ### Copilot setup vs Codex user installs
 
@@ -425,6 +426,7 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
 | [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md) | FinOps, KPI, enterprise collaboration model |
+| [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./docs/DEPLOYMENT-POWER-RESOLUTION.md) | Deployment runtime split, SLO baseline, release/rollback policy |
 
 ### FinOps source of truth (GitHub + Vercel)
 

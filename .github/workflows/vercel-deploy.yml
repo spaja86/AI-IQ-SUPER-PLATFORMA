@@ -24,6 +24,31 @@ on:
         description: 'Razlog manuelnog pokretanja'
         required: false
         default: 'Manuelni deploy trigger'
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+      verify_url:
+        description: 'Opcioni URL za post-deploy health check (npr. https://ai-iq-super-platforma.vercel.app/api/health)'
+        required: false
+        default: ''
+      rollback_hook_url:
+        description: 'Opcioni rollback deploy hook URL (aktivira se ako health check padne)'
+        required: false
+        default: ''
+      confirm_production:
+        description: 'Za production unesite: DEPLOY_PRODUCTION'
+        required: false
+        default: ''
+
+concurrency:
+  group: vercel-deploy-${{ github.event.inputs.environment || github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -32,8 +57,69 @@ jobs:
   deploy:
     name: ▲ Manualni Vercel Deploy Hook
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'staging' }}
 
     steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 🛑 Production confirmation gate
+        run: |
+          if [ "${{ github.event.inputs.environment }}" = "production" ] && [ "${{ github.event.inputs.confirm_production }}" != "DEPLOY_PRODUCTION" ]; then
+            echo "❌ Production deploy zahteva confirm_production=DEPLOY_PRODUCTION"
+            exit 1
+          fi
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔍 TypeScript gate
+        run: npx tsc --noEmit
+
+      - name: 🧪 Smoke test gate
+        run: npm run test:smoke
+
+      - name: 🚦 Predeploy gate
+        run: npm run predeploy:check
+
+      - name: 🛡️ Dependency audit gate
+        run: npm audit --audit-level=high
+
+      - name: 🔑 Secret heuristics gate
+        run: |
+          python <<'PY'
+          import re
+          import subprocess
+          import sys
+          from pathlib import Path
+          tracked = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          patterns = [
+              re.compile(r'github_pat_[A-Za-z0-9_]{20,}'),
+              re.compile(r'gh[pousr]_[A-Za-z0-9]{20,}'),
+              re.compile(r'AKIA[0-9A-Z]{16}'),
+              re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----'),
+          ]
+          for rel in tracked:
+              p = Path(rel)
+              if p.suffix.lower() in {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico', '.pdf', '.lock', '.svg'}:
+                  continue
+              try:
+                  text = p.read_text(encoding='utf-8')
+              except Exception:
+                  continue
+              for pat in patterns:
+                  if pat.search(text):
+                      print(f'Potential secret detected: {rel}')
+                      sys.exit(1)
+          print('No likely secrets detected.')
+          PY
+
       - name: 🔍 Preflight — kontekst pokretanja
         run: |
           echo "## 🔍 Vercel Deploy Hook — Preflight" >> "$GITHUB_STEP_SUMMARY"
@@ -44,6 +130,8 @@ jobs:
           echo "| **Ref** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Environment** | \`${{ github.event.inputs.environment }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Run ID / Attempt** | \`${{ github.run_id }} / ${{ github.run_attempt }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Vreme** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🚀 Pokretanje Vercel Deploy Hook
@@ -69,6 +157,30 @@ jobs:
             fi
           fi
 
+      - name: 🩺 Post-deploy health check
+        id: health
+        if: ${{ github.event.inputs.verify_url != '' }}
+        run: |
+          echo "🔎 Provera health URL: ${{ github.event.inputs.verify_url }}"
+          HTTP_CODE=$(curl -sS -o /tmp/vercel_health_response.txt -w "%{http_code}" "${{ github.event.inputs.verify_url }}")
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 400 ]; then
+            echo "✅ Health check OK (HTTP $HTTP_CODE)"
+            echo "status=ok" >> "$GITHUB_OUTPUT"
+          else
+            echo "❌ Health check failed (HTTP $HTTP_CODE)"
+            cat /tmp/vercel_health_response.txt || true
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      - name: 🔁 Rollback hook (on failure)
+        if: ${{ failure() && github.event.inputs.rollback_hook_url != '' }}
+        run: |
+          echo "⚠️ Deploy neuspešan, pokušavam rollback hook..."
+          ROLLBACK_CODE=$(curl -sS -o /tmp/vercel_rollback_response.json -w "%{http_code}" -X POST "${{ github.event.inputs.rollback_hook_url }}")
+          echo "Rollback HTTP: $ROLLBACK_CODE"
+          cat /tmp/vercel_rollback_response.json || true
+
       - name: 📊 Deploy Audit Log
         if: always()
         run: |
@@ -79,6 +191,8 @@ jobs:
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Autor** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Environment** | ${{ github.event.inputs.environment }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Run ID / Attempt** | ${{ github.run_id }} / ${{ github.run_attempt }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Vreme** | $(date -u +%Y-%m-%dT%H:%M:%SZ) |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Pokretanje** | ${{ github.event_name }} |" >> "$GITHUB_STEP_SUMMARY"
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then

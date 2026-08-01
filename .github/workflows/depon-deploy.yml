@@ -18,11 +18,20 @@ on:
         default: 'staging'
         type: choice
         options:
+          - dev
           - staging
           - production
+      verify_url:
+        description: 'Opcioni post-deploy health URL'
+        required: false
+        default: ''
+      confirm_production:
+        description: 'Za production unesite: DEPLOY_PRODUCTION'
+        required: false
+        default: ''
 
 concurrency:
-  group: depon-deploy-${{ github.ref }}
+  group: depon-deploy-${{ github.ref }}-${{ github.event.inputs.environment || 'staging' }}
   cancel-in-progress: false
 
 permissions:
@@ -97,13 +106,32 @@ jobs:
           fi
           echo "✅ No .env files in DEPON"
 
+      - name: Dependency audit gate
+        run: npm audit --audit-level=high
+
+  # ─── Production gate ─────────────────────────────────────────────────────────
+  production_gate:
+    name: Production Approval Gate
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: [validate, security]
+    steps:
+      - name: Validate production confirmation token
+        run: |
+          TARGET_ENV="${{ github.event.inputs.environment || 'staging' }}"
+          if [ "$TARGET_ENV" = "production" ] && [ "${{ github.event.inputs.confirm_production }}" != "DEPLOY_PRODUCTION" ]; then
+            echo "❌ Production deploy zahteva confirm_production=DEPLOY_PRODUCTION"
+            exit 1
+          fi
+          echo "✅ Environment gate prošao za: $TARGET_ENV"
+
   # ─── Phase 1 DEPON Deploy (Auth, Dashboard, Analytics, Payments) ─────────────
   deploy-phase-1:
     name: Deploy Phase 1 — DEPON-01 to DEPON-04
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    needs: [validate, security]
+    needs: [validate, security, production_gate]
     if: github.ref == 'refs/heads/main' || github.event.inputs.depon_id == 'all' || startsWith(github.event.inputs.depon_id, 'DEPON-0')
     environment: ${{ github.event.inputs.environment || 'staging' }}
     steps:
@@ -237,12 +265,34 @@ jobs:
             console.log('✅ All 50 US states present');
           "
 
+  # ─── Post-deploy health verification ────────────────────────────────────────
+  health_check:
+    name: Post-Deploy Health Check
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: scale-check
+    steps:
+      - name: Verify health endpoint (optional)
+        run: |
+          if [ -z "${{ github.event.inputs.verify_url }}" ]; then
+           echo "ℹ️ verify_url nije prosleđen — preskačem health proveru."
+           exit 0
+          fi
+          HTTP_CODE=$(curl -sS -o /tmp/depon_health_response.txt -w "%{http_code}" "${{ github.event.inputs.verify_url }}")
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 400 ]; then
+           echo "✅ DEPON health check OK (HTTP $HTTP_CODE)"
+          else
+           echo "❌ DEPON health check failed (HTTP $HTTP_CODE)"
+           cat /tmp/depon_health_response.txt || true
+           exit 1
+          fi
+
   # ─── Final deploy summary ─────────────────────────────────────────────────────
   summary:
     name: Deploy Summary
     runs-on: ubuntu-latest
     permissions: {}
-    needs: scale-check
+    needs: [scale-check, health_check]
     if: always()
     steps:
       - name: Deploy summary
@@ -267,3 +317,6 @@ jobs:
           echo "**Scale**: 120,000,000 users | 50 US states | 12 DEPON modules" >> $GITHUB_STEP_SUMMARY
           echo "**Deployed by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
           echo "**Environment**: ${{ github.event.inputs.environment || 'staging' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run ID / Attempt**: ${{ github.run_id }} / ${{ github.run_attempt }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Health-check status**: ${{ needs.health_check.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Rollback policy**: Stop deployment progression na prvom failed gate-u; pokrenuti rollback runbook i ponovni deploy iz poslednje stabilne revizije." >> $GITHUB_STEP_SUMMARY
