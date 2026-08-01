@@ -21,6 +21,9 @@ on:
       - '.agent-config.json'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   race-validation:
     if: github.event_name != 'pull_request' || contains(join(github.event.pull_request.labels.*.name, ','), 'race:another-races') || contains(join(github.event.pull_request.labels.*.name, ','), 'race:fairness-review')
