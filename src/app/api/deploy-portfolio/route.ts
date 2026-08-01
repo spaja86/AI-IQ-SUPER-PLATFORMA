@@ -51,6 +51,12 @@ const workflowStatus = [
     trigger: 'manual, zahteva confirmToken za production',
     status: 'active',
   },
+  {
+    workflow: 'deploy-platforma.yml',
+    opis: 'Deploy Platforma hub i Mekartor rollout putanje sa quality gate-ovima i audit logom',
+    trigger: 'push na deploy-platforma/mekartor putanje + manual dispatch',
+    status: 'active',
+  },
 ];
 
 /** Registrovani agenti i njihov deployment-relevantan status */

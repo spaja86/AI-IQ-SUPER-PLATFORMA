@@ -86,6 +86,11 @@ export const deployPlatformaSekvence: Sekvenca[] = [
           opis: 'Sinhronizacija sa IO-OPENUI-AO: config verzije, labels, milestones. Pokretanje: push na main, weekly schedule.',
           ikona: '🔗',
         },
+        {
+          naslov: '🧭 Mekartor rollout',
+          opis: 'Repo-local staged rollout kroz deploy-platforma workflow: 10% canary → 50% staging → 100% production, bez downstream linked-repo promene.',
+          ikona: '🧭',
+        },
       ],
     },
   },
@@ -105,6 +110,8 @@ export const deployPlatformaSekvence: Sekvenca[] = [
         ['Error rate', '< 0.1%', '> 1%', 'CI / Release Ops'],
         ['Gaming session completion', '≥ 95%', '< 80%', 'Gaming'],
         ['Fairness compliance', '100%', '< 100%', 'Gaming'],
+        ['Mekartor catalog sync latency p95', '≤ 250ms', '> 1s', 'Platform Ops'],
+        ['Mekartor health endpoint SLA', '≥ 99.95%', '< 99%', 'Operations'],
         ['Checkout fail rate', '< 2%', '> 5%', 'Billing'],
         ['Auth fail rate', '< 5%', '> 15%', 'Auth'],
       ],
@@ -171,6 +178,7 @@ export const deployPlatformaSekvence: Sekvenca[] = [
         'GitHub Actions: Quality gates — lint, test, smoke, predeploy, security pre svakog deploya',
         'OMEGA JWT + Vault: Server-side only — OMEGA_JWT_SECRET + OMEGA_VAULT_KEY u prod secrets',
         'Nova Generacija: Feature flag 20% canary → 50% → 100% staged rollout',
+        'Mekartor: repo-local staged rollout 10% canary → 50% staging → 100% production',
         'deploy_status.json: Javni artifact na /deploy_status.json posle svakog CI run-a',
       ],
     },
@@ -186,6 +194,11 @@ export const deployPlatformaSekvence: Sekvenca[] = [
           naslov: 'Nova Generacija staged rollout: 20% → 50% → 100%',
           opis: 'Validacija KPI-jeva na svakom pragu pre promocije na sledeći nivo. Exit kriterijum: sve nova-generacija metrike u zelenoj zoni.',
           ikona: '⚡',
+        },
+        {
+          naslov: 'Mekartor staged rollout',
+          opis: 'Repo-local rollout uz /api/mekartor health signal, deploy hook fallback i audit-ready PR governance.',
+          ikona: '🧭',
         },
         {
           naslov: 'SpajaPro 13 / 14 / 15 stabilizacija',
@@ -236,6 +249,11 @@ export const deployPlatformaSekvence: Sekvenca[] = [
           naslov: 'GET /api/deploy-portfolio',
           opis: 'Portfolio pregled: sve platforme sa statusom, runtime-om, KPI snapshot-om i metapodacima',
           ikona: '📋',
+        },
+        {
+          naslov: 'GET /api/mekartor',
+          opis: 'Repo-local Mekartor health i rollout contract payload',
+          ikona: '🧭',
         },
         {
           naslov: 'POST /api/deploy-platforma/trigger',

@@ -143,6 +143,9 @@
 - [ ] Postaviti `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - [ ] Postaviti `OPENAI_API_KEY`
 - [ ] Postaviti `CRON_SECRET` (random string za scheduler zaštitu)
+- [ ] Postaviti `VERCEL_DEPLOY_HOOK_MEKARTOR` ako se koristi manual fallback deploy
+- [ ] Postaviti `MEKARTOR_STATUS_WEBHOOK_URL` ako se koristi eksterni rollout signal
+- [ ] Postaviti `MEKARTOR_UPSTREAM_URL` ako se koristi budući katalog feed
 - [ ] Proveriti da nema hardkodovanih kredencijala u kodu (`git grep -i "password\|secret\|key" --include="*.ts"`)
 - [ ] Potvrditi `NODE_ENV=production` na Vercel
 
@@ -172,6 +175,8 @@
 - [ ] Potvrditi da svi domeni u `platforme` podaci su ispravni
 - [ ] Testirati `GET /api/health` — mora biti `"status": "healthy"`
 - [ ] Testirati `GET /api/industrija` — mora biti `"status": "operational"`
+- [ ] Testirati `GET /api/mekartor` — mora biti `"status": "healthy"`
+- [ ] Testirati `GET /api/deploy-platforma/health/mekartor` — mora vratiti healthy=true
 - [ ] Potvrditi `support@spaja.rs`, `billing@spaja.rs`, `business@spaja.rs`, `sales@spaja.rs`, `confirmations@spaja.rs`, `tech@spaja.rs`
 - [ ] Potvrditi `security@kompanija-spaja.rs` kao incident/security kontakt
 - [ ] Potvrditi da je `spajicn@yahoo.com` dokumentovan kao fallback/owner kontakt
@@ -206,6 +211,7 @@
 | P0-06 | `npm run build` prolazi | Nema build grešaka |
 | P0-07 | `npm run test:smoke` prolazi | Svi kritični tokovi rade |
 | P0-08 | `npm run predeploy:check` + security gate prolaze | Deploy governance je spreman za promociju |
+| P0-09 | Mekartor health i staged rollout validirani | `/api/mekartor` + deploy health probe su zeleni |
 
 ### P1 — Visok prioritet (unutar prve sedmice)
 

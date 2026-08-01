@@ -43,7 +43,24 @@
         "staging",
         "production"
       ],
-      "workflowFile": ".github/workflows/vercel-deploy.yml"
+      "workflowFile": ".github/workflows/vercel-deploy.yml",
+      "mekartorReleaseTrack": {
+        "enabled": true,
+        "runtime": "Next.js 16",
+        "manualDeployHookEnv": "VERCEL_DEPLOY_HOOK_MEKARTOR",
+        "healthEndpoint": "/api/mekartor",
+        "promotion": [
+          "dev",
+          "staging",
+          "production"
+        ],
+        "rollout": [
+          "10% canary",
+          "50% staging",
+          "100% production"
+        ],
+        "linkedRepoImpact": "none"
+      }
     },
     "security-scanner": {
       "enabled": true,
@@ -194,7 +211,13 @@
       "linkedReposV2": [
         {
           "repo": "spaja86/IO-OPENUI-AO",
-          "syncFields": ["versions", "labels", "milestones", "agent-config", "nova-generacija-gaming-refs"],
+          "syncFields": [
+            "versions",
+            "labels",
+            "milestones",
+            "agent-config",
+            "nova-generacija-gaming-refs"
+          ],
           "syncTrigger": "on-change",
           "trackingDoc": "docs/MULTI-REPO-LINKS.md"
         }
@@ -380,9 +403,36 @@
       "planned": 8
     },
     "scalingPhases": {
-      "phase1": { "userRange": "0-10M", "regions": 3, "depons": ["DEPON-01","DEPON-02","DEPON-03","DEPON-04"] },
-      "phase2": { "userRange": "10-50M", "regions": 6, "depons": ["DEPON-05","DEPON-06","DEPON-07","DEPON-08"] },
-      "phase3": { "userRange": "50-120M", "regions": 12, "depons": ["DEPON-09","DEPON-10","DEPON-11","DEPON-12"] }
+      "phase1": {
+        "userRange": "0-10M",
+        "regions": 3,
+        "depons": [
+          "DEPON-01",
+          "DEPON-02",
+          "DEPON-03",
+          "DEPON-04"
+        ]
+      },
+      "phase2": {
+        "userRange": "10-50M",
+        "regions": 6,
+        "depons": [
+          "DEPON-05",
+          "DEPON-06",
+          "DEPON-07",
+          "DEPON-08"
+        ]
+      },
+      "phase3": {
+        "userRange": "50-120M",
+        "regions": 12,
+        "depons": [
+          "DEPON-09",
+          "DEPON-10",
+          "DEPON-11",
+          "DEPON-12"
+        ]
+      }
     },
     "deployWorkflow": ".github/workflows/depon-deploy.yml",
     "testSuite": "src/tests/depon/depon-registry.test.ts",
@@ -479,6 +529,36 @@
         "personaCount": 50,
         "octaveCount": 16,
         "hipermrezaCvorova": 256
+      }
+    },
+    "mekartor": {
+      "status": "active-development",
+      "labels": [
+        "mekartor",
+        "mekartor:review",
+        "mekartor:validated"
+      ],
+      "workflows": [
+        ".github/workflows/deploy-platforma.yml",
+        ".github/workflows/vercel-deploy.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/DEPLOY-PORTFOLIO.md",
+        "docs/GO-LIVE.md",
+        "docs/DIREKŠN-DEPLOY-SPAJA.md",
+        "docs/MAKSIMUM-ALL-PLATFORMA-DEPLOY.md"
+      ],
+      "kpis": {
+        "catalogSyncLatencyP95": "250ms",
+        "healthSla": "99.95%",
+        "buildDurationMaxMin": 3,
+        "manualDeployRecoveryMaxMin": 15
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for Mekartor rollout"
       }
     }
   }

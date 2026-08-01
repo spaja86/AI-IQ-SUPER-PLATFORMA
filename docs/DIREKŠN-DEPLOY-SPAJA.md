@@ -51,7 +51,7 @@ production (Vercel) [FAZA 10–12: monitoring, rollback ready, sign-off]
 - [ ] Otvoriti GitHub Issue sa deployment scope-om i linkovima na sve platforme
 - [ ] Kreirati audit-ready PR sa sekcijama: Summary, Linked Issue, Cross-repo Impact, Validation, Rollout Plan, KPI Impact, Rollback
 - [ ] Dodeliti `human-review` → `@spaja86` — **merge zabranjen bez odobrenja**
-- [ ] Labelovati PR: `agent:config-change`, `nova-generacija`, `nova-generacija:review`
+- [ ] Labelovati PR: `agent:config-change`, `nova-generacija`, `nova-generacija:review`, `mekartor`, `mekartor:review`
 - [ ] Potvrditi tok: **issue → PR → review → release**
 
 **Governance pravila:**
@@ -93,6 +93,9 @@ Postaviti sve env vars u Vercel za `Production` okruženje.
 ### Vercel governance
 - [ ] `VERCEL_PROJECT_ID`, `VERCEL_TEAM_ID`, `VERCEL_TOKEN`
 - [ ] `VERCEL_DEPLOY_HOOK_AI_IQ` (za `deploy-platforma.yml` i `vercel-deploy.yml`)
+- [ ] `VERCEL_DEPLOY_HOOK_MEKARTOR` (opciono — fallback hook za Mekartor staged rollout)
+- [ ] `MEKARTOR_STATUS_WEBHOOK_URL` (opciono — eksterni status signal)
+- [ ] `MEKARTOR_UPSTREAM_URL` (opciono — budući katalog source)
 - [ ] `SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED=true` (posle slanja forme)
 - [ ] `SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED=true` (posle slanja forme)
 - [ ] `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true` (posle slanja forme)
@@ -187,34 +190,42 @@ Svi workflow-i postoje i aktivni su. Potvrditi da svaki prolazi na `main` branch
 - [ ] KPI check: eval p99 ≤50ms, build ≤3min, uptime ≥99.99%
 - [ ] Verifikovati: `GET /api/nova-generacija` → HTTP 200
 
-### 5c. IO OPENUI AO (`platforms/io-openui-ao/`)
+### 5c. Mekartor (`platforms/mekartor/` + `/mekartor`)
+- [ ] Vercel Git Integration deploye Mekartor surface kroz isti projekat kao SUPER PLATFORMA
+- [ ] Verifikovati: `GET /api/mekartor` → `status: healthy`
+- [ ] Verifikovati: `GET /api/deploy-platforma/health/mekartor` → healthy=true
+- [ ] Rollout: 10% canary → 50% staging → 100% production
+- [ ] KPI check: catalog sync latency p95 ≤250ms, health SLA ≥99.95%, manual recovery ≤15 min
+- [ ] Potvrditi da nema downstream linked-repo zavisnosti ka `spaja86/IO-OPENUI-AO`
+
+### 5d. IO OPENUI AO (`platforms/io-openui-ao/`)
 - [ ] Build i test `platforms/io-openui-ao/`
 - [ ] Sinhronizovati sa `spaja86/IO-OPENUI-AO` via `multi-repo-sync-agent`
 - [ ] Ažurirati `docs/MULTI-REPO-LINKS.md` sa downstream deployment referencama
 
-### 5d. AI IQ Menjačnica (`platforms/menjacnica/`)
+### 5e. AI IQ Menjačnica (`platforms/menjacnica/`)
 - [ ] Build i deploy `platforms/menjacnica/`
 - [ ] Pokrenuti: `menjacnica-fee.test.ts`, `menjacnica-novcanik.test.ts`, `menjacnica-max-order.test.ts`
 
-### 5e. AI IQ World Bank (`platforms/world-bank/`)
+### 5f. AI IQ World Bank (`platforms/world-bank/`)
 - [ ] Build i deploy `platforms/world-bank/`
 - [ ] Verifikovati health endpoint i database konekciju
 
-### 5f. Poslovni Novčanik (`platforms/poslovni-novcanik/`)
+### 5g. Poslovni Novčanik (`platforms/poslovni-novcanik/`)
 - [ ] Build i deploy `platforms/poslovni-novcanik/`
 - [ ] Pokrenuti: `novcanik-ledger.test.ts`, `wollet-balance.test.ts`, `wollet-audit.test.ts`, `wollet-transactions.test.ts`
 
-### 5g. Kompanija SPAJA (`platforms/kompanija-spaja/`) — 🔧 U pripremi
+### 5h. Kompanija SPAJA (`platforms/kompanija-spaja/`) — 🔧 U pripremi
 - [ ] Verifikovati readiness kriterijume pre deploymenta
 - [ ] Pokrenuti build, lint, smoke test kao preduslov za produkcioni deploy
 
-### 5h. Blockchain (Smart Contracts — Polygon)
+### 5i. Blockchain (Smart Contracts — Polygon)
 - [ ] `npm run blockchain:compile` — kompajlirati smart contracts
 - [ ] `npm run blockchain:deploy:testnet` — deploy na Polygon Amoy (testnet)
 - [ ] Verifikovati contracts na testnet (2–3 dana prozor verifikacije)
 - [ ] `npm run blockchain:deploy:mainnet` — deploy na Polygon mainnet (**human approval required**)
 
-### 5i. DEPON Multi-phase Pipeline
+### 5j. DEPON Multi-phase Pipeline
 Pokrenuti via `.github/workflows/depon-deploy.yml`:
 
 | Faza | DEPONs | Regioni | User Scale | Status |

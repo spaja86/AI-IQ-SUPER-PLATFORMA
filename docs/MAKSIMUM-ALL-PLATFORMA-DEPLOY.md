@@ -50,7 +50,7 @@
 - [ ] Open GitHub Issue with deployment scope and links to all platforms
 - [ ] Create audit-ready PR with all required sections: Summary, Linked Issue, Cross-repo impact, Validation, Rollout Plan, Cost Impact & Rollback
 - [ ] Assign human-review to `@spaja86` — **merge must not happen without approval**
-- [ ] Label PR: `agent:config-change`, `nova-generacija`, `nova-generacija:review`
+- [ ] Label PR: `agent:config-change`, `nova-generacija`, `nova-generacija:review`, `mekartor`, `mekartor:review`
 - [ ] Confirm PR follows flow: **issue → PR → review → release**
 
 **Governance rules:**
@@ -95,6 +95,9 @@ Set all env vars in Vercel for the `Production` environment.
 - [ ] `SPAJA_VERCEL_CDN_PROXY_REQUEST_SUBMITTED=true` (after submitting form)
 - [ ] `SPAJA_GITHUB_ENTERPRISE_REQUEST_SUBMITTED=true` (after submitting form)
 - [ ] `SPAJA_OPENAI_ENTERPRISE_REQUEST_SUBMITTED=true` (after submitting form)
+- [ ] `VERCEL_DEPLOY_HOOK_MEKARTOR` (optional fallback deploy hook)
+- [ ] `MEKARTOR_STATUS_WEBHOOK_URL` (optional rollout status webhook)
+- [ ] `MEKARTOR_UPSTREAM_URL` (optional future upstream source)
 
 > **Security boundary:** All secrets go into GitHub Secrets / Vercel Environment Variables. Never commit `.env` files or hardcoded credentials.
 
@@ -185,34 +188,40 @@ All workflows exist and are active. Verify each run passes before promotion.
 - [ ] KPI checks: eval p99 ≤50ms, build ≤3min, uptime ≥99.99%
 - [ ] Verify: `GET /api/nova-generacija` → HTTP 200
 
-### 5c. IO OPENUI AO (`platforms/io-openui-ao/`)
+### 5c. Mekartor (`platforms/mekartor/` + `/mekartor`)
+- [ ] Verify: `GET /api/mekartor` → `status: healthy`
+- [ ] Verify: `GET /api/deploy-platforma/health/mekartor` → healthy=true
+- [ ] Rollout `10% canary → 50% staging → 100% production`
+- [ ] Confirm repo-local release — no linked repo change required
+
+### 5d. IO OPENUI AO (`platforms/io-openui-ao/`)
 - [ ] Build and test `platforms/io-openui-ao/`
 - [ ] Sync with `spaja86/IO-OPENUI-AO` via `multi-repo-sync-agent`
 - [ ] Update `docs/MULTI-REPO-LINKS.md` with downstream deployment references
 
-### 5d. AI IQ Menjačnica (`platforms/menjacnica/`)
+### 5e. AI IQ Menjačnica (`platforms/menjacnica/`)
 - [ ] Build and deploy `platforms/menjacnica/`
 - [ ] Run `menjacnica-fee.test.ts`, `menjacnica-novcanik.test.ts`, `menjacnica-max-order.test.ts`
 
-### 5e. AI IQ World Bank (`platforms/world-bank/`)
+### 5f. AI IQ World Bank (`platforms/world-bank/`)
 - [ ] Build and deploy `platforms/world-bank/`
 - [ ] Verify health endpoint and database connectivity
 
-### 5f. Poslovni Novčanik (`platforms/poslovni-novcanik/`)
+### 5g. Poslovni Novčanik (`platforms/poslovni-novcanik/`)
 - [ ] Build and deploy `platforms/poslovni-novcanik/`
 - [ ] Run `novcanik-ledger.test.ts`, `wollet-balance.test.ts`, `wollet-audit.test.ts`
 
-### 5g. Kompanija SPAJA (`platforms/kompanija-spaja/`)
+### 5h. Kompanija SPAJA (`platforms/kompanija-spaja/`)
 - [ ] **Status: 🔧 In preparation** — verify readiness criteria before deploying
 - [ ] Run build, lint, smoke test as a prerequisite for production deploy
 
-### 5h. Blockchain (Smart Contracts)
+### 5i. Blockchain (Smart Contracts)
 - [ ] `npm run blockchain:compile` — compile smart contracts
 - [ ] `npm run blockchain:deploy:testnet` — deploy to Polygon Amoy (testnet)
 - [ ] Verify contracts on testnet (2–3 days verification window)
 - [ ] `npm run blockchain:deploy:mainnet` — deploy to Polygon mainnet (**human approval required**)
 
-### 5i. DEPON Multi-phase Pipeline
+### 5j. DEPON Multi-phase Pipeline
 Trigger via `.github/workflows/depon-deploy.yml`:
 
 | Phase | DEPONs | Regions | User Scale | Status |

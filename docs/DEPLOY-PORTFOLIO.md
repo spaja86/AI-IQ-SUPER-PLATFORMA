@@ -26,6 +26,7 @@ Ovaj dokument je centralni referentni registar svih platformi u ekosistemu, njih
 | 🚀 OMEGA AI za Vercel | — | Node.js | ✅ Aktivan | — | — | @spaja86 |
 | 🏭 Kompanija SPAJA | `platforms/kompanija-spaja/` | Next.js | 🔧 U pripremi | — | — | @spaja86 |
 | ⚡ Nova Generacija | `platforms/nova-generacija/` | Next.js 16 + SpajaPro 16 | ✅ Aktivan | 🚀 Da | `/api/nova-generacija` | @spaja86 |
+| 🧭 Mekartor | `platforms/mekartor/` + `/mekartor` | Next.js 16 | ✅ Aktivan | 🚀 Da | `/api/mekartor` | @spaja86 |
 
 **API**: `GET /api/deploy-portfolio` — live JSON pregled svih platformi sa KPI snapshot-om.
 
@@ -58,6 +59,7 @@ production (Vercel)
 - Human review obavezan za deploy, config, security i cross-repo promene
 - PR opis sadrži: rollout plan, rollback plan, KPI uticaj, Cross-repo impact
 - Deploy credentials ostaju u GitHub/Vercel secrets — **nikada u repo-u**
+- Mekartor koristi repo-local rollout bez linked-repo zavisnosti, ali i dalje prati audit trail u `docs/MULTI-REPO-LINKS.md`
 - Promocija prati redosled `dev → staging → production`
 
 ---
@@ -71,6 +73,7 @@ production (Vercel)
 | `nova-generacija.yml` | nova-generacija label/putanje | NG KPI gate: ≤50ms eval, ≤3min build | ✅ Active |
 | `vercel-deploy.yml` | manual dispatch | Fallback Vercel deploy hook trigger | ✅ Active |
 | `depon-deploy.yml` | branch trigger | DEPON multi-phase pipeline | ✅ Active |
+| `deploy-platforma.yml` | main + manual | Deploy Platforma hub + Mekartor rollout paths | ✅ Active |
 | `blockchain-deploy.yml` | manual | Smart contract deployment (Polygon) | ✅ Active |
 
 ---
@@ -142,6 +145,8 @@ Canary (10–20%)  →  Staging (50%)  →  Production (100%)
 | Error rate | < 0.1% | > 1% | CI / Release Ops |
 | Gaming session completion | ≥ 95% | < 80% | Gaming |
 | Fairness compliance | 100% | < 100% | Gaming |
+| Mekartor catalog sync latency p95 | ≤ 250ms | > 1s | Platform Ops |
+| Mekartor health endpoint SLA | ≥ 99.95% | < 99% | Operations |
 | Checkout fail rate | < 2% | > 5% | Billing |
 | Auth fail rate | < 5% | > 15% | Auth |
 
