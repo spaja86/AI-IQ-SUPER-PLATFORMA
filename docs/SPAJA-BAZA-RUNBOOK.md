@@ -240,6 +240,131 @@
 
 ---
 
+## 11) INDEKSIRANJE 5 — Staged Auto-Promotion (Orkestracija svakog stupnja)
+
+### Šta je INDEKSIRANJE 5?
+
+Meta-pipeline koji automatski promovira svaki chunk kroz sve stupnjeve (v1→v2→v3→v4), uz quality gates i audit log po stupnju.
+
+### API: Pokretanje staged auto-promotion (promoteAll)
+
+- API: `POST /api/spaja-baza-knowledge/index`
+- Body:
+```json
+{
+  "promoteAll": true,
+  "batchSize": 50,
+  "maxBatches": 10,
+  "promoteCooldownMs": 500
+}
+```
+- Pokreće sve stupnjeve redom (v1→v2, v2→v3, v3→v4), uz cooldown između stupnjeva.
+- Vraća `stageBreakdown` u response-u sa stanjem posle promocije.
+- Zahteva `Authorization` header (autentifikovan korisnik).
+
+### API: Stage Distribution Dashboard
+
+- API: `GET /api/spaja-baza-knowledge/index-status`
+- Vraća:
+```json
+{
+  "sistem": "SPAJA BAZA Knowledge Index — Stage Distribution",
+  "stageBreakdown": {
+    "v1": 12,
+    "v2": 8,
+    "v3": 45,
+    "v4": 80,
+    "total": 145,
+    "targetVersion": "v4",
+    "completionPct": 55.17
+  },
+  "queue": { "notIndexed": 5, "indexed": 145, "failed": 2, ... },
+  "jobs24h": { ... },
+  "timestamp": "..."
+}
+```
+
+### Nightly Auto-Promotion (GitHub Actions)
+
+Workflow `.github/workflows/index-auto-promote.yml` pokreće se automatski svake noći u 03:00 UTC.
+
+Ručno pokretanje:
+```bash
+# Iz GitHub UI: Actions → "Indeksiranje — Staged Auto-Promotion" → Run workflow
+# Ili direktno:
+NEXT_PUBLIC_SUPABASE_URL=<url> SUPABASE_SERVICE_ROLE_KEY=<key> OPENAI_API_KEY=<key> \
+  npx tsx scripts/index-auto-promote.ts
+```
+
+Env varijable:
+| Varijabla | Obavezna | Opis |
+|-----------|----------|------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Da | Supabase URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Da | Service role key |
+| `OPENAI_API_KEY` | Za v4 | Embedding API ključ |
+| `PROMOTE_ALL_BATCH_SIZE` | Ne | Default: 50 |
+| `PROMOTE_ALL_MAX_BATCHES` | Ne | Default: 10 |
+| `PROMOTE_ALL_COOLDOWN_MS` | Ne | Default: 500 |
+
+### Quality Gates
+
+| Tranzicija | Gate | Opis |
+|-----------|------|------|
+| v1→v2 | `content.length ≥ 100` | Sadržaj mora biti dovoljno dug za korisne bigrame |
+| v2→v3 | `chunk_index ≥ 0` | `chunk_index` mora biti postavljen za position_score |
+| v3→v4 | `OPENAI_API_KEY` je postavljen | Embedding API mora biti dostupan |
+
+Blokirani chunk-ovi ostaju na trenutnom stupnju. Razlog blokiranja se loguje u `knowledge_index_stage_log.blocked_reason`.
+
+### Audit Log
+
+Svaka tranzicija logovana je u `knowledge_index_stage_log`:
+```sql
+SELECT chunk_id, from_version, to_version, success, blocked_reason, promoted_at
+FROM knowledge_index_stage_log
+WHERE batch_id = '<batch_id>'
+ORDER BY promoted_at DESC;
+```
+
+Sumarni pregled po stupnju:
+```sql
+SELECT * FROM knowledge_index_stage_summary;
+```
+
+### Monitoring: Chunk-ovi koji nisu na ciljnoj verziji
+
+```sql
+-- Broji chunk-ove koji nisu na v4 (ciljni stupanj)
+SELECT COUNT(*) FROM knowledge_chunks
+WHERE index_version <> 'v4' AND embedding_status = 'indexed';
+```
+
+### Incident: completionPct ne raste
+
+1. Proveri `GET /api/spaja-baza-knowledge/index-status` → `stageBreakdown.completionPct`.
+2. Proveri `knowledge_index_stage_log` za `success = false` i `blocked_reason`.
+3. Ako je v3→v4 blokiran: proveri `OPENAI_API_KEY` konfiguraciju.
+4. Ako je v1→v2 blokiran: proveri da li chunk-ovi imaju `content.length ≥ 100`.
+5. Pokreni `promoteAll` ručno sa manjim `batchSize` (npr. 10) i `maxBatches: 2`.
+6. Provjeri GitHub Actions log za workflow `index-auto-promote.yml`.
+
+### Rollback
+
+- Za zaustavljanje auto-promotion: onemogućite workflow `.github/workflows/index-auto-promote.yml`.
+- Za rollback stupnja: pokrenite indexiranje sa `indexVersion: v3, upgradeToV3: true`.
+- Audit log (`knowledge_index_stage_log`) ostaje nepromenjiv — bez gubitka podataka.
+
+### Nove DB objekte (migracija 021)
+
+| Objekat | Tip | Opis |
+|---------|-----|------|
+| `knowledge_index_stage_log` | Tabela | Audit trail za svaku tranziciju chunk-a |
+| `knowledge_index_stage_summary` | View | Agregati po verziji |
+| `idx_kc_not_v4` | Parcijalni indeks | Brzi upit za chunk-ove koji nisu na v4 |
+| `idx_kc_below_v3` | Parcijalni indeks | Brzi upit za chunk-ove ispod v3 |
+
+---
+
 ## PERTENIZACIJA 2 — Operativni koraci
 
 ### Aktivacija v2 po korisniku
