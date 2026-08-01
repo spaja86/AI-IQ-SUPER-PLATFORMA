@@ -119,6 +119,41 @@ The Nova Generacija release track introduces a new coordination layer for all ch
 5. Keep `.agent-config.json` `nova-generacija-agent.linkedReposV2` aligned with any newly added linked repo.
 6. All Nova Generacija gaming changes must include a cross-repo fairness audit reference.
 
+---
+
+## MAKSIMUM ALL PLATFORMA DEPLOY — Audit Trail
+
+### Initiative
+
+Full production deployment of all 6 platforms in the AI IQ SUPER PLATFORMA ecosystem.
+
+| Field | Value |
+|---|---|
+| Version | v42.35.0 |
+| Date | 2026-08-01 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/MAKSIMUM-ALL-PLATFORMA-DEPLOY.md` |
+| Changelog | `CHANGELOG.md` |
+
+### Cross-repo references
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — MAKSIMUM DEPLOY initiative | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: versions, labels, milestones, nova-generacija-gaming-refs, multi-repo-sync-agent config |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Confirm label schema alignment with this repo's shared label registry
+- Trigger `calculator-validator-agent` for gaming fairness verification
+- Update `docs/MULTI-REPO-LINKS.md` in IO-OPENUI-AO with bidirectional reference to this initiative
+- Confirm `multi-repo-sync-agent` sync coverage = 100%
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#MAKSIMUM-DEPLOY -> IO-OPENUI-AO#<follow-up issue>
+```
+
+---
+
 ### Nova Generacija KPI Enforcement
 
 The `nova-generacija-agent` enforces these KPIs on every cross-repo change:
