@@ -1,8 +1,14 @@
 /**
- * 💰 SpajaPro v6-v15 Planovi i Naplata — Pricing & Financial Model
+ * 💰 SpajaPro v6-v16+ Planovi i Naplata — Pricing & Financial Model
  *
- * Sistem za naplatu korišćenja SpajaPro v6-v15 endžina korisnicima.
+ * Sistem za naplatu korišćenja SpajaPro v6-v16+ endžina korisnicima.
  * Planovi su isti globalno — za Srbiju, Ameriku i ceo svet.
+ *
+ * Nova Generacija (v100+):
+ *  - SpajaPro 16 Hipermreza (16×16 = 256 čvorova)
+ *  - 50 OMEGA AI persona u 16 oktava
+ *  - Self-healing + Cross-platform sinhronizacija
+ *  - Industrijska Konvergencija (EU i međunarodni pristup)
  *
  * Finansijski tok:
  *  1. Korisnik plaća plan (mesečno ili godišnje)
@@ -295,6 +301,39 @@ export const spajaProPlanovi: SpajaPlan[] = [
       'API pristup za integracije',
     ],
     status: 'aktivan',
+  },
+  {
+    id: 'nova-generacija',
+    tip: 'unlimited',
+    naziv: 'SpajaPro Nova Generacija',
+    opis: 'Nova Generacija plan — SpajaPro 16 Hipermreza (16×16), 50 OMEGA AI persona u 16 oktava, self-healing, cross-platform sinhronizacija, industrijska konvergencija i kvantni dispatch',
+    ikona: '🌌',
+    endziniUkljuceni: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    multifunkcionalniRad: true,
+    spajaBazaPristup: true,
+    beskonacneSesije: true,
+    maxSesijaParalelno: 256,
+    maxUpitaDnevno: '∞',
+    prioritetPodrske: 'vip',
+    cenaUSD: { mesecno: 1999, godisnje: 19990, valuta: 'USD' },
+    mogucnosti: [
+      'SpajaPro v6-v16 Nova Generacija (11 endžina)',
+      'SpajaPro 16 Hipermreza — 16×16 = 256 čvorova',
+      '50 OMEGA AI persona u 16 oktava',
+      'Self-healing arhitektura — automatski rollback',
+      'Cross-platform real-time sinhronizacija',
+      'Kvantni dispatch (QGA-v1)',
+      'Industrijska konvergencija (EU/međunarodna mreža)',
+      'Nova Generacija Gaming — kvantni fairness',
+      'Multifunkcionalni rad (256 paralelno)',
+      'Beskonačne sesije — bez ograničenja',
+      'SPAJA BAZA — ispisivanje do iznemoglosti',
+      'Neograničeni upiti (∞)',
+      'Nova Generacija VIP podrška 24/7',
+      'Pristup svim budućim Nova Generacija verzijama',
+      'API pristup — Hipermreza dispatch endpoint',
+    ],
+    status: 'beta',
   },
 ];
 

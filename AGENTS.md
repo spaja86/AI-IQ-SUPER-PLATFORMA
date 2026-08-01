@@ -70,6 +70,22 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Identifikuje failing patterns (which tests fail most often)
   - Sinhronizuje metrics između repozitorijuma
 
+### nova-generacija-agent (NEW)
+- **Role**: Autonomna orkestracija i koordinacija Nova Generacija platforme
+- **Scope**: Svi repozitorijumi — SUPER-PLATFORMA, IO-OPENUI-AO i budući linked repo-ji
+- **Trigger**: PR sa labelom `nova-generacija`, push koji dira `nova-generacija` putanje, weekly sync
+- **Actions**:
+  - Validira sva `nova-generacija` Nova Generacija Nova Generacija modula pre aktivacije
+  - Proverava SpajaPro 16 Hipermreza (16×16, 256 čvorova) integritet
+  - Pokreće Nova Generacija Gaming fairness provere
+  - Sinhronizuje Nova Generacija feature flag status između repozitorijuma
+  - Verifikuje cross-platform persona sinhronizaciju (50 persona / 16 oktava)
+  - Enforces performance KPI: evaluacija ≤ 50ms, build ≤ 3 min
+  - Auto-labels PRs sa `nova-generacija:validated` ili `nova-generacija:needs-review`
+  - Pokreće self-healing dijagnostiku kada se detektuju anomalije
+  - Koordinira industrijska konvergencija između platformi
+  - Ostavlja audit log sa svim Nova Generacija metrikama
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -105,6 +121,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | 📋 Ready | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
 | calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
+| nova-generacija-agent | NG Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | All repos (Nova Generacija scope) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 

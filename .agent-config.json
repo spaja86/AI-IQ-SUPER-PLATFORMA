@@ -111,6 +111,82 @@
       "linkedRepos": [
         "spaja86/IO-OPENUI-AO"
       ]
+    },
+    "nova-generacija-agent": {
+      "enabled": true,
+      "featureId": "nova-generacija",
+      "scope": "all-repos",
+      "trigger": {
+        "pullRequestLabels": [
+          "nova-generacija",
+          "nova-generacija:review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "nova-generacija/**",
+          "ng/**"
+        ],
+        "paths": [
+          "src/lib/spaja-pro-nova-generacija.ts",
+          "src/lib/evolucija/nova-generacija.ts",
+          "src/lib/nova-generacija-gaming.ts",
+          "src/app/api/nova-generacija/**",
+          "src/app/nova-generacija/**",
+          "platforms/nova-generacija/**",
+          "docs/NOVA-GENERACIJA.md",
+          ".github/workflows/nova-generacija.yml"
+        ]
+      },
+      "validationPaths": [
+        "src/lib/spaja-pro-nova-generacija.ts",
+        "src/lib/evolucija/nova-generacija.ts",
+        "src/lib/nova-generacija-gaming.ts",
+        "src/app/api/nova-generacija/route.ts",
+        "docs/NOVA-GENERACIJA.md",
+        ".github/workflows/nova-generacija.yml"
+      ],
+      "requiredChecks": [
+        "npm run lint -- src/lib/spaja-pro-nova-generacija.ts src/lib/evolucija/nova-generacija.ts src/lib/nova-generacija-gaming.ts",
+        "npm run predeploy:check",
+        "npm audit --audit-level=high"
+      ],
+      "performanceKpis": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%",
+        "crossRepoSyncCoverage": "100%",
+        "securityScanCoverage": "100%"
+      },
+      "hipermreza": {
+        "dimenzija": "16x16",
+        "ukupnoCvorova": 256,
+        "ukupnoPersona": 50,
+        "ukupnoOktava": 16
+      },
+      "crossRepoSyncRequired": true,
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO",
+        "spaja86/AI-IQ-SUPER-PLATFORMA"
+      ],
+      "linkedReposV2": [
+        {
+          "repo": "spaja86/IO-OPENUI-AO",
+          "syncFields": ["versions", "labels", "milestones", "agent-config", "nova-generacija-gaming-refs"],
+          "syncTrigger": "on-change",
+          "trackingDoc": "docs/MULTI-REPO-LINKS.md"
+        }
+      ],
+      "autoLabels": {
+        "validated": "nova-generacija:validated",
+        "needsReview": "nova-generacija:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "selfHealing": {
+        "enabled": true,
+        "rollbackOnFailure": true,
+        "maxRetries": 3
+      }
     }
   },
   "orgSettings": {
@@ -256,6 +332,35 @@
         "docs/ROADMAP.md",
         "docs/MULTI-REPO-LINKS.md"
       ]
+    },
+    "nova-generacija": {
+      "status": "active-development",
+      "labels": [
+        "nova-generacija",
+        "nova-generacija:review",
+        "nova-generacija:validated",
+        "nova-generacija:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/nova-generacija.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/NOVA-GENERACIJA.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/SECURITY.md",
+        "docs/GO-LIVE.md"
+      ],
+      "kpis": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%",
+        "personaCount": 50,
+        "octaveCount": 16,
+        "hipermrezaCvorova": 256
+      }
     }
   }
 }

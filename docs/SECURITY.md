@@ -288,6 +288,64 @@ export const config = {
 
 ---
 
+## 🌌 Nova Generacija — Threat Model Extension
+
+### Nova Generacija Expanded Attack Surface
+
+With the introduction of SpajaPro 16 Hipermreza (16×16 = 256 nodes), 50 OMEGA AI personas, and cross-platform synchronization, the attack surface expands significantly.
+
+### Nova Generacija Threat Analysis
+
+| Pretnja | Nova Generacija kontekst | Mitigacija |
+|---------|--------------------------|-----------|
+| **Hipermreza Node Poisoning** | Kompromitovan čvor koji šalje lažne signale kroz 256-node mrežu | Svaki čvor verifikuje sinaptičke veze; sumnjivi čvorovi triggiruju self-healing |
+| **Cross-Platform Sync Hijacking** | Napadač presreće cross-platform sinhronizaciju persona | mTLS za sync kanale; audit log svakog sync event-a |
+| **Kvantni Dispatch Flood** | Preplavljivanje kvantnog dispatch sistema da blokira legitimne zahteve | Rate limiting per cluster; circuit breaker po oktavi |
+| **Self-Healing Bypass** | Napadač onemogućava self-healing mehanizam da sakrije kompromitovano stanje | Self-healing logs se štite kriptografskim lancem (SHA-256 kao audit log) |
+| **Nova Generacija Gaming Cheat** | Manipulacija kvantnog fairness sistema | Kvantni hash anti-cheat; server-side evaluacija ≤ 50ms; audit trail u IO-OPENUI-AO |
+| **Industrijska Mreza Infiltracija** | Kompromitovanje EU/međunarodnog industrijskog gateway-a | Zero Trust princip za sve cross-border konekcije; CodeQL na svim NG modulima |
+| **Feature Flag Manipulation** | Neovlašćena aktivacija `nova-generacija` flag-a na više od dozvoljenog procenta | Admin override samo uz authenticated session na clearance ≥ ADMIN |
+| **Multi-Repo Sync Poisoning** | Maliciozni commit koji se širi kroz multi-repo sync | Svaki sync validira sha256 hash promena pre primene |
+
+### Nova Generacija Security Controls
+
+| Control | Implementacija |
+|---|---|
+| CodeQL gate | `.github/workflows/nova-generacija.yml` — svi NG fajlovi |
+| Secret scanning | `nova-generacija-agent` skenira sve NG putanje na svakom PR |
+| npm audit | Obavezno za sve NG PR-ove |
+| Self-healing audit | SHA-256 lanac za sve self-healing operacije |
+| Cross-repo validation | Svaki sync zahteva validiranu referencu iz IO-OPENUI-AO |
+| Performance KPI | ≤ 50ms evaluacija — DoS prevencija kroz timeout |
+
+### Nova Generacija Incident Response
+
+#### Nivo NG-1 — Kompromitovani Hipermreza čvor
+1. Identifikovati sumnjivi čvor po audit logu: koristiti `getHipermrezaStatistika()` za greške po čvoru
+2. Self-healing automatski detektuje i izoluje čvor (`stanje: 'self-healing'`)
+3. Manuelno potvrditi izolaciju i pokrenuti reset čvora
+4. Pregledati sve sinaptičke veze kompromitovanog čvora
+
+#### Nivo NG-2 — Cross-Platform Sync Kompromitovan
+1. Odmah onemogućiti `crossPlatformSync: false` u NG konfiguraciji
+2. Pokrenuti audit svih sync operacija od poslednjeg čistog stanja
+3. Verifikovati integritet IO-OPENUI-AO cross-repo referenci
+4. Reestablish sync sa svežim mTLS materijalima
+
+#### Nivo NG-3 — Nova Generacija Gaming Anti-Cheat Zaobiđen
+1. Aktivirati kill switch: `kill-switch-gaming` feature flag
+2. Zaustaviti sve aktivne NG gaming sesije
+3. Pregledati kvantni hash lanac za sve sumnjive sesije
+4. Notifikovati IO-OPENUI-AO cross-repo audit tim
+
+---
+
+*SpajaUltraOmegaCore -∞Ω+∞ | Zero Trust | Kvantno-Otporno | Nova Generacija Security*
+
+*Kompanija SPAJA — Digitalna Industrija — v100.0.0+*
+
+---
+
 ## 📧 Prijavljivanje Bezbednosnih Ranjivosti
 
 **MOLIMO NE OTVARAJTE JAVNI ISSUE za bezbednosne ranjivosti.**
