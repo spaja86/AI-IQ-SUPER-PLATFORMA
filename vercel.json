@@ -16,6 +16,10 @@
     {
       "path": "/api/analiza-svega-refresh",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/deploy-health",
+      "schedule": "*/15 * * * *"
     }
   ]
 }

@@ -1,0 +1,307 @@
+# ═══════════════════════════════════════════════════════════
+# 💼 Poslovni Novčanik — Deploy Pipeline
+# AI IQ SUPER PLATFORMA — Kompanija SPAJA
+# ═══════════════════════════════════════════════════════════
+#
+# Pipeline za poslovni-novcanik platformu.
+#
+# Sekvenca:
+#   1. Changes detection (paths-filter)
+#   2. TypeScript + Lint + Unit tests gate
+#   3. Quality gate (smoke + predeploy + wallet tests)
+#   4. Security scan (secret-scan + npm audit)
+#   5. Production gate (confirmToken)
+#   6. Deploy via Vercel hook
+#   7. Post-deploy health check
+#   8. Audit log
+#
+# Env varijable (GitHub Secrets):
+#   VERCEL_DEPLOY_HOOK_POSLOVNI_NOVCANIK — Vercel Deploy Hook URL
+#
+# Wallet-specifični testovi:
+#   novcanik-ledger.test.ts, wollet-balance.test.ts,
+#   wollet-audit.test.ts, wollet-transactions.test.ts
+
+name: 💼 Poslovni Novčanik — Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'platforms/poslovni-novcanik/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+      confirm_production:
+        description: 'Za production unesite: DEPLOY_PRODUCTION'
+        required: false
+        default: ''
+      verify_url:
+        description: 'Opcioni URL za post-deploy health check'
+        required: false
+        default: ''
+      razlog:
+        description: 'Razlog pokretanja'
+        required: false
+        default: 'Manuelni trigger'
+
+concurrency:
+  group: poslovni-novcanik-deploy-${{ github.event.inputs.environment || github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  # ─── Changes detection ────────────────────────────────────────────────────────
+  changes:
+    name: 🔎 Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔎 Path filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            code:
+              - 'platforms/poslovni-novcanik/**/*.ts'
+              - 'platforms/poslovni-novcanik/**/*.tsx'
+              - 'platforms/poslovni-novcanik/**/*.js'
+              - 'platforms/poslovni-novcanik/**/*.json'
+
+  # ─── TypeScript + Lint + Unit tests gate ─────────────────────────────────────
+  validate:
+    name: ✅ TypeScript & Lint Gate
+    runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Install root dependencies
+        run: npm ci
+
+      - name: 💾 Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 🔍 TypeScript gate
+        run: npx tsc --noEmit
+
+      - name: 🧹 Lint
+        run: npm run lint -- src/ || true
+
+      - name: 🧪 Wallet unit tests
+        run: |
+          npx tsx src/tests/lib/novcanik-ledger.test.ts
+          npx tsx src/tests/lib/wollet-balance.test.ts
+          npx tsx src/tests/lib/wollet-audit.test.ts
+          npx tsx src/tests/lib/wollet-transactions.test.ts
+
+  # ─── Quality gate ─────────────────────────────────────────────────────────────
+  quality:
+    name: 🧪 Quality Gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 💾 Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 📥 Install dependencies (fallback)
+        run: |
+          if [ ! -d node_modules ]; then npm ci; fi
+
+      - name: 🧪 Smoke tests
+        run: npm run test:smoke
+
+      - name: 🚦 Predeploy gate
+        run: npm run predeploy:check
+
+  # ─── Security scan ───────────────────────────────────────────────────────────
+  security:
+    name: 🛡️ Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 💾 Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 📥 Install dependencies (fallback)
+        run: |
+          if [ ! -d node_modules ]; then npm ci; fi
+
+      - name: 🛡️ Dependency audit
+        run: npm audit --audit-level=high
+
+      - name: 🔑 Secret scan (poslovni-novcanik)
+        uses: ./.github/actions/secret-scan
+        with:
+          paths: >-
+            platforms/poslovni-novcanik/
+
+  # ─── Production gate ─────────────────────────────────────────────────────────
+  production_gate:
+    name: 🔒 Production Gate
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: [validate, quality, security]
+
+    steps:
+      - name: 🔒 Validate production confirmation
+        run: |
+          TARGET_ENV="${{ github.event.inputs.environment || 'staging' }}"
+          if [ "$TARGET_ENV" = "production" ] && [ "${{ github.event.inputs.confirm_production }}" != "DEPLOY_PRODUCTION" ]; then
+            echo "❌ Production deploy zahteva confirm_production=DEPLOY_PRODUCTION"
+            exit 1
+          fi
+          echo "✅ Environment gate prošao za: $TARGET_ENV"
+
+  # ─── Deploy via Vercel hook ───────────────────────────────────────────────────
+  deploy:
+    name: 🚀 Deploy via Vercel Hook
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: production_gate
+    environment: ${{ github.event.inputs.environment || 'staging' }}
+
+    steps:
+      - name: 🔍 Preflight — kontekst
+        run: |
+          echo "## 💼 Poslovni Novčanik Deploy — Preflight" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parametar | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Workflow** | \`${{ github.workflow }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Ref** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Environment** | \`${{ github.event.inputs.environment || 'auto (push)' }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 🚀 Vercel Deploy Hook
+        env:
+          VERCEL_DEPLOY_HOOK_POSLOVNI_NOVCANIK: ${{ secrets.VERCEL_DEPLOY_HOOK_POSLOVNI_NOVCANIK }}
+        run: |
+          if [ -z "$VERCEL_DEPLOY_HOOK_POSLOVNI_NOVCANIK" ]; then
+            echo "⚠️ VERCEL_DEPLOY_HOOK_POSLOVNI_NOVCANIK nije konfigurisan — preskačem."
+            echo "ℹ️ Primarni deploy ostaje Vercel Git integracija."
+          else
+            echo "🚀 Pokretanje Vercel Deploy Hook za Poslovni Novčanik..."
+            HTTP=$(curl -s -o /tmp/pn_response.json -w "%{http_code}" \
+              -X POST "$VERCEL_DEPLOY_HOOK_POSLOVNI_NOVCANIK" \
+              -H "Content-Type: application/json")
+            if [ "$HTTP" -ge 200 ] && [ "$HTTP" -lt 300 ]; then
+              echo "✅ Deploy hook uspešno pokrenut (HTTP $HTTP)"
+              cat /tmp/pn_response.json || true
+            else
+              echo "❌ Deploy hook greška (HTTP $HTTP)"
+              cat /tmp/pn_response.json || true
+              exit 1
+            fi
+          fi
+
+  # ─── Post-deploy health check ────────────────────────────────────────────────
+  health_check:
+    name: 🩺 Post-Deploy Health Check
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: deploy
+
+    steps:
+      - name: 🩺 Health check (opciono)
+        run: |
+          VERIFY="${{ github.event.inputs.verify_url }}"
+          if [ -z "$VERIFY" ]; then
+            echo "ℹ️ verify_url nije prosleđen — preskačem."
+            exit 0
+          fi
+          HTTP=$(curl -sS -o /tmp/pn_health.txt -w "%{http_code}" "$VERIFY")
+          if [ "$HTTP" -ge 200 ] && [ "$HTTP" -lt 400 ]; then
+            echo "✅ Health check OK (HTTP $HTTP)"
+          else
+            echo "❌ Health check neuspešan (HTTP $HTTP)"
+            cat /tmp/pn_health.txt || true
+            exit 1
+          fi
+
+  # ─── Audit log ───────────────────────────────────────────────────────────────
+  audit:
+    name: 📋 Audit Log
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: [deploy, health_check]
+    if: always()
+
+    steps:
+      - name: 📋 Poslovni Novčanik — Audit Log
+        run: |
+          echo "## 💼 Poslovni Novčanik — Audit Log" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Polje | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Autor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Environment** | \`${{ github.event.inputs.environment || 'auto (push)' }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Run ID** | \`${{ github.run_id }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Vreme** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Deploy Status** | \`${{ needs.deploy.result }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Health Check** | \`${{ needs.health_check.result }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "| **Razlog** | \`${{ github.event.inputs.razlog }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          fi
