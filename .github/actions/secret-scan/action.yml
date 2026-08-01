@@ -1,0 +1,63 @@
+name: Secret Heuristics Scan
+description: >
+  Scans tracked Git files (or a specified path scope) for common secret patterns
+  (GitHub PATs, AWS keys, private keys). Fails if any are found.
+
+inputs:
+  paths:
+    description: >
+      Space-separated list of paths passed to `git ls-files --` to narrow the
+      scan scope. Leave empty to scan all tracked files.
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: 🔑 Secret heuristics scan
+      shell: python
+      env:
+        SCAN_PATHS: ${{ inputs.paths }}
+      run: |
+        import os
+        import re
+        import subprocess
+        import sys
+        from pathlib import Path
+
+        scan_paths = os.environ.get('SCAN_PATHS', '').split()
+        cmd = ['git', 'ls-files']
+        if scan_paths:
+            cmd += ['--'] + scan_paths
+        tracked = subprocess.check_output(cmd, text=True).splitlines()
+
+        patterns = [
+            re.compile(r'github_pat_[A-Za-z0-9_]{20,}'),
+            re.compile(r'gh[pousr]_[A-Za-z0-9]{20,}'),
+            re.compile(r'AKIA[0-9A-Z]{16}'),
+            re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----'),
+        ]
+
+        SKIP_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico', '.pdf', '.lock', '.svg'}
+
+        found = []
+        for rel in tracked:
+            p = Path(rel)
+            if p.suffix.lower() in SKIP_EXTENSIONS:
+                continue
+            try:
+                text = p.read_text(encoding='utf-8')
+            except Exception:
+                continue
+            for pat in patterns:
+                if pat.search(text):
+                    found.append(rel)
+                    break
+
+        if found:
+            for f in found:
+                print(f'Potential secret detected: {f}')
+            sys.exit(1)
+        else:
+            scope = ', '.join(scan_paths) if scan_paths else 'all tracked files'
+            print(f'No likely secrets detected ({scope}).')

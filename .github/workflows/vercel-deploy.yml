@@ -95,33 +95,7 @@ jobs:
         run: npm audit --audit-level=high
 
       - name: 🔑 Secret heuristics gate
-        run: |
-          python <<'PY'
-          import re
-          import subprocess
-          import sys
-          from pathlib import Path
-          tracked = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
-          patterns = [
-              re.compile(r'github_pat_[A-Za-z0-9_]{20,}'),
-              re.compile(r'gh[pousr]_[A-Za-z0-9]{20,}'),
-              re.compile(r'AKIA[0-9A-Z]{16}'),
-              re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY-----'),
-          ]
-          for rel in tracked:
-              p = Path(rel)
-              if p.suffix.lower() in {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico', '.pdf', '.lock', '.svg'}:
-                  continue
-              try:
-                  text = p.read_text(encoding='utf-8')
-              except Exception:
-                  continue
-              for pat in patterns:
-                  if pat.search(text):
-                      print(f'Potential secret detected: {rel}')
-                      sys.exit(1)
-          print('No likely secrets detected.')
-          PY
+        uses: ./.github/actions/secret-scan
 
       - name: 🔍 Preflight — kontekst pokretanja
         run: |
