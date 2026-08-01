@@ -44,6 +44,7 @@ export const navigation: NavItem[] = [
   { label: 'Call Centar', href: '/call-centar', icon: '📞', description: 'Moblini SPAJA licence, digitalne usluge i dodela paketa' },
   { label: 'Ekosistem', href: '/ekosistem', icon: '🌐', description: 'Celokupan pregled ekosistema' },
   { label: 'Deploy', href: '/deploy', icon: '🚀', description: 'Status deploy-a platformi' },
+  { label: 'Deploy Platforma', href: '/deploy-platforma', icon: '🛠️', description: 'Centralni hub za upravljanje deploymentima — live status, trigger, health check, audit log' },
   { label: 'Auto-Popravka', href: '/auto-popravka', icon: '🔧', description: 'Autonomni sistem za popravku' },
   { label: 'AI Platforma', href: '/ai-platforma', icon: '🤖', description: 'AI platforma i modeli' },
   { label: 'Banka', href: '/banka', icon: '🏦', description: 'SPAJA Banka platforma' },

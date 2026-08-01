@@ -124,6 +124,27 @@ const maksimus3ContractReady = [
   sitemapSrc.includes('/api/maksimus-3'),
   navigationSrc.includes('/maksimus-3'),
 ].every(Boolean);
+
+// ── Deploy Platforma validacija ───────────────────────────────────────────────
+const deployPlatformaRegistryPath = resolve(repoRoot, 'src/lib/deploy/deploy-registry.ts');
+const deployPlatformaPagePath = resolve(repoRoot, 'src/app/deploy-platforma/page.tsx');
+const deployPlatformaApiStatusPath = resolve(repoRoot, 'src/app/api/deploy-platforma/status/route.ts');
+
+let deployPlatformaReady = false;
+try {
+  const registrySrc = readFileSync(deployPlatformaRegistryPath, 'utf8');
+  const pageSrc = readFileSync(deployPlatformaPagePath, 'utf8');
+  const apiStatusSrc = readFileSync(deployPlatformaApiStatusPath, 'utf8');
+  deployPlatformaReady = [
+    registrySrc.includes('deployRegistry'),
+    pageSrc.includes('deploy-platforma'),
+    apiStatusSrc.includes('/api/deploy-platforma/status'),
+    navigationSrc.includes('/deploy-platforma'),
+  ].every(Boolean);
+} catch {
+  deployPlatformaReady = false;
+}
+
 const hasDeploymentBlockers = missingRequiredEnv.length > 0
   || !analizaContractReady
   || !potencijalContractReady
@@ -174,6 +195,12 @@ const report = {
     contractVersion: maksimus3ContractVersion,
     modelVersion: maksimus3ModelVersion,
     contractReady: maksimus3ContractReady,
+  },
+  deployPlatforma: {
+    ready: deployPlatformaReady,
+    registryPath: 'src/lib/deploy/deploy-registry.ts',
+    pagePath: 'src/app/deploy-platforma/page.tsx',
+    apiStatusPath: 'src/app/api/deploy-platforma/status/route.ts',
   },
   status: hasDeploymentBlockers ? 'warning' : 'ok',
 };

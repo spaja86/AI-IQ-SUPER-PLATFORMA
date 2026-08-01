@@ -241,6 +241,20 @@ export const platforme: Platforma[] = [
     funkcije: ['21 OMEGA AI persona', '8 oktava interakcije', 'Autonomna evolucija', '40.000.562 OMEGA AI persona', 'Masovno skaliranje', 'Cross-repo integracija'],
     deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16 + OMEGA AI', buildKomanda: 'next build' },
   },
+  {
+    id: 'deploy-platforma',
+    naziv: 'Deploy Platforma',
+    opis: 'Centralni hub za upravljanje deploymentima svih platformi u ekosistemu. Live Vercel status, ručno pokretanje, health check i audit log.',
+    kategorija: 'alati',
+    repo: 'spaja86/AI-IQ-SUPER-PLATFORMA',
+    url: EKOSISTEM_URLS.DEPLOY_PLATFORMA,
+    ikona: '🚀',
+    status: 'aktivna',
+    progres: 100,
+    tehnologije: ['Next.js 16', 'TypeScript', 'Vercel API', 'Supabase'],
+    funkcije: ['Live deploy status', 'Manual trigger', 'Health check', 'Deploy history', 'Audit log', 'Production gate'],
+    deploy: { status: 'aktivan', provider: 'vercel', domen: 'ai-iq-super-platforma.vercel.app/deploy-platforma', projectId: 'ai-iq-super-platforma', vercelProjekt: 'ai-iq-super-platforma', framework: 'Next.js 16', buildKomanda: 'next build' },
+  },
 ];
 
 export function getUkupniProgres(): number {

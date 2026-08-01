@@ -69,9 +69,11 @@ export const deploySekvence: Sekvenca[] = [
         'Ručni Deploy: POST /api/brouvzer-deploy { "projekat": "ai-iq" }',
         'Deploy Diagnostics: GET /api/deploy-diagnostics?deploymentId=<id>',
         'Owner Vercel Ownership: GET /api/owner/vercel-ownership',
+        'Deploy Platforma Hub: /deploy-platforma — live status, trigger, health check',
       ],
       dugmad: [
         { tekst: 'Vercel Priključenje', href: '/vercel-priklucenje' },
+        { tekst: 'Deploy Platforma Hub', href: '/deploy-platforma' },
         { tekst: 'Vercel Status API', href: '/api/vercel-status', stil: 'sekundarno' },
       ],
     },
@@ -84,7 +86,8 @@ export const deploySekvence: Sekvenca[] = [
     podaci: {
       opis: 'Sve platforme se deployuju na Vercel sa automatskim CI/CD.',
       dugmad: [
-        { tekst: 'Dashboard', href: '/dashboard' },
+        { tekst: 'Deploy Platforma Hub', href: '/deploy-platforma' },
+        { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
         { tekst: 'Vercel Priključenje', href: '/vercel-priklucenje', stil: 'sekundarno' },
         { tekst: 'Pocetna', href: '/', stil: 'sekundarno' },
       ],
