@@ -1,0 +1,51 @@
+name: 🏁 Back to Spaces — Another Races Validation
+
+on:
+  pull_request:
+    branches: ['main']
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - 'src/lib/back-to-spaces-another-races.ts'
+      - 'src/lib/igrice.ts'
+      - 'src/lib/feature-flags.ts'
+      - 'src/tests/lib/back-to-spaces-another-races.test.ts'
+      - 'docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md'
+      - '.agent-config.json'
+  push:
+    branches: ['main', 'race/**', 'copilot/**']
+    paths:
+      - 'src/lib/back-to-spaces-another-races.ts'
+      - 'src/lib/igrice.ts'
+      - 'src/lib/feature-flags.ts'
+      - 'src/tests/lib/back-to-spaces-another-races.test.ts'
+      - '.agent-config.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  race-validation:
+    if: github.event_name != 'pull_request' || contains(join(github.event.pull_request.labels.*.name, ','), 'race:another-races') || contains(join(github.event.pull_request.labels.*.name, ','), 'race:fairness-review')
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Lint changed race domain files
+        run: npm run lint -- src/lib/back-to-spaces-another-races.ts src/lib/igrice.ts src/lib/feature-flags.ts
+
+      - name: 🧪 Back to Spaces domain tests
+        run: npx tsx src/tests/lib/back-to-spaces-another-races.test.ts
+
+      - name: 🧪 Gaming catalog regression tests
+        run: npx tsx src/tests/lib/pokermaster-catalog.test.ts

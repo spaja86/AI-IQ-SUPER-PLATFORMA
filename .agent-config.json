@@ -80,6 +80,37 @@
         "deployment-frequency"
       ],
       "sourceOfTruthDoc": "docs/ROADMAP.md"
+    },
+    "another-races-ops-agent": {
+      "enabled": true,
+      "featureId": "back-to-spaces-another-races",
+      "trigger": {
+        "pullRequestLabels": [
+          "race:another-races",
+          "race:fairness-review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "race/**"
+        ]
+      },
+      "validationPaths": [
+        "src/lib/back-to-spaces-another-races.ts",
+        "src/lib/igrice.ts",
+        "src/tests/lib/back-to-spaces-another-races.test.ts",
+        ".github/workflows/back-to-spaces-another-races.yml",
+        "docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md"
+      ],
+      "requiredChecks": [
+        "npm run lint -- src/lib/back-to-spaces-another-races.ts src/lib/igrice.ts",
+        "npx tsx src/tests/lib/back-to-spaces-another-races.test.ts",
+        "npx tsx src/tests/lib/pokermaster-catalog.test.ts"
+      ],
+      "crossRepoSyncRequired": true,
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ]
     }
   },
   "orgSettings": {
@@ -203,6 +234,27 @@
       ],
       "security": [
         "security-scan-coverage"
+      ]
+    }
+  },
+  "featureTracks": {
+    "back-to-spaces-another-races": {
+      "status": "beta",
+      "labels": [
+        "race:another-races",
+        "race:fairness-review",
+        "race:validated"
+      ],
+      "workflows": [
+        ".github/workflows/back-to-spaces-another-races.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md",
+        "docs/GO-LIVE.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md"
       ]
     }
   }

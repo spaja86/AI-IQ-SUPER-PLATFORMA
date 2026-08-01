@@ -141,6 +141,16 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     activeFrom: '2026-07-25',
     meta: { owner: 'gaming-team', ticket: 'SPAJA-3004' },
   },
+  {
+    id: 'gaming-back-to-spaces-another-races-v1',
+    naziv: 'Back to Spaces for Another Races v1',
+    opis: 'Aktivira svemirski trkački režim sa fairness validacijom, anti-cheat guard-om i cross-repo audit oznakama.',
+    strategy: 'percentage',
+    rolloutPct: 20,
+    envs: ['production', 'staging'],
+    activeFrom: '2026-08-01',
+    meta: { owner: 'gaming-team', ticket: 'SPAJA-3005' },
+  },
   // ── Security ──────────────────────────────────────────────────
   {
     id: 'security-csp-headers',

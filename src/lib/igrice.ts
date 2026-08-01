@@ -2700,6 +2700,27 @@ export const igrice: Igrica[] = [
     preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-particle-system', 'spaja-shader-compiler', 'spaja-ai-npc'],
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
+  {
+    id: 'igrica-back-to-spaces-another-races',
+    naziv: 'Back to Spaces for Another Races',
+    opis: 'Svemirske trke kroz višedimenzionalne orbite sa fairness pravilima, anti-cheat validacijom i audit tragom za cross-repo operativnu usklađenost.',
+    ikona: '🛸',
+    kategorija: 'trka',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Galaktički krugovi i dimenzionalni checkpoint sistem',
+      'Fairness validacija (broj igrača, nitro limit, latency cap)',
+      'Penalty obračun za kolizije i neregularne akcije',
+      'Cross-repo audit tagovi za povezane promene',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'beta',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-monitor', 'spaja-metrics', 'omega-ai-engine'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/blob/main/docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md',
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
