@@ -232,3 +232,21 @@ Mekartor je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa r
 
 - `AI-IQ-SUPER-PLATFORMA#MEKARTOR -> No linked repo change required`
 - Human review remains required because this is a config/deploy change.
+
+---
+
+## REAL CREATE QVADERS — Audit Trail
+
+### Scope
+
+MASTER POKER contract extension for canonical `four-of-kind` detection under alias track `REAL CREATE QVADERS`.
+
+### Cross-repo assessment
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — REAL CREATE QVADERS | `spaja86/IO-OPENUI-AO` | No linked repo change required |
+
+### Audit convention
+
+- `AI-IQ-SUPER-PLATFORMA#REAL-CREATE-QVADERS -> No linked repo change required`

@@ -1,7 +1,12 @@
 import { createStandardDeck, shuffleDeck } from '../../lib/poker/deck';
-import { evaluateBestHand } from '../../lib/poker/hand-evaluator';
+import { evaluateBestHand, evaluateFiveCardHand } from '../../lib/poker/hand-evaluator';
 import { createMasterPokerState } from '../../lib/poker/engine';
 import { validatePokerActionIntegrity } from '../../lib/poker/anti-cheat';
+import {
+  getRealCreateQvadersContract,
+  isRealCreateQvadersHand,
+  REAL_CREATE_QVADERS_NAME,
+} from '../../lib/poker/real-create-qvaders';
 
 let passed = 0;
 let failed = 0;
@@ -58,6 +63,27 @@ async function runTests(): Promise<void> {
     ]);
 
     assertEqual(hand.rank, 'straight-flush', 'rank');
+  });
+
+  await test('Evaluator detektuje REAL CREATE QVADERS alias za four-of-kind', () => {
+    const hand = evaluateFiveCardHand([
+      { rank: 'A', suit: '♠', value: 14, code: 'A♠' },
+      { rank: 'A', suit: '♥', value: 14, code: 'A♥' },
+      { rank: 'A', suit: '♦', value: 14, code: 'A♦' },
+      { rank: 'A', suit: '♣', value: 14, code: 'A♣' },
+      { rank: 'K', suit: '♠', value: 13, code: 'K♠' },
+    ]);
+
+    assertEqual(hand.rank, 'four-of-kind', 'rank');
+    assert(hand.aliases?.includes('qvaders') === true, 'four-of-kind mora nositi qvaders alias');
+    assert(isRealCreateQvadersHand(hand), `${REAL_CREATE_QVADERS_NAME} marker mora biti aktivan`);
+  });
+
+  await test('REAL CREATE QVADERS contract ostaje stabilan', () => {
+    const contract = getRealCreateQvadersContract();
+    assertEqual(contract.name, REAL_CREATE_QVADERS_NAME, 'contract.name');
+    assert(contract.aliases.includes('four-of-kind'), 'contract mora sadržati canonical alias');
+    assert(contract.successCriteria.length >= 3, 'contract mora imati success criteria');
   });
 
   await test('Poker anti-cheat odbija duplikat action ID', () => {

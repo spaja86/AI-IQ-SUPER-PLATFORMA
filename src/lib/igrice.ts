@@ -2113,6 +2113,7 @@ export const igrice: Igrica[] = [
       'Texas Hold’em v1: single-table protiv bot igrača',
       'Deterministički tok runde: preflop, flop, turn, river, showdown',
       'Audit log svake akcije i anti-cheat validacija poteza',
+      'REAL CREATE QVADERS marker za four-of-kind (quads) ishode',
       'Session-only chip progresija bez real-money klađenja',
       'Dimenzionalni HUD i startup tok 360D–5760D',
       'Pita dimenziju (D) prilikom pokretanja',

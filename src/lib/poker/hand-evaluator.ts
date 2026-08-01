@@ -1,4 +1,5 @@
 import type { EvaluatedPokerHand, PokerCard } from './types';
+import { REAL_CREATE_QVADERS_ALIASES } from './real-create-qvaders';
 
 function sortValuesDescending(values: number[]): number[] {
   return [...values].sort((a, b) => b - a);
@@ -67,6 +68,7 @@ export function evaluateFiveCardHand(cards: PokerCard[]): EvaluatedPokerHand {
       rankValue: 7,
       kickers: [quad, kicker],
       label: formatLabel('four-of-kind'),
+      aliases: [...REAL_CREATE_QVADERS_ALIASES],
     };
   }
 
