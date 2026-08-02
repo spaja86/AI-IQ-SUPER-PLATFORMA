@@ -14,6 +14,7 @@ const footerNavLinks = [
   { href: '/omega-evolution', label: 'OmegaEvolution' },
   { href: '/spaja-pro', label: 'SpajaPro' },
   { href: '/prompt', label: 'Prompt' },
+  { href: '/akuzativ', label: 'AKUZATIV' },
   { href: '/igrice', label: 'Igrice' },
   { href: '/gejming-industrija', label: 'Gejming Industrija' },
   { href: '/dimenzije', label: 'Dimenzije' },

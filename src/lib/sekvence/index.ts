@@ -245,3 +245,8 @@ export { getDivezijaEkspeslaSekvence } from './diveezija-ekspesla-page';
 
 // ── EKSPRITING ────────────────────────────────────────────────────────────────
 export { getEkspritingSekvence } from './ekspriting-page';
+
+export { akuzativSekvence } from './akuzativ-page';
+export { nominativSekvence } from './nominativ-page';
+export { genitivSekvence } from './genitiv-page';
+export { dativSekvence } from './dativ-page';
