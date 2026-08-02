@@ -278,6 +278,27 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     activeFrom: '2026-08-01',
     meta: { owner: 'nova-generacija-agent', ticket: 'SPAJA-NG-003' },
   },
+  // ── GIGATRON ──────────────────────────────────────────────────
+  {
+    id: 'gigatron',
+    naziv: 'GIGATRON — IT & Elektronika Procurement',
+    opis: 'Aktivira GIGATRON integracionu platformu: IT katalog, B2B nabavka, affiliate program i upravljanje zalihama.',
+    strategy: 'percentage',
+    rolloutPct: 10,
+    envs: ['production', 'staging'],
+    activeFrom: '2026-08-02',
+    meta: { owner: 'gigatron-validator-agent', ticket: 'SPAJA-GTR-001' },
+  },
+  {
+    id: 'gigatron-affiliate',
+    naziv: 'GIGATRON Affiliate Program',
+    opis: 'Aktivira affiliate tracking i provizija kalkulaciju za GIGATRON partner program.',
+    strategy: 'plans',
+    plans: ['biznis', 'enterprise', 'unlimited'],
+    envs: ['production', 'staging'],
+    activeFrom: '2026-08-02',
+    meta: { owner: 'gigatron-validator-agent', ticket: 'SPAJA-GTR-002' },
+  },
   // ── Kill Switches ─────────────────────────────────────────────
   {
     id: 'kill-switch-checkout',

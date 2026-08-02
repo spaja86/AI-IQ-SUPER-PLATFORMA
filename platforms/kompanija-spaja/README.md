@@ -17,6 +17,7 @@ Deo [AI-IQ SUPER PLATFORMA](../../README.md) repozitorijuma.
 - 💱 **AI IQ Menjačnica** — `platforms/menjacnica/`
 - 🧪 **IO OpenUI AO** — `platforms/io-openui-ao/`
 - 🏢 **Kompanija SPAJA** — `platforms/kompanija-spaja/`
+- 🛒 **GIGATRON** — `platforms/gigatron/`
 
 ## SpajaUltraOmegaCore
 

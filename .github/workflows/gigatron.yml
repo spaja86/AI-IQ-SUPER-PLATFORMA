@@ -1,0 +1,183 @@
+name: GIGATRON — Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/gigatron/**'
+      - 'src/app/api/gigatron/**'
+      - 'src/app/gigatron/**'
+      - 'src/lib/sekvence/gigatron-page.ts'
+      - 'platforms/gigatron/**'
+      - 'docs/GIGATRON.md'
+      - '.github/workflows/gigatron.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/gigatron/**'
+      - 'src/app/api/gigatron/**'
+      - 'src/app/gigatron/**'
+      - 'platforms/gigatron/**'
+      - 'docs/GIGATRON.md'
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full GIGATRON validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  gigatron-lint:
+    name: GIGATRON — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint GIGATRON modules
+        run: |
+          npm run lint -- \
+            src/lib/gigatron/gigatron-catalog.ts \
+            src/lib/gigatron/gigatron-procurement.ts \
+            src/lib/gigatron/gigatron-affiliate.ts \
+            src/lib/gigatron/gigatron-inventory.ts
+
+  gigatron-typecheck:
+    name: GIGATRON — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  gigatron-tests:
+    name: GIGATRON — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [gigatron-lint, gigatron-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run GIGATRON catalog tests
+        run: npx tsx src/tests/lib/gigatron-catalog.test.ts
+
+      - name: Run GIGATRON procurement tests
+        run: npx tsx src/tests/lib/gigatron-procurement.test.ts
+
+      - name: Run GIGATRON affiliate tests
+        run: npx tsx src/tests/lib/gigatron-affiliate.test.ts
+
+  gigatron-security:
+    name: GIGATRON — Security Scan
+    runs-on: ubuntu-latest
+    needs: [gigatron-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit (GIGATRON dependencies)
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in GIGATRON modules
+        run: |
+          echo "Scanning GIGATRON modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/gigatron/ \
+            src/app/api/gigatron/ 2>/dev/null || \
+            (echo "::error::Potential secret found in GIGATRON modules" && exit 1)
+          echo "No secrets detected."
+
+  gigatron-label:
+    name: GIGATRON — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const toAdd = [];
+            if (!labels.includes('gigatron')) {
+              toAdd.push('gigatron');
+            }
+            if (toAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: toAdd,
+              });
+            }
+
+  gigatron-status:
+    name: GIGATRON — Status Summary
+    runs-on: ubuntu-latest
+    needs: [gigatron-lint, gigatron-typecheck, gigatron-tests, gigatron-security]
+    if: always()
+    steps:
+      - name: GIGATRON validation summary
+        run: |
+          echo "========================================"
+          echo "GIGATRON Validation Summary"
+          echo "========================================"
+          echo "Lint:      ${{ needs.gigatron-lint.result }}"
+          echo "TypeScript:${{ needs.gigatron-typecheck.result }}"
+          echo "Tests:     ${{ needs.gigatron-tests.result }}"
+          echo "Security:  ${{ needs.gigatron-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  API response target:        ≤ 200ms"
+          echo "  Catalog availability:       99.9%"
+          echo "  Order success rate:         ≥ 99%"
+          echo "  Affiliate tracking:         100%"
+          echo "  Build duration target:      ≤ 3 min"
+          echo "========================================"
+
+          if [ "${{ needs.gigatron-lint.result }}" != "success" ] || \
+             [ "${{ needs.gigatron-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.gigatron-tests.result }}" != "success" ] || \
+             [ "${{ needs.gigatron-security.result }}" != "success" ]; then
+            echo "❌ GIGATRON validation FAILED"
+            exit 1
+          else
+            echo "✅ GIGATRON validation PASSED"
+          fi

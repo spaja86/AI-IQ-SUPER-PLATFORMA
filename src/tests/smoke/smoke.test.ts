@@ -395,6 +395,34 @@ async function runSmokeTests(): Promise<void> {
     }
   });
 
+  // ── 11. GIGATRON ──────────────────────────────────────────────────────────
+
+  console.log('\n📦 11. GIGATRON Platform');
+
+  const { getGigatronKatalogMetrike } = await import('../../lib/gigatron/gigatron-catalog');
+  const { getInventoryMetrike } = await import('../../lib/gigatron/gigatron-inventory');
+
+  await test('GIGATRON katalog metrike su validne', () => {
+    const metrike = getGigatronKatalogMetrike();
+    assert(metrike.ukupnoProizvoda > 0, 'GIGATRON katalog mora imati proizvode');
+    assert(metrike.aktivnih > 0, 'GIGATRON mora imati aktivnih proizvoda');
+    assert(metrike.kategorija > 0, 'GIGATRON mora imati kategorije');
+    assert(metrike.brendovi > 0, 'GIGATRON mora imati brand-ove');
+    assert(metrike.prosecnaCenaEUR > 0, 'Prosečna cena mora biti > 0 EUR');
+  });
+
+  await test('GIGATRON inventory metrike su validne', () => {
+    const metrike = getInventoryMetrike();
+    assert(metrike.ukupnoProizvoda > 0, 'GIGATRON inventory mora imati zapise');
+    assert(metrike.timestamp.length > 0, 'Inventory timestamp mora biti setovan');
+  });
+
+  await test('/api/gigatron/health endpoint URL je ispravno formatiran', () => {
+    const healthUrl = 'https://ai-iq-super-platforma.vercel.app/api/gigatron/health';
+    assert(healthUrl.startsWith('https://'), 'GIGATRON health URL mora biti HTTPS');
+    assert(healthUrl.includes('/api/gigatron/health'), 'mora da sadrži /api/gigatron/health');
+  });
+
   // ── Summary ───────────────────────────────────────────────────────────────
 
   console.log(`\n${'─'.repeat(60)}`);
