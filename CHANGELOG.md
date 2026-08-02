@@ -8,6 +8,75 @@ Format follows: **[version] — date | description**
 
 ---
 
+## [42.36.1] — 2026-08-02 | GIGATRON Platform Integration
+
+### 🏪 Scope
+
+Kompletna integracija GIGATRON-a (najvećeg srpskog lanca elektronike) u AI IQ SUPER PLATFORMA ekosistem. Obuhvata B2B procurement, affiliate program, upravljanje zalihama, katalog IT/elektronike, 6 API endpointa, 3 UI stranice, CI workflow, gigatron-validator-agent i punu test pokrivenost.
+
+### Added
+
+- **`platforms/gigatron/README.md`** — Platform surface dokumentacija
+- **`platforms/gigatron/package.json`** — Lokalni manifest modula (v1.0.0)
+- **`platforms/gigatron/src/index.html`** — Statički HTML pregled platforme
+- **`src/lib/gigatron/gigatron-catalog.ts`** — Katalog IT/elektronike (10 seed proizvoda, kategorije, brand-ovi, filtriranje, paginacija)
+- **`src/lib/gigatron/gigatron-procurement.ts`** — B2B nabavni model (narudžbine, PDV 20%, validacija, status lifecycle)
+- **`src/lib/gigatron/gigatron-affiliate.ts`** — Affiliate tracking (eventi, provizija kalkulator, kumulativne statistike)
+- **`src/lib/gigatron/gigatron-inventory.ts`** — Upravljanje zalihama (dostupnost, rezervacije, alerti za nizke zalihe)
+- **`src/app/api/gigatron/health/route.ts`** — Health check endpoint za CI smoke test
+- **`src/app/api/gigatron/catalog/route.ts`** — GET pretraga i filtriranje kataloga
+- **`src/app/api/gigatron/order/route.ts`** — POST kreiranje B2B narudžbine
+- **`src/app/api/gigatron/order/[id]/route.ts`** — GET status narudžbine po ID-u
+- **`src/app/api/gigatron/affiliate/track/route.ts`** — POST affiliate event tracking
+- **`src/app/api/gigatron/inventory/route.ts`** — GET stanje zaliha u realnom vremenu
+- **`src/app/gigatron/page.tsx`** — GIGATRON landing stranica (SpajaPro sekvence pattern)
+- **`src/app/gigatron/katalog/page.tsx`** — Prikaz kataloga proizvoda
+- **`src/app/gigatron/nabavka/page.tsx`** — B2B procurement forma
+- **`src/lib/sekvence/gigatron-page.ts`** — Sekvence definicija za landing stranicu
+- **`.github/workflows/gigatron.yml`** — CI workflow (lint → typecheck → tests → security → smoke → label)
+- **`src/tests/lib/gigatron-catalog.test.ts`** — 17 testova za katalog logiku
+- **`src/tests/lib/gigatron-procurement.test.ts`** — 13 testova za B2B procurement model
+- **`src/tests/lib/gigatron-affiliate.test.ts`** — 14 testova za affiliate logiku
+- **`docs/GIGATRON.md`** — Specifikacija platforme (vizija, KPI, scope, bezbednost, roadmap)
+
+### Changed
+
+- **`src/lib/feature-flags.ts`** — Dodat `gigatron` feature flag (10% staged canary rollout) i `gigatron-affiliate` (planovi: biznis/enterprise/unlimited)
+- **`src/lib/spaja-pro-planovi.ts`** — Dodat `gigatron` plan entry (biznis tier, $149/mesečno)
+- **`src/lib/ekslatacija-proizvoda.ts`** — Dodani 2 GIGATRON seed proizvoda (laptop, monitor)
+- **`.agent-config.json`** — Dodat `gigatron-validator-agent` blok + `gigatron` feature track
+- **`AGENTS.md`** — Registrovan `gigatron-validator-agent` (Serbian + English sekcija)
+- **`docs/MULTI-REPO-LINKS.md`** — Dodat GIGATRON label schema + GIGATRON Audit Trail sekcija
+- **`platforms/kompanija-spaja/README.md`** — Dodana GIGATRON veza pod Platforme sekciju
+- **`package.json`** — Dodani 3 GIGATRON test komande u `test` script
+- **`src/tests/smoke/smoke.test.ts`** — Dodat GIGATRON smoke test sekcija (sekcija 11)
+
+### KPI Targets
+
+| KPI | Ciljna vrednost |
+|---|---|
+| API response (catalog/order) | ≤ 200ms |
+| Catalog availability | 99.9% |
+| Order processing success rate | ≥ 99% |
+| Affiliate tracking accuracy | 100% |
+| Build duration | ≤ 3 min |
+| Security scan coverage | 100% |
+| Feature flag rollout | 10% → 50% → 100% |
+
+### Rollout Plan
+
+| Faza | Rollout | Uslov |
+|---|---|---|
+| Initial | 10% | CI green + smoke ✅ |
+| Expanded | 50% | 7 dana stabilan, 0 grešaka |
+| Full | 100% | Human review + KPI potvrđeni |
+
+### Cross-Repo
+
+- `AI-IQ-SUPER-PLATFORMA#GIGATRON` — repo-local, no `IO-OPENUI-AO` change required
+
+---
+
 ## [42.36.0] — 2026-08-01 | MAKS PLAN NIVO LEVL
 
 ### 🔥 Scope

@@ -38,6 +38,16 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `mekartor:review` | Mekartor rollout/config change requires focused human review |
 | `mekartor:validated` | Mekartor deploy/readiness validation completed |
 
+## GIGATRON Label Schema
+
+| Label | Meaning |
+|---|---|
+| `gigatron` | GIGATRON change set — requires GIGATRON validation |
+| `gigatron:review` | GIGATRON change requires focused human review |
+| `gigatron:validated` | GIGATRON validator and tests passed |
+| `gigatron:needs-review` | GIGATRON validator requires human follow-up |
+| `gigatron:logic-change` | GIGATRON catalog/procurement/affiliate logic changed |
+
 ## Version coherence policy
 
 | Surface | Policy |
@@ -293,3 +303,45 @@ Apsolutni maksimum operativni plan za AI IQ SUPER PLATFORMA — svih 16 nivoa od
 ```
 AI-IQ-SUPER-PLATFORMA#MAKS-PLAN-NIVO-LEVL -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+---
+
+## GIGATRON — Audit Trail
+
+### Scope
+
+GIGATRON je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa runtime rutama `/gigatron`, `/gigatron/katalog`, `/gigatron/nabavka` i API rutama `/api/gigatron/*`.
+
+| Field | Value |
+|---|---|
+| Version | v42.36.0+ |
+| Date | 2026-08-02 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/GIGATRON.md` |
+| Platform surface | `platforms/gigatron/` |
+| Core libs | `src/lib/gigatron/` |
+| Workflow | `.github/workflows/gigatron.yml` |
+
+### Cross-repo assessment
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — GIGATRON rollout | `spaja86/IO-OPENUI-AO` | No linked repo change required |
+
+### Audit convention
+
+- `AI-IQ-SUPER-PLATFORMA#GIGATRON -> No linked repo change required`
+- Human review remains required because this is a config/deploy change with a new feature track.
+
+### GIGATRON KPI Enforcement
+
+| KPI | Target | Enforced by |
+|---|---|---|
+| API response (catalog/order) | ≤ 200ms | `.github/workflows/gigatron.yml` |
+| Catalog availability | 99.9% | gigatron-validator-agent |
+| Order processing success rate | ≥ 99% | gigatron-validator-agent |
+| Affiliate tracking accuracy | 100% | `gigatron-affiliate.test.ts` |
+| Build duration | ≤ 3 min | Build step timeout |
+| Security scan coverage | 100% | `security-scanner` workflow |
+| Feature flag rollout | 10% → 50% → 100% | `feature-flags.ts` |
+

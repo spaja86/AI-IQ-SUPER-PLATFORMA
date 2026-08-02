@@ -103,6 +103,45 @@
       "performanceThreshold": 100,
       "testSuite": "calculator-tests"
     },
+    "gigatron-validator-agent": {
+      "enabled": false,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 200,
+      "testSuite": "gigatron-tests",
+      "trigger": {
+        "pullRequestLabels": ["gigatron:logic-change"],
+        "branches": ["main", "copilot/**", "gigatron/**"],
+        "paths": [
+          "src/lib/gigatron/**",
+          "src/app/api/gigatron/**",
+          "src/app/gigatron/**",
+          "platforms/gigatron/**",
+          "docs/GIGATRON.md",
+          ".github/workflows/gigatron.yml"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/gigatron-catalog.test.ts",
+        "npx tsx src/tests/lib/gigatron-procurement.test.ts",
+        "npx tsx src/tests/lib/gigatron-affiliate.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "gigatron:validated",
+        "needsReview": "gigatron:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "kpis": {
+        "apiResponseMaxMs": 200,
+        "catalogAvailabilityPct": 99.9,
+        "orderSuccessRatePct": 99,
+        "affiliateAccuracyPct": 100
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for GIGATRON rollout"
+      }
+    },
     "analytics-bot": {
       "enabled": true,
       "schedules": {
@@ -630,6 +669,39 @@
         "linkedRepo": "spaja86/IO-OPENUI-AO",
         "downstreamDependency": false,
         "note": "No linked repo change required for Mekartor rollout"
+      }
+    },
+    "gigatron": {
+      "status": "active-development",
+      "labels": [
+        "gigatron",
+        "gigatron:review",
+        "gigatron:validated",
+        "gigatron:needs-review",
+        "gigatron:logic-change"
+      ],
+      "workflows": [
+        ".github/workflows/gigatron.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/GIGATRON.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/GO-LIVE.md"
+      ],
+      "kpis": {
+        "apiResponseMaxMs": 200,
+        "catalogAvailabilityPct": 99.9,
+        "orderSuccessRatePct": 99,
+        "affiliateAccuracyPct": 100,
+        "buildDurationMaxMin": 3
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for GIGATRON rollout"
       }
     }
   }

@@ -93,6 +93,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Koordinira industrijska konvergencija između platformi
   - Ostavlja audit log sa svim Nova Generacija metrikama
 
+### gigatron-validator-agent (NEW)
+- **Role**: Validacija GIGATRON IT & Elektronika procurement logike, affiliate kalkulacija i inventory integriteta
+- **Scope**: GIGATRON putanje u AI-IQ-SUPER-PLATFORMA (`src/lib/gigatron/**`, `src/app/api/gigatron/**`)
+- **Trigger**: PR sa labelom `gigatron:logic-change`, push koji dira `gigatron` putanje
+- **Actions**:
+  - Pokreće unit test suite za katalog logiku (cene, kategorije, SKU validacija)
+  - Verifikuje procurement model (narudžbine, edge cases: nulte zalihe, cenovni limiti, PDV)
+  - Proverava affiliate provizija kalkulator (% komisija, kumulativno tracking)
+  - Proverava performance: API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu (negativne cene, neispravan PDV, nevalidni SKU)
+  - Auto-labels PRs sa `gigatron:validated` ili `gigatron:needs-review`
+  - Ostavlja audit log u PR komentaru
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -133,6 +146,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
 | nova-generacija-agent | NG Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | All repos (Nova Generacija scope) |
+| gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -253,6 +267,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Identifies failing patterns (which tests fail most often)
   - Synchronizes metrics across repositories
 
+### gigatron-validator-agent (NEW)
+- **Role**: Validate GIGATRON IT & Electronics procurement logic, affiliate calculations, and inventory integrity
+- **Scope**: GIGATRON paths in AI-IQ-SUPER-PLATFORMA (`src/lib/gigatron/**`, `src/app/api/gigatron/**`)
+- **Trigger**: PR with `gigatron:logic-change` label, push touching `gigatron` paths
+- **Actions**:
+  - Runs unit test suite for catalog logic (prices, categories, SKU validation)
+  - Verifies procurement model (orders, edge cases: zero stock, price limits, VAT)
+  - Checks affiliate commission calculator (% commission, cumulative tracking)
+  - Checks performance: API response ≤ 200ms
+  - Scans for code inconsistencies (negative prices, invalid VAT, invalid SKU)
+  - Auto-labels PRs with `gigatron:validated` or `gigatron:needs-review`
+  - Leaves audit log in PR comment
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -291,12 +318,11 @@ This file describes agents, their roles, and usage rules for automation in this 
 | multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | 📋 Ready | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
 | calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
+| gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
-
-```json
 {
   "agents": {
     "ci-bot": {
