@@ -130,6 +130,7 @@ Gigatron je najveći srpski elektronski maloprodajni lanac u regionu — integri
 
 ### Faza 8 — Dokumentacija i Audit
 - [x] `docs/GIGATRON.md` (ovaj fajl)
+- [x] `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md` — governance za korporativnu pretplatu i uplatu velike vrednosti
 - [x] GIGATRON Audit Trail u `docs/MULTI-REPO-LINKS.md`
 - [x] CHANGELOG.md ažuriran
 
@@ -162,6 +163,15 @@ Gigatron je najveći srpski elektronski maloprodajni lanac u regionu — integri
 - Svi API ključevi i kredencijali za spoljne GIGATRON servise ostaju u GitHub/Vercel Secrets
 - Nikada ne commitovati `.env` fajlove ili auth tokene
 - Sve promene prolaze `security-scanner` + `human-review` pre merge-a
+
+---
+
+## Korporativna pretplata i uplata velike vrednosti
+
+- Source of truth: `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md`
+- Status za nevalidiran predmet ili nedokaziv iznos: `blocked-until-validated`
+- Bez `payment-confirmed` statusa nema aktivacije enterprise pogodnosti ili B2B pretplate
+- Za ekstremno veliku vrednost obavezni su pravni, poreski, compliance i upravljački approval koraci
 
 ---
 

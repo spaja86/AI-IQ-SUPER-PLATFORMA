@@ -57,6 +57,15 @@ Sve dalje korišćenje, saradnja i razvoj na ovoj platformi je **PLAĆENO** i za
 
 ---
 
+## 🏢 KORPORATIVNA GIGATRON PRETPLATA
+
+- Za `pretplata Korporacija Gigatron` i druge uplate velike vrednosti važi poseban governance tok u `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md`
+- Bez validiranog iznosa, ugovora, KYC/AML pregleda, poreskog modela i bankarskog readiness-a predmet ostaje `blocked-until-validated`
+- Nije dozvoljena jedna nedefinisana uplata ekstremne vrednosti; koriste se tranše, escrow ili bankarska garancija
+- Bez statusa `payment-confirmed` nema aktivacije pretplate, enterprise pogodnosti ni isporuke povezanih benefita
+
+---
+
 ## ⚠️ OBAVEZE I PRAVILA
 
 1. **Zahtjevi bez Plaćanja**: ❌ NEĆE biti obrađeni

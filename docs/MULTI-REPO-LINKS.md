@@ -317,10 +317,11 @@ GIGATRON je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa r
 | Version | v42.36.0+ |
 | Date | 2026-08-02 |
 | Owner | @spaja86 |
-| Tracking doc | `docs/GIGATRON.md` |
+| Tracking doc | `docs/GIGATRON.md`, `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md` |
 | Platform surface | `platforms/gigatron/` |
 | Core libs | `src/lib/gigatron/` |
 | Workflow | `.github/workflows/gigatron.yml` |
+| OKRID | `OKRID-2026-GIGATRON-001` |
 
 ### Cross-repo assessment
 
@@ -331,7 +332,8 @@ GIGATRON je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa r
 ### Audit convention
 
 - `AI-IQ-SUPER-PLATFORMA#GIGATRON -> No linked repo change required`
-- Human review remains required because this is a config/deploy change with a new feature track.
+- `AI-IQ-SUPER-PLATFORMA#OKRID-2026-GIGATRON-001 -> No linked repo change required`
+- Human review remains required because this is a payment/compliance governance change.
 
 ### GIGATRON KPI Enforcement
 
@@ -345,3 +347,9 @@ GIGATRON je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa r
 | Security scan coverage | 100% | `security-scanner` workflow |
 | Feature flag rollout | 10% → 50% → 100% | `feature-flags.ts` |
 
+### GIGATRON Corporate Subscription Governance
+
+- Governance source of truth: `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md`
+- Scope: repo-local legal/compliance/billing workflow for high-value GIGATRON B2B subscriptions
+- Activation rule: no subscription activation before `payment-confirmed`
+- Blocking rule: non-verifiable or non-bankable amounts remain `blocked-until-validated`

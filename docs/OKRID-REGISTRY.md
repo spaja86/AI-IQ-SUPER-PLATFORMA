@@ -9,6 +9,7 @@ This registry tracks active and archived OKRIDs for `spaja86/AI-IQ-SUPER-PLATFOR
 | `OKRID-2026-NOVA-001` | initiative | active | Product + Platform ops + Automation | Nova Generacija rollout and KPI gating | eval p99 ≤ 50ms, build ≤ 3 min, fairness 100% | `AI-IQ-SUPER-PLATFORMA` + NG surfaces | `spaja86/IO-OPENUI-AO` follow-up required |
 | `OKRID-2026-MULTIREPO-001` | release-governance | active | Platform ops + Automation | Multi-repo sync hardening | cross-repo sync coverage 100%, reference hygiene | `docs/MULTI-REPO-LINKS.md`, `.agent-config.json` | `spaja86/IO-OPENUI-AO` coordination |
 | `OKRID-2026-GOV-001` | release-governance | active | Automation | OKRID governance enforcement in PR/workflows | OKRID linkage coverage on mandatory PRs | PR template + governance workflows | Linked repo impact when applicable |
+| `OKRID-2026-GIGATRON-001` | release-governance | active | Business + Legal + Finance + Compliance | GIGATRON corporate subscription high-value governance | 100% validated amount evidence, 100% approval-chain completion, 0 activations before payment confirmation | `docs/GIGATRON.md`, `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md`, `BILLING.md` | No linked repo change required |
 
 ## Archived OKRIDs
 
