@@ -23,8 +23,10 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
             const body = pr.body || "";
+            const labels = (pr.labels || []).map((l) => l.name.toLowerCase());
 
             let automationTouched = false;
+            let crossRepoTouched = false;
             const isAutomationFile = (f) =>
               f.startsWith(".github/workflows/") ||
               f.startsWith(".github/actions/") ||
@@ -33,6 +35,19 @@ jobs:
               f === "package.json" ||
               f === "next.config.ts" ||
               f === "tsconfig.json";
+            const isCrossRepoFile = (f) =>
+              f === "docs/MULTI-REPO-LINKS.md" ||
+              f.startsWith("platforms/io-openui-ao/") ||
+              f.startsWith("platforms/nova-generacija/");
+            const riskyLabels = new Set([
+              "security:needs-review",
+              "security:review-needed",
+              "nova-generacija",
+              "nova-generacija:review",
+              "race:fairness-review",
+              "calculator:logic-change",
+              "agent:config-change"
+            ]);
 
             let page = 1;
             while (true) {
@@ -45,17 +60,13 @@ jobs:
               });
 
               if (!data.length) break;
-              if (data.some((f) => isAutomationFile(f.filename))) {
-                automationTouched = true;
-                break;
-              }
+              if (data.some((f) => isAutomationFile(f.filename))) automationTouched = true;
+              if (data.some((f) => isCrossRepoFile(f.filename))) crossRepoTouched = true;
               page += 1;
             }
 
-            if (!automationTouched) {
-              core.info("No automation/config changes detected; FinOps gate skipped.");
-              return;
-            }
+            const riskyLabelTouched = labels.some((l) => riskyLabels.has(l));
+            const requiresOkrid = automationTouched || crossRepoTouched || riskyLabelTouched;
 
             const requiredPatterns = [
               /cost impact/i,
@@ -64,15 +75,43 @@ jobs:
               /cost center\s*\/\s*owner/i
             ];
 
-            const missing = requiredPatterns
+            const missingGovernance = requiredPatterns
               .filter((pattern) => !pattern.test(body))
               .map((pattern) => pattern.toString());
-            if (missing.length) {
+            if (automationTouched && missingGovernance.length) {
               core.setFailed(
                 "Automation/config PRs must include cost governance fields in PR body. Missing: " +
-                missing.join(", ")
+                missingGovernance.join(", ")
               );
               return;
             }
 
-            core.info("FinOps governance fields detected.");
+            if (requiresOkrid) {
+              const okridPatterns = [
+                /okrid\s*id\s*:/i,
+                /okrid-\d{4}-[a-z0-9-]+-\d{3}/i,
+                /scope\s*\(?.*objective.*initiative.*release-governance.*\)?\s*:/i,
+                /owner\s*:/i,
+                /roadmap item\s*:/i,
+                /kpi status\s*:/i
+              ];
+
+              const missingOkrid = okridPatterns
+                .filter((pattern) => !pattern.test(body))
+                .map((pattern) => pattern.toString());
+
+              if (missingOkrid.length) {
+                core.setFailed(
+                  "This PR requires OKRID linkage. Missing OKRID fields in PR body: " +
+                  missingOkrid.join(", ")
+                );
+                return;
+              }
+            }
+
+            if (!automationTouched && !requiresOkrid) {
+              core.info("No automation/config or OKRID-mandatory changes detected; governance gate skipped.");
+              return;
+            }
+
+            core.info("Governance and OKRID checks passed.");

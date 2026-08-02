@@ -6,6 +6,18 @@
 
 - Issue / ticket / rationale:
 
+## OKRID (Required for high-impact changes)
+
+> Required when this PR is config/deploy, cross-repo, security-sensitive, or risky feature work.
+
+- OKRID ID (`OKRID-YYYY-TRACK-###`):
+- Scope (`objective` | `initiative` | `release-governance`):
+- Status (`proposed` | `active` | `at-risk` | `blocked` | `completed` | `archived`):
+- Owner:
+- Roadmap item:
+- KPI targets:
+- KPI status:
+
 ## Agent & Automation Checklist
 
 > This repository uses automated agents. See [`AGENTS.md`](../AGENTS.md) for full policy.
@@ -18,6 +30,7 @@
 - [ ] `npm run build` passes or the current blocker is documented below
 - [ ] **Config/CI change** — PR labeled `agent:config-change` if `.github/workflows/` or `.agent-config.json` is modified
 - [ ] **Cross-repo impact** — linked-repo impact described below (if applicable)
+- [ ] **OKRID linkage** — included for config/deploy/cross-repo/risky changes (or marked N/A)
 - [ ] Human review requested from appropriate code owner
 
 ### Cross-repo impact (if any)

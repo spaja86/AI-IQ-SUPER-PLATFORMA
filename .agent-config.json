@@ -116,9 +116,28 @@
         "security-findings",
         "deployment-frequency",
         "cross-repo-sync-stability",
-        "change-failure-rate"
+        "change-failure-rate",
+        "okrid-compliance-rate",
+        "okrid-blocked-prs"
       ],
       "sourceOfTruthDoc": "docs/ROADMAP.md"
+    },
+    "okrid-governance": {
+      "enabled": true,
+      "standardDoc": "docs/OKRID.md",
+      "registryDoc": "docs/OKRID-REGISTRY.md",
+      "workflowFile": ".github/workflows/okrid-weekly-review.yml",
+      "mandatoryFor": [
+        "config-ci-changes",
+        "deploy-governance-changes",
+        "cross-repo-changes",
+        "security-sensitive-or-risky-features"
+      ],
+      "pilotTracks": [
+        "nova-generacija",
+        "multi-repo-sync"
+      ],
+      "reviewCadence": "weekly"
     },
     "another-races-ops-agent": {
       "enabled": true,
@@ -325,6 +344,7 @@
     "requiredSections": [
       "Summary",
       "Linked Issue / Change Driver",
+      "OKRID",
       "Cross-repo impact",
       "Validation",
       "Rollout Plan",
@@ -365,6 +385,8 @@
   "sourceOfTruth": {
     "roadmap": "docs/ROADMAP.md",
     "multiRepo": "docs/MULTI-REPO-LINKS.md",
+    "okrid": "docs/OKRID.md",
+    "okridRegistry": "docs/OKRID-REGISTRY.md",
     "finops": "docs/finops-enterprise-operating-model.md",
     "security": "docs/SECURITY.md",
     "goLive": "docs/GO-LIVE.md",
@@ -500,7 +522,9 @@
       "security-scan-coverage",
       "pr-review-time",
       "cross-repo-sync-stability",
-      "change-failure-rate"
+      "change-failure-rate",
+      "okrid-compliance-rate",
+      "okrid-blocked-prs"
     ],
     "owners": {
       "platformOps": [
@@ -513,7 +537,9 @@
         "cost-per-active-user"
       ],
       "automation": [
-        "agent-reliability-score"
+        "agent-reliability-score",
+        "okrid-compliance-rate",
+        "okrid-blocked-prs"
       ],
       "security": [
         "security-scan-coverage"
