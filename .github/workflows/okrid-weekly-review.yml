@@ -1,0 +1,124 @@
+name: OKRID Weekly Governance Review
+
+on:
+  schedule:
+    - cron: '0 7 * * MON'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  okrid-weekly-review:
+    name: Weekly OKRID compliance report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate OKRID weekly summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const now = new Date();
+            const sinceDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const since = sinceDate.toISOString().slice(0, 10);
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const { data } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} is:pr updated:>=${since}`,
+              per_page: 100
+            });
+
+            const riskyLabels = new Set([
+              "security:needs-review",
+              "security:review-needed",
+              "nova-generacija",
+              "nova-generacija:review",
+              "race:fairness-review",
+              "calculator:logic-change",
+              "agent:config-change"
+            ]);
+
+            const isAutomationFile = (f) =>
+              f.startsWith(".github/workflows/") ||
+              f.startsWith(".github/actions/") ||
+              f === ".agent-config.json" ||
+              f === "vercel.json" ||
+              f === "package.json" ||
+              f === "next.config.ts" ||
+              f === "tsconfig.json";
+
+            const isCrossRepoFile = (f) =>
+              f === "docs/MULTI-REPO-LINKS.md" ||
+              f.startsWith("platforms/io-openui-ao/") ||
+              f.startsWith("platforms/nova-generacija/");
+
+            const hasOkrid = (body) =>
+              /okrid\s*id\s*:/i.test(body || "") &&
+              /okrid-\d{4}-[a-z0-9-]+-\d{3}/i.test(body || "") &&
+              /kpi status\s*:/i.test(body || "");
+
+            let relevant = 0;
+            let compliant = 0;
+            let blocked = 0;
+            const blockedPrs = [];
+
+            for (const item of data.items || []) {
+              const prNumber = item.number;
+              const body = item.body || "";
+              const labels = (item.labels || []).map((l) => String(l.name || "").toLowerCase());
+              const riskyLabelTouched = labels.some((l) => riskyLabels.has(l));
+
+              let automationTouched = false;
+              let crossRepoTouched = false;
+              let page = 1;
+              while (true) {
+                const filesResp = await github.rest.pulls.listFiles({
+                  owner,
+                  repo,
+                  pull_number: prNumber,
+                  per_page: 100,
+                  page
+                });
+                const files = filesResp.data || [];
+                if (!files.length) break;
+                if (files.some((f) => isAutomationFile(f.filename))) automationTouched = true;
+                if (files.some((f) => isCrossRepoFile(f.filename))) crossRepoTouched = true;
+                page += 1;
+              }
+
+              const requiresOkrid = automationTouched || crossRepoTouched || riskyLabelTouched;
+              if (!requiresOkrid) continue;
+
+              relevant += 1;
+              if (hasOkrid(body)) {
+                compliant += 1;
+              } else {
+                blocked += 1;
+                blockedPrs.push(`#${prNumber} (${item.html_url})`);
+              }
+            }
+
+            const complianceRate = relevant === 0 ? 100 : Math.round((compliant / relevant) * 100);
+            const summaryLines = [
+              `## OKRID Weekly Governance Summary`,
+              ``,
+              `Window: last 7 days (since ${since})`,
+              ``,
+              `| Metric | Value |`,
+              `|---|---|`,
+              `| Relevant PRs (OKRID mandatory) | ${relevant} |`,
+              `| OKRID compliant PRs | ${compliant} |`,
+              `| Blocked / missing OKRID linkage | ${blocked} |`,
+              `| OKRID compliance rate | ${complianceRate}% |`,
+              ``
+            ];
+
+            if (blockedPrs.length) {
+              summaryLines.push(`### Blocked PRs (missing OKRID linkage)`);
+              blockedPrs.slice(0, 20).forEach((pr) => summaryLines.push(`- ${pr}`));
+            } else {
+              summaryLines.push(`✅ No blocked PRs due to missing OKRID linkage in this window.`);
+            }
+
+            core.summary.addRaw(summaryLines.join("\n")).write();

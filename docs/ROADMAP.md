@@ -107,6 +107,7 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | `deploy-bot` | Planned fallback | `.github/workflows/vercel-deploy.yml` |
 | `multi-repo-sync-agent` | Config-driven coordination | `docs/MULTI-REPO-LINKS.md`, `.agent-config.json` |
 | `analytics-bot` | KPI/reporting source of truth | `.agent-config.json`, `docs/finops-enterprise-operating-model.md` |
+| `okrid-governance` | Weekly OKRID compliance and blocker reporting | `.github/workflows/okrid-weekly-review.yml`, `docs/OKRID.md` |
 | `calculator-validator-agent` | Linked-repo scoped | `spaja86/IO-OPENUI-AO` coordination only |
 
 ## Operational KPI framework
@@ -123,12 +124,14 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | PR review time | Human review / automation | Measure delivery feedback loop speed |
 | Cross-repo sync stability | Multi-repo coordination | Track repeated success of downstream follow-up and reference hygiene |
 | Change failure / regression rate | CI / release ops | Detect whether small releases and XP cadence reduce production regressions |
+| OKRID compliance rate | Automation / governance | Ensure mandatory high-impact changes carry valid OKRID linkage |
 
 ## Exit criteria for the next roadmap cycle
 
 - Security automation runs on PRs, `main`, schedule, and manual dispatch.
 - CI and deploy workflows use the same documented lint/test/smoke/predeploy/security gate model, with build tracked as a required release gate.
 - Cross-repo work with `IO-OPENUI-AO` follows a repeatable checklist.
+- High-impact changes (config/deploy/cross-repo/risky) include valid OKRID linkage and status.
 - README and config point contributors to the current roadmap and multi-repo operating model.
 - Another Races rollout remains gated by fairness and regression checks before full activation.
 - Open-code contribution guidance, deploy governance, and agent policy stay aligned across `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `docs/GO-LIVE.md`, and `.agent-config.json`.

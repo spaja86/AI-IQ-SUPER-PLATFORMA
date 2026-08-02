@@ -387,11 +387,14 @@ This repository uses documented automation agents for CI, security, analytics, a
 - **Security-sensitive changes** — PRs touching auth, payments, or dependencies are automatically flagged; add a security approver.
 - **Cross-repo changes** — if your change affects `IO-OPENUI-AO` or other linked repositories, describe the cross-repo impact in the PR and open any follow-up work there.
 - **Deploy changes require audit evidence** — PRs affecting deploy, workflow, or config surfaces must include rollout, rollback, KPI impact, and downstream follow-up references.
+- **OKRID linkage is required on high-impact changes** — use `OKRID-YYYY-TRACK-###` in PRs for config/deploy/cross-repo/risky work and keep KPI status current.
 
 ### Repo readiness & roadmap
 
 - **Roadmap:** [`docs/ROADMAP.md`](./docs/ROADMAP.md)
 - **Multi-repo coordination:** [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md)
+- **OKRID standard:** [`docs/OKRID.md`](./docs/OKRID.md)
+- **OKRID registry:** [`docs/OKRID-REGISTRY.md`](./docs/OKRID-REGISTRY.md)
 - **Security operating model:** [`docs/SECURITY.md`](./docs/SECURITY.md)
 - **Go-live and rollout:** [`docs/GO-LIVE.md`](./docs/GO-LIVE.md)
 - **FinOps and KPI model:** [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md)
@@ -436,6 +439,8 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Open-code contribution flow, XP expectations, and deploy review requirements |
 | [`docs/ROADMAP.md`](./docs/ROADMAP.md) | Release roadmap, readiness model, and KPI ownership |
 | [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
+| [`docs/OKRID.md`](./docs/OKRID.md) | Canonical OKRID scope, naming, lifecycle, and governance model |
+| [`docs/OKRID-REGISTRY.md`](./docs/OKRID-REGISTRY.md) | Active and archived OKRID source-of-truth registry |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
 | [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md) | FinOps, KPI, enterprise collaboration model |
 | [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./docs/DEPLOYMENT-POWER-RESOLUTION.md) | Deployment runtime split, SLO baseline, release/rollback policy |

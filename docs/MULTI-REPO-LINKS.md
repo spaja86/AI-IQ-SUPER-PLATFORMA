@@ -50,11 +50,19 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 ## Cross-repo change workflow
 
 1. Identify whether the change affects `IO-OPENUI-AO` behavior, docs, labels, milestones, or shared operational assumptions.
-2. Record the impact in the PR template under **Cross-repo impact**.
+2. Record the impact in the PR template under **Cross-repo impact** and include OKRID linkage when mandatory.
 3. For deploy, workflow, or shared-config changes, also document rollout, rollback, KPI impact, and environment-promotion notes in the PR.
 4. Open or link the downstream PR / issue when the linked repo also needs updates.
 5. Note the follow-up reference in commit, PR description, or linked issue trail.
 6. Keep `.agent-config.json` aligned with any newly introduced coordination rule.
+
+## OKRID alignment for cross-repo work
+
+- Source standard: `docs/OKRID.md`
+- Source registry: `docs/OKRID-REGISTRY.md`
+- Required for cross-repo changes touching deploy/config/risky surfaces.
+- Use canonical format: `OKRID-YYYY-TRACK-###`.
+- Keep PR description, downstream references, and KPI status aligned with the same OKRID entry.
 
 ## Audit trail convention
 
