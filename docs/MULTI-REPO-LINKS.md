@@ -424,3 +424,42 @@ ANOTHER MAKS je kreativan/generativni kognitivni agent, paralelan uz MAKSIMUS 2/
 | Uptime SLA | 99.99% | Monitoring |
 | Linked agent coordination | MAKSIMUS 2 | `persona.ts` handoff logic |
 | Security scan coverage | 100% | `another-maks-security` job |
+
+---
+
+## Persona Bank — Cross-Repo Sync
+
+### Persona Bank Downstream Impact
+
+The Persona Bank (`src/lib/persona-bank/`) is the unified source-of-truth for all platform personas.
+On push to `main` (paths touching `src/lib/persona-bank/**`), the `multi-repo-sync-agent` syncs persona bank snapshots to `spaja86/IO-OPENUI-AO`.
+
+### Persona Bank Label Schema
+
+| Label | Meaning |
+|---|---|
+| `persona-bank:change` | Persona Bank change set — requires agent validation |
+| `persona-bank:validated` | Persona Bank validation workflow and tests passed |
+| `persona-bank:needs-review` | Persona Bank validator requires human follow-up |
+
+### Persona Bank Cross-Repo Assessment
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — Persona Bank initial rollout | `spaja86/IO-OPENUI-AO` | Persona snapshot sync required on main push |
+
+### Audit convention
+
+- `AI-IQ-SUPER-PLATFORMA#PERSONA-BANK-001 -> IO-OPENUI-AO persona snapshot sync on main push`
+- Future cross-repo sync triggered on any persona type/octave schema change.
+
+### Persona Bank KPI Enforcement
+
+| KPI | Target | Enforced by |
+|---|---|---|
+| Persona lookup p99 | ≤ 10ms | `.github/workflows/persona-bank-validator.yml` + test |
+| Bulk list p99 | ≤ 50ms | Test suite |
+| Contract version | 1.0.0 | `src/lib/persona-bank/index.ts` |
+| Max octaves | 16 | `PERSONA_BANK_MAX_OCTAVE` constant |
+| Max hipermreza nodes | 256 | `PERSONA_BANK_MAX_HIPERMREZA_NODE` constant |
+| Security scan coverage | 100% | `persona-bank-security` job |
