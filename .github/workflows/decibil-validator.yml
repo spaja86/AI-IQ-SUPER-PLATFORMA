@@ -1,0 +1,171 @@
+name: DECIBIL — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/decibil/**'
+      - 'src/app/api/decibil/**'
+      - 'src/components/decibil/**'
+      - 'src/tests/lib/decibil-core.test.ts'
+      - 'docs/DECIBIL.md'
+      - '.github/workflows/decibil-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/decibil/**'
+      - 'src/app/api/decibil/**'
+      - 'src/components/decibil/**'
+      - 'docs/DECIBIL.md'
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full DECIBIL validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  decibil-lint:
+    name: DECIBIL — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint DECIBIL modules
+        run: |
+          npm run lint -- \
+            src/lib/decibil/types.ts \
+            src/lib/decibil/utils.ts \
+            src/lib/decibil/core.ts \
+            src/lib/decibil/index.ts
+
+  decibil-typecheck:
+    name: DECIBIL — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  decibil-tests:
+    name: DECIBIL — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [decibil-lint, decibil-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run DECIBIL core tests
+        run: npx tsx src/tests/lib/decibil-core.test.ts
+
+  decibil-security:
+    name: DECIBIL — Security Scan
+    runs-on: ubuntu-latest
+    needs: [decibil-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in DECIBIL modules
+        run: |
+          echo "Scanning DECIBIL modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/decibil/ \
+            src/app/api/decibil/ 2>/dev/null || \
+            (echo "::error::Potential secret found in DECIBIL modules" && exit 1)
+          echo "No secrets detected."
+
+  decibil-label:
+    name: DECIBIL — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [decibil-tests, decibil-security]
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const allPassed =
+              '${{ needs.decibil-tests.result }}' === 'success' &&
+              '${{ needs.decibil-security.result }}' === 'success';
+            const label = allPassed ? 'decibil:validated' : 'decibil:needs-review';
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: [label, 'decibil'],
+            });
+
+  decibil-status:
+    name: DECIBIL — Status Summary
+    runs-on: ubuntu-latest
+    needs: [decibil-lint, decibil-typecheck, decibil-tests, decibil-security]
+    if: always()
+    steps:
+      - name: DECIBIL validation summary
+        run: |
+          echo "========================================"
+          echo "DECIBIL Validation Summary"
+          echo "========================================"
+          echo "Lint:      ${{ needs.decibil-lint.result }}"
+          echo "TypeScript:${{ needs.decibil-typecheck.result }}"
+          echo "Tests:     ${{ needs.decibil-tests.result }}"
+          echo "Security:  ${{ needs.decibil-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Measurement evaluation:     ≤ 50ms"
+          echo "  API response target:        ≤ 200ms"
+          echo "  Build duration target:      ≤ 3 min"
+          echo "========================================"
+
+          if [ "${{ needs.decibil-lint.result }}" != "success" ] || \
+             [ "${{ needs.decibil-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.decibil-tests.result }}" != "success" ] || \
+             [ "${{ needs.decibil-security.result }}" != "success" ]; then
+            echo "❌ DECIBIL validation FAILED"
+            exit 1
+          else
+            echo "✅ DECIBIL validation PASSED"
+          fi

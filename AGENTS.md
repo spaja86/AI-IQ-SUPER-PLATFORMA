@@ -106,6 +106,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Auto-labels PRs sa `gigatron:validated` ili `gigatron:needs-review`
   - Ostavlja audit log u PR komentaru
 
+### decibil-validator-agent (NEW)
+- **Role**: Validacija DECIBIL audio/signal measurement logike, dBFS kalkulacija i edge case integriteta
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/decibil/**`, `src/app/api/decibil/**`, `src/components/decibil/**`
+- **Trigger**: PR sa labelom `decibil:logic-change`, push koji dira `decibil` putanje
+- **Actions**:
+  - Pokreće unit test suite za DECIBIL logiku (RMS, peak, dBFS konverzija, status, history)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, division by zero, prazni nizovi)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu (negativne dBFS iznad 0, nevalidni uzorci)
+  - Auto-labels PRs sa `decibil:validated` ili `decibil:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Nova Generacija integration**: Audio fairness provere u gaming kontekstu
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -180,6 +193,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | another-maks-agent | Creative/Generative Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (another-maks paths) |
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
+| decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -369,6 +383,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
+| decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 
 ## Agent Configuration Files
 
