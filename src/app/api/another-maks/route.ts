@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server';
-import { apiInternalError, apiRateLimited, apiSuccess } from '@/lib/api/response';
+import { apiError, apiInternalError, apiRateLimited, apiSuccess } from '@/lib/api/response';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
 import {
   buildAnotherMaks,
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return apiInternalError('another-maks', new Error('Invalid JSON body'));
+    return apiError('BAD_REQUEST', 'Invalid JSON body');
   }
 
   const input = body as Partial<AnotherMaksTaskInput>;
@@ -80,9 +80,9 @@ export async function POST(req: NextRequest) {
   ];
 
   if (!input.tip || !validTipovi.includes(input.tip)) {
-    return apiInternalError(
-      'another-maks',
-      new Error(`Neispravan tip zadatka. Dozvoljeni: ${validTipovi.join(', ')}`),
+    return apiError(
+      'BAD_REQUEST',
+      `Neispravan tip zadatka. Dozvoljeni: ${validTipovi.join(', ')}`,
     );
   }
 

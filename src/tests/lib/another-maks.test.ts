@@ -108,9 +108,8 @@ async function runTests(): Promise<void> {
 
   // ─── Store ────────────────────────────────────────────────────────────────
 
-  await test('Store je inicijalno null', () => {
-    // Resetovati snapshot
-    setAnotherMaksLastSnapshot({
+  await test('Store čuva i vraća snapshot (set/get round-trip)', () => {
+    const snapshot = {
       ukupanScore: 0,
       domenScores: {
         kreativnaSinteza: 0,
@@ -119,9 +118,10 @@ async function runTests(): Promise<void> {
         novaGeneracijaSync: 0,
       },
       timestamp: new Date().toISOString(),
-    });
+    };
+    setAnotherMaksLastSnapshot(snapshot);
     const snap = getAnotherMaksLastSnapshot();
-    assert(snap !== null, 'store mora biti postavljen');
+    assert(snap !== null, 'store mora biti postavljen posle set');
   });
 
   await test('Store čuva i vraća snapshot', () => {
