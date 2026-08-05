@@ -71,32 +71,70 @@ async function runTests(): Promise<void> {
     const originalPotpisnik = PEKIC_PARTY.ovlasceniPotpisnik;
     const originalEmail = PEKIC_PARTY.email;
 
-    PEKIC_SUBSCRIPTION.status = 'approved-for-invoice';
-    PEKIC_SUBSCRIPTION.iznosRsd = 100000;
-    PEKIC_SUBSCRIPTION.pdvStopa = 0.2;
-    PEKIC_SUBSCRIPTION.pravniOsnov = 'Okvirni ugovor o pretplati';
-    PEKIC_SUBSCRIPTION.opisUsluge = 'Mesečna B2B pretplata';
-    PEKIC_PARTY.sediste = 'Republika Srbija';
-    PEKIC_PARTY.pib = '100000001';
-    PEKIC_PARTY.mb = '200000001';
-    PEKIC_PARTY.ovlasceniPotpisnik = 'Ovlašćeno lice';
-    PEKIC_PARTY.email = 'office@pekic.rs';
+    try {
+      PEKIC_SUBSCRIPTION.status = 'approved-for-invoice';
+      PEKIC_SUBSCRIPTION.iznosRsd = 100000;
+      PEKIC_SUBSCRIPTION.pdvStopa = 0.2;
+      PEKIC_SUBSCRIPTION.pravniOsnov = 'Okvirni ugovor o pretplati';
+      PEKIC_SUBSCRIPTION.opisUsluge = 'Mesečna B2B pretplata';
+      PEKIC_PARTY.sediste = 'Republika Srbija';
+      PEKIC_PARTY.pib = '100000001';
+      PEKIC_PARTY.mb = '200000001';
+      PEKIC_PARTY.ovlasceniPotpisnik = 'Ovlašćeno lice';
+      PEKIC_PARTY.email = 'office@pekic.rs';
 
-    const faktura = generatePekicInvoice('2026-08-05');
-    ok(faktura !== null, 'invoice exists');
-    ok(faktura?.ukupnoRsd === 120000, `ukupnoRsd=${faktura?.ukupnoRsd}`);
-    ok(faktura?.datumDospeca === '2026-09-05', `datumDospeca=${faktura?.datumDospeca}`);
+      const faktura = generatePekicInvoice('2026-08-05');
+      ok(faktura !== null, 'invoice exists');
+      ok(faktura?.ukupnoRsd === 120000, `ukupnoRsd=${faktura?.ukupnoRsd}`);
+      ok(faktura?.datumDospeca === '2026-09-05', `datumDospeca=${faktura?.datumDospeca}`);
+    } finally {
+      PEKIC_SUBSCRIPTION.status = originalStatus;
+      PEKIC_SUBSCRIPTION.iznosRsd = originalIznos;
+      PEKIC_SUBSCRIPTION.pdvStopa = originalPdv;
+      PEKIC_SUBSCRIPTION.pravniOsnov = originalOsnov;
+      PEKIC_SUBSCRIPTION.opisUsluge = originalOpis;
+      PEKIC_PARTY.sediste = originalSediste;
+      PEKIC_PARTY.pib = originalPib;
+      PEKIC_PARTY.mb = originalMb;
+      PEKIC_PARTY.ovlasceniPotpisnik = originalPotpisnik;
+      PEKIC_PARTY.email = originalEmail;
+    }
+  });
 
-    PEKIC_SUBSCRIPTION.status = originalStatus;
-    PEKIC_SUBSCRIPTION.iznosRsd = originalIznos;
-    PEKIC_SUBSCRIPTION.pdvStopa = originalPdv;
-    PEKIC_SUBSCRIPTION.pravniOsnov = originalOsnov;
-    PEKIC_SUBSCRIPTION.opisUsluge = originalOpis;
-    PEKIC_PARTY.sediste = originalSediste;
-    PEKIC_PARTY.pib = originalPib;
-    PEKIC_PARTY.mb = originalMb;
-    PEKIC_PARTY.ovlasceniPotpisnik = originalPotpisnik;
-    PEKIC_PARTY.email = originalEmail;
+  await test('Mesečni obračun klampuje kraj meseca ispravno', () => {
+    const originalStatus = PEKIC_SUBSCRIPTION.status;
+    const originalIznos = PEKIC_SUBSCRIPTION.iznosRsd;
+    const originalPdv = PEKIC_SUBSCRIPTION.pdvStopa;
+
+    try {
+      PEKIC_SUBSCRIPTION.status = 'approved-for-invoice';
+      PEKIC_SUBSCRIPTION.iznosRsd = 1000;
+      PEKIC_SUBSCRIPTION.pdvStopa = 0.2;
+      const faktura = generatePekicInvoice('2026-01-31');
+      ok(faktura?.datumDospeca === '2026-02-28', `datumDospeca=${faktura?.datumDospeca}`);
+    } finally {
+      PEKIC_SUBSCRIPTION.status = originalStatus;
+      PEKIC_SUBSCRIPTION.iznosRsd = originalIznos;
+      PEKIC_SUBSCRIPTION.pdvStopa = originalPdv;
+    }
+  });
+
+  await test('Mesečni obračun podržava leap year februar', () => {
+    const originalStatus = PEKIC_SUBSCRIPTION.status;
+    const originalIznos = PEKIC_SUBSCRIPTION.iznosRsd;
+    const originalPdv = PEKIC_SUBSCRIPTION.pdvStopa;
+
+    try {
+      PEKIC_SUBSCRIPTION.status = 'approved-for-invoice';
+      PEKIC_SUBSCRIPTION.iznosRsd = 1000;
+      PEKIC_SUBSCRIPTION.pdvStopa = 0.2;
+      const faktura = generatePekicInvoice('2028-01-31');
+      ok(faktura?.datumDospeca === '2028-02-29', `datumDospeca=${faktura?.datumDospeca}`);
+    } finally {
+      PEKIC_SUBSCRIPTION.status = originalStatus;
+      PEKIC_SUBSCRIPTION.iznosRsd = originalIznos;
+      PEKIC_SUBSCRIPTION.pdvStopa = originalPdv;
+    }
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import {
   buildPekicAuditEntry,
   generatePekicInvoice,
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
         error: 'Račun nije mogao biti generisan.',
         razlog:
           'Pretplata nije u statusu approved-for-invoice/payment-pending ili nedostaju pravni/poreski elementi. Status ostaje blocked-until-validated.',
-        governance: 'docs/PEKIC-DOO-PRETPLATA-RSD.md',
+        governance: '/docs/PEKIC-DOO-PRETPLATA-RSD.md',
       },
       { status: 422 },
     );

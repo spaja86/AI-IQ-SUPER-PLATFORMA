@@ -175,13 +175,34 @@ export function getPekicSubscriptionOverview() {
 }
 
 function computeDatumDospeca(datumIzdavanja: string, interval: PekicBillingInterval): string {
-  const d = new Date(datumIzdavanja);
-  if (interval === 'monthly') {
-    d.setMonth(d.getMonth() + 1);
-  } else {
-    d.setFullYear(d.getFullYear() + 1);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(datumIzdavanja)) {
+    return datumIzdavanja;
   }
-  return d.toISOString().slice(0, 10);
+
+  const [year, month, day] = datumIzdavanja.split('-').map(Number);
+  if ([year, month, day].some((value) => Number.isNaN(value))) {
+    return datumIzdavanja;
+  }
+
+  let normalizedYear = year;
+  let targetMonth = month;
+
+  if (interval === 'monthly') {
+    targetMonth = month + 1;
+    if (targetMonth > 12) {
+      targetMonth = 1;
+      normalizedYear = year + 1;
+    }
+  } else {
+    normalizedYear = year + 1;
+  }
+
+  const maxDay = new Date(Date.UTC(normalizedYear, targetMonth, 0)).getUTCDate();
+  const clampedDay = Math.min(day, maxDay);
+
+  return `${normalizedYear.toString().padStart(4, '0')}-${targetMonth
+    .toString()
+    .padStart(2, '0')}-${clampedDay.toString().padStart(2, '0')}`;
 }
 
 function round2(value: number): number {
