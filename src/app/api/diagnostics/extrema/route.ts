@@ -2,7 +2,7 @@
  * 🔬 ExtremaAPI — Dijagnostika Ekstrimiteta Ekstrema
  *
  * POST /api/diagnostics/extrema  — pokreni dijagnostiku na zahtev
- * GET  /api/diagnostics/extrema/report — posled izveštaj (audit log)
+ * GET /api/diagnostics/extrema/report — poslednji izveštaj (audit log)
  *
  * Interno korišćenje — nije javno izloženo.
  *

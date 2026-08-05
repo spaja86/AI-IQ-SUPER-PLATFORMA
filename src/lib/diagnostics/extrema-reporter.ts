@@ -30,6 +30,10 @@ export interface ReporterOptions {
 }
 
 // ─── In-memory audit log (server-side singleton) ──────────────────────────────
+// NOTE: In Next.js serverless/edge environments this array does not persist
+// across cold starts. It is suitable for same-request inspection and local
+// development. For production persistence, forward entries via the onAuditEntry
+// callback to a database or external store.
 
 const _auditLog: AuditLogEntry[] = [];
 

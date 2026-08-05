@@ -25,7 +25,8 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const limit = Math.min(parseInt(searchParams.get('limit') ?? '100', 10), 500);
+  const parsed = parseInt(searchParams.get('limit') ?? '100', 10);
+  const limit = Math.min(isNaN(parsed) ? 100 : parsed, 500);
   const severityFilter = searchParams.get('severity');
   const moduleFilter = searchParams.get('module');
 
