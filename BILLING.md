@@ -74,6 +74,13 @@ Sve dalje korišćenje, saradnja i razvoj na ovoj platformi je **PLAĆENO** i za
 4. **Rok Plaćanja**: 48 sati nakon otvaranja issue-a
 5. **Automatske Notifikacije**: Bot će slati upozorenja svakih 24h
 
+### Repo-local governance reference
+
+- `docs/PEKIC-DOO-PRETPLATA-RSD.md` — RSD pretplata i dinarska uplata
+- `docs/AUTOKUCA-PRETPLATA.md` — B2B perpetual recurring EUR model
+- `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md` — korporativna pretplata velike vrednosti
+- `docs/BASTAI-PRETPLATA-PRIVREDNI-DOPRINOS.md` — `BASTAI` pretplata / `privredni doprinos` sa guard-ovanim tumačenjem izraza „1 beskonačan račun”
+
 ---
 
 ## 🔔 AUTOMATSKI SISTEM NOTIFIKACIJA

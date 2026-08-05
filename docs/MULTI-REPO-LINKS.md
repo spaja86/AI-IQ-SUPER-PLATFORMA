@@ -356,6 +356,33 @@ GIGATRON je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa r
 
 ---
 
+## BASTAI — Audit Trail
+
+### Scope
+
+BASTAI je repo-local governance surface za subscription / billing / compliance tumačenje zahteva `PRETPLATA "BASTAI" PRIVREDNI DOPRINOS U IZNOSU 1 "BESKONAČAN" RAČUN`.
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-05 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/BASTAI-PRETPLATA-PRIVREDNI-DOPRINOS.md` |
+| OKRID | `OKRID-2026-BASTAI-001` |
+
+### Cross-repo assessment
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — BASTAI governance | `spaja86/IO-OPENUI-AO` | No linked repo change required |
+
+### Audit convention
+
+- `AI-IQ-SUPER-PLATFORMA#BASTAI -> No linked repo change required`
+- `AI-IQ-SUPER-PLATFORMA#OKRID-2026-BASTAI-001 -> No linked repo change required`
+- Human review remains required because this is a payment/compliance governance change.
+
+---
+
 ## ANOTHER MAKS — Cross-Repo Contract
 
 ### Scope
