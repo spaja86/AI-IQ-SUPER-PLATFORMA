@@ -353,3 +353,47 @@ GIGATRON je repo-local deployable surface u `spaja86/AI-IQ-SUPER-PLATFORMA` sa r
 - Scope: repo-local legal/compliance/billing workflow for high-value GIGATRON B2B subscriptions
 - Activation rule: no subscription activation before `payment-confirmed`
 - Blocking rule: non-verifiable or non-bankable amounts remain `blocked-until-validated`
+
+---
+
+## ANOTHER MAKS — Cross-Repo Contract
+
+### Scope
+
+ANOTHER MAKS je kreativan/generativni kognitivni agent, paralelan uz MAKSIMUS 2/3. Promene koje dira:
+
+- `src/lib/another-maks/**` (ANOTHER MAKS engine, persona, orchestrator, store)
+- `src/app/api/another-maks/**` (API route)
+- `src/tests/lib/another-maks.test.ts` (unit tests)
+- `.github/workflows/another-maks.yml` (CI workflow)
+- `docs/ANOTHER-MAKS.md` (specifikacija)
+
+### ANOTHER MAKS Label Schema
+
+| Label | Meaning |
+|---|---|
+| `another-maks` | ANOTHER MAKS change set — requires agent validation |
+| `another-maks:review` | ANOTHER MAKS change requires focused human review |
+| `another-maks:validated` | ANOTHER MAKS validation workflow and tests passed |
+| `another-maks:needs-review` | ANOTHER MAKS validator requires human follow-up |
+
+### ANOTHER MAKS Cross-Repo Assessment
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ANOTHER MAKS initial rollout | `spaja86/IO-OPENUI-AO` | No linked repo change required for initial rollout |
+
+### Audit convention
+
+- `AI-IQ-SUPER-PLATFORMA#ANOTHER-MAKS-001 -> No linked repo change required`
+- Future cross-repo sync triggered when ANOTHER MAKS persona sync or gaming integration requires IO-OPENUI-AO alignment.
+
+### ANOTHER MAKS KPI Enforcement
+
+| KPI | Target | Enforced by |
+|---|---|---|
+| Action evaluation p99 | ≤ 50ms | `.github/workflows/another-maks.yml` + test |
+| Build duration | ≤ 3 min | Build step timeout |
+| Uptime SLA | 99.99% | Monitoring |
+| Linked agent coordination | MAKSIMUS 2 | `persona.ts` handoff logic |
+| Security scan coverage | 100% | `another-maks-security` job |

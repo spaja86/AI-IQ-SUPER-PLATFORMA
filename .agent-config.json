@@ -209,6 +209,63 @@
         "spaja86/IO-OPENUI-AO"
       ]
     },
+    "another-maks-agent": {
+      "enabled": true,
+      "featureId": "another-maks",
+      "role": "kreativna-sinteza-generativna-orkestracija",
+      "linkedAgents": ["maksimus-2"],
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "trigger": {
+        "pullRequestLabels": [
+          "another-maks",
+          "another-maks:review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "another-maks/**"
+        ],
+        "paths": [
+          "src/lib/another-maks/**",
+          "src/app/api/another-maks/**",
+          "src/tests/lib/another-maks.test.ts",
+          "docs/ANOTHER-MAKS.md",
+          ".github/workflows/another-maks.yml"
+        ]
+      },
+      "persona": {
+        "id": "another-maks",
+        "specijalizacija": "kreativna-sinteza",
+        "linkedAgent": "maksimus-2"
+      },
+      "performanceKpi": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%"
+      },
+      "requiredChecks": [
+        "npm run lint -- src/lib/another-maks/types.ts src/lib/another-maks/persona.ts src/lib/another-maks/orchestrator.ts src/lib/another-maks/index.ts src/app/api/another-maks/route.ts",
+        "npx tsx src/tests/lib/another-maks.test.ts",
+        "npm run predeploy:check",
+        "npm audit --audit-level=high"
+      ],
+      "autoLabels": {
+        "validated": "another-maks:validated",
+        "needsReview": "another-maks:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for ANOTHER MAKS initial rollout"
+      },
+      "novaGeneracijaIntegration": {
+        "enabled": true,
+        "hipermrezaNode": true,
+        "personaSync": true,
+        "featureFlag": "another-maks"
+      }
+    },
     "nova-generacija-agent": {
       "enabled": true,
       "featureId": "nova-generacija",
@@ -230,8 +287,11 @@
           "src/lib/nova-generacija-gaming.ts",
           "src/app/api/nova-generacija/**",
           "src/app/nova-generacija/**",
+          "src/lib/another-maks/**",
+          "src/app/api/another-maks/**",
           "platforms/nova-generacija/**",
           "docs/NOVA-GENERACIJA.md",
+          "docs/ANOTHER-MAKS.md",
           ".github/workflows/nova-generacija.yml"
         ]
       },
@@ -593,6 +653,33 @@
     }
   },
   "featureTracks": {
+    "another-maks": {
+      "status": "active-development",
+      "labels": [
+        "another-maks",
+        "another-maks:review",
+        "another-maks:validated",
+        "another-maks:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/another-maks.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/ANOTHER-MAKS.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/GO-LIVE.md"
+      ],
+      "kpis": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%",
+        "linkedAgent": "maksimus-2",
+        "specijalizacija": "kreativna-sinteza"
+      }
+    },
     "back-to-spaces-another-races": {
       "status": "beta",
       "labels": [

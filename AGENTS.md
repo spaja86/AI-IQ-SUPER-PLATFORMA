@@ -106,6 +106,21 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Auto-labels PRs sa `gigatron:validated` ili `gigatron:needs-review`
   - Ostavlja audit log u PR komentaru
 
+### another-maks-agent (NEW)
+- **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
+- **Trigger**: PR sa labelom `another-maks`, push koji dira `another-maks` putanje, weekly schedule (ponedeljak 03:00 UTC)
+- **Actions**:
+  - Pokreće unit test suite za ANOTHER MAKS logiku (persona validacija, orchestrator, handoff)
+  - Verifikuje persona sinhronizaciju i handoff logiku ka MAKSIMUS 2
+  - Proverava performance KPI: evaluacija ≤ 50ms, build ≤ 3 min
+  - Skenira za nedoslednosti i sekrete u ANOTHER MAKS modulima
+  - Auto-labels PRs sa `another-maks:validated` ili `another-maks:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Specijalizacija**: Kreativna sinteza, generativna orkestracija, inovacioni signal
+  - **Linked agent**: MAKSIMUS 2 (analitički/razvojni agent)
+  - **Nova Generacija integration**: Hipermreza node, persona sync aktivan
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -147,6 +162,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
 | nova-generacija-agent | NG Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | All repos (Nova Generacija scope) |
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
+| another-maks-agent | Creative/Generative Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (another-maks paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
