@@ -121,6 +121,22 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Linked agent**: MAKSIMUS 2 (analitički/razvojni agent)
   - **Nova Generacija integration**: Hipermreza node, persona sync aktivan
 
+### persona-bank-agent (NEW)
+- **Role**: Unified Persona Banking — registracija, čuvanje, obogaćivanje i servisiranje svih persona platforme
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/persona-bank/**`, `src/app/api/persona-bank/**`
+- **Trigger**: PR sa labelom `persona-bank:change`, push koji dira `persona-bank` putanje, nightly cron (02:00 UTC)
+- **Actions**:
+  - Registruje i upsertuje persone za sve agente (ANOTHER MAKS, MAKSIMUS 2/3, Nova Generacija, GIGATRON, itd.)
+  - Detektuje stale/orphaned persone (bez agent reference > 30 dana) i auto-arhivira
+  - Generiše health report: active/dormant/archived count, octave coverage (1–16), hipermreza node coverage (1–256)
+  - Flaguje persone sa manjkavim atributima (`traits`, `skills`, `domain`) za review
+  - Proverava performance KPI: lookup ≤ 10ms, bulk list ≤ 50ms
+  - Sinhronizuje persona bank snapshots ka `spaja86/IO-OPENUI-AO` via multi-repo-sync-agent
+  - Auto-labels PRs sa `persona-bank:validated` ili `persona-bank:needs-review`
+  - Ostavlja audit log u PR komentaru (agentId, timestamp, changeType, diff)
+  - **Linked agents**: ANOTHER MAKS, MAKSIMUS 2/3, nova-generacija-agent, gigatron-validator-agent
+  - **Contract version**: 1.0.0
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -163,6 +179,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | nova-generacija-agent | NG Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | All repos (Nova Generacija scope) |
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | another-maks-agent | Creative/Generative Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (another-maks paths) |
+| persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -296,6 +313,22 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Auto-labels PRs with `gigatron:validated` or `gigatron:needs-review`
   - Leaves audit log in PR comment
 
+### persona-bank-agent (NEW)
+- **Role**: Unified Persona Banking — registration, storage, enrichment, and serving of all platform personas
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/persona-bank/**`, `src/app/api/persona-bank/**`
+- **Trigger**: PR with `persona-bank:change` label, push touching `persona-bank` paths, nightly cron (02:00 UTC)
+- **Actions**:
+  - Registers and upserts personas for all agents (ANOTHER MAKS, MAKSIMUS 2/3, Nova Generacija, GIGATRON, etc.)
+  - Detects stale/orphaned personas (no agent reference > 30 days) and auto-archives them
+  - Generates health report: active/dormant/archived count, octave coverage (1–16), hipermreza node coverage (1–256)
+  - Flags personas with missing attributes (`traits`, `skills`, `domain`) for review
+  - Validates performance KPIs: lookup ≤ 10ms, bulk list ≤ 50ms
+  - Syncs persona bank snapshots to `spaja86/IO-OPENUI-AO` via multi-repo-sync-agent
+  - Auto-labels PRs with `persona-bank:validated` or `persona-bank:needs-review`
+  - Leaves full audit log in PR comment (agentId, timestamp, changeType, diff)
+  - **Linked agents**: ANOTHER MAKS, MAKSIMUS 2/3, nova-generacija-agent, gigatron-validator-agent
+  - **Contract version**: 1.0.0
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -335,6 +368,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
+| persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 
 ## Agent Configuration Files
 
