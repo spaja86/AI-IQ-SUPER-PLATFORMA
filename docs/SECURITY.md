@@ -10,9 +10,10 @@
 2. [Autentifikacioni Tok](#autentifikacioni-tok)
 3. [Komponente](#komponente)
 4. [Konfiguracija](#konfiguracija)
-5. [Threat Model](#threat-model)
-6. [Incident Response](#incident-response)
-7. [Prijavljivanje Ranjivosti](#prijavljivanje-ranjivosti)
+5. [RLS Policy Standard](#-rls-policy-standard-for-all-guardrails)
+6. [Threat Model](#threat-model)
+7. [Incident Response](#incident-response)
+8. [Prijavljivanje Ranjivosti](#prijavljivanje-ranjivosti)
 
 ---
 
@@ -220,6 +221,18 @@ export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
 ```
+
+---
+
+## 🛡️ RLS Policy Standard (`FOR ALL` Guardrails)
+
+- `FOR ALL` je dozvoljen samo kada je tabela striktno operativna i vlasnik svih operacija je jedan principal (tipično `service_role`).
+- Svaki `FOR ALL` mora imati:
+  - eksplicitnu target rolu (`TO service_role` ili drugi definisani principal),
+  - `USING` uslov (read visibility),
+  - `WITH CHECK` uslov (write safety).
+- User-facing/multi-tenant tabele moraju koristiti operation-specific politike (`SELECT`, `INSERT`, `UPDATE`, `DELETE`) umesto jedne široke `FOR ALL` politike.
+- Referentni hardening i inventar: `docs/FOR-ALL-RLS-HARDENING.md`.
 
 ---
 

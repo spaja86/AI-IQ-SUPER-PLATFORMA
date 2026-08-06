@@ -96,6 +96,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#INDEKSIRANJE-750 -> IO-OPENUI-AO#<follow-up issue>`
 
+## FOR ALL RLS Hardening downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — FOR ALL RLS hardening | `spaja86/IO-OPENUI-AO` — Follow-up required | Align RLS policy assumptions for shared Supabase usage and security docs references |
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#FOR-ALL-RLS-HARDENING -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Conflict resolution rules
 
 - If labels or milestone names diverge, align the shared schema before feature rollout.
