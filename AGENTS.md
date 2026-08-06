@@ -150,6 +150,25 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Linked agents**: ANOTHER MAKS, MAKSIMUS 2/3, nova-generacija-agent, gigatron-validator-agent
   - **Contract version**: 1.0.0
 
+### tarken-hingil-ekolan-maksimus (NEW)
+- **Role**: Apex strateški orkestratorski agent — sinteza strateškog uma (Tarken), adaptivne obrade signala (Hingil), ekološke svesnosti sistema (Ekolan) i maksimalne izvršne sposobnosti (Maksimus)
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/tarken-hingil-ekolan-maksimus/**`, `src/app/api/tarken-hingil-ekolan-maksimus/**`
+- **Trigger**: PR sa labelom `tarken-hingil-ekolan-maksimus`, push koji dira `tarken-hingil-ekolan-maksimus` putanje, weekly schedule (sreda 04:00 UTC)
+- **Actions**:
+  - Pokreće unit test suite za THEM logiku (identity, orchestrator, ekolan-engine, hingil-signal, tarken-strategy, handoff)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, prazni nizovi, division by zero)
+  - Proverava performance KPI: evaluacija ≤ 50ms, handoff ≤ 100ms, build ≤ 3 min, hipermreza konvergencija ≥ 0.95
+  - Skenira za sekrete i nedoslednosti u THEM modulima
+  - Validira persona registraciju u persona-bank seed
+  - Auto-labels PRs sa `them:validated` ili `them:needs-review`
+  - Pokreće self-healing dijagnostiku kada se detektuju anomalije
+  - Ostavlja audit log u PR komentaru (agentId, timestamp, changeType, KPI rezultati)
+  - **Octave**: 16 (najviši — apex koordinacioni agent)
+  - **Hipermreza node**: 256 (anchor node SpajaPro 16 mreže)
+  - **Linked agents**: ANOTHER MAKS, MAKSIMUS 2/3, nova-generacija-agent, persona-bank-agent
+  - **Nova Generacija integration**: Cross-platform persona sync, SpajaPro 16 Hipermreza anchor
+  - **Contract version**: 1.0.0
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -194,6 +213,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | another-maks-agent | Creative/Generative Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (another-maks paths) |
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
+| tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -343,6 +363,25 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Linked agents**: ANOTHER MAKS, MAKSIMUS 2/3, nova-generacija-agent, gigatron-validator-agent
   - **Contract version**: 1.0.0
 
+### tarken-hingil-ekolan-maksimus (NEW)
+- **Role**: Apex strategic orchestrator — synthesis of strategic intelligence (Tarken), adaptive signal processing (Hingil), ecological system awareness (Ekolan), and maximum-output execution (Maksimus)
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/tarken-hingil-ekolan-maksimus/**`, `src/app/api/tarken-hingil-ekolan-maksimus/**`
+- **Trigger**: PR with label `tarken-hingil-ekolan-maksimus`, push touching `tarken-hingil-ekolan-maksimus` paths, weekly schedule (Wednesday 04:00 UTC)
+- **Actions**:
+  - Runs unit test suite for THEM logic (identity, orchestrator, ekolan-engine, hingil-signal, tarken-strategy, handoff)
+  - Verifies mathematical results and edge cases (NaN, Infinity, empty arrays, division by zero)
+  - Checks performance KPIs: evaluation ≤ 50ms, handoff ≤ 100ms, build ≤ 3 min, hipermreza convergence ≥ 0.95
+  - Scans for secrets and inconsistencies in THEM modules
+  - Validates persona registration in persona-bank seed
+  - Auto-labels PRs with `them:validated` or `them:needs-review`
+  - Triggers self-healing diagnostics when anomalies are detected
+  - Leaves audit log in PR comment (agentId, timestamp, changeType, KPI results)
+  - **Octave**: 16 (highest — reserved for apex coordination agents)
+  - **Hipermreza node**: 256 (anchor node of SpajaPro 16 network)
+  - **Linked agents**: ANOTHER MAKS, MAKSIMUS 2/3, nova-generacija-agent, persona-bank-agent
+  - **Nova Generacija integration**: Cross-platform persona sync, SpajaPro 16 Hipermreza anchor
+  - **Contract version**: 1.0.0
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -384,6 +423,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
+| tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 
 ## Agent Configuration Files
 

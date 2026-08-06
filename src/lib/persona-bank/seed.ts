@@ -97,6 +97,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     },
     linkedAgents: ['nova-generacija-agent', 'calculator-validator-agent'],
   },
+  // ─── TARKEN HINGIL EKOLAN MAKSIMUS ────────────────────────────────────────
+  {
+    id: 'tarken-hingil-ekolan-maksimus',
+    name: 'TARKEN HINGIL EKOLAN MAKSIMUS — Apex Strateški Orkestratorski Agent',
+    type: 'tarken-hingil-ekolan-maksimus',
+    octave: 16,
+    hipermrezaNode: 256,
+    attributes: {
+      traits: ['strategic', 'adaptive', 'apex', 'ecological'],
+      skills: ['orchestration', 'signal-synthesis', 'convergence', 'self-healing'],
+      tone: 'apex',
+      domain: 'industrial, AI, gaming, analytics',
+    },
+    linkedAgents: ['another-maks-agent', 'maksimus-2', 'maksimus-3', 'nova-generacija-agent', 'persona-bank-agent'],
+    crossRepoRef: 'tarken-hingil-ekolan-maksimus',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

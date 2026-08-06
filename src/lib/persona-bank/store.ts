@@ -221,6 +221,7 @@ export function getPersonaBankStats(): PersonaBankStats {
     'nova-generacija': 0,
     'another-maks': 0,
     maksimus: 0,
+    'tarken-hingil-ekolan-maksimus': 0,
     generic: 0,
   };
   const byOctave: Record<number, number> = {};

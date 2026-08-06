@@ -384,6 +384,29 @@
       "performanceThreshold": 50,
       "testSuite": "src/tests/lib/decibil-core.test.ts",
       "scope": "src/lib/decibil/**,src/app/api/decibil/**"
+    },
+    "tarken-hingil-ekolan-maksimus": {
+      "enabled": true,
+      "specijalizacija": "strateska-orkestracija",
+      "octave": 16,
+      "hipermrezaNode": 256,
+      "linkedAgents": [
+        "another-maks",
+        "maksimus-2",
+        "maksimus-3",
+        "nova-generacija-agent",
+        "persona-bank-agent"
+      ],
+      "performanceThresholdMs": 50,
+      "handoffThresholdMs": 100,
+      "buildMaxMin": 3,
+      "hipermrezaKonvergencijaMin": 0.95,
+      "workflowFile": ".github/workflows/tarken-hingil-ekolan-maksimus.yml",
+      "selfHealing": true,
+      "novaGeneracijaIntegration": true,
+      "crossRepoSync": [
+        "spaja86/IO-OPENUI-AO"
+      ]
     }
   },
   "orgSettings": {

@@ -13,6 +13,7 @@ export type PersonaType =
   | 'nova-generacija'
   | 'another-maks'
   | 'maksimus'
+  | 'tarken-hingil-ekolan-maksimus'
   | 'generic';
 
 export type PersonaStatus = 'active' | 'dormant' | 'archived';

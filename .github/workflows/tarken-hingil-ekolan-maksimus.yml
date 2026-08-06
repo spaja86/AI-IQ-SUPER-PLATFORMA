@@ -1,0 +1,236 @@
+name: TARKEN HINGIL EKOLAN MAKSIMUS — Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/tarken-hingil-ekolan-maksimus/**'
+      - 'src/app/api/tarken-hingil-ekolan-maksimus/**'
+      - 'src/tests/lib/tarken-hingil-ekolan-maksimus.test.ts'
+      - '.github/workflows/tarken-hingil-ekolan-maksimus.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/tarken-hingil-ekolan-maksimus/**'
+      - 'src/app/api/tarken-hingil-ekolan-maksimus/**'
+      - 'src/tests/lib/tarken-hingil-ekolan-maksimus.test.ts'
+      - '.github/workflows/tarken-hingil-ekolan-maksimus.yml'
+  schedule:
+    - cron: '0 4 * * 3'  # Weekly — every Wednesday at 04:00 UTC
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full THEM validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  them-lint:
+    name: THEM — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint THEM modules
+        run: |
+          npm run lint -- \
+            src/lib/tarken-hingil-ekolan-maksimus/types.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/identity.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/store.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/ekolan-engine.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/hingil-signal.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/tarken-strategy.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/handoff.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/orchestrator.ts \
+            src/lib/tarken-hingil-ekolan-maksimus/index.ts \
+            src/app/api/tarken-hingil-ekolan-maksimus/route.ts
+
+  them-typecheck:
+    name: THEM — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  them-test:
+    name: THEM — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [them-lint, them-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run THEM test suite
+        run: npx tsx src/tests/lib/tarken-hingil-ekolan-maksimus.test.ts
+
+  them-predeploy:
+    name: THEM — Predeploy Checks
+    runs-on: ubuntu-latest
+    needs: [them-lint, them-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run predeploy check
+        run: npm run predeploy:check
+
+  them-security:
+    name: THEM — Security Scan
+    runs-on: ubuntu-latest
+    needs: [them-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in THEM modules
+        run: |
+          echo "Scanning THEM modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/tarken-hingil-ekolan-maksimus/ \
+            src/app/api/tarken-hingil-ekolan-maksimus/ 2>/dev/null || \
+            (echo "::error::Potential secret found in THEM modules" && exit 1)
+          echo "No secrets detected."
+
+  them-persona-bank:
+    name: THEM — Persona Bank Validation
+    runs-on: ubuntu-latest
+    needs: [them-lint, them-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate THEM persona registration in seed
+        run: |
+          echo "Validating THEM persona in persona-bank seed..."
+          grep -q "tarken-hingil-ekolan-maksimus" src/lib/persona-bank/seed.ts || \
+            (echo "::error::THEM persona not found in persona-bank seed.ts" && exit 1)
+          echo "THEM persona registration confirmed."
+
+  them-label:
+    name: THEM — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const toAdd = [];
+
+            if (!labels.includes('tarken-hingil-ekolan-maksimus')) {
+              toAdd.push('tarken-hingil-ekolan-maksimus');
+            }
+            if (!labels.includes('agent:config-change')) {
+              toAdd.push('agent:config-change');
+            }
+
+            if (toAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: toAdd,
+              });
+            }
+
+  them-status:
+    name: THEM — Status Summary
+    runs-on: ubuntu-latest
+    needs: [them-lint, them-typecheck, them-test, them-predeploy, them-security, them-persona-bank]
+    if: always()
+    steps:
+      - name: THEM validation summary
+        run: |
+          echo "========================================"
+          echo "TARKEN HINGIL EKOLAN MAKSIMUS — Validation Summary"
+          echo "========================================"
+          echo "Lint:          ${{ needs.them-lint.result }}"
+          echo "TypeScript:    ${{ needs.them-typecheck.result }}"
+          echo "Tests:         ${{ needs.them-test.result }}"
+          echo "Predeploy:     ${{ needs.them-predeploy.result }}"
+          echo "Security:      ${{ needs.them-security.result }}"
+          echo "Persona Bank:  ${{ needs.them-persona-bank.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Evaluation target:           <= 50ms"
+          echo "  Handoff target:              <= 100ms"
+          echo "  Build duration target:       <= 3 min"
+          echo "  Hipermreza convergence:      >= 0.95"
+          echo "  Uptime SLA:                  99.99%"
+          echo "  Octave:                      16 (apex)"
+          echo "  Hipermreza node:             256 (anchor)"
+          echo "  Linked agents:               another-maks, maksimus-2, maksimus-3"
+          echo "  Specialization:              strateska-orkestracija"
+          echo "========================================"
+
+          if [ "${{ needs.them-lint.result }}" != "success" ] || \
+             [ "${{ needs.them-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.them-test.result }}" != "success" ] || \
+             [ "${{ needs.them-predeploy.result }}" != "success" ] || \
+             [ "${{ needs.them-security.result }}" != "success" ] || \
+             [ "${{ needs.them-persona-bank.result }}" != "success" ]; then
+            echo "::error::THEM validation FAILED — label: them:needs-review"
+            exit 1
+          else
+            echo "THEM validation PASSED — label: them:validated"
+          fi
