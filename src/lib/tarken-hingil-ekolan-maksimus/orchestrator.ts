@@ -25,9 +25,9 @@ export const THEM_MODEL_VERSION = '1.0.0';
 export const THEM_SOURCE_OF_TRUTH = '/api/tarken-hingil-ekolan-maksimus';
 
 export const THEM_WEIGHTS = {
-  straskaOrkestracija: 0.35,
+  strateskaOrkestracija: 0.35,
   adaptivniSignal: 0.25,
-  ekoskoMonitoring: 0.25,
+  ekoloskiMonitoring: 0.25,
   industrijskaKonvergencija: 0.15,
 } as const;
 
@@ -97,15 +97,15 @@ export async function buildThem(): Promise<ThemSvega> {
   const hingilScore = computeHingilScore(hingilResult);
 
   // ── Tarken: strategic scores ─────────────────────────────────────────────
-  const straskaOrkestracijaScore = 90; // apex orchestration — high baseline
+  const strateskaOrkestracijaScore = 90; // apex orchestration — high baseline
   const industrijskaKonvergencijaScore = clampScore(
     computeKonvergencijaScore(systemState.healthScore, ekolanScore, hingilScore) * 100,
   );
 
   const ukupanScore = clampScore(
-    straskaOrkestracijaScore * THEM_WEIGHTS.straskaOrkestracija
+    strateskaOrkestracijaScore * THEM_WEIGHTS.strateskaOrkestracija
     + hingilScore * THEM_WEIGHTS.adaptivniSignal
-    + ekolanScore * THEM_WEIGHTS.ekoskoMonitoring
+    + ekolanScore * THEM_WEIGHTS.ekoloskiMonitoring
     + industrijskaKonvergencijaScore * THEM_WEIGHTS.industrijskaKonvergencija,
   );
 
@@ -113,13 +113,13 @@ export async function buildThem(): Promise<ThemSvega> {
   const deltaScore = globalPreviousScore === null ? 0 : ukupanScore - globalPreviousScore;
 
   const domeni = {
-    straskaOrkestracija: buildDomenSignal(
+    strateskaOrkestracija: buildDomenSignal(
       'Strateška Orkestracija',
-      straskaOrkestracijaScore,
-      THEM_WEIGHTS.straskaOrkestracija,
+      strateskaOrkestracijaScore,
+      THEM_WEIGHTS.strateskaOrkestracija,
       THEM_SOURCE_OF_TRUTH,
       true,
-      previousSnapshot?.domenScores.straskaOrkestracija ?? null,
+      previousSnapshot?.domenScores.strateskaOrkestracija ?? null,
     ),
     adaptivniSignal: buildDomenSignal(
       'Adaptivni Signal (Hingil)',
@@ -129,13 +129,13 @@ export async function buildThem(): Promise<ThemSvega> {
       hingilResult.valid,
       previousSnapshot?.domenScores.adaptivniSignal ?? null,
     ),
-    ekoskoMonitoring: buildDomenSignal(
+    ekoloskiMonitoring: buildDomenSignal(
       'Ekoloski Monitoring (Ekolan)',
       ekolanScore,
-      THEM_WEIGHTS.ekoskoMonitoring,
+      THEM_WEIGHTS.ekoloskiMonitoring,
       THEM_SOURCE_OF_TRUTH,
       true,
-      previousSnapshot?.domenScores.ekoskoMonitoring ?? null,
+      previousSnapshot?.domenScores.ekoloskiMonitoring ?? null,
     ),
     industrijskaKonvergencija: buildDomenSignal(
       'Industrijska Konvergencija (Tarken)',
@@ -177,9 +177,9 @@ export async function buildThem(): Promise<ThemSvega> {
   setThemLastSnapshot({
     ukupanScore,
     domenScores: {
-      straskaOrkestracija: straskaOrkestracijaScore,
+      strateskaOrkestracija: strateskaOrkestracijaScore,
       adaptivniSignal: hingilScore,
-      ekoskoMonitoring: ekolanScore,
+      ekoloskiMonitoring: ekolanScore,
       industrijskaKonvergencija: industrijskaKonvergencijaScore,
     },
     timestamp: nowIso,

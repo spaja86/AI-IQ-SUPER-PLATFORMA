@@ -59,7 +59,7 @@ export function resolveFallbackAgent(anomalijaLog: string[]): string | null {
   if (log.includes('analitik') || log.includes('metrik') || log.includes('kpi')) {
     return 'maksimus-2';
   }
-  if (log.includes('kreatIV') || log.includes('generat')) {
+  if (log.includes('kreativ') || log.includes('generat')) {
     return 'another-maks';
   }
   // Default fallback

@@ -74,9 +74,9 @@ export interface ThemSvega {
   domeniBrojKriticnih: number;
   preporuke: string[];
   domeni: {
-    straskaOrkestracija: ThemDomenSignal;
+    strateskaOrkestracija: ThemDomenSignal;
     adaptivniSignal: ThemDomenSignal;
-    ekoskoMonitoring: ThemDomenSignal;
+    ekoloskiMonitoring: ThemDomenSignal;
     industrijskaKonvergencija: ThemDomenSignal;
   };
   trend: ThemTrend;
@@ -99,9 +99,9 @@ export interface ThemSvega {
 export interface ThemSnapshot {
   ukupanScore: number;
   domenScores: {
-    straskaOrkestracija: number;
+    strateskaOrkestracija: number;
     adaptivniSignal: number;
-    ekoskoMonitoring: number;
+    ekoloskiMonitoring: number;
     industrijskaKonvergencija: number;
   };
   timestamp: string;

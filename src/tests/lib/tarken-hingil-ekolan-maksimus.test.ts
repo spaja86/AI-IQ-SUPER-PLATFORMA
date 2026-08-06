@@ -129,9 +129,9 @@ async function runTests(): Promise<void> {
   });
 
   await test('THEM_WEIGHTS ima sve ključeve', () => {
-    assert('straskaOrkestracija' in THEM_WEIGHTS, 'straskaOrkestracija mora postojati');
+    assert('strateskaOrkestracija' in THEM_WEIGHTS, 'strateskaOrkestracija mora postojati');
     assert('adaptivniSignal' in THEM_WEIGHTS, 'adaptivniSignal mora postojati');
-    assert('ekoskoMonitoring' in THEM_WEIGHTS, 'ekoskoMonitoring mora postojati');
+    assert('ekoloskiMonitoring' in THEM_WEIGHTS, 'ekoloskiMonitoring mora postojati');
     assert('industrijskaKonvergencija' in THEM_WEIGHTS, 'industrijskaKonvergencija mora postojati');
   });
 
@@ -141,9 +141,9 @@ async function runTests(): Promise<void> {
     const snapshot = {
       ukupanScore: 88,
       domenScores: {
-        straskaOrkestracija: 90,
+        strateskaOrkestracija: 90,
         adaptivniSignal: 85,
-        ekoskoMonitoring: 88,
+        ekoloskiMonitoring: 88,
         industrijskaKonvergencija: 87,
       },
       timestamp: new Date().toISOString(),
@@ -152,7 +152,7 @@ async function runTests(): Promise<void> {
     const retrieved = getThemLastSnapshot();
     assert(retrieved !== null, 'snapshot mora biti sačuvan');
     assertEqual(retrieved.ukupanScore, 88, 'ukupanScore mora biti sačuvan');
-    assertEqual(retrieved.domenScores.straskaOrkestracija, 90, 'straskaOrkestracija score');
+    assertEqual(retrieved.domenScores.strateskaOrkestracija, 90, 'strateskaOrkestracija score');
   });
 
   // ─── Ekolan Engine ────────────────────────────────────────────────────────
