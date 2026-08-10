@@ -37,6 +37,9 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `mekartor` | Mekartor release track change set |
 | `mekartor:review` | Mekartor rollout/config change requires focused human review |
 | `mekartor:validated` | Mekartor deploy/readiness validation completed |
+| `real-gun` | REAL GUN software/game safety-bound feature track |
+| `real-gun:review` | REAL GUN change requires focused human + safety review |
+| `real-gun:validated` | REAL GUN validation and safety checks completed |
 
 ## GIGATRON Label Schema
 
@@ -105,6 +108,16 @@ Audit reference convention:
 Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#FOR-ALL-RLS-HARDENING -> IO-OPENUI-AO#<follow-up issue>`
+
+## REAL GUN downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — REAL GUN safety-bound track | `spaja86/IO-OPENUI-AO` — No linked repo change required | Scope is documentation-level safety contract in this repo; future runtime coupling requires explicit downstream issue |
+
+Audit reference convention (if downstream work is needed later):
+
+`AI-IQ-SUPER-PLATFORMA#REAL-GUN -> IO-OPENUI-AO#<follow-up issue>`
 
 ## Conflict resolution rules
 
