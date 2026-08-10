@@ -113,6 +113,21 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['another-maks-agent', 'maksimus-2', 'maksimus-3', 'nova-generacija-agent', 'persona-bank-agent'],
     crossRepoRef: 'tarken-hingil-ekolan-maksimus',
   },
+  // ─── DISCOUNT TELECOM GLOBAL ──────────────────────────────────────────────
+  {
+    id: 'discount-telecom-global',
+    name: 'Discount Telecom Global — Telecom Discount Aggregator Persona',
+    type: 'discount-telecom',
+    octave: 8,
+    hipermrezaNode: 64,
+    attributes: {
+      traits: ['discount-aggregator', 'network-aware', 'global-coverage'],
+      skills: ['price-comparison', 'promo-detection', 'network-routing'],
+      tone: 'analytical',
+      domain: 'telecom',
+    },
+    linkedAgents: ['discount-telecom-validator-agent', 'multi-repo-sync-agent'],
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

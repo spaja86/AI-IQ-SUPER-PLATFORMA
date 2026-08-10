@@ -504,3 +504,31 @@ Governance and execution contract for the `REAL BIK POK CREATE MAKSIMUM` track, 
 ```
 AI-IQ-SUPER-PLATFORMA#REAL-BIK-POK-CREATE-MAKSIMUM -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+---
+
+## Initiative: Discount Telecom Global Persona
+
+| Field | Value |
+|---|---|
+| Initiative ID | `DISCOUNT-TELECOM-GLOBAL-001` |
+| Date | 2026-08-10 |
+| Owner | @spaja86 |
+| Scope | `src/lib/discount-telecom/**`, `src/app/api/discount-telecom/**`, `src/components/discount-telecom/**` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — discount-telecom-global persona | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: operator catalog snapshots via multi-repo-sync-agent, persona-bank crossRepoRef, shared labels |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add `discount-telecom-global` persona cross-reference in linked-repo persona bank
+- Sync operator catalog snapshots via `multi-repo-sync-agent`
+- Confirm `discount-telecom:logic-change` label exists in linked repo label schema
+- Register `discount-telecom-validator-agent` trigger in linked-repo `.agent-config.json`
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#DISCOUNT-TELECOM-GLOBAL-001 -> IO-OPENUI-AO#<follow-up issue>
+```

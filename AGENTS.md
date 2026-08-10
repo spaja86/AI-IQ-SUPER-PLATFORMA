@@ -119,6 +119,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Nova Generacija integration**: Audio fairness provere u gaming kontekstu
 
+### discount-telecom-validator-agent (NEW)
+- **Role**: Validacija Discount Telecom logike — globalni operator katalog, discount kalkulacija, eligibility i edge case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/discount-telecom/**`, `src/app/api/discount-telecom/**`, `src/components/discount-telecom/**`
+- **Trigger**: PR sa labelom `discount-telecom:logic-change`, push koji dira `discount-telecom` putanje
+- **Actions**:
+  - Pokreće unit test suite za Discount Telecom logiku (operator registry, discount engine, stacking, cap, eligibility)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne cene, nulte cene, nevalidni operatori)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu (negativni discount %, nevalidni network type)
+  - Auto-labels PRs sa `discount-telecom:validated` ili `discount-telecom:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
+  - **Multi-repo sync**: Sinhronizuje operator catalog snapshots ka `spaja86/IO-OPENUI-AO`
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -214,6 +228,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
+| discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -382,6 +397,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Nova Generacija integration**: Cross-platform persona sync, SpajaPro 16 Hipermreza anchor
   - **Contract version**: 1.0.0
 
+### discount-telecom-validator-agent (NEW)
+- **Role**: Validate Discount Telecom logic — global operator catalog, discount calculation, eligibility, and edge case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/discount-telecom/**`, `src/app/api/discount-telecom/**`, `src/components/discount-telecom/**`
+- **Trigger**: PR with label `discount-telecom:logic-change`, push touching `discount-telecom` paths
+- **Actions**:
+  - Runs unit test suite for Discount Telecom logic (operator registry, discount engine, stacking, cap, eligibility)
+  - Verifies mathematical results and edge cases (NaN, Infinity, negative prices, zero prices, unknown operators)
+  - Checks performance KPIs: calculation ≤ 50ms, API response ≤ 200ms
+  - Scans for inconsistencies in code (negative discount %, invalid network type)
+  - Auto-labels PRs with `discount-telecom:validated` or `discount-telecom:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
+  - **Multi-repo sync**: Syncs operator catalog snapshots to `spaja86/IO-OPENUI-AO`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -424,6 +453,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
+| discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 
 ## Agent Configuration Files
 
