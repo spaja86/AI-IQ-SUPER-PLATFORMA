@@ -473,3 +473,34 @@ On push to `main` (paths touching `src/lib/persona-bank/**`), the `multi-repo-sy
 | Max octaves | 16 | `PERSONA_BANK_MAX_OCTAVE` constant |
 | Max hipermreza nodes | 256 | `PERSONA_BANK_MAX_HIPERMREZA_NODE` constant |
 | Security scan coverage | 100% | `persona-bank-security` job |
+
+---
+
+## REAL BIK POK CREATE MAKSIMUM — Audit Trail
+
+### Initiative
+
+Governance and execution contract for the `REAL BIK POK CREATE MAKSIMUM` track, including requirements, phase gates, cross-repo dependencies, audit format, and release/rollback policy.
+
+| Field | Value |
+|---|---|
+| Initiative ID | `REAL-BIK-POK-CREATE-MAKSIMUM-001` |
+| Date | 2026-08-10 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/REAL-BIK-POK-CREATE-MAKSIMUM.md` |
+
+### Cross-repo references
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — REAL BIK POK CREATE MAKSIMUM | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: docs audit reference, shared labels, `.agent-config.json` compatibility, PR governance evidence |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add bidirectional initiative reference in linked-repo multi-repo doc
+- Confirm shared label schema compatibility for governance/security gates
+- Confirm `.agent-config.json` sync fields remain compatible for this initiative
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#REAL-BIK-POK-CREATE-MAKSIMUM -> IO-OPENUI-AO#<follow-up issue>
+```
