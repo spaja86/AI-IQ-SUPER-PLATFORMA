@@ -32,7 +32,7 @@ export function validateSequence(sequence: number[]): string[] {
   for (let i = 0; i < sequence.length; i++) {
     const val = sequence[i];
     if (Number.isNaN(val)) errors.push(`sequence[${i}] je NaN`);
-    if (!Number.isFinite(val)) errors.push(`sequence[${i}] nije konačan broj`);
+    else if (!Number.isFinite(val)) errors.push(`sequence[${i}] nije konačan broj`);
   }
   return errors;
 }
@@ -44,7 +44,7 @@ export function buildGuard(maxIterations: number, maxDurationMs: number): Petlja
   return {
     canContinue: () => {
       if (maxIterations < 1) return { ok: false, reason: 'max-iterations' };
-      if (maxDurationMs < 0) return { ok: false, reason: 'time-limit' };
+      if (maxDurationMs <= 0) return { ok: false, reason: 'time-limit' };
       if (iterations >= maxIterations) return { ok: false, reason: 'max-iterations' };
       const elapsed = Date.now() - startedAt;
       if (elapsed >= maxDurationMs) return { ok: false, reason: 'time-limit' };

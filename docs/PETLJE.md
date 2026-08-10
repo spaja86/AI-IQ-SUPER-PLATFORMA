@@ -26,7 +26,7 @@ Ovaj dokument definiše značenje, cilj i zajednički API za:
    - Izlaz: Suma svih posećenih vrednosti pri odbrojavanju.
 
 5. **UMBREL PETLJA**
-   - Cilj: Orkestracija sve 4 osnovne petlje kroz jedinstveni rezultat i jedinstven audit trag.
+   - Cilj: Orkestracija svih 4 osnovne petlje kroz jedinstveni rezultat i jedinstven audit trag.
    - Izlaz: Agregiran izlaz svih petlji.
 
 ## Jedinstven API / kontrakt

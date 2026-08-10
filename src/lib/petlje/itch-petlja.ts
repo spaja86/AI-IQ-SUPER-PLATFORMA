@@ -30,7 +30,6 @@ export function runItchPetlja(input: PetljaInput): PetljaResult {
   const trace = [];
   const step = Math.abs(normalized.step);
   let current = normalized.start;
-  let accumulator = current;
 
   while (current !== normalized.target) {
     const decision = guard.canContinue();
@@ -44,8 +43,8 @@ export function runItchPetlja(input: PetljaInput): PetljaResult {
       current = Math.max(current - step, normalized.target);
     }
 
-    accumulator += current;
-    trace.push({ iteration: guard.getIterations(), value: current, accumulator });
+    const traceAccumulator = trace.length > 0 ? trace[trace.length - 1].accumulator + current : current;
+    trace.push({ iteration: guard.getIterations(), value: current, accumulator: traceAccumulator });
   }
 
   return finalizeResult(result, guard, 'completed', current, trace, []);
