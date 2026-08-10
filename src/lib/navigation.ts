@@ -34,6 +34,7 @@ export const navigation: NavItem[] = [
   { label: 'VUKOBAT', href: '/vukobat', icon: '🛡️', description: 'Visoko Usklađena Komandna Orkestracija Budnosti, Analitike i Tokova — cross-domain engine za 6 domena operativne budnosti i automatizacije' },
   { label: 'DIVEEZIJA EKSPESLA', href: '/diveezija-ekspesla', icon: '🔀', description: 'Dinamična Inteligentna Vektorizovana Ekspanzija i Ekspresija Zona Integracije Javnih Automatizovanih sistema — cross-domain engine sa 6 domena ekspresne logike i automatizacije' },
   { label: 'EKSPRITING', href: '/ekspriting', icon: '✍️', description: 'Ekspresni Skripting i Pisanje Engine — 5 domena brze generacije i orkestracije sadržaja: ekspresna sinteza, skripting logika, pisanje toka, iterativno uredivanje i tokenizacija sadrzaja' },
+  { label: 'EKSPRES', href: '/ekspres', icon: '⚡', description: 'Ekspresni Operativni Readiness Engine — 4 domena za ubrzano donošenje odluka i stabilizaciju: brzina, pouzdanost, automatizacija i kvalitet izlaza' },
   { label: 'Prompt', href: '/prompt', icon: '💬', description: 'Prompt sistem sa 28 promptova' },
   { label: 'AKUZATIV', href: '/akuzativ', icon: '🧠', description: 'Edukativni jezički modul: pravila, zadaci i validacija znanja za akuzativ' },
   { label: 'Igrice', href: '/igrice', icon: '🎮', description: '97 igrica u 18 kategorija' },
