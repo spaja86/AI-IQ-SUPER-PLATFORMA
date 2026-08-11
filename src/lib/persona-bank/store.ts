@@ -222,6 +222,8 @@ export function getPersonaBankStats(): PersonaBankStats {
     'another-maks': 0,
     maksimus: 0,
     'tarken-hingil-ekolan-maksimus': 0,
+    'discount-telecom': 0,
+    madagaskar: 0,
     generic: 0,
   };
   const byOctave: Record<number, number> = {};

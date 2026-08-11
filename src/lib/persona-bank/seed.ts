@@ -128,6 +128,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     },
     linkedAgents: ['discount-telecom-validator-agent', 'multi-repo-sync-agent'],
   },
+  // ─── MADAGASKAR EXOTIC MARKET ─────────────────────────────────────────────
+  {
+    id: 'madagaskar-exotic-market',
+    name: 'Madagaskar Exotic Market — Rare Resource Procurement Intelligence Persona',
+    type: 'madagaskar',
+    octave: 5,
+    hipermrezaNode: 40,
+    attributes: {
+      traits: ['rare', 'sustainable', 'geographic', 'procurement'],
+      skills: ['catalog-aggregation', 'rarity-pricing', 'sustainability-scoring'],
+      tone: 'analytical',
+      domain: 'exotic-market-intelligence',
+    },
+    linkedAgents: ['madagaskar-validator-agent', 'multi-repo-sync-agent', 'gigatron-validator-agent'],
+    crossRepoRef: 'madagaskar-exotic-market',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

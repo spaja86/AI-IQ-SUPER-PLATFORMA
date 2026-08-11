@@ -133,6 +133,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
   - **Multi-repo sync**: Sinhronizuje operator catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
+### madagaskar-validator-agent (NEW)
+- **Role**: Validacija MADAGASKAR logike — egzotična tržišna inteligencija, rarity premium kalkulacija, sustainability scoring i procurement integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`
+- **Trigger**: PR sa labelom `madagaskar:logic-change`, push koji dira `madagaskar` putanje
+- **Actions**:
+  - Pokreće unit test suite za MADAGASKAR logiku (registry, engine, utils)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne količine, nevalidni IDs)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu (negativne cene, nevalidni rarity, nevalidni sustainability score)
+  - Auto-labels PRs sa `madagaskar:validated` ili `madagaskar:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `madagaskar-exotic-market` (octave: 5, hipermreza node: 40)
+  - **Multi-repo sync**: Sinhronizuje exotic goods catalog snapshots ka `spaja86/IO-OPENUI-AO`
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -229,6 +243,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -411,6 +426,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
   - **Multi-repo sync**: Syncs operator catalog snapshots to `spaja86/IO-OPENUI-AO`
 
+### madagaskar-validator-agent (NEW)
+- **Role**: Validate MADAGASKAR logic — exotic market intelligence, rarity premium calculation, sustainability scoring, and procurement integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`
+- **Trigger**: PR with label `madagaskar:logic-change`, push touching `madagaskar` paths
+- **Actions**:
+  - Runs unit test suite for MADAGASKAR logic (registry, engine, utils)
+  - Verifies mathematical results and edge cases (NaN, Infinity, negative quantities, invalid IDs)
+  - Checks performance KPIs: calculation ≤ 50ms, API response ≤ 200ms
+  - Scans for inconsistencies in code (negative prices, invalid rarity, invalid sustainability score)
+  - Auto-labels PRs with `madagaskar:validated` or `madagaskar:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `madagaskar-exotic-market` (octave: 5, hipermreza node: 40)
+  - **Multi-repo sync**: Syncs exotic goods catalog snapshots to `spaja86/IO-OPENUI-AO`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -454,6 +483,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 
 ## Agent Configuration Files
 
