@@ -545,3 +545,31 @@ AI-IQ-SUPER-PLATFORMA#REAL-BIK-POK-CREATE-MAKSIMUM -> IO-OPENUI-AO#<follow-up is
 ```
 AI-IQ-SUPER-PLATFORMA#DISCOUNT-TELECOM-GLOBAL-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+---
+
+## Initiative: MADAGASKAR Exotic Market Intelligence
+
+| Field | Value |
+|---|---|
+| Initiative ID | `MADAGASKAR-EXOTIC-MARKET-001` |
+| Date | 2026-08-11 |
+| Owner | @spaja86 |
+| Scope | `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — madagaskar-exotic-market persona | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: exotic goods catalog snapshots via multi-repo-sync-agent, persona-bank crossRepoRef, shared labels |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add `madagaskar-exotic-market` persona cross-reference in linked-repo persona bank
+- Sync exotic goods catalog snapshots via `multi-repo-sync-agent`
+- Confirm `madagaskar:logic-change` label exists in linked repo label schema
+- Register `madagaskar-validator-agent` trigger in linked-repo `.agent-config.json`
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#MADAGASKAR-EXOTIC-MARKET-001 -> IO-OPENUI-AO#<follow-up issue>
+```
