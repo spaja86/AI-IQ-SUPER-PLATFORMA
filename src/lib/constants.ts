@@ -38,6 +38,7 @@ export const TOTAL_ROUTES = 1411;
 export const TOTAL_IGRICA = 123;
 export const TOTAL_GEJMING_ENTITETA = 76;
 export const TOTAL_DIAGNOSTIKA = 2410;
+export const TOTAL_FORCE_DOMAINS = 6;
 
 // Autofinish
 export const AUTOFINISH_COUNT = 1442;

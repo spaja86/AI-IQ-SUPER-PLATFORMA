@@ -864,6 +864,55 @@
         "downstreamDependency": false,
         "note": "No linked repo change required for GIGATRON rollout"
       }
+    },
+    "force-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "force-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "force:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "force/**"
+        ],
+        "paths": [
+          "src/lib/force.ts",
+          "src/lib/force-store.ts",
+          "src/lib/fokus.ts",
+          "src/lib/operativa.ts",
+          "src/lib/reakcija.ts",
+          "src/lib/cilj.ts",
+          "src/lib/energija-force.ts",
+          "src/lib/snaga.ts",
+          "src/app/api/force/**",
+          "src/tests/lib/force.test.ts"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/force.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "force:validated",
+        "needsReview": "force:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "force-engine",
+        "octave": 6,
+        "hipermrezaNode": 48
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "weightSumTolerance": 0.0001,
+        "scoreRange": [0, 100],
+        "snapshotMaxCount": 100
+      }
     }
   }
 }
