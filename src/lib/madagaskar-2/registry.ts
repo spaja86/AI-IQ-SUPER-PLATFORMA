@@ -6,16 +6,23 @@
 
 import type { ExoticGood } from '../madagaskar/types';
 import { SEED_GOODS as V1_SEED_GOODS } from '../madagaskar/registry';
+import type { ExoticGoodCategory, OriginRegion } from './types';
+
+/** ExoticGood with v2-extended category and originRegion unions. */
+interface ExoticGoodV2 extends Omit<ExoticGood, 'category' | 'originRegion'> {
+  category: ExoticGoodCategory;
+  originRegion: OriginRegion;
+}
 
 // ─── v2 Seed Goods ────────────────────────────────────────────────────────────
 
-const V2_NEW_GOODS = [
+const V2_NEW_GOODS: ExoticGoodV2[] = [
   // ─── Central-Africa ───────────────────────────────────────────────────────
   {
     id: 'caf-malachite-001',
     name: 'Congolese Malachite Crystal (Gem Grade)',
-    category: 'crystal' as string,
-    originRegion: 'Central-Africa' as string,
+    category: 'crystal',
+    originRegion: 'Central-Africa',
     rarity: 8,
     sustainabilityScore: 45,
     pricePerUnitCents: 42000,
@@ -27,8 +34,8 @@ const V2_NEW_GOODS = [
   {
     id: 'caf-gorilla-resin-001',
     name: 'Cameroon Forest Copal Resin (Artisan Grade)',
-    category: 'artisan' as string,
-    originRegion: 'Central-Africa' as string,
+    category: 'artisan',
+    originRegion: 'Central-Africa',
     rarity: 7,
     sustainabilityScore: 68,
     pricePerUnitCents: 8800,
@@ -40,8 +47,8 @@ const V2_NEW_GOODS = [
   {
     id: 'caf-moringa-001',
     name: 'Chad Moringa Leaf Powder (Sun-Dried)',
-    category: 'botanical' as string,
-    originRegion: 'Central-Africa' as string,
+    category: 'botanical',
+    originRegion: 'Central-Africa',
     rarity: 3,
     sustainabilityScore: 92,
     pricePerUnitCents: 650,
@@ -54,8 +61,8 @@ const V2_NEW_GOODS = [
   {
     id: 'him-saffron-001',
     name: 'Kashmiri Saffron (Mongra Grade, Hand-Picked)',
-    category: 'spice' as string,
-    originRegion: 'Himalaya' as string,
+    category: 'spice',
+    originRegion: 'Himalaya',
     rarity: 10,
     sustainabilityScore: 78,
     pricePerUnitCents: 950000,
@@ -67,8 +74,8 @@ const V2_NEW_GOODS = [
   {
     id: 'him-cordyceps-001',
     name: 'Tibetan Cordyceps Sinensis (Wild, Grade A)',
-    category: 'fungal' as string,
-    originRegion: 'Himalaya' as string,
+    category: 'fungal',
+    originRegion: 'Himalaya',
     rarity: 9,
     sustainabilityScore: 55,
     pricePerUnitCents: 350000,
@@ -80,8 +87,8 @@ const V2_NEW_GOODS = [
   {
     id: 'him-shilajit-001',
     name: 'Himalayan Shilajit Resin (Purified, Fulvic Acid 60%+)',
-    category: 'mineral' as string,
-    originRegion: 'Himalaya' as string,
+    category: 'mineral',
+    originRegion: 'Himalaya',
     rarity: 8,
     sustainabilityScore: 70,
     pricePerUnitCents: 28000,
@@ -94,8 +101,8 @@ const V2_NEW_GOODS = [
   {
     id: 'arc-algae-spirulina-001',
     name: 'Arctic Spirulina (Cold-Water Cultivated, Freeze-Dried)',
-    category: 'algae' as string,
-    originRegion: 'Arctic' as string,
+    category: 'algae',
+    originRegion: 'Arctic',
     rarity: 7,
     sustainabilityScore: 96,
     pricePerUnitCents: 12000,
@@ -107,8 +114,8 @@ const V2_NEW_GOODS = [
   {
     id: 'arc-chlorella-001',
     name: 'Norwegian Arctic Chlorella (Cracked-Cell, Organic)',
-    category: 'algae' as string,
-    originRegion: 'Arctic' as string,
+    category: 'algae',
+    originRegion: 'Arctic',
     rarity: 6,
     sustainabilityScore: 94,
     pricePerUnitCents: 8500,
@@ -120,8 +127,8 @@ const V2_NEW_GOODS = [
   {
     id: 'arc-sea-crystal-salt-001',
     name: 'Arctic Sea Crystal Salt (Svalbard, Hand-Harvested)',
-    category: 'crystal' as string,
-    originRegion: 'Arctic' as string,
+    category: 'crystal',
+    originRegion: 'Arctic',
     rarity: 5,
     sustainabilityScore: 88,
     pricePerUnitCents: 3500,
@@ -133,8 +140,8 @@ const V2_NEW_GOODS = [
   {
     id: 'arc-chaga-001',
     name: 'Siberian Arctic Chaga Mushroom (Wild, Chunked)',
-    category: 'fungal' as string,
-    originRegion: 'Arctic' as string,
+    category: 'fungal',
+    originRegion: 'Arctic',
     rarity: 6,
     sustainabilityScore: 80,
     pricePerUnitCents: 7200,
@@ -150,7 +157,9 @@ const V2_NEW_GOODS = [
 /** Full v2 catalog: all v1 goods + v2 new goods. */
 export const SEED_GOODS_V2: ExoticGood[] = [
   ...V1_SEED_GOODS,
-  ...(V2_NEW_GOODS as ExoticGood[]),
+  // ExoticGoodV2 is structurally compatible with ExoticGood at runtime;
+  // the cast is needed because the v2 category/region unions are wider.
+  ...(V2_NEW_GOODS as unknown as ExoticGood[]),
 ];
 
 // ─── In-memory store ──────────────────────────────────────────────────────────

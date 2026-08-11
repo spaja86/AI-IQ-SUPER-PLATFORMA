@@ -67,7 +67,7 @@ export function getFxRate(from: string, to: string): FxRate | undefined {
  * Returns 0 for invalid inputs or unknown pairs.
  */
 export function convertCents(cents: number, from: string, to: string): number {
-  if (!Number.isFinite(cents) || isNaN(cents) || cents < 0) return 0;
+  if (!Number.isFinite(cents) || cents < 0) return 0;
   if (from === to) return cents;
 
   const rate = getFxRate(from, to);

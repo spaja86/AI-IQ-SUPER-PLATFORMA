@@ -118,7 +118,7 @@ export function placeBid(req: BidRequest): BidResult {
   }
 
   // Valid bid amount
-  if (!Number.isFinite(req.bidAmountCents) || isNaN(req.bidAmountCents) || req.bidAmountCents <= 0) {
+  if (!Number.isFinite(req.bidAmountCents) || req.bidAmountCents <= 0) {
     return { lotId: req.lotId, accepted: false, newCurrentBidCents: lot.currentBidCents, outbid: false, warnings: ['bidAmountCents must be a positive finite number.'] };
   }
 

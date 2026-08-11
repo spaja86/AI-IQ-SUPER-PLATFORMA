@@ -116,7 +116,7 @@ export function calculateProcurementV2(
 
   // ── Base price ────────────────────────────────────────────────────────────
   const basePriceCents = good.pricePerUnitCents;
-  if (!Number.isFinite(basePriceCents) || isNaN(basePriceCents) || basePriceCents < 0) {
+  if (!Number.isFinite(basePriceCents) || basePriceCents < 0) {
     return buildErrorResultV2(input, `Good ${input.goodId} has an invalid pricePerUnitCents.`, start);
   }
 

@@ -68,8 +68,8 @@ export function calculateBasket(items: BasketItem[], outputCurrency: string = 'E
     warnings.push(`${invalidCount} item(s) in the basket are invalid and excluded from the total.`);
   }
 
-  // Basket discount based on total item count (all items, not just valid)
-  const basketDiscountPercent = getBasketDiscountPercent(items.length);
+  // Basket discount based on valid item count only
+  const basketDiscountPercent = getBasketDiscountPercent(validResults.length);
 
   // Aggregate total in outputCurrency
   let totalNetCentsInOutputCurrency = 0;
