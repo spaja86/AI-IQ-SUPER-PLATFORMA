@@ -407,6 +407,45 @@
       "crossRepoSync": [
         "spaja86/IO-OPENUI-AO"
       ]
+    },
+    "madagaskar-validator-agent": {
+      "enabled": true,
+      "scope": [
+        "src/lib/madagaskar/**",
+        "src/app/api/madagaskar/**",
+        "src/lib/madagaskar-2/**",
+        "src/app/api/madagaskar-2/**"
+      ],
+      "triggerLabels": [
+        "madagaskar:logic-change",
+        "madagaskar-2:logic-change"
+      ],
+      "performanceThresholdMs": 50,
+      "apiResponseThresholdMs": 200,
+      "testSuites": [
+        "madagaskar-utils",
+        "madagaskar-registry",
+        "madagaskar-engine",
+        "madagaskar2-fx",
+        "madagaskar2-auction",
+        "madagaskar2-traceability",
+        "madagaskar2-basket",
+        "madagaskar2-engine"
+      ],
+      "persona": {
+        "id": "madagaskar-exotic-market",
+        "octave": 5,
+        "hipermrezaNode": 40
+      },
+      "multiRepoSync": {
+        "enabled": true,
+        "linkedRepos": [
+          "spaja86/IO-OPENUI-AO"
+        ],
+        "syncArtifacts": [
+          "exotic-goods-catalog-v2-snapshot"
+        ]
+      }
     }
   },
   "orgSettings": {
@@ -816,7 +855,7 @@
       "releaseDocs": [
         "docs/DEPLOY-PORTFOLIO.md",
         "docs/GO-LIVE.md",
-        "docs/DIREKŠN-DEPLOY-SPAJA.md",
+        "docs/DIREK\u0160N-DEPLOY-SPAJA.md",
         "docs/MAKSIMUM-ALL-PLATFORMA-DEPLOY.md"
       ],
       "kpis": {
@@ -910,7 +949,10 @@
         "evaluacijaMaxMs": 50,
         "apiResponseMaxMs": 200,
         "weightSumTolerance": 0.0001,
-        "scoreRange": [0, 100],
+        "scoreRange": [
+          0,
+          100
+        ],
         "snapshotMaxCount": 100
       }
     }
