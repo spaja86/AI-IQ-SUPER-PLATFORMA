@@ -233,9 +233,9 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | human-review | Code Review | Manual | @spaja86 | ✅ Active | All repos |
 | deploy-bot | Deployment | Merge to main | @spaja86 | ⏳ Planned | All repos |
 | security-scanner | Security Scanning | PR, Nightly | @spaja86 | ✅ Active | All repos |
-| multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | 📋 Ready | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
-| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
-| analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
+| multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | ✅ Active | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
+| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | ✅ Active | IO-OPENUI-AO |
+| analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | ✅ Active | All repos |
 | nova-generacija-agent | NG Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | All repos (Nova Generacija scope) |
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | another-maks-agent | Creative/Generative Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (another-maks paths) |
@@ -476,9 +476,9 @@ This file describes agents, their roles, and usage rules for automation in this 
 | human-review | Code Review | Manual | @spaja86 | ✅ Active | All repos |
 | deploy-bot | Deployment | Merge to main | @spaja86 | ⏳ Planned | All repos |
 | security-scanner | Security Scanning | PR, Nightly | @spaja86 | ✅ Active | All repos |
-| multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | 📋 Ready | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
-| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | 📋 Ready | IO-OPENUI-AO |
-| analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | 📋 Ready | All repos |
+| multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | ✅ Active | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
+| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | ✅ Active | IO-OPENUI-AO |
+| analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | ✅ Active | All repos |
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
