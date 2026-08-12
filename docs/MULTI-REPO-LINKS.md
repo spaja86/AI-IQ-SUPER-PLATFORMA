@@ -633,7 +633,7 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 |---|---|
 | Date | 2026-08-12 |
 | Owner | @spaja86 |
-| Scope | `src/lib/extrimli/**`, `src/lib/extrimli-3/**`, `src/app/api/extrimli/**`, `src/app/api/extrimli-3/**`, `src/components/extrimli/**` |
+| Scope | `src/lib/extrimli/**`, `src/lib/extrimli-3/**`, `src/lib/procesuiranje-svega.ts`, `src/app/api/extrimli/**`, `src/app/api/extrimli-3/**`, `src/app/api/ekstremno-procesuiranje-svega/route.ts`, `src/components/extrimli/**` |
 | Contract | `EXTRIMLI_CONTRACT_VERSION = v1`, `EXTRIMLI_MODULE_VERSION = 1.0.0`, `EXTRIMLI3_CONTRACT_VERSION = v3`, `EXTRIMLI3_MODULE_VERSION = 3.0.0` |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
@@ -646,7 +646,9 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 - Sync EXTRIMLI gear catalog snapshots via `multi-repo-sync-agent`
 - Track EXTRIMLI 3 risk profile contract and readiness-scoring downstream impact
 - Add `extrimli:logic-change` label to linked-repo label schema
+- Add `ekstremno:logic-change` label for EKSTREMNO scheduler/contract updates
 - Update `extrimli-validator-agent` trigger in linked-repo `.agent-config.json`
+- Track EKSTREMNO degraded-mode audit headers/fields in linked API consumers
 
 **Audit convention for this initiative:**
 ```
