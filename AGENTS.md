@@ -134,18 +134,18 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Multi-repo sync**: Sinhronizuje operator catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
 ### madagaskar-validator-agent (NEW)
-- **Role**: Validacija MADAGASKAR logike — egzotična tržišna inteligencija, rarity premium kalkulacija, sustainability scoring i procurement integritet
-- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`
-- **Trigger**: PR sa labelom `madagaskar:logic-change`, push koji dira `madagaskar` putanje
+- **Role**: Validacija MADAGASKAR logike — egzotična tržišna inteligencija, rarity premium kalkulacija, sustainability scoring i procurement integritet (v1 + v2: FX, aukcije, traceability, basket)
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
+- **Trigger**: PR sa labelom `madagaskar:logic-change` ili `madagaskar-2:logic-change`, push koji dira `madagaskar` ili `madagaskar-2` putanje
 - **Actions**:
-  - Pokreće unit test suite za MADAGASKAR logiku (registry, engine, utils)
+  - Pokreće unit test suite za MADAGASKAR logiku (registry, engine, utils — v1 + v2: fx, auction, traceability, basket, engine)
   - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne količine, nevalidni IDs)
   - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
   - Skenira za nedoslednosti u kodu (negativne cene, nevalidni rarity, nevalidni sustainability score)
-  - Auto-labels PRs sa `madagaskar:validated` ili `madagaskar:needs-review`
+  - Auto-labels PRs sa `madagaskar:validated` / `madagaskar-2:validated` ili `madagaskar:needs-review` / `madagaskar-2:needs-review`
   - Ostavlja audit log u PR komentaru
   - **Persona**: `madagaskar-exotic-market` (octave: 5, hipermreza node: 40)
-  - **Multi-repo sync**: Sinhronizuje exotic goods catalog snapshots ka `spaja86/IO-OPENUI-AO`
+  - **Multi-repo sync**: Sinhronizuje exotic goods catalog snapshots (v1 + v2) ka `spaja86/IO-OPENUI-AO`
 
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
@@ -428,18 +428,18 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Multi-repo sync**: Syncs operator catalog snapshots to `spaja86/IO-OPENUI-AO`
 
 ### madagaskar-validator-agent (NEW)
-- **Role**: Validate MADAGASKAR logic — exotic market intelligence, rarity premium calculation, sustainability scoring, and procurement integrity
-- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`
-- **Trigger**: PR with label `madagaskar:logic-change`, push touching `madagaskar` paths
+- **Role**: Validate MADAGASKAR logic — exotic market intelligence, rarity premium calculation, sustainability scoring, and procurement integrity (v1 + v2: FX conversion, auction mechanics, traceability, basket procurement)
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
+- **Trigger**: PR with label `madagaskar:logic-change` or `madagaskar-2:logic-change`, push touching `madagaskar` or `madagaskar-2` paths
 - **Actions**:
-  - Runs unit test suite for MADAGASKAR logic (registry, engine, utils)
+  - Runs unit test suite for MADAGASKAR logic (registry, engine, utils — v1 + v2: fx, auction, traceability, basket, engine)
   - Verifies mathematical results and edge cases (NaN, Infinity, negative quantities, invalid IDs)
   - Checks performance KPIs: calculation ≤ 50ms, API response ≤ 200ms
   - Scans for inconsistencies in code (negative prices, invalid rarity, invalid sustainability score)
-  - Auto-labels PRs with `madagaskar:validated` or `madagaskar:needs-review`
+  - Auto-labels PRs with `madagaskar:validated` / `madagaskar-2:validated` or `madagaskar:needs-review` / `madagaskar-2:needs-review`
   - Leaves audit log in PR comment
   - **Persona**: `madagaskar-exotic-market` (octave: 5, hipermreza node: 40)
-  - **Multi-repo sync**: Syncs exotic goods catalog snapshots to `spaja86/IO-OPENUI-AO`
+  - **Multi-repo sync**: Syncs exotic goods catalog snapshots (v1 + v2) to `spaja86/IO-OPENUI-AO`
 
 ## Rules
 

@@ -573,3 +573,30 @@ AI-IQ-SUPER-PLATFORMA#DISCOUNT-TELECOM-GLOBAL-001 -> IO-OPENUI-AO#<follow-up iss
 ```
 AI-IQ-SUPER-PLATFORMA#MADAGASKAR-EXOTIC-MARKET-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+---
+
+## MADAGASKAR 2 — Exotic Market Intelligence v2
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-11 |
+| Owner | @spaja86 |
+| Scope | `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**` |
+| Contract | `MADAGASKAR2_CONTRACT_VERSION = v2`, `MADAGASKAR2_MODULE_VERSION = 2.0.0` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — MADAGASKAR 2 exotic goods catalog v2 | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: v2 exotic goods catalog snapshots (new goods: fungal, crystal, algae; Central-Africa, Himalaya, Arctic) via multi-repo-sync-agent |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Sync MADAGASKAR 2 exotic goods catalog v2 snapshots via `multi-repo-sync-agent`
+- Add `madagaskar-2:logic-change` label to linked-repo label schema
+- Update `madagaskar-validator-agent` trigger in linked-repo `.agent-config.json` to include v2 paths
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
+```
