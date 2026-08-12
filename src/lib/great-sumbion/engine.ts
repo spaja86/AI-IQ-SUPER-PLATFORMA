@@ -52,11 +52,11 @@ export function calculateGreatSumbion(input: GreatSumbionInput): GreatSumbionRes
       return invalidResult(input, 'every signal must have a non-empty id', start);
     }
 
-    if (!Number.isFinite(signal.value) || Number.isNaN(signal.value)) {
+    if (!Number.isFinite(signal.value)) {
       return invalidResult(input, `signal ${signal.id} has non-finite value`, start);
     }
 
-    if (!Number.isFinite(signal.weight) || Number.isNaN(signal.weight)) {
+    if (!Number.isFinite(signal.weight)) {
       return invalidResult(input, `signal ${signal.id} has non-finite weight`, start);
     }
 

@@ -34,6 +34,18 @@ export async function POST(req: NextRequest) {
     if (!Array.isArray(signals)) {
       return apiError('BAD_REQUEST', 'signals is required (array)', 400);
     }
+    const isShallowSignalShapeValid = signals.every((signal) => {
+      if (!signal || typeof signal !== 'object' || Array.isArray(signal)) return false;
+      const candidate = signal as Record<string, unknown>;
+      return (
+        typeof candidate.id === 'string' &&
+        typeof candidate.value === 'number' &&
+        typeof candidate.weight === 'number'
+      );
+    });
+    if (!isShallowSignalShapeValid) {
+      return apiError('BAD_REQUEST', 'Each signal must include: id (string), value (number), weight (number)', 400);
+    }
 
     const input: GreatSumbionInput = {
       signals: signals as GreatSumbionInput['signals'],

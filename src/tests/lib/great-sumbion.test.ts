@@ -32,6 +32,12 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
+function assertClose(actual: number, expected: number, tolerance = 0.001, label = ''): void {
+  if (Math.abs(actual - expected) > tolerance) {
+    throw new Error(`${label}: expected ${expected} ± ${tolerance}, got ${actual}`);
+  }
+}
+
 async function runTests(): Promise<void> {
   _resetGreatSumbionMetrics();
 
@@ -66,7 +72,7 @@ async function runTests(): Promise<void> {
     assert(result.tier === 'GROWTH', `expected GROWTH, got ${result.tier}`);
   });
 
-  await test('zero value signal remains valid', () => {
+  await test('zero value (non-zero weight) signal remains valid', () => {
     const result = calculateGreatSumbion({
       signals: [
         { id: 'quality', value: 0, weight: 1 },
@@ -75,7 +81,7 @@ async function runTests(): Promise<void> {
     });
 
     assert(result.valid, 'zero value should remain valid');
-    assert(result.score === 5, `expected score 5, got ${result.score}`);
+    assertClose(result.score, 5, 0.001, 'score');
   });
 
   await test('NaN input is invalid', () => {
@@ -90,6 +96,13 @@ async function runTests(): Promise<void> {
       signals: [{ id: 'quality', value: Number.POSITIVE_INFINITY, weight: 1 }],
     });
     assert(!result.valid, 'Infinity must be invalid');
+  });
+
+  await test('NaN weight is invalid', () => {
+    const result = calculateGreatSumbion({
+      signals: [{ id: 'quality', value: 25, weight: Number.NaN }],
+    });
+    assert(!result.valid, 'NaN weight must be invalid');
   });
 
   await test('negative input is invalid', () => {
@@ -124,7 +137,7 @@ async function runTests(): Promise<void> {
   console.log('\n🔎 [great-sumbion] performance');
 
   await test(`calculateGreatSumbion completes within ${GREAT_SUMBION_PERFORMANCE_MAX_MS}ms`, () => {
-    const start = Date.now();
+    const start = performance.now();
     const samples = 150;
     for (let i = 0; i < samples; i++) {
       calculateGreatSumbion({
@@ -135,7 +148,7 @@ async function runTests(): Promise<void> {
         ],
       });
     }
-    const avg = (Date.now() - start) / samples;
+    const avg = (performance.now() - start) / samples;
     assert(avg <= GREAT_SUMBION_PERFORMANCE_MAX_MS, `average ${avg.toFixed(2)}ms > ${GREAT_SUMBION_PERFORMANCE_MAX_MS}ms`);
   });
 
