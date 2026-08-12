@@ -681,3 +681,30 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-CUZ-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+
+## Digit Engine — 10-Digit Symbolic Intelligence Layer
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-12 |
+| Owner | @spaja86 |
+| Scope | `src/lib/digit-engine/**`, `src/app/api/digit-engine/**` |
+| Contract | `DIGIT_ENGINE_CONTRACT_VERSION = v1`, `DIGIT_ENGINE_MODULE_VERSION = 1.0.0` |
+| Persona | `digit-engine-core` (octave: 10, hipermreza node: 80) |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — digit registry snapshots | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: digit registry snapshots via multi-repo-sync-agent |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Sync digit registry snapshots via `multi-repo-sync-agent`
+- Add `digit-engine:change` label to linked-repo label schema
+- Update `digit-engine-validator-agent` trigger in linked-repo `.agent-config.json`
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#DIGIT-ENGINE-001 -> IO-OPENUI-AO#<follow-up issue>
+```

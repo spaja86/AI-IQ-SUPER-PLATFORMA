@@ -17,6 +17,7 @@ export type PersonaType =
   | 'discount-telecom'
   | 'madagaskar'
   | 'extrimli'
+  | 'digit-engine'
   | 'generic';
 
 export type PersonaStatus = 'active' | 'dormant' | 'archived';
