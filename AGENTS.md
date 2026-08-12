@@ -174,7 +174,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `extrimli-core` (octave: 7, hipermreza node: 56)
   - **Multi-repo sync**: Sinhronizuje gear catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
-### another-maks-agent (NEW)
+### extrimli-cuz-validator-agent (NEW)
+- **Role**: Validacija EXTRIMLI CUZ logike — community & social hub, crew formation, mentorship matching, community feed i peer reputation
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**`
+- **Trigger**: PR sa labelom `extrimli-cuz:logic-change`, push koji dira `extrimli-cuz` putanje
+- **Actions**:
+  - Pokreće unit test suite za EXTRIMLI CUZ logiku (crew-engine, mentor-engine, feed-engine, reputation-engine)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, prazni nizovi, division by zero, self-rating, duplicate votes)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu (nevalidni experienceLevel, negativni score, nevalidni ratingovi)
+  - Auto-labels PRs sa `extrimli-cuz:validated` ili `extrimli-cuz:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
+  - **Multi-repo sync**: Sinhronizuje crew/mentor catalog snapshots ka `spaja86/IO-OPENUI-AO`
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
 - **Trigger**: PR sa labelom `another-maks`, push koji dira `another-maks` putanje, weekly schedule (ponedeljak 03:00 UTC)
@@ -274,6 +286,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
+| extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -497,7 +510,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `extrimli-core` (octave: 7, hipermreza node: 56)
   - **Multi-repo sync**: Syncs gear catalog snapshots to `spaja86/IO-OPENUI-AO`
 
-## Rules
+### extrimli-cuz-validator-agent (NEW)
+- **Role**: Validate EXTRIMLI CUZ logic — community & social hub, crew formation, mentorship matching, community feed, and peer reputation engine
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**`
+- **Trigger**: PR with label `extrimli-cuz:logic-change`, push touching `extrimli-cuz` paths
+- **Actions**:
+  - Runs unit test suite for EXTRIMLI CUZ logic (crew-engine, mentor-engine, feed-engine, reputation-engine)
+  - Verifies mathematical results and edge cases (NaN, Infinity, empty strings, division by zero, self-rating, duplicate votes)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies (invalid experienceLevel, negative scores, invalid rating ranges)
+  - Auto-labels PRs with `extrimli-cuz:validated` or `extrimli-cuz:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
+  - **Multi-repo sync**: Syncs crew and mentor catalog snapshots to `spaja86/IO-OPENUI-AO`
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
 2. **Human Review** - Agents must not merge changes without at least one human review (except branches marked `auto-merge: allowed`).
@@ -544,6 +569,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
+| extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 
 ## Agent Configuration Files
 
