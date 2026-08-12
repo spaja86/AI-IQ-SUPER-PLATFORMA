@@ -25,6 +25,15 @@ SpajaPro je AI engine Kompanije SPAJA sa **10 verzija (6-15)** koji potpuno zame
 
 IO-OPENUI-AO repozitorijum koristi **SpajaPro engine umesto ChatGPT-a** za svu AI komunikaciju. SpajaPro Prompt Chat, AI modul sa Prompt-om, i SpajaPro 6-15 integracija.
 
+## 🚀 GREAT SUMBION
+
+GREAT SUMBION uvodi novi weighted score engine sa jasnim KPI granicama i validator workflow-om.
+
+- Modul: `src/lib/great-sumbion/**`
+- API: `/api/great-sumbion/calculate`, `/api/great-sumbion/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/GREAT-SUMBION.md`
+
 ## 📝 Prompt Sistem — Svuda u ekosistemu
 
 Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:

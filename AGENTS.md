@@ -133,6 +133,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
   - **Multi-repo sync**: Sinhronizuje operator catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
+### great-sumbion-validator-agent (NEW)
+- **Role**: Validacija GREAT SUMBION logike — weighted score orkestracija, tier klasifikacija i edge case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/great-sumbion/**`, `src/app/api/great-sumbion/**`, `src/components/great-sumbion/**`
+- **Trigger**: PR sa labelom `great-sumbion:logic-change`, push koji dira `great-sumbion` putanje
+- **Actions**:
+  - Pokreće unit test suite za GREAT SUMBION logiku (score engine, tier mapping, health)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne vrednosti, division by zero)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `great-sumbion:validated` ili `great-sumbion:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `great-sumbion-core` (octave: 9, hipermreza node: 72)
+
 ### madagaskar-validator-agent (NEW)
 - **Role**: Validacija MADAGASKAR logike — egzotična tržišna inteligencija, rarity premium kalkulacija, sustainability scoring i procurement integritet (v1 + v2: FX, aukcije, traceability, basket)
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
@@ -243,6 +256,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 
@@ -427,6 +441,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
   - **Multi-repo sync**: Syncs operator catalog snapshots to `spaja86/IO-OPENUI-AO`
 
+### great-sumbion-validator-agent (NEW)
+- **Role**: Validate GREAT SUMBION logic — weighted score orchestration, tier classification, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/great-sumbion/**`, `src/app/api/great-sumbion/**`, `src/components/great-sumbion/**`
+- **Trigger**: PR with label `great-sumbion:logic-change`, push touching `great-sumbion` paths
+- **Actions**:
+  - Runs unit test suite for GREAT SUMBION logic (score engine, tier mapping, health)
+  - Verifies mathematical results and edge cases (NaN, Infinity, negative values, division by zero)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `great-sumbion:validated` or `great-sumbion:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `great-sumbion-core` (octave: 9, hipermreza node: 72)
+
 ### madagaskar-validator-agent (NEW)
 - **Role**: Validate MADAGASKAR logic — exotic market intelligence, rarity premium calculation, sustainability scoring, and procurement integrity (v1 + v2: FX conversion, auction mechanics, traceability, basket procurement)
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
@@ -484,6 +511,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 
