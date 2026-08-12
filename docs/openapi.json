@@ -241,7 +241,10 @@
           },
           "fields": {
             "type": "array",
-            "description": "Fields to synchronize"
+            "description": "Fields to synchronize",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [

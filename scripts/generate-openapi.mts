@@ -111,7 +111,7 @@ const spec: OpenApiSpec = {
 interface SchemaEntry {
   description: string;
   type: string;
-  properties?: Record<string, { type: string; description?: string; format?: string }>;
+  properties?: Record<string, { type: string; description?: string; format?: string; items?: { type: string } }>;
   required?: string[];
 }
 
@@ -184,7 +184,7 @@ const schemaRegistry: Record<string, SchemaEntry> = {
     type: 'object',
     properties: {
       platformId: { type: 'string', description: 'Platform identifier' },
-      fields: { type: 'array', description: 'Fields to synchronize' },
+      fields: { type: 'array', description: 'Fields to synchronize', items: { type: 'string' } },
     },
     required: ['platformId'],
   },
