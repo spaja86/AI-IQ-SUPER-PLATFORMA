@@ -159,6 +159,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     },
     linkedAgents: ['extrimli-validator-agent', 'multi-repo-sync-agent'],
   },
+  // ─── DIGIT ENGINE CORE ────────────────────────────────────────────────────
+  {
+    id: 'digit-engine-core',
+    name: 'Digit Engine Core — 10-Digit Symbolic Intelligence Layer',
+    type: 'digit-engine',
+    octave: 10,
+    hipermrezaNode: 80,
+    attributes: {
+      traits: ['symbolic', 'layered', 'registry-driven', 'zero-to-nine'],
+      skills: ['digit-lookup', 'registry-management', 'layer-orchestration', 'node-mapping'],
+      tone: 'analytical',
+      domain: 'digit-intelligence',
+    },
+    linkedAgents: ['digit-engine-validator-agent', 'persona-bank-agent', 'multi-repo-sync-agent'],
+    crossRepoRef: 'digit-engine-core',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

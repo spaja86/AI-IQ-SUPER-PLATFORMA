@@ -188,6 +188,21 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
   - **Multi-repo sync**: Sinhronizuje crew/mentor catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
+### digit-engine-validator-agent (NEW)
+- **Role**: Validacija Digit Intelligence Engine logike — 10-cifreni simbolički slojevi, registar, API integritet i performanse
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/digit-engine/**`, `src/app/api/digit-engine/**`
+- **Trigger**: PR sa labelom `digit-engine:change`, push koji dira `digit-engine` putanje
+- **Actions**:
+  - Pokreće unit test suite za Digit Engine logiku (registry, getDigitDescriptor, getDigitByNode, listAllDigits)
+  - Verifikuje da su sva 10 cifara (0–9) registrovana sa ispravnim poljima
+  - Proverava performance KPI: lookup ≤ 10ms, bulk list ≤ 50ms, API response ≤ 200ms
+  - Verifikuje edge cases: digit = -1, digit = 10, NaN, Infinity → undefined/404
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `digit-engine:validated` ili `digit-engine:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `digit-engine-core` (octave: 10, hipermreza node: 80)
+  - **Multi-repo sync**: Sinhronizuje digit registry snapshots ka `spaja86/IO-OPENUI-AO`
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -289,6 +304,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -526,6 +542,21 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
   - **Multi-repo sync**: Syncs crew and mentor catalog snapshots to `spaja86/IO-OPENUI-AO`
 
+### digit-engine-validator-agent (NEW)
+- **Role**: Validate Digit Intelligence Engine logic — 10-digit symbolic layers, registry, API integrity, and performance
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/digit-engine/**`, `src/app/api/digit-engine/**`
+- **Trigger**: PR with label `digit-engine:change`, push touching `digit-engine` paths
+- **Actions**:
+  - Runs unit test suite for Digit Engine logic (registry, getDigitDescriptor, getDigitByNode, listAllDigits)
+  - Verifies all 10 digits (0–9) are registered with required fields
+  - Checks performance KPIs: lookup ≤ 10ms, bulk list ≤ 50ms, API response ≤ 200ms
+  - Verifies edge cases: digit = -1, digit = 10, NaN, Infinity → undefined/404
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `digit-engine:validated` or `digit-engine:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `digit-engine-core` (octave: 10, hipermreza node: 80)
+  - **Multi-repo sync**: Syncs digit registry snapshots to `spaja86/IO-OPENUI-AO`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -574,6 +605,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 
 ## Agent Configuration Files
 

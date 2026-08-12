@@ -418,6 +418,35 @@
         "target": "spaja86/IO-OPENUI-AO"
       }
     },
+    "digit-engine-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "digit-engine-core",
+      "octave": 10,
+      "hipermrezaNode": 80,
+      "labels": [
+        "digit-engine",
+        "digit-engine:change",
+        "digit-engine:validated",
+        "digit-engine:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/digit-engine-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "kpis": {
+        "lookupMaxMs": 10,
+        "bulkListMaxMs": 50,
+        "apiResponseMaxMs": 200
+      },
+      "testSuite": "src/tests/lib/digit-engine.test.ts",
+      "scope": "src/lib/digit-engine/**,src/app/api/digit-engine/**",
+      "linkedRepos": ["spaja86/IO-OPENUI-AO"],
+      "multiRepoSync": {
+        "snapshots": ["digit-registry"],
+        "target": "spaja86/IO-OPENUI-AO"
+      }
+    },
     "great-sumbion-validator-agent": {
       "enabled": true,
       "status": "active",

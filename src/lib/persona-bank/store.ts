@@ -224,6 +224,8 @@ export function getPersonaBankStats(): PersonaBankStats {
     'tarken-hingil-ekolan-maksimus': 0,
     'discount-telecom': 0,
     madagaskar: 0,
+    extrimli: 0,
+    'digit-engine': 0,
     generic: 0,
   };
   const byOctave: Record<number, number> = {};
