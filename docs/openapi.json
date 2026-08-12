@@ -1,0 +1,253 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AI-IQ-SUPER-PLATFORMA API",
+    "version": "42.35.0",
+    "description": "Kompanija SPAJA — Digitalna Industrija. Auto-generated from src/lib/api-contracts/. Do not edit manually — run `npx tsx scripts/generate-openapi.mts` to regenerate.",
+    "contact": {
+      "name": "Kompanija SPAJA",
+      "email": "team@spaja86.dev",
+      "url": "https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://spaja.vercel.app",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "IO-OPENUI-AO",
+      "description": "IO-OPENUI-AO integration contracts"
+    },
+    {
+      "name": "World Bank",
+      "description": "AI IQ World Bank contracts"
+    },
+    {
+      "name": "Platforms",
+      "description": "Platform integration contracts"
+    },
+    {
+      "name": "Menjacnica",
+      "description": "Currency exchange contracts"
+    },
+    {
+      "name": "Common",
+      "description": "Shared response schemas"
+    }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Platform health check",
+        "tags": [
+          "Common"
+        ],
+        "responses": {
+          "200": {
+            "description": "Platform is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "version",
+                    "timestamp"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorContract": {
+        "description": "Standard error response envelope",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Human-readable error message"
+          },
+          "code": {
+            "type": "string",
+            "description": "Machine-readable error code"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp"
+          },
+          "verzija": {
+            "type": "string",
+            "description": "API/contract version"
+          }
+        },
+        "required": [
+          "error",
+          "code",
+          "timestamp",
+          "verzija"
+        ]
+      },
+      "PaginationContract": {
+        "description": "Pagination metadata included in list responses",
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "Current page number (1-based)"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "Number of items per page"
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of items"
+          }
+        },
+        "required": [
+          "page",
+          "pageSize",
+          "total"
+        ]
+      },
+      "IoOpenUiUserCreate": {
+        "description": "Payload for creating an IO-OPENUI-AO user",
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "description": "External identifier (3–120 chars)"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User email address"
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Display name (2–120 chars)"
+          },
+          "presence": {
+            "type": "string",
+            "description": "Initial presence status"
+          }
+        },
+        "required": [
+          "externalId",
+          "email",
+          "displayName"
+        ]
+      },
+      "IoOpenUiUser": {
+        "description": "Full IO-OPENUI-AO user object (response)",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique user ID"
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "presence": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "externalId",
+          "email",
+          "displayName",
+          "presence",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "WorldBankTransactionRequest": {
+        "description": "Request to initiate a World Bank transaction",
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "description": "Amount in cents"
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency code"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Idempotency reference"
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "reference"
+        ]
+      },
+      "PlatformSyncRequest": {
+        "description": "Request to synchronize platform state",
+        "type": "object",
+        "properties": {
+          "platformId": {
+            "type": "string",
+            "description": "Platform identifier"
+          },
+          "fields": {
+            "type": "array",
+            "description": "Fields to synchronize"
+          }
+        },
+        "required": [
+          "platformId"
+        ]
+      }
+    }
+  }
+}
