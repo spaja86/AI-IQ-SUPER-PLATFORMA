@@ -26,6 +26,12 @@ function ok(condition: boolean, msg: string): void {
   if (!condition) throw new Error(`Assert failed: ${msg}`);
 }
 
+function approx(actual: number, expected: number, msg: string, tolerance = 0.001): void {
+  if (Math.abs(actual - expected) >= tolerance) {
+    throw new Error(`Assert failed: ${msg} (actual=${actual}, expected=${expected})`);
+  }
+}
+
 async function runTests(): Promise<void> {
   console.log('\n📋 GIGATRON d.o.o. Pretplata Tests — 1 beskonačan račun\n');
 
@@ -171,8 +177,8 @@ async function runTests(): Promise<void> {
       GIGATRON_SUBSCRIPTION.pdvStopa = 0.2;
       const faktura = generateGigatronInvoice('2026-08-12');
       ok(faktura !== null, 'invoice exists');
-      ok(faktura?.pdvIznosRsd === 66.6, `pdvIznosRsd=${faktura?.pdvIznosRsd}`);
-      ok(faktura?.ukupnoRsd === 399.6, `ukupnoRsd=${faktura?.ukupnoRsd}`);
+      approx(faktura!.pdvIznosRsd, 66.6, `pdvIznosRsd=${faktura?.pdvIznosRsd}`);
+      approx(faktura!.ukupnoRsd, 399.6, `ukupnoRsd=${faktura?.ukupnoRsd}`);
     } finally {
       GIGATRON_SUBSCRIPTION.status = originalStatus;
       GIGATRON_SUBSCRIPTION.iznosRsd = originalIznos;
