@@ -160,6 +160,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `madagaskar-exotic-market` (octave: 5, hipermreza node: 40)
   - **Multi-repo sync**: Sinhronizuje exotic goods catalog snapshots (v1 + v2) ka `spaja86/IO-OPENUI-AO`
 
+### extrimli-validator-agent (NEW)
+- **Role**: Validacija EXTRIMLI logike — extreme sports risk scoring, athlete performance tracking, gear catalog integrity i event management
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli/**`, `src/app/api/extrimli/**`, `src/components/extrimli/**`
+- **Trigger**: PR sa labelom `extrimli:logic-change`, push koji dira `extrimli` putanje
+- **Actions**:
+  - Pokreće unit test suite za EXTRIMLI logiku (registry, risk-engine, performance-tracker, gear-catalog, event-engine, weather-adapter)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne cene, nulti stock, division by zero)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu (negativni risk score, nevalidni SKU, neispravni gear)
+  - Auto-labels PRs sa `extrimli:validated` ili `extrimli:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `extrimli-core` (octave: 7, hipermreza node: 56)
+  - **Multi-repo sync**: Sinhronizuje gear catalog snapshots ka `spaja86/IO-OPENUI-AO`
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -259,6 +273,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
+| extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -468,6 +483,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `madagaskar-exotic-market` (octave: 5, hipermreza node: 40)
   - **Multi-repo sync**: Syncs exotic goods catalog snapshots (v1 + v2) to `spaja86/IO-OPENUI-AO`
 
+### extrimli-validator-agent (NEW)
+- **Role**: Validate EXTRIMLI logic — extreme sports risk scoring, athlete performance tracking, gear catalog integrity, and event management
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli/**`, `src/app/api/extrimli/**`, `src/components/extrimli/**`
+- **Trigger**: PR with label `extrimli:logic-change`, push touching `extrimli` paths
+- **Actions**:
+  - Runs unit test suite for EXTRIMLI logic (registry, risk-engine, performance-tracker, gear-catalog, event-engine, weather-adapter)
+  - Verifies mathematical results and edge cases (NaN, Infinity, negative prices, zero stock, division by zero)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies (negative risk score, invalid SKU, invalid gear)
+  - Auto-labels PRs with `extrimli:validated` or `extrimli:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `extrimli-core` (octave: 7, hipermreza node: 56)
+  - **Multi-repo sync**: Syncs gear catalog snapshots to `spaja86/IO-OPENUI-AO`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -514,6 +543,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
+| extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 
 ## Agent Configuration Files
 
