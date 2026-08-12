@@ -123,6 +123,16 @@ Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#GREAT-SUMBION -> IO-OPENUI-AO#<follow-up issue>`
 
+## EPRINCIP downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EPRINCIP principle-alignment track | `spaja86/IO-OPENUI-AO` — No linked repo change required | Initial scope is repo-local module/API/docs only; any downstream consumer must be tracked explicitly |
+
+Audit reference convention (if downstream work is needed later):
+
+`AI-IQ-SUPER-PLATFORMA#EPRINCIP -> IO-OPENUI-AO#<follow-up issue>`
+
 ## REAL GUN downstream reference
 
 | This repo | Linked repo | Note |
