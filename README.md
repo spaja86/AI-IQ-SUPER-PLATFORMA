@@ -34,6 +34,15 @@ GREAT SUMBION uvodi novi weighted score engine sa jasnim KPI granicama i validat
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/GREAT-SUMBION.md`
 
+## 📐 EPRINCIP
+
+EPRINCIP uvodi determinističku procenu usklađenosti principa sa weighted scoring modelom i proverom obaveznih pragova.
+
+- Modul: `src/lib/eprincip/**`
+- API: `/api/eprincip/evaluate`, `/api/eprincip/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/EPRINCIP.md`
+
 ## 📝 Prompt Sistem — Svuda u ekosistemu
 
 Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:
