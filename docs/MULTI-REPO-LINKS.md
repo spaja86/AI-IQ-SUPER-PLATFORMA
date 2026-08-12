@@ -641,3 +641,31 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+## EXTRIMLI CUZ — Community & Social Hub
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-12 |
+| Owner | @spaja86 |
+| Scope | `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**` |
+| Contract | `CUZ_CONTRACT_VERSION = v1`, `CUZ_MODULE_VERSION = 1.0.0` |
+| Persona | `extrimli-cuz-social` (octave: 7, hipermreza node: 57) |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI CUZ crew catalog | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: crew snapshots via multi-repo-sync-agent |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI CUZ mentor catalog | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: mentor snapshots via multi-repo-sync-agent |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Sync EXTRIMLI CUZ crew and mentor catalog snapshots via `multi-repo-sync-agent`
+- Add `extrimli-cuz:logic-change` label to linked-repo label schema
+- Update `extrimli-cuz-validator-agent` trigger in linked-repo `.agent-config.json`
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-CUZ-001 -> IO-OPENUI-AO#<follow-up issue>
+```
+
