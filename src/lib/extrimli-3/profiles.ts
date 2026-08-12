@@ -149,10 +149,17 @@ export function listSportRiskProfiles(): SportRiskProfile[] {
 
 export function validateSportRiskProfiles(): string[] {
   const errors: string[] = [];
+  const sportIds = new Set(SPORT_REGISTRY.map((sport) => sport.id));
 
   for (const sport of SPORT_REGISTRY) {
     if (!PROFILE_MAP.has(sport.id)) {
       errors.push(`missing sport risk profile: ${sport.id}`);
+    }
+  }
+
+  for (const profile of SPORT_RISK_PROFILES) {
+    if (!sportIds.has(profile.sportId)) {
+      errors.push(`orphaned sport risk profile: ${profile.sportId}`);
     }
   }
 

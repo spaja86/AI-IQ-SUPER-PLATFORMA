@@ -43,8 +43,9 @@ const RECOMMENDATIONS: Record<RiskLevel, string> = {
 };
 
 function resolveRiskLevel(score: number): RiskLevel {
+  const normalizedScore = clamp(score, 0, 100);
   for (const { level, min } of RISK_LEVEL_THRESHOLDS) {
-    if (score >= min) return level;
+    if (normalizedScore >= min) return level;
   }
   return 'LOW';
 }
@@ -199,12 +200,12 @@ export function calculateRiskV3(input: Extrimli3RiskInput): Extrimli3RiskResult 
     blockers.push(`experience level ${input.athleteExperience} below sport minimum ${profile.minimumExperience}`);
   }
 
-  if (profile.requiredWeatherData && !weatherRiskFactors.valid) {
+  if (profile.requiredWeatherData && (!input.weatherData || !weatherRiskFactors.valid)) {
     blockers.push(`weather data is required for ${sport.name} risk evaluation`);
   }
 
   if (athleteProgress?.sessionCount === 0) {
-    blockers.push(`no prior ${sport.name} sessions recorded for athlete ${athleteProgress.athleteId}`);
+    warnings.push(`no prior ${sport.name} sessions recorded for athlete ${athleteProgress.athleteId}`);
   }
 
   warnings.push(`sport focus: ${profile.focus}`);
