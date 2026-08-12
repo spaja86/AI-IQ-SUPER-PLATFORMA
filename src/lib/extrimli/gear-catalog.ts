@@ -69,5 +69,5 @@ const SEED_ITEMS: GearItem[] = [
 ];
 
 for (const item of SEED_ITEMS) {
-  CATALOG.set(item.sku, item);
+  addGearItem(item);
 }

@@ -56,7 +56,7 @@ export function adaptWeather(data: RawWeatherData): WeatherRiskFactors {
     }
   }
 
-  const valid = wind !== null || precip !== null;
+  const valid = wind !== null && precip !== null;
 
   return {
     windRiskModifier,

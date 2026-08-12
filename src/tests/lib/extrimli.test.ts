@@ -324,8 +324,9 @@ async function runTests(): Promise<void> {
     assert(f.windRiskModifier === 10, `expected 10, got ${f.windRiskModifier}`);
   });
 
-  await test('handles missing wind speed with warning', () => {
+  await test('handles missing wind speed with warning and valid false', () => {
     const f = adaptWeather({ precipitationMm: 5, temperatureC: 10 });
+    assert(!f.valid, 'should be invalid when wind is missing');
     assert(f.warnings.some((w) => w.includes('windSpeedKph')), 'should warn about missing wind');
   });
 
@@ -354,9 +355,10 @@ async function runTests(): Promise<void> {
     assert(clamp(50, 0, 100)  === 50,  'should stay at value');
   });
 
-  await test('clamp returns min for non-finite', () => {
-    assert(clamp(NaN, 0, 100)      === 0, 'NaN → min');
-    assert(clamp(Infinity, 0, 100) === 0, 'Infinity → min');
+  await test('clamp returns min for NaN, max for Infinity', () => {
+    assert(clamp(NaN, 0, 100)       === 0,   'NaN → min');
+    assert(clamp(Infinity, 0, 100)  === 100, 'Infinity → max');
+    assert(clamp(-Infinity, 0, 100) === 0,   '-Infinity → min');
   });
 
   await test('round works correctly', () => {

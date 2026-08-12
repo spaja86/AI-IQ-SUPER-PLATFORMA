@@ -1,9 +1,11 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — EXTRIMLI
 // Kompanija SPAJA — Digitalna Industrija
 
-/** Clamps a number to [min, max]. Returns 0 if value is not finite. */
+/** Clamps a number to [min, max]. Returns min for NaN, max for Infinity, min for -Infinity. */
 export function clamp(value: number, min: number, max: number): number {
-  if (!Number.isFinite(value)) return min;
+  if (Number.isNaN(value)) return min;
+  if (value === Infinity)  return max;
+  if (value === -Infinity) return min;
   return Math.max(min, Math.min(max, value));
 }
 
