@@ -144,6 +144,21 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['madagaskar-validator-agent', 'multi-repo-sync-agent', 'gigatron-validator-agent'],
     crossRepoRef: 'madagaskar-exotic-market',
   },
+  // ─── EXTRIMLI ─────────────────────────────────────────────────────────────
+  {
+    id: 'extrimli-core',
+    name: 'EXTRIMLI — Extreme Sports & Adventure Intelligence Persona',
+    type: 'extrimli',
+    octave: 7,
+    hipermrezaNode: 56,
+    attributes: {
+      traits: ['risk-aware', 'performance-driven', 'gear-savvy', 'adventure-first'],
+      skills: ['risk-scoring', 'event-management', 'gear-catalog', 'athlete-tracking'],
+      tone: 'energetic',
+      domain: 'extreme-sports',
+    },
+    linkedAgents: ['extrimli-validator-agent', 'multi-repo-sync-agent'],
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

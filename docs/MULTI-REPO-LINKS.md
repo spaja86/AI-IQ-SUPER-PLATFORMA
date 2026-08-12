@@ -614,3 +614,30 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-EXOTIC-MARKET-001 -> IO-OPENUI-AO#<follow-up is
 ```
 AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+---
+
+## EXTRIMLI — Extreme Sports & Adventure Intelligence
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-12 |
+| Owner | @spaja86 |
+| Scope | `src/lib/extrimli/**`, `src/app/api/extrimli/**`, `src/components/extrimli/**` |
+| Contract | `EXTRIMLI_CONTRACT_VERSION = v1`, `EXTRIMLI_MODULE_VERSION = 1.0.0` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI gear catalog | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: gear catalog snapshots via multi-repo-sync-agent |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Sync EXTRIMLI gear catalog snapshots via `multi-repo-sync-agent`
+- Add `extrimli:logic-change` label to linked-repo label schema
+- Update `extrimli-validator-agent` trigger in linked-repo `.agent-config.json`
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-001 -> IO-OPENUI-AO#<follow-up issue>
+```

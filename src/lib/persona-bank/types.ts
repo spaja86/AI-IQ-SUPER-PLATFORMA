@@ -16,6 +16,7 @@ export type PersonaType =
   | 'tarken-hingil-ekolan-maksimus'
   | 'discount-telecom'
   | 'madagaskar'
+  | 'extrimli'
   | 'generic';
 
 export type PersonaStatus = 'active' | 'dormant' | 'archived';
