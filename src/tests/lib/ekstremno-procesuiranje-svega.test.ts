@@ -68,7 +68,7 @@ function run(): void {
   });
 
   test('Ukupan score prati definisane domain težine', () => {
-    const recalculated = Math.round(
+    const rawWeighted =
       rezultat.domeni.bankarski.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.bankarski
       + rezultat.domeni.ai.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.ai
       + rezultat.domeni.finansijski.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.finansijski
@@ -76,8 +76,8 @@ function run(): void {
       + rezultat.domeni.ekosistem.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.ekosistem
       + rezultat.domeni.autofinish.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.autofinish
       + rezultat.domeni.bezbednosni.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.bezbednosni
-      + rezultat.domeni.analiticki.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.analiticki,
-    );
+      + rezultat.domeni.analiticki.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.analiticki;
+    const recalculated = Math.max(0, Math.min(100, Math.round(rawWeighted)));
     assert.equal(rezultat.ukupanProcenat, recalculated);
   });
 
