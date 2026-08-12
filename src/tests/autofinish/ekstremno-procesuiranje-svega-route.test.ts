@@ -92,7 +92,43 @@ async function runTests(): Promise<void> {
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }
+
+      const payload = isObject(body['data']) ? body['data'] : body;
+      if (isObject(payload['meta'])) {
+        const meta = payload['meta'];
+        assert(typeof meta['contractVersion'] === 'string', 'meta.contractVersion');
+        assert(typeof meta['modelVersion'] === 'string', 'meta.modelVersion');
+        assert(typeof meta['degraded'] === 'boolean', 'meta.degraded');
+        assert(typeof meta['degradedMode'] === 'string', 'meta.degradedMode');
+        assert(typeof meta['auditSignal'] === 'string', 'meta.auditSignal');
+      }
     }
+
+    assert(response.headers.get('X-Procesuiranje-Contract-Version') !== null, 'contract header');
+    assert(response.headers.get('X-Procesuiranje-Model-Version') !== null, 'model header');
+    assertEqual(response.headers.get('X-Procesuiranje-Mode'), 'extreme', 'mode header');
+    assert(response.headers.get('X-Procesuiranje-Degraded') !== null, 'degraded header');
+    assert(response.headers.get('X-Procesuiranje-Degraded-Mode') !== null, 'degraded mode header');
+    assert(response.headers.get('X-Procesuiranje-Audit-Signal') !== null, 'audit signal header');
+    assert(response.headers.get('X-Procesuiranje-Queue-Depth') !== null, 'queue depth header');
+    assert(response.headers.get('X-Procesuiranje-Fairness-Index') !== null, 'fairness header');
+  });
+
+  await test('Rate limit aktivan posle više zahteva sa iste IP', async () => {
+    const ip = '127.0.9.90';
+    let got429 = false;
+    for (let i = 0; i < 40; i++) {
+      const request = new Request('http://localhost/api/ekstremno-procesuiranje-svega', {
+        headers: { 'x-forwarded-for': ip },
+      });
+      const response = await GET(request as unknown as NextRequest);
+      if (response.status === 429) {
+        got429 = true;
+        assert(response.headers.get('Retry-After') !== null, 'Retry-After header');
+        break;
+      }
+    }
+    assert(got429, 'očekivan je 429 nakon prelaska limita');
   });
 
   await test('Konstante su dostupne', () => {

@@ -31,6 +31,16 @@ export async function GET(request: Request) {
     latencyMsP95: rezultat.score.latencyMsP95,
     errorRatePct: rezultat.score.errorRatePct,
     degraded: rezultat.meta.degraded,
+    degradedMode: rezultat.meta.degradedMode,
+    degradedSources: rezultat.meta.degradedSources,
+    auditSignal: rezultat.meta.auditSignal,
+    health: {
+      scoreReady: rezultat.ukupanProcenat >= 0 && rezultat.ukupanProcenat <= 100,
+      queueWithinTarget: rezultat.scheduler.queueDepth <= rezultat.meta.ciljevi.maxQueueDepth,
+      errorRateWithinTarget: rezultat.score.errorRatePct <= rezultat.meta.ciljevi.maxErrorRatePct,
+      latencyWithinTarget: rezultat.score.latencyMsP95 <= rezultat.meta.ciljevi.latencyMsP95,
+      throughputWithinTarget: rezultat.score.throughputPerMin >= rezultat.meta.ciljevi.throughputPerMin,
+    },
     generatedAt: rezultat.meta.generatedAt,
     timestamp: new Date().toISOString(),
   });
