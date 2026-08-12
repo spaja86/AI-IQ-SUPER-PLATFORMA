@@ -93,62 +93,62 @@ const spec: OpenApiSpec = {
                 },
               },
             },
-            '/api/eprincip/evaluate': {
-              post: {
-                operationId: 'evaluateEPrincip',
-                summary: 'Evaluate weighted principle alignment',
-                tags: ['EPRINCIP'],
-                requestBody: {
-                  required: true,
-                  content: {
-                    'application/json': {
-                      schema: { $ref: '#/components/schemas/EPrincipRequest' },
-                    },
-                  },
-                },
-                responses: {
-                  '200': {
-                    description: 'Evaluation completed successfully',
-                    content: {
-                      'application/json': {
-                        schema: { $ref: '#/components/schemas/EPrincipResponse' },
-                      },
-                    },
-                  },
-                  '422': {
-                    description: 'Evaluation completed but required principles were not satisfied',
-                    content: {
-                      'application/json': {
-                        schema: { $ref: '#/components/schemas/EPrincipResponse' },
-                      },
-                    },
-                  },
-                  '400': {
-                    description: 'Invalid request payload',
-                    content: {
-                      'application/json': {
-                        schema: { $ref: '#/components/schemas/ErrorContract' },
-                      },
-                    },
-                  },
-                },
+          },
+        },
+      },
+    },
+    '/api/eprincip/evaluate': {
+      post: {
+        operationId: 'evaluateEPrincip',
+        summary: 'Evaluate weighted principle alignment',
+        tags: ['EPRINCIP'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/EPrincipRequest' },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'Evaluation completed successfully',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/EPrincipResponse' },
               },
             },
-            '/api/eprincip/health': {
-              get: {
-                operationId: 'getEPrincipHealth',
-                summary: 'Get EPRINCIP runtime health',
-                tags: ['EPRINCIP'],
-                responses: {
-                  '200': {
-                    description: 'Health report',
-                    content: {
-                      'application/json': {
-                        schema: { $ref: '#/components/schemas/EPrincipHealthResponse' },
-                      },
-                    },
-                  },
-                },
+          },
+          '422': {
+            description: 'Evaluation completed but required principles were not satisfied',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/EPrincipResponse' },
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid request payload',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ErrorContract' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/eprincip/health': {
+      get: {
+        operationId: 'getEPrincipHealth',
+        summary: 'Get EPRINCIP runtime health',
+        tags: ['EPRINCIP'],
+        responses: {
+          '200': {
+            description: 'Health report',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/EPrincipHealthResponse' },
               },
             },
           },
