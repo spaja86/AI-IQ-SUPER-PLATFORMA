@@ -4,9 +4,12 @@ on:
   pull_request:
     paths:
       - 'src/lib/extrimli/**'
+      - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
+      - 'src/app/api/extrimli-3/**'
       - 'src/components/extrimli/**'
       - 'src/tests/lib/extrimli.test.ts'
+      - 'src/tests/lib/extrimli-3.test.ts'
       - 'docs/EXTRIMLI.md'
       - '.github/workflows/extrimli-validator.yml'
     types: [opened, synchronize, reopened, labeled]
@@ -14,9 +17,12 @@ on:
     branches: [main]
     paths:
       - 'src/lib/extrimli/**'
+      - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
+      - 'src/app/api/extrimli-3/**'
       - 'src/components/extrimli/**'
       - 'src/tests/lib/extrimli.test.ts'
+      - 'src/tests/lib/extrimli-3.test.ts'
       - 'docs/EXTRIMLI.md'
   workflow_dispatch:
 
@@ -35,13 +41,18 @@ jobs:
       domain: extrimli
       lint_paths: >-
         src/lib/extrimli
+        src/lib/extrimli-3
         src/app/api/extrimli
+        src/app/api/extrimli-3
         src/components/extrimli
       test_commands: |
         npx tsx src/tests/lib/extrimli.test.ts
+        npx tsx src/tests/lib/extrimli-3.test.ts
       scan_paths: >-
         src/lib/extrimli
+        src/lib/extrimli-3
         src/app/api/extrimli
+        src/app/api/extrimli-3
       label: extrimli
       perf_eval_ms: 50
       perf_api_ms: 200
