@@ -89,6 +89,12 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | Cross-repo sync | Required | Track labels and follow-up references with `spaja86/IO-OPENUI-AO` |
 | Validation workflow | Active | Use `.github/workflows/back-to-spaces-another-races.yml` for labeled/path changes |
 
+### Phase 6 — GREAT SUMBION activation
+
+- Ship `great-sumbion` module as a deterministic weighted-score engine with strict edge-case guards.
+- Keep rollout staged: 20% canary → 50% staged → 100% production after KPI stability.
+- Enforce validator workflow gates and keep docs/config/audit links synchronized.
+
 ## Route and API readiness model
 
 | Classification | Meaning | Current examples |
@@ -199,3 +205,4 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | `nova-generacija` feature flag | 20% canary → 100% | `src/lib/feature-flags.ts` |
 | `nova-generacija-gaming` flag | 10% staging | `src/lib/feature-flags.ts` |
 | `nova-generacija-hipermreza` flag | enterprise/unlimited plans | `src/lib/feature-flags.ts` |
+| `great-sumbion-validator-agent` + `.github/workflows/great-sumbion-validator.yml` | 🚀 Active | `AGENTS.md`, `.agent-config.json`, `docs/GREAT-SUMBION.md` |
