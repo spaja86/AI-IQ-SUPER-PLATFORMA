@@ -187,6 +187,8 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
   - **Multi-repo sync**: Sinhronizuje crew/mentor catalog snapshots ka `spaja86/IO-OPENUI-AO`
+
+### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
 - **Trigger**: PR sa labelom `another-maks`, push koji dira `another-maks` putanje, weekly schedule (ponedeljak 03:00 UTC)
@@ -523,6 +525,8 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
   - **Multi-repo sync**: Syncs crew and mentor catalog snapshots to `spaja86/IO-OPENUI-AO`
+
+## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
 2. **Human Review** - Agents must not merge changes without at least one human review (except branches marked `auto-merge: allowed`).

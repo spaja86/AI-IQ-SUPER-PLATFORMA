@@ -8,6 +8,7 @@ import type { MentorProfile, MentorMatch } from '@/lib/extrimli-cuz';
 interface MentorFinderProps {
   mentors: MentorProfile[];
   match?: MentorMatch | null;
+  menteeExperienceLevel?: number;
   onMatchRequest?: (menteeExperienceLevel: number, sportId: string) => void;
 }
 
@@ -17,7 +18,7 @@ const AVAILABILITY_COLOR: Record<string, string> = {
   unavailable: 'bg-gray-100 text-gray-500',
 };
 
-export function MentorFinder({ mentors, match, onMatchRequest }: MentorFinderProps) {
+export function MentorFinder({ mentors, match, menteeExperienceLevel = 0, onMatchRequest }: MentorFinderProps) {
   return (
     <div className="space-y-4">
       {match && (
@@ -59,7 +60,7 @@ export function MentorFinder({ mentors, match, onMatchRequest }: MentorFinderPro
               </div>
               {onMatchRequest && mentor.availability === 'available' && (
                 <button
-                  onClick={() => onMatchRequest(0, mentor.sportIds[0])}
+                  onClick={() => onMatchRequest(menteeExperienceLevel, mentor.sportIds[0])}
                   className="mt-3 w-full text-xs bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-1.5 transition"
                 >
                   Find My Best Match

@@ -14,6 +14,7 @@ interface CuzDashboardProps {
   crews: Crew[];
   mentors: MentorProfile[];
   mentorMatch?: MentorMatch | null;
+  menteeExperienceLevel?: number;
   feedPosts: CommunityFeedPost[];
   reputationScore: ReputationScore;
   onJoinCrew?: (crewId: string) => void;
@@ -27,6 +28,7 @@ export function CuzDashboard({
   crews,
   mentors,
   mentorMatch,
+  menteeExperienceLevel,
   feedPosts,
   reputationScore,
   onJoinCrew,
@@ -64,6 +66,7 @@ export function CuzDashboard({
         <MentorFinder
           mentors={mentors}
           match={mentorMatch}
+          menteeExperienceLevel={menteeExperienceLevel}
           onMatchRequest={onMatchMentor}
         />
       </section>
