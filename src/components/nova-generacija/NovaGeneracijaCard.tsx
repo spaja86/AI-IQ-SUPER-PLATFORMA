@@ -4,7 +4,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 // SpajaPro 16 Hipermreza — 16×16, 256 čvorova
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface NgSession {
   sessionId: string;
@@ -58,6 +58,17 @@ export function NovaGeneracijaCard({ className = '' }: NovaGeneracijaCardProps) 
   const statusColor = session ? STATUS_COLOR[session.status] ?? '#6b7280' : '#6b7280';
   const fairnessColor = session ? FAIRNESS_COLOR[session.fairnessStatus] ?? '#6b7280' : '#6b7280';
 
+  const gridCells = useMemo(() => {
+    const activeCount = (session?.playersCount ?? 0) * 16;
+    return Array.from({ length: 256 }, (_, i) => (
+      <div
+        key={i}
+        className="aspect-square rounded-sm"
+        style={{ backgroundColor: i < activeCount ? statusColor : '#1e293b' }}
+      />
+    ));
+  }, [session?.playersCount, statusColor]);
+
   return (
     <section className={`rounded-xl border bg-slate-900/40 p-4 text-slate-100 ${className}`} style={{ borderColor: statusColor }}>
       <div className="flex items-center justify-between">
@@ -69,13 +80,7 @@ export function NovaGeneracijaCard({ className = '' }: NovaGeneracijaCardProps) 
 
       {/* Hipermreza grid visualization (mini) */}
       <div className="mt-2 grid gap-px" style={{ gridTemplateColumns: 'repeat(16, 1fr)' }}>
-        {Array.from({ length: 256 }, (_, i) => (
-          <div
-            key={i}
-            className="aspect-square rounded-sm"
-            style={{ backgroundColor: i < (session?.playersCount ?? 0) * 16 ? statusColor : '#1e293b' }}
-          />
-        ))}
+        {gridCells}
       </div>
 
       {loading && <p className="mt-2 text-xs text-slate-400">Inicijalizacija...</p>}

@@ -32,6 +32,20 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const runArchive = searchParams.get('archive') === 'true';
 
+    // Auto-archiving is a state-mutating action — require admin token to prevent
+    // unauthorized archiving via this public health endpoint.
+    if (runArchive) {
+      const authHeader = req.headers.get('authorization');
+      const adminToken = process.env.ADMIN_API_TOKEN;
+      const expectedHeader = 'Bearer ' + (adminToken ?? '');
+      if (!adminToken || authHeader !== expectedHeader) {
+        return new Response(JSON.stringify({ success: false, error: 'Unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
     // Optionally run auto-archiving
     let archiveSummary: { archived: number } | undefined;
     if (runArchive) {
@@ -52,25 +66,17 @@ export async function GET(req: NextRequest) {
       new Set(allPersonas.filter(p => p.status === 'active').map(p => p.hipermrezaNode))
     ).sort((a, b) => a - b);
 
-    // Personas with missing required attributes
+    // Personas with missing required attributes — computed in a single pass
     const missingAttributePersonas = allPersonas
       .filter(p => p.status === 'active')
-      .filter(p => {
-        const attrs = p.attributes;
-        return (
-          !attrs.traits?.length ||
-          !attrs.skills?.length ||
-          !attrs.domain
-        );
-      })
-      .map(p => ({ id: p.id, name: p.name, missing: [] as string[] }))
-      .map(p => {
-        const persona = allPersonas.find(a => a.id === p.id)!;
-        if (!persona.attributes.traits?.length) p.missing.push('traits');
-        if (!persona.attributes.skills?.length) p.missing.push('skills');
-        if (!persona.attributes.domain) p.missing.push('domain');
-        return p;
-      });
+      .reduce<Array<{ id: string; name: string; missing: string[] }>>((acc, p) => {
+        const missing: string[] = [];
+        if (!p.attributes.traits?.length) missing.push('traits');
+        if (!p.attributes.skills?.length) missing.push('skills');
+        if (!p.attributes.domain) missing.push('domain');
+        if (missing.length > 0) acc.push({ id: p.id, name: p.name, missing });
+        return acc;
+      }, []);
 
     // Overall health determination
     const octavesCovered = octaveCoverage.length;
