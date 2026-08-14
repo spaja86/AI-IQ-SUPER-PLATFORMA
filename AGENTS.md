@@ -218,21 +218,6 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Linked agent**: ANOTHER MAKS (kreativni agent)
   - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync aktivan
 
-### maksimus-validator-agent (NEW)
-- **Role**: Validate MAKSIMUS logic — analytical orchestration, development strategy, platform coordination, and cross-agent handoff integrity
-- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/maksimus/**`, `src/app/api/maksimus/**`
-- **Trigger**: PR with label `maksimus:logic-change`, push touching `maksimus` paths, weekly schedule (Wednesday 04:00 UTC)
-- **Actions**:
-  - Runs unit test suite for MAKSIMUS logic (identity, orchestrator, handoff, store)
-  - Verifies persona synchronization and handoff logic to ANOTHER MAKS
-  - Checks performance KPIs: evaluation ≤ 50ms, build ≤ 3 min
-  - Scans for inconsistencies and secrets in MAKSIMUS modules
-  - Auto-labels PRs with `maksimus:validated` or `maksimus:needs-review`
-  - Leaves audit log in PR comment
-  - **Specialization**: Analytical orchestration, development strategy, platform coordination
-  - **Linked agent**: ANOTHER MAKS (creative agent)
-  - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync active
-
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -587,6 +572,21 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `digit-engine-core` (octave: 10, hipermreza node: 80)
   - **Multi-repo sync**: Syncs digit registry snapshots to `spaja86/IO-OPENUI-AO`
+
+### maksimus-validator-agent (NEW)
+- **Role**: Validate MAKSIMUS logic — analytical orchestration, development strategy, platform coordination, and cross-agent handoff integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/maksimus/**`, `src/app/api/maksimus/**`
+- **Trigger**: PR with label `maksimus:logic-change`, push touching `maksimus` paths, weekly schedule (Wednesday 04:00 UTC)
+- **Actions**:
+  - Runs unit test suite for MAKSIMUS logic (identity, orchestrator, handoff, store)
+  - Verifies persona synchronization and handoff logic to ANOTHER MAKS
+  - Checks performance KPIs: evaluation ≤ 50ms, build ≤ 3 min
+  - Scans for inconsistencies and secrets in MAKSIMUS modules
+  - Auto-labels PRs with `maksimus:validated` or `maksimus:needs-review`
+  - Leaves audit log in PR comment
+  - **Specialization**: Analytical orchestration, development strategy, platform coordination
+  - **Linked agent**: ANOTHER MAKS (creative agent)
+  - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync active
 
 ## Rules
 
