@@ -33,6 +33,7 @@ src/
 |---|---|---|---|---|---|---|
 | GIGATRON | ✅ | ✅ | ✅ | ✅ | — | — |
 | DECIBIL | ✅ | ✅ | ✅ | ✅ | — | — |
+| TRENAŽER | ✅ | ✅ | ✅ | ✅ | 6 | 48 |
 | Discount Telecom | ✅ | ✅ | ✅ | ✅ | 8 | 64 |
 | Great Sumbion | ✅ | ✅ | ✅ | ✅ | 9 | 72 |
 | Madagaskar v1+v2 | ✅ | ✅ | ✅ | ✅ | 5 | 40 |

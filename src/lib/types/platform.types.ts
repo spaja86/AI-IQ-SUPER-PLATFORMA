@@ -80,6 +80,7 @@ export interface PlatformConfig {
   modules: {
     gigatron: ModuleConfig;
     decibil: ModuleConfig;
+    trenazer: ModuleConfig;
     discountTelecom: ModuleConfig;
     greatSumbion: ModuleConfig;
     madagaskar: ModuleConfig;

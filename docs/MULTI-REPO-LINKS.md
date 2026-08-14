@@ -44,6 +44,10 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `great-sumbion:logic-change` | GREAT SUMBION score/tier logic changed |
 | `great-sumbion:validated` | GREAT SUMBION validator and tests passed |
 | `great-sumbion:needs-review` | GREAT SUMBION validator requires human follow-up |
+| `trenazer` | TRENAŽER change set — requires focused validation |
+| `trenazer:logic-change` | TRENAŽER readiness/recommendation logic changed |
+| `trenazer:validated` | TRENAŽER validator and tests passed |
+| `trenazer:needs-review` | TRENAŽER validator requires human follow-up |
 
 ## GIGATRON Label Schema
 
@@ -122,6 +126,16 @@ Audit reference convention:
 Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#GREAT-SUMBION -> IO-OPENUI-AO#<follow-up issue>`
+
+## TRENAŽER downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — TRENAŽER training-readiness track | `spaja86/IO-OPENUI-AO` — No linked repo change required | Initial scope is repo-local engine/API/component/docs only; downstream consumer rollout must be tracked explicitly |
+
+Audit reference convention (if downstream work is needed later):
+
+`AI-IQ-SUPER-PLATFORMA#TRENAZER -> IO-OPENUI-AO#<follow-up issue>`
 
 ## EPRINCIP downstream reference
 
