@@ -34,6 +34,15 @@ GREAT SUMBION uvodi novi weighted score engine sa jasnim KPI granicama i validat
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/GREAT-SUMBION.md`
 
+## 🏋️ TRENAŽER
+
+TRENAŽER uvodi deterministički training-readiness engine za preporuku recovery, moderate i intensive sesija.
+
+- Modul: `src/lib/trenazer/**`
+- API: `/api/trenazer/evaluate`, `/api/trenazer/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/TRENAZER.md`
+
 ## 📐 EPRINCIP
 
 EPRINCIP uvodi determinističku procenu usklađenosti principa sa weighted scoring modelom i proverom obaveznih pragova.

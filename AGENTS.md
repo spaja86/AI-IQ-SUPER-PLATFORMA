@@ -146,6 +146,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `great-sumbion-core` (octave: 9, hipermreza node: 72)
 
+### trenazer-validator-agent (NEW)
+- **Role**: Validacija TRENAŽER logike — training readiness scoring, intensity preporuke i duration integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trenazer/**`, `src/app/api/trenazer/**`, `src/components/trenazer/**`
+- **Trigger**: PR sa labelom `trenazer:logic-change`, push koji dira `trenazer` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za TRENAŽER logiku
+  - Verifikuje determinističke readiness rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, sleep > 24h, duration cap)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `trenazer:validated` ili `trenazer:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
+
 ### madagaskar-validator-agent (NEW)
 - **Role**: Validacija MADAGASKAR logike — egzotična tržišna inteligencija, rarity premium kalkulacija, sustainability scoring i procurement integritet (v1 + v2: FX, aukcije, traceability, basket)
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
@@ -312,6 +325,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | another-maks-agent | Creative/Generative Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (another-maks paths) |
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
+| trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
@@ -516,6 +530,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `great-sumbion-core` (octave: 9, hipermreza node: 72)
 
+### trenazer-validator-agent (NEW)
+- **Role**: Validate TRENAŽER logic — training-readiness scoring, intensity recommendation, and duration integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trenazer/**`, `src/app/api/trenazer/**`, `src/components/trenazer/**`
+- **Trigger**: PR with label `trenazer:logic-change`, push touching `trenazer` paths
+- **Actions**:
+  - Runs unit and route test suite for TRENAŽER logic
+  - Verifies deterministic readiness outputs and edge cases (`NaN`, `Infinity`, negative values, sleep > 24h, duration cap)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `trenazer:validated` or `trenazer:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
+
 ### madagaskar-validator-agent (NEW)
 - **Role**: Validate MADAGASKAR logic — exotic market intelligence, rarity premium calculation, sustainability scoring, and procurement integrity (v1 + v2: FX conversion, auction mechanics, traceability, basket procurement)
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
@@ -629,6 +656,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
+| trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
