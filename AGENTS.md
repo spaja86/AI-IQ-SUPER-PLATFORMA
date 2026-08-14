@@ -231,6 +231,21 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Linked agent**: ANOTHER MAKS (kreativni agent)
   - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync aktivan
 
+### epekm-denter-validator-agent (NEW)
+- **Role**: Validacija EPEKM-D logike — permanentni email identiteti, dostava poruka, alias rezolucija i integritet orchestratora
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/epekm-denter/**`, `src/app/api/epekm-denter/**`, `src/components/epekm-denter/**`
+- **Trigger**: PR sa labelom `epekm-denter:logic-change`, push koji dira `epekm-denter` putanje
+- **Actions**:
+  - Pokreće unit test suite za EPEKM-D logiku (identity-registry, routing-engine, email-engine, delivery-tracker, denter-orchestrator)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, prazni alias, duplikat identiteta, null agentRef, dostava na arhivirani identitet)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms, delivery ack ≤ 500ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `epekm-denter:validated` ili `epekm-denter:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `epekm-denter-core` (octave: 11, hipermreza node: 88)
+  - **Multi-repo sync**: Sinhronizuje email identity snapshots ka `spaja86/IO-OPENUI-AO`
+  - **Linked agents**: MAKSIMUS, ANOTHER MAKS, persona-bank-agent
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -335,6 +350,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
+| epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -615,6 +631,21 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Linked agent**: ANOTHER MAKS (creative agent)
   - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync active
 
+### epekm-denter-validator-agent (NEW)
+- **Role**: Validate EPEKM-D logic — permanent email identities, message delivery, alias resolution, and orchestrator integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/epekm-denter/**`, `src/app/api/epekm-denter/**`, `src/components/epekm-denter/**`
+- **Trigger**: PR with label `epekm-denter:logic-change`, push touching `epekm-denter` paths
+- **Actions**:
+  - Runs unit test suite for EPEKM-D logic (identity-registry, routing-engine, email-engine, delivery-tracker, denter-orchestrator)
+  - Verifies mathematical results and edge cases (NaN, Infinity, empty alias, duplicate identity, null agentRef, delivery to archived identity)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms, delivery ack ≤ 500ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `epekm-denter:validated` or `epekm-denter:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `epekm-denter-core` (octave: 11, hipermreza node: 88)
+  - **Multi-repo sync**: Syncs email identity snapshots to `spaja86/IO-OPENUI-AO`
+  - **Linked agents**: MAKSIMUS, ANOTHER MAKS, persona-bank-agent
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -666,6 +697,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
+| epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
 
 ## Agent Configuration Files
 
