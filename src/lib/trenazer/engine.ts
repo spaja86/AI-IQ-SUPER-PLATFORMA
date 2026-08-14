@@ -84,7 +84,7 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
     focusAreas: [],
     valid: false,
     warnings: [warning],
-    durationMs: Date.now() - start,
+    durationMs: Math.round((performance.now() - start) * 100) / 100,
   };
 }
 
@@ -113,7 +113,7 @@ function buildWarnings(metrics: TrenazerMetricsInput, readiness: TrenazerReadine
 }
 
 export function evaluateTrenazer(input: TrenazerInput): TrenazerResult {
-  const start = Date.now();
+  const start = performance.now();
 
   if (!input || typeof input !== 'object') {
     return invalidResult(undefined, 'input must be an object', start);
@@ -191,7 +191,7 @@ export function evaluateTrenazer(input: TrenazerInput): TrenazerResult {
     focusAreas: GOAL_FOCUS_AREAS[input.profile.goal],
     valid: true,
     warnings,
-    durationMs: Date.now() - start,
+    durationMs: Math.round((performance.now() - start) * 100) / 100,
   };
 }
 

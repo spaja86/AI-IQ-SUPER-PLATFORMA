@@ -6,6 +6,7 @@ export {
   getTrenazerHealthReport,
   _resetTrenazerMetrics,
 } from './engine';
+export { setTrenazerHeaders } from './route-utils';
 
 export type {
   TrenazerExperienceLevel,

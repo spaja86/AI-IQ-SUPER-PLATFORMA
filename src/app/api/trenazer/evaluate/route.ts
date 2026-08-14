@@ -5,17 +5,11 @@ import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import {
   evaluateTrenazer,
-  TRENAZER_CONTRACT_VERSION,
-  TRENAZER_MODULE_VERSION,
+  setTrenazerHeaders,
 } from '@/lib/trenazer';
 import type { TrenazerInput } from '@/lib/trenazer';
 
 export const dynamic = 'force-dynamic';
-
-function setHeaders(res: Response): void {
-  res.headers.set('X-Trenazer-Contract-Version', TRENAZER_CONTRACT_VERSION);
-  res.headers.set('X-Trenazer-Module-Version', TRENAZER_MODULE_VERSION);
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -82,7 +76,7 @@ export async function POST(req: NextRequest) {
 
     const result = evaluateTrenazer(input);
     const response = apiSuccess(result, result.valid ? 200 : 422);
-    setHeaders(response);
+    setTrenazerHeaders(response);
     return response;
   } catch (error) {
     return apiInternalError('trenazer/evaluate', error);
