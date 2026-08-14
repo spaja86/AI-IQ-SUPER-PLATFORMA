@@ -16,9 +16,31 @@ interface DeployCardProps {
   status: PlatformDeployStatus;
   history: DeployHistoryEntry[];
   manualTriggerEnabled: boolean;
+  healthSnapshot?: {
+    healthy: boolean | null;
+    message: string;
+    httpStatus: number | null;
+    responseTimeMs: number | null;
+    checkedAt: string;
+  };
+  loadingHistory?: boolean;
+  loadingHealth?: boolean;
+  onHealthCheck: (platformId: string) => void;
+  onHistoryRefresh: (platformId: string) => void;
+  onAuditEvent?: (level: 'info' | 'success' | 'error', message: string) => void;
 }
 
-export default function DeployCard({ status, history, manualTriggerEnabled }: DeployCardProps) {
+export default function DeployCard({
+  status,
+  history,
+  manualTriggerEnabled,
+  healthSnapshot,
+  loadingHistory = false,
+  loadingHealth = false,
+  onHealthCheck,
+  onHistoryRefresh,
+  onAuditEvent,
+}: DeployCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [triggerResult, setTriggerResult] = useState<string | null>(null);
 
@@ -33,11 +55,17 @@ export default function DeployCard({ status, history, manualTriggerEnabled }: De
       }),
     });
 
-    const json = await res.json() as { success: boolean; result?: { message?: string } };
+    const json = await res.json() as { success: boolean; result?: { message?: string }; historyEntryId?: string };
     if (!json.success) {
       throw new Error(json.result?.message ?? 'Deploy neuspešan');
     }
-    setTriggerResult(json.result?.message ?? 'Deploy pokrenut');
+    const message = json.result?.message ?? 'Deploy pokrenut';
+    setTriggerResult(message);
+    onAuditEvent?.(
+      'success',
+      `${status.platformId}: ${message}${json.historyEntryId ? ` (history: ${json.historyEntryId})` : ''}`,
+    );
+    onHistoryRefresh(status.platformId);
   }
 
   return (
@@ -89,12 +117,23 @@ export default function DeployCard({ status, history, manualTriggerEnabled }: De
         </div>
 
         {/* Timeline */}
-        {history.length > 0 && (
-          <div>
-            <p className="text-xs text-zinc-500 mb-2 font-medium">Istorija:</p>
-            <DeployTimeline entries={history} maxItems={3} />
+        <div>
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <p className="text-xs font-medium text-zinc-500">Istorija:</p>
+            <button
+              type="button"
+              onClick={() => onHistoryRefresh(status.platformId)}
+              className="rounded border border-zinc-700 px-2 py-1 text-[11px] text-zinc-300 transition hover:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              {loadingHistory ? '⏳' : '↻'} History
+            </button>
           </div>
-        )}
+          {history.length > 0 ? (
+            <DeployTimeline entries={history} maxItems={3} />
+          ) : (
+            <p className="text-xs italic text-zinc-500">Nema zabeleženih deploymenta.</p>
+          )}
+        </div>
 
         {/* Trigger result */}
         {triggerResult && (
@@ -103,19 +142,64 @@ export default function DeployCard({ status, history, manualTriggerEnabled }: De
           </p>
         )}
 
+        {healthSnapshot && (
+          <div
+            className={`rounded-lg border px-3 py-2 text-xs ${
+              healthSnapshot.healthy === true
+                ? 'border-green-500/20 bg-green-500/10 text-green-300'
+                : healthSnapshot.healthy === false
+                ? 'border-red-500/20 bg-red-500/10 text-red-300'
+                : 'border-zinc-700 bg-zinc-800/70 text-zinc-300'
+            }`}
+          >
+            <p>{healthSnapshot.message}</p>
+            <p className="mt-1 text-[11px] opacity-80">
+              {healthSnapshot.httpStatus !== null ? `HTTP ${healthSnapshot.httpStatus}` : 'HTTP —'}
+              {' · '}
+              {healthSnapshot.responseTimeMs !== null ? `${healthSnapshot.responseTimeMs}ms` : '—'}
+            </p>
+          </div>
+        )}
+
         {/* Actions */}
-        {manualTriggerEnabled && (
+        <div className="mt-auto grid grid-cols-3 gap-2">
           <button
             type="button"
             onClick={() => {
-              setTriggerResult(null);
-              setModalOpen(true);
+              onHealthCheck(status.platformId);
+              onAuditEvent?.('info', `${status.platformId}: health check pokrenut`);
             }}
-            className="mt-auto w-full py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-zinc-200 text-sm font-medium hover:bg-zinc-700 hover:border-zinc-500 transition-colors"
+            className="rounded-lg border border-zinc-700 py-2 text-xs text-zinc-200 transition-colors hover:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
-            🚀 Deploy
+            {loadingHealth ? '⏳' : '🩺'} Health
           </button>
-        )}
+          <button
+            type="button"
+            onClick={() => {
+              onHistoryRefresh(status.platformId);
+              onAuditEvent?.('info', `${status.platformId}: history refresh pokrenut`);
+            }}
+            className="rounded-lg border border-zinc-700 py-2 text-xs text-zinc-200 transition-colors hover:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          >
+            📜 History
+          </button>
+          {manualTriggerEnabled ? (
+            <button
+              type="button"
+              onClick={() => {
+                setTriggerResult(null);
+                setModalOpen(true);
+              }}
+              className="rounded-lg border border-zinc-600 bg-zinc-800 py-2 text-xs font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              🚀 Deploy
+            </button>
+          ) : (
+            <span className="inline-flex items-center justify-center rounded-lg border border-zinc-800 py-2 text-xs text-zinc-500">
+              Trigger off
+            </span>
+          )}
+        </div>
       </div>
 
       <DeployTriggerModal
