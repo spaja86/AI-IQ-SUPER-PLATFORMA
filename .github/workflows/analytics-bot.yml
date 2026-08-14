@@ -173,14 +173,21 @@ jobs:
               // Attempt to call billing API — requires GITHUB_TOKEN with billing:read scope
               const billingResp = await github.rest.billing.getGithubActionsBillingOrg({
                 org: context.repo.owner,
-              }).catch(() => null);
+              });
 
               if (billingResp?.data) {
                 usedMinutes = billingResp.data.total_minutes_used;
                 billingAvailable = true;
               }
-            } catch (_) {
-              // Billing API not available on all plans/tokens — log summary only
+            } catch (err) {
+              const status = err?.status ?? err?.response?.status;
+              if (status === 403 || status === 404) {
+                // Billing API not available for this token scope or plan — expected fallback
+                core.info(`Billing API unavailable (HTTP ${status}) — falling back to manual tracking guidance.`);
+              } else {
+                // Transient or unexpected error — surface it so it is visible
+                core.warning(`Billing API call failed unexpectedly: ${err?.message ?? err}`);
+              }
             }
 
             const date = '${{ needs.collect-metrics.outputs.report_date }}';
