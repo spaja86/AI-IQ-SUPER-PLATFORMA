@@ -203,6 +203,21 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `digit-engine-core` (octave: 10, hipermreza node: 80)
   - **Multi-repo sync**: Sinhronizuje digit registry snapshots ka `spaja86/IO-OPENUI-AO`
 
+### maksimus-validator-agent (NEW)
+- **Role**: Validacija MAKSIMUS logike — analitička orkestracija, razvojna strategija, platforma koordinacija i cross-agent handoff integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/maksimus/**`, `src/app/api/maksimus/**`
+- **Trigger**: PR sa labelom `maksimus:logic-change`, push koji dira `maksimus` putanje, weekly schedule (sreda 04:00 UTC)
+- **Actions**:
+  - Pokreće unit test suite za MAKSIMUS logiku (identity, orchestrator, handoff, store)
+  - Verifikuje persona sinhronizaciju i handoff logiku ka ANOTHER MAKS
+  - Proverava performance KPI: evaluacija ≤ 50ms, build ≤ 3 min
+  - Skenira za nedoslednosti i sekrete u MAKSIMUS modulima
+  - Auto-labels PRs sa `maksimus:validated` ili `maksimus:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Specijalizacija**: Analitička orkestracija, razvojna strategija, platforma koordinacija
+  - **Linked agent**: ANOTHER MAKS (kreativni agent)
+  - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync aktivan
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -305,6 +320,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
+| maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -557,6 +573,21 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `digit-engine-core` (octave: 10, hipermreza node: 80)
   - **Multi-repo sync**: Syncs digit registry snapshots to `spaja86/IO-OPENUI-AO`
 
+### maksimus-validator-agent (NEW)
+- **Role**: Validate MAKSIMUS logic — analytical orchestration, development strategy, platform coordination, and cross-agent handoff integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/maksimus/**`, `src/app/api/maksimus/**`
+- **Trigger**: PR with label `maksimus:logic-change`, push touching `maksimus` paths, weekly schedule (Wednesday 04:00 UTC)
+- **Actions**:
+  - Runs unit test suite for MAKSIMUS logic (identity, orchestrator, handoff, store)
+  - Verifies persona synchronization and handoff logic to ANOTHER MAKS
+  - Checks performance KPIs: evaluation ≤ 50ms, build ≤ 3 min
+  - Scans for inconsistencies and secrets in MAKSIMUS modules
+  - Auto-labels PRs with `maksimus:validated` or `maksimus:needs-review`
+  - Leaves audit log in PR comment
+  - **Specialization**: Analytical orchestration, development strategy, platform coordination
+  - **Linked agent**: ANOTHER MAKS (creative agent)
+  - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync active
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -606,6 +637,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
+| maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
 
 ## Agent Configuration Files
 

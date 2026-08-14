@@ -215,6 +215,69 @@
         "spaja86/IO-OPENUI-AO"
       ]
     },
+    "maksimus-validator-agent": {
+      "enabled": true,
+      "featureId": "maksimus",
+      "role": "analiticka-orkestracija-razvojna-strategija",
+      "performanceThreshold": 50,
+      "linkedAgents": [
+        "another-maks-agent",
+        "persona-bank-agent",
+        "nova-generacija-agent"
+      ],
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "trigger": {
+        "pullRequestLabels": [
+          "maksimus:logic-change",
+          "maksimus:review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "maksimus/**"
+        ],
+        "paths": [
+          "src/lib/maksimus/**",
+          "src/app/api/maksimus/**",
+          "src/tests/lib/maksimus.test.ts",
+          ".github/workflows/maksimus-validator.yml"
+        ]
+      },
+      "persona": {
+        "id": "maksimus",
+        "specijalizacija": "analiticka-orkestracija",
+        "linkedAgent": "another-maks",
+        "octave": 13,
+        "hipermrezaNode": 128
+      },
+      "performanceKpi": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%"
+      },
+      "requiredChecks": [
+        "npm run lint -- src/lib/maksimus/types.ts src/lib/maksimus/identity.ts src/lib/maksimus/orchestrator.ts src/lib/maksimus/index.ts src/app/api/maksimus/route.ts",
+        "npx tsx src/tests/lib/maksimus.test.ts",
+        "npm run predeploy:check",
+        "npm audit --audit-level=high"
+      ],
+      "autoLabels": {
+        "validated": "maksimus:validated",
+        "needsReview": "maksimus:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "Sync persona snapshots via multi-repo-sync-agent after MAKSIMUS activation"
+      },
+      "novaGeneracijaIntegration": {
+        "enabled": true,
+        "hipermrezaNode": true,
+        "personaSync": true,
+        "featureFlag": "maksimus"
+      }
+    },
     "another-maks-agent": {
       "enabled": true,
       "featureId": "another-maks",

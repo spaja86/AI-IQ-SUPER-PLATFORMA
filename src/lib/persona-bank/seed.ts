@@ -175,6 +175,28 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['digit-engine-validator-agent', 'persona-bank-agent', 'multi-repo-sync-agent'],
     crossRepoRef: 'digit-engine-core',
   },
+  // ─── MAKSIMUS ─────────────────────────────────────────────────────────────
+  {
+    id: 'maksimus',
+    name: 'MAKSIMUS — Analitički/Razvojni Apex Agent',
+    type: 'maksimus',
+    octave: 13,
+    hipermrezaNode: 128,
+    attributes: {
+      traits: ['analytical', 'strategic', 'apex', 'systematic', 'developmental'],
+      skills: [
+        'analiticka-orkestracija',
+        'razvojna-strategija',
+        'platforma-koordinacija',
+        'cross-agent-coordination',
+        'kpi-monitoring',
+      ],
+      tone: 'analytical',
+      domain: 'super-platforma',
+    },
+    linkedAgents: ['another-maks-agent', 'nova-generacija-agent', 'persona-bank-agent'],
+    crossRepoRef: 'maksimus',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

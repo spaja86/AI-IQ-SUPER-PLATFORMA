@@ -708,3 +708,31 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-CUZ-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#DIGIT-ENGINE-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+
+## MAKSIMUS — Analitički/Razvojni Apex Agent
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-14 |
+| Owner | @spaja86 |
+| Scope | `src/lib/maksimus/**`, `src/app/api/maksimus/**` |
+| Contract | `MAKSIMUS_CONTRACT_VERSION = v1`, `MAKSIMUS_MODEL_VERSION = 1.0.0` |
+| Persona | `maksimus` (octave: 13, hipermreza node: 128) |
+| Linked Agent | `another-maks` (creative counterpart) |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — MAKSIMUS persona snapshots | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: MAKSIMUS persona snapshots via multi-repo-sync-agent |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Sync MAKSIMUS persona snapshots via `multi-repo-sync-agent`
+- Add `maksimus:logic-change` label to linked-repo label schema
+- Update `maksimus-validator-agent` trigger in linked-repo `.agent-config.json`
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#MAKSIMUS-001 -> IO-OPENUI-AO#<follow-up issue>
+```
