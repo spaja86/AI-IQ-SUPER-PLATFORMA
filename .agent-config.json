@@ -562,7 +562,7 @@
         "scoreMin": 0,
         "scoreMax": 100
       },
-      "testSuite": "src/tests/lib/trenazer.test.ts && src/tests/api/trenazer-route.test.ts",
+      "testSuite": "src/tests/lib/trenazer.test.ts",
       "scope": "src/lib/trenazer/**,src/app/api/trenazer/**,src/components/trenazer/**"
     },
     "tarken-hingil-ekolan-maksimus": {

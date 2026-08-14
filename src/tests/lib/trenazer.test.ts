@@ -33,12 +33,6 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
-function assertClose(actual: number, expected: number, tolerance = 0.001, label = ''): void {
-  if (Math.abs(actual - expected) > tolerance) {
-    throw new Error(`${label}: expected ${expected} ± ${tolerance}, got ${actual}`);
-  }
-}
-
 async function runTests(): Promise<void> {
   _resetTrenazerMetrics();
 
@@ -265,7 +259,7 @@ async function runTests(): Promise<void> {
       });
     }
     const avg = (performance.now() - start) / samples;
-    assertClose(avg <= TRENAZER_PERFORMANCE_MAX_MS ? 1 : 0, 1, 0, `average ${avg.toFixed(2)}ms`);
+    assert(avg <= TRENAZER_PERFORMANCE_MAX_MS, `average ${avg.toFixed(2)}ms > ${TRENAZER_PERFORMANCE_MAX_MS}ms`);
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
