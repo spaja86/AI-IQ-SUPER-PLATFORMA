@@ -246,7 +246,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Multi-repo sync**: Sinhronizuje email identity snapshots ka `spaja86/IO-OPENUI-AO`
   - **Linked agents**: MAKSIMUS, ANOTHER MAKS, persona-bank-agent
 
-
+### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
 - **Trigger**: PR sa labelom `another-maks`, push koji dira `another-maks` putanje, weekly schedule (ponedeljak 03:00 UTC)

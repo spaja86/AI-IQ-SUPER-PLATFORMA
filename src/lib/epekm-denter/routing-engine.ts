@@ -52,11 +52,24 @@ export function removeAliasOverride(alias: string): boolean {
 
 /**
  * Returns a full route entry for an alias.
+ * For override-based routes, `active` is always true; for identity-based routes,
+ * `active` reflects the identity status.
  */
 export function getRouteEntry(alias: string): EpekmRouteEntry | null {
   const normalized = alias.toLowerCase().trim();
   const canonical = resolveAlias(normalized);
   if (!canonical) return null;
+
+  // Check if resolution came from an override
+  const isOverride = _aliasOverrides.has(normalized);
+  if (isOverride) {
+    return {
+      alias: normalized,
+      canonicalAddress: canonical,
+      agentRef: 'override',
+      active: true,
+    };
+  }
 
   const identity = getIdentityByAlias(normalized);
   return {
@@ -68,17 +81,16 @@ export function getRouteEntry(alias: string): EpekmRouteEntry | null {
 }
 
 /**
- * Lists all resolvable route entries (from identity registry only).
+ * Lists all resolvable route entries (from identity registry and override map).
  */
 export function listRoutes(): EpekmRouteEntry[] {
-  const routes: EpekmRouteEntry[] = [];
   const overrides = Array.from(_aliasOverrides.entries()).map(([alias, canonicalAddress]) => ({
     alias,
     canonicalAddress,
     agentRef: 'override',
     active: true,
   }));
-  return [...routes, ...overrides];
+  return overrides;
 }
 
 /** Clears overrides — for testing only */

@@ -27,6 +27,7 @@ export const EPEKM_HIPERMREZA_NODE = 88;
 export const EPEKM_PERFORMANCE_MAX_MS = 50;
 export const EPEKM_API_RESPONSE_MAX_MS = 200;
 export const EPEKM_DELIVERY_ACK_MAX_MS = 500;
+export const EPEKM_DEGRADED_PENDING_THRESHOLD = 1000;
 
 /**
  * Main orchestrator entry point.
@@ -106,7 +107,7 @@ export function buildHealthReport(): EpekmHealthReport {
   const activeIdentities = getActiveIdentityCount();
 
   return {
-    status: pendingDeliveries > 1000 ? 'degraded' : 'ok',
+    status: pendingDeliveries > EPEKM_DEGRADED_PENDING_THRESHOLD ? 'degraded' : 'ok',
     registeredIdentities,
     activeIdentities,
     totalMessages,

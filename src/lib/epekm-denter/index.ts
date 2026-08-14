@@ -12,6 +12,7 @@ export {
   EPEKM_PERFORMANCE_MAX_MS,
   EPEKM_API_RESPONSE_MAX_MS,
   EPEKM_DELIVERY_ACK_MAX_MS,
+  EPEKM_DEGRADED_PENDING_THRESHOLD,
   executeDenterRequest,
   buildHealthReport,
   registerEmailIdentity,

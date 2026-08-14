@@ -7,7 +7,7 @@
 
 import type { EpekmMessage, EpekmSendInput, EpekmSendResult } from './types';
 import { resolveAlias } from './routing-engine';
-import { initDelivery, markSent, markDelivered } from './delivery-tracker';
+import { initDelivery, markSent, markDelivered, getDeliveryStatus } from './delivery-tracker';
 
 // In-memory message store (keyed by messageId)
 const _messageStore = new Map<string, EpekmMessage>();
@@ -59,16 +59,17 @@ export function sendMessage(input: EpekmSendInput): EpekmSendResult {
     ? input.messageId.trim()
     : generateMessageId(fromAlias);
 
-  // Idempotent: return existing result if already processed
+  // Idempotent: return actual delivery state if already processed
   const existing = _messageStore.get(messageId);
   if (existing) {
+    const deliveryRecord = getDeliveryStatus(messageId);
     return {
       messageId: existing.messageId,
-      status: 'delivered',
+      status: deliveryRecord?.status ?? 'delivered',
       fromAlias: existing.fromAlias,
       toAlias: existing.toAlias,
       sentAt: existing.createdAt,
-      retryCount: 0,
+      retryCount: deliveryRecord?.retryCount ?? 0,
     };
   }
 
