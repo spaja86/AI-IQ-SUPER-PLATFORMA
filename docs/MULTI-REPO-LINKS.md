@@ -750,3 +750,31 @@ AI-IQ-SUPER-PLATFORMA#DIGIT-ENGINE-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#MAKSIMUS-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+
+## EPEKM-D — Eksoidnig Permanent Email Maksim Denter
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-14 |
+| Owner | @spaja86 |
+| Scope | `src/lib/epekm-denter/**`, `src/app/api/epekm-denter/**`, `src/components/epekm-denter/**` |
+| Contract | `EPEKM_CONTRACT_VERSION = v1`, `EPEKM_MODULE_VERSION = 1.0.0` |
+| Persona | `epekm-denter-core` (octave: 11, hipermreza node: 88) |
+| Linked Agents | `MAKSIMUS`, `ANOTHER MAKS`, `persona-bank-agent` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EPEKM-D email identity snapshots | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: email identity snapshots via multi-repo-sync-agent |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Sync EPEKM-D email identity snapshots via `multi-repo-sync-agent`
+- Add `epekm-denter:logic-change` label to linked-repo label schema
+- Update `epekm-denter-validator-agent` trigger in linked-repo `.agent-config.json`
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#EPEKM-D-001 -> IO-OPENUI-AO#<follow-up issue>
+```

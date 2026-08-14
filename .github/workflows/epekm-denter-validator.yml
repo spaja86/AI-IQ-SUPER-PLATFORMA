@@ -1,0 +1,176 @@
+name: EPEKM-D — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/epekm-denter/**'
+      - 'src/app/api/epekm-denter/**'
+      - 'src/components/epekm-denter/**'
+      - 'src/tests/lib/epekm-denter.test.ts'
+      - '.github/workflows/epekm-denter-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/epekm-denter/**'
+      - 'src/app/api/epekm-denter/**'
+      - 'src/components/epekm-denter/**'
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full EPEKM-D validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  epekm-denter-lint:
+    name: EPEKM-D — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint EPEKM-D modules
+        run: |
+          npm run lint -- \
+            src/lib/epekm-denter/types.ts \
+            src/lib/epekm-denter/identity-registry.ts \
+            src/lib/epekm-denter/routing-engine.ts \
+            src/lib/epekm-denter/email-engine.ts \
+            src/lib/epekm-denter/delivery-tracker.ts \
+            src/lib/epekm-denter/denter-orchestrator.ts \
+            src/lib/epekm-denter/index.ts \
+            src/app/api/epekm-denter/register/route.ts \
+            src/app/api/epekm-denter/send/route.ts \
+            src/app/api/epekm-denter/health/route.ts
+
+  epekm-denter-typecheck:
+    name: EPEKM-D — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  epekm-denter-tests:
+    name: EPEKM-D — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [epekm-denter-lint, epekm-denter-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run EPEKM-D tests
+        run: npx tsx src/tests/lib/epekm-denter.test.ts
+
+  epekm-denter-security:
+    name: EPEKM-D — Security Scan
+    runs-on: ubuntu-latest
+    needs: [epekm-denter-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in EPEKM-D modules
+        run: |
+          echo "Scanning EPEKM-D modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/epekm-denter/ \
+            src/app/api/epekm-denter/ 2>/dev/null || \
+            (echo "::error::Potential secret found in EPEKM-D modules" && exit 1)
+          echo "No secrets detected."
+
+  epekm-denter-label:
+    name: EPEKM-D — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [epekm-denter-tests, epekm-denter-security]
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const allPassed =
+              '${{ needs.epekm-denter-tests.result }}' === 'success' &&
+              '${{ needs.epekm-denter-security.result }}' === 'success';
+            const label = allPassed ? 'epekm-denter:validated' : 'epekm-denter:needs-review';
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: [label, 'epekm-denter'],
+            });
+
+  epekm-denter-status:
+    name: EPEKM-D — Status Summary
+    runs-on: ubuntu-latest
+    needs: [epekm-denter-lint, epekm-denter-typecheck, epekm-denter-tests, epekm-denter-security]
+    if: always()
+    steps:
+      - name: EPEKM-D validation summary
+        run: |
+          echo "========================================"
+          echo "EPEKM-D Validation Summary"
+          echo "========================================"
+          echo "Lint:       ${{ needs.epekm-denter-lint.result }}"
+          echo "TypeScript: ${{ needs.epekm-denter-typecheck.result }}"
+          echo "Tests:      ${{ needs.epekm-denter-tests.result }}"
+          echo "Security:   ${{ needs.epekm-denter-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Engine evaluation:   ≤ 50ms"
+          echo "  API response target: ≤ 200ms"
+          echo "  Delivery ack:        ≤ 500ms"
+          echo "  Persona:             epekm-denter-core (octave 11, node 88)"
+          echo "========================================"
+
+          if [ "${{ needs.epekm-denter-lint.result }}" != "success" ] || \
+             [ "${{ needs.epekm-denter-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.epekm-denter-tests.result }}" != "success" ] || \
+             [ "${{ needs.epekm-denter-security.result }}" != "success" ]; then
+            echo "❌ EPEKM-D validation FAILED"
+            exit 1
+          else
+            echo "✅ EPEKM-D validation PASSED"
+          fi

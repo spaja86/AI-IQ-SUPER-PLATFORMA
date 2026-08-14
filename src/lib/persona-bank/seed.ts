@@ -197,6 +197,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['another-maks-agent', 'nova-generacija-agent', 'persona-bank-agent'],
     crossRepoRef: 'maksimus',
   },
+  // ─── EPEKM-D: Eksoidnig Permanent Email Maksim Denter ────────────────────
+  {
+    id: 'epekm-denter-core',
+    name: 'EPEKM-D — Eksoidnig Permanent Email Maksim Denter',
+    type: 'epekm-denter',
+    octave: 11,
+    hipermrezaNode: 88,
+    attributes: {
+      traits: ['persistent', 'routing', 'identity'],
+      skills: ['email-delivery', 'alias-resolution', 'agent-handoff'],
+      tone: 'reliable',
+      domain: 'communications',
+    },
+    linkedAgents: ['maksimus-validator-agent', 'another-maks-agent', 'persona-bank-agent'],
+    crossRepoRef: 'epekm-denter',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';
