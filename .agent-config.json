@@ -638,6 +638,63 @@
         "spaja86/IO-OPENUI-AO"
       ]
     },
+    "mirikl-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "scope": [
+        "docs/MIRIKL.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/OKRID-REGISTRY.md",
+        ".agent-config.json",
+        ".github/workflows/mirikl-validator.yml",
+        ".github/workflows/vercel-deploy.yml"
+      ],
+      "triggerLabels": [
+        "mirikl",
+        "mirikl:logic-change"
+      ],
+      "labels": [
+        "mirikl",
+        "mirikl:logic-change",
+        "mirikl:review",
+        "mirikl:validated",
+        "mirikl:needs-review"
+      ],
+      "workflowFile": ".github/workflows/mirikl-validator.yml",
+      "requiredQualityGates": [
+        "build",
+        "lint",
+        "test",
+        "smoke",
+        "predeploy",
+        "security"
+      ],
+      "vercel": {
+        "sourceOfTruth": "git-integration",
+        "fallbackWorkflow": ".github/workflows/vercel-deploy.yml",
+        "fallbackDeployHookEnv": "VERCEL_DEPLOY_HOOK_AI_IQ",
+        "environmentPromotion": [
+          "dev",
+          "staging",
+          "production"
+        ]
+      },
+      "githubActionsRole": "quality-gates-and-audit-governance-only",
+      "reviewRules": {
+        "humanReviewRequired": true,
+        "labelOnConfigChange": "agent:config-change",
+        "crossRepoImpactSectionRequired": true
+      },
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "downstream": {
+        "impact": "follow-up-required",
+        "reference": "docs/MULTI-REPO-LINKS.md"
+      },
+      "okrid": "OKRID-2026-MIRIKL-001",
+      "trackingIssue": 920
+    },
     "madagaskar-validator-agent": {
       "enabled": true,
       "scope": [
@@ -810,6 +867,7 @@
   "sourceOfTruth": {
     "roadmap": "docs/ROADMAP.md",
     "multiRepo": "docs/MULTI-REPO-LINKS.md",
+    "mirikl": "docs/MIRIKL.md",
     "okrid": "docs/OKRID.md",
     "okridRegistry": "docs/OKRID-REGISTRY.md",
     "finops": "docs/finops-enterprise-operating-model.md",
