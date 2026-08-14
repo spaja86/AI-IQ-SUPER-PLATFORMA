@@ -824,3 +824,30 @@ AI-IQ-SUPER-PLATFORMA#EPEKM-D-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#OKRID-2026-MIRIKL-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+## ZLATNI RAČUNI — Loyalty & Tier Platform Module
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-14 |
+| Owner | @spaja86 |
+| Scope | `src/lib/zlatni-racuni/**`, `src/app/api/zlatni-racuni/**`, `src/components/zlatni-racuni/**` |
+| Persona | `zlatni-racuni-core` (octave: 3, hipermreza node: 24) |
+| Validator | `zlatni-racuni-validator-agent` |
+| Workflow | `.github/workflows/zlatni-racuni-validator.yml` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ZLATNI RAČUNI loyalty module | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: tier snapshots (anonymized aggregate), labels, persona-bank registration |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add ZLATNI RAČUNI label schema (`zlatni-racuni`, `zlatni-racuni:logic-change`, `zlatni-racuni:validated`, `zlatni-racuni:needs-review`)
+- Record ZLATNI RAČUNI downstream reference in linked repo documentation
+- Sync zlatni-racuni-core persona to persona-bank in IO-OPENUI-AO
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#zlatni-racuni -> IO-OPENUI-AO#<follow-up issue>
+```
