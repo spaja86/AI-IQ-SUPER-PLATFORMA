@@ -287,7 +287,22 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `dijagnoza-core` (octave: 4, hipermreza node: 32)
 
-### another-maks-agent (NEW)
+### zlatni-racuni-validator-agent (NEW)
+- **Role**: Validacija ZLATNI RAČUNI logike — loyalty tier klasifikacija, bodovni sistem, perk eligibility i transakcijski integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/zlatni-racuni/**`, `src/app/api/zlatni-racuni/**`, `src/components/zlatni-racuni/**`
+- **Trigger**: PR sa labelom `zlatni-racuni:logic-change`, push koji dira `zlatni-racuni` putanje
+- **Actions**:
+  - Pokreće unit test suite za ZLATNI RAČUNI logiku (registry, tier-engine, points-engine, transaction-engine, perk-engine)
+  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativni bodovi, expired perks, arhivirani računi, zero-balance)
+  - Proverava da tier opsezi nisu preklapajući i da bodovni bilans ne ide ispod 0
+  - Proverava performance KPI: lookup ≤ 10ms, tier evaluacija ≤ 50ms, API response ≤ 200ms, transaction append ≤ 100ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `zlatni-racuni:validated` ili `zlatni-racuni:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `zlatni-racuni-core` (octave: 3, hipermreza node: 24)
+  - **Integration**: GIGATRON, Discount Telecom, Madagaskar, Extrimli, Persona Bank, Nova Generacija
+
+
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
 - **Trigger**: PR sa labelom `another-maks`, push koji dira `another-maks` putanje, weekly schedule (ponedeljak 03:00 UTC)
@@ -395,6 +410,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
 | epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
+| zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -731,6 +747,21 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `dijagnoza-core` (octave: 4, hipermreza node: 32)
 
+### zlatni-racuni-validator-agent (NEW)
+- **Role**: Validate ZLATNI RAČUNI logic — loyalty tier classification, points accrual system, perk eligibility, and transaction ledger integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/zlatni-racuni/**`, `src/app/api/zlatni-racuni/**`, `src/components/zlatni-racuni/**`
+- **Trigger**: PR with label `zlatni-racuni:logic-change`, push touching `zlatni-racuni` paths
+- **Actions**:
+  - Runs unit test suite for ZLATNI RAČUNI logic (registry, tier-engine, points-engine, transaction-engine, perk-engine)
+  - Verifies mathematical results and edge cases (NaN, Infinity, negative points, expired perks, archived accounts, zero-balance)
+  - Validates tier ranges are non-overlapping and points balance never goes below 0
+  - Checks performance KPIs: lookup ≤ 10ms, tier evaluation ≤ 50ms, API response ≤ 200ms, transaction append ≤ 100ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `zlatni-racuni:validated` or `zlatni-racuni:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `zlatni-racuni-core` (octave: 3, hipermreza node: 24)
+  - **Integration**: GIGATRON, Discount Telecom, Madagaskar, Extrimli, Persona Bank, Nova Generacija
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -786,6 +817,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
 | epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
+| zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 
 ## Agent Configuration Files
 
