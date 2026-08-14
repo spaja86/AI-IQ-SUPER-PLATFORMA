@@ -120,6 +120,7 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | `multi-repo-sync-agent` | Config-driven coordination | `docs/MULTI-REPO-LINKS.md`, `.agent-config.json` |
 | `analytics-bot` | KPI/reporting source of truth | `.agent-config.json`, `docs/finops-enterprise-operating-model.md` |
 | `trenazer-validator-agent` | Repo-local training-readiness validation | `.github/workflows/trenazer-validator.yml`, `docs/TRENAZER.md` |
+| `mirikl-validator-agent` | GitHub ↔ Vercel governance/release-gate validation | `.github/workflows/mirikl-validator.yml`, `docs/MIRIKL.md` |
 | `okrid-governance` | Weekly OKRID compliance and blocker reporting | `.github/workflows/okrid-weekly-review.yml`, `docs/OKRID.md` |
 | `calculator-validator-agent` | Linked-repo scoped | `spaja86/IO-OPENUI-AO` coordination only |
 

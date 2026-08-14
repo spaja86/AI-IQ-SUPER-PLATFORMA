@@ -133,6 +133,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
   - **Multi-repo sync**: Sinhronizuje operator catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
+### mirikl-validator-agent (NEW)
+- **Role**: Validacija MIRIKL governance logike — GitHub quality gate orkestracija, Vercel deploy boundary i cross-repo audit integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `docs/MIRIKL.md`, `.agent-config.json`, `.github/workflows/mirikl-validator.yml`, `.github/workflows/vercel-deploy.yml`, `docs/MULTI-REPO-LINKS.md`
+- **Trigger**: PR sa labelom `mirikl:logic-change`, push koji dira MIRIKL governance putanje
+- **Actions**:
+  - Pokreće release gate validaciju (build, lint, test, smoke, predeploy, security)
+  - Verifikuje da je Vercel Git integracija primarni deploy source of truth
+  - Verifikuje da GitHub Actions ostaje governance/audit layer
+  - Proverava rollout/rollback i KPI audit sekcije u summary izlazu
+  - Auto-labels PRs sa `mirikl:validated` ili `mirikl:needs-review`
+  - Ostavlja audit log u workflow summary-ju
+  - **OKRID**: `OKRID-2026-MIRIKL-001`
+  - **Tracking Issue**: `#920`
+
 ### great-sumbion-validator-agent (NEW)
 - **Role**: Validacija GREAT SUMBION logike — weighted score orkestracija, tier klasifikacija i edge case integritet
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/great-sumbion/**`, `src/app/api/great-sumbion/**`, `src/components/great-sumbion/**`
@@ -371,6 +385,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
@@ -562,6 +577,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `discount-telecom-global` (octave: 8, hipermreza node: 64)
   - **Multi-repo sync**: Syncs operator catalog snapshots to `spaja86/IO-OPENUI-AO`
 
+### mirikl-validator-agent (NEW)
+- **Role**: Validate MIRIKL governance logic — GitHub quality-gate orchestration, Vercel deploy boundary, and cross-repo audit integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `docs/MIRIKL.md`, `.agent-config.json`, `.github/workflows/mirikl-validator.yml`, `.github/workflows/vercel-deploy.yml`, `docs/MULTI-REPO-LINKS.md`
+- **Trigger**: PR with label `mirikl:logic-change`, push touching MIRIKL governance paths
+- **Actions**:
+  - Runs release-gate validation (build, lint, test, smoke, predeploy, security)
+  - Verifies Vercel Git integration remains the primary deploy source of truth
+  - Verifies GitHub Actions remains the governance/audit layer
+  - Validates rollout/rollback and KPI audit sections in workflow summary
+  - Auto-labels PRs with `mirikl:validated` or `mirikl:needs-review`
+  - Leaves audit log in workflow summary
+  - **OKRID**: `OKRID-2026-MIRIKL-001`
+  - **Tracking Issue**: `#920`
+
 ### great-sumbion-validator-agent (NEW)
 - **Role**: Validate GREAT SUMBION logic — weighted score orchestration, tier classification, and edge-case integrity
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/great-sumbion/**`, `src/app/api/great-sumbion/**`, `src/components/great-sumbion/**`
@@ -747,6 +776,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |

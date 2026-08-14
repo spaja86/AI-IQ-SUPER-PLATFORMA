@@ -52,6 +52,11 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `trenazer:logic-change` | TRENAŽER readiness/recommendation logic changed |
 | `trenazer:validated` | TRENAŽER validator and tests passed |
 | `trenazer:needs-review` | TRENAŽER validator requires human follow-up |
+| `mirikl` | MIRIKL GitHub + Vercel governance/release change set |
+| `mirikl:logic-change` | MIRIKL deploy/config/cross-repo governance logic changed |
+| `mirikl:review` | MIRIKL change requires focused human review |
+| `mirikl:validated` | MIRIKL quality/security/deploy governance checks passed |
+| `mirikl:needs-review` | MIRIKL validator or downstream governance needs follow-up |
 
 ## GIGATRON Label Schema
 
@@ -791,4 +796,31 @@ AI-IQ-SUPER-PLATFORMA#MAKSIMUS-001 -> IO-OPENUI-AO#<follow-up issue>
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#EPEKM-D-001 -> IO-OPENUI-AO#<follow-up issue>
+```
+
+## MIRIKL — GitHub i Vercel governance
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-14 |
+| Owner | @spaja86 |
+| Scope | `docs/MIRIKL.md`, `.agent-config.json`, `.github/workflows/mirikl-validator.yml`, `.github/workflows/vercel-deploy.yml` |
+| Tracking issue | `AI-IQ-SUPER-PLATFORMA#920` |
+| OKRID | `OKRID-2026-MIRIKL-001` |
+| Runtime model | Vercel = deploy/runtime source of truth, GitHub Actions = quality/audit/governance |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — MIRIKL governance baseline | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: MIRIKL labels, governance notes, and `.agent-config.json` compatibility |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add MIRIKL label schema compatibility (`mirikl`, `mirikl:logic-change`, `mirikl:review`, `mirikl:validated`, `mirikl:needs-review`)
+- Record MIRIKL governance reference in linked repo multi-repo documentation
+- Confirm downstream PR template still captures MIRIKL Cross-repo impact and audit evidence sections
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#OKRID-2026-MIRIKL-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
