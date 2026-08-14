@@ -206,6 +206,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('health report reflects latest evaluation', () => {
+    _resetParaksilMetrics();
     evaluateParaksil({
       referenceId: 'health-run',
       target: {

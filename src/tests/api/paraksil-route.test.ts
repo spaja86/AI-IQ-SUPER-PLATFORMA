@@ -135,6 +135,44 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
+  await test('POST /api/paraksil/evaluate returns 400 for non-finite metric payload', async () => {
+    const response = await POST(makeEvaluateRequest({
+      target: {
+        moduleId: 'non-finite',
+        suite: 'API',
+      },
+      metrics: {
+        totalChecks: 10,
+        passedChecks: 10,
+        failedChecks: 0,
+        avgLatencyMs: Number.NaN,
+        errorRatePct: 0,
+        coveragePct: 100,
+      },
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/paraksil/evaluate returns 400 for invalid count guards', async () => {
+    const response = await POST(makeEvaluateRequest({
+      target: {
+        moduleId: 'bad-counts',
+        suite: 'API',
+      },
+      metrics: {
+        totalChecks: 0,
+        passedChecks: 10.5,
+        failedChecks: 0,
+        avgLatencyMs: 30,
+        errorRatePct: 0,
+        coveragePct: 100,
+      },
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
   if (failed > 0) {
     for (const failure of failures) console.error(`  - ${failure}`);

@@ -49,11 +49,22 @@ export async function POST(req: NextRequest) {
     }
 
     const metricFields = ['totalChecks', 'passedChecks', 'failedChecks', 'avgLatencyMs', 'errorRatePct', 'coveragePct'] as const;
-    const shallowMetricsValid = metricFields.every((field) => typeof metricsCandidate[field] === 'number');
-    if (!shallowMetricsValid) {
+    const shallowMetricsValid = metricFields.every((field) => (
+      metricsCandidate[field] !== null &&
+      Number.isFinite(metricsCandidate[field])
+    ));
+    const integerMetricsValid =
+      Number.isInteger(metricsCandidate.totalChecks) &&
+      Number.isInteger(metricsCandidate.passedChecks) &&
+      Number.isInteger(metricsCandidate.failedChecks);
+    const metricRangesValid =
+      (metricsCandidate.totalChecks as number) >= 1 &&
+      (metricsCandidate.passedChecks as number) >= 0 &&
+      (metricsCandidate.failedChecks as number) >= 0;
+    if (!shallowMetricsValid || !integerMetricsValid || !metricRangesValid) {
       return apiError(
         'BAD_REQUEST',
-        'metrics must include numeric totalChecks, passedChecks, failedChecks, avgLatencyMs, errorRatePct, and coveragePct',
+        'metrics must include finite numeric totalChecks, passedChecks, failedChecks, avgLatencyMs, errorRatePct, and coveragePct; totalChecks must be >= 1 and count fields must be integers',
       );
     }
 
@@ -75,9 +86,7 @@ export async function POST(req: NextRequest) {
     };
 
     const result = evaluateParaksil(input);
-    const response = apiSuccess(result, result.valid ? 200 : 422);
-    setParaksilHeaders(response);
-    return response;
+    return setParaksilHeaders(apiSuccess(result, result.valid ? 200 : 422));
   } catch (error) {
     return apiInternalError('paraksil/evaluate', error);
   }

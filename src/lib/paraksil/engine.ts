@@ -20,6 +20,9 @@ import {
   PARAKSIL_PERSONA_ID,
 } from './types';
 
+// Process-local health metrics mirror the lightweight pattern used by other
+// repo validator modules; values are best-effort summaries for the current
+// runtime and are not intended to be globally synchronized across instances.
 let evaluations = 0;
 let lastModuleId = 'n/a';
 let lastStatus: ParaksilStatus = 'BLOCKED';
@@ -33,12 +36,21 @@ function round2(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-function invalidResult(referenceId: string | undefined, warning: string, start: number): ParaksilResult {
+function invalidResult(
+  referenceId: string | undefined,
+  warning: string,
+  start: number,
+  context: {
+    suite?: ParaksilResult['suite'];
+    moduleId?: string;
+    moduleVersion?: string;
+  } = {},
+): ParaksilResult {
   return {
     referenceId: referenceId ?? 'n/a',
-    moduleId: 'unknown-module',
-    moduleVersion: 'unknown',
-    suite: 'UNIT',
+    moduleId: context.moduleId ?? 'unknown-module',
+    moduleVersion: context.moduleVersion ?? 'unknown',
+    suite: context.suite ?? 'UNIT',
     validationScore: 0,
     status: 'BLOCKED',
     passRate: 0,
@@ -52,11 +64,12 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
 function validateIntegerField(
   metrics: ParaksilMetricsInput,
   field: keyof Pick<ParaksilMetricsInput, 'totalChecks' | 'passedChecks' | 'failedChecks'>,
+  minValue = 0,
 ): string | null {
   const value = metrics[field];
   if (!Number.isFinite(value)) return `${field} must be finite`;
   if (!Number.isInteger(value)) return `${field} must be an integer`;
-  if (value < 0) return `${field} must be >= 0`;
+  if (value < minValue) return `${field} must be >= ${minValue}`;
   return null;
 }
 
@@ -123,37 +136,40 @@ export function evaluateParaksil(input: ParaksilInput): ParaksilResult {
   if (!['UNIT', 'API', 'INTEGRATION', 'FULL'].includes(input.target.suite)) {
     return invalidResult(input.referenceId, 'suite must be a supported value', start);
   }
+  const suite = input.target.suite;
+  const moduleId = input.target.moduleId.trim();
   if (input.target.moduleVersion !== undefined && typeof input.target.moduleVersion !== 'string') {
-    return invalidResult(input.referenceId, 'moduleVersion must be a string', start);
+    return invalidResult(input.referenceId, 'moduleVersion must be a string', start, { suite, moduleId });
   }
 
-  for (const field of ['totalChecks', 'passedChecks', 'failedChecks'] as const) {
-    const warning = validateIntegerField(input.metrics, field);
-    if (warning) return invalidResult(input.referenceId, warning, start);
+  const totalChecksWarning = validateIntegerField(input.metrics, 'totalChecks', 1);
+  if (totalChecksWarning) {
+    return invalidResult(input.referenceId, totalChecksWarning, start, { suite, moduleId });
   }
-  if (input.metrics.totalChecks <= 0) {
-    return invalidResult(input.referenceId, 'totalChecks must be > 0', start);
+  for (const field of ['passedChecks', 'failedChecks'] as const) {
+    const warning = validateIntegerField(input.metrics, field);
+    if (warning) return invalidResult(input.referenceId, warning, start, { suite, moduleId });
   }
   if (input.metrics.passedChecks > input.metrics.totalChecks) {
-    return invalidResult(input.referenceId, 'passedChecks cannot exceed totalChecks', start);
+    return invalidResult(input.referenceId, 'passedChecks cannot exceed totalChecks', start, { suite, moduleId });
   }
   if (input.metrics.failedChecks > input.metrics.totalChecks) {
-    return invalidResult(input.referenceId, 'failedChecks cannot exceed totalChecks', start);
+    return invalidResult(input.referenceId, 'failedChecks cannot exceed totalChecks', start, { suite, moduleId });
   }
   if (input.metrics.passedChecks + input.metrics.failedChecks > input.metrics.totalChecks) {
-    return invalidResult(input.referenceId, 'passedChecks + failedChecks cannot exceed totalChecks', start);
+    return invalidResult(input.referenceId, 'passedChecks + failedChecks cannot exceed totalChecks', start, { suite, moduleId });
   }
 
   if (!Number.isFinite(input.metrics.avgLatencyMs)) {
-    return invalidResult(input.referenceId, 'avgLatencyMs must be finite', start);
+    return invalidResult(input.referenceId, 'avgLatencyMs must be finite', start, { suite, moduleId });
   }
   if (input.metrics.avgLatencyMs < 0) {
-    return invalidResult(input.referenceId, 'avgLatencyMs must be >= 0', start);
+    return invalidResult(input.referenceId, 'avgLatencyMs must be >= 0', start, { suite, moduleId });
   }
 
   for (const field of ['errorRatePct', 'coveragePct'] as const) {
     const warning = validatePercentField(input.metrics, field);
-    if (warning) return invalidResult(input.referenceId, warning, start);
+    if (warning) return invalidResult(input.referenceId, warning, start, { suite, moduleId });
   }
 
   const passRate = round2((input.metrics.passedChecks / input.metrics.totalChecks) * 100);
@@ -180,7 +196,7 @@ export function evaluateParaksil(input: ParaksilInput): ParaksilResult {
 
   return {
     referenceId: input.referenceId ?? 'n/a',
-    moduleId: lastModuleId,
+    moduleId,
     moduleVersion: input.target.moduleVersion?.trim() || 'unversioned',
     suite: input.target.suite,
     validationScore,

@@ -12,9 +12,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const report = getParaksilHealthReport();
-    const response = apiSuccess(report, 200);
-    setParaksilHeaders(response);
-    return response;
+    return setParaksilHeaders(apiSuccess(report, 200));
   } catch (error) {
     return apiInternalError('paraksil/health', error);
   }

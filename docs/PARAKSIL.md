@@ -74,4 +74,5 @@ PARAKSIL is a deterministic module-validation sandbox for testing whether a repo
 
 - No secrets in module or API code.
 - Invalid inputs degrade to explicit validation failures; no silent pass-through status is returned.
+- Health metrics are process-local best-effort summaries for the active runtime, not a globally synchronized store.
 - Downstream coupling with `spaja86/IO-OPENUI-AO` requires a follow-up issue before any shared-consumer rollout.
