@@ -246,6 +246,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Multi-repo sync**: Sinhronizuje email identity snapshots ka `spaja86/IO-OPENUI-AO`
   - **Linked agents**: MAKSIMUS, ANOTHER MAKS, persona-bank-agent
 
+### dijagnoza-validator-agent (NEW)
+- **Role**: Validacija DIJAGNOZA logike — health diagnostic scoring, izračunavanje diferencijalnih dijagnoza, urgency triage i edge case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dijagnoza/**`, `src/app/api/dijagnoza/**`, `src/components/dijagnoza/**`
+- **Trigger**: PR sa labelom `dijagnoza:logic-change`, push koji dira `dijagnoza` putanje
+- **Actions**:
+  - Pokreće unit test suite za DIJAGNOZA logiku (types, engine, route-utils)
+  - Verifikuje dijagnostičke rezultate i edge cases (NaN, Infinity, negativni vitalni znaci, prazni simptomi, SpO2/puls/temperatura van opsega)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Validira da je disclaimer uvek prisutan u svakom odgovoru
+  - Auto-labels PRs sa `dijagnoza:validated` ili `dijagnoza:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `dijagnoza-core` (octave: 4, hipermreza node: 32)
+
 ### another-maks-agent (NEW)
 - **Role**: Paralelni kreativni/generativni kognitivni agent uz MAKSIMUS 2/3
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/another-maks/**`, `src/app/api/another-maks/**`
@@ -351,10 +365,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
 | epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
-
-## Agent Configuration Files / Konfiguracione Datoteke
-
-Svaki repozitorijum može imati `.agent-config.json`:
+| dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
 
 ```json
 {
@@ -646,6 +657,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Multi-repo sync**: Syncs email identity snapshots to `spaja86/IO-OPENUI-AO`
   - **Linked agents**: MAKSIMUS, ANOTHER MAKS, persona-bank-agent
 
+### dijagnoza-validator-agent (NEW)
+- **Role**: Validate DIJAGNOZA logic — health diagnostic scoring, differential diagnosis computation, urgency triage, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dijagnoza/**`, `src/app/api/dijagnoza/**`, `src/components/dijagnoza/**`
+- **Trigger**: PR with label `dijagnoza:logic-change`, push touching `dijagnoza` paths
+- **Actions**:
+  - Runs unit test suite for DIJAGNOZA logic (types, engine, route-utils)
+  - Verifies diagnostic results and edge cases (NaN, Infinity, negative vitals, empty symptoms, out-of-range SpO2/pulse/temperature)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Validates disclaimer is always present in every response
+  - Auto-labels PRs with `dijagnoza:validated` or `dijagnoza:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `dijagnoza-core` (octave: 4, hipermreza node: 32)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -698,8 +723,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
 | epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
-
-## Agent Configuration Files
+| dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
 
 Each repository can have a `.agent-config.json`:
 {
