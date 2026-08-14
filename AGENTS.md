@@ -367,6 +367,10 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
 
+## Agent Configuration Files / Konfiguracione Datoteke
+
+Svaki repozitorijum može imati `.agent-config.json`:
+
 ```json
 {
   "agents": {
@@ -724,6 +728,8 @@ This file describes agents, their roles, and usage rules for automation in this 
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
 | epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
+
+## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
 {

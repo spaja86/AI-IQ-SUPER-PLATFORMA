@@ -76,7 +76,7 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
-  await test('POST /api/dijagnoza/evaluate returns 422 for invalid domain payload (NaN durationDays)', async () => {
+  await test('POST /api/dijagnoza/evaluate returns 422 for invalid domain payload (negative durationDays)', async () => {
     const response = await POST(makeEvaluateRequest({
       profile: {},
       symptoms: ['kašalj'],
@@ -86,6 +86,17 @@ async function runTests(): Promise<void> {
     assert(response.status === 422, `expected 422, got ${response.status}`);
     const body = await response.json() as { data: { valid: boolean } };
     assert(body.data.valid === false, 'result should be invalid');
+  });
+
+  await test('POST /api/dijagnoza/evaluate returns 400 for NaN durationDays (serialized as null)', async () => {
+    const response = await POST(makeEvaluateRequest({
+      profile: {},
+      symptoms: ['kašalj'],
+      durationDays: NaN,
+    }));
+
+    // NaN serializes to null in JSON, so the route treats it as a missing/non-number field → 400
+    assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /api/dijagnoza/evaluate returns 400 for invalid JSON', async () => {
