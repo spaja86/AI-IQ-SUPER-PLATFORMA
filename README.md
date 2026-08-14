@@ -114,6 +114,15 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | ▲ Vercel Deploy Hook | `vercel-deploy.yml` | Manual fallback (`workflow_dispatch`) |
 | 🚀 Deploy Platforma | `deploy-platforma.yml` | Push na `src/lib/deploy/**`, `src/app/deploy-platforma/**` + manual |
 
+### Deploy Platform Skeleton UI/UX (`/deploy-platforma`)
+
+- **Scope**: postojeća `/deploy-platforma` ruta je unapređena kao skeleton-first kontrolna površina (nije kreirana nova ruta).
+- **Primarni tokovi**: status (`GET /api/deploy-platforma/status`), trigger (`POST /api/deploy-platforma/trigger`), history (`GET /api/deploy-platforma/history/[platformId]`), health (`GET /api/deploy-platforma/health/[platformId]`).
+- **Production gate UX**: trigger modal eksplicitno zahteva `DEPLOY_PRODUCTION` potvrdu za production.
+- **Loading model**: page-level i section-level skeleton stanja za initial load, refresh, empty i error scenarije.
+- **Governance u UI-ju**: quality/security gate terminologija prati workflow (`TypeScript`, `Lint`, `Unit`, `Smoke`, `Predeploy`, `Security`).
+- **Audit feedback**: svaka akcija (refresh/status/trigger/history/health) ostavlja vidljiv lokalni audit trag u UI panelu.
+
 ### Cron Jobs (scheduler-agnostic)
 
 | Endpoint | Interval | Opis |
