@@ -159,6 +159,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
 
+### paraksil-validator-agent (NEW)
+- **Role**: Validacija PARAKSIL logike — generički sandbox za testiranje modula, scoring validacije i release gate klasifikaciju
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
+- **Trigger**: PR sa labelom `paraksil:logic-change`, push koji dira `paraksil` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za PARAKSIL logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, mismatch totals, unsupported suite)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `paraksil:validated` ili `paraksil:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `paraksil-validator-core` (octave: 6, hipermreza node: 49)
+
 ### madagaskar-validator-agent (NEW)
 - **Role**: Validacija MADAGASKAR logike — egzotična tržišna inteligencija, rarity premium kalkulacija, sustainability scoring i procurement integritet (v1 + v2: FX, aukcije, traceability, basket)
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
@@ -355,6 +368,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
+| paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
@@ -574,6 +588,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
 
+### paraksil-validator-agent (NEW)
+- **Role**: Validate PARAKSIL logic — generic module-validation sandbox, validation scoring, and release-gate classification
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
+- **Trigger**: PR with label `paraksil:logic-change`, push touching `paraksil` paths
+- **Actions**:
+  - Runs unit and route test suite for PARAKSIL logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, negative values, total-count mismatches, unsupported suites)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `paraksil:validated` or `paraksil:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `paraksil-validator-core` (octave: 6, hipermreza node: 49)
+
 ### madagaskar-validator-agent (NEW)
 - **Role**: Validate MADAGASKAR logic — exotic market intelligence, rarity premium calculation, sustainability scoring, and procurement integrity (v1 + v2: FX conversion, auction mechanics, traceability, basket procurement)
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`
@@ -717,6 +744,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
+| paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |

@@ -475,9 +475,14 @@
       },
       "testSuite": "src/tests/lib/extrimli-cuz.test.ts",
       "scope": "src/lib/extrimli-cuz/**,src/app/api/extrimli-cuz/**,src/components/extrimli-cuz/**",
-      "linkedRepos": ["spaja86/IO-OPENUI-AO"],
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
       "multiRepoSync": {
-        "snapshots": ["crew-catalog", "mentor-catalog"],
+        "snapshots": [
+          "crew-catalog",
+          "mentor-catalog"
+        ],
         "target": "spaja86/IO-OPENUI-AO"
       }
     },
@@ -504,9 +509,13 @@
       },
       "testSuite": "src/tests/lib/digit-engine.test.ts",
       "scope": "src/lib/digit-engine/**,src/app/api/digit-engine/**",
-      "linkedRepos": ["spaja86/IO-OPENUI-AO"],
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
       "multiRepoSync": {
-        "snapshots": ["digit-registry"],
+        "snapshots": [
+          "digit-registry"
+        ],
         "target": "spaja86/IO-OPENUI-AO"
       }
     },
@@ -564,6 +573,47 @@
       },
       "testSuite": "src/tests/lib/trenazer.test.ts",
       "scope": "src/lib/trenazer/**,src/app/api/trenazer/**,src/components/trenazer/**"
+    },
+    "paraksil-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "paraksil-validator-core",
+      "octave": 6,
+      "hipermrezaNode": 49,
+      "labels": [
+        "paraksil",
+        "paraksil:logic-change",
+        "paraksil:validated",
+        "paraksil:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/paraksil-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/PARAKSIL.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "coverageTargetPct": 80,
+        "errorRateWarnPct": 5,
+        "errorRateBlockPct": 20
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/paraksil.test.ts",
+        "npx tsx src/tests/api/paraksil-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/paraksil/**",
+        "src/app/api/paraksil/**",
+        "src/tests/lib/paraksil.test.ts",
+        "src/tests/api/paraksil-route.test.ts",
+        "docs/PARAKSIL.md",
+        ".github/workflows/paraksil-validator.yml"
+      ],
+      "scope": "src/lib/paraksil/**,src/app/api/paraksil/**"
     },
     "tarken-hingil-ekolan-maksimus": {
       "enabled": true,
@@ -1035,7 +1085,7 @@
       "releaseDocs": [
         "docs/DEPLOY-PORTFOLIO.md",
         "docs/GO-LIVE.md",
-        "docs/DIREK\u0160N-DEPLOY-SPAJA.md",
+        "docs/DIREKŠN-DEPLOY-SPAJA.md",
         "docs/MAKSIMUM-ALL-PLATFORMA-DEPLOY.md"
       ],
       "kpis": {
