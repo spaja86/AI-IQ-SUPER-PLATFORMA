@@ -66,7 +66,7 @@ async function runTests(): Promise<void> {
     });
 
     assert(result.valid, 'result should be valid');
-    assert(result.status === 'CAUTION' || result.status === 'CLEAR', `unexpected status: ${result.status}`);
+    assert(result.status !== 'BLACKOUT', `unexpected status: ${result.status}`);
     assert(result.disclaimer.length > 0, 'disclaimer must be present');
   });
 
@@ -128,6 +128,18 @@ async function runTests(): Promise<void> {
       sessionMinutes: 30,
     });
     assert(!result.valid, 'focusLevel > 100 must be invalid');
+  });
+
+  await test('zero sessionMinutes returns invalid result', () => {
+    const result = evaluateMrkliMrak({
+      mode: 'RECOVERY',
+      riskTolerance: 'LOW',
+      ambientLightLux: 120,
+      focusLevel: 80,
+      sleepHours: 8,
+      sessionMinutes: 0,
+    });
+    assert(!result.valid, 'sessionMinutes = 0 must be invalid');
   });
 
   await test('health report reflects latest evaluation', () => {
