@@ -22,6 +22,20 @@ async function test(name: string, fn: () => Promise<void> | void): Promise<void>
 }
 function assert(c: boolean, m: string): asserts c { if (!c) throw new Error(`Assert failed: ${m}`); }
 function assertEqual<T>(a: T, e: T, l?: string): void { if (a !== e) throw new Error(`${l ?? 'assertEqual'}: expected ${JSON.stringify(e)}, got ${JSON.stringify(a)}`); }
+function isSemverGte(actual: string, baseline: string): boolean {
+  const actualParts = actual.split('.').map(Number);
+  const baselineParts = baseline.split('.').map(Number);
+  const maxLength = Math.max(actualParts.length, baselineParts.length);
+
+  for (let index = 0; index < maxLength; index += 1) {
+    const actualValue = actualParts[index] ?? 0;
+    const baselineValue = baselineParts[index] ?? 0;
+    if (actualValue > baselineValue) return true;
+    if (actualValue < baselineValue) return false;
+  }
+
+  return true;
+}
 
 async function runTests(): Promise<void> {
   console.log('\n🏦💳 GitHub Billing AI IQ World Bank Tests (#1140)\n');
@@ -159,7 +173,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('APP_VERSION je ažurirana', () => {
-    assert(APP_VERSION >= '46.53.0', `APP_VERSION mora biti >= 46.53.0, je: ${APP_VERSION}`);
+    assert(isSemverGte(APP_VERSION, '46.53.0'), `APP_VERSION mora biti >= 46.53.0, je: ${APP_VERSION}`);
   });
 
   await test('GitHub vendor formal packages postoje', () => {
