@@ -799,6 +799,29 @@
       },
       "contractVersion": "v1",
       "testSuite": "src/tests/lib/konvenkcionalni-odnosi.test.ts"
+    },
+    "adutiv-validator-agent": {
+      "enabled": true,
+      "paths": [
+        "src/lib/adutiv/**",
+        "src/app/api/adutiv/**",
+        "src/components/adutiv/**"
+      ],
+      "labels": {
+        "passed": "adutiv:validated",
+        "failed": "adutiv:needs-review"
+      },
+      "performanceThresholds": {
+        "evaluationMs": 50,
+        "apiResponseMs": 200
+      },
+      "persona": {
+        "id": "adutiv-core",
+        "octave": 14,
+        "hipermrezaNode": 112
+      },
+      "contractVersion": "v1",
+      "testSuite": "src/tests/lib/adutiv.test.ts"
     }
   },
   "orgSettings": {
