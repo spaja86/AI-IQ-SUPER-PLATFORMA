@@ -426,6 +426,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
 | zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
+| konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -804,6 +805,22 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `ekzist-core` (octave: 2, hipermreza node: 16)
 
+### konvenkcionalni-odnosi-validator-agent (NEW)
+- **Role**: Validate KONVENKCIONALNI ODNOSI logic — conventional relation management, lifecycle transitions, interaction tracking, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/konvenkcionalni-odnosi/**`, `src/app/api/konvenkcionalni-odnosi/**`, `src/components/konvenkcionalni-odnosi/**`
+- **Trigger**: PR with label `konvenkcionalni-odnosi:logic-change`, push touching `konvenkcionalni-odnosi` paths
+- **Actions**:
+  - Runs unit test suite for KONVENKCIONALNI ODNOSI logic (registry, relation-engine, interaction-tracker)
+  - Verifies all 7 relation types (hierarchical, peer, mentorship, sponsorship, collaboration, contractual, affiliation)
+  - Validates all lifecycle transitions and edge cases (self-relation, duplicate active relations, invalid transitions from terminal states, interaction on archived/terminated)
+  - Checks performance KPIs: evaluation ≤ 50ms, lookup ≤ 10ms, bulk list ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `konvenkcionalni-odnosi:validated` or `konvenkcionalni-odnosi:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `konvenkcionalni-odnosi-core` (octave: 1, hipermreza node: 8)
+  - **Integrations**: persona-bank, zlatni-racuni, epekm-denter, maksimus, extrimli-cuz, dijagnoza
+  - **OKRID**: `OKRID-2026-KO-001`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -863,6 +880,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
+| konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
