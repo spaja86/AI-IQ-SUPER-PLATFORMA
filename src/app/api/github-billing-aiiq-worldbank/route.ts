@@ -52,7 +52,7 @@ export async function GET() {
       legalAndTaxRules: VENDOR_SUBSCRIPTION_LEGAL_AND_TAX_RULES,
       finops: VENDOR_SUBSCRIPTION_FINOPS_FRAMEWORK,
       intakeFields: VENDOR_SUBSCRIPTION_INTAKE_FIELDS,
-      procurement: VENDOR_SUBSCRIPTION_PROCUREMENT_FLOWS.find((flow) => flow.provider === 'GitHub'),
+      procurement: VENDOR_SUBSCRIPTION_PROCUREMENT_FLOWS.find((flow) => flow.provider === 'GitHub') ?? null,
       auditPackage: VENDOR_SUBSCRIPTION_AUDIT_PACKAGE,
       goLiveSequence: VENDOR_SUBSCRIPTION_GO_LIVE_SEQUENCE,
       operationalModel: {

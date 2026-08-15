@@ -355,4 +355,3 @@ export const VENDOR_SUBSCRIPTION_FORMAL_PACKAGES: VendorSubscriptionFormalPackag
 export function getVendorFormalPackages(provider: VendorSubscriptionProvider): VendorSubscriptionFormalPackage[] {
   return VENDOR_SUBSCRIPTION_FORMAL_PACKAGES.filter((pkg) => pkg.provider === provider);
 }
-
