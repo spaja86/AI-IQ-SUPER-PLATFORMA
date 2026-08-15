@@ -1002,3 +1002,31 @@ AI-IQ-SUPER-PLATFORMA#dumbir -> IO-OPENUI-AO#<optional follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#adutiv -> IO-OPENUI-AO#<optional follow-up issue>
 ```
+
+## EKVIVALENT NETWORK — Equivalence Mapping Engine
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Scope | `src/lib/ekvivalent-network/**`, `src/app/api/ekvivalent-network/**` |
+| Persona | `ekvivalent-network-core` (octave: 15, hipermreza node: 120) |
+| Validator | `ekvivalent-network-validator-agent` |
+| Workflow | `.github/workflows/ekvivalent-network-validator.yml` |
+| OKRID | `OKRID-2026-EKVIVALENT-NETWORK-001` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EKVIVALENT NETWORK equivalence mapping module | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync node/edge catalog snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add EKVIVALENT NETWORK label schema (`ekvivalent-network`, `ekvivalent-network:logic-change`, `ekvivalent-network:validated`, `ekvivalent-network:needs-review`) only when the module is consumed downstream
+- Record the canonical `ekvivalent-network` slug in linked repo documentation if external adoption starts
+- Sync `ekvivalent-network-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#ekvivalent-network -> IO-OPENUI-AO#<optional follow-up issue>
+```
