@@ -428,6 +428,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
+| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -840,6 +841,25 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Multi-repo sync**: Syncs advantage portfolio snapshots to `spaja86/IO-OPENUI-AO`
   - **OKRID**: `OKRID-2026-ADUTIV-001`
 
+### ekvivalent-network-validator-agent (NEW)
+- **Role**: Validate EKVIVALENT NETWORK logic — equivalence mapping, cluster detection, network scoring, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/ekvivalent-network/**`, `src/app/api/ekvivalent-network/**`
+- **Trigger**: PR with label `ekvivalent-network:logic-change`, push touching `ekvivalent-network` paths
+- **Actions**:
+  - Runs unit test suite for EKVIVALENT NETWORK logic (types, engine, registry, route-utils)
+  - Verifies all 8 equivalence domains (SKILL, COMPETENCY, AGENT, MODULE, ORGANIZATION, RESOURCE, PERSONA, KNOWLEDGE)
+  - Verifies all 5 relation types (FULL, PARTIAL, FUNCTIONAL, CONTEXTUAL, SUBSTITUTABLE)
+  - Validates cluster detection (union-find, cohesion 0–1), network scoring (geometric mean), and match ranking
+  - Verifies edge cases (NaN/Infinity/negative scores normalized, self-referencing edges rejected, duplicate edges deduplicated, disconnected nodes warned, empty node list → invalid)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `ekvivalent-network:validated` or `ekvivalent-network:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `ekvivalent-network-core` (octave: 15, hipermreza node: 120)
+  - **Multi-repo sync**: Syncs node/edge catalog snapshots to `spaja86/IO-OPENUI-AO`
+  - **OKRID**: `OKRID-2026-EKVIVALENT-NETWORK-001`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -901,6 +921,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
+| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
