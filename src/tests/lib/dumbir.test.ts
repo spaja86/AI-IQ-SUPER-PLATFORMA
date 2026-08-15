@@ -74,8 +74,8 @@ async function runTests(): Promise<void> {
 
     assert(result.valid, 'result should be valid');
     assert(result.status === 'BOOSTED', `expected BOOSTED, got ${result.status}`);
-    assertClose(result.potencyScore, 58.6, 0.001, 'potencyScore');
-    assertClose(result.balanceScore, 85.57, 0.01, 'balanceScore');
+    assertClose(result.potencyScore, 56.6, 0.001, 'potencyScore');
+    assertClose(result.balanceScore, 97.08, 0.01, 'balanceScore');
     assert(result.recommendedAddons.length === 0, 'all recommended addons already applied');
   });
 

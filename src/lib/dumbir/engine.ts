@@ -293,11 +293,19 @@ export function evaluateDumbir(input: DumbirInput): DumbirResult {
   }
 
   if (input.gingerGrams <= 0 || input.gingerGrams > DUMBIR_MAX_GINGER_GRAMS) {
-    return invalidResult(input.referenceId, `gingerGrams must be between 0 and ${DUMBIR_MAX_GINGER_GRAMS}`, start);
+    return invalidResult(
+      input.referenceId,
+      `gingerGrams must be greater than 0 and at most ${DUMBIR_MAX_GINGER_GRAMS}`,
+      start,
+    );
   }
 
   if (input.waterMl <= 0 || input.waterMl > DUMBIR_MAX_WATER_ML) {
-    return invalidResult(input.referenceId, `waterMl must be between 0 and ${DUMBIR_MAX_WATER_ML}`, start);
+    return invalidResult(
+      input.referenceId,
+      `waterMl must be greater than 0 and at most ${DUMBIR_MAX_WATER_ML}`,
+      start,
+    );
   }
 
   if (input.steepMinutes < 0 || input.steepMinutes > DUMBIR_MAX_STEEP_MINUTES) {
