@@ -1403,6 +1403,54 @@
         ],
         "snapshotMaxCount": 100
       }
+    },
+    "astronomik-money-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "astronomik-money-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "astronomik-money:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "astronomik-money/**"
+        ],
+        "paths": [
+          "src/lib/astronomik-money/**",
+          "src/app/api/astronomik-money/**",
+          "src/components/astronomik-money/**",
+          "src/tests/lib/astronomik-money.test.ts",
+          "src/tests/api/astronomik-money-route.test.ts"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/astronomik-money.test.ts",
+        "npx tsx src/tests/api/astronomik-money-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "astronomik-money:validated",
+        "needsReview": "astronomik-money:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "astronomik-money-core",
+        "octave": 13,
+        "hipermrezaNode": 104
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          1000
+        ],
+        "registryLookupMaxMs": 10,
+        "bulkPortfolioMaxMs": 100
+      }
     }
   }
 }
