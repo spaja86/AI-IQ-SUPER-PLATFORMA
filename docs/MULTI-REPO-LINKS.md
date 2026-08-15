@@ -467,6 +467,33 @@ BASTAI je repo-local governance surface za subscription / billing / compliance t
 
 ---
 
+## GROCKA VINOGRAD — Audit Trail
+
+### Scope
+
+GROCKA VINOGRAD je repo-local governance surface za `PRETPLATA za GROCKA VINOGRAD d.o.o. po privrednoj akciznosti`.
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/GROCKA-VINOGRAD-PRETPLATA-PRIVREDNA-AKCIZNOST.md` |
+| OKRID | `OKRID-2026-GROCKA-001` |
+
+### Cross-repo assessment
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — GROCKA VINOGRAD governance | `spaja86/IO-OPENUI-AO` | No linked repo change required |
+
+### Audit convention
+
+- `AI-IQ-SUPER-PLATFORMA#GROCKA-VINOGRAD -> No linked repo change required`
+- `AI-IQ-SUPER-PLATFORMA#OKRID-2026-GROCKA-001 -> No linked repo change required`
+- Human review remains required because this is a payment/compliance governance change.
+
+---
+
 ## ANOTHER MAKS — Cross-Repo Contract
 
 ### Scope
