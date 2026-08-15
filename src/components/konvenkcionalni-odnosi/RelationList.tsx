@@ -1,30 +1,10 @@
-import type { Relation, RelationType, RelationStatus } from '@/lib/konvenkcionalni-odnosi';
+import type { Relation } from '@/lib/konvenkcionalni-odnosi';
 import { RelationCard } from './RelationCard';
 
 interface RelationListProps {
   relations: Relation[];
   emptyMessage?: string;
 }
-
-const TYPE_FILTER_OPTIONS: { value: RelationType | ''; label: string }[] = [
-  { value: '', label: 'Svi tipovi' },
-  { value: 'hierarchical', label: 'Hijerarhijski' },
-  { value: 'peer', label: 'Peer' },
-  { value: 'mentorship', label: 'Mentorstvo' },
-  { value: 'sponsorship', label: 'Sponzorstvo' },
-  { value: 'collaboration', label: 'Saradnja' },
-  { value: 'contractual', label: 'Ugovorni' },
-  { value: 'affiliation', label: 'Afilijacija' },
-];
-
-const STATUS_FILTER_OPTIONS: { value: RelationStatus | ''; label: string }[] = [
-  { value: '', label: 'Svi statusi' },
-  { value: 'DRAFT', label: 'Draft' },
-  { value: 'ACTIVE', label: 'Aktivni' },
-  { value: 'SUSPENDED', label: 'Suspendovani' },
-  { value: 'ARCHIVED', label: 'Arhivirani' },
-  { value: 'TERMINATED', label: 'Raskinuti' },
-];
 
 export function RelationList({
   relations,
@@ -56,4 +36,5 @@ export function RelationList({
   );
 }
 
-export { TYPE_FILTER_OPTIONS, STATUS_FILTER_OPTIONS };
+export { TYPE_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from './filter-options';
+

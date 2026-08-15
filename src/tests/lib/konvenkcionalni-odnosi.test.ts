@@ -8,6 +8,9 @@ import {
   queryRelations,
   getRelation,
   getKoHealthReport,
+  getInteractionsByRelation,
+  getInteractionsByActor,
+  countInteractions,
   _resetRegistry,
   _resetInteractionLog,
   KO_PERFORMANCE_MAX_MS,
@@ -419,6 +422,43 @@ async function runHealthTests() {
   });
 }
 
+async function runInteractionTrackerTests() {
+  console.log('\n📡 Interaction Tracker');
+
+  await test('appendInteraction is called by recordInteraction', () => {
+    resetAll();
+    const cr = createRelation({ type: 'collaboration', initiatorId: 'trk-a', initiatorEntityType: 'agent', recipientId: 'trk-b', recipientEntityType: 'agent' });
+    assert(cr.ok, 'create');
+    const ir = recordInteraction({ relationId: cr.data.id, actorId: 'trk-a', note: 'Test note' });
+    assert(ir.ok, 'interaction');
+    assertEqual(countInteractions(), 1, 'one interaction tracked');
+  });
+
+  await test('getInteractionsByRelation returns logged events', () => {
+    resetAll();
+    const cr = createRelation({ type: 'peer', initiatorId: 'ia', initiatorEntityType: 'agent', recipientId: 'ib', recipientEntityType: 'agent' });
+    assert(cr.ok, 'create');
+    recordInteraction({ relationId: cr.data.id, actorId: 'ia', note: 'Note 1' });
+    recordInteraction({ relationId: cr.data.id, actorId: 'ib', note: 'Note 2' });
+    const events = getInteractionsByRelation(cr.data.id);
+    assertEqual(events.length, 2, 'two tracked events');
+    assert(events.every((e) => e.relationId === cr.data.id), 'all for same relation');
+  });
+
+  await test('getInteractionsByActor returns events by actor', () => {
+    resetAll();
+    const cr = createRelation({ type: 'peer', initiatorId: 'actor-X', initiatorEntityType: 'agent', recipientId: 'actor-Y', recipientEntityType: 'agent' });
+    assert(cr.ok, 'create');
+    recordInteraction({ relationId: cr.data.id, actorId: 'actor-X' });
+    recordInteraction({ relationId: cr.data.id, actorId: 'actor-Y' });
+    recordInteraction({ relationId: cr.data.id, actorId: 'actor-X' });
+    const xEvents = getInteractionsByActor('actor-X');
+    assertEqual(xEvents.length, 2, 'two events for actor-X');
+    const yEvents = getInteractionsByActor('actor-Y');
+    assertEqual(yEvents.length, 1, 'one event for actor-Y');
+  });
+}
+
 async function runEdgeCaseTests() {
   console.log('\n⚠️  Edge Cases');
 
@@ -469,6 +509,7 @@ async function main() {
   await runQueryTests();
   await runGetTests();
   await runHealthTests();
+  await runInteractionTrackerTests();
   await runEdgeCaseTests();
 
   console.log('\n========================================');

@@ -27,6 +27,7 @@ import {
   listRelations,
   saveRelation,
 } from './registry';
+import { appendInteraction } from './interaction-tracker';
 
 // ─── ID helpers ───────────────────────────────────────────────────────────────
 
@@ -239,6 +240,7 @@ export function recordInteraction(input: InteractionInput): KoResult<Relation> {
   };
 
   saveRelation(updated);
+  appendInteraction(event);
   return ok(updated, start);
 }
 
