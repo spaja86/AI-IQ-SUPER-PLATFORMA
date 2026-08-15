@@ -936,3 +936,31 @@ AI-IQ-SUPER-PLATFORMA#ekzist -> IO-OPENUI-AO#<follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#dumbir -> IO-OPENUI-AO#<optional follow-up issue>
 ```
+
+## ADUTIV — Advantage Intelligence Engine
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Scope | `src/lib/adutiv/**`, `src/app/api/adutiv/**`, `src/components/adutiv/**` |
+| Persona | `adutiv-core` (octave: 14, hipermreza node: 112) |
+| Validator | `adutiv-validator-agent` |
+| Workflow | `.github/workflows/adutiv-validator.yml` |
+| OKRID | `OKRID-2026-ADUTIV-001` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ADUTIV advantage intelligence module | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync advantage portfolio snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add ADUTIV label schema (`adutiv`, `adutiv:logic-change`, `adutiv:validated`, `adutiv:needs-review`) only when the module is consumed downstream
+- Record the canonical `adutiv` slug in linked repo documentation if external adoption starts
+- Sync `adutiv-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#adutiv -> IO-OPENUI-AO#<optional follow-up issue>
+```

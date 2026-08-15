@@ -213,6 +213,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['maksimus-validator-agent', 'another-maks-agent', 'persona-bank-agent'],
     crossRepoRef: 'epekm-denter',
   },
+  // ─── ADUTIV ───────────────────────────────────────────────────────────────
+  {
+    id: 'adutiv-core',
+    name: 'ADUTIV — Advantage Intelligence Engine',
+    type: 'adutiv',
+    octave: 14,
+    hipermrezaNode: 112,
+    attributes: {
+      traits: ['strategic', 'analytical', 'amplifier'],
+      skills: ['advantage-scoring', 'portfolio-analysis', 'activation-planning'],
+      tone: 'strategic',
+      domain: 'competitive-intelligence',
+    },
+    linkedAgents: ['adutiv-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'adutiv',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

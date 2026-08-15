@@ -427,6 +427,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
+| adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -821,6 +822,24 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Integrations**: persona-bank, zlatni-racuni, epekm-denter, maksimus, extrimli-cuz, dijagnoza
   - **OKRID**: `OKRID-2026-KO-001`
 
+### adutiv-validator-agent (NEW)
+- **Role**: Validate ADUTIV logic — competitive advantage scoring, portfolio analysis, activation planning, blind-spot detection, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/adutiv/**`, `src/app/api/adutiv/**`, `src/components/adutiv/**`
+- **Trigger**: PR with label `adutiv:logic-change`, push touching `adutiv` paths
+- **Actions**:
+  - Runs unit test suite for ADUTIV logic (types, engine, registry, route-utils)
+  - Verifies all 8 advantage domains (SKILL, KNOWLEDGE, NETWORK, RESOURCE, REPUTATION, CREATIVITY, RESILIENCE, TIMING)
+  - Validates portfolio scoring (geometric mean of top 3), tier mapping, and blind-spot detection (score < 15)
+  - Verifies edge cases (NaN, Infinity, negative scores, scores > 100, empty advantages array)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `adutiv:validated` or `adutiv:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `adutiv-core` (octave: 14, hipermreza node: 112)
+  - **Multi-repo sync**: Syncs advantage portfolio snapshots to `spaja86/IO-OPENUI-AO`
+  - **OKRID**: `OKRID-2026-ADUTIV-001`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -881,6 +900,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
+| adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
