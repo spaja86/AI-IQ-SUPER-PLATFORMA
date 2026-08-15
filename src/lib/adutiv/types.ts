@@ -59,5 +59,15 @@ export const ADUTIV_API_RESPONSE_MAX_MS = 200;
 export const ADUTIV_MIN_SCORE = 0;
 export const ADUTIV_MAX_SCORE = 100;
 export const ADUTIV_BLIND_SPOT_THRESHOLD = 15;
+export const ADUTIV_VALID_DOMAINS: AdutivDomain[] = [
+  'SKILL',
+  'KNOWLEDGE',
+  'NETWORK',
+  'RESOURCE',
+  'REPUTATION',
+  'CREATIVITY',
+  'RESILIENCE',
+  'TIMING',
+];
 export const ADUTIV_DISCLAIMER =
   'Ovo je automatska procena konkurentskih prednosti, a NE profesionalni karijerni ili poslovni savet. Konsultujte stručnjaka za strategijsko planiranje i razvoj.';

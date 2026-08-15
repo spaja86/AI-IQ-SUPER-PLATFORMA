@@ -19,6 +19,7 @@ import {
   ADUTIV_MODULE_VERSION,
   ADUTIV_PERFORMANCE_MAX_MS,
   ADUTIV_PERSONA_ID,
+  ADUTIV_VALID_DOMAINS,
 } from './types';
 
 // ─── In-memory metrics ───────────────────────────────────────────────────────
@@ -64,7 +65,7 @@ const DOMAIN_RECOMMENDATIONS: Record<AdutivDomain, string> = {
   REPUTATION: 'Upravljaj reputacijom proaktivno — šta čuješ kada pitaš šta drugi kažu o tebi?',
   CREATIVITY: 'Stvori jedan originalni rad ove nedelje — čak i mali: tekst, rešenje, ideja.',
   RESILIENCE: 'Dokumentuj prethodne izazove koje si savladao — to je tvoj arsenal za buduće prepreke.',
-  TIMING: 'Analiziraj trenute: kada si donošavao dobre odluke? Šta je bio signal? Razvij taj instinkt.',
+  TIMING: 'Analiziraj trenutke: kada si donosio dobre odluke? Šta je bio signal? Razvij taj instinkt.',
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -135,6 +136,9 @@ export function evaluateAdutiv(input: AdutivInput): AdutivResult {
         `score for domain "${s.domain}" must be between ${ADUTIV_MIN_SCORE} and ${ADUTIV_MAX_SCORE}`,
         start,
       );
+    }
+    if (!ADUTIV_VALID_DOMAINS.includes(s.domain as AdutivDomain)) {
+      return invalidResult(input.referenceId, `domain "${s.domain}" is not a valid AdutivDomain`, start);
     }
   }
 

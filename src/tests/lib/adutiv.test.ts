@@ -250,6 +250,14 @@ async function runTests(): Promise<void> {
     assert(result.valid === false, 'null input should produce invalid result');
   });
 
+  await test('invalid domain string → invalid result', () => {
+    const result = evaluateAdutiv({
+      advantages: [{ domain: 'INJECTED_DOMAIN' as never, score: 80 }],
+    });
+
+    assert(result.valid === false, 'invalid domain should produce invalid result');
+  });
+
   console.log('\n🔎 [adutiv] health report');
 
   await test('health report returns expected shape', () => {
