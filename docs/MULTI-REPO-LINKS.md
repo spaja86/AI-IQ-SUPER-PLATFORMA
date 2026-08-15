@@ -61,6 +61,10 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `mirikl:review` | MIRIKL change requires focused human review |
 | `mirikl:validated` | MIRIKL quality/security/deploy governance checks passed |
 | `mirikl:needs-review` | MIRIKL validator or downstream governance needs follow-up |
+| `eksluziv-network` | EKSLUZIV NETWORK domain-scoped deploy governance change set |
+| `eksluziv-network:review` | EKSLUZIV NETWORK rollout/config change requires focused human review |
+| `eksluziv-network:validated` | EKSLUZIV NETWORK gates, KPI evidence, and audit trail completed |
+| `eksluziv-network:needs-review` | EKSLUZIV NETWORK domain or downstream governance requires follow-up |
 
 ## GIGATRON Label Schema
 
@@ -298,6 +302,40 @@ Full production deployment of all 6 platforms in the AI IQ SUPER PLATFORMA ecosy
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#MAKSIMUM-DEPLOY -> IO-OPENUI-AO#<follow-up issue>
+```
+
+---
+
+## EKSLUZIV NETWORK — Audit Trail
+
+### Initiative
+
+Domain-scoped deploy governance initiative for EKSLUZIV NETWORK, using segmented rollout rings and per-domain exit criteria across core platform, Nova Generacija, Mekartor, multi-repo sync, monitoring, and operativa.
+
+| Field | Value |
+|---|---|
+| Version | v42.35.0+ |
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/EKSLUZIV-NETWORK.md` |
+| OKRID | `OKRID-2026-EKSLUZIV-001` |
+| Primary workflows | `.github/workflows/deploy-platforma.yml`, `.github/workflows/vercel-deploy.yml`, `.github/workflows/mirikl-validator.yml` |
+
+### Cross-repo references
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EKSLUZIV NETWORK | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: labels, milestones, downstream references, nova-generacija-gaming-refs, agent-config compatibility |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Confirm shared label schema alignment for `eksluziv-network*` governance labels
+- Open downstream follow-up when shared contracts, fairness assumptions, or linked rollout references move
+- Confirm `multi-repo-sync-agent` sync coverage = 100%
+- Update `docs/MULTI-REPO-LINKS.md` in IO-OPENUI-AO with the bidirectional EKSLUZIV NETWORK reference
+
+**Audit convention for this initiative:**
+```text
+AI-IQ-SUPER-PLATFORMA#EKSLUZIV-NETWORK -> IO-OPENUI-AO#<follow-up issue>
 ```
 
 ---
