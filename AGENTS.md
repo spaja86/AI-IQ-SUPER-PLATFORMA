@@ -411,6 +411,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
 | zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
+| ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -762,6 +763,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `zlatni-racuni-core` (octave: 3, hipermreza node: 24)
   - **Integration**: GIGATRON, Discount Telecom, Madagaskar, Extrimli, Persona Bank, Nova Generacija
 
+### ekzist-validator-agent (NEW)
+- **Role**: Validate EKZIST logic — existential profiling, life-meaning vector scoring, tier classification, balance computation, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/ekzist/**`, `src/app/api/ekzist/**`, `src/components/ekzist/**`
+- **Trigger**: PR with label `ekzist:logic-change`, push touching `ekzist` paths
+- **Actions**:
+  - Runs unit test suite for EKZIST logic (engine, registry, route-utils)
+  - Verifies mathematical results and edge cases (NaN, Infinity, negative scores, scores > 100, empty domains array)
+  - Validates imbalance detection (domain < 10 or > 95) and disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `ekzist:validated` or `ekzist:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `ekzist-core` (octave: 2, hipermreza node: 16)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -819,6 +834,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
 | zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 
+| ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
