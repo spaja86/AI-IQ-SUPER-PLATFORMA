@@ -1,6 +1,10 @@
 import type { Sekvenca } from '@/lib/types';
 import { BILLING_UPGRADE_DISCLOSURE } from '@/lib/billing/upgrade-disclosure';
 import { VERCEL_DX_PLATFORM_PRICING } from '@/lib/billing/vercel-dx-platform-pricing';
+import {
+  VENDOR_SUBSCRIPTION_FORMAL_PACKAGES,
+  VENDOR_SUBSCRIPTION_STATUS_MODEL,
+} from '@/lib/billing/vendor-subscriptions';
 
 export const pricingLoginSekvence: Sekvenca[] = [
   {
@@ -61,10 +65,48 @@ export const pricingLoginSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'pricing-login-komercijalni-tokovi',
+    tip: 'lista',
+    naslov: '🧭 Komercijalni tokovi',
+    redosled: 5,
+    podaci: {
+      stavke: [
+        {
+          naslov: 'Privreda',
+          opis: 'Firme, preduzetnici, agencije i timovi sa cost center, approval i governance zahtevima.',
+          ikona: '🏢',
+        },
+        {
+          naslov: 'Građanstvo',
+          opis: 'Fizička lica, individualni kreatori i freelance korisnici sa individualnim limitima i anti-overage pravilima.',
+          ikona: '🧑',
+        },
+      ],
+    },
+  },
+  {
+    id: 'pricing-login-formalni-paketi',
+    tip: 'kartice',
+    naslov: '📦 Četiri formalna paketa',
+    redosled: 6,
+    podaci: {
+      kartice: VENDOR_SUBSCRIPTION_FORMAL_PACKAGES.map((pkg) => ({
+        naslov: pkg.title,
+        opis: pkg.summary,
+        ikona: pkg.provider === 'GitHub' ? '🐙' : '▲',
+        oznake: [
+          pkg.segment === 'privreda' ? 'Privreda' : 'Građanstvo',
+          pkg.offerings.map((offering) => offering.name).join(' • '),
+          pkg.benefits.auditGovernance,
+        ],
+      })),
+    },
+  },
+  {
     id: 'pricing-login-vercel-pro-addons-steps',
     tip: 'lista',
     naslov: '🧩 Pro plan add-ons — enablement steps',
-    redosled: 5,
+    redosled: 7,
     podaci: {
       stavke: VERCEL_DX_PLATFORM_PRICING.proPlanAddonsSteps.map((step, index) => ({
         naslov: `${index + 1}. ${step.title}`,
@@ -78,7 +120,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     tip: 'tabela',
     naslov: '📊 DX Platform pricing (Pro plan billable resources)',
     podnaslov: 'Most resources are fixed monthly fees; Observability Plus is usage-based with no base fee.',
-    redosled: 6,
+    redosled: 8,
     podaci: {
       zaglavlje: ['Resource', 'Included', 'Price'],
       redovi: VERCEL_DX_PLATFORM_PRICING.billableResources.map((resource) => [
@@ -92,7 +134,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     id: 'pricing-login-vercel-regional-pricing-and-sales',
     tip: 'cta',
     naslov: '📍 Regional pricing & sales',
-    redosled: 7,
+    redosled: 9,
     podaci: {
       opis: `${VERCEL_DX_PLATFORM_PRICING.regionalPricing.description}\n${VERCEL_DX_PLATFORM_PRICING.salesCta.description}`,
       dugmad: [
@@ -102,11 +144,24 @@ export const pricingLoginSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'pricing-login-status-model',
+    tip: 'lista',
+    naslov: '🛡️ Jedinstven status model pretplate',
+    redosled: 10,
+    podaci: {
+      stavke: VENDOR_SUBSCRIPTION_STATUS_MODEL.map((status) => ({
+        naslov: status.label,
+        opis: `${status.status} — ${status.description}`,
+        ikona: '📌',
+      })),
+    },
+  },
+  {
     id: 'pricing-login-upgrade-summary',
     tip: 'tabela',
     naslov: '🧾 Internal SPAJA Upgrade Summary — Product / Cost',
     podnaslov: 'Kompanijski billing zahtev za interni upgrade tok',
-    redosled: 8,
+    redosled: 11,
     podaci: {
       zaglavlje: ['Product', 'Cost'],
       redovi: [
@@ -119,7 +174,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     id: 'pricing-login-upgrade-disclosure',
     tip: 'tekst',
     naslov: '⚖️ Internal SPAJA Upgrade Billing Disclosure',
-    redosled: 9,
+    redosled: 12,
     podaci: {
       sadrzaj: `${BILLING_UPGRADE_DISCLOSURE.legalDisclosure}\n\n${BILLING_UPGRADE_DISCLOSURE.billingThresholdPolicy}`,
       istaknuteStavke: [
@@ -133,7 +188,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     id: 'pricing-login-tekst',
     tip: 'tekst',
     naslov: 'O registraciji i pristupu',
-    redosled: 10,
+    redosled: 13,
     podaci: {
       sadrzaj: 'SPAJA platforma nudi jednostavan proces registracije sa viseslojnom autentifikacijom. Korisnici mogu pristupiti putem email-a, Google naloga, GitHub-a ili telefona. Svaki plan ukljucuje razlicite nivoe dozvola i pristupa funkcijama.',
       istaknuteStavke: [
@@ -149,7 +204,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     tip: 'cta',
     naslov: '🚀 Zapocnite odmah',
     podnaslov: 'Kreirajte besplatan nalog i isprobajte SpajaPro AI',
-    redosled: 11,
+    redosled: 14,
     podaci: {
       dugmad: [
         { tekst: 'Registruj se besplatno', href: '/registracija' },
@@ -162,7 +217,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     tip: 'login',
     naslov: '🔐 Prijava',
     podnaslov: 'Prijavite se na svoj nalog',
-    redosled: 12,
+    redosled: 15,
     podaci: {
       opis: 'Unesite email i lozinku za pristup platformi.',
       metode: [

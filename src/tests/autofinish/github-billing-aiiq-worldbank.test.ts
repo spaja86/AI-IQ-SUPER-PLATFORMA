@@ -13,6 +13,7 @@ import {
   getGitHubBillingStatistike,
   kreirajAuditZapis,
 } from '../../lib/github-billing-aiiq-worldbank';
+import { getVendorFormalPackages, VENDOR_SUBSCRIPTION_STATUS_MODEL } from '../../lib/billing/vendor-subscriptions';
 
 let passed = 0; let failed = 0; const failures: string[] = [];
 async function test(name: string, fn: () => Promise<void> | void): Promise<void> {
@@ -159,6 +160,21 @@ async function runTests(): Promise<void> {
 
   await test('APP_VERSION je ažurirana', () => {
     assert(APP_VERSION >= '46.53.0', `APP_VERSION mora biti >= 46.53.0, je: ${APP_VERSION}`);
+  });
+
+  await test('GitHub vendor formal packages postoje', () => {
+    const packages = getVendorFormalPackages('GitHub');
+    assertEqual(packages.length, 2, 'GitHub formal packages count');
+    assert(packages.some((pkg) => pkg.id === 'github-gradjanstvo'), 'github-gradjanstvo mora postojati');
+    assert(packages.some((pkg) => pkg.id === 'github-privreda'), 'github-privreda mora postojati');
+  });
+
+  await test('vendor status model sadrži service-active i blocked-until-validated', () => {
+    assert(VENDOR_SUBSCRIPTION_STATUS_MODEL.some((status) => status.status === 'service-active'), 'service-active mora postojati');
+    assert(
+      VENDOR_SUBSCRIPTION_STATUS_MODEL.some((status) => status.status === 'blocked-until-validated'),
+      'blocked-until-validated mora postojati',
+    );
   });
 }
 

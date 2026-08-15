@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import { GET } from '../../app/api/vercel-dx-platform-pricing/route';
 import { VERCEL_DX_PLATFORM_PRICING } from '../../lib/billing/vercel-dx-platform-pricing';
+import { VENDOR_SUBSCRIPTION_STATUS_MODEL } from '../../lib/billing/vendor-subscriptions';
 
 async function testRouteResponse() {
   const response = await GET();
@@ -10,6 +11,11 @@ async function testRouteResponse() {
     route: string;
     status: string;
     pricing: typeof VERCEL_DX_PLATFORM_PRICING;
+    subscriptionPortfolio: {
+      provider: string;
+      formalPackages: Array<{ id: string }>;
+      statusModel: Array<{ status: string }>;
+    };
   };
 
   assert.strictEqual(json.status, 'ok');
@@ -19,6 +25,9 @@ async function testRouteResponse() {
     json.pricing.billableResources.length,
     VERCEL_DX_PLATFORM_PRICING.billableResources.length,
   );
+  assert.strictEqual(json.subscriptionPortfolio.provider, 'Vercel');
+  assert.strictEqual(json.subscriptionPortfolio.formalPackages.length, 2);
+  assert.strictEqual(json.subscriptionPortfolio.statusModel.length, VENDOR_SUBSCRIPTION_STATUS_MODEL.length);
 }
 
 async function run() {
