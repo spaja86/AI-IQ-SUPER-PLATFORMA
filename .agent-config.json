@@ -683,10 +683,12 @@
       "enabled": true,
       "status": "active",
       "scope": [
+        "docs/EKSLUZIV-NETWORK.md",
         "docs/MIRIKL.md",
         "docs/MULTI-REPO-LINKS.md",
         "docs/OKRID-REGISTRY.md",
         ".agent-config.json",
+        ".github/workflows/deploy-platforma.yml",
         ".github/workflows/mirikl-validator.yml",
         ".github/workflows/vercel-deploy.yml"
       ],
@@ -1245,6 +1247,75 @@
         "linkedRepo": "spaja86/IO-OPENUI-AO",
         "downstreamDependency": false,
         "note": "No linked repo change required for Mekartor rollout"
+      }
+    },
+    "eksluziv-network": {
+      "status": "active-governance",
+      "okrid": "OKRID-2026-EKSLUZIV-001",
+      "labels": [
+        "eksluziv-network",
+        "eksluziv-network:review",
+        "eksluziv-network:validated",
+        "eksluziv-network:needs-review",
+        "agent:config-change"
+      ],
+      "workflows": [
+        ".github/workflows/deploy-platforma.yml",
+        ".github/workflows/vercel-deploy.yml",
+        ".github/workflows/mirikl-validator.yml",
+        ".github/workflows/omega-auto-build.yml",
+        ".github/workflows/security-scanner.yml"
+      ],
+      "releaseDocs": [
+        "docs/EKSLUZIV-NETWORK.md",
+        "docs/DEPLOY-PORTFOLIO.md",
+        "docs/MIRIKL.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/OKRID-REGISTRY.md",
+        "docs/ROADMAP.md",
+        "docs/GO-LIVE.md"
+      ],
+      "deploymentModel": {
+        "primarySourceOfTruth": "vercel-git-integration",
+        "primaryRolloutWorkflow": ".github/workflows/deploy-platforma.yml",
+        "fallbackWorkflow": ".github/workflows/vercel-deploy.yml",
+        "promotion": [
+          "canary",
+          "staging",
+          "production"
+        ],
+        "humanReviewRequired": true
+      },
+      "requiredQualityGates": [
+        "build",
+        "lint",
+        "test",
+        "smoke",
+        "predeploy",
+        "security"
+      ],
+      "domains": [
+        "core-platforma",
+        "nova-generacija",
+        "mekartor",
+        "linked-repo-integracije",
+        "monitoring-i-audit",
+        "operativa"
+      ],
+      "kpis": {
+        "buildDurationMaxMin": 3,
+        "apiLatencyP95Ms": 300,
+        "errorRateMaxPct": 1,
+        "novaGeneracijaEvalP99Ms": 50,
+        "mekartorHealthSlaPct": 99.95,
+        "crossRepoSyncCoveragePct": 100,
+        "auditEvidenceCoveragePct": 100
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": true,
+        "trackingDoc": "docs/MULTI-REPO-LINKS.md",
+        "note": "Follow-up required when shared contracts, labels, milestones, or Nova Generacija fairness assumptions change"
       }
     },
     "gigatron": {
