@@ -80,6 +80,7 @@ Sve dalje korišćenje, saradnja i razvoj na ovoj platformi je **PLAĆENO** i za
 - `docs/AUTOKUCA-PRETPLATA.md` — B2B perpetual recurring EUR model
 - `docs/GIGATRON-KORPORATIVNA-PRETPLATA.md` — korporativna pretplata velike vrednosti
 - `docs/BASTAI-PRETPLATA-PRIVREDNI-DOPRINOS.md` — `BASTAI` pretplata / `privredni doprinos` sa guard-ovanim tumačenjem izraza „1 beskonačan račun”
+- `docs/GITHUB-VERCEL-PRETPLATA-SEGMENTACIJA.md` — GitHub i Vercel paketna segmentacija po privredi i građanstvu
 
 ---
 
