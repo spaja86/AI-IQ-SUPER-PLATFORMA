@@ -1304,12 +1304,12 @@
       ],
       "kpis": {
         "buildDurationMaxMin": 3,
-        "apiLatencyP95": "300ms",
+        "apiLatencyP95Ms": 300,
         "errorRateMaxPct": 1,
-        "novaGeneracijaEvalP99": "50ms",
-        "mekartorHealthSla": "99.95%",
-        "crossRepoSyncCoverage": "100%",
-        "auditEvidenceCoverage": "100%"
+        "novaGeneracijaEvalP99Ms": 50,
+        "mekartorHealthSlaPct": 99.95,
+        "crossRepoSyncCoveragePct": 100,
+        "auditEvidenceCoveragePct": 100
       },
       "crossRepo": {
         "linkedRepo": "spaja86/IO-OPENUI-AO",

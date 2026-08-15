@@ -19,7 +19,7 @@
 
 ## Purpose
 
-EKSLUZIV NETWORK vodi deploy/gating režim za “singlamuraciju matričnog jedinjenja” kao **domain-scoped rollout program**, umesto kao jedan globalni release prekidač. Svaki domen ima sopstveni rollout izlaz, rollback granicu, KPI pragove i audit trag, uz postojeći MIRIKL + Deploy Platforma + multi-repo model.
+EKSLUZIV NETWORK vodi deploy/gating režim za “singlamuraciju matričnog jedinjenja” kao interni naziv za **domenski fokusirano objedinjavanje rollout-a i governance sloja**, umesto kao jedan globalni release prekidač. Svaki domen ima sopstveni rollout izlaz, rollback granicu, KPI pragove i audit trag, uz postojeći MIRIKL + Deploy Platforma + multi-repo model.
 
 ## Release model alignment
 
