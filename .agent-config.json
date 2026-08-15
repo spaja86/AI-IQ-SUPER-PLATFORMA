@@ -774,6 +774,31 @@
           "exotic-goods-catalog-v2-snapshot"
         ]
       }
+    },
+    "konvenkcionalni-odnosi-validator-agent": {
+      "enabled": true,
+      "paths": [
+        "src/lib/konvenkcionalni-odnosi/**",
+        "src/app/api/konvenkcionalni-odnosi/**",
+        "src/components/konvenkcionalni-odnosi/**"
+      ],
+      "labels": {
+        "passed": "konvenkcionalni-odnosi:validated",
+        "failed": "konvenkcionalni-odnosi:needs-review"
+      },
+      "performanceThresholds": {
+        "evaluationMs": 50,
+        "lookupMs": 10,
+        "bulkListMs": 50,
+        "apiResponseMs": 200
+      },
+      "persona": {
+        "id": "konvenkcionalni-odnosi-core",
+        "octave": 1,
+        "hipermrezaNode": 8
+      },
+      "contractVersion": "v1",
+      "testSuite": "src/tests/lib/konvenkcionalni-odnosi.test.ts"
     }
   },
   "orgSettings": {
