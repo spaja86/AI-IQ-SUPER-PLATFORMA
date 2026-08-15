@@ -52,6 +52,10 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `trenazer:logic-change` | TRENAŽER readiness/recommendation logic changed |
 | `trenazer:validated` | TRENAŽER validator and tests passed |
 | `trenazer:needs-review` | TRENAŽER validator requires human follow-up |
+| `dumbir` | ÐUMBIR change set — requires focused validation |
+| `dumbir:logic-change` | ÐUMBIR ginger wellness contract or scoring logic changed |
+| `dumbir:validated` | ÐUMBIR validator and tests passed |
+| `dumbir:needs-review` | ÐUMBIR validator requires human follow-up |
 | `mirikl` | MIRIKL GitHub + Vercel governance/release change set |
 | `mirikl:logic-change` | MIRIKL deploy/config/cross-repo governance logic changed |
 | `mirikl:review` | MIRIKL change requires focused human review |
@@ -877,4 +881,31 @@ AI-IQ-SUPER-PLATFORMA#zlatni-racuni -> IO-OPENUI-AO#<follow-up issue>
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#ekzist -> IO-OPENUI-AO#<follow-up issue>
+```
+
+## ÐUMBIR — Ginger Wellness Evaluation
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Scope | `src/lib/dumbir/**`, `src/app/api/dumbir/**` |
+| Persona | `dumbir-wellness-core` (octave: 12, hipermreza node: 96) |
+| Validator | `dumbir-validator-agent` |
+| Workflow | `.github/workflows/dumbir-validator.yml` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ÐUMBIR ginger wellness module | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync labels and docs only if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add ÐUMBIR label schema (`dumbir`, `dumbir:logic-change`, `dumbir:validated`, `dumbir:needs-review`) only when the module is consumed downstream
+- Record the canonical `dumbir` slug in linked repo documentation if external adoption starts
+- Sync `dumbir-wellness-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#dumbir -> IO-OPENUI-AO#<optional follow-up issue>
 ```

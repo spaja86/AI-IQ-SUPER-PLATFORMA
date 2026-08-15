@@ -62,6 +62,15 @@ EPRINCIP uvodi determinističku procenu usklađenosti principa sa weighted scori
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/EPRINCIP.md`
 
+## 🫚 ÐUMBIR
+
+ÐUMBIR uvodi determinističku procenu ginger wellness blend-a sa fiksnim `dumbir` slug-om i API-first v1 površinom.
+
+- Modul: `src/lib/dumbir/**`
+- API: `/api/dumbir/evaluate`, `/api/dumbir/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DUMBIR.md`
+
 ## 📝 Prompt Sistem — Svuda u ekosistemu
 
 Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:

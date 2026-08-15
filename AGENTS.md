@@ -173,6 +173,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
 
+### dumbir-validator-agent (NEW)
+- **Role**: Validacija ÐUMBIR logike — ginger wellness scoring, potency/comfort balans i API contract integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dumbir/**`, `src/app/api/dumbir/**`
+- **Trigger**: PR sa labelom `dumbir:logic-change`, push koji dira `dumbir` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za ÐUMBIR logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, unsupported addons, serving bounds)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `dumbir:validated` ili `dumbir:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
+
 ### paraksil-validator-agent (NEW)
 - **Role**: Validacija PARAKSIL logike — generički sandbox za testiranje modula, scoring validacije i release gate klasifikaciju
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
@@ -397,6 +410,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
+| dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
@@ -634,6 +648,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
 
+### dumbir-validator-agent (NEW)
+- **Role**: Validate ÐUMBIR logic — ginger wellness scoring, potency/comfort balance, and API contract integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dumbir/**`, `src/app/api/dumbir/**`
+- **Trigger**: PR with label `dumbir:logic-change`, push touching `dumbir` paths
+- **Actions**:
+  - Runs unit and route test suite for ÐUMBIR logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, negative values, unsupported addons, serving bounds)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `dumbir:validated` or `dumbir:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
+
 ### paraksil-validator-agent (NEW)
 - **Role**: Validate PARAKSIL logic — generic module-validation sandbox, validation scoring, and release-gate classification
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
@@ -819,6 +846,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
+| dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
