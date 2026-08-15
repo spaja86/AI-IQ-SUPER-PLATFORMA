@@ -615,6 +615,47 @@
       "linkedRepoImpact": "documentation-only",
       "scope": "src/lib/dumbir/**,src/app/api/dumbir/**"
     },
+    "mrkli-mrak-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "mrkli-mrak-core",
+      "octave": 11,
+      "hipermrezaNode": 89,
+      "labels": [
+        "mrkli-mrak",
+        "mrkli-mrak:logic-change",
+        "mrkli-mrak:validated",
+        "mrkli-mrak:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/mrkli-mrak-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/MRKLI-MRAK.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/mrkli-mrak.test.ts",
+        "npx tsx src/tests/api/mrkli-mrak-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/mrkli-mrak/**",
+        "src/app/api/mrkli-mrak/**",
+        "src/tests/lib/mrkli-mrak.test.ts",
+        "src/tests/api/mrkli-mrak-route.test.ts",
+        "docs/MRKLI-MRAK.md",
+        ".github/workflows/mrkli-mrak-validator.yml"
+      ],
+      "linkedRepoImpact": "documentation-only",
+      "scope": "src/lib/mrkli-mrak/**,src/app/api/mrkli-mrak/**"
+    },
     "paraksil-validator-agent": {
       "enabled": true,
       "status": "active",
