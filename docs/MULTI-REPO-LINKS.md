@@ -851,3 +851,30 @@ AI-IQ-SUPER-PLATFORMA#OKRID-2026-MIRIKL-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#zlatni-racuni -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+## EKZIST — Existential Profiler & Life Meaning Engine
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-14 |
+| Owner | @spaja86 |
+| Scope | `src/lib/ekzist/**`, `src/app/api/ekzist/**`, `src/components/ekzist/**` |
+| Persona | `ekzist-core` (octave: 2, hipermreza node: 16) |
+| Validator | `ekzist-validator-agent` |
+| Workflow | `.github/workflows/ekzist-validator.yml` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EKZIST existential profiling module | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: persona snapshot, labels, persona-bank registration |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add EKZIST label schema (`ekzist`, `ekzist:logic-change`, `ekzist:validated`, `ekzist:needs-review`)
+- Record EKZIST downstream reference in linked repo documentation
+- Sync ekzist-core persona to persona-bank in IO-OPENUI-AO
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#ekzist -> IO-OPENUI-AO#<follow-up issue>
+```
