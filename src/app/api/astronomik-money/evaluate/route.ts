@@ -35,7 +35,10 @@ export async function POST(req: NextRequest) {
     };
 
     const result = evaluateAstronomikMoney(portfolio);
-    const response = apiSuccess(result, result.valid ? 200 : 422);
+    if (!result.valid) {
+      return apiError('UNPROCESSABLE_ENTITY', result.warnings[0] ?? 'Invalid portfolio');
+    }
+    const response = apiSuccess(result, 200);
     setAstronomikHeaders(response, result);
     return response;
   } catch (error) {

@@ -8,7 +8,6 @@ import type {
   AstronomikTier,
   CosmicEvent,
   GalacticPortfolio,
-  GravityResult,
   PortfolioComposition,
 } from './types';
 import {
@@ -54,10 +53,7 @@ function computeGravityScore(composition: PortfolioComposition): number {
   return Math.round(ratio * 300);
 }
 
-function computeOrbitStability(
-  gravityResults: GravityResult[],
-  composition: PortfolioComposition,
-): number {
+function computeOrbitStability(composition: PortfolioComposition): number {
   // 0–250: penalize if any single class > 40% of portfolio
   const CONCENTRATION_CAP = 0.4;
   let penalty = 0;
@@ -148,6 +144,16 @@ export function evaluateAstronomikMoney(portfolio: GalacticPortfolio): Astronomi
     return invalidResult(portfolio.referenceId, 'VOID_PORTFOLIO', start);
   }
 
+  // Validate each asset entry
+  for (const asset of portfolio.assets) {
+    if (!asset || typeof asset !== 'object') {
+      return invalidResult(portfolio.referenceId, 'each asset must be a non-null object', start);
+    }
+    if (typeof asset.id !== 'string' || typeof asset.class !== 'string') {
+      return invalidResult(portfolio.referenceId, 'each asset must have id and class strings', start);
+    }
+  }
+
   // Compute gravity for all assets
   const gravityResults = computeAllGravity(portfolio.assets);
 
@@ -167,7 +173,7 @@ export function evaluateAstronomikMoney(portfolio: GalacticPortfolio): Astronomi
 
   // Score components
   const gravityScore = composition.totalGravity === 0 ? 0 : computeGravityScore(composition);
-  const orbitStability = composition.totalGravity === 0 ? 0 : computeOrbitStability(gravityResults, composition);
+  const orbitStability = composition.totalGravity === 0 ? 0 : computeOrbitStability(composition);
   const diversificationScore = composition.totalGravity === 0 ? 0 : computeDiversificationScore(composition);
   const cosmicResilience = computeCosmicResilience(mergedEvents);
 
