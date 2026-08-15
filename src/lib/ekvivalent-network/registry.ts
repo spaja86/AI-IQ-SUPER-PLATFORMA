@@ -65,6 +65,8 @@ export function getEdgesByNode(id: string): EkvivalentEdge[] {
 }
 
 export function addEdge(edge: EkvivalentEdge): void {
+  // Guard against self-referencing edges at the registry level
+  if (edge.fromId === edge.toId) return;
   edgeStore.push(edge);
 }
 

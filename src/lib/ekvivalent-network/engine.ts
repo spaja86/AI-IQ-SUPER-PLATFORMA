@@ -73,11 +73,19 @@ function invalidResult(
   };
 }
 
-/** Geometric mean of top-3 scores; returns 0 for empty array */
+/** Geometric mean of top-3 scores; returns 0 for empty array.
+ *
+ * Scores are in range 0–100. To handle zero values correctly in a geometric
+ * mean, each score is offset by +1 before multiplication (so 0 → 1, not 0)
+ * and the offset is removed at the end (-1). This ensures a score of 0 does
+ * not collapse the entire product to 0, while preserving the full 0–100 range.
+ * Example: top3 = [95, 72, 0] → geoMean of [96, 73, 1]^(1/3) − 1 ≈ 9.5.
+ */
 function computeNetworkScore(scores: number[]): number {
   if (scores.length === 0) return 0;
   const sorted = [...scores].sort((a, b) => b - a);
   const top3 = sorted.slice(0, 3);
+  // +1 offset avoids zero-collapse; -1 restores the original scale after pow
   const product = top3.reduce((acc, s) => acc * (s + 1), 1);
   const geoMean = Math.pow(product, 1 / top3.length) - 1;
   return Math.round(Math.min(EKVIVALENT_MAX_SCORE, geoMean) * 100) / 100;
