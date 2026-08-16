@@ -144,7 +144,7 @@ async function runTests(): Promise<void> {
     assert(result.productivityScore >= 0 && result.productivityScore <= 100, 'productivityScore out of range');
   });
 
-  await test('warning: low focus + low sleep', () => {
+  await test('warning: low focus + low sleep (combined)', () => {
     const result = evaluateDnevnaSvetlost({
       mode: 'MORNING',
       uvProtection: 'SPF_15',
@@ -159,6 +159,42 @@ async function runTests(): Promise<void> {
     assert(
       result.warnings.some((w) => w.includes('sleep')),
       'expected sleep warning',
+    );
+  });
+
+  await test('warning: low sleep alone triggers warning', () => {
+    const result = evaluateDnevnaSvetlost({
+      mode: 'MORNING',
+      uvProtection: 'SPF_15',
+      ambientLightLux: 4000,
+      uvIndex: 2,
+      focusLevel: 70,
+      sleepHours: 4,
+      exposureMinutes: 60,
+    });
+
+    assert(result.valid, 'result should be valid');
+    assert(
+      result.warnings.some((w) => w.includes('sleep')),
+      'expected sleep warning for low sleep alone',
+    );
+  });
+
+  await test('warning: low focus alone triggers warning', () => {
+    const result = evaluateDnevnaSvetlost({
+      mode: 'MORNING',
+      uvProtection: 'SPF_15',
+      ambientLightLux: 4000,
+      uvIndex: 2,
+      focusLevel: 30,
+      sleepHours: 8,
+      exposureMinutes: 60,
+    });
+
+    assert(result.valid, 'result should be valid');
+    assert(
+      result.warnings.some((w) => w.includes('focus')),
+      'expected focus warning for low focus alone',
     );
   });
 

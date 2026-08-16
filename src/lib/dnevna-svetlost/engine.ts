@@ -207,6 +207,10 @@ function buildWarnings(
 
   if (input.focusLevel < 40 && input.sleepHours < 5) {
     warnings.push('Low focus and insufficient sleep detected; rest before high-intensity daylight exposure.');
+  } else if (input.sleepHours < 5) {
+    warnings.push('Insufficient sleep detected; consider limiting prolonged daylight exposure.');
+  } else if (input.focusLevel < 40) {
+    warnings.push('Low focus detected; short daylight breaks may help restore alertness.');
   }
 
   if (
