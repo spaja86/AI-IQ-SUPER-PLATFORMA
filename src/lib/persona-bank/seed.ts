@@ -229,6 +229,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['adutiv-validator-agent', 'persona-bank-agent'],
     crossRepoRef: 'adutiv',
   },
+  // ─── DNEVNA SVETLOST ──────────────────────────────────────────────────────
+  {
+    id: 'dnevna-svetlost-core',
+    name: 'DNEVNA SVETLOST — Daylight Exposure & Wellbeing Engine',
+    type: 'dnevna-svetlost',
+    octave: 11,
+    hipermrezaNode: 90,
+    attributes: {
+      traits: ['luminous', 'optimizing', 'circadian-aware'],
+      skills: ['light-scoring', 'uv-management', 'wellbeing-assessment'],
+      tone: 'energizing',
+      domain: 'wellness/environment',
+    },
+    linkedAgents: ['dnevna-svetlost-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'dnevna-svetlost',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

@@ -443,6 +443,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -887,6 +888,24 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Multi-repo sync**: Syncs node/edge catalog snapshots to `spaja86/IO-OPENUI-AO`
   - **OKRID**: `OKRID-2026-EKVIVALENT-NETWORK-001`
 
+### dnevna-svetlost-validator-agent (NEW)
+- **Role**: Validate DNEVNA SVETLOST logic — daylight-exposure readiness scoring, UV management, wellbeing computation, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dnevna-svetlost/**`, `src/app/api/dnevna-svetlost/**`
+- **Trigger**: PR with label `dnevna-svetlost:logic-change`, push touching `dnevna-svetlost` paths
+- **Actions**:
+  - Runs unit test suite for DNEVNA SVETLOST logic (types, engine, route-utils)
+  - Verifies all 4 modes (MORNING, MIDDAY, AFTERNOON, EVENING) and all 5 UV-protection levels
+  - Validates brightnessScore, comfortScore, productivityScore, wellbeingScore computations and clamping (0–100)
+  - Verifies status classification (OPTIMAL, MODERATE, CAUTION, OVEREXPOSURE)
+  - Verifies edge cases (NaN, Infinity, negative values, exposureMinutes = 0, ambientLightLux out of range, uvIndex > 11)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `dnevna-svetlost:validated` or `dnevna-svetlost:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `dnevna-svetlost-core` (octave: 11, hipermreza node: 90)
+  - **Complementary pair**: MRKLI MRAK (octave: 11, hipermreza node: 89) — together they cover the full ambient-light spectrum
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -950,6 +969,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
