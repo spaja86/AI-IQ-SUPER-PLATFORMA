@@ -1058,3 +1058,32 @@ AI-IQ-SUPER-PLATFORMA#ekvivalent-network -> IO-OPENUI-AO#<optional follow-up iss
 ```
 AI-IQ-SUPER-PLATFORMA#astronomik-money -> IO-OPENUI-AO#<optional follow-up issue>
 ```
+
+## REKLAMITIN — Reprodukcion Advertising Engine (NOTE 14856)
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-17 |
+| Owner | @spaja86 |
+| Scope | `src/lib/reklamitin/**`, `src/app/api/reklamitin/**` |
+| Persona | `reklamitin-core` (octave: 9, hipermreza node: 72) |
+| Validator | `reklamitin-validator-agent` |
+| Workflow | `.github/workflows/reklamitin-validator.yml` |
+| OKRID | `OKRID-2026-REKLAMITIN-14856` |
+| Note | 14856 — RADIKALNI NIVO |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — REKLAMITIN radical-level reproduction advertising engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync reproduction-ad catalog snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add REKLAMITIN label schema (`reklamitin`, `reklamitin:logic-change`, `reklamitin:validated`, `reklamitin:needs-review`) only when the module is consumed downstream
+- Record the canonical `reklamitin` slug in linked repo documentation if external adoption starts
+- Sync `reklamitin-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#reklamitin -> IO-OPENUI-AO#<optional follow-up issue>
+```
