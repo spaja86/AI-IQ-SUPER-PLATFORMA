@@ -213,6 +213,38 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['maksimus-validator-agent', 'another-maks-agent', 'persona-bank-agent'],
     crossRepoRef: 'epekm-denter',
   },
+  // ─── ADUTIV ───────────────────────────────────────────────────────────────
+  {
+    id: 'adutiv-core',
+    name: 'ADUTIV — Advantage Intelligence Engine',
+    type: 'adutiv',
+    octave: 14,
+    hipermrezaNode: 112,
+    attributes: {
+      traits: ['strategic', 'analytical', 'amplifier'],
+      skills: ['advantage-scoring', 'portfolio-analysis', 'activation-planning'],
+      tone: 'strategic',
+      domain: 'competitive-intelligence',
+    },
+    linkedAgents: ['adutiv-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'adutiv',
+  },
+  // ─── DNEVNA SVETLOST ──────────────────────────────────────────────────────
+  {
+    id: 'dnevna-svetlost-core',
+    name: 'DNEVNA SVETLOST — Daylight Exposure & Wellbeing Engine',
+    type: 'dnevna-svetlost',
+    octave: 11,
+    hipermrezaNode: 90,
+    attributes: {
+      traits: ['luminous', 'optimizing', 'circadian-aware'],
+      skills: ['light-scoring', 'uv-management', 'wellbeing-assessment'],
+      tone: 'energizing',
+      domain: 'wellness/environment',
+    },
+    linkedAgents: ['dnevna-svetlost-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'dnevna-svetlost',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

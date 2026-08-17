@@ -200,6 +200,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
 
+### mrkli-mrak-validator-agent (NEW)
+- **Role**: Validacija MRKLI MRAK logike — darkness readiness scoring, status klasifikacija i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
+- **Trigger**: PR sa labelom `mrkli-mrak:logic-change`, push koji dira `mrkli-mrak` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za MRKLI MRAK logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, invalid ranges, prazni payload)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `mrkli-mrak:validated` ili `mrkli-mrak:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `mrkli-mrak-core` (octave: 11, hipermreza node: 89)
+
 ### paraksil-validator-agent (NEW)
 - **Role**: Validacija PARAKSIL logike — generički sandbox za testiranje modula, scoring validacije i release gate klasifikaciju
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
@@ -425,6 +438,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
+| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
@@ -441,6 +455,12 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
 | zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
+| konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
+| adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
+| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
+| reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -690,6 +710,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
 
+### mrkli-mrak-validator-agent (NEW)
+- **Role**: Validate MRKLI MRAK logic — darkness readiness scoring, status classification, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
+- **Trigger**: PR with label `mrkli-mrak:logic-change`, push touching `mrkli-mrak` paths
+- **Actions**:
+  - Runs unit and route test suite for MRKLI MRAK logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, invalid ranges, empty payload)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `mrkli-mrak:validated` or `mrkli-mrak:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `mrkli-mrak-core` (octave: 11, hipermreza node: 89)
+
 ### paraksil-validator-agent (NEW)
 - **Role**: Validate PARAKSIL logic — generic module-validation sandbox, validation scoring, and release-gate classification
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
@@ -833,6 +866,112 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `ekzist-core` (octave: 2, hipermreza node: 16)
 
+### konvenkcionalni-odnosi-validator-agent (NEW)
+- **Role**: Validate KONVENKCIONALNI ODNOSI logic — conventional relation management, lifecycle transitions, interaction tracking, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/konvenkcionalni-odnosi/**`, `src/app/api/konvenkcionalni-odnosi/**`, `src/components/konvenkcionalni-odnosi/**`
+- **Trigger**: PR with label `konvenkcionalni-odnosi:logic-change`, push touching `konvenkcionalni-odnosi` paths
+- **Actions**:
+  - Runs unit test suite for KONVENKCIONALNI ODNOSI logic (registry, relation-engine, interaction-tracker)
+  - Verifies all 7 relation types (hierarchical, peer, mentorship, sponsorship, collaboration, contractual, affiliation)
+  - Validates all lifecycle transitions and edge cases (self-relation, duplicate active relations, invalid transitions from terminal states, interaction on archived/terminated)
+  - Checks performance KPIs: evaluation ≤ 50ms, lookup ≤ 10ms, bulk list ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `konvenkcionalni-odnosi:validated` or `konvenkcionalni-odnosi:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `konvenkcionalni-odnosi-core` (octave: 1, hipermreza node: 8)
+  - **Integrations**: persona-bank, zlatni-racuni, epekm-denter, maksimus, extrimli-cuz, dijagnoza
+  - **OKRID**: `OKRID-2026-KO-001`
+
+### adutiv-validator-agent (NEW)
+- **Role**: Validate ADUTIV logic — competitive advantage scoring, portfolio analysis, activation planning, blind-spot detection, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/adutiv/**`, `src/app/api/adutiv/**`, `src/components/adutiv/**`
+- **Trigger**: PR with label `adutiv:logic-change`, push touching `adutiv` paths
+- **Actions**:
+  - Runs unit test suite for ADUTIV logic (types, engine, registry, route-utils)
+  - Verifies all 8 advantage domains (SKILL, KNOWLEDGE, NETWORK, RESOURCE, REPUTATION, CREATIVITY, RESILIENCE, TIMING)
+  - Validates portfolio scoring (geometric mean of top 3), tier mapping, and blind-spot detection (score < 15)
+  - Verifies edge cases (NaN, Infinity, negative scores, scores > 100, empty advantages array)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `adutiv:validated` or `adutiv:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `adutiv-core` (octave: 14, hipermreza node: 112)
+  - **Multi-repo sync**: Syncs advantage portfolio snapshots to `spaja86/IO-OPENUI-AO`
+  - **OKRID**: `OKRID-2026-ADUTIV-001`
+
+### ekvivalent-network-validator-agent (NEW)
+- **Role**: Validate EKVIVALENT NETWORK logic — equivalence mapping, cluster detection, network scoring, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/ekvivalent-network/**`, `src/app/api/ekvivalent-network/**`
+- **Trigger**: PR with label `ekvivalent-network:logic-change`, push touching `ekvivalent-network` paths
+- **Actions**:
+  - Runs unit test suite for EKVIVALENT NETWORK logic (types, engine, registry, route-utils)
+  - Verifies all 8 equivalence domains (SKILL, COMPETENCY, AGENT, MODULE, ORGANIZATION, RESOURCE, PERSONA, KNOWLEDGE)
+  - Verifies all 5 relation types (FULL, PARTIAL, FUNCTIONAL, CONTEXTUAL, SUBSTITUTABLE)
+  - Validates cluster detection (union-find, cohesion 0–1), network scoring (geometric mean), and match ranking
+  - Verifies edge cases (NaN/Infinity/negative scores normalized, self-referencing edges rejected, duplicate edges deduplicated, disconnected nodes warned, empty node list → invalid)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `ekvivalent-network:validated` or `ekvivalent-network:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `ekvivalent-network-core` (octave: 15, hipermreza node: 120)
+  - **Multi-repo sync**: Syncs node/edge catalog snapshots to `spaja86/IO-OPENUI-AO`
+  - **OKRID**: `OKRID-2026-EKVIVALENT-NETWORK-001`
+
+### astronomik-money-validator-agent (NEW)
+- **Role**: Validate ASTRONOMIK MONEY logic — cosmic portfolio scoring, celestial asset gravity, orbital risk, diversification index, and cosmic event resilience
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/astronomik-money/**`, `src/app/api/astronomik-money/**`, `src/components/astronomik-money/**`
+- **Trigger**: PR with label `astronomik-money:logic-change`, push touching `astronomik-money` paths
+- **Actions**:
+  - Runs unit test suite for ASTRONOMIK MONEY logic (registry, gravity-engine, portfolio-engine, cosmic-event-engine, score-engine)
+  - Verifies all 8 celestial classes (STAR, PLANET, MOON, ASTEROID, BLACK_HOLE, NEBULA, COMET, PULSAR)
+  - Validates AstronomikScore (0–1000) and tier mapping (VOID → COMET_DRIFT → ORBITAL → SOLAR → STELLAR)
+  - Verifies edge cases (NaN, Infinity, negative values sanitized to 0, empty portfolio → VOID_PORTFOLIO, BLACK_HOLE > 20% → auto-event)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms, registry lookup ≤ 10ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `astronomik-money:validated` or `astronomik-money:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `astronomik-money-core` (octave: 13, hipermreza node: 104)
+  - **Multi-repo sync**: Syncs celestial asset catalog snapshots to `spaja86/IO-OPENUI-AO`
+  - **OKRID**: `OKRID-2026-ASTRONOMIK-MONEY-001`
+### dnevna-svetlost-validator-agent (NEW)
+- **Role**: Validate DNEVNA SVETLOST logic — daylight-exposure readiness scoring, UV management, wellbeing computation, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dnevna-svetlost/**`, `src/app/api/dnevna-svetlost/**`
+- **Trigger**: PR with label `dnevna-svetlost:logic-change`, push touching `dnevna-svetlost` paths
+- **Actions**:
+  - Runs unit test suite for DNEVNA SVETLOST logic (types, engine, route-utils)
+  - Verifies all 4 modes (MORNING, MIDDAY, AFTERNOON, EVENING) and all 5 UV-protection levels
+  - Validates brightnessScore, comfortScore, productivityScore, wellbeingScore computations and clamping (0–100)
+  - Verifies status classification (OPTIMAL, MODERATE, CAUTION, OVEREXPOSURE)
+  - Verifies edge cases (NaN, Infinity, negative values, exposureMinutes = 0, ambientLightLux out of range, uvIndex > 11)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `dnevna-svetlost:validated` or `dnevna-svetlost:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `dnevna-svetlost-core` (octave: 11, hipermreza node: 90)
+  - **Complementary pair**: MRKLI MRAK (octave: 11, hipermreza node: 89) — together they cover the full ambient-light spectrum
+### reklamitin-validator-agent (NEW)
+- **Role**: Validate REKLAMITIN logic — radical-level reproduction advertising, broadcast engine, reach calculation, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/reklamitin/**`, `src/app/api/reklamitin/**`
+- **Trigger**: PR with label `reklamitin:logic-change`, push touching `reklamitin` paths
+- **Actions**:
+  - Runs unit test suite for REKLAMITIN logic (types, registry, level-engine, broadcast-engine, reach-engine, reklamitin-engine)
+  - Verifies all 4 radical levels (STANDARD, ELEVATED, AGGRESSIVE, RADICAL) and escalation logic
+  - Validates RADICAL level: zeroCap = true, frequencyCapHz = 0, intensityScore = 1000
+  - Verifies edge cases (NaN, Infinity, negative budgetScore/durationSeconds, empty broadcastTargets, invalid audienceSegment)
+  - Validates disclaimer always present in every response ("Reklamitin rezultati su automatski generisani.")
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms, broadcast dispatch ≤ 100ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `reklamitin:validated` or `reklamitin:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `reklamitin-core` (octave: 9, hipermreza node: 72)
+  - **OKRID**: `OKRID-2026-REKLAMITIN-14856`
+  - **Note**: 14856
+  - **Multi-repo sync**: Syncs reproduction-ad catalog snapshots to `spaja86/IO-OPENUI-AO`
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -876,6 +1015,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
+| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
@@ -893,6 +1033,12 @@ This file describes agents, their roles, and usage rules for automation in this 
 | zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 
 | ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
+| konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
+| adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
+| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
+| reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:

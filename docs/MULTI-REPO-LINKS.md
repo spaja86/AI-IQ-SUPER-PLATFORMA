@@ -61,6 +61,10 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `mirikl:review` | MIRIKL change requires focused human review |
 | `mirikl:validated` | MIRIKL quality/security/deploy governance checks passed |
 | `mirikl:needs-review` | MIRIKL validator or downstream governance needs follow-up |
+| `eksluziv-network` | EKSLUZIV NETWORK domain-scoped deploy governance change set |
+| `eksluziv-network:review` | EKSLUZIV NETWORK rollout/config change requires focused human review |
+| `eksluziv-network:validated` | EKSLUZIV NETWORK gates, KPI evidence, and audit trail completed |
+| `eksluziv-network:needs-review` | EKSLUZIV NETWORK domain or downstream governance requires follow-up |
 
 ## GIGATRON Label Schema
 
@@ -298,6 +302,40 @@ Full production deployment of all 6 platforms in the AI IQ SUPER PLATFORMA ecosy
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#MAKSIMUM-DEPLOY -> IO-OPENUI-AO#<follow-up issue>
+```
+
+---
+
+## EKSLUZIV NETWORK — Audit Trail
+
+### Initiative
+
+Domain-scoped deploy governance initiative for EKSLUZIV NETWORK, using segmented rollout rings and per-domain exit criteria across core platform, Nova Generacija, Mekartor, multi-repo sync, monitoring, and operativa.
+
+| Field | Value |
+|---|---|
+| Version | v42.35.0+ |
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Tracking doc | `docs/EKSLUZIV-NETWORK.md` |
+| OKRID | `OKRID-2026-EKSLUZIV-001` |
+| Primary workflows | `.github/workflows/deploy-platforma.yml`, `.github/workflows/vercel-deploy.yml`, `.github/workflows/mirikl-validator.yml` |
+
+### Cross-repo references
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EKSLUZIV NETWORK | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: labels, milestones, downstream references, nova-generacija-gaming-refs, agent-config compatibility |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Confirm shared label schema alignment for `eksluziv-network*` governance labels
+- Open downstream follow-up when shared contracts, fairness assumptions, or linked rollout references move
+- Confirm `multi-repo-sync-agent` sync coverage = 100%
+- Update `docs/MULTI-REPO-LINKS.md` in IO-OPENUI-AO with the bidirectional EKSLUZIV NETWORK reference
+
+**Audit convention for this initiative:**
+```text
+AI-IQ-SUPER-PLATFORMA#EKSLUZIV-NETWORK -> IO-OPENUI-AO#<follow-up issue>
 ```
 
 ---
@@ -935,4 +973,117 @@ AI-IQ-SUPER-PLATFORMA#ekzist -> IO-OPENUI-AO#<follow-up issue>
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#dumbir -> IO-OPENUI-AO#<optional follow-up issue>
+```
+
+## ADUTIV — Advantage Intelligence Engine
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Scope | `src/lib/adutiv/**`, `src/app/api/adutiv/**`, `src/components/adutiv/**` |
+| Persona | `adutiv-core` (octave: 14, hipermreza node: 112) |
+| Validator | `adutiv-validator-agent` |
+| Workflow | `.github/workflows/adutiv-validator.yml` |
+| OKRID | `OKRID-2026-ADUTIV-001` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ADUTIV advantage intelligence module | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync advantage portfolio snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add ADUTIV label schema (`adutiv`, `adutiv:logic-change`, `adutiv:validated`, `adutiv:needs-review`) only when the module is consumed downstream
+- Record the canonical `adutiv` slug in linked repo documentation if external adoption starts
+- Sync `adutiv-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#adutiv -> IO-OPENUI-AO#<optional follow-up issue>
+```
+
+## EKVIVALENT NETWORK — Equivalence Mapping Engine
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Scope | `src/lib/ekvivalent-network/**`, `src/app/api/ekvivalent-network/**` |
+| Persona | `ekvivalent-network-core` (octave: 15, hipermreza node: 120) |
+| Validator | `ekvivalent-network-validator-agent` |
+| Workflow | `.github/workflows/ekvivalent-network-validator.yml` |
+| OKRID | `OKRID-2026-EKVIVALENT-NETWORK-001` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EKVIVALENT NETWORK equivalence mapping module | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync node/edge catalog snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add EKVIVALENT NETWORK label schema (`ekvivalent-network`, `ekvivalent-network:logic-change`, `ekvivalent-network:validated`, `ekvivalent-network:needs-review`) only when the module is consumed downstream
+- Record the canonical `ekvivalent-network` slug in linked repo documentation if external adoption starts
+- Sync `ekvivalent-network-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#ekvivalent-network -> IO-OPENUI-AO#<optional follow-up issue>
+```
+
+## ASTRONOMIK MONEY — Cosmic Financial Intelligence Engine
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Scope | `src/lib/astronomik-money/**`, `src/app/api/astronomik-money/**` |
+| Persona | `astronomik-money-core` (octave: 13, hipermreza node: 104) |
+| Validator | `astronomik-money-validator-agent` |
+| Workflow | `.github/workflows/astronomik-money-validator.yml` |
+| OKRID | `OKRID-2026-ASTRONOMIK-MONEY-001` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ASTRONOMIK MONEY cosmic portfolio engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync celestial asset catalog snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add ASTRONOMIK MONEY label schema (`astronomik-money`, `astronomik-money:logic-change`, `astronomik-money:validated`, `astronomik-money:needs-review`) only when the module is consumed downstream
+- Record the canonical `astronomik-money` slug in linked repo documentation if external adoption starts
+- Sync `astronomik-money-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#astronomik-money -> IO-OPENUI-AO#<optional follow-up issue>
+```
+
+## REKLAMITIN — Reprodukcion Advertising Engine (NOTE 14856)
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-17 |
+| Owner | @spaja86 |
+| Scope | `src/lib/reklamitin/**`, `src/app/api/reklamitin/**` |
+| Persona | `reklamitin-core` (octave: 9, hipermreza node: 72) |
+| Validator | `reklamitin-validator-agent` |
+| Workflow | `.github/workflows/reklamitin-validator.yml` |
+| OKRID | `OKRID-2026-REKLAMITIN-14856` |
+| Note | 14856 — RADIKALNI NIVO |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — REKLAMITIN radical-level reproduction advertising engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync reproduction-ad catalog snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add REKLAMITIN label schema (`reklamitin`, `reklamitin:logic-change`, `reklamitin:validated`, `reklamitin:needs-review`) only when the module is consumed downstream
+- Record the canonical `reklamitin` slug in linked repo documentation if external adoption starts
+- Sync `reklamitin-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#reklamitin -> IO-OPENUI-AO#<optional follow-up issue>
 ```

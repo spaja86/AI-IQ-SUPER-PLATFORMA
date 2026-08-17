@@ -1,0 +1,178 @@
+name: KONVENKCIONALNI ODNOSI — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/konvenkcionalni-odnosi/**'
+      - 'src/app/api/konvenkcionalni-odnosi/**'
+      - 'src/components/konvenkcionalni-odnosi/**'
+      - 'src/tests/lib/konvenkcionalni-odnosi.test.ts'
+      - 'docs/KONVENKCIONALNI-ODNOSI.md'
+      - '.github/workflows/konvenkcionalni-odnosi-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/konvenkcionalni-odnosi/**'
+      - 'src/app/api/konvenkcionalni-odnosi/**'
+      - 'src/components/konvenkcionalni-odnosi/**'
+      - 'docs/KONVENKCIONALNI-ODNOSI.md'
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full KONVENKCIONALNI ODNOSI validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ko-lint:
+    name: KO — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint KO modules
+        run: |
+          npm run lint -- \
+            src/lib/konvenkcionalni-odnosi/types.ts \
+            src/lib/konvenkcionalni-odnosi/registry.ts \
+            src/lib/konvenkcionalni-odnosi/relation-engine.ts \
+            src/lib/konvenkcionalni-odnosi/interaction-tracker.ts \
+            src/lib/konvenkcionalni-odnosi/index.ts
+
+  ko-typecheck:
+    name: KO — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  ko-tests:
+    name: KO — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [ko-lint, ko-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run KONVENKCIONALNI ODNOSI core tests
+        run: npx tsx src/tests/lib/konvenkcionalni-odnosi.test.ts
+
+  ko-security:
+    name: KO — Security Scan
+    runs-on: ubuntu-latest
+    needs: [ko-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in KO modules
+        run: |
+          echo "Scanning KONVENKCIONALNI ODNOSI modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/konvenkcionalni-odnosi/ \
+            src/app/api/konvenkcionalni-odnosi/ 2>/dev/null || \
+            (echo "::error::Potential secret found in KONVENKCIONALNI ODNOSI modules" && exit 1)
+          echo "No secrets detected."
+
+  ko-label:
+    name: KO — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [ko-tests, ko-security]
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const allPassed =
+              '${{ needs.ko-tests.result }}' === 'success' &&
+              '${{ needs.ko-security.result }}' === 'success';
+            const label = allPassed
+              ? 'konvenkcionalni-odnosi:validated'
+              : 'konvenkcionalni-odnosi:needs-review';
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: [label, 'konvenkcionalni-odnosi'],
+            });
+
+  ko-status:
+    name: KO — Status Summary
+    runs-on: ubuntu-latest
+    needs: [ko-lint, ko-typecheck, ko-tests, ko-security]
+    if: always()
+    steps:
+      - name: KONVENKCIONALNI ODNOSI validation summary
+        run: |
+          echo "========================================"
+          echo "KONVENKCIONALNI ODNOSI Validation Summary"
+          echo "========================================"
+          echo "Lint:      ${{ needs.ko-lint.result }}"
+          echo "TypeScript:${{ needs.ko-typecheck.result }}"
+          echo "Tests:     ${{ needs.ko-tests.result }}"
+          echo "Security:  ${{ needs.ko-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Relation evaluation:   ≤ 50ms"
+          echo "  API response target:   ≤ 200ms"
+          echo "  Lookup target:         ≤ 10ms"
+          echo "  Bulk list target:      ≤ 50ms"
+          echo "  Build duration target: ≤ 3 min"
+          echo "  Persona: konvenkcionalni-odnosi-core"
+          echo "  Octave: 1  |  Hipermreza node: 8"
+          echo "========================================"
+
+          if [ "${{ needs.ko-lint.result }}" != "success" ] || \
+             [ "${{ needs.ko-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.ko-tests.result }}" != "success" ] || \
+             [ "${{ needs.ko-security.result }}" != "success" ]; then
+            echo "❌ KONVENKCIONALNI ODNOSI validation FAILED"
+            exit 1
+          else
+            echo "✅ KONVENKCIONALNI ODNOSI validation PASSED"
+          fi

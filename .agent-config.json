@@ -644,6 +644,47 @@
       "linkedRepoImpact": "documentation-only",
       "scope": "src/lib/dumbir/**,src/app/api/dumbir/**"
     },
+    "mrkli-mrak-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "mrkli-mrak-core",
+      "octave": 11,
+      "hipermrezaNode": 89,
+      "labels": [
+        "mrkli-mrak",
+        "mrkli-mrak:logic-change",
+        "mrkli-mrak:validated",
+        "mrkli-mrak:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/mrkli-mrak-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/MRKLI-MRAK.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/mrkli-mrak.test.ts",
+        "npx tsx src/tests/api/mrkli-mrak-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/mrkli-mrak/**",
+        "src/app/api/mrkli-mrak/**",
+        "src/tests/lib/mrkli-mrak.test.ts",
+        "src/tests/api/mrkli-mrak-route.test.ts",
+        "docs/MRKLI-MRAK.md",
+        ".github/workflows/mrkli-mrak-validator.yml"
+      ],
+      "linkedRepoImpact": "documentation-only",
+      "scope": "src/lib/mrkli-mrak/**,src/app/api/mrkli-mrak/**"
+    },
     "paraksil-validator-agent": {
       "enabled": true,
       "status": "active",
@@ -712,10 +753,12 @@
       "enabled": true,
       "status": "active",
       "scope": [
+        "docs/EKSLUZIV-NETWORK.md",
         "docs/MIRIKL.md",
         "docs/MULTI-REPO-LINKS.md",
         "docs/OKRID-REGISTRY.md",
         ".agent-config.json",
+        ".github/workflows/deploy-platforma.yml",
         ".github/workflows/mirikl-validator.yml",
         ".github/workflows/vercel-deploy.yml"
       ],
@@ -803,6 +846,86 @@
           "exotic-goods-catalog-v2-snapshot"
         ]
       }
+    },
+    "konvenkcionalni-odnosi-validator-agent": {
+      "enabled": true,
+      "paths": [
+        "src/lib/konvenkcionalni-odnosi/**",
+        "src/app/api/konvenkcionalni-odnosi/**",
+        "src/components/konvenkcionalni-odnosi/**"
+      ],
+      "labels": {
+        "passed": "konvenkcionalni-odnosi:validated",
+        "failed": "konvenkcionalni-odnosi:needs-review"
+      },
+      "performanceThresholds": {
+        "evaluationMs": 50,
+        "lookupMs": 10,
+        "bulkListMs": 50,
+        "apiResponseMs": 200
+      },
+      "persona": {
+        "id": "konvenkcionalni-odnosi-core",
+        "octave": 1,
+        "hipermrezaNode": 8
+      },
+      "contractVersion": "v1",
+      "testSuite": "src/tests/lib/konvenkcionalni-odnosi.test.ts"
+    },
+    "adutiv-validator-agent": {
+      "enabled": true,
+      "paths": [
+        "src/lib/adutiv/**",
+        "src/app/api/adutiv/**",
+        "src/components/adutiv/**"
+      ],
+      "labels": {
+        "passed": "adutiv:validated",
+        "failed": "adutiv:needs-review"
+      },
+      "performanceThresholds": {
+        "evaluationMs": 50,
+        "apiResponseMs": 200
+      },
+      "persona": {
+        "id": "adutiv-core",
+        "octave": 14,
+        "hipermrezaNode": 112
+      },
+      "contractVersion": "v1",
+      "testSuite": "src/tests/lib/adutiv.test.ts"
+    },
+    "reklamitin-validator-agent": {
+      "enabled": true,
+      "scope": [
+        "src/lib/reklamitin/**",
+        "src/app/api/reklamitin/**"
+      ],
+      "trigger": [
+        "pull_request",
+        "push"
+      ],
+      "labels": {
+        "validated": "reklamitin:validated",
+        "needsReview": "reklamitin:needs-review",
+        "logicChange": "reklamitin:logic-change"
+      },
+      "performanceThresholds": {
+        "evalMs": 50,
+        "apiResponseMs": 200,
+        "broadcastDispatchMs": 100
+      },
+      "testCommands": [
+        "npx tsx src/tests/lib/reklamitin.test.ts",
+        "npx tsx src/tests/api/reklamitin-route.test.ts"
+      ],
+      "persona": "reklamitin-core",
+      "octave": 9,
+      "hipermrezaNode": 72,
+      "okrid": "OKRID-2026-REKLAMITIN-14856",
+      "note": 14856,
+      "workflowFile": ".github/workflows/reklamitin-validator.yml",
+      "linkedRepoSync": "spaja86/IO-OPENUI-AO"
     }
   },
   "orgSettings": {
@@ -1228,6 +1351,75 @@
         "note": "No linked repo change required for Mekartor rollout"
       }
     },
+    "eksluziv-network": {
+      "status": "active-governance",
+      "okrid": "OKRID-2026-EKSLUZIV-001",
+      "labels": [
+        "eksluziv-network",
+        "eksluziv-network:review",
+        "eksluziv-network:validated",
+        "eksluziv-network:needs-review",
+        "agent:config-change"
+      ],
+      "workflows": [
+        ".github/workflows/deploy-platforma.yml",
+        ".github/workflows/vercel-deploy.yml",
+        ".github/workflows/mirikl-validator.yml",
+        ".github/workflows/omega-auto-build.yml",
+        ".github/workflows/security-scanner.yml"
+      ],
+      "releaseDocs": [
+        "docs/EKSLUZIV-NETWORK.md",
+        "docs/DEPLOY-PORTFOLIO.md",
+        "docs/MIRIKL.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/OKRID-REGISTRY.md",
+        "docs/ROADMAP.md",
+        "docs/GO-LIVE.md"
+      ],
+      "deploymentModel": {
+        "primarySourceOfTruth": "vercel-git-integration",
+        "primaryRolloutWorkflow": ".github/workflows/deploy-platforma.yml",
+        "fallbackWorkflow": ".github/workflows/vercel-deploy.yml",
+        "promotion": [
+          "canary",
+          "staging",
+          "production"
+        ],
+        "humanReviewRequired": true
+      },
+      "requiredQualityGates": [
+        "build",
+        "lint",
+        "test",
+        "smoke",
+        "predeploy",
+        "security"
+      ],
+      "domains": [
+        "core-platforma",
+        "nova-generacija",
+        "mekartor",
+        "linked-repo-integracije",
+        "monitoring-i-audit",
+        "operativa"
+      ],
+      "kpis": {
+        "buildDurationMaxMin": 3,
+        "apiLatencyP95Ms": 300,
+        "errorRateMaxPct": 1,
+        "novaGeneracijaEvalP99Ms": 50,
+        "mekartorHealthSlaPct": 99.95,
+        "crossRepoSyncCoveragePct": 100,
+        "auditEvidenceCoveragePct": 100
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": true,
+        "trackingDoc": "docs/MULTI-REPO-LINKS.md",
+        "note": "Follow-up required when shared contracts, labels, milestones, or Nova Generacija fairness assumptions change"
+      }
+    },
     "gigatron": {
       "status": "active-development",
       "labels": [
@@ -1312,6 +1504,54 @@
           100
         ],
         "snapshotMaxCount": 100
+      }
+    },
+    "astronomik-money-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "astronomik-money-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "astronomik-money:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "astronomik-money/**"
+        ],
+        "paths": [
+          "src/lib/astronomik-money/**",
+          "src/app/api/astronomik-money/**",
+          "src/components/astronomik-money/**",
+          "src/tests/lib/astronomik-money.test.ts",
+          "src/tests/api/astronomik-money-route.test.ts"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/astronomik-money.test.ts",
+        "npx tsx src/tests/api/astronomik-money-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "astronomik-money:validated",
+        "needsReview": "astronomik-money:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "astronomik-money-core",
+        "octave": 13,
+        "hipermrezaNode": 104
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          1000
+        ],
+        "registryLookupMaxMs": 10,
+        "bulkPortfolioMaxMs": 100
       }
     }
   }
