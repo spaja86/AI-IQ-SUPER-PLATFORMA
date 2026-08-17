@@ -289,6 +289,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (all agents) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -574,6 +575,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (all agents) |
 
 ## Agent Configuration Files
 
