@@ -186,6 +186,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
 
+### mrkli-mrak-validator-agent (NEW)
+- **Role**: Validacija MRKLI MRAK logike — darkness readiness scoring, status klasifikacija i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
+- **Trigger**: PR sa labelom `mrkli-mrak:logic-change`, push koji dira `mrkli-mrak` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za MRKLI MRAK logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, invalid ranges, prazni payload)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `mrkli-mrak:validated` ili `mrkli-mrak:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `mrkli-mrak-core` (octave: 11, hipermreza node: 89)
+
 ### paraksil-validator-agent (NEW)
 - **Role**: Validacija PARAKSIL logike — generički sandbox za testiranje modula, scoring validacije i release gate klasifikaciju
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
@@ -411,6 +424,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
+| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
@@ -430,6 +444,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
 | astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -665,6 +680,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
 
+### mrkli-mrak-validator-agent (NEW)
+- **Role**: Validate MRKLI MRAK logic — darkness readiness scoring, status classification, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
+- **Trigger**: PR with label `mrkli-mrak:logic-change`, push touching `mrkli-mrak` paths
+- **Actions**:
+  - Runs unit and route test suite for MRKLI MRAK logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, invalid ranges, empty payload)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `mrkli-mrak:validated` or `mrkli-mrak:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `mrkli-mrak-core` (octave: 11, hipermreza node: 89)
+
 ### paraksil-validator-agent (NEW)
 - **Role**: Validate PARAKSIL logic — generic module-validation sandbox, validation scoring, and release-gate classification
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`
@@ -878,6 +906,23 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `astronomik-money-core` (octave: 13, hipermreza node: 104)
   - **Multi-repo sync**: Syncs celestial asset catalog snapshots to `spaja86/IO-OPENUI-AO`
   - **OKRID**: `OKRID-2026-ASTRONOMIK-MONEY-001`
+### dnevna-svetlost-validator-agent (NEW)
+- **Role**: Validate DNEVNA SVETLOST logic — daylight-exposure readiness scoring, UV management, wellbeing computation, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dnevna-svetlost/**`, `src/app/api/dnevna-svetlost/**`
+- **Trigger**: PR with label `dnevna-svetlost:logic-change`, push touching `dnevna-svetlost` paths
+- **Actions**:
+  - Runs unit test suite for DNEVNA SVETLOST logic (types, engine, route-utils)
+  - Verifies all 4 modes (MORNING, MIDDAY, AFTERNOON, EVENING) and all 5 UV-protection levels
+  - Validates brightnessScore, comfortScore, productivityScore, wellbeingScore computations and clamping (0–100)
+  - Verifies status classification (OPTIMAL, MODERATE, CAUTION, OVEREXPOSURE)
+  - Verifies edge cases (NaN, Infinity, negative values, exposureMinutes = 0, ambientLightLux out of range, uvIndex > 11)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `dnevna-svetlost:validated` or `dnevna-svetlost:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `dnevna-svetlost-core` (octave: 11, hipermreza node: 90)
+  - **Complementary pair**: MRKLI MRAK (octave: 11, hipermreza node: 89) — together they cover the full ambient-light spectrum
 
 ## Rules
 
@@ -922,6 +967,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
+| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
@@ -942,6 +988,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
 | astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
