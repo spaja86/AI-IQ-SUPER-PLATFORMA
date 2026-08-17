@@ -1030,3 +1030,31 @@ AI-IQ-SUPER-PLATFORMA#adutiv -> IO-OPENUI-AO#<optional follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#ekvivalent-network -> IO-OPENUI-AO#<optional follow-up issue>
 ```
+
+## ASTRONOMIK MONEY — Cosmic Financial Intelligence Engine
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-15 |
+| Owner | @spaja86 |
+| Scope | `src/lib/astronomik-money/**`, `src/app/api/astronomik-money/**` |
+| Persona | `astronomik-money-core` (octave: 13, hipermreza node: 104) |
+| Validator | `astronomik-money-validator-agent` |
+| Workflow | `.github/workflows/astronomik-money-validator.yml` |
+| OKRID | `OKRID-2026-ASTRONOMIK-MONEY-001` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ASTRONOMIK MONEY cosmic portfolio engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync celestial asset catalog snapshots if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add ASTRONOMIK MONEY label schema (`astronomik-money`, `astronomik-money:logic-change`, `astronomik-money:validated`, `astronomik-money:needs-review`) only when the module is consumed downstream
+- Record the canonical `astronomik-money` slug in linked repo documentation if external adoption starts
+- Sync `astronomik-money-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#astronomik-money -> IO-OPENUI-AO#<optional follow-up issue>
+```

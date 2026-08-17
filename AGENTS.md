@@ -443,6 +443,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
@@ -888,6 +889,23 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Multi-repo sync**: Syncs node/edge catalog snapshots to `spaja86/IO-OPENUI-AO`
   - **OKRID**: `OKRID-2026-EKVIVALENT-NETWORK-001`
 
+### astronomik-money-validator-agent (NEW)
+- **Role**: Validate ASTRONOMIK MONEY logic — cosmic portfolio scoring, celestial asset gravity, orbital risk, diversification index, and cosmic event resilience
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/astronomik-money/**`, `src/app/api/astronomik-money/**`, `src/components/astronomik-money/**`
+- **Trigger**: PR with label `astronomik-money:logic-change`, push touching `astronomik-money` paths
+- **Actions**:
+  - Runs unit test suite for ASTRONOMIK MONEY logic (registry, gravity-engine, portfolio-engine, cosmic-event-engine, score-engine)
+  - Verifies all 8 celestial classes (STAR, PLANET, MOON, ASTEROID, BLACK_HOLE, NEBULA, COMET, PULSAR)
+  - Validates AstronomikScore (0–1000) and tier mapping (VOID → COMET_DRIFT → ORBITAL → SOLAR → STELLAR)
+  - Verifies edge cases (NaN, Infinity, negative values sanitized to 0, empty portfolio → VOID_PORTFOLIO, BLACK_HOLE > 20% → auto-event)
+  - Validates disclaimer always present in every response
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms, registry lookup ≤ 10ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `astronomik-money:validated` or `astronomik-money:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `astronomik-money-core` (octave: 13, hipermreza node: 104)
+  - **Multi-repo sync**: Syncs celestial asset catalog snapshots to `spaja86/IO-OPENUI-AO`
+  - **OKRID**: `OKRID-2026-ASTRONOMIK-MONEY-001`
 ### dnevna-svetlost-validator-agent (NEW)
 - **Role**: Validate DNEVNA SVETLOST logic — daylight-exposure readiness scoring, UV management, wellbeing computation, and edge-case integrity
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dnevna-svetlost/**`, `src/app/api/dnevna-svetlost/**`
@@ -969,6 +987,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 ## Agent Configuration Files
 
