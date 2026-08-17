@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — KONVENKCIONALNI ODNOSI
+// SpajaUltraOmegaCore -∞Ω+∞ — KONVENCIONALNI ODNOSI
 // Kompanija SPAJA — Digitalna Industrija
 
 export type KonvencionalniOdnosiDimension =

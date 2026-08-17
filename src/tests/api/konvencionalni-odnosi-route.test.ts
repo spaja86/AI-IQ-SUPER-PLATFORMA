@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — KONVENKCIONALNI ODNOSI Route Tests
+// SpajaUltraOmegaCore -∞Ω+∞ — KONVENCIONALNI ODNOSI Route Tests
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { NextRequest } from 'next/server';

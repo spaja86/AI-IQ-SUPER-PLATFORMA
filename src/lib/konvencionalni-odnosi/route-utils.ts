@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — KONVENKCIONALNI ODNOSI Route Utils
+// SpajaUltraOmegaCore -∞Ω+∞ — KONVENCIONALNI ODNOSI Route Utils
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { KonvencionalniOdnosiResult } from './types';

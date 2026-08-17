@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — KONVENKCIONALNI ODNOSI API: /api/konvencionalni-odnosi/evaluate
+// SpajaUltraOmegaCore -∞Ω+∞ — KONVENCIONALNI ODNOSI API: /api/konvencionalni-odnosi/evaluate
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { NextRequest } from 'next/server';

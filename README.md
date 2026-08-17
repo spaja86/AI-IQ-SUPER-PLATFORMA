@@ -34,9 +34,9 @@ GREAT SUMBION uvodi novi weighted score engine sa jasnim KPI granicama i validat
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/GREAT-SUMBION.md`
 
-## 🤝 KONVENKCIONALNI ODNOSI
+## 🤝 KONVENCIONALNI ODNOSI
 
-KONVENKCIONALNI ODNOSI uvodi determinističku procenu kvaliteta odnosa kroz poverenje, komunikaciju, poštovanje, reciprocitet, stabilnost i granice.
+KONVENCIONALNI ODNOSI uvodi determinističku procenu kvaliteta odnosa kroz poverenje, komunikaciju, poštovanje, reciprocitet, stabilnost i granice.
 
 - Modul: `src/lib/konvencionalni-odnosi/**`
 - API: `/api/konvencionalni-odnosi/evaluate`, `/api/konvencionalni-odnosi/health`

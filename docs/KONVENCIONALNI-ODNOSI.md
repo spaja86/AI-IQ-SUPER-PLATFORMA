@@ -1,8 +1,8 @@
-# KONVENKCIONALNI ODNOSI — Specification
+# KONVENCIONALNI ODNOSI — Specification
 
 ## Purpose
 
-KONVENKCIONALNI ODNOSI je deterministički domen za procenu kvaliteta konvencionalnih međuljudskih odnosa kroz standardne dimenzije kao što su poverenje, komunikacija, poštovanje, reciprocitet, stabilnost i granice.
+KONVENCIONALNI ODNOSI je deterministički domen za procenu kvaliteta konvencionalnih međuljudskih odnosa kroz standardne dimenzije kao što su poverenje, komunikacija, poštovanje, reciprocitet, stabilnost i granice.
 
 ## Scope boundaries
 

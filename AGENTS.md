@@ -161,11 +161,11 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `great-sumbion-core` (octave: 9, hipermreza node: 72)
 
 ### konvencionalni-odnosi-validator-agent (NEW)
-- **Role**: Validacija KONVENKCIONALNI ODNOSI logike — scoring kvaliteta odnosa, balans dimenzija i integritet edge case-ova
+- **Role**: Validacija KONVENCIONALNI ODNOSI logike — scoring kvaliteta odnosa, balans dimenzija i integritet edge case-ova
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/konvencionalni-odnosi/**`, `src/app/api/konvencionalni-odnosi/**`
 - **Trigger**: PR sa labelom `konvencionalni-odnosi:logic-change`, push koji dira `konvencionalni-odnosi` putanje
 - **Actions**:
-  - Pokreće unit i route test suite za KONVENKCIONALNI ODNOSI logiku
+  - Pokreće unit i route test suite za KONVENCIONALNI ODNOSI logiku
   - Verifikuje determinističke rezultate, tier/status mapping i upozorenja za nekonzistentne obrasce
   - Proverava edge case-ove (`NaN`, `Infinity`, negativne vrednosti, prazni ulazi, score > 100)
   - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
@@ -430,7 +430,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
-| konvencionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
+| konvencionalni-odnosi-validator-agent | KONVENCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
@@ -651,11 +651,11 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `great-sumbion-core` (octave: 9, hipermreza node: 72)
 
 ### konvencionalni-odnosi-validator-agent (NEW)
-- **Role**: Validate KONVENKCIONALNI ODNOSI logic — relationship-quality scoring, dimension balance, and edge-case integrity
+- **Role**: Validate KONVENCIONALNI ODNOSI logic — relationship-quality scoring, dimension balance, and edge-case integrity
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/konvencionalni-odnosi/**`, `src/app/api/konvencionalni-odnosi/**`
 - **Trigger**: PR with label `konvencionalni-odnosi:logic-change`, push touching `konvencionalni-odnosi` paths
 - **Actions**:
-  - Runs unit and route test suite for KONVENKCIONALNI ODNOSI logic
+  - Runs unit and route test suite for KONVENCIONALNI ODNOSI logic
   - Verifies deterministic results, tier/status mapping, and warnings for inconsistent relationship patterns
   - Verifies edge cases (`NaN`, `Infinity`, negative values, empty inputs, score > 100)
   - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
@@ -881,7 +881,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
-| konvencionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
+| konvencionalni-odnosi-validator-agent | KONVENCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |

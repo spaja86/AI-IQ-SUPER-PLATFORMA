@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — KONVENKCIONALNI ODNOSI Tests
+// SpajaUltraOmegaCore -∞Ω+∞ — KONVENCIONALNI ODNOSI Tests
 // Kompanija SPAJA — Digitalna Industrija
 
 import {

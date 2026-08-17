@@ -1,4 +1,4 @@
-// SpajaUltraOmegaCore -∞Ω+∞ — KONVENKCIONALNI ODNOSI Engine
+// SpajaUltraOmegaCore -∞Ω+∞ — KONVENCIONALNI ODNOSI Engine
 // Kompanija SPAJA — Digitalna Industrija
 
 import type {
