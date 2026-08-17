@@ -34,6 +34,52 @@ GREAT SUMBION uvodi novi weighted score engine sa jasnim KPI granicama i validat
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/GREAT-SUMBION.md`
 
+## 🤝 KONVENCIONALNI ODNOSI
+
+KONVENCIONALNI ODNOSI uvodi determinističku procenu kvaliteta odnosa kroz poverenje, komunikaciju, poštovanje, reciprocitet, stabilnost i granice.
+
+- Modul: `src/lib/konvencionalni-odnosi/**`
+- API: `/api/konvencionalni-odnosi/evaluate`, `/api/konvencionalni-odnosi/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/KONVENCIONALNI-ODNOSI.md`
+
+## 🏋️ TRENAŽER
+
+TRENAŽER uvodi deterministički training-readiness engine za preporuku recovery, moderate i intensive sesija.
+
+- Modul: `src/lib/trenazer/**`
+- API: `/api/trenazer/evaluate`, `/api/trenazer/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/TRENAZER.md`
+
+## 🔗 MIRIKL — GitHub + Vercel Governance Track
+
+MIRIKL je governance/release inicijativa za povezivanje GitHub quality gate modela i Vercel runtime/deploy modela.
+
+- Scope: deploy/config/cross-repo governance (nije aplikacioni runtime modul)
+- Ownership: Platform Ops + Automation + Release Engineering
+- Tracking issue: `#920`
+- OKRID: `OKRID-2026-MIRIKL-001`
+- Specifikacija: `docs/MIRIKL.md`
+
+## 📐 EPRINCIP
+
+EPRINCIP uvodi determinističku procenu usklađenosti principa sa weighted scoring modelom i proverom obaveznih pragova.
+
+- Modul: `src/lib/eprincip/**`
+- API: `/api/eprincip/evaluate`, `/api/eprincip/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/EPRINCIP.md`
+
+## 🫚 ÐUMBIR
+
+ÐUMBIR uvodi determinističku procenu ginger wellness blend-a sa fiksnim `dumbir` slug-om i API-first v1 površinom.
+
+- Modul: `src/lib/dumbir/**`
+- API: `/api/dumbir/evaluate`, `/api/dumbir/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DUMBIR.md`
+
 ## 📝 Prompt Sistem — Svuda u ekosistemu
 
 Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:
@@ -104,6 +150,15 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | 💸 FinOps Governance Gate | `finops-governance-gate.yml` | PR sa izmenama automacije/config-a |
 | ▲ Vercel Deploy Hook | `vercel-deploy.yml` | Manual fallback (`workflow_dispatch`) |
 | 🚀 Deploy Platforma | `deploy-platforma.yml` | Push na `src/lib/deploy/**`, `src/app/deploy-platforma/**` + manual |
+
+### Deploy Platform Skeleton UI/UX (`/deploy-platforma`)
+
+- **Scope**: postojeća `/deploy-platforma` ruta je unapređena kao skeleton-first kontrolna površina (nije kreirana nova ruta).
+- **Primarni tokovi**: status (`GET /api/deploy-platforma/status`), trigger (`POST /api/deploy-platforma/trigger`), history (`GET /api/deploy-platforma/history/[platformId]`), health (`GET /api/deploy-platforma/health/[platformId]`).
+- **Production gate UX**: trigger modal eksplicitno zahteva `DEPLOY_PRODUCTION` potvrdu za production.
+- **Loading model**: page-level i section-level skeleton stanja za initial load, refresh, empty i error scenarije.
+- **Governance u UI-ju**: quality/security gate terminologija prati workflow (`TypeScript`, `Lint`, `Unit`, `Smoke`, `Predeploy`, `Security`).
+- **Audit feedback**: svaka akcija (refresh/status/trigger/history/health) ostavlja vidljiv lokalni audit trag u UI panelu.
 
 ### Cron Jobs (scheduler-agnostic)
 
@@ -448,6 +503,7 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Open-code contribution flow, XP expectations, and deploy review requirements |
 | [`docs/ROADMAP.md`](./docs/ROADMAP.md) | Release roadmap, readiness model, and KPI ownership |
 | [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
+| [`docs/MIRIKL.md`](./docs/MIRIKL.md) | MIRIKL GitHub ↔ Vercel governance scope, ownership, and release gates |
 | [`docs/OKRID.md`](./docs/OKRID.md) | Canonical OKRID scope, naming, lifecycle, and governance model |
 | [`docs/OKRID-REGISTRY.md`](./docs/OKRID-REGISTRY.md) | Active and archived OKRID source-of-truth registry |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |

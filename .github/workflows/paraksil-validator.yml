@@ -1,0 +1,47 @@
+name: PARAKSIL — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/paraksil/**'
+      - 'src/app/api/paraksil/**'
+      - 'src/tests/lib/paraksil.test.ts'
+      - 'src/tests/api/paraksil-route.test.ts'
+      - 'docs/PARAKSIL.md'
+      - '.github/workflows/paraksil-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/paraksil/**'
+      - 'src/app/api/paraksil/**'
+      - 'src/tests/lib/paraksil.test.ts'
+      - 'src/tests/api/paraksil-route.test.ts'
+      - 'docs/PARAKSIL.md'
+  workflow_dispatch:
+
+concurrency:
+  group: paraksil-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: paraksil
+      lint_paths: >-
+        src/lib/paraksil
+        src/app/api/paraksil
+      test_commands: |
+        npx tsx src/tests/lib/paraksil.test.ts
+        npx tsx src/tests/api/paraksil-route.test.ts
+      scan_paths: >-
+        src/lib/paraksil
+        src/app/api/paraksil
+      label: paraksil
+      perf_eval_ms: 50
+      perf_api_ms: 200

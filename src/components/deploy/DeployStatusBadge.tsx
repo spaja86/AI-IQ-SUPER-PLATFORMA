@@ -50,6 +50,9 @@ export default function DeployStatusBadge({ state, size = 'sm' }: DeployStatusBa
 
   return (
     <span
+      role="status"
+      aria-live="polite"
+      aria-label={`Deploy status: ${cfg.label}`}
       className={`inline-flex items-center rounded-full border font-medium ${cfg.classes} ${sizeClasses[size]}`}
     >
       {cfg.label}

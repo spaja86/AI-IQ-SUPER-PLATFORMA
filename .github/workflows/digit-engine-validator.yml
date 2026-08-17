@@ -1,0 +1,176 @@
+name: Digit Engine — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/digit-engine/**'
+      - 'src/app/api/digit-engine/**'
+      - 'src/tests/lib/digit-engine.test.ts'
+      - '.github/workflows/digit-engine-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/digit-engine/**'
+      - 'src/app/api/digit-engine/**'
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full Digit Engine validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  digit-engine-lint:
+    name: Digit Engine — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint Digit Engine modules
+        run: |
+          npm run lint -- \
+            src/lib/digit-engine/types.ts \
+            src/lib/digit-engine/registry.ts \
+            src/lib/digit-engine/index.ts \
+            src/lib/digit-engine/digit-0.ts \
+            src/lib/digit-engine/digit-1.ts \
+            src/lib/digit-engine/digit-2.ts \
+            src/lib/digit-engine/digit-3.ts \
+            src/lib/digit-engine/digit-4.ts \
+            src/lib/digit-engine/digit-5.ts \
+            src/lib/digit-engine/digit-6.ts \
+            src/lib/digit-engine/digit-7.ts \
+            src/lib/digit-engine/digit-8.ts \
+            src/lib/digit-engine/digit-9.ts
+
+  digit-engine-typecheck:
+    name: Digit Engine — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  digit-engine-tests:
+    name: Digit Engine — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [digit-engine-lint, digit-engine-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Digit Engine tests
+        run: npx tsx src/tests/lib/digit-engine.test.ts
+
+  digit-engine-security:
+    name: Digit Engine — Security Scan
+    runs-on: ubuntu-latest
+    needs: [digit-engine-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in Digit Engine modules
+        run: |
+          echo "Scanning Digit Engine modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/digit-engine/ \
+            src/app/api/digit-engine/ 2>/dev/null || \
+            (echo "::error::Potential secret found in Digit Engine modules" && exit 1)
+          echo "No secrets detected."
+
+  digit-engine-label:
+    name: Digit Engine — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [digit-engine-tests, digit-engine-security]
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const allPassed =
+              '${{ needs.digit-engine-tests.result }}' === 'success' &&
+              '${{ needs.digit-engine-security.result }}' === 'success';
+            const label = allPassed ? 'digit-engine:validated' : 'digit-engine:needs-review';
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: [label, 'digit-engine'],
+            });
+
+  digit-engine-status:
+    name: Digit Engine — Status Summary
+    runs-on: ubuntu-latest
+    needs: [digit-engine-lint, digit-engine-typecheck, digit-engine-tests, digit-engine-security]
+    if: always()
+    steps:
+      - name: Digit Engine validation summary
+        run: |
+          echo "========================================"
+          echo "Digit Engine Validation Summary"
+          echo "========================================"
+          echo "Lint:       ${{ needs.digit-engine-lint.result }}"
+          echo "TypeScript: ${{ needs.digit-engine-typecheck.result }}"
+          echo "Tests:      ${{ needs.digit-engine-tests.result }}"
+          echo "Security:   ${{ needs.digit-engine-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Single digit lookup:  ≤ 10ms"
+          echo "  Bulk registry list:   ≤ 50ms"
+          echo "  API response target:  ≤ 200ms"
+          echo "========================================"
+
+          if [ "${{ needs.digit-engine-lint.result }}" != "success" ] || \
+             [ "${{ needs.digit-engine-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.digit-engine-tests.result }}" != "success" ] || \
+             [ "${{ needs.digit-engine-security.result }}" != "success" ]; then
+            echo "❌ Digit Engine validation FAILED"
+            exit 1
+          else
+            echo "✅ Digit Engine validation PASSED"
+          fi

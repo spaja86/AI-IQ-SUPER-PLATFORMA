@@ -1,0 +1,48 @@
+name: ASTRONOMIK MONEY — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/astronomik-money/**'
+      - 'src/app/api/astronomik-money/**'
+      - 'src/components/astronomik-money/**'
+      - 'src/tests/lib/astronomik-money.test.ts'
+      - 'src/tests/api/astronomik-money-route.test.ts'
+      - '.github/workflows/astronomik-money-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/astronomik-money/**'
+      - 'src/app/api/astronomik-money/**'
+      - 'src/components/astronomik-money/**'
+      - 'src/tests/lib/astronomik-money.test.ts'
+      - 'src/tests/api/astronomik-money-route.test.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: astronomik-money-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: astronomik-money
+      lint_paths: >-
+        src/lib/astronomik-money
+        src/app/api/astronomik-money
+        src/components/astronomik-money
+      test_commands: |
+        npx tsx src/tests/lib/astronomik-money.test.ts
+        npx tsx src/tests/api/astronomik-money-route.test.ts
+      scan_paths: >-
+        src/lib/astronomik-money
+        src/app/api/astronomik-money
+      label: astronomik-money
+      perf_eval_ms: 50
+      perf_api_ms: 200

@@ -68,6 +68,7 @@ const spec: OpenApiSpec = {
     { name: 'World Bank', description: 'AI IQ World Bank contracts' },
     { name: 'Platforms', description: 'Platform integration contracts' },
     { name: 'Menjacnica', description: 'Currency exchange contracts' },
+    { name: 'EPRINCIP', description: 'Principle-alignment evaluation contracts' },
     { name: 'Common', description: 'Shared response schemas' },
   ],
   paths: {
@@ -90,6 +91,64 @@ const spec: OpenApiSpec = {
                   },
                   required: ['status', 'version', 'timestamp'],
                 },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/eprincip/evaluate': {
+      post: {
+        operationId: 'evaluateEPrincip',
+        summary: 'Evaluate weighted principle alignment',
+        tags: ['EPRINCIP'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/EPrincipRequest' },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'Evaluation completed successfully',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/EPrincipResponse' },
+              },
+            },
+          },
+          '422': {
+            description: 'Evaluation completed but required principles were not satisfied',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/EPrincipResponse' },
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid request payload',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ErrorContract' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/eprincip/health': {
+      get: {
+        operationId: 'getEPrincipHealth',
+        summary: 'Get EPRINCIP runtime health',
+        tags: ['EPRINCIP'],
+        responses: {
+          '200': {
+            description: 'Health report',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/EPrincipHealthResponse' },
               },
             },
           },
@@ -187,6 +246,56 @@ const schemaRegistry: Record<string, SchemaEntry> = {
       fields: { type: 'array', description: 'Fields to synchronize', items: { type: 'string' } },
     },
     required: ['platformId'],
+  },
+
+  // ── EPRINCIP ────────────────────────────────────────────────────────────────
+  EPrincipRequest: {
+    description: 'Request payload for deterministic principle-alignment evaluation',
+    type: 'object',
+    properties: {
+      referenceId: { type: 'string', description: 'Caller reference for the evaluation' },
+      minimumScore: { type: 'number', description: 'Minimum score required for required principles' },
+      principles: {
+        type: 'array',
+        description: 'Principles to evaluate',
+        items: { type: 'object' },
+      },
+    },
+    required: ['principles'],
+  },
+  EPrincipResponse: {
+    description: 'Successful EPRINCIP evaluation response envelope data',
+    type: 'object',
+    properties: {
+      referenceId: { type: 'string', description: 'Caller reference for the evaluation' },
+      overallScore: { type: 'number', description: 'Weighted overall score in the range 0..100' },
+      status: { type: 'string', description: 'Deterministic principle-alignment status' },
+      valid: { type: 'boolean', description: 'Whether required principles satisfied the minimum score' },
+      coveragePct: { type: 'number', description: 'Evidence coverage percentage' },
+      minimumScore: { type: 'number', description: 'Minimum score used during the evaluation' },
+      requiredSatisfied: { type: 'boolean', description: 'Whether all required principles met the threshold' },
+      durationMs: { type: 'number', description: 'Execution duration in milliseconds' },
+      warnings: { type: 'array', description: 'Non-fatal validation and coverage warnings', items: { type: 'string' } },
+      principles: { type: 'array', description: 'Per-principle evaluation results', items: { type: 'object' } },
+    },
+    required: ['referenceId', 'overallScore', 'status', 'valid', 'coveragePct', 'minimumScore', 'requiredSatisfied', 'durationMs', 'warnings', 'principles'],
+  },
+  EPrincipHealthResponse: {
+    description: 'Runtime health report for EPRINCIP',
+    type: 'object',
+    properties: {
+      personaId: { type: 'string', description: 'Persona identifier' },
+      contractVersion: { type: 'string', description: 'Contract version' },
+      moduleVersion: { type: 'string', description: 'Module version' },
+      evaluations: { type: 'integer', description: 'Number of evaluations since process start' },
+      lastScore: { type: 'number', description: 'Last computed score' },
+      lastStatus: { type: 'string', description: 'Last computed status' },
+      lastEvaluatedAt: { type: 'string', format: 'date-time', description: 'Last evaluation timestamp' },
+      performanceMaxMs: { type: 'integer', description: 'Target maximum engine latency in ms' },
+      apiResponseMaxMs: { type: 'integer', description: 'Target maximum API latency in ms' },
+      defaultMinimumScore: { type: 'integer', description: 'Default minimum score for required principles' },
+    },
+    required: ['personaId', 'contractVersion', 'moduleVersion', 'evaluations', 'lastScore', 'lastStatus', 'performanceMaxMs', 'apiResponseMaxMs', 'defaultMinimumScore'],
   },
 };
 

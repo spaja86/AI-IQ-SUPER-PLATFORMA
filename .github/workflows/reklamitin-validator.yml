@@ -1,0 +1,45 @@
+name: REKLAMITIN — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/reklamitin/**'
+      - 'src/app/api/reklamitin/**'
+      - 'src/tests/lib/reklamitin.test.ts'
+      - 'src/tests/api/reklamitin-route.test.ts'
+      - '.github/workflows/reklamitin-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/reklamitin/**'
+      - 'src/app/api/reklamitin/**'
+      - 'src/tests/lib/reklamitin.test.ts'
+      - 'src/tests/api/reklamitin-route.test.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: reklamitin-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: reklamitin
+      lint_paths: >-
+        src/lib/reklamitin
+        src/app/api/reklamitin
+      test_commands: |
+        npx tsx src/tests/lib/reklamitin.test.ts
+        npx tsx src/tests/api/reklamitin-route.test.ts
+      scan_paths: >-
+        src/lib/reklamitin
+        src/app/api/reklamitin
+      label: reklamitin
+      perf_eval_ms: 50
+      perf_api_ms: 200

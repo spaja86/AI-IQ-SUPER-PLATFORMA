@@ -12,13 +12,31 @@ import DeployCard from './DeployCard';
 interface DeployPlatformGridProps {
   statuses: PlatformDeployStatus[];
   historyMap: Record<string, DeployHistoryEntry[]>;
+  healthMap: Record<string, {
+    healthy: boolean | null;
+    message: string;
+    httpStatus: number | null;
+    responseTimeMs: number | null;
+    checkedAt: string;
+  }>;
+  loadingHistory: Record<string, boolean>;
+  loadingHealth: Record<string, boolean>;
   registry: DeployPlatformEntry[];
+  onHealthCheck: (platformId: string) => void;
+  onHistoryRefresh: (platformId: string) => void;
+  onAuditEvent?: (level: 'info' | 'success' | 'error', message: string) => void;
 }
 
 export default function DeployPlatformGrid({
   statuses,
   historyMap,
+  healthMap,
+  loadingHistory,
+  loadingHealth,
   registry,
+  onHealthCheck,
+  onHistoryRefresh,
+  onAuditEvent,
 }: DeployPlatformGridProps) {
   if (statuses.length === 0) {
     return (
@@ -40,6 +58,12 @@ export default function DeployPlatformGrid({
             status={status}
             history={historyMap[status.platformId] ?? []}
             manualTriggerEnabled={regEntry?.manualTriggerEnabled ?? false}
+            healthSnapshot={healthMap[status.platformId]}
+            loadingHistory={loadingHistory[status.platformId] ?? false}
+            loadingHealth={loadingHealth[status.platformId] ?? false}
+            onHealthCheck={onHealthCheck}
+            onHistoryRefresh={onHistoryRefresh}
+            onAuditEvent={onAuditEvent}
           />
         );
       })}

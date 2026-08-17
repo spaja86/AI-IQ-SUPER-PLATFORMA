@@ -79,6 +79,49 @@ All v3 routes respond with headers:
 - `X-Extrimli3-Contract-Version: v3`
 - `X-Extrimli3-Module-Version: 3.0.0`
 
+## EKSTREMNO processing surface (`/api/ekstremno-procesuiranje-svega`)
+
+### Goal
+- Provide a no-500 extreme processing snapshot that aggregates core platform signals into one scheduler and readiness payload.
+- Keep score interpretation stable over time with explicit domain weights and contract metadata.
+
+### Aggregated signal sources
+- `statistika`
+- `auto-repair.diagnostics`
+- `kompanija-spaja-operativa`
+- `autofinish-petlja.summary`
+- `autofinish-petlja.health`
+- `proksi-github-deploy`
+
+### KPI targets
+- `throughputPerMin >= 1200`
+- `latencyMsP95 <= 300`
+- `errorRatePct <= 2`
+- `queueDepth <= 80`
+
+### Degraded policy
+- Contract mode: `partial-payload-no-500`
+- Behavior: endpoint returns HTTP 200 with degraded metadata and audit signal instead of hard-failing the API.
+- Required metadata fields:
+  - `meta.degraded`
+  - `meta.degradedMode`
+  - `meta.degradedSources`
+  - `meta.auditSignal`
+  - `meta.signalSources`
+  - `meta.domainWeights`
+
+### Response headers
+- `X-Procesuiranje-Contract-Version`
+- `X-Procesuiranje-Model-Version`
+- `X-Procesuiranje-Source-Of-Truth`
+- `X-Procesuiranje-Mode`
+- `X-Procesuiranje-Degraded`
+- `X-Procesuiranje-Degraded-Mode`
+- `X-Procesuiranje-Degraded-Sources-Count`
+- `X-Procesuiranje-Audit-Signal`
+- `X-Procesuiranje-Queue-Depth`
+- `X-Procesuiranje-Fairness-Index`
+
 ## EXTRIMLI 3 risk input
 
 ```json
@@ -108,6 +151,7 @@ All v3 routes respond with headers:
 | `EXTRIMLI3_MODULE_VERSION` | `3.0.0` |
 | `EXTRIMLI3_PERSONA_ID` | `extrimli-core` |
 | Trigger labels | `extrimli:logic-change` |
+| EKSTREMNO trigger labels | `extrimli:logic-change`, `ekstremno:logic-change` |
 | Octave | 7 |
 | Hipermreza node | 56 |
 

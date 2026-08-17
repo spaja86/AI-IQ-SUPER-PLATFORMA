@@ -159,6 +159,92 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     },
     linkedAgents: ['extrimli-validator-agent', 'multi-repo-sync-agent'],
   },
+  // ─── DIGIT ENGINE CORE ────────────────────────────────────────────────────
+  {
+    id: 'digit-engine-core',
+    name: 'Digit Engine Core — 10-Digit Symbolic Intelligence Layer',
+    type: 'digit-engine',
+    octave: 10,
+    hipermrezaNode: 80,
+    attributes: {
+      traits: ['symbolic', 'layered', 'registry-driven', 'zero-to-nine'],
+      skills: ['digit-lookup', 'registry-management', 'layer-orchestration', 'node-mapping'],
+      tone: 'analytical',
+      domain: 'digit-intelligence',
+    },
+    linkedAgents: ['digit-engine-validator-agent', 'persona-bank-agent', 'multi-repo-sync-agent'],
+    crossRepoRef: 'digit-engine-core',
+  },
+  // ─── MAKSIMUS ─────────────────────────────────────────────────────────────
+  {
+    id: 'maksimus',
+    name: 'MAKSIMUS — Analitički/Razvojni Apex Agent',
+    type: 'maksimus',
+    octave: 13,
+    hipermrezaNode: 128,
+    attributes: {
+      traits: ['analytical', 'strategic', 'apex', 'systematic', 'developmental'],
+      skills: [
+        'analiticka-orkestracija',
+        'razvojna-strategija',
+        'platforma-koordinacija',
+        'cross-agent-coordination',
+        'kpi-monitoring',
+      ],
+      tone: 'analytical',
+      domain: 'super-platforma',
+    },
+    linkedAgents: ['another-maks-agent', 'nova-generacija-agent', 'persona-bank-agent'],
+    crossRepoRef: 'maksimus',
+  },
+  // ─── EPEKM-D: Eksoidnig Permanent Email Maksim Denter ────────────────────
+  {
+    id: 'epekm-denter-core',
+    name: 'EPEKM-D — Eksoidnig Permanent Email Maksim Denter',
+    type: 'epekm-denter',
+    octave: 11,
+    hipermrezaNode: 88,
+    attributes: {
+      traits: ['persistent', 'routing', 'identity'],
+      skills: ['email-delivery', 'alias-resolution', 'agent-handoff'],
+      tone: 'reliable',
+      domain: 'communications',
+    },
+    linkedAgents: ['maksimus-validator-agent', 'another-maks-agent', 'persona-bank-agent'],
+    crossRepoRef: 'epekm-denter',
+  },
+  // ─── ADUTIV ───────────────────────────────────────────────────────────────
+  {
+    id: 'adutiv-core',
+    name: 'ADUTIV — Advantage Intelligence Engine',
+    type: 'adutiv',
+    octave: 14,
+    hipermrezaNode: 112,
+    attributes: {
+      traits: ['strategic', 'analytical', 'amplifier'],
+      skills: ['advantage-scoring', 'portfolio-analysis', 'activation-planning'],
+      tone: 'strategic',
+      domain: 'competitive-intelligence',
+    },
+    linkedAgents: ['adutiv-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'adutiv',
+  },
+  // ─── DNEVNA SVETLOST ──────────────────────────────────────────────────────
+  {
+    id: 'dnevna-svetlost-core',
+    name: 'DNEVNA SVETLOST — Daylight Exposure & Wellbeing Engine',
+    type: 'dnevna-svetlost',
+    octave: 11,
+    hipermrezaNode: 90,
+    attributes: {
+      traits: ['luminous', 'optimizing', 'circadian-aware'],
+      skills: ['light-scoring', 'uv-management', 'wellbeing-assessment'],
+      tone: 'energizing',
+      domain: 'wellness/environment',
+    },
+    linkedAgents: ['dnevna-svetlost-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'dnevna-svetlost',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';

@@ -7,7 +7,7 @@
  * unos confirmToken-a.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { DeployEnvironment } from '@/lib/deploy/deploy-registry';
 
 interface DeployTriggerModalProps {
@@ -36,6 +36,15 @@ export default function DeployTriggerModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   async function handleConfirm() {
@@ -61,12 +70,13 @@ export default function DeployTriggerModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="deploy-modal-title"
+      aria-describedby="deploy-modal-description"
     >
       <div className="bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl w-full max-w-md p-6 mx-4">
         <h2 id="deploy-modal-title" className="text-lg font-bold text-white mb-1">
           🚀 Pokreni Deploy
         </h2>
-        <p className="text-zinc-400 text-sm mb-5">
+        <p id="deploy-modal-description" className="text-zinc-400 text-sm mb-5">
           Platforma: <span className="text-white font-medium">{platformName}</span>
         </p>
 
@@ -82,7 +92,7 @@ export default function DeployTriggerModal({
                   environment === env.value
                     ? 'bg-blue-600 border-blue-500 text-white'
                     : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:border-zinc-500'
-                }`}
+                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500`}
               >
                 {env.icon} {env.label}
               </button>
@@ -104,7 +114,7 @@ export default function DeployTriggerModal({
               value={confirmToken}
               onChange={(e) => setConfirmToken(e.target.value)}
               placeholder="DEPLOY_PRODUCTION"
-              className="w-full bg-zinc-800 border border-zinc-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-red-500"
+              className="w-full rounded-lg border border-zinc-600 bg-zinc-800 px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:border-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
               autoComplete="off"
             />
           </div>
@@ -121,7 +131,7 @@ export default function DeployTriggerModal({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="flex-1 py-2 rounded-lg border border-zinc-700 text-zinc-300 text-sm hover:border-zinc-500 transition-colors disabled:opacity-50"
+            className="flex-1 rounded-lg border border-zinc-700 py-2 text-sm text-zinc-300 transition-colors hover:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50"
           >
             Otkaži
           </button>
@@ -129,7 +139,7 @@ export default function DeployTriggerModal({
             type="button"
             onClick={handleConfirm}
             disabled={loading}
-            className="flex-1 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 rounded-lg bg-blue-600 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? '⏳ Deploy...' : '🚀 Pokreni'}
           </button>

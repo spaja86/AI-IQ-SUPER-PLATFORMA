@@ -8,6 +8,7 @@ Ovaj dokument je centralni referentni registar svih platformi u ekosistemu, njih
 
 - [DIREKŠN-DEPLOY-SPAJA.md](./DIREKŠN-DEPLOY-SPAJA.md) — **kanonski operativni vodič — 12-fazna deploy sekvenca (DIREKŠN)**
 - [MAKSIMUM-ALL-PLATFORMA-DEPLOY.md](./MAKSIMUM-ALL-PLATFORMA-DEPLOY.md) — **master deploy tracking checklist (sve 12 faza)**
+- [EKSLUZIV-NETWORK.md](./EKSLUZIV-NETWORK.md) — **domain-scoped deploy governance track sa zatvorenim rollout prstenovima**
 - [DEPLOYMENT-POWER-RESOLUTION.md](./DEPLOYMENT-POWER-RESOLUTION.md) — workload split, runtime model, reliability controls
 - [GO-LIVE.md](./GO-LIVE.md) — pre-launch checklist, gap report, Go/No-Go dokument
 - [GOLIVE_CHECKLIST.md](./GOLIVE_CHECKLIST.md) — operativna checklista za svaki deploy

@@ -2,6 +2,15 @@ import type { NextConfig } from 'next';
 import { withBotId } from 'botid/next/config';
 
 const nextConfig: NextConfig = {
+  // Reduce serverless bundle size — exclude heavy node_modules from tracing
+  outputFileTracingExcludes: {
+    '*': [
+      './node_modules/@swc/**',
+      './node_modules/typescript/**',
+      './node_modules/eslint/**',
+      './node_modules/@typescript-eslint/**',
+    ],
+  },
   headers: async () => [
     {
       source: '/(.*)',

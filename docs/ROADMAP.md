@@ -95,6 +95,19 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 - Keep rollout staged: 20% canary → 50% staged → 100% production after KPI stability.
 - Enforce validator workflow gates and keep docs/config/audit links synchronized.
 
+### Phase 6.5 — TRENAŽER activation
+
+- Ship `trenazer` module as a deterministic training-readiness engine with explicit intensity and duration recommendations.
+- Keep v1 repo-local and CI-gated; defer history, wearable ingestion, and workout catalogs to follow-up phases.
+- Enforce validator workflow gates and keep docs/config/audit links synchronized.
+
+### Phase 6.75 — EKSLUZIV NETWORK deploy governance
+
+- Treat EKSLUZIV NETWORK as a domain-scoped rollout initiative over existing Deploy Platforma, MIRIKL, and multi-repo surfaces.
+- Keep Vercel Git integration as the primary deploy path and `vercel-deploy.yml` as fallback only.
+- Promote each domain independently through canary → staging → production, with separate exit criteria for core platform, Nova Generacija, Mekartor, linked-repo sync, and audit surfaces.
+- Require OKRID-linked rollout, rollback, KPI impact, and cross-repo impact evidence before final activation.
+
 ## Route and API readiness model
 
 | Classification | Meaning | Current examples |
@@ -113,6 +126,9 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | `deploy-bot` | Planned fallback | `.github/workflows/vercel-deploy.yml` |
 | `multi-repo-sync-agent` | Config-driven coordination | `docs/MULTI-REPO-LINKS.md`, `.agent-config.json` |
 | `analytics-bot` | KPI/reporting source of truth | `.agent-config.json`, `docs/finops-enterprise-operating-model.md` |
+| `trenazer-validator-agent` | Repo-local training-readiness validation | `.github/workflows/trenazer-validator.yml`, `docs/TRENAZER.md` |
+| `mirikl-validator-agent` | GitHub ↔ Vercel governance/release-gate validation | `.github/workflows/mirikl-validator.yml`, `docs/MIRIKL.md` |
+| `eksluziv-network` | Domain-scoped deploy governance and segmented rollout track | `docs/EKSLUZIV-NETWORK.md`, `.github/workflows/deploy-platforma.yml`, `.github/workflows/vercel-deploy.yml` |
 | `okrid-governance` | Weekly OKRID compliance and blocker reporting | `.github/workflows/okrid-weekly-review.yml`, `docs/OKRID.md` |
 | `calculator-validator-agent` | Linked-repo scoped | `spaja86/IO-OPENUI-AO` coordination only |
 

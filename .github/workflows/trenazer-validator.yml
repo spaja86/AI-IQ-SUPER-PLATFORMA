@@ -1,0 +1,50 @@
+name: TRENAZER — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/trenazer/**'
+      - 'src/app/api/trenazer/**'
+      - 'src/components/trenazer/**'
+      - 'src/tests/lib/trenazer.test.ts'
+      - 'src/tests/api/trenazer-route.test.ts'
+      - 'docs/TRENAZER.md'
+      - '.github/workflows/trenazer-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/trenazer/**'
+      - 'src/app/api/trenazer/**'
+      - 'src/components/trenazer/**'
+      - 'src/tests/lib/trenazer.test.ts'
+      - 'src/tests/api/trenazer-route.test.ts'
+      - 'docs/TRENAZER.md'
+  workflow_dispatch:
+
+concurrency:
+  group: trenazer-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: trenazer
+      lint_paths: >-
+        src/lib/trenazer
+        src/app/api/trenazer
+        src/components/trenazer
+      test_commands: |
+        npx tsx src/tests/lib/trenazer.test.ts
+        npx tsx src/tests/api/trenazer-route.test.ts
+      scan_paths: >-
+        src/lib/trenazer
+        src/app/api/trenazer
+      label: trenazer
+      perf_eval_ms: 50
+      perf_api_ms: 200
