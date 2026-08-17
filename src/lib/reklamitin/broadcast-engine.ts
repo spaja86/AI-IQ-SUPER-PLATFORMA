@@ -2,8 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { BroadcastResult, BroadcastTarget, RadicalLevel } from './types';
-import { REKLAMITIN_BROADCAST_DISPATCH_MAX_MS } from './types';
-import { LEVEL_CONFIGS, TARGET_REACH_BASE } from './registry';
+import { TARGET_REACH_BASE } from './registry';
 
 export const SUPPORTED_TARGETS: BroadcastTarget[] = [
   'WEB',
@@ -32,19 +31,14 @@ export function dispatchBroadcast(
 ): BroadcastResult {
   const start = performance.now();
 
-  const levelConfig = LEVEL_CONFIGS[level];
+  void level; // level-specific zero-cap enforcement is handled in reklamitin-engine
+
   const baseReach = TARGET_REACH_BASE[target];
   const rawReach = baseReach * reachMultiplier * audienceMultiplier;
   const reachScore = Math.round(Math.min(1000, Math.max(0, rawReach)));
   const dispatched = reachScore > 0;
 
   const dispatchMs = Math.round((performance.now() - start) * 1000) / 1000;
-
-  if (dispatchMs > REKLAMITIN_BROADCAST_DISPATCH_MAX_MS) {
-    // Soft warning — still dispatched, tracked via dispatchMs
-  }
-
-  void levelConfig; // config used for RADICAL zero-cap enforcement in reklamitin-engine
 
   return {
     target,

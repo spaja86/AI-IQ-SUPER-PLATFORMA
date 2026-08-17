@@ -138,6 +138,17 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
+  await test('POST /api/reklamitin/evaluate returns 400 for invalid level', async () => {
+    const response = await POST(makeEvaluateRequest({
+      level: 'MEGA',
+      broadcastTargets: ['WEB'],
+      audienceSegment: 'GENERAL',
+      durationSeconds: 30,
+      budgetScore: 100,
+    }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
   await test('POST /api/reklamitin/evaluate returns 400 for missing audienceSegment', async () => {
     const response = await POST(makeEvaluateRequest({
       level: 'STANDARD',
