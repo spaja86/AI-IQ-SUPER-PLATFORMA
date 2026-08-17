@@ -865,6 +865,38 @@
       },
       "contractVersion": "v1",
       "testSuite": "src/tests/lib/adutiv.test.ts"
+    },
+    "reklamitin-validator-agent": {
+      "enabled": true,
+      "scope": [
+        "src/lib/reklamitin/**",
+        "src/app/api/reklamitin/**"
+      ],
+      "trigger": [
+        "pull_request",
+        "push"
+      ],
+      "labels": {
+        "validated": "reklamitin:validated",
+        "needsReview": "reklamitin:needs-review",
+        "logicChange": "reklamitin:logic-change"
+      },
+      "performanceThresholds": {
+        "evalMs": 50,
+        "apiResponseMs": 200,
+        "broadcastDispatchMs": 100
+      },
+      "testCommands": [
+        "npx tsx src/tests/lib/reklamitin.test.ts",
+        "npx tsx src/tests/api/reklamitin-route.test.ts"
+      ],
+      "persona": "reklamitin-core",
+      "octave": 9,
+      "hipermrezaNode": 72,
+      "okrid": "OKRID-2026-REKLAMITIN-14856",
+      "note": 14856,
+      "workflowFile": ".github/workflows/reklamitin-validator.yml",
+      "linkedRepoSync": "spaja86/IO-OPENUI-AO"
     }
   },
   "orgSettings": {

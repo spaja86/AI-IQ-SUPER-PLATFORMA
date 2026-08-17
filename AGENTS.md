@@ -445,6 +445,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
 | astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
+| reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -923,6 +924,24 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `dnevna-svetlost-core` (octave: 11, hipermreza node: 90)
   - **Complementary pair**: MRKLI MRAK (octave: 11, hipermreza node: 89) — together they cover the full ambient-light spectrum
+### reklamitin-validator-agent (NEW)
+- **Role**: Validate REKLAMITIN logic — radical-level reproduction advertising, broadcast engine, reach calculation, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/reklamitin/**`, `src/app/api/reklamitin/**`
+- **Trigger**: PR with label `reklamitin:logic-change`, push touching `reklamitin` paths
+- **Actions**:
+  - Runs unit test suite for REKLAMITIN logic (types, registry, level-engine, broadcast-engine, reach-engine, reklamitin-engine)
+  - Verifies all 4 radical levels (STANDARD, ELEVATED, AGGRESSIVE, RADICAL) and escalation logic
+  - Validates RADICAL level: zeroCap = true, frequencyCapHz = 0, intensityScore = 1000
+  - Verifies edge cases (NaN, Infinity, negative budgetScore/durationSeconds, empty broadcastTargets, invalid audienceSegment)
+  - Validates disclaimer always present in every response ("Reklamitin rezultati su automatski generisani.")
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms, broadcast dispatch ≤ 100ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `reklamitin:validated` or `reklamitin:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `reklamitin-core` (octave: 9, hipermreza node: 72)
+  - **OKRID**: `OKRID-2026-REKLAMITIN-14856`
+  - **Note**: 14856
+  - **Multi-repo sync**: Syncs reproduction-ad catalog snapshots to `spaja86/IO-OPENUI-AO`
 
 ## Rules
 
@@ -989,6 +1008,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
 | astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
+| reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
