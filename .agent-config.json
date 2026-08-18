@@ -476,14 +476,15 @@
       },
       "testSuite": "src/tests/lib/extrimli.test.ts",
       "routeTestSuite": "src/tests/api/extrimli-route.test.ts",
-      "scope": "src/lib/extrimli/**,src/lib/extrimli-3/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/components/extrimli/**",
+      "scope": "src/lib/extrimli/**,src/lib/extrimli/instrukcija.ts,src/lib/extrimli/export-bundle.ts,src/lib/extrimli-3/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/components/extrimli/**",
       "linkedRepos": [
         "spaja86/IO-OPENUI-AO"
       ],
       "multiRepoSync": {
         "snapshots": [
           "gear-catalog",
-          "destrukcija-asset-catalog"
+          "destrukcija-asset-catalog",
+          "instrukcija-registry"
         ],
         "target": "spaja86/IO-OPENUI-AO"
       }

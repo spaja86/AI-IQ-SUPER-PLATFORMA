@@ -244,6 +244,34 @@ export interface ExtrimliHealthReport {
   apiResponseMaxMs: number;
 }
 
+// ─── Instrukcija ─────────────────────────────────────────────────────────────
+
+export interface InstrukcijaEntry {
+  id: string;
+  naziv: string;
+  opis: string;
+  inputType: string;
+  outputType: string;
+  endpointPath: string;
+  methods: string[];
+  primerInput: unknown;
+  primerOutput: unknown;
+  edgeCases: string[];
+}
+
+// ─── Export Bundle ────────────────────────────────────────────────────────────
+
+export interface ExtrimliExportBundle {
+  bundleVersion: string;
+  contractVersion: string;
+  moduleVersion: string;
+  personaId: string;
+  generatedAt: string;
+  sportRegistry: Sport[];
+  gearListing: GearItem[];
+  instrukcije: Omit<InstrukcijaEntry, 'primerInput' | 'primerOutput'>[];
+}
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 export const EXTRIMLI_CONTRACT_VERSION = 'v1';

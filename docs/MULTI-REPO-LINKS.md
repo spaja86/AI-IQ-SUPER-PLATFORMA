@@ -1111,3 +1111,32 @@ AI-IQ-SUPER-PLATFORMA#astronomik-money -> IO-OPENUI-AO#<optional follow-up issue
 ```
 AI-IQ-SUPER-PLATFORMA#reklamitin -> IO-OPENUI-AO#<optional follow-up issue>
 ```
+
+## EXTRIMLI — Instrukcija Za Sve (Export Plan)
+
+| Field | Value |
+|---|---|
+| Date | 2026-08-18 |
+| Owner | @spaja86 |
+| Scope | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/**` |
+| Persona | `extrimli-core` (octave: 7, hipermreza node: 56) |
+| Validator | `extrimli-validator-agent` |
+| Endpoint | `GET /api/extrimli/instrukcija` — all modules; `GET /api/extrimli/instrukcija?module=<id>` — single |
+| Export Bundle | `buildExtrimliExportBundle()` — sport registry + gear listing + instrukcija metadata |
+| Bundle Version | `v1` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI instrukcija za sve export layer | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync instrukcija registry snapshots and export bundle if linked repo adopts the contract |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Consume `GET /api/extrimli/instrukcija` for developer docs auto-generation
+- Import `buildExtrimliExportBundle()` snapshot for catalog sync
+- Extend `multiRepoSync.snapshots` with `instrukcija-registry` when downstream adoption starts
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#extrimli-instrukcija-za-sve -> IO-OPENUI-AO#<optional follow-up issue>
+```
