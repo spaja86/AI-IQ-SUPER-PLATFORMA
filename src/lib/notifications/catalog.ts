@@ -1,0 +1,251 @@
+import type {
+  NotificationAlertRule,
+  NotificationArchitectureLayer,
+  NotificationInventoryEntry,
+  NotificationTemplateDefinition,
+} from './domain';
+
+export const NOTIFICATION_SOURCE_OF_TRUTH = '/src/lib/notifications';
+
+export const NOTIFICATION_ARCHITECTURE_LAYERS: NotificationArchitectureLayer[] = [
+  {
+    id: 'domain',
+    naziv: 'Notification Domain',
+    purpose: 'Jedinstveni tipovi, statusi, kanali, preference i compliance pravila.',
+    sourceFiles: ['/src/lib/notifications/domain.ts'],
+  },
+  {
+    id: 'orchestration',
+    naziv: 'Notification Service',
+    purpose: 'Centralna orkestracija slanja, fallback, retry i persistence politike.',
+    sourceFiles: ['/src/lib/notifications/service.ts'],
+  },
+  {
+    id: 'producers',
+    naziv: 'Notification Producers',
+    purpose: 'Feature moduli emituju zahteve bez znanja o delivery detaljima.',
+    sourceFiles: [
+      '/src/app/api/stripe/webhook/route.ts',
+      '/src/lib/stripe/billing-notifications.ts',
+      '/src/depon/depon-05-notifications.ts',
+    ],
+  },
+  {
+    id: 'persistence',
+    naziv: 'Notification Persistence',
+    purpose: 'Centralni zapis u user_notifications sa proširenom metadata strukturom.',
+    sourceFiles: ['/src/lib/notifications/service.ts', '/src/lib/supabase/types.ts'],
+  },
+  {
+    id: 'read-model',
+    naziv: 'Notification Read Model',
+    purpose: 'Pregled arhitekture, istorije tokova, health-a i preference API površine.',
+    sourceFiles: [
+      '/src/app/api/notifications/route.ts',
+      '/src/app/api/notifications/history/route.ts',
+      '/src/app/api/notifications/preferences/route.ts',
+      '/src/app/api/notifications/health/route.ts',
+      '/src/app/api/openai-platforma-notifikacije/route.ts',
+    ],
+  },
+];
+
+export const NOTIFICATION_TEMPLATES: NotificationTemplateDefinition[] = [
+  {
+    id: 'billing.subscription-activated.v1',
+    action: 'subscription.activated',
+    category: 'billing',
+    version: 'v1',
+    description: 'Aktivacija pretplate nakon uspešnog checkout-a.',
+    subject: 'Pretplata aktivirana',
+    body: 'Vaša pretplata {{planId}} je uspešno aktivirana.',
+    variables: ['planId'],
+    defaultChannels: ['email', 'in-app'],
+    priority: 'normal',
+  },
+  {
+    id: 'billing.subscription-updated.v1',
+    action: 'subscription.updated',
+    category: 'billing',
+    version: 'v1',
+    description: 'Promena statusa ili plana pretplate.',
+    subject: 'Pretplata ažurirana',
+    body: 'Status pretplate je promenjen na {{newStatus}}.',
+    variables: ['newStatus'],
+    defaultChannels: ['email', 'in-app'],
+    priority: 'normal',
+  },
+  {
+    id: 'billing.subscription-canceled.v1',
+    action: 'subscription.canceled',
+    category: 'billing',
+    version: 'v1',
+    description: 'Otkazivanje aktivne pretplate.',
+    subject: 'Pretplata otkazana',
+    body: 'Vaša pretplata je otkazana i biće deaktivirana po isteku perioda.',
+    variables: [],
+    defaultChannels: ['email', 'in-app'],
+    priority: 'high',
+  },
+  {
+    id: 'billing.payment-failed.v1',
+    action: 'payment.failed',
+    category: 'billing',
+    version: 'v1',
+    description: 'Neuspela naplata ili renew pokušaj.',
+    subject: 'Plaćanje nije uspelo',
+    body: 'Naplata nije uspela. Broj neuspelih pokušaja: {{failureCount}}.',
+    variables: ['failureCount', 'softLocked'],
+    defaultChannels: ['email', 'in-app', 'push'],
+    priority: 'critical',
+  },
+  {
+    id: 'billing.past-due.v1',
+    action: 'billing.past_due',
+    category: 'billing',
+    version: 'v1',
+    description: 'Podsetnik da je pretplata dospela.',
+    subject: 'Vaša pretplata je istekla — action required',
+    body: 'Naplata vaše SPAJA pretplate nije uspela. Molimo vas ažurirajte podatke o plaćanju.',
+    variables: [],
+    defaultChannels: ['email', 'in-app'],
+    priority: 'critical',
+  },
+  {
+    id: 'billing.trial-ending.v1',
+    action: 'billing.trial_ending',
+    category: 'billing',
+    version: 'v1',
+    description: 'Podsetnik da probni period uskoro ističe.',
+    subject: 'Vaš probni period uskoro ističe',
+    body: 'Podsećamo vas da vaš SPAJA probni period ističe za {{daysLeft}} dana.',
+    variables: ['daysLeft'],
+    defaultChannels: ['email', 'in-app'],
+    priority: 'normal',
+  },
+  {
+    id: 'billing.payment-succeeded.v1',
+    action: 'billing.payment_succeeded',
+    category: 'billing',
+    version: 'v1',
+    description: 'Potvrda uspešnog plaćanja.',
+    subject: 'Plaćanje uspešno — pretplata aktivna',
+    body: 'Vaša SPAJA pretplata ({{planName}}) je uspešno obnovljena.',
+    variables: ['planName'],
+    defaultChannels: ['email', 'in-app'],
+    priority: 'normal',
+  },
+  {
+    id: 'alert.monitoring-triggered.v1',
+    action: 'alert.triggered',
+    category: 'alert',
+    version: 'v1',
+    description: 'Operativni alert za monitoring ili incident response.',
+    subject: 'Operativni alert aktiviran',
+    body: 'Prag za {{metric}} je probijen. Trenutna vrednost: {{value}}.',
+    variables: ['metric', 'value'],
+    defaultChannels: ['in-app', 'webhook'],
+    priority: 'critical',
+  },
+];
+
+export const NOTIFICATION_ALERT_RULES: NotificationAlertRule[] = [
+  {
+    id: 'notif-alert-payment-failure-rate',
+    naziv: 'Payment failure spike',
+    category: 'alert',
+    severity: 'critical',
+    metric: 'billing.payment_failure_rate',
+    threshold: '> 5% / 15min',
+    channels: ['in-app', 'webhook'],
+    escalation: true,
+  },
+  {
+    id: 'notif-alert-delivery-latency',
+    naziv: 'Delivery latency regression',
+    category: 'alert',
+    severity: 'high',
+    metric: 'notifications.delivery_latency_ms',
+    threshold: '> 500ms p95',
+    channels: ['in-app', 'webhook'],
+    escalation: true,
+  },
+  {
+    id: 'notif-alert-channel-bounce',
+    naziv: 'Email bounce drift',
+    category: 'alert',
+    severity: 'normal',
+    metric: 'notifications.email_bounce_rate',
+    threshold: '> 1.5% / 24h',
+    channels: ['in-app'],
+    escalation: false,
+  },
+];
+
+export const NOTIFICATION_INVENTORY: NotificationInventoryEntry[] = [
+  {
+    id: 'flow-depon-05-domain',
+    producer: 'DEPON-05 Notification Service',
+    category: 'system',
+    description: 'Centralni domen za kanale, preference i state compliance pravila.',
+    sourceFiles: ['/src/depon/depon-05-notifications.ts', '/src/lib/notifications/domain.ts'],
+    routes: [],
+    channels: ['email', 'sms', 'push', 'in-app', 'webhook'],
+    persistence: 'user_notifications.metadata',
+    sourceOfTruth: NOTIFICATION_SOURCE_OF_TRUTH,
+  },
+  {
+    id: 'flow-billing-shared-service',
+    producer: 'Stripe Billing Notifications',
+    category: 'billing',
+    description: 'Billing lifecycle poruke centralizovane preko notification service sloja.',
+    sourceFiles: ['/src/lib/stripe/billing-notifications.ts', '/src/lib/notifications/service.ts'],
+    routes: ['/api/stripe/webhook'],
+    channels: ['email', 'in-app', 'push'],
+    persistence: 'user_notifications.metadata',
+    sourceOfTruth: NOTIFICATION_SOURCE_OF_TRUTH,
+  },
+  {
+    id: 'flow-stripe-webhook-events',
+    producer: 'Stripe Webhook Producer',
+    category: 'billing',
+    description: 'Stripe webhook emituje notification zahteve bez direktnog upisa u tabelu.',
+    sourceFiles: ['/src/app/api/stripe/webhook/route.ts'],
+    routes: ['/api/stripe/webhook'],
+    channels: ['email', 'in-app', 'push'],
+    persistence: 'user_notifications.metadata',
+    sourceOfTruth: NOTIFICATION_SOURCE_OF_TRUTH,
+  },
+  {
+    id: 'flow-notification-read-model',
+    producer: 'Notification Read Model',
+    category: 'system',
+    description: 'Read-only pregled arhitekture, health-a, istorije tokova i preference API-ja.',
+    sourceFiles: [
+      '/src/app/api/notifications/route.ts',
+      '/src/app/api/notifications/history/route.ts',
+      '/src/app/api/notifications/preferences/route.ts',
+      '/src/app/api/notifications/health/route.ts',
+      '/src/app/api/openai-platforma-notifikacije/route.ts',
+    ],
+    routes: [
+      '/api/notifications',
+      '/api/notifications/history',
+      '/api/notifications/preferences',
+      '/api/notifications/health',
+      '/api/openai-platforma-notifikacije',
+    ],
+    channels: ['in-app', 'webhook'],
+    persistence: 'runtime read-model',
+    sourceOfTruth: NOTIFICATION_SOURCE_OF_TRUTH,
+  },
+];
+
+export function getNotificationTemplateByAction(action: string): NotificationTemplateDefinition | undefined {
+  return NOTIFICATION_TEMPLATES.find((template) => template.action === action);
+}
+
+export function getNotificationTemplateById(id: string): NotificationTemplateDefinition | undefined {
+  return NOTIFICATION_TEMPLATES.find((template) => template.id === id);
+}
+
