@@ -5,14 +5,23 @@ import type { ExtrimliHealthReport } from './types';
 import {
   EXTRIMLI_API_RESPONSE_MAX_MS,
   EXTRIMLI_CONTRACT_VERSION,
+  EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION,
+  EXTRIMLI_DESTRUKCIJA_MODULE_VERSION,
   EXTRIMLI_MODULE_VERSION,
   EXTRIMLI_PERFORMANCE_MAX_MS,
   EXTRIMLI_PERSONA_ID,
 } from './types';
 import { getRiskMetrics } from './risk-engine';
+import { getDestructionMetrics } from './destruction-engine';
 
 export function getExtrimliHealthReport(): ExtrimliHealthReport {
   const { riskEvaluations, lastRiskScore, lastRiskLevel } = getRiskMetrics();
+  const {
+    destructionEvaluations,
+    previewEvaluations,
+    lastSeverityScore,
+    lastSeverityLevel,
+  } = getDestructionMetrics();
   return {
     personaId:          EXTRIMLI_PERSONA_ID,
     contractVersion:    EXTRIMLI_CONTRACT_VERSION,
@@ -20,6 +29,10 @@ export function getExtrimliHealthReport(): ExtrimliHealthReport {
     riskEvaluations,
     lastRiskScore,
     lastRiskLevel,
+    destructionEvaluations,
+    previewEvaluations,
+    lastDestructionSeverityScore: lastSeverityScore,
+    lastDestructionSeverityLevel: lastSeverityLevel,
     performanceMaxMs:   EXTRIMLI_PERFORMANCE_MAX_MS,
     apiResponseMaxMs:   EXTRIMLI_API_RESPONSE_MAX_MS,
   };
@@ -30,6 +43,22 @@ export function getExtrimliHealthReport(): ExtrimliHealthReport {
 export { SPORT_REGISTRY, getSportById, getSportsByCategory, getSportsByRiskClass } from './registry';
 
 export { calculateRisk, getRiskMetrics, _resetRiskMetrics } from './risk-engine';
+
+export {
+  DESTRUCTIBLE_ASSET_REGISTRY,
+  DIMENSION_PHYSICS_PROFILES,
+  getDestructibleAssetById,
+  getDimensionPhysicsProfile,
+  listDestructibleAssets,
+} from './destruction-registry';
+
+export {
+  evaluateDestruction,
+  previewDestruction,
+  getDestructionMetrics,
+  getExtrimliDestructionHealthReport,
+  _resetDestructionMetrics,
+} from './destruction-engine';
 
 export {
   logSession,
@@ -78,11 +107,23 @@ export type {
   EventStatus,
   RawWeatherData,
   WeatherRiskFactors,
+  DimensionBand,
+  DimensionPhysicsProfile,
+  DestructibleAsset,
+  DestructibleAssetType,
+  DestructibleMaterial,
+  DestructionInput,
+  DestructionPreview,
+  DestructionResult,
+  DestructionSeverityLevel,
+  ExtrimliDestructionHealthReport,
   ExtrimliHealthReport,
 } from './types';
 
 export {
   EXTRIMLI_CONTRACT_VERSION,
+  EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION,
+  EXTRIMLI_DESTRUKCIJA_MODULE_VERSION,
   EXTRIMLI_MODULE_VERSION,
   EXTRIMLI_PERSONA_ID,
   EXTRIMLI_PERFORMANCE_MAX_MS,

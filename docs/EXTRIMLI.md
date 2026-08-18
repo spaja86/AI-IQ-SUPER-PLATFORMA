@@ -25,6 +25,7 @@ This repository now exposes two aligned surfaces:
 
 - Sport registry
 - Composite risk engine
+- DESTRUKCIJA asset registry and destruction scoring
 - Athlete performance tracker
 - Gear catalog
 - Event lifecycle and registration
@@ -53,10 +54,46 @@ This repository now exposes two aligned surfaces:
 | KPI | Target |
 |---|---|
 | Risk evaluation | ≤ 50ms |
+| DESTRUKCIJA evaluation | ≤ 50ms |
 | API response | ≤ 200ms |
 | Weather-sensitive sport without weather payload | Invalid |
+| Unsupported destruction asset / dimension pair | Invalid |
 | Unsupported sport / invalid numeric range | Invalid |
 | NaN / Infinity / negative range leakage | 0 |
+
+## DESTRUKCIJA capability
+
+### Product boundary
+
+- DESTRUKCIJA is implemented as a **new public EXTRIMLI capability inside the current v1 surface**.
+- Existing EXTRIMLI contracts remain backward-compatible because DESTRUKCIJA is exposed through additive routes under `/api/extrimli/destruction/*`.
+
+### Domain contract
+
+| Area | Coverage |
+|---|---|
+| Asset types | `wall`, `tower`, `bridge`, `arena`, `vehicle`, `obstacle` |
+| Materials | `concrete`, `steel`, `glass`, `wood`, `composite` |
+| Dimensions | `360D`, `720D`, `1440D`, `2880D`, `5760D` |
+| Outputs | `severityScore`, `severityLevel`, `fragmentCount`, `shockwaveRadiusM`, `rollbackRecommended` |
+| Safety | Safe fragment cap, safe shockwave radius, degraded safety clamping |
+| Invalid behavior | Unsupported asset/dimension pairs and non-finite ranges are invalid |
+| Degraded mode | Over-limit outputs are returned with `degraded = true` and `degradedMode = safety-clamped-output` |
+
+### DESTRUKCIJA routes
+
+| Method | Route | Description |
+|---|---|---|
+| POST | `/api/extrimli/destruction` | Evaluate destructive impact for a supported EXTRIMLI asset |
+| POST | `/api/extrimli/destruction/preview` | Read-only simulation preview with degraded safety signaling |
+| GET | `/api/extrimli/destruction/assets` | List destructible assets with optional filters |
+| GET | `/api/extrimli/destruction/assets/[id]` | Retrieve a single destructible asset |
+| GET | `/api/extrimli/destruction/health` | DESTRUKCIJA-specific health and metrics |
+
+All DESTRUKCIJA routes respond with headers:
+- `X-Extrimli-Contract-Version: v1`
+- `X-Extrimli-Destrukcija-Contract-Version: v1-destrukcija`
+- `X-Extrimli-Destrukcija-Module-Version: 1.0.0`
 
 ## EXTRIMLI 3 library modules
 
@@ -147,6 +184,8 @@ All v3 routes respond with headers:
 |---|---|
 | `EXTRIMLI_CONTRACT_VERSION` | `v1` |
 | `EXTRIMLI_MODULE_VERSION` | `1.0.0` |
+| `EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION` | `v1-destrukcija` |
+| `EXTRIMLI_DESTRUKCIJA_MODULE_VERSION` | `1.0.0` |
 | `EXTRIMLI3_CONTRACT_VERSION` | `v3` |
 | `EXTRIMLI3_MODULE_VERSION` | `3.0.0` |
 | `EXTRIMLI3_PERSONA_ID` | `extrimli-core` |
