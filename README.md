@@ -71,6 +71,15 @@ EPRINCIP uvodi determinističku procenu usklađenosti principa sa weighted scori
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/EPRINCIP.md`
 
+## 🎯 DIREKT
+
+DIREKT uvodi determinističku procenu kvaliteta direktne komunikacije kroz jasnoću, specifičnost, akcionost, transparentnost i poštovanje.
+
+- Modul: `src/lib/direkt/**`
+- API: `/api/direkt/evaluate`, `/api/direkt/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DIREKT.md`
+
 ## 🫚 ÐUMBIR
 
 ÐUMBIR uvodi determinističku procenu ginger wellness blend-a sa fiksnim `dumbir` slug-om i API-first v1 površinom.
