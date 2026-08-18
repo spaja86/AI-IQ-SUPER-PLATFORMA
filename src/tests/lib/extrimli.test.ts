@@ -21,7 +21,7 @@ import {
   // Gear
   addGearItem, getGearItem, listGearItems, updateStock, _resetGearCatalog,
   // Events
-  createEvent, getEvent, listEvents, registerForEvent, _resetEventStore,
+  createEvent, registerForEvent, _resetEventStore,
   // Weather
   adaptWeather,
   // Utils
