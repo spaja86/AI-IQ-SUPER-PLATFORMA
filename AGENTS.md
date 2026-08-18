@@ -462,6 +462,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 | reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
+| chatgpt-katalog-validator-agent | ChatGPT Katalog — AI Tools Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1042,6 +1043,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 | reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
+| chatgpt-katalog-validator-agent | ChatGPT Katalog — AI Tools Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:

@@ -967,6 +967,24 @@
       "note": 14856,
       "workflowFile": ".github/workflows/reklamitin-validator.yml",
       "linkedRepoSync": "spaja86/IO-OPENUI-AO"
+    },
+    "chatgpt-katalog-validator-agent": {
+      "enabled": true,
+      "personaId": "chatgpt-katalog-core",
+      "octave": 10,
+      "hipermrezaNode": 81,
+      "performanceThreshold": 50,
+      "compareThreshold": 100,
+      "apiResponseThreshold": 200,
+      "testSuite": "chatgpt-katalog-tests",
+      "linkedModules": [
+        "nova-generacija",
+        "persona-bank",
+        "digit-engine"
+      ],
+      "multiRepoSync": [
+        "spaja86/IO-OPENUI-AO"
+      ]
     }
   },
   "orgSettings": {
@@ -1377,7 +1395,7 @@
       "releaseDocs": [
         "docs/DEPLOY-PORTFOLIO.md",
         "docs/GO-LIVE.md",
-        "docs/DIREKŠN-DEPLOY-SPAJA.md",
+        "docs/DIREK\u0160N-DEPLOY-SPAJA.md",
         "docs/MAKSIMUM-ALL-PLATFORMA-DEPLOY.md"
       ],
       "kpis": {
