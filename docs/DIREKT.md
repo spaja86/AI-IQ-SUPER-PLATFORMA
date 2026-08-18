@@ -65,6 +65,7 @@ Recommended first-party signals:
 - Reject out-of-range scores and negative weights/example counts
 - Guard against total weight = `0`
 - Mark required signals below the minimum score as invalid
+- Mark overall directness below the minimum score as invalid even when no required signal fails
 - Emit warnings when target alignment is weak
 - Emit warnings when example coverage is incomplete
 - Assert performance with focused tests

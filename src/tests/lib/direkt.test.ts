@@ -95,6 +95,19 @@ async function runTests(): Promise<void> {
     assert(result.warnings.some((warning) => warning.includes('below minimumScore 70')), 'warning must mention threshold');
   });
 
+  await test('overall score below minimum is invalid even without required signals', () => {
+    const result = evaluateDirekt({
+      minimumScore: 65,
+      signals: [
+        { id: 'clarity', label: 'Clarity', score: 40, weight: 1, exampleCount: 1 },
+      ],
+    });
+
+    assert(!result.valid, 'result should be invalid');
+    assert(result.requiredSatisfied === true, 'requiredSatisfied should stay true without failed required signals');
+    assert(result.warnings.some((warning) => warning.includes('overallScore 40 is below minimumScore 65')), 'warning must mention overall threshold');
+  });
+
   await test('missing examples creates warning but keeps optional signals valid', () => {
     const result = evaluateDirekt({
       signals: [

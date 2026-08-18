@@ -145,9 +145,14 @@ export function evaluateDirekt(input: DirektInput): DirektResult {
   const overallScore = round(weightedSum / totalWeight);
   const coveragePct = round((signalsWithExamples / input.signals.length) * 100);
   const targetDelta = round(overallScore - targetScore);
+  const meetsOverallMinimum = overallScore >= minimumScore;
 
   if (coveragePct < 100) {
     warnings.push(`example coverage is incomplete (${coveragePct}%)`);
+  }
+
+  if (!meetsOverallMinimum) {
+    warnings.push(`overallScore ${overallScore} is below minimumScore ${minimumScore}`);
   }
 
   if (Math.abs(targetDelta) > 15) {
@@ -165,7 +170,7 @@ export function evaluateDirekt(input: DirektInput): DirektResult {
     referenceId: input.referenceId ?? 'n/a',
     overallScore,
     status,
-    valid: requiredSatisfied,
+    valid: requiredSatisfied && meetsOverallMinimum,
     warnings,
     durationMs: Date.now() - start,
     coveragePct,
