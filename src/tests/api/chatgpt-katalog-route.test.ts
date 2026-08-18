@@ -105,6 +105,24 @@ async function runTests(): Promise<void> {
     assert(body.data.entries.every((e) => e.type === 'model'), 'all must be models');
   });
 
+  await test('POST /api/chatgpt-katalog/search with invalid type returns 400', async () => {
+    const req = makeRequest('http://localhost/api/chatgpt-katalog/search', 'POST', { type: 'invalid' });
+    const response = await searchPOST(req);
+    assert(response.status === 400, `expected 400 for invalid type, got ${response.status}`);
+  });
+
+  await test('POST /api/chatgpt-katalog/search with invalid status returns 400', async () => {
+    const req = makeRequest('http://localhost/api/chatgpt-katalog/search', 'POST', { status: 'unknown' });
+    const response = await searchPOST(req);
+    assert(response.status === 400, `expected 400 for invalid status, got ${response.status}`);
+  });
+
+  await test('POST /api/chatgpt-katalog/search with invalid sortBy returns 400', async () => {
+    const req = makeRequest('http://localhost/api/chatgpt-katalog/search', 'POST', { sortBy: 'invalid-sort' });
+    const response = await searchPOST(req);
+    assert(response.status === 400, `expected 400 for invalid sortBy, got ${response.status}`);
+  });
+
   await test('POST /api/chatgpt-katalog/search with invalid JSON returns 400', async () => {
     const req = new Request('http://localhost/api/chatgpt-katalog/search', {
       method: 'POST',

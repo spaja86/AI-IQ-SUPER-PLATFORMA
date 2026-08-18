@@ -6,7 +6,7 @@ import { CHATGPT_KATALOG_CONTRACT_VERSION, CHATGPT_KATALOG_DISCLAIMER } from './
 import { GPT_MODELS, GPT_TOOLS, GPT_USE_CASES } from './registry';
 
 function sanitizeBudget(budget: number): number {
-  if (!Number.isFinite(budget) || isNaN(budget)) return 0;
+  if (!Number.isFinite(budget)) return 0;
   return Math.max(0, budget);
 }
 

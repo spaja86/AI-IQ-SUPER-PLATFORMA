@@ -4,9 +4,13 @@
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import { searchKatalog, setKatalogHeaders } from '@/lib/chatgpt-katalog';
-import type { KatalogSearchQuery } from '@/lib/chatgpt-katalog';
+import type { EntryType, KatalogSearchQuery, ModelStatus, SortBy } from '@/lib/chatgpt-katalog';
 
 export const dynamic = 'force-dynamic';
+
+const VALID_TYPES: EntryType[] = ['model', 'tool', 'use-case'];
+const VALID_STATUSES: ModelStatus[] = ['active', 'deprecated', 'preview', 'legacy'];
+const VALID_SORTS: SortBy[] = ['relevance', 'price-asc', 'price-desc', 'context-window-desc', 'name-asc'];
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,6 +26,19 @@ export async function POST(req: NextRequest) {
     }
 
     const candidate = body as Record<string, unknown>;
+
+    if (candidate.type !== undefined && !VALID_TYPES.includes(candidate.type as EntryType)) {
+      return apiError('BAD_REQUEST', `type must be one of: ${VALID_TYPES.join(', ')}`);
+    }
+
+    if (candidate.status !== undefined && !VALID_STATUSES.includes(candidate.status as ModelStatus)) {
+      return apiError('BAD_REQUEST', `status must be one of: ${VALID_STATUSES.join(', ')}`);
+    }
+
+    if (candidate.sortBy !== undefined && !VALID_SORTS.includes(candidate.sortBy as SortBy)) {
+      return apiError('BAD_REQUEST', `sortBy must be one of: ${VALID_SORTS.join(', ')}`);
+    }
+
     const q: KatalogSearchQuery = {
       query: typeof candidate.query === 'string' ? candidate.query : undefined,
       type: candidate.type as KatalogSearchQuery['type'],
