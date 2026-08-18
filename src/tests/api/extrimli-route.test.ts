@@ -4,6 +4,7 @@ import { GET as getDestructionAssets } from '../../app/api/extrimli/destruction/
 import { GET as getDestructionAsset } from '../../app/api/extrimli/destruction/assets/[id]/route';
 import { POST as postDestruction } from '../../app/api/extrimli/destruction/route';
 import { POST as postDestructionPreview } from '../../app/api/extrimli/destruction/preview/route';
+import { POST as postReadVoice } from '../../app/api/extrimli/read-voice/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 
 let passed = 0;
@@ -148,6 +149,31 @@ async function runTests(): Promise<void> {
 
     const response = await postDestruction(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/extrimli/read-voice preview returns prepared voice payload and headers', async () => {
+    const response = await postReadVoice(makePostRequest('http://localhost/api/extrimli/read-voice', {
+      text: 'Prepare for a controlled descent.',
+      modifiers: ['hard', 'ultra', 'rage', 'dilit'],
+      locale: 'en',
+      preview: true,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Contract-Version') === 'v1', 'missing contract header');
+    const body = await response.json() as { data: { requestLabel: string; selectedVoice: string; modifiers: string[] } };
+    assert(body.data.requestLabel === 'EXTRIMLI HARD ULTRA RAGE DILIT', `unexpected label: ${body.data.requestLabel}`);
+    assert(body.data.selectedVoice === 'onyx', `unexpected voice: ${body.data.selectedVoice}`);
+    assert(body.data.modifiers.length === 4, `expected 4 modifiers, got ${body.data.modifiers.length}`);
+  });
+
+  await test('POST /api/extrimli/read-voice requires auth for audio rendering', async () => {
+    const response = await postReadVoice(makePostRequest('http://localhost/api/extrimli/read-voice', {
+      text: 'Prepare for a controlled descent.',
+      rage: true,
+    }));
+
+    assert(response.status === 401, `expected 401, got ${response.status}`);
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

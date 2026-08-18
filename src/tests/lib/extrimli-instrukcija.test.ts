@@ -31,7 +31,7 @@ function assert(condition: boolean, label: string): void {
 console.log('\n[listInstrukcije]');
 
 const all = listInstrukcije();
-assert(all.length === 8, 'returns exactly 8 modules');
+assert(all.length === 9, 'returns exactly 9 modules');
 assert(Array.isArray(all), 'returns an array');
 assert(all !== INSTRUKCIJA_REGISTRY, 'returns a copy (not the same reference)');
 
@@ -41,7 +41,7 @@ for (const field of requiredFields) {
 }
 
 const moduleIds = all.map((e) => e.id);
-for (const id of ['risk', 'destruction', 'gear', 'events', 'performance', 'sports', 'weather', 'health']) {
+for (const id of ['risk', 'destruction', 'gear', 'events', 'performance', 'sports', 'weather', 'read-voice', 'health']) {
   assert(moduleIds.includes(id), `contains module "${id}"`);
 }
 
@@ -62,6 +62,11 @@ assert(riskEntry?.endpointPath === '/api/extrimli/risk', 'endpointPath correct')
 const healthEntry = getInstrukcija('health');
 assert(healthEntry !== undefined, 'getInstrukcija("health") returns entry');
 assert(healthEntry?.methods.includes('GET'), 'health entry has GET method');
+
+const readVoiceEntry = getInstrukcija('read-voice');
+assert(readVoiceEntry !== undefined, 'getInstrukcija("read-voice") returns entry');
+assert(readVoiceEntry?.methods.includes('POST'), 'read-voice entry has POST method');
+assert(readVoiceEntry?.endpointPath === '/api/extrimli/read-voice', 'read-voice endpointPath correct');
 
 const destructionEntry = getInstrukcija('destruction');
 assert(destructionEntry !== undefined, 'getInstrukcija("destruction") returns entry');
@@ -104,7 +109,7 @@ const gearEntry = bundle.gearListing[0] as Record<string, unknown>;
 assert(typeof gearEntry.affiliateCommission === 'number', 'gear listing includes affiliateCommission');
 
 // instrukcije (no primerInput / primerOutput)
-assert(bundle.instrukcije.length === 8, 'instrukcije has 8 entries');
+assert(bundle.instrukcije.length === 9, 'instrukcije has 9 entries');
 const instrEntry = bundle.instrukcije[0] as Record<string, unknown>;
 assert(instrEntry.primerInput === undefined, 'export bundle instrukcije omit primerInput');
 assert(instrEntry.primerOutput === undefined, 'export bundle instrukcije omit primerOutput');
