@@ -83,7 +83,11 @@ export {
 
 export { adaptWeather } from './weather-adapter';
 
-export { prepareReadVoice } from './read-voice-engine';
+export {
+  EXTRIMLI_READ_VOICE_MODIFIERS,
+  EXTRIMLI_READ_VOICE_VOICES,
+  prepareReadVoice,
+} from './read-voice-engine';
 
 export { clamp, round, mphToKph, kphToMph, ftToM, mToFt, isValidNonNegative, isInRange, isValidSku } from './utils';
 

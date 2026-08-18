@@ -6,6 +6,8 @@ import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import {
   EXTRIMLI_CONTRACT_VERSION,
   EXTRIMLI_MODULE_VERSION,
+  EXTRIMLI_READ_VOICE_MODIFIERS,
+  EXTRIMLI_READ_VOICE_VOICES,
   prepareReadVoice,
 } from '@/lib/extrimli';
 import type { ExtrimliReadVoiceModifier, OpenAiVoice, ReadVoiceInput } from '@/lib/extrimli';
@@ -13,9 +15,6 @@ import { getOpenAI } from '@/lib/openai/client';
 import { verifyUserFromToken } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
-
-const VALID_MODIFIERS: ExtrimliReadVoiceModifier[] = ['hard', 'ultra', 'rage', 'dilit'];
-const VALID_VOICES: OpenAiVoice[] = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
 
 function setHeaders(res: Response): void {
   res.headers.set('X-Extrimli-Contract-Version', EXTRIMLI_CONTRACT_VERSION);
@@ -25,19 +24,19 @@ function setHeaders(res: Response): void {
 function extractModifiers(body: Record<string, unknown>): ExtrimliReadVoiceModifier[] {
   const modifiers = new Set<ExtrimliReadVoiceModifier>();
 
-  if (typeof body.mode === 'string' && VALID_MODIFIERS.includes(body.mode as ExtrimliReadVoiceModifier)) {
+  if (typeof body.mode === 'string' && EXTRIMLI_READ_VOICE_MODIFIERS.includes(body.mode as ExtrimliReadVoiceModifier)) {
     modifiers.add(body.mode as ExtrimliReadVoiceModifier);
   }
 
   if (Array.isArray(body.modifiers)) {
     for (const value of body.modifiers) {
-      if (typeof value === 'string' && VALID_MODIFIERS.includes(value as ExtrimliReadVoiceModifier)) {
+      if (typeof value === 'string' && EXTRIMLI_READ_VOICE_MODIFIERS.includes(value as ExtrimliReadVoiceModifier)) {
         modifiers.add(value as ExtrimliReadVoiceModifier);
       }
     }
   }
 
-  for (const modifier of VALID_MODIFIERS) {
+  for (const modifier of EXTRIMLI_READ_VOICE_MODIFIERS) {
     if (body[modifier] === true) modifiers.add(modifier);
   }
 
@@ -50,19 +49,25 @@ export async function POST(req: NextRequest) {
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      const response = apiError('BAD_REQUEST', 'Invalid JSON body');
+      setHeaders(response);
+      return response;
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+      const response = apiError('BAD_REQUEST', 'Body must be a JSON object');
+      setHeaders(response);
+      return response;
     }
 
     const payload = body as Record<string, unknown>;
     if (payload.text === undefined) {
-      return apiError('BAD_REQUEST', 'text is required');
+      const response = apiError('BAD_REQUEST', 'text is required');
+      setHeaders(response);
+      return response;
     }
 
-    const voice = typeof payload.voice === 'string' && VALID_VOICES.includes(payload.voice as OpenAiVoice)
+    const voice = typeof payload.voice === 'string' && EXTRIMLI_READ_VOICE_VOICES.includes(payload.voice as OpenAiVoice)
       ? payload.voice as OpenAiVoice
       : undefined;
 
@@ -76,7 +81,11 @@ export async function POST(req: NextRequest) {
 
     const prepared = prepareReadVoice(input);
     if (!prepared.valid) {
-      const response = apiSuccess(prepared, 422);
+      const response = apiError(
+        'UNPROCESSABLE_ENTITY',
+        prepared.warnings[0] ?? 'Invalid EXTRIMLI read voice input.',
+        prepared,
+      );
       setHeaders(response);
       return response;
     }
@@ -89,24 +98,24 @@ export async function POST(req: NextRequest) {
 
     const user = await verifyUserFromToken(req.headers.get('authorization'));
     if (!user) {
-      return apiError('UNAUTHORIZED', 'Niste prijavljeni.');
+      const response = apiError('UNAUTHORIZED', 'Niste prijavljeni.');
+      setHeaders(response);
+      return response;
     }
 
-    let buffer: Buffer;
-    try {
-      const openai = getOpenAI();
-      const mp3 = await openai.audio.speech.create({
-        model: 'tts-1',
-        voice: prepared.selectedVoice,
-        input: prepared.renderedText,
-      });
-      buffer = Buffer.from(await mp3.arrayBuffer());
-    } catch (error) {
-      if (error instanceof Error && error.message.includes('OPENAI_API_KEY')) {
-        return apiError('CONFIGURATION_ERROR', 'EXTRIMLI read voice nije konfigurisan.');
-      }
-      throw error;
+    if (!process.env.OPENAI_API_KEY) {
+      const response = apiError('CONFIGURATION_ERROR', 'EXTRIMLI read voice nije konfigurisan.');
+      setHeaders(response);
+      return response;
     }
+
+    const openai = getOpenAI();
+    const mp3 = await openai.audio.speech.create({
+      model: 'tts-1',
+      voice: prepared.selectedVoice,
+      input: prepared.renderedText,
+    });
+    const buffer = Buffer.from(await mp3.arrayBuffer());
 
     const response = new Response(buffer, {
       headers: {
@@ -120,6 +129,8 @@ export async function POST(req: NextRequest) {
     response.headers.set('X-Extrimli-Read-Voice-Voice', prepared.selectedVoice);
     return response;
   } catch (error) {
-    return apiInternalError('extrimli/read-voice', error);
+    const response = apiInternalError('extrimli/read-voice', error);
+    setHeaders(response);
+    return response;
   }
 }

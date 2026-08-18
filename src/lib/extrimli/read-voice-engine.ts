@@ -9,15 +9,15 @@ import type {
   ReadVoicePreview,
 } from './types';
 
-const VALID_MODIFIERS: ExtrimliReadVoiceModifier[] = ['hard', 'ultra', 'rage', 'dilit'];
-const VALID_VOICES: OpenAiVoice[] = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
+export const EXTRIMLI_READ_VOICE_MODIFIERS: ExtrimliReadVoiceModifier[] = ['hard', 'ultra', 'rage', 'dilit'];
+export const EXTRIMLI_READ_VOICE_VOICES: OpenAiVoice[] = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
 
 function normalizeModifiers(input: ReadVoiceInput['modifiers']): ExtrimliReadVoiceModifier[] {
   if (!Array.isArray(input)) return [];
 
   const seen = new Set<ExtrimliReadVoiceModifier>();
   for (const modifier of input) {
-    if (VALID_MODIFIERS.includes(modifier) && !seen.has(modifier)) {
+    if (EXTRIMLI_READ_VOICE_MODIFIERS.includes(modifier) && !seen.has(modifier)) {
       seen.add(modifier);
     }
   }
@@ -25,7 +25,7 @@ function normalizeModifiers(input: ReadVoiceInput['modifiers']): ExtrimliReadVoi
 }
 
 function selectVoice(modifiers: ExtrimliReadVoiceModifier[], voice?: OpenAiVoice): OpenAiVoice {
-  if (voice && VALID_VOICES.includes(voice)) return voice;
+  if (voice && EXTRIMLI_READ_VOICE_VOICES.includes(voice)) return voice;
   if (modifiers.includes('rage')) return 'onyx';
   if (modifiers.includes('ultra')) return 'nova';
   if (modifiers.includes('hard')) return 'echo';
