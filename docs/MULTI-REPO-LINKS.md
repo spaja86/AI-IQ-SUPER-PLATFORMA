@@ -784,6 +784,16 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-CUZ-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
+---
+
+## Agent Resilience — Kill Switch, Circuit Breaker & Self-Healing
+
+| Field | Value |
+|---|---|
+| Module | `src/lib/agent-resilience/` |
+| API | `src/app/api/agent-resilience/` |
+| Scope | All agents across AI-IQ-SUPER-PLATFORMA |
+| Contract | `AGENT_RESILIENCE_CONTRACT_VERSION = 1.0.0` |
 
 ## Digit Engine — 10-Digit Symbolic Intelligence Layer
 
@@ -799,6 +809,17 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-CUZ-001 -> IO-OPENUI-AO#<follow-up issue>
 
 | This repo | Linked repo | Note |
 |---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — agent-resilience health API | `spaja86/IO-OPENUI-AO` — Follow-up required | Platform-wide resilience state exposed via `/api/agent-resilience/health` |
+| `AI-IQ-SUPER-PLATFORMA` — kill switch events | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: killed-agent state via multi-repo-sync-agent |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add `agent:resilience` label to linked-repo label schema
+- Register `agent-resilience` entry in linked-repo `.agent-config.json`
+- Subscribe to kill switch events from SUPER-PLATFORMA via webhook or nightly sync
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#AGENT-RESILIENCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — digit registry snapshots | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: digit registry snapshots via multi-repo-sync-agent |
 
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
