@@ -68,6 +68,6 @@ export async function POST(request: NextRequest) {
       mode: persist ? 'persisted' : 'dry-run',
       timestamp: new Date().toISOString(),
     },
-    { status: persist ? 202 : 200, headers: { 'X-App-Version': APP_VERSION } },
+    { status: 200, headers: { 'X-App-Version': APP_VERSION } },
   );
 }
