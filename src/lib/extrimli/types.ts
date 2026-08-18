@@ -153,6 +153,31 @@ export interface WeatherRiskFactors {
   warnings: string[];
 }
 
+// ─── Read Voice ───────────────────────────────────────────────────────────────
+
+export type OpenAiVoice = 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer';
+export type ExtrimliReadVoiceModifier = 'hard' | 'ultra' | 'rage' | 'dilit';
+export type ExtrimliReadVoiceLocale = 'sr' | 'en';
+
+export interface ReadVoiceInput {
+  text: string;
+  modifiers?: ExtrimliReadVoiceModifier[];
+  voice?: OpenAiVoice;
+  locale?: ExtrimliReadVoiceLocale;
+  preview?: boolean;
+}
+
+export interface ReadVoicePreview {
+  requestLabel: string;
+  renderedText: string;
+  selectedVoice: OpenAiVoice;
+  locale: ExtrimliReadVoiceLocale;
+  modifiers: ExtrimliReadVoiceModifier[];
+  valid: boolean;
+  warnings: string[];
+  durationMs: number;
+}
+
 // ─── DESTRUKCIJA ────────────────────────────────────────────────────────────────
 
 export type DimensionBand = '360D' | '720D' | '1440D' | '2880D' | '5760D';

@@ -24,6 +24,8 @@ import {
   createEvent, registerForEvent, _resetEventStore,
   // Weather
   adaptWeather,
+  // Read voice
+  prepareReadVoice,
   // Utils
   clamp, round, mphToKph, kphToMph, ftToM, mToFt, isValidSku,
 } from '../../lib/extrimli';
@@ -453,6 +455,27 @@ async function runTests(): Promise<void> {
   await test('clamps precipitation risk to 10', () => {
     const f = adaptWeather({ windSpeedKph: 0, precipitationMm: 9999, temperatureC: 5, visibilityKm: 1 });
     assert(f.terrainRiskModifier <= 10, `should be ≤ 10, got ${f.terrainRiskModifier}`);
+  });
+
+  // ─── Read Voice ─────────────────────────────────────────────────────────────
+  console.log('\n🔎 [extrimli] read-voice');
+
+  await test('prepareReadVoice builds combined HARD ULTRA RAGE DILIT prompt', () => {
+    const result = prepareReadVoice({
+      text: 'Stabilize the landing and lower your speed.',
+      modifiers: ['hard', 'ultra', 'rage', 'dilit'],
+      locale: 'en',
+    });
+    assert(result.valid, 'should be valid');
+    assert(result.requestLabel === 'EXTRIMLI HARD ULTRA RAGE DILIT', `unexpected label: ${result.requestLabel}`);
+    assert(result.selectedVoice === 'onyx', `expected onyx, got ${result.selectedVoice}`);
+    assert(result.renderedText.includes('voice read'), 'should include voice read intro');
+  });
+
+  await test('prepareReadVoice rejects empty text', () => {
+    const result = prepareReadVoice({ text: '   ' });
+    assert(!result.valid, 'should be invalid');
+    assert(result.warnings.includes('text is required'), 'should warn about missing text');
   });
 
   // ─── Utils ─────────────────────────────────────────────────────────────────

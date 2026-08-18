@@ -83,6 +83,12 @@ export {
 
 export { adaptWeather } from './weather-adapter';
 
+export {
+  EXTRIMLI_READ_VOICE_MODIFIERS,
+  EXTRIMLI_READ_VOICE_VOICES,
+  prepareReadVoice,
+} from './read-voice-engine';
+
 export { clamp, round, mphToKph, kphToMph, ftToM, mToFt, isValidNonNegative, isInRange, isValidSku } from './utils';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -105,6 +111,11 @@ export type {
   EventStatus,
   RawWeatherData,
   WeatherRiskFactors,
+  OpenAiVoice,
+  ExtrimliReadVoiceModifier,
+  ExtrimliReadVoiceLocale,
+  ReadVoiceInput,
+  ReadVoicePreview,
   DimensionBand,
   DimensionPhysicsProfile,
   DestructibleAsset,
