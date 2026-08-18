@@ -7,12 +7,21 @@ import {
   // Risk
   calculateRisk, _resetRiskMetrics, getRiskMetrics,
   EXTRIMLI_CONTRACT_VERSION, EXTRIMLI_PERFORMANCE_MAX_MS, EXTRIMLI_PERSONA_ID,
+  EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION,
+  EXTRIMLI_DESTRUKCIJA_MODULE_VERSION,
+  DESTRUCTIBLE_ASSET_REGISTRY,
+  getDestructibleAssetById,
+  listDestructibleAssets,
+  evaluateDestruction,
+  previewDestruction,
+  getExtrimliDestructionHealthReport,
+  _resetDestructionMetrics,
   // Performance
   logSession, getPerformanceReport, _resetSessionStore,
   // Gear
   addGearItem, getGearItem, listGearItems, updateStock, _resetGearCatalog,
   // Events
-  createEvent, getEvent, listEvents, registerForEvent, _resetEventStore,
+  createEvent, registerForEvent, _resetEventStore,
   // Weather
   adaptWeather,
   // Utils
@@ -62,6 +71,11 @@ async function runTests(): Promise<void> {
 
   await test('performance max is 50ms', () => {
     assert(EXTRIMLI_PERFORMANCE_MAX_MS === 50, `expected 50, got ${EXTRIMLI_PERFORMANCE_MAX_MS}`);
+  });
+
+  await test('destrukcija contract constants are stable', () => {
+    assert(EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION === 'v1-destrukcija', `unexpected: ${EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION}`);
+    assert(EXTRIMLI_DESTRUKCIJA_MODULE_VERSION === '1.0.0', `unexpected: ${EXTRIMLI_DESTRUKCIJA_MODULE_VERSION}`);
   });
 
   // ─── Registry ──────────────────────────────────────────────────────────────
@@ -143,6 +157,101 @@ async function runTests(): Promise<void> {
   await test('duration is non-negative', () => {
     const r = calculateRisk({ sportId: 'snowboarding', athleteExperience: 7, weatherScore: 2, terrainDifficulty: 4, gearQualityIndex: 8 });
     assert(r.durationMs >= 0, `durationMs should be >= 0, got ${r.durationMs}`);
+  });
+
+  // ─── DESTRUKCIJA ──────────────────────────────────────────────────────────────
+  console.log('\n🔎 [extrimli] destrukcija');
+
+  _resetDestructionMetrics();
+
+  await test('destructible registry has at least 5 assets', () => {
+    assert(DESTRUCTIBLE_ASSET_REGISTRY.length >= 5, `expected ≥ 5, got ${DESTRUCTIBLE_ASSET_REGISTRY.length}`);
+  });
+
+  await test('getDestructibleAssetById returns correct asset', () => {
+    const asset = getDestructibleAssetById('glass-dome-arena');
+    assert(asset !== undefined, 'glass-dome-arena should exist');
+    assert(asset!.material === 'glass', `expected glass, got ${asset!.material}`);
+  });
+
+  await test('listDestructibleAssets filters by dimension and material', () => {
+    const assets = listDestructibleAssets({ dimension: '1440D', material: 'glass' });
+    assert(assets.length > 0, 'expected at least one filtered asset');
+    assert(assets.every((asset) => asset.material === 'glass' && asset.destructibleDimensions.includes('1440D')), 'filter mismatch');
+  });
+
+  await test('evaluateDestruction returns MINOR result for controlled impact', () => {
+    const result = evaluateDestruction({
+      assetId: 'timber-obstacle-grid',
+      dimension: '720D',
+      impactForce: 65,
+      resonanceIndex: 2,
+      containmentLevel: 9,
+      athleteExperience: 8,
+      sportId: 'bmx',
+    });
+    assert(result.valid, 'result should be valid');
+    assert(result.severityLevel === 'MINOR', `expected MINOR, got ${result.severityLevel}`);
+    assert(result.fragmentCount >= 0, 'fragment count should be non-negative');
+  });
+
+  await test('evaluateDestruction returns CATASTROPHIC result for extreme impact', () => {
+    const result = evaluateDestruction({
+      assetId: 'composite-flight-tower',
+      dimension: '5760D',
+      impactForce: 980,
+      resonanceIndex: 10,
+      containmentLevel: 0,
+      athleteExperience: 1,
+      sportId: 'base-jumping',
+    });
+    assert(result.valid, 'result should be valid');
+    assert(result.severityLevel === 'CATASTROPHIC', `expected CATASTROPHIC, got ${result.severityLevel}`);
+    assert(result.rollbackRecommended, 'rollback should be recommended');
+  });
+
+  await test('evaluateDestruction rejects unsupported dimension for asset', () => {
+    const result = evaluateDestruction({
+      assetId: 'glass-dome-arena',
+      dimension: '5760D',
+      impactForce: 300,
+      resonanceIndex: 3,
+      containmentLevel: 6,
+    });
+    assert(!result.valid, 'result should be invalid');
+    assert(result.warnings.length > 0, 'expected warnings');
+  });
+
+  await test('evaluateDestruction rejects non-finite impactForce', () => {
+    const result = evaluateDestruction({
+      assetId: 'glass-dome-arena',
+      dimension: '720D',
+      impactForce: NaN,
+      resonanceIndex: 4,
+      containmentLevel: 6,
+    });
+    assert(!result.valid, 'result should be invalid');
+  });
+
+  await test('previewDestruction clamps unsafe output and marks degraded mode', () => {
+    const result = previewDestruction({
+      assetId: 'glass-dome-arena',
+      dimension: '1440D',
+      impactForce: 1000,
+      resonanceIndex: 10,
+      containmentLevel: 0,
+    });
+    assert(result.valid, 'preview should be valid');
+    assert(result.degraded, 'preview should be degraded');
+    assert(result.activationRequired === false, 'preview should not require activation');
+    assert(result.degradedMode === 'safety-clamped-output', `unexpected degraded mode: ${result.degradedMode}`);
+  });
+
+  await test('destruction health report tracks evaluations and registry size', () => {
+    const report = getExtrimliDestructionHealthReport();
+    assert(report.registrySize >= 5, `expected registry size >= 5, got ${report.registrySize}`);
+    assert(report.destructionEvaluations >= 1, `expected destruction evaluations >= 1, got ${report.destructionEvaluations}`);
+    assert(report.previewEvaluations >= 1, `expected preview evaluations >= 1, got ${report.previewEvaluations}`);
   });
 
   // ─── Performance Tracker ───────────────────────────────────────────────────

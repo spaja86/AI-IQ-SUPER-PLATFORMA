@@ -10,7 +10,9 @@ on:
       - 'src/components/extrimli/**'
       - 'src/tests/lib/extrimli.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
+      - 'src/tests/api/extrimli-route.test.ts'
       - 'docs/EXTRIMLI.md'
+      - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/extrimli-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
@@ -23,7 +25,9 @@ on:
       - 'src/components/extrimli/**'
       - 'src/tests/lib/extrimli.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
+      - 'src/tests/api/extrimli-route.test.ts'
       - 'docs/EXTRIMLI.md'
+      - 'docs/MULTI-REPO-LINKS.md'
   workflow_dispatch:
 
 concurrency:
@@ -48,6 +52,7 @@ jobs:
       test_commands: |
         npx tsx src/tests/lib/extrimli.test.ts
         npx tsx src/tests/lib/extrimli-3.test.ts
+        npx tsx src/tests/api/extrimli-route.test.ts
       scan_paths: >-
         src/lib/extrimli
         src/lib/extrimli-3

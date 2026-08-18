@@ -448,6 +448,46 @@
       "testSuite": "src/tests/lib/decibil-core.test.ts",
       "scope": "src/lib/decibil/**,src/app/api/decibil/**"
     },
+    "extrimli-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "extrimli-core",
+      "octave": 7,
+      "hipermrezaNode": 56,
+      "labels": [
+        "extrimli",
+        "extrimli:logic-change",
+        "extrimli:validated",
+        "extrimli:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/extrimli-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/EXTRIMLI.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/ROADMAP.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "buildDurationMaxMin": 3
+      },
+      "testSuite": "src/tests/lib/extrimli.test.ts",
+      "routeTestSuite": "src/tests/api/extrimli-route.test.ts",
+      "scope": "src/lib/extrimli/**,src/lib/extrimli-3/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/components/extrimli/**",
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "multiRepoSync": {
+        "snapshots": [
+          "gear-catalog",
+          "destrukcija-asset-catalog"
+        ],
+        "target": "spaja86/IO-OPENUI-AO"
+      }
+    },
     "extrimli-cuz-validator-agent": {
       "enabled": true,
       "status": "active",

@@ -153,6 +153,80 @@ export interface WeatherRiskFactors {
   warnings: string[];
 }
 
+// ─── DESTRUKCIJA ────────────────────────────────────────────────────────────────
+
+export type DimensionBand = '360D' | '720D' | '1440D' | '2880D' | '5760D';
+export type DestructibleMaterial = 'concrete' | 'steel' | 'glass' | 'wood' | 'composite';
+export type DestructibleAssetType = 'wall' | 'tower' | 'bridge' | 'arena' | 'vehicle' | 'obstacle';
+export type DestructionSeverityLevel = 'MINOR' | 'MAJOR' | 'CATASTROPHIC';
+
+export interface DimensionPhysicsProfile {
+  dimension: DimensionBand;
+  fragmentationBias: number;
+  shockwaveBias: number;
+  stabilityModifier: number;
+  energyRetention: number;
+}
+
+export interface DestructibleAsset {
+  id: string;
+  name: string;
+  type: DestructibleAssetType;
+  material: DestructibleMaterial;
+  structuralIntegrity: number; // 0–10
+  maxFragments: number;
+  maxSafeFragments: number;
+  safetyRadiusM: number;
+  destructibleDimensions: DimensionBand[];
+  shockwaveSensitivity: number; // 0–10
+  sportIds: string[];
+}
+
+export interface DestructionInput {
+  assetId: string;
+  dimension: DimensionBand;
+  impactForce: number;       // 0–1000
+  resonanceIndex: number;    // 0–10
+  containmentLevel: number;  // 0–10
+  athleteExperience?: number; // 0–10
+  sportId?: string;
+  referenceId?: string;
+}
+
+export interface DestructionResult {
+  referenceId: string;
+  assetId: string;
+  dimension: DimensionBand;
+  severityScore: number;
+  severityLevel: DestructionSeverityLevel;
+  fragmentCount: number;
+  shockwaveRadiusM: number;
+  rollbackRecommended: boolean;
+  degraded: boolean;
+  degradedMode: string | null;
+  valid: boolean;
+  warnings: string[];
+  durationMs: number;
+}
+
+export interface DestructionPreview extends DestructionResult {
+  activationRequired: false;
+}
+
+export interface ExtrimliDestructionHealthReport {
+  personaId: string;
+  contractVersion: string;
+  moduleVersion: string;
+  destructionContractVersion: string;
+  destructionEvaluations: number;
+  previewEvaluations: number;
+  registrySize: number;
+  lastSeverityScore: number;
+  lastSeverityLevel: DestructionSeverityLevel;
+  performanceMaxMs: number;
+  apiResponseMaxMs: number;
+}
+
 // ─── Health Report ────────────────────────────────────────────────────────────
 
 export interface ExtrimliHealthReport {
@@ -162,6 +236,10 @@ export interface ExtrimliHealthReport {
   riskEvaluations: number;
   lastRiskScore: number;
   lastRiskLevel: RiskLevel;
+  destructionEvaluations: number;
+  previewEvaluations: number;
+  lastDestructionSeverityScore: number;
+  lastDestructionSeverityLevel: DestructionSeverityLevel;
   performanceMaxMs: number;
   apiResponseMaxMs: number;
 }
@@ -173,3 +251,5 @@ export const EXTRIMLI_MODULE_VERSION = '1.0.0';
 export const EXTRIMLI_PERSONA_ID = 'extrimli-core';
 export const EXTRIMLI_PERFORMANCE_MAX_MS = 50;
 export const EXTRIMLI_API_RESPONSE_MAX_MS = 200;
+export const EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION = 'v1-destrukcija';
+export const EXTRIMLI_DESTRUKCIJA_MODULE_VERSION = '1.0.0';
