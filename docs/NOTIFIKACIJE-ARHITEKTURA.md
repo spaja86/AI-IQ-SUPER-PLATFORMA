@@ -2,7 +2,7 @@
 
 ## Sažetak
 
-Notifikacioni domen je reorganizovan tako da `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/lib/notifications` bude jedini izvor istine za:
+Notifikacioni domen je reorganizovan tako da `/src/lib/notifications` bude jedini izvor istine za:
 
 - tipove i statuse kanala
 - korisničke preference i compliance pravila

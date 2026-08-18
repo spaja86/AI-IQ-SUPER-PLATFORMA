@@ -281,7 +281,7 @@ export async function dispatchNotification(
     failed.length === 0 && succeeded.length > 0
       ? 'delivered'
       : succeeded.length > 0
-        ? 'delivered'
+        ? 'partial'
         : skipped.length === channels.length
           ? 'skipped'
           : 'failed';

@@ -4,7 +4,7 @@ export type NotificationChannel = (typeof NOTIFICATION_CHANNELS)[number];
 export const NOTIFICATION_PRIORITIES = ['low', 'normal', 'high', 'critical'] as const;
 export type NotificationPriority = (typeof NOTIFICATION_PRIORITIES)[number];
 
-export const NOTIFICATION_STATUSES = ['queued', 'sending', 'delivered', 'failed', 'bounced', 'unsubscribed', 'skipped'] as const;
+export const NOTIFICATION_STATUSES = ['queued', 'sending', 'delivered', 'partial', 'failed', 'bounced', 'unsubscribed', 'skipped'] as const;
 export type NotificationStatus = (typeof NOTIFICATION_STATUSES)[number];
 
 export const NOTIFICATION_CATEGORIES = ['billing', 'system', 'alert'] as const;
@@ -210,4 +210,3 @@ export function getAllowedChannels(
 export function uniqueNotificationChannels(channels: NotificationChannel[]): NotificationChannel[] {
   return Array.from(new Set(channels));
 }
-
