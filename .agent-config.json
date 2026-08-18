@@ -483,7 +483,8 @@
       "multiRepoSync": {
         "snapshots": [
           "gear-catalog",
-          "destrukcija-asset-catalog"
+          "destrukcija-asset-catalog",
+          "instrukcija-registry"
         ],
         "target": "spaja86/IO-OPENUI-AO"
       }

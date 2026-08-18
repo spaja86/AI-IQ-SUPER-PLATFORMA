@@ -127,3 +127,9 @@ export {
   EXTRIMLI_PERFORMANCE_MAX_MS,
   EXTRIMLI_API_RESPONSE_MAX_MS,
 } from './types';
+
+export { INSTRUKCIJA_REGISTRY, getInstrukcija, listInstrukcije } from './instrukcija';
+
+export { EXTRIMLI_EXPORT_BUNDLE_VERSION, buildExtrimliExportBundle } from './export-bundle';
+
+export type { InstrukcijaEntry, ExtrimliExportBundle } from './types';
