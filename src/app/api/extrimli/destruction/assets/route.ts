@@ -3,21 +3,11 @@
 
 import type { NextRequest } from 'next/server';
 import { apiInternalError, apiSuccess } from '@/lib/api/response';
-import {
-  EXTRIMLI_CONTRACT_VERSION,
-  EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION,
-  EXTRIMLI_DESTRUKCIJA_MODULE_VERSION,
-  listDestructibleAssets,
-} from '@/lib/extrimli';
+import { listDestructibleAssets } from '@/lib/extrimli';
 import type { DestructibleAssetType, DestructibleMaterial, DimensionBand } from '@/lib/extrimli';
+import { setDestructionHeaders } from '../_utils';
 
 export const dynamic = 'force-dynamic';
-
-function setHeaders(res: Response): void {
-  res.headers.set('X-Extrimli-Contract-Version', EXTRIMLI_CONTRACT_VERSION);
-  res.headers.set('X-Extrimli-Destrukcija-Contract-Version', EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION);
-  res.headers.set('X-Extrimli-Destrukcija-Module-Version', EXTRIMLI_DESTRUKCIJA_MODULE_VERSION);
-}
 
 export async function GET(req: NextRequest) {
   try {
@@ -35,7 +25,7 @@ export async function GET(req: NextRequest) {
     });
 
     const response = apiSuccess({ assets, count: assets.length }, 200);
-    setHeaders(response);
+    setDestructionHeaders(response);
     return response;
   } catch (error) {
     return apiInternalError('extrimli/destruction/assets', error);

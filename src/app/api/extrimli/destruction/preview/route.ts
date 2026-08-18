@@ -3,21 +3,11 @@
 
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
-import {
-  EXTRIMLI_CONTRACT_VERSION,
-  EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION,
-  EXTRIMLI_DESTRUKCIJA_MODULE_VERSION,
-  previewDestruction,
-} from '@/lib/extrimli';
+import { previewDestruction } from '@/lib/extrimli';
 import type { DestructionInput } from '@/lib/extrimli';
+import { setDestructionHeaders } from '../_utils';
 
 export const dynamic = 'force-dynamic';
-
-function setHeaders(res: Response): void {
-  res.headers.set('X-Extrimli-Contract-Version', EXTRIMLI_CONTRACT_VERSION);
-  res.headers.set('X-Extrimli-Destrukcija-Contract-Version', EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION);
-  res.headers.set('X-Extrimli-Destrukcija-Module-Version', EXTRIMLI_DESTRUKCIJA_MODULE_VERSION);
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -53,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     const result = previewDestruction(input);
     const response = apiSuccess(result, result.valid ? 200 : 422);
-    setHeaders(response);
+    setDestructionHeaders(response);
     return response;
   } catch (error) {
     return apiInternalError('extrimli/destruction/preview', error);

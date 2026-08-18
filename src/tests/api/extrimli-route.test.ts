@@ -113,6 +113,17 @@ async function runTests(): Promise<void> {
     assert(body.data.valid === false, 'expected invalid result');
   });
 
+  await test('POST /api/extrimli/destruction returns 400 when required field is missing', async () => {
+    const response = await postDestruction(makePostRequest('http://localhost/api/extrimli/destruction', {
+      dimension: '720D',
+      impactForce: 180,
+      resonanceIndex: 4,
+      containmentLevel: 7,
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
   await test('POST /api/extrimli/destruction/preview returns degraded preview when limits exceed safety caps', async () => {
     const response = await postDestructionPreview(makePostRequest('http://localhost/api/extrimli/destruction/preview', {
       assetId: 'glass-dome-arena',
