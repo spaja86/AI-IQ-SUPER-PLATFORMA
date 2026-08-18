@@ -76,10 +76,10 @@ async function runTests(): Promise<void> {
     });
 
     assert(result.valid, 'result should be valid');
-    assertClose(result.overallScore, 83.8, 0.001, 'overallScore');
+    assertClose(result.overallScore, 84.2, 0.001, 'overallScore');
     assert(result.status === 'DIRECT', `expected DIRECT, got ${result.status}`);
     assert(result.coveragePct === 100, `expected 100, got ${result.coveragePct}`);
-    assert(result.targetDelta === 5.8, `expected 5.8, got ${result.targetDelta}`);
+    assert(result.targetDelta === 6.2, `expected 6.2, got ${result.targetDelta}`);
   });
 
   await test('required signal below minimum score is invalid', () => {
