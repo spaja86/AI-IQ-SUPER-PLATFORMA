@@ -1140,3 +1140,31 @@ AI-IQ-SUPER-PLATFORMA#reklamitin -> IO-OPENUI-AO#<optional follow-up issue>
 ```
 AI-IQ-SUPER-PLATFORMA#extrimli-instrukcija-za-sve -> IO-OPENUI-AO#<optional follow-up issue>
 ```
+
+---
+
+## ChatGPT Katalog — Multi-Repo Link
+
+| Field | Value |
+|-------|-------|
+| Module | ChatGPT Katalog |
+| Persona | `chatgpt-katalog-core` (octave: 10, hipermreza node: 81) |
+| Validator | `chatgpt-katalog-validator-agent` |
+| Endpoint | `GET /api/chatgpt-katalog` — list; `POST /api/chatgpt-katalog/compare` — compare; `POST /api/chatgpt-katalog/recommend` — recommend |
+| Registry | 8 GPT models, 8 tools, 8 use-case templates |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — ChatGPT Katalog model/tool registry | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync model catalog snapshots when downstream adoption starts |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Consume `GET /api/chatgpt-katalog` for OpenAI model catalog browsing
+- Import compare/recommend APIs for AI tool selection flows
+- Extend `multiRepoSync.snapshots` with `chatgpt-katalog-registry` snapshot
+
+**Audit convention:**
+```
+AI-IQ-SUPER-PLATFORMA#chatgpt-katalog -> IO-OPENUI-AO#<optional follow-up>
+```
