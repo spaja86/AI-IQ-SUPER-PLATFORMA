@@ -1178,3 +1178,32 @@ AI-IQ-SUPER-PLATFORMA#extrimli-instrukcija-za-sve -> IO-OPENUI-AO#<optional foll
 ```
 AI-IQ-SUPER-PLATFORMA#chatgpt-katalog -> IO-OPENUI-AO#<optional follow-up>
 ```
+
+---
+
+## EKSELENCIO — Multi-Repo Link
+
+| Field | Value |
+|-------|-------|
+| Module | EKSELENCIO — Excellence Intelligence Engine |
+| Persona | `ekselencio-apex` (octave: 16, hipermreza node: 255) |
+| Validator | `ekselencio-validator-agent` |
+| OKRID | `OKRID-2026-EKSELENCIO-001` |
+| Endpoint | `POST /api/ekselencio` — evaluate; `GET /api/ekselencio` — health |
+| Framework | EKUARE RA EKSILARIUM (6 pillars: ES, KC, UOA, AR, RT, EV) |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EKSELENCIO score engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync EKUARE RA score snapshots when downstream adoption starts |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Consume `POST /api/ekselencio` for platform-wide excellence scoring
+- Import EKUARE RA score as quality gate in calculator and gaming modules
+- Extend `multiRepoSync.snapshots` with `ekselencio-score` snapshot
+
+**Audit convention:**
+```
+AI-IQ-SUPER-PLATFORMA#ekselencio -> IO-OPENUI-AO#<optional follow-up>
+```
