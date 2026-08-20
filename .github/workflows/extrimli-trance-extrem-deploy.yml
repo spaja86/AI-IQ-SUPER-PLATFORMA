@@ -131,9 +131,17 @@ jobs:
           echo "--- EXTRIMLI unit tests ---"
           npx tsx src/tests/lib/extrimli.test.ts 2>&1 | tee /tmp/test-extrimli.log
           echo "--- EXTRIMLI-3 unit tests ---"
-          npx tsx src/tests/lib/extrimli-3.test.ts 2>&1 | tee /tmp/test-extrimli3.log || true
+          if [ -f "src/tests/lib/extrimli-3.test.ts" ]; then
+            npx tsx src/tests/lib/extrimli-3.test.ts 2>&1 | tee /tmp/test-extrimli3.log
+          else
+            echo "⚠️ extrimli-3 test file not found — skipping"
+          fi
           echo "--- EXTRIMLI CUZ unit tests ---"
-          npx tsx src/tests/lib/extrimli-cuz.test.ts 2>&1 | tee /tmp/test-extrimli-cuz.log || true
+          if [ -f "src/tests/lib/extrimli-cuz.test.ts" ]; then
+            npx tsx src/tests/lib/extrimli-cuz.test.ts 2>&1 | tee /tmp/test-extrimli-cuz.log
+          else
+            echo "⚠️ extrimli-cuz test file not found — skipping"
+          fi
 
       - name: 🧪 Route tests — all EXTRIMLI API handlers
         run: |
@@ -167,8 +175,9 @@ jobs:
           END=$(date +%s%3N)
           ELAPSED=$((END - START))
           echo "Eval time: ${ELAPSED}ms"
-          if [ "$ELAPSED" -gt 5000 ]; then
-            echo "⚠️ Warning: eval startup time ${ELAPSED}ms — review KPI"
+          if [ "$ELAPSED" -gt 50 ]; then
+            echo "❌ KPI breach: eval time ${ELAPSED}ms exceeds ≤ 50ms target"
+            exit 1
           else
             echo "✅ Eval within acceptable range"
           fi
@@ -219,13 +228,8 @@ jobs:
 
       - name: 🔎 npm audit — no critical CVEs
         run: |
+          set -o pipefail
           npm audit --audit-level=critical 2>&1 | tee /tmp/audit.log
-          if grep -q "found 0 vulnerabilities" /tmp/audit.log || grep -q "0 critical" /tmp/audit.log; then
-            echo "✅ No critical vulnerabilities"
-          else
-            echo "⚠️ Audit output — review required:"
-            cat /tmp/audit.log
-          fi
 
       - name: 🏗️ Build — next build (≤ 3 min KPI)
         run: |
@@ -405,7 +409,7 @@ jobs:
         run: |
           echo "persona-bank-agent: verifying extrimli-core persona status"
           npx tsx -e "
-            const mod = require('./src/lib/persona-bank/index') 2>/dev/null || {};
+            const mod = require('./src/lib/persona-bank/index');
             const persona = mod.getPersona ? mod.getPersona('extrimli-core') : null;
             if (persona) {
               console.log('extrimli-core persona:', JSON.stringify(persona));
@@ -581,7 +585,7 @@ jobs:
         run: |
           echo "agent-resilience: activating post-deploy circuit breaker monitoring"
           npx tsx -e "
-            const mod = require('./src/lib/agent-resilience/index') 2>/dev/null || {};
+            const mod = require('./src/lib/agent-resilience/index');
             if (mod.getCircuitBreakerStatus) {
               const status = mod.getCircuitBreakerStatus('extrimli');
               console.log('Circuit breaker status:', JSON.stringify(status));
@@ -594,7 +598,7 @@ jobs:
         run: |
           echo "extrimli-cuz-validator-agent: validating crew/mentor social hub"
           npx tsx -e "
-            const cuz = require('./src/lib/extrimli-cuz/index') 2>/dev/null || {};
+            const cuz = require('./src/lib/extrimli-cuz/index');
             console.log('extrimli-cuz exports:', Object.keys(cuz).join(', ') || 'module loaded');
           " 2>/dev/null || echo "✅ extrimli-cuz live check logged"
 
@@ -616,7 +620,7 @@ jobs:
           echo "  SpajaPro 16 mesh: 16×16 = 256 nodes"
           echo "  Anomaly threshold: convergence < 0.95 triggers alert"
           npx tsx -e "
-            const mod = require('./src/lib/nova-generacija/index') 2>/dev/null || {};
+            const mod = require('./src/lib/nova-generacija/index');
             if (mod.selfHealingDiagnostics) {
               mod.selfHealingDiagnostics({ node: 56, persona: 'extrimli-core' });
             } else {
@@ -631,7 +635,7 @@ jobs:
           echo "  Target convergence: ≥ 0.95"
           echo "  EXTRIMLI persona node 56 → apex node 256 path: 200 hops"
           npx tsx -e "
-            const mod = require('./src/lib/tarken-hingil-ekolan-maksimus/index') 2>/dev/null || {};
+            const mod = require('./src/lib/tarken-hingil-ekolan-maksimus/index');
             if (mod.validateConvergence) {
               const result = mod.validateConvergence({ sourceNode: 56, targetNode: 256 });
               console.log('Convergence result:', JSON.stringify(result));
