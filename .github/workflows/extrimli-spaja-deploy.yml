@@ -154,14 +154,14 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: 📥 Install dependencies
-        run: npm ci
-
       - name: 💾 Cache node_modules
         uses: actions/cache@v4
         with:
           path: node_modules
           key: node-modules-extrimli-spaja-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 📥 Install dependencies
+        run: npm ci
 
       - name: 🔍 TypeScript gate (noEmit)
         run: npx tsc --noEmit
@@ -177,7 +177,7 @@ jobs:
             src/lib/extrimli-cuz \
             src/app/api/extrimli-cuz \
             src/components/extrimli-cuz \
-            --max-warnings 0 || true
+            --max-warnings 0
 
       - name: 🧪 Unit tests — EXTRIMLI
         run: |
@@ -499,10 +499,12 @@ jobs:
 
       - name: 🔁 Rollback hook (on failure)
         if: ${{ failure() && github.event.inputs.rollback_hook_url != '' }}
+        env:
+          EXTRIMLI_ROLLBACK_HOOK_URL: ${{ github.event.inputs.rollback_hook_url }}
         run: |
           echo "⚠️ Deploy neuspešan — aktiviram rollback hook..."
           ROLLBACK_CODE=$(curl -sS -o /tmp/extrimli_rollback.json -w "%{http_code}" \
-            -X POST "${{ github.event.inputs.rollback_hook_url }}")
+            -X POST "$EXTRIMLI_ROLLBACK_HOOK_URL")
           echo "Rollback HTTP: $ROLLBACK_CODE"
           cat /tmp/extrimli_rollback.json || true
 
