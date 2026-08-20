@@ -25,7 +25,7 @@ Ovaj dokument je centralni referentni registar svih platformi u ekosistemu, njih
 | 💱 AI IQ Menjačnica | `platforms/menjacnica/` | Next.js | ✅ Aktivan | — | — | @spaja86 |
 | 🏦 AI IQ World Bank | `platforms/world-bank/` | Next.js | ✅ Aktivan | — | — | @spaja86 |
 | 🚀 OMEGA AI za Vercel | — | Node.js | ✅ Aktivan | — | — | @spaja86 |
-| 🏭 Kompanija SPAJA | `platforms/kompanija-spaja/` | Next.js | 🔧 U pripremi | — | — | @spaja86 |
+| 🏭 Kompanija SPAJA | `platforms/kompanija-spaja/` | Next.js | 🚀 EXTRIMLI START | 🚀 Da | `/api/extrimli/health` | @spaja86 |
 | ⚡ Nova Generacija | `platforms/nova-generacija/` | Next.js 16 + SpajaPro 16 | ✅ Aktivan | 🚀 Da | `/api/nova-generacija` | @spaja86 |
 | 🧭 Mekartor | `platforms/mekartor/` + `/mekartor` | Next.js 16 | ✅ Aktivan | 🚀 Da | `/api/mekartor` | @spaja86 |
 
@@ -76,6 +76,8 @@ production (Vercel)
 | `depon-deploy.yml` | branch trigger | DEPON multi-phase pipeline | ✅ Active |
 | `deploy-platforma.yml` | main + manual | Deploy Platforma hub + Mekartor rollout paths | ✅ Active |
 | `blockchain-deploy.yml` | manual | Smart contract deployment (Polygon) | ✅ Active |
+| `extrimli-spaja-deploy.yml` | push main (extrimli paths) + manual dispatch | EXTRIMLI START deploy — 6-phase pipeline (CI → Build → Sync → Production → Post-Deploy → Audit) | ✅ Active |
+| `extrimli-validator.yml` | PR `extrimli:logic-change` label, extrimli branch push | EXTRIMLI validation gate (risk, gear, perf, events, weather) | ✅ Active |
 
 ---
 

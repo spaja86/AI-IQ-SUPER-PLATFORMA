@@ -770,6 +770,31 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
+### EXTRIMLI — START Deploy (SPAJA Platform)
+
+| Field | Value |
+|-------|-------|
+| **Deploy workflow** | `.github/workflows/extrimli-spaja-deploy.yml` |
+| **Go-live tracking** | `docs/EXTRIMLI-START-DEPLOY.md` |
+| **OKRID** | `OKRID-2026-EXTRIMLI-START-001` |
+| **Persona** | `extrimli-core` (octave: 7, hipermreza node: 56) |
+
+| Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
+|------|------|------|
+| EXTRIMLI gear catalog snapshot — START deploy | `spaja86/IO-OPENUI-AO` — Follow-up required | `multi-repo-sync-agent` post-deploy |
+| EXTRIMLI v3 risk profiles — START deploy | `spaja86/IO-OPENUI-AO` — Follow-up required | Follow-up after v3 stabilization |
+
+**Downstream tasks (post START deploy):**
+- Confirm gear catalog snapshot sync to IO-OPENUI-AO after first successful production deploy
+- Add `extrimli:start-deploy` label to linked-repo label schema
+- Update `extrimli-validator-agent` trigger in linked-repo `.agent-config.json` to include START deploy ref
+- Track EXTRIMLI v1 + v3 API contract versions in linked repo consumers
+- Verify `extrimli-core` persona (node: 56) registered in persona-bank post-deploy
+
+```
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>
+```
+
 ## EXTRIMLI CUZ — Community & Social Hub
 
 | Field | Value |
