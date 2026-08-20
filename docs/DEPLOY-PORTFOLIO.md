@@ -76,7 +76,7 @@ production (Vercel)
 | `depon-deploy.yml` | branch trigger | DEPON multi-phase pipeline | ✅ Active |
 | `deploy-platforma.yml` | main + manual | Deploy Platforma hub + Mekartor rollout paths | ✅ Active |
 | `blockchain-deploy.yml` | manual | Smart contract deployment (Polygon) | ✅ Active |
-| `extrimli-spaja-deploy.yml` | push main (extrimli paths) + manual dispatch | EXTRIMLI START deploy — 5-phase pipeline (CI → Build → Staging → Production → Audit) | ✅ Active |
+| `extrimli-spaja-deploy.yml` | push main (extrimli paths) + manual dispatch | EXTRIMLI START deploy — 6-phase pipeline (CI → Build → Sync → Production → Post-Deploy → Audit) | ✅ Active |
 | `extrimli-validator.yml` | PR `extrimli:logic-change` label, extrimli branch push | EXTRIMLI validation gate (risk, gear, perf, events, weather) | ✅ Active |
 
 ---

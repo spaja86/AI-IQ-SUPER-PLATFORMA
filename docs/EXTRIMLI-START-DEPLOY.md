@@ -106,7 +106,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 **Rollback trigeri:**
 - Smoke failure (HTTP ≠ 2xx)
-- API response > 500ms
+- API response > 200ms (KPI breach)
 - Hipermreza konvergencija < 0.95
 - Security finding post-deploy
 
