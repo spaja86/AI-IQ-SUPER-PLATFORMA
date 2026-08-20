@@ -795,6 +795,33 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
+### EXTRIMLI — TRANCE EXTREM Deploy (Platform SPAJA)
+
+| Field | Value |
+|-------|-------|
+| **Deploy workflow** | `.github/workflows/extrimli-trance-extrem-deploy.yml` |
+| **Go-live tracking** | `docs/EXTRIMLI-TRANCE-EXTREM.md` |
+| **OKRID** | `OKRID-2026-EXTRIMLI-TRANCE-001` |
+| **Persona** | `extrimli-core` (octave: 7, hipermreza node: 56) |
+| **Phases** | Phase 1 Ignition → Phase 2 Build → Phase 3 Staging → Phase 4 Sync → Phase 5 Production → Phase 6 Resilience |
+
+| Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
+|---|---|---|
+| EXTRIMLI gear catalog snapshot — Trance Extrem | `spaja86/IO-OPENUI-AO` — Follow-up required | `multi-repo-sync-agent` Phase 4 |
+| EXTRIMLI v3 risk profiles — Trance Extrem | `spaja86/IO-OPENUI-AO` — Follow-up required | Follow-up after Trance Extrem stabilization |
+| `.agent-config.json` extrimli block | `spaja86/IO-OPENUI-AO` — Follow-up required | `multi-repo-sync-agent` Phase 4 |
+
+**Downstream tasks (post Trance Extrem deploy):**
+- Confirm gear catalog snapshot sync to IO-OPENUI-AO after Phase 4 multi-repo sync
+- Verify `extrimli-core` persona (node: 56) active in persona-bank post Phase 4
+- Confirm apex convergence ≥ 0.95 (node 56 → node 256) in Phase 6 resilience check
+- Add `extrimli:trance-extrem` label to linked-repo label schema
+- Verify `analytics-bot` captured deploy metrics (time, latency p95, error rate)
+
+```
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
+```
+
 ## EXTRIMLI CUZ — Community & Social Hub
 
 | Field | Value |
