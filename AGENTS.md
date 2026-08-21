@@ -392,6 +392,46 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Nova Generacija integration**: Cross-platform persona sync, SpajaPro 16 Hipermreza anchor
   - **Contract version**: 1.0.0
 
+
+### tajming-validator-agent (NEW)
+- **Role**: Validacija TAJMING logike — timing scoring, cirkadijalni ritam, analiza rokova i integritet action window-a
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/tajming/**`, `src/app/api/tajming/**`
+- **Trigger**: PR sa labelom `tajming:logic-change`, push koji dira `tajming` putanje
+- **Actions**:
+  - Pokreće unit test suite za TAJMING logiku (types, engine, registry, route-utils)
+  - Verifikuje timingScore i edge cases (NaN, Infinity, negativni energyLevel, nevalidni timeOfDay, deadline u prošlosti)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `tajming:validated` ili `tajming:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `tajming-core` (octave: 5, hipermreza node: 41)
+
+### swiming-validator-agent (NEW)
+- **Role**: Validacija SWIMING logike — readiness scoring za plivanje, stroke analiza, kalorijska procena i bezbednosni alertovi
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/swiming/**`, `src/app/api/swiming/**`
+- **Trigger**: PR sa labelom `swiming:logic-change`, push koji dira `swiming` putanje
+- **Actions**:
+  - Pokreće unit test suite za SWIMING logiku (types, engine, registry, route-utils)
+  - Verifikuje readinessScore, estimatedCalories i edge cases (NaN, Infinity, negativno trajanje, nevalidni stroke, ekstremne temp vode)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `swiming:validated` ili `swiming:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `swiming-core` (octave: 6, hipermreza node: 50)
+
+### dresing-validator-agent (NEW)
+- **Role**: Validacija DRESING logike — fitScore evaluacija, dresscode matching, weather adaptation i style coherence
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dresing/**`, `src/app/api/dresing/**`
+- **Trigger**: PR sa labelom `dresing:logic-change`, push koji dira `dresing` putanje
+- **Actions**:
+  - Pokreće unit test suite za DRESING logiku (types, engine, registry, route-utils)
+  - Verifikuje fitScore i edge cases (NaN, Infinity, negativna temp, nevalidna prigoda, formalityLevel van opsega 0–10)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `dresing:validated` ili `dresing:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `dresing-core` (octave: 4, hipermreza node: 33)
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -463,6 +503,9 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 | reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 | chatgpt-katalog-validator-agent | ChatGPT Katalog — AI Tools Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths) |
+| tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tajming paths) |
+| swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
+| dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -974,6 +1017,45 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Note**: 14856
   - **Multi-repo sync**: Syncs reproduction-ad catalog snapshots to `spaja86/IO-OPENUI-AO`
 
+### tajming-validator-agent (NEW)
+- **Role**: Validate TAJMING logic — timing scoring, circadian alignment, deadline analysis, and action window integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/tajming/**`, `src/app/api/tajming/**`
+- **Trigger**: PR with label `tajming:logic-change`, push touching `tajming` paths
+- **Actions**:
+  - Runs unit test suite for TAJMING logic (types, engine, registry, route-utils)
+  - Verifies timingScore and edge cases (NaN, Infinity, negative energyLevel, invalid timeOfDay, deadline in the past)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `tajming:validated` or `tajming:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `tajming-core` (octave: 5, hipermreza node: 41)
+
+### swiming-validator-agent (NEW)
+- **Role**: Validate SWIMING logic — swimming readiness scoring, stroke analysis, caloric estimation, and safety alert integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/swiming/**`, `src/app/api/swiming/**`
+- **Trigger**: PR with label `swiming:logic-change`, push touching `swiming` paths
+- **Actions**:
+  - Runs unit test suite for SWIMING logic (types, engine, registry, route-utils)
+  - Verifies readinessScore, estimatedCalories, and edge cases (NaN, Infinity, negative duration, invalid stroke type, extreme water temps)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `swiming:validated` or `swiming:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `swiming-core` (octave: 6, hipermreza node: 50)
+
+### dresing-validator-agent (NEW)
+- **Role**: Validate DRESING logic — fitScore evaluation, dress-code matching, weather adaptation, and style coherence
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dresing/**`, `src/app/api/dresing/**`
+- **Trigger**: PR with label `dresing:logic-change`, push touching `dresing` paths
+- **Actions**:
+  - Runs unit test suite for DRESING logic (types, engine, registry, route-utils)
+  - Verifies fitScore and edge cases (NaN, Infinity, negative temp, invalid occasion, formalityLevel out of 0–10 range)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `dresing:validated` or `dresing:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `dresing-core` (octave: 4, hipermreza node: 33)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1044,6 +1126,9 @@ This file describes agents, their roles, and usage rules for automation in this 
 | dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 | reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 | chatgpt-katalog-validator-agent | ChatGPT Katalog — AI Tools Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths) |
+| tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tajming paths) |
+| swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
+| dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
