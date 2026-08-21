@@ -1259,3 +1259,72 @@ AI-IQ-SUPER-PLATFORMA#chatgpt-katalog -> IO-OPENUI-AO#<optional follow-up>
 ```
 AI-IQ-SUPER-PLATFORMA#ekselencio -> IO-OPENUI-AO#<optional follow-up>
 ```
+
+---
+
+## TAJMING — Multi-Repo Link
+
+| Field | Value |
+|-------|-------|
+| Module | TAJMING — Timing Intelligence Engine |
+| Persona | `tajming-core` (octave: 5, hipermreza node: 41) |
+| Validator | `tajming-validator-agent` |
+| Endpoint | `POST /api/tajming/evaluate` — evaluate; `GET /api/tajming/health` — health |
+| Focus | Circadian alignment, deadline proximity, action window scoring |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — TAJMING timing engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync timing score snapshots when downstream adoption starts |
+
+**Audit convention:**
+```
+AI-IQ-SUPER-PLATFORMA#tajming -> IO-OPENUI-AO#<optional follow-up>
+```
+
+---
+
+## SWIMING — Multi-Repo Link
+
+| Field | Value |
+|-------|-------|
+| Module | SWIMING — Swimming Performance & Wellness Engine |
+| Persona | `swiming-core` (octave: 6, hipermreza node: 50) |
+| Validator | `swiming-validator-agent` |
+| Endpoint | `POST /api/swiming/evaluate` — evaluate; `GET /api/swiming/health` — health |
+| Focus | Stroke efficiency, readiness scoring, caloric burn estimation, safety alerts |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — SWIMING readiness engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync swim readiness snapshots when downstream adoption starts |
+
+**Audit convention:**
+```
+AI-IQ-SUPER-PLATFORMA#swiming -> IO-OPENUI-AO#<optional follow-up>
+```
+
+---
+
+## DRESING — Multi-Repo Link
+
+| Field | Value |
+|-------|-------|
+| Module | DRESING — Outfit Intelligence & Dress-Code Advisor |
+| Persona | `dresing-core` (octave: 4, hipermreza node: 33) |
+| Validator | `dresing-validator-agent` |
+| Endpoint | `POST /api/dresing/evaluate` — evaluate; `GET /api/dresing/health` — health |
+| Focus | Dresscode alignment, weather adaptation, style coherence scoring |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — DRESING outfit engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync outfit recommendation snapshots when downstream adoption starts |
+
+**Audit convention:**
+```
+AI-IQ-SUPER-PLATFORMA#dresing -> IO-OPENUI-AO#<optional follow-up>
+```

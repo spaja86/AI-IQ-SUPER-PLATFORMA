@@ -245,6 +245,54 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['dnevna-svetlost-validator-agent', 'persona-bank-agent'],
     crossRepoRef: 'dnevna-svetlost',
   },
+  // ─── TAJMING ──────────────────────────────────────────────────────────────
+  {
+    id: 'tajming-core',
+    name: 'TAJMING — Timing Intelligence Engine',
+    type: 'tajming',
+    octave: 5,
+    hipermrezaNode: 41,
+    attributes: {
+      traits: ['precise', 'circadian-aware', 'strategic'],
+      skills: ['timing-scoring', 'deadline-analysis', 'circadian-alignment'],
+      tone: 'focused',
+      domain: 'productivity/timing',
+    },
+    linkedAgents: ['tajming-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'tajming',
+  },
+  // ─── SWIMING ──────────────────────────────────────────────────────────────
+  {
+    id: 'swiming-core',
+    name: 'SWIMING — Swimming Performance & Wellness Engine',
+    type: 'swiming',
+    octave: 6,
+    hipermrezaNode: 50,
+    attributes: {
+      traits: ['athletic', 'safety-conscious', 'performance-driven'],
+      skills: ['readiness-scoring', 'calorie-estimation', 'stroke-analysis'],
+      tone: 'motivating',
+      domain: 'sports/aquatic-wellness',
+    },
+    linkedAgents: ['swiming-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'swiming',
+  },
+  // ─── DRESING ──────────────────────────────────────────────────────────────
+  {
+    id: 'dresing-core',
+    name: 'DRESING — Outfit Intelligence & Dress-Code Advisor',
+    type: 'dresing',
+    octave: 4,
+    hipermrezaNode: 33,
+    attributes: {
+      traits: ['stylish', 'context-aware', 'adaptive'],
+      skills: ['fitScore-evaluation', 'dresscode-matching', 'weather-adaptation'],
+      tone: 'refined',
+      domain: 'lifestyle/fashion-intelligence',
+    },
+    linkedAgents: ['dresing-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'dresing',
+  },
 ];
 
 export const PERSONA_BANK_SEED_AGENT_ID = 'persona-bank-seed';
