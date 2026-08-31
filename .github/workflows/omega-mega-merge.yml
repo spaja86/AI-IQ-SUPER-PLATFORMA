@@ -58,7 +58,7 @@ jobs:
 
       - name: 🔍 Pronađi grane za merge
         id: find-branches
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const owner = context.repo.owner;
@@ -215,7 +215,7 @@ jobs:
         if: >-
           steps.find-branches.outputs.already_merged != '0' &&
           (github.event.inputs.delete_merged == 'true' || github.event_name == 'schedule' || github.event_name == 'push')
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const owner = context.repo.owner;
