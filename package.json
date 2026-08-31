@@ -60,7 +60,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^10",
     "eslint-config-next": "16.2.4",
-    "hardhat": "^3.4.3",
+    "hardhat": "^3.5.1",
     "tailwindcss": "^4",
     "typescript": "^6"
   }
