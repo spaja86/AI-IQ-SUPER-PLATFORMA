@@ -5,6 +5,13 @@
 #
 # EXTRIMLI deploy orchestration za SPAJA platformu.
 #
+# WAWE MAP (Vercel → Digitalna Industrija):
+#   WAWE 1 = FAZA 1 (pre-release validacija)
+#   WAWE 2 = FAZA 2 + FAZA 3 (build + staging)
+#   WAWE 3 = FAZA 4 (downstream sync evidence)
+#   WAWE 4 = FAZA 4 (production rollout 10%→50%→100%)
+#   WAWE 5 = FAZA 5 (post-release resilience + analytics)
+#
 # FAZA 1 — PRE-DEPLOY GATE (Quality Lock)
 #   • Full CI: TypeScript, lint, unit tests za sve module
 #   • Security scan: npm audit, secret heuristics
@@ -431,6 +438,7 @@ jobs:
           echo "| **Quality gates** | \`type-check, lint, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Deploy mode** | \`Vercel Git integracija (primarni)\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Rollback** | \`Vercel Dashboard → Promote (< 60s)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **WAWE mapping** | \`W1=pre-release, W2=build+staging, W3=sync, W4=rollout, W5=resilience\` |" >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🚀 Vercel Deploy Hook (manuelni fallback)
         env:
@@ -534,6 +542,10 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "| **Razlog** | \`${{ github.event.inputs.razlog }}\` |" >> "$GITHUB_STEP_SUMMARY"
           fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 🚧 Promotion freeze policy" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Release promotion mora biti zaustavljen ako KPI/audit/sync status nije potpun." >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "### 📊 KPI Results" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"

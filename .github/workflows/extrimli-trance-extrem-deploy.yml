@@ -4,6 +4,13 @@
 # OKRID: OKRID-2026-EXTRIMLI-TRANCE-001
 # ═══════════════════════════════════════════════════════════
 #
+# WAWE MAP (Vercel → Digitalna Industrija):
+#   WAWE 1 = PHASE 1 (pre-release validacija)
+#   WAWE 2 = PHASE 2 + PHASE 3 (build + staging)
+#   WAWE 3 = PHASE 4 (downstream sync)
+#   WAWE 4 = PHASE 5 (production rollout 10%→50%→100%)
+#   WAWE 5 = PHASE 6 (post-release resilience + analytics)
+#
 # PHASE 1 — PRE-TRANCE IGNITION (Validation Gate)
 #   • extrimli-validator-agent: full suite (all paths)
 #   • KPI gate: evaluation ≤ 50ms, API ≤ 200ms
@@ -202,6 +209,7 @@ jobs:
           | KPI eval ≤ 50ms | ✅ |
 
           **Labels to apply:** `extrimli:logic-change`, `agent:config-change`
+          **WAWE mapping:** `WAWE 1`
           EOF
 
 # ═══════════════════════════════════
@@ -356,6 +364,7 @@ jobs:
           **Build tag:** \`${BUILD_TAG}\`
           **Timestamp:** \`${TIMESTAMP}\`
           **MULTI-REPO-LINKS reference:** See \`docs/MULTI-REPO-LINKS.md\` — EXTRIMLI Trance Extrem
+          **WAWE mapping:** \`WAWE 2\`
           EOF
 
 # ═══════════════════════════════════════════
@@ -448,6 +457,7 @@ jobs:
           | .agent-config.json extrimli block sync | ✅ |
 
           **Downstream:** `spaja86/IO-OPENUI-AO` — gear catalog snapshot pending sync
+          **WAWE mapping:** `WAWE 3`
           EOF
 
 # ═══════════════════════════════════════════════
@@ -560,6 +570,7 @@ jobs:
           | Zero-downtime | 100% | ✅ |
 
           **Downstream:** IO-OPENUI-AO gear catalog synced ✅
+          **WAWE mapping:** `WAWE 4`
           EOF
 
 # ═══════════════════════════════════════════════
@@ -673,6 +684,8 @@ jobs:
           | Persona | \`extrimli-core\` (octave: 7, hipermreza node: 56) |
           | Downstream | IO-OPENUI-AO gear catalog synced ✅ |
           | Kill switch | agent-resilience active (threshold: error rate > 5%) |
+          | WAWE | `WAWE 5` |
 
           > All 6 phases complete. Platform SPAJA — EXTRIMLI Trance Extrem is live. 🚀
+          > Promotion freeze applies if KPI/audit/sync status is incomplete.
           EOF
