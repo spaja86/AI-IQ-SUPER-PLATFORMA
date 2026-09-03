@@ -18,6 +18,7 @@ export type PersonaType =
   | 'madagaskar'
   | 'extrimli'
   | 'digit-engine'
+  | 'pilotrelax'
   | 'generic';
 
 export type PersonaStatus = 'active' | 'dormant' | 'archived';
