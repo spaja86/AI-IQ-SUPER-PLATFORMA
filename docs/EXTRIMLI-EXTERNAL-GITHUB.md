@@ -26,6 +26,8 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 | Community domain | `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**` | Crew, mentorship, feed i reputation signali za Extendol/KORON |
 | Unified Extendol domain | `src/lib/extrimli-extendol/**`, `src/app/api/extrimli/extendol/**` | Unified "maximum functionality for all" contract and aggregate readiness surface |
 | KORON overlay domain | `src/lib/extrimli-koron/**`, `src/app/api/extrimli/koron/**` | Cross-surface readiness overlay, sync coverage i degraded posture |
+| EXTRONDEND aggregation domain | `src/lib/extrimli-extrondend/**`, `src/app/api/extrimli/extrondend/**` | Dedicated aggregation and scoring contract (not alias) |
+| EXTRONDOL orchestration domain | `src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**` | Dedicated WAWE orchestration/readiness contract (not alias) |
 | Export layer | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/**` | Snapshot i developer-facing export bundle |
 | Quality gate | `.github/workflows/extrimli-validator.yml` | Standardni validator i KPI gate |
 | MAKSIMUS integration gate | `.github/workflows/maksimus-validator.yml` | Verifikuje EXTRIMLI signal ingest i orchestration alignment |
@@ -46,7 +48,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 ## 4. GitHub operating model
 
 - **Primary quality gate:** `extrimli-validator-agent`
-- **Required labels:** `extrimli`, `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change`
+- **Required labels:** `extrimli`, `extrimli:logic-change`, `extrimli:external-github`, `extrondend:logic-change`, `extrondol:logic-change`, `agent:config-change`
 - **Human review:** obavezan za workflow/config/cross-repo promene
 - **Security boundary:** svi hook-ovi, tokeni i deploy kredencijali ostaju u GitHub/Vercel Secrets sloju
 - **Runtime source of truth:** Vercel Git integracija
@@ -82,6 +84,8 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - module health/status snapshot
 - extendol unified health/readiness snapshot
 - KORON overlay health/readiness snapshot
+- EXTRONDEND aggregation snapshot
+- EXTRONDOL orchestration snapshot
 - gear catalog snapshot
 - DESTRUKCIJA asset snapshot
 - instrukcija registry
@@ -91,9 +95,17 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 ## 8. EXTRIMLI ↔ MAKSIMUS alignment
 
 - MAKSIMUS koristi `EXTRIMLI Extended` domen signal iz `/api/extrimli/extendol`.
+- EXTRONDEND koristi `/api/extrimli/extendol` + `/api/extrimli/koron` kao ulazne agregacione signale.
+- EXTRONDOL koristi `/api/extrimli/extrondend` + `/api/extrimli/extendol` + `/api/extrimli/koron` za WAWE readiness orkestraciju.
 - KORON surface `/api/extrimli/koron` mora ostati uključen u Extendol readiness i degraded evidenciju.
 - Ako EXTRIMLI surface pređe KPI limit ili uđe u degraded mode, MAKSIMUS mora prijaviti preporuku za sanaciju.
 - Governance evidencija mora sadržati oba gate-a: `extrimli-validator` i `maksimus-validator`.
+
+## 8.1 Naming lock
+
+- EXTRONDEND i EXTRONDOL su novi dedicated moduli i **nisu** alias-i Extendol/KORON surface-a.
+- Source-of-truth endpointi: `/api/extrimli/extrondend` i `/api/extrimli/extrondol`.
+- Ownership: `@spaja86`; trigger labels: `extrondend:logic-change`, `extrondol:logic-change`.
 
 ## 9. Downstream responsibilities
 
@@ -109,6 +121,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 ## 10. Mandatory gate criteria
 
 - KPI: evaluation ≤ 50ms, API ≤ 200ms, build ≤ 3 min
+- EXTRONDEND i EXTRONDOL moraju imati explicit versioned contract polja i source-of-truth endpoint
 - Security boundary: bez sekreta u kodu, sve kroz GitHub/Vercel Secrets
 - Human review obavezan pre promocije
 - Label higijena: `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` (za config/workflow promene)

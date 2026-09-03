@@ -6,9 +6,13 @@ on:
       - 'src/lib/extrimli/**'
       - 'src/lib/extrimli-extendol/**'
       - 'src/lib/extrimli-koron/**'
+      - 'src/lib/extrimli-extrondend/**'
+      - 'src/lib/extrimli-extrondol/**'
       - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
       - 'src/app/api/extrimli-3/**'
+      - 'src/app/api/extrimli/extrondend/**'
+      - 'src/app/api/extrimli/extrondol/**'
       - 'src/components/extrimli/**'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
@@ -16,6 +20,8 @@ on:
       - 'src/tests/lib/extrimli.test.ts'
       - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-koron.test.ts'
+      - 'src/tests/lib/extrimli-extrondend.test.ts'
+      - 'src/tests/lib/extrimli-extrondol.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
@@ -32,9 +38,13 @@ on:
       - 'src/lib/extrimli/**'
       - 'src/lib/extrimli-extendol/**'
       - 'src/lib/extrimli-koron/**'
+      - 'src/lib/extrimli-extrondend/**'
+      - 'src/lib/extrimli-extrondol/**'
       - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
       - 'src/app/api/extrimli-3/**'
+      - 'src/app/api/extrimli/extrondend/**'
+      - 'src/app/api/extrimli/extrondol/**'
       - 'src/components/extrimli/**'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
@@ -42,6 +52,8 @@ on:
       - 'src/tests/lib/extrimli.test.ts'
       - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-koron.test.ts'
+      - 'src/tests/lib/extrimli-extrondend.test.ts'
+      - 'src/tests/lib/extrimli-extrondol.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
@@ -69,14 +81,20 @@ jobs:
         src/lib/extrimli
         src/lib/extrimli-extendol
         src/lib/extrimli-koron
+        src/lib/extrimli-extrondend
+        src/lib/extrimli-extrondol
         src/lib/extrimli-3
         src/app/api/extrimli
         src/app/api/extrimli-3
+        src/app/api/extrimli/extrondend
+        src/app/api/extrimli/extrondol
         src/components/extrimli
       test_commands: |
         npx tsx src/tests/lib/extrimli.test.ts
         npx tsx src/tests/lib/extrimli-extendol.test.ts
         npx tsx src/tests/lib/extrimli-koron.test.ts
+        npx tsx src/tests/lib/extrimli-extrondend.test.ts
+        npx tsx src/tests/lib/extrimli-extrondol.test.ts
         npx tsx src/tests/lib/extrimli-3.test.ts
         npx tsx src/tests/lib/extrimli-instrukcija.test.ts
         npx tsx src/tests/api/extrimli-route.test.ts
@@ -84,9 +102,13 @@ jobs:
         src/lib/extrimli
         src/lib/extrimli-extendol
         src/lib/extrimli-koron
+        src/lib/extrimli-extrondend
+        src/lib/extrimli-extrondol
         src/lib/extrimli-3
         src/app/api/extrimli
         src/app/api/extrimli-3
+        src/app/api/extrimli/extrondend
+        src/app/api/extrimli/extrondol
       label: extrimli
       perf_eval_ms: 50
       perf_api_ms: 200

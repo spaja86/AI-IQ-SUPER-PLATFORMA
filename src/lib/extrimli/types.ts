@@ -254,6 +254,14 @@ export interface ExtrimliDestructionHealthReport {
 
 // ─── Health Report ────────────────────────────────────────────────────────────
 
+
+export interface ExtrimliAggregateSignals {
+  sourceOfTruth: '/api/extrimli/health';
+  readinessSignal: number;
+  safetySignal: number;
+  degradationSignal: number;
+}
+
 export interface ExtrimliHealthReport {
   personaId: string;
   contractVersion: string;

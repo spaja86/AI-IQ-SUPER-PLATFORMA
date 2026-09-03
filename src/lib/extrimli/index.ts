@@ -1,7 +1,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — EXTRIMLI
 // Kompanija SPAJA — Digitalna Industrija
 
-import type { ExtrimliHealthReport } from './types';
+import type { ExtrimliAggregateSignals, ExtrimliHealthReport } from './types';
 import {
   EXTRIMLI_API_RESPONSE_MAX_MS,
   EXTRIMLI_CONTRACT_VERSION,
@@ -11,6 +11,7 @@ import {
 } from './types';
 import { getRiskMetrics } from './risk-engine';
 import { getDestructionMetrics } from './destruction-engine';
+import { clamp, round } from './utils';
 
 export function getExtrimliHealthReport(): ExtrimliHealthReport {
   const { riskEvaluations, lastRiskScore, lastRiskLevel } = getRiskMetrics();
@@ -33,6 +34,20 @@ export function getExtrimliHealthReport(): ExtrimliHealthReport {
     lastDestructionSeverityLevel: lastSeverityLevel,
     performanceMaxMs:   EXTRIMLI_PERFORMANCE_MAX_MS,
     apiResponseMaxMs:   EXTRIMLI_API_RESPONSE_MAX_MS,
+  };
+}
+
+
+export function getExtrimliAggregateSignals(): ExtrimliAggregateSignals {
+  const report = getExtrimliHealthReport();
+  const safetySignal = round(clamp(100 - report.lastRiskScore, 0, 100), 2);
+  const readinessSignal = round(clamp((safetySignal + (100 - report.lastDestructionSeverityScore)) / 2, 0, 100), 2);
+  const degradationSignal = report.performanceMaxMs > EXTRIMLI_PERFORMANCE_MAX_MS || report.apiResponseMaxMs > EXTRIMLI_API_RESPONSE_MAX_MS ? 100 : 0;
+  return {
+    sourceOfTruth: '/api/extrimli/health',
+    readinessSignal,
+    safetySignal,
+    degradationSignal,
   };
 }
 
@@ -126,6 +141,7 @@ export type {
   DestructionResult,
   DestructionSeverityLevel,
   ExtrimliDestructionHealthReport,
+  ExtrimliAggregateSignals,
   ExtrimliHealthReport,
 } from './types';
 

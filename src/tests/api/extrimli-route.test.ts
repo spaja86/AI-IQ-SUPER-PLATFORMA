@@ -7,6 +7,8 @@ import { POST as postDestructionPreview } from '../../app/api/extrimli/destructi
 import { POST as postReadVoice } from '../../app/api/extrimli/read-voice/route';
 import { GET as getExtendol } from '../../app/api/extrimli/extendol/route';
 import { GET as getKoron } from '../../app/api/extrimli/koron/route';
+import { GET as getExtrondend } from '../../app/api/extrimli/extrondend/route';
+import { GET as getExtrondol } from '../../app/api/extrimli/extrondol/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 
 let passed = 0;
@@ -70,6 +72,34 @@ async function runTests(): Promise<void> {
     assert(body.data.sourceOfTruth === '/api/extrimli/extendol', 'unexpected sourceOfTruth');
     assert(body.data.coverage.sportRiskEvaluation === true, 'expected sportRiskEvaluation coverage');
     assert(body.data.acceptanceCriteria.some((item) => item.id === 'all-user-paths-covered' && item.passed), 'expected all-user-paths-covered acceptance criterion');
+  });
+
+
+  await test('GET /api/extrimli/extrondend returns aggregation report and headers', async () => {
+    const response = await getExtrondend();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Extrondend-Contract-Version') === 'v1-extrondend', 'missing EXTRONDEND contract header');
+
+    const body = await response.json() as {
+      data: { sourceOfTruth: string; aggregationScore: number; integrationBoundaries: { aliasesOfExistingSurfaces: boolean } };
+    };
+    assert(body.data.sourceOfTruth === '/api/extrimli/extrondend', 'unexpected EXTRONDEND sourceOfTruth');
+    assert(body.data.aggregationScore >= 0 && body.data.aggregationScore <= 100, 'unexpected EXTRONDEND aggregationScore');
+    assert(body.data.integrationBoundaries.aliasesOfExistingSurfaces === false, 'EXTRONDEND must not be alias');
+  });
+
+  await test('GET /api/extrimli/extrondol returns orchestration report and headers', async () => {
+    const response = await getExtrondol();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Extrondol-Contract-Version') === 'v1-extrondol', 'missing EXTRONDOL contract header');
+
+    const body = await response.json() as {
+      data: { sourceOfTruth: string; orchestrationReadinessScore: number; rollout: { currentWawe: string; promotionFreeze: boolean } };
+    };
+    assert(body.data.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected EXTRONDOL sourceOfTruth');
+    assert(body.data.orchestrationReadinessScore >= 0 && body.data.orchestrationReadinessScore <= 100, 'unexpected EXTRONDOL orchestrationReadinessScore');
+    assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(body.data.rollout.currentWawe), 'unexpected currentWawe');
+    assert(typeof body.data.rollout.promotionFreeze === 'boolean', 'promotionFreeze should be boolean');
   });
 
   await test('GET /api/extrimli/koron returns KORON surface report and headers', async () => {
