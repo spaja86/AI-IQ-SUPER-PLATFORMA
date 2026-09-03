@@ -7,17 +7,23 @@ on:
   push:
     paths:
       - 'src/lib/chatgpt-katalog/**'
+      - 'src/app/chatgpt-katalog/**'
       - 'src/app/api/chatgpt-katalog/**'
       - 'src/components/chatgpt-katalog/**'
       - 'src/tests/lib/chatgpt-katalog.test.ts'
       - 'src/tests/api/chatgpt-katalog-route.test.ts'
+      - 'docs/CHATGPT-KATALOG.md'
+      - 'docs/MULTI-REPO-LINKS.md'
   pull_request:
     paths:
       - 'src/lib/chatgpt-katalog/**'
+      - 'src/app/chatgpt-katalog/**'
       - 'src/app/api/chatgpt-katalog/**'
       - 'src/components/chatgpt-katalog/**'
       - 'src/tests/lib/chatgpt-katalog.test.ts'
       - 'src/tests/api/chatgpt-katalog-route.test.ts'
+      - 'docs/CHATGPT-KATALOG.md'
+      - 'docs/MULTI-REPO-LINKS.md'
     types: [opened, synchronize, reopened, labeled]
 
 jobs:
@@ -55,5 +61,7 @@ jobs:
           echo "- **Persona**: chatgpt-katalog-core (octave: 10, hipermreza node: 81)" >> $GITHUB_STEP_SUMMARY
           echo "- **Timestamp**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Scope**: discovery-and-recommendation" >> $GITHUB_STEP_SUMMARY
+          echo "- **Catalog mode**: static-reference" >> $GITHUB_STEP_SUMMARY
           echo "- **KPI**: search ≤50ms | compare ≤100ms | API ≤200ms | lookup ≤10ms" >> $GITHUB_STEP_SUMMARY
           echo "- **Multi-repo sync**: spaja86/IO-OPENUI-AO" >> $GITHUB_STEP_SUMMARY

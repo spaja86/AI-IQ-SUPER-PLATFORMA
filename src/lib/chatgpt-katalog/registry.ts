@@ -3,8 +3,6 @@
 
 import type { GPTModel, GPTTool, GPTUseCase } from './types';
 
-// ─── GPT Models ───────────────────────────────────────────────────────────────
-
 export const GPT_MODELS: GPTModel[] = [
   {
     type: 'model',
@@ -19,6 +17,7 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'fast',
     description: 'OpenAI flagship multimodal model — text, vision, audio, and function calling in one.',
     tags: ['multimodal', 'flagship', 'vision', 'audio', 'fast'],
+    strengths: ['omnichannel copilots', 'voice+vision support', 'balanced speed and quality'],
   },
   {
     type: 'model',
@@ -33,6 +32,7 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'fast',
     description: 'Small, affordable, fast model for lightweight tasks. Best price/performance ratio.',
     tags: ['budget', 'fast', 'lightweight', 'vision'],
+    strengths: ['high-volume assistants', 'budget-sensitive flows', 'UI-triggered recommendations'],
   },
   {
     type: 'model',
@@ -47,6 +47,7 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'medium',
     description: 'High-capability model with 128k context, vision support, and function calling.',
     tags: ['powerful', 'vision', 'large-context'],
+    strengths: ['legacy enterprise migrations', 'long-context synthesis', 'JSON-heavy workflows'],
   },
   {
     type: 'model',
@@ -61,6 +62,7 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'fast',
     description: 'Classic fast model for simple text tasks. Lower cost, legacy status.',
     tags: ['legacy', 'budget', 'fast'],
+    strengths: ['simple chat flows', 'legacy compatibility', 'basic text automation'],
   },
   {
     type: 'model',
@@ -75,6 +77,7 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'slow',
     description: 'Advanced reasoning model — excels at complex math, code, and science tasks.',
     tags: ['reasoning', 'math', 'science', 'code', 'large-context'],
+    strengths: ['deep reasoning', 'technical diagnostics', 'multi-step solutioning'],
   },
   {
     type: 'model',
@@ -89,6 +92,7 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'medium',
     description: 'Compact reasoning model. Faster and cheaper than o1 for simpler reasoning tasks.',
     tags: ['reasoning', 'budget', 'code'],
+    strengths: ['reasoning on a budget', 'developer copilots', 'moderate latency workflows'],
   },
   {
     type: 'model',
@@ -103,6 +107,7 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'fast',
     description: 'Next-generation compact reasoning model. High performance at low cost.',
     tags: ['reasoning', 'fast', 'budget', 'large-context'],
+    strengths: ['cost-effective reasoning', 'compare-heavy evaluation', 'production-safe structured outputs'],
   },
   {
     type: 'model',
@@ -117,10 +122,9 @@ export const GPT_MODELS: GPTModel[] = [
     speedTier: 'slow',
     description: 'Original GPT-4. Superseded by GPT-4 Turbo and GPT-4o.',
     tags: ['deprecated', 'original'],
+    strengths: ['historical comparison', 'migration planning'],
   },
 ];
-
-// ─── GPT Tools ────────────────────────────────────────────────────────────────
 
 export const GPT_TOOLS: GPTTool[] = [
   {
@@ -132,6 +136,7 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/images/generations',
     integrationGuide: 'Pass model="dall-e-3", prompt, size (1024x1024, 1024x1792, 1792x1024), quality (standard/hd), n=1.',
     tags: ['image', 'generation', 'creative', 'multimodal'],
+    recommendedDomains: ['media', 'marketing', 'productivity'],
   },
   {
     type: 'tool',
@@ -142,6 +147,7 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/audio/transcriptions',
     integrationGuide: 'Send audio file (mp3, mp4, wav, webm, etc.) up to 25MB. Supports language detection and translation.',
     tags: ['audio', 'transcription', 'speech', 'multilingual'],
+    recommendedDomains: ['customer-service', 'media', 'education'],
   },
   {
     type: 'tool',
@@ -152,6 +158,7 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/audio/speech',
     integrationGuide: 'Specify model (tts-1 or tts-1-hd), voice (alloy, echo, fable, onyx, nova, shimmer), and input text.',
     tags: ['audio', 'speech', 'synthesis', 'voice'],
+    recommendedDomains: ['customer-service', 'media', 'accessibility'],
   },
   {
     type: 'tool',
@@ -162,6 +169,7 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/embeddings',
     integrationGuide: 'Pass input text or array of texts. Returns 1536-dimension float vectors. Use for vector similarity search.',
     tags: ['embeddings', 'semantic-search', 'nlp', 'vector'],
+    recommendedDomains: ['search', 'analytics', 'knowledge-management'],
   },
   {
     type: 'tool',
@@ -172,6 +180,7 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/embeddings',
     integrationGuide: 'Use model="text-embedding-3-large". Supports dimension reduction with dimensions parameter.',
     tags: ['embeddings', 'high-quality', 'semantic-search', 'vector'],
+    recommendedDomains: ['search', 'analytics', 'knowledge-management'],
   },
   {
     type: 'tool',
@@ -182,6 +191,7 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/fine_tuning/jobs',
     integrationGuide: 'Upload JSONL training file, create fine-tuning job, monitor with GET /v1/fine_tuning/jobs/{id}.',
     tags: ['fine-tuning', 'customization', 'training', 'enterprise'],
+    recommendedDomains: ['customer-service', 'analytics', 'software-development'],
   },
   {
     type: 'tool',
@@ -192,6 +202,7 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/moderations',
     integrationGuide: 'Free to use. Returns category flags and scores. Use before storing or displaying user content.',
     tags: ['safety', 'moderation', 'content-policy', 'free'],
+    recommendedDomains: ['safety', 'community', 'customer-service'],
   },
   {
     type: 'tool',
@@ -202,10 +213,31 @@ export const GPT_TOOLS: GPTTool[] = [
     apiEndpoint: 'POST /v1/assistants',
     integrationGuide: 'Create assistant with instructions and tools. Use threads for persistent conversations.',
     tags: ['agents', 'assistants', 'code-interpreter', 'file-search', 'threads'],
+    recommendedDomains: ['software-development', 'productivity', 'knowledge-management'],
+  },
+  {
+    type: 'tool',
+    id: 'responses-api',
+    name: 'Responses API',
+    category: 'orchestration',
+    description: 'Unified text-generation surface for building production-grade response flows with structured outputs and tool use.',
+    apiEndpoint: 'POST /v1/responses',
+    integrationGuide: 'Use response instructions, input, tool definitions, and JSON schema when you need one production entry point.',
+    tags: ['responses', 'structured-output', 'orchestration', 'production'],
+    recommendedDomains: ['software-development', 'analytics', 'customer-service'],
+  },
+  {
+    type: 'tool',
+    id: 'batch-api',
+    name: 'Batch API',
+    category: 'throughput-optimization',
+    description: 'Run asynchronous large-scale jobs for cost-sensitive offline processing workloads.',
+    apiEndpoint: 'POST /v1/batches',
+    integrationGuide: 'Upload a JSONL request file, create a batch job, and poll batch status for large asynchronous workloads.',
+    tags: ['batch', 'async', 'cost-optimization', 'throughput'],
+    recommendedDomains: ['analytics', 'content-operations', 'knowledge-management'],
   },
 ];
-
-// ─── GPT Use Cases ────────────────────────────────────────────────────────────
 
 export const GPT_USE_CASES: GPTUseCase[] = [
   {
@@ -218,6 +250,7 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     difficulty: 'beginner',
     tags: ['chatbot', 'support', 'customer-service'],
     recommendedModelId: 'gpt-4o-mini',
+    requiredCapabilities: ['text'],
   },
   {
     type: 'use-case',
@@ -229,6 +262,7 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     difficulty: 'intermediate',
     tags: ['code', 'review', 'security', 'development'],
     recommendedModelId: 'gpt-4o',
+    requiredCapabilities: ['text', 'function-calling'],
   },
   {
     type: 'use-case',
@@ -240,6 +274,7 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     difficulty: 'intermediate',
     tags: ['analytics', 'data', 'json', 'structured-output'],
     recommendedModelId: 'gpt-4o',
+    requiredCapabilities: ['text', 'structured-outputs'],
   },
   {
     type: 'use-case',
@@ -251,6 +286,7 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     difficulty: 'advanced',
     tags: ['math', 'science', 'reasoning', 'education'],
     recommendedModelId: 'o1',
+    requiredCapabilities: ['text', 'reasoning'],
   },
   {
     type: 'use-case',
@@ -262,6 +298,7 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     difficulty: 'beginner',
     tags: ['summarization', 'productivity', 'documents', 'long-context'],
     recommendedModelId: 'gpt-4o',
+    requiredCapabilities: ['text'],
   },
   {
     type: 'use-case',
@@ -273,6 +310,7 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     difficulty: 'beginner',
     tags: ['vision', 'image', 'analysis', 'ocr', 'multimodal'],
     recommendedModelId: 'gpt-4o',
+    requiredCapabilities: ['vision'],
   },
   {
     type: 'use-case',
@@ -283,7 +321,8 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     expectedOutput: 'Ranked list of matching documents with cosine similarity scores.',
     difficulty: 'advanced',
     tags: ['embeddings', 'search', 'vector', 'rag'],
-    recommendedModelId: undefined,
+    recommendedModelId: 'o3-mini',
+    requiredCapabilities: ['text', 'reasoning'],
   },
   {
     type: 'use-case',
@@ -294,22 +333,45 @@ export const GPT_USE_CASES: GPTUseCase[] = [
     expectedOutput: 'Safety report with violation flags, severity, category, and allow/block decision.',
     difficulty: 'intermediate',
     tags: ['safety', 'moderation', 'content-policy'],
-    recommendedModelId: undefined,
+    recommendedModelId: 'gpt-4o-mini',
+    requiredCapabilities: ['text'],
+  },
+  {
+    type: 'use-case',
+    id: 'uc-rag-assistant',
+    title: 'RAG Knowledge Assistant',
+    domain: 'knowledge-management',
+    prompt: 'Answer the user using only the retrieved context, cite the most relevant passages, and return a confidence estimate for each answer.',
+    expectedOutput: 'Grounded answer with citations, confidence summary, and follow-up retrieval suggestions.',
+    difficulty: 'advanced',
+    tags: ['rag', 'knowledge', 'retrieval', 'citations'],
+    recommendedModelId: 'o3-mini',
+    requiredCapabilities: ['text', 'structured-outputs'],
+  },
+  {
+    type: 'use-case',
+    id: 'uc-agentic-workflow',
+    title: 'Agentic Workflow Orchestrator',
+    domain: 'automation',
+    prompt: 'Plan a tool-using workflow, call functions safely, summarize decisions, and return a structured execution record.',
+    expectedOutput: 'Action plan, tool-call sequence, structured execution summary, and operator handoff notes.',
+    difficulty: 'advanced',
+    tags: ['agents', 'automation', 'tool-use', 'workflows'],
+    recommendedModelId: 'gpt-4o',
+    requiredCapabilities: ['text', 'function-calling', 'structured-outputs'],
   },
 ];
 
-// ─── Registry Lookup ──────────────────────────────────────────────────────────
-
 export function getModelById(id: string): GPTModel | undefined {
-  return GPT_MODELS.find((m) => m.id === id);
+  return GPT_MODELS.find((model) => model.id === id);
 }
 
 export function getToolById(id: string): GPTTool | undefined {
-  return GPT_TOOLS.find((t) => t.id === id);
+  return GPT_TOOLS.find((tool) => tool.id === id);
 }
 
 export function getUseCaseById(id: string): GPTUseCase | undefined {
-  return GPT_USE_CASES.find((u) => u.id === id);
+  return GPT_USE_CASES.find((useCase) => useCase.id === id);
 }
 
 export function getEntryById(id: string): GPTModel | GPTTool | GPTUseCase | undefined {

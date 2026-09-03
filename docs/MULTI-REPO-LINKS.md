@@ -1284,19 +1284,27 @@ AI-IQ-SUPER-PLATFORMA#extrimli-instrukcija-za-sve -> IO-OPENUI-AO#<optional foll
 | Module | ChatGPT Katalog |
 | Persona | `chatgpt-katalog-core` (octave: 10, hipermreza node: 81) |
 | Validator | `chatgpt-katalog-validator-agent` |
-| Endpoint | `GET /api/chatgpt-katalog` — list; `POST /api/chatgpt-katalog/compare` — compare; `POST /api/chatgpt-katalog/recommend` — recommend |
-| Registry | 8 GPT models, 8 tools, 8 use-case templates |
+| Scope | `discovery-and-recommendation` |
+| Catalog mode | `static-reference` |
+| Primary UI | `/chatgpt-katalog` |
+| Endpoint | `GET /api/chatgpt-katalog` — list; `POST /api/chatgpt-katalog/search` — filtered search; `POST /api/chatgpt-katalog/compare` — compare; `POST /api/chatgpt-katalog/recommend` — recommend |
+| Registry | 8 GPT models, 10 tools, 10 use-case templates |
+| Linked modules | `nova-generacija`, `persona-bank`, `digit-engine` |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
 
 | This repo | Linked repo | Note |
 |---|---|---|
-| `AI-IQ-SUPER-PLATFORMA` — ChatGPT Katalog model/tool registry | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync model catalog snapshots when downstream adoption starts |
+| `AI-IQ-SUPER-PLATFORMA` — ChatGPT Katalog source-of-truth registry and recommendation contract | `spaja86/IO-OPENUI-AO` — Follow-up optional | Consume the stable APIs or snapshot exports rather than duplicating registry logic |
 
 **Potential follow-up in `spaja86/IO-OPENUI-AO`:**
-- Consume `GET /api/chatgpt-katalog` for OpenAI model catalog browsing
+- Consume `GET /api/chatgpt-katalog` or `POST /api/chatgpt-katalog/search` for OpenAI model catalog browsing
 - Import compare/recommend APIs for AI tool selection flows
-- Extend `multiRepoSync.snapshots` with `chatgpt-katalog-registry` snapshot
+- Extend `multiRepoSync.snapshots` with `chatgpt-katalog-registry` snapshot sourced from this repo’s static catalog
+- Reuse `GET /api/chatgpt-katalog/health` for governance and persona metadata checks
+
+**Downstream note:**
+- No downstream breaking contract changes are introduced by this enhancement; added fields are additive.
 
 **Audit convention:**
 ```
