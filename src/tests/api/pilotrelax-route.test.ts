@@ -111,6 +111,9 @@ async function runTests(): Promise<void> {
 
     const response = await POST(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    const body = await response.json() as { error: string; code: string };
+    assert(body.code === 'BAD_REQUEST', `expected BAD_REQUEST, got ${body.code}`);
+    assert(body.error === 'Invalid JSON body', `unexpected error message: ${body.error}`);
   });
 
   await test('POST /api/pilotrelax/evaluate returns 400 when objective is missing', async () => {

@@ -176,6 +176,21 @@ async function runTests(): Promise<void> {
     assert(!result.valid, 'Infinity screen minutes must be invalid');
   });
 
+  await test('fractional screen minutes returns invalid result', () => {
+    const result = evaluatePilotrelax({
+      objective: 'FOCUS',
+      environment: 'LOUNGE',
+      phaseOfDay: 'AFTERNOON',
+      stressLoad: 40,
+      availableMinutes: 12,
+      breathingCycles: 4,
+      noiseLevelDb: 40,
+      screenMinutesBeforeBreak: 12.5,
+    });
+
+    assert(!result.valid, 'fractional screen minutes must be invalid');
+  });
+
   await test('invalid evaluation still increments health metrics', () => {
     _resetPilotrelaxMetrics();
     evaluatePilotrelax({

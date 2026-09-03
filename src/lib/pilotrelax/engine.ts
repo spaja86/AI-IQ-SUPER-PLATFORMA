@@ -250,10 +250,10 @@ export function evaluatePilotrelax(input: PilotrelaxInput): PilotrelaxResult {
     );
   }
 
-  if (!Number.isFinite(input.screenMinutesBeforeBreak) || input.screenMinutesBeforeBreak < 0 || input.screenMinutesBeforeBreak > PILOTRELAX_MAX_SCREEN_MINUTES) {
+  if (!Number.isInteger(input.screenMinutesBeforeBreak) || input.screenMinutesBeforeBreak < 0 || input.screenMinutesBeforeBreak > PILOTRELAX_MAX_SCREEN_MINUTES) {
     return invalidResult(
       input.referenceId,
-      `screenMinutesBeforeBreak must be within 0..${PILOTRELAX_MAX_SCREEN_MINUTES}`,
+      `screenMinutesBeforeBreak must be an integer within 0..${PILOTRELAX_MAX_SCREEN_MINUTES}`,
       start,
     );
   }

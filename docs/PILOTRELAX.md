@@ -43,7 +43,7 @@ Each evaluation accepts:
 - `availableMinutes` — finite positive minutes `1..180`
 - `breathingCycles` — integer bounded `0..60`
 - `noiseLevelDb` — finite bounded `0..120`
-- `screenMinutesBeforeBreak` — finite bounded `0..240`
+- `screenMinutesBeforeBreak` — integer bounded `0..240`
 
 ## Output model
 
