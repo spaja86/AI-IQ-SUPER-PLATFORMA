@@ -432,6 +432,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `dresing-core` (octave: 4, hipermreza node: 33)
 
+### dinosaurus-trexar-validator-agent (NEW)
+- **Role**: Validacija DINOSAURUS-Trexar logike — readiness scoring, status/tier mapiranje i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dinosaurus-trexar/**`, `src/app/api/dinosaurus-trexar/**`
+- **Trigger**: PR sa labelom `dinosaurus-trexar:logic-change`, push koji dira `dinosaurus-trexar` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za DINOSAURUS-Trexar logiku (types, engine, registry, route-utils)
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, prazni payload, nevalidni ageCategory)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `dinosaurus-trexar:validated` ili `dinosaurus-trexar:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `dinosaurus-trexar-core` (octave: 10, hipermreza node: 81)
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -506,6 +519,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tajming paths) |
 | swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
 | dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
+| dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1056,6 +1070,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `dresing-core` (octave: 4, hipermreza node: 33)
 
+### dinosaurus-trexar-validator-agent (NEW)
+- **Role**: Validate DINOSAURUS-Trexar logic — readiness scoring, status/tier mapping, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dinosaurus-trexar/**`, `src/app/api/dinosaurus-trexar/**`
+- **Trigger**: PR with label `dinosaurus-trexar:logic-change`, push touching `dinosaurus-trexar` paths
+- **Actions**:
+  - Runs unit and route test suite for DINOSAURUS-Trexar logic (types, engine, registry, route-utils)
+  - Verifies deterministic results and edge cases (`NaN`, `Infinity`, negative values, empty payloads, invalid ageCategory)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `dinosaurus-trexar:validated` or `dinosaurus-trexar:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `dinosaurus-trexar-core` (octave: 10, hipermreza node: 81)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1129,6 +1156,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tajming paths) |
 | swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
 | dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
+| dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
