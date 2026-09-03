@@ -74,8 +74,14 @@ jobs:
           assert(doc.includes('extrimli:external-github'), 'canonical doc must declare extrimli:external-github label');
           assert(doc.includes('spaja86/IO-OPENUI-AO'), 'canonical doc must declare downstream repo');
           assert(doc.includes('.github/workflows/extrimli-external-github.yml'), 'canonical doc must reference governance workflow');
+          assert(doc.includes('WAWE 1') && doc.includes('WAWE 5'), 'canonical doc must define WAWE 1-5 rollout phases');
+          assert(doc.includes('Promotion freeze'), 'canonical doc must define promotion freeze guard');
+          assert(doc.includes('docs/EXTRIMLI.md') && doc.includes('docs/MULTI-REPO-LINKS.md'), 'canonical doc must lock source-of-truth docs');
           assert(links.includes('EXTRIMLI — External GitHub Surface'), 'multi-repo links must contain external GitHub section');
+          assert(links.includes('EXTRIMLI EXTEMEL/EXTREMOL WAWE map'), 'multi-repo links must include EXTRIMLI WAWE map');
+          assert(links.includes('IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB'), 'multi-repo links must include bidirectional audit convention');
           assert(extrimli.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'EXTRIMLI doc must reference canonical external GitHub plan');
+          assert(extrimli.includes('Locked source-of-truth set'), 'EXTRIMLI doc must lock source-of-truth artifact set');
           assert(Array.isArray(agent.workflows) && agent.workflows.includes('.github/workflows/extrimli-external-github.yml'), 'agent config must include governance workflow');
           assert(Array.isArray(agent.releaseDocs) && agent.releaseDocs.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'agent config must include canonical plan doc');
           assert(agent.githubSurface?.workflow === '.github/workflows/extrimli-external-github.yml', 'agent config githubSurface.workflow mismatch');
@@ -100,5 +106,7 @@ jobs:
           echo "| Deploy workflows | \`.github/workflows/extrimli-spaja-deploy.yml\`, \`.github/workflows/extrimli-trance-extrem-deploy.yml\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Downstream repo | \`spaja86/IO-OPENUI-AO\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Export contract test | \`src/tests/lib/extrimli-instrukcija.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| WAWE model | \`WAWE 1 → WAWE 5\` enforced |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Promotion freeze guard | Required when KPI/audit/sync incomplete |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**KPI targets:** eval ≤ 50ms · API ≤ 200ms · build ≤ 3 min · audit coverage 100%" >> "$GITHUB_STEP_SUMMARY"

@@ -34,6 +34,25 @@ This repository now exposes two aligned surfaces:
 
 This surface formalizes EXTRIMLI as a GitHub-oriented external capability for Digitalna Industrija while keeping the sports/risk runtime separate from audit, workflow, sync, and release governance concerns.
 
+## EXTRIMLI EXTEMEL/EXTREMOL WAWE rollout model
+
+EXTRIMLI koristi kontrolisan WAWE rollout iz Vercel deploy toka ka Digitalna Industrija operativnom sloju:
+
+1. WAWE 1 — Pre-release validation (test/lint/KPI/security/labels)
+2. WAWE 2 — Build + staging verifikacija na Vercel
+3. WAWE 3 — Downstream sync + cross-repo reference usklađivanje
+4. WAWE 4 — Production rollout ringovi (10% → 50% → 100%)
+5. WAWE 5 — Post-release resilience + analytics potvrda
+
+Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na prethodni known-good Vercel deployment.
+
+## Locked source-of-truth set
+
+- Docs: `docs/EXTRIMLI.md`, `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `docs/MULTI-REPO-LINKS.md`
+- Governance workflow: `.github/workflows/extrimli-external-github.yml`
+- Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
+- Quality gate: `.github/workflows/extrimli-validator.yml`
+
 ## EXTRIMLI v1 capabilities
 
 - Sport registry

@@ -833,6 +833,16 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | Runtime source of truth | Vercel Git integration |
 | GitHub Actions role | audit governance + downstream coordination |
 
+### EXTRIMLI EXTEMEL/EXTREMOL WAWE map
+
+| WAWE | Source stage | Downstream obligation (`spaja86/IO-OPENUI-AO`) |
+|---|---|---|
+| WAWE 1 | Pre-release validation (test/lint/KPI/security/labels) | Confirm label schema compatibility |
+| WAWE 2 | Vercel build + staging checks | Confirm deploy/governance references stay aligned |
+| WAWE 3 | Snapshot sync | Consume gear/export/instrukcija snapshots |
+| WAWE 4 | Production rollout rings (10%→50%→100%) | Track rollout dependency and open follow-up if blocked |
+| WAWE 5 | Resilience + analytics audit | Confirm cross-repo audit status and human sign-off readiness |
+
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
 
 | This repo | Linked repo | Note |
@@ -846,10 +856,12 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Track `agent:config-change` compatibility for EXTRIMLI governance changes
 - Consume `buildExtrimliExportBundle()` snapshot kada linked repo koristi developer docs auto-generation
 - Record EXTRIMLI external audit ownership i GitHub workflow references
+- Open mandatory follow-up issue ako downstream ostane delimično neusaglašen posle WAWE 3/4
 
 **Audit convention for this initiative:**
 ```text
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB -> IO-OPENUI-AO#<follow-up issue>
+IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB
 ```
 
 ## EXTRIMLI CUZ — Community & Social Hub
