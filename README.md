@@ -465,6 +465,7 @@ This repository uses documented automation agents for CI, security, analytics, a
 ### Repo readiness & roadmap
 
 - **Roadmap:** [`docs/ROADMAP.md`](./docs/ROADMAP.md)
+- **Everything execution plan:** [`docs/PLAN-FOR-CREATING-EVRITHING.md`](./docs/PLAN-FOR-CREATING-EVRITHING.md)
 - **Multi-repo coordination:** [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md)
 - **OKRID standard:** [`docs/OKRID.md`](./docs/OKRID.md)
 - **OKRID registry:** [`docs/OKRID-REGISTRY.md`](./docs/OKRID-REGISTRY.md)
@@ -511,6 +512,7 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | [`.agent-config.json`](./.agent-config.json) | Per-repo operational agent settings and linked-repo rules |
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Open-code contribution flow, XP expectations, and deploy review requirements |
 | [`docs/ROADMAP.md`](./docs/ROADMAP.md) | Release roadmap, readiness model, and KPI ownership |
+| [`docs/PLAN-FOR-CREATING-EVRITHING.md`](./docs/PLAN-FOR-CREATING-EVRITHING.md) | End-to-end execution blueprint for full-scope delivery |
 | [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
 | [`docs/MIRIKL.md`](./docs/MIRIKL.md) | MIRIKL GitHub ↔ Vercel governance scope, ownership, and release gates |
 | [`docs/OKRID.md`](./docs/OKRID.md) | Canonical OKRID scope, naming, lifecycle, and governance model |
