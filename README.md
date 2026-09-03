@@ -471,6 +471,7 @@ This repository uses documented automation agents for CI, security, analytics, a
 - **OKRID registry:** [`docs/OKRID-REGISTRY.md`](./docs/OKRID-REGISTRY.md)
 - **Security operating model:** [`docs/SECURITY.md`](./docs/SECURITY.md)
 - **Go-live and rollout:** [`docs/GO-LIVE.md`](./docs/GO-LIVE.md)
+- **Team suicide-prevention plan:** [`docs/TEAM-SUICIDE-PREVENTION-PLAN.md`](./docs/TEAM-SUICIDE-PREVENTION-PLAN.md)
 - **FinOps and KPI model:** [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md)
 - **Deployment power-resolution model:** [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./docs/DEPLOYMENT-POWER-RESOLUTION.md)
 
