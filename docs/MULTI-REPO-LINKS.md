@@ -52,6 +52,10 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `trenazer:logic-change` | TRENAŽER readiness/recommendation logic changed |
 | `trenazer:validated` | TRENAŽER validator and tests passed |
 | `trenazer:needs-review` | TRENAŽER validator requires human follow-up |
+| `aktiviti-all` | AKTIVITI ALL change set — requires focused validation |
+| `aktiviti-all:logic-change` | AKTIVITI ALL contract or readiness logic changed |
+| `aktiviti-all:validated` | AKTIVITI ALL validator and tests passed |
+| `aktiviti-all:needs-review` | AKTIVITI ALL validator requires human follow-up |
 | `dumbir` | ÐUMBIR change set — requires focused validation |
 | `dumbir:logic-change` | ÐUMBIR ginger wellness contract or scoring logic changed |
 | `dumbir:validated` | ÐUMBIR validator and tests passed |
@@ -1465,3 +1469,15 @@ AI-IQ-SUPER-PLATFORMA#dresing -> IO-OPENUI-AO#<optional follow-up>
 ```
 AI-IQ-SUPER-PLATFORMA#dinosaurus-trexar -> IO-OPENUI-AO#<optional follow-up>
 ```
+
+
+## AKTIVITI ALL downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — AKTIVITI ALL activity-readiness track | `spaja86/IO-OPENUI-AO` — No linked repo change required | Initial scope is repo-local module/API/validator/docs only; downstream consumer rollout must be tracked explicitly |
+
+Audit reference convention (if downstream work is needed later):
+
+`AI-IQ-SUPER-PLATFORMA#AKTIVITI-ALL -> IO-OPENUI-AO#<follow-up issue>`
+

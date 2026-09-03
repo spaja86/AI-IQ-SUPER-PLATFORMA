@@ -52,6 +52,16 @@ TRENAŽER uvodi deterministički training-readiness engine za preporuku recovery
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/TRENAZER.md`
 
+
+## ⚡ AKTIVITI ALL
+
+AKTIVITI ALL uvodi deterministički multi-activity readiness engine sa jasnim status mapiranjem i API-first v1 površinom.
+
+- Modul: `src/lib/aktiviti-all/**`
+- API: `/api/aktiviti-all/evaluate`, `/api/aktiviti-all/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/AKTIVITI-ALL.md`
+
 ## 🔗 MIRIKL — GitHub + Vercel Governance Track
 
 MIRIKL je governance/release inicijativa za povezivanje GitHub quality gate modela i Vercel runtime/deploy modela.
