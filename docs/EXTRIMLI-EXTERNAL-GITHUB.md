@@ -124,7 +124,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 - EXTRONDEND i EXTRONDOL moraju imati explicit versioned contract polja i source-of-truth endpoint
 - Security boundary: bez sekreta u kodu, sve kroz GitHub/Vercel Secrets
 - Human review obavezan pre promocije
-- Label higijena: `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` (za config/workflow promene)
+- Label higijena: `extrimli:logic-change`, `extrimli:external-github`, `extrondend:logic-change`, `extrondol:logic-change`, `agent:config-change` (za config/workflow promene)
 - Promotion freeze: release se zaustavlja kada KPI/audit/sync nije potpun
 - KORON overlay mora ostati uključen u outbound artifacts i downstream sync checklist
 

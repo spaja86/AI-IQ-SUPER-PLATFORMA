@@ -2,6 +2,7 @@ import {
   EXTRIMLI_API_RESPONSE_MAX_MS,
   EXTRIMLI_PERFORMANCE_MAX_MS,
   clamp,
+  getExtrimliAggregateSignals,
   getExtrimliHealthReport,
   round,
 } from '../extrimli';
@@ -19,8 +20,18 @@ import {
   EXTRONDEND_SOURCE_OF_TRUTH,
 } from './types';
 
+const EXTRONDEND_WEIGHTS = {
+  v1Safety: 0.20,
+  v3Readiness: 0.20,
+  extendolReadiness: 0.35,
+  koronReadiness: 0.25,
+  weightedSurfaceShare: 0.75,
+  parityShare: 0.25,
+} as const;
+
 export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
   const v1 = getExtrimliHealthReport();
+  const v1Signals = getExtrimliAggregateSignals();
   const v3 = getExtrimli3HealthReport();
   const cuz = getCuzHealthReport();
   const extendol = getExtrimliExtendolReport();
@@ -39,14 +50,14 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
     degradedSources.push('extrimli-cuz-kpi');
   }
 
-  const v1Safety = clamp(100 - v1.lastRiskScore, 0, 100);
+  const v1Safety = clamp(v1Signals.safetySignal, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
   const weightedSurfaceHealth = round(
     clamp(
-      v1Safety * 0.20
-      + v3Readiness * 0.20
-      + extendol.unifiedReadinessScore * 0.35
-      + koron.readinessScore * 0.25,
+      v1Safety * EXTRONDEND_WEIGHTS.v1Safety
+      + v3Readiness * EXTRONDEND_WEIGHTS.v3Readiness
+      + extendol.unifiedReadinessScore * EXTRONDEND_WEIGHTS.extendolReadiness
+      + koron.readinessScore * EXTRONDEND_WEIGHTS.koronReadiness,
       0,
       100,
     ),
@@ -59,7 +70,7 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
   );
 
   const aggregationScore = round(
-    clamp(weightedSurfaceHealth * 0.75 + readinessParityScore * 0.25, 0, 100),
+    clamp(weightedSurfaceHealth * EXTRONDEND_WEIGHTS.weightedSurfaceShare + readinessParityScore * EXTRONDEND_WEIGHTS.parityShare, 0, 100),
     2,
   );
 
@@ -77,7 +88,7 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
     {
       id: 'integration-boundary',
       description: 'Aggregation depends on v1, v3, CUZ, Extendol and KORON without mutating those contracts.',
-      passed: Boolean(extendol.contractVersion && koron.contractVersion && v1.contractVersion && v3.contractVersion && cuz.contractVersion),
+      passed: Boolean(extendol.contractVersion && koron.contractVersion && v1.contractVersion && v3.contractVersion && cuz.contractVersion && v1Signals.sourceOfTruth === '/api/extrimli/health'),
     },
     {
       id: 'kpi-targets',
@@ -112,7 +123,7 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
     degradedSources,
     acceptanceCriteria,
     integrationBoundaries: {
-      dependsOn: ['/api/extrimli/extendol', '/api/extrimli/koron', '/api/extrimli-3/health', '/api/extrimli-cuz/health'],
+      dependsOn: ['/api/extrimli/health', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/extrimli-3/health', '/api/extrimli-cuz/health'],
       aliasesOfExistingSurfaces: false,
     },
     kpiTargets: {

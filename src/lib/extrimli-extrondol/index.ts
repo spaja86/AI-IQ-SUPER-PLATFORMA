@@ -18,11 +18,18 @@ import {
   EXTRONDOL_SOURCE_OF_TRUTH,
 } from './types';
 
+const EXTRONDOL_WAWE_THRESHOLDS = {
+  wawe2: 60,
+  wawe3: 72,
+  wawe4: 84,
+  wawe5: 93,
+} as const;
+
 function pickWawe(score: number, degraded: boolean): ExtrimliExtrondolWaweStage {
-  if (degraded || score < 60) return 'WAWE-1';
-  if (score < 72) return 'WAWE-2';
-  if (score < 84) return 'WAWE-3';
-  if (score < 93) return 'WAWE-4';
+  if (degraded || score < EXTRONDOL_WAWE_THRESHOLDS.wawe2) return 'WAWE-1';
+  if (score < EXTRONDOL_WAWE_THRESHOLDS.wawe3) return 'WAWE-2';
+  if (score < EXTRONDOL_WAWE_THRESHOLDS.wawe4) return 'WAWE-3';
+  if (score < EXTRONDOL_WAWE_THRESHOLDS.wawe5) return 'WAWE-4';
   return 'WAWE-5';
 }
 

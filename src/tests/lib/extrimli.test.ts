@@ -7,6 +7,7 @@ import {
   // Risk
   calculateRisk, _resetRiskMetrics, getRiskMetrics,
   EXTRIMLI_CONTRACT_VERSION, EXTRIMLI_PERFORMANCE_MAX_MS, EXTRIMLI_PERSONA_ID,
+  getExtrimliAggregateSignals,
   EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION,
   EXTRIMLI_DESTRUKCIJA_MODULE_VERSION,
   DESTRUCTIBLE_ASSET_REGISTRY,
@@ -78,6 +79,15 @@ async function runTests(): Promise<void> {
   await test('destrukcija contract constants are stable', () => {
     assert(EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION === 'v1-destrukcija', `unexpected: ${EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION}`);
     assert(EXTRIMLI_DESTRUKCIJA_MODULE_VERSION === '1.0.0', `unexpected: ${EXTRIMLI_DESTRUKCIJA_MODULE_VERSION}`);
+  });
+
+
+  await test('aggregate health signals expose source of truth and bounded values', () => {
+    const signals = getExtrimliAggregateSignals();
+    assert(signals.sourceOfTruth === '/api/extrimli/health', 'unexpected sourceOfTruth');
+    assert(Number.isFinite(signals.readinessSignal) && signals.readinessSignal >= 0 && signals.readinessSignal <= 100, 'readinessSignal must be in [0, 100]');
+    assert(Number.isFinite(signals.safetySignal) && signals.safetySignal >= 0 && signals.safetySignal <= 100, 'safetySignal must be in [0, 100]');
+    assert([0, 100].includes(signals.degradationSignal), 'degradationSignal should be binary');
   });
 
   // ─── Registry ──────────────────────────────────────────────────────────────
