@@ -1,0 +1,49 @@
+name: AKTIVITI ALL — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/aktiviti-all/**'
+      - 'src/app/api/aktiviti-all/**'
+      - 'src/tests/lib/aktiviti-all.test.ts'
+      - 'src/tests/api/aktiviti-all-route.test.ts'
+      - 'docs/AKTIVITI-ALL.md'
+      - '.github/workflows/aktiviti-all-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/aktiviti-all/**'
+      - 'src/app/api/aktiviti-all/**'
+      - 'src/tests/lib/aktiviti-all.test.ts'
+      - 'src/tests/api/aktiviti-all-route.test.ts'
+      - 'docs/AKTIVITI-ALL.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.github/workflows/aktiviti-all-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: aktiviti-all-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: aktiviti-all
+      lint_paths: >-
+        src/lib/aktiviti-all
+        src/app/api/aktiviti-all
+      test_commands: |
+        npx tsx src/tests/lib/aktiviti-all.test.ts
+        npx tsx src/tests/api/aktiviti-all-route.test.ts
+      scan_paths: >-
+        src/lib/aktiviti-all
+        src/app/api/aktiviti-all
+      label: aktiviti-all
+      perf_eval_ms: 50
+      perf_api_ms: 200
