@@ -257,7 +257,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('recommend with very low budget falls back and flags budget mismatch', () => {
-    const result = recommend({ domain: 'text', budget: 0.5 });
+    const result = recommend({ domain: 'text', budget: 0.1 });
     assert(result.recommendedModel !== null, 'fallback recommendation should still exist');
     assert(result.budgetFit === false, 'budgetFit must be false when nothing fits the budget');
   });
