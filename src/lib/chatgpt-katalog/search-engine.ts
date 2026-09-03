@@ -36,6 +36,11 @@ function entryMatchesCapabilities(entry: KatalogEntry, capabilities: string[]): 
   return capabilities.some((capability) => entry.tags.some((tag) => matchesText(tag, capability)));
 }
 
+function readQueryText(q: KatalogSearchQuery): string | undefined {
+  const value = Reflect.get(q, 'query');
+  return typeof value === 'string' ? value : undefined;
+}
+
 function entryMatchesQuery(entry: KatalogEntry, q: KatalogSearchQuery): boolean {
   if (q.type && entry.type !== q.type) return false;
 
@@ -74,8 +79,9 @@ function entryMatchesQuery(entry: KatalogEntry, q: KatalogSearchQuery): boolean 
     if (price === null && q.type === 'model') return false;
   }
 
-  if (q.query && q.query.trim().length > 0) {
-    const term = q.query.trim();
+  const queryText = readQueryText(q);
+  if (queryText && queryText.trim().length > 0) {
+    const term = queryText.trim();
     const searchable = buildSearchableText(entry);
     if (!matchesText(searchable, term)) return false;
   }
@@ -97,8 +103,8 @@ function getEntryPrimaryLabel(entry: KatalogEntry): string {
   return entry.type === 'use-case' ? entry.title : entry.name;
 }
 
-function getRelevanceScore(entry: KatalogEntry, query?: string): number {
-  const term = query?.trim().toLowerCase();
+function getRelevanceScore(entry: KatalogEntry, searchTerm?: string): number {
+  const term = searchTerm?.trim().toLowerCase();
   if (!term) return 0;
 
   let score = 0;
@@ -126,10 +132,10 @@ function getRelevanceScore(entry: KatalogEntry, query?: string): number {
   return score;
 }
 
-function sortEntries(entries: KatalogEntry[], sortBy: KatalogSearchQuery['sortBy'], query?: string): KatalogEntry[] {
+function sortEntries(entries: KatalogEntry[], sortBy: KatalogSearchQuery['sortBy'], searchTerm?: string): KatalogEntry[] {
   if (!sortBy || sortBy === 'relevance') {
     return [...entries].sort((a, b) => {
-      const scoreDelta = getRelevanceScore(b, query) - getRelevanceScore(a, query);
+      const scoreDelta = getRelevanceScore(b, searchTerm) - getRelevanceScore(a, searchTerm);
       if (scoreDelta !== 0) return scoreDelta;
       return getEntryPrimaryLabel(a).localeCompare(getEntryPrimaryLabel(b));
     });
@@ -167,7 +173,7 @@ export function searchKatalog(q: KatalogSearchQuery): KatalogSearchResult {
 
   const all = getAllEntries();
   const filtered = all.filter((entry) => entryMatchesQuery(entry, normalizedQuery));
-  const sorted = sortEntries(filtered, normalizedQuery.sortBy, normalizedQuery.query);
+  const sorted = sortEntries(filtered, normalizedQuery.sortBy, readQueryText(normalizedQuery));
 
   const total = sorted.length;
   const totalPages = total === 0 ? 0 : Math.ceil(total / pageSize);

@@ -17,6 +17,11 @@ function parseMaybeNumber(value: unknown): number | undefined {
   return value;
 }
 
+function readString(input: Record<string, unknown>, key: string): string | undefined {
+  const value = Reflect.get(input, key);
+  return typeof value === 'string' ? value : undefined;
+}
+
 export async function POST(req: NextRequest) {
   try {
     let body: unknown;
@@ -45,7 +50,7 @@ export async function POST(req: NextRequest) {
     }
 
     const q: KatalogSearchQuery = {
-      query: typeof candidate.query === 'string' ? candidate.query : undefined,
+      query: readString(candidate, 'query'),
       type: candidate.type as KatalogSearchQuery['type'],
       category: typeof candidate.category === 'string' ? candidate.category : undefined,
       domain: typeof candidate.domain === 'string' ? candidate.domain : undefined,

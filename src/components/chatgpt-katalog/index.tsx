@@ -407,7 +407,7 @@ export function RecommendationPanel({
 
 export function ChatGPTKatalogBrowser() {
   const [health, setHealth] = useState<KatalogHealth | null>(null);
-  const [query, setQuery] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [type, setType] = useState<EntryTypeFilter>('');
   const [status, setStatus] = useState<StatusFilter>('');
   const [sortBy, setSortBy] = useState<SortFilter>('relevance');
@@ -444,11 +444,11 @@ export function ChatGPTKatalogBrowser() {
     }
   };
 
-  const runSearch = async (override?: Partial<{ query: string; type: EntryTypeFilter; status: StatusFilter; sortBy: SortFilter; maxInputCostPer1k: string; capabilities: string[] }>) => {
+  const runSearch = async (override?: Partial<{ searchText: string; type: EntryTypeFilter; status: StatusFilter; sortBy: SortFilter; maxInputCostPer1k: string; capabilities: string[] }>) => {
     const costText = override?.maxInputCostPer1k ?? maxInputCostPer1k;
     const costValue = costText ? parseFloat(costText) : undefined;
     const payload = {
-      query: override?.query ?? query || undefined,
+      query: override?.searchText ?? searchText || undefined,
       type: override?.type ?? type || undefined,
       status: override?.status ?? status || undefined,
       sortBy: override?.sortBy ?? sortBy,
@@ -592,13 +592,13 @@ export function ChatGPTKatalogBrowser() {
               <button
                 type="button"
                 onClick={() => {
-                  setQuery('');
+                  setSearchText('');
                   setType('');
                   setStatus('');
                   setSortBy('relevance');
                   setMaxInputCostPer1k('');
                   setCapabilities([]);
-                  void runSearch({ query: '', type: '', status: '', sortBy: 'relevance', maxInputCostPer1k: '', capabilities: [] });
+                  void runSearch({ searchText: '', type: '', status: '', sortBy: 'relevance', maxInputCostPer1k: '', capabilities: [] });
                 }}
                 className="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50"
               >
@@ -610,8 +610,8 @@ export function ChatGPTKatalogBrowser() {
               <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 <input
                   type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
                   placeholder="Search models, tools, use cases…"
                   className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
