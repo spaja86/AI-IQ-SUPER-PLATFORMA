@@ -21,6 +21,19 @@ This repository now exposes two aligned surfaces:
 | v3 API routes | `src/app/api/extrimli-3/` |
 | Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts` |
 
+## External GitHub surface
+
+| Area | Source of truth |
+|---|---|
+| Canonical governance plan | `docs/EXTRIMLI-EXTERNAL-GITHUB.md` |
+| Validator / quality gate | `.github/workflows/extrimli-validator.yml` |
+| External GitHub governance | `.github/workflows/extrimli-external-github.yml` |
+| Deploy orchestration | `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml` |
+| Downstream references | `docs/MULTI-REPO-LINKS.md` |
+| Export layer | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/route.ts` |
+
+This surface formalizes EXTRIMLI as a GitHub-oriented external capability for Digitalna Industrija while keeping the sports/risk runtime separate from audit, workflow, sync, and release governance concerns.
+
 ## EXTRIMLI v1 capabilities
 
 - Sport registry
@@ -190,6 +203,7 @@ All v3 routes respond with headers:
 | `EXTRIMLI3_MODULE_VERSION` | `3.0.0` |
 | `EXTRIMLI3_PERSONA_ID` | `extrimli-core` |
 | Trigger labels | `extrimli:logic-change` |
+| External GitHub labels | `extrimli:external-github`, `agent:config-change` |
 | EKSTREMNO trigger labels | `extrimli:logic-change`, `ekstremno:logic-change` |
 | Octave | 7 |
 | Hipermreza node | 56 |
@@ -199,3 +213,11 @@ All v3 routes respond with headers:
 ```
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+## References
+
+- Canonical GitHub governance plan: `docs/EXTRIMLI-EXTERNAL-GITHUB.md`
+- Validator workflow: `.github/workflows/extrimli-validator.yml`
+- GitHub governance workflow: `.github/workflows/extrimli-external-github.yml`
+- Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
+- Multi-repo links: `docs/MULTI-REPO-LINKS.md`

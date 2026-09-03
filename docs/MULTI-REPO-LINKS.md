@@ -822,6 +822,36 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
+### EXTRIMLI — External GitHub Surface
+
+| Field | Value |
+|---|---|
+| Date | 2026-09-03 |
+| Owner | @spaja86 |
+| Scope | `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`, `.github/workflows/extrimli-validator.yml`, `.agent-config.json`, `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/**` |
+| Quality gate | `extrimli-validator-agent` |
+| Runtime source of truth | Vercel Git integration |
+| GitHub Actions role | audit governance + downstream coordination |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI external GitHub audit surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync audit references, labels i ownership matrica |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI instrukcija export bundle | `spaja86/IO-OPENUI-AO` — Follow-up required | Consume export bundle ako downstream docs/catalog sync koristi contract |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI module health snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync health/KPI summary za downstream observability |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add `extrimli:external-github` label to linked-repo label schema
+- Track `agent:config-change` compatibility for EXTRIMLI governance changes
+- Consume `buildExtrimliExportBundle()` snapshot kada linked repo koristi developer docs auto-generation
+- Record EXTRIMLI external audit ownership i GitHub workflow references
+
+**Audit convention for this initiative:**
+```text
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB -> IO-OPENUI-AO#<follow-up issue>
+```
+
 ## EXTRIMLI CUZ — Community & Social Hub
 
 | Field | Value |

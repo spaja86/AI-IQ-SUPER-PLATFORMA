@@ -457,15 +457,18 @@
       "labels": [
         "extrimli",
         "extrimli:logic-change",
+        "extrimli:external-github",
         "extrimli:validated",
         "extrimli:needs-review"
       ],
       "workflows": [
         ".github/workflows/extrimli-validator.yml",
+        ".github/workflows/extrimli-external-github.yml",
         ".github/workflows/omega-auto-build.yml"
       ],
       "releaseDocs": [
         "docs/EXTRIMLI.md",
+        "docs/EXTRIMLI-EXTERNAL-GITHUB.md",
         "docs/MULTI-REPO-LINKS.md",
         "docs/ROADMAP.md"
       ],
@@ -476,7 +479,33 @@
       },
       "testSuite": "src/tests/lib/extrimli.test.ts",
       "routeTestSuite": "src/tests/api/extrimli-route.test.ts",
+      "exportTestSuite": "src/tests/lib/extrimli-instrukcija.test.ts",
       "scope": "src/lib/extrimli/**,src/lib/extrimli-3/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/components/extrimli/**",
+      "githubSurface": {
+        "workflow": ".github/workflows/extrimli-external-github.yml",
+        "qualityGate": ".github/workflows/extrimli-validator.yml",
+        "deployWorkflows": [
+          ".github/workflows/extrimli-spaja-deploy.yml",
+          ".github/workflows/extrimli-trance-extrem-deploy.yml"
+        ],
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "githubActionsRole": "audit-governance-and-downstream-sync",
+        "requiredLabels": [
+          "extrimli",
+          "extrimli:logic-change",
+          "extrimli:external-github",
+          "agent:config-change"
+        ],
+        "outboundArtifacts": [
+          "module-health-snapshot",
+          "gear-catalog",
+          "destrukcija-asset-catalog",
+          "instrukcija-registry",
+          "instrukcija-export-bundle",
+          "kpi-summary"
+        ],
+        "humanReviewRequired": true
+      },
       "linkedRepos": [
         "spaja86/IO-OPENUI-AO"
       ],
@@ -484,7 +513,10 @@
         "snapshots": [
           "gear-catalog",
           "destrukcija-asset-catalog",
-          "instrukcija-registry"
+          "instrukcija-registry",
+          "instrukcija-export-bundle",
+          "module-health-snapshot",
+          "github-audit-summary"
         ],
         "target": "spaja86/IO-OPENUI-AO"
       }
