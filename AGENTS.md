@@ -187,6 +187,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
 
+### pilotrelax-validator-agent (NEW)
+- **Role**: Validacija PILOTRELAX logike — relaxation scoring, protocol preporuke i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/pilotrelax/**`, `src/app/api/pilotrelax/**`
+- **Trigger**: PR sa labelom `pilotrelax:logic-change`, push koji dira `pilotrelax` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za PILOTRELAX logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, invalidni protokoli, bounds`)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `pilotrelax:validated` ili `pilotrelax:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `pilotrelax-calm-core` (octave: 7, hipermreza node: 58)
+
 ### dumbir-validator-agent (NEW)
 - **Role**: Validacija ÐUMBIR logike — ginger wellness scoring, potency/comfort balans i API contract integritet
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dumbir/**`, `src/app/api/dumbir/**`
@@ -490,6 +503,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
+| pilotrelax-validator-agent | PILOTRELAX Relaxation Guidance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pilotrelax paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
 | mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
@@ -755,6 +769,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Auto-labels PRs with `trenazer:validated` or `trenazer:needs-review`
   - Leaves audit log in PR comment
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
+
+### pilotrelax-validator-agent (NEW)
+- **Role**: Validate PILOTRELAX logic — relaxation scoring, protocol recommendation, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/pilotrelax/**`, `src/app/api/pilotrelax/**`
+- **Trigger**: PR with label `pilotrelax:logic-change`, push touching `pilotrelax` paths
+- **Actions**:
+  - Runs unit and route test suite for PILOTRELAX logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, negative values, invalid protocols, bounds`)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `pilotrelax:validated` or `pilotrelax:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `pilotrelax-calm-core` (octave: 7, hipermreza node: 58)
 
 ### dumbir-validator-agent (NEW)
 - **Role**: Validate ÐUMBIR logic — ginger wellness scoring, potency/comfort balance, and API contract integrity
@@ -1125,6 +1152,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
+| pilotrelax-validator-agent | PILOTRELAX Relaxation Guidance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pilotrelax paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
 | mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |

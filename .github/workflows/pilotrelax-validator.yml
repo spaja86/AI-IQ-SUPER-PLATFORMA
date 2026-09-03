@@ -1,0 +1,47 @@
+name: PILOTRELAX — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/pilotrelax/**'
+      - 'src/app/api/pilotrelax/**'
+      - 'src/tests/lib/pilotrelax.test.ts'
+      - 'src/tests/api/pilotrelax-route.test.ts'
+      - 'docs/PILOTRELAX.md'
+      - '.github/workflows/pilotrelax-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/pilotrelax/**'
+      - 'src/app/api/pilotrelax/**'
+      - 'src/tests/lib/pilotrelax.test.ts'
+      - 'src/tests/api/pilotrelax-route.test.ts'
+      - 'docs/PILOTRELAX.md'
+  workflow_dispatch:
+
+concurrency:
+  group: pilotrelax-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: pilotrelax
+      lint_paths: >-
+        src/lib/pilotrelax
+        src/app/api/pilotrelax
+      test_commands: |
+        npx tsx src/tests/lib/pilotrelax.test.ts
+        npx tsx src/tests/api/pilotrelax-route.test.ts
+      scan_paths: >-
+        src/lib/pilotrelax
+        src/app/api/pilotrelax
+      label: pilotrelax
+      perf_eval_ms: 50
+      perf_api_ms: 200
