@@ -170,3 +170,25 @@ export function getActiveRepositories(): Repository[] {
 export function getRepositoriesByCategory(category: Repository['category']): Repository[] {
   return repositories.filter(r => r.category === category);
 }
+
+export function getRepositoryById(id: string): Repository | undefined {
+  const normalized = id.trim().toLowerCase();
+  return repositories.find((repository) => repository.id.toLowerCase() === normalized);
+}
+
+export function searchRepositories(query: string): Repository[] {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return repositories;
+
+  return repositories.filter((repository) => {
+    const haystack = [
+      repository.id,
+      repository.name,
+      repository.fullName,
+      repository.description,
+      ...repository.technologies,
+      ...repository.features,
+    ].join(' ').toLowerCase();
+    return haystack.includes(normalized);
+  });
+}

@@ -204,6 +204,16 @@ Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#GAMES-CATALOG -> IO-OPENUI-AO#<follow-up issue>`
 
+## REPOZIT downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — REPOZIT repository-management module | `spaja86/IO-OPENUI-AO` — Follow-up required | Maintain sync for repository references, labels/milestones expectations, and linked-repo audit trails when shared governance metadata changes |
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#REPOZIT -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Conflict resolution rules
 
 - If labels or milestone names diverge, align the shared schema before feature rollout.

@@ -241,6 +241,20 @@ export interface Repository {
   features: string[];
 }
 
+export type RepositoryStatus = Repository['status'];
+export type RepositoryCategory = Repository['category'];
+export type RepozitMvpCapability = 'overview' | 'search' | 'status' | 'sync';
+export type RepozitSyncStatus = 'linked' | 'local-only' | 'concept-only';
+
+export interface RepositoryMetadata {
+  owner: string;
+  source: 'static-registry';
+  mvp: RepozitMvpCapability[];
+  syncStatus: RepozitSyncStatus;
+  tags: string[];
+  lastValidatedAt: string;
+}
+
 export interface EcosystemStats {
   repositories: number;
   platforms: number;
