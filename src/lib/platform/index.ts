@@ -48,6 +48,7 @@ export const loadGreatSumbion = () => import('../great-sumbion');
 export const loadMadagaskar = () => import('../madagaskar');
 export const loadMadagaskar2 = () => import('../madagaskar-2');
 export const loadExtrimli = () => import('../extrimli');
+export const loadExtrimliExtendol = () => import('../extrimli-extendol');
 export const loadExtrimliCuz = () => import('../extrimli-cuz');
 export const loadDigitEngine = () => import('../digit-engine');
 export const loadMaksimus = () => import('../maksimus');

@@ -116,6 +116,7 @@ async function runTests(): Promise<void> {
     assert('razvojnaStrategija' in MAKSIMUS_WEIGHTS, 'razvojnaStrategija mora postojati');
     assert('platformaKoordinacija' in MAKSIMUS_WEIGHTS, 'platformaKoordinacija mora postojati');
     assert('novaGeneracijaSync' in MAKSIMUS_WEIGHTS, 'novaGeneracijaSync mora postojati');
+    assert('extrimliExtended' in MAKSIMUS_WEIGHTS, 'extrimliExtended mora postojati');
   });
 
   // ─── Store ────────────────────────────────────────────────────────────────
@@ -128,6 +129,7 @@ async function runTests(): Promise<void> {
         razvojnaStrategija: 0,
         platformaKoordinacija: 0,
         novaGeneracijaSync: 0,
+        extrimliExtended: 0,
       },
       timestamp: new Date().toISOString(),
     };
@@ -144,6 +146,7 @@ async function runTests(): Promise<void> {
         razvojnaStrategija: 83,
         platformaKoordinacija: 90,
         novaGeneracijaSync: 85,
+        extrimliExtended: 82,
       },
       timestamp: new Date().toISOString(),
     };
@@ -153,6 +156,7 @@ async function runTests(): Promise<void> {
     assertEqual(retrieved.ukupanScore, 87, 'ukupanScore mora biti sačuvan');
     assertEqual(retrieved.domenScores.analitickaOrkestracija, 87, 'analitickaOrkestracija score');
     assertEqual(retrieved.domenScores.platformaKoordinacija, 90, 'platformaKoordinacija score');
+    assertEqual(retrieved.domenScores.extrimliExtended, 82, 'extrimliExtended score');
   });
 
   // ─── buildMaksimus ────────────────────────────────────────────────────────
@@ -217,6 +221,14 @@ async function runTests(): Promise<void> {
     for (const preporuka of result.preporuke) {
       assert(typeof preporuka === 'string' && preporuka.length > 0, 'svaka preporuka mora biti neprazan string');
     }
+  });
+
+  await test('buildMaksimus — EXTRIMLI integracija vraća realne signale', async () => {
+    const result = await buildMaksimus();
+    assert(result.domeni.extrimliExtended.score >= 0 && result.domeni.extrimliExtended.score <= 100, 'extrimliExtended score mora biti između 0 i 100');
+    assert(result.extrimliIntegracija.sourceOfTruth === '/api/extrimli/extendol', 'sourceOfTruth mora biti /api/extrimli/extendol');
+    assert(Number.isFinite(result.extrimliIntegracija.unifiedReadinessScore), 'unifiedReadinessScore mora biti konačan broj');
+    assert(typeof result.extrimliIntegracija.maxFunctionalityForAll === 'boolean', 'maxFunctionalityForAll mora biti boolean');
   });
 
   // ─── Performance test ─────────────────────────────────────────────────────

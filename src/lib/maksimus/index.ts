@@ -21,6 +21,7 @@ export type {
   MaksimуsDomenSignal,
   MaksimуsTrend,
   MaksimуsMeta,
+  MaksimусExtrimliIntegracija,
   MaksimуsSvega,
   MaksimусSnapshot,
   MaksimусTaskInput,

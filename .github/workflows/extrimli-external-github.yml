@@ -14,8 +14,11 @@ on:
       - '.github/workflows/extrimli-trance-extrem-deploy.yml'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
+      - 'src/lib/extrimli-extendol/**'
+      - 'src/app/api/extrimli/extendol/**'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
   push:
     branches: [main]
     paths:
@@ -29,8 +32,11 @@ on:
       - '.github/workflows/extrimli-trance-extrem-deploy.yml'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
+      - 'src/lib/extrimli-extendol/**'
+      - 'src/app/api/extrimli/extendol/**'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
   workflow_dispatch:
 
 concurrency:
@@ -77,6 +83,8 @@ jobs:
           assert(doc.includes('WAWE 1') && doc.includes('WAWE 5'), 'canonical doc must define WAWE 1-5 rollout phases');
           assert(doc.includes('Promotion freeze'), 'canonical doc must define promotion freeze guard');
           assert(doc.includes('docs/EXTRIMLI.md') && doc.includes('docs/MULTI-REPO-LINKS.md'), 'canonical doc must lock source-of-truth docs');
+          assert(doc.includes('EXTRIMLI_EXTENDOL_CONTRACT_VERSION'), 'canonical doc must declare EXTRIMLI Extendol contract');
+          assert(doc.includes('/api/extrimli/extendol'), 'canonical doc must reference EXTRIMLI Extendol unified endpoint');
           assert(links.includes('EXTRIMLI — External GitHub Surface'), 'multi-repo links must contain external GitHub section');
           assert(links.includes('EXTRIMLI EXTEMEL/EXTREMOL WAWE map'), 'multi-repo links must include EXTRIMLI WAWE map');
           assert(links.includes('IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB'), 'multi-repo links must include bidirectional audit convention');
@@ -93,6 +101,9 @@ jobs:
       - name: 🧪 EXTRIMLI export surface tests
         run: npx tsx src/tests/lib/extrimli-instrukcija.test.ts
 
+      - name: 🧪 EXTRIMLI Extendol unified tests
+        run: npx tsx src/tests/lib/extrimli-extendol.test.ts
+
       - name: 📊 Audit summary
         if: always()
         run: |
@@ -106,6 +117,7 @@ jobs:
           echo "| Deploy workflows | \`.github/workflows/extrimli-spaja-deploy.yml\`, \`.github/workflows/extrimli-trance-extrem-deploy.yml\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Downstream repo | \`spaja86/IO-OPENUI-AO\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Export contract test | \`src/tests/lib/extrimli-instrukcija.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Extendol unified contract test | \`src/tests/lib/extrimli-extendol.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| WAWE model | \`WAWE 1 → WAWE 5\` enforced |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Promotion freeze guard | Required when KPI/audit/sync incomplete |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"

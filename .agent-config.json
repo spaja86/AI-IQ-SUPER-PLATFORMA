@@ -223,7 +223,8 @@
       "linkedAgents": [
         "another-maks-agent",
         "persona-bank-agent",
-        "nova-generacija-agent"
+        "nova-generacija-agent",
+        "extrimli-validator-agent"
       ],
       "scope": "AI-IQ-SUPER-PLATFORMA",
       "trigger": {
@@ -239,7 +240,10 @@
         "paths": [
           "src/lib/maksimus/**",
           "src/app/api/maksimus/**",
+          "src/lib/extrimli-extendol/**",
+          "src/app/api/extrimli/extendol/**",
           "src/tests/lib/maksimus.test.ts",
+          "src/tests/lib/extrimli-extendol.test.ts",
           ".github/workflows/maksimus-validator.yml"
         ]
       },
@@ -258,6 +262,7 @@
       "requiredChecks": [
         "npm run lint -- src/lib/maksimus/types.ts src/lib/maksimus/identity.ts src/lib/maksimus/orchestrator.ts src/lib/maksimus/index.ts src/app/api/maksimus/route.ts",
         "npx tsx src/tests/lib/maksimus.test.ts",
+        "npx tsx src/tests/lib/extrimli-extendol.test.ts",
         "npm run predeploy:check",
         "npm audit --audit-level=high"
       ],
@@ -478,9 +483,10 @@
         "buildDurationMaxMin": 3
       },
       "testSuite": "src/tests/lib/extrimli.test.ts",
+      "extendolTestSuite": "src/tests/lib/extrimli-extendol.test.ts",
       "routeTestSuite": "src/tests/api/extrimli-route.test.ts",
       "exportTestSuite": "src/tests/lib/extrimli-instrukcija.test.ts",
-      "scope": "src/lib/extrimli/**,src/lib/extrimli-3/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/components/extrimli/**",
+      "scope": "src/lib/extrimli/**,src/lib/extrimli-extendol/**,src/lib/extrimli-3/**,src/lib/extrimli-cuz/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/app/api/extrimli-cuz/**,src/components/extrimli/**,src/components/extrimli-cuz/**",
       "githubSurface": {
         "workflow": ".github/workflows/extrimli-external-github.yml",
         "qualityGate": ".github/workflows/extrimli-validator.yml",
@@ -498,6 +504,7 @@
         ],
         "outboundArtifacts": [
           "module-health-snapshot",
+          "extendol-unified-surface",
           "gear-catalog",
           "destrukcija-asset-catalog",
           "instrukcija-registry",

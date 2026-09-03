@@ -5,6 +5,7 @@
 // MAKSIMUS (analitički/razvojni) i ANOTHER MAKS (kreativni) agenata.
 
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import { getExtrimliExtendolReport } from '@/lib/extrimli-extendol';
 import { getMaksimусLastSnapshot, setMaksimусLastSnapshot } from './store';
 import { getMaksimусPersona, shouldHandoffToAnotherMaks } from './identity';
 import type {
@@ -21,10 +22,11 @@ export const MAKSIMUS_MODEL_VERSION = '1.0.0';
 export const MAKSIMUS_SOURCE_OF_TRUTH = '/api/maksimus';
 
 export const MAKSIMUS_WEIGHTS = {
-  analitickaOrkestracija: 0.35,
-  razvojnaStrategija: 0.30,
-  platformaKoordinacija: 0.20,
+  analitickaOrkestracija: 0.30,
+  razvojnaStrategija: 0.25,
+  platformaKoordinacija: 0.15,
   novaGeneracijaSync: 0.15,
+  extrimliExtended: 0.15,
 } as const;
 
 const MAKSIMUS_CRITICAL_THRESHOLD = 75;
@@ -85,6 +87,21 @@ function computeDomenScore(domen: string): { score: number; available: boolean }
   return { score: base[domen] ?? 80, available: true };
 }
 
+function computeExtrimliExtendedScore(unifiedReadinessScore: number, maxFunctionalityForAll: boolean, degraded: boolean): {
+  score: number;
+  available: boolean;
+} {
+  const score = clampScore(
+    unifiedReadinessScore * 0.75
+    + (maxFunctionalityForAll ? 20 : 5)
+    - (degraded ? 10 : 0),
+  );
+  return {
+    score,
+    available: !degraded,
+  };
+}
+
 export async function buildMaksimus(): Promise<MaksimуsSvega> {
   const nowIso = new Date().toISOString();
   const degradedSources: string[] = [];
@@ -95,12 +112,20 @@ export async function buildMaksimus(): Promise<MaksimуsSvega> {
   const razvojnaStrategija = computeDomenScore('razvojnaStrategija');
   const platformaKoordinacija = computeDomenScore('platformaKoordinacija');
   const novaGeneracijaSync = computeDomenScore('novaGeneracijaSync');
+  const extrimliReport = getExtrimliExtendolReport();
+  const extrimliExtended = computeExtrimliExtendedScore(
+    extrimliReport.unifiedReadinessScore,
+    extrimliReport.maxFunctionalityForAll,
+    extrimliReport.degraded,
+  );
+  if (extrimliReport.degraded) degradedSources.push(...extrimliReport.degradedSources);
 
   const ukupanScore = clampScore(
     analitickaOrkestracija.score * MAKSIMUS_WEIGHTS.analitickaOrkestracija
     + razvojnaStrategija.score * MAKSIMUS_WEIGHTS.razvojnaStrategija
     + platformaKoordinacija.score * MAKSIMUS_WEIGHTS.platformaKoordinacija
-    + novaGeneracijaSync.score * MAKSIMUS_WEIGHTS.novaGeneracijaSync,
+    + novaGeneracijaSync.score * MAKSIMUS_WEIGHTS.novaGeneracijaSync
+    + extrimliExtended.score * MAKSIMUS_WEIGHTS.extrimliExtended,
   );
 
   const globalPreviousScore = previousSnapshot?.ukupanScore ?? null;
@@ -139,6 +164,14 @@ export async function buildMaksimus(): Promise<MaksimуsSvega> {
       novaGeneracijaSync.available,
       previousSnapshot?.domenScores.novaGeneracijaSync ?? null,
     ),
+    extrimliExtended: buildDomenSignal(
+      'EXTRIMLI Extended',
+      extrimliExtended.score,
+      MAKSIMUS_WEIGHTS.extrimliExtended,
+      '/api/extrimli/extendol',
+      extrimliExtended.available,
+      previousSnapshot?.domenScores.extrimliExtended ?? null,
+    ),
   };
 
   const kriticniDomeni = Object.values(domeni)
@@ -152,6 +185,9 @@ export async function buildMaksimus(): Promise<MaksimуsSvega> {
   if (degradedSources.length > 0) {
     preporuke.push(`Sanirati degradirane izvore signala: ${degradedSources.join(', ')}`);
   }
+  if (extrimliReport.degraded) {
+    preporuke.push(`Sanirati EXTRIMLI Extended degradaciju: ${extrimliReport.degradedSources.join(', ')}`);
+  }
   if (preporuke.length === 0) {
     preporuke.push('Svi ključni domeni MAKSIMUS agenta su stabilni; nastaviti iterativnu optimizaciju.');
   }
@@ -163,6 +199,7 @@ export async function buildMaksimus(): Promise<MaksimуsSvega> {
       razvojnaStrategija: razvojnaStrategija.score,
       platformaKoordinacija: platformaKoordinacija.score,
       novaGeneracijaSync: novaGeneracijaSync.score,
+      extrimliExtended: extrimliExtended.score,
     },
     timestamp: nowIso,
   });
@@ -179,6 +216,15 @@ export async function buildMaksimus(): Promise<MaksimуsSvega> {
     domeniBrojKriticnih: kriticniDomeni.length,
     preporuke,
     domeni,
+    extrimliIntegracija: {
+      sourceOfTruth: extrimliReport.sourceOfTruth,
+      contractVersion: extrimliReport.contractVersion,
+      moduleVersion: extrimliReport.moduleVersion,
+      unifiedReadinessScore: extrimliReport.unifiedReadinessScore,
+      maxFunctionalityForAll: extrimliReport.maxFunctionalityForAll,
+      degraded: extrimliReport.degraded,
+      degradedSources: extrimliReport.degradedSources,
+    },
     trend: {
       direction: scoreDeltaDirection(ukupanScore, globalPreviousScore),
       deltaScore,

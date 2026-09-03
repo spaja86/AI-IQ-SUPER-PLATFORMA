@@ -60,6 +60,16 @@ export interface MaksimуsMeta {
   degradedSources: string[];
 }
 
+export interface MaksimусExtrimliIntegracija {
+  sourceOfTruth: string;
+  contractVersion: string;
+  moduleVersion: string;
+  unifiedReadinessScore: number;
+  maxFunctionalityForAll: boolean;
+  degraded: boolean;
+  degradedSources: string[];
+}
+
 export interface MaksimуsSvega {
   sistem: string;
   kompanija: string;
@@ -76,7 +86,9 @@ export interface MaksimуsSvega {
     razvojnaStrategija: MaksimуsDomenSignal;
     platformaKoordinacija: MaksimуsDomenSignal;
     novaGeneracijaSync: MaksimуsDomenSignal;
+    extrimliExtended: MaksimуsDomenSignal;
   };
+  extrimliIntegracija: MaksimусExtrimliIntegracija;
   trend: MaksimуsTrend;
   handoff: {
     aktivanHandoff: boolean;
@@ -94,6 +106,7 @@ export interface MaksimусSnapshot {
     razvojnaStrategija: number;
     platformaKoordinacija: number;
     novaGeneracijaSync: number;
+    extrimliExtended: number;
   };
   timestamp: string;
 }
