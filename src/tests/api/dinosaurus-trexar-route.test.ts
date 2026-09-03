@@ -142,7 +142,7 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
-  await test('POST /api/dinosaurus-trexar/evaluate returns 422 for Infinity (serialized as null)', async () => {
+  await test('POST /api/dinosaurus-trexar/evaluate returns 400 for Infinity (serialized as null)', async () => {
     const response = await POST(makeEvaluateRequest({
       profile: {
         ageCategory: 'ADULT',
