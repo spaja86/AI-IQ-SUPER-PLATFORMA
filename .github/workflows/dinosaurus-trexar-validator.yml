@@ -1,0 +1,45 @@
+name: DINOSAURUS-Trexar — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/dinosaurus-trexar/**'
+      - 'src/app/api/dinosaurus-trexar/**'
+      - 'src/tests/lib/dinosaurus-trexar.test.ts'
+      - 'src/tests/api/dinosaurus-trexar-route.test.ts'
+      - '.github/workflows/dinosaurus-trexar-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/dinosaurus-trexar/**'
+      - 'src/app/api/dinosaurus-trexar/**'
+      - 'src/tests/lib/dinosaurus-trexar.test.ts'
+      - 'src/tests/api/dinosaurus-trexar-route.test.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: dinosaurus-trexar-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: dinosaurus-trexar
+      lint_paths: >-
+        src/lib/dinosaurus-trexar
+        src/app/api/dinosaurus-trexar
+      test_commands: |
+        npx tsx src/tests/lib/dinosaurus-trexar.test.ts
+        npx tsx src/tests/api/dinosaurus-trexar-route.test.ts
+      scan_paths: >-
+        src/lib/dinosaurus-trexar
+        src/app/api/dinosaurus-trexar
+      label: dinosaurus-trexar
+      perf_eval_ms: 50
+      perf_api_ms: 200

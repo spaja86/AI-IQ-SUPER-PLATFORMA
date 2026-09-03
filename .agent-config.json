@@ -1644,6 +1644,60 @@
         "registryLookupMaxMs": 10,
         "bulkPortfolioMaxMs": 100
       }
+    },
+    "dinosaurus-trexar-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "dinosaurus-trexar-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "dinosaurus-trexar:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "dinosaurus-trexar/**"
+        ],
+        "paths": [
+          "src/lib/dinosaurus-trexar/**",
+          "src/app/api/dinosaurus-trexar/**",
+          "src/tests/lib/dinosaurus-trexar.test.ts",
+          "src/tests/api/dinosaurus-trexar-route.test.ts",
+          ".github/workflows/dinosaurus-trexar-validator.yml",
+          "docs/DINOSAURUS-TREXAR.md",
+          "docs/MULTI-REPO-LINKS.md"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/dinosaurus-trexar.test.ts",
+        "npx tsx src/tests/api/dinosaurus-trexar-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "dinosaurus-trexar:validated",
+        "needsReview": "dinosaurus-trexar:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "dinosaurus-trexar-core",
+        "octave": 10,
+        "hipermrezaNode": 81
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          100
+        ],
+        "reactionMaxMs": 600
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required until downstream adoption starts"
+      }
     }
   }
 }

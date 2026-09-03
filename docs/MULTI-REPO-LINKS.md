@@ -1370,3 +1370,26 @@ AI-IQ-SUPER-PLATFORMA#swiming -> IO-OPENUI-AO#<optional follow-up>
 ```
 AI-IQ-SUPER-PLATFORMA#dresing -> IO-OPENUI-AO#<optional follow-up>
 ```
+
+---
+
+## DINOSAURUS-Trexar — Multi-Repo Link
+
+| Field | Value |
+|-------|-------|
+| Module | DINOSAURUS-Trexar — Readiness & Tier Intelligence Engine |
+| Persona | `dinosaurus-trexar-core` (octave: 10, hipermreza node: 81) |
+| Validator | `dinosaurus-trexar-validator-agent` |
+| Endpoint | `POST /api/dinosaurus-trexar/evaluate` — evaluate; `GET /api/dinosaurus-trexar/health` — health |
+| Focus | Deterministic readiness scoring, threat adaptation, status/tier mapping |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — DINOSAURUS-Trexar evaluation engine | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync Trexar readiness snapshots when downstream adoption starts |
+
+**Audit convention:**
+```
+AI-IQ-SUPER-PLATFORMA#dinosaurus-trexar -> IO-OPENUI-AO#<optional follow-up>
+```
