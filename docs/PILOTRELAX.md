@@ -40,7 +40,7 @@ Each evaluation accepts:
 - `environment` — `COCKPIT | HOME | LOUNGE | OUTDOOR`
 - `phaseOfDay` — `MORNING | AFTERNOON | EVENING | NIGHT`
 - `stressLoad` — finite bounded score `0..100`
-- `availableMinutes` — finite positive minutes `1..180`
+- `availableMinutes` — integer positive minutes `1..180`
 - `breathingCycles` — integer bounded `0..60`
 - `noiseLevelDb` — finite bounded `0..120`
 - `screenMinutesBeforeBreak` — integer bounded `0..240`

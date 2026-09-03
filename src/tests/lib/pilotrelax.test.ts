@@ -161,6 +161,22 @@ async function runTests(): Promise<void> {
     assert(!result.valid, 'NaN stress load must be invalid');
   });
 
+  await test('fractional available minutes returns invalid result', () => {
+    const result = evaluatePilotrelax({
+      objective: 'RECOVERY',
+      environment: 'OUTDOOR',
+      phaseOfDay: 'MORNING',
+      stressLoad: 20,
+      availableMinutes: 12.5,
+      breathingCycles: 4,
+      noiseLevelDb: 32,
+      screenMinutesBeforeBreak: 10,
+    });
+
+    assert(!result.valid, 'fractional available minutes must be invalid');
+    assert(result.objective === null, 'invalid result objective should be null');
+  });
+
   await test('Infinity screen minutes returns invalid result', () => {
     const result = evaluatePilotrelax({
       objective: 'FOCUS',

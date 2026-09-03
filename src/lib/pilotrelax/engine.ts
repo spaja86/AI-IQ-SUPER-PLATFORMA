@@ -71,9 +71,9 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
   recordEvaluation(null);
   return {
     referenceId: referenceId ?? 'n/a',
-    objective: 'RESET',
-    environment: 'HOME',
-    phaseOfDay: 'EVENING',
+    objective: null,
+    environment: null,
+    phaseOfDay: null,
     calmScore: 0,
     breathingScore: 0,
     environmentScore: 0,
@@ -226,10 +226,10 @@ export function evaluatePilotrelax(input: PilotrelaxInput): PilotrelaxResult {
     return invalidResult(input.referenceId, 'stressLoad must be within 0..100', start);
   }
 
-  if (!Number.isFinite(input.availableMinutes) || input.availableMinutes <= 0 || input.availableMinutes > PILOTRELAX_MAX_AVAILABLE_MINUTES) {
+  if (!Number.isInteger(input.availableMinutes) || input.availableMinutes <= 0 || input.availableMinutes > PILOTRELAX_MAX_AVAILABLE_MINUTES) {
     return invalidResult(
       input.referenceId,
-      `availableMinutes must be within 1..${PILOTRELAX_MAX_AVAILABLE_MINUTES}`,
+      `availableMinutes must be an integer within 1..${PILOTRELAX_MAX_AVAILABLE_MINUTES}`,
       start,
     );
   }

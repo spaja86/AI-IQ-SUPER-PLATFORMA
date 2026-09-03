@@ -40,9 +40,9 @@ export interface PilotrelaxInput {
 
 export interface PilotrelaxResult {
   referenceId: string;
-  objective: PilotrelaxObjective;
-  environment: PilotrelaxEnvironment;
-  phaseOfDay: PilotrelaxPhaseOfDay;
+  objective: PilotrelaxObjective | null;
+  environment: PilotrelaxEnvironment | null;
+  phaseOfDay: PilotrelaxPhaseOfDay | null;
   calmScore: number;
   breathingScore: number;
   environmentScore: number;
