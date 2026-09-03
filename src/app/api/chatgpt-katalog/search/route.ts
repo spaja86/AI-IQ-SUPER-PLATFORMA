@@ -12,6 +12,16 @@ const VALID_TYPES: EntryType[] = ['model', 'tool', 'use-case'];
 const VALID_STATUSES: ModelStatus[] = ['active', 'deprecated', 'preview', 'legacy'];
 const VALID_SORTS: SortBy[] = ['relevance', 'price-asc', 'price-desc', 'context-window-desc', 'name-asc'];
 
+function parseMaybeNumber(value: unknown): number | undefined {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return undefined;
+  return value;
+}
+
+function readString(input: Record<string, unknown>, key: string): string | undefined {
+  const value = Reflect.get(input, key);
+  return typeof value === 'string' ? value : undefined;
+}
+
 export async function POST(req: NextRequest) {
   try {
     let body: unknown;
@@ -40,15 +50,19 @@ export async function POST(req: NextRequest) {
     }
 
     const q: KatalogSearchQuery = {
-      query: typeof candidate.query === 'string' ? candidate.query : undefined,
+      query: readString(candidate, 'query'),
       type: candidate.type as KatalogSearchQuery['type'],
       category: typeof candidate.category === 'string' ? candidate.category : undefined,
       domain: typeof candidate.domain === 'string' ? candidate.domain : undefined,
-      tags: Array.isArray(candidate.tags) ? (candidate.tags as string[]).filter((t) => typeof t === 'string') : undefined,
+      tags: Array.isArray(candidate.tags) ? (candidate.tags as unknown[]).filter((tag): tag is string => typeof tag === 'string') : undefined,
+      capabilities: Array.isArray(candidate.capabilities)
+        ? (candidate.capabilities as unknown[]).filter((capability): capability is string => typeof capability === 'string')
+        : undefined,
       status: candidate.status as KatalogSearchQuery['status'],
       page: typeof candidate.page === 'number' ? candidate.page : 1,
       pageSize: typeof candidate.pageSize === 'number' ? candidate.pageSize : 20,
       sortBy: candidate.sortBy as KatalogSearchQuery['sortBy'],
+      maxInputCostPer1k: parseMaybeNumber(candidate.maxInputCostPer1k),
     };
 
     const result = searchKatalog(q);

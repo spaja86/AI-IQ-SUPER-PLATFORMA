@@ -4,16 +4,54 @@
 
 ## Overview
 
-**ChatGPT Katalog** is a structured catalog of OpenAI/ChatGPT models, tools, and use-case templates for the AI-IQ-SUPER-PLATFORMA. It enables platform users to search, compare, and integrate ChatGPT/OpenAI resources with a clean API contract.
+**ChatGPT Katalog** is the repository’s primary discovery-and-recommendation surface for OpenAI/ChatGPT models, tools, and use-case templates inside AI-IQ-SUPER-PLATFORMA. It supports three core user flows with one shared source of truth in `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/lib/chatgpt-katalog`:
+
+- catalog browsing and filtering
+- side-by-side model comparison
+- domain + budget recommendation
+
+This module is intentionally **not** a live ChatGPT chat assistant. It is a curated static-reference catalog that helps users choose the right model or tool before implementation.
 
 | Attribute | Value |
 |-----------|-------|
 | Persona ID | `chatgpt-katalog-core` |
-| Module Version | `1.0.0` |
+| Module Version | `1.1.0` |
 | Contract Version | `v1` |
+| Scope | `discovery-and-recommendation` |
+| Catalog Mode | `static-reference` |
 | Octave | 10 |
 | Hipermreza Node | 81 |
-| Linked Modules | Nova Generacija, Persona Bank, Digit Engine (node 80 ↔ 81) |
+| Primary UI Page | `/chatgpt-katalog` |
+| Linked Modules | Nova Generacija, Persona Bank, Digit Engine |
+| Linked Repo | `spaja86/IO-OPENUI-AO` |
+
+---
+
+## Scope Boundaries
+
+### Included
+- browse models, tools, and templates from one UI
+- compare 2–4 models on cost, speed, context, and capabilities
+- recommend models based on domain, budget, and required capabilities
+- expose stable metadata for linked modules and downstream consumers
+
+### Excluded
+- real-time syncing from OpenAI
+- direct prompt execution or hosted chat sessions
+- automatic writes to downstream linked repositories
+
+---
+
+## Static-Catalog Behavior
+
+The registry is a **referential static catalog**. It is optimized for stability, repeatable tests, and predictable UI behavior.
+
+Use this mode when:
+- consistent automated tests matter more than live vendor updates
+- downstream repos need a stable integration contract
+- recommendation and comparison logic should not change unexpectedly
+
+If live vendor refresh is ever required, it should be added as a **controlled sync process** rather than replacing the static registry contract.
 
 ---
 
@@ -32,22 +70,26 @@
 ## Registry Contents
 
 ### Models (8)
-| ID | Name | Context | Status | Speed |
-|----|------|---------|--------|-------|
-| `gpt-4o` | GPT-4o | 128,000 | active | fast |
-| `gpt-4o-mini` | GPT-4o mini | 128,000 | active | fast |
-| `gpt-4-turbo` | GPT-4 Turbo | 128,000 | active | medium |
-| `gpt-3.5-turbo` | GPT-3.5 Turbo | 16,385 | legacy | fast |
-| `o1` | o1 | 200,000 | active | slow |
-| `o1-mini` | o1-mini | 128,000 | active | medium |
-| `o3-mini` | o3-mini | 200,000 | active | fast |
-| `gpt-4` | GPT-4 | 8,192 | deprecated | slow |
+`gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `gpt-3.5-turbo`, `o1`, `o1-mini`, `o3-mini`, `gpt-4`
 
-### Tools (8)
-`dalle-3`, `whisper-1`, `tts-1`, `embeddings-3-small`, `embeddings-3-large`, `fine-tuning`, `moderation`, `assistants-api`
+### Tools (10)
+`dalle-3`, `whisper-1`, `tts-1`, `embeddings-3-small`, `embeddings-3-large`, `fine-tuning`, `moderation`, `assistants-api`, `responses-api`, `batch-api`
 
-### Use Cases (8)
-`uc-customer-support`, `uc-code-review`, `uc-data-analysis`, `uc-math-reasoning`, `uc-document-summarization`, `uc-image-analysis`, `uc-semantic-search`, `uc-content-moderation`
+### Use Cases (10)
+`uc-customer-support`, `uc-code-review`, `uc-data-analysis`, `uc-math-reasoning`, `uc-document-summarization`, `uc-image-analysis`, `uc-semantic-search`, `uc-content-moderation`, `uc-rag-assistant`, `uc-agentic-workflow`
+
+---
+
+## Primary UI Flow
+
+`/chatgpt-katalog` is the main user-facing entry point.
+
+It combines:
+- catalog health snapshot
+- advanced filters for type, status, capabilities, and input cost
+- grouped result browsing (models, tools, use cases)
+- compare staging for up to 4 models
+- recommendation flow with direct compare handoff
 
 ---
 
@@ -56,22 +98,17 @@
 ### `GET /api/chatgpt-katalog`
 List all entries with optional filters and pagination.
 
-**Query params:** `query`, `type` (model|tool|use-case), `category`, `domain`, `tags`, `status`, `page`, `pageSize`, `sortBy`
+**Query params:** `query`, `type` (`model|tool|use-case`), `category`, `domain`, `tags`, `capabilities`, `status`, `page`, `pageSize`, `sortBy`, `maxInputCostPer1k`
 
-```json
-{
-  "data": {
-    "entries": [...],
-    "total": 24,
-    "page": 1,
-    "pageSize": 20,
-    "totalPages": 2,
-    "disclaimer": "...",
-    "contractVersion": "v1",
-    "evaluationMs": 1.2
-  }
-}
-```
+**Response shape highlights:**
+- `entries`
+- `summary.models`
+- `summary.tools`
+- `summary.useCases`
+- `summary.activeModels`
+- `summary.matchedCapabilities`
+- `summary.catalogMode`
+- `summary.scope`
 
 ---
 
@@ -80,8 +117,9 @@ Get a single entry by ID.
 
 **Response 200:**
 ```json
-{ "data": { "type": "model", "id": "gpt-4o", "name": "GPT-4o", ... } }
+{ "data": { "type": "model", "id": "gpt-4o", "name": "GPT-4o" } }
 ```
+
 **Response 404:** Entry not found.
 
 ---
@@ -89,12 +127,13 @@ Get a single entry by ID.
 ### `POST /api/chatgpt-katalog/search`
 Search with a JSON body.
 
-**Request:**
+**Request example:**
 ```json
 {
   "query": "reasoning",
   "type": "model",
-  "status": "active",
+  "capabilities": ["structured-outputs"],
+  "maxInputCostPer1k": 0.005,
   "sortBy": "price-asc",
   "page": 1,
   "pageSize": 10
@@ -106,83 +145,56 @@ Search with a JSON body.
 ### `POST /api/chatgpt-katalog/compare`
 Side-by-side comparison of 2–4 models.
 
-**Request:**
-```json
-{ "modelIds": ["gpt-4o", "gpt-4o-mini", "o3-mini"] }
-```
-
-**Response:**
-```json
-{
-  "data": {
-    "models": [{ "modelId": "gpt-4o", "contextWindow": 128000, "inputPricePer1k": 0.005, ... }],
-    "capabilityUnion": ["audio", "function-calling", "text", "vision", ...],
-    "cheapestModelId": "gpt-4o-mini",
-    "largestContextModelId": "gpt-4o",
-    "fastestModelId": "gpt-4o",
-    "disclaimer": "...",
-    "contractVersion": "v1",
-    "evaluationMs": 0.8
-  }
-}
-```
+**Response highlights:**
+- `models`
+- `capabilityUnion`
+- `sharedCapabilities`
+- `cheapestModelId`
+- `largestContextModelId`
+- `fastestModelId`
+- `tradeoffs`
 
 ---
 
 ### `POST /api/chatgpt-katalog/recommend`
 Recommend the best model/tools for a domain and budget.
 
-**Request:**
+**Request example:**
 ```json
 {
-  "domain": "customer-service",
-  "budget": 5,
-  "requiredCapabilities": ["text"],
+  "domain": "software-development",
+  "budget": 10,
+  "requiredCapabilities": ["function-calling", "structured-outputs"],
   "preferSpeed": false
 }
 ```
 
-**Response:**
-```json
-{
-  "data": {
-    "recommendedModel": { "id": "gpt-4o-mini", ... },
-    "alternativeModels": [...],
-    "recommendedTools": [...],
-    "relevantUseCases": [...],
-    "reasoning": "Recommended GPT-4o mini for domain \"customer-service\" within budget of $5/1M tokens (cost-optimized).",
-    "disclaimer": "...",
-    "contractVersion": "v1",
-    "evaluationMs": 0.5
-  }
-}
-```
+**Response highlights:**
+- `recommendedModel`
+- `alternativeModels`
+- `recommendedTools`
+- `relevantUseCases`
+- `matchedUseCases`
+- `budgetFit`
+- `budgetPerMillionTokens`
+- `candidateCount`
+- `catalogMode`
+- `scope`
 
 ---
 
 ### `GET /api/chatgpt-katalog/health`
 Module health and KPI status.
 
-**Response:**
-```json
-{
-  "data": {
-    "status": "ok",
-    "personaId": "chatgpt-katalog-core",
-    "moduleVersion": "1.0.0",
-    "contractVersion": "v1",
-    "octave": 10,
-    "hipermrezaNode": 81,
-    "modelCount": 8,
-    "toolCount": 8,
-    "useCaseCount": 8,
-    "totalEntries": 24,
-    "activeModelCount": 6,
-    "lastUpdated": "2026-08-18T15:00:00.000Z",
-    "kpi": { "searchMaxMs": 50, "compareMaxMs": 100, "apiResponseMaxMs": 200, "registryLookupMaxMs": 10 }
-  }
-}
-```
+**Response highlights:**
+- `scope`
+- `catalogMode`
+- `linkedModules`
+- `linkedRepos`
+- `modelCount`
+- `toolCount`
+- `useCaseCount`
+- `activeModelCount`
 
 ---
 
@@ -190,49 +202,71 @@ Module health and KPI status.
 
 All endpoints set these headers:
 - `X-ChatGPT-Katalog-Contract-Version: v1`
-- `X-ChatGPT-Katalog-Module-Version: 1.0.0`
+- `X-ChatGPT-Katalog-Module-Version: 1.1.0`
 - `X-ChatGPT-Katalog-Persona-Id: chatgpt-katalog-core`
 - `X-ChatGPT-Katalog-Slug: chatgpt-katalog`
+- `X-ChatGPT-Katalog-Display-Name: ChatGPT Katalog`
+
+---
+
+## Integration Boundaries
+
+### Persona Bank
+- consumes stable persona metadata (`chatgpt-katalog-core`)
+- can reference health and registry metadata without requiring live vendor access
+
+### Digit Engine
+- neighboring node relationship remains `digit-engine` node 80 ↔ `chatgpt-katalog` node 81
+- useful for catalog/index classification and linked module discovery
+
+### Nova Generacija
+- can consume recommendation and comparison outputs as a selection layer before AI workflow activation
+
+### Linked repo: `spaja86/IO-OPENUI-AO`
+- downstream adoption should consume the stable APIs rather than copying registry logic
+- any future sync should snapshot the registry instead of depending on runtime scraping
 
 ---
 
 ## File Structure
 
-```
+```text
 src/lib/chatgpt-katalog/
-  types.ts              — All TypeScript types and constants
-  registry.ts           — Static GPT model/tool/use-case catalog
-  search-engine.ts      — Full-text + filter + sort + pagination
-  compare-engine.ts     — Side-by-side model comparison
-  recommendation-engine.ts — Domain+budget model recommendation
-  katalog-engine.ts     — Health report + response headers
-  index.ts              — Public exports
+  types.ts
+  registry.ts
+  search-engine.ts
+  compare-engine.ts
+  recommendation-engine.ts
+  katalog-engine.ts
+  index.ts
+
+src/app/chatgpt-katalog/
+  page.tsx
 
 src/app/api/chatgpt-katalog/
-  route.ts              — GET (list)
-  [id]/route.ts         — GET by ID
-  search/route.ts       — POST search
-  compare/route.ts      — POST compare
-  recommend/route.ts    — POST recommend
-  health/route.ts       — GET health
+  route.ts
+  [id]/route.ts
+  search/route.ts
+  compare/route.ts
+  recommend/route.ts
+  health/route.ts
 
 src/components/chatgpt-katalog/
-  index.tsx             — ModelCard, ToolCard, UseCaseCard, CompareTable,
-                          RecommendationPanel, ChatGPTKatalogBrowser
+  index.tsx
 
-src/tests/lib/chatgpt-katalog.test.ts    — 37 unit tests
-src/tests/api/chatgpt-katalog-route.test.ts — 16 route tests
+src/tests/lib/chatgpt-katalog.test.ts
+src/tests/api/chatgpt-katalog-route.test.ts
 ```
 
 ---
 
-## Agent Integration
+## Governance
 
 - **Validator**: `chatgpt-katalog-validator-agent`
-- **Workflow**: `.github/workflows/chatgpt-katalog-validator.yml`
+- **Workflow**: `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/.github/workflows/chatgpt-katalog-validator.yml`
 - **Trigger labels**: `chatgpt-katalog:logic-change`
 - **Auto-labels**: `chatgpt-katalog:validated` / `chatgpt-katalog:needs-review`
-- **Config**: `.agent-config.json` → `chatgpt-katalog-validator-agent`
+- **Config**: `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/.agent-config.json` → `chatgpt-katalog-validator-agent`
 
 ---
 

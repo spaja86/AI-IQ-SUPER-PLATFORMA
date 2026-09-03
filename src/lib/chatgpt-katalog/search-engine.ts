@@ -2,11 +2,43 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { KatalogEntry, KatalogSearchQuery, KatalogSearchResult, GPTModel } from './types';
-import { CHATGPT_KATALOG_CONTRACT_VERSION, CHATGPT_KATALOG_DISCLAIMER } from './types';
+import {
+  CHATGPT_KATALOG_CATALOG_MODE,
+  CHATGPT_KATALOG_CONTRACT_VERSION,
+  CHATGPT_KATALOG_DISCLAIMER,
+  CHATGPT_KATALOG_SCOPE,
+} from './types';
 import { getAllEntries } from './registry';
 
 function matchesText(text: string, query: string): boolean {
   return text.toLowerCase().includes(query.toLowerCase());
+}
+
+function normalizeTerms(values?: string[]): string[] {
+  if (!values) return [];
+  return Array.from(new Set(values.map((value) => value.trim().toLowerCase()).filter(Boolean)));
+}
+
+function getModelInputPrice(entry: KatalogEntry): number | null {
+  return entry.type === 'model' ? entry.pricing.inputPer1kTokens : null;
+}
+
+function entryMatchesCapabilities(entry: KatalogEntry, capabilities: string[]): boolean {
+  if (capabilities.length === 0) return true;
+  if (entry.type === 'model') {
+    const modelCapabilities = entry.capabilities.map((capability) => capability.toLowerCase());
+    return capabilities.every((capability) => modelCapabilities.includes(capability));
+  }
+  if (entry.type === 'use-case') {
+    const requiredCapabilities = (entry.requiredCapabilities ?? []).map((capability) => capability.toLowerCase());
+    return capabilities.every((capability) => requiredCapabilities.includes(capability));
+  }
+  return capabilities.some((capability) => entry.tags.some((tag) => matchesText(tag, capability)));
+}
+
+function readQueryText(q: KatalogSearchQuery): string | undefined {
+  const value = Reflect.get(q, 'query');
+  return typeof value === 'string' ? value : undefined;
 }
 
 function entryMatchesQuery(entry: KatalogEntry, q: KatalogSearchQuery): boolean {
@@ -17,23 +49,39 @@ function entryMatchesQuery(entry: KatalogEntry, q: KatalogSearchQuery): boolean 
   }
 
   if (q.category && entry.type === 'tool') {
-    const tool = entry as Extract<KatalogEntry, { type: 'tool' }>;
-    if (!matchesText(tool.category, q.category)) return false;
+    if (!matchesText(entry.category, q.category)) return false;
   }
 
-  if (q.domain && entry.type === 'use-case') {
-    const uc = entry as Extract<KatalogEntry, { type: 'use-case' }>;
-    if (!matchesText(uc.domain, q.domain)) return false;
+  if (q.domain) {
+    if (entry.type === 'use-case') {
+      if (!matchesText(entry.domain, q.domain)) return false;
+    } else if (entry.type === 'tool') {
+      const domains = entry.recommendedDomains ?? [];
+      const domainMatch = domains.some((domain) => matchesText(domain, q.domain)) || matchesText(entry.description, q.domain);
+      if (!domainMatch) return false;
+    } else {
+      const modelDomainMatch = entry.tags.some((tag) => matchesText(tag, q.domain)) || matchesText(entry.description, q.domain);
+      if (!modelDomainMatch) return false;
+    }
   }
 
   if (q.tags && q.tags.length > 0) {
-    const entryTags = entry.tags;
-    const hasTag = q.tags.some((tag) => entryTags.some((t) => matchesText(t, tag)));
+    const hasTag = q.tags.some((tag) => entry.tags.some((entryTag) => matchesText(entryTag, tag)));
     if (!hasTag) return false;
   }
 
-  if (q.query && q.query.trim().length > 0) {
-    const term = q.query.trim();
+  const capabilities = normalizeTerms(q.capabilities);
+  if (!entryMatchesCapabilities(entry, capabilities)) return false;
+
+  if (typeof q.maxInputCostPer1k === 'number' && Number.isFinite(q.maxInputCostPer1k)) {
+    const price = getModelInputPrice(entry);
+    if (price !== null && price > q.maxInputCostPer1k) return false;
+    if (price === null && q.type === 'model') return false;
+  }
+
+  const queryText = readQueryText(q);
+  if (queryText && queryText.trim().length > 0) {
+    const term = queryText.trim();
     const searchable = buildSearchableText(entry);
     if (!matchesText(searchable, term)) return false;
   }
@@ -43,22 +91,59 @@ function entryMatchesQuery(entry: KatalogEntry, q: KatalogSearchQuery): boolean 
 
 function buildSearchableText(entry: KatalogEntry): string {
   if (entry.type === 'model') {
-    return [entry.name, entry.description, ...entry.capabilities, ...entry.tags].join(' ');
+    return [entry.id, entry.name, entry.description, ...(entry.strengths ?? []), ...entry.capabilities, ...entry.tags].join(' ');
   }
   if (entry.type === 'tool') {
-    return [entry.name, entry.description, entry.category, entry.integrationGuide, ...entry.tags].join(' ');
+    return [entry.id, entry.name, entry.description, entry.category, entry.integrationGuide, ...(entry.recommendedDomains ?? []), ...entry.tags].join(' ');
   }
-  return [entry.title, entry.domain, entry.prompt, entry.expectedOutput, ...entry.tags].join(' ');
+  return [entry.id, entry.title, entry.domain, entry.prompt, entry.expectedOutput, ...(entry.requiredCapabilities ?? []), ...entry.tags].join(' ');
 }
 
-function sortEntries(entries: KatalogEntry[], sortBy: KatalogSearchQuery['sortBy']): KatalogEntry[] {
-  if (!sortBy || sortBy === 'relevance') return entries;
+function getEntryPrimaryLabel(entry: KatalogEntry): string {
+  return entry.type === 'use-case' ? entry.title : entry.name;
+}
+
+function getRelevanceScore(entry: KatalogEntry, searchTerm?: string): number {
+  const term = searchTerm?.trim().toLowerCase();
+  if (!term) return 0;
+
+  let score = 0;
+  const id = entry.id.toLowerCase();
+  const primaryLabel = getEntryPrimaryLabel(entry).toLowerCase();
+  const tags = entry.tags.map((tag) => tag.toLowerCase());
+  const searchable = buildSearchableText(entry).toLowerCase();
+
+  if (id === term || primaryLabel === term) score += 200;
+  if (id.includes(term)) score += 80;
+  if (primaryLabel.includes(term)) score += 60;
+  if (tags.some((tag) => tag === term)) score += 40;
+  if (tags.some((tag) => tag.includes(term))) score += 20;
+  if (searchable.includes(term)) score += 10;
+
+  if (entry.type === 'model') {
+    if (entry.capabilities.some((capability) => capability.toLowerCase() === term)) score += 35;
+    if ((entry.strengths ?? []).some((strength) => strength.toLowerCase().includes(term))) score += 15;
+  }
+
+  if (entry.type === 'use-case' && (entry.requiredCapabilities ?? []).some((capability) => capability.toLowerCase() === term)) {
+    score += 25;
+  }
+
+  return score;
+}
+
+function sortEntries(entries: KatalogEntry[], sortBy: KatalogSearchQuery['sortBy'], searchTerm?: string): KatalogEntry[] {
+  if (!sortBy || sortBy === 'relevance') {
+    return [...entries].sort((a, b) => {
+      const scoreDelta = getRelevanceScore(b, searchTerm) - getRelevanceScore(a, searchTerm);
+      if (scoreDelta !== 0) return scoreDelta;
+      return getEntryPrimaryLabel(a).localeCompare(getEntryPrimaryLabel(b));
+    });
+  }
 
   return [...entries].sort((a, b) => {
     if (sortBy === 'name-asc') {
-      const nameA = a.type === 'use-case' ? a.title : a.name;
-      const nameB = b.type === 'use-case' ? b.title : b.name;
-      return nameA.localeCompare(nameB);
+      return getEntryPrimaryLabel(a).localeCompare(getEntryPrimaryLabel(b));
     }
     if (sortBy === 'context-window-desc') {
       const cwA = a.type === 'model' ? a.contextWindow : 0;
@@ -66,8 +151,8 @@ function sortEntries(entries: KatalogEntry[], sortBy: KatalogSearchQuery['sortBy
       return cwB - cwA;
     }
     if (sortBy === 'price-asc' || sortBy === 'price-desc') {
-      const priceA = a.type === 'model' ? a.pricing.inputPer1kTokens : 0;
-      const priceB = b.type === 'model' ? b.pricing.inputPer1kTokens : 0;
+      const priceA = a.type === 'model' ? a.pricing.inputPer1kTokens : Number.POSITIVE_INFINITY;
+      const priceB = b.type === 'model' ? b.pricing.inputPer1kTokens : Number.POSITIVE_INFINITY;
       return sortBy === 'price-asc' ? priceA - priceB : priceB - priceA;
     }
     return 0;
@@ -80,14 +165,30 @@ export function searchKatalog(q: KatalogSearchQuery): KatalogSearchResult {
   const page = Math.max(1, q.page ?? 1);
   const pageSize = Math.min(100, Math.max(1, q.pageSize ?? 20));
 
+  const normalizedQuery: KatalogSearchQuery = {
+    ...q,
+    tags: normalizeTerms(q.tags),
+    capabilities: normalizeTerms(q.capabilities),
+  };
+
   const all = getAllEntries();
-  const filtered = all.filter((entry) => entryMatchesQuery(entry, q));
-  const sorted = sortEntries(filtered, q.sortBy);
+  const filtered = all.filter((entry) => entryMatchesQuery(entry, normalizedQuery));
+  const sorted = sortEntries(filtered, normalizedQuery.sortBy, readQueryText(normalizedQuery));
 
   const total = sorted.length;
-  const totalPages = Math.ceil(total / pageSize);
+  const totalPages = total === 0 ? 0 : Math.ceil(total / pageSize);
   const offset = (page - 1) * pageSize;
   const entries = sorted.slice(offset, offset + pageSize);
+
+  const summary = {
+    models: filtered.filter((entry) => entry.type === 'model').length,
+    tools: filtered.filter((entry) => entry.type === 'tool').length,
+    useCases: filtered.filter((entry) => entry.type === 'use-case').length,
+    activeModels: filtered.filter((entry) => entry.type === 'model' && entry.status === 'active').length,
+    matchedCapabilities: Array.from(new Set(filtered.flatMap((entry) => entry.type === 'model' ? entry.capabilities : entry.type === 'use-case' ? (entry.requiredCapabilities ?? []) : []))).sort(),
+    catalogMode: CHATGPT_KATALOG_CATALOG_MODE,
+    scope: CHATGPT_KATALOG_SCOPE,
+  };
 
   return {
     entries,
@@ -95,7 +196,8 @@ export function searchKatalog(q: KatalogSearchQuery): KatalogSearchResult {
     page,
     pageSize,
     totalPages,
-    query: q,
+    query: normalizedQuery,
+    summary,
     disclaimer: CHATGPT_KATALOG_DISCLAIMER,
     contractVersion: CHATGPT_KATALOG_CONTRACT_VERSION,
     evaluationMs: Math.round((performance.now() - start) * 100) / 100,
