@@ -61,7 +61,14 @@ function isPhase(value: unknown): value is PilotrelaxInput['phaseOfDay'] {
   return typeof value === 'string' && VALID_PILOTRELAX_PHASES.includes(value as PilotrelaxInput['phaseOfDay']);
 }
 
+function recordEvaluation(status: PilotrelaxStatus | null): void {
+  evaluations += 1;
+  lastStatus = status;
+  lastEvaluatedAt = new Date().toISOString();
+}
+
 function invalidResult(referenceId: string | undefined, warning: string, start: number): PilotrelaxResult {
+  recordEvaluation(null);
   return {
     referenceId: referenceId ?? 'n/a',
     objective: 'RESET',
@@ -270,9 +277,7 @@ export function evaluatePilotrelax(input: PilotrelaxInput): PilotrelaxResult {
   const recommendedMinutes = resolveRecommendedMinutes(input, recommendedProtocol, status);
   const warnings = buildWarnings(input, status, environmentScore, focusScore);
 
-  evaluations += 1;
-  lastStatus = status;
-  lastEvaluatedAt = new Date().toISOString();
+  recordEvaluation(status);
 
   return {
     referenceId: input.referenceId ?? 'n/a',

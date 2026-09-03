@@ -176,6 +176,25 @@ async function runTests(): Promise<void> {
     assert(!result.valid, 'Infinity screen minutes must be invalid');
   });
 
+  await test('invalid evaluation still increments health metrics', () => {
+    _resetPilotrelaxMetrics();
+    evaluatePilotrelax({
+      objective: 'RESET',
+      environment: 'HOME',
+      phaseOfDay: 'EVENING',
+      stressLoad: 30,
+      availableMinutes: 10,
+      breathingCycles: -1,
+      noiseLevelDb: 30,
+      screenMinutesBeforeBreak: 10,
+    });
+
+    const health = getPilotrelaxHealthReport();
+    assert(health.evaluations === 1, `expected 1 invalid evaluation, got ${health.evaluations}`);
+    assert(health.lastStatus === null, 'lastStatus should remain null after invalid evaluation');
+    assert(typeof health.lastEvaluatedAt === 'string' && health.lastEvaluatedAt.length > 0, 'invalid evaluation should set lastEvaluatedAt');
+  });
+
   await test('health report reflects latest evaluation', () => {
     evaluatePilotrelax({
       objective: 'RESET',
