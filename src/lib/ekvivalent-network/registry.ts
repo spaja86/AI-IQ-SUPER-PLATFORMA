@@ -28,6 +28,7 @@ const SEED_NODES: EkvivalentNode[] = [
   { id: 'epekm-denter-core', label: 'EPEKM-D — Permanent Email Identity Engine', domain: 'MODULE', tags: ['email', 'identity', 'delivery'] },
   { id: 'decibil-core', label: 'DECIBIL — Audio Signal Measurement', domain: 'MODULE', tags: ['audio', 'dbfs', 'signal'] },
   { id: 'trenazer-coach-core', label: 'TRENAŽER — Training Readiness Engine', domain: 'MODULE', tags: ['training', 'readiness', 'intensity'] },
+  { id: 'pilotrelax-calm-core', label: 'PILOTRELAX — Relaxation Guidance Engine', domain: 'MODULE', tags: ['relaxation', 'breathing', 'focus'] },
   { id: 'dumbir-wellness-core', label: 'ÐUMBIR — Ginger Wellness Engine', domain: 'MODULE', tags: ['wellness', 'potency', 'comfort'] },
   { id: 'great-sumbion-core', label: 'GREAT SUMBION — Weighted Score Engine', domain: 'MODULE', tags: ['score', 'tier', 'weighted'] },
   { id: 'digit-engine-core', label: 'Digit Intelligence Engine — Symbolic Layers', domain: 'MODULE', tags: ['digit', 'symbolic', 'registry'] },

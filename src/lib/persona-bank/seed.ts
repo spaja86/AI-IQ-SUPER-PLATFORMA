@@ -277,6 +277,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['swiming-validator-agent', 'persona-bank-agent'],
     crossRepoRef: 'swiming',
   },
+  // ─── PILOTRELAX ───────────────────────────────────────────────────────────
+  {
+    id: 'pilotrelax-calm-core',
+    name: 'PILOTRELAX — Relaxation Guidance Engine',
+    type: 'pilotrelax',
+    octave: 7,
+    hipermrezaNode: 58,
+    attributes: {
+      traits: ['calming', 'deterministic', 'focus-restoring'],
+      skills: ['relaxation-scoring', 'breathing-guidance', 'environment-balancing'],
+      tone: 'steady',
+      domain: 'wellness/relaxation',
+    },
+    linkedAgents: ['pilotrelax-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'pilotrelax',
+  },
   // ─── DRESING ──────────────────────────────────────────────────────────────
   {
     id: 'dresing-core',

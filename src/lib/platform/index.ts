@@ -43,6 +43,7 @@ export { logger } from '../logger';
 export const loadGigatron = () => import('../gigatron/gigatron-catalog');
 export const loadDecibil = () => import('../decibil');
 export const loadTrenazer = () => import('../trenazer');
+export const loadPilotrelax = () => import('../pilotrelax');
 export const loadDiscountTelecom = () => import('../discount-telecom');
 export const loadGreatSumbion = () => import('../great-sumbion');
 export const loadMadagaskar = () => import('../madagaskar');
@@ -67,6 +68,7 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
     gigatron: { enabled: true, version: '1.0.0', apiBasePath: '/api/gigatron', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     decibil: { enabled: true, version: '1.0.0', apiBasePath: '/api/decibil', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     trenazer: { enabled: true, version: '1.0.0', apiBasePath: '/api/trenazer', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
+    pilotrelax: { enabled: true, version: '1.0.0', apiBasePath: '/api/pilotrelax', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     discountTelecom: { enabled: true, version: '1.0.0', apiBasePath: '/api/discount-telecom', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     greatSumbion: { enabled: true, version: '1.0.0', apiBasePath: '/api/great-sumbion', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     madagaskar: { enabled: true, version: '1.0.0', apiBasePath: '/api/madagaskar', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },

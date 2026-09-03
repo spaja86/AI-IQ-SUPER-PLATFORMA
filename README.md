@@ -89,6 +89,15 @@ DIREKT uvodi determinističku procenu kvaliteta direktne komunikacije kroz jasno
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/DUMBIR.md`
 
+## 🧘 PILOTRELAX
+
+PILOTRELAX uvodi determinističku procenu relaxation protokola sa fiksnim `pilotrelax` slug-om i API-first v1 površinom.
+
+- Modul: `src/lib/pilotrelax/**`
+- API: `/api/pilotrelax/evaluate`, `/api/pilotrelax/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/PILOTRELAX.md`
+
 ## 📝 Prompt Sistem — Svuda u ekosistemu
 
 Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:

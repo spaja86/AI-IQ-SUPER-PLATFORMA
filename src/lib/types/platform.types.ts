@@ -81,6 +81,7 @@ export interface PlatformConfig {
     gigatron: ModuleConfig;
     decibil: ModuleConfig;
     trenazer: ModuleConfig;
+    pilotrelax: ModuleConfig;
     discountTelecom: ModuleConfig;
     greatSumbion: ModuleConfig;
     madagaskar: ModuleConfig;

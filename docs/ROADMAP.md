@@ -101,6 +101,12 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 - Keep v1 repo-local and CI-gated; defer history, wearable ingestion, and workout catalogs to follow-up phases.
 - Enforce validator workflow gates and keep docs/config/audit links synchronized.
 
+### Phase 6.6 — PILOTRELAX activation
+
+- Ship `pilotrelax` as a deterministic relaxation-guidance engine with explicit reset, focus, recovery, and sleep protocol recommendations.
+- Keep v1 API-first, repo-local, and CI-gated; defer persistence, biosensors, and scheduling to follow-up phases.
+- Enforce validator workflow gates and keep docs/config/audit links synchronized.
+
 ### Phase 6.75 — EKSLUZIV NETWORK deploy governance
 
 - Treat EKSLUZIV NETWORK as a domain-scoped rollout initiative over existing Deploy Platforma, MIRIKL, and multi-repo surfaces.
@@ -127,6 +133,7 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | `multi-repo-sync-agent` | Config-driven coordination | `docs/MULTI-REPO-LINKS.md`, `.agent-config.json` |
 | `analytics-bot` | KPI/reporting source of truth | `.agent-config.json`, `docs/finops-enterprise-operating-model.md` |
 | `trenazer-validator-agent` | Repo-local training-readiness validation | `.github/workflows/trenazer-validator.yml`, `docs/TRENAZER.md` |
+| `pilotrelax-validator-agent` | Repo-local relaxation-guidance validation | `.github/workflows/pilotrelax-validator.yml`, `docs/PILOTRELAX.md` |
 | `mirikl-validator-agent` | GitHub ↔ Vercel governance/release-gate validation | `.github/workflows/mirikl-validator.yml`, `docs/MIRIKL.md` |
 | `eksluziv-network` | Domain-scoped deploy governance and segmented rollout track | `docs/EKSLUZIV-NETWORK.md`, `.github/workflows/deploy-platforma.yml`, `.github/workflows/vercel-deploy.yml` |
 | `okrid-governance` | Weekly OKRID compliance and blocker reporting | `.github/workflows/okrid-weekly-review.yml`, `docs/OKRID.md` |

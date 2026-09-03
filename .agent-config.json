@@ -683,6 +683,47 @@
       "testSuite": "src/tests/lib/trenazer.test.ts",
       "scope": "src/lib/trenazer/**,src/app/api/trenazer/**,src/components/trenazer/**"
     },
+    "pilotrelax-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "pilotrelax-calm-core",
+      "octave": 7,
+      "hipermrezaNode": 58,
+      "labels": [
+        "pilotrelax",
+        "pilotrelax:logic-change",
+        "pilotrelax:validated",
+        "pilotrelax:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/pilotrelax-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/PILOTRELAX.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/pilotrelax.test.ts",
+        "npx tsx src/tests/api/pilotrelax-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/pilotrelax/**",
+        "src/app/api/pilotrelax/**",
+        "src/tests/lib/pilotrelax.test.ts",
+        "src/tests/api/pilotrelax-route.test.ts",
+        "docs/PILOTRELAX.md",
+        ".github/workflows/pilotrelax-validator.yml"
+      ],
+      "linkedRepoImpact": "documentation-only",
+      "scope": "src/lib/pilotrelax/**,src/app/api/pilotrelax/**"
+    },
     "dumbir-validator-agent": {
       "enabled": true,
       "status": "active",
