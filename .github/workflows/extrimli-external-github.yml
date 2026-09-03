@@ -1,0 +1,104 @@
+name: EXTRIMLI — External GitHub Surface
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.agent-config.json'
+      - '.github/workflows/extrimli-validator.yml'
+      - '.github/workflows/extrimli-external-github.yml'
+      - '.github/workflows/extrimli-spaja-deploy.yml'
+      - '.github/workflows/extrimli-trance-extrem-deploy.yml'
+      - 'src/lib/extrimli/instrukcija.ts'
+      - 'src/lib/extrimli/export-bundle.ts'
+      - 'src/app/api/extrimli/instrukcija/**'
+      - 'src/tests/lib/extrimli-instrukcija.test.ts'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.agent-config.json'
+      - '.github/workflows/extrimli-validator.yml'
+      - '.github/workflows/extrimli-external-github.yml'
+      - '.github/workflows/extrimli-spaja-deploy.yml'
+      - '.github/workflows/extrimli-trance-extrem-deploy.yml'
+      - 'src/lib/extrimli/instrukcija.ts'
+      - 'src/lib/extrimli/export-bundle.ts'
+      - 'src/app/api/extrimli/instrukcija/**'
+      - 'src/tests/lib/extrimli-instrukcija.test.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: extrimli-external-github-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔎 Validate EXTRIMLI external GitHub references
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          function assert(condition, message) {
+            if (!condition) throw new Error(message);
+          }
+
+          const doc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
+          const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
+          const extrimli = fs.readFileSync('docs/EXTRIMLI.md', 'utf8');
+          const config = JSON.parse(fs.readFileSync('.agent-config.json', 'utf8'));
+          const agent = config.agents['extrimli-validator-agent'];
+
+          assert(doc.includes('extrimli:external-github'), 'canonical doc must declare extrimli:external-github label');
+          assert(doc.includes('spaja86/IO-OPENUI-AO'), 'canonical doc must declare downstream repo');
+          assert(doc.includes('.github/workflows/extrimli-external-github.yml'), 'canonical doc must reference governance workflow');
+          assert(links.includes('EXTRIMLI — External GitHub Surface'), 'multi-repo links must contain external GitHub section');
+          assert(extrimli.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'EXTRIMLI doc must reference canonical external GitHub plan');
+          assert(Array.isArray(agent.workflows) && agent.workflows.includes('.github/workflows/extrimli-external-github.yml'), 'agent config must include governance workflow');
+          assert(Array.isArray(agent.releaseDocs) && agent.releaseDocs.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'agent config must include canonical plan doc');
+          assert(agent.githubSurface?.workflow === '.github/workflows/extrimli-external-github.yml', 'agent config githubSurface.workflow mismatch');
+          assert(agent.githubSurface?.qualityGate === '.github/workflows/extrimli-validator.yml', 'agent config githubSurface.qualityGate mismatch');
+          assert(agent.githubSurface?.linkedRepo === 'spaja86/IO-OPENUI-AO', 'agent config githubSurface.linkedRepo mismatch');
+          assert(Array.isArray(agent.multiRepoSync?.snapshots) && agent.multiRepoSync.snapshots.includes('instrukcija-export-bundle'), 'agent config must sync instrukcija-export-bundle');
+          NODE
+
+      - name: 🧪 EXTRIMLI export surface tests
+        run: npx tsx src/tests/lib/extrimli-instrukcija.test.ts
+
+      - name: 📊 Audit summary
+        if: always()
+        run: |
+          echo "## EXTRIMLI External GitHub Surface Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Gate | Source |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Canonical doc | \`docs/EXTRIMLI-EXTERNAL-GITHUB.md\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Quality gate | \`.github/workflows/extrimli-validator.yml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Governance workflow | \`.github/workflows/extrimli-external-github.yml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Deploy workflows | \`.github/workflows/extrimli-spaja-deploy.yml\`, \`.github/workflows/extrimli-trance-extrem-deploy.yml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Downstream repo | \`spaja86/IO-OPENUI-AO\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Export contract test | \`src/tests/lib/extrimli-instrukcija.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**KPI targets:** eval ≤ 50ms · API ≤ 200ms · build ≤ 3 min · audit coverage 100%" >> "$GITHUB_STEP_SUMMARY"

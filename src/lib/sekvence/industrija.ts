@@ -224,13 +224,22 @@ export const industrijaSekvence: Sekvenca[] = [
     podnaslov: 'GitHub repozitorijumi Digitalne Industrije — svi linkovi aktivni',
     redosled: 8,
     podaci: {
-      kartice: getSajtoviPoKategoriji('ekosistem').map((s) => ({
-        naslov: s.naziv,
-        opis: s.opis,
-        ikona: s.ikona,
-        href: s.url,
-        oznake: ['GitHub Repo'],
-      })),
+      kartice: [
+        {
+          naslov: 'EXTRIMLI External GitHub',
+          opis: 'Formalna GitHub capability površina za EXTRIMLI u Digitalna Industrija ekosistemu: validator, audit governance, export bundle i downstream sync.',
+          ikona: '🏂',
+          eksterniLink: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/blob/main/docs/EXTRIMLI-EXTERNAL-GITHUB.md',
+          oznake: ['EXTRIMLI', 'GitHub governance', 'IO-OPENUI-AO sync'],
+        },
+        ...getSajtoviPoKategoriji('ekosistem').map((s) => ({
+          naslov: s.naziv,
+          opis: s.opis,
+          ikona: s.ikona,
+          href: s.url,
+          oznake: ['GitHub Repo'],
+        })),
+      ],
     },
   },
   {
