@@ -6,6 +6,8 @@ import {
   getSveKategorijeIgrica,
   getDimenzionalnoPitanje,
   OBAVEZNI_ZAHTEVI,
+  GAMES_SCOPE,
+  GAMES_REQUIRED_OUTPUTS,
 } from '@/lib/igrice';
 import { dimenzije } from '@/lib/dimenzije';
 import { itProizvodi } from '@/lib/it-proizvodi';
@@ -292,10 +294,40 @@ export const igriceSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'igrice-games-scope',
+    tip: 'lista',
+    naslov: '🧭 GAMES Scope i target surface',
+    redosled: 15,
+    podaci: {
+      stavke: [
+        {
+          ikona: '🧩',
+          naslov: 'Scope',
+          opis: `Moduli: ${GAMES_SCOPE.modul.join(', ')}`,
+        },
+        {
+          ikona: '🔌',
+          naslov: 'API',
+          opis: GAMES_SCOPE.api.join(', '),
+        },
+        {
+          ikona: '🖥️',
+          naslov: 'UI',
+          opis: GAMES_SCOPE.ui.join(', '),
+        },
+        {
+          ikona: '📊',
+          naslov: 'Outputs',
+          opis: GAMES_REQUIRED_OUTPUTS.join(', '),
+        },
+      ],
+    },
+  },
+  {
     id: 'igrice-progres',
     tip: 'progres',
     naslov: '📊 Status igrica',
-    redosled: 15,
+    redosled: 16,
     podaci: {
       stavke: igrice.map((i) => ({
         naziv: `${i.ikona} ${i.naziv}`,
@@ -308,7 +340,7 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-baner',
     tip: 'baner',
     naslov: '🎮 Koju dimenziju želiš (D)?',
-    redosled: 16,
+    redosled: 17,
     podaci: {
       bedz: '🌀 360D → 5760D',
       opis: `Gaming industrija sa ${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija! Svaka igrica pri pokretanju pita: „Koju dimenziju želiš (D)?" — izaberi od 360D do 5760D. RPG, Battle Royale, MOBA, Racing, Horor, Muzika, Sandbox i mnogo više. ZAHTEVI: Digitalni Kompjuter + Digitalni Brauzer!`,
@@ -319,7 +351,7 @@ export const igriceSekvence: Sekvenca[] = [
     id: 'igrice-cta',
     tip: 'cta',
     naslov: '🚀 Gaming Industrija — Dimenzionalni Gaming',
-    redosled: 17,
+    redosled: 18,
     podaci: {
       opis: `${igriceSistem.ukupnoIgrica} igrica u ${kategorije.length} kategorija — od RPG i Battle Royale do Muzike i eSporta. Sve u dimenzionalnom prostoru 360D–5760D. ${itProizvodi.filter((p) => p.kategorija === 'gaming').length} specijalizovanih gaming IT proizvoda. Zahtevi: Digitalni Kompjuter + Digitalni Brauzer. Gaming Platforma: ${IOOPENUIAO_URL}. Izaberi dimenziju (D) i igraj!`,
       dugmad: [
