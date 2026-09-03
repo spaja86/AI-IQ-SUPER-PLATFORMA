@@ -51,6 +51,8 @@ export const loadMadagaskar2 = () => import('../madagaskar-2');
 export const loadExtrimli = () => import('../extrimli');
 export const loadExtrimliExtendol = () => import('../extrimli-extendol');
 export const loadExtrimliKoron = () => import('../extrimli-koron');
+export const loadExtrimliExtrondend = () => import('../extrimli-extrondend');
+export const loadExtrimliExtrondol = () => import('../extrimli-extrondol');
 export const loadExtrimliCuz = () => import('../extrimli-cuz');
 export const loadDigitEngine = () => import('../digit-engine');
 export const loadMaksimus = () => import('../maksimus');
@@ -75,6 +77,8 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
     madagaskar: { enabled: true, version: '1.0.0', apiBasePath: '/api/madagaskar', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     extrimli: { enabled: true, version: '1.0.0', apiBasePath: '/api/extrimli', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     extrimliCuz: { enabled: true, version: '1.0.0', apiBasePath: '/api/extrimli-cuz', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
+    extrimliExtrondend: { enabled: true, version: '1.0.0', apiBasePath: '/api/extrimli/extrondend', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
+    extrimliExtrondol: { enabled: true, version: '1.0.0', apiBasePath: '/api/extrimli/extrondol', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     digitEngine: { enabled: true, version: '1.0.0', apiBasePath: '/api/digit-engine', performanceKpi: { evaluationMaxMs: 10, apiResponseMaxMs: 200 } },
     maksimus: { enabled: true, version: '1.0.0', apiBasePath: '/api/maksimus', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     anotherMaks: { enabled: true, version: '1.0.0', apiBasePath: '/api/another-maks', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },

@@ -13,6 +13,8 @@ This repository now exposes five aligned surfaces:
 | **EXTRIMLI CUZ** | `src/lib/extrimli-cuz/`, `src/app/api/extrimli-cuz/` | Active | Community, mentorship, feed, and reputation surface used by Extendol and KORON |
 | **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ + KORON |
 | **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
+| **EXTRONDEND** | `src/lib/extrimli-extrondend/`, `src/app/api/extrimli/extrondend/` | Active | Dedicated aggregation/scoring surface (not an alias) over v1/v3/CUZ/Extendol/KORON |
+| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias) |
 
 ## Module paths
 
@@ -24,11 +26,15 @@ This repository now exposes five aligned surfaces:
 | Extendol unified API route | `src/app/api/extrimli/extendol/` |
 | KORON overlay library | `src/lib/extrimli-koron/` |
 | KORON overlay API route | `src/app/api/extrimli/koron/` |
+| EXTRONDEND aggregation library | `src/lib/extrimli-extrondend/` |
+| EXTRONDEND aggregation API route | `src/app/api/extrimli/extrondend/` |
+| EXTRONDOL orchestration library | `src/lib/extrimli-extrondol/` |
+| EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
 | v3 library | `src/lib/extrimli-3/` |
 | v3 API routes | `src/app/api/extrimli-3/` |
 | EXTRIMLI CUZ library | `src/lib/extrimli-cuz/` |
 | EXTRIMLI CUZ API routes | `src/app/api/extrimli-cuz/` |
-| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-koron.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
+| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-koron.test.ts`, `src/tests/lib/extrimli-extrondend.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
 
 ## External GitHub surface
 
@@ -63,6 +69,15 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
 - Quality gate: `.github/workflows/extrimli-validator.yml`
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
+
+
+## Scope and naming lock (EXTRIMLI, EXTRONDEND, EXTRONDOL)
+
+- **EXTRIMLI** ostaje bazni runtime domen (`/api/extrimli/*`) za risk/gear/event/destruction jezgro.
+- **EXTRONDEND** je **novi** aggregation/scoring modul sa source-of-truth endpointom `/api/extrimli/extrondend`.
+- **EXTRONDOL** je **novi** orchestration/readiness modul sa source-of-truth endpointom `/api/extrimli/extrondol`.
+- EXTRONDEND i EXTRONDOL nisu alias-i postojećih surface-ova (Extendol/KORON), već zasebni versioned ugovori.
+- Owner: `@spaja86`; trigger labels: `extrimli:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`.
 
 ## EXTRIMLI v1 capabilities
 
@@ -117,6 +132,41 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `syncCoverageScore`
   - `degradedSources`
 - Degraded policy: `partial-payload-no-500`
+
+
+## EXTRONDEND aggregation contract
+
+- Source of truth endpoint: `/api/extrimli/extrondend`
+- Contract constants:
+  - `EXTRONDEND_CONTRACT_VERSION = v1-extrondend`
+  - `EXTRONDEND_MODULE_VERSION = 1.0.0`
+- Degraded policy: `partial-payload-no-500`
+- Mandatory payload: `aggregationScore`, `readinessParityScore`, `weightedSurfaceHealth`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+
+### Acceptance criteria (EXTRONDEND)
+
+1. Naming lock: dedicated module, not alias.
+2. Stable contract/version constants.
+3. Integration boundary preserved (depends on v1/v3/CUZ/Extendol/KORON without contract mutation).
+4. KPI targets remain ≤ 50ms evaluation and ≤ 200ms API response.
+5. Aggregation score is finite and clamped to `[0, 100]`.
+
+## EXTRONDOL orchestration contract
+
+- Source of truth endpoint: `/api/extrimli/extrondol`
+- Contract constants:
+  - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
+  - `EXTRONDOL_MODULE_VERSION = 1.0.0`
+- Degraded policy: `partial-payload-no-500`
+- Mandatory payload: `orchestrationReadinessScore`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+
+### Acceptance criteria (EXTRONDOL)
+
+1. Naming lock: dedicated module, not alias.
+2. Stable contract/version constants.
+3. WAWE sequencing is deterministic (`WAWE-1` → `WAWE-5`).
+4. Promotion freeze is enforced when readiness/degraded gates are not satisfied.
+5. Orchestration score is finite and clamped to `[0, 100]`.
 
 ## MAKSIMUS ↔ EXTRIMLI responsibilities
 

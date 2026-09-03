@@ -856,7 +856,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 |---|---|
 | Date | 2026-09-03 |
 | Owner | @spaja86 |
-| Scope | `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`, `.github/workflows/extrimli-validator.yml`, `.agent-config.json`, `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/**` |
+| Scope | `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`, `.github/workflows/extrimli-validator.yml`, `.agent-config.json`, `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/lib/extrimli-extrondend/**`, `src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondend/**`, `src/app/api/extrimli/extrondol/**`, `src/app/api/extrimli/instrukcija/**` |
 | Quality gate | `extrimli-validator-agent` |
 | Runtime source of truth | Vercel Git integration |
 | GitHub Actions role | audit governance + downstream coordination |
@@ -880,6 +880,8 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI module health snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync health/KPI summary za downstream observability |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI Extendol unified surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync unified readiness + acceptance criteria snapshot (`/api/extrimli/extendol`) |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI KORON overlay surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `status`, `readinessScore`, `degradedSources` snapshot (`/api/extrimli/koron`) |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDEND aggregation surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `aggregationScore`, `readinessParityScore`, naming-lock acceptance (`/api/extrimli/extrondend`) |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL orchestration surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync WAWE orchestration fields (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`) (`/api/extrimli/extrondol`) |
 | `AI-IQ-SUPER-PLATFORMA` — MAKSIMUS↔EXTRIMLI integration gate | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep `maksimus-validator` and `extrimli-validator` trigger/schema alignment |
 
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
@@ -890,7 +892,10 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Align `extrimli:logic-change` and `agent:config-change` usage for Extendol+MAKSIMUS gate changes
 - Track `/api/extrimli/extendol` contract compatibility in downstream consumers
 - Track `/api/extrimli/koron` contract compatibility in downstream consumers
+- Track `/api/extrimli/extrondend` contract compatibility in downstream consumers
+- Track `/api/extrimli/extrondol` contract compatibility in downstream consumers
 - Confirm EXTRIMLI KORON overlay surface fields are mapped before promotion past WAWE 3
+- Confirm EXTRONDEND/EXTRONDOL naming lock is mirrored in downstream docs and label schema
 - Open mandatory follow-up issue ako downstream ostane delimično neusaglašen posle WAWE 3/4
 
 **Audit convention for this initiative:**
@@ -902,6 +907,8 @@ IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB
 **Extended audit convention:**
 ```text
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTENDOL-001 -> IO-OPENUI-AO#<follow-up issue>
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTRONDEND-001 -> IO-OPENUI-AO#<follow-up issue>
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTRONDOL-001 -> IO-OPENUI-AO#<follow-up issue>
 AI-IQ-SUPER-PLATFORMA#MAKSIMUS-EXTRIMLI-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
