@@ -18,6 +18,7 @@ on:
       - 'src/tests/lib/pilotrelax.test.ts'
       - 'src/tests/api/pilotrelax-route.test.ts'
       - 'docs/PILOTRELAX.md'
+      - '.github/workflows/pilotrelax-validator.yml'
   workflow_dispatch:
 
 concurrency:

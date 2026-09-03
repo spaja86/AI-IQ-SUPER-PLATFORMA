@@ -65,7 +65,7 @@ export interface PilotrelaxHealthReport {
   moduleVersion: string;
   linkedRepoImpact: string;
   evaluations: number;
-  lastStatus: PilotrelaxStatus;
+  lastStatus: PilotrelaxStatus | null;
   lastEvaluatedAt: string | null;
   supportedObjectives: PilotrelaxObjective[];
   performanceMaxMs: number;

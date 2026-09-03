@@ -38,7 +38,7 @@ import {
 } from './registry';
 
 let evaluations = 0;
-let lastStatus: PilotrelaxStatus = 'GROUNDED';
+let lastStatus: PilotrelaxStatus | null = null;
 let lastEvaluatedAt: string | null = null;
 
 function clamp(value: number, min: number, max: number): number {
@@ -313,6 +313,6 @@ export function getPilotrelaxHealthReport(): PilotrelaxHealthReport {
 
 export function _resetPilotrelaxMetrics(): void {
   evaluations = 0;
-  lastStatus = 'GROUNDED';
+  lastStatus = null;
   lastEvaluatedAt = null;
 }

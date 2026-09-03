@@ -51,6 +51,11 @@ async function runTests(): Promise<void> {
     assert(PILOTRELAX_SLUG === 'pilotrelax', `unexpected slug: ${PILOTRELAX_SLUG}`);
   });
 
+  await test('fresh health report starts without last status', () => {
+    const health = getPilotrelaxHealthReport();
+    assert(health.lastStatus === null, 'lastStatus should be null before first evaluation');
+  });
+
   console.log('\n🔎 [pilotrelax] engine');
 
   await test('evaluates a deterministic focus reset protocol', () => {
