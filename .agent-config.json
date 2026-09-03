@@ -484,9 +484,10 @@
       },
       "testSuite": "src/tests/lib/extrimli.test.ts",
       "extendolTestSuite": "src/tests/lib/extrimli-extendol.test.ts",
+      "koronTestSuite": "src/tests/lib/extrimli-koron.test.ts",
       "routeTestSuite": "src/tests/api/extrimli-route.test.ts",
       "exportTestSuite": "src/tests/lib/extrimli-instrukcija.test.ts",
-      "scope": "src/lib/extrimli/**,src/lib/extrimli-extendol/**,src/lib/extrimli-3/**,src/lib/extrimli-cuz/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/app/api/extrimli-cuz/**,src/components/extrimli/**,src/components/extrimli-cuz/**",
+      "scope": "src/lib/extrimli/**,src/lib/extrimli-extendol/**,src/lib/extrimli-koron/**,src/lib/extrimli-3/**,src/lib/extrimli-cuz/**,src/app/api/extrimli/**,src/app/api/extrimli-3/**,src/app/api/extrimli-cuz/**,src/components/extrimli/**,src/components/extrimli-cuz/**",
       "githubSurface": {
         "workflow": ".github/workflows/extrimli-external-github.yml",
         "qualityGate": ".github/workflows/extrimli-validator.yml",
@@ -505,6 +506,7 @@
         "outboundArtifacts": [
           "module-health-snapshot",
           "extendol-unified-surface",
+          "koron-health-snapshot",
           "gear-catalog",
           "destrukcija-asset-catalog",
           "instrukcija-registry",
@@ -520,6 +522,7 @@
         "snapshots": [
           "gear-catalog",
           "destrukcija-asset-catalog",
+          "koron-health-snapshot",
           "instrukcija-registry",
           "instrukcija-export-bundle",
           "module-health-snapshot",

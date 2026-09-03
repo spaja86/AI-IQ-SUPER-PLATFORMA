@@ -1,6 +1,7 @@
 import type { Extrimli3HealthReport } from '../extrimli-3';
 import type { CuzHealthReport } from '../extrimli-cuz';
 import type { ExtrimliHealthReport } from '../extrimli';
+import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 
 export interface ExtrimliExtendolCoverage {
   sportRiskEvaluation: boolean;
@@ -9,6 +10,7 @@ export interface ExtrimliExtendolCoverage {
   destructionSafetyFlows: boolean;
   athleteProgressAndReadiness: boolean;
   communityReputationAndMentorship: boolean;
+  koronReadinessOverlay: boolean;
 }
 
 export interface ExtrimliExtendolAcceptanceCriterion {
@@ -38,6 +40,7 @@ export interface ExtrimliExtendolReport {
     v1: ExtrimliHealthReport;
     v3: Extrimli3HealthReport;
     cuz: CuzHealthReport;
+    koron: ExtrimliKoronHealthReport;
   };
 }
 

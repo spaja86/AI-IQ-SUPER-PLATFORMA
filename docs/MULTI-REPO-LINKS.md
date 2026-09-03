@@ -875,6 +875,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI instrukcija export bundle | `spaja86/IO-OPENUI-AO` — Follow-up required | Consume export bundle ako downstream docs/catalog sync koristi contract |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI module health snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync health/KPI summary za downstream observability |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI Extendol unified surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync unified readiness + acceptance criteria snapshot (`/api/extrimli/extendol`) |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI KORON overlay surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `status`, `readinessScore`, `degradedSources` snapshot (`/api/extrimli/koron`) |
 | `AI-IQ-SUPER-PLATFORMA` — MAKSIMUS↔EXTRIMLI integration gate | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep `maksimus-validator` and `extrimli-validator` trigger/schema alignment |
 
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
@@ -884,6 +885,8 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Record EXTRIMLI external audit ownership i GitHub workflow references
 - Align `extrimli:logic-change` and `agent:config-change` usage for Extendol+MAKSIMUS gate changes
 - Track `/api/extrimli/extendol` contract compatibility in downstream consumers
+- Track `/api/extrimli/koron` contract compatibility in downstream consumers
+- Confirm EXTRIMLI KORON overlay surface fields are mapped before promotion past WAWE 3
 - Open mandatory follow-up issue ako downstream ostane delimično neusaglašen posle WAWE 3/4
 
 **Audit convention for this initiative:**

@@ -7,6 +7,7 @@ import {
 } from '../extrimli';
 import { getExtrimli3HealthReport } from '../extrimli-3';
 import { getCuzHealthReport } from '../extrimli-cuz';
+import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import type {
   ExtrimliExtendolAcceptanceCriterion,
   ExtrimliExtendolCoverage,
@@ -29,6 +30,7 @@ function buildCoverage(): ExtrimliExtendolCoverage {
     destructionSafetyFlows: true,
     athleteProgressAndReadiness: true,
     communityReputationAndMentorship: true,
+    koronReadinessOverlay: true,
   };
 }
 
@@ -43,6 +45,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v1 = getExtrimliHealthReport();
   const v3 = getExtrimli3HealthReport();
   const cuz = getCuzHealthReport();
+  const koron = getExtrimliKoronHealthReport();
 
   const coverage = buildCoverage();
   const coveragePassed = Object.values(coverage).every(Boolean);
@@ -51,9 +54,18 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v3Safety = clamp(100 - v3.lastRiskScore, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
   const communitySignal = buildCommunitySignal(cuz.activeCrews, cuz.mentorProfiles, cuz.feedPosts);
+  const koronReadiness = clamp(koron.readinessScore, 0, 100);
 
   const unifiedReadinessScore = round(
-    clamp(v1Readiness * 0.30 + v3Safety * 0.25 + v3Readiness * 0.25 + communitySignal * 0.20, 0, 100),
+    clamp(
+      v1Readiness * 0.24
+      + v3Safety * 0.18
+      + v3Readiness * 0.20
+      + communitySignal * 0.13
+      + koronReadiness * 0.25,
+      0,
+      100,
+    ),
     2,
   );
 
@@ -66,6 +78,12 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   }
   if (cuz.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || cuz.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
     degradedSources.push('extrimli-cuz-kpi');
+  }
+  if (koron.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || koron.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
+    degradedSources.push('extrimli-koron-kpi');
+  }
+  if (koron.degraded) {
+    degradedSources.push(...koron.degradedSources.map((source) => `koron:${source}`));
   }
 
   const acceptanceCriteria: ExtrimliExtendolAcceptanceCriterion[] = [
@@ -80,13 +98,18 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
       passed: coveragePassed,
     },
     {
+      id: 'koron-overlay-covered',
+      description: 'KORON readiness overlay is present as a required Extendol capability.',
+      passed: coverage.koronReadinessOverlay && koron.status !== 'DEGRADED',
+    },
+    {
       id: 'kpi-targets',
-      description: 'v1, v3, and CUZ KPI targets meet evaluation ≤ 50ms and API ≤ 200ms.',
+      description: 'v1, v3, CUZ, and KORON KPI targets meet evaluation ≤ 50ms and API ≤ 200ms.',
       passed: degradedSources.length === 0,
     },
     {
       id: 'real-readiness-signal',
-      description: 'Unified readiness score is computed from live EXTRIMLI v1/v3/CUZ health signals.',
+      description: 'Unified readiness score is computed from live EXTRIMLI v1/v3/CUZ/KORON health signals.',
       passed: Number.isFinite(unifiedReadinessScore),
     },
     {
@@ -102,7 +125,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
     personaId: EXTRIMLI_EXTENDOL_PERSONA_ID,
     contractVersion: EXTRIMLI_EXTENDOL_CONTRACT_VERSION,
     moduleVersion: EXTRIMLI_EXTENDOL_MODULE_VERSION,
-    statement: 'MAKSIMUM FOR ALL TO HAVE FUNCTIONALITION',
+    statement: 'MAKSIMUM FOR ALL TO HAVE FUNCTIONALITION INCLUDING KORON OVERLAY',
     sourceOfTruth: EXTRIMLI_EXTENDOL_SOURCE_OF_TRUTH,
     maxFunctionalityForAll,
     unifiedReadinessScore,
@@ -115,7 +138,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
       evaluationMaxMs: EXTRIMLI_PERFORMANCE_MAX_MS,
       apiResponseMaxMs: EXTRIMLI_API_RESPONSE_MAX_MS,
     },
-    surfaces: { v1, v3, cuz },
+    surfaces: { v1, v3, cuz, koron },
   };
 }
 

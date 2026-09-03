@@ -4,13 +4,15 @@
 
 EXTRIMLI is the platform domain for extreme-sports risk evaluation, athlete progression, gear safety, and event readiness.
 
-This repository now exposes two aligned surfaces:
+This repository now exposes five aligned surfaces:
 
 | Version | Path | Status | Purpose |
 |---|---|---|---|
 | **v1** | `src/lib/extrimli/`, `src/app/api/extrimli/` | Active | Existing baseline registry, risk, gear, performance, event, and weather APIs |
 | **v3** | `src/lib/extrimli-3/`, `src/app/api/extrimli-3/` | Active | Versioned expansion with sport-specific risk profiles, weather-integrated scoring, and athlete readiness signals |
-| **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ |
+| **EXTRIMLI CUZ** | `src/lib/extrimli-cuz/`, `src/app/api/extrimli-cuz/` | Active | Community, mentorship, feed, and reputation surface used by Extendol and KORON |
+| **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ + KORON |
+| **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
 
 ## Module paths
 
@@ -20,11 +22,13 @@ This repository now exposes two aligned surfaces:
 | v1 API routes | `src/app/api/extrimli/` |
 | Extendol unified library | `src/lib/extrimli-extendol/` |
 | Extendol unified API route | `src/app/api/extrimli/extendol/` |
+| KORON overlay library | `src/lib/extrimli-koron/` |
+| KORON overlay API route | `src/app/api/extrimli/koron/` |
 | v3 library | `src/lib/extrimli-3/` |
 | v3 API routes | `src/app/api/extrimli-3/` |
 | EXTRIMLI CUZ library | `src/lib/extrimli-cuz/` |
 | EXTRIMLI CUZ API routes | `src/app/api/extrimli-cuz/` |
-| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
+| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-koron.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
 
 ## External GitHub surface
 
@@ -35,6 +39,7 @@ This repository now exposes two aligned surfaces:
 | External GitHub governance | `.github/workflows/extrimli-external-github.yml` |
 | Deploy orchestration | `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml` |
 | Downstream references | `docs/MULTI-REPO-LINKS.md` |
+| KORON overlay source | `src/lib/extrimli-koron/index.ts`, `src/app/api/extrimli/koron/route.ts` |
 | Export layer | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/route.ts` |
 
 This surface formalizes EXTRIMLI as a GitHub-oriented external capability for Digitalna Industrija while keeping the sports/risk runtime separate from audit, workflow, sync, and release governance concerns.
@@ -57,6 +62,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Governance workflow: `.github/workflows/extrimli-external-github.yml`
 - Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
 - Quality gate: `.github/workflows/extrimli-validator.yml`
+- KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 
 ## EXTRIMLI v1 capabilities
 
@@ -71,7 +77,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 
 ## EXTRIMLI Extendol unified contract (maximum functionality for all)
 
-Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3 i EXTRIMLI CUZ u jedan kanonski integracioni sloj.
+Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3, EXTRIMLI CUZ i KORON u jedan kanonski integracioni sloj.
 
 - Source of truth endpoint: `/api/extrimli/extendol`
 - Contract constants:
@@ -89,13 +95,33 @@ Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3 i EXTRIMLI CUZ u jedan kanonski in
    - destruction safety flows
    - athlete progress/readiness
    - community reputation/mentorship
+   - KORON readiness overlay i sync coverage
 3. KPI targeti ostaju ≤ 50ms evaluacija i ≤ 200ms API response.
-4. Unified readiness score koristi realne signale iz v1/v3/CUZ health surface-a.
+4. Unified readiness score koristi realne signale iz v1/v3/CUZ/KORON health surface-a.
 5. Fallback vraća degradirani odgovor umesto HTTP 500.
+
+## EXTRIMLI KORON overlay
+
+KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojećim v1, v3 i CUZ surface-ovima i objavljuje status za Extendol i downstream GitHub governance.
+
+- Source of truth endpoint: `/api/extrimli/koron`
+- Contract constants:
+  - `EXTRIMLI_KORON_CONTRACT_VERSION = v1-koron`
+  - `EXTRIMLI_KORON_MODULE_VERSION = 1.0.0`
+- KORON publikuje:
+  - `status`
+  - `readinessScore`
+  - `riskBalanceScore`
+  - `communitySignalScore`
+  - `destructionRecoveryScore`
+  - `syncCoverageScore`
+  - `degradedSources`
+- Degraded policy: `partial-payload-no-500`
 
 ## MAKSIMUS ↔ EXTRIMLI responsibilities
 
 - MAKSIMUS koristi `/api/extrimli/extendol` signal kao domen `EXTRIMLI Extended`.
+- KORON status i degraded izvori moraju ostati prisutni u Extendol payload-u koji MAKSIMUS koristi.
 - MAKSIMUS preporuke moraju uključiti EXTRIMLI degradaciju kada postoji.
 - Integration gate pokriva oba workflow-a: `extrimli-validator` i `maksimus-validator`.
 

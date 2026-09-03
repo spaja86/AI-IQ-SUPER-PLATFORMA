@@ -188,6 +188,9 @@ export async function buildMaksimus(): Promise<MaksimуsSvega> {
   if (extrimliReport.degraded) {
     preporuke.push(`Sanirati EXTRIMLI Extended degradaciju: ${extrimliReport.degradedSources.join(', ')}`);
   }
+  if (extrimliReport.surfaces.koron.status !== 'ACTIVE') {
+    preporuke.push(`Stabilizovati EXTRIMLI KORON overlay status: ${extrimliReport.surfaces.koron.status}`);
+  }
   if (preporuke.length === 0) {
     preporuke.push('Svi ključni domeni MAKSIMUS agenta su stabilni; nastaviti iterativnu optimizaciju.');
   }
