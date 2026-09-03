@@ -2,15 +2,13 @@
 // Kompanija SPAJA — Digitalna Industrija
 // Server-side klijent za API rute i Server Components
 
-import { createClient } from '@supabase/supabase-js';
-import type { Database } from './types';
+import { getPooledSupabaseServerClient, getSupabaseServerPoolSnapshot, resetSupabasePoolState } from './pool';
 
 /**
- * Kreira Supabase klijent sa service role kljucem za server-side operacije.
+ * Kreira ili ponovo koristi imenovani Supabase klijent iz laganog in-memory pool-a.
  * Koristi se u API rutama i Server Components-ima.
- * Svaki poziv kreira novu instancu (ne koristi singleton jer je server-side).
  */
-export function getSupabaseServerClient() {
+export function getSupabaseServerClient(poolName = 'default') {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -20,24 +18,42 @@ export function getSupabaseServerClient() {
     );
   }
 
-  return createClient<Database>(url, serviceKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
+  return getPooledSupabaseServerClient(poolName, url, serviceKey);
 }
 
 /**
  * Graceful varijanta za read-only i javne dijagnostike.
  * Kritične API mutacije i auth tokovi i dalje treba da koriste strict varijantu.
  */
-export function getSupabaseServerClientSafe() {
+export function getSupabaseServerClientSafe(poolName = 'default') {
   try {
-    return getSupabaseServerClient();
+    return getSupabaseServerClient(poolName);
   } catch {
     return null;
   }
+}
+
+export function getSupabaseBaseServerClient() {
+  return getSupabaseServerClient('base');
+}
+
+export function getSupabaseBaseServerClientSafe() {
+  return getSupabaseServerClientSafe('base');
+}
+
+export function getSupabaseServerPoolHealth(poolName = 'default') {
+  return getSupabaseServerPoolSnapshot(poolName, {
+    urlConfigured: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
+    serviceRoleConfigured: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+  });
+}
+
+export function getSupabaseBasePoolSnapshot() {
+  return getSupabaseServerPoolHealth('base');
+}
+
+export function resetSupabaseServerPoolState(poolName?: string): void {
+  resetSupabasePoolState(poolName);
 }
 
 /**
