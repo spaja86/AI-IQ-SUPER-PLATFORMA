@@ -5,7 +5,9 @@ on:
     paths:
       - 'src/lib/maksimus/**'
       - 'src/app/api/maksimus/**'
+      - 'src/lib/extrimli-extendol/**'
       - 'src/tests/lib/maksimus.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
       - '.github/workflows/maksimus-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
@@ -13,7 +15,9 @@ on:
     paths:
       - 'src/lib/maksimus/**'
       - 'src/app/api/maksimus/**'
+      - 'src/lib/extrimli-extendol/**'
       - 'src/tests/lib/maksimus.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
       - '.github/workflows/maksimus-validator.yml'
   schedule:
     - cron: '0 4 * * 3'  # Weekly — every Wednesday at 04:00 UTC
@@ -54,6 +58,7 @@ jobs:
             src/lib/maksimus/handoff.ts \
             src/lib/maksimus/orchestrator.ts \
             src/lib/maksimus/index.ts \
+            src/lib/extrimli-extendol/index.ts \
             src/app/api/maksimus/route.ts
 
   maksimus-typecheck:
@@ -91,7 +96,9 @@ jobs:
         run: npm ci
 
       - name: Run MAKSIMUS test suite
-        run: npx tsx src/tests/lib/maksimus.test.ts
+        run: |
+          npx tsx src/tests/lib/maksimus.test.ts
+          npx tsx src/tests/lib/extrimli-extendol.test.ts
 
   maksimus-predeploy:
     name: MAKSIMUS — Predeploy Checks

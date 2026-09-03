@@ -10,6 +10,7 @@ This repository now exposes two aligned surfaces:
 |---|---|---|---|
 | **v1** | `src/lib/extrimli/`, `src/app/api/extrimli/` | Active | Existing baseline registry, risk, gear, performance, event, and weather APIs |
 | **v3** | `src/lib/extrimli-3/`, `src/app/api/extrimli-3/` | Active | Versioned expansion with sport-specific risk profiles, weather-integrated scoring, and athlete readiness signals |
+| **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ |
 
 ## Module paths
 
@@ -17,9 +18,13 @@ This repository now exposes two aligned surfaces:
 |---|---|
 | v1 library | `src/lib/extrimli/` |
 | v1 API routes | `src/app/api/extrimli/` |
+| Extendol unified library | `src/lib/extrimli-extendol/` |
+| Extendol unified API route | `src/app/api/extrimli/extendol/` |
 | v3 library | `src/lib/extrimli-3/` |
 | v3 API routes | `src/app/api/extrimli-3/` |
-| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts` |
+| EXTRIMLI CUZ library | `src/lib/extrimli-cuz/` |
+| EXTRIMLI CUZ API routes | `src/app/api/extrimli-cuz/` |
+| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
 
 ## External GitHub surface
 
@@ -63,6 +68,36 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Event lifecycle and registration
 - Weather adapter
 - Health report
+
+## EXTRIMLI Extendol unified contract (maximum functionality for all)
+
+Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3 i EXTRIMLI CUZ u jedan kanonski integracioni sloj.
+
+- Source of truth endpoint: `/api/extrimli/extendol`
+- Contract constants:
+  - `EXTRIMLI_EXTENDOL_CONTRACT_VERSION = v1`
+  - `EXTRIMLI_EXTENDOL_MODULE_VERSION = 1.0.0`
+- Degraded policy: `partial-payload-no-500`
+
+### Acceptance criteria (Extendol)
+
+1. Jedinstveni ugovor je versioned i stabilan.
+2. Pokriveni su svi ključni putanje funkcionalnosti:
+   - sport/risk evaluation
+   - gear i safety readiness
+   - event lifecycle i registration
+   - destruction safety flows
+   - athlete progress/readiness
+   - community reputation/mentorship
+3. KPI targeti ostaju ≤ 50ms evaluacija i ≤ 200ms API response.
+4. Unified readiness score koristi realne signale iz v1/v3/CUZ health surface-a.
+5. Fallback vraća degradirani odgovor umesto HTTP 500.
+
+## MAKSIMUS ↔ EXTRIMLI responsibilities
+
+- MAKSIMUS koristi `/api/extrimli/extendol` signal kao domen `EXTRIMLI Extended`.
+- MAKSIMUS preporuke moraju uključiti EXTRIMLI degradaciju kada postoji.
+- Integration gate pokriva oba workflow-a: `extrimli-validator` i `maksimus-validator`.
 
 ## EXTRIMLI 3 contract
 
@@ -220,6 +255,8 @@ All v3 routes respond with headers:
 | `EXTRIMLI_DESTRUKCIJA_MODULE_VERSION` | `1.0.0` |
 | `EXTRIMLI3_CONTRACT_VERSION` | `v3` |
 | `EXTRIMLI3_MODULE_VERSION` | `3.0.0` |
+| `EXTRIMLI_EXTENDOL_CONTRACT_VERSION` | `v1` |
+| `EXTRIMLI_EXTENDOL_MODULE_VERSION` | `1.0.0` |
 | `EXTRIMLI3_PERSONA_ID` | `extrimli-core` |
 | Trigger labels | `extrimli:logic-change` |
 | External GitHub labels | `extrimli:external-github`, `agent:config-change` |

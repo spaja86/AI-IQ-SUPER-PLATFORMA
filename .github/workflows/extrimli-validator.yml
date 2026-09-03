@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'src/lib/extrimli/**'
+      - 'src/lib/extrimli-extendol/**'
       - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
       - 'src/app/api/extrimli-3/**'
@@ -12,6 +13,7 @@ on:
       - 'src/lib/extrimli/export-bundle.ts'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
@@ -26,6 +28,7 @@ on:
     branches: [main]
     paths:
       - 'src/lib/extrimli/**'
+      - 'src/lib/extrimli-extendol/**'
       - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
       - 'src/app/api/extrimli-3/**'
@@ -34,6 +37,7 @@ on:
       - 'src/lib/extrimli/export-bundle.ts'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
@@ -59,17 +63,20 @@ jobs:
       domain: extrimli
       lint_paths: >-
         src/lib/extrimli
+        src/lib/extrimli-extendol
         src/lib/extrimli-3
         src/app/api/extrimli
         src/app/api/extrimli-3
         src/components/extrimli
       test_commands: |
         npx tsx src/tests/lib/extrimli.test.ts
+        npx tsx src/tests/lib/extrimli-extendol.test.ts
         npx tsx src/tests/lib/extrimli-3.test.ts
         npx tsx src/tests/lib/extrimli-instrukcija.test.ts
         npx tsx src/tests/api/extrimli-route.test.ts
       scan_paths: >-
         src/lib/extrimli
+        src/lib/extrimli-extendol
         src/lib/extrimli-3
         src/app/api/extrimli
         src/app/api/extrimli-3

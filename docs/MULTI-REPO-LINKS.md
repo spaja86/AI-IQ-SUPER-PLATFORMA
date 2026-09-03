@@ -860,18 +860,28 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI external GitHub audit surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync audit references, labels i ownership matrica |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI instrukcija export bundle | `spaja86/IO-OPENUI-AO` — Follow-up required | Consume export bundle ako downstream docs/catalog sync koristi contract |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI module health snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync health/KPI summary za downstream observability |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI Extendol unified surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync unified readiness + acceptance criteria snapshot (`/api/extrimli/extendol`) |
+| `AI-IQ-SUPER-PLATFORMA` — MAKSIMUS↔EXTRIMLI integration gate | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep `maksimus-validator` and `extrimli-validator` trigger/schema alignment |
 
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
 - Add `extrimli:external-github` label to linked-repo label schema
 - Track `agent:config-change` compatibility for EXTRIMLI governance changes
 - Consume `buildExtrimliExportBundle()` snapshot kada linked repo koristi developer docs auto-generation
 - Record EXTRIMLI external audit ownership i GitHub workflow references
+- Align `extrimli:logic-change` and `agent:config-change` usage for Extendol+MAKSIMUS gate changes
+- Track `/api/extrimli/extendol` contract compatibility in downstream consumers
 - Open mandatory follow-up issue ako downstream ostane delimično neusaglašen posle WAWE 3/4
 
 **Audit convention for this initiative:**
 ```text
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB -> IO-OPENUI-AO#<follow-up issue>
 IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB
+```
+
+**Extended audit convention:**
+```text
+AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTENDOL-001 -> IO-OPENUI-AO#<follow-up issue>
+AI-IQ-SUPER-PLATFORMA#MAKSIMUS-EXTRIMLI-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
 ## EXTRIMLI CUZ — Community & Social Hub

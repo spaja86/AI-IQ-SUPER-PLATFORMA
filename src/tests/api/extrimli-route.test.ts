@@ -5,6 +5,7 @@ import { GET as getDestructionAsset } from '../../app/api/extrimli/destruction/a
 import { POST as postDestruction } from '../../app/api/extrimli/destruction/route';
 import { POST as postDestructionPreview } from '../../app/api/extrimli/destruction/preview/route';
 import { POST as postReadVoice } from '../../app/api/extrimli/read-voice/route';
+import { GET as getExtendol } from '../../app/api/extrimli/extendol/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 
 let passed = 0;
@@ -54,6 +55,20 @@ async function runTests(): Promise<void> {
     const body = await response.json() as { data: { registrySize: number; destructionContractVersion: string } };
     assert(body.data.registrySize >= 5, `expected registry size >= 5, got ${body.data.registrySize}`);
     assert(body.data.destructionContractVersion === 'v1-destrukcija', 'unexpected destruction contract version');
+  });
+
+  await test('GET /api/extrimli/extendol returns unified surface report and headers', async () => {
+    const response = await getExtendol();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Extendol-Contract-Version') === 'v1', 'missing extendol contract header');
+    assert(response.headers.get('X-Extrimli-Degraded-Mode') === 'partial-payload-no-500', 'missing degraded mode header');
+
+    const body = await response.json() as {
+      data: { sourceOfTruth: string; coverage: { sportRiskEvaluation: boolean }; acceptanceCriteria: Array<{ id: string; passed: boolean }> };
+    };
+    assert(body.data.sourceOfTruth === '/api/extrimli/extendol', 'unexpected sourceOfTruth');
+    assert(body.data.coverage.sportRiskEvaluation === true, 'expected sportRiskEvaluation coverage');
+    assert(body.data.acceptanceCriteria.some((item) => item.id === 'all-user-paths-covered' && item.passed), 'expected all-user-paths-covered acceptance criterion');
   });
 
   await test('GET /api/extrimli/destruction/assets supports filtering', async () => {
