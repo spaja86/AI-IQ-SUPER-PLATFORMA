@@ -1,6 +1,7 @@
 import { igrice } from '../../lib/igrice';
 import { MASTER_POKER_GAME_ID } from '../../lib/poker/types';
 import {
+  getRunnerKompatibilnostZaIgricu,
   getRunnerTip,
   getRunnerTipZaIgricu,
   registrujCustomRunnerZaIgricu,
@@ -64,6 +65,16 @@ async function runTests(): Promise<void> {
     registrujRunnerResolver(resolver);
     assertEqual(getRunnerTipZaIgricu(game), 'eglan', 'resolver-runner');
     ukloniRunnerResolver(resolver);
+  });
+
+  await test('Nove GAMES stavke koriste postojeće runner-e', () => {
+    const ids = ['igrica-neon-ops-squad', 'igrica-quantum-kart-league', 'igrica-hram-koda'];
+    for (const id of ids) {
+      const game = igrice.find((g) => g.id === id);
+      assert(game, `igrica postoji: ${id}`);
+      const kompat = getRunnerKompatibilnostZaIgricu(game);
+      assertEqual(kompat.status, 'existing-runner', `runner kompatibilnost za ${id}`);
+    }
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

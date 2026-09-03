@@ -194,6 +194,16 @@ Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#REAL-GUN -> IO-OPENUI-AO#<follow-up issue>`
 
+## GAMES catalog downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — GAMES catalog/surface expansion | `spaja86/IO-OPENUI-AO` — No linked repo change required | Scope is registry + UI + API + runner compatibility metadata in this repo; downstream sync is optional follow-up only |
+
+Audit reference convention (if downstream work is needed later):
+
+`AI-IQ-SUPER-PLATFORMA#GAMES-CATALOG -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Conflict resolution rules
 
 - If labels or milestone names diverge, align the shared schema before feature rollout.

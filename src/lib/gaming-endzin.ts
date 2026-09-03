@@ -20,6 +20,14 @@ import { MASTER_POKER_GAME_ID } from './poker/types';
 
 export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan' | 'reakt';
 export type RunnerResolver = (igrica: Igrica) => RunnerTip | null;
+export type RunnerKompatibilnostStatus = 'existing-runner' | 'requires-new-runner';
+
+export interface RunnerKompatibilnost {
+  igricaId: string;
+  kategorija: KategorijaIgrice;
+  runnerTip: RunnerTip;
+  status: RunnerKompatibilnostStatus;
+}
 
 // ─── Dimenzionalni parametri ───────────────────────────────────────
 
@@ -137,6 +145,8 @@ const KATEGORIJA_NA_RUNNER: Record<KategorijaIgrice, RunnerTip> = {
   reakt: 'reakt',
 };
 
+const PODRZANI_RUNNERI = new Set<RunnerTip>(['akcija', 'logicka', 'simulacija', 'edu', 'kreativna', 'borbena', 'poker', 'eglan', 'reakt']);
+
 const customRunnerPoIgrici = new Map<string, RunnerTip>();
 const customRunnerResolvers = new Set<RunnerResolver>();
 
@@ -158,6 +168,17 @@ export function getRunnerTipZaIgricu(igrica: Igrica): RunnerTip {
   if (igrica.id === MASTER_POKER_GAME_ID) return 'poker';
   if (igrica.id === 'igrica-ekstreminacija-eglana') return 'eglan';
   return getRunnerTip(igrica.kategorija);
+}
+
+/** Vraća kompatibilnost igre sa dostupnim runner-ima. */
+export function getRunnerKompatibilnostZaIgricu(igrica: Igrica): RunnerKompatibilnost {
+  const runnerTip = getRunnerTipZaIgricu(igrica);
+  return {
+    igricaId: igrica.id,
+    kategorija: igrica.kategorija,
+    runnerTip,
+    status: PODRZANI_RUNNERI.has(runnerTip) ? 'existing-runner' : 'requires-new-runner',
+  };
 }
 
 /** Registruj prilagođeni runner za konkretnu igricu. */

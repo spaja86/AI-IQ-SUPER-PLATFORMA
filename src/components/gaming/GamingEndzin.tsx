@@ -376,6 +376,11 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           </div>
 
           <p className="mb-6 text-sm text-gray-400 leading-relaxed">{igrica.opis}</p>
+          <p className="mb-3 text-xs text-gray-500">
+            Runner: <span className="font-semibold text-gray-300">{efektivniRunnerTip}</span> • Status:
+            {' '}
+            <span className="font-semibold text-gray-300">{igrica.status}</span>
+          </p>
 
           {/* Dimenzionalni parametri */}
           <div className="mb-6 grid grid-cols-2 gap-2 text-xs">

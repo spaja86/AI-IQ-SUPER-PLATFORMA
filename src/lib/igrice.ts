@@ -133,6 +133,21 @@ function kreirajDimenzionalneRezime(podrzaneDim: DimenzijaNivo[]): Dimenzionalni
 
 const sveDimenzije: DimenzijaNivo[] = ['360D', '720D', '1440D', '2880D', '5760D'];
 
+export const GAMES_SCOPE = {
+  modul: ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'],
+  api: ['/api/igrice', '/api/igrice-stats', '/api/igrice-kategorije'],
+  ui: ['/igrice', '/spaja-digitalni-brouvzer?igricaId=...'],
+  analytics: ['kategorija', 'status', 'runnerTip'],
+} as const;
+
+export const GAMES_REQUIRED_OUTPUTS = [
+  'catalog-update',
+  'runner-compatibility',
+  'api-summary',
+  'ui-sekvence',
+  'analytics-breakdown',
+] as const;
+
 export const igrice: Igrica[] = [
   // ─── Originalne igrice ────────────────────────────────────────
   {
@@ -2721,6 +2736,66 @@ export const igrice: Igrica[] = [
     preporuceniProizvodi: ['spaja-game-engine', 'spaja-monitor', 'spaja-metrics', 'omega-ai-engine'],
     zahtevi: OBAVEZNI_ZAHTEVI,
     link: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/blob/main/docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md',
+  },
+  {
+    id: 'igrica-neon-ops-squad',
+    naziv: 'Neon Ops Squad',
+    opis: 'Taktička akcija u futurističkim neon zonama sa kooperativnim misijama i dimenzionalnim prebacivanjem između sektora. Svaka dimenzija menja AI ponašanje i gustinu prepreka.',
+    ikona: '🛰️',
+    kategorija: 'akcija',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Co-op misije i timske role',
+      'Stealth + assault režimi po dimenzijama',
+      'Adaptive AI neprijatelji prema D nivou',
+      'Audit-friendly mission recap',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-ai-npc', 'spaja-networking-sdk', 'spaja-anti-cheat'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+  {
+    id: 'igrica-quantum-kart-league',
+    naziv: 'Quantum Kart League',
+    opis: 'Brze trke kroz kvantne tunele sa risk-reward nitro sistemom i preciznim checkpoint pravilima. Više dimenzije otključavaju kompleksnije staze i vremenske anomalije.',
+    ikona: '🏎️',
+    kategorija: 'trka',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '1440D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Kvantni tuneli i split-ruta trke',
+      'Nitro risk sistem sa penalty pravilima',
+      'Time anomaly događaji na višim dimenzijama',
+      'Leaderboard po dimenzionalnom nivou',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'beta',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-leaderboard', 'spaja-monitor'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+  {
+    id: 'igrica-hram-koda',
+    naziv: 'Hram Koda',
+    opis: 'Logičko-programerska avantura u kojoj igrač rešava algoritamske zagonetke kroz dimenzionalne nivoe. Fokus je na progresivnom učenju i analitičkom razmišljanju.',
+    ikona: '🧠',
+    kategorija: 'edukativna',
+    podrzaneDimenzije: ['360D', '720D', '1440D'],
+    podrazumevanaDimenzija: '360D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(['360D', '720D', '1440D']),
+    funkcije: [
+      'Puzzle nivoi za algoritamsko razmišljanje',
+      'Tutor hint sistem i progres tracking',
+      'Challenge mod sa ograničenim potezima',
+      'Mikro-analitika napretka po domenu zadataka',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'planirana',
+    preporuceniProizvodi: ['omega-ai-engine', 'spaja-optimizer', 'spaja-monitor'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
   },
 ];
 
