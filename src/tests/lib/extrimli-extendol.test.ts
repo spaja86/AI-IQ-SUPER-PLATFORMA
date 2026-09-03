@@ -46,6 +46,7 @@ async function runTests(): Promise<void> {
     assert(report.coverage.destructionSafetyFlows, 'destructionSafetyFlows must be covered');
     assert(report.coverage.athleteProgressAndReadiness, 'athleteProgressAndReadiness must be covered');
     assert(report.coverage.communityReputationAndMentorship, 'communityReputationAndMentorship must be covered');
+    assert(report.coverage.koronReadinessOverlay, 'koronReadinessOverlay must be covered');
   });
 
   await test('report exposes acceptance criteria and unified readiness signal', () => {
@@ -56,11 +57,19 @@ async function runTests(): Promise<void> {
     assert(report.statement.includes('MAKSIMUM FOR ALL'), 'statement must include maximum-for-all contract intent');
   });
 
-  await test('report includes all three EXTRIMLI surfaces', () => {
+  await test('report includes all four EXTRIMLI surfaces', () => {
     const report = getExtrimliExtendolReport();
     assert(report.surfaces.v1.contractVersion === 'v1', 'v1 contract mismatch');
     assert(report.surfaces.v3.contractVersion === 'v3', 'v3 contract mismatch');
     assert(report.surfaces.cuz.contractVersion === 'v1', 'cuz contract mismatch');
+    assert(report.surfaces.koron.contractVersion === 'v1-koron', 'koron contract mismatch');
+    assert(report.surfaces.koron.sourceOfTruth === '/api/extrimli/koron', 'koron source of truth mismatch');
+  });
+
+  await test('report exposes KORON acceptance and no-500 degraded handling', () => {
+    const report = getExtrimliExtendolReport();
+    assert(report.acceptanceCriteria.some((item) => item.id === 'koron-overlay-covered'), 'KORON acceptance criterion missing');
+    assert(report.surfaces.koron.degradedMode === 'partial-payload-no-500', 'KORON degraded mode mismatch');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

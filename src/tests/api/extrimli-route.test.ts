@@ -6,6 +6,7 @@ import { POST as postDestruction } from '../../app/api/extrimli/destruction/rout
 import { POST as postDestructionPreview } from '../../app/api/extrimli/destruction/preview/route';
 import { POST as postReadVoice } from '../../app/api/extrimli/read-voice/route';
 import { GET as getExtendol } from '../../app/api/extrimli/extendol/route';
+import { GET as getKoron } from '../../app/api/extrimli/koron/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 
 let passed = 0;
@@ -69,6 +70,20 @@ async function runTests(): Promise<void> {
     assert(body.data.sourceOfTruth === '/api/extrimli/extendol', 'unexpected sourceOfTruth');
     assert(body.data.coverage.sportRiskEvaluation === true, 'expected sportRiskEvaluation coverage');
     assert(body.data.acceptanceCriteria.some((item) => item.id === 'all-user-paths-covered' && item.passed), 'expected all-user-paths-covered acceptance criterion');
+  });
+
+  await test('GET /api/extrimli/koron returns KORON surface report and headers', async () => {
+    const response = await getKoron();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Koron-Contract-Version') === 'v1-koron', 'missing KORON contract header');
+    assert(response.headers.get('X-Extrimli-Degraded-Mode') === 'partial-payload-no-500', 'missing KORON degraded mode header');
+
+    const body = await response.json() as {
+      data: { sourceOfTruth: string; status: string; readinessScore: number };
+    };
+    assert(body.data.sourceOfTruth === '/api/extrimli/koron', 'unexpected KORON sourceOfTruth');
+    assert(['ACTIVE', 'WATCH', 'DEGRADED'].includes(body.data.status), 'unexpected KORON status');
+    assert(body.data.readinessScore >= 0 && body.data.readinessScore <= 100, 'unexpected KORON readiness score');
   });
 
   await test('GET /api/extrimli/destruction/assets supports filtering', async () => {

@@ -229,6 +229,7 @@ async function runTests(): Promise<void> {
     assert(result.extrimliIntegracija.sourceOfTruth === '/api/extrimli/extendol', 'sourceOfTruth mora biti /api/extrimli/extendol');
     assert(Number.isFinite(result.extrimliIntegracija.unifiedReadinessScore), 'unifiedReadinessScore mora biti konačan broj');
     assert(typeof result.extrimliIntegracija.maxFunctionalityForAll === 'boolean', 'maxFunctionalityForAll mora biti boolean');
+    assert(result.extrimliIntegracija.surfaces.koron.sourceOfTruth === '/api/extrimli/koron', 'KORON sourceOfTruth mora biti /api/extrimli/koron');
   });
 
   // ─── Performance test ─────────────────────────────────────────────────────

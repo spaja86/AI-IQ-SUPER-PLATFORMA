@@ -23,7 +23,9 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 | Surface | Path / artifact | Role |
 |---|---|---|
 | Core domain | `src/lib/extrimli/**`, `src/lib/extrimli-3/**`, `src/app/api/extrimli/**`, `src/app/api/extrimli-3/**` | Risk, gear, destruction, weather i readiness logika |
+| Community domain | `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**` | Crew, mentorship, feed i reputation signali za Extendol/KORON |
 | Unified Extendol domain | `src/lib/extrimli-extendol/**`, `src/app/api/extrimli/extendol/**` | Unified "maximum functionality for all" contract and aggregate readiness surface |
+| KORON overlay domain | `src/lib/extrimli-koron/**`, `src/app/api/extrimli/koron/**` | Cross-surface readiness overlay, sync coverage i degraded posture |
 | Export layer | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/**` | Snapshot i developer-facing export bundle |
 | Quality gate | `.github/workflows/extrimli-validator.yml` | Standardni validator i KPI gate |
 | MAKSIMUS integration gate | `.github/workflows/maksimus-validator.yml` | Verifikuje EXTRIMLI signal ingest i orchestration alignment |
@@ -79,6 +81,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 
 - module health/status snapshot
 - extendol unified health/readiness snapshot
+- KORON overlay health/readiness snapshot
 - gear catalog snapshot
 - DESTRUKCIJA asset snapshot
 - instrukcija registry
@@ -88,6 +91,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 ## 8. EXTRIMLI ↔ MAKSIMUS alignment
 
 - MAKSIMUS koristi `EXTRIMLI Extended` domen signal iz `/api/extrimli/extendol`.
+- KORON surface `/api/extrimli/koron` mora ostati uključen u Extendol readiness i degraded evidenciju.
 - Ako EXTRIMLI surface pređe KPI limit ili uđe u degraded mode, MAKSIMUS mora prijaviti preporuku za sanaciju.
 - Governance evidencija mora sadržati oba gate-a: `extrimli-validator` i `maksimus-validator`.
 
@@ -98,8 +102,9 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 1. preuzimanje EXTRIMLI snapshot-a preko `multi-repo-sync-agent`
 2. evidencija `extrimli:external-github` label schema kompatibilnosti
 3. praćenje `instrukcija` export bundle contract-a kod downstream potrošača
-4. potvrda da su audit reference i workflow ownership usklađeni
-5. obavezan follow-up issue kada downstream ostane delimično neusaglašen
+4. preuzimanje `/api/extrimli/koron` snapshot-a i provera polja `status`, `readinessScore`, `degradedSources`
+5. potvrda da su audit reference i workflow ownership usklađeni
+6. obavezan follow-up issue kada downstream ostane delimično neusaglašen
 
 ## 10. Mandatory gate criteria
 
@@ -108,6 +113,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 - Human review obavezan pre promocije
 - Label higijena: `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` (za config/workflow promene)
 - Promotion freeze: release se zaustavlja kada KPI/audit/sync nije potpun
+- KORON overlay mora ostati uključen u outbound artifacts i downstream sync checklist
 
 ---
 
@@ -151,6 +157,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 
 - Postoji kanonski dokument za EXTRIMLI external/GitHub surface
 - EXTRIMLI validator pokriva export/instrukcija/extendol surface
+- EXTRIMLI validator pokriva i KORON overlay surface
 - GitHub governance workflow postoji bez dupliranja deploy toka
 - MAKSIMUS validator potvrđuje ingest EXTRIMLI Extendol signala
 - `docs/MULTI-REPO-LINKS.md` sadrži downstream i audit reference

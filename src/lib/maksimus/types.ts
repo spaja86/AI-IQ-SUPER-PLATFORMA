@@ -68,6 +68,15 @@ export interface MaksimусExtrimliIntegracija {
   maxFunctionalityForAll: boolean;
   degraded: boolean;
   degradedSources: string[];
+  surfaces: {
+    koron: {
+      sourceOfTruth: string;
+      status: string;
+      readinessScore: number;
+      degraded: boolean;
+      degradedSources: string[];
+    };
+  };
 }
 
 export interface MaksimуsSvega {
