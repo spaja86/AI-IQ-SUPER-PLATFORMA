@@ -70,6 +70,7 @@ const DOMAIN_RECOMMENDATIONS: Partial<Record<EkzistDomain, string>> = {
   AUTONOMY: 'Identifikuj oblasti gde se osećaš ograničeno i postavi mali korak slobode.',
   LEGACY: 'Razmisli šta bi voleo da ostane iza tebe — u srcima, delu ili zajednici.',
   TRANSCENDENCE: 'Istraži duhovnost ili filozofiju — bilo koji put koji te podseti da si deo nečeg većeg.',
+  DURBULE: 'Kanalizuj DURBULE energiju kroz disciplinovan ritam: jasno definiši jedan hrabar potez i jedan stabilizacioni korak.',
   GROWTH: 'Postavi sebi jedan izazov koji te plaši i koji te uči nečem novom.',
 };
 

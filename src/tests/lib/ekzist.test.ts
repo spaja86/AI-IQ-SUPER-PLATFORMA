@@ -108,6 +108,21 @@ async function runTests(): Promise<void> {
     assert(result.dominantVector === 'TRANSCENDENCE', `expected TRANSCENDENCE, got ${result.dominantVector}`);
   });
 
+  await test('DURBULE domain is supported and can be dominant vector', () => {
+    const result = evaluateEkzist({
+      referenceId: 'durbule-dominant-test',
+      domains: [
+        { domain: 'MEANING', score: 62 },
+        { domain: 'DURBULE', score: 96 },
+        { domain: 'GROWTH', score: 60 },
+      ],
+    });
+
+    assert(result.valid, 'result should be valid');
+    assert(result.dominantVector === 'DURBULE', `expected DURBULE, got ${result.dominantVector}`);
+    assert(result.recommendations.some((r) => r.includes('DURBULE')), 'DURBULE recommendation should be present');
+  });
+
   await test('dimensionScores sorted descending by score', () => {
     const result = evaluateEkzist({
       referenceId: 'sorted-test',
