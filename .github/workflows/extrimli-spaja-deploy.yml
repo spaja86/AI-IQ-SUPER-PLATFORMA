@@ -419,6 +419,7 @@ jobs:
 
           if [ -z "$CANONICAL_DOMAIN" ]; then CANONICAL_DOMAIN="spaja.nivo-spaja"; fi
           if [ -z "$WILDCARD_DOMAIN" ]; then WILDCARD_DOMAIN="*.spaja.nivo-spaja"; fi
+          DOMAIN_REGEX='^([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$'
 
           if [[ "$CANONICAL_DOMAIN" == *"*"* ]]; then
             echo "❌ canonical_domain ne sme sadržati '*' (primer pogrešnog formata: spaja.nivo*spaja)."
@@ -428,12 +429,12 @@ jobs:
             echo "❌ canonical_domain ne sme imati prazne label-e niti vodeću/završnu tačku."
             exit 1
           fi
-          if ! [[ "$CANONICAL_DOMAIN" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$ ]]; then
+          if ! [[ "$CANONICAL_DOMAIN" =~ $DOMAIN_REGEX ]]; then
             echo "❌ canonical_domain mora biti validan apex domen (min 2 label-e)."
             exit 1
           fi
 
-          if [[ "$WILDCARD_DOMAIN" != \*.* ]]; then
+          if ! [[ "$WILDCARD_DOMAIN" =~ ^\*\.[^*]+$ ]]; then
             echo "❌ wildcard_domain mora biti u formatu '*.domen'."
             exit 1
           fi
@@ -447,7 +448,7 @@ jobs:
             echo "❌ wildcard_domain suffix ne sme imati prazne label-e niti vodeću/završnu tačku."
             exit 1
           fi
-          if ! [[ "$WILDCARD_SUFFIX" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$ ]]; then
+          if ! [[ "$WILDCARD_SUFFIX" =~ $DOMAIN_REGEX ]]; then
             echo "❌ wildcard_domain suffix mora biti validan domen."
             exit 1
           fi
