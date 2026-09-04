@@ -15,6 +15,7 @@ export type PetljaKind =
   | 'IZI PETLJA'
   | 'UK PETLJA'
   | 'ZUM PETLJA'
+  | 'DURMITOR PETLJA'
   | 'UMBREL PETLJA';
 
 export type PetljaReason = 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status';
