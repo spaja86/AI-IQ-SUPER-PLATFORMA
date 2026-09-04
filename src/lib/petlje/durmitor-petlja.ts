@@ -103,7 +103,7 @@ export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
   const transition = createStatusTransition(
     status,
     aggregateState.status,
-    aggregateState.reason === 'completed' ? 'completed' : 'durmitor-aggregate',
+    aggregateState.reason,
     guard.getIterations(),
   );
   status = transition.status;
