@@ -84,6 +84,14 @@ export const SPORT_REGISTRY: Sport[] = [
     requiredGear: ['helmet', 'pads', 'bike'],
     weatherSensitive: true,
   },
+  {
+    id: 'duel-king',
+    name: 'DUEL KING',
+    category: 'combat',
+    riskClass: 'IV',
+    requiredGear: ['helmet', 'pads', 'boots'],
+    weatherSensitive: false,
+  },
 ];
 
 export function getSportById(id: string): Sport | undefined {

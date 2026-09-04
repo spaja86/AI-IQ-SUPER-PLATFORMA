@@ -1,0 +1,268 @@
+import type {
+  DuelKingGearRequirement,
+  DuelKingInput,
+  DuelKingMode,
+  DuelKingResult,
+  DuelKingTournamentState,
+  RiskLevel,
+} from '../extrimli/types';
+import { clamp, round } from '../extrimli/utils';
+import {
+  EXTRIMLI_DUEL_KING_API_MAX_MS,
+  EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
+  EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
+  EXTRIMLI_DUEL_KING_MODULE_VERSION,
+  EXTRIMLI_DUEL_KING_PERSONA_ID,
+  EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH,
+} from './types';
+import type { DuelKingHealthReport } from './types';
+
+const DUEL_KING_MODES: DuelKingMode[] = ['ARENA', 'TACTICAL', 'SURVIVAL'];
+const DUEL_KING_TOURNAMENT_STATES: DuelKingTournamentState[] = ['OPEN', 'LOCKED', 'ACTIVE', 'COMPLETED', 'DEGRADED'];
+
+const DUEL_KING_GEAR_REQUIREMENTS: Record<DuelKingMode, DuelKingGearRequirement[]> = {
+  ARENA: [
+    { category: 'helmet', minimumSafetyRating: 4, required: true },
+    { category: 'pads', minimumSafetyRating: 4, required: true },
+    { category: 'boots', minimumSafetyRating: 3, required: true },
+  ],
+  TACTICAL: [
+    { category: 'helmet', minimumSafetyRating: 4, required: true },
+    { category: 'pads', minimumSafetyRating: 4, required: true },
+    { category: 'boots', minimumSafetyRating: 4, required: true },
+  ],
+  SURVIVAL: [
+    { category: 'helmet', minimumSafetyRating: 5, required: true },
+    { category: 'pads', minimumSafetyRating: 4, required: true },
+    { category: 'boots', minimumSafetyRating: 4, required: true },
+  ],
+};
+
+const RISK_LEVEL_THRESHOLDS: { level: RiskLevel; min: number }[] = [
+  { level: 'EXTREME', min: 75 },
+  { level: 'HIGH', min: 50 },
+  { level: 'MEDIUM', min: 25 },
+  { level: 'LOW', min: 0 },
+];
+
+let evaluations = 0;
+let lastReadinessScore = 100;
+let lastDuelRiskScore = 0;
+let lastTournamentState: DuelKingTournamentState | null = null;
+
+function resolveRiskLevel(score: number): RiskLevel {
+  for (const { level, min } of RISK_LEVEL_THRESHOLDS) {
+    if (score >= min) return level;
+  }
+  return 'LOW';
+}
+
+function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement[] {
+  if (!mode) return [];
+  return DUEL_KING_GEAR_REQUIREMENTS[mode].map((item) => ({ ...item }));
+}
+
+function invalidResult(input: Partial<DuelKingInput>, warning: string, start: number): DuelKingResult {
+  return {
+    referenceId: input.referenceId ?? 'n/a',
+    sportId: 'duel-king',
+    fighterId: typeof input.fighterId === 'string' ? input.fighterId : null,
+    duelMode: DUEL_KING_MODES.includes(input.duelMode as DuelKingMode) ? (input.duelMode as DuelKingMode) : null,
+    readinessScore: 0,
+    duelRiskScore: 0,
+    riskLevel: 'LOW',
+    fighterProgressionScore: 0,
+    gearCleared: false,
+    requiredGear: defaultRequirements(DUEL_KING_MODES.includes(input.duelMode as DuelKingMode) ? (input.duelMode as DuelKingMode) : null),
+    tournamentState: DUEL_KING_TOURNAMENT_STATES.includes(input.tournamentState as DuelKingTournamentState)
+      ? (input.tournamentState as DuelKingTournamentState)
+      : null,
+    bracketStatus: 'HOLD',
+    degraded: false,
+    degradedMode: null,
+    valid: false,
+    warnings: [warning],
+    recommendation: 'DUEL KING evaluation rejected until all required combat inputs are valid.',
+    durationMs: Date.now() - start,
+  };
+}
+
+export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
+  const start = Date.now();
+
+  if (input.sportId !== 'duel-king') {
+    return invalidResult(input, 'sportId must be duel-king', start);
+  }
+  if (!DUEL_KING_MODES.includes(input.duelMode)) {
+    return invalidResult(input, 'duelMode must be one of ARENA, TACTICAL, SURVIVAL', start);
+  }
+
+  const boundedFields: Array<[string, number, number]> = [
+    ['fighterExperience', input.fighterExperience, 10],
+    ['opponentTier', input.opponentTier, 10],
+    ['arenaHazard', input.arenaHazard, 10],
+    ['staminaReserve', input.staminaReserve, 10],
+    ['gearQualityIndex', input.gearQualityIndex, 10],
+  ];
+  for (const [name, value, max] of boundedFields) {
+    if (!Number.isFinite(value) || value < 0 || value > max) {
+      return invalidResult(input, `${name} must be a finite number in [0, ${max}]`, start);
+    }
+  }
+  if (!Number.isFinite(input.reactionTimeMs) || input.reactionTimeMs < 50 || input.reactionTimeMs > 1000) {
+    return invalidResult(input, 'reactionTimeMs must be a finite number in [50, 1000]', start);
+  }
+  if (input.recentSessions !== undefined) {
+    if (!Number.isInteger(input.recentSessions) || input.recentSessions < 0 || input.recentSessions > 100) {
+      return invalidResult(input, 'recentSessions must be an integer in [0, 100]', start);
+    }
+  }
+  if (input.tournamentState !== undefined && !DUEL_KING_TOURNAMENT_STATES.includes(input.tournamentState)) {
+    return invalidResult(input, 'tournamentState must be a known DUEL KING tournament state', start);
+  }
+  if (input.activeGearCategories !== undefined) {
+    if (!Array.isArray(input.activeGearCategories) || input.activeGearCategories.some((value) => typeof value !== 'string')) {
+      return invalidResult(input, 'activeGearCategories must be an array of gear categories', start);
+    }
+  }
+
+  const warnings: string[] = [];
+  let degraded = false;
+
+  const recentSessions = input.recentSessions ?? 0;
+  if (input.recentSessions === undefined) {
+    degraded = true;
+    warnings.push('recentSessions missing; progression score degraded to conservative default');
+  }
+
+  const activeGearCategories = input.activeGearCategories ?? [];
+  if (input.activeGearCategories === undefined) {
+    degraded = true;
+    warnings.push('activeGearCategories missing; gear clearance downgraded to degraded mode');
+  }
+
+  const tournamentState = input.tournamentState ?? 'DEGRADED';
+  if (input.tournamentState === undefined) {
+    degraded = true;
+    warnings.push('tournamentState missing; tournament posture marked as DEGRADED');
+  }
+
+  const requiredGear = defaultRequirements(input.duelMode);
+  const gearCleared = activeGearCategories.length > 0 && requiredGear.every((item) => activeGearCategories.includes(item.category));
+  if (!gearCleared) {
+    warnings.push('required DUEL KING gear set is incomplete for the selected duel mode');
+  }
+
+  const reactionPenalty = clamp(((input.reactionTimeMs - 50) / 950) * 10, 0, 10);
+  const duelRiskScore = round(clamp((
+    (10 - input.fighterExperience) * 0.24 +
+    input.opponentTier * 0.22 +
+    input.arenaHazard * 0.24 +
+    (10 - input.staminaReserve) * 0.15 +
+    (10 - input.gearQualityIndex) * 0.10 +
+    reactionPenalty * 0.05
+  ) * 10, 0, 100), 2);
+
+  const fighterProgressionScore = round(clamp(
+    input.fighterExperience * 5.4
+    + clamp(recentSessions, 0, 20) * 2.1
+    + input.staminaReserve * 3.1
+    - Math.abs(input.opponentTier - input.fighterExperience) * 1.2,
+    0,
+    100,
+  ), 2);
+
+  let readinessScore = round(clamp(
+    100 - duelRiskScore * 0.58 + fighterProgressionScore * 0.32 + input.gearQualityIndex * 1.1,
+    0,
+    100,
+  ), 2);
+
+  if (!gearCleared) {
+    readinessScore = round(clamp(readinessScore - 18, 0, 100), 2);
+  }
+  if (degraded) {
+    readinessScore = round(clamp(readinessScore - 8, 0, 100), 2);
+  }
+
+  const riskLevel = resolveRiskLevel(duelRiskScore);
+  const bracketStatus = degraded
+    ? 'DEGRADED'
+    : tournamentState === 'COMPLETED'
+      ? 'HOLD'
+      : readinessScore >= 70 && gearCleared
+        ? 'READY'
+        : 'HOLD';
+
+  evaluations += 1;
+  lastReadinessScore = readinessScore;
+  lastDuelRiskScore = duelRiskScore;
+  lastTournamentState = tournamentState;
+
+  return {
+    referenceId: input.referenceId ?? 'n/a',
+    sportId: 'duel-king',
+    fighterId: typeof input.fighterId === 'string' ? input.fighterId : null,
+    duelMode: input.duelMode,
+    readinessScore,
+    duelRiskScore,
+    riskLevel,
+    fighterProgressionScore,
+    gearCleared,
+    requiredGear,
+    tournamentState,
+    bracketStatus,
+    degraded,
+    degradedMode: degraded ? 'partial-payload-no-500' : null,
+    valid: true,
+    warnings,
+    recommendation: bracketStatus === 'READY'
+      ? 'DUEL KING readiness is stable. Proceed with bracket lock and monitored activation.'
+      : degraded
+        ? 'DUEL KING readiness degraded. Continue only after tournament state and gear telemetry are restored.'
+        : 'DUEL KING readiness is below activation threshold. Improve progression, gear coverage, or stamina before the duel.',
+    durationMs: Date.now() - start,
+  };
+}
+
+export function getDuelKingHealthReport(): DuelKingHealthReport {
+  return {
+    personaId: EXTRIMLI_DUEL_KING_PERSONA_ID,
+    contractVersion: EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
+    moduleVersion: EXTRIMLI_DUEL_KING_MODULE_VERSION,
+    sourceOfTruth: EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH,
+    evaluations,
+    lastReadinessScore,
+    lastDuelRiskScore,
+    lastTournamentState,
+    performanceMaxMs: EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
+    apiResponseMaxMs: EXTRIMLI_DUEL_KING_API_MAX_MS,
+  };
+}
+
+export function _resetDuelKingMetrics(): void {
+  evaluations = 0;
+  lastReadinessScore = 100;
+  lastDuelRiskScore = 0;
+  lastTournamentState = null;
+}
+
+export type {
+  DuelKingHealthReport,
+  DuelKingInput,
+  DuelKingMode,
+  DuelKingResult,
+  DuelKingTournamentState,
+};
+
+export {
+  DUEL_KING_GEAR_REQUIREMENTS,
+  DUEL_KING_MODES,
+  DUEL_KING_TOURNAMENT_STATES,
+  EXTRIMLI_DUEL_KING_API_MAX_MS,
+  EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
+  EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
+  EXTRIMLI_DUEL_KING_MODULE_VERSION,
+  EXTRIMLI_DUEL_KING_PERSONA_ID,
+  EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH,
+};

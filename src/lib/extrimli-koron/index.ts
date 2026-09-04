@@ -7,6 +7,7 @@ import {
 } from '../extrimli';
 import { getExtrimli3HealthReport } from '../extrimli-3';
 import { getCuzHealthReport } from '../extrimli-cuz';
+import { getDuelKingHealthReport } from '../extrimli-duel-king';
 import type { ExtrimliKoronHealthReport, ExtrimliKoronStatus } from './types';
 import {
   EXTRIMLI_KORON_API_MAX_MS,
@@ -31,6 +32,7 @@ export function getExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   const v1 = getExtrimliHealthReport();
   const v3 = getExtrimli3HealthReport();
   const cuz = getCuzHealthReport();
+  const duelKing = getDuelKingHealthReport();
 
   const degradedSources: string[] = [];
   if (v1.performanceMaxMs > EXTRIMLI_KORON_EVALUATION_MAX_MS || v1.apiResponseMaxMs > EXTRIMLI_KORON_API_MAX_MS) {
@@ -42,8 +44,12 @@ export function getExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   if (cuz.performanceMaxMs > EXTRIMLI_KORON_EVALUATION_MAX_MS || cuz.apiResponseMaxMs > EXTRIMLI_KORON_API_MAX_MS) {
     degradedSources.push('extrimli-cuz-kpi');
   }
+  if (duelKing.performanceMaxMs > EXTRIMLI_KORON_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRIMLI_KORON_API_MAX_MS) {
+    degradedSources.push('extrimli-duel-king-kpi');
+  }
 
   const riskBalanceScore = round(clamp(100 - ((v1.lastRiskScore + v3.lastRiskScore) / 2), 0, 100), 2);
+  const duelKingReadinessScore = round(clamp(duelKing.lastReadinessScore, 0, 100), 2);
   const communitySignalScore = round(
     clamp(cuz.activeCrews * 20 + cuz.mentorProfiles * 25 + cuz.feedPosts * 10, 0, 100),
     2,
@@ -53,9 +59,10 @@ export function getExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
 
   const readinessScore = round(
     clamp(
-      riskBalanceScore * 0.35
-      + clamp(v3.lastReadinessScore, 0, 100) * 0.30
-      + communitySignalScore * 0.20
+      riskBalanceScore * 0.30
+      + clamp(v3.lastReadinessScore, 0, 100) * 0.25
+      + duelKingReadinessScore * 0.15
+      + communitySignalScore * 0.15
       + destructionRecoveryScore * 0.15,
       0,
       100,
@@ -88,7 +95,7 @@ export function getExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
     warnings,
     performanceMaxMs: EXTRIMLI_PERFORMANCE_MAX_MS,
     apiResponseMaxMs: EXTRIMLI_API_RESPONSE_MAX_MS,
-    surfaces: { v1, v3, cuz },
+    surfaces: { v1, v3, duelKing, cuz },
   };
 }
 

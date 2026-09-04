@@ -9,6 +9,7 @@ import {
   EXTRIMLI_PERFORMANCE_MAX_MS,
   EXTRIMLI_PERSONA_ID,
 } from './types';
+import { getDuelKingHealthReport } from '../extrimli-duel-king';
 import { getRiskMetrics } from './risk-engine';
 import { getDestructionMetrics } from './destruction-engine';
 import { clamp, round } from './utils';
@@ -21,6 +22,7 @@ export function getExtrimliHealthReport(): ExtrimliHealthReport {
     lastSeverityScore,
     lastSeverityLevel,
   } = getDestructionMetrics();
+  const duelKing = getDuelKingHealthReport();
   return {
     personaId:          EXTRIMLI_PERSONA_ID,
     contractVersion:    EXTRIMLI_CONTRACT_VERSION,
@@ -32,6 +34,10 @@ export function getExtrimliHealthReport(): ExtrimliHealthReport {
     previewEvaluations,
     lastDestructionSeverityScore: lastSeverityScore,
     lastDestructionSeverityLevel: lastSeverityLevel,
+    duelKingEvaluations: duelKing.evaluations,
+    lastDuelKingReadinessScore: duelKing.lastReadinessScore,
+    lastDuelKingRiskScore: duelKing.lastDuelRiskScore,
+    lastDuelKingTournamentState: duelKing.lastTournamentState,
     performanceMaxMs:   EXTRIMLI_PERFORMANCE_MAX_MS,
     apiResponseMaxMs:   EXTRIMLI_API_RESPONSE_MAX_MS,
   };
@@ -40,13 +46,21 @@ export function getExtrimliHealthReport(): ExtrimliHealthReport {
 
 export function getExtrimliAggregateSignals(): ExtrimliAggregateSignals {
   const report = getExtrimliHealthReport();
+  const duelKing = getDuelKingHealthReport();
   const safetySignal = round(clamp(100 - report.lastRiskScore, 0, 100), 2);
-  const readinessSignal = round(clamp((safetySignal + (100 - report.lastDestructionSeverityScore)) / 2, 0, 100), 2);
-  const degradationSignal = report.performanceMaxMs > EXTRIMLI_PERFORMANCE_MAX_MS || report.apiResponseMaxMs > EXTRIMLI_API_RESPONSE_MAX_MS ? 100 : 0;
+  const duelKingReadinessSignal = round(clamp(duelKing.lastReadinessScore, 0, 100), 2);
+  const readinessSignal = round(clamp((safetySignal + (100 - report.lastDestructionSeverityScore) + duelKingReadinessSignal) / 3, 0, 100), 2);
+  const degradationSignal = report.performanceMaxMs > EXTRIMLI_PERFORMANCE_MAX_MS
+    || report.apiResponseMaxMs > EXTRIMLI_API_RESPONSE_MAX_MS
+    || duelKing.performanceMaxMs > EXTRIMLI_PERFORMANCE_MAX_MS
+    || duelKing.apiResponseMaxMs > EXTRIMLI_API_RESPONSE_MAX_MS
+    ? 100
+    : 0;
   return {
     sourceOfTruth: '/api/extrimli/health',
     readinessSignal,
     safetySignal,
+    duelKingReadinessSignal,
     degradationSignal,
   };
 }

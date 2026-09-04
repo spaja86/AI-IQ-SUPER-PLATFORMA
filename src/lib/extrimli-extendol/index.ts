@@ -7,6 +7,7 @@ import {
 } from '../extrimli';
 import { getExtrimli3HealthReport } from '../extrimli-3';
 import { getCuzHealthReport } from '../extrimli-cuz';
+import { getDuelKingHealthReport } from '../extrimli-duel-king';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import type {
   ExtrimliExtendolAcceptanceCriterion,
@@ -29,6 +30,7 @@ function buildCoverage(): ExtrimliExtendolCoverage {
     eventLifecycleAndRegistration: true,
     destructionSafetyFlows: true,
     athleteProgressAndReadiness: true,
+    duelKingCompetition: true,
     communityReputationAndMentorship: true,
     koronReadinessOverlay: true,
   };
@@ -45,6 +47,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v1 = getExtrimliHealthReport();
   const v3 = getExtrimli3HealthReport();
   const cuz = getCuzHealthReport();
+  const duelKing = getDuelKingHealthReport();
   const koron = getExtrimliKoronHealthReport();
 
   const coverage = buildCoverage();
@@ -53,16 +56,18 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v1Readiness = clamp(100 - v1.lastRiskScore, 0, 100);
   const v3Safety = clamp(100 - v3.lastRiskScore, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
+  const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
   const communitySignal = buildCommunitySignal(cuz.activeCrews, cuz.mentorProfiles, cuz.feedPosts);
   const koronReadiness = clamp(koron.readinessScore, 0, 100);
 
   const unifiedReadinessScore = round(
     clamp(
-      v1Readiness * 0.24
-      + v3Safety * 0.18
-      + v3Readiness * 0.20
-      + communitySignal * 0.13
-      + koronReadiness * 0.25,
+      v1Readiness * 0.20
+      + v3Safety * 0.14
+      + v3Readiness * 0.16
+      + duelKingReadiness * 0.14
+      + communitySignal * 0.14
+      + koronReadiness * 0.22,
       0,
       100,
     ),
@@ -78,6 +83,9 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   }
   if (cuz.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || cuz.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
     degradedSources.push('extrimli-cuz-kpi');
+  }
+  if (duelKing.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
+    degradedSources.push('extrimli-duel-king-kpi');
   }
   if (koron.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || koron.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
     degradedSources.push('extrimli-koron-kpi');
@@ -98,18 +106,23 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
       passed: coveragePassed,
     },
     {
+      id: 'duel-king-covered',
+      description: 'DUEL KING competitive-combat readiness is included in the unified EXTRIMLI surface.',
+      passed: coverage.duelKingCompetition && duelKing.contractVersion === 'v1-duel-king',
+    },
+    {
       id: 'koron-overlay-covered',
       description: 'KORON readiness overlay is present as a required Extendol capability.',
       passed: coverage.koronReadinessOverlay && koron.status !== 'DEGRADED',
     },
     {
       id: 'kpi-targets',
-      description: 'v1, v3, CUZ, and KORON KPI targets meet evaluation ≤ 50ms and API ≤ 200ms.',
+      description: 'v1, v3, DUEL KING, CUZ, and KORON KPI targets meet evaluation ≤ 50ms and API ≤ 200ms.',
       passed: degradedSources.length === 0,
     },
     {
       id: 'real-readiness-signal',
-      description: 'Unified readiness score is computed from live EXTRIMLI v1/v3/CUZ/KORON health signals.',
+      description: 'Unified readiness score is computed from live EXTRIMLI v1/v3/DUEL KING/CUZ/KORON health signals.',
       passed: Number.isFinite(unifiedReadinessScore),
     },
     {
@@ -125,7 +138,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
     personaId: EXTRIMLI_EXTENDOL_PERSONA_ID,
     contractVersion: EXTRIMLI_EXTENDOL_CONTRACT_VERSION,
     moduleVersion: EXTRIMLI_EXTENDOL_MODULE_VERSION,
-    statement: 'MAKSIMUM FOR ALL TO HAVE FUNCTIONALITION INCLUDING KORON OVERLAY',
+    statement: 'MAKSIMUM FOR ALL TO HAVE FUNCTIONALITION INCLUDING DUEL KING AND KORON OVERLAY',
     sourceOfTruth: EXTRIMLI_EXTENDOL_SOURCE_OF_TRUTH,
     maxFunctionalityForAll,
     unifiedReadinessScore,
@@ -138,7 +151,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
       evaluationMaxMs: EXTRIMLI_PERFORMANCE_MAX_MS,
       apiResponseMaxMs: EXTRIMLI_API_RESPONSE_MAX_MS,
     },
-    surfaces: { v1, v3, cuz, koron },
+    surfaces: { v1, v3, duelKing, cuz, koron },
   };
 }
 

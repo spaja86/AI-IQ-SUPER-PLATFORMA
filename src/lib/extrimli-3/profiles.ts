@@ -135,6 +135,19 @@ export const SPORT_RISK_PROFILES: SportRiskProfile[] = [
     requiredWeatherData: true,
     focus: 'terrain',
   },
+  {
+    sportId: 'duel-king',
+    category: 'combat',
+    sportMultiplier: 1.26,
+    minimumExperience: 5,
+    riskBias: 11,
+    experienceWeight: 0.28,
+    weatherWeight: 0.02,
+    terrainWeight: 0.32,
+    gearWeight: 0.38,
+    requiredWeatherData: false,
+    focus: 'gear',
+  },
 ];
 
 const PROFILE_MAP = new Map(SPORT_RISK_PROFILES.map((profile) => [profile.sportId, profile]));

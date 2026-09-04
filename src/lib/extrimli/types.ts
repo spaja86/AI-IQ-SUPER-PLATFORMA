@@ -11,7 +11,8 @@ export type SportCategory =
   | 'mountain'
   | 'urban'
   | 'motor'
-  | 'board';
+  | 'board'
+  | 'combat';
 
 export interface Sport {
   id: string;
@@ -105,6 +106,68 @@ export interface GearItem {
 
 export interface GearCatalogEntry extends GearItem {
   affiliateCommission: number; // calculated: price * affiliateCommissionPct / 100
+}
+
+// ─── DUEL KING ────────────────────────────────────────────────────────────────
+
+export type DuelKingMode = 'ARENA' | 'TACTICAL' | 'SURVIVAL';
+export type DuelKingTournamentState = 'OPEN' | 'LOCKED' | 'ACTIVE' | 'COMPLETED' | 'DEGRADED';
+export type DuelKingBracketStatus = 'READY' | 'HOLD' | 'DEGRADED';
+
+export interface DuelKingGearRequirement {
+  category: GearCategory;
+  minimumSafetyRating: number;
+  required: boolean;
+}
+
+export interface DuelKingInput {
+  sportId: 'duel-king';
+  duelMode: DuelKingMode;
+  fighterExperience: number; // 0–10
+  opponentTier: number; // 0–10
+  arenaHazard: number; // 0–10
+  staminaReserve: number; // 0–10
+  gearQualityIndex: number; // 0–10
+  reactionTimeMs: number; // 50–1000
+  activeGearCategories?: GearCategory[];
+  recentSessions?: number; // 0–100
+  fighterId?: string;
+  tournamentState?: DuelKingTournamentState;
+  referenceId?: string;
+}
+
+export interface DuelKingResult {
+  referenceId: string;
+  sportId: 'duel-king';
+  fighterId: string | null;
+  duelMode: DuelKingMode | null;
+  readinessScore: number;
+  duelRiskScore: number;
+  riskLevel: RiskLevel;
+  fighterProgressionScore: number;
+  gearCleared: boolean;
+  requiredGear: DuelKingGearRequirement[];
+  tournamentState: DuelKingTournamentState | null;
+  bracketStatus: DuelKingBracketStatus;
+  degraded: boolean;
+  degradedMode: 'partial-payload-no-500' | null;
+  valid: boolean;
+  warnings: string[];
+  recommendation: string;
+  durationMs: number;
+}
+
+export interface DuelKingHealthReport {
+  personaId: string;
+  contractVersion: string;
+  moduleVersion: string;
+  sourceOfTruth: string;
+  evaluations: number;
+  lastReadinessScore: number;
+  lastDuelRiskScore: number;
+  lastTournamentState: DuelKingTournamentState | null;
+  performanceMaxMs: number;
+  apiResponseMaxMs: number;
 }
 
 // ─── Event Engine ────────────────────────────────────────────────────────────
@@ -259,6 +322,7 @@ export interface ExtrimliAggregateSignals {
   sourceOfTruth: '/api/extrimli/health';
   readinessSignal: number;
   safetySignal: number;
+  duelKingReadinessSignal: number;
   degradationSignal: number;
 }
 
@@ -273,6 +337,10 @@ export interface ExtrimliHealthReport {
   previewEvaluations: number;
   lastDestructionSeverityScore: number;
   lastDestructionSeverityLevel: DestructionSeverityLevel;
+  duelKingEvaluations: number;
+  lastDuelKingReadinessScore: number;
+  lastDuelKingRiskScore: number;
+  lastDuelKingTournamentState: DuelKingTournamentState | null;
   performanceMaxMs: number;
   apiResponseMaxMs: number;
 }

@@ -10,6 +10,7 @@ This repository now exposes five aligned surfaces:
 |---|---|---|---|
 | **v1** | `src/lib/extrimli/`, `src/app/api/extrimli/` | Active | Existing baseline registry, risk, gear, performance, event, and weather APIs |
 | **v3** | `src/lib/extrimli-3/`, `src/app/api/extrimli-3/` | Active | Versioned expansion with sport-specific risk profiles, weather-integrated scoring, and athlete readiness signals |
+| **DUEL KING** | `src/lib/extrimli-duel-king/`, `src/app/api/extrimli/duel-king/` | Active | Competitive-combat capability for duel risk, readiness, gear clearance, and tournament posture |
 | **EXTRIMLI CUZ** | `src/lib/extrimli-cuz/`, `src/app/api/extrimli-cuz/` | Active | Community, mentorship, feed, and reputation surface used by Extendol and KORON |
 | **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ + KORON |
 | **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
@@ -32,9 +33,11 @@ This repository now exposes five aligned surfaces:
 | EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
 | v3 library | `src/lib/extrimli-3/` |
 | v3 API routes | `src/app/api/extrimli-3/` |
+| DUEL KING library | `src/lib/extrimli-duel-king/` |
+| DUEL KING API route | `src/app/api/extrimli/duel-king/` |
 | EXTRIMLI CUZ library | `src/lib/extrimli-cuz/` |
 | EXTRIMLI CUZ API routes | `src/app/api/extrimli-cuz/` |
-| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-koron.test.ts`, `src/tests/lib/extrimli-extrondend.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
+| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-duel-king.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-koron.test.ts`, `src/tests/lib/extrimli-extrondend.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
 
 ## External GitHub surface
 
@@ -47,6 +50,7 @@ This repository now exposes five aligned surfaces:
 | Downstream references | `docs/MULTI-REPO-LINKS.md` |
 | KORON overlay source | `src/lib/extrimli-koron/index.ts`, `src/app/api/extrimli/koron/route.ts` |
 | Export layer | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/route.ts` |
+| DUEL KING source | `src/lib/extrimli-duel-king/index.ts`, `src/app/api/extrimli/duel-king/route.ts` |
 
 This surface formalizes EXTRIMLI as a GitHub-oriented external capability for Digitalna Industrija while keeping the sports/risk runtime separate from audit, workflow, sync, and release governance concerns.
 
@@ -69,6 +73,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
 - Quality gate: `.github/workflows/extrimli-validator.yml`
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
+- DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
 
 
 ## Scope and naming lock (EXTRIMLI, EXTRONDEND, EXTRONDOL)
@@ -87,12 +92,13 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Athlete performance tracker
 - Gear catalog
 - Event lifecycle and registration
+- DUEL KING competitive-combat readiness, gear clearance, and tournament posture
 - Weather adapter
 - Health report
 
 ## EXTRIMLI Extendol unified contract (maximum functionality for all)
 
-Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3, EXTRIMLI CUZ i KORON u jedan kanonski integracioni sloj.
+Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3, DUEL KING, EXTRIMLI CUZ i KORON u jedan kanonski integracioni sloj.
 
 - Source of truth endpoint: `/api/extrimli/extendol`
 - Contract constants:
@@ -109,15 +115,16 @@ Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3, EXTRIMLI CUZ i KORON u jedan kano
    - event lifecycle i registration
    - destruction safety flows
    - athlete progress/readiness
+   - DUEL KING readiness / tournament posture
    - community reputation/mentorship
    - KORON readiness overlay i sync coverage
 3. KPI targeti ostaju ≤ 50ms evaluacija i ≤ 200ms API response.
-4. Unified readiness score koristi realne signale iz v1/v3/CUZ/KORON health surface-a.
+4. Unified readiness score koristi realne signale iz v1/v3/DUEL KING/CUZ/KORON health surface-a.
 5. Fallback vraća degradirani odgovor umesto HTTP 500.
 
 ## EXTRIMLI KORON overlay
 
-KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojećim v1, v3 i CUZ surface-ovima i objavljuje status za Extendol i downstream GitHub governance.
+KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojećim v1, v3, DUEL KING i CUZ surface-ovima i objavljuje status za Extendol i downstream GitHub governance.
 
 - Source of truth endpoint: `/api/extrimli/koron`
 - Contract constants:
@@ -132,6 +139,30 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `syncCoverageScore`
   - `degradedSources`
 - Degraded policy: `partial-payload-no-500`
+
+## DUEL KING dedicated contract
+
+- Source of truth endpoint: `/api/extrimli/duel-king`
+- Contract constants:
+  - `EXTRIMLI_DUEL_KING_CONTRACT_VERSION = v1-duel-king`
+  - `EXTRIMLI_DUEL_KING_MODULE_VERSION = 1.0.0`
+- Degraded policy: `partial-payload-no-500`
+- Mandatory payload:
+  - `duelMode`
+  - `duelRiskScore`
+  - `readinessScore`
+  - `fighterProgressionScore`
+  - `gearCleared`
+  - `requiredGear`
+  - `tournamentState`
+  - `bracketStatus`
+
+### Acceptance criteria (DUEL KING)
+
+1. DUEL KING ostaje dedicated EXTRIMLI capability sa sopstvenim versioned contract-om.
+2. DUEL mode, readiness, gear clearance i tournament posture ostaju deterministički i bounded.
+3. Missing partial signals vraćaju degradirani odgovor umesto HTTP 500.
+4. KPI targeti ostaju ≤ 50ms evaluacija i ≤ 200ms API response.
 
 
 ## EXTRONDEND aggregation contract
@@ -172,6 +203,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 
 - MAKSIMUS koristi `/api/extrimli/extendol` signal kao domen `EXTRIMLI Extended`.
 - KORON status i degraded izvori moraju ostati prisutni u Extendol payload-u koji MAKSIMUS koristi.
+- DUEL KING readiness signal može biti prisutan kroz EXTRIMLI health, Extendol i KORON payload kada competitive-combat surface utiče na agregat.
 - MAKSIMUS preporuke moraju uključiti EXTRIMLI degradaciju kada postoji.
 - Integration gate pokriva oba workflow-a: `extrimli-validator` i `maksimus-validator`.
 

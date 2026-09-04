@@ -9,7 +9,9 @@ import { GET as getExtendol } from '../../app/api/extrimli/extendol/route';
 import { GET as getKoron } from '../../app/api/extrimli/koron/route';
 import { GET as getExtrondend } from '../../app/api/extrimli/extrondend/route';
 import { GET as getExtrondol } from '../../app/api/extrimli/extrondol/route';
+import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli/duel-king/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
+import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
 
 let passed = 0;
 let failed = 0;
@@ -47,6 +49,7 @@ function makeGetRequest(url: string): NextRequest {
 
 async function runTests(): Promise<void> {
   _resetDestructionMetrics();
+  _resetDuelKingMetrics();
 
   console.log('\n🔗 [extrimli] route tests\n');
 
@@ -114,6 +117,18 @@ async function runTests(): Promise<void> {
     assert(body.data.sourceOfTruth === '/api/extrimli/koron', 'unexpected KORON sourceOfTruth');
     assert(['ACTIVE', 'WATCH', 'DEGRADED'].includes(body.data.status), 'unexpected KORON status');
     assert(body.data.readinessScore >= 0 && body.data.readinessScore <= 100, 'unexpected KORON readiness score');
+  });
+
+  await test('GET /api/extrimli/duel-king returns DUEL KING report and headers', async () => {
+    const response = await getDuelKing();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Duel-King-Contract-Version') === 'v1-duel-king', 'missing DUEL KING contract header');
+
+    const body = await response.json() as {
+      data: { sourceOfTruth: string; personaId: string };
+    };
+    assert(body.data.sourceOfTruth === '/api/extrimli/duel-king', 'unexpected DUEL KING sourceOfTruth');
+    assert(body.data.personaId === 'extrimli-duel-king', 'unexpected DUEL KING persona');
   });
 
   await test('GET /api/extrimli/destruction/assets supports filtering', async () => {
@@ -208,6 +223,101 @@ async function runTests(): Promise<void> {
     }) as unknown as NextRequest;
 
     const response = await postDestruction(request);
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/extrimli/duel-king returns 200 for valid payload', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Duel-King-Contract-Version') === 'v1-duel-king', 'missing DUEL KING contract header');
+    const body = await response.json() as { data: { valid: boolean; bracketStatus: string; degraded: boolean } };
+    assert(body.data.valid === true, 'expected valid DUEL KING response');
+    assert(body.data.bracketStatus === 'READY', `unexpected bracketStatus: ${body.data.bracketStatus}`);
+    assert(body.data.degraded === false, 'valid payload should not be degraded');
+  });
+
+  await test('POST /api/extrimli/duel-king returns degraded 200 when partial signals are missing', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'TACTICAL',
+      fighterExperience: 7,
+      opponentTier: 6,
+      arenaHazard: 5,
+      staminaReserve: 7,
+      gearQualityIndex: 8,
+      reactionTimeMs: 240,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Degraded') === 'true', 'expected degraded header');
+    const body = await response.json() as { data: { valid: boolean; degraded: boolean; tournamentState: string } };
+    assert(body.data.valid === true, 'partial DUEL KING response should stay valid');
+    assert(body.data.degraded === true, 'partial DUEL KING response should be degraded');
+    assert(body.data.tournamentState === 'DEGRADED', `unexpected tournamentState: ${body.data.tournamentState}`);
+  });
+
+  await test('POST /api/extrimli/duel-king returns 422 for unknown duel mode', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'BOSS',
+      fighterExperience: 7,
+      opponentTier: 6,
+      arenaHazard: 5,
+      staminaReserve: 7,
+      gearQualityIndex: 8,
+      reactionTimeMs: 240,
+    }));
+
+    assert(response.status === 422, `expected 422, got ${response.status}`);
+    const body = await response.json() as { data: { valid: boolean } };
+    assert(body.data.valid === false, 'unknown duel mode must be invalid');
+  });
+
+  await test('POST /api/extrimli/duel-king returns 422 for non-finite payload values', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'SURVIVAL',
+      fighterExperience: 7,
+      opponentTier: 'NaN',
+      arenaHazard: 5,
+      staminaReserve: 7,
+      gearQualityIndex: 8,
+      reactionTimeMs: 240,
+    }));
+
+    assert(response.status === 422, `expected 422, got ${response.status}`);
+  });
+
+  await test('POST /api/extrimli/duel-king returns 400 for missing required fields', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/extrimli/duel-king returns 400 for invalid JSON', async () => {
+    const request = new Request('http://localhost/api/extrimli/duel-king', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'INVALID JSON {{{',
+    }) as unknown as NextRequest;
+
+    const response = await postDuelKing(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 

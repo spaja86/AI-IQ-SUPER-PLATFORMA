@@ -51,6 +51,7 @@ async function runTests(): Promise<void> {
     const report = getExtrimliKoronHealthReport();
     assert(report.surfaces.v1.contractVersion === 'v1', 'expected v1 surface');
     assert(report.surfaces.v3.contractVersion === 'v3', 'expected v3 surface');
+    assert(report.surfaces.duelKing.contractVersion === 'v1-duel-king', 'expected DUEL KING surface');
     assert(report.surfaces.cuz.contractVersion === 'v1', 'expected CUZ surface');
   });
 

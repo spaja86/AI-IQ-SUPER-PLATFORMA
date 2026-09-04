@@ -45,6 +45,7 @@ async function runTests(): Promise<void> {
     assert(report.coverage.eventLifecycleAndRegistration, 'eventLifecycleAndRegistration must be covered');
     assert(report.coverage.destructionSafetyFlows, 'destructionSafetyFlows must be covered');
     assert(report.coverage.athleteProgressAndReadiness, 'athleteProgressAndReadiness must be covered');
+    assert(report.coverage.duelKingCompetition, 'duelKingCompetition must be covered');
     assert(report.coverage.communityReputationAndMentorship, 'communityReputationAndMentorship must be covered');
     assert(report.coverage.koronReadinessOverlay, 'koronReadinessOverlay must be covered');
   });
@@ -57,10 +58,11 @@ async function runTests(): Promise<void> {
     assert(report.statement.includes('MAKSIMUM FOR ALL'), 'statement must include maximum-for-all contract intent');
   });
 
-  await test('report includes all four EXTRIMLI surfaces', () => {
+  await test('report includes DUEL KING and all upstream EXTRIMLI surfaces', () => {
     const report = getExtrimliExtendolReport();
     assert(report.surfaces.v1.contractVersion === 'v1', 'v1 contract mismatch');
     assert(report.surfaces.v3.contractVersion === 'v3', 'v3 contract mismatch');
+    assert(report.surfaces.duelKing.contractVersion === 'v1-duel-king', 'duelKing contract mismatch');
     assert(report.surfaces.cuz.contractVersion === 'v1', 'cuz contract mismatch');
     assert(report.surfaces.koron.contractVersion === 'v1-koron', 'koron contract mismatch');
     assert(report.surfaces.koron.sourceOfTruth === '/api/extrimli/koron', 'koron source of truth mismatch');

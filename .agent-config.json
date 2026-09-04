@@ -463,6 +463,8 @@
         "extrimli",
         "extrimli:logic-change",
         "extrimli:external-github",
+        "duel-king",
+        "duel-king:logic-change",
         "extrondend",
         "extrondend:logic-change",
         "extrondol",
@@ -487,13 +489,14 @@
         "buildDurationMaxMin": 3
       },
       "testSuite": "src/tests/lib/extrimli.test.ts",
+      "duelKingTestSuite": "src/tests/lib/extrimli-duel-king.test.ts",
       "extendolTestSuite": "src/tests/lib/extrimli-extendol.test.ts",
       "koronTestSuite": "src/tests/lib/extrimli-koron.test.ts",
       "extrondendTestSuite": "src/tests/lib/extrimli-extrondend.test.ts",
       "extrondolTestSuite": "src/tests/lib/extrimli-extrondol.test.ts",
       "routeTestSuite": "src/tests/api/extrimli-route.test.ts",
       "exportTestSuite": "src/tests/lib/extrimli-instrukcija.test.ts",
-      "scope": "src/lib/extrimli/**,src/lib/extrimli-extendol/**,src/lib/extrimli-koron/**,src/lib/extrimli-extrondend/**,src/lib/extrimli-extrondol/**,src/lib/extrimli-3/**,src/lib/extrimli-cuz/**,src/app/api/extrimli/**,src/app/api/extrimli/extrondend/**,src/app/api/extrimli/extrondol/**,src/app/api/extrimli-3/**,src/app/api/extrimli-cuz/**,src/components/extrimli/**,src/components/extrimli-cuz/**",
+      "scope": "src/lib/extrimli/**,src/lib/extrimli-extendol/**,src/lib/extrimli-koron/**,src/lib/extrimli-extrondend/**,src/lib/extrimli-extrondol/**,src/lib/extrimli-duel-king/**,src/lib/extrimli-3/**,src/lib/extrimli-cuz/**,src/app/api/extrimli/**,src/app/api/extrimli/duel-king/**,src/app/api/extrimli/extrondend/**,src/app/api/extrimli/extrondol/**,src/app/api/extrimli-3/**,src/app/api/extrimli-cuz/**,src/components/extrimli/**,src/components/extrimli-cuz/**",
       "githubSurface": {
         "workflow": ".github/workflows/extrimli-external-github.yml",
         "qualityGate": ".github/workflows/extrimli-validator.yml",
@@ -507,6 +510,8 @@
           "extrimli",
           "extrimli:logic-change",
           "extrimli:external-github",
+          "duel-king",
+          "duel-king:logic-change",
           "extrondend:logic-change",
           "extrondol:logic-change",
           "agent:config-change"

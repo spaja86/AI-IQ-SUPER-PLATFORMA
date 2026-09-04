@@ -1,6 +1,7 @@
 import type { Extrimli3HealthReport } from '../extrimli-3';
 import type { CuzHealthReport } from '../extrimli-cuz';
 import type { ExtrimliHealthReport } from '../extrimli';
+import type { DuelKingHealthReport } from '../extrimli-duel-king';
 
 export type ExtrimliKoronStatus = 'ACTIVE' | 'WATCH' | 'DEGRADED';
 
@@ -24,6 +25,7 @@ export interface ExtrimliKoronHealthReport {
   surfaces: {
     v1: ExtrimliHealthReport;
     v3: Extrimli3HealthReport;
+    duelKing: DuelKingHealthReport;
     cuz: CuzHealthReport;
   };
 }

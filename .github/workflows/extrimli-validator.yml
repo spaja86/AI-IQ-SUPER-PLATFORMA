@@ -8,8 +8,10 @@ on:
       - 'src/lib/extrimli-koron/**'
       - 'src/lib/extrimli-extrondend/**'
       - 'src/lib/extrimli-extrondol/**'
+      - 'src/lib/extrimli-duel-king/**'
       - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
+      - 'src/app/api/extrimli/duel-king/**'
       - 'src/app/api/extrimli-3/**'
       - 'src/app/api/extrimli/extrondend/**'
       - 'src/app/api/extrimli/extrondol/**'
@@ -18,6 +20,7 @@ on:
       - 'src/lib/extrimli/export-bundle.ts'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli.test.ts'
+      - 'src/tests/lib/extrimli-duel-king.test.ts'
       - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-koron.test.ts'
       - 'src/tests/lib/extrimli-extrondend.test.ts'
@@ -40,8 +43,10 @@ on:
       - 'src/lib/extrimli-koron/**'
       - 'src/lib/extrimli-extrondend/**'
       - 'src/lib/extrimli-extrondol/**'
+      - 'src/lib/extrimli-duel-king/**'
       - 'src/lib/extrimli-3/**'
       - 'src/app/api/extrimli/**'
+      - 'src/app/api/extrimli/duel-king/**'
       - 'src/app/api/extrimli-3/**'
       - 'src/app/api/extrimli/extrondend/**'
       - 'src/app/api/extrimli/extrondol/**'
@@ -50,6 +55,7 @@ on:
       - 'src/lib/extrimli/export-bundle.ts'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli.test.ts'
+      - 'src/tests/lib/extrimli-duel-king.test.ts'
       - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-koron.test.ts'
       - 'src/tests/lib/extrimli-extrondend.test.ts'
@@ -83,14 +89,17 @@ jobs:
         src/lib/extrimli-koron
         src/lib/extrimli-extrondend
         src/lib/extrimli-extrondol
+        src/lib/extrimli-duel-king
         src/lib/extrimli-3
         src/app/api/extrimli
+        src/app/api/extrimli/duel-king
         src/app/api/extrimli-3
         src/app/api/extrimli/extrondend
         src/app/api/extrimli/extrondol
         src/components/extrimli
       test_commands: |
         npx tsx src/tests/lib/extrimli.test.ts
+        npx tsx src/tests/lib/extrimli-duel-king.test.ts
         npx tsx src/tests/lib/extrimli-extendol.test.ts
         npx tsx src/tests/lib/extrimli-koron.test.ts
         npx tsx src/tests/lib/extrimli-extrondend.test.ts
@@ -104,8 +113,10 @@ jobs:
         src/lib/extrimli-koron
         src/lib/extrimli-extrondend
         src/lib/extrimli-extrondol
+        src/lib/extrimli-duel-king
         src/lib/extrimli-3
         src/app/api/extrimli
+        src/app/api/extrimli/duel-king
         src/app/api/extrimli-3
         src/app/api/extrimli/extrondend
         src/app/api/extrimli/extrondol
