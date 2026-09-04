@@ -13,7 +13,14 @@ import { apiExtrimliDegradedResponse, setExtrimliSurfaceHeaders } from '@/app/ap
 export const dynamic = 'force-dynamic';
 
 const GEAR_CATEGORIES = new Set(EXTRIMLI_GEAR_CATEGORIES);
-const toFiniteNumberOrNaN = (value: unknown): number => (typeof value === 'number' && Number.isFinite(value) ? value : NaN);
+const toFiniteNumberOrNaN = (value: unknown): number => {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return NaN;
+};
 
 export async function GET() {
   try {
