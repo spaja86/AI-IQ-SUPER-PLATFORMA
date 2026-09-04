@@ -148,9 +148,9 @@ function evaluateKurGameSignal(input: DuelKingKurGameSignalInput | undefined): D
     2,
   );
   const impactScore = round(clamp((progressionSignal - 50) * 0.16, -MAX_KUR_IMPACT_SCORE, MAX_KUR_IMPACT_SCORE), 2);
-  const status: DuelKingKurSignalStatus = kurResult.reason === 'blocked-status'
+  const status: DuelKingKurSignalStatus = kurResult.completed && kurResult.reason === 'completed'
     ? 'LIVE'
-    : (kurResult.completed && kurResult.reason === 'completed' ? 'LIVE' : 'DEGRADED');
+    : 'DEGRADED';
   if (status === 'DEGRADED') {
     warnings.push(`KUR signal entered degraded mode because petlja finished with reason=${kurResult.reason}.`);
   }
