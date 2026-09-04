@@ -9,6 +9,7 @@ export type EkzistDomain =
   | 'AUTONOMY'
   | 'LEGACY'
   | 'TRANSCENDENCE'
+  | 'DURBULE'
   | 'GROWTH';
 
 export type EkzistTier = 'GROUNDED' | 'SEARCHING' | 'AWAKENING' | 'ALIGNED' | 'PEAK';
@@ -65,6 +66,7 @@ export const EKZIST_ALLOWED_DOMAINS: EkzistDomain[] = [
   'AUTONOMY',
   'LEGACY',
   'TRANSCENDENCE',
+  'DURBULE',
   'GROWTH',
 ];
 export const EKZIST_ALLOWED_AGE_GROUPS: EkzistAgeGroup[] = [

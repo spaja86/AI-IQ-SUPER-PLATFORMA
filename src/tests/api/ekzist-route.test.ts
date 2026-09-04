@@ -127,6 +127,24 @@ async function runTests(): Promise<void> {
     assert(response.headers.get(EKZIST_HEADERS.DOMAIN) !== null, 'X-Ekzist-Domain header missing');
   });
 
+  await test('POST /api/ekzist/evaluate accepts DURBULE domain and returns it when dominant', async () => {
+    const response = await POST(makeEvaluateRequest({
+      referenceId: 'durbule-route-test',
+      domains: [
+        { domain: 'DURBULE', score: 99 },
+        { domain: 'MEANING', score: 55 },
+      ],
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get(EKZIST_HEADERS.DOMAIN) === 'DURBULE', 'expected X-Ekzist-Domain to be DURBULE');
+    assert(response.headers.get(EKZIST_HEADERS.VALID) === 'true', 'expected valid header to remain true');
+
+    const body = await response.json() as { data: { dominantVector: string; valid: boolean } };
+    assert(body.data.valid === true, 'result should be valid');
+    assert(body.data.dominantVector === 'DURBULE', `expected DURBULE, got ${body.data.dominantVector}`);
+  });
+
   await test('POST /api/ekzist/evaluate returns 400 for invalid JSON', async () => {
     const req = new Request('http://localhost/api/ekzist/evaluate', {
       method: 'POST',

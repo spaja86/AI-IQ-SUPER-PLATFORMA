@@ -37,7 +37,7 @@ EKZIST is the canonical module name for existential profiling in this repository
 
 - `referenceId` — optional string
 - `domains` — required non-empty array of `{ domain, score }`
-  - `domain` must be one of: `MEANING | PURPOSE | IDENTITY | CONNECTION | AUTONOMY | LEGACY | TRANSCENDENCE | GROWTH`
+  - `domain` must be one of: `MEANING | PURPOSE | IDENTITY | CONNECTION | AUTONOMY | LEGACY | TRANSCENDENCE | DURBULE | GROWTH`
   - `score` must be finite and in `0..100`
   - each domain can appear only once
 - `lifePressures` — optional string array
@@ -47,6 +47,7 @@ EKZIST is the canonical module name for existential profiling in this repository
 ## Output model
 
 - `dominantVector`, `tier`, `balanceScore`, `dimensionScores`
+- `dominantVector` can be any supported domain, including `DURBULE`
 - `recommendations` and `warnings`
 - `disclaimer` (always present for valid and invalid outcomes)
 - `valid`, `durationMs`
