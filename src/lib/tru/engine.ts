@@ -145,7 +145,6 @@ function resolveRecommendedAction(input: TruInput, status: TruStatus): TruResult
 }
 
 function resolveRecommendedReviewHours(
-  input: TruInput,
   action: TruResult['recommendedAction'],
   status: TruStatus,
 ): number {
@@ -267,7 +266,7 @@ export function evaluateTru(input: TruInput): TruResult {
 
   const status = resolveStatus(input, overallScore);
   const recommendedAction = resolveRecommendedAction(input, status);
-  const recommendedReviewHours = resolveRecommendedReviewHours(input, recommendedAction, status);
+  const recommendedReviewHours = resolveRecommendedReviewHours(recommendedAction, status);
   const warnings = buildWarnings(input, status, pressureScore);
 
   recordEvaluation(status);
