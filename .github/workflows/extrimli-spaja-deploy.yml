@@ -410,9 +410,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     needs: staging
+    outputs:
+      canonical_domain: ${{ steps.domain_strategy.outputs.canonical_domain }}
+      wildcard_domain: ${{ steps.domain_strategy.outputs.wildcard_domain }}
 
     steps:
       - name: 🌐 Validate canonical domain strategy
+        id: domain_strategy
         run: |
           CANONICAL_DOMAIN="${{ github.event.inputs.canonical_domain }}"
           WILDCARD_DOMAIN="${{ github.event.inputs.wildcard_domain }}"
@@ -467,6 +471,8 @@ jobs:
           echo "- wildcard_domain: \`$WILDCARD_DOMAIN\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- DNS policy: wildcard samo kao leva labela (\`*.domen\`)" >> "$GITHUB_STEP_SUMMARY"
           echo "- TLS policy: Vercel managed certificate za apex + wildcard" >> "$GITHUB_STEP_SUMMARY"
+          echo "canonical_domain=$CANONICAL_DOMAIN" >> "$GITHUB_OUTPUT"
+          echo "wildcard_domain=$WILDCARD_DOMAIN" >> "$GITHUB_OUTPUT"
 
       - name: 🔒 Validate production confirmation token
         run: |
@@ -499,8 +505,8 @@ jobs:
           echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Environment** | \`${{ github.event.inputs.environment || 'auto (push)' }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Run ID** | \`${{ github.run_id }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Canonical domain** | \`${{ github.event.inputs.canonical_domain || 'spaja.nivo-spaja' }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Wildcard domain** | \`${{ github.event.inputs.wildcard_domain || '*.spaja.nivo-spaja' }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Canonical domain** | \`${{ needs.production_gate.outputs.canonical_domain }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Wildcard domain** | \`${{ needs.production_gate.outputs.wildcard_domain }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Quality gates** | \`type-check, lint, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Deploy mode** | \`Vercel Git integracija (primarni)\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Rollback** | \`Vercel Dashboard → Promote (< 60s)\` |" >> "$GITHUB_STEP_SUMMARY"
