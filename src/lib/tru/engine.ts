@@ -186,7 +186,7 @@ function buildWarnings(input: TruInput, status: TruStatus, pressureScore: number
   }
 
   if (status === 'BLOCK' && pressureScore < 35) {
-    warnings.push('Pressure signals are too weak to proceed without remediation.');
+    warnings.push('Pressure is too high and resilience is too low to proceed without remediation.');
   }
 
   return warnings;
