@@ -113,6 +113,7 @@ export interface GearCatalogEntry extends GearItem {
 export type DuelKingMode = 'ARENA' | 'TACTICAL' | 'SURVIVAL';
 export type DuelKingTournamentState = 'OPEN' | 'LOCKED' | 'ACTIVE' | 'COMPLETED' | 'DEGRADED';
 export type DuelKingBracketStatus = 'READY' | 'HOLD' | 'DEGRADED';
+export type DuelKingTelemetryStatus = 'BASELINE' | 'LIVE';
 
 export interface DuelKingGearRequirement {
   category: GearCategory;
@@ -162,6 +163,7 @@ export interface DuelKingHealthReport {
   contractVersion: string;
   moduleVersion: string;
   sourceOfTruth: string;
+  telemetryStatus: DuelKingTelemetryStatus;
   evaluations: number;
   lastReadinessScore: number;
   lastDuelRiskScore: number;

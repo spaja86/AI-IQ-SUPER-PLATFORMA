@@ -58,24 +58,14 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
 
   const v1Safety = clamp(v1Signals.safetySignal, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
-  const duelKingReadiness = duelKing.evaluations > 0 ? clamp(duelKing.lastReadinessScore, 0, 100) : 0;
-  const baselineWeightedSurfaceHealth = (
-    v1Safety * 0.20
-    + v3Readiness * 0.20
-    + extendol.unifiedReadinessScore * 0.35
-    + koron.readinessScore * 0.25
-  );
+  const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
   const weightedSurfaceHealth = round(
     clamp(
-      duelKing.evaluations > 0
-        ? (
-          v1Safety * EXTRONDEND_WEIGHTS.v1Safety
-          + v3Readiness * EXTRONDEND_WEIGHTS.v3Readiness
-          + duelKingReadiness * EXTRONDEND_WEIGHTS.duelKingReadiness
-          + extendol.unifiedReadinessScore * EXTRONDEND_WEIGHTS.extendolReadiness
-          + koron.readinessScore * EXTRONDEND_WEIGHTS.koronReadiness
-        )
-        : baselineWeightedSurfaceHealth,
+      v1Safety * EXTRONDEND_WEIGHTS.v1Safety
+      + v3Readiness * EXTRONDEND_WEIGHTS.v3Readiness
+      + duelKingReadiness * EXTRONDEND_WEIGHTS.duelKingReadiness
+      + extendol.unifiedReadinessScore * EXTRONDEND_WEIGHTS.extendolReadiness
+      + koron.readinessScore * EXTRONDEND_WEIGHTS.koronReadiness,
       0,
       100,
     ),

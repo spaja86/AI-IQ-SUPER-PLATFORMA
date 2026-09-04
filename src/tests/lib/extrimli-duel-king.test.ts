@@ -41,6 +41,12 @@ async function runTests(): Promise<void> {
     assert(EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH === '/api/extrimli/duel-king', `unexpected source: ${EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH}`);
   });
 
+  await test('fresh health report exposes baseline telemetry state', () => {
+    const report = getDuelKingHealthReport();
+    assert(report.telemetryStatus === 'BASELINE', `unexpected telemetryStatus: ${report.telemetryStatus}`);
+    assert(report.lastReadinessScore === 50, `expected neutral readiness baseline, got ${report.lastReadinessScore}`);
+  });
+
   await test('valid arena duel returns ready posture', () => {
     const result = evaluateDuelKing({
       sportId: 'duel-king',
@@ -153,6 +159,7 @@ async function runTests(): Promise<void> {
     assert(report.evaluations === 1, `expected 1 evaluation, got ${report.evaluations}`);
     assert(report.lastTournamentState === 'ACTIVE', `unexpected tournament state: ${report.lastTournamentState}`);
     assert(report.lastReadinessScore >= 0 && report.lastReadinessScore <= 100, 'readiness score must be bounded');
+    assert(report.telemetryStatus === 'LIVE', 'telemetryStatus should switch to LIVE after evaluation');
   });
 
   await test('invalid evaluation updates health telemetry conservatively', () => {

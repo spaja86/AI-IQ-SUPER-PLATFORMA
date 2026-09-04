@@ -84,6 +84,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 
 - module health/status snapshot
 - DUEL KING readiness/tournament snapshot
+  - includes `telemetryStatus` to distinguish baseline vs live duel telemetry
 - extendol unified health/readiness snapshot
 - KORON overlay health/readiness snapshot
 - EXTRONDEND aggregation snapshot

@@ -148,6 +148,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRIMLI_DUEL_KING_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
 - Mandatory payload:
+  - `telemetryStatus`
   - `duelMode`
   - `duelRiskScore`
   - `readinessScore`

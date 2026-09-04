@@ -3,6 +3,7 @@ import type {
   DuelKingInput,
   DuelKingMode,
   DuelKingResult,
+  DuelKingTelemetryStatus,
   DuelKingTournamentState,
   RiskLevel,
 } from '../extrimli/types';
@@ -46,8 +47,9 @@ const RISK_LEVEL_THRESHOLDS: { level: RiskLevel; min: number }[] = [
 ];
 
 let evaluations = 0;
-let lastReadinessScore = 0;
-let lastDuelRiskScore = 0;
+let telemetryStatus: DuelKingTelemetryStatus = 'BASELINE';
+let lastReadinessScore = 50;
+let lastDuelRiskScore = 50;
 let lastTournamentState: DuelKingTournamentState | null = null;
 
 function resolveRiskLevel(score: number): RiskLevel {
@@ -64,6 +66,7 @@ function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement
 
 function invalidResult(input: Partial<DuelKingInput>, warning: string, start: number): DuelKingResult {
   evaluations += 1;
+  telemetryStatus = 'LIVE';
   lastReadinessScore = 0;
   lastDuelRiskScore = 0;
   lastTournamentState = DUEL_KING_TOURNAMENT_STATES.includes(input.tournamentState as DuelKingTournamentState)
@@ -201,6 +204,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
         : 'HOLD';
 
   evaluations += 1;
+  telemetryStatus = 'LIVE';
   lastReadinessScore = readinessScore;
   lastDuelRiskScore = duelRiskScore;
   lastTournamentState = tournamentState;
@@ -237,6 +241,7 @@ export function getDuelKingHealthReport(): DuelKingHealthReport {
     contractVersion: EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
     moduleVersion: EXTRIMLI_DUEL_KING_MODULE_VERSION,
     sourceOfTruth: EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH,
+    telemetryStatus,
     evaluations,
     lastReadinessScore,
     lastDuelRiskScore,
@@ -248,8 +253,9 @@ export function getDuelKingHealthReport(): DuelKingHealthReport {
 
 export function _resetDuelKingMetrics(): void {
   evaluations = 0;
-  lastReadinessScore = 0;
-  lastDuelRiskScore = 0;
+  telemetryStatus = 'BASELINE';
+  lastReadinessScore = 50;
+  lastDuelRiskScore = 50;
   lastTournamentState = null;
 }
 
