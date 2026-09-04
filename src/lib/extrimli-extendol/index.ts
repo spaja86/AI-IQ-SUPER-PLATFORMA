@@ -8,7 +8,7 @@ import {
 import { getExtrimli3HealthReport } from '../extrimli-3';
 import { getCuzHealthReport } from '../extrimli-cuz';
 import { getDuelKingHealthReport } from '../extrimli-duel-king';
-import { getExtrimliKoronHealthReport } from '../extrimli-koron';
+import { buildExtrimliKoronHealthReport } from '../extrimli-koron/core';
 import type {
   ExtrimliExtendolAcceptanceCriterion,
   ExtrimliExtendolCoverage,
@@ -48,7 +48,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v3 = getExtrimli3HealthReport();
   const cuz = getCuzHealthReport();
   const duelKing = getDuelKingHealthReport();
-  const koron = getExtrimliKoronHealthReport();
+  const koron = buildExtrimliKoronHealthReport();
 
   const coverage = buildCoverage();
   const coveragePassed = Object.values(coverage).every(Boolean);

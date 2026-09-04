@@ -63,6 +63,12 @@ function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement
 }
 
 function invalidResult(input: Partial<DuelKingInput>, warning: string, start: number): DuelKingResult {
+  evaluations += 1;
+  lastReadinessScore = 0;
+  lastDuelRiskScore = 0;
+  lastTournamentState = DUEL_KING_TOURNAMENT_STATES.includes(input.tournamentState as DuelKingTournamentState)
+    ? (input.tournamentState as DuelKingTournamentState)
+    : null;
   return {
     referenceId: input.referenceId ?? 'n/a',
     sportId: 'duel-king',
