@@ -82,8 +82,7 @@ export async function POST(req: NextRequest) {
       ? apiSuccess(result, 200)
       : apiUnprocessableEntity('TRU evaluation input failed domain validation', {
         validation: {
-          valid: result.valid,
-          warnings: result.warnings,
+          ...result,
         },
       });
     setTruHeaders(response, result);

@@ -69,7 +69,7 @@ function recordEvaluation(status: TruStatus | null): void {
 function invalidResult(referenceId: string | undefined, warning: string, start: number): TruResult {
   recordEvaluation(null);
   return {
-    referenceId: referenceId ?? 'n/a',
+    referenceId: 'n/a',
     objective: null,
     channel: null,
     evidenceLevel: null,
