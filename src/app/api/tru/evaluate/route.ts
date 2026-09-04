@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
           evidenceLevel: result.evidenceLevel,
           status: result.status,
           recommendedAction: result.recommendedAction,
-          reason: 'DOMAIN_VALIDATION_FAILED',
+          reason: result.warnings[0] ?? 'DOMAIN_VALIDATION_FAILED',
         },
       });
     setTruHeaders(response, result);
