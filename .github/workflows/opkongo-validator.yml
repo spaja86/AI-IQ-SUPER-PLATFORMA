@@ -1,0 +1,48 @@
+name: OPKONGO — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/opkongo/**'
+      - 'src/app/api/opkongo/**'
+      - 'src/tests/lib/opkongo.test.ts'
+      - 'src/tests/api/opkongo-route.test.ts'
+      - 'docs/OPKONGO.md'
+      - '.github/workflows/opkongo-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/opkongo/**'
+      - 'src/app/api/opkongo/**'
+      - 'src/tests/lib/opkongo.test.ts'
+      - 'src/tests/api/opkongo-route.test.ts'
+      - 'docs/OPKONGO.md'
+      - '.github/workflows/opkongo-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: opkongo-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: opkongo
+      lint_paths: >-
+        src/lib/opkongo
+        src/app/api/opkongo
+      test_commands: |
+        npx tsx src/tests/lib/opkongo.test.ts
+        npx tsx src/tests/api/opkongo-route.test.ts
+      scan_paths: >-
+        src/lib/opkongo
+        src/app/api/opkongo
+      label: opkongo
+      perf_eval_ms: 50
+      perf_api_ms: 200
