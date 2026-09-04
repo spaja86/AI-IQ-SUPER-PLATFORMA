@@ -85,7 +85,13 @@ let lastTournamentState: DuelKingTournamentState | null = null;
 const MAX_KUR_IMPACT_SCORE = 8;
 const MAX_DUR_IMPACT_SCORE = 6;
 const MAX_MOL_IMPACT_SCORE = 5;
-const DUEL_KING_IN_GAME_SIGNAL_WEIGHTS = {
+export interface DuelKingCompositeReadinessWeights {
+  kur: number;
+  dur: number;
+  mol: number;
+}
+
+export const DUEL_KING_COMPOSITE_READINESS_WEIGHTS: DuelKingCompositeReadinessWeights = {
   kur: 0.20,
   dur: 0.15,
   mol: 0.10,
@@ -106,7 +112,10 @@ function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement
   return DUEL_KING_GEAR_REQUIREMENTS[mode].map((item) => ({ ...item }));
 }
 
-export function computeDuelKingCompositeReadiness(report: DuelKingHealthReport): number {
+export function computeDuelKingCompositeReadiness(
+  report: DuelKingHealthReport,
+  weights: DuelKingCompositeReadinessWeights = DUEL_KING_COMPOSITE_READINESS_WEIGHTS,
+): number {
   const duelKingReadiness = clamp(report.lastReadinessScore, 0, 100);
   const kurLive = report.kurTelemetryStatus === 'LIVE' && report.lastKurSignalStatus === 'LIVE';
   const durLive = report.durTelemetryStatus === 'LIVE' && report.lastDurSignalStatus === 'LIVE';
@@ -117,10 +126,10 @@ export function computeDuelKingCompositeReadiness(report: DuelKingHealthReport):
 
   return round(clamp(
     duelKingReadiness
-    * (1 - (kurLive ? DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.kur : 0) - (durLive ? DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.dur : 0) - (molLive ? DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.mol : 0))
-    + (kurLive ? kurSignal * DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.kur : 0)
-    + (durLive ? durSignal * DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.dur : 0)
-    + (molLive ? molSignal * DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.mol : 0),
+    * (1 - (kurLive ? weights.kur : 0) - (durLive ? weights.dur : 0) - (molLive ? weights.mol : 0))
+    + (kurLive ? kurSignal * weights.kur : 0)
+    + (durLive ? durSignal * weights.dur : 0)
+    + (molLive ? molSignal * weights.mol : 0),
     0,
     100,
   ), 2);
@@ -625,7 +634,6 @@ export {
   DUEL_KING_GEAR_REQUIREMENTS,
   DUEL_KING_MODES,
   DUEL_KING_TOURNAMENT_STATES,
-  DUEL_KING_IN_GAME_SIGNAL_WEIGHTS,
   EXTRIMLI_DUEL_KING_API_MAX_MS,
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION,

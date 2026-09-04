@@ -1,5 +1,6 @@
 import {
   _resetDuelKingMetrics,
+  DUEL_KING_COMPOSITE_READINESS_WEIGHTS,
   computeDuelKingCompositeReadiness,
   DUEL_KING_GEAR_REQUIREMENTS,
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
@@ -88,6 +89,10 @@ async function runTests(): Promise<void> {
 
     assert(allLiveScore === 68, `expected all-live composite score 68, got ${allLiveScore}`);
     assert(kurOnlyScore === 64, `expected kur-only composite score 64, got ${kurOnlyScore}`);
+    assert(
+      DUEL_KING_COMPOSITE_READINESS_WEIGHTS.kur + DUEL_KING_COMPOSITE_READINESS_WEIGHTS.dur + DUEL_KING_COMPOSITE_READINESS_WEIGHTS.mol <= 1,
+      'composite readiness weights must remain bounded',
+    );
   });
 
   await test('valid arena duel returns ready posture', () => {
