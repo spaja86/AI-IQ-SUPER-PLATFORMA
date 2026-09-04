@@ -80,7 +80,7 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
     overallScore: 0,
     status: 'BLOCK',
     recommendedAction: 'REQUEST_EVIDENCE',
-    recommendedReviewHours: 0,
+    recommendedReviewHours: ACTION_REVIEW_HOURS.REQUEST_EVIDENCE,
     warnings: [warning],
     disclaimer: TRU_DISCLAIMER,
     valid: false,

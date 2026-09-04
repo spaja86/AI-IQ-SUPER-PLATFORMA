@@ -138,6 +138,10 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    assert(response.headers.get('X-Tru-Valid') === null, 'shape-validation failures must not include TRU evaluation headers');
+    const body = await response.json() as { code: string; error: string };
+    assert(body.code === 'BAD_REQUEST', `expected BAD_REQUEST, got ${body.code}`);
+    assert(body.error === 'objective is required (string)', `unexpected error message: ${body.error}`);
   });
 
   await test('POST /api/tru/evaluate returns 400 for shallow-shape mismatch', async () => {
