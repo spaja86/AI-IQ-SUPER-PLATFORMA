@@ -11,6 +11,20 @@ import { apiExtrimliDegradedResponse, setExtrimliSurfaceHeaders } from '@/app/ap
 
 export const dynamic = 'force-dynamic';
 
+const GEAR_CATEGORIES = new Set([
+  'helmet',
+  'harness',
+  'board',
+  'bike',
+  'chute',
+  'wing',
+  'wetsuit',
+  'pads',
+  'boots',
+  'goggles',
+  'other',
+]);
+
 export async function GET() {
   try {
     const report = getDuelKingHealthReport();
@@ -60,6 +74,12 @@ export async function POST(req: NextRequest) {
     for (const field of requiredFields) {
       if (candidate[field] === undefined) {
         return apiError('BAD_REQUEST', `${field} is required`);
+      }
+    }
+
+    if (candidate.activeGearCategories !== undefined) {
+      if (!Array.isArray(candidate.activeGearCategories) || candidate.activeGearCategories.some((value) => typeof value !== 'string' || !GEAR_CATEGORIES.has(value))) {
+        return apiError('BAD_REQUEST', 'activeGearCategories must contain only known gear categories');
       }
     }
 

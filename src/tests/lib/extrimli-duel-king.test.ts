@@ -178,7 +178,7 @@ async function runTests(): Promise<void> {
     const report = getDuelKingHealthReport();
     assert(report.evaluations === 1, `expected 1 evaluation after invalid input, got ${report.evaluations}`);
     assert(report.lastReadinessScore === 0, `expected 0 readiness after invalid input, got ${report.lastReadinessScore}`);
-    assert(report.lastDuelRiskScore === 0, `expected 0 risk after invalid input, got ${report.lastDuelRiskScore}`);
+    assert(report.lastDuelRiskScore >= 50, `expected conservative risk after invalid input, got ${report.lastDuelRiskScore}`);
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

@@ -68,7 +68,7 @@ function invalidResult(input: Partial<DuelKingInput>, warning: string, start: nu
   evaluations += 1;
   telemetryStatus = 'LIVE';
   lastReadinessScore = 0;
-  lastDuelRiskScore = 0;
+  lastDuelRiskScore = Math.max(lastDuelRiskScore, 50);
   lastTournamentState = DUEL_KING_TOURNAMENT_STATES.includes(input.tournamentState as DuelKingTournamentState)
     ? (input.tournamentState as DuelKingTournamentState)
     : null;

@@ -310,6 +310,22 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
+  await test('POST /api/extrimli/duel-king returns 400 for unknown gear category', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 7,
+      opponentTier: 6,
+      arenaHazard: 5,
+      staminaReserve: 7,
+      gearQualityIndex: 8,
+      reactionTimeMs: 240,
+      activeGearCategories: ['helmet', 'laser-glove'],
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
   await test('POST /api/extrimli/duel-king returns 400 for invalid JSON', async () => {
     const request = new Request('http://localhost/api/extrimli/duel-king', {
       method: 'POST',
