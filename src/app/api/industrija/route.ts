@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { APP_VERSION } from '@/lib/constants';
 import { getGlavniEndzinPregled } from '@/lib/glavni-endzin-digitalne-industrije';
+import { buildDigitalnaIndustrijaPregled } from '@/lib/digitalna-industrija-domen';
 
 export async function GET() {
   const stats = getIndustrijaStats();
   const glavniEndzin = getGlavniEndzinPregled();
+  const pregled = buildDigitalnaIndustrijaPregled();
 
   return NextResponse.json({
     status: 'operational',
@@ -29,6 +31,12 @@ export async function GET() {
       aktivnihProizvoda: stats.activeProducts,
     },
     glavniEndzin,
+    kanonskiScope: pregled.scope,
+    umbrellaNivoi: pregled.umbrellaNivoi,
+    poslovniTokovi: pregled.poslovniTokovi,
+    governance: pregled.governance,
+    operativniPregled: pregled.operativniPregled,
+    prioritetniBlokatori: pregled.prioritetniBlokatori,
     timestamp: new Date().toISOString(),
   });
 }

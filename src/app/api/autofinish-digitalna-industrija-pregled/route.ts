@@ -7,6 +7,7 @@ import {
   AUTOFINISH_COUNT,
   AUTOFINISH_TARGET,
 } from '@/lib/constants';
+import { buildDigitalnaIndustrijaPregled } from '@/lib/digitalna-industrija-domen';
 
 const DI_BLOKOVI = [
   {
@@ -113,6 +114,7 @@ const DIJAGNOSTIKE = [
 export async function GET() {
   const ukupnoModula = DI_BLOKOVI.reduce((s, b) => s + b.modula, 0);
   const procenat = (AUTOFINISH_COUNT / AUTOFINISH_TARGET) * 100;
+  const pregled = buildDigitalnaIndustrijaPregled();
 
   return NextResponse.json({
     status: 'AKTIVAN',
@@ -125,6 +127,12 @@ export async function GET() {
       ukupnoModula,
       sviBlokoviAktivni: DI_BLOKOVI.every((b) => b.status !== 'NEAKTIVAN'),
       blokovi: DI_BLOKOVI,
+      kanonskiScope: pregled.scope.map((oblast) => ({
+        oblast: oblast.oblast,
+        umbrella: oblast.umbrella.length,
+        specijalizovane: oblast.specijalizovane.length,
+      })),
+      prioritetniBlokatori: pregled.prioritetniBlokatori,
     },
 
     dijagnostike: {
@@ -145,6 +153,11 @@ export async function GET() {
       apiEndpointi: TOTAL_API_ROUTES,
       ukupnoRuta: TOTAL_ROUTES,
       dijagnostike: TOTAL_DIAGNOSTIKA,
+    },
+    operativniPregled: pregled.operativniPregled,
+    governance: {
+      qualityGate: pregled.governance.qualityGate,
+      downstream: pregled.governance.downstream,
     },
 
     timestamp: new Date().toISOString(),
