@@ -3,7 +3,8 @@
 //
 // Sample discount rules and discount registry for global telecom operators.
 
-import type { DiscountRule } from './types';
+import type { DiscountRule, TelecomRegion } from './types';
+import { TELECOM_OPERATORS } from './operators';
 
 // Reference dates use far-future validity to stay active in demos / tests.
 const FAR_FUTURE = '2099-12-31';
@@ -34,6 +35,18 @@ export const DISCOUNT_RULES: DiscountRule[] = [
     exclusive: false,
     applicableNetworks: ['5G'],
     description: 'Vodafone EU — 15% bundle discount on 5G plans',
+  },
+  {
+    id: 'vodafone-eu-event-40',
+    operatorId: 'vodafone-eu',
+    type: 'event',
+    valuePercent: 40,
+    validFrom: PAST,
+    validUntil: FAR_FUTURE,
+    eligibleSegments: ['all'],
+    exclusive: false,
+    applicableNetworks: ['5G'],
+    description: 'Vodafone EU — 40% event promo for all customers on 5G',
   },
 
   // ─── Deutsche Telekom ─────────────────────────────────────────────────────
@@ -183,7 +196,19 @@ export function getDiscountById(id: string): DiscountRule | undefined {
   return DISCOUNT_RULES.find((d) => d.id === id);
 }
 
-export function listDiscounts(operatorId?: string, region?: string): DiscountRule[] {
-  if (operatorId) return DISCOUNT_RULES.filter((d) => d.operatorId === operatorId);
-  return DISCOUNT_RULES;
+export function listDiscounts(operatorId?: string, region?: TelecomRegion): DiscountRule[] {
+  let discounts = DISCOUNT_RULES;
+
+  if (operatorId) {
+    discounts = discounts.filter((d) => d.operatorId === operatorId);
+  }
+
+  if (region) {
+    const operatorIdsInRegion = new Set(
+      TELECOM_OPERATORS.filter((operator) => operator.region === region).map((operator) => operator.id)
+    );
+    discounts = discounts.filter((discount) => operatorIdsInRegion.has(discount.operatorId));
+  }
+
+  return discounts;
 }

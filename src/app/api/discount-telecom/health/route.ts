@@ -17,6 +17,11 @@ function setHeaders(res: Response): void {
   res.headers.set('X-DiscountTelecom-Module-Version', DISCOUNT_TELECOM_MODULE_VERSION);
 }
 
+function withHeaders(res: Response): Response {
+  setHeaders(res);
+  return res;
+}
+
 /**
  * GET /api/discount-telecom/health
  *
@@ -25,10 +30,8 @@ function setHeaders(res: Response): void {
 export async function GET() {
   try {
     const report = getDiscountTelecomHealthReport();
-    const response = apiSuccess(report, 200);
-    setHeaders(response);
-    return response;
+    return withHeaders(apiSuccess(report, 200));
   } catch (error) {
-    return apiInternalError('discount-telecom/health', error);
+    return withHeaders(apiInternalError('discount-telecom/health', error));
   }
 }

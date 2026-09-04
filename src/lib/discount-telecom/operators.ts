@@ -4,6 +4,7 @@
 // Global telecom operator registry covering major carriers across EU, US, APAC, LATAM, Africa, ME.
 
 import type { TelecomOperator, TelecomRegion } from './types';
+import { DISCOUNT_TELECOM_REGIONS } from './types';
 
 export const TELECOM_OPERATORS: TelecomOperator[] = [
   // ─── EU ───────────────────────────────────────────────────────────────────
@@ -20,6 +21,7 @@ export const TELECOM_OPERATORS: TelecomOperator[] = [
   { id: 'att-us', name: 'AT&T', region: 'US', countries: ['US'], networkTypes: ['3G', '4G', '5G'], currency: 'USD', active: true },
   { id: 'tmobile-us', name: 'T-Mobile US', region: 'US', countries: ['US'], networkTypes: ['4G', '5G'], currency: 'USD', active: true },
   { id: 'verizon-us', name: 'Verizon', region: 'US', countries: ['US'], networkTypes: ['4G', '5G'], currency: 'USD', active: true },
+  { id: 'sprint-legacy-us', name: 'Sprint Legacy', region: 'US', countries: ['US'], networkTypes: ['3G', '4G'], currency: 'USD', active: false },
 
   // ─── APAC ─────────────────────────────────────────────────────────────────
   { id: 'singtel', name: 'Singtel', region: 'APAC', countries: ['SG', 'AU', 'IN'], networkTypes: ['4G', '5G'], currency: 'SGD', active: true },
@@ -48,6 +50,10 @@ export const TELECOM_OPERATORS: TelecomOperator[] = [
 
 export function getOperatorById(id: string): TelecomOperator | undefined {
   return TELECOM_OPERATORS.find((op) => op.id === id);
+}
+
+export function isValidTelecomRegion(region: string): region is TelecomRegion {
+  return DISCOUNT_TELECOM_REGIONS.includes(region as TelecomRegion);
 }
 
 export function listOperators(region?: TelecomRegion): TelecomOperator[] {
