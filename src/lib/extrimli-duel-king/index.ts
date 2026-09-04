@@ -125,23 +125,9 @@ function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement
   return DUEL_KING_GEAR_REQUIREMENTS[mode].map((item) => ({ ...item }));
 }
 
-function resolveCompositeReadinessWeights(
-  weights: DuelKingCompositeReadinessWeights,
-): DuelKingCompositeReadinessWeights {
-  const allFinite = Number.isFinite(weights.kur) && Number.isFinite(weights.dur) && Number.isFinite(weights.mol);
-  const allNonNegative = weights.kur >= 0 && weights.dur >= 0 && weights.mol >= 0;
-  const total = weights.kur + weights.dur + weights.mol;
-  if (!allFinite || !allNonNegative || total > 1) {
-    return DUEL_KING_COMPOSITE_READINESS_WEIGHTS;
-  }
-  return weights;
-}
-
 export function computeDuelKingCompositeReadiness(
   report: DuelKingCompositeReadinessInput,
-  weights: DuelKingCompositeReadinessWeights = DUEL_KING_COMPOSITE_READINESS_WEIGHTS,
 ): number {
-  const effectiveWeights = resolveCompositeReadinessWeights(weights);
   const duelKingReadiness = clamp(report.lastReadinessScore, 0, 100);
   const kurLive = report.kurTelemetryStatus === 'LIVE' && report.lastKurSignalStatus === 'LIVE';
   const durLive = report.durTelemetryStatus === 'LIVE' && report.lastDurSignalStatus === 'LIVE';
@@ -152,10 +138,10 @@ export function computeDuelKingCompositeReadiness(
 
   return round(clamp(
     duelKingReadiness
-    * (1 - (kurLive ? effectiveWeights.kur : 0) - (durLive ? effectiveWeights.dur : 0) - (molLive ? effectiveWeights.mol : 0))
-    + (kurLive ? kurSignal * effectiveWeights.kur : 0)
-    + (durLive ? durSignal * effectiveWeights.dur : 0)
-    + (molLive ? molSignal * effectiveWeights.mol : 0),
+    * (1 - (kurLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.kur : 0) - (durLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.dur : 0) - (molLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.mol : 0))
+    + (kurLive ? kurSignal * DUEL_KING_COMPOSITE_READINESS_WEIGHTS.kur : 0)
+    + (durLive ? durSignal * DUEL_KING_COMPOSITE_READINESS_WEIGHTS.dur : 0)
+    + (molLive ? molSignal * DUEL_KING_COMPOSITE_READINESS_WEIGHTS.mol : 0),
     0,
     100,
   ), 2);

@@ -422,7 +422,7 @@ All v3 routes respond with headers:
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
-Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readiness, sinhronizovati KUR/DUR/MOL telemetry (`kurSignalStatus`, `durSignalStatus`, `molSignalStatus`, `kurSignalCoverageScore`, `durSignalCoverageScore`, `molSignalCoverageScore`) kroz `docs/MULTI-REPO-LINKS.md`.
+Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readiness, sinhronizovati KUR/DUR/MOL telemetry (`kurTelemetryStatus`, `durTelemetryStatus`, `molTelemetryStatus`, `lastKurSignalStatus`, `lastDurSignalStatus`, `lastMolSignalStatus`, `kurSignalCoverageScore`, `durSignalCoverageScore`, `molSignalCoverageScore`) kroz `docs/MULTI-REPO-LINKS.md`.
 
 ## References
 
