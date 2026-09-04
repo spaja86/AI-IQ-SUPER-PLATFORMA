@@ -187,7 +187,7 @@ function invalidResult(input: Partial<DuelKingInput>, warning: string, start: nu
     kurGameSignal: {
       status: input.kurGameSignal ? 'DEGRADED' : 'BASELINE',
       applied: false,
-      progressionSignal: input.kurGameSignal ? 50 : lastKurProgressionSignal,
+      progressionSignal: 50,
       impactScore: 0,
       completed: false,
       reason: input.kurGameSignal ? 'invalid-input' : 'not-provided',
@@ -327,7 +327,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   lastDuelRiskScore = duelRiskScore;
   lastTournamentState = tournamentState;
   if (input.kurGameSignal) {
-    kurTelemetryStatus = 'LIVE';
+    kurTelemetryStatus = kurGameSignal.status === 'LIVE' ? 'LIVE' : 'BASELINE';
     kurEvaluations += 1;
     lastKurProgressionSignal = kurGameSignal.progressionSignal;
     lastKurImpactScore = kurGameSignal.impactScore;

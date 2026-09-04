@@ -105,7 +105,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   if (duelKing.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
     degradedSources.push('extrimli-duel-king-kpi');
   }
-  if (duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'DEGRADED') {
+  if (duelKing.lastKurSignalStatus === 'DEGRADED') {
     degradedSources.push('extrimli-duel-king-kur-signal');
   }
   if (koron.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || koron.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {

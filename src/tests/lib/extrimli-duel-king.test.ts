@@ -120,6 +120,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('invalid KUR-in-GAME signal degrades response without invalidating core duel', () => {
+    _resetDuelKingMetrics();
     const result = evaluateDuelKing({
       sportId: 'duel-king',
       duelMode: 'ARENA',
@@ -142,6 +143,8 @@ async function runTests(): Promise<void> {
     assert(result.valid, 'core duel result should remain valid');
     assert(result.degraded === true, 'invalid KUR signal should degrade response');
     assert(result.kurGameSignal.status === 'DEGRADED', `expected DEGRADED KUR status, got ${result.kurGameSignal.status}`);
+    const report = getDuelKingHealthReport();
+    assert(report.kurTelemetryStatus === 'BASELINE', `invalid KUR should keep telemetry baseline, got ${report.kurTelemetryStatus}`);
   });
 
   await test('unknown duel mode returns invalid result', () => {
