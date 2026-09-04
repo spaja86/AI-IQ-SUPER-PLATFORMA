@@ -128,11 +128,36 @@ export type DuelKingMode = 'ARENA' | 'TACTICAL' | 'SURVIVAL';
 export type DuelKingTournamentState = 'OPEN' | 'LOCKED' | 'ACTIVE' | 'COMPLETED' | 'DEGRADED';
 export type DuelKingBracketStatus = 'READY' | 'HOLD' | 'DEGRADED';
 export type DuelKingTelemetryStatus = 'BASELINE' | 'LIVE';
+export type DuelKingKurSignalStatus = 'BASELINE' | 'LIVE' | 'DEGRADED';
 
 export interface DuelKingGearRequirement {
   category: GearCategory;
   minimumSafetyRating: number;
   required: boolean;
+}
+
+export interface DuelKingKurGameSignalInput {
+  start: number;
+  target: number;
+  step: number;
+  maxIterations?: number;
+  maxDurationMs?: number;
+}
+
+export interface DuelKingKurGameSignalResult {
+  status: DuelKingKurSignalStatus;
+  applied: boolean;
+  progressionSignal: number;
+  impactScore: number;
+  completed: boolean;
+  reason: 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status' | 'not-provided';
+  warnings: string[];
+  petlja: {
+    output: number;
+    iterations: number;
+    status: string;
+    reason: string;
+  } | null;
 }
 
 export interface DuelKingInput {
@@ -146,6 +171,7 @@ export interface DuelKingInput {
   reactionTimeMs: number; // 50–1000
   activeGearCategories?: GearCategory[];
   recentSessions?: number; // 0–100
+  kurGameSignal?: DuelKingKurGameSignalInput;
   fighterId?: string;
   tournamentState?: DuelKingTournamentState;
   referenceId?: string;
@@ -168,6 +194,7 @@ export interface DuelKingResult {
   degradedMode: 'partial-payload-no-500' | null;
   valid: boolean;
   warnings: string[];
+  kurGameSignal: DuelKingKurGameSignalResult;
   recommendation: string;
   durationMs: number;
 }
@@ -178,9 +205,17 @@ export interface DuelKingHealthReport {
   moduleVersion: string;
   sourceOfTruth: string;
   telemetryStatus: DuelKingTelemetryStatus;
+  kurTelemetryStatus: DuelKingKurSignalStatus;
+  kurContractVersion: string;
   evaluations: number;
+  kurEvaluations: number;
+  kurDegradedEvaluations: number;
+  kurSignalCoverageScore: number;
   lastReadinessScore: number;
   lastDuelRiskScore: number;
+  lastKurProgressionSignal: number;
+  lastKurImpactScore: number;
+  lastKurSignalStatus: DuelKingKurSignalStatus;
   lastTournamentState: DuelKingTournamentState | null;
   performanceMaxMs: number;
   apiResponseMaxMs: number;

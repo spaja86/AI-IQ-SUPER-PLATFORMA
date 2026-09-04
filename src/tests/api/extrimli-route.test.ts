@@ -123,12 +123,14 @@ async function runTests(): Promise<void> {
     const response = await getDuelKing();
     assert(response.status === 200, `expected 200, got ${response.status}`);
     assert(response.headers.get('X-Extrimli-Duel-King-Contract-Version') === 'v1-duel-king', 'missing DUEL KING contract header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Kur-Contract-Version') === 'v1-kur-game', 'missing DUEL KING KUR contract header');
 
     const body = await response.json() as {
-      data: { sourceOfTruth: string; personaId: string };
+      data: { sourceOfTruth: string; personaId: string; kurContractVersion: string };
     };
     assert(body.data.sourceOfTruth === '/api/extrimli/duel-king', 'unexpected DUEL KING sourceOfTruth');
     assert(body.data.personaId === 'extrimli-duel-king', 'unexpected DUEL KING persona');
+    assert(body.data.kurContractVersion === 'v1-kur-game', 'unexpected DUEL KING KUR contract version');
   });
 
   await test('GET /api/extrimli/destruction/assets supports filtering', async () => {
@@ -243,10 +245,119 @@ async function runTests(): Promise<void> {
 
     assert(response.status === 200, `expected 200, got ${response.status}`);
     assert(response.headers.get('X-Extrimli-Duel-King-Contract-Version') === 'v1-duel-king', 'missing DUEL KING contract header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Kur-Contract-Version') === 'v1-kur-game', 'missing DUEL KING KUR contract header');
     const body = await response.json() as { data: { valid: boolean; bracketStatus: string; degraded: boolean } };
     assert(body.data.valid === true, 'expected valid DUEL KING response');
     assert(body.data.bracketStatus === 'READY', `unexpected bracketStatus: ${body.data.bracketStatus}`);
     assert(body.data.degraded === false, 'valid payload should not be degraded');
+  });
+
+  await test('POST /api/extrimli/duel-king applies KUR-in-GAME signal when payload is valid', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+      kurGameSignal: { start: 0, target: 8, step: 2 },
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Duel-King-Kur-Signal-Status') === 'LIVE', 'expected LIVE KUR signal header');
+    const body = await response.json() as {
+      data: { valid: boolean; kurGameSignal: { status: string; applied: boolean; impactScore: number } };
+    };
+    assert(body.data.valid === true, 'expected valid DUEL KING response');
+    assert(body.data.kurGameSignal.status === 'LIVE', 'expected LIVE KUR signal');
+    assert(body.data.kurGameSignal.applied === true, 'expected KUR signal to be applied');
+    assert(body.data.kurGameSignal.impactScore >= -8 && body.data.kurGameSignal.impactScore <= 8, 'unexpected KUR impact bounds');
+  });
+
+  await test('POST /api/extrimli/duel-king degrades for invalid KUR-in-GAME payload without 500', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+      kurGameSignal: { start: 'NaN', target: 8, step: 0 },
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Degraded') === 'true', 'expected degraded header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Kur-Signal-Status') === 'DEGRADED', 'expected DEGRADED KUR signal header');
+    const body = await response.json() as {
+      data: { valid: boolean; degraded: boolean; kurGameSignal: { status: string; applied: boolean } };
+    };
+    assert(body.data.valid === true, 'expected DUEL KING response to stay valid');
+    assert(body.data.degraded === true, 'expected degraded response for invalid KUR signal');
+    assert(body.data.kurGameSignal.status === 'DEGRADED', 'expected DEGRADED KUR signal');
+    assert(body.data.kurGameSignal.applied === false, 'invalid KUR signal should not be applied');
+  });
+
+  await test('POST /api/extrimli/duel-king treats null KUR numeric fields as degraded signal', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+      kurGameSignal: { start: null, target: 8, step: 2 },
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Duel-King-Kur-Signal-Status') === 'DEGRADED', 'expected DEGRADED KUR signal header for null field');
+    const body = await response.json() as {
+      data: { valid: boolean; degraded: boolean; kurGameSignal: { status: string } };
+    };
+    assert(body.data.valid === true, 'core DUEL KING result should remain valid');
+    assert(body.data.degraded === true, 'null KUR field should degrade response');
+    assert(body.data.kurGameSignal.status === 'DEGRADED', 'expected DEGRADED KUR signal in body');
+  });
+
+  await test('POST /api/extrimli/duel-king accepts numeric-string KUR payload fields', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+      kurGameSignal: { start: '0', target: '8', step: '2' },
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Duel-King-Kur-Signal-Status') === 'LIVE', 'expected LIVE KUR signal header for numeric strings');
+    const body = await response.json() as {
+      data: { valid: boolean; degraded: boolean; kurGameSignal: { status: string; applied: boolean } };
+    };
+    assert(body.data.valid === true, 'expected valid DUEL KING response');
+    assert(body.data.degraded === false, 'numeric-string KUR payload should not degrade');
+    assert(body.data.kurGameSignal.status === 'LIVE', 'expected LIVE KUR signal in body');
+    assert(body.data.kurGameSignal.applied === true, 'expected KUR signal to be applied');
   });
 
   await test('POST /api/extrimli/duel-king returns degraded 200 when partial signals are missing', async () => {

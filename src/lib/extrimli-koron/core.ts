@@ -47,10 +47,10 @@ export function buildExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   if (duelKing.performanceMaxMs > EXTRIMLI_KORON_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRIMLI_KORON_API_MAX_MS) {
     degradedSources.push('extrimli-duel-king-kpi');
   }
-
   const riskBalanceScore = round(clamp(100 - ((v1.lastRiskScore + v3.lastRiskScore) / 2), 0, 100), 2);
   const duelKingReadinessScore = round(clamp(duelKing.lastReadinessScore, 0, 100), 2);
   const duelKingLive = duelKing.telemetryStatus === 'LIVE';
+  const kurInGameScore = round(clamp(duelKing.lastKurProgressionSignal, 0, 100), 2);
   const communitySignalScore = round(
     clamp(cuz.activeCrews * 20 + cuz.mentorProfiles * 25 + cuz.feedPosts * 10, 0, 100),
     2,
@@ -100,6 +100,8 @@ export function buildExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
     communitySignalScore,
     destructionRecoveryScore,
     syncCoverageScore,
+    kurInGameScore,
+    kurSignalStatus: duelKing.lastKurSignalStatus,
     degraded,
     degradedMode: 'partial-payload-no-500',
     degradedSources,

@@ -31,6 +31,7 @@ function buildCoverage(): ExtrimliExtendolCoverage {
     destructionSafetyFlows: true,
     athleteProgressAndReadiness: true,
     duelKingCompetition: true,
+    kurInGameSignal: true,
     communityReputationAndMentorship: true,
     koronReadinessOverlay: true,
   };
@@ -58,6 +59,11 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
   const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
   const duelKingLive = duelKing.telemetryStatus === 'LIVE';
+  const duelKingKurLive = duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'LIVE';
+  const duelKingKurScore = clamp(duelKing.lastKurProgressionSignal, 0, 100);
+  const duelKingCompositeReadiness = duelKingKurLive
+    ? round(clamp(duelKingReadiness * 0.8 + duelKingKurScore * 0.2, 0, 100), 2)
+    : duelKingReadiness;
   const communitySignal = buildCommunitySignal(cuz.activeCrews, cuz.mentorProfiles, cuz.feedPosts);
   const koronReadiness = clamp(koron.readinessScore, 0, 100);
 
@@ -75,7 +81,7 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
           v1Readiness * 0.20
           + v3Safety * 0.15
           + v3Readiness * 0.18
-          + duelKingReadiness * 0.14
+          + duelKingCompositeReadiness * 0.14
           + communitySignal * 0.11
           + koronReadiness * 0.22
         )
@@ -99,6 +105,9 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   if (duelKing.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
     degradedSources.push('extrimli-duel-king-kpi');
   }
+  if (duelKing.kurTelemetryStatus === 'DEGRADED') {
+    degradedSources.push('extrimli-duel-king-kur-signal');
+  }
   if (koron.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || koron.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
     degradedSources.push('extrimli-koron-kpi');
   }
@@ -121,6 +130,11 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
       id: 'duel-king-covered',
       description: 'DUEL KING competitive-combat readiness is included in the unified EXTRIMLI surface.',
       passed: coverage.duelKingCompetition && duelKing.contractVersion === 'v1-duel-king',
+    },
+    {
+      id: 'kur-in-game-covered',
+      description: 'KUR-in-GAME signal is contract-bound and blended into DUEL KING readiness when live.',
+      passed: coverage.kurInGameSignal && duelKing.kurContractVersion === 'v1-kur-game',
     },
     {
       id: 'koron-overlay-covered',

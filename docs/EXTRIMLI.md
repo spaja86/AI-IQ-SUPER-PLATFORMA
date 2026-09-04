@@ -146,9 +146,16 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - Contract constants:
   - `EXTRIMLI_DUEL_KING_CONTRACT_VERSION = v1-duel-king`
   - `EXTRIMLI_DUEL_KING_MODULE_VERSION = 1.0.0`
+  - `EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION = v1-kur-game`
 - Degraded policy: `partial-payload-no-500`
 - Mandatory payload:
   - `telemetryStatus`
+  - `kurTelemetryStatus`
+  - `kurContractVersion`
+  - `kurSignalCoverageScore`
+  - `lastKurProgressionSignal`
+  - `lastKurImpactScore`
+  - `lastKurSignalStatus`
   - `duelMode`
   - `duelRiskScore`
   - `readinessScore`
@@ -164,6 +171,19 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 2. DUEL mode, readiness, gear clearance i tournament posture ostaju deterministički i bounded.
 3. Missing partial signals vraćaju degradirani odgovor umesto HTTP 500.
 4. KPI targeti ostaju ≤ 50ms evaluacija i ≤ 200ms API response.
+5. KUR in GAME signal je opcioni DUEL KING extension: validan signal ima bounded uticaj na readiness/risk, a nevalidan signal ulazi u degraded bez HTTP 500.
+
+## DUEL KING KUR in GAME scope
+
+- Scope boundary: samo `/api/extrimli/duel-king` i DUEL KING health/aggregate surface.
+- Input signal boundary: `kurGameSignal` (`start`, `target`, `step`, opciono `maxIterations`, `maxDurationMs`).
+- Execution boundary: `KUR PETLJA` deterministički izračun progression signala.
+- Output boundary:
+  - `kurGameSignal.status` (`BASELINE | LIVE | DEGRADED`)
+  - `kurGameSignal.progressionSignal` (`0..100`)
+  - `kurGameSignal.impactScore` (`-8..8`)
+- Degraded boundary: nevalidan ili nepotpun `kurGameSignal` ne vraća 500; odgovor ostaje `partial-payload-no-500` uz upozorenja.
+- Backward compatibility: bez `kurGameSignal` ulaza, postojeća DUEL KING readiness/risk semantika ostaje ista.
 
 
 ## EXTRONDEND aggregation contract
@@ -364,6 +384,7 @@ All v3 routes respond with headers:
 | `EXTRIMLI_DESTRUKCIJA_MODULE_VERSION` | `1.0.0` |
 | `EXTRIMLI3_CONTRACT_VERSION` | `v3` |
 | `EXTRIMLI3_MODULE_VERSION` | `3.0.0` |
+| `EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION` | `v1-kur-game` |
 | `EXTRIMLI_EXTENDOL_CONTRACT_VERSION` | `v1` |
 | `EXTRIMLI_EXTENDOL_MODULE_VERSION` | `1.0.0` |
 | `EXTRIMLI3_PERSONA_ID` | `extrimli-core` |
@@ -378,6 +399,8 @@ All v3 routes respond with headers:
 ```
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readiness, sinhronizovati KUR telemetry (`kurSignalStatus`, `kurSignalCoverageScore`) kroz `docs/MULTI-REPO-LINKS.md`.
 
 ## References
 

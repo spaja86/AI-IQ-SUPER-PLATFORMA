@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { apiError, apiSuccess } from '@/lib/api/response';
 import {
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
+  EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_MODULE_VERSION,
   evaluateDuelKing,
   getDuelKingHealthReport,
@@ -12,6 +13,14 @@ import { apiExtrimliDegradedResponse, setExtrimliSurfaceHeaders } from '@/app/ap
 export const dynamic = 'force-dynamic';
 
 const GEAR_CATEGORIES = new Set(EXTRIMLI_GEAR_CATEGORIES);
+const toFiniteNumberOrNaN = (value: unknown): number => {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return NaN;
+};
 
 export async function GET() {
   try {
@@ -22,6 +31,8 @@ export async function GET() {
       contractVersion: EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
       moduleVersion: EXTRIMLI_DUEL_KING_MODULE_VERSION,
     });
+    response.headers.set('X-Extrimli-Duel-King-Kur-Contract-Version', EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION);
+    response.headers.set('X-Extrimli-Duel-King-Kur-Signal-Status', report.lastKurSignalStatus);
     return response;
   } catch (error) {
     return apiExtrimliDegradedResponse('extrimli/duel-king', {
@@ -88,6 +99,24 @@ export async function POST(req: NextRequest) {
       tournamentState: typeof candidate.tournamentState === 'string'
         ? candidate.tournamentState as DuelKingInput['tournamentState']
         : undefined,
+      kurGameSignal: (() => {
+        if (candidate.kurGameSignal === undefined) return undefined;
+        if (!candidate.kurGameSignal || typeof candidate.kurGameSignal !== 'object' || Array.isArray(candidate.kurGameSignal)) {
+          return {
+            start: NaN,
+            target: NaN,
+            step: 0,
+          };
+        }
+        const signal = candidate.kurGameSignal as Record<string, unknown>;
+        return {
+          start: toFiniteNumberOrNaN(signal.start),
+          target: toFiniteNumberOrNaN(signal.target),
+          step: toFiniteNumberOrNaN(signal.step),
+          maxIterations: signal.maxIterations === undefined ? undefined : toFiniteNumberOrNaN(signal.maxIterations),
+          maxDurationMs: signal.maxDurationMs === undefined ? undefined : toFiniteNumberOrNaN(signal.maxDurationMs),
+        };
+      })(),
       referenceId: typeof candidate.referenceId === 'string' ? candidate.referenceId : undefined,
     };
 
@@ -100,6 +129,8 @@ export async function POST(req: NextRequest) {
       degraded: result.degraded,
       degradedSources: result.degraded ? result.warnings : [],
     });
+    response.headers.set('X-Extrimli-Duel-King-Kur-Contract-Version', EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION);
+    response.headers.set('X-Extrimli-Duel-King-Kur-Signal-Status', result.kurGameSignal.status);
     return response;
   } catch (error) {
     return apiExtrimliDegradedResponse('extrimli/duel-king', {
