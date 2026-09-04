@@ -1,4 +1,4 @@
-import type { PetljaInput, PetljaReason, PetljaResult } from './types';
+import type { PetljaInput, PetljaReason, PetljaResult, PetljaStatus } from './types';
 import {
   baseResult,
   blockedPetljaResult,
@@ -16,12 +16,15 @@ import { runUmbrelPetlja } from './umbrel-petlja';
 const GOAL =
   'Planinsko širenje od vrha ka podnožju uz ugrađeni UMBREL sloj koji u sebi nosi sve petlje.';
 
-function resolveAggregateReason(umbrella: PetljaResult): PetljaReason {
-  if (umbrella.status === 'DEAD' || umbrella.status === 'DISABLED') {
-    return umbrella.reason;
+function resolveAggregateState(umbrella: PetljaResult): { reason: PetljaReason; status: PetljaStatus } {
+  if (!umbrella.completed) {
+    return {
+      reason: umbrella.reason,
+      status: umbrella.status,
+    };
   }
 
-  return 'completed';
+  return { reason: 'completed', status: 'ACTIVATED' };
 }
 
 export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
@@ -96,12 +99,11 @@ export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
     current += normalized.step;
   }
 
-  const aggregateReason = resolveAggregateReason(umbrella);
-  const aggregateStatus = resolveTerminalStatus(aggregateReason);
+  const aggregateState = resolveAggregateState(umbrella);
   const transition = createStatusTransition(
     status,
-    aggregateStatus,
-    aggregateReason === 'completed' ? 'completed' : 'durmitor-aggregate',
+    aggregateState.status,
+    aggregateState.reason === 'completed' ? 'completed' : 'durmitor-aggregate',
     guard.getIterations(),
   );
   status = transition.status;
@@ -110,7 +112,7 @@ export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
   return finalizeResult(
     result,
     guard,
-    aggregateReason,
+    aggregateState.reason,
     output + (Number.isFinite(umbrella.output) ? umbrella.output : 0),
     trace,
     warnings,
