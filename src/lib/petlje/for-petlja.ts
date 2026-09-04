@@ -1,11 +1,21 @@
 import type { PetljaInput, PetljaResult } from './types';
-import { baseResult, buildGuard, finalizeResult, normalizeInput, validateFiniteNumber } from './utils';
+import {
+  baseResult,
+  buildGuard,
+  createStatusTransition,
+  finalizeResult,
+  normalizeInput,
+  resolveTerminalStatus,
+  validateFiniteNumber,
+} from './utils';
 
 const GOAL = 'Sekvencijalno iteriranje od start do end sa kontrolisanim korakom.';
 
 export function runForPetlja(input: PetljaInput): PetljaResult {
   const normalized = normalizeInput(input);
   const result = baseResult('FOR PETLJA', GOAL, normalized);
+  let status = result.status;
+  const statusTrail = [...result.statusTrail];
 
   const errors = [
     ...validateFiniteNumber('start', normalized.start),
@@ -20,11 +30,30 @@ export function runForPetlja(input: PetljaInput): PetljaResult {
   if (normalized.start > normalized.end && normalized.step > 0) errors.push('step mora biti negativan kada je start > end');
 
   if (errors.length > 0) {
+    const transition = createStatusTransition(status, 'DISABLED', 'invalid-input', 0);
+    status = transition.status;
+    statusTrail.push(transition.entry);
     return {
       ...result,
       warnings: errors,
       reason: 'invalid-input',
       completed: false,
+      status,
+      statusTrail,
+    };
+  }
+
+  if (status === 'DISABLED' || status === 'DEAD') {
+    const transition = createStatusTransition(status, status, 'blocked-by-status', 0);
+    status = transition.status;
+    statusTrail.push(transition.entry);
+    return {
+      ...result,
+      warnings: ['petlja je blokirana zbog početnog statusa'],
+      reason: 'invalid-input',
+      completed: false,
+      status,
+      statusTrail,
     };
   }
 
@@ -33,10 +62,24 @@ export function runForPetlja(input: PetljaInput): PetljaResult {
   let sum = 0;
   let current = normalized.start;
   const ascending = normalized.step > 0;
+  let enteredMonster = false;
 
   while ((ascending && current <= normalized.end) || (!ascending && current >= normalized.end)) {
+    if (!enteredMonster) {
+      const transition = createStatusTransition(status, 'MONSTER', 'execution-start', guard.getIterations());
+      status = transition.status;
+      statusTrail.push(transition.entry);
+      enteredMonster = true;
+    }
+
     const decision = guard.canContinue();
-    if (!decision.ok) return finalizeResult(result, guard, decision.reason!, sum, trace, []);
+    if (!decision.ok) {
+      const terminal = resolveTerminalStatus(decision.reason!);
+      const transition = createStatusTransition(status, terminal, `guard-stop:${decision.reason}`, guard.getIterations());
+      status = transition.status;
+      statusTrail.push(transition.entry);
+      return finalizeResult(result, guard, decision.reason!, sum, trace, [], status, statusTrail);
+    }
 
     guard.tick();
     sum += current;
@@ -44,5 +87,9 @@ export function runForPetlja(input: PetljaInput): PetljaResult {
     current += normalized.step;
   }
 
-  return finalizeResult(result, guard, 'completed', sum, trace, []);
+  const terminal = resolveTerminalStatus('completed');
+  const transition = createStatusTransition(status, terminal, 'completed', guard.getIterations());
+  status = transition.status;
+  statusTrail.push(transition.entry);
+  return finalizeResult(result, guard, 'completed', sum, trace, [], status, statusTrail);
 }

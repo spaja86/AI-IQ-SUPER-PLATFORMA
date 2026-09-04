@@ -49,6 +49,8 @@ async function runTests(): Promise<void> {
     assert(result.completed, 'FOR should complete');
     assertEqual(result.output, 6, 'FOR sum');
     assertEqual(result.reason, 'completed', 'FOR reason');
+    assertEqual(result.status, 'ACTIVATED', 'FOR status');
+    assert(result.statusTrail.some((s) => s.to === 'MONSTER'), 'FOR should enter MONSTER while running');
   });
 
   await test('FOR PETLJA boundary: one iteration when start=end', () => {
@@ -62,6 +64,7 @@ async function runTests(): Promise<void> {
     const result = runForPetlja({ start: 0, end: 10, step: -1 });
     assert(!result.completed, 'FOR should fail');
     assertEqual(result.reason, 'invalid-input', 'FOR invalid reason');
+    assertEqual(result.status, 'DISABLED', 'invalid input should disable FOR');
   });
 
   await test('ITCH PETLJA basic scenario reaches target', () => {
@@ -81,6 +84,7 @@ async function runTests(): Promise<void> {
     const result = runItchPetlja({ start: 0, target: 100, step: 1, maxIterations: 3, maxDurationMs: 100 });
     assert(!result.completed, 'ITCH should stop early');
     assertEqual(result.reason, 'max-iterations', 'ITCH guard reason');
+    assertEqual(result.status, 'DEAD', 'max-iterations should map to DEAD');
   });
 
   await test('UR PELJA basic scenario sums sequence', () => {
@@ -119,18 +123,44 @@ async function runTests(): Promise<void> {
     const result = runNikPetlja({ start: 10, end: 0, step: -1 });
     assert(!result.completed, 'NIK should fail');
     assertEqual(result.reason, 'invalid-input', 'NIK invalid reason');
+    assertEqual(result.status, 'DISABLED', 'NIK invalid input status');
   });
 
   await test('time-limit protection works when maxDurationMs is zero', () => {
     const result = runForPetlja({ start: 0, end: 1000, step: 1, maxDurationMs: 0 });
     assert(!result.completed, 'Loop should stop by time limit');
     assertEqual(result.reason, 'time-limit', 'time limit reason');
+    assertEqual(result.status, 'DEAD', 'time-limit should map to DEAD');
   });
 
   await test('UMBREL PETLJA returns unified aggregate result', () => {
     const result = runUmbrelPetlja({ start: 0, end: 3, step: 1, target: 2, sequence: [2, 2], maxDurationMs: 100 });
     assert(result.trace.length === 4, 'UMBREL trace should contain 4 parts');
     assert(result.reason === 'completed' || result.reason === 'invalid-input', 'UMBREL reason should be valid enum');
+    assert(['ACTIVATED', 'DISABLED', 'DEAD'].includes(result.status), 'UMBREL status should be canonical');
+  });
+
+  await test('status aliases normalize to canonical values', () => {
+    const activated = runForPetlja({ start: 0, end: 1, step: 1, status: 'AKTIVEJT', maxDurationMs: 100 });
+    assertEqual(activated.input.status, 'ACTIVATED', 'AKTIVEJT alias');
+    assertEqual(activated.status, 'ACTIVATED', 'AKTIVEJT final status');
+
+    const disabled = runForPetlja({ start: 0, end: 1, step: 1, status: 'DISEBLED', maxDurationMs: 100 });
+    assertEqual(disabled.input.status, 'DISABLED', 'DISEBLED alias');
+    assertEqual(disabled.status, 'DISABLED', 'DISEBLED final status');
+    assertEqual(disabled.reason, 'invalid-input', 'DISEBLED blocks execution');
+
+    const dead = runForPetlja({ start: 0, end: 1, step: 1, status: 'DED', maxDurationMs: 100 });
+    assertEqual(dead.input.status, 'DEAD', 'DED alias');
+    assertEqual(dead.status, 'DEAD', 'DED final status');
+    assertEqual(dead.reason, 'invalid-input', 'DED blocks execution');
+  });
+
+  await test('MONSTER status is reachable and preserved in trail', () => {
+    const result = runForPetlja({ start: 0, end: 2, step: 1, status: 'MONSTER', maxDurationMs: 100 });
+    assert(result.statusTrail.length > 0, 'status trail should exist');
+    assert(result.statusTrail.some((s) => s.to === 'MONSTER'), 'MONSTER should appear in status trail');
+    assertEqual(result.status, 'ACTIVATED', 'completed MONSTER run returns to ACTIVATED');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

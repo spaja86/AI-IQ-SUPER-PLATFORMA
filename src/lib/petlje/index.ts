@@ -14,6 +14,9 @@ export type {
   PetljaInput,
   PetljaKind,
   PetljaReason,
+  PetljaStatus,
+  PetljaStatusInput,
+  PetljaStatusTransition,
   PetljaTracePoint,
   PetljaResult,
 } from './types';

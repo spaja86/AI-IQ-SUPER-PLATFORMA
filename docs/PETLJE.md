@@ -7,6 +7,17 @@ Ovaj dokument definiše značenje, cilj i zajednički API za:
 - `NIK PETLJA`
 - `UMBREL PETLJA`
 
+Kanonski statusi petlji:
+- `MONSTER`
+- `DISABLED`
+- `ACTIVATED`
+- `DEAD`
+
+Dozvoljeni alias-i ulaza:
+- `DISEBLED` → `DISABLED`
+- `AKTIVEJT` → `ACTIVATED`
+- `DED` → `DEAD`
+
 ## Značenje i cilj
 
 1. **FOR PETLJA**
@@ -36,9 +47,11 @@ Sve petlje koriste isti ulazni i izlazni oblik:
 - `PetljaInput`
   - `start`, `end`, `step`, `target`, `sequence`
   - `maxIterations`, `maxDurationMs`
+  - `status` (`MONSTER | DISABLED | ACTIVATED | DEAD` + alias-i)
 
 - `PetljaResult`
   - `kind`, `goal`, `input`
+  - `status`, `statusTrail`
   - `output`, `iterations`, `completed`, `reason`
   - `warnings`, `durationMs`, `trace`
 
@@ -56,6 +69,19 @@ Kontrakt verzija: `1.0.0`
   - `max-iterations`
   - `time-limit`
   - `invalid-input`
+
+## Status tranzicije
+
+- `ACTIVATED` → `MONSTER` (početak izvršavanja)
+- `MONSTER` → `ACTIVATED` (uspešan završetak)
+- `ACTIVATED|MONSTER|DISABLED` → `DEAD` (guard stop: `max-iterations` ili `time-limit`, ili nedozvoljena tranzicija)
+- `ACTIVATED` → `DISABLED` (invalid input)
+- `DISABLED` i `DEAD` blokiraju izvršavanje petlje na ulazu
+
+`statusTrail` je audit trag svih tranzicija sa:
+- `from`, `to`
+- `reason`
+- `iteration`
 
 ## Očekivani rezultati
 

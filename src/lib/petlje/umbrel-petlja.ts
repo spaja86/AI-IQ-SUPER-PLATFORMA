@@ -1,5 +1,5 @@
 import type { PetljaInput, PetljaResult } from './types';
-import { baseResult, normalizeInput } from './utils';
+import { baseResult, createStatusTransition, normalizeInput } from './utils';
 import { runForPetlja } from './for-petlja';
 import { runItchPetlja } from './itch-petlja';
 import { runUrPelja } from './ur-pelja';
@@ -10,6 +10,8 @@ const GOAL = 'Orkestracija svih petlji kroz jedinstven, stabilan i auditabilan r
 export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const normalized = normalizeInput(input);
   const result = baseResult('UMBREL PETLJA', GOAL, normalized);
+  let status = result.status;
+  const statusTrail = [...result.statusTrail];
 
   const forResult = runForPetlja(input);
   const itchResult = runItchPetlja(input);
@@ -19,9 +21,22 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const parts = [forResult, itchResult, urResult, nikResult];
   const warnings = parts.flatMap((p) => p.warnings.map((w) => `[${p.kind}] ${w}`));
   const completed = parts.every((p) => p.completed);
+  const partStatuses = parts.map((p) => p.status);
+  const mergedTrails = parts.flatMap((p) => p.statusTrail.map((entry) => ({ ...entry, reason: `[${p.kind}] ${entry.reason}` })));
+
+  const aggregateStatus =
+    partStatuses.includes('DEAD') ? 'DEAD'
+      : partStatuses.includes('DISABLED') ? 'DISABLED'
+      : partStatuses.includes('MONSTER') ? 'MONSTER'
+      : 'ACTIVATED';
+  const transition = createStatusTransition(status, aggregateStatus, 'umbrella-aggregate', parts.reduce((acc, p) => acc + p.iterations, 0));
+  status = transition.status;
+  statusTrail.push(transition.entry, ...mergedTrails);
 
   return {
     ...result,
+    status,
+    statusTrail,
     output: parts.reduce((acc, p) => acc + p.output, 0),
     iterations: parts.reduce((acc, p) => acc + p.iterations, 0),
     completed,
