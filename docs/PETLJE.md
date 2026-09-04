@@ -17,6 +17,7 @@ Ovaj dokument definiše značenje, cilj i zajednički API za:
 - `IZI PETLJA`
 - `UK PETLJA`
 - `ZUM PETLJA`
+- `SPAJA PETLJA`
 - `DURMITOR PETLJA`
 - `UMBREL PETLJA`
 
@@ -101,7 +102,11 @@ Dozvoljeni alias-i ulaza:
     - Cilj: Sabiranje kvadrata svih posećenih vrednosti u opsegu.
     - Izlaz: Zbir kvadrata.
 
-18. **DURMITOR PETLJA**
+18. **SPAJA PETLJA**
+    - Cilj: Pivotira između petlji po segmentima (`RANGE`, `TARGET`, `SEQUENCE`) i prenosi međurezultate kroz kontrolisan export/import.
+    - Izlaz: Agregirani izlaz svih segmentnih petlji uz audit trag pivot tranzicija.
+
+19. **DURMITOR PETLJA**
     - Cilj: Širenje od vrha ka podnožju kroz slojeve koji rastu po širini i nose u sebi `UMBREL PETLJU`.
     - Izlaz: Zbir svih planinskih slojeva uz dodat ugrađeni izlaz `UMBREL PETLJE`.
 
@@ -113,6 +118,10 @@ Sve petlje koriste isti ulazni i izlazni oblik:
   - `start`, `end`, `step`, `target`, `sequence`
   - `maxIterations`, `maxDurationMs`
   - `status` (`MONSTER | DISABLED | ACTIVATED | DEAD` + alias-i)
+  - `spajaSegments` (`segment`, `loops`, `importFromPrevious`)
+  - `spajaTransferPolicy` (`strict | fallback`)
+  - `spajaExportFields` (`output | iterations | warnings-count`)
+  - `spajaImportTarget` (`target | start | end | sequence`)
 
 - `PetljaResult`
   - `kind`, `goal`, `input`
@@ -134,6 +143,10 @@ Kontrakt verzija: `1.0.0`
 - Target-orijentisane petlje (`ITCH`, `KUR`, `DOR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
 - `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.
 - `DURMITOR PETLJA` validira opseg kao range-orijentisana petlja, koristi `sequence` kao pejzažni sloj i nasleđuje finalni status od ugrađene `UMBREL PETLJE` kada njen interni agregat nije uspešan.
+- `SPAJA PETLJA` validira segmentnu konfiguraciju pre izvršavanja:
+  - Segmenti podržavaju samo petlje svoje kategorije (`RANGE`, `TARGET`, `SEQUENCE`).
+  - Export/import prenosi samo eksplicitno dozvoljena polja (`output`, `iterations`, `warnings-count`).
+  - `strict` prekida pivot kada segment nema validan izlaz; `fallback` beleži upozorenje i nastavlja.
 - `reason` može biti:
   - `completed`
   - `max-iterations`
@@ -168,6 +181,6 @@ Kontrakt verzija: `1.0.0`
 ## Kratak tok (primer)
 
 1. Priprema `PetljaInput`.
-2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runDorPetlja`, `runExePetlja`, `runKurPetlja`, `runDarPetlja`, `runYuPetlja`, `runZarPetlja`, `runDerPetlja`, `runGarPetlja`, `runZurPetlja`, `runIziPetlja`, `runUkPetlja`, `runZumPetlja`, `runDurmitorPetlja`, `runUmbrelPetlja`).
+2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runDorPetlja`, `runExePetlja`, `runKurPetlja`, `runDarPetlja`, `runYuPetlja`, `runZarPetlja`, `runDerPetlja`, `runGarPetlja`, `runZurPetlja`, `runIziPetlja`, `runUkPetlja`, `runZumPetlja`, `runSpajaPetlja`, `runDurmitorPetlja`, `runUmbrelPetlja`).
 3. Obrada standardizovanog `PetljaResult`.
 4. Audit kroz `trace`, `warnings`, `reason` i `durationMs`.

@@ -18,6 +18,7 @@ import {
   runIziPetlja,
   runUkPetlja,
   runZumPetlja,
+  runSpajaPetlja,
   runDurmitorPetlja,
   runUmbrelPetlja,
 } from '../../lib/petlje';
@@ -362,6 +363,85 @@ async function runTests(): Promise<void> {
     assert(!result.completed, 'UMBREL should stop early on time-limit');
     assertEqual(result.status, 'DEAD', 'UMBREL time-limit status');
     assertEqual(result.reason, 'time-limit', 'UMBREL time-limit reason');
+  });
+
+  await test('SPAJA PETLJA pivots through multiple segments with export/import', () => {
+    const input = {
+      start: 0,
+      end: 4,
+      step: 1,
+      target: 3,
+      sequence: [1, 2, 3],
+      maxDurationMs: 100,
+      spajaImportTarget: 'target' as const,
+      spajaExportFields: ['output'] as const,
+      spajaTransferPolicy: 'strict' as const,
+      spajaSegments: [
+        { segment: 'SEQUENCE' as const, loops: ['UR PELJA'] as const, importFromPrevious: false },
+        { segment: 'TARGET' as const, loops: ['ITCH PETLJA'] as const, importFromPrevious: true },
+        { segment: 'SEQUENCE' as const, loops: ['YU PETLJA'] as const, importFromPrevious: true },
+      ],
+    };
+    const result = runSpajaPetlja(input);
+    assert(result.completed, 'SPAJA should complete');
+    assertEqual(result.status, 'ACTIVATED', 'SPAJA final status');
+    assertEqual(result.reason, 'completed', 'SPAJA reason');
+    assertEqual(result.output, 12, 'SPAJA output should aggregate pivoted loop outputs');
+    assertEqual(result.trace.length, 3, 'SPAJA trace should include one point per executed loop');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][ITCH PETLJA]')), 'SPAJA should include segment-prefixed audit');
+    assertEqual(result.trace[result.trace.length - 1]?.accumulator, result.output, 'SPAJA final accumulator');
+  });
+
+  await test('SPAJA PETLJA validates invalid segment configuration', () => {
+    const result = runSpajaPetlja({
+      start: 0,
+      end: 4,
+      step: 1,
+      target: 2,
+      sequence: [1, 2],
+      spajaSegments: [{ segment: 'TARGET', loops: ['SPAJA PETLJA'] }],
+    });
+    assert(!result.completed, 'SPAJA invalid config should fail');
+    assertEqual(result.status, 'DISABLED', 'SPAJA invalid config status');
+    assertEqual(result.reason, 'invalid-input', 'SPAJA invalid config reason');
+    assert(result.warnings.some((warning) => warning.includes('nije dozvoljena u segmentu TARGET')), 'SPAJA should report invalid segment loop binding');
+  });
+
+  await test('SPAJA PETLJA blocks execution on DISEBLED input status', () => {
+    const result = runSpajaPetlja({
+      status: 'DISEBLED',
+      spajaSegments: [{ segment: 'RANGE', loops: ['FOR PETLJA'] }],
+      start: 0,
+      end: 2,
+      step: 1,
+    });
+    assert(!result.completed, 'SPAJA should be blocked');
+    assertEqual(result.input.status, 'DISABLED', 'SPAJA should normalize DISEBLED');
+    assertEqual(result.status, 'DISABLED', 'SPAJA blocked status');
+    assertEqual(result.reason, 'blocked-status', 'SPAJA blocked reason');
+  });
+
+  await test('SPAJA PETLJA guard stop maps to DEAD with deterministic audit trail', () => {
+    const result = runSpajaPetlja({
+      start: 0,
+      end: 3,
+      step: 1,
+      target: 3,
+      sequence: [1, 2, 3],
+      maxIterations: 1,
+      maxDurationMs: 100,
+      spajaTransferPolicy: 'fallback',
+      spajaSegments: [
+        { segment: 'RANGE', loops: ['FOR PETLJA'] },
+        { segment: 'SEQUENCE', loops: ['UR PELJA'] },
+      ],
+    });
+    assert(!result.completed, 'SPAJA should stop at guard');
+    assertEqual(result.status, 'DEAD', 'SPAJA guard status');
+    assertEqual(result.reason, 'max-iterations', 'SPAJA guard reason');
+    assertEqual(result.iterations, 1, 'SPAJA deterministic guard iterations');
+    const last = result.statusTrail[result.statusTrail.length - 1];
+    assert(last?.reason === 'guard-stop:max-iterations', 'SPAJA should end with guard-stop audit');
   });
 
   await test('status aliases normalize to canonical values', () => {
