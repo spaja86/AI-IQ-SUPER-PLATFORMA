@@ -47,14 +47,9 @@ export function buildExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   if (duelKing.performanceMaxMs > EXTRIMLI_KORON_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRIMLI_KORON_API_MAX_MS) {
     degradedSources.push('extrimli-duel-king-kpi');
   }
-  if (duelKing.kurTelemetryStatus === 'DEGRADED') {
-    degradedSources.push('extrimli-duel-king-kur-signal');
-  }
-
   const riskBalanceScore = round(clamp(100 - ((v1.lastRiskScore + v3.lastRiskScore) / 2), 0, 100), 2);
   const duelKingReadinessScore = round(clamp(duelKing.lastReadinessScore, 0, 100), 2);
   const duelKingLive = duelKing.telemetryStatus === 'LIVE';
-  const duelKingKurLive = duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'LIVE';
   const kurInGameScore = round(clamp(duelKing.lastKurProgressionSignal, 0, 100), 2);
   const communitySignalScore = round(
     clamp(cuz.activeCrews * 20 + cuz.mentorProfiles * 25 + cuz.feedPosts * 10, 0, 100),
@@ -72,22 +67,13 @@ export function buildExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   const readinessScore = round(
     clamp(
       duelKingLive
-        ? duelKingKurLive
-          ? (
-            riskBalanceScore * 0.28
-            + clamp(v3.lastReadinessScore, 0, 100) * 0.20
-            + duelKingReadinessScore * 0.16
-            + kurInGameScore * 0.08
-            + communitySignalScore * 0.14
-            + destructionRecoveryScore * 0.14
-          )
-          : (
-            riskBalanceScore * 0.30
-            + clamp(v3.lastReadinessScore, 0, 100) * 0.23
-            + duelKingReadinessScore * 0.17
-            + communitySignalScore * 0.15
-            + destructionRecoveryScore * 0.15
-          )
+        ? (
+          riskBalanceScore * 0.30
+          + clamp(v3.lastReadinessScore, 0, 100) * 0.23
+          + duelKingReadinessScore * 0.17
+          + communitySignalScore * 0.15
+          + destructionRecoveryScore * 0.15
+        )
         : baselineReadiness,
       0,
       100,

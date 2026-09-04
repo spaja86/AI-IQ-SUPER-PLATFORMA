@@ -63,6 +63,7 @@ let lastKurImpactScore = 0;
 let lastKurSignalStatus: DuelKingKurSignalStatus = 'BASELINE';
 let lastTournamentState: DuelKingTournamentState | null = null;
 const MAX_KUR_IMPACT_SCORE = 8;
+const DUEL_KING_KUR_DEFAULT_MAX_DURATION_MS = Math.min(20, EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS);
 
 function resolveRiskLevel(score: number): RiskLevel {
   for (const { level, min } of RISK_LEVEL_THRESHOLDS) {
@@ -120,7 +121,7 @@ function evaluateKurGameSignal(input: DuelKingKurGameSignalInput | undefined): D
     step: input.step,
     status: 'ACTIVATED',
     maxIterations: input.maxIterations ?? 128,
-    maxDurationMs: input.maxDurationMs ?? EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
+    maxDurationMs: input.maxDurationMs ?? DUEL_KING_KUR_DEFAULT_MAX_DURATION_MS,
   });
 
   const pathSpan = Math.max(Math.abs(input.target - input.start), 1);
@@ -148,16 +149,19 @@ function evaluateKurGameSignal(input: DuelKingKurGameSignalInput | undefined): D
     2,
   );
   const impactScore = round(clamp((progressionSignal - 50) * 0.16, -MAX_KUR_IMPACT_SCORE, MAX_KUR_IMPACT_SCORE), 2);
-  const status: DuelKingKurSignalStatus = kurResult.completed && kurResult.reason === 'completed'
-    ? 'LIVE'
-    : 'DEGRADED';
+  const isBoundedTermination = kurResult.reason === 'max-iterations' || kurResult.reason === 'time-limit';
+  const isSignalFailure = kurResult.reason === 'invalid-input' || kurResult.reason === 'blocked-status';
+  const status: DuelKingKurSignalStatus = isSignalFailure ? 'DEGRADED' : 'LIVE';
+  if (isBoundedTermination) {
+    warnings.push(`KUR signal reached bounded termination (${kurResult.reason}) and was applied with limited impact.`);
+  }
   if (status === 'DEGRADED') {
     warnings.push(`KUR signal entered degraded mode because petlja finished with reason=${kurResult.reason}.`);
   }
 
   return {
     status,
-    applied: status === 'LIVE' && kurResult.completed && kurResult.reason === 'completed',
+    applied: status === 'LIVE',
     progressionSignal,
     impactScore,
     completed: kurResult.completed,
