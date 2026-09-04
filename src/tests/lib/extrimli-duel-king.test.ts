@@ -93,6 +93,23 @@ async function runTests(): Promise<void> {
       DUEL_KING_COMPOSITE_READINESS_WEIGHTS.kur + DUEL_KING_COMPOSITE_READINESS_WEIGHTS.dur + DUEL_KING_COMPOSITE_READINESS_WEIGHTS.mol <= 1,
       'composite readiness weights must remain bounded',
     );
+    const invalidWeightsFallbackScore = computeDuelKingCompositeReadiness(
+      {
+        ...baseline,
+        lastReadinessScore: 60,
+        kurTelemetryStatus: 'LIVE',
+        durTelemetryStatus: 'LIVE',
+        molTelemetryStatus: 'LIVE',
+        lastKurSignalStatus: 'LIVE',
+        lastDurSignalStatus: 'LIVE',
+        lastMolSignalStatus: 'LIVE',
+        lastKurProgressionSignal: 80,
+        lastDurProgressionSignal: 100,
+        lastMolProgressionSignal: 40,
+      },
+      { kur: 0.9, dur: 0.9, mol: 0.9 },
+    );
+    assert(invalidWeightsFallbackScore === allLiveScore, 'invalid weight sets should fall back to default composite weights');
   });
 
   await test('valid arena duel returns ready posture', () => {
