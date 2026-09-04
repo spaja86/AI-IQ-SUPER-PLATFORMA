@@ -327,7 +327,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   lastDuelRiskScore = duelRiskScore;
   lastTournamentState = tournamentState;
   if (input.kurGameSignal) {
-    kurTelemetryStatus = kurGameSignal.status === 'LIVE' ? 'LIVE' : 'BASELINE';
+    kurTelemetryStatus = 'LIVE';
     kurEvaluations += 1;
     lastKurProgressionSignal = kurGameSignal.progressionSignal;
     lastKurImpactScore = kurGameSignal.impactScore;

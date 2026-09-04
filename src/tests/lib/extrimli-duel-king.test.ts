@@ -144,7 +144,7 @@ async function runTests(): Promise<void> {
     assert(result.degraded === true, 'invalid KUR signal should degrade response');
     assert(result.kurGameSignal.status === 'DEGRADED', `expected DEGRADED KUR status, got ${result.kurGameSignal.status}`);
     const report = getDuelKingHealthReport();
-    assert(report.kurTelemetryStatus === 'BASELINE', `invalid KUR should keep telemetry baseline, got ${report.kurTelemetryStatus}`);
+    assert(report.kurTelemetryStatus === 'LIVE', `invalid KUR attempt should keep telemetry live, got ${report.kurTelemetryStatus}`);
   });
 
   await test('unknown duel mode returns invalid result', () => {
