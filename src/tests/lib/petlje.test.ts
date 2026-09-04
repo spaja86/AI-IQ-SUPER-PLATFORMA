@@ -6,6 +6,18 @@ import {
   runItchPetlja,
   runUrPelja,
   runNikPetlja,
+  runDorPetlja,
+  runExePetlja,
+  runKurPetlja,
+  runDarPetlja,
+  runYuPetlja,
+  runZarPetlja,
+  runDerPetlja,
+  runGarPetlja,
+  runZurPetlja,
+  runIziPetlja,
+  runUkPetlja,
+  runZumPetlja,
   runUmbrelPetlja,
 } from '../../lib/petlje';
 
@@ -34,6 +46,105 @@ function assert(condition: boolean, message: string): void {
 function assertEqual<T>(actual: T, expected: T, message: string): void {
   if (actual !== expected) throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
 }
+
+const extendedPetljaSpecs = [
+  {
+    kind: 'DOR PETLJA',
+    run: runDorPetlja,
+    validInput: { start: 0, end: 3, step: 1, target: 2, maxDurationMs: 100 },
+    expectedOutput: 4,
+    invalidInput: { start: 0, end: 3, step: 0, target: 2 },
+    guardInput: { start: 0, end: 10, step: 1, target: 0, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'EXE PETLJA',
+    run: runExePetlja,
+    validInput: { sequence: [2, 1, 3], maxDurationMs: 100 },
+    expectedOutput: 13,
+    invalidInput: { sequence: [1, NaN, Infinity] },
+    guardInput: { sequence: [5, 4, 3, 2], maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'KUR PETLJA',
+    run: runKurPetlja,
+    validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
+    expectedOutput: 11,
+    invalidInput: { start: 0, target: 5, step: 0 },
+    guardInput: { start: 0, target: 100, step: 1, maxIterations: 3, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DAR PETLJA',
+    run: runDarPetlja,
+    validInput: { start: 2, end: 8, step: 2, maxDurationMs: 100 },
+    expectedOutput: 5,
+    invalidInput: { start: 0, end: 10, step: -1 },
+    guardInput: { start: 0, end: 100, step: 1, maxIterations: 3, maxDurationMs: 100 },
+  },
+  {
+    kind: 'YU PETLJA',
+    run: runYuPetlja,
+    validInput: { sequence: [1, 5, 3, 7], target: 4, maxDurationMs: 100 },
+    expectedOutput: 2,
+    invalidInput: { sequence: [1, 2, NaN], target: 4 },
+    guardInput: { sequence: [9, 8, 7, 6], target: 7, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'ZAR PETLJA',
+    run: runZarPetlja,
+    validInput: { sequence: [1, 4, 2, 7], maxDurationMs: 100 },
+    expectedOutput: 10,
+    invalidInput: { sequence: [1, Infinity] },
+    guardInput: { sequence: [1, 4, 2, 7, 9], maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DER PETLJA',
+    run: runDerPetlja,
+    validInput: { sequence: [2, -1, 4, -2], maxDurationMs: 100 },
+    expectedOutput: 5,
+    invalidInput: { sequence: [1, Number.NaN] },
+    guardInput: { sequence: [2, -1, 4, -2, 6], maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'GAR PETLJA',
+    run: runGarPetlja,
+    validInput: { start: -2, end: 4, step: 2, maxDurationMs: 100 },
+    expectedOutput: 4,
+    invalidInput: { start: 0, end: 4, step: -1 },
+    guardInput: { start: 0, end: 100, step: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'ZUR PETLJA',
+    run: runZurPetlja,
+    validInput: { sequence: [10, 4, 7], target: 6, maxDurationMs: 100 },
+    expectedOutput: 7,
+    invalidInput: { sequence: [10, Infinity], target: 6 },
+    guardInput: { sequence: [10, 9, 8, 7], target: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'IZI PETLJA',
+    run: runIziPetlja,
+    validInput: { sequence: [5, 8, 5], target: 8, maxDurationMs: 100 },
+    expectedOutput: 1,
+    invalidInput: { sequence: [5, Number.NaN], target: 8 },
+    guardInput: { sequence: [1, 2, 3, 4], target: 99, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'UK PETLJA',
+    run: runUkPetlja,
+    validInput: { start: 0, end: 5, step: 1, target: 3, maxDurationMs: 100 },
+    expectedOutput: 4,
+    invalidInput: { start: 0, end: 5, step: 0, target: 3 },
+    guardInput: { start: 0, end: 100, step: 1, target: 50, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'ZUM PETLJA',
+    run: runZumPetlja,
+    validInput: { start: 1, end: 3, step: 1, maxDurationMs: 100 },
+    expectedOutput: 14,
+    invalidInput: { start: 0, end: 3, step: -1 },
+    guardInput: { start: 0, end: 100, step: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+] as const;
 
 async function runTests(): Promise<void> {
   console.log('\n🔁 [petlje] Test suite\n');
@@ -126,6 +237,39 @@ async function runTests(): Promise<void> {
     assertEqual(result.status, 'DISABLED', 'NIK invalid input status');
   });
 
+  for (const spec of extendedPetljaSpecs) {
+    await test(`${spec.kind} basic scenario completes with expected output`, () => {
+      const result = spec.run(spec.validInput);
+      assert(result.completed, `${spec.kind} should complete`);
+      assertEqual(result.output, spec.expectedOutput, `${spec.kind} output`);
+      assertEqual(result.reason, 'completed', `${spec.kind} reason`);
+      assertEqual(result.status, 'ACTIVATED', `${spec.kind} status`);
+      assert(result.statusTrail.some((entry) => entry.to === 'MONSTER'), `${spec.kind} should enter MONSTER`);
+    });
+
+    await test(`${spec.kind} invalid input is disabled`, () => {
+      const result = spec.run(spec.invalidInput);
+      assert(!result.completed, `${spec.kind} should fail`);
+      assertEqual(result.reason, 'invalid-input', `${spec.kind} invalid reason`);
+      assertEqual(result.status, 'DISABLED', `${spec.kind} invalid status`);
+    });
+
+    await test(`${spec.kind} guard stop maps to DEAD`, () => {
+      const result = spec.run(spec.guardInput);
+      assert(!result.completed, `${spec.kind} should stop early`);
+      assertEqual(result.reason, 'max-iterations', `${spec.kind} guard reason`);
+      assertEqual(result.status, 'DEAD', `${spec.kind} guard status`);
+    });
+
+    await test(`${spec.kind} DISEBLED alias blocks execution`, () => {
+      const result = spec.run({ ...spec.validInput, status: 'DISEBLED' });
+      assert(!result.completed, `${spec.kind} should be blocked`);
+      assertEqual(result.input.status, 'DISABLED', `${spec.kind} alias normalization`);
+      assertEqual(result.reason, 'blocked-status', `${spec.kind} blocked reason`);
+      assertEqual(result.status, 'DISABLED', `${spec.kind} blocked status`);
+    });
+  }
+
   await test('time-limit protection works when maxDurationMs is zero', () => {
     const result = runForPetlja({ start: 0, end: 1000, step: 1, maxDurationMs: 0 });
     assert(!result.completed, 'Loop should stop by time limit');
@@ -135,7 +279,7 @@ async function runTests(): Promise<void> {
 
   await test('UMBREL PETLJA returns unified aggregate result', () => {
     const result = runUmbrelPetlja({ start: 0, end: 3, step: 1, target: 2, sequence: [2, 2], maxDurationMs: 100 });
-    assert(result.trace.length === 4, 'UMBREL trace should contain 4 parts');
+    assert(result.trace.length === 16, 'UMBREL trace should contain 16 parts');
     assert(result.reason === 'completed' || result.reason === 'invalid-input', 'UMBREL reason should be valid enum');
     assert(['ACTIVATED', 'DISABLED', 'DEAD'].includes(result.status), 'UMBREL status should be canonical');
     assertEqual(result.statusTrail[0]?.to, 'MONSTER', 'UMBREL should enter MONSTER first');

@@ -4,6 +4,18 @@ import { runForPetlja } from './for-petlja';
 import { runItchPetlja } from './itch-petlja';
 import { runUrPelja } from './ur-pelja';
 import { runNikPetlja } from './nik-petlja';
+import { runDorPetlja } from './dor-petlja';
+import { runExePetlja } from './exe-petlja';
+import { runKurPetlja } from './kur-petlja';
+import { runDarPetlja } from './dar-petlja';
+import { runYuPetlja } from './yu-petlja';
+import { runZarPetlja } from './zar-petlja';
+import { runDerPetlja } from './der-petlja';
+import { runGarPetlja } from './gar-petlja';
+import { runZurPetlja } from './zur-petlja';
+import { runIziPetlja } from './izi-petlja';
+import { runUkPetlja } from './uk-petlja';
+import { runZumPetlja } from './zum-petlja';
 
 const GOAL = 'Orkestracija svih petlji kroz jedinstven, stabilan i auditabilan rezultat.';
 
@@ -35,8 +47,37 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const itchResult = runItchPetlja(normalized);
   const urResult = runUrPelja(normalized);
   const nikResult = runNikPetlja(normalized);
+  const dorResult = runDorPetlja(normalized);
+  const exeResult = runExePetlja(normalized);
+  const kurResult = runKurPetlja(normalized);
+  const darResult = runDarPetlja(normalized);
+  const yuResult = runYuPetlja(normalized);
+  const zarResult = runZarPetlja(normalized);
+  const derResult = runDerPetlja(normalized);
+  const garResult = runGarPetlja(normalized);
+  const zurResult = runZurPetlja(normalized);
+  const iziResult = runIziPetlja(normalized);
+  const ukResult = runUkPetlja(normalized);
+  const zumResult = runZumPetlja(normalized);
 
-  const parts = [forResult, itchResult, urResult, nikResult];
+  const parts = [
+    forResult,
+    itchResult,
+    urResult,
+    nikResult,
+    dorResult,
+    exeResult,
+    kurResult,
+    darResult,
+    yuResult,
+    zarResult,
+    derResult,
+    garResult,
+    zurResult,
+    iziResult,
+    ukResult,
+    zumResult,
+  ];
   const warnings = parts.flatMap((p) => p.warnings.map((w) => `[${p.kind}] ${w}`));
   const completed = parts.every((p) => p.completed);
   const partStatuses = parts.map((p) => p.status);
@@ -68,11 +109,10 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     reason: completed ? 'completed' : (parts.find((p) => !p.completed)?.reason ?? 'invalid-input'),
     warnings,
     durationMs: parts.reduce((acc, p) => acc + p.durationMs, 0),
-    trace: [
-      { iteration: 1, value: forResult.output, accumulator: forResult.output },
-      { iteration: 2, value: itchResult.output, accumulator: forResult.output + itchResult.output },
-      { iteration: 3, value: urResult.output, accumulator: forResult.output + itchResult.output + urResult.output },
-      { iteration: 4, value: nikResult.output, accumulator: forResult.output + itchResult.output + urResult.output + nikResult.output },
-    ],
+    trace: parts.map((part, index) => ({
+      iteration: index + 1,
+      value: part.output,
+      accumulator: parts.slice(0, index + 1).reduce((acc, currentPart) => acc + currentPart.output, 0),
+    })),
   };
 }

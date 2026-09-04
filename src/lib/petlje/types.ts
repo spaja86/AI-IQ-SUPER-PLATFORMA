@@ -1,4 +1,21 @@
-export type PetljaKind = 'FOR PETLJA' | 'ITCH PETLJA' | 'UR PELJA' | 'NIK PETLJA' | 'UMBREL PETLJA';
+export type PetljaKind =
+  | 'FOR PETLJA'
+  | 'ITCH PETLJA'
+  | 'UR PELJA'
+  | 'NIK PETLJA'
+  | 'DOR PETLJA'
+  | 'EXE PETLJA'
+  | 'KUR PETLJA'
+  | 'DAR PETLJA'
+  | 'YU PETLJA'
+  | 'ZAR PETLJA'
+  | 'DER PETLJA'
+  | 'GAR PETLJA'
+  | 'ZUR PETLJA'
+  | 'IZI PETLJA'
+  | 'UK PETLJA'
+  | 'ZUM PETLJA'
+  | 'UMBREL PETLJA';
 
 export type PetljaReason = 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status';
 export type PetljaStatus = 'MONSTER' | 'DISABLED' | 'ACTIVATED' | 'DEAD';
