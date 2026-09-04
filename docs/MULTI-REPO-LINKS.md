@@ -64,6 +64,10 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `pilotrelax:logic-change` | PILOTRELAX relaxation contract or scoring logic changed |
 | `pilotrelax:validated` | PILOTRELAX validator and tests passed |
 | `pilotrelax:needs-review` | PILOTRELAX validator requires human follow-up |
+| `opkongo` | OPKONGO change set — requires focused validation |
+| `opkongo:logic-change` | OPKONGO opportunity-progression contract or scoring logic changed |
+| `opkongo:validated` | OPKONGO validator and tests passed |
+| `opkongo:needs-review` | OPKONGO validator requires human follow-up |
 | `mirikl` | MIRIKL GitHub + Vercel governance/release change set |
 | `mirikl:logic-change` | MIRIKL deploy/config/cross-repo governance logic changed |
 | `mirikl:review` | MIRIKL change requires focused human review |
@@ -1183,6 +1187,33 @@ AI-IQ-SUPER-PLATFORMA#dumbir -> IO-OPENUI-AO#<optional follow-up issue>
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#pilotrelax -> IO-OPENUI-AO#<optional follow-up issue>
+```
+
+## OPKONGO — Opportunity Progression & Commitment Guidance
+
+| Field | Value |
+|---|---|
+| Date | 2026-09-04 |
+| Owner | @spaja86 |
+| Scope | `src/lib/opkongo/**`, `src/app/api/opkongo/**` |
+| Persona | `opkongo-commit-core` (octave: 8, hipermreza node: 65) |
+| Validator | `opkongo` label track |
+| Workflow | `.github/workflows/opkongo-validator.yml` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — OPKONGO opportunity-progression module | `spaja86/IO-OPENUI-AO` — No linked repo change required | Current scope is repo-local module/API/docs only; downstream adoption can be tracked later |
+
+**Potential follow-up in `spaja86/IO-OPENUI-AO`:**
+- Add OPKONGO label schema (`opkongo`, `opkongo:logic-change`, `opkongo:validated`, `opkongo:needs-review`) only when the module is consumed downstream
+- Record the canonical `opkongo` slug in linked repo documentation if external adoption starts
+- Sync `opkongo-commit-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#opkongo -> IO-OPENUI-AO#<optional follow-up issue>
 ```
 
 ## ADUTIV — Advantage Intelligence Engine
