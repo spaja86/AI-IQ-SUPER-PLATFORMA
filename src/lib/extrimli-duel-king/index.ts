@@ -152,6 +152,7 @@ export function computeDuelKingCompositeReadiness(
 type DuelKingInGameSignalInput = DuelKingKurGameSignalInput | DuelKingDurGameSignalInput | DuelKingMolGameSignalInput;
 type DuelKingInGameSignalResult = DuelKingKurGameSignalResult | DuelKingDurGameSignalResult | DuelKingMolGameSignalResult;
 type DuelKingInGameSignalStatus = DuelKingKurSignalStatus | DuelKingDurSignalStatus | DuelKingMolSignalStatus;
+type DuelKingInGameSignalKey = 'kur' | 'dur' | 'mol';
 
 function evaluateInGameSignal(
   signalName: 'KUR' | 'DUR' | 'MOL',
@@ -269,6 +270,52 @@ function evaluateMolGameSignal(input: DuelKingMolGameSignalInput | undefined): D
   return evaluateInGameSignal('MOL', input, MAX_MOL_IMPACT_SCORE, DUEL_KING_MOL_DEFAULT_MAX_DURATION_MS) as DuelKingMolGameSignalResult;
 }
 
+function setSignalTelemetry(
+  kind: DuelKingInGameSignalKey,
+  signal: {
+    provided: boolean;
+    status: DuelKingInGameSignalStatus;
+    progressionSignal?: number;
+    impactScore?: number;
+  },
+): void {
+  const progressionSignal = signal.progressionSignal ?? 50;
+  const impactScore = signal.impactScore ?? 0;
+
+  if (kind === 'kur') {
+    if (signal.provided) {
+      kurEvaluations += 1;
+      if (signal.status === 'DEGRADED') kurDegradedEvaluations += 1;
+    }
+    lastKurEvaluationStatus = signal.status as DuelKingKurSignalStatus;
+    lastKurProgressionSignal = progressionSignal;
+    lastKurImpactScore = impactScore;
+    lastKurSignalStatus = signal.status as DuelKingKurSignalStatus;
+    return;
+  }
+
+  if (kind === 'dur') {
+    if (signal.provided) {
+      durEvaluations += 1;
+      if (signal.status === 'DEGRADED') durDegradedEvaluations += 1;
+    }
+    lastDurEvaluationStatus = signal.status as DuelKingDurSignalStatus;
+    lastDurProgressionSignal = progressionSignal;
+    lastDurImpactScore = impactScore;
+    lastDurSignalStatus = signal.status as DuelKingDurSignalStatus;
+    return;
+  }
+
+  if (signal.provided) {
+    molEvaluations += 1;
+    if (signal.status === 'DEGRADED') molDegradedEvaluations += 1;
+  }
+  lastMolEvaluationStatus = signal.status as DuelKingMolSignalStatus;
+  lastMolProgressionSignal = progressionSignal;
+  lastMolImpactScore = impactScore;
+  lastMolSignalStatus = signal.status as DuelKingMolSignalStatus;
+}
+
 function invalidResult(input: Partial<DuelKingInput>, warning: string, start: number): DuelKingResult {
   evaluations += 1;
   telemetryStatus = 'LIVE';
@@ -277,45 +324,9 @@ function invalidResult(input: Partial<DuelKingInput>, warning: string, start: nu
   lastTournamentState = DUEL_KING_TOURNAMENT_STATES.includes(input.tournamentState as DuelKingTournamentState)
     ? (input.tournamentState as DuelKingTournamentState)
     : null;
-  if (input.kurGameSignal) {
-    kurEvaluations += 1;
-    kurDegradedEvaluations += 1;
-    lastKurEvaluationStatus = 'DEGRADED';
-    lastKurProgressionSignal = 50;
-    lastKurImpactScore = 0;
-    lastKurSignalStatus = 'DEGRADED';
-  } else {
-    lastKurEvaluationStatus = 'BASELINE';
-    lastKurProgressionSignal = 50;
-    lastKurImpactScore = 0;
-    lastKurSignalStatus = 'BASELINE';
-  }
-  if (input.durGameSignal) {
-    durEvaluations += 1;
-    durDegradedEvaluations += 1;
-    lastDurEvaluationStatus = 'DEGRADED';
-    lastDurProgressionSignal = 50;
-    lastDurImpactScore = 0;
-    lastDurSignalStatus = 'DEGRADED';
-  } else {
-    lastDurEvaluationStatus = 'BASELINE';
-    lastDurProgressionSignal = 50;
-    lastDurImpactScore = 0;
-    lastDurSignalStatus = 'BASELINE';
-  }
-  if (input.molGameSignal) {
-    molEvaluations += 1;
-    molDegradedEvaluations += 1;
-    lastMolEvaluationStatus = 'DEGRADED';
-    lastMolProgressionSignal = 50;
-    lastMolImpactScore = 0;
-    lastMolSignalStatus = 'DEGRADED';
-  } else {
-    lastMolEvaluationStatus = 'BASELINE';
-    lastMolProgressionSignal = 50;
-    lastMolImpactScore = 0;
-    lastMolSignalStatus = 'BASELINE';
-  }
+  setSignalTelemetry('kur', { provided: Boolean(input.kurGameSignal), status: input.kurGameSignal ? 'DEGRADED' : 'BASELINE' });
+  setSignalTelemetry('dur', { provided: Boolean(input.durGameSignal), status: input.durGameSignal ? 'DEGRADED' : 'BASELINE' });
+  setSignalTelemetry('mol', { provided: Boolean(input.molGameSignal), status: input.molGameSignal ? 'DEGRADED' : 'BASELINE' });
   return {
     referenceId: input.referenceId ?? 'n/a',
     sportId: 'duel-king',
@@ -522,51 +533,24 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   lastReadinessScore = readinessScore;
   lastDuelRiskScore = duelRiskScore;
   lastTournamentState = tournamentState;
-  if (input.kurGameSignal) {
-    kurEvaluations += 1;
-    lastKurEvaluationStatus = kurGameSignal.status;
-    lastKurProgressionSignal = kurGameSignal.progressionSignal;
-    lastKurImpactScore = kurGameSignal.impactScore;
-    lastKurSignalStatus = kurGameSignal.status;
-    if (kurGameSignal.status === 'DEGRADED') {
-      kurDegradedEvaluations += 1;
-    }
-  } else {
-    lastKurEvaluationStatus = 'BASELINE';
-    lastKurProgressionSignal = 50;
-    lastKurImpactScore = 0;
-    lastKurSignalStatus = 'BASELINE';
-  }
-  if (input.durGameSignal) {
-    durEvaluations += 1;
-    lastDurEvaluationStatus = durGameSignal.status;
-    lastDurProgressionSignal = durGameSignal.progressionSignal;
-    lastDurImpactScore = durGameSignal.impactScore;
-    lastDurSignalStatus = durGameSignal.status;
-    if (durGameSignal.status === 'DEGRADED') {
-      durDegradedEvaluations += 1;
-    }
-  } else {
-    lastDurEvaluationStatus = 'BASELINE';
-    lastDurProgressionSignal = 50;
-    lastDurImpactScore = 0;
-    lastDurSignalStatus = 'BASELINE';
-  }
-  if (input.molGameSignal) {
-    molEvaluations += 1;
-    lastMolEvaluationStatus = molGameSignal.status;
-    lastMolProgressionSignal = molGameSignal.progressionSignal;
-    lastMolImpactScore = molGameSignal.impactScore;
-    lastMolSignalStatus = molGameSignal.status;
-    if (molGameSignal.status === 'DEGRADED') {
-      molDegradedEvaluations += 1;
-    }
-  } else {
-    lastMolEvaluationStatus = 'BASELINE';
-    lastMolProgressionSignal = 50;
-    lastMolImpactScore = 0;
-    lastMolSignalStatus = 'BASELINE';
-  }
+  setSignalTelemetry('kur', {
+    provided: Boolean(input.kurGameSignal),
+    status: input.kurGameSignal ? kurGameSignal.status : 'BASELINE',
+    progressionSignal: input.kurGameSignal ? kurGameSignal.progressionSignal : 50,
+    impactScore: input.kurGameSignal ? kurGameSignal.impactScore : 0,
+  });
+  setSignalTelemetry('dur', {
+    provided: Boolean(input.durGameSignal),
+    status: input.durGameSignal ? durGameSignal.status : 'BASELINE',
+    progressionSignal: input.durGameSignal ? durGameSignal.progressionSignal : 50,
+    impactScore: input.durGameSignal ? durGameSignal.impactScore : 0,
+  });
+  setSignalTelemetry('mol', {
+    provided: Boolean(input.molGameSignal),
+    status: input.molGameSignal ? molGameSignal.status : 'BASELINE',
+    progressionSignal: input.molGameSignal ? molGameSignal.progressionSignal : 50,
+    impactScore: input.molGameSignal ? molGameSignal.impactScore : 0,
+  });
 
   return {
     referenceId: input.referenceId ?? 'n/a',
