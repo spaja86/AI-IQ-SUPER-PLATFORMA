@@ -46,7 +46,7 @@ const RISK_LEVEL_THRESHOLDS: { level: RiskLevel; min: number }[] = [
 ];
 
 let evaluations = 0;
-let lastReadinessScore = 100;
+let lastReadinessScore = 0;
 let lastDuelRiskScore = 0;
 let lastTournamentState: DuelKingTournamentState | null = null;
 
@@ -242,7 +242,7 @@ export function getDuelKingHealthReport(): DuelKingHealthReport {
 
 export function _resetDuelKingMetrics(): void {
   evaluations = 0;
-  lastReadinessScore = 100;
+  lastReadinessScore = 0;
   lastDuelRiskScore = 0;
   lastTournamentState = null;
 }

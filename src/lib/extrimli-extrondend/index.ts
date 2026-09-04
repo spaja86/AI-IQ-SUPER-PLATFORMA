@@ -58,14 +58,20 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
 
   const v1Safety = clamp(v1Signals.safetySignal, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
-  const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
+  const duelKingReadiness = duelKing.evaluations > 0 ? clamp(duelKing.lastReadinessScore, 0, 100) : 0;
+  const weightedInputs = [
+    { score: v1Safety, weight: EXTRONDEND_WEIGHTS.v1Safety },
+    { score: v3Readiness, weight: EXTRONDEND_WEIGHTS.v3Readiness },
+    { score: extendol.unifiedReadinessScore, weight: EXTRONDEND_WEIGHTS.extendolReadiness },
+    { score: koron.readinessScore, weight: EXTRONDEND_WEIGHTS.koronReadiness },
+  ];
+  if (duelKing.evaluations > 0) {
+    weightedInputs.push({ score: duelKingReadiness, weight: EXTRONDEND_WEIGHTS.duelKingReadiness });
+  }
+  const totalWeight = weightedInputs.reduce((sum, item) => sum + item.weight, 0);
   const weightedSurfaceHealth = round(
     clamp(
-      v1Safety * EXTRONDEND_WEIGHTS.v1Safety
-      + v3Readiness * EXTRONDEND_WEIGHTS.v3Readiness
-      + duelKingReadiness * EXTRONDEND_WEIGHTS.duelKingReadiness
-      + extendol.unifiedReadinessScore * EXTRONDEND_WEIGHTS.extendolReadiness
-      + koron.readinessScore * EXTRONDEND_WEIGHTS.koronReadiness,
+      weightedInputs.reduce((sum, item) => sum + item.score * item.weight, 0) / totalWeight,
       0,
       100,
     ),

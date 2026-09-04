@@ -49,7 +49,9 @@ export function getExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   }
 
   const riskBalanceScore = round(clamp(100 - ((v1.lastRiskScore + v3.lastRiskScore) / 2), 0, 100), 2);
-  const duelKingReadinessScore = round(clamp(duelKing.lastReadinessScore, 0, 100), 2);
+  const duelKingReadinessScore = duelKing.evaluations > 0
+    ? round(clamp(duelKing.lastReadinessScore, 0, 100), 2)
+    : 0;
   const communitySignalScore = round(
     clamp(cuz.activeCrews * 20 + cuz.mentorProfiles * 25 + cuz.feedPosts * 10, 0, 100),
     2,
@@ -57,13 +59,19 @@ export function getExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   const destructionRecoveryScore = round(clamp(100 - v1.lastDestructionSeverityScore, 0, 100), 2);
   const syncCoverageScore = getSyncCoverageScore(degradedSources.length > 0);
 
+  const readinessInputs = [
+    { score: riskBalanceScore, weight: 0.30 },
+    { score: clamp(v3.lastReadinessScore, 0, 100), weight: 0.25 },
+    { score: communitySignalScore, weight: 0.15 },
+    { score: destructionRecoveryScore, weight: 0.15 },
+  ];
+  if (duelKing.evaluations > 0) {
+    readinessInputs.push({ score: duelKingReadinessScore, weight: 0.15 });
+  }
+  const totalWeight = readinessInputs.reduce((sum, item) => sum + item.weight, 0);
   const readinessScore = round(
     clamp(
-      riskBalanceScore * 0.30
-      + clamp(v3.lastReadinessScore, 0, 100) * 0.25
-      + duelKingReadinessScore * 0.15
-      + communitySignalScore * 0.15
-      + destructionRecoveryScore * 0.15,
+      readinessInputs.reduce((sum, item) => sum + item.score * item.weight, 0) / totalWeight,
       0,
       100,
     ),

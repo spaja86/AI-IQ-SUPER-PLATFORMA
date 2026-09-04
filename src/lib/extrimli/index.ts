@@ -48,8 +48,17 @@ export function getExtrimliAggregateSignals(): ExtrimliAggregateSignals {
   const report = getExtrimliHealthReport();
   const duelKing = getDuelKingHealthReport();
   const safetySignal = round(clamp(100 - report.lastRiskScore, 0, 100), 2);
-  const duelKingReadinessSignal = round(clamp(duelKing.lastReadinessScore, 0, 100), 2);
-  const readinessSignal = round(clamp((safetySignal + (100 - report.lastDestructionSeverityScore) + duelKingReadinessSignal) / 3, 0, 100), 2);
+  const duelKingReadinessSignal = duelKing.evaluations > 0
+    ? round(clamp(duelKing.lastReadinessScore, 0, 100), 2)
+    : 0;
+  const readinessInputs = [safetySignal, round(clamp(100 - report.lastDestructionSeverityScore, 0, 100), 2)];
+  if (duelKing.evaluations > 0) {
+    readinessInputs.push(duelKingReadinessSignal);
+  }
+  const readinessSignal = round(
+    clamp(readinessInputs.reduce((sum, value) => sum + value, 0) / readinessInputs.length, 0, 100),
+    2,
+  );
   const degradationSignal = report.performanceMaxMs > EXTRIMLI_PERFORMANCE_MAX_MS
     || report.apiResponseMaxMs > EXTRIMLI_API_RESPONSE_MAX_MS
     || duelKing.performanceMaxMs > EXTRIMLI_PERFORMANCE_MAX_MS
