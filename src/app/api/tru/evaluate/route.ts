@@ -84,7 +84,6 @@ export async function POST(req: NextRequest) {
         validation: {
           valid: result.valid,
           warnings: result.warnings,
-          status: result.status,
         },
       });
     setTruHeaders(response, result);
