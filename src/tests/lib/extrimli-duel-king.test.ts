@@ -494,6 +494,41 @@ async function runTests(): Promise<void> {
     assert(report.lastDuelRiskScore >= 50, `expected conservative risk after invalid input, got ${report.lastDuelRiskScore}`);
   });
 
+  await test('invalid core evaluation resets omitted in-game telemetry to baseline', () => {
+    _resetDuelKingMetrics();
+    evaluateDuelKing({
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 7,
+      tournamentState: 'ACTIVE',
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      durGameSignal: { start: 0, target: 10, step: 2 },
+      molGameSignal: { start: 1, target: 9, step: 2 },
+    });
+    evaluateDuelKing({
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: NaN,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+    });
+
+    const report = getDuelKingHealthReport();
+    assert(report.durTelemetryStatus === 'BASELINE', `expected BASELINE DUR telemetry after omitted signal, got ${report.durTelemetryStatus}`);
+    assert(report.molTelemetryStatus === 'BASELINE', `expected BASELINE MOL telemetry after omitted signal, got ${report.molTelemetryStatus}`);
+    assert(report.lastDurSignalStatus === 'BASELINE', `expected BASELINE DUR signal status, got ${report.lastDurSignalStatus}`);
+    assert(report.lastMolSignalStatus === 'BASELINE', `expected BASELINE MOL signal status, got ${report.lastMolSignalStatus}`);
+  });
+
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
   if (failed > 0) {
     for (const failure of failures) console.error(`  - ${failure}`);

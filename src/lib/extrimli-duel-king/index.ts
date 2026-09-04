@@ -276,6 +276,45 @@ function invalidResult(input: Partial<DuelKingInput>, warning: string, start: nu
   lastTournamentState = DUEL_KING_TOURNAMENT_STATES.includes(input.tournamentState as DuelKingTournamentState)
     ? (input.tournamentState as DuelKingTournamentState)
     : null;
+  if (input.kurGameSignal) {
+    kurEvaluations += 1;
+    kurDegradedEvaluations += 1;
+    lastKurEvaluationStatus = 'DEGRADED';
+    lastKurProgressionSignal = 50;
+    lastKurImpactScore = 0;
+    lastKurSignalStatus = 'DEGRADED';
+  } else {
+    lastKurEvaluationStatus = 'BASELINE';
+    lastKurProgressionSignal = 50;
+    lastKurImpactScore = 0;
+    lastKurSignalStatus = 'BASELINE';
+  }
+  if (input.durGameSignal) {
+    durEvaluations += 1;
+    durDegradedEvaluations += 1;
+    lastDurEvaluationStatus = 'DEGRADED';
+    lastDurProgressionSignal = 50;
+    lastDurImpactScore = 0;
+    lastDurSignalStatus = 'DEGRADED';
+  } else {
+    lastDurEvaluationStatus = 'BASELINE';
+    lastDurProgressionSignal = 50;
+    lastDurImpactScore = 0;
+    lastDurSignalStatus = 'BASELINE';
+  }
+  if (input.molGameSignal) {
+    molEvaluations += 1;
+    molDegradedEvaluations += 1;
+    lastMolEvaluationStatus = 'DEGRADED';
+    lastMolProgressionSignal = 50;
+    lastMolImpactScore = 0;
+    lastMolSignalStatus = 'DEGRADED';
+  } else {
+    lastMolEvaluationStatus = 'BASELINE';
+    lastMolProgressionSignal = 50;
+    lastMolImpactScore = 0;
+    lastMolSignalStatus = 'BASELINE';
+  }
   return {
     referenceId: input.referenceId ?? 'n/a',
     sportId: 'duel-king',
