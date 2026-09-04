@@ -25,8 +25,39 @@ export type ProcesuiranjePrioritet = 'kriticno' | 'visoko' | 'srednje' | 'nisko'
 export type ProcesuiranjeFreshness = 'fresh' | 'stale';
 
 export const PROCESUIRANJE_SVEGA_CONTRACT_VERSION = 'v2';
-export const PROCESUIRANJE_SVEGA_MODEL_VERSION = '2.0.0';
+export const PROCESUIRANJE_SVEGA_MODEL_VERSION = '2.1.0';
 export const PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH = '/api/procesuiranje-svega';
+export const PROCESUIRANJE_SVEGA_DEGRADED_MODE = 'partial-payload-no-500';
+export const PROCESUIRANJE_SVEGA_SIGNAL_SOURCES = [
+  'statistika',
+  'auto-repair.diagnostics',
+  'kompanija-spaja-operativa',
+  'autofinish-petlja.summary',
+  'autofinish-petlja.health',
+  'proksi-github-deploy',
+] as const;
+export const PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS = {
+  bankarski: 0.16,
+  ai: 0.14,
+  finansijski: 0.14,
+  licencni: 0.12,
+  ekosistem: 0.12,
+  autofinish: 0.1,
+  bezbednosni: 0.14,
+  analiticki: 0.08,
+} as const;
+export const PROCESUIRANJE_SVEGA_KPI_TARGETS = {
+  throughputPerMin: 1200,
+  latencyMsP95: 300,
+  maxErrorRatePct: 2,
+  maxQueueDepth: 80,
+} as const;
+
+const DOMAIN_WEIGHT_SUM = Object.values(PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS)
+  .reduce((sum, weight) => sum + weight, 0);
+if (Math.abs(DOMAIN_WEIGHT_SUM - 1) > 0.0001) {
+  throw new Error(`PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS moraju biti normalizovani na 1.0 (trenutno: ${DOMAIN_WEIGHT_SUM})`);
+}
 
 interface ProcesuiranjeScore {
   throughputPerMin: number;
@@ -80,7 +111,11 @@ export interface ProcesuiranjeMeta {
   sourceOfTruth: typeof PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH;
   generatedAt: string;
   degraded: boolean;
+  degradedMode: typeof PROCESUIRANJE_SVEGA_DEGRADED_MODE;
   degradedSources: string[];
+  signalSources: typeof PROCESUIRANJE_SVEGA_SIGNAL_SOURCES;
+  domainWeights: typeof PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS;
+  auditSignal: string;
   ciljevi: {
     throughputPerMin: number;
     latencyMsP95: number;
@@ -218,8 +253,12 @@ function buildDomen(
   };
 }
 
-function buildFallbackProcesuiranjeSvega(reason = 'unknown'): ProcesuiranjeSvegaRezultat {
+function buildFallbackProcesuiranjeSvega(
+  reason = 'unknown',
+  sourceErrors: string[] = [],
+): ProcesuiranjeSvegaRezultat {
   const now = new Date().toISOString();
+  const degradedSources = Array.from(new Set([reason, ...sourceErrors]));
   const fallbackStavka: ProcesuiranjeStavka = {
     id: 'fallback-001',
     opis: `Signal degradacija: ${reason}`,
@@ -277,13 +316,12 @@ function buildFallbackProcesuiranjeSvega(reason = 'unknown'): ProcesuiranjeSvega
       sourceOfTruth: PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH,
       generatedAt: now,
       degraded: true,
-      degradedSources: [reason],
-      ciljevi: {
-        throughputPerMin: 1200,
-        latencyMsP95: 300,
-        maxErrorRatePct: 2,
-        maxQueueDepth: 80,
-      },
+      degradedMode: PROCESUIRANJE_SVEGA_DEGRADED_MODE,
+      degradedSources,
+      signalSources: PROCESUIRANJE_SVEGA_SIGNAL_SOURCES,
+      domainWeights: PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS,
+      auditSignal: `DEGRADED:${degradedSources.join('|')}`,
+      ciljevi: PROCESUIRANJE_SVEGA_KPI_TARGETS,
     },
     timestamp: now,
   };
@@ -311,6 +349,7 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   if (missingCriticalSources.length > 0) {
     return buildFallbackProcesuiranjeSvega(
       `critical:${missingCriticalSources.join('|')}`,
+      degradedSources,
     );
   }
   const stableAutofinishSummary = autofinishSummary ?? {
@@ -536,8 +575,16 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
   const cekajucihProcesa = sveStavke.filter((s) => s.status === 'cekanje').length;
   const gresakaUkupno = sveStavke.filter((s) => s.status === 'greska').length;
   const zavrsenihProcesa = sveStavke.filter((s) => s.status === 'zavrseno').length;
-  const domenProcenati = Object.values(domeni).map((d) => d.procenat);
-  const ukupanProcenat = clampScore(domenProcenati.reduce((a, b) => a + b, 0) / domenProcenati.length);
+  const ukupanProcenat = clampScore(
+    domeni.bankarski.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.bankarski
+      + domeni.ai.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.ai
+      + domeni.finansijski.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.finansijski
+      + domeni.licencni.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.licencni
+      + domeni.ekosistem.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.ekosistem
+      + domeni.autofinish.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.autofinish
+      + domeni.bezbednosni.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.bezbednosni
+      + domeni.analiticki.procenat * PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS.analiticki,
+  );
   const aktivneStavke = sveStavke.filter((s) => s.status === 'aktivno');
   const kriticniProcesi = sveStavke.filter((s) => s.prioritet === 'kriticno');
 
@@ -631,13 +678,12 @@ export function buildProcesuiranjeSvega(): ProcesuiranjeSvegaRezultat {
       sourceOfTruth: PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH,
       generatedAt: now,
       degraded: degradedSources.length > 0,
+      degradedMode: PROCESUIRANJE_SVEGA_DEGRADED_MODE,
       degradedSources,
-      ciljevi: {
-        throughputPerMin: 1200,
-        latencyMsP95: 300,
-        maxErrorRatePct: 2,
-        maxQueueDepth: 80,
-      },
+      signalSources: PROCESUIRANJE_SVEGA_SIGNAL_SOURCES,
+      domainWeights: PROCESUIRANJE_SVEGA_DOMAIN_WEIGHTS,
+      auditSignal: degradedSources.length > 0 ? `DEGRADED:${degradedSources.join('|')}` : 'OK',
+      ciljevi: PROCESUIRANJE_SVEGA_KPI_TARGETS,
     },
     timestamp: now,
   };

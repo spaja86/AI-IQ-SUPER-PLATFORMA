@@ -1,0 +1,10 @@
+{
+  "name": "gigatron",
+  "version": "1.0.0",
+  "description": "GIGATRON — IT i elektronika procurement i affiliate integracija za Kompanija SPAJA Digitalna Industrija",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve src -p 3007",
+    "build": "echo 'gigatron build complete'"
+  }
+}

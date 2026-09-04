@@ -7,10 +7,12 @@ import { platforme } from '@/lib/platforme';
 import { getGlavniEndzinStatistika } from '@/lib/glavni-endzin-digitalne-industrije';
 import { igrice, getSveKategorijeIgrica } from '@/lib/igrice';
 import { IOOPENUIAO_URL } from '@/lib/io-openui-ao-gaming-platforma';
+import { buildDigitalnaIndustrijaPregled } from '@/lib/digitalna-industrija-domen';
 
 const stats = getStatistike();
 const geStats = getGlavniEndzinStatistika();
 const kategorijeIgrica = getSveKategorijeIgrica();
+const diPregled = buildDigitalnaIndustrijaPregled();
 
 export const industrijaSekvence: Sekvenca[] = [
   {
@@ -23,11 +25,91 @@ export const industrijaSekvence: Sekvenca[] = [
     podaci: { opis: `Kompanija SPAJA kao ŽIVA FUNKCIONALNA digitalna industrija — sve platforme, kompanije, organizacije i proizvodi su AKTIVNI. ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona rade non-stop. Promptovi svuda, AI svuda, produkcija svuda.` },
   },
   {
+    id: 'industrija-kanonski-scope',
+    tip: 'tabela',
+    naslov: '🧭 Kanonski scope Digitalne Industrije',
+    podnaslov: 'Umbrella nivo ostaje odvojen od specijalizovanih poslovnih modula',
+    redosled: 2,
+    podaci: {
+      zaglavlje: ['Oblast', 'Umbrella', 'Specijalizovani moduli', 'Ownership', 'KPI'],
+      redovi: diPregled.scope.map((oblast) => [
+        oblast.naziv,
+        oblast.umbrella.map((stavka) => stavka.naziv).join(', ') || '—',
+        String(oblast.specijalizovane.length),
+        oblast.ownership.join(', '),
+        oblast.kpi.join(', '),
+      ]),
+    },
+  },
+  {
+    id: 'industrija-rukovodni-kpi',
+    tip: 'statistika',
+    naslov: '📌 Rukovodni KPI pregled',
+    redosled: 3,
+    podaci: {
+      stavke: [
+        { naziv: 'Površine', vrednost: diPregled.operativniPregled.ukupnoPovrsina, ikona: '🗺️' },
+        { naziv: 'Spec. moduli', vrednost: diPregled.operativniPregled.specijalizovanihModula, ikona: '🧩' },
+        { naziv: 'Blokatori legalnog rada', vrednost: diPregled.operativniPregled.prioritetniBlokatori, ikona: '🚨' },
+        { naziv: 'Blokatori platformi', vrednost: diPregled.operativniPregled.blokatoriPlatformi, ikona: '⚠️' },
+        { naziv: 'Verifikovane licence', vrednost: diPregled.operativniPregled.verifikovaneLicence, ikona: '✅' },
+        { naziv: 'Budžet (RSD)', vrednost: diPregled.operativniPregled.ukupniBudzetRSD.toLocaleString('sr-Latn'), ikona: '💰' },
+        { naziv: 'Kritična FX izloženost', vrednost: `${diPregled.operativniPregled.kriticnaFXIzlozenostPct}%`, ikona: '💱' },
+        { naziv: 'Neto EUR saldo', vrednost: diPregled.operativniPregled.netoDevizniSaldoEUR.toLocaleString('sr-Latn'), ikona: '🏦' },
+      ],
+    },
+  },
+  {
+    id: 'industrija-poslovni-tokovi',
+    tip: 'kartice',
+    naslov: '🧱 Grupisani poslovni tokovi',
+    podnaslov: 'Svaka ključna oblast ima svoj pregled, API i ownership model',
+    redosled: 4,
+    podaci: {
+      kartice: diPregled.poslovniTokovi.map((tok) => ({
+        naslov: tok.naziv,
+        opis: `${tok.opis} Ownership: ${tok.ownership.join(', ')}.`,
+        ikona:
+          tok.prioritet === 'kritican' ? '🚨' : tok.prioritet === 'visok' ? '📍' : '👥',
+        href: tok.pagePath ?? tok.apiPath,
+        oznake: [tok.prioritet, `${tok.moduli.length} modula`, ...(tok.apiPath ? [tok.apiPath] : [])],
+      })),
+    },
+  },
+  {
+    id: 'industrija-upozorenja',
+    tip: 'kartice',
+    naslov: '⚠️ Aktivna upozorenja i governance',
+    redosled: 5,
+    podaci: {
+      kartice: [
+        ...diPregled.operativniPregled.upozorenja.map((upozorenje) => ({
+          naslov: 'Operativno upozorenje',
+          opis: upozorenje,
+          ikona: '⚠️',
+          oznake: ['operativa', 'review'],
+        })),
+        {
+          naslov: 'Quality gate',
+          opis: diPregled.governance.qualityGate.join(' → '),
+          ikona: '🛡️',
+          oznake: ['lint', 'test', 'security'],
+        },
+        {
+          naslov: 'Secrets boundary',
+          opis: diPregled.governance.secretsBoundary[0] ?? 'Secrets ostaju van repozitorijuma.',
+          ikona: '🔐',
+          oznake: ['secrets', 'boundary'],
+        },
+      ],
+    },
+  },
+  {
     id: 'industrija-vizuelni-prikaz',
     tip: 'slika',
     naslov: '🖼️ Digitalna Industrija — Vizuelni Prikaz',
     podnaslov: 'AI tehnologija, automatizacija i digitalna transformacija',
-    redosled: 2,
+    redosled: 6,
     podaci: {
       opis: 'Vizuelni prikaz Digitalne Industrije — AI roboti, automatizovani sistemi i digitalna transformacija u akciji.',
       slike: [
@@ -129,7 +211,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-tekst',
     tip: 'tekst',
     naslov: 'ŽIVA FUNKCIONALNA Digitalna Industrija',
-    redosled: 3,
+    redosled: 7,
     podaci: {
       sadrzaj: `Digitalna Industrija je ŽIVA FUNKCIONALNA korporacija gde kompanija SPAJA funkcioniše kao industrijski kompleks u digitalnom svetu. Svaka platforma je aktivna fabrika, svaki IT proizvod je funkcionalan alat, a ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} OMEGA AI persona su radnici koji automatizuju sve procese. PROMPTOVI su svuda — u svakoj platformi, svakom proizvodu, svakom agentu.`,
       istaknuteStavke: [
@@ -147,7 +229,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-statistika',
     tip: 'statistika',
     naslov: '📊 ŽIVA Industrija u brojevima',
-    redosled: 4,
+    redosled: 8,
     podaci: {
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
@@ -166,7 +248,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-hijerarhija',
     tip: 'hijerarhija',
     naslov: '🏗️ Struktura industrije',
-    redosled: 5,
+    redosled: 9,
     podaci: {
       nivoi: [
         { naziv: 'Digitalna Industrija', ikona: '🏭', deca: ['Kompanija SPAJA'] },
@@ -181,7 +263,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-tabela',
     tip: 'tabela',
     naslov: '📋 Klasifikacija entiteta',
-    redosled: 6,
+    redosled: 10,
     podaci: {
       zaglavlje: ['Entitet', 'Tip', 'Broj', 'Status'],
       redovi: [
@@ -206,7 +288,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🌐 Platforme Digitalne Industrije',
     podnaslov: `${platforme.length} AKTIVNIH platformi — svi linkovi vode na standardne domene`,
-    redosled: 7,
+    redosled: 11,
     podaci: {
       kartice: platforme.map((p) => ({
         naslov: p.naziv,
@@ -222,15 +304,24 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🌐 Repozitorijumi Ekosistema',
     podnaslov: 'GitHub repozitorijumi Digitalne Industrije — svi linkovi aktivni',
-    redosled: 8,
+    redosled: 12,
     podaci: {
-      kartice: getSajtoviPoKategoriji('ekosistem').map((s) => ({
-        naslov: s.naziv,
-        opis: s.opis,
-        ikona: s.ikona,
-        href: s.url,
-        oznake: ['GitHub Repo'],
-      })),
+      kartice: [
+        {
+          naslov: 'EXTRIMLI External GitHub',
+          opis: 'Formalna GitHub capability površina za EXTRIMLI u Digitalna Industrija ekosistemu: validator, audit governance, export bundle i downstream sync.',
+          ikona: '🏂',
+          eksterniLink: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/blob/main/docs/EXTRIMLI-EXTERNAL-GITHUB.md',
+          oznake: ['EXTRIMLI', 'GitHub governance', 'IO-OPENUI-AO sync'],
+        },
+        ...getSajtoviPoKategoriji('ekosistem').map((s) => ({
+          naslov: s.naziv,
+          opis: s.opis,
+          ikona: s.ikona,
+          href: s.url,
+          oznake: ['GitHub Repo'],
+        })),
+      ],
     },
   },
   {
@@ -238,7 +329,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🖥️ Digitalni Hardver — Zakup kao Usluga',
     podnaslov: 'Digitalni kompjuteri, GPU, RAM, brauzeri — nedeljni, mesečni, godišnji zakup',
-    redosled: 9,
+    redosled: 13,
     podaci: {
       kartice: [
         {
@@ -281,11 +372,29 @@ export const industrijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'industrija-povezani-cta',
+    tip: 'cta',
+    naslov: '🚀 Povezani Digitalna Industrija ulazi',
+    redosled: 14,
+    podaci: {
+      opis:
+        `Kanonski umbrella nivo vodi ka ${diPregled.poslovniTokovi.length} poslovnih tokova, ` +
+        `${diPregled.operativniPregled.specijalizovanihModula} specijalizovanih modula i ` +
+        `${diPregled.operativniPregled.glavniEndzin.ukupnoSpojenih} spojenih endžina.`,
+      dugmad: [
+        { tekst: 'DI Pregled API', href: '/api/digitalna-industrija-pregled' },
+        { tekst: 'Licencni Portfolio', href: '/digitalna-industrija-licencni-portfolio', stil: 'sekundarno' },
+        { tekst: 'Valutni Rizik', href: '/digitalna-industrija-valutni-rizik', stil: 'sekundarno' },
+        { tekst: 'Autofinish Pregled', href: '/api/autofinish-digitalna-industrija-pregled', stil: 'sekundarno' },
+      ],
+    },
+  },
+  {
     id: 'industrija-igrice',
     tip: 'kartice',
     naslov: '🎮 Igrice Digitalne Industrije',
     podnaslov: `${igrice.length} igrica u ${kategorijeIgrica.length} kategorija — sve se otvaraju u Digitalnom Brouvzeru`,
-    redosled: 10,
+    redosled: 15,
     podaci: {
       kartice: igrice.map((i) => ({
         naslov: `${i.ikona} ${i.naziv}`,
@@ -301,7 +410,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🤖 OpenAI Platforma — Sopstvena Platforma Digitalne Industrije',
     podnaslov: 'OpenAI NIJE partner — to je interna platforma Kompanije SPAJA koja non-stop evolvira unutar Digitalne Industrije',
-    redosled: 11,
+    redosled: 16,
     podaci: {
       kartice: [
         {
@@ -337,7 +446,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '🤝 Tehnološki Partneri',
     podnaslov: 'Platforme i partneri koji podržavaju Digitalnu Industriju (OpenAI NIJE partner — to je sopstvena platforma)',
-    redosled: 12,
+    redosled: 17,
     podaci: {
       kartice: getSajtoviPoKategoriji('tehnoloski-partner').map((s) => ({
         naslov: s.naziv,
@@ -353,7 +462,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '👑 Najbolji Plan — SpajaPro Unlimited VIP',
     podnaslov: 'SpajaPro Unlimited VIP plan dostupan na svim delovima Digitalne Industrije i svim platformama',
-    redosled: 13,
+    redosled: 18,
     podaci: {
       kartice: [
         {
@@ -394,7 +503,7 @@ export const industrijaSekvence: Sekvenca[] = [
     tip: 'kartice',
     naslov: '📱 Društvene Mreže',
     podnaslov: 'Pratite Digitalnu Industriju na društvenim mrežama',
-    redosled: 14,
+    redosled: 19,
     podaci: {
       kartice: getSajtoviPoKategoriji('drustvena-mreza').map((s) => ({
         naslov: s.naziv,
@@ -409,7 +518,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-sajtovi-statistika',
     tip: 'statistika',
     naslov: '🔗 Povezani Sajtovi i Repozitorijumi',
-    redosled: 15,
+    redosled: 20,
     podaci: {
       stavke: [
         { naziv: 'Ukupno Sajtova', vrednost: sajtovi.length, ikona: '🌐' },
@@ -424,7 +533,7 @@ export const industrijaSekvence: Sekvenca[] = [
     id: 'industrija-cta',
     tip: 'cta',
     naslov: '🚀 Istrazi ekosistem',
-    redosled: 16,
+    redosled: 21,
     podaci: {
       opis: `ŽIVA FUNKCIONALNA Digitalna Industrija Kompanije SPAJA — SVE je AKTIVNO, SVE proizvodi. ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString('sr-Latn')} OMEGA AI persona. Glavni Endžin spaja ${geStats.ukupnoSpojenih} endžina i automatski sklapa gotove proizvode. Promptovi svuda.`,
       dugmad: [
@@ -445,7 +554,7 @@ export const industrijaSekvence: Sekvenca[] = [
     naslov: '🚀 Zapocnite sa Digitalnom Industrijom',
     podnaslov: 'Registrujte se i pristupite SpajaPro AI — realnom AI asistentu',
     ikona: '🚀',
-    redosled: 17,
+    redosled: 22,
     podaci: {
       opis: 'Kreirajte besplatan nalog i isprobajte SpajaPro AI chatbot. Nadogradite plan za vise mogucnosti.',
       dugmad: [

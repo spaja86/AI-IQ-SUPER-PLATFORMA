@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
       'io-openui-ao': 'operational',
       'menja-nica': 'operational',
       'world-bank': 'operational',
+      mekartor: 'operational',
     },
     gatewaySnapshot: getPlatformGatewaySnapshot(),
     security: {

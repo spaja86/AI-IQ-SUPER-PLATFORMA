@@ -14,10 +14,12 @@ import {
   getRepoKonfiguracije,
   getProsecnaOptimizacija,
 } from '@/lib/spaja-generator-engine';
+import { getRepozitHealthReport } from '@/lib/repozit';
 
 export async function GET() {
   const repoEngini = getRepoEngini();
   const repoKonfig = getRepoKonfiguracije();
+  const repozitHealth = getRepozitHealthReport();
 
   const repoOptimizacija = repoEngini.length > 0
     ? Math.round(repoEngini.reduce((acc, e) => acc + e.optimizacija, 0) / repoEngini.length)
@@ -61,6 +63,12 @@ export async function GET() {
       dijagnostika: TOTAL_DIAGNOSTIKA,
       autofinish: AUTOFINISH_COUNT,
       autofinishTarget: AUTOFINISH_TARGET,
+    },
+    repozitMvp: {
+      capabilities: repozitHealth.mvp,
+      status: repozitHealth.status,
+      linkedRepositories: repozitHealth.linkedRepositories,
+      invalidRecords: repozitHealth.invalidRecords,
     },
     timestamp: new Date().toISOString(),
   });

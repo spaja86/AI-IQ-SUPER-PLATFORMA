@@ -1,25 +1,26 @@
 {
   "framework": "nextjs",
+  "regions": ["fra1"],
   "crons": [
     {
-      "path": "/api/cron/zdravlje",
-      "schedule": "*/30 * * * *"
+      "path": "/api/cron/healthcheck",
+      "schedule": "*/15 * * * *"
     },
     {
       "path": "/api/cron/evolucija",
       "schedule": "0 */6 * * *"
     },
     {
-      "path": "/api/cron/protokoli-verifikacija",
-      "schedule": "*/15 * * * *"
-    },
-    {
       "path": "/api/cron/ekstremno-procesuiranje-svega",
-      "schedule": "*/20 * * * *"
+      "schedule": "*/30 * * * *"
     },
     {
       "path": "/api/analiza-svega-refresh",
-      "schedule": "10,30,50 * * * *"
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/deploy-health",
+      "schedule": "*/15 * * * *"
     }
   ]
 }

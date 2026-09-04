@@ -1,0 +1,47 @@
+name: KONVENCIONALNI ODNOSI — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/konvencionalni-odnosi/**'
+      - 'src/app/api/konvencionalni-odnosi/**'
+      - 'src/tests/lib/konvencionalni-odnosi.test.ts'
+      - 'src/tests/api/konvencionalni-odnosi-route.test.ts'
+      - 'docs/KONVENCIONALNI-ODNOSI.md'
+      - '.github/workflows/konvencionalni-odnosi-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/konvencionalni-odnosi/**'
+      - 'src/app/api/konvencionalni-odnosi/**'
+      - 'src/tests/lib/konvencionalni-odnosi.test.ts'
+      - 'src/tests/api/konvencionalni-odnosi-route.test.ts'
+      - 'docs/KONVENCIONALNI-ODNOSI.md'
+  workflow_dispatch:
+
+concurrency:
+  group: konvencionalni-odnosi-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: konvencionalni-odnosi
+      lint_paths: >-
+        src/lib/konvencionalni-odnosi
+        src/app/api/konvencionalni-odnosi
+      test_commands: |
+        npx tsx src/tests/lib/konvencionalni-odnosi.test.ts
+        npx tsx src/tests/api/konvencionalni-odnosi-route.test.ts
+      scan_paths: >-
+        src/lib/konvencionalni-odnosi
+        src/app/api/konvencionalni-odnosi
+      label: konvencionalni-odnosi
+      perf_eval_ms: 50
+      perf_api_ms: 200

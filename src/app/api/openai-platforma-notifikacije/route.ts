@@ -1,10 +1,20 @@
 import { NextResponse } from 'next/server';
-import { APP_VERSION, AUTOFINISH_COUNT, OMEGA_AI_PERSONA_UKUPNO, TOTAL_ROUTES, TOTAL_API_ROUTES, TOTAL_DIAGNOSTIKA } from '@/lib/constants';
+import {
+  APP_VERSION,
+  AUTOFINISH_COUNT,
+  OMEGA_AI_PERSONA_UKUPNO,
+  TOTAL_API_ROUTES,
+  TOTAL_DIAGNOSTIKA,
+  TOTAL_ROUTES,
+} from '@/lib/constants';
+import { getNotificationOverview } from '@/lib/notifications';
 
 export async function GET() {
+  const overview = getNotificationOverview();
+
   return NextResponse.json({
     status: 'aktivan',
-    naziv: 'OpenAI Platforma Notifikacije - Sistem Obavestenja i Alertinga',
+    naziv: 'OpenAI Platforma Notifikacije - Centralizovani Sistem Obavestenja i Alertinga',
     verzija: APP_VERSION,
 
     notifikacije: {
@@ -15,43 +25,57 @@ export async function GET() {
         persone: OMEGA_AI_PERSONA_UKUPNO,
         autofinishIteracija: AUTOFINISH_COUNT,
       },
-      kanali: {
-        email: { status: 'aktivan', provajder: 'OMEGA Mail Gateway', dnevnoSlanje: 5000 },
-        sms: { status: 'aktivan', provajder: 'SPAJA Mobilna Mreza', dnevnoSlanje: 2000 },
-        push: { status: 'aktivan', provajder: 'OMEGA Push Service', dnevnoSlanje: 15000 },
-        webhook: { status: 'aktivan', provajder: 'OMEGA Webhook Engine', dnevnoSlanje: 8000 },
-        inApp: { status: 'aktivan', provajder: 'OMEGA UI Notifikacije', dnevnoSlanje: 25000 },
+      sourceOfTruth: overview.sourceOfTruth,
+      arhitektura: overview.architecture,
+      inventar: {
+        tokovi: overview.inventory.length,
+        kategorije: overview.categories,
+        kanali: overview.channels,
+        stavke: overview.inventory,
       },
-      alerting: {
-        engine: 'OMEGA AI Alert Engine',
-        pravilaUkupno: 156,
-        aktivnihPravila: 156,
-        kriticnihAlerata: 0,
-        upozorenja: 0,
-        informativnih: 12,
-        eskalacija: true,
-        autoResolve: true,
-      },
-      pretplate: {
-        ukupnoPretplatnika: 40_000_562,
-        aktivnih: 40_000_562,
-        kategorije: ['sistem', 'bezbednost', 'performanse', 'deploy', 'greske', 'izvestaji'],
-      },
-      statistika: {
-        poslatoUkupno: 1_250_000,
-        isporucenost: '99.97%',
-        prosecnoVremeIsporuke: '< 500ms',
-        neisporuceno: 375,
-      },
+      templateRegistry: overview.templates,
+      alerting: overview.alerting,
+      persistence: overview.persistence,
+      observabilnost: overview.observability,
     },
 
     dijagnostike: [
-      { id: 'openai-notif-001', naziv: 'Email kanal', status: 'ok', opis: 'OMEGA Mail Gateway aktivan, 5000 dnevno, isporucenost 99.97%' },
-      { id: 'openai-notif-002', naziv: 'SMS kanal', status: 'ok', opis: 'SPAJA Mobilna Mreza, 2000 SMS dnevno, svi kanali operativni' },
-      { id: 'openai-notif-003', naziv: 'Push notifikacije', status: 'ok', opis: 'OMEGA Push Service, 15000 push dnevno, real-time isporuka' },
-      { id: 'openai-notif-004', naziv: 'Alert engine', status: 'ok', opis: '156 pravila, 0 kriticnih, auto-resolve i eskalacija aktivni' },
-      { id: 'openai-notif-005', naziv: 'Webhook isporuka', status: 'ok', opis: 'OMEGA Webhook Engine, 8000 dnevno, retry mehanizam aktivan' },
-      { id: 'openai-notif-006', naziv: 'Pretplate i statistika', status: 'ok', opis: '40M pretplatnika, 1.25M poslato, prosecna isporuka < 500ms' },
+      {
+        id: 'openai-notif-001',
+        naziv: 'Jedan izvor istine',
+        status: 'ok',
+        opis: `Domen notifikacija je centralizovan u ${overview.sourceOfTruth}.`,
+      },
+      {
+        id: 'openai-notif-002',
+        naziv: 'Arhitektura po slojevima',
+        status: 'ok',
+        opis: `${overview.architecture.length} slojeva pokrivaju domen, orkestraciju, producente, persistence i read-model.`,
+      },
+      {
+        id: 'openai-notif-003',
+        naziv: 'Template registar',
+        status: 'ok',
+        opis: `${overview.templates.total} template-a standardizuje billing, sistemske i alert poruke.`,
+      },
+      {
+        id: 'openai-notif-004',
+        naziv: 'Alert pravila',
+        status: 'ok',
+        opis: `${overview.alerting.totalRules} alert pravila koristi zajednički notification ugovor i observability signal.`,
+      },
+      {
+        id: 'openai-notif-005',
+        naziv: 'Persistence model',
+        status: 'ok',
+        opis: `Tabela ${overview.persistence.primaryTable} koristi metadata-extended zapis za pokušaje, template i audit trag.`,
+      },
+      {
+        id: 'openai-notif-006',
+        naziv: 'API read model',
+        status: 'ok',
+        opis: 'Read-only pregled je reorganizovan pod /api/notifications* namespace.',
+      },
     ],
 
     timestamp: new Date().toISOString(),

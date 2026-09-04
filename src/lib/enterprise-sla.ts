@@ -113,6 +113,55 @@ export const SLA_TIERS: Record<PlanTip, SlaTier> = {
   },
 };
 
+// ─── Nova Generacija SLA Targets ─────────────────────────────────────────────
+
+/**
+ * Nova Generacija (SpajaPro 16) SLA targets — stricter than any plan tier.
+ * These are platform-level KPIs enforced by the nova-generacija-agent and CI.
+ */
+export const NOVA_GENERACIJA_SLA = {
+  /** 99.99% uptime — same as unlimited plan but platform-wide enforcement */
+  uptimePercent: 99.99,
+  /** API response latency p99 (ms) */
+  apiLatencyP99Ms: 50,
+  /** Hipermreza dispatch latency p99 (ms) */
+  hipermrezaDispatchP99Ms: 50,
+  /** Gaming action evaluation (ms) */
+  gamingEvaluationMs: 50,
+  /** Build duration (minutes) */
+  buildDurationMinutes: 3,
+  /** Cross-repo sync coverage */
+  crossRepoSyncCoverage: 100,
+  /** Security scan coverage */
+  securityScanCoverage: 100,
+  /** Gaming session completion rate */
+  gamingCompletionRate: 0.95,
+  /** Gaming fairness compliance */
+  gamingFairnessCompliance: 1.0,
+  /** Maximum allowed downtime per year (minutes) */
+  maxDowntimeMinutesYear: 52,
+  /** Maximum allowed downtime per month (minutes) */
+  maxDowntimeMinutesMonth: 4,
+  /** RTO — Recovery Time Objective (minutes) */
+  rtoMinutes: 10,
+  /** RPO — Recovery Point Objective (minutes) */
+  rpoMinutes: 5,
+} as const;
+
+/**
+ * Proverava da li je dati uptime procenat u skladu sa Nova Generacija SLA.
+ */
+export function isNovaGeneracijaSlaCompliant(uptimePct: number): boolean {
+  return uptimePct >= NOVA_GENERACIJA_SLA.uptimePercent;
+}
+
+/**
+ * Proverava da li je latency u skladu sa Nova Generacija SLA.
+ */
+export function isNovaGeneracijaLatencyCompliant(latencyMs: number): boolean {
+  return latencyMs <= NOVA_GENERACIJA_SLA.apiLatencyP99Ms;
+}
+
 // ─── Error Budget ─────────────────────────────────────────────────────────────
 
 export interface ErrorBudget {

@@ -1,16 +1,19 @@
 import { NextResponse } from 'next/server';
 import {
   endzinNadIgricama,
-  gamingStatistika,
+  getGamingDomenSnapshot,
 } from '@/lib/io-openui-ao-gaming-platforma';
 import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
+  const snapshot = getGamingDomenSnapshot();
+
   return NextResponse.json({
     sistem: 'IO/OPENUI/AO Gaming Platforma — Igrice',
     appVerzija: APP_VERSION,
+    ...snapshot,
     ukupnoIgrica: endzinNadIgricama.length,
-    poKategoriji: gamingStatistika.poKategoriji,
+    poKategoriji: snapshot.statistika.poKategoriji,
     igrice: endzinNadIgricama.map((e) => ({
       id: e.igricaId,
       naziv: e.igricaNaziv,

@@ -1,0 +1,42 @@
+name: TAJMING — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/tajming/**'
+      - 'src/app/api/tajming/**'
+      - 'src/tests/lib/tajming.test.ts'
+      - '.github/workflows/tajming-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/tajming/**'
+      - 'src/app/api/tajming/**'
+      - 'src/tests/lib/tajming.test.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: tajming-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: tajming
+      lint_paths: >-
+        src/lib/tajming
+        src/app/api/tajming
+      test_commands: |
+        npx tsx src/tests/lib/tajming.test.ts
+      scan_paths: >-
+        src/lib/tajming
+        src/app/api/tajming
+      label: tajming
+      perf_eval_ms: 50
+      perf_api_ms: 200

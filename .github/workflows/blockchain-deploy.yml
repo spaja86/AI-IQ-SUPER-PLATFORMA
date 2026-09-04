@@ -13,6 +13,23 @@ on:
         options:
           - amoy
           - polygon
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+      confirm_production:
+        description: 'Za production unesite: DEPLOY_PRODUCTION'
+        required: false
+        default: ''
+
+concurrency:
+  group: blockchain-deploy-${{ github.event.inputs.network }}-${{ github.event.inputs.environment }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -21,6 +38,7 @@ jobs:
   deploy:
     name: Deploy na ${{ github.event.inputs.network }}
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'staging' }}
 
     steps:
       - name: 📥 Preuzmi kod
@@ -34,6 +52,36 @@ jobs:
 
       - name: 📦 Instaliraj zavisnosti
         run: npm ci --legacy-peer-deps
+
+      - name: 🛑 Production confirmation gate
+        run: |
+          if [ "${{ github.event.inputs.environment }}" = "production" ] && [ "${{ github.event.inputs.confirm_production }}" != "DEPLOY_PRODUCTION" ]; then
+            echo "❌ Production deploy zahteva confirm_production=DEPLOY_PRODUCTION"
+            exit 1
+          fi
+
+      - name: 🔍 TypeScript gate
+        run: npx tsc --noEmit
+
+      - name: 🧪 Unit test gate
+        run: npm test
+
+      - name: 🧪 Smoke test gate
+        run: npm run test:smoke
+
+      - name: 🚦 Predeploy gate
+        run: npm run predeploy:check
+
+      - name: 🛡️ Dependency audit gate
+        run: npm audit --audit-level=high
+
+      - name: 🔑 Secret safety gate
+        run: |
+          if find . -name ".env" -o -name ".env.*" | grep -q .; then
+            echo "❌ .env fajlovi ne smeju biti deo deploy konteksta."
+            exit 1
+          fi
+          echo "✅ Secret safety gate passed"
 
       - name: 🔨 Kompajliraj ugovor
         run: npx hardhat compile
@@ -63,3 +111,21 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**📋 Sledeci korak:** Postavite \`NEXT_PUBLIC_CONTRACT_ADDRESS=$ADDR\` u produkcione environment varijable aplikacije" >> $GITHUB_STEP_SUMMARY
           fi
+
+      - name: 📊 Deploy Audit Log
+        if: always()
+        run: |
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "## 📊 Blockchain Deploy — Audit Log" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Polje | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Network** | ${{ github.event.inputs.network }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Environment** | ${{ github.event.inputs.environment }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Run ID / Attempt** | \`${{ github.run_id }} / ${{ github.run_attempt }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Time** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Quality gates** | \`type-check, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Rollback: redeploy poslednjeg stabilnog contract release taga za isti network i ažurirati `NEXT_PUBLIC_CONTRACT_ADDRESS`." >> "$GITHUB_STEP_SUMMARY"

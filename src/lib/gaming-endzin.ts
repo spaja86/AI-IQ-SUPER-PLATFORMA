@@ -19,6 +19,16 @@ import { MASTER_POKER_GAME_ID } from './poker/types';
 // ─── Runner tipovi ─────────────────────────────────────────────────
 
 export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan' | 'makin';
+export type RunnerTip = 'akcija' | 'logicka' | 'simulacija' | 'edu' | 'kreativna' | 'borbena' | 'poker' | 'eglan' | 'reakt';
+export type RunnerResolver = (igrica: Igrica) => RunnerTip | null;
+export type RunnerKompatibilnostStatus = 'existing-runner' | 'requires-new-runner';
+
+export interface RunnerKompatibilnost {
+  igricaId: string;
+  kategorija: KategorijaIgrice;
+  runnerTip: RunnerTip;
+  status: RunnerKompatibilnostStatus;
+}
 
 // ─── Dimenzionalni parametri ───────────────────────────────────────
 
@@ -133,7 +143,13 @@ const KATEGORIJA_NA_RUNNER: Record<KategorijaIgrice, RunnerTip> = {
   avantura: 'edu',
   'zivotna-simulacija': 'simulacija',
   retro: 'akcija',
+  reakt: 'reakt',
 };
+
+const PODRZANI_RUNNERI = new Set<RunnerTip>(['akcija', 'logicka', 'simulacija', 'edu', 'kreativna', 'borbena', 'poker', 'eglan', 'reakt']);
+
+const customRunnerPoIgrici = new Map<string, RunnerTip>();
+const customRunnerResolvers = new Set<RunnerResolver>();
 
 /** Vrati tip runner-a za kategoriju igrice */
 export function getRunnerTip(kategorija: KategorijaIgrice): RunnerTip {
@@ -142,10 +158,49 @@ export function getRunnerTip(kategorija: KategorijaIgrice): RunnerTip {
 
 /** Vrati runner tip za konkretnu igricu (podržava specijalizovane runner-e) */
 export function getRunnerTipZaIgricu(igrica: Igrica): RunnerTip {
+  const custom = customRunnerPoIgrici.get(igrica.id);
+  if (custom) return custom;
+
+  for (const resolver of customRunnerResolvers) {
+    const resolved = resolver(igrica);
+    if (resolved) return resolved;
+  }
+
   if (igrica.id === MASTER_POKER_GAME_ID) return 'poker';
   if (igrica.id === 'igrica-ekstreminacija-eglana') return 'eglan';
   if (igrica.id === 'igrica-makin') return 'makin';
   return getRunnerTip(igrica.kategorija);
+}
+
+/** Vraća kompatibilnost igre sa dostupnim runner-ima. */
+export function getRunnerKompatibilnostZaIgricu(igrica: Igrica): RunnerKompatibilnost {
+  const runnerTip = getRunnerTipZaIgricu(igrica);
+  return {
+    igricaId: igrica.id,
+    kategorija: igrica.kategorija,
+    runnerTip,
+    status: PODRZANI_RUNNERI.has(runnerTip) ? 'existing-runner' : 'requires-new-runner',
+  };
+}
+
+/** Registruj prilagođeni runner za konkretnu igricu. */
+export function registrujCustomRunnerZaIgricu(igricaId: string, runner: RunnerTip): void {
+  customRunnerPoIgrici.set(igricaId, runner);
+}
+
+/** Ukloni prilagođeni runner za konkretnu igricu. */
+export function ukloniCustomRunnerZaIgricu(igricaId: string): void {
+  customRunnerPoIgrici.delete(igricaId);
+}
+
+/** Registruj resolver za dinamičko mapiranje runner-a. */
+export function registrujRunnerResolver(resolver: RunnerResolver): void {
+  customRunnerResolvers.add(resolver);
+}
+
+/** Ukloni registrovani resolver. */
+export function ukloniRunnerResolver(resolver: RunnerResolver): void {
+  customRunnerResolvers.delete(resolver);
 }
 
 // ─── Konfiguracija endžina ─────────────────────────────────────────

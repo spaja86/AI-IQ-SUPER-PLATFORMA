@@ -1,28 +1,19 @@
 import { NextResponse } from 'next/server';
 import {
-  ioOpenUIAOGamingPlatforma,
   endzinNadIgricama,
-  gamingStatistika,
-  gamingKonfiguracija,
+  getGamingDomenSnapshot,
   getAktivneIgriceSaEndzinom,
 } from '@/lib/io-openui-ao-gaming-platforma';
 import { APP_VERSION } from '@/lib/constants';
 
 export async function GET() {
   const aktivne = getAktivneIgriceSaEndzinom();
+  const snapshot = getGamingDomenSnapshot();
 
   return NextResponse.json({
     sistem: 'IO/OPENUI/AO Gaming Platforma — Pregled',
-    verzija: ioOpenUIAOGamingPlatforma.verzija,
     appVerzija: APP_VERSION,
-    platforma: {
-      naziv: ioOpenUIAOGamingPlatforma.naziv,
-      opis: ioOpenUIAOGamingPlatforma.opis,
-      link: ioOpenUIAOGamingPlatforma.link,
-      generatorLink: ioOpenUIAOGamingPlatforma.generatorLink,
-    },
-    konfiguracija: gamingKonfiguracija,
-    statistika: gamingStatistika,
+    ...snapshot,
     aktivneIgrice: aktivne.length,
     sveIgrice: endzinNadIgricama,
     timestamp: new Date().toISOString(),

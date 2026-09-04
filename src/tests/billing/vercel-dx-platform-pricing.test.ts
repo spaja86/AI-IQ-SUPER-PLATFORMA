@@ -1,5 +1,6 @@
 import assert from 'node:assert';
 import { VERCEL_DX_PLATFORM_PRICING } from '../../lib/billing/vercel-dx-platform-pricing';
+import { getVendorFormalPackages, VENDOR_SUBSCRIPTION_STATUS_MODEL } from '../../lib/billing/vendor-subscriptions';
 import { pricingLoginSekvence } from '../../lib/sekvence/pricing-login-page';
 
 function testSourceOfTruthCompleteness() {
@@ -45,6 +46,25 @@ function testPricingSekvenceAlignment() {
     VERCEL_DX_PLATFORM_PRICING.billableResources.length,
     'DX Platform pricing table row count must match source-of-truth resources',
   );
+
+  const formalPackagesSection = pricingLoginSekvence.find((section) => section.id === 'pricing-login-formalni-paketi');
+  assert.ok(formalPackagesSection, 'pricing-login-formalni-paketi section must exist');
+  const formalCards = (formalPackagesSection?.podaci.kartice ?? []) as Array<{ naslov: string }>;
+  assert.strictEqual(formalCards.length, 4, 'formal packages cards count must stay aligned');
+  assert.ok(
+    formalCards.some((card) => card.naslov === 'Vercel Privreda'),
+    'Vercel Privreda card must exist',
+  );
+
+  const statusSection = pricingLoginSekvence.find((section) => section.id === 'pricing-login-status-model');
+  assert.ok(statusSection, 'pricing-login-status-model section must exist');
+  const statusItems = (statusSection?.podaci.stavke ?? []) as Array<{ naslov: string }>;
+  assert.strictEqual(
+    statusItems.length,
+    VENDOR_SUBSCRIPTION_STATUS_MODEL.length,
+    'status model section must match source-of-truth statuses',
+  );
+  assert.strictEqual(getVendorFormalPackages('Vercel').length, 2, 'Vercel formal packages count');
 }
 
 function run() {

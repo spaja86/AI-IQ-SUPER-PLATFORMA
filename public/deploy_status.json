@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-08-01T22:17:00Z",
+  "version": "42.36.0",
+  "commit_sha": "maks-plan-nivo-levl",
+  "branch": "main",
+  "status": "success",
+  "run_id": "maks-plan-nivo-levl",
+  "actor": "spaja86",
+  "deploy_initiative": "MAKS-PLAN-NIVO-LEVL",
+  "tracking_doc": "docs/MAKS-PLAN-NIVO-LEVL.md",
+  "target_version": "100.0.0",
+  "platforms": [
+    "super-platforma",
+    "io-openui-ao",
+    "menjacnica",
+    "world-bank",
+    "nova-generacija",
+    "kompanija-spaja",
+    "poslovni-novcanik",
+    "depon",
+    "mekartor",
+    "blockchain"
+  ],
+  "active_nivoi": 16,
+  "nova_generacija_rollout_pct": 20,
+  "previous_initiative": "DIREKŠN-ZA-PLATFORMU-DEPLOY-SPAJA"
+}

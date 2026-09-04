@@ -53,7 +53,7 @@ export async function GET() {
     specijalizovani: [
       '/api/igrice', '/api/igrice-stats', '/api/igrice-kategorije',
       '/api/spaja-pro', '/api/spaja-pro-benchmark',
-      '/api/omega-ai', '/api/omega-ai-oktave', '/api/omega-evolucija-mapa',
+      '/api/omega-ai', '/api/omega-ai-oktave', '/api/omega-evolucija-mapa', '/api/omega-evolution',
       '/api/ultra-omega-core',
       '/api/proksi', '/api/proksi-github-deploy', '/api/proksi-kapacitet',
       '/api/mobilna-mreza', '/api/mobilna-statistika', '/api/spaja-mobilna-integracija',

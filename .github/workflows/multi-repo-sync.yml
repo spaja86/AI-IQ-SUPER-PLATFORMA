@@ -1,0 +1,140 @@
+name: 🔄 Multi-Repo Sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.agent-config.json'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - 'package.json'
+      - 'AGENTS.md'
+  schedule:
+    # Weekly sync — every Monday at 01:00 UTC
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+    inputs:
+      force_sync:
+        description: 'Force full sync even if no changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+
+concurrency:
+  group: multi-repo-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  # ── 1. Dependency version coherence check ─────────────────────────────────
+  dependency-coherence:
+    name: 📦 Dependency Coherence
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Check key dependency versions
+        run: |
+          echo "## 📦 Dependency Coherence Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Package | Version |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          node -e "
+            const pkg = require('./package.json');
+            const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+            const keys = ['next', 'react', 'typescript', 'stripe', '@supabase/supabase-js'];
+            keys.forEach(k => {
+              if (deps[k]) process.stdout.write('| ' + k + ' | ' + deps[k] + ' |\n');
+            });
+          " >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Validate agent-config schema
+        run: |
+          node -e "
+            const cfg = require('./.agent-config.json');
+            if (!cfg.agents) throw new Error('.agent-config.json missing top-level agents key');
+            console.log('agent-config.json is valid — agents configured:', Object.keys(cfg.agents).join(', '));
+          "
+
+  # ── 2. MULTI-REPO-LINKS.md freshness check ────────────────────────────────
+  docs-freshness:
+    name: 📄 Docs Freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check MULTI-REPO-LINKS.md exists and is non-empty
+        run: |
+          if [ ! -f docs/MULTI-REPO-LINKS.md ]; then
+            echo "::error::docs/MULTI-REPO-LINKS.md missing"
+            exit 1
+          fi
+          lines=$(wc -l < docs/MULTI-REPO-LINKS.md)
+          echo "MULTI-REPO-LINKS.md: $lines lines"
+          if [ "$lines" -lt 10 ]; then
+            echo "::warning::docs/MULTI-REPO-LINKS.md appears too short ($lines lines)"
+          fi
+          echo "✅ docs/MULTI-REPO-LINKS.md present" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check IO-OPENUI-AO reference is present
+        run: |
+          if ! grep -q "IO-OPENUI-AO" docs/MULTI-REPO-LINKS.md; then
+            echo "::error::IO-OPENUI-AO not referenced in docs/MULTI-REPO-LINKS.md"
+            exit 1
+          fi
+          echo "✅ IO-OPENUI-AO reference found" >> "$GITHUB_STEP_SUMMARY"
+
+  # ── 3. Sync audit log ────────────────────────────────────────────────────
+  audit-log:
+    name: 📋 Sync Audit Log
+    runs-on: ubuntu-latest
+    needs: [dependency-coherence, docs-freshness]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write sync audit summary
+        run: |
+          echo "## 🔄 Multi-Repo Sync — Audit Log" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Check | Result |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Dependency Coherence | ${{ needs.dependency-coherence.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Docs Freshness | ${{ needs.docs-freshness.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Linked repos:** \`spaja86/IO-OPENUI-AO\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Triggered by: \`${{ github.event_name }}\` · Actor: \`${{ github.actor }}\` · $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open issue on sync failure
+        if: needs.dependency-coherence.result == 'failure' || needs.docs-freshness.result == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔄 Multi-Repo Sync failure — ${new Date().toISOString().split('T')[0]}`,
+              body: [
+                '## Multi-Repo Sync failure',
+                '',
+                `**Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                `**Triggered by:** ${context.eventName}`,
+                `**Date:** ${new Date().toISOString()}`,
+                '',
+                '### Failed checks',
+                `- Dependency Coherence: ${{ needs.dependency-coherence.result }}`,
+                `- Docs Freshness: ${{ needs.docs-freshness.result }}`,
+                '',
+                'Please investigate and update `docs/MULTI-REPO-LINKS.md` or `.agent-config.json` as needed.',
+              ].join('\n'),
+              labels: ['agent:config-change', 'multi-repo-sync'],
+            });

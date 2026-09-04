@@ -38,9 +38,14 @@
   - Rollback plan
   - KPI impact
   - Cost center / owner
+- High-impact PRs (config/deploy/cross-repo/risky feature tracks) must also include OKRID linkage (`OKRID-YYYY-TRACK-###`) and KPI status.
 
 ## 8) Non-stop collaboration cadence
 - Named owner contacts for operations and procurement.
 - Monthly operational review.
 - Quarterly enterprise review.
 - 24/7 escalation channel for critical incidents.
+
+## 9) OKRID weekly governance cadence
+- Weekly automated OKRID compliance summary via `.github/workflows/okrid-weekly-review.yml`.
+- Track blocked PRs with missing OKRID linkage and escalate unresolved blockers in the next ops review.

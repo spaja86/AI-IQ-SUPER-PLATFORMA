@@ -1,0 +1,47 @@
+name: GREAT SUMBION — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/great-sumbion/**'
+      - 'src/app/api/great-sumbion/**'
+      - 'src/components/great-sumbion/**'
+      - 'src/tests/lib/great-sumbion.test.ts'
+      - 'docs/GREAT-SUMBION.md'
+      - '.github/workflows/great-sumbion-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/great-sumbion/**'
+      - 'src/app/api/great-sumbion/**'
+      - 'src/components/great-sumbion/**'
+      - 'src/tests/lib/great-sumbion.test.ts'
+      - 'docs/GREAT-SUMBION.md'
+  workflow_dispatch:
+
+concurrency:
+  group: great-sumbion-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: great-sumbion
+      lint_paths: >-
+        src/lib/great-sumbion
+        src/app/api/great-sumbion
+        src/components/great-sumbion
+      test_commands: |
+        npx tsx src/tests/lib/great-sumbion.test.ts
+      scan_paths: >-
+        src/lib/great-sumbion
+        src/app/api/great-sumbion
+      label: great-sumbion
+      perf_eval_ms: 50
+      perf_api_ms: 200

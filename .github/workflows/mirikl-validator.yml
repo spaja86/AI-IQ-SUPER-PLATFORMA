@@ -1,0 +1,91 @@
+name: MIRIKL — GitHub/Vercel Governance Validator
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - 'docs/MIRIKL.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - 'docs/OKRID-REGISTRY.md'
+      - '.agent-config.json'
+      - '.github/workflows/mirikl-validator.yml'
+      - '.github/workflows/vercel-deploy.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/MIRIKL.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - 'docs/OKRID-REGISTRY.md'
+      - '.agent-config.json'
+      - '.github/workflows/mirikl-validator.yml'
+      - '.github/workflows/vercel-deploy.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: mirikl-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build gate
+        run: npm run build
+
+      - name: 🔍 Lint gate
+        run: npm run lint
+
+      - name: 🧪 Unit test gate
+        run: npm run test
+
+      - name: 🧪 Smoke test gate
+        run: npm run test:smoke
+
+      - name: 🚦 Predeploy gate
+        run: npm run predeploy:check
+
+      - name: 🛡️ Security dependency gate
+        run: npm audit --audit-level=high
+
+      - name: 🔑 Secret heuristics gate
+        uses: ./.github/actions/secret-scan
+
+      - name: ✅ Label `mirikl:validated` (PR only)
+        if: ${{ success() && github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: ['mirikl:validated']
+            });
+
+      - name: 📊 Audit summary
+        if: always()
+        run: |
+          echo "## MIRIKL Validator Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- OKRID: \`OKRID-2026-MIRIKL-001\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Tracking issue: #920" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Runtime source of truth: Vercel Git integration" >> "$GITHUB_STEP_SUMMARY"
+          echo "- GitHub Actions role: quality gates + audit governance" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Required gates: build, lint, test, smoke, predeploy, security" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Cross-repo: Follow-up required in spaja86/IO-OPENUI-AO" >> "$GITHUB_STEP_SUMMARY"

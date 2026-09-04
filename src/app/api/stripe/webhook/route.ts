@@ -38,6 +38,7 @@ import {
 import { createTraceContext, traceStart, traceEnd, traceStripeUserCorrelation, traceWebhookError } from '@/lib/stripe/billing-tracing';
 import { isBillingFlagEnabled } from '@/lib/stripe/billing-feature-flags';
 import { buildAuditChainHash } from '@/lib/stripe/billing-audit-chain';
+import { createSupabaseNotificationRepository, dispatchNotification } from '@/lib/notifications';
 
 export async function POST(request: NextRequest) {
   const trace = createTraceContext(request, '/api/stripe/webhook');
@@ -246,12 +247,23 @@ export async function POST(request: NextRequest) {
   async function notifyUser(userId: string, action: string, meta: Record<string, unknown> = {}) {
     if (!isBillingFlagEnabled('billing-user-notifications', userId)) return;
     try {
-      await supabase.from('user_notifications').insert({
-        user_id: userId,
-        type: 'billing',
-        action,
-        metadata: meta,
-      });
+      await dispatchNotification(
+        {
+          userId,
+          action,
+          category: 'billing',
+          templateVars: Object.fromEntries(
+            Object.entries(meta).map(([key, value]) => [key, String(value)]),
+          ),
+          metadata: {
+            ...meta,
+            stripeEventId: event.id,
+            stripeEventType: event.type,
+            requestId: trace.requestId,
+          },
+        },
+        { repository: createSupabaseNotificationRepository(supabase) },
+      );
     } catch {
       // Notifikacija nije kritična — tišina pri grešci
     }

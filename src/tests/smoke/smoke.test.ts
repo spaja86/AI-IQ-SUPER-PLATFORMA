@@ -347,6 +347,82 @@ async function runSmokeTests(): Promise<void> {
     }
   });
 
+  // ── 10. Deploy Registry & Hub ────────────────────────────────────────────
+
+  console.log('\n📦 10. Deploy Registry & Hub');
+
+  const { deployRegistry, getDeployPlatformById, getTriggablePlatforms, getPlatformsWithHealthCheck } =
+    await import('../../lib/deploy/deploy-registry');
+
+  await test('deployRegistry nije prazan', () => {
+    assert(deployRegistry.length > 0, 'deploy registry mora imati bar jednu platformu');
+  });
+
+  await test('svaka platforma u registru ima id, naziv i produktionUrl', () => {
+    for (const p of deployRegistry) {
+      assert(p.id.length > 0, `platforma bez id`);
+      assert(p.naziv.length > 0, `platforma ${p.id} bez naziv`);
+      assert(p.produktionUrl.startsWith('https://'), `platforma ${p.id} ima neispravan produktionUrl`);
+    }
+  });
+
+  await test('ai-iq-super-platforma je aktivan u registru', () => {
+    const p = getDeployPlatformById('ai-iq-super-platforma');
+    assert(p !== undefined, 'ai-iq-super-platforma mora biti u registru');
+    assert(p!.status === 'aktivan', 'ai-iq-super-platforma mora biti aktivan');
+  });
+
+  await test('poslovni-novcanik je u registru', () => {
+    const p = getDeployPlatformById('poslovni-novcanik');
+    assert(p !== undefined, 'poslovni-novcanik mora biti u registru');
+  });
+
+  await test('triggable platforme imaju deployHookEnvVar', () => {
+    const triggable = getTriggablePlatforms();
+    assert(triggable.length > 0, 'mora biti bar jedna triggable platforma');
+    for (const p of triggable) {
+      assert(
+        typeof p.deployHookEnvVar === 'string' && p.deployHookEnvVar.length > 0,
+        `triggable platforma ${p.id} nema deployHookEnvVar`,
+      );
+    }
+  });
+
+  await test('platforme sa healthUrl imaju https:// URL', () => {
+    const withHealth = getPlatformsWithHealthCheck();
+    for (const p of withHealth) {
+      assert(p.healthUrl!.startsWith('https://'), `platforma ${p.id} ima neispravan healthUrl`);
+    }
+  });
+
+  // ── 11. GIGATRON ──────────────────────────────────────────────────────────
+
+  console.log('\n📦 11. GIGATRON Platform');
+
+  const { getGigatronKatalogMetrike } = await import('../../lib/gigatron/gigatron-catalog');
+  const { getInventoryMetrike } = await import('../../lib/gigatron/gigatron-inventory');
+
+  await test('GIGATRON katalog metrike su validne', () => {
+    const metrike = getGigatronKatalogMetrike();
+    assert(metrike.ukupnoProizvoda > 0, 'GIGATRON katalog mora imati proizvode');
+    assert(metrike.aktivnih > 0, 'GIGATRON mora imati aktivnih proizvoda');
+    assert(metrike.kategorija > 0, 'GIGATRON mora imati kategorije');
+    assert(metrike.brendovi > 0, 'GIGATRON mora imati brand-ove');
+    assert(metrike.prosecnaCenaEUR > 0, 'Prosečna cena mora biti > 0 EUR');
+  });
+
+  await test('GIGATRON inventory metrike su validne', () => {
+    const metrike = getInventoryMetrike();
+    assert(metrike.ukupnoProizvoda > 0, 'GIGATRON inventory mora imati zapise');
+    assert(metrike.timestamp.length > 0, 'Inventory timestamp mora biti setovan');
+  });
+
+  await test('/api/gigatron/health endpoint URL je ispravno formatiran', () => {
+    const healthUrl = 'https://ai-iq-super-platforma.vercel.app/api/gigatron/health';
+    assert(healthUrl.startsWith('https://'), 'GIGATRON health URL mora biti HTTPS');
+    assert(healthUrl.includes('/api/gigatron/health'), 'mora da sadrži /api/gigatron/health');
+  });
+
   // ── Summary ───────────────────────────────────────────────────────────────
 
   console.log(`\n${'─'.repeat(60)}`);

@@ -1,0 +1,185 @@
+name: Persona Bank — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/persona-bank/**'
+      - 'src/app/api/persona-bank/**'
+      - 'src/tests/lib/persona-bank.test.ts'
+      - 'docs/PERSONA-BANK.md'
+      - '.github/workflows/persona-bank-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/persona-bank/**'
+      - 'src/app/api/persona-bank/**'
+      - 'src/tests/lib/persona-bank.test.ts'
+      - '.github/workflows/persona-bank-validator.yml'
+  schedule:
+    - cron: '0 2 * * *'  # Nightly lifecycle health check at 02:00 UTC
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full Persona Bank validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  persona-bank-lint:
+    name: Persona Bank — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint Persona Bank modules
+        run: |
+          npm run lint -- \
+            src/lib/persona-bank/types.ts \
+            src/lib/persona-bank/store.ts \
+            src/lib/persona-bank/client.ts \
+            src/lib/persona-bank/seed.ts \
+            src/lib/persona-bank/index.ts \
+            src/app/api/persona-bank/route.ts \
+            "src/app/api/persona-bank/[id]/route.ts" \
+            src/app/api/persona-bank/stats/route.ts
+
+  persona-bank-typecheck:
+    name: Persona Bank — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  persona-bank-test:
+    name: Persona Bank — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [persona-bank-lint, persona-bank-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Persona Bank test suite
+        run: npx tsx src/tests/lib/persona-bank.test.ts
+
+  persona-bank-security:
+    name: Persona Bank — Security Scan
+    runs-on: ubuntu-latest
+    needs: [persona-bank-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in Persona Bank modules
+        run: |
+          echo "Scanning Persona Bank modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/persona-bank/ \
+            src/app/api/persona-bank/ 2>/dev/null || \
+            (echo "::error::Potential secret found in Persona Bank modules" && exit 1)
+          echo "No secrets detected."
+
+  persona-bank-label:
+    name: Persona Bank — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const toAdd = [];
+
+            if (!labels.includes('persona-bank:change')) {
+              toAdd.push('persona-bank:change');
+            }
+            if (!labels.includes('agent:config-change')) {
+              toAdd.push('agent:config-change');
+            }
+
+            if (toAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: toAdd,
+              });
+            }
+
+  persona-bank-status:
+    name: Persona Bank — Status Summary
+    runs-on: ubuntu-latest
+    needs: [persona-bank-lint, persona-bank-typecheck, persona-bank-test, persona-bank-security]
+    if: always()
+    steps:
+      - name: Persona Bank validation summary
+        run: |
+          echo "========================================"
+          echo "Persona Bank Validator Summary"
+          echo "========================================"
+          echo "Lint:      ${{ needs.persona-bank-lint.result }}"
+          echo "TypeScript:${{ needs.persona-bank-typecheck.result }}"
+          echo "Tests:     ${{ needs.persona-bank-test.result }}"
+          echo "Security:  ${{ needs.persona-bank-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Persona lookup target:  <= 10ms"
+          echo "  Bulk list target:       <= 50ms"
+          echo "  Contract version:       1.0.0"
+          echo "  Max octaves:            16"
+          echo "  Max hipermreza nodes:   256"
+          echo "========================================"
+
+          if [ "${{ needs.persona-bank-lint.result }}" != "success" ] || \
+             [ "${{ needs.persona-bank-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.persona-bank-test.result }}" != "success" ] || \
+             [ "${{ needs.persona-bank-security.result }}" != "success" ]; then
+            echo "Persona Bank validation FAILED"
+            exit 1
+          else
+            echo "Persona Bank validation PASSED"
+          fi

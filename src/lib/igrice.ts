@@ -39,7 +39,8 @@ export type KategorijaIgrice =
   | 'trka'
   | 'detektivska'
   | 'zivotna-simulacija'
-  | 'retro';
+  | 'retro'
+  | 'reakt';
 
 export type StatusIgrice = 'aktivna' | 'beta' | 'razvoj' | 'planirana';
 
@@ -131,6 +132,21 @@ function kreirajDimenzionalneRezime(podrzaneDim: DimenzijaNivo[]): Dimenzionalni
 // ═══════════════════════════════════════════════════════════════════
 
 const sveDimenzije: DimenzijaNivo[] = ['360D', '720D', '1440D', '2880D', '5760D'];
+
+export const GAMES_SCOPE = {
+  modul: ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'],
+  api: ['/api/igrice', '/api/igrice-stats', '/api/igrice-kategorije'],
+  ui: ['/igrice', '/spaja-digitalni-brouvzer?igricaId=...'],
+  analytics: ['kategorija', 'status', 'runnerTip'],
+} as const;
+
+export const GAMES_REQUIRED_OUTPUTS = [
+  'catalog-update',
+  'runner-compatibility',
+  'api-summary',
+  'ui-sekvence',
+  'analytics-breakdown',
+] as const;
 
 export const igrice: Igrica[] = [
   // ─── Originalne igrice ────────────────────────────────────────
@@ -2112,6 +2128,7 @@ export const igrice: Igrica[] = [
       'Texas Hold’em v1: single-table protiv bot igrača',
       'Deterministički tok runde: preflop, flop, turn, river, showdown',
       'Audit log svake akcije i anti-cheat validacija poteza',
+      'REAL CREATE QVADERS marker za four-of-kind (quads) ishode',
       'Session-only chip progresija bez real-money klađenja',
       'Dimenzionalni HUD i startup tok 360D–5760D',
       'Pita dimenziju (D) prilikom pokretanja',
@@ -2654,6 +2671,29 @@ export const igrice: Igrica[] = [
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
 
+  // ─── REAKT ───────────────────────────────────────────────────────
+  {
+    id: 'igrica-reakt',
+    naziv: 'REAKT',
+    opis: 'Igra refleksa i reakcionog vremena — dimenzionalni stimulusi pojavljuju se na ekranu i moraš kliknuti što brže možeš. Svaka dimenzija (D) povećava brzinu, broj simultanih stimulusa i vizuelnu kompleksnost. Od 1440D naviše pojavljuju se lažni stimulusi (distraktori) koje ne smeš kliknuti. Dimenzionalni bonus multiplikuje svaki pogodak: brža reakcija = više bodova!',
+    ikona: '⚡',
+    kategorija: 'reakt',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '360D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Reakciono vreme — kliktaj stimuluse što brže možeš',
+      'Multi-stimulus mod — više simultanih stimulusa u višim D',
+      'Dimenzionalni multiplikator brzine i bodova',
+      'Streak sistem — uzastopni hitovi daju bonus multiplikator',
+      'Distraktori od 1440D+ — nemoj kliknuti lažne stimuluse',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'beta',
+    preporuceniProizvodi: ['spaja-accelerator', 'spaja-game-engine', 'omega-ai-engine'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+
   // ─── EKSTREMINACIJA EGLANA ────────────────────────────────────────
   {
     id: 'igrica-ekstreminacija-eglana',
@@ -2684,6 +2724,12 @@ export const igrice: Igrica[] = [
     opis: 'Jedinstven fintech borbeni dvoboj — majstori tržišnog manipulisanja suočavaju se u dimenzionalnom prostoru. Igrač bira između Market Maker-a (liquidity provider, defensivni stil sa bid/ask spread štitom) ili Manipulatora (agresivni napadač koji koristi flash crash talase i liquidation projektile). Svaka dimenzija (D) pojačava finansijsku snagu: u 360D bazični spread napadi, u 1440D+ dimenzionalni šok talasi i pump-and-dump eksplozije, u 5760D potpuna tržišna destrukcija sa spiralnim likvidacionim zonama.',
     ikona: '💹',
     kategorija: 'borbena',
+  {
+    id: 'igrica-back-to-spaces-another-races',
+    naziv: 'Back to Spaces for Another Races',
+    opis: 'Svemirske trke kroz višedimenzionalne orbite sa fairness pravilima, anti-cheat validacijom i audit tragom za cross-repo operativnu usklađenost.',
+    ikona: '🛸',
+    kategorija: 'trka',
     podrzaneDimenzije: sveDimenzije,
     podrazumevanaDimenzija: '720D',
     dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
@@ -2697,6 +2743,75 @@ export const igrice: Igrica[] = [
     ],
     status: 'aktivna',
     preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-multiplayer-server', 'spaja-blockchain-engine'],
+      'Galaktički krugovi i dimenzionalni checkpoint sistem',
+      'Fairness validacija (broj igrača, nitro limit, latency cap)',
+      'Penalty obračun za kolizije i neregularne akcije',
+      'Cross-repo audit tagovi za povezane promene',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'beta',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-monitor', 'spaja-metrics', 'omega-ai-engine'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/blob/main/docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md',
+  },
+  {
+    id: 'igrica-neon-ops-squad',
+    naziv: 'Neon Ops Squad',
+    opis: 'Taktička akcija u futurističkim neon zonama sa kooperativnim misijama i dimenzionalnim prebacivanjem između sektora. Svaka dimenzija menja AI ponašanje i gustinu prepreka.',
+    ikona: '🛰️',
+    kategorija: 'akcija',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Co-op misije i timske role',
+      'Stealth + assault režimi po dimenzijama',
+      'Adaptive AI neprijatelji prema D nivou',
+      'Audit-friendly mission recap',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-ai-npc', 'spaja-networking-sdk', 'spaja-anti-cheat'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+  {
+    id: 'igrica-quantum-kart-league',
+    naziv: 'Quantum Kart League',
+    opis: 'Brze trke kroz kvantne tunele sa risk-reward nitro sistemom i preciznim checkpoint pravilima. Više dimenzije otključavaju kompleksnije staze i vremenske anomalije.',
+    ikona: '🏎️',
+    kategorija: 'trka',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '1440D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Kvantni tuneli i split-ruta trke',
+      'Nitro risk sistem sa penalty pravilima',
+      'Time anomaly događaji na višim dimenzijama',
+      'Leaderboard po dimenzionalnom nivou',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'beta',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-leaderboard', 'spaja-monitor'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+  {
+    id: 'igrica-hram-koda',
+    naziv: 'Hram Koda',
+    opis: 'Logičko-programerska avantura u kojoj igrač rešava algoritamske zagonetke kroz dimenzionalne nivoe. Fokus je na progresivnom učenju i analitičkom razmišljanju.',
+    ikona: '🧠',
+    kategorija: 'edukativna',
+    podrzaneDimenzije: ['360D', '720D', '1440D'],
+    podrazumevanaDimenzija: '360D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(['360D', '720D', '1440D']),
+    funkcije: [
+      'Puzzle nivoi za algoritamsko razmišljanje',
+      'Tutor hint sistem i progres tracking',
+      'Challenge mod sa ograničenim potezima',
+      'Mikro-analitika napretka po domenu zadataka',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'planirana',
+    preporuceniProizvodi: ['omega-ai-engine', 'spaja-optimizer', 'spaja-monitor'],
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
 ];

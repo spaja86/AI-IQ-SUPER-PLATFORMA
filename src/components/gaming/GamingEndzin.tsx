@@ -31,6 +31,7 @@ const BorbenaRunner = dynamic(() => import('./runners/BorbenaRunner'), { ssr: fa
 const PokerRunner = dynamic(() => import('./runners/PokerRunner'), { ssr: false });
 const EglanRunner = dynamic(() => import('./runners/EglanRunner'), { ssr: false });
 const MakinRunner = dynamic(() => import('./runners/MakinRunner'), { ssr: false });
+const ReaktRunner = dynamic(() => import('./runners/ReaktRunner'), { ssr: false });
 
 // ─── COLD AND FIRE karakteri ─────────────────────────────────────────
 
@@ -511,6 +512,11 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           </div>
 
           <p className="mb-6 text-sm text-gray-400 leading-relaxed">{igrica.opis}</p>
+          <p className="mb-3 text-xs text-gray-500">
+            Runner: <span className="font-semibold text-gray-300">{efektivniRunnerTip}</span> • Status:
+            {' '}
+            <span className="font-semibold text-gray-300">{igrica.status}</span>
+          </p>
 
           {/* Dimenzionalni parametri */}
           <div className="mb-6 grid grid-cols-2 gap-2 text-xs">
@@ -692,6 +698,7 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
             startingKarakter={odabraniMakinKarakter}
           />
         )}
+        {efektivniRunnerTip === 'reakt' && <ReaktRunner {...runnerProps} />}
       </div>
 
       {/* Pauze meni — overlay */}

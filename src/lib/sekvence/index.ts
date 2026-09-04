@@ -6,6 +6,7 @@ export { palasterizacijaSekvence } from './palasterizacija-page';
 export { eksosistzdacijaSekvence } from './eksosistzdacija-page';
 export { itProizvodiSekvence } from './it-proizvodi-page';
 export { deploySekvence } from './deploy-page';
+export { deployPlatformaSekvence } from './deploy-platforma-page';
 export { ekosistemSekvence } from './ekosistem-page';
 export { omegaAISekvence } from './omega-ai-page';
 export { bankaSekvence } from './banka-page';
@@ -26,6 +27,9 @@ export { gejmingIndustrijaSekvence } from './gejming-industrija-page';
 export { spajaUniverzalniPromptSekvence } from './spaja-univerzalni-prompt-page';
 export { proksiWifiAntenaSekvence } from './proksi-wifi-antena-page';
 export { storyOfLifeSekvence } from './story-of-life-page';
+export { mikiMausIPajaPatakSekvence } from './miki-maus-i-paja-patak-page';
+export { getSiljaSekvence } from './silja-page';
+export { getSnupiSekvence } from './snupi-page';
 
 export { ioOpenUIAOGamingSekvence } from './io-openui-ao-gaming-platforma-page';
 export { ioOpenUIAOAnalitikaSekvence } from './io-openui-ao-analitika-page';
@@ -44,6 +48,7 @@ export { aiIqMonitoringSekvence } from './ai-iq-monitoring-page';
 export { blogFaqSekvence } from './blog-faq-page';
 export { unitTestoviSekvence } from './unit-testovi-page';
 export { omegaAiSuportSekvence } from './omega-ai-suport-page';
+export { getOmegaEvolutionSekvence } from './omega-evolution-page';
 
 // ── Digitalna Platforma ─────────────────────────────────────────────────────
 export { digitalnaPlatformaSekvence } from './digitalna-platforma-page';
@@ -231,3 +236,18 @@ export { perkolizonikSekvence } from './perkolizonik-page';
 
 // ── MOŽE SVE — Unified Platform Hub ─────────────────────────────────────────
 export { mozeSveSekvence } from './moze-sve-page';
+
+// ── MIROR ────────────────────────────────────────────────────────────────────
+export { getMirorSekvence } from './miror-page';
+
+// ── DIVEEZIJA EKSPESLA ────────────────────────────────────────────────────────
+export { getDivezijaEkspeslaSekvence } from './diveezija-ekspesla-page';
+
+// ── EKSPRITING ────────────────────────────────────────────────────────────────
+export { getEkspritingSekvence } from './ekspriting-page';
+export { getEkspresSekvence } from './ekspres-page';
+
+export { akuzativSekvence } from './akuzativ-page';
+export { nominativSekvence } from './nominativ-page';
+export { genitivSekvence } from './genitiv-page';
+export { dativSekvence } from './dativ-page';

@@ -1,0 +1,204 @@
+name: ANOTHER MAKS — Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/another-maks/**'
+      - 'src/app/api/another-maks/**'
+      - 'src/tests/lib/another-maks.test.ts'
+      - 'docs/ANOTHER-MAKS.md'
+      - '.github/workflows/another-maks.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/another-maks/**'
+      - 'src/app/api/another-maks/**'
+      - 'src/tests/lib/another-maks.test.ts'
+      - '.github/workflows/another-maks.yml'
+  schedule:
+    - cron: '0 3 * * 1'  # Weekly — every Monday at 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full ANOTHER MAKS validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  another-maks-lint:
+    name: ANOTHER MAKS — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint ANOTHER MAKS modules
+        run: |
+          npm run lint -- \
+            src/lib/another-maks/types.ts \
+            src/lib/another-maks/store.ts \
+            src/lib/another-maks/persona.ts \
+            src/lib/another-maks/orchestrator.ts \
+            src/lib/another-maks/index.ts \
+            src/app/api/another-maks/route.ts
+
+  another-maks-typecheck:
+    name: ANOTHER MAKS — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  another-maks-test:
+    name: ANOTHER MAKS — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [another-maks-lint, another-maks-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ANOTHER MAKS test suite
+        run: npx tsx src/tests/lib/another-maks.test.ts
+
+  another-maks-predeploy:
+    name: ANOTHER MAKS — Predeploy Checks
+    runs-on: ubuntu-latest
+    needs: [another-maks-lint, another-maks-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run predeploy check
+        run: npm run predeploy:check
+
+  another-maks-security:
+    name: ANOTHER MAKS — Security Scan
+    runs-on: ubuntu-latest
+    needs: [another-maks-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in ANOTHER MAKS modules
+        run: |
+          echo "Scanning ANOTHER MAKS modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/another-maks/ \
+            src/app/api/another-maks/ 2>/dev/null || \
+            (echo "::error::Potential secret found in ANOTHER MAKS modules" && exit 1)
+          echo "No secrets detected."
+
+  another-maks-label:
+    name: ANOTHER MAKS — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const toAdd = [];
+
+            if (!labels.includes('another-maks')) {
+              toAdd.push('another-maks');
+            }
+            if (!labels.includes('agent:config-change')) {
+              toAdd.push('agent:config-change');
+            }
+
+            if (toAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: toAdd,
+              });
+            }
+
+  another-maks-status:
+    name: ANOTHER MAKS — Status Summary
+    runs-on: ubuntu-latest
+    needs: [another-maks-lint, another-maks-typecheck, another-maks-test, another-maks-predeploy, another-maks-security]
+    if: always()
+    steps:
+      - name: ANOTHER MAKS validation summary
+        run: |
+          echo "========================================"
+          echo "ANOTHER MAKS Validation Summary"
+          echo "========================================"
+          echo "Lint:      ${{ needs.another-maks-lint.result }}"
+          echo "TypeScript:${{ needs.another-maks-typecheck.result }}"
+          echo "Tests:     ${{ needs.another-maks-test.result }}"
+          echo "Predeploy: ${{ needs.another-maks-predeploy.result }}"
+          echo "Security:  ${{ needs.another-maks-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Action evaluation target: <= 50ms"
+          echo "  Build duration target:    <= 3 min"
+          echo "  Uptime SLA target:        99.99%"
+          echo "  Linked agent:             maksimus-2"
+          echo "  Specialization:           kreativna-sinteza"
+          echo "========================================"
+
+          if [ "${{ needs.another-maks-lint.result }}" != "success" ] || \
+             [ "${{ needs.another-maks-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.another-maks-test.result }}" != "success" ] || \
+             [ "${{ needs.another-maks-predeploy.result }}" != "success" ] || \
+             [ "${{ needs.another-maks-security.result }}" != "success" ]; then
+            echo "ANOTHER MAKS validation FAILED"
+            exit 1
+          else
+            echo "ANOTHER MAKS validation PASSED"
+          fi

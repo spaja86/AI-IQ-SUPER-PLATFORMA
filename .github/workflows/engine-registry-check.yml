@@ -1,0 +1,162 @@
+name: Engine Registry Check
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/**'
+      - 'src/lib/engines/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  engine-registry-check:
+    name: 🔌 Engine Registry — Auto-Discovery Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Engine Registry Check
+        id: registry-check
+        run: |
+          echo "## 🔌 Engine Registry Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Count registered engines in engine-registry-all.ts
+          REGISTERED=$(grep -c "^import './engines/" src/lib/engine-registry-all.ts 2>/dev/null || echo "0")
+          echo "📦 **Registrovanih engine-a u barrel fajlu:** $REGISTERED" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Find all engine wrapper files in src/lib/engines/
+          WRAPPER_FILES=$(find src/lib/engines -name "*.ts" 2>/dev/null | wc -l)
+          echo "🗂️ **Engine wrapper fajlova u src/lib/engines/:** $WRAPPER_FILES" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Find engine wrapper files NOT imported in engine-registry-all.ts
+          UNCONNECTED=0
+          UNCONNECTED_LIST=""
+          while IFS= read -r file; do
+            BASENAME=$(basename "$file" .ts)
+            if ! grep -q "engines/${BASENAME}" src/lib/engine-registry-all.ts 2>/dev/null; then
+              UNCONNECTED=$((UNCONNECTED + 1))
+              UNCONNECTED_LIST="$UNCONNECTED_LIST\n- \`src/lib/engines/${BASENAME}.ts\`"
+            fi
+          done < <(find src/lib/engines -name "*.ts" 2>/dev/null)
+
+          if [ "$UNCONNECTED" -gt 0 ]; then
+            echo "### ⚠️ Nepovezani Engine Wrapper-i ($UNCONNECTED)" >> $GITHUB_STEP_SUMMARY
+            echo "Sledeći engine wrapper fajlovi nisu uvezeni u \`engine-registry-all.ts\`:" >> $GITHUB_STEP_SUMMARY
+            printf "%b" "$UNCONNECTED_LIST" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "UNCONNECTED_COUNT=$UNCONNECTED" >> $GITHUB_OUTPUT
+          else
+            echo "### ✅ Svi engine wrapper-i su registrovani" >> $GITHUB_STEP_SUMMARY
+            echo "UNCONNECTED_COUNT=0" >> $GITHUB_OUTPUT
+          fi
+
+          # Find new lib files added in this PR that contain "Engine" export
+          # and are NOT in the engines/ folder and NOT in engine-registry-all.ts
+          NEW_ENGINE_FILES=""
+          NEW_ENGINE_COUNT=0
+          git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'src/lib/*.ts' 2>/dev/null | while read -r file; do
+            if [ -f "$file" ]; then
+              if grep -q "registerEngine\|Engine\|Endžin\|endzin" "$file" 2>/dev/null; then
+                BASENAME=$(basename "$file" .ts)
+                if ! grep -q "$BASENAME" src/lib/engine-registry-all.ts 2>/dev/null; then
+                  NEW_ENGINE_COUNT=$((NEW_ENGINE_COUNT + 1))
+                  NEW_ENGINE_FILES="$NEW_ENGINE_FILES\n- \`$file\`"
+                fi
+              fi
+            fi
+          done
+
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ **Da biste registrovali novi engine:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Kreirajte wrapper fajl u \`src/lib/engines/ime-engine.ts\`" >> $GITHUB_STEP_SUMMARY
+          echo "2. Pozovite \`registerEngine()\` u wrapper fajlu" >> $GITHUB_STEP_SUMMARY
+          echo "3. Dodajte \`import './engines/ime-engine'\` u \`src/lib/engine-registry-all.ts\`" >> $GITHUB_STEP_SUMMARY
+          echo "4. Novi engine se automatski pojavljuje u Glavnom Endžinu ✅" >> $GITHUB_STEP_SUMMARY
+
+      - name: Label PR — engine needs registration
+        if: steps.registry-check.outputs.UNCONNECTED_COUNT != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: labels } = await github.rest.issues.listLabelsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const labelExists = labels.some(l => l.name === 'engine:needs-registration');
+            if (!labelExists) {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'engine:needs-registration',
+                color: 'e4e669',
+                description: 'Engine wrapper postoji ali nije registrovan u engine-registry-all.ts',
+              });
+            }
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['engine:needs-registration'],
+            });
+
+      - name: Label PR — all engines registered
+        if: steps.registry-check.outputs.UNCONNECTED_COUNT == '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: labels } = await github.rest.issues.listLabelsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const labelExists = labels.some(l => l.name === 'engine:registered');
+            if (!labelExists) {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'engine:registered',
+                color: '0e8a16',
+                description: 'Svi engine wrapper-i su registrovani u engine-registry-all.ts',
+              });
+            }
+            // Try to remove the needs-registration label if it exists
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: 'engine:needs-registration',
+              });
+            } catch (e) {
+              // Label might not exist on this PR, ignore
+            }
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['engine:registered'],
+            });
+
+      - name: Fail if unconnected engine wrappers
+        if: steps.registry-check.outputs.UNCONNECTED_COUNT != '0'
+        run: |
+          echo "❌ Postoje engine wrapper fajlovi koji nisu uvezeni u engine-registry-all.ts!"
+          echo "Dodajte import u src/lib/engine-registry-all.ts i pokušajte ponovo."
+          exit 1

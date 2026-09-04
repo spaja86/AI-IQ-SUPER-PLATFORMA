@@ -1,0 +1,42 @@
+name: DRESING — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/dresing/**'
+      - 'src/app/api/dresing/**'
+      - 'src/tests/lib/dresing.test.ts'
+      - '.github/workflows/dresing-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/dresing/**'
+      - 'src/app/api/dresing/**'
+      - 'src/tests/lib/dresing.test.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: dresing-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: dresing
+      lint_paths: >-
+        src/lib/dresing
+        src/app/api/dresing
+      test_commands: |
+        npx tsx src/tests/lib/dresing.test.ts
+      scan_paths: >-
+        src/lib/dresing
+        src/app/api/dresing
+      label: dresing
+      perf_eval_ms: 50
+      perf_api_ms: 200

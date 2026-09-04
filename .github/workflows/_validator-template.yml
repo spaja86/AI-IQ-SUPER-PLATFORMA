@@ -1,0 +1,208 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# _validator-template.yml — Reusable validator workflow (workflow_call)
+# Kompanija SPAJA — Digitalna Industrija
+#
+# This template provides the standard quality gate shared by all domain
+# validator agents:  lint → typecheck → tests → security-scan → label → audit-log
+#
+# Usage in a calling workflow:
+#
+#   jobs:
+#     validate:
+#       uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+#       with:
+#         domain: discount-telecom
+#         lint_paths: "src/lib/discount-telecom src/app/api/discount-telecom"
+#         test_commands: "npx tsx src/tests/lib/discount-telecom.test.ts"
+#         scan_paths: "src/lib/discount-telecom src/app/api/discount-telecom"
+#         label: "discount-telecom"
+#         perf_api_ms: 200
+#         perf_eval_ms: 50
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: 🔧 Validator Template (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      domain:
+        description: 'Human-readable domain name shown in job titles'
+        required: true
+        type: string
+      lint_paths:
+        description: 'Space-separated list of paths/files to pass to eslint'
+        required: true
+        type: string
+      test_commands:
+        description: 'Newline-separated shell commands that run the test suite'
+        required: true
+        type: string
+      scan_paths:
+        description: 'Space-separated paths to scan for secrets'
+        required: true
+        type: string
+      label:
+        description: 'GitHub label to add/assert on the PR (e.g. gigatron)'
+        required: false
+        type: string
+        default: ''
+      perf_api_ms:
+        description: 'API response KPI in milliseconds (informational, shown in summary)'
+        required: false
+        type: number
+        default: 200
+      perf_eval_ms:
+        description: 'Engine evaluation KPI in milliseconds (informational, shown in summary)'
+        required: false
+        type: number
+        default: 50
+      node_version:
+        description: 'Node.js version to use'
+        required: false
+        type: string
+        default: '20'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # ── 1. Lint ──────────────────────────────────────────────────────────────────
+  lint:
+    name: ${{ inputs.domain }} — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint ${{ inputs.domain }} modules
+        run: npm run lint -- ${{ inputs.lint_paths }}
+
+  # ── 2. TypeScript ─────────────────────────────────────────────────────────────
+  typecheck:
+    name: ${{ inputs.domain }} — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript strict check
+        run: npx tsc --noEmit
+
+  # ── 3. Tests ──────────────────────────────────────────────────────────────────
+  tests:
+    name: ${{ inputs.domain }} — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ${{ inputs.domain }} tests
+        run: |
+          ${{ inputs.test_commands }}
+
+  # ── 4. Security scan ──────────────────────────────────────────────────────────
+  security:
+    name: ${{ inputs.domain }} — Security Scan
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit (high severity)
+        run: npm audit --audit-level=high
+
+      - name: Scan ${{ inputs.domain }} modules for secrets
+        run: |
+          echo "Scanning ${{ inputs.domain }} modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            ${{ inputs.scan_paths }} 2>/dev/null || \
+            (echo "::error::Potential secret found in ${{ inputs.domain }} modules" && exit 1)
+          echo "No secrets detected."
+
+  # ── 5. Label (PR only) ────────────────────────────────────────────────────────
+  label:
+    name: ${{ inputs.domain }} — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && inputs.label != ''
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const label = '${{ inputs.label }}';
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            if (!labels.includes(label)) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: [label],
+              });
+            }
+
+  # ── 6. Audit log / summary ────────────────────────────────────────────────────
+  audit-summary:
+    name: ${{ inputs.domain }} — Audit Summary
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, tests, security]
+    if: always()
+    steps:
+      - name: Write audit summary
+        run: |
+          echo "## 🔍 ${{ inputs.domain }} Validator — Audit Log" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Gate | Result |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|------|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Lint | ${{ needs.lint.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| TypeScript | ${{ needs.typecheck.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Tests | ${{ needs.tests.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Security | ${{ needs.security.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**KPI targets:** eval ≤ ${{ inputs.perf_eval_ms }}ms · API ≤ ${{ inputs.perf_api_ms }}ms" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Agent: \`${{ github.actor }}\` · Run: [\`${{ github.run_id }}\`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) · $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
+
+          # Fail if any gate failed
+          if [ "${{ needs.lint.result }}" != "success" ] || \
+             [ "${{ needs.typecheck.result }}" != "success" ] || \
+             [ "${{ needs.tests.result }}" != "success" ] || \
+             [ "${{ needs.security.result }}" != "success" ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "❌ **${{ inputs.domain }} validation FAILED**" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "✅ **${{ inputs.domain }} validation PASSED**" >> "$GITHUB_STEP_SUMMARY"

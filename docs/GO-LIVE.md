@@ -129,6 +129,7 @@
 - [ ] Pokrenuti `npm test` — svi testovi moraju proći
 - [ ] Pokrenuti `npm run test:smoke` — svi smoke testovi moraju proći
 - [ ] Potvrditi da `npm run build` TypeScript kompilacija nema grešaka
+- [ ] Pokrenuti `npx tsx src/tests/lib/back-to-spaces-another-races.test.ts` za race fairness + edge-case validaciju
 
 ### 🔐 Bezbednost
 
@@ -142,6 +143,9 @@
 - [ ] Postaviti `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - [ ] Postaviti `OPENAI_API_KEY`
 - [ ] Postaviti `CRON_SECRET` (random string za scheduler zaštitu)
+- [ ] Postaviti `VERCEL_DEPLOY_HOOK_MEKARTOR` ako se koristi manual fallback deploy
+- [ ] Postaviti `MEKARTOR_STATUS_WEBHOOK_URL` ako se koristi eksterni rollout signal
+- [ ] Postaviti `MEKARTOR_UPSTREAM_URL` ako se koristi budući katalog feed
 - [ ] Proveriti da nema hardkodovanih kredencijala u kodu (`git grep -i "password\|secret\|key" --include="*.ts"`)
 - [ ] Potvrditi `NODE_ENV=production` na Vercel
 
@@ -171,6 +175,8 @@
 - [ ] Potvrditi da svi domeni u `platforme` podaci su ispravni
 - [ ] Testirati `GET /api/health` — mora biti `"status": "healthy"`
 - [ ] Testirati `GET /api/industrija` — mora biti `"status": "operational"`
+- [ ] Testirati `GET /api/mekartor` — mora biti `"status": "healthy"`
+- [ ] Testirati `GET /api/deploy-platforma/health/mekartor` — mora vratiti healthy=true
 - [ ] Potvrditi `support@spaja.rs`, `billing@spaja.rs`, `business@spaja.rs`, `sales@spaja.rs`, `confirmations@spaja.rs`, `tech@spaja.rs`
 - [ ] Potvrditi `security@kompanija-spaja.rs` kao incident/security kontakt
 - [ ] Potvrditi da je `spajicn@yahoo.com` dokumentovan kao fallback/owner kontakt
@@ -204,6 +210,8 @@
 | P0-05 | Supabase migracije primenjene | Sve tabele postoje sa RLS |
 | P0-06 | `npm run build` prolazi | Nema build grešaka |
 | P0-07 | `npm run test:smoke` prolazi | Svi kritični tokovi rade |
+| P0-08 | `npm run predeploy:check` + security gate prolaze | Deploy governance je spreman za promociju |
+| P0-09 | Mekartor health i staged rollout validirani | `/api/mekartor` + deploy health probe su zeleni |
 
 ### P1 — Visok prioritet (unutar prve sedmice)
 
@@ -214,6 +222,7 @@
 | P1-03 | OAuth (Google/GitHub) konfiguracija u Supabase | Social login radi |
 | P1-04 | Error monitoring (Sentry/Vercel) | Greške su praćene i alertirane |
 | P1-05 | Vercel KV za globalni rate limiting | Rate limit je konzistentan cross-instance |
+| P1-06 | Another Races fairness rollout (20% → 100%) | KPI i fairness metričke granice potvrđene bez regresija |
 
 ### P2 — Srednji prioritet (unutar prvog meseca)
 
@@ -318,6 +327,18 @@ Deployment je dozvoljen samo ako prođu:
 2. ✅ `npm run lint` — bez grešaka
 3. ✅ `npm test` — svi unit testovi
 4. ✅ `npm run test:smoke` — svi smoke testovi
+5. ✅ `npm run predeploy:check` — operativni deploy guard
+6. ✅ Security gate — dependency audit + secret scanning bez kritičnih nalaza
+
+### Open-code deploy governance gate
+
+Pre produkcionog promovisanja obavezno potvrditi:
+
+1. PR prati tok **issue → PR → review → release**.
+2. Human review je dodeljen i završen za deploy, config, security i cross-repo promene.
+3. PR opis sadrži rollout plan, rollback plan, KPI uticaj i **Cross-repo impact** sekciju kada postoji downstream uticaj.
+4. Deploy kredencijali i integracioni ključevi ostaju u GitHub/Vercel secrets sloju, nikada u repo-u.
+5. Promocija prati redosled `dev → staging → production`, uz eksplicitnu potvrdu za production.
 
 ---
 

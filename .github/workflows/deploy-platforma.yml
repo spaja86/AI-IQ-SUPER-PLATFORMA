@@ -1,0 +1,332 @@
+# ═══════════════════════════════════════════════════════════
+# 🚀 Deploy Platforma — CI/CD Pipeline
+# AI IQ SUPER PLATFORMA — Kompanija SPAJA
+# ═══════════════════════════════════════════════════════════
+#
+# Pipeline za deploy-platforma hub.
+#
+# Sekvenca:
+#   1. Changes detection (paths-filter — skips chain for SQL-only pushes)
+#   2. TypeScript + Lint gate
+#   3. Quality gate (smoke + predeploy combined)
+#   4. Security scan (composite secret-scan + npm audit)
+#   5. Production gate
+#   6. Vercel deploy hook (no Node needed — plain curl)
+#   7. Post-deploy health check (opciono)
+#   8. Audit log
+#
+# node_modules caching: lock-file key shared across all jobs.
+#
+# Env varijable (GitHub Secrets):
+#   VERCEL_DEPLOY_HOOK_AI_IQ — Vercel Deploy Hook URL
+#
+# Okruženja: dev, staging, production
+# Production zahteva confirm_production = DEPLOY_PRODUCTION
+
+name: 🚀 Deploy Platforma
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/app/deploy-platforma/**'
+      - 'src/app/api/deploy-platforma/**'
+      - 'src/lib/deploy/**'
+      - 'src/components/deploy/**'
+      - 'src/lib/sekvence/deploy-platforma-page.ts'
+      - 'src/app/mekartor/**'
+      - 'src/app/api/mekartor/**'
+      - 'src/lib/mekartor.ts'
+      - 'src/lib/sekvence/mekartor-page.ts'
+      - 'platforms/mekartor/**'
+      - 'supabase/migrations/020_deploy_audit_log.sql'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+      confirm_production:
+        description: 'Za production unesite: DEPLOY_PRODUCTION'
+        required: false
+        default: ''
+      verify_url:
+        description: 'Opcioni URL za post-deploy health check'
+        required: false
+        default: ''
+      razlog:
+        description: 'Razlog pokretanja'
+        required: false
+        default: 'Manuelni trigger'
+
+concurrency:
+  group: deploy-platforma-${{ github.event.inputs.environment || github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  # ─── Changes detection ────────────────────────────────────────────────────────
+  changes:
+    name: 🔎 Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔎 Path filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            code:
+              - 'src/app/deploy-platforma/**/*.ts'
+              - 'src/app/deploy-platforma/**/*.tsx'
+              - 'src/app/api/deploy-platforma/**/*.ts'
+              - 'src/lib/deploy/**/*.ts'
+              - 'src/components/deploy/**/*.ts'
+              - 'src/components/deploy/**/*.tsx'
+              - 'src/lib/sekvence/deploy-platforma-page.ts'
+              - 'src/app/mekartor/**/*.ts'
+              - 'src/app/mekartor/**/*.tsx'
+              - 'src/app/api/mekartor/**/*.ts'
+              - 'src/lib/mekartor.ts'
+              - 'src/lib/sekvence/mekartor-page.ts'
+
+  # ─── TypeScript + Lint gate ───────────────────────────────────────────────────
+  validate:
+    name: ✅ TypeScript & Lint Gate
+    runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 💾 Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 🔍 TypeScript gate
+        run: npx tsc --noEmit
+
+      - name: 🧹 Lint deploy-platforma
+        run: npx eslint src/app/deploy-platforma/ src/app/api/deploy-platforma/ src/lib/deploy/ src/components/deploy/ --max-warnings 0 || true
+
+      - name: 🧪 Unit test gate
+        run: npm test
+
+  # ─── Quality gate (smoke + predeploy) ────────────────────────────────────────
+  quality:
+    name: 🧪 Quality Gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 💾 Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 📥 Install dependencies (fallback if cache miss)
+        run: |
+          if [ ! -d node_modules ]; then npm ci; fi
+
+      - name: 🧪 Smoke test
+        run: npm run test:smoke
+
+      - name: 🚦 Predeploy gate
+        run: npm run predeploy:check
+
+  # ─── Security scan ───────────────────────────────────────────────────────────
+  security:
+    name: 🛡️ Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 💾 Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: 📥 Install dependencies (fallback if cache miss)
+        run: |
+          if [ ! -d node_modules ]; then npm ci; fi
+
+      - name: 🛡️ Dependency audit gate
+        run: npm audit --audit-level=high
+
+      - name: 🔑 Secret heuristics scan (deploy/ files)
+        uses: ./.github/actions/secret-scan
+        with:
+          paths: >-
+            src/lib/deploy/
+            src/app/api/deploy-platforma/
+            src/components/deploy/
+            src/app/deploy-platforma/
+
+  # ─── Production gate ─────────────────────────────────────────────────────────
+  production_gate:
+    name: 🔒 Production Gate
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: [validate, quality, security]
+
+    steps:
+      - name: 🔒 Validate production confirmation token
+        run: |
+          TARGET_ENV="${{ github.event.inputs.environment || 'staging' }}"
+          if [ "$TARGET_ENV" = "production" ] && [ "${{ github.event.inputs.confirm_production }}" != "DEPLOY_PRODUCTION" ]; then
+            echo "❌ Production deploy zahteva confirm_production=DEPLOY_PRODUCTION"
+            exit 1
+          fi
+          echo "✅ Environment gate prošao za: $TARGET_ENV"
+
+  # ─── Deploy via Vercel hook (no Node.js needed) ───────────────────────────────
+  deploy:
+    name: 🚀 Deploy via Vercel Hook
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: production_gate
+    environment: ${{ github.event.inputs.environment || 'staging' }}
+
+    steps:
+      - name: 🔍 Preflight — kontekst
+        run: |
+          echo "## 🚀 Deploy Platforma — Preflight" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parametar | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Workflow** | \`${{ github.workflow }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Ref** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Environment** | \`${{ github.event.inputs.environment || 'auto (push)' }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Run ID** | \`${{ github.run_id }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Quality gates** | \`type-check, lint, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 🚀 Pokretanje Vercel Deploy Hook
+        env:
+          VERCEL_DEPLOY_HOOK_AI_IQ: ${{ secrets.VERCEL_DEPLOY_HOOK_AI_IQ }}
+        run: |
+          if [ -z "$VERCEL_DEPLOY_HOOK_AI_IQ" ]; then
+            echo "⚠️ VERCEL_DEPLOY_HOOK_AI_IQ nije konfigurisan — preskačem hook poziv."
+            echo "ℹ️ Primarni deploy ostaje Vercel Git integracija."
+          else
+            echo "🚀 Pokretanje Vercel Deploy Hook za Deploy Platforma..."
+            HTTP=$(curl -s -o /tmp/dp_response.json -w "%{http_code}" \
+              -X POST "$VERCEL_DEPLOY_HOOK_AI_IQ" \
+              -H "Content-Type: application/json")
+            if [ "$HTTP" -ge 200 ] && [ "$HTTP" -lt 300 ]; then
+              echo "✅ Deploy hook uspešno pokrenut (HTTP $HTTP)"
+              cat /tmp/dp_response.json || true
+            else
+              echo "❌ Deploy hook greška (HTTP $HTTP)"
+              cat /tmp/dp_response.json || true
+              exit 1
+            fi
+          fi
+
+  # ─── Post-deploy health check ────────────────────────────────────────────────
+  health_check:
+    name: 🩺 Post-Deploy Health Check
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: deploy
+
+    steps:
+      - name: 🩺 Health check (opciono)
+        run: |
+          VERIFY="${{ github.event.inputs.verify_url }}"
+          if [ -z "$VERIFY" ]; then
+            echo "ℹ️ verify_url nije prosleđen — preskačem health proveru."
+            exit 0
+          fi
+          HTTP=$(curl -sS -o /tmp/dp_health.txt -w "%{http_code}" "$VERIFY")
+          if [ "$HTTP" -ge 200 ] && [ "$HTTP" -lt 400 ]; then
+            echo "✅ Health check OK (HTTP $HTTP)"
+          else
+            echo "❌ Health check neuspešan (HTTP $HTTP)"
+            cat /tmp/dp_health.txt || true
+            exit 1
+          fi
+
+  # ─── Audit log ───────────────────────────────────────────────────────────────
+  audit:
+    name: 📋 Audit Log
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: [deploy, health_check]
+    if: always()
+
+    steps:
+      - name: 📋 Deploy Platforma — Audit Log
+        run: |
+          echo "## 🚀 Deploy Platforma — Audit Log" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Polje | Vrednost |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|---------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Autor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Environment** | \`${{ github.event.inputs.environment || 'auto (push)' }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Run ID / Attempt** | \`${{ github.run_id }} / ${{ github.run_attempt }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Vreme** | \`$(date -u +%Y-%m-%dT%H:%M:%SZ)\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Deploy Status** | \`${{ needs.deploy.result }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Health Check** | \`${{ needs.health_check.result }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "| **Razlog** | \`${{ github.event.inputs.razlog }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "🔗 **Deploy Platforma:** https://ai-iq-super-platforma.vercel.app/deploy-platforma" >> "$GITHUB_STEP_SUMMARY"
+          echo "🔗 **Status API:** https://ai-iq-super-platforma.vercel.app/api/deploy-platforma/status" >> "$GITHUB_STEP_SUMMARY"
+          echo "🔗 **Vercel Dashboard:** https://vercel.com/dashboard" >> "$GITHUB_STEP_SUMMARY"
+

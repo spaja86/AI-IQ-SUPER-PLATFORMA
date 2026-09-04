@@ -17,6 +17,7 @@ export const aiIqWorldBankSekvence: Sekvenca[] = [
       opis: `AI IQ World Bank je digitalna banka koja koristi veštačku inteligenciju za optimizaciju finansijskih operacija, globalnih transfera i investicionih odluka. Pozitivna kamatna stopa od ${AIIQ_WORLD_BANK_KAMATNA_STOPA}% na štedne račune — ulozite 1.000 dinara i za mesec dana povucite 1.400 dinara!`,
       dugmad: [
         { tekst: 'Banka', href: '/banka' },
+        { tekst: 'Wollet', href: '/wollet', stil: 'sekundarno' },
         { tekst: 'Menjačnica', href: '/menjacnica', stil: 'sekundarno' },
         { tekst: 'Poslovni Novčanik', href: '/poslovni-novcanik', stil: 'sekundarno' },
         { tekst: 'Generator Računa', href: '/generator-za-poslovne-racune', stil: 'sekundarno' },

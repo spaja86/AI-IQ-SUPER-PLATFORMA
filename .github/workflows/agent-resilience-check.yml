@@ -1,0 +1,171 @@
+name: Agent Resilience — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/agent-resilience/**'
+      - 'src/app/api/agent-resilience/**'
+      - 'src/tests/lib/agent-resilience.test.ts'
+      - '.github/workflows/agent-resilience-check.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/agent-resilience/**'
+      - 'src/app/api/agent-resilience/**'
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full agent-resilience validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  resilience-lint:
+    name: Agent Resilience — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint agent-resilience modules
+        run: |
+          npm run lint -- \
+            src/lib/agent-resilience/types.ts \
+            src/lib/agent-resilience/store.ts \
+            src/lib/agent-resilience/circuit-breaker.ts \
+            src/lib/agent-resilience/kill-switch.ts \
+            src/lib/agent-resilience/health-monitor.ts \
+            src/lib/agent-resilience/with-resilience.ts \
+            src/lib/agent-resilience/index.ts
+
+  resilience-typecheck:
+    name: Agent Resilience — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  resilience-tests:
+    name: Agent Resilience — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [resilience-lint, resilience-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run circuit breaker, kill switch, health monitor and wrapper tests
+        run: npx tsx src/tests/lib/agent-resilience.test.ts
+
+  resilience-security:
+    name: Agent Resilience — Security Scan
+    runs-on: ubuntu-latest
+    needs: [resilience-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in agent-resilience modules
+        run: |
+          echo "Scanning agent-resilience modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/agent-resilience/ \
+            src/app/api/agent-resilience/ 2>/dev/null || \
+            (echo "::error::Potential secret found in agent-resilience modules" && exit 1)
+          echo "No secrets detected."
+
+  resilience-label:
+    name: Agent Resilience — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [resilience-tests, resilience-security]
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const allPassed =
+              '${{ needs.resilience-tests.result }}' === 'success' &&
+              '${{ needs.resilience-security.result }}' === 'success';
+            const label = allPassed ? 'resilience:validated' : 'resilience:needs-review';
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: [label, 'agent:resilience'],
+            });
+
+  resilience-status:
+    name: Agent Resilience — Status Summary
+    runs-on: ubuntu-latest
+    needs: [resilience-lint, resilience-typecheck, resilience-tests, resilience-security]
+    if: always()
+    steps:
+      - name: Agent Resilience validation summary
+        run: |
+          echo "========================================"
+          echo "Agent Resilience Validation Summary"
+          echo "========================================"
+          echo "Lint:      ${{ needs.resilience-lint.result }}"
+          echo "TypeScript:${{ needs.resilience-typecheck.result }}"
+          echo "Tests:     ${{ needs.resilience-tests.result }}"
+          echo "Security:  ${{ needs.resilience-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  withResilience overhead:    ≤ 2ms per call"
+          echo "  isKilled() check:           O(1)"
+          echo "  API response target:        ≤ 200ms"
+          echo "  Build duration target:      ≤ 3 min"
+          echo "========================================"
+
+          if [ "${{ needs.resilience-lint.result }}" != "success" ] || \
+             [ "${{ needs.resilience-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.resilience-tests.result }}" != "success" ] || \
+             [ "${{ needs.resilience-security.result }}" != "success" ]; then
+            echo "❌ Agent Resilience validation FAILED"
+            exit 1
+          else
+            echo "✅ Agent Resilience validation PASSED"
+          fi

@@ -81,6 +81,7 @@ export interface EvaluatedPokerHand {
   rankValue: number;
   kickers: number[];
   label: string;
+  aliases?: readonly string[];
 }
 
 export interface PokerState {

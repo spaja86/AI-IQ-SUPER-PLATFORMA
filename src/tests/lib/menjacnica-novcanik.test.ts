@@ -9,6 +9,9 @@ import {
   buildSimulatedOrderbook,
   buildSimulatedTrades,
   buildSettlementStatusReport,
+  buildPortfolioSummaryFromRecords,
+  buildTradeFeedFromRecords,
+  buildSettlementStatusReportFromOrders,
 } from '../../lib/menjacnica/pro-novcanik';
 
 // ─── Test Runner ──────────────────────────────────────────────────────────────
@@ -242,6 +245,210 @@ async function runTests(): Promise<void> {
     const report = buildSettlementStatusReport('test-user-10');
     const expectedAllSettled = report.totalPendingSettlement === 0;
     assert(report.allSettled === expectedAllSettled, `allSettled=${report.allSettled}, očekivano=${expectedAllSettled}`);
+  });
+
+  // ─── buildPortfolioSummaryFromRecords ─────────────────────────────────────
+
+  console.log('\n🗃️ buildPortfolioSummaryFromRecords');
+
+  await test('gradi portfolio iz realnih account/trade zapisa', () => {
+    const summary = buildPortfolioSummaryFromRecords(
+      'db-user-1',
+      [
+        {
+          id: 'acc-btc',
+          user_id: 'db-user-1',
+          asset_id: 'BTC',
+          available: 0.5,
+          reserved: 0.1,
+          total: 0.6,
+          kyc_tier: 'verified',
+          enabled: true,
+          created_at: '2026-01-01T00:00:00.000Z',
+          updated_at: '2026-01-01T00:00:00.000Z',
+        },
+        {
+          id: 'acc-usdt',
+          user_id: 'db-user-1',
+          asset_id: 'USDT',
+          available: 1000,
+          reserved: 250,
+          total: 1250,
+          kyc_tier: 'verified',
+          enabled: true,
+          created_at: '2026-01-01T00:00:00.000Z',
+          updated_at: '2026-01-01T00:00:00.000Z',
+        },
+      ],
+      [
+        {
+          id: 'tr-1',
+          order_id: 'ord-1',
+          pair_id: 'BTC_USDT',
+          user_id: 'db-user-1',
+          side: 'buy',
+          qty: 0.75,
+          price: 60000,
+          fee: 90,
+          fee_asset_id: 'USDT',
+          simulation_mode: false,
+          created_at: '2026-01-02T00:00:00.000Z',
+        },
+        {
+          id: 'tr-2',
+          order_id: 'ord-2',
+          pair_id: 'BTC_USDT',
+          user_id: 'db-user-1',
+          side: 'sell',
+          qty: 0.15,
+          price: 70000,
+          fee: 21,
+          fee_asset_id: 'USDT',
+          simulation_mode: false,
+          created_at: '2026-01-03T00:00:00.000Z',
+        },
+      ],
+    );
+
+    assert(summary.dataSource === 'database', `dataSource treba biti database, dobijeno ${summary.dataSource}`);
+    assert(summary.positions.length === 2, `očekivane 2 pozicije, dobijeno ${summary.positions.length}`);
+    const btc = summary.positions.find((p) => p.assetId === 'BTC');
+    assert(!!btc, 'BTC pozicija mora postojati');
+    assert((btc?.avgEntryPriceUsd ?? 0) > 0, 'avgEntryPriceUsd mora biti > 0');
+    assert(Number.isFinite(btc?.realizedPnl ?? NaN), 'realizedPnl mora biti finite');
+    assert((btc?.realizedPnl ?? 0) > 0, 'realizedPnl mora biti pozitivan posle profitabilne prodaje');
+  });
+
+  await test('vraća prazan database-empty portfolio kada nema računa', () => {
+    const summary = buildPortfolioSummaryFromRecords('db-user-2', [], []);
+    assert(summary.dataSource === 'database-empty', 'portfolio mora biti database-empty');
+    assert(summary.positions.length === 0, 'positions mora biti prazan niz');
+    assert(summary.totalValueUsd === 0, 'totalValueUsd mora biti 0');
+  });
+
+  // ─── buildTradeFeedFromRecords ─────────────────────────────────────────────
+
+  console.log('\n🧾 buildTradeFeedFromRecords');
+
+  await test('sortira trade-ove opadajuće i računa USD vrednost', () => {
+    const trades = buildTradeFeedFromRecords([
+      {
+        id: 'tr-a',
+        order_id: 'ord-a',
+        pair_id: 'ETH_USDT',
+        user_id: 'db-user-3',
+        side: 'buy',
+        qty: 2,
+        price: 3000,
+        fee: 12,
+        fee_asset_id: 'USDT',
+        simulation_mode: false,
+        created_at: '2026-02-01T10:00:00.000Z',
+      },
+      {
+        id: 'tr-b',
+        order_id: 'ord-b',
+        pair_id: 'ETH_USDT',
+        user_id: 'db-user-3',
+        side: 'sell',
+        qty: 1,
+        price: 3100,
+        fee: 6.2,
+        fee_asset_id: 'USDT',
+        simulation_mode: false,
+        created_at: '2026-02-01T11:00:00.000Z',
+      },
+    ]);
+
+    assert(trades.length === 2, 'očekivana su 2 trade-a');
+    assert(trades[0].id === 'tr-b', 'najnoviji trade mora biti prvi');
+    assert(Number.isFinite(trades[0].valueUsd) && trades[0].valueUsd > 0, 'valueUsd mora biti pozitivan');
+  });
+
+  // ─── buildSettlementStatusReportFromOrders ────────────────────────────────
+
+  console.log('\n📦 buildSettlementStatusReportFromOrders');
+
+  await test('agregira open i pending settlement iz realnih ordera', () => {
+    const report = buildSettlementStatusReportFromOrders('db-user-4', [
+      {
+        id: 'ord-open',
+        idempotency_key: null,
+        user_id: 'db-user-4',
+        pair_id: 'BTC_USDT',
+        side: 'buy',
+        tip: 'limit',
+        qty: 1,
+        price: 65000,
+        filled_qty: 0,
+        avg_fill_price: null,
+        fee_asset_id: 'USDT',
+        fee_total: 65,
+        status: 'open',
+        simulation_mode: false,
+        reject_reason: null,
+        aml_score: 10,
+        risk_flags: [],
+        metadata: { wallet: { settlementStatus: 'processing' } },
+        created_at: '2026-03-01T09:00:00.000Z',
+        updated_at: '2026-03-01T09:00:00.000Z',
+        expires_at: null,
+      },
+      {
+        id: 'ord-filled-pending',
+        idempotency_key: null,
+        user_id: 'db-user-4',
+        pair_id: 'BTC_USDT',
+        side: 'buy',
+        tip: 'market',
+        qty: 0.5,
+        price: null,
+        filled_qty: 0.5,
+        avg_fill_price: 67000,
+        fee_asset_id: 'USDT',
+        fee_total: 67,
+        status: 'filled',
+        simulation_mode: false,
+        reject_reason: null,
+        aml_score: 5,
+        risk_flags: [],
+        metadata: { wallet: { settlementStatus: 'pending' } },
+        created_at: '2026-03-01T10:00:00.000Z',
+        updated_at: '2026-03-01T10:00:00.000Z',
+        expires_at: null,
+      },
+      {
+        id: 'ord-filled-settled',
+        idempotency_key: null,
+        user_id: 'db-user-4',
+        pair_id: 'ETH_USDT',
+        side: 'sell',
+        tip: 'market',
+        qty: 1,
+        price: null,
+        filled_qty: 1,
+        avg_fill_price: 3200,
+        fee_asset_id: 'USDT',
+        fee_total: 6.4,
+        status: 'filled',
+        simulation_mode: false,
+        reject_reason: null,
+        aml_score: 2,
+        risk_flags: [],
+        metadata: { wallet: { settlementStatus: 'settled' } },
+        created_at: '2026-03-01T11:00:00.000Z',
+        updated_at: '2026-03-01T11:30:00.000Z',
+        expires_at: null,
+      },
+    ]);
+
+    const btc = report.pairs.find((p) => p.pairId === 'BTC_USDT');
+    assert(!!btc, 'BTC_USDT status mora postojati');
+    assert(btc?.openOrdersCount === 1, `očekivan openOrdersCount=1, dobijeno ${btc?.openOrdersCount}`);
+    assert(btc?.pendingSettlementCount === 1, `očekivan pendingSettlementCount=1, dobijeno ${btc?.pendingSettlementCount}`);
+    assert(report.totalOpenOrders >= 1, 'ukupan broj open ordera mora biti >= 1');
+    assert(report.totalPendingSettlement >= 1, 'ukupan broj pending settlement-a mora biti >= 1');
+    assert(report.dataSource === 'database', 'report mora biti database');
   });
 
   // ─── Rezime ──────────────────────────────────────────────────────────────

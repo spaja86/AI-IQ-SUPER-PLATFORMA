@@ -25,6 +25,98 @@ SpajaPro je AI engine Kompanije SPAJA sa **10 verzija (6-15)** koji potpuno zame
 
 IO-OPENUI-AO repozitorijum koristi **SpajaPro engine umesto ChatGPT-a** za svu AI komunikaciju. SpajaPro Prompt Chat, AI modul sa Prompt-om, i SpajaPro 6-15 integracija.
 
+## 🚀 GREAT SUMBION
+
+GREAT SUMBION uvodi novi weighted score engine sa jasnim KPI granicama i validator workflow-om.
+
+- Modul: `src/lib/great-sumbion/**`
+- API: `/api/great-sumbion/calculate`, `/api/great-sumbion/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/GREAT-SUMBION.md`
+
+## 🤝 KONVENCIONALNI ODNOSI
+
+KONVENCIONALNI ODNOSI uvodi determinističku procenu kvaliteta odnosa kroz poverenje, komunikaciju, poštovanje, reciprocitet, stabilnost i granice.
+
+- Modul: `src/lib/konvencionalni-odnosi/**`
+- API: `/api/konvencionalni-odnosi/evaluate`, `/api/konvencionalni-odnosi/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/KONVENCIONALNI-ODNOSI.md`
+
+## 🏋️ TRENAŽER
+
+TRENAŽER uvodi deterministički training-readiness engine za preporuku recovery, moderate i intensive sesija.
+
+- Modul: `src/lib/trenazer/**`
+- API: `/api/trenazer/evaluate`, `/api/trenazer/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/TRENAZER.md`
+
+
+## ⚡ AKTIVITI ALL
+
+AKTIVITI ALL uvodi deterministički multi-activity readiness engine sa jasnim status mapiranjem i API-first v1 površinom.
+
+- Modul: `src/lib/aktiviti-all/**`
+- API: `/api/aktiviti-all/evaluate`, `/api/aktiviti-all/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/AKTIVITI-ALL.md`
+
+## 🔗 MIRIKL — GitHub + Vercel Governance Track
+
+MIRIKL je governance/release inicijativa za povezivanje GitHub quality gate modela i Vercel runtime/deploy modela.
+
+- Scope: deploy/config/cross-repo governance (nije aplikacioni runtime modul)
+- Ownership: Platform Ops + Automation + Release Engineering
+- Tracking issue: `#920`
+- OKRID: `OKRID-2026-MIRIKL-001`
+- Specifikacija: `docs/MIRIKL.md`
+
+## 📐 EPRINCIP
+
+EPRINCIP uvodi determinističku procenu usklađenosti principa sa weighted scoring modelom i proverom obaveznih pragova.
+
+- Modul: `src/lib/eprincip/**`
+- API: `/api/eprincip/evaluate`, `/api/eprincip/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/EPRINCIP.md`
+
+## 🎯 DIREKT
+
+DIREKT uvodi determinističku procenu kvaliteta direktne komunikacije kroz jasnoću, specifičnost, akcionost, transparentnost i poštovanje.
+
+- Modul: `src/lib/direkt/**`
+- API: `/api/direkt/evaluate`, `/api/direkt/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DIREKT.md`
+
+## 📦 DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN
+
+DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN uvodi repo-local determinističku distribucionu orkestraciju koja kompozicijom `DOR PETLJA`, `DAR PETLJA` i postojećeg `distribucija` modela izračunava aggregate `EKSTRIBUŠEN` status.
+
+- Modul: `src/lib/durit-ekser-far-dir-dor-dar-ekstribusen/**`
+- API: `/api/durit-ekser-far-dir-dor-dar-ekstribusen/evaluate`, `/api/durit-ekser-far-dir-dor-dar-ekstribusen/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DURIT-EKSER-FAR-DIR-DOR-DAR-EKSTRIBUSEN.md`
+
+## 🫚 ÐUMBIR
+
+ÐUMBIR uvodi determinističku procenu ginger wellness blend-a sa fiksnim `dumbir` slug-om i API-first v1 površinom.
+
+- Modul: `src/lib/dumbir/**`
+- API: `/api/dumbir/evaluate`, `/api/dumbir/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DUMBIR.md`
+
+## 🧘 PILOTRELAX
+
+PILOTRELAX uvodi determinističku procenu relaxation protokola sa fiksnim `pilotrelax` slug-om i API-first v1 površinom.
+
+- Modul: `src/lib/pilotrelax/**`
+- API: `/api/pilotrelax/evaluate`, `/api/pilotrelax/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/PILOTRELAX.md`
+
 ## 📝 Prompt Sistem — Svuda u ekosistemu
 
 Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:
@@ -94,6 +186,16 @@ Omega Evolucioni Motor neprestano dijagnostikuje, popravlja, i unapređuje siste
 | 🔀 Omega Branch Sync | `omega-branch-sync.yml` | Cron dnevno + manual |
 | 💸 FinOps Governance Gate | `finops-governance-gate.yml` | PR sa izmenama automacije/config-a |
 | ▲ Vercel Deploy Hook | `vercel-deploy.yml` | Manual fallback (`workflow_dispatch`) |
+| 🚀 Deploy Platforma | `deploy-platforma.yml` | Push na `src/lib/deploy/**`, `src/app/deploy-platforma/**` + manual |
+
+### Deploy Platform Skeleton UI/UX (`/deploy-platforma`)
+
+- **Scope**: postojeća `/deploy-platforma` ruta je unapređena kao skeleton-first kontrolna površina (nije kreirana nova ruta).
+- **Primarni tokovi**: status (`GET /api/deploy-platforma/status`), trigger (`POST /api/deploy-platforma/trigger`), history (`GET /api/deploy-platforma/history/[platformId]`), health (`GET /api/deploy-platforma/health/[platformId]`).
+- **Production gate UX**: trigger modal eksplicitno zahteva `DEPLOY_PRODUCTION` potvrdu za production.
+- **Loading model**: page-level i section-level skeleton stanja za initial load, refresh, empty i error scenarije.
+- **Governance u UI-ju**: quality/security gate terminologija prati workflow (`TypeScript`, `Lint`, `Unit`, `Smoke`, `Predeploy`, `Security`).
+- **Audit feedback**: svaka akcija (refresh/status/trigger/history/health) ostavlja vidljiv lokalni audit trag u UI panelu.
 
 ### Cron Jobs (scheduler-agnostic)
 
@@ -361,21 +463,45 @@ This repository uses documented automation agents for CI, security, analytics, a
 
 | Agent | Status | What it does |
 |-------|--------|-------------|
-| `ci-bot` | ✅ Active | Runs lint + tests on every PR and push |
+| `ci-bot` | ✅ Active | Runs the shared quality gate surfaces for lint, tests, smoke, and predeploy validation |
 | `human-review` | ✅ Active | Required code review before merge |
-| `security-scanner` | ✅ Active | Scans for secrets, vulnerable deps on every PR |
-| `multi-repo-sync-agent` | ✅ Active | Syncs config/labels/milestones with `IO-OPENUI-AO` |
-| `analytics-bot` | ✅ Active | Nightly/weekly metrics and automation health reports |
+| `security-scanner` | ✅ Active | Runs CodeQL, dependency review, npm audit, and secret heuristics |
+| `multi-repo-sync-agent` | 📋 Ready | Uses the documented cross-repo sync process for `IO-OPENUI-AO` |
+| `analytics-bot` | 📋 Ready | KPI and automation health reporting are defined in config/docs |
 | `deploy-bot` | ⏳ Planned | Deployment after green CI |
+
+### Open-code deploy operating model
+
+- **Public in this repository** — application code, documentation, workflow definitions, agent policies, and PR process stay reviewable in Git.
+- **Linked-repo process** — changes that affect `spaja86/IO-OPENUI-AO` must be recorded in the PR under **Cross-repo impact** and tracked through [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md).
+- **Operational controls** — deploy hooks, environment-specific credentials, API keys, wallets, and all secrets stay outside the repo in GitHub Secrets, Vercel secrets, or equivalent secret-management systems.
+- **Runtime split** — Vercel remains the runtime for frontend/SSR and lightweight APIs, worker/container compute is the target for heavy or long-running jobs, and GitHub Actions remains the governance and audit layer.
+- **XP cadence** — short iterations, continuous integration on each PR/push, test-first work on risky changes, small/frequent releases, required human review, and shared ownership through source-of-truth docs.
 
 ### Contributor expectations
 
+- **Flow is issue → PR → review → release** — open or link an issue, ship the smallest safe PR, request review, then release only after gates are green.
 - **Human review is required before merge** (except `hotfix/*` branches tagged `auto-merge: allowed`).
 - **Never commit secrets** — no `.env` files, tokens, API keys, or credentials. Use GitHub Secrets.
-- **CI must be green** — run `npm test` and `npm run build` locally before opening a PR.
+- **Quality gates must be green** — run the relevant `lint`, `test`, `test:smoke`, and `predeploy:check` commands before opening a PR; `build` remains part of the documented release gate and should be verified when the touched surface supports it.
 - **Config/CI changes** — PRs that modify `.github/workflows/`, `.agent-config.json`, or deployment config must be labeled `agent:config-change`.
 - **Security-sensitive changes** — PRs touching auth, payments, or dependencies are automatically flagged; add a security approver.
 - **Cross-repo changes** — if your change affects `IO-OPENUI-AO` or other linked repositories, describe the cross-repo impact in the PR and open any follow-up work there.
+- **Deploy changes require audit evidence** — PRs affecting deploy, workflow, or config surfaces must include rollout, rollback, KPI impact, and downstream follow-up references.
+- **OKRID linkage is required on high-impact changes** — use `OKRID-YYYY-TRACK-###` in PRs for config/deploy/cross-repo/risky work and keep KPI status current.
+
+### Repo readiness & roadmap
+
+- **Roadmap:** [`docs/ROADMAP.md`](./docs/ROADMAP.md)
+- **Everything execution plan:** [`docs/PLAN-FOR-CREATING-EVRITHING.md`](./docs/PLAN-FOR-CREATING-EVRITHING.md)
+- **Multi-repo coordination:** [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md)
+- **OKRID standard:** [`docs/OKRID.md`](./docs/OKRID.md)
+- **OKRID registry:** [`docs/OKRID-REGISTRY.md`](./docs/OKRID-REGISTRY.md)
+- **Security operating model:** [`docs/SECURITY.md`](./docs/SECURITY.md)
+- **Go-live and rollout:** [`docs/GO-LIVE.md`](./docs/GO-LIVE.md)
+- **Team suicide-prevention plan:** [`docs/TEAM-SUICIDE-PREVENTION-PLAN.md`](./docs/TEAM-SUICIDE-PREVENTION-PLAN.md)
+- **FinOps and KPI model:** [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md)
+- **Deployment power-resolution model:** [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./docs/DEPLOYMENT-POWER-RESOLUTION.md)
 
 ### Copilot setup vs Codex user installs
 
@@ -412,9 +538,17 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | Document | Purpose |
 |----------|---------|
 | [`AGENTS.md`](./AGENTS.md) | Full agent policy, rules, and registry |
-| [`.agent-config.json`](./.agent-config.json) | Per-repo agent behavior flags |
+| [`.agent-config.json`](./.agent-config.json) | Per-repo operational agent settings and linked-repo rules |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Open-code contribution flow, XP expectations, and deploy review requirements |
+| [`docs/ROADMAP.md`](./docs/ROADMAP.md) | Release roadmap, readiness model, and KPI ownership |
+| [`docs/PLAN-FOR-CREATING-EVRITHING.md`](./docs/PLAN-FOR-CREATING-EVRITHING.md) | End-to-end execution blueprint for full-scope delivery |
+| [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
+| [`docs/MIRIKL.md`](./docs/MIRIKL.md) | MIRIKL GitHub ↔ Vercel governance scope, ownership, and release gates |
+| [`docs/OKRID.md`](./docs/OKRID.md) | Canonical OKRID scope, naming, lifecycle, and governance model |
+| [`docs/OKRID-REGISTRY.md`](./docs/OKRID-REGISTRY.md) | Active and archived OKRID source-of-truth registry |
 | [`.github/pull_request_template.md`](./.github/pull_request_template.md) | PR checklist |
 | [`docs/finops-enterprise-operating-model.md`](./docs/finops-enterprise-operating-model.md) | FinOps, KPI, enterprise collaboration model |
+| [`docs/DEPLOYMENT-POWER-RESOLUTION.md`](./docs/DEPLOYMENT-POWER-RESOLUTION.md) | Deployment runtime split, SLO baseline, release/rollback policy |
 
 ### FinOps source of truth (GitHub + Vercel)
 

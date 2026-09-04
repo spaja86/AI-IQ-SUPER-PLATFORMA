@@ -4,7 +4,7 @@
 #
 # Automatski CI quality gate na svaki push/PR.
 # Source of truth za deploy/build je Vercel; ovaj workflow radi
-# quality validaciju (type-check, lint, test), bez deploy koraka.
+# quality validaciju (type-check, lint, unit test, smoke, predeploy), bez deploy koraka.
 #
 
 name: 🏗️ Omega Build
@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -61,10 +61,16 @@ jobs:
         run: npx tsc --noEmit
 
       - name: 🔍 ESLint provera
-        run: npx eslint src/
+        run: npm run lint -- src/
+
+      - name: 🧪 Unit testovi
+        run: npm test
 
       - name: 🧪 Smoke testovi (go-live gate)
-        run: npx tsx src/tests/smoke/smoke.test.ts
+        run: npm run test:smoke
+
+      - name: 🚦 Predeploy operativna provera
+        run: npm run predeploy:check
 
       - name: 📊 Build izveštaj
         if: always()
@@ -74,3 +80,25 @@ jobs:
           echo "- **Branch:** ${{ github.ref_name }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Commit:** ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Vreme:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Quality gates:** type-check, lint, unit test, smoke, predeploy" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 📝 Deploy Status Artifact
+        if: github.ref == 'refs/heads/main' && success()
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          cat > public/deploy_status.json <<EOF
+          {
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "version": "${VERSION}",
+            "commit_sha": "${{ github.sha }}",
+            "branch": "${{ github.ref_name }}",
+            "status": "success",
+            "run_id": "${{ github.run_id }}",
+            "actor": "${{ github.actor }}"
+          }
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/deploy_status.json
+          git diff --cached --quiet || git commit -m "ci: update deploy_status.json [skip ci]"
+          git push

@@ -1,0 +1,52 @@
+name: EKZIST — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/ekzist/**'
+      - 'src/app/api/ekzist/**'
+      - 'src/components/ekzist/**'
+      - 'src/tests/lib/ekzist.test.ts'
+      - 'src/tests/api/ekzist-route.test.ts'
+      - 'docs/EKZIST.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.github/workflows/ekzist-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/ekzist/**'
+      - 'src/app/api/ekzist/**'
+      - 'src/components/ekzist/**'
+      - 'src/tests/lib/ekzist.test.ts'
+      - 'src/tests/api/ekzist-route.test.ts'
+      - 'docs/EKZIST.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+  workflow_dispatch:
+
+concurrency:
+  group: ekzist-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: ekzist
+      lint_paths: >-
+        src/lib/ekzist
+        src/app/api/ekzist
+        src/components/ekzist
+      test_commands: |
+        npx tsx src/tests/lib/ekzist.test.ts
+        npx tsx src/tests/api/ekzist-route.test.ts
+      scan_paths: >-
+        src/lib/ekzist
+        src/app/api/ekzist
+      label: ekzist
+      perf_eval_ms: 50
+      perf_api_ms: 200

@@ -90,6 +90,21 @@ export const ENV_VARIJABLE: EnvVarDefinicija[] = [
     grupa: 'OPTIONAL',
     opis: 'Vercel Deploy Hook URL za AI IQ SUPER PLATFORMA (Vercel → Settings → Git → Deploy Hooks)',
   },
+  {
+    kljuc: 'VERCEL_DEPLOY_HOOK_MEKARTOR',
+    grupa: 'OPTIONAL',
+    opis: 'Vercel Deploy Hook URL za Mekartor staged rollout fallback',
+  },
+  {
+    kljuc: 'MEKARTOR_STATUS_WEBHOOK_URL',
+    grupa: 'OPTIONAL',
+    opis: 'Opcioni webhook URL za Mekartor rollout status obaveštenja',
+  },
+  {
+    kljuc: 'MEKARTOR_UPSTREAM_URL',
+    grupa: 'OPTIONAL',
+    opis: 'Opcioni upstream URL za budući Mekartor katalog source',
+  },
   // Vercel KV (rate limiting)
   {
     kljuc: 'VERCEL_KV_REST_API_URL',

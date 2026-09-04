@@ -2,11 +2,19 @@
   "agents": {
     "ci-bot": {
       "enabled": true,
-      "languages": ["typescript", "javascript"],
+      "languages": [
+        "typescript",
+        "javascript"
+      ],
       "autoFix": true,
       "requireApproval": false,
+      "typecheckCommand": "npx tsc --noEmit",
+      "buildCommand": "npm run build",
       "testCommand": "npm run test",
-      "lintCommand": "npm run lint"
+      "smokeCommand": "npm run test:smoke",
+      "lintCommand": "npm run lint",
+      "predeployCommand": "npm run predeploy:check",
+      "workflowFile": ".github/workflows/omega-auto-build.yml"
     },
     "human-review": {
       "enabled": true,
@@ -17,7 +25,42 @@
       "enabled": false,
       "trigger": "merge-to-main",
       "requireGreenCI": true,
-      "environments": ["staging", "production"]
+      "environmentPromotion": [
+        "dev",
+        "staging",
+        "production"
+      ],
+      "requiredQualityGates": [
+        "lint",
+        "test",
+        "smoke",
+        "predeploy",
+        "security"
+      ],
+      "buildGateRequired": true,
+      "buildGateMode": "tracked-release-gate",
+      "environments": [
+        "staging",
+        "production"
+      ],
+      "workflowFile": ".github/workflows/vercel-deploy.yml",
+      "mekartorReleaseTrack": {
+        "enabled": true,
+        "runtime": "Next.js 16",
+        "manualDeployHookEnv": "VERCEL_DEPLOY_HOOK_MEKARTOR",
+        "healthEndpoint": "/api/mekartor",
+        "promotion": [
+          "dev",
+          "staging",
+          "production"
+        ],
+        "rollout": [
+          "10% canary",
+          "50% staging",
+          "100% production"
+        ],
+        "linkedRepoImpact": "none"
+      }
     },
     "security-scanner": {
       "enabled": true,
@@ -25,7 +68,12 @@
       "nightly": true,
       "blockCritical": true,
       "scanSecrets": true,
-      "auditDependencies": true
+      "auditDependencies": true,
+      "workflowFile": ".github/workflows/security-scanner.yml",
+      "labels": [
+        "security:needs-review",
+        "security:review-needed"
+      ]
     },
     "multi-repo-sync-agent": {
       "enabled": true,
@@ -41,13 +89,64 @@
         "agent-config",
         "readme-links"
       ],
-      "excludePrivate": false
+      "downstreamImpactRequired": true,
+      "prTemplateSection": "Cross-repo impact",
+      "excludePrivate": false,
+      "sourceOfTruthDocs": [
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/ROADMAP.md"
+      ]
     },
     "calculator-validator-agent": {
       "enabled": false,
       "scope": "IO-OPENUI-AO",
       "performanceThreshold": 100,
       "testSuite": "calculator-tests"
+    },
+    "gigatron-validator-agent": {
+      "enabled": false,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 200,
+      "testSuite": "gigatron-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "gigatron:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "gigatron/**"
+        ],
+        "paths": [
+          "src/lib/gigatron/**",
+          "src/app/api/gigatron/**",
+          "src/app/gigatron/**",
+          "platforms/gigatron/**",
+          "docs/GIGATRON.md",
+          ".github/workflows/gigatron.yml"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/gigatron-catalog.test.ts",
+        "npx tsx src/tests/lib/gigatron-procurement.test.ts",
+        "npx tsx src/tests/lib/gigatron-affiliate.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "gigatron:validated",
+        "needsReview": "gigatron:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "kpis": {
+        "apiResponseMaxMs": 200,
+        "catalogAvailabilityPct": 99.9,
+        "orderSuccessRatePct": 99,
+        "affiliateAccuracyPct": 100
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for GIGATRON rollout"
+      }
     },
     "analytics-bot": {
       "enabled": true,
@@ -60,15 +159,1073 @@
         "pr-review-time",
         "automated-merges",
         "security-findings",
-        "deployment-frequency"
+        "deployment-frequency",
+        "cross-repo-sync-stability",
+        "change-failure-rate",
+        "okrid-compliance-rate",
+        "okrid-blocked-prs"
+      ],
+      "sourceOfTruthDoc": "docs/ROADMAP.md"
+    },
+    "okrid-governance": {
+      "enabled": true,
+      "standardDoc": "docs/OKRID.md",
+      "registryDoc": "docs/OKRID-REGISTRY.md",
+      "workflowFile": ".github/workflows/okrid-weekly-review.yml",
+      "mandatoryFor": [
+        "config-ci-changes",
+        "deploy-governance-changes",
+        "cross-repo-changes",
+        "security-sensitive-or-risky-features"
+      ],
+      "pilotTracks": [
+        "nova-generacija",
+        "multi-repo-sync"
+      ],
+      "reviewCadence": "weekly"
+    },
+    "another-races-ops-agent": {
+      "enabled": true,
+      "featureId": "back-to-spaces-another-races",
+      "trigger": {
+        "pullRequestLabels": [
+          "race:another-races",
+          "race:fairness-review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "race/**"
+        ]
+      },
+      "validationPaths": [
+        "src/lib/back-to-spaces-another-races.ts",
+        "src/lib/igrice.ts",
+        "src/tests/lib/back-to-spaces-another-races.test.ts",
+        ".github/workflows/back-to-spaces-another-races.yml",
+        "docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md"
+      ],
+      "requiredChecks": [
+        "npm run lint -- src/lib/back-to-spaces-another-races.ts src/lib/igrice.ts",
+        "npx tsx src/tests/lib/back-to-spaces-another-races.test.ts",
+        "npx tsx src/tests/lib/pokermaster-catalog.test.ts"
+      ],
+      "crossRepoSyncRequired": true,
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
       ]
+    },
+    "maksimus-validator-agent": {
+      "enabled": true,
+      "featureId": "maksimus",
+      "role": "analiticka-orkestracija-razvojna-strategija",
+      "performanceThreshold": 50,
+      "linkedAgents": [
+        "another-maks-agent",
+        "persona-bank-agent",
+        "nova-generacija-agent",
+        "extrimli-validator-agent"
+      ],
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "trigger": {
+        "pullRequestLabels": [
+          "maksimus:logic-change",
+          "maksimus:review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "maksimus/**"
+        ],
+        "paths": [
+          "src/lib/maksimus/**",
+          "src/app/api/maksimus/**",
+          "src/lib/extrimli-extendol/**",
+          "src/app/api/extrimli/extendol/**",
+          "src/tests/lib/maksimus.test.ts",
+          "src/tests/lib/extrimli-extendol.test.ts",
+          ".github/workflows/maksimus-validator.yml"
+        ]
+      },
+      "persona": {
+        "id": "maksimus",
+        "specijalizacija": "analiticka-orkestracija",
+        "linkedAgent": "another-maks",
+        "octave": 13,
+        "hipermrezaNode": 128
+      },
+      "performanceKpi": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%"
+      },
+      "requiredChecks": [
+        "npm run lint -- src/lib/maksimus/types.ts src/lib/maksimus/identity.ts src/lib/maksimus/orchestrator.ts src/lib/maksimus/index.ts src/app/api/maksimus/route.ts",
+        "npx tsx src/tests/lib/maksimus.test.ts",
+        "npx tsx src/tests/lib/extrimli-extendol.test.ts",
+        "npm run predeploy:check",
+        "npm audit --audit-level=high"
+      ],
+      "autoLabels": {
+        "validated": "maksimus:validated",
+        "needsReview": "maksimus:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "Sync persona snapshots via multi-repo-sync-agent after MAKSIMUS activation"
+      },
+      "novaGeneracijaIntegration": {
+        "enabled": true,
+        "hipermrezaNode": true,
+        "personaSync": true,
+        "featureFlag": "maksimus"
+      }
+    },
+    "another-maks-agent": {
+      "enabled": true,
+      "featureId": "another-maks",
+      "role": "kreativna-sinteza-generativna-orkestracija",
+      "linkedAgents": [
+        "maksimus-2"
+      ],
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "trigger": {
+        "pullRequestLabels": [
+          "another-maks",
+          "another-maks:review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "another-maks/**"
+        ],
+        "paths": [
+          "src/lib/another-maks/**",
+          "src/app/api/another-maks/**",
+          "src/tests/lib/another-maks.test.ts",
+          "docs/ANOTHER-MAKS.md",
+          ".github/workflows/another-maks.yml"
+        ]
+      },
+      "persona": {
+        "id": "another-maks",
+        "specijalizacija": "kreativna-sinteza",
+        "linkedAgent": "maksimus-2"
+      },
+      "performanceKpi": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%"
+      },
+      "requiredChecks": [
+        "npm run lint -- src/lib/another-maks/types.ts src/lib/another-maks/persona.ts src/lib/another-maks/orchestrator.ts src/lib/another-maks/index.ts src/app/api/another-maks/route.ts",
+        "npx tsx src/tests/lib/another-maks.test.ts",
+        "npm run predeploy:check",
+        "npm audit --audit-level=high"
+      ],
+      "autoLabels": {
+        "validated": "another-maks:validated",
+        "needsReview": "another-maks:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for ANOTHER MAKS initial rollout"
+      },
+      "novaGeneracijaIntegration": {
+        "enabled": true,
+        "hipermrezaNode": true,
+        "personaSync": true,
+        "featureFlag": "another-maks"
+      }
+    },
+    "nova-generacija-agent": {
+      "enabled": true,
+      "featureId": "nova-generacija",
+      "scope": "all-repos",
+      "trigger": {
+        "pullRequestLabels": [
+          "nova-generacija",
+          "nova-generacija:review"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "nova-generacija/**",
+          "ng/**"
+        ],
+        "paths": [
+          "src/lib/spaja-pro-nova-generacija.ts",
+          "src/lib/evolucija/nova-generacija.ts",
+          "src/lib/nova-generacija-gaming.ts",
+          "src/app/api/nova-generacija/**",
+          "src/app/nova-generacija/**",
+          "src/lib/another-maks/**",
+          "src/app/api/another-maks/**",
+          "platforms/nova-generacija/**",
+          "docs/NOVA-GENERACIJA.md",
+          "docs/ANOTHER-MAKS.md",
+          ".github/workflows/nova-generacija.yml"
+        ]
+      },
+      "validationPaths": [
+        "src/lib/spaja-pro-nova-generacija.ts",
+        "src/lib/evolucija/nova-generacija.ts",
+        "src/lib/nova-generacija-gaming.ts",
+        "src/app/api/nova-generacija/route.ts",
+        "docs/NOVA-GENERACIJA.md",
+        ".github/workflows/nova-generacija.yml"
+      ],
+      "requiredChecks": [
+        "npm run lint -- src/lib/spaja-pro-nova-generacija.ts src/lib/evolucija/nova-generacija.ts src/lib/nova-generacija-gaming.ts",
+        "npm run predeploy:check",
+        "npm audit --audit-level=high"
+      ],
+      "performanceKpis": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%",
+        "crossRepoSyncCoverage": "100%",
+        "securityScanCoverage": "100%"
+      },
+      "hipermreza": {
+        "dimenzija": "16x16",
+        "ukupnoCvorova": 256,
+        "ukupnoPersona": 50,
+        "ukupnoOktava": 16
+      },
+      "crossRepoSyncRequired": true,
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO",
+        "spaja86/AI-IQ-SUPER-PLATFORMA"
+      ],
+      "linkedReposV2": [
+        {
+          "repo": "spaja86/IO-OPENUI-AO",
+          "syncFields": [
+            "versions",
+            "labels",
+            "milestones",
+            "agent-config",
+            "nova-generacija-gaming-refs"
+          ],
+          "syncTrigger": "on-change",
+          "trackingDoc": "docs/MULTI-REPO-LINKS.md"
+        }
+      ],
+      "autoLabels": {
+        "validated": "nova-generacija:validated",
+        "needsReview": "nova-generacija:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "selfHealing": {
+        "enabled": true,
+        "rollbackOnFailure": true,
+        "maxRetries": 3
+      }
+    },
+    "decibil-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "labels": [
+        "decibil",
+        "decibil:logic-change",
+        "decibil:validated",
+        "decibil:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/decibil-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/DECIBIL.md",
+        "docs/ROADMAP.md"
+      ],
+      "kpis": {
+        "measurementEvaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "buildDurationMaxMin": 3
+      },
+      "performanceThreshold": 50,
+      "testSuite": "src/tests/lib/decibil-core.test.ts",
+      "scope": "src/lib/decibil/**,src/app/api/decibil/**"
+    },
+    "extrimli-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "extrimli-core",
+      "octave": 7,
+      "hipermrezaNode": 56,
+      "labels": [
+        "extrimli",
+        "extrimli:logic-change",
+        "extrimli:external-github",
+        "extrondend",
+        "extrondend:logic-change",
+        "extrondol",
+        "extrondol:logic-change",
+        "extrimli:validated",
+        "extrimli:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/extrimli-validator.yml",
+        ".github/workflows/extrimli-external-github.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/EXTRIMLI.md",
+        "docs/EXTRIMLI-EXTERNAL-GITHUB.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/ROADMAP.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "buildDurationMaxMin": 3
+      },
+      "testSuite": "src/tests/lib/extrimli.test.ts",
+      "extendolTestSuite": "src/tests/lib/extrimli-extendol.test.ts",
+      "koronTestSuite": "src/tests/lib/extrimli-koron.test.ts",
+      "extrondendTestSuite": "src/tests/lib/extrimli-extrondend.test.ts",
+      "extrondolTestSuite": "src/tests/lib/extrimli-extrondol.test.ts",
+      "routeTestSuite": "src/tests/api/extrimli-route.test.ts",
+      "exportTestSuite": "src/tests/lib/extrimli-instrukcija.test.ts",
+      "scope": "src/lib/extrimli/**,src/lib/extrimli-extendol/**,src/lib/extrimli-koron/**,src/lib/extrimli-extrondend/**,src/lib/extrimli-extrondol/**,src/lib/extrimli-3/**,src/lib/extrimli-cuz/**,src/app/api/extrimli/**,src/app/api/extrimli/extrondend/**,src/app/api/extrimli/extrondol/**,src/app/api/extrimli-3/**,src/app/api/extrimli-cuz/**,src/components/extrimli/**,src/components/extrimli-cuz/**",
+      "githubSurface": {
+        "workflow": ".github/workflows/extrimli-external-github.yml",
+        "qualityGate": ".github/workflows/extrimli-validator.yml",
+        "deployWorkflows": [
+          ".github/workflows/extrimli-spaja-deploy.yml",
+          ".github/workflows/extrimli-trance-extrem-deploy.yml"
+        ],
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "githubActionsRole": "audit-governance-and-downstream-sync",
+        "requiredLabels": [
+          "extrimli",
+          "extrimli:logic-change",
+          "extrimli:external-github",
+          "extrondend:logic-change",
+          "extrondol:logic-change",
+          "agent:config-change"
+        ],
+        "outboundArtifacts": [
+          "module-health-snapshot",
+          "extendol-unified-surface",
+          "koron-health-snapshot",
+          "extrondend-aggregation-snapshot",
+          "extrondol-orchestration-snapshot",
+          "gear-catalog",
+          "destrukcija-asset-catalog",
+          "instrukcija-registry",
+          "instrukcija-export-bundle",
+          "kpi-summary"
+        ],
+        "humanReviewRequired": true
+      },
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "namingLock": {
+        "extrimli": "core-domain",
+        "extrondend": "dedicated-aggregation-surface",
+        "extrondol": "dedicated-orchestration-surface",
+        "aliasesAllowed": false
+      },
+      "multiRepoSync": {
+        "snapshots": [
+          "gear-catalog",
+          "destrukcija-asset-catalog",
+          "koron-health-snapshot",
+          "extrondend-aggregation-snapshot",
+          "extrondol-orchestration-snapshot",
+          "instrukcija-registry",
+          "instrukcija-export-bundle",
+          "module-health-snapshot",
+          "github-audit-summary"
+        ],
+        "target": "spaja86/IO-OPENUI-AO"
+      }
+    },
+    "extrimli-cuz-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "extrimli-cuz-social",
+      "octave": 7,
+      "hipermrezaNode": 57,
+      "labels": [
+        "extrimli-cuz",
+        "extrimli-cuz:logic-change",
+        "extrimli-cuz:validated",
+        "extrimli-cuz:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/extrimli-cuz-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/EXTRIMLI-CUZ.md",
+        "docs/ROADMAP.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "buildDurationMaxMin": 3
+      },
+      "testSuite": "src/tests/lib/extrimli-cuz.test.ts",
+      "scope": "src/lib/extrimli-cuz/**,src/app/api/extrimli-cuz/**,src/components/extrimli-cuz/**",
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "multiRepoSync": {
+        "snapshots": [
+          "crew-catalog",
+          "mentor-catalog"
+        ],
+        "target": "spaja86/IO-OPENUI-AO"
+      }
+    },
+    "digit-engine-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "digit-engine-core",
+      "octave": 10,
+      "hipermrezaNode": 80,
+      "labels": [
+        "digit-engine",
+        "digit-engine:change",
+        "digit-engine:validated",
+        "digit-engine:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/digit-engine-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "kpis": {
+        "lookupMaxMs": 10,
+        "bulkListMaxMs": 50,
+        "apiResponseMaxMs": 200
+      },
+      "testSuite": "src/tests/lib/digit-engine.test.ts",
+      "scope": "src/lib/digit-engine/**,src/app/api/digit-engine/**",
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "multiRepoSync": {
+        "snapshots": [
+          "digit-registry"
+        ],
+        "target": "spaja86/IO-OPENUI-AO"
+      }
+    },
+    "great-sumbion-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "labels": [
+        "great-sumbion",
+        "great-sumbion:logic-change",
+        "great-sumbion:validated",
+        "great-sumbion:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/great-sumbion-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/GREAT-SUMBION.md",
+        "docs/ROADMAP.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "testSuite": "src/tests/lib/great-sumbion.test.ts",
+      "scope": "src/lib/great-sumbion/**,src/app/api/great-sumbion/**,src/components/great-sumbion/**"
+    },
+    "konvencionalni-odnosi-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "konvencionalni-odnosi-core",
+      "octave": 14,
+      "hipermrezaNode": 112,
+      "labels": [
+        "konvencionalni-odnosi",
+        "konvencionalni-odnosi:logic-change",
+        "konvencionalni-odnosi:validated",
+        "konvencionalni-odnosi:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/konvencionalni-odnosi-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/KONVENCIONALNI-ODNOSI.md",
+        "docs/ROADMAP.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "testSuite": "src/tests/lib/konvencionalni-odnosi.test.ts",
+      "scope": "src/lib/konvencionalni-odnosi/**,src/app/api/konvencionalni-odnosi/**"
+    },
+    "trenazer-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "trenazer-coach-core",
+      "octave": 6,
+      "hipermrezaNode": 48,
+      "labels": [
+        "trenazer",
+        "trenazer:logic-change",
+        "trenazer:validated",
+        "trenazer:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/trenazer-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/TRENAZER.md",
+        "docs/ROADMAP.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "testSuite": "src/tests/lib/trenazer.test.ts",
+      "scope": "src/lib/trenazer/**,src/app/api/trenazer/**,src/components/trenazer/**"
+    },
+    "pilotrelax-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "pilotrelax-calm-core",
+      "octave": 7,
+      "hipermrezaNode": 58,
+      "labels": [
+        "pilotrelax",
+        "pilotrelax:logic-change",
+        "pilotrelax:validated",
+        "pilotrelax:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/pilotrelax-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/PILOTRELAX.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/pilotrelax.test.ts",
+        "npx tsx src/tests/api/pilotrelax-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/pilotrelax/**",
+        "src/app/api/pilotrelax/**",
+        "src/tests/lib/pilotrelax.test.ts",
+        "src/tests/api/pilotrelax-route.test.ts",
+        "docs/PILOTRELAX.md",
+        ".github/workflows/pilotrelax-validator.yml"
+      ],
+      "linkedRepoImpact": "documentation-only",
+      "scope": "src/lib/pilotrelax/**,src/app/api/pilotrelax/**"
+    },
+    "dumbir-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "dumbir-wellness-core",
+      "octave": 12,
+      "hipermrezaNode": 96,
+      "labels": [
+        "dumbir",
+        "dumbir:logic-change",
+        "dumbir:validated",
+        "dumbir:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/dumbir-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/DUMBIR.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/dumbir.test.ts",
+        "npx tsx src/tests/api/dumbir-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/dumbir/**",
+        "src/app/api/dumbir/**",
+        "src/tests/lib/dumbir.test.ts",
+        "src/tests/api/dumbir-route.test.ts",
+        "docs/DUMBIR.md",
+        ".github/workflows/dumbir-validator.yml"
+      ],
+      "linkedRepoImpact": "documentation-only",
+      "scope": "src/lib/dumbir/**,src/app/api/dumbir/**"
+    },
+    "mrkli-mrak-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "mrkli-mrak-core",
+      "octave": 11,
+      "hipermrezaNode": 89,
+      "labels": [
+        "mrkli-mrak",
+        "mrkli-mrak:logic-change",
+        "mrkli-mrak:validated",
+        "mrkli-mrak:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/mrkli-mrak-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/MRKLI-MRAK.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/mrkli-mrak.test.ts",
+        "npx tsx src/tests/api/mrkli-mrak-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/mrkli-mrak/**",
+        "src/app/api/mrkli-mrak/**",
+        "src/tests/lib/mrkli-mrak.test.ts",
+        "src/tests/api/mrkli-mrak-route.test.ts",
+        "docs/MRKLI-MRAK.md",
+        ".github/workflows/mrkli-mrak-validator.yml"
+      ],
+      "linkedRepoImpact": "documentation-only",
+      "scope": "src/lib/mrkli-mrak/**,src/app/api/mrkli-mrak/**"
+    },
+    "paraksil-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "paraksil-validator-core",
+      "octave": 6,
+      "hipermrezaNode": 49,
+      "labels": [
+        "paraksil",
+        "paraksil:logic-change",
+        "paraksil:validated",
+        "paraksil:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/paraksil-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/PARAKSIL.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "coverageTargetPct": 80,
+        "errorRateWarnPct": 5,
+        "errorRateBlockPct": 20
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/paraksil.test.ts",
+        "npx tsx src/tests/api/paraksil-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/paraksil/**",
+        "src/app/api/paraksil/**",
+        "src/tests/lib/paraksil.test.ts",
+        "src/tests/api/paraksil-route.test.ts",
+        "docs/PARAKSIL.md",
+        ".github/workflows/paraksil-validator.yml"
+      ],
+      "scope": "src/lib/paraksil/**,src/app/api/paraksil/**"
+    },
+    "tarken-hingil-ekolan-maksimus": {
+      "enabled": true,
+      "specijalizacija": "strateska-orkestracija",
+      "octave": 16,
+      "hipermrezaNode": 256,
+      "linkedAgents": [
+        "another-maks",
+        "maksimus-2",
+        "maksimus-3",
+        "nova-generacija-agent",
+        "persona-bank-agent"
+      ],
+      "performanceThresholdMs": 50,
+      "handoffThresholdMs": 100,
+      "buildMaxMin": 3,
+      "hipermrezaKonvergencijaMin": 0.95,
+      "workflowFile": ".github/workflows/tarken-hingil-ekolan-maksimus.yml",
+      "selfHealing": true,
+      "novaGeneracijaIntegration": true,
+      "crossRepoSync": [
+        "spaja86/IO-OPENUI-AO"
+      ]
+    },
+    "mirikl-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "scope": [
+        "docs/EKSLUZIV-NETWORK.md",
+        "docs/MIRIKL.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/OKRID-REGISTRY.md",
+        ".agent-config.json",
+        ".github/workflows/deploy-platforma.yml",
+        ".github/workflows/mirikl-validator.yml",
+        ".github/workflows/vercel-deploy.yml"
+      ],
+      "triggerLabels": [
+        "mirikl",
+        "mirikl:logic-change"
+      ],
+      "labels": [
+        "mirikl",
+        "mirikl:logic-change",
+        "mirikl:review",
+        "mirikl:validated",
+        "mirikl:needs-review"
+      ],
+      "workflowFile": ".github/workflows/mirikl-validator.yml",
+      "requiredQualityGates": [
+        "build",
+        "lint",
+        "test",
+        "smoke",
+        "predeploy",
+        "security"
+      ],
+      "vercel": {
+        "sourceOfTruth": "git-integration",
+        "fallbackWorkflow": ".github/workflows/vercel-deploy.yml",
+        "fallbackDeployHookEnv": "VERCEL_DEPLOY_HOOK_AI_IQ",
+        "environmentPromotion": [
+          "dev",
+          "staging",
+          "production"
+        ]
+      },
+      "githubActionsRole": "quality-gates-and-audit-governance-only",
+      "reviewRules": {
+        "humanReviewRequired": true,
+        "labelOnConfigChange": "agent:config-change",
+        "crossRepoImpactSectionRequired": true
+      },
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "downstream": {
+        "impact": "follow-up-required",
+        "reference": "docs/MULTI-REPO-LINKS.md"
+      },
+      "okrid": "OKRID-2026-MIRIKL-001",
+      "trackingIssue": 920
+    },
+    "madagaskar-validator-agent": {
+      "enabled": true,
+      "scope": [
+        "src/lib/madagaskar/**",
+        "src/app/api/madagaskar/**",
+        "src/lib/madagaskar-2/**",
+        "src/app/api/madagaskar-2/**"
+      ],
+      "triggerLabels": [
+        "madagaskar:logic-change",
+        "madagaskar-2:logic-change"
+      ],
+      "performanceThresholdMs": 50,
+      "apiResponseThresholdMs": 200,
+      "testSuites": [
+        "madagaskar-utils",
+        "madagaskar-registry",
+        "madagaskar-engine",
+        "madagaskar2-fx",
+        "madagaskar2-auction",
+        "madagaskar2-traceability",
+        "madagaskar2-basket",
+        "madagaskar2-engine"
+      ],
+      "persona": {
+        "id": "madagaskar-exotic-market",
+        "octave": 5,
+        "hipermrezaNode": 40
+      },
+      "multiRepoSync": {
+        "enabled": true,
+        "linkedRepos": [
+          "spaja86/IO-OPENUI-AO"
+        ],
+        "syncArtifacts": [
+          "exotic-goods-catalog-v2-snapshot"
+        ]
+      }
+    },
+    "konvenkcionalni-odnosi-validator-agent": {
+      "enabled": true,
+      "paths": [
+        "src/lib/konvenkcionalni-odnosi/**",
+        "src/app/api/konvenkcionalni-odnosi/**",
+        "src/components/konvenkcionalni-odnosi/**"
+      ],
+      "labels": {
+        "passed": "konvenkcionalni-odnosi:validated",
+        "failed": "konvenkcionalni-odnosi:needs-review"
+      },
+      "performanceThresholds": {
+        "evaluationMs": 50,
+        "lookupMs": 10,
+        "bulkListMs": 50,
+        "apiResponseMs": 200
+      },
+      "persona": {
+        "id": "konvenkcionalni-odnosi-core",
+        "octave": 1,
+        "hipermrezaNode": 8
+      },
+      "contractVersion": "v1",
+      "testSuite": "src/tests/lib/konvenkcionalni-odnosi.test.ts"
+    },
+    "adutiv-validator-agent": {
+      "enabled": true,
+      "paths": [
+        "src/lib/adutiv/**",
+        "src/app/api/adutiv/**",
+        "src/components/adutiv/**"
+      ],
+      "labels": {
+        "passed": "adutiv:validated",
+        "failed": "adutiv:needs-review"
+      },
+      "performanceThresholds": {
+        "evaluationMs": 50,
+        "apiResponseMs": 200
+      },
+      "persona": {
+        "id": "adutiv-core",
+        "octave": 14,
+        "hipermrezaNode": 112
+      },
+      "contractVersion": "v1",
+      "testSuite": "src/tests/lib/adutiv.test.ts"
+    },
+    "reklamitin-validator-agent": {
+      "enabled": true,
+      "scope": [
+        "src/lib/reklamitin/**",
+        "src/app/api/reklamitin/**"
+      ],
+      "trigger": [
+        "pull_request",
+        "push"
+      ],
+      "labels": {
+        "validated": "reklamitin:validated",
+        "needsReview": "reklamitin:needs-review",
+        "logicChange": "reklamitin:logic-change"
+      },
+      "performanceThresholds": {
+        "evalMs": 50,
+        "apiResponseMs": 200,
+        "broadcastDispatchMs": 100
+      },
+      "testCommands": [
+        "npx tsx src/tests/lib/reklamitin.test.ts",
+        "npx tsx src/tests/api/reklamitin-route.test.ts"
+      ],
+      "persona": "reklamitin-core",
+      "octave": 9,
+      "hipermrezaNode": 72,
+      "okrid": "OKRID-2026-REKLAMITIN-14856",
+      "note": 14856,
+      "workflowFile": ".github/workflows/reklamitin-validator.yml",
+      "linkedRepoSync": "spaja86/IO-OPENUI-AO"
+    },
+    "chatgpt-katalog-validator-agent": {
+      "enabled": true,
+      "personaId": "chatgpt-katalog-core",
+      "octave": 10,
+      "hipermrezaNode": 81,
+      "performanceThreshold": 50,
+      "compareThreshold": 100,
+      "apiResponseThreshold": 200,
+      "testSuite": "chatgpt-katalog-tests",
+      "linkedModules": [
+        "nova-generacija",
+        "persona-bank",
+        "digit-engine"
+      ],
+      "multiRepoSync": [
+        "spaja86/IO-OPENUI-AO"
+      ]
+    },
+    "aktiviti-all-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "aktiviti-all-core",
+      "octave": 8,
+      "hipermrezaNode": 66,
+      "labels": [
+        "aktiviti-all",
+        "aktiviti-all:logic-change",
+        "aktiviti-all:validated",
+        "aktiviti-all:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/aktiviti-all-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/AKTIVITI-ALL.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/aktiviti-all.test.ts",
+        "npx tsx src/tests/api/aktiviti-all-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/aktiviti-all/**",
+        "src/app/api/aktiviti-all/**",
+        "src/tests/lib/aktiviti-all.test.ts",
+        "src/tests/api/aktiviti-all-route.test.ts",
+        "docs/AKTIVITI-ALL.md",
+        ".github/workflows/aktiviti-all-validator.yml"
+      ],
+      "linkedRepoImpact": "none",
+      "scope": "src/lib/aktiviti-all/**,src/app/api/aktiviti-all/**"
     }
   },
   "orgSettings": {
     "signCommits": true,
-    "autoMergeAllowed": ["hotfix/*"],
-    "protectedBranches": ["main", "develop"],
-    "requireAllChecks": true
+    "autoMergeAllowed": [
+      "hotfix/*"
+    ],
+    "protectedBranches": [
+      "main",
+      "develop"
+    ],
+    "requireAllChecks": true,
+    "humanReviewRequired": true,
+    "issueToPrFlowRequired": true
+  },
+  "openCodeProgram": {
+    "enabled": true,
+    "publicSurfaces": [
+      "src/**",
+      "docs/**",
+      ".github/workflows/**",
+      "README.md",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      ".github/pull_request_template.md"
+    ],
+    "linkedRepoProcesses": [
+      "docs/MULTI-REPO-LINKS.md",
+      ".github/pull_request_template.md",
+      "AGENTS.md"
+    ],
+    "operationalControls": [
+      "GitHub Secrets",
+      "Vercel Environment Variables",
+      "deploy hooks",
+      "private keys",
+      "wallet credentials"
+    ]
+  },
+  "deploymentGovernance": {
+    "runtimeSplit": {
+      "vercel": [
+        "frontend",
+        "ssr",
+        "lightweight-api"
+      ],
+      "workerContainer": [
+        "heavy-compute",
+        "long-running-jobs",
+        "batch-processing"
+      ],
+      "githubActions": [
+        "quality-gates",
+        "promotion-audit",
+        "release-orchestration"
+      ]
+    },
+    "environmentPromotion": [
+      "dev",
+      "staging",
+      "production"
+    ],
+    "requiredQualityGates": [
+      "build",
+      "lint",
+      "test",
+      "smoke",
+      "predeploy",
+      "security"
+    ],
+    "buildGateMode": "tracked-release-gate",
+    "auditSummaryRequired": true,
+    "rollbackPlanRequired": true,
+    "downstreamImpactRequired": true
+  },
+  "xpDelivery": {
+    "enabled": true,
+    "principles": [
+      "short-iterations",
+      "continuous-integration",
+      "test-first-for-risky-changes",
+      "small-frequent-releases",
+      "human-review-as-async-pairing",
+      "shared-ownership-via-source-of-truth-docs"
+    ]
+  },
+  "contributionFlow": {
+    "issueToPrRequired": true,
+    "humanReviewRequired": true,
+    "prTemplate": ".github/pull_request_template.md",
+    "requiredSections": [
+      "Summary",
+      "Linked Issue / Change Driver",
+      "OKRID",
+      "Cross-repo impact",
+      "Validation",
+      "Rollout Plan",
+      "Cost Impact & Rollback"
+    ]
   },
   "finops": {
     "sourceOfTruth": {
@@ -77,7 +1234,12 @@
     },
     "monthlyBudget": {
       "currency": "USD",
-      "alertsPercent": [50, 75, 90, 100]
+      "alertsPercent": [
+        50,
+        75,
+        90,
+        100
+      ]
     },
     "ownership": {
       "team": "IO-OPENUI-AO / SUPER-PLATFORMA",
@@ -94,6 +1256,558 @@
       "monthlyOpsReview": true,
       "quarterlyBusinessReview": true,
       "incidentEscalationChannel247": true
+    }
+  },
+  "sourceOfTruth": {
+    "roadmap": "docs/ROADMAP.md",
+    "multiRepo": "docs/MULTI-REPO-LINKS.md",
+    "mirikl": "docs/MIRIKL.md",
+    "okrid": "docs/OKRID.md",
+    "okridRegistry": "docs/OKRID-REGISTRY.md",
+    "finops": "docs/finops-enterprise-operating-model.md",
+    "security": "docs/SECURITY.md",
+    "goLive": "docs/GO-LIVE.md",
+    "deploymentPowerResolution": "docs/DEPLOYMENT-POWER-RESOLUTION.md"
+  },
+  "indeksiranje": {
+    "targetIndexVersion": "v4",
+    "indeksiranje750": {
+      "enabled": true,
+      "featureFlag": "indeksiranje-750",
+      "targetCompletionPct": 75,
+      "degradationThresholdPct": 7.5,
+      "safeStopDefault": false,
+      "requiredApiFields": [
+        "indeksiranje750",
+        "targetCompletionPct",
+        "degradationThresholdPct",
+        "safeStop750"
+      ],
+      "auditObjects": [
+        "knowledge_index_750_audit",
+        "knowledge_index_750_alerts"
+      ]
+    },
+    "autopromotion": {
+      "enabled": true,
+      "batchSize": 50,
+      "maxBatches": 10,
+      "cooldownMs": 500,
+      "schedule": "nightly",
+      "workflowFile": ".github/workflows/index-auto-promote.yml",
+      "script": "scripts/index-auto-promote.ts",
+      "qualityGates": {
+        "v1_to_v2": "content.length >= 100",
+        "v2_to_v3": "chunk_index >= 0",
+        "v3_to_v4": "OPENAI_API_KEY is set"
+      },
+      "monitoring": {
+        "degradationThresholdPct": 50,
+        "alertLabel": "indexing:degradation",
+        "statusEndpoint": "/api/spaja-baza-knowledge/index-status"
+      }
+    },
+    "pipeline": {
+      "v1": {
+        "mechanism": "ilike",
+        "scoring": "lexical*0.6 + trust*0.25 + coverage*0.15",
+        "status": "legacy-fallback"
+      },
+      "v2": {
+        "mechanism": "ilike+bigrams+keyword_density",
+        "scoring": "lexical*0.45 + termFreq*0.20 + trust*0.20 + kwDensity*0.15",
+        "status": "dual-mode"
+      },
+      "v3": {
+        "mechanism": "FTS textSearch (AND) + position_score",
+        "scoring": "lexical*0.35 + termFreq*0.25 + trust*0.20 + kwDensity*0.15 + pos*0.05",
+        "status": "primary"
+      },
+      "v4": {
+        "mechanism": "pgvector cosine similarity + hybrid",
+        "scoring": "semanticSim*0.35 + lexical*0.20 + termFreq*0.15 + trust*0.15 + kwDensity*0.10 + pos*0.05",
+        "status": "semantic-primary"
+      }
+    }
+  },
+  "multiRepoLinks": {
+    "primaryRepo": "spaja86/AI-IQ-SUPER-PLATFORMA",
+    "linkedRepos": [
+      {
+        "repo": "spaja86/IO-OPENUI-AO",
+        "syncFields": [
+          "versions",
+          "labels",
+          "milestones",
+          "agent-config",
+          "readme-links",
+          "follow-up-refs"
+        ],
+        "syncTrigger": "weekly",
+        "trackingDoc": "docs/MULTI-REPO-LINKS.md"
+      }
+    ],
+    "crossRepoVersionPolicies": {
+      "npmPackages": "minor-compatible",
+      "githubActions": "patch-exact",
+      "docsAndLinks": "same-change-window"
+    }
+  },
+  "depon": {
+    "platform": "120M-US-States",
+    "targetUsers": 120000000,
+    "targetStates": 50,
+    "modules": {
+      "total": 12,
+      "active": 4,
+      "planned": 8
+    },
+    "scalingPhases": {
+      "phase1": {
+        "userRange": "0-10M",
+        "regions": 3,
+        "depons": [
+          "DEPON-01",
+          "DEPON-02",
+          "DEPON-03",
+          "DEPON-04"
+        ]
+      },
+      "phase2": {
+        "userRange": "10-50M",
+        "regions": 6,
+        "depons": [
+          "DEPON-05",
+          "DEPON-06",
+          "DEPON-07",
+          "DEPON-08"
+        ]
+      },
+      "phase3": {
+        "userRange": "50-120M",
+        "regions": 12,
+        "depons": [
+          "DEPON-09",
+          "DEPON-10",
+          "DEPON-11",
+          "DEPON-12"
+        ]
+      }
+    },
+    "deployWorkflow": ".github/workflows/depon-deploy.yml",
+    "testSuite": "src/tests/depon/depon-registry.test.ts",
+    "migration": "supabase/migrations/019_depon_us_states_platform.sql",
+    "sla": {
+      "uptimePercent": 99.99,
+      "maxLatencyMs": 100
+    }
+  },
+  "kpiTracking": {
+    "enabled": true,
+    "reportingCadence": "daily",
+    "trackedMetrics": [
+      "cost-per-deployment",
+      "cost-per-active-user",
+      "mttr",
+      "build-duration",
+      "deployment-success-rate",
+      "agent-reliability-score",
+      "security-scan-coverage",
+      "pr-review-time",
+      "cross-repo-sync-stability",
+      "change-failure-rate",
+      "okrid-compliance-rate",
+      "okrid-blocked-prs"
+    ],
+    "owners": {
+      "platformOps": [
+        "build-duration",
+        "deployment-success-rate",
+        "mttr"
+      ],
+      "finops": [
+        "cost-per-deployment",
+        "cost-per-active-user"
+      ],
+      "automation": [
+        "agent-reliability-score",
+        "okrid-compliance-rate",
+        "okrid-blocked-prs"
+      ],
+      "security": [
+        "security-scan-coverage"
+      ],
+      "delivery": [
+        "pr-review-time",
+        "change-failure-rate"
+      ],
+      "multiRepo": [
+        "cross-repo-sync-stability"
+      ]
+    }
+  },
+  "featureTracks": {
+    "another-maks": {
+      "status": "active-development",
+      "labels": [
+        "another-maks",
+        "another-maks:review",
+        "another-maks:validated",
+        "another-maks:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/another-maks.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/ANOTHER-MAKS.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/GO-LIVE.md"
+      ],
+      "kpis": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%",
+        "linkedAgent": "maksimus-2",
+        "specijalizacija": "kreativna-sinteza"
+      }
+    },
+    "back-to-spaces-another-races": {
+      "status": "beta",
+      "labels": [
+        "race:another-races",
+        "race:fairness-review",
+        "race:validated"
+      ],
+      "workflows": [
+        ".github/workflows/back-to-spaces-another-races.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/BACK-TO-SPACES-FOR-ANOTHER-RACES.md",
+        "docs/GO-LIVE.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ]
+    },
+    "nova-generacija": {
+      "status": "active-development",
+      "labels": [
+        "nova-generacija",
+        "nova-generacija:review",
+        "nova-generacija:validated",
+        "nova-generacija:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/nova-generacija.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/NOVA-GENERACIJA.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/SECURITY.md",
+        "docs/GO-LIVE.md"
+      ],
+      "kpis": {
+        "actionEvaluationMaxMs": 50,
+        "buildDurationMaxMin": 3,
+        "uptimeSla": "99.99%",
+        "personaCount": 50,
+        "octaveCount": 16,
+        "hipermrezaCvorova": 256
+      }
+    },
+    "mekartor": {
+      "status": "active-development",
+      "labels": [
+        "mekartor",
+        "mekartor:review",
+        "mekartor:validated"
+      ],
+      "workflows": [
+        ".github/workflows/deploy-platforma.yml",
+        ".github/workflows/vercel-deploy.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/DEPLOY-PORTFOLIO.md",
+        "docs/GO-LIVE.md",
+        "docs/DIREKŠN-DEPLOY-SPAJA.md",
+        "docs/MAKSIMUM-ALL-PLATFORMA-DEPLOY.md"
+      ],
+      "kpis": {
+        "catalogSyncLatencyP95": "250ms",
+        "healthSla": "99.95%",
+        "buildDurationMaxMin": 3,
+        "manualDeployRecoveryMaxMin": 15
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for Mekartor rollout"
+      }
+    },
+    "eksluziv-network": {
+      "status": "active-governance",
+      "okrid": "OKRID-2026-EKSLUZIV-001",
+      "labels": [
+        "eksluziv-network",
+        "eksluziv-network:review",
+        "eksluziv-network:validated",
+        "eksluziv-network:needs-review",
+        "agent:config-change"
+      ],
+      "workflows": [
+        ".github/workflows/deploy-platforma.yml",
+        ".github/workflows/vercel-deploy.yml",
+        ".github/workflows/mirikl-validator.yml",
+        ".github/workflows/omega-auto-build.yml",
+        ".github/workflows/security-scanner.yml"
+      ],
+      "releaseDocs": [
+        "docs/EKSLUZIV-NETWORK.md",
+        "docs/DEPLOY-PORTFOLIO.md",
+        "docs/MIRIKL.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/OKRID-REGISTRY.md",
+        "docs/ROADMAP.md",
+        "docs/GO-LIVE.md"
+      ],
+      "deploymentModel": {
+        "primarySourceOfTruth": "vercel-git-integration",
+        "primaryRolloutWorkflow": ".github/workflows/deploy-platforma.yml",
+        "fallbackWorkflow": ".github/workflows/vercel-deploy.yml",
+        "promotion": [
+          "canary",
+          "staging",
+          "production"
+        ],
+        "humanReviewRequired": true
+      },
+      "requiredQualityGates": [
+        "build",
+        "lint",
+        "test",
+        "smoke",
+        "predeploy",
+        "security"
+      ],
+      "domains": [
+        "core-platforma",
+        "nova-generacija",
+        "mekartor",
+        "linked-repo-integracije",
+        "monitoring-i-audit",
+        "operativa"
+      ],
+      "kpis": {
+        "buildDurationMaxMin": 3,
+        "apiLatencyP95Ms": 300,
+        "errorRateMaxPct": 1,
+        "novaGeneracijaEvalP99Ms": 50,
+        "mekartorHealthSlaPct": 99.95,
+        "crossRepoSyncCoveragePct": 100,
+        "auditEvidenceCoveragePct": 100
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": true,
+        "trackingDoc": "docs/MULTI-REPO-LINKS.md",
+        "note": "Follow-up required when shared contracts, labels, milestones, or Nova Generacija fairness assumptions change"
+      }
+    },
+    "gigatron": {
+      "status": "active-development",
+      "labels": [
+        "gigatron",
+        "gigatron:review",
+        "gigatron:validated",
+        "gigatron:needs-review",
+        "gigatron:logic-change"
+      ],
+      "workflows": [
+        ".github/workflows/gigatron.yml",
+        ".github/workflows/security-scanner.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/GIGATRON.md",
+        "docs/GIGATRON-KORPORATIVNA-PRETPLATA.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md",
+        "docs/GO-LIVE.md"
+      ],
+      "kpis": {
+        "apiResponseMaxMs": 200,
+        "catalogAvailabilityPct": 99.9,
+        "orderSuccessRatePct": 99,
+        "affiliateAccuracyPct": 100,
+        "buildDurationMaxMin": 3
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required for GIGATRON rollout"
+      }
+    },
+    "force-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "force-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "force:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "force/**"
+        ],
+        "paths": [
+          "src/lib/force.ts",
+          "src/lib/force-store.ts",
+          "src/lib/fokus.ts",
+          "src/lib/operativa.ts",
+          "src/lib/reakcija.ts",
+          "src/lib/cilj.ts",
+          "src/lib/energija-force.ts",
+          "src/lib/snaga.ts",
+          "src/app/api/force/**",
+          "src/tests/lib/force.test.ts"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/force.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "force:validated",
+        "needsReview": "force:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "force-engine",
+        "octave": 6,
+        "hipermrezaNode": 48
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "weightSumTolerance": 0.0001,
+        "scoreRange": [
+          0,
+          100
+        ],
+        "snapshotMaxCount": 100
+      }
+    },
+    "astronomik-money-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "astronomik-money-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "astronomik-money:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "astronomik-money/**"
+        ],
+        "paths": [
+          "src/lib/astronomik-money/**",
+          "src/app/api/astronomik-money/**",
+          "src/components/astronomik-money/**",
+          "src/tests/lib/astronomik-money.test.ts",
+          "src/tests/api/astronomik-money-route.test.ts"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/astronomik-money.test.ts",
+        "npx tsx src/tests/api/astronomik-money-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "astronomik-money:validated",
+        "needsReview": "astronomik-money:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "astronomik-money-core",
+        "octave": 13,
+        "hipermrezaNode": 104
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          1000
+        ],
+        "registryLookupMaxMs": 10,
+        "bulkPortfolioMaxMs": 100
+      }
+    },
+    "dinosaurus-trexar-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "dinosaurus-trexar-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "dinosaurus-trexar:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "dinosaurus-trexar/**"
+        ],
+        "paths": [
+          "src/lib/dinosaurus-trexar/**",
+          "src/app/api/dinosaurus-trexar/**",
+          "src/tests/lib/dinosaurus-trexar.test.ts",
+          "src/tests/api/dinosaurus-trexar-route.test.ts",
+          ".github/workflows/dinosaurus-trexar-validator.yml",
+          "docs/DINOSAURUS-TREXAR.md",
+          "docs/MULTI-REPO-LINKS.md"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/dinosaurus-trexar.test.ts",
+        "npx tsx src/tests/api/dinosaurus-trexar-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "dinosaurus-trexar:validated",
+        "needsReview": "dinosaurus-trexar:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "dinosaurus-trexar-core",
+        "octave": 10,
+        "hipermrezaNode": 81
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          100
+        ],
+        "reactionMaxMs": 600
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo change required until downstream adoption starts"
+      }
     }
   }
 }

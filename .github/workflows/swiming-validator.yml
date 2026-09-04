@@ -1,0 +1,42 @@
+name: SWIMING — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/swiming/**'
+      - 'src/app/api/swiming/**'
+      - 'src/tests/lib/swiming.test.ts'
+      - '.github/workflows/swiming-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/swiming/**'
+      - 'src/app/api/swiming/**'
+      - 'src/tests/lib/swiming.test.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: swiming-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: swiming
+      lint_paths: >-
+        src/lib/swiming
+        src/app/api/swiming
+      test_commands: |
+        npx tsx src/tests/lib/swiming.test.ts
+      scan_paths: >-
+        src/lib/swiming
+        src/app/api/swiming
+      label: swiming
+      perf_eval_ms: 50
+      perf_api_ms: 200

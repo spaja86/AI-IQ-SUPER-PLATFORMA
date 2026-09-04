@@ -1,0 +1,213 @@
+name: MAKSIMUS — Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/maksimus/**'
+      - 'src/app/api/maksimus/**'
+      - 'src/lib/extrimli-extendol/**'
+      - 'src/tests/lib/maksimus.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
+      - '.github/workflows/maksimus-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/maksimus/**'
+      - 'src/app/api/maksimus/**'
+      - 'src/lib/extrimli-extendol/**'
+      - 'src/tests/lib/maksimus.test.ts'
+      - 'src/tests/lib/extrimli-extendol.test.ts'
+      - '.github/workflows/maksimus-validator.yml'
+  schedule:
+    - cron: '0 4 * * 3'  # Weekly — every Wednesday at 04:00 UTC
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full MAKSIMUS validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  maksimus-lint:
+    name: MAKSIMUS — Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint MAKSIMUS modules
+        run: |
+          npm run lint -- \
+            src/lib/maksimus/types.ts \
+            src/lib/maksimus/store.ts \
+            src/lib/maksimus/identity.ts \
+            src/lib/maksimus/handoff.ts \
+            src/lib/maksimus/orchestrator.ts \
+            src/lib/maksimus/index.ts \
+            src/lib/extrimli-extendol/index.ts \
+            src/app/api/maksimus/route.ts
+
+  maksimus-typecheck:
+    name: MAKSIMUS — TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  maksimus-test:
+    name: MAKSIMUS — Unit Tests
+    runs-on: ubuntu-latest
+    needs: [maksimus-lint, maksimus-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run MAKSIMUS test suite
+        run: |
+          npx tsx src/tests/lib/maksimus.test.ts
+          npx tsx src/tests/lib/extrimli-extendol.test.ts
+
+  maksimus-predeploy:
+    name: MAKSIMUS — Predeploy Checks
+    runs-on: ubuntu-latest
+    needs: [maksimus-lint, maksimus-typecheck]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run predeploy check
+        run: npm run predeploy:check
+
+  maksimus-security:
+    name: MAKSIMUS — Security Scan
+    runs-on: ubuntu-latest
+    needs: [maksimus-lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Scan for secrets in MAKSIMUS modules
+        run: |
+          echo "Scanning MAKSIMUS modules for secrets..."
+          ! grep -rE "(password|secret|token|key)\s*=\s*['\"][^'\"]{8,}" \
+            src/lib/maksimus/ \
+            src/app/api/maksimus/ 2>/dev/null || \
+            (echo "::error::Potential secret found in MAKSIMUS modules" && exit 1)
+          echo "No secrets detected."
+
+  maksimus-label:
+    name: MAKSIMUS — Auto Label
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const toAdd = [];
+
+            if (!labels.includes('maksimus:logic-change')) {
+              toAdd.push('maksimus:logic-change');
+            }
+            if (!labels.includes('agent:config-change')) {
+              toAdd.push('agent:config-change');
+            }
+
+            if (toAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: toAdd,
+              });
+            }
+
+  maksimus-status:
+    name: MAKSIMUS — Status Summary
+    runs-on: ubuntu-latest
+    needs: [maksimus-lint, maksimus-typecheck, maksimus-test, maksimus-predeploy, maksimus-security]
+    if: always()
+    steps:
+      - name: MAKSIMUS validation summary
+        run: |
+          echo "========================================"
+          echo "MAKSIMUS Validation Summary"
+          echo "========================================"
+          echo "Lint:      ${{ needs.maksimus-lint.result }}"
+          echo "TypeScript:${{ needs.maksimus-typecheck.result }}"
+          echo "Tests:     ${{ needs.maksimus-test.result }}"
+          echo "Predeploy: ${{ needs.maksimus-predeploy.result }}"
+          echo "Security:  ${{ needs.maksimus-security.result }}"
+          echo "========================================"
+          echo "KPIs:"
+          echo "  Action evaluation target: <= 50ms"
+          echo "  Build duration target:    <= 3 min"
+          echo "  Uptime SLA target:        99.99%"
+          echo "  Hipermreza node:          128"
+          echo "  Octave:                   13"
+          echo "  Linked agent:             another-maks"
+          echo "  Specialization:           analiticka-orkestracija"
+          echo "========================================"
+
+          if [ "${{ needs.maksimus-lint.result }}" != "success" ] || \
+             [ "${{ needs.maksimus-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.maksimus-test.result }}" != "success" ] || \
+             [ "${{ needs.maksimus-predeploy.result }}" != "success" ] || \
+             [ "${{ needs.maksimus-security.result }}" != "success" ]; then
+            echo "MAKSIMUS validation FAILED"
+            exit 1
+          else
+            echo "MAKSIMUS validation PASSED"
+          fi

@@ -1,32 +1,22 @@
 import { NextResponse } from 'next/server';
-import {
-  ioOpenUIAOGamingPlatforma,
-  endzinNadIgricama,
-  gamingStatistika,
-  gamingKonfiguracija,
-  getAktivneIgriceSaEndzinom,
-} from '@/lib/io-openui-ao-gaming-platforma';
 import { APP_VERSION } from '@/lib/constants';
+import {
+  endzinNadIgricama,
+  getAktivneIgriceSaEndzinom,
+  getGamingDomenSnapshot,
+} from '@/lib/io-openui-ao-gaming-platforma';
 
 export async function GET() {
   const aktivne = getAktivneIgriceSaEndzinom();
+  const snapshot = getGamingDomenSnapshot();
 
   return NextResponse.json({
     sistem: 'IO/OPENUI/AO Gaming Platforma — SPAJA Univerzalni Endžin',
-    verzija: ioOpenUIAOGamingPlatforma.verzija,
     appVerzija: APP_VERSION,
-    opis: ioOpenUIAOGamingPlatforma.opis,
-    link: ioOpenUIAOGamingPlatforma.link,
-    generatorLink: ioOpenUIAOGamingPlatforma.generatorLink,
-    konfiguracija: gamingKonfiguracija,
+    ...snapshot,
     ukupnoIgrica: endzinNadIgricama.length,
     aktivnihIgrica: aktivne.length,
-    prevucenoEndžinom: gamingStatistika.prevucenoEndžinom,
-    prosecnaOptimizacija: gamingStatistika.prosecnaOptimizacija,
-    ukupnoKategorija: gamingStatistika.ukupnoKategorija,
-    platformaUrl: gamingStatistika.platformaUrl,
-    platformaDomen: gamingStatistika.platformaDomen,
-    statistika: gamingStatistika,
+    sveIgrice: endzinNadIgricama,
     timestamp: new Date().toISOString(),
   });
 }
