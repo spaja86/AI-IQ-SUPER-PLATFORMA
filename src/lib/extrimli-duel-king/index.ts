@@ -240,23 +240,27 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
 
   const warnings: string[] = [];
   let degraded = false;
+  let degradedByCoreSignals = false;
   const kurGameSignal = evaluateKurGameSignal(input.kurGameSignal);
 
   const recentSessions = input.recentSessions ?? 0;
   if (input.recentSessions === undefined) {
     degraded = true;
+    degradedByCoreSignals = true;
     warnings.push('recentSessions missing; progression score degraded to conservative default');
   }
 
   const activeGearCategories = input.activeGearCategories ?? [];
   if (input.activeGearCategories === undefined) {
     degraded = true;
+    degradedByCoreSignals = true;
     warnings.push('activeGearCategories missing; gear clearance downgraded to degraded mode');
   }
 
   const tournamentState = input.tournamentState ?? 'DEGRADED';
   if (input.tournamentState === undefined) {
     degraded = true;
+    degradedByCoreSignals = true;
     warnings.push('tournamentState missing; tournament posture marked as DEGRADED');
   }
 
@@ -301,7 +305,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   if (!gearCleared) {
     readinessScore = round(clamp(readinessScore - 18, 0, 100), 2);
   }
-  if (degraded) {
+  if (degraded && degradedByCoreSignals) {
     readinessScore = round(clamp(readinessScore - 8, 0, 100), 2);
   }
   if (input.kurGameSignal && !kurGameSignal.applied) {
@@ -331,6 +335,10 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
     if (kurGameSignal.status === 'DEGRADED') {
       kurDegradedEvaluations += 1;
     }
+  } else {
+    lastKurProgressionSignal = 50;
+    lastKurImpactScore = 0;
+    lastKurSignalStatus = 'BASELINE';
   }
 
   return {

@@ -307,6 +307,32 @@ async function runTests(): Promise<void> {
     assert(body.data.kurGameSignal.applied === false, 'invalid KUR signal should not be applied');
   });
 
+  await test('POST /api/extrimli/duel-king treats null KUR numeric fields as degraded signal', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+      kurGameSignal: { start: null, target: 8, step: 2 },
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Duel-King-Kur-Signal-Status') === 'DEGRADED', 'expected DEGRADED KUR signal header for null field');
+    const body = await response.json() as {
+      data: { valid: boolean; degraded: boolean; kurGameSignal: { status: string } };
+    };
+    assert(body.data.valid === true, 'core DUEL KING result should remain valid');
+    assert(body.data.degraded === true, 'null KUR field should degrade response');
+    assert(body.data.kurGameSignal.status === 'DEGRADED', 'expected DEGRADED KUR signal in body');
+  });
+
   await test('POST /api/extrimli/duel-king returns degraded 200 when partial signals are missing', async () => {
     const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
       sportId: 'duel-king',

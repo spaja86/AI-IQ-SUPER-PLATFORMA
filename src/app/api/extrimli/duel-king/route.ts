@@ -13,6 +13,7 @@ import { apiExtrimliDegradedResponse, setExtrimliSurfaceHeaders } from '@/app/ap
 export const dynamic = 'force-dynamic';
 
 const GEAR_CATEGORIES = new Set(EXTRIMLI_GEAR_CATEGORIES);
+const toFiniteNumberOrNaN = (value: unknown): number => (typeof value === 'number' && Number.isFinite(value) ? value : NaN);
 
 export async function GET() {
   try {
@@ -102,11 +103,11 @@ export async function POST(req: NextRequest) {
         }
         const signal = candidate.kurGameSignal as Record<string, unknown>;
         return {
-          start: Number(signal.start),
-          target: Number(signal.target),
-          step: Number(signal.step),
-          maxIterations: signal.maxIterations === undefined ? undefined : Number(signal.maxIterations),
-          maxDurationMs: signal.maxDurationMs === undefined ? undefined : Number(signal.maxDurationMs),
+          start: toFiniteNumberOrNaN(signal.start),
+          target: toFiniteNumberOrNaN(signal.target),
+          step: toFiniteNumberOrNaN(signal.step),
+          maxIterations: signal.maxIterations === undefined ? undefined : toFiniteNumberOrNaN(signal.maxIterations),
+          maxDurationMs: signal.maxDurationMs === undefined ? undefined : toFiniteNumberOrNaN(signal.maxDurationMs),
         };
       })(),
       referenceId: typeof candidate.referenceId === 'string' ? candidate.referenceId : undefined,
