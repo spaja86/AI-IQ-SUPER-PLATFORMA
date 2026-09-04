@@ -124,11 +124,24 @@ function evaluateKurGameSignal(input: DuelKingKurGameSignalInput | undefined): D
   });
 
   const pathSpan = Math.max(Math.abs(input.target - input.start), 1);
+  const finalValue = kurResult.trace.length > 0
+    ? kurResult.trace[kurResult.trace.length - 1].value
+    : input.start;
+  const distanceClosureRatio = clamp(
+    (pathSpan - Math.abs(input.target - finalValue)) / pathSpan,
+    0,
+    1,
+  );
+  const executionEfficiency = clamp(
+    pathSpan / Math.max(kurResult.iterations, pathSpan),
+    0,
+    1,
+  );
   const progressionSignal = round(
     clamp(
-      (Math.abs(kurResult.output) / pathSpan) * 4
-      + (kurResult.completed ? 12 : 0)
-      - kurResult.iterations * 0.4,
+      distanceClosureRatio * 70
+      + executionEfficiency * 20
+      + (kurResult.completed ? 10 : 0),
       0,
       100,
     ),
