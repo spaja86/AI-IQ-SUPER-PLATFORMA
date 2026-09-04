@@ -1,6 +1,8 @@
 export type PetljaKind = 'FOR PETLJA' | 'ITCH PETLJA' | 'UR PELJA' | 'NIK PETLJA' | 'UMBREL PETLJA';
 
-export type PetljaReason = 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input';
+export type PetljaReason = 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status';
+export type PetljaStatus = 'MONSTER' | 'DISABLED' | 'ACTIVATED' | 'DEAD';
+export type PetljaStatusInput = PetljaStatus | 'DISEBLED' | 'AKTIVEJT' | 'DED';
 
 export interface PetljaInput {
   start?: number;
@@ -10,6 +12,7 @@ export interface PetljaInput {
   sequence?: number[];
   maxIterations?: number;
   maxDurationMs?: number;
+  status?: PetljaStatusInput;
 }
 
 export interface PetljaTracePoint {
@@ -18,10 +21,19 @@ export interface PetljaTracePoint {
   accumulator: number;
 }
 
+export interface PetljaStatusTransition {
+  from: PetljaStatus;
+  to: PetljaStatus;
+  reason: string;
+  iteration: number;
+}
+
 export interface PetljaResult {
   kind: PetljaKind;
   goal: string;
-  input: Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs'>>;
+  input: Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>>;
+  status: PetljaStatus;
+  statusTrail: PetljaStatusTransition[];
   output: number;
   iterations: number;
   completed: boolean;

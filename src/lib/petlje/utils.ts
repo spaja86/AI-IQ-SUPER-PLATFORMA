@@ -7,9 +7,34 @@ import {
   type PetljaRuntimeGuard,
   type PetljaTracePoint,
   type PetljaReason,
+  type PetljaStatus,
+  type PetljaStatusInput,
+  type PetljaStatusTransition,
 } from './types';
 
-export function normalizeInput(input: PetljaInput): Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs'>> {
+const STATUS_ALIAS_MAP: Record<PetljaStatusInput, PetljaStatus> = {
+  MONSTER: 'MONSTER',
+  DISEBLED: 'DISABLED',
+  DISABLED: 'DISABLED',
+  AKTIVEJT: 'ACTIVATED',
+  ACTIVATED: 'ACTIVATED',
+  DED: 'DEAD',
+  DEAD: 'DEAD',
+};
+
+const ALLOWED_TRANSITIONS: Record<PetljaStatus, readonly PetljaStatus[]> = {
+  MONSTER: ['MONSTER', 'ACTIVATED', 'DISABLED', 'DEAD'],
+  DISABLED: ['DISABLED', 'DEAD'],
+  ACTIVATED: ['ACTIVATED', 'MONSTER', 'DISABLED', 'DEAD'],
+  DEAD: ['DEAD'],
+};
+
+export function normalizePetljaStatus(status: PetljaStatusInput | undefined): PetljaStatus {
+  if (!status) return 'ACTIVATED';
+  return STATUS_ALIAS_MAP[status] ?? 'DISABLED';
+}
+
+export function normalizeInput(input: PetljaInput): Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>> {
   return {
     start: input.start ?? 0,
     end: input.end ?? 0,
@@ -18,6 +43,7 @@ export function normalizeInput(input: PetljaInput): Required<Pick<PetljaInput, '
     sequence: Array.isArray(input.sequence) ? input.sequence : [],
     maxIterations: Math.floor(input.maxIterations ?? PETLJA_DEFAULT_MAX_ITERATIONS),
     maxDurationMs: Math.floor(input.maxDurationMs ?? PETLJA_DEFAULT_MAX_DURATION_MS),
+    status: normalizePetljaStatus(input.status),
   };
 }
 
@@ -58,11 +84,44 @@ export function buildGuard(maxIterations: number, maxDurationMs: number): Petlja
   };
 }
 
-export function baseResult(kind: PetljaKind, goal: string, input: Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs'>>): PetljaResult {
+export function createStatusTransition(
+  current: PetljaStatus,
+  next: PetljaStatus,
+  reason: string,
+  iteration: number,
+): { status: PetljaStatus; entry: PetljaStatusTransition } {
+  const canTransition = ALLOWED_TRANSITIONS[current].includes(next);
+  if (canTransition) {
+    return {
+      status: next,
+      entry: { from: current, to: next, reason, iteration },
+    };
+  }
+
+  return {
+    status: 'DEAD',
+    entry: {
+      from: current,
+      to: 'DEAD',
+      reason: `invalid-transition(${current}->${next}): ${reason}`,
+      iteration,
+    },
+  };
+}
+
+export function resolveTerminalStatus(reason: PetljaReason): PetljaStatus {
+  if (reason === 'completed') return 'ACTIVATED';
+  if (reason === 'invalid-input') return 'DISABLED';
+  return 'DEAD';
+}
+
+export function baseResult(kind: PetljaKind, goal: string, input: Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>>): PetljaResult {
   return {
     kind,
     goal,
     input,
+    status: input.status,
+    statusTrail: [],
     output: 0,
     iterations: 0,
     completed: false,
@@ -80,12 +139,16 @@ export function finalizeResult(
   output: number,
   trace: PetljaTracePoint[],
   warnings: string[] = [],
+  status: PetljaStatus = result.status,
+  statusTrail: PetljaStatusTransition[] = result.statusTrail,
 ): PetljaResult {
   return {
     ...result,
     output,
     trace,
     warnings,
+    status,
+    statusTrail,
     iterations: guard.getIterations(),
     durationMs: guard.getDurationMs(),
     completed: reason === 'completed',
