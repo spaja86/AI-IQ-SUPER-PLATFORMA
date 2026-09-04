@@ -1,5 +1,6 @@
 import {
   _resetDuelKingMetrics,
+  computeDuelKingCompositeReadiness,
   DUEL_KING_GEAR_REQUIREMENTS,
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION,
@@ -54,6 +55,39 @@ async function runTests(): Promise<void> {
     assert(report.durTelemetryStatus === 'BASELINE', `unexpected durTelemetryStatus: ${report.durTelemetryStatus}`);
     assert(report.molTelemetryStatus === 'BASELINE', `unexpected molTelemetryStatus: ${report.molTelemetryStatus}`);
     assert(report.lastReadinessScore === 50, `expected neutral readiness baseline, got ${report.lastReadinessScore}`);
+  });
+
+  await test('shared composite readiness helper applies KUR/DUR/MOL live weights deterministically', () => {
+    const baseline = getDuelKingHealthReport();
+    const allLiveScore = computeDuelKingCompositeReadiness({
+      ...baseline,
+      lastReadinessScore: 60,
+      kurTelemetryStatus: 'LIVE',
+      durTelemetryStatus: 'LIVE',
+      molTelemetryStatus: 'LIVE',
+      lastKurSignalStatus: 'LIVE',
+      lastDurSignalStatus: 'LIVE',
+      lastMolSignalStatus: 'LIVE',
+      lastKurProgressionSignal: 80,
+      lastDurProgressionSignal: 100,
+      lastMolProgressionSignal: 40,
+    });
+    const kurOnlyScore = computeDuelKingCompositeReadiness({
+      ...baseline,
+      lastReadinessScore: 60,
+      kurTelemetryStatus: 'LIVE',
+      durTelemetryStatus: 'BASELINE',
+      molTelemetryStatus: 'BASELINE',
+      lastKurSignalStatus: 'LIVE',
+      lastDurSignalStatus: 'BASELINE',
+      lastMolSignalStatus: 'BASELINE',
+      lastKurProgressionSignal: 80,
+      lastDurProgressionSignal: 100,
+      lastMolProgressionSignal: 40,
+    });
+
+    assert(allLiveScore === 68, `expected all-live composite score 68, got ${allLiveScore}`);
+    assert(kurOnlyScore === 64, `expected kur-only composite score 64, got ${kurOnlyScore}`);
   });
 
   await test('valid arena duel returns ready posture', () => {
