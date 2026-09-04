@@ -1,0 +1,48 @@
+name: TRU — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/tru/**'
+      - 'src/app/api/tru/**'
+      - 'src/tests/lib/tru.test.ts'
+      - 'src/tests/api/tru-route.test.ts'
+      - 'docs/TRU.md'
+      - '.github/workflows/tru-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/tru/**'
+      - 'src/app/api/tru/**'
+      - 'src/tests/lib/tru.test.ts'
+      - 'src/tests/api/tru-route.test.ts'
+      - 'docs/TRU.md'
+      - '.github/workflows/tru-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: tru-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@d357437de77752e075cd55a2ab151b0de574eecf
+    with:
+      domain: tru
+      lint_paths: >-
+        src/lib/tru
+        src/app/api/tru
+      test_commands: |
+        npx tsx src/tests/lib/tru.test.ts
+        npx tsx src/tests/api/tru-route.test.ts
+      scan_paths: >-
+        src/lib/tru
+        src/app/api/tru
+      label: tru
+      perf_eval_ms: 50
+      perf_api_ms: 200

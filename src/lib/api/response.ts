@@ -102,6 +102,20 @@ export function apiError(
   return NextResponse.json(body, { status });
 }
 
+export function apiUnprocessableEntity(
+  message: string,
+  details?: unknown,
+): NextResponse<ApiError> {
+  const body: ApiError = {
+    error: message,
+    code: 'UNPROCESSABLE_ENTITY',
+    verzija: APP_VERSION,
+    timestamp: new Date().toISOString(),
+    ...(details !== undefined ? { details } : {}),
+  };
+  return NextResponse.json(body, { status: 422 });
+}
+
 /**
  * Kreira standardizovani NextResponse za uspeh.
  *
