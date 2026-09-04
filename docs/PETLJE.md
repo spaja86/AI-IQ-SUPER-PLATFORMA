@@ -124,7 +124,7 @@ Kontrakt verzija: `1.0.0`
 - Svaka petlja ima zaštitu od beskonačnog izvršavanja:
   - `maxIterations`
   - `maxDurationMs`
-- Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`) zahtevaju smislen smer koraka u odnosu na opseg.
+- Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`) zahtevaju smislen smer koraka u odnosu na opseg, a `ITCH PETLJA` i `KUR PETLJA` dodatno zahtevaju smislen korak u odnosu na `target`.
 - Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`) validiraju svaki element niza pre izvršavanja.
 - Target-orijentisane petlje (`ITCH`, `KUR`, `DOR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
 - `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.

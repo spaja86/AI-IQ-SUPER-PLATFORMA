@@ -67,7 +67,7 @@ function aggregateParts(parts: PetljaResult[]) {
       : 'DEAD';
   const reason =
     status === 'DEAD'
-      ? (firstDeadReason ?? 'max-iterations')
+      ? (firstDeadReason ?? (firstIncompleteReason === 'time-limit' || firstIncompleteReason === 'max-iterations' ? firstIncompleteReason : 'max-iterations'))
       : status === 'DISABLED'
         ? (firstDisabledReason ?? firstIncompleteReason ?? 'invalid-input')
         : 'completed';
