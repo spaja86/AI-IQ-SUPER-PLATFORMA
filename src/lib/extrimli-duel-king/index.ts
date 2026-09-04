@@ -91,6 +91,19 @@ export interface DuelKingCompositeReadinessWeights {
   mol: number;
 }
 
+export interface DuelKingCompositeReadinessInput {
+  lastReadinessScore: number;
+  kurTelemetryStatus: DuelKingKurSignalStatus;
+  durTelemetryStatus: DuelKingDurSignalStatus;
+  molTelemetryStatus: DuelKingMolSignalStatus;
+  lastKurSignalStatus: DuelKingKurSignalStatus;
+  lastDurSignalStatus: DuelKingDurSignalStatus;
+  lastMolSignalStatus: DuelKingMolSignalStatus;
+  lastKurProgressionSignal: number;
+  lastDurProgressionSignal: number;
+  lastMolProgressionSignal: number;
+}
+
 export const DUEL_KING_COMPOSITE_READINESS_WEIGHTS: DuelKingCompositeReadinessWeights = {
   kur: 0.20,
   dur: 0.15,
@@ -125,7 +138,7 @@ function resolveCompositeReadinessWeights(
 }
 
 export function computeDuelKingCompositeReadiness(
-  report: DuelKingHealthReport,
+  report: DuelKingCompositeReadinessInput,
   weights: DuelKingCompositeReadinessWeights = DUEL_KING_COMPOSITE_READINESS_WEIGHTS,
 ): number {
   const effectiveWeights = resolveCompositeReadinessWeights(weights);
