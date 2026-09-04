@@ -1,8 +1,20 @@
-import type { DuelKingHealthReport, DuelKingInput, DuelKingMode, DuelKingResult, DuelKingTournamentState } from '../extrimli/types';
+import type {
+  DuelKingHealthReport,
+  DuelKingInput,
+  DuelKingKurGameSignalInput,
+  DuelKingKurGameSignalResult,
+  DuelKingKurSignalStatus,
+  DuelKingMode,
+  DuelKingResult,
+  DuelKingTournamentState,
+} from '../extrimli/types';
 
 export type {
   DuelKingHealthReport,
   DuelKingInput,
+  DuelKingKurGameSignalInput,
+  DuelKingKurGameSignalResult,
+  DuelKingKurSignalStatus,
   DuelKingMode,
   DuelKingResult,
   DuelKingTournamentState,
@@ -14,3 +26,4 @@ export const EXTRIMLI_DUEL_KING_PERSONA_ID = 'extrimli-duel-king';
 export const EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH = '/api/extrimli/duel-king';
 export const EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS = 50;
 export const EXTRIMLI_DUEL_KING_API_MAX_MS = 200;
+export const EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION = 'v1-kur-game';

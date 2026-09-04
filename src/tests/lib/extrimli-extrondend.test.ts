@@ -61,6 +61,7 @@ async function runTests(): Promise<void> {
     assert(report.surfaces.v1.contractVersion === 'v1', 'v1 contract mismatch');
     assert(report.surfaces.v3.contractVersion === 'v3', 'v3 contract mismatch');
     assert(report.surfaces.duelKing.contractVersion === 'v1-duel-king', 'duelKing contract mismatch');
+    assert(report.surfaces.duelKing.kurContractVersion === 'v1-kur-game', 'duelKing KUR contract mismatch');
     assert(report.surfaces.cuz.contractVersion === 'v1', 'cuz contract mismatch');
   });
 

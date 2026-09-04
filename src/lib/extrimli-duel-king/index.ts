@@ -1,5 +1,8 @@
 import type {
   DuelKingGearRequirement,
+  DuelKingKurGameSignalInput,
+  DuelKingKurGameSignalResult,
+  DuelKingKurSignalStatus,
   DuelKingInput,
   DuelKingMode,
   DuelKingResult,
@@ -8,10 +11,12 @@ import type {
   RiskLevel,
 } from '../extrimli/types';
 import { clamp, round } from '../extrimli/utils';
+import { runKurPetlja } from '../petlje';
 import {
   EXTRIMLI_DUEL_KING_API_MAX_MS,
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
+  EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_MODULE_VERSION,
   EXTRIMLI_DUEL_KING_PERSONA_ID,
   EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH,
@@ -48,9 +53,16 @@ const RISK_LEVEL_THRESHOLDS: { level: RiskLevel; min: number }[] = [
 
 let evaluations = 0;
 let telemetryStatus: DuelKingTelemetryStatus = 'BASELINE';
+let kurTelemetryStatus: DuelKingTelemetryStatus = 'BASELINE';
 let lastReadinessScore = 50;
 let lastDuelRiskScore = 50;
+let kurEvaluations = 0;
+let kurDegradedEvaluations = 0;
+let lastKurProgressionSignal = 50;
+let lastKurImpactScore = 0;
+let lastKurSignalStatus: DuelKingKurSignalStatus = 'BASELINE';
 let lastTournamentState: DuelKingTournamentState | null = null;
+const MAX_KUR_IMPACT_SCORE = 8;
 
 function resolveRiskLevel(score: number): RiskLevel {
   for (const { level, min } of RISK_LEVEL_THRESHOLDS) {
@@ -62,6 +74,87 @@ function resolveRiskLevel(score: number): RiskLevel {
 function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement[] {
   if (!mode) return [];
   return DUEL_KING_GEAR_REQUIREMENTS[mode].map((item) => ({ ...item }));
+}
+
+function evaluateKurGameSignal(input: DuelKingKurGameSignalInput | undefined): DuelKingKurGameSignalResult {
+  if (!input) {
+    return {
+      status: 'BASELINE',
+      applied: false,
+      progressionSignal: 50,
+      impactScore: 0,
+      completed: true,
+      reason: 'not-provided',
+      warnings: [],
+      petlja: null,
+    };
+  }
+
+  const warnings: string[] = [];
+  const hasFiniteCoreFields = Number.isFinite(input.start) && Number.isFinite(input.target) && Number.isFinite(input.step);
+  const hasValidStep = input.step !== 0;
+  const hasValidMaxIterations = input.maxIterations === undefined || (Number.isFinite(input.maxIterations) && input.maxIterations >= 1);
+  const hasValidMaxDuration = input.maxDurationMs === undefined || (Number.isFinite(input.maxDurationMs) && input.maxDurationMs >= 0);
+
+  if (!hasFiniteCoreFields || !hasValidStep || !hasValidMaxIterations || !hasValidMaxDuration) {
+    if (!hasFiniteCoreFields) warnings.push('KUR signal requires finite start, target, and step values.');
+    if (!hasValidStep) warnings.push('KUR signal step must not be 0.');
+    if (!hasValidMaxIterations) warnings.push('KUR signal maxIterations must be >= 1 when provided.');
+    if (!hasValidMaxDuration) warnings.push('KUR signal maxDurationMs must be >= 0 when provided.');
+    return {
+      status: 'DEGRADED',
+      applied: false,
+      progressionSignal: 50,
+      impactScore: 0,
+      completed: false,
+      reason: 'invalid-input',
+      warnings,
+      petlja: null,
+    };
+  }
+
+  const kurResult = runKurPetlja({
+    start: input.start,
+    end: input.target,
+    target: input.target,
+    step: input.step,
+    status: 'ACTIVATED',
+    maxIterations: input.maxIterations ?? 128,
+    maxDurationMs: input.maxDurationMs ?? EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
+  });
+
+  const pathSpan = Math.max(Math.abs(input.target - input.start), 1);
+  const progressionSignal = round(
+    clamp(
+      (Math.abs(kurResult.output) / pathSpan) * 4
+      + (kurResult.completed ? 12 : 0)
+      - kurResult.iterations * 0.4,
+      0,
+      100,
+    ),
+    2,
+  );
+  const impactScore = round(clamp((progressionSignal - 50) * 0.16, -MAX_KUR_IMPACT_SCORE, MAX_KUR_IMPACT_SCORE), 2);
+  const status: DuelKingKurSignalStatus = kurResult.completed && kurResult.reason === 'completed' ? 'LIVE' : 'DEGRADED';
+  if (status === 'DEGRADED') {
+    warnings.push(`KUR signal entered degraded mode because petlja finished with reason=${kurResult.reason}.`);
+  }
+
+  return {
+    status,
+    applied: status === 'LIVE',
+    progressionSignal,
+    impactScore,
+    completed: kurResult.completed,
+    reason: kurResult.reason === 'blocked-status' ? 'blocked-status' : kurResult.reason,
+    warnings,
+    petlja: {
+      output: kurResult.output,
+      iterations: kurResult.iterations,
+      status: kurResult.status,
+      reason: kurResult.reason,
+    },
+  };
 }
 
 function invalidResult(input: Partial<DuelKingInput>, warning: string, start: number): DuelKingResult {
@@ -91,6 +184,16 @@ function invalidResult(input: Partial<DuelKingInput>, warning: string, start: nu
     degradedMode: null,
     valid: false,
     warnings: [warning],
+    kurGameSignal: {
+      status: input.kurGameSignal ? 'DEGRADED' : 'BASELINE',
+      applied: false,
+      progressionSignal: input.kurGameSignal ? 50 : lastKurProgressionSignal,
+      impactScore: 0,
+      completed: false,
+      reason: input.kurGameSignal ? 'invalid-input' : 'not-provided',
+      warnings: input.kurGameSignal ? ['KUR signal ignored because DUEL KING core validation failed.'] : [],
+      petlja: null,
+    },
     recommendation: 'DUEL KING evaluation rejected until all required combat inputs are valid.',
     durationMs: Date.now() - start,
   };
@@ -137,6 +240,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
 
   const warnings: string[] = [];
   let degraded = false;
+  const kurGameSignal = evaluateKurGameSignal(input.kurGameSignal);
 
   const recentSessions = input.recentSessions ?? 0;
   if (input.recentSessions === undefined) {
@@ -161,9 +265,13 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   if (!gearCleared) {
     warnings.push('required DUEL KING gear set is incomplete for the selected duel mode');
   }
+  if (input.kurGameSignal && kurGameSignal.status === 'DEGRADED') {
+    degraded = true;
+    warnings.push(...kurGameSignal.warnings);
+  }
 
   const reactionPenalty = clamp(((input.reactionTimeMs - 50) / 950) * 10, 0, 10);
-  const duelRiskScore = round(clamp((
+  let duelRiskScore = round(clamp((
     (10 - input.fighterExperience) * 0.24 +
     input.opponentTier * 0.22 +
     input.arenaHazard * 0.24 +
@@ -171,6 +279,9 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
     (10 - input.gearQualityIndex) * 0.10 +
     reactionPenalty * 0.05
   ) * 10, 0, 100), 2);
+  if (kurGameSignal.applied) {
+    duelRiskScore = round(clamp(duelRiskScore - kurGameSignal.impactScore * 0.6, 0, 100), 2);
+  }
 
   const fighterProgressionScore = round(clamp(
     input.fighterExperience * 5.4
@@ -182,7 +293,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   ), 2);
 
   let readinessScore = round(clamp(
-    100 - duelRiskScore * 0.58 + fighterProgressionScore * 0.32 + input.gearQualityIndex * 1.1,
+    100 - duelRiskScore * 0.58 + fighterProgressionScore * 0.32 + input.gearQualityIndex * 1.1 + (kurGameSignal.applied ? kurGameSignal.impactScore : 0),
     0,
     100,
   ), 2);
@@ -192,6 +303,9 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   }
   if (degraded) {
     readinessScore = round(clamp(readinessScore - 8, 0, 100), 2);
+  }
+  if (input.kurGameSignal && !kurGameSignal.applied) {
+    readinessScore = round(clamp(readinessScore - 6, 0, 100), 2);
   }
 
   const riskLevel = resolveRiskLevel(duelRiskScore);
@@ -208,6 +322,16 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   lastReadinessScore = readinessScore;
   lastDuelRiskScore = duelRiskScore;
   lastTournamentState = tournamentState;
+  if (input.kurGameSignal) {
+    kurTelemetryStatus = 'LIVE';
+    kurEvaluations += 1;
+    lastKurProgressionSignal = kurGameSignal.progressionSignal;
+    lastKurImpactScore = kurGameSignal.impactScore;
+    lastKurSignalStatus = kurGameSignal.status;
+    if (kurGameSignal.status === 'DEGRADED') {
+      kurDegradedEvaluations += 1;
+    }
+  }
 
   return {
     referenceId: input.referenceId ?? 'n/a',
@@ -226,6 +350,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
     degradedMode: degraded ? 'partial-payload-no-500' : null,
     valid: true,
     warnings,
+    kurGameSignal,
     recommendation: bracketStatus === 'READY'
       ? 'DUEL KING readiness is stable. Proceed with bracket lock and monitored activation.'
       : degraded
@@ -236,15 +361,24 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
 }
 
 export function getDuelKingHealthReport(): DuelKingHealthReport {
+  const kurSignalCoverageScore = evaluations === 0 ? 0 : round(clamp((kurEvaluations / evaluations) * 100, 0, 100), 2);
   return {
     personaId: EXTRIMLI_DUEL_KING_PERSONA_ID,
     contractVersion: EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
     moduleVersion: EXTRIMLI_DUEL_KING_MODULE_VERSION,
     sourceOfTruth: EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH,
     telemetryStatus,
+    kurTelemetryStatus,
+    kurContractVersion: EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION,
     evaluations,
+    kurEvaluations,
+    kurDegradedEvaluations,
+    kurSignalCoverageScore,
     lastReadinessScore,
     lastDuelRiskScore,
+    lastKurProgressionSignal,
+    lastKurImpactScore,
+    lastKurSignalStatus,
     lastTournamentState,
     performanceMaxMs: EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
     apiResponseMaxMs: EXTRIMLI_DUEL_KING_API_MAX_MS,
@@ -254,8 +388,14 @@ export function getDuelKingHealthReport(): DuelKingHealthReport {
 export function _resetDuelKingMetrics(): void {
   evaluations = 0;
   telemetryStatus = 'BASELINE';
+  kurTelemetryStatus = 'BASELINE';
+  kurEvaluations = 0;
+  kurDegradedEvaluations = 0;
   lastReadinessScore = 50;
   lastDuelRiskScore = 50;
+  lastKurProgressionSignal = 50;
+  lastKurImpactScore = 0;
+  lastKurSignalStatus = 'BASELINE';
   lastTournamentState = null;
 }
 
@@ -274,6 +414,7 @@ export {
   EXTRIMLI_DUEL_KING_API_MAX_MS,
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS,
+  EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_MODULE_VERSION,
   EXTRIMLI_DUEL_KING_PERSONA_ID,
   EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH,

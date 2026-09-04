@@ -45,6 +45,7 @@ async function runTests(): Promise<void> {
     assert(report.communitySignalScore >= 0 && report.communitySignalScore <= 100, 'community signal score must be in range');
     assert(report.destructionRecoveryScore >= 0 && report.destructionRecoveryScore <= 100, 'destruction recovery score must be in range');
     assert(report.syncCoverageScore >= 0 && report.syncCoverageScore <= 100, 'sync coverage score must be in range');
+    assert(report.kurInGameScore >= 0 && report.kurInGameScore <= 100, 'kurInGameScore must be in range');
   });
 
   await test('health report includes upstream EXTRIMLI surfaces', () => {
@@ -58,6 +59,7 @@ async function runTests(): Promise<void> {
   await test('health report exposes deterministic status and degraded policy', () => {
     const report = getExtrimliKoronHealthReport();
     assert(['ACTIVE', 'WATCH', 'DEGRADED'].includes(report.status), 'invalid status');
+    assert(['BASELINE', 'LIVE', 'DEGRADED'].includes(report.kurSignalStatus), 'invalid KUR signal status');
     assert(report.degradedMode === 'partial-payload-no-500', 'unexpected degraded mode');
     assert(Array.isArray(report.degradedSources), 'degradedSources must be an array');
     assert(Array.isArray(report.warnings), 'warnings must be an array');

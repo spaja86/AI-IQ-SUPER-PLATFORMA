@@ -2,6 +2,7 @@ import type { Extrimli3HealthReport } from '../extrimli-3';
 import type { CuzHealthReport } from '../extrimli-cuz';
 import type { ExtrimliHealthReport } from '../extrimli';
 import type { DuelKingHealthReport } from '../extrimli-duel-king';
+import type { DuelKingKurSignalStatus } from '../extrimli/types';
 
 export type ExtrimliKoronStatus = 'ACTIVE' | 'WATCH' | 'DEGRADED';
 
@@ -16,6 +17,8 @@ export interface ExtrimliKoronHealthReport {
   communitySignalScore: number;
   destructionRecoveryScore: number;
   syncCoverageScore: number;
+  kurInGameScore: number;
+  kurSignalStatus: DuelKingKurSignalStatus;
   degraded: boolean;
   degradedMode: 'partial-payload-no-500';
   degradedSources: string[];

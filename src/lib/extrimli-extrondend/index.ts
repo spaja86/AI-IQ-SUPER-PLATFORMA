@@ -55,10 +55,17 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
   if (duelKing.performanceMaxMs > EXTRONDEND_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRONDEND_API_MAX_MS) {
     degradedSources.push('extrimli-duel-king-kpi');
   }
+  if (duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'DEGRADED') {
+    degradedSources.push('extrimli-duel-king-kur-signal');
+  }
 
   const v1Safety = clamp(v1Signals.safetySignal, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
   const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
+  const duelKingKurReadiness = clamp(duelKing.lastKurProgressionSignal, 0, 100);
+  const duelKingCompositeReadiness = duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'LIVE'
+    ? round(clamp(duelKingReadiness * 0.8 + duelKingKurReadiness * 0.2, 0, 100), 2)
+    : duelKingReadiness;
   const duelKingLive = duelKing.telemetryStatus === 'LIVE';
   const baselineWeightedSurfaceHealth = (
     v1Safety * 0.20
@@ -72,7 +79,7 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
         ? (
           v1Safety * EXTRONDEND_WEIGHTS.v1Safety
           + v3Readiness * EXTRONDEND_WEIGHTS.v3Readiness
-          + duelKingReadiness * EXTRONDEND_WEIGHTS.duelKingReadiness
+          + duelKingCompositeReadiness * EXTRONDEND_WEIGHTS.duelKingReadiness
           + extendol.unifiedReadinessScore * EXTRONDEND_WEIGHTS.extendolReadiness
           + koron.readinessScore * EXTRONDEND_WEIGHTS.koronReadiness
         )
