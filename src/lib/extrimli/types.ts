@@ -354,6 +354,7 @@ export interface ExtrimliHealthReport {
   lastDestructionSeverityScore: number;
   lastDestructionSeverityLevel: DestructionSeverityLevel;
   duelKingEvaluations: number;
+  lastDuelKingTelemetryStatus: DuelKingTelemetryStatus;
   lastDuelKingReadinessScore: number;
   lastDuelKingRiskScore: number;
   lastDuelKingTournamentState: DuelKingTournamentState | null;

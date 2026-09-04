@@ -57,17 +57,29 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v3Safety = clamp(100 - v3.lastRiskScore, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
   const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
+  const duelKingLive = duelKing.telemetryStatus === 'LIVE';
   const communitySignal = buildCommunitySignal(cuz.activeCrews, cuz.mentorProfiles, cuz.feedPosts);
   const koronReadiness = clamp(koron.readinessScore, 0, 100);
 
+  const baselineReadiness = (
+    v1Readiness * 0.24
+    + v3Safety * 0.18
+    + v3Readiness * 0.20
+    + communitySignal * 0.13
+    + koronReadiness * 0.25
+  );
   const unifiedReadinessScore = round(
     clamp(
-      v1Readiness * 0.20
-      + v3Safety * 0.15
-      + v3Readiness * 0.18
-      + duelKingReadiness * 0.14
-      + communitySignal * 0.11
-      + koronReadiness * 0.22,
+      duelKingLive
+        ? (
+          v1Readiness * 0.20
+          + v3Safety * 0.15
+          + v3Readiness * 0.18
+          + duelKingReadiness * 0.14
+          + communitySignal * 0.11
+          + koronReadiness * 0.22
+        )
+        : baselineReadiness,
       0,
       100,
     ),

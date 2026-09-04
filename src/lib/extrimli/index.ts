@@ -35,6 +35,7 @@ export function getExtrimliHealthReport(): ExtrimliHealthReport {
     lastDestructionSeverityScore: lastSeverityScore,
     lastDestructionSeverityLevel: lastSeverityLevel,
     duelKingEvaluations: duelKing.evaluations,
+    lastDuelKingTelemetryStatus: duelKing.telemetryStatus,
     lastDuelKingReadinessScore: duelKing.lastReadinessScore,
     lastDuelKingRiskScore: duelKing.lastDuelRiskScore,
     lastDuelKingTournamentState: duelKing.lastTournamentState,
@@ -50,7 +51,10 @@ export function getExtrimliAggregateSignals(): ExtrimliAggregateSignals {
   const duelKingReadinessSignal = round(clamp(report.lastDuelKingReadinessScore, 0, 100), 2);
   const destructionSignal = round(clamp(100 - report.lastDestructionSeverityScore, 0, 100), 2);
   const readinessBaseline = round(clamp((safetySignal + destructionSignal) / 2, 0, 100), 2);
-  const readinessSignal = round(clamp(readinessBaseline * 0.85 + duelKingReadinessSignal * 0.15, 0, 100), 2);
+  const duelKingActive = report.lastDuelKingTelemetryStatus === 'LIVE';
+  const readinessSignal = duelKingActive
+    ? round(clamp(readinessBaseline * 0.85 + duelKingReadinessSignal * 0.15, 0, 100), 2)
+    : readinessBaseline;
   const degradationSignal = report.performanceMaxMs > EXTRIMLI_PERFORMANCE_MAX_MS
     || report.apiResponseMaxMs > EXTRIMLI_API_RESPONSE_MAX_MS
     ? 100
