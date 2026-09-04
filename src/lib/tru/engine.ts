@@ -145,7 +145,7 @@ function resolveRecommendedAction(input: TruInput, status: TruStatus): TruResult
 }
 
 function resolveRecommendedReviewHours(
-  action: TruResult['recommendedAction'],
+  action: NonNullable<TruResult['recommendedAction']>,
   status: TruStatus,
 ): number {
   const statusAdjustment =
