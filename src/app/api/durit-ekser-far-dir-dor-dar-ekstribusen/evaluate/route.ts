@@ -47,8 +47,14 @@ export async function POST(req: NextRequest) {
       ['minimumScore', minimumScore],
       ['targetScore', targetScore],
     ] as const) {
+      if (value === null) {
+        return apiError('BAD_REQUEST', `${name} must be omitted or a finite number`);
+      }
       if (value !== undefined && typeof value !== 'number') {
         return apiError('BAD_REQUEST', `${name} must be a number when provided`);
+      }
+      if (typeof value === 'number' && !Number.isFinite(value)) {
+        return apiError('BAD_REQUEST', `${name} must be a finite number when provided`);
       }
     }
 
@@ -74,7 +80,12 @@ export async function POST(req: NextRequest) {
     };
 
     const result = evaluateDuritEkserFarDirDorDarEkstribusen(input);
-    const response = apiSuccess(result, result.valid ? 200 : 422);
+    const statusCode = result.valid
+      ? 200
+      : result.status === 'BLOCKED'
+        ? 409
+        : 422;
+    const response = apiSuccess(result, statusCode);
     setDuritEkstribusenHeaders(response);
     return response;
   } catch (error) {

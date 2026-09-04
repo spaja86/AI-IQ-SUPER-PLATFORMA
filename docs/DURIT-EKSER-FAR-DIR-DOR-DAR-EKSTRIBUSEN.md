@@ -66,7 +66,7 @@ Each result returns:
 
 | Status | Meaning |
 |---|---|
-| `BLOCKED` | Input invalid or child petlja blocked before meaningful execution |
+| `BLOCKED` | Input invalid, child petlja blocked, or shared distribucija enters a blocked maintenance/readiness state before healthy release |
 | `DEGRADED` | Execution started but failed release quality gates or guardrails |
 | `READY` | Valid deterministic result above the minimum threshold |
 | `EKSTRIBUSEN` | Ready result that also meets the target score with healthy distribution readiness |

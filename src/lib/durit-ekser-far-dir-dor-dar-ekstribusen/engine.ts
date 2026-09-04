@@ -3,6 +3,7 @@
 
 import { getDistribucijaModel } from '../distribucija';
 import { runDarPetlja, runDorPetlja } from '../petlje';
+import type { PetljaResult } from '../petlje';
 import type {
   DuritEkserFarDirDorDarEkstribusenHealthReport,
   DuritEkserFarDirDorDarEkstribusenInput,
@@ -60,15 +61,67 @@ function buildDistributionAlignment(): DuritEkstribusenDistributionAlignment {
   };
 }
 
+function durationSince(startTime: number): number {
+  return round(performance.now() - startTime);
+}
+
+function recordMetrics(status: DuritEkserFarDirDorDarEkstribusenStatus, score: number): void {
+  evaluations += 1;
+  lastScore = score;
+  lastStatus = status;
+  lastEvaluatedAt = new Date().toISOString();
+}
+
+function placeholderPetlja(
+  kind: PetljaResult['kind'],
+  goal: string,
+  input: DuritEkserFarDirDorDarEkstribusenInput,
+  warning: string,
+): PetljaResult {
+  return {
+    kind,
+    goal,
+    input: {
+      start: input.start ?? 0,
+      end: input.end ?? 0,
+      step: input.step ?? 1,
+      target: input.target ?? 0,
+      sequence: [],
+      maxIterations: Math.floor(input.maxIterations ?? 10_000),
+      maxDurationMs: Math.floor(input.maxDurationMs ?? 50),
+      status: 'DISABLED',
+    },
+    status: 'DISABLED',
+    statusTrail: [],
+    output: 0,
+    iterations: 0,
+    completed: false,
+    reason: 'invalid-input',
+    warnings: [warning],
+    durationMs: 0,
+    trace: [],
+  };
+}
+
 function invalidResult(
   input: DuritEkserFarDirDorDarEkstribusenInput,
   warning: string,
   startTime: number,
 ): DuritEkserFarDirDorDarEkstribusenResult {
   const distribution = buildDistributionAlignment();
-  const dor = runDorPetlja({ ...input });
-  const dar = runDarPetlja({ ...input });
-  return {
+  const dor = placeholderPetlja(
+    'DOR PETLJA',
+    'Sabiranje apsolutnog odstupanja svake posećene vrednosti od target vrednosti.',
+    input,
+    warning,
+  );
+  const dar = placeholderPetlja(
+    'DAR PETLJA',
+    'Računanje aritmetičke sredine svih posećenih vrednosti u opsegu.',
+    input,
+    warning,
+  );
+  const result: DuritEkserFarDirDorDarEkstribusenResult = {
     referenceId: input.referenceId ?? 'n/a',
     slug: DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_SLUG,
     label: DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_LABEL,
@@ -76,7 +129,7 @@ function invalidResult(
     status: 'BLOCKED',
     valid: false,
     warnings: [warning],
-    durationMs: Date.now() - startTime,
+    durationMs: durationSince(startTime),
     minimumScore: Number.isFinite(input.minimumScore) ? Number(input.minimumScore) : DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_DEFAULT_MINIMUM_SCORE,
     targetScore: Number.isFinite(input.targetScore) ? Number(input.targetScore) : DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_DEFAULT_TARGET_SCORE,
     targetDelta: round(0 - (Number.isFinite(input.targetScore) ? Number(input.targetScore) : DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_DEFAULT_TARGET_SCORE)),
@@ -90,6 +143,9 @@ function invalidResult(
       degradedSources: ['input-validation'],
     },
   };
+
+  recordMetrics(result.status, result.overallScore);
+  return result;
 }
 
 function resolveStatus(
@@ -101,7 +157,7 @@ function resolveStatus(
   readinessStatus: DuritEkstribusenDistributionAlignment['readinessStatus'],
 ): DuritEkserFarDirDorDarEkstribusenStatus {
   if (blocked) return 'BLOCKED';
-  if (degraded || score < minimumScore || readinessStatus === 'blokirano') return 'DEGRADED';
+  if (degraded || score < minimumScore) return 'DEGRADED';
   if (score >= targetScore && readinessStatus === 'spremno') return 'EKSTRIBUSEN';
   return 'READY';
 }
@@ -116,7 +172,7 @@ function petljaExecutionScore(completed: boolean, reason: string, status: string
 export function evaluateDuritEkserFarDirDorDarEkstribusen(
   input: DuritEkserFarDirDorDarEkstribusenInput,
 ): DuritEkserFarDirDorDarEkstribusenResult {
-  const startTime = Date.now();
+  const startTime = performance.now();
 
   const minimumScore = input.minimumScore ?? DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_DEFAULT_MINIMUM_SCORE;
   if (!Number.isFinite(minimumScore) || minimumScore < 0 || minimumScore > 100) {
@@ -188,7 +244,7 @@ export function evaluateDuritEkserFarDirDorDarEkstribusen(
   );
   const stepMagnitude = Math.max(Math.abs(input.step ?? 1), 1);
   const normalizationDenominator = maxEdgeDistance + stepMagnitude;
-  const averageDeviation = expected > 0 ? dor.output / expected : dor.output;
+  const averageDeviation = expected > 0 ? Math.abs(dor.output) / expected : Math.abs(dor.output);
   const duritScore = clampScore(100 - (averageDeviation / normalizationDenominator) * 100);
   const ekserScore = clampScore(100 - (Math.abs(dar.output - (input.target ?? 0)) / normalizationDenominator) * 100);
   const iterationCoveragePct = expected > 0
@@ -238,10 +294,17 @@ export function evaluateDuritEkserFarDirDorDarEkstribusen(
 
   const overallScore = clampScore(signals.reduce((sum, signal) => sum + signal.contribution, 0));
   const targetDelta = round(overallScore - targetScore);
-  const blocked = dor.reason === 'invalid-input' || dar.reason === 'invalid-input' || dor.reason === 'blocked-status' || dar.reason === 'blocked-status';
-  const degraded = !blocked && (!dor.completed || !dar.completed);
+  const belowMinimumScore = overallScore < minimumScore;
+  const distributionHardBlocked = distribution.readinessStatus === 'blokirano';
+  const distributionSoftDegraded = distribution.readinessStatus === 'oprez' || distribution.modelStatus !== 'aktivan';
+  const blocked = dor.reason === 'invalid-input'
+    || dar.reason === 'invalid-input'
+    || dor.reason === 'blocked-status'
+    || dar.reason === 'blocked-status'
+    || distributionHardBlocked;
+  const degraded = !blocked && (!dor.completed || !dar.completed || distributionSoftDegraded || belowMinimumScore);
 
-  if (overallScore < minimumScore) {
+  if (belowMinimumScore) {
     warnings.push(`overall ekstribusen score ${overallScore} is below minimumScore ${minimumScore}`);
     degradedSources.push('minimum-score');
   }
@@ -253,12 +316,13 @@ export function evaluateDuritEkserFarDirDorDarEkstribusen(
   }
 
   const status = resolveStatus(blocked, degraded, overallScore, minimumScore, targetScore, distribution.readinessStatus);
-  const valid = !blocked && dor.completed && dar.completed && overallScore >= minimumScore;
+  const valid = !blocked
+    && dor.completed
+    && dar.completed
+    && !belowMinimumScore
+    && !distributionSoftDegraded;
 
-  evaluations += 1;
-  lastScore = overallScore;
-  lastStatus = status;
-  lastEvaluatedAt = new Date().toISOString();
+  recordMetrics(status, overallScore);
 
   return {
     referenceId: input.referenceId ?? 'n/a',
@@ -268,7 +332,7 @@ export function evaluateDuritEkserFarDirDorDarEkstribusen(
     status,
     valid,
     warnings,
-    durationMs: Date.now() - startTime,
+    durationMs: durationSince(startTime),
     minimumScore,
     targetScore,
     targetDelta,

@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { GET } from '../../app/api/durit-ekser-far-dir-dor-dar-ekstribusen/health/route';
 import { POST } from '../../app/api/durit-ekser-far-dir-dor-dar-ekstribusen/evaluate/route';
 import { _resetDuritEkserFarDirDorDarEkstribusenMetrics } from '../../lib/durit-ekser-far-dir-dor-dar-ekstribusen';
+import { distribucijaModel } from '../../lib/distribucija';
 
 let passed = 0;
 let failed = 0;
@@ -79,7 +80,43 @@ async function runTests(): Promise<void> {
     assert(body.data.status === 'DEGRADED', `expected DEGRADED, got ${body.data.status}`);
   });
 
-  await test('POST /evaluate returns 422 for contradictory thresholds', async () => {
+  await test('POST /evaluate returns 409 when distribucija readiness is blocked', async () => {
+    const previous = {
+      status: distribucijaModel.status,
+      readinessStatus: distribucijaModel.readiness.status,
+      readinessScore: distribucijaModel.readiness.score,
+      blokatori: [...distribucijaModel.readiness.blokatori],
+      preporuke: [...distribucijaModel.readiness.preporuke],
+    };
+
+    distribucijaModel.status = 'odrzavanje';
+    distribucijaModel.readiness.status = 'blokirano';
+    distribucijaModel.readiness.score = 40;
+    distribucijaModel.readiness.blokatori = ['forced-test-block'];
+    distribucijaModel.readiness.preporuke = ['forced-test-recovery'];
+
+    try {
+      const response = await POST(makeEvaluateRequest({
+        start: 2,
+        end: 8,
+        step: 2,
+        target: 5,
+      }));
+
+      assert(response.status === 409, `expected 409, got ${response.status}`);
+      const body = await response.json() as { data: { valid: boolean; status: string } };
+      assert(body.data.valid === false, 'result should be invalid');
+      assert(body.data.status === 'BLOCKED', `expected BLOCKED, got ${body.data.status}`);
+    } finally {
+      distribucijaModel.status = previous.status;
+      distribucijaModel.readiness.status = previous.readinessStatus;
+      distribucijaModel.readiness.score = previous.readinessScore;
+      distribucijaModel.readiness.blokatori = previous.blokatori;
+      distribucijaModel.readiness.preporuke = previous.preporuke;
+    }
+  });
+
+  await test('POST /evaluate returns 409 for contradictory thresholds', async () => {
     const response = await POST(makeEvaluateRequest({
       start: 1,
       end: 3,
@@ -89,7 +126,7 @@ async function runTests(): Promise<void> {
       targetScore: 80,
     }));
 
-    assert(response.status === 422, `expected 422, got ${response.status}`);
+    assert(response.status === 409, `expected 409, got ${response.status}`);
   });
 
   await test('POST /evaluate returns 400 for invalid JSON', async () => {
@@ -106,6 +143,17 @@ async function runTests(): Promise<void> {
   await test('POST /evaluate returns 400 for shallow type mismatch', async () => {
     const response = await POST(makeEvaluateRequest({
       start: '2',
+      end: 8,
+      step: 2,
+      target: 5,
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /evaluate returns 400 for null numeric input', async () => {
+    const response = await POST(makeEvaluateRequest({
+      start: null,
       end: 8,
       step: 2,
       target: 5,

@@ -12,6 +12,7 @@ import {
   DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_PERSONA_ID,
   DURIT_EKSER_FAR_DIR_DOR_DAR_EKSTRIBUSEN_SLUG,
 } from '../../lib/durit-ekser-far-dir-dor-dar-ekstribusen';
+import { distribucijaModel } from '../../lib/distribucija';
 
 let passed = 0;
 let failed = 0;
@@ -118,6 +119,21 @@ async function runTests(): Promise<void> {
     assert(result.audit.degradedSources.some((source) => source === 'dor:max-iterations' || source === 'dar:max-iterations'), 'expected max-iterations degraded source');
   });
 
+  await test('below-minimum score degrades completed execution', () => {
+    const result = evaluateDuritEkserFarDirDorDarEkstribusen({
+      start: 0,
+      end: 20,
+      step: 10,
+      target: 1,
+      minimumScore: 90,
+      targetScore: 95,
+    });
+
+    assert(!result.valid, 'below-minimum score should be invalid');
+    assert(result.status === 'DEGRADED', `expected DEGRADED, got ${result.status}`);
+    assert(result.audit.degradedSources.includes('minimum-score'), 'expected minimum-score degraded source');
+  });
+
   await test('blocked petlja status is surfaced', () => {
     const result = evaluateDuritEkserFarDirDorDarEkstribusen({
       start: 0,
@@ -133,6 +149,41 @@ async function runTests(): Promise<void> {
     assert(result.dar.reason === 'blocked-status', `unexpected dar reason: ${result.dar.reason}`);
   });
 
+  await test('blocked distribucija readiness blocks otherwise complete execution', () => {
+    const previous = {
+      status: distribucijaModel.status,
+      readinessStatus: distribucijaModel.readiness.status,
+      readinessScore: distribucijaModel.readiness.score,
+      blokatori: [...distribucijaModel.readiness.blokatori],
+      preporuke: [...distribucijaModel.readiness.preporuke],
+    };
+
+    distribucijaModel.status = 'odrzavanje';
+    distribucijaModel.readiness.status = 'blokirano';
+    distribucijaModel.readiness.score = 40;
+    distribucijaModel.readiness.blokatori = ['forced-test-block'];
+    distribucijaModel.readiness.preporuke = ['forced-test-recovery'];
+
+    try {
+      const result = evaluateDuritEkserFarDirDorDarEkstribusen({
+        start: 2,
+        end: 8,
+        step: 2,
+        target: 5,
+      });
+
+      assert(!result.valid, 'blocked distribucija readiness should be invalid');
+      assert(result.status === 'BLOCKED', `expected BLOCKED, got ${result.status}`);
+      assert(result.audit.degradedSources.includes('distribucija:blokirano'), 'expected distribucija degraded source');
+    } finally {
+      distribucijaModel.status = previous.status;
+      distribucijaModel.readiness.status = previous.readinessStatus;
+      distribucijaModel.readiness.score = previous.readinessScore;
+      distribucijaModel.readiness.blokatori = previous.blokatori;
+      distribucijaModel.readiness.preporuke = previous.preporuke;
+    }
+  });
+
   await test('health report reflects latest evaluation', () => {
     evaluateDuritEkserFarDirDorDarEkstribusen({ start: 2, end: 8, step: 2, target: 5 });
 
@@ -140,6 +191,23 @@ async function runTests(): Promise<void> {
     assert(health.evaluations > 0, 'health.evaluations should be > 0');
     assert(health.lastStatus === 'EKSTRIBUSEN', `expected EKSTRIBUSEN, got ${health.lastStatus}`);
     assert(typeof health.lastEvaluatedAt === 'string' && health.lastEvaluatedAt.length > 0, 'lastEvaluatedAt must be set');
+  });
+
+  await test('health report also records invalid evaluations', () => {
+    _resetDuritEkserFarDirDorDarEkstribusenMetrics();
+    evaluateDuritEkserFarDirDorDarEkstribusen({
+      start: 1,
+      end: 3,
+      step: 1,
+      target: 2,
+      minimumScore: 95,
+      targetScore: 90,
+    });
+
+    const health = getDuritEkserFarDirDorDarEkstribusenHealthReport();
+    assert(health.evaluations === 1, `expected 1 evaluation, got ${health.evaluations}`);
+    assert(health.lastStatus === 'BLOCKED', `expected BLOCKED, got ${health.lastStatus}`);
+    assert(health.lastScore === 0, `expected score 0, got ${health.lastScore}`);
   });
 
   console.log('\n🔎 [durit-ekser-far-dir-dor-dar-ekstribusen] performance');
