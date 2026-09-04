@@ -135,13 +135,15 @@ export function computeDuelKingCompositeReadiness(
   const kurSignal = clamp(report.lastKurProgressionSignal, 0, 100);
   const durSignal = clamp(report.lastDurProgressionSignal, 0, 100);
   const molSignal = clamp(report.lastMolProgressionSignal, 0, 100);
+  const activeKurWeight = kurLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.kur : 0;
+  const activeDurWeight = durLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.dur : 0;
+  const activeMolWeight = molLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.mol : 0;
+  const activeSignalWeight = activeKurWeight + activeDurWeight + activeMolWeight;
+  const baseReadinessWeight = 1 - activeSignalWeight;
+  const signalContribution = kurSignal * activeKurWeight + durSignal * activeDurWeight + molSignal * activeMolWeight;
 
   return round(clamp(
-    duelKingReadiness
-    * (1 - (kurLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.kur : 0) - (durLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.dur : 0) - (molLive ? DUEL_KING_COMPOSITE_READINESS_WEIGHTS.mol : 0))
-    + (kurLive ? kurSignal * DUEL_KING_COMPOSITE_READINESS_WEIGHTS.kur : 0)
-    + (durLive ? durSignal * DUEL_KING_COMPOSITE_READINESS_WEIGHTS.dur : 0)
-    + (molLive ? molSignal * DUEL_KING_COMPOSITE_READINESS_WEIGHTS.mol : 0),
+    duelKingReadiness * baseReadinessWeight + signalContribution,
     0,
     100,
   ), 2);
