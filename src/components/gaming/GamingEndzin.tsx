@@ -30,6 +30,7 @@ const KreativnaRunner = dynamic(() => import('./runners/KreativnaRunner'), { ssr
 const BorbenaRunner = dynamic(() => import('./runners/BorbenaRunner'), { ssr: false });
 const PokerRunner = dynamic(() => import('./runners/PokerRunner'), { ssr: false });
 const EglanRunner = dynamic(() => import('./runners/EglanRunner'), { ssr: false });
+const MakinRunner = dynamic(() => import('./runners/MakinRunner'), { ssr: false });
 const ReaktRunner = dynamic(() => import('./runners/ReaktRunner'), { ssr: false });
 
 // ─── COLD AND FIRE karakteri ─────────────────────────────────────────
@@ -106,6 +107,43 @@ const EGLAN_HEROJI: EglanHeroj[] = [
   },
 ];
 
+// ─── MAKIN KARAKTERI ─────────────────────────────────────────────────────
+
+interface MakinKarakter {
+  id: 'market-maker' | 'manipulator';
+  naziv: string;
+  ikona: string;
+  opis: string;
+  atributi: { naziv: string; vrednost: number }[];
+}
+
+const MAKIN_KARAKTERI: MakinKarakter[] = [
+  {
+    id: 'market-maker',
+    naziv: 'Market Maker',
+    ikona: '📊',
+    opis: 'Liquidity provider sa bid/ask spread štitom. Q taster aktivira Bid Wall koji reflektuje sledeći napadački projektil.',
+    atributi: [
+      { naziv: 'Odbrana', vrednost: 92 },
+      { naziv: 'Spread štit', vrednost: 88 },
+      { naziv: 'Likvidnost', vrednost: 95 },
+      { naziv: 'Napad', vrednost: 65 },
+    ],
+  },
+  {
+    id: 'manipulator',
+    naziv: 'Manipulator',
+    ikona: '📉',
+    opis: 'Agresivni tržišni napadač. Q taster lansira razorni Flash Crash šok val koji oštećuje sve u radijusu.',
+    atributi: [
+      { naziv: 'Napad', vrednost: 97 },
+      { naziv: 'Flash Crash', vrednost: 93 },
+      { naziv: 'Brzina', vrednost: 85 },
+      { naziv: 'Odbrana', vrednost: 50 },
+    ],
+  },
+];
+
 interface Props {
   igrica: Igrica;
   dimenzija: Dimenzija;
@@ -118,19 +156,25 @@ type GameFaza = 'karakter' | 'uvod' | 'igra' | 'pauza' | 'kraj';
 export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, onIzlaz }: Props) {
   const isColdAndFire = igrica.id === 'igrica-cold-and-fire';
   const isEglan = igrica.id === 'igrica-ekstreminacija-eglana';
+  const isMakin = igrica.id === 'igrica-makin';
 
-  const [faza, setFaza] = useState<GameFaza>((isColdAndFire || isEglan) ? 'karakter' : 'uvod');
+  const [faza, setFaza] = useState<GameFaza>((isColdAndFire || isEglan || isMakin) ? 'karakter' : 'uvod');
   const [score, setScore] = useState<GameScore>(() => noviScore(dimenzija.nivo));
   const [restartKey, setRestartKey] = useState(0);
   const [odabraniKarakter, setOdabraniKarakter] = useState<'cold' | 'fire'>('cold');
   const [odabraniHeroj, setOdabraniHeroj] = useState<'ratnik' | 'senka'>('ratnik');
+  const [odabraniMakinKarakter, setOdabraniMakinKarakter] = useState<'market-maker' | 'manipulator'>('market-maker');
   const [elemMod, setElemMod] = useState<'cold' | 'fire'>('cold');
   const [fusionGauge, setFusionGauge] = useState(0);
 
   const konfiguracija = kreirajEndzinKonfiguraciju(igrica, dimenzija);
   const { parametri, runnerTip } = konfiguracija;
   const pokerRunnerEnabled = isFeatureEnabled('gaming-master-poker-runner-v1');
-  const efektivniRunnerTip = runnerTip === 'poker' && !pokerRunnerEnabled ? 'simulacija' : runnerTip;
+  const makinRunnerEnabled = isFeatureEnabled('gaming-makin-runner-v1');
+  const efektivniRunnerTip =
+    runnerTip === 'poker' && !pokerRunnerEnabled ? 'simulacija' :
+    runnerTip === 'makin' && !makinRunnerEnabled ? 'borbena' :
+    runnerTip;
 
   // ── Keyboard shortcuts ──
 
@@ -157,12 +201,12 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
   const handleRestart = useCallback(() => {
     setScore(noviScore(dimenzija.nivo));
     setRestartKey((k) => k + 1);
-    if (isColdAndFire || isEglan) {
+    if (isColdAndFire || isEglan || isMakin) {
       setFaza('karakter');
     } else {
       setFaza('igra');
     }
-  }, [dimenzija.nivo, isColdAndFire, isEglan]);
+  }, [dimenzija.nivo, isColdAndFire, isEglan, isMakin]);
 
   const handleKraj = useCallback((finalScore: GameScore) => {
     setScore(finalScore);
@@ -353,6 +397,93 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
     );
   }
 
+  // ── Ekran za izbor karaktera (samo MAKIN) ──
+
+  if (faza === 'karakter' && isMakin) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center bg-gray-950 px-4">
+        <div className="w-full max-w-md">
+          <div className="mb-6 text-center">
+            <div className="mb-2 text-5xl">💹</div>
+            <h1 className="text-2xl font-bold text-white">MAKIN</h1>
+            <p className="mt-1 text-sm text-gray-400">Izaberi svog tržišnog borca</p>
+            <div className="mt-2 flex justify-center">
+              <DimenzijaBadge dimenzija={dimenzija.nivo} />
+            </div>
+          </div>
+
+          <div className="mb-6 grid grid-cols-2 gap-3">
+            {MAKIN_KARAKTERI.map((kar) => (
+              <button
+                key={kar.id}
+                type="button"
+                onClick={() => setOdabraniMakinKarakter(kar.id)}
+                className={`rounded-2xl border-2 p-4 text-left transition ${
+                  odabraniMakinKarakter === kar.id
+                    ? kar.id === 'market-maker'
+                      ? 'border-green-500 bg-green-900/30'
+                      : 'border-red-500 bg-red-900/30'
+                    : 'border-gray-700 bg-gray-900/60 hover:border-gray-500'
+                }`}
+              >
+                <div className="mb-2 text-3xl text-center">{kar.ikona}</div>
+                <p className={`mb-1 text-center text-sm font-bold ${
+                  kar.id === 'market-maker' ? 'text-green-300' : 'text-red-300'
+                }`}>
+                  {kar.naziv}
+                </p>
+                <p className="mb-3 text-center text-xs text-gray-500 leading-relaxed">{kar.opis}</p>
+                <div className="space-y-1.5">
+                  {kar.atributi.map((attr) => (
+                    <div key={attr.naziv}>
+                      <div className="mb-0.5 flex justify-between text-[10px]">
+                        <span className="text-gray-500">{attr.naziv}</span>
+                        <span className="font-bold text-gray-300">{attr.vrednost}</span>
+                      </div>
+                      <div className="h-1 rounded-full bg-gray-800">
+                        <div
+                          className={`h-1 rounded-full ${kar.id === 'market-maker' ? 'bg-green-500' : 'bg-red-500'}`}
+                          style={{ width: `${attr.vrednost}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <Button
+            onClick={() => setFaza('uvod')}
+            className={`w-full rounded-2xl py-4 text-base font-bold text-white shadow-lg transition ${
+              odabraniMakinKarakter === 'market-maker'
+                ? 'bg-green-700 hover:bg-green-600'
+                : 'bg-red-700 hover:bg-red-600'
+            }`}
+          >
+            {odabraniMakinKarakter === 'market-maker' ? '📊' : '📉'} Odaberi{' '}
+            {MAKIN_KARAKTERI.find((k) => k.id === odabraniMakinKarakter)?.naziv}
+          </Button>
+
+          <div className="mt-3 flex gap-2">
+            <Button
+              onClick={onPromeniDimenziju}
+              className="flex-1 rounded-xl bg-purple-600/80 py-2 text-sm font-medium text-white transition hover:bg-purple-600"
+            >
+              🌀 Promeni dimenziju
+            </Button>
+            <Button
+              onClick={onIzlaz}
+              className="flex-1 rounded-xl bg-gray-700 py-2 text-sm font-medium text-gray-300 transition hover:bg-gray-600"
+            >
+              ✕ Izlaz
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // ── Uvod ekran ──
 
   if (faza === 'uvod') {
@@ -369,6 +500,11 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           {isEglan && (
             <p className={`mb-2 text-sm font-semibold ${odabraniHeroj === 'ratnik' ? 'text-yellow-400' : 'text-purple-400'}`}>
               {odabraniHeroj === 'ratnik' ? '⚔️ Ratnik Svetlosti' : '🗡️ Senka Ubojica'}
+            </p>
+          )}
+          {isMakin && (
+            <p className={`mb-2 text-sm font-semibold ${odabraniMakinKarakter === 'market-maker' ? 'text-green-400' : 'text-red-400'}`}>
+              {odabraniMakinKarakter === 'market-maker' ? '📊 Market Maker' : '📉 Manipulator'}
             </p>
           )}
           <div className="mb-4 flex justify-center">
@@ -554,6 +690,12 @@ export default function GamingEndzin({ igrica, dimenzija, onPromeniDimenziju, on
           <EglanRunner
             {...runnerProps}
             startingHero={odabraniHeroj}
+          />
+        )}
+        {efektivniRunnerTip === 'makin' && (
+          <MakinRunner
+            {...runnerProps}
+            startingKarakter={odabraniMakinKarakter}
           />
         )}
         {efektivniRunnerTip === 'reakt' && <ReaktRunner {...runnerProps} />}

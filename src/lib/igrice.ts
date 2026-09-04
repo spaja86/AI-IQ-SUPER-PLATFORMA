@@ -2716,6 +2716,14 @@ export const igrice: Igrica[] = [
     preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-particle-system', 'spaja-shader-compiler', 'spaja-ai-npc'],
     zahtevi: OBAVEZNI_ZAHTEVI,
   },
+
+  // ─── MAKIN ────────────────────────────────────────────────────────
+  {
+    id: 'igrica-makin',
+    naziv: 'MAKIN',
+    opis: 'Jedinstven fintech borbeni dvoboj — majstori tržišnog manipulisanja suočavaju se u dimenzionalnom prostoru. Igrač bira između Market Maker-a (liquidity provider, defensivni stil sa bid/ask spread štitom) ili Manipulatora (agresivni napadač koji koristi flash crash talase i liquidation projektile). Svaka dimenzija (D) pojačava finansijsku snagu: u 360D bazični spread napadi, u 1440D+ dimenzionalni šok talasi i pump-and-dump eksplozije, u 5760D potpuna tržišna destrukcija sa spiralnim likvidacionim zonama.',
+    ikona: '💹',
+    kategorija: 'borbena',
   {
     id: 'igrica-back-to-spaces-another-races',
     naziv: 'Back to Spaces for Another Races',
@@ -2726,6 +2734,15 @@ export const igrice: Igrica[] = [
     podrazumevanaDimenzija: '720D',
     dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
     funkcije: [
+      'Izbor karaktera: Market Maker (bid/ask spread štit) vs Manipulator (flash crash napad)',
+      'Finansijski napadni sistem: spread, liquidation, pump-and-dump talasi',
+      'Dimenzionalni spread — širi se sa D nivoom',
+      'Multiplayer PvP matchmaking integracija',
+      'AIIQ-Coin nagrade po pobedi',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'aktivna',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-multiplayer-server', 'spaja-blockchain-engine'],
       'Galaktički krugovi i dimenzionalni checkpoint sistem',
       'Fairness validacija (broj igrača, nitro limit, latency cap)',
       'Penalty obračun za kolizije i neregularne akcije',

@@ -142,6 +142,12 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     meta: { owner: 'gaming-team', ticket: 'SPAJA-3004' },
   },
   {
+    id: 'gaming-makin-runner-v1',
+    naziv: 'MAKIN Runner v1',
+    opis: 'Aktivira namenski fintech borbeni runner sa Market Maker i Manipulator karakterima, dimenzionalnim spread napadima i AIIQ-Coin nagradama.',
+    strategy: 'enabled',
+    envs: ['all'],
+    activeFrom: '2026-07-27',
     id: 'gaming-back-to-spaces-another-races-v1',
     naziv: 'Back to Spaces for Another Races v1',
     opis: 'Aktivira svemirski trkački režim sa fairness validacijom, anti-cheat guard-om i cross-repo audit oznakama.',
