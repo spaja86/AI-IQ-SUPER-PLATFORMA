@@ -235,7 +235,7 @@ async function runTests(): Promise<void> {
       basePriceCents: 10000,
       currency: 'EUR',
       networkType: '5G',
-      userSegment: 'all',
+      userSegment: 'consumer',
     });
     assert(result.valid, 'Should be valid');
     assert(result.totalDiscountPercent === DISCOUNT_TELECOM_MAX_DISCOUNT_CAP_PERCENT, 'Discount should be capped to 60%');
