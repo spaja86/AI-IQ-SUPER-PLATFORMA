@@ -37,9 +37,13 @@ export async function POST(req: NextRequest) {
     }
 
     if (
-      !domains.every((entry) => typeof (entry as Record<string, unknown>).domain === 'string' && typeof (entry as Record<string, unknown>).score === 'number')
+      !domains.every(
+        (entry) =>
+          typeof (entry as Record<string, unknown>).domain === 'string'
+          && Number.isFinite((entry as Record<string, unknown>).score),
+      )
     ) {
-      return apiError('BAD_REQUEST', 'each domain entry must include string domain and numeric score');
+      return apiError('BAD_REQUEST', 'each domain entry must include string domain and finite numeric score');
     }
 
     if (typeof lifePressures !== 'undefined' && (!Array.isArray(lifePressures) || !lifePressures.every((item) => typeof item === 'string'))) {
