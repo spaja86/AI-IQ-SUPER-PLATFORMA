@@ -385,7 +385,7 @@ export function getDuelKingHealthReport(): DuelKingHealthReport {
   const kurSignalCoverageScore = evaluations === 0 ? 0 : round(clamp((kurEvaluations / evaluations) * 100, 0, 100), 2);
   const kurTelemetryStatus: DuelKingKurSignalStatus = kurEvaluations === 0
     ? 'BASELINE'
-    : (lastKurSignalStatus === 'DEGRADED' ? 'DEGRADED' : 'LIVE');
+    : (kurDegradedEvaluations > 0 ? 'DEGRADED' : 'LIVE');
   return {
     personaId: EXTRIMLI_DUEL_KING_PERSONA_ID,
     contractVersion: EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
