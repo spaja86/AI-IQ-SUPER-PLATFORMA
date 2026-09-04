@@ -17,6 +17,7 @@ Ovaj dokument definiše značenje, cilj i zajednički API za:
 - `IZI PETLJA`
 - `UK PETLJA`
 - `ZUM PETLJA`
+- `DURMITOR PETLJA`
 - `UMBREL PETLJA`
 
 Kanonski statusi petlji:
@@ -100,6 +101,10 @@ Dozvoljeni alias-i ulaza:
     - Cilj: Sabiranje kvadrata svih posećenih vrednosti u opsegu.
     - Izlaz: Zbir kvadrata.
 
+18. **DURMITOR PETLJA**
+    - Cilj: Širenje od vrha ka podnožju kroz slojeve koji rastu po širini i nose u sebi `UMBREL PETLJU`.
+    - Izlaz: Zbir svih planinskih slojeva uz dodat ugrađeni izlaz `UMBREL PETLJE`.
+
 ## Jedinstven API / kontrakt
 
 Sve petlje koriste isti ulazni i izlazni oblik:
@@ -128,6 +133,7 @@ Kontrakt verzija: `1.0.0`
 - Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`) validiraju svaki element niza pre izvršavanja.
 - Target-orijentisane petlje (`ITCH`, `KUR`, `DOR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
 - `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.
+- `DURMITOR PETLJA` validira opseg kao range-orijentisana petlja, koristi `sequence` kao pejzažni sloj i nasleđuje finalni status od ugrađene `UMBREL PETLJE` kada njen interni agregat nije uspešan.
 - `reason` može biti:
   - `completed`
   - `max-iterations`
@@ -162,6 +168,6 @@ Kontrakt verzija: `1.0.0`
 ## Kratak tok (primer)
 
 1. Priprema `PetljaInput`.
-2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runDorPetlja`, `runExePetlja`, `runKurPetlja`, `runDarPetlja`, `runYuPetlja`, `runZarPetlja`, `runDerPetlja`, `runGarPetlja`, `runZurPetlja`, `runIziPetlja`, `runUkPetlja`, `runZumPetlja`, `runUmbrelPetlja`).
+2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runDorPetlja`, `runExePetlja`, `runKurPetlja`, `runDarPetlja`, `runYuPetlja`, `runZarPetlja`, `runDerPetlja`, `runGarPetlja`, `runZurPetlja`, `runIziPetlja`, `runUkPetlja`, `runZumPetlja`, `runDurmitorPetlja`, `runUmbrelPetlja`).
 3. Obrada standardizovanog `PetljaResult`.
 4. Audit kroz `trace`, `warnings`, `reason` i `durationMs`.

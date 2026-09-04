@@ -18,6 +18,7 @@ import {
   runIziPetlja,
   runUkPetlja,
   runZumPetlja,
+  runDurmitorPetlja,
   runUmbrelPetlja,
 } from '../../lib/petlje';
 
@@ -282,6 +283,34 @@ async function runTests(): Promise<void> {
     assert(!result.completed, 'Loop should stop by time limit');
     assertEqual(result.reason, 'time-limit', 'time limit reason');
     assertEqual(result.status, 'DEAD', 'time-limit should map to DEAD');
+  });
+
+  await test('DURMITOR PETLJA layers the mountain shape and embeds UMBREL output', () => {
+    const input = { start: 2, end: 2, step: 1, target: 2, sequence: [1, 2], maxDurationMs: 100 };
+    const result = runDurmitorPetlja(input);
+    const umbrella = runUmbrelPetlja(input);
+    const expectedMountain = (Math.abs(2) + input.sequence.length + 5) * 1;
+    assert(result.completed, 'DURMITOR should complete');
+    assertEqual(result.status, 'ACTIVATED', 'DURMITOR final status');
+    assertEqual(result.reason, 'completed', 'DURMITOR completion reason');
+    assertEqual(result.output, expectedMountain + umbrella.output, 'DURMITOR output should include mountain layer and umbrella core');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[UMBREL PETLJA]')), 'DURMITOR should carry umbrella audit trail');
+  });
+
+  await test('DURMITOR PETLJA inherits incomplete status from embedded UMBREL output', () => {
+    const input = { start: 0, end: 3, step: 1, target: 2, sequence: [2, 2], maxDurationMs: 100 };
+    const result = runDurmitorPetlja(input);
+    assert(!result.completed, 'DURMITOR should not complete when UMBREL fails');
+    assertEqual(result.status, 'DISABLED', 'DURMITOR should inherit DISABLED aggregate');
+    assertEqual(result.reason, 'invalid-input', 'DURMITOR should inherit umbrella reason');
+    assert(result.warnings.some((warning) => warning.includes('[UMBREL PETLJA] [NIK PETLJA]')), 'DURMITOR should expose nested umbrella warnings');
+  });
+
+  await test('DURMITOR PETLJA guard stop maps to DEAD', () => {
+    const result = runDurmitorPetlja({ start: 0, end: 10, step: 1, target: 0, sequence: [1], maxIterations: 2, maxDurationMs: 100 });
+    assert(!result.completed, 'DURMITOR should stop early');
+    assertEqual(result.reason, 'max-iterations', 'DURMITOR guard reason');
+    assertEqual(result.status, 'DEAD', 'DURMITOR guard status');
   });
 
   await test('UMBREL PETLJA returns unified aggregate result', () => {
