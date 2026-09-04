@@ -272,6 +272,7 @@ async function runTests(): Promise<void> {
     });
 
     const report = getDuelKingHealthReport();
+    assert(report.kurTelemetryStatus === 'BASELINE', `expected BASELINE KUR telemetry, got ${report.kurTelemetryStatus}`);
     assert(report.lastKurSignalStatus === 'BASELINE', `expected BASELINE after non-KUR eval, got ${report.lastKurSignalStatus}`);
     assert(report.lastKurProgressionSignal === 50, `expected reset KUR progression signal, got ${report.lastKurProgressionSignal}`);
   });

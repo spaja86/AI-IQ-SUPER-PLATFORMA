@@ -336,6 +336,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
       kurDegradedEvaluations += 1;
     }
   } else {
+    kurTelemetryStatus = 'BASELINE';
     lastKurProgressionSignal = 50;
     lastKurImpactScore = 0;
     lastKurSignalStatus = 'BASELINE';
