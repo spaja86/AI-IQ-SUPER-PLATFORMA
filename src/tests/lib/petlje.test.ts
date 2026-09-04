@@ -278,15 +278,46 @@ async function runTests(): Promise<void> {
   });
 
   await test('UMBREL PETLJA returns unified aggregate result', () => {
-    const result = runUmbrelPetlja({ start: 0, end: 3, step: 1, target: 2, sequence: [2, 2], maxDurationMs: 100 });
+    const input = { start: 0, end: 3, step: 1, target: 2, sequence: [2, 2], maxDurationMs: 100 };
+    const result = runUmbrelPetlja(input);
+    const childOutputs = [
+      runForPetlja(input).output,
+      runItchPetlja(input).output,
+      runUrPelja(input).output,
+      runNikPetlja(input).output,
+      runDorPetlja(input).output,
+      runExePetlja(input).output,
+      runKurPetlja(input).output,
+      runDarPetlja(input).output,
+      runYuPetlja(input).output,
+      runZarPetlja(input).output,
+      runDerPetlja(input).output,
+      runGarPetlja(input).output,
+      runZurPetlja(input).output,
+      runIziPetlja(input).output,
+      runUkPetlja(input).output,
+      runZumPetlja(input).output,
+    ].reduce((acc, value) => acc + value, 0);
     assert(result.trace.length === 16, 'UMBREL trace should contain 16 parts');
-    assert(result.reason === 'completed' || result.reason === 'invalid-input', 'UMBREL reason should be valid enum');
+    assertEqual(result.reason, 'invalid-input', 'UMBREL invalid-input reason should match DISABLED aggregate');
     assert(['ACTIVATED', 'DISABLED', 'DEAD'].includes(result.status), 'UMBREL status should be canonical');
     assertEqual(result.statusTrail[0]?.to, 'MONSTER', 'UMBREL should enter MONSTER first');
     assert(result.statusTrail[result.statusTrail.length - 1]?.reason === 'umbrella-aggregate', 'UMBREL should aggregate status last');
     const last = result.statusTrail[result.statusTrail.length - 1];
     assert(last?.from === 'MONSTER' && last?.to === result.status, 'UMBREL aggregate transition should be valid');
     assertEqual(result.status, 'DISABLED', 'mixed child outcomes should aggregate to DISABLED');
+    assertEqual(result.output, childOutputs, 'UMBREL output should sum child outputs');
+    assertEqual(result.trace[result.trace.length - 1]?.accumulator, result.output, 'UMBREL final accumulator');
+    assert(result.warnings.some((warning) => warning.includes('[NIK PETLJA] start mora biti >= end za NIK PETLJU')), 'UMBREL should include child warnings');
+  });
+
+  await test('UMBREL PETLJA gives DEAD precedence over DISABLED child failures', () => {
+    const input = { start: 0, end: 100, step: 1, target: 100, sequence: [1, 2, 3, 4], maxIterations: 2, maxDurationMs: 100 };
+    const result = runUmbrelPetlja(input);
+    assert(!result.completed, 'UMBREL should not complete');
+    assertEqual(result.status, 'DEAD', 'UMBREL should prioritize DEAD child statuses');
+    assertEqual(result.reason, 'max-iterations', 'UMBREL should prioritize guard-stop reason');
+    assert(result.warnings.some((warning) => warning.includes('[NIK PETLJA] start mora biti >= end for NIK PETLJA') || warning.includes('[NIK PETLJA] start mora biti >= end za NIK PETLJU')), 'UMBREL should preserve DISABLED child warnings');
   });
 
   await test('status aliases normalize to canonical values', () => {

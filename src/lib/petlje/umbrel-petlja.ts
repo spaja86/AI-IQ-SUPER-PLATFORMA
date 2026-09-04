@@ -82,6 +82,7 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const completed = parts.every((p) => p.completed);
   const partStatuses = parts.map((p) => p.status);
   const safeOutputs = parts.map((part) => Number.isFinite(part.output) ? part.output : 0);
+  const partReasons = parts.map((part) => part.reason);
   const mergedTrails = parts
     .flatMap((p, runnerOrder) => p.statusTrail.map((entry) => ({
       ...entry,
@@ -95,6 +96,12 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
       : partStatuses.includes('DISABLED') ? 'DISABLED'
       : partStatuses.includes('MONSTER') ? 'MONSTER'
       : 'ACTIVATED';
+  const aggregateReason =
+    aggregateStatus === 'DEAD'
+      ? (partReasons.find((reason) => reason === 'max-iterations') ?? partReasons.find((reason) => reason === 'time-limit') ?? 'blocked-status')
+      : aggregateStatus === 'DISABLED'
+        ? (partReasons.find((reason) => reason === 'invalid-input') ?? partReasons.find((reason) => reason === 'blocked-status') ?? 'invalid-input')
+        : 'completed';
   let traceAccumulator = 0;
   statusTrail.push(...mergedTrails.map(({ runnerOrder: _runnerOrder, ...entry }) => entry));
   const transition = createStatusTransition(status, aggregateStatus, 'umbrella-aggregate', parts.reduce((acc, p) => acc + p.iterations, 0));
@@ -108,7 +115,7 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     output: safeOutputs.reduce((acc, output) => acc + output, 0),
     iterations: parts.reduce((acc, p) => acc + p.iterations, 0),
     completed,
-    reason: completed ? 'completed' : (parts.find((p) => !p.completed)?.reason ?? 'invalid-input'),
+    reason: completed ? 'completed' : aggregateReason,
     warnings,
     durationMs: parts.reduce((acc, p) => acc + p.durationMs, 0),
     trace: parts.map((part, index) => {
