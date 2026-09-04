@@ -310,7 +310,7 @@ async function runTests(): Promise<void> {
     });
 
     const report = getDuelKingHealthReport();
-    assert(report.kurTelemetryStatus === 'LIVE', `expected LIVE KUR telemetry due to historical KUR activity, got ${report.kurTelemetryStatus}`);
+    assert(report.kurTelemetryStatus === 'BASELINE', `expected BASELINE KUR telemetry when latest evaluation has no KUR signal, got ${report.kurTelemetryStatus}`);
     assert(report.lastKurSignalStatus === 'BASELINE', `expected BASELINE after non-KUR eval, got ${report.lastKurSignalStatus}`);
     assert(report.lastKurProgressionSignal === 50, `expected reset KUR progression signal, got ${report.lastKurProgressionSignal}`);
   });

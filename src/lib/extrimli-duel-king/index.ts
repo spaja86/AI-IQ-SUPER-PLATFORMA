@@ -157,7 +157,7 @@ function evaluateKurGameSignal(input: DuelKingKurGameSignalInput | undefined): D
 
   return {
     status,
-    applied: status === 'LIVE',
+    applied: status === 'LIVE' && kurResult.completed && kurResult.reason === 'completed',
     progressionSignal,
     impactScore,
     completed: kurResult.completed,
@@ -351,6 +351,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
       kurDegradedEvaluations += 1;
     }
   } else {
+    lastKurEvaluationStatus = 'BASELINE';
     lastKurProgressionSignal = 50;
     lastKurImpactScore = 0;
     lastKurSignalStatus = 'BASELINE';
