@@ -308,7 +308,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   if (degraded && degradedByCoreSignals) {
     readinessScore = round(clamp(readinessScore - 8, 0, 100), 2);
   }
-  if (input.kurGameSignal && !kurGameSignal.applied) {
+  if (input.kurGameSignal && kurGameSignal.status === 'DEGRADED') {
     readinessScore = round(clamp(readinessScore - 6, 0, 100), 2);
   }
 
