@@ -92,6 +92,20 @@ export type GearCategory =
   | 'goggles'
   | 'other';
 
+export const EXTRIMLI_GEAR_CATEGORIES: GearCategory[] = [
+  'helmet',
+  'harness',
+  'board',
+  'bike',
+  'chute',
+  'wing',
+  'wetsuit',
+  'pads',
+  'boots',
+  'goggles',
+  'other',
+];
+
 export interface GearItem {
   sku: string;
   brand: string;

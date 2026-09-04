@@ -6,24 +6,12 @@ import {
   evaluateDuelKing,
   getDuelKingHealthReport,
 } from '@/lib/extrimli-duel-king';
-import type { DuelKingInput } from '@/lib/extrimli/types';
+import { EXTRIMLI_GEAR_CATEGORIES, type DuelKingInput } from '@/lib/extrimli/types';
 import { apiExtrimliDegradedResponse, setExtrimliSurfaceHeaders } from '@/app/api/extrimli/_shared';
 
 export const dynamic = 'force-dynamic';
 
-const GEAR_CATEGORIES = new Set([
-  'helmet',
-  'harness',
-  'board',
-  'bike',
-  'chute',
-  'wing',
-  'wetsuit',
-  'pads',
-  'boots',
-  'goggles',
-  'other',
-]);
+const GEAR_CATEGORIES = new Set(EXTRIMLI_GEAR_CATEGORIES);
 
 export async function GET() {
   try {
