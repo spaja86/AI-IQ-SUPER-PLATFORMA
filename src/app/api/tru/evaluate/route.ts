@@ -2,7 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
+import { apiError, apiInternalError, apiSuccess, apiUnprocessableEntity } from '@/lib/api/response';
 import { evaluateTru, setTruHeaders } from '@/lib/tru';
 import type { TruInput } from '@/lib/tru';
 
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     const result = evaluateTru(input);
     const response = result.valid
       ? apiSuccess(result, 200)
-      : apiError('UNPROCESSABLE_ENTITY', 'TRU evaluation input failed domain validation', {
+      : apiUnprocessableEntity('TRU evaluation input failed domain validation', {
         validation: result,
       });
     setTruHeaders(response, result);
