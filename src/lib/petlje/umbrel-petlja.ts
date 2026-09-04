@@ -81,6 +81,7 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const warnings = parts.flatMap((p) => p.warnings.map((w) => `[${p.kind}] ${w}`));
   const completed = parts.every((p) => p.completed);
   const partStatuses = parts.map((p) => p.status);
+  const safeOutputs = parts.map((part) => Number.isFinite(part.output) ? part.output : 0);
   const mergedTrails = parts
     .flatMap((p, runnerOrder) => p.statusTrail.map((entry) => ({
       ...entry,
@@ -104,17 +105,17 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     ...result,
     status,
     statusTrail,
-    output: parts.reduce((acc, p) => acc + p.output, 0),
+    output: safeOutputs.reduce((acc, output) => acc + output, 0),
     iterations: parts.reduce((acc, p) => acc + p.iterations, 0),
     completed,
     reason: completed ? 'completed' : (parts.find((p) => !p.completed)?.reason ?? 'invalid-input'),
     warnings,
     durationMs: parts.reduce((acc, p) => acc + p.durationMs, 0),
     trace: parts.map((part, index) => {
-      traceAccumulator += part.output;
+      traceAccumulator += safeOutputs[index];
       return {
         iteration: index + 1,
-        value: part.output,
+        value: safeOutputs[index],
         accumulator: traceAccumulator,
       };
     }),
