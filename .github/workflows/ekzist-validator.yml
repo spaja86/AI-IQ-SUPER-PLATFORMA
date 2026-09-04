@@ -8,6 +8,8 @@ on:
       - 'src/components/ekzist/**'
       - 'src/tests/lib/ekzist.test.ts'
       - 'src/tests/api/ekzist-route.test.ts'
+      - 'docs/EKZIST.md'
+      - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/ekzist-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
@@ -18,6 +20,8 @@ on:
       - 'src/components/ekzist/**'
       - 'src/tests/lib/ekzist.test.ts'
       - 'src/tests/api/ekzist-route.test.ts'
+      - 'docs/EKZIST.md'
+      - 'docs/MULTI-REPO-LINKS.md'
   workflow_dispatch:
 
 concurrency:

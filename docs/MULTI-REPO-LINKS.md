@@ -1103,10 +1103,12 @@ AI-IQ-SUPER-PLATFORMA#zlatni-racuni -> IO-OPENUI-AO#<follow-up issue>
 |---|---|
 | Date | 2026-08-14 |
 | Owner | @spaja86 |
+| Naming | Canonical: `EKZIST` / `ekzist`, Compatibility alias: `EXIST` |
 | Scope | `src/lib/ekzist/**`, `src/app/api/ekzist/**`, `src/components/ekzist/**` |
 | Persona | `ekzist-core` (octave: 2, hipermreza node: 16) |
 | Validator | `ekzist-validator-agent` |
 | Workflow | `.github/workflows/ekzist-validator.yml` |
+| Contract spec | `docs/EKZIST.md` |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
 
@@ -1118,6 +1120,7 @@ AI-IQ-SUPER-PLATFORMA#zlatni-racuni -> IO-OPENUI-AO#<follow-up issue>
 - Add EKZIST label schema (`ekzist`, `ekzist:logic-change`, `ekzist:validated`, `ekzist:needs-review`)
 - Record EKZIST downstream reference in linked repo documentation
 - Sync ekzist-core persona to persona-bank in IO-OPENUI-AO
+- Keep compatibility alias note (`EXIST` -> canonical `ekzist`) in downstream docs to avoid split labels/routes
 
 **Audit convention for this initiative:**
 ```
@@ -1487,4 +1490,3 @@ AI-IQ-SUPER-PLATFORMA#dinosaurus-trexar -> IO-OPENUI-AO#<optional follow-up>
 Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#AKTIVITI-ALL -> IO-OPENUI-AO#<follow-up issue>`
-

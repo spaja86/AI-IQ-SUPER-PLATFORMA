@@ -4,7 +4,7 @@
 import type { NextRequest } from 'next/server';
 import { GET } from '../../app/api/ekzist/health/route';
 import { POST } from '../../app/api/ekzist/evaluate/route';
-import { _resetEkzistMetrics, EKZIST_API_RESPONSE_MAX_MS } from '../../lib/ekzist';
+import { _resetEkzistMetrics, EKZIST_API_RESPONSE_MAX_MS, EKZIST_HEADERS } from '../../lib/ekzist';
 
 let passed = 0;
 let failed = 0;
@@ -47,12 +47,20 @@ async function runTests(): Promise<void> {
     const elapsed = performance.now() - start;
 
     assert(response.status === 200, `expected 200, got ${response.status}`);
-    assert(response.headers.get('X-Ekzist-Contract-Version') === 'v1', 'missing contract version header');
-    assert(response.headers.get('X-Ekzist-Module-Version') === '1.0.0', 'missing module version header');
+    assert(response.headers.get(EKZIST_HEADERS.CONTRACT_VERSION) === 'v1', 'missing contract version header');
+    assert(response.headers.get(EKZIST_HEADERS.MODULE_VERSION) === '1.0.0', 'missing module version header');
+    assert(response.headers.get(EKZIST_HEADERS.DISPLAY_NAME) === 'EKZIST', 'missing display-name header');
+    assert(response.headers.get(EKZIST_HEADERS.CANONICAL_SLUG) === 'ekzist', 'missing canonical-slug header');
+    assert(response.headers.get(EKZIST_HEADERS.PERSONA_ID) === 'ekzist-core', 'missing persona-id header');
+    assert(response.headers.get(EKZIST_HEADERS.EVAL_KPI_MS) === '50', 'missing eval KPI header');
+    assert(response.headers.get(EKZIST_HEADERS.API_KPI_MS) === '200', 'missing API KPI header');
     assert(elapsed <= EKZIST_API_RESPONSE_MAX_MS, `health response ${elapsed.toFixed(1)}ms exceeds ${EKZIST_API_RESPONSE_MAX_MS}ms`);
 
-    const body = await response.json() as { data: { personaId: string } };
+    const body = await response.json() as { data: { personaId: string; displayName: string; canonicalSlug: string; aliases: string[] } };
     assert(body.data.personaId === 'ekzist-core', `unexpected personaId: ${body.data.personaId}`);
+    assert(body.data.displayName === 'EKZIST', `unexpected displayName: ${body.data.displayName}`);
+    assert(body.data.canonicalSlug === 'ekzist', `unexpected canonicalSlug: ${body.data.canonicalSlug}`);
+    assert(body.data.aliases.includes('exist'), 'exist alias is missing');
   });
 
   await test('POST /api/ekzist/evaluate returns 200 for valid payload', async () => {
@@ -68,8 +76,10 @@ async function runTests(): Promise<void> {
     const elapsed = performance.now() - start;
 
     assert(response.status === 200, `expected 200, got ${response.status}`);
-    assert(response.headers.get('X-Ekzist-Contract-Version') === 'v1', 'missing contract version header');
-    assert(response.headers.get('X-Ekzist-Valid') === 'true', 'missing valid header');
+    assert(response.headers.get(EKZIST_HEADERS.CONTRACT_VERSION) === 'v1', 'missing contract version header');
+    assert(response.headers.get(EKZIST_HEADERS.VALID) === 'true', 'missing valid header');
+    assert(response.headers.get(EKZIST_HEADERS.TIER) !== null, 'missing tier header');
+    assert(response.headers.get(EKZIST_HEADERS.DOMAIN) !== null, 'missing domain header');
     assert(elapsed <= EKZIST_API_RESPONSE_MAX_MS, `evaluate response ${elapsed.toFixed(1)}ms exceeds ${EKZIST_API_RESPONSE_MAX_MS}ms`);
 
     const body = await response.json() as { data: { valid: boolean; tier: string; disclaimer: string; dominantVector: string } };
@@ -95,13 +105,12 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
-  await test('POST /api/ekzist/evaluate returns 422 for invalid score (NaN)', async () => {
+  await test('POST /api/ekzist/evaluate returns 422 for out-of-range score', async () => {
     const response = await POST(makeEvaluateRequest({
-      domains: [{ domain: 'MEANING', score: null }],
+      domains: [{ domain: 'MEANING', score: 101 }],
     }));
 
-    // Engine will return invalid, route returns 422
-    assert([400, 422].includes(response.status), `expected 400 or 422, got ${response.status}`);
+    assert(response.status === 422, `expected 422, got ${response.status}`);
   });
 
   await test('POST /api/ekzist/evaluate headers include tier and domain on valid result', async () => {
@@ -114,8 +123,8 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 200, `expected 200, got ${response.status}`);
-    assert(response.headers.get('X-Ekzist-Tier') !== null, 'X-Ekzist-Tier header missing');
-    assert(response.headers.get('X-Ekzist-Domain') !== null, 'X-Ekzist-Domain header missing');
+    assert(response.headers.get(EKZIST_HEADERS.TIER) !== null, 'X-Ekzist-Tier header missing');
+    assert(response.headers.get(EKZIST_HEADERS.DOMAIN) !== null, 'X-Ekzist-Domain header missing');
   });
 
   await test('POST /api/ekzist/evaluate returns 400 for invalid JSON', async () => {
@@ -127,6 +136,51 @@ async function runTests(): Promise<void> {
 
     const response = await POST(req);
     assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/ekzist/evaluate returns 400 for malformed lifePressures type', async () => {
+    const response = await POST(makeEvaluateRequest({
+      domains: [{ domain: 'MEANING', score: 70 }],
+      lifePressures: 'high',
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/ekzist/evaluate returns 400 for malformed domain score type', async () => {
+    const response = await POST(makeEvaluateRequest({
+      domains: [{ domain: 'MEANING', score: null }],
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/ekzist/evaluate returns 422 for unsupported domain', async () => {
+    const response = await POST(makeEvaluateRequest({
+      domains: [{ domain: 'UNKNOWN', score: 70 }],
+    }));
+
+    assert(response.status === 422, `expected 422, got ${response.status}`);
+  });
+
+  await test('POST /api/ekzist/evaluate returns 422 for duplicate domain entries', async () => {
+    const response = await POST(makeEvaluateRequest({
+      domains: [
+        { domain: 'MEANING', score: 70 },
+        { domain: 'MEANING', score: 50 },
+      ],
+    }));
+
+    assert(response.status === 422, `expected 422, got ${response.status}`);
+  });
+
+  await test('POST /api/ekzist/evaluate returns 422 for unsupported ageGroup', async () => {
+    const response = await POST(makeEvaluateRequest({
+      domains: [{ domain: 'MEANING', score: 70 }],
+      ageGroup: 'UNKNOWN',
+    }));
+
+    assert(response.status === 422, `expected 422, got ${response.status}`);
   });
 
   // ─── Summary ──────────────────────────────────────────────────────────────
