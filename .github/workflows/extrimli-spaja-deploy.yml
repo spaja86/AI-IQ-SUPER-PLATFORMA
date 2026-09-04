@@ -438,7 +438,7 @@ jobs:
             exit 1
           fi
 
-          if ! [[ "$WILDCARD_DOMAIN" =~ ^\*\.[^*]+$ ]]; then
+          if ! [[ "$WILDCARD_DOMAIN" =~ ^\*\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$ ]]; then
             echo "❌ wildcard_domain mora biti u formatu '*.domen'."
             exit 1
           fi
