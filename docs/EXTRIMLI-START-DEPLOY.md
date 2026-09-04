@@ -21,6 +21,26 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ---
 
+## Domain Strategy (SPAJA)
+
+| Polje | Vrednost |
+|-------|----------|
+| **Requested string** | `spaja.nivo*spaja` |
+| **DNS validity** | ❌ Invalid (`*` ne može biti u sredini label-e) |
+| **Canonical apex domain** | `spaja.nivo-spaja` |
+| **Canonical wildcard domain** | `*.spaja.nivo-spaja` |
+| **Routing model** | Apex + wildcard poddomeni |
+| **TLS** | Vercel managed cert za apex + wildcard |
+
+**DNS/TLS gate (pre WAWE 4):**
+- [ ] Domen `spaja.nivo-spaja` dodat u Vercel projekat
+- [ ] DNS zapisi kod provajdera usmereni na Vercel (A/CNAME prema Vercel uputstvu)
+- [ ] `*.spaja.nivo-spaja` wildcard zapis aktivan
+- [ ] TLS/SSL sertifikat za apex i wildcard status = Active
+- [ ] Deploy hook i svi tokeni ostaju isključivo u GitHub/Vercel Secrets sloju
+
+---
+
 ## Deploy faze
 
 ### FAZA 1 — Pre-Deploy Readiness Gate
@@ -58,6 +78,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 |-------|--------|
 | Push na `main` triggeruje Vercel Git auto-deploy | ⬜ Pending |
 | GitHub Actions ostaje governance/audit layer | ✅ Konfigurisano |
+| Domen strategija potvrđena (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) | ⬜ Pending |
 | Deploy hook: Vercel preview → production promotion | ⬜ Pending |
 | `deploy-bot` audit log u PR komentaru (URL, SHA, timestamp, rollback) | ⬜ Pending |
 
