@@ -320,6 +320,14 @@ async function runTests(): Promise<void> {
     assert(result.warnings.some((warning) => warning.includes('[NIK PETLJA] start mora biti >= end for NIK PETLJA') || warning.includes('[NIK PETLJA] start mora biti >= end za NIK PETLJU')), 'UMBREL should preserve DISABLED child warnings');
   });
 
+  await test('UMBREL PETLJA reports time-limit when a child hits the time guard first', () => {
+    const input = { start: 0, end: 100, step: 1, target: 100, sequence: [1, 2, 3, 4], maxIterations: 100, maxDurationMs: 0 };
+    const result = runUmbrelPetlja(input);
+    assert(!result.completed, 'UMBREL should stop early on time-limit');
+    assertEqual(result.status, 'DEAD', 'UMBREL time-limit status');
+    assertEqual(result.reason, 'time-limit', 'UMBREL time-limit reason');
+  });
+
   await test('status aliases normalize to canonical values', () => {
     const activated = runForPetlja({ start: 0, end: 1, step: 1, status: 'AKTIVEJT', maxDurationMs: 100 });
     assertEqual(activated.input.status, 'ACTIVATED', 'AKTIVEJT alias');
