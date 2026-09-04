@@ -817,11 +817,13 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 | **Go-live tracking** | `docs/EXTRIMLI-START-DEPLOY.md` |
 | **OKRID** | `OKRID-2026-EXTRIMLI-START-001` |
 | **Persona** | `extrimli-core` (octave: 7, hipermreza node: 56) |
+| **Canonical domain strategy** | `spaja.nivo-spaja` (apex) + `*.spaja.nivo-spaja` (wildcard) |
 
 | Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
 |------|------|------|
 | EXTRIMLI gear catalog snapshot — START deploy | `spaja86/IO-OPENUI-AO` — Follow-up required | `multi-repo-sync-agent` post-deploy |
 | EXTRIMLI v3 risk profiles — START deploy | `spaja86/IO-OPENUI-AO` — Follow-up required | Follow-up after v3 stabilization |
+| EXTRIMLI START domain strategy reference | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror apex + wildcard convention in linked docs/runbooks |
 
 **Downstream tasks (post START deploy):**
 - Confirm gear catalog snapshot sync to IO-OPENUI-AO after first successful production deploy
@@ -829,6 +831,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 - Update `extrimli-validator-agent` trigger in linked-repo `.agent-config.json` to include START deploy ref
 - Track EXTRIMLI v1 + v3 API contract versions in linked repo consumers
 - Verify `extrimli-core` persona (node: 56) registered in persona-bank post-deploy
+- Mirror canonical DNS convention (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) u linked deploy dokumentaciji
 
 ```
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>

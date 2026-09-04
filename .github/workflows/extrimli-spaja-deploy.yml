@@ -91,6 +91,14 @@ on:
         description: 'URL za post-deploy health check (npr. https://ai-iq-super-platforma.vercel.app/api/health)'
         required: false
         default: ''
+      canonical_domain:
+        description: 'Kanonski apex domen (bez wildcard), npr. spaja.nivo-spaja'
+        required: false
+        default: 'spaja.nivo-spaja'
+      wildcard_domain:
+        description: 'Wildcard domen mora biti oblika *.domen, npr. *.spaja.nivo-spaja'
+        required: false
+        default: '*.spaja.nivo-spaja'
       rollback_hook_url:
         description: 'Rollback deploy hook URL (aktivira se ako health check padne)'
         required: false
@@ -404,6 +412,47 @@ jobs:
     needs: staging
 
     steps:
+      - name: 🌐 Validate canonical domain strategy
+        run: |
+          CANONICAL_DOMAIN="${{ github.event.inputs.canonical_domain }}"
+          WILDCARD_DOMAIN="${{ github.event.inputs.wildcard_domain }}"
+
+          if [ -z "$CANONICAL_DOMAIN" ]; then CANONICAL_DOMAIN="spaja.nivo-spaja"; fi
+          if [ -z "$WILDCARD_DOMAIN" ]; then WILDCARD_DOMAIN="*.spaja.nivo-spaja"; fi
+
+          if [[ "$CANONICAL_DOMAIN" == *"*"* ]]; then
+            echo "❌ canonical_domain ne sme sadržati '*' (primer pogrešnog formata: spaja.nivo*spaja)."
+            exit 1
+          fi
+
+          if [[ "$WILDCARD_DOMAIN" != \*.* ]]; then
+            echo "❌ wildcard_domain mora biti u formatu '*.domen'."
+            exit 1
+          fi
+
+          WILDCARD_SUFFIX="${WILDCARD_DOMAIN#*.}"
+          if [[ "$WILDCARD_SUFFIX" == *"*"* ]]; then
+            echo "❌ wildcard_domain ne sme imati '*' u sredini label-e."
+            exit 1
+          fi
+
+          if [ "$WILDCARD_SUFFIX" != "$CANONICAL_DOMAIN" ]; then
+            echo "❌ wildcard_domain mora mapirati isti apex domen kao canonical_domain."
+            echo "   canonical_domain=$CANONICAL_DOMAIN"
+            echo "   wildcard_domain=$WILDCARD_DOMAIN"
+            exit 1
+          fi
+
+          echo "✅ Domen strategija validna: $CANONICAL_DOMAIN + $WILDCARD_DOMAIN"
+          echo "## 🌐 Domain strategy gate" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| canonical_domain | \`$CANONICAL_DOMAIN\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| wildcard_domain | \`$WILDCARD_DOMAIN\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| DNS policy | wildcard samo kao leva labela (`*.domen`) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| TLS policy | Vercel managed certificate za apex + wildcard |" >> "$GITHUB_STEP_SUMMARY"
+
       - name: 🔒 Validate production confirmation token
         run: |
           TARGET_ENV="${{ github.event.inputs.environment || 'staging' }}"
@@ -435,6 +484,8 @@ jobs:
           echo "| **Actor** | \`${{ github.actor }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Environment** | \`${{ github.event.inputs.environment || 'auto (push)' }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Run ID** | \`${{ github.run_id }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Canonical domain** | \`${{ github.event.inputs.canonical_domain || 'spaja.nivo-spaja' }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Wildcard domain** | \`${{ github.event.inputs.wildcard_domain || '*.spaja.nivo-spaja' }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Quality gates** | \`type-check, lint, unit test, smoke, predeploy, security\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Deploy mode** | \`Vercel Git integracija (primarni)\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Rollback** | \`Vercel Dashboard → Promote (< 60s)\` |" >> "$GITHUB_STEP_SUMMARY"
