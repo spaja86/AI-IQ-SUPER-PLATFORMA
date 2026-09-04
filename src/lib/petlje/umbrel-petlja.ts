@@ -170,7 +170,7 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     output: aggregated.totalOutput,
     iterations: aggregated.totalIterations,
     completed: aggregated.completed,
-    reason: aggregated.completed ? 'completed' : aggregated.reason,
+    reason: aggregated.reason,
     warnings: aggregated.warnings,
     durationMs: aggregated.totalDurationMs,
     trace: parts.map((part, index) => {

@@ -270,6 +270,13 @@ async function runTests(): Promise<void> {
     });
   }
 
+  await test('KUR PETLJA accepts negative step by normalizing its magnitude', () => {
+    const result = runKurPetlja({ start: 0, target: 5, step: -2, maxDurationMs: 100 });
+    assert(result.completed, 'KUR should complete with negative step');
+    assertEqual(result.output, 11, 'KUR normalized negative-step output');
+    assertEqual(result.reason, 'completed', 'KUR normalized negative-step reason');
+  });
+
   await test('time-limit protection works when maxDurationMs is zero', () => {
     const result = runForPetlja({ start: 0, end: 1000, step: 1, maxDurationMs: 0 });
     assert(!result.completed, 'Loop should stop by time limit');
