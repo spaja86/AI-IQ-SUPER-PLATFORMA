@@ -55,7 +55,7 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
   if (duelKing.performanceMaxMs > EXTRONDEND_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRONDEND_API_MAX_MS) {
     degradedSources.push('extrimli-duel-king-kpi');
   }
-  if (duelKing.lastKurSignalStatus === 'DEGRADED') {
+  if (duelKing.kurTelemetryStatus === 'DEGRADED') {
     degradedSources.push('extrimli-duel-king-kur-signal');
   }
 
