@@ -94,6 +94,7 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
       : partStatuses.includes('DISABLED') ? 'DISABLED'
       : partStatuses.includes('MONSTER') ? 'MONSTER'
       : 'ACTIVATED';
+  let traceAccumulator = 0;
   statusTrail.push(...mergedTrails.map(({ runnerOrder: _runnerOrder, ...entry }) => entry));
   const transition = createStatusTransition(status, aggregateStatus, 'umbrella-aggregate', parts.reduce((acc, p) => acc + p.iterations, 0));
   status = transition.status;
@@ -109,10 +110,13 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     reason: completed ? 'completed' : (parts.find((p) => !p.completed)?.reason ?? 'invalid-input'),
     warnings,
     durationMs: parts.reduce((acc, p) => acc + p.durationMs, 0),
-    trace: parts.map((part, index) => ({
-      iteration: index + 1,
-      value: part.output,
-      accumulator: parts.slice(0, index + 1).reduce((acc, currentPart) => acc + currentPart.output, 0),
-    })),
+    trace: parts.map((part, index) => {
+      traceAccumulator += part.output;
+      return {
+        iteration: index + 1,
+        value: part.output,
+        accumulator: traceAccumulator,
+      };
+    }),
   };
 }
