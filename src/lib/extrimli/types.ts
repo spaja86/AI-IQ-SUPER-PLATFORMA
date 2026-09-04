@@ -205,7 +205,7 @@ export interface DuelKingHealthReport {
   moduleVersion: string;
   sourceOfTruth: string;
   telemetryStatus: DuelKingTelemetryStatus;
-  kurTelemetryStatus: DuelKingTelemetryStatus;
+  kurTelemetryStatus: DuelKingKurSignalStatus;
   kurContractVersion: string;
   evaluations: number;
   kurEvaluations: number;

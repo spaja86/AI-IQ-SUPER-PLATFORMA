@@ -53,7 +53,7 @@ const RISK_LEVEL_THRESHOLDS: { level: RiskLevel; min: number }[] = [
 
 let evaluations = 0;
 let telemetryStatus: DuelKingTelemetryStatus = 'BASELINE';
-let kurTelemetryStatus: DuelKingTelemetryStatus = 'BASELINE';
+let kurTelemetryStatus: DuelKingKurSignalStatus = 'BASELINE';
 let lastReadinessScore = 50;
 let lastDuelRiskScore = 50;
 let kurEvaluations = 0;
@@ -340,7 +340,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   lastDuelRiskScore = duelRiskScore;
   lastTournamentState = tournamentState;
   if (input.kurGameSignal) {
-    kurTelemetryStatus = 'LIVE';
+    kurTelemetryStatus = kurGameSignal.status;
     kurEvaluations += 1;
     lastKurProgressionSignal = kurGameSignal.progressionSignal;
     lastKurImpactScore = kurGameSignal.impactScore;
