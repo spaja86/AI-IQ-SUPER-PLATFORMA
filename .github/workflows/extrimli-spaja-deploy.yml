@@ -463,12 +463,10 @@ jobs:
           echo "✅ Domen strategija validna: $CANONICAL_DOMAIN + $WILDCARD_DOMAIN"
           echo "## 🌐 Domain strategy gate" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| canonical_domain | \`$CANONICAL_DOMAIN\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| wildcard_domain | \`$WILDCARD_DOMAIN\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| DNS policy | wildcard samo kao leva labela (`*.domen`) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| TLS policy | Vercel managed certificate za apex + wildcard |" >> "$GITHUB_STEP_SUMMARY"
+          echo "- canonical_domain: \`$CANONICAL_DOMAIN\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- wildcard_domain: \`$WILDCARD_DOMAIN\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- DNS policy: wildcard samo kao leva labela (\`*.domen\`)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- TLS policy: Vercel managed certificate za apex + wildcard" >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🔒 Validate production confirmation token
         run: |
