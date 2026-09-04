@@ -90,6 +90,15 @@ DIREKT uvodi determinističku procenu kvaliteta direktne komunikacije kroz jasno
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/DIREKT.md`
 
+## 📦 DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN
+
+DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN uvodi repo-local determinističku distribucionu orkestraciju koja kompozicijom `DOR PETLJA`, `DAR PETLJA` i postojećeg `distribucija` modela izračunava aggregate `EKSTRIBUŠEN` status.
+
+- Modul: `src/lib/durit-ekser-far-dir-dor-dar-ekstribusen/**`
+- API: `/api/durit-ekser-far-dir-dor-dar-ekstribusen/evaluate`, `/api/durit-ekser-far-dir-dor-dar-ekstribusen/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DURIT-EKSER-FAR-DIR-DOR-DAR-EKSTRIBUSEN.md`
+
 ## 🫚 ÐUMBIR
 
 ÐUMBIR uvodi determinističku procenu ginger wellness blend-a sa fiksnim `dumbir` slug-om i API-first v1 površinom.
