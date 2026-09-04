@@ -60,23 +60,24 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const communitySignal = buildCommunitySignal(cuz.activeCrews, cuz.mentorProfiles, cuz.feedPosts);
   const koronReadiness = clamp(koron.readinessScore, 0, 100);
 
-  const readinessInputs = [
-    { score: v1Readiness, weight: 0.20 },
-    { score: v3Safety, weight: 0.14 },
-    { score: v3Readiness, weight: 0.16 },
-    { score: communitySignal, weight: 0.14 },
-    { score: koronReadiness, weight: 0.22 },
-  ];
-  if (duelKing.evaluations > 0) {
-    readinessInputs.push({ score: duelKingReadiness, weight: 0.14 });
-  }
-  const totalWeight = readinessInputs.reduce((sum, item) => sum + item.weight, 0);
+  const baselineReadiness = (
+    v1Readiness * 0.24
+    + v3Safety * 0.18
+    + v3Readiness * 0.20
+    + communitySignal * 0.13
+    + koronReadiness * 0.25
+  );
   const unifiedReadinessScore = round(
-    clamp(
-      readinessInputs.reduce((sum, item) => sum + item.score * item.weight, 0) / totalWeight,
-      0,
-      100,
-    ),
+    clamp(duelKing.evaluations > 0
+      ? (
+        v1Readiness * 0.20
+        + v3Safety * 0.15
+        + v3Readiness * 0.18
+        + duelKingReadiness * 0.14
+        + communitySignal * 0.11
+        + koronReadiness * 0.22
+      )
+      : baselineReadiness, 0, 100),
     2,
   );
 

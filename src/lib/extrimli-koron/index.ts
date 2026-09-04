@@ -59,19 +59,23 @@ export function getExtrimliKoronHealthReport(): ExtrimliKoronHealthReport {
   const destructionRecoveryScore = round(clamp(100 - v1.lastDestructionSeverityScore, 0, 100), 2);
   const syncCoverageScore = getSyncCoverageScore(degradedSources.length > 0);
 
-  const readinessInputs = [
-    { score: riskBalanceScore, weight: 0.30 },
-    { score: clamp(v3.lastReadinessScore, 0, 100), weight: 0.25 },
-    { score: communitySignalScore, weight: 0.15 },
-    { score: destructionRecoveryScore, weight: 0.15 },
-  ];
-  if (duelKing.evaluations > 0) {
-    readinessInputs.push({ score: duelKingReadinessScore, weight: 0.15 });
-  }
-  const totalWeight = readinessInputs.reduce((sum, item) => sum + item.weight, 0);
+  const baselineReadiness = (
+    riskBalanceScore * 0.35
+    + clamp(v3.lastReadinessScore, 0, 100) * 0.30
+    + communitySignalScore * 0.20
+    + destructionRecoveryScore * 0.15
+  );
   const readinessScore = round(
     clamp(
-      readinessInputs.reduce((sum, item) => sum + item.score * item.weight, 0) / totalWeight,
+      duelKing.evaluations > 0
+        ? (
+          riskBalanceScore * 0.30
+          + clamp(v3.lastReadinessScore, 0, 100) * 0.23
+          + duelKingReadinessScore * 0.17
+          + communitySignalScore * 0.15
+          + destructionRecoveryScore * 0.15
+        )
+        : baselineReadiness,
       0,
       100,
     ),
