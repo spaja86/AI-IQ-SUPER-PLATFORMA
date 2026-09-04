@@ -78,7 +78,11 @@ export async function POST(req: NextRequest) {
     };
 
     const result = evaluateTru(input);
-    const response = apiSuccess(result, result.valid ? 200 : 422);
+    const response = result.valid
+      ? apiSuccess(result, 200)
+      : apiError('UNPROCESSABLE_ENTITY', 'TRU evaluation input failed domain validation', {
+        validation: result,
+      });
     setTruHeaders(response, result);
     return response;
   } catch (error) {

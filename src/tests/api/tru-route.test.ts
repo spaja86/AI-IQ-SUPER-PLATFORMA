@@ -101,8 +101,14 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 422, `expected 422, got ${response.status}`);
-    const body = await response.json() as { data: { valid: boolean } };
-    assert(body.data.valid === false, 'result should be invalid');
+    assert(response.headers.get('X-Tru-Contract-Version') === TRU_CONTRACT_VERSION, 'missing contract version header');
+    assert(response.headers.get('X-Tru-Valid') === 'false', 'invalid branch must set X-Tru-Valid=false');
+    assert(response.headers.get('X-Tru-Status') === null, 'invalid branch must not expose X-Tru-Status');
+    assert(response.headers.get('X-Tru-Action') === null, 'invalid branch must not expose X-Tru-Action');
+
+    const body = await response.json() as { error: string; code: string; details?: { validation?: { valid?: boolean } } };
+    assert(body.code === 'UNPROCESSABLE_ENTITY', `expected UNPROCESSABLE_ENTITY, got ${body.code}`);
+    assert(body.details?.validation?.valid === false, 'invalid result details should include valid=false');
   });
 
   await test('POST /api/tru/evaluate returns 400 for invalid JSON', async () => {
