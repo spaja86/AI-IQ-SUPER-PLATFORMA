@@ -69,7 +69,7 @@ function recordEvaluation(status: TruStatus | null): void {
 function invalidResult(referenceId: string | undefined, warning: string, start: number): TruResult {
   recordEvaluation(null);
   return {
-    referenceId: 'n/a',
+    referenceId: referenceId ?? 'n/a',
     objective: null,
     channel: null,
     evidenceLevel: null,
@@ -159,7 +159,7 @@ function resolveRecommendedReviewHours(
     1,
     TRU_MAX_RESPONSE_LATENCY_HOURS,
   );
-  return Math.min(target, TRU_MAX_RESPONSE_LATENCY_HOURS);
+  return target;
 }
 
 function buildWarnings(input: TruInput, status: TruStatus, pressureScore: number): string[] {
