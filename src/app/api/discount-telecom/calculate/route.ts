@@ -7,6 +7,8 @@ import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import {
   calculateDiscount,
+  DISCOUNT_TELECOM_NETWORK_TYPES,
+  DISCOUNT_TELECOM_USER_SEGMENTS,
   DISCOUNT_TELECOM_CONTRACT_VERSION,
   DISCOUNT_TELECOM_MODULE_VERSION,
 } from '@/lib/discount-telecom';
@@ -17,6 +19,11 @@ export const dynamic = 'force-dynamic';
 function setHeaders(res: Response): void {
   res.headers.set('X-DiscountTelecom-Contract-Version', DISCOUNT_TELECOM_CONTRACT_VERSION);
   res.headers.set('X-DiscountTelecom-Module-Version', DISCOUNT_TELECOM_MODULE_VERSION);
+}
+
+function withHeaders(res: Response): Response {
+  setHeaders(res);
+  return res;
 }
 
 /**
@@ -38,11 +45,11 @@ export async function POST(req: NextRequest) {
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body', 400);
+      return withHeaders(apiError('BAD_REQUEST', 'Invalid JSON body', 400));
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object', 400);
+      return withHeaders(apiError('BAD_REQUEST', 'Body must be a JSON object', 400));
     }
 
     const {
@@ -55,22 +62,33 @@ export async function POST(req: NextRequest) {
     } = body as Record<string, unknown>;
 
     if (typeof operatorId !== 'string' || !operatorId) {
-      return apiError('BAD_REQUEST', 'operatorId is required (string)', 400);
+      return withHeaders(apiError('BAD_REQUEST', 'operatorId is required (string)', 400));
     }
     if (typeof basePriceCents !== 'number') {
-      return apiError('BAD_REQUEST', 'basePriceCents is required (number)', 400);
+      return withHeaders(apiError('BAD_REQUEST', 'basePriceCents is required (number)', 400));
     }
     if (typeof currency !== 'string' || !currency) {
-      return apiError('BAD_REQUEST', 'currency is required (string)', 400);
+      return withHeaders(apiError('BAD_REQUEST', 'currency is required (string)', 400));
     }
-    if (typeof networkType !== 'string' || !['2G', '3G', '4G', '5G'].includes(networkType)) {
-      return apiError('BAD_REQUEST', 'networkType must be one of: 2G, 3G, 4G, 5G', 400);
+    if (
+      typeof networkType !== 'string' ||
+      !DISCOUNT_TELECOM_NETWORK_TYPES.includes(networkType as DiscountCalculationInput['networkType'])
+    ) {
+      return withHeaders(apiError(
+        'BAD_REQUEST',
+        `networkType must be one of: ${DISCOUNT_TELECOM_NETWORK_TYPES.join(', ')}`,
+        400
+      ));
     }
     if (
       typeof userSegment !== 'string' ||
-      !['consumer', 'business', 'student', 'senior', 'all'].includes(userSegment)
+      !DISCOUNT_TELECOM_USER_SEGMENTS.includes(userSegment as DiscountCalculationInput['userSegment'])
     ) {
-      return apiError('BAD_REQUEST', 'userSegment must be one of: consumer, business, student, senior, all', 400);
+      return withHeaders(apiError(
+        'BAD_REQUEST',
+        `userSegment must be one of: ${DISCOUNT_TELECOM_USER_SEGMENTS.join(', ')}`,
+        400
+      ));
     }
 
     const input: DiscountCalculationInput = {
@@ -84,10 +102,8 @@ export async function POST(req: NextRequest) {
 
     const result = calculateDiscount(input);
     const statusCode = result.valid ? 200 : 422;
-    const response = apiSuccess(result, statusCode);
-    setHeaders(response);
-    return response;
+    return withHeaders(apiSuccess(result, statusCode));
   } catch (error) {
-    return apiInternalError('discount-telecom/calculate', error);
+    return withHeaders(apiInternalError('discount-telecom/calculate', error));
   }
 }

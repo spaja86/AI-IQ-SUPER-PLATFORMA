@@ -3,10 +3,16 @@
 //
 // TypeScript types za Discount Telecom — global telecom operator discount aggregation module.
 
-export type NetworkType = '2G' | '3G' | '4G' | '5G';
-export type TelecomRegion = 'EU' | 'US' | 'APAC' | 'LATAM' | 'Africa' | 'ME';
+export const DISCOUNT_TELECOM_NETWORK_TYPES = ['2G', '3G', '4G', '5G'] as const;
+export type NetworkType = (typeof DISCOUNT_TELECOM_NETWORK_TYPES)[number];
+
+export const DISCOUNT_TELECOM_REGIONS = ['EU', 'US', 'APAC', 'LATAM', 'Africa', 'ME'] as const;
+export type TelecomRegion = (typeof DISCOUNT_TELECOM_REGIONS)[number];
+
 export type DiscountType = 'loyalty' | 'volume' | 'bundle' | 'seasonal' | 'event' | 'roaming';
-export type UserSegment = 'consumer' | 'business' | 'student' | 'senior' | 'all';
+
+export const DISCOUNT_TELECOM_USER_SEGMENTS = ['consumer', 'business', 'student', 'senior', 'all'] as const;
+export type UserSegment = (typeof DISCOUNT_TELECOM_USER_SEGMENTS)[number];
 export type CurrencyCode = string; // ISO 4217
 
 // ─── Operator ─────────────────────────────────────────────────────────────────

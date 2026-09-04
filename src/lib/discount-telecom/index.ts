@@ -2,7 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 export { calculateDiscount, getDiscountTelecomHealthReport } from './engine';
-export { TELECOM_OPERATORS, getOperatorById, listOperators } from './operators';
+export { TELECOM_OPERATORS, getOperatorById, isValidTelecomRegion, listOperators } from './operators';
 export { DISCOUNT_RULES, getDiscountsByOperator, getDiscountById, listDiscounts } from './discounts';
 
 export type {
@@ -25,4 +25,7 @@ export {
   DISCOUNT_TELECOM_PERSONA_ID,
   DISCOUNT_TELECOM_MAX_DISCOUNT_CAP_PERCENT,
   DISCOUNT_TELECOM_PERFORMANCE_MAX_MS,
+  DISCOUNT_TELECOM_NETWORK_TYPES,
+  DISCOUNT_TELECOM_REGIONS,
+  DISCOUNT_TELECOM_USER_SEGMENTS,
 } from './types';

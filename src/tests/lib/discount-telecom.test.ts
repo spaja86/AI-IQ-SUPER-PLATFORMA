@@ -71,6 +71,12 @@ async function runTests(): Promise<void> {
     assert(ops.every((o) => o.active), 'All returned operators should be active');
   });
 
+  await test('listOperators excludes inactive operators', () => {
+    const ops = listOperators();
+    assert(!ops.some((o) => o.id === 'sprint-legacy-us'), 'Inactive operators must not appear in listOperators');
+    assert(getOperatorById('sprint-legacy-us')?.active === false, 'Inactive operator must still exist in registry');
+  });
+
   await test('listOperators filters by region EU', () => {
     const ops = listOperators('EU');
     assert(ops.length > 0, 'Should return EU operators');
@@ -108,6 +114,27 @@ async function runTests(): Promise<void> {
   await test('listDiscounts returns all discounts when no filter', () => {
     const discounts = listDiscounts();
     assert(discounts.length > 0, 'Should return at least one discount rule');
+  });
+
+  await test('listDiscounts filters by region', () => {
+    const euDiscounts = listDiscounts(undefined, 'EU');
+    assert(euDiscounts.length > 0, 'EU region should return at least one discount');
+    assert(
+      euDiscounts.every((d) => {
+        const op = getOperatorById(d.operatorId);
+        return op?.region === 'EU';
+      }),
+      'All returned discounts must belong to EU operators'
+    );
+  });
+
+  await test('listDiscounts applies operator + region filters together', () => {
+    const onlyMtsEu = listDiscounts('mts-rs', 'EU');
+    assert(onlyMtsEu.length > 0, 'MTS in EU should have discounts');
+    assert(onlyMtsEu.every((d) => d.operatorId === 'mts-rs'), 'Only MTS discounts expected');
+
+    const mismatch = listDiscounts('mts-rs', 'US');
+    assert(mismatch.length === 0, 'Operator-region mismatch should return empty list');
   });
 
   await test('getDiscountsByOperator returns discounts for mts-rs', () => {
@@ -200,6 +227,22 @@ async function runTests(): Promise<void> {
         `Operator ${op.id} exceeds cap: ${result.totalDiscountPercent}%`
       );
     }
+  });
+
+  await test('cap warning is emitted when stacked discounts exceed 60%', () => {
+    const result = calculateDiscount({
+      operatorId: 'vodafone-eu',
+      basePriceCents: 10000,
+      currency: 'EUR',
+      networkType: '5G',
+      userSegment: 'consumer',
+    });
+    assert(result.valid, 'Should be valid');
+    assert(result.totalDiscountPercent === DISCOUNT_TELECOM_MAX_DISCOUNT_CAP_PERCENT, 'Discount should be capped to 60%');
+    assert(
+      result.warnings.some((warning) => warning.includes('exceeds cap')),
+      'Expected cap warning when stacked discounts exceed cap'
+    );
   });
 
   await test('net price calculation is mathematically correct', () => {
@@ -295,6 +338,52 @@ async function runTests(): Promise<void> {
     });
     const studentDiscount = result.appliedDiscounts.find((d) => d.discountId === 'dt-student-20');
     assert(!studentDiscount, 'Student discount should not apply for business segment');
+  });
+
+  await test('warning is returned when no eligible discounts match', () => {
+    const result = calculateDiscount({
+      operatorId: 'deutsche-telekom',
+      basePriceCents: 5000,
+      currency: 'EUR',
+      networkType: '2G',
+      userSegment: 'business',
+    });
+    assert(result.valid, 'Should stay valid when no discount applies');
+    assert(result.appliedDiscounts.length === 0, 'No discounts should apply');
+    assert(
+      result.warnings.some((warning) => warning.includes('No eligible discounts matched')),
+      'Expected no-eligible-discounts warning'
+    );
+  });
+
+  await test('currency mismatch returns valid result with warning', () => {
+    const result = calculateDiscount({
+      operatorId: 'mts-rs',
+      basePriceCents: 3000,
+      currency: 'EUR',
+      networkType: '4G',
+      userSegment: 'consumer',
+    });
+    assert(result.valid, 'Currency mismatch should not invalidate the calculation');
+    assert(
+      result.warnings.some((warning) => warning.includes('Currency mismatch')),
+      'Expected currency mismatch warning'
+    );
+  });
+
+  await test('inactive operator returns invalid result', () => {
+    const result = calculateDiscount({
+      operatorId: 'sprint-legacy-us',
+      basePriceCents: 3000,
+      currency: 'USD',
+      networkType: '4G',
+      userSegment: 'consumer',
+    });
+    assert(!result.valid, 'Inactive operator must be invalid for calculations');
+    assert(
+      result.warnings.some((warning) => warning.includes('Operator is inactive')),
+      'Expected inactive operator warning'
+    );
   });
 
   // ─── Performance ─────────────────────────────────────────────────────────────

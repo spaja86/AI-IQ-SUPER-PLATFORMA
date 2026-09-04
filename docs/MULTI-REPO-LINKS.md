@@ -705,6 +705,10 @@ AI-IQ-SUPER-PLATFORMA#REAL-BIK-POK-CREATE-MAKSIMUM -> IO-OPENUI-AO#<follow-up is
 - Confirm `discount-telecom:logic-change` label exists in linked repo label schema
 - Register `discount-telecom-validator-agent` trigger in linked-repo `.agent-config.json`
 
+**2026-09-04 contract-hardening update (DISCAUNT compatibility scope):**
+- Contract remains `v1` (no breaking payload changes); only validation consistency and warning semantics were tightened.
+- Linked repo action: pull latest operator/discount snapshots to keep parity with region-aware discount listing and inactive-operator handling.
+
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#DISCOUNT-TELECOM-GLOBAL-001 -> IO-OPENUI-AO#<follow-up issue>

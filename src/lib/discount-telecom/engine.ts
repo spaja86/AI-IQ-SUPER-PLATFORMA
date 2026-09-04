@@ -91,6 +91,14 @@ export function calculateDiscount(input: DiscountCalculationInput): DiscountCalc
   if (!operator) {
     return buildErrorResult(input, `Unknown operator id: ${input.operatorId}`, start);
   }
+  if (!operator.active) {
+    return buildErrorResult(input, `Operator is inactive: ${input.operatorId}`, start);
+  }
+  if (operator.currency !== input.currency) {
+    warnings.push(
+      `Currency mismatch: operator ${operator.id} expects ${operator.currency}, received ${input.currency}`
+    );
+  }
 
   const referenceDate = input.referenceDate ? new Date(input.referenceDate) : new Date();
   if (isNaN(referenceDate.getTime())) {
@@ -100,6 +108,9 @@ export function calculateDiscount(input: DiscountCalculationInput): DiscountCalc
   const allRules = getDiscountsByOperator(input.operatorId);
   const eligible = allRules.filter((r) => isDiscountEligible(r, input, referenceDate));
   const selected = selectDiscounts(eligible);
+  if (selected.length === 0) {
+    warnings.push('No eligible discounts matched the provided segment/network/date criteria');
+  }
 
   // Additive stack with cap
   let totalPercent = selected.reduce((acc, r) => acc + r.valuePercent, 0);
