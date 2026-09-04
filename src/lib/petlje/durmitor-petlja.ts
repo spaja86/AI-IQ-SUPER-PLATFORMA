@@ -24,7 +24,7 @@ function resolveAggregateState(umbrella: PetljaResult): { reason: PetljaReason; 
     };
   }
 
-  return { reason: 'completed', status: 'ACTIVATED' };
+  return { reason: 'completed', status: umbrella.status };
 }
 
 export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
