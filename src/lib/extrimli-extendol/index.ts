@@ -8,6 +8,7 @@ import {
 import { getExtrimli3HealthReport } from '../extrimli-3';
 import { getCuzHealthReport } from '../extrimli-cuz';
 import { getDuelKingHealthReport } from '../extrimli-duel-king';
+import { computeDuelKingCompositeReadiness } from '../extrimli-duel-king';
 import { buildExtrimliKoronHealthReport } from '../extrimli-koron/core';
 import type {
   ExtrimliExtendolAcceptanceCriterion,
@@ -59,23 +60,8 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v1Readiness = clamp(100 - v1.lastRiskScore, 0, 100);
   const v3Safety = clamp(100 - v3.lastRiskScore, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
-  const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
   const duelKingLive = duelKing.telemetryStatus === 'LIVE';
-  const duelKingKurLive = duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'LIVE';
-  const duelKingDurLive = duelKing.durTelemetryStatus === 'LIVE' && duelKing.lastDurSignalStatus === 'LIVE';
-  const duelKingMolLive = duelKing.molTelemetryStatus === 'LIVE' && duelKing.lastMolSignalStatus === 'LIVE';
-  const duelKingKurScore = clamp(duelKing.lastKurProgressionSignal, 0, 100);
-  const duelKingDurScore = clamp(duelKing.lastDurProgressionSignal, 0, 100);
-  const duelKingMolScore = clamp(duelKing.lastMolProgressionSignal, 0, 100);
-  const duelKingCompositeReadiness = round(clamp(
-    duelKingReadiness
-    * (1 - (duelKingKurLive ? 0.20 : 0) - (duelKingDurLive ? 0.15 : 0) - (duelKingMolLive ? 0.10 : 0))
-    + (duelKingKurLive ? duelKingKurScore * 0.20 : 0)
-    + (duelKingDurLive ? duelKingDurScore * 0.15 : 0)
-    + (duelKingMolLive ? duelKingMolScore * 0.10 : 0),
-    0,
-    100,
-  ), 2);
+  const duelKingCompositeReadiness = computeDuelKingCompositeReadiness(duelKing);
   const communitySignal = buildCommunitySignal(cuz.activeCrews, cuz.mentorProfiles, cuz.feedPosts);
   const koronReadiness = clamp(koron.readinessScore, 0, 100);
 

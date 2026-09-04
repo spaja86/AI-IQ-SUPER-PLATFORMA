@@ -85,6 +85,11 @@ let lastTournamentState: DuelKingTournamentState | null = null;
 const MAX_KUR_IMPACT_SCORE = 8;
 const MAX_DUR_IMPACT_SCORE = 6;
 const MAX_MOL_IMPACT_SCORE = 5;
+const DUEL_KING_IN_GAME_SIGNAL_WEIGHTS = {
+  kur: 0.20,
+  dur: 0.15,
+  mol: 0.10,
+} as const;
 const DUEL_KING_KUR_DEFAULT_MAX_DURATION_MS = Math.min(20, EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS);
 const DUEL_KING_DUR_DEFAULT_MAX_DURATION_MS = Math.min(20, EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS);
 const DUEL_KING_MOL_DEFAULT_MAX_DURATION_MS = Math.min(20, EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS);
@@ -99,6 +104,26 @@ function resolveRiskLevel(score: number): RiskLevel {
 function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement[] {
   if (!mode) return [];
   return DUEL_KING_GEAR_REQUIREMENTS[mode].map((item) => ({ ...item }));
+}
+
+export function computeDuelKingCompositeReadiness(report: DuelKingHealthReport): number {
+  const duelKingReadiness = clamp(report.lastReadinessScore, 0, 100);
+  const kurLive = report.kurTelemetryStatus === 'LIVE' && report.lastKurSignalStatus === 'LIVE';
+  const durLive = report.durTelemetryStatus === 'LIVE' && report.lastDurSignalStatus === 'LIVE';
+  const molLive = report.molTelemetryStatus === 'LIVE' && report.lastMolSignalStatus === 'LIVE';
+  const kurSignal = clamp(report.lastKurProgressionSignal, 0, 100);
+  const durSignal = clamp(report.lastDurProgressionSignal, 0, 100);
+  const molSignal = clamp(report.lastMolProgressionSignal, 0, 100);
+
+  return round(clamp(
+    duelKingReadiness
+    * (1 - (kurLive ? DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.kur : 0) - (durLive ? DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.dur : 0) - (molLive ? DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.mol : 0))
+    + (kurLive ? kurSignal * DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.kur : 0)
+    + (durLive ? durSignal * DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.dur : 0)
+    + (molLive ? molSignal * DUEL_KING_IN_GAME_SIGNAL_WEIGHTS.mol : 0),
+    0,
+    100,
+  ), 2);
 }
 
 type DuelKingInGameSignalInput = DuelKingKurGameSignalInput | DuelKingDurGameSignalInput | DuelKingMolGameSignalInput;
@@ -600,6 +625,7 @@ export {
   DUEL_KING_GEAR_REQUIREMENTS,
   DUEL_KING_MODES,
   DUEL_KING_TOURNAMENT_STATES,
+  DUEL_KING_IN_GAME_SIGNAL_WEIGHTS,
   EXTRIMLI_DUEL_KING_API_MAX_MS,
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION,
