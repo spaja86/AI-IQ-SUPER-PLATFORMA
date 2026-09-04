@@ -14,7 +14,7 @@ export function setTruHeaders(res: Response, result?: TruResult): void {
     if (result.objective) res.headers.set('X-Tru-Objective', result.objective);
     if (result.channel) res.headers.set('X-Tru-Channel', result.channel);
     if (result.evidenceLevel) res.headers.set('X-Tru-Evidence-Level', result.evidenceLevel);
-    res.headers.set('X-Tru-Status', result.status);
-    res.headers.set('X-Tru-Action', result.recommendedAction);
+    if (result.status) res.headers.set('X-Tru-Status', result.status);
+    if (result.recommendedAction) res.headers.set('X-Tru-Action', result.recommendedAction);
   }
 }

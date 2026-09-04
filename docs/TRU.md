@@ -58,6 +58,7 @@ Each evaluation accepts:
 - `recommendedReviewHours` — bounded follow-up guidance based on status and action
 - `warnings` — explicit evidence/risk/escalation warnings
 - `disclaimer` — always present, because TRU is guidance and not legal, compliance, financial, or emergency advice
+- Invalid domain evaluations return `valid: false` and set `objective`, `channel`, `evidenceLevel`, `status`, and `recommendedAction` to `null`.
 
 ## Validation strategy
 

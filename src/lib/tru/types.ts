@@ -47,8 +47,8 @@ export interface TruResult {
   stabilityScore: number;
   pressureScore: number;
   overallScore: number;
-  status: TruStatus;
-  recommendedAction: TruAction;
+  status: TruStatus | null;
+  recommendedAction: TruAction | null;
   recommendedReviewHours: number;
   warnings: string[];
   disclaimer: string;

@@ -78,12 +78,11 @@ export async function POST(req: NextRequest) {
     };
 
     const result = evaluateTru(input);
+    const { referenceId: _ignoredReferenceId, ...validationDetails } = result;
     const response = result.valid
       ? apiSuccess(result, 200)
       : apiUnprocessableEntity('TRU evaluation input failed domain validation', {
-        validation: {
-          ...result,
-        },
+        validation: validationDetails,
       });
     setTruHeaders(response, result);
     return response;
