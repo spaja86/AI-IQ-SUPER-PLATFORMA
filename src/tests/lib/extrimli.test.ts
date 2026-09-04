@@ -8,6 +8,7 @@ import {
   calculateRisk, _resetRiskMetrics, getRiskMetrics,
   EXTRIMLI_CONTRACT_VERSION, EXTRIMLI_PERFORMANCE_MAX_MS, EXTRIMLI_PERSONA_ID,
   getExtrimliAggregateSignals,
+  getExtrimliHealthReport,
   EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION,
   EXTRIMLI_DESTRUKCIJA_MODULE_VERSION,
   DESTRUCTIBLE_ASSET_REGISTRY,
@@ -87,7 +88,15 @@ async function runTests(): Promise<void> {
     assert(signals.sourceOfTruth === '/api/extrimli/health', 'unexpected sourceOfTruth');
     assert(Number.isFinite(signals.readinessSignal) && signals.readinessSignal >= 0 && signals.readinessSignal <= 100, 'readinessSignal must be in [0, 100]');
     assert(Number.isFinite(signals.safetySignal) && signals.safetySignal >= 0 && signals.safetySignal <= 100, 'safetySignal must be in [0, 100]');
+    assert(Number.isFinite(signals.duelKingReadinessSignal) && signals.duelKingReadinessSignal >= 0 && signals.duelKingReadinessSignal <= 100, 'duelKingReadinessSignal must be in [0, 100]');
     assert([0, 100].includes(signals.degradationSignal), 'degradationSignal should be binary');
+  });
+
+  await test('health report includes DUEL KING telemetry fields', () => {
+    const report = getExtrimliHealthReport();
+    assert(typeof report.duelKingEvaluations === 'number', 'duelKingEvaluations must exist');
+    assert(Number.isFinite(report.lastDuelKingReadinessScore), 'lastDuelKingReadinessScore must be finite');
+    assert(Number.isFinite(report.lastDuelKingRiskScore), 'lastDuelKingRiskScore must be finite');
   });
 
   // ─── Registry ──────────────────────────────────────────────────────────────
@@ -101,6 +110,12 @@ async function runTests(): Promise<void> {
     const s = getSportById('skateboarding');
     assert(s !== undefined, 'skateboarding should exist');
     assert(s!.riskClass === 'II', `expected II, got ${s!.riskClass}`);
+  });
+
+  await test('getSportById returns DUEL KING combat sport', () => {
+    const sport = getSportById('duel-king');
+    assert(sport !== undefined, 'duel-king should exist');
+    assert(sport!.category === 'combat', `expected combat, got ${sport!.category}`);
   });
 
   await test('getSportById returns undefined for unknown id', () => {

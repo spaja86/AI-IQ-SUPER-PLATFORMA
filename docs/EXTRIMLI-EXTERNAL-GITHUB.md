@@ -23,6 +23,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 | Surface | Path / artifact | Role |
 |---|---|---|
 | Core domain | `src/lib/extrimli/**`, `src/lib/extrimli-3/**`, `src/app/api/extrimli/**`, `src/app/api/extrimli-3/**` | Risk, gear, destruction, weather i readiness logika |
+| DUEL KING domain | `src/lib/extrimli-duel-king/**`, `src/app/api/extrimli/duel-king/**` | Competitive-combat duel risk, readiness, gear clearance i tournament posture |
 | Community domain | `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**` | Crew, mentorship, feed i reputation signali za Extendol/KORON |
 | Unified Extendol domain | `src/lib/extrimli-extendol/**`, `src/app/api/extrimli/extendol/**` | Unified "maximum functionality for all" contract and aggregate readiness surface |
 | KORON overlay domain | `src/lib/extrimli-koron/**`, `src/app/api/extrimli/koron/**` | Cross-surface readiness overlay, sync coverage i degraded posture |
@@ -48,7 +49,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 ## 4. GitHub operating model
 
 - **Primary quality gate:** `extrimli-validator-agent`
-- **Required labels:** `extrimli`, `extrimli:logic-change`, `extrimli:external-github`, `extrondend:logic-change`, `extrondol:logic-change`, `agent:config-change`
+- **Required labels:** `extrimli`, `extrimli:logic-change`, `extrimli:external-github`, `duel-king`, `duel-king:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`, `agent:config-change`
 - **Human review:** obavezan za workflow/config/cross-repo promene
 - **Security boundary:** svi hook-ovi, tokeni i deploy kredencijali ostaju u GitHub/Vercel Secrets sloju
 - **Runtime source of truth:** Vercel Git integracija
@@ -82,6 +83,8 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 
 - module health/status snapshot
+- DUEL KING readiness/tournament snapshot
+  - includes `telemetryStatus` to distinguish baseline vs live duel telemetry
 - extendol unified health/readiness snapshot
 - KORON overlay health/readiness snapshot
 - EXTRONDEND aggregation snapshot
@@ -95,9 +98,10 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 ## 8. EXTRIMLI ↔ MAKSIMUS alignment
 
 - MAKSIMUS koristi `EXTRIMLI Extended` domen signal iz `/api/extrimli/extendol`.
-- EXTRONDEND koristi `/api/extrimli/extendol` + `/api/extrimli/koron` kao ulazne agregacione signale.
+- EXTRONDEND koristi `/api/extrimli/duel-king` + `/api/extrimli/extendol` + `/api/extrimli/koron` kao ulazne agregacione signale.
 - EXTRONDOL koristi `/api/extrimli/extrondend` + `/api/extrimli/extendol` + `/api/extrimli/koron` za WAWE readiness orkestraciju.
 - KORON surface `/api/extrimli/koron` mora ostati uključen u Extendol readiness i degraded evidenciju.
+- DUEL KING surface `/api/extrimli/duel-king` mora ostati uključen u EXTRIMLI health story i downstream snapshot plan kada je first-class surface aktivan.
 - Ako EXTRIMLI surface pređe KPI limit ili uđe u degraded mode, MAKSIMUS mora prijaviti preporuku za sanaciju.
 - Governance evidencija mora sadržati oba gate-a: `extrimli-validator` i `maksimus-validator`.
 
@@ -115,12 +119,14 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 2. evidencija `extrimli:external-github` label schema kompatibilnosti
 3. praćenje `instrukcija` export bundle contract-a kod downstream potrošača
 4. preuzimanje `/api/extrimli/koron` snapshot-a i provera polja `status`, `readinessScore`, `degradedSources`
-5. potvrda da su audit reference i workflow ownership usklađeni
-6. obavezan follow-up issue kada downstream ostane delimično neusaglašen
+5. preuzimanje `/api/extrimli/duel-king` snapshot-a i provera polja `duelMode`, `readinessScore`, `gearCleared`, `tournamentState`
+6. potvrda da su audit reference i workflow ownership usklađeni
+7. obavezan follow-up issue kada downstream ostane delimično neusaglašen
 
 ## 10. Mandatory gate criteria
 
 - KPI: evaluation ≤ 50ms, API ≤ 200ms, build ≤ 3 min
+- DUEL KING mora imati explicit versioned contract polja i source-of-truth endpoint
 - EXTRONDEND i EXTRONDOL moraju imati explicit versioned contract polja i source-of-truth endpoint
 - Security boundary: bez sekreta u kodu, sve kroz GitHub/Vercel Secrets
 - Human review obavezan pre promocije
@@ -170,6 +176,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 
 - Postoji kanonski dokument za EXTRIMLI external/GitHub surface
 - EXTRIMLI validator pokriva export/instrukcija/extendol surface
+- EXTRIMLI validator pokriva DUEL KING surface
 - EXTRIMLI validator pokriva i KORON overlay surface
 - GitHub governance workflow postoji bez dupliranja deploy toka
 - MAKSIMUS validator potvrđuje ingest EXTRIMLI Extendol signala

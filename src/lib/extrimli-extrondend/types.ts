@@ -1,6 +1,7 @@
 import type { Extrimli3HealthReport } from '../extrimli-3';
 import type { CuzHealthReport } from '../extrimli-cuz';
 import type { ExtrimliHealthReport } from '../extrimli';
+import type { DuelKingHealthReport } from '../extrimli-duel-king';
 import type { ExtrimliExtendolReport } from '../extrimli-extendol';
 import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 
@@ -37,6 +38,7 @@ export interface ExtrimliExtrondendReport {
   surfaces: {
     v1: ExtrimliHealthReport;
     v3: Extrimli3HealthReport;
+    duelKing: DuelKingHealthReport;
     cuz: CuzHealthReport;
     extendol: ExtrimliExtendolReport;
     koron: ExtrimliKoronHealthReport;

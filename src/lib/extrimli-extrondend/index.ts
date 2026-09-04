@@ -8,6 +8,7 @@ import {
 } from '../extrimli';
 import { getExtrimli3HealthReport } from '../extrimli-3';
 import { getCuzHealthReport } from '../extrimli-cuz';
+import { getDuelKingHealthReport } from '../extrimli-duel-king';
 import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { ExtrimliExtrondendAcceptanceCriterion, ExtrimliExtrondendReport } from './types';
@@ -21,10 +22,11 @@ import {
 } from './types';
 
 const EXTRONDEND_WEIGHTS = {
-  v1Safety: 0.20,
-  v3Readiness: 0.20,
-  extendolReadiness: 0.35,
-  koronReadiness: 0.25,
+  v1Safety: 0.18,
+  v3Readiness: 0.17,
+  duelKingReadiness: 0.15,
+  extendolReadiness: 0.28,
+  koronReadiness: 0.22,
   weightedSurfaceShare: 0.75,
   parityShare: 0.25,
 } as const;
@@ -34,6 +36,7 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
   const v1Signals = getExtrimliAggregateSignals();
   const v3 = getExtrimli3HealthReport();
   const cuz = getCuzHealthReport();
+  const duelKing = getDuelKingHealthReport();
   const extendol = getExtrimliExtendolReport();
   const koron = getExtrimliKoronHealthReport();
 
@@ -49,15 +52,31 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
   if (cuz.performanceMaxMs > EXTRONDEND_EVALUATION_MAX_MS || cuz.apiResponseMaxMs > EXTRONDEND_API_MAX_MS) {
     degradedSources.push('extrimli-cuz-kpi');
   }
+  if (duelKing.performanceMaxMs > EXTRONDEND_EVALUATION_MAX_MS || duelKing.apiResponseMaxMs > EXTRONDEND_API_MAX_MS) {
+    degradedSources.push('extrimli-duel-king-kpi');
+  }
 
   const v1Safety = clamp(v1Signals.safetySignal, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
+  const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
+  const duelKingLive = duelKing.telemetryStatus === 'LIVE';
+  const baselineWeightedSurfaceHealth = (
+    v1Safety * 0.20
+    + v3Readiness * 0.20
+    + extendol.unifiedReadinessScore * 0.35
+    + koron.readinessScore * 0.25
+  );
   const weightedSurfaceHealth = round(
     clamp(
-      v1Safety * EXTRONDEND_WEIGHTS.v1Safety
-      + v3Readiness * EXTRONDEND_WEIGHTS.v3Readiness
-      + extendol.unifiedReadinessScore * EXTRONDEND_WEIGHTS.extendolReadiness
-      + koron.readinessScore * EXTRONDEND_WEIGHTS.koronReadiness,
+      duelKingLive
+        ? (
+          v1Safety * EXTRONDEND_WEIGHTS.v1Safety
+          + v3Readiness * EXTRONDEND_WEIGHTS.v3Readiness
+          + duelKingReadiness * EXTRONDEND_WEIGHTS.duelKingReadiness
+          + extendol.unifiedReadinessScore * EXTRONDEND_WEIGHTS.extendolReadiness
+          + koron.readinessScore * EXTRONDEND_WEIGHTS.koronReadiness
+        )
+        : baselineWeightedSurfaceHealth,
       0,
       100,
     ),
@@ -87,8 +106,8 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
     },
     {
       id: 'integration-boundary',
-      description: 'Aggregation depends on v1, v3, CUZ, Extendol and KORON without mutating those contracts.',
-      passed: Boolean(extendol.contractVersion && koron.contractVersion && v1.contractVersion && v3.contractVersion && cuz.contractVersion && v1Signals.sourceOfTruth === '/api/extrimli/health'),
+      description: 'Aggregation depends on v1, v3, DUEL KING, CUZ, Extendol and KORON without mutating those contracts.',
+      passed: Boolean(extendol.contractVersion && koron.contractVersion && v1.contractVersion && v3.contractVersion && duelKing.contractVersion && cuz.contractVersion && v1Signals.sourceOfTruth === '/api/extrimli/health'),
     },
     {
       id: 'kpi-targets',
@@ -123,14 +142,14 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
     degradedSources,
     acceptanceCriteria,
     integrationBoundaries: {
-      dependsOn: ['/api/extrimli/health', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/extrimli-3/health', '/api/extrimli-cuz/health'],
+      dependsOn: ['/api/extrimli/health', '/api/extrimli/duel-king', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/extrimli-3/health', '/api/extrimli-cuz/health'],
       aliasesOfExistingSurfaces: false,
     },
     kpiTargets: {
       evaluationMaxMs: EXTRIMLI_PERFORMANCE_MAX_MS,
       apiResponseMaxMs: EXTRIMLI_API_RESPONSE_MAX_MS,
     },
-    surfaces: { v1, v3, cuz, extendol, koron },
+    surfaces: { v1, v3, duelKing, cuz, extendol, koron },
   };
 }
 

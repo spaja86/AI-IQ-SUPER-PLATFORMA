@@ -43,6 +43,7 @@ async function runTests(): Promise<void> {
     assert(report.integrationBoundaries.aliasesOfExistingSurfaces === false, 'EXTRONDEND must not be alias');
     assert(report.acceptanceCriteria.some((item) => item.id === 'naming-lock' && item.passed), 'naming-lock criterion must pass');
     assert(report.integrationBoundaries.dependsOn.includes('/api/extrimli/extendol'), 'dependsOn should include extendol');
+    assert(report.integrationBoundaries.dependsOn.includes('/api/extrimli/duel-king'), 'dependsOn should include duel-king');
   });
 
   await test('report includes bounded aggregate metrics', () => {
@@ -59,6 +60,7 @@ async function runTests(): Promise<void> {
     assert(report.surfaces.koron.contractVersion === 'v1-koron', 'koron contract mismatch');
     assert(report.surfaces.v1.contractVersion === 'v1', 'v1 contract mismatch');
     assert(report.surfaces.v3.contractVersion === 'v3', 'v3 contract mismatch');
+    assert(report.surfaces.duelKing.contractVersion === 'v1-duel-king', 'duelKing contract mismatch');
     assert(report.surfaces.cuz.contractVersion === 'v1', 'cuz contract mismatch');
   });
 
