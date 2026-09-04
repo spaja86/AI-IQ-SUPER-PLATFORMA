@@ -124,6 +124,23 @@ async function runTests(): Promise<void> {
     assert(result.warnings.length >= 4, 'expected multiple warnings');
   });
 
+  await test('high risk with strong scores still hard-blocks when evidence is none', () => {
+    const result = evaluateTru({
+      objective: 'COMMIT',
+      channel: 'MEETING',
+      evidenceLevel: 'NONE',
+      transparencyScore: 86,
+      reliabilityScore: 84,
+      reciprocityScore: 80,
+      riskLevel: 95,
+      responseLatencyHours: 96,
+      escalationCount: 2,
+    });
+
+    assert(result.valid, 'result should still be valid');
+    assert(result.status === 'BLOCK', `expected BLOCK, got ${result.status}`);
+  });
+
   await test('unsupported objective returns invalid result', () => {
     const result = evaluateTru({
       objective: 'PING' as never,

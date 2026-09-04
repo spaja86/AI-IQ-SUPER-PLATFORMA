@@ -127,6 +127,11 @@ function computePressureScore(input: TruInput): number {
 
 function resolveStatus(input: TruInput, overallScore: number): TruStatus {
   if (
+    (input.riskLevel >= 90 && input.evidenceLevel === 'NONE') ||
+    (input.escalationCount >= 8 && input.transparencyScore < 40)
+  ) return 'BLOCK';
+
+  if (
     overallScore >= 80 &&
     input.riskLevel <= 32 &&
     input.evidenceLevel === 'STRONG' &&
