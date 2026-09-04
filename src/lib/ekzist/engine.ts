@@ -11,7 +11,10 @@ import type {
 } from './types';
 import {
   EKZIST_API_RESPONSE_MAX_MS,
+  EKZIST_ALIASES,
+  EKZIST_CANONICAL_SLUG,
   EKZIST_CONTRACT_VERSION,
+  EKZIST_DISPLAY_NAME,
   EKZIST_DISCLAIMER,
   EKZIST_IMBALANCE_HIGH_THRESHOLD,
   EKZIST_IMBALANCE_LOW_THRESHOLD,
@@ -20,6 +23,8 @@ import {
   EKZIST_MODULE_VERSION,
   EKZIST_PERFORMANCE_MAX_MS,
   EKZIST_PERSONA_ID,
+  isEkzistAgeGroup,
+  isEkzistDomain,
 } from './types';
 
 // ─── In-memory metrics ───────────────────────────────────────────────────────
@@ -88,6 +93,11 @@ function computeTier(balanceScore: number, meanScore: number): EkzistTier {
   return 'GROUNDED';
 }
 
+function compareDomainScores(a: EkzistDomainScore, b: EkzistDomainScore): number {
+  if (a.score !== b.score) return b.score - a.score;
+  return a.domain.localeCompare(b.domain);
+}
+
 function buildRecommendations(tier: EkzistTier, dominant: EkzistDomain): string[] {
   const tierRecs = TIER_RECOMMENDATIONS[tier].slice(0, 2);
   const domainRec = DOMAIN_RECOMMENDATIONS[dominant];
@@ -124,11 +134,24 @@ export function evaluateEkzist(input: EkzistInput): EkzistResult {
     return invalidResult(input.referenceId, 'domains must be a non-empty array', start);
   }
 
+  if (typeof input.ageGroup !== 'undefined' && !isEkzistAgeGroup(input.ageGroup)) {
+    return invalidResult(input.referenceId, `ageGroup "${String(input.ageGroup)}" is not supported`, start);
+  }
+
+  const seenDomains = new Set<EkzistDomain>();
+
   // Validate each domain score
   for (const ds of input.domains) {
     if (!ds || typeof ds !== 'object') {
       return invalidResult(input.referenceId, 'each domain entry must be an object', start);
     }
+    if (!isEkzistDomain(ds.domain)) {
+      return invalidResult(input.referenceId, `domain "${String(ds.domain)}" is not supported`, start);
+    }
+    if (seenDomains.has(ds.domain)) {
+      return invalidResult(input.referenceId, `domain "${ds.domain}" appears more than once`, start);
+    }
+    seenDomains.add(ds.domain);
     if (typeof ds.score !== 'number' || !Number.isFinite(ds.score)) {
       return invalidResult(input.referenceId, `score for domain "${ds.domain}" must be a finite number`, start);
     }
@@ -146,7 +169,7 @@ export function evaluateEkzist(input: EkzistInput): EkzistResult {
   const balanceScore = computeBalanceScore(scores);
 
   // Dominant vector = highest score
-  const sorted = [...input.domains].sort((a, b) => b.score - a.score);
+  const sorted = [...input.domains].sort(compareDomainScores);
   const dominantVector: EkzistDomain = sorted[0].domain;
 
   const tier = computeTier(balanceScore, mean);
@@ -185,6 +208,9 @@ export function evaluateEkzist(input: EkzistInput): EkzistResult {
 export function getEkzistHealthReport(): EkzistHealthReport {
   return {
     personaId: EKZIST_PERSONA_ID,
+    displayName: EKZIST_DISPLAY_NAME,
+    canonicalSlug: EKZIST_CANONICAL_SLUG,
+    aliases: [...EKZIST_ALIASES],
     contractVersion: EKZIST_CONTRACT_VERSION,
     moduleVersion: EKZIST_MODULE_VERSION,
     evaluations,

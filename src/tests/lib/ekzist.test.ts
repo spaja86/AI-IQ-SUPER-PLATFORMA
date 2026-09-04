@@ -5,7 +5,9 @@ import {
   evaluateEkzist,
   getEkzistHealthReport,
   _resetEkzistMetrics,
+  EKZIST_CANONICAL_SLUG,
   EKZIST_CONTRACT_VERSION,
+  EKZIST_DISPLAY_NAME,
   EKZIST_DISCLAIMER,
   EKZIST_PERFORMANCE_MAX_MS,
   EKZIST_PERSONA_ID,
@@ -40,6 +42,11 @@ async function runTests(): Promise<void> {
 
   await test('contract version is non-empty', () => {
     assert(EKZIST_CONTRACT_VERSION.length > 0, 'contract version must be defined');
+  });
+
+  await test('canonical naming is locked to EKZIST / ekzist', () => {
+    assert(EKZIST_DISPLAY_NAME === 'EKZIST', `unexpected display name: ${EKZIST_DISPLAY_NAME}`);
+    assert(EKZIST_CANONICAL_SLUG === 'ekzist', `unexpected canonical slug: ${EKZIST_CANONICAL_SLUG}`);
   });
 
   await test('persona id is stable', () => {
@@ -219,12 +226,44 @@ async function runTests(): Promise<void> {
     assert(result.valid === false, 'null input should produce invalid result');
   });
 
+  await test('duplicate domains → invalid result', () => {
+    const result = evaluateEkzist({
+      domains: [
+        { domain: 'MEANING', score: 70 },
+        { domain: 'MEANING', score: 50 },
+      ],
+    });
+
+    assert(result.valid === false, 'duplicate domains should be invalid');
+    assert(result.warnings.some((warning) => warning.includes('appears more than once')), 'expected duplicate-domain warning');
+  });
+
+  await test('unknown domain → invalid result', () => {
+    const result = evaluateEkzist({
+      domains: [{ domain: 'UNKNOWN' as never, score: 40 }],
+    });
+
+    assert(result.valid === false, 'unknown domain should produce invalid result');
+  });
+
+  await test('unsupported ageGroup → invalid result', () => {
+    const result = evaluateEkzist({
+      domains: [{ domain: 'MEANING', score: 40 }],
+      ageGroup: 'UNKNOWN' as never,
+    });
+
+    assert(result.valid === false, 'unsupported ageGroup should produce invalid result');
+  });
+
   console.log('\n🔎 [ekzist] health report');
 
   await test('health report returns expected shape', () => {
     const report = getEkzistHealthReport();
 
     assert(report.personaId === EKZIST_PERSONA_ID, `unexpected personaId: ${report.personaId}`);
+    assert(report.displayName === 'EKZIST', `unexpected displayName: ${report.displayName}`);
+    assert(report.canonicalSlug === 'ekzist', `unexpected canonicalSlug: ${report.canonicalSlug}`);
+    assert(report.aliases.includes('exist'), 'expected EXIST alias');
     assert(report.contractVersion === EKZIST_CONTRACT_VERSION, 'unexpected contract version');
     assert(typeof report.evaluations === 'number', 'evaluations must be a number');
     assert(report.performanceMaxMs === 50, `expected 50ms, got ${report.performanceMaxMs}`);
