@@ -57,6 +57,7 @@ let lastReadinessScore = 50;
 let lastDuelRiskScore = 50;
 let kurEvaluations = 0;
 let kurDegradedEvaluations = 0;
+let lastKurEvaluationStatus: DuelKingKurSignalStatus = 'BASELINE';
 let lastKurProgressionSignal = 50;
 let lastKurImpactScore = 0;
 let lastKurSignalStatus: DuelKingKurSignalStatus = 'BASELINE';
@@ -342,6 +343,7 @@ export function evaluateDuelKing(input: DuelKingInput): DuelKingResult {
   lastTournamentState = tournamentState;
   if (input.kurGameSignal) {
     kurEvaluations += 1;
+    lastKurEvaluationStatus = kurGameSignal.status;
     lastKurProgressionSignal = kurGameSignal.progressionSignal;
     lastKurImpactScore = kurGameSignal.impactScore;
     lastKurSignalStatus = kurGameSignal.status;
@@ -385,7 +387,7 @@ export function getDuelKingHealthReport(): DuelKingHealthReport {
   const kurSignalCoverageScore = evaluations === 0 ? 0 : round(clamp((kurEvaluations / evaluations) * 100, 0, 100), 2);
   const kurTelemetryStatus: DuelKingKurSignalStatus = kurEvaluations === 0
     ? 'BASELINE'
-    : (kurDegradedEvaluations > 0 ? 'DEGRADED' : 'LIVE');
+    : lastKurEvaluationStatus;
   return {
     personaId: EXTRIMLI_DUEL_KING_PERSONA_ID,
     contractVersion: EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
@@ -414,6 +416,7 @@ export function _resetDuelKingMetrics(): void {
   telemetryStatus = 'BASELINE';
   kurEvaluations = 0;
   kurDegradedEvaluations = 0;
+  lastKurEvaluationStatus = 'BASELINE';
   lastReadinessScore = 50;
   lastDuelRiskScore = 50;
   lastKurProgressionSignal = 50;

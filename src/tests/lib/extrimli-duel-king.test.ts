@@ -244,6 +244,41 @@ async function runTests(): Promise<void> {
     assert(report.kurSignalCoverageScore > 0, `expected KUR coverage score > 0, got ${report.kurSignalCoverageScore}`);
   });
 
+  await test('successful KUR evaluation clears degraded telemetry state', () => {
+    _resetDuelKingMetrics();
+    evaluateDuelKing({
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 7,
+      tournamentState: 'ACTIVE',
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      kurGameSignal: { start: NaN, target: 8, step: 0 },
+    });
+    evaluateDuelKing({
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 7,
+      tournamentState: 'ACTIVE',
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      kurGameSignal: { start: 0, target: 8, step: 2 },
+    });
+
+    const report = getDuelKingHealthReport();
+    assert(report.kurTelemetryStatus === 'LIVE', `expected LIVE telemetry after successful KUR eval, got ${report.kurTelemetryStatus}`);
+  });
+
   await test('latest non-KUR evaluation resets KUR signal status to baseline', () => {
     _resetDuelKingMetrics();
     evaluateDuelKing({
