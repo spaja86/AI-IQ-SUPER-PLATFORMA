@@ -47,6 +47,8 @@ async function runTests(): Promise<void> {
     assert(report.coverage.athleteProgressAndReadiness, 'athleteProgressAndReadiness must be covered');
     assert(report.coverage.duelKingCompetition, 'duelKingCompetition must be covered');
     assert(report.coverage.kurInGameSignal, 'kurInGameSignal must be covered');
+    assert(report.coverage.durInGameSignal, 'durInGameSignal must be covered');
+    assert(report.coverage.molInGameSignal, 'molInGameSignal must be covered');
     assert(report.coverage.communityReputationAndMentorship, 'communityReputationAndMentorship must be covered');
     assert(report.coverage.koronReadinessOverlay, 'koronReadinessOverlay must be covered');
   });
@@ -73,6 +75,8 @@ async function runTests(): Promise<void> {
     const report = getExtrimliExtendolReport();
     assert(report.acceptanceCriteria.some((item) => item.id === 'koron-overlay-covered'), 'KORON acceptance criterion missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'kur-in-game-covered'), 'KUR in GAME acceptance criterion missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'dur-in-game-covered'), 'DUR in GAME acceptance criterion missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'mol-in-game-covered'), 'MOL in GAME acceptance criterion missing');
     assert(report.surfaces.koron.degradedMode === 'partial-payload-no-500', 'KORON degraded mode mismatch');
   });
 

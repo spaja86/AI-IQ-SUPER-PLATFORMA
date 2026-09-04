@@ -50,6 +50,9 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
   if (extrondend.degraded) degradedSources.push('extrondend:degraded');
   if (extendol.degraded) degradedSources.push('extendol:degraded');
   if (koron.degraded) degradedSources.push('koron:degraded');
+  if (extrondend.surfaces.duelKing.kurTelemetryStatus === 'DEGRADED') degradedSources.push('duel-king:kur-signal');
+  if (extrondend.surfaces.duelKing.durTelemetryStatus === 'DEGRADED') degradedSources.push('duel-king:dur-signal');
+  if (extrondend.surfaces.duelKing.molTelemetryStatus === 'DEGRADED') degradedSources.push('duel-king:mol-signal');
   if (koron.performanceMaxMs > EXTRONDOL_EVALUATION_MAX_MS || koron.apiResponseMaxMs > EXTRONDOL_API_MAX_MS) {
     degradedSources.push('koron-kpi');
   }
@@ -88,7 +91,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     },
     {
       id: 'wawe-sequencing',
-      description: 'Rollout sequencing maps readiness to WAWE-1..WAWE-5 stages with promotion freeze guard.',
+      description: 'Rollout sequencing maps readiness (including KUR/DUR/MOL signal posture) to WAWE-1..WAWE-5 with promotion freeze guard.',
       passed: ['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(currentWawe),
     },
     {

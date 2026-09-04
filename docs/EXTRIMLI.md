@@ -147,15 +147,29 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRIMLI_DUEL_KING_CONTRACT_VERSION = v1-duel-king`
   - `EXTRIMLI_DUEL_KING_MODULE_VERSION = 1.0.0`
   - `EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION = v1-kur-game`
+  - `EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION = v1-dur-game`
+  - `EXTRIMLI_DUEL_KING_MOL_CONTRACT_VERSION = v1-mol-game`
 - Degraded policy: `partial-payload-no-500`
 - Mandatory payload:
   - `telemetryStatus`
   - `kurTelemetryStatus`
+  - `durTelemetryStatus`
+  - `molTelemetryStatus`
   - `kurContractVersion`
+  - `durContractVersion`
+  - `molContractVersion`
   - `kurSignalCoverageScore`
+  - `durSignalCoverageScore`
+  - `molSignalCoverageScore`
   - `lastKurProgressionSignal`
+  - `lastDurProgressionSignal`
+  - `lastMolProgressionSignal`
   - `lastKurImpactScore`
+  - `lastDurImpactScore`
+  - `lastMolImpactScore`
   - `lastKurSignalStatus`
+  - `lastDurSignalStatus`
+  - `lastMolSignalStatus`
   - `duelMode`
   - `duelRiskScore`
   - `readinessScore`
@@ -171,19 +185,25 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 2. DUEL mode, readiness, gear clearance i tournament posture ostaju deterministički i bounded.
 3. Missing partial signals vraćaju degradirani odgovor umesto HTTP 500.
 4. KPI targeti ostaju ≤ 50ms evaluacija i ≤ 200ms API response.
-5. KUR in GAME signal je opcioni DUEL KING extension: validan signal ima bounded uticaj na readiness/risk, a nevalidan signal ulazi u degraded bez HTTP 500.
+5. KUR/DUR/MOL in GAME signali su opcioni DUEL KING extension: validni signali imaju bounded uticaj na readiness/risk, a nevalidni signali ulaze u degraded bez HTTP 500.
 
-## DUEL KING KUR in GAME scope
+## DUEL KING KUR/DUR/MOL in GAME scope
 
 - Scope boundary: samo `/api/extrimli/duel-king` i DUEL KING health/aggregate surface.
-- Input signal boundary: `kurGameSignal` (`start`, `target`, `step`, opciono `maxIterations`, `maxDurationMs`).
-- Execution boundary: `KUR PETLJA` deterministički izračun progression signala.
+- Input signal boundary: `kurGameSignal`, `durGameSignal`, `molGameSignal` (`start`, `target`, `step`, opciono `maxIterations`, `maxDurationMs`).
+- Execution boundary: signal petlje deterministički izračunavaju progression signale po istom bounded modelu.
 - Output boundary:
   - `kurGameSignal.status` (`BASELINE | LIVE | DEGRADED`)
   - `kurGameSignal.progressionSignal` (`0..100`)
   - `kurGameSignal.impactScore` (`-8..8`)
-- Degraded boundary: nevalidan ili nepotpun `kurGameSignal` ne vraća 500; odgovor ostaje `partial-payload-no-500` uz upozorenja.
-- Backward compatibility: bez `kurGameSignal` ulaza, postojeća DUEL KING readiness/risk semantika ostaje ista.
+  - `durGameSignal.status` (`BASELINE | LIVE | DEGRADED`)
+  - `durGameSignal.progressionSignal` (`0..100`)
+  - `durGameSignal.impactScore` (`-6..6`)
+  - `molGameSignal.status` (`BASELINE | LIVE | DEGRADED`)
+  - `molGameSignal.progressionSignal` (`0..100`)
+  - `molGameSignal.impactScore` (`-5..5`)
+- Degraded boundary: nevalidan ili nepotpun `kurGameSignal` / `durGameSignal` / `molGameSignal` ne vraća 500; odgovor ostaje `partial-payload-no-500` uz upozorenja.
+- Backward compatibility: bez `kurGameSignal`/`durGameSignal`/`molGameSignal` ulaza, postojeća DUEL KING readiness/risk semantika ostaje ista.
 
 
 ## EXTRONDEND aggregation contract
@@ -385,6 +405,8 @@ All v3 routes respond with headers:
 | `EXTRIMLI3_CONTRACT_VERSION` | `v3` |
 | `EXTRIMLI3_MODULE_VERSION` | `3.0.0` |
 | `EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION` | `v1-kur-game` |
+| `EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION` | `v1-dur-game` |
+| `EXTRIMLI_DUEL_KING_MOL_CONTRACT_VERSION` | `v1-mol-game` |
 | `EXTRIMLI_EXTENDOL_CONTRACT_VERSION` | `v1` |
 | `EXTRIMLI_EXTENDOL_MODULE_VERSION` | `1.0.0` |
 | `EXTRIMLI3_PERSONA_ID` | `extrimli-core` |
@@ -400,7 +422,7 @@ All v3 routes respond with headers:
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 ```
 
-Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readiness, sinhronizovati KUR telemetry (`kurSignalStatus`, `kurSignalCoverageScore`) kroz `docs/MULTI-REPO-LINKS.md`.
+Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readiness, sinhronizovati KUR/DUR/MOL telemetry (`kurSignalStatus`, `durSignalStatus`, `molSignalStatus`, `kurSignalCoverageScore`, `durSignalCoverageScore`, `molSignalCoverageScore`) kroz `docs/MULTI-REPO-LINKS.md`.
 
 ## References
 

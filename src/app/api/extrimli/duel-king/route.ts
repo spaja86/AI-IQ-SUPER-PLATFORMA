@@ -2,7 +2,9 @@ import type { NextRequest } from 'next/server';
 import { apiError, apiSuccess } from '@/lib/api/response';
 import {
   EXTRIMLI_DUEL_KING_CONTRACT_VERSION,
+  EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION,
+  EXTRIMLI_DUEL_KING_MOL_CONTRACT_VERSION,
   EXTRIMLI_DUEL_KING_MODULE_VERSION,
   evaluateDuelKing,
   getDuelKingHealthReport,
@@ -32,7 +34,11 @@ export async function GET() {
       moduleVersion: EXTRIMLI_DUEL_KING_MODULE_VERSION,
     });
     response.headers.set('X-Extrimli-Duel-King-Kur-Contract-Version', EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION);
+    response.headers.set('X-Extrimli-Duel-King-Dur-Contract-Version', EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION);
+    response.headers.set('X-Extrimli-Duel-King-Mol-Contract-Version', EXTRIMLI_DUEL_KING_MOL_CONTRACT_VERSION);
     response.headers.set('X-Extrimli-Duel-King-Kur-Signal-Status', report.lastKurSignalStatus);
+    response.headers.set('X-Extrimli-Duel-King-Dur-Signal-Status', report.lastDurSignalStatus);
+    response.headers.set('X-Extrimli-Duel-King-Mol-Signal-Status', report.lastMolSignalStatus);
     return response;
   } catch (error) {
     return apiExtrimliDegradedResponse('extrimli/duel-king', {
@@ -117,6 +123,42 @@ export async function POST(req: NextRequest) {
           maxDurationMs: signal.maxDurationMs === undefined ? undefined : toFiniteNumberOrNaN(signal.maxDurationMs),
         };
       })(),
+      durGameSignal: (() => {
+        if (candidate.durGameSignal === undefined) return undefined;
+        if (!candidate.durGameSignal || typeof candidate.durGameSignal !== 'object' || Array.isArray(candidate.durGameSignal)) {
+          return {
+            start: NaN,
+            target: NaN,
+            step: 0,
+          };
+        }
+        const signal = candidate.durGameSignal as Record<string, unknown>;
+        return {
+          start: toFiniteNumberOrNaN(signal.start),
+          target: toFiniteNumberOrNaN(signal.target),
+          step: toFiniteNumberOrNaN(signal.step),
+          maxIterations: signal.maxIterations === undefined ? undefined : toFiniteNumberOrNaN(signal.maxIterations),
+          maxDurationMs: signal.maxDurationMs === undefined ? undefined : toFiniteNumberOrNaN(signal.maxDurationMs),
+        };
+      })(),
+      molGameSignal: (() => {
+        if (candidate.molGameSignal === undefined) return undefined;
+        if (!candidate.molGameSignal || typeof candidate.molGameSignal !== 'object' || Array.isArray(candidate.molGameSignal)) {
+          return {
+            start: NaN,
+            target: NaN,
+            step: 0,
+          };
+        }
+        const signal = candidate.molGameSignal as Record<string, unknown>;
+        return {
+          start: toFiniteNumberOrNaN(signal.start),
+          target: toFiniteNumberOrNaN(signal.target),
+          step: toFiniteNumberOrNaN(signal.step),
+          maxIterations: signal.maxIterations === undefined ? undefined : toFiniteNumberOrNaN(signal.maxIterations),
+          maxDurationMs: signal.maxDurationMs === undefined ? undefined : toFiniteNumberOrNaN(signal.maxDurationMs),
+        };
+      })(),
       referenceId: typeof candidate.referenceId === 'string' ? candidate.referenceId : undefined,
     };
 
@@ -130,7 +172,11 @@ export async function POST(req: NextRequest) {
       degradedSources: result.degraded ? result.warnings : [],
     });
     response.headers.set('X-Extrimli-Duel-King-Kur-Contract-Version', EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION);
+    response.headers.set('X-Extrimli-Duel-King-Dur-Contract-Version', EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION);
+    response.headers.set('X-Extrimli-Duel-King-Mol-Contract-Version', EXTRIMLI_DUEL_KING_MOL_CONTRACT_VERSION);
     response.headers.set('X-Extrimli-Duel-King-Kur-Signal-Status', result.kurGameSignal.status);
+    response.headers.set('X-Extrimli-Duel-King-Dur-Signal-Status', result.durGameSignal.status);
+    response.headers.set('X-Extrimli-Duel-King-Mol-Signal-Status', result.molGameSignal.status);
     return response;
   } catch (error) {
     return apiExtrimliDegradedResponse('extrimli/duel-king', {

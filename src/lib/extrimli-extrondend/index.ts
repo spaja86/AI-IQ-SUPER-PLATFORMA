@@ -58,14 +58,31 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
   if (duelKing.kurTelemetryStatus === 'DEGRADED') {
     degradedSources.push('extrimli-duel-king-kur-signal');
   }
+  if (duelKing.durTelemetryStatus === 'DEGRADED') {
+    degradedSources.push('extrimli-duel-king-dur-signal');
+  }
+  if (duelKing.molTelemetryStatus === 'DEGRADED') {
+    degradedSources.push('extrimli-duel-king-mol-signal');
+  }
 
   const v1Safety = clamp(v1Signals.safetySignal, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
   const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
   const duelKingKurReadiness = clamp(duelKing.lastKurProgressionSignal, 0, 100);
-  const duelKingCompositeReadiness = duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'LIVE'
-    ? round(clamp(duelKingReadiness * 0.8 + duelKingKurReadiness * 0.2, 0, 100), 2)
-    : duelKingReadiness;
+  const duelKingDurReadiness = clamp(duelKing.lastDurProgressionSignal, 0, 100);
+  const duelKingMolReadiness = clamp(duelKing.lastMolProgressionSignal, 0, 100);
+  const duelKingKurLive = duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'LIVE';
+  const duelKingDurLive = duelKing.durTelemetryStatus === 'LIVE' && duelKing.lastDurSignalStatus === 'LIVE';
+  const duelKingMolLive = duelKing.molTelemetryStatus === 'LIVE' && duelKing.lastMolSignalStatus === 'LIVE';
+  const duelKingCompositeReadiness = round(clamp(
+    duelKingReadiness
+    * (1 - (duelKingKurLive ? 0.20 : 0) - (duelKingDurLive ? 0.15 : 0) - (duelKingMolLive ? 0.10 : 0))
+    + (duelKingKurLive ? duelKingKurReadiness * 0.20 : 0)
+    + (duelKingDurLive ? duelKingDurReadiness * 0.15 : 0)
+    + (duelKingMolLive ? duelKingMolReadiness * 0.10 : 0),
+    0,
+    100,
+  ), 2);
   const duelKingLive = duelKing.telemetryStatus === 'LIVE';
   const baselineWeightedSurfaceHealth = (
     v1Safety * 0.20
@@ -113,7 +130,7 @@ export function getExtrimliExtrondendReport(): ExtrimliExtrondendReport {
     },
     {
       id: 'integration-boundary',
-      description: 'Aggregation depends on v1, v3, DUEL KING, CUZ, Extendol and KORON without mutating those contracts.',
+      description: 'Aggregation depends on v1, v3, DUEL KING (+ KUR/DUR/MOL), CUZ, Extendol and KORON without mutating those contracts.',
       passed: Boolean(extendol.contractVersion && koron.contractVersion && v1.contractVersion && v3.contractVersion && duelKing.contractVersion && cuz.contractVersion && v1Signals.sourceOfTruth === '/api/extrimli/health'),
     },
     {
