@@ -15,8 +15,20 @@ export type PetljaKind =
   | 'IZI PETLJA'
   | 'UK PETLJA'
   | 'ZUM PETLJA'
+  | 'SPAJA PETLJA'
   | 'DURMITOR PETLJA'
   | 'UMBREL PETLJA';
+
+export type SpajaSegmentKind = 'RANGE' | 'TARGET' | 'SEQUENCE';
+export type SpajaTransferField = 'output' | 'iterations' | 'warnings-count';
+export type SpajaTransferPolicy = 'strict' | 'fallback';
+export type SpajaImportTarget = 'target' | 'start' | 'end' | 'sequence';
+
+export interface SpajaSegmentConfig {
+  segment: SpajaSegmentKind;
+  loops?: PetljaKind[];
+  importFromPrevious?: boolean;
+}
 
 export type PetljaReason = 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status';
 export type PetljaStatus = 'MONSTER' | 'DISABLED' | 'ACTIVATED' | 'DEAD';
@@ -31,6 +43,10 @@ export interface PetljaInput {
   maxIterations?: number;
   maxDurationMs?: number;
   status?: PetljaStatusInput;
+  spajaSegments?: SpajaSegmentConfig[];
+  spajaTransferPolicy?: SpajaTransferPolicy;
+  spajaExportFields?: SpajaTransferField[];
+  spajaImportTarget?: SpajaImportTarget;
 }
 
 export interface PetljaTracePoint {

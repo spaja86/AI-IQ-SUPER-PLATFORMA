@@ -14,6 +14,7 @@ export { runZurPetlja } from './zur-petlja';
 export { runIziPetlja } from './izi-petlja';
 export { runUkPetlja } from './uk-petlja';
 export { runZumPetlja } from './zum-petlja';
+export { runSpajaPetlja } from './spaja-petlja';
 export { runDurmitorPetlja } from './durmitor-petlja';
 export { runUmbrelPetlja } from './umbrel-petlja';
 
@@ -32,4 +33,9 @@ export type {
   PetljaStatusTransition,
   PetljaTracePoint,
   PetljaResult,
+  SpajaSegmentKind,
+  SpajaTransferField,
+  SpajaTransferPolicy,
+  SpajaImportTarget,
+  SpajaSegmentConfig,
 } from './types';
