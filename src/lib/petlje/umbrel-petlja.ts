@@ -4,8 +4,85 @@ import { runForPetlja } from './for-petlja';
 import { runItchPetlja } from './itch-petlja';
 import { runUrPelja } from './ur-pelja';
 import { runNikPetlja } from './nik-petlja';
+import { runDorPetlja } from './dor-petlja';
+import { runExePetlja } from './exe-petlja';
+import { runKurPetlja } from './kur-petlja';
+import { runDarPetlja } from './dar-petlja';
+import { runYuPetlja } from './yu-petlja';
+import { runZarPetlja } from './zar-petlja';
+import { runDerPetlja } from './der-petlja';
+import { runGarPetlja } from './gar-petlja';
+import { runZurPetlja } from './zur-petlja';
+import { runIziPetlja } from './izi-petlja';
+import { runUkPetlja } from './uk-petlja';
+import { runZumPetlja } from './zum-petlja';
 
 const GOAL = 'Orkestracija svih petlji kroz jedinstven, stabilan i auditabilan rezultat.';
+
+function aggregateParts(parts: PetljaResult[]) {
+  const warnings: string[] = [];
+  const safeOutputs: number[] = [];
+  let completed = true;
+  let hasDead = false;
+  let hasDisabled = false;
+  let totalOutput = 0;
+  let totalIterations = 0;
+  let totalDurationMs = 0;
+  let firstDeadReason: 'max-iterations' | 'time-limit' | undefined;
+  let firstDisabledReason: 'invalid-input' | 'blocked-status' | undefined;
+  let firstIncompleteReason: PetljaResult['reason'] | undefined;
+
+  for (const part of parts) {
+    completed = completed && part.completed;
+    hasDead = hasDead || part.status === 'DEAD';
+    hasDisabled = hasDisabled || part.status === 'DISABLED';
+    totalIterations += part.iterations;
+    totalDurationMs += part.durationMs;
+
+    const safeOutput = Number.isFinite(part.output) ? part.output : 0;
+    safeOutputs.push(safeOutput);
+    totalOutput += safeOutput;
+
+    for (const warning of part.warnings) {
+      warnings.push(`[${part.kind}] ${warning}`);
+    }
+
+    if (!firstIncompleteReason && !part.completed) {
+      firstIncompleteReason = part.reason;
+    }
+
+    if (!firstDeadReason && part.status === 'DEAD' && (part.reason === 'max-iterations' || part.reason === 'time-limit')) {
+      firstDeadReason = part.reason;
+    }
+
+    if (!firstDisabledReason && part.status === 'DISABLED' && (part.reason === 'invalid-input' || part.reason === 'blocked-status')) {
+      firstDisabledReason = part.reason;
+    }
+  }
+
+  const status =
+    hasDead ? 'DEAD'
+      : hasDisabled ? 'DISABLED'
+      : completed ? 'ACTIVATED'
+      : 'DEAD';
+  const reason =
+    status === 'DEAD'
+      ? (firstDeadReason ?? (firstIncompleteReason === 'time-limit' || firstIncompleteReason === 'max-iterations' ? firstIncompleteReason : 'max-iterations'))
+      : status === 'DISABLED'
+        ? (firstDisabledReason ?? firstIncompleteReason ?? 'invalid-input')
+        : 'completed';
+
+  return {
+    completed,
+    status,
+    reason,
+    warnings,
+    safeOutputs,
+    totalOutput,
+    totalIterations,
+    totalDurationMs,
+  };
+}
 
 export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const normalized = normalizeInput(input);
@@ -35,11 +112,39 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const itchResult = runItchPetlja(normalized);
   const urResult = runUrPelja(normalized);
   const nikResult = runNikPetlja(normalized);
+  const dorResult = runDorPetlja(normalized);
+  const exeResult = runExePetlja(normalized);
+  const kurResult = runKurPetlja(normalized);
+  const darResult = runDarPetlja(normalized);
+  const yuResult = runYuPetlja(normalized);
+  const zarResult = runZarPetlja(normalized);
+  const derResult = runDerPetlja(normalized);
+  const garResult = runGarPetlja(normalized);
+  const zurResult = runZurPetlja(normalized);
+  const iziResult = runIziPetlja(normalized);
+  const ukResult = runUkPetlja(normalized);
+  const zumResult = runZumPetlja(normalized);
 
-  const parts = [forResult, itchResult, urResult, nikResult];
-  const warnings = parts.flatMap((p) => p.warnings.map((w) => `[${p.kind}] ${w}`));
-  const completed = parts.every((p) => p.completed);
-  const partStatuses = parts.map((p) => p.status);
+  const parts = [
+    forResult,
+    itchResult,
+    urResult,
+    nikResult,
+    dorResult,
+    exeResult,
+    kurResult,
+    darResult,
+    yuResult,
+    zarResult,
+    derResult,
+    garResult,
+    zurResult,
+    iziResult,
+    ukResult,
+    zumResult,
+  ];
+  const aggregated = aggregateParts(parts);
+
   const mergedTrails = parts
     .flatMap((p, runnerOrder) => p.statusTrail.map((entry) => ({
       ...entry,
@@ -48,13 +153,9 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     })))
     .sort((a, b) => a.iteration - b.iteration || a.runnerOrder - b.runnerOrder);
 
-  const aggregateStatus =
-    partStatuses.includes('DEAD') ? 'DEAD'
-      : partStatuses.includes('DISABLED') ? 'DISABLED'
-      : partStatuses.includes('MONSTER') ? 'MONSTER'
-      : 'ACTIVATED';
+  let traceAccumulator = 0;
   statusTrail.push(...mergedTrails.map(({ runnerOrder: _runnerOrder, ...entry }) => entry));
-  const transition = createStatusTransition(status, aggregateStatus, 'umbrella-aggregate', parts.reduce((acc, p) => acc + p.iterations, 0));
+  const transition = createStatusTransition(status, aggregated.status, 'umbrella-aggregate', aggregated.totalIterations);
   status = transition.status;
   statusTrail.push(transition.entry);
 
@@ -62,17 +163,19 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     ...result,
     status,
     statusTrail,
-    output: parts.reduce((acc, p) => acc + p.output, 0),
-    iterations: parts.reduce((acc, p) => acc + p.iterations, 0),
-    completed,
-    reason: completed ? 'completed' : (parts.find((p) => !p.completed)?.reason ?? 'invalid-input'),
-    warnings,
-    durationMs: parts.reduce((acc, p) => acc + p.durationMs, 0),
-    trace: [
-      { iteration: 1, value: forResult.output, accumulator: forResult.output },
-      { iteration: 2, value: itchResult.output, accumulator: forResult.output + itchResult.output },
-      { iteration: 3, value: urResult.output, accumulator: forResult.output + itchResult.output + urResult.output },
-      { iteration: 4, value: nikResult.output, accumulator: forResult.output + itchResult.output + urResult.output + nikResult.output },
-    ],
+    output: aggregated.totalOutput,
+    iterations: aggregated.totalIterations,
+    completed: aggregated.completed,
+    reason: aggregated.reason,
+    warnings: aggregated.warnings,
+    durationMs: aggregated.totalDurationMs,
+    trace: parts.map((part, index) => {
+      traceAccumulator += aggregated.safeOutputs[index];
+      return {
+        iteration: index + 1,
+        value: aggregated.safeOutputs[index],
+        accumulator: traceAccumulator,
+      };
+    }),
   };
 }

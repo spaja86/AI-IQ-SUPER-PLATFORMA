@@ -5,6 +5,18 @@ Ovaj dokument definiše značenje, cilj i zajednički API za:
 - `ITCH PETLJA`
 - `UR PELJA`
 - `NIK PETLJA`
+- `DOR PETLJA`
+- `EXE PETLJA`
+- `KUR PETLJA`
+- `DAR PETLJA`
+- `YU PETLJA`
+- `ZAR PETLJA`
+- `DER PETLJA`
+- `GAR PETLJA`
+- `ZUR PETLJA`
+- `IZI PETLJA`
+- `UK PETLJA`
+- `ZUM PETLJA`
 - `UMBREL PETLJA`
 
 Kanonski statusi petlji:
@@ -37,8 +49,56 @@ Dozvoljeni alias-i ulaza:
    - Izlaz: Suma svih posećenih vrednosti pri odbrojavanju.
 
 5. **UMBREL PETLJA**
-   - Cilj: Orkestracija svih 4 osnovne petlje kroz jedinstveni rezultat i jedinstven audit trag.
+   - Cilj: Orkestracija svih osnovnih i proširenih petlji kroz jedinstveni rezultat i jedinstven audit trag.
    - Izlaz: Agregiran izlaz svih petlji.
+
+6. **DOR PETLJA**
+   - Cilj: Prolazak kroz opseg od `start` do `end` i sabiranje apsolutnog odstupanja svake vrednosti od `target`.
+   - Izlaz: Ukupan zbir odstupanja.
+
+7. **EXE PETLJA**
+   - Cilj: Obrada `sequence` kroz težinsko sabiranje po indeksu.
+   - Izlaz: `Σ value * (index + 1)`.
+
+8. **KUR PETLJA**
+   - Cilj: Koračno približavanje od `start` ka `target` uz akumulaciju svih međukoraka.
+   - Izlaz: Zbir svih postignutih međuvrednosti do targeta.
+
+9. **DAR PETLJA**
+   - Cilj: Izračunavanje aritmetičke sredine svih posećenih vrednosti u opsegu.
+   - Izlaz: Prosek posećenih vrednosti.
+
+10. **YU PETLJA**
+    - Cilj: Brojanje elemenata sekvence koji dosežu ili prelaze `target`.
+    - Izlaz: Broj pogodaka u sekvenci.
+
+11. **ZAR PETLJA**
+    - Cilj: Merenje volatilnosti sekvence kroz apsolutne razlike susednih elemenata.
+    - Izlaz: Zbir svih susednih odstupanja.
+
+12. **DER PETLJA**
+    - Cilj: Praćenje najveće prefiksne sume sekvence.
+    - Izlaz: Maksimalna prefiksna suma.
+
+13. **GAR PETLJA**
+    - Cilj: Pronalaženje najveće posećene vrednosti u opsegu.
+    - Izlaz: Maksimum posećenih vrednosti.
+
+14. **ZUR PETLJA**
+    - Cilj: Pronalaženje elementa sekvence najbližeg `target` vrednosti.
+    - Izlaz: Najbliža vrednost iz sekvence.
+
+15. **IZI PETLJA**
+    - Cilj: Pronalaženje prvog indeksa u sekvenci koji tačno odgovara `target` vrednosti.
+    - Izlaz: Indeks prvog pogotka ili `-1`.
+
+16. **UK PETLJA**
+    - Cilj: Brojanje posećenih vrednosti u opsegu koje su manje ili jednake `target`.
+    - Izlaz: Broj vrednosti ispod ili na target pragu.
+
+17. **ZUM PETLJA**
+    - Cilj: Sabiranje kvadrata svih posećenih vrednosti u opsegu.
+    - Izlaz: Zbir kvadrata.
 
 ## Jedinstven API / kontrakt
 
@@ -64,6 +124,10 @@ Kontrakt verzija: `1.0.0`
 - Svaka petlja ima zaštitu od beskonačnog izvršavanja:
   - `maxIterations`
   - `maxDurationMs`
+- Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`) zahtevaju smislen smer koraka u odnosu na opseg, a `ITCH PETLJA` i `KUR PETLJA` dodatno zahtevaju smislen korak u odnosu na `target`.
+- Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`) validiraju svaki element niza pre izvršavanja.
+- Target-orijentisane petlje (`ITCH`, `KUR`, `DOR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
+- `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.
 - `reason` može biti:
   - `completed`
   - `max-iterations`
@@ -98,6 +162,6 @@ Kontrakt verzija: `1.0.0`
 ## Kratak tok (primer)
 
 1. Priprema `PetljaInput`.
-2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runUmbrelPetlja`).
+2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runDorPetlja`, `runExePetlja`, `runKurPetlja`, `runDarPetlja`, `runYuPetlja`, `runZarPetlja`, `runDerPetlja`, `runGarPetlja`, `runZurPetlja`, `runIziPetlja`, `runUkPetlja`, `runZumPetlja`, `runUmbrelPetlja`).
 3. Obrada standardizovanog `PetljaResult`.
 4. Audit kroz `trace`, `warnings`, `reason` i `durationMs`.

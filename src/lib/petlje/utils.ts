@@ -155,3 +155,34 @@ export function finalizeResult(
     reason,
   };
 }
+
+export function invalidPetljaResult(
+  result: PetljaResult,
+  status: PetljaStatus,
+  statusTrail: PetljaStatusTransition[],
+  warnings: string[],
+): PetljaResult {
+  return {
+    ...result,
+    warnings,
+    reason: 'invalid-input',
+    completed: false,
+    status,
+    statusTrail,
+  };
+}
+
+export function blockedPetljaResult(
+  result: PetljaResult,
+  status: PetljaStatus,
+  statusTrail: PetljaStatusTransition[],
+): PetljaResult {
+  return {
+    ...result,
+    warnings: ['petlja je blokirana zbog početnog statusa'],
+    reason: 'blocked-status',
+    completed: false,
+    status,
+    statusTrail,
+  };
+}
