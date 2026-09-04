@@ -117,10 +117,13 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   const result = baseResult('SPAJA PETLJA', GOAL, normalized);
   let status = result.status;
   const statusTrail = [...result.statusTrail];
-  const transferPolicy: SpajaTransferPolicy = input.spajaTransferPolicy ?? 'strict';
-  const exportFields: SpajaTransferField[] = input.spajaExportFields?.length ? input.spajaExportFields : ['output'];
-  const importTarget: SpajaImportTarget = input.spajaImportTarget ?? 'target';
-  const segments = resolveSegments(input);
+  const rawTransferPolicy = input.spajaTransferPolicy ?? 'strict';
+  const rawExportFields = input.spajaExportFields?.length ? [...input.spajaExportFields] : ['output'];
+  const rawImportTarget = input.spajaImportTarget ?? 'target';
+  const segments = resolveSegments(input).map((segment) => ({
+    ...segment,
+    loops: segment.loops ? [...segment.loops] : undefined,
+  }));
 
   const errors = [
     ...validateFiniteNumber('start', normalized.start),
@@ -133,9 +136,17 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   if (normalized.maxIterations < 1) errors.push('maxIterations mora biti >= 1');
   if (normalized.maxDurationMs < 0) errors.push('maxDurationMs mora biti >= 0');
   if (!Array.isArray(segments) || segments.length === 0) errors.push('spajaSegments mora sadržati najmanje jedan segment');
-  if (!['strict', 'fallback'].includes(transferPolicy)) errors.push('spajaTransferPolicy mora biti strict ili fallback');
-  if (!['target', 'start', 'end', 'sequence'].includes(importTarget)) errors.push('spajaImportTarget mora biti target|start|end|sequence');
-  if (!Array.isArray(exportFields) || exportFields.length === 0) errors.push('spajaExportFields mora sadržati najmanje jedno polje');
+  if (!['strict', 'fallback'].includes(rawTransferPolicy)) errors.push('spajaTransferPolicy mora biti strict ili fallback');
+  if (!['target', 'start', 'end', 'sequence'].includes(rawImportTarget)) errors.push('spajaImportTarget mora biti target|start|end|sequence');
+  if (!Array.isArray(rawExportFields) || rawExportFields.length === 0) {
+    errors.push('spajaExportFields mora sadržati najmanje jedno polje');
+  } else {
+    for (const exportField of rawExportFields) {
+      if (!['output', 'iterations', 'warnings-count'].includes(exportField)) {
+        errors.push(`nepodržano spajaExportField: ${exportField}`);
+      }
+    }
+  }
 
   for (const segment of segments) {
     const allowed = SEGMENT_ALLOWED_LOOPS[segment.segment];
@@ -169,6 +180,10 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
     return blockedPetljaResult(result, status, statusTrail);
   }
 
+  const transferPolicy: SpajaTransferPolicy = rawTransferPolicy;
+  const exportFields: SpajaTransferField[] = rawExportFields;
+  const importTarget: SpajaImportTarget = rawImportTarget;
+
   const guard = buildGuard(normalized.maxIterations, normalized.maxDurationMs);
   const trace = [];
   const warnings: string[] = [];
@@ -185,12 +200,38 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   statusTrail.push(startTransition.entry);
 
   for (const segment of segments) {
-    const loops = segment.loops ?? SEGMENT_DEFAULT_LOOPS[segment.segment];
-    if (segment.importFromPrevious && importedValue !== undefined) {
-      workingInput = applyImport(workingInput, importTarget, importedValue);
+    const segmentKind = segment.segment;
+    const defaultLoops = SEGMENT_DEFAULT_LOOPS[segmentKind];
+    if (!defaultLoops) {
+      const transition = createStatusTransition(status, 'DISABLED', 'invalid-segment', guard.getIterations());
+      status = transition.status;
+      statusTrail.push(transition.entry);
+      return finalizeResult(result, guard, 'invalid-input', output, trace, warnings, status, statusTrail);
     }
 
+    const loops = segment.loops ?? defaultLoops;
+    if (!Array.isArray(loops) || loops.length === 0) {
+      const transition = createStatusTransition(status, 'DISABLED', 'invalid-segment-loops', guard.getIterations());
+      status = transition.status;
+      statusTrail.push(transition.entry);
+      return finalizeResult(result, guard, 'invalid-input', output, trace, warnings, status, statusTrail);
+    }
+
+    let pendingSegmentImport = segment.importFromPrevious ? importedValue : undefined;
     for (const loop of loops) {
+      if (pendingSegmentImport !== undefined) {
+        workingInput = applyImport(workingInput, importTarget, pendingSegmentImport);
+        pendingSegmentImport = undefined;
+      }
+
+      const runner = RUNNERS[loop];
+      if (typeof runner !== 'function') {
+        const transition = createStatusTransition(status, 'DISABLED', 'invalid-loop-runner', guard.getIterations());
+        status = transition.status;
+        statusTrail.push(transition.entry);
+        return finalizeResult(result, guard, 'invalid-input', output, trace, warnings, status, statusTrail);
+      }
+
       const decision = guard.canContinue();
       if (!decision.ok) {
         const terminal = resolveTerminalStatus(decision.reason!);
@@ -200,8 +241,24 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
         return finalizeResult(result, guard, decision.reason!, output, trace, warnings, status, statusTrail);
       }
 
-      guard.tick();
-      const part = RUNNERS[loop](workingInput);
+      const remainingIterations = normalized.maxIterations - guard.getIterations();
+      const remainingDurationMs = Math.max(0, normalized.maxDurationMs - guard.getDurationMs());
+      if (remainingIterations <= 0) {
+        const transition = createStatusTransition(status, 'DEAD', 'guard-stop:max-iterations', guard.getIterations());
+        status = transition.status;
+        statusTrail.push(transition.entry);
+        return finalizeResult(result, guard, 'max-iterations', output, trace, warnings, status, statusTrail);
+      }
+
+      const part = runner({
+        ...workingInput,
+        maxIterations: remainingIterations,
+        maxDurationMs: remainingDurationMs,
+      });
+
+      for (let i = 0; i < part.iterations; i += 1) {
+        guard.tick();
+      }
       warnings.push(...part.warnings.map((warning) => `[${segment.segment}][${part.kind}] ${warning}`));
       statusTrail.push(
         ...part.statusTrail.map((entry) => ({
@@ -233,13 +290,14 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
       const exported = computeExportValue(part, exportFields);
       if (exported !== undefined) {
         importedValue = exported;
-        workingInput = applyImport(workingInput, importTarget, importedValue);
       } else if (transferPolicy === 'strict') {
         const transition = createStatusTransition(status, 'DISABLED', 'pivot-export-invalid', guard.getIterations());
         status = transition.status;
         statusTrail.push(transition.entry);
         return finalizeResult(result, guard, 'invalid-input', output, trace, warnings, status, statusTrail);
       } else {
+        importedValue = undefined;
+        pendingSegmentImport = undefined;
         warnings.push(`[${segment.segment}][${part.kind}] fallback skip zbog nevalidnog exporta`);
       }
     }

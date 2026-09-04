@@ -140,13 +140,14 @@ Kontrakt verzija: `1.0.0`
   - `maxDurationMs`
 - Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`) zahtevaju smislen smer koraka u odnosu na opseg, a `ITCH PETLJA` i `KUR PETLJA` dodatno zahtevaju smislen korak u odnosu na `target`.
 - Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`) validiraju svaki element niza pre izvršavanja.
-- Target-orijentisane petlje (`ITCH`, `KUR`, `DOR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
+- Target-orijentisane petlje (`ITCH`, `KUR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
 - `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.
 - `DURMITOR PETLJA` validira opseg kao range-orijentisana petlja, koristi `sequence` kao pejzažni sloj i nasleđuje finalni status od ugrađene `UMBREL PETLJE` kada njen interni agregat nije uspešan.
 - `SPAJA PETLJA` validira segmentnu konfiguraciju pre izvršavanja:
   - Segmenti podržavaju samo petlje svoje kategorije (`RANGE`, `TARGET`, `SEQUENCE`).
+  - `importFromPrevious` se primenjuje jednom na početku segmenta (ne pre svake petlje unutar istog segmenta).
   - Export/import prenosi samo eksplicitno dozvoljena polja (`output`, `iterations`, `warnings-count`).
-  - `strict` prekida pivot kada segment nema validan izlaz; `fallback` beleži upozorenje i nastavlja.
+  - `strict` prekida pivot kada child petlja ne završi uspešno ili kada export paket nije validan; `fallback` beleži upozorenje i nastavlja.
 - `reason` može biti:
   - `completed`
   - `max-iterations`

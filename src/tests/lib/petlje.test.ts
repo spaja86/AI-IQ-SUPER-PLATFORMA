@@ -404,6 +404,8 @@ async function runTests(): Promise<void> {
     assert(!result.completed, 'SPAJA invalid config should fail');
     assertEqual(result.status, 'DISABLED', 'SPAJA invalid config status');
     assertEqual(result.reason, 'invalid-input', 'SPAJA invalid config reason');
+    assertEqual(result.iterations, 0, 'SPAJA invalid config should fail before execution');
+    assert(result.statusTrail.some((entry) => entry.reason === 'invalid-input'), 'SPAJA invalid config should use invalid-input transition');
     assert(result.warnings.some((warning) => warning.includes('nije dozvoljena u segmentu TARGET')), 'SPAJA should report invalid segment loop binding');
   });
 
@@ -419,6 +421,7 @@ async function runTests(): Promise<void> {
     assertEqual(result.input.status, 'DISABLED', 'SPAJA should normalize DISEBLED');
     assertEqual(result.status, 'DISABLED', 'SPAJA blocked status');
     assertEqual(result.reason, 'blocked-status', 'SPAJA blocked reason');
+    assert(result.statusTrail.some((entry) => entry.from === 'DISABLED' && entry.to === 'DISABLED' && entry.reason === 'blocked-by-status'), 'SPAJA blocked audit transition');
   });
 
   await test('SPAJA PETLJA guard stop maps to DEAD with deterministic audit trail', () => {
