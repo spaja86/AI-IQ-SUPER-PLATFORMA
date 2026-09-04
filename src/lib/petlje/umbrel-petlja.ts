@@ -13,25 +13,50 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   let status = result.status;
   const statusTrail = [...result.statusTrail];
 
-  const forResult = runForPetlja(input);
-  const itchResult = runItchPetlja(input);
-  const urResult = runUrPelja(input);
-  const nikResult = runNikPetlja(input);
+  if (status !== 'ACTIVATED') {
+    const transition = createStatusTransition(status, status, 'blocked-by-status', 0);
+    status = transition.status;
+    statusTrail.push(transition.entry);
+    return {
+      ...result,
+      status,
+      statusTrail,
+      reason: 'blocked-status',
+      completed: false,
+      warnings: ['petlja je blokirana zbog početnog statusa'],
+    };
+  }
+
+  const startTransition = createStatusTransition(status, 'MONSTER', 'execution-start', 0);
+  status = startTransition.status;
+  statusTrail.push(startTransition.entry);
+
+  const forResult = runForPetlja(normalized);
+  const itchResult = runItchPetlja(normalized);
+  const urResult = runUrPelja(normalized);
+  const nikResult = runNikPetlja(normalized);
 
   const parts = [forResult, itchResult, urResult, nikResult];
   const warnings = parts.flatMap((p) => p.warnings.map((w) => `[${p.kind}] ${w}`));
   const completed = parts.every((p) => p.completed);
   const partStatuses = parts.map((p) => p.status);
-  const mergedTrails = parts.flatMap((p) => p.statusTrail.map((entry) => ({ ...entry, reason: `[${p.kind}] ${entry.reason}` })));
+  const mergedTrails = parts
+    .flatMap((p, runnerOrder) => p.statusTrail.map((entry) => ({
+      ...entry,
+      reason: `[${p.kind}] ${entry.reason}`,
+      runnerOrder,
+    })))
+    .sort((a, b) => a.iteration - b.iteration || a.runnerOrder - b.runnerOrder);
 
   const aggregateStatus =
     partStatuses.includes('DEAD') ? 'DEAD'
       : partStatuses.includes('DISABLED') ? 'DISABLED'
       : partStatuses.includes('MONSTER') ? 'MONSTER'
       : 'ACTIVATED';
+  statusTrail.push(...mergedTrails.map(({ runnerOrder: _runnerOrder, ...entry }) => entry));
   const transition = createStatusTransition(status, aggregateStatus, 'umbrella-aggregate', parts.reduce((acc, p) => acc + p.iterations, 0));
   status = transition.status;
-  statusTrail.push(transition.entry, ...mergedTrails);
+  statusTrail.push(transition.entry);
 
   return {
     ...result,

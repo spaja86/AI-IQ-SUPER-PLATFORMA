@@ -138,6 +138,11 @@ async function runTests(): Promise<void> {
     assert(result.trace.length === 4, 'UMBREL trace should contain 4 parts');
     assert(result.reason === 'completed' || result.reason === 'invalid-input', 'UMBREL reason should be valid enum');
     assert(['ACTIVATED', 'DISABLED', 'DEAD'].includes(result.status), 'UMBREL status should be canonical');
+    assertEqual(result.statusTrail[0]?.to, 'MONSTER', 'UMBREL should enter MONSTER first');
+    assert(result.statusTrail[result.statusTrail.length - 1]?.reason === 'umbrella-aggregate', 'UMBREL should aggregate status last');
+    const last = result.statusTrail[result.statusTrail.length - 1];
+    assert(last?.from === 'MONSTER' && last?.to === result.status, 'UMBREL aggregate transition should be valid');
+    assertEqual(result.status, 'DISABLED', 'mixed child outcomes should aggregate to DISABLED');
   });
 
   await test('status aliases normalize to canonical values', () => {
@@ -148,19 +153,27 @@ async function runTests(): Promise<void> {
     const disabled = runForPetlja({ start: 0, end: 1, step: 1, status: 'DISEBLED', maxDurationMs: 100 });
     assertEqual(disabled.input.status, 'DISABLED', 'DISEBLED alias');
     assertEqual(disabled.status, 'DISABLED', 'DISEBLED final status');
-    assertEqual(disabled.reason, 'invalid-input', 'DISEBLED blocks execution');
+    assertEqual(disabled.reason, 'blocked-status', 'DISEBLED blocks execution');
 
     const dead = runForPetlja({ start: 0, end: 1, step: 1, status: 'DED', maxDurationMs: 100 });
     assertEqual(dead.input.status, 'DEAD', 'DED alias');
     assertEqual(dead.status, 'DEAD', 'DED final status');
-    assertEqual(dead.reason, 'invalid-input', 'DED blocks execution');
+    assertEqual(dead.reason, 'blocked-status', 'DED blocks execution');
   });
 
-  await test('MONSTER status is reachable and preserved in trail', () => {
+  await test('MONSTER input status is blocked', () => {
     const result = runForPetlja({ start: 0, end: 2, step: 1, status: 'MONSTER', maxDurationMs: 100 });
-    assert(result.statusTrail.length > 0, 'status trail should exist');
-    assert(result.statusTrail.some((s) => s.to === 'MONSTER'), 'MONSTER should appear in status trail');
-    assertEqual(result.status, 'ACTIVATED', 'completed MONSTER run returns to ACTIVATED');
+    assertEqual(result.reason, 'blocked-status', 'MONSTER input should be blocked');
+    assertEqual(result.status, 'MONSTER', 'blocked run preserves MONSTER status');
+    assert(result.statusTrail.some((entry) => entry.from === 'MONSTER' && entry.to === 'MONSTER'), 'MONSTER blocked transition audit');
+  });
+
+  await test('UMBREL short-circuits when status is DISABLED', () => {
+    const result = runUmbrelPetlja({ start: 0, end: 3, step: 1, status: 'DISEBLED', maxDurationMs: 100 });
+    assertEqual(result.reason, 'blocked-status', 'umbrella blocked reason');
+    assertEqual(result.status, 'DISABLED', 'umbrella blocked status');
+    assertEqual(result.iterations, 0, 'umbrella blocked iterations');
+    assert(result.statusTrail.some((entry) => entry.from === 'DISABLED' && entry.to === 'DISABLED'), 'umbrella blocked transition audit');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

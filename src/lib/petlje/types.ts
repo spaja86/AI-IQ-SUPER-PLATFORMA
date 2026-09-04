@@ -1,6 +1,6 @@
 export type PetljaKind = 'FOR PETLJA' | 'ITCH PETLJA' | 'UR PELJA' | 'NIK PETLJA' | 'UMBREL PETLJA';
 
-export type PetljaReason = 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input';
+export type PetljaReason = 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status';
 export type PetljaStatus = 'MONSTER' | 'DISABLED' | 'ACTIVATED' | 'DEAD';
 export type PetljaStatusInput = PetljaStatus | 'DISEBLED' | 'AKTIVEJT' | 'DED';
 

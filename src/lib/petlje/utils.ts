@@ -23,15 +23,15 @@ const STATUS_ALIAS_MAP: Record<PetljaStatusInput, PetljaStatus> = {
 };
 
 const ALLOWED_TRANSITIONS: Record<PetljaStatus, readonly PetljaStatus[]> = {
-  MONSTER: ['MONSTER', 'ACTIVATED', 'DEAD'],
-  DISABLED: ['DISABLED', 'ACTIVATED', 'DEAD'],
+  MONSTER: ['MONSTER', 'ACTIVATED', 'DISABLED', 'DEAD'],
+  DISABLED: ['DISABLED', 'DEAD'],
   ACTIVATED: ['ACTIVATED', 'MONSTER', 'DISABLED', 'DEAD'],
   DEAD: ['DEAD'],
 };
 
 export function normalizePetljaStatus(status: PetljaStatusInput | undefined): PetljaStatus {
   if (!status) return 'ACTIVATED';
-  return STATUS_ALIAS_MAP[status];
+  return STATUS_ALIAS_MAP[status] ?? 'DISABLED';
 }
 
 export function normalizeInput(input: PetljaInput): Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>> {

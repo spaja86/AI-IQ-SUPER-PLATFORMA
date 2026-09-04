@@ -69,12 +69,18 @@ Kontrakt verzija: `1.0.0`
   - `max-iterations`
   - `time-limit`
   - `invalid-input`
+  - `blocked-status`
 
 ## Status tranzicije
 
+- Dozvoljen ulaz za izvršavanje je samo `ACTIVATED`; ostali statusi vraćaju `blocked-status`.
+- `MONSTER` → `MONSTER` (blokiran ulaz sa MONSTER statusom)
+- `DISABLED` → `DISABLED` (blokiran ulaz sa DISABLED statusom)
+- `DEAD` → `DEAD` (blokiran ulaz sa DEAD statusom)
 - `ACTIVATED` → `MONSTER` (početak izvršavanja)
 - `MONSTER` → `ACTIVATED` (uspešan završetak)
-- `ACTIVATED|MONSTER|DISABLED` → `DEAD` (guard stop: `max-iterations` ili `time-limit`, ili nedozvoljena tranzicija)
+- `MONSTER` → `DISABLED` (umbrella agregacija kada je barem jedna child petlja `DISABLED`)
+- `ACTIVATED|MONSTER` → `DEAD` (guard stop: `max-iterations` ili `time-limit`, ili nedozvoljena tranzicija)
 - `ACTIVATED` → `DISABLED` (invalid input)
 - `DISABLED` i `DEAD` blokiraju izvršavanje petlje na ulazu
 

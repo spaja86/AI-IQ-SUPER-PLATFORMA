@@ -38,14 +38,14 @@ export function runUrPelja(input: PetljaInput): PetljaResult {
     };
   }
 
-  if (status === 'DISABLED' || status === 'DEAD') {
+  if (status !== 'ACTIVATED') {
     const transition = createStatusTransition(status, status, 'blocked-by-status', 0);
     status = transition.status;
     statusTrail.push(transition.entry);
     return {
       ...result,
       warnings: ['petlja je blokirana zbog početnog statusa'],
-      reason: 'invalid-input',
+      reason: 'blocked-status',
       completed: false,
       status,
       statusTrail,
