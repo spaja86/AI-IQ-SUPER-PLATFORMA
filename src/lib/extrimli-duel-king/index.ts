@@ -103,6 +103,7 @@ function defaultRequirements(mode: DuelKingMode | null): DuelKingGearRequirement
 
 type DuelKingInGameSignalInput = DuelKingKurGameSignalInput | DuelKingDurGameSignalInput | DuelKingMolGameSignalInput;
 type DuelKingInGameSignalResult = DuelKingKurGameSignalResult | DuelKingDurGameSignalResult | DuelKingMolGameSignalResult;
+type DuelKingInGameSignalStatus = DuelKingKurSignalStatus | DuelKingDurSignalStatus | DuelKingMolSignalStatus;
 
 function evaluateInGameSignal(
   signalName: 'KUR' | 'DUR' | 'MOL',
@@ -183,7 +184,7 @@ function evaluateInGameSignal(
   const impactScore = round(clamp((progressionSignal - 50) * 0.16, -maxImpactScore, maxImpactScore), 2);
   const isBoundedTermination = kurResult.reason === 'max-iterations' || kurResult.reason === 'time-limit';
   const isSignalFailure = kurResult.reason === 'invalid-input' || kurResult.reason === 'blocked-status';
-  const status: DuelKingKurSignalStatus = isSignalFailure ? 'DEGRADED' : 'LIVE';
+  const status: DuelKingInGameSignalStatus = isSignalFailure ? 'DEGRADED' : 'LIVE';
   if (isBoundedTermination) {
     warnings.push(`${signalName} signal reached bounded termination (${kurResult.reason}) and was applied with limited impact.`);
   }
