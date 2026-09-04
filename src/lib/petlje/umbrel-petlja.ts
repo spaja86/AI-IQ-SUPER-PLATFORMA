@@ -25,7 +25,6 @@ function aggregateParts(parts: PetljaResult[]) {
   let completed = true;
   let hasDead = false;
   let hasDisabled = false;
-  let hasMonster = false;
   let totalOutput = 0;
   let totalIterations = 0;
   let totalDurationMs = 0;
@@ -37,7 +36,6 @@ function aggregateParts(parts: PetljaResult[]) {
     completed = completed && part.completed;
     hasDead = hasDead || part.status === 'DEAD';
     hasDisabled = hasDisabled || part.status === 'DISABLED';
-    hasMonster = hasMonster || part.status === 'MONSTER';
     totalIterations += part.iterations;
     totalDurationMs += part.durationMs;
 
@@ -65,16 +63,14 @@ function aggregateParts(parts: PetljaResult[]) {
   const status =
     hasDead ? 'DEAD'
       : hasDisabled ? 'DISABLED'
-      : hasMonster ? 'MONSTER'
-      : 'ACTIVATED';
+      : completed ? 'ACTIVATED'
+      : 'DEAD';
   const reason =
     status === 'DEAD'
       ? (firstDeadReason ?? 'max-iterations')
       : status === 'DISABLED'
         ? (firstDisabledReason ?? firstIncompleteReason ?? 'invalid-input')
-        : completed
-          ? 'completed'
-          : (firstIncompleteReason ?? 'max-iterations');
+        : 'completed';
 
   return {
     completed,

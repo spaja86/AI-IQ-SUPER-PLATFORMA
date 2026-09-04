@@ -127,6 +127,7 @@ Kontrakt verzija: `1.0.0`
 - Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`) zahtevaju smislen smer koraka u odnosu na opseg.
 - Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`) validiraju svaki element niza pre izvršavanja.
 - Target-orijentisane petlje (`ITCH`, `KUR`, `DOR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
+- `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.
 - `reason` može biti:
   - `completed`
   - `max-iterations`
