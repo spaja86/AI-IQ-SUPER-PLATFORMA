@@ -60,6 +60,8 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Gamelord-Contract-Version') === 'v1', 'missing contract header on evaluate');
+    assert(response.headers.get('X-Gamelord-Module-Version') === '1.0.0', 'missing module header on evaluate');
     const body = await response.json() as { data: { valid: boolean; status: string } };
     assert(body.data.valid === true, 'result should be valid');
     assert(typeof body.data.status === 'string' && body.data.status.length > 0, 'status required');
@@ -78,6 +80,7 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 422, `expected 422, got ${response.status}`);
+    assert(response.headers.get('X-Gamelord-Contract-Version') === 'v1', 'missing contract header on 422');
   });
 
   await test('POST /api/gamelord/evaluate returns 400 for invalid JSON', async () => {
@@ -89,11 +92,13 @@ async function runTests(): Promise<void> {
 
     const response = await POST(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    assert(response.headers.get('X-Gamelord-Contract-Version') === 'v1', 'missing contract header on invalid JSON');
   });
 
   await test('POST /api/gamelord/evaluate returns 400 for missing required fields', async () => {
     const response = await POST(makeEvaluateRequest({ mode: 'SOLO' }));
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    assert(response.headers.get('X-Gamelord-Contract-Version') === 'v1', 'missing contract header on bad request');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

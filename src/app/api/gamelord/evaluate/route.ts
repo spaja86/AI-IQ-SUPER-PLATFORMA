@@ -9,16 +9,21 @@ import type { GamelordInput } from '@/lib/gamelord';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
+  const withHeaders = (response: Response) => {
+    setGamelordHeaders(response);
+    return response;
+  };
+
   try {
     let body: unknown;
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      return withHeaders(apiError('BAD_REQUEST', 'Invalid JSON body'));
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+      return withHeaders(apiError('BAD_REQUEST', 'Body must be a JSON object'));
     }
 
     const {
@@ -34,31 +39,31 @@ export async function POST(req: NextRequest) {
     } = body as Record<string, unknown>;
 
     if (referenceId !== undefined && typeof referenceId !== 'string') {
-      return apiError('BAD_REQUEST', 'referenceId must be a string when provided');
+      return withHeaders(apiError('BAD_REQUEST', 'referenceId must be a string when provided'));
     }
     if (typeof mode !== 'string') {
-      return apiError('BAD_REQUEST', 'mode is required (string)');
+      return withHeaders(apiError('BAD_REQUEST', 'mode is required (string)'));
     }
     if (typeof strategyScore !== 'number') {
-      return apiError('BAD_REQUEST', 'strategyScore is required (number)');
+      return withHeaders(apiError('BAD_REQUEST', 'strategyScore is required (number)'));
     }
     if (typeof executionScore !== 'number') {
-      return apiError('BAD_REQUEST', 'executionScore is required (number)');
+      return withHeaders(apiError('BAD_REQUEST', 'executionScore is required (number)'));
     }
     if (typeof consistencyScore !== 'number') {
-      return apiError('BAD_REQUEST', 'consistencyScore is required (number)');
+      return withHeaders(apiError('BAD_REQUEST', 'consistencyScore is required (number)'));
     }
     if (typeof riskControlScore !== 'number') {
-      return apiError('BAD_REQUEST', 'riskControlScore is required (number)');
+      return withHeaders(apiError('BAD_REQUEST', 'riskControlScore is required (number)'));
     }
     if (typeof penaltyPoints !== 'number') {
-      return apiError('BAD_REQUEST', 'penaltyPoints is required (number)');
+      return withHeaders(apiError('BAD_REQUEST', 'penaltyPoints is required (number)'));
     }
     if (typeof anomalyCount !== 'number') {
-      return apiError('BAD_REQUEST', 'anomalyCount is required (number)');
+      return withHeaders(apiError('BAD_REQUEST', 'anomalyCount is required (number)'));
     }
     if (typeof matchDurationMs !== 'number') {
-      return apiError('BAD_REQUEST', 'matchDurationMs is required (number)');
+      return withHeaders(apiError('BAD_REQUEST', 'matchDurationMs is required (number)'));
     }
 
     const result = evaluateGamelord({
@@ -73,12 +78,8 @@ export async function POST(req: NextRequest) {
       matchDurationMs,
     });
 
-    const response = apiSuccess(result, result.valid ? 200 : 422);
-    setGamelordHeaders(response);
-    return response;
+    return withHeaders(apiSuccess(result, result.valid ? 200 : 422));
   } catch (error) {
-    const response = apiInternalError('gamelord/evaluate', error);
-    setGamelordHeaders(response);
-    return response;
+    return withHeaders(apiInternalError('gamelord/evaluate', error));
   }
 }
