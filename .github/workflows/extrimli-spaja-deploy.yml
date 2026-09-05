@@ -210,6 +210,8 @@ jobs:
         run: |
           npx tsx src/tests/lib/extrimli.test.ts
           npx tsx src/tests/lib/extrimli-3.test.ts
+          npx tsx src/tests/lib/extrimli-duel-king.test.ts
+          npx tsx src/tests/lib/extrimli-extendol.test.ts
           npx tsx src/tests/lib/extrimli-extrondend.test.ts
           npx tsx src/tests/lib/extrimli-extrondol.test.ts
           npx tsx src/tests/lib/extrimli-koron.test.ts
@@ -229,7 +231,7 @@ jobs:
           echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| TypeScript | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Lint (extrimli, extrondend, extrondol, duet, extrimli-cuz) | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| EXTRIMLI/EXTRONDOL/DUET unit tests | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| EXTRIMLI/EXTRONDOL/DUET scoped tests | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Full test suite | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
 
   # ─────────────────────────────────────────────────────────────────────────────
