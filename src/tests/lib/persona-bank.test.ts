@@ -116,6 +116,12 @@ async function runTests(): Promise<void> {
     assert(p.id.length > 0, 'id mora biti generisan');
   });
 
+  await test('registerPersona poštuje eksplicitni dormant status pri kreiranju', () => {
+    _resetPersonaBankStore();
+    const p = registerPersona({ ...BASE_INPUT, id: 'dormant-p', status: 'dormant' }, 'ci-bot');
+    assertEqual(p.status, 'dormant', 'status');
+  });
+
   // ─── Store: get ─────────────────────────────────────────────────────────────
 
   await test('getPersona vraća personu po id', () => {

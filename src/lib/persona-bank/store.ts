@@ -62,7 +62,9 @@ export function registerPersona(input: PersonaRegistrationInput, agentId: string
         attributes: input.attributes,
         linkedAgents: input.linkedAgents ?? existing.linkedAgents,
         crossRepoRef: input.crossRepoRef ?? existing.crossRepoRef,
-        status: existing.status === 'archived' ? 'active' : existing.status,
+        status: existing.status === 'archived'
+          ? (input.status ?? 'active')
+          : (input.status ?? existing.status),
         version: existing.version + 1,
         updatedAt: now,
         auditLog: [
@@ -86,7 +88,7 @@ export function registerPersona(input: PersonaRegistrationInput, agentId: string
       octave: input.octave,
       hipermrezaNode: input.hipermrezaNode,
       attributes: input.attributes,
-      status: 'active',
+      status: input.status ?? 'active',
       linkedAgents: input.linkedAgents ?? [],
       crossRepoRef: input.crossRepoRef,
       version: 1,

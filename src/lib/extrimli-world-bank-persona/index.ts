@@ -142,6 +142,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       },
       lifecycleDecision: lifecycle.decision,
     },
+    status: lifecycle.targetPersonaStatus,
     linkedAgents: ['extrimli-validator-agent', 'multi-repo-sync-agent', 'persona-bank-agent'],
     crossRepoRef: EXTRIMLI_PERSONA_ID,
   };
@@ -176,20 +177,14 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       })
       : client.register(personaPayload);
 
-    const finalPersona = existing
-      ? updated
-      : targetStatus === 'dormant'
-        ? client.update(EXTRIMLI_PERSONA_ID, { status: 'dormant' })
-        : updated;
-
     writeResult = {
       attempted: true,
       operation: existing ? 'update' : 'register',
-      personaStatusAfter: finalPersona.status,
-      auditEntriesAfter: finalPersona.auditLog.length,
-      personaVersionAfter: finalPersona.version,
+      personaStatusAfter: updated.status,
+      auditEntriesAfter: updated.auditLog.length,
+      personaVersionAfter: updated.version,
       appliedBy: agentId,
-      persona: finalPersona,
+      persona: updated,
     };
   }
 
