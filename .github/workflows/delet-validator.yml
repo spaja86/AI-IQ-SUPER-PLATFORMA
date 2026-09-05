@@ -1,0 +1,52 @@
+name: DELET — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/delet/**'
+      - 'src/app/api/delet/**'
+      - 'src/tests/lib/delet.test.ts'
+      - 'src/tests/api/delet-route.test.ts'
+      - 'docs/DELET.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
+      - '.github/workflows/delet-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/delet/**'
+      - 'src/app/api/delet/**'
+      - 'src/tests/lib/delet.test.ts'
+      - 'src/tests/api/delet-route.test.ts'
+      - 'docs/DELET.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
+      - '.github/workflows/delet-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: delet-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: ./.github/workflows/_validator-template.yml
+    with:
+      domain: delet
+      lint_paths: >-
+        src/lib/delet
+        src/app/api/delet
+      test_commands: |
+        npx tsx src/tests/lib/delet.test.ts
+        npx tsx src/tests/api/delet-route.test.ts
+      scan_paths: >-
+        src/lib/delet
+        src/app/api/delet
+      label: delet
+      perf_eval_ms: 50
+      perf_api_ms: 200

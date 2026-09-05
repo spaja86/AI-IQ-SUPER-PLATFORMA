@@ -1195,6 +1195,49 @@
       "linkedRepoImpact": "none",
       "scope": "src/lib/aktiviti-all/**,src/app/api/aktiviti-all/**"
     },
+    "delet-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "delet-governance-core",
+      "octave": 6,
+      "hipermrezaNode": 52,
+      "labels": [
+        "delet",
+        "delet:logic-change",
+        "delet:validated",
+        "delet:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/delet-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/DELET.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/delet.test.ts",
+        "npx tsx src/tests/api/delet-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/delet/**",
+        "src/app/api/delet/**",
+        "src/tests/lib/delet.test.ts",
+        "src/tests/api/delet-route.test.ts",
+        "docs/DELET.md",
+        "AGENTS.md",
+        ".agent-config.json",
+        ".github/workflows/delet-validator.yml"
+      ],
+      "linkedRepoImpact": "none",
+      "scope": "src/lib/delet/**,src/app/api/delet/**"
+    },
     "gamelord-validator-agent": {
       "enabled": true,
       "status": "active",
