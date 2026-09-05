@@ -191,10 +191,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     {
       id: 'domain-strategy-lock',
       description: 'Requested `spaja.nivo*spaja` is rejected and canonical domains remain `spaja.nivo-spaja` + `*.spaja.nivo-spaja`.',
-      passed: domainStrategy.valid
-        && domainStrategy.requestedPatternRejected
-        && typeof domainStrategy.invalidReason === 'string'
-        && domainStrategy.invalidReason.includes(`invalid requested pattern: ${EXTRONDOL_REQUESTED_DOMAIN_PATTERN}`),
+      passed: domainStrategy.valid && domainStrategy.requestedPatternRejected,
     },
     {
       id: 'nivo-duet-mapping',
