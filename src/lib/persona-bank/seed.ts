@@ -175,6 +175,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     linkedAgents: ['digit-engine-validator-agent', 'persona-bank-agent', 'multi-repo-sync-agent'],
     crossRepoRef: 'digit-engine-core',
   },
+  // ─── DIGITRON CORE ──────────────────────────────────────────────────────────
+  {
+    id: 'digitron-core',
+    name: 'DIGITRON Core — Successor Symbolic Intelligence Layer',
+    type: 'digitron',
+    octave: 10,
+    hipermrezaNode: 81,
+    attributes: {
+      traits: ['successor', 'deterministic', 'registry-driven', 'compatibility-aware'],
+      skills: ['digitron-evaluation', 'compatibility-bridging', 'registry-management', 'signal-synchronization'],
+      tone: 'analytical',
+      domain: 'digitron-intelligence',
+    },
+    linkedAgents: ['digitron-validator-agent', 'persona-bank-agent', 'multi-repo-sync-agent'],
+    crossRepoRef: 'digitron-core',
+  },
   // ─── MAKSIMUS ─────────────────────────────────────────────────────────────
   {
     id: 'maksimus',

@@ -633,6 +633,40 @@
         "target": "spaja86/IO-OPENUI-AO"
       }
     },
+    "digitron-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "digitron-core",
+      "octave": 10,
+      "hipermrezaNode": 81,
+      "successorOf": "digit-engine",
+      "labels": [
+        "digitron",
+        "digitron:logic-change",
+        "digitron:validated",
+        "digitron:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/digitron-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "kpis": {
+        "lookupMaxMs": 10,
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200
+      },
+      "testSuite": "src/tests/lib/digitron.test.ts",
+      "scope": "src/lib/digitron/**,src/app/api/digitron/**",
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "multiRepoSync": {
+        "snapshots": [
+          "digitron-registry"
+        ],
+        "target": "spaja86/IO-OPENUI-AO"
+      }
+    },
     "great-sumbion-validator-agent": {
       "enabled": true,
       "status": "active",

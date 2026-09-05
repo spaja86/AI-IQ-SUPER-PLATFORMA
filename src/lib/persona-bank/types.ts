@@ -18,6 +18,7 @@ export type PersonaType =
   | 'madagaskar'
   | 'extrimli'
   | 'digit-engine'
+  | 'digitron'
   | 'pilotrelax'
   | 'generic';
 

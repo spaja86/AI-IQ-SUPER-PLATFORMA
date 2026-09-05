@@ -226,6 +226,7 @@ export function getPersonaBankStats(): PersonaBankStats {
     madagaskar: 0,
     extrimli: 0,
     'digit-engine': 0,
+    digitron: 0,
     pilotrelax: 0,
     generic: 0,
   };

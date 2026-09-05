@@ -1551,3 +1551,32 @@ AI-IQ-SUPER-PLATFORMA#dinosaurus-trexar -> IO-OPENUI-AO#<optional follow-up>
 Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#AKTIVITI-ALL -> IO-OPENUI-AO#<follow-up issue>`
+
+---
+
+## DIGITRON — Successor Digit Intelligence Layer
+
+| Field | Value |
+|---|---|
+| Date | 2026-09-05 |
+| Owner | @spaja86 |
+| Scope | `src/lib/digitron/**`, `src/app/api/digitron/**` |
+| Contract | `DIGITRON_CONTRACT_VERSION = v1`, `DIGITRON_MODULE_VERSION = 1.0.0` |
+| Successor | `digit-engine` |
+| Persona | `digitron-core` (octave: 10, hipermreza node: 81) |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — DIGITRON registry snapshots | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `digitron-registry` snapshots via `multi-repo-sync-agent` |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Add `digitron:logic-change` label to linked-repo label schema
+- Add `digitron-validator-agent` trigger to linked-repo `.agent-config.json`
+- Consume `/api/digitron/health` for contract and KPI metadata checks
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
+```
