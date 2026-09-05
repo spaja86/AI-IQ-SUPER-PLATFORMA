@@ -82,7 +82,9 @@ export async function POST(req: NextRequest) {
     };
 
     const result = evaluateKulkon(input);
-    const response = apiSuccess(result, result.valid ? 200 : 422);
+    const response = result.valid
+      ? apiSuccess(result, 200)
+      : apiError('UNPROCESSABLE_ENTITY', result.warnings[0] ?? 'KULKON evaluation is invalid', result);
     setKulkonHeaders(response, result);
     return response;
   } catch (error) {

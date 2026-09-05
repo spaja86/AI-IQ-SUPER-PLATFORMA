@@ -101,8 +101,9 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 422, `expected 422, got ${response.status}`);
-    const body = await response.json() as { data: { valid: boolean } };
-    assert(body.data.valid === false, 'result should be invalid');
+    const body = await response.json() as { code: string; error: string };
+    assert(body.code === 'UNPROCESSABLE_ENTITY', `expected UNPROCESSABLE_ENTITY, got ${body.code}`);
+    assert(body.error.length > 0, 'error message should be present');
   });
 
   await test('POST /api/kulkon/evaluate returns 400 for invalid JSON', async () => {
