@@ -44,7 +44,14 @@ if (testFiles.length === 0) {
   process.exit(1);
 }
 
-const tsxCliPath = require.resolve('tsx/cli', { paths: [repoRoot] });
+let tsxCliPath;
+try {
+  tsxCliPath = require.resolve('tsx/cli', { paths: [repoRoot] });
+} catch (error) {
+  console.error('Unable to resolve tsx CLI (tsx/cli). Ensure dependencies are installed (npm ci).');
+  console.error(error);
+  process.exit(1);
+}
 
 for (const file of testFiles) {
   const command = spawnSync(process.execPath, [tsxCliPath, file], {
