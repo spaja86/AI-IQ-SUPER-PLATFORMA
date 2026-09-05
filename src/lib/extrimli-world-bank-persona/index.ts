@@ -203,16 +203,31 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       };
     } catch (error) {
       if (error instanceof PersonaNotFoundError) {
-        const registered = client.register(personaPayload);
-        writeResult = {
-          attempted: true,
-          operation: 'register',
-          personaStatusAfter: registered.status,
-          auditEntriesAfter: registered.auditLog.length,
-          personaVersionAfter: registered.version,
-          appliedBy: agentId,
-          persona: registered,
-        };
+        const archivedShadow = client
+          .list({ type: 'extrimli' })
+          .find((persona) => persona.id === personaPayload.id && persona.status === 'archived');
+        if (archivedShadow) {
+          writeResult = {
+            attempted: false,
+            operation: 'skipped',
+            personaStatusAfter: 'archived',
+            auditEntriesAfter: archivedShadow.auditLog.length,
+            personaVersionAfter: archivedShadow.version,
+            appliedBy: null,
+            persona: archivedShadow,
+          };
+        } else {
+          const registered = client.register(personaPayload);
+          writeResult = {
+            attempted: true,
+            operation: 'register',
+            personaStatusAfter: registered.status,
+            auditEntriesAfter: registered.auditLog.length,
+            personaVersionAfter: registered.version,
+            appliedBy: agentId,
+            persona: registered,
+          };
+        }
       } else if (error instanceof PersonaArchivedError) {
         const archived = client.get(personaPayload.id);
         writeResult = {

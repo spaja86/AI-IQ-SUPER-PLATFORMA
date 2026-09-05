@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      return apiError('BAD_REQUEST', 'Invalid JSON body', 400);
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
