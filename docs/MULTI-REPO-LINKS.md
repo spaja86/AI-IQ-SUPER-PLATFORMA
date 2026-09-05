@@ -1614,7 +1614,7 @@ AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 | Landing slug | `/vladarskog-porekla` |
 | Fallback slug | `/prijava/vladarskog-porekla` |
 | Handoff/Audit ID | `VPOREKLO-2026-09` |
-| Downstream issue status | Pending external owner action (issue creation blocked from this run: GitHub integration 403) |
+| Downstream issue status | Pending downstream issue creation by linked-repo owner |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
 
