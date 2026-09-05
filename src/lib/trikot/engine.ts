@@ -132,6 +132,7 @@ function resolveStatus(input: TrikotInput, overallScore: number): TrikotStatus {
     overallScore >= 82 &&
     input.weatherFitScore >= 75 &&
     input.maintenanceRisk <= 30 &&
+    input.mobilityScore >= 45 &&
     input.dressCode !== 'RELAXED'
   ) return 'PRIME';
   if (overallScore >= 64) return 'READY';
