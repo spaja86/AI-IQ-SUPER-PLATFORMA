@@ -77,6 +77,30 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
   };
 }
 
+function validateBoundedNumber(
+  value: number,
+  field: string,
+  min = 0,
+  max = 100,
+): string | null {
+  if (!Number.isFinite(value) || value < min || value > max) {
+    return `${field} must be within ${min}..${max}`;
+  }
+  return null;
+}
+
+function validateBoundedInteger(
+  value: number,
+  field: string,
+  min: number,
+  max: number,
+): string | null {
+  if (!Number.isInteger(value) || value < min || value > max) {
+    return `${field} must be an integer within ${min}..${max}`;
+  }
+  return null;
+}
+
 function computeCohesionScore(input: KulkonInput): number {
   const raw =
     input.clarityScore * 0.35 +
@@ -188,37 +212,24 @@ export function evaluateKulkon(input: KulkonInput): KulkonResult {
     return invalidResult(input.referenceId, `rhythm must be one of: ${VALID_KULKON_RHYTHMS.join(', ')}`, start);
   }
 
-  if (!Number.isFinite(input.clarityScore) || input.clarityScore < 0 || input.clarityScore > 100) {
-    return invalidResult(input.referenceId, 'clarityScore must be within 0..100', start);
+  const boundedNumberFields: Array<[value: number, field: string]> = [
+    [input.clarityScore, 'clarityScore'],
+    [input.trustScore, 'trustScore'],
+    [input.accountabilityScore, 'accountabilityScore'],
+    [input.communicationLoad, 'communicationLoad'],
+    [input.conflictRate, 'conflictRate'],
+  ];
+
+  for (const [value, field] of boundedNumberFields) {
+    const error = validateBoundedNumber(value, field);
+    if (error) return invalidResult(input.referenceId, error, start);
   }
 
-  if (!Number.isFinite(input.trustScore) || input.trustScore < 0 || input.trustScore > 100) {
-    return invalidResult(input.referenceId, 'trustScore must be within 0..100', start);
-  }
+  const participantError = validateBoundedInteger(input.participantCount, 'participantCount', 1, KULKON_MAX_PARTICIPANTS);
+  if (participantError) return invalidResult(input.referenceId, participantError, start);
 
-  if (!Number.isFinite(input.accountabilityScore) || input.accountabilityScore < 0 || input.accountabilityScore > 100) {
-    return invalidResult(input.referenceId, 'accountabilityScore must be within 0..100', start);
-  }
-
-  if (!Number.isFinite(input.communicationLoad) || input.communicationLoad < 0 || input.communicationLoad > 100) {
-    return invalidResult(input.referenceId, 'communicationLoad must be within 0..100', start);
-  }
-
-  if (!Number.isFinite(input.conflictRate) || input.conflictRate < 0 || input.conflictRate > 100) {
-    return invalidResult(input.referenceId, 'conflictRate must be within 0..100', start);
-  }
-
-  if (!Number.isInteger(input.participantCount) || input.participantCount < 1 || input.participantCount > KULKON_MAX_PARTICIPANTS) {
-    return invalidResult(
-      input.referenceId,
-      `participantCount must be an integer within 1..${KULKON_MAX_PARTICIPANTS}`,
-      start,
-    );
-  }
-
-  if (!Number.isInteger(input.windowDays) || input.windowDays < 1 || input.windowDays > KULKON_MAX_WINDOW_DAYS) {
-    return invalidResult(input.referenceId, `windowDays must be an integer within 1..${KULKON_MAX_WINDOW_DAYS}`, start);
-  }
+  const windowError = validateBoundedInteger(input.windowDays, 'windowDays', 1, KULKON_MAX_WINDOW_DAYS);
+  if (windowError) return invalidResult(input.referenceId, windowError, start);
 
   const cohesionScore = computeCohesionScore(input);
   const resilienceScore = computeResilienceScore(input);
