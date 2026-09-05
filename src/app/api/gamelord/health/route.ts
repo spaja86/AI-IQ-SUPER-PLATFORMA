@@ -12,6 +12,8 @@ export async function GET() {
     setGamelordHeaders(response);
     return response;
   } catch (error) {
-    return apiInternalError('gamelord/health', error);
+    const response = apiInternalError('gamelord/health', error);
+    setGamelordHeaders(response);
+    return response;
   }
 }

@@ -77,6 +77,8 @@ export async function POST(req: NextRequest) {
     setGamelordHeaders(response);
     return response;
   } catch (error) {
-    return apiInternalError('gamelord/evaluate', error);
+    const response = apiInternalError('gamelord/evaluate', error);
+    setGamelordHeaders(response);
+    return response;
   }
 }
