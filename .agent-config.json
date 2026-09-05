@@ -2084,6 +2084,59 @@
         "downstreamDependency": false,
         "note": "No linked repo change required until downstream adoption starts"
       }
+    },
+    "trikot-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "trikot-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "trikot:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "trikot/**"
+        ],
+        "paths": [
+          "src/lib/trikot/**",
+          "src/app/api/trikot/**",
+          "src/tests/lib/trikot.test.ts",
+          "src/tests/api/trikot-route.test.ts",
+          ".github/workflows/trikot-validator.yml",
+          "docs/TRIKOT.md"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/trikot.test.ts",
+        "npx tsx src/tests/api/trikot-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "trikot:validated",
+        "needsReview": "trikot:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "trikot-style-core",
+        "octave": 6,
+        "hipermrezaNode": 54
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          100
+        ],
+        "reactionMaxMs": 600
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo runtime change required for TRIKOT v1"
+      }
     }
   }
 }
