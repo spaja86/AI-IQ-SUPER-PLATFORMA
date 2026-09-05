@@ -37,7 +37,7 @@ See: `docs/API-CONTRACT-STATUS.md`.
 
 1. **Alias namespaces**
    - `konvencionalni-odnosi` and `konvenkcionalni-odnosi` both exist.
-   - Canonical slug: `konvencionalni-odnosi`; compatibility alias: `konvenkcionalni-odnosi` until migration ends.
+   - Canonical/alias mapping is defined in `docs/NAMING-CONVENTIONS.md`.
 2. **Large legacy/autofinish surfaces**
    - Keep out of canonical PR test path unless high-risk or governance/config changes.
 3. **Internal-only endpoints**

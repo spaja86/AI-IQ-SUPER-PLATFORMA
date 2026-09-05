@@ -1,4 +1,4 @@
-import { readdirSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
@@ -10,6 +10,10 @@ if (!directory) {
 }
 
 function collectTestFiles(baseDir) {
+  if (!existsSync(baseDir)) {
+    return [];
+  }
+
   const entries = readdirSync(baseDir, { withFileTypes: true });
   const files = [];
 
