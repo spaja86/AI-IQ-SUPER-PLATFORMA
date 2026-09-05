@@ -238,14 +238,17 @@ async function runTests(): Promise<void> {
       assert(row.balanced === (row.equilateralAlignment >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN), `balanced flag mismatch for ${row.edgeId}`);
     }
 
-    const expectedAverageDistance = round2((rowA.distance + rowB.distance + rowC.distance) / 3);
-    const expectedMaxDistance = round2(Math.max(rowA.distance, rowB.distance, rowC.distance));
-    const expectedMinDistance = round2(Math.min(rowA.distance, rowB.distance, rowC.distance));
-    const denominator = expectedAverageDistance === 0 ? 1 : expectedAverageDistance;
+    const rawAverageDistance = (rowA.distance + rowB.distance + rowC.distance) / 3;
+    const rawMaxDistance = Math.max(rowA.distance, rowB.distance, rowC.distance);
+    const rawMinDistance = Math.min(rowA.distance, rowB.distance, rowC.distance);
+    const expectedAverageDistance = round2(rawAverageDistance);
+    const expectedMaxDistance = round2(rawMaxDistance);
+    const expectedMinDistance = round2(rawMinDistance);
+    const denominator = rawAverageDistance === 0 ? 1 : rawAverageDistance;
     const expectedRows = [rowA, rowB, rowC].map((row) => ({
       edgeId: row.edgeId,
-      distanceRatio: round2(expectedMaxDistance === 0 ? 1 : clamp(row.distance / expectedMaxDistance, 0, 1)),
-      equilateralAlignment: round2(clamp(100 - (Math.abs(row.distance - expectedAverageDistance) / denominator) * 100, 0, 100)),
+      distanceRatio: round2(rawMaxDistance === 0 ? 1 : clamp(row.distance / rawMaxDistance, 0, 1)),
+      equilateralAlignment: round2(clamp(100 - (Math.abs(row.distance - rawAverageDistance) / denominator) * 100, 0, 100)),
     }));
 
     assert(table.summary.averageDistance === expectedAverageDistance, 'averageDistance mismatch');

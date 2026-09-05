@@ -147,15 +147,16 @@ function buildDistanceRatioEkvilaterTable(scores: {
   ];
 
   const distances = baseRows.map((row) => Math.abs(row.fromScore - row.toScore));
-  const averageDistance = round(distances.reduce((sum, value) => sum + value, 0) / distances.length, 2);
-  const maxDistance = round(Math.max(...distances), 2);
-  const minDistance = round(Math.min(...distances), 2);
-  const denominator = averageDistance === 0 ? 1 : averageDistance;
+  const rawAverageDistance = distances.reduce((sum, value) => sum + value, 0) / distances.length;
+  const rawMaxDistance = Math.max(...distances);
+  const rawMinDistance = Math.min(...distances);
+  const denominator = rawAverageDistance === 0 ? 1 : rawAverageDistance;
 
   const rows: ExtrimliExtrondolDistanceRatioEkvilaterRow[] = baseRows.map((row, index) => {
     const distance = round(distances[index], 2);
-    const distanceRatio = round(maxDistance === 0 ? 1 : clamp(distance / maxDistance, 0, 1), 2);
-    const equilateralAlignment = round(clamp(100 - (Math.abs(distance - averageDistance) / denominator) * 100, 0, 100), 2);
+    const rawDistance = distances[index];
+    const distanceRatio = round(rawMaxDistance === 0 ? 1 : clamp(rawDistance / rawMaxDistance, 0, 1), 2);
+    const equilateralAlignment = round(clamp(100 - (Math.abs(rawDistance - rawAverageDistance) / denominator) * 100, 0, 100), 2);
     return {
       ...row,
       distance,
@@ -186,9 +187,9 @@ function buildDistanceRatioEkvilaterTable(scores: {
     scoringSource: EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
     rows,
     summary: {
-      averageDistance,
-      maxDistance,
-      minDistance,
+      averageDistance: round(rawAverageDistance, 2),
+      maxDistance: round(rawMaxDistance, 2),
+      minDistance: round(rawMinDistance, 2),
       equilateralConsistency,
       interpretation,
     },
