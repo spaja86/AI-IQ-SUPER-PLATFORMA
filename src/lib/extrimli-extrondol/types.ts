@@ -122,6 +122,7 @@ export interface ExtrimliExtrondolB2bReadiness {
 }
 
 export interface ExtrimliExtrondolGovernanceEvidence {
+  auditTrailComplete?: boolean;
   downstreamSyncComplete?: boolean;
   humanReviewComplete?: boolean;
 }

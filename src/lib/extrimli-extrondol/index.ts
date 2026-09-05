@@ -109,6 +109,7 @@ function mapDuetStatusAdjustment(status: string): number {
 
 function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidence) {
   return {
+    auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE !== 'false',
     downstreamSyncComplete: evidence?.downstreamSyncComplete ?? process.env.EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE === 'true',
     humanReviewComplete: evidence?.humanReviewComplete ?? process.env.EXTRONDOL_HUMAN_REVIEW_COMPLETE === 'true',
   } as const;
@@ -117,7 +118,8 @@ function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidenc
 /**
  * Builds the EXTRONDOL readiness report.
  * Explicit `evidence` values take precedence; when omitted, governance evidence
- * is resolved from `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE` and
+ * is resolved from `EXTRONDOL_AUDIT_TRAIL_COMPLETE`,
+ * `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, and
  * `EXTRONDOL_HUMAN_REVIEW_COMPLETE`.
  */
 export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanceEvidence): ExtrimliExtrondolReport {
@@ -236,8 +238,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!downstreamSyncComplete ? ['downstream-sync-complete'] : []),
     ...(!operationalApproval ? ['operational-approval'] : []),
     ...(!humanReviewComplete ? ['human-review-complete'] : []),
+    ...(!governanceEvidence.auditTrailComplete ? ['audit-trail-complete'] : []),
   ];
-  const auditTrailComplete = complianceBlockers.length === 0;
+  const auditTrailComplete = governanceEvidence.auditTrailComplete;
   const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1';
   const reasons = promotionFreeze
     ? [
