@@ -7,8 +7,9 @@
 **Kreativni referentni vizual:**  
 `https://github.com/user-attachments/assets/033566f0-581b-452d-bf4d-abf86bb59caa`
 
-**Planirani kanonski landing URL (primer, nije produkcioni domen):** `https://spaja.nivo-spaja/vladarskog-porekla`  
-**Planirani rezervni URL (primer, nije produkcioni domen):** `https://spaja.nivo-spaja/prijava/vladarskog-porekla`  
+**Planirana kanonska landing putanja:** `/vladarskog-porekla`  
+**Planirana rezervna landing putanja (fallback):** `/prijava/vladarskog-porekla`  
+**Placeholder host (nije produkcioni):** `spaja.nivo-spaja`
 **Owner landing stranice:** `@spaja86` + IO-OPENUI-AO Web Experience tim
 
 ### Downstream implementacija i audit reference
@@ -16,6 +17,7 @@
 - **Predviđena landing putanja:** `src/app/vladarskog-porekla/page.tsx`
 - **Predviđena registraciona API putanja:** `src/app/api/vladarskog-porekla/register/route.ts`
 - **Cross-repo evidencija:** `docs/MULTI-REPO-LINKS.md`
+- **Source of truth za produkcioni host:** deploy/domain konfiguracija u `spaja86/IO-OPENUI-AO` (evidentirano kroz `docs/MULTI-REPO-LINKS.md`)
 - **Handoff/Audit ID:** `VPOREKLO-2026-09`
 
 #### Minimalni downstream kontrakt (za IO-OPENUI-AO implementaciju)
@@ -36,8 +38,10 @@
   - `tickets: number` (ceo broj, `>= 1`)
   - `consent: boolean` (mora biti `true`)
 - Validacija: sva polja obavezna osim `city`; `email` validan format; `tickets >= 1`; `consent = true`
-- Success response: `{ "ok": true, "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
-- Error response: `{ "ok": false, "error": "VALIDATION_ERROR|DUPLICATE|SERVER_ERROR", "message": "..." }`
+- Success response (`201 Created`): `{ "ok": true, "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
+- Error response (`400 Bad Request`, validacija): `{ "ok": false, "error": "VALIDATION_ERROR", "message": "..." }`
+- Error response (`409 Conflict`, duplikat): `{ "ok": false, "error": "DUPLICATE", "message": "..." }`
+- Error response (`500 Internal Server Error`, serverska greška): `{ "ok": false, "error": "SERVER_ERROR", "message": "..." }`
 
 ---
 
@@ -87,7 +91,7 @@ Centralna figura je zaštitno lice kampanje i glavni narativni nosač poruke „
 **Naslov:** VLADARSKOG POREKLA  
 **Podnaslov:** Manifestacija kulturnog nasleđa i savremene simbolike  
 **CTA:** Rezervišite svoje mesto  
-**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (planirano: `https://spaja.nivo-spaja/vladarskog-porekla`)
+**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (planirano: `/vladarskog-porekla` na produkcionom hostu iz downstream deploy konfiguracije)
 
 **Predlog copy-ja (plakat):**
 „Vladarskog porekla — večer nasleđa, časti i budućnosti.  
@@ -105,7 +109,7 @@ Manifestacija ‘Vladarskog porekla’ okuplja one koji poštuju korene i grade 
 „VLADARSKOG POREKLA  
 Istorijsko-kulturni spektakl  
 [Datum] • [Vreme] • [Lokacija]  
-Swipe / Link u bio za prijavu“
+Link u bio za prijavu“
 
 **Cover (event banner):**
 „Vladarskog porekla  
