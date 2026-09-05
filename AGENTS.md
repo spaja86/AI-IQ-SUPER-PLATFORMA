@@ -526,6 +526,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `prosparitet-core` (octave: 9, hipermreza node: 73)
   - **Linked-repo impact**: none (v1)
 
+### trikot-validator-agent (NEW)
+- **Role**: Validacija TRIKOT logike — outfit readiness scoring, status mapiranje i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trikot/**`, `src/app/api/trikot/**`
+- **Trigger**: PR sa labelom `trikot:logic-change`, push koji dira `trikot` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za TRIKOT logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni enumi, bounds)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `trikot:validated` ili `trikot:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `trikot-style-core` (octave: 6, hipermreza node: 54)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -607,6 +621,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 | prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
+| trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trikot paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1251,6 +1266,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `prosparitet-core` (octave: 9, hipermreza node: 73)
   - **Linked-repo impact**: none (v1)
 
+### trikot-validator-agent (NEW)
+- **Role**: Validate TRIKOT logic — outfit-readiness scoring, status mapping, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trikot/**`, `src/app/api/trikot/**`
+- **Trigger**: PR with label `trikot:logic-change`, push touching `trikot` paths
+- **Actions**:
+  - Runs unit and route test suite for TRIKOT logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, negative values, invalid enums, bounds)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `trikot:validated` or `trikot:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `trikot-style-core` (octave: 6, hipermreza node: 54)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1331,6 +1360,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 | prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
+| trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trikot paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
