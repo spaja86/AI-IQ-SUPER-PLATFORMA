@@ -247,6 +247,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 
 - DUET source signal: `/api/duet/evaluate`
 - EXTRONDOL consumes DUET outputs:
+  - `valid`
   - `status`
   - `overallScore`
   - `warnings`

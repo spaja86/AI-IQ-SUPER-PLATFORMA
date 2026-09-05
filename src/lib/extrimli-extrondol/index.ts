@@ -231,7 +231,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
       sourceOfTruth: '/api/duet/evaluate',
       triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
       mapping: {
-        fromDuet: ['status', 'overallScore', 'warnings'],
+        fromDuet: ['valid', 'status', 'overallScore', 'warnings'],
         toOrchestration: ['rollout.currentWawe', 'rollout.eligibleNextWawe', 'rollout.promotionFreeze'],
       },
       duetInputProfile: {
@@ -246,6 +246,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
         sharedWindowHours: duetInput.sharedWindowHours,
       },
       signal: {
+        valid: duetSignal.valid,
         status: duetSignal.status,
         overallScore: duetSignal.overallScore,
         warnings: duetSignal.warnings,

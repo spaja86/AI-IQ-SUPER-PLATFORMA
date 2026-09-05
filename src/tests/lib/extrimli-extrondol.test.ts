@@ -103,7 +103,7 @@ async function runTests(): Promise<void> {
     assert(report.nivoDuet.sourceOfTruth === '/api/duet/evaluate', 'nivoDuet source mismatch');
     assert(report.nivoDuet.triggerLabel === EXTRONDOL_NIVO_DUET_TRIGGER_LABEL, 'nivoDuet trigger label mismatch');
     assert(
-      report.nivoDuet.mapping.fromDuet.join(',') === 'status,overallScore,warnings',
+      report.nivoDuet.mapping.fromDuet.join(',') === 'valid,status,overallScore,warnings',
       'nivoDuet fromDuet mapping mismatch',
     );
     assert(
@@ -111,6 +111,7 @@ async function runTests(): Promise<void> {
       'nivoDuet orchestration mapping mismatch',
     );
     assert(Number.isFinite(report.nivoDuet.signal.overallScore), 'nivoDuet score must be finite');
+    assert(typeof report.nivoDuet.signal.valid === 'boolean', 'nivoDuet valid must be boolean');
     assert(['DISSONANT', 'FRAGILE', 'ALIGNED', 'HARMONIZED'].includes(report.nivoDuet.signal.status), 'invalid DUET status');
     assert(report.dinkos.domain === 'DINKOS', 'dinkos domain mismatch');
     assert(report.dinkos.classification === 'signal', 'dinkos classification mismatch');

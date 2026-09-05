@@ -897,7 +897,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI KORON overlay surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `status`, `readinessScore`, `degradedSources` snapshot (`/api/extrimli/koron`) |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDEND aggregation surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `aggregationScore`, `readinessParityScore`, naming-lock acceptance (`/api/extrimli/extrondend`) |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL orchestration surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync WAWE orchestration fields (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`) (`/api/extrimli/extrondol`) |
-| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI NIVO DUET / DINKOS signal contract | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync DUET→WAWE map fields (`status`, `overallScore`, `warnings`) + DINKOS lock metadata (`classification`, `triggerLabel`, `personaId`) from EXTRONDOL payload |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI NIVO DUET / DINKOS signal contract | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync DUET→WAWE map fields (`valid`, `status`, `overallScore`, `warnings`) + DINKOS lock metadata (`classification`, `triggerLabel`, `personaId`) from EXTRONDOL payload |
 | `AI-IQ-SUPER-PLATFORMA` — MAKSIMUS↔EXTRIMLI integration gate | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep `maksimus-validator` and `extrimli-validator` trigger/schema alignment |
 
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
@@ -911,7 +911,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Track `/api/extrimli/koron` contract compatibility in downstream consumers
 - Track `/api/extrimli/extrondend` contract compatibility in downstream consumers
 - Track `/api/extrimli/extrondol` contract compatibility in downstream consumers
-- Track NIVO DUET / DINKOS contract compatibility (`status`, `overallScore`, `warnings`, `dinkos.triggerLabel`, `dinkos.personaId`) in downstream consumers
+- Track NIVO DUET / DINKOS contract compatibility (`valid`, `status`, `overallScore`, `warnings`, `dinkos.triggerLabel`, `dinkos.personaId`) in downstream consumers
 - Confirm EXTRIMLI KORON overlay surface fields are mapped before promotion past WAWE 3
 - Confirm EXTRONDEND/EXTRONDOL naming lock is mirrored in downstream docs and label schema
 - Mirror label schema: `nivo-duet:logic-change`, `dinkos:logic-change`

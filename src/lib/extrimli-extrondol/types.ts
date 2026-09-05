@@ -21,6 +21,7 @@ export interface ExtrimliExtrondolDomainStrategy {
 }
 
 export interface ExtrimliExtrondolNivoDuetSignal {
+  valid: boolean;
   status: DuetStatus;
   overallScore: number;
   warnings: string[];
@@ -30,7 +31,7 @@ export interface ExtrimliExtrondolNivoDuetSection {
   sourceOfTruth: string;
   triggerLabel: string;
   mapping: {
-    fromDuet: ['status', 'overallScore', 'warnings'];
+    fromDuet: ['valid', 'status', 'overallScore', 'warnings'];
     toOrchestration: ['rollout.currentWawe', 'rollout.eligibleNextWawe', 'rollout.promotionFreeze'];
   };
   duetInputProfile: {
