@@ -35,7 +35,7 @@ permissions:
 
 jobs:
   validate:
-    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@d357437de77752e075cd55a2ab151b0de574eecf
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
     with:
       domain: trikot
       lint_paths: >-
