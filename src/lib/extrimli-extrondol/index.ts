@@ -157,15 +157,120 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     2,
   );
 
+  const b2bScope = {
+    consumerModel: 'organization-level',
+    accountOwnership: {
+      owner: '@spaja86',
+      operatingEntity: 'Kompanija SPAJA / Digitalna Industrija',
+      mandatoryHumanReview: true,
+    },
+    partnerOperatorRoles: {
+      owner: ['platform-owner', 'contract-owner'],
+      operators: ['wawe-orchestrator', 'tenant-onboarding', 'downstream-sync'],
+      partners: ['spaja86/IO-OPENUI-AO', 'b2b-consumer'],
+      reviewers: ['human-review', 'security-scanner', 'extrimli-validator-agent'],
+    },
+    procurementReviewFlow: {
+      steps: ['request-submitted', 'procurement-review', 'compliance-review', 'operational-approval', 'activation'],
+      activationRequires: ['contract-approved', 'onboarding-complete', 'downstream-sync-complete', 'human-review-complete'],
+    },
+    slaExpectations: {
+      tier: 'enterprise-governed',
+      evaluationMaxMs: EXTRONDOL_EVALUATION_MAX_MS,
+      apiResponseMaxMs: EXTRONDOL_API_MAX_MS,
+      buildDurationMaxMin: EXTRONDOL_BUILD_MAX_MIN,
+      supportWindow: 'business-critical',
+    },
+    auditObligations: [
+      'Trace procurement, review, and activation decisions in audit-ready artifacts.',
+      'Do not activate B2B tenants before contract, compliance, onboarding, and downstream sync gates pass.',
+      'Keep secrets, deploy hooks, and operational credentials outside Git.',
+      'Preserve downstream references and human review evidence before WAWE promotion.',
+    ],
+  } as const;
+
   const degraded = degradedSources.length > 0;
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
-  const promotionFreeze = degraded || currentWawe === 'WAWE-1';
+  const contractApproved = !degraded && domainStrategy.valid;
+  const onboardingComplete = duetSignal.valid && duetSignal.status !== 'DISSONANT';
+  const downstreamSyncComplete = !degradedSources.some((source) => source.startsWith('duet:') || source.startsWith('domain-strategy:'));
+  const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
+  const auditTrailComplete = contractApproved && downstreamSyncComplete;
+  const rolloutRing = currentWawe === 'WAWE-1'
+    ? 'RING-0-CONTRACT'
+    : currentWawe === 'WAWE-2'
+      ? 'RING-1-STAGING'
+      : currentWawe === 'WAWE-3'
+        ? 'RING-2-CANARY'
+        : 'RING-3-PRODUCTION';
+  const partnerReadinessWarnings = [
+    ...duetSignal.warnings.map((warning) => `DUET: ${warning}`),
+    ...(!domainStrategy.valid ? ['Domain strategy lock is invalid for B2B rollout.'] : []),
+    ...(!downstreamSyncComplete ? ['Downstream sync must complete before B2B activation.'] : []),
+  ];
+  const complianceBlockers = [
+    ...(!contractApproved ? ['contract-approved'] : []),
+    ...(!onboardingComplete ? ['onboarding-complete'] : []),
+    ...(!downstreamSyncComplete ? ['downstream-sync-complete'] : []),
+    ...(!operationalApproval ? ['operational-approval'] : []),
+    ...(!auditTrailComplete ? ['audit-trail-complete'] : []),
+  ];
+  const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1';
   const reasons = promotionFreeze
     ? [
-      'Promotion freeze required because readiness or degraded posture is below rollout threshold.',
+      'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
       ...degradedSources,
+      ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
     ]
     : ['Ready for next WAWE stage with governance evidence.'];
+
+  const b2bReadiness = {
+    tenant: {
+      organizationId: 'spaja-digital-industrija-b2b',
+      organizationName: 'Kompanija SPAJA / Digitalna Industrija',
+      accountOwner: '@spaja86',
+      environmentTier: 'B2B',
+      rolloutRing,
+    },
+    support: {
+      slaTier: 'enterprise-governed',
+      status: promotionFreeze ? 'ATTENTION' : 'ACTIVE',
+      escalationRequired: promotionFreeze,
+    },
+    compliance: {
+      contractApproved,
+      onboardingComplete,
+      operationalApproval,
+      auditTrailComplete,
+      secretsInGitAllowed: false,
+      blockers: complianceBlockers,
+    },
+    downstreamSync: {
+      linkedRepo: 'spaja86/IO-OPENUI-AO',
+      status: downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
+      syncedFields: [
+        'rollout.currentWawe',
+        'rollout.eligibleNextWawe',
+        'rollout.promotionFreeze',
+        'nivoDuet.signal.valid',
+        'nivoDuet.signal.status',
+        'nivoDuet.signal.overallScore',
+        'nivoDuet.signal.warnings',
+        'dinkos.classification',
+        'dinkos.triggerLabel',
+        'dinkos.personaId',
+        'domainStrategy.canonicalApex',
+        'domainStrategy.canonicalWildcard',
+      ],
+    },
+    governanceDecisions: {
+      onboardingHold: !onboardingComplete || !contractApproved,
+      rolloutFreeze: promotionFreeze,
+      escalationRequired: promotionFreeze,
+      partnerReadinessWarnings,
+      dinkosSignalRequired: true,
+    },
+  } as const;
 
   const acceptanceCriteria: ExtrimliExtrondolAcceptanceCriterion[] = [
     {
@@ -195,10 +300,10 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     },
     {
       id: 'nivo-duet-mapping',
-      description: 'DUET status/overallScore/warnings are mapped into WAWE orchestration and promotion freeze decisions.',
+      description: 'DUET status/overallScore/warnings are mapped into WAWE orchestration and B2B onboarding/promotion decisions.',
       passed: Number.isFinite(orchestrationReadinessScore)
         && currentWawe === pickWawe(orchestrationReadinessScore, degraded)
-        && promotionFreeze === (degraded || currentWawe === 'WAWE-1'),
+        && b2bReadiness.governanceDecisions.rolloutFreeze === promotionFreeze,
     },
     {
       id: 'dinkos-contract',
@@ -210,6 +315,28 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
       description: 'Orchestration readiness score is finite and bounded in [0,100].',
       passed: Number.isFinite(orchestrationReadinessScore) && orchestrationReadinessScore >= 0 && orchestrationReadinessScore <= 100,
     },
+    {
+      id: 'b2b-scope',
+      description: 'EXTRONDOL defines organization-level B2B ownership, partner/operator roles, procurement review flow, SLA targets, and audit obligations.',
+      passed: b2bScope.consumerModel === 'organization-level'
+        && b2bScope.accountOwnership.mandatoryHumanReview
+        && b2bScope.partnerOperatorRoles.partners.includes('spaja86/IO-OPENUI-AO'),
+    },
+    {
+      id: 'b2b-controls',
+      description: 'B2B activation stays blocked until contract, onboarding, downstream sync, operational approval, and audit controls are satisfied.',
+      passed: b2bReadiness.compliance.secretsInGitAllowed === false
+        && b2bReadiness.governanceDecisions.dinkosSignalRequired
+        && b2bReadiness.governanceDecisions.rolloutFreeze === promotionFreeze,
+    },
+    {
+      id: 'b2b-downstream-sync',
+      description: 'Downstream B2B consumers receive WAWE fields, DUET warning posture, DINKOS metadata, and domain-strategy validation.',
+      passed: b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe')
+        && b2bReadiness.downstreamSync.syncedFields.includes('nivoDuet.signal.warnings')
+        && b2bReadiness.downstreamSync.syncedFields.includes('dinkos.personaId')
+        && b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalWildcard'),
+    },
   ];
 
   return {
@@ -217,7 +344,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     contractVersion: EXTRONDOL_CONTRACT_VERSION,
     moduleVersion: EXTRONDOL_MODULE_VERSION,
     sourceOfTruth: EXTRONDOL_SOURCE_OF_TRUTH,
-    statement: 'EXTRONDOL orchestrates WAWE rollout readiness across EXTRIMLI aggregation surfaces.',
+    statement: 'EXTRONDOL orchestrates WAWE rollout readiness across EXTRIMLI aggregation surfaces for organization-level B2B consumers.',
     ownership: '@spaja86',
     triggerLabel: 'extrondol:logic-change',
     pathScope: [
@@ -230,6 +357,8 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
       'src/tests/api/duet-route.test.ts',
     ],
     orchestrationReadinessScore,
+    b2bScope,
+    b2bReadiness,
     domainStrategy,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',

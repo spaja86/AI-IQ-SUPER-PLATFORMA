@@ -230,7 +230,21 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+
+### EXTRONDOL B2B operating scope
+
+- EXTRONDOL B2B consumer model je **organization-level**, ne individual athlete/session model.
+- Account ownership ostaje na `@spaja86` / `Kompanija SPAJA / Digitalna Industrija`, uz obavezan human review pre promocije.
+- Partner/operator split mora biti eksplicitan:
+  - owner / contract-owner
+  - WAWE orchestrator / tenant onboarding / downstream sync operator
+  - linked partner repo `spaja86/IO-OPENUI-AO`
+  - human/security/validator review layer
+- Procurement/review flow ostaje: `request-submitted` → `procurement-review` → `compliance-review` → `operational-approval` → `activation`.
+- Aktivacija ne sme proći bez `contract-approved`, `onboarding-complete`, `downstream-sync-complete` i `human-review-complete`.
+- SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
+- Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
 
 ### Acceptance criteria (EXTRONDOL)
 
@@ -242,6 +256,9 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 6. NIVO DUET mapping must project DUET `status` + `overallScore` + `warnings` into WAWE decisions.
 7. DINKOS is an explicit signal contract (not a new API route) with ownership/label/persona/degraded-mode lock.
 8. Orchestration score is finite and clamped to `[0, 100]`.
+9. B2B scope is additive-only and defines ownership, partner/operator roles, procurement/compliance flow, SLA posture, and audit obligations.
+10. B2B activation remains frozen until contract, onboarding, downstream sync, operational approval, and audit controls are satisfied.
+11. Downstream B2B sync must include WAWE fields, DUET warning posture, DINKOS metadata, and domain strategy validation.
 
 ### NIVO DUET orchestration map
 
@@ -255,6 +272,11 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `rollout.currentWawe`
   - `rollout.eligibleNextWawe`
   - `rollout.promotionFreeze`
+- U B2B modelu isti DUET signal dodatno utiče na:
+  - `b2bReadiness.governanceDecisions.onboardingHold`
+  - `b2bReadiness.governanceDecisions.rolloutFreeze`
+  - `b2bReadiness.governanceDecisions.escalationRequired`
+  - `b2bReadiness.governanceDecisions.partnerReadinessWarnings`
 - DUET warning-load i DISSONANT status mogu aktivirati promotion freeze pre WAWE promocije.
 
 ### DINKOS domain lock
@@ -265,6 +287,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - Trigger label: `dinkos:logic-change`
 - Route segment marker (contractual): `nivo-duet`
 - Degraded policy: `partial-payload-no-500`
+- B2B governance lock: DINKOS ostaje mandatory signal contract za onboarding hold / rollout freeze / escalation odluke.
 
 ## MAKSIMUS ↔ EXTRIMLI responsibilities
 

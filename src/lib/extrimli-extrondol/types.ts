@@ -58,6 +58,68 @@ export interface ExtrimliExtrondolDinkosContract {
   degradedMode: 'partial-payload-no-500';
 }
 
+export interface ExtrimliExtrondolB2bScope {
+  consumerModel: 'organization-level';
+  accountOwnership: {
+    owner: string;
+    operatingEntity: string;
+    mandatoryHumanReview: true;
+  };
+  partnerOperatorRoles: {
+    owner: string[];
+    operators: string[];
+    partners: string[];
+    reviewers: string[];
+  };
+  procurementReviewFlow: {
+    steps: ['request-submitted', 'procurement-review', 'compliance-review', 'operational-approval', 'activation'];
+    activationRequires: ['contract-approved', 'onboarding-complete', 'downstream-sync-complete', 'human-review-complete'];
+  };
+  slaExpectations: {
+    tier: 'enterprise-governed';
+    evaluationMaxMs: number;
+    apiResponseMaxMs: number;
+    buildDurationMaxMin: number;
+    supportWindow: 'business-critical';
+  };
+  auditObligations: string[];
+}
+
+export interface ExtrimliExtrondolB2bReadiness {
+  tenant: {
+    organizationId: string;
+    organizationName: string;
+    accountOwner: string;
+    environmentTier: 'B2B';
+    rolloutRing: 'RING-0-CONTRACT' | 'RING-1-STAGING' | 'RING-2-CANARY' | 'RING-3-PRODUCTION';
+  };
+  support: {
+    slaTier: 'enterprise-governed';
+    status: 'ACTIVE' | 'ATTENTION';
+    escalationRequired: boolean;
+  };
+  compliance: {
+    contractApproved: boolean;
+    onboardingComplete: boolean;
+    operationalApproval: boolean;
+    auditTrailComplete: boolean;
+    secretsInGitAllowed: false;
+    blockers: string[];
+  };
+  downstreamSync: {
+    linkedRepo: string;
+    status: 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
+    syncedFields: string[];
+  };
+  governanceDecisions: {
+    onboardingHold: boolean;
+    rolloutFreeze: boolean;
+    escalationRequired: boolean;
+    partnerReadinessWarnings: string[];
+    dinkosSignalRequired: true;
+  };
+}
+
 export interface ExtrimliExtrondolReport {
   personaId: string;
   contractVersion: string;
@@ -68,6 +130,8 @@ export interface ExtrimliExtrondolReport {
   triggerLabel: string;
   pathScope: string[];
   orchestrationReadinessScore: number;
+  b2bScope: ExtrimliExtrondolB2bScope;
+  b2bReadiness: ExtrimliExtrondolB2bReadiness;
   domainStrategy: ExtrimliExtrondolDomainStrategy;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
