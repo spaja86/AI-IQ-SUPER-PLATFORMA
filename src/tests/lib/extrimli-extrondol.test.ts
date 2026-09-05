@@ -33,6 +33,21 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function round2(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
+function duetStatusAdjustment(status: string): number {
+  if (status === 'HARMONIZED') return 4;
+  if (status === 'ALIGNED') return 2;
+  if (status === 'FRAGILE') return -6;
+  return -14;
+}
+
 async function runTests(): Promise<void> {
   console.log('\n🔗 [extrimli-extrondol] orchestration contract tests\n');
 
@@ -94,6 +109,34 @@ async function runTests(): Promise<void> {
     assert(report.dinkos.classification === 'signal', 'dinkos classification mismatch');
     assert(report.dinkos.triggerLabel === 'dinkos:logic-change', 'dinkos trigger label mismatch');
     assert(report.dinkos.degradedMode === 'partial-payload-no-500', 'dinkos degraded mode mismatch');
+  });
+
+  await test('NIVO DUET warning penalty and status adjustment are applied to orchestration score', () => {
+    const report = getExtrimliExtrondolReport();
+    const baseScore = round2(
+      clamp(
+        report.surfaces.extrondend.aggregationScore * 0.5
+          + report.surfaces.extendol.unifiedReadinessScore * 0.3
+          + report.surfaces.koron.readinessScore * 0.2,
+        0,
+        100,
+      ),
+    );
+    const statusAdjustment = duetStatusAdjustment(report.nivoDuet.signal.status);
+    const warningPenalty = Math.min(12, report.nivoDuet.signal.warnings.length * 4);
+    const expected = round2(
+      clamp(
+        baseScore * 0.82 + report.nivoDuet.signal.overallScore * 0.18 + (statusAdjustment - warningPenalty),
+        0,
+        100,
+      ),
+    );
+    assert(report.orchestrationReadinessScore === expected, 'orchestration score must include DUET status adjustment and warning penalty');
+    assert(report.nivoDuet.signal.warnings.length >= 1, 'expected at least one DUET warning for penalty coverage');
+    assert(
+      report.nivoDuet.signal.warnings.some((warning) => warning.includes('Very narrow shared window')),
+      'expected narrow shared window warning for penalty coverage',
+    );
   });
 
   await test('report includes required upstream surfaces', () => {

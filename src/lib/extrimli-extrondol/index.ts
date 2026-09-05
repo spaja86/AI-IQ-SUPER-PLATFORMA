@@ -108,7 +108,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     trustScore: round(clamp(koron.readinessScore, 0, 100), 2),
     rhythmScore: round(clamp(extrondend.weightedSurfaceHealth, 0, 100), 2),
     tensionLevel: round(clamp(100 - ((extrondend.aggregationScore + extendol.unifiedReadinessScore + koron.readinessScore) / 3), 0, 100), 2),
-    sharedWindowHours: 24,
+    sharedWindowHours: 3,
   };
   const duetSignal = evaluateDuet(duetInput);
 
