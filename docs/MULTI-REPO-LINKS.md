@@ -1615,7 +1615,6 @@ AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 | Fallback slug | `/prijava/vladarskog-porekla` |
 | Handoff/Audit ID | `VPOREKLO-2026-09` |
 | Status | Draft (pending downstream issue/PR reference) |
-| Downstream issue status | Pending downstream issue creation by linked-repo owner |
 | Originating reference (this repo) | User task request: implement campaign plan for manifestacija „Vladarskog porekla“ (2026-09-05) |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`

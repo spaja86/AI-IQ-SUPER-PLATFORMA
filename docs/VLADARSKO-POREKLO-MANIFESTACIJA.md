@@ -42,7 +42,7 @@
   - `consent: boolean` (mora biti `true`)
 - Validacija: sva polja obavezna osim `city`; `email` validan format; `tickets >= 1`; `consent = true`
 - Success response (`201 Created`): `{ "ok": true, "code": "REGISTRATION_CREATED", "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
-- Success discriminator: uspeh se pouzdano detektuje preko `ok = true`, `code = REGISTRATION_CREATED` i HTTP `201`.
+- Success discriminator: uspeh se pouzdano detektuje preko `ok = true`, `code = "REGISTRATION_CREATED"` i HTTP `201`.
 - Error response (`400 Bad Request`, validacija): `{ "ok": false, "code": "VALIDATION_ERROR", "registrationId": null, "message": "Proverite obavezna polja i format unosa." }`
 - Error response (`409 Conflict`, duplikat): `{ "ok": false, "code": "DUPLICATE", "registrationId": null, "message": "Prijava sa ovom email adresom već postoji." }`
 - Error response (`500 Internal Server Error`, serverska greška): `{ "ok": false, "code": "SERVER_ERROR", "registrationId": null, "message": "Došlo je do privremene greške. Pokušajte ponovo kasnije." }`
@@ -84,6 +84,9 @@ Manifestacija „Vladarskog porekla“ predstavlja kulturno-svečani događaj ko
 
 ### Centralna persona
 Centralna figura je zaštitno lice kampanje i glavni narativni nosač poruke „vladarskog porekla“. Svi materijali moraju zadržati istu hijerarhiju: lice → simboli → slogan → događajni podaci.
+
+**Fallback pravilo (ako centralni vizual nije dostupan/licenciran za kanal):**
+- Koristiti odobrenu „symbol-only“ varijantu (kruna + žezlo + plavo-zlatni identitet) uz isti slogan i događajne podatke.
 
 ---
 
