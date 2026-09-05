@@ -28,6 +28,7 @@ export interface ExtrimliExtrondolNivoDuetSignal {
 
 export interface ExtrimliExtrondolNivoDuetSection {
   sourceOfTruth: string;
+  triggerLabel: string;
   mapping: {
     fromDuet: ['status', 'overallScore', 'warnings'];
     toOrchestration: ['rollout.currentWawe', 'rollout.eligibleNextWawe', 'rollout.promotionFreeze'];
@@ -105,6 +106,7 @@ export const EXTRONDOL_BUILD_MAX_MIN = 3;
 export const EXTRONDOL_DINKOS_PERSONA_ID = 'extrimli-dinkos-signal-core';
 export const EXTRONDOL_DINKOS_TRIGGER_LABEL = 'dinkos:logic-change';
 export const EXTRONDOL_NIVO_DUET_SEGMENT = 'nivo-duet';
+export const EXTRONDOL_NIVO_DUET_TRIGGER_LABEL = 'nivo-duet:logic-change';
 export const EXTRONDOL_REQUESTED_DOMAIN_PATTERN = 'spaja.nivo*spaja';
 export const EXTRONDOL_CANONICAL_APEX_DOMAIN = 'spaja.nivo-spaja';
 export const EXTRONDOL_CANONICAL_WILDCARD_DOMAIN = '*.spaja.nivo-spaja';

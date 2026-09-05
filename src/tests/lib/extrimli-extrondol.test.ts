@@ -9,6 +9,7 @@ import {
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_MODULE_VERSION,
+  EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
@@ -100,6 +101,7 @@ async function runTests(): Promise<void> {
   await test('report exposes NIVO DUET mapping and DINKOS signal contract', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.nivoDuet.sourceOfTruth === '/api/duet/evaluate', 'nivoDuet source mismatch');
+    assert(report.nivoDuet.triggerLabel === EXTRONDOL_NIVO_DUET_TRIGGER_LABEL, 'nivoDuet trigger label mismatch');
     assert(
       report.nivoDuet.mapping.fromDuet.join(',') === 'status,overallScore,warnings',
       'nivoDuet fromDuet mapping mismatch',

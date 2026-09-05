@@ -26,6 +26,7 @@ import {
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_NIVO_DUET_SEGMENT,
+  EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -226,6 +227,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     domainStrategy,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
+      triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
       mapping: {
         fromDuet: ['status', 'overallScore', 'warnings'],
         toOrchestration: ['rollout.currentWawe', 'rollout.eligibleNextWawe', 'rollout.promotionFreeze'],
@@ -302,6 +304,7 @@ export {
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_NIVO_DUET_SEGMENT,
+  EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_SOURCE_OF_TRUTH,
