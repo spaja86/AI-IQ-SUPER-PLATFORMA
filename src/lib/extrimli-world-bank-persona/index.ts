@@ -203,10 +203,8 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       };
     } catch (error) {
       if (error instanceof PersonaNotFoundError) {
-        const archivedShadow = client
-          .list({ type: 'extrimli' })
-          .find((persona) => persona.id === personaPayload.id && persona.status === 'archived');
-        if (archivedShadow) {
+        const archivedShadow = client.get(personaPayload.id);
+        if (archivedShadow?.status === 'archived') {
           writeResult = {
             attempted: false,
             operation: 'skipped',

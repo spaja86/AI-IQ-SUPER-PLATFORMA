@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+      return apiError('BAD_REQUEST', 'Body must be a JSON object', 400);
     }
 
     const candidate = body as Record<string, unknown>;
