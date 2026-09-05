@@ -10,7 +10,6 @@ import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
-  ExtrimliExtrondolDistanceRatioEkvilaterRow,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolWaweStage,
@@ -152,7 +151,7 @@ function buildDistanceRatioEkvilaterTable(scores: {
   const rawMinDistance = Math.min(...distances);
   const denominator = rawAverageDistance === 0 ? 1 : rawAverageDistance;
 
-  const rows: ExtrimliExtrondolDistanceRatioEkvilaterRow[] = baseRows.map((row, index) => {
+  const buildRow = <T extends (typeof baseRows)[number]>(row: T, index: number) => {
     const distance = round(distances[index], 2);
     const rawDistance = distances[index];
     const distanceRatio = round(rawMaxDistance === 0 ? 1 : clamp(rawDistance / rawMaxDistance, 0, 1), 2);
@@ -164,7 +163,13 @@ function buildDistanceRatioEkvilaterTable(scores: {
       equilateralAlignment,
       balanced: equilateralAlignment >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
     };
-  });
+  };
+
+  const rows = [
+    buildRow(baseRows[0], 0),
+    buildRow(baseRows[1], 1),
+    buildRow(baseRows[2], 2),
+  ] as const;
 
   const equilateralConsistency = round(
     rows.reduce((sum, row) => sum + row.equilateralAlignment, 0) / rows.length,

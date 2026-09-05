@@ -140,6 +140,27 @@ export interface ExtrimliExtrondolDistanceRatioEkvilaterRow {
   balanced: boolean;
 }
 
+export type ExtrimliExtrondolDistanceRatioEkvilaterExtrondendExtendolRow =
+  ExtrimliExtrondolDistanceRatioEkvilaterRow & {
+    edgeId: 'extrondend-extendol';
+    from: 'EXTRONDEND';
+    to: 'EXTENDOL';
+  };
+
+export type ExtrimliExtrondolDistanceRatioEkvilaterExtrondendKoronRow =
+  ExtrimliExtrondolDistanceRatioEkvilaterRow & {
+    edgeId: 'extrondend-koron';
+    from: 'EXTRONDEND';
+    to: 'KORON';
+  };
+
+export type ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow =
+  ExtrimliExtrondolDistanceRatioEkvilaterRow & {
+    edgeId: 'extendol-koron';
+    from: 'EXTENDOL';
+    to: 'KORON';
+  };
+
 export type ExtrimliExtrondolDistanceRatioEkvilaterLegacyMisspelledAlias = 'DISANCE RATOR EKVILATER';
 
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
@@ -151,7 +172,11 @@ export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   interpretation: 'derived-readiness-table';
   targetShape: 'EQUILATERAL';
   scoringSource: ['extrondend.aggregationScore', 'extendol.unifiedReadinessScore', 'koron.readinessScore'];
-  rows: ExtrimliExtrondolDistanceRatioEkvilaterRow[];
+  rows: readonly [
+    ExtrimliExtrondolDistanceRatioEkvilaterExtrondendExtendolRow,
+    ExtrimliExtrondolDistanceRatioEkvilaterExtrondendKoronRow,
+    ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow,
+  ];
   summary: {
     averageDistance: number;
     maxDistance: number;
