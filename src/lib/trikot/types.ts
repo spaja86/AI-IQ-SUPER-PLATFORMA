@@ -55,6 +55,9 @@ export interface TrikotResult {
   disclaimer: string;
   valid: boolean;
   durationMs: number;
+  rawObjective?: unknown;
+  rawSeason?: unknown;
+  rawDressCode?: unknown;
 }
 
 export interface TrikotHealthReport {

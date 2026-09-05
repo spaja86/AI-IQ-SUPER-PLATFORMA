@@ -108,9 +108,18 @@ async function runTests(): Promise<void> {
     assert(response.headers.get('X-Trikot-Status') === null, 'invalid branch must not expose X-Trikot-Status');
     assert(response.headers.get('X-Trikot-Action') === null, 'invalid branch must not expose X-Trikot-Action');
 
-    const body = await response.json() as { code: string; details?: { validation?: { valid?: boolean } } };
+    const body = await response.json() as {
+      code: string;
+      details?: {
+        data?: { valid?: boolean; disclaimer?: string };
+        validation?: { valid?: boolean; objective?: string };
+      };
+    };
     assert(body.code === 'UNPROCESSABLE_ENTITY', `expected UNPROCESSABLE_ENTITY, got ${body.code}`);
     assert(body.details?.validation?.valid === false, 'invalid result details should include valid=false');
+    assert(body.details?.validation?.objective === 'NIGHT', 'invalid enum value should be preserved in validation details');
+    assert(body.details?.data?.valid === false, 'full invalid result payload should be returned in details.data');
+    assert((body.details?.data?.disclaimer ?? '').length > 0, 'invalid payload should include disclaimer');
   });
 
   await test('POST /api/trikot/evaluate returns 400 for invalid JSON', async () => {

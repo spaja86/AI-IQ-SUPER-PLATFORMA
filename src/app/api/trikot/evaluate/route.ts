@@ -88,11 +88,12 @@ export async function POST(req: NextRequest) {
     const response = result.valid
       ? apiSuccess(result, 200)
       : apiUnprocessableEntity('TRIKOT evaluation input failed domain validation', {
+        data: result,
         validation: {
           valid: result.valid,
-          objective: result.objective,
-          season: result.season,
-          dressCode: result.dressCode,
+          objective: result.rawObjective ?? result.objective,
+          season: result.rawSeason ?? result.season,
+          dressCode: result.rawDressCode ?? result.dressCode,
           status: result.status,
           recommendedAction: result.recommendedAction,
           reason: result.warnings[0] ?? 'DOMAIN_VALIDATION_FAILED',

@@ -66,7 +66,12 @@ function recordEvaluation(status: TrikotStatus | null): void {
   lastEvaluatedAt = new Date().toISOString();
 }
 
-function invalidResult(referenceId: string | undefined, warning: string, start: number): TrikotResult {
+function invalidResult(
+  referenceId: string | undefined,
+  warning: string,
+  start: number,
+  raw?: { objective?: unknown; season?: unknown; dressCode?: unknown },
+): TrikotResult {
   recordEvaluation(null);
   return {
     referenceId: referenceId ?? 'n/a',
@@ -85,6 +90,9 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
     disclaimer: TRIKOT_DISCLAIMER,
     valid: false,
     durationMs: round2(performance.now() - start),
+    rawObjective: raw?.objective,
+    rawSeason: raw?.season,
+    rawDressCode: raw?.dressCode,
   };
 }
 
@@ -198,13 +206,28 @@ export function evaluateTrikot(input: TrikotInput): TrikotResult {
   }
 
   if (!isObjective(input.objective)) {
-    return invalidResult(input.referenceId, `objective must be one of: ${VALID_TRIKOT_OBJECTIVES.join(', ')}`, start);
+    return invalidResult(
+      input.referenceId,
+      `objective must be one of: ${VALID_TRIKOT_OBJECTIVES.join(', ')}`,
+      start,
+      { objective: input.objective, season: input.season, dressCode: input.dressCode },
+    );
   }
   if (!isSeason(input.season)) {
-    return invalidResult(input.referenceId, `season must be one of: ${VALID_TRIKOT_SEASONS.join(', ')}`, start);
+    return invalidResult(
+      input.referenceId,
+      `season must be one of: ${VALID_TRIKOT_SEASONS.join(', ')}`,
+      start,
+      { objective: input.objective, season: input.season, dressCode: input.dressCode },
+    );
   }
   if (!isDressCode(input.dressCode)) {
-    return invalidResult(input.referenceId, `dressCode must be one of: ${VALID_TRIKOT_DRESS_CODES.join(', ')}`, start);
+    return invalidResult(
+      input.referenceId,
+      `dressCode must be one of: ${VALID_TRIKOT_DRESS_CODES.join(', ')}`,
+      start,
+      { objective: input.objective, season: input.season, dressCode: input.dressCode },
+    );
   }
 
   if (!Number.isFinite(input.comfortScore) || input.comfortScore < 0 || input.comfortScore > 100) {

@@ -59,6 +59,7 @@ Each evaluation accepts:
 - `recommendedReviewHours` — bounded follow-up guidance based on status/action
 - `warnings` — explicit readiness/maintenance/complexity warnings
 - `disclaimer` — always present, because TRIKOT is guidance only
+- `rawObjective`, `rawSeason`, `rawDressCode` — optional raw invalid enum values for domain-debug context
 - Invalid domain evaluations return `valid: false` and set `objective`, `season`, `dressCode`, `status`, and `recommendedAction` to `null`.
 
 ## Validation strategy
