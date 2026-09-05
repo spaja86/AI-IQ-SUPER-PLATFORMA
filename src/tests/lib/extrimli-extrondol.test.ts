@@ -204,8 +204,9 @@ async function runTests(): Promise<void> {
   await test('report exposes DISTANCE RATIO EKVILATER as an additive derived readiness table', () => {
     const report = getExtrimliExtrondolReport();
     const table = report.distanceRatioEkvilaterTable;
-    assert(table.requestedTableName === 'DISANCE RATOR EKVILATER', 'requested table name mismatch');
+    assert(table.requestedTableName === 'DISTANCE RATIO EKVILATER', 'requested table name mismatch');
     assert(table.normalizedTableName === 'DISTANCE RATIO EKVILATER', 'normalized table name mismatch');
+    assert(table.legacyRequestedTableNames.includes('DISANCE RATOR EKVILATER'), 'legacy alias mismatch');
     assert(table.contractField === 'distanceRatioEkvilaterTable', 'contract field mismatch');
     assert(table.version === EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION, 'table version mismatch');
     assert(table.interpretation === 'derived-readiness-table', 'table interpretation mismatch');
@@ -259,6 +260,13 @@ async function runTests(): Promise<void> {
         : 'skewed';
     assert(table.summary.equilateralConsistency === expectedConsistency, 'equilateralConsistency mismatch');
     assert(table.summary.interpretation === expectedInterpretation, 'table summary interpretation mismatch');
+  });
+
+  await test('DISTANCE RATIO EKVILATER keeps canonical naming with legacy alias compatibility', () => {
+    const table = getExtrimliExtrondolReport().distanceRatioEkvilaterTable;
+    assert(table.requestedTableName === table.normalizedTableName, 'canonical table naming must be normalized');
+    assert(table.legacyRequestedTableNames.length >= 1, 'expected at least one legacy alias');
+    assert(table.legacyRequestedTableNames.includes('DISANCE RATOR EKVILATER'), 'legacy misspelled alias must remain documented');
   });
 
   await test('report can consume explicit governance evidence for downstream sync and human review', () => {

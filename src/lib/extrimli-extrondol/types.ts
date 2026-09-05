@@ -141,8 +141,9 @@ export interface ExtrimliExtrondolDistanceRatioEkvilaterRow {
 }
 
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
-  requestedTableName: 'DISANCE RATOR EKVILATER';
+  requestedTableName: string;
   normalizedTableName: 'DISTANCE RATIO EKVILATER';
+  legacyRequestedTableNames: string[];
   contractField: 'distanceRatioEkvilaterTable';
   version: 'v1-distance-ratio-ekvilater';
   interpretation: 'derived-readiness-table';

@@ -230,7 +230,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `distanceRatioEkvilaterTable`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 
 ### EXTRONDOL B2B operating scope
 
@@ -252,8 +252,10 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 
 ### DISTANCE RATIO EKVILATER table
 
-- Requested label ostaje zabeležen kao `DISANCE RATOR EKVILATER`, ali canonical payload field je `distanceRatioEkvilaterTable`.
+- Canonical table name je `DISTANCE RATIO EKVILATER`, a legacy compatibility alias ostaje zabeležen kao `DISANCE RATOR EKVILATER`.
+- Canonical payload field je `distanceRatioEkvilaterTable`.
 - Table je **derived readiness table**, ne novi alias endpoint i ne menja WAWE scoring logiku.
+- Table ostaje additive payload section za downstream consumer-e; ne menja `EXTRONDOL_CONTRACT_VERSION` i ne zamenjuje postojeća mandatory polja.
 - Inputs su postojeći EXTRONDOL upstream score-ovi:
   - `extrondend.aggregationScore`
   - `extendol.unifiedReadinessScore`

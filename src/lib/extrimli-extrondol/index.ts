@@ -170,8 +170,9 @@ function buildDistanceRatioEkvilaterTable(scores: {
       : 'skewed';
 
   return {
-    requestedTableName: 'DISANCE RATOR EKVILATER' as const,
+    requestedTableName: 'DISTANCE RATIO EKVILATER',
     normalizedTableName: 'DISTANCE RATIO EKVILATER' as const,
+    legacyRequestedTableNames: ['DISANCE RATOR EKVILATER'],
     contractField: 'distanceRatioEkvilaterTable' as const,
     version: EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
     interpretation: 'derived-readiness-table' as const,
