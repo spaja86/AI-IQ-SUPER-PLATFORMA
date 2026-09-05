@@ -915,7 +915,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Confirm EXTRIMLI KORON overlay surface fields are mapped before promotion past WAWE 3
 - Confirm EXTRONDEND/EXTRONDOL naming lock is mirrored in downstream docs and label schema
 - Mirror label schema: `nivo-duet:logic-change`, `dinkos:logic-change`
-- Mirror domain strategy lock: `spaja.nivo-spaja` + `*.spaja.nivo-spaja` (requested `spaja.nivo*spaja` remains invalid)
+- Mirror domain strategy lock: `spaja.nivo-spaja` (`EXTRONDOL_CANONICAL_APEX_DOMAIN`) + `*.spaja.nivo-spaja` (`EXTRONDOL_CANONICAL_WILDCARD_DOMAIN`); requested `spaja.nivo*spaja` remains invalid
 - Open mandatory follow-up issue ako downstream ostane delimično neusaglašen posle WAWE 3/4
 
 **Audit convention for this initiative:**
