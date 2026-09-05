@@ -158,16 +158,14 @@ function resolveRecommendedWindowHours(
   status: DuetStatus,
 ): number {
   const statusAdjustment =
-    status === 'HARMONIZED' ? 12 :
     status === 'DISSONANT' ? 24 :
     status === 'FRAGILE' ? 6 :
     0;
-  const target = clamp(
+  return clamp(
     ACTION_TARGET_HOURS[action] + statusAdjustment,
     1,
     DUET_MAX_SHARED_WINDOW_HOURS,
   );
-  return Math.min(input.sharedWindowHours, target);
 }
 
 function buildWarnings(input: DuetInput, status: DuetStatus, resilienceScore: number): string[] {

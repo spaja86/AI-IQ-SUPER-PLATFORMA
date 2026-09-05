@@ -84,4 +84,4 @@ Each evaluation accepts:
 ## Linked repos
 
 - No linked repository runtime change is required for DUET v1.
-- If another repository adopts DUET, document downstream synchronization in `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/MULTI-REPO-LINKS.md`.
+- If another repository adopts DUET, document downstream synchronization in `docs/MULTI-REPO-LINKS.md`.
