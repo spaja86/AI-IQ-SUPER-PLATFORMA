@@ -35,7 +35,7 @@ permissions:
 
 jobs:
   validate:
-    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@30dce66da06d0fd4701c15899b54d42a346452f7
     with:
       domain: kulkon
       lint_paths: >-
