@@ -908,6 +908,23 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDEND aggregation surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `aggregationScore`, `readinessParityScore`, naming-lock acceptance (`/api/extrimli/extrondend`) |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL orchestration surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync WAWE orchestration fields (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`) (`/api/extrimli/extrondol`) |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL B2B scope/readiness | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `b2bScope` ownership/roles/flow/SLA/audit fields + `b2bReadiness` tenant/support/compliance/downstream state |
+
+### EXTRIMLI — World Bank to Persona bridge
+
+| Field | Value |
+|---|---|
+| Source contract 1 | `/api/ai-iq-world-bank` |
+| Source contract 2 | `/api/extrimli/health`, `/api/extrimli/extrondol` |
+| Bridge contract | `/api/extrimli/world-bank-persona` |
+| Persona target | `extrimli-core` |
+| Governance gate | WAWE + promotion freeze + evidence lock (`contract`, `onboarding`, `downstream sync`, `audit`, `human review`) |
+| Trigger | `extrimli:logic-change` + manual apply with `X-Agent-Id` |
+| Ownership | `@spaja86 / Kompanija SPAJA / Digitalna Industrija` |
+
+| Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
+|---|---|---|
+| EXTRIMLI World Bank persona snapshot (`extrimli-core`) | `spaja86/IO-OPENUI-AO` — Follow-up required | `multi-repo-sync-agent` syncs mapped persona attributes and lifecycle decision audit metadata |
+| WAWE governance decision for persona promotion | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror `currentWawe`, `eligibleNextWawe`, `promotionFreeze`, and missing-evidence reasons in linked persona governance runbook |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI DISTANCE RATIO EKVILATER table | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `distanceRatioEkvilaterTable` summary + pairwise row fields (`distance`, `distanceRatio`, `equilateralAlignment`, `balanced`) from `/api/extrimli/extrondol` |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI NIVO DUET / DINKOS signal contract | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync DUET→WAWE map fields (`valid`, `status`, `overallScore`, `warnings`) + DINKOS lock metadata (`classification`, `triggerLabel`, `personaId`) from EXTRONDOL payload |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI START PROJEKAT governance payload | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `startProject` rollout/governance fields (`initiativeId`, `programName`, `orchestrationInputs.upstreamSurfaces`, `orchestrationInputs.duetRole`, `downstreamSync`, `qualityGates`, `auditRelease`) from `/api/extrimli/extrondol` |

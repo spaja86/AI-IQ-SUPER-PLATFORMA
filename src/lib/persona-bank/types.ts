@@ -74,6 +74,7 @@ export interface PersonaUpdateInput {
   linkedAgents?: string[];
   octave?: number;
   hipermrezaNode?: number;
+  status?: PersonaStatus;
   crossRepoRef?: string;
 }
 

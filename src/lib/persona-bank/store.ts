@@ -127,6 +127,7 @@ export function updatePersona(id: string, input: PersonaUpdateInput, agentId: st
     const existing = personas.get(id);
     if (!existing) throw new Error(`Persona not found: ${id}`);
     if (existing.status === 'archived') throw new Error(`Cannot update archived persona: ${id}`);
+    if (input.status === 'archived') throw new Error('Use archivePersona for archived status transition');
 
     const now = new Date().toISOString();
     const updated: Persona = {
@@ -136,6 +137,7 @@ export function updatePersona(id: string, input: PersonaUpdateInput, agentId: st
       linkedAgents: input.linkedAgents ?? existing.linkedAgents,
       octave: input.octave ?? existing.octave,
       hipermrezaNode: input.hipermrezaNode ?? existing.hipermrezaNode,
+      status: input.status ?? existing.status,
       crossRepoRef: input.crossRepoRef ?? existing.crossRepoRef,
       version: existing.version + 1,
       updatedAt: now,
