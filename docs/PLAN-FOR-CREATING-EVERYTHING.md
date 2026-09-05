@@ -1,6 +1,31 @@
-# PLAN FOR CREATING EVRITHING
+# PLAN FOR CREATING EVERYTHING
 
 Execution blueprint for implementing the full platform scope in controlled, auditable slices.
+
+## Immediate daily execution plan (tomorrow 06:00 start)
+
+### Tonight (before sleep)
+- Write top 5 priorities for tomorrow.
+- Prepare workspace (files, tabs, and tools ready).
+- Set clothes/tools for a frictionless morning start.
+- Set 2 alarms: **05:30** and **05:40**.
+
+### Morning startup block
+- **05:30–05:50**: wake up, hydrate, quick hygiene, light stretch.
+- **05:50–06:00**: review the list, remove non-critical items, lock first 3 tasks.
+- **06:00**: start Task #1 immediately (no messaging or browsing).
+
+### Deep-focus execution block
+- **06:00–08:00**: deep-focus on highest-impact work.
+- Every **60–90 min**: take a **5–10 min** break, then continue Task #2/#3.
+
+### Midday checkpoint
+- **12:00**: review progress, adjust remaining tasks, continue execution.
+
+### End-of-day closeout
+- Mark completed items.
+- List carry-over tasks.
+- Prepare next-morning start.
 
 ## 1) Scope of “everything” (deliverables)
 
@@ -43,28 +68,28 @@ Baseline sources: `README.md`, `AGENTS.md`, `docs/ROADMAP.md`, module specs in `
 
 ## 4) Architecture contracts (authoritative first)
 
-## Shared contracts
+### Shared contracts
 - Shared types in `src/lib/types/**`.
 - Standard response envelope and metadata pattern.
 - Module identity/version ownership per domain.
 
-## Module interface pattern
+### Module interface pattern
 - Library contract in `src/lib/<module>/**`.
 - Route contract in `src/app/api/<module>/**`.
 - Optional UI contract in `src/components/<module>/**`.
 - Test contract in `src/tests/lib/**` and `src/tests/api/**`.
 
-## API route conventions
+### API route conventions
 - Explicit health route per critical module where applicable.
 - Deterministic status/error payloads.
 - No secret-bearing payloads in responses or logs.
 
-## Performance/SLA targets
+### Performance/SLA targets
 - Evaluation target: `<= 50ms` where module specs define it.
 - API response target: `<= 200ms` where module specs define it.
 - Build/release gate tracking: enforced by workflow and readiness docs.
 
-## Audit-log requirements
+### Audit-log requirements
 - Workflow summaries for governance/deploy/config paths.
 - PR-level downstream impact notes for cross-repo changes.
 - Human-review checkpoint before merge on critical/risky paths.
