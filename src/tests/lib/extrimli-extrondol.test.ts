@@ -177,6 +177,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.tenant.environmentTier === 'B2B', 'environment tier mismatch');
     assert(report.b2bReadiness.tenant.organizationId === 'spaja-digital-industrija-b2b', 'organization id mismatch');
     assert(report.b2bReadiness.compliance.secretsInGitAllowed === false, 'secrets must not be allowed in git');
+    assert(report.b2bReadiness.compliance.auditTrailComplete === (report.b2bReadiness.compliance.blockers.length === 0), 'audit trail completeness must reflect B2B blockers');
     assert(report.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'linked repo mismatch');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'WAWE sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('nivoDuet.signal.warnings'), 'DUET warnings sync field missing');

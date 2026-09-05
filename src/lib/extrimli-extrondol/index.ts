@@ -195,7 +195,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
   const onboardingComplete = duetSignal.valid && duetSignal.status !== 'DISSONANT';
   const downstreamSyncComplete = !degradedSources.some((source) => source.startsWith('duet:') || source.startsWith('domain-strategy:'));
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
-  const auditTrailComplete = contractApproved && downstreamSyncComplete;
+  const auditTrailComplete = contractApproved && onboardingComplete && downstreamSyncComplete && operationalApproval;
   const rolloutRing = currentWawe === 'WAWE-1'
     ? 'RING-0-CONTRACT'
     : currentWawe === 'WAWE-2'
