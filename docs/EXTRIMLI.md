@@ -230,7 +230,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 
 ### EXTRONDOL B2B operating scope
 
@@ -249,6 +249,25 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - EXTRONDOL report builder može primiti governance evidence direktno ili kroz environment evidence (`EXTRONDOL_AUDIT_TRAIL_COMPLETE`, `EXTRONDOL_HUMAN_REVIEW_COMPLETE`, `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, `EXTRONDOL_ONBOARDING_COMPLETE`) bez menjanja WAWE modela.
 - SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
+
+### START PROJEKAT rollout program
+
+- START PROJEKAT je additive EXTRONDOL rollout metadata sloj za go-live program `OKRID-2026-EXTRIMLI-START-001`.
+- `startProject` ne menja `EXTRONDOL_CONTRACT_VERSION`; služi kao governance/program wrapper za postojeći source-of-truth payload.
+- START scope zaključava:
+  - source-of-truth: `/api/extrimli/extrondol`
+  - orchestration inputs: `EXTRONDEND`, `EXTENDOL`, `KORON`
+  - DUET role: `signal-only`
+  - release mode: `governance-controlled`
+- START rollout prati WAWE program:
+  - `WAWE-1` → pre-deploy readiness
+  - `WAWE-2` → build + staging
+  - `WAWE-3` → downstream sync evidence
+  - `WAWE-4` → production rollout
+  - `WAWE-5` → post-deploy resilience
+- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`.
+- START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
+- START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 
 ### DISTANCE RATIO EKVILATER table
 
@@ -282,6 +301,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 10. B2B activation remains frozen until contract, onboarding, downstream sync, operational approval, and audit controls are satisfied.
 11. Downstream B2B sync must include WAWE fields, DUET warning posture, DINKOS metadata, and domain strategy validation.
 12. `distanceRatioEkvilaterTable` must remain additive-only, bounded, and deterministic for the three upstream readiness surfaces.
+13. `startProject` must preserve START PROJEKAT rollout governance, additive-only contract policy, and required downstream sync.
 
 ### NIVO DUET orchestration map
 

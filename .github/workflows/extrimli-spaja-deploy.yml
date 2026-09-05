@@ -64,14 +64,21 @@ on:
     branches: [main]
     paths:
       - 'src/lib/extrimli/**'
+      - 'src/lib/extrimli-extrondend/**'
+      - 'src/lib/extrimli-extrondol/**'
       - 'src/lib/extrimli-3/**'
+      - 'src/lib/duet/**'
       - 'src/app/api/extrimli/**'
       - 'src/app/api/extrimli-3/**'
+      - 'src/app/api/duet/**'
       - 'src/components/extrimli/**'
       - 'src/lib/extrimli-cuz/**'
       - 'src/app/api/extrimli-cuz/**'
       - 'src/components/extrimli-cuz/**'
       - 'platforms/kompanija-spaja/**'
+      - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-START-DEPLOY.md'
+      - 'docs/MULTI-REPO-LINKS.md'
   workflow_dispatch:
     inputs:
       environment:
@@ -137,9 +144,13 @@ jobs:
           filters: |
             code:
               - 'src/lib/extrimli/**/*.ts'
+              - 'src/lib/extrimli-extrondend/**/*.ts'
+              - 'src/lib/extrimli-extrondol/**/*.ts'
               - 'src/lib/extrimli-3/**/*.ts'
+              - 'src/lib/duet/**/*.ts'
               - 'src/app/api/extrimli/**/*.ts'
               - 'src/app/api/extrimli-3/**/*.ts'
+              - 'src/app/api/duet/**/*.ts'
               - 'src/components/extrimli/**/*.ts'
               - 'src/components/extrimli/**/*.tsx'
               - 'src/lib/extrimli-cuz/**/*.ts'
@@ -147,6 +158,9 @@ jobs:
               - 'src/components/extrimli-cuz/**/*.ts'
               - 'src/components/extrimli-cuz/**/*.tsx'
               - 'platforms/kompanija-spaja/**'
+              - 'docs/EXTRIMLI.md'
+              - 'docs/EXTRIMLI-START-DEPLOY.md'
+              - 'docs/MULTI-REPO-LINKS.md'
 
   # ─────────────────────────────────────────────────────────────────────────────
   # FAZA 1b — Full CI gate (TypeScript + Lint + Unit Tests)
@@ -185,9 +199,13 @@ jobs:
         run: |
           npx eslint \
             src/lib/extrimli \
+            src/lib/extrimli-extrondend \
+            src/lib/extrimli-extrondol \
             src/lib/extrimli-3 \
+            src/lib/duet \
             src/app/api/extrimli \
             src/app/api/extrimli-3 \
+            src/app/api/duet \
             src/components/extrimli \
             src/lib/extrimli-cuz \
             src/app/api/extrimli-cuz \
@@ -198,7 +216,14 @@ jobs:
         run: |
           npx tsx src/tests/lib/extrimli.test.ts
           npx tsx src/tests/lib/extrimli-3.test.ts
+          npx tsx src/tests/lib/extrimli-duel-king.test.ts
+          npx tsx src/tests/lib/extrimli-extendol.test.ts
+          npx tsx src/tests/lib/extrimli-extrondend.test.ts
+          npx tsx src/tests/lib/extrimli-extrondol.test.ts
+          npx tsx src/tests/lib/extrimli-koron.test.ts
           npx tsx src/tests/lib/extrimli-cuz.test.ts
+          npx tsx src/tests/lib/duet.test.ts
+          npx tsx src/tests/api/duet-route.test.ts
           npx tsx src/tests/api/extrimli-route.test.ts
 
       - name: 🧪 Full test suite (all modules)
@@ -211,8 +236,8 @@ jobs:
           echo "| Check | Status |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| TypeScript | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Lint (extrimli, extrimli-cuz) | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| EXTRIMLI unit tests | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Lint (extrimli, extrondend, extrondol, duet, extrimli-cuz) | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| EXTRIMLI/EXTRONDOL/DUET scoped tests | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Full test suite | ✅ OK |" >> "$GITHUB_STEP_SUMMARY"
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -252,9 +277,13 @@ jobs:
         with:
           paths: >-
             src/lib/extrimli
+            src/lib/extrimli-extrondend
+            src/lib/extrimli-extrondol
             src/lib/extrimli-3
+            src/lib/duet
             src/app/api/extrimli
             src/app/api/extrimli-3
+            src/app/api/duet
             src/components/extrimli
             src/lib/extrimli-cuz
             src/app/api/extrimli-cuz
@@ -511,6 +540,7 @@ jobs:
           echo "| **Deploy mode** | \`Vercel Git integracija (primarni)\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Rollback** | \`Vercel Dashboard → Promote (< 60s)\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **WAWE mapping** | \`W1=pre-release, W2=build+staging, W3=sync, W4=rollout, W5=resilience\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **EXTRONDOL START** | \`source-of-truth + additive rollout governance\` |" >> "$GITHUB_STEP_SUMMARY"
 
       - name: 🚀 Vercel Deploy Hook (manuelni fallback)
         env:
@@ -539,6 +569,7 @@ jobs:
           echo "## 🔗 Multi-Repo Sync" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "multi-repo-sync-agent: Sinhronizacija EXTRIMLI gear catalog snapshots → spaja86/IO-OPENUI-AO" >> "$GITHUB_STEP_SUMMARY"
+          echo "multi-repo-sync-agent: Sinhronizacija EXTRONDOL START payload-a (WAWE, B2B, DUET/DINKOS, distance-ratio, startProject) → spaja86/IO-OPENUI-AO" >> "$GITHUB_STEP_SUMMARY"
 
   # ─────────────────────────────────────────────────────────────────────────────
   # FAZA 5 — Post-deploy verifikacija + Audit Log + Analytics
@@ -618,6 +649,7 @@ jobs:
           echo "### 🚧 Promotion freeze policy" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Release promotion mora biti zaustavljen ako KPI/audit/sync status nije potpun." >> "$GITHUB_STEP_SUMMARY"
+          echo "EXTRONDOL START PROJEKAT ostaje frozen dok contract/onboarding/downstream-sync/human-review evidence nije potpun." >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "### 📊 KPI Results" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"

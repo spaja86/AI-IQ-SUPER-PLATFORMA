@@ -15,7 +15,10 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | **Deploy target** | AI IQ SUPER PLATFORMA (Vercel) |
 | **Workflow** | `.github/workflows/extrimli-spaja-deploy.yml` |
 | **Persona** | `extrimli-core` (octave: 7, hipermreza node: 56) |
+| **START project** | `START PROJEKAT` — EXTRONDOL rollout governance wrapper |
+| **EXTRONDOL source-of-truth** | `/api/extrimli/extrondol` |
 | **Contract version** | `EXTRIMLI_CONTRACT_VERSION = v1`, `EXTRIMLI3_CONTRACT_VERSION = v3` |
+| **EXTRONDOL contract** | `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`, `EXTRONDOL_MODULE_VERSION = 1.0.0` |
 | **Downstream repo** | `spaja86/IO-OPENUI-AO` |
 | **OKRID** | `OKRID-2026-EXTRIMLI-START-001` |
 
@@ -39,6 +42,23 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 - [ ] TLS/SSL sertifikat za apex i wildcard status = Active
 - [ ] Deploy hook i svi tokeni ostaju isključivo u GitHub/Vercel Secrets sloju
 
+## EXTRONDOL START Scope
+
+- `START PROJEKAT` tretira EXTRONDOL kao poseban rollout/governance source-of-truth modul.
+- Orchestration inputs ostaju zaključani na:
+  - `EXTRONDEND`
+  - `EXTENDOL`
+  - `KORON`
+- DUET ostaje signalni sloj za WAWE promociju i onboarding hold, ne poseban rollout engine.
+- START acceptance mora uključiti:
+  - `rollout.currentWawe`
+  - `rollout.eligibleNextWawe`
+  - `rollout.promotionFreeze`
+  - `nivoDuet`
+  - `dinkos`
+  - `distanceRatioEkvilaterTable`
+- START governance ostaje additive-only i ne menja postojeći EXTRONDOL contract version.
+
 ---
 
 ## Deploy faze
@@ -48,9 +68,10 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Check | Agent | Status |
 |-------|-------|--------|
 | registry, risk-engine, performance-tracker, gear-catalog, event-engine, weather-adapter | `extrimli-validator-agent` | ⬜ Pending |
+| EXTRONDEND + EXTRONDOL + DUET contract tests | `extrimli-validator-agent` / `ci-bot` | ⬜ Pending |
 | Edge cases: NaN, Infinity, negativne cene, zero stock | `extrimli-validator-agent` | ⬜ Pending |
 | Performance KPI: evaluacija ≤ 50ms, API ≤ 200ms | `extrimli-validator-agent` | ⬜ Pending |
-| TypeScript + lint na `src/lib/extrimli/**`, `src/app/api/extrimli/**` | `ci-bot` | ⬜ Pending |
+| TypeScript + lint na `src/lib/extrimli/**`, `src/lib/extrimli-extrondend/**`, `src/lib/extrimli-extrondol/**`, `src/lib/duet/**`, `src/app/api/extrimli/**`, `src/app/api/duet/**` | `ci-bot` | ⬜ Pending |
 | Security scan: secrets + dependency audit | `security-scanner` | ⬜ Pending |
 | PR label `extrimli:logic-change` → `extrimli:validated` | agent gate | ⬜ Pending |
 
@@ -60,6 +81,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 |-------|-----|--------|
 | `next build` kompletiran | ≤ 3 min | ⬜ Pending |
 | `GET /api/extrimli/health` | 200 OK | ⬜ Pending |
+| `GET /api/extrimli/extrondol` | WAWE + START payload valid | ⬜ Pending |
 | `POST /api/extrimli/risk` | valid risk score | ⬜ Pending |
 | `GET /api/extrimli/gear` | catalog items returned | ⬜ Pending |
 | MIRIKL quality gate: lint → test → smoke → predeploy → security | `mirikl-validator-agent` | ⬜ Pending |
@@ -69,6 +91,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Check | Agent | Status |
 |-------|-------|--------|
 | Gear catalog snapshot sync → `spaja86/IO-OPENUI-AO` | `multi-repo-sync-agent` | ⬜ Pending |
+| EXTRONDOL WAWE/B2B/DUET/DINKOS/distance-ratio sync → `spaja86/IO-OPENUI-AO` | `multi-repo-sync-agent` | ⬜ Pending |
 | `docs/MULTI-REPO-LINKS.md` ažuriran sa START deploy referencom | agent / human | ✅ Done |
 | `extrimli-core` persona aktivna (octave: 7, node: 56) | `persona-bank-agent` | ⬜ Pending |
 
@@ -79,6 +102,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Push na `main` triggeruje Vercel Git auto-deploy | ⬜ Pending |
 | GitHub Actions ostaje governance/audit layer | ✅ Konfigurisano |
 | Domen strategija potvrđena (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) | ⬜ Pending |
+| EXTRONDOL promotion freeze ostaje aktivan bez governance evidence | ⬜ Pending |
 | Deploy hook: Vercel preview → production promotion | ⬜ Pending |
 | `deploy-bot` audit log u PR komentaru (URL, SHA, timestamp, rollback) | ⬜ Pending |
 
@@ -87,6 +111,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Check | Agent | Status |
 |-------|-------|--------|
 | Produkcioni smoke test (extrimli rute) | automated | ⬜ Pending |
+| EXTRONDOL START payload verifikacija | automated | ⬜ Pending |
 | EXTRIMLI integritet u hipermrezi (node 56) | `nova-generacija-agent` | ⬜ Pending |
 | EXTRIMLI API metrika tracking start | `analytics-bot` | ⬜ Pending |
 | PR opisan: rollout, rollback, KPI, downstream link | human | ⬜ Pending |
@@ -98,6 +123,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | `human-review` approve pre merge na `main` | ⬜ Pending |
 | Merge → automatski Vercel production deploy | ⬜ Pending |
 | Release tag: `extrimli-v1.0.0` | ⬜ Pending |
+| EXTRONDOL START governance evidence kompletna | ⬜ Pending |
 | Audit log finalizovan u GitHub Issue | ⬜ Pending |
 
 ---
@@ -114,6 +140,18 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Hipermreza konvergencija | ≥ 0.95 |
 | Rollback time | ≤ 60s |
 | Secrets in Git | 0 (Mandatory) |
+
+---
+
+## START Acceptance Lock
+
+- [ ] EXTRONDOL ostaje `/api/extrimli/extrondol` source-of-truth
+- [ ] START payload ostaje additive-only
+- [ ] DUET ostaje signal-only sloj za WAWE odluke
+- [ ] `spaja.nivo*spaja` ostaje odbijen obrazac
+- [ ] `spaja.nivo-spaja` + `*.spaja.nivo-spaja` ostaju jedini kanonski domeni
+- [ ] Downstream sync prema `spaja86/IO-OPENUI-AO` uključuje WAWE, B2B, DUET/DINKOS i distance-ratio polja
+- [ ] Human review, audit trail, onboarding i downstream sync evidence kompletni pre promocije
 
 ---
 

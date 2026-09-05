@@ -10,8 +10,10 @@ import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
+  ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolReport,
+  ExtrimliExtrondolStartProject,
   ExtrimliExtrondolWaweStage,
 } from './types';
 import {
@@ -120,7 +122,7 @@ function buildDistanceRatioEkvilaterTable(scores: {
   extrondend: number;
   extendol: number;
   koron: number;
-}) {
+}): ExtrimliExtrondolDistanceRatioEkvilaterTable {
   const baseRows = [
     {
       edgeId: 'extrondend-extendol' as const,
@@ -269,6 +271,89 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     extendol: extendol.unifiedReadinessScore,
     koron: koron.readinessScore,
   });
+  const startProject: ExtrimliExtrondolStartProject = {
+    initiativeId: 'OKRID-2026-EXTRIMLI-START-001',
+    programName: 'START PROJEKAT',
+    sourceOfTruthLocked: true,
+    additiveContractPolicy: true,
+    orchestrationInputs: {
+      upstreamSurfaces: ['EXTRONDEND', 'EXTENDOL', 'KORON'],
+      duetRole: 'signal-only',
+    },
+    rolloutProgram: {
+      wawes: [
+        { stage: 'WAWE-1', focus: 'pre-deploy-readiness', freezeRequired: true },
+        { stage: 'WAWE-2', focus: 'build-and-staging', freezeRequired: true },
+        { stage: 'WAWE-3', focus: 'downstream-sync-evidence', freezeRequired: true },
+        { stage: 'WAWE-4', focus: 'production-rollout', freezeRequired: false },
+        { stage: 'WAWE-5', focus: 'post-deploy-resilience', freezeRequired: false },
+      ],
+      releaseMode: 'governance-controlled',
+    },
+    governanceRequirements: {
+      consumerModel: 'organization-level',
+      requiredEvidence: [
+        'contract-approved',
+        'onboarding-complete',
+        'downstream-sync-complete',
+        'audit-trail-complete',
+        'human-review-complete',
+      ],
+      procurementReviewFlow: [
+        'request-submitted',
+        'procurement-review',
+        'compliance-review',
+        'operational-approval',
+        'activation',
+      ],
+    },
+    domainStrategyLock: {
+      requestedPattern: EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
+      canonicalApex: EXTRONDOL_CANONICAL_APEX_DOMAIN,
+      canonicalWildcard: EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
+      rejectPatternsLike: ['spaja.nivo*spaja'],
+    },
+    mandatoryOutputs: [
+      'rollout.currentWawe',
+      'rollout.eligibleNextWawe',
+      'rollout.promotionFreeze',
+      'nivoDuet',
+      'dinkos',
+      'distanceRatioEkvilaterTable',
+    ],
+    downstreamSync: {
+      linkedRepo: 'spaja86/IO-OPENUI-AO',
+      syncRequired: true,
+      syncedContractFields: [
+        'rollout.currentWawe',
+        'rollout.eligibleNextWawe',
+        'rollout.promotionFreeze',
+        'b2bScope',
+        'b2bReadiness',
+        'nivoDuet',
+        'dinkos',
+        'distanceRatioEkvilaterTable',
+      ],
+    },
+    qualityGates: {
+      validatorCoverage: [
+        'extrimli-validator-agent',
+        'ci-bot',
+        'security-scanner',
+        'multi-repo-sync-agent',
+      ],
+      kpiTargets: {
+        evaluationMaxMs: EXTRONDOL_EVALUATION_MAX_MS,
+        apiResponseMaxMs: EXTRONDOL_API_MAX_MS,
+        buildDurationMaxMin: EXTRONDOL_BUILD_MAX_MIN,
+      },
+    },
+    auditRelease: {
+      humanReviewRequired: true,
+      rollbackRequired: true,
+      downstreamReferenceRequired: true,
+    },
+  };
   const duetScoreForBlend = duetSignal.valid ? duetSignal.overallScore : EXTRONDOL_DUET_INVALID_FALLBACK_SCORE;
   const blendedBaseScore = (baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE) + (duetScoreForBlend * EXTRONDOL_NIVO_DUET_SHARE);
   const duetAdjustment = duetSignal.valid
@@ -473,6 +558,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.governanceDecisions.rolloutFreeze === promotionFreeze,
     },
     {
+      id: 'start-project-governance',
+      description: 'START PROJEKAT remains governance-controlled, additive-only, and downstream-synced before release promotion.',
+      passed: startProject.sourceOfTruthLocked
+        && startProject.additiveContractPolicy
+        && startProject.orchestrationInputs.duetRole === 'signal-only'
+        && startProject.governanceRequirements.consumerModel === 'organization-level'
+        && startProject.downstreamSync.syncRequired
+        && startProject.auditRelease.humanReviewRequired,
+    },
+    {
       id: 'b2b-downstream-sync',
       description: 'Downstream B2B consumers receive WAWE fields, DUET warning posture, DINKOS metadata, and domain-strategy validation.',
       passed: b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe')
@@ -500,6 +595,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'src/tests/api/duet-route.test.ts',
     ],
     orchestrationReadinessScore,
+    startProject,
     b2bScope,
     b2bReadiness,
     domainStrategy,

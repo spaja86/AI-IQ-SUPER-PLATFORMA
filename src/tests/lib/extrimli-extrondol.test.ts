@@ -207,6 +207,36 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-controls' && item.passed), 'b2b-controls criterion must pass');
   });
 
+  await test('report exposes START PROJEKAT rollout governance metadata', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.startProject.initiativeId === 'OKRID-2026-EXTRIMLI-START-001', 'START project OKRID mismatch');
+    assert(report.startProject.programName === 'START PROJEKAT', 'START project name mismatch');
+    assert(report.startProject.sourceOfTruthLocked, 'START project must keep source-of-truth lock');
+    assert(report.startProject.additiveContractPolicy, 'START project must remain additive-only');
+    assert(report.startProject.orchestrationInputs.upstreamSurfaces.join(',') === 'EXTRONDEND,EXTENDOL,KORON', 'START project inputs mismatch');
+    assert(report.startProject.orchestrationInputs.duetRole === 'signal-only', 'DUET must remain signal-only in START project');
+    assert(report.startProject.rolloutProgram.wawes.length === 5, 'START project must expose 5 WAWE stages');
+    assert(report.startProject.rolloutProgram.wawes[0].freezeRequired === true, 'WAWE-1 must require freeze');
+    assert(report.startProject.rolloutProgram.wawes[4].stage === 'WAWE-5', 'WAWE-5 stage missing');
+    assert(report.startProject.rolloutProgram.releaseMode === 'governance-controlled', 'release mode mismatch');
+    assert(report.startProject.governanceRequirements.consumerModel === 'organization-level', 'consumer model mismatch');
+    assert(report.startProject.governanceRequirements.requiredEvidence.includes('human-review-complete'), 'human review evidence missing');
+    assert(report.startProject.governanceRequirements.procurementReviewFlow.includes('activation'), 'activation step missing');
+    assert(report.startProject.domainStrategyLock.requestedPattern === 'spaja.nivo*spaja', 'requested pattern mismatch');
+    assert(report.startProject.domainStrategyLock.canonicalApex === EXTRONDOL_CANONICAL_APEX_DOMAIN, 'canonical apex mismatch');
+    assert(report.startProject.domainStrategyLock.canonicalWildcard === EXTRONDOL_CANONICAL_WILDCARD_DOMAIN, 'canonical wildcard mismatch');
+    assert(report.startProject.domainStrategyLock.rejectPatternsLike.includes('spaja.nivo*spaja'), 'reject pattern missing');
+    assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
+    assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
+    assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bReadiness'), 'b2bReadiness sync missing');
+    assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
+    assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');
+    assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');
+    assert(report.startProject.auditRelease.rollbackRequired, 'rollback must remain required');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'start-project-governance' && item.passed), 'start-project-governance criterion must pass');
+  });
+
   await test('report exposes DISTANCE RATIO EKVILATER as an additive derived readiness table', () => {
     const report = getExtrimliExtrondolReport();
     const table = report.distanceRatioEkvilaterTable;
