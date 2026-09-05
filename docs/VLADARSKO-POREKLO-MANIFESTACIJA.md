@@ -7,8 +7,8 @@
 **Kreativni referentni vizual:**  
 `https://github.com/user-attachments/assets/033566f0-581b-452d-bf4d-abf86bb59caa`
 
-**Planirana kanonska landing putanja:** `/vladarskog-porekla`  
-**Planirana rezervna landing putanja (fallback):** `/prijava/vladarskog-porekla`  
+**Planirana kanonska landing putanja (jedina javna ruta):** `/vladarskog-porekla`  
+**Planirana rezervna putanja (internal fallback):** `/prijava/vladarskog-porekla` (nije javna; koristi se samo kao redirect/backup target)  
 **Placeholder host (nije produkcioni):** `spaja.nivo-spaja`
 **Owner landing stranice:** `@spaja86` + IO-OPENUI-AO Web Experience tim
 
@@ -39,6 +39,7 @@
   - `consent: boolean` (mora biti `true`)
 - Validacija: sva polja obavezna osim `city`; `email` validan format; `tickets >= 1`; `consent = true`
 - Success response (`201 Created`): `{ "ok": true, "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
+- Success discriminator: uspeh se pouzdano detektuje preko `ok = true` i HTTP `201`.
 - Error response (`400 Bad Request`, validacija): `{ "ok": false, "error": "VALIDATION_ERROR", "message": "Proverite obavezna polja i format unosa." }`
 - Error response (`409 Conflict`, duplikat): `{ "ok": false, "error": "DUPLICATE", "message": "Prijava sa ovom email adresom već postoji." }`
 - Error response (`500 Internal Server Error`, serverska greška): `{ "ok": false, "error": "SERVER_ERROR", "message": "Došlo je do greške. Pokušajte ponovo." }`

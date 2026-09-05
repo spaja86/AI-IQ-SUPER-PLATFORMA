@@ -1614,6 +1614,7 @@ AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 | Landing slug | `/vladarskog-porekla` |
 | Fallback slug | `/prijava/vladarskog-porekla` |
 | Handoff/Audit ID | `VPOREKLO-2026-09` |
+| Downstream issue status | Pending (`IO-OPENUI-AO#<follow-up issue>`) |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
 
@@ -1621,8 +1622,8 @@ AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 |---|---|---|
 | `AI-IQ-SUPER-PLATFORMA` — campaign content handoff | `spaja86/IO-OPENUI-AO` — Follow-up required | Implement `src/app/vladarskog-porekla/page.tsx` and `src/app/api/vladarskog-porekla/register/route.ts` per documented contract |
 
-**Follow-up required in `spaja86/IO-OPENUI-AO`:**
-- Open downstream issue and reference `VPOREKLO-2026-09`
+**Follow-up required in `spaja86/IO-OPENUI-AO` (pending until issue is opened):**
+- Open downstream issue and replace placeholder `IO-OPENUI-AO#<follow-up issue>` with real reference for `VPOREKLO-2026-09`
 - Implement landing sections: Hero + Program + Govornici i učesnici + Kontakt info (v1 static)
 - Implement registration API with status codes (`201`, `400`, `409`, `500`) and documented payload contract
 
