@@ -9,6 +9,7 @@
 
 - `npm run test:core` → auth + spaja-ultra + glavni-endzin + api contract baseline
 - `npm run test:autofinish:critical` → minimal high-signal autofinish route regression set
+- `npm run test:billing`, `npm run test:brouvzer`, `npm run test:call-centar`, `npm run test:depon`, `npm run test:unit` → additional legacy suite folders
 - `npm run test:lib` → recursive domain logic tests under `src/tests/lib`
 - `npm run test:api` → recursive route contract tests under `src/tests/api`
 - `npm run test:smoke` → minimal go-live smoke gate
