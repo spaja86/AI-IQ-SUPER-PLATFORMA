@@ -17,11 +17,13 @@
   1. all clients migrate,
   2. docs are updated,
   3. tests and workflow labels are aligned.
+- Legacy library-name compatibility is allowed only when API slug migration is explicit in docs.
 
 ## Current migration target
 
 - Canonical: `konvencionalni-odnosi`
 - Compatibility alias: `konvenkcionalni-odnosi`
+- Legacy compatibility: `digit-engine` (library) → canonical API slug `digitron`
 
 ## New module checklist
 

@@ -1,8 +1,11 @@
 import { existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 const directory = process.argv[2];
+const scriptDir = dirname(fileURLToPath(import.meta.url));
+const repoRoot = resolve(scriptDir, '..');
 
 if (!directory) {
   console.error('Usage: node scripts/run-tsx-tests.mjs <tests-directory>');
@@ -31,18 +34,21 @@ function collectTestFiles(baseDir) {
   return files.sort();
 }
 
-const testFiles = collectTestFiles(directory);
-const tsxCommand =
-  process.platform === 'win32' ? '.\\node_modules\\.bin\\tsx.cmd' : './node_modules/.bin/tsx';
+const targetDirectory = isAbsolute(directory) ? directory : resolve(repoRoot, directory);
+const testFiles = collectTestFiles(targetDirectory);
+const tsxCommand = process.platform === 'win32'
+  ? resolve(repoRoot, 'node_modules', '.bin', 'tsx.cmd')
+  : resolve(repoRoot, 'node_modules', '.bin', 'tsx');
 
 if (testFiles.length === 0) {
-  console.error(`No test files found in: ${directory}`);
+  console.error(`No test files found in: ${targetDirectory}`);
   process.exit(1);
 }
 
 for (const file of testFiles) {
   const command = spawnSync(tsxCommand, [file], {
     stdio: 'inherit',
+    cwd: repoRoot,
   });
 
   if (command.error) {

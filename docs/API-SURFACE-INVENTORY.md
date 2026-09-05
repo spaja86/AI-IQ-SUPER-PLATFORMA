@@ -30,6 +30,7 @@
 - `repozit`
 
 `digit-engine` remains the logic-level module surface; `digitron` is its API route slug.
+This is a documented legacy compatibility exception under `docs/NAMING-CONVENTIONS.md`.
 
 See: `docs/API-CONTRACT-STATUS.md`.
 
