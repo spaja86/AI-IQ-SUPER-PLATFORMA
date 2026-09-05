@@ -2,7 +2,7 @@
 
 **Naziv manifestacije:** Vladarskog porekla  
 **Verzija dokumenta:** 1.0  
-**Status:** Ready for production  
+**Status:** Draft — pending verified production URL  
 **Datum:** 2026-09-05  
 **Kreativni referentni vizual:**  
 `https://github.com/user-attachments/assets/033566f0-581b-452d-bf4d-abf86bb59caa`
@@ -36,7 +36,7 @@
 - Request polja:
   - `fullName: string` (2–120 karaktera)
   - `email: string` (RFC-like email format)
-  - `phone: string` (6–24 karaktera, dozvoljeni `+`, razmak, `-`)
+  - `phone: string` (6–24 karaktera, dozvoljene cifre `0-9` + `+`, razmak, `-`)
   - `city?: string` (opciono, max 120 karaktera)
   - `tickets: number` (ceo broj, `>= 1`)
   - `consent: boolean` (mora biti `true`)
