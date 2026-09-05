@@ -8,6 +8,28 @@ import type { TrikotInput } from '@/lib/trikot';
 
 export const dynamic = 'force-dynamic';
 
+function validateRequestShape(candidate: Record<string, unknown>): string | null {
+  const requiredStringFields = ['objective', 'season', 'dressCode'] as const;
+  for (const field of requiredStringFields) {
+    if (typeof candidate[field] !== 'string') return `${field} is required (string)`;
+  }
+
+  const requiredNumberFields = [
+    'comfortScore',
+    'weatherFitScore',
+    'budgetFitScore',
+    'mobilityScore',
+    'maintenanceRisk',
+    'prepTimeHours',
+    'accessoryComplexity',
+  ] as const;
+  for (const field of requiredNumberFields) {
+    if (typeof candidate[field] !== 'number') return `${field} is required (number)`;
+  }
+
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   try {
     let body: unknown;
@@ -37,16 +59,8 @@ export async function POST(req: NextRequest) {
       accessoryComplexity,
     } = candidate;
 
-    if (typeof objective !== 'string') return apiError('BAD_REQUEST', 'objective is required (string)');
-    if (typeof season !== 'string') return apiError('BAD_REQUEST', 'season is required (string)');
-    if (typeof dressCode !== 'string') return apiError('BAD_REQUEST', 'dressCode is required (string)');
-    if (typeof comfortScore !== 'number') return apiError('BAD_REQUEST', 'comfortScore is required (number)');
-    if (typeof weatherFitScore !== 'number') return apiError('BAD_REQUEST', 'weatherFitScore is required (number)');
-    if (typeof budgetFitScore !== 'number') return apiError('BAD_REQUEST', 'budgetFitScore is required (number)');
-    if (typeof mobilityScore !== 'number') return apiError('BAD_REQUEST', 'mobilityScore is required (number)');
-    if (typeof maintenanceRisk !== 'number') return apiError('BAD_REQUEST', 'maintenanceRisk is required (number)');
-    if (typeof prepTimeHours !== 'number') return apiError('BAD_REQUEST', 'prepTimeHours is required (number)');
-    if (typeof accessoryComplexity !== 'number') return apiError('BAD_REQUEST', 'accessoryComplexity is required (number)');
+    const shapeError = validateRequestShape(candidate);
+    if (shapeError) return apiError('BAD_REQUEST', shapeError);
 
     const input: TrikotInput = {
       referenceId: typeof referenceId === 'string' ? referenceId : undefined,
