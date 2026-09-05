@@ -39,9 +39,10 @@
   - `consent: boolean` (mora biti `true`)
 - Validacija: sva polja obavezna osim `city`; `email` validan format; `tickets >= 1`; `consent = true`
 - Success response (`201 Created`): `{ "ok": true, "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
-- Error response (`400 Bad Request`, validacija): `{ "ok": false, "error": "VALIDATION_ERROR", "message": "..." }`
-- Error response (`409 Conflict`, duplikat): `{ "ok": false, "error": "DUPLICATE", "message": "..." }`
-- Error response (`500 Internal Server Error`, serverska greška): `{ "ok": false, "error": "SERVER_ERROR", "message": "..." }`
+- Error response (`400 Bad Request`, validacija): `{ "ok": false, "error": "VALIDATION_ERROR", "message": "Proverite obavezna polja i format unosa." }`
+- Error response (`409 Conflict`, duplikat): `{ "ok": false, "error": "DUPLICATE", "message": "Prijava sa ovom email adresom već postoji." }`
+- Error response (`500 Internal Server Error`, serverska greška): `{ "ok": false, "error": "SERVER_ERROR", "message": "Došlo je do greške. Pokušajte ponovo." }`
+- Klijenti treba da se oslanjaju na `error` kod kao stabilan ugovor; `message` je korisnički tekst i može se lokalizovati.
 
 ---
 

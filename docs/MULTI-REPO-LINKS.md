@@ -1601,3 +1601,33 @@ Audit reference convention (if downstream work is needed later):
 ```
 AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 ```
+
+---
+
+## VLADARSKOG POREKLA — Campaign Landing/Registration Handoff
+
+| Field | Value |
+|---|---|
+| Date | 2026-09-05 |
+| Owner | `@spaja86` + IO-OPENUI-AO Web Experience tim |
+| Scope | `docs/VLADARSKO-POREKLO-MANIFESTACIJA.md` |
+| Landing slug | `/vladarskog-porekla` |
+| Fallback slug | `/prijava/vladarskog-porekla` |
+| Handoff/Audit ID | `VPOREKLO-2026-09` |
+
+### Downstream changes in `spaja86/IO-OPENUI-AO`
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — campaign content handoff | `spaja86/IO-OPENUI-AO` — Follow-up required | Implement `src/app/vladarskog-porekla/page.tsx` and `src/app/api/vladarskog-porekla/register/route.ts` per documented contract |
+
+**Follow-up required in `spaja86/IO-OPENUI-AO`:**
+- Open downstream issue and reference `VPOREKLO-2026-09`
+- Implement landing sections: Hero + Program + Govornici i učesnici + Kontakt info (v1 static)
+- Implement registration API with status codes (`201`, `400`, `409`, `500`) and documented payload contract
+
+**Audit convention for this initiative:**
+```
+AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#<follow-up issue>
+IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09
+```
