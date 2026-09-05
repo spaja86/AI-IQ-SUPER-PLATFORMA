@@ -161,8 +161,7 @@ export type ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow =
     to: 'KORON';
   };
 
-type ExtrimliExtrondolDistanceRatioCompatibilityAlias =
-  typeof EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES[number];
+type ExtrimliExtrondolDistanceRatioCompatibilityAlias = 'DISANCE RATOR EKVILATER';
 
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   requestedTableName: 'DISTANCE RATIO EKVILATER';
