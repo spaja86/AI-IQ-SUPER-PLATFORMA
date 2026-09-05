@@ -161,6 +161,7 @@ export type ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow =
     to: 'KORON';
   };
 
+// Legacy typo-only alias preserved for downstream compatibility with earlier planning text.
 type ExtrimliExtrondolDistanceRatioCompatibilityAlias = 'DISANCE RATOR EKVILATER';
 
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
@@ -253,6 +254,7 @@ export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD = 'distanceRatioE
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION = 'v1-distance-ratio-ekvilater';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION = 'derived-readiness-table';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE = 'EQUILATERAL';
+// Legacy typo-only alias preserved for compatibility; do not reuse as canonical naming.
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES = ['DISANCE RATOR EKVILATER'] as const;
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE = [
   'extrondend.aggregationScore',
