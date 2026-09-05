@@ -60,7 +60,9 @@ function isValidWildcardDomain(domain: string): boolean {
 }
 
 function validateDomainStrategy() {
-  const invalidPatternReason = EXTRONDOL_REQUESTED_DOMAIN_PATTERN.includes('*')
+  const requestedPatternRejected = !isValidApexDomain(EXTRONDOL_REQUESTED_DOMAIN_PATTERN)
+    && !isValidWildcardDomain(EXTRONDOL_REQUESTED_DOMAIN_PATTERN);
+  const invalidPatternReason = requestedPatternRejected
     ? `invalid requested pattern: ${EXTRONDOL_REQUESTED_DOMAIN_PATTERN}`
     : null;
   const canonicalValid = isValidApexDomain(EXTRONDOL_CANONICAL_APEX_DOMAIN);
@@ -69,6 +71,7 @@ function validateDomainStrategy() {
   const suffixAligned = wildcardSuffix === EXTRONDOL_CANONICAL_APEX_DOMAIN;
   return {
     requestedPattern: EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
+    requestedPatternRejected,
     canonicalApex: EXTRONDOL_CANONICAL_APEX_DOMAIN,
     canonicalWildcard: EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
     valid: canonicalValid && wildcardValid && suffixAligned,
@@ -134,9 +137,12 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     ),
     2,
   );
-  const duetAdjustment = mapDuetStatusAdjustment(duetSignal.status) - Math.min(12, duetSignal.warnings.length * 4);
+  const duetScore = duetSignal.valid ? duetSignal.overallScore : baseOrchestrationScore;
+  const duetAdjustment = duetSignal.valid
+    ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(12, duetSignal.warnings.length * 4)
+    : 0;
   const orchestrationReadinessScore = round(
-    clamp(baseOrchestrationScore * 0.82 + duetSignal.overallScore * 0.18 + duetAdjustment, 0, 100),
+    clamp(baseOrchestrationScore * 0.82 + duetScore * 0.18 + duetAdjustment, 0, 100),
     2,
   );
 
@@ -174,7 +180,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     {
       id: 'domain-strategy-lock',
       description: 'Requested `spaja.nivo*spaja` is rejected and canonical domains remain `spaja.nivo-spaja` + `*.spaja.nivo-spaja`.',
-      passed: domainStrategy.valid && domainStrategy.invalidReason !== null,
+      passed: domainStrategy.valid && domainStrategy.requestedPatternRejected && domainStrategy.invalidReason !== null,
     },
     {
       id: 'nivo-duet-mapping',

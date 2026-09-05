@@ -70,6 +70,7 @@ async function runTests(): Promise<void> {
     assert(report.domainStrategy.canonicalApex === 'spaja.nivo-spaja', 'canonical apex mismatch');
     assert(report.domainStrategy.canonicalWildcard === '*.spaja.nivo-spaja', 'canonical wildcard mismatch');
     assert(report.domainStrategy.valid, 'canonical domain strategy must be valid');
+    assert(report.domainStrategy.requestedPatternRejected, 'requested pattern must be rejected');
     assert(
       typeof report.domainStrategy.invalidReason === 'string' && report.domainStrategy.invalidReason.includes('spaja.nivo*spaja'),
       'invalid requested pattern reason must be present',

@@ -13,6 +13,7 @@ export interface ExtrimliExtrondolAcceptanceCriterion {
 
 export interface ExtrimliExtrondolDomainStrategy {
   requestedPattern: string;
+  requestedPatternRejected: boolean;
   canonicalApex: string;
   canonicalWildcard: string;
   valid: boolean;

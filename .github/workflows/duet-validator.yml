@@ -15,8 +15,6 @@ on:
       - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/duet-validator.yml'
       - '.github/workflows/extrimli-validator.yml'
-      - '.github/workflows/duet-validator.yml'
-      - '.github/workflows/extrimli-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
     branches: [main]
@@ -31,6 +29,8 @@ on:
       - 'docs/DUET.md'
       - 'docs/EXTRIMLI.md'
       - 'docs/MULTI-REPO-LINKS.md'
+      - '.github/workflows/duet-validator.yml'
+      - '.github/workflows/extrimli-validator.yml'
   workflow_dispatch:
 
 concurrency:
