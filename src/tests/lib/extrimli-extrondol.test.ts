@@ -6,7 +6,7 @@ import {
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
-  EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_ALIAS,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_MISSPELLED_ALIAS,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
@@ -212,7 +212,7 @@ async function runTests(): Promise<void> {
     const table = report.distanceRatioEkvilaterTable;
     assert(table.requestedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME, 'requested table name mismatch');
     assert(table.normalizedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME, 'normalized table name mismatch');
-    assert(table.legacyRequestedTableNames.includes(EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_ALIAS), 'legacy alias mismatch');
+    assert(table.legacyRequestedTableNames.includes(EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_MISSPELLED_ALIAS), 'legacy alias mismatch');
     assert(table.contractField === EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD, 'contract field mismatch');
     assert(table.version === EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION, 'table version mismatch');
     assert(table.interpretation === EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION, 'table interpretation mismatch');
@@ -275,7 +275,7 @@ async function runTests(): Promise<void> {
     const table = getExtrimliExtrondolReport().distanceRatioEkvilaterTable;
     assert(table.requestedTableName === table.normalizedTableName, 'canonical table naming must be normalized');
     assert(table.legacyRequestedTableNames.length >= 1, 'expected at least one legacy alias');
-    assert(table.legacyRequestedTableNames.includes(EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_ALIAS), 'legacy misspelled alias must remain documented');
+    assert(table.legacyRequestedTableNames.includes(EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_MISSPELLED_ALIAS), 'legacy misspelled alias must remain documented');
   });
 
   await test('report can consume explicit governance evidence for downstream sync and human review', () => {
