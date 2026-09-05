@@ -121,6 +121,11 @@ export interface ExtrimliExtrondolB2bReadiness {
   };
 }
 
+export interface ExtrimliExtrondolGovernanceEvidence {
+  downstreamSyncComplete?: boolean;
+  humanReviewComplete?: boolean;
+}
+
 export interface ExtrimliExtrondolReport {
   personaId: string;
   contractVersion: string;

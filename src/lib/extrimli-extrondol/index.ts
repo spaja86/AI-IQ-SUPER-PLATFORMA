@@ -8,7 +8,12 @@ import { evaluateDuet } from '../duet';
 import { getExtrimliExtrondendReport } from '../extrimli-extrondend';
 import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
-import type { ExtrimliExtrondolAcceptanceCriterion, ExtrimliExtrondolReport, ExtrimliExtrondolWaweStage } from './types';
+import type {
+  ExtrimliExtrondolAcceptanceCriterion,
+  ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolReport,
+  ExtrimliExtrondolWaweStage,
+} from './types';
 import {
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
@@ -102,11 +107,19 @@ function mapDuetStatusAdjustment(status: string): number {
   return EXTRONDOL_DUET_STATUS_ADJUSTMENT.DISSONANT;
 }
 
-export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
+function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidence) {
+  return {
+    downstreamSyncComplete: evidence?.downstreamSyncComplete ?? process.env.EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE === 'true',
+    humanReviewComplete: evidence?.humanReviewComplete ?? process.env.EXTRONDOL_HUMAN_REVIEW_COMPLETE === 'true',
+  } as const;
+}
+
+export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanceEvidence): ExtrimliExtrondolReport {
   const extrondend = getExtrimliExtrondendReport();
   const extendol = getExtrimliExtendolReport();
   const koron = getExtrimliKoronHealthReport();
   const domainStrategy = validateDomainStrategy();
+  const governanceEvidence = resolveGovernanceEvidence(evidence);
 
   const duetInput = {
     referenceId: 'extrimli-extrondol:nivo-duet',
@@ -193,9 +206,9 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
   const contractApproved = !degraded && domainStrategy.valid;
   const onboardingComplete = duetSignal.valid && duetSignal.status !== 'DISSONANT';
-  const downstreamSyncComplete = false;
+  const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
-  const humanReviewComplete = false;
+  const humanReviewComplete = governanceEvidence.humanReviewComplete;
   const auditTrailComplete = contractApproved && onboardingComplete && downstreamSyncComplete && operationalApproval && humanReviewComplete;
   const rolloutRing = currentWawe === 'WAWE-1'
     ? 'RING-0-CONTRACT'
@@ -423,6 +436,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
 
 export type {
   ExtrimliExtrondolAcceptanceCriterion,
+  ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolWaweStage,
 } from './types';

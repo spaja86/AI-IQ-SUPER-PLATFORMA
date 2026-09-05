@@ -194,6 +194,17 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-controls' && item.passed), 'b2b-controls criterion must pass');
   });
 
+  await test('report can consume explicit governance evidence for downstream sync and human review', () => {
+    const report = getExtrimliExtrondolReport({
+      downstreamSyncComplete: true,
+      humanReviewComplete: true,
+    });
+    assert(report.b2bReadiness.compliance.humanReviewComplete === true, 'human review evidence override failed');
+    assert(report.b2bReadiness.downstreamSync.status === 'ALIGNED', 'downstream sync evidence override failed');
+    assert(!report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker should clear');
+    assert(!report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker should clear');
+  });
+
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
   if (failed > 0) {
     for (const failure of failures) console.error(`  - ${failure}`);
