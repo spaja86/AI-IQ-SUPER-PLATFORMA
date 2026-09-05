@@ -1,7 +1,12 @@
 import { buildAiIqWorldBank } from '../ai-iq-world-bank';
 import { EXTRIMLI_PERSONA_ID, getExtrimliAggregateSignals } from '../extrimli';
 import { getExtrimliExtrondolReport } from '../extrimli-extrondol';
-import { createPersonaBankClient, PERSONA_BANK_CONTRACT_VERSION } from '../persona-bank';
+import {
+  createPersonaBankClient,
+  PERSONA_BANK_CONTRACT_VERSION,
+  PersonaArchivedError,
+  PersonaNotFoundError,
+} from '../persona-bank';
 import type { ExtrimliWorldBankPersonaOptions, ExtrimliWorldBankPersonaReport, ExtrimliWorldBankPersonaSubflow } from './types';
 import {
   EXTRIMLI_WORLD_BANK_PERSONA_AGENT,
@@ -197,8 +202,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
         persona: updated,
       };
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      if (message.startsWith('Persona not found:')) {
+      if (error instanceof PersonaNotFoundError) {
         const registered = client.register(personaPayload);
         writeResult = {
           attempted: true,
@@ -209,7 +213,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           appliedBy: agentId,
           persona: registered,
         };
-      } else if (message.startsWith('Cannot update archived persona:')) {
+      } else if (error instanceof PersonaArchivedError) {
         const archived = client.get(personaPayload.id);
         writeResult = {
           attempted: false,

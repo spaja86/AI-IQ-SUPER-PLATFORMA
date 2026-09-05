@@ -12,6 +12,11 @@ export {
   bulkImportPersonas,
   autoArchiveStalePersonas,
   _resetPersonaBankStore,
+  PersonaBankError,
+  PersonaLockConflictError,
+  PersonaNotFoundError,
+  PersonaArchivedError,
+  PersonaInvalidTransitionError,
 } from './store';
 export { SEED_PERSONAS, PERSONA_BANK_SEED_AGENT_ID } from './seed';
 export type {
