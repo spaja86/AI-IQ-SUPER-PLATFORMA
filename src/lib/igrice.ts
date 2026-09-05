@@ -134,10 +134,10 @@ function kreirajDimenzionalneRezime(podrzaneDim: DimenzijaNivo[]): Dimenzionalni
 const sveDimenzije: DimenzijaNivo[] = ['360D', '720D', '1440D', '2880D', '5760D'];
 
 export const GAMES_SCOPE = {
-  modul: ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'],
-  api: ['/api/igrice', '/api/igrice-stats', '/api/igrice-kategorije'],
+  modul: ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts', 'src/lib/gamelord/**'],
+  api: ['/api/igrice', '/api/igrice-stats', '/api/igrice-kategorije', '/api/gamelord/evaluate', '/api/gamelord/health'],
   ui: ['/igrice', '/spaja-digitalni-brouvzer?igricaId=...'],
-  analytics: ['kategorija', 'status', 'runnerTip'],
+  analytics: ['kategorija', 'status', 'runnerTip', 'gamelordStatus'],
 } as const;
 
 export const GAMES_REQUIRED_OUTPUTS = [
@@ -146,6 +146,7 @@ export const GAMES_REQUIRED_OUTPUTS = [
   'api-summary',
   'ui-sekvence',
   'analytics-breakdown',
+  'rollout-guardrails',
 ] as const;
 
 export const igrice: Igrica[] = [
@@ -2724,12 +2725,6 @@ export const igrice: Igrica[] = [
     opis: 'Jedinstven fintech borbeni dvoboj — majstori tržišnog manipulisanja suočavaju se u dimenzionalnom prostoru. Igrač bira između Market Maker-a (liquidity provider, defensivni stil sa bid/ask spread štitom) ili Manipulatora (agresivni napadač koji koristi flash crash talase i liquidation projektile). Svaka dimenzija (D) pojačava finansijsku snagu: u 360D bazični spread napadi, u 1440D+ dimenzionalni šok talasi i pump-and-dump eksplozije, u 5760D potpuna tržišna destrukcija sa spiralnim likvidacionim zonama.',
     ikona: '💹',
     kategorija: 'borbena',
-  {
-    id: 'igrica-back-to-spaces-another-races',
-    naziv: 'Back to Spaces for Another Races',
-    opis: 'Svemirske trke kroz višedimenzionalne orbite sa fairness pravilima, anti-cheat validacijom i audit tragom za cross-repo operativnu usklađenost.',
-    ikona: '🛸',
-    kategorija: 'trka',
     podrzaneDimenzije: sveDimenzije,
     podrazumevanaDimenzija: '720D',
     dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
@@ -2743,6 +2738,18 @@ export const igrice: Igrica[] = [
     ],
     status: 'aktivna',
     preporuceniProizvodi: ['spaja-game-engine', 'spaja-physics-engine', 'spaja-multiplayer-server', 'spaja-blockchain-engine'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+  {
+    id: 'igrica-back-to-spaces-another-races',
+    naziv: 'Back to Spaces for Another Races',
+    opis: 'Svemirske trke kroz višedimenzionalne orbite sa fairness pravilima, anti-cheat validacijom i audit tragom za cross-repo operativnu usklađenost.',
+    ikona: '🛸',
+    kategorija: 'trka',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '720D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
       'Galaktički krugovi i dimenzionalni checkpoint sistem',
       'Fairness validacija (broj igrača, nitro limit, latency cap)',
       'Penalty obračun za kolizije i neregularne akcije',
@@ -2813,6 +2820,27 @@ export const igrice: Igrica[] = [
     status: 'planirana',
     preporuceniProizvodi: ['omega-ai-engine', 'spaja-optimizer', 'spaja-monitor'],
     zahtevi: OBAVEZNI_ZAHTEVI,
+  },
+  {
+    id: 'igrica-gamelord',
+    naziv: 'GAMES (GAMELORD)',
+    opis: 'Standalone kompetitivni mode za dominaciju u strategiji i egzekuciji sa determinističkim scoring modelom, warning signalima i audit-ready evaluacijom.',
+    ikona: '👑',
+    kategorija: 'strategija',
+    podrzaneDimenzije: sveDimenzije,
+    podrazumevanaDimenzija: '1440D',
+    dimenzionalniRezimi: kreirajDimenzionalneRezime(sveDimenzije),
+    funkcije: [
+      'Deterministički GAMELORD dominance scoring',
+      'Status klasifikacija: UNRANKED → CONTENDER → WARMASTER → GAMELORD',
+      'Warning signali za penalty pressure i anomaly drift',
+      'API-first evaluacija sa health metrikama',
+      'Pita dimenziju (D) prilikom pokretanja',
+    ],
+    status: 'beta',
+    preporuceniProizvodi: ['spaja-game-engine', 'spaja-monitor', 'omega-ai-engine'],
+    zahtevi: OBAVEZNI_ZAHTEVI,
+    link: 'https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/blob/main/docs/GAMELORD.md',
   },
 ];
 

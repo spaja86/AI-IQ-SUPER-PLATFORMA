@@ -1,0 +1,65 @@
+name: GAMELORD — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/gamelord/**'
+      - 'src/app/api/gamelord/**'
+      - 'src/lib/igrice.ts'
+      - 'src/lib/gaming-endzin.ts'
+      - 'src/tests/lib/gamelord.test.ts'
+      - 'src/tests/api/gamelord-route.test.ts'
+      - 'src/tests/lib/pokermaster-catalog.test.ts'
+      - 'docs/GAMELORD.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.agent-config.json'
+      - 'AGENTS.md'
+      - '.github/workflows/gamelord-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/gamelord/**'
+      - 'src/app/api/gamelord/**'
+      - 'src/lib/igrice.ts'
+      - 'src/lib/gaming-endzin.ts'
+      - 'src/tests/lib/gamelord.test.ts'
+      - 'src/tests/api/gamelord-route.test.ts'
+      - 'src/tests/lib/pokermaster-catalog.test.ts'
+      - 'docs/GAMELORD.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.agent-config.json'
+      - 'AGENTS.md'
+      - '.github/workflows/gamelord-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: gamelord-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: gamelord
+      lint_paths: >-
+        src/lib/gamelord
+        src/app/api/gamelord
+        src/lib/igrice.ts
+        src/lib/gaming-endzin.ts
+      test_commands: |
+        npx tsx src/tests/lib/gamelord.test.ts
+        npx tsx src/tests/api/gamelord-route.test.ts
+        npx tsx src/tests/lib/pokermaster-catalog.test.ts
+      scan_paths: >-
+        src/lib/gamelord
+        src/app/api/gamelord
+        src/lib/igrice.ts
+        src/lib/gaming-endzin.ts
+      label: gamelord
+      perf_eval_ms: 50
+      perf_api_ms: 200

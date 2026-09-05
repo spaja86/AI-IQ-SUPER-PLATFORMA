@@ -471,6 +471,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `dinosaurus-trexar-core` (octave: 10, hipermreza node: 81)
 
+### gamelord-validator-agent (NEW)
+- **Role**: Validacija GAMES (GAMELORD) logike — deterministic dominance scoring, status mapping i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/gamelord/**`, `src/app/api/gamelord/**`, `src/lib/igrice.ts`
+- **Trigger**: PR sa labelom `gamelord:logic-change`, push koji dira `gamelord` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za GAMELORD logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, bounds`)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `gamelord:validated` ili `gamelord:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `gamelord-core` (octave: 9, hipermreza node: 74)
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -548,6 +561,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
 | dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
 | dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
+| gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1137,6 +1151,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `dinosaurus-trexar-core` (octave: 10, hipermreza node: 81)
 
+### gamelord-validator-agent (NEW)
+- **Role**: Validate GAMES (GAMELORD) logic — deterministic dominance scoring, status mapping, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/gamelord/**`, `src/app/api/gamelord/**`, `src/lib/igrice.ts`
+- **Trigger**: PR with label `gamelord:logic-change`, push touching `gamelord` paths
+- **Actions**:
+  - Runs unit and route test suite for GAMELORD logic
+  - Verifies deterministic results and edge cases (`NaN`, `Infinity`, negative values, bounds)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `gamelord:validated` or `gamelord:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `gamelord-core` (octave: 9, hipermreza node: 74)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1213,6 +1240,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
 | dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
 | dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
+| gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
