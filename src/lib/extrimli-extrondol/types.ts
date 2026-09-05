@@ -161,12 +161,12 @@ export type ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow =
     to: 'KORON';
   };
 
-export type ExtrimliExtrondolDistanceRatioEkvilaterLegacyMisspelledAlias = 'DISANCE RATOR EKVILATER';
+export type ExtrimliExtrondolDistanceRatioEkvilaterLegacyAlias = 'DISANCE RATOR EKVILATER';
 
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   requestedTableName: 'DISTANCE RATIO EKVILATER';
   normalizedTableName: 'DISTANCE RATIO EKVILATER';
-  legacyRequestedTableNames: readonly ExtrimliExtrondolDistanceRatioEkvilaterLegacyMisspelledAlias[];
+  legacyRequestedTableNames: readonly ExtrimliExtrondolDistanceRatioEkvilaterLegacyAlias[];
   contractField: 'distanceRatioEkvilaterTable';
   version: 'v1-distance-ratio-ekvilater';
   interpretation: 'derived-readiness-table';
