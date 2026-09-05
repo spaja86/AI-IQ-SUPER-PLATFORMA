@@ -128,8 +128,9 @@ async function runTests(): Promise<void> {
     assert(!report.governanceGate.missingEvidence.includes('downstream-sync-complete'), 'downstream sync blocker should be cleared');
     assert(!report.governanceGate.missingEvidence.includes('human-review-complete'), 'human review blocker should be cleared');
     assert(!report.governanceGate.missingEvidence.includes('audit-trail-complete'), 'audit blocker should be cleared');
-    assert(report.governanceGate.promotionFreeze === report.governanceGate.blocked, 'block state should mirror promotion freeze when evidence is complete');
-    assert(['active', 'dormant'].includes(report.writeResult.personaStatusAfter ?? ''), 'unexpected persona status');
+    assert(report.governanceGate.promotionFreeze === true, 'promotion freeze should still control rollout');
+    assert(report.lifecycle.decision === 'HOLD', 'expected HOLD while rollout freeze is active');
+    assert(report.writeResult.personaStatusAfter === 'dormant', 'expected deterministic dormant status while HOLD is active');
   });
 
   await test('apply mode skips writes when target persona is archived', () => {

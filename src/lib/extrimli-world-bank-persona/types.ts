@@ -36,8 +36,8 @@ export interface ExtrimliWorldBankPersonaReport {
     personaBank: '/api/persona-bank';
   };
   governanceGate: {
-    currentWawe: ExtrimliExtrondolReport['rollout']['currentWawe'];
-    eligibleNextWawe: ExtrimliExtrondolReport['rollout']['eligibleNextWawe'];
+    currentWave: ExtrimliExtrondolReport['rollout']['currentWawe'];
+    eligibleNextWave: ExtrimliExtrondolReport['rollout']['eligibleNextWawe'];
     promotionFreeze: boolean;
     requiredEvidence: ReadonlyArray<'onboarding-complete' | 'downstream-sync-complete' | 'audit-trail-complete' | 'human-review-complete'>;
     missingEvidence: string[];

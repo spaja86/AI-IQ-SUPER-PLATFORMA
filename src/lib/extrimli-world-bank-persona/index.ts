@@ -153,8 +153,8 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       },
       extrondolSignal: {
         source: '/api/extrimli/extrondol',
-        wawe: extrondol.rollout.currentWawe,
-        eligibleNextWawe: extrondol.rollout.eligibleNextWawe,
+        currentWave: extrondol.rollout.currentWawe,
+        eligibleNextWave: extrondol.rollout.eligibleNextWawe,
         promotionFreeze: extrondol.rollout.promotionFreeze,
       },
       lifecycleDecision: lifecycle.decision,
@@ -259,8 +259,8 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       personaBank: '/api/persona-bank',
     },
     governanceGate: {
-      currentWawe: extrondol.rollout.currentWawe,
-      eligibleNextWawe: extrondol.rollout.eligibleNextWawe,
+      currentWave: extrondol.rollout.currentWawe,
+      eligibleNextWave: extrondol.rollout.eligibleNextWawe,
       promotionFreeze: extrondol.rollout.promotionFreeze,
       requiredEvidence,
       missingEvidence,
