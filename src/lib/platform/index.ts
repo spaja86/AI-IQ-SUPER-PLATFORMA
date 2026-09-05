@@ -55,6 +55,7 @@ export const loadExtrimliExtrondend = () => import('../extrimli-extrondend');
 export const loadExtrimliExtrondol = () => import('../extrimli-extrondol');
 export const loadExtrimliCuz = () => import('../extrimli-cuz');
 export const loadDigitEngine = () => import('../digit-engine');
+export const loadDigitron = () => import('../digitron');
 export const loadMaksimus = () => import('../maksimus');
 export const loadAnotherMaks = () => import('../another-maks');
 export const loadThem = () => import('../tarken-hingil-ekolan-maksimus');
@@ -80,6 +81,7 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
     extrimliExtrondend: { enabled: true, version: '1.0.0', apiBasePath: '/api/extrimli/extrondend', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     extrimliExtrondol: { enabled: true, version: '1.0.0', apiBasePath: '/api/extrimli/extrondol', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     digitEngine: { enabled: true, version: '1.0.0', apiBasePath: '/api/digit-engine', performanceKpi: { evaluationMaxMs: 10, apiResponseMaxMs: 200 } },
+    digitron: { enabled: true, version: '1.0.0', apiBasePath: '/api/digitron', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     maksimus: { enabled: true, version: '1.0.0', apiBasePath: '/api/maksimus', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     anotherMaks: { enabled: true, version: '1.0.0', apiBasePath: '/api/another-maks', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     them: { enabled: true, version: '1.0.0', apiBasePath: '/api/tarken-hingil-ekolan-maksimus', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },

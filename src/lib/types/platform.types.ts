@@ -88,6 +88,7 @@ export interface PlatformConfig {
     extrimli: ModuleConfig;
     extrimliCuz: ModuleConfig;
     digitEngine: ModuleConfig;
+    digitron: ModuleConfig;
     maksimus: ModuleConfig;
     anotherMaks: ModuleConfig;
     them: ModuleConfig; // tarken-hingil-ekolan-maksimus
