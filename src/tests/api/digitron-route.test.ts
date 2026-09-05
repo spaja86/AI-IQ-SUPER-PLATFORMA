@@ -5,6 +5,7 @@ import {
   _resetDigitronMetrics,
   DIGITRON_API_RESPONSE_MAX_MS,
   DIGITRON_CONTRACT_VERSION,
+  DIGITRON_MAX_LATENCY_MS,
   DIGITRON_MODULE_VERSION,
   DIGITRON_PERSONA_ID,
   DIGITRON_SUCCESSOR_OF,
@@ -97,8 +98,25 @@ async function runTests(): Promise<void> {
       latencyMs: 40,
     }));
     assert(response.status === 422, `expected 422, got ${response.status}`);
-    const body = await response.json() as { data: { valid: boolean } };
+    assert(response.headers.get('X-Digitron-Status') === 'LEGACY_FALLBACK', 'invalid status header mismatch');
+    assert(response.headers.get('X-Digitron-Valid') === 'false', 'invalid valid header mismatch');
+    const body = await response.json() as { data: { valid: boolean; warnings: string[] } };
     assert(body.data.valid === false, 'expected valid=false');
+    assert(body.data.warnings.length > 0, 'expected warning message for invalid domain input');
+  });
+
+  await test('POST /api/digitron/evaluate returns 422 for bounded-value failure', async () => {
+    const response = await POST(makeEvaluateRequest({
+      digit: 4,
+      mode: 'NATIVE',
+      signalStrength: 70,
+      syncScore: 70,
+      resilienceScore: 70,
+      latencyMs: DIGITRON_MAX_LATENCY_MS + 1,
+    }));
+    assert(response.status === 422, `expected 422, got ${response.status}`);
+    const body = await response.json() as { data: { valid: boolean } };
+    assert(body.data.valid === false, 'expected valid=false for bounded-value failure');
   });
 
   await test('POST /api/digitron/evaluate returns 400 for invalid JSON', async () => {
@@ -109,8 +127,9 @@ async function runTests(): Promise<void> {
     }) as unknown as NextRequest;
     const response = await POST(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
-    const body = await response.json() as { code: string };
+    const body = await response.json() as { code: string; error: string };
     assert(body.code === 'BAD_REQUEST', `unexpected code: ${body.code}`);
+    assert(body.error === 'Invalid JSON body', `unexpected error message: ${body.error}`);
   });
 
   await test('POST /api/digitron/evaluate returns 400 when field is missing', async () => {
@@ -122,6 +141,9 @@ async function runTests(): Promise<void> {
       latencyMs: 40,
     }));
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    const body = await response.json() as { code: string; error: string };
+    assert(body.code === 'BAD_REQUEST', `unexpected code: ${body.code}`);
+    assert(body.error === 'digit is required (number)', `unexpected error message: ${body.error}`);
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

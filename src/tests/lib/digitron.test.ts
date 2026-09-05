@@ -112,6 +112,19 @@ async function runTests(): Promise<void> {
     assert(result.status === 'LEGACY_FALLBACK', `unexpected status ${result.status}`);
   });
 
+  await test('domain-valid fallback status remains valid', () => {
+    const result = evaluateDigitron({
+      digit: 0,
+      mode: 'LEGACY',
+      signalStrength: 10,
+      syncScore: 10,
+      resilienceScore: 10,
+      latencyMs: 180,
+    });
+    assert(result.status === 'LEGACY_FALLBACK', `unexpected status: ${result.status}`);
+    assert(result.valid === true, 'domain-valid fallback should remain valid');
+  });
+
   await test(`evaluate rejects latency above ${DIGITRON_MAX_LATENCY_MS}ms`, () => {
     const result = evaluateDigitron({
       digit: 4,
@@ -122,6 +135,18 @@ async function runTests(): Promise<void> {
       latencyMs: DIGITRON_MAX_LATENCY_MS + 1,
     });
     assert(result.valid === false, 'expected valid=false for high latency');
+  });
+
+  await test('evaluate rejects fractional latency', () => {
+    const result = evaluateDigitron({
+      digit: 4,
+      mode: 'HYBRID',
+      signalStrength: 80,
+      syncScore: 80,
+      resilienceScore: 80,
+      latencyMs: 18.5,
+    });
+    assert(result.valid === false, 'expected valid=false for fractional latency');
   });
 
   console.log('\n🔎 [digitron] KPI checks');

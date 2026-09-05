@@ -11,6 +11,7 @@ export const DIGITRON_OCTAVE = 10;
 export const DIGITRON_HIPERMREZA_NODE = 81;
 export const DIGITRON_MIN_SCORE = 0;
 export const DIGITRON_MAX_SCORE = 100;
+export const DIGITRON_MIN_LATENCY_MS = 0;
 export const DIGITRON_MAX_LATENCY_MS = 200;
 export const DIGITRON_LOOKUP_MAX_MS = 10;
 export const DIGITRON_PERFORMANCE_MAX_MS = 50;

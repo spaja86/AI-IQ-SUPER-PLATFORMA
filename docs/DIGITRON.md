@@ -41,7 +41,7 @@ It introduces a compatibility-aware `digitron` contract with explicit LEGACY/NAT
 - `signalStrength` — finite score `0..100`
 - `syncScore` — finite score `0..100`
 - `resilienceScore` — finite score `0..100`
-- `latencyMs` — finite score `0..200`
+- `latencyMs` — integer bounded `0..200`
 
 ## Output model
 
@@ -57,7 +57,7 @@ Invalid domain inputs return `valid: false` with explicit warning payload and `4
 ## Validation strategy
 
 - Reject malformed objects and missing required fields at route boundary (`400`).
-- Reject invalid domain values (`NaN`, `Infinity`, bounds violations, unsupported modes, invalid digit) in engine layer (`422`).
+- Reject invalid domain values (`NaN`, `Infinity`, bounds violations, unsupported modes, invalid digit, non-integer latency) in engine layer (`422`).
 - Validate contract headers:
   - `X-Digitron-Contract-Version`
   - `X-Digitron-Module-Version`
