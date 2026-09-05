@@ -1,5 +1,6 @@
 import { igrice } from '../../lib/igrice';
 import { TOTAL_IGRICA } from '../../lib/constants';
+import { getRunnerKompatibilnostZaIgricu } from '../../lib/gaming-endzin';
 import { GET as getIgriceRoute } from '../../app/api/igrice/route';
 import { GET as getIgriceStatsRoute } from '../../app/api/igrice-stats/route';
 import { GET as getGamingIgriceRoute } from '../../app/api/io-openui-ao-gaming-platforma-igrice/route';
@@ -99,6 +100,36 @@ async function runTests(): Promise<void> {
     assertEqual(body.contract.name, 'REAL CREATE QVADERS', 'contract.name');
     assertEqual(body.contract.canonicalRank, 'four-of-kind', 'canonicalRank');
     assert(body.contract.aliases.includes('qvaders'), 'aliases mora sadržati qvaders');
+  });
+
+  await test('GAMELORD postoji u katalogu i koristi postojeći runner', () => {
+    const gamelord = igrice.find((igrica) => igrica.id === 'igrica-gamelord');
+    assert(gamelord !== undefined, 'igrica-gamelord mora postojati');
+    assertEqual(gamelord?.naziv, 'GAMES (GAMELORD)', 'naziv');
+    const kompat = getRunnerKompatibilnostZaIgricu(gamelord!);
+    assertEqual(kompat.status, 'existing-runner', 'runner kompatibilnost');
+  });
+
+  await test('MAKIN i Back to Spaces zadržavaju očekivane granice objekata', () => {
+    const makin = igrice.find((igrica) => igrica.id === 'igrica-makin');
+    const backToSpaces = igrice.find((igrica) => igrica.id === 'igrica-back-to-spaces-another-races');
+    assert(makin !== undefined, 'igrica-makin mora postojati');
+    assert(backToSpaces !== undefined, 'igrica-back-to-spaces-another-races mora postojati');
+    assertEqual(makin?.status, 'aktivna', 'MAKIN status');
+    assertEqual(backToSpaces?.status, 'beta', 'Back to Spaces status');
+    assert(makin?.funkcije.some((stavka) => stavka.includes('Market Maker')), 'MAKIN funkcije moraju ostati fintech');
+    assert(backToSpaces?.funkcije.some((stavka) => stavka.includes('Fairness validacija')), 'Back to Spaces funkcije moraju ostati fairness');
+  });
+
+  await test('/api/igrice uključuje GAMELORD scope metadata', async () => {
+    const body = await readJson(await getIgriceRoute()) as {
+      gamesScope: { targetSurface: { api: string[] }; requiredOutputs: string[] };
+      igrice: Array<{ id: string; naziv: string }>;
+    };
+    const gamelord = body.igrice.find((igrica) => igrica.id === 'igrica-gamelord');
+    assert(gamelord !== undefined, '/api/igrice mora vratiti igrica-gamelord');
+    assert(body.gamesScope.targetSurface.api.includes('/api/gamelord/evaluate'), 'scope mora uključiti gamelord evaluate');
+    assert(body.gamesScope.requiredOutputs.includes('rollout-guardrails'), 'required outputs mora uključiti rollout guardrails');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

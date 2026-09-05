@@ -1194,6 +1194,52 @@
       ],
       "linkedRepoImpact": "none",
       "scope": "src/lib/aktiviti-all/**,src/app/api/aktiviti-all/**"
+    },
+    "gamelord-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "gamelord-core",
+      "octave": 9,
+      "hipermrezaNode": 74,
+      "labels": [
+        "gamelord",
+        "gamelord:logic-change",
+        "gamelord:validated",
+        "gamelord:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/gamelord-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/GAMELORD.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/gamelord.test.ts",
+        "npx tsx src/tests/api/gamelord-route.test.ts",
+        "npx tsx src/tests/lib/pokermaster-catalog.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/gamelord/**",
+        "src/app/api/gamelord/**",
+        "src/lib/igrice.ts",
+        "src/lib/gaming-endzin.ts",
+        "src/tests/lib/gamelord.test.ts",
+        "src/tests/api/gamelord-route.test.ts",
+        "src/tests/lib/pokermaster-catalog.test.ts",
+        "docs/GAMELORD.md",
+        "docs/MULTI-REPO-LINKS.md",
+        ".github/workflows/gamelord-validator.yml"
+      ],
+      "linkedRepoImpact": "none",
+      "scope": "src/lib/gamelord/**,src/app/api/gamelord/**,src/lib/igrice.ts"
     }
   },
   "orgSettings": {

@@ -216,6 +216,16 @@ Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#GAMES-CATALOG -> IO-OPENUI-AO#<follow-up issue>`
 
+## GAMELORD downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — GAMELORD standalone mode | `spaja86/IO-OPENUI-AO` — No linked repo change required | Scope is repo-local `src/lib/gamelord`, `/api/gamelord/*`, and games catalog metadata; downstream runtime sync is optional follow-up only |
+
+Audit reference convention (if downstream work is needed later):
+
+`AI-IQ-SUPER-PLATFORMA#GAMELORD -> IO-OPENUI-AO#<follow-up issue>`
+
 ## REPOZIT downstream reference
 
 | This repo | Linked repo | Note |
