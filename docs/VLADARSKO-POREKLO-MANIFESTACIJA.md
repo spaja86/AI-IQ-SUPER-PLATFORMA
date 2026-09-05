@@ -169,7 +169,7 @@ Landing mora sadržati:
 - Kontakt info sekciju (statički podaci; bez submit forme u v1)
 
 **Putanja/slug:** `/vladarskog-porekla`  
-**Primarni domen:** `spaja.nivo-spaja`  
+**Primarni domen (placeholder, nije produkcioni):** `spaja.nivo-spaja`  
 **Odgovornost za objavu:** IO-OPENUI-AO Web Experience tim (tehnička objava) + @spaja86/organizator (sadržajno odobrenje)  
 **Objava se prati kroz:** `VPOREKLO-2026-09` u `docs/MULTI-REPO-LINKS.md` i kroz downstream PR u `spaja86/IO-OPENUI-AO`
 
