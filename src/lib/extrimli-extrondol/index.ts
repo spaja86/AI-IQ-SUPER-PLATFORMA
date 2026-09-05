@@ -137,10 +137,10 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     ),
     2,
   );
-  const duetScore = duetSignal.valid ? duetSignal.overallScore : baseOrchestrationScore;
+  const duetScore = duetSignal.valid ? duetSignal.overallScore : 0;
   const duetAdjustment = duetSignal.valid
     ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(12, duetSignal.warnings.length * 4)
-    : 0;
+    : -25;
   const orchestrationReadinessScore = round(
     clamp(baseOrchestrationScore * 0.82 + duetScore * 0.18 + duetAdjustment, 0, 100),
     2,
