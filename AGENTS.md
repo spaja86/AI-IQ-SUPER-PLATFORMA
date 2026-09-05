@@ -484,6 +484,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `gamelord-core` (octave: 9, hipermreza node: 74)
 
+### delet-validator-agent (NEW)
+- **Role**: Validacija DELET logike — deletion readiness scoring, compliance/risk balans i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/delet/**`, `src/app/api/delet/**`
+- **Trigger**: PR sa labelom `delet:logic-change`, push koji dira `delet` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za DELET logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni objective/scope, bounds)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `delet:validated` ili `delet:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `delet-governance-core` (octave: 6, hipermreza node: 52)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -562,6 +576,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
 | dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
+| delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1164,6 +1179,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `gamelord-core` (octave: 9, hipermreza node: 74)
 
+### delet-validator-agent (NEW)
+- **Role**: Validate DELET logic — deletion-readiness scoring, compliance/risk balance, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/delet/**`, `src/app/api/delet/**`
+- **Trigger**: PR with label `delet:logic-change`, push touching `delet` paths
+- **Actions**:
+  - Runs unit and route test suite for DELET logic
+  - Verifies deterministic results and edge cases (`NaN`, `Infinity`, negative values, invalid objective/scope, bounds)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `delet:validated` or `delet:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `delet-governance-core` (octave: 6, hipermreza node: 52)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1241,6 +1270,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
 | dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
+| delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
