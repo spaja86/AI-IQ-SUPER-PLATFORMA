@@ -110,6 +110,17 @@ async function runTests(): Promise<void> {
     assertEqual(kompat.status, 'existing-runner', 'runner kompatibilnost');
   });
 
+  await test('MAKIN i Back to Spaces zadržavaju očekivane granice objekata', () => {
+    const makin = igrice.find((igrica) => igrica.id === 'igrica-makin');
+    const backToSpaces = igrice.find((igrica) => igrica.id === 'igrica-back-to-spaces-another-races');
+    assert(makin !== undefined, 'igrica-makin mora postojati');
+    assert(backToSpaces !== undefined, 'igrica-back-to-spaces-another-races mora postojati');
+    assertEqual(makin?.status, 'aktivna', 'MAKIN status');
+    assertEqual(backToSpaces?.status, 'beta', 'Back to Spaces status');
+    assert(makin?.funkcije.some((stavka) => stavka.includes('Market Maker')), 'MAKIN funkcije moraju ostati fintech');
+    assert(backToSpaces?.funkcije.some((stavka) => stavka.includes('Fairness validacija')), 'Back to Spaces funkcije moraju ostati fairness');
+  });
+
   await test('/api/igrice uključuje GAMELORD scope metadata', async () => {
     const body = await readJson(await getIgriceRoute()) as {
       gamesScope: { targetSurface: { api: string[] }; requiredOutputs: string[] };
