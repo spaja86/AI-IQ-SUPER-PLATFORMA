@@ -34,6 +34,11 @@ function collectTestFiles(baseDir) {
 const testFiles = collectTestFiles(directory);
 const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx';
 
+if (testFiles.length === 0) {
+  console.error(`No test files found in: ${directory}`);
+  process.exit(1);
+}
+
 for (const file of testFiles) {
   const command = spawnSync(npxCommand, ['tsx', file], {
     stdio: 'inherit',
