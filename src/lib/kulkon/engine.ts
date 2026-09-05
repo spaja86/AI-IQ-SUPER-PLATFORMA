@@ -140,11 +140,7 @@ function resolveRecommendedAction(input: KulkonInput, status: KulkonStatus): Kul
   return 'SCHEDULE_RITUAL';
 }
 
-function resolveRecommendedWindowDays(
-  input: KulkonInput,
-  action: KulkonResult['recommendedAction'],
-  status: KulkonStatus,
-): number {
+function resolveRecommendedWindowDays(action: KulkonResult['recommendedAction'], status: KulkonStatus): number {
   const statusAdjustment = status === 'EXEMPLARY' ? 7 : status === 'FRAGILE' ? -4 : 0;
   return clamp(ACTION_TARGET_DAYS[action] + statusAdjustment, 1, KULKON_MAX_WINDOW_DAYS);
 }
@@ -244,7 +240,7 @@ export function evaluateKulkon(input: KulkonInput): KulkonResult {
 
   const status = resolveStatus(input, overallScore);
   const recommendedAction = resolveRecommendedAction(input, status);
-  const recommendedWindowDays = resolveRecommendedWindowDays(input, recommendedAction, status);
+  const recommendedWindowDays = resolveRecommendedWindowDays(recommendedAction, status);
   const warnings = buildWarnings(input, status, pressureScore);
 
   recordEvaluation(status);

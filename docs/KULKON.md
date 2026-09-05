@@ -84,4 +84,4 @@ Each evaluation accepts:
 ## Linked repos
 
 - No linked-repo runtime change is required for KULKON v1.
-- If downstream adoption appears later, track it in `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/MULTI-REPO-LINKS.md`.
+- If downstream adoption appears later, track it in `docs/MULTI-REPO-LINKS.md`.
