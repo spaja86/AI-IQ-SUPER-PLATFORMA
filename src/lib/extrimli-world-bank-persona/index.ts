@@ -101,7 +101,21 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     (financialContextScore * 0.25) + (extrimliReadinessSignal * 0.35) + (orchestrationReadinessScore * 0.4),
   );
 
-  const missingEvidence = extrondol.b2bReadiness.compliance.blockers;
+  const requiredEvidence = [
+    'contract-approved',
+    'onboarding-complete',
+    'downstream-sync-complete',
+    'audit-trail-complete',
+    'human-review-complete',
+  ] as const;
+  const evidenceState = {
+    'contract-approved': extrondol.b2bReadiness.compliance.contractApproved,
+    'onboarding-complete': extrondol.b2bReadiness.compliance.onboardingComplete,
+    'downstream-sync-complete': extrondol.b2bReadiness.downstreamSync.status === 'ALIGNED',
+    'audit-trail-complete': extrondol.b2bReadiness.compliance.auditTrailComplete,
+    'human-review-complete': extrondol.b2bReadiness.compliance.humanReviewComplete,
+  } as const;
+  const missingEvidence = requiredEvidence.filter((key) => !evidenceState[key]);
   const promotionBlocked = extrondol.rollout.promotionFreeze || missingEvidence.length > 0;
   const hasExtrimliDegradation = extrimliAggregate.degradationSignal > 0;
   const degraded = extrondol.degraded || hasExtrimliDegradation;
@@ -207,13 +221,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       currentWawe: extrondol.rollout.currentWawe,
       eligibleNextWawe: extrondol.rollout.eligibleNextWawe,
       promotionFreeze: extrondol.rollout.promotionFreeze,
-      requiredEvidence: [
-        'contract-approved',
-        'onboarding-complete',
-        'downstream-sync-complete',
-        'audit-trail-complete',
-        'human-review-complete',
-      ],
+      requiredEvidence,
       missingEvidence,
       blocked: promotionBlocked,
     },

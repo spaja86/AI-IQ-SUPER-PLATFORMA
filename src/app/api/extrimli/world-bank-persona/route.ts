@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import {
+  EXTRIMLI_WORLD_BANK_PERSONA_AGENT,
   EXTRIMLI_WORLD_BANK_PERSONA_CONTRACT_VERSION,
   EXTRIMLI_WORLD_BANK_PERSONA_MODULE_VERSION,
   PERSONA_BANK_CONTRACT_VERSION,
@@ -9,13 +10,6 @@ import {
 import type { ExtrimliExtrondolGovernanceEvidence } from '@/lib/extrimli-extrondol';
 
 export const dynamic = 'force-dynamic';
-
-const ALLOWED_APPLY_AGENTS = new Set([
-  'extrimli-world-bank-persona-orchestrator',
-  'extrimli-validator-agent',
-  'persona-bank-agent',
-  'multi-repo-sync-agent',
-]);
 
 export async function GET() {
   try {
@@ -31,10 +25,10 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const agentId = req.headers.get('x-agent-id');
-  if (!agentId) return apiError('BAD_REQUEST', 'X-Agent-Id header is required', 400);
-  if (!ALLOWED_APPLY_AGENTS.has(agentId)) {
-    return apiError('FORBIDDEN', 'X-Agent-Id is not allowed for persona apply on this endpoint', 403);
+  const expectedToken = process.env.EXTRIMLI_WORLD_BANK_PERSONA_APPLY_TOKEN;
+  const providedToken = req.headers.get('x-extrimli-bridge-token');
+  if (!expectedToken || !providedToken || providedToken !== expectedToken) {
+    return apiError('FORBIDDEN', 'Server-authenticated bridge token is required for persona apply', 403);
   }
 
   try {
@@ -73,7 +67,7 @@ export async function POST(req: NextRequest) {
 
     const report = getExtrimliWorldBankPersonaReport({
       mode: 'apply',
-      agentId,
+      agentId: EXTRIMLI_WORLD_BANK_PERSONA_AGENT,
       includeSubflows,
       evidence,
     });
