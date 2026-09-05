@@ -38,16 +38,7 @@ function collectTestFiles(baseDir) {
 
 const targetDirectory = isAbsolute(directory) ? directory : resolve(repoRoot, directory);
 const testFiles = collectTestFiles(targetDirectory);
-const tsxPackagePath = require.resolve('tsx/package.json', { paths: [repoRoot] });
-const tsxPackage = require(tsxPackagePath);
-const tsxBinEntry = typeof tsxPackage.bin === 'string' ? tsxPackage.bin : tsxPackage.bin?.tsx;
-
-if (!tsxBinEntry) {
-  console.error('Unable to resolve tsx CLI entrypoint from package metadata.');
-  process.exit(1);
-}
-
-const tsxCliPath = resolve(dirname(tsxPackagePath), tsxBinEntry);
+const tsxCliPath = require.resolve('tsx/cli', { paths: [repoRoot] });
 
 if (testFiles.length === 0) {
   console.error(`No test files found in: ${targetDirectory}`);
