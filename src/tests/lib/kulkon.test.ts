@@ -229,8 +229,41 @@ async function runTests(): Promise<void> {
     assert(!result.valid, 'zero windowDays must be invalid');
   });
 
-  await test('health report remains immutable across evaluations', () => {
+  await test('successful evaluations update health metrics', () => {
     _resetKulkonMetrics();
+    evaluateKulkon({
+      objective: 'RETENTION',
+      environment: 'ONSITE',
+      rhythm: 'DAILY',
+      clarityScore: 90,
+      trustScore: 90,
+      accountabilityScore: 92,
+      communicationLoad: 20,
+      conflictRate: 10,
+      participantCount: 15,
+      windowDays: 30,
+    });
+
+    const health = getKulkonHealthReport();
+    assert(health.evaluations === 1, `expected 1 evaluation, got ${health.evaluations}`);
+    assert(health.lastStatus === 'EXEMPLARY', `expected EXEMPLARY, got ${health.lastStatus}`);
+    assert(health.lastEvaluatedAt !== null, 'lastEvaluatedAt should be recorded');
+  });
+
+  await test('invalid evaluations do not mutate prior valid metrics', () => {
+    _resetKulkonMetrics();
+    evaluateKulkon({
+      objective: 'ALIGNMENT',
+      environment: 'HYBRID',
+      rhythm: 'WEEKLY',
+      clarityScore: 78,
+      trustScore: 72,
+      accountabilityScore: 69,
+      communicationLoad: 45,
+      conflictRate: 28,
+      participantCount: 12,
+      windowDays: 18,
+    });
     evaluateKulkon({
       objective: 'ALIGNMENT',
       environment: 'HYBRID',
@@ -245,9 +278,9 @@ async function runTests(): Promise<void> {
     });
 
     const health = getKulkonHealthReport();
-    assert(health.evaluations === 0, `expected 0 evaluations, got ${health.evaluations}`);
-    assert(health.lastStatus === null, 'lastStatus should remain null');
-    assert(health.lastEvaluatedAt === null, 'lastEvaluatedAt should remain null');
+    assert(health.evaluations === 1, `expected 1 evaluation, got ${health.evaluations}`);
+    assert(health.lastStatus === 'COHESIVE', `expected COHESIVE, got ${health.lastStatus}`);
+    assert(health.lastEvaluatedAt !== null, 'lastEvaluatedAt should remain recorded');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

@@ -36,6 +36,10 @@ import {
   VALID_KULKON_RHYTHMS,
 } from './registry';
 
+let evaluations = 0;
+let lastStatus: KulkonStatus | null = null;
+let lastEvaluatedAt: string | null = null;
+
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
@@ -101,11 +105,17 @@ function validateBoundedInteger(
   return null;
 }
 
+function recordEvaluation(status: KulkonStatus): void {
+  evaluations += 1;
+  lastStatus = status;
+  lastEvaluatedAt = new Date().toISOString();
+}
+
 function computeCohesionScore(input: KulkonInput): number {
   const raw =
     input.clarityScore * 0.35 +
     input.trustScore * 0.35 +
-    input.accountabilityScore * 0.25 +
+    input.accountabilityScore * 0.3 +
     OBJECTIVE_BOOST[input.objective] -
     input.conflictRate * 0.12;
   return round2(clamp(raw, KULKON_MIN_SCORE, KULKON_MAX_SCORE));
@@ -247,6 +257,7 @@ export function evaluateKulkon(input: KulkonInput): KulkonResult {
   const recommendedAction = resolveRecommendedAction(input, status);
   const recommendedWindowDays = resolveRecommendedWindowDays(input.objective, recommendedAction, status);
   const warnings = buildWarnings(input, status, pressureScore);
+  recordEvaluation(status);
 
   return {
     referenceId: input.referenceId ?? 'n/a',
@@ -276,9 +287,9 @@ export function getKulkonHealthReport(): KulkonHealthReport {
     contractVersion: KULKON_CONTRACT_VERSION,
     moduleVersion: KULKON_MODULE_VERSION,
     linkedRepoImpact: KULKON_LINKED_REPO_IMPACT,
-    evaluations: 0,
-    lastStatus: null,
-    lastEvaluatedAt: null,
+    evaluations,
+    lastStatus,
+    lastEvaluatedAt,
     supportedObjectives: [...VALID_KULKON_OBJECTIVES],
     performanceMaxMs: KULKON_PERFORMANCE_MAX_MS,
     apiResponseMaxMs: KULKON_API_RESPONSE_MAX_MS,
@@ -286,5 +297,7 @@ export function getKulkonHealthReport(): KulkonHealthReport {
 }
 
 export function _resetKulkonMetrics(): void {
-  // no-op: KULKON keeps health metadata immutable per process for deterministic reporting
+  evaluations = 0;
+  lastStatus = null;
+  lastEvaluatedAt = null;
 }
