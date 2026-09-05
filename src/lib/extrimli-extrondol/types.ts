@@ -161,12 +161,13 @@ export type ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow =
     to: 'KORON';
   };
 
-export type ExtrimliExtrondolDistanceRatioEkvilaterLegacyAlias = 'DISANCE RATOR EKVILATER';
+type ExtrimliExtrondolDistanceRatioCompatibilityAlias =
+  typeof EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES[number];
 
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   requestedTableName: 'DISTANCE RATIO EKVILATER';
   normalizedTableName: 'DISTANCE RATIO EKVILATER';
-  legacyRequestedTableNames: readonly ExtrimliExtrondolDistanceRatioEkvilaterLegacyAlias[];
+  legacyRequestedTableNames: readonly ExtrimliExtrondolDistanceRatioCompatibilityAlias[];
   contractField: 'distanceRatioEkvilaterTable';
   version: 'v1-distance-ratio-ekvilater';
   interpretation: 'derived-readiness-table';
@@ -249,11 +250,11 @@ export const EXTRONDOL_DUET_WARNING_PENALTY_CAP = 12;
 export const EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY = 25;
 export const EXTRONDOL_DUET_INVALID_FALLBACK_SCORE = 50;
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME = 'DISTANCE RATIO EKVILATER';
-export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_MISSPELLED_ALIAS = 'DISANCE RATOR EKVILATER';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD = 'distanceRatioEkvilaterTable';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION = 'v1-distance-ratio-ekvilater';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION = 'derived-readiness-table';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE = 'EQUILATERAL';
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES = ['DISANCE RATOR EKVILATER'] as const;
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE = [
   'extrondend.aggregationScore',
   'extendol.unifiedReadinessScore',
