@@ -1231,6 +1231,8 @@
         "src/tests/lib/delet.test.ts",
         "src/tests/api/delet-route.test.ts",
         "docs/DELET.md",
+        "AGENTS.md",
+        ".agent-config.json",
         ".github/workflows/delet-validator.yml"
       ],
       "linkedRepoImpact": "none",

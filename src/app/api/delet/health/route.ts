@@ -13,6 +13,8 @@ export async function GET() {
     setDeletHeaders(response);
     return response;
   } catch (error) {
-    return apiInternalError('delet/health', error);
+    const response = apiInternalError('delet/health', error);
+    setDeletHeaders(response);
+    return response;
   }
 }

@@ -73,7 +73,7 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
     overallScore: 0,
     status: null,
     recommendedAction: null,
-    recommendedWindowHours: ACTION_TARGET_WINDOW_HOURS.REQUEST_REVIEW,
+    recommendedWindowHours: 0,
     warnings: [warning],
     disclaimer: DELET_DISCLAIMER,
     valid: false,
@@ -95,7 +95,7 @@ function computeRiskScore(input: DeletInput): number {
 function computeSafetyScore(input: DeletInput, riskScore: number): number {
   const backupBonus = input.backupCoverageScore * 0.42;
   const retentionBonus = clamp(input.retentionAgeDays / DELET_MAX_RETENTION_AGE_DAYS * 100, 0, 100) * 0.24;
-  const windowBonus = (DELET_MAX_RECOVERY_WINDOW_HOURS - input.recoveryWindowHours) / DELET_MAX_RECOVERY_WINDOW_HOURS * 20;
+  const windowBonus = input.recoveryWindowHours / DELET_MAX_RECOVERY_WINDOW_HOURS * 20;
   const raw = 100 - riskScore * 0.54 + backupBonus + retentionBonus + windowBonus;
   return round2(clamp(raw, DELET_MIN_SCORE, DELET_MAX_SCORE));
 }
@@ -119,14 +119,28 @@ function computeReversibilityScore(input: DeletInput): number {
   return round2(clamp(raw, DELET_MIN_SCORE, DELET_MAX_SCORE));
 }
 
-function resolveStatus(input: DeletInput, riskScore: number, complianceScore: number, overallScore: number): DeletStatus {
+function resolveStatus(
+  input: DeletInput,
+  riskScore: number,
+  complianceScore: number,
+  reversibilityScore: number,
+  overallScore: number,
+): DeletStatus {
+  if (input.scope === 'TENANT' && input.objective === 'HARD_DELETE') return 'BLOCK';
   if (input.legalHoldActive || complianceScore < 30 || riskScore >= 85) return 'BLOCK';
-  if (overallScore >= 82 && riskScore < 35 && input.objective !== 'HARD_DELETE') return 'AUTO_APPROVE';
-  if (overallScore >= 60) return 'APPROVE';
-  return 'REVIEW';
+  if ((input.objective === 'HARD_DELETE' || input.objective === 'ANONYMIZE') && reversibilityScore < 35) return 'BLOCK';
+  const scoredStatus: DeletStatus =
+    overallScore >= 82 && riskScore < 35 && input.objective !== 'HARD_DELETE'
+      ? 'AUTO_APPROVE'
+      : overallScore >= 60
+        ? 'APPROVE'
+        : 'REVIEW';
+
+  if (input.scope === 'TENANT' && scoredStatus !== 'BLOCK') return 'REVIEW';
+  return scoredStatus;
 }
 
-function resolveRecommendedAction(status: DeletStatus): DeletResult['recommendedAction'] {
+function resolveRecommendedAction(status: DeletStatus): NonNullable<DeletResult['recommendedAction']> {
   if (status === 'BLOCK') return 'ABORT';
   if (status === 'REVIEW') return 'REQUEST_REVIEW';
   if (status === 'APPROVE') return 'SCHEDULE_WINDOW';
@@ -134,7 +148,6 @@ function resolveRecommendedAction(status: DeletStatus): DeletResult['recommended
 }
 
 function resolveRecommendedWindowHours(
-  input: DeletInput,
   action: NonNullable<DeletResult['recommendedAction']>,
   status: DeletStatus,
 ): number {
@@ -150,7 +163,7 @@ function resolveRecommendedWindowHours(
     DELET_MAX_RECOVERY_WINDOW_HOURS,
   );
 
-  return Math.min(target, Math.max(1, input.recoveryWindowHours));
+  return target;
 }
 
 function buildWarnings(input: DeletInput, status: DeletStatus, riskScore: number, complianceScore: number): string[] {
@@ -187,10 +200,10 @@ export function evaluateDelet(input: DeletInput): DeletResult {
     return invalidResult(input.referenceId, 'dataSensitivityScore must be within 0..100', start);
   }
 
-  if (!Number.isInteger(input.retentionAgeDays) || input.retentionAgeDays < 0 || input.retentionAgeDays > DELET_MAX_RETENTION_AGE_DAYS) {
+  if (!Number.isInteger(input.retentionAgeDays) || input.retentionAgeDays < 1 || input.retentionAgeDays > DELET_MAX_RETENTION_AGE_DAYS) {
     return invalidResult(
       input.referenceId,
-      `retentionAgeDays must be an integer within 0..${DELET_MAX_RETENTION_AGE_DAYS}`,
+      `retentionAgeDays must be an integer within 1..${DELET_MAX_RETENTION_AGE_DAYS}`,
       start,
     );
   }
@@ -232,9 +245,9 @@ export function evaluateDelet(input: DeletInput): DeletResult {
     ),
   );
 
-  const status = resolveStatus(input, riskScore, complianceScore, overallScore);
+  const status = resolveStatus(input, riskScore, complianceScore, reversibilityScore, overallScore);
   const recommendedAction = resolveRecommendedAction(status);
-  const recommendedWindowHours = resolveRecommendedWindowHours(input, recommendedAction, status);
+  const recommendedWindowHours = resolveRecommendedWindowHours(recommendedAction, status);
   const warnings = buildWarnings(input, status, riskScore, complianceScore);
 
   recordEvaluation(status);

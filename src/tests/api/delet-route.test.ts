@@ -104,9 +104,12 @@ async function runTests(): Promise<void> {
     assert(response.headers.get('X-Delet-Status') === null, 'invalid branch must not expose X-Delet-Status');
     assert(response.headers.get('X-Delet-Action') === null, 'invalid branch must not expose X-Delet-Action');
 
-    const body = await response.json() as { code: string; details?: { validation?: { valid?: boolean } } };
-    assert(body.code === 'UNPROCESSABLE_ENTITY', `expected UNPROCESSABLE_ENTITY, got ${body.code}`);
-    assert(body.details?.validation?.valid === false, 'invalid result details should include valid=false');
+    assert(response.headers.get('X-Delet-Error-Code') === 'UNPROCESSABLE_ENTITY', 'missing unprocessable error code header');
+    assert(response.headers.get('X-Delet-Validation-Reason') !== null, 'missing validation reason header');
+    const body = await response.json() as { data?: { valid?: boolean; objective?: string | null; scope?: string | null } };
+    assert(body.data?.valid === false, 'invalid result should be returned in top-level data payload');
+    assert(body.data?.objective === null, 'invalid result objective should be null');
+    assert(body.data?.scope === null, 'invalid result scope should be null');
   });
 
   await test('POST /api/delet/evaluate returns 400 for invalid JSON', async () => {
@@ -118,6 +121,9 @@ async function runTests(): Promise<void> {
 
     const response = await POST(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    assert(response.headers.get('X-Delet-Contract-Version') === DELET_CONTRACT_VERSION, 'missing contract version header');
+    assert(response.headers.get('X-Delet-Module-Version') === DELET_MODULE_VERSION, 'missing module version header');
+    assert(response.headers.get('X-Delet-Valid') === null, 'shape errors should not include validity header');
     const body = await response.json() as { error: string; code: string };
     assert(body.code === 'BAD_REQUEST', `expected BAD_REQUEST, got ${body.code}`);
     assert(body.error === 'Invalid JSON body', `unexpected error message: ${body.error}`);
@@ -154,6 +160,14 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    assert(response.headers.get('X-Delet-Contract-Version') === DELET_CONTRACT_VERSION, 'missing contract version header');
+    assert(response.headers.get('X-Delet-Module-Version') === DELET_MODULE_VERSION, 'missing module version header');
+    assert(response.headers.get('X-Delet-Valid') === null, 'shape-validation failures must not include validity header');
+    assert(response.headers.get('X-Delet-Status') === null, 'shape-validation failures must not include status header');
+
+    const body = await response.json() as { code: string; error: string };
+    assert(body.code === 'BAD_REQUEST', `expected BAD_REQUEST, got ${body.code}`);
+    assert(body.error === 'dataSensitivityScore is required (number)', `unexpected error message: ${body.error}`);
   });
 
   await test('POST /api/delet/evaluate returns 400 when legalHoldActive is not boolean', async () => {

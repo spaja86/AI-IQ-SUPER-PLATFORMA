@@ -87,7 +87,7 @@ async function runTests(): Promise<void> {
     assert(first.disclaimer.length > 0, 'disclaimer must be present');
   });
 
-  await test('hard-delete tenant profile requires review/approval but stays valid', () => {
+  await test('hard-delete tenant profile deterministically blocks execution', () => {
     const result = evaluateDelet({
       objective: 'HARD_DELETE',
       scope: 'TENANT',
@@ -100,7 +100,8 @@ async function runTests(): Promise<void> {
     });
 
     assert(result.valid, 'result should be valid');
-    assert(result.status === 'REVIEW' || result.status === 'APPROVE', `unexpected status: ${result.status}`);
+    assert(result.status === 'BLOCK', `expected BLOCK, got ${result.status}`);
+    assert(result.recommendedAction === 'ABORT', `expected ABORT, got ${result.recommendedAction}`);
     assert(result.warnings.some((w) => w.includes('Hard delete')), 'hard delete warning expected');
   });
 
@@ -210,6 +211,37 @@ async function runTests(): Promise<void> {
 
     assert(!result.valid, 'fractional retentionAgeDays must be invalid');
     assert(result.objective === null, 'invalid result objective should be null');
+  });
+
+  await test('zero retention age returns invalid result', () => {
+    const result = evaluateDelet({
+      objective: 'RETENTION_EXPIRE',
+      scope: 'BATCH',
+      dataSensitivityScore: 22,
+      retentionAgeDays: 0,
+      recoveryWindowHours: 24,
+      dependencyCount: 1,
+      backupCoverageScore: 90,
+      legalHoldActive: false,
+    });
+
+    assert(!result.valid, 'zero retentionAgeDays must be invalid');
+  });
+
+  await test('low-reversibility anonymize request is blocked', () => {
+    const result = evaluateDelet({
+      objective: 'ANONYMIZE',
+      scope: 'SINGLE_RECORD',
+      dataSensitivityScore: 82,
+      retentionAgeDays: 320,
+      recoveryWindowHours: 2,
+      dependencyCount: 44,
+      backupCoverageScore: 12,
+      legalHoldActive: false,
+    });
+
+    assert(result.valid, 'result should remain valid');
+    assert(result.status === 'BLOCK', `expected BLOCK, got ${result.status}`);
   });
 
   await test('invalid evaluation still increments health metrics', () => {

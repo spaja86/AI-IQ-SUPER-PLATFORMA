@@ -40,7 +40,7 @@ Each evaluation accepts:
 - `objective` — `SOFT_DELETE | HARD_DELETE | ANONYMIZE | RETENTION_EXPIRE`
 - `scope` — `SINGLE_RECORD | BATCH | TENANT`
 - `dataSensitivityScore` — finite bounded score `0..100`
-- `retentionAgeDays` — integer bounded `0..3650`
+- `retentionAgeDays` — integer bounded `1..3650`
 - `recoveryWindowHours` — integer bounded `1..720`
 - `dependencyCount` — integer bounded `0..1000`
 - `backupCoverageScore` — finite bounded score `0..100`

@@ -15,7 +15,7 @@ export const DELET_MAX_RECOVERY_WINDOW_HOURS = 720;
 export const DELET_MAX_DEPENDENCY_COUNT = 1000;
 export const DELET_PERFORMANCE_MAX_MS = 50;
 export const DELET_API_RESPONSE_MAX_MS = 200;
-export const DELET_LINKED_REPO_IMPACT = 'none';
+export const DELET_LINKED_REPO_IMPACT = 'none' as const;
 export const DELET_DISCLAIMER =
   'DELET provides deterministic deletion-readiness guidance and does not replace legal, compliance, privacy, or incident-response judgment.';
 

@@ -8,6 +8,8 @@ on:
       - 'src/tests/lib/delet.test.ts'
       - 'src/tests/api/delet-route.test.ts'
       - 'docs/DELET.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
       - '.github/workflows/delet-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
@@ -18,6 +20,8 @@ on:
       - 'src/tests/lib/delet.test.ts'
       - 'src/tests/api/delet-route.test.ts'
       - 'docs/DELET.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
       - '.github/workflows/delet-validator.yml'
   workflow_dispatch:
 
@@ -31,7 +35,7 @@ permissions:
 
 jobs:
   validate:
-    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@d357437de77752e075cd55a2ab151b0de574eecf
+    uses: ./.github/workflows/_validator-template.yml
     with:
       domain: delet
       lint_paths: >-
