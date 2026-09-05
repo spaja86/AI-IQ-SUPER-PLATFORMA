@@ -108,6 +108,14 @@ async function runTests(): Promise<void> {
     assert(updated.auditLog.length === 2, 'auditLog length posle upsert');
   });
 
+  await test('registerPersona ne reaktivira arhiviranu personu kroz upsert', () => {
+    _resetPersonaBankStore();
+    registerPersona(BASE_INPUT, 'ci-bot');
+    archivePersona(BASE_INPUT.id!, 'ci-bot');
+    const upserted = registerPersona({ ...BASE_INPUT, status: 'active' }, 'ci-bot');
+    assertEqual(upserted.status, 'archived', 'archived status mora ostati zaključan');
+  });
+
   await test('registerPersona generiše id ako nije prosleđen', () => {
     _resetPersonaBankStore();
     const input: PersonaRegistrationInput = { ...BASE_INPUT };

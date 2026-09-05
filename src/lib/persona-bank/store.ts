@@ -63,7 +63,7 @@ export function registerPersona(input: PersonaRegistrationInput, agentId: string
         linkedAgents: input.linkedAgents ?? existing.linkedAgents,
         crossRepoRef: input.crossRepoRef ?? existing.crossRepoRef,
         status: existing.status === 'archived'
-          ? (input.status ?? 'active')
+          ? 'archived'
           : (input.status ?? existing.status),
         version: existing.version + 1,
         updatedAt: now,
