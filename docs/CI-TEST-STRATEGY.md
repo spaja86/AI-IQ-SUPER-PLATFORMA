@@ -8,8 +8,9 @@
 ## Layered test scripts
 
 - `npm run test:core` → auth + spaja-ultra + glavni-endzin + api contract baseline
-- `npm run test:lib` → domain logic tests in `src/tests/lib/*.test.ts`
-- `npm run test:api` → route contract tests in `src/tests/api/*.test.ts`
+- `npm run test:autofinish:critical` → minimal high-signal autofinish route regression set
+- `npm run test:lib` → recursive domain logic tests under `src/tests/lib`
+- `npm run test:api` → recursive route contract tests under `src/tests/api`
 - `npm run test:smoke` → minimal go-live smoke gate
 
 ## Required quality gates for PR validation
@@ -33,4 +34,4 @@
 
 ## Notes
 
-- `src/tests/autofinish/**` is intentionally excluded from canonical `test` for daily CI speed and should be scheduled/batched.
+- `src/tests/autofinish/**` full sweep remains scheduled/batched; canonical `test` includes only `test:autofinish:critical`.

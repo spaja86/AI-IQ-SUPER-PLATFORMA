@@ -9,13 +9,29 @@ if (!directory) {
   process.exit(1);
 }
 
-const testFiles = readdirSync(directory)
-  .filter((name) => name.endsWith('.test.ts'))
-  .sort();
+function collectTestFiles(baseDir) {
+  const entries = readdirSync(baseDir, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const fullPath = join(baseDir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectTestFiles(fullPath));
+      continue;
+    }
+    if (entry.isFile() && entry.name.endsWith('.test.ts')) {
+      files.push(fullPath);
+    }
+  }
+
+  return files.sort();
+}
+
+const testFiles = collectTestFiles(directory);
 const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx';
 
 for (const file of testFiles) {
-  const command = spawnSync(npxCommand, ['tsx', join(directory, file)], {
+  const command = spawnSync(npxCommand, ['tsx', file], {
     stdio: 'inherit',
   });
 
