@@ -9,7 +9,14 @@
 
 **Kanonski landing URL (registracija):** `https://spaja.nivo-spaja/vladarskog-porekla`  
 **Rezervni URL (fallback):** `https://spaja.nivo-spaja/prijava/vladarskog-porekla`  
-**Owner landing stranice:** Web tim / organizator manifestacije
+**Owner landing stranice:** `@spaja86` + IO-OPENUI-AO Web Experience tim
+
+### Downstream implementacija i audit reference
+- **Linked repo (execution):** `spaja86/IO-OPENUI-AO`
+- **Predviđena landing putanja:** `src/app/vladarskog-porekla/page.tsx`
+- **Predviđena registraciona API putanja:** `src/app/api/vladarskog-porekla/register/route.ts`
+- **Cross-repo evidencija:** `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/MULTI-REPO-LINKS.md`
+- **Handoff/Audit ID:** `VPOREKLO-2026-09`
 
 ---
 
@@ -138,7 +145,8 @@ Landing mora sadržati:
 
 **Putanja/slug:** `/vladarskog-porekla`  
 **Primarni domen:** `spaja.nivo-spaja`  
-**Odgovornost za objavu:** Web tim (tehnička objava) + organizator (sadržajno odobrenje)
+**Odgovornost za objavu:** IO-OPENUI-AO Web Experience tim (tehnička objava) + @spaja86/organizator (sadržajno odobrenje)  
+**Objava se prati kroz:** `VPOREKLO-2026-09` u `docs/MULTI-REPO-LINKS.md` i kroz downstream PR u `spaja86/IO-OPENUI-AO`
 
 ---
 
