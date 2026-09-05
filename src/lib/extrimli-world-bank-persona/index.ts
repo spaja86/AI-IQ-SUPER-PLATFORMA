@@ -221,7 +221,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           personaStatusAfter: archived?.status ?? 'archived',
           auditEntriesAfter: archived?.auditLog.length ?? 0,
           personaVersionAfter: archived?.version ?? 0,
-          appliedBy: null,
+          appliedBy: agentId,
           persona: archived,
         };
       } else {

@@ -178,6 +178,7 @@ async function runTests(): Promise<void> {
     assert(report.writeResult.operation === 'skipped', 'operation should be skipped for archived persona');
     assert(report.writeResult.attempted === false, 'write should not be attempted');
     assert(report.writeResult.personaStatusAfter === 'archived', 'archived status should be preserved');
+    assert(report.writeResult.appliedBy === 'extrimli-validator-agent', 'archived skip should preserve caller identity');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed`);
