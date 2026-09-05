@@ -4,6 +4,7 @@ import {
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_CONTRACT_VERSION,
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
+  EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
   EXTRONDOL_DUET_WARNING_PENALTY_STEP,
   EXTRONDOL_DINKOS_PERSONA_ID,
@@ -67,6 +68,7 @@ async function runTests(): Promise<void> {
     assert(EXTRONDOL_CANONICAL_WILDCARD_DOMAIN === '*.spaja.nivo-spaja', 'unexpected canonical wildcard domain');
     assert(EXTRONDOL_DINKOS_TRIGGER_LABEL === 'dinkos:logic-change', 'unexpected DINKOS trigger label');
     assert(EXTRONDOL_DINKOS_PERSONA_ID === 'extrimli-dinkos-signal-core', 'unexpected DINKOS persona');
+    assert(EXTRONDOL_DUET_INVALID_FALLBACK_SCORE === 50, 'unexpected DUET invalid fallback score');
   });
 
   await test('report exposes naming lock and WAWE sequencing', () => {

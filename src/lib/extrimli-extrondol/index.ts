@@ -16,6 +16,7 @@ import {
   EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_BUILD_MAX_MIN,
   EXTRONDOL_CONTRACT_VERSION,
+  EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
   EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY,
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
@@ -146,9 +147,8 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     ),
     2,
   );
-  const blendedBaseScore = duetSignal.valid
-    ? (baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE) + (duetSignal.overallScore * EXTRONDOL_NIVO_DUET_SHARE)
-    : baseOrchestrationScore;
+  const duetScoreForBlend = duetSignal.valid ? duetSignal.overallScore : EXTRONDOL_DUET_INVALID_FALLBACK_SCORE;
+  const blendedBaseScore = (baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE) + (duetScoreForBlend * EXTRONDOL_NIVO_DUET_SHARE);
   const duetAdjustment = duetSignal.valid
     ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, duetSignal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP)
     : -EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY;
@@ -296,6 +296,7 @@ export {
   EXTRONDOL_API_MAX_MS,
   EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_BUILD_MAX_MIN,
+  EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
   EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY,
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
