@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'crypto';
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import {
@@ -10,6 +11,13 @@ import {
 import type { ExtrimliExtrondolGovernanceEvidence } from '@/lib/extrimli-extrondol';
 
 export const dynamic = 'force-dynamic';
+
+function tokensMatch(expectedToken: string, providedToken: string): boolean {
+  const expectedBuffer = Buffer.from(expectedToken, 'utf8');
+  const providedBuffer = Buffer.from(providedToken, 'utf8');
+  if (expectedBuffer.length !== providedBuffer.length) return false;
+  return timingSafeEqual(expectedBuffer, providedBuffer);
+}
 
 export async function GET() {
   try {
@@ -27,7 +35,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const expectedToken = process.env.EXTRIMLI_WORLD_BANK_PERSONA_APPLY_TOKEN;
   const providedToken = req.headers.get('x-extrimli-bridge-token');
-  if (!expectedToken || !providedToken || providedToken !== expectedToken) {
+  if (!expectedToken || !providedToken || !tokensMatch(expectedToken, providedToken)) {
     return apiError('FORBIDDEN', 'Server-authenticated bridge token is required for persona apply', 403);
   }
 
