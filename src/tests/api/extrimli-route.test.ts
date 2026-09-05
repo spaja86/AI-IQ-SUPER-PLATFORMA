@@ -97,12 +97,30 @@ async function runTests(): Promise<void> {
     assert(response.headers.get('X-Extrimli-Extrondol-Contract-Version') === 'v1-extrondol', 'missing EXTRONDOL contract header');
 
     const body = await response.json() as {
-      data: { sourceOfTruth: string; orchestrationReadinessScore: number; rollout: { currentWawe: string; promotionFreeze: boolean } };
+      data: {
+        sourceOfTruth: string;
+        orchestrationReadinessScore: number;
+        startProject: {
+          initiativeId: string;
+          programName: string;
+          orchestrationInputs: { duetRole: string };
+          downstreamSync: { syncRequired: boolean };
+        };
+        rollout: { currentWawe: string; promotionFreeze: boolean };
+        b2bReadiness: { downstreamSync: { linkedRepo: string } };
+        distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
+      };
     };
     assert(body.data.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected EXTRONDOL sourceOfTruth');
     assert(body.data.orchestrationReadinessScore >= 0 && body.data.orchestrationReadinessScore <= 100, 'unexpected EXTRONDOL orchestrationReadinessScore');
+    assert(body.data.startProject.initiativeId === 'OKRID-2026-EXTRIMLI-START-001', 'unexpected START project initiative id');
+    assert(body.data.startProject.programName === 'START PROJEKAT', 'unexpected START project name');
+    assert(body.data.startProject.orchestrationInputs.duetRole === 'signal-only', 'DUET must remain signal-only');
+    assert(body.data.startProject.downstreamSync.syncRequired === true, 'START project must require downstream sync');
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(body.data.rollout.currentWawe), 'unexpected currentWawe');
     assert(typeof body.data.rollout.promotionFreeze === 'boolean', 'promotionFreeze should be boolean');
+    assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
+    assert(body.data.distanceRatioEkvilaterTable.rows.length === 3, 'distance ratio table must expose 3 rows');
   });
 
   await test('GET /api/extrimli/koron returns KORON surface report and headers', async () => {

@@ -128,6 +128,90 @@ export interface ExtrimliExtrondolGovernanceEvidence {
   onboardingComplete?: boolean;
 }
 
+export interface ExtrimliExtrondolStartProject {
+  initiativeId: 'OKRID-2026-EXTRIMLI-START-001';
+  programName: 'START PROJEKAT';
+  sourceOfTruthLocked: true;
+  additiveContractPolicy: true;
+  orchestrationInputs: {
+    surfaces: ['EXTRONDEND', 'EXTENDOL', 'KORON'];
+    duetRole: 'signal-only';
+  };
+  rolloutProgram: {
+    wawes: readonly [
+      { stage: 'WAWE-1'; focus: 'pre-deploy-readiness'; freezeRequired: true },
+      { stage: 'WAWE-2'; focus: 'build-and-staging'; freezeRequired: true },
+      { stage: 'WAWE-3'; focus: 'downstream-sync-evidence'; freezeRequired: true },
+      { stage: 'WAWE-4'; focus: 'production-rollout'; freezeRequired: false },
+      { stage: 'WAWE-5'; focus: 'post-deploy-resilience'; freezeRequired: false }
+    ];
+    releaseMode: 'governance-controlled';
+  };
+  governanceRequirements: {
+    consumerModel: 'organization-level';
+    requiredEvidence: readonly [
+      'contract-approved',
+      'onboarding-complete',
+      'downstream-sync-complete',
+      'audit-trail-complete',
+      'human-review-complete'
+    ];
+    procurementReviewFlow: readonly [
+      'request-submitted',
+      'procurement-review',
+      'compliance-review',
+      'operational-approval',
+      'activation'
+    ];
+  };
+  domainStrategyLock: {
+    requestedPattern: string;
+    canonicalApex: string;
+    canonicalWildcard: string;
+    rejectPatternsLike: readonly ['spaja.nivo*spaja'];
+  };
+  mandatoryOutputs: readonly [
+    'rollout.currentWawe',
+    'rollout.eligibleNextWawe',
+    'rollout.promotionFreeze',
+    'nivoDuet',
+    'dinkos',
+    'distanceRatioEkvilaterTable'
+  ];
+  downstreamSync: {
+    linkedRepo: 'spaja86/IO-OPENUI-AO';
+    syncRequired: true;
+    syncedContractFields: readonly [
+      'rollout.currentWawe',
+      'rollout.eligibleNextWawe',
+      'rollout.promotionFreeze',
+      'b2bScope',
+      'b2bReadiness',
+      'nivoDuet',
+      'dinkos',
+      'distanceRatioEkvilaterTable'
+    ];
+  };
+  qualityGates: {
+    validatorCoverage: readonly [
+      'extrimli-validator-agent',
+      'ci-bot',
+      'security-scanner',
+      'multi-repo-sync-agent'
+    ];
+    kpiTargets: {
+      evaluationMaxMs: number;
+      apiResponseMaxMs: number;
+      buildDurationMaxMin: number;
+    };
+  };
+  auditRelease: {
+    humanReviewRequired: true;
+    rollbackRequired: true;
+    downstreamReferenceRequired: true;
+  };
+}
+
 export interface ExtrimliExtrondolDistanceRatioEkvilaterRow {
   edgeId: 'extrondend-extendol' | 'extrondend-koron' | 'extendol-koron';
   from: 'EXTRONDEND' | 'EXTENDOL' | 'KORON';
@@ -197,6 +281,7 @@ export interface ExtrimliExtrondolReport {
   triggerLabel: string;
   pathScope: string[];
   orchestrationReadinessScore: number;
+  startProject: ExtrimliExtrondolStartProject;
   b2bScope: ExtrimliExtrondolB2bScope;
   b2bReadiness: ExtrimliExtrondolB2bReadiness;
   domainStrategy: ExtrimliExtrondolDomainStrategy;
