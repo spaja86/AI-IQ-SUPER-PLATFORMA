@@ -193,7 +193,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
   const contractApproved = !degraded && domainStrategy.valid;
   const onboardingComplete = duetSignal.valid && duetSignal.status !== 'DISSONANT';
-  const downstreamSyncComplete = !degradedSources.some((source) => source.startsWith('duet:') || source.startsWith('domain-strategy:'));
+  const downstreamSyncComplete = false;
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
   const humanReviewComplete = false;
   const auditTrailComplete = contractApproved && onboardingComplete && downstreamSyncComplete && operationalApproval && humanReviewComplete;

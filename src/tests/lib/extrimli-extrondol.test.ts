@@ -178,6 +178,8 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.tenant.organizationId === 'spaja-digital-industrija-b2b', 'organization id mismatch');
     assert(report.b2bReadiness.compliance.secretsInGitAllowed === false, 'secrets must not be allowed in git');
     assert(report.b2bReadiness.compliance.humanReviewComplete === false, 'human review must remain incomplete without explicit evidence');
+    assert(report.b2bReadiness.downstreamSync.status === 'FOLLOW_UP_REQUIRED', 'downstream sync must require explicit evidence');
+    assert(report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker must be present');
     assert(report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker must be present');
     assert(report.b2bReadiness.compliance.auditTrailComplete === (report.b2bReadiness.compliance.blockers.length === 0), 'audit trail completeness must reflect B2B blockers');
     assert(report.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'linked repo mismatch');

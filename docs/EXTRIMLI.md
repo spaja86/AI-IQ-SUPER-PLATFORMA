@@ -244,6 +244,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - Procurement/review flow ostaje: `request-submitted` → `procurement-review` → `compliance-review` → `operational-approval` → `activation`.
 - Aktivacija ne sme proći bez `contract-approved`, `onboarding-complete`, `downstream-sync-complete` i `human-review-complete`.
 - `b2bReadiness.compliance.humanReviewComplete` mora eksplicitno ostati `false` dok governance layer ne poseduje dokaz o review-u; tada rollout ostaje frozen.
+- `b2bReadiness.downstreamSync.status` i `b2bReadiness.compliance.blockers` moraju ostati konzervativni dok `multi-repo-sync-agent` ne potvrdi stvarni downstream sync.
 - SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
 
