@@ -128,6 +128,36 @@ export interface ExtrimliExtrondolGovernanceEvidence {
   onboardingComplete?: boolean;
 }
 
+export interface ExtrimliExtrondolDistanceRatioEkvilaterRow {
+  edgeId: 'extrondend-extendol' | 'extrondend-koron' | 'extendol-koron';
+  from: 'EXTRONDEND' | 'EXTENDOL' | 'KORON';
+  to: 'EXTRONDEND' | 'EXTENDOL' | 'KORON';
+  fromScore: number;
+  toScore: number;
+  distance: number;
+  distanceRatio: number;
+  equilateralAlignment: number;
+  balanced: boolean;
+}
+
+export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
+  requestedTableName: 'DISANCE RATOR EKVILATER';
+  normalizedTableName: 'DISTANCE RATIO EKVILATER';
+  contractField: 'distanceRatioEkvilaterTable';
+  version: 'v1-distance-ratio-ekvilater';
+  interpretation: 'derived-readiness-table';
+  targetShape: 'EQUILATERAL';
+  scoringSource: ['extrondend.aggregationScore', 'extendol.unifiedReadinessScore', 'koron.readinessScore'];
+  rows: ExtrimliExtrondolDistanceRatioEkvilaterRow[];
+  summary: {
+    averageDistance: number;
+    maxDistance: number;
+    minDistance: number;
+    equilateralConsistency: number;
+    interpretation: 'balanced' | 'watch' | 'skewed';
+  };
+}
+
 export interface ExtrimliExtrondolReport {
   personaId: string;
   contractVersion: string;
@@ -141,6 +171,7 @@ export interface ExtrimliExtrondolReport {
   b2bScope: ExtrimliExtrondolB2bScope;
   b2bReadiness: ExtrimliExtrondolB2bReadiness;
   domainStrategy: ExtrimliExtrondolDomainStrategy;
+  distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
   rollout: {
@@ -189,6 +220,9 @@ export const EXTRONDOL_DUET_WARNING_PENALTY_STEP = 4;
 export const EXTRONDOL_DUET_WARNING_PENALTY_CAP = 12;
 export const EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY = 25;
 export const EXTRONDOL_DUET_INVALID_FALLBACK_SCORE = 50;
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION = 'v1-distance-ratio-ekvilater';
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN = 80;
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN = 55;
 export const EXTRONDOL_DUET_STATUS_ADJUSTMENT = {
   HARMONIZED: 4,
   ALIGNED: 2,

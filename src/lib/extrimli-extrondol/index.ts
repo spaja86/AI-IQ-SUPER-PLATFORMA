@@ -10,6 +10,7 @@ import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
+  ExtrimliExtrondolDistanceRatioEkvilaterRow,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolWaweStage,
@@ -21,6 +22,9 @@ import {
   EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_BUILD_MAX_MIN,
   EXTRONDOL_CONTRACT_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN,
   EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
   EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY,
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
@@ -107,6 +111,83 @@ function mapDuetStatusAdjustment(status: string): number {
   return EXTRONDOL_DUET_STATUS_ADJUSTMENT.DISSONANT;
 }
 
+function buildDistanceRatioEkvilaterTable(scores: {
+  extrondend: number;
+  extendol: number;
+  koron: number;
+}) {
+  const baseRows = [
+    {
+      edgeId: 'extrondend-extendol' as const,
+      from: 'EXTRONDEND' as const,
+      to: 'EXTENDOL' as const,
+      fromScore: round(clamp(scores.extrondend, 0, 100), 2),
+      toScore: round(clamp(scores.extendol, 0, 100), 2),
+    },
+    {
+      edgeId: 'extrondend-koron' as const,
+      from: 'EXTRONDEND' as const,
+      to: 'KORON' as const,
+      fromScore: round(clamp(scores.extrondend, 0, 100), 2),
+      toScore: round(clamp(scores.koron, 0, 100), 2),
+    },
+    {
+      edgeId: 'extendol-koron' as const,
+      from: 'EXTENDOL' as const,
+      to: 'KORON' as const,
+      fromScore: round(clamp(scores.extendol, 0, 100), 2),
+      toScore: round(clamp(scores.koron, 0, 100), 2),
+    },
+  ];
+
+  const distances = baseRows.map((row) => Math.abs(row.fromScore - row.toScore));
+  const averageDistance = round(distances.reduce((sum, value) => sum + value, 0) / distances.length, 2);
+  const maxDistance = round(Math.max(...distances), 2);
+  const minDistance = round(Math.min(...distances), 2);
+  const denominator = averageDistance === 0 ? 1 : averageDistance;
+
+  const rows: ExtrimliExtrondolDistanceRatioEkvilaterRow[] = baseRows.map((row, index) => {
+    const distance = round(distances[index], 2);
+    const distanceRatio = round(maxDistance === 0 ? 1 : clamp(distance / maxDistance, 0, 1), 2);
+    const equilateralAlignment = round(clamp(100 - (Math.abs(distance - averageDistance) / denominator) * 100, 0, 100), 2);
+    return {
+      ...row,
+      distance,
+      distanceRatio,
+      equilateralAlignment,
+      balanced: equilateralAlignment >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+    };
+  });
+
+  const equilateralConsistency = round(
+    rows.reduce((sum, row) => sum + row.equilateralAlignment, 0) / rows.length,
+    2,
+  );
+  const interpretation = equilateralConsistency >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN
+    ? 'balanced'
+    : equilateralConsistency >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN
+      ? 'watch'
+      : 'skewed';
+
+  return {
+    requestedTableName: 'DISANCE RATOR EKVILATER' as const,
+    normalizedTableName: 'DISTANCE RATIO EKVILATER' as const,
+    contractField: 'distanceRatioEkvilaterTable' as const,
+    version: EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
+    interpretation: 'derived-readiness-table' as const,
+    targetShape: 'EQUILATERAL' as const,
+    scoringSource: ['extrondend.aggregationScore', 'extendol.unifiedReadinessScore', 'koron.readinessScore'] as const,
+    rows,
+    summary: {
+      averageDistance,
+      maxDistance,
+      minDistance,
+      equilateralConsistency,
+      interpretation,
+    },
+  };
+}
+
 function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidence) {
   return {
     auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE !== 'false',
@@ -170,6 +251,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ),
     2,
   );
+  const distanceRatioEkvilaterTable = buildDistanceRatioEkvilaterTable({
+    extrondend: extrondend.aggregationScore,
+    extendol: extendol.unifiedReadinessScore,
+    koron: koron.readinessScore,
+  });
   const duetScoreForBlend = duetSignal.valid ? duetSignal.overallScore : EXTRONDOL_DUET_INVALID_FALLBACK_SCORE;
   const blendedBaseScore = (baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE) + (duetScoreForBlend * EXTRONDOL_NIVO_DUET_SHARE);
   const duetAdjustment = duetSignal.valid
@@ -346,6 +432,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       passed: Number.isFinite(orchestrationReadinessScore) && orchestrationReadinessScore >= 0 && orchestrationReadinessScore <= 100,
     },
     {
+      id: 'distance-ratio-ekvilater-table',
+      description: 'DISTANCE RATIO EKVILATER is exposed as an additive derived-readiness table over EXTRONDEND, EXTENDOL, and KORON score distances.',
+      passed: distanceRatioEkvilaterTable.contractField === 'distanceRatioEkvilaterTable'
+        && distanceRatioEkvilaterTable.rows.length === 3
+        && Number.isFinite(distanceRatioEkvilaterTable.summary.equilateralConsistency),
+    },
+    {
       id: 'b2b-scope',
       description: 'EXTRONDOL defines organization-level B2B ownership, partner/operator roles, procurement review flow, SLA targets, and audit obligations.',
       passed: b2bScope.consumerModel === 'organization-level'
@@ -390,6 +483,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     b2bScope,
     b2bReadiness,
     domainStrategy,
+    distanceRatioEkvilaterTable,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
       triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
@@ -463,6 +557,9 @@ export {
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
   EXTRONDOL_DUET_WARNING_PENALTY_STEP,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN,
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_CONTRACT_VERSION,
