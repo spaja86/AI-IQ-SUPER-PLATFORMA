@@ -125,6 +125,7 @@ export interface ExtrimliExtrondolGovernanceEvidence {
   auditTrailComplete?: boolean;
   downstreamSyncComplete?: boolean;
   humanReviewComplete?: boolean;
+  onboardingComplete?: boolean;
 }
 
 export interface ExtrimliExtrondolReport {

@@ -112,6 +112,7 @@ function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidenc
     auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE !== 'false',
     downstreamSyncComplete: evidence?.downstreamSyncComplete ?? process.env.EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE === 'true',
     humanReviewComplete: evidence?.humanReviewComplete ?? process.env.EXTRONDOL_HUMAN_REVIEW_COMPLETE === 'true',
+    onboardingComplete: evidence?.onboardingComplete ?? process.env.EXTRONDOL_ONBOARDING_COMPLETE === 'true',
   } as const;
 }
 
@@ -120,7 +121,8 @@ function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidenc
  * Explicit `evidence` values take precedence; when omitted, governance evidence
  * is resolved from `EXTRONDOL_AUDIT_TRAIL_COMPLETE`,
  * `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, and
- * `EXTRONDOL_HUMAN_REVIEW_COMPLETE`.
+ * `EXTRONDOL_HUMAN_REVIEW_COMPLETE`, and
+ * `EXTRONDOL_ONBOARDING_COMPLETE`.
  */
 export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanceEvidence): ExtrimliExtrondolReport {
   const extrondend = getExtrimliExtrondendReport();
@@ -213,7 +215,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const degraded = degradedSources.length > 0;
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
   const contractApproved = !degraded && domainStrategy.valid;
-  const onboardingComplete = duetSignal.valid && duetSignal.status !== 'DISSONANT';
+  const onboardingComplete = governanceEvidence.onboardingComplete;
   const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
   const humanReviewComplete = governanceEvidence.humanReviewComplete;
@@ -229,6 +231,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const partnerReadinessWarnings = [
     ...duetSignal.warnings.map((warning) => `DUET: ${warning}`),
     ...(!domainStrategy.valid ? ['Domain strategy lock is invalid for B2B rollout.'] : []),
+    ...(!duetSignal.valid || duetSignal.status === 'DISSONANT' ? ['DUET signal posture prevents onboarding hold from clearing.'] : []),
     ...(!downstreamSyncComplete ? ['Downstream sync must complete before B2B activation.'] : []),
     ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
   ];
@@ -291,7 +294,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ],
     },
     governanceDecisions: {
-      onboardingHold: !onboardingComplete || !contractApproved,
+      onboardingHold: !onboardingComplete || !contractApproved || !duetSignal.valid || duetSignal.status === 'DISSONANT',
       rolloutFreeze: promotionFreeze,
       escalationRequired: promotionFreeze,
       partnerReadinessWarnings,
