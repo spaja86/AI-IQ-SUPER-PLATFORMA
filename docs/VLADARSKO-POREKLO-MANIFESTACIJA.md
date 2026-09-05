@@ -9,13 +9,15 @@
 
 **Planirana kanonska landing putanja (jedina javna ruta):** `/vladarskog-porekla`  
 **Planirana rezervna putanja (internal fallback):** `/prijava/vladarskog-porekla` (nije javna; koristi se samo kao redirect/backup target)  
-**Placeholder host (nije produkcioni):** `spaja.nivo-spaja`
+**Placeholder host za mockup (nije produkcioni):** `spaja.nivo-spaja`  
+**Verifikovan produkcioni javni URL:** `TBD` (obavezno popuniti pre finalnog izvoza materijala)
 **Owner landing stranice:** `@spaja86` + IO-OPENUI-AO Web Experience tim
 
 ### Downstream implementacija i audit reference
 - **Linked repo (execution):** `spaja86/IO-OPENUI-AO`
 - **Predviđena landing putanja:** `src/app/vladarskog-porekla/page.tsx`
 - **Predviđena registraciona API putanja:** `src/app/api/vladarskog-porekla/register/route.ts`
+- **Downstream issue/PR reference:** Incomplete (pending owner-created issue/PR u `spaja86/IO-OPENUI-AO`)
 - **Cross-repo evidencija:** `docs/MULTI-REPO-LINKS.md`
 - **Source of truth za produkcioni host:** deploy/domain konfiguracija u `spaja86/IO-OPENUI-AO` (evidentirano kroz `docs/MULTI-REPO-LINKS.md`)
 - **Handoff/Audit ID:** `VPOREKLO-2026-09`
@@ -94,8 +96,8 @@ Centralna figura je zaštitno lice kampanje i glavni narativni nosač poruke „
 **Naslov:** VLADARSKOG POREKLA  
 **Podnaslov:** Manifestacija kulturnog nasleđa i savremene simbolike  
 **CTA:** Rezervišite svoje mesto  
-**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (planirano: `/vladarskog-porekla` na produkcionom hostu iz downstream deploy konfiguracije)  
-**Production gate:** materijal ne ide u finalni izvoz/štampu dok se ne upiše verifikovan javni host.
+**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (`Verifikovan produkcioni javni URL`)  
+**Production gate:** materijal ne ide u finalni izvoz/štampu dok se polje `Verifikovan produkcioni javni URL` ne popuni.
 
 **Predlog copy-ja (plakat):**
 „Vladarskog porekla — večer nasleđa, časti i budućnosti.  

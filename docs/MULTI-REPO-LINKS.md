@@ -1616,6 +1616,7 @@ AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 | Handoff/Audit ID | `VPOREKLO-2026-09` |
 | Status | Draft (pending downstream issue/PR reference) |
 | Downstream issue status | Pending downstream issue creation by linked-repo owner |
+| Originating reference (this repo) | User task request: implement campaign plan for manifestacija „Vladarskog porekla“ (2026-09-05) |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
 
@@ -1627,6 +1628,7 @@ AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 - Open downstream issue for `VPOREKLO-2026-09` and back-link it in this section
 - Implement landing sections: Hero + Program + Govornici i učesnici + Kontakt info (v1 static)
 - Implement registration API with status codes (`201`, `400`, `409`, `500`) and documented payload contract
+- Keep back-reference to source request in this repo (`VPOREKLO-2026-09`) for issue → PR → review trail
 
 **Audit convention for this initiative (activate after downstream issue is opened):**
 Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gde je `123` stvarni broj downstream issue-ja.
