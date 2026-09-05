@@ -32,7 +32,8 @@ function collectTestFiles(baseDir) {
 }
 
 const testFiles = collectTestFiles(directory);
-const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+const tsxCommand =
+  process.platform === 'win32' ? '.\\node_modules\\.bin\\tsx.cmd' : './node_modules/.bin/tsx';
 
 if (testFiles.length === 0) {
   console.error(`No test files found in: ${directory}`);
@@ -40,7 +41,7 @@ if (testFiles.length === 0) {
 }
 
 for (const file of testFiles) {
-  const command = spawnSync(npxCommand, ['tsx', file], {
+  const command = spawnSync(tsxCommand, [file], {
     stdio: 'inherit',
   });
 

@@ -26,10 +26,10 @@
 - `extrimli`
 - `gigatron`
 - `duet`
-- `digitron`
+- `digit-engine` (API slug: `digitron`)
 - `repozit`
 
-`digit-engine` remains a logic-level library/test surface, while `digitron` is the canonical API slug.
+`digit-engine` remains the logic-level module surface; `digitron` is its API route slug.
 
 See: `docs/API-CONTRACT-STATUS.md`.
 
