@@ -922,7 +922,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Track `/api/extrimli/koron` contract compatibility in downstream consumers
 - Track `/api/extrimli/extrondend` contract compatibility in downstream consumers
 - Track `/api/extrimli/extrondol` contract compatibility in downstream consumers
-- Track additive B2B EXTRONDOL fields: `b2bScope.consumerModel`, `b2bScope.partnerOperatorRoles`, `b2bReadiness.tenant.rolloutRing`, `b2bReadiness.compliance.blockers`, `b2bReadiness.governanceDecisions.partnerReadinessWarnings`
+- Track additive B2B EXTRONDOL fields: `b2bScope.consumerModel`, `b2bScope.partnerOperatorRoles`, `b2bReadiness.tenant.rolloutRing`, `b2bReadiness.compliance.humanReviewComplete`, `b2bReadiness.compliance.blockers`, `b2bReadiness.governanceDecisions.partnerReadinessWarnings`
 - Track NIVO DUET / DINKOS contract compatibility (`valid`, `status`, `overallScore`, `warnings`, `dinkos.triggerLabel`, `dinkos.personaId`) in downstream consumers
 - Confirm EXTRIMLI KORON overlay surface fields are mapped before promotion past WAWE 3
 - Confirm EXTRONDEND/EXTRONDOL naming lock is mirrored in downstream docs and label schema

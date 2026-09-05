@@ -195,7 +195,8 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
   const onboardingComplete = duetSignal.valid && duetSignal.status !== 'DISSONANT';
   const downstreamSyncComplete = !degradedSources.some((source) => source.startsWith('duet:') || source.startsWith('domain-strategy:'));
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
-  const auditTrailComplete = contractApproved && onboardingComplete && downstreamSyncComplete && operationalApproval;
+  const humanReviewComplete = false;
+  const auditTrailComplete = contractApproved && onboardingComplete && downstreamSyncComplete && operationalApproval && humanReviewComplete;
   const rolloutRing = currentWawe === 'WAWE-1'
     ? 'RING-0-CONTRACT'
     : currentWawe === 'WAWE-2'
@@ -207,12 +208,14 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     ...duetSignal.warnings.map((warning) => `DUET: ${warning}`),
     ...(!domainStrategy.valid ? ['Domain strategy lock is invalid for B2B rollout.'] : []),
     ...(!downstreamSyncComplete ? ['Downstream sync must complete before B2B activation.'] : []),
+    ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
   ];
   const complianceBlockers = [
     ...(!contractApproved ? ['contract-approved'] : []),
     ...(!onboardingComplete ? ['onboarding-complete'] : []),
     ...(!downstreamSyncComplete ? ['downstream-sync-complete'] : []),
     ...(!operationalApproval ? ['operational-approval'] : []),
+    ...(!humanReviewComplete ? ['human-review-complete'] : []),
     ...(!auditTrailComplete ? ['audit-trail-complete'] : []),
   ];
   const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1';
@@ -241,6 +244,7 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
       contractApproved,
       onboardingComplete,
       operationalApproval,
+      humanReviewComplete,
       auditTrailComplete,
       secretsInGitAllowed: false,
       blockers: complianceBlockers,

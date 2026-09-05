@@ -102,6 +102,7 @@ export interface ExtrimliExtrondolB2bReadiness {
     contractApproved: boolean;
     onboardingComplete: boolean;
     operationalApproval: boolean;
+    humanReviewComplete: boolean;
     auditTrailComplete: boolean;
     secretsInGitAllowed: false;
     blockers: string[];

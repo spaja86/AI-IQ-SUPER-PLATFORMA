@@ -63,6 +63,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 - Operator model: WAWE orchestration, tenant onboarding, downstream sync, i operational approval ostaju odvojene odgovornosti.
 - Partner model: `spaja86/IO-OPENUI-AO` je obavezni downstream B2B consumer kada koristi EXTRONDOL snapshot.
 - Activation policy: nema B2B aktivacije bez contract approval, compliance review, downstream sync, i human review evidence.
+- `b2bReadiness.compliance.humanReviewComplete` je obavezno polje u EXTRONDOL B2B readiness sloju i mora blokirati promociju dok evidence nije prisutan.
 - Audit policy: approvals, freeze reasons, rollback triggeri i downstream references moraju biti traceable u PR summary / workflow summary.
 
 ## 5. Locked source-of-truth artifacts
