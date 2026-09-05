@@ -10,8 +10,10 @@ import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
+  ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolReport,
+  ExtrimliExtrondolStartProject,
   ExtrimliExtrondolWaweStage,
 } from './types';
 import {
@@ -120,7 +122,7 @@ function buildDistanceRatioEkvilaterTable(scores: {
   extrondend: number;
   extendol: number;
   koron: number;
-}) {
+}): ExtrimliExtrondolDistanceRatioEkvilaterTable {
   const baseRows = [
     {
       edgeId: 'extrondend-extendol' as const,
@@ -269,7 +271,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     extendol: extendol.unifiedReadinessScore,
     koron: koron.readinessScore,
   });
-  const startProject = {
+  const startProject: ExtrimliExtrondolStartProject = {
     initiativeId: 'OKRID-2026-EXTRIMLI-START-001',
     programName: 'START PROJEKAT',
     sourceOfTruthLocked: true,
@@ -351,7 +353,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       rollbackRequired: true,
       downstreamReferenceRequired: true,
     },
-  } as const;
+  };
   const duetScoreForBlend = duetSignal.valid ? duetSignal.overallScore : EXTRONDOL_DUET_INVALID_FALLBACK_SCORE;
   const blendedBaseScore = (baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE) + (duetScoreForBlend * EXTRONDOL_NIVO_DUET_SHARE);
   const duetAdjustment = duetSignal.valid
