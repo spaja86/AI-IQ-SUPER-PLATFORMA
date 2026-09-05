@@ -36,10 +36,6 @@ import {
   VALID_KULKON_RHYTHMS,
 } from './registry';
 
-let evaluations = 0;
-let lastStatus: KulkonStatus | null = null;
-let lastEvaluatedAt: string | null = null;
-
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
@@ -60,14 +56,7 @@ function isRhythm(value: unknown): value is KulkonRhythm {
   return typeof value === 'string' && VALID_KULKON_RHYTHMS.includes(value as KulkonRhythm);
 }
 
-function recordEvaluation(status: KulkonStatus | null): void {
-  evaluations += 1;
-  lastStatus = status;
-  lastEvaluatedAt = new Date().toISOString();
-}
-
 function invalidResult(referenceId: string | undefined, warning: string, start: number): KulkonResult {
-  recordEvaluation(null);
   return {
     referenceId: referenceId ?? 'n/a',
     objective: null,
@@ -248,8 +237,6 @@ export function evaluateKulkon(input: KulkonInput): KulkonResult {
   const recommendedWindowDays = resolveRecommendedWindowDays(input.objective, recommendedAction, status);
   const warnings = buildWarnings(input, status, pressureScore);
 
-  recordEvaluation(status);
-
   return {
     referenceId: input.referenceId ?? 'n/a',
     objective: input.objective,
@@ -278,9 +265,9 @@ export function getKulkonHealthReport(): KulkonHealthReport {
     contractVersion: KULKON_CONTRACT_VERSION,
     moduleVersion: KULKON_MODULE_VERSION,
     linkedRepoImpact: KULKON_LINKED_REPO_IMPACT,
-    evaluations,
-    lastStatus,
-    lastEvaluatedAt,
+    evaluations: 0,
+    lastStatus: null,
+    lastEvaluatedAt: null,
     supportedObjectives: [...VALID_KULKON_OBJECTIVES],
     performanceMaxMs: KULKON_PERFORMANCE_MAX_MS,
     apiResponseMaxMs: KULKON_API_RESPONSE_MAX_MS,
@@ -288,7 +275,5 @@ export function getKulkonHealthReport(): KulkonHealthReport {
 }
 
 export function _resetKulkonMetrics(): void {
-  evaluations = 0;
-  lastStatus = null;
-  lastEvaluatedAt = null;
+  // no-op: KULKON keeps health metadata immutable per process for deterministic reporting
 }

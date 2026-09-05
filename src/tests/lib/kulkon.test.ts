@@ -229,7 +229,7 @@ async function runTests(): Promise<void> {
     assert(!result.valid, 'zero windowDays must be invalid');
   });
 
-  await test('invalid evaluation still increments health metrics', () => {
+  await test('health report remains immutable across evaluations', () => {
     _resetKulkonMetrics();
     evaluateKulkon({
       objective: 'ALIGNMENT',
@@ -245,9 +245,9 @@ async function runTests(): Promise<void> {
     });
 
     const health = getKulkonHealthReport();
-    assert(health.evaluations === 1, `expected 1 evaluation, got ${health.evaluations}`);
-    assert(health.lastStatus === null, 'invalid evaluation should keep lastStatus null');
-    assert(health.lastEvaluatedAt !== null, 'lastEvaluatedAt should be recorded');
+    assert(health.evaluations === 0, `expected 0 evaluations, got ${health.evaluations}`);
+    assert(health.lastStatus === null, 'lastStatus should remain null');
+    assert(health.lastEvaluatedAt === null, 'lastEvaluatedAt should remain null');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
