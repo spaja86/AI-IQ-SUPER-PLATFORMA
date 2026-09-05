@@ -21,6 +21,15 @@ import {
   EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_BUILD_MAX_MIN,
   EXTRONDOL_CONTRACT_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN,
   EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
   EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY,
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
@@ -107,6 +116,91 @@ function mapDuetStatusAdjustment(status: string): number {
   return EXTRONDOL_DUET_STATUS_ADJUSTMENT.DISSONANT;
 }
 
+function buildDistanceRatioEkvilaterTable(scores: {
+  extrondend: number;
+  extendol: number;
+  koron: number;
+}) {
+  const baseRows = [
+    {
+      edgeId: 'extrondend-extendol' as const,
+      from: 'EXTRONDEND' as const,
+      to: 'EXTENDOL' as const,
+      fromScore: round(clamp(scores.extrondend, 0, 100), 2),
+      toScore: round(clamp(scores.extendol, 0, 100), 2),
+    },
+    {
+      edgeId: 'extrondend-koron' as const,
+      from: 'EXTRONDEND' as const,
+      to: 'KORON' as const,
+      fromScore: round(clamp(scores.extrondend, 0, 100), 2),
+      toScore: round(clamp(scores.koron, 0, 100), 2),
+    },
+    {
+      edgeId: 'extendol-koron' as const,
+      from: 'EXTENDOL' as const,
+      to: 'KORON' as const,
+      fromScore: round(clamp(scores.extendol, 0, 100), 2),
+      toScore: round(clamp(scores.koron, 0, 100), 2),
+    },
+  ];
+
+  const distanceValues = baseRows.map((row) => Math.abs(row.fromScore - row.toScore));
+  const rawAverageDistance = distanceValues.reduce((sum, value) => sum + value, 0) / distanceValues.length;
+  const rawMaxDistance = Math.max(...distanceValues);
+  const rawMinDistance = Math.min(...distanceValues);
+  const denominator = rawAverageDistance === 0 ? 1 : rawAverageDistance;
+
+  const buildRow = <T extends (typeof baseRows)[number]>(row: T) => {
+    const rawDistance = Math.abs(row.fromScore - row.toScore);
+    const distance = round(rawDistance, 2);
+    const distanceRatio = round(rawMaxDistance === 0 ? 1 : clamp(rawDistance / rawMaxDistance, 0, 1), 2);
+    const equilateralAlignment = round(clamp(100 - (Math.abs(rawDistance - rawAverageDistance) / denominator) * 100, 0, 100), 2);
+    return {
+      ...row,
+      distance,
+      distanceRatio,
+      equilateralAlignment,
+      balanced: equilateralAlignment >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+    };
+  };
+
+  const rows = [
+    buildRow(baseRows[0]),
+    buildRow(baseRows[1]),
+    buildRow(baseRows[2]),
+  ] as const;
+
+  const equilateralConsistency = round(
+    rows.reduce((sum, row) => sum + row.equilateralAlignment, 0) / rows.length,
+    2,
+  );
+  const interpretation = equilateralConsistency >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN
+    ? 'balanced'
+    : equilateralConsistency >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN
+      ? 'watch'
+      : 'skewed';
+
+  return {
+    requestedTableName: EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+    normalizedTableName: EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+    legacyRequestedTableNames: EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES,
+    contractField: EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
+    version: EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
+    interpretation: EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
+    targetShape: EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
+    scoringSource: EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
+    rows,
+    summary: {
+      averageDistance: round(rawAverageDistance, 2),
+      maxDistance: round(rawMaxDistance, 2),
+      minDistance: round(rawMinDistance, 2),
+      equilateralConsistency,
+      interpretation,
+    },
+  };
+}
+
 function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidence) {
   return {
     auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE !== 'false',
@@ -170,6 +264,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ),
     2,
   );
+  const distanceRatioEkvilaterTable = buildDistanceRatioEkvilaterTable({
+    extrondend: extrondend.aggregationScore,
+    extendol: extendol.unifiedReadinessScore,
+    koron: koron.readinessScore,
+  });
   const duetScoreForBlend = duetSignal.valid ? duetSignal.overallScore : EXTRONDOL_DUET_INVALID_FALLBACK_SCORE;
   const blendedBaseScore = (baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE) + (duetScoreForBlend * EXTRONDOL_NIVO_DUET_SHARE);
   const duetAdjustment = duetSignal.valid
@@ -346,6 +445,20 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       passed: Number.isFinite(orchestrationReadinessScore) && orchestrationReadinessScore >= 0 && orchestrationReadinessScore <= 100,
     },
     {
+      id: 'distance-ratio-ekvilater-table',
+      description: 'DISTANCE RATIO EKVILATER is exposed as an additive derived-readiness table over EXTRONDEND, EXTENDOL, and KORON score distances.',
+      passed: distanceRatioEkvilaterTable.requestedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME
+        && distanceRatioEkvilaterTable.normalizedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME
+        && distanceRatioEkvilaterTable.legacyRequestedTableNames.join(',') === EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES.join(',')
+        && distanceRatioEkvilaterTable.contractField === EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD
+        && distanceRatioEkvilaterTable.version === EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION
+        && distanceRatioEkvilaterTable.interpretation === EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION
+        && distanceRatioEkvilaterTable.targetShape === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE
+        && distanceRatioEkvilaterTable.scoringSource.join(',') === EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE.join(',')
+        && distanceRatioEkvilaterTable.rows.length === 3
+        && Number.isFinite(distanceRatioEkvilaterTable.summary.equilateralConsistency),
+    },
+    {
       id: 'b2b-scope',
       description: 'EXTRONDOL defines organization-level B2B ownership, partner/operator roles, procurement review flow, SLA targets, and audit obligations.',
       passed: b2bScope.consumerModel === 'organization-level'
@@ -390,6 +503,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     b2bScope,
     b2bReadiness,
     domainStrategy,
+    distanceRatioEkvilaterTable,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
       triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
@@ -463,6 +577,15 @@ export {
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
   EXTRONDOL_DUET_WARNING_PENALTY_STEP,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN,
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_CONTRACT_VERSION,

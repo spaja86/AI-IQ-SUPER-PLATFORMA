@@ -3,6 +3,15 @@ import {
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_CONTRACT_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN,
   EXTRONDOL_DUET_STATUS_ADJUSTMENT,
   EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
@@ -163,6 +172,7 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'dinkos-contract' && item.passed), 'dinkos-contract criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'domain-strategy-lock' && item.passed), 'domain-strategy-lock criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-downstream-sync' && item.passed), 'b2b-downstream-sync criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'distance-ratio-ekvilater-table' && item.passed), 'distance-ratio-ekvilater-table criterion must pass');
   });
 
   await test('report exposes additive B2B operating metadata and controls', () => {
@@ -195,6 +205,77 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-controls' && item.passed), 'b2b-controls criterion must pass');
+  });
+
+  await test('report exposes DISTANCE RATIO EKVILATER as an additive derived readiness table', () => {
+    const report = getExtrimliExtrondolReport();
+    const table = report.distanceRatioEkvilaterTable;
+    assert(table.requestedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME, 'requested table name mismatch');
+    assert(table.normalizedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME, 'normalized table name mismatch');
+    assert(table.legacyRequestedTableNames.includes(EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES[0]), 'legacy alias mismatch');
+    assert(table.contractField === EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD, 'contract field mismatch');
+    assert(table.version === EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION, 'table version mismatch');
+    assert(table.interpretation === EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION, 'table interpretation mismatch');
+    assert(table.targetShape === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE, 'target shape mismatch');
+    assert(table.scoringSource.join(',') === EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE.join(','), 'table scoring source mismatch');
+    assert(table.rows.length === 3, 'table must expose 3 pairwise rows');
+    assert(table.summary.maxDistance >= table.summary.minDistance, 'distance summary ordering mismatch');
+    assert(table.summary.equilateralConsistency >= 0 && table.summary.equilateralConsistency <= 100, 'equilateral consistency must be bounded');
+    assert(['balanced', 'watch', 'skewed'].includes(table.summary.interpretation), 'unexpected table interpretation');
+  });
+
+  await test('DISTANCE RATIO EKVILATER rows are deterministic and bounded', () => {
+    const report = getExtrimliExtrondolReport();
+    const table = report.distanceRatioEkvilaterTable;
+    const [rowA, rowB, rowC] = table.rows;
+    assert(rowA.edgeId === 'extrondend-extendol', 'first edge mismatch');
+    assert(rowB.edgeId === 'extrondend-koron', 'second edge mismatch');
+    assert(rowC.edgeId === 'extendol-koron', 'third edge mismatch');
+    for (const row of table.rows) {
+      assert(row.distance >= 0, `distance must be non-negative for ${row.edgeId}`);
+      assert(row.distanceRatio >= 0 && row.distanceRatio <= 1, `distanceRatio must be in [0,1] for ${row.edgeId}`);
+      assert(row.equilateralAlignment >= 0 && row.equilateralAlignment <= 100, `equilateralAlignment must be in [0,100] for ${row.edgeId}`);
+      assert(row.balanced === (row.equilateralAlignment >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN), `balanced flag mismatch for ${row.edgeId}`);
+    }
+
+    const rawAverageDistance = (rowA.distance + rowB.distance + rowC.distance) / 3;
+    const rawMaxDistance = Math.max(rowA.distance, rowB.distance, rowC.distance);
+    const rawMinDistance = Math.min(rowA.distance, rowB.distance, rowC.distance);
+    const expectedAverageDistance = round2(rawAverageDistance);
+    const expectedMaxDistance = round2(rawMaxDistance);
+    const expectedMinDistance = round2(rawMinDistance);
+    const denominator = rawAverageDistance === 0 ? 1 : rawAverageDistance;
+    const expectedRows = [rowA, rowB, rowC].map((row) => ({
+      edgeId: row.edgeId,
+      distanceRatio: round2(rawMaxDistance === 0 ? 1 : clamp(row.distance / rawMaxDistance, 0, 1)),
+      equilateralAlignment: round2(clamp(100 - (Math.abs(row.distance - rawAverageDistance) / denominator) * 100, 0, 100)),
+    }));
+
+    assert(table.summary.averageDistance === expectedAverageDistance, 'averageDistance mismatch');
+    assert(table.summary.maxDistance === expectedMaxDistance, 'maxDistance mismatch');
+    assert(table.summary.minDistance === expectedMinDistance, 'minDistance mismatch');
+    for (const expected of expectedRows) {
+      const actual = table.rows.find((row) => row.edgeId === expected.edgeId);
+      assert(Boolean(actual), `missing row for ${expected.edgeId}`);
+      assert(actual?.distanceRatio === expected.distanceRatio, `distanceRatio mismatch for ${expected.edgeId}`);
+      assert(actual?.equilateralAlignment === expected.equilateralAlignment, `equilateralAlignment mismatch for ${expected.edgeId}`);
+    }
+
+    const expectedConsistency = round2(expectedRows.reduce((sum, row) => sum + row.equilateralAlignment, 0) / expectedRows.length);
+    const expectedInterpretation = expectedConsistency >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN
+      ? 'balanced'
+      : expectedConsistency >= EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN
+        ? 'watch'
+        : 'skewed';
+    assert(table.summary.equilateralConsistency === expectedConsistency, 'equilateralConsistency mismatch');
+    assert(table.summary.interpretation === expectedInterpretation, 'table summary interpretation mismatch');
+  });
+
+  await test('DISTANCE RATIO EKVILATER keeps canonical naming with legacy alias compatibility', () => {
+    const table = getExtrimliExtrondolReport().distanceRatioEkvilaterTable;
+    assert(table.requestedTableName === table.normalizedTableName, 'canonical table naming must be normalized');
+    assert(table.legacyRequestedTableNames.length >= 1, 'expected at least one legacy alias');
+    assert(table.legacyRequestedTableNames.includes(EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES[0]), 'legacy misspelled alias must remain documented');
   });
 
   await test('report can consume explicit governance evidence for downstream sync and human review', () => {

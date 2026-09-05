@@ -250,6 +250,24 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
 
+### DISTANCE RATIO EKVILATER table
+
+- Canonical table name je `DISTANCE RATIO EKVILATER`, a legacy compatibility alias ostaje zabeležen kao `DISANCE RATOR EKVILATER`.
+- Canonical payload field je `distanceRatioEkvilaterTable`.
+- Table je **derived readiness table**, ne novi alias endpoint i ne menja WAWE scoring logiku.
+- Table ostaje additive payload section za downstream consumer-e; ne menja `EXTRONDOL_CONTRACT_VERSION` i ne zamenjuje postojeća mandatory polja.
+- Inputs su postojeći EXTRONDOL upstream score-ovi:
+  - `extrondend.aggregationScore`
+  - `extendol.unifiedReadinessScore`
+  - `koron.readinessScore`
+- Table gradi tri pairwise ivice (`EXTRONDEND↔EXTENDOL`, `EXTRONDEND↔KORON`, `EXTENDOL↔KORON`) i za svaku izbacuje:
+  - `distance`
+  - `distanceRatio`
+  - `equilateralAlignment`
+  - `balanced`
+- `summary.equilateralConsistency` ostaje u opsegu `0..100` i služi kao interpretacija koliko su tri upstream surface-a geometrijski uravnotežena (`balanced | watch | skewed`).
+- Svrha tabele je da downstream consumer-i mogu da tumače raspodelu readiness distance-a bez promene postojećeg `orchestrationReadinessScore` i `promotionFreeze` ponašanja.
+
 ### Acceptance criteria (EXTRONDOL)
 
 1. Naming lock: dedicated module, not alias.
@@ -263,6 +281,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 9. B2B scope is additive-only and defines ownership, partner/operator roles, procurement/compliance flow, SLA posture, and audit obligations.
 10. B2B activation remains frozen until contract, onboarding, downstream sync, operational approval, and audit controls are satisfied.
 11. Downstream B2B sync must include WAWE fields, DUET warning posture, DINKOS metadata, and domain strategy validation.
+12. `distanceRatioEkvilaterTable` must remain additive-only, bounded, and deterministic for the three upstream readiness surfaces.
 
 ### NIVO DUET orchestration map
 

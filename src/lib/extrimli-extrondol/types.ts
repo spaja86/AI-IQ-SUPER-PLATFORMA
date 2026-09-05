@@ -128,6 +128,65 @@ export interface ExtrimliExtrondolGovernanceEvidence {
   onboardingComplete?: boolean;
 }
 
+export interface ExtrimliExtrondolDistanceRatioEkvilaterRow {
+  edgeId: 'extrondend-extendol' | 'extrondend-koron' | 'extendol-koron';
+  from: 'EXTRONDEND' | 'EXTENDOL' | 'KORON';
+  to: 'EXTRONDEND' | 'EXTENDOL' | 'KORON';
+  fromScore: number;
+  toScore: number;
+  distance: number;
+  distanceRatio: number;
+  equilateralAlignment: number;
+  balanced: boolean;
+}
+
+export type ExtrimliExtrondolDistanceRatioEkvilaterExtrondendExtendolRow =
+  ExtrimliExtrondolDistanceRatioEkvilaterRow & {
+    edgeId: 'extrondend-extendol';
+    from: 'EXTRONDEND';
+    to: 'EXTENDOL';
+  };
+
+export type ExtrimliExtrondolDistanceRatioEkvilaterExtrondendKoronRow =
+  ExtrimliExtrondolDistanceRatioEkvilaterRow & {
+    edgeId: 'extrondend-koron';
+    from: 'EXTRONDEND';
+    to: 'KORON';
+  };
+
+export type ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow =
+  ExtrimliExtrondolDistanceRatioEkvilaterRow & {
+    edgeId: 'extendol-koron';
+    from: 'EXTENDOL';
+    to: 'KORON';
+  };
+
+type ExtrimliExtrondolDistanceRatioCompatibilityAlias =
+  'DISANCE RATOR EKVILATER'; // Intentional legacy typo-only alias; consumers must not correct it.
+
+export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
+  requestedTableName: 'DISTANCE RATIO EKVILATER';
+  normalizedTableName: 'DISTANCE RATIO EKVILATER';
+  legacyRequestedTableNames: readonly ExtrimliExtrondolDistanceRatioCompatibilityAlias[];
+  contractField: 'distanceRatioEkvilaterTable';
+  version: 'v1-distance-ratio-ekvilater';
+  interpretation: 'derived-readiness-table';
+  targetShape: 'EQUILATERAL';
+  scoringSource: ['extrondend.aggregationScore', 'extendol.unifiedReadinessScore', 'koron.readinessScore'];
+  rows: readonly [
+    ExtrimliExtrondolDistanceRatioEkvilaterExtrondendExtendolRow,
+    ExtrimliExtrondolDistanceRatioEkvilaterExtrondendKoronRow,
+    ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow,
+  ];
+  summary: {
+    averageDistance: number;
+    maxDistance: number;
+    minDistance: number;
+    equilateralConsistency: number;
+    interpretation: 'balanced' | 'watch' | 'skewed';
+  };
+}
+
 export interface ExtrimliExtrondolReport {
   personaId: string;
   contractVersion: string;
@@ -141,6 +200,7 @@ export interface ExtrimliExtrondolReport {
   b2bScope: ExtrimliExtrondolB2bScope;
   b2bReadiness: ExtrimliExtrondolB2bReadiness;
   domainStrategy: ExtrimliExtrondolDomainStrategy;
+  distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
   rollout: {
@@ -189,6 +249,20 @@ export const EXTRONDOL_DUET_WARNING_PENALTY_STEP = 4;
 export const EXTRONDOL_DUET_WARNING_PENALTY_CAP = 12;
 export const EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY = 25;
 export const EXTRONDOL_DUET_INVALID_FALLBACK_SCORE = 50;
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME = 'DISTANCE RATIO EKVILATER';
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD = 'distanceRatioEkvilaterTable';
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION = 'v1-distance-ratio-ekvilater';
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION = 'derived-readiness-table';
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE = 'EQUILATERAL';
+// Legacy typo-only alias preserved for compatibility; do not reuse as canonical naming.
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES = ['DISANCE RATOR EKVILATER'] as const;
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE = [
+  'extrondend.aggregationScore',
+  'extendol.unifiedReadinessScore',
+  'koron.readinessScore',
+] as const;
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN = 80;
+export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN = 55;
 export const EXTRONDOL_DUET_STATUS_ADJUSTMENT = {
   HARMONIZED: 4,
   ALIGNED: 2,
