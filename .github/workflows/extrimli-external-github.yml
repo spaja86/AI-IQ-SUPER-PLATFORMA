@@ -105,9 +105,12 @@ jobs:
           assert(doc.includes('/api/extrimli/extendol'), 'canonical doc must reference EXTRIMLI Extendol unified endpoint');
           assert(doc.includes('/api/extrimli/koron'), 'canonical doc must reference EXTRIMLI KORON endpoint');
           assert(doc.includes('/api/extrimli/extrondend') && doc.includes('/api/extrimli/extrondol'), 'canonical doc must reference EXTRONDEND and EXTRONDOL endpoints');
+          assert(doc.includes('nivo-duet:logic-change') && doc.includes('dinkos:logic-change'), 'canonical doc must declare NIVO DUET and DINKOS labels');
+          assert(doc.includes('/api/duet/evaluate'), 'canonical doc must reference DUET source signal');
           assert(links.includes('EXTRIMLI — External GitHub Surface'), 'multi-repo links must contain external GitHub section');
           assert(links.includes('EXTRIMLI KORON overlay surface'), 'multi-repo links must contain KORON surface section');
           assert(links.includes('EXTRIMLI EXTRONDEND aggregation surface') && links.includes('EXTRIMLI EXTRONDOL orchestration surface'), 'multi-repo links must include EXTRONDEND/EXTRONDOL sections');
+          assert(links.includes('EXTRIMLI NIVO DUET / DINKOS signal contract'), 'multi-repo links must include NIVO DUET / DINKOS section');
           assert(links.includes('EXTRIMLI EXTEMEL/EXTREMOL WAWE map'), 'multi-repo links must include EXTRIMLI WAWE map');
           assert(links.includes('IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB'), 'multi-repo links must include bidirectional audit convention');
           assert(extrimli.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'EXTRIMLI doc must reference canonical external GitHub plan');
@@ -120,9 +123,11 @@ jobs:
           assert(agent.githubSurface?.linkedRepo === 'spaja86/IO-OPENUI-AO', 'agent config githubSurface.linkedRepo mismatch');
           assert(Array.isArray(agent.githubSurface?.outboundArtifacts) && agent.githubSurface.outboundArtifacts.includes('koron-health-snapshot'), 'agent config must declare KORON outbound artifact');
           assert(Array.isArray(agent.githubSurface?.outboundArtifacts) && agent.githubSurface.outboundArtifacts.includes('extrondend-aggregation-snapshot') && agent.githubSurface.outboundArtifacts.includes('extrondol-orchestration-snapshot'), 'agent config must declare EXTRONDEND/EXTRONDOL outbound artifacts');
+          assert(Array.isArray(agent.githubSurface?.outboundArtifacts) && agent.githubSurface.outboundArtifacts.includes('nivo-duet-dinkos-signal'), 'agent config must declare NIVO DUET / DINKOS outbound artifact');
           assert(Array.isArray(agent.multiRepoSync?.snapshots) && agent.multiRepoSync.snapshots.includes('instrukcija-export-bundle'), 'agent config must sync instrukcija-export-bundle');
           assert(Array.isArray(agent.multiRepoSync?.snapshots) && agent.multiRepoSync.snapshots.includes('koron-health-snapshot'), 'agent config must sync KORON snapshot');
           assert(Array.isArray(agent.multiRepoSync?.snapshots) && agent.multiRepoSync.snapshots.includes('extrondend-aggregation-snapshot') && agent.multiRepoSync.snapshots.includes('extrondol-orchestration-snapshot'), 'agent config must sync EXTRONDEND/EXTRONDOL snapshots');
+          assert(Array.isArray(agent.multiRepoSync?.snapshots) && agent.multiRepoSync.snapshots.includes('nivo-duet-dinkos-signal'), 'agent config must sync NIVO DUET / DINKOS snapshot');
           NODE
 
       - name: 🧪 EXTRIMLI export surface tests
@@ -139,6 +144,11 @@ jobs:
 
       - name: 🧪 EXTRIMLI EXTRONDOL orchestration tests
         run: npx tsx src/tests/lib/extrimli-extrondol.test.ts
+
+      - name: 🧪 DUET integration tests
+        run: |
+          npx tsx src/tests/lib/duet.test.ts
+          npx tsx src/tests/api/duet-route.test.ts
 
       - name: 📊 Audit summary
         if: always()
@@ -157,6 +167,7 @@ jobs:
           echo "| KORON overlay test | \`src/tests/lib/extrimli-koron.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| EXTRONDEND aggregation test | \`src/tests/lib/extrimli-extrondend.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| EXTRONDOL orchestration test | \`src/tests/lib/extrimli-extrondol.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| DUET integration tests | \`src/tests/lib/duet.test.ts\`, \`src/tests/api/duet-route.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| WAWE model | \`WAWE 1 → WAWE 5\` enforced |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Promotion freeze guard | Required when KPI/audit/sync incomplete |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"

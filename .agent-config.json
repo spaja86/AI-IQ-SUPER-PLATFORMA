@@ -469,6 +469,10 @@
         "extrondend:logic-change",
         "extrondol",
         "extrondol:logic-change",
+        "nivo-duet",
+        "nivo-duet:logic-change",
+        "dinkos",
+        "dinkos:logic-change",
         "extrimli:validated",
         "extrimli:needs-review"
       ],
@@ -514,6 +518,8 @@
           "duel-king:logic-change",
           "extrondend:logic-change",
           "extrondol:logic-change",
+          "nivo-duet:logic-change",
+          "dinkos:logic-change",
           "agent:config-change"
         ],
         "outboundArtifacts": [
@@ -522,6 +528,7 @@
           "koron-health-snapshot",
           "extrondend-aggregation-snapshot",
           "extrondol-orchestration-snapshot",
+          "nivo-duet-dinkos-signal",
           "gear-catalog",
           "destrukcija-asset-catalog",
           "instrukcija-registry",
@@ -546,6 +553,7 @@
           "koron-health-snapshot",
           "extrondend-aggregation-snapshot",
           "extrondol-orchestration-snapshot",
+          "nivo-duet-dinkos-signal",
           "instrukcija-registry",
           "instrukcija-export-bundle",
           "module-health-snapshot",
@@ -717,6 +725,10 @@
       "hipermrezaNode": 66,
       "labels": [
         "duet",
+        "nivo-duet",
+        "nivo-duet:logic-change",
+        "dinkos",
+        "dinkos:logic-change",
         "duet:logic-change",
         "duet:validated",
         "duet:needs-review"
@@ -727,6 +739,8 @@
       ],
       "releaseDocs": [
         "docs/DUET.md",
+        "docs/EXTRIMLI.md",
+        "docs/MULTI-REPO-LINKS.md",
         "docs/ROADMAP.md"
       ],
       "kpis": {
@@ -737,18 +751,25 @@
       },
       "requiredChecks": [
         "npx tsx src/tests/lib/duet.test.ts",
-        "npx tsx src/tests/api/duet-route.test.ts"
+        "npx tsx src/tests/api/duet-route.test.ts",
+        "npx tsx src/tests/lib/extrimli-extrondol.test.ts"
       ],
       "triggerPaths": [
         "src/lib/duet/**",
         "src/app/api/duet/**",
+        "src/lib/extrimli-extrondol/**",
+        "src/app/api/extrimli/extrondol/**",
         "src/tests/lib/duet.test.ts",
         "src/tests/api/duet-route.test.ts",
+        "src/tests/lib/extrimli-extrondol.test.ts",
         "docs/DUET.md",
-        ".github/workflows/duet-validator.yml"
+        "docs/EXTRIMLI.md",
+        "docs/MULTI-REPO-LINKS.md",
+        ".github/workflows/duet-validator.yml",
+        ".github/workflows/extrimli-validator.yml"
       ],
-      "linkedRepoImpact": "none",
-      "scope": "src/lib/duet/**,src/app/api/duet/**"
+      "linkedRepoImpact": "extrimli-extrondol-nivo-duet-governance",
+      "scope": "src/lib/duet/**,src/app/api/duet/**,src/lib/extrimli-extrondol/**,src/app/api/extrimli/extrondol/**"
     },
     "pilotrelax-validator-agent": {
       "enabled": true,
