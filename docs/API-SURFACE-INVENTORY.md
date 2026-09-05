@@ -29,6 +29,8 @@
 - `digitron`
 - `repozit`
 
+`digit-engine` remains a logic-level library/test surface, while `digitron` is the canonical API slug.
+
 See: `docs/API-CONTRACT-STATUS.md`.
 
 ## Rationalization candidates
