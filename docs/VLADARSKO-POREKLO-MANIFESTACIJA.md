@@ -7,6 +7,10 @@
 **Kreativni referentni vizual:**  
 `https://github.com/user-attachments/assets/033566f0-581b-452d-bf4d-abf86bb59caa`
 
+**Kanonski landing URL (registracija):** `https://spaja.nivo-spaja/vladarskog-porekla`  
+**Rezervni URL (fallback):** `https://spaja.nivo-spaja/prijava/vladarskog-porekla`  
+**Owner landing stranice:** Web tim / organizator manifestacije
+
 ---
 
 ## 1) Identitet manifestacije
@@ -55,7 +59,7 @@ Centralna figura je zaštitno lice kampanje i glavni narativni nosač poruke „
 **Naslov:** VLADARSKOG POREKLA  
 **Podnaslov:** Manifestacija kulturnog nasleđa i savremene simbolike  
 **CTA:** Rezervišite svoje mesto  
-**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave
+**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (`https://spaja.nivo-spaja/vladarskog-porekla`)
 
 **Predlog copy-ja (plakat):**
 „Vladarskog porekla — večer nasleđa, časti i budućnosti.  
@@ -131,6 +135,10 @@ Landing mora sadržati:
 - Kompletan program po segmentima
 - Blok govornici/učesnici
 - Kontakt formu i info sekciju
+
+**Putanja/slug:** `/vladarskog-porekla`  
+**Primarni domen:** `spaja.nivo-spaja`  
+**Odgovornost za objavu:** Web tim (tehnička objava) + organizator (sadržajno odobrenje)
 
 ---
 
