@@ -108,12 +108,26 @@ async function runTests(): Promise<void> {
     assert(updated.auditLog.length === 2, 'auditLog length posle upsert');
   });
 
+  await test('registerPersona ne reaktivira arhiviranu personu kroz upsert', () => {
+    _resetPersonaBankStore();
+    registerPersona(BASE_INPUT, 'ci-bot');
+    archivePersona(BASE_INPUT.id!, 'ci-bot');
+    const upserted = registerPersona({ ...BASE_INPUT, status: 'active' }, 'ci-bot');
+    assertEqual(upserted.status, 'archived', 'archived status mora ostati zaključan');
+  });
+
   await test('registerPersona generiše id ako nije prosleđen', () => {
     _resetPersonaBankStore();
     const input: PersonaRegistrationInput = { ...BASE_INPUT };
     delete (input as { id?: string }).id;
     const p = registerPersona(input, 'ci-bot');
     assert(p.id.length > 0, 'id mora biti generisan');
+  });
+
+  await test('registerPersona poštuje eksplicitni dormant status pri kreiranju', () => {
+    _resetPersonaBankStore();
+    const p = registerPersona({ ...BASE_INPUT, id: 'dormant-p', status: 'dormant' }, 'ci-bot');
+    assertEqual(p.status, 'dormant', 'status');
   });
 
   // ─── Store: get ─────────────────────────────────────────────────────────────
@@ -175,6 +189,18 @@ async function runTests(): Promise<void> {
       threw = true;
     }
     assert(threw, 'mora baciti grešku za arhiviranje');
+  });
+
+  await test('updatePersona baca grešku kada status pokušava da pređe na archived', () => {
+    _resetPersonaBankStore();
+    registerPersona(BASE_INPUT, 'ci-bot');
+    let threw = false;
+    try {
+      updatePersona('test-persona-1', { status: 'archived' }, 'ci-bot');
+    } catch {
+      threw = true;
+    }
+    assert(threw, 'mora baciti grešku za direktan archived update');
   });
 
   // ─── Store: archive ─────────────────────────────────────────────────────────

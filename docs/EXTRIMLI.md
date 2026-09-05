@@ -16,6 +16,7 @@ This repository now exposes five aligned surfaces:
 | **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
 | **EXTRONDEND** | `src/lib/extrimli-extrondend/`, `src/app/api/extrimli/extrondend/` | Active | Dedicated aggregation/scoring surface (not an alias) over v1/v3/CUZ/Extendol/KORON |
 | **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET and DINKOS signal contract |
+| **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 ## Module paths
 
@@ -31,6 +32,8 @@ This repository now exposes five aligned surfaces:
 | EXTRONDEND aggregation API route | `src/app/api/extrimli/extrondend/` |
 | EXTRONDOL orchestration library | `src/lib/extrimli-extrondol/` |
 | EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
+| World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
+| World Bank Persona bridge API route | `src/app/api/extrimli/world-bank-persona/` |
 | v3 library | `src/lib/extrimli-3/` |
 | v3 API routes | `src/app/api/extrimli-3/` |
 | DUEL KING library | `src/lib/extrimli-duel-king/` |
@@ -81,8 +84,27 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - **EXTRIMLI** ostaje bazni runtime domen (`/api/extrimli/*`) za risk/gear/event/destruction jezgro.
 - **EXTRONDEND** je **novi** aggregation/scoring modul sa source-of-truth endpointom `/api/extrimli/extrondend`.
 - **EXTRONDOL** je **novi** orchestration/readiness modul sa source-of-truth endpointom `/api/extrimli/extrondol` (naming lock: ne koristiti “EXTRANDOL” varijante).
+- **World Bank Persona Bridge** je kanonski bridge za mapiranje `/api/ai-iq-world-bank` + `/api/extrimli/*` signala u Persona Bank tok na `/api/extrimli/world-bank-persona`.
 - EXTRONDEND i EXTRONDOL nisu alias-i postojećih surface-ova (Extendol/KORON), već zasebni versioned ugovori.
 - Owner: `@spaja86`; trigger labels: `extrimli:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`, `nivo-duet:logic-change`, `dinkos:logic-change`.
+
+## EXTRIMLI World Bank → Persona bridge
+
+- Source of truth endpoint: `/api/extrimli/world-bank-persona`
+- Contract constants:
+  - `EXTRIMLI_WORLD_BANK_PERSONA_CONTRACT_VERSION = v1-extrimli-world-bank-persona`
+  - `EXTRIMLI_WORLD_BANK_PERSONA_MODULE_VERSION = 1.0.0`
+- Input contracts:
+  - `/api/ai-iq-world-bank` (financial + operational context)
+  - `/api/extrimli/health` and `/api/extrimli/extrondol` (risk/readiness + WAWE governance)
+- Output contract:
+  - Persona-centric payload for `extrimli-core` with mapped attributes (`domain`, `skills`, `tone`)
+  - Lifecycle decision: `ACTIVE | DORMANT | HOLD`
+  - Persona Bank write path: `/api/persona-bank` (apply mode)
+- Governance gate:
+  - WAWE sequencing from EXTRONDOL is mandatory
+  - Promotion is blocked when `promotionFreeze` is true or required evidence is missing
+  - Degraded signals force conservative lifecycle posture (dormant target) instead of hard failure
 
 ## EXTRIMLI v1 capabilities
 

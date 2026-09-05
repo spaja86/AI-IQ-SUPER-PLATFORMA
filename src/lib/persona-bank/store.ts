@@ -17,6 +17,41 @@ import type {
 
 const STALE_DAYS = 30;
 
+export class PersonaBankError extends Error {
+  constructor(message: string, public readonly code: string) {
+    super(message);
+    this.name = 'PersonaBankError';
+  }
+}
+
+export class PersonaLockConflictError extends PersonaBankError {
+  constructor(id: string) {
+    super(`Persona lock conflict: ${id} is being modified by another operation`, 'LOCK_CONFLICT');
+    this.name = 'PersonaLockConflictError';
+  }
+}
+
+export class PersonaNotFoundError extends PersonaBankError {
+  constructor(id: string) {
+    super(`Persona not found: ${id}`, 'NOT_FOUND');
+    this.name = 'PersonaNotFoundError';
+  }
+}
+
+export class PersonaArchivedError extends PersonaBankError {
+  constructor(id: string) {
+    super(`Cannot update archived persona: ${id}`, 'ARCHIVED');
+    this.name = 'PersonaArchivedError';
+  }
+}
+
+export class PersonaInvalidTransitionError extends PersonaBankError {
+  constructor(message: string) {
+    super(message, 'INVALID_TRANSITION');
+    this.name = 'PersonaInvalidTransitionError';
+  }
+}
+
 // ─── In-memory store ─────────────────────────────────────────────────────────
 
 const personas = new Map<string, Persona>();
@@ -44,7 +79,7 @@ export function registerPersona(input: PersonaRegistrationInput, agentId: string
   const id = input.id ?? randomUUID();
 
   if (!acquireLock(id)) {
-    throw new Error(`Persona lock conflict: ${id} is being modified by another operation`);
+    throw new PersonaLockConflictError(id);
   }
 
   try {
@@ -62,7 +97,9 @@ export function registerPersona(input: PersonaRegistrationInput, agentId: string
         attributes: input.attributes,
         linkedAgents: input.linkedAgents ?? existing.linkedAgents,
         crossRepoRef: input.crossRepoRef ?? existing.crossRepoRef,
-        status: existing.status === 'archived' ? 'active' : existing.status,
+        status: existing.status === 'archived'
+          ? 'archived'
+          : (input.status ?? existing.status),
         version: existing.version + 1,
         updatedAt: now,
         auditLog: [
@@ -86,7 +123,7 @@ export function registerPersona(input: PersonaRegistrationInput, agentId: string
       octave: input.octave,
       hipermrezaNode: input.hipermrezaNode,
       attributes: input.attributes,
-      status: 'active',
+      status: input.status ?? 'active',
       linkedAgents: input.linkedAgents ?? [],
       crossRepoRef: input.crossRepoRef,
       version: 1,
@@ -120,13 +157,14 @@ export function getPersona(id: string): Persona | null {
  */
 export function updatePersona(id: string, input: PersonaUpdateInput, agentId: string): Persona {
   if (!acquireLock(id)) {
-    throw new Error(`Persona lock conflict: ${id} is being modified by another operation`);
+    throw new PersonaLockConflictError(id);
   }
 
   try {
     const existing = personas.get(id);
-    if (!existing) throw new Error(`Persona not found: ${id}`);
-    if (existing.status === 'archived') throw new Error(`Cannot update archived persona: ${id}`);
+    if (!existing) throw new PersonaNotFoundError(id);
+    if (existing.status === 'archived') throw new PersonaArchivedError(id);
+    if (input.status === 'archived') throw new PersonaInvalidTransitionError('Use archivePersona for archived status transition');
 
     const now = new Date().toISOString();
     const updated: Persona = {
@@ -136,6 +174,7 @@ export function updatePersona(id: string, input: PersonaUpdateInput, agentId: st
       linkedAgents: input.linkedAgents ?? existing.linkedAgents,
       octave: input.octave ?? existing.octave,
       hipermrezaNode: input.hipermrezaNode ?? existing.hipermrezaNode,
+      status: input.status ?? existing.status,
       crossRepoRef: input.crossRepoRef ?? existing.crossRepoRef,
       version: existing.version + 1,
       updatedAt: now,
@@ -161,12 +200,12 @@ export function updatePersona(id: string, input: PersonaUpdateInput, agentId: st
  */
 export function archivePersona(id: string, agentId: string): Persona {
   if (!acquireLock(id)) {
-    throw new Error(`Persona lock conflict: ${id} is being modified by another operation`);
+    throw new PersonaLockConflictError(id);
   }
 
   try {
     const existing = personas.get(id);
-    if (!existing) throw new Error(`Persona not found: ${id}`);
+    if (!existing) throw new PersonaNotFoundError(id);
 
     const now = new Date().toISOString();
     const archived: Persona = {

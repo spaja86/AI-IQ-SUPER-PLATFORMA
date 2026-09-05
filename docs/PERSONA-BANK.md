@@ -104,6 +104,7 @@ const { imported, errors } = client.bulkImport([...]);
 | `nova-generacija-agent` | `nova-generacija` | Weekly sync |
 | `gigatron-validator-agent` | `gigatron` | PR trigger |
 | `gaming` (calculator-validator) | `gaming` | PR trigger |
+| `extrimli-world-bank-persona-orchestrator` | `extrimli` | EXTRIMLI World Bank persona bridge apply trigger |
 
 ---
 
@@ -135,6 +136,18 @@ Nightly cron (`0 2 * * *`) via `.github/workflows/persona-bank-validator.yml`:
 Persona Bank snapshots are synced to `spaja86/IO-OPENUI-AO` via the `multi-repo-sync-agent`. Conflict resolution uses last-write-wins with version check. Sync status is logged in `docs/MULTI-REPO-LINKS.md`.
 
 See: [MULTI-REPO-LINKS.md](./MULTI-REPO-LINKS.md)
+
+### EXTRIMLI World Bank integration path
+
+- Bridge endpoint: `POST /api/extrimli/world-bank-persona` (`GET` for preview)
+- Source inputs:
+  - `/api/ai-iq-world-bank` (financial/operational business signals)
+  - `/api/extrimli/health` + `/api/extrimli/extrondol` (risk/readiness + WAWE governance gate)
+- Persona target: `extrimli-core`
+- Governance behavior:
+  - `HOLD` lifecycle when WAWE promotion is frozen or evidence is missing
+  - Conservative status target (`dormant`) under degraded posture
+  - Apply mode is authenticated by `x-extrimli-bridge-token` and writes audit entries with fixed agent id `extrimli-world-bank-persona-orchestrator`
 
 ---
 

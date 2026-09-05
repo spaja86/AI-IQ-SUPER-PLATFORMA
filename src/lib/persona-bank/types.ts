@@ -64,6 +64,7 @@ export interface PersonaRegistrationInput {
   octave: number;
   hipermrezaNode: number;
   attributes: PersonaAttributes;
+  status?: 'active' | 'dormant';
   linkedAgents?: string[];
   crossRepoRef?: string;
 }
@@ -74,6 +75,7 @@ export interface PersonaUpdateInput {
   linkedAgents?: string[];
   octave?: number;
   hipermrezaNode?: number;
+  status?: PersonaStatus;
   crossRepoRef?: string;
 }
 
