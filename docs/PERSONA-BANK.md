@@ -147,7 +147,7 @@ See: [MULTI-REPO-LINKS.md](./MULTI-REPO-LINKS.md)
 - Governance behavior:
   - `HOLD` lifecycle when WAWE promotion is frozen or evidence is missing
   - Conservative status target (`dormant`) under degraded posture
-  - Apply mode appends Persona Bank audit log with `X-Agent-Id` identity
+  - Apply mode is authenticated by `x-extrimli-bridge-token` and writes audit entries with fixed agent id `extrimli-world-bank-persona-orchestrator`
 
 ---
 

@@ -918,7 +918,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | Bridge contract | `/api/extrimli/world-bank-persona` |
 | Persona target | `extrimli-core` |
 | Governance gate | WAWE + promotion freeze + evidence lock (`contract`, `onboarding`, `downstream sync`, `audit`, `human review`) |
-| Trigger | `extrimli:logic-change` + manual apply with `X-Agent-Id` |
+| Trigger | `extrimli:logic-change` + manual apply with `x-extrimli-bridge-token` (audit agent fixed to `extrimli-world-bank-persona-orchestrator`) |
 | Ownership | `@spaja86 / Kompanija SPAJA / Digitalna Industrija` |
 
 | Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
