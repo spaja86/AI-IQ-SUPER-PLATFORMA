@@ -66,6 +66,10 @@ function recordEvaluation(status: DuetStatus | null): void {
   lastEvaluatedAt = new Date().toISOString();
 }
 
+function isBoundedScore(value: number): boolean {
+  return Number.isFinite(value) && value >= DUET_MIN_SCORE && value <= DUET_MAX_SCORE;
+}
+
 function invalidResult(referenceId: string | undefined, warning: string, start: number): DuetResult {
   recordEvaluation(null);
   return {
@@ -80,7 +84,7 @@ function invalidResult(referenceId: string | undefined, warning: string, start: 
     overallScore: 0,
     status: 'DISSONANT',
     recommendedAction: 'RESET_EXPECTATIONS',
-    recommendedWindowHours: 0,
+    recommendedWindowHours: 1,
     warnings: [warning],
     disclaimer: DUET_DISCLAIMER,
     valid: false,
@@ -220,23 +224,23 @@ export function evaluateDuet(input: DuetInput): DuetResult {
     );
   }
 
-  if (!Number.isFinite(input.clarityScore) || input.clarityScore < 0 || input.clarityScore > 100) {
+  if (!isBoundedScore(input.clarityScore)) {
     return invalidResult(input.referenceId, 'clarityScore must be within 0..100', start);
   }
 
-  if (!Number.isFinite(input.reciprocityScore) || input.reciprocityScore < 0 || input.reciprocityScore > 100) {
+  if (!isBoundedScore(input.reciprocityScore)) {
     return invalidResult(input.referenceId, 'reciprocityScore must be within 0..100', start);
   }
 
-  if (!Number.isFinite(input.trustScore) || input.trustScore < 0 || input.trustScore > 100) {
+  if (!isBoundedScore(input.trustScore)) {
     return invalidResult(input.referenceId, 'trustScore must be within 0..100', start);
   }
 
-  if (!Number.isFinite(input.rhythmScore) || input.rhythmScore < 0 || input.rhythmScore > 100) {
+  if (!isBoundedScore(input.rhythmScore)) {
     return invalidResult(input.referenceId, 'rhythmScore must be within 0..100', start);
   }
 
-  if (!Number.isFinite(input.tensionLevel) || input.tensionLevel < 0 || input.tensionLevel > 100) {
+  if (!isBoundedScore(input.tensionLevel)) {
     return invalidResult(input.referenceId, 'tensionLevel must be within 0..100', start);
   }
 
