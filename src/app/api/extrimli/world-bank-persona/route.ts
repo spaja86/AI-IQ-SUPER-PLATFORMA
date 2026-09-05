@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'crypto';
+import { createHash, timingSafeEqual } from 'crypto';
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
 import {
@@ -13,10 +13,9 @@ import type { ExtrimliExtrondolGovernanceEvidence } from '@/lib/extrimli-extrond
 export const dynamic = 'force-dynamic';
 
 function tokensMatch(expectedToken: string, providedToken: string): boolean {
-  const expectedBuffer = Buffer.from(expectedToken, 'utf8');
-  const providedBuffer = Buffer.from(providedToken, 'utf8');
-  if (expectedBuffer.length !== providedBuffer.length) return false;
-  return timingSafeEqual(expectedBuffer, providedBuffer);
+  const expectedDigest = createHash('sha256').update(expectedToken, 'utf8').digest();
+  const providedDigest = createHash('sha256').update(providedToken, 'utf8').digest();
+  return timingSafeEqual(expectedDigest, providedDigest);
 }
 
 export async function GET() {
