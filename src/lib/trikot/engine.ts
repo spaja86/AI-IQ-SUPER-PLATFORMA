@@ -256,10 +256,8 @@ export function evaluateTrikot(input: TrikotInput): TrikotResult {
   const recommendedAction = resolveRecommendedAction(input, status);
   const recommendedReviewHours = resolveRecommendedReviewHours(recommendedAction, status);
   const warnings = buildWarnings(input, status);
-
-  recordEvaluation(status);
-
-  return {
+  const durationMs = round2(performance.now() - start);
+  const result: TrikotResult = {
     referenceId: input.referenceId ?? 'n/a',
     objective: input.objective,
     season: input.season,
@@ -275,8 +273,11 @@ export function evaluateTrikot(input: TrikotInput): TrikotResult {
     warnings,
     disclaimer: TRIKOT_DISCLAIMER,
     valid: true,
-    durationMs: round2(performance.now() - start),
+    durationMs,
   };
+
+  recordEvaluation(result.status);
+  return result;
 }
 
 export function getTrikotHealthReport(): TrikotHealthReport {
