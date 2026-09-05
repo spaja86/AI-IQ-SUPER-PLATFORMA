@@ -275,7 +275,7 @@ jobs:
       - name: 🔑 Secret heuristics scan — EXTRIMLI paths
         uses: ./.github/actions/secret-scan
         with:
-          paths: |
+          paths: >-
             src/lib/extrimli
             src/lib/extrimli-extrondend
             src/lib/extrimli-extrondol
