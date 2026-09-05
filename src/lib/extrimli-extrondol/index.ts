@@ -447,7 +447,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     {
       id: 'distance-ratio-ekvilater-table',
       description: 'DISTANCE RATIO EKVILATER is exposed as an additive derived-readiness table over EXTRONDEND, EXTENDOL, and KORON score distances.',
-      passed: distanceRatioEkvilaterTable.contractField === EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD
+      passed: distanceRatioEkvilaterTable.requestedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME
+        && distanceRatioEkvilaterTable.normalizedTableName === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME
+        && distanceRatioEkvilaterTable.legacyRequestedTableNames.join(',') === EXTRONDOL_DISTANCE_RATIO_EKVILATER_COMPATIBILITY_ALIASES.join(',')
+        && distanceRatioEkvilaterTable.contractField === EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD
+        && distanceRatioEkvilaterTable.version === EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION
+        && distanceRatioEkvilaterTable.interpretation === EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION
+        && distanceRatioEkvilaterTable.targetShape === EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE
+        && distanceRatioEkvilaterTable.scoringSource.join(',') === EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE.join(',')
         && distanceRatioEkvilaterTable.rows.length === 3
         && Number.isFinite(distanceRatioEkvilaterTable.summary.equilateralConsistency),
     },
