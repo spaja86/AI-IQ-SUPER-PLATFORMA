@@ -11,6 +11,7 @@ export function validateRequestShape(
     const value = candidate[field];
     if (value === undefined) return `${field} is required (string)`;
     if (typeof value !== 'string') return `${field} must be a string`;
+    if (value.trim() === '') return `${field} must be a non-empty string`;
   }
 
   for (const field of requiredFiniteNumberFields) {

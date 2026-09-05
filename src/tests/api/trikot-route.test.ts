@@ -156,6 +156,26 @@ async function runTests(): Promise<void> {
     assert(body.error === 'objective is required (string)', `unexpected error message: ${body.error}`);
   });
 
+  await test('POST /api/trikot/evaluate returns 400 for empty string objective', async () => {
+    const response = await POST(makeEvaluateRequest({
+      objective: '',
+      season: 'SUMMER',
+      dressCode: 'RELAXED',
+      comfortScore: 60,
+      weatherFitScore: 60,
+      budgetFitScore: 60,
+      mobilityScore: 60,
+      maintenanceRisk: 30,
+      prepTimeHours: 3,
+      accessoryComplexity: 2,
+    }));
+
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+    const body = await response.json() as { code: string; error: string };
+    assert(body.code === 'BAD_REQUEST', `expected BAD_REQUEST, got ${body.code}`);
+    assert(body.error === 'objective must be a non-empty string', `unexpected error message: ${body.error}`);
+  });
+
   await test('POST /api/trikot/evaluate returns 400 for shallow-shape mismatch', async () => {
     const response = await POST(makeEvaluateRequest({
       objective: 'SPORT',
