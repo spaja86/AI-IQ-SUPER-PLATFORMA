@@ -277,7 +277,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     sourceOfTruthLocked: true,
     additiveContractPolicy: true,
     orchestrationInputs: {
-      surfaces: ['EXTRONDEND', 'EXTENDOL', 'KORON'],
+      upstreamSurfaces: ['EXTRONDEND', 'EXTENDOL', 'KORON'],
       duetRole: 'signal-only',
     },
     rolloutProgram: {

@@ -134,7 +134,7 @@ export interface ExtrimliExtrondolStartProject {
   sourceOfTruthLocked: true;
   additiveContractPolicy: true;
   orchestrationInputs: {
-    surfaces: readonly ['EXTRONDEND', 'EXTENDOL', 'KORON'];
+    upstreamSurfaces: readonly ['EXTRONDEND', 'EXTENDOL', 'KORON'];
     duetRole: 'signal-only';
   };
   rolloutProgram: {

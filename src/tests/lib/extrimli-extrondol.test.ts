@@ -213,7 +213,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.programName === 'START PROJEKAT', 'START project name mismatch');
     assert(report.startProject.sourceOfTruthLocked, 'START project must keep source-of-truth lock');
     assert(report.startProject.additiveContractPolicy, 'START project must remain additive-only');
-    assert(report.startProject.orchestrationInputs.surfaces.join(',') === 'EXTRONDEND,EXTENDOL,KORON', 'START project inputs mismatch');
+    assert(report.startProject.orchestrationInputs.upstreamSurfaces.join(',') === 'EXTRONDEND,EXTENDOL,KORON', 'START project inputs mismatch');
     assert(report.startProject.orchestrationInputs.duetRole === 'signal-only', 'DUET must remain signal-only in START project');
     assert(report.startProject.rolloutProgram.wawes.length === 5, 'START project must expose 5 WAWE stages');
     assert(report.startProject.rolloutProgram.wawes[0].freezeRequired === true, 'WAWE-1 must require freeze');
