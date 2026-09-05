@@ -108,6 +108,25 @@ async function runTests(): Promise<void> {
     assert(result.recommendedAction === 'VALIDATE_DETAILS', `expected VALIDATE_DETAILS, got ${result.recommendedAction}`);
   });
 
+  await test('stable profile lands in ready status', () => {
+    const result = evaluateTrikot({
+      objective: 'BUSINESS',
+      season: 'SPRING',
+      dressCode: 'RELAXED',
+      comfortScore: 74,
+      weatherFitScore: 72,
+      budgetFitScore: 70,
+      mobilityScore: 68,
+      maintenanceRisk: 35,
+      prepTimeHours: 6,
+      accessoryComplexity: 4,
+    });
+
+    assert(result.valid, 'result should be valid');
+    assert(result.status === 'READY', `expected READY, got ${result.status}`);
+    assert(result.recommendedAction === 'LOCK_COMBINATION', `expected LOCK_COMBINATION, got ${result.recommendedAction}`);
+  });
+
   await test('high-maintenance profile returns rework with warnings', () => {
     const result = evaluateTrikot({
       objective: 'CASUAL',

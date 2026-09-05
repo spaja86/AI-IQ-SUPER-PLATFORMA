@@ -166,15 +166,15 @@ async function runTests(): Promise<void> {
     assert(response.headers.get('X-Trikot-Status') === null, 'shape-validation failures must not include status headers');
     const body = await response.json() as { code: string; error: string };
     assert(body.code === 'BAD_REQUEST', `expected BAD_REQUEST, got ${body.code}`);
-    assert(body.error === 'comfortScore is required (finite number)', `unexpected error message: ${body.error}`);
+    assert(body.error === 'comfortScore must be a number', `unexpected error message: ${body.error}`);
   });
 
-  await test('POST /api/trikot/evaluate returns 400 for non-finite numeric field', async () => {
+  await test('POST /api/trikot/evaluate returns 400 for non-numeric field value', async () => {
     const response = await POST(makeEvaluateRequest({
       objective: 'SPORT',
       season: 'SPRING',
       dressCode: 'RELAXED',
-      comfortScore: NaN,
+      comfortScore: null,
       weatherFitScore: 85,
       budgetFitScore: 70,
       mobilityScore: 90,
@@ -187,7 +187,7 @@ async function runTests(): Promise<void> {
     assert(response.headers.get('X-Trikot-Valid') === null, 'shape-validation failures must not include TRIKOT evaluation headers');
     const body = await response.json() as { code: string; error: string };
     assert(body.code === 'BAD_REQUEST', `expected BAD_REQUEST, got ${body.code}`);
-    assert(body.error === 'comfortScore is required (finite number)', `unexpected error message: ${body.error}`);
+    assert(body.error === 'comfortScore must be a number', `unexpected error message: ${body.error}`);
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

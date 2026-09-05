@@ -11,7 +11,9 @@ export const dynamic = 'force-dynamic';
 function validateRequestShape(candidate: Record<string, unknown>): string | null {
   const requiredStringFields = ['objective', 'season', 'dressCode'] as const;
   for (const field of requiredStringFields) {
-    if (typeof candidate[field] !== 'string') return `${field} is required (string)`;
+    const value = candidate[field];
+    if (value === undefined) return `${field} is required (string)`;
+    if (typeof value !== 'string') return `${field} must be a string`;
   }
 
   const requiredNumberFields = [
@@ -24,9 +26,10 @@ function validateRequestShape(candidate: Record<string, unknown>): string | null
     'accessoryComplexity',
   ] as const;
   for (const field of requiredNumberFields) {
-    if (typeof candidate[field] !== 'number' || !Number.isFinite(candidate[field])) {
-      return `${field} is required (finite number)`;
-    }
+    const value = candidate[field];
+    if (value === undefined) return `${field} is required (number)`;
+    if (typeof value !== 'number') return `${field} must be a number`;
+    if (!Number.isFinite(value)) return `${field} must be a finite number`;
   }
 
   return null;
