@@ -221,7 +221,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? 'RING-1-STAGING'
       : currentWawe === 'WAWE-3'
         ? 'RING-2-CANARY'
-        : 'RING-3-PRODUCTION';
+        : currentWawe === 'WAWE-4'
+          ? 'RING-3-PRODUCTION'
+          : 'RING-4-RESILIENCE';
   const partnerReadinessWarnings = [
     ...duetSignal.warnings.map((warning) => `DUET: ${warning}`),
     ...(!domainStrategy.valid ? ['Domain strategy lock is invalid for B2B rollout.'] : []),

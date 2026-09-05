@@ -91,7 +91,7 @@ export interface ExtrimliExtrondolB2bReadiness {
     organizationName: string;
     accountOwner: string;
     environmentTier: 'B2B';
-    rolloutRing: 'RING-0-CONTRACT' | 'RING-1-STAGING' | 'RING-2-CANARY' | 'RING-3-PRODUCTION';
+    rolloutRing: 'RING-0-CONTRACT' | 'RING-1-STAGING' | 'RING-2-CANARY' | 'RING-3-PRODUCTION' | 'RING-4-RESILIENCE';
   };
   support: {
     slaTier: 'enterprise-governed';
