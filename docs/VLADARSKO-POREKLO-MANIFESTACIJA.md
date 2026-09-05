@@ -7,8 +7,8 @@
 **Kreativni referentni vizual:**  
 `https://github.com/user-attachments/assets/033566f0-581b-452d-bf4d-abf86bb59caa`
 
-**Planirani kanonski landing URL (registracija):** `https://spaja.nivo-spaja/vladarskog-porekla`  
-**Planirani rezervni URL (fallback):** `https://spaja.nivo-spaja/prijava/vladarskog-porekla`  
+**Planirani kanonski landing URL (primer, nije produkcioni domen):** `https://spaja.nivo-spaja/vladarskog-porekla`  
+**Planirani rezervni URL (primer, nije produkcioni domen):** `https://spaja.nivo-spaja/prijava/vladarskog-porekla`  
 **Owner landing stranice:** `@spaja86` + IO-OPENUI-AO Web Experience tim
 
 ### Downstream implementacija i audit reference
@@ -25,10 +25,16 @@
 - CTA dugme: „Prijava“
 - Sekcija „Program manifestacije“ (agenda po terminima)
 - Sekcija „Govornici i učesnici“ (ime, titula/uloga, kratki opis)
-- Sekcija „Kontakt i informacije“ (email, telefon, lokacija)
+- Sekcija „Kontakt i informacije“ (email, telefon, lokacija; statički info blok u v1)
 
 **API kontrakt (`POST /api/vladarskog-porekla/register`)**
-- Request polja: `fullName`, `email`, `phone`, `city`, `tickets`, `consent`
+- Request polja:
+  - `fullName: string` (2–120 karaktera)
+  - `email: string` (RFC-like email format)
+  - `phone: string` (6–24 karaktera, dozvoljeni `+`, razmak, `-`)
+  - `city?: string` (opciono, max 120 karaktera)
+  - `tickets: number` (ceo broj, `>= 1`)
+  - `consent: boolean` (mora biti `true`)
 - Validacija: sva polja obavezna osim `city`; `email` validan format; `tickets >= 1`; `consent = true`
 - Success response: `{ "ok": true, "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
 - Error response: `{ "ok": false, "error": "VALIDATION_ERROR|DUPLICATE|SERVER_ERROR", "message": "..." }`
@@ -156,7 +162,7 @@ Landing mora sadržati:
 - Hero sekciju sa ključnim vizualom i CTA dugmetom „Prijava“
 - Kompletan program po segmentima
 - Sekcija „Govornici i učesnici“ sa listom imena, titula i kratkih biografija
-- Kontakt formu i info sekciju
+- Kontakt info sekciju (statički podaci; bez submit forme u v1)
 
 **Putanja/slug:** `/vladarskog-porekla`  
 **Primarni domen:** `spaja.nivo-spaja`  
