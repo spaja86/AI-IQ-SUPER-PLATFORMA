@@ -1,10 +1,15 @@
 import {
+  EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_CONTRACT_VERSION,
+  EXTRONDOL_DUET_STATUS_ADJUSTMENT,
+  EXTRONDOL_DUET_WARNING_PENALTY_CAP,
+  EXTRONDOL_DUET_WARNING_PENALTY_STEP,
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_MODULE_VERSION,
+  EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -42,10 +47,10 @@ function round2(value: number): number {
 }
 
 function duetStatusAdjustment(status: string): number {
-  if (status === 'HARMONIZED') return 4;
-  if (status === 'ALIGNED') return 2;
-  if (status === 'FRAGILE') return -6;
-  return -14;
+  if (status === 'HARMONIZED') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.HARMONIZED;
+  if (status === 'ALIGNED') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.ALIGNED;
+  if (status === 'FRAGILE') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.FRAGILE;
+  return EXTRONDOL_DUET_STATUS_ADJUSTMENT.DISSONANT;
 }
 
 async function runTests(): Promise<void> {
@@ -123,10 +128,10 @@ async function runTests(): Promise<void> {
       ),
     );
     const statusAdjustment = duetStatusAdjustment(report.nivoDuet.signal.status);
-    const warningPenalty = Math.min(12, report.nivoDuet.signal.warnings.length * 4);
+    const warningPenalty = Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, report.nivoDuet.signal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP);
     const expected = round2(
       clamp(
-        baseScore * 0.82 + report.nivoDuet.signal.overallScore * 0.18 + (statusAdjustment - warningPenalty),
+        baseScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE + (statusAdjustment - warningPenalty),
         0,
         100,
       ),

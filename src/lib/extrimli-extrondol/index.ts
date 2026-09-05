@@ -13,12 +13,18 @@ import {
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_API_MAX_MS,
+  EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_BUILD_MAX_MIN,
   EXTRONDOL_CONTRACT_VERSION,
+  EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY,
+  EXTRONDOL_DUET_STATUS_ADJUSTMENT,
+  EXTRONDOL_DUET_WARNING_PENALTY_CAP,
+  EXTRONDOL_DUET_WARNING_PENALTY_STEP,
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_EVALUATION_MAX_MS,
   EXTRONDOL_MODULE_VERSION,
+  EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_NIVO_DUET_SEGMENT,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
@@ -86,10 +92,10 @@ function mapDuetEnergy(score: number): 'LOW' | 'MEDIUM' | 'HIGH' {
 }
 
 function mapDuetStatusAdjustment(status: string): number {
-  if (status === 'HARMONIZED') return 4;
-  if (status === 'ALIGNED') return 2;
-  if (status === 'FRAGILE') return -6;
-  return -14;
+  if (status === 'HARMONIZED') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.HARMONIZED;
+  if (status === 'ALIGNED') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.ALIGNED;
+  if (status === 'FRAGILE') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.FRAGILE;
+  return EXTRONDOL_DUET_STATUS_ADJUSTMENT.DISSONANT;
 }
 
 export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
@@ -139,10 +145,10 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
   );
   const duetScore = duetSignal.valid ? duetSignal.overallScore : 0;
   const duetAdjustment = duetSignal.valid
-    ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(12, duetSignal.warnings.length * 4)
-    : -25;
+    ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, duetSignal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP)
+    : -EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY;
   const orchestrationReadinessScore = round(
-    clamp(baseOrchestrationScore * 0.82 + duetScore * 0.18 + duetAdjustment, 0, 100),
+    clamp(baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE + duetScore * EXTRONDOL_NIVO_DUET_SHARE + duetAdjustment, 0, 100),
     2,
   );
 
@@ -281,7 +287,12 @@ export type {
 
 export {
   EXTRONDOL_API_MAX_MS,
+  EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_BUILD_MAX_MIN,
+  EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY,
+  EXTRONDOL_DUET_STATUS_ADJUSTMENT,
+  EXTRONDOL_DUET_WARNING_PENALTY_CAP,
+  EXTRONDOL_DUET_WARNING_PENALTY_STEP,
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_CONTRACT_VERSION,
@@ -289,6 +300,7 @@ export {
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_EVALUATION_MAX_MS,
   EXTRONDOL_MODULE_VERSION,
+  EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_NIVO_DUET_SEGMENT,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
