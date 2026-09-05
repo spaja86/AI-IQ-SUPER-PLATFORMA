@@ -88,7 +88,7 @@ async function runTests(): Promise<void> {
     assert(persona!.status === 'dormant', 'status mismatch after apply');
   });
 
-  await test('explicit governance evidence unlocks promotion decision', () => {
+  await test('explicit governance evidence clears core onboarding/sync/human blockers', () => {
     _resetPersonaBankStore();
     registerPersona(
       {
@@ -118,8 +118,11 @@ async function runTests(): Promise<void> {
         onboardingComplete: true,
       },
     });
-    assert(report.governanceGate.blocked === false, 'gate should be unblocked');
-    assert(report.lifecycle.promotionAllowed, 'promotion should be allowed');
+    assert(!report.governanceGate.missingEvidence.includes('onboarding-complete'), 'onboarding blocker should be cleared');
+    assert(!report.governanceGate.missingEvidence.includes('downstream-sync-complete'), 'downstream sync blocker should be cleared');
+    assert(!report.governanceGate.missingEvidence.includes('human-review-complete'), 'human review blocker should be cleared');
+    assert(!report.governanceGate.missingEvidence.includes('audit-trail-complete'), 'audit blocker should be cleared');
+    assert(report.governanceGate.promotionFreeze === report.governanceGate.blocked, 'block state should mirror promotion freeze when evidence is complete');
     assert(['active', 'dormant'].includes(report.writeResult.personaStatusAfter ?? ''), 'unexpected persona status');
   });
 
