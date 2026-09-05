@@ -2,6 +2,12 @@
 
 ## Snapshot
 
+Generated on: **2026-09-05**
+
+Generation source:
+- `python` aggregation over `src/app/api/**/route.ts`
+- `python` aggregation over `src/tests/**/.test.*`
+
 - Total route handlers (`src/app/api/**/route.ts`): **1480**
 - Test suites:
   - `src/tests/lib`: **121**

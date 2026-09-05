@@ -2,10 +2,12 @@ import { existsSync, readdirSync } from 'node:fs';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const directory = process.argv[2];
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, '..');
+const require = createRequire(import.meta.url);
 
 if (!directory) {
   console.error('Usage: node scripts/run-tsx-tests.mjs <tests-directory>');
@@ -26,7 +28,7 @@ function collectTestFiles(baseDir) {
       files.push(...collectTestFiles(fullPath));
       continue;
     }
-    if (entry.isFile() && entry.name.endsWith('.test.ts')) {
+    if (entry.isFile() && /\.test\.(ts|mts|tsx)$/u.test(entry.name)) {
       files.push(fullPath);
     }
   }
@@ -36,9 +38,16 @@ function collectTestFiles(baseDir) {
 
 const targetDirectory = isAbsolute(directory) ? directory : resolve(repoRoot, directory);
 const testFiles = collectTestFiles(targetDirectory);
-const tsxCommand = process.platform === 'win32'
-  ? resolve(repoRoot, 'node_modules', '.bin', 'tsx.cmd')
-  : resolve(repoRoot, 'node_modules', '.bin', 'tsx');
+const tsxPackagePath = require.resolve('tsx/package.json', { paths: [repoRoot] });
+const tsxPackage = require(tsxPackagePath);
+const tsxBinEntry = typeof tsxPackage.bin === 'string' ? tsxPackage.bin : tsxPackage.bin?.tsx;
+
+if (!tsxBinEntry) {
+  console.error('Unable to resolve tsx CLI entrypoint from package metadata.');
+  process.exit(1);
+}
+
+const tsxCliPath = resolve(dirname(tsxPackagePath), tsxBinEntry);
 
 if (testFiles.length === 0) {
   console.error(`No test files found in: ${targetDirectory}`);
@@ -46,7 +55,7 @@ if (testFiles.length === 0) {
 }
 
 for (const file of testFiles) {
-  const command = spawnSync(tsxCommand, [file], {
+  const command = spawnSync(process.execPath, [tsxCliPath, file], {
     stdio: 'inherit',
     cwd: repoRoot,
   });
