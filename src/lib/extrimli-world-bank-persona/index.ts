@@ -175,10 +175,10 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
 
   if (mode === 'apply') {
     const client = createPersonaBankClient(agentId);
-    const existing = client.get(EXTRIMLI_PERSONA_ID);
+    const existing = client.get(personaPayload.id);
     const targetStatus = lifecycle.targetPersonaStatus;
     const updated = existing
-      ? client.update(EXTRIMLI_PERSONA_ID, {
+      ? client.update(personaPayload.id, {
         name: personaPayload.name,
         octave: personaPayload.octave,
         hipermrezaNode: personaPayload.hipermrezaNode,

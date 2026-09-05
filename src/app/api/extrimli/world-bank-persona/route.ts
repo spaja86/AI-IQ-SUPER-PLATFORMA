@@ -34,9 +34,12 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const configuredExpectedToken = process.env.EXTRIMLI_WORLD_BANK_PERSONA_APPLY_TOKEN;
-  const expectedToken = configuredExpectedToken ?? '__missing-expected-bridge-token__';
+  if (!configuredExpectedToken) {
+    return apiError('INTERNAL_ERROR', 'EXTRIMLI_WORLD_BANK_PERSONA_APPLY_TOKEN is not configured', 500);
+  }
+  const expectedToken = configuredExpectedToken;
   const providedToken = req.headers.get('x-extrimli-bridge-token') ?? '__missing-provided-bridge-token__';
-  const authorized = Boolean(configuredExpectedToken) && tokensMatch(expectedToken, providedToken);
+  const authorized = tokensMatch(expectedToken, providedToken);
   if (!authorized) {
     return apiError('FORBIDDEN', 'Server-authenticated bridge token is required for persona apply', 403);
   }
