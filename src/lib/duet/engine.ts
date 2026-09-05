@@ -153,7 +153,6 @@ function resolveRecommendedAction(input: DuetInput, status: DuetStatus): DuetAct
 }
 
 function resolveRecommendedWindowHours(
-  input: DuetInput,
   action: DuetAction,
   status: DuetStatus,
 ): number {
@@ -269,7 +268,7 @@ export function evaluateDuet(input: DuetInput): DuetResult {
   );
   const status = resolveStatus(input, overallScore);
   const recommendedAction = resolveRecommendedAction(input, status);
-  const recommendedWindowHours = resolveRecommendedWindowHours(input, recommendedAction, status);
+  const recommendedWindowHours = resolveRecommendedWindowHours(recommendedAction, status);
   const warnings = buildWarnings(input, status, resilienceScore);
 
   recordEvaluation(status);
