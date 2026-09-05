@@ -170,7 +170,7 @@ function resolveRecommendedWindowDays(
 ): number {
   const statusAdjustment = status === 'EXEMPLARY' ? 7 : status === 'FRAGILE' ? -4 : 0;
   const base = (OBJECTIVE_TARGET_DAYS[objective] + ACTION_TARGET_DAYS[action]) / 2;
-  return clamp(base + statusAdjustment, 1, KULKON_MAX_WINDOW_DAYS);
+  return clamp(Math.round(base + statusAdjustment), 1, KULKON_MAX_WINDOW_DAYS);
 }
 
 function buildWarnings(input: KulkonInput, status: KulkonStatus, pressureScore: number): string[] {

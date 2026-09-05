@@ -51,6 +51,9 @@ export async function POST(req: NextRequest) {
       if (typeof value !== expectedType) {
         return badRequest(`${field} must be ${expectedType}`);
       }
+      if (expectedType === 'number' && !Number.isFinite(value as number)) {
+        return badRequest(`${field} must be a finite number`);
+      }
     }
 
     const input: KulkonInput = {
