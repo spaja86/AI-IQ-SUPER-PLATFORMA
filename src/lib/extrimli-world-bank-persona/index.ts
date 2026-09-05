@@ -3,6 +3,7 @@ import { EXTRIMLI_PERSONA_ID, getExtrimliAggregateSignals } from '../extrimli';
 import { getExtrimliExtrondolReport } from '../extrimli-extrondol';
 import {
   createPersonaBankClient,
+  PersonaLockConflictError,
   PERSONA_BANK_CONTRACT_VERSION,
   PersonaArchivedError,
   PersonaNotFoundError,
@@ -203,16 +204,31 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       };
     } catch (error) {
       if (error instanceof PersonaNotFoundError) {
-        const registered = client.register(personaPayload);
-        writeResult = {
-          attempted: true,
-          operation: 'register',
-          personaStatusAfter: registered.status,
-          auditEntriesAfter: registered.auditLog.length,
-          personaVersionAfter: registered.version,
-          appliedBy: agentId,
-          persona: registered,
-        };
+        try {
+          const registered = client.register(personaPayload);
+          writeResult = {
+            attempted: true,
+            operation: 'register',
+            personaStatusAfter: registered.status,
+            auditEntriesAfter: registered.auditLog.length,
+            personaVersionAfter: registered.version,
+            appliedBy: agentId,
+            persona: registered,
+          };
+        } catch (registerError) {
+          if (!(registerError instanceof PersonaLockConflictError)) throw registerError;
+          const concurrentPersona = client.get(personaPayload.id);
+          if (!concurrentPersona) throw registerError;
+          writeResult = {
+            attempted: true,
+            operation: 'update',
+            personaStatusAfter: concurrentPersona.status,
+            auditEntriesAfter: concurrentPersona.auditLog.length,
+            personaVersionAfter: concurrentPersona.version,
+            appliedBy: agentId,
+            persona: concurrentPersona,
+          };
+        }
       } else if (error instanceof PersonaArchivedError) {
         const archived = client.get(personaPayload.id);
         writeResult = {

@@ -19,6 +19,27 @@ function tokensMatch(expectedToken: string, providedToken: string): boolean {
   return timingSafeEqual(expectedBuffer, providedBuffer);
 }
 
+function parseEvidence(
+  evidenceInput: unknown,
+): ExtrimliExtrondolGovernanceEvidence | undefined {
+  if (!evidenceInput || typeof evidenceInput !== 'object' || Array.isArray(evidenceInput)) {
+    return undefined;
+  }
+  const evidenceRecord = evidenceInput as Record<string, unknown>;
+  const evidenceKeys = [
+    'auditTrailComplete',
+    'downstreamSyncComplete',
+    'humanReviewComplete',
+    'onboardingComplete',
+  ] as const;
+  const evidence: ExtrimliExtrondolGovernanceEvidence = {};
+  for (const key of evidenceKeys) {
+    const value = evidenceRecord[key];
+    if (typeof value === 'boolean') evidence[key] = value;
+  }
+  return evidence;
+}
+
 export async function GET() {
   try {
     const report = getExtrimliWorldBankPersonaReport({ mode: 'preview' });
@@ -35,7 +56,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const configuredExpectedToken = process.env.EXTRIMLI_WORLD_BANK_PERSONA_APPLY_TOKEN;
   if (!configuredExpectedToken) {
-    return apiError('INTERNAL_ERROR', 'EXTRIMLI_WORLD_BANK_PERSONA_APPLY_TOKEN is not configured', 500);
+    return apiError('INTERNAL_ERROR', 'Bridge apply is not configured', 500);
   }
   const expectedToken = configuredExpectedToken;
   const providedToken = req.headers.get('x-extrimli-bridge-token');
@@ -61,25 +82,7 @@ export async function POST(req: NextRequest) {
 
     const candidate = body as Record<string, unknown>;
     const includeSubflows = typeof candidate.includeSubflows === 'boolean' ? candidate.includeSubflows : true;
-    const evidenceInput = candidate.evidence;
-    const evidence: ExtrimliExtrondolGovernanceEvidence | undefined = evidenceInput
-      && typeof evidenceInput === 'object'
-      && !Array.isArray(evidenceInput)
-      ? {
-        auditTrailComplete: typeof (evidenceInput as Record<string, unknown>).auditTrailComplete === 'boolean'
-          ? (evidenceInput as Record<string, boolean>).auditTrailComplete
-          : undefined,
-        downstreamSyncComplete: typeof (evidenceInput as Record<string, unknown>).downstreamSyncComplete === 'boolean'
-          ? (evidenceInput as Record<string, boolean>).downstreamSyncComplete
-          : undefined,
-        humanReviewComplete: typeof (evidenceInput as Record<string, unknown>).humanReviewComplete === 'boolean'
-          ? (evidenceInput as Record<string, boolean>).humanReviewComplete
-          : undefined,
-        onboardingComplete: typeof (evidenceInput as Record<string, unknown>).onboardingComplete === 'boolean'
-          ? (evidenceInput as Record<string, boolean>).onboardingComplete
-          : undefined,
-      }
-      : undefined;
+    const evidence = parseEvidence(candidate.evidence);
 
     const report = getExtrimliWorldBankPersonaReport({
       mode: 'apply',
