@@ -94,6 +94,23 @@ async function runTests(): Promise<void> {
     assert(persona!.status === 'dormant', 'status mismatch after apply');
   });
 
+  await test('apply mode registers persona when missing', () => {
+    _resetPersonaBankStore();
+    const report = getExtrimliWorldBankPersonaReport({
+      mode: 'apply',
+      agentId: 'extrimli-validator-agent',
+    });
+    assert(report.writeResult.attempted, 'apply must attempt write');
+    assert(report.writeResult.operation === 'register', 'expected register operation');
+    assert(report.writeResult.personaStatusAfter === report.lifecycle.targetPersonaStatus, 'status must match lifecycle target');
+    assert(report.writeResult.auditEntriesAfter >= 1, 'register should create initial audit entry');
+    assert(report.writeResult.personaVersionAfter >= 1, 'register should set persona version');
+    assert(report.writeResult.appliedBy === 'extrimli-validator-agent', 'appliedBy should match agent');
+
+    const persona = getPersona('extrimli-core');
+    assert(persona !== null, 'persona must exist after register apply');
+  });
+
   await test('explicit governance evidence clears core onboarding/sync/human blockers', () => {
     _resetPersonaBankStore();
     registerPersona(
