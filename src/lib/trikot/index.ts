@@ -2,7 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 export { evaluateTrikot, getTrikotHealthReport, _resetTrikotMetrics } from './engine';
-export { setTrikotHeaders } from './route-utils';
+export { mapTrikotInput, setTrikotHeaders, validateTrikotRequestShape } from './route-utils';
 
 export type {
   TrikotAction,

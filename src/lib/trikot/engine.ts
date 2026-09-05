@@ -154,8 +154,8 @@ function resolveRecommendedAction(
   status: TrikotStatus,
 ): NonNullable<TrikotResult['recommendedAction']> {
   if (status === 'REWORK' || input.maintenanceRisk >= 85) return 'CHANGE_BASE_LAYER';
-  if (input.accessoryComplexity >= 7) return 'SIMPLIFY_LOOK';
   if (status === 'ADJUST' || input.prepTimeHours < 2) return 'VALIDATE_DETAILS';
+  if (input.accessoryComplexity >= 7) return 'SIMPLIFY_LOOK';
   return 'LOCK_COMBINATION';
 }
 
