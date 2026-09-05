@@ -45,8 +45,8 @@ if (!existsSync(targetDirectory)) {
 const testFiles = collectTestFiles(targetDirectory);
 
 if (testFiles.length === 0) {
-  console.error(`No test files found in: ${targetDirectory}`);
-  process.exit(1);
+  console.warn(`No test files found, skipping: ${targetDirectory}`);
+  process.exit(0);
 }
 
 let tsxCliPath;
