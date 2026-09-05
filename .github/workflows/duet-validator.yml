@@ -1,0 +1,47 @@
+name: DUET — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/duet/**'
+      - 'src/app/api/duet/**'
+      - 'src/tests/lib/duet.test.ts'
+      - 'src/tests/api/duet-route.test.ts'
+      - 'docs/DUET.md'
+      - '.github/workflows/duet-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/duet/**'
+      - 'src/app/api/duet/**'
+      - 'src/tests/lib/duet.test.ts'
+      - 'src/tests/api/duet-route.test.ts'
+      - 'docs/DUET.md'
+  workflow_dispatch:
+
+concurrency:
+  group: duet-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: duet
+      lint_paths: >-
+        src/lib/duet
+        src/app/api/duet
+      test_commands: |
+        npx tsx src/tests/lib/duet.test.ts
+        npx tsx src/tests/api/duet-route.test.ts
+      scan_paths: >-
+        src/lib/duet
+        src/app/api/duet
+      label: duet
+      perf_eval_ms: 50
+      perf_api_ms: 200

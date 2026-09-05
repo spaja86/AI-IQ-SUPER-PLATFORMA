@@ -90,6 +90,15 @@ DIREKT uvodi determinističku procenu kvaliteta direktne komunikacije kroz jasno
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/DIREKT.md`
 
+## 🎼 DUET
+
+DUET uvodi determinističku procenu dvojnog usklađivanja za koordinaciju, poverenje, ritam i zajednički vremenski prozor kroz API-first v1 površinu.
+
+- Modul: `src/lib/duet/**`
+- API: `/api/duet/evaluate`, `/api/duet/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/DUET.md`
+
 ## 📦 DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN
 
 DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN uvodi repo-local determinističku distribucionu orkestraciju koja kompozicijom `DOR PETLJA`, `DAR PETLJA` i postojećeg `distribucija` modela izračunava aggregate `EKSTRIBUŠEN` status.
