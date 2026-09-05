@@ -10,11 +10,13 @@ on:
       - 'src/lib/extrimli-extrondol/**'
       - 'src/lib/extrimli-duel-king/**'
       - 'src/lib/extrimli-3/**'
+      - 'src/lib/duet/**'
       - 'src/app/api/extrimli/**'
       - 'src/app/api/extrimli/duel-king/**'
       - 'src/app/api/extrimli-3/**'
       - 'src/app/api/extrimli/extrondend/**'
       - 'src/app/api/extrimli/extrondol/**'
+      - 'src/app/api/duet/**'
       - 'src/components/extrimli/**'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
@@ -28,12 +30,16 @@ on:
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
+      - 'src/tests/lib/duet.test.ts'
+      - 'src/tests/api/duet-route.test.ts'
       - 'docs/EXTRIMLI.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
+      - 'docs/DUET.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
       - '.github/workflows/extrimli-external-github.yml'
       - '.github/workflows/extrimli-validator.yml'
+      - '.github/workflows/duet-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
     branches: [main]
@@ -45,11 +51,13 @@ on:
       - 'src/lib/extrimli-extrondol/**'
       - 'src/lib/extrimli-duel-king/**'
       - 'src/lib/extrimli-3/**'
+      - 'src/lib/duet/**'
       - 'src/app/api/extrimli/**'
       - 'src/app/api/extrimli/duel-king/**'
       - 'src/app/api/extrimli-3/**'
       - 'src/app/api/extrimli/extrondend/**'
       - 'src/app/api/extrimli/extrondol/**'
+      - 'src/app/api/duet/**'
       - 'src/components/extrimli/**'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
@@ -63,8 +71,11 @@ on:
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
+      - 'src/tests/lib/duet.test.ts'
+      - 'src/tests/api/duet-route.test.ts'
       - 'docs/EXTRIMLI.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
+      - 'docs/DUET.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
       - '.github/workflows/extrimli-external-github.yml'
@@ -91,11 +102,13 @@ jobs:
         src/lib/extrimli-extrondol
         src/lib/extrimli-duel-king
         src/lib/extrimli-3
+        src/lib/duet
         src/app/api/extrimli
         src/app/api/extrimli/duel-king
         src/app/api/extrimli-3
         src/app/api/extrimli/extrondend
         src/app/api/extrimli/extrondol
+        src/app/api/duet
         src/components/extrimli
       test_commands: |
         npx tsx src/tests/lib/extrimli.test.ts
@@ -107,6 +120,8 @@ jobs:
         npx tsx src/tests/lib/extrimli-3.test.ts
         npx tsx src/tests/lib/extrimli-instrukcija.test.ts
         npx tsx src/tests/api/extrimli-route.test.ts
+        npx tsx src/tests/lib/duet.test.ts
+        npx tsx src/tests/api/duet-route.test.ts
       scan_paths: >-
         src/lib/extrimli
         src/lib/extrimli-extendol
@@ -115,11 +130,13 @@ jobs:
         src/lib/extrimli-extrondol
         src/lib/extrimli-duel-king
         src/lib/extrimli-3
+        src/lib/duet
         src/app/api/extrimli
         src/app/api/extrimli/duel-king
         src/app/api/extrimli-3
         src/app/api/extrimli/extrondend
         src/app/api/extrimli/extrondol
+        src/app/api/duet
       label: extrimli
       perf_eval_ms: 50
       perf_api_ms: 200

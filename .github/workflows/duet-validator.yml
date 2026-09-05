@@ -4,20 +4,33 @@ on:
   pull_request:
     paths:
       - 'src/lib/duet/**'
+      - 'src/lib/extrimli-extrondol/**'
       - 'src/app/api/duet/**'
+      - 'src/app/api/extrimli/extrondol/**'
       - 'src/tests/lib/duet.test.ts'
       - 'src/tests/api/duet-route.test.ts'
+      - 'src/tests/lib/extrimli-extrondol.test.ts'
       - 'docs/DUET.md'
+      - 'docs/EXTRIMLI.md'
+      - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/duet-validator.yml'
+      - '.github/workflows/extrimli-validator.yml'
+      - '.github/workflows/duet-validator.yml'
+      - '.github/workflows/extrimli-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
     branches: [main]
     paths:
       - 'src/lib/duet/**'
+      - 'src/lib/extrimli-extrondol/**'
       - 'src/app/api/duet/**'
+      - 'src/app/api/extrimli/extrondol/**'
       - 'src/tests/lib/duet.test.ts'
       - 'src/tests/api/duet-route.test.ts'
+      - 'src/tests/lib/extrimli-extrondol.test.ts'
       - 'docs/DUET.md'
+      - 'docs/EXTRIMLI.md'
+      - 'docs/MULTI-REPO-LINKS.md'
   workflow_dispatch:
 
 concurrency:
@@ -35,13 +48,18 @@ jobs:
       domain: duet
       lint_paths: >-
         src/lib/duet
+        src/lib/extrimli-extrondol
         src/app/api/duet
+        src/app/api/extrimli/extrondol
       test_commands: |
         npx tsx src/tests/lib/duet.test.ts
         npx tsx src/tests/api/duet-route.test.ts
+        npx tsx src/tests/lib/extrimli-extrondol.test.ts
       scan_paths: >-
         src/lib/duet
+        src/lib/extrimli-extrondol
         src/app/api/duet
+        src/app/api/extrimli/extrondol
       label: duet
       perf_eval_ms: 50
       perf_api_ms: 200

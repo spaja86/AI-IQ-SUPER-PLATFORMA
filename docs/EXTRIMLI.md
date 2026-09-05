@@ -15,7 +15,7 @@ This repository now exposes five aligned surfaces:
 | **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ + KORON |
 | **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
 | **EXTRONDEND** | `src/lib/extrimli-extrondend/`, `src/app/api/extrimli/extrondend/` | Active | Dedicated aggregation/scoring surface (not an alias) over v1/v3/CUZ/Extendol/KORON |
-| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias) |
+| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET and DINKOS signal contract |
 
 ## Module paths
 
@@ -80,9 +80,9 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 
 - **EXTRIMLI** ostaje bazni runtime domen (`/api/extrimli/*`) za risk/gear/event/destruction jezgro.
 - **EXTRONDEND** je **novi** aggregation/scoring modul sa source-of-truth endpointom `/api/extrimli/extrondend`.
-- **EXTRONDOL** je **novi** orchestration/readiness modul sa source-of-truth endpointom `/api/extrimli/extrondol`.
+- **EXTRONDOL** je **novi** orchestration/readiness modul sa source-of-truth endpointom `/api/extrimli/extrondol` (naming lock: ne koristiti “EXTRANDOL” varijante).
 - EXTRONDEND i EXTRONDOL nisu alias-i postojećih surface-ova (Extendol/KORON), već zasebni versioned ugovori.
-- Owner: `@spaja86`; trigger labels: `extrimli:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`.
+- Owner: `@spaja86`; trigger labels: `extrimli:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`, `nivo-duet:logic-change`, `dinkos:logic-change`.
 
 ## EXTRIMLI v1 capabilities
 
@@ -230,7 +230,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 
 ### Acceptance criteria (EXTRONDOL)
 
@@ -238,7 +238,32 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 2. Stable contract/version constants.
 3. WAWE sequencing is deterministic (`WAWE-1` → `WAWE-5`).
 4. Promotion freeze is enforced when readiness/degraded gates are not satisfied.
-5. Orchestration score is finite and clamped to `[0, 100]`.
+5. Domain strategy lock rejects `spaja.nivo*spaja` and enforces `spaja.nivo-spaja` + `*.spaja.nivo-spaja`.
+6. NIVO DUET mapping must project DUET `status` + `overallScore` + `warnings` into WAWE decisions.
+7. DINKOS is an explicit signal contract (not a new API route) with ownership/label/persona/degraded-mode lock.
+8. Orchestration score is finite and clamped to `[0, 100]`.
+
+### NIVO DUET orchestration map
+
+- DUET source signal: `/api/duet/evaluate`
+- EXTRONDOL consumes DUET outputs:
+  - `status`
+  - `overallScore`
+  - `warnings`
+- EXTRONDOL maps DUET outputs into:
+  - `rollout.currentWawe`
+  - `rollout.eligibleNextWawe`
+  - `rollout.promotionFreeze`
+- DUET warning-load i DISSONANT status mogu aktivirati promotion freeze pre WAWE promocije.
+
+### DINKOS domain lock
+
+- Domain: `DINKOS`
+- Classification: `signal`
+- Persona: `extrimli-dinkos-signal-core`
+- Trigger label: `dinkos:logic-change`
+- Route segment marker (contractual): `nivo-duet`
+- Degraded policy: `partial-payload-no-500`
 
 ## MAKSIMUS ↔ EXTRIMLI responsibilities
 

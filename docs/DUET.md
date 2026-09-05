@@ -9,6 +9,7 @@ Version 1 intentionally ships as an API-first module so the contract, validation
 
 - **In scope**: canonical `duet` slug, deterministic synchronization scoring, warning generation, recommendation logic, health/KPI report, API routes, tests, docs, and validator workflow.
 - **Out of scope**: chat persistence, autonomous message generation, relationship mediation, linked-repo runtime coupling, and multi-party orchestration beyond two-party inputs.
+- **Governance integration**: EXTRONDOL consumes DUET `status`, `overallScore`, and `warnings` through its NIVO DUET mapping layer, including DINKOS signal contract gating.
 
 ## KPI targets
 
@@ -73,6 +74,7 @@ Each evaluation accepts:
 1. **Repo-local v1** — module, routes, tests, docs, and validator workflow.
 2. **Internal consumers** — integrate only after contract stability is proven.
 3. **Cross-repo follow-up** — synchronize labels/persona/docs only if a linked repository adopts DUET runtime usage.
+4. **EXTRONDOL NIVO DUET** — keep DUET and EXTRIMLI validator gates aligned for KPI/security before WAWE promotion in EXTRONDOL.
 
 ## Security and operations
 
