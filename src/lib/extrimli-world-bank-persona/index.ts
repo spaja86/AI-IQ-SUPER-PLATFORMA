@@ -176,28 +176,40 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
   if (mode === 'apply') {
     const client = createPersonaBankClient(agentId);
     const existing = client.get(personaPayload.id);
-    const targetStatus = lifecycle.targetPersonaStatus;
-    const updated = existing
-      ? client.update(personaPayload.id, {
-        name: personaPayload.name,
-        octave: personaPayload.octave,
-        hipermrezaNode: personaPayload.hipermrezaNode,
-        linkedAgents: personaPayload.linkedAgents,
-        crossRepoRef: personaPayload.crossRepoRef,
-        attributes: personaPayload.attributes,
-        status: targetStatus,
-      })
-      : client.register(personaPayload);
+    if (existing?.status === 'archived') {
+      writeResult = {
+        attempted: false,
+        operation: 'skipped',
+        personaStatusAfter: 'archived',
+        auditEntriesAfter: existing.auditLog.length,
+        personaVersionAfter: existing.version,
+        appliedBy: null,
+        persona: existing,
+      };
+    } else {
+      const targetStatus = lifecycle.targetPersonaStatus;
+      const updated = existing
+        ? client.update(personaPayload.id, {
+          name: personaPayload.name,
+          octave: personaPayload.octave,
+          hipermrezaNode: personaPayload.hipermrezaNode,
+          linkedAgents: personaPayload.linkedAgents,
+          crossRepoRef: personaPayload.crossRepoRef,
+          attributes: personaPayload.attributes,
+          status: targetStatus,
+        })
+        : client.register(personaPayload);
 
-    writeResult = {
-      attempted: true,
-      operation: existing ? 'update' : 'register',
-      personaStatusAfter: updated.status,
-      auditEntriesAfter: updated.auditLog.length,
-      personaVersionAfter: updated.version,
-      appliedBy: agentId,
-      persona: updated,
-    };
+      writeResult = {
+        attempted: true,
+        operation: existing ? 'update' : 'register',
+        personaStatusAfter: updated.status,
+        auditEntriesAfter: updated.auditLog.length,
+        personaVersionAfter: updated.version,
+        appliedBy: agentId,
+        persona: updated,
+      };
+    }
   }
 
   return {

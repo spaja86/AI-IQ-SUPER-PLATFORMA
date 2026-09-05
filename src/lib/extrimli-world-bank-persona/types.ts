@@ -67,7 +67,7 @@ export interface ExtrimliWorldBankPersonaReport {
   writeResult: {
     attempted: boolean;
     operation: 'register' | 'update' | 'skipped';
-    personaStatusAfter: 'active' | 'dormant' | null;
+    personaStatusAfter: 'active' | 'dormant' | 'archived' | null;
     auditEntriesAfter: number;
     personaVersionAfter: number;
     appliedBy: string | null;

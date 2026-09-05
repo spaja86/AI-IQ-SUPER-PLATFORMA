@@ -1,4 +1,5 @@
 import {
+  archivePersona,
   _resetPersonaBankStore,
   getPersona,
   registerPersona,
@@ -124,6 +125,36 @@ async function runTests(): Promise<void> {
     assert(!report.governanceGate.missingEvidence.includes('audit-trail-complete'), 'audit blocker should be cleared');
     assert(report.governanceGate.promotionFreeze === report.governanceGate.blocked, 'block state should mirror promotion freeze when evidence is complete');
     assert(['active', 'dormant'].includes(report.writeResult.personaStatusAfter ?? ''), 'unexpected persona status');
+  });
+
+  await test('apply mode skips writes when target persona is archived', () => {
+    _resetPersonaBankStore();
+    registerPersona(
+      {
+        id: 'extrimli-core',
+        name: 'EXTRIMLI Seed',
+        type: 'extrimli',
+        octave: 7,
+        hipermrezaNode: 56,
+        attributes: {
+          traits: ['seed'],
+          skills: ['seed'],
+          tone: 'seed',
+          domain: 'seed',
+        },
+        linkedAgents: ['extrimli-validator-agent'],
+      },
+      'seed-agent',
+    );
+    archivePersona('extrimli-core', 'seed-agent');
+
+    const report = getExtrimliWorldBankPersonaReport({
+      mode: 'apply',
+      agentId: 'extrimli-validator-agent',
+    });
+    assert(report.writeResult.operation === 'skipped', 'operation should be skipped for archived persona');
+    assert(report.writeResult.attempted === false, 'write should not be attempted');
+    assert(report.writeResult.personaStatusAfter === 'archived', 'archived status should be preserved');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed`);
