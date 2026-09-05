@@ -239,9 +239,22 @@ async function runTests(): Promise<void> {
       prepTimeHours: 8,
       accessoryComplexity: 2.5,
     });
+    const fractionalPrep = evaluateTrikot({
+      objective: 'FORMAL',
+      season: 'WINTER',
+      dressCode: 'STRICT',
+      comfortScore: 70,
+      weatherFitScore: 80,
+      budgetFitScore: 72,
+      mobilityScore: 60,
+      maintenanceRisk: 22,
+      prepTimeHours: 8.5,
+      accessoryComplexity: 4,
+    });
 
     assert(!overBound.valid, 'prepTimeHours > 168 must be invalid');
     assert(!fractional.valid, 'fractional accessoryComplexity must be invalid');
+    assert(!fractionalPrep.valid, 'fractional prepTimeHours must be invalid');
   });
 
   await test('invalid evaluation still increments health metrics', () => {
