@@ -145,15 +145,15 @@ function buildDistanceRatioEkvilaterTable(scores: {
     },
   ];
 
-  const distances = baseRows.map((row) => Math.abs(row.fromScore - row.toScore));
-  const rawAverageDistance = distances.reduce((sum, value) => sum + value, 0) / distances.length;
-  const rawMaxDistance = Math.max(...distances);
-  const rawMinDistance = Math.min(...distances);
+  const distanceValues = baseRows.map((row) => Math.abs(row.fromScore - row.toScore));
+  const rawAverageDistance = distanceValues.reduce((sum, value) => sum + value, 0) / distanceValues.length;
+  const rawMaxDistance = Math.max(...distanceValues);
+  const rawMinDistance = Math.min(...distanceValues);
   const denominator = rawAverageDistance === 0 ? 1 : rawAverageDistance;
 
-  const buildRow = <T extends (typeof baseRows)[number]>(row: T, index: number) => {
-    const distance = round(distances[index], 2);
-    const rawDistance = distances[index];
+  const buildRow = <T extends (typeof baseRows)[number]>(row: T) => {
+    const rawDistance = Math.abs(row.fromScore - row.toScore);
+    const distance = round(rawDistance, 2);
     const distanceRatio = round(rawMaxDistance === 0 ? 1 : clamp(rawDistance / rawMaxDistance, 0, 1), 2);
     const equilateralAlignment = round(clamp(100 - (Math.abs(rawDistance - rawAverageDistance) / denominator) * 100, 0, 100), 2);
     return {
@@ -166,9 +166,9 @@ function buildDistanceRatioEkvilaterTable(scores: {
   };
 
   const rows = [
-    buildRow(baseRows[0], 0),
-    buildRow(baseRows[1], 1),
-    buildRow(baseRows[2], 2),
+    buildRow(baseRows[0]),
+    buildRow(baseRows[1]),
+    buildRow(baseRows[2]),
   ] as const;
 
   const equilateralConsistency = round(
