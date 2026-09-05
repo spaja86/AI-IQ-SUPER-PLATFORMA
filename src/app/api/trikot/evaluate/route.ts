@@ -24,7 +24,9 @@ function validateRequestShape(candidate: Record<string, unknown>): string | null
     'accessoryComplexity',
   ] as const;
   for (const field of requiredNumberFields) {
-    if (typeof candidate[field] !== 'number') return `${field} is required (number)`;
+    if (typeof candidate[field] !== 'number' || !Number.isFinite(candidate[field])) {
+      return `${field} is required (finite number)`;
+    }
   }
 
   return null;
