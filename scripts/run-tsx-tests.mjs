@@ -12,9 +12,10 @@ if (!directory) {
 const testFiles = readdirSync(directory)
   .filter((name) => name.endsWith('.test.ts'))
   .sort();
+const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx';
 
 for (const file of testFiles) {
-  const command = spawnSync(process.execPath, ['./node_modules/tsx/dist/cli.mjs', join(directory, file)], {
+  const command = spawnSync(npxCommand, ['tsx', join(directory, file)], {
     stdio: 'inherit',
   });
 
