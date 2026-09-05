@@ -13,6 +13,8 @@ export async function GET() {
     setKulkonHeaders(response);
     return response;
   } catch (error) {
-    return apiInternalError('kulkon/health', error);
+    const response = apiInternalError('kulkon/health', error);
+    setKulkonHeaders(response);
+    return response;
   }
 }

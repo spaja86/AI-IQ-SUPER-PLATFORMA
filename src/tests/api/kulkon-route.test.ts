@@ -115,6 +115,8 @@ async function runTests(): Promise<void> {
 
     const response = await POST(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
+    assert(response.headers.get('X-Kulkon-Contract-Version') === KULKON_CONTRACT_VERSION, 'missing contract version header');
+    assert(response.headers.get('X-Kulkon-Module-Version') === KULKON_MODULE_VERSION, 'missing module version header');
   });
 
   await test('POST /api/kulkon/evaluate returns 400 when objective is missing', async () => {
