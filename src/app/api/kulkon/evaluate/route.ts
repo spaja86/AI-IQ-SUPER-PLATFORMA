@@ -44,8 +44,12 @@ export async function POST(req: NextRequest) {
     ] as const;
 
     for (const [field, expectedType] of requiredFields) {
-      if (typeof candidate[field] !== expectedType) {
+      const value = candidate[field];
+      if (value === undefined || value === null) {
         return badRequest(`${field} is required (${expectedType})`);
+      }
+      if (typeof value !== expectedType) {
+        return badRequest(`${field} must be ${expectedType}`);
       }
     }
 
