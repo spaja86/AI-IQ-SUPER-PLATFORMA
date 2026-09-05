@@ -61,16 +61,19 @@ jobs:
         run: npx tsc --noEmit
 
       - name: 🔍 ESLint provera
-        run: npm run lint -- src/
+        run: npm run lint
 
       - name: 🧪 Unit testovi
-        run: npm test
+        run: npm run test:ci
 
       - name: 🧪 Smoke testovi (go-live gate)
         run: npm run test:smoke
 
       - name: 🚦 Predeploy operativna provera
         run: npm run predeploy:check
+
+      - name: 🏗️ Build provera (release gate)
+        run: npm run build
 
       - name: 📊 Build izveštaj
         if: always()
@@ -80,7 +83,7 @@ jobs:
           echo "- **Branch:** ${{ github.ref_name }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Commit:** ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Vreme:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **Quality gates:** type-check, lint, unit test, smoke, predeploy" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Quality gates:** type-check, lint, unit test, smoke, predeploy, build" >> "$GITHUB_STEP_SUMMARY"
 
       - name: 📝 Deploy Status Artifact
         if: github.ref == 'refs/heads/main' && success()

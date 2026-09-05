@@ -10,10 +10,17 @@
       "requireApproval": false,
       "typecheckCommand": "npx tsc --noEmit",
       "buildCommand": "npm run build",
-      "testCommand": "npm run test",
+      "testCommand": "npm run test:ci",
       "smokeCommand": "npm run test:smoke",
       "lintCommand": "npm run lint",
       "predeployCommand": "npm run predeploy:check",
+      "requiredQualityGates": [
+        "lint",
+        "test",
+        "smoke",
+        "predeploy",
+        "build"
+      ],
       "workflowFile": ".github/workflows/omega-auto-build.yml"
     },
     "human-review": {

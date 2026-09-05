@@ -440,7 +440,9 @@ kartice: platforme.map((p) => ({
 /, /dashboard, /industrija, /platforme, /it-proizvodi, /banka, /menjacnica, /kompanija, /ai-platforma, /organizacija, /deploy, /ekosistem, /omega-ai, /prompt, /spaja-pro, /story-of-life, /auto-popravka, /proksi, /mobilna-mreza
 
 ### API
-/api/status, /api/health, /api/auto-repair, /api/auto-repair/history, /api/omega-ai, /api/prompt, /api/spaja-pro, /api/story-of-life, /api/cron/evolucija, /api/cron/zdravlje
+Kanonski inventar API površine i status ugovora:
+- [`docs/API-SURFACE-INVENTORY.md`](./docs/API-SURFACE-INVENTORY.md)
+- [`docs/API-CONTRACT-STATUS.md`](./docs/API-CONTRACT-STATUS.md)
 
 ## Pokretanje
 
@@ -551,6 +553,10 @@ When a workflow run shows **`startup_failure`** with **zero jobs created** (no s
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Open-code contribution flow, XP expectations, and deploy review requirements |
 | [`docs/ROADMAP.md`](./docs/ROADMAP.md) | Release roadmap, readiness model, and KPI ownership |
 | [`docs/PLAN-FOR-CREATING-EVERYTHING.md`](./docs/PLAN-FOR-CREATING-EVERYTHING.md) | End-to-end execution blueprint for full-scope delivery |
+| [`docs/CI-TEST-STRATEGY.md`](./docs/CI-TEST-STRATEGY.md) | Canonical test entrypoint, layered test scripts, and quality-gate contract |
+| [`docs/NAMING-CONVENTIONS.md`](./docs/NAMING-CONVENTIONS.md) | Canonical slug rules and compatibility-alias migration policy |
+| [`docs/API-SURFACE-INVENTORY.md`](./docs/API-SURFACE-INVENTORY.md) | Current API breadth, ownership hints, and rationalization candidates |
+| [`docs/API-CONTRACT-STATUS.md`](./docs/API-CONTRACT-STATUS.md) | Stable vs experimental contract declaration for critical modules |
 | [`docs/MULTI-REPO-LINKS.md`](./docs/MULTI-REPO-LINKS.md) | Cross-repo sync registry, label schema, and follow-up rules |
 | [`docs/MIRIKL.md`](./docs/MIRIKL.md) | MIRIKL GitHub ↔ Vercel governance scope, ownership, and release gates |
 | [`docs/OKRID.md`](./docs/OKRID.md) | Canonical OKRID scope, naming, lifecycle, and governance model |
