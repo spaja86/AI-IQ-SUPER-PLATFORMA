@@ -175,40 +175,54 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
 
   if (mode === 'apply') {
     const client = createPersonaBankClient(agentId);
-    const existing = client.get(personaPayload.id);
-    if (existing?.status === 'archived') {
-      writeResult = {
-        attempted: false,
-        operation: 'skipped',
-        personaStatusAfter: 'archived',
-        auditEntriesAfter: existing.auditLog.length,
-        personaVersionAfter: existing.version,
-        appliedBy: null,
-        persona: existing,
-      };
-    } else {
-      const targetStatus = lifecycle.targetPersonaStatus;
-      const updated = existing
-        ? client.update(personaPayload.id, {
-          name: personaPayload.name,
-          octave: personaPayload.octave,
-          hipermrezaNode: personaPayload.hipermrezaNode,
-          linkedAgents: personaPayload.linkedAgents,
-          crossRepoRef: personaPayload.crossRepoRef,
-          attributes: personaPayload.attributes,
-          status: targetStatus,
-        })
-        : client.register(personaPayload);
+    const targetStatus = lifecycle.targetPersonaStatus;
+    try {
+      const updated = client.update(personaPayload.id, {
+        name: personaPayload.name,
+        octave: personaPayload.octave,
+        hipermrezaNode: personaPayload.hipermrezaNode,
+        linkedAgents: personaPayload.linkedAgents,
+        crossRepoRef: personaPayload.crossRepoRef,
+        attributes: personaPayload.attributes,
+        status: targetStatus,
+      });
 
       writeResult = {
         attempted: true,
-        operation: existing ? 'update' : 'register',
+        operation: 'update',
         personaStatusAfter: updated.status,
         auditEntriesAfter: updated.auditLog.length,
         personaVersionAfter: updated.version,
         appliedBy: agentId,
         persona: updated,
       };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (message.startsWith('Persona not found:')) {
+        const registered = client.register(personaPayload);
+        writeResult = {
+          attempted: true,
+          operation: 'register',
+          personaStatusAfter: registered.status,
+          auditEntriesAfter: registered.auditLog.length,
+          personaVersionAfter: registered.version,
+          appliedBy: agentId,
+          persona: registered,
+        };
+      } else if (message.startsWith('Cannot update archived persona:')) {
+        const archived = client.get(personaPayload.id);
+        writeResult = {
+          attempted: false,
+          operation: 'skipped',
+          personaStatusAfter: archived?.status ?? 'archived',
+          auditEntriesAfter: archived?.auditLog.length ?? 0,
+          personaVersionAfter: archived?.version ?? 0,
+          appliedBy: null,
+          persona: archived,
+        };
+      } else {
+        throw error;
+      }
     }
   }
 

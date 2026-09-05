@@ -53,6 +53,11 @@ async function runTests(): Promise<void> {
     assert(report.governanceGate.missingEvidence.length >= 1, 'missing evidence must be present');
   });
 
+  await test('includeSubflows=false returns empty subflows array', () => {
+    const report = getExtrimliWorldBankPersonaReport({ includeSubflows: false });
+    assert(Array.isArray(report.subflows) && report.subflows.length === 0, 'subflows should be empty when disabled');
+  });
+
   await test('apply mode updates existing extrimli persona and appends audit log', () => {
     _resetPersonaBankStore();
     registerPersona(
