@@ -32,6 +32,36 @@ function validateRequestShape(candidate: Record<string, unknown>): string | null
   return null;
 }
 
+function toTrikotInput(candidate: Record<string, unknown>): TrikotInput {
+  const {
+    referenceId,
+    objective,
+    season,
+    dressCode,
+    comfortScore,
+    weatherFitScore,
+    budgetFitScore,
+    mobilityScore,
+    maintenanceRisk,
+    prepTimeHours,
+    accessoryComplexity,
+  } = candidate;
+
+  return {
+    referenceId: typeof referenceId === 'string' ? referenceId : undefined,
+    objective: objective as TrikotInput['objective'],
+    season: season as TrikotInput['season'],
+    dressCode: dressCode as TrikotInput['dressCode'],
+    comfortScore: comfortScore as number,
+    weatherFitScore: weatherFitScore as number,
+    budgetFitScore: budgetFitScore as number,
+    mobilityScore: mobilityScore as number,
+    maintenanceRisk: maintenanceRisk as number,
+    prepTimeHours: prepTimeHours as number,
+    accessoryComplexity: accessoryComplexity as number,
+  };
+}
+
 export async function POST(req: NextRequest) {
   try {
     let body: unknown;
@@ -47,37 +77,10 @@ export async function POST(req: NextRequest) {
     }
 
     const candidate = body as Record<string, unknown>;
-    const {
-      referenceId,
-      objective,
-      season,
-      dressCode,
-      comfortScore,
-      weatherFitScore,
-      budgetFitScore,
-      mobilityScore,
-      maintenanceRisk,
-      prepTimeHours,
-      accessoryComplexity,
-    } = candidate;
-
     const shapeError = validateRequestShape(candidate);
     if (shapeError) return apiError('BAD_REQUEST', shapeError);
 
-    const input: TrikotInput = {
-      referenceId: typeof referenceId === 'string' ? referenceId : undefined,
-      objective: objective as TrikotInput['objective'],
-      season: season as TrikotInput['season'],
-      dressCode: dressCode as TrikotInput['dressCode'],
-      comfortScore,
-      weatherFitScore,
-      budgetFitScore,
-      mobilityScore,
-      maintenanceRisk,
-      prepTimeHours,
-      accessoryComplexity,
-    };
-
+    const input = toTrikotInput(candidate);
     const result = evaluateTrikot(input);
     const response = result.valid
       ? apiSuccess(result, 200)
