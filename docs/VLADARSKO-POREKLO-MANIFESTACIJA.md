@@ -30,6 +30,7 @@
 - Sekcija „Kontakt i informacije“ (email, telefon, lokacija; statički info blok u v1)
 
 **API kontrakt (`POST /api/vladarskog-porekla/register`)**
+- Stabilan response envelope za sve ishode: `ok: boolean`, `code: string`, `registrationId: string | null`, `message: string`
 - Request polja:
   - `fullName: string` (2–120 karaktera)
   - `email: string` (RFC-like email format)
@@ -40,9 +41,9 @@
 - Validacija: sva polja obavezna osim `city`; `email` validan format; `tickets >= 1`; `consent = true`
 - Success response (`201 Created`): `{ "ok": true, "code": "REGISTRATION_CREATED", "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
 - Success discriminator: uspeh se pouzdano detektuje preko `ok = true`, `code = REGISTRATION_CREATED` i HTTP `201`.
-- Error response (`400 Bad Request`, validacija): `{ "ok": false, "code": "VALIDATION_ERROR", "message": "Proverite obavezna polja i format unosa." }`
-- Error response (`409 Conflict`, duplikat): `{ "ok": false, "code": "DUPLICATE", "message": "Prijava sa ovom email adresom već postoji." }`
-- Error response (`500 Internal Server Error`, serverska greška): `{ "ok": false, "code": "SERVER_ERROR", "message": "Došlo je do privremene greške. Pokušajte ponovo kasnije." }`
+- Error response (`400 Bad Request`, validacija): `{ "ok": false, "code": "VALIDATION_ERROR", "registrationId": null, "message": "Proverite obavezna polja i format unosa." }`
+- Error response (`409 Conflict`, duplikat): `{ "ok": false, "code": "DUPLICATE", "registrationId": null, "message": "Prijava sa ovom email adresom već postoji." }`
+- Error response (`500 Internal Server Error`, serverska greška): `{ "ok": false, "code": "SERVER_ERROR", "registrationId": null, "message": "Došlo je do privremene greške. Pokušajte ponovo kasnije." }`
 - Klijenti treba da se oslanjaju na `code` kao stabilan ugovor; `message` je korisnički tekst i može se lokalizovati.
 
 ---
@@ -93,7 +94,8 @@ Centralna figura je zaštitno lice kampanje i glavni narativni nosač poruke „
 **Naslov:** VLADARSKOG POREKLA  
 **Podnaslov:** Manifestacija kulturnog nasleđa i savremene simbolike  
 **CTA:** Rezervišite svoje mesto  
-**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (planirano: `/vladarskog-porekla` na produkcionom hostu iz downstream deploy konfiguracije)
+**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (planirano: `/vladarskog-porekla` na produkcionom hostu iz downstream deploy konfiguracije)  
+**Production gate:** materijal ne ide u finalni izvoz/štampu dok se ne upiše verifikovan javni host.
 
 **Predlog copy-ja (plakat):**
 „Vladarskog porekla — večer nasleđa, časti i budućnosti.  
