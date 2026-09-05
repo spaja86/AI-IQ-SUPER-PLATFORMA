@@ -161,8 +161,8 @@ export type ExtrimliExtrondolDistanceRatioEkvilaterExtendolKoronRow =
     to: 'KORON';
   };
 
-// Legacy typo-only alias preserved for downstream compatibility with earlier planning text.
-type ExtrimliExtrondolDistanceRatioCompatibilityAlias = 'DISANCE RATOR EKVILATER';
+type ExtrimliExtrondolDistanceRatioCompatibilityAlias =
+  'DISANCE RATOR EKVILATER'; // Intentional legacy typo-only alias; consumers must not correct it.
 
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   requestedTableName: 'DISTANCE RATIO EKVILATER';
