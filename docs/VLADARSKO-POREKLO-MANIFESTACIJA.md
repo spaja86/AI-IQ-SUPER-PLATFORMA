@@ -7,8 +7,8 @@
 **Kreativni referentni vizual:**  
 `https://github.com/user-attachments/assets/033566f0-581b-452d-bf4d-abf86bb59caa`
 
-**Kanonski landing URL (registracija):** `https://spaja.nivo-spaja/vladarskog-porekla`  
-**Rezervni URL (fallback):** `https://spaja.nivo-spaja/prijava/vladarskog-porekla`  
+**Planirani kanonski landing URL (registracija):** `https://spaja.nivo-spaja/vladarskog-porekla`  
+**Planirani rezervni URL (fallback):** `https://spaja.nivo-spaja/prijava/vladarskog-porekla`  
 **Owner landing stranice:** `@spaja86` + IO-OPENUI-AO Web Experience tim
 
 ### Downstream implementacija i audit reference
@@ -17,6 +17,21 @@
 - **Predviđena registraciona API putanja:** `src/app/api/vladarskog-porekla/register/route.ts`
 - **Cross-repo evidencija:** `docs/MULTI-REPO-LINKS.md`
 - **Handoff/Audit ID:** `VPOREKLO-2026-09`
+
+#### Minimalni downstream kontrakt (za IO-OPENUI-AO implementaciju)
+
+**Landing kontrakt (`/vladarskog-porekla`)**
+- Hero naslov: „Vladarskog porekla“
+- CTA dugme: „Prijava“
+- Sekcija „Program manifestacije“ (agenda po terminima)
+- Sekcija „Govornici i učesnici“ (ime, titula/uloga, kratki opis)
+- Sekcija „Kontakt i informacije“ (email, telefon, lokacija)
+
+**API kontrakt (`POST /api/vladarskog-porekla/register`)**
+- Request polja: `fullName`, `email`, `phone`, `city`, `tickets`, `consent`
+- Validacija: sva polja obavezna osim `city`; `email` validan format; `tickets >= 1`; `consent = true`
+- Success response: `{ "ok": true, "registrationId": "...", "message": "Prijava uspešno zabeležena." }`
+- Error response: `{ "ok": false, "error": "VALIDATION_ERROR|DUPLICATE|SERVER_ERROR", "message": "..." }`
 
 ---
 
@@ -66,7 +81,7 @@ Centralna figura je zaštitno lice kampanje i glavni narativni nosač poruke „
 **Naslov:** VLADARSKOG POREKLA  
 **Podnaslov:** Manifestacija kulturnog nasleđa i savremene simbolike  
 **CTA:** Rezervišite svoje mesto  
-**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (`https://spaja.nivo-spaja/vladarskog-porekla`)
+**Obavezni podaci:** Datum, lokacija, vreme, organizator, web/adresa prijave (planirano: `https://spaja.nivo-spaja/vladarskog-porekla`)
 
 **Predlog copy-ja (plakat):**
 „Vladarskog porekla — večer nasleđa, časti i budućnosti.  
@@ -140,7 +155,7 @@ Vidimo se na manifestaciji ‘Vladarskog porekla’.“
 Landing mora sadržati:
 - Hero sekciju sa ključnim vizualom i CTA dugmetom „Prijava“
 - Kompletan program po segmentima
-- Blok govornici/učesnici
+- Sekcija „Govornici i učesnici“ sa listom imena, titula i kratkih biografija
 - Kontakt formu i info sekciju
 
 **Putanja/slug:** `/vladarskog-porekla`  
