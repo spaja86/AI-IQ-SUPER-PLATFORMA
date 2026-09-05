@@ -140,10 +140,12 @@ export interface ExtrimliExtrondolDistanceRatioEkvilaterRow {
   balanced: boolean;
 }
 
+export type ExtrimliExtrondolDistanceRatioEkvilaterLegacyAlias = 'DISANCE RATOR EKVILATER';
+
 export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   requestedTableName: 'DISTANCE RATIO EKVILATER';
   normalizedTableName: 'DISTANCE RATIO EKVILATER';
-  legacyRequestedTableNames: readonly ['DISANCE RATOR EKVILATER'];
+  legacyRequestedTableNames: readonly ExtrimliExtrondolDistanceRatioEkvilaterLegacyAlias[];
   contractField: 'distanceRatioEkvilaterTable';
   version: 'v1-distance-ratio-ekvilater';
   interpretation: 'derived-readiness-table';
