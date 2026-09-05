@@ -1,0 +1,52 @@
+name: PROSPARITET — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/prosparitet/**'
+      - 'src/app/api/prosparitet/**'
+      - 'src/tests/lib/prosparitet.test.ts'
+      - 'src/tests/api/prosparitet-route.test.ts'
+      - 'docs/PROSPARITET.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
+      - '.github/workflows/prosparitet-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/prosparitet/**'
+      - 'src/app/api/prosparitet/**'
+      - 'src/tests/lib/prosparitet.test.ts'
+      - 'src/tests/api/prosparitet-route.test.ts'
+      - 'docs/PROSPARITET.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
+      - '.github/workflows/prosparitet-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: prosparitet-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: prosparitet
+      lint_paths: >-
+        src/lib/prosparitet
+        src/app/api/prosparitet
+      test_commands: |
+        npx tsx src/tests/lib/prosparitet.test.ts
+        npx tsx src/tests/api/prosparitet-route.test.ts
+      scan_paths: >-
+        src/lib/prosparitet
+        src/app/api/prosparitet
+      label: prosparitet
+      perf_eval_ms: 50
+      perf_api_ms: 200

@@ -512,6 +512,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `kulkon-core` (octave: 7, hipermreza node: 59)
   - **Linked-repo impact**: none (v1)
 
+### prosparitet-validator-agent (NEW)
+- **Role**: Validacija PROSPARITET logike — prosperity readiness scoring, status mapiranje i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/prosparitet/**`, `src/app/api/prosparitet/**`
+- **Trigger**: PR sa labelom `prosparitet:logic-change`, push koji dira `prosparitet` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za PROSPARITET logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni horizont, bounds)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `prosparitet:validated` ili `prosparitet:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `prosparitet-core` (octave: 9, hipermreza node: 73)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -592,6 +606,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
+| prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1222,6 +1237,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `kulkon-core` (octave: 7, hipermreza node: 59)
   - **Linked-repo impact**: none (v1)
 
+### prosparitet-validator-agent (NEW)
+- **Role**: Validate PROSPARITET logic — prosperity-readiness scoring, status mapping, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/prosparitet/**`, `src/app/api/prosparitet/**`
+- **Trigger**: PR with label `prosparitet:logic-change`, push touching `prosparitet` paths
+- **Actions**:
+  - Runs unit and route test suite for PROSPARITET logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, negative values, invalid horizons, bounds)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `prosparitet:validated` or `prosparitet:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `prosparitet-core` (octave: 9, hipermreza node: 73)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1301,6 +1330,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
+| prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
