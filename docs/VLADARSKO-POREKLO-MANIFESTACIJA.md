@@ -15,7 +15,7 @@
 - **Linked repo (execution):** `spaja86/IO-OPENUI-AO`
 - **Predviđena landing putanja:** `src/app/vladarskog-porekla/page.tsx`
 - **Predviđena registraciona API putanja:** `src/app/api/vladarskog-porekla/register/route.ts`
-- **Cross-repo evidencija:** `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/MULTI-REPO-LINKS.md`
+- **Cross-repo evidencija:** `docs/MULTI-REPO-LINKS.md`
 - **Handoff/Audit ID:** `VPOREKLO-2026-09`
 
 ---
