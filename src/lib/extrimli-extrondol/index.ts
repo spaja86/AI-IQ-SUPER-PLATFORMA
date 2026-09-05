@@ -146,12 +146,14 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     ),
     2,
   );
-  const duetScore = duetSignal.valid ? duetSignal.overallScore : 0;
+  const blendedBaseScore = duetSignal.valid
+    ? (baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE) + (duetSignal.overallScore * EXTRONDOL_NIVO_DUET_SHARE)
+    : baseOrchestrationScore;
   const duetAdjustment = duetSignal.valid
     ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, duetSignal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP)
     : -EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY;
   const orchestrationReadinessScore = round(
-    clamp(baseOrchestrationScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE + duetScore * EXTRONDOL_NIVO_DUET_SHARE + duetAdjustment, 0, 100),
+    clamp(blendedBaseScore + duetAdjustment, 0, 100),
     2,
   );
 
