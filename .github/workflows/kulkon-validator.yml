@@ -1,0 +1,48 @@
+name: KULKON — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/kulkon/**'
+      - 'src/app/api/kulkon/**'
+      - 'src/tests/lib/kulkon.test.ts'
+      - 'src/tests/api/kulkon-route.test.ts'
+      - 'docs/KULKON.md'
+      - '.github/workflows/kulkon-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/kulkon/**'
+      - 'src/app/api/kulkon/**'
+      - 'src/tests/lib/kulkon.test.ts'
+      - 'src/tests/api/kulkon-route.test.ts'
+      - 'docs/KULKON.md'
+      - '.github/workflows/kulkon-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: kulkon-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: kulkon
+      lint_paths: >-
+        src/lib/kulkon
+        src/app/api/kulkon
+      test_commands: |
+        npx tsx src/tests/lib/kulkon.test.ts
+        npx tsx src/tests/api/kulkon-route.test.ts
+      scan_paths: >-
+        src/lib/kulkon
+        src/app/api/kulkon
+      label: kulkon
+      perf_eval_ms: 50
+      perf_api_ms: 200

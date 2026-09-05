@@ -114,6 +114,12 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 - Promote each domain independently through canary → staging → production, with separate exit criteria for core platform, Nova Generacija, Mekartor, linked-repo sync, and audit surfaces.
 - Require OKRID-linked rollout, rollback, KPI impact, and cross-repo impact evidence before final activation.
 
+### Phase 6.8 — KULKON activation
+
+- Ship `kulkon` as a deterministic collaboration-culture scoring engine with strict validation guards and stable API-first contracts.
+- Keep v1 repo-local and CI-gated; defer HR system integration and private people-data workflows to later phases.
+- Enforce validator workflow gates and keep docs/config/audit links synchronized.
+
 ## Route and API readiness model
 
 | Classification | Meaning | Current examples |
@@ -134,6 +140,7 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | `analytics-bot` | KPI/reporting source of truth | `.agent-config.json`, `docs/finops-enterprise-operating-model.md` |
 | `trenazer-validator-agent` | Repo-local training-readiness validation | `.github/workflows/trenazer-validator.yml`, `docs/TRENAZER.md` |
 | `pilotrelax-validator-agent` | Repo-local relaxation-guidance validation | `.github/workflows/pilotrelax-validator.yml`, `docs/PILOTRELAX.md` |
+| `kulkon-validator-agent` | Repo-local culture-cohesion validation | `.github/workflows/kulkon-validator.yml`, `docs/KULKON.md` |
 | `mirikl-validator-agent` | GitHub ↔ Vercel governance/release-gate validation | `.github/workflows/mirikl-validator.yml`, `docs/MIRIKL.md` |
 | `eksluziv-network` | Domain-scoped deploy governance and segmented rollout track | `docs/EKSLUZIV-NETWORK.md`, `.github/workflows/deploy-platforma.yml`, `.github/workflows/vercel-deploy.yml` |
 | `okrid-governance` | Weekly OKRID compliance and blocker reporting | `.github/workflows/okrid-weekly-review.yml`, `docs/OKRID.md` |
