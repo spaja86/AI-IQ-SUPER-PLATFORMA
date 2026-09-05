@@ -8,6 +8,8 @@ on:
       - 'src/tests/lib/trikot.test.ts'
       - 'src/tests/api/trikot-route.test.ts'
       - 'docs/TRIKOT.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
       - '.github/workflows/trikot-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
@@ -18,6 +20,8 @@ on:
       - 'src/tests/lib/trikot.test.ts'
       - 'src/tests/api/trikot-route.test.ts'
       - 'docs/TRIKOT.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
       - '.github/workflows/trikot-validator.yml'
   workflow_dispatch:
 

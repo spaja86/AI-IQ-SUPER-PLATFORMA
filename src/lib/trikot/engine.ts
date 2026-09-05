@@ -110,7 +110,8 @@ function computePracticalityScore(input: TrikotInput): number {
 
 function computeReadinessScore(input: TrikotInput): number {
   const target = OBJECTIVE_TARGET_PREP_HOURS[input.objective];
-  const prepPenalty = Math.abs(input.prepTimeHours - target) / target * 40;
+  const safeTarget = Math.max(1, target);
+  const prepPenalty = Math.abs(input.prepTimeHours - target) / safeTarget * 40;
   const complexityPenalty = input.accessoryComplexity * 3;
   const raw = 100 - prepPenalty - complexityPenalty + input.weatherFitScore * 0.12;
   return round2(clamp(raw, TRIKOT_MIN_SCORE, TRIKOT_MAX_SCORE));
