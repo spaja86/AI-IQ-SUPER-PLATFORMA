@@ -129,6 +129,8 @@ export type DuelKingTournamentState = 'OPEN' | 'LOCKED' | 'ACTIVE' | 'COMPLETED'
 export type DuelKingBracketStatus = 'READY' | 'HOLD' | 'DEGRADED';
 export type DuelKingTelemetryStatus = 'BASELINE' | 'LIVE';
 export type DuelKingKurSignalStatus = 'BASELINE' | 'LIVE' | 'DEGRADED';
+export type DuelKingDurSignalStatus = 'BASELINE' | 'LIVE' | 'DEGRADED';
+export type DuelKingMolSignalStatus = 'BASELINE' | 'LIVE' | 'DEGRADED';
 
 export interface DuelKingGearRequirement {
   category: GearCategory;
@@ -144,8 +146,56 @@ export interface DuelKingKurGameSignalInput {
   maxDurationMs?: number;
 }
 
+export interface DuelKingDurGameSignalInput {
+  start: number;
+  target: number;
+  step: number;
+  maxIterations?: number;
+  maxDurationMs?: number;
+}
+
+export interface DuelKingMolGameSignalInput {
+  start: number;
+  target: number;
+  step: number;
+  maxIterations?: number;
+  maxDurationMs?: number;
+}
+
 export interface DuelKingKurGameSignalResult {
   status: DuelKingKurSignalStatus;
+  applied: boolean;
+  progressionSignal: number;
+  impactScore: number;
+  completed: boolean;
+  reason: 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status' | 'not-provided';
+  warnings: string[];
+  petlja: {
+    output: number;
+    iterations: number;
+    status: string;
+    reason: string;
+  } | null;
+}
+
+export interface DuelKingDurGameSignalResult {
+  status: DuelKingDurSignalStatus;
+  applied: boolean;
+  progressionSignal: number;
+  impactScore: number;
+  completed: boolean;
+  reason: 'completed' | 'max-iterations' | 'time-limit' | 'invalid-input' | 'blocked-status' | 'not-provided';
+  warnings: string[];
+  petlja: {
+    output: number;
+    iterations: number;
+    status: string;
+    reason: string;
+  } | null;
+}
+
+export interface DuelKingMolGameSignalResult {
+  status: DuelKingMolSignalStatus;
   applied: boolean;
   progressionSignal: number;
   impactScore: number;
@@ -172,6 +222,8 @@ export interface DuelKingInput {
   activeGearCategories?: GearCategory[];
   recentSessions?: number; // 0–100
   kurGameSignal?: DuelKingKurGameSignalInput;
+  durGameSignal?: DuelKingDurGameSignalInput;
+  molGameSignal?: DuelKingMolGameSignalInput;
   fighterId?: string;
   tournamentState?: DuelKingTournamentState;
   referenceId?: string;
@@ -195,6 +247,8 @@ export interface DuelKingResult {
   valid: boolean;
   warnings: string[];
   kurGameSignal: DuelKingKurGameSignalResult;
+  durGameSignal: DuelKingDurGameSignalResult;
+  molGameSignal: DuelKingMolGameSignalResult;
   recommendation: string;
   durationMs: number;
 }
@@ -206,16 +260,32 @@ export interface DuelKingHealthReport {
   sourceOfTruth: string;
   telemetryStatus: DuelKingTelemetryStatus;
   kurTelemetryStatus: DuelKingKurSignalStatus;
+  durTelemetryStatus: DuelKingDurSignalStatus;
+  molTelemetryStatus: DuelKingMolSignalStatus;
   kurContractVersion: string;
+  durContractVersion: string;
+  molContractVersion: string;
   evaluations: number;
   kurEvaluations: number;
+  durEvaluations: number;
+  molEvaluations: number;
   kurDegradedEvaluations: number;
+  durDegradedEvaluations: number;
+  molDegradedEvaluations: number;
   kurSignalCoverageScore: number;
+  durSignalCoverageScore: number;
+  molSignalCoverageScore: number;
   lastReadinessScore: number;
   lastDuelRiskScore: number;
   lastKurProgressionSignal: number;
+  lastDurProgressionSignal: number;
+  lastMolProgressionSignal: number;
   lastKurImpactScore: number;
+  lastDurImpactScore: number;
+  lastMolImpactScore: number;
   lastKurSignalStatus: DuelKingKurSignalStatus;
+  lastDurSignalStatus: DuelKingDurSignalStatus;
+  lastMolSignalStatus: DuelKingMolSignalStatus;
   lastTournamentState: DuelKingTournamentState | null;
   performanceMaxMs: number;
   apiResponseMaxMs: number;

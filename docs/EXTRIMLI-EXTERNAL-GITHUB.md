@@ -84,7 +84,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 
 - module health/status snapshot
 - DUEL KING readiness/tournament snapshot
-  - includes `telemetryStatus` to distinguish baseline vs live duel telemetry
+  - includes `telemetryStatus` plus `kurTelemetryStatus`, `durTelemetryStatus`, `molTelemetryStatus` to distinguish baseline/live/degraded in-game signal posture
 - extendol unified health/readiness snapshot
 - KORON overlay health/readiness snapshot
 - EXTRONDEND aggregation snapshot
@@ -120,13 +120,15 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 3. praćenje `instrukcija` export bundle contract-a kod downstream potrošača
 4. preuzimanje `/api/extrimli/koron` snapshot-a i provera polja `status`, `readinessScore`, `degradedSources`
 5. preuzimanje `/api/extrimli/duel-king` snapshot-a i provera polja `duelMode`, `readinessScore`, `gearCleared`, `tournamentState`
+   - plus signal contract fields: `kurContractVersion`, `durContractVersion`, `molContractVersion`
+   - plus signal posture fields: `lastKurSignalStatus`, `lastDurSignalStatus`, `lastMolSignalStatus`
 6. potvrda da su audit reference i workflow ownership usklađeni
 7. obavezan follow-up issue kada downstream ostane delimično neusaglašen
 
 ## 10. Mandatory gate criteria
 
 - KPI: evaluation ≤ 50ms, API ≤ 200ms, build ≤ 3 min
-- DUEL KING mora imati explicit versioned contract polja i source-of-truth endpoint
+- DUEL KING mora imati explicit versioned contract polja i source-of-truth endpoint (core + KUR/DUR/MOL in-game signals)
 - EXTRONDEND i EXTRONDOL moraju imati explicit versioned contract polja i source-of-truth endpoint
 - Security boundary: bez sekreta u kodu, sve kroz GitHub/Vercel Secrets
 - Human review obavezan pre promocije

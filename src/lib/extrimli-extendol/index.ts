@@ -8,6 +8,7 @@ import {
 import { getExtrimli3HealthReport } from '../extrimli-3';
 import { getCuzHealthReport } from '../extrimli-cuz';
 import { getDuelKingHealthReport } from '../extrimli-duel-king';
+import { computeDuelKingCompositeReadiness } from '../extrimli-duel-king';
 import { buildExtrimliKoronHealthReport } from '../extrimli-koron/core';
 import type {
   ExtrimliExtendolAcceptanceCriterion,
@@ -32,6 +33,8 @@ function buildCoverage(): ExtrimliExtendolCoverage {
     athleteProgressAndReadiness: true,
     duelKingCompetition: true,
     kurInGameSignal: true,
+    durInGameSignal: true,
+    molInGameSignal: true,
     communityReputationAndMentorship: true,
     koronReadinessOverlay: true,
   };
@@ -57,13 +60,8 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   const v1Readiness = clamp(100 - v1.lastRiskScore, 0, 100);
   const v3Safety = clamp(100 - v3.lastRiskScore, 0, 100);
   const v3Readiness = clamp(v3.lastReadinessScore, 0, 100);
-  const duelKingReadiness = clamp(duelKing.lastReadinessScore, 0, 100);
   const duelKingLive = duelKing.telemetryStatus === 'LIVE';
-  const duelKingKurLive = duelKing.kurTelemetryStatus === 'LIVE' && duelKing.lastKurSignalStatus === 'LIVE';
-  const duelKingKurScore = clamp(duelKing.lastKurProgressionSignal, 0, 100);
-  const duelKingCompositeReadiness = duelKingKurLive
-    ? round(clamp(duelKingReadiness * 0.8 + duelKingKurScore * 0.2, 0, 100), 2)
-    : duelKingReadiness;
+  const duelKingCompositeReadiness = computeDuelKingCompositeReadiness(duelKing);
   const communitySignal = buildCommunitySignal(cuz.activeCrews, cuz.mentorProfiles, cuz.feedPosts);
   const koronReadiness = clamp(koron.readinessScore, 0, 100);
 
@@ -108,6 +106,12 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
   if (duelKing.kurTelemetryStatus === 'DEGRADED') {
     degradedSources.push('extrimli-duel-king-kur-signal');
   }
+  if (duelKing.durTelemetryStatus === 'DEGRADED') {
+    degradedSources.push('extrimli-duel-king-dur-signal');
+  }
+  if (duelKing.molTelemetryStatus === 'DEGRADED') {
+    degradedSources.push('extrimli-duel-king-mol-signal');
+  }
   if (koron.performanceMaxMs > EXTRIMLI_EXTENDOL_EVALUATION_MAX_MS || koron.apiResponseMaxMs > EXTRIMLI_EXTENDOL_API_MAX_MS) {
     degradedSources.push('extrimli-koron-kpi');
   }
@@ -137,13 +141,23 @@ export function getExtrimliExtendolReport(): ExtrimliExtendolReport {
       passed: coverage.kurInGameSignal && duelKing.kurContractVersion === 'v1-kur-game',
     },
     {
+      id: 'dur-in-game-covered',
+      description: 'DUR-in-GAME signal is contract-bound and blended into DUEL KING readiness when live.',
+      passed: coverage.durInGameSignal && duelKing.durContractVersion === 'v1-dur-game',
+    },
+    {
+      id: 'mol-in-game-covered',
+      description: 'MOL-in-GAME signal is contract-bound and blended into DUEL KING readiness when live.',
+      passed: coverage.molInGameSignal && duelKing.molContractVersion === 'v1-mol-game',
+    },
+    {
       id: 'koron-overlay-covered',
       description: 'KORON readiness overlay is present as a required Extendol capability.',
       passed: coverage.koronReadinessOverlay && koron.status !== 'DEGRADED',
     },
     {
       id: 'kpi-targets',
-      description: 'v1, v3, DUEL KING, CUZ, and KORON KPI targets meet evaluation ≤ 50ms and API ≤ 200ms.',
+      description: 'v1, v3, DUEL KING (including KUR/DUR/MOL), CUZ, and KORON KPI targets meet evaluation ≤ 50ms and API ≤ 200ms.',
       passed: degradedSources.length === 0,
     },
     {

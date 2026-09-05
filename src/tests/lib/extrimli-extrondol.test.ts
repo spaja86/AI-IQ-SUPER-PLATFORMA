@@ -59,6 +59,8 @@ async function runTests(): Promise<void> {
     assert(report.surfaces.extrondend.contractVersion === 'v1-extrondend', 'extrondend contract mismatch');
     assert(report.surfaces.extendol.contractVersion === 'v1', 'extendol contract mismatch');
     assert(report.surfaces.koron.contractVersion === 'v1-koron', 'koron contract mismatch');
+    assert(report.surfaces.extrondend.surfaces.duelKing.durContractVersion === 'v1-dur-game', 'dur contract mismatch');
+    assert(report.surfaces.extrondend.surfaces.duelKing.molContractVersion === 'v1-mol-game', 'mol contract mismatch');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

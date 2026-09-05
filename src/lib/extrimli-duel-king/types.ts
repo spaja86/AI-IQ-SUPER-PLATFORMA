@@ -1,20 +1,32 @@
 import type {
+  DuelKingDurGameSignalInput,
+  DuelKingDurGameSignalResult,
+  DuelKingDurSignalStatus,
   DuelKingHealthReport,
   DuelKingInput,
   DuelKingKurGameSignalInput,
   DuelKingKurGameSignalResult,
   DuelKingKurSignalStatus,
+  DuelKingMolGameSignalInput,
+  DuelKingMolGameSignalResult,
+  DuelKingMolSignalStatus,
   DuelKingMode,
   DuelKingResult,
   DuelKingTournamentState,
 } from '../extrimli/types';
 
 export type {
+  DuelKingDurGameSignalInput,
+  DuelKingDurGameSignalResult,
+  DuelKingDurSignalStatus,
   DuelKingHealthReport,
   DuelKingInput,
   DuelKingKurGameSignalInput,
   DuelKingKurGameSignalResult,
   DuelKingKurSignalStatus,
+  DuelKingMolGameSignalInput,
+  DuelKingMolGameSignalResult,
+  DuelKingMolSignalStatus,
   DuelKingMode,
   DuelKingResult,
   DuelKingTournamentState,
@@ -27,3 +39,5 @@ export const EXTRIMLI_DUEL_KING_SOURCE_OF_TRUTH = '/api/extrimli/duel-king';
 export const EXTRIMLI_DUEL_KING_EVALUATION_MAX_MS = 50;
 export const EXTRIMLI_DUEL_KING_API_MAX_MS = 200;
 export const EXTRIMLI_DUEL_KING_KUR_CONTRACT_VERSION = 'v1-kur-game';
+export const EXTRIMLI_DUEL_KING_DUR_CONTRACT_VERSION = 'v1-dur-game';
+export const EXTRIMLI_DUEL_KING_MOL_CONTRACT_VERSION = 'v1-mol-game';

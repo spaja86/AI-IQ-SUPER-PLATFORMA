@@ -12,6 +12,8 @@ export interface ExtrimliExtendolCoverage {
   athleteProgressAndReadiness: boolean;
   duelKingCompetition: boolean;
   kurInGameSignal: boolean;
+  durInGameSignal: boolean;
+  molInGameSignal: boolean;
   communityReputationAndMentorship: boolean;
   koronReadinessOverlay: boolean;
 }

@@ -124,13 +124,17 @@ async function runTests(): Promise<void> {
     assert(response.status === 200, `expected 200, got ${response.status}`);
     assert(response.headers.get('X-Extrimli-Duel-King-Contract-Version') === 'v1-duel-king', 'missing DUEL KING contract header');
     assert(response.headers.get('X-Extrimli-Duel-King-Kur-Contract-Version') === 'v1-kur-game', 'missing DUEL KING KUR contract header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Dur-Contract-Version') === 'v1-dur-game', 'missing DUEL KING DUR contract header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Mol-Contract-Version') === 'v1-mol-game', 'missing DUEL KING MOL contract header');
 
     const body = await response.json() as {
-      data: { sourceOfTruth: string; personaId: string; kurContractVersion: string };
+      data: { sourceOfTruth: string; personaId: string; kurContractVersion: string; durContractVersion: string; molContractVersion: string };
     };
     assert(body.data.sourceOfTruth === '/api/extrimli/duel-king', 'unexpected DUEL KING sourceOfTruth');
     assert(body.data.personaId === 'extrimli-duel-king', 'unexpected DUEL KING persona');
     assert(body.data.kurContractVersion === 'v1-kur-game', 'unexpected DUEL KING KUR contract version');
+    assert(body.data.durContractVersion === 'v1-dur-game', 'unexpected DUEL KING DUR contract version');
+    assert(body.data.molContractVersion === 'v1-mol-game', 'unexpected DUEL KING MOL contract version');
   });
 
   await test('GET /api/extrimli/destruction/assets supports filtering', async () => {
@@ -246,6 +250,8 @@ async function runTests(): Promise<void> {
     assert(response.status === 200, `expected 200, got ${response.status}`);
     assert(response.headers.get('X-Extrimli-Duel-King-Contract-Version') === 'v1-duel-king', 'missing DUEL KING contract header');
     assert(response.headers.get('X-Extrimli-Duel-King-Kur-Contract-Version') === 'v1-kur-game', 'missing DUEL KING KUR contract header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Dur-Contract-Version') === 'v1-dur-game', 'missing DUEL KING DUR contract header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Mol-Contract-Version') === 'v1-mol-game', 'missing DUEL KING MOL contract header');
     const body = await response.json() as { data: { valid: boolean; bracketStatus: string; degraded: boolean } };
     assert(body.data.valid === true, 'expected valid DUEL KING response');
     assert(body.data.bracketStatus === 'READY', `unexpected bracketStatus: ${body.data.bracketStatus}`);
@@ -279,6 +285,42 @@ async function runTests(): Promise<void> {
     assert(body.data.kurGameSignal.impactScore >= -8 && body.data.kurGameSignal.impactScore <= 8, 'unexpected KUR impact bounds');
   });
 
+  await test('POST /api/extrimli/duel-king applies DUR/MOL in-game signals when payload is valid', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+      durGameSignal: { start: 0, target: 10, step: 2 },
+      molGameSignal: { start: 1, target: 9, step: 2 },
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Duel-King-Dur-Signal-Status') === 'LIVE', 'expected LIVE DUR signal header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Mol-Signal-Status') === 'LIVE', 'expected LIVE MOL signal header');
+    const body = await response.json() as {
+      data: {
+        valid: boolean;
+        durGameSignal: { status: string; applied: boolean; impactScore: number };
+        molGameSignal: { status: string; applied: boolean; impactScore: number };
+      };
+    };
+    assert(body.data.valid === true, 'expected valid DUEL KING response');
+    assert(body.data.durGameSignal.status === 'LIVE', 'expected LIVE DUR signal');
+    assert(body.data.molGameSignal.status === 'LIVE', 'expected LIVE MOL signal');
+    assert(body.data.durGameSignal.applied === true, 'expected DUR signal to be applied');
+    assert(body.data.molGameSignal.applied === true, 'expected MOL signal to be applied');
+    assert(body.data.durGameSignal.impactScore >= -6 && body.data.durGameSignal.impactScore <= 6, 'unexpected DUR impact bounds');
+    assert(body.data.molGameSignal.impactScore >= -5 && body.data.molGameSignal.impactScore <= 5, 'unexpected MOL impact bounds');
+  });
+
   await test('POST /api/extrimli/duel-king degrades for invalid KUR-in-GAME payload without 500', async () => {
     const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
       sportId: 'duel-king',
@@ -305,6 +347,43 @@ async function runTests(): Promise<void> {
     assert(body.data.degraded === true, 'expected degraded response for invalid KUR signal');
     assert(body.data.kurGameSignal.status === 'DEGRADED', 'expected DEGRADED KUR signal');
     assert(body.data.kurGameSignal.applied === false, 'invalid KUR signal should not be applied');
+  });
+
+  await test('POST /api/extrimli/duel-king degrades for invalid DUR/MOL payload without 500', async () => {
+    const response = await postDuelKing(makePostRequest('http://localhost/api/extrimli/duel-king', {
+      sportId: 'duel-king',
+      duelMode: 'ARENA',
+      fighterExperience: 8,
+      opponentTier: 5,
+      arenaHazard: 3,
+      staminaReserve: 8,
+      gearQualityIndex: 9,
+      reactionTimeMs: 180,
+      recentSessions: 8,
+      activeGearCategories: ['helmet', 'pads', 'boots'],
+      tournamentState: 'ACTIVE',
+      durGameSignal: { start: 'NaN', target: 8, step: 0 },
+      molGameSignal: { start: 0, target: null, step: 1 },
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Degraded') === 'true', 'expected degraded header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Dur-Signal-Status') === 'DEGRADED', 'expected DEGRADED DUR signal header');
+    assert(response.headers.get('X-Extrimli-Duel-King-Mol-Signal-Status') === 'DEGRADED', 'expected DEGRADED MOL signal header');
+    const body = await response.json() as {
+      data: {
+        valid: boolean;
+        degraded: boolean;
+        durGameSignal: { status: string; applied: boolean };
+        molGameSignal: { status: string; applied: boolean };
+      };
+    };
+    assert(body.data.valid === true, 'expected DUEL KING response to stay valid');
+    assert(body.data.degraded === true, 'expected degraded response for invalid DUR/MOL signals');
+    assert(body.data.durGameSignal.status === 'DEGRADED', 'expected DEGRADED DUR signal');
+    assert(body.data.molGameSignal.status === 'DEGRADED', 'expected DEGRADED MOL signal');
+    assert(body.data.durGameSignal.applied === false, 'invalid DUR signal should not be applied');
+    assert(body.data.molGameSignal.applied === false, 'invalid MOL signal should not be applied');
   });
 
   await test('POST /api/extrimli/duel-king treats null KUR numeric fields as degraded signal', async () => {
