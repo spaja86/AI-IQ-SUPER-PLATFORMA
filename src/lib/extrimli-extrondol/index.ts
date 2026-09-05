@@ -196,7 +196,9 @@ export function getExtrimliExtrondolReport(): ExtrimliExtrondolReport {
     {
       id: 'nivo-duet-mapping',
       description: 'DUET status/overallScore/warnings are mapped into WAWE orchestration and promotion freeze decisions.',
-      passed: duetSignal.valid && Number.isFinite(duetSignal.overallScore),
+      passed: Number.isFinite(orchestrationReadinessScore)
+        && currentWawe === pickWawe(orchestrationReadinessScore, degraded)
+        && promotionFreeze === (degraded || currentWawe === 'WAWE-1'),
     },
     {
       id: 'dinkos-contract',
