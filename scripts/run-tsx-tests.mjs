@@ -38,12 +38,13 @@ function collectTestFiles(baseDir) {
 
 const targetDirectory = isAbsolute(directory) ? directory : resolve(repoRoot, directory);
 const testFiles = collectTestFiles(targetDirectory);
-const tsxCliPath = require.resolve('tsx/cli', { paths: [repoRoot] });
 
 if (testFiles.length === 0) {
   console.error(`No test files found in: ${targetDirectory}`);
   process.exit(1);
 }
+
+const tsxCliPath = require.resolve('tsx/cli', { paths: [repoRoot] });
 
 for (const file of testFiles) {
   const command = spawnSync(process.execPath, [tsxCliPath, file], {
