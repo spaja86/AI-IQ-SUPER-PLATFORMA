@@ -10,6 +10,13 @@ import type { ExtrimliExtrondolGovernanceEvidence } from '@/lib/extrimli-extrond
 
 export const dynamic = 'force-dynamic';
 
+const ALLOWED_APPLY_AGENTS = new Set([
+  'extrimli-world-bank-persona-orchestrator',
+  'extrimli-validator-agent',
+  'persona-bank-agent',
+  'multi-repo-sync-agent',
+]);
+
 export async function GET() {
   try {
     const report = getExtrimliWorldBankPersonaReport({ mode: 'preview' });
@@ -26,6 +33,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const agentId = req.headers.get('x-agent-id');
   if (!agentId) return apiError('BAD_REQUEST', 'X-Agent-Id header is required', 400);
+  if (!ALLOWED_APPLY_AGENTS.has(agentId)) {
+    return apiError('FORBIDDEN', 'X-Agent-Id is not allowed for persona apply on this endpoint', 403);
+  }
 
   try {
     let body: unknown = {};

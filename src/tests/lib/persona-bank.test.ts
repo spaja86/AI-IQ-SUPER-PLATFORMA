@@ -177,6 +177,18 @@ async function runTests(): Promise<void> {
     assert(threw, 'mora baciti grešku za arhiviranje');
   });
 
+  await test('updatePersona baca grešku kada status pokušava da pređe na archived', () => {
+    _resetPersonaBankStore();
+    registerPersona(BASE_INPUT, 'ci-bot');
+    let threw = false;
+    try {
+      updatePersona('test-persona-1', { status: 'archived' }, 'ci-bot');
+    } catch {
+      threw = true;
+    }
+    assert(threw, 'mora baciti grešku za direktan archived update');
+  });
+
   // ─── Store: archive ─────────────────────────────────────────────────────────
 
   await test('archivePersona postavlja status na archived', () => {

@@ -18,8 +18,7 @@ function round(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-function buildFinancialContextScore(): number {
-  const worldBank = buildAiIqWorldBank('extrimli-world-bank-persona');
+function buildFinancialContextScore(worldBank: ReturnType<typeof buildAiIqWorldBank>): number {
   const activeAccountsSignal = clamp((worldBank.kpi.aktivnihRacuna / 2_500) * 100, 0, 100);
   const githubBillingSignal = clamp((worldBank.kpi.githubBillingTransakcija / 300) * 100, 0, 100);
   const partnerSignal = clamp((worldBank.kpi.partneraUkupno / 8) * 100, 0, 100);
@@ -95,7 +94,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
   const extrimliAggregate = getExtrimliAggregateSignals();
   const extrondol = getExtrimliExtrondolReport(options.evidence);
 
-  const financialContextScore = buildFinancialContextScore();
+  const financialContextScore = buildFinancialContextScore(worldBank);
   const extrimliReadinessSignal = round(extrimliAggregate.readinessSignal);
   const orchestrationReadinessScore = round(extrondol.orchestrationReadinessScore);
   const combinedReadinessScore = round(
