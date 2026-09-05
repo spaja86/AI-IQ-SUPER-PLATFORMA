@@ -8,6 +8,8 @@ on:
       - 'src/tests/lib/kulkon.test.ts'
       - 'src/tests/api/kulkon-route.test.ts'
       - 'docs/KULKON.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
       - '.github/workflows/kulkon-validator.yml'
     types: [opened, synchronize, reopened, labeled]
   push:
@@ -18,6 +20,8 @@ on:
       - 'src/tests/lib/kulkon.test.ts'
       - 'src/tests/api/kulkon-route.test.ts'
       - 'docs/KULKON.md'
+      - 'AGENTS.md'
+      - '.agent-config.json'
       - '.github/workflows/kulkon-validator.yml'
   workflow_dispatch:
 
