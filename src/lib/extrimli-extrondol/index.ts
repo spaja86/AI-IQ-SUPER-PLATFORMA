@@ -23,6 +23,12 @@ import {
   EXTRONDOL_BUILD_MAX_MIN,
   EXTRONDOL_CONTRACT_VERSION,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_ALIAS,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN,
   EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
@@ -170,14 +176,14 @@ function buildDistanceRatioEkvilaterTable(scores: {
       : 'skewed';
 
   return {
-    requestedTableName: 'DISTANCE RATIO EKVILATER',
-    normalizedTableName: 'DISTANCE RATIO EKVILATER' as const,
-    legacyRequestedTableNames: ['DISANCE RATOR EKVILATER'],
-    contractField: 'distanceRatioEkvilaterTable' as const,
+    requestedTableName: EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+    normalizedTableName: EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+    legacyRequestedTableNames: [EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_ALIAS] as const,
+    contractField: EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
     version: EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
-    interpretation: 'derived-readiness-table' as const,
-    targetShape: 'EQUILATERAL' as const,
-    scoringSource: ['extrondend.aggregationScore', 'extendol.unifiedReadinessScore', 'koron.readinessScore'] as const,
+    interpretation: EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
+    targetShape: EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
+    scoringSource: EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
     rows,
     summary: {
       averageDistance,
@@ -435,7 +441,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     {
       id: 'distance-ratio-ekvilater-table',
       description: 'DISTANCE RATIO EKVILATER is exposed as an additive derived-readiness table over EXTRONDEND, EXTENDOL, and KORON score distances.',
-      passed: distanceRatioEkvilaterTable.contractField === 'distanceRatioEkvilaterTable'
+      passed: distanceRatioEkvilaterTable.contractField === EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD
         && distanceRatioEkvilaterTable.rows.length === 3
         && Number.isFinite(distanceRatioEkvilaterTable.summary.equilateralConsistency),
     },
@@ -559,6 +565,12 @@ export {
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
   EXTRONDOL_DUET_WARNING_PENALTY_STEP,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_BALANCED_MIN,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_INTERPRETATION,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_LEGACY_ALIAS,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME,
+  EXTRONDOL_DISTANCE_RATIO_EKVILATER_TARGET_SHAPE,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION,
   EXTRONDOL_DISTANCE_RATIO_EKVILATER_WATCH_MIN,
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
