@@ -77,6 +77,7 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'wawe-sequencing' && item.passed), 'wawe-sequencing criterion must pass');
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(report.rollout.currentWawe), 'invalid currentWawe');
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(report.rollout.eligibleNextWawe), 'invalid eligibleNextWawe');
+    assert(['RING-0-CONTRACT', 'RING-1-STAGING', 'RING-2-CANARY', 'RING-3-PRODUCTION', 'RING-4-RESILIENCE'].includes(report.b2bReadiness.tenant.rolloutRing), 'invalid B2B rollout ring');
   });
 
   await test('report includes bounded orchestration score and degraded policy', () => {
@@ -119,6 +120,7 @@ async function runTests(): Promise<void> {
     assert(report.dinkos.classification === 'signal', 'dinkos classification mismatch');
     assert(report.dinkos.triggerLabel === 'dinkos:logic-change', 'dinkos trigger label mismatch');
     assert(report.dinkos.degradedMode === 'partial-payload-no-500', 'dinkos degraded mode mismatch');
+    assert(report.b2bReadiness.governanceDecisions.dinkosSignalRequired, 'dinkos signal must remain mandatory for B2B governance');
   });
 
   await test('NIVO DUET warning penalty and status adjustment are applied to orchestration score', () => {
@@ -160,6 +162,56 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'nivo-duet-mapping' && item.passed), 'nivo-duet-mapping criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dinkos-contract' && item.passed), 'dinkos-contract criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'domain-strategy-lock' && item.passed), 'domain-strategy-lock criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-downstream-sync' && item.passed), 'b2b-downstream-sync criterion must pass');
+  });
+
+  await test('report exposes additive B2B operating metadata and controls', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.b2bScope.consumerModel === 'organization-level', 'B2B consumer model mismatch');
+    assert(report.b2bScope.accountOwnership.owner === '@spaja86', 'B2B owner mismatch');
+    assert(report.b2bScope.accountOwnership.mandatoryHumanReview, 'human review must remain mandatory');
+    assert(report.b2bScope.partnerOperatorRoles.partners.includes('spaja86/IO-OPENUI-AO'), 'linked repo partner missing');
+    assert(report.b2bScope.procurementReviewFlow.steps.join(',') === 'request-submitted,procurement-review,compliance-review,operational-approval,activation', 'procurement flow mismatch');
+    assert(report.b2bScope.slaExpectations.tier === 'enterprise-governed', 'SLA tier mismatch');
+    assert(report.b2bScope.auditObligations.length >= 4, 'audit obligations must be present');
+    assert(report.b2bReadiness.tenant.environmentTier === 'B2B', 'environment tier mismatch');
+    assert(report.b2bReadiness.tenant.organizationId === 'spaja-digital-industrija-b2b', 'organization id mismatch');
+    assert(report.b2bReadiness.compliance.secretsInGitAllowed === false, 'secrets must not be allowed in git');
+    assert(report.b2bReadiness.compliance.onboardingComplete === false, 'onboarding must remain incomplete without explicit evidence');
+    assert(report.b2bReadiness.compliance.humanReviewComplete === false, 'human review must remain incomplete without explicit evidence');
+    assert(report.b2bReadiness.compliance.auditTrailComplete === true, 'audit trail should default to present governance evidence');
+    assert(report.b2bReadiness.downstreamSync.status === 'FOLLOW_UP_REQUIRED', 'downstream sync must require explicit evidence');
+    assert(report.b2bReadiness.compliance.blockers.includes('onboarding-complete'), 'onboarding blocker must be present');
+    assert(report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker must be present');
+    assert(report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker must be present');
+    assert(!report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should not appear when audit evidence is present');
+    assert(report.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'linked repo mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'WAWE sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('nivoDuet.signal.warnings'), 'DUET warnings sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('dinkos.triggerLabel'), 'DINKOS sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalApex'), 'domain strategy sync field missing');
+    assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
+    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence')), 'unexpected B2B warning format');
+    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-controls' && item.passed), 'b2b-controls criterion must pass');
+  });
+
+  await test('report can consume explicit governance evidence for downstream sync and human review', () => {
+    const report = getExtrimliExtrondolReport({
+      auditTrailComplete: false,
+      onboardingComplete: true,
+      downstreamSyncComplete: true,
+      humanReviewComplete: true,
+    });
+    assert(report.b2bReadiness.compliance.onboardingComplete === true, 'onboarding evidence override failed');
+    assert(report.b2bReadiness.compliance.humanReviewComplete === true, 'human review evidence override failed');
+    assert(report.b2bReadiness.downstreamSync.status === 'ALIGNED', 'downstream sync evidence override failed');
+    assert(report.b2bReadiness.compliance.auditTrailComplete === false, 'audit evidence override failed');
+    assert(report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should appear when audit evidence is missing');
+    assert(!report.b2bReadiness.compliance.blockers.includes('onboarding-complete'), 'onboarding blocker should clear');
+    assert(!report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker should clear');
+    assert(!report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker should clear');
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

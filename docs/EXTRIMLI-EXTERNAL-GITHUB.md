@@ -56,6 +56,19 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 - **Runtime source of truth:** Vercel Git integracija
 - **GitHub Actions role:** audit, governance i downstream coordination
 
+### 4.1 B2B operating model
+
+- EXTRONDOL je canonical B2B orchestration surface za organization-level consumers.
+- Ownership model: `@spaja86` + `Kompanija SPAJA / Digitalna Industrija` ostaju contract/account owners.
+- Operator model: WAWE orchestration, tenant onboarding, downstream sync, i operational approval ostaju odvojene odgovornosti.
+- Partner model: `spaja86/IO-OPENUI-AO` je obavezni downstream B2B consumer kada koristi EXTRONDOL snapshot.
+- Activation policy: nema B2B aktivacije bez contract approval, compliance review, downstream sync, i human review evidence.
+- `b2bReadiness.compliance.humanReviewComplete` je obavezno polje u EXTRONDOL B2B readiness sloju i mora blokirati promociju dok evidence nije prisutan.
+- `b2bReadiness.downstreamSync.status` ne sme biti inferred iz lokalnog health stanja; ostaje `FOLLOW_UP_REQUIRED` dok linked-repo sync evidence nije eksplicitno potvrđen.
+- `b2bReadiness.compliance.onboardingComplete` mora doći iz onboarding evidence; DUET signal ostaje governance input za onboarding hold, escalation i partner warnings.
+- Governance evidence može biti ubrizgan kroz EXTRONDOL report builder ili workflow environment (`EXTRONDOL_AUDIT_TRAIL_COMPLETE`, `EXTRONDOL_HUMAN_REVIEW_COMPLETE`, `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, `EXTRONDOL_ONBOARDING_COMPLETE`) da bi contract data ostao tačan.
+- Audit policy: approvals, freeze reasons, rollback triggeri i downstream references moraju biti traceable u PR summary / workflow summary.
+
 ## 5. Locked source-of-truth artifacts
 
 | Surface | Locked artifact |
@@ -71,11 +84,11 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 
 | WAWE | Purpose | Mandatory gates |
 |---|---|---|
-| WAWE 1 — Pre-release validation | Pre-release quality lock | test/lint/KPI/security/label readiness |
-| WAWE 2 — Build + Staging | Build i staging verifikacija na Vercel | build ≤ 3 min, staging smoke, governance evidence |
-| WAWE 3 — Downstream sync | Cross-repo sync i reference usklađivanje | snapshot sync + `docs/MULTI-REPO-LINKS.md` audit references |
-| WAWE 4 — Production rollout | Postepeni production rollout | 10% → 50% → 100% rings uz promotion guard |
-| WAWE 5 — Resilience + Analytics | Post-release potvrda stabilnosti | resilience checks + analytics evidence + final audit |
+| WAWE 1 — Pre-release validation | Pre-release quality lock | test/lint/KPI/security/label readiness + B2B contract/compliance lock |
+| WAWE 2 — Build + Staging | Build i staging verifikacija na Vercel | build ≤ 3 min, staging smoke, governance evidence, onboarding evidence |
+| WAWE 3 — Downstream sync | Cross-repo sync i reference usklađivanje | snapshot sync + `docs/MULTI-REPO-LINKS.md` audit references + B2B consumer alignment |
+| WAWE 4 — Production rollout | Postepeni production rollout | 10% → 50% → 100% rings uz promotion guard i operational approval |
+| WAWE 5 — Resilience + Analytics | Post-release potvrda stabilnosti | resilience checks + analytics evidence + final audit + B2B support readiness |
 
 ---
 
@@ -91,6 +104,8 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - EXTRONDEND aggregation snapshot
 - EXTRONDOL orchestration snapshot
 - NIVO DUET / DINKOS signal snapshot
+- EXTRONDOL B2B scope snapshot
+- EXTRONDOL B2B readiness snapshot
 - gear catalog snapshot
 - DESTRUKCIJA asset snapshot
 - instrukcija registry
@@ -103,6 +118,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - EXTRONDEND koristi `/api/extrimli/duel-king` + `/api/extrimli/extendol` + `/api/extrimli/koron` kao ulazne agregacione signale.
 - EXTRONDOL koristi `/api/extrimli/extrondend` + `/api/extrimli/extendol` + `/api/extrimli/koron` za WAWE readiness orkestraciju.
 - EXTRONDOL NIVO DUET sekcija koristi `/api/duet/evaluate` signal i mapira `valid`, `status`, `overallScore`, `warnings` u WAWE promotion guard logiku.
+- Isti EXTRONDOL signal u B2B modu mapira onboarding hold, escalation i partner-readiness warning odluke bez menjanja WAWE modela.
 - KORON surface `/api/extrimli/koron` mora ostati uključen u Extendol readiness i degraded evidenciju.
 - DUEL KING surface `/api/extrimli/duel-king` mora ostati uključen u EXTRIMLI health story i downstream snapshot plan kada je first-class surface aktivan.
 - Ako EXTRIMLI surface pređe KPI limit ili uđe u degraded mode, MAKSIMUS mora prijaviti preporuku za sanaciju.
@@ -136,6 +152,8 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 6. potvrda da su audit reference i workflow ownership usklađeni
 7. obavezan follow-up issue kada downstream ostane delimično neusaglašen
 8. mirror `nivo-duet:logic-change` i `dinkos:logic-change` label schema i povezati DUET signal mapiranje sa EXTRONDOL snapshot potrošačima
+9. preuzimanje `b2bScope` + `b2bReadiness` polja iz `/api/extrimli/extrondol`
+10. potvrda da su `rolloutRing`, `onboardingHold`, `rolloutFreeze`, `partnerReadinessWarnings` i `domainStrategy` mapirani u downstream B2B governance
 
 ## 10. Mandatory gate criteria
 
@@ -143,6 +161,8 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 - DUEL KING mora imati explicit versioned contract polja i source-of-truth endpoint (core + KUR/DUR/MOL in-game signals)
 - EXTRONDEND i EXTRONDOL moraju imati explicit versioned contract polja i source-of-truth endpoint
 - NIVO DUET / DINKOS mapiranje mora imati isti KPI i security gate kao EXTRONDOL i DUET validatori
+- EXTRONDOL B2B polja moraju ostati additive-only i backward-compatible
+- B2B audit completeness: contract/onboarding/downstream-sync/operational approval status mora biti prisutan pre promocije
 - Security boundary: bez sekreta u kodu, sve kroz GitHub/Vercel Secrets
 - Human review obavezan pre promocije
 - Label higijena: `extrimli:logic-change`, `extrimli:external-github`, `extrondend:logic-change`, `extrondol:logic-change`, `agent:config-change` (za config/workflow promene)
@@ -171,6 +191,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 3. downstream references potvrđene u `docs/MULTI-REPO-LINKS.md`
 4. human review evidentiran
 5. deploy workflow promoviše staging pa production
+6. B2B contract, onboarding, downstream sync i operational approval su evidentirani
 
 ### Rollback
 
@@ -178,6 +199,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 2. vratiti prethodni known-good Vercel deployment ako deploy/health signal degradira
 3. otvoriti downstream follow-up ako linked repo reference nisu usklađene
 4. aktivirati incident escalation kada KPI targeti ostanu breached posle rollback-a
+5. zadržati B2B activation freeze kada contract/compliance/downstream evidence nije kompletan
 
 ## 13. Done criteria
 
@@ -193,6 +215,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 - EXTRIMLI validator pokriva export/instrukcija/extendol surface
 - EXTRIMLI validator pokriva DUEL KING surface
 - EXTRIMLI validator pokriva i KORON overlay surface
+- EXTRIMLI / EXTRONDOL / DUET validatori pokrivaju B2B additive contract fields i audit completeness
 - GitHub governance workflow postoji bez dupliranja deploy toka
 - MAKSIMUS validator potvrđuje ingest EXTRIMLI Extendol signala
 - `docs/MULTI-REPO-LINKS.md` sadrži downstream i audit reference
