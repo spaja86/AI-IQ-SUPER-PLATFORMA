@@ -76,6 +76,9 @@ on:
       - 'src/app/api/extrimli-cuz/**'
       - 'src/components/extrimli-cuz/**'
       - 'platforms/kompanija-spaja/**'
+      - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-START-DEPLOY.md'
+      - 'docs/MULTI-REPO-LINKS.md'
   workflow_dispatch:
     inputs:
       environment:
@@ -155,6 +158,9 @@ jobs:
               - 'src/components/extrimli-cuz/**/*.ts'
               - 'src/components/extrimli-cuz/**/*.tsx'
               - 'platforms/kompanija-spaja/**'
+              - 'docs/EXTRIMLI.md'
+              - 'docs/EXTRIMLI-START-DEPLOY.md'
+              - 'docs/MULTI-REPO-LINKS.md'
 
   # ─────────────────────────────────────────────────────────────────────────────
   # FAZA 1b — Full CI gate (TypeScript + Lint + Unit Tests)
