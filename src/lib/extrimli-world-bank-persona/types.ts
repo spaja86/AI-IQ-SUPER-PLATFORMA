@@ -39,7 +39,7 @@ export interface ExtrimliWorldBankPersonaReport {
     currentWawe: ExtrimliExtrondolReport['rollout']['currentWawe'];
     eligibleNextWawe: ExtrimliExtrondolReport['rollout']['eligibleNextWawe'];
     promotionFreeze: boolean;
-    requiredEvidence: ReadonlyArray<'contract-approved' | 'onboarding-complete' | 'downstream-sync-complete' | 'audit-trail-complete' | 'human-review-complete'>;
+    requiredEvidence: ReadonlyArray<'onboarding-complete' | 'downstream-sync-complete' | 'audit-trail-complete' | 'human-review-complete'>;
     missingEvidence: string[];
     blocked: boolean;
   };

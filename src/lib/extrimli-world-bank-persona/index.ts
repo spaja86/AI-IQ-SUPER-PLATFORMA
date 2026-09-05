@@ -102,14 +102,12 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
   );
 
   const requiredEvidence = [
-    'contract-approved',
     'onboarding-complete',
     'downstream-sync-complete',
     'audit-trail-complete',
     'human-review-complete',
   ] as const;
   const evidenceState = {
-    'contract-approved': extrondol.b2bReadiness.compliance.contractApproved,
     'onboarding-complete': extrondol.b2bReadiness.compliance.onboardingComplete,
     'downstream-sync-complete': extrondol.b2bReadiness.downstreamSync.status === 'ALIGNED',
     'audit-trail-complete': extrondol.b2bReadiness.compliance.auditTrailComplete,
