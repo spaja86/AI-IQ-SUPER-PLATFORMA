@@ -10,6 +10,7 @@
       "requireApproval": false,
       "typecheckCommand": "npx tsc --noEmit",
       "buildCommand": "npm run build",
+      "buildGateCommand": "npm run build",
       "testCommand": "npm run test",
       "smokeCommand": "npm run test:smoke",
       "lintCommand": "npm run lint",
