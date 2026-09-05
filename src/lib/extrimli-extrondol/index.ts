@@ -69,20 +69,22 @@ function isValidWildcardDomain(domain: string): boolean {
 function validateDomainStrategy() {
   const requestedPatternRejected = !isValidApexDomain(EXTRONDOL_REQUESTED_DOMAIN_PATTERN)
     && !isValidWildcardDomain(EXTRONDOL_REQUESTED_DOMAIN_PATTERN);
-  const invalidPatternReason = requestedPatternRejected
-    ? `invalid requested pattern: ${EXTRONDOL_REQUESTED_DOMAIN_PATTERN}`
-    : null;
   const canonicalValid = isValidApexDomain(EXTRONDOL_CANONICAL_APEX_DOMAIN);
   const wildcardValid = isValidWildcardDomain(EXTRONDOL_CANONICAL_WILDCARD_DOMAIN);
   const wildcardSuffix = EXTRONDOL_CANONICAL_WILDCARD_DOMAIN.replace('*.', '');
   const suffixAligned = wildcardSuffix === EXTRONDOL_CANONICAL_APEX_DOMAIN;
+  const reasons: string[] = [];
+  if (requestedPatternRejected) reasons.push(`invalid requested pattern: ${EXTRONDOL_REQUESTED_DOMAIN_PATTERN}`);
+  if (!canonicalValid) reasons.push(`invalid canonical apex: ${EXTRONDOL_CANONICAL_APEX_DOMAIN}`);
+  if (!wildcardValid) reasons.push(`invalid canonical wildcard: ${EXTRONDOL_CANONICAL_WILDCARD_DOMAIN}`);
+  if (!suffixAligned) reasons.push('canonical wildcard suffix must match canonical apex');
   return {
     requestedPattern: EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
     requestedPatternRejected,
     canonicalApex: EXTRONDOL_CANONICAL_APEX_DOMAIN,
     canonicalWildcard: EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
     valid: canonicalValid && wildcardValid && suffixAligned,
-    invalidReason: invalidPatternReason,
+    invalidReason: reasons.length > 0 ? reasons.join('; ') : null,
   } as const;
 }
 
