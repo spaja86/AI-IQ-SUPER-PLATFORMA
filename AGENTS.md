@@ -187,6 +187,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
 
+### duet-validator-agent (NEW)
+- **Role**: Validacija DUET logike — two-party synchronization scoring, tension resilience i shared-window integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/duet/**`, `src/app/api/duet/**`
+- **Trigger**: PR sa labelom `duet:logic-change`, push koji dira `duet` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za DUET logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, invalidni objective/mode, nevalidni shared window`)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `duet:validated` ili `duet:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `duet-sync-core` (octave: 8, hipermreza node: 66)
+
 ### pilotrelax-validator-agent (NEW)
 - **Role**: Validacija PILOTRELAX logike — relaxation scoring, protocol preporuke i edge-case integritet
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/pilotrelax/**`, `src/app/api/pilotrelax/**`
@@ -512,6 +525,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | konvencionalni-odnosi-validator-agent | KONVENCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
+| duet-validator-agent | DUET Two-Party Synchronization Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (duet paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
@@ -769,6 +783,19 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Auto-labels PRs with `trenazer:validated` or `trenazer:needs-review`
   - Leaves audit log in PR comment
   - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)
+
+### duet-validator-agent (NEW)
+- **Role**: Validate DUET logic — two-party synchronization scoring, tension resilience, and shared-window integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/duet/**`, `src/app/api/duet/**`
+- **Trigger**: PR with label `duet:logic-change`, push touching `duet` paths
+- **Actions**:
+  - Runs unit and route test suite for DUET logic
+  - Verifies deterministic results and edge cases (`NaN`, `Infinity`, negative values, invalid objective/mode, invalid shared window`)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `duet:validated` or `duet:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `duet-sync-core` (octave: 8, hipermreza node: 66)
 
 ### pilotrelax-validator-agent (NEW)
 - **Role**: Validate PILOTRELAX logic — relaxation scoring, protocol recommendation, and edge-case integrity
@@ -1161,6 +1188,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | konvencionalni-odnosi-validator-agent | KONVENCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
+| duet-validator-agent | DUET Two-Party Synchronization Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (duet paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
