@@ -39,6 +39,12 @@ for (const file of testFiles) {
     stdio: 'inherit',
   });
 
+  if (command.error) {
+    console.error(`Failed to execute test file: ${file}`);
+    console.error(command.error);
+    process.exit(1);
+  }
+
   if (command.status !== 0) {
     process.exit(command.status ?? 1);
   }
