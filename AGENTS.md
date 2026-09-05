@@ -498,6 +498,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `delet-governance-core` (octave: 6, hipermreza node: 52)
   - **Linked-repo impact**: none (v1)
 
+### kulkon-validator-agent (NEW)
+- **Role**: Validacija KULKON logike — cohesion/resilience scoring, status mapiranje i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/kulkon/**`, `src/app/api/kulkon/**`
+- **Trigger**: PR sa labelom `kulkon:logic-change`, push koji dira `kulkon` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za KULKON logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni enumi, bounds)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `kulkon:validated` ili `kulkon:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `kulkon-core` (octave: 7, hipermreza node: 59)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -577,6 +591,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
+| kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1193,6 +1208,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `delet-governance-core` (octave: 6, hipermreza node: 52)
   - **Linked-repo impact**: none (v1)
 
+### kulkon-validator-agent (NEW)
+- **Role**: Validate KULKON logic — cohesion/resilience scoring, status mapping, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/kulkon/**`, `src/app/api/kulkon/**`
+- **Trigger**: PR with label `kulkon:logic-change`, push touching `kulkon` paths
+- **Actions**:
+  - Runs unit and route test suite for KULKON logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, negative values, invalid enums, bounds)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `kulkon:validated` or `kulkon:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `kulkon-core` (octave: 7, hipermreza node: 59)
+  - **Linked-repo impact**: none (v1)
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1271,6 +1300,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
+| kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
