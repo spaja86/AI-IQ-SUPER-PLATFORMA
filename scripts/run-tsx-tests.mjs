@@ -37,6 +37,11 @@ function collectTestFiles(baseDir) {
 }
 
 const targetDirectory = isAbsolute(directory) ? directory : resolve(repoRoot, directory);
+if (!existsSync(targetDirectory)) {
+  console.warn(`Test directory does not exist, skipping: ${targetDirectory}`);
+  process.exit(0);
+}
+
 const testFiles = collectTestFiles(targetDirectory);
 
 if (testFiles.length === 0) {

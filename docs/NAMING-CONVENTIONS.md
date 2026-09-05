@@ -19,6 +19,11 @@
   3. tests and workflow labels are aligned.
 - Legacy library-name compatibility is allowed only when API slug migration is explicit in docs.
 
+## Formal exceptions to rule 2
+
+- `digit-engine` library surface with `digitron` API slug is an approved compatibility exception.
+- Any new exception must be documented in both `docs/NAMING-CONVENTIONS.md` and `docs/API-SURFACE-INVENTORY.md`.
+
 ## Current migration target
 
 - Canonical: `konvencionalni-odnosi`
