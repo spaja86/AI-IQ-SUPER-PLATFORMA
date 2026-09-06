@@ -44,9 +44,14 @@ async function postAction(akcija: string) {
   return POST(makeRequest({ akcija }));
 }
 
+async function expectOkAction(akcija: string) {
+  const response = await postAction(akcija);
+  assert.strictEqual(response.status, 200, `${akcija} should succeed`);
+  return response;
+}
+
 async function resetState(): Promise<void> {
-  const response = await postAction('reset');
-  assert.strictEqual(response.status, 200);
+  await expectOkAction('reset');
 }
 
 function ensureVerifiedOwnerPhone(): void {
@@ -63,16 +68,16 @@ async function seedApprovedOpenInvoiceState(): Promise<void> {
   await resetState();
   ensureVerifiedOwnerPhone();
 
-  await postAction('set-ready');
-  await postAction('set-submitted');
-  await postAction('set-billing-owner-locked');
-  await postAction('set-legal-intake-complete');
-  await postAction('set-enterprise-governed-model');
-  await postAction('set-autopay-corporate-only');
-  await postAction('set-finance-channel-configured');
-  await postAction('set-finops-thresholds-enabled');
-  await postAction('set-monthly-reconciliation-enabled');
-  await postAction('set-quarterly-vendor-review-enabled');
+  await expectOkAction('set-ready');
+  await expectOkAction('set-submitted');
+  await expectOkAction('set-billing-owner-locked');
+  await expectOkAction('set-legal-intake-complete');
+  await expectOkAction('set-enterprise-governed-model');
+  await expectOkAction('set-autopay-corporate-only');
+  await expectOkAction('set-finance-channel-configured');
+  await expectOkAction('set-finops-thresholds-enabled');
+  await expectOkAction('set-monthly-reconciliation-enabled');
+  await expectOkAction('set-quarterly-vendor-review-enabled');
 
   await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
   await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
@@ -126,8 +131,7 @@ async function runTests(): Promise<void> {
 
   await test('paid invoice still requires evidence until captured', async () => {
     await seedApprovedOpenInvoiceState();
-    const paidResponse = await postAction('set-current-invoice-paid');
-    assert.strictEqual(paidResponse.status, 200);
+    const paidResponse = await expectOkAction('set-current-invoice-paid');
     const paidBody = await paidResponse.json() as { poruka?: string };
     assert.strictEqual(paidBody.poruka, `Trenutna faktura ${EXPECTED_INVOICE_NUMBER} je označena kao plaćena.`);
 
@@ -142,7 +146,7 @@ async function runTests(): Promise<void> {
     assert(body['sledećiKoraci'].includes(`✅ Trenutna faktura ${EXPECTED_INVOICE_NUMBER} je plaćena ili korigovana faktura je rešena`));
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice'));
 
-    await postAction('set-current-invoice-evidence-captured');
+    await expectOkAction('set-current-invoice-evidence-captured');
     const evidenceResponse = await GET();
     const evidenceBody = await evidenceResponse.json() as {
       vercel: { billingGovernance: { currentInvoice: { evidenceCaptured: boolean } } };
@@ -155,11 +159,9 @@ async function runTests(): Promise<void> {
 
   await test('correction-requested plus resolved clears unpaid open invoice state', async () => {
     await seedApprovedOpenInvoiceState();
-    const correctionResponse = await postAction('set-invoice-correction-requested');
-    assert.strictEqual(correctionResponse.status, 200);
+    await expectOkAction('set-invoice-correction-requested');
 
-    const resolvedResponse = await postAction('set-corrected-invoice-resolved');
-    assert.strictEqual(resolvedResponse.status, 200);
+    await expectOkAction('set-corrected-invoice-resolved');
 
     const response = await GET();
     const body = await response.json() as {
