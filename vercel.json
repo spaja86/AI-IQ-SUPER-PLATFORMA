@@ -7,6 +7,10 @@
       "schedule": "*/15 * * * *"
     },
     {
+      "path": "/api/cron/zdravlje",
+      "schedule": "*/15 * * * *"
+    },
+    {
       "path": "/api/cron/evolucija",
       "schedule": "0 */6 * * *"
     },

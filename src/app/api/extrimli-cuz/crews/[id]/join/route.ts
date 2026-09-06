@@ -14,9 +14,10 @@ function setHeaders(res: Response): void {
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     let body: unknown;
     try {
       body = await req.json();
@@ -33,7 +34,7 @@ export async function POST(
       return apiError('BAD_REQUEST', 'athleteId (string) is required', 400);
     }
 
-    const result = joinCrew(params.id, b.athleteId);
+    const result = joinCrew(id, b.athleteId);
     const response = apiSuccess(result, result.success ? 200 : 422);
     setHeaders(response);
     return response;

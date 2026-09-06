@@ -116,11 +116,12 @@ export function resolveTerminalStatus(reason: PetljaReason): PetljaStatus {
 }
 
 export function baseResult(kind: PetljaKind, goal: string, input: Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>>): PetljaResult {
+  const normalizedStatus = normalizePetljaStatus(input.status);
   return {
     kind,
     goal,
     input,
-    status: input.status,
+    status: normalizedStatus,
     statusTrail: [],
     output: 0,
     iterations: 0,

@@ -47,7 +47,8 @@ export function ForceKpiCard({ className = '' }: ForceKpiCardProps) {
       const r = await fetch('/api/force');
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const json = await r.json() as { data?: ForceResult } | ForceResult;
-      setResult(('data' in json ? json.data : json) ?? null);
+      const payload = (json as { data?: ForceResult }).data ?? (json as ForceResult);
+      setResult(payload && typeof payload.ukupanScore === 'number' ? payload : null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Greška');
     } finally {

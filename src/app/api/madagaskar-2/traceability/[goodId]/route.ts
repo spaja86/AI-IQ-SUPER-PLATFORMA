@@ -25,10 +25,10 @@ function setHeaders(res: Response): void {
  */
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { goodId: string } },
+  { params }: { params: Promise<{ goodId: string }> },
 ) {
   try {
-    const { goodId } = params;
+    const { goodId } = await params;
 
     if (!goodId || goodId.trim() === '') {
       return apiError('BAD_REQUEST', 'goodId path parameter is required.', 400);

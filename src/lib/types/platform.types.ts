@@ -87,6 +87,8 @@ export interface PlatformConfig {
     madagaskar: ModuleConfig;
     extrimli: ModuleConfig;
     extrimliCuz: ModuleConfig;
+    extrimliExtrondend: ModuleConfig;
+    extrimliExtrondol: ModuleConfig;
     digitEngine: ModuleConfig;
     digitron: ModuleConfig;
     maksimus: ModuleConfig;

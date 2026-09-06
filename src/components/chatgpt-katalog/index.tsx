@@ -448,9 +448,9 @@ export function ChatGPTKatalogBrowser() {
     const costText = override?.maxInputCostPer1k ?? maxInputCostPer1k;
     const costValue = costText ? parseFloat(costText) : undefined;
     const payload = {
-      query: override?.searchText ?? searchText || undefined,
-      type: override?.type ?? type || undefined,
-      status: override?.status ?? status || undefined,
+      query: override?.searchText ?? (searchText || undefined),
+      type: override?.type ?? (type || undefined),
+      status: override?.status ?? (status || undefined),
       sortBy: override?.sortBy ?? sortBy,
       maxInputCostPer1k: Number.isFinite(costValue) ? costValue : undefined,
       capabilities: override?.capabilities ?? capabilities,

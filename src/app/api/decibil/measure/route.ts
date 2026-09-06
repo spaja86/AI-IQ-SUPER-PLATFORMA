@@ -33,7 +33,7 @@ export async function GET() {
     setDecibilHeaders(response);
     return response;
   } catch (err) {
-    return apiInternalError(err);
+    return apiInternalError('decibil/measure GET', err);
   }
 }
 
@@ -73,6 +73,6 @@ export async function POST(req: NextRequest) {
     setDecibilHeaders(response);
     return response;
   } catch (err) {
-    return apiInternalError(err);
+    return apiInternalError('decibil/measure POST', err);
   }
 }

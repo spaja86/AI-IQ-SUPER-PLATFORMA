@@ -1,4 +1,4 @@
-import type { PetljaInput, PetljaResult } from './types';
+import type { PetljaInput, PetljaResult, PetljaStatus } from './types';
 import { baseResult, createStatusTransition, normalizeInput } from './utils';
 import { runForPetlja } from './for-petlja';
 import { runItchPetlja } from './itch-petlja';
@@ -60,7 +60,7 @@ function aggregateParts(parts: PetljaResult[]) {
     }
   }
 
-  const status =
+  const status: PetljaStatus =
     hasDead ? 'DEAD'
       : hasDisabled ? 'DISABLED'
       : completed ? 'ACTIVATED'

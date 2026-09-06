@@ -142,7 +142,7 @@ function resolveStatus(input: TruInput, overallScore: number): TruStatus {
   return 'BLOCK';
 }
 
-function resolveRecommendedAction(input: TruInput, status: TruStatus): TruResult['recommendedAction'] {
+function resolveRecommendedAction(input: TruInput, status: TruStatus): NonNullable<TruResult['recommendedAction']> {
   if (status === 'BLOCK' || input.evidenceLevel === 'NONE') return 'REQUEST_EVIDENCE';
   if (input.riskLevel >= 70 || input.escalationCount >= 5) return 'RUN_PILOT';
   if (status === 'CAUTION' || input.objective === 'VERIFY') return 'SCHEDULE_REVIEW';

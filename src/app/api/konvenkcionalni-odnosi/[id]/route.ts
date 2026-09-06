@@ -9,10 +9,10 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!id || !id.trim()) {
       return apiError('BAD_REQUEST', 'id param is required');
     }

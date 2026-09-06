@@ -37,6 +37,7 @@ import {
   computeEventsPerSecond,
   validateEventBatch,
   ANALYTICS_CONFIG,
+  type AnalyticsEvent,
 } from '../../depon/depon-03-analytics';
 
 import {
@@ -310,7 +311,7 @@ async function runAnalyticsTests(): Promise<void> {
   await test('validateEventBatch separates valid/invalid', () => {
     const events = [
       buildEvent({ category: 'api_call', name: 'login', stateCode: 'FL' }),
-      { eventId: '', category: 'error', name: 'crash', stateCode: 'FL', userId: null, sessionId: null, properties: {}, timestamp: new Date(), deponSource: 'DEPON-01' } as any,
+      { eventId: '', category: 'error', name: 'crash', stateCode: 'FL', userId: null, sessionId: null, properties: {}, timestamp: new Date(), deponSource: 'DEPON-01' } as AnalyticsEvent,
     ];
     const { valid, invalid } = validateEventBatch(events);
     assertEqual(valid.length, 1, 'valid count');

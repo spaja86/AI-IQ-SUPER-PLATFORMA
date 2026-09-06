@@ -7,6 +7,7 @@
 
 export { calculateProcurement, calculateProcurementV2, getMadagaskar2HealthReport } from './engine';
 export type { ProcurementResultV2 } from './engine';
+export type { ProcurementRequest } from '../madagaskar/types';
 
 // ─── FX ───────────────────────────────────────────────────────────────────────
 

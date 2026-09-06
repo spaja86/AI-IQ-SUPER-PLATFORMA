@@ -46,6 +46,6 @@ export async function GET(req: NextRequest) {
     setDecibilHeaders(response);
     return response;
   } catch (err) {
-    return apiInternalError(err);
+    return apiInternalError('decibil/history', err);
   }
 }

@@ -56,7 +56,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const configuredExpectedToken = process.env.EXTRIMLI_WORLD_BANK_PERSONA_APPLY_TOKEN;
   if (!configuredExpectedToken) {
-    return apiError('INTERNAL_ERROR', 'Bridge apply is not configured', 500);
+    return apiError('INTERNAL_SERVER_ERROR', 'Bridge apply is not configured', 500);
   }
   const expectedToken = configuredExpectedToken;
   const providedToken = req.headers.get('x-extrimli-bridge-token');

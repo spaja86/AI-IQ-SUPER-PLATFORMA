@@ -83,7 +83,12 @@ export async function POST(req: NextRequest) {
     }
 
     if (candidate.activeGearCategories !== undefined) {
-      if (!Array.isArray(candidate.activeGearCategories) || candidate.activeGearCategories.some((value) => typeof value !== 'string' || !GEAR_CATEGORIES.has(value))) {
+      if (
+        !Array.isArray(candidate.activeGearCategories) ||
+        candidate.activeGearCategories.some(
+          (value) => typeof value !== 'string' || !GEAR_CATEGORIES.has(value as NonNullable<DuelKingInput['activeGearCategories']>[number]),
+        )
+      ) {
         return apiError('BAD_REQUEST', 'activeGearCategories must contain only known gear categories');
       }
     }

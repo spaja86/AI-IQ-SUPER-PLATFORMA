@@ -256,7 +256,7 @@ export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   version: 'v1-distance-ratio-ekvilater';
   interpretation: 'derived-readiness-table';
   targetShape: 'EQUILATERAL';
-  scoringSource: ['extrondend.aggregationScore', 'extendol.unifiedReadinessScore', 'koron.readinessScore'];
+  scoringSource: readonly ['extrondend.aggregationScore', 'extendol.unifiedReadinessScore', 'koron.readinessScore'];
   rows: readonly [
     ExtrimliExtrondolDistanceRatioEkvilaterExtrondendExtendolRow,
     ExtrimliExtrondolDistanceRatioEkvilaterExtrondendKoronRow,

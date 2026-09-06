@@ -56,7 +56,7 @@ export function runItchPetlja(input: PetljaInput): PetljaResult {
   }
 
   const guard = buildGuard(normalized.maxIterations, normalized.maxDurationMs);
-  const trace = [];
+  const trace: PetljaResult['trace'] = [];
   const step = Math.abs(normalized.step);
   let current = normalized.start;
   let enteredMonster = false;

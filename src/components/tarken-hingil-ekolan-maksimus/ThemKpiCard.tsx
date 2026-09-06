@@ -30,7 +30,8 @@ export function ThemKpiCard({ className = '' }: ThemKpiCardProps) {
       const r = await fetch('/api/tarken-hingil-ekolan-maksimus');
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const json = await r.json() as { data?: ThemResult } | ThemResult;
-      setResult(('data' in json ? json.data : json) ?? null);
+      const payload = (json as { data?: ThemResult }).data ?? (json as ThemResult);
+      setResult(payload && typeof payload.ukupanScore === 'number' ? payload : null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Greška');
     } finally {

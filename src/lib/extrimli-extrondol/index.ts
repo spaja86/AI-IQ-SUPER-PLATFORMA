@@ -145,7 +145,7 @@ function buildDistanceRatioEkvilaterTable(scores: {
       fromScore: round(clamp(scores.extendol, 0, 100), 2),
       toScore: round(clamp(scores.koron, 0, 100), 2),
     },
-  ];
+  ] as const;
 
   const distanceValues = baseRows.map((row) => Math.abs(row.fromScore - row.toScore));
   const rawAverageDistance = distanceValues.reduce((sum, value) => sum + value, 0) / distanceValues.length;

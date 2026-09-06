@@ -148,6 +148,9 @@ export const PLATFORM_FLAGS: FeatureFlag[] = [
     strategy: 'enabled',
     envs: ['all'],
     activeFrom: '2026-07-27',
+    meta: { owner: 'gaming-team', ticket: 'SPAJA-3005' },
+  },
+  {
     id: 'gaming-back-to-spaces-another-races-v1',
     naziv: 'Back to Spaces for Another Races v1',
     opis: 'Aktivira svemirski trkački režim sa fairness validacijom, anti-cheat guard-om i cross-repo audit oznakama.',

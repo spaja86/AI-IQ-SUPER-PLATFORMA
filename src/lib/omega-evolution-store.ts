@@ -9,7 +9,7 @@ export interface OmegaEvolutionSnapshot {
 
 export const OMEGA_EVOLUTION_MAX_SNAPSHOTS = 12;
 
-let snapshots: OmegaEvolutionSnapshot[] = [];
+const snapshots: OmegaEvolutionSnapshot[] = [];
 
 export function getOmegaEvolutionSnapshots(): OmegaEvolutionSnapshot[] {
   return [...snapshots];
