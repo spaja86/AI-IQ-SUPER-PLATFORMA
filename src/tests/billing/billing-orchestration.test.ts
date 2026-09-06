@@ -25,6 +25,20 @@ function ok(condition: boolean, msg: string): void {
   if (!condition) throw new Error(`Assert failed: ${msg}`);
 }
 
+function makeBillingEvent(overrides: Partial<BillingEvent> = {}): BillingEvent {
+  return {
+    id: 'test-evt-base',
+    type: 'payment_succeeded',
+    provider: 'stripe',
+    userId: 'user-base',
+    planId: 'pro',
+    providerEventId: 'evt_base',
+    providerCustomerId: 'cus_base',
+    timestamp: new Date().toISOString(),
+    ...overrides,
+  };
+}
+
 async function runTests(): Promise<void> {
   console.log('\n📋 Billing Orchestration Tests (#1176)\n');
 
@@ -116,7 +130,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('processBillingEvent obrađuje payment_failed uspešno', () => {
-    const event: BillingEvent = {
+    const event = makeBillingEvent({
       id: 'test-evt-002',
       type: 'payment_failed',
       provider: 'paypal',
@@ -124,10 +138,65 @@ async function runTests(): Promise<void> {
       planId: 'basic',
       providerEventId: 'paypal_evt_test',
       providerCustomerId: 'paypal_cus_test',
-      timestamp: new Date().toISOString(),
-    };
+    });
     const result = processBillingEvent(event);
     ok(result.success, 'payment_failed result.success');
+  });
+
+  await test('processBillingEvent obrađuje payment_succeeded kao payment-confirmed', () => {
+    const result = processBillingEvent(
+      makeBillingEvent({
+        id: 'test-evt-003',
+        type: 'payment_succeeded',
+        amount: 385.52,
+        currency: 'USD',
+      }),
+    );
+    ok(result.success, 'payment_succeeded result.success');
+    ok(result.action === 'payment-confirmed', `action=${result.action}`);
+  });
+
+  await test('processBillingEvent tretira payment_refunded kao konzervativni no-op signal', () => {
+    const result = processBillingEvent(
+      makeBillingEvent({
+        id: 'test-evt-004',
+        type: 'payment_refunded',
+      }),
+    );
+    ok(result.success, 'payment_refunded result.success');
+    ok(result.action === 'no-op', `action=${result.action}`);
+  });
+
+  await test('duplirani payment event ostaje determinističan', () => {
+    const event = makeBillingEvent({
+      id: 'test-evt-duplicate',
+      providerEventId: 'evt_duplicate',
+      type: 'payment_succeeded',
+    });
+    const first = processBillingEvent(event);
+    const second = processBillingEvent(event);
+    assert.deepStrictEqual(second, first);
+  });
+
+  await test('out-of-order payment sequence ne ruši orchestration rezultat', () => {
+    const failed = processBillingEvent(
+      makeBillingEvent({
+        id: 'test-evt-005',
+        type: 'payment_failed',
+        providerEventId: 'evt_out_of_order_failed',
+      }),
+    );
+    const succeeded = processBillingEvent(
+      makeBillingEvent({
+        id: 'test-evt-006',
+        type: 'payment_succeeded',
+        providerEventId: 'evt_out_of_order_succeeded',
+      }),
+    );
+    ok(failed.success, 'out-of-order failed event succeeds');
+    ok(failed.action === 'payment-failed-handled', `failed.action=${failed.action}`);
+    ok(succeeded.success, 'out-of-order succeeded event succeeds');
+    ok(succeeded.action === 'payment-confirmed', `succeeded.action=${succeeded.action}`);
   });
 
   await test('Stripe provajder je uvek aktivan', () => {

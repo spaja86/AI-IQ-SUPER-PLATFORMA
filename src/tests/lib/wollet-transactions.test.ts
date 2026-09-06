@@ -51,6 +51,11 @@ async function run() {
     assert(nisuUsd.length === 0, `Found ${nisuUsd.length} non-USD transactions`);
   });
 
+  await test('svaka istorijska transakcija ima vezan izvor i destinaciju bez self-transfera', () => {
+    const bezVeze = ISTORIJSKE_NABAVKE.filter((t) => !t.izvor.trim() || !t.destinacija.trim() || t.izvor === t.destinacija);
+    assert(bezVeze.length === 0, `Found ${bezVeze.length} transactions without valid source linkage`);
+  });
+
   await test('ID-ovi su sekvencijalni od 1 do 50', () => {
     for (let i = 0; i < ISTORIJSKE_NABAVKE.length; i++) {
       assert(ISTORIJSKE_NABAVKE[i].id === i + 1, `Expected id ${i + 1}, got ${ISTORIJSKE_NABAVKE[i].id}`);
@@ -89,6 +94,13 @@ async function run() {
     assert(serialized.id === 1, 'id treba da bude 1');
     assert(serialized.naziv === 'Biskop Digitalni', 'naziv nije ispravan');
     assert(serialized.valuta === 'USD', 'valuta treba da bude USD');
+  });
+
+  await test('serijalizujTransakciju čuva source/destination audit link', () => {
+    const tx = ISTORIJSKE_NABAVKE[0];
+    const serialized = serijalizujTransakciju(tx);
+    assert(serialized.izvor === tx.izvor, 'izvor mora biti sačuvan');
+    assert(serialized.destinacija === tx.destinacija, 'destinacija mora biti sačuvana');
   });
 
   const ok = failed === 0;

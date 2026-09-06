@@ -18,6 +18,16 @@ import { getOwnerIdentity } from '@/lib/owner-identity';
 import { getOwnerPhoneVerifikacijaStatus, getOwnerPoslednja_verifikacija } from '@/lib/owner-phone-auth';
 import { OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/constants';
 import { kvGet, kvSet } from '@/lib/kv-client';
+import {
+  EXPECTED_VERCEL_BILLING_OWNER,
+  EXPECTED_VERCEL_INVOICE_AMOUNT,
+  EXPECTED_VERCEL_INVOICE_NUMBER,
+  PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY,
+  PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE,
+  buildVercelPublicAnnouncementState,
+  isVercelInvoiceResolved,
+  normalizePaymentReferenceClassification,
+} from '@/lib/vercel-billing-governance';
 
 // KV ključevi za enterprise request status (persists over restarts)
 const KV_ENTERPRISE_READY_KEY = 'owner:vercel:enterprise-request-ready';
@@ -32,15 +42,23 @@ const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
 const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
 const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
 const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
+const KV_VERCEL_INVOICE_REQUESTED_KEY = 'owner:vercel:invoice-requested';
+const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captured';
+const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
+const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
+const KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY = 'owner:vercel:payment-reference-public-safe-approved';
+const KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY = 'owner:vercel:payment-reference-public-safe-approval-history';
+const KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY = 'owner:vercel:public-announcement-redacted';
+const KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY = 'owner:vercel:public-announcement-published';
 const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
 const KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY = 'owner:vercel:finance-channel-configured';
 const KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY = 'owner:vercel:finops-thresholds-enabled';
 const KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY = 'owner:vercel:monthly-reconciliation-enabled';
 const KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY = 'owner:vercel:quarterly-vendor-review-enabled';
 
-const EXPECTED_BILLING_OWNER = 'Digitalna Industrija — Kompanija SPAJA';
-const EXPECTED_INVOICE_NUMBER = '5JJYX4KN-0012';
-const EXPECTED_INVOICE_AMOUNT = '96.77';
+const EXPECTED_BILLING_OWNER = EXPECTED_VERCEL_BILLING_OWNER;
+const EXPECTED_INVOICE_NUMBER = EXPECTED_VERCEL_INVOICE_NUMBER;
+const EXPECTED_INVOICE_AMOUNT = EXPECTED_VERCEL_INVOICE_AMOUNT;
 
 async function getEnterpriseFlags(): Promise<{ ready: boolean; submitted: boolean }> {
   // Env var ima prioritet, zatim KV, zatim false
@@ -70,6 +88,14 @@ async function getBillingGovernanceFlags() {
     currentInvoiceEvidenceCaptured,
     invoiceCorrectionRequested,
     correctedInvoiceResolved,
+    invoiceRequested,
+    bankStatementCaptured,
+    paymentReferenceCaptured,
+    paymentReferenceClassification,
+    paymentReferencePublicSafeApproved,
+    paymentReferencePublicSafeApprovalHistory,
+    publicAnnouncementRedacted,
+    publicAnnouncementPublished,
     autopayCorporateOnly,
     financeChannelConfigured,
     finopsThresholdsEnabled,
@@ -86,6 +112,14 @@ async function getBillingGovernanceFlags() {
     kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY),
     kvGet<boolean>(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY),
     kvGet<boolean>(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY),
+    kvGet<boolean>(KV_VERCEL_INVOICE_REQUESTED_KEY),
+    kvGet<boolean>(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY),
+    kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY),
+    kvGet<string>(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY),
+    kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY),
+    kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY),
+    kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY),
+    kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY),
     kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
     kvGet<boolean>(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY),
     kvGet<boolean>(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY),
@@ -104,12 +138,54 @@ async function getBillingGovernanceFlags() {
     currentInvoiceEvidenceCaptured: currentInvoiceEvidenceCaptured === true,
     invoiceCorrectionRequested: invoiceCorrectionRequested === true,
     correctedInvoiceResolved: correctedInvoiceResolved === true,
+    invoiceRequested: invoiceRequested === true,
+    bankStatementCaptured: bankStatementCaptured === true,
+    paymentReferenceCaptured: paymentReferenceCaptured === true,
+    paymentReferenceClassification: normalizePaymentReferenceClassification(paymentReferenceClassification),
+    paymentReferencePublicSafeApproved: paymentReferencePublicSafeApproved === true,
+    paymentReferencePublicSafeApprovalHistory: paymentReferencePublicSafeApprovalHistory === true,
+    publicAnnouncementRedacted: publicAnnouncementRedacted === true,
+    publicAnnouncementPublished: publicAnnouncementPublished === true,
     autopayCorporateOnly: autopayCorporateOnly === true,
     financeChannelConfigured: financeChannelConfigured === true,
     finopsThresholdsEnabled: finopsThresholdsEnabled === true,
     monthlyReconciliationEnabled: monthlyReconciliationEnabled === true,
     quarterlyVendorReviewEnabled: quarterlyVendorReviewEnabled === true,
   };
+}
+
+async function ensureCorePaymentEvidenceReady(errorMessage: string): Promise<NextResponse | null> {
+  const flags = await getBillingGovernanceFlags();
+  if (!flags.invoiceRequested || !isVercelInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
+    return NextResponse.json({
+      status: 'error',
+      poruka: errorMessage,
+      timestamp: new Date().toISOString(),
+    }, { status: 409 });
+  }
+
+  return null;
+}
+
+async function setExpectedInvoiceMetadata(): Promise<void> {
+  await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
+  await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+}
+
+async function clearPublicAnnouncementState(): Promise<void> {
+  await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, false);
+  await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
+}
+
+async function clearDerivedPaymentArtifacts(resetApprovalHistory = false): Promise<void> {
+  await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, false);
+  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
+  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
+  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
+  if (resetApprovalHistory) {
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, false);
+  }
+  await clearPublicAnnouncementState();
 }
 
 export async function GET() {
@@ -135,6 +211,7 @@ export async function GET() {
   const blokator = !checklist.phoneVerified
     ? 'Telefonska verifikacija je obavezna pre slanja Vercel enterprise zahteva.'
     : null;
+  const publicAnnouncement = buildVercelPublicAnnouncementState(billing);
 
   return NextResponse.json({
     sistem: 'Vercel Ownership — Kompanija SPAJA',
@@ -154,10 +231,22 @@ export async function GET() {
         currentInvoice: {
           number: billing.currentInvoiceNumber,
           amountUsd: billing.currentInvoiceAmount,
+          requested: billing.invoiceRequested,
           paid: billing.currentInvoicePaid,
           correctionRequested: billing.invoiceCorrectionRequested,
           correctedInvoiceResolved: billing.correctedInvoiceResolved,
           evidenceCaptured: billing.currentInvoiceEvidenceCaptured,
+          bankStatementCaptured: billing.bankStatementCaptured,
+          paymentReferenceCaptured: billing.paymentReferenceCaptured,
+          paymentReferenceClassification: publicAnnouncement.paymentReferenceClassification || 'unclassified',
+          paymentReferencePublicSafeApproved: billing.paymentReferencePublicSafeApproved,
+          paymentReferencePublicSafeApprovalHistory: billing.paymentReferencePublicSafeApprovalHistory,
+        },
+        publicAnnouncement: {
+          redacted: billing.publicAnnouncementRedacted,
+          published: billing.publicAnnouncementPublished,
+          status: publicAnnouncement.status,
+          blockers: publicAnnouncement.blockers,
         },
         futurePayments: {
           autopayCorporateOnly: billing.autopayCorporateOnly,
@@ -180,10 +269,20 @@ export async function GET() {
           ready ? '✅ Enterprise zahtev spreman za slanje' : '⬜ Postaviti SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true',
           submitted ? '✅ Enterprise zahtev poslat — čekamo potvrdu' : '⬜ Poslati Vercel Enterprise Request',
           billing.billingOwnerLocked ? '✅ Billing owner zaključan na Digitalna Industrija' : '⬜ Zaključati billing owner na Digitalna Industrija',
+          billing.invoiceRequested ? '✅ Fakturisanje / support eskalacija dokumentovana' : '⬜ Evidentirati invoice requested / support eskalaciju',
           billing.currentInvoicePaid || billing.correctedInvoiceResolved
-            ? '✅ Trenutna faktura 5JJYX4KN-0012 je plaćena ili korigovana faktura je rešena'
-            : '⬜ Platiti fakturu 5JJYX4KN-0012 ($96.77) ili otvoriti support correction',
+            ? '✅ Trenutna faktura 5JJYX4KN-0015 je plaćena ili korigovana faktura je rešena'
+            : '⬜ Platiti fakturu 5JJYX4KN-0015 ($385.52) ili otvoriti support correction',
           billing.currentInvoiceEvidenceCaptured ? '✅ Sačuvan dokaz o uplati/invoice-u' : '⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice',
+          billing.bankStatementCaptured ? '✅ Izvod platnog računa je sačuvan' : '⬜ Sačuvati izvod platnog računa sa vezom ka uplati',
+          billing.paymentReferenceCaptured
+            ? `✅ Barkod / payment reference sačuvan (${billing.paymentReferenceClassification || 'unclassified'})`
+            : '⬜ Sačuvati barkod ili payment reference i klasifikovati ga',
+          billing.paymentReferencePublicSafeApproved
+            ? '✅ Public-safe klasifikacija reference je odobrena'
+            : '⬜ Ako referenca treba da bude public-safe, prvo je eksplicitno odobriti',
+          billing.publicAnnouncementRedacted ? '✅ Javni sažetak je redigovan' : '⬜ Pripremiti redigovan audit-ready javni sažetak',
+          billing.publicAnnouncementPublished ? '✅ Javno ozvaničenje je objavljeno' : '⬜ Objaviti javni sažetak tek nakon validacije uplata+dokaza+privatnosti',
           billing.autopayCorporateOnly ? '✅ Autopay ograničen na korporativni metod plaćanja' : '⬜ Uključiti autopay samo na Digitalna Industrija korporativni metod',
           billing.financeChannelConfigured ? '✅ Invoice notifikacije na finansijskom kanalu' : '⬜ Postaviti invoice delivery/notifikacije na finansijski kanal Digitalna Industrija',
           billing.finopsThresholdsEnabled ? '✅ FinOps pragovi 50/75/90/100 aktivni' : '⬜ Aktivirati FinOps pragove 50/75/90/100',
@@ -216,9 +315,16 @@ interface OwnershipUpdateBody {
     | 'set-billing-owner-locked'
     | 'set-legal-intake-complete'
     | 'set-enterprise-governed-model'
+    | 'set-invoice-requested'
     | 'set-current-invoice-paid'
     | 'set-corrected-invoice-resolved'
     | 'set-current-invoice-evidence-captured'
+    | 'set-bank-statement-captured'
+    | 'approve-payment-reference-public-safe'
+    | 'set-payment-reference-public-safe'
+    | 'set-payment-reference-internal-only'
+    | 'set-public-announcement-redacted'
+    | 'set-public-announcement-published'
     | 'set-invoice-correction-requested'
     | 'set-autopay-corporate-only'
     | 'set-finance-channel-configured'
@@ -243,9 +349,16 @@ export async function POST(request: NextRequest) {
     'set-billing-owner-locked',
     'set-legal-intake-complete',
     'set-enterprise-governed-model',
+    'set-invoice-requested',
     'set-current-invoice-paid',
     'set-corrected-invoice-resolved',
     'set-current-invoice-evidence-captured',
+    'set-bank-statement-captured',
+    'approve-payment-reference-public-safe',
+    'set-payment-reference-public-safe',
+    'set-payment-reference-internal-only',
+    'set-public-announcement-redacted',
+    'set-public-announcement-published',
     'set-invoice-correction-requested',
     'set-autopay-corporate-only',
     'set-finance-channel-configured',
@@ -255,7 +368,7 @@ export async function POST(request: NextRequest) {
     'reset',
   ].includes(akcija)) {
     return NextResponse.json(
-      { greska: 'Nepoznata akcija. Dostupne: set-ready, set-submitted, set-billing-owner-locked, set-legal-intake-complete, set-enterprise-governed-model, set-current-invoice-paid, set-corrected-invoice-resolved, set-current-invoice-evidence-captured, set-invoice-correction-requested, set-autopay-corporate-only, set-finance-channel-configured, set-finops-thresholds-enabled, set-monthly-reconciliation-enabled, set-quarterly-vendor-review-enabled, reset.' },
+      { greska: 'Nepoznata akcija. Dostupne: set-ready, set-submitted, set-billing-owner-locked, set-legal-intake-complete, set-enterprise-governed-model, set-invoice-requested, set-current-invoice-paid, set-corrected-invoice-resolved, set-current-invoice-evidence-captured, set-bank-statement-captured, approve-payment-reference-public-safe, set-payment-reference-public-safe, set-payment-reference-internal-only, set-public-announcement-redacted, set-public-announcement-published, set-invoice-correction-requested, set-autopay-corporate-only, set-finance-channel-configured, set-finops-thresholds-enabled, set-monthly-reconciliation-enabled, set-quarterly-vendor-review-enabled, reset.' },
       { status: 400 },
     );
   }
@@ -319,15 +432,33 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       });
 
+    case 'set-invoice-requested':
+      await setExpectedInvoiceMetadata();
+      await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Zahtev za fakturisanje / support eskalacija je dokumentovana za aktivnu Vercel fakturu.',
+        timestamp: new Date().toISOString(),
+      });
     case 'set-current-invoice-paid':
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+      {
+        const invoiceRequested = (await kvGet<boolean>(KV_VERCEL_INVOICE_REQUESTED_KEY)) === true;
+        if (!invoiceRequested) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Plaćanje fakture se beleži tek nakon invoice requested / support eskalacije.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
+      await setExpectedInvoiceMetadata();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
+      await clearDerivedPaymentArtifacts(true);
       return NextResponse.json({
         status: 'ok',
-        poruka: 'Trenutna faktura 5JJYX4KN-0012 je označena kao plaćena.',
+        poruka: 'Trenutna faktura 5JJYX4KN-0015 je označena kao plaćena.',
         timestamp: new Date().toISOString(),
       });
 
@@ -342,11 +473,11 @@ export async function POST(request: NextRequest) {
           }, { status: 409 });
         }
       }
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+      await setExpectedInvoiceMetadata();
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, true);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
+      await clearDerivedPaymentArtifacts();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Korigovana/re-issued faktura je označena kao rešena.',
@@ -361,6 +492,154 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       });
 
+    case 'set-bank-statement-captured':
+      {
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Izvod platnog računa se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
+        }
+      }
+      await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Izvod platnog računa je označen kao sačuvan.',
+        timestamp: new Date().toISOString(),
+      });
+
+    case 'approve-payment-reference-public-safe':
+      {
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Public-safe klasifikacija reference se odobrava tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
+        }
+        const flags = await getBillingGovernanceFlags();
+        if (!flags.paymentReferenceCaptured) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Public-safe klasifikacija može biti odobrena tek nakon što je barkod / payment reference već sačuvan.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, true);
+      await clearPublicAnnouncementState();
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Public-safe klasifikacija barkoda / payment reference je odobrena.',
+        timestamp: new Date().toISOString(),
+      });
+
+    case 'set-payment-reference-public-safe':
+      {
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
+        }
+        const flags = await getBillingGovernanceFlags();
+        if (!flags.paymentReferencePublicSafeApproved) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Public-safe klasifikacija zahteva prethodno approve-payment-reference-public-safe odobrenje.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+        if (!flags.paymentReferenceCaptured) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Public-safe klasifikacija može biti postavljena tek nakon što je barkod / payment reference već sačuvan.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, true);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE);
+      await clearPublicAnnouncementState();
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Barkod / payment reference je sačuvan i označen kao public-safe.',
+        timestamp: new Date().toISOString(),
+      });
+
+    case 'set-payment-reference-internal-only':
+      let existingPublicSafeApprovalHistory = false;
+      {
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
+        }
+        const flags = await getBillingGovernanceFlags();
+        existingPublicSafeApprovalHistory =
+          flags.paymentReferencePublicSafeApprovalHistory || flags.paymentReferencePublicSafeApproved;
+      }
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, existingPublicSafeApprovalHistory);
+      await clearPublicAnnouncementState();
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Barkod / payment reference je sačuvan i označen kao internal-only.',
+        timestamp: new Date().toISOString(),
+      });
+
+    case 'set-public-announcement-redacted':
+      {
+        const flags = await getBillingGovernanceFlags();
+        if (
+          !flags.invoiceRequested
+          || !isVercelInvoiceResolved(flags)
+          || !flags.currentInvoiceEvidenceCaptured
+          || !flags.bankStatementCaptured
+          || !flags.paymentReferenceCaptured
+          || flags.paymentReferenceClassification.length === 0
+          || (
+            flags.paymentReferenceClassification === PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE
+            && !flags.paymentReferencePublicSafeApproved
+          )
+        ) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Redigovan javni sažetak se beleži tek nakon resolved invoice, payment dokaza, izvoda i klasifikovanog barkoda/payment reference.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
+      await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, true);
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Javni audit-ready sažetak je označen kao redigovan.',
+        timestamp: new Date().toISOString(),
+      });
+
+    case 'set-public-announcement-published':
+      {
+        const flags = await getBillingGovernanceFlags();
+        if (!buildVercelPublicAnnouncementState(flags).readyToPublish) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Javno ozvaničenje je dozvoljeno tek kada postoje resolved invoice, payment dokaz, izvod, barkod/payment reference i redigovan javni sažetak.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
+      await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, true);
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Javni audit-ready sažetak je označen kao objavljen.',
+        timestamp: new Date().toISOString(),
+      });
+
     case 'set-invoice-correction-requested':
       const kvPaid = (await kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY)) === true;
       if (kvPaid) {
@@ -370,12 +649,12 @@ export async function POST(request: NextRequest) {
           timestamp: new Date().toISOString(),
         });
       }
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+      await setExpectedInvoiceMetadata();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
+      await clearDerivedPaymentArtifacts();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Support zahtev za korekciju/re-issue fakture je označen kao poslat.',
@@ -435,6 +714,8 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
+      await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, false);
+      await clearDerivedPaymentArtifacts();
       await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);
       await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, false);
       await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, false);
