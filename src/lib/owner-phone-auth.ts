@@ -279,3 +279,8 @@ export function getOwnerPoslednja_verifikacija(telefon: string): string | null {
   if (!entry || entry.status !== 'verified') return null;
   return new Date(entry.kreiranMs).toISOString();
 }
+
+export function _resetOwnerPhoneAuthState(): void {
+  otpStore.clear();
+  requestCounts.clear();
+}

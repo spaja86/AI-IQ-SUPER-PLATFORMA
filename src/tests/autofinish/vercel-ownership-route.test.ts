@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import type { NextRequest } from 'next/server';
 import { GET, POST } from '../../app/api/owner/vercel-ownership/route';
 import { OWNER_PHONE_DEFAULT } from '../../lib/constants';
-import { getOwnerPhoneVerifikacijaStatus, requestOwnerOtp, verifyOwnerOtp } from '../../lib/owner-phone-auth';
+import { _resetOwnerPhoneAuthState, requestOwnerOtp, verifyOwnerOtp } from '../../lib/owner-phone-auth';
 import { kvSet } from '../../lib/kv-client';
 
 const KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY = 'owner:vercel:current-invoice-number';
@@ -55,7 +55,6 @@ async function resetState(): Promise<void> {
 }
 
 function ensureVerifiedOwnerPhone(): void {
-  if (getOwnerPhoneVerifikacijaStatus(OWNER_PHONE_DEFAULT) === 'verifikovan') return;
   const otpRequest = requestOwnerOtp(OWNER_PHONE_DEFAULT);
   assert(otpRequest.uspesno, 'owner OTP request must succeed in tests');
   assert(otpRequest.devOtp, 'dev OTP must be available in non-production tests');
@@ -66,6 +65,7 @@ function ensureVerifiedOwnerPhone(): void {
 
 async function seedApprovedOpenInvoiceState(): Promise<void> {
   await resetState();
+  _resetOwnerPhoneAuthState();
   ensureVerifiedOwnerPhone();
 
   await expectOkAction('set-ready');
@@ -91,6 +91,7 @@ async function runTests(): Promise<void> {
   console.log('\n🧾 Vercel ownership route tests\n');
 
   await resetState();
+  _resetOwnerPhoneAuthState();
 
   await test('POST rejects ownership updates before phone verification', async () => {
     const response = await postAction('set-ready');
