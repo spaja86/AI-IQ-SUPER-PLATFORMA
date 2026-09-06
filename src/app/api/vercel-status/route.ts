@@ -19,110 +19,100 @@ import { kvGet } from '@/lib/kv-client';
 
 export const dynamic = 'force-dynamic';
 
-const KV_VERCEL_BILLING_OWNER_KEY = 'owner:vercel:billing-owner';
-const KV_VERCEL_BILLING_OWNER_LOCKED_KEY = 'owner:vercel:billing-owner-locked';
-const KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY = 'owner:vercel:legal-intake-complete';
-const KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY = 'owner:vercel:enterprise-governed-model';
-const KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY = 'owner:vercel:current-invoice-number';
-const KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY = 'owner:vercel:current-invoice-amount';
-const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
-const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
-const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
-const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
-const KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY = 'owner:vercel:finance-channel-configured';
-const KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY = 'owner:vercel:finops-thresholds-enabled';
-const KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY = 'owner:vercel:monthly-reconciliation-enabled';
-const KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY = 'owner:vercel:quarterly-vendor-review-enabled';
+export const KV_VERCEL_BILLING_OWNER_KEY = 'owner:vercel:billing-owner';
+export const KV_VERCEL_BILLING_OWNER_LOCKED_KEY = 'owner:vercel:billing-owner-locked';
+export const KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY = 'owner:vercel:legal-intake-complete';
+export const KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY = 'owner:vercel:enterprise-governed-model';
+export const KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY = 'owner:vercel:current-invoice-number';
+export const KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY = 'owner:vercel:current-invoice-amount';
+export const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
+export const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
+export const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
+export const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
+export const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
+export const KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY = 'owner:vercel:finance-channel-configured';
+export const KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY = 'owner:vercel:finops-thresholds-enabled';
+export const KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY = 'owner:vercel:monthly-reconciliation-enabled';
+export const KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY = 'owner:vercel:quarterly-vendor-review-enabled';
 
 export function resolveOwnerPhone(env: Record<string, string | undefined>): string {
   const configuredPhone = env[OWNER_PHONE_NUMBER_ENV_KEY]?.trim();
   return configuredPhone && configuredPhone.length > 0 ? configuredPhone : OWNER_PHONE_DEFAULT;
 }
 
-function boolFromKvOrEnv(
+function mergeBoolEnv(
   env: Record<string, string | undefined>,
   envKey: string,
   kvValue: boolean | null,
-): boolean {
-  if (/^(1|true|yes)$/i.test(env[envKey] ?? '')) return true;
-  if (/^(0|false|no)$/i.test(env[envKey] ?? '')) return false;
-  return kvValue === true;
+): string | undefined {
+  const rawEnv = env[envKey];
+  if (/^(1|true|yes)$/i.test(rawEnv ?? '')) return 'true';
+  if (/^(0|false|no)$/i.test(rawEnv ?? '')) return 'false';
+  if (kvValue === true) return 'true';
+  if (kvValue === false) return 'false';
+  return rawEnv;
 }
 
 export async function resolveVercelBillingGovernanceEnv(
   env: Record<string, string | undefined>,
 ): Promise<Record<string, string | undefined>> {
-  const [
-    kvBillingOwner,
-    kvBillingOwnerLocked,
-    kvLegalIntakeComplete,
-    kvEnterpriseGovernedModel,
-    kvCurrentInvoiceNumber,
-    kvCurrentInvoiceAmount,
-    kvCurrentInvoicePaid,
-    kvCurrentInvoiceEvidenceCaptured,
-    kvInvoiceCorrectionRequested,
-    kvAutopayCorporateOnly,
-    kvFinanceChannelConfigured,
-    kvFinopsThresholdsEnabled,
-    kvMonthlyReconciliationEnabled,
-    kvQuarterlyVendorReviewEnabled,
-  ] = await Promise.all([
-    kvGet<string>(KV_VERCEL_BILLING_OWNER_KEY),
-    kvGet<boolean>(KV_VERCEL_BILLING_OWNER_LOCKED_KEY),
-    kvGet<boolean>(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY),
-    kvGet<boolean>(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY),
-    kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY),
-    kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY),
-    kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY),
-    kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY),
-    kvGet<boolean>(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY),
-    kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
-    kvGet<boolean>(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY),
-    kvGet<boolean>(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY),
-    kvGet<boolean>(KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY),
-    kvGet<boolean>(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY),
-  ]);
+  try {
+    const [
+      kvBillingOwner,
+      kvBillingOwnerLocked,
+      kvLegalIntakeComplete,
+      kvEnterpriseGovernedModel,
+      kvCurrentInvoiceNumber,
+      kvCurrentInvoiceAmount,
+      kvCurrentInvoicePaid,
+      kvCurrentInvoiceEvidenceCaptured,
+      kvInvoiceCorrectionRequested,
+      kvCorrectedInvoiceResolved,
+      kvAutopayCorporateOnly,
+      kvFinanceChannelConfigured,
+      kvFinopsThresholdsEnabled,
+      kvMonthlyReconciliationEnabled,
+      kvQuarterlyVendorReviewEnabled,
+    ] = await Promise.all([
+      kvGet<string>(KV_VERCEL_BILLING_OWNER_KEY),
+      kvGet<boolean>(KV_VERCEL_BILLING_OWNER_LOCKED_KEY),
+      kvGet<boolean>(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY),
+      kvGet<boolean>(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY),
+      kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY),
+      kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY),
+      kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY),
+      kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY),
+      kvGet<boolean>(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY),
+      kvGet<boolean>(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY),
+      kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
+      kvGet<boolean>(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY),
+      kvGet<boolean>(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY),
+      kvGet<boolean>(KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY),
+      kvGet<boolean>(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY),
+    ]);
 
-  return {
-    ...env,
-    SPAJA_VERCEL_BILLING_OWNER: env.SPAJA_VERCEL_BILLING_OWNER ?? kvBillingOwner ?? undefined,
-    SPAJA_VERCEL_BILLING_OWNER_LOCKED: boolFromKvOrEnv(env, 'SPAJA_VERCEL_BILLING_OWNER_LOCKED', kvBillingOwnerLocked)
-      ? 'true'
-      : env.SPAJA_VERCEL_BILLING_OWNER_LOCKED,
-    SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: boolFromKvOrEnv(env, 'SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE', kvLegalIntakeComplete)
-      ? 'true'
-      : env.SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE,
-    SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: boolFromKvOrEnv(env, 'SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL', kvEnterpriseGovernedModel)
-      ? 'true'
-      : env.SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL,
-    SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? kvCurrentInvoiceNumber ?? undefined,
-    SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? kvCurrentInvoiceAmount ?? undefined,
-    SPAJA_VERCEL_CURRENT_INVOICE_PAID: boolFromKvOrEnv(env, 'SPAJA_VERCEL_CURRENT_INVOICE_PAID', kvCurrentInvoicePaid)
-      ? 'true'
-      : env.SPAJA_VERCEL_CURRENT_INVOICE_PAID,
-    SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: boolFromKvOrEnv(env, 'SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED', kvCurrentInvoiceEvidenceCaptured)
-      ? 'true'
-      : env.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED,
-    SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: boolFromKvOrEnv(env, 'SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED', kvInvoiceCorrectionRequested)
-      ? 'true'
-      : env.SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED,
-    SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: boolFromKvOrEnv(env, 'SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY', kvAutopayCorporateOnly)
-      ? 'true'
-      : env.SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY,
-    SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: boolFromKvOrEnv(env, 'SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED', kvFinanceChannelConfigured)
-      ? 'true'
-      : env.SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED,
-    SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: boolFromKvOrEnv(env, 'SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED', kvFinopsThresholdsEnabled)
-      ? 'true'
-      : env.SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED,
-    SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: boolFromKvOrEnv(env, 'SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED', kvMonthlyReconciliationEnabled)
-      ? 'true'
-      : env.SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED,
-    SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: boolFromKvOrEnv(env, 'SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED', kvQuarterlyVendorReviewEnabled)
-      ? 'true'
-      : env.SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED,
-  };
+    return {
+      ...env,
+      SPAJA_VERCEL_BILLING_OWNER: env.SPAJA_VERCEL_BILLING_OWNER ?? kvBillingOwner ?? undefined,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: mergeBoolEnv(env, 'SPAJA_VERCEL_BILLING_OWNER_LOCKED', kvBillingOwnerLocked),
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: mergeBoolEnv(env, 'SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE', kvLegalIntakeComplete),
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: mergeBoolEnv(env, 'SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL', kvEnterpriseGovernedModel),
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? kvCurrentInvoiceNumber ?? undefined,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? kvCurrentInvoiceAmount ?? undefined,
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: mergeBoolEnv(env, 'SPAJA_VERCEL_CURRENT_INVOICE_PAID', kvCurrentInvoicePaid),
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED', kvCurrentInvoiceEvidenceCaptured),
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: mergeBoolEnv(env, 'SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED', kvInvoiceCorrectionRequested),
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: mergeBoolEnv(env, 'SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED', kvCorrectedInvoiceResolved),
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: mergeBoolEnv(env, 'SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY', kvAutopayCorporateOnly),
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: mergeBoolEnv(env, 'SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED', kvFinanceChannelConfigured),
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED', kvFinopsThresholdsEnabled),
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED', kvMonthlyReconciliationEnabled),
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED', kvQuarterlyVendorReviewEnabled),
+    };
+  } catch (error) {
+    console.warn('[vercel-status] KV governance merge failed; falling back to env-only status.', error);
+    return env;
+  }
 }
 
 export function buildVercelPretplataStatus(
@@ -145,9 +135,9 @@ export function buildVercelPretplataStatus(
   const expectedInvoiceNumber = '5JJYX4KN-0013';
   const expectedInvoiceAmount = '870.20';
   const expectedBillingOwner = 'Digitalna Industrija — Kompanija SPAJA';
-  const currentInvoiceNumber = (env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? expectedInvoiceNumber).trim();
-  const currentInvoiceAmount = (env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? expectedInvoiceAmount).trim();
-  const billingOwner = (env.SPAJA_VERCEL_BILLING_OWNER ?? expectedBillingOwner).trim();
+  const currentInvoiceNumber = (env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? '').trim();
+  const currentInvoiceAmount = (env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? '').trim();
+  const billingOwner = (env.SPAJA_VERCEL_BILLING_OWNER ?? '').trim();
 
   const billingOwnerLocked = boolFlag(env.SPAJA_VERCEL_BILLING_OWNER_LOCKED);
   const legalIntakeComplete = boolFlag(env.SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE);
@@ -155,6 +145,12 @@ export function buildVercelPretplataStatus(
   const currentInvoicePaid = boolFlag(env.SPAJA_VERCEL_CURRENT_INVOICE_PAID);
   const currentInvoiceEvidenceCaptured = boolFlag(env.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED);
   const invoiceCorrectionRequested = boolFlag(env.SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED);
+  const correctedInvoiceResolved = boolFlag(env.SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED);
+  const invoiceMatchesExpected =
+    currentInvoiceNumber === expectedInvoiceNumber
+    && currentInvoiceAmount === expectedInvoiceAmount;
+  const invoiceResolutionSatisfied = invoiceMatchesExpected
+    && (currentInvoicePaid || (invoiceCorrectionRequested && correctedInvoiceResolved));
   const autopayCorporateOnly = boolFlag(env.SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY);
   const financeChannelConfigured = boolFlag(env.SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED);
   const finopsThresholdsEnabled = boolFlag(env.SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED);
@@ -177,10 +173,12 @@ export function buildVercelPretplataStatus(
     ...(!enterpriseGovernedModel ? ['Pretplata nije označena kao privreda / enterprise-governed model.'] : []),
     ...(currentInvoiceNumber !== expectedInvoiceNumber ? [`Trenutni invoice mora biti ${expectedInvoiceNumber}.`] : []),
     ...(currentInvoiceAmount !== expectedInvoiceAmount ? [`Trenutni invoice iznos mora biti ${expectedInvoiceAmount}.`] : []),
-    ...(!currentInvoicePaid && !invoiceCorrectionRequested
+    ...(!invoiceResolutionSatisfied
       ? ['Trenutna faktura nije rešena (pay ili support correction/re-issue).']
       : []),
-    ...(!currentInvoiceEvidenceCaptured ? ['Nedostaje dokaz o fakturi/plaćanju (PDF, potvrda, timestamp, odgovorno lice).'] : []),
+    ...(!currentInvoiceEvidenceCaptured && invoiceMatchesExpected && (currentInvoicePaid || correctedInvoiceResolved)
+      ? ['Nedostaje dokaz o fakturi/plaćanju (PDF, potvrda, timestamp, odgovorno lice).']
+      : []),
     ...(!autopayCorporateOnly ? ['Autopay nije ograničen na korporativni metod plaćanja Digitalna Industrija.'] : []),
     ...(!financeChannelConfigured ? ['Invoice delivery/notifikacije nisu postavljene na finansijski kanal Digitalna Industrija.'] : []),
     ...(!finopsThresholdsEnabled ? ['FinOps pragovi 50/75/90/100 nisu aktivirani.'] : []),
@@ -208,6 +206,7 @@ export function buildVercelPretplataStatus(
         amountUsd: currentInvoiceAmount,
         paid: currentInvoicePaid,
         correctionRequested: invoiceCorrectionRequested,
+        correctedInvoiceResolved,
         evidenceCaptured: currentInvoiceEvidenceCaptured,
       },
       futurePayments: {
@@ -227,7 +226,9 @@ export function buildVercelPretplataStatus(
       'POST /api/owner/vercel-ownership { "akcija": "set-legal-intake-complete" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-enterprise-governed-model" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-current-invoice-paid" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-corrected-invoice-resolved" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-current-invoice-evidence-captured" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-invoice-correction-requested" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-autopay-corporate-only" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-finance-channel-configured" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-finops-thresholds-enabled" }',

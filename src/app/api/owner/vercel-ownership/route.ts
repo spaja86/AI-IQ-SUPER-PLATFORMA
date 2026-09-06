@@ -31,6 +31,7 @@ const KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY = 'owner:vercel:current-invoice-amoun
 const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
 const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
 const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
+const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
 const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
 const KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY = 'owner:vercel:finance-channel-configured';
 const KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY = 'owner:vercel:finops-thresholds-enabled';
@@ -68,6 +69,7 @@ async function getBillingGovernanceFlags() {
     currentInvoicePaid,
     currentInvoiceEvidenceCaptured,
     invoiceCorrectionRequested,
+    correctedInvoiceResolved,
     autopayCorporateOnly,
     financeChannelConfigured,
     finopsThresholdsEnabled,
@@ -83,6 +85,7 @@ async function getBillingGovernanceFlags() {
     kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY),
     kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY),
     kvGet<boolean>(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY),
+    kvGet<boolean>(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY),
     kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
     kvGet<boolean>(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY),
     kvGet<boolean>(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY),
@@ -100,6 +103,7 @@ async function getBillingGovernanceFlags() {
     currentInvoicePaid: currentInvoicePaid === true,
     currentInvoiceEvidenceCaptured: currentInvoiceEvidenceCaptured === true,
     invoiceCorrectionRequested: invoiceCorrectionRequested === true,
+    correctedInvoiceResolved: correctedInvoiceResolved === true,
     autopayCorporateOnly: autopayCorporateOnly === true,
     financeChannelConfigured: financeChannelConfigured === true,
     finopsThresholdsEnabled: finopsThresholdsEnabled === true,
@@ -152,6 +156,7 @@ export async function GET() {
           amountUsd: billing.currentInvoiceAmount,
           paid: billing.currentInvoicePaid,
           correctionRequested: billing.invoiceCorrectionRequested,
+          correctedInvoiceResolved: billing.correctedInvoiceResolved,
           evidenceCaptured: billing.currentInvoiceEvidenceCaptured,
         },
         futurePayments: {
@@ -175,8 +180,8 @@ export async function GET() {
           ready ? '✅ Enterprise zahtev spreman za slanje' : '⬜ Postaviti SPAJA_VERCEL_ENTERPRISE_REQUEST_READY=true',
           submitted ? '✅ Enterprise zahtev poslat — čekamo potvrdu' : '⬜ Poslati Vercel Enterprise Request',
           billing.billingOwnerLocked ? '✅ Billing owner zaključan na Digitalna Industrija' : '⬜ Zaključati billing owner na Digitalna Industrija',
-          billing.currentInvoicePaid || billing.invoiceCorrectionRequested
-            ? '✅ Trenutna faktura 5JJYX4KN-0013 je obrađena ili poslata na korekciju'
+          billing.currentInvoicePaid || billing.correctedInvoiceResolved
+            ? '✅ Trenutna faktura 5JJYX4KN-0013 je plaćena ili korigovana faktura je rešena'
             : '⬜ Platiti fakturu 5JJYX4KN-0013 ($870.20) ili otvoriti support correction',
           billing.currentInvoiceEvidenceCaptured ? '✅ Sačuvan dokaz o uplati/invoice-u' : '⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice',
           billing.autopayCorporateOnly ? '✅ Autopay ograničen na korporativni metod plaćanja' : '⬜ Uključiti autopay samo na Digitalna Industrija korporativni metod',
@@ -212,6 +217,7 @@ interface OwnershipUpdateBody {
     | 'set-legal-intake-complete'
     | 'set-enterprise-governed-model'
     | 'set-current-invoice-paid'
+    | 'set-corrected-invoice-resolved'
     | 'set-current-invoice-evidence-captured'
     | 'set-invoice-correction-requested'
     | 'set-autopay-corporate-only'
@@ -238,6 +244,7 @@ export async function POST(request: NextRequest) {
     'set-legal-intake-complete',
     'set-enterprise-governed-model',
     'set-current-invoice-paid',
+    'set-corrected-invoice-resolved',
     'set-current-invoice-evidence-captured',
     'set-invoice-correction-requested',
     'set-autopay-corporate-only',
@@ -248,7 +255,7 @@ export async function POST(request: NextRequest) {
     'reset',
   ].includes(akcija)) {
     return NextResponse.json(
-      { greska: 'Nepoznata akcija. Dostupne: set-ready, set-submitted, set-billing-owner-locked, set-legal-intake-complete, set-enterprise-governed-model, set-current-invoice-paid, set-current-invoice-evidence-captured, set-invoice-correction-requested, set-autopay-corporate-only, set-finance-channel-configured, set-finops-thresholds-enabled, set-monthly-reconciliation-enabled, set-quarterly-vendor-review-enabled, reset.' },
+      { greska: 'Nepoznata akcija. Dostupne: set-ready, set-submitted, set-billing-owner-locked, set-legal-intake-complete, set-enterprise-governed-model, set-current-invoice-paid, set-corrected-invoice-resolved, set-current-invoice-evidence-captured, set-invoice-correction-requested, set-autopay-corporate-only, set-finance-channel-configured, set-finops-thresholds-enabled, set-monthly-reconciliation-enabled, set-quarterly-vendor-review-enabled, reset.' },
       { status: 400 },
     );
   }
@@ -290,8 +297,6 @@ export async function POST(request: NextRequest) {
     case 'set-billing-owner-locked':
       await kvSet(KV_VERCEL_BILLING_OWNER_KEY, EXPECTED_BILLING_OWNER);
       await kvSet(KV_VERCEL_BILLING_OWNER_LOCKED_KEY, true);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
       return NextResponse.json({
         status: 'ok',
         poruka: 'Billing owner je zaključan na Digitalna Industrija — Kompanija SPAJA.',
@@ -318,9 +323,33 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
+      await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
+      await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
       return NextResponse.json({
         status: 'ok',
         poruka: 'Trenutna faktura 5JJYX4KN-0013 je označena kao plaćena.',
+        timestamp: new Date().toISOString(),
+      });
+
+    case 'set-corrected-invoice-resolved':
+      {
+        const kvCorrectionRequested = (await kvGet<boolean>(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY)) === true;
+        if (!kvCorrectionRequested) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Nije aktivan correction workflow. Prvo pozvati set-invoice-correction-requested.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
+      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
+      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+      await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, true);
+      await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
+      await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Korigovana/re-issued faktura je označena kao rešena.',
         timestamp: new Date().toISOString(),
       });
 
@@ -333,8 +362,19 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-invoice-correction-requested':
+      const kvPaid = (await kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY)) === true;
+      if (kvPaid) {
+        return NextResponse.json({
+          status: 'ok',
+          poruka: 'Faktura je već označena kao plaćena; correction request ne menja paid stanje.',
+          timestamp: new Date().toISOString(),
+        });
+      }
       await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+      await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
+      await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
+      await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
       return NextResponse.json({
         status: 'ok',
@@ -385,12 +425,16 @@ export async function POST(request: NextRequest) {
     case 'reset':
       await kvSet(KV_ENTERPRISE_READY_KEY, false);
       await kvSet(KV_ENTERPRISE_SUBMITTED_KEY, false);
+      await kvSet(KV_VERCEL_BILLING_OWNER_KEY, '');
       await kvSet(KV_VERCEL_BILLING_OWNER_LOCKED_KEY, false);
       await kvSet(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY, false);
       await kvSet(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY, false);
+      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, '');
+      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '');
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
+      await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);
       await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, false);
       await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, false);
