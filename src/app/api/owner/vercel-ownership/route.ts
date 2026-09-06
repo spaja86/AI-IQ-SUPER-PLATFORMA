@@ -175,6 +175,11 @@ async function initializeExpectedInvoiceMetadataIfMissing(): Promise<void> {
   }
 }
 
+async function clearPublicAnnouncementState(): Promise<void> {
+  await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, false);
+  await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
+}
+
 export async function GET() {
   const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
@@ -492,6 +497,7 @@ export async function POST(request: NextRequest) {
         }
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
+      await clearPublicAnnouncementState();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Public-safe klasifikacija barkoda / payment reference je odobrena.',
@@ -506,8 +512,8 @@ export async function POST(request: NextRequest) {
         if (blockedResponse) {
           return blockedResponse;
         }
-        const publicSafeApproved = (await kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY)) === true;
-        if (!publicSafeApproved) {
+        const flags = await getBillingGovernanceFlags();
+        if (!flags.paymentReferencePublicSafeApproved) {
           return NextResponse.json({
             status: 'error',
             poruka: 'Public-safe klasifikacija zahteva prethodno approve-payment-reference-public-safe odobrenje.',
@@ -517,6 +523,7 @@ export async function POST(request: NextRequest) {
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE);
+      await clearPublicAnnouncementState();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Barkod / payment reference je sačuvan i označen kao public-safe.',
@@ -535,6 +542,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
+      await clearPublicAnnouncementState();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Barkod / payment reference je sačuvan i označen kao internal-only.',
