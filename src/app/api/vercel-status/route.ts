@@ -16,6 +16,14 @@ import { getVercelHealthCheck, probeVercelDeployment } from '@/lib/deploy-diagno
 import { FUNNEL_EVENTS } from '@/lib/analytics-events';
 import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
 import { kvGet } from '@/lib/kv-client';
+import {
+  EXPECTED_VERCEL_BILLING_OWNER,
+  EXPECTED_VERCEL_INVOICE_AMOUNT,
+  EXPECTED_VERCEL_INVOICE_NUMBER,
+  buildVercelPublicAnnouncementState,
+  isVercelInvoiceResolved,
+  normalizePaymentReferenceClassification,
+} from '@/lib/vercel-billing-governance';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,19 +48,6 @@ export const KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY = 'owner:vercel:finance-ch
 export const KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY = 'owner:vercel:finops-thresholds-enabled';
 export const KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY = 'owner:vercel:monthly-reconciliation-enabled';
 export const KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY = 'owner:vercel:quarterly-vendor-review-enabled';
-
-const PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE = 'public-safe';
-const PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY = 'internal-only';
-
-function normalizePaymentReferenceClassification(value: string | undefined): string {
-  const normalized = (value ?? '').trim().toLowerCase();
-  return [
-    PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE,
-    PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY,
-  ].includes(normalized)
-    ? normalized
-    : '';
-}
 
 export function resolveOwnerPhone(env: Record<string, string | undefined>): string {
   const configuredPhone = env[OWNER_PHONE_NUMBER_ENV_KEY]?.trim();
@@ -171,9 +166,9 @@ export function buildVercelPretplataStatus(
   const enterpriseRequestRequested = /^(1|true|yes)$/i.test(env.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '');
   const enterpriseRequestSubmitted = /^(1|true|yes)$/i.test(env.SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED ?? '');
   const enterpriseRequestStarted = enterpriseRequestRequested || enterpriseRequestSubmitted;
-  const expectedInvoiceNumber = '5JJYX4KN-0015';
-  const expectedInvoiceAmount = '385.52';
-  const expectedBillingOwner = 'Digitalna Industrija — Kompanija SPAJA';
+  const expectedInvoiceNumber = EXPECTED_VERCEL_INVOICE_NUMBER;
+  const expectedInvoiceAmount = EXPECTED_VERCEL_INVOICE_AMOUNT;
+  const expectedBillingOwner = EXPECTED_VERCEL_BILLING_OWNER;
   const currentInvoiceNumber = (env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? '').trim();
   const currentInvoiceAmount = (env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? '').trim();
   const billingOwner = (env.SPAJA_VERCEL_BILLING_OWNER ?? '').trim();
@@ -196,38 +191,27 @@ export function buildVercelPretplataStatus(
   const invoiceMatchesExpected =
     currentInvoiceNumber === expectedInvoiceNumber
     && currentInvoiceAmount === expectedInvoiceAmount;
-  const invoiceResolutionSatisfied = invoiceMatchesExpected
-    && (currentInvoicePaid || (invoiceCorrectionRequested && correctedInvoiceResolved));
-  const publicAnnouncementReady = invoiceResolutionSatisfied
-    && currentInvoiceEvidenceCaptured
-    && bankStatementCaptured
-    && paymentReferenceCaptured
-    && paymentReferenceClassification.length > 0
-    && publicAnnouncementRedacted;
-  const publicAnnouncementBlockers = [
-    ...(!invoiceRequested ? ['Zahtev za fakturisanje / support eskalacija nije dokumentovana.'] : []),
-    ...(!invoiceResolutionSatisfied
-      ? ['Javno ozvaničenje ostaje blokirano dok faktura nije plaćena ili korekcija nije razrešena.']
-      : []),
-    ...(!currentInvoiceEvidenceCaptured && invoiceResolutionSatisfied
-      ? ['Nedostaje payment confirmation paket pre javnog ozvaničenja.']
-      : []),
-    ...(!bankStatementCaptured && invoiceResolutionSatisfied
-      ? ['Nedostaje izvod platnog računa sa vidljivom vezom ka uplati.']
-      : []),
-    ...(!paymentReferenceCaptured && invoiceResolutionSatisfied
-      ? ['Nedostaje barkod / payment reference evidencija.']
-      : []),
-    ...(paymentReferenceCaptured && paymentReferenceClassification.length === 0
-      ? ['Barkod / payment reference mora biti klasifikovan kao public-safe ili internal-only.']
-      : []),
-    ...(!publicAnnouncementRedacted && invoiceResolutionSatisfied
-      ? ['Javni sažetak mora biti redigovan pre objave.']
-      : []),
-    ...(!publicAnnouncementPublished && publicAnnouncementReady
-      ? ['Javni audit-ready sažetak još nije objavljen.']
-      : []),
-  ];
+  const invoiceResolutionSatisfied = isVercelInvoiceResolved({
+    currentInvoiceNumber,
+    currentInvoiceAmount,
+    currentInvoicePaid,
+    invoiceCorrectionRequested,
+    correctedInvoiceResolved,
+  });
+  const publicAnnouncement = buildVercelPublicAnnouncementState({
+    invoiceRequested,
+    currentInvoiceNumber,
+    currentInvoiceAmount,
+    currentInvoicePaid,
+    invoiceCorrectionRequested,
+    correctedInvoiceResolved,
+    currentInvoiceEvidenceCaptured,
+    bankStatementCaptured,
+    paymentReferenceCaptured,
+    paymentReferenceClassification,
+    publicAnnouncementRedacted,
+    publicAnnouncementPublished,
+  });
   const autopayCorporateOnly = boolFlag(env.SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY);
   const financeChannelConfigured = boolFlag(env.SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED);
   const finopsThresholdsEnabled = boolFlag(env.SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED);
@@ -288,17 +272,13 @@ export function buildVercelPretplataStatus(
         evidenceCaptured: currentInvoiceEvidenceCaptured,
         bankStatementCaptured,
         paymentReferenceCaptured,
-        paymentReferenceClassification: paymentReferenceClassification || 'unclassified',
+        paymentReferenceClassification: publicAnnouncement.paymentReferenceClassification || 'unclassified',
       },
       publicAnnouncement: {
         redacted: publicAnnouncementRedacted,
         published: publicAnnouncementPublished,
-        status: publicAnnouncementPublished
-          ? 'published'
-          : publicAnnouncementReady
-            ? 'ready-to-publish'
-            : 'not-ready',
-        blockers: publicAnnouncementBlockers,
+        status: publicAnnouncement.status,
+        blockers: publicAnnouncement.blockers,
       },
       futurePayments: {
         autopayCorporateOnly,
