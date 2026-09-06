@@ -132,8 +132,8 @@ export function buildVercelPretplataStatus(
   const enterpriseRequestRequested = /^(1|true|yes)$/i.test(env.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '');
   const enterpriseRequestSubmitted = /^(1|true|yes)$/i.test(env.SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED ?? '');
   const enterpriseRequestStarted = enterpriseRequestRequested || enterpriseRequestSubmitted;
-  const expectedInvoiceNumber = '5JJYX4KN-0012';
-  const expectedInvoiceAmount = '96.77';
+  const expectedInvoiceNumber = '5JJYX4KN-0015';
+  const expectedInvoiceAmount = '385.52';
   const expectedBillingOwner = 'Digitalna Industrija — Kompanija SPAJA';
   const currentInvoiceNumber = (env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? '').trim();
   const currentInvoiceAmount = (env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? '').trim();

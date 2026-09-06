@@ -41,8 +41,8 @@ async function testRouteResponseUsesKvGovernanceFlags() {
     await kvSet(KV_VERCEL_BILLING_OWNER_LOCKED_KEY, true);
     await kvSet(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY, true);
     await kvSet(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY, true);
-    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, '5JJYX4KN-0012');
-    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '96.77');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, '5JJYX4KN-0015');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '385.52');
     await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
     await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
     await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, true);
@@ -164,8 +164,8 @@ function testDigitalnaIndustrijaBillingBlockers() {
   );
   assert.ok(status.blokatori.includes('Billing owner nije zaključan na Digitalna Industrija.'));
   assert.ok(status.blokatori.includes('Billing owner mora biti: Digitalna Industrija — Kompanija SPAJA.'));
-  assert.ok(status.blokatori.includes('Trenutni invoice mora biti 5JJYX4KN-0012.'));
-  assert.ok(status.blokatori.includes('Trenutni invoice iznos mora biti 96.77.'));
+  assert.ok(status.blokatori.includes('Trenutni invoice mora biti 5JJYX4KN-0015.'));
+  assert.ok(status.blokatori.includes('Trenutni invoice iznos mora biti 385.52.'));
   assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
 }
 
@@ -180,8 +180,8 @@ function testDigitalnaIndustrijaBillingCanBeCleared() {
       SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
       SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
       SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
-      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0012',
-      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '96.77',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
       SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
       SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
       SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
@@ -206,8 +206,8 @@ function testDigitalnaIndustrijaCorrectedInvoiceResolutionCanClearInvoiceBlocker
       SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
       SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
       SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
-      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0012',
-      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '96.77',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
       SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
       SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'true',
       SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'true',
@@ -235,8 +235,8 @@ function testDigitalnaIndustrijaCorrectionRequestAloneIsNotResolved() {
       SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
       SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
       SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
-      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0012',
-      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '96.77',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
       SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
       SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'true',
       SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',

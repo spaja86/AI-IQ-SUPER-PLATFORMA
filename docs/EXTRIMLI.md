@@ -273,7 +273,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
 - Vercel pretplata governance za Digitalna Industrija mora eksplicitno pokriti:
   - billing owner lock na `Digitalna Industrija — Kompanija SPAJA`
-  - trenutnu fakturu `5JJYX4KN-0012` (`$96.77`) kao `paid` ili `corrected-invoice-resolved` (samo `correction-requested` nije dovoljno za finalno razrešenje)
+  - trenutnu fakturu `5JJYX4KN-0015` (`$385.52`) kao `paid` ili `corrected-invoice-resolved` (samo `correction-requested` nije dovoljno za finalno razrešenje)
   - dokazni paket: invoice PDF, payment potvrda, timestamp, odgovorno lice
   - future controls: corporate-only autopay, finance channel notifikacije, FinOps pragovi `50/75/90/100`, mesečni reconciliation, kvartalni vendor review
 
