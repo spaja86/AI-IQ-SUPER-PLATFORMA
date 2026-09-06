@@ -171,6 +171,29 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.requested, true);
   });
 
+  await test('set-current-invoice-paid preserves already recorded invoice metadata', async () => {
+    await resetState();
+    const phone = nextScenarioOwnerPhone();
+    ensureVerifiedOwnerPhone(phone);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, 'CUSTOM-INVOICE-PAID');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '777.77');
+
+    await expectOkAction('set-current-invoice-paid');
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: { number: string; amountUsd: string; paid: boolean };
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, 'CUSTOM-INVOICE-PAID');
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.amountUsd, '777.77');
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, true);
+  });
+
   await test('paid invoice still requires evidence until captured', async () => {
     await seedApprovedOpenInvoiceState();
     const paidResponse = await expectOkAction('set-current-invoice-paid');

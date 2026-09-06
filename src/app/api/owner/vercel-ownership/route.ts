@@ -163,6 +163,18 @@ async function ensureCorePaymentEvidenceReady(errorMessage: string): Promise<Nex
   return null;
 }
 
+async function initializeExpectedInvoiceMetadataIfMissing(): Promise<void> {
+  const existingNumber = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY))?.trim() ?? '';
+  const existingAmount = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY))?.trim() ?? '';
+
+  if (!existingNumber) {
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
+  }
+  if (!existingAmount) {
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+  }
+}
+
 export async function GET() {
   const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
@@ -407,26 +419,16 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-invoice-requested':
-      {
-        const existingNumber = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY))?.trim() ?? '';
-        const existingAmount = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY))?.trim() ?? '';
-        if (!existingNumber) {
-          await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-        }
-        if (!existingAmount) {
-          await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
-        }
-      }
+      await initializeExpectedInvoiceMetadataIfMissing();
       await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
       return NextResponse.json({
         status: 'ok',
         poruka: 'Zahtev za fakturisanje / support eskalacija je dokumentovana za aktivnu Vercel fakturu.',
         timestamp: new Date().toISOString(),
       });
-
     case 'set-current-invoice-paid':
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+    case 'set-current-invoice-paid':
+      await initializeExpectedInvoiceMetadataIfMissing();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
@@ -447,8 +449,7 @@ export async function POST(request: NextRequest) {
           }, { status: 409 });
         }
       }
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+      await initializeExpectedInvoiceMetadataIfMissing();
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, true);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
@@ -597,8 +598,7 @@ export async function POST(request: NextRequest) {
           timestamp: new Date().toISOString(),
         });
       }
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-      await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+      await initializeExpectedInvoiceMetadataIfMissing();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
