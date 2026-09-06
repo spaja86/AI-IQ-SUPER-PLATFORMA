@@ -126,6 +126,15 @@ PILOTRELAX uvodi determinističku procenu relaxation protokola sa fiksnim `pilot
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/PILOTRELAX.md`
 
+## 🧭 NUDE
+
+NUDE uvodi determinističku procenu operativne spremnosti kroz balans stresa, kontekstualnog opterećenja i potrebe za oporavkom.
+
+- Modul: `src/lib/nude/**`
+- API: `/api/nude/evaluate`, `/api/nude/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/NUDE.md`
+
 ## 📝 Prompt Sistem — Svuda u ekosistemu
 
 Centralni Prompt sistem sa **28 Prompt-ova** u **10 kategorija**. Prompt je integrisana u svaki aspekt platforme:

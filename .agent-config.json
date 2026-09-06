@@ -895,6 +895,47 @@
       "linkedRepoImpact": "documentation-only",
       "scope": "src/lib/dumbir/**,src/app/api/dumbir/**"
     },
+    "nude-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "nude-balance-core",
+      "octave": 8,
+      "hipermrezaNode": 65,
+      "labels": [
+        "nude",
+        "nude:logic-change",
+        "nude:validated",
+        "nude:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/nude-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/NUDE.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreMin": 0,
+        "scoreMax": 100
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/nude.test.ts",
+        "npx tsx src/tests/api/nude-route.test.ts"
+      ],
+      "triggerPaths": [
+        "src/lib/nude/**",
+        "src/app/api/nude/**",
+        "src/tests/lib/nude.test.ts",
+        "src/tests/api/nude-route.test.ts",
+        "docs/NUDE.md",
+        ".github/workflows/nude-validator.yml"
+      ],
+      "linkedRepoImpact": "documentation-only",
+      "scope": "src/lib/nude/**,src/app/api/nude/**"
+    },
     "mrkli-mrak-validator-agent": {
       "enabled": true,
       "status": "active",

@@ -68,6 +68,10 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `opkongo:logic-change` | OPKONGO opportunity-progression contract or scoring logic changed |
 | `opkongo:validated` | OPKONGO validator and tests passed |
 | `opkongo:needs-review` | OPKONGO validator requires human follow-up |
+| `nude` | NUDE change set — requires focused validation |
+| `nude:logic-change` | NUDE readiness contract or scoring logic changed |
+| `nude:validated` | NUDE validator and tests passed |
+| `nude:needs-review` | NUDE validator requires human follow-up |
 | `mirikl` | MIRIKL GitHub + Vercel governance/release change set |
 | `mirikl:logic-change` | MIRIKL deploy/config/cross-repo governance logic changed |
 | `mirikl:review` | MIRIKL change requires focused human review |
@@ -1207,6 +1211,31 @@ AI-IQ-SUPER-PLATFORMA#ekzist -> IO-OPENUI-AO#<follow-up issue>
 **Audit convention for this initiative:**
 ```
 AI-IQ-SUPER-PLATFORMA#dumbir -> IO-OPENUI-AO#<optional follow-up issue>
+
+## NUDE — Normalized Unified Deterministic Evaluation
+
+| Field | Value |
+|---|---|
+| Scope | `src/lib/nude/**`, `src/app/api/nude/**` |
+| Persona | `nude-balance-core` (octave: 8, hipermreza node: 65) |
+| Validator | `nude-validator-agent` |
+| Workflow | `.github/workflows/nude-validator.yml` |
+| Contract | `v1` |
+| Linked repo impact | `documentation-only` |
+
+### Downstream policy
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — NUDE readiness module | `spaja86/IO-OPENUI-AO` — Follow-up optional | Sync labels/docs only if linked repo adopts the contract |
+
+- Add NUDE label schema (`nude`, `nude:logic-change`, `nude:validated`, `nude:needs-review`) only when module is consumed downstream
+- Record canonical `nude` slug in linked repo docs if external adoption starts
+- Sync `nude-balance-core` persona to persona-bank only if repo-local v1 expands cross-repo
+
+Audit reference convention (if downstream work is needed later):
+
+AI-IQ-SUPER-PLATFORMA#nude -> IO-OPENUI-AO#<optional follow-up issue>
 ```
 
 ## PILOTRELAX — Relaxation Guidance

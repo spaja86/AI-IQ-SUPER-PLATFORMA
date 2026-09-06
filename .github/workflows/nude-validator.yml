@@ -1,0 +1,47 @@
+name: NUDE — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/nude/**'
+      - 'src/app/api/nude/**'
+      - 'src/tests/lib/nude.test.ts'
+      - 'src/tests/api/nude-route.test.ts'
+      - 'docs/NUDE.md'
+      - '.github/workflows/nude-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/nude/**'
+      - 'src/app/api/nude/**'
+      - 'src/tests/lib/nude.test.ts'
+      - 'src/tests/api/nude-route.test.ts'
+      - 'docs/NUDE.md'
+  workflow_dispatch:
+
+concurrency:
+  group: nude-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: nude
+      lint_paths: >-
+        src/lib/nude
+        src/app/api/nude
+      test_commands: |
+        npx tsx src/tests/lib/nude.test.ts
+        npx tsx src/tests/api/nude-route.test.ts
+      scan_paths: >-
+        src/lib/nude
+        src/app/api/nude
+      label: nude
+      perf_eval_ms: 50
+      perf_api_ms: 200
