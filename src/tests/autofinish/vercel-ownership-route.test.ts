@@ -161,7 +161,7 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.poruka, 'Plaćanje fakture se beleži tek nakon invoice requested / support eskalacije.');
   });
 
-  await test('set-invoice-requested preserves already recorded invoice metadata', async () => {
+  await test('set-invoice-requested normalizes invoice metadata to the governed invoice', async () => {
     await resetState();
     const phone = nextScenarioOwnerPhone();
     ensureVerifiedOwnerPhone(phone);
@@ -179,8 +179,8 @@ async function runTests(): Promise<void> {
       };
     };
 
-    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, 'CUSTOM-INVOICE-42');
-    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.amountUsd, '999.99');
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, EXPECTED_INVOICE_NUMBER);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.amountUsd, EXPECTED_INVOICE_AMOUNT);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.requested, true);
   });
 

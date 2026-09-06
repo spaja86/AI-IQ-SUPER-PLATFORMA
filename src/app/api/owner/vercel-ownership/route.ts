@@ -163,18 +163,6 @@ async function ensureCorePaymentEvidenceReady(errorMessage: string): Promise<Nex
   return null;
 }
 
-async function initializeExpectedInvoiceMetadataIfMissing(): Promise<void> {
-  const existingNumber = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY))?.trim() ?? '';
-  const existingAmount = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY))?.trim() ?? '';
-
-  if (!existingNumber) {
-    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
-  }
-  if (!existingAmount) {
-    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
-  }
-}
-
 async function setExpectedInvoiceMetadata(): Promise<void> {
   await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
   await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
@@ -437,7 +425,7 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-invoice-requested':
-      await initializeExpectedInvoiceMetadataIfMissing();
+      await setExpectedInvoiceMetadata();
       await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
       return NextResponse.json({
         status: 'ok',
