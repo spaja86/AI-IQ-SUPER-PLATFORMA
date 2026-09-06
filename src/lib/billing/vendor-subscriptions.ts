@@ -86,6 +86,25 @@ export interface VendorSubscriptionGoLivePhase {
   description: string;
 }
 
+export const VENDOR_SUBSCRIPTION_CORRECTION_SCENARIO_MATRIX = [
+  {
+    flow: 'uplata',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+  {
+    flow: 'isplata',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+  {
+    flow: 'akciznost-compliance',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+  {
+    flow: 'pretplata',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+] as const;
+
 export const VENDOR_SUBSCRIPTION_STATUS_MODEL: VendorSubscriptionStatusDefinition[] = [
   { status: 'draft', label: 'Draft', description: 'Predmet otvoren i još nije spreman za operativnu obradu.' },
   {

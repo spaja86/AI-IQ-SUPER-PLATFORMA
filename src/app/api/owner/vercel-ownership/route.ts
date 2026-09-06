@@ -163,19 +163,6 @@ async function ensureCorePaymentEvidenceReady(errorMessage: string): Promise<Nex
   return null;
 }
 
-async function ensurePaymentReferenceReady(errorMessage: string): Promise<NextResponse | null> {
-  const flags = await getBillingGovernanceFlags();
-  if (!flags.paymentReferenceCaptured || !flags.paymentReferenceClassification) {
-    return NextResponse.json({
-      status: 'error',
-      poruka: errorMessage,
-      timestamp: new Date().toISOString(),
-    }, { status: 409 });
-  }
-
-  return null;
-}
-
 async function initializeExpectedInvoiceMetadataIfMissing(): Promise<void> {
   const existingNumber = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY))?.trim() ?? '';
   const existingAmount = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY))?.trim() ?? '';
@@ -458,6 +445,16 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       });
     case 'set-current-invoice-paid':
+      {
+        const invoiceRequested = (await kvGet<boolean>(KV_VERCEL_INVOICE_REQUESTED_KEY)) === true;
+        if (!invoiceRequested) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Plaćanje fakture se beleži tek nakon invoice requested / support eskalacije.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
       await initializeExpectedInvoiceMetadataIfMissing();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
@@ -506,12 +503,6 @@ export async function POST(request: NextRequest) {
         );
         if (blockedResponse) {
           return blockedResponse;
-        }
-        const missingPaymentReferenceResponse = await ensurePaymentReferenceReady(
-          'Izvod platnog računa se beleži tek nakon klasifikovanog barkoda / payment reference.',
-        );
-        if (missingPaymentReferenceResponse) {
-          return missingPaymentReferenceResponse;
         }
       }
       await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);

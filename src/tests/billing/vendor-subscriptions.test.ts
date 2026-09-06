@@ -2,6 +2,7 @@ import assert from 'node:assert';
 import {
   getVendorFormalPackages,
   VENDOR_SUBSCRIPTION_ACTIVATION_RULES,
+  VENDOR_SUBSCRIPTION_CORRECTION_SCENARIO_MATRIX,
   VENDOR_SUBSCRIPTION_FINOPS_FRAMEWORK,
   VENDOR_SUBSCRIPTION_FORMAL_PACKAGES,
   VENDOR_SUBSCRIPTION_GO_LIVE_SEQUENCE,
@@ -9,25 +10,6 @@ import {
   VENDOR_SUBSCRIPTION_STATUS_MODEL,
 } from '../../lib/billing/vendor-subscriptions';
 import { pricingLoginSekvence } from '../../lib/sekvence/pricing-login-page';
-
-const CORRECTION_SCENARIO_MATRIX = [
-  {
-    flow: 'uplata',
-    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
-  },
-  {
-    flow: 'isplata',
-    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
-  },
-  {
-    flow: 'akciznost-compliance',
-    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
-  },
-  {
-    flow: 'pretplata',
-    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
-  },
-] as const;
 
 function testFormalPackages() {
   assert.strictEqual(VENDOR_SUBSCRIPTION_FORMAL_PACKAGES.length, 4);
@@ -90,12 +72,12 @@ function testBillingStatusScenarioMatrix() {
 }
 
 function testCorrectionScenarioMatrix() {
-  assert.strictEqual(CORRECTION_SCENARIO_MATRIX.length, 4);
+  assert.strictEqual(VENDOR_SUBSCRIPTION_CORRECTION_SCENARIO_MATRIX.length, 4);
   const requiredFlows = ['uplata', 'isplata', 'akciznost-compliance', 'pretplata'];
   const requiredScenarios = ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'];
 
   for (const flow of requiredFlows) {
-    const entry = CORRECTION_SCENARIO_MATRIX.find((scenario) => scenario.flow === flow);
+    const entry = VENDOR_SUBSCRIPTION_CORRECTION_SCENARIO_MATRIX.find((scenario) => scenario.flow === flow);
     assert.ok(entry, `${flow} correction matrix entry must exist`);
     assert.deepStrictEqual(entry?.minimumScenarios, requiredScenarios);
   }

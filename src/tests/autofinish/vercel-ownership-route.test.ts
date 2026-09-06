@@ -9,6 +9,7 @@ const KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY = 'owner:vercel:current-invoice-numbe
 const KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY = 'owner:vercel:current-invoice-amount';
 const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
 const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
+const KV_VERCEL_INVOICE_REQUESTED_KEY = 'owner:vercel:invoice-requested';
 const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
 const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
 const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captured';
@@ -149,6 +150,17 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.poruka, 'Nije aktivan correction workflow. Prvo pozvati set-invoice-correction-requested.');
   });
 
+  await test('set-current-invoice-paid requires prior invoice requested audit step', async () => {
+    await resetState();
+    const phone = nextScenarioOwnerPhone();
+    ensureVerifiedOwnerPhone(phone);
+
+    const response = await postAction('set-current-invoice-paid');
+    assert.strictEqual(response.status, 409);
+    const body = await response.json() as { poruka?: string };
+    assert.strictEqual(body.poruka, 'Plaćanje fakture se beleži tek nakon invoice requested / support eskalacije.');
+  });
+
   await test('set-invoice-requested preserves already recorded invoice metadata', async () => {
     await resetState();
     const phone = nextScenarioOwnerPhone();
@@ -178,6 +190,7 @@ async function runTests(): Promise<void> {
     ensureVerifiedOwnerPhone(phone);
     await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, 'CUSTOM-INVOICE-PAID');
     await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '777.77');
+    await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
     await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);
     await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
     await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, 'internal-only');
@@ -279,13 +292,8 @@ async function runTests(): Promise<void> {
 
     await expectOkAction('set-current-invoice-evidence-captured');
 
-    const blockedStatementBeforeReference = await postAction('set-bank-statement-captured');
-    assert.strictEqual(blockedStatementBeforeReference.status, 409);
-    const blockedStatementBeforeReferenceBody = await blockedStatementBeforeReference.json() as { poruka?: string };
-    assert.strictEqual(
-      blockedStatementBeforeReferenceBody.poruka,
-      'Izvod platnog računa se beleži tek nakon klasifikovanog barkoda / payment reference.',
-    );
+    const statementBeforeReferenceResponse = await postAction('set-bank-statement-captured');
+    assert.strictEqual(statementBeforeReferenceResponse.status, 200);
 
     const blockedPublicSafeReference = await postAction('set-payment-reference-public-safe');
     assert.strictEqual(blockedPublicSafeReference.status, 409);
@@ -322,10 +330,10 @@ async function runTests(): Promise<void> {
     };
 
     assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.status, 'not-ready');
-    assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Nedostaje izvod platnog računa.'));
+    assert(!body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Nedostaje izvod platnog računa.'));
     assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Nedostaje barkod / payment reference.'));
     assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Javni sažetak mora biti redigovan.'));
-    assert(body['sledećiKoraci'].includes('⬜ Sačuvati izvod platnog računa sa vezom ka uplati'));
+    assert(body['sledećiKoraci'].includes('✅ Izvod platnog računa je sačuvan'));
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati barkod ili payment reference i klasifikovati ga'));
     assert(body['sledećiKoraci'].includes('⬜ Pripremiti redigovan audit-ready javni sažetak'));
   });
