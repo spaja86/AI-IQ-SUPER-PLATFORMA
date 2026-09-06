@@ -20,7 +20,8 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const health = await getVercelHealthCheck();
-  const phone = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
+  const configuredPhone = process.env[OWNER_PHONE_NUMBER_ENV_KEY]?.trim();
+  const phone = configuredPhone && configuredPhone.length > 0 ? configuredPhone : OWNER_PHONE_DEFAULT;
   const phoneVerified = getOwnerPhoneVerifikacijaStatus(phone) === 'verifikovan';
   const enterpriseRequestReady = /^(1|true|yes)$/i.test(process.env.SPAJA_VERCEL_ENTERPRISE_REQUEST_READY ?? '');
   const enterpriseRequestRequested = /^(1|true|yes)$/i.test(process.env.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '');
