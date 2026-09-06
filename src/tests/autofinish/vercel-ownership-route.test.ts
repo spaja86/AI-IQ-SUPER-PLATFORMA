@@ -45,7 +45,8 @@ async function postAction(akcija: string) {
 }
 
 async function resetState(): Promise<void> {
-  await postAction('reset');
+  const response = await postAction('reset');
+  assert.strictEqual(response.status, 200);
 }
 
 function ensureVerifiedOwnerPhone(): void {
