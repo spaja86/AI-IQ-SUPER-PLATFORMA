@@ -49,7 +49,8 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
   );
   const invoiceResolved = isVercelInvoiceResolved(flags);
   const invoiceWorkflowDocumented = flags.invoiceRequested;
-  const readyToPublish = invoiceResolved
+  const readyToPublish = invoiceWorkflowDocumented
+    && invoiceResolved
     && flags.currentInvoiceEvidenceCaptured
     && flags.bankStatementCaptured
     && flags.paymentReferenceCaptured
