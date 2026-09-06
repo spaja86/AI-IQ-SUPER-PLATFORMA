@@ -455,7 +455,7 @@ export async function POST(request: NextRequest) {
           }, { status: 409 });
         }
       }
-      await initializeExpectedInvoiceMetadataIfMissing();
+      await setExpectedInvoiceMetadata();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);

@@ -184,7 +184,7 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.requested, true);
   });
 
-  await test('set-current-invoice-paid preserves already recorded invoice metadata', async () => {
+  await test('set-current-invoice-paid normalizes invoice metadata to the governed invoice', async () => {
     await resetState();
     const phone = nextScenarioOwnerPhone();
     ensureVerifiedOwnerPhone(phone);
@@ -213,8 +213,8 @@ async function runTests(): Promise<void> {
       };
     };
 
-    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, 'CUSTOM-INVOICE-PAID');
-    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.amountUsd, '777.77');
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, EXPECTED_INVOICE_NUMBER);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.amountUsd, EXPECTED_INVOICE_AMOUNT);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, true);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.bankStatementCaptured, false);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, false);
