@@ -146,6 +146,19 @@ async function getBillingGovernanceFlags() {
   };
 }
 
+async function ensureCorePaymentEvidenceReady(errorMessage: string): Promise<NextResponse | null> {
+  const flags = await getBillingGovernanceFlags();
+  if (!isVercelInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
+    return NextResponse.json({
+      status: 'error',
+      poruka: errorMessage,
+      timestamp: new Date().toISOString(),
+    }, { status: 409 });
+  }
+
+  return null;
+}
+
 export async function GET() {
   const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
@@ -445,13 +458,11 @@ export async function POST(request: NextRequest) {
 
     case 'set-bank-statement-captured':
       {
-        const flags = await getBillingGovernanceFlags();
-        if (!isVercelInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
-          return NextResponse.json({
-            status: 'error',
-            poruka: 'Izvod platnog računa se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
-            timestamp: new Date().toISOString(),
-          }, { status: 409 });
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Izvod platnog računa se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
         }
       }
       await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);
@@ -463,13 +474,11 @@ export async function POST(request: NextRequest) {
 
     case 'set-payment-reference-public-safe':
       {
-        const flags = await getBillingGovernanceFlags();
-        if (!isVercelInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
-          return NextResponse.json({
-            status: 'error',
-            poruka: 'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
-            timestamp: new Date().toISOString(),
-          }, { status: 409 });
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
         }
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
@@ -482,13 +491,11 @@ export async function POST(request: NextRequest) {
 
     case 'set-payment-reference-internal-only':
       {
-        const flags = await getBillingGovernanceFlags();
-        if (!isVercelInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
-          return NextResponse.json({
-            status: 'error',
-            poruka: 'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
-            timestamp: new Date().toISOString(),
-          }, { status: 409 });
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
         }
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
