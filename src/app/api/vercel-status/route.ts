@@ -11,14 +11,32 @@
  */
 
 import { NextResponse } from 'next/server';
-import { APP_VERSION } from '@/lib/constants';
+import { APP_VERSION, OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/constants';
 import { getVercelHealthCheck, probeVercelDeployment } from '@/lib/deploy-diagnostics';
 import { FUNNEL_EVENTS } from '@/lib/analytics-events';
+import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const health = await getVercelHealthCheck();
+  const phone = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
+  const phoneVerified = getOwnerPhoneVerifikacijaStatus(phone) === 'verifikovan';
+  const enterpriseRequestReady = /^(1|true|yes)$/i.test(process.env.SPAJA_VERCEL_ENTERPRISE_REQUEST_READY ?? '');
+  const enterpriseRequestRequested = /^(1|true|yes)$/i.test(process.env.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '');
+  const enterpriseRequestSubmitted = /^(1|true|yes)$/i.test(process.env.SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED ?? '');
+  const enterpriseRequestStarted = enterpriseRequestRequested || enterpriseRequestSubmitted;
+  const teamConfigured = Boolean(process.env.VERCEL_TEAM_ID ?? process.env.VERCEL_ORG_ID);
+  const pretplataBlokatori = [
+    ...(!health.tokenKonfigurisan ? ['Nedostaje VERCEL_TOKEN.'] : []),
+    ...(!health.projectIdKonfigurisan ? ['Nedostaje VERCEL_PROJECT_ID.'] : []),
+    ...(!teamConfigured ? ['Nedostaje VERCEL_TEAM_ID ili VERCEL_ORG_ID.'] : []),
+    ...(!phoneVerified ? ['Telefon vlasnika nije verifikovan (OTP).'] : []),
+    ...(!enterpriseRequestReady ? ['Enterprise zahtev nije označen kao spreman (set-ready).'] : []),
+    ...(!enterpriseRequestStarted ? ['Enterprise zahtev nije pokrenut (REQUESTED/SUBMITTED).'] : []),
+    ...(!enterpriseRequestSubmitted ? ['Enterprise zahtev nije označen kao poslat (set-submitted).'] : []),
+  ];
+  const pretplataStatus = pretplataBlokatori.length === 0 ? 'service-active' : 'blocked-until-validated';
 
   // Pokušaj dohvatiti deployment ID iz Vercel env (automatski postavljeno)
   const deploymentId = process.env.VERCEL_DEPLOYMENT_ID ?? process.env.VERCEL_GIT_COMMIT_SHA;
@@ -81,6 +99,22 @@ export async function GET() {
           signal: vercelProbe.signal,
         }
       : null,
+    pretplataVercel: {
+      status: pretplataStatus,
+      blokatori: pretplataBlokatori,
+      ownership: {
+        phoneVerified,
+        enterpriseRequestReady,
+        enterpriseRequestRequested,
+        enterpriseRequestSubmitted,
+      },
+      sledeciKoraci: [
+        'POST /api/owner-phone-auth/request-otp',
+        'POST /api/owner-phone-auth/verify-otp',
+        'POST /api/owner/vercel-ownership { "akcija": "set-ready" }',
+        'POST /api/owner/vercel-ownership { "akcija": "set-submitted" }',
+      ],
+    },
     uputstvo: {
       korak1: 'Kreirati Personal Access Token na Vercel → Account Settings → Tokens',
       korak2: 'Dodati VERCEL_TOKEN u Vercel → Project → Settings → Environment Variables',
