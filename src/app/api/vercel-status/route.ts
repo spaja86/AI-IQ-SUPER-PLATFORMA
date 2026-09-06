@@ -11,14 +11,75 @@
  */
 
 import { NextResponse } from 'next/server';
-import { APP_VERSION } from '@/lib/constants';
+import { APP_VERSION, OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from '@/lib/constants';
 import { getVercelHealthCheck, probeVercelDeployment } from '@/lib/deploy-diagnostics';
 import { FUNNEL_EVENTS } from '@/lib/analytics-events';
+import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
 
 export const dynamic = 'force-dynamic';
 
+export function resolveOwnerPhone(env: Record<string, string | undefined>): string {
+  const configuredPhone = env[OWNER_PHONE_NUMBER_ENV_KEY]?.trim();
+  return configuredPhone && configuredPhone.length > 0 ? configuredPhone : OWNER_PHONE_DEFAULT;
+}
+
+export function buildVercelPretplataStatus(
+  env: Record<string, string | undefined>,
+  {
+    tokenKonfigurisan,
+    projectIdKonfigurisan,
+    phoneVerified,
+  }: {
+    tokenKonfigurisan: boolean;
+    projectIdKonfigurisan: boolean;
+    phoneVerified: boolean;
+  },
+) {
+  const enterpriseRequestReady = /^(1|true|yes)$/i.test(env.SPAJA_VERCEL_ENTERPRISE_REQUEST_READY ?? '');
+  const enterpriseRequestRequested = /^(1|true|yes)$/i.test(env.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '');
+  const enterpriseRequestSubmitted = /^(1|true|yes)$/i.test(env.SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED ?? '');
+  const enterpriseRequestStarted = enterpriseRequestRequested || enterpriseRequestSubmitted;
+  const teamConfigured =
+    Boolean(env.VERCEL_TEAM_ID?.trim())
+    || Boolean(env.VERCEL_ORG_ID?.trim());
+  const blokatori = [
+    ...(!tokenKonfigurisan ? ['Nedostaje VERCEL_TOKEN.'] : []),
+    ...(!projectIdKonfigurisan ? ['Nedostaje VERCEL_PROJECT_ID.'] : []),
+    ...(!teamConfigured ? ['Nedostaje VERCEL_TEAM_ID ili VERCEL_ORG_ID.'] : []),
+    ...(!phoneVerified ? ['Telefon vlasnika nije verifikovan (OTP).'] : []),
+    ...(!enterpriseRequestReady ? ['Enterprise zahtev nije označen kao spreman (set-ready).'] : []),
+    ...(!enterpriseRequestStarted ? ['Enterprise zahtev nije pokrenut (REQUESTED/SUBMITTED).'] : []),
+    ...(!enterpriseRequestSubmitted ? ['Enterprise zahtev nije označen kao poslat (set-submitted).'] : []),
+  ];
+
+  return {
+    status: blokatori.length === 0 ? 'service-active' : 'blocked-until-validated',
+    blokatori,
+    ownership: {
+      phoneVerified,
+      enterpriseRequestReady,
+      enterpriseRequestRequested,
+      enterpriseRequestSubmitted,
+    },
+    sledeciKoraci: [
+      'POST /api/owner-phone-auth/request-otp',
+      'POST /api/owner-phone-auth/verify-otp',
+      'POST /api/owner/vercel-ownership { "akcija": "set-ready" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-submitted" }',
+    ],
+  };
+}
+
 export async function GET() {
   const health = await getVercelHealthCheck();
+  const env = process.env as Record<string, string | undefined>;
+  const phone = resolveOwnerPhone(env);
+  const phoneVerified = getOwnerPhoneVerifikacijaStatus(phone) === 'verifikovan';
+  const pretplataVercel = buildVercelPretplataStatus(env, {
+    tokenKonfigurisan: health.tokenKonfigurisan,
+    projectIdKonfigurisan: health.projectIdKonfigurisan,
+    phoneVerified,
+  });
 
   // Pokušaj dohvatiti deployment ID iz Vercel env (automatski postavljeno)
   const deploymentId = process.env.VERCEL_DEPLOYMENT_ID ?? process.env.VERCEL_GIT_COMMIT_SHA;
@@ -81,6 +142,7 @@ export async function GET() {
           signal: vercelProbe.signal,
         }
       : null,
+    pretplataVercel,
     uputstvo: {
       korak1: 'Kreirati Personal Access Token na Vercel → Account Settings → Tokens',
       korak2: 'Dodati VERCEL_TOKEN u Vercel → Project → Settings → Environment Variables',

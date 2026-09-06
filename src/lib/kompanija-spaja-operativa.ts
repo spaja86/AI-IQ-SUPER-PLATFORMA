@@ -926,9 +926,12 @@ export function getOperativnaSpremnost() {
    * REQUESTED: proces podnošenja je pokrenut (operativni signal).
    * SUBMITTED: zahtev je zvanično poslat Vercel Sales timu.
    */
+  const vercelEnterpriseRequestedOrSubmitted =
+    envFlag('SPAJA_VERCEL_ENTERPRISE_REQUESTED')
+    || envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED');
   const vercelEnterpriseChecks = [
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_READY'),
-    envFlag('SPAJA_VERCEL_ENTERPRISE_REQUESTED'),
+    vercelEnterpriseRequestedOrSubmitted,
     envFlag('SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED'),
   ];
   const vercelCdnChecks = [
