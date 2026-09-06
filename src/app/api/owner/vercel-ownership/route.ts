@@ -500,6 +500,16 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-bank-statement-captured':
+      {
+        const flags = await getBillingGovernanceFlags();
+        if (!isInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Izvod platnog računa se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
       await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);
       return NextResponse.json({
         status: 'ok',
@@ -508,6 +518,16 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-payment-reference-public-safe':
+      {
+        const flags = await getBillingGovernanceFlags();
+        if (!isInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE);
       return NextResponse.json({
@@ -517,6 +537,16 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-payment-reference-internal-only':
+      {
+        const flags = await getBillingGovernanceFlags();
+        if (!isInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY);
       return NextResponse.json({

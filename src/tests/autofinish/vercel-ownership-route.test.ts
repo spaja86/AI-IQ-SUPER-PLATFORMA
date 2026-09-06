@@ -177,6 +177,23 @@ async function runTests(): Promise<void> {
   await test('public announcement stays blocked until statement, barcode/reference, and redaction are captured', async () => {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
+
+    const blockedStatementBeforeEvidence = await postAction('set-bank-statement-captured');
+    assert.strictEqual(blockedStatementBeforeEvidence.status, 409);
+    const blockedStatementBody = await blockedStatementBeforeEvidence.json() as { poruka?: string };
+    assert.strictEqual(
+      blockedStatementBody.poruka,
+      'Izvod platnog računa se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+    );
+
+    const blockedReferenceBeforeEvidence = await postAction('set-payment-reference-internal-only');
+    assert.strictEqual(blockedReferenceBeforeEvidence.status, 409);
+    const blockedReferenceBody = await blockedReferenceBeforeEvidence.json() as { poruka?: string };
+    assert.strictEqual(
+      blockedReferenceBody.poruka,
+      'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
+    );
+
     await expectOkAction('set-current-invoice-evidence-captured');
 
     const blockedRedactionResponse = await postAction('set-public-announcement-redacted');
