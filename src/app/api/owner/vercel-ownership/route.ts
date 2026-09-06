@@ -148,7 +148,7 @@ async function getBillingGovernanceFlags() {
 
 async function ensureCorePaymentEvidenceReady(errorMessage: string): Promise<NextResponse | null> {
   const flags = await getBillingGovernanceFlags();
-  if (!isVercelInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
+  if (!flags.invoiceRequested || !isVercelInvoiceResolved(flags) || !flags.currentInvoiceEvidenceCaptured) {
     return NextResponse.json({
       status: 'error',
       poruka: errorMessage,
@@ -510,7 +510,8 @@ export async function POST(request: NextRequest) {
       {
         const flags = await getBillingGovernanceFlags();
         if (
-          !isVercelInvoiceResolved(flags)
+          !flags.invoiceRequested
+          || !isVercelInvoiceResolved(flags)
           || !flags.currentInvoiceEvidenceCaptured
           || !flags.bankStatementCaptured
           || !flags.paymentReferenceCaptured
