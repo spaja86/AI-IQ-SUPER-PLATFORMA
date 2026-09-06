@@ -108,6 +108,76 @@ async function testRouteResponseUsesKvGovernanceFlags() {
   }
 }
 
+async function testInvalidEnvPaymentReferenceClassificationFallsBackToKv() {
+  const originalClassificationEnv = process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION;
+  try {
+    process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION = 'mystery';
+    await kvSet(KV_VERCEL_BILLING_OWNER_KEY, 'Digitalna Industrija — Kompanija SPAJA');
+    await kvSet(KV_VERCEL_BILLING_OWNER_LOCKED_KEY, true);
+    await kvSet(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY, true);
+    await kvSet(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY, true);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, '5JJYX4KN-0015');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '385.52');
+    await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, true);
+    await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, 'public-safe');
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, true);
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, true);
+    await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, true);
+    await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, true);
+    await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, true);
+    await kvSet(KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY, true);
+    await kvSet(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY, true);
+
+    const response = await GET();
+    const json = (await response.json()) as {
+      pretplataVercel?: {
+        billingGovernance?: {
+          currentInvoice?: { paymentReferenceClassification?: string };
+          publicAnnouncement?: { status?: string };
+        };
+      };
+    };
+
+    assert.strictEqual(
+      json.pretplataVercel?.billingGovernance?.currentInvoice?.paymentReferenceClassification,
+      'public-safe',
+    );
+    assert.strictEqual(json.pretplataVercel?.billingGovernance?.publicAnnouncement?.status, 'published');
+  } finally {
+    if (originalClassificationEnv === undefined) {
+      delete process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION;
+    } else {
+      process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION = originalClassificationEnv;
+    }
+    await kvSet(KV_VERCEL_BILLING_OWNER_KEY, '');
+    await kvSet(KV_VERCEL_BILLING_OWNER_LOCKED_KEY, false);
+    await kvSet(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY, false);
+    await kvSet(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY, false);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, '');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
+    await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
+    await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, false);
+    await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, false);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, false);
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
+    await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);
+    await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, false);
+    await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, false);
+    await kvSet(KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY, false);
+    await kvSet(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY, false);
+  }
+}
+
 function testMissingTeamBlocker() {
   const status = buildVercelPretplataStatus(
     {
@@ -512,6 +582,8 @@ async function run() {
   console.log('✓ route response includes pretplata blokatori');
   await testRouteResponseUsesKvGovernanceFlags();
   console.log('✓ route response supports KV-backed governance flags');
+  await testInvalidEnvPaymentReferenceClassificationFallsBackToKv();
+  console.log('✓ invalid env payment reference classification falls back to KV');
   testMissingTeamBlocker();
   console.log('✓ missing team/org blocker');
   testRequestedWithoutSubmittedState();

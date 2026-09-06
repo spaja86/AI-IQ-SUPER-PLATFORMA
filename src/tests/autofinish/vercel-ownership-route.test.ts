@@ -11,6 +11,7 @@ const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
 const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
 const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
 const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
+const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captured';
 const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
 const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
 const EXPECTED_INVOICE_NUMBER = '5JJYX4KN-0015';
@@ -177,6 +178,9 @@ async function runTests(): Promise<void> {
     ensureVerifiedOwnerPhone(phone);
     await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, 'CUSTOM-INVOICE-PAID');
     await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '777.77');
+    await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, 'internal-only');
 
     await expectOkAction('set-current-invoice-paid');
 
@@ -184,7 +188,14 @@ async function runTests(): Promise<void> {
     const body = await response.json() as {
       vercel: {
         billingGovernance: {
-          currentInvoice: { number: string; amountUsd: string; paid: boolean };
+          currentInvoice: {
+            number: string;
+            amountUsd: string;
+            paid: boolean;
+            bankStatementCaptured: boolean;
+            paymentReferenceCaptured: boolean;
+          };
+          publicAnnouncement: { redacted: boolean; published: boolean };
         };
       };
     };
@@ -192,6 +203,10 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, 'CUSTOM-INVOICE-PAID');
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.amountUsd, '777.77');
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.bankStatementCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.redacted, false);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.published, false);
   });
 
   await test('paid invoice still requires evidence until captured', async () => {

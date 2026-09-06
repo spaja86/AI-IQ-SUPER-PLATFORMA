@@ -180,6 +180,14 @@ async function clearPublicAnnouncementState(): Promise<void> {
   await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
 }
 
+async function clearDerivedPaymentArtifacts(): Promise<void> {
+  await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, false);
+  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
+  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
+  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
+  await clearPublicAnnouncementState();
+}
+
 export async function GET() {
   const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
@@ -436,6 +444,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
+      await clearDerivedPaymentArtifacts();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Trenutna faktura 5JJYX4KN-0015 je označena kao plaćena.',
@@ -457,6 +466,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, true);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
+      await clearDerivedPaymentArtifacts();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Korigovana/re-issued faktura je označena kao rešena.',
@@ -611,6 +621,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
       await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
+      await clearDerivedPaymentArtifacts();
       return NextResponse.json({
         status: 'ok',
         poruka: 'Support zahtev za korekciju/re-issue fakture je označen kao poslat.',
@@ -671,12 +682,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, false);
-      await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, false);
-      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
-      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
-      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
-      await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, false);
-      await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
+      await clearDerivedPaymentArtifacts();
       await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);
       await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, false);
       await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, false);

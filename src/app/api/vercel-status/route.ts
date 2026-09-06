@@ -72,6 +72,9 @@ export async function resolveVercelBillingGovernanceEnv(
   env: Record<string, string | undefined>,
 ): Promise<Record<string, string | undefined>> {
   try {
+    const normalizedEnvPaymentReferenceClassification = normalizePaymentReferenceClassification(
+      env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
+    );
     const [
       kvBillingOwner,
       kvBillingOwnerLocked,
@@ -136,8 +139,9 @@ export async function resolveVercelBillingGovernanceEnv(
       SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_BANK_STATEMENT_CAPTURED', kvBankStatementCaptured),
       SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED', kvPaymentReferenceCaptured),
       SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION:
-        env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION
-        ?? (normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined) || undefined),
+        normalizedEnvPaymentReferenceClassification
+        || normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined)
+        || undefined,
       SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: mergeBoolEnv(
         env,
         'SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED',
