@@ -175,6 +175,11 @@ async function initializeExpectedInvoiceMetadataIfMissing(): Promise<void> {
   }
 }
 
+async function setExpectedInvoiceMetadata(): Promise<void> {
+  await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
+  await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
+}
+
 async function clearPublicAnnouncementState(): Promise<void> {
   await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, false);
   await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
@@ -462,7 +467,7 @@ export async function POST(request: NextRequest) {
           }, { status: 409 });
         }
       }
-      await initializeExpectedInvoiceMetadataIfMissing();
+      await setExpectedInvoiceMetadata();
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, true);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
@@ -615,7 +620,7 @@ export async function POST(request: NextRequest) {
           timestamp: new Date().toISOString(),
         });
       }
-      await initializeExpectedInvoiceMetadataIfMissing();
+      await setExpectedInvoiceMetadata();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);

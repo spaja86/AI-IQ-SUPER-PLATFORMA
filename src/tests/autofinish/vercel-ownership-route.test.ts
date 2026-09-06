@@ -435,16 +435,20 @@ async function runTests(): Promise<void> {
 
   await test('correction-requested plus resolved clears unpaid open invoice state', async () => {
     await seedApprovedOpenInvoiceState();
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, 'CUSTOM-INVOICE-CORRECTION');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '123.45');
     await expectOkAction('set-invoice-correction-requested');
 
     await expectOkAction('set-corrected-invoice-resolved');
 
     const response = await GET();
     const body = await response.json() as {
-      vercel: { billingGovernance: { currentInvoice: { paid: boolean; correctionRequested: boolean; correctedInvoiceResolved: boolean } } };
+      vercel: { billingGovernance: { currentInvoice: { number: string; amountUsd: string | number; paid: boolean; correctionRequested: boolean; correctedInvoiceResolved: boolean } } };
       'sledećiKoraci': string[];
     };
 
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, EXPECTED_INVOICE_NUMBER);
+    assert.strictEqual(Number(body.vercel.billingGovernance.currentInvoice.amountUsd), Number(EXPECTED_INVOICE_AMOUNT));
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, false);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.correctionRequested, true);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.correctedInvoiceResolved, true);
