@@ -39,8 +39,8 @@ const KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY = 'owner:vercel:monthly-recon
 const KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY = 'owner:vercel:quarterly-vendor-review-enabled';
 
 const EXPECTED_BILLING_OWNER = 'Digitalna Industrija — Kompanija SPAJA';
-const EXPECTED_INVOICE_NUMBER = '5JJYX4KN-0013';
-const EXPECTED_INVOICE_AMOUNT = '870.20';
+const EXPECTED_INVOICE_NUMBER = '5JJYX4KN-0012';
+const EXPECTED_INVOICE_AMOUNT = '96.77';
 
 async function getEnterpriseFlags(): Promise<{ ready: boolean; submitted: boolean }> {
   // Env var ima prioritet, zatim KV, zatim false
@@ -181,8 +181,8 @@ export async function GET() {
           submitted ? '✅ Enterprise zahtev poslat — čekamo potvrdu' : '⬜ Poslati Vercel Enterprise Request',
           billing.billingOwnerLocked ? '✅ Billing owner zaključan na Digitalna Industrija' : '⬜ Zaključati billing owner na Digitalna Industrija',
           billing.currentInvoicePaid || billing.correctedInvoiceResolved
-            ? '✅ Trenutna faktura 5JJYX4KN-0013 je plaćena ili korigovana faktura je rešena'
-            : '⬜ Platiti fakturu 5JJYX4KN-0013 ($870.20) ili otvoriti support correction',
+            ? '✅ Trenutna faktura 5JJYX4KN-0012 je plaćena ili korigovana faktura je rešena'
+            : '⬜ Platiti fakturu 5JJYX4KN-0012 ($96.77) ili otvoriti support correction',
           billing.currentInvoiceEvidenceCaptured ? '✅ Sačuvan dokaz o uplati/invoice-u' : '⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice',
           billing.autopayCorporateOnly ? '✅ Autopay ograničen na korporativni metod plaćanja' : '⬜ Uključiti autopay samo na Digitalna Industrija korporativni metod',
           billing.financeChannelConfigured ? '✅ Invoice notifikacije na finansijskom kanalu' : '⬜ Postaviti invoice delivery/notifikacije na finansijski kanal Digitalna Industrija',
@@ -327,7 +327,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
       return NextResponse.json({
         status: 'ok',
-        poruka: 'Trenutna faktura 5JJYX4KN-0013 je označena kao plaćena.',
+        poruka: 'Trenutna faktura 5JJYX4KN-0012 je označena kao plaćena.',
         timestamp: new Date().toISOString(),
       });
 
