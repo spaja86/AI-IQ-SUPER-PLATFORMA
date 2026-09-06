@@ -26,6 +26,14 @@ async function testRouteResponse() {
   assert.ok(Array.isArray(json.pretplataVercel?.blokatori), 'blokatori mora biti niz');
   assert.ok(Array.isArray(json.pretplataVercel?.sledeciKoraci), 'sledeciKoraci mora biti niz');
   assert.strictEqual(typeof json.pretplataVercel?.ownership.phoneVerified, 'boolean');
+  assert.strictEqual(typeof json.pretplataVercel?.ownership.enterpriseRequestReady, 'boolean');
+  assert.strictEqual(typeof json.pretplataVercel?.ownership.enterpriseRequestRequested, 'boolean');
+  assert.strictEqual(typeof json.pretplataVercel?.ownership.enterpriseRequestSubmitted, 'boolean');
+  if ((json.pretplataVercel?.blokatori.length ?? 0) === 0) {
+    assert.strictEqual(json.pretplataVercel?.status, 'service-active');
+  } else {
+    assert.strictEqual(json.pretplataVercel?.status, 'blocked-until-validated');
+  }
 }
 
 async function run() {
