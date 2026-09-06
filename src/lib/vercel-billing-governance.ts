@@ -48,6 +48,7 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
     flags.paymentReferenceClassification,
   );
   const invoiceResolved = isVercelInvoiceResolved(flags);
+  const invoiceWorkflowDocumented = flags.invoiceRequested;
   const readyToPublish = invoiceResolved
     && flags.currentInvoiceEvidenceCaptured
     && flags.bankStatementCaptured
@@ -55,23 +56,23 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
     && paymentReferenceClassification.length > 0
     && flags.publicAnnouncementRedacted;
   const blockers = [
-    ...(!flags.invoiceRequested ? ['Zahtev za fakturisanje / support eskalacija nije dokumentovana.'] : []),
+    ...(!invoiceWorkflowDocumented ? ['Zahtev za fakturisanje / support eskalacija nije dokumentovana.'] : []),
     ...(!invoiceResolved
       ? ['Javno ozvaničenje je blokirano dok faktura nije plaćena ili korekcija nije rešena.']
       : []),
-    ...(!flags.currentInvoiceEvidenceCaptured && invoiceResolved
+    ...(!flags.currentInvoiceEvidenceCaptured && invoiceResolved && invoiceWorkflowDocumented
       ? ['Nedostaje payment confirmation paket.']
       : []),
-    ...(!flags.bankStatementCaptured && invoiceResolved
+    ...(!flags.bankStatementCaptured && invoiceResolved && invoiceWorkflowDocumented
       ? ['Nedostaje izvod platnog računa.']
       : []),
-    ...(!flags.paymentReferenceCaptured && invoiceResolved
+    ...(!flags.paymentReferenceCaptured && invoiceResolved && invoiceWorkflowDocumented
       ? ['Nedostaje barkod / payment reference.']
       : []),
-    ...(flags.paymentReferenceCaptured && paymentReferenceClassification.length === 0
+    ...(flags.paymentReferenceCaptured && invoiceWorkflowDocumented && paymentReferenceClassification.length === 0
       ? ['Barkod / payment reference mora biti klasifikovan kao public-safe ili internal-only.']
       : []),
-    ...(!flags.publicAnnouncementRedacted && invoiceResolved
+    ...(!flags.publicAnnouncementRedacted && invoiceResolved && invoiceWorkflowDocumented
       ? ['Javni sažetak mora biti redigovan.']
       : []),
     ...(!flags.publicAnnouncementPublished && readyToPublish
