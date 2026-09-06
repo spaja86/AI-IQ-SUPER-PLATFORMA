@@ -123,6 +123,9 @@ export async function resolveVercelBillingGovernanceEnv(
       kvGet<boolean>(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY),
     ]);
 
+    const hasEnvPaymentReferenceClassification =
+      Object.prototype.hasOwnProperty.call(env, 'SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION');
+
     return {
       ...env,
       SPAJA_VERCEL_BILLING_OWNER: env.SPAJA_VERCEL_BILLING_OWNER ?? kvBillingOwner ?? undefined,
@@ -139,9 +142,13 @@ export async function resolveVercelBillingGovernanceEnv(
       SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_BANK_STATEMENT_CAPTURED', kvBankStatementCaptured),
       SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED', kvPaymentReferenceCaptured),
       SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION:
-        normalizedEnvPaymentReferenceClassification
-        || normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined)
-        || undefined,
+        hasEnvPaymentReferenceClassification
+          ? env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION === ''
+            ? undefined
+            : normalizedEnvPaymentReferenceClassification
+              || normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined)
+              || undefined
+          : normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined) || undefined,
       SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: mergeBoolEnv(
         env,
         'SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED',

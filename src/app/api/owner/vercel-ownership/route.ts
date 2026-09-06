@@ -654,7 +654,6 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, true);
-      await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
       await clearDerivedPaymentArtifacts();
       return NextResponse.json({
         status: 'ok',

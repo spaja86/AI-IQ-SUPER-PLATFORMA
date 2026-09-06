@@ -590,6 +590,28 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.published, false);
   });
 
+  await test('correction request preserves the prior invoice-requested audit state', async () => {
+    await resetState();
+    const phone = nextScenarioOwnerPhone();
+    ensureVerifiedOwnerPhone(phone);
+    process.env[OWNER_PHONE_NUMBER_ENV_KEY] = phone;
+
+    await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, false);
+    await expectOkAction('set-invoice-correction-requested');
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: { requested: boolean; correctionRequested: boolean };
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.requested, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.correctionRequested, true);
+  });
+
   await test('correction-requested plus resolved clears unpaid open invoice state', async () => {
     await seedApprovedOpenInvoiceState();
     await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, 'CUSTOM-INVOICE-CORRECTION');
