@@ -56,7 +56,7 @@ async function resetState(): Promise<void> {
   await expectOkAction('reset');
 }
 
-function useScenarioOwnerPhone(): string {
+function nextScenarioOwnerPhone(): string {
   scenarioCounter += 1;
   const phone = `+3816000${String(scenarioCounter).padStart(6, '0')}`;
   process.env[OWNER_PHONE_NUMBER_ENV_KEY] = phone;
@@ -74,7 +74,7 @@ function ensureVerifiedOwnerPhone(phone: string): void {
 
 async function seedApprovedOpenInvoiceState(): Promise<void> {
   await resetState();
-  const phone = useScenarioOwnerPhone();
+  const phone = nextScenarioOwnerPhone();
   ensureVerifiedOwnerPhone(phone);
 
   await expectOkAction('set-ready');
@@ -82,6 +82,7 @@ async function seedApprovedOpenInvoiceState(): Promise<void> {
   await expectOkAction('set-billing-owner-locked');
   await expectOkAction('set-legal-intake-complete');
   await expectOkAction('set-enterprise-governed-model');
+  await expectOkAction('set-invoice-requested');
   await expectOkAction('set-autopay-corporate-only');
   await expectOkAction('set-finance-channel-configured');
   await expectOkAction('set-finops-thresholds-enabled');
@@ -100,7 +101,7 @@ async function runTests(): Promise<void> {
   console.log('\n🧾 Vercel ownership route tests\n');
 
   await resetState();
-  useScenarioOwnerPhone();
+  nextScenarioOwnerPhone();
 
   await test('POST rejects ownership updates before phone verification', async () => {
     const response = await postAction('set-ready');
@@ -116,7 +117,10 @@ async function runTests(): Promise<void> {
     const body = await response.json() as {
       vercel: {
         checklist: { enterpriseRequestSpreman: boolean; enterpriseRequestPoslato: boolean };
-        billingGovernance: { currentInvoice: { number: string; amountUsd: string; paid: boolean; evidenceCaptured: boolean } };
+        billingGovernance: {
+          currentInvoice: { number: string; amountUsd: string; requested: boolean; paid: boolean; evidenceCaptured: boolean };
+          publicAnnouncement: { status: string; blockers: string[] };
+        };
       };
       'sledećiKoraci': string[];
     };
@@ -125,8 +129,11 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.checklist.enterpriseRequestPoslato, true);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.number, EXPECTED_INVOICE_NUMBER);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.amountUsd, EXPECTED_INVOICE_AMOUNT);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.requested, true);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, false);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.evidenceCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.status, 'not-ready');
+    assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Javno ozvaničenje je blokirano dok faktura nije plaćena ili korekcija nije rešena.'));
     assert(body['sledećiKoraci'].includes(`⬜ Platiti fakturu ${EXPECTED_INVOICE_NUMBER} ($${EXPECTED_INVOICE_AMOUNT}) ili otvoriti support correction`));
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice'));
   });
@@ -165,6 +172,72 @@ async function runTests(): Promise<void> {
 
     assert.strictEqual(evidenceBody.vercel.billingGovernance.currentInvoice.evidenceCaptured, true);
     assert(evidenceBody['sledećiKoraci'].includes('✅ Sačuvan dokaz o uplati/invoice-u'));
+  });
+
+  await test('public announcement stays blocked until statement, barcode/reference, and redaction are captured', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-evidence-captured');
+
+    const blockedPublishResponse = await postAction('set-public-announcement-published');
+    assert.strictEqual(blockedPublishResponse.status, 409);
+    const blockedPublishBody = await blockedPublishResponse.json() as { poruka?: string };
+    assert.strictEqual(
+      blockedPublishBody.poruka,
+      'Javno ozvaničenje je dozvoljeno tek kada postoje resolved invoice, payment dokaz, izvod, barkod/payment reference i redigovan javni sažetak.',
+    );
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          publicAnnouncement: { status: string; blockers: string[] };
+        };
+      };
+      'sledećiKoraci': string[];
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.status, 'not-ready');
+    assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Nedostaje izvod platnog računa.'));
+    assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Nedostaje barkod / payment reference.'));
+    assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Javni sažetak mora biti redigovan.'));
+    assert(body['sledećiKoraci'].includes('⬜ Sačuvati izvod platnog računa sa vezom ka uplati'));
+    assert(body['sledećiKoraci'].includes('⬜ Sačuvati barkod ili payment reference i klasifikovati ga'));
+    assert(body['sledećiKoraci'].includes('⬜ Pripremiti redigovan audit-ready javni sažetak'));
+  });
+
+  await test('complete paid evidence package can be published as a redacted public announcement', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('set-bank-statement-captured');
+    await expectOkAction('set-payment-reference-internal-only');
+    await expectOkAction('set-public-announcement-redacted');
+    await expectOkAction('set-public-announcement-published');
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: {
+            bankStatementCaptured: boolean;
+            paymentReferenceCaptured: boolean;
+            paymentReferenceClassification: string;
+          };
+          publicAnnouncement: { redacted: boolean; published: boolean; status: string; blockers: string[] };
+        };
+      };
+      'sledećiKoraci': string[];
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.bankStatementCaptured, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceClassification, 'internal-only');
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.redacted, true);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.published, true);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.status, 'published');
+    assert.deepStrictEqual(body.vercel.billingGovernance.publicAnnouncement.blockers, []);
+    assert(body['sledećiKoraci'].includes('✅ Javno ozvaničenje je objavljeno'));
   });
 
   await test('correction-requested plus resolved clears unpaid open invoice state', async () => {

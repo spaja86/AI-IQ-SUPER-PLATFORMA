@@ -3,6 +3,7 @@ import {
   GET,
   KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY,
   KV_VERCEL_BILLING_OWNER_KEY,
+  KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY,
   KV_VERCEL_BILLING_OWNER_LOCKED_KEY,
   KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY,
   KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY,
@@ -13,8 +14,13 @@ import {
   KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY,
   KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY,
   KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY,
+  KV_VERCEL_INVOICE_REQUESTED_KEY,
   KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY,
   KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY,
+  KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY,
+  KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY,
+  KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY,
+  KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY,
   KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY,
   buildVercelPretplataStatus,
   resolveOwnerPhone,
@@ -46,6 +52,12 @@ async function testRouteResponseUsesKvGovernanceFlags() {
     await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
     await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
     await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, true);
+    await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, true);
+    await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, 'public-safe');
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, true);
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, true);
     await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, true);
     await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, true);
     await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, true);
@@ -56,11 +68,16 @@ async function testRouteResponseUsesKvGovernanceFlags() {
     const json = (await response.json()) as {
       pretplataVercel?: {
         blokatori: string[];
-        billingGovernance?: { billingOwner?: string };
+        billingGovernance?: {
+          billingOwner?: string;
+          publicAnnouncement?: { status?: string; blockers?: string[] };
+        };
       };
     };
     const blokatori = json.pretplataVercel?.blokatori ?? [];
     assert.strictEqual(json.pretplataVercel?.billingGovernance?.billingOwner, 'Digitalna Industrija — Kompanija SPAJA');
+    assert.strictEqual(json.pretplataVercel?.billingGovernance?.publicAnnouncement?.status, 'published');
+    assert.deepStrictEqual(json.pretplataVercel?.billingGovernance?.publicAnnouncement?.blockers ?? [], []);
     assert.ok(!blokatori.includes('Billing owner nije zaključan na Digitalna Industrija.'));
     assert.ok(!blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
   } finally {
@@ -74,6 +91,12 @@ async function testRouteResponseUsesKvGovernanceFlags() {
     await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
     await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
     await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
+    await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, false);
+    await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, false);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, false);
+    await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
     await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);
     await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, false);
     await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, false);
@@ -182,6 +205,7 @@ function testDigitalnaIndustrijaBillingCanBeCleared() {
       SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
       SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
       SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
       SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
       SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
       SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
@@ -193,6 +217,104 @@ function testDigitalnaIndustrijaBillingCanBeCleared() {
     { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
   );
   assert.strictEqual(status.status, 'service-active');
+}
+
+function testPaidInvoiceNeedsBankStatementAndRedactedPublicSummaryBeforeAnnouncement() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'false',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'public-safe',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'false',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'service-active');
+  assert.strictEqual(status.billingGovernance.publicAnnouncement.status, 'not-ready');
+  assert.ok(status.billingGovernance.publicAnnouncement.blockers.includes('Nedostaje izvod platnog računa sa vidljivom vezom ka uplati.'));
+  assert.ok(status.billingGovernance.publicAnnouncement.blockers.includes('Javni sažetak mora biti redigovan pre objave.'));
+}
+
+function testPaidInvoiceWithCompleteArtifactsCanBeReadyOrPublished() {
+  const readyStatus = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(readyStatus.billingGovernance.publicAnnouncement.status, 'ready-to-publish');
+  assert.ok(readyStatus.billingGovernance.publicAnnouncement.blockers.includes('Javni audit-ready sažetak još nije objavljen.'));
+
+  const publishedStatus = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'true',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(publishedStatus.billingGovernance.publicAnnouncement.status, 'published');
+  assert.deepStrictEqual(publishedStatus.billingGovernance.publicAnnouncement.blockers, []);
 }
 
 function testDigitalnaIndustrijaOpenInvoiceRemainsBlockedUntilPaidOrResolved() {
@@ -332,6 +454,10 @@ async function run() {
   console.log('✓ Digitalna Industrija billing blockers');
   testDigitalnaIndustrijaBillingCanBeCleared();
   console.log('✓ Digitalna Industrija billing blockers can be cleared');
+  testPaidInvoiceNeedsBankStatementAndRedactedPublicSummaryBeforeAnnouncement();
+  console.log('✓ paid invoice needs bank statement and redacted public summary before announcement');
+  testPaidInvoiceWithCompleteArtifactsCanBeReadyOrPublished();
+  console.log('✓ paid invoice with complete artifacts can become ready or published');
   testDigitalnaIndustrijaOpenInvoiceRemainsBlockedUntilPaidOrResolved();
   console.log('✓ approved/open invoice remains blocked until paid or resolved');
   testDigitalnaIndustrijaCorrectedInvoiceResolutionCanClearInvoiceBlocker();

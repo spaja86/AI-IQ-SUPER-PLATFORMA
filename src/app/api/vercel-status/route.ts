@@ -29,11 +29,30 @@ export const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-
 export const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
 export const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
 export const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
+export const KV_VERCEL_INVOICE_REQUESTED_KEY = 'owner:vercel:invoice-requested';
+export const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captured';
+export const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
+export const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
+export const KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY = 'owner:vercel:public-announcement-redacted';
+export const KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY = 'owner:vercel:public-announcement-published';
 export const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
 export const KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY = 'owner:vercel:finance-channel-configured';
 export const KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY = 'owner:vercel:finops-thresholds-enabled';
 export const KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY = 'owner:vercel:monthly-reconciliation-enabled';
 export const KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY = 'owner:vercel:quarterly-vendor-review-enabled';
+
+const PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE = 'public-safe';
+const PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY = 'internal-only';
+
+function normalizePaymentReferenceClassification(value: string | undefined): string {
+  const normalized = (value ?? '').trim().toLowerCase();
+  return [
+    PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE,
+    PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY,
+  ].includes(normalized)
+    ? normalized
+    : '';
+}
 
 export function resolveOwnerPhone(env: Record<string, string | undefined>): string {
   const configuredPhone = env[OWNER_PHONE_NUMBER_ENV_KEY]?.trim();
@@ -68,6 +87,12 @@ export async function resolveVercelBillingGovernanceEnv(
       kvCurrentInvoiceEvidenceCaptured,
       kvInvoiceCorrectionRequested,
       kvCorrectedInvoiceResolved,
+      kvInvoiceRequested,
+      kvBankStatementCaptured,
+      kvPaymentReferenceCaptured,
+      kvPaymentReferenceClassification,
+      kvPublicAnnouncementRedacted,
+      kvPublicAnnouncementPublished,
       kvAutopayCorporateOnly,
       kvFinanceChannelConfigured,
       kvFinopsThresholdsEnabled,
@@ -84,6 +109,12 @@ export async function resolveVercelBillingGovernanceEnv(
       kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY),
       kvGet<boolean>(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY),
       kvGet<boolean>(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY),
+      kvGet<boolean>(KV_VERCEL_INVOICE_REQUESTED_KEY),
+      kvGet<boolean>(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY),
+      kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY),
+      kvGet<string>(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY),
+      kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY),
+      kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY),
       kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
       kvGet<boolean>(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY),
       kvGet<boolean>(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY),
@@ -103,6 +134,14 @@ export async function resolveVercelBillingGovernanceEnv(
       SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED', kvCurrentInvoiceEvidenceCaptured),
       SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: mergeBoolEnv(env, 'SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED', kvInvoiceCorrectionRequested),
       SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: mergeBoolEnv(env, 'SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED', kvCorrectedInvoiceResolved),
+      SPAJA_VERCEL_INVOICE_REQUESTED: mergeBoolEnv(env, 'SPAJA_VERCEL_INVOICE_REQUESTED', kvInvoiceRequested),
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_BANK_STATEMENT_CAPTURED', kvBankStatementCaptured),
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED', kvPaymentReferenceCaptured),
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION:
+        env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION
+        ?? (normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined) || undefined),
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: mergeBoolEnv(env, 'SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED', kvPublicAnnouncementRedacted),
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: mergeBoolEnv(env, 'SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED', kvPublicAnnouncementPublished),
       SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: mergeBoolEnv(env, 'SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY', kvAutopayCorporateOnly),
       SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: mergeBoolEnv(env, 'SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED', kvFinanceChannelConfigured),
       SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED', kvFinopsThresholdsEnabled),
@@ -146,11 +185,49 @@ export function buildVercelPretplataStatus(
   const currentInvoiceEvidenceCaptured = boolFlag(env.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED);
   const invoiceCorrectionRequested = boolFlag(env.SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED);
   const correctedInvoiceResolved = boolFlag(env.SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED);
+  const invoiceRequested = boolFlag(env.SPAJA_VERCEL_INVOICE_REQUESTED);
+  const bankStatementCaptured = boolFlag(env.SPAJA_VERCEL_BANK_STATEMENT_CAPTURED);
+  const paymentReferenceCaptured = boolFlag(env.SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED);
+  const paymentReferenceClassification = normalizePaymentReferenceClassification(
+    env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
+  );
+  const publicAnnouncementRedacted = boolFlag(env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED);
+  const publicAnnouncementPublished = boolFlag(env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED);
   const invoiceMatchesExpected =
     currentInvoiceNumber === expectedInvoiceNumber
     && currentInvoiceAmount === expectedInvoiceAmount;
   const invoiceResolutionSatisfied = invoiceMatchesExpected
     && (currentInvoicePaid || (invoiceCorrectionRequested && correctedInvoiceResolved));
+  const publicAnnouncementReady = invoiceResolutionSatisfied
+    && currentInvoiceEvidenceCaptured
+    && bankStatementCaptured
+    && paymentReferenceCaptured
+    && paymentReferenceClassification.length > 0
+    && publicAnnouncementRedacted;
+  const publicAnnouncementBlockers = [
+    ...(!invoiceRequested ? ['Zahtev za fakturisanje / support eskalacija nije dokumentovana.'] : []),
+    ...(!invoiceResolutionSatisfied
+      ? ['Javno ozvaničenje ostaje blokirano dok faktura nije plaćena ili korekcija nije razrešena.']
+      : []),
+    ...(!currentInvoiceEvidenceCaptured && invoiceResolutionSatisfied
+      ? ['Nedostaje payment confirmation paket pre javnog ozvaničenja.']
+      : []),
+    ...(!bankStatementCaptured && invoiceResolutionSatisfied
+      ? ['Nedostaje izvod platnog računa sa vidljivom vezom ka uplati.']
+      : []),
+    ...(!paymentReferenceCaptured && invoiceResolutionSatisfied
+      ? ['Nedostaje barkod / payment reference evidencija.']
+      : []),
+    ...(paymentReferenceCaptured && paymentReferenceClassification.length === 0
+      ? ['Barkod / payment reference mora biti klasifikovan kao public-safe ili internal-only.']
+      : []),
+    ...(!publicAnnouncementRedacted && invoiceResolutionSatisfied
+      ? ['Javni sažetak mora biti redigovan pre objave.']
+      : []),
+    ...(!publicAnnouncementPublished && publicAnnouncementReady
+      ? ['Javni audit-ready sažetak još nije objavljen.']
+      : []),
+  ];
   const autopayCorporateOnly = boolFlag(env.SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY);
   const financeChannelConfigured = boolFlag(env.SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED);
   const finopsThresholdsEnabled = boolFlag(env.SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED);
@@ -204,10 +281,24 @@ export function buildVercelPretplataStatus(
       currentInvoice: {
         number: currentInvoiceNumber,
         amountUsd: currentInvoiceAmount,
+        requested: invoiceRequested,
         paid: currentInvoicePaid,
         correctionRequested: invoiceCorrectionRequested,
         correctedInvoiceResolved,
         evidenceCaptured: currentInvoiceEvidenceCaptured,
+        bankStatementCaptured,
+        paymentReferenceCaptured,
+        paymentReferenceClassification: paymentReferenceClassification || 'unclassified',
+      },
+      publicAnnouncement: {
+        redacted: publicAnnouncementRedacted,
+        published: publicAnnouncementPublished,
+        status: publicAnnouncementPublished
+          ? 'published'
+          : publicAnnouncementReady
+            ? 'ready-to-publish'
+            : 'not-ready',
+        blockers: publicAnnouncementBlockers,
       },
       futurePayments: {
         autopayCorporateOnly,
@@ -225,9 +316,15 @@ export function buildVercelPretplataStatus(
       'POST /api/owner/vercel-ownership { "akcija": "set-billing-owner-locked" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-legal-intake-complete" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-enterprise-governed-model" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-invoice-requested" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-current-invoice-paid" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-corrected-invoice-resolved" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-current-invoice-evidence-captured" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-bank-statement-captured" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-payment-reference-public-safe" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-payment-reference-internal-only" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-public-announcement-redacted" }',
+      'POST /api/owner/vercel-ownership { "akcija": "set-public-announcement-published" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-invoice-correction-requested" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-autopay-corporate-only" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-finance-channel-configured" }',
