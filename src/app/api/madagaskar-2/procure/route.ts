@@ -9,8 +9,8 @@ import {
   calculateProcurementV2,
   MADAGASKAR2_CONTRACT_VERSION,
   MADAGASKAR2_MODULE_VERSION,
+  type ProcurementRequest,
 } from '@/lib/madagaskar-2';
-import type { ProcurementRequest } from '@/lib/madagaskar/types';
 
 export const dynamic = 'force-dynamic';
 

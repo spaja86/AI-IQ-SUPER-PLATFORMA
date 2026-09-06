@@ -62,6 +62,10 @@ jobs:
               - 'src/tests/depon/**'
             tests_unit:
               - 'src/tests/unit/**'
+            tests_api:
+              - 'src/tests/api/**'
+            tests_lib:
+              - 'src/tests/lib/**'
 
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
@@ -115,6 +119,14 @@ jobs:
 
           if [ "${{ steps.changed_paths.outputs.lib_api }}" = "true" ]; then
             npm run test:lib
+            npm run test:api
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_lib }}" = "true" ]; then
+            npm run test:lib
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_api }}" = "true" ]; then
             npm run test:api
           fi
 
