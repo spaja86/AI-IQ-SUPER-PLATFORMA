@@ -15,6 +15,7 @@ export interface VercelPublicAnnouncementInput {
   bankStatementCaptured: boolean;
   paymentReferenceCaptured: boolean;
   paymentReferenceClassification: string;
+  paymentReferencePublicSafeApproved: boolean;
   publicAnnouncementRedacted: boolean;
   publicAnnouncementPublished: boolean;
 }
@@ -49,12 +50,16 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
   );
   const invoiceResolved = isVercelInvoiceResolved(flags);
   const invoiceWorkflowDocumented = flags.invoiceRequested;
+  const publicSafeClassificationApproved =
+    paymentReferenceClassification !== PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE
+    || flags.paymentReferencePublicSafeApproved;
   const readyToPublish = invoiceWorkflowDocumented
     && invoiceResolved
     && flags.currentInvoiceEvidenceCaptured
     && flags.bankStatementCaptured
     && flags.paymentReferenceCaptured
     && paymentReferenceClassification.length > 0
+    && publicSafeClassificationApproved
     && flags.publicAnnouncementRedacted;
   const blockers = [
     ...(!invoiceWorkflowDocumented ? ['Zahtev za fakturisanje / support eskalacija nije dokumentovana.'] : []),
@@ -72,6 +77,13 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
       : []),
     ...(flags.paymentReferenceCaptured && invoiceResolved && invoiceWorkflowDocumented && paymentReferenceClassification.length === 0
       ? ['Barkod / payment reference mora biti klasifikovan kao public-safe ili internal-only.']
+      : []),
+    ...(flags.paymentReferenceCaptured
+      && invoiceResolved
+      && invoiceWorkflowDocumented
+      && paymentReferenceClassification === PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE
+      && !flags.paymentReferencePublicSafeApproved
+      ? ['Public-safe klasifikacija barkoda / payment reference zahteva posebno odobrenje.']
       : []),
     ...(!flags.publicAnnouncementRedacted && invoiceResolved && invoiceWorkflowDocumented
       ? ['Javni sažetak mora biti redigovan.']

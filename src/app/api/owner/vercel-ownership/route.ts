@@ -46,6 +46,7 @@ const KV_VERCEL_INVOICE_REQUESTED_KEY = 'owner:vercel:invoice-requested';
 const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captured';
 const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
 const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
+const KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY = 'owner:vercel:payment-reference-public-safe-approved';
 const KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY = 'owner:vercel:public-announcement-redacted';
 const KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY = 'owner:vercel:public-announcement-published';
 const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
@@ -90,6 +91,7 @@ async function getBillingGovernanceFlags() {
     bankStatementCaptured,
     paymentReferenceCaptured,
     paymentReferenceClassification,
+    paymentReferencePublicSafeApproved,
     publicAnnouncementRedacted,
     publicAnnouncementPublished,
     autopayCorporateOnly,
@@ -112,6 +114,7 @@ async function getBillingGovernanceFlags() {
     kvGet<boolean>(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY),
     kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY),
     kvGet<string>(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY),
+    kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY),
     kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY),
     kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY),
     kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
@@ -136,6 +139,7 @@ async function getBillingGovernanceFlags() {
     bankStatementCaptured: bankStatementCaptured === true,
     paymentReferenceCaptured: paymentReferenceCaptured === true,
     paymentReferenceClassification: normalizePaymentReferenceClassification(paymentReferenceClassification),
+    paymentReferencePublicSafeApproved: paymentReferencePublicSafeApproved === true,
     publicAnnouncementRedacted: publicAnnouncementRedacted === true,
     publicAnnouncementPublished: publicAnnouncementPublished === true,
     autopayCorporateOnly: autopayCorporateOnly === true,
@@ -210,6 +214,7 @@ export async function GET() {
           bankStatementCaptured: billing.bankStatementCaptured,
           paymentReferenceCaptured: billing.paymentReferenceCaptured,
           paymentReferenceClassification: publicAnnouncement.paymentReferenceClassification || 'unclassified',
+          paymentReferencePublicSafeApproved: billing.paymentReferencePublicSafeApproved,
         },
         publicAnnouncement: {
           redacted: billing.publicAnnouncementRedacted,
@@ -247,6 +252,9 @@ export async function GET() {
           billing.paymentReferenceCaptured
             ? `✅ Barkod / payment reference sačuvan (${billing.paymentReferenceClassification || 'unclassified'})`
             : '⬜ Sačuvati barkod ili payment reference i klasifikovati ga',
+          billing.paymentReferencePublicSafeApproved
+            ? '✅ Public-safe klasifikacija reference je odobrena'
+            : '⬜ Ako referenca treba da bude public-safe, prvo je eksplicitno odobriti',
           billing.publicAnnouncementRedacted ? '✅ Javni sažetak je redigovan' : '⬜ Pripremiti redigovan audit-ready javni sažetak',
           billing.publicAnnouncementPublished ? '✅ Javno ozvaničenje je objavljeno' : '⬜ Objaviti javni sažetak tek nakon validacije uplata+dokaza+privatnosti',
           billing.autopayCorporateOnly ? '✅ Autopay ograničen na korporativni metod plaćanja' : '⬜ Uključiti autopay samo na Digitalna Industrija korporativni metod',
@@ -286,6 +294,7 @@ interface OwnershipUpdateBody {
     | 'set-corrected-invoice-resolved'
     | 'set-current-invoice-evidence-captured'
     | 'set-bank-statement-captured'
+    | 'approve-payment-reference-public-safe'
     | 'set-payment-reference-public-safe'
     | 'set-payment-reference-internal-only'
     | 'set-public-announcement-redacted'
@@ -319,6 +328,7 @@ export async function POST(request: NextRequest) {
     'set-corrected-invoice-resolved',
     'set-current-invoice-evidence-captured',
     'set-bank-statement-captured',
+    'approve-payment-reference-public-safe',
     'set-payment-reference-public-safe',
     'set-payment-reference-internal-only',
     'set-public-announcement-redacted',
@@ -332,7 +342,7 @@ export async function POST(request: NextRequest) {
     'reset',
   ].includes(akcija)) {
     return NextResponse.json(
-      { greska: 'Nepoznata akcija. Dostupne: set-ready, set-submitted, set-billing-owner-locked, set-legal-intake-complete, set-enterprise-governed-model, set-invoice-requested, set-current-invoice-paid, set-corrected-invoice-resolved, set-current-invoice-evidence-captured, set-bank-statement-captured, set-payment-reference-public-safe, set-payment-reference-internal-only, set-public-announcement-redacted, set-public-announcement-published, set-invoice-correction-requested, set-autopay-corporate-only, set-finance-channel-configured, set-finops-thresholds-enabled, set-monthly-reconciliation-enabled, set-quarterly-vendor-review-enabled, reset.' },
+      { greska: 'Nepoznata akcija. Dostupne: set-ready, set-submitted, set-billing-owner-locked, set-legal-intake-complete, set-enterprise-governed-model, set-invoice-requested, set-current-invoice-paid, set-corrected-invoice-resolved, set-current-invoice-evidence-captured, set-bank-statement-captured, approve-payment-reference-public-safe, set-payment-reference-public-safe, set-payment-reference-internal-only, set-public-announcement-redacted, set-public-announcement-published, set-invoice-correction-requested, set-autopay-corporate-only, set-finance-channel-configured, set-finops-thresholds-enabled, set-monthly-reconciliation-enabled, set-quarterly-vendor-review-enabled, reset.' },
       { status: 400 },
     );
   }
@@ -472,6 +482,22 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       });
 
+    case 'approve-payment-reference-public-safe':
+      {
+        const blockedResponse = await ensureCorePaymentEvidenceReady(
+          'Public-safe klasifikacija reference se odobrava tek nakon resolved invoice i osnovnog payment dokaza.',
+        );
+        if (blockedResponse) {
+          return blockedResponse;
+        }
+      }
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
+      return NextResponse.json({
+        status: 'ok',
+        poruka: 'Public-safe klasifikacija barkoda / payment reference je odobrena.',
+        timestamp: new Date().toISOString(),
+      });
+
     case 'set-payment-reference-public-safe':
       {
         const blockedResponse = await ensureCorePaymentEvidenceReady(
@@ -479,6 +505,14 @@ export async function POST(request: NextRequest) {
         );
         if (blockedResponse) {
           return blockedResponse;
+        }
+        const publicSafeApproved = (await kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY)) === true;
+        if (!publicSafeApproved) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Public-safe klasifikacija zahteva prethodno approve-payment-reference-public-safe odobrenje.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
         }
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
@@ -500,6 +534,7 @@ export async function POST(request: NextRequest) {
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
       return NextResponse.json({
         status: 'ok',
         poruka: 'Barkod / payment reference je sačuvan i označen kao internal-only.',
@@ -628,6 +663,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, false);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
       await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, false);
       await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
       await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);

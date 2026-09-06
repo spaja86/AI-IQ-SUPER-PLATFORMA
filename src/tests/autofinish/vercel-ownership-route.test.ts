@@ -219,6 +219,14 @@ async function runTests(): Promise<void> {
 
     await expectOkAction('set-current-invoice-evidence-captured');
 
+    const blockedPublicSafeReference = await postAction('set-payment-reference-public-safe');
+    assert.strictEqual(blockedPublicSafeReference.status, 409);
+    const blockedPublicSafeBody = await blockedPublicSafeReference.json() as { poruka?: string };
+    assert.strictEqual(
+      blockedPublicSafeBody.poruka,
+      'Public-safe klasifikacija zahteva prethodno approve-payment-reference-public-safe odobrenje.',
+    );
+
     const blockedRedactionResponse = await postAction('set-public-announcement-redacted');
     assert.strictEqual(blockedRedactionResponse.status, 409);
     const blockedRedactionBody = await blockedRedactionResponse.json() as { poruka?: string };
@@ -286,6 +294,31 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.status, 'published');
     assert.deepStrictEqual(body.vercel.billingGovernance.publicAnnouncement.blockers, []);
     assert(body['sledećiKoraci'].includes('✅ Javno ozvaničenje je objavljeno'));
+  });
+
+  await test('public-safe payment reference requires explicit approval before classification', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('approve-payment-reference-public-safe');
+    await expectOkAction('set-payment-reference-public-safe');
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: {
+            paymentReferenceCaptured: boolean;
+            paymentReferenceClassification: string;
+            paymentReferencePublicSafeApproved: boolean;
+          };
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceClassification, 'public-safe');
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved, true);
   });
 
   await test('correction-requested plus resolved clears unpaid open invoice state', async () => {

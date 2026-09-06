@@ -41,6 +41,7 @@ export const KV_VERCEL_INVOICE_REQUESTED_KEY = 'owner:vercel:invoice-requested';
 export const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captured';
 export const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
 export const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
+export const KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY = 'owner:vercel:payment-reference-public-safe-approved';
 export const KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY = 'owner:vercel:public-announcement-redacted';
 export const KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY = 'owner:vercel:public-announcement-published';
 export const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
@@ -86,6 +87,7 @@ export async function resolveVercelBillingGovernanceEnv(
       kvBankStatementCaptured,
       kvPaymentReferenceCaptured,
       kvPaymentReferenceClassification,
+      kvPaymentReferencePublicSafeApproved,
       kvPublicAnnouncementRedacted,
       kvPublicAnnouncementPublished,
       kvAutopayCorporateOnly,
@@ -108,6 +110,7 @@ export async function resolveVercelBillingGovernanceEnv(
       kvGet<boolean>(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY),
       kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY),
       kvGet<string>(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY),
+      kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY),
       kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY),
       kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY),
       kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
@@ -135,6 +138,11 @@ export async function resolveVercelBillingGovernanceEnv(
       SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION:
         env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION
         ?? (normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined) || undefined),
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: mergeBoolEnv(
+        env,
+        'SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED',
+        kvPaymentReferencePublicSafeApproved,
+      ),
       SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: mergeBoolEnv(env, 'SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED', kvPublicAnnouncementRedacted),
       SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: mergeBoolEnv(env, 'SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED', kvPublicAnnouncementPublished),
       SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: mergeBoolEnv(env, 'SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY', kvAutopayCorporateOnly),
@@ -186,6 +194,7 @@ export function buildVercelPretplataStatus(
   const paymentReferenceClassification = normalizePaymentReferenceClassification(
     env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
   );
+  const paymentReferencePublicSafeApproved = boolFlag(env.SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED);
   const publicAnnouncementRedacted = boolFlag(env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED);
   const publicAnnouncementPublished = boolFlag(env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED);
   const invoiceMatchesExpected =
@@ -209,6 +218,7 @@ export function buildVercelPretplataStatus(
     bankStatementCaptured,
     paymentReferenceCaptured,
     paymentReferenceClassification,
+    paymentReferencePublicSafeApproved,
     publicAnnouncementRedacted,
     publicAnnouncementPublished,
   });
@@ -273,6 +283,7 @@ export function buildVercelPretplataStatus(
         bankStatementCaptured,
         paymentReferenceCaptured,
         paymentReferenceClassification: publicAnnouncement.paymentReferenceClassification || 'unclassified',
+        paymentReferencePublicSafeApproved,
       },
       publicAnnouncement: {
         redacted: publicAnnouncementRedacted,
@@ -301,6 +312,7 @@ export function buildVercelPretplataStatus(
       'POST /api/owner/vercel-ownership { "akcija": "set-corrected-invoice-resolved" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-current-invoice-evidence-captured" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-bank-statement-captured" }',
+      'POST /api/owner/vercel-ownership { "akcija": "approve-payment-reference-public-safe" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-payment-reference-public-safe" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-payment-reference-internal-only" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-public-announcement-redacted" }',

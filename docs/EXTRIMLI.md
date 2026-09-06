@@ -277,7 +277,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `invoice requested` / support eskalaciju kao audit trag za aktivnu fakturu
   - dokazni paket: invoice PDF, payment potvrda, timestamp, odgovorno lice
   - izvod platnog računa sa vidljivom vezom ka uplati
-  - barkod ili payment reference kao dodatni dokazni artefakt, uz klasifikaciju `public-safe` ili `internal-only`
+  - barkod ili payment reference kao dodatni dokazni artefakt, uz klasifikaciju `public-safe` ili `internal-only`; `public-safe` zahteva posebno odobrenje pre objave
   - javni audit-ready sažetak tek nakon potvrđene uplate ili resolved correction putanje, kompletiranog dokaznog paketa i redakcije osetljivih bankarskih podataka
   - javni prikaz ne sme sadržati neredigovan izvod, pune brojeve računa, nefiltrirane reference ni operativne sekrete
   - future controls: corporate-only autopay, finance channel notifikacije, FinOps pragovi `50/75/90/100`, mesečni reconciliation, kvartalni vendor review
