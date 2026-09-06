@@ -163,6 +163,19 @@ async function ensureCorePaymentEvidenceReady(errorMessage: string): Promise<Nex
   return null;
 }
 
+async function ensurePaymentReferenceReady(errorMessage: string): Promise<NextResponse | null> {
+  const flags = await getBillingGovernanceFlags();
+  if (!flags.paymentReferenceCaptured || !flags.paymentReferenceClassification) {
+    return NextResponse.json({
+      status: 'error',
+      poruka: errorMessage,
+      timestamp: new Date().toISOString(),
+    }, { status: 409 });
+  }
+
+  return null;
+}
+
 async function initializeExpectedInvoiceMetadataIfMissing(): Promise<void> {
   const existingNumber = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY))?.trim() ?? '';
   const existingAmount = (await kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY))?.trim() ?? '';
@@ -493,6 +506,12 @@ export async function POST(request: NextRequest) {
         );
         if (blockedResponse) {
           return blockedResponse;
+        }
+        const missingPaymentReferenceResponse = await ensurePaymentReferenceReady(
+          'Izvod platnog računa se beleži tek nakon klasifikovanog barkoda / payment reference.',
+        );
+        if (missingPaymentReferenceResponse) {
+          return missingPaymentReferenceResponse;
         }
       }
       await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, true);

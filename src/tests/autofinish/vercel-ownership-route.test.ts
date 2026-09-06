@@ -259,6 +259,14 @@ async function runTests(): Promise<void> {
 
     await expectOkAction('set-current-invoice-evidence-captured');
 
+    const blockedStatementBeforeReference = await postAction('set-bank-statement-captured');
+    assert.strictEqual(blockedStatementBeforeReference.status, 409);
+    const blockedStatementBeforeReferenceBody = await blockedStatementBeforeReference.json() as { poruka?: string };
+    assert.strictEqual(
+      blockedStatementBeforeReferenceBody.poruka,
+      'Izvod platnog računa se beleži tek nakon klasifikovanog barkoda / payment reference.',
+    );
+
     const blockedPublicSafeReference = await postAction('set-payment-reference-public-safe');
     assert.strictEqual(blockedPublicSafeReference.status, 409);
     const blockedPublicSafeBody = await blockedPublicSafeReference.json() as { poruka?: string };
@@ -306,8 +314,8 @@ async function runTests(): Promise<void> {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
-    await expectOkAction('set-bank-statement-captured');
     await expectOkAction('set-payment-reference-internal-only');
+    await expectOkAction('set-bank-statement-captured');
     await expectOkAction('set-public-announcement-redacted');
     await expectOkAction('set-public-announcement-published');
 
@@ -365,8 +373,8 @@ async function runTests(): Promise<void> {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
-    await expectOkAction('set-bank-statement-captured');
     await expectOkAction('set-payment-reference-internal-only');
+    await expectOkAction('set-bank-statement-captured');
     await expectOkAction('set-public-announcement-redacted');
     await expectOkAction('set-public-announcement-published');
     await expectOkAction('approve-payment-reference-public-safe');
@@ -390,9 +398,9 @@ async function runTests(): Promise<void> {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
-    await expectOkAction('set-bank-statement-captured');
     await expectOkAction('approve-payment-reference-public-safe');
     await expectOkAction('set-payment-reference-public-safe');
+    await expectOkAction('set-bank-statement-captured');
     await expectOkAction('set-public-announcement-redacted');
     await expectOkAction('set-public-announcement-published');
     await expectOkAction('set-payment-reference-internal-only');
@@ -420,7 +428,6 @@ async function runTests(): Promise<void> {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
-    await expectOkAction('set-bank-statement-captured');
     await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
     await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, 'public-safe');
 
