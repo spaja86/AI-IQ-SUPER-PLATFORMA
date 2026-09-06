@@ -397,6 +397,31 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved, true);
   });
 
+  await test('switching reference back to public-safe persists approval state', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('approve-payment-reference-public-safe');
+    await expectOkAction('set-payment-reference-internal-only');
+    await expectOkAction('approve-payment-reference-public-safe');
+    await expectOkAction('set-payment-reference-public-safe');
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: {
+            paymentReferenceClassification: string;
+            paymentReferencePublicSafeApproved: boolean;
+          };
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceClassification, 'public-safe');
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved, true);
+  });
+
   await test('approving public-safe classification invalidates prior announcement artifacts', async () => {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
