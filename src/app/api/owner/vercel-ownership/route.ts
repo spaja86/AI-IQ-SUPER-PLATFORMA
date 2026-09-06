@@ -508,6 +508,14 @@ export async function POST(request: NextRequest) {
         if (blockedResponse) {
           return blockedResponse;
         }
+        const flags = await getBillingGovernanceFlags();
+        if (!flags.paymentReferenceCaptured) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Public-safe klasifikacija može biti odobrena tek nakon što je barkod / payment reference već sačuvan.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
       await clearPublicAnnouncementState();

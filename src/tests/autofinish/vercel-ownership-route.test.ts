@@ -376,6 +376,7 @@ async function runTests(): Promise<void> {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('set-payment-reference-internal-only');
     await expectOkAction('approve-payment-reference-public-safe');
     await expectOkAction('set-payment-reference-public-safe');
 
@@ -397,11 +398,24 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved, true);
   });
 
+  await test('public-safe approval requires an already captured payment reference', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-evidence-captured');
+
+    const response = await postAction('approve-payment-reference-public-safe');
+    assert.strictEqual(response.status, 409);
+    const body = await response.json() as { poruka?: string };
+    assert.strictEqual(
+      body.poruka,
+      'Public-safe klasifikacija može biti odobrena tek nakon što je barkod / payment reference već sačuvan.',
+    );
+  });
+
   await test('switching reference back to public-safe persists approval state', async () => {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
-    await expectOkAction('approve-payment-reference-public-safe');
     await expectOkAction('set-payment-reference-internal-only');
     await expectOkAction('approve-payment-reference-public-safe');
     await expectOkAction('set-payment-reference-public-safe');
@@ -451,6 +465,7 @@ async function runTests(): Promise<void> {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('set-payment-reference-internal-only');
     await expectOkAction('approve-payment-reference-public-safe');
     await expectOkAction('set-payment-reference-public-safe');
     await expectOkAction('set-bank-statement-captured');
