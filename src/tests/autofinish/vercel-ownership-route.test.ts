@@ -11,6 +11,8 @@ const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
 const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
 const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
 const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
+const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
+const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
 const EXPECTED_INVOICE_NUMBER = '5JJYX4KN-0015';
 const EXPECTED_INVOICE_AMOUNT = '385.52';
 const ORIGINAL_OWNER_PHONE_ENV = process.env[OWNER_PHONE_NUMBER_ENV_KEY];
@@ -319,6 +321,23 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, true);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceClassification, 'public-safe');
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved, true);
+  });
+
+  await test('redaction rejects drifted public-safe reference without approval', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('set-bank-statement-captured');
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, 'public-safe');
+
+    const response = await postAction('set-public-announcement-redacted');
+    assert.strictEqual(response.status, 409);
+    const body = await response.json() as { poruka?: string };
+    assert.strictEqual(
+      body.poruka,
+      'Redigovan javni sažetak se beleži tek nakon resolved invoice, payment dokaza, izvoda i klasifikovanog barkoda/payment reference.',
+    );
   });
 
   await test('correction-requested plus resolved clears unpaid open invoice state', async () => {

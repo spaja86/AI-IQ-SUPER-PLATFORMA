@@ -551,6 +551,10 @@ export async function POST(request: NextRequest) {
           || !flags.bankStatementCaptured
           || !flags.paymentReferenceCaptured
           || flags.paymentReferenceClassification.length === 0
+          || (
+            flags.paymentReferenceClassification === PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE
+            && !flags.paymentReferencePublicSafeApproved
+          )
         ) {
           return NextResponse.json({
             status: 'error',
