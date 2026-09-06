@@ -526,6 +526,22 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-public-announcement-redacted':
+      {
+        const flags = await getBillingGovernanceFlags();
+        if (
+          !isInvoiceResolved(flags)
+          || !flags.currentInvoiceEvidenceCaptured
+          || !flags.bankStatementCaptured
+          || !flags.paymentReferenceCaptured
+          || flags.paymentReferenceClassification.length === 0
+        ) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Redigovan javni sažetak se beleži tek nakon resolved invoice, payment dokaza, izvoda i klasifikovanog barkoda/payment reference.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
+      }
       await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY, true);
       return NextResponse.json({
         status: 'ok',

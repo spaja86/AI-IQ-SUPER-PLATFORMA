@@ -179,6 +179,14 @@ async function runTests(): Promise<void> {
     await expectOkAction('set-current-invoice-paid');
     await expectOkAction('set-current-invoice-evidence-captured');
 
+    const blockedRedactionResponse = await postAction('set-public-announcement-redacted');
+    assert.strictEqual(blockedRedactionResponse.status, 409);
+    const blockedRedactionBody = await blockedRedactionResponse.json() as { poruka?: string };
+    assert.strictEqual(
+      blockedRedactionBody.poruka,
+      'Redigovan javni sažetak se beleži tek nakon resolved invoice, payment dokaza, izvoda i klasifikovanog barkoda/payment reference.',
+    );
+
     const blockedPublishResponse = await postAction('set-public-announcement-published');
     assert.strictEqual(blockedPublishResponse.status, 409);
     const blockedPublishBody = await blockedPublishResponse.json() as { poruka?: string };
