@@ -568,6 +568,7 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-payment-reference-internal-only':
+      let existingPublicSafeApprovalHistory = false;
       {
         const blockedResponse = await ensureCorePaymentEvidenceReady(
           'Barkod / payment reference se beleži tek nakon resolved invoice i osnovnog payment dokaza.',
@@ -575,10 +576,14 @@ export async function POST(request: NextRequest) {
         if (blockedResponse) {
           return blockedResponse;
         }
+        const flags = await getBillingGovernanceFlags();
+        existingPublicSafeApprovalHistory =
+          flags.paymentReferencePublicSafeApprovalHistory || flags.paymentReferencePublicSafeApproved;
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, existingPublicSafeApprovalHistory);
       await clearPublicAnnouncementState();
       return NextResponse.json({
         status: 'ok',
