@@ -175,7 +175,7 @@ async function runTests(): Promise<void> {
 
   await test('happy-path ok calculation stays valid without warnings', () => {
     const result = calculateDiscount({
-      operatorId: 'orange-eu',
+      operatorId: 'vodafone-eu',
       basePriceCents: 4500,
       currency: 'EUR',
       networkType: '4G',
