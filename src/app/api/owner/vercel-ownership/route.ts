@@ -47,6 +47,7 @@ const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captu
 const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
 const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
 const KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY = 'owner:vercel:payment-reference-public-safe-approved';
+const KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY = 'owner:vercel:payment-reference-public-safe-approval-history';
 const KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY = 'owner:vercel:public-announcement-redacted';
 const KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY = 'owner:vercel:public-announcement-published';
 const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
@@ -92,6 +93,7 @@ async function getBillingGovernanceFlags() {
     paymentReferenceCaptured,
     paymentReferenceClassification,
     paymentReferencePublicSafeApproved,
+    paymentReferencePublicSafeApprovalHistory,
     publicAnnouncementRedacted,
     publicAnnouncementPublished,
     autopayCorporateOnly,
@@ -115,6 +117,7 @@ async function getBillingGovernanceFlags() {
     kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY),
     kvGet<string>(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY),
     kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY),
+    kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY),
     kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY),
     kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY),
     kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
@@ -140,6 +143,7 @@ async function getBillingGovernanceFlags() {
     paymentReferenceCaptured: paymentReferenceCaptured === true,
     paymentReferenceClassification: normalizePaymentReferenceClassification(paymentReferenceClassification),
     paymentReferencePublicSafeApproved: paymentReferencePublicSafeApproved === true,
+    paymentReferencePublicSafeApprovalHistory: paymentReferencePublicSafeApprovalHistory === true,
     publicAnnouncementRedacted: publicAnnouncementRedacted === true,
     publicAnnouncementPublished: publicAnnouncementPublished === true,
     autopayCorporateOnly: autopayCorporateOnly === true,
@@ -178,6 +182,7 @@ async function clearDerivedPaymentArtifacts(): Promise<void> {
   await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
   await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
   await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
+  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, false);
   await clearPublicAnnouncementState();
 }
 
@@ -233,6 +238,7 @@ export async function GET() {
           paymentReferenceCaptured: billing.paymentReferenceCaptured,
           paymentReferenceClassification: publicAnnouncement.paymentReferenceClassification || 'unclassified',
           paymentReferencePublicSafeApproved: billing.paymentReferencePublicSafeApproved,
+          paymentReferencePublicSafeApprovalHistory: billing.paymentReferencePublicSafeApprovalHistory,
         },
         publicAnnouncement: {
           redacted: billing.publicAnnouncementRedacted,
@@ -518,6 +524,7 @@ export async function POST(request: NextRequest) {
         }
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, true);
       await clearPublicAnnouncementState();
       return NextResponse.json({
         status: 'ok',
@@ -551,6 +558,7 @@ export async function POST(request: NextRequest) {
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE);
       await clearPublicAnnouncementState();
       return NextResponse.json({
@@ -570,6 +578,7 @@ export async function POST(request: NextRequest) {
       }
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY);
+      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
       await clearPublicAnnouncementState();
       return NextResponse.json({
         status: 'ok',

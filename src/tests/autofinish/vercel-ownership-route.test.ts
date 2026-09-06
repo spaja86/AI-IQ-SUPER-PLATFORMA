@@ -480,6 +480,7 @@ async function runTests(): Promise<void> {
           currentInvoice: {
             paymentReferenceClassification: string;
             paymentReferencePublicSafeApproved: boolean;
+            paymentReferencePublicSafeApprovalHistory: boolean;
           };
           publicAnnouncement: { redacted: boolean; published: boolean };
         };
@@ -487,7 +488,8 @@ async function runTests(): Promise<void> {
     };
 
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceClassification, 'internal-only');
-    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApprovalHistory, true);
     assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.redacted, false);
     assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.published, false);
   });
