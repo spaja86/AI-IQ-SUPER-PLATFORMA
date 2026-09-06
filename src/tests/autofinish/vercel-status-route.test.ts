@@ -455,8 +455,13 @@ function testPublishedFlagDoesNotBypassMissingPrerequisites() {
     },
     { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
   );
-  assert.strictEqual(status.billingGovernance.publicAnnouncement.status, 'not-ready');
+  assert.strictEqual(status.billingGovernance.publicAnnouncement.status, 'published-invalid');
   assert.ok(status.billingGovernance.publicAnnouncement.blockers.includes('Nedostaje izvod platnog računa.'));
+  assert.ok(
+    status.billingGovernance.publicAnnouncement.blockers.includes(
+      'Objavljeni javni sažetak je nevažeći dok svi billing i privacy preduslovi ponovo nisu ispunjeni.',
+    ),
+  );
 }
 
 function testDigitalnaIndustrijaOpenInvoiceRemainsBlockedUntilPaidOrResolved() {
@@ -634,11 +639,16 @@ function testOutOfOrderEvidenceDoesNotResolveOpenInvoice() {
     { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
   );
   assert.strictEqual(status.status, 'blocked-until-validated');
-  assert.strictEqual(status.billingGovernance.publicAnnouncement.status, 'not-ready');
+  assert.strictEqual(status.billingGovernance.publicAnnouncement.status, 'published-invalid');
   assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
   assert.ok(
     status.billingGovernance.publicAnnouncement.blockers.includes(
       'Javno ozvaničenje je blokirano dok faktura nije plaćena ili korekcija nije rešena.',
+    ),
+  );
+  assert.ok(
+    status.billingGovernance.publicAnnouncement.blockers.includes(
+      'Objavljeni javni sažetak je nevažeći dok svi billing i privacy preduslovi ponovo nisu ispunjeni.',
     ),
   );
 }

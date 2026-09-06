@@ -61,6 +61,7 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
     && paymentReferenceClassification.length > 0
     && publicSafeClassificationApproved
     && flags.publicAnnouncementRedacted;
+  const invalidPublishedState = flags.publicAnnouncementPublished && !readyToPublish;
   const blockers = [
     ...(!invoiceWorkflowDocumented ? ['Zahtev za fakturisanje / support eskalacija nije dokumentovana.'] : []),
     ...(!invoiceResolved
@@ -91,14 +92,19 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
     ...(!flags.publicAnnouncementPublished && readyToPublish
       ? ['Audit-ready javni sažetak još nije objavljen.']
       : []),
+    ...(invalidPublishedState
+      ? ['Objavljeni javni sažetak je nevažeći dok svi billing i privacy preduslovi ponovo nisu ispunjeni.']
+      : []),
   ];
 
   return {
     paymentReferenceClassification,
     invoiceResolved,
     readyToPublish,
-    status: flags.publicAnnouncementPublished && readyToPublish
-      ? 'published'
+    status: flags.publicAnnouncementPublished
+      ? readyToPublish
+        ? 'published'
+        : 'published-invalid'
       : readyToPublish
         ? 'ready-to-publish'
         : 'not-ready',
