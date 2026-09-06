@@ -86,6 +86,52 @@ async function runTests(): Promise<void> {
     assert(body.data.disclaimer.length > 0, 'disclaimer must be present');
   });
 
+  await test('POST /api/delet/evaluate returns 200 with APPROVE scheduling outcome', async () => {
+    const response = await POST(makeEvaluateRequest({
+      referenceId: 'route-approve',
+      objective: 'SOFT_DELETE',
+      scope: 'SINGLE_RECORD',
+      dataSensitivityScore: 50,
+      retentionAgeDays: 500,
+      recoveryWindowHours: 48,
+      dependencyCount: 10,
+      backupCoverageScore: 80,
+      legalHoldActive: false,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Delet-Valid') === 'true', 'approve branch must stay valid');
+    assert(response.headers.get('X-Delet-Status') === 'APPROVE', 'unexpected status header');
+    assert(response.headers.get('X-Delet-Action') === 'SCHEDULE_WINDOW', 'unexpected action header');
+
+    const body = await response.json() as { data: { status: string; recommendedAction: string } };
+    assert(body.data.status === 'APPROVE', `expected APPROVE, got ${body.data.status}`);
+    assert(body.data.recommendedAction === 'SCHEDULE_WINDOW', `expected SCHEDULE_WINDOW, got ${body.data.recommendedAction}`);
+  });
+
+  await test('POST /api/delet/evaluate returns 200 with BLOCK outcome for valid but disabled execution', async () => {
+    const response = await POST(makeEvaluateRequest({
+      referenceId: 'route-block',
+      objective: 'HARD_DELETE',
+      scope: 'TENANT',
+      dataSensitivityScore: 70,
+      retentionAgeDays: 1200,
+      recoveryWindowHours: 72,
+      dependencyCount: 34,
+      backupCoverageScore: 85,
+      legalHoldActive: false,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Delet-Valid') === 'true', 'block branch must stay valid');
+    assert(response.headers.get('X-Delet-Status') === 'BLOCK', 'unexpected status header');
+    assert(response.headers.get('X-Delet-Action') === 'ABORT', 'unexpected action header');
+
+    const body = await response.json() as { data: { status: string; recommendedAction: string } };
+    assert(body.data.status === 'BLOCK', `expected BLOCK, got ${body.data.status}`);
+    assert(body.data.recommendedAction === 'ABORT', `expected ABORT, got ${body.data.recommendedAction}`);
+  });
+
   await test('POST /api/delet/evaluate returns 422 for unsupported objective', async () => {
     const response = await POST(makeEvaluateRequest({
       objective: 'DELETE_NOW',

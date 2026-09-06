@@ -38,6 +38,38 @@ function testSharedGovernanceModel() {
   assert.strictEqual(VENDOR_SUBSCRIPTION_GO_LIVE_SEQUENCE[0]?.phase, 'pilot-gradjanstvo');
 }
 
+function testBillingStatusScenarioMatrix() {
+  const statuses = VENDOR_SUBSCRIPTION_STATUS_MODEL.map((status) => status.status);
+  const requiredFlow = [
+    'blocked-until-validated',
+    'approved-for-invoice',
+    'payment-pending',
+    'payment-confirmed',
+    'service-active',
+    'closed',
+  ] as const;
+
+  for (const status of requiredFlow) {
+    assert.ok(statuses.includes(status), `${status} must exist in billing status model`);
+  }
+
+  const approvedIndex = statuses.indexOf('approved-for-invoice');
+  const pendingIndex = statuses.indexOf('payment-pending');
+  const confirmedIndex = statuses.indexOf('payment-confirmed');
+  const activeIndex = statuses.indexOf('service-active');
+  const closedIndex = statuses.indexOf('closed');
+
+  assert.ok(approvedIndex < pendingIndex, 'approved-for-invoice must precede payment-pending');
+  assert.ok(pendingIndex < confirmedIndex, 'payment-pending must precede payment-confirmed');
+  assert.ok(confirmedIndex < activeIndex, 'payment-confirmed must precede service-active');
+  assert.ok(activeIndex < closedIndex, 'service-active must precede closed');
+
+  assert.ok(
+    VENDOR_SUBSCRIPTION_ACTIVATION_RULES.some((rule) => rule.includes('blocked-until-validated')),
+    'activation rules must preserve blocked-until-validated guardrails',
+  );
+}
+
 function testIntakeCoverage() {
   assert.ok(
     VENDOR_SUBSCRIPTION_INTAKE_FIELDS.some((field) => field.key === 'segment' && field.required),
@@ -69,6 +101,8 @@ function run() {
   console.log('✓ formal packages');
   testSharedGovernanceModel();
   console.log('✓ shared governance model');
+  testBillingStatusScenarioMatrix();
+  console.log('✓ billing status scenario matrix');
   testIntakeCoverage();
   console.log('✓ intake coverage');
   testPricingSekvenceAlignment();

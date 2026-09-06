@@ -105,6 +105,25 @@ async function runTests(): Promise<void> {
     assert(result.warnings.some((w) => w.includes('Hard delete')), 'hard delete warning expected');
   });
 
+  await test('approve status schedules a controlled window instead of immediate finish', () => {
+    const result = evaluateDelet({
+      referenceId: 'approve-1',
+      objective: 'SOFT_DELETE',
+      scope: 'SINGLE_RECORD',
+      dataSensitivityScore: 50,
+      retentionAgeDays: 500,
+      recoveryWindowHours: 48,
+      dependencyCount: 10,
+      backupCoverageScore: 80,
+      legalHoldActive: false,
+    });
+
+    assert(result.valid, 'result should be valid');
+    assert(result.status === 'APPROVE', `expected APPROVE, got ${result.status}`);
+    assert(result.recommendedAction === 'SCHEDULE_WINDOW', `expected SCHEDULE_WINDOW, got ${result.recommendedAction}`);
+    assert(result.recommendedWindowHours > 0, 'approve path must retain a future execution window');
+  });
+
   await test('legal hold forces block status', () => {
     const result = evaluateDelet({
       objective: 'RETENTION_EXPIRE',
@@ -242,6 +261,7 @@ async function runTests(): Promise<void> {
 
     assert(result.valid, 'result should remain valid');
     assert(result.status === 'BLOCK', `expected BLOCK, got ${result.status}`);
+    assert(result.recommendedAction === 'ABORT', `expected ABORT, got ${result.recommendedAction}`);
   });
 
   await test('invalid evaluation still increments health metrics', () => {

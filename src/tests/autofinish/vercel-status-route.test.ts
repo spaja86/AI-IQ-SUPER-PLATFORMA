@@ -195,6 +195,37 @@ function testDigitalnaIndustrijaBillingCanBeCleared() {
   assert.strictEqual(status.status, 'service-active');
 }
 
+function testDigitalnaIndustrijaOpenInvoiceRemainsBlockedUntilPaidOrResolved() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'false',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'blocked-until-validated');
+  assert.ok(!status.blokatori.includes('Trenutni invoice mora biti 5JJYX4KN-0015.'));
+  assert.ok(!status.blokatori.includes('Trenutni invoice iznos mora biti 385.52.'));
+  assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+}
+
 function testDigitalnaIndustrijaCorrectedInvoiceResolutionCanClearInvoiceBlocker() {
   const status = buildVercelPretplataStatus(
     {
@@ -222,6 +253,34 @@ function testDigitalnaIndustrijaCorrectedInvoiceResolutionCanClearInvoiceBlocker
   );
   assert.strictEqual(status.status, 'service-active');
   assert.ok(!status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+}
+
+function testDigitalnaIndustrijaIncorrectInvoiceRemainsBlockedEvenIfMarkedPaid() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0014',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'blocked-until-validated');
+  assert.ok(status.blokatori.includes('Trenutni invoice mora biti 5JJYX4KN-0015.'));
+  assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
 }
 
 function testDigitalnaIndustrijaCorrectionRequestAloneIsNotResolved() {
@@ -273,8 +332,12 @@ async function run() {
   console.log('✓ Digitalna Industrija billing blockers');
   testDigitalnaIndustrijaBillingCanBeCleared();
   console.log('✓ Digitalna Industrija billing blockers can be cleared');
+  testDigitalnaIndustrijaOpenInvoiceRemainsBlockedUntilPaidOrResolved();
+  console.log('✓ approved/open invoice remains blocked until paid or resolved');
   testDigitalnaIndustrijaCorrectedInvoiceResolutionCanClearInvoiceBlocker();
   console.log('✓ corrected invoice resolution can clear unresolved invoice blocker');
+  testDigitalnaIndustrijaIncorrectInvoiceRemainsBlockedEvenIfMarkedPaid();
+  console.log('✓ incorrect invoice remains blocked even if marked paid');
   testDigitalnaIndustrijaCorrectionRequestAloneIsNotResolved();
   console.log('✓ correction request alone remains unresolved');
   console.log('\n✅ Vercel status route tests passed\n');

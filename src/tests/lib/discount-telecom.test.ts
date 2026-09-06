@@ -173,6 +173,19 @@ async function runTests(): Promise<void> {
     assert(result.totalDiscountPercent > 0, 'Total discount must be > 0');
   });
 
+  await test('happy-path ok calculation stays valid without warnings', () => {
+    const result = calculateDiscount({
+      operatorId: 'orange-eu',
+      basePriceCents: 4500,
+      currency: 'EUR',
+      networkType: '4G',
+      userSegment: 'consumer',
+    });
+    assert(result.valid, 'Result should be valid');
+    assert(result.appliedDiscounts.length > 0, 'Expected at least one applied discount');
+    assert(result.warnings.length === 0, 'Happy-path ok calculation should not emit warnings');
+  });
+
   await test('5G bundle discount applies for 5G network', () => {
     const result = calculateDiscount({
       operatorId: 'vodafone-eu',
@@ -354,6 +367,7 @@ async function runTests(): Promise<void> {
       result.warnings.some((warning) => warning.includes('No eligible discounts matched')),
       'Expected no-eligible-discounts warning'
     );
+    assert(result.netPriceCents === 5000, 'Net price should remain unchanged when no discounts apply');
   });
 
   await test('currency mismatch returns valid result with warning', () => {
@@ -380,6 +394,8 @@ async function runTests(): Promise<void> {
       userSegment: 'consumer',
     });
     assert(!result.valid, 'Inactive operator must be invalid for calculations');
+    assert(result.appliedDiscounts.length === 0, 'Inactive operator must not apply discounts');
+    assert(result.netPriceCents === 3000, 'Inactive operator must preserve original price on invalid result');
     assert(
       result.warnings.some((warning) => warning.includes('Operator is inactive')),
       'Expected inactive operator warning'
