@@ -85,7 +85,7 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
     paymentReferenceClassification,
     invoiceResolved,
     readyToPublish,
-    status: flags.publicAnnouncementPublished
+    status: flags.publicAnnouncementPublished && readyToPublish
       ? 'published'
       : readyToPublish
         ? 'ready-to-publish'
