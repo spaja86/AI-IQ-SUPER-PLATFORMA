@@ -69,7 +69,7 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
     ...(!flags.paymentReferenceCaptured && invoiceResolved && invoiceWorkflowDocumented
       ? ['Nedostaje barkod / payment reference.']
       : []),
-    ...(flags.paymentReferenceCaptured && invoiceWorkflowDocumented && paymentReferenceClassification.length === 0
+    ...(flags.paymentReferenceCaptured && invoiceResolved && invoiceWorkflowDocumented && paymentReferenceClassification.length === 0
       ? ['Barkod / payment reference mora biti klasifikovan kao public-safe ili internal-only.']
       : []),
     ...(!flags.publicAnnouncementRedacted && invoiceResolved && invoiceWorkflowDocumented
