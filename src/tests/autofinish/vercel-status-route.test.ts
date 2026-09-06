@@ -1,10 +1,26 @@
 import assert from 'node:assert';
 import {
   GET,
+  KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY,
+  KV_VERCEL_BILLING_OWNER_KEY,
+  KV_VERCEL_BILLING_OWNER_LOCKED_KEY,
+  KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY,
+  KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY,
+  KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY,
+  KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY,
+  KV_VERCEL_CURRENT_INVOICE_PAID_KEY,
+  KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY,
+  KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY,
+  KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY,
+  KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY,
+  KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY,
+  KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY,
+  KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY,
   buildVercelPretplataStatus,
   resolveOwnerPhone,
 } from '../../app/api/vercel-status/route';
 import { OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from '../../lib/constants';
+import { kvSet } from '../../lib/kv-client';
 
 async function testRouteResponse() {
   const response = await GET();
@@ -17,6 +33,53 @@ async function testRouteResponse() {
   assert.ok(json.pretplataVercel, 'pretplataVercel mora biti prisutan');
   assert.ok(['service-active', 'blocked-until-validated'].includes(json.pretplataVercel?.status ?? ''));
   assert.ok(Array.isArray(json.pretplataVercel?.blokatori), 'blokatori mora biti niz');
+}
+
+async function testRouteResponseUsesKvGovernanceFlags() {
+  try {
+    await kvSet(KV_VERCEL_BILLING_OWNER_KEY, 'Digitalna Industrija — Kompanija SPAJA');
+    await kvSet(KV_VERCEL_BILLING_OWNER_LOCKED_KEY, true);
+    await kvSet(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY, true);
+    await kvSet(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY, true);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, '5JJYX4KN-0013');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '870.20');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
+    await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, true);
+    await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, true);
+    await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, true);
+    await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, true);
+    await kvSet(KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY, true);
+    await kvSet(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY, true);
+
+    const response = await GET();
+    const json = (await response.json()) as {
+      pretplataVercel?: {
+        blokatori: string[];
+        billingGovernance?: { billingOwner?: string };
+      };
+    };
+    const blokatori = json.pretplataVercel?.blokatori ?? [];
+    assert.strictEqual(json.pretplataVercel?.billingGovernance?.billingOwner, 'Digitalna Industrija — Kompanija SPAJA');
+    assert.ok(!blokatori.includes('Billing owner nije zaključan na Digitalna Industrija.'));
+    assert.ok(!blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+  } finally {
+    await kvSet(KV_VERCEL_BILLING_OWNER_KEY, '');
+    await kvSet(KV_VERCEL_BILLING_OWNER_LOCKED_KEY, false);
+    await kvSet(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY, false);
+    await kvSet(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY, false);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, '');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, '');
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, false);
+    await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
+    await kvSet(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY, false);
+    await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
+    await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);
+    await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, false);
+    await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, false);
+    await kvSet(KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY, false);
+    await kvSet(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY, false);
+  }
 }
 
 function testMissingTeamBlocker() {
@@ -83,10 +146,119 @@ function testPhoneNotVerifiedBlocker() {
   assert.ok(status.blokatori.includes('Telefon vlasnika nije verifikovan (OTP).'));
 }
 
+function testDigitalnaIndustrijaBillingBlockers() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Pogresan entitet',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: 'INV-XYZ',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '1.00',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.ok(status.blokatori.includes('Billing owner nije zaključan na Digitalna Industrija.'));
+  assert.ok(status.blokatori.includes('Billing owner mora biti: Digitalna Industrija — Kompanija SPAJA.'));
+  assert.ok(status.blokatori.includes('Trenutni invoice mora biti 5JJYX4KN-0013.'));
+  assert.ok(status.blokatori.includes('Trenutni invoice iznos mora biti 870.20.'));
+  assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+}
+
+function testDigitalnaIndustrijaBillingCanBeCleared() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0013',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '870.20',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'service-active');
+}
+
+function testDigitalnaIndustrijaCorrectedInvoiceResolutionCanClearInvoiceBlocker() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0013',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '870.20',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'true',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'service-active');
+  assert.ok(!status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+}
+
+function testDigitalnaIndustrijaCorrectionRequestAloneIsNotResolved() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0013',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '870.20',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'true',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'false',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'blocked-until-validated');
+  assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+}
+
 async function run() {
   console.log('\n🌐 Vercel status route tests\n');
   await testRouteResponse();
   console.log('✓ route response includes pretplata blokatori');
+  await testRouteResponseUsesKvGovernanceFlags();
+  console.log('✓ route response supports KV-backed governance flags');
   testMissingTeamBlocker();
   console.log('✓ missing team/org blocker');
   testRequestedWithoutSubmittedState();
@@ -97,6 +269,14 @@ async function run() {
   console.log('✓ owner phone env empty fallback');
   testPhoneNotVerifiedBlocker();
   console.log('✓ phone verification blocker');
+  testDigitalnaIndustrijaBillingBlockers();
+  console.log('✓ Digitalna Industrija billing blockers');
+  testDigitalnaIndustrijaBillingCanBeCleared();
+  console.log('✓ Digitalna Industrija billing blockers can be cleared');
+  testDigitalnaIndustrijaCorrectedInvoiceResolutionCanClearInvoiceBlocker();
+  console.log('✓ corrected invoice resolution can clear unresolved invoice blocker');
+  testDigitalnaIndustrijaCorrectionRequestAloneIsNotResolved();
+  console.log('✓ correction request alone remains unresolved');
   console.log('\n✅ Vercel status route tests passed\n');
 }
 

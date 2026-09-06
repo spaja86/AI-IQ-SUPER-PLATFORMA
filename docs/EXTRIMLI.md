@@ -271,6 +271,11 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - EXTRONDOL report builder može primiti governance evidence direktno ili kroz environment evidence (`EXTRONDOL_AUDIT_TRAIL_COMPLETE`, `EXTRONDOL_HUMAN_REVIEW_COMPLETE`, `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, `EXTRONDOL_ONBOARDING_COMPLETE`) bez menjanja WAWE modela.
 - SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
+- Vercel pretplata governance za Digitalna Industrija mora eksplicitno pokriti:
+  - billing owner lock na `Digitalna Industrija — Kompanija SPAJA`
+  - trenutnu fakturu `5JJYX4KN-0013` (`$870.20`) kao `paid` ili `corrected-invoice-resolved` (samo `correction-requested` nije dovoljno za finalno razrešenje)
+  - dokazni paket: invoice PDF, payment potvrda, timestamp, odgovorno lice
+  - future controls: corporate-only autopay, finance channel notifikacije, FinOps pragovi `50/75/90/100`, mesečni reconciliation, kvartalni vendor review
 
 ### START PROJEKAT rollout program
 
