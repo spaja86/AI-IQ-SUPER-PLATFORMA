@@ -427,7 +427,6 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       });
     case 'set-current-invoice-paid':
-    case 'set-current-invoice-paid':
       await initializeExpectedInvoiceMetadataIfMissing();
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
