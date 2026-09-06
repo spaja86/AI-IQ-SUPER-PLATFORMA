@@ -2,8 +2,10 @@ import {
   polygonscanTxUrl,
   polygonscanAddressUrl,
   kreirajAuditEntry,
+  kreirajIstorijski_AuditLog,
 } from '../../lib/wollet/audit';
 import type { WolletTransaction } from '../../lib/wollet/types';
+import { ISTORIJSKE_NABAVKE } from '../../lib/wollet/transactions';
 
 let passed = 0;
 let failed = 0;
@@ -87,6 +89,20 @@ async function run() {
   await test('kreirajAuditEntry vreme je Date instanca', () => {
     const entry = kreirajAuditEntry(MOCK_TX, 'deposit', '0xdeadbeef');
     assert(entry.vreme instanceof Date, 'vreme treba da bude Date');
+  });
+
+  await test('kreirajIstorijski_AuditLog kreira write audit trag za svaku istorijsku nabavku', () => {
+    const log = kreirajIstorijski_AuditLog(ISTORIJSKE_NABAVKE);
+    assert(log.length === ISTORIJSKE_NABAVKE.length, 'audit log mora pokriti sve istorijske nabavke');
+    assert(log.every((entry) => entry.akcija === 'write'), 'istorijski audit log mora biti write-only snapshot');
+    assert(log.every((entry) => entry.blockchainHash === undefined), 'istorijski write snapshot ne sme imati hash po default-u');
+  });
+
+  await test('transfer audit entry čuva vezu ka izvornoj transakciji i explorer linku', () => {
+    const entry = kreirajAuditEntry(MOCK_TX, 'transfer', '0xdeadbeef', '0xabc999');
+    assert(entry.transakcijId === MOCK_TX.id, 'transfer audit mora zadržati originalni transaction id');
+    assert(entry.akcijaMeta.includes(MOCK_TX.naziv), 'transfer audit mora sadržati naziv transakcije');
+    assert(entry.polygonscanUrl === 'https://polygonscan.com/tx/0xabc999', 'transfer audit mora dati explorer link');
   });
 
   const ok = failed === 0;

@@ -237,6 +237,26 @@ async function runTests(): Promise<void> {
     assert(evidenceBody['sledećiKoraci'].includes('✅ Sačuvan dokaz o uplati/invoice-u'));
   });
 
+  await test('duplicate paid action stays idempotent for invoice state', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-paid');
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: { paid: boolean; evidenceCaptured: boolean; bankStatementCaptured: boolean; paymentReferenceCaptured: boolean };
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.evidenceCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.bankStatementCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, false);
+  });
+
   await test('public announcement stays blocked until statement, barcode/reference, and redaction are captured', async () => {
     await seedApprovedOpenInvoiceState();
     await expectOkAction('set-current-invoice-paid');
@@ -438,6 +458,86 @@ async function runTests(): Promise<void> {
       body.poruka,
       'Redigovan javni sažetak se beleži tek nakon resolved invoice, payment dokaza, izvoda i klasifikovanog barkoda/payment reference.',
     );
+  });
+
+  await test('correction request on already paid invoice keeps paid state and does not reopen governance', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-current-invoice-paid');
+    await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('set-payment-reference-internal-only');
+    await expectOkAction('set-bank-statement-captured');
+    await expectOkAction('set-public-announcement-redacted');
+    await expectOkAction('set-public-announcement-published');
+
+    const correctionResponse = await expectOkAction('set-invoice-correction-requested');
+    const correctionBody = await correctionResponse.json() as { poruka?: string };
+    assert.strictEqual(
+      correctionBody.poruka,
+      'Faktura je već označena kao plaćena; correction request ne menja paid stanje.',
+    );
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: {
+            paid: boolean;
+            correctionRequested: boolean;
+            evidenceCaptured: boolean;
+            bankStatementCaptured: boolean;
+            paymentReferenceCaptured: boolean;
+          };
+          publicAnnouncement: { redacted: boolean; published: boolean };
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.correctionRequested, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.evidenceCaptured, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.bankStatementCaptured, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, true);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.redacted, true);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.published, true);
+  });
+
+  await test('new correction request clears stale announcement artifacts on unresolved invoice', async () => {
+    await seedApprovedOpenInvoiceState();
+    await expectOkAction('set-invoice-correction-requested');
+    await expectOkAction('set-corrected-invoice-resolved');
+    await expectOkAction('set-current-invoice-evidence-captured');
+    await expectOkAction('set-payment-reference-internal-only');
+    await expectOkAction('set-bank-statement-captured');
+    await expectOkAction('set-public-announcement-redacted');
+    await expectOkAction('set-public-announcement-published');
+
+    await expectOkAction('set-invoice-correction-requested');
+
+    const response = await GET();
+    const body = await response.json() as {
+      vercel: {
+        billingGovernance: {
+          currentInvoice: {
+            paid: boolean;
+            correctionRequested: boolean;
+            correctedInvoiceResolved: boolean;
+            evidenceCaptured: boolean;
+            bankStatementCaptured: boolean;
+            paymentReferenceCaptured: boolean;
+          };
+          publicAnnouncement: { redacted: boolean; published: boolean };
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.correctionRequested, true);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.correctedInvoiceResolved, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.evidenceCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.bankStatementCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paymentReferenceCaptured, false);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.redacted, false);
+    assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.published, false);
   });
 
   await test('correction-requested plus resolved clears unpaid open invoice state', async () => {

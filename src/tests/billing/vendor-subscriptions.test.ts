@@ -10,6 +10,25 @@ import {
 } from '../../lib/billing/vendor-subscriptions';
 import { pricingLoginSekvence } from '../../lib/sekvence/pricing-login-page';
 
+const CORRECTION_SCENARIO_MATRIX = [
+  {
+    flow: 'uplata',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+  {
+    flow: 'isplata',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+  {
+    flow: 'akciznost-compliance',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+  {
+    flow: 'pretplata',
+    minimumScenarios: ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'],
+  },
+] as const;
+
 function testFormalPackages() {
   assert.strictEqual(VENDOR_SUBSCRIPTION_FORMAL_PACKAGES.length, 4);
   assert.strictEqual(getVendorFormalPackages('GitHub').length, 2);
@@ -70,6 +89,40 @@ function testBillingStatusScenarioMatrix() {
   );
 }
 
+function testCorrectionScenarioMatrix() {
+  assert.strictEqual(CORRECTION_SCENARIO_MATRIX.length, 4);
+  const requiredFlows = ['uplata', 'isplata', 'akciznost-compliance', 'pretplata'];
+  const requiredScenarios = ['original', 'requested-correction', 'corrected-and-pending', 'corrected-and-resolved', 'rejected-correction', 'rolled-back'];
+
+  for (const flow of requiredFlows) {
+    const entry = CORRECTION_SCENARIO_MATRIX.find((scenario) => scenario.flow === flow);
+    assert.ok(entry, `${flow} correction matrix entry must exist`);
+    assert.deepStrictEqual(entry?.minimumScenarios, requiredScenarios);
+  }
+}
+
+function testComplianceAndActivationOrdering() {
+  const statuses = VENDOR_SUBSCRIPTION_STATUS_MODEL.map((status) => status.status);
+  const incompleteIndex = statuses.indexOf('incomplete-intake');
+  const legalIndex = statuses.indexOf('legal-review');
+  const taxIndex = statuses.indexOf('tax-review');
+  const approvedIndex = statuses.indexOf('approved-for-invoice');
+  const pendingIndex = statuses.indexOf('payment-pending');
+  const confirmedIndex = statuses.indexOf('payment-confirmed');
+  const activeIndex = statuses.indexOf('service-active');
+  const rollbackIndex = statuses.indexOf('rollback');
+  const closedIndex = statuses.indexOf('closed');
+
+  assert.ok(incompleteIndex < legalIndex, 'incomplete-intake must precede legal-review');
+  assert.ok(legalIndex < taxIndex, 'legal-review must precede tax-review');
+  assert.ok(taxIndex < approvedIndex, 'tax-review must precede approved-for-invoice');
+  assert.ok(approvedIndex < pendingIndex, 'approved-for-invoice must precede payment-pending');
+  assert.ok(pendingIndex < confirmedIndex, 'payment-pending must precede payment-confirmed');
+  assert.ok(confirmedIndex < activeIndex, 'payment-confirmed must precede service-active');
+  assert.ok(activeIndex < rollbackIndex, 'service-active must precede rollback');
+  assert.ok(rollbackIndex < closedIndex, 'rollback must precede closed');
+}
+
 function testIntakeCoverage() {
   assert.ok(
     VENDOR_SUBSCRIPTION_INTAKE_FIELDS.some((field) => field.key === 'segment' && field.required),
@@ -103,6 +156,10 @@ function run() {
   console.log('✓ shared governance model');
   testBillingStatusScenarioMatrix();
   console.log('✓ billing status scenario matrix');
+  testCorrectionScenarioMatrix();
+  console.log('✓ correction scenario matrix');
+  testComplianceAndActivationOrdering();
+  console.log('✓ compliance and activation ordering');
   testIntakeCoverage();
   console.log('✓ intake coverage');
   testPricingSekvenceAlignment();

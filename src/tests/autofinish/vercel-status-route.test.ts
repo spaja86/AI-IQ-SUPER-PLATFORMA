@@ -576,6 +576,73 @@ function testDigitalnaIndustrijaCorrectionRequestAloneIsNotResolved() {
   assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
 }
 
+function testWrongInvoiceAmountRemainsBlockedEvenIfMarkedPaid() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.00',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'blocked-until-validated');
+  assert.ok(status.blokatori.includes('Trenutni invoice iznos mora biti 385.52.'));
+  assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+}
+
+function testOutOfOrderEvidenceDoesNotResolveOpenInvoice() {
+  const status = buildVercelPretplataStatus(
+    {
+      VERCEL_TEAM_ID: 'team-ok',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+      SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+      SPAJA_VERCEL_BILLING_OWNER: 'Digitalna Industrija — Kompanija SPAJA',
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: 'true',
+      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: '5JJYX4KN-0015',
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: '385.52',
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'true',
+      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: 'true',
+      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: 'true',
+      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: 'true',
+      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: 'true',
+      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: 'true',
+    },
+    { tokenKonfigurisan: true, projectIdKonfigurisan: true, phoneVerified: true },
+  );
+  assert.strictEqual(status.status, 'blocked-until-validated');
+  assert.strictEqual(status.billingGovernance.publicAnnouncement.status, 'not-ready');
+  assert.ok(status.blokatori.includes('Trenutna faktura nije rešena (pay ili support correction/re-issue).'));
+  assert.ok(
+    status.billingGovernance.publicAnnouncement.blockers.includes(
+      'Javno ozvaničenje je blokirano dok faktura nije plaćena ili korekcija nije rešena.',
+    ),
+  );
+}
+
 async function run() {
   console.log('\n🌐 Vercel status route tests\n');
   await testRouteResponse();
@@ -614,6 +681,10 @@ async function run() {
   console.log('✓ incorrect invoice remains blocked even if marked paid');
   testDigitalnaIndustrijaCorrectionRequestAloneIsNotResolved();
   console.log('✓ correction request alone remains unresolved');
+  testWrongInvoiceAmountRemainsBlockedEvenIfMarkedPaid();
+  console.log('✓ wrong invoice amount remains blocked even if marked paid');
+  testOutOfOrderEvidenceDoesNotResolveOpenInvoice();
+  console.log('✓ out-of-order evidence does not resolve open invoice');
   console.log('\n✅ Vercel status route tests passed\n');
 }
 
