@@ -1,8 +1,8 @@
 import assert from 'node:assert';
 import type { NextRequest } from 'next/server';
 import { GET, POST } from '../../app/api/owner/vercel-ownership/route';
-import { OWNER_PHONE_DEFAULT } from '../../lib/constants';
-import { _resetOwnerPhoneAuthState, requestOwnerOtp, verifyOwnerOtp } from '../../lib/owner-phone-auth';
+import { OWNER_PHONE_NUMBER_ENV_KEY } from '../../lib/constants';
+import { requestOwnerOtp, verifyOwnerOtp } from '../../lib/owner-phone-auth';
 import { kvSet } from '../../lib/kv-client';
 
 const KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY = 'owner:vercel:current-invoice-number';
@@ -13,10 +13,12 @@ const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correct
 const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
 const EXPECTED_INVOICE_NUMBER = '5JJYX4KN-0015';
 const EXPECTED_INVOICE_AMOUNT = '385.52';
+const ORIGINAL_OWNER_PHONE_ENV = process.env[OWNER_PHONE_NUMBER_ENV_KEY];
 
 let passed = 0;
 let failed = 0;
 const failures: string[] = [];
+let scenarioCounter = 0;
 
 async function test(name: string, fn: () => Promise<void> | void): Promise<void> {
   try {
@@ -54,19 +56,26 @@ async function resetState(): Promise<void> {
   await expectOkAction('reset');
 }
 
-function ensureVerifiedOwnerPhone(): void {
-  const otpRequest = requestOwnerOtp(OWNER_PHONE_DEFAULT);
+function useScenarioOwnerPhone(): string {
+  scenarioCounter += 1;
+  const phone = `+3816000${String(scenarioCounter).padStart(6, '0')}`;
+  process.env[OWNER_PHONE_NUMBER_ENV_KEY] = phone;
+  return phone;
+}
+
+function ensureVerifiedOwnerPhone(phone: string): void {
+  const otpRequest = requestOwnerOtp(phone);
   assert(otpRequest.uspesno, 'owner OTP request must succeed in tests');
   assert(otpRequest.devOtp, 'dev OTP must be available in non-production tests');
-  const otpVerify = verifyOwnerOtp(OWNER_PHONE_DEFAULT, otpRequest.devOtp);
+  const otpVerify = verifyOwnerOtp(phone, otpRequest.devOtp);
   assert(otpVerify.uspesno, 'owner OTP verification must succeed in tests');
   assert(otpVerify.jeOwner, 'verified phone must belong to owner');
 }
 
 async function seedApprovedOpenInvoiceState(): Promise<void> {
   await resetState();
-  _resetOwnerPhoneAuthState();
-  ensureVerifiedOwnerPhone();
+  const phone = useScenarioOwnerPhone();
+  ensureVerifiedOwnerPhone(phone);
 
   await expectOkAction('set-ready');
   await expectOkAction('set-submitted');
@@ -91,7 +100,7 @@ async function runTests(): Promise<void> {
   console.log('\n🧾 Vercel ownership route tests\n');
 
   await resetState();
-  _resetOwnerPhoneAuthState();
+  useScenarioOwnerPhone();
 
   await test('POST rejects ownership updates before phone verification', async () => {
     const response = await postAction('set-ready');
@@ -177,6 +186,11 @@ async function runTests(): Promise<void> {
   });
 
   await resetState();
+  if (ORIGINAL_OWNER_PHONE_ENV) {
+    process.env[OWNER_PHONE_NUMBER_ENV_KEY] = ORIGINAL_OWNER_PHONE_ENV;
+  } else {
+    delete process.env[OWNER_PHONE_NUMBER_ENV_KEY];
+  }
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
   if (failed > 0) {
