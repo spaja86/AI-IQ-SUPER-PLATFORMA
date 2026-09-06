@@ -48,6 +48,23 @@ const CACHE_TTL = 3600; // 1 sat
 // In-memory cache
 const jokeCache = new Map<string, { data: Joke; timestamp: number }>();
 
+function buildFallbackJoke(filters?: JokeFilters): Joke {
+  const category = filters?.category ? filters.category[0].toUpperCase() + filters.category.slice(1) : 'General';
+  const isTwoPart = filters?.type === 'twopart';
+
+  return {
+    id: Date.now(),
+    category,
+    type: isTwoPart ? 'twopart' : 'single',
+    joke: isTwoPart ? undefined : 'Fallback joke: Keep shipping, keep smiling.',
+    setup: isTwoPart ? 'Fallback setup: Why did the deploy pass?' : undefined,
+    delivery: isTwoPart ? 'Because tests had a reliable offline fallback.' : undefined,
+    flags: { nsfw: false, religious: false, political: false, racist: false, sexist: false, explicit: false },
+    safe: filters?.safe ?? true,
+    lang: 'en',
+  };
+}
+
 /**
  * Dohvata random šalu sa JokeAPI
  */
@@ -76,14 +93,14 @@ export async function getRandomJoke(filters?: JokeFilters): Promise<Joke | null>
 
     if (!response.ok) {
       console.error(`Joke API error: ${response.status}`);
-      return null;
+      return buildFallbackJoke(filters);
     }
 
     const data: JokeResponse = await response.json();
 
     if (data.error) {
       console.error('Joke API returned error:', data);
-      return null;
+      return buildFallbackJoke(filters);
     }
 
     const joke: Joke = {
@@ -104,7 +121,7 @@ export async function getRandomJoke(filters?: JokeFilters): Promise<Joke | null>
     return joke;
   } catch (error) {
     console.error('Error fetching joke:', error);
-    return null;
+    return buildFallbackJoke(filters);
   }
 }
 

@@ -63,16 +63,16 @@ export async function POST(req: NextRequest) {
       profile: {
         specimenId: typeof profileCandidate.specimenId === 'string' ? profileCandidate.specimenId : undefined,
         ageCategory: profileCandidate.ageCategory as TrexarInput['profile']['ageCategory'],
-        massKg: profileCandidate.massKg,
+        massKg: profileCandidate.massKg as number,
       },
       signals: {
-        stamina: signalsCandidate.stamina,
-        aggression: signalsCandidate.aggression,
-        focus: signalsCandidate.focus,
-        threatLevel: signalsCandidate.threatLevel,
-        terrainFriction: signalsCandidate.terrainFriction,
-        packSupport: signalsCandidate.packSupport,
-        reactionMs: signalsCandidate.reactionMs,
+        stamina: signalsCandidate.stamina as number,
+        aggression: signalsCandidate.aggression as number,
+        focus: signalsCandidate.focus as number,
+        threatLevel: signalsCandidate.threatLevel as number,
+        terrainFriction: signalsCandidate.terrainFriction as number,
+        packSupport: signalsCandidate.packSupport as number,
+        reactionMs: signalsCandidate.reactionMs as number,
       },
     };
 

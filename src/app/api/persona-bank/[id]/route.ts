@@ -15,8 +15,8 @@ export const dynamic = 'force-dynamic';
  *
  * Returns a single persona including full audit history.
  */
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const persona = getPersona(id);
     if (!persona) {
@@ -36,8 +36,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
  * Updates mutable fields of a persona.
  * Requires X-Agent-Id header.
  */
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const agentId = req.headers.get('x-agent-id');
   if (!agentId) {
     return apiError('BAD_REQUEST', 'X-Agent-Id header is required', 400);
@@ -68,8 +68,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
  * NOTE: archive action is handled by a sub-route; this endpoint is kept for
  * completeness but will 404 unless routing matches exactly.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const agentId = req.headers.get('x-agent-id');
   if (!agentId) {
     return apiError('BAD_REQUEST', 'X-Agent-Id header is required', 400);

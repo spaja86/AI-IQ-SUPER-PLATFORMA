@@ -45,7 +45,8 @@ export function NovaGeneracijaCard({ className = '' }: NovaGeneracijaCardProps) 
       const r = await fetch('/api/nova-generacija');
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const json = await r.json() as { data?: NgSession } | NgSession;
-      setSession(('data' in json ? json.data : json) ?? null);
+      const payload = (json as { data?: NgSession }).data ?? (json as NgSession);
+      setSession(payload && typeof payload.sessionId === 'string' ? payload : null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Greška');
     } finally {

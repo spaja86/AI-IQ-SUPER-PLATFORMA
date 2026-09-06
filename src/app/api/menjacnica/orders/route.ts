@@ -614,7 +614,6 @@ export async function POST(request: NextRequest) {
 
     if (insertError || !order) return apiInternalError('menjacnica-orders-insert', insertError ?? new Error('Order insert nije uspeo.'));
 
-    let tradeRecord: { id: string } | null = null;
     let ledgerEntryIds: string[] = [];
 
     if (body.tip === 'market') {
@@ -639,7 +638,6 @@ export async function POST(request: NextRequest) {
           return apiInternalError('menjacnica-orders-trade-insert', tradeError ?? new Error('Trade insert nije uspeo.'));
         }
 
-        tradeRecord = trade;
         ledgerEntryIds = await settleMarketOrder(
           supabase,
           user.id,
@@ -691,7 +689,7 @@ export async function POST(request: NextRequest) {
       order,
       feeBreakdown: feeResult,
       riskInfo: { amlScore: riskResult.amlScore, action: riskResult.action },
-      wallet: { reservation, settlementStatus: 'processing', tradeId: tradeRecord?.id ?? null },
+      wallet: { reservation, settlementStatus: 'processing', tradeId: null },
     }, 201);
   } catch (error) {
     return apiInternalError('menjacnica-orders-post', error);

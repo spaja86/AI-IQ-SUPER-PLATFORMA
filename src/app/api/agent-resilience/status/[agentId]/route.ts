@@ -18,10 +18,10 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { agentId: string } },
+  { params }: { params: Promise<{ agentId: string }> },
 ) {
   try {
-    const { agentId } = params;
+    const { agentId } = await params;
     const report = runDiagnostic(agentId);
 
     const response = apiSuccess(report, 200);

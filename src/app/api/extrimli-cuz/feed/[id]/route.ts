@@ -13,12 +13,13 @@ function setHeaders(res: Response): void {
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const post = getPost(params.id);
+    const { id } = await params;
+    const post = getPost(id);
     if (!post) {
-      return apiError('NOT_FOUND', `post not found: ${params.id}`, 404);
+      return apiError('NOT_FOUND', `post not found: ${id}`, 404);
     }
     const response = apiSuccess(post, 200);
     setHeaders(response);

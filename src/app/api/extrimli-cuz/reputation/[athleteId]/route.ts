@@ -13,10 +13,11 @@ function setHeaders(res: Response): void {
 
 export async function GET(
   _req: Request,
-  { params }: { params: { athleteId: string } }
+  { params }: { params: Promise<{ athleteId: string }> }
 ) {
   try {
-    const score = getReputationScore(params.athleteId);
+    const { athleteId } = await params;
+    const score = getReputationScore(athleteId);
     const response = apiSuccess(score, 200);
     setHeaders(response);
     return response;

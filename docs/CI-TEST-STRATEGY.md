@@ -29,9 +29,11 @@
   - changes in `.agent-config.json`
   - changes in `package.json` / `package-lock.json`
   - changes in auth, billing, deploy, security, or cross-repo governance surfaces
-- For isolated domain changes, run:
-  - `test:lib` + targeted `test:api` subset matching touched domain
-  - plus `test:smoke` before merge
+- `omega-auto-build` now enforces this behavior:
+  - `push` → full `npm run test:ci`
+  - `pull_request` → always `test:core`, then selective suites by changed paths
+  - auto-upgrade to full `test:ci` when critical surfaces are touched
+- `test:smoke` remains mandatory before merge.
 
 ## Notes
 

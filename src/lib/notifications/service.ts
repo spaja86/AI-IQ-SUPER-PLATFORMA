@@ -47,7 +47,7 @@ export type NotificationSupabaseClient = {
       metadata?: Record<string, unknown>;
       read?: boolean;
       created_at?: string;
-    }) => Promise<unknown>;
+    }) => PromiseLike<unknown>;
   };
 };
 

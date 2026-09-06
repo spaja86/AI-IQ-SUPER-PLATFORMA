@@ -192,8 +192,10 @@ export default function MakinRunner({
   const keysRef = useRef<Set<string>>(new Set());
   const karakterRef = useRef<TipKaraktera>(startingKarakter);
   const [poruka, setPoruka] = useState('');
+  const [hudCooldowns, setHudCooldowns] = useState({ qReady: true, eReady: true });
   const animRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
+  const gameLoopRef = useRef<(timestamp: number) => void>(() => {});
 
   const nivo = konfiguracija.dimenzija.nivo;
   const sk = D_SKALA[nivo] ?? D_SKALA['360D'];
@@ -351,7 +353,7 @@ export default function MakinRunner({
 
   const gameLoop = useCallback((timestamp: number) => {
     if (isPauziran) {
-      animRef.current = requestAnimationFrame(gameLoop);
+      animRef.current = requestAnimationFrame(gameLoopRef.current);
       return;
     }
     const canvas = canvasRef.current;
@@ -560,9 +562,22 @@ export default function MakinRunner({
       }
     }
 
+    const qReady = gs.qCooldown <= 0;
+    const eReady = gs.eCooldown <= 0;
+    setHudCooldowns((prev) => {
+      if (prev.qReady === qReady && prev.eReady === eReady) {
+        return prev;
+      }
+      return { qReady, eReady };
+    });
+
     draw(ctx, gs, w, h);
-    animRef.current = requestAnimationFrame(gameLoop);
+    animRef.current = requestAnimationFrame(gameLoopRef.current);
   }, [draw, sk, onScoreUpdate, onKraj, konfiguracija.parametri.slojevi, isPauziran]);
+
+  useEffect(() => {
+    gameLoopRef.current = gameLoop;
+  }, [gameLoop]);
 
   // ── Tastatura ────────────────────────────────────────────────────
 
@@ -637,18 +652,17 @@ export default function MakinRunner({
     gsRef.current = noviGameState(canvas.width, canvas.height, nivo);
     scoreRef.current = noviScore(nivo);
     keysRef.current.clear();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPoruka('');
+    setHudCooldowns({ qReady: true, eReady: true });
     cancelAnimationFrame(animRef.current);
     lastTimeRef.current = performance.now();
-    animRef.current = requestAnimationFrame(gameLoop);
+    animRef.current = requestAnimationFrame(gameLoopRef.current);
     return () => cancelAnimationFrame(animRef.current);
   }, [restartKey, nivo, gameLoop]);
 
   // ── Cooldown display ─────────────────────────────────────────────
 
-  const gs = gsRef.current;
-  const qReady = !gs || gs.qCooldown <= 0;
-  const eReady = !gs || gs.eCooldown <= 0;
   const karakter = startingKarakter;
   const isMarketMaker = karakter === 'market-maker';
 
@@ -659,13 +673,13 @@ export default function MakinRunner({
         <div className="flex gap-3 text-gray-400">
           <span><kbd className="rounded bg-gray-700 px-1">WASD</kbd> Kretanje</span>
           <span><kbd className="rounded bg-gray-700 px-1">Space</kbd> Napad</span>
-          <span className={qReady ? 'text-green-400' : 'text-gray-500'}>
+          <span className={hudCooldowns.qReady ? 'text-green-400' : 'text-gray-500'}>
             <kbd className="rounded bg-gray-700 px-1">Q</kbd>{' '}
             {isMarketMaker ? 'Bid Wall štit' : 'Flash Crash'}
-            {!qReady && ' ⏳'}
+            {!hudCooldowns.qReady && ' ⏳'}
           </span>
-          <span className={eReady ? 'text-yellow-400' : 'text-gray-500'}>
-            <kbd className="rounded bg-gray-700 px-1">E</kbd> Spread napad{!eReady && ' ⏳'}
+          <span className={hudCooldowns.eReady ? 'text-yellow-400' : 'text-gray-500'}>
+            <kbd className="rounded bg-gray-700 px-1">E</kbd> Spread napad{!hudCooldowns.eReady && ' ⏳'}
           </span>
         </div>
         <span className={`font-semibold ${isMarketMaker ? 'text-green-400' : 'text-red-400'}`}>

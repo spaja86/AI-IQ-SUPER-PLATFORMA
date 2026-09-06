@@ -52,15 +52,16 @@ function entryMatchesQuery(entry: KatalogEntry, q: KatalogSearchQuery): boolean 
     if (!matchesText(entry.category, q.category)) return false;
   }
 
-  if (q.domain) {
+  const domainQuery = q.domain;
+  if (domainQuery) {
     if (entry.type === 'use-case') {
-      if (!matchesText(entry.domain, q.domain)) return false;
+      if (!matchesText(entry.domain, domainQuery)) return false;
     } else if (entry.type === 'tool') {
       const domains = entry.recommendedDomains ?? [];
-      const domainMatch = domains.some((domain) => matchesText(domain, q.domain)) || matchesText(entry.description, q.domain);
+      const domainMatch = domains.some((domain) => matchesText(domain, domainQuery)) || matchesText(entry.description, domainQuery);
       if (!domainMatch) return false;
     } else {
-      const modelDomainMatch = entry.tags.some((tag) => matchesText(tag, q.domain)) || matchesText(entry.description, q.domain);
+      const modelDomainMatch = entry.tags.some((tag) => matchesText(tag, domainQuery)) || matchesText(entry.description, domainQuery);
       if (!modelDomainMatch) return false;
     }
   }
@@ -180,14 +181,14 @@ export function searchKatalog(q: KatalogSearchQuery): KatalogSearchResult {
   const offset = (page - 1) * pageSize;
   const entries = sorted.slice(offset, offset + pageSize);
 
-  const summary = {
+  const summary: KatalogSearchResult['summary'] = {
     models: filtered.filter((entry) => entry.type === 'model').length,
     tools: filtered.filter((entry) => entry.type === 'tool').length,
     useCases: filtered.filter((entry) => entry.type === 'use-case').length,
     activeModels: filtered.filter((entry) => entry.type === 'model' && entry.status === 'active').length,
     matchedCapabilities: Array.from(new Set(filtered.flatMap((entry) => entry.type === 'model' ? entry.capabilities : entry.type === 'use-case' ? (entry.requiredCapabilities ?? []) : []))).sort(),
-    catalogMode: CHATGPT_KATALOG_CATALOG_MODE,
-    scope: CHATGPT_KATALOG_SCOPE,
+    catalogMode: CHATGPT_KATALOG_CATALOG_MODE as KatalogSearchResult['summary']['catalogMode'],
+    scope: CHATGPT_KATALOG_SCOPE as KatalogSearchResult['summary']['scope'],
   };
 
   return {

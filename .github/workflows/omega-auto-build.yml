@@ -30,6 +30,39 @@ jobs:
       - name: ⬇️ Checkout
         uses: actions/checkout@v4
 
+      - name: 🧭 Detekcija izmenjenih putanja
+        if: github.event_name == 'pull_request'
+        id: changed_paths
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            full_gate:
+              - '.github/workflows/**'
+              - '.agent-config.json'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'vercel.json'
+              - 'src/lib/auth/**'
+              - 'src/lib/billing/**'
+              - 'src/lib/stripe/**'
+              - 'src/lib/security/**'
+              - 'docs/MULTI-REPO-LINKS.md'
+            lib_api:
+              - 'src/lib/**'
+              - 'src/app/api/**'
+            tests_autofinish:
+              - 'src/tests/autofinish/**'
+            tests_billing:
+              - 'src/tests/billing/**'
+            tests_brouvzer:
+              - 'src/tests/brouvzer/**'
+            tests_call_centar:
+              - 'src/tests/call-centar/**'
+            tests_depon:
+              - 'src/tests/depon/**'
+            tests_unit:
+              - 'src/tests/unit/**'
+
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -64,7 +97,50 @@ jobs:
         run: npm run lint
 
       - name: 🧪 Unit testovi
-        run: npm run test:ci
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            npm run test:ci
+            exit 0
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.full_gate }}" = "true" ]; then
+            echo "Critical surfaces changed → running full CI test chain"
+            npm run test:ci
+            exit 0
+          fi
+
+          npm run test:core
+
+          if [ "${{ steps.changed_paths.outputs.lib_api }}" = "true" ]; then
+            npm run test:lib
+            npm run test:api
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_autofinish }}" = "true" ]; then
+            npm run test:autofinish:critical
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_billing }}" = "true" ]; then
+            npm run test:billing
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_brouvzer }}" = "true" ]; then
+            npm run test:brouvzer
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_call_centar }}" = "true" ]; then
+            npm run test:call-centar
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_depon }}" = "true" ]; then
+            npm run test:depon
+          fi
+
+          if [ "${{ steps.changed_paths.outputs.tests_unit }}" = "true" ]; then
+            npm run test:unit
+          fi
 
       - name: 🧪 Smoke testovi (go-live gate)
         run: npm run test:smoke
@@ -84,6 +160,11 @@ jobs:
           echo "- **Commit:** ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Vreme:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Quality gates:** type-check, lint, unit test, smoke, predeploy, build" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "- **Test strategy:** changed-path selective suites (full chain on critical surfaces)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- **Test strategy:** full CI suite chain" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: 📝 Deploy Status Artifact
         if: github.ref == 'refs/heads/main' && success()

@@ -136,7 +136,7 @@ function resolveStatus(
         ? 'APPROVE'
         : 'REVIEW';
 
-  if (input.scope === 'TENANT' && scoredStatus !== 'BLOCK') return 'REVIEW';
+  if (input.scope === 'TENANT') return 'REVIEW';
   return scoredStatus;
 }
 

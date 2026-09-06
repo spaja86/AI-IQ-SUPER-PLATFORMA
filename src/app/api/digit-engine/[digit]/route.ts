@@ -18,9 +18,9 @@ function setHeaders(res: Response): void {
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { digit: string } },
+  { params }: { params: Promise<{ digit: string }> },
 ) {
-  const raw = params.digit;
+  const { digit: raw } = await params;
   const parsed = Number(raw);
 
   if (!/^\d$/.test(raw) || !Number.isInteger(parsed) || parsed < 0 || parsed > 9) {

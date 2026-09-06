@@ -181,7 +181,10 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   }
 
   const transferPolicy: SpajaTransferPolicy = rawTransferPolicy;
-  const exportFields: SpajaTransferField[] = rawExportFields;
+  const exportFields: SpajaTransferField[] = rawExportFields.filter(
+    (field): field is SpajaTransferField =>
+      field === 'output' || field === 'iterations' || field === 'warnings-count',
+  );
   const importTarget: SpajaImportTarget = rawImportTarget;
 
   const guard = buildGuard(normalized.maxIterations, normalized.maxDurationMs);

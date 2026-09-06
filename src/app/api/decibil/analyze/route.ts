@@ -60,6 +60,6 @@ export async function POST(req: NextRequest) {
     setDecibilHeaders(response);
     return response;
   } catch (err) {
-    return apiInternalError(err);
+    return apiInternalError('decibil/analyze', err);
   }
 }
