@@ -26,7 +26,9 @@ export async function GET() {
   const enterpriseRequestRequested = /^(1|true|yes)$/i.test(process.env.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '');
   const enterpriseRequestSubmitted = /^(1|true|yes)$/i.test(process.env.SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED ?? '');
   const enterpriseRequestStarted = enterpriseRequestRequested || enterpriseRequestSubmitted;
-  const teamConfigured = Boolean(process.env.VERCEL_TEAM_ID ?? process.env.VERCEL_ORG_ID);
+  const teamConfigured =
+    Boolean(process.env.VERCEL_TEAM_ID?.trim())
+    || Boolean(process.env.VERCEL_ORG_ID?.trim());
   const pretplataBlokatori = [
     ...(!health.tokenKonfigurisan ? ['Nedostaje VERCEL_TOKEN.'] : []),
     ...(!health.projectIdKonfigurisan ? ['Nedostaje VERCEL_PROJECT_ID.'] : []),

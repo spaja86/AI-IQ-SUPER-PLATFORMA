@@ -140,6 +140,26 @@ async function testRequestedWithoutSubmittedState() {
   });
 }
 
+async function testOrgFallbackWhenTeamEmpty() {
+  ensureOwnerPhoneVerified();
+  await withEnv({
+    VERCEL_TOKEN: 'token-ok',
+    VERCEL_PROJECT_ID: 'project-ok',
+    VERCEL_TEAM_ID: '',
+    VERCEL_ORG_ID: 'org-ok',
+    SPAJA_VERCEL_ENTERPRISE_REQUEST_READY: 'true',
+    SPAJA_VERCEL_ENTERPRISE_REQUESTED: 'true',
+    SPAJA_VERCEL_ENTERPRISE_REQUEST_SUBMITTED: 'true',
+    [OWNER_PHONE_NUMBER_ENV_KEY]: OWNER_PHONE_DEFAULT,
+  }, async () => {
+    const json = await getPayload();
+    assert.ok(
+      !json.pretplataVercel?.blokatori.includes('Nedostaje VERCEL_TEAM_ID ili VERCEL_ORG_ID.'),
+      'mora prihvatiti VERCEL_ORG_ID kada je VERCEL_TEAM_ID prazan',
+    );
+  });
+}
+
 async function testPhoneNotVerifiedBlocker() {
   await withEnv({
     VERCEL_TOKEN: 'token-ok',
@@ -167,6 +187,8 @@ async function run() {
   console.log('✓ missing team/org blocker');
   await testRequestedWithoutSubmittedState();
   console.log('✓ requested vs submitted blocker logic');
+  await testOrgFallbackWhenTeamEmpty();
+  console.log('✓ org fallback when team is empty');
   await testPhoneNotVerifiedBlocker();
   console.log('✓ phone verification blocker');
   console.log('\n✅ Vercel status route tests passed\n');
