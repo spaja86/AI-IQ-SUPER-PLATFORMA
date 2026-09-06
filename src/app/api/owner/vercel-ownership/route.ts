@@ -177,12 +177,14 @@ async function clearPublicAnnouncementState(): Promise<void> {
   await kvSet(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY, false);
 }
 
-async function clearDerivedPaymentArtifacts(): Promise<void> {
+async function clearDerivedPaymentArtifacts(resetApprovalHistory = false): Promise<void> {
   await kvSet(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY, false);
   await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, false);
   await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, '');
   await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, false);
-  await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, false);
+  if (resetApprovalHistory) {
+    await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVAL_HISTORY_KEY, false);
+  }
   await clearPublicAnnouncementState();
 }
 
@@ -453,7 +455,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_CURRENT_INVOICE_PAID_KEY, true);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
-      await clearDerivedPaymentArtifacts();
+      await clearDerivedPaymentArtifacts(true);
       return NextResponse.json({
         status: 'ok',
         poruka: 'Trenutna faktura 5JJYX4KN-0015 je označena kao plaćena.',
