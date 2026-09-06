@@ -56,3 +56,6 @@ See: `docs/API-CONTRACT-STATUS.md`.
   1. test coverage in `src/tests/api` or `src/tests/lib`,
   2. source-of-truth documentation update,
   3. contract status declared (stable or experimental).
+
+Current v1 additive module surface:
+- `nude`: `/api/nude/evaluate`, `/api/nude/health` (experimental until broader adoption).

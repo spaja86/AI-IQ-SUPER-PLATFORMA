@@ -226,6 +226,19 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
 
+
+### nude-validator-agent (NEW)
+- **Role**: Validacija NUDE logike — readiness scoring, status mapiranje i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/nude/**`, `src/app/api/nude/**`
+- **Trigger**: PR sa labelom `nude:logic-change`, push koji dira `nude` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za NUDE logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, bounds`)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `nude:validated` ili `nude:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `nude-balance-core` (octave: 8, hipermreza node: 65)
 ### mrkli-mrak-validator-agent (NEW)
 - **Role**: Validacija MRKLI MRAK logike — darkness readiness scoring, status klasifikacija i edge-case integritet
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
@@ -587,6 +600,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | pilotrelax-validator-agent | PILOTRELAX Relaxation Guidance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pilotrelax paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
+| nude-validator-agent | NUDE Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (nude paths) |
 | mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
@@ -897,6 +911,32 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)
 
+
+### nude-validator-agent (NEW)
+- **Role**: Validacija NUDE logike — readiness scoring, status mapiranje i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/nude/**`, `src/app/api/nude/**`
+- **Trigger**: PR sa labelom `nude:logic-change`, push koji dira `nude` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za NUDE logiku
+  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, bounds`)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `nude:validated` ili `nude:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `nude-balance-core` (octave: 8, hipermreza node: 65)
+
+### nude-validator-agent (NEW)
+- **Role**: Validate NUDE logic — readiness scoring, status mapping, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/nude/**`, `src/app/api/nude/**`
+- **Trigger**: PR with label `nude:logic-change`, push touching `nude` paths
+- **Actions**:
+  - Runs unit and route test suite for NUDE logic
+  - Verifies deterministic outputs and edge cases (`NaN`, `Infinity`, negative values, bounds)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `nude:validated` or `nude:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `nude-balance-core` (octave: 8, hipermreza node: 65)
 ### mrkli-mrak-validator-agent (NEW)
 - **Role**: Validate MRKLI MRAK logic — darkness readiness scoring, status classification, and edge-case integrity
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
@@ -1324,6 +1364,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | pilotrelax-validator-agent | PILOTRELAX Relaxation Guidance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pilotrelax paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
+| nude-validator-agent | NUDE Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (nude paths) |
 | mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
