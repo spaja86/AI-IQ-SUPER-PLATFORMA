@@ -541,8 +541,14 @@ export async function POST(request: NextRequest) {
             timestamp: new Date().toISOString(),
           }, { status: 409 });
         }
+        if (!flags.paymentReferenceCaptured) {
+          return NextResponse.json({
+            status: 'error',
+            poruka: 'Public-safe klasifikacija može biti postavljena tek nakon što je barkod / payment reference već sačuvan.',
+            timestamp: new Date().toISOString(),
+          }, { status: 409 });
+        }
       }
-      await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY, true);
       await kvSet(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY, PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE);
       await clearPublicAnnouncementState();
