@@ -715,7 +715,7 @@ export async function POST(request: NextRequest) {
       await kvSet(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY, false);
       await kvSet(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY, false);
       await kvSet(KV_VERCEL_INVOICE_REQUESTED_KEY, false);
-      await clearDerivedPaymentArtifacts();
+      await clearDerivedPaymentArtifacts(true);
       await kvSet(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY, false);
       await kvSet(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY, false);
       await kvSet(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY, false);
