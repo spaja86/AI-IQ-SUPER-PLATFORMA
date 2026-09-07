@@ -362,13 +362,15 @@ export async function POST(request: NextRequest) {
       });
 
     case 'set-invoice-correction-requested':
-      const kvPaid = (await kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY)) === true;
-      if (kvPaid) {
-        return NextResponse.json({
-          status: 'ok',
-          poruka: 'Faktura je već označena kao plaćena; correction request ne menja paid stanje.',
-          timestamp: new Date().toISOString(),
-        });
+      {
+        const kvPaid = (await kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY)) === true;
+        if (kvPaid) {
+          return NextResponse.json({
+            status: 'ok',
+            poruka: 'Faktura je već označena kao plaćena; correction request ne menja paid stanje.',
+            timestamp: new Date().toISOString(),
+          });
+        }
       }
       await kvSet(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY, EXPECTED_INVOICE_NUMBER);
       await kvSet(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY, EXPECTED_INVOICE_AMOUNT);
