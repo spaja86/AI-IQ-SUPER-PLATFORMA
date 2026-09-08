@@ -2,6 +2,7 @@ import type { ExtrimliExtrondendReport } from '../extrimli-extrondend';
 import type { ExtrimliExtendolReport } from '../extrimli-extendol';
 import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { DuetInput, DuetStatus } from '../duet';
+import type { ExtrimliExtremProfilerReport } from '../extrimli-extrem';
 
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
 
@@ -227,7 +228,7 @@ export interface ExtrimliExtrondolStartProject {
   sourceOfTruthLocked: true;
   additiveContractPolicy: true;
   orchestrationInputs: {
-    upstreamSurfaces: readonly ['EXTRONDEND', 'EXTENDOL', 'KORON'];
+    upstreamSurfaces: readonly ['EXTRONDEND', 'EXTENDOL', 'KORON', 'EXTREM-PROFILER'];
     duetRole: 'signal-only';
   };
   rolloutProgram: {
@@ -270,7 +271,8 @@ export interface ExtrimliExtrondolStartProject {
     'nivoDuet',
     'dinkos',
     'distanceRatioEkvilaterTable',
-    'paymentVerification'
+    'paymentVerification',
+    'extremProfiler'
   ];
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
@@ -286,7 +288,8 @@ export interface ExtrimliExtrondolStartProject {
       'nivoDuet',
       'dinkos',
       'distanceRatioEkvilaterTable',
-      'paymentVerification'
+      'paymentVerification',
+      'extremProfiler'
     ];
   };
   qualityGates: {
@@ -384,6 +387,7 @@ export interface ExtrimliExtrondolReport {
   domainStrategy: ExtrimliExtrondolDomainStrategy;
   distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
   paymentVerification: ExtrimliExtrondolPaymentVerification;
+  extremProfiler: ExtrimliExtremProfilerReport;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
   rollout: {
@@ -410,6 +414,7 @@ export interface ExtrimliExtrondolReport {
     extrondend: ExtrimliExtrondendReport;
     extendol: ExtrimliExtendolReport;
     koron: ExtrimliKoronHealthReport;
+    extremProfiler: ExtrimliExtremProfilerReport;
   };
 }
 

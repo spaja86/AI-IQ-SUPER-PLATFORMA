@@ -8,6 +8,7 @@ import { evaluateDuet } from '../duet';
 import { getExtrimliExtrondendReport } from '../extrimli-extrondend';
 import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
+import { getExtrimliExtremProfilerReport } from '../extrimli-extrem';
 import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
@@ -344,6 +345,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const extrondend = getExtrimliExtrondendReport();
   const extendol = getExtrimliExtendolReport();
   const koron = getExtrimliKoronHealthReport();
+  const extremProfiler = getExtrimliExtremProfilerReport();
   const domainStrategy = validateDomainStrategy();
   const governanceEvidence = resolveGovernanceEvidence(evidence);
   const paymentVerification = buildPaymentVerification();
@@ -376,6 +378,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   if (koron.performanceMaxMs > EXTRONDOL_EVALUATION_MAX_MS || koron.apiResponseMaxMs > EXTRONDOL_API_MAX_MS) {
     degradedSources.push('koron-kpi');
   }
+  if (extremProfiler.degraded) degradedSources.push('extrem-profiler:degraded');
+  if (extremProfiler.profile.bottleneckDetected) degradedSources.push('extrem-profiler:bottleneck-detected');
 
   const baseOrchestrationScore = round(
     clamp(
@@ -398,7 +402,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     sourceOfTruthLocked: true,
     additiveContractPolicy: true,
     orchestrationInputs: {
-      upstreamSurfaces: ['EXTRONDEND', 'EXTENDOL', 'KORON'],
+      upstreamSurfaces: ['EXTRONDEND', 'EXTENDOL', 'KORON', 'EXTREM-PROFILER'],
       duetRole: 'signal-only',
     },
     rolloutProgram: {
@@ -442,6 +446,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'dinkos',
       'distanceRatioEkvilaterTable',
       'paymentVerification',
+      'extremProfiler',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -458,6 +463,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'dinkos',
         'distanceRatioEkvilaterTable',
         'paymentVerification',
+        'extremProfiler',
       ],
     },
     qualityGates: {
@@ -484,8 +490,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const duetAdjustment = duetSignal.valid
     ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, duetSignal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP)
     : -EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY;
+  const profilerPenalty = extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
+  const profilerBoost = extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
   const orchestrationReadinessScore = round(
-    clamp(blendedBaseScore + duetAdjustment, 0, 100),
+    clamp(blendedBaseScore + duetAdjustment + profilerBoost - profilerPenalty, 0, 100),
     2,
   );
 
@@ -574,6 +582,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!downstreamSyncComplete ? ['Downstream sync must complete before B2B activation.'] : []),
     ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['Payment verification is blocking WAWE promotion and B2B activation.'] : []),
+    ...(extremProfiler.governanceSignal.freezeRequired ? ['EXTREM profiler detected DISKVIT conflict pressure and requests WAWE freeze.'] : []),
   ];
   const complianceBlockers = [
     ...(!contractApproved ? ['contract-approved'] : []),
@@ -585,9 +594,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(paymentVerification.status !== 'VERIFIED'
       ? paymentVerification.blockers.map((blocker) => `payment:${blocker}`)
       : []),
+    ...(extremProfiler.governanceSignal.freezeRequired ? ['extrem-profiler-stability'] : []),
   ];
   const auditTrailComplete = governanceEvidence.auditTrailComplete;
-  const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1';
+  const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1' || extremProfiler.governanceSignal.freezeRequired;
   const reasons = promotionFreeze
     ? [
       'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
@@ -596,6 +606,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...(paymentVerification.status !== 'VERIFIED'
         ? ['payment-verification:blocked']
         : []),
+      ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
     ]
     : ['Ready for next WAWE stage with governance evidence.'];
   const releaseAuditSummary = {
@@ -665,10 +676,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'paymentVerification.status',
         'paymentVerification.blockers',
         'paymentVerification.readinessImpact',
+        'extremProfiler.profile.conflictIntensity',
+        'extremProfiler.profile.optimizationTier',
+        'extremProfiler.governanceSignal.freezeRequired',
       ],
     },
     governanceDecisions: {
-      onboardingHold: !onboardingComplete || !contractApproved || !duetSignal.valid || duetSignal.status === 'DISSONANT',
+      onboardingHold: !onboardingComplete || !contractApproved || !duetSignal.valid || duetSignal.status === 'DISSONANT' || extremProfiler.governanceSignal.freezeRequired,
       rolloutFreeze: promotionFreeze,
       escalationRequired: promotionFreeze,
       partnerReadinessWarnings,
@@ -807,7 +821,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       passed: b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe')
         && b2bReadiness.downstreamSync.syncedFields.includes('nivoDuet.signal.warnings')
         && b2bReadiness.downstreamSync.syncedFields.includes('dinkos.personaId')
-        && b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalWildcard'),
+        && b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalWildcard')
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.profile.conflictIntensity'),
+    },
+    {
+      id: 'diskvit-conflict-governance',
+      description: 'DISKVIT bottleneck and conflict intensity from EXTREM profiler are mapped into WAWE freeze/promotion governance decisions.',
+      passed: (extremProfiler.governanceSignal.freezeRequired ? promotionFreeze : true)
+        && ['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(extremProfiler.profile.conflictIntensity),
     },
   ];
 
@@ -827,6 +848,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'src/app/api/duet/**',
       'src/tests/lib/duet.test.ts',
       'src/tests/api/duet-route.test.ts',
+      'src/lib/extrimli-extrem/**',
+      'src/app/api/extrimli/extrem/**',
+      'src/tests/lib/extrimli-extrem.test.ts',
     ],
     orchestrationReadinessScore,
     startProject,
@@ -835,6 +859,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     domainStrategy,
     distanceRatioEkvilaterTable,
     paymentVerification,
+    extremProfiler,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
       triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
@@ -881,7 +906,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     releaseAuditSummary,
     acceptanceCriteria,
     integrationBoundaries: {
-      dependsOn: ['/api/extrimli/extrondend', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/duet/evaluate'],
+      dependsOn: ['/api/extrimli/extrondend', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/extrimli/extrem', '/api/duet/evaluate'],
       aliasesOfExistingSurfaces: false,
     },
     kpiTargets: {
@@ -889,7 +914,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       apiResponseMaxMs: EXTRIMLI_API_RESPONSE_MAX_MS,
       buildDurationMaxMin: EXTRONDOL_BUILD_MAX_MIN,
     },
-    surfaces: { extrondend, extendol, koron },
+    surfaces: { extrondend, extendol, koron, extremProfiler },
   };
 }
 

@@ -15,7 +15,8 @@ This repository now exposes five aligned surfaces:
 | **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ + KORON |
 | **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
 | **EXTRONDEND** | `src/lib/extrimli-extrondend/`, `src/app/api/extrimli/extrondend/` | Active | Dedicated aggregation/scoring surface (not an alias) over v1/v3/CUZ/Extendol/KORON |
-| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET and DINKOS signal contract |
+| **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity and optimization-tier output for WAWE governance |
+| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, and EXTREM profiler governance signal |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 ## Module paths
@@ -30,6 +31,8 @@ This repository now exposes five aligned surfaces:
 | KORON overlay API route | `src/app/api/extrimli/koron/` |
 | EXTRONDEND aggregation library | `src/lib/extrimli-extrondend/` |
 | EXTRONDEND aggregation API route | `src/app/api/extrimli/extrondend/` |
+| EXTREM profiler library | `src/lib/extrimli-extrem/` |
+| EXTREM profiler API route | `src/app/api/extrimli/extrem/` |
 | EXTRONDOL orchestration library | `src/lib/extrimli-extrondol/` |
 | EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
 | World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
@@ -40,7 +43,7 @@ This repository now exposes five aligned surfaces:
 | DUEL KING API route | `src/app/api/extrimli/duel-king/` |
 | EXTRIMLI CUZ library | `src/lib/extrimli-cuz/` |
 | EXTRIMLI CUZ API routes | `src/app/api/extrimli-cuz/` |
-| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-duel-king.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-koron.test.ts`, `src/tests/lib/extrimli-extrondend.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
+| Tests | `src/tests/lib/extrimli.test.ts`, `src/tests/lib/extrimli-3.test.ts`, `src/tests/lib/extrimli-duel-king.test.ts`, `src/tests/lib/extrimli-extendol.test.ts`, `src/tests/lib/extrimli-koron.test.ts`, `src/tests/lib/extrimli-extrondend.test.ts`, `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/lib/extrimli-cuz.test.ts`, `src/tests/api/extrimli-route.test.ts` |
 
 ## External GitHub surface
 
@@ -245,6 +248,26 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 4. KPI targets remain ≤ 50ms evaluation and ≤ 200ms API response.
 5. Aggregation score is finite and clamped to `[0, 100]`.
 
+
+## EXTRIMLI EXTREM profiler contract
+
+- Source of truth endpoint: `/api/extrimli/extrem`
+- Contract constants:
+  - `EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION = v1-extrem-profiler`
+  - `EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION = 1.0.0`
+- Degraded policy: `partial-payload-no-500`
+- Mandatory payload: `terminology`, `profileInput`, `profile`, `optimization`, `governanceSignal`, `kpiTargets`, `kpiObserved`, `acceptanceCriteria`.
+- DISKVIT terminology lock:
+  - `DISKVIT` = browser-graphics bottleneck layer.
+  - Conflict scoring is conflict-proportional (`sceneLoadPercent`, `gpuContentionPercent`, `cpuContentionPercent`, `renderCycleLatencyMs`).
+- WAWE governance integration:
+  - freeze when conflict intensity is `HIGH/CRITICAL` or KPI targets are breached.
+  - promotion when profiler signal is stable and KPI limits remain within target.
+- Maximum graphics unlock thresholds:
+  - conflict score ≤ 35
+  - render cycle latency ≤ 45ms
+  - GPU contention ≤ 40%
+
 ## EXTRONDOL orchestration contract
 
 - Source of truth endpoint: `/api/extrimli/extrondol`
@@ -252,7 +275,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 
 ### EXTRONDOL B2B operating scope
 
@@ -305,7 +328,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - `startProject` ne menja `EXTRONDOL_CONTRACT_VERSION`; služi kao governance/program wrapper za postojeći source-of-truth payload.
 - START scope zaključava:
   - source-of-truth: `/api/extrimli/extrondol`
-  - orchestration inputs: `EXTRONDEND`, `EXTENDOL`, `KORON`
+  - orchestration inputs: `EXTRONDEND`, `EXTENDOL`, `KORON`, `EXTREM-PROFILER`
   - DUET role: `signal-only`
   - release mode: `governance-controlled`
 - START rollout prati WAWE program:
@@ -346,6 +369,8 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 5. Domain strategy lock rejects `spaja.nivo*spaja` and enforces `spaja.nivo-spaja` + `*.spaja.nivo-spaja`.
 6. NIVO DUET mapping must project DUET `status` + `overallScore` + `warnings` into WAWE decisions.
 7. DINKOS is an explicit signal contract (not a new API route) with ownership/label/persona/degraded-mode lock.
+8. EXTREM profiler maps DISKVIT bottleneck + conflict intensity into WAWE freeze/promotion governance.
+9. Maximum graphics unlock thresholds remain explicit and bounded (conflict/latency/GPU).
 8. Orchestration score is finite and clamped to `[0, 100]`.
 9. B2B scope is additive-only and defines ownership, partner/operator roles, procurement/compliance flow, SLA posture, and audit obligations.
 10. B2B activation remains frozen until contract, onboarding, downstream sync, operational approval, and audit controls are satisfied.

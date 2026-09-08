@@ -795,8 +795,8 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 |---|---|
 | Date | 2026-08-12 |
 | Owner | @spaja86 |
-| Scope | `src/lib/extrimli/**`, `src/lib/extrimli-3/**`, `src/lib/extrimli-duel-king/**`, `src/lib/procesuiranje-svega.ts`, `src/app/api/extrimli/**`, `src/app/api/extrimli/duel-king/**`, `src/app/api/extrimli-3/**`, `src/app/api/ekstremno-procesuiranje-svega/route.ts`, `src/components/extrimli/**` |
-| Contract | `EXTRIMLI_CONTRACT_VERSION = v1`, `EXTRIMLI_MODULE_VERSION = 1.0.0`, `EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION = v1-destrukcija`, `EXTRIMLI3_CONTRACT_VERSION = v3`, `EXTRIMLI3_MODULE_VERSION = 3.0.0`, `EXTRIMLI_DUEL_KING_CONTRACT_VERSION = v1-duel-king` |
+| Scope | `src/lib/extrimli/**`, `src/lib/extrimli-3/**`, `src/lib/extrimli-duel-king/**`, `src/lib/extrimli-extrem/**`, `src/lib/procesuiranje-svega.ts`, `src/app/api/extrimli/**`, `src/app/api/extrimli/duel-king/**`, `src/app/api/extrimli/extrem/**`, `src/app/api/extrimli-3/**`, `src/app/api/ekstremno-procesuiranje-svega/route.ts`, `src/components/extrimli/**` |
+| Contract | `EXTRIMLI_CONTRACT_VERSION = v1`, `EXTRIMLI_MODULE_VERSION = 1.0.0`, `EXTRIMLI_DESTRUKCIJA_CONTRACT_VERSION = v1-destrukcija`, `EXTRIMLI3_CONTRACT_VERSION = v3`, `EXTRIMLI3_MODULE_VERSION = 3.0.0`, `EXTRIMLI_DUEL_KING_CONTRACT_VERSION = v1-duel-king`, `EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION = v1-extrem-profiler` |
 
 ### Downstream changes in `spaja86/IO-OPENUI-AO`
 
@@ -805,14 +805,17 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI gear catalog | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: gear catalog snapshots via multi-repo-sync-agent |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI DESTRUKCIJA asset catalog | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: destruction asset snapshots via multi-repo-sync-agent |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI DUEL KING readiness snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: duel readiness / tournament posture snapshot via multi-repo-sync-agent |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTREM profiler snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: DISKVIT conflict profile (`conflictIntensity`, `optimizationTier`, freeze signal) via multi-repo-sync-agent |
 
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
 - Sync EXTRIMLI gear catalog snapshots via `multi-repo-sync-agent`
 - Sync EXTRIMLI DESTRUKCIJA asset snapshots via `multi-repo-sync-agent`
 - Sync EXTRIMLI DUEL KING readiness snapshots via `multi-repo-sync-agent`
+- Sync EXTRIMLI EXTREM profiler snapshots via `multi-repo-sync-agent`
 - Track EXTRIMLI 3 risk profile contract and readiness-scoring downstream impact
 - Add `extrimli:logic-change` label to linked-repo label schema
 - Add `duel-king:logic-change` label to linked-repo label schema
+- Add `extrem:logic-change` label to linked-repo label schema
 - Add `ekstremno:logic-change` label for EKSTREMNO scheduler/contract updates
 - Update `extrimli-validator-agent` trigger in linked-repo `.agent-config.json`
 - Track DESTRUKCIJA contract headers/fields in linked API consumers
@@ -884,7 +887,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 |---|---|
 | Date | 2026-09-03 |
 | Owner | @spaja86 |
-| Scope | `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`, `.github/workflows/extrimli-validator.yml`, `.agent-config.json`, `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/lib/extrimli-duel-king/**`, `src/lib/extrimli-extrondend/**`, `src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/duel-king/**`, `src/app/api/extrimli/extrondend/**`, `src/app/api/extrimli/extrondol/**`, `src/app/api/extrimli/instrukcija/**` |
+| Scope | `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`, `.github/workflows/extrimli-validator.yml`, `.agent-config.json`, `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/lib/extrimli-duel-king/**`, `src/lib/extrimli-extrondend/**`, `src/lib/extrimli-extrondol/**`, `src/lib/extrimli-extrem/**`, `src/app/api/extrimli/duel-king/**`, `src/app/api/extrimli/extrondend/**`, `src/app/api/extrimli/extrondol/**`, `src/app/api/extrimli/extrem/**`, `src/app/api/extrimli/instrukcija/**` |
 | Quality gate | `extrimli-validator-agent` |
 | Runtime source of truth | Vercel Git integration |
 | GitHub Actions role | audit governance + downstream coordination |
@@ -913,6 +916,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL orchestration surface | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync WAWE orchestration fields (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`) (`/api/extrimli/extrondol`) |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL B2B scope/readiness | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `b2bScope` ownership/roles/flow/SLA/audit fields + `b2bReadiness` tenant/support/compliance/downstream state |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL PROVERA UPLATA | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `paymentVerification` gate (`status`, `invoiceResolutionPath`, `blockers`, `auditTimestamp`, `readinessImpact`) i vezu sa Vercel invoice governance pravilima |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTREM DISKVIT profiler | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `/api/extrimli/extrem` snapshot (`profile.conflictIntensity`, `profile.optimizationTier`, `governanceSignal.freezeRequired`) and mirror into EXTRONDOL WAWE governance runbook |
 
 ### EXTRIMLI — World Bank to Persona bridge
 
@@ -938,6 +942,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
 - Add `extrimli:external-github` label to linked-repo label schema
 - Add `duel-king` and `duel-king:logic-change` labels to linked-repo label schema
+- Add `extrem:logic-change` label to linked-repo label schema
 - Track `agent:config-change` compatibility for EXTRIMLI governance changes
 - Consume `buildExtrimliExportBundle()` snapshot kada linked repo koristi developer docs auto-generation
 - Record EXTRIMLI external audit ownership i GitHub workflow references
