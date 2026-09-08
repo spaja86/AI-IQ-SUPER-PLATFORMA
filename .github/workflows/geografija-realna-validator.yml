@@ -1,0 +1,50 @@
+name: GEOGRAFIJA REALNA — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/geografija-realna/**'
+      - 'src/app/api/geografija-realna/**'
+      - 'src/tests/lib/geografija-realna.test.ts'
+      - 'src/tests/api/geografija-realna-route.test.ts'
+      - 'docs/GEOGRAFIJA-REALNA.md'
+      - '.agent-config.json'
+      - '.github/workflows/geografija-realna-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/geografija-realna/**'
+      - 'src/app/api/geografija-realna/**'
+      - 'src/tests/lib/geografija-realna.test.ts'
+      - 'src/tests/api/geografija-realna-route.test.ts'
+      - 'docs/GEOGRAFIJA-REALNA.md'
+      - '.agent-config.json'
+      - '.github/workflows/geografija-realna-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: geografija-realna-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: geografija-realna
+      lint_paths: >-
+        src/lib/geografija-realna
+        src/app/api/geografija-realna
+      test_commands: |
+        npx tsx src/tests/lib/geografija-realna.test.ts
+        npx tsx src/tests/api/geografija-realna-route.test.ts
+      scan_paths: >-
+        src/lib/geografija-realna
+        src/app/api/geografija-realna
+      label: geografija-realna
+      perf_eval_ms: 50
+      perf_api_ms: 200

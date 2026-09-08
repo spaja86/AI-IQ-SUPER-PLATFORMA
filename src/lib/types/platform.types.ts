@@ -96,6 +96,7 @@ export interface PlatformConfig {
     them: ModuleConfig; // tarken-hingil-ekolan-maksimus
     novaGeneracija: ModuleConfig;
     force: ModuleConfig;
+    geografijaRealna: ModuleConfig;
   };
 }
 
