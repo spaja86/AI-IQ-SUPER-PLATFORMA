@@ -4,10 +4,13 @@
 'use client';
 
 import type { ExtrimliEvent } from '@/lib/extrimli';
+import { MotionVisual } from './MotionVisual';
+import type { ExtrimliMotionMode } from './motion-contract';
 
 interface EventBoardProps {
   events: ExtrimliEvent[];
   onRegister?: (eventId: string) => void;
+  motionMode?: ExtrimliMotionMode;
 }
 
 const STATUS_BADGE: Record<string, string> = {
@@ -17,14 +20,14 @@ const STATUS_BADGE: Record<string, string> = {
   cancelled: 'bg-red-100 text-red-700',
 };
 
-export function EventBoard({ events, onRegister }: EventBoardProps) {
+export function EventBoard({ events, onRegister, motionMode = 'full' }: EventBoardProps) {
   if (events.length === 0) {
     return <p className="text-sm text-gray-400 text-center py-8">No events found.</p>;
   }
 
   return (
     <div className="space-y-4">
-      {events.map((event) => {
+      {events.map((event, index) => {
         const spotsLeft = event.capacity - event.registrations.length;
         const date      = new Date(event.date).toLocaleDateString('en-GB', {
           day: '2-digit', month: 'short', year: 'numeric',
@@ -33,7 +36,10 @@ export function EventBoard({ events, onRegister }: EventBoardProps) {
         return (
           <div key={event.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <div className="flex items-start justify-between mb-1">
-              <h4 className="text-sm font-semibold text-gray-800">{event.name}</h4>
+              <h4 className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+                <MotionVisual domain="event" type="orbital" intensity="medium" mode={motionMode} itemIndex={index} />
+                {event.name}
+              </h4>
               <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${STATUS_BADGE[event.status] ?? 'bg-gray-100'}`}>
                 {event.status}
               </span>

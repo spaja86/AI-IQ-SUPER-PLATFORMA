@@ -4,20 +4,26 @@
 'use client';
 
 import type { AthleteSession, PersonalBest } from '@/lib/extrimli';
+import { MotionVisual } from './MotionVisual';
+import type { ExtrimliMotionMode } from './motion-contract';
 
 interface PerformanceChartProps {
   sessions: AthleteSession[];
   personalBests: PersonalBest[];
   improvementRate: number;
+  motionMode?: ExtrimliMotionMode;
 }
 
-export function PerformanceChart({ sessions, personalBests, improvementRate }: PerformanceChartProps) {
+export function PerformanceChart({ sessions, personalBests, improvementRate, motionMode = 'full' }: PerformanceChartProps) {
   const sorted = [...sessions].sort((a, b) => a.timestamp - b.timestamp).slice(-10);
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h4 className="text-sm font-semibold text-gray-700">Recent Sessions</h4>
+        <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+          <MotionVisual domain="performance" type="axis-rotate" intensity="low" mode={motionMode} />
+          Recent Sessions
+        </h4>
         <span className={`text-xs font-bold ${improvementRate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
           {improvementRate >= 0 ? '▲' : '▼'} {Math.abs(improvementRate).toFixed(1)}% improvement
         </span>
@@ -56,8 +62,9 @@ export function PerformanceChart({ sessions, personalBests, improvementRate }: P
         <div>
           <h5 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Personal Bests 🏅</h5>
           <div className="flex flex-wrap gap-2">
-            {personalBests.map((pb) => (
-              <span key={pb.metric} className="text-xs bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-full px-2 py-0.5">
+            {personalBests.map((pb, index) => (
+              <span key={pb.metric} className="text-xs bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-full px-2 py-0.5 inline-flex items-center gap-1">
+                <MotionVisual domain="performance" type="orbital" intensity="low" mode={motionMode} itemIndex={index} />
                 {pb.metric}: {pb.value}
               </span>
             ))}
