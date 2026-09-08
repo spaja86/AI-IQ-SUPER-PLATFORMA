@@ -451,6 +451,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
         'b2bScope',
+        'b2bScope.subscriptionPackage',
+        'b2bScope.unlimitedUseGuardrails',
         'b2bReadiness',
         'nivoDuet',
         'dinkos',
