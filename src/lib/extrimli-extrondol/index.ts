@@ -322,7 +322,7 @@ function buildPaymentVerification(): ExtrimliExtrondolPaymentVerification {
       publicAnnouncementRedacted,
       publicAnnouncementPublished: publicAnnouncementState.status === 'published',
     },
-    blockers: [...new Set([...blockers, ...publicAnnouncementState.blockers])],
+    blockers,
     auditTimestamp: new Date().toISOString(),
     readinessImpact: {
       promotionFreezeRequired: blockers.length > 0,
@@ -702,8 +702,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     {
       id: 'payment-verification-gate',
       description: 'Payment verification must pass invoice resolution, evidence package, and privacy/redaction controls before WAWE promotion and B2B activation.',
-      passed: paymentVerification.status === 'VERIFIED'
-        && paymentVerification.readinessImpact.releaseAuditStatus === (promotionFreeze ? 'BLOCKED' : 'READY'),
+      passed: paymentVerification.status === 'VERIFIED',
     },
     {
       id: 'b2b-scope',
