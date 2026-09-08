@@ -135,7 +135,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     currentWawe: ExtrimliExtrondolWaweStage;
     eligibleNextWawe: ExtrimliExtrondolWaweStage;
     promotionFreeze: boolean;
-    reasons: string[];
+    reasons: readonly string[];
   };
   kpiImpact: {
     evaluationMaxMs: number;
