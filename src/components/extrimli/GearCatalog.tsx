@@ -5,9 +5,12 @@
 
 import type { GearCatalogEntry, GearCategory } from '@/lib/extrimli';
 import { useState } from 'react';
+import { MotionVisual } from './MotionVisual';
+import type { ExtrimliMotionMode } from './motion-contract';
 
 interface GearCatalogProps {
   items: GearCatalogEntry[];
+  motionMode?: ExtrimliMotionMode;
 }
 
 const CATEGORY_LABELS: Record<GearCategory, string> = {
@@ -24,7 +27,7 @@ const CATEGORY_LABELS: Record<GearCategory, string> = {
   other:   '📦 Other',
 };
 
-export function GearCatalog({ items }: GearCatalogProps) {
+export function GearCatalog({ items, motionMode = 'full' }: GearCatalogProps) {
   const [filterCategory, setFilterCategory] = useState<GearCategory | 'all'>('all');
 
   const categories = Array.from(new Set(items.map((i) => i.category)));
@@ -54,7 +57,10 @@ export function GearCatalog({ items }: GearCatalogProps) {
         {filtered.map((item) => (
           <div key={item.sku} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <div className="flex items-start justify-between mb-1">
-              <p className="text-sm font-semibold text-gray-800">{item.name}</p>
+              <p className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+                <MotionVisual domain="gear" type="orbital" intensity="low" mode={motionMode} itemIndex={item.stock % 8} />
+                {item.name}
+              </p>
               <span className="text-xs bg-gray-100 text-gray-500 rounded px-1.5 py-0.5">{item.sku}</span>
             </div>
             <p className="text-xs text-gray-500 mb-2">{item.brand} · {CATEGORY_LABELS[item.category] ?? item.category}</p>

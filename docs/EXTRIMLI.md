@@ -122,6 +122,61 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Weather adapter
 - Health report
 
+## EXTRIMLI Motion Layer — `NIKOGEN_ODRT_KIGON_DIHROT_UKAN`
+
+EXTRIMLI uvodi zaseban UI-only motion sloj za „ikonice i sličice u pokretu rotirajućih osa“ sa internim aliasom:
+
+- `NIKOGEN_ODRT_KIGON_DIHROT_UKAN`
+
+Scope boundary:
+
+- Važi samo za EXTRIMLI UI komponente u `src/components/extrimli/`.
+- Ne menja API contract surface (`/api/extrimli/*`) niti WAWE governance tok.
+
+### Motion contract (v1-motion-layer)
+
+- Contract constants:
+  - `EXTRIMLI_MOTION_ALIAS = NIKOGEN_ODRT_KIGON_DIHROT_UKAN`
+  - `EXTRIMLI_MOTION_LAYER_VERSION = v1-motion-layer`
+- Tipovi animacije:
+  - `orbital`
+  - `axis-rotate`
+- Intenziteti:
+  - `low`
+  - `medium`
+  - `high`
+- Režimi:
+  - `full`
+  - `paused`
+  - `reduced`
+- Accessibility:
+  - `prefers-reduced-motion` automatski spušta `full` na `reduced`.
+  - Dashboard nudi ručne `Pause motion` i `Reduce motion` kontrole.
+
+### Asset rules (ikonice + sličice)
+
+- Centralizovan mapping domena: `dashboard`, `sport`, `risk`, `gear`, `event`, `performance`.
+- Dozvoljen format: `svg` (`data:image/svg+xml`).
+- Dimenzije:
+  - minimum: `16px`
+  - preporučeno: `24px`
+  - maksimum: `48px`
+- Ako asset nedostaje koristi se fallback (`🌀` + fallback SVG).
+
+### Performance guardrails
+
+- Transform-only animacije (`transform-gpu`, `will-change-transform`) bez layout thrash pristupa.
+- Ograničenje simultano animiranih elemenata po viewportu/sekciji:
+  - `maxSimultaneousItems = 6`.
+- Kada guardrail prekorači prag, elementi se renderuju statički bez degradacije čitljivosti i klikabilnosti.
+
+### Acceptance criteria (motion layer)
+
+1. Animacije su konzistentne kroz `ExtrimliDashboard`, `SportCard`, `GearCatalog`, `EventBoard`, `PerformanceChart`.
+2. Reduced/pause režimi rade deterministički i poštuju sistemsku accessibility preferencu.
+3. Nema promene EXTRIMLI API surface-a; promena je UI-only.
+4. Vizuelni fallback se aktivira za nepoznate asset domene.
+
 ## EXTRIMLI Extendol unified contract (maximum functionality for all)
 
 Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3, DUEL KING, EXTRIMLI CUZ i KORON u jedan kanonski integracioni sloj.

@@ -4,9 +4,13 @@
 'use client';
 
 import type { Sport } from '@/lib/extrimli';
+import { MotionVisual } from './MotionVisual';
+import type { ExtrimliMotionMode } from './motion-contract';
 
 interface SportCardProps {
   sport: Sport;
+  motionMode?: ExtrimliMotionMode;
+  itemIndex?: number;
 }
 
 const RISK_CLASS_COLOR: Record<string, string> = {
@@ -17,11 +21,14 @@ const RISK_CLASS_COLOR: Record<string, string> = {
   V:   'bg-red-200 text-red-900 font-bold',
 };
 
-export function SportCard({ sport }: SportCardProps) {
+export function SportCard({ sport, motionMode = 'full', itemIndex = 0 }: SportCardProps) {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-base font-semibold text-gray-800">{sport.name}</h3>
+        <h3 className="text-base font-semibold text-gray-800 flex items-center gap-2">
+          <MotionVisual domain="sport" type="axis-rotate" intensity="low" mode={motionMode} itemIndex={itemIndex} />
+          {sport.name}
+        </h3>
         <span className={`text-xs px-2 py-0.5 rounded-full ${RISK_CLASS_COLOR[sport.riskClass] ?? 'bg-gray-100 text-gray-600'}`}>
           Risk Class {sport.riskClass}
         </span>
