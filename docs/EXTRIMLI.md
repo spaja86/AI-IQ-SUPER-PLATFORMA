@@ -257,6 +257,8 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 ### EXTRONDOL B2B operating scope
 
 - EXTRONDOL B2B consumer model je **organization-level**, ne individual athlete/session model.
+- EXTRONDOL paket `PRETPLATA ZA NEOGRANIČENO PROGRAMIRANJE I ALATE` na GitHub-u je klasifikovan kao **controlled periodic B2B enterprise subscription** (nije neodređeni model).
+- Scope paketa je zaključan na: enterprise seat model, Copilot/AI prava, private repository pristup, GitHub Actions governance sloj i business-critical support SLA.
 - Account ownership ostaje na `@spaja86` / `Kompanija SPAJA / Digitalna Industrija`, uz obavezan human review pre promocije.
 - Partner/operator split mora biti eksplicitan:
   - owner / contract-owner
@@ -265,11 +267,24 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - human/security/validator review layer
 - Procurement/review flow ostaje: `request-submitted` → `procurement-review` → `compliance-review` → `operational-approval` → `activation`.
 - Aktivacija ne sme proći bez `contract-approved`, `onboarding-complete`, `downstream-sync-complete` i `human-review-complete`.
+- Commercial/legal model mora ostati eksplicitan u B2B contract-u:
+  - `primarySegment = privreda`
+  - `supportedSegments = [privreda, gradjanstvo]`
+  - `billingOwner` zaključan na operativni owner
+  - `contractStatus = required-before-activation`
+  - `paymentCycle = monthly-or-annual`
+  - compliance + human review su hard gate pre aktivacije
 - `b2bReadiness.compliance.humanReviewComplete` mora eksplicitno ostati `false` dok governance layer ne poseduje dokaz o review-u; tada rollout ostaje frozen.
 - `b2bReadiness.downstreamSync.status` i `b2bReadiness.compliance.blockers` moraju ostati konzervativni dok `multi-repo-sync-agent` ne potvrdi stvarni downstream sync.
 - `b2bReadiness.compliance.onboardingComplete` je zaseban governance dokaz; DUET ostaje signal za onboarding hold i warning logiku, ali ne zatvara onboarding gate sam po sebi.
 - EXTRONDOL report builder može primiti governance evidence direktno ili kroz environment evidence (`EXTRONDOL_AUDIT_TRAIL_COMPLETE`, `EXTRONDOL_HUMAN_REVIEW_COMPLETE`, `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, `EXTRONDOL_ONBOARDING_COMPLETE`) bez menjanja WAWE modela.
 - SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
+- "Neograničeno" se tretira kao **controlled enterprise capacity** sa guardrail-ovima:
+  - mandatory fair-use policy
+  - abuse protection controls
+  - FinOps pragovi `50/75/90/100`
+  - promotion freeze triggeri: KPI breach, audit incomplete, payment not verified
+  - rollback triggeri: KPI breach posle promocije, payment revoked, governance regression
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
 - `releaseAuditSummary` je obavezan i mora sadržati: rollout snapshot (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`, `reasons`), KPI impact (`evaluationMaxMs`, `apiResponseMaxMs`, `buildDurationMaxMin`, `withinTargets`) i downstream reference (`linkedRepo`, `status`, `required`), uz `humanReviewRequired` i `rollbackPlanRequired` hard gate polja.
 - `paymentVerification` je obavezan pre WAWE promocije i B2B aktivacije; mora sadržati status provere (`VERIFIED | BLOCKED`), `invoiceResolutionPath` (`paid | correction-resolved | unresolved`), dokazni paket (`invoiceRequested`, `currentInvoiceEvidenceCaptured`, `bankStatementCaptured`, `paymentReferenceCaptured`, klasifikacija reference i public-safe approval), `blockers`, `auditTimestamp` i `readinessImpact`.

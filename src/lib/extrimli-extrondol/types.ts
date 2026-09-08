@@ -60,6 +60,28 @@ export interface ExtrimliExtrondolDinkosContract {
 
 export interface ExtrimliExtrondolB2bScope {
   consumerModel: 'organization-level';
+  subscriptionPackage: {
+    provider: 'GitHub';
+    offerName: 'PRETPLATA ZA NEOGRANIČENO PROGRAMIRANJE I ALATE';
+    packageTier: 'B2B-enterprise';
+    packageClassification: 'controlled-periodic-subscription';
+    capabilities: {
+      enterpriseSeats: true;
+      copilotAiRights: true;
+      privateRepositoryAccess: true;
+      governanceLayer: 'github-actions-audit';
+      supportSla: 'business-critical';
+    };
+    commercialAndLegalModel: {
+      primarySegment: 'privreda';
+      supportedSegments: readonly ['privreda', 'gradjanstvo'];
+      billingOwner: string;
+      contractStatus: 'required-before-activation';
+      paymentCycle: 'monthly-or-annual';
+      complianceRequiredBeforeActivation: true;
+      humanReviewRequiredBeforeActivation: true;
+    };
+  };
   accountOwnership: {
     owner: string;
     operatingEntity: string;
@@ -81,6 +103,14 @@ export interface ExtrimliExtrondolB2bScope {
     apiResponseMaxMs: number;
     buildDurationMaxMin: number;
     supportWindow: 'business-critical';
+  };
+  unlimitedUseGuardrails: {
+    interpretation: 'controlled-enterprise-capacity';
+    fairUsePolicyRequired: true;
+    abuseProtectionRequired: true;
+    finopsThresholdPercent: readonly [50, 75, 90, 100];
+    freezeTriggers: readonly ['kpi-breach', 'audit-incomplete', 'payment-not-verified'];
+    rollbackTriggers: readonly ['kpi-breach-after-promotion', 'payment-revoked', 'governance-regression'];
   };
   auditObligations: readonly string[];
 }
@@ -250,6 +280,8 @@ export interface ExtrimliExtrondolStartProject {
       'rollout.eligibleNextWawe',
       'rollout.promotionFreeze',
       'b2bScope',
+      'b2bScope.subscriptionPackage',
+      'b2bScope.unlimitedUseGuardrails',
       'b2bReadiness',
       'nivoDuet',
       'dinkos',
