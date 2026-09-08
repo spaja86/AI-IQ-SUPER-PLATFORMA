@@ -1,0 +1,48 @@
+name: AI IQ Programski Jezik — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/ai-iq-programski-jezik/**'
+      - 'src/app/api/ai-iq-programski-jezik/**'
+      - 'src/tests/lib/ai-iq-programski-jezik.test.ts'
+      - 'src/tests/api/ai-iq-programski-jezik-route.test.ts'
+      - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
+      - '.github/workflows/ai-iq-programski-jezik-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/ai-iq-programski-jezik/**'
+      - 'src/app/api/ai-iq-programski-jezik/**'
+      - 'src/tests/lib/ai-iq-programski-jezik.test.ts'
+      - 'src/tests/api/ai-iq-programski-jezik-route.test.ts'
+      - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
+      - '.github/workflows/ai-iq-programski-jezik-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ai-iq-programski-jezik-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: ai-iq-programski-jezik
+      lint_paths: >-
+        src/lib/ai-iq-programski-jezik
+        src/app/api/ai-iq-programski-jezik
+      test_commands: |
+        npx tsx src/tests/lib/ai-iq-programski-jezik.test.ts
+        npx tsx src/tests/api/ai-iq-programski-jezik-route.test.ts
+      scan_paths: >-
+        src/lib/ai-iq-programski-jezik
+        src/app/api/ai-iq-programski-jezik
+      label: ai-iq-programski-jezik
+      perf_eval_ms: 50
+      perf_api_ms: 200
