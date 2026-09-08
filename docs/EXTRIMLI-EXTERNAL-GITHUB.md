@@ -29,6 +29,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 | KORON overlay domain | `src/lib/extrimli-koron/**`, `src/app/api/extrimli/koron/**` | Cross-surface readiness overlay, sync coverage i degraded posture |
 | EXTRONDEND aggregation domain | `src/lib/extrimli-extrondend/**`, `src/app/api/extrimli/extrondend/**` | Dedicated aggregation and scoring contract (not alias) |
 | EXTRONDOL orchestration domain | `src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**` | Dedicated WAWE orchestration/readiness contract (not alias) |
+| EXTREM profiler domain | `src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**` | DISKVIT browser-graphics bottleneck profiling and conflict-proportional optimization governance signal |
 | NIVO DUET / DINKOS integration domain | `src/lib/extrimli-extrondol/**`, `src/lib/duet/**`, `src/app/api/duet/**` | DUET signal mapping (`status/overallScore/warnings`) into EXTRONDOL WAWE orchestration with DINKOS contract lock |
 | Export layer | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/**` | Snapshot i developer-facing export bundle |
 | Quality gate | `.github/workflows/extrimli-validator.yml` | Standardni validator i KPI gate |
@@ -50,7 +51,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 ## 4. GitHub operating model
 
 - **Primary quality gate:** `extrimli-validator-agent`
-- **Required labels:** `extrimli`, `extrimli:logic-change`, `extrimli:external-github`, `duel-king`, `duel-king:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`, `nivo-duet:logic-change`, `dinkos:logic-change`, `agent:config-change`
+- **Required labels:** `extrimli`, `extrimli:logic-change`, `extrimli:external-github`, `duel-king`, `duel-king:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`, `extrem:logic-change`, `nivo-duet:logic-change`, `dinkos:logic-change`, `agent:config-change`
 - **Human review:** obavezan za workflow/config/cross-repo promene
 - **Security boundary:** svi hook-ovi, tokeni i deploy kredencijali ostaju u GitHub/Vercel Secrets sloju
 - **Runtime source of truth:** Vercel Git integracija
@@ -107,6 +108,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - KORON overlay health/readiness snapshot
 - EXTRONDEND aggregation snapshot
 - EXTRONDOL orchestration snapshot
+- EXTREM DISKVIT profiler snapshot
 - NIVO DUET / DINKOS signal snapshot
 - EXTRONDOL B2B scope snapshot
 - EXTRONDOL B2B readiness snapshot
@@ -120,9 +122,10 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 
 - MAKSIMUS koristi `EXTRIMLI Extended` domen signal iz `/api/extrimli/extendol`.
 - EXTRONDEND koristi `/api/extrimli/duel-king` + `/api/extrimli/extendol` + `/api/extrimli/koron` kao ulazne agregacione signale.
-- EXTRONDOL koristi `/api/extrimli/extrondend` + `/api/extrimli/extendol` + `/api/extrimli/koron` za WAWE readiness orkestraciju.
+- EXTRONDOL koristi `/api/extrimli/extrondend` + `/api/extrimli/extendol` + `/api/extrimli/koron` + `/api/extrimli/extrem` za WAWE readiness orkestraciju.
 - EXTRONDOL NIVO DUET sekcija koristi `/api/duet/evaluate` signal i mapira `valid`, `status`, `overallScore`, `warnings` u WAWE promotion guard logiku.
 - Isti EXTRONDOL signal u B2B modu mapira onboarding hold, escalation i partner-readiness warning odluke bez menjanja WAWE modela.
+- EXTREM profiler signal (`DISKVIT` bottleneck, `conflictIntensity`, `optimizationTier`) je obavezan governance input za promotion freeze kada je konflikt visok ili KPI breach potvrđen.
 - KORON surface `/api/extrimli/koron` mora ostati uključen u Extendol readiness i degraded evidenciju.
 - DUEL KING surface `/api/extrimli/duel-king` mora ostati uključen u EXTRIMLI health story i downstream snapshot plan kada je first-class surface aktivan.
 - Ako EXTRIMLI surface pređe KPI limit ili uđe u degraded mode, MAKSIMUS mora prijaviti preporuku za sanaciju.
@@ -156,6 +159,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 6. potvrda da su audit reference i workflow ownership usklađeni
 7. obavezan follow-up issue kada downstream ostane delimično neusaglašen
 8. mirror `nivo-duet:logic-change` i `dinkos:logic-change` label schema i povezati DUET signal mapiranje sa EXTRONDOL snapshot potrošačima
+9. mirror `extrem:logic-change` label schema i povezati DISKVIT profiler signal sa EXTRONDOL snapshot potrošačima
 9. preuzimanje `b2bScope` + `b2bReadiness` polja iz `/api/extrimli/extrondol`
 10. potvrda da su `rolloutRing`, `onboardingHold`, `rolloutFreeze`, `partnerReadinessWarnings` i `domainStrategy` mapirani u downstream B2B governance
 

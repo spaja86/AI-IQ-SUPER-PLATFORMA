@@ -259,7 +259,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalApex'), 'domain strategy sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('paymentVerification.status'), 'payment verification status sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
-    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification')), 'unexpected B2B warning format');
+    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler')), 'unexpected B2B warning format');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'github-enterprise-subscription-package' && item.passed), 'github-enterprise-subscription-package criterion must pass');
@@ -273,7 +273,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.programName === 'START PROJEKAT', 'START project name mismatch');
     assert(report.startProject.sourceOfTruthLocked, 'START project must keep source-of-truth lock');
     assert(report.startProject.additiveContractPolicy, 'START project must remain additive-only');
-    assert(report.startProject.orchestrationInputs.upstreamSurfaces.join(',') === 'EXTRONDEND,EXTENDOL,KORON', 'START project inputs mismatch');
+    assert(report.startProject.orchestrationInputs.upstreamSurfaces.join(',') === 'EXTRONDEND,EXTENDOL,KORON,EXTREM-PROFILER', 'START project inputs mismatch');
     assert(report.startProject.orchestrationInputs.duetRole === 'signal-only', 'DUET must remain signal-only in START project');
     assert(report.startProject.rolloutProgram.wawes.length === 5, 'START project must expose 5 WAWE stages');
     assert(report.startProject.rolloutProgram.wawes[0].freezeRequired === true, 'WAWE-1 must require freeze');
@@ -288,12 +288,14 @@ async function runTests(): Promise<void> {
     assert(report.startProject.domainStrategyLock.rejectPatternsLike.includes('spaja.nivo*spaja'), 'reject pattern missing');
     assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
     assert(report.startProject.mandatoryOutputs.includes('paymentVerification'), 'payment verification output missing');
+    assert(report.startProject.mandatoryOutputs.includes('extremProfiler'), 'extrem profiler output missing');
     assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
     assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bReadiness'), 'b2bReadiness sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.subscriptionPackage'), 'B2B subscription sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.unlimitedUseGuardrails'), 'B2B guardrails sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('paymentVerification'), 'payment verification sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler'), 'extrem profiler sync missing');
     assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
     assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');
     assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');
@@ -456,6 +458,27 @@ async function runTests(): Promise<void> {
       assert(report.paymentVerification.status === 'VERIFIED', 'payment verification should be VERIFIED');
       assert(report.paymentVerification.invoiceResolutionPath === 'correction-resolved', 'payment resolution should be correction-resolved');
       assert(report.paymentVerification.blockers.length === 0, 'payment blockers should be empty');
+    });
+  });
+
+
+
+  await test('report maps EXTREM profiler DISKVIT signal into WAWE governance', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: '95',
+      EXTRIMLI_EXTREM_GPU_CONTENTION_PERCENT: '93',
+      EXTRIMLI_EXTREM_CPU_CONTENTION_PERCENT: '91',
+      EXTRIMLI_EXTREM_RENDER_CYCLE_LATENCY_MS: '155',
+    }, () => {
+      const report = getExtrimliExtrondolReport();
+      assert(report.extremProfiler.profile.bottleneckLayer === 'DISKVIT', 'expected DISKVIT bottleneck layer');
+      assert(report.extremProfiler.governanceSignal.freezeRequired, 'EXTREM profiler should require freeze for high conflict');
+      assert(report.rollout.promotionFreeze, 'rollout freeze should honor EXTREM profiler freeze signal');
+      assert(
+        report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.governanceSignal.freezeRequired'),
+        'EXTREM profiler freeze field must be downstream synced',
+      );
+      assert(report.acceptanceCriteria.some((item) => item.id === 'diskvit-conflict-governance' && item.passed), 'diskvit-conflict-governance criterion must pass');
     });
   });
 

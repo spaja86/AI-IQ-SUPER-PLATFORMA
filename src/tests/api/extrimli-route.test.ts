@@ -9,6 +9,7 @@ import { GET as getExtendol } from '../../app/api/extrimli/extendol/route';
 import { GET as getKoron } from '../../app/api/extrimli/koron/route';
 import { GET as getExtrondend } from '../../app/api/extrimli/extrondend/route';
 import { GET as getExtrondol } from '../../app/api/extrimli/extrondol/route';
+import { GET as getExtrem } from '../../app/api/extrimli/extrem/route';
 import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli/duel-king/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
@@ -109,6 +110,7 @@ async function runTests(): Promise<void> {
         rollout: { currentWawe: string; promotionFreeze: boolean };
         b2bReadiness: { downstreamSync: { linkedRepo: string } };
         paymentVerification: { status: string; blockers: string[] };
+        extremProfiler: { profile: { conflictIntensity: string; bottleneckLayer: string } };
         distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
       };
     };
@@ -123,7 +125,29 @@ async function runTests(): Promise<void> {
     assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
     assert(['VERIFIED', 'BLOCKED'].includes(body.data.paymentVerification.status), 'unexpected payment verification status');
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
+    assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.extremProfiler.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
+    assert(body.data.extremProfiler.profile.bottleneckLayer === 'DISKVIT', 'EXTREM profiler bottleneck layer mismatch');
     assert(body.data.distanceRatioEkvilaterTable.rows.length === 3, 'distance ratio table must expose 3 rows');
+  });
+
+  await test('GET /api/extrimli/extrem returns profiler report and headers', async () => {
+    const response = await getExtrem();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Extrem-Contract-Version') === 'v1-extrem-profiler', 'missing EXTREM contract header');
+
+    const body = await response.json() as {
+      data: {
+        sourceOfTruth: string;
+        profile: { conflictIntensity: string; bottleneckLayer: string };
+        governanceSignal: { freezeRequired: boolean };
+        optimization: { maximumGraphicsUnlockEligible: boolean };
+      };
+    };
+    assert(body.data.sourceOfTruth === '/api/extrimli/extrem', 'unexpected EXTREM sourceOfTruth');
+    assert(body.data.profile.bottleneckLayer === 'DISKVIT', 'unexpected EXTREM bottleneck layer');
+    assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
+    assert(typeof body.data.governanceSignal.freezeRequired === 'boolean', 'freezeRequired should be boolean');
+    assert(typeof body.data.optimization.maximumGraphicsUnlockEligible === 'boolean', 'maximumGraphicsUnlockEligible should be boolean');
   });
 
   await test('GET /api/extrimli/extrondol stays 200 with blocked payment verification (degraded-no-500 contract)', async () => {
