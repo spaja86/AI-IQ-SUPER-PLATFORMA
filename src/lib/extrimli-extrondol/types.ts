@@ -152,6 +152,45 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
   rollbackPlanRequired: true;
 }
 
+export type ExtrimliExtrondolPaymentVerificationStatus = 'VERIFIED' | 'BLOCKED';
+export type ExtrimliExtrondolPaymentResolutionPath = 'paid' | 'correction-resolved' | 'unresolved';
+export type ExtrimliExtrondolPaymentReferenceClassification = 'public-safe' | 'internal-only' | 'unclassified';
+
+export interface ExtrimliExtrondolPaymentVerification {
+  sourceOfTruth: '/api/vercel-status';
+  ownershipActionSurface: '/api/owner/vercel-ownership';
+  gate: 'pre-wawe-promotion-and-b2b-activation';
+  expectedInvoice: {
+    billingOwner: string;
+    invoiceNumber: string;
+    invoiceAmount: string;
+  };
+  status: ExtrimliExtrondolPaymentVerificationStatus;
+  invoiceResolutionPath: ExtrimliExtrondolPaymentResolutionPath;
+  evidence: {
+    billingOwnerLocked: boolean;
+    invoiceMatchesExpected: boolean;
+    invoiceRequested: boolean;
+    currentInvoicePaid: boolean;
+    invoiceCorrectionRequested: boolean;
+    correctedInvoiceResolved: boolean;
+    currentInvoiceEvidenceCaptured: boolean;
+    bankStatementCaptured: boolean;
+    paymentReferenceCaptured: boolean;
+    paymentReferenceClassification: ExtrimliExtrondolPaymentReferenceClassification;
+    paymentReferencePublicSafeApproved: boolean;
+    publicAnnouncementRedacted: boolean;
+    publicAnnouncementPublished: boolean;
+  };
+  blockers: string[];
+  auditTimestamp: string;
+  readinessImpact: {
+    promotionFreezeRequired: boolean;
+    blockerCount: number;
+    releaseAuditStatus: 'READY' | 'BLOCKED';
+  };
+}
+
 export interface ExtrimliExtrondolStartProject {
   initiativeId: 'OKRID-2026-EXTRIMLI-START-001';
   programName: 'START PROJEKAT';
@@ -200,7 +239,8 @@ export interface ExtrimliExtrondolStartProject {
     'rollout.promotionFreeze',
     'nivoDuet',
     'dinkos',
-    'distanceRatioEkvilaterTable'
+    'distanceRatioEkvilaterTable',
+    'paymentVerification'
   ];
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
@@ -213,7 +253,8 @@ export interface ExtrimliExtrondolStartProject {
       'b2bReadiness',
       'nivoDuet',
       'dinkos',
-      'distanceRatioEkvilaterTable'
+      'distanceRatioEkvilaterTable',
+      'paymentVerification'
     ];
   };
   qualityGates: {
@@ -310,6 +351,7 @@ export interface ExtrimliExtrondolReport {
   b2bReadiness: ExtrimliExtrondolB2bReadiness;
   domainStrategy: ExtrimliExtrondolDomainStrategy;
   distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
+  paymentVerification: ExtrimliExtrondolPaymentVerification;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
   rollout: {

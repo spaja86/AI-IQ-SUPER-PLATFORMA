@@ -26,6 +26,11 @@ import {
   EXTRONDOL_SOURCE_OF_TRUTH,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
+import {
+  EXPECTED_VERCEL_BILLING_OWNER,
+  EXPECTED_VERCEL_INVOICE_AMOUNT,
+  EXPECTED_VERCEL_INVOICE_NUMBER,
+} from '../../lib/vercel-billing-governance';
 
 let passed = 0;
 let failed = 0;
@@ -62,6 +67,26 @@ function duetStatusAdjustment(status: string): number {
   if (status === 'ALIGNED') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.ALIGNED;
   if (status === 'FRAGILE') return EXTRONDOL_DUET_STATUS_ADJUSTMENT.FRAGILE;
   return EXTRONDOL_DUET_STATUS_ADJUSTMENT.DISSONANT;
+}
+
+async function withEnv(
+  overrides: Record<string, string | undefined>,
+  fn: () => Promise<void> | void,
+): Promise<void> {
+  const previousValues: Record<string, string | undefined> = {};
+  for (const [key, value] of Object.entries(overrides)) {
+    previousValues[key] = process.env[key];
+    if (typeof value === 'undefined') delete process.env[key];
+    else process.env[key] = value;
+  }
+  try {
+    await fn();
+  } finally {
+    for (const [key, value] of Object.entries(previousValues)) {
+      if (typeof value === 'undefined') delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
 }
 
 async function runTests(): Promise<void> {
@@ -182,6 +207,7 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'nivo-duet-mapping' && item.passed), 'nivo-duet-mapping criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dinkos-contract' && item.passed), 'dinkos-contract criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'domain-strategy-lock' && item.passed), 'domain-strategy-lock criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'payment-verification-gate'), 'payment-verification-gate criterion must exist');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-downstream-sync' && item.passed), 'b2b-downstream-sync criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'distance-ratio-ekvilater-table' && item.passed), 'distance-ratio-ekvilater-table criterion must pass');
   });
@@ -211,6 +237,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('nivoDuet.signal.warnings'), 'DUET warnings sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('dinkos.triggerLabel'), 'DINKOS sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalApex'), 'domain strategy sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('paymentVerification.status'), 'payment verification status sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence')), 'unexpected B2B warning format');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
@@ -238,9 +265,11 @@ async function runTests(): Promise<void> {
     assert(report.startProject.domainStrategyLock.canonicalWildcard === EXTRONDOL_CANONICAL_WILDCARD_DOMAIN, 'canonical wildcard mismatch');
     assert(report.startProject.domainStrategyLock.rejectPatternsLike.includes('spaja.nivo*spaja'), 'reject pattern missing');
     assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
+    assert(report.startProject.mandatoryOutputs.includes('paymentVerification'), 'payment verification output missing');
     assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
     assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bReadiness'), 'b2bReadiness sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('paymentVerification'), 'payment verification sync missing');
     assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
     assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');
     assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');
@@ -335,6 +364,107 @@ async function runTests(): Promise<void> {
     assert(!report.b2bReadiness.compliance.blockers.includes('onboarding-complete'), 'onboarding blocker should clear');
     assert(!report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker should clear');
     assert(!report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker should clear');
+  });
+
+  await test('payment verification success path (paid invoice) clears payment blockers', async () => {
+    await withEnv({
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.paymentVerification.status === 'VERIFIED', 'payment verification should be VERIFIED');
+      assert(report.paymentVerification.invoiceResolutionPath === 'paid', 'payment resolution should be paid');
+      assert(report.paymentVerification.blockers.length === 0, 'payment blockers should be empty');
+      assert(
+        !report.b2bReadiness.compliance.blockers.some((blocker) => blocker.startsWith('payment:')),
+        'payment blockers should not appear in compliance blockers',
+      );
+      assert(
+        !report.rollout.reasons.includes('payment-verification:blocked'),
+        'rollout reasons should not include payment blocked marker',
+      );
+      assert(report.acceptanceCriteria.some((item) => item.id === 'payment-verification-gate' && item.passed), 'payment-verification-gate should pass');
+    });
+  });
+
+  await test('payment verification correction path is accepted', async () => {
+    await withEnv({
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'false',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'true',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'public-safe',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.paymentVerification.status === 'VERIFIED', 'payment verification should be VERIFIED');
+      assert(report.paymentVerification.invoiceResolutionPath === 'correction-resolved', 'payment resolution should be correction-resolved');
+      assert(report.paymentVerification.blockers.length === 0, 'payment blockers should be empty');
+    });
+  });
+
+  await test('payment verification blocked path adds compliance blockers', async () => {
+    await withEnv({
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'public-safe',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.paymentVerification.status === 'BLOCKED', 'payment verification should be BLOCKED');
+      assert(report.paymentVerification.blockers.some((item) => item.includes('public-safe')), 'public-safe approval blocker must be present');
+      assert(report.paymentVerification.blockers.some((item) => item.includes('redaction')), 'redaction blocker must be present');
+      assert(report.b2bReadiness.compliance.blockers.some((item) => item.startsWith('payment:')), 'payment blocker must propagate to compliance');
+      assert(report.rollout.promotionFreeze, 'promotion freeze should remain active when payment verification is blocked');
+      assert(report.rollout.reasons.includes('payment-verification:blocked'), 'rollout reasons should include payment blocked marker');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'payment-verification-gate' && !item.passed), 'payment-verification-gate should fail');
+    });
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
