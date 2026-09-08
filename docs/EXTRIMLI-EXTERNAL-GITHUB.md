@@ -126,6 +126,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - EXTRONDOL NIVO DUET sekcija koristi `/api/duet/evaluate` signal i mapira `valid`, `status`, `overallScore`, `warnings` u WAWE promotion guard logiku.
 - Isti EXTRONDOL signal u B2B modu mapira onboarding hold, escalation i partner-readiness warning odluke bez menjanja WAWE modela.
 - EXTREM profiler signal (`DISKVIT` bottleneck, `conflictIntensity`, `optimizationTier`) je obavezan governance input za promotion freeze kada je konflikt visok ili KPI breach potvrđen.
+- EXTREM profiler takođe normalizuje `REZOLUCIJA`, `EKODOR`, `REKULITI PO RAULETU`, `DISCAN`, i `KIBEN` kao additive governance vocabulary; EXTRONDOL mora propagirati taj resolution posture u rollout reasons, audit summary i downstream sync.
 - KORON surface `/api/extrimli/koron` mora ostati uključen u Extendol readiness i degraded evidenciju.
 - DUEL KING surface `/api/extrimli/duel-king` mora ostati uključen u EXTRIMLI health story i downstream snapshot plan kada je first-class surface aktivan.
 - Ako EXTRIMLI surface pređe KPI limit ili uđe u degraded mode, MAKSIMUS mora prijaviti preporuku za sanaciju.
@@ -160,8 +161,9 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 7. obavezan follow-up issue kada downstream ostane delimično neusaglašen
 8. mirror `nivo-duet:logic-change` i `dinkos:logic-change` label schema i povezati DUET signal mapiranje sa EXTRONDOL snapshot potrošačima
 9. mirror `extrem:logic-change` label schema i povezati DISKVIT profiler signal sa EXTRONDOL snapshot potrošačima
-9. preuzimanje `b2bScope` + `b2bReadiness` polja iz `/api/extrimli/extrondol`
-10. potvrda da su `rolloutRing`, `onboardingHold`, `rolloutFreeze`, `partnerReadinessWarnings` i `domainStrategy` mapirani u downstream B2B governance
+10. mirror additive resolution vocabulary fields iz EXTREM profiler-a (`resolutionReadiness.rezolucijaScore`, `ekodorState`, `rekulitiPoRauletu`, `discanInKibenState`)
+11. preuzimanje `b2bScope` + `b2bReadiness` polja iz `/api/extrimli/extrondol`
+12. potvrda da su `rolloutRing`, `onboardingHold`, `rolloutFreeze`, `partnerReadinessWarnings`, `domainStrategy` i `resolutionReadiness` mapirani u downstream B2B governance
 
 ## 10. Mandatory gate criteria
 

@@ -261,8 +261,19 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - DISKVIT terminology lock:
   - `DISKVIT` = browser-graphics bottleneck layer.
   - Conflict scoring is conflict-proportional (`sceneLoadPercent`, `gpuContentionPercent`, `cpuContentionPercent`, `renderCycleLatencyMs`).
+- Normalized EXTREM vocabulary lock:
+  - `REZOLUCIJA` = resolution readiness dimension (`resolutionReadiness.rezolucijaScore`)
+  - `EKODOR` = readiness alignment signal (`resolutionReadiness.ekodorState`)
+  - `REKULITI PO RAULETU` = resolution routing policy (`resolutionReadiness.rekulitiPoRauletu`)
+  - `DISCAN` = blocking-pressure input (`resolutionInput.discanPressurePercent`)
+  - `KIBEN` = governance lane for DISCAN interpretation (`resolutionReadiness.kibenLane`)
+- Resolution-oriented profiling dimension:
+  - additive EXTREM inputs: `resolutionInput.rezolucijaCompletenessPercent`, `resolutionInput.ekodorAlignmentPercent`, `resolutionInput.discanPressurePercent`
+  - additive EXTREM outputs: `resolutionReadiness.rezolucijaScore`, `ekodorState`, `rekulitiPoRauletu`, `discanInKibenState`, `blockerActive`
+  - `REKULITI PO RAULETU = FREEZE` when REZOLUCIJA is below readiness threshold, EKODOR is blocked, or DISCAN in KIBEN is blocked
 - WAWE governance integration:
   - freeze when conflict intensity is `HIGH/CRITICAL` or KPI targets are breached.
+  - freeze also when `REKULITI PO RAULETU = FREEZE`.
   - promotion when profiler signal is stable and KPI limits remain within target.
 - Maximum graphics unlock thresholds:
   - conflict score ≤ 35
@@ -277,6 +288,10 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
 - Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- EXTREM resolution propagation:
+  - rollout reasons include additive REZOLUCIJA / REKULITI PO RAULETU freeze markers when present
+  - `b2bReadiness.governanceDecisions.resolutionReadiness` mirrors EXTREM resolution posture
+  - `releaseAuditSummary.resolutionGovernance` summarizes the REZOLUCIJA/EKODOR/REKULITI PO RAULETU/DISCAN in KIBEN decision state
 
 ### EXTRONDOL B2B operating scope
 

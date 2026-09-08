@@ -129,6 +129,8 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.kpiImpact.apiResponseMaxMs === 200, 'release audit API KPI mismatch');
     assert(report.releaseAuditSummary.kpiImpact.buildDurationMaxMin === 3, 'release audit build KPI mismatch');
     assert(report.releaseAuditSummary.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'release audit linked repo mismatch');
+    assert(report.releaseAuditSummary.resolutionGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit resolution source mismatch');
+    assert(['ALLOW', 'WARN', 'FREEZE'].includes(report.releaseAuditSummary.resolutionGovernance.rekulitiPoRauletu), 'release audit resolution policy mismatch');
     assert(report.releaseAuditSummary.humanReviewRequired, 'release audit must require human review');
     assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
   });
@@ -210,6 +212,7 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'payment-verification-gate'), 'payment-verification-gate criterion must exist');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-downstream-sync' && item.passed), 'b2b-downstream-sync criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'distance-ratio-ekvilater-table' && item.passed), 'distance-ratio-ekvilater-table criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'resolution-signal-governance' && item.passed), 'resolution-signal-governance criterion must pass');
   });
 
   await test('report exposes additive B2B operating metadata and controls', () => {
@@ -258,7 +261,9 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('dinkos.triggerLabel'), 'DINKOS sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalApex'), 'domain strategy sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('paymentVerification.status'), 'payment verification status sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.rekulitiPoRauletu'), 'resolution policy sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
+    assert(Number.isFinite(report.b2bReadiness.governanceDecisions.resolutionReadiness.rezolucijaScore), 'resolution readiness score must be finite');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler')), 'unexpected B2B warning format');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
@@ -296,6 +301,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.unlimitedUseGuardrails'), 'B2B guardrails sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('paymentVerification'), 'payment verification sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler'), 'extrem profiler sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.resolutionReadiness'), 'resolution readiness sync missing');
     assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
     assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');
     assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');
@@ -479,6 +485,31 @@ async function runTests(): Promise<void> {
         'EXTREM profiler freeze field must be downstream synced',
       );
       assert(report.acceptanceCriteria.some((item) => item.id === 'diskvit-conflict-governance' && item.passed), 'diskvit-conflict-governance criterion must pass');
+    });
+  });
+
+  await test('report maps REZOLUCIJA/EKODOR/REKULITI PO RAULETU/DISCAN in KIBEN into rollout and downstream governance', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: '10',
+      EXTRIMLI_EXTREM_GPU_CONTENTION_PERCENT: '10',
+      EXTRIMLI_EXTREM_CPU_CONTENTION_PERCENT: '10',
+      EXTRIMLI_EXTREM_RENDER_CYCLE_LATENCY_MS: '10',
+      EXTRIMLI_EXTREM_REZOLUCIJA_COMPLETENESS_PERCENT: '48',
+      EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT: '40',
+      EXTRIMLI_EXTREM_DISCAN_PRESSURE_PERCENT: '90',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+      });
+      assert(report.extremProfiler.resolutionReadiness.rekulitiPoRauletu === 'FREEZE', 'EXTREM resolution policy should freeze');
+      assert(report.rollout.reasons.some((reason) => reason === 'extrem-resolution:freeze'), 'rollout reasons should include EXTREM resolution freeze');
+      assert(report.releaseAuditSummary.resolutionGovernance.blockerActive, 'release audit should expose active resolution blocker');
+      assert(report.b2bReadiness.governanceDecisions.resolutionReadiness.discanInKibenState === 'BLOCKED', 'B2B readiness should expose DISCAN in KIBEN blocker');
+      assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.discanInKibenState'), 'downstream sync should include DISCAN in KIBEN field');
+      assert(report.rollout.promotionFreeze, 'resolution freeze should block rollout');
     });
   });
 

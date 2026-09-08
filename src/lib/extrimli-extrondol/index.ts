@@ -464,6 +464,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'distanceRatioEkvilaterTable',
         'paymentVerification',
         'extremProfiler',
+        'extremProfiler.resolutionReadiness',
       ],
     },
     qualityGates: {
@@ -583,6 +584,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['Payment verification is blocking WAWE promotion and B2B activation.'] : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['EXTREM profiler detected DISKVIT conflict pressure and requests WAWE freeze.'] : []),
+    ...(extremProfiler.resolutionReadiness.ekodorState === 'WATCH' ? ['EKODOR alignment remains in watch posture and requires review before promotion.'] : []),
+    ...(extremProfiler.resolutionReadiness.discanInKibenState === 'WATCH' ? ['DISCAN in KIBEN remains in watch posture and should be monitored before promotion.'] : []),
   ];
   const complianceBlockers = [
     ...(!contractApproved ? ['contract-approved'] : []),
@@ -595,6 +598,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? paymentVerification.blockers.map((blocker) => `payment:${blocker}`)
       : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['extrem-profiler-stability'] : []),
+    ...(extremProfiler.resolutionReadiness.blockerActive ? ['extrem-resolution-readiness'] : []),
   ];
   const auditTrailComplete = governanceEvidence.auditTrailComplete;
   const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1' || extremProfiler.governanceSignal.freezeRequired;
@@ -603,6 +607,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
       ...degradedSources,
       ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
+      ...(extremProfiler.resolutionReadiness.rekulitiPoRauletu !== 'ALLOW'
+        ? [`extrem-resolution:${extremProfiler.resolutionReadiness.rekulitiPoRauletu.toLowerCase()}`]
+        : []),
       ...(paymentVerification.status !== 'VERIFIED'
         ? ['payment-verification:blocked']
         : []),
@@ -628,6 +635,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       linkedRepo: 'spaja86/IO-OPENUI-AO',
       status: downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
       required: true,
+    },
+    resolutionGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      rezolucijaScore: extremProfiler.resolutionReadiness.rezolucijaScore,
+      ekodorState: extremProfiler.resolutionReadiness.ekodorState,
+      rekulitiPoRauletu: extremProfiler.resolutionReadiness.rekulitiPoRauletu,
+      discanInKibenState: extremProfiler.resolutionReadiness.discanInKibenState,
+      blockerActive: extremProfiler.resolutionReadiness.blockerActive,
     },
     humanReviewRequired: true,
     rollbackPlanRequired: true,
@@ -679,6 +694,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.profile.conflictIntensity',
         'extremProfiler.profile.optimizationTier',
         'extremProfiler.governanceSignal.freezeRequired',
+        'extremProfiler.resolutionReadiness.rezolucijaScore',
+        'extremProfiler.resolutionReadiness.ekodorState',
+        'extremProfiler.resolutionReadiness.rekulitiPoRauletu',
+        'extremProfiler.resolutionReadiness.discanInKibenState',
       ],
     },
     governanceDecisions: {
@@ -687,6 +706,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       escalationRequired: promotionFreeze,
       partnerReadinessWarnings,
       dinkosSignalRequired: true,
+      resolutionReadiness: {
+        rezolucijaScore: extremProfiler.resolutionReadiness.rezolucijaScore,
+        ekodorState: extremProfiler.resolutionReadiness.ekodorState,
+        rekulitiPoRauletu: extremProfiler.resolutionReadiness.rekulitiPoRauletu,
+        discanInKibenState: extremProfiler.resolutionReadiness.discanInKibenState,
+        blockerActive: extremProfiler.resolutionReadiness.blockerActive,
+      },
     },
   } as const;
 
@@ -829,6 +855,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       description: 'DISKVIT bottleneck and conflict intensity from EXTREM profiler are mapped into WAWE freeze/promotion governance decisions.',
       passed: (extremProfiler.governanceSignal.freezeRequired ? promotionFreeze : true)
         && ['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(extremProfiler.profile.conflictIntensity),
+    },
+    {
+      id: 'resolution-signal-governance',
+      description: 'REZOLUCIJA, EKODOR, REKULITI PO RAULETU, and DISCAN in KIBEN are propagated from EXTREM into EXTRONDOL rollout, audit, and downstream B2B governance.',
+      passed: Number.isFinite(extremProfiler.resolutionReadiness.rezolucijaScore)
+        && releaseAuditSummary.resolutionGovernance.sourceOfTruth === '/api/extrimli/extrem'
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.rekulitiPoRauletu')
+        && b2bReadiness.governanceDecisions.resolutionReadiness.rekulitiPoRauletu === extremProfiler.resolutionReadiness.rekulitiPoRauletu,
     },
   ];
 

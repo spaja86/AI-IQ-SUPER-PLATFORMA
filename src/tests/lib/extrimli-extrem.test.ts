@@ -2,6 +2,7 @@ import {
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
+  EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   getExtrimliExtremProfilerReport,
 } from '../../lib/extrimli-extrem';
@@ -66,18 +67,34 @@ async function runTests(): Promise<void> {
     assert(report.governanceSignal.freezeRequired === false, 'default profile should not freeze WAWE promotion');
   });
 
+  await test('default report normalizes REZOLUCIJA/EKODOR/REKULITI PO RAULETU/DISCAN/KIBEN vocabulary', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.terminology.normalizedVocabulary.REZOLUCIJA.meaning === 'resolution-readiness-dimension', 'REZOLUCIJA meaning mismatch');
+    assert(report.terminology.normalizedVocabulary.EKODOR.canonicalField === 'resolutionReadiness.ekodorState', 'EKODOR field mismatch');
+    assert(report.terminology.normalizedVocabulary['REKULITI PO RAULETU'].meaning === 'resolution-routing-policy', 'REKULITI meaning mismatch');
+    assert(report.terminology.normalizedVocabulary.DISCAN.canonicalField === 'resolutionInput.discanPressurePercent', 'DISCAN field mismatch');
+    assert(report.terminology.normalizedVocabulary.KIBEN.canonicalField === 'resolutionReadiness.kibenLane', 'KIBEN field mismatch');
+    assert(report.resolutionReadiness.kibenLane === 'KIBEN', 'KIBEN lane mismatch');
+    assert(report.resolutionReadiness.rezolucijaScore >= EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY, 'default REZOLUCIJA should be ready');
+    assert(report.resolutionReadiness.ekodorState === 'ALIGNED', 'default EKODOR should be aligned');
+    assert(report.resolutionReadiness.discanInKibenState === 'CLEAR', 'default DISCAN in KIBEN should be clear');
+    assert(report.resolutionReadiness.rekulitiPoRauletu === 'ALLOW', 'default REKULITI policy should allow progression');
+  });
+
   await test('invalid env values are clamped and flagged as degraded', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: 'NaN',
       EXTRIMLI_EXTREM_GPU_CONTENTION_PERCENT: '120',
       EXTRIMLI_EXTREM_CPU_CONTENTION_PERCENT: '-20',
       EXTRIMLI_EXTREM_RENDER_CYCLE_LATENCY_MS: 'Infinity',
+      EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT: '140',
     }, () => {
       const report = getExtrimliExtremProfilerReport();
       assert(report.degraded, 'report should be degraded for invalid env values');
       assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT')), 'expected scene load degraded source');
       assert(report.profileInput.gpuContentionPercent === 100, 'gpu contention should be clamped to 100');
       assert(report.profileInput.cpuContentionPercent === 0, 'cpu contention should be clamped to 0');
+      assert(report.resolutionInput.ekodorAlignmentPercent === 100, 'EKODOR alignment should be clamped to 100');
     });
   });
 
@@ -93,6 +110,27 @@ async function runTests(): Promise<void> {
       assert(report.profile.optimizationTier === 'EXTREME_PROFILING_REQUIRED', 'expected extreme profiling tier');
       assert(report.governanceSignal.freezeRequired, 'freeze should be required for extreme conflict');
       assert(report.governanceSignal.wawePromotionEligible === false, 'WAWE promotion should be blocked for extreme conflict');
+    });
+  });
+
+  await test('DISCAN in KIBEN blocker freezes progression even when DISKVIT conflict is low', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: '10',
+      EXTRIMLI_EXTREM_GPU_CONTENTION_PERCENT: '10',
+      EXTRIMLI_EXTREM_CPU_CONTENTION_PERCENT: '10',
+      EXTRIMLI_EXTREM_RENDER_CYCLE_LATENCY_MS: '10',
+      EXTRIMLI_EXTREM_REZOLUCIJA_COMPLETENESS_PERCENT: '48',
+      EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT: '40',
+      EXTRIMLI_EXTREM_DISCAN_PRESSURE_PERCENT: '90',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.profile.conflictIntensity === 'LOW', 'expected low DISKVIT conflict');
+      assert(report.resolutionReadiness.rezolucijaScore < EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY, 'REZOLUCIJA score should be below ready threshold');
+      assert(report.resolutionReadiness.ekodorState !== 'ALIGNED', 'EKODOR should not be aligned');
+      assert(report.resolutionReadiness.discanInKibenState === 'BLOCKED', 'DISCAN in KIBEN should block');
+      assert(report.resolutionReadiness.rekulitiPoRauletu === 'FREEZE', 'REKULITI policy should freeze');
+      assert(report.governanceSignal.freezeRequired, 'resolution blocker should require freeze');
+      assert(report.optimization.maximumGraphicsUnlockEligible === false, 'maximum unlock should be blocked');
     });
   });
 
