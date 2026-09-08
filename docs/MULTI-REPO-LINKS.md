@@ -946,6 +946,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | WAWE governance decision for persona promotion | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror `currentWawe`, `eligibleNextWawe`, `promotionFreeze`, and missing-evidence reasons in linked persona governance runbook |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI DISTANCE RATIO EKVILATER table | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `distanceRatioEkvilaterTable` summary + pairwise row fields (`distance`, `distanceRatio`, `equilateralAlignment`, `balanced`) from `/api/extrimli/extrondol` |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI NIVO DUET / DINKOS signal contract | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync DUET→WAWE map fields (`valid`, `status`, `overallScore`, `warnings`) + DINKOS lock metadata (`classification`, `triggerLabel`, `personaId`) from EXTRONDOL payload |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTREM resolution vocabulary | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync additive EXTREM resolution fields (`resolutionReadiness.rezolucijaScore`, `ekodorState`, `rekulitiPoRauletu`, `discanInKibenState`) plus EXTRONDOL audit/downstream mirrors |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI START PROJEKAT governance payload | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `startProject` rollout/governance fields (`initiativeId`, `programName`, `orchestrationInputs.upstreamSurfaces`, `orchestrationInputs.duetRole`, `downstreamSync`, `qualityGates`, `auditRelease`) from `/api/extrimli/extrondol` |
 | `AI-IQ-SUPER-PLATFORMA` — MAKSIMUS↔EXTRIMLI integration gate | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep `maksimus-validator` and `extrimli-validator` trigger/schema alignment |
 
@@ -965,6 +966,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Track `paymentVerification` compatibility (`status`, `invoiceResolutionPath`, `evidence`, `blockers`, `auditTimestamp`, `readinessImpact`) for downstream governance consumers
 - Track additive `distanceRatioEkvilaterTable` compatibility, including canonical field name plus requested-label alias `DISANCE RATOR EKVILATER`
 - Track NIVO DUET / DINKOS contract compatibility (`valid`, `status`, `overallScore`, `warnings`, `dinkos.triggerLabel`, `dinkos.personaId`) in downstream consumers
+- Track additive EXTREM resolution vocabulary compatibility (`resolutionReadiness.rezolucijaScore`, `ekodorState`, `rekulitiPoRauletu`, `discanInKibenState`) and EXTRONDOL mirrors in downstream consumers
 - Track additive `startProject` compatibility (`initiativeId`, `programName`, `orchestrationInputs.upstreamSurfaces`, `orchestrationInputs.duetRole`, `downstreamSync.syncedContractFields`, `qualityGates.kpiTargets`, `auditRelease`)
 - Confirm EXTRIMLI KORON overlay surface fields are mapped before promotion past WAWE 3
 - Confirm EXTRONDEND/EXTRONDOL naming lock is mirrored in downstream docs and label schema

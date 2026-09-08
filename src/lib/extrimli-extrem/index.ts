@@ -7,13 +7,21 @@ import {
 import type {
   ExtrimliExtremAcceptanceCriterion,
   ExtrimliExtremConflictIntensity,
+  ExtrimliExtremDiscanInKibenState,
+  ExtrimliExtremEkodorState,
   ExtrimliExtremOptimizationTier,
   ExtrimliExtremProfileInput,
   ExtrimliExtremProfilerReport,
+  ExtrimliExtremRekulitiPoRauletuPolicy,
+  ExtrimliExtremResolutionInput,
 } from './types';
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_DISCAN_MAX_FOR_CLEAR,
+  EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH,
+  EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED,
+  EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH,
   EXTRIMLI_EXTREM_PROFILER_EVALUATION_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_MAX_CONFLICT_FOR_UNLOCK,
   EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK,
@@ -21,6 +29,7 @@ import {
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
+  EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
 } from './types';
 
 function parsePercentEnv(name: string, fallback: number, degradedSources: string[]): number {
@@ -72,9 +81,46 @@ function resolveProfileInput(degradedSources: string[]): ExtrimliExtremProfileIn
   };
 }
 
+function resolveResolutionInput(degradedSources: string[]): ExtrimliExtremResolutionInput {
+  return {
+    rezolucijaCompletenessPercent: parsePercentEnv('EXTRIMLI_EXTREM_REZOLUCIJA_COMPLETENESS_PERCENT', 74, degradedSources),
+    ekodorAlignmentPercent: parsePercentEnv('EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT', 68, degradedSources),
+    discanPressurePercent: parsePercentEnv('EXTRIMLI_EXTREM_DISCAN_PRESSURE_PERCENT', 28, degradedSources),
+  };
+}
+
+function classifyEkodorState(score: number): ExtrimliExtremEkodorState {
+  if (score >= EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED) return 'ALIGNED';
+  if (score >= EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function classifyDiscanInKibenState(score: number): ExtrimliExtremDiscanInKibenState {
+  if (score <= EXTRIMLI_EXTREM_DISCAN_MAX_FOR_CLEAR) return 'CLEAR';
+  if (score <= EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function classifyRekulitiPoRauletuPolicy(input: {
+  rezolucijaScore: number;
+  ekodorState: ExtrimliExtremEkodorState;
+  discanInKibenState: ExtrimliExtremDiscanInKibenState;
+}): ExtrimliExtremRekulitiPoRauletuPolicy {
+  if (
+    input.rezolucijaScore < EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY
+    || input.ekodorState === 'BLOCKED'
+    || input.discanInKibenState === 'BLOCKED'
+  ) {
+    return 'FREEZE';
+  }
+  if (input.ekodorState === 'WATCH' || input.discanInKibenState === 'WATCH') return 'WARN';
+  return 'ALLOW';
+}
+
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
+  const resolutionInput = resolveResolutionInput(degradedSources);
   const normalizedLatencyPercent = clamp((profileInput.renderCycleLatencyMs / 100) * 100, 0, 100);
 
   const conflictScore = round(
@@ -91,6 +137,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const conflictIntensity = classifyConflict(conflictScore);
   const optimizationTier = mapOptimizationTier(conflictIntensity);
+  const rezolucijaScore = round(
+    clamp(
+      resolutionInput.rezolucijaCompletenessPercent * 0.5
+      + resolutionInput.ekodorAlignmentPercent * 0.3
+      + (100 - resolutionInput.discanPressurePercent) * 0.2,
+      0,
+      100,
+    ),
+    2,
+  );
+  const ekodorState = classifyEkodorState(resolutionInput.ekodorAlignmentPercent);
+  const discanInKibenState = classifyDiscanInKibenState(resolutionInput.discanPressurePercent);
+  const rekulitiPoRauletu = classifyRekulitiPoRauletuPolicy({
+    rezolucijaScore,
+    ekodorState,
+    discanInKibenState,
+  });
+  const blockerActive = rekulitiPoRauletu === 'FREEZE';
   const bottleneckDetected = profileInput.gpuContentionPercent >= 60
     || profileInput.renderCycleLatencyMs > 50
     || conflictScore >= 60;
@@ -122,16 +186,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const maximumGraphicsUnlockEligible = conflictScore <= EXTRIMLI_EXTREM_PROFILER_MAX_CONFLICT_FOR_UNLOCK
     && profileInput.renderCycleLatencyMs <= EXTRIMLI_EXTREM_PROFILER_MAX_LATENCY_FOR_UNLOCK
-    && profileInput.gpuContentionPercent <= EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK;
+    && profileInput.gpuContentionPercent <= EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK
+    && rezolucijaScore >= EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY
+    && ekodorState === 'ALIGNED'
+    && discanInKibenState === 'CLEAR';
 
   const freezeRequired = conflictIntensity === 'HIGH'
     || conflictIntensity === 'CRITICAL'
-    || !withinTargets;
+    || !withinTargets
+    || blockerActive;
 
   const governanceReasons = [
     ...(freezeRequired ? ['DISKVIT conflict or KPI pressure requires WAWE freeze before promotion.'] : []),
     ...(!withinTargets ? ['Profiler KPI targets are outside evaluation/API budgets.'] : []),
     ...(bottleneckDetected ? ['Browser graphics bottleneck detected in DISKVIT layer.'] : []),
+    ...(rekulitiPoRauletu === 'WARN' ? ['REKULITI PO RAULETU remains in warning posture for REZOLUCIJA/EKODOR review.'] : []),
+    ...(rekulitiPoRauletu === 'FREEZE' ? ['REKULITI PO RAULETU requires freeze because DISCAN in KIBEN or REZOLUCIJA readiness is blocked.'] : []),
     ...(maximumGraphicsUnlockEligible ? ['Maximum graphics unlock is eligible under current profile.'] : []),
   ];
 
@@ -165,6 +235,21 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       description: 'Profiler preserves partial payload in degraded mode without 500 failures.',
       passed: true,
     },
+    {
+      id: 'normalized-vocabulary-lock',
+      description: 'REZOLUCIJA, EKODOR, REKULITI PO RAULETU, DISCAN, and KIBEN are exposed as canonical EXTREM vocabulary fields.',
+      passed: true,
+    },
+    {
+      id: 'resolution-routing-policy',
+      description: 'Resolution readiness derives REZOLUCIJA score, EKODOR state, DISCAN in KIBEN posture, and REKULITI PO RAULETU governance policy.',
+      passed: Number.isFinite(rezolucijaScore)
+        && rezolucijaScore >= 0
+        && rezolucijaScore <= 100
+        && ['ALIGNED', 'WATCH', 'BLOCKED'].includes(ekodorState)
+        && ['CLEAR', 'WATCH', 'BLOCKED'].includes(discanInKibenState)
+        && ['ALLOW', 'WARN', 'FREEZE'].includes(rekulitiPoRauletu),
+    },
   ];
 
   return {
@@ -185,14 +270,46 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       diskvitRole: 'browser-graphics-bottleneck-layer',
       conflictModel: 'conflict-proportional',
       conflictInputs: ['sceneLoadPercent', 'gpuContentionPercent', 'cpuContentionPercent', 'renderCycleLatencyMs'],
+      normalizedVocabulary: {
+        REZOLUCIJA: {
+          canonicalField: 'resolutionReadiness.rezolucijaScore',
+          meaning: 'resolution-readiness-dimension',
+        },
+        EKODOR: {
+          canonicalField: 'resolutionReadiness.ekodorState',
+          meaning: 'readiness-alignment-signal',
+        },
+        'REKULITI PO RAULETU': {
+          canonicalField: 'resolutionReadiness.rekulitiPoRauletu',
+          meaning: 'resolution-routing-policy',
+        },
+        DISCAN: {
+          canonicalField: 'resolutionInput.discanPressurePercent',
+          meaning: 'blocking-pressure-input',
+        },
+        KIBEN: {
+          canonicalField: 'resolutionReadiness.kibenLane',
+          meaning: 'governance-lane',
+        },
+      },
     },
     profileInput,
+    resolutionInput,
     profile: {
       bottleneckDetected,
       bottleneckLayer: 'DISKVIT',
       conflictScore,
       conflictIntensity,
       optimizationTier,
+    },
+    resolutionReadiness: {
+      rezolucijaScore,
+      ekodorState,
+      rekulitiPoRauletu,
+      discanInKibenState,
+      kibenLane: 'KIBEN',
+      readinessSignal: rezolucijaScore >= EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY && ekodorState !== 'BLOCKED',
+      blockerActive,
     },
     optimization: {
       maximumGraphicsUnlockThreshold: {
@@ -229,14 +346,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 export type {
   ExtrimliExtremAcceptanceCriterion,
   ExtrimliExtremConflictIntensity,
+  ExtrimliExtremDiscanInKibenState,
+  ExtrimliExtremEkodorState,
   ExtrimliExtremOptimizationTier,
   ExtrimliExtremProfileInput,
   ExtrimliExtremProfilerReport,
+  ExtrimliExtremRekulitiPoRauletuPolicy,
+  ExtrimliExtremResolutionInput,
 } from './types';
 
 export {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_DISCAN_MAX_FOR_CLEAR,
+  EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH,
+  EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED,
+  EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH,
   EXTRIMLI_EXTREM_PROFILER_EVALUATION_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_MAX_CONFLICT_FOR_UNLOCK,
   EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK,
@@ -244,4 +369,5 @@ export {
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
+  EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
 } from './types';

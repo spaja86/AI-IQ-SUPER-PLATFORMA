@@ -149,6 +149,13 @@ export interface ExtrimliExtrondolB2bReadiness {
     escalationRequired: boolean;
     partnerReadinessWarnings: readonly string[];
     dinkosSignalRequired: true;
+    resolutionReadiness: {
+      rezolucijaScore: number;
+      ekodorState: ExtrimliExtremProfilerReport['resolutionReadiness']['ekodorState'];
+      rekulitiPoRauletu: ExtrimliExtremProfilerReport['resolutionReadiness']['rekulitiPoRauletu'];
+      discanInKibenState: ExtrimliExtremProfilerReport['resolutionReadiness']['discanInKibenState'];
+      blockerActive: boolean;
+    };
   };
 }
 
@@ -178,6 +185,14 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     linkedRepo: string;
     status: 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
     required: true;
+  };
+  resolutionGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    rezolucijaScore: number;
+    ekodorState: ExtrimliExtremProfilerReport['resolutionReadiness']['ekodorState'];
+    rekulitiPoRauletu: ExtrimliExtremProfilerReport['resolutionReadiness']['rekulitiPoRauletu'];
+    discanInKibenState: ExtrimliExtremProfilerReport['resolutionReadiness']['discanInKibenState'];
+    blockerActive: boolean;
   };
   humanReviewRequired: true;
   rollbackPlanRequired: true;
@@ -289,7 +304,8 @@ export interface ExtrimliExtrondolStartProject {
       'dinkos',
       'distanceRatioEkvilaterTable',
       'paymentVerification',
-      'extremProfiler'
+      'extremProfiler',
+      'extremProfiler.resolutionReadiness'
     ];
   };
   qualityGates: {
