@@ -99,6 +99,15 @@ DUET uvodi determinističku procenu dvojnog usklađivanja za koordinaciju, pover
 - KPI: evaluacija ≤ 50ms, API ≤ 200ms
 - Specifikacija: `docs/DUET.md`
 
+## 🧠 AI IQ PROGRAMSKI JEZIK
+
+AI IQ PROGRAMSKI JEZIK uvodi AI-native DSL za prompt, pravila, orkestraciju i automatsko odlučivanje sa obaveznim fallback/explainability ugovorom.
+
+- Modul: `src/lib/ai-iq-programski-jezik/**`
+- API: `/api/ai-iq-programski-jezik/evaluate`, `/api/ai-iq-programski-jezik/compile`, `/api/ai-iq-programski-jezik/health`
+- KPI: evaluacija ≤ 50ms, API ≤ 200ms
+- Specifikacija: `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+
 ## 📦 DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN
 
 DURIT EKSER FAR DIR DOR DAR EKSTRIBUŠEN uvodi repo-local determinističku distribucionu orkestraciju koja kompozicijom `DOR PETLJA`, `DAR PETLJA` i postojećeg `distribucija` modela izračunava aggregate `EKSTRIBUŠEN` status.
