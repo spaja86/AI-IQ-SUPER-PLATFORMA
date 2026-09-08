@@ -50,6 +50,7 @@ This repository now exposes five aligned surfaces:
 | Area | Source of truth |
 |---|---|
 | Canonical governance plan | `docs/EXTRIMLI-EXTERNAL-GITHUB.md` |
+| MASTER 3 coordinated release plan | `docs/EXTRIMLI-MASTER-3.md` |
 | Validator / quality gate | `.github/workflows/extrimli-validator.yml` |
 | External GitHub governance | `.github/workflows/extrimli-external-github.yml` |
 | Deploy orchestration | `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml` |

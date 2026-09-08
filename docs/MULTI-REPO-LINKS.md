@@ -22,6 +22,16 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 - Follow-up issue or PR references for linked changes
 - Feature-track metadata for race launches (labels, validation workflow, release docs)
 
+## EXTRIMLI MASTER 3 downstream reference
+
+| This repo | Linked repo | Note |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI MASTER 3 coordinated release governance | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream rollout notes and WAWE/release-audit alignment in sync for EXTRIMLI + EXTRONDOL + EXTREM consumers |
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-MASTER-3 -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Shared label schema
 
 | Label | Meaning |
