@@ -59,3 +59,4 @@ See: `docs/API-CONTRACT-STATUS.md`.
 
 Current v1 additive module surface:
 - `nude`: `/api/nude/evaluate`, `/api/nude/health` (experimental until broader adoption).
+- `geografija-realna`: `/api/geografija-realna/evaluate`, `/api/geografija-realna/health` (experimental until broader adoption).

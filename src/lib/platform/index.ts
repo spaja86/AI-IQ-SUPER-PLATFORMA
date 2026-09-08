@@ -60,6 +60,7 @@ export const loadMaksimus = () => import('../maksimus');
 export const loadAnotherMaks = () => import('../another-maks');
 export const loadThem = () => import('../tarken-hingil-ekolan-maksimus');
 export const loadForce = () => import('../force');
+export const loadGeografijaRealna = () => import('../geografija-realna');
 
 // ─── Platform default config ───────────────────────────────────────────────────
 import type { PlatformConfig } from '../types/platform.types';
@@ -87,5 +88,6 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
     them: { enabled: true, version: '1.0.0', apiBasePath: '/api/tarken-hingil-ekolan-maksimus', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     novaGeneracija: { enabled: true, version: '1.0.0', apiBasePath: '/api/nova-generacija', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
     force: { enabled: true, version: '1.0.0', apiBasePath: '/api/force', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
+    geografijaRealna: { enabled: true, version: '1.0.0', apiBasePath: '/api/geografija-realna', performanceKpi: { evaluationMaxMs: 50, apiResponseMaxMs: 200 } },
   },
 };

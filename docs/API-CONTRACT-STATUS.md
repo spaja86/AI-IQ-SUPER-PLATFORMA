@@ -19,6 +19,7 @@
   3. documentation linkage in this file.
 
 - NUDE (`/api/nude/evaluate`, `/api/nude/health`) is currently **experimental** in v1 and will be promoted after sustained contract stability.
+- GEOGRAFIJA REALNA (`/api/geografija-realna/evaluate`, `/api/geografija-realna/health`) is currently **experimental** in v1 and will be promoted after sustained contract stability.
 
 ## Source-of-truth docs
 
@@ -28,3 +29,4 @@
 - `docs/DIGITRON.md` (existing module document)
 - `docs/REPOZIT.md`
 - `docs/NUDE.md`
+- `docs/GEOGRAFIJA-REALNA.md`
