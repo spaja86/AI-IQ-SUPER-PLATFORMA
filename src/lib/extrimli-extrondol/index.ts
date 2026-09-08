@@ -489,6 +489,28 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
 
   const b2bScope = {
     consumerModel: 'organization-level',
+    subscriptionPackage: {
+      provider: 'GitHub',
+      offerName: 'PRETPLATA ZA NEOGRANIČENO PROGRAMIRANJE I ALATE',
+      packageTier: 'B2B-enterprise',
+      packageClassification: 'controlled-periodic-subscription',
+      capabilities: {
+        enterpriseSeats: true,
+        copilotAiRights: true,
+        privateRepositoryAccess: true,
+        governanceLayer: 'github-actions-audit',
+        supportSla: 'business-critical',
+      },
+      commercialAndLegalModel: {
+        primarySegment: 'privreda',
+        supportedSegments: ['privreda', 'gradjanstvo'],
+        billingOwner: EXPECTED_VERCEL_BILLING_OWNER,
+        contractStatus: 'required-before-activation',
+        paymentCycle: 'monthly-or-annual',
+        complianceRequiredBeforeActivation: true,
+        humanReviewRequiredBeforeActivation: true,
+      },
+    },
     accountOwnership: {
       owner: '@spaja86',
       operatingEntity: 'Kompanija SPAJA / Digitalna Industrija',
@@ -510,6 +532,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       apiResponseMaxMs: EXTRONDOL_API_MAX_MS,
       buildDurationMaxMin: EXTRONDOL_BUILD_MAX_MIN,
       supportWindow: 'business-critical',
+    },
+    unlimitedUseGuardrails: {
+      interpretation: 'controlled-enterprise-capacity',
+      fairUsePolicyRequired: true,
+      abuseProtectionRequired: true,
+      finopsThresholdPercent: [50, 75, 90, 100],
+      freezeTriggers: ['kpi-breach', 'audit-incomplete', 'payment-not-verified'],
+      rollbackTriggers: ['kpi-breach-after-promotion', 'payment-revoked', 'governance-regression'],
     },
     auditObligations: [
       'Trace procurement, review, and activation decisions in audit-ready artifacts.',
@@ -619,6 +649,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
+        'b2bScope.subscriptionPackage',
+        'b2bScope.unlimitedUseGuardrails',
         'nivoDuet.signal.valid',
         'nivoDuet.signal.status',
         'nivoDuet.signal.overallScore',
@@ -705,11 +737,37 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       passed: paymentVerification.status === 'VERIFIED',
     },
     {
+      id: 'github-enterprise-subscription-package',
+      description: 'EXTRONDOL defines GitHub unlimited programming/tools as a controlled B2B enterprise subscription with seats, Copilot rights, private repos, legal/commercial model, and activation gates.',
+      passed: b2bScope.subscriptionPackage.provider === 'GitHub'
+        && b2bScope.subscriptionPackage.packageTier === 'B2B-enterprise'
+        && b2bScope.subscriptionPackage.packageClassification === 'controlled-periodic-subscription'
+        && b2bScope.subscriptionPackage.capabilities.enterpriseSeats
+        && b2bScope.subscriptionPackage.capabilities.copilotAiRights
+        && b2bScope.subscriptionPackage.capabilities.privateRepositoryAccess
+        && b2bScope.subscriptionPackage.commercialAndLegalModel.primarySegment === 'privreda'
+        && b2bScope.subscriptionPackage.commercialAndLegalModel.supportedSegments.includes('gradjanstvo')
+        && b2bScope.subscriptionPackage.commercialAndLegalModel.contractStatus === 'required-before-activation'
+        && b2bScope.subscriptionPackage.commercialAndLegalModel.paymentCycle === 'monthly-or-annual'
+        && b2bScope.subscriptionPackage.commercialAndLegalModel.complianceRequiredBeforeActivation
+        && b2bScope.subscriptionPackage.commercialAndLegalModel.humanReviewRequiredBeforeActivation,
+    },
+    {
       id: 'b2b-scope',
       description: 'EXTRONDOL defines organization-level B2B ownership, partner/operator roles, procurement review flow, SLA targets, and audit obligations.',
       passed: b2bScope.consumerModel === 'organization-level'
         && b2bScope.accountOwnership.mandatoryHumanReview
         && b2bScope.partnerOperatorRoles.partners.includes('spaja86/IO-OPENUI-AO'),
+    },
+    {
+      id: 'unlimited-guardrails',
+      description: 'Unlimited programming/tools is treated as controlled enterprise capacity with fair-use, abuse protection, FinOps thresholds, and freeze/rollback governance triggers.',
+      passed: b2bScope.unlimitedUseGuardrails.interpretation === 'controlled-enterprise-capacity'
+        && b2bScope.unlimitedUseGuardrails.fairUsePolicyRequired
+        && b2bScope.unlimitedUseGuardrails.abuseProtectionRequired
+        && b2bScope.unlimitedUseGuardrails.finopsThresholdPercent.join(',') === '50,75,90,100'
+        && b2bScope.unlimitedUseGuardrails.freezeTriggers.includes('payment-not-verified')
+        && b2bScope.unlimitedUseGuardrails.rollbackTriggers.includes('kpi-breach-after-promotion'),
     },
     {
       id: 'b2b-controls',
@@ -756,7 +814,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     contractVersion: EXTRONDOL_CONTRACT_VERSION,
     moduleVersion: EXTRONDOL_MODULE_VERSION,
     sourceOfTruth: EXTRONDOL_SOURCE_OF_TRUTH,
-    statement: 'EXTRONDOL orchestrates WAWE rollout readiness across EXTRIMLI aggregation surfaces for organization-level B2B consumers.',
+    statement: 'EXTRONDOL orchestrates WAWE rollout readiness and the GitHub unlimited programming/tools enterprise subscription model for organization-level B2B consumers.',
     ownership: '@spaja86',
     triggerLabel: 'extrondol:logic-change',
     pathScope: [

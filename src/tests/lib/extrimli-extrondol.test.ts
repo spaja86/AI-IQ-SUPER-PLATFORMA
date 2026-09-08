@@ -215,11 +215,29 @@ async function runTests(): Promise<void> {
   await test('report exposes additive B2B operating metadata and controls', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.b2bScope.consumerModel === 'organization-level', 'B2B consumer model mismatch');
+    assert(report.b2bScope.subscriptionPackage.provider === 'GitHub', 'subscription provider mismatch');
+    assert(report.b2bScope.subscriptionPackage.offerName === 'PRETPLATA ZA NEOGRANIČENO PROGRAMIRANJE I ALATE', 'subscription offer mismatch');
+    assert(report.b2bScope.subscriptionPackage.packageTier === 'B2B-enterprise', 'subscription tier mismatch');
+    assert(report.b2bScope.subscriptionPackage.capabilities.enterpriseSeats, 'enterprise seats capability missing');
+    assert(report.b2bScope.subscriptionPackage.capabilities.copilotAiRights, 'Copilot rights capability missing');
+    assert(report.b2bScope.subscriptionPackage.capabilities.privateRepositoryAccess, 'private repository capability missing');
+    assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.primarySegment === 'privreda', 'primary segment mismatch');
+    assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.supportedSegments.includes('gradjanstvo'), 'supported segment missing');
+    assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.contractStatus === 'required-before-activation', 'contract status mismatch');
+    assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.paymentCycle === 'monthly-or-annual', 'payment cycle mismatch');
+    assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.complianceRequiredBeforeActivation, 'compliance activation gate missing');
+    assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.humanReviewRequiredBeforeActivation, 'human review activation gate missing');
     assert(report.b2bScope.accountOwnership.owner === '@spaja86', 'B2B owner mismatch');
     assert(report.b2bScope.accountOwnership.mandatoryHumanReview, 'human review must remain mandatory');
     assert(report.b2bScope.partnerOperatorRoles.partners.includes('spaja86/IO-OPENUI-AO'), 'linked repo partner missing');
     assert(report.b2bScope.procurementReviewFlow.steps.join(',') === 'request-submitted,procurement-review,compliance-review,operational-approval,activation', 'procurement flow mismatch');
     assert(report.b2bScope.slaExpectations.tier === 'enterprise-governed', 'SLA tier mismatch');
+    assert(report.b2bScope.unlimitedUseGuardrails.interpretation === 'controlled-enterprise-capacity', 'guardrail interpretation mismatch');
+    assert(report.b2bScope.unlimitedUseGuardrails.fairUsePolicyRequired, 'fair-use guardrail missing');
+    assert(report.b2bScope.unlimitedUseGuardrails.abuseProtectionRequired, 'abuse-protection guardrail missing');
+    assert(report.b2bScope.unlimitedUseGuardrails.finopsThresholdPercent.join(',') === '50,75,90,100', 'FinOps thresholds mismatch');
+    assert(report.b2bScope.unlimitedUseGuardrails.freezeTriggers.includes('payment-not-verified'), 'payment freeze trigger missing');
+    assert(report.b2bScope.unlimitedUseGuardrails.rollbackTriggers.includes('kpi-breach-after-promotion'), 'rollback trigger missing');
     assert(report.b2bScope.auditObligations.length >= 4, 'audit obligations must be present');
     assert(report.b2bReadiness.tenant.environmentTier === 'B2B', 'environment tier mismatch');
     assert(report.b2bReadiness.tenant.organizationId === 'spaja-digital-industrija-b2b', 'organization id mismatch');
@@ -234,6 +252,8 @@ async function runTests(): Promise<void> {
     assert(!report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should not appear when audit evidence is present');
     assert(report.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'linked repo mismatch');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'WAWE sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.subscriptionPackage'), 'subscription sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.unlimitedUseGuardrails'), 'guardrails sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('nivoDuet.signal.warnings'), 'DUET warnings sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('dinkos.triggerLabel'), 'DINKOS sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalApex'), 'domain strategy sync field missing');
@@ -242,6 +262,8 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification')), 'unexpected B2B warning format');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'github-enterprise-subscription-package' && item.passed), 'github-enterprise-subscription-package criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'unlimited-guardrails' && item.passed), 'unlimited-guardrails criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-controls' && item.passed), 'b2b-controls criterion must pass');
   });
 
@@ -269,6 +291,8 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
     assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bReadiness'), 'b2bReadiness sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.subscriptionPackage'), 'B2B subscription sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.unlimitedUseGuardrails'), 'B2B guardrails sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('paymentVerification'), 'payment verification sync missing');
     assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
     assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');

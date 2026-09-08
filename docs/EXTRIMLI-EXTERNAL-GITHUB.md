@@ -59,15 +59,19 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 ### 4.1 B2B operating model
 
 - EXTRONDOL je canonical B2B orchestration surface za organization-level consumers.
+- EXTRONDOL `PRETPLATA ZA NEOGRANIČENO PROGRAMIRANJE I ALATE` na GitHub-u je canonical B2B enterprise paket, sa controlled-periodic klasifikacijom.
+- Scope zaključavanje: enterprise seat model, Copilot/AI prava, private repo pristup, governance layer i business-critical support SLA.
 - Ownership model: `@spaja86` + `Kompanija SPAJA / Digitalna Industrija` ostaju contract/account owners.
 - Operator model: WAWE orchestration, tenant onboarding, downstream sync, i operational approval ostaju odvojene odgovornosti.
 - Partner model: `spaja86/IO-OPENUI-AO` je obavezni downstream B2B consumer kada koristi EXTRONDOL snapshot.
 - Activation policy: nema B2B aktivacije bez contract approval, compliance review, downstream sync, i human review evidence.
+- Commercial/legal model lock: `primarySegment=privreda`, `supportedSegments=[privreda, gradjanstvo]`, `contractStatus=required-before-activation`, `paymentCycle=monthly-or-annual`.
 - `b2bReadiness.compliance.humanReviewComplete` je obavezno polje u EXTRONDOL B2B readiness sloju i mora blokirati promociju dok evidence nije prisutan.
 - `b2bReadiness.downstreamSync.status` ne sme biti inferred iz lokalnog health stanja; ostaje `FOLLOW_UP_REQUIRED` dok linked-repo sync evidence nije eksplicitno potvrđen.
 - `b2bReadiness.compliance.onboardingComplete` mora doći iz onboarding evidence; DUET signal ostaje governance input za onboarding hold, escalation i partner warnings.
 - Governance evidence može biti ubrizgan kroz EXTRONDOL report builder ili workflow environment (`EXTRONDOL_AUDIT_TRAIL_COMPLETE`, `EXTRONDOL_HUMAN_REVIEW_COMPLETE`, `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, `EXTRONDOL_ONBOARDING_COMPLETE`) da bi contract data ostao tačan.
 - Audit policy: approvals, freeze reasons, rollback triggeri i downstream references moraju biti traceable u PR summary / workflow summary.
+- "Neograničeno" guardrails: fair-use i abuse protection su obavezni; FinOps pragovi `50/75/90/100`; freeze/rollback ostaju aktivni kada KPI/audit/payment nisu kompletni.
 
 ## 5. Locked source-of-truth artifacts
 
