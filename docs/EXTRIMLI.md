@@ -252,7 +252,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 
 ### EXTRONDOL B2B operating scope
 
@@ -271,6 +271,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - EXTRONDOL report builder može primiti governance evidence direktno ili kroz environment evidence (`EXTRONDOL_AUDIT_TRAIL_COMPLETE`, `EXTRONDOL_HUMAN_REVIEW_COMPLETE`, `EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE`, `EXTRONDOL_ONBOARDING_COMPLETE`) bez menjanja WAWE modela.
 - SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
+- `releaseAuditSummary` je obavezan i mora sadržati: rollout snapshot (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`, `reasons`), KPI impact (`evaluationMaxMs`, `apiResponseMaxMs`, `buildDurationMaxMin`, `withinTargets`) i downstream reference (`linkedRepo`, `status`, `required`), uz `humanReviewRequired` i `rollbackPlanRequired` hard gate polja.
 - Vercel pretplata governance za Digitalna Industrija mora eksplicitno pokriti:
   - billing owner lock na `Digitalna Industrija — Kompanija SPAJA`
   - trenutnu fakturu `5JJYX4KN-0015` (`$385.52`) kao `paid` ili `corrected-invoice-resolved` (samo `correction-requested` nije dovoljno za finalno razrešenje)
@@ -334,6 +335,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 11. Downstream B2B sync must include WAWE fields, DUET warning posture, DINKOS metadata, and domain strategy validation.
 12. `distanceRatioEkvilaterTable` must remain additive-only, bounded, and deterministic for the three upstream readiness surfaces.
 13. `startProject` must preserve START PROJEKAT rollout governance, additive-only contract policy, and required downstream sync.
+14. `releaseAuditSummary` must be present and include rollout snapshot, KPI impact, downstream reference, mandatory human review, and rollback requirement.
 
 ### NIVO DUET orchestration map
 

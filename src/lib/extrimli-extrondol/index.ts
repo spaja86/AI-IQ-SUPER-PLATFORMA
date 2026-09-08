@@ -436,6 +436,29 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
     ]
     : ['Ready for next WAWE stage with governance evidence.'];
+  const releaseAuditSummary = {
+    required: true,
+    status: promotionFreeze ? 'BLOCKED' : 'READY',
+    rolloutSnapshot: {
+      currentWawe,
+      eligibleNextWawe: nextWawe(currentWawe),
+      promotionFreeze,
+      reasons: [...reasons],
+    },
+    kpiImpact: {
+      evaluationMaxMs: EXTRONDOL_EVALUATION_MAX_MS,
+      apiResponseMaxMs: EXTRONDOL_API_MAX_MS,
+      buildDurationMaxMin: EXTRONDOL_BUILD_MAX_MIN,
+      withinTargets: degradedSources.length === 0,
+    },
+    downstreamReference: {
+      linkedRepo: 'spaja86/IO-OPENUI-AO',
+      status: downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
+      required: true,
+    },
+    humanReviewRequired: true,
+    rollbackPlanRequired: true,
+  } as const;
 
   const b2bReadiness = {
     tenant: {
@@ -568,6 +591,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && startProject.auditRelease.humanReviewRequired,
     },
     {
+      id: 'release-governance-audit-summary',
+      description: 'Release governance requires audit summary coverage for rollout, KPI impact, downstream reference, human review, and rollback plan.',
+      passed: releaseAuditSummary.required
+        && releaseAuditSummary.downstreamReference.required
+        && releaseAuditSummary.humanReviewRequired
+        && releaseAuditSummary.rollbackPlanRequired
+        && releaseAuditSummary.rolloutSnapshot.currentWawe === currentWawe
+        && releaseAuditSummary.kpiImpact.evaluationMaxMs === EXTRONDOL_EVALUATION_MAX_MS
+        && releaseAuditSummary.kpiImpact.apiResponseMaxMs === EXTRONDOL_API_MAX_MS
+        && releaseAuditSummary.kpiImpact.buildDurationMaxMin === EXTRONDOL_BUILD_MAX_MIN
+        && releaseAuditSummary.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO',
+    },
+    {
       id: 'b2b-downstream-sync',
       description: 'Downstream B2B consumers receive WAWE fields, DUET warning posture, DINKOS metadata, and domain-strategy validation.',
       passed: b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe')
@@ -643,6 +679,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     degraded,
     degradedMode: 'partial-payload-no-500',
     degradedSources,
+    releaseAuditSummary,
     acceptanceCriteria,
     integrationBoundaries: {
       dependsOn: ['/api/extrimli/extrondend', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/duet/evaluate'],

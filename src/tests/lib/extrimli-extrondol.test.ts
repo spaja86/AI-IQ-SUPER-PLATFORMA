@@ -95,6 +95,17 @@ async function runTests(): Promise<void> {
     assert(report.orchestrationReadinessScore >= 0 && report.orchestrationReadinessScore <= 100, 'orchestrationReadinessScore must be in [0, 100]');
     assert(report.degradedMode === 'partial-payload-no-500', 'unexpected degraded mode');
     assert(Array.isArray(report.rollout.reasons) && report.rollout.reasons.length >= 1, 'rollout reasons must be present');
+    assert(report.releaseAuditSummary.required, 'release audit summary must be required');
+    assert(report.releaseAuditSummary.rolloutSnapshot.currentWawe === report.rollout.currentWawe, 'release audit WAWE must match rollout');
+    assert(report.releaseAuditSummary.rolloutSnapshot.eligibleNextWawe === report.rollout.eligibleNextWawe, 'release audit next WAWE must match rollout');
+    assert(report.releaseAuditSummary.rolloutSnapshot.promotionFreeze === report.rollout.promotionFreeze, 'release audit freeze must match rollout');
+    assert(report.releaseAuditSummary.rolloutSnapshot.reasons.join('|') === report.rollout.reasons.join('|'), 'release audit reasons must match rollout reasons');
+    assert(report.releaseAuditSummary.kpiImpact.evaluationMaxMs === 50, 'release audit evaluation KPI mismatch');
+    assert(report.releaseAuditSummary.kpiImpact.apiResponseMaxMs === 200, 'release audit API KPI mismatch');
+    assert(report.releaseAuditSummary.kpiImpact.buildDurationMaxMin === 3, 'release audit build KPI mismatch');
+    assert(report.releaseAuditSummary.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'release audit linked repo mismatch');
+    assert(report.releaseAuditSummary.humanReviewRequired, 'release audit must require human review');
+    assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
   });
 
   await test('report enforces domain strategy lock', () => {
@@ -235,6 +246,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');
     assert(report.startProject.auditRelease.rollbackRequired, 'rollback must remain required');
     assert(report.acceptanceCriteria.some((item) => item.id === 'start-project-governance' && item.passed), 'start-project-governance criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'release-governance-audit-summary' && item.passed), 'release-governance-audit-summary criterion must pass');
   });
 
   await test('report exposes DISTANCE RATIO EKVILATER as an additive derived readiness table', () => {
