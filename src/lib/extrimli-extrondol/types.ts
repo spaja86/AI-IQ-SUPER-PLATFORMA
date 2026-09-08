@@ -128,6 +128,30 @@ export interface ExtrimliExtrondolGovernanceEvidence {
   onboardingComplete?: boolean;
 }
 
+export interface ExtrimliExtrondolReleaseAuditSummary {
+  required: true;
+  status: 'READY' | 'BLOCKED';
+  rolloutSnapshot: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reasons: string[];
+  };
+  kpiImpact: {
+    evaluationMaxMs: number;
+    apiResponseMaxMs: number;
+    buildDurationMaxMin: number;
+    withinTargets: boolean;
+  };
+  downstreamReference: {
+    linkedRepo: string;
+    status: 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
+    required: true;
+  };
+  humanReviewRequired: true;
+  rollbackPlanRequired: true;
+}
+
 export interface ExtrimliExtrondolStartProject {
   initiativeId: 'OKRID-2026-EXTRIMLI-START-001';
   programName: 'START PROJEKAT';
@@ -297,6 +321,7 @@ export interface ExtrimliExtrondolReport {
   degraded: boolean;
   degradedMode: 'partial-payload-no-500';
   degradedSources: string[];
+  releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
   acceptanceCriteria: ExtrimliExtrondolAcceptanceCriterion[];
   integrationBoundaries: {
     dependsOn: string[];
