@@ -54,11 +54,11 @@ export function GearCatalog({ items, motionMode = 'full' }: GearCatalogProps) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((item) => (
+        {filtered.map((item, index) => (
           <div key={item.sku} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <div className="flex items-start justify-between mb-1">
               <p className="text-sm font-semibold text-gray-800 flex items-center gap-2">
-                <MotionVisual domain="gear" type="orbital" intensity="low" mode={motionMode} itemIndex={item.stock % 8} />
+                <MotionVisual domain="gear" type="orbital" intensity="low" mode={motionMode} itemIndex={index} />
                 {item.name}
               </p>
               <span className="text-xs bg-gray-100 text-gray-500 rounded px-1.5 py-0.5">{item.sku}</span>
