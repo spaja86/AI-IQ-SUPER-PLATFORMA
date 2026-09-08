@@ -252,7 +252,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 
 ### EXTRONDOL B2B operating scope
 
@@ -272,6 +272,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - SLA posture ostaje enterprise-governed: evaluacija ≤ 50ms, API ≤ 200ms, build ≤ 3 min, business-critical support.
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
 - `releaseAuditSummary` je obavezan i mora sadržati: rollout snapshot (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`, `reasons`), KPI impact (`evaluationMaxMs`, `apiResponseMaxMs`, `buildDurationMaxMin`, `withinTargets`) i downstream reference (`linkedRepo`, `status`, `required`), uz `humanReviewRequired` i `rollbackPlanRequired` hard gate polja.
+- `paymentVerification` je obavezan pre WAWE promocije i B2B aktivacije; mora sadržati status provere (`VERIFIED | BLOCKED`), `invoiceResolutionPath` (`paid | correction-resolved | unresolved`), dokazni paket (`invoiceRequested`, `currentInvoiceEvidenceCaptured`, `bankStatementCaptured`, `paymentReferenceCaptured`, klasifikacija reference i public-safe approval), `blockers`, `auditTimestamp` i `readinessImpact`.
 - Vercel pretplata governance za Digitalna Industrija mora eksplicitno pokriti:
   - billing owner lock na `Digitalna Industrija — Kompanija SPAJA`
   - trenutnu fakturu `5JJYX4KN-0015` (`$385.52`) kao `paid` ili `corrected-invoice-resolved` (samo `correction-requested` nije dovoljno za finalno razrešenje)
@@ -299,6 +300,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
 - START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`.
+- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 

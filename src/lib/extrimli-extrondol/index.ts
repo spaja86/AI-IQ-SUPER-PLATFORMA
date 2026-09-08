@@ -8,10 +8,19 @@ import { evaluateDuet } from '../duet';
 import { getExtrimliExtrondendReport } from '../extrimli-extrondend';
 import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
+import {
+  EXPECTED_VERCEL_BILLING_OWNER,
+  EXPECTED_VERCEL_INVOICE_AMOUNT,
+  EXPECTED_VERCEL_INVOICE_NUMBER,
+  buildVercelPublicAnnouncementState,
+  isVercelInvoiceResolved,
+  normalizePaymentReferenceClassification,
+} from '../vercel-billing-governance';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolPaymentVerification,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolStartProject,
   ExtrimliExtrondolWaweStage,
@@ -212,6 +221,117 @@ function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidenc
   } as const;
 }
 
+function boolFlag(value: string | undefined): boolean {
+  return /^(1|true|yes)$/i.test(value ?? '');
+}
+
+function buildPaymentVerification(): ExtrimliExtrondolPaymentVerification {
+  const currentInvoiceNumber = (process.env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? '').trim();
+  const currentInvoiceAmount = (process.env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? '').trim();
+  const billingOwner = (process.env.SPAJA_VERCEL_BILLING_OWNER ?? '').trim();
+
+  const invoiceRequested = boolFlag(process.env.SPAJA_VERCEL_INVOICE_REQUESTED);
+  const currentInvoicePaid = boolFlag(process.env.SPAJA_VERCEL_CURRENT_INVOICE_PAID);
+  const invoiceCorrectionRequested = boolFlag(process.env.SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED);
+  const correctedInvoiceResolved = boolFlag(process.env.SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED);
+  const currentInvoiceEvidenceCaptured = boolFlag(process.env.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED);
+  const bankStatementCaptured = boolFlag(process.env.SPAJA_VERCEL_BANK_STATEMENT_CAPTURED);
+  const paymentReferenceCaptured = boolFlag(process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED);
+  const paymentReferencePublicSafeApproved = boolFlag(process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED);
+  const publicAnnouncementRedacted = boolFlag(process.env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED);
+  const publicAnnouncementPublished = boolFlag(process.env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED);
+  const billingOwnerLocked = boolFlag(process.env.SPAJA_VERCEL_BILLING_OWNER_LOCKED);
+  const paymentReferenceClassificationRaw = normalizePaymentReferenceClassification(
+    process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
+  );
+  const paymentReferenceClassification = paymentReferenceClassificationRaw.length > 0
+    ? paymentReferenceClassificationRaw
+    : 'unclassified';
+
+  const invoiceMatchesExpected = currentInvoiceNumber === EXPECTED_VERCEL_INVOICE_NUMBER
+    && currentInvoiceAmount === EXPECTED_VERCEL_INVOICE_AMOUNT;
+  const invoiceResolved = isVercelInvoiceResolved({
+    currentInvoiceNumber,
+    currentInvoiceAmount,
+    currentInvoicePaid,
+    invoiceCorrectionRequested,
+    correctedInvoiceResolved,
+  });
+
+  const publicAnnouncementState = buildVercelPublicAnnouncementState({
+    invoiceRequested,
+    currentInvoiceNumber,
+    currentInvoiceAmount,
+    currentInvoicePaid,
+    invoiceCorrectionRequested,
+    correctedInvoiceResolved,
+    currentInvoiceEvidenceCaptured,
+    bankStatementCaptured,
+    paymentReferenceCaptured,
+    paymentReferenceClassification,
+    paymentReferencePublicSafeApproved,
+    publicAnnouncementRedacted,
+    publicAnnouncementPublished,
+  });
+
+  const blockers = [
+    ...(billingOwnerLocked && billingOwner === EXPECTED_VERCEL_BILLING_OWNER ? [] : ['billing-owner-lock-required']),
+    ...(invoiceMatchesExpected ? [] : [`invoice-mismatch:${EXPECTED_VERCEL_INVOICE_NUMBER}:${EXPECTED_VERCEL_INVOICE_AMOUNT}`]),
+    ...(invoiceRequested ? [] : ['invoice-requested-required']),
+    ...(invoiceResolved ? [] : ['invoice-resolution-required']),
+    ...(currentInvoiceEvidenceCaptured ? [] : ['payment-evidence-required']),
+    ...(bankStatementCaptured ? [] : ['bank-statement-required']),
+    ...(paymentReferenceCaptured ? [] : ['payment-reference-required']),
+    ...(paymentReferenceClassification !== 'unclassified' ? [] : ['payment-reference-classification-required']),
+    ...(paymentReferenceClassification !== 'public-safe' || paymentReferencePublicSafeApproved
+      ? []
+      : ['payment-reference-public-safe-approval-required']),
+    ...(publicAnnouncementRedacted ? [] : ['public-announcement-redaction-required']),
+  ];
+
+  const status = blockers.length === 0 ? 'VERIFIED' : 'BLOCKED';
+  const invoiceResolutionPath = invoiceMatchesExpected && currentInvoicePaid
+    ? 'paid'
+    : invoiceMatchesExpected && invoiceCorrectionRequested && correctedInvoiceResolved
+      ? 'correction-resolved'
+      : 'unresolved';
+
+  return {
+    sourceOfTruth: '/api/vercel-status',
+    ownershipActionSurface: '/api/owner/vercel-ownership',
+    gate: 'pre-wawe-promotion-and-b2b-activation',
+    expectedInvoice: {
+      billingOwner: EXPECTED_VERCEL_BILLING_OWNER,
+      invoiceNumber: EXPECTED_VERCEL_INVOICE_NUMBER,
+      invoiceAmount: EXPECTED_VERCEL_INVOICE_AMOUNT,
+    },
+    status,
+    invoiceResolutionPath,
+    evidence: {
+      billingOwnerLocked: billingOwnerLocked && billingOwner === EXPECTED_VERCEL_BILLING_OWNER,
+      invoiceMatchesExpected,
+      invoiceRequested,
+      currentInvoicePaid,
+      invoiceCorrectionRequested,
+      correctedInvoiceResolved,
+      currentInvoiceEvidenceCaptured,
+      bankStatementCaptured,
+      paymentReferenceCaptured,
+      paymentReferenceClassification,
+      paymentReferencePublicSafeApproved,
+      publicAnnouncementRedacted,
+      publicAnnouncementPublished: publicAnnouncementState.status === 'published',
+    },
+    blockers,
+    auditTimestamp: new Date().toISOString(),
+    readinessImpact: {
+      promotionFreezeRequired: blockers.length > 0,
+      blockerCount: blockers.length,
+      releaseAuditStatus: status === 'VERIFIED' ? 'READY' : 'BLOCKED',
+    },
+  };
+}
+
 /**
  * Builds the EXTRONDOL readiness report.
  * Explicit `evidence` values take precedence; when omitted, governance evidence
@@ -226,6 +346,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const koron = getExtrimliKoronHealthReport();
   const domainStrategy = validateDomainStrategy();
   const governanceEvidence = resolveGovernanceEvidence(evidence);
+  const paymentVerification = buildPaymentVerification();
 
   const duetInput = {
     referenceId: 'extrimli-extrondol:nivo-duet',
@@ -320,6 +441,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'nivoDuet',
       'dinkos',
       'distanceRatioEkvilaterTable',
+      'paymentVerification',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -333,6 +455,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'nivoDuet',
         'dinkos',
         'distanceRatioEkvilaterTable',
+        'paymentVerification',
       ],
     },
     qualityGates: {
@@ -418,6 +541,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!duetSignal.valid || duetSignal.status === 'DISSONANT' ? ['DUET signal posture prevents onboarding hold from clearing.'] : []),
     ...(!downstreamSyncComplete ? ['Downstream sync must complete before B2B activation.'] : []),
     ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
+    ...(paymentVerification.status !== 'VERIFIED' ? ['Payment verification is blocking WAWE promotion and B2B activation.'] : []),
   ];
   const complianceBlockers = [
     ...(!contractApproved ? ['contract-approved'] : []),
@@ -426,6 +550,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!operationalApproval ? ['operational-approval'] : []),
     ...(!humanReviewComplete ? ['human-review-complete'] : []),
     ...(!governanceEvidence.auditTrailComplete ? ['audit-trail-complete'] : []),
+    ...(paymentVerification.status !== 'VERIFIED'
+      ? paymentVerification.blockers.map((blocker) => `payment:${blocker}`)
+      : []),
   ];
   const auditTrailComplete = governanceEvidence.auditTrailComplete;
   const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1';
@@ -434,6 +561,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
       ...degradedSources,
       ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
+      ...(paymentVerification.status !== 'VERIFIED'
+        ? ['payment-verification:blocked']
+        : []),
     ]
     : ['Ready for next WAWE stage with governance evidence.'];
   const releaseAuditSummary = {
@@ -498,6 +628,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'dinkos.personaId',
         'domainStrategy.canonicalApex',
         'domainStrategy.canonicalWildcard',
+        'paymentVerification.status',
+        'paymentVerification.blockers',
+        'paymentVerification.readinessImpact',
       ],
     },
     governanceDecisions: {
@@ -565,6 +698,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && distanceRatioEkvilaterTable.scoringSource.join(',') === EXTRONDOL_DISTANCE_RATIO_EKVILATER_SCORING_SOURCE.join(',')
         && distanceRatioEkvilaterTable.rows.length === 3
         && Number.isFinite(distanceRatioEkvilaterTable.summary.equilateralConsistency),
+    },
+    {
+      id: 'payment-verification-gate',
+      description: 'Payment verification must pass invoice resolution, evidence package, and privacy/redaction controls before WAWE promotion and B2B activation.',
+      passed: paymentVerification.status === 'VERIFIED',
     },
     {
       id: 'b2b-scope',
@@ -636,6 +774,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     b2bReadiness,
     domainStrategy,
     distanceRatioEkvilaterTable,
+    paymentVerification,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
       triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,

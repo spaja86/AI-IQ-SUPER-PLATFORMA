@@ -108,6 +108,7 @@ async function runTests(): Promise<void> {
         };
         rollout: { currentWawe: string; promotionFreeze: boolean };
         b2bReadiness: { downstreamSync: { linkedRepo: string } };
+        paymentVerification: { status: string; blockers: string[] };
         distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
       };
     };
@@ -120,7 +121,59 @@ async function runTests(): Promise<void> {
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(body.data.rollout.currentWawe), 'unexpected currentWawe');
     assert(typeof body.data.rollout.promotionFreeze === 'boolean', 'promotionFreeze should be boolean');
     assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
+    assert(['VERIFIED', 'BLOCKED'].includes(body.data.paymentVerification.status), 'unexpected payment verification status');
+    assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
     assert(body.data.distanceRatioEkvilaterTable.rows.length === 3, 'distance ratio table must expose 3 rows');
+  });
+
+  await test('GET /api/extrimli/extrondol stays 200 with blocked payment verification (degraded-no-500 contract)', async () => {
+    const previous = {
+      SPAJA_VERCEL_BILLING_OWNER: process.env.SPAJA_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: process.env.SPAJA_VERCEL_BILLING_OWNER_LOCKED,
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: process.env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: process.env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: process.env.SPAJA_VERCEL_INVOICE_REQUESTED,
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: process.env.SPAJA_VERCEL_CURRENT_INVOICE_PAID,
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: process.env.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED,
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: process.env.SPAJA_VERCEL_BANK_STATEMENT_CAPTURED,
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED,
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED,
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: process.env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED,
+    };
+    process.env.SPAJA_VERCEL_BILLING_OWNER = 'unknown-owner';
+    process.env.SPAJA_VERCEL_BILLING_OWNER_LOCKED = 'false';
+    process.env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER = 'unknown';
+    process.env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT = '0.00';
+    process.env.SPAJA_VERCEL_INVOICE_REQUESTED = 'false';
+    process.env.SPAJA_VERCEL_CURRENT_INVOICE_PAID = 'false';
+    process.env.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED = 'false';
+    process.env.SPAJA_VERCEL_BANK_STATEMENT_CAPTURED = 'false';
+    process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED = 'false';
+    process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION = '';
+    process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED = 'false';
+    process.env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED = 'false';
+
+    try {
+      const response = await getExtrondol();
+      assert(response.status === 200, `expected 200, got ${response.status}`);
+      const body = await response.json() as { data: { paymentVerification: { status: string; blockers: string[] } } };
+      assert(body.data.paymentVerification.status === 'BLOCKED', 'expected blocked payment verification');
+      assert(body.data.paymentVerification.blockers.length >= 1, 'expected payment blockers');
+    } finally {
+      process.env.SPAJA_VERCEL_BILLING_OWNER = previous.SPAJA_VERCEL_BILLING_OWNER;
+      process.env.SPAJA_VERCEL_BILLING_OWNER_LOCKED = previous.SPAJA_VERCEL_BILLING_OWNER_LOCKED;
+      process.env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER = previous.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER;
+      process.env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT = previous.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT;
+      process.env.SPAJA_VERCEL_INVOICE_REQUESTED = previous.SPAJA_VERCEL_INVOICE_REQUESTED;
+      process.env.SPAJA_VERCEL_CURRENT_INVOICE_PAID = previous.SPAJA_VERCEL_CURRENT_INVOICE_PAID;
+      process.env.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED = previous.SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED;
+      process.env.SPAJA_VERCEL_BANK_STATEMENT_CAPTURED = previous.SPAJA_VERCEL_BANK_STATEMENT_CAPTURED;
+      process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED = previous.SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED;
+      process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION = previous.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION;
+      process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED = previous.SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED;
+      process.env.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED = previous.SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED;
+    }
   });
 
   await test('GET /api/extrimli/koron returns KORON surface report and headers', async () => {
