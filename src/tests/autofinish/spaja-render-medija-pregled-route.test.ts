@@ -87,6 +87,24 @@ async function runTests(): Promise<void> {
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }
+
+      assert(isObject(body['pregled']), 'pregled ostaje objekat');
+      assert(Array.isArray(body['engini']), 'engini ostaje niz');
+      assert(Array.isArray(body['pipeline']), 'pipeline ostaje niz');
+      assert(isObject(body['formulaStatusPoKategoriji']), 'formulaStatusPoKategoriji postoji');
+      const formula = body['formulaStatusPoKategoriji'];
+      if (isObject(formula)) {
+        const slika = formula['slika'];
+        const video = formula['video'];
+        assert(isObject(slika), 'formula slika postoji');
+        assert(isObject(video), 'formula video postoji');
+        if (isObject(slika) && isObject(video)) {
+          assert(typeof slika['score'] === 'number' && Number.isFinite(slika['score']), 'slika score');
+          assert(typeof video['score'] === 'number' && Number.isFinite(video['score']), 'video score');
+          assert(typeof slika['objasnjenje'] === 'string' && (slika['objasnjenje'] as string).length > 0, 'slika objasnjenje');
+          assert(typeof video['objasnjenje'] === 'string' && (video['objasnjenje'] as string).length > 0, 'video objasnjenje');
+        }
+      }
     }
   });
 

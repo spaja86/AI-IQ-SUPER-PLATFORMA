@@ -4,9 +4,13 @@ import {
   renderEngini,
   getAktivniEngini,
   getEnginiPoKategoriji,
+  getNikolaSpajicFormulaSummary,
+  chatGptIntegracioniUgovor,
 } from '@/lib/spaja-render-medija';
 
 export async function GET() {
+  const formule = getNikolaSpajicFormulaSummary();
+
   return NextResponse.json({
     status: 'aktivan',
     sistem: 'SPAJA Render — Engine-i',
@@ -22,6 +26,25 @@ export async function GET() {
       'audio-vizuelno': getEnginiPoKategoriji('audio-vizuelno').length,
       hologram: getEnginiPoKategoriji('hologram').length,
       'vr-ar': getEnginiPoKategoriji('vr-ar').length,
+    },
+    nikolaSpajicFormule: formule,
+    formulaStatusPoKategoriji: {
+      slika: {
+        score: formule.slika.score,
+        status: formule.slika.status,
+        preporuka: formule.slika.preporuka,
+        objasnjenje: formule.slika.objasnjenje,
+      },
+      video: {
+        score: formule.video.score,
+        status: formule.video.status,
+        preporuka: formule.video.preporuka,
+        objasnjenje: formule.video.objasnjenje,
+      },
+    },
+    chatGptIntegracija: {
+      mode: chatGptIntegracioniUgovor.mode,
+      runtimeEvaluacija: chatGptIntegracioniUgovor.runtimeEvaluacija,
     },
     engini: renderEngini.map((e) => ({
       id: e.id,
