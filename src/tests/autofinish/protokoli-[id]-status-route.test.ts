@@ -1,11 +1,9 @@
-// Autofinish — protokoli/verifikacija-sve Route Coverage Test
-// Generisano: scripts/generate-route-tests.mjs
+// Autofinish — protokoli/[id]/status Route Coverage Test
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 import type { NextRequest } from 'next/server';
-import { POST } from '../../app/api/protokoli/verifikacija-sve/route';
+import { POST } from '../../app/api/protokoli/[id]/status/route';
 
 let passed = 0;
 let failed = 0;
@@ -35,49 +33,52 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
   }
 }
 
-function makeRequest(authorization?: string): NextRequest {
-  return new Request('http://localhost/api/protokoli/verifikacija-sve', {
+function makeRequest(body: unknown, authorization?: string): NextRequest {
+  return new Request('http://localhost/api/protokoli/spaja-pmt/status', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
       'x-forwarded-for': '127.0.0.1',
       ...(authorization ? { authorization } : {}),
     },
-    body: JSON.stringify({}),
+    body: JSON.stringify(body),
   }) as NextRequest;
 }
 
 async function runTests(): Promise<void> {
-  console.log('\n🏁 protokoli/verifikacija-sve — Route Coverage Test Suite\n');
+  console.log('\n🏁 protokoli/[id]/status — Route Coverage Test Suite\n');
 
-  const routePath = path.resolve(process.cwd(), 'src/app/api/protokoli/verifikacija-sve/route.ts');
+  const routePath = path.resolve(process.cwd(), 'src/app/api/protokoli/[id]/status/route.ts');
   const src = fs.readFileSync(routePath, 'utf8');
 
   await test('API route fajl postoji', () => {
     assert(fs.existsSync(routePath), `${routePath} ne postoji`);
   });
 
-  await test('Ruta eksportuje POST i traži admin dozvole', () => {
+  await test('Ruta eksportuje POST i podržava lifecycle akcije', () => {
     assert(src.includes('export async function POST'), 'Nedostaje POST handler');
-    assert(src.includes('verifyUserFromToken'), 'Nedostaje autentifikacija');
-    assert(src.includes('isAdminUser'), 'Nedostaje admin provera');
+    assert(src.includes('predlozi') && src.includes('rollback') && src.includes('incident'), 'Nedostaju lifecycle akcije');
   });
 
-  await test('POST bez auth vraća 401', async () => {
-    const response = await POST(makeRequest());
-    assertEqual(response.status, 401, 'status');
+  await test('Predlog statusa bez auth prolazi za postojeći protokol', async () => {
+    const response = await POST(makeRequest({ action: 'predlozi', status: 'u-testu', reason: 'ui-check' }), {
+      params: Promise.resolve({ id: 'spaja-pmt' }),
+    });
+    assertEqual(response.status, 200, 'status');
   });
 
-  await test('POST sa nevažećim tokenom ne prolazi', async () => {
-    const response = await POST(makeRequest('******'));
-    assert(response.status === 401 || response.status === 403, 'očekuje se 401 ili 403');
+  await test('Incident akcija bez auth vraća 403', async () => {
+    const response = await POST(makeRequest({ action: 'incident', reason: 'manual-check' }), {
+      params: Promise.resolve({ id: 'spaja-pmt' }),
+    });
+    assertEqual(response.status, 403, 'status');
   });
 
-  await test('Konstante su dostupne', () => {
-    assert(typeof APP_VERSION === 'string' && APP_VERSION.length > 0, 'APP_VERSION');
-    assert(typeof AUTOFINISH_COUNT === 'number' && AUTOFINISH_COUNT > 0, 'AUTOFINISH_COUNT');
-    assert(typeof TOTAL_API_ROUTES === 'number' && TOTAL_API_ROUTES > 0, 'TOTAL_API_ROUTES');
-    assert(typeof TOTAL_ROUTES === 'number' && TOTAL_ROUTES > 0, 'TOTAL_ROUTES');
+  await test('Predlog statusa sa nepoznatim statusom vraća 400', async () => {
+    const response = await POST(makeRequest({ action: 'predlozi', status: 'unknown', reason: 'bad' }), {
+      params: Promise.resolve({ id: 'spaja-pmt' }),
+    });
+    assertEqual(response.status, 400, 'status');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);

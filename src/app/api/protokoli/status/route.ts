@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       durationMs: Date.now() - startedAt,
       extra: summary,
     });
-    return apiSuccess({ status: summary });
+    return apiSuccess({ status: summary, catalog: protokolManager.getCatalogSummary(), meta: protokolManager.getMeta() });
   } catch (error) {
     logApiCall('PROTOKOLI', {
       reqId,

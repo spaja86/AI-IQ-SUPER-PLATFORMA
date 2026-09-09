@@ -24,6 +24,7 @@ export async function GET(request: NextRequest) {
 
     const protokoli = protokolManager.getAll();
     const logs = protokolManager.getLog(undefined, 500);
+    const lifecycle = protokolManager.getLifecycleHistory(undefined, 500);
 
     logApiCall('PROTOKOLI', {
       reqId,
@@ -31,12 +32,14 @@ export async function GET(request: NextRequest) {
       method: 'GET',
       statusCode: 200,
       durationMs: Date.now() - startedAt,
-      extra: { ukupnoProtokola: protokoli.length, ukupnoLogova: logs.length },
+      extra: { ukupnoProtokola: protokoli.length, ukupnoLogova: logs.length, lifecycle: lifecycle.length },
     });
 
     return apiSuccess({
       registry: protokoli,
       logs,
+      lifecycle,
+      summary: protokolManager.getCatalogSummary(),
       meta: protokolManager.getMeta(),
       exportedAt: new Date().toISOString(),
     });

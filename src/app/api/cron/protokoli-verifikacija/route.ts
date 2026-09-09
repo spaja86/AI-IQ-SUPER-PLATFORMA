@@ -14,14 +14,14 @@ export async function GET(request: Request) {
   const neuspesni = results.filter((result) => !result.uspesno);
   const failRatio = results.length === 0 ? 0 : neuspesni.length / results.length;
 
-  let incidentUpdated = 0;
+  const incidentProtocolIds: string[] = [];
   if (failRatio > INCIDENT_THRESHOLD) {
     for (const result of neuspesni) {
       await protokolManager.updateStatus(result.protokolId, 'incident', {
         reqId: `cron-protokoli-verifikacija-${Date.now()}`,
         reason: 'cron-failure-ratio',
       });
-      incidentUpdated++;
+      incidentProtocolIds.push(result.protokolId);
     }
   }
 
@@ -31,7 +31,9 @@ export async function GET(request: Request) {
     ukupno: results.length,
     neuspesni: neuspesni.length,
     failRatio,
-    incidentUpdated,
+    incidentUpdated: incidentProtocolIds.length,
+    incidentProtocolIds,
+    summary: protokolManager.getCatalogSummary(),
     timestamp: new Date().toISOString(),
   });
 }

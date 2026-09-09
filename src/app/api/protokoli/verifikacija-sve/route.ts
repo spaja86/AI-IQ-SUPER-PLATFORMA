@@ -63,7 +63,9 @@ export async function POST(request: NextRequest) {
       ukupno: results.length,
       uspesni: results.length - neuspesni.length,
       neuspesni: neuspesni.length,
+      neuspesniProtokoli: neuspesni.map((result) => result.protokolId),
       rezultati: results,
+      summary: protokolManager.getCatalogSummary(),
     });
   } catch (error) {
     logApiCall('PROTOKOLI', {
