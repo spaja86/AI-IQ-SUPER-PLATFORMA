@@ -1547,6 +1547,59 @@
         "downstreamDependency": false,
         "note": "No linked repo runtime change required for POZADINE SVIH PROJEKCIJA v1"
       }
+    },
+    "tacskrin-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "tacskrin-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "tacskrin:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "tacskrin/**"
+        ],
+        "paths": [
+          "src/lib/tacskrin/**",
+          "src/app/api/tacskrin/**",
+          "src/tests/lib/tacskrin.test.ts",
+          "src/tests/api/tacskrin-route.test.ts",
+          ".github/workflows/tacskrin-validator.yml",
+          "docs/TACSKRIN.md"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/tacskrin.test.ts",
+        "npx tsx src/tests/api/tacskrin-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "tacskrin:validated",
+        "needsReview": "tacskrin:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "tacskrin-core",
+        "octave": 10,
+        "hipermrezaNode": 85
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          100
+        ],
+        "reactionMaxMs": 600
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo runtime change required for TACSKRIN v1"
+      }
     }
   },
   "orgSettings": {

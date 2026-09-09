@@ -59,5 +59,6 @@ See: `docs/API-CONTRACT-STATUS.md`.
 
 Current v1 additive module surface:
 - `pozadine-svih-projekcija`: `/api/pozadine-svih-projekcija/evaluate`, `/api/pozadine-svih-projekcija/health` (projection-equivalence contract with duplicate-token validation for `NIKOS`).
+- `tacskrin`: `/api/tacskrin/evaluate`, `/api/tacskrin/health` (canonical projection-equivalence contract for `REAL NIKOS DIKOS FRANKEN DEMBA GAKU REKO NAKUS GOMBLE GEPI NAU JUN GOKON APAR DJUNDRE`).
 - `nude`: `/api/nude/evaluate`, `/api/nude/health` (experimental until broader adoption).
 - `geografija-realna`: `/api/geografija-realna/evaluate`, `/api/geografija-realna/health` (experimental until broader adoption).
