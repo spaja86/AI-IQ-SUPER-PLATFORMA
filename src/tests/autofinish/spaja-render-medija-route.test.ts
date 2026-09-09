@@ -4,6 +4,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
+import {
+  evaluateNikolaSpajicFormule,
+  evaluateNikolaSpajicFormuleFromChatGpt,
+} from '../../lib/spaja-render-medija';
 
 let passed = 0;
 let failed = 0;
@@ -87,7 +91,50 @@ async function runTests(): Promise<void> {
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }
+
+      assert(Array.isArray(body['engini']), 'engini ostaje niz');
+      assert(Array.isArray(body['pipeline']), 'pipeline ostaje niz');
+      assert(isObject(body['formulaStatusPoKategoriji']), 'formulaStatusPoKategoriji postoji');
+      const formula = body['formulaStatusPoKategoriji'];
+      if (isObject(formula)) {
+        const slika = formula['slika'];
+        const video = formula['video'];
+        assert(isObject(slika), 'formula slika postoji');
+        assert(isObject(video), 'formula video postoji');
+        if (isObject(slika) && isObject(video)) {
+          assert(typeof slika['score'] === 'number' && Number.isFinite(slika['score']), 'slika score');
+          assert(typeof video['score'] === 'number' && Number.isFinite(video['score']), 'video score');
+          assert(typeof slika['status'] === 'string' && (slika['status'] as string).length > 0, 'slika status');
+          assert(typeof video['status'] === 'string' && (video['status'] as string).length > 0, 'video status');
+        }
+      }
     }
+  });
+
+  await test('Nikola Spajić formula daje validan score za sliku i video', () => {
+    const slika = evaluateNikolaSpajicFormule('slika');
+    const video = evaluateNikolaSpajicFormule('video');
+    assert(Number.isFinite(slika.score), 'slika score je broj');
+    assert(Number.isFinite(video.score), 'video score je broj');
+    assert(slika.score >= 0 && slika.score <= 100, 'slika score 0-100');
+    assert(video.score >= 0 && video.score <= 100, 'video score 0-100');
+  });
+
+  await test('Nikola Spajić formula fallback radi za NaN/Infinity/prazan payload', () => {
+    const nevalidanInput = evaluateNikolaSpajicFormule('video', {
+      kvalitetIzvora: Number.NaN,
+      kompleksnostScene: Number.POSITIVE_INFINITY,
+      dinamikaPokreta: Number.NEGATIVE_INFINITY,
+      aiPouzdanost: Number.NaN,
+      vremenskiBudzetMs: Number.NaN,
+    });
+    assert(nevalidanInput.fallbackUsed, 'fallback aktivan za nevalidan input');
+    assert(nevalidanInput.warnings.length > 0, 'warnings za nevalidan input');
+
+    const chatGptFallback = evaluateNikolaSpajicFormuleFromChatGpt('slika', {});
+    assert(chatGptFallback.fallbackUsed, 'chatgpt fallback aktivan za prazan payload');
+    assert(chatGptFallback.warnings.length > 0, 'warnings za chatgpt fallback');
+    assert(Number.isFinite(chatGptFallback.score), 'chatgpt fallback score je broj');
   });
 
   await test('Konstante su dostupne', () => {

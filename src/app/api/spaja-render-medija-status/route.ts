@@ -5,10 +5,13 @@ import {
   renderPipeline,
   getAktivniEngini,
   getRenderStatistika,
+  getNikolaSpajicFormulaSummary,
+  chatGptIntegracioniUgovor,
 } from '@/lib/spaja-render-medija';
 
 export async function GET() {
   const statistika = getRenderStatistika();
+  const formule = getNikolaSpajicFormulaSummary();
 
   return NextResponse.json({
     status: 'aktivan',
@@ -20,6 +23,25 @@ export async function GET() {
     ukupnoPipeline: renderPipeline.length,
     ukupnoFormata: statistika.ukupnoFormata,
     statistika,
+    nikolaSpajicFormule: formule,
+    formulaStatusPoKategoriji: {
+      slika: {
+        score: formule.slika.score,
+        status: formule.slika.status,
+        preporuka: formule.slika.preporuka,
+        objasnjenje: formule.slika.objasnjenje,
+      },
+      video: {
+        score: formule.video.score,
+        status: formule.video.status,
+        preporuka: formule.video.preporuka,
+        objasnjenje: formule.video.objasnjenje,
+      },
+    },
+    chatGptIntegracija: {
+      mode: chatGptIntegracioniUgovor.mode,
+      runtimeEvaluacija: chatGptIntegracioniUgovor.runtimeEvaluacija,
+    },
     engini: renderEngini.map((e) => ({
       naziv: e.naziv,
       kategorija: e.kategorija,

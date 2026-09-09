@@ -48,6 +48,87 @@ export interface RenderStatistika {
   ukupnoKategorija: number;
 }
 
+export type NikolaSpajicFormulaKategorija = 'slika' | 'video';
+export type NikolaSpajicFormulaStatus = 'optimalno' | 'stabilno' | 'oprez' | 'kriticno';
+
+export interface NikolaSpajicFormulaInput {
+  kvalitetIzvora: number;
+  kompleksnostScene: number;
+  dinamikaPokreta: number;
+  aiPouzdanost: number;
+  vremenskiBudzetMs: number;
+}
+
+export interface NikolaSpajicFormulaBoundaries {
+  kvalitetIzvora: { min: number; max: number };
+  kompleksnostScene: { min: number; max: number };
+  dinamikaPokreta: { min: number; max: number };
+  aiPouzdanost: { min: number; max: number };
+  vremenskiBudzetMs: { min: number; max: number };
+}
+
+export interface NikolaSpajicFormulaWeights {
+  kvalitetIzvora: number;
+  kompleksnostScene: number;
+  dinamikaPokreta: number;
+  aiPouzdanost: number;
+  vremenskiBudzetMs: number;
+}
+
+export interface NikolaSpajicFormulaSpec {
+  naziv: string;
+  autor: string;
+  verzija: string;
+  ulazi: string[];
+  izlazi: string[];
+  granice: NikolaSpajicFormulaBoundaries;
+  tezine: Record<NikolaSpajicFormulaKategorija, NikolaSpajicFormulaWeights>;
+  fallbackPravila: string[];
+}
+
+export interface ChatGptFormulaSuggestionPayload {
+  kvalitetIzvora?: number;
+  kompleksnostScene?: number;
+  dinamikaPokreta?: number;
+  aiPouzdanost?: number;
+  vremenskiBudzetMs?: number;
+}
+
+export interface ChatGptFormulaValidation {
+  valid: boolean;
+  warnings: string[];
+}
+
+export interface ChatGptIntegracioniUgovor {
+  mode: 'predlog-parametara';
+  runtimeEvaluacija: false;
+  ulaznoMapiranje: string[];
+  izlaznoMapiranje: string[];
+  validacija: string[];
+  ogranicenja: string[];
+  fallback: string[];
+}
+
+export interface NikolaSpajicFormulaResult {
+  kategorija: NikolaSpajicFormulaKategorija;
+  score: number;
+  status: NikolaSpajicFormulaStatus;
+  preporuka: string;
+  objasnjenje: string;
+  input: NikolaSpajicFormulaInput;
+  warnings: string[];
+  fallbackUsed: boolean;
+}
+
+export interface NikolaSpajicFormulaSummary {
+  slika: NikolaSpajicFormulaResult;
+  video: NikolaSpajicFormulaResult;
+  chatGpt: {
+    mode: ChatGptIntegracioniUgovor['mode'];
+    runtimeEvaluacija: ChatGptIntegracioniUgovor['runtimeEvaluacija'];
+  };
+}
+
 export interface SpajaRenderMedija {
   naziv: string;
   opis: string;
@@ -57,6 +138,8 @@ export interface SpajaRenderMedija {
   engini: RenderEngine[];
   pipeline: RenderPipeline[];
   statistika: RenderStatistika;
+  nikolaSpajicFormule: NikolaSpajicFormulaSummary;
+  chatGptIntegracioniUgovor: ChatGptIntegracioniUgovor;
 }
 
 // ─── Render Engine-i ─────────────────────────────────────
@@ -250,6 +333,264 @@ export const renderPipeline: RenderPipeline[] = [
   },
 ];
 
+const FORMULA_SCORE_MIN = 0;
+const FORMULA_SCORE_MAX = 100;
+
+const FORMULA_DEFAULT_INPUT: Record<NikolaSpajicFormulaKategorija, NikolaSpajicFormulaInput> = {
+  slika: {
+    kvalitetIzvora: 78,
+    kompleksnostScene: 64,
+    dinamikaPokreta: 20,
+    aiPouzdanost: 85,
+    vremenskiBudzetMs: 42_000,
+  },
+  video: {
+    kvalitetIzvora: 72,
+    kompleksnostScene: 74,
+    dinamikaPokreta: 82,
+    aiPouzdanost: 80,
+    vremenskiBudzetMs: 90_000,
+  },
+};
+
+export const nikolaSpajicFormulaSpec: NikolaSpajicFormulaSpec = {
+  naziv: 'Nikola Spajić formule za SPAJA Render',
+  autor: 'Nikola Spajić',
+  verzija: '1.0.0',
+  ulazi: [
+    'kvalitetIzvora',
+    'kompleksnostScene',
+    'dinamikaPokreta',
+    'aiPouzdanost',
+    'vremenskiBudzetMs',
+  ],
+  izlazi: ['score', 'status', 'preporuka', 'objasnjenje', 'warnings', 'fallbackUsed'],
+  granice: {
+    kvalitetIzvora: { min: 0, max: 100 },
+    kompleksnostScene: { min: 0, max: 100 },
+    dinamikaPokreta: { min: 0, max: 100 },
+    aiPouzdanost: { min: 0, max: 100 },
+    vremenskiBudzetMs: { min: 1_000, max: 180_000 },
+  },
+  tezine: {
+    slika: {
+      kvalitetIzvora: 0.35,
+      kompleksnostScene: 0.25,
+      dinamikaPokreta: 0.05,
+      aiPouzdanost: 0.25,
+      vremenskiBudzetMs: 0.1,
+    },
+    video: {
+      kvalitetIzvora: 0.25,
+      kompleksnostScene: 0.2,
+      dinamikaPokreta: 0.3,
+      aiPouzdanost: 0.15,
+      vremenskiBudzetMs: 0.1,
+    },
+  },
+  fallbackPravila: [
+    'Ako je ulaz nevalidan (NaN, Infinity, nedostaje), koristi se podrazumevana vrednost po kategoriji.',
+    'Ako ChatGPT payload nije validan, ignoriše se i koristi se deterministic fallback.',
+    'Score se uvek clamp-uje u opsegu 0–100.',
+  ],
+};
+
+export const chatGptIntegracioniUgovor: ChatGptIntegracioniUgovor = {
+  mode: 'predlog-parametara',
+  runtimeEvaluacija: false,
+  ulaznoMapiranje: [
+    'prompt.category -> slika|video',
+    'prompt.qualityHint -> kvalitetIzvora',
+    'prompt.complexityHint -> kompleksnostScene',
+    'prompt.motionHint -> dinamikaPokreta',
+    'prompt.confidenceHint -> aiPouzdanost',
+    'prompt.timeBudgetMs -> vremenskiBudzetMs',
+  ],
+  izlaznoMapiranje: [
+    'chatgpt.kvalitetIzvora -> formula.kvalitetIzvora',
+    'chatgpt.kompleksnostScene -> formula.kompleksnostScene',
+    'chatgpt.dinamikaPokreta -> formula.dinamikaPokreta',
+    'chatgpt.aiPouzdanost -> formula.aiPouzdanost',
+    'chatgpt.vremenskiBudzetMs -> formula.vremenskiBudzetMs',
+  ],
+  validacija: [
+    'Svi numericki parametri moraju biti konacni brojevi.',
+    'Parametri se clamp-uju na dozvoljene granice iz specifikacije.',
+    'Payload se smatra nevalidnim ako nijedan parametar nije upotrebljiv.',
+  ],
+  ogranicenja: [
+    'ChatGPT se koristi samo za predlog parametara.',
+    'Runtime evaluacija score-a je lokalna i deterministic.',
+    'Nema spoljnog API poziva u kriticnom putu render evaluacije.',
+  ],
+  fallback: [
+    'Ako ChatGPT nije dostupan, koristi se default ulaz po kategoriji.',
+    'Ako ChatGPT vrati nevalidan payload, ignoriše se i beleži warning.',
+    'Ako pojedinačni parametar nije validan, koristi se fallback samo za taj parametar.',
+  ],
+};
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function normalizeVremenskiBudzet(
+  value: number,
+  kategorija: NikolaSpajicFormulaKategorija,
+): number {
+  const target = kategorija === 'slika' ? 45_000 : 90_000;
+  return clamp((value / target) * 100, FORMULA_SCORE_MIN, FORMULA_SCORE_MAX);
+}
+
+function toFiniteNumber(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+function sanitizeFormulaInput(
+  kategorija: NikolaSpajicFormulaKategorija,
+  input?: Partial<NikolaSpajicFormulaInput>,
+): { value: NikolaSpajicFormulaInput; warnings: string[]; fallbackUsed: boolean } {
+  const fallback = FORMULA_DEFAULT_INPUT[kategorija];
+  const warnings: string[] = [];
+  let fallbackUsed = false;
+
+  const pick = (
+    key: keyof NikolaSpajicFormulaInput,
+    min: number,
+    max: number,
+  ): number => {
+    const raw = toFiniteNumber(input?.[key]);
+    if (raw === undefined) {
+      fallbackUsed = true;
+      warnings.push(`${key}: fallback`);
+      return fallback[key];
+    }
+    return clamp(raw, min, max);
+  };
+
+  return {
+    value: {
+      kvalitetIzvora: pick('kvalitetIzvora', 0, 100),
+      kompleksnostScene: pick('kompleksnostScene', 0, 100),
+      dinamikaPokreta: pick('dinamikaPokreta', 0, 100),
+      aiPouzdanost: pick('aiPouzdanost', 0, 100),
+      vremenskiBudzetMs: pick('vremenskiBudzetMs', 1_000, 180_000),
+    },
+    warnings,
+    fallbackUsed,
+  };
+}
+
+function resolveFormulaStatus(score: number): NikolaSpajicFormulaStatus {
+  if (score >= 85) return 'optimalno';
+  if (score >= 70) return 'stabilno';
+  if (score >= 50) return 'oprez';
+  return 'kriticno';
+}
+
+function resolveFormulaPreporuka(
+  kategorija: NikolaSpajicFormulaKategorija,
+  status: NikolaSpajicFormulaStatus,
+): string {
+  if (status === 'optimalno') return `Render za ${kategorija} je spreman za pun kvalitet i produkcioni izlaz.`;
+  if (status === 'stabilno') return `Render za ${kategorija} je stabilan; preporučeno je blago fino podešavanje parametara.`;
+  if (status === 'oprez') return `Render za ${kategorija} traži optimizaciju pre finalnog izvoza.`;
+  return `Render za ${kategorija} nije preporučen bez korekcije ulaza i/ili budžeta vremena.`;
+}
+
+function resolveFormulaObjasnjenje(
+  kategorija: NikolaSpajicFormulaKategorija,
+  status: NikolaSpajicFormulaStatus,
+): string {
+  return `Nikola Spajić formula (${kategorija}) status=${status}; ChatGPT ima ulogu predloga parametara, dok se runtime score računa lokalno.`;
+}
+
+export function validateChatGptFormulaSuggestion(
+  payload: unknown,
+): ChatGptFormulaValidation {
+  if (!payload || typeof payload !== 'object') {
+    return { valid: false, warnings: ['chatgpt payload nije objekat'] };
+  }
+  const p = payload as ChatGptFormulaSuggestionPayload;
+  const values = [
+    p.kvalitetIzvora,
+    p.kompleksnostScene,
+    p.dinamikaPokreta,
+    p.aiPouzdanost,
+    p.vremenskiBudzetMs,
+  ];
+  const usable = values.some((v) => typeof v === 'number' && Number.isFinite(v));
+  if (!usable) {
+    return { valid: false, warnings: ['chatgpt payload nema nijedan upotrebljiv numericki parametar'] };
+  }
+  return { valid: true, warnings: [] };
+}
+
+export function evaluateNikolaSpajicFormule(
+  kategorija: NikolaSpajicFormulaKategorija,
+  input?: Partial<NikolaSpajicFormulaInput>,
+): NikolaSpajicFormulaResult {
+  const sanitized = sanitizeFormulaInput(kategorija, input);
+  const normalizedBudget = normalizeVremenskiBudzet(
+    sanitized.value.vremenskiBudzetMs,
+    kategorija,
+  );
+  const tezine = nikolaSpajicFormulaSpec.tezine[kategorija];
+
+  const rawScore =
+    sanitized.value.kvalitetIzvora * tezine.kvalitetIzvora +
+    sanitized.value.kompleksnostScene * tezine.kompleksnostScene +
+    sanitized.value.dinamikaPokreta * tezine.dinamikaPokreta +
+    sanitized.value.aiPouzdanost * tezine.aiPouzdanost +
+    normalizedBudget * tezine.vremenskiBudzetMs;
+
+  const score = Math.round(clamp(rawScore, FORMULA_SCORE_MIN, FORMULA_SCORE_MAX) * 100) / 100;
+  const status = resolveFormulaStatus(score);
+
+  return {
+    kategorija,
+    score,
+    status,
+    preporuka: resolveFormulaPreporuka(kategorija, status),
+    objasnjenje: resolveFormulaObjasnjenje(kategorija, status),
+    input: sanitized.value,
+    warnings: sanitized.warnings,
+    fallbackUsed: sanitized.fallbackUsed,
+  };
+}
+
+export function evaluateNikolaSpajicFormuleFromChatGpt(
+  kategorija: NikolaSpajicFormulaKategorija,
+  payload: unknown,
+): NikolaSpajicFormulaResult {
+  const validation = validateChatGptFormulaSuggestion(payload);
+  if (!validation.valid) {
+    return {
+      ...evaluateNikolaSpajicFormule(kategorija),
+      warnings: [...validation.warnings, 'chatgpt fallback: default input'],
+      fallbackUsed: true,
+    };
+  }
+
+  const suggestion = payload as ChatGptFormulaSuggestionPayload;
+  const result = evaluateNikolaSpajicFormule(kategorija, suggestion);
+  return {
+    ...result,
+    warnings: [...result.warnings, ...validation.warnings],
+  };
+}
+
+export function getNikolaSpajicFormulaSummary(): NikolaSpajicFormulaSummary {
+  return {
+    slika: evaluateNikolaSpajicFormule('slika'),
+    video: evaluateNikolaSpajicFormule('video'),
+    chatGpt: {
+      mode: chatGptIntegracioniUgovor.mode,
+      runtimeEvaluacija: chatGptIntegracioniUgovor.runtimeEvaluacija,
+    },
+  };
+}
+
 // ─── Kompletni SPAJA Render Medija ───────────────────────
 
 function izracunajStatistiku(): RenderStatistika {
@@ -278,6 +619,8 @@ export const spajaRenderMedija: SpajaRenderMedija = {
   engini: renderEngini,
   pipeline: renderPipeline,
   statistika: izracunajStatistiku(),
+  nikolaSpajicFormule: getNikolaSpajicFormulaSummary(),
+  chatGptIntegracioniUgovor: chatGptIntegracioniUgovor,
 };
 
 // ─── Helper funkcije ─────────────────────────────────────

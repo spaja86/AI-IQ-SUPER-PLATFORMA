@@ -5,10 +5,12 @@ import {
   spajaRenderMedija,
   getAktivniEngini,
   getRenderStatistika,
+  getNikolaSpajicFormulaSummary,
 } from '@/lib/spaja-render-medija';
 
 const statistika = getRenderStatistika();
 const aktivnihEng = getAktivniEngini().length;
+const formulaSummary = getNikolaSpajicFormulaSummary();
 
 export const spajaRenderMedijaSekvence: Sekvenca[] = [
   {
@@ -44,6 +46,9 @@ export const spajaRenderMedijaSekvence: Sekvenca[] = [
         `${renderPipeline.length} render pipeline-a`,
         `${aktivnihEng} aktivnih render engine-a`,
         `${statistika.ukupnoFormata} podržanih formata`,
+        `Nikola Spajić formula (slika): ${formulaSummary.slika.score} — ${formulaSummary.slika.status}`,
+        `Nikola Spajić formula (video): ${formulaSummary.video.score} — ${formulaSummary.video.status}`,
+        'ChatGPT: predlog parametara (runtime evaluacija je lokalna)',
         'Manifestovan kroz SPAJA Generator za Endžine',
         `Link: ${spajaRenderMedija.link}`,
       ],
@@ -61,6 +66,8 @@ export const spajaRenderMedijaSekvence: Sekvenca[] = [
         { naziv: 'Pipeline', vrednost: renderPipeline.length, ikona: '🔄' },
         { naziv: 'Kategorije', vrednost: statistika.ukupnoKategorija, ikona: '📂' },
         { naziv: 'Formati', vrednost: statistika.ukupnoFormata, ikona: '📄' },
+        { naziv: 'Formula Slika', vrednost: formulaSummary.slika.score, ikona: '🖼️' },
+        { naziv: 'Formula Video', vrednost: formulaSummary.video.score, ikona: '🎬' },
       ],
     },
   },
@@ -71,7 +78,11 @@ export const spajaRenderMedijaSekvence: Sekvenca[] = [
     redosled: 4,
     podaci: {
       progres: Math.round((aktivnihEng / renderEngini.length) * 100),
-      poruka: `SPAJA Render ima ${aktivnihEng} od ${renderEngini.length} aktivnih render engine-a sa ${statistika.ukupnoFormata} podržanih formata.`,
+      poruka:
+        `SPAJA Render ima ${aktivnihEng} od ${renderEngini.length} aktivnih render engine-a ` +
+        `sa ${statistika.ukupnoFormata} podržanih formata. ` +
+        `Formula slika: ${formulaSummary.slika.status} (${formulaSummary.slika.score}). ` +
+        `Formula video: ${formulaSummary.video.status} (${formulaSummary.video.score}).`,
     },
   },
   {
@@ -172,10 +183,31 @@ export const spajaRenderMedijaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'render-formule',
+    tip: 'lista',
+    naslov: '🧮 Nikola Spajić formule',
+    podnaslov: 'Score, preporuka i objašnjenje za sliku i video',
+    redosled: 11,
+    podaci: {
+      stavke: [
+        {
+          ikona: '🖼️',
+          naslov: `Slika — ${formulaSummary.slika.score} (${formulaSummary.slika.status})`,
+          opis: `${formulaSummary.slika.preporuka} ${formulaSummary.slika.objasnjenje}`,
+        },
+        {
+          ikona: '🎬',
+          naslov: `Video — ${formulaSummary.video.score} (${formulaSummary.video.status})`,
+          opis: `${formulaSummary.video.preporuka} ${formulaSummary.video.objasnjenje}`,
+        },
+      ],
+    },
+  },
+  {
     id: 'render-cta',
     tip: 'cta',
     naslov: '🚀 Render infrastruktura',
-    redosled: 11,
+    redosled: 12,
     podaci: {
       opis: `SPAJA Render — ${renderEngini.length} engine-a, ${renderPipeline.length} pipeline-a, ${statistika.ukupnoFormata} formata. Celokupan render sistem za slike, video i sve medijske kategorije.`,
       dugmad: [
