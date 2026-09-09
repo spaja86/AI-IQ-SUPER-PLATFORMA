@@ -1,0 +1,48 @@
+name: TACSKRIN — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/tacskrin/**'
+      - 'src/app/api/tacskrin/**'
+      - 'src/tests/lib/tacskrin.test.ts'
+      - 'src/tests/api/tacskrin-route.test.ts'
+      - 'docs/TACSKRIN.md'
+      - '.github/workflows/tacskrin-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/tacskrin/**'
+      - 'src/app/api/tacskrin/**'
+      - 'src/tests/lib/tacskrin.test.ts'
+      - 'src/tests/api/tacskrin-route.test.ts'
+      - 'docs/TACSKRIN.md'
+      - '.github/workflows/tacskrin-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: tacskrin-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: tacskrin
+      lint_paths: >-
+        src/lib/tacskrin
+        src/app/api/tacskrin
+      test_commands: |
+        npx tsx src/tests/lib/tacskrin.test.ts
+        npx tsx src/tests/api/tacskrin-route.test.ts
+      scan_paths: >-
+        src/lib/tacskrin
+        src/app/api/tacskrin
+      label: tacskrin
+      perf_eval_ms: 50
+      perf_api_ms: 200
