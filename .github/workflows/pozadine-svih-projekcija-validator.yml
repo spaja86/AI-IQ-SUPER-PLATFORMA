@@ -1,0 +1,48 @@
+name: POZADINE SVIH PROJEKCIJA — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/pozadine-svih-projekcija/**'
+      - 'src/app/api/pozadine-svih-projekcija/**'
+      - 'src/tests/lib/pozadine-svih-projekcija.test.ts'
+      - 'src/tests/api/pozadine-svih-projekcija-route.test.ts'
+      - 'docs/POZADINE-SVIH-PROJEKCIJA.md'
+      - '.github/workflows/pozadine-svih-projekcija-validator.yml'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/pozadine-svih-projekcija/**'
+      - 'src/app/api/pozadine-svih-projekcija/**'
+      - 'src/tests/lib/pozadine-svih-projekcija.test.ts'
+      - 'src/tests/api/pozadine-svih-projekcija-route.test.ts'
+      - 'docs/POZADINE-SVIH-PROJEKCIJA.md'
+      - '.github/workflows/pozadine-svih-projekcija-validator.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: pozadine-svih-projekcija-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    with:
+      domain: pozadine-svih-projekcija
+      lint_paths: >-
+        src/lib/pozadine-svih-projekcija
+        src/app/api/pozadine-svih-projekcija
+      test_commands: |
+        npx tsx src/tests/lib/pozadine-svih-projekcija.test.ts
+        npx tsx src/tests/api/pozadine-svih-projekcija-route.test.ts
+      scan_paths: >-
+        src/lib/pozadine-svih-projekcija
+        src/app/api/pozadine-svih-projekcija
+      label: pozadine-svih-projekcija
+      perf_eval_ms: 50
+      perf_api_ms: 200
