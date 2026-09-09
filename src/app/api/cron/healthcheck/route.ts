@@ -21,17 +21,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Neautorizovan pristup' }, { status: 401 });
   }
 
-  // ── System diagnostics (from zdravlje) ───────────────────────────────────
   const dijagnostika = runDiagnostics();
   const omegaSummary = getDispatchSummary();
 
   const kriticno = dijagnostika.kriticnih > 0;
   const upozorenje = dijagnostika.upozorenja > 0;
-  const statusStr: 'kriticno' | 'upozorenje' | 'zdravo' = kriticno
-    ? 'kriticno'
-    : upozorenje
-    ? 'upozorenje'
-    : 'zdravo';
+  const statusStr: 'kriticno' | 'upozorenje' | 'zdravo' = kriticno ? 'kriticno' : upozorenje ? 'upozorenje' : 'zdravo';
 
   void saveHealthSnapshot({
     zdravlje: dijagnostika.zdravlje,
@@ -43,19 +38,18 @@ export async function GET(request: Request) {
     kriticnih: dijagnostika.kriticnih,
   });
 
-  // ── Protocol verification (from protokoli-verifikacija) ──────────────────
   const protokolResults = await protokolManager.verifikujSveAktivne();
   const neuspesni = protokolResults.filter((result) => !result.uspesno);
   const failRatio = protokolResults.length === 0 ? 0 : neuspesni.length / protokolResults.length;
 
-  let incidentUpdated = 0;
+  const incidentProtocolIds: string[] = [];
   if (failRatio > INCIDENT_THRESHOLD) {
     for (const result of neuspesni) {
       await protokolManager.updateStatus(result.protokolId, 'incident', {
         reqId: `cron-healthcheck-${Date.now()}`,
         reason: 'cron-failure-ratio',
       });
-      incidentUpdated++;
+      incidentProtocolIds.push(result.protokolId);
     }
   }
 
@@ -82,7 +76,9 @@ export async function GET(request: Request) {
       ukupno: protokolResults.length,
       neuspesni: neuspesni.length,
       failRatio,
-      incidentUpdated,
+      incidentUpdated: incidentProtocolIds.length,
+      incidentProtocolIds,
+      summary: protokolManager.getStatusSummary(),
     },
     timestamp: new Date().toISOString(),
   });

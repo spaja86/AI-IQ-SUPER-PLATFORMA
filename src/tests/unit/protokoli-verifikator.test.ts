@@ -40,6 +40,13 @@ function buildSample(override?: Partial<Protokol>): Protokol {
     azuriran: new Date().toISOString(),
     vlasnickiModul: 'unit-test',
     izvor: 'spaja-protokoli',
+    vlasnik: { tim: 'IAM', kontakt: 'iam@spaja86.dev', uloga: 'owner' },
+    kriticnost: 'visoka',
+    okruzenje: 'produkcija',
+    zavisnosti: ['spaja-dmp'],
+    slo: { latencyTargetMs: 5, availabilityTargetPct: 99.9, maxIncidentResponseMin: 15 },
+    sourceOfTruth:
+      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/tests/unit/protokoli-verifikator.test.ts',
     ...override,
   };
 }
@@ -47,10 +54,11 @@ function buildSample(override?: Partial<Protokol>): Protokol {
 async function runTests(): Promise<void> {
   console.log('\n🧪 Protokoli Verifikator Test Suite\n');
 
-  await test('Verifikator vraća 6 provera', () => {
+  await test('Verifikator vraća 6 slojeva provere', () => {
     const result = runProtokolVerifikacija(buildSample());
     assert(result.ukupnoProvera === 6, 'ukupnoProvera mora biti 6');
     assert(result.checks.length === 6, 'checks length mora biti 6');
+    assert(new Set(result.checks.map((check) => check.sloj)).size === 6, 'svaki sloj mora biti prisutan');
   });
 
   await test('Validan protokol prolazi verifikaciju', () => {
@@ -59,13 +67,18 @@ async function runTests(): Promise<void> {
     assert(result.neuspesneProvere === 0, 'ne sme imati neuspesne provere');
   });
 
-  await test('Protokol sa velikim latency pada latency check', () => {
+  await test('Protokol sa velikim latency pada performansnu validaciju', () => {
     const result = runProtokolVerifikacija(buildSample({ latency: '< 99ms' }));
     assert(result.uspesno === false, 'verifikacija mora pasti');
-    assert(result.neuspesneProvere > 0, 'mora imati neuspesne provere');
-    const latencyCheck = result.checks.find((check) => check.naziv === 'Latency Check');
-    assert(Boolean(latencyCheck), 'Latency Check mora postojati');
-    assert(latencyCheck?.prolaz === false, 'Latency Check mora pasti');
+    const performanceCheck = result.checks.find((check) => check.sloj === 'performanse');
+    assert(Boolean(performanceCheck), 'performansni check mora postojati');
+    assert(performanceCheck?.prolaz === false, 'performansni check mora pasti');
+  });
+
+  await test('Self dependency pada strukturnu validaciju', () => {
+    const result = runProtokolVerifikacija(buildSample({ zavisnosti: ['test-protokol'] }));
+    const structureCheck = result.checks.find((check) => check.sloj === 'struktura');
+    assert(structureCheck?.prolaz === false, 'strukturna validacija mora pasti');
   });
 
   await test('Duration je prisutan za sve provere', () => {

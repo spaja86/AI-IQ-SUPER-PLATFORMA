@@ -25,7 +25,11 @@ export async function POST(request: NextRequest, context: RouteContext) {
       return apiError('TOO_MANY_REQUESTS', 'Previše zahteva. Pokušajte ponovo za 60 sekundi.');
     }
 
-    const { id } = await context.params;
+    const params = await context.params;
+    const id = params?.id;
+    if (!id) {
+      return apiError('BAD_REQUEST', 'Parametar id je obavezan.');
+    }
     const user = await verifyUserFromToken(request.headers.get('authorization'));
     const result = await protokolManager.verifikuj(id, user?.id);
 
@@ -39,7 +43,7 @@ export async function POST(request: NextRequest, context: RouteContext) {
       ...(user?.id ? { userId: user.id } : {}),
     });
 
-    return apiSuccess({ verifikacija: result });
+    return apiSuccess({ verifikacija: result, latestVerification: protokolManager.getById(id)?.runtime?.poslednjaVerifikacija ?? null });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (message.includes('nije pronađen')) {

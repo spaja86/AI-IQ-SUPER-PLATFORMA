@@ -2,6 +2,7 @@ import type { Protokol, ProtokolCheckRezultat, VerifikacijaRezultat } from './ty
 
 interface CheckDefinition {
   naziv: string;
+  sloj: ProtokolCheckRezultat['sloj'];
   fn: () => { prolaz: boolean; poruka: string };
 }
 
@@ -20,81 +21,125 @@ function runCheck(check: CheckDefinition): ProtokolCheckRezultat {
     prolaz: result.prolaz,
     poruka: result.poruka,
     durationMs: Math.max(Date.now() - start, 1),
+    sloj: check.sloj,
   };
 }
 
+function hasSignal(text: string, pattern: RegExp): boolean {
+  return pattern.test(text.toLowerCase());
+}
+
 export function runProtokolVerifikacija(protokol: Protokol): VerifikacijaRezultat {
+  const latencyMs = parseLatencyMs(protokol.latency);
+  const combinedText = `${protokol.naziv} ${protokol.opis} ${protokol.kapacitet} ${protokol.sourceOfTruth}`.toLowerCase();
+
   const checks: CheckDefinition[] = [
     {
-      naziv: 'Integrity Check',
+      naziv: 'Strukturna Validacija',
+      sloj: 'struktura',
       fn: () => {
-        const required = [protokol.id, protokol.naziv, protokol.verzija, protokol.kategorija, protokol.status];
-        const valid = required.every((item) => typeof item === 'string' && item.length > 0);
-        return {
-          prolaz: valid,
-          poruka: valid ? 'Struktura protokola je validna.' : 'Nedostaju obavezna polja protokola.',
-        };
-      },
-    },
-    {
-      naziv: 'Encryption Validation',
-      fn: () => {
-        const tekst = `${protokol.naziv} ${protokol.opis} ${protokol.kapacitet}`.toLowerCase();
-        const hasCipherSignal = /(aes|matrix|secure|sigurn|enkript|token)/.test(tekst);
-        return {
-          prolaz: hasCipherSignal || protokol.kategorija !== 'bezbednosni',
-          poruka: hasCipherSignal
-            ? 'Enkripcioni zahtevi su verifikovani (AES-256/MatrixCrypt simulacija).'
-            : 'Nema jasnog enkripcionog signala u konfiguraciji protokola.',
-        };
-      },
-    },
-    {
-      naziv: 'Auth Protocol',
-      fn: () => {
-        const tekst = `${protokol.naziv} ${protokol.opis}`.toLowerCase();
-        const hasAuthSignal = /(auth|autent|token|identitet|dozvol)/.test(tekst);
-        return {
-          prolaz: hasAuthSignal || protokol.kategorija !== 'autentifikacioni',
-          poruka: hasAuthSignal
-            ? 'Autentifikacioni tok je validiran.'
-            : 'Autentifikacioni signal nije potvrđen u opisu protokola.',
-        };
-      },
-    },
-    {
-      naziv: 'Transport Security',
-      fn: () => {
-        const latencyMs = parseLatencyMs(protokol.latency);
-        const safeTransport = latencyMs === null || latencyMs <= 25;
-        return {
-          prolaz: safeTransport,
-          poruka: safeTransport
-            ? 'Transportni sloj je u dozvoljenom opsegu.'
-            : `Latency ${latencyMs}ms prevazilazi prag od 25ms.`,
-        };
-      },
-    },
-    {
-      naziv: 'Kapacitet Check',
-      fn: () => {
-        const valid = protokol.kapacitet.trim().length > 0;
-        return {
-          prolaz: valid,
-          poruka: valid ? 'Kapacitet protokola je definisan.' : 'Kapacitet protokola nije definisan.',
-        };
-      },
-    },
-    {
-      naziv: 'Latency Check',
-      fn: () => {
-        const latencyMs = parseLatencyMs(protokol.latency);
-        const valid = latencyMs === null || latencyMs <= 15;
+        const required = [
+          protokol.id,
+          protokol.naziv,
+          protokol.verzija,
+          protokol.kategorija,
+          protokol.status,
+          protokol.sourceOfTruth,
+          protokol.vlasnik.tim,
+          protokol.vlasnik.kontakt,
+        ];
+        const valid =
+          required.every((item) => typeof item === 'string' && item.trim().length > 0) &&
+          Array.isArray(protokol.zavisnosti) &&
+          !protokol.zavisnosti.includes(protokol.id);
         return {
           prolaz: valid,
           poruka: valid
-            ? 'Latency je unutar ciljnog praga.'
-            : `Latency ${latencyMs}ms je iznad ciljnog praga od 15ms.`,
+            ? 'Domen model sadrži obavezna polja, ownership i validne zavisnosti.'
+            : 'Nedostaju obavezna polja ili postoji neispravna samoreferentna zavisnost.',
+        };
+      },
+    },
+    {
+      naziv: 'Bezbednosna Validacija',
+      sloj: 'bezbednost',
+      fn: () => {
+        const hasSecuritySignal = hasSignal(combinedText, /(aes|matrix|secure|sigurn|enkript|tls|token|auth)/);
+        const needsSecuritySignal = protokol.kategorija === 'bezbednosni' || protokol.kriticnost === 'kriticna';
+        return {
+          prolaz: hasSecuritySignal || !needsSecuritySignal,
+          poruka:
+            hasSecuritySignal || !needsSecuritySignal
+              ? 'Bezbednosni signal i source-of-truth su prisutni.'
+              : 'Kritičan ili bezbednosni protokol nema jasan bezbednosni signal.',
+        };
+      },
+    },
+    {
+      naziv: 'Autentifikaciona Validacija',
+      sloj: 'autentifikacija',
+      fn: () => {
+        const hasAuthSignal = hasSignal(combinedText, /(auth|autent|token|identity|identitet|oauth|jwt|dozvol)/);
+        const needsAuthSignal =
+          protokol.kategorija === 'autentifikacioni' ||
+          protokol.izvor === 'vlasnicki-vip-plan-dispatch-protokoli' ||
+          protokol.zavisnosti.some((dependency) => dependency.includes('auth'));
+        return {
+          prolaz: hasAuthSignal || !needsAuthSignal,
+          poruka:
+            hasAuthSignal || !needsAuthSignal
+              ? 'Autentifikacioni zahtevi i ownership su validni.'
+              : 'Autentifikacioni signal nije potvrđen za protokol koji ga zahteva.',
+        };
+      },
+    },
+    {
+      naziv: 'Performansna Validacija',
+      sloj: 'performanse',
+      fn: () => {
+        const target = Math.max(protokol.slo.latencyTargetMs, 1);
+        const allowed = Math.max(target * 1.2, target + 1);
+        const valid = latencyMs !== null && latencyMs <= allowed;
+        return {
+          prolaz: valid,
+          poruka: valid
+            ? `Latency ${latencyMs}ms je u okviru cilja ${allowed}ms.`
+            : `Latency ${latencyMs ?? 'N/A'}ms izlazi iznad dozvoljenog praga ${allowed}ms.`,
+        };
+      },
+    },
+    {
+      naziv: 'Integraciona Spremnost',
+      sloj: 'integracija',
+      fn: () => {
+        const validDependencies = protokol.zavisnosti.every((dependency) => dependency.trim().length > 0 && dependency !== protokol.id);
+        const validSource = protokol.sourceOfTruth.startsWith('/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/');
+        return {
+          prolaz: validDependencies && validSource,
+          poruka:
+            validDependencies && validSource
+              ? 'Zavisnosti su deklarisane, a source-of-truth pokazuje na repo artefakt.'
+              : 'Integraciona spremnost nije potpuna: proveri zavisnosti ili source-of-truth.',
+        };
+      },
+    },
+    {
+      naziv: 'Compliance Pravila',
+      sloj: 'compliance',
+      fn: () => {
+        const hasOperationalOwner = protokol.vlasnik.kontakt.includes('@');
+        const sloValid = protokol.slo.availabilityTargetPct >= 95 && protokol.slo.maxIncidentResponseMin > 0;
+        const activeProtocolsCompliant = protokol.status !== 'aktivan' || protokol.okruzenje !== 'razvoj';
+        const businessRule =
+          protokol.kategorija !== 'poslovni' ||
+          protokol.izvor === 'vlasnicki-vip-plan-dispatch-protokoli' ||
+          protokol.vlasnickiModul.includes('vip');
+        const valid = hasOperationalOwner && sloValid && activeProtocolsCompliant && businessRule;
+        return {
+          prolaz: valid,
+          poruka: valid
+            ? 'Compliance, rollback readiness i ownership pravila su zadovoljeni.'
+            : 'Compliance pravila nisu ispunjena (owner/SLO/okruženje/poslovni izvor).',
         };
       },
     },

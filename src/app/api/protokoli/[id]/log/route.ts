@@ -30,7 +30,11 @@ export async function GET(request: NextRequest, context: RouteContext) {
       return apiError('TOO_MANY_REQUESTS', 'Previše zahteva. Pokušajte ponovo za 60 sekundi.');
     }
 
-    const { id } = await context.params;
+    const params = await context.params;
+    const id = params?.id;
+    if (!id) {
+      return apiError('BAD_REQUEST', 'Parametar id je obavezan.');
+    }
     const protokol = protokolManager.getById(id);
     if (!protokol) {
       logApiCall('PROTOKOLI', { reqId, route, method: 'GET', statusCode: 404, durationMs: Date.now() - startedAt });
