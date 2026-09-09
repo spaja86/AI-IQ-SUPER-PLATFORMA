@@ -1494,6 +1494,59 @@
       ],
       "linkedRepoImpact": "none",
       "scope": "src/lib/prosparitet/**,src/app/api/prosparitet/**"
+    },
+    "pozadine-svih-projekcija-validator-agent": {
+      "enabled": true,
+      "scope": "AI-IQ-SUPER-PLATFORMA",
+      "performanceThresholdMs": 50,
+      "apiResponseMaxMs": 200,
+      "testSuite": "pozadine-svih-projekcija-tests",
+      "trigger": {
+        "pullRequestLabels": [
+          "pozadine-svih-projekcija:logic-change"
+        ],
+        "branches": [
+          "main",
+          "copilot/**",
+          "pozadine-svih-projekcija/**"
+        ],
+        "paths": [
+          "src/lib/pozadine-svih-projekcija/**",
+          "src/app/api/pozadine-svih-projekcija/**",
+          "src/tests/lib/pozadine-svih-projekcija.test.ts",
+          "src/tests/api/pozadine-svih-projekcija-route.test.ts",
+          ".github/workflows/pozadine-svih-projekcija-validator.yml",
+          "docs/POZADINE-SVIH-PROJEKCIJA.md"
+        ]
+      },
+      "requiredChecks": [
+        "npx tsx src/tests/lib/pozadine-svih-projekcija.test.ts",
+        "npx tsx src/tests/api/pozadine-svih-projekcija-route.test.ts"
+      ],
+      "autoLabels": {
+        "validated": "pozadine-svih-projekcija:validated",
+        "needsReview": "pozadine-svih-projekcija:needs-review",
+        "configChange": "agent:config-change"
+      },
+      "persona": {
+        "id": "pozadine-svih-projekcija-core",
+        "octave": 10,
+        "hipermrezaNode": 84
+      },
+      "kpis": {
+        "evaluacijaMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "scoreRange": [
+          0,
+          100
+        ],
+        "reactionMaxMs": 600
+      },
+      "crossRepo": {
+        "linkedRepo": "spaja86/IO-OPENUI-AO",
+        "downstreamDependency": false,
+        "note": "No linked repo runtime change required for POZADINE SVIH PROJEKCIJA v1"
+      }
     }
   },
   "orgSettings": {

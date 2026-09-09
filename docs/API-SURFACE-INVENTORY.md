@@ -58,5 +58,6 @@ See: `docs/API-CONTRACT-STATUS.md`.
   3. contract status declared (stable or experimental).
 
 Current v1 additive module surface:
+- `pozadine-svih-projekcija`: `/api/pozadine-svih-projekcija/evaluate`, `/api/pozadine-svih-projekcija/health` (projection-equivalence contract with duplicate-token validation for `NIKOS`).
 - `nude`: `/api/nude/evaluate`, `/api/nude/health` (experimental until broader adoption).
 - `geografija-realna`: `/api/geografija-realna/evaluate`, `/api/geografija-realna/health` (experimental until broader adoption).

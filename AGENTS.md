@@ -541,6 +541,23 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 
 ### trikot-validator-agent (NEW)
 - **Role**: Validacija TRIKOT logike — outfit readiness scoring, status mapiranje i edge-case integritet
+
+### pozadine-svih-projekcija-validator-agent (NEW)
+- **Role**: Validacija POZADINE SVIH PROJEKCIJA logike — projekciona ekvivalentnost, duplikat-token pravila i edge-case integritet
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/pozadine-svih-projekcija/**`, `src/app/api/pozadine-svih-projekcija/**`
+- **Trigger**: PR sa labelom `pozadine-svih-projekcija:logic-change`, push koji dira `pozadine-svih-projekcija` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za POZADINE SVIH PROJEKCIJA logiku
+  - Verifikuje `==` pravilo prema zvaničnom nizu `DUKER NIKOS ZINGO NJUKER ZINGAN DISPO DJAMA FRIKO DJAPRE NIKOS JAKRE GIMBA`
+  - Proverava duplikat pravilo za `NIKOS` (tačno 2 pojave), redosled i fallback za nepoznate/prazne vrednosti
+  - Proverava edge case-ove (`NaN`, `Infinity`, nevalidan `signalStrength`, nepoznati tokeni)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za nedoslednosti u kodu i sekrete
+  - Auto-labels PRs sa `pozadine-svih-projekcija:validated` ili `pozadine-svih-projekcija:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `pozadine-svih-projekcija-core` (octave: 10, hipermreza node: 84)
+  - **Linked-repo impact**: none (v1)
+
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trikot/**`, `src/app/api/trikot/**`
 - **Trigger**: PR sa labelom `trikot:logic-change`, push koji dira `trikot` putanje
 - **Actions**:
@@ -636,6 +653,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 | prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
 | trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trikot paths) |
+| pozadine-svih-projekcija-validator-agent | POZADINE SVIH PROJEKCIJA Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pozadine-svih-projekcija paths) |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -1308,6 +1326,23 @@ This file describes agents, their roles, and usage rules for automation in this 
 
 ### trikot-validator-agent (NEW)
 - **Role**: Validate TRIKOT logic — outfit-readiness scoring, status mapping, and edge-case integrity
+
+### pozadine-svih-projekcija-validator-agent (NEW)
+- **Role**: Validate POZADINE SVIH PROJEKCIJA logic — projection equivalence, duplicate-token enforcement, and edge-case integrity
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/pozadine-svih-projekcija/**`, `src/app/api/pozadine-svih-projekcija/**`
+- **Trigger**: PR with label `pozadine-svih-projekcija:logic-change`, push touching `pozadine-svih-projekcija` paths
+- **Actions**:
+  - Runs unit and route test suite for POZADINE SVIH PROJEKCIJA logic
+  - Verifies `==` rule against the official sequence `DUKER NIKOS ZINGO NJUKER ZINGAN DISPO DJAMA FRIKO DJAPRE NIKOS JAKRE GIMBA`
+  - Enforces duplicate rule for `NIKOS` (exactly 2 occurrences), order matching, and unknown/empty fallbacks
+  - Verifies edge cases (`NaN`, `Infinity`, invalid `signalStrength`, unknown tokens)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for code inconsistencies and secrets
+  - Auto-labels PRs with `pozadine-svih-projekcija:validated` or `pozadine-svih-projekcija:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `pozadine-svih-projekcija-core` (octave: 10, hipermreza node: 84)
+  - **Linked-repo impact**: none (v1)
+
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trikot/**`, `src/app/api/trikot/**`
 - **Trigger**: PR with label `trikot:logic-change`, push touching `trikot` paths
 - **Actions**:
@@ -1402,6 +1437,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 | prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
 | trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trikot paths) |
+| pozadine-svih-projekcija-validator-agent | POZADINE SVIH PROJEKCIJA Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pozadine-svih-projekcija paths) |
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:
