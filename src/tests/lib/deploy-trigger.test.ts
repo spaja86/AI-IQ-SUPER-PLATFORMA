@@ -12,6 +12,8 @@
  */
 
 import { triggerPlatformDeploy } from '../../lib/deploy/deploy-trigger';
+import type { ExtrimliExtrondolReport } from '../../lib/extrimli-extrondol/types';
+import { getExtrimliExtrondolReport } from '../../lib/extrimli-extrondol';
 import {
   recordDeployHistory,
   getDeployHistory,
@@ -81,16 +83,61 @@ async function runTests() {
     );
   });
 
-  await test('production deploy sa ispravnim confirmToken ali bez env var vraća failure', async () => {
-    // VERCEL_DEPLOY_HOOK_AI_IQ nije setovan u test okruženju
+  await test('production deploy sa ispravnim confirmToken ostaje pod governance kapijom', async () => {
     const result = await triggerPlatformDeploy({
       platformId: 'ai-iq-super-platforma',
       environment: 'production',
       confirmToken: 'DEPLOY_PRODUCTION',
       triggeredBy: 'test',
     });
-    // Ili je env var nije konfigurisan (failure) ili je mock poziv neuspešan
-    assert(!result.success || result.success, 'rezultat mora biti boolean — ne sme baciti izuzetak');
+    assert(!result.success, 'production deploy mora ostati blokiran bez kompletne governance evidence');
+    assert(
+      result.message.includes('EXTRONDOL governance kapijom') || result.message.includes('nije konfigurisan'),
+      `neočekivana poruka: ${result.message}`,
+    );
+  });
+
+  await test('production deploy koristi prosleđeni governance snapshot pre globalnog reporta', async () => {
+    const baseline = getExtrimliExtrondolReport();
+    const governanceReady: ExtrimliExtrondolReport = {
+      ...baseline,
+      rollout: {
+        ...baseline.rollout,
+        promotionFreeze: false,
+        reasons: [],
+      },
+      releaseAuditSummary: {
+        ...baseline.releaseAuditSummary,
+        status: 'READY',
+        downstreamReference: {
+          ...baseline.releaseAuditSummary.downstreamReference,
+          status: 'ALIGNED',
+        },
+      },
+      domainStrategy: {
+        ...baseline.domainStrategy,
+        valid: true,
+      },
+    };
+
+    const savedHook = process.env.VERCEL_DEPLOY_HOOK_AI_IQ;
+    delete process.env.VERCEL_DEPLOY_HOOK_AI_IQ;
+
+    const result = await triggerPlatformDeploy({
+      platformId: 'ai-iq-super-platforma',
+      environment: 'production',
+      confirmToken: 'DEPLOY_PRODUCTION',
+      triggeredBy: 'test',
+      governanceReport: governanceReady,
+    });
+
+    if (savedHook) process.env.VERCEL_DEPLOY_HOOK_AI_IQ = savedHook;
+
+    assert(!result.success, 'deploy bez env var mora biti failure');
+    assert(
+      result.message.includes('nije konfigurisan'),
+      `neočekivana poruka: ${result.message}`,
+    );
   });
 
   await test('staging deploy bez env var vraća graceful failure', async () => {

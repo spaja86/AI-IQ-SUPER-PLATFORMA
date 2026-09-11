@@ -9,6 +9,8 @@ export async function GET() {
     status: spajaPricingLogin.status,
     ukupnoPlanova: spajaPricingLogin.planovi.length,
     ukupnoLoginMetoda: spajaPricingLogin.loginMetode.length,
+    standardizovaniPretplataStatusi: spajaPricingLogin.standardizovaniPretplataStatusi,
+    onboardingGoNoGoModel: spajaPricingLogin.onboardingGoNoGoModel,
     timestamp: new Date().toISOString(),
   });
 }

@@ -10,6 +10,7 @@
  */
 
 import { APP_VERSION, KOMPANIJA } from './constants';
+import { STANDARDIZOVANI_PRETPLATA_STATUS_MODEL } from './login-pretplata';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -75,6 +76,13 @@ export interface PricingLoginSistem {
   registracijaKoraci: RegistracijaKorak[];
   mogucnosti: string[];
   status: 'aktivan' | 'konfiguracija';
+  standardizovaniPretplataStatusi: typeof STANDARDIZOVANI_PRETPLATA_STATUS_MODEL;
+  onboardingGoNoGoModel: {
+    aktivan: 'go';
+    cekanje: 'hold';
+    verifikacija: 'hold';
+    blokiran: 'hold';
+  };
 }
 
 // ─── Pricing Planovi ─────────────────────────────────────
@@ -306,6 +314,13 @@ export const spajaPricingLogin: PricingLoginSistem = {
   registracijaKoraci,
   mogucnosti: pricingLoginMogucnosti,
   status: 'aktivan',
+  standardizovaniPretplataStatusi: STANDARDIZOVANI_PRETPLATA_STATUS_MODEL,
+  onboardingGoNoGoModel: {
+    aktivan: 'go',
+    cekanje: 'hold',
+    verifikacija: 'hold',
+    blokiran: 'hold',
+  },
 };
 
 // ─── Helper funkcije ─────────────────────────────────────
@@ -335,6 +350,16 @@ export function getPricingLoginPregled(): {
   ukupnoKoraka: number;
   ukupnoMogucnosti: number;
   preporuceniPlan: string | undefined;
+  standardizovaniPretplataStatusi: Array<{
+    status: string;
+    goNoGo: 'go' | 'no-go';
+  }>;
+  onboardingGoNoGoModel: {
+    aktivan: 'go';
+    cekanje: 'hold';
+    verifikacija: 'hold';
+    blokiran: 'hold';
+  };
   planovi: Array<{
     id: string;
     naziv: string;
@@ -353,6 +378,11 @@ export function getPricingLoginPregled(): {
     ukupnoKoraka: registracijaKoraci.length,
     ukupnoMogucnosti: pricingLoginMogucnosti.length,
     preporuceniPlan: preporucen?.naziv,
+    standardizovaniPretplataStatusi: STANDARDIZOVANI_PRETPLATA_STATUS_MODEL.map((item) => ({
+      status: item.status,
+      goNoGo: item.goNoGo,
+    })),
+    onboardingGoNoGoModel: spajaPricingLogin.onboardingGoNoGoModel,
     planovi: pricingPlanovi.map((p) => ({
       id: p.id,
       naziv: p.naziv,

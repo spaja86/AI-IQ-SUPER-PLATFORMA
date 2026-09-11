@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { isOwnerEmail } from '@/lib/owner-identity';
+import { buildPretplataSnapshot, STANDARDIZOVANI_PRETPLATA_STATUS_MODEL } from '@/lib/login-pretplata';
+import { auditLoginPretplataEvents } from '@/lib/login-pretplata-audit';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
 import { REFRESH_TOKEN_TTL } from '@/lib/auth/types';
@@ -21,6 +23,8 @@ import {
  */
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
+    const userAgent = request.headers.get('user-agent') ?? 'unknown';
     const body = await request.json();
     // Podrži oba formata: { email, lozinka } i { email, password }
     const emailRaw = body.email as string | undefined;
@@ -65,6 +69,20 @@ export async function POST(request: Request) {
 
     // Odredjivanje vlasnicke uloge iz centralnog owner identity modela
     const jeVlasnik = isOwnerEmail(email);
+    const pretplata = buildPretplataSnapshot({
+      email,
+      roles: result.identity.roles,
+      digitalIndustryAccess: result.identity.digitalIndustryAccess,
+    });
+
+    auditLoginPretplataEvents({
+      userId: result.identity.id,
+      resource: '/api/login',
+      ip,
+      userAgent,
+      clearanceLevel: result.identity.clearanceLevel,
+      pretplata,
+    });
 
     // Aktivacija Digitalnog Kompjutera za svakog ulogovanog korisnika
     const sistem = spajaDigitalniKompjuterSistem;
@@ -103,7 +121,7 @@ export async function POST(request: Request) {
     const aktivneIgrice = getAktivneIgriceSaEndzinom();
     const gamingSnapshot = getGamingDomenSnapshot();
     const industrijaPristup = {
-      aktiviran: true,
+      aktiviran: pretplata.dozvole.industrija,
       naziv: digitalnaIndustrija.name,
       opis: digitalnaIndustrija.description,
       misija: digitalnaIndustrija.mission,
@@ -132,7 +150,7 @@ export async function POST(request: Request) {
 
     // Gaming platforma i Otavna Konstrukcija Gejminga
     const gamingPristup = {
-      aktiviran: true,
+      aktiviran: pretplata.dozvole.gamingPlatforma,
       platforma: gamingSnapshot.konfiguracija.platformaNaziv,
       url: gamingSnapshot.konfiguracija.standardniUrl,
       domen: gamingSnapshot.konfiguracija.domen,
@@ -155,8 +173,8 @@ export async function POST(request: Request) {
     const response = NextResponse.json({
       uspesno: true,
       poruka: jeVlasnik
-        ? `Dobrodosli, vlasniku! VIP pristup aktiviran. ${KOMPANIJA} — Digitalna Industrija. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`
-        : `Uspesno prijavljivanje! Dobrodosli u ${KOMPANIJA} ekosistem. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`,
+        ? `Dobrodosli, vlasniku! VIP nalog prijavljen. ${KOMPANIJA} — status pretplate: ${pretplata.status}.`
+        : `Uspesno prijavljivanje! Status pretplate: ${pretplata.status}. Pristup industriji prati pretplata dozvole.`,
       // Omega Auth token (primarni format)
       token: result.token,
       identity: {
@@ -173,19 +191,15 @@ export async function POST(request: Request) {
         korisnikId: result.identity.id,
         email,
         uloga: jeVlasnik ? 'vlasnik' : (result.identity.roles[0] ?? 'korisnik'),
-        plan: jeVlasnik ? 'Unlimited VIP' : 'Starter',
+        plan: pretplata.plan,
         token: result.token.value,
         istice: new Date(result.expiresAt * 1000).toISOString(),
         kreirana: new Date().toISOString(),
       },
       pristup: {
-        industrija: true,
-        platforme: true,
-        ekosistem: true,
-        gamingPlatforma: true,
-        delatnosti: true,
-        gejmingKonstrukcija: true,
+        ...pretplata.dozvole,
       },
+      pretplata,
       digitalniKompjuter,
       industrijaPristup,
       gamingPristup,
@@ -215,12 +229,13 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({
     sistem: 'Login — Digitalna Industrija',
-    opis: 'POST /api/login sa { email, lozinka } ili { email, password } za prijavljivanje — svaki korisnik dobija aktiviran Digitalni Kompjuter sa svim komponentama, pristup industriji i svim delatnostima, platformama, ekosistemu, i gaming platformi sa Otavnom Konstrukcijom Gejminga',
+    opis: 'POST /api/login sa { email, lozinka } ili { email, password } za prijavljivanje — odgovor uključuje jedinstven pretplata status, plan i go/no-go dozvole za digitalnu industriju.',
     verzija: APP_VERSION,
     kompanija: KOMPANIJA,
     metode: ['email', 'google', 'github', 'telefon'],
+    standardizovaniPretplataStatusi: STANDARDIZOVANI_PRETPLATA_STATUS_MODEL,
     digitalniKompjuter: 'Automatski se aktivira pri loginu — SPAJA Maticna Ploca, Server, Procesor, Cip, Procesor 2, Cip 2, BIOS, Hard Disk, RAM, GPU, Graficka, Graficka 1, Tastatura i Mis, Monitoring Live',
-    industrijaPristup: 'Logovanjem se dobija pristup industriji i svim delatnostima, platformama, ekosistemu i svemu ostalom',
+    industrijaPristup: 'Pristup industriji zavisi od pretplata statusa (aktivan=go; cekanje/verifikacija/blokiran=no-go).',
     gamingPristup: 'Gaming platforma sa Otavnom Konstrukcijom Gejminga — ektodanari kapacitet globalnog koda prema referentnoj ekskalaciji matricnog jedinjenja',
     status: 'aktivan',
     timestamp: new Date().toISOString(),

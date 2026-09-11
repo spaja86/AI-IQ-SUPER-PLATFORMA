@@ -8,6 +8,8 @@ import { checkBruteForce, recordFailedLoginAttempt, resetLoginAttempts } from '@
 import { ΩAuditLogger } from '@/middleware/omega-audit';
 import type { ΩLoginRequest } from '@/lib/auth/types';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import { buildPretplataSnapshot } from '@/lib/login-pretplata';
+import { auditLoginPretplataEvents } from '@/lib/login-pretplata-audit';
 import {
   gamingStatistika,
   gamingKonfiguracija,
@@ -102,14 +104,19 @@ export async function POST(request: NextRequest) {
   // Uspešna prijava
   resetLoginAttempts(ip);
 
-  ΩAuditLogger.log({
+  const pretplata = buildPretplataSnapshot({
+    email: body.email,
+    roles: result.identity.roles,
+    digitalIndustryAccess: result.identity.digitalIndustryAccess,
+  });
+
+  auditLoginPretplataEvents({
     userId: result.identity.id,
-    action: 'LOGIN_SUCCESS',
     resource: '/api/auth/login',
     ip,
     userAgent,
-    outcome: 'SUCCESS',
-    details: { clearanceLevel: result.identity.clearanceLevel },
+    clearanceLevel: result.identity.clearanceLevel,
+    pretplata,
   });
 
   console.info(`[OMEGA-AUTH] Login success (clearance: ${result.identity.clearanceLevel})`);
@@ -119,7 +126,7 @@ export async function POST(request: NextRequest) {
   const aktivneIgrice = getAktivneIgriceSaEndzinom();
 
   const industrijaPristup = {
-    aktiviran: true,
+    aktiviran: pretplata.dozvole.industrija,
     naziv: digitalnaIndustrija.name,
     statistika: industrijaStats,
     platforme: platforme.map((p) => ({
@@ -144,7 +151,7 @@ export async function POST(request: NextRequest) {
   };
 
   const gamingPristup = {
-    aktiviran: true,
+    aktiviran: pretplata.dozvole.gamingPlatforma,
     platforma: gamingKonfiguracija.platformaNaziv,
     url: IOOPENUIAO_URL,
     domen: gamingKonfiguracija.domen,
@@ -157,7 +164,7 @@ export async function POST(request: NextRequest) {
       naziv: gejmingKonstrukcija.naziv,
       aktivna: gejmingKonstrukcija.aktivna,
     },
-    pristupKrozIndustriju: true,
+    pristupKrozIndustriju: pretplata.dozvole.industrija,
   };
 
   const response = NextResponse.json({
@@ -172,13 +179,9 @@ export async function POST(request: NextRequest) {
     },
     expiresAt: result.expiresAt,
     pristup: {
-      industrija: true,
-      platforme: true,
-      ekosistem: true,
-      gamingPlatforma: true,
-      delatnosti: true,
-      gejmingKonstrukcija: true,
+      ...pretplata.dozvole,
     },
+    pretplata,
     industrijaPristup,
     gamingPristup,
     verzija: APP_VERSION,
