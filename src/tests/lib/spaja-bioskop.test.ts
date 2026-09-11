@@ -70,6 +70,7 @@ async function runTests(): Promise<void> {
     assert(!result.valid, 'sequence with unknown token must be invalid');
     assert(result.status === 'BLOCKED', `expected BLOCKED, got ${result.status}`);
     assert(result.unknownTokens.includes('UNKNOWN'), 'unknown token must be reported');
+    assert(result.readinessScore < 60, 'invalid sequence must stay in blocked readiness range');
   });
 
   await test('duplicate token blocks the sequence', () => {
@@ -91,6 +92,7 @@ async function runTests(): Promise<void> {
 
     assert(result.valid, 'non-strict mode should keep known-token sequence valid');
     assert(result.status === 'WARNING', `expected WARNING, got ${result.status}`);
+    assert(result.goNoGo === 'no-go', 'WARNING status must stay no-go');
     assert(result.warnings.length >= 1, 'warning expected for reordered tokens');
   });
 

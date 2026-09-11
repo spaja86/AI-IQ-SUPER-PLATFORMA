@@ -1,9 +1,8 @@
 import type { NextRequest } from 'next/server';
 import { POST as postLogin } from '../../app/api/login/route';
 import { POST as postAuthLogin } from '../../app/api/auth/login/route';
-import { ensureDemoSeeded } from '../../lib/auth/omega-auth';
+import { ensureDemoSeeded, ΩAuthProvider } from '../../lib/auth/omega-auth';
 import { getGlobalVault } from '../../lib/auth/omega-identity';
-import type { ΩIdentity } from '../../lib/auth/types';
 
 let passed = 0;
 let failed = 0;
@@ -43,26 +42,24 @@ function makeAuthLoginRequest(body: unknown): NextRequest {
   }) as unknown as NextRequest;
 }
 
-function getDemoIdentity(): ΩIdentity {
-  const vault = getGlobalVault();
-  const demoId = vault.listIds().find((id) => vault.retrieveIdentity(id)?.email === 'demo@spaja.ai');
-  if (!demoId) throw new Error('Demo identity not found');
-  const identity = vault.retrieveIdentity(demoId);
-  if (!identity) throw new Error('Demo identity could not be loaded');
-  return identity;
-}
+async function createTestAccount(params: {
+  roles: string[];
+  digitalIndustryAccess: boolean;
+}): Promise<{ email: string; password: string }> {
+  const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  const email = `login-pretplata-${suffix}@spaja.ai`;
+  const password = 'Demo2024!';
+  const registered = await ΩAuthProvider.register({ email, password });
+  if (!registered) throw new Error('Failed to register test account');
 
-function setDemoIdentityPatch(patch: Partial<ΩIdentity>): ΩIdentity {
   const vault = getGlobalVault();
-  const identity = getDemoIdentity();
-  const next: ΩIdentity = { ...identity, ...patch };
-  vault.storeIdentity(next);
-  return identity;
-}
+  vault.storeIdentity({
+    ...registered.identity,
+    roles: params.roles,
+    digitalIndustryAccess: params.digitalIndustryAccess,
+  });
 
-function restoreDemoIdentity(identity: ΩIdentity): void {
-  const vault = getGlobalVault();
-  vault.storeIdentity(identity);
+  return { email, password };
 }
 
 async function runTests(): Promise<void> {
@@ -103,72 +100,75 @@ async function runTests(): Promise<void> {
   });
 
   await test('POST /api/login supports login without active pretplata (cekanje)', async () => {
-    const original = setDemoIdentityPatch({
+    const account = await createTestAccount({
       roles: ['user', 'demo', 'subscription-pending'],
       digitalIndustryAccess: true,
     });
-    try {
-      const response = await postLogin(makeLoginRequest({
-        email: 'demo@spaja.ai',
-        password: 'Demo2024!',
-      }));
-      assert(response.status === 200, `expected 200, got ${response.status}`);
-      const body = await response.json() as {
-        pretplata: { status: string; goNoGo: string };
-        pristup: { industrija: boolean; platforme: boolean };
-      };
-      assert(body.pretplata.status === 'cekanje', `expected cekanje, got ${body.pretplata.status}`);
-      assert(body.pretplata.goNoGo === 'no-go', `expected no-go, got ${body.pretplata.goNoGo}`);
-      assert(body.pristup.industrija === false, 'pending status must deny industry');
-      assert(body.pristup.platforme === true, 'pending status must keep platform access');
-    } finally {
-      restoreDemoIdentity(original);
-    }
+
+    const response = await postLogin(makeLoginRequest(account));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      pretplata: { status: string; goNoGo: string };
+      pristup: { industrija: boolean; platforme: boolean };
+    };
+    assert(body.pretplata.status === 'cekanje', `expected cekanje, got ${body.pretplata.status}`);
+    assert(body.pretplata.goNoGo === 'no-go', `expected no-go, got ${body.pretplata.goNoGo}`);
+    assert(body.pristup.industrija === false, 'pending status must deny industry');
+    assert(body.pristup.platforme === true, 'pending status must keep platform access');
   });
 
-  await test('POST /api/auth/login blocks access when pretplata is blocked', async () => {
-    const original = setDemoIdentityPatch({
+  await test('POST /api/auth/login still authenticates but returns blocked pretplata snapshot', async () => {
+    const account = await createTestAccount({
       roles: ['user', 'demo', 'subscription-blocked'],
       digitalIndustryAccess: true,
     });
-    try {
-      const response = await postAuthLogin(makeAuthLoginRequest({
-        email: 'demo@spaja.ai',
-        password: 'Demo2024!',
-      }));
-      assert(response.status === 403, `expected 403, got ${response.status}`);
-      const body = await response.json() as {
-        pretplata: { status: string; goNoGo: string };
-      };
-      assert(body.pretplata.status === 'blokiran', `expected blokiran, got ${body.pretplata.status}`);
-      assert(body.pretplata.goNoGo === 'no-go', `expected no-go, got ${body.pretplata.goNoGo}`);
-    } finally {
-      restoreDemoIdentity(original);
-    }
+
+    const response = await postAuthLogin(makeAuthLoginRequest(account));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      pretplata: { status: string; goNoGo: string };
+      pristup: { industrija: boolean };
+    };
+    assert(body.pretplata.status === 'blokiran', `expected blokiran, got ${body.pretplata.status}`);
+    assert(body.pretplata.goNoGo === 'no-go', `expected no-go, got ${body.pretplata.goNoGo}`);
+    assert(body.pristup.industrija === false, 'blocked status must deny industry');
+  });
+
+  await test('POST /api/login returns blocked pretplata snapshot for subscription-blocked role', async () => {
+    const account = await createTestAccount({
+      roles: ['user', 'demo', 'subscription-blocked'],
+      digitalIndustryAccess: true,
+    });
+
+    const response = await postLogin(makeLoginRequest(account));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      pretplata: { status: string; goNoGo: string };
+      pristup: { industrija: boolean };
+    };
+    assert(body.pretplata.status === 'blokiran', `expected blokiran, got ${body.pretplata.status}`);
+    assert(body.pretplata.goNoGo === 'no-go', `expected no-go, got ${body.pretplata.goNoGo}`);
+    assert(body.pristup.industrija === false, 'blocked status must deny industry');
   });
 
   await test('POST /api/login enters failover/degraded path when digitalIndustryAccess is false', async () => {
-    const original = setDemoIdentityPatch({
+    const account = await createTestAccount({
       roles: ['user', 'demo'],
       digitalIndustryAccess: false,
     });
-    try {
-      const response = await postLogin(makeLoginRequest({
-        email: 'demo@spaja.ai',
-        password: 'Demo2024!',
-      }));
-      assert(response.status === 403, `expected 403, got ${response.status}`);
-      const body = await response.json() as {
-        pretplata: { status: string; razlog: string };
-      };
-      assert(body.pretplata.status === 'blokiran', `expected blokiran, got ${body.pretplata.status}`);
-      assert(
-        body.pretplata.razlog.toLowerCase().includes('digitalna industrija'),
-        `expected degraded reason mentioning digital industry, got: ${body.pretplata.razlog}`,
-      );
-    } finally {
-      restoreDemoIdentity(original);
-    }
+
+    const response = await postLogin(makeLoginRequest(account));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      pretplata: { status: string; razlog: string };
+      pristup: { industrija: boolean };
+    };
+    assert(body.pretplata.status === 'blokiran', `expected blokiran, got ${body.pretplata.status}`);
+    assert(body.pristup.industrija === false, 'degraded path must deny industry');
+    assert(
+      body.pretplata.razlog.toLowerCase().includes('digitalna industrija'),
+      `expected degraded reason mentioning digital industry, got: ${body.pretplata.razlog}`,
+    );
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

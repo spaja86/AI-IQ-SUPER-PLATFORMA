@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { isOwnerEmail } from '@/lib/owner-identity';
 import { buildPretplataSnapshot, STANDARDIZOVANI_PRETPLATA_STATUS_MODEL } from '@/lib/login-pretplata';
+import { auditLoginPretplataEvents } from '@/lib/login-pretplata-audit';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
-import { ΩAuditLogger } from '@/middleware/omega-audit';
 import { REFRESH_TOKEN_TTL } from '@/lib/auth/types';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { platforme } from '@/lib/platforme';
@@ -75,59 +75,14 @@ export async function POST(request: Request) {
       digitalIndustryAccess: result.identity.digitalIndustryAccess,
     });
 
-    ΩAuditLogger.log({
+    auditLoginPretplataEvents({
       userId: result.identity.id,
-      action: 'LOGIN_SUCCESS',
       resource: '/api/login',
       ip,
       userAgent,
-      outcome: 'SUCCESS',
-      details: {
-        clearanceLevel: result.identity.clearanceLevel,
-      },
+      clearanceLevel: result.identity.clearanceLevel,
+      pretplata,
     });
-
-    ΩAuditLogger.log({
-      userId: result.identity.id,
-      action: 'SUBSCRIPTION_STATUS_EVALUATED',
-      resource: '/api/login',
-      ip,
-      userAgent,
-      outcome: 'SUCCESS',
-      details: {
-        status: pretplata.status,
-        plan: pretplata.plan,
-        goNoGo: pretplata.goNoGo,
-        source: pretplata.source,
-      },
-    });
-
-    if (pretplata.status === 'blokiran') {
-      ΩAuditLogger.log({
-        userId: result.identity.id,
-        action: 'INDUSTRY_ACCESS_DENIED_SUBSCRIPTION',
-        resource: '/api/login',
-        ip,
-        userAgent,
-        outcome: 'DENIED',
-        details: {
-          status: pretplata.status,
-          plan: pretplata.plan,
-          razlog: pretplata.razlog,
-        },
-      });
-
-      return NextResponse.json(
-        {
-          uspesno: false,
-          poruka: 'Pristup digitalnoj industriji je blokiran dok se ne uklone pretplata/compliance blokatori.',
-          pretplata,
-          verzija: APP_VERSION,
-          timestamp: new Date().toISOString(),
-        },
-        { status: 403 },
-      );
-    }
 
     // Aktivacija Digitalnog Kompjutera za svakog ulogovanog korisnika
     const sistem = spajaDigitalniKompjuterSistem;
@@ -218,8 +173,8 @@ export async function POST(request: Request) {
     const response = NextResponse.json({
       uspesno: true,
       poruka: jeVlasnik
-        ? `Dobrodosli, vlasniku! VIP pristup aktiviran. ${KOMPANIJA} — Digitalna Industrija. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`
-        : `Uspesno prijavljivanje! Dobrodosli u ${KOMPANIJA} ekosistem. Digitalni Kompjuter aktiviran. Pristup industriji i svim delatnostima odobren.`,
+        ? `Dobrodosli, vlasniku! VIP nalog prijavljen. ${KOMPANIJA} — status pretplate: ${pretplata.status}.`
+        : `Uspesno prijavljivanje! Status pretplate: ${pretplata.status}. Pristup industriji prati pretplata dozvole.`,
       // Omega Auth token (primarni format)
       token: result.token,
       identity: {

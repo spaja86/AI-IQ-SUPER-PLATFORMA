@@ -145,9 +145,12 @@ export function evaluateSpajaBioskop(input: SpajaBioskopInput): SpajaBioskopResu
   const signalStrength = Number.isFinite(rawSignalStrength) ? clamp(rawSignalStrength, 0, 100) : 0;
   if (!Number.isFinite(rawSignalStrength)) warnings.push('signalStrength nije konačan broj; primenjen fallback na 0.');
 
+  const uniqueKnownTokens = new Set(
+    normalizedSequence.filter((token) => SPAJA_BIOSKOP_KANONSKA_SEKVENCA.includes(token as SpajaBioskopToken)),
+  );
   const coverage = SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length === 0
     ? 0
-    : clamp(normalizedSequence.length / SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length, 0, 1);
+    : clamp(uniqueKnownTokens.size / SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length, 0, 1);
   const orderAccuracy = SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length === 0
     ? 0
     : clamp(
@@ -156,9 +159,12 @@ export function evaluateSpajaBioskop(input: SpajaBioskopInput): SpajaBioskopResu
       0,
       1,
     );
-  const readinessScore = Math.round(
+  let readinessScore = Math.round(
     clamp(coverage * 60 + orderAccuracy * 30 + (signalStrength / 100) * 10, 0, 100),
   );
+  if (errors.length > 0) {
+    readinessScore = Math.min(readinessScore, 49);
+  }
 
   let status: SpajaBioskopStatus = 'NORMAL';
   if (errors.length > 0 || readinessScore < 60) status = 'BLOCKED';

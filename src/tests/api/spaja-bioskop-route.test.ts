@@ -70,8 +70,41 @@ async function runTests(): Promise<void> {
     assert(body.details.valid === false, 'invalid sequence should be invalid');
   });
 
+  await test('POST /api/spaja-bioskop/evaluate returns WARNING + no-go for non-strict reorder', async () => {
+    const response = await postEvaluate(
+      makeRequest({
+        sequence: 'ERAGON KAGON SIROKE DJUKAR EPAR DOPER OKTAN DUKAT',
+        strictOrder: false,
+      }),
+    );
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Spaja-Bioskop-Status') === 'WARNING', 'expected WARNING status header');
+    assert(response.headers.get('X-Spaja-Bioskop-Go-NoGo') === 'no-go', 'expected WARNING to map to no-go');
+    const body = await response.json() as { data: { valid: boolean; status: string; goNoGo: string } };
+    assert(body.data.valid === true, 'reordered non-strict sequence should remain valid');
+    assert(body.data.status === 'WARNING', 'body status should be WARNING');
+    assert(body.data.goNoGo === 'no-go', 'body goNoGo should be no-go');
+  });
+
   await test('POST /api/spaja-bioskop/evaluate returns 400 for missing sequence', async () => {
     const response = await postEvaluate(makeRequest({ signalStrength: 70 }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/spaja-bioskop/evaluate returns 400 for non-string array sequence', async () => {
+    const response = await postEvaluate(
+      makeRequest({ sequence: [1, 2, 3] }),
+    );
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /api/spaja-bioskop/evaluate returns 400 for malformed JSON body', async () => {
+    const request = new Request('http://localhost/api/spaja-bioskop/evaluate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{INVALID_JSON',
+    }) as unknown as NextRequest;
+    const response = await postEvaluate(request);
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 

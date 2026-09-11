@@ -13,7 +13,8 @@ export const dynamic = 'force-dynamic';
 function isValidInputShape(value: unknown): value is SpajaBioskopInput {
   if (typeof value !== 'object' || value === null) return false;
   const body = value as Record<string, unknown>;
-  return typeof body.sequence === 'string' || Array.isArray(body.sequence);
+  return typeof body.sequence === 'string'
+    || (Array.isArray(body.sequence) && body.sequence.every((item) => typeof item === 'string'));
 }
 
 export async function POST(request: NextRequest) {
@@ -30,7 +31,9 @@ export async function POST(request: NextRequest) {
       strictOrder: typeof payload.strictOrder === 'boolean' ? payload.strictOrder : undefined,
     });
 
-    const response = result.valid ? apiSuccess(result, 200) : apiUnprocessableEntity('Bioskop sekvenca nije validna.', result);
+    const response = result.status === 'BLOCKED'
+      ? apiUnprocessableEntity('Bioskop sekvenca nije validna.', result)
+      : apiSuccess(result, 200);
     response.headers.set('X-Spaja-Bioskop-Contract-Version', SPAJA_BIOSKOP_CONTRACT_VERSION);
     response.headers.set('X-Spaja-Bioskop-Module-Version', SPAJA_BIOSKOP_MODULE_VERSION);
     response.headers.set('X-Spaja-Bioskop-Status', result.status);
@@ -39,7 +42,7 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     if (error instanceof SyntaxError) {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      return apiError('BAD_REQUEST', 'Nevalidan JSON payload.');
     }
     return apiInternalError('spaja-bioskop/evaluate', error);
   }

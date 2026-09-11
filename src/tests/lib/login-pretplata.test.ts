@@ -84,6 +84,19 @@ async function runTests(): Promise<void> {
     assert(result.onboarding.sledeciKorak === 'manual-review', 'blocked should require manual review');
   });
 
+  await test('digitalIndustryAccess=false forces blocked gating even with pending role', () => {
+    const result = buildPretplataSnapshot({
+      email: 'korisnik@example.com',
+      roles: ['subscription-pending'],
+      digitalIndustryAccess: false,
+    });
+
+    assert(result.status === 'blokiran', `expected blokiran, got ${result.status}`);
+    assert(result.goNoGo === 'no-go', 'blocked should remain no-go');
+    assert(result.dozvole.platforme === false, 'blocked status should deny platform access');
+    assert(result.onboarding.sledeciKorak === 'manual-review', 'blocked status should force manual review');
+  });
+
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
   if (failed > 0) {
     for (const failure of failures) console.error(`  - ${failure}`);

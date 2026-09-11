@@ -55,18 +55,16 @@ function imaUlogu(roles: readonly string[], ...candidates: string[]): boolean {
   return candidates.some((candidate) => normalized.has(candidate.toLowerCase()));
 }
 
-function deriveStatus(roles: readonly string[], digitalIndustryAccess: boolean): {
+function deriveStatus(roles: readonly string[]): {
   status: StandardizovaniPretplataStatus;
   source: PretplataSnapshot['source'];
   razlog: string;
 } {
-  if (imaUlogu(roles, 'subscription-blocked', 'pretplata-blokiran', 'billing-blocked') || !digitalIndustryAccess) {
+  if (imaUlogu(roles, 'subscription-blocked', 'pretplata-blokiran', 'billing-blocked')) {
     return {
       status: 'blokiran',
       source: 'role-policy',
-      razlog: !digitalIndustryAccess
-        ? 'Digitalna industrija nije odobrena za ovaj nalog.'
-        : 'Pretplata je blokirana po billing/compliance pravilima.',
+      razlog: 'Pretplata je blokirana po billing/compliance pravilima.',
     };
   }
 
@@ -167,7 +165,9 @@ function onboardingZaStatus(status: StandardizovaniPretplataStatus): OnboardingG
 }
 
 export function buildPretplataSnapshot(input: BuildPretplataSnapshotInput): PretplataSnapshot {
-  if (isOwnerEmail(input.email)) {
+  const derived = deriveStatus(input.roles);
+
+  if (isOwnerEmail(input.email) && input.digitalIndustryAccess && derived.status === 'aktivan') {
     const status: StandardizovaniPretplataStatus = 'aktivan';
     return {
       status,
@@ -180,15 +180,20 @@ export function buildPretplataSnapshot(input: BuildPretplataSnapshotInput): Pret
     };
   }
 
-  const derived = deriveStatus(input.roles, input.digitalIndustryAccess);
-  const status = derived.status;
+  const status = !input.digitalIndustryAccess ? 'blokiran' : derived.status;
+  const razlog = !input.digitalIndustryAccess
+    ? 'Digitalna industrija nije odobrena za ovaj nalog.'
+    : derived.razlog;
+  const source = !input.digitalIndustryAccess && derived.status !== 'blokiran'
+    ? 'fallback'
+    : derived.source;
   return {
     status,
     plan: status === 'aktivan' ? 'Starter' : 'Nije aktiviran',
     goNoGo: status === 'aktivan' ? 'go' : 'no-go',
     dozvole: dozvoleZaStatus(status),
     onboarding: onboardingZaStatus(status),
-    razlog: derived.razlog,
-    source: derived.source,
+    razlog,
+    source,
   };
 }

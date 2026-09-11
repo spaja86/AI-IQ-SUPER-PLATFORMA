@@ -9,6 +9,7 @@ import { ΩAuditLogger } from '@/middleware/omega-audit';
 import type { ΩLoginRequest } from '@/lib/auth/types';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { buildPretplataSnapshot } from '@/lib/login-pretplata';
+import { auditLoginPretplataEvents } from '@/lib/login-pretplata-audit';
 import {
   gamingStatistika,
   gamingKonfiguracija,
@@ -109,54 +110,14 @@ export async function POST(request: NextRequest) {
     digitalIndustryAccess: result.identity.digitalIndustryAccess,
   });
 
-  ΩAuditLogger.log({
+  auditLoginPretplataEvents({
     userId: result.identity.id,
-    action: 'LOGIN_SUCCESS',
     resource: '/api/auth/login',
     ip,
     userAgent,
-    outcome: 'SUCCESS',
-    details: { clearanceLevel: result.identity.clearanceLevel },
+    clearanceLevel: result.identity.clearanceLevel,
+    pretplata,
   });
-
-  ΩAuditLogger.log({
-    userId: result.identity.id,
-    action: 'SUBSCRIPTION_STATUS_EVALUATED',
-    resource: '/api/auth/login',
-    ip,
-    userAgent,
-    outcome: 'SUCCESS',
-    details: {
-      status: pretplata.status,
-      plan: pretplata.plan,
-      goNoGo: pretplata.goNoGo,
-      source: pretplata.source,
-    },
-  });
-
-  if (pretplata.status === 'blokiran') {
-    ΩAuditLogger.log({
-      userId: result.identity.id,
-      action: 'INDUSTRY_ACCESS_DENIED_SUBSCRIPTION',
-      resource: '/api/auth/login',
-      ip,
-      userAgent,
-      outcome: 'DENIED',
-      details: {
-        status: pretplata.status,
-        plan: pretplata.plan,
-        razlog: pretplata.razlog,
-      },
-    });
-
-    return NextResponse.json(
-      {
-        error: 'Pristup digitalnoj industriji je blokiran dok se ne uklone pretplata/compliance blokatori.',
-        pretplata,
-      },
-      { status: 403 },
-    );
-  }
 
   console.info(`[OMEGA-AUTH] Login success (clearance: ${result.identity.clearanceLevel})`);
 
