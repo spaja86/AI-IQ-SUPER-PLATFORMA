@@ -31,6 +31,12 @@ Ovaj dokument je centralni referentni registar svih platformi u ekosistemu, njih
 
 **API**: `GET /api/deploy-portfolio` — live JSON pregled svih platformi sa KPI snapshot-om.
 
+### Stabilizing domain surfaces (repo-local)
+
+| Surface | API | Status | Deploy gate |
+|---|---|---|---|
+| 🎬 SPAJA BIOSKOP | `/api/spaja-bioskop/evaluate`, `/api/spaja-bioskop/health` | 🧪 Stabilizing | Quality gate + human review pre šire promocije |
+
 ---
 
 ## Deployment pipeline — Release model

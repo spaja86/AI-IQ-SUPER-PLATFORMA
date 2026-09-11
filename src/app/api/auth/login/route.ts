@@ -8,6 +8,7 @@ import { checkBruteForce, recordFailedLoginAttempt, resetLoginAttempts } from '@
 import { ΩAuditLogger } from '@/middleware/omega-audit';
 import type { ΩLoginRequest } from '@/lib/auth/types';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
+import { buildPretplataSnapshot } from '@/lib/login-pretplata';
 import {
   gamingStatistika,
   gamingKonfiguracija,
@@ -102,6 +103,12 @@ export async function POST(request: NextRequest) {
   // Uspešna prijava
   resetLoginAttempts(ip);
 
+  const pretplata = buildPretplataSnapshot({
+    email: body.email,
+    roles: result.identity.roles,
+    digitalIndustryAccess: result.identity.digitalIndustryAccess,
+  });
+
   ΩAuditLogger.log({
     userId: result.identity.id,
     action: 'LOGIN_SUCCESS',
@@ -112,6 +119,45 @@ export async function POST(request: NextRequest) {
     details: { clearanceLevel: result.identity.clearanceLevel },
   });
 
+  ΩAuditLogger.log({
+    userId: result.identity.id,
+    action: 'SUBSCRIPTION_STATUS_EVALUATED',
+    resource: '/api/auth/login',
+    ip,
+    userAgent,
+    outcome: 'SUCCESS',
+    details: {
+      status: pretplata.status,
+      plan: pretplata.plan,
+      goNoGo: pretplata.goNoGo,
+      source: pretplata.source,
+    },
+  });
+
+  if (pretplata.status === 'blokiran') {
+    ΩAuditLogger.log({
+      userId: result.identity.id,
+      action: 'INDUSTRY_ACCESS_DENIED_SUBSCRIPTION',
+      resource: '/api/auth/login',
+      ip,
+      userAgent,
+      outcome: 'DENIED',
+      details: {
+        status: pretplata.status,
+        plan: pretplata.plan,
+        razlog: pretplata.razlog,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        error: 'Pristup digitalnoj industriji je blokiran dok se ne uklone pretplata/compliance blokatori.',
+        pretplata,
+      },
+      { status: 403 },
+    );
+  }
+
   console.info(`[OMEGA-AUTH] Login success (clearance: ${result.identity.clearanceLevel})`);
 
   // Priprema pristupa industriji i gaming platformi
@@ -119,7 +165,7 @@ export async function POST(request: NextRequest) {
   const aktivneIgrice = getAktivneIgriceSaEndzinom();
 
   const industrijaPristup = {
-    aktiviran: true,
+    aktiviran: pretplata.dozvole.industrija,
     naziv: digitalnaIndustrija.name,
     statistika: industrijaStats,
     platforme: platforme.map((p) => ({
@@ -144,7 +190,7 @@ export async function POST(request: NextRequest) {
   };
 
   const gamingPristup = {
-    aktiviran: true,
+    aktiviran: pretplata.dozvole.gamingPlatforma,
     platforma: gamingKonfiguracija.platformaNaziv,
     url: IOOPENUIAO_URL,
     domen: gamingKonfiguracija.domen,
@@ -157,7 +203,7 @@ export async function POST(request: NextRequest) {
       naziv: gejmingKonstrukcija.naziv,
       aktivna: gejmingKonstrukcija.aktivna,
     },
-    pristupKrozIndustriju: true,
+    pristupKrozIndustriju: pretplata.dozvole.industrija,
   };
 
   const response = NextResponse.json({
@@ -172,13 +218,9 @@ export async function POST(request: NextRequest) {
     },
     expiresAt: result.expiresAt,
     pristup: {
-      industrija: true,
-      platforme: true,
-      ekosistem: true,
-      gamingPlatforma: true,
-      delatnosti: true,
-      gejmingKonstrukcija: true,
+      ...pretplata.dozvole,
     },
+    pretplata,
     industrijaPristup,
     gamingPristup,
     verzija: APP_VERSION,
