@@ -50,6 +50,7 @@ import {
   buildDeponValueGauge,
   MARKETPLACE_CONFIG,
 } from '../../depon/depon-15-app-marketplace-portal';
+import { getDeponRoleCatalog } from '../../lib/uiux-strukturni-podvici';
 
 import {
   buildPipelineRun,
@@ -555,6 +556,14 @@ async function runMarketplacePortalTests(): Promise<void> {
   await test('DEPON-15 exposes all planned UX families', () => {
     assertEqual(DEPON_15_UX_FAMILIES.length, 7, 'family count');
     assert(DEPON_15_UX_FAMILIES.every((family) => family.allowedSequences.length >= 1), 'allowed sequences');
+  });
+
+  await test('DEPON-15 families koriste samo marketplace-dozvoljene intente', () => {
+    const allowed = new Set(getDeponRoleCatalog('marketplace').primaryIntents);
+    assert(
+      DEPON_15_UX_FAMILIES.every((family) => family.intents.every((intent) => allowed.has(intent))),
+      'all family intents must be marketplace-supported',
+    );
   });
 
   await test('enterprise review family prioritizes trust/compliance KPI', () => {

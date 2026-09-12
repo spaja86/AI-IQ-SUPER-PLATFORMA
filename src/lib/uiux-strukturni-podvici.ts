@@ -368,7 +368,7 @@ export const DEPON_ROLE_CATALOGS: DeponRoleCatalog[] = [
   {
     role: 'marketplace',
     deponRange: 'DEPON-13..DEPON-18',
-    primaryIntents: ['discovery', 'ranking', 'recommendation', 'monetization'],
+    primaryIntents: ['discovery', 'ranking', 'recommendation', 'monetization', 'compliance-review', 'enterprise-review'],
     allowedSequences: [
       ['hero', 'kartice', 'cta'],
       ['hero', 'statistika', 'lista', 'cta'],
