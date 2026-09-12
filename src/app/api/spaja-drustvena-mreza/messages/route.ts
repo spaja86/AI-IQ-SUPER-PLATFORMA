@@ -3,6 +3,7 @@ import { apiSuccess } from '@/lib/api/response';
 import {
   appendMessage,
   createConversation,
+  getProfile,
   isSocialAudience,
   isSocialVisibility,
   listConversations,
@@ -20,6 +21,10 @@ export async function GET(req: NextRequest) {
     const audience = searchParams.get('audience');
     if (!participantId) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'participantId query param is required');
+    }
+    const participant = getProfile(participantId);
+    if (!participant.ok) {
+      return spajaDrustvenaMrezaApiError(participant.code ?? 'NOT_FOUND', participant.message);
     }
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');

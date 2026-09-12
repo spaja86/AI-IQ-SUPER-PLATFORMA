@@ -705,12 +705,12 @@ export function rsvpEvent(eventId: string, profileId: string): SocialOperationRe
   return { ok: true, message: 'waitlisted', data: clone(event) };
 }
 
-export function listNotifications(filter?: { recipientId?: string; unreadOnly?: boolean }): SocialNotification[] {
+export function listNotifications(filter: { recipientId: string; unreadOnly?: boolean }): SocialNotification[] {
   seedState();
   return Array.from(NOTIFICATION_STORE.values())
     .filter((notification) => {
-      if (filter?.recipientId && notification.recipientId !== filter.recipientId) return false;
-      if (filter?.unreadOnly && notification.read) return false;
+      if (notification.recipientId !== filter.recipientId) return false;
+      if (filter.unreadOnly && notification.read) return false;
       return true;
     })
     .sort((a, b) => b.createdAt - a.createdAt)

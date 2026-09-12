@@ -295,6 +295,19 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
+  await test('GET /messages rejects unknown participantId', async () => {
+    const response = await getMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages?participantId=missing-profile'));
+    assert(response.status === 404, `expected 404, got ${response.status}`);
+  });
+
+  await test('GET /messages does not expose another participant thread', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const response = await getMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages?participantId=profile-public-builder'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { count: number } };
+    assert(body.data.count === 0, 'non-participant should not enumerate seeded thread');
+  });
+
   await test('POST /messages rejects malformed reply payload', async () => {
     const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', { action: 'reply' }));
     assert(response.status === 400, `expected 400, got ${response.status}`);
