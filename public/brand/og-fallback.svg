@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">AI IQ SUPER PLATFORMA OG fallback</title>
+  <desc id="desc">Digitalna Industrija share preview sa lokalnim SPAJA brendingom</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#02050d" />
+      <stop offset="52%" stop-color="#0a1e4b" />
+      <stop offset="100%" stop-color="#050813" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff2aa" />
+      <stop offset="50%" stop-color="#ffbf3d" />
+      <stop offset="100%" stop-color="#b87812" />
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#93dcff" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#12348f" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="28" y="28" width="1144" height="574" rx="36" fill="none" stroke="url(#gold)" stroke-width="4" />
+  <ellipse cx="820" cy="240" rx="260" ry="118" fill="none" stroke="url(#blue)" stroke-width="18" />
+  <ellipse cx="820" cy="240" rx="292" ry="140" fill="none" stroke="url(#gold)" stroke-width="6" />
+  <g transform="translate(120 110)">
+    <path d="M120 36l52 42 84-104 84 104 52-42 26 132H94l26-132z" fill="url(#gold)" />
+    <circle cx="256" cy="128" r="42" fill="url(#blue)" stroke="#dbeafe" stroke-width="4" />
+    <ellipse cx="256" cy="156" rx="188" ry="104" fill="none" stroke="url(#blue)" stroke-width="16" />
+  </g>
+  <text x="110" y="430" fill="url(#gold)" font-size="82" font-weight="700" font-family="Georgia, serif">AI IQ SUPER PLATFORMA</text>
+  <text x="112" y="500" fill="#fff6d2" font-size="54" font-weight="700" font-family="Georgia, serif">DIGITALNA INDUSTRIJA</text>
+  <text x="112" y="550" fill="#bfdbfe" font-size="28" font-family="Inter, Arial, sans-serif">Povezujemo ljude, kompanije i budućnost.</text>
+</svg>

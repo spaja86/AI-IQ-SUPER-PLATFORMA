@@ -1,5 +1,7 @@
 import { APP_VERSION } from './constants';
 import { generatePlatformBarKod } from './bar-kod';
+import type { ExportContract } from './export-pdf';
+import { buildExportContract } from './export-pdf';
 
 export type IzvozStatus = 'spremno' | 'u-pripremi' | 'zahteva-reviziju';
 
@@ -20,6 +22,7 @@ export interface DigitalnaIndustrijaIzvozFakturaRezultat {
   userId: string;
   timestamp: string;
   verzija: string;
+  exportContract: ExportContract;
   jurisdikcija: 'Republika Srbija';
   registarNosioc: string;
   fakture: IzvozFakturaStavka[];
@@ -35,6 +38,7 @@ export interface DigitalnaIndustrijaIzvozFakturaRezultat {
 export function buildDigitalnaIndustrijaIzvozFaktura(
   userId: string,
 ): DigitalnaIndustrijaIzvozFakturaRezultat {
+  const demoBarKod = (seed: string) => generatePlatformBarKod(`demo-${seed}`);
   const fakture: IzvozFakturaStavka[] = [
     {
       id: 'izvoz-faktura-001',
@@ -44,7 +48,7 @@ export function buildDigitalnaIndustrijaIzvozFaktura(
       trziste: 'EU',
       valuta: 'EUR',
       iznos: 82_500,
-      barKod: generatePlatformBarKod('ai-iq-super-platforma'),
+      barKod: demoBarKod('ai-iq-super-platforma'),
       status: 'spremno',
     },
     {
@@ -55,7 +59,7 @@ export function buildDigitalnaIndustrijaIzvozFaktura(
       trziste: 'SAD',
       valuta: 'USD',
       iznos: 104_000,
-      barKod: generatePlatformBarKod('ai-iq-world-bank'),
+      barKod: demoBarKod('ai-iq-world-bank'),
       status: 'u-pripremi',
     },
     {
@@ -66,7 +70,7 @@ export function buildDigitalnaIndustrijaIzvozFaktura(
       trziste: 'Švajcarska',
       valuta: 'CHF',
       iznos: 48_300,
-      barKod: generatePlatformBarKod('spajapro-platforma'),
+      barKod: demoBarKod('spajapro-platforma'),
       status: 'zahteva-reviziju',
     },
     {
@@ -77,7 +81,7 @@ export function buildDigitalnaIndustrijaIzvozFaktura(
       trziste: 'EU',
       valuta: 'EUR',
       iznos: 63_400,
-      barKod: generatePlatformBarKod('input-output-copilot'),
+      barKod: demoBarKod('input-output-copilot'),
       status: 'spremno',
     },
   ];
@@ -94,6 +98,7 @@ export function buildDigitalnaIndustrijaIzvozFaktura(
     userId,
     timestamp: new Date().toISOString(),
     verzija: APP_VERSION,
+    exportContract: buildExportContract('/api/digitalna-industrija-izvoz-faktura', '/api/digitalna-industrija-izvoz-faktura/pdf'),
     jurisdikcija: 'Republika Srbija',
     registarNosioc: 'Digitalna Industrija',
     fakture,

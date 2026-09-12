@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { APP_NAME, KOMPANIJA, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
+import { BRAND_ASSETS } from '@/lib/brand';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -36,9 +37,19 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     icons: [
       {
-        src: '/favicon.ico',
-        sizes: '64x64',
-        type: 'image/x-icon',
+        src: BRAND_ASSETS.favicon,
+        sizes: 'any',
+        type: 'image/svg+xml',
+      },
+      {
+        src: '/icon',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+      {
+        src: '/apple-icon',
+        sizes: '512x512',
+        type: 'image/png',
       },
     ],
     related_applications: [],

@@ -19,24 +19,60 @@ export async function GET(request: Request) {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#0a0a1a',
-          backgroundImage: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a2a 100%)',
+          backgroundImage: 'linear-gradient(135deg, #030712 0%, #071a33 48%, #040814 100%)',
           fontFamily: 'sans-serif',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
         <div
           style={{
+            position: 'absolute',
+            inset: 24,
+            borderRadius: 28,
+            border: '3px solid rgba(255, 196, 74, 0.75)',
+            display: 'flex',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            right: -120,
+            top: 110,
+            width: 760,
+            height: 320,
+            borderRadius: '50%',
+            border: '14px solid rgba(59, 130, 246, 0.85)',
+            display: 'flex',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            right: -160,
+            top: 84,
+            width: 840,
+            height: 370,
+            borderRadius: '50%',
+            border: '5px solid rgba(255, 196, 74, 0.78)',
+            display: 'flex',
+          }}
+        />
+        <div
+          style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'center',
-            padding: '40px 60px',
-            maxWidth: '90%',
+            padding: '40px 88px',
+            width: '100%',
+            zIndex: 2,
           }}
         >
           <div
             style={{
               fontSize: 28,
-              color: '#818cf8',
+              color: '#93c5fd',
               marginBottom: 8,
               display: 'flex',
             }}
@@ -48,10 +84,11 @@ export async function GET(request: Request) {
               fontSize: 52,
               fontWeight: 'bold',
               color: '#ffffff',
-              textAlign: 'center',
+              textAlign: 'left',
               marginBottom: 16,
               lineHeight: 1.2,
               display: 'flex',
+              maxWidth: '70%',
             }}
           >
             {title}
@@ -60,12 +97,22 @@ export async function GET(request: Request) {
             style={{
               fontSize: 22,
               color: '#a1a1aa',
-              textAlign: 'center',
-              maxWidth: '80%',
+              textAlign: 'left',
+              maxWidth: '62%',
               display: 'flex',
             }}
           >
             {description}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              marginTop: 32,
+              fontSize: 26,
+              color: '#fff6cf',
+            }}
+          >
+            Povezujemo ljude, kompanije i budućnost.
           </div>
           <div
             style={{
@@ -111,7 +158,19 @@ export async function GET(request: Request) {
             >
               SpajaPro
             </div>
-          </div>
+              <div
+                style={{
+                  fontSize: 16,
+                  color: '#fde68a',
+                  padding: '6px 16px',
+                  borderRadius: 8,
+                  border: '1px solid #fde68a',
+                  display: 'flex',
+                }}
+              >
+                Royal Brand
+              </div>
+            </div>
         </div>
       </div>
     ),

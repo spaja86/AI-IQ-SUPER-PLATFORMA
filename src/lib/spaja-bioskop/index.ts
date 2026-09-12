@@ -148,14 +148,14 @@ export function evaluateSpajaBioskop(input: SpajaBioskopInput): SpajaBioskopResu
   const uniqueKnownTokens = new Set(
     normalizedSequence.filter((token) => SPAJA_BIOSKOP_KANONSKA_SEKVENCA.includes(token as SpajaBioskopToken)),
   );
-  const coverage = SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length === 0
+  const canonicalTokenCount: number = SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length;
+  const coverage = canonicalTokenCount === 0
     ? 0
-    : clamp(uniqueKnownTokens.size / SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length, 0, 1);
-  const orderAccuracy = SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length === 0
+    : clamp(uniqueKnownTokens.size / canonicalTokenCount, 0, 1);
+  const orderAccuracy = canonicalTokenCount === 0
     ? 0
     : clamp(
-      (SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length - mismatchedPositions.length)
-        / SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length,
+      (canonicalTokenCount - mismatchedPositions.length) / canonicalTokenCount,
       0,
       1,
     );

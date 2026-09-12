@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">DIKTOR komandni centar vizual</title>
+  <desc id="desc">Dark cyber glass template sa četiri centralna modula</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#030712" />
+      <stop offset="40%" stop-color="#071a33" />
+      <stop offset="100%" stop-color="#020409" />
+    </linearGradient>
+    <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67e8f9" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+    <linearGradient id="violet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <rect x="28" y="28" width="1544" height="844" rx="36" fill="none" stroke="rgba(103,232,249,.35)" stroke-width="2" />
+  <rect x="80" y="80" width="1440" height="740" rx="28" fill="rgba(7,18,40,.45)" stroke="rgba(125,211,252,.25)" />
+  <text x="800" y="160" text-anchor="middle" fill="#f8fafc" font-size="62" font-weight="700" font-family="Inter, Arial, sans-serif">DIKTOR / DURM / EKSICION / SUSTRAS / DEKORATOR</text>
+  <text x="800" y="210" text-anchor="middle" fill="#93c5fd" font-size="28" font-family="Inter, Arial, sans-serif">Premium dark-cyber komandni centar za B2B orkestraciju</text>
+  <g>
+    <rect x="150" y="280" width="280" height="210" rx="24" fill="rgba(14,26,57,.7)" stroke="url(#cyan)" />
+    <text x="190" y="350" fill="#67e8f9" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">WOTERMELOW</text>
+    <text x="190" y="400" fill="#cbd5e1" font-size="22" font-family="Inter, Arial, sans-serif">Operations hub · activity stream</text>
+  </g>
+  <g>
+    <rect x="470" y="280" width="280" height="210" rx="24" fill="rgba(14,26,57,.7)" stroke="url(#violet)" />
+    <text x="520" y="350" fill="#d8b4fe" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">DIGON</text>
+    <text x="520" y="400" fill="#cbd5e1" font-size="22" font-family="Inter, Arial, sans-serif">Partnerships · monetization</text>
+  </g>
+  <g>
+    <rect x="790" y="280" width="280" height="210" rx="24" fill="rgba(14,26,57,.7)" stroke="url(#gold)" />
+    <text x="850" y="350" fill="#fde68a" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">OKEN</text>
+    <text x="850" y="400" fill="#cbd5e1" font-size="22" font-family="Inter, Arial, sans-serif">KPI signal · alert orchestration</text>
+  </g>
+  <g>
+    <rect x="1110" y="280" width="280" height="210" rx="24" fill="rgba(14,26,57,.7)" stroke="url(#cyan)" />
+    <text x="1160" y="350" fill="#93c5fd" font-size="34" font-weight="700" font-family="Inter, Arial, sans-serif">DIKTAR</text>
+    <text x="1160" y="400" fill="#cbd5e1" font-size="22" font-family="Inter, Arial, sans-serif">Decisions · CTA execution</text>
+  </g>
+  <rect x="150" y="550" width="1240" height="180" rx="24" fill="rgba(15,23,42,.72)" stroke="rgba(148,163,184,.35)" />
+  <text x="190" y="620" fill="#f8fafc" font-size="40" font-weight="700" font-family="Inter, Arial, sans-serif">Povezujemo ljude, kompanije i budućnost.</text>
+  <text x="190" y="675" fill="#94a3b8" font-size="24" font-family="Inter, Arial, sans-serif">Glass UI · CTA centar · KPI · partnerstva · projekti · analitika · aktivnosti · obaveštenja</text>
+</svg>

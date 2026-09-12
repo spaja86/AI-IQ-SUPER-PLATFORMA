@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Digitalna Industrija brand mark</title>
+  <desc id="desc">Lokalni SPAJA brend znak inspirisan kraljevskim Digitalna Industrija vizualom</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050913" />
+      <stop offset="55%" stop-color="#0a2254" />
+      <stop offset="100%" stop-color="#02040a" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff4b3" />
+      <stop offset="40%" stop-color="#ffc64a" />
+      <stop offset="100%" stop-color="#b87412" />
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8cdcff" />
+      <stop offset="50%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#0f2f92" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="64" fill="url(#bg)" />
+  <rect x="24" y="24" width="464" height="464" rx="56" fill="none" stroke="url(#gold)" stroke-width="10" />
+  <path d="M78 90h356" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" />
+  <path d="M118 126l52 42 86-104 86 104 52-42 22 128H96l22-128z" fill="url(#gold)" stroke="#fff8cf" stroke-width="4" filter="url(#glow)" />
+  <circle cx="256" cy="206" r="40" fill="url(#blue)" stroke="#dbeafe" stroke-width="5" filter="url(#glow)" />
+  <ellipse cx="256" cy="214" rx="168" ry="94" fill="none" stroke="url(#blue)" stroke-width="18" filter="url(#glow)" />
+  <ellipse cx="256" cy="214" rx="188" ry="112" fill="none" stroke="url(#gold)" stroke-width="10" />
+  <path d="M126 324h260" stroke="url(#blue)" stroke-width="14" stroke-linecap="round" />
+  <text x="256" y="396" text-anchor="middle" fill="url(#gold)" font-size="80" font-weight="700" font-family="Georgia, serif">DIGITALNA</text>
+  <text x="256" y="452" text-anchor="middle" fill="#fff4cf" font-size="54" font-weight="700" font-family="Georgia, serif">INDUSTRIJA</text>
+</svg>

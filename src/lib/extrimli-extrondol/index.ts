@@ -21,8 +21,10 @@ import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolPaymentReferenceClassification,
   ExtrimliExtrondolPaymentVerification,
   ExtrimliExtrondolReport,
+  ExtrimliExtrondolReleaseAuditSummary,
   ExtrimliExtrondolStartProject,
   ExtrimliExtrondolWaweStage,
 } from './types';
@@ -245,8 +247,8 @@ function buildPaymentVerification(): ExtrimliExtrondolPaymentVerification {
   const paymentReferenceClassificationRaw = normalizePaymentReferenceClassification(
     process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
   );
-  const paymentReferenceClassification = paymentReferenceClassificationRaw.length > 0
-    ? paymentReferenceClassificationRaw
+  const paymentReferenceClassification: ExtrimliExtrondolPaymentReferenceClassification = paymentReferenceClassificationRaw.length > 0
+    ? paymentReferenceClassificationRaw as ExtrimliExtrondolPaymentReferenceClassification
     : 'unclassified';
 
   const invoiceMatchesExpected = currentInvoiceNumber === EXPECTED_VERCEL_INVOICE_NUMBER
@@ -616,7 +618,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
     ]
     : ['Ready for next WAWE stage with governance evidence.'];
-  const releaseAuditSummary = {
+  const releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary = {
     required: true,
     status: promotionFreeze ? 'BLOCKED' : 'READY',
     rolloutSnapshot: {
@@ -646,7 +648,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     humanReviewRequired: true,
     rollbackPlanRequired: true,
-  } as const;
+  };
 
   const b2bReadiness = {
     tenant: {
