@@ -2,7 +2,24 @@ import { PLANOVI } from './stripe/config';
 import { STANDARDIZOVANI_PRETPLATA_STATUS_MODEL } from './login-pretplata';
 import { APP_VERSION } from './constants';
 
-export function getStartPretplateData() {
+export interface StartPretplateData {
+  naziv: string;
+  verzija: string;
+  planovi: Array<{
+    id: string;
+    naziv: string;
+    cenaEur: number;
+    mesecno: boolean;
+    chatLimit: number | null;
+    funkcije: string[];
+    imaStripePrice: boolean;
+  }>;
+  statusModel: typeof STANDARDIZOVANI_PRETPLATA_STATUS_MODEL;
+  readiness: string[];
+  onboarding: string[];
+}
+
+export function getStartPretplateData(): StartPretplateData {
   return {
     naziv: 'Start Pretplate',
     verzija: APP_VERSION,

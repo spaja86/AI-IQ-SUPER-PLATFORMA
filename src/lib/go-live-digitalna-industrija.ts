@@ -1,6 +1,15 @@
 import { APP_VERSION } from './constants';
 
-export function getGoLiveDigitalnaIndustrija() {
+export interface GoLiveDigitalnaIndustrijaData {
+  naziv: string;
+  verzija: string;
+  faze: string[];
+  kanali: string[];
+  kpi: Array<{ naziv: string; cilj: string }>;
+  materijali: string[];
+}
+
+export function getGoLiveDigitalnaIndustrija(): GoLiveDigitalnaIndustrijaData {
   return {
     naziv: 'Go-Live Digitalna Industrija',
     verzija: APP_VERSION,

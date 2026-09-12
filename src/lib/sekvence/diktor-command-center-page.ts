@@ -62,13 +62,7 @@ export const diktorCommandCenterSekvence: Sekvenca[] = [
     redosled: 4,
     podaci: {
       zaglavlje: ['Sloj', 'Funkcija'],
-      redovi: [
-        ['DIKTOR', 'Centralna vizija, slogan i identitet komandnog centra'],
-        ['DURM', 'Operativni raspored, aktivnosti i ritam rada'],
-        ['EKSICION', 'KPI, analitika i live signal mreža'],
-        ['SUSTRAS', 'Partnerstva, projekti i strateške veze'],
-        ['DEKORATOR', 'Vizuelni polish, glass UI i reusable brand sloj'],
-      ],
+      redovi: cc.slojevi.map((sloj) => [sloj.naziv, sloj.funkcija]),
     },
   },
   {

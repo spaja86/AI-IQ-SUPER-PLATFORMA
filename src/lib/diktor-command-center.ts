@@ -10,12 +10,17 @@ export interface DiktorModule {
   identitet: string[];
 }
 
+export interface DiktorSloj {
+  naziv: string;
+  funkcija: string;
+}
+
 export interface DiktorCommandCenter {
   naziv: string;
   verzija: string;
   slogan: string;
   heroSlika: string;
-  slojevi: string[];
+  slojevi: DiktorSloj[];
   kpi: Array<{ naziv: string; vrednost: string; ikona: string }>;
   moduli: DiktorModule[];
   partnerstva: string[];
@@ -30,7 +35,13 @@ export function getDiktorCommandCenter(): DiktorCommandCenter {
     verzija: APP_VERSION,
     slogan: 'Povezujemo ljude, kompanije i budućnost.',
     heroSlika: BRAND_ASSETS.diktorHero,
-    slojevi: ['DIKTOR', 'DURM', 'EKSICION', 'SUSTRAS', 'DEKORATOR'],
+    slojevi: [
+      { naziv: 'DIKTOR', funkcija: 'Centralna vizija, slogan i identitet komandnog centra' },
+      { naziv: 'DURM', funkcija: 'Operativni raspored, aktivnosti i ritam rada' },
+      { naziv: 'EKSICION', funkcija: 'KPI, analitika i live signal mreza' },
+      { naziv: 'SUSTRAS', funkcija: 'Partnerstva, projekti i strateske veze' },
+      { naziv: 'DEKORATOR', funkcija: 'Vizuelni polish, glass UI i reusable brand sloj' },
+    ],
     kpi: [
       { naziv: 'Aktivni moduli', vrednost: '4', ikona: '🧩' },
       { naziv: 'Partner pipeline', vrednost: '18', ikona: '🤝' },
