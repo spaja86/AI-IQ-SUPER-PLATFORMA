@@ -21,6 +21,7 @@ import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolPaymentReferenceClassification,
   ExtrimliExtrondolPaymentVerification,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolStartProject,
@@ -245,8 +246,8 @@ function buildPaymentVerification(): ExtrimliExtrondolPaymentVerification {
   const paymentReferenceClassificationRaw = normalizePaymentReferenceClassification(
     process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
   );
-  const paymentReferenceClassification = paymentReferenceClassificationRaw.length > 0
-    ? paymentReferenceClassificationRaw
+  const paymentReferenceClassification: ExtrimliExtrondolPaymentReferenceClassification = paymentReferenceClassificationRaw.length > 0
+    ? paymentReferenceClassificationRaw as ExtrimliExtrondolPaymentReferenceClassification
     : 'unclassified';
 
   const invoiceMatchesExpected = currentInvoiceNumber === EXPECTED_VERCEL_INVOICE_NUMBER
