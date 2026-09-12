@@ -42,6 +42,8 @@ async function runTests(): Promise<void> {
     const content = Buffer.from(pdf).toString('utf8');
     const head = content.slice(0, 8);
     assert(head.startsWith('%PDF-1.4'), 'pdf header');
+    assert(content.includes(`Export contract: ${PDF_EXPORT_CONTRACT_VERSION}`), 'generator export contract line');
+    assert(content.includes('Status: aktivan'), 'generator status line');
     assert(content.includes('Ukupno racuna'), 'pdf ascii-safe racuna content');
     assert(!content.includes('Ukupno računa'), 'pdf should not contain raw non-ascii racuna content');
   });
@@ -53,6 +55,8 @@ async function runTests(): Promise<void> {
     const content = Buffer.from(pdf).toString('utf8');
     const head = content.slice(0, 8);
     assert(head.startsWith('%PDF-1.4'), 'invoice pdf header');
+    assert(content.includes(`Export contract: ${PDF_EXPORT_CONTRACT_VERSION}`), 'invoice export contract line');
+    assert(content.includes('U pripremi: 1'), 'invoice kpi line');
     assert(content.includes('DI-EXP-2026-001'), 'invoice rendered content');
     assert(content.includes('DIGITALNA INDUSTRIJA - IZVOZ FAKTURA PDF'), 'invoice title should be ascii-safe');
   });

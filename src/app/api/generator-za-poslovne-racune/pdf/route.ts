@@ -4,7 +4,28 @@ import { buildPoslovniRacuniPdfDocument } from '@/lib/export-pdf';
 
 export async function GET() {
   const result = buildGeneratorZaPoslovneRacune('public');
-  const pdf = buildPoslovniRacuniPdfDocument(result);
+  const publicResult = {
+    ...result,
+    userId: 'public-demo',
+    subjekt: {
+      ...result.subjekt,
+      naziv: 'Javni demo subjekt',
+      pib: 'DEMO-PIB',
+      maticniBroj: 'DEMO-MB',
+      email: 'public-demo@ai-iq-super-platforma.com',
+    },
+    racuni: result.racuni.map((racun, index) => ({
+      ...racun,
+      id: `demo-racun-${index + 1}`,
+      brojRacuna: `DEMO-${String(index + 1).padStart(4, '0')}`,
+      ibanLike: `RS35AIIQDEMO${String(index + 1).padStart(10, '0')}`,
+      metadata: {
+        ...racun.metadata,
+        vlasnik: 'Javni demo subjekt',
+      },
+    })),
+  };
+  const pdf = buildPoslovniRacuniPdfDocument(publicResult);
   const body = Uint8Array.from(pdf);
 
   return new Response(body, {

@@ -148,13 +148,17 @@ export function evaluateSpajaBioskop(input: SpajaBioskopInput): SpajaBioskopResu
   const uniqueKnownTokens = new Set(
     normalizedSequence.filter((token) => SPAJA_BIOSKOP_KANONSKA_SEKVENCA.includes(token as SpajaBioskopToken)),
   );
-  const coverage = clamp(uniqueKnownTokens.size / SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length, 0, 1);
-  const orderAccuracy = clamp(
-    (SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length - mismatchedPositions.length)
-      / SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length,
-    0,
-    1,
-  );
+  const canonicalTokenCount = [...SPAJA_BIOSKOP_KANONSKA_SEKVENCA].length;
+  const coverage = canonicalTokenCount === 0
+    ? 0
+    : clamp(uniqueKnownTokens.size / canonicalTokenCount, 0, 1);
+  const orderAccuracy = canonicalTokenCount === 0
+    ? 0
+    : clamp(
+      (canonicalTokenCount - mismatchedPositions.length) / canonicalTokenCount,
+      0,
+      1,
+    );
   let readinessScore = Math.round(
     clamp(coverage * 60 + orderAccuracy * 30 + (signalStrength / 100) * 10, 0, 100),
   );
