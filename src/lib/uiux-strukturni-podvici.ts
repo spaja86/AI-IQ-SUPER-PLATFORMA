@@ -547,6 +547,7 @@ export function buildCanonicalDeponSchema(input: {
   const resolvedRole = resolveDeponRoleFromIdentity(input.identity);
   const roleCatalog = getDeponRoleCatalog(resolvedRole);
   const resolvedIntent = input.deliveryContext?.intent ?? roleCatalog.primaryIntents[0]!;
+  const resolvedStableCandidateId = input.metadata?.stableCandidateId ?? `${input.identity.depoId}-stable`;
   if (!roleCatalog.primaryIntents.includes(resolvedIntent)) {
     throw new Error(`Unsupported intent ${resolvedIntent} for DEPON role ${roleCatalog.role}`);
   }
@@ -592,7 +593,7 @@ export function buildCanonicalDeponSchema(input: {
     governance: {
       requiredA11y: GOVERNANCE_HEURISTICS.requiredA11y,
       blockedPatterns: GOVERNANCE_HEURISTICS.blockedPatterns,
-      fallbackStableCandidateId: input.metadata?.stableCandidateId ?? `${input.identity.depoId}-stable`,
+      fallbackStableCandidateId: resolvedStableCandidateId,
       auditTrailKey: `${input.identity.depoId}:uiux-audit-trail`,
     },
     metadata: {
@@ -602,7 +603,7 @@ export function buildCanonicalDeponSchema(input: {
       score: input.metadata?.score,
       rolloutPriority: input.metadata?.rolloutPriority ?? resolveRolloutPriority(input.identity.depoId),
       variantFamily: input.metadata?.variantFamily,
-      stableCandidateId: input.metadata?.stableCandidateId ?? `${input.identity.depoId}-stable`,
+      stableCandidateId: resolvedStableCandidateId,
     },
   };
 }
