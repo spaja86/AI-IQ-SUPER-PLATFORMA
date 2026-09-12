@@ -131,8 +131,11 @@ export function createTextPdfDocument(title: string, sourceLines: string[]): Buf
   pdf += '0000000000 65535 f \n';
 
   for (let i = 1; i < objects.length; i++) {
-    const offset = offsets[i] ?? 0;
-    pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
+    if (!objects[i]) {
+      pdf += '0000000000 65535 f \n';
+      continue;
+    }
+    pdf += `${String(offsets[i]).padStart(10, '0')} 00000 n \n`;
   }
 
   pdf += `trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;

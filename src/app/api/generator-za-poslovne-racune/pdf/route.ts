@@ -4,6 +4,11 @@ import { buildPoslovniRacuniPdfDocument } from '@/lib/export-pdf';
 
 export async function GET() {
   const result = buildGeneratorZaPoslovneRacune('public');
+  const publicAudit = result.audit.map((item, index) => ({
+    ...item,
+    id: `demo-audit-${index + 1}`,
+    detalji: `Demo audit zapis ${index + 1} za javni PDF export.`,
+  }));
   const publicResult = {
     ...result,
     userId: 'public-demo',
@@ -24,6 +29,7 @@ export async function GET() {
         vlasnik: 'Javni demo subjekt',
       },
     })),
+    audit: publicAudit,
   };
   const pdf = buildPoslovniRacuniPdfDocument(publicResult);
   const body = Uint8Array.from(pdf);
