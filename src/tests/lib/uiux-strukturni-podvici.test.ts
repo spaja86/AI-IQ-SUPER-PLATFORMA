@@ -221,6 +221,7 @@ async function runTests(): Promise<void> {
   await test('resolveDeponRole i katalog razlikuju core i marketplace DEPON slojeve', () => {
     assertEqual(resolveDeponRole('DEPON-02'), 'core-operational', 'core role');
     assertEqual(resolveDeponRole('DEPON-15'), 'marketplace', 'marketplace role');
+    assertEqual(resolveDeponRole({ depoId: 'io-openui-ao-home', deponRole: 'marketplace' }), 'marketplace', 'identity role');
     assertEqual(DEPON_ROLE_CATALOGS.length, 2, 'dva kataloga');
     assertEqual(getDeponRoleCatalog('marketplace').primaryIntents[0], 'discovery', 'marketplace intent');
   });
@@ -275,6 +276,32 @@ async function runTests(): Promise<void> {
 
     assertEqual(audit.fallbackUsed, true, 'fallback used');
     assertEqual(audit.selectedBy, 'stable-fallback', 'selectedBy');
+  });
+
+  await test('buildVariantSelectionAuditEntry ne oznacava svaku stable varijantu kao fallback', () => {
+    const variants = generateStructuredVariants({
+      depo,
+      catalog,
+      seed: 'seed-6',
+      maxCandidates: 1,
+    });
+    const ranked = rankVariants([
+      {
+        schema: {
+          ...variants[0],
+          metadata: { ...variants[0].metadata, candidateId: 'candidate-stable', stableCandidateId: 'fallback-stable' },
+        },
+        metrics: { conversionRate: 0.91, taskCompletionMs: 5000, errorRate: 0.01, engagementScore: 0.82 },
+        stable: true,
+      },
+    ]);
+    const audit = buildVariantSelectionAuditEntry({
+      selected: ranked[0]!,
+      context: { depoId: 'DEPON-15', segment: 'returning', fallbackStableId: 'fallback-stable', intent: 'discovery' },
+    });
+
+    assertEqual(audit.fallbackUsed, false, 'stable winner nije fallback');
+    assertEqual(audit.selectedBy, 'kpi-model', 'selectedBy default');
   });
 
   await test('isSchemaVersionSupported potvrđuje podržanu verziju šeme', () => {

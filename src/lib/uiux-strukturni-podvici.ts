@@ -470,8 +470,10 @@ export function meetsDeponDiversityTarget(axes: DeponDiversityAxis[] = DEPON_DIV
   return estimateDiversityMatrixSpace(axes) >= DEPON_DIVERSITY_KPI.minimumSpace;
 }
 
-export function resolveDeponRole(depoId: string): DeponUXRole {
-  const normalized = Number.parseInt(depoId.replace('DEPON-', ''), 10);
+export function resolveDeponRole(identityOrDepoId: string | Pick<DepoIdentityLayer, 'depoId' | 'deponRole'>): DeponUXRole {
+  if (typeof identityOrDepoId !== 'string') return identityOrDepoId.deponRole;
+  if (!/^DEPON-\d{2}$/.test(identityOrDepoId)) return 'core-operational';
+  const normalized = Number.parseInt(identityOrDepoId.replace('DEPON-', ''), 10);
   return Number.isFinite(normalized) && normalized >= 13 && normalized <= 18 ? 'marketplace' : 'core-operational';
 }
 
@@ -667,8 +669,7 @@ export function buildVariantSelectionAuditEntry(params: {
   const stableCandidateId = params.selected.schema.metadata.stableCandidateId ?? null;
   const fallbackUsed =
     params.selectedBy === 'stable-fallback' ||
-    (!!stableCandidateId && stableCandidateId === params.selected.schema.metadata.candidateId) ||
-    params.selected.stable;
+    (!!params.context.fallbackStableId && params.context.fallbackStableId === params.selected.schema.metadata.candidateId);
 
   return {
     depoId: params.context.depoId,
