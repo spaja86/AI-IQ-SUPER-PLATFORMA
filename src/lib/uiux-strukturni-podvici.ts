@@ -680,7 +680,7 @@ export function buildVariantSelectionAuditEntry(params: {
   const candidateId = params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`;
   const fallbackUsed =
     params.selectedBy === 'stable-fallback' ||
-    (!!params.context.fallbackStableId && stableCandidateId === params.context.fallbackStableId);
+    (!!params.context.fallbackStableId && candidateId === params.context.fallbackStableId);
 
   return {
     depoId: params.context.depoId,
