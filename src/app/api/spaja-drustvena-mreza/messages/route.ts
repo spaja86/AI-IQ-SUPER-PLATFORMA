@@ -1,12 +1,14 @@
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
+import { apiSuccess } from '@/lib/api/response';
 import {
   appendMessage,
   createConversation,
   isSocialAudience,
   isSocialVisibility,
   listConversations,
-  setSpajaDrustvenaMrezaHeaders,
+  spajaDrustvenaMrezaApiError,
+  spajaDrustvenaMrezaApiInternalError,
+  withSpajaDrustvenaMrezaHeaders,
 } from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
@@ -17,14 +19,12 @@ export async function GET(req: NextRequest) {
     const participantId = searchParams.get('participantId') ?? undefined;
     const audience = searchParams.get('audience');
     if (audience !== null && !isSocialAudience(audience)) {
-      return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }
     const threads = listConversations({ participantId, audience: audience ?? undefined });
-    const response = apiSuccess({ threads, count: threads.length }, 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess({ threads, count: threads.length }, 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/messages GET', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/messages GET', error);
   }
 }
 
@@ -34,17 +34,17 @@ export async function POST(req: NextRequest) {
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Invalid JSON body');
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Body must be a JSON object');
     }
 
     const candidate = body as Record<string, unknown>;
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
     if (!['create', 'reply'].includes(action)) {
-      return apiError('BAD_REQUEST', 'action must be one of: create, reply');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'action must be one of: create, reply');
     }
 
     const result = action === 'reply'
@@ -71,12 +71,10 @@ export async function POST(req: NextRequest) {
           });
         })();
 
-    if (!result.ok) return apiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
+    if (!result.ok) return spajaDrustvenaMrezaApiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
 
-    const response = apiSuccess(result.data, action === 'create' ? 201 : 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess(result.data, action === 'create' ? 201 : 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/messages POST', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/messages POST', error);
   }
 }

@@ -1,10 +1,12 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — SPAJA Društvena Mreža Route Utils
 // Kompanija SPAJA — Digitalna Industrija
 
+import { apiError, apiInternalError } from '@/lib/api/response';
 import type {
   SocialAudience,
   SocialGroupJoinMode,
   SocialProfileRole,
+  SocialIssueCode,
   SocialReadinessStatus,
   SocialVisibility,
 } from './types';
@@ -26,6 +28,19 @@ export function setSpajaDrustvenaMrezaHeaders(res: Response, readinessStatus?: S
   if (readinessStatus) {
     res.headers.set('X-Spaja-Drustvena-Mreza-Readiness', readinessStatus);
   }
+}
+
+export function withSpajaDrustvenaMrezaHeaders<T extends Response>(res: T, readinessStatus?: SocialReadinessStatus): T {
+  setSpajaDrustvenaMrezaHeaders(res, readinessStatus);
+  return res;
+}
+
+export function spajaDrustvenaMrezaApiError(code: SocialIssueCode | 'BAD_REQUEST', message: string): Response {
+  return withSpajaDrustvenaMrezaHeaders(apiError(code, message));
+}
+
+export function spajaDrustvenaMrezaApiInternalError(context: string, error: unknown): Response {
+  return withSpajaDrustvenaMrezaHeaders(apiInternalError(context, error));
 }
 
 export function isSocialAudience(value: unknown): value is SocialAudience {

@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
+import { apiSuccess } from '@/lib/api/response';
 import {
   createGroup,
   isSocialAudience,
@@ -7,7 +7,9 @@ import {
   isSocialVisibility,
   joinGroup,
   listGroups,
-  setSpajaDrustvenaMrezaHeaders,
+  spajaDrustvenaMrezaApiError,
+  spajaDrustvenaMrezaApiInternalError,
+  withSpajaDrustvenaMrezaHeaders,
 } from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
@@ -18,17 +20,15 @@ export async function GET(req: NextRequest) {
     const audience = searchParams.get('audience');
     const visibility = searchParams.get('visibility');
     if (audience !== null && !isSocialAudience(audience)) {
-      return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }
     if (visibility !== null && !isSocialVisibility(visibility)) {
-      return apiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
     }
     const groups = listGroups({ audience: audience ?? undefined, visibility: visibility ?? undefined });
-    const response = apiSuccess({ groups, count: groups.length }, 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess({ groups, count: groups.length }, 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/groups GET', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/groups GET', error);
   }
 }
 
@@ -38,17 +38,17 @@ export async function POST(req: NextRequest) {
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Invalid JSON body');
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Body must be a JSON object');
     }
 
     const candidate = body as Record<string, unknown>;
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
     if (!['create', 'join'].includes(action)) {
-      return apiError('BAD_REQUEST', 'action must be one of: create, join');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'action must be one of: create, join');
     }
 
     const result = action === 'join'
@@ -78,12 +78,10 @@ export async function POST(req: NextRequest) {
           });
         })();
 
-    if (!result.ok) return apiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
+    if (!result.ok) return spajaDrustvenaMrezaApiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
 
-    const response = apiSuccess(result.data, action === 'create' ? 201 : 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess(result.data, action === 'create' ? 201 : 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/groups POST', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/groups POST', error);
   }
 }

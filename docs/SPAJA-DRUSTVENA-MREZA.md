@@ -29,16 +29,14 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 
 ## Contracts
 
-| Field | Value |
-| --- | --- |
-| Display name | `SPAJA Društvena Mreža` |
-| Canonical slug | `spaja-drustvena-mreza` |
-| Contract version | `v1` |
-| Module version | `1.0.0` |
-| Persona | `spaja-drustvena-mreza-core` |
-| Octave / hipermreza node | `8 / 67` |
-| Routes | `/api/spaja-drustvena-mreza/profiles`, `/feed`, `/groups`, `/messages`, `/events`, `/notifikacije`, `/pregled`, `/health` |
-| Linked-repo impact | `none` |
+- **Display name**: `SPAJA Društvena Mreža`
+- **Canonical slug**: `spaja-drustvena-mreza`
+- **Contract version**: `v1`
+- **Module version**: `1.0.0`
+- **Persona**: `spaja-drustvena-mreza-core`
+- **Octave / hipermreza node**: `8 / 67`
+- **Routes**: `/api/spaja-drustvena-mreza/profiles`, `/feed`, `/groups`, `/messages`, `/events`, `/notifikacije`, `/pregled`, `/health`
+- **Linked-repo impact**: `none`
 
 ## Visibility and moderation rules
 
@@ -53,13 +51,11 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 
 ## KPI targets
 
-| KPI | Target |
-| --- | --- |
-| Engine/domain operation | ≤ 50ms |
-| API response | ≤ 200ms |
-| Audience coverage | internal + partner + public |
-| Security scan coverage | 100% |
-| Linked-repo runtime dependency | 0 for v1 |
+- **Engine/domain operation**: ≤ 50ms
+- **API response**: ≤ 200ms
+- **Audience coverage**: internal + partner + public
+- **Security scan coverage**: 100%
+- **Linked-repo runtime dependency**: 0 for v1
 
 ## Rollout plan
 

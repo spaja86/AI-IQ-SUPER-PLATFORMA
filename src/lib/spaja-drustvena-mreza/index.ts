@@ -29,6 +29,9 @@ export {
   isSocialProfileRole,
   isSocialVisibility,
   setSpajaDrustvenaMrezaHeaders,
+  spajaDrustvenaMrezaApiError,
+  spajaDrustvenaMrezaApiInternalError,
+  withSpajaDrustvenaMrezaHeaders,
 } from './route-utils';
 
 export type {

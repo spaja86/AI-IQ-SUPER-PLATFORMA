@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
+import { apiSuccess } from '@/lib/api/response';
 import {
   createPost,
   flagPost,
@@ -7,7 +7,9 @@ import {
   isSocialVisibility,
   listPosts,
   reactToPost,
-  setSpajaDrustvenaMrezaHeaders,
+  spajaDrustvenaMrezaApiError,
+  spajaDrustvenaMrezaApiInternalError,
+  withSpajaDrustvenaMrezaHeaders,
 } from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
@@ -19,17 +21,15 @@ export async function GET(req: NextRequest) {
     const visibility = searchParams.get('visibility');
     const authorId = searchParams.get('authorId') ?? undefined;
     if (audience !== null && !isSocialAudience(audience)) {
-      return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }
     if (visibility !== null && !isSocialVisibility(visibility)) {
-      return apiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
     }
     const posts = listPosts({ audience: audience ?? undefined, visibility: visibility ?? undefined, authorId });
-    const response = apiSuccess({ posts, count: posts.length }, 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess({ posts, count: posts.length }, 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/feed GET', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/feed GET', error);
   }
 }
 
@@ -39,17 +39,17 @@ export async function POST(req: NextRequest) {
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Invalid JSON body');
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Body must be a JSON object');
     }
 
     const candidate = body as Record<string, unknown>;
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
     if (!['create', 'react', 'flag'].includes(action)) {
-      return apiError('BAD_REQUEST', 'action must be one of: create, react, flag');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'action must be one of: create, react, flag');
     }
 
     const result = action === 'react'
@@ -79,12 +79,10 @@ export async function POST(req: NextRequest) {
               });
           })();
 
-    if (!result.ok) return apiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
+    if (!result.ok) return spajaDrustvenaMrezaApiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
 
-    const response = apiSuccess(result.data, action === 'create' ? 201 : 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess(result.data, action === 'create' ? 201 : 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/feed POST', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/feed POST', error);
   }
 }

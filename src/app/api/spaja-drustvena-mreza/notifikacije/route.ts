@@ -1,6 +1,12 @@
 import type { NextRequest } from 'next/server';
-import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
-import { listNotifications, markNotificationRead, setSpajaDrustvenaMrezaHeaders } from '@/lib/spaja-drustvena-mreza';
+import { apiSuccess } from '@/lib/api/response';
+import {
+  listNotifications,
+  markNotificationRead,
+  spajaDrustvenaMrezaApiError,
+  spajaDrustvenaMrezaApiInternalError,
+  withSpajaDrustvenaMrezaHeaders,
+} from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,11 +16,9 @@ export async function GET(req: NextRequest) {
     const recipientId = searchParams.get('recipientId') ?? undefined;
     const unreadOnly = searchParams.get('unreadOnly') === 'true';
     const notifications = listNotifications({ recipientId, unreadOnly });
-    const response = apiSuccess({ notifications, count: notifications.length }, 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess({ notifications, count: notifications.length }, 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/notifikacije GET', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/notifikacije GET', error);
   }
 }
 
@@ -24,24 +28,22 @@ export async function POST(req: NextRequest) {
     try {
       body = await req.json();
     } catch {
-      return apiError('BAD_REQUEST', 'Invalid JSON body');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Invalid JSON body');
     }
 
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
-      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'Body must be a JSON object');
     }
 
     const candidate = body as Record<string, unknown>;
-    if (typeof candidate.notificationId !== 'string') return apiError('BAD_REQUEST', 'notificationId is required (string)');
-    if (typeof candidate.recipientId !== 'string') return apiError('BAD_REQUEST', 'recipientId is required (string)');
+    if (typeof candidate.notificationId !== 'string') return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'notificationId is required (string)');
+    if (typeof candidate.recipientId !== 'string') return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'recipientId is required (string)');
 
     const result = markNotificationRead(candidate.notificationId, candidate.recipientId);
-    if (!result.ok) return apiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
+    if (!result.ok) return spajaDrustvenaMrezaApiError(result.code ?? 'UNPROCESSABLE_ENTITY', result.message);
 
-    const response = apiSuccess(result.data, 200);
-    setSpajaDrustvenaMrezaHeaders(response);
-    return response;
+    return withSpajaDrustvenaMrezaHeaders(apiSuccess(result.data, 200));
   } catch (error) {
-    return apiInternalError('spaja-drustvena-mreza/notifikacije POST', error);
+    return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/notifikacije POST', error);
   }
 }

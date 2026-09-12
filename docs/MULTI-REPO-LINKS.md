@@ -216,9 +216,9 @@ Audit reference convention (if downstream work is needed later):
 
 ## SPAJA Društvena Mreža downstream reference
 
-| This repo | Linked repo | Note |
-|---|---|---|
-| `AI-IQ-SUPER-PLATFORMA` — SPAJA Društvena Mreža v1 | `spaja86/IO-OPENUI-AO` — No linked repo change required | Current scope is repo-local profiles/feed/groups/messages/events/notifikacije surface; downstream runtime coupling is deferred until an IO-OPENUI-AO consumer exists |
+- **This repo**: `AI-IQ-SUPER-PLATFORMA` — SPAJA Društvena Mreža v1
+- **Linked repo**: `spaja86/IO-OPENUI-AO` — No linked repo change required
+- **Note**: Current scope is repo-local profiles/feed/groups/messages/events/notifikacije surface; downstream runtime coupling is deferred until an IO-OPENUI-AO consumer exists
 
 Audit reference convention (if downstream work is needed later):
 
