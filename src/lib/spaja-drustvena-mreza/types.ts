@@ -90,7 +90,7 @@ export interface SocialEvent {
   audience: SocialAudience;
   visibility: SocialVisibility;
   scheduledAt: number;
-  capacity: number;
+  capacity: number; // total attendee capacity, including the host
   attendeeIds: string[];
   waitlistIds: string[];
   createdAt: number;

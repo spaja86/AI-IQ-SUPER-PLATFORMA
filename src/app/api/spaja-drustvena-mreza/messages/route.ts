@@ -1,7 +1,13 @@
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
-import { appendMessage, createConversation, listConversations, setSpajaDrustvenaMrezaHeaders } from '@/lib/spaja-drustvena-mreza';
-import type { SocialAudience, SocialVisibility } from '@/lib/spaja-drustvena-mreza';
+import {
+  appendMessage,
+  createConversation,
+  isSocialAudience,
+  isSocialVisibility,
+  listConversations,
+  setSpajaDrustvenaMrezaHeaders,
+} from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +15,10 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const participantId = searchParams.get('participantId') ?? undefined;
-    const audience = searchParams.get('audience') as SocialAudience | null;
+    const audience = searchParams.get('audience');
+    if (audience !== null && !isSocialAudience(audience)) {
+      return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+    }
     const threads = listConversations({ participantId, audience: audience ?? undefined });
     const response = apiSuccess({ threads, count: threads.length }, 200);
     setSpajaDrustvenaMrezaHeaders(response);
@@ -36,18 +45,23 @@ export async function POST(req: NextRequest) {
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
 
     const result = action === 'reply'
-      ? appendMessage(String(candidate.threadId ?? ''), String(candidate.authorId ?? ''), String(candidate.content ?? ''))
+      ? (() => {
+          if (typeof candidate.threadId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'threadId is required (string)' };
+          if (typeof candidate.authorId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'authorId is required (string)' };
+          if (typeof candidate.content !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'content is required (string)' };
+          return appendMessage(candidate.threadId, candidate.authorId, candidate.content);
+        })()
       : (() => {
           if (!Array.isArray(candidate.participantIds)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'participantIds is required (array)' };
-          if (typeof candidate.audience !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience is required (string)' };
-          if (typeof candidate.visibility !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility is required (string)' };
+          if (!isSocialAudience(candidate.audience)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience must be one of: internal, partner, public' };
+          if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
           if (typeof candidate.subject !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'subject is required (string)' };
           if (typeof candidate.content !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'content is required (string)' };
           if (typeof candidate.authorId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'authorId is required (string)' };
           return createConversation({
             participantIds: candidate.participantIds as string[],
-            audience: candidate.audience as SocialAudience,
-            visibility: candidate.visibility as SocialVisibility,
+            audience: candidate.audience,
+            visibility: candidate.visibility,
             subject: candidate.subject,
             content: candidate.content,
             authorId: candidate.authorId,

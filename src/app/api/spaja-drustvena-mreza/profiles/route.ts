@@ -1,15 +1,28 @@
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
-import { createProfile, listProfiles, setSpajaDrustvenaMrezaHeaders } from '@/lib/spaja-drustvena-mreza';
-import type { SocialAudience, SocialProfile, SocialVisibility } from '@/lib/spaja-drustvena-mreza';
+import {
+  createProfile,
+  isSocialAudience,
+  isSocialProfileRole,
+  isSocialVisibility,
+  listProfiles,
+  setSpajaDrustvenaMrezaHeaders,
+} from '@/lib/spaja-drustvena-mreza';
+import type { SocialProfile } from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const audience = searchParams.get('audience') as SocialAudience | null;
-    const visibility = searchParams.get('visibility') as SocialVisibility | null;
+    const audience = searchParams.get('audience');
+    const visibility = searchParams.get('visibility');
+    if (audience !== null && !isSocialAudience(audience)) {
+      return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+    }
+    if (visibility !== null && !isSocialVisibility(visibility)) {
+      return apiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
+    }
     const profiles = listProfiles({
       audience: audience ?? undefined,
       visibility: visibility ?? undefined,
@@ -38,18 +51,18 @@ export async function POST(req: NextRequest) {
     const candidate = body as Record<string, unknown>;
     if (typeof candidate.handle !== 'string') return apiError('BAD_REQUEST', 'handle is required (string)');
     if (typeof candidate.displayName !== 'string') return apiError('BAD_REQUEST', 'displayName is required (string)');
-    if (typeof candidate.audience !== 'string') return apiError('BAD_REQUEST', 'audience is required (string)');
-    if (typeof candidate.role !== 'string') return apiError('BAD_REQUEST', 'role is required (string)');
-    if (typeof candidate.visibility !== 'string') return apiError('BAD_REQUEST', 'visibility is required (string)');
+    if (!isSocialAudience(candidate.audience)) return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+    if (!isSocialProfileRole(candidate.role)) return apiError('BAD_REQUEST', 'role must be one of: employee, partner-admin, customer, moderator');
+    if (!isSocialVisibility(candidate.visibility)) return apiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
     if (typeof candidate.bio !== 'string') return apiError('BAD_REQUEST', 'bio is required (string)');
     if (candidate.interests !== undefined && !Array.isArray(candidate.interests)) return apiError('BAD_REQUEST', 'interests must be an array when provided');
 
     const result = createProfile({
       handle: candidate.handle,
       displayName: candidate.displayName,
-      audience: candidate.audience as SocialAudience,
+      audience: candidate.audience,
       role: candidate.role as SocialProfile['role'],
-      visibility: candidate.visibility as SocialVisibility,
+      visibility: candidate.visibility,
       bio: candidate.bio,
       interests: candidate.interests as string[] | undefined,
       verified: typeof candidate.verified === 'boolean' ? candidate.verified : undefined,

@@ -18,7 +18,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 - **Feed** — determinističke objave, tagovi, reakcije i moderacioni flag
 - **Grupe** — open ili approval join model, topic tags i ownership pravila
 - **Poruke** — repo-local conversation threads i odgovor učesnika bez eksternog message brokera
-- **Događaji** — create + RSVP + waitlist pravila
+- **Događaji** — create + RSVP + waitlist pravila, pri čemu `capacity` predstavlja ukupan broj mesta uključujući host nalog
 - **Notifikacije** — agregat za profile, objave, grupe, poruke, događaje i moderaciju
 
 ## Scope boundaries

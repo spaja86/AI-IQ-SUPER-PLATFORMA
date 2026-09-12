@@ -1,15 +1,28 @@
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
-import { createGroup, joinGroup, listGroups, setSpajaDrustvenaMrezaHeaders } from '@/lib/spaja-drustvena-mreza';
-import type { SocialAudience, SocialGroup, SocialVisibility } from '@/lib/spaja-drustvena-mreza';
+import {
+  createGroup,
+  isSocialAudience,
+  isSocialGroupJoinMode,
+  isSocialVisibility,
+  joinGroup,
+  listGroups,
+  setSpajaDrustvenaMrezaHeaders,
+} from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const audience = searchParams.get('audience') as SocialAudience | null;
-    const visibility = searchParams.get('visibility') as SocialVisibility | null;
+    const audience = searchParams.get('audience');
+    const visibility = searchParams.get('visibility');
+    if (audience !== null && !isSocialAudience(audience)) {
+      return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+    }
+    if (visibility !== null && !isSocialVisibility(visibility)) {
+      return apiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
+    }
     const groups = listGroups({ audience: audience ?? undefined, visibility: visibility ?? undefined });
     const response = apiSuccess({ groups, count: groups.length }, 200);
     setSpajaDrustvenaMrezaHeaders(response);
@@ -36,22 +49,29 @@ export async function POST(req: NextRequest) {
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
 
     const result = action === 'join'
-      ? joinGroup(String(candidate.groupId ?? ''), String(candidate.profileId ?? ''))
+      ? (() => {
+        if (typeof candidate.groupId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'groupId is required (string)' };
+        if (typeof candidate.profileId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'profileId is required (string)' };
+        return joinGroup(candidate.groupId, candidate.profileId);
+        })()
       : (() => {
           if (typeof candidate.name !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'name is required (string)' };
           if (typeof candidate.description !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'description is required (string)' };
-          if (typeof candidate.audience !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience is required (string)' };
-          if (typeof candidate.visibility !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility is required (string)' };
+          if (!isSocialAudience(candidate.audience)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience must be one of: internal, partner, public' };
+          if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
           if (typeof candidate.ownerId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'ownerId is required (string)' };
           if (candidate.topicTags !== undefined && !Array.isArray(candidate.topicTags)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'topicTags must be an array when provided' };
+          if (candidate.joinMode !== undefined && !isSocialGroupJoinMode(candidate.joinMode)) {
+            return { ok: false, code: 'BAD_REQUEST' as const, message: 'joinMode must be one of: open, approval' };
+          }
           return createGroup({
             name: candidate.name,
             description: candidate.description,
-            audience: candidate.audience as SocialAudience,
-            visibility: candidate.visibility as SocialVisibility,
+            audience: candidate.audience,
+            visibility: candidate.visibility,
             ownerId: candidate.ownerId,
             topicTags: candidate.topicTags as string[] | undefined,
-            joinMode: typeof candidate.joinMode === 'string' ? candidate.joinMode as SocialGroup['joinMode'] : undefined,
+            joinMode: candidate.joinMode,
           });
         })();
 

@@ -23,7 +23,13 @@ export {
   rsvpEvent,
   _resetSpajaDrustvenaMrezaState,
 } from './store';
-export { setSpajaDrustvenaMrezaHeaders } from './route-utils';
+export {
+  isSocialAudience,
+  isSocialGroupJoinMode,
+  isSocialProfileRole,
+  isSocialVisibility,
+  setSpajaDrustvenaMrezaHeaders,
+} from './route-utils';
 
 export type {
   SocialAudience,
@@ -32,10 +38,12 @@ export type {
   SocialFeedPost,
   SocialGroup,
   SocialHealthReport,
+  SocialGroupJoinMode,
   SocialNotification,
   SocialOperationResult,
   SocialOverview,
   SocialProfile,
+  SocialProfileRole,
   SocialReadinessStatus,
   SocialVisibility,
 } from './types';

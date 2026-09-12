@@ -1,15 +1,27 @@
 import type { NextRequest } from 'next/server';
 import { apiError, apiInternalError, apiSuccess } from '@/lib/api/response';
-import { createEvent, listEvents, rsvpEvent, setSpajaDrustvenaMrezaHeaders } from '@/lib/spaja-drustvena-mreza';
-import type { SocialAudience, SocialVisibility } from '@/lib/spaja-drustvena-mreza';
+import {
+  createEvent,
+  isSocialAudience,
+  isSocialVisibility,
+  listEvents,
+  rsvpEvent,
+  setSpajaDrustvenaMrezaHeaders,
+} from '@/lib/spaja-drustvena-mreza';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const audience = searchParams.get('audience') as SocialAudience | null;
-    const visibility = searchParams.get('visibility') as SocialVisibility | null;
+    const audience = searchParams.get('audience');
+    const visibility = searchParams.get('visibility');
+    if (audience !== null && !isSocialAudience(audience)) {
+      return apiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
+    }
+    if (visibility !== null && !isSocialVisibility(visibility)) {
+      return apiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
+    }
     const events = listEvents({ audience: audience ?? undefined, visibility: visibility ?? undefined });
     const response = apiSuccess({ events, count: events.length }, 200);
     setSpajaDrustvenaMrezaHeaders(response);
@@ -36,21 +48,25 @@ export async function POST(req: NextRequest) {
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
 
     const result = action === 'rsvp'
-      ? rsvpEvent(String(candidate.eventId ?? ''), String(candidate.profileId ?? ''))
+      ? (() => {
+          if (typeof candidate.eventId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'eventId is required (string)' };
+          if (typeof candidate.profileId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'profileId is required (string)' };
+          return rsvpEvent(candidate.eventId, candidate.profileId);
+        })()
       : (() => {
           if (typeof candidate.title !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'title is required (string)' };
           if (typeof candidate.description !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'description is required (string)' };
           if (typeof candidate.hostId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'hostId is required (string)' };
-          if (typeof candidate.audience !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience is required (string)' };
-          if (typeof candidate.visibility !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility is required (string)' };
+          if (!isSocialAudience(candidate.audience)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience must be one of: internal, partner, public' };
+          if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
           if (typeof candidate.scheduledAt !== 'number') return { ok: false, code: 'BAD_REQUEST' as const, message: 'scheduledAt is required (number)' };
           if (typeof candidate.capacity !== 'number') return { ok: false, code: 'BAD_REQUEST' as const, message: 'capacity is required (number)' };
           return createEvent({
             title: candidate.title,
             description: candidate.description,
             hostId: candidate.hostId,
-            audience: candidate.audience as SocialAudience,
-            visibility: candidate.visibility as SocialVisibility,
+            audience: candidate.audience,
+            visibility: candidate.visibility,
             scheduledAt: candidate.scheduledAt,
             capacity: candidate.capacity,
           });
