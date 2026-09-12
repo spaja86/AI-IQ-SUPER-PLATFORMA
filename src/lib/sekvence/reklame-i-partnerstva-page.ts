@@ -26,6 +26,7 @@ export const reklameIPartnerstvaSekvence: Sekvenca[] = [
       opis: `Digitalna Industrija se skalira sa ${metrike.ukupnoReklama} reklamnih kampanja, ${metrike.ukupnoPartnerstava} partnerstava iz svih branši i ${metrike.monetizacijaKanala} kanala monetizacije. ${OMEGA_AI_PERSONA_UKUPNO.toLocaleString()} OMEGA AI persona podržava celokupnu reklamnu infrastrukturu.`,
       dugmad: [
         { tekst: 'Industrija', href: '/industrija' },
+        { tekst: 'Go-Live Digitalna Industrija', href: '/go-live-digitalna-industrija', stil: 'sekundarno' },
         { tekst: 'Pricing', href: '/pricing', stil: 'sekundarno' },
         { tekst: 'OMEGA Plasiranje', href: '/omega-projekat-plasiranje', stil: 'sekundarno' },
       ],
@@ -204,6 +205,7 @@ export const reklameIPartnerstvaSekvence: Sekvenca[] = [
       ],
       dugmad: [
         { tekst: 'Kontaktiraj nas', href: '/omega-ai-suport' },
+        { tekst: 'Go-Live plan', href: '/go-live-digitalna-industrija', stil: 'sekundarno' },
         { tekst: 'OMEGA Plasiranje', href: '/omega-projekat-plasiranje', stil: 'sekundarno' },
         { tekst: 'Pricing & Planovi', href: '/pricing', stil: 'sekundarno' },
       ],

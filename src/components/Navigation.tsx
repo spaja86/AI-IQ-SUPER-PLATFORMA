@@ -6,6 +6,7 @@ import { useState, useEffect, useSyncExternalStore } from 'react';
 import { dohvatiSesiju, obrisiSesiju, type OmegaSesija } from '@/lib/auth/omega-session-client';
 import { navigation } from '@/lib/navigation';
 import Button, { buttonClassName } from '@/components/Button';
+import { BRAND_ASSETS } from '@/lib/brand';
 
 const navLinks = navigation.map((item) => ({
   href: item.href,
@@ -56,8 +57,8 @@ export default function Navigation() {
         <Link href="/" className="flex items-center gap-2 text-lg font-bold text-white">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://github.com/user-attachments/assets/157afec1-4d04-4282-8303-e6a736a89dd3"
-            alt="Digitalna Industrija logo"
+            src={BRAND_ASSETS.navLogo}
+            alt="Digitalna Industrija lokalni logo"
             width={32}
             height={32}
             className="h-8 w-8 rounded-md object-cover"

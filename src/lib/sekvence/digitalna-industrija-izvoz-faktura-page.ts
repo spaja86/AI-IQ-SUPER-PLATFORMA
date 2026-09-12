@@ -18,6 +18,7 @@ export const digitalnaIndustrijaIzvozFakturaSekvence: Sekvenca[] = [
       dugmad: [
         { tekst: 'Regulatorni rokovi', href: '/digitalna-industrija-regulatorni-rokovi' },
         { tekst: 'Šifra delatnosti', href: '/digitalna-industrija-sifra-delatnosti', stil: 'sekundarno' },
+        { tekst: 'PDF izvozne fakture', href: '/api/digitalna-industrija-izvoz-faktura/pdf', stil: 'sekundarno' },
       ],
     },
   },
@@ -32,6 +33,7 @@ export const digitalnaIndustrijaIzvozFakturaSekvence: Sekvenca[] = [
         { naziv: 'Spremno', vrednost: r.kpi.spremno, ikona: '✅' },
         { naziv: 'U pripremi', vrednost: r.kpi.uPripremi, ikona: '⏳' },
         { naziv: 'Revizija', vrednost: r.kpi.zahtevaReviziju, ikona: '⚠️' },
+        { naziv: 'Export contract', vrednost: r.exportContract.version, ikona: '📄' },
       ],
     },
   },
@@ -55,6 +57,17 @@ export const digitalnaIndustrijaIzvozFakturaSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'digitalna-industrija-izvoz-faktura-export',
+    tip: 'tekst',
+    naslov: '📄 JSON i PDF paritet',
+    redosled: 3.5,
+    podaci: {
+      sadrzaj:
+        'Izvozne fakture ostaju kanonski opisane kroz JSON API odgovor, dok PDF koristi isti payload za deljenje, naplatu i audit-ready pregled.',
+      istaknuteStavke: r.exportContract.artifacts.map((artifact) => `${artifact.format.toUpperCase()}: ${artifact.url}`),
+    },
+  },
+  {
     id: 'digitalna-industrija-izvoz-faktura-cta',
     tip: 'cta',
     naslov: '🚀 Operativni izvoz faktura',
@@ -64,6 +77,7 @@ export const digitalnaIndustrijaIzvozFakturaSekvence: Sekvenca[] = [
         'Registar omogućava centralizovano praćenje izvoznih faktura i statusa spremnosti za naplatu.',
       dugmad: [
         { tekst: 'Izvoz Faktura API', href: '/api/digitalna-industrija-izvoz-faktura' },
+        { tekst: 'Preuzmi PDF', href: '/api/digitalna-industrija-izvoz-faktura/pdf', stil: 'sekundarno' },
         { tekst: 'Autofinish dashboard', href: '/autofinish', stil: 'sekundarno' },
       ],
     },

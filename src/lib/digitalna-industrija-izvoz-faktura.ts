@@ -1,5 +1,7 @@
 import { APP_VERSION } from './constants';
 import { generatePlatformBarKod } from './bar-kod';
+import type { ExportContract } from './export-pdf';
+import { buildExportContract } from './export-pdf';
 
 export type IzvozStatus = 'spremno' | 'u-pripremi' | 'zahteva-reviziju';
 
@@ -20,6 +22,7 @@ export interface DigitalnaIndustrijaIzvozFakturaRezultat {
   userId: string;
   timestamp: string;
   verzija: string;
+  exportContract: ExportContract;
   jurisdikcija: 'Republika Srbija';
   registarNosioc: string;
   fakture: IzvozFakturaStavka[];
@@ -94,6 +97,7 @@ export function buildDigitalnaIndustrijaIzvozFaktura(
     userId,
     timestamp: new Date().toISOString(),
     verzija: APP_VERSION,
+    exportContract: buildExportContract('/api/digitalna-industrija-izvoz-faktura', '/api/digitalna-industrija-izvoz-faktura/pdf'),
     jurisdikcija: 'Republika Srbija',
     registarNosioc: 'Digitalna Industrija',
     fakture,

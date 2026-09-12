@@ -18,6 +18,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
       opis: 'SPAJA Pricing & Login sistem nudi fleksibilne planove pretplate, visestruke metode prijave i jednostavan proces registracije za sve korisnike platforme.',
       dugmad: [
         { tekst: 'Pogledaj planove', href: '/pricing' },
+        { tekst: 'Start Pretplate', href: '/start-pretplate', stil: 'sekundarno' },
         { tekst: 'Dashboard', href: '/dashboard', stil: 'sekundarno' },
       ],
     },
@@ -208,6 +209,7 @@ export const pricingLoginSekvence: Sekvenca[] = [
     podaci: {
       dugmad: [
         { tekst: 'Registruj se besplatno', href: '/registracija' },
+        { tekst: 'Start Pretplate', href: '/start-pretplate', stil: 'sekundarno' },
         { tekst: 'Prijavi se', href: '/login', stil: 'sekundarno' },
       ],
     },

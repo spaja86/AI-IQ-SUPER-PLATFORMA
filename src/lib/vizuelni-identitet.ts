@@ -8,6 +8,7 @@
  */
 
 import { APP_VERSION, KOMPANIJA } from './constants';
+import { BRAND_ASSETS } from './brand';
 
 // ─── Tipovi ──────────────────────────────────────────────
 
@@ -74,14 +75,14 @@ export const vizuelniResursi: VizuelniResurs[] = [
   {
     id: 'logo-digitalna-industrija',
     naziv: 'Digitalna Industrija — Glavni Logo',
-    opis: 'Glavni logo Digitalne Industrije — kosmička spirala sa natpisom DIGITALNA INDUSTRIJA',
+    opis: 'Glavni lokalni logo Digitalne Industrije — kraljevski cyber mark sa prstenom, krunom i natpisom DIGITALNA INDUSTRIJA',
     ikona: '🌀',
     tip: 'logo',
-    url: 'https://github.com/user-attachments/assets/157afec1-4d04-4282-8303-e6a736a89dd3',
-    alt: 'Digitalna Industrija logo — kosmička spirala u neon bojama sa natpisom Digitalna Industrija',
-    sirina: 1024,
-    visina: 1536,
-    format: 'png',
+    url: BRAND_ASSETS.heroLogo,
+    alt: 'Digitalna Industrija logo — lokalni royal cyber emblem sa zlatnim okvirom i plavim energetskim prstenom',
+    sirina: 1200,
+    visina: 630,
+    format: 'svg',
     prioritet: 'primarni',
   },
   {

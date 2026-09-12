@@ -1,6 +1,8 @@
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { getKontaktKanal, primarniOperativniNalog } from '@/lib/kompanija-spaja-operativa';
 import { getPrimarniPibMbDigitalneIndustrije } from '@/lib/digitalna-industrija-pib-mb';
+import type { ExportContract } from '@/lib/export-pdf';
+import { buildExportContract } from '@/lib/export-pdf';
 
 export type PoslovniRacunValuta = 'RSD' | 'EUR' | 'USD';
 export type PoslovniRacunTip = 'dinarski-poslovni' | 'devizni-eur' | 'devizni-usd';
@@ -63,6 +65,7 @@ export interface GeneratorZaPoslovneRacuneRezultat {
   verzija: string;
   userId: string;
   timestamp: string;
+  exportContract: ExportContract;
   scopeV1: {
     cilj: string;
     simulacioniModel: true;
@@ -204,12 +207,13 @@ export function buildGeneratorZaPoslovneRacune(
     verzija: APP_VERSION,
     userId,
     timestamp: new Date().toISOString(),
+    exportContract: buildExportContract('/api/generator-za-poslovne-racune', '/api/generator-za-poslovne-racune/pdf'),
     scopeV1: {
       cilj: 'Korisnik kreira poslovne račun(e) kroz AI IQ World Bank modul povezan sa /banka i /poslovni-novcanik.',
       simulacioniModel: true,
       loginKycPolitika:
         'Javni demo endpoint dozvoljen; aktivacija računa zahteva verifikovan KYC/KYB status.',
-      outputFormat: ['brojRacuna', 'ibanLike', 'tip', 'valuta', 'status', 'limiti', 'validacije', 'metadata'],
+      outputFormat: ['json', 'pdf', 'brojRacuna', 'ibanLike', 'tip', 'valuta', 'status', 'limiti', 'validacije', 'metadata'],
     },
     subjekt: finalniSubjekt,
     kontekst: {

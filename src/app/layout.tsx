@@ -9,6 +9,7 @@ import { BotIdClient } from 'botid/client';
 import { APP_VERSION, APP_NAME, KOMPANIJA, BASE_URL, OMEGA_AI_PERSONA_COUNT, TOTAL_IGRICA, SPAJA_PRO_RANGE } from '@/lib/constants';
 import { navigation } from '@/lib/navigation';
 import { REFRESH_V1_SCOPE } from '@/lib/refresh-scope';
+import { BRAND_ASSETS } from '@/lib/brand';
 
 const OG_IMAGE_URL = `${BASE_URL}/api/og`;
 
@@ -92,6 +93,12 @@ export const metadata: Metadata = {
         height: 630,
         alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
       },
+      {
+        url: BRAND_ASSETS.ogFallback,
+        width: 1200,
+        height: 630,
+        alt: `${APP_NAME} — lokalni OG fallback`,
+      },
     ],
   },
   alternates: {
@@ -112,6 +119,12 @@ export const metadata: Metadata = {
         height: 630,
         alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
       },
+      {
+        url: BRAND_ASSETS.ogFallback,
+        width: 1200,
+        height: 630,
+        alt: `${APP_NAME} — lokalni OG fallback`,
+      },
     ],
   },
   robots: {
@@ -119,7 +132,13 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: BRAND_ASSETS.favicon, type: 'image/svg+xml' },
+      { url: '/favicon.ico', type: 'image/x-icon', sizes: '64x64' },
+      { url: '/icon', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: [{ url: '/apple-icon', type: 'image/png', sizes: '512x512' }],
+    shortcut: [BRAND_ASSETS.favicon],
   },
 };
 

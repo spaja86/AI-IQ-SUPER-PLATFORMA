@@ -18,6 +18,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
         { tekst: 'AI IQ World Bank', href: '/banka' },
         { tekst: 'Poslovni Novčanik', href: '/poslovni-novcanik', stil: 'sekundarno' },
         { tekst: 'Menjačnica', href: '/menjacnica', stil: 'sekundarno' },
+        { tekst: 'PDF račun paket', href: '/api/generator-za-poslovne-racune/pdf', stil: 'sekundarno' },
       ],
     },
   },
@@ -32,6 +33,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
         { naziv: 'Aktivni', vrednost: r.summary.aktivnihRacuna, ikona: '✅' },
         { naziv: 'Predlozi', vrednost: r.summary.predloga, ikona: '📝' },
         { naziv: 'KYC verifikovan', vrednost: r.summary.verifikovanKyc ? 'da' : 'ne', ikona: '🛡️' },
+        { naziv: 'Export contract', vrednost: r.exportContract.version, ikona: '📄' },
       ],
     },
   },
@@ -77,6 +79,17 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'generator-poslovni-racuni-export',
+    tip: 'tekst',
+    naslov: '📄 JSON → PDF export contract',
+    redosled: 5.5,
+    podaci: {
+      sadrzaj:
+        'JSON ostaje kanonski izvor podataka, a PDF je sekundarni izlaz za deljenje, preuzimanje i audit-ready pregled poslovnih računa.',
+      istaknuteStavke: r.exportContract.artifacts.map((artifact) => `${artifact.format.toUpperCase()}: ${artifact.url}`),
+    },
+  },
+  {
     id: 'generator-poslovni-racuni-cta',
     tip: 'cta',
     naslov: '🚀 Aktiviraj tok poslovnih računa',
@@ -88,6 +101,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
         { tekst: 'Banka', href: '/banka' },
         { tekst: 'Poslovni Novčanik', href: '/poslovni-novcanik', stil: 'sekundarno' },
         { tekst: 'API endpoint', href: '/api/generator-za-poslovne-racune', stil: 'sekundarno' },
+        { tekst: 'Preuzmi PDF', href: '/api/generator-za-poslovne-racune/pdf', stil: 'sekundarno' },
       ],
     },
   },
