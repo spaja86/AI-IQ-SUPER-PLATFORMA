@@ -608,6 +608,42 @@
         "target": "spaja86/IO-OPENUI-AO"
       }
     },
+    "spaja-drustvena-mreza-validator-agent": {
+      "enabled": true,
+      "status": "active",
+      "persona": "spaja-drustvena-mreza-core",
+      "octave": 8,
+      "hipermrezaNode": 67,
+      "labels": [
+        "spaja-drustvena-mreza",
+        "spaja-drustvena-mreza:logic-change",
+        "spaja-drustvena-mreza:validated",
+        "spaja-drustvena-mreza:needs-review"
+      ],
+      "workflows": [
+        ".github/workflows/spaja-drustvena-mreza-validator.yml",
+        ".github/workflows/omega-auto-build.yml"
+      ],
+      "releaseDocs": [
+        "docs/SPAJA-DRUSTVENA-MREZA.md",
+        "docs/ROADMAP.md",
+        "docs/MULTI-REPO-LINKS.md"
+      ],
+      "kpis": {
+        "evaluationMaxMs": 50,
+        "apiResponseMaxMs": 200,
+        "buildDurationMaxMin": 3
+      },
+      "testSuite": "src/tests/lib/spaja-drustvena-mreza.test.ts",
+      "scope": "src/lib/spaja-drustvena-mreza/**,src/app/api/spaja-drustvena-mreza/**,src/app/spaja-drustvena-mreza/**,src/lib/sekvence/spaja-drustvena-mreza-page.ts",
+      "linkedRepos": [
+        "spaja86/IO-OPENUI-AO"
+      ],
+      "multiRepoSync": {
+        "downstreamDependency": false,
+        "note": "No linked repo change required for SPAJA Društvena Mreža v1"
+      }
+    },
     "digit-engine-validator-agent": {
       "enabled": true,
       "status": "active",

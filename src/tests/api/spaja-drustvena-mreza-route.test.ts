@@ -1,0 +1,222 @@
+import type { NextRequest } from 'next/server';
+import { GET as getHealth } from '../../app/api/spaja-drustvena-mreza/health/route';
+import { GET as getPregled } from '../../app/api/spaja-drustvena-mreza/pregled/route';
+import { GET as getProfiles, POST as postProfiles } from '../../app/api/spaja-drustvena-mreza/profiles/route';
+import { GET as getFeed, POST as postFeed } from '../../app/api/spaja-drustvena-mreza/feed/route';
+import { GET as getGroups, POST as postGroups } from '../../app/api/spaja-drustvena-mreza/groups/route';
+import { GET as getMessages, POST as postMessages } from '../../app/api/spaja-drustvena-mreza/messages/route';
+import { GET as getEvents, POST as postEvents } from '../../app/api/spaja-drustvena-mreza/events/route';
+import { GET as getNotifications, POST as postNotifications } from '../../app/api/spaja-drustvena-mreza/notifikacije/route';
+import {
+  _resetSpajaDrustvenaMrezaState,
+  SPAJA_DRUSTVENA_MREZA_API_RESPONSE_MAX_MS,
+  SPAJA_DRUSTVENA_MREZA_CONTRACT_VERSION,
+} from '../../lib/spaja-drustvena-mreza';
+
+let passed = 0;
+let failed = 0;
+const failures: string[] = [];
+
+async function test(name: string, fn: () => Promise<void> | void): Promise<void> {
+  try {
+    await fn();
+    console.log(`  ✅ ${name}`);
+    passed++;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`  ❌ ${name}`);
+    console.error(`     ${message}`);
+    failed++;
+    failures.push(`${name}: ${message}`);
+  }
+}
+
+function assert(condition: boolean, message: string): void {
+  if (!condition) throw new Error(message);
+}
+
+function makeRequest(url: string, method = 'GET', body?: unknown): NextRequest {
+  return new Request(url, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  }) as unknown as NextRequest;
+}
+
+async function runTests(): Promise<void> {
+  _resetSpajaDrustvenaMrezaState();
+
+  console.log('\n🔗 [spaja-drustvena-mreza] route tests\n');
+
+  await test('GET /health returns headers and readiness', async () => {
+    const start = performance.now();
+    const response = await getHealth();
+    const elapsed = performance.now() - start;
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Spaja-Drustvena-Mreza-Contract-Version') === SPAJA_DRUSTVENA_MREZA_CONTRACT_VERSION, 'missing contract version header');
+    assert(response.headers.get('X-Spaja-Drustvena-Mreza-Readiness') !== null, 'missing readiness header');
+    assert(elapsed <= SPAJA_DRUSTVENA_MREZA_API_RESPONSE_MAX_MS, `health exceeded ${SPAJA_DRUSTVENA_MREZA_API_RESPONSE_MAX_MS}ms`);
+  });
+
+  await test('GET /pregled returns multi-repo none', async () => {
+    const response = await getPregled();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { multiRepo: { linkedRepoImpact: string } } };
+    assert(body.data.multiRepo.linkedRepoImpact === 'none', 'expected linkedRepoImpact none');
+  });
+
+  await test('POST /profiles creates a profile', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const response = await postProfiles(makeRequest('http://localhost/api/spaja-drustvena-mreza/profiles', 'POST', {
+      handle: 'route.profile',
+      displayName: 'Route Profile',
+      audience: 'public',
+      role: 'customer',
+      visibility: 'public',
+      bio: 'Created through route',
+      interests: ['feed'],
+    }));
+    assert(response.status === 201, `expected 201, got ${response.status}`);
+  });
+
+  await test('GET /profiles filters by audience', async () => {
+    const response = await getProfiles(makeRequest('http://localhost/api/spaja-drustvena-mreza/profiles?audience=internal'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { profiles: Array<{ audience: string }> } };
+    assert(body.data.profiles.every((profile) => profile.audience === 'internal'), 'audience filter failed');
+  });
+
+  await test('POST /feed creates post then rejects self-reaction', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
+      authorId: 'profile-public-builder',
+      audience: 'public',
+      visibility: 'public',
+      content: 'Route post',
+    }));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const selfReact = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
+      action: 'react',
+      postId: body.data.id,
+      actorId: 'profile-public-builder',
+    }));
+    assert(selfReact.status === 409, `expected 409, got ${selfReact.status}`);
+  });
+
+  await test('GET /feed returns count wrapper', async () => {
+    const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed?audience=public'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { count: number } };
+    assert(typeof body.data.count === 'number', 'count should be number');
+  });
+
+  await test('POST /groups creates group and join path works', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
+      name: 'Route Group',
+      description: 'A route-created group',
+      audience: 'partner',
+      visibility: 'network',
+      ownerId: 'profile-partner-ioopenui',
+      joinMode: 'approval',
+    }));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const joined = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
+      action: 'join',
+      groupId: body.data.id,
+      profileId: 'profile-public-builder',
+    }));
+    assert(joined.status === 200, `expected 200, got ${joined.status}`);
+  });
+
+  await test('GET /groups returns groups list', async () => {
+    const response = await getGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+  });
+
+  await test('POST /messages creates and replies to conversation', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
+      participantIds: ['profile-internal-core', 'profile-public-builder'],
+      audience: 'public',
+      visibility: 'network',
+      subject: 'Route thread',
+      content: 'First',
+      authorId: 'profile-internal-core',
+    }));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const reply = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
+      action: 'reply',
+      threadId: body.data.id,
+      authorId: 'profile-public-builder',
+      content: 'Reply',
+    }));
+    assert(reply.status === 200, `expected 200, got ${reply.status}`);
+  });
+
+  await test('GET /messages returns participant-filtered threads', async () => {
+    const response = await getMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages?participantId=profile-internal-core'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+  });
+
+  await test('POST /events creates event and waitlist path works', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
+      title: 'Route Event',
+      description: 'Small event',
+      hostId: 'profile-internal-core',
+      audience: 'public',
+      visibility: 'public',
+      scheduledAt: Date.now() + 7200_000,
+      capacity: 2,
+    }));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const attending = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
+      action: 'rsvp',
+      eventId: body.data.id,
+      profileId: 'profile-partner-ioopenui',
+    }));
+    assert(attending.status === 200, `expected 200, got ${attending.status}`);
+    const waitlist = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
+      action: 'rsvp',
+      eventId: body.data.id,
+      profileId: 'profile-public-builder',
+    }));
+    assert(waitlist.status === 200, `expected 200, got ${waitlist.status}`);
+    const waitlistBody = await waitlist.json() as { data: { waitlistIds: string[] } };
+    assert(waitlistBody.data.waitlistIds.includes('profile-public-builder'), 'expected waitlist membership');
+  });
+
+  await test('GET /events returns events list', async () => {
+    const response = await getEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+  });
+
+  await test('GET /notifikacije and POST mark-read work together', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const listed = await getNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder&unreadOnly=true'));
+    assert(listed.status === 200, `expected 200, got ${listed.status}`);
+    const body = await listed.json() as { data: { notifications: Array<{ id: string }> } };
+    assert(body.data.notifications.length > 0, 'expected unread notifications');
+    const updated = await postNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije', 'POST', {
+      notificationId: body.data.notifications[0].id,
+      recipientId: 'profile-public-builder',
+    }));
+    assert(updated.status === 200, `expected 200, got ${updated.status}`);
+  });
+
+  console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
+  if (failed > 0) {
+    for (const failure of failures) console.error(`  - ${failure}`);
+    process.exit(1);
+  }
+}
+
+runTests().catch((error) => {
+  console.error('Fatal:', error);
+  process.exit(1);
+});

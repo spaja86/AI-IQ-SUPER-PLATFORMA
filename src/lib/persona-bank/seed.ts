@@ -128,6 +128,22 @@ export const SEED_PERSONAS: PersonaRegistrationInput[] = [
     },
     linkedAgents: ['discount-telecom-validator-agent', 'multi-repo-sync-agent'],
   },
+  // ─── SPAJA DRUŠTVENA MREŽA ───────────────────────────────────────────────────
+  {
+    id: 'spaja-drustvena-mreza-core',
+    name: 'SPAJA Društvena Mreža — Community Orchestration Persona',
+    type: 'spaja-drustvena-mreza',
+    octave: 8,
+    hipermrezaNode: 67,
+    attributes: {
+      traits: ['community', 'moderation-aware', 'audience-segmented', 'deterministic'],
+      skills: ['profile-orchestration', 'feed-moderation', 'group-coordination', 'event-readiness'],
+      tone: 'social',
+      domain: 'social-network',
+    },
+    linkedAgents: ['spaja-drustvena-mreza-validator-agent', 'persona-bank-agent'],
+    crossRepoRef: 'spaja-drustvena-mreza-core',
+  },
   // ─── MADAGASKAR EXOTIC MARKET ─────────────────────────────────────────────
   {
     id: 'madagaskar-exotic-market',
