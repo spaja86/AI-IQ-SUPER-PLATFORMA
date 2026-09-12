@@ -86,6 +86,26 @@ function forwardFailure<T>(result: SocialOperationResult<unknown>): SocialOperat
   };
 }
 
+function canAudienceAccessScope(
+  profileAudience: SocialAudience,
+  resourceAudience: SocialAudience,
+  resourceVisibility: SocialVisibility,
+): boolean {
+  const audienceRank: Record<SocialAudience, number> = {
+    public: 0,
+    partner: 1,
+    internal: 2,
+  };
+  const visibilityRank: Record<SocialVisibility, number> = {
+    public: 0,
+    network: 1,
+    internal: 2,
+  };
+
+  return audienceRank[profileAudience] >= audienceRank[resourceAudience]
+    && visibilityRank[resourceVisibility] <= audienceRank[profileAudience];
+}
+
 function countByAudience(): Record<SocialAudience, number> {
   const result: Record<SocialAudience, number> = { internal: 0, partner: 0, public: 0 };
   for (const profile of PROFILE_STORE.values()) {
@@ -323,6 +343,9 @@ export function createPost(input: {
   seedState();
   const author = requireProfile(input.authorId);
   if (!author.ok) return forwardFailure<SocialFeedPost>(author);
+  if (!canAudienceAccessScope(author.data!.audience, input.audience, input.visibility)) {
+    return { ok: false, code: 'CONFLICT', message: 'author cannot publish into the requested audience/visibility scope' };
+  }
   if (!isNonEmptyString(input.content)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'content is required' };
   }
@@ -416,6 +439,9 @@ export function createGroup(input: {
   seedState();
   const owner = requireProfile(input.ownerId);
   if (!owner.ok) return forwardFailure<SocialGroup>(owner);
+  if (!canAudienceAccessScope(owner.data!.audience, input.audience, input.visibility)) {
+    return { ok: false, code: 'CONFLICT', message: 'owner cannot create a group in the requested audience/visibility scope' };
+  }
   if (!isNonEmptyString(input.name) || !isNonEmptyString(input.description)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'name and description are required' };
   }
@@ -446,6 +472,9 @@ export function joinGroup(groupId: string, profileId: string): SocialOperationRe
   if (!group) return { ok: false, code: 'NOT_FOUND', message: `group not found: ${groupId}` };
   const profile = requireProfile(profileId);
   if (!profile.ok) return forwardFailure<SocialGroup>(profile);
+  if (!canAudienceAccessScope(profile.data!.audience, group.audience, group.visibility)) {
+    return { ok: false, code: 'CONFLICT', message: 'profile cannot access this group scope' };
+  }
   if (group.memberIds.includes(profileId)) {
     return { ok: false, code: 'CONFLICT', message: 'profile is already a group member' };
   }
@@ -492,6 +521,9 @@ export function createConversation(input: {
   for (const participantId of uniqueParticipants) {
     const participant = requireProfile(participantId);
     if (!participant.ok) return forwardFailure<SocialConversation>(participant);
+    if (!canAudienceAccessScope(participant.data!.audience, input.audience, input.visibility)) {
+      return { ok: false, code: 'CONFLICT', message: `participant cannot access requested conversation scope: ${participantId}` };
+    }
   }
   if (!uniqueParticipants.includes(input.authorId)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'authorId must be one of participantIds' };
@@ -584,6 +616,9 @@ export function createEvent(input: {
   seedState();
   const host = requireProfile(input.hostId);
   if (!host.ok) return forwardFailure<SocialEvent>(host);
+  if (!canAudienceAccessScope(host.data!.audience, input.audience, input.visibility)) {
+    return { ok: false, code: 'CONFLICT', message: 'host cannot create an event in the requested audience/visibility scope' };
+  }
   if (!isNonEmptyString(input.title) || !isNonEmptyString(input.description)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'title and description are required' };
   }
@@ -618,6 +653,9 @@ export function rsvpEvent(eventId: string, profileId: string): SocialOperationRe
   if (!event) return { ok: false, code: 'NOT_FOUND', message: `event not found: ${eventId}` };
   const profile = requireProfile(profileId);
   if (!profile.ok) return forwardFailure<SocialEvent>(profile);
+  if (!canAudienceAccessScope(profile.data!.audience, event.audience, event.visibility)) {
+    return { ok: false, code: 'CONFLICT', message: 'profile cannot access this event scope' };
+  }
   if (profileId === event.hostId) {
     return { ok: false, code: 'CONFLICT', message: 'host is already registered for this event' };
   }
@@ -739,6 +777,7 @@ export function getSpajaDrustvenaMrezaPregled(): SocialOverview {
     visibilityRules: [
       'audience ostaje kanonski segment korisnika: internal, partner, public',
       'visibility ostaje kanonski nivo izlaganja: internal, network, public',
+      'public profil ne može u partner/internal scope; partner profil ne može u internal scope',
       'network vidljivost obuhvata interne i partnerske aktere',
       'public vidljivost je otvorena za javni community sloj',
     ],

@@ -53,14 +53,17 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 
 1. `audience` ostaje kanonski segment korisnika: `internal`, `partner`, `public`
 2. `visibility` ostaje kanonski nivo izlaganja: `internal`, `network`, `public`
-3. `network` vidljivost se koristi za koordinaciju internih + partnerskih aktera
-4. `public` vidljivost ostaje otvorena za community sloj i javne tokove
-5. Self-reaction nije dozvoljen
-6. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
-7. Jedan autor može kreirati najviše 5 objava po satu
-8. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
-9. `recipientId` je obavezan za pristup notifikacijama, a mark-as-read je dozvoljen samo vlasniku notifikacije
-10. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
+3. `public` profili mogu pristupati samo `public` scope-u
+4. `partner` profili mogu pristupati `partner` + `public` audience-u i `network` + `public` visibility-ju
+5. `internal` profili mogu pristupati svim v1 scope-ovima
+6. `network` vidljivost se koristi za koordinaciju internih + partnerskih aktera
+7. `public` vidljivost ostaje otvorena za community sloj i javne tokove
+8. Self-reaction nije dozvoljen
+9. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
+10. Jedan autor može kreirati najviše 5 objava po satu
+11. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
+12. `recipientId` je obavezan za pristup notifikacijama, a mark-as-read je dozvoljen samo vlasniku notifikacije
+13. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
 
 ## KPI targets
 

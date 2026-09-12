@@ -203,15 +203,30 @@ async function runTests(): Promise<void> {
       joinMode: 'approval',
     });
     assert(group.ok && group.data, 'group create failed');
+    const joined = joinGroup(group.data.id, 'profile-internal-core');
+    assert(joined.ok && joined.data?.pendingMemberIds.includes('profile-internal-core'), 'expected pending member');
+  });
+
+  await test('public profile cannot join partner-only group scope', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const group = createGroup({
+      name: 'Partner-only group',
+      description: 'Restricted partner scope',
+      audience: 'partner',
+      visibility: 'network',
+      ownerId: 'profile-partner-ioopenui',
+      joinMode: 'approval',
+    });
+    assert(group.ok && group.data, 'group create failed');
     const joined = joinGroup(group.data.id, 'profile-public-builder');
-    assert(joined.ok && joined.data?.pendingMemberIds.includes('profile-public-builder'), 'expected pending member');
+    assert(!joined.ok && joined.code === 'CONFLICT', 'public profile should not join partner-only group');
   });
 
   await test('conversation create rejects duplicate thread fingerprint', () => {
     _resetSpajaDrustvenaMrezaState();
     const created = createConversation({
-      participantIds: ['profile-internal-core', 'profile-public-builder'],
-      audience: 'public',
+      participantIds: ['profile-internal-core', 'profile-partner-ioopenui'],
+      audience: 'partner',
       visibility: 'network',
       subject: 'Sync',
       content: 'Prva poruka',
@@ -219,14 +234,27 @@ async function runTests(): Promise<void> {
     });
     assert(created.ok, 'conversation create failed');
     const duplicate = createConversation({
-      participantIds: ['profile-public-builder', 'profile-internal-core'],
-      audience: 'public',
+      participantIds: ['profile-partner-ioopenui', 'profile-internal-core'],
+      audience: 'partner',
       visibility: 'network',
       subject: 'Sync',
       content: 'Druga poruka',
-      authorId: 'profile-public-builder',
+      authorId: 'profile-partner-ioopenui',
     });
     assert(!duplicate.ok && duplicate.code === 'CONFLICT', 'duplicate conversation should be blocked');
+  });
+
+  await test('conversation create rejects participants outside requested scope', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = createConversation({
+      participantIds: ['profile-internal-core', 'profile-public-builder'],
+      audience: 'partner',
+      visibility: 'network',
+      subject: 'Partner-only sync',
+      content: 'Should fail',
+      authorId: 'profile-internal-core',
+    });
+    assert(!created.ok && created.code === 'CONFLICT', 'public participant should be blocked from partner scope');
   });
 
   await test('event RSVP uses waitlist when capacity is full', () => {
@@ -249,6 +277,22 @@ async function runTests(): Promise<void> {
     const second = rsvpEvent(created.data.id, 'profile-public-builder');
     assert(second.ok && second.message === 'waitlisted', 'second RSVP should be waitlisted');
     assert(second.data?.waitlistIds.includes('profile-public-builder'), 'second RSVP should land on the waitlist');
+  });
+
+  await test('public profile cannot RSVP to partner-only event scope', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = createEvent({
+      title: 'Partner event',
+      description: 'Restricted event',
+      hostId: 'profile-partner-ioopenui',
+      audience: 'partner',
+      visibility: 'network',
+      scheduledAt: Date.UTC(2026, 8, 20, 14, 0, 0),
+      capacity: 5,
+    });
+    assert(created.ok && created.data, 'event create failed');
+    const joined = rsvpEvent(created.data.id, 'profile-public-builder');
+    assert(!joined.ok && joined.code === 'CONFLICT', 'public profile should be blocked from partner-only event');
   });
 
   console.log('\n🔎 [spaja-drustvena-mreza] notifications\n');

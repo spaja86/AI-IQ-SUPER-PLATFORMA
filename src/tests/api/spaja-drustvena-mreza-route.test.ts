@@ -164,9 +164,29 @@ async function runTests(): Promise<void> {
     const joined = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
       action: 'join',
       groupId: body.data.id,
-      profileId: 'profile-public-builder',
+      profileId: 'profile-internal-core',
     }));
     assert(joined.status === 200, `expected 200, got ${joined.status}`);
+  });
+
+  await test('POST /groups blocks join outside partner scope', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
+      name: 'Partner restricted',
+      description: 'Restricted join path',
+      audience: 'partner',
+      visibility: 'network',
+      ownerId: 'profile-partner-ioopenui',
+      joinMode: 'approval',
+    }));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const joined = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
+      action: 'join',
+      groupId: body.data.id,
+      profileId: 'profile-public-builder',
+    }));
+    assert(joined.status === 409, `expected 409, got ${joined.status}`);
   });
 
   await test('GET /groups returns groups list', async () => {
@@ -187,8 +207,8 @@ async function runTests(): Promise<void> {
   await test('POST /messages creates and replies to conversation', async () => {
     _resetSpajaDrustvenaMrezaState();
     const created = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
-      participantIds: ['profile-internal-core', 'profile-public-builder'],
-      audience: 'public',
+      participantIds: ['profile-internal-core', 'profile-partner-ioopenui'],
+      audience: 'partner',
       visibility: 'network',
       subject: 'Route thread',
       content: 'First',
@@ -199,10 +219,23 @@ async function runTests(): Promise<void> {
     const reply = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
       action: 'reply',
       threadId: body.data.id,
-      authorId: 'profile-public-builder',
+      authorId: 'profile-partner-ioopenui',
       content: 'Reply',
     }));
     assert(reply.status === 200, `expected 200, got ${reply.status}`);
+  });
+
+  await test('POST /messages rejects participants outside requested scope', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
+      participantIds: ['profile-internal-core', 'profile-public-builder'],
+      audience: 'partner',
+      visibility: 'network',
+      subject: 'Partner-only route thread',
+      content: 'Blocked',
+      authorId: 'profile-internal-core',
+    }));
+    assert(response.status === 409, `expected 409, got ${response.status}`);
   });
 
   await test('GET /messages returns participant-filtered threads', async () => {
@@ -247,6 +280,27 @@ async function runTests(): Promise<void> {
     assert(waitlist.status === 200, `expected 200, got ${waitlist.status}`);
     const waitlistBody = await waitlist.json() as { data: { waitlistIds: string[] } };
     assert(waitlistBody.data.waitlistIds.includes('profile-public-builder'), 'expected waitlist membership');
+  });
+
+  await test('POST /events blocks RSVP outside partner scope', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
+      title: 'Partner Route Event',
+      description: 'Restricted RSVP',
+      hostId: 'profile-partner-ioopenui',
+      audience: 'partner',
+      visibility: 'network',
+      scheduledAt: Date.UTC(2026, 8, 20, 15, 0, 0),
+      capacity: 4,
+    }));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const joined = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
+      action: 'rsvp',
+      eventId: body.data.id,
+      profileId: 'profile-public-builder',
+    }));
+    assert(joined.status === 409, `expected 409, got ${joined.status}`);
   });
 
   await test('GET /events returns events list', async () => {
