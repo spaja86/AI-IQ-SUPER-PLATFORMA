@@ -75,8 +75,11 @@ async function runTests(): Promise<void> {
       visibility: 'public',
       bio: 'Created through route',
       interests: ['feed'],
+      verified: true,
     }));
     assert(response.status === 201, `expected 201, got ${response.status}`);
+    const body = await response.json() as { data: { verified: boolean } };
+    assert(body.data.verified === false, 'public profile create should not honor verified=true');
   });
 
   await test('GET /profiles filters by audience', async () => {
@@ -116,19 +119,29 @@ async function runTests(): Promise<void> {
 
   await test('POST /feed creates post then rejects self-reaction', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const created = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
-      authorId: 'profile-public-builder',
-      audience: 'public',
-      visibility: 'public',
-      content: 'Route post',
-    }));
+    const created = await postFeed(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/feed',
+      'POST',
+      {
+        authorId: 'profile-public-builder',
+        audience: 'public',
+        visibility: 'public',
+        content: 'Route post',
+      },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(created.status === 201, `expected 201, got ${created.status}`);
     const body = await created.json() as { data: { id: string } };
-    const selfReact = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
-      action: 'react',
-      postId: body.data.id,
-      actorId: 'profile-public-builder',
-    }));
+    const selfReact = await postFeed(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/feed',
+      'POST',
+      {
+        action: 'react',
+        postId: body.data.id,
+        actorId: 'profile-public-builder',
+      },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(selfReact.status === 409, `expected 409, got ${selfReact.status}`);
   });
 
@@ -176,70 +189,135 @@ async function runTests(): Promise<void> {
   });
 
   await test('POST /feed rejects malformed react payload', async () => {
-    const response = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', { action: 'react' }));
+    const response = await postFeed(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/feed',
+      'POST',
+      { action: 'react' },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /feed rejects unknown action', async () => {
-    const response = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', { action: 'delete' }));
+    const response = await postFeed(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/feed',
+      'POST',
+      { action: 'delete' },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /feed flag action succeeds', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const created = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
+    const created = await postFeed(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/feed',
+      'POST',
+      {
+        authorId: 'profile-public-builder',
+        audience: 'public',
+        visibility: 'public',
+        content: 'Flag me',
+      },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const flagged = await postFeed(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/feed',
+      'POST',
+      {
+        action: 'flag',
+        postId: body.data.id,
+        actorId: 'profile-partner-ioopenui',
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
+    assert(flagged.status === 200, `expected 200, got ${flagged.status}`);
+  });
+
+  await test('POST /feed rejects missing actor header', async () => {
+    const response = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
       authorId: 'profile-public-builder',
       audience: 'public',
       visibility: 'public',
-      content: 'Flag me',
+      content: 'Missing actor',
     }));
-    assert(created.status === 201, `expected 201, got ${created.status}`);
-    const body = await created.json() as { data: { id: string } };
-    const flagged = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
-      action: 'flag',
-      postId: body.data.id,
-      actorId: 'profile-partner-ioopenui',
-    }));
-    assert(flagged.status === 200, `expected 200, got ${flagged.status}`);
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /feed rejects actor mismatch', async () => {
+    const response = await postFeed(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/feed',
+      'POST',
+      {
+        authorId: 'profile-public-builder',
+        audience: 'public',
+        visibility: 'public',
+        content: 'Actor mismatch',
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
+    assert(response.status === 409, `expected 409, got ${response.status}`);
   });
 
   await test('POST /groups creates group and join path works', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const created = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
-      name: 'Route Group',
-      description: 'A route-created group',
-      audience: 'partner',
-      visibility: 'network',
-      ownerId: 'profile-partner-ioopenui',
-      joinMode: 'approval',
-    }));
+    const created = await postGroups(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/groups',
+      'POST',
+      {
+        name: 'Route Group',
+        description: 'A route-created group',
+        audience: 'partner',
+        visibility: 'network',
+        ownerId: 'profile-partner-ioopenui',
+        joinMode: 'approval',
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
     assert(created.status === 201, `expected 201, got ${created.status}`);
     const body = await created.json() as { data: { id: string } };
-    const joined = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
-      action: 'join',
-      groupId: body.data.id,
-      profileId: 'profile-internal-core',
-    }));
+    const joined = await postGroups(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/groups',
+      'POST',
+      {
+        action: 'join',
+        groupId: body.data.id,
+        profileId: 'profile-internal-core',
+      },
+      { 'x-spaja-profile-id': 'profile-internal-core' },
+    ));
     assert(joined.status === 200, `expected 200, got ${joined.status}`);
   });
 
   await test('POST /groups blocks join outside partner scope', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const created = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
-      name: 'Partner restricted',
-      description: 'Restricted join path',
-      audience: 'partner',
-      visibility: 'network',
-      ownerId: 'profile-partner-ioopenui',
-      joinMode: 'approval',
-    }));
+    const created = await postGroups(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/groups',
+      'POST',
+      {
+        name: 'Partner restricted',
+        description: 'Restricted join path',
+        audience: 'partner',
+        visibility: 'network',
+        ownerId: 'profile-partner-ioopenui',
+        joinMode: 'approval',
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
     assert(created.status === 201, `expected 201, got ${created.status}`);
     const body = await created.json() as { data: { id: string } };
-    const joined = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
-      action: 'join',
-      groupId: body.data.id,
-      profileId: 'profile-public-builder',
-    }));
+    const joined = await postGroups(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/groups',
+      'POST',
+      {
+        action: 'join',
+        groupId: body.data.id,
+        profileId: 'profile-public-builder',
+      },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(joined.status === 409, `expected 409, got ${joined.status}`);
   });
 
@@ -272,46 +350,100 @@ async function runTests(): Promise<void> {
   });
 
   await test('POST /groups rejects malformed join payload', async () => {
-    const response = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', { action: 'join' }));
+    const response = await postGroups(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/groups',
+      'POST',
+      { action: 'join' },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /groups rejects unknown action', async () => {
-    const response = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', { action: 'archive' }));
+    const response = await postGroups(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/groups',
+      'POST',
+      { action: 'archive' },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /groups rejects missing actor header', async () => {
+    const response = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
+      name: 'No actor group',
+      description: 'Missing actor',
+      audience: 'public',
+      visibility: 'public',
+      ownerId: 'profile-public-builder',
+      joinMode: 'open',
+    }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /groups rejects owner/profile mismatch', async () => {
+    const response = await postGroups(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/groups',
+      'POST',
+      {
+        name: 'Mismatch group',
+        description: 'Mismatch actor',
+        audience: 'public',
+        visibility: 'public',
+        ownerId: 'profile-public-builder',
+        joinMode: 'open',
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
+    assert(response.status === 409, `expected 409, got ${response.status}`);
   });
 
   await test('POST /messages creates and replies to conversation', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const created = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
-      participantIds: ['profile-internal-core', 'profile-partner-ioopenui'],
-      audience: 'partner',
-      visibility: 'network',
-      subject: 'Route thread',
-      content: 'First',
-      authorId: 'profile-internal-core',
-    }));
+    const created = await postMessages(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/messages',
+      'POST',
+      {
+        participantIds: ['profile-internal-core', 'profile-partner-ioopenui'],
+        audience: 'partner',
+        visibility: 'network',
+        subject: 'Route thread',
+        content: 'First',
+        authorId: 'profile-internal-core',
+      },
+      { 'x-spaja-profile-id': 'profile-internal-core' },
+    ));
     assert(created.status === 201, `expected 201, got ${created.status}`);
     const body = await created.json() as { data: { id: string } };
-    const reply = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
-      action: 'reply',
-      threadId: body.data.id,
-      authorId: 'profile-partner-ioopenui',
-      content: 'Reply',
-    }));
+    const reply = await postMessages(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/messages',
+      'POST',
+      {
+        action: 'reply',
+        threadId: body.data.id,
+        authorId: 'profile-partner-ioopenui',
+        content: 'Reply',
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
     assert(reply.status === 200, `expected 200, got ${reply.status}`);
   });
 
   await test('POST /messages rejects participants outside requested scope', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
-      participantIds: ['profile-internal-core', 'profile-public-builder'],
-      audience: 'partner',
-      visibility: 'network',
-      subject: 'Partner-only route thread',
-      content: 'Blocked',
-      authorId: 'profile-internal-core',
-    }));
+    const response = await postMessages(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/messages',
+      'POST',
+      {
+        participantIds: ['profile-internal-core', 'profile-public-builder'],
+        audience: 'partner',
+        visibility: 'network',
+        subject: 'Partner-only route thread',
+        content: 'Blocked',
+        authorId: 'profile-internal-core',
+      },
+      { 'x-spaja-profile-id': 'profile-internal-core' },
+    ));
     assert(response.status === 409, `expected 409, got ${response.status}`);
   });
 
@@ -369,39 +501,93 @@ async function runTests(): Promise<void> {
   });
 
   await test('POST /messages rejects malformed reply payload', async () => {
-    const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', { action: 'reply' }));
+    const response = await postMessages(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/messages',
+      'POST',
+      { action: 'reply' },
+      { 'x-spaja-profile-id': 'profile-internal-core' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /messages rejects unknown action', async () => {
-    const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', { action: 'close' }));
+    const response = await postMessages(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/messages',
+      'POST',
+      { action: 'close' },
+      { 'x-spaja-profile-id': 'profile-internal-core' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /messages rejects missing actor header', async () => {
+    const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', {
+      participantIds: ['profile-internal-core', 'profile-partner-ioopenui'],
+      audience: 'partner',
+      visibility: 'network',
+      subject: 'No actor',
+      content: 'Missing header',
+      authorId: 'profile-internal-core',
+    }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /messages rejects author mismatch', async () => {
+    const response = await postMessages(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/messages',
+      'POST',
+      {
+        participantIds: ['profile-internal-core', 'profile-partner-ioopenui'],
+        audience: 'partner',
+        visibility: 'network',
+        subject: 'Mismatch',
+        content: 'Mismatch author',
+        authorId: 'profile-public-builder',
+      },
+      { 'x-spaja-profile-id': 'profile-internal-core' },
+    ));
+    assert(response.status === 409, `expected 409, got ${response.status}`);
   });
 
   await test('POST /events creates event and waitlist path works', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const created = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
-      title: 'Route Event',
-      description: 'Small event',
-      hostId: 'profile-internal-core',
-      audience: 'public',
-      visibility: 'public',
-      scheduledAt: Date.UTC(2026, 8, 20, 13, 0, 0),
-      capacity: 2,
-    }));
+    const created = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      {
+        title: 'Route Event',
+        description: 'Small event',
+        hostId: 'profile-internal-core',
+        audience: 'public',
+        visibility: 'public',
+        scheduledAt: Date.UTC(2026, 8, 20, 13, 0, 0),
+        capacity: 2,
+      },
+      { 'x-spaja-profile-id': 'profile-internal-core' },
+    ));
     assert(created.status === 201, `expected 201, got ${created.status}`);
     const body = await created.json() as { data: { id: string } };
-    const attending = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
-      action: 'rsvp',
-      eventId: body.data.id,
-      profileId: 'profile-partner-ioopenui',
-    }));
+    const attending = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      {
+        action: 'rsvp',
+        eventId: body.data.id,
+        profileId: 'profile-partner-ioopenui',
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
     assert(attending.status === 200, `expected 200, got ${attending.status}`);
-    const waitlist = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
-      action: 'rsvp',
-      eventId: body.data.id,
-      profileId: 'profile-public-builder',
-    }));
+    const waitlist = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      {
+        action: 'rsvp',
+        eventId: body.data.id,
+        profileId: 'profile-public-builder',
+      },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(waitlist.status === 200, `expected 200, got ${waitlist.status}`);
     const waitlistBody = await waitlist.json() as { data: { waitlistIds: string[] } };
     assert(waitlistBody.data.waitlistIds.includes('profile-public-builder'), 'expected waitlist membership');
@@ -409,22 +595,32 @@ async function runTests(): Promise<void> {
 
   await test('POST /events blocks RSVP outside partner scope', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const created = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
-      title: 'Partner Route Event',
-      description: 'Restricted RSVP',
-      hostId: 'profile-partner-ioopenui',
-      audience: 'partner',
-      visibility: 'network',
-      scheduledAt: Date.UTC(2026, 8, 20, 15, 0, 0),
-      capacity: 4,
-    }));
+    const created = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      {
+        title: 'Partner Route Event',
+        description: 'Restricted RSVP',
+        hostId: 'profile-partner-ioopenui',
+        audience: 'partner',
+        visibility: 'network',
+        scheduledAt: Date.UTC(2026, 8, 20, 15, 0, 0),
+        capacity: 4,
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
     assert(created.status === 201, `expected 201, got ${created.status}`);
     const body = await created.json() as { data: { id: string } };
-    const joined = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
-      action: 'rsvp',
-      eventId: body.data.id,
-      profileId: 'profile-public-builder',
-    }));
+    const joined = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      {
+        action: 'rsvp',
+        eventId: body.data.id,
+        profileId: 'profile-public-builder',
+      },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(joined.status === 409, `expected 409, got ${joined.status}`);
   });
 
@@ -460,13 +656,54 @@ async function runTests(): Promise<void> {
   });
 
   await test('POST /events rejects malformed RSVP payload', async () => {
-    const response = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', { action: 'rsvp' }));
+    const response = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      { action: 'rsvp' },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /events rejects unknown action', async () => {
-    const response = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', { action: 'cancel' }));
+    const response = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      { action: 'cancel' },
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /events rejects missing actor header', async () => {
+    const response = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', {
+      title: 'Missing actor event',
+      description: 'Missing actor',
+      hostId: 'profile-public-builder',
+      audience: 'public',
+      visibility: 'public',
+      scheduledAt: Date.UTC(2026, 8, 20, 16, 0, 0),
+      capacity: 10,
+    }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /events rejects host/profile mismatch', async () => {
+    const response = await postEvents(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/events',
+      'POST',
+      {
+        title: 'Mismatch actor event',
+        description: 'Mismatch actor',
+        hostId: 'profile-public-builder',
+        audience: 'public',
+        visibility: 'public',
+        scheduledAt: Date.UTC(2026, 8, 20, 17, 0, 0),
+        capacity: 10,
+      },
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
+    assert(response.status === 409, `expected 409, got ${response.status}`);
   });
 
   await test('GET /notifikacije and POST mark-read work together', async () => {

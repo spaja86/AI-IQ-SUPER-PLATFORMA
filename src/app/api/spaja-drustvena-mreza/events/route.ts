@@ -46,6 +46,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req);
+    if (!actorProfileId) {
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'x-spaja-profile-id header is required');
+    }
+    const actor = getProfile(actorProfileId);
+    if (!actor.ok) {
+      return spajaDrustvenaMrezaApiError(actor.code ?? 'NOT_FOUND', actor.message);
+    }
     let body: unknown;
     try {
       body = await req.json();
@@ -66,13 +74,17 @@ export async function POST(req: NextRequest) {
     const result = action === 'rsvp'
       ? (() => {
           if (typeof candidate.eventId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'eventId is required (string)' };
-          if (typeof candidate.profileId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'profileId is required (string)' };
-          return rsvpEvent(candidate.eventId, candidate.profileId);
+          if (candidate.profileId !== undefined && candidate.profileId !== actorProfileId) {
+            return { ok: false, code: 'CONFLICT' as const, message: 'profileId must match x-spaja-profile-id when provided' };
+          }
+          return rsvpEvent(candidate.eventId, actorProfileId);
         })()
       : (() => {
           if (typeof candidate.title !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'title is required (string)' };
           if (typeof candidate.description !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'description is required (string)' };
-          if (typeof candidate.hostId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'hostId is required (string)' };
+          if (candidate.hostId !== undefined && candidate.hostId !== actorProfileId) {
+            return { ok: false, code: 'CONFLICT' as const, message: 'hostId must match x-spaja-profile-id when provided' };
+          }
           if (!isSocialAudience(candidate.audience)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience must be one of: internal, partner, public' };
           if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
           if (typeof candidate.scheduledAt !== 'number') return { ok: false, code: 'BAD_REQUEST' as const, message: 'scheduledAt is required (number)' };
@@ -80,7 +92,7 @@ export async function POST(req: NextRequest) {
           return createEvent({
             title: candidate.title,
             description: candidate.description,
-            hostId: candidate.hostId,
+            hostId: actorProfileId,
             audience: candidate.audience,
             visibility: candidate.visibility,
             scheduledAt: candidate.scheduledAt,

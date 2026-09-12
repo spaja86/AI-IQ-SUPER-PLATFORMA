@@ -48,6 +48,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req);
+    if (!actorProfileId) {
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'x-spaja-profile-id header is required');
+    }
+    const actor = getProfile(actorProfileId);
+    if (!actor.ok) {
+      return spajaDrustvenaMrezaApiError(actor.code ?? 'NOT_FOUND', actor.message);
+    }
     let body: unknown;
     try {
       body = await req.json();
@@ -68,26 +76,32 @@ export async function POST(req: NextRequest) {
     const result = action === 'react'
       ? (() => {
             if (typeof candidate.postId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'postId is required (string)' };
-            if (typeof candidate.actorId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'actorId is required (string)' };
-            return reactToPost(candidate.postId, candidate.actorId);
+            if (candidate.actorId !== undefined && candidate.actorId !== actorProfileId) {
+              return { ok: false, code: 'CONFLICT' as const, message: 'actorId must match x-spaja-profile-id when provided' };
+            }
+            return reactToPost(candidate.postId, actorProfileId);
         })()
       : action === 'flag'
         ? (() => {
               if (typeof candidate.postId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'postId is required (string)' };
-              if (typeof candidate.actorId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'actorId is required (string)' };
-              return flagPost(candidate.postId, candidate.actorId);
+              if (candidate.actorId !== undefined && candidate.actorId !== actorProfileId) {
+                return { ok: false, code: 'CONFLICT' as const, message: 'actorId must match x-spaja-profile-id when provided' };
+              }
+              return flagPost(candidate.postId, actorProfileId);
             })()
         : (() => {
-            if (typeof candidate.authorId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'authorId is required (string)' };
-              if (!isSocialAudience(candidate.audience)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience must be one of: internal, partner, public' };
-              if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
-              if (typeof candidate.content !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'content is required (string)' };
-              if (candidate.tags !== undefined && !Array.isArray(candidate.tags)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'tags must be an array when provided' };
-              return createPost({
-                authorId: candidate.authorId,
-                audience: candidate.audience,
-                visibility: candidate.visibility,
-                content: candidate.content,
+           if (candidate.authorId !== undefined && candidate.authorId !== actorProfileId) {
+             return { ok: false, code: 'CONFLICT' as const, message: 'authorId must match x-spaja-profile-id when provided' };
+           }
+             if (!isSocialAudience(candidate.audience)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience must be one of: internal, partner, public' };
+             if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
+             if (typeof candidate.content !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'content is required (string)' };
+             if (candidate.tags !== undefined && !Array.isArray(candidate.tags)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'tags must be an array when provided' };
+             return createPost({
+               authorId: actorProfileId,
+               audience: candidate.audience,
+               visibility: candidate.visibility,
+               content: candidate.content,
                 tags: candidate.tags as string[] | undefined,
               });
           })();

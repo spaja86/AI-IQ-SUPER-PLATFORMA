@@ -46,6 +46,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req);
+    if (!actorProfileId) {
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'x-spaja-profile-id header is required');
+    }
+    const actor = getProfile(actorProfileId);
+    if (!actor.ok) {
+      return spajaDrustvenaMrezaApiError(actor.code ?? 'NOT_FOUND', actor.message);
+    }
     let body: unknown;
     try {
       body = await req.json();
@@ -66,9 +74,11 @@ export async function POST(req: NextRequest) {
     const result = action === 'reply'
       ? (() => {
           if (typeof candidate.threadId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'threadId is required (string)' };
-          if (typeof candidate.authorId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'authorId is required (string)' };
+          if (candidate.authorId !== undefined && candidate.authorId !== actorProfileId) {
+            return { ok: false, code: 'CONFLICT' as const, message: 'authorId must match x-spaja-profile-id when provided' };
+          }
           if (typeof candidate.content !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'content is required (string)' };
-          return appendMessage(candidate.threadId, candidate.authorId, candidate.content);
+          return appendMessage(candidate.threadId, actorProfileId, candidate.content);
         })()
       : (() => {
           if (!Array.isArray(candidate.participantIds)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'participantIds is required (array)' };
@@ -76,14 +86,16 @@ export async function POST(req: NextRequest) {
           if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
           if (typeof candidate.subject !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'subject is required (string)' };
           if (typeof candidate.content !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'content is required (string)' };
-          if (typeof candidate.authorId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'authorId is required (string)' };
+          if (candidate.authorId !== undefined && candidate.authorId !== actorProfileId) {
+            return { ok: false, code: 'CONFLICT' as const, message: 'authorId must match x-spaja-profile-id when provided' };
+          }
           return createConversation({
             participantIds: candidate.participantIds as string[],
             audience: candidate.audience,
             visibility: candidate.visibility,
             subject: candidate.subject,
             content: candidate.content,
-            authorId: candidate.authorId,
+            authorId: actorProfileId,
           });
         })();
 

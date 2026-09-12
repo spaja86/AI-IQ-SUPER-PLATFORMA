@@ -47,6 +47,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req);
+    if (!actorProfileId) {
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'x-spaja-profile-id header is required');
+    }
+    const actor = getProfile(actorProfileId);
+    if (!actor.ok) {
+      return spajaDrustvenaMrezaApiError(actor.code ?? 'NOT_FOUND', actor.message);
+    }
     let body: unknown;
     try {
       body = await req.json();
@@ -67,15 +75,19 @@ export async function POST(req: NextRequest) {
     const result = action === 'join'
       ? (() => {
         if (typeof candidate.groupId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'groupId is required (string)' };
-        if (typeof candidate.profileId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'profileId is required (string)' };
-        return joinGroup(candidate.groupId, candidate.profileId);
+        if (candidate.profileId !== undefined && candidate.profileId !== actorProfileId) {
+          return { ok: false, code: 'CONFLICT' as const, message: 'profileId must match x-spaja-profile-id when provided' };
+        }
+        return joinGroup(candidate.groupId, actorProfileId);
         })()
       : (() => {
           if (typeof candidate.name !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'name is required (string)' };
           if (typeof candidate.description !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'description is required (string)' };
           if (!isSocialAudience(candidate.audience)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'audience must be one of: internal, partner, public' };
           if (!isSocialVisibility(candidate.visibility)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'visibility must be one of: internal, network, public' };
-          if (typeof candidate.ownerId !== 'string') return { ok: false, code: 'BAD_REQUEST' as const, message: 'ownerId is required (string)' };
+          if (candidate.ownerId !== undefined && candidate.ownerId !== actorProfileId) {
+            return { ok: false, code: 'CONFLICT' as const, message: 'ownerId must match x-spaja-profile-id when provided' };
+          }
           if (candidate.topicTags !== undefined && !Array.isArray(candidate.topicTags)) return { ok: false, code: 'BAD_REQUEST' as const, message: 'topicTags must be an array when provided' };
           if (candidate.joinMode !== undefined && !isSocialGroupJoinMode(candidate.joinMode)) {
             return { ok: false, code: 'BAD_REQUEST' as const, message: 'joinMode must be one of: open, approval' };
@@ -85,7 +97,7 @@ export async function POST(req: NextRequest) {
             description: candidate.description,
             audience: candidate.audience,
             visibility: candidate.visibility,
-            ownerId: candidate.ownerId,
+            ownerId: actorProfileId,
             topicTags: candidate.topicTags as string[] | undefined,
             joinMode: candidate.joinMode,
           });

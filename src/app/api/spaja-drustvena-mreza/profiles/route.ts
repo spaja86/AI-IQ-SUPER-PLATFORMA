@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
       visibility: candidate.visibility,
       bio: candidate.bio,
       interests: candidate.interests as string[] | undefined,
-      verified: typeof candidate.verified === 'boolean' ? candidate.verified : undefined,
+      verified: undefined,
     });
 
     if (!result.ok) {
