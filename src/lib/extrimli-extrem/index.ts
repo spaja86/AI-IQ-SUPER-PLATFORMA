@@ -154,7 +154,7 @@ function buildSemaMuSemaFormula(
     ...(hasFormulaMarker('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
     ...(hasFormulaMarker('EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
   ];
-  const formulaHolds = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
+  const formulaHolds = inputSubstitutions.length === 0 && Math.abs(computedMuSema - expectedMuSema) <= 0.01;
   const deterministic = Number.isFinite(sema)
     && Number.isFinite(allSema)
     && Number.isFinite(expectedMuSema)
