@@ -121,6 +121,11 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
+  await test('POST /feed rejects unknown action', async () => {
+    const response = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', { action: 'delete' }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
   await test('POST /groups creates group and join path works', async () => {
     _resetSpajaDrustvenaMrezaState();
     const created = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
@@ -148,6 +153,11 @@ async function runTests(): Promise<void> {
 
   await test('POST /groups rejects malformed join payload', async () => {
     const response = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', { action: 'join' }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /groups rejects unknown action', async () => {
+    const response = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', { action: 'archive' }));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
@@ -179,6 +189,11 @@ async function runTests(): Promise<void> {
 
   await test('POST /messages rejects malformed reply payload', async () => {
     const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', { action: 'reply' }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /messages rejects unknown action', async () => {
+    const response = await postMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages', 'POST', { action: 'close' }));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
@@ -218,6 +233,11 @@ async function runTests(): Promise<void> {
 
   await test('POST /events rejects malformed RSVP payload', async () => {
     const response = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', { action: 'rsvp' }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /events rejects unknown action', async () => {
+    const response = await postEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events', 'POST', { action: 'cancel' }));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 

@@ -47,6 +47,9 @@ export async function POST(req: NextRequest) {
 
     const candidate = body as Record<string, unknown>;
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
+    if (!['create', 'join'].includes(action)) {
+      return apiError('BAD_REQUEST', 'action must be one of: create, join');
+    }
 
     const result = action === 'join'
       ? (() => {

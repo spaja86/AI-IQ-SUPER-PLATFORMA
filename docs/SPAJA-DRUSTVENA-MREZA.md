@@ -30,7 +30,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 ## Contracts
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | Display name | `SPAJA Društvena Mreža` |
 | Canonical slug | `spaja-drustvena-mreza` |
 | Contract version | `v1` |
@@ -54,7 +54,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 ## KPI targets
 
 | KPI | Target |
-|---|---|
+| --- | --- |
 | Engine/domain operation | ≤ 50ms |
 | API response | ≤ 200ms |
 | Audience coverage | internal + partner + public |

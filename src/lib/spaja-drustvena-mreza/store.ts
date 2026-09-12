@@ -328,8 +328,9 @@ export function createPost(input: {
   }
 
   const normalizedContent = input.content.trim();
+  const createdAt = nextNow();
   const authorPosts = Array.from(POST_STORE.values()).filter((post) => post.authorId === input.authorId);
-  const recentCount = authorPosts.filter((post) => post.createdAt >= peekNow() - ONE_HOUR_MS).length;
+  const recentCount = authorPosts.filter((post) => post.createdAt >= createdAt - ONE_HOUR_MS).length;
   if (recentCount >= SPAJA_DRUSTVENA_MREZA_POST_RATE_LIMIT_PER_HOUR) {
     return { ok: false, code: 'TOO_MANY_REQUESTS', message: 'post rate limit exceeded for this author' };
   }
@@ -346,7 +347,7 @@ export function createPost(input: {
     tags: normalizeTags(input.tags),
     reactions: [],
     flaggedBy: [],
-    createdAt: nextNow(),
+    createdAt,
   };
   POST_STORE.set(post.id, clone(post));
 

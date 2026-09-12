@@ -46,6 +46,9 @@ export async function POST(req: NextRequest) {
 
     const candidate = body as Record<string, unknown>;
     const action = typeof candidate.action === 'string' ? candidate.action : 'create';
+    if (!['create', 'rsvp'].includes(action)) {
+      return apiError('BAD_REQUEST', 'action must be one of: create, rsvp');
+    }
 
     const result = action === 'rsvp'
       ? (() => {
