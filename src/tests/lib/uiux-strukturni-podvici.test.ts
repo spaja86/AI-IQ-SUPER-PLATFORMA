@@ -222,8 +222,7 @@ async function runTests(): Promise<void> {
     assertEqual(resolveDeponRole('DEPON-02'), 'core-operational', 'core role');
     assertEqual(resolveDeponRole('DEPON-15'), 'marketplace', 'marketplace role');
     assertEqual(resolveDeponRole('depon-15-search-stable'), 'marketplace', 'lowercase role');
-    assertEqual(resolveDeponRole({ depoId: 'io-openui-ao-home', deponRole: 'marketplace' }), 'marketplace', 'identity role');
-    assertEqual(resolveDeponRole({ depoId: 'DEPON-02', deponRole: 'marketplace' }), 'core-operational', 'canonical id wins');
+    assertEqual(resolveDeponRole('io-openui-ao-home'), 'core-operational', 'freeform id fallback');
     assertEqual(DEPON_ROLE_CATALOGS.length, 2, 'dva kataloga');
     assertEqual(getDeponRoleCatalog('marketplace').primaryIntents[0], 'discovery', 'marketplace intent');
     assertEqual(resolveRolloutPriority('depon-15'), 1, 'lowercase rollout prioritet');
@@ -305,6 +304,31 @@ async function runTests(): Promise<void> {
 
     assertEqual(audit.fallbackUsed, false, 'stable winner nije fallback');
     assertEqual(audit.selectedBy, 'kpi-model', 'selectedBy default');
+  });
+
+  await test('buildVariantSelectionAuditEntry automatski prepoznaje fallback kandidat po candidateId', () => {
+    const variants = generateStructuredVariants({
+      depo,
+      catalog,
+      seed: 'seed-7',
+      maxCandidates: 1,
+    });
+    const ranked = rankVariants([
+      {
+        schema: {
+          ...variants[0],
+          metadata: { ...variants[0].metadata, candidateId: 'fallback-stable', stableCandidateId: 'fallback-stable' },
+        },
+        metrics: { conversionRate: 0.5, taskCompletionMs: 7000, errorRate: 0.03, engagementScore: 0.6 },
+      },
+    ]);
+    const audit = buildVariantSelectionAuditEntry({
+      selected: ranked[0]!,
+      context: { depoId: 'DEPON-15', segment: 'returning', fallbackStableId: 'fallback-stable', intent: 'discovery' },
+    });
+
+    assertEqual(audit.fallbackUsed, true, 'auto fallback');
+    assertEqual(audit.selectedBy, 'stable-fallback', 'selectedBy auto fallback');
   });
 
   await test('isSchemaVersionSupported potvrđuje podržanu verziju šeme', () => {

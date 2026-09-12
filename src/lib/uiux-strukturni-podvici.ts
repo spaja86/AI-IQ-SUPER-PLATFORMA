@@ -402,9 +402,25 @@ function createSeededIndex(seed: string, salt: string, max: number): number {
   return max === 0 ? 0 : hash % max;
 }
 
-function extractCanonicalDeponId(identityOrDepoId: string): string | null {
-  const match = identityOrDepoId.toUpperCase().match(/DEPON-(\d{2})/);
-  return match ? `DEPON-${match[1]}` : null;
+function extractCanonicalDeponId(depoId: string): string | null {
+  const match = depoId.match(/^(DEPON-\d{2})(?:-[A-Za-z0-9-]+)?$/i);
+  if (!match) return null;
+  return match[1]!.toUpperCase();
+}
+
+function resolveDeponRoleFromCanonicalId(canonicalId: string | null): DeponUXRole {
+  if (!canonicalId) return 'core-operational';
+  const normalized = Number.parseInt(canonicalId.replace('DEPON-', ''), 10);
+  return Number.isFinite(normalized) && normalized >= 13 && normalized <= 18 ? 'marketplace' : 'core-operational';
+}
+
+export function resolveDeponRole(depoId: string): DeponUXRole {
+  return resolveDeponRoleFromCanonicalId(extractCanonicalDeponId(depoId));
+}
+
+function resolveDeponRoleFromIdentity(identity: Pick<DepoIdentityLayer, 'depoId' | 'deponRole'>): DeponUXRole {
+  const canonicalId = extractCanonicalDeponId(identity.depoId);
+  return canonicalId ? resolveDeponRoleFromCanonicalId(canonicalId) : identity.deponRole;
 }
 
 function buildCandidate(
@@ -414,7 +430,7 @@ function buildCandidate(
   sequence: number,
 ): CanonicalUIUXSchema {
   const salt = `${depo.depoId}:${sequence}`;
-  const resolvedRole = resolveDeponRole(depo);
+  const resolvedRole = resolveDeponRoleFromIdentity(depo);
 
   const informationArchitecture: InformationArchitectureLayer = {
     navigacija: catalog.navigacije[createSeededIndex(seed, `${salt}:nav`, catalog.navigacije.length)] ?? [],
@@ -476,21 +492,6 @@ export function meetsDeponDiversityTarget(axes: DeponDiversityAxis[] = DEPON_DIV
   return estimateDiversityMatrixSpace(axes) >= DEPON_DIVERSITY_KPI.minimumSpace;
 }
 
-export function resolveDeponRole(identityOrDepoId: string | Pick<DepoIdentityLayer, 'depoId' | 'deponRole'>): DeponUXRole {
-  if (typeof identityOrDepoId !== 'string') {
-    const canonicalId = extractCanonicalDeponId(identityOrDepoId.depoId);
-    if (!canonicalId) return identityOrDepoId.deponRole;
-    const normalized = Number.parseInt(canonicalId.replace('DEPON-', ''), 10);
-    return Number.isFinite(normalized) && normalized >= 13 && normalized <= 18
-      ? 'marketplace'
-      : 'core-operational';
-  }
-  const canonicalId = extractCanonicalDeponId(identityOrDepoId);
-  if (!canonicalId) return 'core-operational';
-  const normalized = Number.parseInt(canonicalId.replace('DEPON-', ''), 10);
-  return Number.isFinite(normalized) && normalized >= 13 && normalized <= 18 ? 'marketplace' : 'core-operational';
-}
-
 export function getDeponRoleCatalog(role: DeponUXRole): DeponRoleCatalog {
   return DEPON_ROLE_CATALOGS.find((catalog) => catalog.role === role) ?? DEPON_ROLE_CATALOGS[0]!;
 }
@@ -516,7 +517,7 @@ export function buildCanonicalDeponSchema(input: {
   performanceBudget?: Partial<PerformanceBudget>;
   metadata?: Partial<CanonicalUIUXSchema['metadata']>;
 }): CanonicalUIUXSchema {
-  const roleCatalog = getDeponRoleCatalog(resolveDeponRole(input.identity));
+  const roleCatalog = getDeponRoleCatalog(resolveDeponRoleFromIdentity(input.identity));
   return {
     schemaVersion: SCHEMA_REGISTRY.current,
     identity: input.identity,
@@ -686,14 +687,17 @@ export function buildVariantSelectionAuditEntry(params: {
 }): VariantSelectionAuditEntry {
   const stableCandidateId = params.selected.schema.metadata.stableCandidateId ?? null;
   const candidateId = params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`;
-  const fallbackUsed = params.selectedBy === 'stable-fallback';
+  const resolvedSelectedBy =
+    params.selectedBy ??
+    (params.context.fallbackStableId && candidateId === params.context.fallbackStableId ? 'stable-fallback' : 'kpi-model');
+  const fallbackUsed = resolvedSelectedBy === 'stable-fallback';
 
   return {
     depoId: params.context.depoId,
     candidateId,
     stableCandidateId,
     selectedAt: new Date().toISOString(),
-    selectedBy: params.selectedBy ?? (fallbackUsed ? 'stable-fallback' : 'kpi-model'),
+    selectedBy: resolvedSelectedBy,
     segment: params.context.segment,
     intent: params.context.intent,
     fallbackUsed,
