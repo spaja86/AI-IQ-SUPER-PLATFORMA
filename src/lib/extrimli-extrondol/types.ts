@@ -156,6 +156,13 @@ export interface ExtrimliExtrondolB2bReadiness {
       discanInKibenState: ExtrimliExtremProfilerReport['resolutionReadiness']['discanInKibenState'];
       blockerActive: boolean;
     };
+    semaFormulaGate: {
+      canonicalExpression: 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
+      status: ExtrimliExtremProfilerReport['semaMuSemaFormula']['status'];
+      muSemaConclusion: ExtrimliExtremProfilerReport['semaMuSemaFormula']['muSemaConclusion'];
+      formulaHolds: boolean;
+      blockerReasons: string[];
+    };
   };
 }
 
@@ -193,6 +200,13 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     rekulitiPoRauletu: ExtrimliExtremProfilerReport['resolutionReadiness']['rekulitiPoRauletu'];
     discanInKibenState: ExtrimliExtremProfilerReport['resolutionReadiness']['discanInKibenState'];
     blockerActive: boolean;
+  };
+  semaFormulaGovernance: {
+    canonicalExpression: 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
+    status: ExtrimliExtremProfilerReport['semaMuSemaFormula']['status'];
+    muSemaConclusion: ExtrimliExtremProfilerReport['semaMuSemaFormula']['muSemaConclusion'];
+    formulaHolds: boolean;
+    blockerReasons: string[];
   };
   humanReviewRequired: true;
   rollbackPlanRequired: true;
@@ -287,7 +301,9 @@ export interface ExtrimliExtrondolStartProject {
     'dinkos',
     'distanceRatioEkvilaterTable',
     'paymentVerification',
-    'extremProfiler'
+    'extremProfiler',
+    'extremProfiler.resolutionReadiness',
+    'extremProfiler.semaMuSemaFormula'
   ];
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
@@ -305,7 +321,8 @@ export interface ExtrimliExtrondolStartProject {
       'distanceRatioEkvilaterTable',
       'paymentVerification',
       'extremProfiler',
-      'extremProfiler.resolutionReadiness'
+      'extremProfiler.resolutionReadiness',
+      'extremProfiler.semaMuSemaFormula'
     ];
   };
   qualityGates: {

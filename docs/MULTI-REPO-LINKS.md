@@ -26,7 +26,7 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 
 | This repo | Linked repo | Note |
 |---|---|---|
-| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI MASTER 3 coordinated release governance | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream rollout notes and WAWE/release-audit alignment in sync for EXTRIMLI + EXTRONDOL + EXTREM consumers |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI MASTER 3 coordinated release governance | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream rollout notes and WAWE/release-audit alignment in sync for EXTRIMLI + EXTRONDOL + EXTREM consumers, including canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` governance signal fields |
 
 Audit reference convention:
 

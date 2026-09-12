@@ -14,6 +14,7 @@ import type {
   ExtrimliExtremProfilerReport,
   ExtrimliExtremRekulitiPoRauletuPolicy,
   ExtrimliExtremResolutionInput,
+  ExtrimliExtremSemaFormulaEvaluation,
 } from './types';
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
@@ -30,6 +31,7 @@ import {
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
+  EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
 } from './types';
 
 function parsePercentEnv(name: string, fallback: number, degradedSources: string[]): number {
@@ -56,6 +58,18 @@ function parseLatencyEnv(name: string, fallback: number, degradedSources: string
   }
   if (parsed < 0) degradedSources.push(`out-of-range:${name}`);
   return round(clamp(parsed, 0, 500), 2);
+}
+
+function parseFormulaScalarEnv(name: string, fallback: number, max: number, degradedSources: string[]): number {
+  const raw = process.env[name];
+  if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed)) {
+    degradedSources.push(`invalid-env:${name}`);
+    return fallback;
+  }
+  if (parsed < 0 || parsed > max) degradedSources.push(`out-of-range:${name}`);
+  return round(clamp(parsed, 0, max), 2);
 }
 
 function classifyConflict(conflictScore: number): ExtrimliExtremConflictIntensity {
@@ -117,6 +131,71 @@ function classifyRekulitiPoRauletuPolicy(input: {
   return 'ALLOW';
 }
 
+function buildSemaMuSemaFormula(
+  profileInput: ExtrimliExtremProfileInput,
+  resolutionInput: ExtrimliExtremResolutionInput,
+  degradedSources: string[],
+): ExtrimliExtremSemaFormulaEvaluation {
+  const beforeEvalDegradedCount = degradedSources.length;
+  const derivedSema = round(
+    clamp((profileInput.sceneLoadPercent * 0.6) + (resolutionInput.rezolucijaCompletenessPercent * 0.4), 0, 100),
+    2,
+  );
+  const derivedAllSema = round(clamp(100 - resolutionInput.discanPressurePercent, 0, 100), 2);
+  const sema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_SHEMA_VALUE', derivedSema, 100, degradedSources);
+  const allSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE', derivedAllSema, 100, degradedSources);
+  const computedMuSema = round(clamp((sema * 2) + allSema, 0, 300), 2);
+  const expectedMuSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_MUSHEMA_VALUE', computedMuSema, 300, degradedSources);
+  const formulaDegradedSources = degradedSources.slice(beforeEvalDegradedCount);
+  const hasFormulaMarker = (envName: string) => formulaDegradedSources.includes(`invalid-env:${envName}`)
+    || formulaDegradedSources.includes(`out-of-range:${envName}`);
+  const invalidFormulaInputs = [
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
+  ];
+  const outOfRangeFormulaInputs = [
+    ...(formulaDegradedSources.includes('out-of-range:EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('out-of-range:EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('out-of-range:EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
+  ];
+  const inputSubstitutions = [
+    ...(hasFormulaMarker('EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
+    ...(hasFormulaMarker('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
+    ...(hasFormulaMarker('EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
+  ];
+  const hasSubstitutions = inputSubstitutions.length > 0;
+  const formulaHolds = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
+  const deterministic = Number.isFinite(sema)
+    && Number.isFinite(allSema)
+    && Number.isFinite(expectedMuSema)
+    && Number.isFinite(computedMuSema)
+    && !hasSubstitutions;
+  const blockerReasons = [
+    ...(!hasSubstitutions && !formulaHolds ? [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`] : []),
+    ...(deterministic ? [] : ['ŠEMA formula inputs are not deterministic']),
+    ...(invalidFormulaInputs.length > 0 ? [`Formula inputs used fallback for invalid env values: ${invalidFormulaInputs.join(', ')}`] : []),
+    ...(outOfRangeFormulaInputs.length > 0 ? [`Formula inputs were clamped for out-of-range values: ${outOfRangeFormulaInputs.join(', ')}`] : []),
+  ];
+
+  return {
+    canonicalExpression: EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
+    scopeLock: ['EXTRIMLI', 'EXTRONDOL', 'EXTREM'],
+    inputs: {
+      sema,
+      allSema,
+      expectedMuSema,
+    },
+    computedMuSema,
+    formulaHolds,
+    status: !hasSubstitutions && formulaHolds && deterministic ? 'PASSED' : 'BLOCKED',
+    deterministic,
+    inputSubstitutions,
+    blockerReasons,
+    muSemaConclusion: formulaHolds && deterministic ? 'MUŠEMA_CONFIRMED' : 'MUŠEMA_BLOCKED',
+  };
+}
+
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
@@ -137,6 +216,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const conflictIntensity = classifyConflict(conflictScore);
   const optimizationTier = mapOptimizationTier(conflictIntensity);
+  const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
     clamp(
       resolutionInput.rezolucijaCompletenessPercent * 0.5
@@ -194,7 +274,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const freezeRequired = conflictIntensity === 'HIGH'
     || conflictIntensity === 'CRITICAL'
     || !withinTargets
-    || blockerActive;
+    || blockerActive
+    || semaMuSemaFormula.status === 'BLOCKED';
 
   const governanceReasons = [
     ...(freezeRequired ? ['DISKVIT conflict or KPI pressure requires WAWE freeze before promotion.'] : []),
@@ -202,12 +283,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(bottleneckDetected ? ['Browser graphics bottleneck detected in DISKVIT layer.'] : []),
     ...(rekulitiPoRauletu === 'WARN' ? ['REKULITI PO RAULETU remains in warning posture for REZOLUCIJA/EKODOR review.'] : []),
     ...(rekulitiPoRauletu === 'FREEZE' ? ['REKULITI PO RAULETU requires freeze because DISCAN in KIBEN or REZOLUCIJA readiness is blocked.'] : []),
+    ...(semaMuSemaFormula.status === 'BLOCKED'
+      ? [`ŠEMA formula gate blocked: ${semaMuSemaFormula.blockerReasons.join('; ') || 'MUŠEMA validation failed.'}`]
+      : ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA gate is confirmed.']),
     ...(maximumGraphicsUnlockEligible ? ['Maximum graphics unlock is eligible under current profile.'] : []),
   ];
 
   if (!withinTargets) {
     degradedSources.push('profiler-kpi-breach');
   }
+  if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
@@ -249,6 +334,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && ['ALIGNED', 'WATCH', 'BLOCKED'].includes(ekodorState)
         && ['CLEAR', 'WATCH', 'BLOCKED'].includes(discanInKibenState)
         && ['ALLOW', 'WARN', 'FREEZE'].includes(rekulitiPoRauletu),
+    },
+    {
+      id: 'schema-mushema-canonical-lock',
+      description: 'Canonical formula ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA is locked for EXTRIMLI/EXTRONDOL/EXTREM scope.',
+      passed: semaMuSemaFormula.canonicalExpression === EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION
+        && semaMuSemaFormula.scopeLock.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM',
+    },
+    {
+      id: 'schema-mushema-governance-gate',
+      description: 'MUŠEMA conclusion blocks WAWE promotion when the canonical formula does not hold.',
+      passed: semaMuSemaFormula.formulaHolds
+        ? semaMuSemaFormula.status === 'PASSED' && semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_CONFIRMED'
+        : semaMuSemaFormula.status === 'BLOCKED' && semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_BLOCKED',
+    },
+    {
+      id: 'schema-mushema-degraded-fallback',
+      description: 'Invalid ŠEMA formula env inputs are additive-only (no 500), explicitly marked with substitutions, and kept in degraded posture.',
+      passed: semaMuSemaFormula.inputSubstitutions.length === 0
+        || (semaMuSemaFormula.status === 'BLOCKED' && degradedSources.length > 0),
     },
   ];
 
@@ -302,6 +406,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       conflictIntensity,
       optimizationTier,
     },
+    semaMuSemaFormula,
     resolutionReadiness: {
       rezolucijaScore,
       ekodorState,
@@ -353,6 +458,7 @@ export type {
   ExtrimliExtremProfilerReport,
   ExtrimliExtremRekulitiPoRauletuPolicy,
   ExtrimliExtremResolutionInput,
+  ExtrimliExtremSemaFormulaEvaluation,
 } from './types';
 
 export {
@@ -370,4 +476,5 @@ export {
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
+  EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
 } from './types';
