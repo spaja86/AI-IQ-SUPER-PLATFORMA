@@ -476,7 +476,14 @@ export function meetsDeponDiversityTarget(axes: DeponDiversityAxis[] = DEPON_DIV
 }
 
 export function resolveDeponRole(identityOrDepoId: string | Pick<DepoIdentityLayer, 'depoId' | 'deponRole'>): DeponUXRole {
-  if (typeof identityOrDepoId !== 'string') return identityOrDepoId.deponRole;
+  if (typeof identityOrDepoId !== 'string') {
+    const canonicalId = extractCanonicalDeponId(identityOrDepoId.depoId);
+    if (!canonicalId) return identityOrDepoId.deponRole;
+    const normalized = Number.parseInt(canonicalId.replace('DEPON-', ''), 10);
+    return Number.isFinite(normalized) && normalized >= 13 && normalized <= 18
+      ? 'marketplace'
+      : 'core-operational';
+  }
   const canonicalId = extractCanonicalDeponId(identityOrDepoId);
   if (!canonicalId) return 'core-operational';
   const normalized = Number.parseInt(canonicalId.replace('DEPON-', ''), 10);
@@ -678,9 +685,7 @@ export function buildVariantSelectionAuditEntry(params: {
 }): VariantSelectionAuditEntry {
   const stableCandidateId = params.selected.schema.metadata.stableCandidateId ?? null;
   const candidateId = params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`;
-  const fallbackUsed =
-    params.selectedBy === 'stable-fallback' ||
-    (!!params.context.fallbackStableId && candidateId === params.context.fallbackStableId);
+  const fallbackUsed = params.selectedBy === 'stable-fallback';
 
   return {
     depoId: params.context.depoId,

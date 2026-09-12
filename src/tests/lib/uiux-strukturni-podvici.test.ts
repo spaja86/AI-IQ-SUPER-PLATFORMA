@@ -223,6 +223,7 @@ async function runTests(): Promise<void> {
     assertEqual(resolveDeponRole('DEPON-15'), 'marketplace', 'marketplace role');
     assertEqual(resolveDeponRole('depon-15-search-stable'), 'marketplace', 'lowercase role');
     assertEqual(resolveDeponRole({ depoId: 'io-openui-ao-home', deponRole: 'marketplace' }), 'marketplace', 'identity role');
+    assertEqual(resolveDeponRole({ depoId: 'DEPON-02', deponRole: 'marketplace' }), 'core-operational', 'canonical id wins');
     assertEqual(DEPON_ROLE_CATALOGS.length, 2, 'dva kataloga');
     assertEqual(getDeponRoleCatalog('marketplace').primaryIntents[0], 'discovery', 'marketplace intent');
     assertEqual(resolveRolloutPriority('depon-15'), 1, 'lowercase rollout prioritet');
