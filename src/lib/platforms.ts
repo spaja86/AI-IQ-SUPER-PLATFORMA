@@ -119,7 +119,7 @@ export const platforms: Platform[] = [
     icon: '👥',
     techStack: ['Next.js', 'TypeScript', 'API-first routes', 'Repo-local state'],
     features: ['Profili', 'Feed', 'Grupe', 'Poruke', 'Događaji', 'Notifikacije', 'Audience zones', 'Moderation rules'],
-    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-social.vercel.app', projectId: 'spaja-social', vercelProject: 'spaja-social', framework: 'nextjs', buildCommand: 'npm run build' },
+    deploy: { status: 'repo-local', provider: 'vercel', domain: 'ai-iq-super-platforma.vercel.app', projectId: 'ai-iq-super-platforma', vercelProject: 'ai-iq-super-platforma', framework: 'nextjs', buildCommand: 'npm run build' },
   },
   // ── Commerce ──────────────────────────────────────────────────────────
   {

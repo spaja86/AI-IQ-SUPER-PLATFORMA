@@ -575,7 +575,7 @@ export function createEvent(input: {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'title and description are required' };
   }
   if (!Number.isFinite(input.scheduledAt) || input.scheduledAt <= Date.now()) {
-    return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'scheduledAt must be a future unix timestamp' };
+    return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'scheduledAt must be a future Unix timestamp in milliseconds' };
   }
   if (!Number.isInteger(input.capacity) || input.capacity < 2 || input.capacity > 500) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'capacity must be an integer in [2, 500]' };

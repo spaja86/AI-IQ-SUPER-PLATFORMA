@@ -41,7 +41,7 @@ permissions:
 
 jobs:
   validate:
-    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@e6629641d114bc2fd8ed5e58ddc128c273ba7243
     with:
       domain: spaja-drustvena-mreza
       lint_paths: >-
