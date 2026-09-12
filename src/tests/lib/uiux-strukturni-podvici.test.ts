@@ -1,11 +1,20 @@
 import type { DepoIdentityLayer, GeneratorCatalog } from '@/lib/uiux-strukturni-podvici';
 import {
+  buildCanonicalDeponSchema,
+  buildVariantSelectionAuditEntry,
+  DEPON_DIVERSITY_KPI,
+  DEPON_ROLE_CATALOGS,
   REFERENCE_DEPOT_POSSIBILITY_SPACE,
+  estimateDiversityMatrixSpace,
   detectBlockedPatterns,
   estimatePossibilitySpace,
   generateStructuredVariants,
+  getDeponRoleCatalog,
   isSchemaVersionSupported,
+  meetsDeponDiversityTarget,
   rankVariants,
+  resolveDeponRole,
+  resolveRolloutPriority,
   selectBestVariant,
   shouldStopExperiment,
   validateStructure,
@@ -42,6 +51,7 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
 const depo: DepoIdentityLayer = {
   depoId: 'io-openui-ao-home',
   depoTip: 'platform',
+  deponRole: 'marketplace',
   domen: 'io-openui-ao',
   korisnickiSegment: 'returning',
   trziste: 'rs',
@@ -86,6 +96,12 @@ async function runTests(): Promise<void> {
   await test('estimatePossibilitySpace podržava 870B referentni prostor', () => {
     const result = estimatePossibilitySpace([870_000, 1_000, 1_000]);
     assert(result >= REFERENCE_DEPOT_POSSIBILITY_SPACE, 'prostor mora biti najmanje 870B');
+  });
+
+  await test('DEPON diversity matrix prelazi KPI cilj 700000 ZILIJARDI', () => {
+    const result = estimateDiversityMatrixSpace();
+    assert(result >= DEPON_DIVERSITY_KPI.minimumSpace, 'matrica mora preći target');
+    assertEqual(meetsDeponDiversityTarget(), true, 'target mora biti dostignut');
   });
 
   await test('generateStructuredVariants ne enumerira sve već vraća ograničen skup kandidata', () => {
@@ -200,6 +216,65 @@ async function runTests(): Promise<void> {
   await test('detectBlockedPatterns vraća samo blokirane UX obrasce', () => {
     const patterns = detectBlockedPatterns(['hidden-primary-cta', 'smooth-nav', 'contrast-under-aa']);
     assertEqual(patterns.length, 2, 'broj blokiranih');
+  });
+
+  await test('resolveDeponRole i katalog razlikuju core i marketplace DEPON slojeve', () => {
+    assertEqual(resolveDeponRole('DEPON-02'), 'core-operational', 'core role');
+    assertEqual(resolveDeponRole('DEPON-15'), 'marketplace', 'marketplace role');
+    assertEqual(DEPON_ROLE_CATALOGS.length, 2, 'dva kataloga');
+    assertEqual(getDeponRoleCatalog('marketplace').primaryIntents[0], 'discovery', 'marketplace intent');
+  });
+
+  await test('buildCanonicalDeponSchema postavlja governance, budžete i rollout prioritet', () => {
+    const schema = buildCanonicalDeponSchema({
+      identity: depo,
+      navigacija: ['home', 'apps'],
+      sekcije: ['hero', 'leaderboard'],
+      prioriteti: ['value-proposition', 'conversion'],
+      sekvence: ['hero', 'tabela', 'cta'],
+      varijante: ['balanced'],
+      stanja: ['default', 'loading', 'error'],
+      styleSystem: { tema: 'auto', tokenSet: 'spaja-market-aa', responsive: ['sm', 'lg'], a11yNivo: 'AA' },
+      metadata: { stableCandidateId: 'depon-15-search-stable', variantFamily: 'search-first' },
+    });
+
+    assertEqual(schema.governance.fallbackStableCandidateId, 'depon-15-search-stable', 'fallback id');
+    assertEqual(schema.performanceBudget.maxRenderMs > 0, true, 'render budžet');
+    assertEqual(schema.metadata.rolloutPriority, resolveRolloutPriority(depo.depoId), 'rollout prioritet');
+  });
+
+  await test('buildVariantSelectionAuditEntry ostavlja fallback audit trag', () => {
+    const variants = generateStructuredVariants({
+      depo,
+      catalog,
+      seed: 'seed-5',
+      maxCandidates: 2,
+    });
+    const ranked = rankVariants([
+      {
+        schema: {
+          ...variants[0],
+          metadata: { ...variants[0].metadata, candidateId: 'candidate-a', stableCandidateId: 'candidate-a' },
+        },
+        metrics: { conversionRate: 0.4, taskCompletionMs: 8000, errorRate: 0.05, engagementScore: 0.4 },
+        stable: true,
+      },
+      {
+        schema: {
+          ...variants[1],
+          metadata: { ...variants[1].metadata, candidateId: 'candidate-b' },
+        },
+        metrics: { conversionRate: 0.3, taskCompletionMs: 9000, errorRate: 0.06, engagementScore: 0.3 },
+      },
+    ]);
+    const audit = buildVariantSelectionAuditEntry({
+      selected: ranked[0]!,
+      context: { depoId: 'DEPON-15', segment: 'returning', fallbackStableId: 'candidate-a', intent: 'discovery' },
+      selectedBy: 'stable-fallback',
+    });
+
+    assertEqual(audit.fallbackUsed, true, 'fallback used');
+    assertEqual(audit.selectedBy, 'stable-fallback', 'selectedBy');
   });
 
   await test('isSchemaVersionSupported potvrđuje podržanu verziju šeme', () => {

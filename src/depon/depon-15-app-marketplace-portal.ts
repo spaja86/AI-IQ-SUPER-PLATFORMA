@@ -14,6 +14,7 @@
 import type { DeponId } from './depon-registry';
 import type { AppEntry, AppCategory, MonetizationModel, ComplianceCertification } from './depon-13-app-value-registry';
 import type { RankEntry, Leaderboard } from './depon-14-value-ranking-engine';
+import type { SekvencaTip } from '../lib/types';
 
 export const DEPON_ID: DeponId = 'DEPON-15';
 
@@ -27,6 +28,91 @@ export const MARKETPLACE_CONFIG = {
   gaugeMaxValue: 100,
   spajaProRecommendations: 3,
 } as const;
+
+export type MarketplaceUXFamily =
+  | 'leaderboard-first'
+  | 'search-first'
+  | 'compliance-first'
+  | 'monetization-first'
+  | 'recommendation-first'
+  | 'state-customized'
+  | 'enterprise-review';
+
+export type MarketplaceFamilyKPI =
+  | 'conversion'
+  | 'task-completion'
+  | 'error-rate'
+  | 'engagement'
+  | 'retention'
+  | 'trust-compliance';
+
+export type MarketplaceUXFamilyConfig = {
+  family: MarketplaceUXFamily;
+  label: string;
+  allowedSequences: SekvencaTip[][];
+  primaryKpis: MarketplaceFamilyKPI[];
+  intents: string[];
+  stableCandidateId: string;
+};
+
+export const DEPON_15_UX_FAMILIES: MarketplaceUXFamilyConfig[] = [
+  {
+    family: 'leaderboard-first',
+    label: 'Leaderboard-first ranking overview',
+    allowedSequences: [['hero', 'statistika', 'tabela', 'cta'], ['hero', 'tabela', 'lista', 'cta']],
+    primaryKpis: ['engagement', 'task-completion'],
+    intents: ['ranking', 'discovery'],
+    stableCandidateId: 'depon-15-leaderboard-stable',
+  },
+  {
+    family: 'search-first',
+    label: 'Search and filter discovery flow',
+    allowedSequences: [['hero', 'lista', 'cta'], ['tekst', 'lista', 'baner', 'cta']],
+    primaryKpis: ['conversion', 'task-completion'],
+    intents: ['discovery', 'ranking'],
+    stableCandidateId: 'depon-15-search-stable',
+  },
+  {
+    family: 'compliance-first',
+    label: 'Compliance badges before ranking',
+    allowedSequences: [['hero', 'kartice', 'tabela', 'cta'], ['tekst', 'kartice', 'cta']],
+    primaryKpis: ['trust-compliance', 'conversion'],
+    intents: ['compliance-review', 'discovery'],
+    stableCandidateId: 'depon-15-compliance-stable',
+  },
+  {
+    family: 'monetization-first',
+    label: 'Revenue and tier visibility',
+    allowedSequences: [['hero', 'statistika', 'kartice', 'cta'], ['hero', 'progres', 'cta']],
+    primaryKpis: ['conversion', 'engagement'],
+    intents: ['monetization', 'ranking'],
+    stableCandidateId: 'depon-15-monetization-stable',
+  },
+  {
+    family: 'recommendation-first',
+    label: 'AI recommendation-led marketplace',
+    allowedSequences: [['hero', 'kartice', 'lista', 'cta'], ['hero', 'baner', 'lista', 'cta']],
+    primaryKpis: ['engagement', 'retention'],
+    intents: ['recommendation', 'discovery'],
+    stableCandidateId: 'depon-15-recommendation-stable',
+  },
+  {
+    family: 'state-customized',
+    label: 'State-aware marketplace layout',
+    allowedSequences: [['hero', 'tekst', 'kartice', 'cta'], ['hero', 'statistika', 'lista', 'cta']],
+    primaryKpis: ['retention', 'conversion'],
+    intents: ['discovery', 'enterprise-review'],
+    stableCandidateId: 'depon-15-state-stable',
+  },
+  {
+    family: 'enterprise-review',
+    label: 'Enterprise review and audit path',
+    allowedSequences: [['hero', 'tabela', 'kartice', 'cta'], ['tekst', 'tabela', 'cta']],
+    primaryKpis: ['trust-compliance', 'error-rate'],
+    intents: ['enterprise-review', 'compliance-review'],
+    stableCandidateId: 'depon-15-enterprise-stable',
+  },
+] as const;
 
 export const COMPLIANCE_BADGE_LABELS: Record<ComplianceCertification, string> = {
   HIPAA:    '🏥 HIPAA Certified',
@@ -313,6 +399,10 @@ export function sortEntries(
 
 export function getFeaturedApps(leaderboard: Leaderboard): RankEntry[] {
   return leaderboard.entries.slice(0, MARKETPLACE_CONFIG.featuredAppsCount);
+}
+
+export function getMarketplaceUXFamily(family: MarketplaceUXFamily): MarketplaceUXFamilyConfig {
+  return DEPON_15_UX_FAMILIES.find((item) => item.family === family) ?? DEPON_15_UX_FAMILIES[0]!;
 }
 
 export function getHealthStatus(): {

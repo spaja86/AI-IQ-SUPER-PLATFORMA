@@ -38,12 +38,14 @@ import {
 } from '../../depon/depon-14-value-ranking-engine';
 
 import {
+  DEPON_15_UX_FAMILIES,
   buildMarketplaceListItem,
   buildMarketplacePage,
   buildComplianceBadges,
   applyFilter,
   sortEntries,
   getFeaturedApps,
+  getMarketplaceUXFamily,
   buildSpajaProRecommendations,
   buildDeponValueGauge,
   MARKETPLACE_CONFIG,
@@ -538,6 +540,17 @@ async function runMarketplacePortalTests(): Promise<void> {
     assertEqual(excellent.tier, 'excellent', 'score 85 → excellent');
     const low = buildDeponValueGauge(5, 15);
     assertEqual(low.tier, 'low', 'score 15 → low');
+  });
+
+  await test('DEPON-15 exposes all planned UX families', () => {
+    assertEqual(DEPON_15_UX_FAMILIES.length, 7, 'family count');
+    assert(DEPON_15_UX_FAMILIES.every((family) => family.allowedSequences.length >= 1), 'allowed sequences');
+  });
+
+  await test('enterprise review family prioritizes trust/compliance KPI', () => {
+    const family = getMarketplaceUXFamily('enterprise-review');
+    assert(family.primaryKpis.includes('trust-compliance'), 'trust/compliance KPI');
+    assert(family.intents.includes('enterprise-review'), 'enterprise review intent');
   });
 }
 

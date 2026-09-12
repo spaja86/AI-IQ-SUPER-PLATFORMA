@@ -4,14 +4,28 @@ export const UIUX_STRUKTURNI_PODVICI_CILJ =
   'Generisati i upravljati masivnim prostorom UI/UX varijanti kroz pravila, ne ručno.' as const;
 
 export const REFERENCE_DEPOT_POSSIBILITY_SPACE = 870_000_000_000n;
+export const DEPON_RAZLICITOST_700000_ZILIJARDI = 700_000_000_000_000_000_000_000_000n;
 
 export type DepoTip = 'platform' | 'feature' | 'domain' | 'journey';
 export type UXSegment = 'new' | 'returning' | 'power' | 'enterprise';
 export type ResponsiveBreakpoints = 'sm' | 'md' | 'lg' | 'xl';
+export type DeponUXRole = 'core-operational' | 'marketplace';
+export type ScreenState = 'default' | 'loading' | 'empty' | 'error' | 'success';
+export type DeviceClass = 'mobile' | 'tablet' | 'desktop' | 'wall';
+export type UXIntent =
+  | 'task-completion'
+  | 'compliance-review'
+  | 'discovery'
+  | 'ranking'
+  | 'recommendation'
+  | 'monetization'
+  | 'enterprise-review';
+export type VariantLifecycleStatus = 'draft' | 'candidate' | 'stable' | 'fallback';
 
 export interface DepoIdentityLayer {
   depoId: string;
   depoTip: DepoTip;
+  deponRole: DeponUXRole;
   domen: string;
   korisnickiSegment: UXSegment;
   trziste: string;
@@ -26,7 +40,7 @@ export interface InformationArchitectureLayer {
 export interface ComponentLayer {
   sekvence: SekvencaTip[];
   varijante: string[];
-  stanja: ('default' | 'loading' | 'empty' | 'error' | 'success')[];
+  stanja: ScreenState[];
 }
 
 export interface StyleSystemLayer {
@@ -39,15 +53,41 @@ export interface StyleSystemLayer {
 export interface CanonicalUIUXSchema {
   schemaVersion: string;
   identity: DepoIdentityLayer;
+  deliveryContext: VariantDeliveryContext;
   informationArchitecture: InformationArchitectureLayer;
   components: ComponentLayer;
   styleSystem: StyleSystemLayer;
+  performanceBudget: PerformanceBudget;
+  governance: VariantGovernance;
   metadata: {
     generatedAt: string;
     source: 'composition-generator';
+    candidateId?: string;
     score?: number;
+    rolloutPriority?: number;
+    variantFamily?: string;
     stableCandidateId?: string;
   };
+}
+
+export interface VariantDeliveryContext {
+  drzava: string;
+  uredjaj: DeviceClass;
+  intent: UXIntent;
+  lifecycle: VariantLifecycleStatus;
+}
+
+export interface PerformanceBudget {
+  maxRenderMs: number;
+  maxHydrationMs: number;
+  maxInteractionMs: number;
+}
+
+export interface VariantGovernance {
+  requiredA11y: StyleSystemLayer['a11yNivo'];
+  blockedPatterns: string[];
+  fallbackStableCandidateId: string;
+  auditTrailKey: string;
 }
 
 export interface CompatibilityMatrix {
@@ -76,7 +116,7 @@ export interface GeneratorCatalog {
   prioriteti: string[][];
   sekvence: SekvencaTip[][];
   varijante: string[][];
-  stanja: ComponentLayer['stanja'][];
+  stanja: ScreenState[][];
   stilovi: StyleSystemLayer[];
 }
 
@@ -139,6 +179,8 @@ export interface KPIMetrics {
   taskCompletionMs: number;
   errorRate: number;
   engagementScore: number;
+  retentionRate?: number;
+  trustScore?: number;
 }
 
 export interface KPIWeights {
@@ -146,13 +188,17 @@ export interface KPIWeights {
   taskCompletion: number;
   errorRate: number;
   engagement: number;
+  retention: number;
+  trust: number;
 }
 
 export const DEFAULT_KPI_WEIGHTS: KPIWeights = {
-  conversionRate: 0.4,
+  conversionRate: 0.3,
   taskCompletion: 0.2,
-  errorRate: 0.25,
-  engagement: 0.15,
+  errorRate: 0.2,
+  engagement: 0.1,
+  retention: 0.1,
+  trust: 0.1,
 };
 
 export interface RankedVariant {
@@ -182,6 +228,51 @@ export interface ExperimentModel {
   stopCriteria: ExperimentStopCriteria;
 }
 
+export interface DeponDiversityAxis {
+  id: string;
+  label: string;
+  cardinality: number;
+  description: string;
+}
+
+export interface DeponDiversityKPI {
+  metric: 'depon-uiux-diversity-space';
+  label: 'razlicitosti-depona';
+  targetLabel: '700000 ZILIJARDI';
+  minimumSpace: bigint;
+  currentReferenceSpace: bigint;
+}
+
+export interface DeponRoleCatalog {
+  role: DeponUXRole;
+  deponRange: string;
+  primaryIntents: UXIntent[];
+  allowedSequences: SekvencaTip[][];
+  defaultTokenSets: string[];
+  supportedStates: ScreenState[];
+}
+
+export interface DeponRolloutStage {
+  priority: number;
+  deponId: string;
+  role: DeponUXRole;
+  reason: string;
+}
+
+export interface VariantSelectionAuditEntry {
+  depoId: string;
+  candidateId: string;
+  stableCandidateId: string | null;
+  selectedAt: string;
+  selectedBy: 'kpi-model' | 'stable-fallback' | 'manual-override';
+  segment: UXSegment;
+  intent: UXIntent;
+  fallbackUsed: boolean;
+  score: number | null;
+  auditTrailKey: string;
+  reason: string;
+}
+
 export interface OperatingPhase {
   faza: 1 | 2 | 3 | 4;
   naziv: string;
@@ -200,6 +291,8 @@ export interface OutputArtifacts {
   compatibilityMatrix: string;
   kpiDashboard: string;
   auditTrail: string;
+  variantRegistry: string;
+  rolloutPolicy: string;
 }
 
 export const OUTPUT_ARTIFACTS: OutputArtifacts = {
@@ -207,6 +300,8 @@ export const OUTPUT_ARTIFACTS: OutputArtifacts = {
   compatibilityMatrix: 'uiux-compatibility-matrix.json',
   kpiDashboard: 'uiux-kpi-dashboard',
   auditTrail: 'uiux-audit-trail',
+  variantRegistry: 'depon-variant-registry.json',
+  rolloutPolicy: 'depon-rollout-policy.json',
 };
 
 export interface RiskMitigation {
@@ -227,6 +322,68 @@ export const RISK_REGISTER: RiskMitigation[] = [
     risk: 'Operativno preopterećenje timova',
     mitigation: 'Fazno uvođenje sa prioritetnim use-case rollout-om i stabilnim fallback-om.',
   },
+  {
+    risk: 'Accessibility drift između DEPON slojeva',
+    mitigation: 'Centralizovati AA/AAA proveru, zabranjene obrasce i fallback stable kandidate.',
+  },
+];
+
+export const DEPON_DIVERSITY_KPI: DeponDiversityKPI = {
+  metric: 'depon-uiux-diversity-space',
+  label: 'razlicitosti-depona',
+  targetLabel: '700000 ZILIJARDI',
+  minimumSpace: DEPON_RAZLICITOST_700000_ZILIJARDI,
+  currentReferenceSpace: REFERENCE_DEPOT_POSSIBILITY_SPACE,
+};
+
+export const DEPON_DIVERSITY_AXES: DeponDiversityAxis[] = [
+  { id: 'segment', label: 'Segment', cardinality: 4, description: 'new, returning, power, enterprise' },
+  { id: 'state', label: 'Drzava', cardinality: 50, description: 'US state / market segmentation' },
+  { id: 'depon-role', label: 'DEPON role', cardinality: 2, description: 'core-operational or marketplace' },
+  { id: 'variant-status', label: 'Variant status', cardinality: 4, description: 'draft, candidate, stable, fallback' },
+  { id: 'device', label: 'Uredjaj', cardinality: 4, description: 'mobile, tablet, desktop, wall' },
+  { id: 'accessibility', label: 'Accessibility', cardinality: 2, description: 'AA or AAA' },
+  { id: 'intent', label: 'Intent', cardinality: 7, description: 'task/compliance/discovery/ranking/etc.' },
+  { id: 'navigation-catalog', label: 'Navigation catalog', cardinality: 750_000, description: 'Rule-curated nav templates' },
+  { id: 'ia-catalog', label: 'IA catalog', cardinality: 900_000, description: 'Canonical information architecture combinations' },
+  { id: 'component-catalog', label: 'Component catalog', cardinality: 1_500_000, description: 'Allowed component sequence families' },
+  { id: 'screen-state-packs', label: 'State packs', cardinality: 500, description: 'Reusable loading/empty/error/success packs' },
+  { id: 'token-systems', label: 'Token systems', cardinality: 256, description: 'Unified token/theme sets' },
+  { id: 'experiment-families', label: 'Experiment families', cardinality: 128, description: 'Governed family-level experiments' },
+];
+
+export const DEPON_ROLE_CATALOGS: DeponRoleCatalog[] = [
+  {
+    role: 'core-operational',
+    deponRange: 'DEPON-01..DEPON-12',
+    primaryIntents: ['task-completion', 'compliance-review', 'enterprise-review'],
+    allowedSequences: [
+      ['hero', 'progres', 'cta'],
+      ['hero', 'tabela', 'cta'],
+      ['tekst', 'lista', 'cta'],
+    ],
+    defaultTokenSets: ['spaja-core-aa', 'spaja-core-aaa'],
+    supportedStates: ['default', 'loading', 'empty', 'error', 'success'],
+  },
+  {
+    role: 'marketplace',
+    deponRange: 'DEPON-13..DEPON-18',
+    primaryIntents: ['discovery', 'ranking', 'recommendation', 'monetization'],
+    allowedSequences: [
+      ['hero', 'kartice', 'cta'],
+      ['hero', 'statistika', 'lista', 'cta'],
+      ['hero', 'tabela', 'baner', 'cta'],
+    ],
+    defaultTokenSets: ['spaja-market-aa', 'spaja-market-aaa'],
+    supportedStates: ['default', 'loading', 'empty', 'error', 'success'],
+  },
+];
+
+export const DEPON_ROLLOUT_PLAN: DeponRolloutStage[] = [
+  { priority: 1, deponId: 'DEPON-15', role: 'marketplace', reason: 'Pilot surface for discovery, ranking, filters, and recommendations.' },
+  { priority: 2, deponId: 'DEPON-02', role: 'core-operational', reason: 'State dashboard is the next highest-value controlled UX surface.' },
+  { priority: 3, deponId: 'DEPON-08', role: 'core-operational', reason: 'API/admin control surface benefits from task-first governance.' },
+  { priority: 4, deponId: 'DEPON-ALL-REMAINING', role: 'core-operational', reason: 'Scale governed patterns across remaining DEPON UI layers.' },
 ];
 
 export function estimatePossibilitySpace(cardinalities: number[]): bigint {
@@ -276,12 +433,109 @@ function buildCandidate(
   return {
     schemaVersion: SCHEMA_REGISTRY.current,
     identity: depo,
+    deliveryContext: {
+      drzava: depo.trziste.toUpperCase(),
+      uredjaj: 'desktop',
+      intent: depo.deponRole === 'marketplace' ? 'discovery' : 'task-completion',
+      lifecycle: 'candidate',
+    },
     informationArchitecture,
     components,
     styleSystem,
+    performanceBudget: {
+      maxRenderMs: GOVERNANCE_HEURISTICS.maxRenderMs,
+      maxHydrationMs: 180,
+      maxInteractionMs: 100,
+    },
+    governance: {
+      requiredA11y: GOVERNANCE_HEURISTICS.requiredA11y,
+      blockedPatterns: GOVERNANCE_HEURISTICS.blockedPatterns,
+      fallbackStableCandidateId: `${depo.depoId}-stable`,
+      auditTrailKey: `${depo.depoId}:uiux-audit-trail`,
+    },
     metadata: {
       generatedAt: new Date().toISOString(),
       source: 'composition-generator',
+      candidateId: `${depo.depoId}-${sequence}`,
+      rolloutPriority: resolveRolloutPriority(depo.depoId),
+    },
+  };
+}
+
+export function estimateDiversityMatrixSpace(axes: DeponDiversityAxis[] = DEPON_DIVERSITY_AXES): bigint {
+  return estimatePossibilitySpace(axes.map((axis) => axis.cardinality));
+}
+
+export function meetsDeponDiversityTarget(axes: DeponDiversityAxis[] = DEPON_DIVERSITY_AXES): boolean {
+  return estimateDiversityMatrixSpace(axes) >= DEPON_DIVERSITY_KPI.minimumSpace;
+}
+
+export function resolveDeponRole(depoId: string): DeponUXRole {
+  const normalized = Number.parseInt(depoId.replace('DEPON-', ''), 10);
+  return Number.isFinite(normalized) && normalized >= 13 ? 'marketplace' : 'core-operational';
+}
+
+export function getDeponRoleCatalog(role: DeponUXRole): DeponRoleCatalog {
+  return DEPON_ROLE_CATALOGS.find((catalog) => catalog.role === role) ?? DEPON_ROLE_CATALOGS[0]!;
+}
+
+export function resolveRolloutPriority(depoId: string): number {
+  return DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId === depoId)?.priority ?? DEPON_ROLLOUT_PLAN.length + 1;
+}
+
+export function buildCanonicalDeponSchema(input: {
+  identity: DepoIdentityLayer;
+  navigacija: string[];
+  sekcije: string[];
+  prioriteti: string[];
+  sekvence: SekvencaTip[];
+  varijante: string[];
+  stanja: ScreenState[];
+  styleSystem: StyleSystemLayer;
+  deliveryContext?: Partial<VariantDeliveryContext>;
+  performanceBudget?: Partial<PerformanceBudget>;
+  metadata?: Partial<CanonicalUIUXSchema['metadata']>;
+}): CanonicalUIUXSchema {
+  const roleCatalog = getDeponRoleCatalog(input.identity.deponRole);
+  return {
+    schemaVersion: SCHEMA_REGISTRY.current,
+    identity: input.identity,
+    deliveryContext: {
+      drzava: input.deliveryContext?.drzava ?? input.identity.trziste.toUpperCase(),
+      uredjaj: input.deliveryContext?.uredjaj ?? 'desktop',
+      intent: input.deliveryContext?.intent ?? roleCatalog.primaryIntents[0]!,
+      lifecycle: input.deliveryContext?.lifecycle ?? 'stable',
+    },
+    informationArchitecture: {
+      navigacija: input.navigacija,
+      sekcije: input.sekcije,
+      prioriteti: input.prioriteti,
+    },
+    components: {
+      sekvence: input.sekvence,
+      varijante: input.varijante,
+      stanja: input.stanja,
+    },
+    styleSystem: input.styleSystem,
+    performanceBudget: {
+      maxRenderMs: input.performanceBudget?.maxRenderMs ?? GOVERNANCE_HEURISTICS.maxRenderMs,
+      maxHydrationMs: input.performanceBudget?.maxHydrationMs ?? 180,
+      maxInteractionMs: input.performanceBudget?.maxInteractionMs ?? 100,
+    },
+    governance: {
+      requiredA11y: input.styleSystem.a11yNivo,
+      blockedPatterns: GOVERNANCE_HEURISTICS.blockedPatterns,
+      fallbackStableCandidateId: input.metadata?.stableCandidateId ?? `${input.identity.depoId}-stable`,
+      auditTrailKey: `${input.identity.depoId}:uiux-audit-trail`,
+    },
+    metadata: {
+      generatedAt: new Date().toISOString(),
+      source: 'composition-generator',
+      candidateId: input.metadata?.candidateId ?? `${input.identity.depoId}-manual`,
+      score: input.metadata?.score,
+      rolloutPriority: input.metadata?.rolloutPriority ?? resolveRolloutPriority(input.identity.depoId),
+      variantFamily: input.metadata?.variantFamily,
+      stableCandidateId: input.metadata?.stableCandidateId ?? `${input.identity.depoId}-stable`,
     },
   };
 }
@@ -331,13 +585,17 @@ export function scoreVariant(metrics: KPIMetrics, weights: KPIWeights = DEFAULT_
   const taskCompletion = clamp(1 - metrics.taskCompletionMs / 15000);
   const errorRate = clamp(1 - metrics.errorRate);
   const engagement = clamp(metrics.engagementScore);
+  const retention = clamp(metrics.retentionRate ?? conversion);
+  const trust = clamp(metrics.trustScore ?? errorRate);
 
   return Number(
     (
       conversion * weights.conversionRate +
       taskCompletion * weights.taskCompletion +
       errorRate * weights.errorRate +
-      engagement * weights.engagement
+      engagement * weights.engagement +
+      retention * weights.retention +
+      trust * weights.trust
     ).toFixed(6),
   );
 }
@@ -398,4 +656,31 @@ export function detectBlockedPatterns(patterns: string[]): string[] {
 
 export function isSchemaVersionSupported(version: string): boolean {
   return SCHEMA_REGISTRY.supported.includes(version);
+}
+
+export function buildVariantSelectionAuditEntry(params: {
+  selected: RankedVariant;
+  context: SelectionContext & { depoId: string; intent: UXIntent };
+  reason?: string;
+  selectedBy?: VariantSelectionAuditEntry['selectedBy'];
+}): VariantSelectionAuditEntry {
+  const stableCandidateId = params.selected.schema.metadata.stableCandidateId ?? null;
+  const fallbackUsed =
+    params.selectedBy === 'stable-fallback' ||
+    (!!stableCandidateId && stableCandidateId === params.selected.schema.metadata.candidateId) ||
+    params.selected.stable;
+
+  return {
+    depoId: params.context.depoId,
+    candidateId: params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`,
+    stableCandidateId,
+    selectedAt: new Date().toISOString(),
+    selectedBy: params.selectedBy ?? (fallbackUsed ? 'stable-fallback' : 'kpi-model'),
+    segment: params.context.segment,
+    intent: params.context.intent,
+    fallbackUsed,
+    score: params.selected.score ?? null,
+    auditTrailKey: params.selected.schema.governance.auditTrailKey,
+    reason: params.reason ?? 'Controlled selection from governed DEPON variant space.',
+  };
 }
