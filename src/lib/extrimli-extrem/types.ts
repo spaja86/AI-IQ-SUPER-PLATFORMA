@@ -23,6 +23,26 @@ export interface ExtrimliExtremResolutionInput {
   discanPressurePercent: number;
 }
 
+export interface ExtrimliExtremSemaFormulaInput {
+  sema: number;
+  allSema: number;
+  expectedMuSema: number;
+}
+
+export type ExtrimliExtremSemaFormulaStatus = 'PASSED' | 'BLOCKED';
+
+export interface ExtrimliExtremSemaFormulaEvaluation {
+  canonicalExpression: 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
+  scopeLock: readonly ['EXTRIMLI', 'EXTRONDOL', 'EXTREM'];
+  inputs: ExtrimliExtremSemaFormulaInput;
+  computedMuSema: number;
+  formulaHolds: boolean;
+  status: ExtrimliExtremSemaFormulaStatus;
+  deterministic: boolean;
+  blockerReasons: string[];
+  muSemaConclusion: 'MUŠEMA_CONFIRMED' | 'MUŠEMA_BLOCKED';
+}
+
 export interface ExtrimliExtremAcceptanceCriterion {
   id: string;
   description: string;
@@ -74,6 +94,7 @@ export interface ExtrimliExtremProfilerReport {
     conflictIntensity: ExtrimliExtremConflictIntensity;
     optimizationTier: ExtrimliExtremOptimizationTier;
   };
+  semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   resolutionReadiness: {
     rezolucijaScore: number;
     ekodorState: ExtrimliExtremEkodorState;
@@ -128,3 +149,4 @@ export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED = 65;
 export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH = 45;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_CLEAR = 35;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH = 60;
+export const EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION = 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';

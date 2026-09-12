@@ -4,6 +4,7 @@ import {
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
+  EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
   getExtrimliExtremProfilerReport,
 } from '../../lib/extrimli-extrem';
 
@@ -81,6 +82,14 @@ async function runTests(): Promise<void> {
     assert(report.resolutionReadiness.rekulitiPoRauletu === 'ALLOW', 'default REKULITI policy should allow progression');
   });
 
+  await test('default report confirms canonical ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA formula', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.semaMuSemaFormula.canonicalExpression === EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION, 'canonical formula mismatch');
+    assert(report.semaMuSemaFormula.formulaHolds, 'default formula should hold');
+    assert(report.semaMuSemaFormula.status === 'PASSED', 'default formula status should be PASSED');
+    assert(report.semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_CONFIRMED', 'default MUŠEMA conclusion should be confirmed');
+  });
+
   await test('invalid env values are clamped and flagged as degraded', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: 'NaN',
@@ -110,6 +119,36 @@ async function runTests(): Promise<void> {
       assert(report.profile.optimizationTier === 'EXTREME_PROFILING_REQUIRED', 'expected extreme profiling tier');
       assert(report.governanceSignal.freezeRequired, 'freeze should be required for extreme conflict');
       assert(report.governanceSignal.wawePromotionEligible === false, 'WAWE promotion should be blocked for extreme conflict');
+    });
+
+    await test('formula mismatch blocks MUŠEMA governance and WAWE promotion', async () => {
+      await withEnv({
+        EXTRIMLI_EXTREM_SHEMA_VALUE: '40',
+        EXTRIMLI_EXTREM_ALL_SHEMA_VALUE: '20',
+        EXTRIMLI_EXTREM_MUSHEMA_VALUE: '70',
+      }, () => {
+        const report = getExtrimliExtremProfilerReport();
+        assert(report.semaMuSemaFormula.formulaHolds === false, 'formula should fail');
+        assert(report.semaMuSemaFormula.status === 'BLOCKED', 'formula status should be BLOCKED');
+        assert(report.semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_BLOCKED', 'MUŠEMA conclusion should be blocked');
+        assert(report.governanceSignal.freezeRequired, 'formula mismatch must freeze WAWE promotion');
+        assert(report.governanceSignal.wawePromotionEligible === false, 'WAWE promotion should be blocked');
+      });
+    });
+
+    await test('NaN/Infinity formula env values stay additive and degrade without payload break', async () => {
+      await withEnv({
+        EXTRIMLI_EXTREM_SHEMA_VALUE: 'NaN',
+        EXTRIMLI_EXTREM_ALL_SHEMA_VALUE: 'Infinity',
+        EXTRIMLI_EXTREM_MUSHEMA_VALUE: 'Infinity',
+      }, () => {
+        const report = getExtrimliExtremProfilerReport();
+        assert(report.degraded, 'report should be degraded for invalid formula env values');
+        assert(report.semaMuSemaFormula.status === 'PASSED', 'fallback formula should remain computable and additive');
+        assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_SHEMA_VALUE')), 'expected invalid ŠEMA source');
+        assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE')), 'expected invalid ALL ŠEMA source');
+        assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_MUSHEMA_VALUE')), 'expected invalid MUŠEMA source');
+      });
     });
   });
 

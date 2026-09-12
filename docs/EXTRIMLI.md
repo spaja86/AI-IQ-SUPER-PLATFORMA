@@ -15,8 +15,8 @@ This repository now exposes five aligned surfaces:
 | **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ + KORON |
 | **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
 | **EXTRONDEND** | `src/lib/extrimli-extrondend/`, `src/app/api/extrimli/extrondend/` | Active | Dedicated aggregation/scoring surface (not an alias) over v1/v3/CUZ/Extendol/KORON |
-| **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity and optimization-tier output for WAWE governance |
-| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, and EXTREM profiler governance signal |
+| **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity, optimization-tier output, and canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` signal for WAWE governance |
+| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, EXTREM profiler governance signal, and MUŠEMA freeze/promotion gate |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 ## Module paths
@@ -312,7 +312,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION = v1-extrem-profiler`
   - `EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `terminology`, `profileInput`, `profile`, `optimization`, `governanceSignal`, `kpiTargets`, `kpiObserved`, `acceptanceCriteria`.
+- Mandatory payload: `terminology`, `profileInput`, `profile`, `semaMuSemaFormula`, `optimization`, `governanceSignal`, `kpiTargets`, `kpiObserved`, `acceptanceCriteria`.
 - DISKVIT terminology lock:
   - `DISKVIT` = browser-graphics bottleneck layer.
   - Conflict scoring is conflict-proportional (`sceneLoadPercent`, `gpuContentionPercent`, `cpuContentionPercent`, `renderCycleLatencyMs`).
@@ -330,6 +330,11 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - freeze when conflict intensity is `HIGH/CRITICAL` or KPI targets are breached.
   - freeze also when `REKULITI PO RAULETU = FREEZE`.
   - promotion when profiler signal is stable and KPI limits remain within target.
+- Canonical formula lock:
+  - expression: `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA`
+  - scope lock: `EXTRIMLI`, `EXTRONDOL`, `EXTREM`
+  - payload: `semaMuSemaFormula.inputs`, `computedMuSema`, `formulaHolds`, `status`, `muSemaConclusion`, `blockerReasons`
+  - governance rule: `status = BLOCKED` obavezno aktivira freeze signal.
 - Maximum graphics unlock thresholds:
   - conflict score ≤ 35
   - render cycle latency ≤ 45ms
@@ -347,6 +352,10 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - rollout reasons include additive REZOLUCIJA / REKULITI PO RAULETU freeze markers when present
   - `b2bReadiness.governanceDecisions.resolutionReadiness` mirrors EXTREM resolution posture
   - `releaseAuditSummary.resolutionGovernance` summarizes the REZOLUCIJA/EKODOR/REKULITI PO RAULETU/DISCAN in KIBEN decision state
+- EXTREM formula propagation:
+  - `b2bReadiness.governanceDecisions.semaFormulaGate` mirrors EXTREM `semaMuSemaFormula` posture
+  - `releaseAuditSummary.semaFormulaGovernance` exposes canonical expression + MUŠEMA conclusion
+  - blocked formula state must freeze promotion (`rollout.promotionFreeze = true`).
 
 ### EXTRONDOL B2B operating scope
 
@@ -408,8 +417,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-3` → downstream sync evidence
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
-- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`.
-- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`.
+- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.semaMuSemaFormula`.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 
@@ -449,6 +457,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 12. `distanceRatioEkvilaterTable` must remain additive-only, bounded, and deterministic for the three upstream readiness surfaces.
 13. `startProject` must preserve START PROJEKAT rollout governance, additive-only contract policy, and required downstream sync.
 14. `releaseAuditSummary` must be present and include rollout snapshot, KPI impact, downstream reference, mandatory human review, and rollback requirement.
+15. Canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` expression must remain deterministic, surfaced in EXTREM and EXTRONDOL, and block WAWE promotion when invalid.
 
 ### NIVO DUET orchestration map
 

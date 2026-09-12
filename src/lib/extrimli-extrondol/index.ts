@@ -449,6 +449,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'distanceRatioEkvilaterTable',
       'paymentVerification',
       'extremProfiler',
+      'extremProfiler.semaMuSemaFormula',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -467,6 +468,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'paymentVerification',
         'extremProfiler',
         'extremProfiler.resolutionReadiness',
+        'extremProfiler.semaMuSemaFormula',
       ],
     },
     qualityGates: {
@@ -586,6 +588,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['Payment verification is blocking WAWE promotion and B2B activation.'] : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['EXTREM profiler detected DISKVIT conflict pressure and requests WAWE freeze.'] : []),
+    ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
+      ? ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA formula is blocked and must freeze WAWE promotion.']
+      : []),
     ...(extremProfiler.resolutionReadiness.ekodorState === 'WATCH' ? ['EKODOR alignment remains in watch posture and requires review before promotion.'] : []),
     ...(extremProfiler.resolutionReadiness.discanInKibenState === 'WATCH' ? ['DISCAN in KIBEN remains in watch posture and should be monitored before promotion.'] : []),
   ];
@@ -601,9 +606,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['extrem-profiler-stability'] : []),
     ...(extremProfiler.resolutionReadiness.blockerActive ? ['extrem-resolution-readiness'] : []),
+    ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED' ? ['extrem-schema-mushema'] : []),
   ];
   const auditTrailComplete = governanceEvidence.auditTrailComplete;
-  const promotionFreeze = degraded || complianceBlockers.length > 0 || currentWawe === 'WAWE-1' || extremProfiler.governanceSignal.freezeRequired;
+  const promotionFreeze = degraded
+    || complianceBlockers.length > 0
+    || currentWawe === 'WAWE-1'
+    || extremProfiler.governanceSignal.freezeRequired
+    || extremProfiler.semaMuSemaFormula.status === 'BLOCKED';
   const reasons = promotionFreeze
     ? [
       'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
@@ -611,6 +621,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
       ...(extremProfiler.resolutionReadiness.rekulitiPoRauletu !== 'ALLOW'
         ? [`extrem-resolution:${extremProfiler.resolutionReadiness.rekulitiPoRauletu.toLowerCase()}`]
+        : []),
+      ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
+        ? extremProfiler.semaMuSemaFormula.blockerReasons.map((reason) => `extrem-schema-mushema:${reason}`)
         : []),
       ...(paymentVerification.status !== 'VERIFIED'
         ? ['payment-verification:blocked']
@@ -645,6 +658,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       rekulitiPoRauletu: extremProfiler.resolutionReadiness.rekulitiPoRauletu,
       discanInKibenState: extremProfiler.resolutionReadiness.discanInKibenState,
       blockerActive: extremProfiler.resolutionReadiness.blockerActive,
+    },
+    semaFormulaGovernance: {
+      canonicalExpression: extremProfiler.semaMuSemaFormula.canonicalExpression,
+      status: extremProfiler.semaMuSemaFormula.status,
+      muSemaConclusion: extremProfiler.semaMuSemaFormula.muSemaConclusion,
+      formulaHolds: extremProfiler.semaMuSemaFormula.formulaHolds,
+      blockerReasons: [...extremProfiler.semaMuSemaFormula.blockerReasons],
     },
     humanReviewRequired: true,
     rollbackPlanRequired: true,
@@ -696,6 +716,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.profile.conflictIntensity',
         'extremProfiler.profile.optimizationTier',
         'extremProfiler.governanceSignal.freezeRequired',
+        'extremProfiler.semaMuSemaFormula.status',
+        'extremProfiler.semaMuSemaFormula.muSemaConclusion',
         'extremProfiler.resolutionReadiness.rezolucijaScore',
         'extremProfiler.resolutionReadiness.ekodorState',
         'extremProfiler.resolutionReadiness.rekulitiPoRauletu',
@@ -708,6 +730,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       escalationRequired: promotionFreeze,
       partnerReadinessWarnings,
       dinkosSignalRequired: true,
+      semaFormulaGate: {
+        canonicalExpression: extremProfiler.semaMuSemaFormula.canonicalExpression,
+        status: extremProfiler.semaMuSemaFormula.status,
+        muSemaConclusion: extremProfiler.semaMuSemaFormula.muSemaConclusion,
+        formulaHolds: extremProfiler.semaMuSemaFormula.formulaHolds,
+        blockerReasons: [...extremProfiler.semaMuSemaFormula.blockerReasons],
+      },
       resolutionReadiness: {
         rezolucijaScore: extremProfiler.resolutionReadiness.rezolucijaScore,
         ekodorState: extremProfiler.resolutionReadiness.ekodorState,
@@ -859,6 +888,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && ['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(extremProfiler.profile.conflictIntensity),
     },
     {
+      id: 'schema-mushema-governance',
+      description: 'Canonical ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA signal from EXTREM must be propagated to rollout freeze/promotion and governance outputs.',
+      passed: b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA'
+        && releaseAuditSummary.semaFormulaGovernance.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA'
+        && releaseAuditSummary.semaFormulaGovernance.status === extremProfiler.semaMuSemaFormula.status
+        && (extremProfiler.semaMuSemaFormula.status === 'BLOCKED' ? promotionFreeze : true),
+    },
+    {
       id: 'resolution-signal-governance',
       description: 'REZOLUCIJA, EKODOR, REKULITI PO RAULETU, and DISCAN in KIBEN are propagated from EXTREM into EXTRONDOL rollout, audit, and downstream B2B governance.',
       passed: Number.isFinite(extremProfiler.resolutionReadiness.rezolucijaScore)
@@ -873,7 +910,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     contractVersion: EXTRONDOL_CONTRACT_VERSION,
     moduleVersion: EXTRONDOL_MODULE_VERSION,
     sourceOfTruth: EXTRONDOL_SOURCE_OF_TRUTH,
-    statement: 'EXTRONDOL orchestrates WAWE rollout readiness and the GitHub unlimited programming/tools enterprise subscription model for organization-level B2B consumers.',
+    statement: 'EXTRONDOL orchestrates WAWE rollout readiness and the GitHub unlimited programming/tools enterprise subscription model for organization-level B2B consumers, including canonical ŠEMA/MUŠEMA governance from EXTREM.',
     ownership: '@spaja86',
     triggerLabel: 'extrondol:logic-change',
     pathScope: [

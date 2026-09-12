@@ -131,6 +131,9 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'release audit linked repo mismatch');
     assert(report.releaseAuditSummary.resolutionGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit resolution source mismatch');
     assert(['ALLOW', 'WARN', 'FREEZE'].includes(report.releaseAuditSummary.resolutionGovernance.rekulitiPoRauletu), 'release audit resolution policy mismatch');
+    assert(report.releaseAuditSummary.semaFormulaGovernance.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'release audit formula expression mismatch');
+    assert(['PASSED', 'BLOCKED'].includes(report.releaseAuditSummary.semaFormulaGovernance.status), 'release audit formula status mismatch');
+    assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(report.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion), 'release audit MUŠEMA conclusion mismatch');
     assert(report.releaseAuditSummary.humanReviewRequired, 'release audit must require human review');
     assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
   });
@@ -261,15 +264,20 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('dinkos.triggerLabel'), 'DINKOS sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalApex'), 'domain strategy sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('paymentVerification.status'), 'payment verification status sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.semaMuSemaFormula.status'), 'formula status sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.semaMuSemaFormula.muSemaConclusion'), 'MUŠEMA conclusion sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.rekulitiPoRauletu'), 'resolution policy sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
     assert(Number.isFinite(report.b2bReadiness.governanceDecisions.resolutionReadiness.rezolucijaScore), 'resolution readiness score must be finite');
-    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler')), 'unexpected B2B warning format');
+    assert(report.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'B2B formula expression mismatch');
+    assert(['PASSED', 'BLOCKED'].includes(report.b2bReadiness.governanceDecisions.semaFormulaGate.status), 'B2B formula status mismatch');
+    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler') || warning.includes('ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA')), 'unexpected B2B warning format');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'github-enterprise-subscription-package' && item.passed), 'github-enterprise-subscription-package criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'unlimited-guardrails' && item.passed), 'unlimited-guardrails criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-controls' && item.passed), 'b2b-controls criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'schema-mushema-governance' && item.passed), 'schema-mushema-governance criterion must pass');
   });
 
   await test('report exposes START PROJEKAT rollout governance metadata', () => {
@@ -294,6 +302,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
     assert(report.startProject.mandatoryOutputs.includes('paymentVerification'), 'payment verification output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler'), 'extrem profiler output missing');
+    assert(report.startProject.mandatoryOutputs.includes('extremProfiler.semaMuSemaFormula'), 'formula output missing');
     assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
     assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bReadiness'), 'b2bReadiness sync missing');
@@ -302,6 +311,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.syncedContractFields.includes('paymentVerification'), 'payment verification sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler'), 'extrem profiler sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.resolutionReadiness'), 'resolution readiness sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.semaMuSemaFormula'), 'formula sync missing');
     assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
     assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');
     assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');
@@ -387,6 +397,42 @@ async function runTests(): Promise<void> {
       onboardingComplete: true,
       downstreamSyncComplete: true,
       humanReviewComplete: true,
+    });
+
+    await test('MUŠEMA formula mismatch from EXTREM forces EXTRONDOL rollout freeze and blockers', async () => {
+      await withEnv({
+        EXTRIMLI_EXTREM_SHEMA_VALUE: '40',
+        EXTRIMLI_EXTREM_ALL_SHEMA_VALUE: '20',
+        EXTRIMLI_EXTREM_MUSHEMA_VALUE: '70',
+        SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+        SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+        SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+        SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+        SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+        SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+        SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+        SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+        SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+        SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+        SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+        SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+        SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+        SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+        SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+      }, () => {
+        const report = getExtrimliExtrondolReport({
+          auditTrailComplete: true,
+          onboardingComplete: true,
+          downstreamSyncComplete: true,
+          humanReviewComplete: true,
+        });
+        assert(report.extremProfiler.semaMuSemaFormula.status === 'BLOCKED', 'EXTREM formula should be blocked');
+        assert(report.rollout.promotionFreeze, 'rollout freeze should be active when formula is blocked');
+        assert(report.b2bReadiness.compliance.blockers.includes('extrem-schema-mushema'), 'formula blocker must be present in compliance blockers');
+        assert(report.releaseAuditSummary.semaFormulaGovernance.status === 'BLOCKED', 'release audit formula gate should be blocked');
+        assert(report.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion === 'MUŠEMA_BLOCKED', 'release audit MUŠEMA conclusion should be blocked');
+        assert(report.rollout.reasons.some((reason) => reason.includes('extrem-schema-mushema:')), 'rollout reasons should include formula blocker reasons');
+      });
     });
     assert(report.b2bReadiness.compliance.onboardingComplete === true, 'onboarding evidence override failed');
     assert(report.b2bReadiness.compliance.humanReviewComplete === true, 'human review evidence override failed');

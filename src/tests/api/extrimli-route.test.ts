@@ -108,9 +108,13 @@ async function runTests(): Promise<void> {
           downstreamSync: { syncRequired: boolean };
         };
         rollout: { currentWawe: string; promotionFreeze: boolean };
-        b2bReadiness: { downstreamSync: { linkedRepo: string } };
+        b2bReadiness: {
+          downstreamSync: { linkedRepo: string };
+          governanceDecisions: { semaFormulaGate: { canonicalExpression: string; status: string } };
+        };
         paymentVerification: { status: string; blockers: string[] };
         extremProfiler: { profile: { conflictIntensity: string; bottleneckLayer: string } };
+        releaseAuditSummary: { semaFormulaGovernance: { canonicalExpression: string; status: string; muSemaConclusion: string } };
         distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
       };
     };
@@ -127,6 +131,11 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
     assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.extremProfiler.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
     assert(body.data.extremProfiler.profile.bottleneckLayer === 'DISKVIT', 'EXTREM profiler bottleneck layer mismatch');
+    assert(body.data.releaseAuditSummary.semaFormulaGovernance.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'missing formula governance expression');
+    assert(['PASSED', 'BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.status), 'unexpected formula governance status');
+    assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion), 'unexpected MUŠEMA conclusion');
+    assert(body.data.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'missing B2B formula gate expression');
+    assert(['PASSED', 'BLOCKED'].includes(body.data.b2bReadiness.governanceDecisions.semaFormulaGate.status), 'unexpected B2B formula gate status');
     assert(body.data.distanceRatioEkvilaterTable.rows.length === 3, 'distance ratio table must expose 3 rows');
   });
 
@@ -139,6 +148,7 @@ async function runTests(): Promise<void> {
       data: {
         sourceOfTruth: string;
         profile: { conflictIntensity: string; bottleneckLayer: string };
+        semaMuSemaFormula: { canonicalExpression: string; status: string; muSemaConclusion: string; formulaHolds: boolean };
         governanceSignal: { freezeRequired: boolean };
         optimization: { maximumGraphicsUnlockEligible: boolean };
       };
@@ -146,6 +156,10 @@ async function runTests(): Promise<void> {
     assert(body.data.sourceOfTruth === '/api/extrimli/extrem', 'unexpected EXTREM sourceOfTruth');
     assert(body.data.profile.bottleneckLayer === 'DISKVIT', 'unexpected EXTREM bottleneck layer');
     assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
+    assert(body.data.semaMuSemaFormula.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'unexpected EXTREM formula expression');
+    assert(['PASSED', 'BLOCKED'].includes(body.data.semaMuSemaFormula.status), 'unexpected EXTREM formula status');
+    assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.semaMuSemaFormula.muSemaConclusion), 'unexpected EXTREM MUŠEMA conclusion');
+    assert(typeof body.data.semaMuSemaFormula.formulaHolds === 'boolean', 'formulaHolds should be boolean');
     assert(typeof body.data.governanceSignal.freezeRequired === 'boolean', 'freezeRequired should be boolean');
     assert(typeof body.data.optimization.maximumGraphicsUnlockEligible === 'boolean', 'maximumGraphicsUnlockEligible should be boolean');
   });
