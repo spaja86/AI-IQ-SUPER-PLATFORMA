@@ -53,7 +53,7 @@ async function runTests(): Promise<void> {
     const content = Buffer.from(pdf).toString('utf8');
     const head = content.slice(0, 8);
     assert(head.startsWith('%PDF-1.4'), 'invoice pdf header');
-    assert(content.includes('Izvozne fakture'), 'invoice ascii-safe content');
+    assert(content.includes('DI-EXP-2026-001'), 'invoice rendered content');
     assert(content.includes('DIGITALNA INDUSTRIJA - IZVOZ FAKTURA PDF'), 'invoice title should be ascii-safe');
   });
 
