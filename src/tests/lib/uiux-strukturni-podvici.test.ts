@@ -11,6 +11,7 @@ import {
   generateStructuredVariants,
   getDeponRoleCatalog,
   isSchemaVersionSupported,
+  meetsRequiredA11y,
   meetsDeponDiversityTarget,
   rankVariants,
   resolveDeponRole,
@@ -255,6 +256,7 @@ async function runTests(): Promise<void> {
     assertEqual(schema.governance.fallbackStableCandidateId, 'depon-15-search-stable', 'fallback id');
     assertEqual(schema.performanceBudget.maxRenderMs > 0, true, 'render budžet');
     assertEqual(schema.metadata.rolloutPriority, resolveRolloutPriority(depo.depoId), 'rollout prioritet');
+    assertEqual(schema.governance.requiredA11y, 'AA', 'governance a11y baseline');
   });
 
   await test('buildCanonicalDeponSchema odbija konfliktan canonical DEPON role', () => {
@@ -271,6 +273,24 @@ async function runTests(): Promise<void> {
           styleSystem: { tema: 'auto', tokenSet: 'spaja-core-aa', responsive: ['sm'], a11yNivo: 'AA' },
         }),
       'DEPON role mismatch',
+    );
+  });
+
+  await test('buildCanonicalDeponSchema odbija intent koji nije dozvoljen za DEPON role', () => {
+    assertThrows(
+      () =>
+        buildCanonicalDeponSchema({
+          identity: depo,
+          navigacija: ['home'],
+          sekcije: ['hero'],
+          prioriteti: ['value-proposition'],
+          sekvence: ['hero', 'cta'],
+          varijante: ['balanced'],
+          stanja: ['default'],
+          styleSystem: { tema: 'auto', tokenSet: 'spaja-market-aa', responsive: ['sm'], a11yNivo: 'AA' },
+          deliveryContext: { intent: 'task-completion' },
+        }),
+      'Unsupported intent',
     );
   });
 
@@ -357,6 +377,11 @@ async function runTests(): Promise<void> {
 
     assertEqual(audit.fallbackUsed, true, 'auto fallback');
     assertEqual(audit.selectedBy, 'stable-fallback', 'selectedBy auto fallback');
+  });
+
+  await test('meetsRequiredA11y sprovodi AA/AAA baseline', () => {
+    assertEqual(meetsRequiredA11y('AAA', 'AA'), true, 'AAA zadovoljava AA');
+    assertEqual(meetsRequiredA11y('AA', 'AAA'), false, 'AA ne zadovoljava AAA');
   });
 
   await test('isSchemaVersionSupported potvrđuje podržanu verziju šeme', () => {

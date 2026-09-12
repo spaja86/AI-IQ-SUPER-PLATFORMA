@@ -529,13 +529,22 @@ export function buildCanonicalDeponSchema(input: {
   metadata?: Partial<CanonicalUIUXSchema['metadata']>;
 }): CanonicalUIUXSchema {
   const roleCatalog = getDeponRoleCatalog(resolveDeponRoleFromIdentity(input.identity));
+  const resolvedIntent = input.deliveryContext?.intent ?? roleCatalog.primaryIntents[0]!;
+  if (!roleCatalog.primaryIntents.includes(resolvedIntent)) {
+    throw new Error(`Unsupported intent ${resolvedIntent} for DEPON role ${roleCatalog.role}`);
+  }
+  if (!meetsRequiredA11y(input.styleSystem.a11yNivo, GOVERNANCE_HEURISTICS.requiredA11y)) {
+    throw new Error(
+      `A11y level ${input.styleSystem.a11yNivo} does not meet required baseline ${GOVERNANCE_HEURISTICS.requiredA11y}`,
+    );
+  }
   return {
     schemaVersion: SCHEMA_REGISTRY.current,
     identity: input.identity,
     deliveryContext: {
       drzava: input.deliveryContext?.drzava ?? input.identity.trziste.toUpperCase(),
       uredjaj: input.deliveryContext?.uredjaj ?? 'desktop',
-      intent: input.deliveryContext?.intent ?? roleCatalog.primaryIntents[0]!,
+      intent: resolvedIntent,
       lifecycle: input.deliveryContext?.lifecycle ?? 'stable',
     },
     informationArchitecture: {
@@ -555,7 +564,7 @@ export function buildCanonicalDeponSchema(input: {
       maxInteractionMs: input.performanceBudget?.maxInteractionMs ?? 100,
     },
     governance: {
-      requiredA11y: input.styleSystem.a11yNivo,
+      requiredA11y: GOVERNANCE_HEURISTICS.requiredA11y,
       blockedPatterns: GOVERNANCE_HEURISTICS.blockedPatterns,
       fallbackStableCandidateId: input.metadata?.stableCandidateId ?? `${input.identity.depoId}-stable`,
       auditTrailKey: `${input.identity.depoId}:uiux-audit-trail`,
@@ -610,6 +619,11 @@ export function generateStructuredVariants(input: {
 
 function clamp(value: number, min = 0, max = 1): number {
   return Math.max(min, Math.min(max, value));
+}
+
+export function meetsRequiredA11y(actual: StyleSystemLayer['a11yNivo'], required: StyleSystemLayer['a11yNivo']): boolean {
+  const rank = { AA: 1, AAA: 2 } as const;
+  return rank[actual] >= rank[required];
 }
 
 export function scoreVariant(metrics: KPIMetrics, weights: KPIWeights = DEFAULT_KPI_WEIGHTS): number {
