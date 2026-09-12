@@ -246,7 +246,7 @@ async function runTests(): Promise<void> {
       navigacija: ['home', 'apps'],
       sekcije: ['hero', 'leaderboard'],
       prioriteti: ['value-proposition', 'conversion'],
-      sekvence: ['hero', 'tabela', 'cta'],
+      sekvence: ['hero', 'statistika', 'tabela', 'cta'],
       varijante: ['balanced'],
       stanja: ['default', 'loading', 'error'],
       styleSystem: { tema: 'auto', tokenSet: 'spaja-market-aa', responsive: ['sm', 'lg'], a11yNivo: 'AA' },
