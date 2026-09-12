@@ -149,18 +149,18 @@ export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacune
     `KYC/KYB: ${result.subjekt.kycKybStatus}`,
     `Subjekt: ${result.subjekt.naziv} | PIB ${result.subjekt.pib} | MB ${result.subjekt.maticniBroj}`,
     `Email: ${result.subjekt.email} | Zemlja: ${result.subjekt.zemlja}`,
-    `Ukupno računa: ${result.summary.ukupnoRacuna} | Aktivnih: ${result.summary.aktivnihRacuna} | Predloga: ${result.summary.predloga}`,
+    `Ukupno racuna: ${result.summary.ukupnoRacuna} | Aktivnih: ${result.summary.aktivnihRacuna} | Predloga: ${result.summary.predloga}`,
     '',
-    'RAČUNI',
+    'RACUNI',
   ];
 
   for (const racun of result.racuni) {
     lines.push(
       `# ${racun.id} | ${racun.tip} | ${racun.valuta} | ${racun.status}`,
-      `Broj računa: ${racun.brojRacuna}`,
+      `Broj racuna: ${racun.brojRacuna}`,
       `IBAN-like: ${racun.ibanLike}`,
-      `Dnevni limit: ${racun.limitDnevno} | Mesečni limit: ${racun.limitMesecno}`,
-      ...racun.validacije.map((validacija) => `Validacija ${validacija.polje}: ${validacija.status} — ${validacija.poruka}`),
+      `Dnevni limit: ${racun.limitDnevno} | Mesecni limit: ${racun.limitMesecno}`,
+      ...racun.validacije.map((validacija) => `Validacija ${validacija.polje}: ${validacija.status} - ${validacija.poruka}`),
       `Audit timestamp: ${racun.metadata.timestamp}`,
       '',
     );
@@ -172,7 +172,7 @@ export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacune
   }
 
   lines.push('', `Verzija platforme: ${APP_VERSION}`);
-  return createTextPdfDocument('AI IQ WORLD BANK — POSLOVNI RAČUNI PDF', lines);
+  return createTextPdfDocument('AI IQ WORLD BANK - POSLOVNI RACUNI PDF', lines);
 }
 
 export function buildIzvozFakturaPdfDocument(result: DigitalnaIndustrijaIzvozFakturaRezultat): Buffer {
@@ -190,7 +190,7 @@ export function buildIzvozFakturaPdfDocument(result: DigitalnaIndustrijaIzvozFak
     lines.push(
       `# ${faktura.id} | ${faktura.entitet} | ${faktura.status}`,
       `Broj fakture: ${faktura.brojFakture}`,
-      `Platforma: ${faktura.platformaId} | Tržište: ${faktura.trziste}`,
+      `Platforma: ${faktura.platformaId} | Trziste: ${faktura.trziste}`,
       `Valuta: ${faktura.valuta} | Iznos: ${faktura.iznos}`,
       `BAR KOD: ${faktura.barKod}`,
       '',
@@ -203,5 +203,5 @@ export function buildIzvozFakturaPdfDocument(result: DigitalnaIndustrijaIzvozFak
     `Verzija platforme: ${APP_VERSION}`,
   );
 
-  return createTextPdfDocument('DIGITALNA INDUSTRIJA — IZVOZ FAKTURA PDF', lines);
+  return createTextPdfDocument('DIGITALNA INDUSTRIJA - IZVOZ FAKTURA PDF', lines);
 }
