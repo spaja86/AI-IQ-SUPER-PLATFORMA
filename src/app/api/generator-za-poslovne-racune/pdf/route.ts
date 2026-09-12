@@ -4,34 +4,7 @@ import { buildPoslovniRacuniPdfDocument } from '@/lib/export-pdf';
 
 export async function GET() {
   const result = buildGeneratorZaPoslovneRacune('public');
-  const publicAudit = result.audit.map((item, index) => ({
-    ...item,
-    id: `demo-audit-${index + 1}`,
-    detalji: `Demo audit zapis ${index + 1} za javni PDF export.`,
-  }));
-  const publicResult = {
-    ...result,
-    userId: 'public-demo',
-    subjekt: {
-      ...result.subjekt,
-      naziv: 'Javni demo subjekt',
-      pib: 'DEMO-PIB',
-      maticniBroj: 'DEMO-MB',
-      email: 'public-demo@ai-iq-super-platforma.com',
-    },
-    racuni: result.racuni.map((racun, index) => ({
-      ...racun,
-      id: `demo-racun-${index + 1}`,
-      brojRacuna: `DEMO-${String(index + 1).padStart(4, '0')}`,
-      ibanLike: `RS35AIIQDEMO${String(index + 1).padStart(10, '0')}`,
-      metadata: {
-        ...racun.metadata,
-        vlasnik: 'Javni demo subjekt',
-      },
-    })),
-    audit: publicAudit,
-  };
-  const pdf = buildPoslovniRacuniPdfDocument(publicResult);
+  const pdf = buildPoslovniRacuniPdfDocument(result, { audience: 'public' });
   const body = Uint8Array.from(pdf);
 
   return new Response(body, {
@@ -39,9 +12,9 @@ export async function GET() {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="ai-iq-world-bank-poslovni-racuni.pdf"',
-      'Cache-Control': 'private, no-store, max-age=0',
+      'Cache-Control': 'public, no-store, max-age=0',
       'X-App-Version': APP_VERSION,
-      'X-Export-Contract-Version': publicResult.exportContract.version,
+      'X-Export-Contract-Version': result.exportContract.version,
     },
   });
 }

@@ -158,22 +158,76 @@ export function createTextPdfDocument(title: string, sourceLines: string[]): Buf
   return Buffer.from(pdf, 'utf8');
 }
 
-export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacuneRezultat): Buffer {
+export interface PdfBuildOptions {
+  audience?: 'internal' | 'public';
+}
+
+function redactPoslovniRacuniResult(result: GeneratorZaPoslovneRacuneRezultat): GeneratorZaPoslovneRacuneRezultat {
+  const audit = result.audit.map((item, index) => ({
+    ...item,
+    id: `demo-audit-${index + 1}`,
+    detalji: `Demo audit zapis ${index + 1} za javni PDF export.`,
+  }));
+
+  return {
+    ...result,
+    userId: 'public-demo',
+    subjekt: {
+      ...result.subjekt,
+      naziv: 'Javni demo subjekt',
+      pib: 'DEMO-PIB',
+      maticniBroj: 'DEMO-MB',
+      email: 'public-demo@ai-iq-super-platforma.com',
+    },
+    racuni: result.racuni.map((racun, index) => ({
+      ...racun,
+      id: `demo-racun-${index + 1}`,
+      brojRacuna: `DEMO-${String(index + 1).padStart(4, '0')}`,
+      ibanLike: `RS35AIIQDEMO${String(index + 1).padStart(10, '0')}`,
+      metadata: {
+        ...racun.metadata,
+        vlasnik: 'Javni demo subjekt',
+      },
+    })),
+    audit,
+  };
+}
+
+function redactIzvozFakturaResult(
+  result: DigitalnaIndustrijaIzvozFakturaRezultat,
+): DigitalnaIndustrijaIzvozFakturaRezultat {
+  return {
+    ...result,
+    userId: 'public-demo',
+    fakture: result.fakture.map((faktura, index) => ({
+      ...faktura,
+      id: `demo-faktura-${index + 1}`,
+      entitet: `Demo entitet ${index + 1}`,
+      platformaId: `demo-platforma-${index + 1}`,
+    })),
+  };
+}
+
+export function buildPoslovniRacuniPdfDocument(
+  result: GeneratorZaPoslovneRacuneRezultat,
+  options: PdfBuildOptions = {},
+): Buffer {
+  const resolvedResult = options.audience === 'public' ? redactPoslovniRacuniResult(result) : result;
   const lines: string[] = [
     KOMPANIJA_FORMALNI_IDENTITET,
-    `Generator: ${result.kontekst.modul}`,
-    `Export contract: ${result.exportContract.version}`,
-    `Korisnik: ${result.userId}`,
-    `Status: ${result.status}`,
-    `KYC/KYB: ${result.subjekt.kycKybStatus}`,
-    `Subjekt: ${result.subjekt.naziv} | PIB ${result.subjekt.pib} | MB ${result.subjekt.maticniBroj}`,
-    `Email: ${result.subjekt.email} | Zemlja: ${result.subjekt.zemlja}`,
-    `Ukupno racuna: ${result.summary.ukupnoRacuna} | Aktivnih: ${result.summary.aktivnihRacuna} | Predloga: ${result.summary.predloga}`,
+    `Generator: ${resolvedResult.kontekst.modul}`,
+    `Export contract: ${resolvedResult.exportContract.version}`,
+    `Korisnik: ${resolvedResult.userId}`,
+    `Status: ${resolvedResult.status}`,
+    `KYC/KYB: ${resolvedResult.subjekt.kycKybStatus}`,
+    `Subjekt: ${resolvedResult.subjekt.naziv} | PIB ${resolvedResult.subjekt.pib} | MB ${resolvedResult.subjekt.maticniBroj}`,
+    `Email: ${resolvedResult.subjekt.email} | Zemlja: ${resolvedResult.subjekt.zemlja}`,
+    `Ukupno racuna: ${resolvedResult.summary.ukupnoRacuna} | Aktivnih: ${resolvedResult.summary.aktivnihRacuna} | Predloga: ${resolvedResult.summary.predloga}`,
     '',
     'RACUNI',
   ];
 
-  for (const racun of result.racuni) {
+  for (const racun of resolvedResult.racuni) {
     lines.push(
       `# ${racun.id} | ${racun.tip} | ${racun.valuta} | ${racun.status}`,
       `Broj racuna: ${racun.brojRacuna}`,
@@ -186,7 +240,7 @@ export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacune
   }
 
   lines.push('AUDIT');
-  for (const item of result.audit) {
+  for (const item of resolvedResult.audit) {
     lines.push(`${item.id} | ${item.akcija} | ${item.status} | ${item.detalji}`);
   }
 
@@ -194,18 +248,22 @@ export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacune
   return createTextPdfDocument('AI IQ WORLD BANK - POSLOVNI RACUNI PDF', lines);
 }
 
-export function buildIzvozFakturaPdfDocument(result: DigitalnaIndustrijaIzvozFakturaRezultat): Buffer {
+export function buildIzvozFakturaPdfDocument(
+  result: DigitalnaIndustrijaIzvozFakturaRezultat,
+  options: PdfBuildOptions = {},
+): Buffer {
+  const resolvedResult = options.audience === 'public' ? redactIzvozFakturaResult(result) : result;
   const lines: string[] = [
     KOMPANIJA_FORMALNI_IDENTITET,
-    `Registar: ${result.registarNosioc} | Jurisdikcija: ${result.jurisdikcija}`,
-    `Export contract: ${result.exportContract.version}`,
-    `Korisnik: ${result.userId}`,
-    `Ukupno faktura: ${result.kpi.ukupnoFaktura} | Spremno: ${result.kpi.spremno} | U pripremi: ${result.kpi.uPripremi} | Revizija: ${result.kpi.zahtevaReviziju}`,
+    `Registar: ${resolvedResult.registarNosioc} | Jurisdikcija: ${resolvedResult.jurisdikcija}`,
+    `Export contract: ${resolvedResult.exportContract.version}`,
+    `Korisnik: ${resolvedResult.userId}`,
+    `Ukupno faktura: ${resolvedResult.kpi.ukupnoFaktura} | Spremno: ${resolvedResult.kpi.spremno} | U pripremi: ${resolvedResult.kpi.uPripremi} | Revizija: ${resolvedResult.kpi.zahtevaReviziju}`,
     '',
     'IZVOZNE FAKTURE',
   ];
 
-  for (const faktura of result.fakture) {
+  for (const faktura of resolvedResult.fakture) {
     lines.push(
       `# ${faktura.id} | ${faktura.entitet} | ${faktura.status}`,
       `Broj fakture: ${faktura.brojFakture}`,
