@@ -149,6 +149,16 @@ function buildSemaMuSemaFormula(
   const formulaDegradedSources = degradedSources.slice(beforeEvalDegradedCount);
   const hasFormulaMarker = (envName: string) => formulaDegradedSources.includes(`invalid-env:${envName}`)
     || formulaDegradedSources.includes(`out-of-range:${envName}`);
+  const invalidFormulaInputs = [
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
+  ];
+  const outOfRangeFormulaInputs = [
+    ...(formulaDegradedSources.includes('out-of-range:EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('out-of-range:EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('out-of-range:EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
+  ];
   const inputSubstitutions = [
     ...(hasFormulaMarker('EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
     ...(hasFormulaMarker('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
@@ -165,7 +175,8 @@ function buildSemaMuSemaFormula(
   const blockerReasons = [
     ...(!hasSubstitutions && !formulaHoldsRaw ? [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`] : []),
     ...(deterministic ? [] : ['ŠEMA formula inputs are not deterministic']),
-    ...(hasSubstitutions ? [`Formula inputs used fallback substitution: ${inputSubstitutions.join(', ')}`] : []),
+    ...(invalidFormulaInputs.length > 0 ? [`Formula inputs used fallback for invalid env values: ${invalidFormulaInputs.join(', ')}`] : []),
+    ...(outOfRangeFormulaInputs.length > 0 ? [`Formula inputs were clamped for out-of-range values: ${outOfRangeFormulaInputs.join(', ')}`] : []),
   ];
 
   return {

@@ -163,7 +163,7 @@ async function runTests(): Promise<void> {
         const report = getExtrimliExtremProfilerReport();
         assert(report.semaMuSemaFormula.status === 'BLOCKED', 'out-of-range substitutions should block formula gate');
         assert(report.semaMuSemaFormula.inputSubstitutions.length === 3, 'all out-of-range formula inputs should be tracked');
-        assert(report.semaMuSemaFormula.blockerReasons.some((reason) => reason.includes('fallback substitution')), 'substitution blocker reason should be present');
+        assert(report.semaMuSemaFormula.blockerReasons.some((reason) => reason.includes('clamped for out-of-range values')), 'out-of-range clamp blocker reason should be present');
         assert(report.governanceSignal.freezeRequired, 'out-of-range substitutions should freeze WAWE promotion');
       });
     });
