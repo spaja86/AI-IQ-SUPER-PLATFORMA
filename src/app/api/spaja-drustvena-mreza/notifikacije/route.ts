@@ -13,7 +13,10 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const recipientId = searchParams.get('recipientId') ?? undefined;
+    const recipientId = searchParams.get('recipientId');
+    if (!recipientId) {
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'recipientId query param is required');
+    }
     const unreadOnly = searchParams.get('unreadOnly') === 'true';
     const notifications = listNotifications({ recipientId, unreadOnly });
     return withSpajaDrustvenaMrezaHeaders(apiSuccess({ notifications, count: notifications.length }, 200));

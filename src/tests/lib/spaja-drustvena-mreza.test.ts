@@ -216,6 +216,8 @@ async function runTests(): Promise<void> {
       capacity: 2,
     });
     assert(created.ok && created.data, 'event create failed');
+    const hostAttempt = rsvpEvent(created.data.id, 'profile-internal-core');
+    assert(!hostAttempt.ok && hostAttempt.code === 'CONFLICT', 'host should not be allowed to RSVP again');
     const first = rsvpEvent(created.data.id, 'profile-partner-ioopenui');
     assert(first.ok && first.data?.attendeeIds.includes('profile-partner-ioopenui'), 'first RSVP should occupy the last attendee slot');
     assert(first.data?.attendeeIds.length === 2, 'host should count toward total attendee capacity');

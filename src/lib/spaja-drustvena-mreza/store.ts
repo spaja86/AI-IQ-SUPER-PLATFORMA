@@ -618,6 +618,9 @@ export function rsvpEvent(eventId: string, profileId: string): SocialOperationRe
   if (!event) return { ok: false, code: 'NOT_FOUND', message: `event not found: ${eventId}` };
   const profile = requireProfile(profileId);
   if (!profile.ok) return forwardFailure<SocialEvent>(profile);
+  if (profileId === event.hostId) {
+    return { ok: false, code: 'CONFLICT', message: 'host is already registered for this event' };
+  }
   if (event.attendeeIds.includes(profileId) || event.waitlistIds.includes(profileId)) {
     return { ok: false, code: 'CONFLICT', message: 'profile already registered for this event' };
   }
