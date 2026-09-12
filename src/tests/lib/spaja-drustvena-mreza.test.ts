@@ -197,8 +197,8 @@ async function runTests(): Promise<void> {
     _resetSpajaDrustvenaMrezaState();
     const posts = listPosts();
     assert(posts.length === 0, 'default feed listing should not expose restricted seed post');
-    const partnerVisible = listPosts({ viewerId: 'profile-partner-ioopenui' });
-    assert(partnerVisible.some((post) => post.id === 'post-seed-0001'), 'partner viewer should see network seed post');
+    const internalVisible = listPosts({ viewerId: 'profile-internal-core' });
+    assert(internalVisible.some((post) => post.id === 'post-seed-0001'), 'internal viewer should see internal/network seed post');
   });
 
   await test('reaction and flag are blocked outside post scope', () => {
@@ -361,10 +361,10 @@ async function runTests(): Promise<void> {
     _resetSpajaDrustvenaMrezaState();
     const before = listPosts().length;
     createPost({
-      authorId: 'profile-partner-ioopenui',
-      audience: 'partner',
-      visibility: 'network',
-      content: 'Partner update',
+      authorId: 'profile-public-builder',
+      audience: 'public',
+      visibility: 'public',
+      content: 'Public update',
     });
     const after = listPosts().length;
     assert(after === before + 1, 'post count should increment by one');

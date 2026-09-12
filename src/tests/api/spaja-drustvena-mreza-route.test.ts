@@ -126,10 +126,10 @@ async function runTests(): Promise<void> {
 
   await test('GET /feed allows scoped read with viewerId', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed?viewerId=profile-partner-ioopenui'));
+    const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed?viewerId=profile-internal-core'));
     assert(response.status === 200, `expected 200, got ${response.status}`);
     const body = await response.json() as { data: { posts: Array<{ id: string }> } };
-    assert(body.data.posts.some((post) => post.id === 'post-seed-0001'), 'viewerId should expose partner/network-capable feed');
+    assert(body.data.posts.some((post) => post.id === 'post-seed-0001'), 'viewerId should expose internal/network-capable feed');
   });
 
   await test('GET /feed rejects invalid visibility filter', async () => {
