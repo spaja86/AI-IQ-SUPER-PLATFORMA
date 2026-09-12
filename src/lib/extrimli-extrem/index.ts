@@ -142,10 +142,10 @@ function buildSemaMuSemaFormula(
     2,
   );
   const derivedAllSema = round(clamp(100 - resolutionInput.discanPressurePercent, 0, 100), 2);
-  const sema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_SHEMA_VALUE', derivedSema, 300, degradedSources);
-  const allSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE', derivedAllSema, 300, degradedSources);
-  const computedMuSema = round(clamp((sema * 2) + allSema, 0, 900), 2);
-  const expectedMuSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_MUSHEMA_VALUE', computedMuSema, 900, degradedSources);
+  const sema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_SHEMA_VALUE', derivedSema, 100, degradedSources);
+  const allSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE', derivedAllSema, 100, degradedSources);
+  const computedMuSema = round(clamp((sema * 2) + allSema, 0, 300), 2);
+  const expectedMuSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_MUSHEMA_VALUE', computedMuSema, 300, degradedSources);
   const formulaDegradedSources = degradedSources.slice(beforeEvalDegradedCount);
   const hasFormulaMarker = (envName: string) => formulaDegradedSources.includes(`invalid-env:${envName}`)
     || formulaDegradedSources.includes(`out-of-range:${envName}`);
