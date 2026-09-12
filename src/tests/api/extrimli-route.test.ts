@@ -110,7 +110,15 @@ async function runTests(): Promise<void> {
         rollout: { currentWawe: string; promotionFreeze: boolean };
         b2bReadiness: {
           downstreamSync: { linkedRepo: string };
-          governanceDecisions: { semaFormulaGate: { canonicalExpression: string; status: string } };
+          governanceDecisions: {
+            semaFormulaGate: {
+              canonicalExpression: string;
+              status: string;
+              muSemaConclusion: string;
+              formulaHolds: boolean;
+              blockerReasons: string[];
+            };
+          };
         };
         paymentVerification: { status: string; blockers: string[] };
         extremProfiler: { profile: { conflictIntensity: string; bottleneckLayer: string } };
@@ -136,6 +144,9 @@ async function runTests(): Promise<void> {
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion), 'unexpected MUŠEMA conclusion');
     assert(body.data.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'missing B2B formula gate expression');
     assert(['PASSED', 'BLOCKED'].includes(body.data.b2bReadiness.governanceDecisions.semaFormulaGate.status), 'unexpected B2B formula gate status');
+    assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.b2bReadiness.governanceDecisions.semaFormulaGate.muSemaConclusion), 'unexpected B2B MUŠEMA conclusion');
+    assert(typeof body.data.b2bReadiness.governanceDecisions.semaFormulaGate.formulaHolds === 'boolean', 'B2B formulaHolds should be boolean');
+    assert(Array.isArray(body.data.b2bReadiness.governanceDecisions.semaFormulaGate.blockerReasons), 'B2B formula blocker reasons should be array');
     assert(body.data.distanceRatioEkvilaterTable.rows.length === 3, 'distance ratio table must expose 3 rows');
   });
 
