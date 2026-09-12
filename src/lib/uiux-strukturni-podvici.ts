@@ -396,6 +396,7 @@ export const DEPON_ROLLOUT_PLAN: DeponRolloutStage[] = [
   { priority: 1, deponId: 'DEPON-15', role: 'marketplace', reason: 'Pilot surface for discovery, ranking, filters, and recommendations.' },
   { priority: 2, deponId: 'DEPON-02', role: 'core-operational', reason: 'State dashboard is the next highest-value controlled UX surface.' },
   { priority: 3, deponId: 'DEPON-08', role: 'core-operational', reason: 'API/admin control surface benefits from task-first governance.' },
+  { priority: 4, deponId: 'DEPON-MARKETPLACE-REMAINING', role: 'marketplace', reason: 'Roll out governed marketplace patterns after the DEPON-15 pilot stabilizes.' },
   { priority: 4, deponId: 'DEPON-ALL-REMAINING', role: 'core-operational', reason: 'Scale governed patterns across remaining DEPON UI layers.' },
 ];
 
@@ -528,7 +529,9 @@ export function resolveRolloutPriority(depoId: string, role?: DeponUXRole): numb
   const exactMatch = DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId.toUpperCase() === canonicalId);
   if (exactMatch) return exactMatch.priority;
   if (role) {
-    const catchAll = DEPON_ROLLOUT_PLAN.find((stage) => stage.role === role && stage.deponId === 'DEPON-ALL-REMAINING');
+    const catchAll = DEPON_ROLLOUT_PLAN.find(
+      (stage) => stage.role === role && (stage.deponId === 'DEPON-ALL-REMAINING' || stage.deponId === 'DEPON-MARKETPLACE-REMAINING'),
+    );
     if (catchAll) return catchAll.priority;
     return DEPON_ROLLOUT_PLAN.find((stage) => stage.role === role)?.priority ?? DEPON_ROLLOUT_PLAN.length + 1;
   }
