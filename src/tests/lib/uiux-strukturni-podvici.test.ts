@@ -48,6 +48,16 @@ function assertEqual<T>(actual: T, expected: T, label?: string): void {
   }
 }
 
+function assertThrows(fn: () => void, expectedPart: string): void {
+  try {
+    fn();
+    throw new Error(`Expected error containing ${expectedPart}`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    assert(message.includes(expectedPart), `error message should include ${expectedPart}`);
+  }
+}
+
 const depo: DepoIdentityLayer = {
   depoId: 'io-openui-ao-home',
   depoTip: 'platform',
@@ -244,6 +254,23 @@ async function runTests(): Promise<void> {
     assertEqual(schema.governance.fallbackStableCandidateId, 'depon-15-search-stable', 'fallback id');
     assertEqual(schema.performanceBudget.maxRenderMs > 0, true, 'render budžet');
     assertEqual(schema.metadata.rolloutPriority, resolveRolloutPriority(depo.depoId), 'rollout prioritet');
+  });
+
+  await test('buildCanonicalDeponSchema odbija konfliktan canonical DEPON role', () => {
+    assertThrows(
+      () =>
+        buildCanonicalDeponSchema({
+          identity: { ...depo, depoId: 'DEPON-02', deponRole: 'marketplace' },
+          navigacija: ['home'],
+          sekcije: ['hero'],
+          prioriteti: ['value-proposition'],
+          sekvence: ['hero', 'cta'],
+          varijante: ['balanced'],
+          stanja: ['default'],
+          styleSystem: { tema: 'auto', tokenSet: 'spaja-core-aa', responsive: ['sm'], a11yNivo: 'AA' },
+        }),
+      'DEPON role mismatch',
+    );
   });
 
   await test('buildVariantSelectionAuditEntry ostavlja fallback audit trag', () => {

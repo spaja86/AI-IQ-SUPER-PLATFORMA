@@ -420,7 +420,12 @@ export function resolveDeponRole(depoId: string): DeponUXRole {
 
 function resolveDeponRoleFromIdentity(identity: Pick<DepoIdentityLayer, 'depoId' | 'deponRole'>): DeponUXRole {
   const canonicalId = extractCanonicalDeponId(identity.depoId);
-  return canonicalId ? resolveDeponRoleFromCanonicalId(canonicalId) : identity.deponRole;
+  if (!canonicalId) return identity.deponRole;
+  const derivedRole = resolveDeponRoleFromCanonicalId(canonicalId);
+  if (identity.deponRole !== derivedRole) {
+    throw new Error(`DEPON role mismatch for ${identity.depoId}: expected ${derivedRole}, got ${identity.deponRole}`);
+  }
+  return derivedRole;
 }
 
 function buildCandidate(
@@ -493,7 +498,9 @@ export function meetsDeponDiversityTarget(axes: DeponDiversityAxis[] = DEPON_DIV
 }
 
 export function getDeponRoleCatalog(role: DeponUXRole): DeponRoleCatalog {
-  return DEPON_ROLE_CATALOGS.find((catalog) => catalog.role === role) ?? DEPON_ROLE_CATALOGS[0]!;
+  const catalog = DEPON_ROLE_CATALOGS.find((item) => item.role === role);
+  if (!catalog) throw new Error(`Unknown DEPON role catalog: ${role}`);
+  return catalog;
 }
 
 export function resolveRolloutPriority(depoId: string): number {

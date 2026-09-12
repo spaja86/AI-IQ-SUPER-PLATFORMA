@@ -125,6 +125,16 @@ function assertClose(actual: number, expected: number, tolerance = 0.01, label?:
   }
 }
 
+function assertThrows(fn: () => void, expectedPart: string): void {
+  try {
+    fn();
+    throw new Error(`Expected error containing ${expectedPart}`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    assert(message.includes(expectedPart), `error message should include ${expectedPart}`);
+  }
+}
+
 // ─── Helper: build a sample app ──────────────────────────────────────────────
 
 function makeApp(overrides: Partial<DeponValueFactors> = {}): AppEntry {
@@ -551,6 +561,10 @@ async function runMarketplacePortalTests(): Promise<void> {
     const family = getMarketplaceUXFamily('enterprise-review');
     assert(family.primaryKpis.includes('trust-compliance'), 'trust/compliance KPI');
     assert(family.intents.includes('enterprise-review'), 'enterprise review intent');
+  });
+
+  await test('getMarketplaceUXFamily prijavljuje nepoznatu familiju', () => {
+    assertThrows(() => getMarketplaceUXFamily('unknown-family' as never), 'Unknown DEPON-15 UX family');
   });
 }
 

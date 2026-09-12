@@ -403,7 +403,9 @@ export function getFeaturedApps(leaderboard: Leaderboard): RankEntry[] {
 }
 
 export function getMarketplaceUXFamily(family: MarketplaceUXFamily): MarketplaceUXFamilyConfig {
-  return DEPON_15_UX_FAMILIES.find((item) => item.family === family) ?? DEPON_15_UX_FAMILIES[0]!;
+  const config = DEPON_15_UX_FAMILIES.find((item) => item.family === family);
+  if (!config) throw new Error(`Unknown DEPON-15 UX family: ${family}`);
+  return config;
 }
 
 export function getHealthStatus(): {
