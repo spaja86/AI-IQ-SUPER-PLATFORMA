@@ -256,7 +256,7 @@ async function runTests(): Promise<void> {
 
     assertEqual(schema.governance.fallbackStableCandidateId, 'depon-15-search-stable', 'fallback id');
     assertEqual(schema.performanceBudget.maxRenderMs > 0, true, 'render budžet');
-    assertEqual(schema.metadata.rolloutPriority, resolveRolloutPriority(depo.depoId), 'rollout prioritet');
+    assertEqual(schema.metadata.rolloutPriority, resolveRolloutPriority(depo.depoId, 'marketplace'), 'rollout prioritet');
     assertEqual(schema.governance.requiredA11y, 'AA', 'governance a11y baseline');
   });
 
