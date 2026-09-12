@@ -147,10 +147,12 @@ function buildSemaMuSemaFormula(
   const computedMuSema = round(clamp((sema * 2) + allSema, 0, 900), 2);
   const expectedMuSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_MUSHEMA_VALUE', computedMuSema, 900, degradedSources);
   const formulaDegradedSources = degradedSources.slice(beforeEvalDegradedCount);
+  const hasFormulaMarker = (envName: string) => formulaDegradedSources.includes(`invalid-env:${envName}`)
+    || formulaDegradedSources.includes(`out-of-range:${envName}`);
   const inputSubstitutions = [
-    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
-    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
-    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
+    ...(hasFormulaMarker('EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
+    ...(hasFormulaMarker('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
+    ...(hasFormulaMarker('EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
   ];
   const formulaHolds = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
   const deterministic = Number.isFinite(sema)

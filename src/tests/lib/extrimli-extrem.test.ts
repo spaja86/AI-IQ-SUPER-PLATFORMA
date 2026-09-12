@@ -153,6 +153,20 @@ async function runTests(): Promise<void> {
         assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_MUSHEMA_VALUE')), 'expected invalid MUŠEMA source');
       });
     });
+
+    await test('out-of-range formula env values are tracked as substitutions and block gate', async () => {
+      await withEnv({
+        EXTRIMLI_EXTREM_SHEMA_VALUE: '999',
+        EXTRIMLI_EXTREM_ALL_SHEMA_VALUE: '999',
+        EXTRIMLI_EXTREM_MUSHEMA_VALUE: '9999',
+      }, () => {
+        const report = getExtrimliExtremProfilerReport();
+        assert(report.semaMuSemaFormula.status === 'BLOCKED', 'out-of-range substitutions should block formula gate');
+        assert(report.semaMuSemaFormula.inputSubstitutions.length === 3, 'all out-of-range formula inputs should be tracked');
+        assert(report.semaMuSemaFormula.blockerReasons.some((reason) => reason.includes('fallback substitution')), 'substitution blocker reason should be present');
+        assert(report.governanceSignal.freezeRequired, 'out-of-range substitutions should freeze WAWE promotion');
+      });
+    });
   });
 
   await test('DISCAN in KIBEN blocker freezes progression even when DISKVIT conflict is low', async () => {
