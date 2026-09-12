@@ -91,7 +91,7 @@ async function runTests(): Promise<void> {
     ));
     assert(response.status === 200, `expected 200, got ${response.status}`);
     const body = await response.json() as { data: { profiles: Array<{ audience: string }> } };
-    assert(body.data.profiles.every((profile) => profile.audience === 'internal'), 'audience filter failed');
+    assert(body.data.profiles.length === 1 && body.data.profiles.every((profile) => profile.audience === 'internal'), 'audience filter failed');
   });
 
   await test('GET /profiles stays public-only without viewerId', async () => {

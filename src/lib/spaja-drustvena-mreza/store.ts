@@ -120,6 +120,12 @@ type SocialViewerContext = {
   audience: SocialAudience;
 };
 
+function canViewerAccessProfile(viewer: SocialViewerContext, profile: SocialProfile): boolean {
+  if (!canAudienceAccessScope(viewer.audience, profile.audience, profile.visibility)) return false;
+  if (isPublicScope(profile.audience, profile.visibility)) return true;
+  return viewer.id === profile.id;
+}
+
 function countByAudience(): Record<SocialAudience, number> {
   const result: Record<SocialAudience, number> = { internal: 0, partner: 0, public: 0 };
   for (const profile of PROFILE_STORE.values()) {
@@ -296,7 +302,7 @@ export function listProfiles(filter?: { audience?: SocialAudience; visibility?: 
     .filter((profile) => {
       if (filter?.audience && profile.audience !== filter.audience) return false;
       if (filter?.visibility && profile.visibility !== filter.visibility) return false;
-      if (filter?.viewer) return canAudienceAccessScope(filter.viewer.audience, profile.audience, profile.visibility);
+      if (filter?.viewer) return canViewerAccessProfile(filter.viewer, profile);
       return isPublicScope(profile.audience, profile.visibility);
     })
     .map((profile) => clone(profile));
@@ -365,13 +371,14 @@ export function listGroups(filter?: { audience?: SocialAudience; visibility?: So
     .map((group) => clone(group));
 }
 
-export function listConversations(filter: { participantId: string; actorId: string; audience?: SocialAudience }): SocialConversation[] {
+export function listConversations(filter: { participantId: string; actor: SocialViewerContext; audience?: SocialAudience }): SocialConversation[] {
   seedState();
-  if (filter.actorId !== filter.participantId) return [];
+  if (filter.actor.id !== filter.participantId) return [];
   return Array.from(CONVERSATION_STORE.values())
     .filter((thread) => {
       if (!thread.participantIds.includes(filter.participantId)) return false;
       if (filter.audience && thread.audience !== filter.audience) return false;
+      if (!canAudienceAccessScope(filter.actor.audience, thread.audience, thread.visibility)) return false;
       return true;
     })
     .sort((a, b) => b.updatedAt - a.updatedAt)

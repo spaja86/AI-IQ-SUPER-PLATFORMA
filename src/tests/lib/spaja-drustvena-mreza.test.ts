@@ -125,7 +125,8 @@ async function runTests(): Promise<void> {
     const publicProfiles = listProfiles();
     assert(publicProfiles.length === 1 && publicProfiles[0].id === 'profile-public-builder', 'default profile read should only expose public profile');
     const internalProfiles = listProfiles({ viewer: { id: 'profile-internal-core', audience: 'internal' } });
-    assert(internalProfiles.length >= 3, 'internal viewer should see all seeded profiles');
+    assert(internalProfiles.some((profile) => profile.id === 'profile-internal-core'), 'internal viewer should see own profile');
+    assert(!internalProfiles.some((profile) => profile.id === 'profile-partner-ioopenui'), 'internal viewer should not directory-list partner profile');
   });
 
   await test('rejects duplicate profile handle', () => {
@@ -336,8 +337,14 @@ async function runTests(): Promise<void> {
 
   await test('conversation listing stays participant-scoped', () => {
     _resetSpajaDrustvenaMrezaState();
-    const internalThreads = listConversations({ participantId: 'profile-internal-core', actorId: 'profile-internal-core' });
-    const publicThreads = listConversations({ participantId: 'profile-public-builder', actorId: 'profile-public-builder' });
+    const internalThreads = listConversations({
+      participantId: 'profile-internal-core',
+      actor: { id: 'profile-internal-core', audience: 'internal' },
+    });
+    const publicThreads = listConversations({
+      participantId: 'profile-public-builder',
+      actor: { id: 'profile-public-builder', audience: 'public' },
+    });
     assert(internalThreads.length >= 1, 'internal participant should see seeded thread');
     assert(publicThreads.length === 0, 'non-participant should not see seeded thread');
   });

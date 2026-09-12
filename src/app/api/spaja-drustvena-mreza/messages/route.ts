@@ -37,7 +37,11 @@ export async function GET(req: NextRequest) {
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }
-    const threads = listConversations({ participantId, actorId: actorProfileId, audience: audience ?? undefined });
+    const threads = listConversations({
+      participantId,
+      actor: { id: actorProfileId, audience: participant.data!.audience },
+      audience: audience ?? undefined,
+    });
     return withSpajaDrustvenaMrezaHeaders(apiSuccess({ threads, count: threads.length }, 200));
   } catch (error) {
     return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/messages GET', error);

@@ -58,14 +58,16 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 5. `internal` profili mogu pristupati svim v1 scope-ovima
 6. `network` vidljivost se koristi za koordinaciju internih + partnerskih aktera
 7. `public` vidljivost ostaje otvorena za community sloj i javne tokove
-8. Self-reaction nije dozvoljen
-9. Reakcije i flag akcije dozvoljene su samo profilima koji mogu videti dati scope objave
-10. Read bez `viewerId` ostaje ograničen na `public/public` profile, feed, grupe i događaje
-11. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
-12. Jedan autor može kreirati najviše 5 objava po satu
-13. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
-14. `recipientId` je obavezan za pristup notifikacijama, `x-spaja-profile-id` mora da se poklopi sa tim identitetom, a mark-as-read je dozvoljen samo vlasniku notifikacije
-15. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
+8. Non-public profile listanje je self-scoped: partner/internal profil može videti svoj zapis, ali ne i enumerisati tuđe non-public profile
+9. Non-public event read je membership-scoped: scoped event vide samo host, attendee ili waitlist član istog scope-a
+10. Self-reaction nije dozvoljen
+11. Reakcije i flag akcije dozvoljene su samo profilima koji mogu videti dati scope objave
+12. Read bez `viewerId` ostaje ograničen na `public/public` profile, feed, grupe i događaje
+13. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
+14. Jedan autor može kreirati najviše 5 objava po satu
+15. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
+16. `recipientId` je obavezan za pristup notifikacijama, `x-spaja-profile-id` mora da se poklopi sa tim identitetom, a mark-as-read je dozvoljen samo vlasniku notifikacije
+17. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
 
 ## KPI targets
 
