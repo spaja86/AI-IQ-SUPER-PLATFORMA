@@ -82,7 +82,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     id: 'generator-poslovni-racuni-export',
     tip: 'tekst',
     naslov: '📄 JSON → PDF export contract',
-    redosled: 5.5,
+    redosled: 6,
     podaci: {
       sadrzaj:
         'JSON ostaje kanonski izvor podataka, a PDF je sekundarni izlaz za deljenje, preuzimanje i audit-ready pregled poslovnih računa.',
@@ -93,7 +93,7 @@ export const generatorZaPoslovneRacuneSekvence: Sekvenca[] = [
     id: 'generator-poslovni-racuni-cta',
     tip: 'cta',
     naslov: '🚀 Aktiviraj tok poslovnih računa',
-    redosled: 6,
+    redosled: 7,
     podaci: {
       opis:
         'Generator je simulacioni (in-memory) i spreman za dalju integraciju sa poslovnim novčanikom, menjačnicom i operativnim bankarskim tokovima.',

@@ -60,7 +60,7 @@ export const digitalnaIndustrijaIzvozFakturaSekvence: Sekvenca[] = [
     id: 'digitalna-industrija-izvoz-faktura-export',
     tip: 'tekst',
     naslov: '📄 JSON i PDF paritet',
-    redosled: 3.5,
+    redosled: 4,
     podaci: {
       sadrzaj:
         'Izvozne fakture ostaju kanonski opisane kroz JSON API odgovor, dok PDF koristi isti payload za deljenje, naplatu i audit-ready pregled.',
@@ -71,7 +71,7 @@ export const digitalnaIndustrijaIzvozFakturaSekvence: Sekvenca[] = [
     id: 'digitalna-industrija-izvoz-faktura-cta',
     tip: 'cta',
     naslov: '🚀 Operativni izvoz faktura',
-    redosled: 4,
+    redosled: 5,
     podaci: {
       opis:
         'Registar omogućava centralizovano praćenje izvoznih faktura i statusa spremnosti za naplatu.',

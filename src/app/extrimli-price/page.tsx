@@ -4,7 +4,7 @@ import { extrimliPriceSekvence } from '@/lib/sekvence/extrimli-price-page';
 
 export const metadata: Metadata = {
   title: 'EXTRIMLI Priče',
-  description: 'Narativni/content sloj za igrice, biskop i srodne branše.',
+  description: 'Narativni/content sloj za igrice, bioskop i srodne branše.',
 };
 
 export default function ExtrimliPricePage() {
