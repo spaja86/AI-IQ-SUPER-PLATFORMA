@@ -476,7 +476,10 @@ function buildCandidate(
 
   return {
     schemaVersion: SCHEMA_REGISTRY.current,
-    identity: depo,
+    identity: {
+      ...depo,
+      deponRole: resolvedRole,
+    },
     deliveryContext: {
       drzava: depo.trziste.toUpperCase(),
       uredjaj: 'desktop',
@@ -541,7 +544,8 @@ export function buildCanonicalDeponSchema(input: {
   performanceBudget?: Partial<PerformanceBudget>;
   metadata?: Partial<CanonicalUIUXSchema['metadata']>;
 }): CanonicalUIUXSchema {
-  const roleCatalog = getDeponRoleCatalog(resolveDeponRoleFromIdentity(input.identity));
+  const resolvedRole = resolveDeponRoleFromIdentity(input.identity);
+  const roleCatalog = getDeponRoleCatalog(resolvedRole);
   const resolvedIntent = input.deliveryContext?.intent ?? roleCatalog.primaryIntents[0]!;
   if (!roleCatalog.primaryIntents.includes(resolvedIntent)) {
     throw new Error(`Unsupported intent ${resolvedIntent} for DEPON role ${roleCatalog.role}`);
@@ -559,7 +563,10 @@ export function buildCanonicalDeponSchema(input: {
   }
   return {
     schemaVersion: SCHEMA_REGISTRY.current,
-    identity: input.identity,
+    identity: {
+      ...input.identity,
+      deponRole: resolvedRole,
+    },
     deliveryContext: {
       drzava: input.deliveryContext?.drzava ?? input.identity.trziste.toUpperCase(),
       uredjaj: input.deliveryContext?.uredjaj ?? 'desktop',
