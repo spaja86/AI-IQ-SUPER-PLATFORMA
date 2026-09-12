@@ -72,7 +72,7 @@ export function buildExportContract(jsonPath: string, pdfPath: string): ExportCo
   };
 }
 
-export function createTextPdfDocument(title: string, sourceLines: string[]): Uint8Array {
+export function createTextPdfDocument(title: string, sourceLines: string[]): Buffer {
   const lines = [title, '', ...sourceLines.flatMap((line) => wrapText(line))];
   const linesPerPage = 44;
   const pageChunks: string[][] = [];
@@ -133,7 +133,7 @@ export function createTextPdfDocument(title: string, sourceLines: string[]): Uin
   return Buffer.from(pdf, 'utf8');
 }
 
-export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacuneRezultat): Uint8Array {
+export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacuneRezultat): Buffer {
   const lines: string[] = [
     KOMPANIJA_FORMALNI_IDENTITET,
     `Generator: ${result.kontekst.modul}`,
@@ -169,7 +169,7 @@ export function buildPoslovniRacuniPdfDocument(result: GeneratorZaPoslovneRacune
   return createTextPdfDocument('AI IQ WORLD BANK — POSLOVNI RAČUNI PDF', lines);
 }
 
-export function buildIzvozFakturaPdfDocument(result: DigitalnaIndustrijaIzvozFakturaRezultat): Uint8Array {
+export function buildIzvozFakturaPdfDocument(result: DigitalnaIndustrijaIzvozFakturaRezultat): Buffer {
   const lines: string[] = [
     KOMPANIJA_FORMALNI_IDENTITET,
     `Registar: ${result.registarNosioc} | Jurisdikcija: ${result.jurisdikcija}`,
