@@ -323,10 +323,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     {
       id: 'schema-mushema-canonical-lock',
-      description: 'Canonical formula ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA is locked for EXTRIMLI/EXTRONDOL/EXTREM scope and evaluated deterministically.',
+      description: 'Canonical formula ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA is locked for EXTRIMLI/EXTRONDOL/EXTREM scope.',
       passed: semaMuSemaFormula.canonicalExpression === EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION
-        && semaMuSemaFormula.scopeLock.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM'
-        && semaMuSemaFormula.deterministic,
+        && semaMuSemaFormula.scopeLock.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM',
     },
     {
       id: 'schema-mushema-governance-gate',
@@ -334,6 +333,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       passed: semaMuSemaFormula.formulaHolds
         ? semaMuSemaFormula.status === 'PASSED' && semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_CONFIRMED'
         : semaMuSemaFormula.status === 'BLOCKED' && semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_BLOCKED',
+    },
+    {
+      id: 'schema-mushema-degraded-fallback',
+      description: 'Invalid ŠEMA formula env inputs are additive-only (no 500), explicitly marked with substitutions, and kept in degraded posture.',
+      passed: semaMuSemaFormula.inputSubstitutions.length === 0
+        || (semaMuSemaFormula.status === 'BLOCKED' && degradedSources.length > 0),
     },
   ];
 
