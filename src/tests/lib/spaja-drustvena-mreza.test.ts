@@ -127,7 +127,7 @@ async function runTests(): Promise<void> {
       authorId: 'profile-public-builder',
       audience: 'public',
       visibility: 'public',
-      content: 'Nova ista objava',
+      content: '  Nova ista objava  ',
     });
     assert(!second.ok && second.code === 'CONFLICT', 'duplicate post should be conflict');
   });

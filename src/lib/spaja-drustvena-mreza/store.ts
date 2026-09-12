@@ -328,15 +328,15 @@ export function createPost(input: {
   }
 
   const normalizedContent = input.content.trim();
-  const createdAt = nextNow();
   const authorPosts = Array.from(POST_STORE.values()).filter((post) => post.authorId === input.authorId);
-  const recentCount = authorPosts.filter((post) => post.createdAt >= createdAt - ONE_HOUR_MS).length;
+  const recentCount = authorPosts.filter((post) => post.createdAt >= peekNow() - ONE_HOUR_MS).length;
   if (recentCount >= SPAJA_DRUSTVENA_MREZA_POST_RATE_LIMIT_PER_HOUR) {
     return { ok: false, code: 'TOO_MANY_REQUESTS', message: 'post rate limit exceeded for this author' };
   }
   if (authorPosts.some((post) => post.content === normalizedContent)) {
     return { ok: false, code: 'CONFLICT', message: 'duplicate post content for this author' };
   }
+  const createdAt = nextNow();
 
   const post: SocialFeedPost = {
     id: nextId('post'),
@@ -500,8 +500,9 @@ export function createConversation(input: {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'subject and content are required' };
   }
 
+  const normalizedSubject = input.subject.trim();
   const fingerprint = uniqueParticipants.slice().sort().join('|');
-  if (Array.from(CONVERSATION_STORE.values()).some((thread) => thread.subject === input.subject.trim() && thread.participantIds.slice().sort().join('|') === fingerprint)) {
+  if (Array.from(CONVERSATION_STORE.values()).some((thread) => thread.subject.trim() === normalizedSubject && thread.participantIds.slice().sort().join('|') === fingerprint)) {
     return { ok: false, code: 'CONFLICT', message: 'duplicate conversation already exists' };
   }
 
@@ -511,7 +512,7 @@ export function createConversation(input: {
     participantIds: uniqueParticipants,
     audience: input.audience,
     visibility: input.visibility,
-    subject: input.subject.trim(),
+    subject: normalizedSubject,
     messages: [
       {
         id: nextId('msg'),

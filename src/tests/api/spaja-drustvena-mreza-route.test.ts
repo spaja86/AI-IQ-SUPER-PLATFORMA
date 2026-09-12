@@ -126,6 +126,24 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
+  await test('POST /feed flag action succeeds', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
+      authorId: 'profile-public-builder',
+      audience: 'public',
+      visibility: 'public',
+      content: 'Flag me',
+    }));
+    assert(created.status === 201, `expected 201, got ${created.status}`);
+    const body = await created.json() as { data: { id: string } };
+    const flagged = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', {
+      action: 'flag',
+      postId: body.data.id,
+      actorId: 'profile-partner-ioopenui',
+    }));
+    assert(flagged.status === 200, `expected 200, got ${flagged.status}`);
+  });
+
   await test('POST /groups creates group and join path works', async () => {
     _resetSpajaDrustvenaMrezaState();
     const created = await postGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups', 'POST', {
