@@ -239,6 +239,7 @@ async function runTests(): Promise<void> {
     assertEqual(resolveRolloutPriority('depon-15'), 1, 'lowercase rollout prioritet');
     assertEqual(resolveRolloutPriority('depon-15-search-stable'), 1, 'derived rollout prioritet');
     assertEqual(resolveRolloutPriority('io-openui-ao-home', 'marketplace'), 1, 'role fallback prioritet');
+    assertEqual(resolveRolloutPriority('io-openui-ao-core', 'core-operational'), 4, 'core catch-all prioritet');
   });
 
   await test('buildCanonicalDeponSchema postavlja governance, budžete i rollout prioritet', () => {
@@ -395,6 +396,31 @@ async function runTests(): Promise<void> {
 
     assertEqual(audit.fallbackUsed, true, 'auto fallback');
     assertEqual(audit.selectedBy, 'stable-fallback', 'selectedBy auto fallback');
+  });
+
+  await test('buildVariantSelectionAuditEntry prepoznaje fallback i po stableCandidateId', () => {
+    const variants = generateStructuredVariants({
+      depo,
+      catalog,
+      seed: 'seed-8',
+      maxCandidates: 1,
+    });
+    const ranked = rankVariants([
+      {
+        schema: {
+          ...variants[0],
+          metadata: { ...variants[0].metadata, candidateId: 'candidate-x', stableCandidateId: 'fallback-stable' },
+        },
+        metrics: { conversionRate: 0.5, taskCompletionMs: 7000, errorRate: 0.03, engagementScore: 0.6 },
+      },
+    ]);
+    const audit = buildVariantSelectionAuditEntry({
+      selected: ranked[0]!,
+      context: { depoId: 'DEPON-15', segment: 'returning', fallbackStableId: 'fallback-stable', intent: 'discovery' },
+    });
+
+    assertEqual(audit.fallbackUsed, true, 'stable id fallback');
+    assertEqual(audit.selectedBy, 'stable-fallback', 'selectedBy stable id fallback');
   });
 
   await test('meetsRequiredA11y sprovodi AA/AAA baseline', () => {

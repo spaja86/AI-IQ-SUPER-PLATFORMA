@@ -338,7 +338,7 @@ export const DEPON_DIVERSITY_KPI: DeponDiversityKPI = {
 
 export const DEPON_DIVERSITY_AXES: DeponDiversityAxis[] = [
   { id: 'segment', label: 'Segment', cardinality: 4, description: 'new, returning, power, enterprise' },
-  { id: 'state', label: 'Drzava', cardinality: 50, description: 'US state / market segmentation' },
+  { id: 'state', label: 'Drzava', cardinality: 50, description: 'State or market segmentation context' },
   { id: 'depon-role', label: 'DEPON role', cardinality: 2, description: 'core-operational or marketplace' },
   { id: 'variant-status', label: 'Variant status', cardinality: 4, description: 'draft, candidate, stable, fallback' },
   { id: 'device', label: 'Uredjaj', cardinality: 4, description: 'mobile, tablet, desktop, wall' },
@@ -527,7 +527,11 @@ export function resolveRolloutPriority(depoId: string, role?: DeponUXRole): numb
   const canonicalId = normalizeToParentDeponId(depoId);
   const exactMatch = DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId.toUpperCase() === canonicalId);
   if (exactMatch) return exactMatch.priority;
-  if (role) return DEPON_ROLLOUT_PLAN.find((stage) => stage.role === role)?.priority ?? DEPON_ROLLOUT_PLAN.length + 1;
+  if (role) {
+    const catchAll = DEPON_ROLLOUT_PLAN.find((stage) => stage.role === role && stage.deponId === 'DEPON-ALL-REMAINING');
+    if (catchAll) return catchAll.priority;
+    return DEPON_ROLLOUT_PLAN.find((stage) => stage.role === role)?.priority ?? DEPON_ROLLOUT_PLAN.length + 1;
+  }
   return DEPON_ROLLOUT_PLAN.length + 1;
 }
 
@@ -745,7 +749,12 @@ export function buildVariantSelectionAuditEntry(params: {
   const candidateId = params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`;
   const resolvedSelectedBy =
     params.selectedBy ??
-    (params.context.fallbackStableId && candidateId === params.context.fallbackStableId ? 'stable-fallback' : 'kpi-model');
+    (
+      params.context.fallbackStableId &&
+      (candidateId === params.context.fallbackStableId || stableCandidateId === params.context.fallbackStableId)
+        ? 'stable-fallback'
+        : 'kpi-model'
+    );
   const fallbackUsed = resolvedSelectedBy === 'stable-fallback';
 
   return {
