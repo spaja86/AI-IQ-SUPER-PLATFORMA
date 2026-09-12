@@ -294,6 +294,23 @@ async function runTests(): Promise<void> {
     );
   });
 
+  await test('buildCanonicalDeponSchema odbija sekvencu koja nije dozvoljena za DEPON role', () => {
+    assertThrows(
+      () =>
+        buildCanonicalDeponSchema({
+          identity: depo,
+          navigacija: ['home'],
+          sekcije: ['hero'],
+          prioriteti: ['value-proposition'],
+          sekvence: ['hero', 'slika', 'cta'],
+          varijante: ['balanced'],
+          stanja: ['default'],
+          styleSystem: { tema: 'auto', tokenSet: 'spaja-market-aa', responsive: ['sm'], a11yNivo: 'AA' },
+        }),
+      'Unsupported sequence',
+    );
+  });
+
   await test('buildVariantSelectionAuditEntry ostavlja fallback audit trag', () => {
     const variants = generateStructuredVariants({
       depo,

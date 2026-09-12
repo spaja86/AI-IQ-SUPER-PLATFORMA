@@ -370,6 +370,19 @@ export const DEPON_ROLE_CATALOGS: DeponRoleCatalog[] = [
     deponRange: 'DEPON-13..DEPON-18',
     primaryIntents: ['discovery', 'ranking', 'recommendation', 'monetization', 'compliance-review', 'enterprise-review'],
     allowedSequences: [
+      ['hero', 'statistika', 'tabela', 'cta'],
+      ['hero', 'tabela', 'lista', 'cta'],
+      ['hero', 'lista', 'cta'],
+      ['tekst', 'lista', 'baner', 'cta'],
+      ['hero', 'kartice', 'tabela', 'cta'],
+      ['tekst', 'kartice', 'cta'],
+      ['hero', 'statistika', 'kartice', 'cta'],
+      ['hero', 'progres', 'cta'],
+      ['hero', 'kartice', 'lista', 'cta'],
+      ['hero', 'baner', 'lista', 'cta'],
+      ['hero', 'tekst', 'kartice', 'cta'],
+      ['hero', 'tabela', 'kartice', 'cta'],
+      ['tekst', 'tabela', 'cta'],
       ['hero', 'kartice', 'cta'],
       ['hero', 'statistika', 'lista', 'cta'],
       ['hero', 'tabela', 'baner', 'cta'],
@@ -538,6 +551,12 @@ export function buildCanonicalDeponSchema(input: {
       `A11y level ${input.styleSystem.a11yNivo} does not meet required baseline ${GOVERNANCE_HEURISTICS.requiredA11y}`,
     );
   }
+  if (!roleCatalog.allowedSequences.some((sequence) => sequencesEqual(sequence, input.sekvence))) {
+    throw new Error(`Unsupported sequence ${input.sekvence.join('>')} for DEPON role ${roleCatalog.role}`);
+  }
+  if (!input.stanja.every((state) => roleCatalog.supportedStates.includes(state))) {
+    throw new Error(`Unsupported screen state for DEPON role ${roleCatalog.role}`);
+  }
   return {
     schemaVersion: SCHEMA_REGISTRY.current,
     identity: input.identity,
@@ -624,6 +643,10 @@ function clamp(value: number, min = 0, max = 1): number {
 export function meetsRequiredA11y(actual: StyleSystemLayer['a11yNivo'], required: StyleSystemLayer['a11yNivo']): boolean {
   const rank = { AA: 1, AAA: 2 } as const;
   return rank[actual] >= rank[required];
+}
+
+function sequencesEqual(left: SekvencaTip[], right: SekvencaTip[]): boolean {
+  return left.length === right.length && left.every((value, index) => value === right[index]);
 }
 
 export function scoreVariant(metrics: KPIMetrics, weights: KPIWeights = DEFAULT_KPI_WEIGHTS): number {

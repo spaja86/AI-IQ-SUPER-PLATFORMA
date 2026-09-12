@@ -559,10 +559,23 @@ async function runMarketplacePortalTests(): Promise<void> {
   });
 
   await test('DEPON-15 families koriste samo marketplace-dozvoljene intente', () => {
-    const allowed = new Set(getDeponRoleCatalog('marketplace').primaryIntents);
+    const marketplaceCatalog = getDeponRoleCatalog('marketplace');
+    const allowed = new Set(marketplaceCatalog.primaryIntents);
     assert(
       DEPON_15_UX_FAMILIES.every((family) => family.intents.every((intent) => allowed.has(intent))),
       'all family intents must be marketplace-supported',
+    );
+    assert(
+      DEPON_15_UX_FAMILIES.every((family) =>
+        family.allowedSequences.every((sequence) =>
+          marketplaceCatalog.allowedSequences.some(
+            (allowedSequence) =>
+              allowedSequence.length === sequence.length &&
+              allowedSequence.every((value, index) => value === sequence[index]),
+          ),
+        ),
+      ),
+      'all family sequences must be marketplace-supported',
     );
   });
 
