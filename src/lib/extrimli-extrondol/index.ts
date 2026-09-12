@@ -24,6 +24,7 @@ import type {
   ExtrimliExtrondolPaymentReferenceClassification,
   ExtrimliExtrondolPaymentVerification,
   ExtrimliExtrondolReport,
+  ExtrimliExtrondolReleaseAuditSummary,
   ExtrimliExtrondolStartProject,
   ExtrimliExtrondolWaweStage,
 } from './types';
@@ -617,7 +618,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
     ]
     : ['Ready for next WAWE stage with governance evidence.'];
-  const releaseAuditSummary = {
+  const releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary = {
     required: true,
     status: promotionFreeze ? 'BLOCKED' : 'READY',
     rolloutSnapshot: {
@@ -647,7 +648,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     humanReviewRequired: true,
     rollbackPlanRequired: true,
-  } as const;
+  };
 
   const b2bReadiness = {
     tenant: {
