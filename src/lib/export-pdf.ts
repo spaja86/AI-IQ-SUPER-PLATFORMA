@@ -34,7 +34,10 @@ function escapePdfText(input: string): string {
 }
 
 function wrapText(input: string, maxLength = 92): string[] {
-  const words = input.trim().split(/\s+/).filter(Boolean);
+  if (input.length === 0) return [''];
+  const trimmed = input.trim();
+  if (trimmed.length === 0) return [''];
+  const words = trimmed.split(/\s+/).filter(Boolean);
   if (words.length === 0) return [''];
   const lines: string[] = [];
   let current = '';
