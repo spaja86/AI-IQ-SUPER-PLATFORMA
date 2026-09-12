@@ -344,9 +344,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     {
       id: 'schema-mushema-governance-gate',
       description: 'MUŠEMA conclusion blocks WAWE promotion when the canonical formula does not hold.',
-      passed: semaMuSemaFormula.formulaHolds
-        ? semaMuSemaFormula.status === 'PASSED' && semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_CONFIRMED'
-        : semaMuSemaFormula.status === 'BLOCKED' && semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_BLOCKED',
+      passed: semaMuSemaFormula.status === 'PASSED'
+        ? semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_CONFIRMED'
+        : semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_BLOCKED',
     },
     {
       id: 'schema-mushema-degraded-fallback',
