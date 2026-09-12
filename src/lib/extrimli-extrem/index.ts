@@ -154,16 +154,18 @@ function buildSemaMuSemaFormula(
     ...(hasFormulaMarker('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
     ...(hasFormulaMarker('EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
   ];
-  const formulaHolds = inputSubstitutions.length === 0 && Math.abs(computedMuSema - expectedMuSema) <= 0.01;
+  const hasSubstitutions = inputSubstitutions.length > 0;
+  const formulaHoldsRaw = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
+  const formulaHolds = !hasSubstitutions && formulaHoldsRaw;
   const deterministic = Number.isFinite(sema)
     && Number.isFinite(allSema)
     && Number.isFinite(expectedMuSema)
     && Number.isFinite(computedMuSema)
-    && inputSubstitutions.length === 0;
+    && !hasSubstitutions;
   const blockerReasons = [
-    ...(inputSubstitutions.length === 0 && !formulaHolds ? [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`] : []),
+    ...(!hasSubstitutions && !formulaHoldsRaw ? [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`] : []),
     ...(deterministic ? [] : ['ŠEMA formula inputs are not deterministic']),
-    ...(inputSubstitutions.length > 0 ? [`Formula inputs used fallback substitution: ${inputSubstitutions.join(', ')}`] : []),
+    ...(hasSubstitutions ? [`Formula inputs used fallback substitution: ${inputSubstitutions.join(', ')}`] : []),
   ];
 
   return {
@@ -176,7 +178,7 @@ function buildSemaMuSemaFormula(
     },
     computedMuSema,
     formulaHolds,
-    status: formulaHolds && deterministic ? 'PASSED' : 'BLOCKED',
+    status: !hasSubstitutions && formulaHoldsRaw && deterministic ? 'PASSED' : 'BLOCKED',
     deterministic,
     inputSubstitutions,
     blockerReasons,
