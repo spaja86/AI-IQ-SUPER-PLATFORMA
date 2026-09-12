@@ -35,10 +35,10 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
-function makeRequest(url: string, method = 'GET', body?: unknown): NextRequest {
+function makeRequest(url: string, method = 'GET', body?: unknown, headers?: Record<string, string>): NextRequest {
   return new Request(url, {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...headers },
     body: body === undefined ? undefined : JSON.stringify(body),
   }) as unknown as NextRequest;
 }
@@ -401,33 +401,77 @@ async function runTests(): Promise<void> {
 
   await test('GET /notifikacije and POST mark-read work together', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const listed = await getNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder&unreadOnly=true'));
+    const listed = await getNotifications(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder&unreadOnly=true',
+      'GET',
+      undefined,
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(listed.status === 200, `expected 200, got ${listed.status}`);
     const body = await listed.json() as { data: { notifications: Array<{ id: string }> } };
     assert(body.data.notifications.length > 0, 'expected unread notifications');
     const updated = await postNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije', 'POST', {
       notificationId: body.data.notifications[0].id,
-      recipientId: 'profile-public-builder',
-    }));
+    }, { 'x-spaja-profile-id': 'profile-public-builder' }));
     assert(updated.status === 200, `expected 200, got ${updated.status}`);
   });
 
   await test('GET /notifikacije requires recipientId query param', async () => {
-    const response = await getNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije'));
+    const response = await getNotifications(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/notifikacije',
+      'GET',
+      undefined,
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /notifikacije rejects wrong recipient for notification', async () => {
     _resetSpajaDrustvenaMrezaState();
-    const listed = await getNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder&unreadOnly=true'));
+    const listed = await getNotifications(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder&unreadOnly=true',
+      'GET',
+      undefined,
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
     assert(listed.status === 200, `expected 200, got ${listed.status}`);
     const body = await listed.json() as { data: { notifications: Array<{ id: string }> } };
     assert(body.data.notifications.length > 0, 'expected unread notifications');
     const updated = await postNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije', 'POST', {
       notificationId: body.data.notifications[0].id,
       recipientId: 'profile-partner-ioopenui',
-    }));
+    }, { 'x-spaja-profile-id': 'profile-public-builder' }));
     assert(updated.status === 409, `expected 409, got ${updated.status}`);
+  });
+
+  await test('GET /notifikacije rejects missing actor header', async () => {
+    const response = await getNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder'));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('GET /notifikacije rejects recipient/header mismatch', async () => {
+    const response = await getNotifications(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder',
+      'GET',
+      undefined,
+      { 'x-spaja-profile-id': 'profile-partner-ioopenui' },
+    ));
+    assert(response.status === 409, `expected 409, got ${response.status}`);
+  });
+
+  await test('POST /notifikacije rejects missing actor header', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const listed = await getNotifications(makeRequest(
+      'http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder&unreadOnly=true',
+      'GET',
+      undefined,
+      { 'x-spaja-profile-id': 'profile-public-builder' },
+    ));
+    const body = await listed.json() as { data: { notifications: Array<{ id: string }> } };
+    const response = await postNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije', 'POST', {
+      notificationId: body.data.notifications[0].id,
+    }));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);

@@ -47,7 +47,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 - `GET|POST /api/spaja-drustvena-mreza/groups` — listanje, kreiranje i join tokovi (`viewerId` je potreban za partner/internal pregled)
 - `GET|POST /api/spaja-drustvena-mreza/messages` — listanje, otvaranje i reply tokovi (`participantId` je obavezan za read)
 - `GET|POST /api/spaja-drustvena-mreza/events` — listanje, kreiranje i RSVP/waitlist tokovi (`viewerId` širi read scope; bez njega read ostaje public-only)
-- `GET|POST /api/spaja-drustvena-mreza/notifikacije` — listanje i mark-as-read tokovi
+- `GET|POST /api/spaja-drustvena-mreza/notifikacije` — listanje i mark-as-read tokovi (`x-spaja-profile-id` mora da odgovara `recipientId`)
 
 ## Visibility and moderation rules
 
@@ -64,7 +64,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 11. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
 12. Jedan autor može kreirati najviše 5 objava po satu
 13. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
-14. `recipientId` je obavezan za pristup notifikacijama, a mark-as-read je dozvoljen samo vlasniku notifikacije
+14. `recipientId` je obavezan za pristup notifikacijama, `x-spaja-profile-id` mora da se poklopi sa tim identitetom, a mark-as-read je dozvoljen samo vlasniku notifikacije
 15. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
 
 ## KPI targets

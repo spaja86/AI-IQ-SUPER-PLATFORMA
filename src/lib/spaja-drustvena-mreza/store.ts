@@ -101,9 +101,14 @@ function canAudienceAccessScope(
     network: 1,
     internal: 2,
   };
+  const maxVisibilityByAudience: Record<SocialAudience, SocialVisibility> = {
+    public: 'public',
+    partner: 'network',
+    internal: 'internal',
+  };
 
   return audienceRank[profileAudience] >= audienceRank[resourceAudience]
-    && visibilityRank[resourceVisibility] <= audienceRank[profileAudience];
+    && visibilityRank[resourceVisibility] <= visibilityRank[maxVisibilityByAudience[profileAudience]];
 }
 
 function isPublicScope(resourceAudience: SocialAudience, resourceVisibility: SocialVisibility): boolean {
