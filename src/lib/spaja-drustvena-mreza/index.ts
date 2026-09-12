@@ -25,6 +25,7 @@ export {
   _resetSpajaDrustvenaMrezaState,
 } from './store';
 export {
+  getSpajaDrustvenaMrezaActorId,
   isSocialAudience,
   isSocialGroupJoinMode,
   isSocialProfileRole,

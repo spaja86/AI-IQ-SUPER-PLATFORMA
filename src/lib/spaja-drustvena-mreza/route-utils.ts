@@ -2,6 +2,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 import { apiError, apiInternalError } from '@/lib/api/response';
+import type { NextRequest } from 'next/server';
 import type {
   SocialAudience,
   SocialGroupJoinMode,
@@ -57,4 +58,11 @@ export function isSocialProfileRole(value: unknown): value is SocialProfileRole 
 
 export function isSocialGroupJoinMode(value: unknown): value is SocialGroupJoinMode {
   return typeof value === 'string' && SOCIAL_GROUP_JOIN_MODES.includes(value as SocialGroupJoinMode);
+}
+
+export function getSpajaDrustvenaMrezaActorId(req: NextRequest): string | null {
+  const value = req.headers.get('x-spaja-profile-id');
+  if (!value) return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
 }

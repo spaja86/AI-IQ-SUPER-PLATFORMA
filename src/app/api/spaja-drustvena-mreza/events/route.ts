@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { apiSuccess } from '@/lib/api/response';
 import {
   createEvent,
+  getSpajaDrustvenaMrezaActorId,
   getProfile,
   isSocialAudience,
   isSocialVisibility,
@@ -20,8 +21,12 @@ export async function GET(req: NextRequest) {
     const audience = searchParams.get('audience');
     const visibility = searchParams.get('visibility');
     const viewerId = searchParams.get('viewerId') ?? undefined;
-    if (viewerId) {
-      const viewer = getProfile(viewerId);
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req) ?? undefined;
+    if (viewerId && viewerId !== actorProfileId) {
+      return spajaDrustvenaMrezaApiError('CONFLICT', 'viewerId must match x-spaja-profile-id');
+    }
+    if (actorProfileId) {
+      const viewer = getProfile(actorProfileId);
       if (!viewer.ok) {
         return spajaDrustvenaMrezaApiError(viewer.code ?? 'NOT_FOUND', viewer.message);
       }
@@ -32,7 +37,7 @@ export async function GET(req: NextRequest) {
     if (visibility !== null && !isSocialVisibility(visibility)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
     }
-    const events = listEvents({ audience: audience ?? undefined, visibility: visibility ?? undefined, viewerId });
+    const events = listEvents({ audience: audience ?? undefined, visibility: visibility ?? undefined, viewerId: actorProfileId });
     return withSpajaDrustvenaMrezaHeaders(apiSuccess({ events, count: events.length }, 200));
   } catch (error) {
     return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/events GET', error);

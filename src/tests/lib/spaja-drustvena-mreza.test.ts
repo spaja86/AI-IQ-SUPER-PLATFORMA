@@ -304,8 +304,8 @@ async function runTests(): Promise<void> {
 
   await test('conversation listing stays participant-scoped', () => {
     _resetSpajaDrustvenaMrezaState();
-    const internalThreads = listConversations({ participantId: 'profile-internal-core' });
-    const publicThreads = listConversations({ participantId: 'profile-public-builder' });
+    const internalThreads = listConversations({ participantId: 'profile-internal-core', actorId: 'profile-internal-core' });
+    const publicThreads = listConversations({ participantId: 'profile-public-builder', actorId: 'profile-public-builder' });
     assert(internalThreads.length >= 1, 'internal participant should see seeded thread');
     assert(publicThreads.length === 0, 'non-participant should not see seeded thread');
   });

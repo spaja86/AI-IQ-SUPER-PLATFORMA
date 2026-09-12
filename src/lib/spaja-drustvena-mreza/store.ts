@@ -366,8 +366,9 @@ export function listGroups(filter?: { audience?: SocialAudience; visibility?: So
     .map((group) => clone(group));
 }
 
-export function listConversations(filter: { participantId: string; audience?: SocialAudience }): SocialConversation[] {
+export function listConversations(filter: { participantId: string; actorId: string; audience?: SocialAudience }): SocialConversation[] {
   seedState();
+  if (filter.actorId !== filter.participantId) return [];
   return Array.from(CONVERSATION_STORE.values())
     .filter((thread) => {
       if (!thread.participantIds.includes(filter.participantId)) return false;

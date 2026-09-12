@@ -3,6 +3,7 @@ import { apiSuccess } from '@/lib/api/response';
 import {
   appendMessage,
   createConversation,
+  getSpajaDrustvenaMrezaActorId,
   getProfile,
   isSocialAudience,
   isSocialVisibility,
@@ -19,8 +20,15 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const participantId = searchParams.get('participantId');
     const audience = searchParams.get('audience');
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req);
+    if (!actorProfileId) {
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'x-spaja-profile-id header is required');
+    }
     if (!participantId) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'participantId query param is required');
+    }
+    if (participantId !== actorProfileId) {
+      return spajaDrustvenaMrezaApiError('CONFLICT', 'participantId must match x-spaja-profile-id');
     }
     const participant = getProfile(participantId);
     if (!participant.ok) {
@@ -29,7 +37,7 @@ export async function GET(req: NextRequest) {
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }
-    const threads = listConversations({ participantId, audience: audience ?? undefined });
+    const threads = listConversations({ participantId, actorId: actorProfileId, audience: audience ?? undefined });
     return withSpajaDrustvenaMrezaHeaders(apiSuccess({ threads, count: threads.length }, 200));
   } catch (error) {
     return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/messages GET', error);

@@ -42,11 +42,11 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 
 - `GET /api/spaja-drustvena-mreza/health` — readiness header + health agregat
 - `GET /api/spaja-drustvena-mreza/pregled` — kanonski overview za UI i audit
-- `GET|POST /api/spaja-drustvena-mreza/profiles` — listanje i kreiranje profila (`viewerId` je potreban za partner/internal profile read scope)
-- `GET|POST /api/spaja-drustvena-mreza/feed` — listanje, kreiranje, reakcije i flag akcije (`viewerId` širi read scope; bez njega read ostaje public-only)
-- `GET|POST /api/spaja-drustvena-mreza/groups` — listanje, kreiranje i join tokovi (`viewerId` je potreban za partner/internal pregled)
-- `GET|POST /api/spaja-drustvena-mreza/messages` — listanje, otvaranje i reply tokovi (`participantId` je obavezan za read)
-- `GET|POST /api/spaja-drustvena-mreza/events` — listanje, kreiranje i RSVP/waitlist tokovi (`viewerId` širi read scope; bez njega read ostaje public-only)
+- `GET|POST /api/spaja-drustvena-mreza/profiles` — listanje i kreiranje profila (`viewerId` mora da se poklopi sa `x-spaja-profile-id` za partner/internal read scope)
+- `GET|POST /api/spaja-drustvena-mreza/feed` — listanje, kreiranje, reakcije i flag akcije (`viewerId` mora da se poklopi sa `x-spaja-profile-id`; bez toga read ostaje public-only)
+- `GET|POST /api/spaja-drustvena-mreza/groups` — listanje, kreiranje i join tokovi (`viewerId` mora da se poklopi sa `x-spaja-profile-id` za partner/internal pregled)
+- `GET|POST /api/spaja-drustvena-mreza/messages` — listanje, otvaranje i reply tokovi (`participantId` i `x-spaja-profile-id` moraju da se poklope za read)
+- `GET|POST /api/spaja-drustvena-mreza/events` — listanje, kreiranje i RSVP/waitlist tokovi (`viewerId` mora da se poklopi sa `x-spaja-profile-id`; bez toga read ostaje public-only)
 - `GET|POST /api/spaja-drustvena-mreza/notifikacije` — listanje i mark-as-read tokovi (`x-spaja-profile-id` mora da odgovara `recipientId`)
 
 ## Visibility and moderation rules

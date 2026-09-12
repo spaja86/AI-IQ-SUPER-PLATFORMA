@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { apiSuccess } from '@/lib/api/response';
 import {
+  getSpajaDrustvenaMrezaActorId,
   getProfile,
   listNotifications,
   markNotificationRead,
@@ -11,16 +12,9 @@ import {
 
 export const dynamic = 'force-dynamic';
 
-function getActorProfileId(req: NextRequest): string | null {
-  const value = req.headers.get('x-spaja-profile-id');
-  if (!value) return null;
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
-}
-
 export async function GET(req: NextRequest) {
   try {
-    const actorProfileId = getActorProfileId(req);
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req);
     if (!actorProfileId) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'x-spaja-profile-id header is required');
     }
@@ -46,7 +40,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const actorProfileId = getActorProfileId(req);
+    const actorProfileId = getSpajaDrustvenaMrezaActorId(req);
     if (!actorProfileId) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'x-spaja-profile-id header is required');
     }
