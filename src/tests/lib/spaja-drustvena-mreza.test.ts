@@ -5,6 +5,7 @@ import {
   createGroup,
   createPost,
   createProfile,
+  flagPost,
   getSpajaDrustvenaMrezaHealthReport,
   getSpajaDrustvenaMrezaPregled,
   joinGroup,
