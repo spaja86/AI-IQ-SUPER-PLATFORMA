@@ -27,11 +27,13 @@ export async function GET(req: NextRequest) {
     if (viewerId && viewerId !== actorProfileId) {
       return spajaDrustvenaMrezaApiError('CONFLICT', 'viewerId must match x-spaja-profile-id');
     }
+    let actorAudience: 'internal' | 'partner' | 'public' | undefined;
     if (actorProfileId) {
       const viewer = getProfile(actorProfileId);
       if (!viewer.ok) {
         return spajaDrustvenaMrezaApiError(viewer.code ?? 'NOT_FOUND', viewer.message);
       }
+      actorAudience = viewer.data?.audience;
     }
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
@@ -39,7 +41,12 @@ export async function GET(req: NextRequest) {
     if (visibility !== null && !isSocialVisibility(visibility)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
     }
-    const posts = listPosts({ audience: audience ?? undefined, visibility: visibility ?? undefined, authorId, viewerId: actorProfileId });
+    const posts = listPosts({
+      audience: audience ?? undefined,
+      visibility: visibility ?? undefined,
+      authorId,
+      viewer: actorProfileId && actorAudience ? { id: actorProfileId, audience: actorAudience } : undefined,
+    });
     return withSpajaDrustvenaMrezaHeaders(apiSuccess({ posts, count: posts.length }, 200));
   } catch (error) {
     return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/feed GET', error);

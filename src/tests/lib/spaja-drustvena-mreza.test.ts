@@ -106,11 +106,25 @@ async function runTests(): Promise<void> {
     assert(result.data?.handle === 'community.alpha', 'unexpected profile handle');
   });
 
+  await test('profile create ignores caller-supplied verified flag', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const result = createProfile({
+      handle: 'verified.try',
+      displayName: 'Verified Try',
+      audience: 'public',
+      role: 'customer',
+      visibility: 'public',
+      bio: 'Should stay unverified.',
+      verified: true,
+    });
+    assert(result.ok && result.data?.verified === false, 'verified flag should be server-controlled');
+  });
+
   await test('profile reads stay public-only without viewer context', () => {
     _resetSpajaDrustvenaMrezaState();
     const publicProfiles = listProfiles();
     assert(publicProfiles.length === 1 && publicProfiles[0].id === 'profile-public-builder', 'default profile read should only expose public profile');
-    const internalProfiles = listProfiles({ viewerId: 'profile-internal-core' });
+    const internalProfiles = listProfiles({ viewer: { id: 'profile-internal-core', audience: 'internal' } });
     assert(internalProfiles.length >= 3, 'internal viewer should see all seeded profiles');
   });
 
@@ -206,7 +220,7 @@ async function runTests(): Promise<void> {
     _resetSpajaDrustvenaMrezaState();
     const posts = listPosts();
     assert(posts.length === 0, 'default feed listing should not expose restricted seed post');
-    const internalVisible = listPosts({ viewerId: 'profile-internal-core' });
+    const internalVisible = listPosts({ viewer: { id: 'profile-internal-core', audience: 'internal' } });
     assert(internalVisible.some((post) => post.id === 'post-seed-0001'), 'internal viewer should see internal/network seed post');
   });
 
@@ -263,8 +277,26 @@ async function runTests(): Promise<void> {
     const events = listEvents();
     assert(groups.length === 0, 'default groups listing should hide partner seed group');
     assert(events.length === 1 && events[0].id === 'event-seed-0001', 'default events listing should keep public seed event');
-    const partnerGroups = listGroups({ viewerId: 'profile-partner-ioopenui' });
+    const partnerGroups = listGroups({ viewer: { id: 'profile-partner-ioopenui', audience: 'partner' } });
     assert(partnerGroups.some((group) => group.id === 'group-seed-0001'), 'partner viewer should see partner seed group');
+  });
+
+  await test('scoped event reads require membership for non-public events', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = createEvent({
+      title: 'Partner-only event',
+      description: 'Partner scope',
+      hostId: 'profile-partner-ioopenui',
+      audience: 'partner',
+      visibility: 'network',
+      scheduledAt: Date.UTC(2026, 8, 21, 12, 0, 0),
+      capacity: 5,
+    });
+    assert(created.ok, 'partner event create failed');
+    const hostVisible = listEvents({ viewer: { id: 'profile-partner-ioopenui', audience: 'partner' }, audience: 'partner' });
+    const outsiderVisible = listEvents({ viewer: { id: 'profile-internal-core', audience: 'internal' }, audience: 'partner' });
+    assert(hostVisible.some((event) => event.title === 'Partner-only event'), 'host should see scoped event');
+    assert(!outsiderVisible.some((event) => event.title === 'Partner-only event'), 'non-member should not enumerate scoped event');
   });
 
   await test('conversation create rejects duplicate thread fingerprint', () => {

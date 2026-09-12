@@ -26,11 +26,13 @@ export async function GET(req: NextRequest) {
     if (viewerId && viewerId !== actorProfileId) {
       return spajaDrustvenaMrezaApiError('CONFLICT', 'viewerId must match x-spaja-profile-id');
     }
+    let actorAudience: 'internal' | 'partner' | 'public' | undefined;
     if (actorProfileId) {
       const viewer = getProfile(actorProfileId);
       if (!viewer.ok) {
         return spajaDrustvenaMrezaApiError(viewer.code ?? 'NOT_FOUND', viewer.message);
       }
+      actorAudience = viewer.data?.audience;
     }
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
@@ -41,7 +43,7 @@ export async function GET(req: NextRequest) {
     const profiles = listProfiles({
       audience: audience ?? undefined,
       visibility: visibility ?? undefined,
-      viewerId: actorProfileId,
+      viewer: actorProfileId && actorAudience ? { id: actorProfileId, audience: actorAudience } : undefined,
     });
     return withSpajaDrustvenaMrezaHeaders(apiSuccess({ profiles, count: profiles.length }, 200));
   } catch (error) {

@@ -115,6 +115,11 @@ function isPublicScope(resourceAudience: SocialAudience, resourceVisibility: Soc
   return resourceAudience === 'public' && resourceVisibility === 'public';
 }
 
+type SocialViewerContext = {
+  id: string;
+  audience: SocialAudience;
+};
+
 function countByAudience(): Record<SocialAudience, number> {
   const result: Record<SocialAudience, number> = { internal: 0, partner: 0, public: 0 };
   for (const profile of PROFILE_STORE.values()) {
@@ -285,15 +290,13 @@ export function getProfile(profileId: string): SocialOperationResult<SocialProfi
   return requireProfile(profileId);
 }
 
-export function listProfiles(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewerId?: string }): SocialProfile[] {
+export function listProfiles(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewer?: SocialViewerContext }): SocialProfile[] {
   seedState();
-  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
-  if (viewer && !viewer.ok) return [];
   return Array.from(PROFILE_STORE.values())
     .filter((profile) => {
       if (filter?.audience && profile.audience !== filter.audience) return false;
       if (filter?.visibility && profile.visibility !== filter.visibility) return false;
-      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, profile.audience, profile.visibility);
+      if (filter?.viewer) return canAudienceAccessScope(filter.viewer.audience, profile.audience, profile.visibility);
       return isPublicScope(profile.audience, profile.visibility);
     })
     .map((profile) => clone(profile));
@@ -327,7 +330,7 @@ export function createProfile(input: {
     visibility: input.visibility,
     bio: input.bio.trim(),
     interests: normalizeTags(input.interests),
-    verified: Boolean(input.verified),
+    verified: false,
     moderationStatus: 'active',
     createdAt: nextNow(),
   };
@@ -336,31 +339,27 @@ export function createProfile(input: {
   return { ok: true, message: 'profile created', data: clone(profile) };
 }
 
-export function listPosts(filter?: { audience?: SocialAudience; authorId?: string; visibility?: SocialVisibility; viewerId?: string }): SocialFeedPost[] {
+export function listPosts(filter?: { audience?: SocialAudience; authorId?: string; visibility?: SocialVisibility; viewer?: SocialViewerContext }): SocialFeedPost[] {
   seedState();
-  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
-  if (viewer && !viewer.ok) return [];
   return Array.from(POST_STORE.values())
     .filter((post) => {
       if (filter?.audience && post.audience !== filter.audience) return false;
       if (filter?.authorId && post.authorId !== filter.authorId) return false;
       if (filter?.visibility && post.visibility !== filter.visibility) return false;
-      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, post.audience, post.visibility);
+      if (filter?.viewer) return canAudienceAccessScope(filter.viewer.audience, post.audience, post.visibility);
       return isPublicScope(post.audience, post.visibility);
     })
     .sort((a, b) => b.createdAt - a.createdAt)
     .map((post) => clone(post));
 }
 
-export function listGroups(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewerId?: string }): SocialGroup[] {
+export function listGroups(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewer?: SocialViewerContext }): SocialGroup[] {
   seedState();
-  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
-  if (viewer && !viewer.ok) return [];
   return Array.from(GROUP_STORE.values())
     .filter((group) => {
       if (filter?.audience && group.audience !== filter.audience) return false;
       if (filter?.visibility && group.visibility !== filter.visibility) return false;
-      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, group.audience, group.visibility);
+      if (filter?.viewer) return canAudienceAccessScope(filter.viewer.audience, group.audience, group.visibility);
       return isPublicScope(group.audience, group.visibility);
     })
     .map((group) => clone(group));
@@ -624,15 +623,19 @@ export function appendMessage(threadId: string, authorId: string, content: strin
   return { ok: true, message: 'message appended', data: clone(thread) };
 }
 
-export function listEvents(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewerId?: string }): SocialEvent[] {
+export function listEvents(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewer?: SocialViewerContext }): SocialEvent[] {
   seedState();
-  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
-  if (viewer && !viewer.ok) return [];
   return Array.from(EVENT_STORE.values())
     .filter((event) => {
       if (filter?.audience && event.audience !== filter.audience) return false;
       if (filter?.visibility && event.visibility !== filter.visibility) return false;
-      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, event.audience, event.visibility);
+      if (filter?.viewer) {
+        if (!canAudienceAccessScope(filter.viewer.audience, event.audience, event.visibility)) return false;
+        if (isPublicScope(event.audience, event.visibility)) return true;
+        return event.hostId === filter.viewer.id
+          || event.attendeeIds.includes(filter.viewer.id)
+          || event.waitlistIds.includes(filter.viewer.id);
+      }
       return isPublicScope(event.audience, event.visibility);
     })
     .sort((a, b) => a.scheduledAt - b.scheduledAt)
