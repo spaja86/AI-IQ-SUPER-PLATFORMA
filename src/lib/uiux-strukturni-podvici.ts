@@ -4,7 +4,7 @@ export const UIUX_STRUKTURNI_PODVICI_CILJ =
   'Generisati i upravljati masivnim prostorom UI/UX varijanti kroz pravila, ne ručno.' as const;
 
 export const REFERENCE_DEPOT_POSSIBILITY_SPACE = 870_000_000_000n;
-export const DEPON_RAZLICITOST_700000_ZILIJARDI = 700_000_000_000_000_000_000_000_000n;
+export const DEPON_DIVERSITY_TARGET_SPACE = 700_000_000_000_000_000_000_000_000n;
 
 export type DepoTip = 'platform' | 'feature' | 'domain' | 'journey';
 export type UXSegment = 'new' | 'returning' | 'power' | 'enterprise';
@@ -332,7 +332,7 @@ export const DEPON_DIVERSITY_KPI: DeponDiversityKPI = {
   metric: 'depon-uiux-diversity-space',
   label: 'razlicitosti-depona',
   targetLabel: '700000 ZILIJARDI',
-  minimumSpace: DEPON_RAZLICITOST_700000_ZILIJARDI,
+  minimumSpace: DEPON_DIVERSITY_TARGET_SPACE,
   currentReferenceSpace: REFERENCE_DEPOT_POSSIBILITY_SPACE,
 };
 
@@ -472,7 +472,7 @@ export function meetsDeponDiversityTarget(axes: DeponDiversityAxis[] = DEPON_DIV
 
 export function resolveDeponRole(depoId: string): DeponUXRole {
   const normalized = Number.parseInt(depoId.replace('DEPON-', ''), 10);
-  return Number.isFinite(normalized) && normalized >= 13 ? 'marketplace' : 'core-operational';
+  return Number.isFinite(normalized) && normalized >= 13 && normalized <= 18 ? 'marketplace' : 'core-operational';
 }
 
 export function getDeponRoleCatalog(role: DeponUXRole): DeponRoleCatalog {

@@ -15,6 +15,7 @@ import type { DeponId } from './depon-registry';
 import type { AppEntry, AppCategory, MonetizationModel, ComplianceCertification } from './depon-13-app-value-registry';
 import type { RankEntry, Leaderboard } from './depon-14-value-ranking-engine';
 import type { SekvencaTip } from '../lib/types';
+import type { UXIntent } from '../lib/uiux-strukturni-podvici';
 
 export const DEPON_ID: DeponId = 'DEPON-15';
 
@@ -51,7 +52,7 @@ export type MarketplaceUXFamilyConfig = {
   label: string;
   allowedSequences: SekvencaTip[][];
   primaryKpis: MarketplaceFamilyKPI[];
-  intents: string[];
+  intents: UXIntent[];
   stableCandidateId: string;
 };
 
