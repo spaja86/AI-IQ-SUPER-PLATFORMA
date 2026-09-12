@@ -4,14 +4,7 @@ import { buildIzvozFakturaPdfDocument } from '@/lib/export-pdf';
 
 export async function GET() {
   const result = buildDigitalnaIndustrijaIzvozFaktura('public');
-  const publicResult = {
-    ...result,
-    userId: 'public-demo',
-    fakture: result.fakture.map((faktura, index) => ({
-      ...faktura,
-      barKod: Number(`900000${String(index + 1).padStart(6, '0')}`),
-    })),
-  };
+  const publicResult = { ...result, userId: 'public-demo' };
   const pdf = buildIzvozFakturaPdfDocument(publicResult);
   const body = Uint8Array.from(pdf);
 

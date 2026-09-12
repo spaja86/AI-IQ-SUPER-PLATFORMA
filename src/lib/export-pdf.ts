@@ -37,7 +37,17 @@ function wrapText(input: string, maxLength = 92): string[] {
   if (input.length === 0) return [''];
   const trimmed = input.trim();
   if (trimmed.length === 0) return [''];
-  const words = trimmed.split(/\s+/).filter(Boolean);
+  const words = trimmed
+    .split(/\s+/)
+    .filter(Boolean)
+    .flatMap((word) => {
+      if (word.length <= maxLength) return [word];
+      const chunks: string[] = [];
+      for (let i = 0; i < word.length; i += maxLength) {
+        chunks.push(word.slice(i, i + maxLength));
+      }
+      return chunks;
+    });
   if (words.length === 0) return [''];
   const lines: string[] = [];
   let current = '';

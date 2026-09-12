@@ -34,7 +34,7 @@ export function getEditorialMediji(): EditorialMediji {
       { id: 'ljubavni-romani', naziv: 'Ljubavni romani', opis: 'Duža forma sa serijalima, likovima i emotivnim lukovima.' },
       { id: 'romani', naziv: 'Romani', opis: 'Opšti književni format za duže narative i izdavačke edicije.' },
       { id: 'stripovi', naziv: 'Stripovi', opis: 'Vizuelno-serijalni format za epizode, table i junake.' },
-      { id: 'zabavnik', naziv: 'Politikin zabavnik', opis: 'Magazinski miks kulture, znanja i zabave.' },
+      { id: 'zabavnik', naziv: 'Zabavnik magazin', opis: 'Magazinski miks kulture, znanja i zabave.' },
       { id: 'novine', naziv: 'Novine', opis: 'Kratke i pregledne novinske forme sa arhivom izdanja.' },
     ],
     autori: ['SPAJA Editorial', 'OMEGA Narativni Tim', 'EXTRIMLI Kreativni Studio'],
