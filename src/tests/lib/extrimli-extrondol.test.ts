@@ -302,6 +302,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
     assert(report.startProject.mandatoryOutputs.includes('paymentVerification'), 'payment verification output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler'), 'extrem profiler output missing');
+    assert(report.startProject.mandatoryOutputs.includes('extremProfiler.resolutionReadiness'), 'resolution readiness output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler.semaMuSemaFormula'), 'formula output missing');
     assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
     assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');

@@ -449,6 +449,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'distanceRatioEkvilaterTable',
       'paymentVerification',
       'extremProfiler',
+      'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
     ],
     downstreamSync: {

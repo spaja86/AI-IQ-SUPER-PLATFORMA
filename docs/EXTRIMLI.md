@@ -417,7 +417,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-3` → downstream sync evidence
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
-- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.semaMuSemaFormula`.
+- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 

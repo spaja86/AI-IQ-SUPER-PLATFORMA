@@ -302,6 +302,7 @@ export interface ExtrimliExtrondolStartProject {
     'distanceRatioEkvilaterTable',
     'paymentVerification',
     'extremProfiler',
+    'extremProfiler.resolutionReadiness',
     'extremProfiler.semaMuSemaFormula'
   ];
   downstreamSync: {
