@@ -5,8 +5,9 @@ import { buildIzvozFakturaPdfDocument } from '@/lib/export-pdf';
 export async function GET() {
   const result = buildDigitalnaIndustrijaIzvozFaktura('public');
   const pdf = buildIzvozFakturaPdfDocument(result);
+  const body = pdf.buffer.slice(pdf.byteOffset, pdf.byteOffset + pdf.byteLength);
 
-  return new Response(pdf, {
+  return new Response(body, {
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',
