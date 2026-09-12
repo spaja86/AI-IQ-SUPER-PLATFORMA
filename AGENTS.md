@@ -307,6 +307,20 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
   - **Multi-repo sync**: Sinhronizuje crew/mentor catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
+### spaja-drustvena-mreza-validator-agent (NEW)
+- **Role**: Validacija SPAJA Društvena Mreža logike — audience segmentation, profiles, feed, groups, messages, events i notifications readiness
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/spaja-drustvena-mreza/**`, `src/app/api/spaja-drustvena-mreza/**`, `src/app/spaja-drustvena-mreza/**`, `src/lib/sekvence/spaja-drustvena-mreza-page.ts`
+- **Trigger**: PR sa labelom `spaja-drustvena-mreza:logic-change`, push koji dira `spaja-drustvena-mreza` putanje
+- **Actions**:
+  - Pokreće unit i route test suite za SPAJA Društvena Mreža logiku
+  - Verifikuje edge case-ove (prazne objave, duplikate, self-reaction, nevalidne članove, abuse limite, waitlist scenarije)
+  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms
+  - Skenira za sekrete i nedoslednosti u kodu
+  - Auto-labels PRs sa `spaja-drustvena-mreza:validated` ili `spaja-drustvena-mreza:needs-review`
+  - Ostavlja audit log u PR komentaru
+  - **Persona**: `spaja-drustvena-mreza-core` (octave: 8, hipermreza node: 67)
+  - **Multi-repo sync**: V1 je repo-local; downstream sync ka `spaja86/IO-OPENUI-AO` je follow-up only
+
 ### digit-engine-validator-agent (NEW)
 - **Role**: Validacija Digit Intelligence Engine logike — 10-cifreni simbolički slojevi, registar, API integritet i performanse
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/digit-engine/**`, `src/app/api/digit-engine/**`
@@ -630,6 +644,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| spaja-drustvena-mreza-validator-agent | SPAJA Društvena Mreža Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (spaja-drustvena-mreza paths) |
 | agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (all agents) |
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
@@ -1023,6 +1038,20 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)
   - **Multi-repo sync**: Syncs crew and mentor catalog snapshots to `spaja86/IO-OPENUI-AO`
 
+### spaja-drustvena-mreza-validator-agent (NEW)
+- **Role**: Validate SPAJA Društvena Mreža logic — audience segmentation, profiles, feed, groups, messages, events, and notifications readiness
+- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/spaja-drustvena-mreza/**`, `src/app/api/spaja-drustvena-mreza/**`, `src/app/spaja-drustvena-mreza/**`, `src/lib/sekvence/spaja-drustvena-mreza-page.ts`
+- **Trigger**: PR with label `spaja-drustvena-mreza:logic-change`, push touching `spaja-drustvena-mreza` paths
+- **Actions**:
+  - Runs unit and route test suite for SPAJA Društvena Mreža logic
+  - Verifies edge cases (empty posts, duplicates, self-reaction, invalid members, abuse limits, waitlist scenarios)
+  - Checks performance KPIs: evaluation ≤ 50ms, API response ≤ 200ms
+  - Scans for secrets and code inconsistencies
+  - Auto-labels PRs with `spaja-drustvena-mreza:validated` or `spaja-drustvena-mreza:needs-review`
+  - Leaves audit log in PR comment
+  - **Persona**: `spaja-drustvena-mreza-core` (octave: 8, hipermreza node: 67)
+  - **Multi-repo sync**: V1 stays repo-local; downstream sync to `spaja86/IO-OPENUI-AO` is follow-up only
+
 ### digit-engine-validator-agent (NEW)
 - **Role**: Validate Digit Intelligence Engine logic — 10-digit symbolic layers, registry, API integrity, and performance
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/digit-engine/**`, `src/app/api/digit-engine/**`
@@ -1412,6 +1441,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 | force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
 | extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| spaja-drustvena-mreza-validator-agent | SPAJA Društvena Mreža Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (spaja-drustvena-mreza paths) |
 | agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (all agents) |
 
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |

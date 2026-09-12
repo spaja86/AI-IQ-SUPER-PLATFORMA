@@ -113,13 +113,13 @@ export const platforms: Platform[] = [
   {
     id: 'social-network',
     name: 'SPAJA Social',
-    description: 'Interna i eksterna društvena mreža za povezivanje zaposlenih, partnera i korisnika.',
+    description: 'Repo-local društvena mreža za razdvojene interne, partnerske i javne tokove sa profilima, feed-om, grupama, porukama, događajima i notifikacijama.',
     category: 'social',
     status: 'active',
     icon: '👥',
-    techStack: ['Next.js', 'GraphQL', 'PostgreSQL', 'Redis'],
-    features: ['Profili', 'Feed', 'Grupe', 'Poruke', 'Događaji'],
-    deploy: { status: 'deployed', provider: 'vercel', domain: 'spaja-social.vercel.app', projectId: 'spaja-social', vercelProject: 'spaja-social', framework: 'nextjs', buildCommand: 'npm run build' },
+    techStack: ['Next.js', 'TypeScript', 'API-first routes', 'Repo-local state'],
+    features: ['Profili', 'Feed', 'Grupe', 'Poruke', 'Događaji', 'Notifikacije', 'Audience zones', 'Moderation rules'],
+    deploy: { status: 'repo-local', provider: 'vercel', domain: 'ai-iq-super-platforma.vercel.app', projectId: 'ai-iq-super-platforma', vercelProject: 'ai-iq-super-platforma', framework: 'nextjs', buildCommand: 'npm run build' },
   },
   // ── Commerce ──────────────────────────────────────────────────────────
   {

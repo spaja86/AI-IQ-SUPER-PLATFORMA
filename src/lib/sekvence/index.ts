@@ -246,6 +246,7 @@ export { getDivezijaEkspeslaSekvence } from './diveezija-ekspesla-page';
 // ── EKSPRITING ────────────────────────────────────────────────────────────────
 export { getEkspritingSekvence } from './ekspriting-page';
 export { getEkspresSekvence } from './ekspres-page';
+export { getSpajaDrustvenaMrezaSekvence } from './spaja-drustvena-mreza-page';
 
 export { akuzativSekvence } from './akuzativ-page';
 export { nominativSekvence } from './nominativ-page';

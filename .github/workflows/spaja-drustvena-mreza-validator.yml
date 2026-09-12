@@ -1,0 +1,62 @@
+name: SPAJA Društvena Mreža — Validator
+
+on:
+  pull_request:
+    paths:
+      - 'src/lib/spaja-drustvena-mreza/**'
+      - 'src/app/api/spaja-drustvena-mreza/**'
+      - 'src/app/spaja-drustvena-mreza/**'
+      - 'src/lib/sekvence/spaja-drustvena-mreza-page.ts'
+      - 'src/tests/lib/spaja-drustvena-mreza.test.ts'
+      - 'src/tests/api/spaja-drustvena-mreza-route.test.ts'
+      - 'docs/SPAJA-DRUSTVENA-MREZA.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.github/workflows/spaja-drustvena-mreza-validator.yml'
+      - '.agent-config.json'
+      - 'AGENTS.md'
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/spaja-drustvena-mreza/**'
+      - 'src/app/api/spaja-drustvena-mreza/**'
+      - 'src/app/spaja-drustvena-mreza/**'
+      - 'src/lib/sekvence/spaja-drustvena-mreza-page.ts'
+      - 'src/tests/lib/spaja-drustvena-mreza.test.ts'
+      - 'src/tests/api/spaja-drustvena-mreza-route.test.ts'
+      - 'docs/SPAJA-DRUSTVENA-MREZA.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.github/workflows/spaja-drustvena-mreza-validator.yml'
+      - '.agent-config.json'
+      - 'AGENTS.md'
+  workflow_dispatch:
+
+concurrency:
+  group: spaja-drustvena-mreza-validator-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@e6629641d114bc2fd8ed5e58ddc128c273ba7243
+    with:
+      domain: spaja-drustvena-mreza
+      lint_paths: >-
+        src/lib/spaja-drustvena-mreza
+        src/app/api/spaja-drustvena-mreza
+        src/app/spaja-drustvena-mreza
+        src/lib/sekvence/spaja-drustvena-mreza-page.ts
+      test_commands: |
+        npx tsx src/tests/lib/spaja-drustvena-mreza.test.ts
+        npx tsx src/tests/api/spaja-drustvena-mreza-route.test.ts
+      scan_paths: >-
+        src/lib/spaja-drustvena-mreza
+        src/app/api/spaja-drustvena-mreza
+        src/app/spaja-drustvena-mreza
+        docs/SPAJA-DRUSTVENA-MREZA.md
+      label: spaja-drustvena-mreza
+      perf_eval_ms: 50
+      perf_api_ms: 200

@@ -25,7 +25,7 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 ## EXTRIMLI MASTER 3 downstream reference
 
 | This repo | Linked repo | Note |
-|---|---|---|
+| --- | --- | --- |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI MASTER 3 coordinated release governance | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream rollout notes and WAWE/release-audit alignment in sync for EXTRIMLI + EXTRONDOL + EXTREM consumers, including canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` governance signal fields |
 
 Audit reference convention:
@@ -78,6 +78,10 @@ Audit reference convention:
 | `opkongo:logic-change` | OPKONGO opportunity-progression contract or scoring logic changed |
 | `opkongo:validated` | OPKONGO validator and tests passed |
 | `opkongo:needs-review` | OPKONGO validator requires human follow-up |
+| `spaja-drustvena-mreza` | SPAJA Društvena Mreža change set — requires focused validation |
+| `spaja-drustvena-mreza:logic-change` | SPAJA Društvena Mreža profiles/feed/groups/messages/events logic changed |
+| `spaja-drustvena-mreza:validated` | SPAJA Društvena Mreža validator and tests passed |
+| `spaja-drustvena-mreza:needs-review` | SPAJA Društvena Mreža validator requires human follow-up |
 | `nude` | NUDE change set — requires focused validation |
 | `nude:logic-change` | NUDE readiness contract or scoring logic changed |
 | `nude:validated` | NUDE validator and tests passed |
@@ -209,6 +213,16 @@ Audit reference convention (if downstream work is needed later):
 Audit reference convention (if downstream work is needed later):
 
 `AI-IQ-SUPER-PLATFORMA#DIREKT -> IO-OPENUI-AO#<follow-up issue>`
+
+## SPAJA Društvena Mreža downstream reference
+
+- **This repo**: `AI-IQ-SUPER-PLATFORMA` — SPAJA Društvena Mreža v1
+- **Linked repo**: `spaja86/IO-OPENUI-AO` — No linked repo change required
+- **Note**: Current scope is repo-local profiles/feed/groups/messages/events/notifikacije surface; downstream runtime coupling is deferred until an IO-OPENUI-AO consumer exists
+
+Audit reference convention (if downstream work is needed later):
+
+`AI-IQ-SUPER-PLATFORMA#SPAJA-DRUSTVENA-MREZA -> IO-OPENUI-AO#<follow-up issue>`
 
 ## REAL GUN downstream reference
 

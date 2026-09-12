@@ -275,6 +275,7 @@ export function getPersonaBankStats(): PersonaBankStats {
     maksimus: 0,
     'tarken-hingil-ekolan-maksimus': 0,
     'discount-telecom': 0,
+    'spaja-drustvena-mreza': 0,
     madagaskar: 0,
     extrimli: 0,
     'digit-engine': 0,

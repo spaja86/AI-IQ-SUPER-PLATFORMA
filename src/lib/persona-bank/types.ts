@@ -28,6 +28,7 @@ export type PersonaType =
   | 'maksimus'
   | 'tarken-hingil-ekolan-maksimus'
   | 'discount-telecom'
+  | 'spaja-drustvena-mreza'
   | 'madagaskar'
   | 'extrimli'
   | 'digit-engine'
