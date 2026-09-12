@@ -221,9 +221,11 @@ async function runTests(): Promise<void> {
   await test('resolveDeponRole i katalog razlikuju core i marketplace DEPON slojeve', () => {
     assertEqual(resolveDeponRole('DEPON-02'), 'core-operational', 'core role');
     assertEqual(resolveDeponRole('DEPON-15'), 'marketplace', 'marketplace role');
+    assertEqual(resolveDeponRole('depon-15-search-stable'), 'marketplace', 'lowercase role');
     assertEqual(resolveDeponRole({ depoId: 'io-openui-ao-home', deponRole: 'marketplace' }), 'marketplace', 'identity role');
     assertEqual(DEPON_ROLE_CATALOGS.length, 2, 'dva kataloga');
     assertEqual(getDeponRoleCatalog('marketplace').primaryIntents[0], 'discovery', 'marketplace intent');
+    assertEqual(resolveRolloutPriority('depon-15'), 1, 'lowercase rollout prioritet');
   });
 
   await test('buildCanonicalDeponSchema postavlja governance, budžete i rollout prioritet', () => {
@@ -289,7 +291,7 @@ async function runTests(): Promise<void> {
       {
         schema: {
           ...variants[0],
-          metadata: { ...variants[0].metadata, candidateId: 'candidate-stable', stableCandidateId: 'fallback-stable' },
+          metadata: { ...variants[0].metadata, candidateId: 'candidate-stable', stableCandidateId: 'stable-winner' },
         },
         metrics: { conversionRate: 0.91, taskCompletionMs: 5000, errorRate: 0.01, engagementScore: 0.82 },
         stable: true,

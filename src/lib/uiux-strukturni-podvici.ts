@@ -402,6 +402,11 @@ function createSeededIndex(seed: string, salt: string, max: number): number {
   return max === 0 ? 0 : hash % max;
 }
 
+function extractCanonicalDeponId(identityOrDepoId: string): string | null {
+  const match = identityOrDepoId.toUpperCase().match(/DEPON-(\d{2})/);
+  return match ? `DEPON-${match[1]}` : null;
+}
+
 function buildCandidate(
   seed: string,
   depo: DepoIdentityLayer,
@@ -472,8 +477,9 @@ export function meetsDeponDiversityTarget(axes: DeponDiversityAxis[] = DEPON_DIV
 
 export function resolveDeponRole(identityOrDepoId: string | Pick<DepoIdentityLayer, 'depoId' | 'deponRole'>): DeponUXRole {
   if (typeof identityOrDepoId !== 'string') return identityOrDepoId.deponRole;
-  if (!/^DEPON-\d{2}$/.test(identityOrDepoId)) return 'core-operational';
-  const normalized = Number.parseInt(identityOrDepoId.replace('DEPON-', ''), 10);
+  const canonicalId = extractCanonicalDeponId(identityOrDepoId);
+  if (!canonicalId) return 'core-operational';
+  const normalized = Number.parseInt(canonicalId.replace('DEPON-', ''), 10);
   return Number.isFinite(normalized) && normalized >= 13 && normalized <= 18 ? 'marketplace' : 'core-operational';
 }
 
@@ -482,7 +488,11 @@ export function getDeponRoleCatalog(role: DeponUXRole): DeponRoleCatalog {
 }
 
 export function resolveRolloutPriority(depoId: string): number {
-  return DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId === depoId)?.priority ?? DEPON_ROLLOUT_PLAN.length + 1;
+  const canonicalId = extractCanonicalDeponId(depoId) ?? depoId.toUpperCase();
+  return (
+    DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId.toUpperCase() === canonicalId)?.priority ??
+    DEPON_ROLLOUT_PLAN.length + 1
+  );
 }
 
 export function buildCanonicalDeponSchema(input: {
@@ -670,9 +680,7 @@ export function buildVariantSelectionAuditEntry(params: {
   const candidateId = params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`;
   const fallbackUsed =
     params.selectedBy === 'stable-fallback' ||
-    (!!params.context.fallbackStableId &&
-      stableCandidateId === params.context.fallbackStableId &&
-      candidateId === stableCandidateId);
+    (!!params.context.fallbackStableId && stableCandidateId === params.context.fallbackStableId);
 
   return {
     depoId: params.context.depoId,
