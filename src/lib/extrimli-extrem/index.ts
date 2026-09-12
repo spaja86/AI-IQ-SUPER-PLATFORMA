@@ -60,7 +60,7 @@ function parseLatencyEnv(name: string, fallback: number, degradedSources: string
   return round(clamp(parsed, 0, 500), 2);
 }
 
-function parseMuSemaEnv(name: string, fallback: number, degradedSources: string[]): number {
+function parseFormulaScalarEnv(name: string, fallback: number, max: number, degradedSources: string[]): number {
   const raw = process.env[name];
   if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
   const parsed = Number(raw);
@@ -68,8 +68,8 @@ function parseMuSemaEnv(name: string, fallback: number, degradedSources: string[
     degradedSources.push(`invalid-env:${name}`);
     return fallback;
   }
-  if (parsed < 0 || parsed > 300) degradedSources.push(`out-of-range:${name}`);
-  return round(clamp(parsed, 0, 300), 2);
+  if (parsed < 0 || parsed > max) degradedSources.push(`out-of-range:${name}`);
+  return round(clamp(parsed, 0, max), 2);
 }
 
 function classifyConflict(conflictScore: number): ExtrimliExtremConflictIntensity {
@@ -141,10 +141,10 @@ function buildSemaMuSemaFormula(
     2,
   );
   const derivedAllSema = round(clamp(100 - resolutionInput.discanPressurePercent, 0, 100), 2);
-  const sema = parsePercentEnv('EXTRIMLI_EXTREM_SHEMA_VALUE', derivedSema, degradedSources);
-  const allSema = parsePercentEnv('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE', derivedAllSema, degradedSources);
-  const computedMuSema = round(clamp((sema * 2) + allSema, 0, 300), 2);
-  const expectedMuSema = parseMuSemaEnv('EXTRIMLI_EXTREM_MUSHEMA_VALUE', computedMuSema, degradedSources);
+  const sema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_SHEMA_VALUE', derivedSema, 300, degradedSources);
+  const allSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE', derivedAllSema, 300, degradedSources);
+  const computedMuSema = round(clamp((sema * 2) + allSema, 0, 900), 2);
+  const expectedMuSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_MUSHEMA_VALUE', computedMuSema, 900, degradedSources);
   const formulaHolds = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
   const deterministic = Number.isFinite(sema) && Number.isFinite(allSema) && Number.isFinite(expectedMuSema) && Number.isFinite(computedMuSema);
   const blockerReasons = [
@@ -265,7 +265,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (!withinTargets) {
     degradedSources.push('profiler-kpi-breach');
   }
-  if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('shema-mushema:blocked');
+  if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
