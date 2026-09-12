@@ -25,7 +25,7 @@ export type VariantLifecycleStatus = 'draft' | 'candidate' | 'stable' | 'fallbac
 export interface DepoIdentityLayer {
   depoId: string;
   depoTip: DepoTip;
-  deponRole: DeponUXRole;
+  deponRole?: DeponUXRole;
   domen: string;
   korisnickiSegment: UXSegment;
   trziste: string;
@@ -424,9 +424,9 @@ export function resolveDeponRole(depoId: string): DeponUXRole {
 
 function resolveDeponRoleFromIdentity(identity: Pick<DepoIdentityLayer, 'depoId' | 'deponRole'>): DeponUXRole {
   const canonicalId = extractCanonicalDeponId(identity.depoId);
-  if (!canonicalId) return identity.deponRole;
+  if (!canonicalId) return identity.deponRole ?? 'core-operational';
   const derivedRole = resolveDeponRoleFromCanonicalId(canonicalId);
-  if (identity.deponRole !== derivedRole) {
+  if (identity.deponRole && identity.deponRole !== derivedRole) {
     throw new Error(`DEPON role mismatch for ${identity.depoId}: expected ${derivedRole}, got ${identity.deponRole}`);
   }
   return derivedRole;
