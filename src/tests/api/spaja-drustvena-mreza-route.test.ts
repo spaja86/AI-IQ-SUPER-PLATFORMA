@@ -190,7 +190,7 @@ async function runTests(): Promise<void> {
       hostId: 'profile-internal-core',
       audience: 'public',
       visibility: 'public',
-      scheduledAt: Date.now() + 7200_000,
+      scheduledAt: Date.UTC(2026, 8, 20, 13, 0, 0),
       capacity: 2,
     }));
     assert(created.status === 201, `expected 201, got ${created.status}`);

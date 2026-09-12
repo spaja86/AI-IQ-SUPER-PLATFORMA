@@ -37,7 +37,9 @@ const NOTIFICATION_STORE = new Map<string, SocialNotification>();
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const SEED_NOW = Date.UTC(2026, 8, 1, 8, 0, 0);
+const INITIAL_NOW = Date.UTC(2026, 8, 12, 18, 0, 0);
 let idCounter = 0;
+let currentNow = INITIAL_NOW;
 
 function nextId(prefix: string): string {
   idCounter += 1;
@@ -46,6 +48,15 @@ function nextId(prefix: string): string {
 
 function clone<T>(value: T): T {
   return structuredClone(value);
+}
+
+function peekNow(): number {
+  return currentNow;
+}
+
+function nextNow(): number {
+  currentNow += 1;
+  return currentNow;
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -93,7 +104,7 @@ function getReadinessStatus(): SocialReadinessStatus {
   return 'GREEN';
 }
 
-function pushNotification(recipientId: string, type: SocialNotificationType, title: string, body: string, createdAt = Date.now()): void {
+function pushNotification(recipientId: string, type: SocialNotificationType, title: string, body: string, createdAt = nextNow()): void {
   if (!PROFILE_STORE.has(recipientId)) return;
   const notification: SocialNotification = {
     id: nextId('notif'),
@@ -282,7 +293,7 @@ export function createProfile(input: {
     interests: normalizeTags(input.interests),
     verified: Boolean(input.verified),
     moderationStatus: 'active',
-    createdAt: Date.now(),
+    createdAt: nextNow(),
   };
   PROFILE_STORE.set(profile.id, clone(profile));
   pushNotification(profile.id, 'profile', 'Profil aktiviran', `Profil ${profile.handle} je uspešno registrovan.`);
@@ -318,7 +329,7 @@ export function createPost(input: {
 
   const normalizedContent = input.content.trim();
   const authorPosts = Array.from(POST_STORE.values()).filter((post) => post.authorId === input.authorId);
-  const recentCount = authorPosts.filter((post) => post.createdAt >= Date.now() - ONE_HOUR_MS).length;
+  const recentCount = authorPosts.filter((post) => post.createdAt >= peekNow() - ONE_HOUR_MS).length;
   if (recentCount >= SPAJA_DRUSTVENA_MREZA_POST_RATE_LIMIT_PER_HOUR) {
     return { ok: false, code: 'TOO_MANY_REQUESTS', message: 'post rate limit exceeded for this author' };
   }
@@ -335,7 +346,7 @@ export function createPost(input: {
     tags: normalizeTags(input.tags),
     reactions: [],
     flaggedBy: [],
-    createdAt: Date.now(),
+    createdAt: nextNow(),
   };
   POST_STORE.set(post.id, clone(post));
 
@@ -421,7 +432,7 @@ export function createGroup(input: {
     joinMode: input.joinMode ?? 'open',
     memberIds: [input.ownerId],
     pendingMemberIds: [],
-    createdAt: Date.now(),
+    createdAt: nextNow(),
   };
   GROUP_STORE.set(group.id, clone(group));
   pushNotification(input.ownerId, 'group', 'Grupa kreirana', `Grupa ${group.name} je spremna za članove.`);
@@ -493,7 +504,7 @@ export function createConversation(input: {
     return { ok: false, code: 'CONFLICT', message: 'duplicate conversation already exists' };
   }
 
-  const now = Date.now();
+  const now = nextNow();
   const thread: SocialConversation = {
     id: nextId('thread'),
     participantIds: uniqueParticipants,
@@ -530,7 +541,7 @@ export function appendMessage(threadId: string, authorId: string, content: strin
   if (!isNonEmptyString(content)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'content is required' };
   }
-  const now = Date.now();
+  const now = nextNow();
   thread.messages.push({
     id: nextId('msg'),
     authorId,
@@ -574,7 +585,7 @@ export function createEvent(input: {
   if (!isNonEmptyString(input.title) || !isNonEmptyString(input.description)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'title and description are required' };
   }
-  if (!Number.isFinite(input.scheduledAt) || input.scheduledAt <= Date.now()) {
+  if (!Number.isFinite(input.scheduledAt) || input.scheduledAt <= peekNow()) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'scheduledAt must be a future Unix timestamp in milliseconds' };
   }
   if (!Number.isInteger(input.capacity) || input.capacity < 2 || input.capacity > 500) {
@@ -592,7 +603,7 @@ export function createEvent(input: {
     capacity: input.capacity,
     attendeeIds: [input.hostId],
     waitlistIds: [],
-    createdAt: Date.now(),
+    createdAt: nextNow(),
   };
   EVENT_STORE.set(event.id, clone(event));
   pushNotification(input.hostId, 'event', 'Događaj kreiran', `Događaj ${event.title} je aktivan.`);
@@ -739,5 +750,6 @@ export function _resetSpajaDrustvenaMrezaState(): void {
   EVENT_STORE.clear();
   NOTIFICATION_STORE.clear();
   idCounter = 0;
+  currentNow = INITIAL_NOW;
   seedState();
 }

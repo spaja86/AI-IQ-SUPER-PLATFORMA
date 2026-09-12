@@ -212,14 +212,16 @@ async function runTests(): Promise<void> {
       hostId: 'profile-internal-core',
       audience: 'public',
       visibility: 'public',
-      scheduledAt: Date.now() + 3600_000,
+      scheduledAt: Date.UTC(2026, 8, 20, 12, 0, 0),
       capacity: 2,
     });
     assert(created.ok && created.data, 'event create failed');
     const first = rsvpEvent(created.data.id, 'profile-partner-ioopenui');
-    assert(first.ok && first.message === 'attending', 'first RSVP should attend');
+    assert(first.ok && first.data?.attendeeIds.includes('profile-partner-ioopenui'), 'first RSVP should occupy the last attendee slot');
+    assert(first.data?.attendeeIds.length === 2, 'host should count toward total attendee capacity');
     const second = rsvpEvent(created.data.id, 'profile-public-builder');
     assert(second.ok && second.message === 'waitlisted', 'second RSVP should be waitlisted');
+    assert(second.data?.waitlistIds.includes('profile-public-builder'), 'second RSVP should land on the waitlist');
   });
 
   console.log('\n🔎 [spaja-drustvena-mreza] notifications\n');
