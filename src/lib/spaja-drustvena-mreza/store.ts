@@ -67,6 +67,14 @@ function normalizeTags(tags: string[] | undefined): string[] {
   );
 }
 
+function forwardFailure<T>(result: SocialOperationResult<unknown>): SocialOperationResult<T> {
+  return {
+    ok: false,
+    code: result.code,
+    message: result.message,
+  };
+}
+
 function countByAudience(): Record<SocialAudience, number> {
   const result: Record<SocialAudience, number> = { internal: 0, partner: 0, public: 0 };
   for (const profile of PROFILE_STORE.values()) {
@@ -303,7 +311,7 @@ export function createPost(input: {
 }): SocialOperationResult<SocialFeedPost> {
   seedState();
   const author = requireProfile(input.authorId);
-  if (!author.ok) return author as SocialOperationResult<SocialFeedPost>;
+  if (!author.ok) return forwardFailure<SocialFeedPost>(author);
   if (!isNonEmptyString(input.content)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'content is required' };
   }
@@ -345,7 +353,7 @@ export function reactToPost(postId: string, actorId: string): SocialOperationRes
   const post = POST_STORE.get(postId);
   if (!post) return { ok: false, code: 'NOT_FOUND', message: `post not found: ${postId}` };
   const actor = requireProfile(actorId);
-  if (!actor.ok) return actor as SocialOperationResult<SocialFeedPost>;
+  if (!actor.ok) return forwardFailure<SocialFeedPost>(actor);
   if (post.authorId === actorId) {
     return { ok: false, code: 'CONFLICT', message: 'self-reaction is not allowed' };
   }
@@ -363,7 +371,7 @@ export function flagPost(postId: string, actorId: string): SocialOperationResult
   const post = POST_STORE.get(postId);
   if (!post) return { ok: false, code: 'NOT_FOUND', message: `post not found: ${postId}` };
   const actor = requireProfile(actorId);
-  if (!actor.ok) return actor as SocialOperationResult<SocialFeedPost>;
+  if (!actor.ok) return forwardFailure<SocialFeedPost>(actor);
   if (post.flaggedBy.includes(actorId)) {
     return { ok: false, code: 'CONFLICT', message: 'duplicate flag is not allowed' };
   }
@@ -395,7 +403,7 @@ export function createGroup(input: {
 }): SocialOperationResult<SocialGroup> {
   seedState();
   const owner = requireProfile(input.ownerId);
-  if (!owner.ok) return owner as SocialOperationResult<SocialGroup>;
+  if (!owner.ok) return forwardFailure<SocialGroup>(owner);
   if (!isNonEmptyString(input.name) || !isNonEmptyString(input.description)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'name and description are required' };
   }
@@ -425,7 +433,7 @@ export function joinGroup(groupId: string, profileId: string): SocialOperationRe
   const group = GROUP_STORE.get(groupId);
   if (!group) return { ok: false, code: 'NOT_FOUND', message: `group not found: ${groupId}` };
   const profile = requireProfile(profileId);
-  if (!profile.ok) return profile as SocialOperationResult<SocialGroup>;
+  if (!profile.ok) return forwardFailure<SocialGroup>(profile);
   if (group.memberIds.includes(profileId)) {
     return { ok: false, code: 'CONFLICT', message: 'profile is already a group member' };
   }
@@ -471,7 +479,7 @@ export function createConversation(input: {
   }
   for (const participantId of uniqueParticipants) {
     const participant = requireProfile(participantId);
-    if (!participant.ok) return participant as SocialOperationResult<SocialConversation>;
+    if (!participant.ok) return forwardFailure<SocialConversation>(participant);
   }
   if (!uniqueParticipants.includes(input.authorId)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'authorId must be one of participantIds' };
@@ -562,7 +570,7 @@ export function createEvent(input: {
 }): SocialOperationResult<SocialEvent> {
   seedState();
   const host = requireProfile(input.hostId);
-  if (!host.ok) return host as SocialOperationResult<SocialEvent>;
+  if (!host.ok) return forwardFailure<SocialEvent>(host);
   if (!isNonEmptyString(input.title) || !isNonEmptyString(input.description)) {
     return { ok: false, code: 'UNPROCESSABLE_ENTITY', message: 'title and description are required' };
   }
@@ -596,7 +604,7 @@ export function rsvpEvent(eventId: string, profileId: string): SocialOperationRe
   const event = EVENT_STORE.get(eventId);
   if (!event) return { ok: false, code: 'NOT_FOUND', message: `event not found: ${eventId}` };
   const profile = requireProfile(profileId);
-  if (!profile.ok) return profile as SocialOperationResult<SocialEvent>;
+  if (!profile.ok) return forwardFailure<SocialEvent>(profile);
   if (event.attendeeIds.includes(profileId) || event.waitlistIds.includes(profileId)) {
     return { ok: false, code: 'CONFLICT', message: 'profile already registered for this event' };
   }
