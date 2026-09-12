@@ -12,7 +12,7 @@ export async function GET() {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="digitalna-industrija-izvoz-faktura.pdf"',
-      'Cache-Control': 'public, max-age=300',
+      'Cache-Control': 'private, no-store, max-age=0',
       'X-App-Version': APP_VERSION,
       'X-Export-Contract-Version': result.exportContract.version,
     },

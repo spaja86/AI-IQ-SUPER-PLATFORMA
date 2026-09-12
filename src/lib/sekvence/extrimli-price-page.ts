@@ -8,7 +8,7 @@ export const extrimliPriceSekvence: Sekvenca[] = [
     id: 'extrimli-price-hero',
     tip: 'hero',
     naslov: '🎬 EXTRIMLI / EXTRONDOL / EXTREM — Kreacija priča',
-    podnaslov: 'Igrice · Biskop · Srodne branše',
+    podnaslov: 'Igrice · Bioskop · Srodne branše',
     ikona: '🎬',
     redosled: 1,
     podaci: {

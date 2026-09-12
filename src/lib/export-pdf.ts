@@ -85,6 +85,9 @@ export function createTextPdfDocument(title: string, sourceLines: string[]): Buf
   for (let i = 0; i < lines.length; i += linesPerPage) {
     pageChunks.push(lines.slice(i, i + linesPerPage));
   }
+  if (pageChunks.length === 0) {
+    pageChunks.push(['']);
+  }
 
   const objects: string[] = [];
   objects[1] = '<< /Type /Catalog /Pages 2 0 R >>';

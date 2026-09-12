@@ -23,7 +23,7 @@ export function getExtrimliPriceCatalog(): ExtrimliPriceCatalog {
   return {
     naziv: 'EXTRIMLI / EXTRONDOL / EXTREM — Kreacija Priča',
     verzija: APP_VERSION,
-    opis: 'Narativni i content sloj za igrice, biskop i srodne branše povezan sa gaming, EXTRIMLI i reklamnim modulima.',
+    opis: 'Narativni i content sloj za igrice, bioskop i srodne branše povezan sa gaming, EXTRIMLI i reklamnim modulima.',
     vertikale: [
       {
         id: 'igrice',
@@ -36,8 +36,8 @@ export function getExtrimliPriceCatalog(): ExtrimliPriceCatalog {
         status: 'spremno',
       },
       {
-        id: 'biskop',
-        naziv: 'Biskop',
+        id: 'bioskop',
+        naziv: 'Bioskop',
         publika: 'Vizuelni mediji, trailer publika, event produkcija',
         kanali: ['showcase stranice', 'teaser pitch', 'partner deck'],
         formati: ['sinopsis', 'najava', 'pitch', 'promo narativ'],
