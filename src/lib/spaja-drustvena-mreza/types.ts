@@ -138,6 +138,11 @@ export interface SocialOverview {
   slug: string;
   contractVersion: string;
   moduleVersion: string;
+  apiRoutes: string[];
+  scopeBoundaries: {
+    inScope: string[];
+    outOfScope: string[];
+  };
   productScope: {
     internalUsers: string[];
     partners: string[];

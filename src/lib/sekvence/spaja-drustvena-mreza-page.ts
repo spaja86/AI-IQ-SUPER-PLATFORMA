@@ -65,10 +65,24 @@ export function getSpajaDrustvenaMrezaSekvence(): Sekvenca[] {
       },
     },
     {
+      id: 'spaja-drustvena-mreza-api-scope',
+      tip: 'tabela',
+      naslov: '🗺️ API i scope granice',
+      redosled: 5,
+      podaci: {
+        kolone: ['Tip', 'Detalj'],
+        redovi: [
+          ...pregled.apiRoutes.map((route) => ['API ruta', route]),
+          ...pregled.scopeBoundaries.inScope.map((item) => ['In scope', item]),
+          ...pregled.scopeBoundaries.outOfScope.map((item) => ['Out of scope', item]),
+        ],
+      },
+    },
+    {
       id: 'spaja-drustvena-mreza-rules',
       tip: 'tabela',
       naslov: '🛡️ Vidljivost i moderacija',
-      redosled: 5,
+      redosled: 6,
       podaci: {
         kolone: ['Tip pravila', 'Detalj'],
         redovi: [
@@ -81,17 +95,30 @@ export function getSpajaDrustvenaMrezaSekvence(): Sekvenca[] {
       id: 'spaja-drustvena-mreza-kpi',
       tip: 'tabela',
       naslov: '📈 KPI i governance',
-      redosled: 6,
+      redosled: 7,
       podaci: {
         kolone: ['KPI', 'Cilj'],
         redovi: pregled.kpis.map((kpi) => [kpi.name, kpi.target]),
       },
     },
     {
+      id: 'spaja-drustvena-mreza-audit',
+      tip: 'lista',
+      naslov: '🧾 Audit i validator gate',
+      redosled: 8,
+      podaci: {
+        stavke: pregled.auditRequirements.map((requirement) => ({
+          ikona: '📌',
+          naslov: requirement,
+          opis: 'Obavezni v1 governance signal',
+        })),
+      },
+    },
+    {
       id: 'spaja-drustvena-mreza-rollout',
       tip: 'lista',
       naslov: '🚀 Rollout i rollback',
-      redosled: 7,
+      redosled: 9,
       podaci: {
         stavke: [
           ...pregled.rolloutPhases.map((phase) => ({ ikona: '➡️', naslov: phase, opis: 'Plan aktivacije' })),
@@ -103,7 +130,7 @@ export function getSpajaDrustvenaMrezaSekvence(): Sekvenca[] {
       id: 'spaja-drustvena-mreza-ban',
       tip: 'baner',
       naslov: '🔗 Multi-repo status',
-      redosled: 8,
+      redosled: 10,
       podaci: {
         poruka: pregled.multiRepo.note,
         stil: 'info',
@@ -113,7 +140,7 @@ export function getSpajaDrustvenaMrezaSekvence(): Sekvenca[] {
       id: 'spaja-drustvena-mreza-cta',
       tip: 'cta',
       naslov: 'Otvori SPAJA Social surface',
-      redosled: 9,
+      redosled: 11,
       podaci: {
         tekst: 'Koristi repo-local API-first sloj za profile, feed, grupe, poruke i događaje uz validator workflow i audit-ready dokumentaciju.',
         dugmad: [

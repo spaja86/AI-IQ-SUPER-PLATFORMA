@@ -75,6 +75,15 @@ async function runTests(): Promise<void> {
     assert(pregled.rolloutPhases.length === 5, 'expected 5 rollout phases');
   });
 
+  await test('overview exposes canonical routes and scope boundaries', () => {
+    const pregled = getSpajaDrustvenaMrezaPregled();
+    assert(pregled.apiRoutes.includes('/api/spaja-drustvena-mreza/health'), 'missing health route');
+    assert(pregled.apiRoutes.includes('/api/spaja-drustvena-mreza/notifikacije'), 'missing notifications route');
+    assert(pregled.scopeBoundaries.inScope.includes('src/lib/spaja-drustvena-mreza/**'), 'missing in-scope lib path');
+    assert(pregled.scopeBoundaries.outOfScope.includes('production credentials'), 'missing out-of-scope production credentials note');
+    assert(pregled.auditRequirements.some((item) => item.includes('validator workflow')), 'missing validator audit requirement');
+  });
+
   console.log('\n🔎 [spaja-drustvena-mreza] profiles + feed\n');
 
   await test('creates a profile successfully', () => {
@@ -165,6 +174,21 @@ async function runTests(): Promise<void> {
     assert(!reaction.ok && reaction.code === 'CONFLICT', 'self-reaction should fail');
   });
 
+  await test('flagged post creates moderation notification for core ops', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = createPost({
+      authorId: 'profile-public-builder',
+      audience: 'public',
+      visibility: 'public',
+      content: 'Needs moderation review',
+    });
+    assert(created.ok && created.data, 'post create failed');
+    const flagged = flagPost(created.data.id, 'profile-partner-ioopenui');
+    assert(flagged.ok, 'flag action should succeed');
+    const moderationNotifications = listNotifications({ recipientId: 'profile-internal-core', unreadOnly: true });
+    assert(moderationNotifications.some((notification) => notification.type === 'moderation'), 'expected moderation notification');
+  });
+
   console.log('\n🔎 [spaja-drustvena-mreza] groups + messages + events\n');
 
   await test('approval group stores pending members', () => {
@@ -234,6 +258,14 @@ async function runTests(): Promise<void> {
     assert(notifications.length > 0, 'expected unread notifications');
     const result = markNotificationRead(notifications[0].id, 'profile-public-builder');
     assert(result.ok && result.data?.read === true, 'notification should be marked as read');
+  });
+
+  await test('notification cannot be marked as read by a different recipient', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const notifications = listNotifications({ recipientId: 'profile-public-builder', unreadOnly: true });
+    assert(notifications.length > 0, 'expected unread notifications');
+    const result = markNotificationRead(notifications[0].id, 'profile-partner-ioopenui');
+    assert(!result.ok && result.code === 'CONFLICT', 'foreign recipient should be rejected');
   });
 
   await test('feed listing remains deterministic after mutations', () => {

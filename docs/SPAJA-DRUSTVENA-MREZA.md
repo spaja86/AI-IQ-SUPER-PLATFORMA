@@ -38,16 +38,29 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 - **Routes**: `/api/spaja-drustvena-mreza/profiles`, `/feed`, `/groups`, `/messages`, `/events`, `/notifikacije`, `/pregled`, `/health`
 - **Linked-repo impact**: `none`
 
+## API surface
+
+- `GET /api/spaja-drustvena-mreza/health` — readiness header + health agregat
+- `GET /api/spaja-drustvena-mreza/pregled` — kanonski overview za UI i audit
+- `GET|POST /api/spaja-drustvena-mreza/profiles` — listanje i kreiranje profila
+- `GET|POST /api/spaja-drustvena-mreza/feed` — listanje, kreiranje, reakcije i flag akcije
+- `GET|POST /api/spaja-drustvena-mreza/groups` — listanje, kreiranje i join tokovi
+- `GET|POST /api/spaja-drustvena-mreza/messages` — listanje, otvaranje i reply tokovi
+- `GET|POST /api/spaja-drustvena-mreza/events` — listanje, kreiranje i RSVP/waitlist tokovi
+- `GET|POST /api/spaja-drustvena-mreza/notifikacije` — listanje i mark-as-read tokovi
+
 ## Visibility and moderation rules
 
-1. `internal` sadržaj ostaje za interne tokove
-2. `network` vidljivost pokriva interne + partnerske aktere
-3. `public` sadržaj je otvoren za javni community sloj
-4. Self-reaction nije dozvoljen
-5. Duplikat objava i duplikat reakcija se odbijaju
-6. Jedan autor može kreirati najviše 5 objava po satu
-7. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
-8. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
+1. `audience` ostaje kanonski segment korisnika: `internal`, `partner`, `public`
+2. `visibility` ostaje kanonski nivo izlaganja: `internal`, `network`, `public`
+3. `network` vidljivost se koristi za koordinaciju internih + partnerskih aktera
+4. `public` vidljivost ostaje otvorena za community sloj i javne tokove
+5. Self-reaction nije dozvoljen
+6. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
+7. Jedan autor može kreirati najviše 5 objava po satu
+8. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
+9. `recipientId` je obavezan za pristup notifikacijama, a mark-as-read je dozvoljen samo vlasniku notifikacije
+10. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
 
 ## KPI targets
 
@@ -77,6 +90,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 - Validator workflow mora proći lint, typecheck, tests i security scan
 - PR opis za governance/config promene mora imati rollout, rollback, KPI impact i downstream reference
 - `docs/MULTI-REPO-LINKS.md` mora eksplicitno beležiti da v1 nema obaveznu downstream izmenu
+- `/api/spaja-drustvena-mreza/pregled` ostaje audit-ready source za rollout, rollback i multi-repo status
 
 ## Nova Generacija alignment
 

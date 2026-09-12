@@ -116,6 +116,11 @@ async function runTests(): Promise<void> {
     assert(typeof body.data.count === 'number', 'count should be number');
   });
 
+  await test('GET /feed rejects invalid visibility filter', async () => {
+    const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed?visibility=secret'));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
   await test('POST /feed rejects malformed react payload', async () => {
     const response = await postFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed', 'POST', { action: 'react' }));
     assert(response.status === 400, `expected 400, got ${response.status}`);
@@ -270,6 +275,24 @@ async function runTests(): Promise<void> {
       recipientId: 'profile-public-builder',
     }));
     assert(updated.status === 200, `expected 200, got ${updated.status}`);
+  });
+
+  await test('GET /notifikacije requires recipientId query param', async () => {
+    const response = await getNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije'));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /notifikacije rejects wrong recipient for notification', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const listed = await getNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije?recipientId=profile-public-builder&unreadOnly=true'));
+    assert(listed.status === 200, `expected 200, got ${listed.status}`);
+    const body = await listed.json() as { data: { notifications: Array<{ id: string }> } };
+    assert(body.data.notifications.length > 0, 'expected unread notifications');
+    const updated = await postNotifications(makeRequest('http://localhost/api/spaja-drustvena-mreza/notifikacije', 'POST', {
+      notificationId: body.data.notifications[0].id,
+      recipientId: 'profile-partner-ioopenui',
+    }));
+    assert(updated.status === 409, `expected 409, got ${updated.status}`);
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
