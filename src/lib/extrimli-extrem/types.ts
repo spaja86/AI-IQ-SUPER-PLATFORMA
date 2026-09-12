@@ -39,6 +39,7 @@ export interface ExtrimliExtremSemaFormulaEvaluation {
   formulaHolds: boolean;
   status: ExtrimliExtremSemaFormulaStatus;
   deterministic: boolean;
+  inputSubstitutions: string[];
   blockerReasons: string[];
   muSemaConclusion: 'MUŠEMA_CONFIRMED' | 'MUŠEMA_BLOCKED';
 }

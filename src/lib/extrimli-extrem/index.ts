@@ -136,6 +136,7 @@ function buildSemaMuSemaFormula(
   resolutionInput: ExtrimliExtremResolutionInput,
   degradedSources: string[],
 ): ExtrimliExtremSemaFormulaEvaluation {
+  const beforeEvalDegradedCount = degradedSources.length;
   const derivedSema = round(
     clamp((profileInput.sceneLoadPercent * 0.6) + (resolutionInput.rezolucijaCompletenessPercent * 0.4), 0, 100),
     2,
@@ -145,11 +146,22 @@ function buildSemaMuSemaFormula(
   const allSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE', derivedAllSema, 300, degradedSources);
   const computedMuSema = round(clamp((sema * 2) + allSema, 0, 900), 2);
   const expectedMuSema = parseFormulaScalarEnv('EXTRIMLI_EXTREM_MUSHEMA_VALUE', computedMuSema, 900, degradedSources);
+  const formulaDegradedSources = degradedSources.slice(beforeEvalDegradedCount);
+  const inputSubstitutions = [
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_ALL_SHEMA_VALUE') ? ['EXTRIMLI_EXTREM_ALL_SHEMA_VALUE'] : []),
+    ...(formulaDegradedSources.includes('invalid-env:EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
+  ];
   const formulaHolds = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
-  const deterministic = Number.isFinite(sema) && Number.isFinite(allSema) && Number.isFinite(expectedMuSema) && Number.isFinite(computedMuSema);
+  const deterministic = Number.isFinite(sema)
+    && Number.isFinite(allSema)
+    && Number.isFinite(expectedMuSema)
+    && Number.isFinite(computedMuSema)
+    && inputSubstitutions.length === 0;
   const blockerReasons = [
     ...(formulaHolds ? [] : [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`]),
-    ...(deterministic ? [] : ['ŠEMA formula inputs are not finite']),
+    ...(deterministic ? [] : ['ŠEMA formula inputs are not deterministic']),
+    ...(inputSubstitutions.length > 0 ? [`Formula inputs used fallback substitution: ${inputSubstitutions.join(', ')}`] : []),
   ];
 
   return {
@@ -164,6 +176,7 @@ function buildSemaMuSemaFormula(
     formulaHolds,
     status: formulaHolds && deterministic ? 'PASSED' : 'BLOCKED',
     deterministic,
+    inputSubstitutions,
     blockerReasons,
     muSemaConclusion: formulaHolds && deterministic ? 'MUŠEMA_CONFIRMED' : 'MUŠEMA_BLOCKED',
   };

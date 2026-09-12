@@ -87,6 +87,7 @@ async function runTests(): Promise<void> {
     assert(report.semaMuSemaFormula.canonicalExpression === EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION, 'canonical formula mismatch');
     assert(report.semaMuSemaFormula.formulaHolds, 'default formula should hold');
     assert(report.semaMuSemaFormula.status === 'PASSED', 'default formula status should be PASSED');
+    assert(report.semaMuSemaFormula.inputSubstitutions.length === 0, 'default formula should not use substitutions');
     assert(report.semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_CONFIRMED', 'default MUŠEMA conclusion should be confirmed');
   });
 
@@ -144,7 +145,9 @@ async function runTests(): Promise<void> {
       }, () => {
         const report = getExtrimliExtremProfilerReport();
         assert(report.degraded, 'report should be degraded for invalid formula env values');
-        assert(report.semaMuSemaFormula.status === 'PASSED', 'fallback formula should remain computable and additive');
+        assert(report.semaMuSemaFormula.status === 'BLOCKED', 'fallback substitutions should block deterministic formula gate');
+        assert(report.semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_BLOCKED', 'fallback substitutions should block MUŠEMA conclusion');
+        assert(report.semaMuSemaFormula.inputSubstitutions.length === 3, 'all formula env values should be recorded as substitutions');
         assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_SHEMA_VALUE')), 'expected invalid ŠEMA source');
         assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_ALL_SHEMA_VALUE')), 'expected invalid ALL ŠEMA source');
         assert(report.degradedSources.some((item) => item.includes('EXTRIMLI_EXTREM_MUSHEMA_VALUE')), 'expected invalid MUŠEMA source');
