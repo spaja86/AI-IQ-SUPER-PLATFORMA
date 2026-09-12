@@ -165,15 +165,14 @@ function buildSemaMuSemaFormula(
     ...(hasFormulaMarker('EXTRIMLI_EXTREM_MUSHEMA_VALUE') ? ['EXTRIMLI_EXTREM_MUSHEMA_VALUE'] : []),
   ];
   const hasSubstitutions = inputSubstitutions.length > 0;
-  const formulaHoldsRaw = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
-  const formulaHolds = !hasSubstitutions && formulaHoldsRaw;
+  const formulaHolds = Math.abs(computedMuSema - expectedMuSema) <= 0.01;
   const deterministic = Number.isFinite(sema)
     && Number.isFinite(allSema)
     && Number.isFinite(expectedMuSema)
     && Number.isFinite(computedMuSema)
     && !hasSubstitutions;
   const blockerReasons = [
-    ...(!hasSubstitutions && !formulaHoldsRaw ? [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`] : []),
+    ...(!hasSubstitutions && !formulaHolds ? [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`] : []),
     ...(deterministic ? [] : ['ŠEMA formula inputs are not deterministic']),
     ...(invalidFormulaInputs.length > 0 ? [`Formula inputs used fallback for invalid env values: ${invalidFormulaInputs.join(', ')}`] : []),
     ...(outOfRangeFormulaInputs.length > 0 ? [`Formula inputs were clamped for out-of-range values: ${outOfRangeFormulaInputs.join(', ')}`] : []),
@@ -189,7 +188,7 @@ function buildSemaMuSemaFormula(
     },
     computedMuSema,
     formulaHolds,
-    status: !hasSubstitutions && formulaHoldsRaw && deterministic ? 'PASSED' : 'BLOCKED',
+    status: !hasSubstitutions && formulaHolds && deterministic ? 'PASSED' : 'BLOCKED',
     deterministic,
     inputSubstitutions,
     blockerReasons,
