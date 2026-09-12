@@ -408,6 +408,10 @@ function extractCanonicalDeponId(depoId: string): string | null {
   return match[1]!.toUpperCase();
 }
 
+function normalizeToParentDeponId(depoId: string): string {
+  return extractCanonicalDeponId(depoId) ?? depoId.toUpperCase();
+}
+
 function resolveDeponRoleFromCanonicalId(canonicalId: string | null): DeponUXRole {
   if (!canonicalId) return 'core-operational';
   const normalized = Number.parseInt(canonicalId.replace('DEPON-', ''), 10);
@@ -504,7 +508,7 @@ export function getDeponRoleCatalog(role: DeponUXRole): DeponRoleCatalog {
 }
 
 export function resolveRolloutPriority(depoId: string): number {
-  const canonicalId = extractCanonicalDeponId(depoId) ?? depoId.toUpperCase();
+  const canonicalId = normalizeToParentDeponId(depoId);
   return (
     DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId.toUpperCase() === canonicalId)?.priority ??
     DEPON_ROLLOUT_PLAN.length + 1
