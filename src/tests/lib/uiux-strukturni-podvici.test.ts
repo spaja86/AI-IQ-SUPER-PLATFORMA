@@ -238,6 +238,7 @@ async function runTests(): Promise<void> {
     assertEqual(getDeponRoleCatalog('marketplace').primaryIntents[0], 'discovery', 'marketplace intent');
     assertEqual(resolveRolloutPriority('depon-15'), 1, 'lowercase rollout prioritet');
     assertEqual(resolveRolloutPriority('depon-15-search-stable'), 1, 'derived rollout prioritet');
+    assertEqual(resolveRolloutPriority('io-openui-ao-home', 'marketplace'), 1, 'role fallback prioritet');
   });
 
   await test('buildCanonicalDeponSchema postavlja governance, budžete i rollout prioritet', () => {

@@ -504,7 +504,7 @@ function buildCandidate(
       generatedAt: new Date().toISOString(),
       source: 'composition-generator',
       candidateId: `${depo.depoId}-${sequence}`,
-      rolloutPriority: resolveRolloutPriority(depo.depoId),
+      rolloutPriority: resolveRolloutPriority(depo.depoId, resolvedRole),
     },
   };
 }
@@ -523,12 +523,12 @@ export function getDeponRoleCatalog(role: DeponUXRole): DeponRoleCatalog {
   return catalog;
 }
 
-export function resolveRolloutPriority(depoId: string): number {
+export function resolveRolloutPriority(depoId: string, role?: DeponUXRole): number {
   const canonicalId = normalizeToParentDeponId(depoId);
-  return (
-    DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId.toUpperCase() === canonicalId)?.priority ??
-    DEPON_ROLLOUT_PLAN.length + 1
-  );
+  const exactMatch = DEPON_ROLLOUT_PLAN.find((stage) => stage.deponId.toUpperCase() === canonicalId);
+  if (exactMatch) return exactMatch.priority;
+  if (role) return DEPON_ROLLOUT_PLAN.find((stage) => stage.role === role)?.priority ?? DEPON_ROLLOUT_PLAN.length + 1;
+  return DEPON_ROLLOUT_PLAN.length + 1;
 }
 
 export function buildCanonicalDeponSchema(input: {
@@ -601,7 +601,7 @@ export function buildCanonicalDeponSchema(input: {
       source: 'composition-generator',
       candidateId: input.metadata?.candidateId ?? `${input.identity.depoId}-manual`,
       score: input.metadata?.score,
-      rolloutPriority: input.metadata?.rolloutPriority ?? resolveRolloutPriority(input.identity.depoId),
+      rolloutPriority: input.metadata?.rolloutPriority ?? resolveRolloutPriority(input.identity.depoId, resolvedRole),
       variantFamily: input.metadata?.variantFamily,
       stableCandidateId: resolvedStableCandidateId,
     },
