@@ -161,7 +161,7 @@ function buildSemaMuSemaFormula(
     && Number.isFinite(computedMuSema)
     && inputSubstitutions.length === 0;
   const blockerReasons = [
-    ...(formulaHolds ? [] : [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`]),
+    ...(inputSubstitutions.length === 0 && !formulaHolds ? [`MUŠEMA mismatch: expected ${expectedMuSema}, computed ${computedMuSema}`] : []),
     ...(deterministic ? [] : ['ŠEMA formula inputs are not deterministic']),
     ...(inputSubstitutions.length > 0 ? [`Formula inputs used fallback substitution: ${inputSubstitutions.join(', ')}`] : []),
   ];
