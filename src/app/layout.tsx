@@ -88,16 +88,16 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION_SHORT,
     images: [
       {
+        url: `${BASE_URL}${BRAND_ASSETS.ogFallback}`,
+        width: 1200,
+        height: 630,
+        alt: `${APP_NAME} — lokalni OG fallback`,
+      },
+      {
         url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
         alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
-      },
-      {
-        url: BRAND_ASSETS.ogFallback,
-        width: 1200,
-        height: 630,
-        alt: `${APP_NAME} — lokalni OG fallback`,
       },
     ],
   },
@@ -114,16 +114,16 @@ export const metadata: Metadata = {
     creator: '@KompanijaSPAJA',
     images: [
       {
+        url: `${BASE_URL}${BRAND_ASSETS.ogFallback}`,
+        width: 1200,
+        height: 630,
+        alt: `${APP_NAME} — lokalni OG fallback`,
+      },
+      {
         url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
         alt: `${APP_NAME} — ${KOMPANIJA} — Digitalna Industrija`,
-      },
-      {
-        url: BRAND_ASSETS.ogFallback,
-        width: 1200,
-        height: 630,
-        alt: `${APP_NAME} — lokalni OG fallback`,
       },
     ],
   },
