@@ -39,16 +39,22 @@ async function runTests(): Promise<void> {
 
   await test('Generator računa PDF je validan PDF payload', () => {
     const pdf = buildPoslovniRacuniPdfDocument(buildGeneratorZaPoslovneRacune('test-user'));
-    const head = Buffer.from(pdf).toString('utf8', 0, 8);
+    const content = Buffer.from(pdf).toString('utf8');
+    const head = content.slice(0, 8);
     assert(head.startsWith('%PDF-1.4'), 'pdf header');
+    assert(content.includes('Ukupno racuna'), 'pdf ascii-safe racuna content');
+    assert(!content.includes('Ukupno računa'), 'pdf should not contain raw non-ascii racuna content');
   });
 
   await test('Izvoz faktura nosi export contract v1 i PDF payload', () => {
     const result = buildDigitalnaIndustrijaIzvozFaktura('test-user');
     assert(result.exportContract.version === PDF_EXPORT_CONTRACT_VERSION, 'faktura export contract version');
     const pdf = buildIzvozFakturaPdfDocument(result);
-    const head = Buffer.from(pdf).toString('utf8', 0, 8);
+    const content = Buffer.from(pdf).toString('utf8');
+    const head = content.slice(0, 8);
     assert(head.startsWith('%PDF-1.4'), 'invoice pdf header');
+    assert(content.includes('Izvozne fakture'), 'invoice ascii-safe content');
+    assert(content.includes('DIGITALNA INDUSTRIJA - IZVOZ FAKTURA PDF'), 'invoice title should be ascii-safe');
   });
 
   console.log(`\n🏁 Rezultat: ${passed} prošlo, ${failed} palo`);

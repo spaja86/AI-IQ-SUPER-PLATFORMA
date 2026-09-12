@@ -5,7 +5,7 @@ import { buildPoslovniRacuniPdfDocument } from '@/lib/export-pdf';
 export async function GET() {
   const result = buildGeneratorZaPoslovneRacune('public');
   const pdf = buildPoslovniRacuniPdfDocument(result);
-  const body = pdf.toString('utf8');
+  const body = Uint8Array.from(pdf);
 
   return new Response(body, {
     status: 200,

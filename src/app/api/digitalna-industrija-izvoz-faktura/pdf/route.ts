@@ -5,7 +5,7 @@ import { buildIzvozFakturaPdfDocument } from '@/lib/export-pdf';
 export async function GET() {
   const result = buildDigitalnaIndustrijaIzvozFaktura('public');
   const pdf = buildIzvozFakturaPdfDocument(result);
-  const body = pdf.toString('utf8');
+  const body = Uint8Array.from(pdf);
 
   return new Response(body, {
     status: 200,

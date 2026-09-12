@@ -21,6 +21,12 @@ export interface ExportContract {
 
 function escapePdfText(input: string): string {
   return input
+    .normalize('NFKD')
+    .replace(/đ/g, 'dj')
+    .replace(/Đ/g, 'Dj')
+    .replace(/—/g, '-')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\x20-\x7E]/g, '?')
     .replace(/\\/g, '\\\\')
     .replace(/\(/g, '\\(')
     .replace(/\)/g, '\\)')
