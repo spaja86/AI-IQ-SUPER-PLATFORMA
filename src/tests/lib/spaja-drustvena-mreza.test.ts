@@ -10,6 +10,9 @@ import {
   getSpajaDrustvenaMrezaPregled,
   joinGroup,
   listNotifications,
+  listConversations,
+  listEvents,
+  listGroups,
   listPosts,
   markNotificationRead,
   reactToPost,
@@ -190,6 +193,29 @@ async function runTests(): Promise<void> {
     assert(moderationNotifications.some((notification) => notification.type === 'moderation'), 'expected moderation notification');
   });
 
+  await test('public feed reads stay public-only without viewer context', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const posts = listPosts();
+    assert(posts.length === 0, 'default feed listing should not expose restricted seed post');
+    const partnerVisible = listPosts({ viewerId: 'profile-partner-ioopenui' });
+    assert(partnerVisible.some((post) => post.id === 'post-seed-0001'), 'partner viewer should see network seed post');
+  });
+
+  await test('reaction and flag are blocked outside post scope', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const created = createPost({
+      authorId: 'profile-partner-ioopenui',
+      audience: 'partner',
+      visibility: 'network',
+      content: 'Partner-only update',
+    });
+    assert(created.ok && created.data, 'partner post create failed');
+    const reaction = reactToPost(created.data.id, 'profile-public-builder');
+    const flag = flagPost(created.data.id, 'profile-public-builder');
+    assert(!reaction.ok && reaction.code === 'CONFLICT', 'public reaction should be blocked');
+    assert(!flag.ok && flag.code === 'CONFLICT', 'public flag should be blocked');
+  });
+
   console.log('\n🔎 [spaja-drustvena-mreza] groups + messages + events\n');
 
   await test('approval group stores pending members', () => {
@@ -220,6 +246,16 @@ async function runTests(): Promise<void> {
     assert(group.ok && group.data, 'group create failed');
     const joined = joinGroup(group.data.id, 'profile-public-builder');
     assert(!joined.ok && joined.code === 'CONFLICT', 'public profile should not join partner-only group');
+  });
+
+  await test('group and event reads stay public-only without viewer context', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const groups = listGroups();
+    const events = listEvents();
+    assert(groups.length === 0, 'default groups listing should hide partner seed group');
+    assert(events.length === 1 && events[0].id === 'event-seed-0001', 'default events listing should keep public seed event');
+    const partnerGroups = listGroups({ viewerId: 'profile-partner-ioopenui' });
+    assert(partnerGroups.some((group) => group.id === 'group-seed-0001'), 'partner viewer should see partner seed group');
   });
 
   await test('conversation create rejects duplicate thread fingerprint', () => {
@@ -255,6 +291,14 @@ async function runTests(): Promise<void> {
       authorId: 'profile-internal-core',
     });
     assert(!created.ok && created.code === 'CONFLICT', 'public participant should be blocked from partner scope');
+  });
+
+  await test('conversation listing stays participant-scoped', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const internalThreads = listConversations({ participantId: 'profile-internal-core' });
+    const publicThreads = listConversations({ participantId: 'profile-public-builder' });
+    assert(internalThreads.length >= 1, 'internal participant should see seeded thread');
+    assert(publicThreads.length === 0, 'non-participant should not see seeded thread');
   });
 
   await test('event RSVP uses waitlist when capacity is full', () => {

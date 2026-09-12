@@ -19,13 +19,14 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const audience = searchParams.get('audience');
     const visibility = searchParams.get('visibility');
+    const viewerId = searchParams.get('viewerId') ?? undefined;
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }
     if (visibility !== null && !isSocialVisibility(visibility)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'visibility must be one of: internal, network, public');
     }
-    const groups = listGroups({ audience: audience ?? undefined, visibility: visibility ?? undefined });
+    const groups = listGroups({ audience: audience ?? undefined, visibility: visibility ?? undefined, viewerId });
     return withSpajaDrustvenaMrezaHeaders(apiSuccess({ groups, count: groups.length }, 200));
   } catch (error) {
     return spajaDrustvenaMrezaApiInternalError('spaja-drustvena-mreza/groups GET', error);

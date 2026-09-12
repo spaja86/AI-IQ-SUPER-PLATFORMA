@@ -106,6 +106,10 @@ function canAudienceAccessScope(
     && visibilityRank[resourceVisibility] <= audienceRank[profileAudience];
 }
 
+function isPublicScope(resourceAudience: SocialAudience, resourceVisibility: SocialVisibility): boolean {
+  return resourceAudience === 'public' && resourceVisibility === 'public';
+}
+
 function countByAudience(): Record<SocialAudience, number> {
   const result: Record<SocialAudience, number> = { internal: 0, partner: 0, public: 0 };
   for (const profile of PROFILE_STORE.values()) {
@@ -320,17 +324,46 @@ export function createProfile(input: {
   return { ok: true, message: 'profile created', data: clone(profile) };
 }
 
-export function listPosts(filter?: { audience?: SocialAudience; authorId?: string; visibility?: SocialVisibility }): SocialFeedPost[] {
+export function listPosts(filter?: { audience?: SocialAudience; authorId?: string; visibility?: SocialVisibility; viewerId?: string }): SocialFeedPost[] {
   seedState();
+  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
+  if (viewer && !viewer.ok) return [];
   return Array.from(POST_STORE.values())
     .filter((post) => {
       if (filter?.audience && post.audience !== filter.audience) return false;
       if (filter?.authorId && post.authorId !== filter.authorId) return false;
       if (filter?.visibility && post.visibility !== filter.visibility) return false;
-      return true;
+      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, post.audience, post.visibility);
+      return isPublicScope(post.audience, post.visibility);
     })
     .sort((a, b) => b.createdAt - a.createdAt)
     .map((post) => clone(post));
+}
+
+export function listGroups(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewerId?: string }): SocialGroup[] {
+  seedState();
+  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
+  if (viewer && !viewer.ok) return [];
+  return Array.from(GROUP_STORE.values())
+    .filter((group) => {
+      if (filter?.audience && group.audience !== filter.audience) return false;
+      if (filter?.visibility && group.visibility !== filter.visibility) return false;
+      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, group.audience, group.visibility);
+      return isPublicScope(group.audience, group.visibility);
+    })
+    .map((group) => clone(group));
+}
+
+export function listConversations(filter: { participantId: string; audience?: SocialAudience }): SocialConversation[] {
+  seedState();
+  return Array.from(CONVERSATION_STORE.values())
+    .filter((thread) => {
+      if (!thread.participantIds.includes(filter.participantId)) return false;
+      if (filter.audience && thread.audience !== filter.audience) return false;
+      return true;
+    })
+    .sort((a, b) => b.updatedAt - a.updatedAt)
+    .map((thread) => clone(thread));
 }
 
 export function createPost(input: {
@@ -375,7 +408,10 @@ export function createPost(input: {
   POST_STORE.set(post.id, clone(post));
 
   for (const profile of PROFILE_STORE.values()) {
-    if (profile.id !== input.authorId && (profile.audience === input.audience || input.audience === 'public')) {
+    if (
+      profile.id !== input.authorId
+      && canAudienceAccessScope(profile.audience, post.audience, post.visibility)
+    ) {
       pushNotification(profile.id, 'post', 'Nova objava', `Nova objava od ${author.data?.displayName ?? input.authorId}`);
     }
   }
@@ -389,6 +425,9 @@ export function reactToPost(postId: string, actorId: string): SocialOperationRes
   if (!post) return { ok: false, code: 'NOT_FOUND', message: `post not found: ${postId}` };
   const actor = requireProfile(actorId);
   if (!actor.ok) return forwardFailure<SocialFeedPost>(actor);
+  if (!canAudienceAccessScope(actor.data!.audience, post.audience, post.visibility)) {
+    return { ok: false, code: 'CONFLICT', message: 'actor cannot access this post scope' };
+  }
   if (post.authorId === actorId) {
     return { ok: false, code: 'CONFLICT', message: 'self-reaction is not allowed' };
   }
@@ -407,6 +446,9 @@ export function flagPost(postId: string, actorId: string): SocialOperationResult
   if (!post) return { ok: false, code: 'NOT_FOUND', message: `post not found: ${postId}` };
   const actor = requireProfile(actorId);
   if (!actor.ok) return forwardFailure<SocialFeedPost>(actor);
+  if (!canAudienceAccessScope(actor.data!.audience, post.audience, post.visibility)) {
+    return { ok: false, code: 'CONFLICT', message: 'actor cannot access this post scope' };
+  }
   if (post.flaggedBy.includes(actorId)) {
     return { ok: false, code: 'CONFLICT', message: 'duplicate flag is not allowed' };
   }
@@ -414,17 +456,6 @@ export function flagPost(postId: string, actorId: string): SocialOperationResult
   POST_STORE.set(post.id, clone(post));
   pushNotification('profile-internal-core', 'moderation', 'Flagged post', `Objava ${post.id} je prijavljena za moderaciju.`);
   return { ok: true, message: 'post flagged', data: clone(post) };
-}
-
-export function listGroups(filter?: { audience?: SocialAudience; visibility?: SocialVisibility }): SocialGroup[] {
-  seedState();
-  return Array.from(GROUP_STORE.values())
-    .filter((group) => {
-      if (filter?.audience && group.audience !== filter.audience) return false;
-      if (filter?.visibility && group.visibility !== filter.visibility) return false;
-      return true;
-    })
-    .map((group) => clone(group));
 }
 
 export function createGroup(input: {
@@ -491,18 +522,6 @@ export function joinGroup(groupId: string, profileId: string): SocialOperationRe
   GROUP_STORE.set(group.id, clone(group));
   pushNotification(group.ownerId, 'group', 'Novi član grupe', `${profile.data?.displayName ?? profileId} je pristupio/la grupi ${group.name}.`);
   return { ok: true, message: 'joined group', data: clone(group) };
-}
-
-export function listConversations(filter?: { participantId?: string; audience?: SocialAudience }): SocialConversation[] {
-  seedState();
-  return Array.from(CONVERSATION_STORE.values())
-    .filter((thread) => {
-      if (filter?.participantId && !thread.participantIds.includes(filter.participantId)) return false;
-      if (filter?.audience && thread.audience !== filter.audience) return false;
-      return true;
-    })
-    .sort((a, b) => b.updatedAt - a.updatedAt)
-    .map((thread) => clone(thread));
 }
 
 export function createConversation(input: {
@@ -592,13 +611,16 @@ export function appendMessage(threadId: string, authorId: string, content: strin
   return { ok: true, message: 'message appended', data: clone(thread) };
 }
 
-export function listEvents(filter?: { audience?: SocialAudience; visibility?: SocialVisibility }): SocialEvent[] {
+export function listEvents(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewerId?: string }): SocialEvent[] {
   seedState();
+  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
+  if (viewer && !viewer.ok) return [];
   return Array.from(EVENT_STORE.values())
     .filter((event) => {
       if (filter?.audience && event.audience !== filter.audience) return false;
       if (filter?.visibility && event.visibility !== filter.visibility) return false;
-      return true;
+      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, event.audience, event.visibility);
+      return isPublicScope(event.audience, event.visibility);
     })
     .sort((a, b) => a.scheduledAt - b.scheduledAt)
     .map((event) => clone(event));
@@ -778,6 +800,7 @@ export function getSpajaDrustvenaMrezaPregled(): SocialOverview {
       'audience ostaje kanonski segment korisnika: internal, partner, public',
       'visibility ostaje kanonski nivo izlaganja: internal, network, public',
       'public profil ne može u partner/internal scope; partner profil ne može u internal scope',
+      'read bez viewer konteksta ostaje ograničen na public/public surface',
       'network vidljivost obuhvata interne i partnerske aktere',
       'public vidljivost je otvorena za javni community sloj',
     ],

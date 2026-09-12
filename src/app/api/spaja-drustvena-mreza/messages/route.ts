@@ -16,8 +16,11 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const participantId = searchParams.get('participantId') ?? undefined;
+    const participantId = searchParams.get('participantId');
     const audience = searchParams.get('audience');
+    if (!participantId) {
+      return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'participantId query param is required');
+    }
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }

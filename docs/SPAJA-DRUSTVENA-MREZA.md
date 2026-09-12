@@ -43,10 +43,10 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 - `GET /api/spaja-drustvena-mreza/health` — readiness header + health agregat
 - `GET /api/spaja-drustvena-mreza/pregled` — kanonski overview za UI i audit
 - `GET|POST /api/spaja-drustvena-mreza/profiles` — listanje i kreiranje profila
-- `GET|POST /api/spaja-drustvena-mreza/feed` — listanje, kreiranje, reakcije i flag akcije
-- `GET|POST /api/spaja-drustvena-mreza/groups` — listanje, kreiranje i join tokovi
-- `GET|POST /api/spaja-drustvena-mreza/messages` — listanje, otvaranje i reply tokovi
-- `GET|POST /api/spaja-drustvena-mreza/events` — listanje, kreiranje i RSVP/waitlist tokovi
+- `GET|POST /api/spaja-drustvena-mreza/feed` — listanje, kreiranje, reakcije i flag akcije (`viewerId` širi read scope; bez njega read ostaje public-only)
+- `GET|POST /api/spaja-drustvena-mreza/groups` — listanje, kreiranje i join tokovi (`viewerId` je potreban za partner/internal pregled)
+- `GET|POST /api/spaja-drustvena-mreza/messages` — listanje, otvaranje i reply tokovi (`participantId` je obavezan za read)
+- `GET|POST /api/spaja-drustvena-mreza/events` — listanje, kreiranje i RSVP/waitlist tokovi (`viewerId` širi read scope; bez njega read ostaje public-only)
 - `GET|POST /api/spaja-drustvena-mreza/notifikacije` — listanje i mark-as-read tokovi
 
 ## Visibility and moderation rules
@@ -59,11 +59,13 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 6. `network` vidljivost se koristi za koordinaciju internih + partnerskih aktera
 7. `public` vidljivost ostaje otvorena za community sloj i javne tokove
 8. Self-reaction nije dozvoljen
-9. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
-10. Jedan autor može kreirati najviše 5 objava po satu
-11. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
-12. `recipientId` je obavezan za pristup notifikacijama, a mark-as-read je dozvoljen samo vlasniku notifikacije
-13. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
+9. Reakcije i flag akcije dozvoljene su samo profilima koji mogu videti dati scope objave
+10. Read bez `viewerId` ostaje ograničen na `public/public` feed, grupe i događaje
+11. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
+12. Jedan autor može kreirati najviše 5 objava po satu
+13. Flagged sadržaj mora generisati moderacioni signal/notifikaciju
+14. `recipientId` je obavezan za pristup notifikacijama, a mark-as-read je dozvoljen samo vlasniku notifikacije
+15. V1 ne koristi privatne tajne, deploy hook-ove ni produkcione kredencijale
 
 ## KPI targets
 

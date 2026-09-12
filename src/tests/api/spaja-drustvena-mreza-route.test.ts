@@ -116,6 +116,22 @@ async function runTests(): Promise<void> {
     assert(typeof body.data.count === 'number', 'count should be number');
   });
 
+  await test('GET /feed stays public-only without viewer context', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { count: number } };
+    assert(body.data.count === 0, 'default feed read should not expose restricted seed post');
+  });
+
+  await test('GET /feed allows scoped read with viewerId', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed?viewerId=profile-partner-ioopenui'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { posts: Array<{ id: string }> } };
+    assert(body.data.posts.some((post) => post.id === 'post-seed-0001'), 'viewerId should expose partner/network-capable feed');
+  });
+
   await test('GET /feed rejects invalid visibility filter', async () => {
     const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed?visibility=secret'));
     assert(response.status === 400, `expected 400, got ${response.status}`);
@@ -190,8 +206,16 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET /groups returns groups list', async () => {
+    const response = await getGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups?viewerId=profile-partner-ioopenui'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+  });
+
+  await test('GET /groups stays public-only without viewerId', async () => {
+    _resetSpajaDrustvenaMrezaState();
     const response = await getGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups'));
     assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { count: number } };
+    assert(body.data.count === 0, 'default groups read should hide partner seed group');
   });
 
   await test('POST /groups rejects malformed join payload', async () => {
@@ -241,6 +265,11 @@ async function runTests(): Promise<void> {
   await test('GET /messages returns participant-filtered threads', async () => {
     const response = await getMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages?participantId=profile-internal-core'));
     assert(response.status === 200, `expected 200, got ${response.status}`);
+  });
+
+  await test('GET /messages requires participantId', async () => {
+    const response = await getMessages(makeRequest('http://localhost/api/spaja-drustvena-mreza/messages'));
+    assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
   await test('POST /messages rejects malformed reply payload', async () => {
@@ -306,6 +335,17 @@ async function runTests(): Promise<void> {
   await test('GET /events returns events list', async () => {
     const response = await getEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events'));
     assert(response.status === 200, `expected 200, got ${response.status}`);
+  });
+
+  await test('GET /events allows scoped read with viewerId and stays public-only by default', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const defaultResponse = await getEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events'));
+    assert(defaultResponse.status === 200, `expected 200, got ${defaultResponse.status}`);
+    const defaultBody = await defaultResponse.json() as { data: { events: Array<{ id: string }> } };
+    assert(defaultBody.data.events.length === 1 && defaultBody.data.events[0].id === 'event-seed-0001', 'default event read should only expose the public seed event');
+
+    const viewerResponse = await getEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events?viewerId=profile-partner-ioopenui&audience=partner'));
+    assert(viewerResponse.status === 200, `expected 200, got ${viewerResponse.status}`);
   });
 
   await test('POST /events rejects malformed RSVP payload', async () => {
