@@ -667,13 +667,16 @@ export function buildVariantSelectionAuditEntry(params: {
   selectedBy?: VariantSelectionAuditEntry['selectedBy'];
 }): VariantSelectionAuditEntry {
   const stableCandidateId = params.selected.schema.metadata.stableCandidateId ?? null;
+  const candidateId = params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`;
   const fallbackUsed =
     params.selectedBy === 'stable-fallback' ||
-    (!!params.context.fallbackStableId && params.context.fallbackStableId === params.selected.schema.metadata.candidateId);
+    (!!params.context.fallbackStableId &&
+      stableCandidateId === params.context.fallbackStableId &&
+      candidateId === stableCandidateId);
 
   return {
     depoId: params.context.depoId,
-    candidateId: params.selected.schema.metadata.candidateId ?? `${params.context.depoId}-candidate`,
+    candidateId,
     stableCandidateId,
     selectedAt: new Date().toISOString(),
     selectedBy: params.selectedBy ?? (fallbackUsed ? 'stable-fallback' : 'kpi-model'),
