@@ -399,41 +399,6 @@ async function runTests(): Promise<void> {
       humanReviewComplete: true,
     });
 
-    await test('MUŠEMA formula mismatch from EXTREM forces EXTRONDOL rollout freeze and blockers', async () => {
-      await withEnv({
-        EXTRIMLI_EXTREM_SHEMA_VALUE: '40',
-        EXTRIMLI_EXTREM_ALL_SHEMA_VALUE: '20',
-        EXTRIMLI_EXTREM_MUSHEMA_VALUE: '70',
-        SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
-        SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
-        SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
-        SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
-        SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
-        SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
-        SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
-        SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
-        SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
-        SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
-        SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
-        SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
-        SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
-        SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
-        SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
-      }, () => {
-        const report = getExtrimliExtrondolReport({
-          auditTrailComplete: true,
-          onboardingComplete: true,
-          downstreamSyncComplete: true,
-          humanReviewComplete: true,
-        });
-        assert(report.extremProfiler.semaMuSemaFormula.status === 'BLOCKED', 'EXTREM formula should be blocked');
-        assert(report.rollout.promotionFreeze, 'rollout freeze should be active when formula is blocked');
-        assert(report.b2bReadiness.compliance.blockers.includes('extrem-schema-mushema'), 'formula blocker must be present in compliance blockers');
-        assert(report.releaseAuditSummary.semaFormulaGovernance.status === 'BLOCKED', 'release audit formula gate should be blocked');
-        assert(report.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion === 'MUŠEMA_BLOCKED', 'release audit MUŠEMA conclusion should be blocked');
-        assert(report.rollout.reasons.some((reason) => reason.includes('extrem-schema-mushema:')), 'rollout reasons should include formula blocker reasons');
-      });
-    });
     assert(report.b2bReadiness.compliance.onboardingComplete === true, 'onboarding evidence override failed');
     assert(report.b2bReadiness.compliance.humanReviewComplete === true, 'human review evidence override failed');
     assert(report.b2bReadiness.downstreamSync.status === 'ALIGNED', 'downstream sync evidence override failed');
@@ -442,6 +407,42 @@ async function runTests(): Promise<void> {
     assert(!report.b2bReadiness.compliance.blockers.includes('onboarding-complete'), 'onboarding blocker should clear');
     assert(!report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker should clear');
     assert(!report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker should clear');
+  });
+
+  await test('MUŠEMA formula mismatch from EXTREM forces EXTRONDOL rollout freeze and blockers', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_SHEMA_VALUE: '40',
+      EXTRIMLI_EXTREM_ALL_SHEMA_VALUE: '20',
+      EXTRIMLI_EXTREM_MUSHEMA_VALUE: '70',
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.extremProfiler.semaMuSemaFormula.status === 'BLOCKED', 'EXTREM formula should be blocked');
+      assert(report.rollout.promotionFreeze, 'rollout freeze should be active when formula is blocked');
+      assert(report.b2bReadiness.compliance.blockers.includes('extrem-schema-mushema'), 'formula blocker must be present in compliance blockers');
+      assert(report.releaseAuditSummary.semaFormulaGovernance.status === 'BLOCKED', 'release audit formula gate should be blocked');
+      assert(report.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion === 'MUŠEMA_BLOCKED', 'release audit MUŠEMA conclusion should be blocked');
+      assert(report.rollout.reasons.some((reason) => reason.includes('extrem-schema-mushema:')), 'rollout reasons should include formula blocker reasons');
+    });
   });
 
   await test('payment verification success path (paid invoice) clears payment blockers', async () => {
