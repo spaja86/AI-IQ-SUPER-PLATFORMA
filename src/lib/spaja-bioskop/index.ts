@@ -148,7 +148,7 @@ export function evaluateSpajaBioskop(input: SpajaBioskopInput): SpajaBioskopResu
   const uniqueKnownTokens = new Set(
     normalizedSequence.filter((token) => SPAJA_BIOSKOP_KANONSKA_SEKVENCA.includes(token as SpajaBioskopToken)),
   );
-  const canonicalTokenCount = [...SPAJA_BIOSKOP_KANONSKA_SEKVENCA].length;
+  const canonicalTokenCount: number = SPAJA_BIOSKOP_KANONSKA_SEKVENCA.length;
   const coverage = canonicalTokenCount === 0
     ? 0
     : clamp(uniqueKnownTokens.size / canonicalTokenCount, 0, 1);

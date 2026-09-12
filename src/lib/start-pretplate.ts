@@ -21,8 +21,8 @@ export function getStartPretplateData() {
       'portal → /api/stripe/portal',
       'status pretplate → /api/spaja-pricing-login-status',
       'sync planova → /api/billing-plan-sync',
-      'reconcile subscriptions → /api/admin/billing-reconcile-subscriptions',
-      'reconcile invoices → /api/admin/billing-reconcile-invoices',
+      'reconcile subscriptions → interni operativni tok',
+      'reconcile invoices → interni operativni tok',
       'vercel governance → /api/vercel-status',
     ],
     onboarding: [
