@@ -414,6 +414,7 @@ function buildCandidate(
   sequence: number,
 ): CanonicalUIUXSchema {
   const salt = `${depo.depoId}:${sequence}`;
+  const resolvedRole = resolveDeponRole(depo);
 
   const informationArchitecture: InformationArchitectureLayer = {
     navigacija: catalog.navigacije[createSeededIndex(seed, `${salt}:nav`, catalog.navigacije.length)] ?? [],
@@ -441,7 +442,7 @@ function buildCandidate(
     deliveryContext: {
       drzava: depo.trziste.toUpperCase(),
       uredjaj: 'desktop',
-      intent: depo.deponRole === 'marketplace' ? 'discovery' : 'task-completion',
+      intent: resolvedRole === 'marketplace' ? 'discovery' : 'task-completion',
       lifecycle: 'candidate',
     },
     informationArchitecture,
@@ -515,7 +516,7 @@ export function buildCanonicalDeponSchema(input: {
   performanceBudget?: Partial<PerformanceBudget>;
   metadata?: Partial<CanonicalUIUXSchema['metadata']>;
 }): CanonicalUIUXSchema {
-  const roleCatalog = getDeponRoleCatalog(input.identity.deponRole);
+  const roleCatalog = getDeponRoleCatalog(resolveDeponRole(input.identity));
   return {
     schemaVersion: SCHEMA_REGISTRY.current,
     identity: input.identity,
