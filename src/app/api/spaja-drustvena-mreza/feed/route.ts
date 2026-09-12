@@ -3,6 +3,7 @@ import { apiSuccess } from '@/lib/api/response';
 import {
   createPost,
   flagPost,
+  getProfile,
   isSocialAudience,
   isSocialVisibility,
   listPosts,
@@ -21,6 +22,12 @@ export async function GET(req: NextRequest) {
     const visibility = searchParams.get('visibility');
     const authorId = searchParams.get('authorId') ?? undefined;
     const viewerId = searchParams.get('viewerId') ?? undefined;
+    if (viewerId) {
+      const viewer = getProfile(viewerId);
+      if (!viewer.ok) {
+        return spajaDrustvenaMrezaApiError(viewer.code ?? 'NOT_FOUND', viewer.message);
+      }
+    }
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }

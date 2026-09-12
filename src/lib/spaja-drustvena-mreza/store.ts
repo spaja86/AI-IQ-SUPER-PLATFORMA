@@ -276,13 +276,20 @@ function requireProfile(profileId: string): SocialOperationResult<SocialProfile>
   return { ok: true, message: 'ok', data: clone(profile) };
 }
 
-export function listProfiles(filter?: { audience?: SocialAudience; visibility?: SocialVisibility }): SocialProfile[] {
+export function getProfile(profileId: string): SocialOperationResult<SocialProfile> {
+  return requireProfile(profileId);
+}
+
+export function listProfiles(filter?: { audience?: SocialAudience; visibility?: SocialVisibility; viewerId?: string }): SocialProfile[] {
   seedState();
+  const viewer = filter?.viewerId ? requireProfile(filter.viewerId) : undefined;
+  if (viewer && !viewer.ok) return [];
   return Array.from(PROFILE_STORE.values())
     .filter((profile) => {
       if (filter?.audience && profile.audience !== filter.audience) return false;
       if (filter?.visibility && profile.visibility !== filter.visibility) return false;
-      return true;
+      if (viewer?.ok) return canAudienceAccessScope(viewer.data!.audience, profile.audience, profile.visibility);
+      return isPublicScope(profile.audience, profile.visibility);
     })
     .map((profile) => clone(profile));
 }

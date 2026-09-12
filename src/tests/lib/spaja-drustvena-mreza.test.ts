@@ -9,10 +9,11 @@ import {
   getSpajaDrustvenaMrezaHealthReport,
   getSpajaDrustvenaMrezaPregled,
   joinGroup,
-  listNotifications,
   listConversations,
   listEvents,
   listGroups,
+  listNotifications,
+  listProfiles,
   listPosts,
   markNotificationRead,
   reactToPost,
@@ -103,6 +104,14 @@ async function runTests(): Promise<void> {
     });
     assert(result.ok, `profile create failed: ${result.message}`);
     assert(result.data?.handle === 'community.alpha', 'unexpected profile handle');
+  });
+
+  await test('profile reads stay public-only without viewer context', () => {
+    _resetSpajaDrustvenaMrezaState();
+    const publicProfiles = listProfiles();
+    assert(publicProfiles.length === 1 && publicProfiles[0].id === 'profile-public-builder', 'default profile read should only expose public profile');
+    const internalProfiles = listProfiles({ viewerId: 'profile-internal-core' });
+    assert(internalProfiles.length >= 3, 'internal viewer should see all seeded profiles');
   });
 
   await test('rejects duplicate profile handle', () => {

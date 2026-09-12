@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { apiSuccess } from '@/lib/api/response';
 import {
   createGroup,
+  getProfile,
   isSocialAudience,
   isSocialGroupJoinMode,
   isSocialVisibility,
@@ -20,6 +21,12 @@ export async function GET(req: NextRequest) {
     const audience = searchParams.get('audience');
     const visibility = searchParams.get('visibility');
     const viewerId = searchParams.get('viewerId') ?? undefined;
+    if (viewerId) {
+      const viewer = getProfile(viewerId);
+      if (!viewer.ok) {
+        return spajaDrustvenaMrezaApiError(viewer.code ?? 'NOT_FOUND', viewer.message);
+      }
+    }
     if (audience !== null && !isSocialAudience(audience)) {
       return spajaDrustvenaMrezaApiError('BAD_REQUEST', 'audience must be one of: internal, partner, public');
     }

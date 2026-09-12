@@ -80,15 +80,28 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET /profiles filters by audience', async () => {
-    const response = await getProfiles(makeRequest('http://localhost/api/spaja-drustvena-mreza/profiles?audience=internal'));
+    const response = await getProfiles(makeRequest('http://localhost/api/spaja-drustvena-mreza/profiles?audience=internal&viewerId=profile-internal-core'));
     assert(response.status === 200, `expected 200, got ${response.status}`);
     const body = await response.json() as { data: { profiles: Array<{ audience: string }> } };
     assert(body.data.profiles.every((profile) => profile.audience === 'internal'), 'audience filter failed');
   });
 
+  await test('GET /profiles stays public-only without viewerId', async () => {
+    _resetSpajaDrustvenaMrezaState();
+    const response = await getProfiles(makeRequest('http://localhost/api/spaja-drustvena-mreza/profiles'));
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as { data: { profiles: Array<{ id: string }> } };
+    assert(body.data.profiles.length === 1 && body.data.profiles[0].id === 'profile-public-builder', 'default profile read should only expose public profile');
+  });
+
   await test('GET /profiles rejects invalid audience filter', async () => {
     const response = await getProfiles(makeRequest('http://localhost/api/spaja-drustvena-mreza/profiles?audience=unknown'));
     assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('GET /profiles rejects unknown viewerId', async () => {
+    const response = await getProfiles(makeRequest('http://localhost/api/spaja-drustvena-mreza/profiles?viewerId=missing-profile'));
+    assert(response.status === 404, `expected 404, got ${response.status}`);
   });
 
   await test('POST /feed creates post then rejects self-reaction', async () => {
@@ -130,6 +143,11 @@ async function runTests(): Promise<void> {
     assert(response.status === 200, `expected 200, got ${response.status}`);
     const body = await response.json() as { data: { posts: Array<{ id: string }> } };
     assert(body.data.posts.some((post) => post.id === 'post-seed-0001'), 'viewerId should expose internal/network-capable feed');
+  });
+
+  await test('GET /feed rejects unknown viewerId', async () => {
+    const response = await getFeed(makeRequest('http://localhost/api/spaja-drustvena-mreza/feed?viewerId=missing-profile'));
+    assert(response.status === 404, `expected 404, got ${response.status}`);
   });
 
   await test('GET /feed rejects invalid visibility filter', async () => {
@@ -216,6 +234,11 @@ async function runTests(): Promise<void> {
     assert(response.status === 200, `expected 200, got ${response.status}`);
     const body = await response.json() as { data: { count: number } };
     assert(body.data.count === 0, 'default groups read should hide partner seed group');
+  });
+
+  await test('GET /groups rejects unknown viewerId', async () => {
+    const response = await getGroups(makeRequest('http://localhost/api/spaja-drustvena-mreza/groups?viewerId=missing-profile'));
+    assert(response.status === 404, `expected 404, got ${response.status}`);
   });
 
   await test('POST /groups rejects malformed join payload', async () => {
@@ -346,6 +369,11 @@ async function runTests(): Promise<void> {
 
     const viewerResponse = await getEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events?viewerId=profile-partner-ioopenui&audience=partner'));
     assert(viewerResponse.status === 200, `expected 200, got ${viewerResponse.status}`);
+  });
+
+  await test('GET /events rejects unknown viewerId', async () => {
+    const response = await getEvents(makeRequest('http://localhost/api/spaja-drustvena-mreza/events?viewerId=missing-profile'));
+    assert(response.status === 404, `expected 404, got ${response.status}`);
   });
 
   await test('POST /events rejects malformed RSVP payload', async () => {

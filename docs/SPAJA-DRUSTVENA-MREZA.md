@@ -42,7 +42,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 
 - `GET /api/spaja-drustvena-mreza/health` — readiness header + health agregat
 - `GET /api/spaja-drustvena-mreza/pregled` — kanonski overview za UI i audit
-- `GET|POST /api/spaja-drustvena-mreza/profiles` — listanje i kreiranje profila
+- `GET|POST /api/spaja-drustvena-mreza/profiles` — listanje i kreiranje profila (`viewerId` je potreban za partner/internal profile read scope)
 - `GET|POST /api/spaja-drustvena-mreza/feed` — listanje, kreiranje, reakcije i flag akcije (`viewerId` širi read scope; bez njega read ostaje public-only)
 - `GET|POST /api/spaja-drustvena-mreza/groups` — listanje, kreiranje i join tokovi (`viewerId` je potreban za partner/internal pregled)
 - `GET|POST /api/spaja-drustvena-mreza/messages` — listanje, otvaranje i reply tokovi (`participantId` je obavezan za read)
@@ -60,7 +60,7 @@ V1 jasno razdvaja te tri zone i uvodi audience/visibility pravila umesto implici
 7. `public` vidljivost ostaje otvorena za community sloj i javne tokove
 8. Self-reaction nije dozvoljen
 9. Reakcije i flag akcije dozvoljene su samo profilima koji mogu videti dati scope objave
-10. Read bez `viewerId` ostaje ograničen na `public/public` feed, grupe i događaje
+10. Read bez `viewerId` ostaje ograničen na `public/public` profile, feed, grupe i događaje
 11. Duplikat objava, duplikat reakcija i duplikat flag-ova se odbijaju
 12. Jedan autor može kreirati najviše 5 objava po satu
 13. Flagged sadržaj mora generisati moderacioni signal/notifikaciju

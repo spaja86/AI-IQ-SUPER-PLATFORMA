@@ -9,6 +9,7 @@ export {
   createPost,
   createProfile,
   flagPost,
+  getProfile,
   getSpajaDrustvenaMrezaHealthReport,
   getSpajaDrustvenaMrezaPregled,
   joinGroup,
