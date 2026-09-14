@@ -1,3 +1,5 @@
+import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
+
 export type ExtrimliExtremConflictIntensity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
 
 export type ExtrimliExtremOptimizationTier =
@@ -118,6 +120,14 @@ export interface ExtrimliExtremProfilerReport {
     wawePromotionEligible: boolean;
     reasons: string[];
   };
+  roadmapAlignment: {
+    sourceProgram: string;
+    primaryVersion: ExtrimliVersionRoadmapVersionId;
+    predecessorVersions: readonly ExtrimliVersionRoadmapVersionId[];
+    unlocksVersions: readonly ExtrimliVersionRoadmapVersionId[];
+    mandatoryGate: true;
+  };
+  versionRoadmap: ExtrimliVersionRoadmap;
   kpiTargets: {
     evaluationMaxMs: number;
     apiResponseMaxMs: number;

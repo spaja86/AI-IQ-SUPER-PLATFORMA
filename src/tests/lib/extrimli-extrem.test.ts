@@ -66,6 +66,8 @@ async function runTests(): Promise<void> {
     assert(report.profile.conflictScore >= 0 && report.profile.conflictScore <= 100, 'conflict score must be in [0,100]');
     assert(report.kpiObserved.withinTargets, 'default profile should be within KPI targets');
     assert(report.governanceSignal.freezeRequired === false, 'default profile should not freeze WAWE promotion');
+    assert(report.versionRoadmap.contractVersion === 'v1-7-roadmap', 'roadmap contract mismatch');
+    assert(report.roadmapAlignment.primaryVersion === 'Verzija 4', 'EXTREM should align to Verzija 4');
   });
 
   await test('default report normalizes REZOLUCIJA/EKODOR/REKULITI PO RAULETU/DISCAN/KIBEN vocabulary', () => {
@@ -89,6 +91,8 @@ async function runTests(): Promise<void> {
     assert(report.semaMuSemaFormula.status === 'PASSED', 'default formula status should be PASSED');
     assert(report.semaMuSemaFormula.inputSubstitutions.length === 0, 'default formula should not use substitutions');
     assert(report.semaMuSemaFormula.muSemaConclusion === 'MUŠEMA_CONFIRMED', 'default MUŠEMA conclusion should be confirmed');
+    assert(report.versionRoadmap.versions.length === 7, 'roadmap should publish seven versions');
+    assert(report.versionRoadmap.sharedPrinciples.some((item) => item.id === 'additive-only-expansion'), 'additive-only roadmap principle missing');
   });
 
   await test('invalid env values are clamped and flagged as degraded', async () => {

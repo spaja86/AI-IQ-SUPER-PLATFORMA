@@ -33,6 +33,7 @@ import {
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
 } from './types';
+import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
 
 function parsePercentEnv(name: string, fallback: number, degradedSources: string[]): number {
   const raw = process.env[name];
@@ -197,6 +198,7 @@ function buildSemaMuSemaFormula(
 }
 
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
+  const versionRoadmap = getExtrimliVersionRoadmap();
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
   const resolutionInput = resolveResolutionInput(degradedSources);
@@ -354,6 +356,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       passed: semaMuSemaFormula.inputSubstitutions.length === 0
         || (semaMuSemaFormula.status === 'BLOCKED' && degradedSources.length > 0),
     },
+    {
+      id: 'version-roadmap-lock',
+      description: 'EXTREM remains locked to Verzija 4 in the shared EXTRIMLI EXTRONDOL EXTREM phased roadmap.',
+      passed: versionRoadmap.contractVersion === 'v1-7-roadmap'
+        && versionRoadmap.versions[3].id === 'Verzija 4'
+        && versionRoadmap.sharedPrinciples.some((principle) => principle.id === 'additive-only-expansion'),
+    },
   ];
 
   return {
@@ -429,6 +438,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       wawePromotionEligible: !freezeRequired,
       reasons: governanceReasons.length > 0 ? governanceReasons : ['Profiler signal is stable and ready for WAWE promotion.'],
     },
+    roadmapAlignment: {
+      sourceProgram: versionRoadmap.programName,
+      primaryVersion: 'Verzija 4',
+      predecessorVersions: ['Verzija 1', 'Verzija 2', 'Verzija 3'],
+      unlocksVersions: ['Verzija 5', 'Verzija 6', 'Verzija 7'],
+      mandatoryGate: true,
+    },
+    versionRoadmap,
     kpiTargets: {
       evaluationMaxMs: EXTRIMLI_PERFORMANCE_MAX_MS,
       apiResponseMaxMs: EXTRIMLI_API_RESPONSE_MAX_MS,

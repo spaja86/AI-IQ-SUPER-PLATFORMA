@@ -3,6 +3,7 @@ import type { ExtrimliExtendolReport } from '../extrimli-extendol';
 import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { DuetInput, DuetStatus } from '../duet';
 import type { ExtrimliExtremProfilerReport } from '../extrimli-extrem';
+import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
 
@@ -294,6 +295,7 @@ export interface ExtrimliExtrondolStartProject {
     rejectPatternsLike: readonly ['spaja.nivo*spaja'];
   };
   mandatoryOutputs: readonly [
+    'versionRoadmap',
     'rollout.currentWawe',
     'rollout.eligibleNextWawe',
     'rollout.promotionFreeze',
@@ -309,6 +311,7 @@ export interface ExtrimliExtrondolStartProject {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
     syncRequired: true;
     syncedContractFields: readonly [
+      'versionRoadmap',
       'rollout.currentWawe',
       'rollout.eligibleNextWawe',
       'rollout.promotionFreeze',
@@ -414,6 +417,14 @@ export interface ExtrimliExtrondolReport {
   triggerLabel: string;
   pathScope: string[];
   orchestrationReadinessScore: number;
+  roadmapAlignment: {
+    sourceProgram: string;
+    primaryVersion: ExtrimliVersionRoadmapVersionId;
+    predecessorVersions: readonly ExtrimliVersionRoadmapVersionId[];
+    unlocksVersions: readonly ExtrimliVersionRoadmapVersionId[];
+    mandatoryGate: true;
+  };
+  versionRoadmap: ExtrimliVersionRoadmap;
   startProject: ExtrimliExtrondolStartProject;
   b2bScope: ExtrimliExtrondolB2bScope;
   b2bReadiness: ExtrimliExtrondolB2bReadiness;

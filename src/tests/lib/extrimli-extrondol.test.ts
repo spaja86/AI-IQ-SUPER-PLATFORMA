@@ -112,6 +112,8 @@ async function runTests(): Promise<void> {
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(report.rollout.currentWawe), 'invalid currentWawe');
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(report.rollout.eligibleNextWawe), 'invalid eligibleNextWawe');
     assert(['RING-0-CONTRACT', 'RING-1-STAGING', 'RING-2-CANARY', 'RING-3-PRODUCTION', 'RING-4-RESILIENCE'].includes(report.b2bReadiness.tenant.rolloutRing), 'invalid B2B rollout ring');
+    assert(report.versionRoadmap.contractVersion === 'v1-7-roadmap', 'roadmap contract mismatch');
+    assert(report.roadmapAlignment.primaryVersion === 'Verzija 5', 'EXTRONDOL should align to Verzija 5');
   });
 
   await test('report includes bounded orchestration score and degraded policy', () => {
@@ -216,6 +218,7 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-downstream-sync' && item.passed), 'b2b-downstream-sync criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'distance-ratio-ekvilater-table' && item.passed), 'distance-ratio-ekvilater-table criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'resolution-signal-governance' && item.passed), 'resolution-signal-governance criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'version-roadmap-lock' && item.passed), 'version-roadmap-lock criterion must pass');
   });
 
   await test('report exposes additive B2B operating metadata and controls', () => {
@@ -257,6 +260,9 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker must be present');
     assert(!report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should not appear when audit evidence is present');
     assert(report.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'linked repo mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.contractVersion'), 'roadmap contract sync field missing');
+    assert(report.startProject.mandatoryOutputs.includes('versionRoadmap'), 'versionRoadmap must be a START mandatory output');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('versionRoadmap'), 'versionRoadmap must be synced downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'WAWE sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.subscriptionPackage'), 'subscription sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.unlimitedUseGuardrails'), 'guardrails sync field missing');

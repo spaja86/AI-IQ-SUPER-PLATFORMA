@@ -9,6 +9,7 @@ import { getExtrimliExtrondendReport } from '../extrimli-extrondend';
 import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import { getExtrimliExtremProfilerReport } from '../extrimli-extrem';
+import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
 import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
@@ -344,6 +345,7 @@ function buildPaymentVerification(): ExtrimliExtrondolPaymentVerification {
  * `EXTRONDOL_ONBOARDING_COMPLETE`.
  */
 export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanceEvidence): ExtrimliExtrondolReport {
+  const versionRoadmap = getExtrimliVersionRoadmap();
   const extrondend = getExtrimliExtrondendReport();
   const extendol = getExtrimliExtendolReport();
   const koron = getExtrimliKoronHealthReport();
@@ -441,6 +443,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       rejectPatternsLike: ['spaja.nivo*spaja'],
     },
     mandatoryOutputs: [
+      'versionRoadmap',
       'rollout.currentWawe',
       'rollout.eligibleNextWawe',
       'rollout.promotionFreeze',
@@ -456,6 +459,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       linkedRepo: 'spaja86/IO-OPENUI-AO',
       syncRequired: true,
       syncedContractFields: [
+        'versionRoadmap',
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
@@ -697,6 +701,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       linkedRepo: 'spaja86/IO-OPENUI-AO',
       status: downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
       syncedFields: [
+        'versionRoadmap.contractVersion',
+        'versionRoadmap.deliverySequence',
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
@@ -861,6 +867,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && startProject.auditRelease.humanReviewRequired,
     },
     {
+      id: 'version-roadmap-lock',
+      description: 'EXTRONDOL publishes the shared Verzija 1–7 roadmap and remains locked to Verzija 5 orchestration in the same phased ecosystem.',
+      passed: versionRoadmap.contractVersion === 'v1-7-roadmap'
+        && versionRoadmap.versions.length === 7
+        && versionRoadmap.deliverySequence[1].versions.join(',') === 'Verzija 4,Verzija 5'
+        && versionRoadmap.sharedPrinciples.some((principle) => principle.id === 'wawe-governance-lock'),
+    },
+    {
       id: 'release-governance-audit-summary',
       description: 'Release governance requires audit summary coverage for rollout, KPI impact, downstream reference, human review, and rollback plan.',
       passed: releaseAuditSummary.required
@@ -927,6 +941,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'src/tests/lib/extrimli-extrem.test.ts',
     ],
     orchestrationReadinessScore,
+    roadmapAlignment: {
+      sourceProgram: versionRoadmap.programName,
+      primaryVersion: 'Verzija 5',
+      predecessorVersions: ['Verzija 1', 'Verzija 2', 'Verzija 3', 'Verzija 4'],
+      unlocksVersions: ['Verzija 6', 'Verzija 7'],
+      mandatoryGate: true,
+    },
+    versionRoadmap,
     startProject,
     b2bScope,
     b2bReadiness,
