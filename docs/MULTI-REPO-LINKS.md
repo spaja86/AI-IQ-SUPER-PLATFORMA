@@ -893,6 +893,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>
 | EXTRIMLI gear catalog snapshot — Trance Extrem | `spaja86/IO-OPENUI-AO` — Follow-up required | `multi-repo-sync-agent` Phase 4 |
 | EXTRIMLI v3 risk profiles — Trance Extrem | `spaja86/IO-OPENUI-AO` — Follow-up required | Follow-up after Trance Extrem stabilization |
 | `.agent-config.json` extrimli block | `spaja86/IO-OPENUI-AO` — Follow-up required | `multi-repo-sync-agent` Phase 4 |
+| `versionRoadmap` / `roadmapAlignment` governance snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror staged roadmap contract and primary-version audit in downstream governance docs |
 
 **Downstream tasks (post Trance Extrem deploy):**
 - Confirm gear catalog snapshot sync to IO-OPENUI-AO after Phase 4 multi-repo sync
@@ -900,6 +901,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>
 - Confirm apex convergence ≥ 0.95 (node 56 → node 256) in Phase 6 resilience check
 - Add `extrimli:trance-extrem` label to linked-repo label schema
 - Verify `analytics-bot` captured deploy metrics (time, latency p95, error rate)
+- Mirror `v1-7-roadmap` contract and `Verzija 5` orchestration alignment in linked EXTRIMLI governance consumers
 
 ```
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>

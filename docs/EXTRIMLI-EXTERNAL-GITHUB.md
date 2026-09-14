@@ -57,6 +57,14 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 - **Runtime source of truth:** Vercel Git integracija
 - **GitHub Actions role:** audit, governance i downstream coordination
 
+### 4.2 Seven-version operating envelope
+
+- `Verzija 1–3` zatvaraju runtime/readiness osnovu
+- `Verzija 4` zaključava EXTREM kao mandatory profiler gate
+- `Verzija 5` zaključava EXTRONDOL kao primary WAWE orchestration surface
+- `Verzija 6–7` završavaju multi-repo i enterprise operating model
+- Shared roadmap contract ostaje `v1-7-roadmap` i mora ostati additive-only
+
 ### 4.1 B2B operating model
 
 - EXTRONDOL je canonical B2B orchestration surface za organization-level consumers.
@@ -109,6 +117,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - EXTRONDEND aggregation snapshot
 - EXTRONDOL orchestration snapshot
 - EXTREM DISKVIT profiler snapshot
+- shared `versionRoadmap` + `roadmapAlignment` snapshot
 - NIVO DUET / DINKOS signal snapshot
 - EXTRONDOL B2B scope snapshot
 - EXTRONDOL B2B readiness snapshot
@@ -164,6 +173,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 10. mirror additive resolution vocabulary fields iz EXTREM profiler-a (`resolutionReadiness.rezolucijaScore`, `ekodorState`, `rekulitiPoRauletu`, `discanInKibenState`)
 11. preuzimanje `b2bScope` + `b2bReadiness` polja iz `/api/extrimli/extrondol`
 12. potvrda da su `rolloutRing`, `onboardingHold`, `rolloutFreeze`, `partnerReadinessWarnings`, `domainStrategy` i `resolutionReadiness` mapirani u downstream B2B governance
+13. mirror `versionRoadmap.contractVersion`, `deliverySequence` i `roadmapAlignment.primaryVersion` za linked-repo audit trag
 
 ## 10. Mandatory gate criteria
 

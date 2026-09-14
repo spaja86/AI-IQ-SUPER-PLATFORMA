@@ -177,6 +177,37 @@ Scope boundary:
 3. Nema promene EXTRIMLI API surface-a; promena je UI-only.
 4. Vizuelni fallback se aktivira za nepoznate asset domene.
 
+## EXTRIMLI EXTRONDOL EXTREM — Verzije 1–7 roadmap
+
+- Roadmap model: `single-ecosystem-phased-roadmap`
+- Shared roadmap contract: `v1-7-roadmap`
+- Locked source-of-truth surfaces: `/api/extrimli/health`, `/api/extrimli-3/health`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`
+
+### Version map
+
+1. `Verzija 1` — core EXTRIMLI stabilization (`src/lib/extrimli/**`, `src/app/api/extrimli/**`)
+2. `Verzija 2` — canonical integration layer (`src/lib/extrimli-extendol/**`, `src/lib/extrimli-extrondend/**`)
+3. `Verzija 3` — advanced readiness and profile expansion (`src/lib/extrimli-3/**`, `src/app/api/extrimli-3/**`)
+4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`)
+5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`)
+6. `Verzija 6` — multi-repo and persona sync (`docs/MULTI-REPO-LINKS.md`, `.agent-config.json`, `src/lib/persona-bank/**`)
+7. `Verzija 7` — enterprise operating model (`docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`)
+
+### Shared roadmap principles
+
+- bez breaking promena na locked source-of-truth endpointima
+- additive-only ekspanzije
+- WAWE 1–5 ostaje canonical rollout model
+- KPI budget ostaje `≤ 50ms` evaluacija, `≤ 200ms` API, `≤ 3 min` build gde je primenljivo
+- downstream reference i sync ka `spaja86/IO-OPENUI-AO` ostaju eksplicitni
+- human review, security scanning i rollback plan ostaju obavezni pre promocije
+
+### Delivery sequence
+
+- `FOUNDATION` → `Verzija 1`, `Verzija 2`, `Verzija 3`
+- `GOVERNANCE` → `Verzija 4`, `Verzija 5`
+- `OPERATING-MODEL` → `Verzija 6`, `Verzija 7`
+
 ## EXTRIMLI Extendol unified contract (maximum functionality for all)
 
 Extendol objedinjuje EXTRIMLI v1, EXTRIMLI v3, DUEL KING, EXTRIMLI CUZ i KORON u jedan kanonski integracioni sloj.
@@ -347,7 +378,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `roadmapAlignment`, `versionRoadmap`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 - EXTREM resolution propagation:
   - rollout reasons include additive REZOLUCIJA / REKULITI PO RAULETU freeze markers when present
   - `b2bReadiness.governanceDecisions.resolutionReadiness` mirrors EXTREM resolution posture
@@ -418,6 +449,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
 - START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`.
+- `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 
