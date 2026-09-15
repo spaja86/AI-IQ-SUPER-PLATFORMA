@@ -12,6 +12,9 @@ export type ExtrimliExtremOptimizationTier =
 export type ExtrimliExtremEkodorState = 'ALIGNED' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremDiscanInKibenState = 'CLEAR' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremRekulitiPoRauletuPolicy = 'ALLOW' | 'WARN' | 'FREEZE';
+export type ExtrimliExtremMobilnaLinijaDeviceType = 'ANDROID' | 'IOS' | 'ROUTER_4G' | 'ROUTER_5G' | 'UNKNOWN';
+export type ExtrimliExtremMobilnaLinijaInstallationStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremMobilnaLinijaPackageTier = 'BASIC' | 'SMART' | 'PRO' | 'NONE';
 
 export interface ExtrimliExtremProfileInput {
   sceneLoadPercent: number;
@@ -24,6 +27,15 @@ export interface ExtrimliExtremResolutionInput {
   rezolucijaCompletenessPercent: number;
   ekodorAlignmentPercent: number;
   discanPressurePercent: number;
+}
+
+export interface ExtrimliExtremMobilnaLinijaInput {
+  lineType: 'Mobilna linija';
+  deviceType: ExtrimliExtremMobilnaLinijaDeviceType;
+  deviceModel: string;
+  supportsEsim: boolean;
+  osVersionMajor: number;
+  signalStrengthPercent: number;
 }
 
 export interface ExtrimliExtremSemaFormulaInput {
@@ -119,6 +131,27 @@ export interface ExtrimliExtremProfilerReport {
   };
   profileInput: ExtrimliExtremProfileInput;
   resolutionInput: ExtrimliExtremResolutionInput;
+  mobilnaLinija: {
+    contractVersion: 'v1-mobilna-linija-installation';
+    input: ExtrimliExtremMobilnaLinijaInput;
+    deviceCompatibility: {
+      deviceTypeProvided: boolean;
+      compatible: boolean;
+      status: ExtrimliExtremMobilnaLinijaInstallationStatus;
+      reasons: string[];
+    };
+    installationMessages: {
+      required: true;
+      status: ExtrimliExtremMobilnaLinijaInstallationStatus;
+      messages: string[];
+      missingFields: string[];
+    };
+    packagePlanHint: {
+      recommendedPlanTier: ExtrimliExtremMobilnaLinijaPackageTier;
+      readiness: ExtrimliExtremMobilnaLinijaInstallationStatus;
+      reason: string;
+    };
+  };
   profile: {
     bottleneckDetected: boolean;
     bottleneckLayer: 'DISKVIT';
@@ -191,4 +224,9 @@ export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED = 65;
 export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH = 45;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_CLEAR = 35;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH = 60;
+export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION = 'v1-mobilna-linija-installation';
+export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY = 55;
+export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH = 35;
+export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR = 10;
+export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR = 15;
 export const EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION = 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
