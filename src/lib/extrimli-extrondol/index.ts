@@ -26,12 +26,13 @@ import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolMobilnaLinijaPackagePlan,
   ExtrimliExtrondolPaymentReferenceClassification,
   ExtrimliExtrondolPaymentVerification,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolReleaseAuditSummary,
-  ExtrimliSpajaKodPublicFacade,
   ExtrimliExtrondolStartProject,
+  ExtrimliSpajaKodPublicFacade,
   ExtrimliExtrondolWaweStage,
 } from './types';
 import {
@@ -221,6 +222,94 @@ function buildDistanceRatioEkvilaterTable(scores: {
       equilateralConsistency,
       interpretation,
     },
+  };
+}
+
+function buildMobilnaLinijaReadiness(
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'],
+): ExtrimliExtrondolReport['mobilnaLinija'] {
+  const packageCatalog: readonly ExtrimliExtrondolMobilnaLinijaPackagePlan[] = [
+    {
+      id: 'mobilna-start',
+      name: 'Mobilna Start',
+      tier: 'BASIC',
+      monthlyPriceEur: 9,
+      dataCapGb: 20,
+      supportsEsim: false,
+      minSignalStrengthPercent: 35,
+      installationMessage: 'Aktivirajte osnovni data profil i proverite APN podešavanja.',
+    },
+    {
+      id: 'mobilna-smart',
+      name: 'Mobilna Smart',
+      tier: 'SMART',
+      monthlyPriceEur: 16,
+      dataCapGb: 80,
+      supportsEsim: true,
+      minSignalStrengthPercent: 55,
+      installationMessage: 'Aktivirajte eSIM profil i potvrdite 4G/5G fallback režim.',
+    },
+    {
+      id: 'mobilna-pro',
+      name: 'Mobilna Pro',
+      tier: 'PRO',
+      monthlyPriceEur: 24,
+      dataCapGb: 250,
+      supportsEsim: true,
+      minSignalStrengthPercent: 75,
+      installationMessage: 'Omogućite 5G prioritizaciju i završite premium onboarding poruke.',
+    },
+  ];
+
+  const input = extremProfiler.mobilnaLinija.input;
+  const installationStatus = extremProfiler.mobilnaLinija.installationMessages.status;
+  const deviceStatus = extremProfiler.mobilnaLinija.deviceCompatibility.status;
+  const recommendedTier = extremProfiler.mobilnaLinija.packagePlanHint.recommendedPlanTier;
+
+  const eligiblePlans = packageCatalog.filter((plan) => (
+    extremProfiler.mobilnaLinija.deviceCompatibility.compatible
+    && input.signalStrengthPercent >= plan.minSignalStrengthPercent
+    && (!plan.supportsEsim || input.supportsEsim)
+  ));
+  const cheapestEligiblePlan = [...eligiblePlans].sort((a, b) => (
+    a.monthlyPriceEur - b.monthlyPriceEur || a.id.localeCompare(b.id)
+  ))[0] ?? null;
+  const selectedPlan = eligiblePlans.find((plan) => plan.tier === recommendedTier) ?? cheapestEligiblePlan;
+  const noValidPlanBlocker = !selectedPlan;
+  const freezeReasons = [
+    ...(installationStatus === 'BLOCKED'
+      ? ['installation-messages-incomplete-or-blocked']
+      : []),
+    ...(deviceStatus === 'BLOCKED'
+      ? ['device-compatibility-blocked']
+      : []),
+    ...(noValidPlanBlocker
+      ? ['no-valid-package-plan-for-current-mobile-line-state']
+      : []),
+  ];
+
+  const activationStatus = installationStatus === 'BLOCKED' || deviceStatus === 'BLOCKED'
+    ? 'BLOCKED'
+    : !selectedPlan
+      ? 'WATCH'
+    : installationStatus === 'WATCH' || extremProfiler.mobilnaLinija.packagePlanHint.readiness === 'WATCH'
+      ? 'WATCH'
+      : 'READY';
+
+  return {
+    lineType: 'Mobilna linija',
+    installationMessagesRequired: true,
+    installationMessagesStatus: installationStatus,
+    deviceCompatibilityStatus: deviceStatus,
+    packageCatalog,
+    selectedPlanId: selectedPlan?.id ?? null,
+    activationStatus,
+    selectionRules: [
+      'Device compatibility and mandatory installation messages must pass before activation.',
+      'Selected package must satisfy minimum signal threshold and eSIM requirement when applicable.',
+      'Recommended tier from EXTREM is preferred; fallback selects the cheapest eligible package deterministically.',
+    ],
+    freezeReasons,
   };
 }
 
@@ -430,6 +519,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const extendol = getExtrimliExtendolReport();
   const koron = getExtrimliKoronHealthReport();
   const extremProfiler = getExtrimliExtremProfilerReport();
+  const mobilnaLinija = buildMobilnaLinijaReadiness(extremProfiler);
   const domainStrategy = validateDomainStrategy();
   const governanceEvidence = resolveGovernanceEvidence(evidence);
   const paymentVerification = buildPaymentVerification();
@@ -464,6 +554,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   }
   if (extremProfiler.degraded) degradedSources.push('extrem-profiler:degraded');
   if (extremProfiler.profile.bottleneckDetected) degradedSources.push('extrem-profiler:bottleneck-detected');
+  if (mobilnaLinija.activationStatus === 'BLOCKED') degradedSources.push('mobilna-linija:activation-blocked');
 
   const baseOrchestrationScore = round(
     clamp(
@@ -535,6 +626,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'extremProfiler',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
+      'mobilnaLinija',
       'spajaKod',
     ],
     downstreamSync: {
@@ -557,6 +649,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler',
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
+        'mobilnaLinija',
         'spajaKod',
         'spajaKod.platformTrack',
       ],
@@ -697,13 +790,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.governanceSignal.freezeRequired ? ['extrem-profiler-stability'] : []),
     ...(extremProfiler.resolutionReadiness.blockerActive ? ['extrem-resolution-readiness'] : []),
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED' ? ['extrem-schema-mushema'] : []),
+    ...(mobilnaLinija.activationStatus === 'BLOCKED' ? ['mobilna-linija-activation-ready'] : []),
   ];
   const auditTrailComplete = governanceEvidence.auditTrailComplete;
   const promotionFreeze = degraded
     || complianceBlockers.length > 0
     || currentWawe === 'WAWE-1'
     || extremProfiler.governanceSignal.freezeRequired
-    || extremProfiler.semaMuSemaFormula.status === 'BLOCKED';
+    || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
+    || mobilnaLinija.activationStatus === 'BLOCKED';
   const reasons = promotionFreeze
     ? [
       'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
@@ -718,6 +813,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...(paymentVerification.status !== 'VERIFIED'
         ? ['payment-verification:blocked']
         : []),
+      ...mobilnaLinija.freezeReasons.map((reason) => `mobilna-linija:${reason}`),
       ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
     ]
     : ['Ready for next WAWE stage with governance evidence.'];
@@ -838,6 +934,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.resolutionReadiness.ekodorState',
         'extremProfiler.resolutionReadiness.rekulitiPoRauletu',
         'extremProfiler.resolutionReadiness.discanInKibenState',
+        'mobilnaLinija.installationMessagesStatus',
+        'mobilnaLinija.selectedPlanId',
+        'mobilnaLinija.activationStatus',
         'spajaKod.readiness.status',
         'spajaKod.readiness.governanceOutcome',
         'spajaKod.publicSignals.auditStatus',
@@ -1055,6 +1154,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.governanceDecisions.resolutionReadiness.rekulitiPoRauletu === extremProfiler.resolutionReadiness.rekulitiPoRauletu,
     },
     {
+      id: 'mobilna-linija-package-governance',
+      description: 'Mobilna linija must expose mandatory installation messages and package-plan selection with freeze reasons when activation cannot proceed.',
+      passed: mobilnaLinija.installationMessagesRequired
+        && mobilnaLinija.packageCatalog.length >= 1
+        && (mobilnaLinija.activationStatus !== 'BLOCKED' || mobilnaLinija.freezeReasons.length >= 1),
+    },
+    {
       id: 'spaja-kod-encapsulation',
       description: 'SPAJA KOD stays complete, export-ready, and encapsulated while exposing only public readiness/governance outcomes.',
       passed: spajaKod.rawPatternVisibility === 'HIDDEN'
@@ -1101,6 +1207,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     distanceRatioEkvilaterTable,
     paymentVerification,
     extremProfiler,
+    mobilnaLinija,
     spajaproTrack,
     spajaKod,
     nivoDuet: {

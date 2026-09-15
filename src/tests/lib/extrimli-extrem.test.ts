@@ -1,4 +1,6 @@
 import {
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
@@ -131,6 +133,103 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-extrem-freeze-independence' && item.passed), 'SPAJAPRO freeze independence criterion must pass');
   });
 
+  await test('Mobilna linija exposes mandatory installation messages and package hint', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.mobilnaLinija.contractVersion === EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION, 'mobilna contract version mismatch');
+    assert(report.mobilnaLinija.input.lineType === 'Mobilna linija', 'mobilna line type mismatch');
+    assert(report.mobilnaLinija.installationMessages.required, 'mobilna installation messages must be required');
+    assert(report.mobilnaLinija.installationMessages.messages.length >= 3, 'mobilna installation messages must contain guidance');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.mobilnaLinija.installationMessages.status), 'invalid installation status');
+    assert(['BASIC', 'SMART', 'PRO', 'NONE'].includes(report.mobilnaLinija.packagePlanHint.recommendedPlanTier), 'invalid package hint tier');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'mobilna-linija-installation-contract' && item.passed), 'mobilna acceptance criterion must pass');
+  });
+
+  await test('Mobilna linija blocks installation when device is missing/unsupported', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: '',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: '',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: 'Infinity',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.mobilnaLinija.deviceCompatibility.compatible === false, 'unsupported device should be incompatible');
+      assert(report.mobilnaLinija.deviceCompatibility.status === 'BLOCKED', 'device status should be BLOCKED');
+      assert(report.mobilnaLinija.installationMessages.status === 'BLOCKED', 'installation status should be BLOCKED');
+      assert(report.mobilnaLinija.installationMessages.missingFields.includes('deviceType'), 'missing deviceType must be reported');
+      assert(report.mobilnaLinija.installationMessages.missingFields.includes('deviceModel'), 'missing deviceModel must be reported');
+      assert(report.degradedSources.some((item) => item.includes('mobilna-linija')), 'mobilna degraded markers should be present');
+      assert(report.governanceSignal.freezeRequired, 'mobilna installation block should freeze governance');
+    });
+  });
+
+  await test('Mobilna linija accepts iPhone alias and flags invalid eSIM boolean as degraded fallback', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: 'iPhone',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: 'iPhone 15',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SUPPORTS_ESIM: 'maybe',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '70',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: '17',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.mobilnaLinija.input.deviceType === 'IOS', 'iPhone alias should normalize to IOS');
+      assert(report.mobilnaLinija.input.supportsEsim === true, 'invalid eSIM boolean should fallback to default true');
+      assert(report.degradedSources.some((item) => item.includes('invalid-boolean:EXTRIMLI_EXTREM_MOBILNA_LINIJA_SUPPORTS_ESIM')), 'invalid boolean should be tracked in degraded sources');
+    });
+  });
+
+  await test('Mobilna linija accepts router aliases with hyphen and space', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: 'router-4g',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: 'R4G',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: '0',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.mobilnaLinija.input.deviceType === 'ROUTER_4G', 'router-4g alias should normalize to ROUTER_4G');
+    });
+  });
+
+  await test('Mobilna linija preserves raw deviceType presence for invalid values', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: 'unknown-phone-class',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: 'X-INVALID',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '65',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: '16',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.mobilnaLinija.input.deviceType === 'UNKNOWN', 'invalid device type should stay UNKNOWN');
+      assert(report.mobilnaLinija.deviceCompatibility.deviceTypeProvided === true, 'raw deviceType presence should stay true');
+      assert(report.mobilnaLinija.deviceCompatibility.compatible === false, 'invalid provided device type should be incompatible');
+    });
+  });
+
+  await test('Mobilna linija treats iPad alias as unsupported device class', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: 'iPad',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: 'iPad Pro',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '72',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: '17',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.mobilnaLinija.input.deviceType === 'UNKNOWN', 'iPad alias should remain unsupported');
+      assert(report.mobilnaLinija.deviceCompatibility.status === 'BLOCKED', 'unsupported iPad should block compatibility');
+      assert(report.mobilnaLinija.installationMessages.status === 'BLOCKED', 'unsupported iPad should block installation');
+    });
+  });
+
+  await test('Mobilna linija keeps device compatibility ready while low signal blocks installation readiness', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: 'ANDROID',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: 'SPAJA-A1',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: '14',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '20',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.mobilnaLinija.deviceCompatibility.status === 'READY', 'device compatibility should stay READY for valid device');
+      assert(report.mobilnaLinija.installationMessages.status === 'BLOCKED', 'installation should be blocked for low signal');
+      assert(report.mobilnaLinija.packagePlanHint.recommendedPlanTier === 'NONE', 'low signal should not recommend a package tier');
+    });
+  });
+
   await test('invalid env values are clamped and flagged as degraded', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: 'NaN',
@@ -138,6 +237,7 @@ async function runTests(): Promise<void> {
       EXTRIMLI_EXTREM_CPU_CONTENTION_PERCENT: '-20',
       EXTRIMLI_EXTREM_RENDER_CYCLE_LATENCY_MS: 'Infinity',
       EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT: '140',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '20',
     }, () => {
       const report = getExtrimliExtremProfilerReport();
       assert(report.degraded, 'report should be degraded for invalid env values');
@@ -145,6 +245,7 @@ async function runTests(): Promise<void> {
       assert(report.profileInput.gpuContentionPercent === 100, 'gpu contention should be clamped to 100');
       assert(report.profileInput.cpuContentionPercent === 0, 'cpu contention should be clamped to 0');
       assert(report.resolutionInput.ekodorAlignmentPercent === 100, 'EKODOR alignment should be clamped to 100');
+      assert(report.mobilnaLinija.input.signalStrengthPercent <= EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY, 'mobilna signal override should apply');
     });
   });
 

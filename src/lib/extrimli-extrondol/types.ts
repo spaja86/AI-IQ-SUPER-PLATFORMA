@@ -10,6 +10,7 @@ import type {
 } from '../extrimli-spajapro-track';
 
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
+export type ExtrimliExtrondolMobilnaLinijaActivationStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
 export interface ExtrimliExtrondolAcceptanceCriterion {
   id: string;
@@ -62,6 +63,29 @@ export interface ExtrimliExtrondolDinkosContract {
   personaId: string;
   routeSegment: 'nivo-duet';
   degradedMode: 'partial-payload-no-500';
+}
+
+export interface ExtrimliExtrondolMobilnaLinijaPackagePlan {
+  id: string;
+  name: string;
+  tier: 'BASIC' | 'SMART' | 'PRO';
+  monthlyPriceEur: number;
+  dataCapGb: number;
+  supportsEsim: boolean;
+  minSignalStrengthPercent: number;
+  installationMessage: string;
+}
+
+export interface ExtrimliExtrondolMobilnaLinijaReadiness {
+  lineType: 'Mobilna linija';
+  installationMessagesRequired: true;
+  installationMessagesStatus: ExtrimliExtrondolMobilnaLinijaActivationStatus;
+  deviceCompatibilityStatus: ExtrimliExtrondolMobilnaLinijaActivationStatus;
+  packageCatalog: readonly ExtrimliExtrondolMobilnaLinijaPackagePlan[];
+  selectedPlanId: string | null;
+  activationStatus: ExtrimliExtrondolMobilnaLinijaActivationStatus;
+  selectionRules: readonly string[];
+  freezeReasons: string[];
 }
 
 export interface ExtrimliExtrondolB2bScope {
@@ -311,6 +335,7 @@ export interface ExtrimliExtrondolStartProject {
     'extremProfiler',
     'extremProfiler.resolutionReadiness',
     'extremProfiler.semaMuSemaFormula',
+    'mobilnaLinija',
     'spajaKod'
   ];
   downstreamSync: {
@@ -333,6 +358,7 @@ export interface ExtrimliExtrondolStartProject {
       'extremProfiler',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
+      'mobilnaLinija',
       'spajaKod',
       'spajaKod.platformTrack'
     ];
@@ -483,6 +509,7 @@ export interface ExtrimliExtrondolReport {
   extremProfiler: ExtrimliExtremProfilerReport;
   spajaproTrack: ExtrimliSpajaproGovernanceTrack;
   spajaKod: ExtrimliSpajaKodPublicFacade;
+  mobilnaLinija: ExtrimliExtrondolMobilnaLinijaReadiness;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
   rollout: {

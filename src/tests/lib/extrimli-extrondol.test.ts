@@ -331,6 +331,18 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'schema-mushema-governance' && item.passed), 'schema-mushema-governance criterion must pass');
   });
 
+  await test('report includes Mobilna linija package catalog and activation status', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.mobilnaLinija.lineType === 'Mobilna linija', 'mobilna line type mismatch');
+    assert(report.mobilnaLinija.installationMessagesRequired === true, 'mobilna installation messages must be required');
+    assert(report.mobilnaLinija.packageCatalog.length >= 3, 'mobilna package catalog should include plans');
+    assert(report.mobilnaLinija.selectionRules.length >= 3, 'mobilna selection rules should be present');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.mobilnaLinija.activationStatus), 'invalid mobilna activation status');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('mobilnaLinija.activationStatus'), 'mobilna activation status must be synced');
+    assert(report.startProject.mandatoryOutputs.includes('mobilnaLinija'), 'mobilna output must be mandatory in START');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'mobilna-linija-package-governance' && item.passed), 'mobilna acceptance criterion must pass');
+  });
+
   await test('report exposes START PROJEKAT rollout governance metadata', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.startProject.initiativeId === 'OKRID-2026-EXTRIMLI-START-001', 'START project OKRID mismatch');
@@ -606,12 +618,55 @@ async function runTests(): Promise<void> {
         humanReviewComplete: true,
         onboardingComplete: true,
       });
+
       assert(report.extremProfiler.resolutionReadiness.rekulitiPoRauletu === 'FREEZE', 'EXTREM resolution policy should freeze');
       assert(report.rollout.reasons.some((reason) => reason === 'extrem-resolution:freeze'), 'rollout reasons should include EXTREM resolution freeze');
       assert(report.releaseAuditSummary.resolutionGovernance.blockerActive, 'release audit should expose active resolution blocker');
       assert(report.b2bReadiness.governanceDecisions.resolutionReadiness.discanInKibenState === 'BLOCKED', 'B2B readiness should expose DISCAN in KIBEN blocker');
       assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.discanInKibenState'), 'downstream sync should include DISCAN in KIBEN field');
       assert(report.rollout.promotionFreeze, 'resolution freeze should block rollout');
+    });
+  });
+
+  await test('mobilna-linija freeze reason is emitted when no valid package plan can be selected', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: 'ANDROID',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: 'SPAJA-MOB-X',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SUPPORTS_ESIM: 'false',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '10',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: '17',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+      });
+      assert(report.mobilnaLinija.selectedPlanId === null, 'selected mobile plan should be null');
+      assert(report.mobilnaLinija.activationStatus === 'BLOCKED', 'mobilna activation should be blocked');
+      assert(report.mobilnaLinija.freezeReasons.includes('no-valid-package-plan-for-current-mobile-line-state'), 'missing no-plan freeze reason');
+      assert(report.rollout.reasons.some((reason) => reason.includes('mobilna-linija:no-valid-package-plan-for-current-mobile-line-state')), 'rollout reasons must include mobilna package freeze marker');
+      assert(report.b2bReadiness.compliance.blockers.includes('mobilna-linija-activation-ready'), 'mobilna blocker must propagate to compliance');
+      assert(report.rollout.promotionFreeze, 'mobilna package block should freeze rollout');
+    });
+  });
+
+  await test('mobilna-linija fallback plan selection is deterministic (cheapest eligible)', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE: 'ANDROID',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL: 'SPAJA-MOB-Z',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SUPPORTS_ESIM: 'false',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '60',
+      EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR: '16',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+      });
+      assert(report.mobilnaLinija.selectedPlanId === 'mobilna-start', 'fallback should select cheapest eligible package');
+      assert(report.mobilnaLinija.selectionRules.some((rule) => rule.includes('cheapest eligible package')), 'selection rules must document deterministic fallback');
     });
   });
 

@@ -371,7 +371,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION = v1-extrem-profiler`
   - `EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `terminology`, `profileInput`, `profile`, `semaMuSemaFormula`, `optimization`, `governanceSignal`, `kpiTargets`, `kpiObserved`, `acceptanceCriteria`.
+- Mandatory payload: `terminology`, `profileInput`, `profile`, `mobilnaLinija`, `semaMuSemaFormula`, `optimization`, `governanceSignal`, `kpiTargets`, `kpiObserved`, `acceptanceCriteria`.
 - DISKVIT terminology lock:
   - `DISKVIT` = browser-graphics bottleneck layer.
   - Conflict scoring is conflict-proportional (`sceneLoadPercent`, `gpuContentionPercent`, `cpuContentionPercent`, `renderCycleLatencyMs`).
@@ -398,6 +398,11 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - conflict score ≤ 35
   - render cycle latency ≤ 45ms
   - GPU contention ≤ 40%
+- Mobilna linija additive surface:
+  - `mobilnaLinija.contractVersion = v1-mobilna-linija-installation`
+  - mandatory outputs: `mobilnaLinija.installationMessages` i `mobilnaLinija.packagePlanHint`
+  - EXTREM validira tip uređaja/kompatibilnost i status instalacionih poruka (`READY | WATCH | BLOCKED`)
+  - edge-case zaštita pokriva nepoznat tip uređaja, prazan model, NaN/Infinity i nevalidne numeričke inpute kroz degraded-safe ponašanje
 
 ## EXTRONDOL orchestration contract
 
@@ -406,7 +411,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `roadmapAlignment`, `versionRoadmap`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `roadmapAlignment`, `versionRoadmap`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `mobilnaLinija`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 - EXTREM resolution propagation:
   - rollout reasons include additive REZOLUCIJA / REKULITI PO RAULETU freeze markers when present
   - `b2bReadiness.governanceDecisions.resolutionReadiness` mirrors EXTREM resolution posture
@@ -415,6 +420,10 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `b2bReadiness.governanceDecisions.semaFormulaGate` mirrors EXTREM `semaMuSemaFormula` posture
   - `releaseAuditSummary.semaFormulaGovernance` exposes canonical expression + MUŠEMA conclusion
   - blocked formula state must freeze promotion (`rollout.promotionFreeze = true`).
+- Mobilna linija governance propagation:
+  - `mobilnaLinija.packageCatalog` objavljuje paketne planove i pravila selekcije
+  - `mobilnaLinija.activationStatus` ostaje `BLOCKED` kada nema validnog plana ili instalacione poruke nisu kompletne
+  - rollout freeze razlozi uključuju `mobilna-linija:*` markere kada je mobilna aktivacija blokirana
 
 ### EXTRONDOL B2B operating scope
 

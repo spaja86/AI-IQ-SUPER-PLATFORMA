@@ -9,6 +9,10 @@ import type {
   ExtrimliExtremConflictIntensity,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
+  ExtrimliExtremMobilnaLinijaDeviceType,
+  ExtrimliExtremMobilnaLinijaInput,
+  ExtrimliExtremMobilnaLinijaInstallationStatus,
+  ExtrimliExtremMobilnaLinijaPackageTier,
   ExtrimliExtremOptimizationTier,
   ExtrimliExtremProfileInput,
   ExtrimliExtremProfilerReport,
@@ -25,6 +29,11 @@ import {
   EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH,
   EXTRIMLI_EXTREM_PROFILER_EVALUATION_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_MAX_CONFLICT_FOR_UNLOCK,
   EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK,
@@ -76,6 +85,29 @@ function parseFormulaScalarEnv(name: string, fallback: number, max: number, degr
   return round(clamp(parsed, 0, max), 2);
 }
 
+function parseIntegerEnv(name: string, fallback: number, min: number, max: number, degradedSources: string[]): number {
+  const raw = process.env[name];
+  if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed)) {
+    degradedSources.push(`invalid-env:${name}`);
+    return fallback;
+  }
+  if (!Number.isInteger(parsed)) degradedSources.push(`non-integer:${name}`);
+  if (parsed < min || parsed > max) degradedSources.push(`out-of-range:${name}`);
+  return Math.trunc(clamp(parsed, min, max));
+}
+
+function parseBooleanEnv(name: string, fallback: boolean, degradedSources: string[]): boolean {
+  const raw = process.env[name];
+  if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
+  const normalized = raw.trim().toLowerCase();
+  if (['1', 'true', 'yes'].includes(normalized)) return true;
+  if (['0', 'false', 'no'].includes(normalized)) return false;
+  degradedSources.push(`invalid-boolean:${name}`);
+  return fallback;
+}
+
 function classifyConflict(conflictScore: number): ExtrimliExtremConflictIntensity {
   if (conflictScore >= 80) return 'CRITICAL';
   if (conflictScore >= 60) return 'HIGH';
@@ -104,6 +136,120 @@ function resolveResolutionInput(degradedSources: string[]): ExtrimliExtremResolu
     rezolucijaCompletenessPercent: parsePercentEnv('EXTRIMLI_EXTREM_REZOLUCIJA_COMPLETENESS_PERCENT', 74, degradedSources),
     ekodorAlignmentPercent: parsePercentEnv('EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT', 68, degradedSources),
     discanPressurePercent: parsePercentEnv('EXTRIMLI_EXTREM_DISCAN_PRESSURE_PERCENT', 28, degradedSources),
+  };
+}
+
+function normalizeMobilnaDeviceType(value: string | undefined): ExtrimliExtremMobilnaLinijaDeviceType {
+  const normalized = (value ?? '').trim().toUpperCase();
+  if (normalized === 'ANDROID' || normalized === 'ANDROID_PHONE' || normalized === 'ANDROID-PHONE') return 'ANDROID';
+  if (normalized === 'IOS' || normalized === 'IPHONE' || normalized === 'I-OS') return 'IOS';
+  if (normalized === 'ROUTER_4G' || normalized === 'ROUTER-4G' || normalized === 'ROUTER 4G') return 'ROUTER_4G';
+  if (normalized === 'ROUTER_5G' || normalized === 'ROUTER-5G' || normalized === 'ROUTER 5G') return 'ROUTER_5G';
+  return 'UNKNOWN';
+}
+
+function resolveMobilnaLinijaInput(degradedSources: string[]): ExtrimliExtremMobilnaLinijaInput {
+  const rawDeviceType = process.env.EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE;
+  const deviceType = typeof rawDeviceType === 'undefined'
+    ? 'ANDROID'
+    : normalizeMobilnaDeviceType(rawDeviceType);
+  const deviceModel = (process.env.EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_MODEL ?? 'SPAJA-MOB-DEFAULT').trim();
+  const signalStrengthPercent = parsePercentEnv('EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT', 62, degradedSources);
+  const osVersionMajor = parseIntegerEnv('EXTRIMLI_EXTREM_MOBILNA_LINIJA_OS_VERSION_MAJOR', 16, 0, 30, degradedSources);
+  const supportsEsim = parseBooleanEnv('EXTRIMLI_EXTREM_MOBILNA_LINIJA_SUPPORTS_ESIM', true, degradedSources);
+
+  if (typeof rawDeviceType !== 'undefined' && deviceType === 'UNKNOWN') {
+    degradedSources.push('mobilna-linija:unsupported-device-type');
+  }
+  if (deviceModel.length === 0) degradedSources.push('mobilna-linija:missing-device-model');
+
+  return {
+    lineType: 'Mobilna linija',
+    deviceType,
+    deviceModel,
+    supportsEsim,
+    osVersionMajor,
+    signalStrengthPercent,
+  };
+}
+
+function buildMobilnaLinijaSection(
+  input: ExtrimliExtremMobilnaLinijaInput,
+  deviceTypeProvided: boolean,
+): ExtrimliExtremProfilerReport['mobilnaLinija'] {
+  const missingFields = [
+    ...(input.deviceType === 'UNKNOWN' ? ['deviceType'] : []),
+    ...(input.deviceModel.trim().length === 0 ? ['deviceModel'] : []),
+    ...(!Number.isFinite(input.signalStrengthPercent) ? ['signalStrengthPercent'] : []),
+    ...(!Number.isFinite(input.osVersionMajor) ? ['osVersionMajor'] : []),
+  ];
+  const compatibilityReasons = [
+    ...(input.deviceType === 'UNKNOWN' ? ['Unsupported device type for Mobilna linija.'] : []),
+    ...(input.deviceModel.trim().length === 0 ? ['Device model is required for installation messages.'] : []),
+    ...(input.deviceType === 'ANDROID' && input.osVersionMajor < EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR
+      ? [`Android version must be >= ${EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR}.`]
+      : []),
+    ...(input.deviceType === 'IOS' && input.osVersionMajor < EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR
+      ? [`iOS version must be >= ${EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR}.`]
+      : []),
+  ];
+  const compatible = compatibilityReasons.length === 0;
+  const deviceStatus: ExtrimliExtremMobilnaLinijaInstallationStatus = compatible ? 'READY' : 'BLOCKED';
+  const installationStatus: ExtrimliExtremMobilnaLinijaInstallationStatus = !compatible
+    ? 'BLOCKED'
+    : input.signalStrengthPercent < EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH
+      ? 'BLOCKED'
+    : input.signalStrengthPercent < EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY
+      ? 'WATCH'
+      : 'READY';
+  const recommendedPlanTier: ExtrimliExtremMobilnaLinijaPackageTier = input.signalStrengthPercent >= 80
+    ? 'PRO'
+    : input.signalStrengthPercent >= EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY
+      ? 'SMART'
+      : input.signalStrengthPercent >= EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH
+        ? 'BASIC'
+        : 'NONE';
+
+  const installationMessages = installationStatus === 'BLOCKED'
+    ? [
+      'Mobilna linija: instalacija je blokirana dok uređaj nije kompatibilan.',
+      'Proverite tip uređaja, model i minimalnu verziju sistema.',
+      'Nakon validacije uređaja ponovo pokrenite instalaciju poruka.',
+    ]
+    : installationStatus === 'WATCH'
+      ? [
+        'Mobilna linija: instalacija poruka je dostupna uz monitoring signala.',
+        'Aktivirajte osnovni paket i pratite stabilnost mreže na uređaju.',
+        'Po stabilizaciji signala izvršite potvrdu finalne konfiguracije.',
+      ]
+      : [
+        'Mobilna linija: uređaj je kompatibilan i spreman za instalaciju poruka.',
+        'Instalirajte profil linije i potvrdite mrežna podešavanja.',
+        'Aktivirajte paketni plan i završite onboarding poruke.',
+      ];
+
+  return {
+    contractVersion: EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
+    input,
+    deviceCompatibility: {
+      deviceTypeProvided,
+      compatible,
+      status: deviceStatus,
+      reasons: compatibilityReasons,
+    },
+    installationMessages: {
+      required: true,
+      status: installationStatus,
+      messages: installationMessages,
+      missingFields,
+    },
+    packagePlanHint: {
+      recommendedPlanTier,
+      readiness: installationStatus,
+      reason: recommendedPlanTier === 'NONE'
+        ? 'Signal strength is too low for any package recommendation.'
+        : `Recommended package tier ${recommendedPlanTier} based on device compatibility and signal strength.`,
+    },
   };
 }
 
@@ -256,6 +402,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
   const resolutionInput = resolveResolutionInput(degradedSources);
+  const mobilnaLinijaInput = resolveMobilnaLinijaInput(degradedSources);
+  const mobilnaLinija = buildMobilnaLinijaSection(
+    mobilnaLinijaInput,
+    typeof process.env.EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE !== 'undefined'
+      && process.env.EXTRIMLI_EXTREM_MOBILNA_LINIJA_DEVICE_TYPE.trim().length > 0,
+  );
   const normalizedLatencyPercent = clamp((profileInput.renderCycleLatencyMs / 100) * 100, 0, 100);
 
   const conflictScore = round(
@@ -331,7 +483,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || conflictIntensity === 'CRITICAL'
     || !withinTargets
     || blockerActive
-    || semaMuSemaFormula.status === 'BLOCKED';
+    || semaMuSemaFormula.status === 'BLOCKED'
+    || mobilnaLinija.installationMessages.status === 'BLOCKED'
+    || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';
 
   const governanceReasons = [
     ...(freezeRequired ? ['DISKVIT conflict or KPI pressure requires WAWE freeze before promotion.'] : []),
@@ -342,6 +496,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(semaMuSemaFormula.status === 'BLOCKED'
       ? [`ŠEMA formula gate blocked: ${semaMuSemaFormula.blockerReasons.join('; ') || 'MUŠEMA validation failed.'}`]
       : ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA gate is confirmed.']),
+    ...(mobilnaLinija.installationMessages.status === 'BLOCKED'
+      ? ['Mobilna linija installation messages are blocked due to device compatibility or missing fields.']
+      : []),
+    ...(mobilnaLinija.packagePlanHint.readiness === 'BLOCKED'
+      ? ['Mobilna linija package hint is blocked because no valid package tier can be recommended.']
+      : []),
     ...(maximumGraphicsUnlockEligible ? ['Maximum graphics unlock is eligible under current profile.'] : []),
   ];
 
@@ -349,6 +509,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     degradedSources.push('profiler-kpi-breach');
   }
   if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
+  if (mobilnaLinija.installationMessages.status === 'BLOCKED') degradedSources.push('mobilna-linija:installation-blocked');
+  if (mobilnaLinija.packagePlanHint.readiness === 'BLOCKED') degradedSources.push('mobilna-linija:package-hint-blocked');
   const spajaKodEncapsulation = buildSpajaKodEncapsulation({
     freezeRequired,
     rekulitiPoRauletu,
@@ -449,6 +611,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       passed: spajaproTrack.freezeControlledByExtrem === freezeRequired
         && spajaproTrack.activeTokenStates.some((item) => item.token === 'OKET' && item.status === (freezeRequired ? 'BLOCKED' : 'READY')),
     },
+    {
+      id: 'mobilna-linija-installation-contract',
+      description: 'Mobilna linija publishes mandatory installation messages and package-plan hint with additive device compatibility validation.',
+      passed: mobilnaLinija.contractVersion === 'v1-mobilna-linija-installation'
+        && mobilnaLinija.installationMessages.required
+        && mobilnaLinija.installationMessages.messages.length >= 3,
+    },
   ];
 
   return {
@@ -494,6 +663,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     profileInput,
     resolutionInput,
+    mobilnaLinija,
     profile: {
       bottleneckDetected,
       bottleneckLayer: 'DISKVIT',
@@ -558,6 +728,10 @@ export type {
   ExtrimliExtremConflictIntensity,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
+  ExtrimliExtremMobilnaLinijaDeviceType,
+  ExtrimliExtremMobilnaLinijaInput,
+  ExtrimliExtremMobilnaLinijaInstallationStatus,
+  ExtrimliExtremMobilnaLinijaPackageTier,
   ExtrimliExtremOptimizationTier,
   ExtrimliExtremProfileInput,
   ExtrimliExtremProfilerReport,
@@ -575,6 +749,11 @@ export {
   EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
+  EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH,
   EXTRIMLI_EXTREM_PROFILER_EVALUATION_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_MAX_CONFLICT_FOR_UNLOCK,
   EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK,

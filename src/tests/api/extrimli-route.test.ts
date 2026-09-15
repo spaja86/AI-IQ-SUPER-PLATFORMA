@@ -122,6 +122,13 @@ async function runTests(): Promise<void> {
           };
         };
         paymentVerification: { status: string; blockers: string[] };
+        mobilnaLinija: {
+          lineType: string;
+          packageCatalog: Array<{ id: string; tier: string }>;
+          selectedPlanId: string | null;
+          activationStatus: string;
+          freezeReasons: string[];
+        };
         extremProfiler: { profile: { conflictIntensity: string; bottleneckLayer: string } };
         releaseAuditSummary: { semaFormulaGovernance: { canonicalExpression: string; status: string; muSemaConclusion: string } };
         distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
@@ -138,6 +145,10 @@ async function runTests(): Promise<void> {
     assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
     assert(['VERIFIED', 'BLOCKED'].includes(body.data.paymentVerification.status), 'unexpected payment verification status');
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
+    assert(body.data.mobilnaLinija.lineType === 'Mobilna linija', 'unexpected mobilna line type');
+    assert(body.data.mobilnaLinija.packageCatalog.length >= 1, 'mobilna package catalog should exist');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.mobilnaLinija.activationStatus), 'unexpected mobilna activation status');
+    assert(Array.isArray(body.data.mobilnaLinija.freezeReasons), 'mobilna freeze reasons should be array');
     assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.extremProfiler.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
     assert(body.data.extremProfiler.profile.bottleneckLayer === 'DISKVIT', 'EXTREM profiler bottleneck layer mismatch');
     assert(body.data.releaseAuditSummary.semaFormulaGovernance.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'missing formula governance expression');
@@ -160,6 +171,11 @@ async function runTests(): Promise<void> {
       data: {
         sourceOfTruth: string;
         profile: { conflictIntensity: string; bottleneckLayer: string };
+        mobilnaLinija: {
+          contractVersion: string;
+          installationMessages: { required: boolean; status: string; messages: string[] };
+          packagePlanHint: { recommendedPlanTier: string; readiness: string };
+        };
         semaMuSemaFormula: { canonicalExpression: string; status: string; muSemaConclusion: string; formulaHolds: boolean };
         governanceSignal: { freezeRequired: boolean };
         optimization: { maximumGraphicsUnlockEligible: boolean };
@@ -168,6 +184,11 @@ async function runTests(): Promise<void> {
     assert(body.data.sourceOfTruth === '/api/extrimli/extrem', 'unexpected EXTREM sourceOfTruth');
     assert(body.data.profile.bottleneckLayer === 'DISKVIT', 'unexpected EXTREM bottleneck layer');
     assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
+    assert(body.data.mobilnaLinija.contractVersion === 'v1-mobilna-linija-installation', 'unexpected mobilna contract version');
+    assert(body.data.mobilnaLinija.installationMessages.required === true, 'mobilna installation messages must be required');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.mobilnaLinija.installationMessages.status), 'unexpected mobilna installation status');
+    assert(body.data.mobilnaLinija.installationMessages.messages.length >= 1, 'mobilna installation messages should be present');
+    assert(['BASIC', 'SMART', 'PRO', 'NONE'].includes(body.data.mobilnaLinija.packagePlanHint.recommendedPlanTier), 'unexpected mobilna package hint tier');
     assert(body.data.semaMuSemaFormula.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'unexpected EXTREM formula expression');
     assert(['PASSED', 'BLOCKED'].includes(body.data.semaMuSemaFormula.status), 'unexpected EXTREM formula status');
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.semaMuSemaFormula.muSemaConclusion), 'unexpected EXTREM MUŠEMA conclusion');
