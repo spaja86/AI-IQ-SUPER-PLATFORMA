@@ -32,6 +32,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-MASTER-3 -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI SPAJAPRO downstream reference
+
+| This repo | Linked repo | Note |
+| --- | --- | --- |
+| `AI-IQ-SUPER-PLATFORMA` — SPAJAPRO planning track over EXTRIMLI/EXTREM/EXTRONDOL | `spaja86/IO-OPENUI-AO` — Follow-up required | Downstream consumers must use SPAJA KOD public posture only; internal ODIT→KODER mapping stays repo-owned and hidden behind the public boundary |
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#SPAJAPRO-EXTRIMLI-TRACK -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Shared label schema
 
 | Label | Meaning |

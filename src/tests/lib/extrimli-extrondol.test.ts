@@ -154,6 +154,33 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spaja-kod-encapsulation' && item.passed), 'SPAJA KOD acceptance criterion must pass');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.readiness.status'), 'SPAJA KOD readiness status must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.publicSignals.auditStatus'), 'SPAJA KOD audit status must sync downstream');
+    assert(report.spajaKod.platformTrack.platformName === 'SPAJAPRO', 'SPAJAPRO public track name mismatch');
+    assert(report.spajaKod.platformTrack.finalPublicStatusToken === 'KODER', 'SPAJAPRO public token mismatch');
+    assert(report.spajaKod.platformTrack.internalMappingVisibility === 'HIDDEN', 'SPAJAPRO mapping must stay hidden');
+  });
+
+  await test('SPAJAPRO track stays ordered and aligned across EXTREM, EXTRONDOL, and SPAJA KOD', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.spajaproTrack.vocabulary.platformName === 'SPAJAPRO', 'SPAJAPRO platform name mismatch');
+    assert(report.spajaproTrack.vocabulary.platformMode === 'platforma-umesto-chatgpt', 'SPAJAPRO platform mode mismatch');
+    assert(
+      report.spajaproTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'ODIT,DEKER,DUNOR,SUMOR,OKET,DAKOR,EKSER,DOKER,DUKAR,DONAR,KODER',
+      'SPAJAPRO token order mismatch',
+    );
+    assert(report.spajaproTrack.orchestrationLayer === 'EXTRONDOL', 'SPAJAPRO orchestration layer mismatch');
+    assert(report.spajaproTrack.technicalSignalSource === '/api/extrimli/extrem', 'SPAJAPRO technical source mismatch');
+    assert(report.spajaproTrack.publicBoundary === 'SPAJA KOD', 'SPAJAPRO public boundary mismatch');
+    assert(report.spajaproTrack.sequenceStates.length === 11, 'SPAJAPRO sequence should contain 11 tokens');
+    assert(report.spajaproTrack.sequenceStates[4].token === 'OKET', 'SPAJAPRO freeze token mismatch');
+    assert(report.spajaproTrack.sequenceStates[6].token === 'EKSER', 'SPAJAPRO audit token mismatch');
+    assert(report.spajaproTrack.sequenceStates[7].token === 'DOKER', 'SPAJAPRO downstream token mismatch');
+    assert(report.spajaproTrack.sequenceStates[10].token === 'KODER', 'SPAJAPRO final token mismatch');
+    assert(report.spajaproTrack.sequenceStates[10].status === report.spajaKod.platformTrack.publicStatus, 'SPAJAPRO final public status must match SPAJA KOD');
+    assert(report.spajaproTrack.releaseAuditAligned, 'SPAJAPRO release-audit alignment must hold');
+    assert(report.spajaproTrack.downstreamReferenceExplicit, 'SPAJAPRO downstream reference must stay explicit');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-terminology-lock' && item.passed), 'SPAJAPRO terminology criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-public-boundary' && item.passed), 'SPAJAPRO public boundary criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-release-audit-alignment' && item.passed), 'SPAJAPRO release-audit criterion must pass');
   });
 
   await test('report enforces domain strategy lock', () => {
@@ -235,6 +262,8 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'distance-ratio-ekvilater-table' && item.passed), 'distance-ratio-ekvilater-table criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'resolution-signal-governance' && item.passed), 'resolution-signal-governance criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'version-roadmap-lock' && item.passed), 'version-roadmap-lock criterion must pass');
+    assert(report.startProject.mandatoryOutputs.includes('spajaproTrack'), 'SPAJAPRO track must be a mandatory output');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('spajaKod.platformTrack'), 'SPAJAPRO public boundary must sync downstream');
   });
 
   await test('report exposes additive B2B operating metadata and controls', () => {
@@ -321,6 +350,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.domainStrategyLock.canonicalApex === EXTRONDOL_CANONICAL_APEX_DOMAIN, 'canonical apex mismatch');
     assert(report.startProject.domainStrategyLock.canonicalWildcard === EXTRONDOL_CANONICAL_WILDCARD_DOMAIN, 'canonical wildcard mismatch');
     assert(report.startProject.domainStrategyLock.rejectPatternsLike.includes('spaja.nivo*spaja'), 'reject pattern missing');
+    assert(report.startProject.mandatoryOutputs.includes('spajaproTrack'), 'SPAJAPRO output missing');
     assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
     assert(report.startProject.mandatoryOutputs.includes('paymentVerification'), 'payment verification output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler'), 'extrem profiler output missing');
@@ -335,6 +365,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler'), 'extrem profiler sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.resolutionReadiness'), 'resolution readiness sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.semaMuSemaFormula'), 'formula sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('spajaKod.platformTrack'), 'SPAJAPRO public sync missing');
     assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
     assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');
     assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');
@@ -465,6 +496,7 @@ async function runTests(): Promise<void> {
       assert(report.releaseAuditSummary.semaFormulaGovernance.status === 'BLOCKED', 'release audit formula gate should be blocked');
       assert(report.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion === 'MUŠEMA_BLOCKED', 'release audit MUŠEMA conclusion should be blocked');
       assert(report.rollout.reasons.some((reason) => reason.includes('extrem-schema-mushema:')), 'rollout reasons should include formula blocker reasons');
+      assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'OKET' && item.status === 'BLOCKED'), 'SPAJAPRO freeze token should block on MUŠEMA failure');
     });
   });
 
@@ -612,6 +644,10 @@ async function runTests(): Promise<void> {
       assert(report.rollout.promotionFreeze, 'promotion freeze should remain active when payment verification is blocked');
       assert(report.rollout.reasons.includes('payment-verification:blocked'), 'rollout reasons should include payment blocked marker');
       assert(report.acceptanceCriteria.some((item) => item.id === 'payment-verification-gate' && !item.passed), 'payment-verification-gate should fail');
+      assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'OKET' && item.status === 'BLOCKED'), 'SPAJAPRO freeze token should block');
+      assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'DAKOR' && item.status === 'PENDING'), 'SPAJAPRO promotion token should stay pending');
+      assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'EKSER' && item.status === 'BLOCKED'), 'SPAJAPRO audit token should block');
+      assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'KODER' && item.status === 'BLOCKED'), 'SPAJAPRO public token should block');
     });
   });
 
