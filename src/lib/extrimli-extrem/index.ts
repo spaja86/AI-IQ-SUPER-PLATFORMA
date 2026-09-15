@@ -142,7 +142,7 @@ function resolveResolutionInput(degradedSources: string[]): ExtrimliExtremResolu
 function normalizeMobilnaDeviceType(value: string | undefined): ExtrimliExtremMobilnaLinijaDeviceType {
   const normalized = (value ?? '').trim().toUpperCase();
   if (normalized === 'ANDROID' || normalized === 'ANDROID_PHONE' || normalized === 'ANDROID-PHONE') return 'ANDROID';
-  if (normalized === 'IOS' || normalized === 'IPHONE' || normalized === 'IPAD' || normalized === 'I-OS') return 'IOS';
+  if (normalized === 'IOS' || normalized === 'IPHONE' || normalized === 'I-OS') return 'IOS';
   if (normalized === 'ROUTER_4G' || normalized === 'ROUTER-4G' || normalized === 'ROUTER 4G') return 'ROUTER_4G';
   if (normalized === 'ROUTER_5G' || normalized === 'ROUTER-5G' || normalized === 'ROUTER 5G') return 'ROUTER_5G';
   return 'UNKNOWN';
@@ -245,7 +245,7 @@ function buildMobilnaLinijaSection(
     },
     packagePlanHint: {
       recommendedPlanTier,
-      readiness: installationStatus === 'BLOCKED' || recommendedPlanTier === 'NONE' ? 'BLOCKED' : installationStatus,
+      readiness: installationStatus,
       reason: recommendedPlanTier === 'NONE'
         ? 'Signal strength is too low for any package recommendation.'
         : `Recommended package tier ${recommendedPlanTier} based on device compatibility and signal strength.`,

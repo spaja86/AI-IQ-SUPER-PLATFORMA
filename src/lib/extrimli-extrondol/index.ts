@@ -275,8 +275,7 @@ function buildMobilnaLinijaReadiness(
     a.monthlyPriceEur - b.monthlyPriceEur || a.id.localeCompare(b.id)
   ))[0] ?? null;
   const selectedPlan = eligiblePlans.find((plan) => plan.tier === recommendedTier) ?? cheapestEligiblePlan;
-  const noValidPlanBlocker = !selectedPlan
-    && (installationStatus === 'BLOCKED' || deviceStatus === 'BLOCKED');
+  const noValidPlanBlocker = !selectedPlan;
   const freezeReasons = [
     ...(installationStatus === 'BLOCKED'
       ? ['installation-messages-incomplete-or-blocked']
