@@ -32,6 +32,7 @@ export interface ExtrimliExtremSemaFormulaInput {
 }
 
 export type ExtrimliExtremSemaFormulaStatus = 'PASSED' | 'BLOCKED';
+export type ExtrimliSpajaKodPublicStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
 export interface ExtrimliExtremSemaFormulaEvaluation {
   canonicalExpression: 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
@@ -44,6 +45,33 @@ export interface ExtrimliExtremSemaFormulaEvaluation {
   inputSubstitutions: string[];
   blockerReasons: string[];
   muSemaConclusion: 'MUŠEMA_CONFIRMED' | 'MUŠEMA_BLOCKED';
+}
+
+export interface ExtrimliExtremSpajaKodEncapsulation {
+  surfaceName: 'SPAJA KOD';
+  contractVersion: 'v1-spaja-kod';
+  representationMode: 'system-encapsulation';
+  encapsulationStatus: 'ACTIVE';
+  rawPatternVisibility: 'HIDDEN';
+  exposurePolicy: {
+    exposesRawPatternModel: false;
+    exposesFormulaInternals: false;
+    exposesInternalSignalInputs: false;
+    exposesOnlySystemSignals: true;
+  };
+  publicInterpretation: string;
+  readiness: {
+    status: ExtrimliSpajaKodPublicStatus;
+    governanceOutcome: ExtrimliExtremRekulitiPoRauletuPolicy;
+    blockerCount: number;
+  };
+  publicSignals: readonly [
+    'readiness-status',
+    'governance-outcome',
+    'promotion-freeze',
+    'audit-blockers'
+  ];
+  blockers: string[];
 }
 
 export interface ExtrimliExtremAcceptanceCriterion {
@@ -98,6 +126,7 @@ export interface ExtrimliExtremProfilerReport {
     optimizationTier: ExtrimliExtremOptimizationTier;
   };
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
+  spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
   resolutionReadiness: {
     rezolucijaScore: number;
     ekodorState: ExtrimliExtremEkodorState;

@@ -26,10 +26,14 @@ import type {
   ExtrimliExtrondolPaymentVerification,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolReleaseAuditSummary,
+  ExtrimliSpajaKodPublicFacade,
   ExtrimliExtrondolStartProject,
   ExtrimliExtrondolWaweStage,
 } from './types';
 import {
+  EXTRIMLI_SPAJA_KOD_CONTRACT_VERSION,
+  EXTRIMLI_SPAJA_KOD_MODULE_VERSION,
+  EXTRIMLI_SPAJA_KOD_SOURCE_OF_TRUTH,
   EXTRONDOL_CANONICAL_APEX_DOMAIN,
   EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
   EXTRONDOL_API_MAX_MS,
@@ -212,6 +216,74 @@ function buildDistanceRatioEkvilaterTable(scores: {
       minDistance: round(rawMinDistance, 2),
       equilateralConsistency,
       interpretation,
+    },
+  };
+}
+
+function buildSpajaKodFacade(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  promotionFreeze: boolean;
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+  degraded: boolean;
+  releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
+}): ExtrimliSpajaKodPublicFacade {
+  const completeness = {
+    extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
+    extrondolGovernancePresent: true,
+    consistent: params.extremProfiler.spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
+      && params.extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesRawPatternModel === false
+      && params.extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesFormulaInternals === false,
+    exportReady: params.extremProfiler.spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN',
+  } as const;
+  const blockers = [
+    ...params.extremProfiler.spajaKodEncapsulation.blockers,
+    ...(!params.downstreamSyncComplete ? ['downstream-sync-pending'] : []),
+    ...(!params.humanReviewComplete ? ['human-review-required'] : []),
+  ];
+  const status = params.promotionFreeze
+    ? 'BLOCKED'
+    : params.extremProfiler.spajaKodEncapsulation.readiness.status === 'WATCH'
+      ? 'WATCH'
+      : 'READY';
+
+  return {
+    surfaceName: 'SPAJA KOD',
+    contractVersion: EXTRIMLI_SPAJA_KOD_CONTRACT_VERSION,
+    moduleVersion: EXTRIMLI_SPAJA_KOD_MODULE_VERSION,
+    sourceOfTruth: EXTRIMLI_SPAJA_KOD_SOURCE_OF_TRUTH,
+    publicSurfaceType: 'encapsulated-facade',
+    representationMode: 'system-encapsulation',
+    encapsulationStatus: 'ACTIVE',
+    rawPatternVisibility: 'HIDDEN',
+    completeness,
+    interpretation: params.promotionFreeze
+      ? 'SPAJA KOD exposes only system blockers and freeze posture while internal EXTREM pattern logic remains hidden.'
+      : status === 'WATCH'
+        ? 'SPAJA KOD exposes a bounded review posture while keeping internal pattern logic encapsulated.'
+        : 'SPAJA KOD exposes a stable readiness facade for downstream systems without revealing internal pattern logic.',
+    readiness: {
+      status,
+      governanceOutcome: params.extremProfiler.spajaKodEncapsulation.readiness.governanceOutcome,
+      promotionFreeze: params.promotionFreeze,
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+    },
+    publicSignals: {
+      systemStatus: params.promotionFreeze ? 'BLOCKED' : status === 'WATCH' ? 'ATTENTION' : 'STABLE',
+      auditStatus: params.releaseAuditSummary.status,
+      downstreamSyncStatus: params.downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      degraded: params.degraded,
+    },
+    blockers,
+    exportContract: {
+      includedInInstrukcija: true,
+      downstreamConsumer: 'spaja86/IO-OPENUI-AO',
+      exposesInternalPattern: false,
     },
   };
 }
@@ -454,6 +526,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'extremProfiler',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
+      'spajaKod',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -474,6 +547,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler',
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
+        'spajaKod',
       ],
     },
     qualityGates: {
@@ -674,6 +748,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewRequired: true,
     rollbackPlanRequired: true,
   };
+  const spajaKod = buildSpajaKodFacade({
+    extremProfiler,
+    promotionFreeze,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    downstreamSyncComplete,
+    humanReviewComplete,
+    degraded,
+    releaseAuditSummary,
+  });
 
   const b2bReadiness = {
     tenant: {
@@ -729,6 +813,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.resolutionReadiness.ekodorState',
         'extremProfiler.resolutionReadiness.rekulitiPoRauletu',
         'extremProfiler.resolutionReadiness.discanInKibenState',
+        'spajaKod.readiness.status',
+        'spajaKod.readiness.governanceOutcome',
+        'spajaKod.publicSignals.auditStatus',
+        'spajaKod.publicSignals.downstreamSyncStatus',
       ],
     },
     governanceDecisions: {
@@ -918,6 +1006,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.rekulitiPoRauletu')
         && b2bReadiness.governanceDecisions.resolutionReadiness.rekulitiPoRauletu === extremProfiler.resolutionReadiness.rekulitiPoRauletu,
     },
+    {
+      id: 'spaja-kod-encapsulation',
+      description: 'SPAJA KOD stays complete, export-ready, and encapsulated while exposing only public readiness/governance outcomes.',
+      passed: spajaKod.rawPatternVisibility === 'HIDDEN'
+        && spajaKod.completeness.extremSignalPresent
+        && spajaKod.completeness.extrondolGovernancePresent
+        && spajaKod.completeness.consistent
+        && spajaKod.exportContract.exposesInternalPattern === false,
+    },
   ];
 
   return {
@@ -956,6 +1053,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     distanceRatioEkvilaterTable,
     paymentVerification,
     extremProfiler,
+    spajaKod,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
       triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
@@ -1014,14 +1112,22 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   };
 }
 
+export function getExtrimliSpajaKodReport(evidence?: ExtrimliExtrondolGovernanceEvidence): ExtrimliSpajaKodPublicFacade {
+  return getExtrimliExtrondolReport(evidence).spajaKod;
+}
+
 export type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolReport,
+  ExtrimliSpajaKodPublicFacade,
   ExtrimliExtrondolWaweStage,
 } from './types';
 
 export {
+  EXTRIMLI_SPAJA_KOD_CONTRACT_VERSION,
+  EXTRIMLI_SPAJA_KOD_MODULE_VERSION,
+  EXTRIMLI_SPAJA_KOD_SOURCE_OF_TRUTH,
   EXTRONDOL_API_MAX_MS,
   EXTRONDOL_BASE_ORCHESTRATION_SHARE,
   EXTRONDOL_BUILD_MAX_MIN,

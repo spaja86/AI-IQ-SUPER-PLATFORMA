@@ -95,6 +95,20 @@ async function runTests(): Promise<void> {
     assert(report.versionRoadmap.sharedPrinciples.some((item) => item.id === 'additive-only-expansion'), 'additive-only roadmap principle missing');
   });
 
+  await test('SPAJA KOD encapsulation hides raw EXTREM pattern details and keeps public readiness stable', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.spajaKodEncapsulation.surfaceName === 'SPAJA KOD', 'SPAJA KOD surface mismatch');
+    assert(report.spajaKodEncapsulation.contractVersion === 'v1-spaja-kod', 'SPAJA KOD contract mismatch');
+    assert(report.spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN', 'raw pattern must stay hidden');
+    assert(report.spajaKodEncapsulation.exposurePolicy.exposesRawPatternModel === false, 'raw pattern exposure must be disabled');
+    assert(report.spajaKodEncapsulation.exposurePolicy.exposesFormulaInternals === false, 'formula internals must be hidden');
+    assert(report.spajaKodEncapsulation.exposurePolicy.exposesInternalSignalInputs === false, 'internal signal inputs must be hidden');
+    assert(report.spajaKodEncapsulation.exposurePolicy.exposesOnlySystemSignals === true, 'public facade must expose only system signals');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKodEncapsulation.readiness.status), 'unexpected SPAJA KOD readiness status');
+    assert(['ALLOW', 'WARN', 'FREEZE'].includes(report.spajaKodEncapsulation.readiness.governanceOutcome), 'unexpected SPAJA KOD governance outcome');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spaja-kod-encapsulation' && item.passed), 'SPAJA KOD acceptance criterion must pass');
+  });
+
   await test('invalid env values are clamped and flagged as degraded', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: 'NaN',

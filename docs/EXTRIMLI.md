@@ -17,6 +17,7 @@ This repository now exposes five aligned surfaces:
 | **EXTRONDEND** | `src/lib/extrimli-extrondend/`, `src/app/api/extrimli/extrondend/` | Active | Dedicated aggregation/scoring surface (not an alias) over v1/v3/CUZ/Extendol/KORON |
 | **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity, optimization-tier output, and canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` signal for WAWE governance |
 | **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, EXTREM profiler governance signal, and MUŠEMA freeze/promotion gate |
+| **SPAJA KOD** | `src/app/api/extrimli/spaja-kod/` | Active | Public encapsulated facade over EXTREM + EXTRONDOL that exposes only system readiness, governance, and audit signals |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 ## Module paths
@@ -35,6 +36,7 @@ This repository now exposes five aligned surfaces:
 | EXTREM profiler API route | `src/app/api/extrimli/extrem/` |
 | EXTRONDOL orchestration library | `src/lib/extrimli-extrondol/` |
 | EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
+| SPAJA KOD facade API route | `src/app/api/extrimli/spaja-kod/` |
 | World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
 | World Bank Persona bridge API route | `src/app/api/extrimli/world-bank-persona/` |
 | v3 library | `src/lib/extrimli-3/` |
@@ -109,6 +111,21 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
   - WAWE sequencing from EXTRONDOL is mandatory
   - Promotion is blocked when `promotionFreeze` is true or required evidence is missing
   - Degraded signals force conservative lifecycle posture (dormant target) instead of hard failure
+
+  ## SPAJA KOD encapsulated public facade
+
+  - Source of truth endpoint: `/api/extrimli/spaja-kod`
+  - Contract constants:
+    - `EXTRIMLI_SPAJA_KOD_CONTRACT_VERSION = v1-spaja-kod`
+    - `EXTRIMLI_SPAJA_KOD_MODULE_VERSION = 1.0.0`
+  - Purpose:
+    - expose only public system interpretation of EXTREM + EXTRONDOL
+    - keep raw pattern inputs, internal formulas, and implementation details hidden
+    - provide stable readiness, governance, audit, and downstream-sync posture for external consumers
+  - Visibility rules:
+    - internal pattern / engine logic remains inside `src/lib/extrimli-extrem/**` and `src/lib/extrimli-extrondol/**`
+    - public consumers must use `SPAJA KOD` for encapsulated output when raw EXTREM/EXTRONDOL internals are not required
+    - downstream instruction/export surfaces may reference the `SPAJA KOD` contract, but must not reproduce internal pattern structures
 
 ## EXTRIMLI v1 capabilities
 

@@ -140,6 +140,22 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
   });
 
+  await test('SPAJA KOD facade stays encapsulated and downstream-ready without exposing raw pattern internals', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.spajaKod.surfaceName === 'SPAJA KOD', 'SPAJA KOD surface mismatch');
+    assert(report.spajaKod.contractVersion === 'v1-spaja-kod', 'SPAJA KOD contract mismatch');
+    assert(report.spajaKod.sourceOfTruth === '/api/extrimli/spaja-kod', 'SPAJA KOD source mismatch');
+    assert(report.spajaKod.rawPatternVisibility === 'HIDDEN', 'SPAJA KOD must hide raw pattern visibility');
+    assert(report.spajaKod.completeness.extremSignalPresent, 'SPAJA KOD must include EXTREM signal presence');
+    assert(report.spajaKod.completeness.extrondolGovernancePresent, 'SPAJA KOD must include EXTRONDOL governance presence');
+    assert(report.spajaKod.exportContract.includedInInstrukcija, 'SPAJA KOD must be exportable via instrukcija boundary');
+    assert(report.spajaKod.exportContract.exposesInternalPattern === false, 'SPAJA KOD must not expose internal pattern');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKod.readiness.status), 'unexpected SPAJA KOD readiness status');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spaja-kod-encapsulation' && item.passed), 'SPAJA KOD acceptance criterion must pass');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.readiness.status'), 'SPAJA KOD readiness status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.publicSignals.auditStatus'), 'SPAJA KOD audit status must sync downstream');
+  });
+
   await test('report enforces domain strategy lock', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.domainStrategy.requestedPattern === 'spaja.nivo*spaja', 'requested pattern mismatch');

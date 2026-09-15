@@ -2,7 +2,7 @@ import type { ExtrimliExtrondendReport } from '../extrimli-extrondend';
 import type { ExtrimliExtendolReport } from '../extrimli-extendol';
 import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { DuetInput, DuetStatus } from '../duet';
-import type { ExtrimliExtremProfilerReport } from '../extrimli-extrem';
+import type { ExtrimliExtremProfilerReport, ExtrimliSpajaKodPublicStatus } from '../extrimli-extrem';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
@@ -407,6 +407,45 @@ export interface ExtrimliExtrondolDistanceRatioEkvilaterTable {
   };
 }
 
+export interface ExtrimliSpajaKodPublicFacade {
+  surfaceName: 'SPAJA KOD';
+  contractVersion: 'v1-spaja-kod';
+  moduleVersion: '1.0.0';
+  sourceOfTruth: '/api/extrimli/spaja-kod';
+  publicSurfaceType: 'encapsulated-facade';
+  representationMode: 'system-encapsulation';
+  encapsulationStatus: 'ACTIVE';
+  rawPatternVisibility: 'HIDDEN';
+  completeness: {
+    extremSignalPresent: boolean;
+    extrondolGovernancePresent: boolean;
+    consistent: boolean;
+    exportReady: boolean;
+  };
+  interpretation: string;
+  readiness: {
+    status: ExtrimliSpajaKodPublicStatus;
+    governanceOutcome: ExtrimliExtremProfilerReport['spajaKodEncapsulation']['readiness']['governanceOutcome'];
+    promotionFreeze: boolean;
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  };
+  publicSignals: {
+    systemStatus: 'STABLE' | 'ATTENTION' | 'BLOCKED';
+    auditStatus: 'READY' | 'BLOCKED';
+    downstreamSyncStatus: 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    degraded: boolean;
+  };
+  blockers: string[];
+  exportContract: {
+    includedInInstrukcija: true;
+    downstreamConsumer: 'spaja86/IO-OPENUI-AO';
+    exposesInternalPattern: false;
+  };
+}
+
 export interface ExtrimliExtrondolReport {
   personaId: string;
   contractVersion: string;
@@ -432,6 +471,7 @@ export interface ExtrimliExtrondolReport {
   distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   extremProfiler: ExtrimliExtremProfilerReport;
+  spajaKod: ExtrimliSpajaKodPublicFacade;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
   rollout: {
@@ -502,3 +542,6 @@ export const EXTRONDOL_DUET_STATUS_ADJUSTMENT = {
   FRAGILE: -6,
   DISSONANT: -14,
 } as const;
+export const EXTRIMLI_SPAJA_KOD_CONTRACT_VERSION = 'v1-spaja-kod';
+export const EXTRIMLI_SPAJA_KOD_MODULE_VERSION = '1.0.0';
+export const EXTRIMLI_SPAJA_KOD_SOURCE_OF_TRUTH = '/api/extrimli/spaja-kod';

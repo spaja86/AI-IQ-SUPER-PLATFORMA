@@ -1,6 +1,6 @@
 import { apiSuccess } from '@/lib/api/response';
 
-type ExtrimliSurface = 'extrimli' | 'extrimli-3' | 'extrimli-cuz' | 'extrimli-extendol' | 'extrimli-koron' | 'extrimli-extrondend' | 'extrimli-extrondol' | 'extrimli-duel-king' | 'extrimli-extrem';
+type ExtrimliSurface = 'extrimli' | 'extrimli-3' | 'extrimli-cuz' | 'extrimli-extendol' | 'extrimli-koron' | 'extrimli-extrondend' | 'extrimli-extrondol' | 'extrimli-duel-king' | 'extrimli-extrem' | 'extrimli-spaja-kod';
 
 interface HeaderOptions {
   surface: ExtrimliSurface;
@@ -51,6 +51,10 @@ export function setExtrimliSurfaceHeaders(res: Response, options: HeaderOptions)
   if (options.surface === 'extrimli-extrem') {
     res.headers.set('X-Extrimli-Extrem-Contract-Version', options.contractVersion);
     res.headers.set('X-Extrimli-Extrem-Module-Version', options.moduleVersion);
+  }
+  if (options.surface === 'extrimli-spaja-kod') {
+    res.headers.set('X-Extrimli-Spaja-Kod-Contract-Version', options.contractVersion);
+    res.headers.set('X-Extrimli-Spaja-Kod-Module-Version', options.moduleVersion);
   }
 
   res.headers.set('X-Extrimli-Surface', options.surface);

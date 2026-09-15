@@ -10,6 +10,7 @@ import { GET as getKoron } from '../../app/api/extrimli/koron/route';
 import { GET as getExtrondend } from '../../app/api/extrimli/extrondend/route';
 import { GET as getExtrondol } from '../../app/api/extrimli/extrondol/route';
 import { GET as getExtrem } from '../../app/api/extrimli/extrem/route';
+import { GET as getSpajaKod } from '../../app/api/extrimli/spaja-kod/route';
 import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli/duel-king/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
@@ -173,6 +174,34 @@ async function runTests(): Promise<void> {
     assert(typeof body.data.semaMuSemaFormula.formulaHolds === 'boolean', 'formulaHolds should be boolean');
     assert(typeof body.data.governanceSignal.freezeRequired === 'boolean', 'freezeRequired should be boolean');
     assert(typeof body.data.optimization.maximumGraphicsUnlockEligible === 'boolean', 'maximumGraphicsUnlockEligible should be boolean');
+  });
+
+  await test('GET /api/extrimli/spaja-kod returns encapsulated facade and headers', async () => {
+    const response = await getSpajaKod();
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    assert(response.headers.get('X-Extrimli-Spaja-Kod-Contract-Version') === 'v1-spaja-kod', 'missing SPAJA KOD contract header');
+
+    const body = await response.json() as {
+      data: {
+        surfaceName: string;
+        sourceOfTruth: string;
+        rawPatternVisibility: string;
+        completeness: { consistent: boolean; exportReady: boolean };
+        readiness: { status: string; governanceOutcome: string; promotionFreeze: boolean };
+        publicSignals: { auditStatus: string; degraded: boolean };
+        blockers: string[];
+      };
+    };
+    assert(body.data.surfaceName === 'SPAJA KOD', 'unexpected SPAJA KOD surface');
+    assert(body.data.sourceOfTruth === '/api/extrimli/spaja-kod', 'unexpected SPAJA KOD source');
+    assert(body.data.rawPatternVisibility === 'HIDDEN', 'SPAJA KOD must hide raw pattern visibility');
+    assert(body.data.completeness.consistent === true, 'SPAJA KOD must be consistent');
+    assert(body.data.completeness.exportReady === true, 'SPAJA KOD must be export ready');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.readiness.status), 'unexpected SPAJA KOD readiness status');
+    assert(['ALLOW', 'WARN', 'FREEZE'].includes(body.data.readiness.governanceOutcome), 'unexpected SPAJA KOD governance outcome');
+    assert(typeof body.data.readiness.promotionFreeze === 'boolean', 'SPAJA KOD promotionFreeze should be boolean');
+    assert(['READY', 'BLOCKED'].includes(body.data.publicSignals.auditStatus), 'unexpected SPAJA KOD audit status');
+    assert(Array.isArray(body.data.blockers), 'SPAJA KOD blockers should be an array');
   });
 
   await test('GET /api/extrimli/extrondol stays 200 with blocked payment verification (degraded-no-500 contract)', async () => {
