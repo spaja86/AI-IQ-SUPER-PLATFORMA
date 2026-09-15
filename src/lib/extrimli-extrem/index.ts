@@ -15,6 +15,8 @@ import type {
   ExtrimliExtremRekulitiPoRauletuPolicy,
   ExtrimliExtremResolutionInput,
   ExtrimliExtremSemaFormulaEvaluation,
+  ExtrimliExtremSpajaKodEncapsulation,
+  ExtrimliSpajaKodPublicStatus,
 } from './types';
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
@@ -197,6 +199,57 @@ function buildSemaMuSemaFormula(
   };
 }
 
+function buildSpajaKodEncapsulation(params: {
+  freezeRequired: boolean;
+  rekulitiPoRauletu: ExtrimliExtremRekulitiPoRauletuPolicy;
+  blockerActive: boolean;
+  withinTargets: boolean;
+  semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
+}): ExtrimliExtremSpajaKodEncapsulation {
+  const blockers = [
+    ...(params.freezeRequired ? ['governance-freeze'] : []),
+    ...(params.blockerActive ? ['resolution-blocker'] : []),
+    ...(!params.withinTargets ? ['kpi-budget-breach'] : []),
+    ...(params.semaMuSemaFormula.status === 'BLOCKED' ? ['audit-formula-blocked'] : []),
+  ];
+  const status: ExtrimliSpajaKodPublicStatus = params.freezeRequired
+    ? 'BLOCKED'
+    : params.rekulitiPoRauletu === 'WARN'
+      ? 'WATCH'
+      : 'READY';
+
+  return {
+    surfaceName: 'SPAJA KOD',
+    contractVersion: 'v1-spaja-kod',
+    representationMode: 'system-encapsulation',
+    encapsulationStatus: 'ACTIVE',
+    rawPatternVisibility: 'HIDDEN',
+    exposurePolicy: {
+      exposesRawPatternModel: false,
+      exposesFormulaInternals: false,
+      exposesInternalSignalInputs: false,
+      exposesOnlySystemSignals: true,
+    },
+    publicInterpretation: params.freezeRequired
+      ? 'SPAJA KOD keeps the internal EXTREM pattern encapsulated and exposes only the blockers required for audit and promotion control.'
+      : params.rekulitiPoRauletu === 'WARN'
+        ? 'SPAJA KOD keeps the internal EXTREM pattern hidden while surfacing a bounded watch posture for downstream review.'
+        : 'SPAJA KOD keeps the internal EXTREM pattern hidden and exposes a stable readiness signal for downstream orchestration.',
+    readiness: {
+      status,
+      governanceOutcome: params.rekulitiPoRauletu,
+      blockerCount: blockers.length,
+    },
+    publicSignals: [
+      'readiness-status',
+      'governance-outcome',
+      'promotion-freeze',
+      'audit-blockers',
+    ],
+    blockers,
+  };
+}
+
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const versionRoadmap = getExtrimliVersionRoadmap();
   const degradedSources: string[] = [];
@@ -295,6 +348,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     degradedSources.push('profiler-kpi-breach');
   }
   if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
+  const spajaKodEncapsulation = buildSpajaKodEncapsulation({
+    freezeRequired,
+    rekulitiPoRauletu,
+    blockerActive,
+    withinTargets,
+    semaMuSemaFormula,
+  });
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
@@ -363,6 +423,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && versionRoadmap.versions[3].id === 'Verzija 4'
         && versionRoadmap.sharedPrinciples.some((principle) => principle.id === 'additive-only-expansion'),
     },
+    {
+      id: 'spaja-kod-encapsulation',
+      description: 'SPAJA KOD exposes only encapsulated readiness/governance output and hides raw EXTREM pattern inputs and formula internals.',
+      passed: spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
+        && spajaKodEncapsulation.exposurePolicy.exposesRawPatternModel === false
+        && spajaKodEncapsulation.exposurePolicy.exposesFormulaInternals === false
+        && spajaKodEncapsulation.exposurePolicy.exposesInternalSignalInputs === false,
+    },
   ];
 
   return {
@@ -416,6 +484,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       optimizationTier,
     },
     semaMuSemaFormula,
+    spajaKodEncapsulation,
     resolutionReadiness: {
       rezolucijaScore,
       ekodorState,
@@ -476,6 +545,8 @@ export type {
   ExtrimliExtremRekulitiPoRauletuPolicy,
   ExtrimliExtremResolutionInput,
   ExtrimliExtremSemaFormulaEvaluation,
+  ExtrimliExtremSpajaKodEncapsulation,
+  ExtrimliSpajaKodPublicStatus,
 } from './types';
 
 export {
