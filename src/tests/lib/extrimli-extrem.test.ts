@@ -109,6 +109,28 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spaja-kod-encapsulation' && item.passed), 'SPAJA KOD acceptance criterion must pass');
   });
 
+  await test('SPAJAPRO track stays additive, ordered, and EXTREM-controlled for freeze decisions', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.spajaproTrack.vocabulary.platformName === 'SPAJAPRO', 'SPAJAPRO platform name mismatch');
+    assert(report.spajaproTrack.vocabulary.platformMode === 'platforma-umesto-chatgpt', 'SPAJAPRO mode mismatch');
+    assert(report.spajaproTrack.vocabulary.layering === 'extends-existing-extrimli-stack', 'SPAJAPRO layering mismatch');
+    assert(
+      report.spajaproTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'ODIT,DEKER,DUNOR,SUMOR,OKET,DAKOR,EKSER,DOKER,DUKAR,DONAR,KODER',
+      'SPAJAPRO token order mismatch',
+    );
+    assert(report.spajaproTrack.technicalSignalEngine === 'EXTREM', 'SPAJAPRO technical engine mismatch');
+    assert(report.spajaproTrack.governanceConsumer === 'EXTRONDOL', 'SPAJAPRO governance consumer mismatch');
+    assert(report.spajaproTrack.publicBoundary === 'SPAJA KOD', 'SPAJAPRO public boundary mismatch');
+    assert(report.spajaproTrack.internalOnlyMapping, 'SPAJAPRO mapping should stay internal in EXTREM');
+    assert(report.spajaproTrack.freezeControlledByExtrem === report.governanceSignal.freezeRequired, 'SPAJAPRO freeze control mismatch');
+    assert(
+      report.spajaproTrack.activeTokenStates.map((item) => item.token).join(',') === 'ODIT,DEKER,DUNOR,OKET',
+      'SPAJAPRO EXTREM active tokens mismatch',
+    );
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-terminology-lock' && item.passed), 'SPAJAPRO terminology criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-extrem-freeze-independence' && item.passed), 'SPAJAPRO freeze independence criterion must pass');
+  });
+
   await test('invalid env values are clamped and flagged as degraded', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: 'NaN',
@@ -138,6 +160,8 @@ async function runTests(): Promise<void> {
       assert(report.profile.optimizationTier === 'EXTREME_PROFILING_REQUIRED', 'expected extreme profiling tier');
       assert(report.governanceSignal.freezeRequired, 'freeze should be required for extreme conflict');
       assert(report.governanceSignal.wawePromotionEligible === false, 'WAWE promotion should be blocked for extreme conflict');
+      assert(report.spajaproTrack.freezeControlledByExtrem, 'SPAJAPRO freeze token should be EXTREM-controlled');
+      assert(report.spajaproTrack.activeTokenStates.some((item) => item.token === 'OKET' && item.status === 'BLOCKED'), 'OKET should block under extreme conflict');
     });
 
     await test('formula mismatch blocks MUŠEMA governance and WAWE promotion', async () => {

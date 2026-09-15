@@ -4,6 +4,10 @@ import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { DuetInput, DuetStatus } from '../duet';
 import type { ExtrimliExtremProfilerReport, ExtrimliSpajaKodPublicStatus } from '../extrimli-extrem';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
+import type {
+  ExtrimliSpajaproGovernanceTrack,
+  ExtrimliSpajaproPublicBoundaryStatus,
+} from '../extrimli-spajapro-track';
 
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
 
@@ -299,13 +303,15 @@ export interface ExtrimliExtrondolStartProject {
     'rollout.currentWawe',
     'rollout.eligibleNextWawe',
     'rollout.promotionFreeze',
+    'spajaproTrack',
     'nivoDuet',
     'dinkos',
     'distanceRatioEkvilaterTable',
     'paymentVerification',
     'extremProfiler',
     'extremProfiler.resolutionReadiness',
-    'extremProfiler.semaMuSemaFormula'
+    'extremProfiler.semaMuSemaFormula',
+    'spajaKod'
   ];
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
@@ -315,6 +321,7 @@ export interface ExtrimliExtrondolStartProject {
       'rollout.currentWawe',
       'rollout.eligibleNextWawe',
       'rollout.promotionFreeze',
+      'spajaproTrack',
       'b2bScope',
       'b2bScope.subscriptionPackage',
       'b2bScope.unlimitedUseGuardrails',
@@ -325,7 +332,9 @@ export interface ExtrimliExtrondolStartProject {
       'paymentVerification',
       'extremProfiler',
       'extremProfiler.resolutionReadiness',
-      'extremProfiler.semaMuSemaFormula'
+      'extremProfiler.semaMuSemaFormula',
+      'spajaKod',
+      'spajaKod.platformTrack'
     ];
   };
   qualityGates: {
@@ -438,6 +447,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     rollbackPlanRequired: true;
     degraded: boolean;
   };
+  platformTrack: ExtrimliSpajaproPublicBoundaryStatus;
   blockers: string[];
   exportContract: {
     includedInInstrukcija: true;
@@ -471,6 +481,7 @@ export interface ExtrimliExtrondolReport {
   distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   extremProfiler: ExtrimliExtremProfilerReport;
+  spajaproTrack: ExtrimliSpajaproGovernanceTrack;
   spajaKod: ExtrimliSpajaKodPublicFacade;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;

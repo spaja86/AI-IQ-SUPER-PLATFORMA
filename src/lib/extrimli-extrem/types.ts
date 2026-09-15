@@ -1,4 +1,5 @@
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
+import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
 
 export type ExtrimliExtremConflictIntensity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
 
@@ -149,6 +150,7 @@ export interface ExtrimliExtremProfilerReport {
     wawePromotionEligible: boolean;
     reasons: string[];
   };
+  spajaproTrack: ExtrimliSpajaproExtremTrack;
   roadmapAlignment: {
     sourceProgram: string;
     primaryVersion: ExtrimliVersionRoadmapVersionId;

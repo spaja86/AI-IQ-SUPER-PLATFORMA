@@ -18,6 +18,7 @@ This repository now exposes five aligned surfaces:
 | **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity, optimization-tier output, and canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` signal for WAWE governance |
 | **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, EXTREM profiler governance signal, and MUŠEMA freeze/promotion gate |
 | **SPAJA KOD** | `src/app/api/extrimli/spaja-kod/` | Active | Public encapsulated facade over EXTREM + EXTRONDOL that exposes only system readiness, governance, and audit signals |
+| **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 ## Module paths
@@ -37,6 +38,7 @@ This repository now exposes five aligned surfaces:
 | EXTRONDOL orchestration library | `src/lib/extrimli-extrondol/` |
 | EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
 | SPAJA KOD facade API route | `src/app/api/extrimli/spaja-kod/` |
+| SPAJAPRO planning-track doc | `docs/EXTRIMLI-SPAJAPRO-TRACK.md` |
 | World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
 | World Bank Persona bridge API route | `src/app/api/extrimli/world-bank-persona/` |
 | v3 library | `src/lib/extrimli-3/` |
@@ -126,6 +128,15 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
     - internal pattern / engine logic remains inside `src/lib/extrimli-extrem/**` and `src/lib/extrimli-extrondol/**`
     - public consumers must use `SPAJA KOD` for encapsulated output when raw EXTREM/EXTRONDOL internals are not required
     - downstream instruction/export surfaces may reference the `SPAJA KOD` contract, but must not reproduce internal pattern structures
+
+## SPAJAPRO planning track
+
+- SPAJAPRO is an additive planning track on top of EXTRIMLI, not a replacement for EXTRIMLI.
+- Locked token sequence: `ODIT, DEKER, DUNOR, SUMOR, OKET, DAKOR, EKSER, DOKER, DUKAR, DONAR, KODER`.
+- `EXTREM` remains the technical signal engine for the track.
+- `EXTRONDOL` remains the orchestration/governance layer for the track.
+- `SPAJA KOD` remains the public boundary and exposes only final public-safe status.
+- Canonical spec: `docs/EXTRIMLI-SPAJAPRO-TRACK.md`.
 
 ## EXTRIMLI v1 capabilities
 

@@ -35,6 +35,7 @@ import {
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
 } from './types';
+import { buildSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
 
 function parsePercentEnv(name: string, fallback: number, degradedSources: string[]): number {
@@ -355,6 +356,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     withinTargets,
     semaMuSemaFormula,
   });
+  const spajaproTrack = buildSpajaproExtremTrack({
+    freezeRequired,
+    conflictIntensity,
+    rekulitiPoRauletu,
+  });
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
@@ -430,6 +436,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && spajaKodEncapsulation.exposurePolicy.exposesRawPatternModel === false
         && spajaKodEncapsulation.exposurePolicy.exposesFormulaInternals === false
         && spajaKodEncapsulation.exposurePolicy.exposesInternalSignalInputs === false,
+    },
+    {
+      id: 'spajapro-terminology-lock',
+      description: 'SPAJAPRO uses the locked ODIT → KODER token sequence as an additive interpretation track on top of EXTRIMLI.',
+      passed: spajaproTrack.vocabulary.layering === 'extends-existing-extrimli-stack'
+        && spajaproTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'ODIT,DEKER,DUNOR,SUMOR,OKET,DAKOR,EKSER,DOKER,DUKAR,DONAR,KODER',
+    },
+    {
+      id: 'spajapro-extrem-freeze-independence',
+      description: 'EXTREM independently controls the SPAJAPRO freeze token before EXTRONDOL promotion decisions are made.',
+      passed: spajaproTrack.freezeControlledByExtrem === freezeRequired
+        && spajaproTrack.activeTokenStates.some((item) => item.token === 'OKET' && item.status === (freezeRequired ? 'BLOCKED' : 'READY')),
     },
   ];
 
@@ -507,6 +525,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       wawePromotionEligible: !freezeRequired,
       reasons: governanceReasons.length > 0 ? governanceReasons : ['Profiler signal is stable and ready for WAWE promotion.'],
     },
+    spajaproTrack,
     roadmapAlignment: {
       sourceProgram: versionRoadmap.programName,
       primaryVersion: 'Verzija 4',

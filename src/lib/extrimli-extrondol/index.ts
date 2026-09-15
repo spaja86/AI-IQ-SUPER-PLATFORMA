@@ -18,6 +18,10 @@ import {
   isVercelInvoiceResolved,
   normalizePaymentReferenceClassification,
 } from '../vercel-billing-governance';
+import {
+  buildSpajaproGovernanceTrack,
+  buildSpajaproPublicBoundaryStatus,
+} from '../extrimli-spajapro-track';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
@@ -248,6 +252,9 @@ function buildSpajaKodFacade(params: {
     : params.extremProfiler.spajaKodEncapsulation.readiness.status === 'WATCH'
       ? 'WATCH'
       : 'READY';
+  const platformTrack = buildSpajaproPublicBoundaryStatus({
+    publicStatus: status,
+  });
 
   return {
     surfaceName: 'SPAJA KOD',
@@ -279,6 +286,7 @@ function buildSpajaKodFacade(params: {
       rollbackPlanRequired: true,
       degraded: params.degraded,
     },
+    platformTrack,
     blockers,
     exportContract: {
       includedInInstrukcija: true,
@@ -519,6 +527,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'rollout.currentWawe',
       'rollout.eligibleNextWawe',
       'rollout.promotionFreeze',
+      'spajaproTrack',
       'nivoDuet',
       'dinkos',
       'distanceRatioEkvilaterTable',
@@ -536,6 +545,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
+        'spajaproTrack',
         'b2bScope',
         'b2bScope.subscriptionPackage',
         'b2bScope.unlimitedUseGuardrails',
@@ -548,6 +558,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
         'spajaKod',
+        'spajaKod.platformTrack',
       ],
     },
     qualityGates: {
@@ -748,6 +759,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewRequired: true,
     rollbackPlanRequired: true,
   };
+  const technicalState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DEKER')?.status;
+  const conflictState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DUNOR')?.status;
   const spajaKod = buildSpajaKodFacade({
     extremProfiler,
     promotionFreeze,
@@ -757,6 +770,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
     degraded,
     releaseAuditSummary,
+  });
+  const spajaproTrack = buildSpajaproGovernanceTrack({
+    technicalState: technicalState === 'WATCH' || technicalState === 'BLOCKED' ? technicalState : 'READY',
+    conflictState: conflictState === 'WATCH' || conflictState === 'BLOCKED' ? conflictState : 'READY',
+    currentWawe,
+    promotionFreeze,
+    releaseAuditStatus: releaseAuditSummary.status,
+    downstreamSyncStatus: downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
+    humanReviewComplete,
+    rollbackPlanRequired: releaseAuditSummary.rollbackPlanRequired,
+    finalPublicStatus: spajaKod.platformTrack.publicStatus,
   });
 
   const b2bReadiness = {
@@ -790,6 +814,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
+        'spajaproTrack.sequenceStates',
         'b2bScope.subscriptionPackage',
         'b2bScope.unlimitedUseGuardrails',
         'nivoDuet.signal.valid',
@@ -817,6 +842,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'spajaKod.readiness.governanceOutcome',
         'spajaKod.publicSignals.auditStatus',
         'spajaKod.publicSignals.downstreamSyncStatus',
+        'spajaKod.platformTrack.finalPublicStatusToken',
+        'spajaKod.platformTrack.publicStatus',
       ],
     },
     governanceDecisions: {
@@ -903,6 +930,27 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'payment-verification-gate',
       description: 'Payment verification must pass invoice resolution, evidence package, and privacy/redaction controls before WAWE promotion and B2B activation.',
       passed: paymentVerification.status === 'VERIFIED',
+    },
+    {
+      id: 'spajapro-terminology-lock',
+      description: 'SPAJAPRO uses the locked ODIT → KODER token sequence as an additive EXTRIMLI planning track.',
+      passed: spajaproTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'ODIT,DEKER,DUNOR,SUMOR,OKET,DAKOR,EKSER,DOKER,DUKAR,DONAR,KODER'
+        && spajaproTrack.vocabulary.layering === 'extends-existing-extrimli-stack',
+    },
+    {
+      id: 'spajapro-public-boundary',
+      description: 'SPAJA KOD exposes only the final SPAJAPRO public status while internal token mappings stay hidden behind EXTRIMLI/EXTREM/EXTRONDOL.',
+      passed: spajaKod.platformTrack.boundarySurface === 'SPAJA KOD'
+        && spajaKod.platformTrack.finalPublicStatusToken === 'KODER'
+        && spajaKod.platformTrack.internalMappingVisibility === 'HIDDEN',
+    },
+    {
+      id: 'spajapro-release-audit-alignment',
+      description: 'SPAJAPRO audit and downstream tokens align to EXTRONDOL release-audit and linked-repo governance outcomes.',
+      passed: spajaproTrack.releaseAuditAligned
+        && spajaproTrack.downstreamReferenceExplicit
+        && spajaproTrack.sequenceStates.find((item) => item.token === 'EKSER')?.status === releaseAuditSummary.status
+        && spajaproTrack.sequenceStates.find((item) => item.token === 'DOKER')?.status === (downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED'),
     },
     {
       id: 'github-enterprise-subscription-package',
@@ -1053,6 +1101,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     distanceRatioEkvilaterTable,
     paymentVerification,
     extremProfiler,
+    spajaproTrack,
     spajaKod,
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
