@@ -554,6 +554,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   }
   if (extremProfiler.degraded) degradedSources.push('extrem-profiler:degraded');
   if (extremProfiler.profile.bottleneckDetected) degradedSources.push('extrem-profiler:bottleneck-detected');
+  if (extremProfiler.businessLicensingSignals.freezeRequired) degradedSources.push('extrem-profiler:global-licensing-freeze');
   if (mobilnaLinija.activationStatus === 'BLOCKED') degradedSources.push('mobilna-linija:activation-blocked');
 
   const baseOrchestrationScore = round(
@@ -624,8 +625,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'distanceRatioEkvilaterTable',
       'paymentVerification',
       'extremProfiler',
+      'extremProfiler.businessLicensingSignals',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
+      'b2bReadiness.globalLicensing',
       'mobilnaLinija',
       'spajaKod',
     ],
@@ -647,8 +650,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'distanceRatioEkvilaterTable',
         'paymentVerification',
         'extremProfiler',
+        'extremProfiler.businessLicensingSignals',
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
+        'b2bReadiness.globalLicensing',
         'mobilnaLinija',
         'spajaKod',
         'spajaKod.platformTrack',
@@ -739,6 +744,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       freezeTriggers: ['kpi-breach', 'audit-incomplete', 'payment-not-verified'],
       rollbackTriggers: ['kpi-breach-after-promotion', 'payment-revoked', 'governance-regression'],
     },
+    globalLicensingModel: {
+      sourceOfTruth: '/api/aiiq-world-bank-licencni-registar',
+      policy: 'license-for-whole-planet',
+      requiredJurisdictions: ['RS', 'EU', 'US', 'UK', 'UAE', 'SG', 'JP', 'IN', 'BR', 'CA', 'AU', 'ZA'],
+      readinessFormula: '0.45*globalLicenseReadiness + 0.35*activityCoverage + 0.20*(100-criticalGapPenalty)',
+      freezeWhen: ['global-license-readiness-below-threshold', 'critical-global-license-gap-detected'],
+    },
     auditObligations: [
       'Trace procurement, review, and activation decisions in audit-ready artifacts.',
       'Do not activate B2B tenants before contract, compliance, onboarding, and downstream sync gates pass.',
@@ -774,6 +786,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
       ? ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA formula is blocked and must freeze WAWE promotion.']
       : []),
+    ...(extremProfiler.businessLicensingSignals.freezeRequired
+      ? [`Global licensing readiness gate is blocking promotion: ${extremProfiler.businessLicensingSignals.freezeReasons.join(', ')}`]
+      : []),
     ...(extremProfiler.resolutionReadiness.ekodorState === 'WATCH' ? ['EKODOR alignment remains in watch posture and requires review before promotion.'] : []),
     ...(extremProfiler.resolutionReadiness.discanInKibenState === 'WATCH' ? ['DISCAN in KIBEN remains in watch posture and should be monitored before promotion.'] : []),
   ];
@@ -790,6 +805,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.governanceSignal.freezeRequired ? ['extrem-profiler-stability'] : []),
     ...(extremProfiler.resolutionReadiness.blockerActive ? ['extrem-resolution-readiness'] : []),
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED' ? ['extrem-schema-mushema'] : []),
+    ...(extremProfiler.businessLicensingSignals.freezeRequired ? ['global-license-readiness'] : []),
     ...(mobilnaLinija.activationStatus === 'BLOCKED' ? ['mobilna-linija-activation-ready'] : []),
   ];
   const auditTrailComplete = governanceEvidence.auditTrailComplete;
@@ -797,6 +813,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || complianceBlockers.length > 0
     || currentWawe === 'WAWE-1'
     || extremProfiler.governanceSignal.freezeRequired
+    || extremProfiler.businessLicensingSignals.freezeRequired
     || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.activationStatus === 'BLOCKED';
   const reasons = promotionFreeze
@@ -809,6 +826,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         : []),
       ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
         ? extremProfiler.semaMuSemaFormula.blockerReasons.map((reason) => `extrem-schema-mushema:${reason}`)
+        : []),
+      ...(extremProfiler.businessLicensingSignals.freezeRequired
+        ? extremProfiler.businessLicensingSignals.freezeReasons.map((reason) => `global-licensing:${reason}`)
         : []),
       ...(paymentVerification.status !== 'VERIFIED'
         ? ['payment-verification:blocked']
@@ -928,6 +948,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.profile.conflictIntensity',
         'extremProfiler.profile.optimizationTier',
         'extremProfiler.governanceSignal.freezeRequired',
+        'extremProfiler.businessLicensingSignals.activityCoverageScore',
+        'extremProfiler.businessLicensingSignals.globalLicenseReadinessScore',
+        'extremProfiler.businessLicensingSignals.criticalGlobalGapCount',
+        'extremProfiler.businessLicensingSignals.freezeRequired',
         'extremProfiler.semaMuSemaFormula.status',
         'extremProfiler.semaMuSemaFormula.muSemaConclusion',
         'extremProfiler.resolutionReadiness.rezolucijaScore',
@@ -946,7 +970,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ],
     },
     governanceDecisions: {
-      onboardingHold: !onboardingComplete || !contractApproved || !duetSignal.valid || duetSignal.status === 'DISSONANT' || extremProfiler.governanceSignal.freezeRequired,
+    onboardingHold: !onboardingComplete
+      || !contractApproved
+      || !duetSignal.valid
+      || duetSignal.status === 'DISSONANT'
+      || extremProfiler.governanceSignal.freezeRequired
+      || extremProfiler.businessLicensingSignals.freezeRequired,
       rolloutFreeze: promotionFreeze,
       escalationRequired: promotionFreeze,
       partnerReadinessWarnings,
@@ -965,6 +994,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         discanInKibenState: extremProfiler.resolutionReadiness.discanInKibenState,
         blockerActive: extremProfiler.resolutionReadiness.blockerActive,
       },
+    },
+    globalLicensing: {
+      sourceOfTruth: '/api/aiiq-world-bank-licencni-registar',
+      activityCoverageScore: extremProfiler.businessLicensingSignals.activityCoverageScore,
+      globalLicenseReadinessScore: extremProfiler.businessLicensingSignals.globalLicenseReadinessScore,
+      criticalGlobalGapCount: extremProfiler.businessLicensingSignals.criticalGlobalGapCount,
+      freezeRequired: extremProfiler.businessLicensingSignals.freezeRequired,
     },
   } as const;
 
@@ -1130,6 +1166,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('dinkos.personaId')
         && b2bReadiness.downstreamSync.syncedFields.includes('domainStrategy.canonicalWildcard')
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.profile.conflictIntensity'),
+    },
+    {
+      id: 'global-licensing-governance',
+      description: 'EXTRONDOL includes global licensing readiness and activity-coverage governance for whole-planet licensing posture.',
+      passed: b2bScope.globalLicensingModel.policy === 'license-for-whole-planet'
+        && b2bScope.globalLicensingModel.requiredJurisdictions.length === 12
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.businessLicensingSignals.globalLicenseReadinessScore')
+        && b2bReadiness.globalLicensing.sourceOfTruth === '/api/aiiq-world-bank-licencni-registar',
     },
     {
       id: 'diskvit-conflict-governance',

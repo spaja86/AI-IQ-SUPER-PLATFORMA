@@ -93,6 +93,15 @@ export interface ExtrimliExtremAcceptanceCriterion {
   passed: boolean;
 }
 
+export interface ExtrimliExtremBusinessLicensingSignals {
+  sourceOfTruth: '/api/aiiq-world-bank-licencni-registar';
+  activityCoverageScore: number;
+  globalLicenseReadinessScore: number;
+  criticalGlobalGapCount: number;
+  freezeRequired: boolean;
+  freezeReasons: string[];
+}
+
 export interface ExtrimliExtremProfilerReport {
   personaId: string;
   contractVersion: string;
@@ -159,6 +168,7 @@ export interface ExtrimliExtremProfilerReport {
     conflictIntensity: ExtrimliExtremConflictIntensity;
     optimizationTier: ExtrimliExtremOptimizationTier;
   };
+  businessLicensingSignals: ExtrimliExtremBusinessLicensingSignals;
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
   resolutionReadiness: {
