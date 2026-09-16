@@ -67,7 +67,13 @@ async function runTests(): Promise<void> {
     assert(Number.isFinite(report.profile.conflictScore), 'conflict score must be finite');
     assert(report.profile.conflictScore >= 0 && report.profile.conflictScore <= 100, 'conflict score must be in [0,100]');
     assert(report.kpiObserved.withinTargets, 'default profile should be within KPI targets');
-    assert(report.governanceSignal.freezeRequired === false, 'default profile should not freeze WAWE promotion');
+    assert(
+      report.governanceSignal.freezeRequired === report.businessLicensingSignals.freezeRequired,
+      'governance freeze should mirror business licensing freeze signal',
+    );
+    assert(report.businessLicensingSignals.activityCoverageScore >= 0, 'business activity coverage score should be bounded');
+    assert(report.businessLicensingSignals.globalLicenseReadinessScore >= 0, 'business licensing readiness score should be bounded');
+    assert(report.businessLicensingSignals.criticalGlobalGapCount >= 0, 'business licensing critical gap count should be available');
     assert(report.versionRoadmap.contractVersion === 'v1-7-roadmap', 'roadmap contract mismatch');
     assert(report.roadmapAlignment.primaryVersion === 'Verzija 4', 'EXTREM should align to Verzija 4');
   });

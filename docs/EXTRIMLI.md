@@ -114,6 +114,36 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
   - Promotion is blocked when `promotionFreeze` is true or required evidence is missing
   - Degraded signals force conservative lifecycle posture (dormant target) instead of hard failure
 
+## AI IQ World Bank global licensing expansion (additive-only)
+
+- Source model remains additive over existing RS flow (`Srbija-only` stays as compatibility subset).
+- Global licensing registry now publishes:
+  - multi-jurisdiction map (`globalneJurisdikcije`) with regulator metadata,
+  - expanded activity catalog with standardized sectors and priority weighting,
+  - global coverage summary (`globalniCoverage`) and staged rollout phases (`rolloutFazeGlobalnihLicenci`).
+- EXTREM adds business-licensing signals without changing technical profiler core:
+  - `activityCoverageScore`,
+  - `globalLicenseReadinessScore`,
+  - freeze/degrade indicators when critical licensing gaps exist.
+- EXTRONDOL governance extends B2B scope/readiness with global licensing posture:
+  - WAWE freeze reasons include licensing blockers,
+  - downstream sync includes `extremProfiler.businessLicensingSignals` and `b2bReadiness.globalLicensing`.
+- World Bank Persona bridge extends payload with:
+  - `activityFootprint` (expanded + prioritized activities),
+  - global-license readiness mapping for lifecycle decisions.
+
+### Planetary licensing rollout phases
+
+1. **Faza 1** — model and read-only global licensing reports
+2. **Faza 2** — governance gate integration (EXTREM + EXTRONDOL WAWE freeze linkage)
+3. **Faza 3** — downstream sync activation for linked repositories
+
+### Audit / rollout / rollback expectations
+
+- Any WAWE promotion with unresolved critical global licensing gaps must remain frozen.
+- Release audit must include global licensing coverage posture, blocker reasons, and linked-repo downstream sync status.
+- Rollback stays mandatory if licensing governance drifts after promotion (same release gate posture as KPI/security/payment blockers).
+
   ## SPAJA KOD encapsulated public facade
 
   - Source of truth endpoint: `/api/extrimli/spaja-kod`

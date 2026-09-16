@@ -952,6 +952,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.businessLicensingSignals.globalLicenseReadinessScore',
         'extremProfiler.businessLicensingSignals.criticalGlobalGapCount',
         'extremProfiler.businessLicensingSignals.freezeRequired',
+        'b2bReadiness.globalLicensing',
         'extremProfiler.semaMuSemaFormula.status',
         'extremProfiler.semaMuSemaFormula.muSemaConclusion',
         'extremProfiler.resolutionReadiness.rezolucijaScore',

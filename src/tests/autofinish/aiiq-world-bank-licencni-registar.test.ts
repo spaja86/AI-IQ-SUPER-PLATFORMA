@@ -48,7 +48,7 @@ async function runTests(): Promise<void> {
 
   await test('Postoji scope i delatnosti', () => {
     assert(reg.scope.length >= 5, 'scope.length');
-    assert(reg.delatnosti.length >= 10, 'delatnosti.length');
+    assert(reg.delatnosti.length >= 20, 'delatnosti.length');
   });
 
   await test('Registar ima licence sa validnim statusima', () => {
@@ -94,6 +94,15 @@ async function runTests(): Promise<void> {
   await test('Expirations endpoint helper vraća rezultate', () => {
     const expirations = getLicencniExpirations(365);
     assert(expirations.length > 0, 'expirations > 0');
+  });
+
+  await test('Globalni model vraća jurisdikcije i coverage pregled', () => {
+    assert(reg.globalneJurisdikcije.length >= 10, 'globalneJurisdikcije.length');
+    assert(reg.globalneJurisdikcije.some((jur) => jur.oznaka === 'RS'), 'RS jurisdikcija mora ostati dostupna');
+    assert(typeof reg.globalniCoverage.coverageProcenat === 'number', 'globalniCoverage.coverageProcenat');
+    assert(reg.globalniCoverage.poJurisdikciji.length >= 10, 'poJurisdikciji');
+    assert(reg.globalniCoverage.kriticniGlobalniGapovi >= 0, 'kriticniGlobalniGapovi');
+    assert(reg.rolloutFazeGlobalnihLicenci.length === 3, 'rolloutFazeGlobalnihLicenci');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);

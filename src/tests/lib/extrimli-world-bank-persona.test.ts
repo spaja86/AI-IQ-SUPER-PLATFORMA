@@ -42,6 +42,10 @@ async function runTests(): Promise<void> {
     assert(report.sourceContracts.extrondol === '/api/extrimli/extrondol', 'extrondol source mismatch');
     assert(report.sourceContracts.personaBank === '/api/persona-bank', 'persona bank source mismatch');
     assert(report.personaId === 'extrimli-core', 'personaId mismatch');
+    assert(report.activityFootprint.totalActivities >= 20, 'activity footprint should include expanded activity catalog');
+    assert(report.activityFootprint.prioritizedActivities.length >= 1, 'activity footprint should expose prioritized activities');
+    assert(report.mappedSignals.globalLicenseReadinessScore >= 0, 'global license readiness score should be available');
+    assert(report.mappedSignals.activityCoverageScore >= 0, 'activity coverage score should be available');
   });
 
   await test('governance hold blocks promotion and maps to dormant target status', () => {
