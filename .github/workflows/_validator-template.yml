@@ -9,7 +9,7 @@
 #
 #   jobs:
 #     validate:
-#       uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@main
+#       uses: spaja86/AI-IQ-SUPER-PLATFORMA/.github/workflows/_validator-template.yml@d1d89bb092c3b9af2c12e6f7be50b051b3abf77f
 #       with:
 #         domain: discount-telecom
 #         lint_paths: "src/lib/discount-telecom src/app/api/discount-telecom"
