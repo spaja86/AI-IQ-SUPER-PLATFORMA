@@ -231,9 +231,15 @@ async function runTests(): Promise<void> {
     );
     const statusAdjustment = duetStatusAdjustment(report.nivoDuet.signal.status);
     const warningPenalty = Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, report.nivoDuet.signal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP);
+    const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
+    const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
       clamp(
-        baseScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE + (statusAdjustment - warningPenalty),
+        baseScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE
+          + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE
+          + (statusAdjustment - warningPenalty)
+          + profilerBoost
+          - profilerPenalty,
         0,
         100,
       ),
@@ -261,6 +267,7 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-downstream-sync' && item.passed), 'b2b-downstream-sync criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'distance-ratio-ekvilater-table' && item.passed), 'distance-ratio-ekvilater-table criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'resolution-signal-governance' && item.passed), 'resolution-signal-governance criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'global-licensing-governance' && item.passed), 'global-licensing-governance criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'version-roadmap-lock' && item.passed), 'version-roadmap-lock criterion must pass');
     assert(report.startProject.mandatoryOutputs.includes('spajaproTrack'), 'SPAJAPRO track must be a mandatory output');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('spajaKod.platformTrack'), 'SPAJAPRO public boundary must sync downstream');
@@ -292,6 +299,8 @@ async function runTests(): Promise<void> {
     assert(report.b2bScope.unlimitedUseGuardrails.finopsThresholdPercent.join(',') === '50,75,90,100', 'FinOps thresholds mismatch');
     assert(report.b2bScope.unlimitedUseGuardrails.freezeTriggers.includes('payment-not-verified'), 'payment freeze trigger missing');
     assert(report.b2bScope.unlimitedUseGuardrails.rollbackTriggers.includes('kpi-breach-after-promotion'), 'rollback trigger missing');
+    assert(report.b2bScope.globalLicensingModel.policy === 'license-for-whole-planet', 'global licensing model mismatch');
+    assert(report.b2bScope.globalLicensingModel.requiredJurisdictions.includes('RS'), 'global licensing must preserve RS compatibility');
     assert(report.b2bScope.auditObligations.length >= 4, 'audit obligations must be present');
     assert(report.b2bReadiness.tenant.environmentTier === 'B2B', 'environment tier mismatch');
     assert(report.b2bReadiness.tenant.organizationId === 'spaja-digital-industrija-b2b', 'organization id mismatch');
@@ -318,12 +327,16 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.semaMuSemaFormula.status'), 'formula status sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.semaMuSemaFormula.muSemaConclusion'), 'MUŠEMA conclusion sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.rekulitiPoRauletu'), 'resolution policy sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bReadiness.globalLicensing'), 'global licensing readiness sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
     assert(Number.isFinite(report.b2bReadiness.governanceDecisions.resolutionReadiness.rezolucijaScore), 'resolution readiness score must be finite');
     assert(report.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'B2B formula expression mismatch');
     assert(['PASSED', 'BLOCKED'].includes(report.b2bReadiness.governanceDecisions.semaFormulaGate.status), 'B2B formula status mismatch');
-    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler') || warning.includes('ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA')), 'unexpected B2B warning format');
+    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler') || warning.includes('ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA') || warning.includes('Global licensing')), 'unexpected B2B warning format');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
+    assert(report.b2bReadiness.globalLicensing.globalLicenseReadinessScore >= 0, 'global license readiness score mismatch');
+    assert(report.b2bReadiness.globalLicensing.activityCoverageScore >= 0, 'activity coverage score mismatch');
+    assert(report.b2bReadiness.globalLicensing.criticalGlobalGapCount >= 0, 'critical global gap count mismatch');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'github-enterprise-subscription-package' && item.passed), 'github-enterprise-subscription-package criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'unlimited-guardrails' && item.passed), 'unlimited-guardrails criterion must pass');
@@ -366,6 +379,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
     assert(report.startProject.mandatoryOutputs.includes('paymentVerification'), 'payment verification output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler'), 'extrem profiler output missing');
+    assert(report.startProject.mandatoryOutputs.includes('extremProfiler.businessLicensingSignals'), 'business licensing output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler.resolutionReadiness'), 'resolution readiness output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler.semaMuSemaFormula'), 'formula output missing');
     assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
@@ -375,6 +389,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.unlimitedUseGuardrails'), 'B2B guardrails sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('paymentVerification'), 'payment verification sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler'), 'extrem profiler sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.businessLicensingSignals'), 'business licensing sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.resolutionReadiness'), 'resolution readiness sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.semaMuSemaFormula'), 'formula sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('spajaKod.platformTrack'), 'SPAJAPRO public sync missing');

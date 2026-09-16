@@ -1,4 +1,5 @@
 import { buildAiIqWorldBank } from '../ai-iq-world-bank';
+import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import { EXTRIMLI_PERSONA_ID, getExtrimliAggregateSignals } from '../extrimli';
 import { getExtrimliExtrondolReport } from '../extrimli-extrondol';
 import {
@@ -37,6 +38,7 @@ function lifecycleFromSignals(params: {
   promotionBlocked: boolean;
   degraded: boolean;
   missingEvidence: string[];
+  globalLicenseFreeze: boolean;
 }): ExtrimliWorldBankPersonaReport['lifecycle'] {
   if (params.promotionBlocked) {
     return {
@@ -46,6 +48,15 @@ function lifecycleFromSignals(params: {
       reason: params.missingEvidence.length > 0
         ? `Promotion blocked: missing ${params.missingEvidence.join(', ')}`
         : 'Promotion blocked: rollout freeze is active',
+    };
+  }
+
+  if (params.globalLicenseFreeze) {
+    return {
+      decision: 'HOLD',
+      targetPersonaStatus: 'dormant',
+      promotionAllowed: false,
+      reason: 'Promotion blocked: global licensing readiness is below required threshold',
     };
   }
 
@@ -97,14 +108,22 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
   const agentId = options.agentId ?? EXTRIMLI_WORLD_BANK_PERSONA_AGENT;
 
   const worldBank = buildAiIqWorldBank('extrimli-world-bank-persona');
+  const licencniRegistar = buildAIIQWorldBankLicencniRegistar();
   const extrimliAggregate = getExtrimliAggregateSignals();
   const extrondol = getExtrimliExtrondolReport(options.evidence);
 
   const financialContextScore = buildFinancialContextScore(worldBank);
   const extrimliReadinessSignal = round(extrimliAggregate.readinessSignal);
   const orchestrationReadinessScore = round(extrondol.orchestrationReadinessScore);
+  const activityCoverageScore = round(licencniRegistar.globalniCoverage.coverageProcenat);
+  const globalLicenseReadinessScore = round(extrondol.b2bReadiness.globalLicensing.globalLicenseReadinessScore);
+  const criticalGlobalGapCount = extrondol.b2bReadiness.globalLicensing.criticalGlobalGapCount;
   const combinedReadinessScore = round(
-    (financialContextScore * 0.25) + (extrimliReadinessSignal * 0.35) + (orchestrationReadinessScore * 0.4),
+    (financialContextScore * 0.2)
+      + (extrimliReadinessSignal * 0.2)
+      + (orchestrationReadinessScore * 0.3)
+      + (activityCoverageScore * 0.15)
+      + (globalLicenseReadinessScore * 0.15),
   );
 
   const requiredEvidence = [
@@ -128,7 +147,18 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     promotionBlocked,
     degraded,
     missingEvidence,
+    globalLicenseFreeze: extrondol.b2bReadiness.globalLicensing.freezeRequired,
   });
+
+  const prioritizedActivities = [...licencniRegistar.delatnosti]
+    .sort((a, b) => b.prioritet.score - a.prioritet.score)
+    .slice(0, 8)
+    .map((activity) => ({
+      id: activity.id,
+      naziv: activity.naziv,
+      sektor: activity.sektor,
+      score: activity.prioritet.score,
+    }));
 
   const personaPayload = {
     id: EXTRIMLI_PERSONA_ID,
@@ -151,6 +181,18 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       worldBankSignal: {
         source: '/api/ai-iq-world-bank',
         kpi: worldBank.kpi,
+      },
+      activityFootprint: {
+        source: '/api/aiiq-world-bank-licencni-registar',
+        totalActivities: licencniRegistar.delatnosti.length,
+        prioritized: prioritizedActivities,
+      },
+      globalLicensing: {
+        source: '/api/aiiq-world-bank-licencni-registar',
+        readinessScore: globalLicenseReadinessScore,
+        activityCoverageScore,
+        criticalGapCount: criticalGlobalGapCount,
+        freezeRequired: extrondol.b2bReadiness.globalLicensing.freezeRequired,
       },
       extrondolSignal: {
         source: '/api/extrimli/extrondol',
@@ -273,6 +315,9 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       financialContextScore,
       extrimliReadinessSignal,
       orchestrationReadinessScore,
+      activityCoverageScore,
+      globalLicenseReadinessScore,
+      criticalGlobalGapCount,
       combinedReadinessScore,
       degraded,
       degradedSources: [
@@ -282,6 +327,10 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     },
     lifecycle,
     personaPayload,
+    activityFootprint: {
+      totalActivities: licencniRegistar.delatnosti.length,
+      prioritizedActivities,
+    },
     subflows,
     sources: {
       worldBank,

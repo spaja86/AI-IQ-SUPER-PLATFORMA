@@ -840,13 +840,16 @@ AI-IQ-SUPER-PLATFORMA#MADAGASKAR-2-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI DESTRUKCIJA asset catalog | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: destruction asset snapshots via multi-repo-sync-agent |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI DUEL KING readiness snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: duel readiness / tournament posture snapshot via multi-repo-sync-agent |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTREM profiler snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: DISKVIT conflict profile (`conflictIntensity`, `optimizationTier`, freeze signal) via multi-repo-sync-agent |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI global licensing + activity coverage snapshot | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync: `extremProfiler.businessLicensingSignals` + `b2bReadiness.globalLicensing` + coverage blockers via multi-repo-sync-agent |
 
 **Follow-up required in `spaja86/IO-OPENUI-AO`:**
 - Sync EXTRIMLI gear catalog snapshots via `multi-repo-sync-agent`
 - Sync EXTRIMLI DESTRUKCIJA asset snapshots via `multi-repo-sync-agent`
 - Sync EXTRIMLI DUEL KING readiness snapshots via `multi-repo-sync-agent`
 - Sync EXTRIMLI EXTREM profiler snapshots via `multi-repo-sync-agent`
+- Sync EXTRIMLI global licensing jurisdiction/activity readiness snapshots via `multi-repo-sync-agent`
 - Track EXTRIMLI 3 risk profile contract and readiness-scoring downstream impact
+- Track WAWE freeze blockers linked to global-license gaps in downstream governance docs
 - Add `extrimli:logic-change` label to linked-repo label schema
 - Add `duel-king:logic-change` label to linked-repo label schema
 - Add `extrem:logic-change` label to linked-repo label schema

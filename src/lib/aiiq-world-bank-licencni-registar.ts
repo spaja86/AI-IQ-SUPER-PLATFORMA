@@ -9,6 +9,17 @@ export type LicencaKlasifikacija = 'regulatorna' | 'softverska' | 'operativna';
 export type LicencaStatus = 'potvrdjena' | 'nedostaje' | 'u_nabavci' | 'istekla' | 'neprimenljivo';
 export type LicencaRizik = 'kriticno' | 'visoko' | 'srednje' | 'nisko';
 export type LicencaProcurementStatus = 'nije_pokrenuto' | 'u_toku' | 'zavrseno';
+export type GlobalnaJurisdikcijaOznaka = 'RS' | 'EU' | 'US' | 'UK' | 'UAE' | 'SG' | 'JP' | 'IN' | 'BR' | 'CA' | 'AU' | 'ZA';
+export type DelatnostSektor =
+  | 'bankarstvo'
+  | 'platni_sistemi'
+  | 'ai_sistemi'
+  | 'infrastruktura'
+  | 'gejming'
+  | 'telekom'
+  | 'identitet_i_bezbednost'
+  | 'analitika_i_operativa'
+  | 'trgovina_i_partnerstva';
 
 export interface AIIQWorldBankScopeModul {
   id: string;
@@ -19,8 +30,31 @@ export interface AIIQWorldBankScopeModul {
 export interface PoslovnaDelatnost {
   id: string;
   naziv: string;
-  izvor: 'login-api' | 'platform-model' | 'company-model';
+  izvor: 'login-api' | 'platform-model' | 'company-model' | 'world-bank-services';
   domen: 'finansije' | 'ai' | 'infrastruktura' | 'poslovanje' | 'gejming';
+  sektor: DelatnostSektor;
+  prioritet: {
+    rizik: LicencaRizik;
+    regulatornaStrogost: number;
+    trzisteVaznost: number;
+    score: number;
+  };
+}
+
+export interface GlobalnaJurisdikcija {
+  oznaka: GlobalnaJurisdikcijaOznaka;
+  naziv: string;
+  valuta: string;
+  region: 'Evropa' | 'Severna Amerika' | 'Bliski Istok' | 'Azija' | 'Juzna Amerika' | 'Afrika' | 'Okeanija';
+  regulatori: string[];
+  rezimNabavke: 'kupujemo_sve_licence_globalno';
+}
+
+export interface LicencaGlobalniStatus {
+  jurisdikcija: GlobalnaJurisdikcijaOznaka;
+  status: LicencaStatus;
+  regulatorIliIzdavalac: string;
+  rizik: LicencaRizik;
 }
 
 export interface LicencniDokaz {
@@ -51,6 +85,7 @@ export interface LicencaPoDelatnosti {
   procurementStatus: LicencaProcurementStatus;
   procurementReferenca: string | null;
   poslednjaIzmenaAt: string;
+  globalniStatusi: LicencaGlobalniStatus[];
 }
 
 export interface LicencniGapStavka {
@@ -149,6 +184,28 @@ export interface AIIQWorldBankLicencniRegistar {
     summary: ReturnType<typeof getIssuerLicensingSummary>;
     blockers: ReturnType<typeof getIssuerLicensingBlockers>;
   };
+  globalneJurisdikcije: GlobalnaJurisdikcija[];
+  globalniCoverage: {
+    ukupnoLicenci: number;
+    ukupnoStatusa: number;
+    potvrdjene: number;
+    uNabavci: number;
+    nedostaju: number;
+    istekle: number;
+    coverageProcenat: number;
+    kriticniGlobalniGapovi: number;
+    poJurisdikciji: Array<{
+      jurisdikcija: GlobalnaJurisdikcijaOznaka;
+      ukupno: number;
+      pokrivene: number;
+      coverageProcenat: number;
+    }>;
+  };
+  rolloutFazeGlobalnihLicenci: Array<{
+    faza: 'FAZA-1-READ-ONLY' | 'FAZA-2-GOVERNANCE' | 'FAZA-3-DOWNSTREAM-SYNC';
+    status: 'aktivno' | 'planirano';
+    opis: string;
+  }>;
 }
 
 const SRBIJA_JURISDIKCIJA: LicencnaJurisdikcija = {
@@ -163,6 +220,21 @@ const SRBIJA_JURISDIKCIJA: LicencnaJurisdikcija = {
   ],
   rezimNabavke: 'kupujemo_sve_licence',
 };
+
+const GLOBALNE_JURISDIKCIJE: GlobalnaJurisdikcija[] = [
+  { oznaka: 'RS', naziv: 'Srbija', valuta: 'RSD', region: 'Evropa', regulatori: ['NBS', 'Komisija za hartije od vrednosti', 'Poverenik za zaštitu podataka'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'EU', naziv: 'Evropska unija', valuta: 'EUR', region: 'Evropa', regulatori: ['EBA', 'ESMA', 'EDPB'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'US', naziv: 'Sjedinjene Američke Države', valuta: 'USD', region: 'Severna Amerika', regulatori: ['FinCEN', 'SEC', 'CFPB'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'UK', naziv: 'Ujedinjeno Kraljevstvo', valuta: 'GBP', region: 'Evropa', regulatori: ['FCA', 'PRA', 'ICO'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'UAE', naziv: 'Ujedinjeni Arapski Emirati', valuta: 'AED', region: 'Bliski Istok', regulatori: ['CBUAE', 'DFSA'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'SG', naziv: 'Singapur', valuta: 'SGD', region: 'Azija', regulatori: ['MAS', 'PDPC'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'JP', naziv: 'Japan', valuta: 'JPY', region: 'Azija', regulatori: ['JFSA', 'PPC Japan'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'IN', naziv: 'Indija', valuta: 'INR', region: 'Azija', regulatori: ['RBI', 'SEBI'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'BR', naziv: 'Brazil', valuta: 'BRL', region: 'Juzna Amerika', regulatori: ['BCB', 'CVM'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'CA', naziv: 'Kanada', valuta: 'CAD', region: 'Severna Amerika', regulatori: ['FINTRAC', 'OSFI'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'AU', naziv: 'Australija', valuta: 'AUD', region: 'Okeanija', regulatori: ['ASIC', 'AUSTRAC'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+  { oznaka: 'ZA', naziv: 'Južna Afrika', valuta: 'ZAR', region: 'Afrika', regulatori: ['SARB', 'FSCA'], rezimNabavke: 'kupujemo_sve_licence_globalno' },
+];
 
 const LICENCNI_SCOPE: AIIQWorldBankScopeModul[] = [
   {
@@ -192,17 +264,40 @@ const LICENCNI_SCOPE: AIIQWorldBankScopeModul[] = [
   },
 ];
 
-const LOGIN_DELATNOSTI: Array<Pick<PoslovnaDelatnost, 'naziv' | 'domen'>> = [
-  { naziv: 'Digitalna Industrija', domen: 'poslovanje' },
-  { naziv: 'Gaming Platforma', domen: 'gejming' },
-  { naziv: 'AI Platforma', domen: 'ai' },
-  { naziv: 'Finansije', domen: 'finansije' },
-  { naziv: 'Proksi Mreza', domen: 'infrastruktura' },
-  { naziv: 'Mobilna Mreza', domen: 'infrastruktura' },
-  { naziv: 'IT Proizvodi', domen: 'poslovanje' },
-  { naziv: 'SpajaPro Engine', domen: 'ai' },
-  { naziv: 'SPAJA Generator za Endzine', domen: 'ai' },
-  { naziv: 'OpenAI Platforma', domen: 'ai' },
+const LOGIN_DELATNOSTI: Array<Pick<PoslovnaDelatnost, 'naziv' | 'domen' | 'sektor'>> = [
+  { naziv: 'Digitalna Industrija', domen: 'poslovanje', sektor: 'analitika_i_operativa' },
+  { naziv: 'Gaming Platforma', domen: 'gejming', sektor: 'gejming' },
+  { naziv: 'AI Platforma', domen: 'ai', sektor: 'ai_sistemi' },
+  { naziv: 'Finansije', domen: 'finansije', sektor: 'bankarstvo' },
+  { naziv: 'Proksi Mreza', domen: 'infrastruktura', sektor: 'infrastruktura' },
+  { naziv: 'Mobilna Mreza', domen: 'infrastruktura', sektor: 'telekom' },
+  { naziv: 'IT Proizvodi', domen: 'poslovanje', sektor: 'trgovina_i_partnerstva' },
+  { naziv: 'SpajaPro Engine', domen: 'ai', sektor: 'ai_sistemi' },
+  { naziv: 'SPAJA Generator za Endzine', domen: 'ai', sektor: 'ai_sistemi' },
+  { naziv: 'OpenAI Platforma', domen: 'ai', sektor: 'ai_sistemi' },
+];
+
+const WORLD_BANK_GLOBAL_ACTIVITY_SEEDS: Array<Pick<PoslovnaDelatnost, 'naziv' | 'domen' | 'sektor'>> = [
+  { naziv: 'Globalni Platni Promet', domen: 'finansije', sektor: 'platni_sistemi' },
+  { naziv: 'Cross-Border FX Settlement', domen: 'finansije', sektor: 'platni_sistemi' },
+  { naziv: 'Treasury & Liquidity Ops', domen: 'finansije', sektor: 'bankarstvo' },
+  { naziv: 'Digital Asset Custody', domen: 'finansije', sektor: 'bankarstvo' },
+  { naziv: 'Licencni Compliance Orchestrator', domen: 'poslovanje', sektor: 'identitet_i_bezbednost' },
+  { naziv: 'AML/KYC Intelligence', domen: 'ai', sektor: 'identitet_i_bezbednost' },
+  { naziv: 'Fraud & Risk Scoring', domen: 'ai', sektor: 'ai_sistemi' },
+  { naziv: 'B2B Procurement Governance', domen: 'poslovanje', sektor: 'analitika_i_operativa' },
+  { naziv: 'Global Partner Marketplace', domen: 'poslovanje', sektor: 'trgovina_i_partnerstva' },
+  { naziv: 'Telecom Discount Clearing', domen: 'infrastruktura', sektor: 'telekom' },
+  { naziv: 'Cloud Infra Resilience', domen: 'infrastruktura', sektor: 'infrastruktura' },
+  { naziv: 'Open Banking API Hub', domen: 'finansije', sektor: 'platni_sistemi' },
+  { naziv: 'RegTech Evidence Vault', domen: 'poslovanje', sektor: 'identitet_i_bezbednost' },
+  { naziv: 'Issuer Licensing Control', domen: 'poslovanje', sektor: 'identitet_i_bezbednost' },
+  { naziv: 'World Bank Persona Sync', domen: 'ai', sektor: 'ai_sistemi' },
+  { naziv: 'Merchant Settlement Network', domen: 'finansije', sektor: 'platni_sistemi' },
+  { naziv: 'Gaming Compliance & Fairness', domen: 'gejming', sektor: 'gejming' },
+  { naziv: 'Global Support Operations', domen: 'poslovanje', sektor: 'analitika_i_operativa' },
+  { naziv: 'Data Residency Routing', domen: 'infrastruktura', sektor: 'infrastruktura' },
+  { naziv: 'Trust & Safety Operations', domen: 'poslovanje', sektor: 'identitet_i_bezbednost' },
 ];
 
 function slug(value: string): string {
@@ -224,43 +319,95 @@ function uniqByNaziv(items: PoslovnaDelatnost[]): PoslovnaDelatnost[] {
   return out;
 }
 
+function riskBySektor(sektor: DelatnostSektor): LicencaRizik {
+  if (sektor === 'bankarstvo' || sektor === 'platni_sistemi' || sektor === 'identitet_i_bezbednost') return 'kriticno';
+  if (sektor === 'ai_sistemi' || sektor === 'infrastruktura' || sektor === 'telekom') return 'visoko';
+  if (sektor === 'gejming') return 'srednje';
+  return 'nisko';
+}
+
+function activityPriority(sektor: DelatnostSektor, domen: PoslovnaDelatnost['domen']) {
+  const risk = riskBySektor(sektor);
+  const regulatornaStrogost = sektor === 'bankarstvo' || sektor === 'platni_sistemi' || sektor === 'identitet_i_bezbednost' ? 95
+    : sektor === 'telekom' || sektor === 'infrastruktura' ? 80
+      : sektor === 'ai_sistemi' ? 75
+        : sektor === 'gejming' ? 65
+          : 55;
+  const trzisteVaznost = domen === 'finansije' ? 95
+    : domen === 'ai' ? 90
+      : domen === 'infrastruktura' ? 85
+        : domen === 'poslovanje' ? 75
+          : 70;
+  const score = Math.round((regulatornaStrogost * 0.6) + (trzisteVaznost * 0.4));
+  return { rizik: risk, regulatornaStrogost, trzisteVaznost, score };
+}
+
+function buildDelatnost(params: {
+  id: string;
+  naziv: string;
+  izvor: PoslovnaDelatnost['izvor'];
+  domen: PoslovnaDelatnost['domen'];
+  sektor: DelatnostSektor;
+}): PoslovnaDelatnost {
+  return {
+    id: params.id,
+    naziv: params.naziv,
+    izvor: params.izvor,
+    domen: params.domen,
+    sektor: params.sektor,
+    prioritet: activityPriority(params.sektor, params.domen),
+  };
+}
+
 function buildDelatnosti(): PoslovnaDelatnost[] {
-  const fromLogin = LOGIN_DELATNOSTI.map((item, idx) => ({
+  const fromLogin = LOGIN_DELATNOSTI.map((item, idx) => buildDelatnost({
     id: `login-${idx + 1}-${slug(item.naziv)}`,
     naziv: item.naziv,
-    izvor: 'login-api' as const,
+    izvor: 'login-api',
     domen: item.domen,
+    sektor: item.sektor,
   }));
 
   const fromPlatformModel = platforme
     .filter((p) => p.kategorija === 'finansije')
-    .map((p) => ({
+    .map((p) => buildDelatnost({
       id: `platform-model-${slug(p.id)}`,
       naziv: `${p.naziv} (${p.kategorija})`,
-      izvor: 'platform-model' as const,
-      domen: 'finansije' as const,
+      izvor: 'platform-model',
+      domen: 'finansije',
+      sektor: 'bankarstvo',
     }))
     .concat(
       platforms
         .filter((p) => p.category === 'finance')
-        .map((p) => ({
+        .map((p) => buildDelatnost({
           id: `platform-en-${slug(p.id)}`,
           naziv: p.name,
-          izvor: 'platform-model' as const,
-          domen: 'finansije' as const,
+          izvor: 'platform-model',
+          domen: 'finansije',
+          sektor: 'bankarstvo',
         })),
     );
 
   const fromCompanyModel = companies
     .filter((c) => c.industry.toLowerCase().includes('fintech') || c.industry.toLowerCase().includes('finance'))
-    .map((c) => ({
+    .map((c) => buildDelatnost({
       id: `company-model-${slug(c.id)}`,
       naziv: c.name,
-      izvor: 'company-model' as const,
-      domen: 'finansije' as const,
+      izvor: 'company-model',
+      domen: 'finansije',
+      sektor: 'bankarstvo',
     }));
 
-  return uniqByNaziv([...fromLogin, ...fromPlatformModel, ...fromCompanyModel]);
+  const fromWorldBankSeeds = WORLD_BANK_GLOBAL_ACTIVITY_SEEDS.map((item, idx) => buildDelatnost({
+    id: `world-bank-service-${idx + 1}-${slug(item.naziv)}`,
+    naziv: item.naziv,
+    izvor: 'world-bank-services',
+    domen: item.domen,
+    sektor: item.sektor,
+  }));
+
+  return uniqByNaziv([...fromLogin, ...fromPlatformModel, ...fromCompanyModel, ...fromWorldBankSeeds]);
 }
 
 function seedStatusForRequirement(req: LicencniZahtev): LicencaStatus {
@@ -464,6 +611,22 @@ function procurementStatusFor(item: LicencaPoDelatnosti): LicencaProcurementStat
   return 'nije_pokrenuto';
 }
 
+function statusForJurisdiction(req: LicencniZahtev, oznaka: GlobalnaJurisdikcijaOznaka): LicencaStatus {
+  if (oznaka === 'RS') return seedStatusForRequirement(req);
+  if (req.klasifikacija === 'operativna') return 'potvrdjena';
+  if (req.klasifikacija === 'softverska') return ['US', 'EU', 'UK', 'CA', 'AU'].includes(oznaka) ? 'potvrdjena' : 'u_nabavci';
+  return 'u_nabavci';
+}
+
+function buildGlobalniStatusi(req: LicencniZahtev): LicencaGlobalniStatus[] {
+  return GLOBALNE_JURISDIKCIJE.map((jur) => ({
+    jurisdikcija: jur.oznaka,
+    status: statusForJurisdiction(req, jur.oznaka),
+    regulatorIliIzdavalac: jur.regulatori[0] ?? req.regulatorIliIzdavalac,
+    rizik: req.rizik,
+  }));
+}
+
 function buildLicenceRows(delatnosti: PoslovnaDelatnost[]): LicencaPoDelatnosti[] {
   const now = new Date().toISOString();
   const rows: LicencaPoDelatnosti[] = [];
@@ -488,6 +651,7 @@ function buildLicenceRows(delatnosti: PoslovnaDelatnost[]): LicencaPoDelatnosti[
         procurementStatus,
         procurementReferenca: procurementStatus === 'u_toku' ? `PROC-${slug(req.code)}-${slug(delatnost.id)}` : null,
         poslednjaIzmenaAt: now,
+        globalniStatusi: buildGlobalniStatusi(req),
       });
     }
   }
@@ -595,11 +759,44 @@ function buildAudit(licence: LicencaPoDelatnosti[], gaps: LicencniGapStavka[]): 
   ];
 }
 
+function buildGlobalniCoverage(licence: LicencaPoDelatnosti[]): AIIQWorldBankLicencniRegistar['globalniCoverage'] {
+  const globalniStatusi = licence.flatMap((item) => item.globalniStatusi);
+  const potvrdjene = globalniStatusi.filter((item) => item.status === 'potvrdjena' || item.status === 'neprimenljivo').length;
+  const uNabavci = globalniStatusi.filter((item) => item.status === 'u_nabavci').length;
+  const nedostaju = globalniStatusi.filter((item) => item.status === 'nedostaje').length;
+  const istekle = globalniStatusi.filter((item) => item.status === 'istekla').length;
+  const coverageProcenat = globalniStatusi.length === 0 ? 0 : Math.round((potvrdjene / globalniStatusi.length) * 100);
+  const poJurisdikciji = GLOBALNE_JURISDIKCIJE.map((jur) => {
+    const scoped = globalniStatusi.filter((item) => item.jurisdikcija === jur.oznaka);
+    const scopedPokrivene = scoped.filter((item) => item.status === 'potvrdjena' || item.status === 'neprimenljivo').length;
+    return {
+      jurisdikcija: jur.oznaka,
+      ukupno: scoped.length,
+      pokrivene: scopedPokrivene,
+      coverageProcenat: scoped.length === 0 ? 0 : Math.round((scopedPokrivene / scoped.length) * 100),
+    };
+  });
+  const kriticniGlobalniGapovi = globalniStatusi.filter((item) => item.rizik === 'kriticno' && item.status !== 'potvrdjena' && item.status !== 'neprimenljivo').length;
+
+  return {
+    ukupnoLicenci: licence.length,
+    ukupnoStatusa: globalniStatusi.length,
+    potvrdjene,
+    uNabavci,
+    nedostaju,
+    istekle,
+    coverageProcenat,
+    kriticniGlobalniGapovi,
+    poJurisdikciji,
+  };
+}
+
 export function buildAIIQWorldBankLicencniRegistar(): AIIQWorldBankLicencniRegistar {
   const delatnosti = buildDelatnosti();
   const licence = buildLicenceRows(delatnosti);
   const gapovi = buildGapovi(licence);
   const coveragePoDelatnosti = buildCoverage(licence, delatnosti);
+  const globalniCoverage = buildGlobalniCoverage(licence);
   const nabavka = buildNabavkaStavke(licence);
   const issuerSummary = getIssuerLicensingSummary();
   const issuerBlockers = getIssuerLicensingBlockers();
@@ -627,6 +824,25 @@ export function buildAIIQWorldBankLicencniRegistar(): AIIQWorldBankLicencniRegis
       summary: issuerSummary,
       blockers: issuerBlockers,
     },
+    globalneJurisdikcije: GLOBALNE_JURISDIKCIJE,
+    globalniCoverage,
+    rolloutFazeGlobalnihLicenci: [
+      {
+        faza: 'FAZA-1-READ-ONLY',
+        status: 'aktivno',
+        opis: 'Globalni multi-jurisdiction model i read-only izveštavanje bez lomljenja postojećih endpointa.',
+      },
+      {
+        faza: 'FAZA-2-GOVERNANCE',
+        status: 'aktivno',
+        opis: 'Governance gate integracija kroz EXTRIMLI EXTREM i EXTRONDOL freeze/signals tok.',
+      },
+      {
+        faza: 'FAZA-3-DOWNSTREAM-SYNC',
+        status: 'planirano',
+        opis: 'Puna downstream sinhronizacija globalnih licencnih signala ka povezanim repozitorijumima.',
+      },
+    ],
   };
 }
 

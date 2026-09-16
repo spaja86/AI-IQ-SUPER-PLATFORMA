@@ -83,6 +83,7 @@ async function runTests(): Promise<void> {
     }
 
     if (isObject(body)) {
+      const payload = isObject(body['data']) ? body['data'] : body;
       if (typeof body['status'] === 'string') {
         assert((body['status'] as string).length > 0, 'status string');
       }
@@ -91,6 +92,13 @@ async function runTests(): Promise<void> {
         assertEqual(body['verzija'], APP_VERSION, 'verzija');
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
+      }
+
+      if (Array.isArray(payload['globalneJurisdikcije'])) {
+        assert((payload['globalneJurisdikcije'] as unknown[]).length >= 10, 'globalneJurisdikcije');
+      }
+      if (isObject(payload['globalniCoverage'])) {
+        assert(typeof payload['globalniCoverage']['coverageProcenat'] === 'number', 'globalniCoverage.coverageProcenat');
       }
     }
   });

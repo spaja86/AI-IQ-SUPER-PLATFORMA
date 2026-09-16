@@ -142,6 +142,13 @@ export interface ExtrimliExtrondolB2bScope {
     freezeTriggers: readonly ['kpi-breach', 'audit-incomplete', 'payment-not-verified'];
     rollbackTriggers: readonly ['kpi-breach-after-promotion', 'payment-revoked', 'governance-regression'];
   };
+  globalLicensingModel: {
+    sourceOfTruth: '/api/aiiq-world-bank-licencni-registar';
+    policy: 'license-for-whole-planet';
+    requiredJurisdictions: readonly ['RS', 'EU', 'US', 'UK', 'UAE', 'SG', 'JP', 'IN', 'BR', 'CA', 'AU', 'ZA'];
+    readinessFormula: '0.45*globalLicenseReadiness + 0.35*activityCoverage + 0.20*(100-criticalGapPenalty)';
+    freezeWhen: readonly ['global-license-readiness-below-threshold', 'critical-global-license-gap-detected'];
+  };
   auditObligations: readonly string[];
 }
 
@@ -192,6 +199,13 @@ export interface ExtrimliExtrondolB2bReadiness {
       formulaHolds: boolean;
       blockerReasons: string[];
     };
+  };
+  globalLicensing: {
+    sourceOfTruth: '/api/aiiq-world-bank-licencni-registar';
+    activityCoverageScore: number;
+    globalLicenseReadinessScore: number;
+    criticalGlobalGapCount: number;
+    freezeRequired: boolean;
   };
 }
 
@@ -333,8 +347,10 @@ export interface ExtrimliExtrondolStartProject {
     'distanceRatioEkvilaterTable',
     'paymentVerification',
     'extremProfiler',
+    'extremProfiler.businessLicensingSignals',
     'extremProfiler.resolutionReadiness',
     'extremProfiler.semaMuSemaFormula',
+    'b2bReadiness.globalLicensing',
     'mobilnaLinija',
     'spajaKod'
   ];
@@ -356,8 +372,10 @@ export interface ExtrimliExtrondolStartProject {
       'distanceRatioEkvilaterTable',
       'paymentVerification',
       'extremProfiler',
+      'extremProfiler.businessLicensingSignals',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
+      'b2bReadiness.globalLicensing',
       'mobilnaLinija',
       'spajaKod',
       'spajaKod.platformTrack'

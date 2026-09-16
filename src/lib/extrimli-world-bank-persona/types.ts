@@ -47,6 +47,9 @@ export interface ExtrimliWorldBankPersonaReport {
     financialContextScore: number;
     extrimliReadinessSignal: number;
     orchestrationReadinessScore: number;
+    activityCoverageScore: number;
+    globalLicenseReadinessScore: number;
+    criticalGlobalGapCount: number;
     combinedReadinessScore: number;
     degraded: boolean;
     degradedSources: string[];
@@ -58,6 +61,15 @@ export interface ExtrimliWorldBankPersonaReport {
     reason: string;
   };
   personaPayload: PersonaRegistrationInput;
+  activityFootprint: {
+    totalActivities: number;
+    prioritizedActivities: Array<{
+      id: string;
+      naziv: string;
+      sektor: string;
+      score: number;
+    }>;
+  };
   subflows: ExtrimliWorldBankPersonaSubflow[];
   sources: {
     worldBank: AiIqWorldBankRezultat;

@@ -4,8 +4,10 @@ import {
   clamp,
   round,
 } from '../extrimli';
+import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import type {
   ExtrimliExtremAcceptanceCriterion,
+  ExtrimliExtremBusinessLicensingSignals,
   ExtrimliExtremConflictIntensity,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
@@ -397,6 +399,35 @@ function buildSpajaKodEncapsulation(params: {
   };
 }
 
+function buildBusinessLicensingSignals(): ExtrimliExtremBusinessLicensingSignals {
+  const registar = buildAIIQWorldBankLicencniRegistar();
+  const activityCoverageScore = round(
+    clamp(
+      registar.coveragePoDelatnosti.length === 0
+        ? 0
+        : registar.coveragePoDelatnosti.reduce((sum, item) => sum + item.procenat, 0) / registar.coveragePoDelatnosti.length,
+      0,
+      100,
+    ),
+    2,
+  );
+  const globalLicenseReadinessScore = round(clamp(registar.globalniCoverage.coverageProcenat, 0, 100), 2);
+  const criticalGlobalGapCount = registar.globalniCoverage.kriticniGlobalniGapovi;
+  const freezeReasons = [
+    ...(activityCoverageScore < 55 ? [`activity-coverage-low:${activityCoverageScore}`] : []),
+    ...(globalLicenseReadinessScore < 65 ? [`global-license-readiness-low:${globalLicenseReadinessScore}`] : []),
+    ...(criticalGlobalGapCount > 0 ? [`critical-global-gaps:${criticalGlobalGapCount}`] : []),
+  ];
+  return {
+    sourceOfTruth: '/api/aiiq-world-bank-licencni-registar',
+    activityCoverageScore,
+    globalLicenseReadinessScore,
+    criticalGlobalGapCount,
+    freezeRequired: freezeReasons.length > 0,
+    freezeReasons,
+  };
+}
+
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const versionRoadmap = getExtrimliVersionRoadmap();
   const degradedSources: string[] = [];
@@ -424,6 +455,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const conflictIntensity = classifyConflict(conflictScore);
   const optimizationTier = mapOptimizationTier(conflictIntensity);
+  const businessLicensingSignals = buildBusinessLicensingSignals();
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
     clamp(
@@ -483,6 +515,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || conflictIntensity === 'CRITICAL'
     || !withinTargets
     || blockerActive
+    || businessLicensingSignals.freezeRequired
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
     || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';
@@ -493,6 +526,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(bottleneckDetected ? ['Browser graphics bottleneck detected in DISKVIT layer.'] : []),
     ...(rekulitiPoRauletu === 'WARN' ? ['REKULITI PO RAULETU remains in warning posture for REZOLUCIJA/EKODOR review.'] : []),
     ...(rekulitiPoRauletu === 'FREEZE' ? ['REKULITI PO RAULETU requires freeze because DISCAN in KIBEN or REZOLUCIJA readiness is blocked.'] : []),
+    ...(businessLicensingSignals.freezeRequired
+      ? [`Global licensing readiness gate triggered: ${businessLicensingSignals.freezeReasons.join(', ')}`]
+      : ['Global licensing readiness is aligned for EXTREM governance.']),
     ...(semaMuSemaFormula.status === 'BLOCKED'
       ? [`ŠEMA formula gate blocked: ${semaMuSemaFormula.blockerReasons.join('; ') || 'MUŠEMA validation failed.'}`]
       : ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA gate is confirmed.']),
@@ -508,6 +544,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (!withinTargets) {
     degradedSources.push('profiler-kpi-breach');
   }
+  if (businessLicensingSignals.freezeRequired) degradedSources.push('global-licensing:freeze-required');
   if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
   if (mobilnaLinija.installationMessages.status === 'BLOCKED') degradedSources.push('mobilna-linija:installation-blocked');
   if (mobilnaLinija.packagePlanHint.readiness === 'BLOCKED') degradedSources.push('mobilna-linija:package-hint-blocked');
@@ -583,6 +620,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       description: 'Invalid ŠEMA formula env inputs are additive-only (no 500), explicitly marked with substitutions, and kept in degraded posture.',
       passed: semaMuSemaFormula.inputSubstitutions.length === 0
         || (semaMuSemaFormula.status === 'BLOCKED' && degradedSources.length > 0),
+    },
+    {
+      id: 'business-licensing-global-gate',
+      description: 'EXTREM includes additive business-licensing signals for activity coverage and global license readiness with freeze indicators on critical gaps.',
+      passed: Number.isFinite(businessLicensingSignals.activityCoverageScore)
+        && Number.isFinite(businessLicensingSignals.globalLicenseReadinessScore)
+        && businessLicensingSignals.activityCoverageScore >= 0
+        && businessLicensingSignals.activityCoverageScore <= 100
+        && businessLicensingSignals.globalLicenseReadinessScore >= 0
+        && businessLicensingSignals.globalLicenseReadinessScore <= 100,
     },
     {
       id: 'version-roadmap-lock',
@@ -671,6 +718,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       conflictIntensity,
       optimizationTier,
     },
+    businessLicensingSignals,
     semaMuSemaFormula,
     spajaKodEncapsulation,
     resolutionReadiness: {
@@ -725,6 +773,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
 export type {
   ExtrimliExtremAcceptanceCriterion,
+  ExtrimliExtremBusinessLicensingSignals,
   ExtrimliExtremConflictIntensity,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
