@@ -954,9 +954,12 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
   const watchSignals = signalResults.filter((signal) => signal.status === 'WATCH').map((signal) => signal.kind);
   const degradedSignals = signalResults.filter((signal) => signal.degraded).map((signal) => signal.kind);
 
-  degradedSources.push(
-    ...degradedSignals.map((signal) => `extrimli_extrem_petlje_${toPetljaSignalIdentifier(signal)}-degraded`),
-  );
+  for (const signal of degradedSignals) {
+    const degradedSource = `extrimli_extrem_petlje_${toPetljaSignalIdentifier(signal)}-degraded`;
+    if (!degradedSources.includes(degradedSource)) {
+      degradedSources.push(degradedSource);
+    }
+  }
 
   return {
     term: 'EXTRIMLI EXTRONDOL EXTREM PETLJE',
