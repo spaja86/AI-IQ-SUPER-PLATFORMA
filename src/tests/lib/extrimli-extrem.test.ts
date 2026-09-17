@@ -159,6 +159,13 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'kraljevski-pravni-univerzitet-track-lock' && item.passed), 'track lock criterion must pass');
   });
 
+  await test('KRALJEVSKI PRAVNI UNIVERZITET track keeps locked EXTREM, EXTRONDOL, and SPAJA KOD boundaries', () => {
+    const track = getExtrimliExtremProfilerReport().kraljevskiPravniUniverzitetTrack;
+    assert(track.technicalSourceOfTruth === '/api/extrimli/extrem', 'technical source boundary drifted');
+    assert(track.governanceSourceOfTruth === '/api/extrimli/extrondol', 'governance source boundary drifted');
+    assert(track.publicBoundary === '/api/extrimli/spaja-kod', 'public boundary drifted');
+  });
+
   await test('default report confirms canonical ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA formula', () => {
     const report = getExtrimliExtremProfilerReport();
     assert(report.semaMuSemaFormula.canonicalExpression === EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION, 'canonical formula mismatch');
