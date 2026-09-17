@@ -402,8 +402,8 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
   documentationBoundary: {
     sourceMaterialPolicy: 'documentation-only';
     sourceReferences: readonly [{
-      label: 'Shared ChatGPT legal explainer';
-      usage: 'docs-only-reference';
+      label: string;
+      usage: 'repo-doc-reference';
     }];
     completedTopics: readonly [
       'KRALJEVSKI PRAVNI UNIVERZITET',

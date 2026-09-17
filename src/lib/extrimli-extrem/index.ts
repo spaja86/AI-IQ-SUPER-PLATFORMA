@@ -1123,8 +1123,8 @@ function buildKraljevskiPravniUniverzitetTrack(): ExtrimliExtremKraljevskiPravni
       sourceMaterialPolicy: 'documentation-only',
       sourceReferences: [
         {
-          label: 'Shared ChatGPT legal explainer',
-          usage: 'docs-only-reference',
+          label: 'docs/EXTRIMLI.md#kraljevski-pravni-univerzitet',
+          usage: 'repo-doc-reference',
         },
       ],
       completedTopics: [
