@@ -1521,7 +1521,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       passed: kraljevskiPravniUniverzitetTrack.additiveOnly
         && kraljevskiPravniUniverzitetTrack.technicalSourceOfTruth === '/api/extrimli/extrem'
         && kraljevskiPravniUniverzitetTrack.governanceSourceOfTruth === '/api/extrimli/extrondol'
-        && kraljevskiPravniUniverzitetTrack.publicBoundary === '/api/extrimli/spaja-kod',
+        && kraljevskiPravniUniverzitetTrack.publicBoundary === '/api/extrimli/spaja-kod'
+        && kraljevskiPravniUniverzitetTrack.readiness.status === 'READY',
     },
     {
       id: 'kraljevski-pravni-univerzitet-vocabulary',
