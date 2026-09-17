@@ -1,4 +1,5 @@
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
+import type { ExtrimliDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
 import type { PetljaInput, PetljaReason, PetljaStatus } from '../petlje';
@@ -575,6 +576,7 @@ export interface ExtrimliExtremProfilerReport {
     wawePromotionEligible: boolean;
     reasons: string[];
   };
+  dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarExtremTrack;
   spajaproTrack: ExtrimliSpajaproExtremTrack;
   roadmapAlignment: {
     sourceProgram: string;

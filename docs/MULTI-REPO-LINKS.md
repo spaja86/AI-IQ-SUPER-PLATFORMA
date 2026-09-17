@@ -987,6 +987,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | Developer/Create roadmap lock (Verzije 1–7) | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror staged roadmap contract and governance checkpoints in downstream runbooks |
 | EXTREM freeze/warning separation and DISKVIT governance signal posture | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync runbook interpretation for warning vs blocked freeze triggers |
 | EXTRONDOL orchestration core (`releaseAuditSummary`, `releaseReadinessScorecard`, `contractDriftReport`, `governanceConformance`) | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream governance consumers aligned with mandatory payload |
+| DOKER/KURAT/IZEK/DOKAR additive quartet track | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync public-safe quartet summary and downstream-sync interpretation without exposing internal mapping |
 | Program expansion proposals (canary dashboard, PR single-pane summary, contract evolution log, rehearsal, KPI alarms) | `spaja86/IO-OPENUI-AO` — Follow-up required | Track implementation status and compatibility notes as additive governance features |
 
 **Downstream tasks:**

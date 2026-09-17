@@ -4,6 +4,7 @@ import {
   clamp,
   round,
 } from '../extrimli';
+import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
   runDikPetlja,
   runDirektPetlja,
@@ -1424,6 +1425,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     conflictIntensity,
     rekulitiPoRauletu,
   });
+  const dokerKuratIzekDokarTrack = buildDokerKuratIzekDokarExtremTrack({
+    freezeRequired,
+    conflictIntensity,
+  });
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
@@ -1613,6 +1618,23 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && spajaKodEncapsulation.exposurePolicy.exposesInternalSignalInputs === false,
     },
     {
+      id: 'doker-kurat-izek-dokar-overlay-lock',
+      description: 'DOKER/KURAT/IZEK/DOKAR stays additive, ordered, mandatory, and keeps DOKER bound to downstream-sync semantics.',
+      passed: dokerKuratIzekDokarTrack.vocabulary.additiveOnly
+        && dokerKuratIzekDokarTrack.vocabulary.ordered
+        && dokerKuratIzekDokarTrack.vocabulary.mandatoryTokens
+        && dokerKuratIzekDokarTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR'
+        && dokerKuratIzekDokarTrack.vocabulary.tokenSequence[0].signalRole === 'downstream-sync',
+    },
+    {
+      id: 'doker-kurat-izek-dokar-extrem-freeze',
+      description: 'EXTREM owns the technical quartet signal and independently controls freeze-sensitive statuses before EXTRONDOL governance.',
+      passed: dokerKuratIzekDokarTrack.technicalSignalEngine === 'EXTREM'
+        && dokerKuratIzekDokarTrack.governanceConsumer === 'EXTRONDOL'
+        && dokerKuratIzekDokarTrack.freezeControlledByExtrem === freezeRequired
+        && dokerKuratIzekDokarTrack.sequenceStates[1].signalRole === 'technical-risk',
+    },
+    {
       id: 'spajapro-terminology-lock',
       description: 'SPAJAPRO uses the locked ODIT → KODER token sequence as an additive interpretation track on top of EXTRIMLI.',
       passed: spajaproTrack.vocabulary.layering === 'extends-existing-extrimli-stack'
@@ -1714,6 +1736,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       wawePromotionEligible: !freezeRequired,
       reasons: governanceReasons.length > 0 ? governanceReasons : ['Profiler signal is stable and ready for WAWE promotion.'],
     },
+    dokerKuratIzekDokarTrack,
     spajaproTrack,
     roadmapAlignment: {
       sourceProgram: versionRoadmap.programName,

@@ -22,6 +22,11 @@ import {
   buildSpajaproGovernanceTrack,
   buildSpajaproPublicBoundaryStatus,
 } from '../extrimli-spajapro-track';
+import {
+  buildDokerKuratIzekDokarGovernanceTrack,
+  buildDokerKuratIzekDokarPublicBoundaryStatus,
+  getGovernanceTechnicalRiskStatusFromExtremTrack,
+} from '../extrimli-doker-kurat-izek-dokar-track';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
@@ -661,6 +666,7 @@ function buildPetljeGovernance(params: {
 
 function buildSpajaKodFacade(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  dokerKuratIzekDokarTrack: ExtrimliExtrondolReport['dokerKuratIzekDokarTrack'];
   promotionFreeze: boolean;
   currentWawe: ExtrimliExtrondolWaweStage;
   eligibleNextWawe: ExtrimliExtrondolWaweStage;
@@ -690,6 +696,10 @@ function buildSpajaKodFacade(params: {
       : 'READY';
   const platformTrack = buildSpajaproPublicBoundaryStatus({
     publicStatus: status,
+  });
+  const dokerKuratIzekDokarTrack = buildDokerKuratIzekDokarPublicBoundaryStatus({
+    sequenceStates: params.dokerKuratIzekDokarTrack.sequenceStates,
+    promotionFreeze: params.promotionFreeze,
   });
 
   return {
@@ -724,6 +734,7 @@ function buildSpajaKodFacade(params: {
       degraded: params.degraded,
     },
     platformTrack,
+    dokerKuratIzekDokarTrack,
     blockers,
     exportContract: {
       includedInInstrukcija: true,
@@ -1669,8 +1680,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   };
   const technicalState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DEKER')?.status;
   const conflictState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DUNOR')?.status;
+  const dokerKuratIzekDokarTrack = buildDokerKuratIzekDokarGovernanceTrack({
+    technicalRiskStatus: getGovernanceTechnicalRiskStatusFromExtremTrack(extremProfiler.dokerKuratIzekDokarTrack.sequenceStates),
+    promotionFreeze,
+    releaseAuditStatus: releaseAuditSummary.status,
+    downstreamSyncComplete,
+    humanReviewComplete,
+    rollbackPlanRequired: releaseAuditSummary.rollbackPlanRequired,
+  });
   const spajaKod = buildSpajaKodFacade({
     extremProfiler,
+    dokerKuratIzekDokarTrack,
     promotionFreeze,
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
@@ -1723,6 +1743,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
+        'dokerKuratIzekDokarTrack.sequenceStates',
         'spajaproTrack.sequenceStates',
         'b2bScope.subscriptionPackage',
         'b2bScope.unlimitedUseGuardrails',
@@ -1929,6 +1950,28 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'payment-verification-gate',
       description: 'Payment verification must pass invoice resolution, evidence package, and privacy/redaction controls before WAWE promotion and B2B activation.',
       passed: paymentVerification.status === 'VERIFIED',
+    },
+    {
+      id: 'doker-kurat-izek-dokar-overlay-lock',
+      description: 'DOKER/KURAT/IZEK/DOKAR stays additive, ordered, and mandatory without mutating the locked SPAJAPRO sequence.',
+      passed: dokerKuratIzekDokarTrack.vocabulary.additiveOnly
+        && dokerKuratIzekDokarTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR'
+        && spajaproTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'ODIT,DEKER,DUNOR,SUMOR,OKET,DAKOR,EKSER,DOKER,DUKAR,DONAR,KODER',
+    },
+    {
+      id: 'doker-kurat-izek-dokar-governance-alignment',
+      description: 'EXTRONDOL maps the quartet into downstream-sync, technical-risk, audit/review, and rollback governance while keeping DOKER explicit for IO-OPENUI-AO.',
+      passed: dokerKuratIzekDokarTrack.releaseAuditAligned
+        && dokerKuratIzekDokarTrack.downstreamReferenceExplicit
+        && dokerKuratIzekDokarTrack.sequenceStates[0].status === (downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED')
+        && dokerKuratIzekDokarTrack.sequenceStates[2].status === (releaseAuditSummary.status === 'BLOCKED' ? 'BLOCKED' : humanReviewComplete ? 'READY' : 'REQUIRED'),
+    },
+    {
+      id: 'doker-kurat-izek-dokar-public-boundary',
+      description: 'SPAJA KOD exposes only a public-safe quartet summary while internal DOKER/KURAT/IZEK/DOKAR mapping remains hidden.',
+      passed: spajaKod.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD'
+        && spajaKod.dokerKuratIzekDokarTrack.internalMappingVisibility === 'HIDDEN'
+        && spajaKod.dokerKuratIzekDokarTrack.tokenSummaries.length === 4,
     },
     {
       id: 'spajapro-terminology-lock',
@@ -2189,6 +2232,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     objektnoOrijentisanaReprodukcija,
     epicElikvadenti,
     mobilnaLinija,
+    dokerKuratIzekDokarTrack,
     spajaproTrack,
     spajaKod,
     nivoDuet: {

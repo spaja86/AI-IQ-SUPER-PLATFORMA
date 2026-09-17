@@ -137,8 +137,10 @@ async function runTests(): Promise<void> {
         };
         extremProfiler: {
           profile: { conflictIntensity: string; bottleneckLayer: string };
+          dokerKuratIzekDokarTrack: { sequenceStates: Array<{ token: string; status: string }> };
           petljeSignals: { summary: { readinessScore: number; conflictScore: number; freezeRequired: boolean } };
         };
+        dokerKuratIzekDokarTrack: { sequenceStates: Array<{ token: string; status: string }> };
         releaseAuditSummary: {
           semaFormulaGovernance: { canonicalExpression: string; status: string; muSemaConclusion: string };
           epicElikvadentiGovernance: { sourceOfTruth: string; status: string };
@@ -170,6 +172,8 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body.data.mobilnaLinija.freezeReasons), 'mobilna freeze reasons should be array');
     assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.extremProfiler.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
     assert(body.data.extremProfiler.profile.bottleneckLayer === 'DISKVIT', 'EXTREM profiler bottleneck layer mismatch');
+    assert(body.data.extremProfiler.dokerKuratIzekDokarTrack.sequenceStates.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected EXTREM quartet token order');
+    assert(body.data.dokerKuratIzekDokarTrack.sequenceStates.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected EXTRONDOL quartet token order');
     assert(body.data.extremProfiler.petljeSignals.summary.readinessScore >= 0, 'missing petlje readiness summary');
     assert(typeof body.data.extremProfiler.petljeSignals.summary.freezeRequired === 'boolean', 'petlje freeze summary should be boolean');
     assert(body.data.releaseAuditSummary.semaFormulaGovernance.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'missing formula governance expression');
@@ -203,6 +207,7 @@ async function runTests(): Promise<void> {
         };
         objektnoOrijentisanaProngilacija: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         objektnoOrijentusanoUzdizanjeEpskihElikvadenata: { term: string; contractVersion: string; readiness: { status: string; score: number } };
+        dokerKuratIzekDokarTrack: { sequenceStates: Array<{ token: string; status: string }>; freezeControlledByExtrem: boolean };
         petljeSignals: {
           sourceOfTruth: string;
           summary: { readinessScore: number; conflictScore: number; freezeRequired: boolean };
@@ -233,6 +238,8 @@ async function runTests(): Promise<void> {
       'unexpected EXTREM epic elikvadenti contract',
     );
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status), 'unexpected EXTREM epic elikvadenti status');
+    assert(body.data.dokerKuratIzekDokarTrack.sequenceStates.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected EXTREM quartet token order');
+    assert(typeof body.data.dokerKuratIzekDokarTrack.freezeControlledByExtrem === 'boolean', 'quartet freeze control should be boolean');
     assert(body.data.petljeSignals.sourceOfTruth === '/api/extrimli/extrem', 'unexpected EXTREM petlje source');
     assert(body.data.petljeSignals.summary.readinessScore >= 0, 'petlje readiness score should be present');
     assert(typeof body.data.petljeSignals.summary.freezeRequired === 'boolean', 'petlje freeze should be boolean');
@@ -257,6 +264,7 @@ async function runTests(): Promise<void> {
         completeness: { consistent: boolean; exportReady: boolean };
         readiness: { status: string; governanceOutcome: string; promotionFreeze: boolean };
         publicSignals: { auditStatus: string; degraded: boolean };
+        dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
       };
     };
@@ -269,6 +277,10 @@ async function runTests(): Promise<void> {
     assert(['ALLOW', 'WARN', 'FREEZE'].includes(body.data.readiness.governanceOutcome), 'unexpected SPAJA KOD governance outcome');
     assert(typeof body.data.readiness.promotionFreeze === 'boolean', 'SPAJA KOD promotionFreeze should be boolean');
     assert(['READY', 'BLOCKED'].includes(body.data.publicSignals.auditStatus), 'unexpected SPAJA KOD audit status');
+    assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');
+    assert(body.data.dokerKuratIzekDokarTrack.tokenSummaries.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected quartet public token order');
+    assert(body.data.dokerKuratIzekDokarTrack.tokenSummaries.every((item) => ['READY', 'WATCH', 'BLOCKED'].includes(item.status)), 'quartet public token statuses must stay public-safe');
     assert(Array.isArray(body.data.blockers), 'SPAJA KOD blockers should be an array');
   });
 
