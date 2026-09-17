@@ -33,6 +33,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 | NIVO DUET / DINKOS integration domain | `src/lib/extrimli-extrondol/**`, `src/lib/duet/**`, `src/app/api/duet/**` | DUET signal mapping (`status/overallScore/warnings`) into EXTRONDOL WAWE orchestration with DINKOS contract lock |
 | Export layer | `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/app/api/extrimli/instrukcija/**` | Snapshot i developer-facing export bundle |
 | Quality gate | `.github/workflows/extrimli-validator.yml` | Standardni validator i KPI gate |
+| Governance conformance | `.github/workflows/extrimli-governance-conformance.yml` | Periodični drift + hard-gate conformance audit (weekly + manual) |
 | MAKSIMUS integration gate | `.github/workflows/maksimus-validator.yml` | Verifikuje EXTRIMLI signal ingest i orchestration alignment |
 | GitHub governance | `.github/workflows/extrimli-external-github.yml` | Audit, downstream reference i external surface provera |
 | Deploy governance | `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml` | Build, rollout, rollback i production sign-off |
@@ -88,6 +89,7 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 |---|---|
 | Canonical docs | `docs/EXTRIMLI.md`, `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `docs/MULTI-REPO-LINKS.md` |
 | Governance workflow | `.github/workflows/extrimli-external-github.yml` |
+| Governance conformance workflow | `.github/workflows/extrimli-governance-conformance.yml` |
 | Deploy workflows | `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml` |
 | Quality gate | `.github/workflows/extrimli-validator.yml` |
 
@@ -182,6 +184,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 - EXTRONDEND i EXTRONDOL moraju imati explicit versioned contract polja i source-of-truth endpoint
 - NIVO DUET / DINKOS mapiranje mora imati isti KPI i security gate kao EXTRONDOL i DUET validatori
 - EXTRONDOL B2B polja moraju ostati additive-only i backward-compatible
+- `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance` moraju ostati additive-only i bez promene source-of-truth ruta
 - B2B audit completeness: contract/onboarding/downstream-sync/operational approval status mora biti prisutan pre promocije
 - Security boundary: bez sekreta u kodu, sve kroz GitHub/Vercel Secrets
 - Human review obavezan pre promocije
@@ -198,6 +201,7 @@ Za `spaja86/IO-OPENUI-AO` ostaju obavezni sledeći follow-up koraci:
 | Risk / engine evaluation | ≤ 50ms |
 | API response | ≤ 200ms |
 | Build duration | ≤ 3 min |
+| Governance conformance cadence | weekly (`0 4 * * 1`) |
 | Downstream sync success | 100% |
 | Audit evidence coverage | 100% |
 | Human review before promotion | required |

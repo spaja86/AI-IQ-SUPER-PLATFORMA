@@ -255,6 +255,92 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
   rollbackPlanRequired: true;
 }
 
+export interface ExtrimliExtrondolReleaseReadinessScorecardCheck {
+  id: string;
+  label: string;
+  required: boolean;
+  status: 'PASS' | 'WARN' | 'FAIL';
+  details: string;
+}
+
+export interface ExtrimliExtrondolReleaseReadinessScorecard {
+  sourceOfTruth: '/api/extrimli/extrondol';
+  generatedAt: string;
+  coreDomains: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL'];
+  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+  status: 'READY' | 'WATCH' | 'BLOCKED';
+  totalChecks: number;
+  passedChecks: number;
+  warningChecks: number;
+  failedChecks: number;
+  checks: ExtrimliExtrondolReleaseReadinessScorecardCheck[];
+}
+
+export interface ExtrimliExtrondolCanaryRingMetrics {
+  sourceOfTruth: '/api/extrimli/extrondol';
+  mode: 'ring-based-progressive-rollout';
+  autoFreezeEnabled: true;
+  ringSequence: readonly ['RING-0-CONTRACT', 'RING-1-STAGING', 'RING-2-CANARY', 'RING-3-PRODUCTION', 'RING-4-RESILIENCE'];
+  activeRing: ExtrimliExtrondolB2bReadiness['tenant']['rolloutRing'];
+  thresholds: {
+    readinessMinForCanary: number;
+    evaluationMaxMs: number;
+    apiResponseMaxMs: number;
+  };
+  observed: {
+    orchestrationReadinessScore: number;
+    evaluationMs: number;
+    apiResponseMs: number;
+    freezeTriggered: boolean;
+    freezeReasons: string[];
+  };
+}
+
+export interface ExtrimliExtrondolIncidentPlaybook {
+  sourceOfTruth: '/api/extrimli/extrondol';
+  required: true;
+  flow: readonly ['trigger', 'freeze', 'rollback', 'postmortem'];
+  triggerConditions: readonly ['kpi-breach', 'audit-incomplete', 'downstream-sync-missing', 'extrem-freeze', 'payment-not-verified'];
+  execution: {
+    triggerDetected: boolean;
+    freezeActivated: boolean;
+    rollbackPrepared: true;
+    postmortemRequired: true;
+  };
+}
+
+export interface ExtrimliExtrondolContractDriftReport {
+  sourceOfTruth: '/api/extrimli/extrondol';
+  required: true;
+  comparedArtifacts: readonly [
+    'src/lib/extrimli-extrondol/types.ts',
+    'src/lib/extrimli-extrondol/index.ts',
+    'src/app/api/extrimli/extrondol/route.ts',
+    'docs/EXTRIMLI.md',
+    'docs/EXTRIMLI-EXTERNAL-GITHUB.md',
+    '.github/workflows/extrimli-validator.yml',
+    '.github/workflows/extrimli-external-github.yml',
+    '.github/workflows/extrimli-governance-conformance.yml'
+  ];
+  checks: {
+    sourceOfTruthRoutesAligned: boolean;
+    contractVersionAligned: boolean;
+    waweModelAligned: boolean;
+    hardGateEvidenceAligned: boolean;
+  };
+  status: 'ALIGNED' | 'DRIFT_DETECTED';
+  blockers: string[];
+}
+
+export interface ExtrimliExtrondolGovernanceConformance {
+  sourceOfTruth: '/api/extrimli/extrondol';
+  workflow: '.github/workflows/extrimli-governance-conformance.yml';
+  schedule: '0 4 * * 1';
+  required: true;
+  status: 'PASS' | 'FAIL';
+  blockers: string[];
+}
+
 export type ExtrimliExtrondolPaymentVerificationStatus = 'VERIFIED' | 'BLOCKED';
 export type ExtrimliExtrondolPaymentResolutionPath = 'paid' | 'correction-resolved' | 'unresolved';
 export type ExtrimliExtrondolPaymentReferenceClassification = 'public-safe' | 'internal-only' | 'unclassified';
@@ -352,7 +438,12 @@ export interface ExtrimliExtrondolStartProject {
     'extremProfiler.semaMuSemaFormula',
     'b2bReadiness.globalLicensing',
     'mobilnaLinija',
-    'spajaKod'
+    'spajaKod',
+    'releaseReadinessScorecard',
+    'canaryRingMetrics',
+    'incidentPlaybook',
+    'contractDriftReport',
+    'governanceConformance'
   ];
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
@@ -378,7 +469,12 @@ export interface ExtrimliExtrondolStartProject {
       'b2bReadiness.globalLicensing',
       'mobilnaLinija',
       'spajaKod',
-      'spajaKod.platformTrack'
+      'spajaKod.platformTrack',
+      'releaseReadinessScorecard',
+      'canaryRingMetrics',
+      'incidentPlaybook',
+      'contractDriftReport',
+      'governanceConformance'
     ];
   };
   qualityGates: {
@@ -540,6 +636,11 @@ export interface ExtrimliExtrondolReport {
   degradedMode: 'partial-payload-no-500';
   degradedSources: string[];
   releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
+  releaseReadinessScorecard: ExtrimliExtrondolReleaseReadinessScorecard;
+  canaryRingMetrics: ExtrimliExtrondolCanaryRingMetrics;
+  incidentPlaybook: ExtrimliExtrondolIncidentPlaybook;
+  contractDriftReport: ExtrimliExtrondolContractDriftReport;
+  governanceConformance: ExtrimliExtrondolGovernanceConformance;
   acceptanceCriteria: ExtrimliExtrondolAcceptanceCriterion[];
   integrationBoundaries: {
     dependsOn: string[];

@@ -12,6 +12,7 @@ on:
       - '.github/workflows/extrimli-external-github.yml'
       - '.github/workflows/extrimli-spaja-deploy.yml'
       - '.github/workflows/extrimli-trance-extrem-deploy.yml'
+      - '.github/workflows/extrimli-governance-conformance.yml'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
       - 'src/lib/extrimli-extendol/**'
@@ -39,6 +40,7 @@ on:
       - '.github/workflows/extrimli-external-github.yml'
       - '.github/workflows/extrimli-spaja-deploy.yml'
       - '.github/workflows/extrimli-trance-extrem-deploy.yml'
+      - '.github/workflows/extrimli-governance-conformance.yml'
       - 'src/lib/extrimli/instrukcija.ts'
       - 'src/lib/extrimli/export-bundle.ts'
       - 'src/lib/extrimli-extendol/**'
@@ -98,6 +100,7 @@ jobs:
           assert(doc.includes('extrimli:external-github'), 'canonical doc must declare extrimli:external-github label');
           assert(doc.includes('spaja86/IO-OPENUI-AO'), 'canonical doc must declare downstream repo');
           assert(doc.includes('.github/workflows/extrimli-external-github.yml'), 'canonical doc must reference governance workflow');
+          assert(doc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'canonical doc must reference governance conformance workflow');
           assert(doc.includes('WAWE 1') && doc.includes('WAWE 5'), 'canonical doc must define WAWE 1-5 rollout phases');
           assert(doc.includes('Promotion freeze'), 'canonical doc must define promotion freeze guard');
           assert(doc.includes('docs/EXTRIMLI.md') && doc.includes('docs/MULTI-REPO-LINKS.md'), 'canonical doc must lock source-of-truth docs');
@@ -112,10 +115,12 @@ jobs:
           assert(links.includes('EXTRIMLI EXTRONDEND aggregation surface') && links.includes('EXTRIMLI EXTRONDOL orchestration surface'), 'multi-repo links must include EXTRONDEND/EXTRONDOL sections');
           assert(links.includes('EXTRIMLI NIVO DUET / DINKOS signal contract'), 'multi-repo links must include NIVO DUET / DINKOS section');
           assert(links.includes('EXTRIMLI EXTEMEL/EXTREMOL WAWE map'), 'multi-repo links must include EXTRIMLI WAWE map');
+          assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include governance conformance section');
           assert(links.includes('IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB'), 'multi-repo links must include bidirectional audit convention');
           assert(extrimli.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'EXTRIMLI doc must reference canonical external GitHub plan');
           assert(extrimli.includes('KORON'), 'EXTRIMLI doc must declare KORON scope');
           assert(extrimli.includes('Locked source-of-truth set'), 'EXTRIMLI doc must lock source-of-truth artifact set');
+          assert(extrimli.includes('releaseReadinessScorecard') && extrimli.includes('contractDriftReport') && extrimli.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance payload fields');
           assert(Array.isArray(agent.workflows) && agent.workflows.includes('.github/workflows/extrimli-external-github.yml'), 'agent config must include governance workflow');
           assert(Array.isArray(agent.releaseDocs) && agent.releaseDocs.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'agent config must include canonical plan doc');
           assert(agent.githubSurface?.workflow === '.github/workflows/extrimli-external-github.yml', 'agent config githubSurface.workflow mismatch');

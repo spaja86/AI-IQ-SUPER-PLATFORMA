@@ -38,6 +38,7 @@ on:
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
       - '.github/workflows/extrimli-external-github.yml'
+      - '.github/workflows/extrimli-governance-conformance.yml'
       - '.github/workflows/extrimli-validator.yml'
       - '.github/workflows/duet-validator.yml'
     types: [opened, synchronize, reopened, labeled]
@@ -79,6 +80,7 @@ on:
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
       - '.github/workflows/extrimli-external-github.yml'
+      - '.github/workflows/extrimli-governance-conformance.yml'
   workflow_dispatch:
 
 concurrency:

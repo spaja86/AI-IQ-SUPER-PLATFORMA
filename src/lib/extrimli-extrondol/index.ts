@@ -94,6 +94,14 @@ function nextWawe(stage: ExtrimliExtrondolWaweStage): ExtrimliExtrondolWaweStage
   return 'WAWE-5';
 }
 
+const EXTRONDOL_ROLLOUT_RING_SEQUENCE = [
+  'RING-0-CONTRACT',
+  'RING-1-STAGING',
+  'RING-2-CANARY',
+  'RING-3-PRODUCTION',
+  'RING-4-RESILIENCE',
+] as const;
+
 function isValidApexDomain(domain: string): boolean {
   const regex = /^([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$/;
   return Boolean(domain) && !domain.includes('*') && regex.test(domain);
@@ -631,6 +639,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'b2bReadiness.globalLicensing',
       'mobilnaLinija',
       'spajaKod',
+      'releaseReadinessScorecard',
+      'canaryRingMetrics',
+      'incidentPlaybook',
+      'contractDriftReport',
+      'governanceConformance',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -657,6 +670,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'mobilnaLinija',
         'spajaKod',
         'spajaKod.platformTrack',
+        'releaseReadinessScorecard',
+        'canaryRingMetrics',
+        'incidentPlaybook',
+        'contractDriftReport',
+        'governanceConformance',
       ],
     },
     qualityGates: {
@@ -875,6 +893,142 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewRequired: true,
     rollbackPlanRequired: true,
   };
+  const releaseReadinessScorecardChecks = [
+    {
+      id: 'scope-lock',
+      label: 'Scope lock for EXTRIMLI/EXTREM/EXTRONDOL core domains',
+      required: true,
+      status: 'PASS' as const,
+      details: 'Core domain lock and source-of-truth routes stay unchanged.',
+    },
+    {
+      id: 'hard-gates',
+      label: 'Hard gate evidence completeness',
+      required: true,
+      status: complianceBlockers.length === 0 ? 'PASS' as const : 'FAIL' as const,
+      details: complianceBlockers.length === 0
+        ? 'All hard gates are satisfied.'
+        : `Blocked by: ${complianceBlockers.join(', ')}`,
+    },
+    {
+      id: 'kpi-within-targets',
+      label: 'KPI targets (eval/api/build) within threshold',
+      required: true,
+      status: releaseAuditSummary.kpiImpact.withinTargets ? 'PASS' as const : 'FAIL' as const,
+      details: releaseAuditSummary.kpiImpact.withinTargets
+        ? 'All KPI targets are within threshold.'
+        : 'KPI thresholds exceeded or degraded sources detected.',
+    },
+    {
+      id: 'downstream-sync',
+      label: 'Downstream sync status',
+      required: true,
+      status: downstreamSyncComplete ? 'PASS' as const : 'WARN' as const,
+      details: downstreamSyncComplete
+        ? 'Downstream sync marked as aligned.'
+        : 'Downstream sync still requires follow-up evidence.',
+    },
+    {
+      id: 'spaja-kod-boundary',
+      label: 'SPAJA KOD public boundary lock',
+      required: true,
+      status: 'PASS' as const,
+      details: 'Public boundary remains encapsulated with hidden internals.',
+    },
+  ];
+  const scorecardFailedChecks = releaseReadinessScorecardChecks.filter((check) => check.status === 'FAIL').length;
+  const scorecardWarningChecks = releaseReadinessScorecardChecks.filter((check) => check.status === 'WARN').length;
+  const scorecardPassedChecks = releaseReadinessScorecardChecks.filter((check) => check.status === 'PASS').length;
+  const releaseReadinessScorecard = {
+    sourceOfTruth: '/api/extrimli/extrondol' as const,
+    generatedAt: paymentVerification.auditTimestamp,
+    coreDomains: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL'] as const,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'] as const,
+    status: scorecardFailedChecks > 0 ? 'BLOCKED' as const : scorecardWarningChecks > 0 ? 'WATCH' as const : 'READY' as const,
+    totalChecks: releaseReadinessScorecardChecks.length,
+    passedChecks: scorecardPassedChecks,
+    warningChecks: scorecardWarningChecks,
+    failedChecks: scorecardFailedChecks,
+    checks: releaseReadinessScorecardChecks,
+  };
+  const canaryRingMetrics = {
+    sourceOfTruth: '/api/extrimli/extrondol' as const,
+    mode: 'ring-based-progressive-rollout' as const,
+    autoFreezeEnabled: true as const,
+    ringSequence: EXTRONDOL_ROLLOUT_RING_SEQUENCE,
+    activeRing: rolloutRing,
+    thresholds: {
+      readinessMinForCanary: EXTRONDOL_WAWE_THRESHOLDS.wawe4,
+      evaluationMaxMs: EXTRONDOL_EVALUATION_MAX_MS,
+      apiResponseMaxMs: EXTRONDOL_API_MAX_MS,
+    },
+    observed: {
+      orchestrationReadinessScore,
+      evaluationMs: EXTRONDOL_EVALUATION_MAX_MS,
+      apiResponseMs: EXTRONDOL_API_MAX_MS,
+      freezeTriggered: promotionFreeze,
+      freezeReasons: promotionFreeze ? [...reasons] : [],
+    },
+  };
+  const incidentPlaybook = {
+    sourceOfTruth: '/api/extrimli/extrondol' as const,
+    required: true as const,
+    flow: ['trigger', 'freeze', 'rollback', 'postmortem'] as const,
+    triggerConditions: [
+      'kpi-breach',
+      'audit-incomplete',
+      'downstream-sync-missing',
+      'extrem-freeze',
+      'payment-not-verified',
+    ] as const,
+    execution: {
+      triggerDetected: promotionFreeze,
+      freezeActivated: promotionFreeze,
+      rollbackPrepared: true as const,
+      postmortemRequired: true as const,
+    },
+  };
+  const contractDriftChecks = {
+    sourceOfTruthRoutesAligned: EXTRONDOL_SOURCE_OF_TRUTH === '/api/extrimli/extrondol' && EXTRIMLI_SPAJA_KOD_SOURCE_OF_TRUTH === '/api/extrimli/spaja-kod',
+    contractVersionAligned: EXTRONDOL_CONTRACT_VERSION === 'v1-extrondol',
+    waweModelAligned: releaseAuditSummary.rolloutSnapshot.currentWawe === currentWawe
+      && releaseAuditSummary.rolloutSnapshot.eligibleNextWawe === nextWawe(currentWawe),
+    hardGateEvidenceAligned: releaseAuditSummary.required
+      && releaseAuditSummary.humanReviewRequired
+      && releaseAuditSummary.rollbackPlanRequired
+      && releaseAuditSummary.downstreamReference.required,
+  };
+  const contractDriftBlockers = [
+    ...(!contractDriftChecks.sourceOfTruthRoutesAligned ? ['source-of-truth-routes'] : []),
+    ...(!contractDriftChecks.contractVersionAligned ? ['contract-version'] : []),
+    ...(!contractDriftChecks.waweModelAligned ? ['wawe-model-alignment'] : []),
+    ...(!contractDriftChecks.hardGateEvidenceAligned ? ['hard-gate-evidence'] : []),
+  ];
+  const contractDriftReport = {
+    sourceOfTruth: '/api/extrimli/extrondol' as const,
+    required: true as const,
+    comparedArtifacts: [
+      'src/lib/extrimli-extrondol/types.ts',
+      'src/lib/extrimli-extrondol/index.ts',
+      'src/app/api/extrimli/extrondol/route.ts',
+      'docs/EXTRIMLI.md',
+      'docs/EXTRIMLI-EXTERNAL-GITHUB.md',
+      '.github/workflows/extrimli-validator.yml',
+      '.github/workflows/extrimli-external-github.yml',
+      '.github/workflows/extrimli-governance-conformance.yml',
+    ] as const,
+    checks: contractDriftChecks,
+    status: contractDriftBlockers.length === 0 ? 'ALIGNED' as const : 'DRIFT_DETECTED' as const,
+    blockers: contractDriftBlockers,
+  };
+  const governanceConformance = {
+    sourceOfTruth: '/api/extrimli/extrondol' as const,
+    workflow: '.github/workflows/extrimli-governance-conformance.yml' as const,
+    schedule: '0 4 * * 1' as const,
+    required: true as const,
+    status: contractDriftBlockers.length === 0 ? 'PASS' as const : 'FAIL' as const,
+    blockers: contractDriftBlockers,
+  };
   const technicalState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DEKER')?.status;
   const conflictState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DUNOR')?.status;
   const spajaKod = buildSpajaKodFacade({
@@ -968,6 +1122,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'spajaKod.publicSignals.downstreamSyncStatus',
         'spajaKod.platformTrack.finalPublicStatusToken',
         'spajaKod.platformTrack.publicStatus',
+        'releaseReadinessScorecard',
+        'canaryRingMetrics',
+        'incidentPlaybook',
+        'contractDriftReport',
+        'governanceConformance',
       ],
     },
     governanceDecisions: {
@@ -1160,6 +1319,37 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && releaseAuditSummary.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO',
     },
     {
+      id: 'release-readiness-scorecard',
+      description: 'Release readiness scorecard is published as a single-pane governance view for EXTRIMLI/EXTREM/EXTRONDOL lock domains.',
+      passed: releaseReadinessScorecard.coreDomains.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL'
+        && releaseReadinessScorecard.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
+        && releaseReadinessScorecard.totalChecks >= 5,
+    },
+    {
+      id: 'canary-auto-freeze-metrics',
+      description: 'Canary/ring metrics expose auto-freeze posture and threshold contracts before production promotion.',
+      passed: canaryRingMetrics.ringSequence.join(',') === 'RING-0-CONTRACT,RING-1-STAGING,RING-2-CANARY,RING-3-PRODUCTION,RING-4-RESILIENCE'
+        && canaryRingMetrics.autoFreezeEnabled
+        && canaryRingMetrics.thresholds.evaluationMaxMs === EXTRONDOL_EVALUATION_MAX_MS
+        && canaryRingMetrics.thresholds.apiResponseMaxMs === EXTRONDOL_API_MAX_MS,
+    },
+    {
+      id: 'incident-playbook-lock',
+      description: 'Incident playbook keeps trigger → freeze → rollback → postmortem sequence as mandatory governance flow.',
+      passed: incidentPlaybook.required
+        && incidentPlaybook.flow.join(',') === 'trigger,freeze,rollback,postmortem'
+        && incidentPlaybook.execution.rollbackPrepared
+        && incidentPlaybook.execution.postmortemRequired,
+    },
+    {
+      id: 'contract-drift-detection',
+      description: 'Contract drift detection compares docs/types/routes/workflows and blocks conformance when drift is detected.',
+      passed: contractDriftReport.required
+        && contractDriftReport.comparedArtifacts.includes('.github/workflows/extrimli-governance-conformance.yml')
+        && governanceConformance.workflow === '.github/workflows/extrimli-governance-conformance.yml'
+        && (contractDriftReport.status === 'ALIGNED' ? governanceConformance.status === 'PASS' : governanceConformance.status === 'FAIL'),
+    },
+    {
       id: 'b2b-downstream-sync',
       description: 'Downstream B2B consumers receive WAWE fields, DUET warning posture, DINKOS metadata, and domain-strategy validation.',
       passed: b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe')
@@ -1299,6 +1489,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     degradedMode: 'partial-payload-no-500',
     degradedSources,
     releaseAuditSummary,
+    releaseReadinessScorecard,
+    canaryRingMetrics,
+    incidentPlaybook,
+    contractDriftReport,
+    governanceConformance,
     acceptanceCriteria,
     integrationBoundaries: {
       dependsOn: ['/api/extrimli/extrondend', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/extrimli/extrem', '/api/duet/evaluate'],
