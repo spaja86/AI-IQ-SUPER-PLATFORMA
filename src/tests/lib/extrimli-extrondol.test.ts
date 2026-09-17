@@ -472,6 +472,9 @@ async function runTests(): Promise<void> {
       : report.extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
         ? -5
         : -13;
+    const funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment = getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment(
+      report.extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
+    );
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     );
@@ -485,6 +488,7 @@ async function runTests(): Promise<void> {
           + kraljevskiPravniUniverzitetAdjustment
           + objektnaProngilacijaAdjustment
           + funkcinalnoProgramiranjeAdjustment
+          + funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
