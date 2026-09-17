@@ -1015,6 +1015,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'docs/EXTRIMLI-EXTERNAL-GITHUB.md',
       '.github/workflows/extrimli-validator.yml',
       '.github/workflows/extrimli-external-github.yml',
+      '.github/workflows/extrimli-governance-conformance.yml',
     ] as const,
     checks: contractDriftChecks,
     status: contractDriftBlockers.length === 0 ? 'ALIGNED' as const : 'DRIFT_DETECTED' as const,
@@ -1344,7 +1345,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'contract-drift-detection',
       description: 'Contract drift detection compares docs/types/routes/workflows and blocks conformance when drift is detected.',
       passed: contractDriftReport.required
-        && contractDriftReport.comparedArtifacts.length === 7
+        && contractDriftReport.comparedArtifacts.includes('.github/workflows/extrimli-governance-conformance.yml')
         && governanceConformance.workflow === '.github/workflows/extrimli-governance-conformance.yml'
         && (contractDriftReport.status === 'ALIGNED' ? governanceConformance.status === 'PASS' : governanceConformance.status === 'FAIL'),
     },

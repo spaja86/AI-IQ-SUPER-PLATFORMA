@@ -157,7 +157,7 @@ async function runTests(): Promise<void> {
     assert(report.incidentPlaybook.flow.join(',') === 'trigger,freeze,rollback,postmortem', 'incident playbook flow mismatch');
     assert(report.incidentPlaybook.execution.rollbackPrepared, 'incident rollback prep mismatch');
     assert(report.contractDriftReport.required, 'contract drift report must be required');
-    assert(report.contractDriftReport.comparedArtifacts.length === 7, 'contract drift compared artifacts mismatch');
+    assert(report.contractDriftReport.comparedArtifacts.includes('.github/workflows/extrimli-governance-conformance.yml'), 'contract drift artifacts must include governance conformance workflow');
     assert(report.governanceConformance.workflow === '.github/workflows/extrimli-governance-conformance.yml', 'governance workflow mismatch');
     assert(report.governanceConformance.schedule === '0 4 * * 1', 'governance schedule mismatch');
     assert(

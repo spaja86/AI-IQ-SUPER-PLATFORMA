@@ -319,7 +319,8 @@ export interface ExtrimliExtrondolContractDriftReport {
     'docs/EXTRIMLI.md',
     'docs/EXTRIMLI-EXTERNAL-GITHUB.md',
     '.github/workflows/extrimli-validator.yml',
-    '.github/workflows/extrimli-external-github.yml'
+    '.github/workflows/extrimli-external-github.yml',
+    '.github/workflows/extrimli-governance-conformance.yml'
   ];
   checks: {
     sourceOfTruthRoutesAligned: boolean;
