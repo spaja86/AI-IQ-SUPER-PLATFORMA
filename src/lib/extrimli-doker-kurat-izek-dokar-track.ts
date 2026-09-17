@@ -51,13 +51,13 @@ export interface KuratTokenState extends DokerKuratIzekDokarTokenState {
 export interface IzekTokenState extends DokerKuratIzekDokarTokenState {
   token: 'IZEK';
   signalRole: 'audit-review';
-  status: 'READY' | 'REQUIRED';
+  status: 'READY' | 'WATCH' | 'BLOCKED' | 'REQUIRED';
 }
 
 export interface DokarTokenState extends DokerKuratIzekDokarTokenState {
   token: 'DOKAR';
   signalRole: 'rollback-control';
-  status: 'READY' | 'REQUIRED';
+  status: 'READY' | 'WATCH' | 'REQUIRED';
 }
 
 export interface ExtrimliDokerKuratIzekDokarVocabulary {
