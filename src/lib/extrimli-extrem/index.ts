@@ -847,6 +847,10 @@ function classifyPetljaSignalStatus(readinessScore: number): ExtrimliExtremPetlj
   return 'BLOCKED';
 }
 
+function toPetljaSignalIdentifier(kind: ExtrimliExtremPetljaSignalKind): string {
+  return kind.replace(' PETLJA', '').toLowerCase().replaceAll(' ', '_');
+}
+
 function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetljaSignalSection {
   const definitions: ExtrimliExtremPetljaSignalInput[] = [
     {
@@ -949,7 +953,9 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
   const watchSignals = signalResults.filter((signal) => signal.status === 'WATCH').map((signal) => signal.kind);
   const degradedSignals = signalResults.filter((signal) => signal.degraded).map((signal) => signal.kind);
 
-  degradedSources.push(...degradedSignals.map((signal) => `petlje-${signal.toLowerCase().replaceAll(' ', '-')}-degraded`));
+  degradedSources.push(
+    ...degradedSignals.map((signal) => `extrimli_extrem_petlje_${toPetljaSignalIdentifier(signal)}-degraded`),
+  );
 
   return {
     term: 'EXTRIMLI EXTRONDOL EXTREM PETLJE',
