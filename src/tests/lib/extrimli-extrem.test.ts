@@ -509,6 +509,10 @@ async function runTests(): Promise<void> {
       EXTRIMLI_EXTREM_CPU_CONTENTION_PERCENT: '-20',
       EXTRIMLI_EXTREM_RENDER_CYCLE_LATENCY_MS: 'Infinity',
       EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT: '140',
+      EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: 'NaN',
       EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '20',
     }, () => {
       const report = getExtrimliExtremProfilerReport();
@@ -517,6 +521,22 @@ async function runTests(): Promise<void> {
       assert(report.profileInput.gpuContentionPercent === 100, 'gpu contention should be clamped to 100');
       assert(report.profileInput.cpuContentionPercent === 0, 'cpu contention should be clamped to 0');
       assert(report.resolutionInput.ekodorAlignmentPercent === 100, 'EKODOR alignment should be clamped to 100');
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.elevatedThoughtFlowStabilityPercent === 91,
+        'invalid elevated thought-flow stability should fall back to default',
+      );
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.functionalTransformationCohesionPercent === 87,
+        'invalid elevated cohesion should fall back to default',
+      );
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.reasoningDeterminismPercent === 88,
+        'invalid elevated determinism should fall back to default',
+      );
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 16,
+        'invalid elevated conflict pressure should fall back to default',
+      );
       assert(report.mobilnaLinija.input.signalStrengthPercent <= EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY, 'mobilna signal override should apply');
     });
   });

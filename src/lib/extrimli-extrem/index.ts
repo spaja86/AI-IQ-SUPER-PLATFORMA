@@ -275,16 +275,16 @@ function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
   degradedSources: string[],
 ): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
   return {
-    elevatedThoughtFlowStabilityPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT'], 91, 0, degradedSources),
-    functionalTransformationCohesionPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT'], 87, 0, degradedSources),
-    reasoningDeterminismPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT'], 88, 0, degradedSources),
+    elevatedThoughtFlowStabilityPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT'], 91, 91, degradedSources),
+    functionalTransformationCohesionPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT'], 87, 87, degradedSources),
+    reasoningDeterminismPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT'], 88, 88, degradedSources),
     conflictDegradationPressurePercent: parsePercentEnvWithAliases(
       [
         'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT',
         'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT',
       ],
       16,
-      100,
+      16,
       degradedSources,
     ),
   };
