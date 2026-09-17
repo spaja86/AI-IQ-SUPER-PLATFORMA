@@ -853,6 +853,12 @@ function toPetljaSignalIdentifier(kind: ExtrimliExtremPetljaSignalName): string 
 }
 
 function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetljaSignalSection {
+  const sequenceOverride = parseSequenceFromEnv(
+    'EXTRIMLI_EXTREM_PETLJE_INDIREKT_SEQUENCE',
+    [2, 6, 8, 10],
+    degradedSources,
+  );
+
   const definitions: ExtrimliExtremPetljaSignalInput[] = [
     {
       kind: 'DOK PETLJA',
@@ -882,23 +888,9 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
     {
       kind: 'INDIREKT PETLJA',
       category: 'SEQUENCE',
-      input: { start: 1, target: 10, sequence: [2, 6, 8, 10], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+      input: { start: 1, target: 10, sequence: sequenceOverride, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
     },
   ];
-
-  const sequenceOverride = parseSequenceFromEnv(
-    'EXTRIMLI_EXTREM_PETLJE_INDIREKT_SEQUENCE',
-    [2, 6, 8, 10],
-    degradedSources,
-  );
-  const indirektDefinitionIndex = definitions.findIndex((definition) => definition.kind === 'INDIREKT PETLJA');
-  if (indirektDefinitionIndex >= 0) {
-    const indirektDefinition = definitions[indirektDefinitionIndex];
-    definitions[indirektDefinitionIndex] = {
-      ...indirektDefinition,
-      input: { ...indirektDefinition.input, sequence: sequenceOverride },
-    };
-  }
 
   const signalResults = [
     { definition: definitions[0], result: runDokPetlja(definitions[0].input) },
