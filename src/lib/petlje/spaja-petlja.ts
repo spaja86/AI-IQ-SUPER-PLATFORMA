@@ -59,9 +59,9 @@ const SEGMENT_ALLOWED_LOOPS: Record<SpajaSegmentKind, Set<PetljaKind>> = {
 };
 
 const DEFAULT_SEGMENTS: SpajaSegmentConfig[] = [
-  { segment: 'RANGE', importFromPrevious: false, loops: [...SEGMENT_DEFAULT_LOOPS.RANGE] },
-  { segment: 'TARGET', importFromPrevious: true, loops: [...SEGMENT_DEFAULT_LOOPS.TARGET] },
-  { segment: 'SEQUENCE', importFromPrevious: true, loops: [...SEGMENT_DEFAULT_LOOPS.SEQUENCE] },
+  { segment: 'RANGE', importFromPrevious: false, loops: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA'] },
+  { segment: 'TARGET', importFromPrevious: true, loops: ['ITCH PETLJA', 'KUR PETLJA'] },
+  { segment: 'SEQUENCE', importFromPrevious: true, loops: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA'] },
 ];
 
 const RUNNERS: Record<PetljaKind, (input: PetljaInput) => PetljaResult> = {

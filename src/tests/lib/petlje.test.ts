@@ -452,7 +452,7 @@ async function runTests(): Promise<void> {
     assertEqual(result.trace[result.trace.length - 1]?.accumulator, result.output, 'SPAJA final accumulator');
   });
 
-  await test('SPAJA PETLJA default path includes new canonical PETLJE runners', () => {
+  await test('SPAJA PETLJA segment defaults include new canonical PETLJE runners when loops are omitted', () => {
     const result = runSpajaPetlja({
       start: 0,
       end: 4,
@@ -462,14 +462,19 @@ async function runTests(): Promise<void> {
       maxIterations: 256,
       maxDurationMs: 100,
       spajaTransferPolicy: 'fallback',
+      spajaSegments: [
+        { segment: 'RANGE', importFromPrevious: false },
+        { segment: 'TARGET', importFromPrevious: true },
+        { segment: 'SEQUENCE', importFromPrevious: true },
+      ],
     });
-    assert(result.completed, 'SPAJA default path should complete');
-    assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DOK PETLJA]')), 'SPAJA default path should execute DOK PETLJA');
-    assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DIREKT PETLJA]')), 'SPAJA default path should execute DIREKT PETLJA');
-    assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][SAR PETLJA]')), 'SPAJA default path should execute SAR PETLJA');
-    assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][OKRED PETLJA]')), 'SPAJA default path should execute OKRED PETLJA');
-    assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][DIK PETLJA]')), 'SPAJA default path should execute DIK PETLJA');
-    assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][INDIREKT PETLJA]')), 'SPAJA default path should execute INDIREKT PETLJA');
+    assert(result.completed, 'SPAJA segment-default path should complete');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DOK PETLJA]')), 'SPAJA segment-default path should execute DOK PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DIREKT PETLJA]')), 'SPAJA segment-default path should execute DIREKT PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][SAR PETLJA]')), 'SPAJA segment-default path should execute SAR PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][OKRED PETLJA]')), 'SPAJA segment-default path should execute OKRED PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][DIK PETLJA]')), 'SPAJA segment-default path should execute DIK PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][INDIREKT PETLJA]')), 'SPAJA segment-default path should execute INDIREKT PETLJA');
   });
 
   await test('SPAJA PETLJA validates invalid segment configuration', () => {

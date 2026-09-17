@@ -902,12 +902,14 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
   ].map<ExtrimliExtremPetljaSignalResult>(({ definition, result }) => {
     const warnings = [...result.warnings];
     const degraded = result.reason !== 'completed' || warnings.length > 0;
+    const invalidInput = result.reason === 'invalid-input';
     const readinessScore = round(
       clamp(
-        (result.completed ? 82 : 28)
+        (invalidInput ? 0 : result.completed ? 82 : 28)
           + Math.max(0, 12 - result.iterations) * 1.5
           - warnings.length * 6
           - (result.reason === 'blocked-status' ? 35 : 0)
+          - (invalidInput ? 24 : 0)
           - (result.reason === 'max-iterations' ? 22 : 0)
           - (result.reason === 'time-limit' ? 18 : 0),
         0,
@@ -917,7 +919,7 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
     );
     const conflictScore = round(
       clamp(
-        (100 - readinessScore) * 0.75
+        (invalidInput ? 88 : (100 - readinessScore) * 0.75)
           + warnings.length * 8
           + (result.reason === 'blocked-status' ? 22 : 0),
         0,
