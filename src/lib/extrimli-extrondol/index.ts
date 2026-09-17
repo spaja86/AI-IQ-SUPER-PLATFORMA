@@ -977,7 +977,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...mobilnaLinija.freezeReasons.map((reason) => `mobilna-linija:${reason}`),
       ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
     ]
-    : ['Ready for next WAWE stage with governance evidence.'];
+    : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
+      ? [
+        'Ready for next WAWE stage with architecture review visibility before broader rollout.',
+        ...objektnaProngilacijaPostureReasons.rolloutReasons,
+      ]
+      : ['Ready for next WAWE stage with governance evidence.'];
   const releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary = {
     required: true,
     status: promotionFreeze ? 'BLOCKED' : 'READY',
