@@ -567,6 +567,23 @@ async function runTests(): Promise<void> {
     });
   });
 
+  await test('elevated thought-flow malformed canonical pressure env suppresses deprecated alias', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT: '23',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 16,
+        'malformed canonical env should fall back to canonical default instead of consuming deprecated alias',
+      );
+      assert(
+        report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT'),
+        'malformed canonical env should still be reported as degraded',
+      );
+    });
+  });
+
   await test('high conflict profile triggers freeze and aggressive optimization', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: '98',

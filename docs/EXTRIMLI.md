@@ -404,7 +404,7 @@ Canonical EXTREM operator surface for this track consists of exactly these four 
 - `EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT` → default `87` (brand-new canonical-only input)
 - `EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT` → default `88` (brand-new canonical-only input)
 - `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT` → default `16`
-- Backward-compatible alias: `EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT` is accepted, but the canonical env name remains `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT`, which takes precedence when both are set.
+- Backward-compatible alias: `EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT` is accepted, but the canonical env name remains `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT`, which takes precedence when both are set and suppresses the alias even if the canonical value is malformed.
 
 ## Objektno orijentisana reprodukcija
 

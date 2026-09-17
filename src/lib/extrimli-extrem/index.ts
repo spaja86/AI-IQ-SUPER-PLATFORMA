@@ -255,6 +255,8 @@ function resolveFunkionalnoProgramiranjePravnogMisaonogTokaInput(
 function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
   degradedSources: string[],
 ): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
+  // Canonical config suppresses the deprecated alias whenever the canonical key is present,
+  // even if the canonical value is malformed and falls back to the documented default.
   const conflictPressureEnvName = [
     'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT',
     'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT',
