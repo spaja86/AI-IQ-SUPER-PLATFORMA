@@ -1679,9 +1679,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   };
   const technicalState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DEKER')?.status;
   const conflictState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DUNOR')?.status;
-  const technicalQuartetState = extremProfiler.dokerKuratIzekDokarTrack.sequenceStates.find((item) => item.token === 'KURAT')?.status;
+  const technicalRiskState = extremProfiler.dokerKuratIzekDokarTrack.sequenceStates[1];
   const dokerKuratIzekDokarTrack = buildDokerKuratIzekDokarGovernanceTrack({
-    technicalRiskStatus: technicalQuartetState === 'WATCH' || technicalQuartetState === 'BLOCKED' ? technicalQuartetState : 'READY',
+    technicalRiskStatus:
+      technicalRiskState?.token !== 'KURAT'
+        ? 'BLOCKED'
+        : technicalRiskState.status === 'WATCH' || technicalRiskState.status === 'BLOCKED'
+        ? technicalRiskState.status
+        : technicalRiskState.status === 'READY'
+        ? 'READY'
+        : 'BLOCKED',
     promotionFreeze,
     releaseAuditStatus: releaseAuditSummary.status,
     downstreamSyncComplete,
