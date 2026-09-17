@@ -247,6 +247,14 @@ export function buildDokerKuratIzekDokarExtremTrack(params: {
 export function getGovernanceTechnicalRiskStatusFromExtremTrack(
   sequenceStates: ExtrimliDokerKuratIzekDokarExtremTrack['sequenceStates'] | undefined,
 ): 'READY' | 'WATCH' | 'BLOCKED' {
+  const expectedOrder: readonly DokerKuratIzekDokarToken[] = ['DOKER', 'KURAT', 'IZEK', 'DOKAR'];
+  const hasCanonicalOrder =
+    !!sequenceStates &&
+    sequenceStates.length === expectedOrder.length &&
+    expectedOrder.every((token, index) => sequenceStates[index]?.token === token);
+  if (!hasCanonicalOrder) {
+    return 'BLOCKED';
+  }
   const technicalRiskState = sequenceStates?.[1];
   if (!technicalRiskState || technicalRiskState.token !== 'KURAT') {
     return 'BLOCKED';
