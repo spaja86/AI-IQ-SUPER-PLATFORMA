@@ -26,6 +26,8 @@ export function runDirektPetlja(input: PetljaInput): PetljaResult {
   ];
 
   if (normalized.step === 0) errors.push('step ne sme biti 0');
+  if (normalized.start < normalized.target && normalized.step < 0) errors.push('step mora pratiti smer ka targetu');
+  if (normalized.start > normalized.target && normalized.step > 0) errors.push('step mora pratiti smer ka targetu');
   if (normalized.maxIterations < 1) errors.push('maxIterations mora biti >= 1');
   if (normalized.maxDurationMs < 0) errors.push('maxDurationMs mora biti >= 0');
 

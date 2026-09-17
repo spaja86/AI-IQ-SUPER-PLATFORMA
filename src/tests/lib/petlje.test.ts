@@ -157,7 +157,7 @@ const extendedPetljaSpecs = [
     run: runDokPetlja,
     validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
     expectedOutput: 4,
-    invalidInput: { start: 0, target: 5, step: 0 },
+    invalidInput: { start: 0, target: 5, step: -2 },
     guardInput: { start: 0, target: 100, step: 2, maxIterations: 2, maxDurationMs: 100 },
   },
   {
@@ -189,7 +189,7 @@ const extendedPetljaSpecs = [
     run: runDirektPetlja,
     validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
     expectedOutput: 5,
-    invalidInput: { start: 0, target: 5, step: 0 },
+    invalidInput: { start: 0, target: 5, step: -2 },
     guardInput: { start: 0, target: 100, step: 2, maxIterations: 2, maxDurationMs: 100 },
   },
   {
