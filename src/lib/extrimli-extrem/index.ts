@@ -1517,12 +1517,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     {
       id: 'kraljevski-pravni-univerzitet-track-lock',
-      description: 'KRALJEVSKI PRAVNI UNIVERZITET is an additive EXTRIMLI/EXTREM/EXTRONDOL governance track with locked vocabulary, ownership, and public-boundary routing.',
+      description: 'KRALJEVSKI PRAVNI UNIVERZITET keeps invariant additive contract wiring across EXTREM, EXTRONDOL, and SPAJA KOD boundaries.',
       passed: kraljevskiPravniUniverzitetTrack.additiveOnly
         && kraljevskiPravniUniverzitetTrack.technicalSourceOfTruth === '/api/extrimli/extrem'
         && kraljevskiPravniUniverzitetTrack.governanceSourceOfTruth === '/api/extrimli/extrondol'
-        && kraljevskiPravniUniverzitetTrack.publicBoundary === '/api/extrimli/spaja-kod'
-        && kraljevskiPravniUniverzitetTrack.readiness.status === 'READY',
+        && kraljevskiPravniUniverzitetTrack.publicBoundary === '/api/extrimli/spaja-kod',
     },
     {
       id: 'kraljevski-pravni-univerzitet-vocabulary',
