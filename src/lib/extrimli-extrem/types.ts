@@ -1,6 +1,8 @@
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
+import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
+import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION } from '../extrimli-objektno-orijentusano-uzdizanje-epskih-elikvadenata-contract';
 
 export type ExtrimliExtremConflictIntensity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
 
@@ -71,6 +73,67 @@ export interface ExtrimliExtremObjektnaProngilacijaSignal {
     score: number;
     status: ExtrimliExtremObjektnaProngilacijaStatus;
     readinessSignal: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
+export type ExtrimliExtremEpicElikvadentStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremEpicElikvadentProfileInput {
+  objectElevationIntegrityPercent: number;
+  epicEquivalentCoveragePercent: number;
+  functionalEquivalenceCohesionPercent: number;
+  ascentDelegationPercent: number;
+  encapsulationGuardPercent: number;
+}
+
+export interface ExtrimliExtremEpicElikvadentEquivalent {
+  id: 'epic-objekat-core' | 'epic-instanca-flow' | 'epic-metoda-bridge';
+  label: string;
+  domain: EkvivalentDomain;
+  relationType: EkvivalentRelationType;
+  epicState: 'EPIC' | 'WATCH' | 'BLOCKED';
+  equivalenceScore: number;
+  auditSafe: boolean;
+  rationale: string;
+}
+
+export interface ExtrimliExtremEpicElikvadentSignal {
+  term: 'Objektno orijentusano uzdizanje epskih elikvadenata';
+  contractVersion: typeof EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'Objektno orijentusano uzdizanje epskih elikvadenata';
+    statement: string;
+    interpretationLayer: 'technical-signal';
+    existingContractBeforeThisChange: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-epic-equivalent-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  profileInput: ExtrimliExtremEpicElikvadentProfileInput;
+  controlledEquivalents: {
+    sourceDomain: 'EKVIVALENT NETWORK';
+    supportedDomains: readonly ['MODULE', 'KNOWLEDGE', 'PERSONA'];
+    epicRelationTypes: readonly ['FULL', 'FUNCTIONAL', 'SUBSTITUTABLE'];
+    watchRelationTypes: readonly ['PARTIAL', 'CONTEXTUAL'];
+    entities: readonly [
+      ExtrimliExtremEpicElikvadentEquivalent,
+      ExtrimliExtremEpicElikvadentEquivalent,
+      ExtrimliExtremEpicElikvadentEquivalent
+    ];
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremEpicElikvadentStatus;
+    readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
     blockerReasons: string[];
@@ -233,6 +296,7 @@ export interface ExtrimliExtremProfilerReport {
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
   objektnoOrijentisanaProngilacija: ExtrimliExtremObjektnaProngilacijaSignal;
+  objektnoOrijentusanoUzdizanjeEpskihElikvadenata: ExtrimliExtremEpicElikvadentSignal;
   resolutionReadiness: {
     rezolucijaScore: number;
     ekodorState: ExtrimliExtremEkodorState;
@@ -305,3 +369,6 @@ export const EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION = 'ŠEMA + ŠEMA
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE = 75;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE = 55;
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION;
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE = 76;
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE = 58;

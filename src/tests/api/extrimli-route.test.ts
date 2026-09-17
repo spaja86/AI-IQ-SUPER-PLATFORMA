@@ -14,7 +14,10 @@ import { GET as getSpajaKod } from '../../app/api/extrimli/spaja-kod/route';
 import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli/duel-king/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
-import { EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../../lib/extrimli-extrem/types';
+import {
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
+} from '../../lib/extrimli-extrem/types';
 
 let passed = 0;
 let failed = 0;
@@ -124,6 +127,7 @@ async function runTests(): Promise<void> {
         };
         paymentVerification: { status: string; blockers: string[] };
         objektnoOrijentisanaProngilacija: { term: string; status: string; technicalSignalSource: string };
+        epicElikvadenti: { term: string; status: string; technicalSignalSource: string };
         mobilnaLinija: {
           lineType: string;
           packageCatalog: Array<{ id: string; tier: string }>;
@@ -132,7 +136,10 @@ async function runTests(): Promise<void> {
           freezeReasons: string[];
         };
         extremProfiler: { profile: { conflictIntensity: string; bottleneckLayer: string } };
-        releaseAuditSummary: { semaFormulaGovernance: { canonicalExpression: string; status: string; muSemaConclusion: string } };
+        releaseAuditSummary: {
+          semaFormulaGovernance: { canonicalExpression: string; status: string; muSemaConclusion: string };
+          epicElikvadentiGovernance: { sourceOfTruth: string; status: string };
+        };
         distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
       };
     };
@@ -150,6 +157,9 @@ async function runTests(): Promise<void> {
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected object-oriented prongilacija term');
     assert(body.data.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'unexpected object-oriented prongilacija source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentisanaProngilacija.status), 'unexpected object-oriented prongilacija status');
+    assert(body.data.epicElikvadenti.term === 'Objektno orijentusano uzdizanje epskih elikvadenata', 'unexpected epic elikvadenti term');
+    assert(body.data.epicElikvadenti.technicalSignalSource === '/api/extrimli/extrem', 'unexpected epic elikvadenti source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.epicElikvadenti.status), 'unexpected epic elikvadenti status');
     assert(body.data.mobilnaLinija.lineType === 'Mobilna linija', 'unexpected mobilna line type');
     assert(body.data.mobilnaLinija.packageCatalog.length >= 1, 'mobilna package catalog should exist');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.mobilnaLinija.activationStatus), 'unexpected mobilna activation status');
@@ -157,6 +167,8 @@ async function runTests(): Promise<void> {
     assert(['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(body.data.extremProfiler.profile.conflictIntensity), 'unexpected EXTREM conflict intensity');
     assert(body.data.extremProfiler.profile.bottleneckLayer === 'DISKVIT', 'EXTREM profiler bottleneck layer mismatch');
     assert(body.data.releaseAuditSummary.semaFormulaGovernance.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'missing formula governance expression');
+    assert(body.data.releaseAuditSummary.epicElikvadentiGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing epic governance source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.epicElikvadentiGovernance.status), 'unexpected epic governance status');
     assert(['PASSED', 'BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.status), 'unexpected formula governance status');
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion), 'unexpected MUŠEMA conclusion');
     assert(body.data.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'missing B2B formula gate expression');
@@ -182,6 +194,7 @@ async function runTests(): Promise<void> {
           packagePlanHint: { recommendedPlanTier: string; readiness: string };
         };
         objektnoOrijentisanaProngilacija: { term: string; contractVersion: string; readiness: { status: string; score: number } };
+        objektnoOrijentusanoUzdizanjeEpskihElikvadenata: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         semaMuSemaFormula: { canonicalExpression: string; status: string; muSemaConclusion: string; formulaHolds: boolean };
         governanceSignal: { freezeRequired: boolean };
         optimization: { maximumGraphicsUnlockEligible: boolean };
@@ -202,6 +215,12 @@ async function runTests(): Promise<void> {
     );
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentisanaProngilacija.readiness.status), 'unexpected EXTREM object-oriented prongilacija status');
     assert(Number.isFinite(body.data.objektnoOrijentisanaProngilacija.readiness.score), 'object-oriented prongilacija score must be finite');
+    assert(body.data.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.term === 'Objektno orijentusano uzdizanje epskih elikvadenata', 'unexpected EXTREM epic elikvadenti term');
+    assert(
+      body.data.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.contractVersion === EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
+      'unexpected EXTREM epic elikvadenti contract',
+    );
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status), 'unexpected EXTREM epic elikvadenti status');
     assert(body.data.semaMuSemaFormula.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'unexpected EXTREM formula expression');
     assert(['PASSED', 'BLOCKED'].includes(body.data.semaMuSemaFormula.status), 'unexpected EXTREM formula status');
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.semaMuSemaFormula.muSemaConclusion), 'unexpected EXTREM MUŠEMA conclusion');

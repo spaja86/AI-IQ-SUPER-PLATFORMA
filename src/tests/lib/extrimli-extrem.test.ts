@@ -2,6 +2,7 @@ import {
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
@@ -104,6 +105,21 @@ async function runTests(): Promise<void> {
     assert(Number.isFinite(report.objektnoOrijentisanaProngilacija.readiness.score), 'object-oriented prongilacija score must be finite');
   });
 
+  await test('default report exposes objektno orijentusano uzdizanje epskih elikvadenata as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(
+      report.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.term === 'Objektno orijentusano uzdizanje epskih elikvadenata',
+      'epic elikvadenti term mismatch',
+    );
+    assert(
+      report.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.contractVersion === EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
+      'epic elikvadenti contract mismatch',
+    );
+    assert(report.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.controlledEquivalents.entities.length === 3, 'epic elikvadenti must expose 3 controlled equivalents');
+    assert(report.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.controlledEquivalents.entities.every((item) => item.auditSafe), 'epic elikvadenti entities must stay audit-safe');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status), 'unexpected epic elikvadenti status');
+  });
+
   await test('default report confirms canonical ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA formula', () => {
     const report = getExtrimliExtremProfilerReport();
     assert(report.semaMuSemaFormula.canonicalExpression === EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION, 'canonical formula mismatch');
@@ -198,6 +214,23 @@ async function runTests(): Promise<void> {
         'blocked object-oriented prongilacija should keep blocker reasons on the additive signal',
       );
       assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-prongilacija-lock' && item.passed), 'object-oriented prongilacija lock criterion must pass');
+    });
+  });
+
+  await test('epic elikvadenti degrade safely and block WAWE progression when readiness collapses', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_EPIC_OBJECT_ELEVATION_INTEGRITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_EPIC_EQUIVALENT_COVERAGE_PERCENT: '10',
+      EXTRIMLI_EXTREM_EPIC_FUNCTIONAL_EQUIVALENCE_COHESION_PERCENT: '20',
+      EXTRIMLI_EXTREM_EPIC_ASCENT_DELEGATION_PERCENT: '30',
+      EXTRIMLI_EXTREM_EPIC_ENCAPSULATION_GUARD_PERCENT: 'Infinity',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED', 'epic elikvadenti should block on invalid/low inputs');
+      assert(report.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.degraded, 'epic elikvadenti should degrade safely');
+      assert(report.governanceSignal.freezeRequired, 'blocked epic elikvadenti should freeze governance');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_EPIC_OBJECT_ELEVATION_INTEGRITY_PERCENT'), 'invalid epic object input should be tracked');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentusano-uzdizanje-epskih-elikvadenata-lock' && item.passed), 'epic elikvadenti lock criterion must pass');
     });
   });
 

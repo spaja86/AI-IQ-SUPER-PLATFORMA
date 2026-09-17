@@ -25,6 +25,7 @@ import {
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
+  ExtrimliExtrondolEpicElikvadentiGovernance,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolMobilnaLinijaPackagePlan,
   ExtrimliExtrondolPaymentReferenceClassification,
@@ -62,6 +63,10 @@ import {
   EXTRONDOL_DUET_WARNING_PENALTY_STEP,
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
+  EXTRONDOL_EPIC_ELIKVADENTI_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
+  EXTRONDOL_EPIC_ELIKVADENTI_READY_ADJUSTMENT,
+  EXTRONDOL_EPIC_ELIKVADENTI_WATCH_ADJUSTMENT,
   EXTRONDOL_EVALUATION_MAX_MS,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_SHARE,
@@ -334,6 +339,14 @@ export function getObjektnaProngilacijaAdjustment(
   return EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_BLOCKED_ADJUSTMENT;
 }
 
+export function getEpicElikvadentiAdjustment(
+  status: ExtrimliExtrondolReport['extremProfiler']['objektnoOrijentusanoUzdizanjeEpskihElikvadenata']['readiness']['status'],
+): number {
+  if (status === 'READY') return EXTRONDOL_EPIC_ELIKVADENTI_READY_ADJUSTMENT;
+  if (status === 'WATCH') return EXTRONDOL_EPIC_ELIKVADENTI_WATCH_ADJUSTMENT;
+  return EXTRONDOL_EPIC_ELIKVADENTI_BLOCKED_ADJUSTMENT;
+}
+
 function buildObjektnaProngilacijaPostureReasons(
   signal: ExtrimliExtrondolReport['extremProfiler']['objektnoOrijentisanaProngilacija'],
 ): {
@@ -407,6 +420,56 @@ function buildObjektnaProngilacijaGovernance(params: {
         { stage: 'WAWE-4', requirement: 'Production promotion requires READY or explicitly reviewed WATCH posture without hidden blockers.' },
         { stage: 'WAWE-5', requirement: 'Post-release resilience keeps rollback and human-review obligations attached to the object-state signal.' },
       ],
+    },
+    auditCoupling: {
+      releaseAuditSummaryRequired: true,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamSyncRequired: true,
+    },
+    reasons,
+  };
+}
+
+function buildEpicElikvadentiGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+}): ExtrimliExtrondolEpicElikvadentiGovernance {
+  const signal = params.extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata;
+  const reasons = [
+    ...(signal.readiness.status === 'READY'
+      ? ['ready:controlled epic equivalents remain aligned for WAWE progression']
+      : []),
+    ...signal.readiness.watchReasons.map((reason) => `watch:${reason}`),
+    ...signal.readiness.blockerReasons.map((reason) => `blocked:${reason}`),
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+
+  return {
+    term: 'Objektno orijentusano uzdizanje epskih elikvadenata',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    contractVersion: EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
+    additiveOnly: true,
+    status: signal.readiness.status,
+    readinessScore: signal.readiness.score,
+    governanceVisibility: 'audit-safe-readiness-only',
+    ownershipModel: {
+      extrem: 'technical-epic-equivalent-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    waweImpact: {
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+      promotionFreeze: params.promotionFreeze,
+      reviewRequiredBeforeWideRollout: signal.readiness.status !== 'READY',
     },
     auditCoupling: {
       releaseAuditSummaryRequired: true,
@@ -663,6 +726,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   if (extremProfiler.objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`extrem-profiler:objektna-prongilacija-${extremProfiler.objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
   }
+  if (extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.degraded) {
+    degradedSources.push(`extrem-profiler:epic-elikvadenti-${extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status.toLowerCase()}`);
+  }
   if (mobilnaLinija.activationStatus === 'BLOCKED') degradedSources.push('mobilna-linija:activation-blocked');
 
   const baseOrchestrationScore = round(
@@ -735,10 +801,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'extremProfiler',
       'extremProfiler.businessLicensingSignals',
       'extremProfiler.objektnoOrijentisanaProngilacija',
+      'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
       'b2bReadiness.globalLicensing',
       'objektnoOrijentisanaProngilacija',
+      'epicElikvadenti',
       'mobilnaLinija',
       'spajaKod',
       'releaseReadinessScorecard',
@@ -768,9 +836,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.businessLicensingSignals',
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
+        'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness',
         'b2bReadiness.globalLicensing',
         'mobilnaLinija',
         'objektnoOrijentisanaProngilacija',
+        'epicElikvadenti',
         'spajaKod',
         'spajaKod.platformTrack',
         'releaseReadinessScorecard',
@@ -807,10 +877,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const objektnaProngilacijaAdjustment = getObjektnaProngilacijaAdjustment(
     extremProfiler.objektnoOrijentisanaProngilacija.readiness.status,
   );
+  const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
+    extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
+  );
   const profilerPenalty = extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
   const profilerBoost = extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
   const orchestrationReadinessScore = round(
-    clamp(blendedBaseScore + duetAdjustment + objektnaProngilacijaAdjustment + profilerBoost - profilerPenalty, 0, 100),
+    clamp(
+      blendedBaseScore + duetAdjustment + objektnaProngilacijaAdjustment + epicElikvadentiAdjustment + profilerBoost - profilerPenalty,
+      0,
+      100,
+    ),
     2,
   );
 
@@ -913,6 +990,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       ? ['Objektno orijentisana prongilacija is BLOCKED and must freeze promotion until object-state issues are resolved.']
       : []),
+    ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
+      ? ['Objektno orijentusano uzdizanje epskih elikvadenata is in WATCH posture and requires review before wider rollout.']
+      : []),
+    ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
+      ? ['Objektno orijentusano uzdizanje epskih elikvadenata is BLOCKED and must freeze promotion until epic equivalents are aligned.']
+      : []),
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
       ? ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA formula is blocked and must freeze WAWE promotion.']
       : []),
@@ -935,6 +1018,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       ? ['objektno-orijentisana-prongilacija']
       : []),
+    ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
+      ? ['epic-elikvadenti']
+      : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['extrem-profiler-stability'] : []),
     ...(extremProfiler.resolutionReadiness.blockerActive ? ['extrem-resolution-readiness'] : []),
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED' ? ['extrem-schema-mushema'] : []),
@@ -949,6 +1035,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.businessLicensingSignals.freezeRequired
     || (extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
+    || (extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH' && !humanReviewComplete)
+    || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.activationStatus === 'BLOCKED';
   const objektnaProngilacijaPostureReasons = buildObjektnaProngilacijaPostureReasons(
@@ -959,6 +1047,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? [`extrem-resolution:${extremProfiler.resolutionReadiness.rekulitiPoRauletu.toLowerCase()}`]
       : []),
     ...objektnaProngilacijaPostureReasons.rolloutReasons,
+    ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
+      ? [
+        'epic-elikvadenti:watch',
+        ...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.watchReasons.map((reason) => `epic-elikvadenti:${reason}`),
+      ]
+      : []),
+    ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
+      ? [
+        'epic-elikvadenti:blocked',
+        ...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.blockerReasons.map((reason) => `epic-elikvadenti:${reason}`),
+      ]
+      : []),
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
       ? extremProfiler.semaMuSemaFormula.blockerReasons.map((reason) => `extrem-schema-mushema:${reason}`)
       : []),
@@ -979,6 +1079,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...rolloutSignalReasons,
     ]
     : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
+      || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
       ? [
         'Ready for next WAWE stage with architecture review visibility before broader rollout.',
         ...rolloutSignalReasons,
@@ -1019,10 +1120,26 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       formulaHolds: extremProfiler.semaMuSemaFormula.formulaHolds,
       blockerReasons: [...extremProfiler.semaMuSemaFormula.blockerReasons],
     },
+    epicElikvadentiGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      status: extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
+      readinessScore: extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
+      reviewRequiredBeforeWideRollout: extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status !== 'READY',
+      blockerReasons: [...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.blockerReasons],
+      watchReasons: [...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.watchReasons],
+    },
     humanReviewRequired: true,
     rollbackPlanRequired: true,
   };
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
+    downstreamSyncComplete,
+    humanReviewComplete,
+  });
+  const epicElikvadenti = buildEpicElikvadentiGovernance({
     extremProfiler,
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
@@ -1082,6 +1199,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           ? 'WARN' as const
           : 'FAIL' as const,
       details: objektnoOrijentisanaProngilacija.reasons.join('; '),
+    },
+    {
+      id: 'epic-elikvadenti-governance',
+      label: 'Objektno orijentusano uzdizanje epskih elikvadenata posture',
+      required: true,
+      status: epicElikvadenti.status === 'READY'
+        ? 'PASS' as const
+        : epicElikvadenti.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: epicElikvadenti.reasons.join('; '),
     },
   ];
   const scorecardFailedChecks = releaseReadinessScorecardChecks.filter((check) => check.status === 'FAIL').length;
@@ -1252,12 +1380,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.governanceSignal.freezeRequired',
         'extremProfiler.objektnoOrijentisanaProngilacija.readiness.status',
         'extremProfiler.objektnoOrijentisanaProngilacija.readiness.score',
+        'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status',
+        'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score',
         'extremProfiler.businessLicensingSignals.activityCoverageScore',
         'extremProfiler.businessLicensingSignals.globalLicenseReadinessScore',
         'extremProfiler.businessLicensingSignals.criticalGlobalGapCount',
         'extremProfiler.businessLicensingSignals.freezeRequired',
         'b2bReadiness.globalLicensing',
         'objektnoOrijentisanaProngilacija.waweImpact',
+        'epicElikvadenti.waweImpact',
         'extremProfiler.semaMuSemaFormula.status',
         'extremProfiler.semaMuSemaFormula.muSemaConclusion',
         'extremProfiler.resolutionReadiness.rezolucijaScore',
@@ -1287,6 +1418,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       || duetSignal.status === 'DISSONANT'
       || extremProfiler.governanceSignal.freezeRequired
       || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
+      || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
       || extremProfiler.businessLicensingSignals.freezeRequired,
       rolloutFreeze: promotionFreeze,
       escalationRequired: promotionFreeze,
@@ -1305,6 +1437,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         rekulitiPoRauletu: extremProfiler.resolutionReadiness.rekulitiPoRauletu,
         discanInKibenState: extremProfiler.resolutionReadiness.discanInKibenState,
         blockerActive: extremProfiler.resolutionReadiness.blockerActive,
+      },
+      epicElikvadentiGovernance: {
+        sourceOfTruth: '/api/extrimli/extrem',
+        status: extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
+        readinessScore: extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
+        reviewRequiredBeforeWideRollout: extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status !== 'READY',
+        blockerReasons: [...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.blockerReasons],
+        watchReasons: [...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.watchReasons],
       },
     },
     globalLicensing: {
@@ -1534,6 +1674,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentisanaProngilacija.readiness.status'),
     },
     {
+      id: 'epic-elikvadenti-governance',
+      description: 'Epic elikvadenti readiness is propagated from EXTREM into WAWE freeze, review posture, release audit, and downstream sync using audit-safe fields only.',
+      passed: epicElikvadenti.contractVersion === EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION
+        && epicElikvadenti.technicalSignalSource === '/api/extrimli/extrem'
+        && epicElikvadenti.governanceVisibility === 'audit-safe-readiness-only'
+        && releaseAuditSummary.epicElikvadentiGovernance.status === extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status'),
+    },
+    {
       id: 'schema-mushema-governance',
       description: 'Canonical ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA signal from EXTREM must be propagated to rollout freeze/promotion and governance outputs.',
       passed: b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA'
@@ -1604,6 +1753,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     paymentVerification,
     extremProfiler,
     objektnoOrijentisanaProngilacija,
+    epicElikvadenti,
     mobilnaLinija,
     spajaproTrack,
     spajaKod,
@@ -1676,6 +1826,7 @@ export function getExtrimliSpajaKodReport(evidence?: ExtrimliExtrondolGovernance
 
 export type {
   ExtrimliExtrondolAcceptanceCriterion,
+  ExtrimliExtrondolEpicElikvadentiGovernance,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolObjektnaProngilacijaGovernance,
   ExtrimliExtrondolReport,
@@ -1709,6 +1860,10 @@ export {
   EXTRONDOL_CONTRACT_VERSION,
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
+  EXTRONDOL_EPIC_ELIKVADENTI_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
+  EXTRONDOL_EPIC_ELIKVADENTI_READY_ADJUSTMENT,
+  EXTRONDOL_EPIC_ELIKVADENTI_WATCH_ADJUSTMENT,
   EXTRONDOL_EVALUATION_MAX_MS,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_SHARE,

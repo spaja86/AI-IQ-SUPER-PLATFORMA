@@ -52,6 +52,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-OBJEKTNO-ORIJENTISANA-PRONGILACIJA -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI epic elikvadenti downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentusano uzdizanje epskih elikvadenata over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Sync only audit-safe readiness/governance outputs (`extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness`, `epicElikvadenti.waweImpact`); raw controlled equivalents stay repo-local
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EPIC-ELIKVADENTI -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Shared label schema
 
 | Label | Meaning |

@@ -15,6 +15,10 @@ import type {
   ExtrimliExtremMobilnaLinijaInput,
   ExtrimliExtremMobilnaLinijaInstallationStatus,
   ExtrimliExtremMobilnaLinijaPackageTier,
+  ExtrimliExtremEpicElikvadentEquivalent,
+  ExtrimliExtremEpicElikvadentProfileInput,
+  ExtrimliExtremEpicElikvadentSignal,
+  ExtrimliExtremEpicElikvadentStatus,
   ExtrimliExtremObjektnaProngilacijaDomainObject,
   ExtrimliExtremObjektnaProngilacijaProfileInput,
   ExtrimliExtremObjektnaProngilacijaSignal,
@@ -43,6 +47,9 @@ import {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_PROFILER_EVALUATION_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_MAX_CONFLICT_FOR_UNLOCK,
   EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK,
@@ -179,6 +186,18 @@ function resolveObjektnaProngilacijaInput(
   };
 }
 
+function resolveEpicElikvadentInput(
+  degradedSources: string[],
+): ExtrimliExtremEpicElikvadentProfileInput {
+  return {
+    objectElevationIntegrityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_EPIC_OBJECT_ELEVATION_INTEGRITY_PERCENT', 84, 0, degradedSources),
+    epicEquivalentCoveragePercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_EPIC_EQUIVALENT_COVERAGE_PERCENT', 81, 0, degradedSources),
+    functionalEquivalenceCohesionPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_EPIC_FUNCTIONAL_EQUIVALENCE_COHESION_PERCENT', 79, 0, degradedSources),
+    ascentDelegationPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_EPIC_ASCENT_DELEGATION_PERCENT', 76, 0, degradedSources),
+    encapsulationGuardPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_EPIC_ENCAPSULATION_GUARD_PERCENT', 88, 0, degradedSources),
+  };
+}
+
 function classifyObjektnaProngilacijaStatus(score: number): ExtrimliExtremObjektnaProngilacijaStatus {
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE) return 'WATCH';
@@ -290,6 +309,118 @@ function buildObjektnaProngilacijaSignal(
       degraded,
       watchReasons: resolvedWatchReasons,
       blockerReasons: resolvedBlockerReasons,
+    },
+  };
+}
+
+function classifyEpicElikvadentStatus(score: number): ExtrimliExtremEpicElikvadentStatus {
+  if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function buildEpicElikvadentSignal(
+  profileInput: ExtrimliExtremEpicElikvadentProfileInput,
+  degraded: boolean,
+): ExtrimliExtremEpicElikvadentSignal {
+  const score = round(
+    clamp(
+      (profileInput.objectElevationIntegrityPercent * 0.26)
+      + (profileInput.epicEquivalentCoveragePercent * 0.24)
+      + (profileInput.functionalEquivalenceCohesionPercent * 0.2)
+      + (profileInput.ascentDelegationPercent * 0.14)
+      + (profileInput.encapsulationGuardPercent * 0.16),
+      0,
+      100,
+    ),
+    2,
+  );
+  const status = classifyEpicElikvadentStatus(score);
+  const watchReasons = [
+    ...(profileInput.objectElevationIntegrityPercent < 82 ? [`epic-object-elevation-watch:${profileInput.objectElevationIntegrityPercent}`] : []),
+    ...(profileInput.epicEquivalentCoveragePercent < 78 ? [`epic-equivalent-coverage-watch:${profileInput.epicEquivalentCoveragePercent}`] : []),
+    ...(profileInput.functionalEquivalenceCohesionPercent < 76 ? [`functional-equivalence-cohesion-watch:${profileInput.functionalEquivalenceCohesionPercent}`] : []),
+    ...(profileInput.ascentDelegationPercent < 70 ? [`epic-ascent-delegation-watch:${profileInput.ascentDelegationPercent}`] : []),
+    ...(profileInput.encapsulationGuardPercent < 80 ? [`epic-encapsulation-guard-watch:${profileInput.encapsulationGuardPercent}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.objectElevationIntegrityPercent < 55 ? [`epic-object-elevation-blocked:${profileInput.objectElevationIntegrityPercent}`] : []),
+    ...(profileInput.epicEquivalentCoveragePercent < 50 ? [`epic-equivalent-coverage-blocked:${profileInput.epicEquivalentCoveragePercent}`] : []),
+    ...(profileInput.functionalEquivalenceCohesionPercent < 48 ? [`functional-equivalence-cohesion-blocked:${profileInput.functionalEquivalenceCohesionPercent}`] : []),
+    ...(profileInput.ascentDelegationPercent < 45 ? [`epic-ascent-delegation-blocked:${profileInput.ascentDelegationPercent}`] : []),
+    ...(profileInput.encapsulationGuardPercent < 55 ? [`epic-encapsulation-guard-blocked:${profileInput.encapsulationGuardPercent}`] : []),
+  ];
+  const resolveEpicState = (value: number) => value >= 76 ? 'EPIC' as const : value >= 58 ? 'WATCH' as const : 'BLOCKED' as const;
+  const entities: readonly [
+    ExtrimliExtremEpicElikvadentEquivalent,
+    ExtrimliExtremEpicElikvadentEquivalent,
+    ExtrimliExtremEpicElikvadentEquivalent,
+  ] = [
+    {
+      id: 'epic-objekat-core',
+      label: 'Epic objekat jezgro',
+      domain: 'MODULE',
+      relationType: 'FULL',
+      epicState: resolveEpicState(profileInput.objectElevationIntegrityPercent),
+      equivalenceScore: round(clamp((profileInput.objectElevationIntegrityPercent + profileInput.encapsulationGuardPercent) / 2, 0, 100), 2),
+      auditSafe: true,
+      rationale: 'Canonical module equivalent keeps object-state uplift audit-safe and bounded.',
+    },
+    {
+      id: 'epic-instanca-flow',
+      label: 'Epic instanca tok',
+      domain: 'KNOWLEDGE',
+      relationType: 'FUNCTIONAL',
+      epicState: resolveEpicState(profileInput.epicEquivalentCoveragePercent),
+      equivalenceScore: round(clamp((profileInput.epicEquivalentCoveragePercent + profileInput.functionalEquivalenceCohesionPercent) / 2, 0, 100), 2),
+      auditSafe: true,
+      rationale: 'Functional equivalent tracks whether the uplift remains reusable across controlled epic knowledge flows.',
+    },
+    {
+      id: 'epic-metoda-bridge',
+      label: 'Epic metoda most',
+      domain: 'PERSONA',
+      relationType: 'SUBSTITUTABLE',
+      epicState: resolveEpicState(profileInput.ascentDelegationPercent),
+      equivalenceScore: round(clamp((profileInput.ascentDelegationPercent + profileInput.functionalEquivalenceCohesionPercent) / 2, 0, 100), 2),
+      auditSafe: true,
+      rationale: 'Substitutable persona-level bridge remains valid only when delegation and cohesion stay bounded.',
+    },
+  ];
+
+  return {
+    term: 'Objektno orijentusano uzdizanje epskih elikvadenata',
+    contractVersion: EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'Objektno orijentusano uzdizanje epskih elikvadenata',
+      statement: 'Additive EXTREM signal that measures whether controlled epic equivalents can be elevated through object-state, cohesion, delegation, and encapsulation rules.',
+      interpretationLayer: 'technical-signal',
+      existingContractBeforeThisChange: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-epic-equivalent-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    profileInput,
+    controlledEquivalents: {
+      sourceDomain: 'EKVIVALENT NETWORK',
+      supportedDomains: ['MODULE', 'KNOWLEDGE', 'PERSONA'],
+      epicRelationTypes: ['FULL', 'FUNCTIONAL', 'SUBSTITUTABLE'],
+      watchRelationTypes: ['PARTIAL', 'CONTEXTUAL'],
+      entities,
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: status === 'WATCH' && watchReasons.length === 0 ? [`aggregate-epic-watch-score:${score}`] : watchReasons,
+      blockerReasons: status === 'BLOCKED' && blockerReasons.length === 0 ? [`aggregate-epic-blocked-score:${score}`] : blockerReasons,
     },
   };
 }
@@ -589,6 +720,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const objektnaProngilacijaDegradedSources: string[] = [];
   const objektnaProngilacijaInput = resolveObjektnaProngilacijaInput(objektnaProngilacijaDegradedSources);
   degradedSources.push(...objektnaProngilacijaDegradedSources);
+  const epicElikvadentDegradedSources: string[] = [];
+  const epicElikvadentInput = resolveEpicElikvadentInput(epicElikvadentDegradedSources);
+  degradedSources.push(...epicElikvadentDegradedSources);
   const mobilnaLinijaInput = resolveMobilnaLinijaInput(degradedSources);
   const mobilnaLinija = buildMobilnaLinijaSection(
     mobilnaLinijaInput,
@@ -615,6 +749,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
     objektnaProngilacijaDegradedSources.length > 0,
+  );
+  const objektnoOrijentusanoUzdizanjeEpskihElikvadenata = buildEpicElikvadentSignal(
+    epicElikvadentInput,
+    epicElikvadentDegradedSources.length > 0,
   );
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
@@ -676,6 +814,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || !withinTargets
     || blockerActive
     || businessLicensingSignals.freezeRequired
+    || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
     || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';
@@ -689,6 +828,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(businessLicensingSignals.freezeRequired
       ? [`Global licensing readiness gate triggered: ${businessLicensingSignals.freezeReasons.join(', ')}`]
       : ['Global licensing readiness is aligned for EXTREM governance.']),
+    ...(objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
+      ? ['Objektno orijentusano uzdizanje epskih elikvadenata requires bounded review before wider WAWE progression.']
+      : []),
+    ...(objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
+      ? [`Objektno orijentusano uzdizanje epskih elikvadenata blocked WAWE progression: ${objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.blockerReasons.join('; ') || 'epic elikvadent readiness failed.'}`]
+      : []),
     ...(semaMuSemaFormula.status === 'BLOCKED'
       ? [`ŠEMA formula gate blocked: ${semaMuSemaFormula.blockerReasons.join('; ') || 'MUŠEMA validation failed.'}`]
       : ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA gate is confirmed.']),
@@ -707,6 +852,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (businessLicensingSignals.freezeRequired) degradedSources.push('global-licensing:freeze-required');
   if (objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`objektna-prongilacija:${objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
+  }
+  if (objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.degraded) {
+    degradedSources.push(`epic-elikvadenti:${objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status.toLowerCase()}`);
   }
   if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
   if (mobilnaLinija.installationMessages.status === 'BLOCKED') degradedSources.push('mobilna-linija:installation-blocked');
@@ -811,6 +959,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(objektnoOrijentisanaProngilacija.readiness.score),
     },
     {
+      id: 'objektno-orijentusano-uzdizanje-epskih-elikvadenata-lock',
+      description: 'Objektno orijentusano uzdizanje epskih elikvadenata is locked as an additive EXTREM technical signal and remains inside the existing EXTRIMLI/EXTREM/EXTRONDOL boundary.',
+      passed: objektnoOrijentusanoUzdizanjeEpskihElikvadenata.contractVersion === 'v1-objektno-orijentusano-uzdizanje-epskih-elikvadenata'
+        && objektnoOrijentusanoUzdizanjeEpskihElikvadenata.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && objektnoOrijentusanoUzdizanjeEpskihElikvadenata.ownershipModel.extrem === 'technical-epic-equivalent-signal',
+    },
+    {
+      id: 'objektno-orijentusano-uzdizanje-epskih-elikvadenata-controlled-equivalents',
+      description: 'Epic elikvadenti are modeled as audit-safe controlled equivalents with bounded domains, relation types, and readiness semantics.',
+      passed: objektnoOrijentusanoUzdizanjeEpskihElikvadenata.controlledEquivalents.entities.length === 3
+        && objektnoOrijentusanoUzdizanjeEpskihElikvadenata.controlledEquivalents.supportedDomains.join(',') === 'MODULE,KNOWLEDGE,PERSONA'
+        && objektnoOrijentusanoUzdizanjeEpskihElikvadenata.controlledEquivalents.epicRelationTypes.join(',') === 'FULL,FUNCTIONAL,SUBSTITUTABLE'
+        && objektnoOrijentusanoUzdizanjeEpskihElikvadenata.controlledEquivalents.entities.every((item) => item.auditSafe)
+        && Number.isFinite(objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score),
+    },
+    {
       id: 'version-roadmap-lock',
       description: 'EXTREM remains locked to Verzija 4 in the shared EXTRIMLI EXTRONDOL EXTREM phased roadmap.',
       passed: versionRoadmap.contractVersion === 'v1-7-roadmap'
@@ -899,6 +1063,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     businessLicensingSignals,
     objektnoOrijentisanaProngilacija,
+    objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
     semaMuSemaFormula,
     spajaKodEncapsulation,
     resolutionReadiness: {
@@ -961,6 +1126,10 @@ export type {
   ExtrimliExtremMobilnaLinijaInput,
   ExtrimliExtremMobilnaLinijaInstallationStatus,
   ExtrimliExtremMobilnaLinijaPackageTier,
+  ExtrimliExtremEpicElikvadentEquivalent,
+  ExtrimliExtremEpicElikvadentProfileInput,
+  ExtrimliExtremEpicElikvadentSignal,
+  ExtrimliExtremEpicElikvadentStatus,
   ExtrimliExtremObjektnaProngilacijaDomainObject,
   ExtrimliExtremObjektnaProngilacijaProfileInput,
   ExtrimliExtremObjektnaProngilacijaSignal,
@@ -990,6 +1159,9 @@ export {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_PROFILER_EVALUATION_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_MAX_CONFLICT_FOR_UNLOCK,
   EXTRIMLI_EXTREM_PROFILER_MAX_GPU_CONTENTION_FOR_UNLOCK,

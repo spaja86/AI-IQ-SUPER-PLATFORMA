@@ -38,3 +38,9 @@ Ovaj dokument zaključava značenje i governance model za **Objektno orijentisan
 - Nema breaking promena na `/api/extrimli/extrem` i `/api/extrimli/extrondol`.
 - Proširenje ostaje additive-only kroz docs, types, tests i route payload.
 - Public boundary ostaje enkapsuliran kroz `SPAJA KOD`.
+
+## Additive extension: Objektno orijentusano uzdizanje epskih elikvadenata
+
+- Novi pojam je zaključan kao additive EXTREM tehnički signal, ne kao novi zasebni endpoint ili paralelni domen.
+- “Epski elikvadenti” koriste kontrolisani skup audit-safe ekvivalenata iz postojećeg `EKVIVALENT NETWORK` vokabulara.
+- EXTRONDOL sme da propagira samo readiness, watch i blocked governance rezultat; interni detalji ostaju sakriveni iza `SPAJA KOD` boundary-ja.
