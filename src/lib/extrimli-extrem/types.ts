@@ -23,6 +23,7 @@ export type ExtrimliExtremMobilnaLinijaInstallationStatus = 'READY' | 'WATCH' | 
 export type ExtrimliExtremMobilnaLinijaPackageTier = 'BASIC' | 'SMART' | 'PRO' | 'NONE';
 export type ExtrimliExtremObjektnaProngilacijaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
 export interface ExtrimliExtremObjektnaProngilacijaProfileInput {
@@ -143,6 +144,73 @@ export interface ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSi
   readiness: {
     score: number;
     status: ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
+export interface ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
+  elevatedThoughtFlowStabilityPercent: number;
+  functionalTransformationCohesionPercent: number;
+  reasoningDeterminismPercent: number;
+  conflictDegradationPressurePercent: number;
+}
+
+export interface ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal {
+  term: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA';
+  contractVersion: typeof EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA';
+    spellingDecision: 'exact-user-term-locked';
+    statement: string;
+    interpretationLayer: 'technical-elevated-thought-signal';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-elevated-thought-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
+    elevatedThoughtFlowStability: {
+      canonicalField: 'profileInput.elevatedThoughtFlowStabilityPercent';
+      meaning: 'stabilnost-uzvisenog-misanog-toka';
+    };
+    functionalTransformationCohesion: {
+      canonicalField: 'profileInput.functionalTransformationCohesionPercent';
+      meaning: 'kohezija-funkcionalnih-transformacija';
+    };
+    reasoningDeterminism: {
+      canonicalField: 'profileInput.reasoningDeterminismPercent';
+      meaning: 'deterministickost-rezonovanja';
+    };
+    conflictDegradationPressure: {
+      canonicalField: 'profileInput.conflictDegradationPressurePercent';
+      meaning: 'pritisak-konflikta-i-degradacije';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  profileInput: ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput;
+  processingModel: {
+    elevatedThoughtFlowRole: string;
+    transformationRole: string;
+    determinismRole: string;
+    conflictRole: string;
+    publicBoundaryRole: string;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
@@ -707,6 +775,7 @@ export interface ExtrimliExtremProfilerReport {
   petljeSignals: ExtrimliExtremPetljaSignalSection;
   objektnoOrijentisanaProngilacija: ExtrimliExtremObjektnaProngilacijaSignal;
   funkcinalnoProgramiranjeEnergetskogMisaonogToka: ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal;
+  funkcionalnoProgramiranjeUzvisenogMisanogToka: ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal;
   objektnoOrijentisanaReprodukcija: ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal;
   objektnoOrijentusanoUzdizanjeEpskihElikvadenata: ExtrimliExtremEpicElikvadentSignal;
@@ -789,6 +858,9 @@ export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE 
 export const EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION = 'v1-funkcinalno-programiranje-energetskog-misaonog-toka';
 export const EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_READY_SCORE = 78;
 export const EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_WATCH_SCORE = 60;
+export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION = 'v1-funkcionalno-programiranje-uzvisenog-misanog-toka';
+export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_READY_SCORE = 79;
+export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_WATCH_SCORE = 61;
 export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION = 'v1-funkionalno-programiranje-pravnog-misaonog-toka';
 export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE = 62;

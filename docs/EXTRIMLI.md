@@ -365,6 +365,37 @@ Governance impact:
 - `BLOCKED` signal mora da aktivira promotion freeze, release audit coupling i rollback/human-review zahteve kroz EXTRONDOL.
 - Track ostaje vezan za `KRALJEVSKI PRAVNI UNIVERZITET` kao pravni okvir; novi modul meri kvalitet funkcionalnog pravnog rezonovanja unutar tog okvira.
 
+## FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA
+
+- Canonical term: `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA`
+- Spelling decision: `exact-user-term-locked`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-FUNKCIONALNO-PROGRAMIRANJE-UZVISENOG-MISANOG-TOKA.md`
+
+Ownership split:
+
+- **EXTREM** objavljuje tehnički signal za stabilnost uzvišenog misanog toka, koheziju funkcionalnih transformacija, determinističnost rezonovanja i conflict/degradation pressure.
+- **EXTRONDOL** koristi taj signal za WAWE 1–5 orkestraciju, promotion freeze, release audit summary, rollback, downstream reference i human-review odluke.
+- **SPAJA KOD** izlaže samo audit-safe zbirni status bez sirovih signalnih formulacija, scoring detalja i internih rezonovanih artefakata.
+
+Canonical vocabulary + scope lock:
+
+- `stabilnost uzvišenog misanog toka` = `profileInput.elevatedThoughtFlowStabilityPercent`
+- `kohezija funkcionalnih transformacija` = `profileInput.functionalTransformationCohesionPercent`
+- `determinističnost rezonovanja` = `profileInput.reasoningDeterminismPercent`
+- `pritisak konflikta / degradacije` = `profileInput.conflictDegradationPressurePercent`
+- readiness izlaz ostaje zaključan na `READY`, `WATCH`, `BLOCKED`
+- scope lock ostaje `EXTRIMLI`, `EXTREM`, `EXTRONDOL`, `SPAJA KOD`
+
+Governance impact:
+
+- `READY` signal može da unapredi `orchestrationReadinessScore` bez novih public surface-ova.
+- `WATCH` signal zahteva review vidljivost i zadržava rollout u audit-safe WAWE okviru.
+- `BLOCKED` signal mora da aktivira promotion freeze, release audit coupling i rollback/human-review zahteve kroz EXTRONDOL.
+
 ## Objektno orijentisana reprodukcija
 
 - Canonical term: `Objektno orijentisana reprodukcija`

@@ -32,6 +32,7 @@ import type {
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolEpicElikvadentiGovernance,
   ExtrimliExtrondolFunkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance,
+  ExtrimliExtrondolFunkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance,
   ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance,
@@ -82,6 +83,10 @@ import {
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_READY_ADJUSTMENT,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_WATCH_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_WATCH_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_READY_ADJUSTMENT,
@@ -369,6 +374,14 @@ export function getFunkcinalnoProgramiranjeEnergetskogMisaonogTokaAdjustment(
   return EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_BLOCKED_ADJUSTMENT;
 }
 
+export function getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment(
+  status: ExtrimliExtrondolReport['extremProfiler']['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'],
+): number {
+  if (status === 'READY') return EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT;
+  if (status === 'WATCH') return EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_WATCH_ADJUSTMENT;
+  return EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT;
+}
+
 export function getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
   status: ExtrimliExtrondolReport['extremProfiler']['funkionalnoProgramiranjePravnogMisaonogToka']['readiness']['status'],
 ): number {
@@ -454,6 +467,38 @@ function buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaReasons(
   return {
     rolloutReasons: [],
     governanceReasons: ['ready:functional energy flow remains stable, deterministic, and bounded for WAWE progression'],
+  };
+}
+
+function buildFunkcionalnoProgramiranjeUzvisenogMisanogTokaReasons(
+  signal: ExtrimliExtrondolReport['extremProfiler']['funkcionalnoProgramiranjeUzvisenogMisanogToka'],
+): {
+  rolloutReasons: string[];
+  governanceReasons: string[];
+} {
+  if (signal.readiness.status === 'WATCH') {
+    return {
+      rolloutReasons: [
+        'funkcionalno-programiranje-uzvisenog-misanog-toka:watch',
+        ...signal.readiness.watchReasons.map((reason) => `funkcionalno-programiranje-uzvisenog-misanog-toka:${reason}`),
+      ],
+      governanceReasons: signal.readiness.watchReasons.map((reason) => `watch:${reason}`),
+    };
+  }
+
+  if (signal.readiness.status === 'BLOCKED') {
+    return {
+      rolloutReasons: [
+        'funkcionalno-programiranje-uzvisenog-misanog-toka:blocked',
+        ...signal.readiness.blockerReasons.map((reason) => `funkcionalno-programiranje-uzvisenog-misanog-toka:${reason}`),
+      ],
+      governanceReasons: signal.readiness.blockerReasons.map((reason) => `blocked:${reason}`),
+    };
+  }
+
+  return {
+    rolloutReasons: [],
+    governanceReasons: ['ready:elevated thought-flow remains stable, deterministic, and bounded for WAWE progression'],
   };
 }
 
@@ -625,6 +670,54 @@ function buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance(params: 
     governanceVisibility: 'audit-safe-readiness-only',
     ownershipModel: {
       extrem: 'technical-functional-energy-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    waweImpact: {
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+      promotionFreeze: params.promotionFreeze,
+      reviewRequiredBeforeWideRollout: signal.readiness.status !== 'READY',
+    },
+    auditCoupling: {
+      releaseAuditSummaryRequired: true,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamSyncRequired: true,
+    },
+    reasons,
+  };
+}
+
+function buildFunkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+}): ExtrimliExtrondolFunkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance {
+  const signal = params.extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka;
+  const postureReasons = buildFunkcionalnoProgramiranjeUzvisenogMisanogTokaReasons(signal);
+  const reasons = [
+    ...postureReasons.governanceReasons,
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+
+  return {
+    term: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    contractVersion: EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+    additiveOnly: true,
+    status: signal.readiness.status,
+    readinessScore: signal.readiness.score,
+    conflictDegradationPressurePercent: signal.profileInput.conflictDegradationPressurePercent,
+    governanceVisibility: 'audit-safe-readiness-only',
+    ownershipModel: {
+      extrem: 'technical-elevated-thought-signal',
       extrondol: 'wawe-orchestration-audit-consumer',
       spajaKod: 'public-encapsulated-boundary',
     },
@@ -868,6 +961,7 @@ function buildSpajaKodFacade(params: {
   releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
   kraljevskiPravniUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
   funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
+  funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
   funkionalnoProgramiranjePravnogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkionalnoProgramiranjePravnogMisaonogToka']['readiness']['status'];
 }): ExtrimliSpajaKodPublicFacade {
   const completeness = {
@@ -924,6 +1018,7 @@ function buildSpajaKodFacade(params: {
       downstreamSyncStatus: params.downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
       kraljevskiPravniUniverzitetStatus: params.kraljevskiPravniUniverzitetStatus,
       funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: params.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
+      funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: params.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus,
       funkionalnoProgramiranjePravnogMisaonogTokaStatus: params.funkionalnoProgramiranjePravnogMisaonogTokaStatus,
       humanReviewRequired: true,
       rollbackPlanRequired: true,
@@ -1197,6 +1292,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'extremProfiler.businessLicensingSignals',
       'extremProfiler.kraljevskiPravniUniverzitetTrack',
       'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka',
+      'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka',
       'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka',
       'extremProfiler.objektnoOrijentisanaProngilacija',
       'extremProfiler.objektnoOrijentisanaReprodukcija',
@@ -1206,6 +1302,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'b2bReadiness.globalLicensing',
       'kraljevskiPravniUniverzitetGovernance',
       'funkcinalnoProgramiranjeEnergetskogMisaonogToka',
+      'funkcionalnoProgramiranjeUzvisenogMisanogToka',
       'funkionalnoProgramiranjePravnogMisaonogToka',
       'objektnoOrijentisanaProngilacija',
       'objektnoOrijentisanaReprodukcija',
@@ -1239,6 +1336,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.businessLicensingSignals',
         'extremProfiler.kraljevskiPravniUniverzitetTrack',
         'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness',
+        'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness',
         'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness',
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
@@ -1247,6 +1345,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'b2bReadiness.globalLicensing',
         'kraljevskiPravniUniverzitetGovernance',
         'funkcinalnoProgramiranjeEnergetskogMisaonogToka',
+        'funkcionalnoProgramiranjeUzvisenogMisanogToka',
         'funkionalnoProgramiranjePravnogMisaonogToka',
         'mobilnaLinija',
         'objektnoOrijentisanaProngilacija',
@@ -1291,6 +1390,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const funkcinalnoProgramiranjeAdjustment = getFunkcinalnoProgramiranjeEnergetskogMisaonogTokaAdjustment(
     extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status,
   );
+  const funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment = getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment(
+    extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
+  );
   const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
     extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
   );
@@ -1319,6 +1421,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         + kraljevskiPravniUniverzitetAdjustment
         + objektnaProngilacijaAdjustment
         + funkcinalnoProgramiranjeAdjustment
+        + funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment
         + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
         + objektnoOrijentisanaReprodukcijaAdjustment
         + epicElikvadentiAdjustment
@@ -1442,6 +1545,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
       ? ['FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA is BLOCKED and must freeze promotion until deterministic functional energy-flow issues are resolved.']
       : []),
+    ...(extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH'
+      ? ['FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA is in WATCH posture and requires elevated thought-flow review before wider rollout.']
+      : []),
+    ...(extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
+      ? ['FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA is BLOCKED and must freeze promotion until elevated thought-flow stability, cohesion, determinism, and conflict pressure are aligned.']
+      : []),
     ...(extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'WATCH'
       ? ['FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA is in WATCH posture and requires legal functional-thought review before wider rollout.']
       : []),
@@ -1491,6 +1600,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
       ? ['funkcinalno-programiranje-energetskog-misaonog-toka']
       : []),
+    ...(extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
+      ? ['funkcionalno-programiranje-uzvisenog-misanog-toka']
+      : []),
     ...(extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
       ? ['funkionalno-programiranje-pravnog-misaonog-toka']
       : []),
@@ -1523,6 +1635,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
     || (extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
+    || (extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH' && !humanReviewComplete)
+    || extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
     || (extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH' && !humanReviewComplete)
@@ -1537,6 +1651,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const funkcinalnoProgramiranjePostureReasons = buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaReasons(
     extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka,
   );
+  const funkcionalnoProgramiranjeUzvisenogMisanogTokaPostureReasons = buildFunkcionalnoProgramiranjeUzvisenogMisanogTokaReasons(
+    extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka,
+  );
   const funkionalnoProgramiranjePravnogMisaonogTokaPostureReasons = buildFunkionalnoProgramiranjePravnogMisaonogTokaReasons(
     extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka,
   );
@@ -1546,6 +1663,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       : []),
     ...objektnaProngilacijaPostureReasons.rolloutReasons,
     ...funkcinalnoProgramiranjePostureReasons.rolloutReasons,
+    ...funkcionalnoProgramiranjeUzvisenogMisanogTokaPostureReasons.rolloutReasons,
     ...funkionalnoProgramiranjePravnogMisaonogTokaPostureReasons.rolloutReasons,
     ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? [
@@ -1621,6 +1739,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'Ready for next WAWE stage with functional energy-flow review visibility before broader rollout.',
           ...rolloutSignalReasons,
         ]
+      : extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH'
+        ? [
+            'Ready for next WAWE stage with elevated thought-flow review visibility before broader rollout.',
+            ...rolloutSignalReasons,
+          ]
       : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
     || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
       ? [
@@ -1680,6 +1803,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       reviewRequiredBeforeWideRollout: extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status !== 'READY',
       blockerReasons: [...extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.blockerReasons],
       watchReasons: [...extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.watchReasons],
+    },
+    funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      status: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
+      readinessScore: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
+      conflictDegradationPressurePercent: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent,
+      reviewRequiredBeforeWideRollout: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status !== 'READY',
+      blockerReasons: [...extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.blockerReasons],
+      watchReasons: [...extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.watchReasons],
     },
     funkionalnoProgramiranjePravnogMisaonogTokaGovernance: {
       sourceOfTruth: '/api/extrimli/extrem',
@@ -1742,6 +1874,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
   });
   const funkcinalnoProgramiranjeEnergetskogMisaonogToka = buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
+    downstreamSyncComplete,
+    humanReviewComplete,
+  });
+  const funkcionalnoProgramiranjeUzvisenogMisanogToka = buildFunkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance({
     extremProfiler,
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
@@ -1858,6 +1998,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           ? 'WARN' as const
           : 'FAIL' as const,
       details: funkcinalnoProgramiranjeEnergetskogMisaonogToka.reasons.join('; '),
+    },
+    {
+      id: 'funkcionalno-programiranje-uzvisenog-misanog-toka-governance',
+      label: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA posture',
+      required: true,
+      status: funkcionalnoProgramiranjeUzvisenogMisanogToka.status === 'READY'
+        ? 'PASS' as const
+        : funkcionalnoProgramiranjeUzvisenogMisanogToka.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: funkcionalnoProgramiranjeUzvisenogMisanogToka.reasons.join('; '),
     },
     {
       id: 'funkionalno-programiranje-pravnog-misaonog-toka-governance',
@@ -2008,6 +2159,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     releaseAuditSummary,
     kraljevskiPravniUniverzitetStatus: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status,
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status,
+    funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
     funkionalnoProgramiranjePravnogMisaonogTokaStatus: extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
   });
   const spajaproTrack = buildSpajaproGovernanceTrack({
@@ -2079,6 +2231,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.petljeSignals.summary.watchSignals',
         'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status',
         'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score',
+        'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status',
+        'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score',
         'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status',
         'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.score',
         'extremProfiler.objektnoOrijentisanaProngilacija.readiness.status',
@@ -2099,6 +2253,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'kraljevskiPravniUniverzitetGovernance.status',
         'kraljevskiPravniUniverzitetGovernance.waweImpact',
         'funkcinalnoProgramiranjeEnergetskogMisaonogToka.waweImpact',
+        'funkcionalnoProgramiranjeUzvisenogMisanogToka.waweImpact',
         'funkionalnoProgramiranjePravnogMisaonogToka.waweImpact',
         'objektnoOrijentisanaProngilacija.waweImpact',
         'objektnoOrijentisanaReprodukcija.waweImpact',
@@ -2134,6 +2289,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       || extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
       || extremProfiler.petljeSignals.summary.freezeRequired
       || extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
+      || extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
       || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
       || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
@@ -2173,6 +2329,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         reviewRequiredBeforeWideRollout: extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status !== 'READY',
         blockerReasons: [...extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.blockerReasons],
         watchReasons: [...extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.watchReasons],
+      },
+      funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance: {
+        sourceOfTruth: '/api/extrimli/extrem',
+        status: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
+        readinessScore: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
+        conflictDegradationPressurePercent: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent,
+        reviewRequiredBeforeWideRollout: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status !== 'READY',
+        blockerReasons: [...extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.blockerReasons],
+        watchReasons: [...extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.watchReasons],
       },
       objektnoOrijentisanaReprodukcijaGovernance: {
         sourceOfTruth: '/api/extrimli/extrem',
@@ -2466,6 +2631,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status'),
     },
     {
+      id: 'funkcionalno-programiranje-uzvisenog-misanog-toka-governance',
+      description: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA is propagated from EXTREM into WAWE score, promotion freeze, release audit, rollback, downstream-sync, and SPAJA KOD public-safe governance.',
+      passed: funkcionalnoProgramiranjeUzvisenogMisanogToka.contractVersion === EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.technicalSignalSource === '/api/extrimli/extrem'
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.governanceVisibility === 'audit-safe-readiness-only'
+        && releaseAuditSummary.funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance.status === extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status')
+        && spajaKod.publicSignals.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus === extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
+    },
+    {
       id: 'funkionalno-programiranje-pravnog-misaonog-toka-governance',
       description: 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA is propagated from EXTREM into WAWE score, release audit, human-review, rollback, downstream-sync, and legal-track governance.',
       passed: funkionalnoProgramiranjePravnogMisaonogToka.contractVersion === EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION
@@ -2574,6 +2749,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     kraljevskiPravniUniverzitetGovernance,
     objektnoOrijentisanaProngilacija,
     funkcinalnoProgramiranjeEnergetskogMisaonogToka,
+    funkcionalnoProgramiranjeUzvisenogMisanogToka,
     funkionalnoProgramiranjePravnogMisaonogToka,
     objektnoOrijentisanaReprodukcija,
     epicElikvadenti,
@@ -2697,6 +2873,10 @@ export {
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_READY_ADJUSTMENT,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_WATCH_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_WATCH_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_READY_ADJUSTMENT,

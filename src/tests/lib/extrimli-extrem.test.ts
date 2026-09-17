@@ -1,5 +1,6 @@
 import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
@@ -119,6 +120,20 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected functional energy-flow status');
     assert(Number.isFinite(signal.readiness.score), 'functional energy-flow score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'functional energy-flow score must be bounded');
+  });
+
+  await test('default report exposes exact-string locked FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.funkcionalnoProgramiranjeUzvisenogMisanogToka;
+    assert(signal.term === 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA', 'elevated thought-flow term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION, 'elevated thought-flow contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'elevated thought-flow source mismatch');
+    assert(signal.meaningLock.spellingDecision === 'exact-user-term-locked', 'elevated thought-flow spelling lock mismatch');
+    assert(signal.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'elevated thought-flow scope lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-elevated-thought-signal', 'elevated thought-flow EXTREM ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected elevated thought-flow status');
+    assert(Number.isFinite(signal.readiness.score), 'elevated thought-flow score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'elevated thought-flow score must be bounded');
   });
 
   await test('default report exposes FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA as additive EXTREM signal', () => {
