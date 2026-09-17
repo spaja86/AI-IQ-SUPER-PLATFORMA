@@ -1136,7 +1136,7 @@ function buildKraljevskiPravniUniverzitetTrack(): ExtrimliExtremKraljevskiPravni
       ],
       primaryContentGap: {
         topic: 'POVELJA O ZAKONODAVNOM PRAVU',
-        status: 'DEFINED',
+        status: 'COMPLETED',
         summary: 'The charter now defines proposal, review, ratification, publication, amendment, and evidence gates for legislative authority.',
       },
     },
@@ -1527,7 +1527,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       id: 'povelja-o-zakonodavnom-pravu-defined',
       description: 'POVELJA O ZAKONODAVNOM PRAVU is completed as the primary legislative-authority charter and no longer remains an undefined content gap.',
       passed: kraljevskiPravniUniverzitetTrack.documentationBoundary.primaryContentGap.topic === 'POVELJA O ZAKONODAVNOM PRAVU'
-        && kraljevskiPravniUniverzitetTrack.documentationBoundary.primaryContentGap.status === 'DEFINED'
+        && kraljevskiPravniUniverzitetTrack.documentationBoundary.primaryContentGap.status === 'COMPLETED'
         && kraljevskiPravniUniverzitetTrack.structuredSignals.charterCompleteness.completenessScore === 100,
     },
     {

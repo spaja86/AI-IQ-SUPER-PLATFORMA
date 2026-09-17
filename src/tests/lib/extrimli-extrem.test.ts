@@ -141,7 +141,7 @@ async function runTests(): Promise<void> {
     assert(track.publicBoundary === '/api/extrimli/spaja-kod', 'public boundary mismatch');
     assert(track.documentationBoundary.sourceMaterialPolicy === 'documentation-only', 'source material policy mismatch');
     assert(track.documentationBoundary.primaryContentGap.topic === 'POVELJA O ZAKONODAVNOM PRAVU', 'primary content gap mismatch');
-    assert(track.documentationBoundary.primaryContentGap.status === 'DEFINED', 'primary content gap status mismatch');
+    assert(track.documentationBoundary.primaryContentGap.status === 'COMPLETED', 'primary content gap status mismatch');
     assert(track.vocabulary.length === 6, 'expected six canonical vocabulary entries');
     assert(
       track.vocabulary.map((entry) => entry.term).join(',') === 'KRALJEVSKI PRAVNI UNIVERZITET,KRALJEVSKA POLITIKA,NIKOLA SPAJIĆ,ZAKON SILNOG,POVELJA O ZAKONODAVNOM PRAVU,PRAVNI POREDAK PO PRAVU GRAĐANSTVA',

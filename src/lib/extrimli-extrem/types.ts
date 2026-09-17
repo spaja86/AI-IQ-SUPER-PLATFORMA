@@ -412,7 +412,7 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
     ];
     primaryContentGap: {
       topic: 'POVELJA O ZAKONODAVNOM PRAVU';
-      status: 'DEFINED';
+      status: 'DEFINED' | 'COMPLETED';
       summary: string;
     };
   };
