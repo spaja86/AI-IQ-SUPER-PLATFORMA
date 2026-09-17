@@ -139,6 +139,21 @@ function parsePercentEnvWithInvalidFallback(
   return round(clamp(parsed, 0, 100), 2);
 }
 
+function selectCanonicalEnvNameWithDeprecatedAliasSuppressed(
+  canonicalName: string,
+  deprecatedAliasName: string,
+): string {
+  if (typeof process.env[canonicalName] !== 'undefined') return canonicalName;
+  if (
+    typeof process.env[deprecatedAliasName] !== 'undefined'
+    && process.env[deprecatedAliasName]?.trim() !== ''
+  ) {
+    return deprecatedAliasName;
+  }
+
+  return canonicalName;
+}
+
 function parseLatencyEnv(name: string, fallback: number, degradedSources: string[]): number {
   const raw = process.env[name];
   if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
@@ -262,14 +277,10 @@ function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
 ): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
   const canonicalConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT';
   const deprecatedConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT';
-  // The canonical key is authoritative whenever it is present, even if blank or malformed,
-  // so deprecated alias values cannot silently override the locked configuration surface.
-  const conflictPressureEnvName = typeof process.env[canonicalConflictPressureEnvName] !== 'undefined'
-    ? canonicalConflictPressureEnvName
-    : typeof process.env[deprecatedConflictPressureEnvName] !== 'undefined'
-      && process.env[deprecatedConflictPressureEnvName]?.trim() !== ''
-      ? deprecatedConflictPressureEnvName
-      : canonicalConflictPressureEnvName;
+  const conflictPressureEnvName = selectCanonicalEnvNameWithDeprecatedAliasSuppressed(
+    canonicalConflictPressureEnvName,
+    deprecatedConflictPressureEnvName,
+  );
 
   return {
     elevatedThoughtFlowStabilityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT', 91, 91, degradedSources),
