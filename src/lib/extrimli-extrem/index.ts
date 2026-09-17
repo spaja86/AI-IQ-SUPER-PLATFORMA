@@ -20,6 +20,9 @@ import type {
   ExtrimliExtremConflictIntensity,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
+  ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaProfileInput,
+  ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal,
+  ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
   ExtrimliExtremKraljevskiPravniTrack,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
@@ -58,6 +61,9 @@ import {
   EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH,
+  EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,
@@ -211,6 +217,17 @@ function resolveObjektnaProngilacijaInput(
   };
 }
 
+function resolveFunkcinalnoProgramiranjeEnergetskogMisaonogTokaInput(
+  degradedSources: string[],
+): ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaProfileInput {
+  return {
+    energeticFlowStabilityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_ENERGETIC_FLOW_STABILITY_PERCENT', 88, 0, degradedSources),
+    functionalTransformationCohesionPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_FUNCTIONAL_TRANSFORMATION_COHESION_PERCENT', 84, 0, degradedSources),
+    thoughtChainDeterminismPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_THOUGHT_CHAIN_DETERMINISM_PERCENT', 86, 0, degradedSources),
+    conflictPressurePercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_FUNCTIONAL_CONFLICT_PRESSURE_PERCENT', 22, 100, degradedSources),
+  };
+}
+
 function resolveEpicElikvadentInput(
   degradedSources: string[],
 ): ExtrimliExtremEpicElikvadentProfileInput {
@@ -238,6 +255,14 @@ function resolveObjektnoOrijentisanaReprodukcijaInput(
 function classifyObjektnaProngilacijaStatus(score: number): ExtrimliExtremObjektnaProngilacijaStatus {
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function classifyFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus(
+  score: number,
+): ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus {
+  if (score >= EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_WATCH_SCORE) return 'WATCH';
   return 'BLOCKED';
 }
 
@@ -343,6 +368,101 @@ function buildObjektnaProngilacijaSignal(
       score,
       status,
       readinessSignal: status === 'READY',
+      degraded,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
+    },
+  };
+}
+
+function buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal(
+  profileInput: ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaProfileInput,
+  degraded: boolean,
+): ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal {
+  const score = round(
+    clamp(
+      (profileInput.energeticFlowStabilityPercent * 0.32)
+      + (profileInput.functionalTransformationCohesionPercent * 0.28)
+      + (profileInput.thoughtChainDeterminismPercent * 0.24)
+      + ((100 - profileInput.conflictPressurePercent) * 0.16),
+      0,
+      100,
+    ),
+    2,
+  );
+  const status = classifyFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus(score);
+  const watchReasons = [
+    ...(profileInput.energeticFlowStabilityPercent < 82 ? [`energetic-flow-watch:${profileInput.energeticFlowStabilityPercent}`] : []),
+    ...(profileInput.functionalTransformationCohesionPercent < 78 ? [`functional-transformation-watch:${profileInput.functionalTransformationCohesionPercent}`] : []),
+    ...(profileInput.thoughtChainDeterminismPercent < 80 ? [`thought-chain-watch:${profileInput.thoughtChainDeterminismPercent}`] : []),
+    ...(profileInput.conflictPressurePercent > 35 ? [`conflict-pressure-watch:${profileInput.conflictPressurePercent}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.energeticFlowStabilityPercent < 58 ? [`energetic-flow-blocked:${profileInput.energeticFlowStabilityPercent}`] : []),
+    ...(profileInput.functionalTransformationCohesionPercent < 55 ? [`functional-transformation-blocked:${profileInput.functionalTransformationCohesionPercent}`] : []),
+    ...(profileInput.thoughtChainDeterminismPercent < 55 ? [`thought-chain-blocked:${profileInput.thoughtChainDeterminismPercent}`] : []),
+    ...(profileInput.conflictPressurePercent > 65 ? [`conflict-pressure-blocked:${profileInput.conflictPressurePercent}`] : []),
+  ];
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
+    ? [`aggregate-watch-score:${score}`]
+    : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length === 0
+    ? [`aggregate-blocked-score:${score}`]
+    : blockerReasons;
+
+  return {
+    term: 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
+    contractVersion: EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
+      statement: 'Additive EXTREM signal that profiles energetic flow stability, functional transformation cohesion, deterministic thought-chain behavior, and bounded conflict pressure for WAWE governance.',
+      interpretationLayer: 'technical-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-functional-energy-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      energeticFlowStability: {
+        canonicalField: 'profileInput.energeticFlowStabilityPercent',
+        meaning: 'energetska-stabilnost-toka',
+      },
+      functionalTransformationCohesion: {
+        canonicalField: 'profileInput.functionalTransformationCohesionPercent',
+        meaning: 'kohezija-funkcionalnih-transformacija',
+      },
+      thoughtChainDeterminism: {
+        canonicalField: 'profileInput.thoughtChainDeterminismPercent',
+        meaning: 'deterministicki-misaoni-lanac',
+      },
+      conflictPressure: {
+        canonicalField: 'profileInput.conflictPressurePercent',
+        meaning: 'konfliktni-pritisak',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    processingModel: {
+      energeticFlowRole: 'Meri da li energetski misaoni tok ostaje stabilan i bounded pod opterećenjem.',
+      transformationRole: 'Potvrđuje da funkcionalne transformacije ostaju kohezivne bez rasipanja odgovornosti.',
+      determinismRole: 'Meri da isti misaoni ulaz zadržava isti transformacioni izlaz kroz tok.',
+      conflictRole: 'Prati konfliktni pritisak i aktivira watch/block posture pre WAWE promocije.',
+      publicBoundaryRole: 'Zadržava sirove funkcionalne detalje u EXTREM/EXTRONDOL sloju dok SPAJA KOD izlaže samo audit-safe status.',
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
       degraded,
       watchReasons: resolvedWatchReasons,
       blockerReasons: resolvedBlockerReasons,
@@ -1231,6 +1351,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const objektnaProngilacijaDegradedSources: string[] = [];
   const objektnaProngilacijaInput = resolveObjektnaProngilacijaInput(objektnaProngilacijaDegradedSources);
   degradedSources.push(...objektnaProngilacijaDegradedSources);
+  const funkcinalnoProgramiranjeDegradedSources: string[] = [];
+  const funkcinalnoProgramiranjeInput = resolveFunkcinalnoProgramiranjeEnergetskogMisaonogTokaInput(funkcinalnoProgramiranjeDegradedSources);
+  degradedSources.push(...funkcinalnoProgramiranjeDegradedSources);
   const epicElikvadentDegradedSources: string[] = [];
   const epicElikvadentInput = resolveEpicElikvadentInput(epicElikvadentDegradedSources);
   degradedSources.push(...epicElikvadentDegradedSources);
@@ -1265,6 +1388,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
     objektnaProngilacijaDegradedSources.length > 0,
+  );
+  const funkcinalnoProgramiranjeEnergetskogMisaonogToka = buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal(
+    funkcinalnoProgramiranjeInput,
+    funkcinalnoProgramiranjeDegradedSources.length > 0,
   );
   const objektnoOrijentusanoUzdizanjeEpskihElikvadenata = buildEpicElikvadentSignal(
     epicElikvadentInput,
@@ -1336,6 +1463,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || petljeSignals.summary.freezeRequired
     || businessLicensingSignals.freezeRequired
     || kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
+    || funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
@@ -1369,6 +1497,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? ['KRALJEVSKI PRAVNI UNIVERZITET track remains in WATCH posture and requires legal-governance review before broader promotion.']
       : []),
     ...(kraljevskiPravniUniverzitetBlockedMessage ? [kraljevskiPravniUniverzitetBlockedMessage] : []),
+    ...(funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
+      ? ['FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA requires review before wider WAWE progression.']
+      : []),
+    ...(funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
+      ? [`FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA blocked WAWE progression: ${funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.blockerReasons.join('; ') || 'functional energy readiness failed.'}`]
+      : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
       : []),
@@ -1403,6 +1537,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
   if (objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`objektna-prongilacija:${objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
+  }
+  if (funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.degraded) {
+    degradedSources.push(`funkcinalno-programiranje-energetskog-misaonog-toka:${funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status.toLowerCase()}`);
   }
   if (objektnoOrijentisanaReprodukcija.readiness.degraded) {
     degradedSources.push(`objektno-orijentisana-reprodukcija:${objektnoOrijentisanaReprodukcija.readiness.status.toLowerCase()}`);
@@ -1573,6 +1710,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(objektnoOrijentisanaProngilacija.readiness.score),
     },
     {
+      id: 'funkcinalno-programiranje-energetskog-misaonog-toka-lock',
+      description: 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA is locked as an additive EXTREM technical signal with explicit EXTREM/EXTRONDOL/SPAJA KOD ownership split.',
+      passed: funkcinalnoProgramiranjeEnergetskogMisaonogToka.contractVersion === EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION
+        && funkcinalnoProgramiranjeEnergetskogMisaonogToka.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && funkcinalnoProgramiranjeEnergetskogMisaonogToka.ownershipModel.extrem === 'technical-functional-energy-signal',
+    },
+    {
+      id: 'funkcinalno-programiranje-energetskog-misaonog-toka-vocabulary',
+      description: 'The functional energy-flow track defines canonical vocabulary, bounded readiness scoring, and audit-safe public-boundary semantics.',
+      passed: funkcinalnoProgramiranjeEnergetskogMisaonogToka.canonicalVocabulary.energeticFlowStability.canonicalField === 'profileInput.energeticFlowStabilityPercent'
+        && funkcinalnoProgramiranjeEnergetskogMisaonogToka.canonicalVocabulary.functionalTransformationCohesion.canonicalField === 'profileInput.functionalTransformationCohesionPercent'
+        && funkcinalnoProgramiranjeEnergetskogMisaonogToka.canonicalVocabulary.thoughtChainDeterminism.canonicalField === 'profileInput.thoughtChainDeterminismPercent'
+        && funkcinalnoProgramiranjeEnergetskogMisaonogToka.canonicalVocabulary.conflictPressure.canonicalField === 'profileInput.conflictPressurePercent'
+        && Number.isFinite(funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score),
+    },
+    {
       id: 'objektno-orijentisana-reprodukcija-lock',
       description: 'Objektno orijentisana reprodukcija is locked as an additive-only EXTREM reproducibility signal with explicit ownership split across EXTREM, EXTRONDOL, and SPAJA KOD.',
       passed: objektnoOrijentisanaReprodukcija.contractVersion === 'v1-objektno-orijentisana-reprodukcija'
@@ -1710,6 +1863,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     kraljevskiPravniUniverzitetTrack,
     petljeSignals,
     objektnoOrijentisanaProngilacija,
+    funkcinalnoProgramiranjeEnergetskogMisaonogToka,
     objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
     semaMuSemaFormula,
@@ -1771,6 +1925,9 @@ export type {
   ExtrimliExtremConflictIntensity,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
+  ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaProfileInput,
+  ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal,
+  ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
   ExtrimliExtremMobilnaLinijaInstallationStatus,
@@ -1809,6 +1966,9 @@ export {
   EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED,
   EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH,
+  EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,

@@ -1,4 +1,5 @@
 import {
+  EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
@@ -104,6 +105,19 @@ async function runTests(): Promise<void> {
     assert(report.objektnoOrijentisanaProngilacija.domainModel.domainObjects.length === 3, 'domain objects should be locked');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.objektnoOrijentisanaProngilacija.readiness.status), 'unexpected object-oriented prongilacija status');
     assert(Number.isFinite(report.objektnoOrijentisanaProngilacija.readiness.score), 'object-oriented prongilacija score must be finite');
+  });
+
+  await test('default report exposes FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.funkcinalnoProgramiranjeEnergetskogMisaonogToka;
+    assert(signal.term === 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA', 'functional energy-flow term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION, 'functional energy-flow contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'functional energy-flow source mismatch');
+    assert(signal.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'functional energy-flow scope lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-functional-energy-signal', 'functional energy-flow EXTREM ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected functional energy-flow status');
+    assert(Number.isFinite(signal.readiness.score), 'functional energy-flow score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'functional energy-flow score must be bounded');
   });
 
   await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {
@@ -316,6 +330,25 @@ async function runTests(): Promise<void> {
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_COMPOSITION_SAFETY_PERCENT'), 'invalid composition safety input should be tracked');
       assert(report.governanceSignal.freezeRequired, 'blocked reproduction readiness should freeze governance');
       assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-reprodukcija-lock' && item.passed), 'object-oriented reproduction lock criterion must pass');
+    });
+  });
+
+  await test('functional energy-flow signal degrades safely and blocks readiness on invalid energetic inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_ENERGETIC_FLOW_STABILITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_FUNCTIONAL_TRANSFORMATION_COHESION_PERCENT: '-20',
+      EXTRIMLI_EXTREM_THOUGHT_CHAIN_DETERMINISM_PERCENT: 'Infinity',
+      EXTRIMLI_EXTREM_FUNCTIONAL_CONFLICT_PRESSURE_PERCENT: '999',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const signal = report.funkcinalnoProgramiranjeEnergetskogMisaonogToka;
+      assert(signal.readiness.status === 'BLOCKED', 'functional energy-flow signal should block on invalid/hostile inputs');
+      assert(signal.readiness.degraded, 'functional energy-flow signal should degrade safely');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_ENERGETIC_FLOW_STABILITY_PERCENT'), 'invalid energetic stability input should be tracked');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_THOUGHT_CHAIN_DETERMINISM_PERCENT'), 'invalid thought-chain determinism input should be tracked');
+      assert(signal.readiness.blockerReasons.length >= 1, 'blocked functional energy-flow signal should keep blocker reasons');
+      assert(report.governanceSignal.freezeRequired, 'blocked functional energy-flow signal should freeze governance');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-lock' && item.passed), 'functional energy-flow lock criterion must pass');
     });
   });
 
