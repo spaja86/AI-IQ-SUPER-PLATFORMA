@@ -388,6 +388,20 @@ async function runTests(): Promise<void> {
     });
   });
 
+  await test('legal-functional blocker thresholds override high aggregate score', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PRAVNI_MISAONI_TOK_STABILITY_PERCENT: '100',
+      EXTRIMLI_EXTREM_FUNKIONALNA_PRAVNA_TRANSFORMACIJA_COHESION_PERCENT: '100',
+      EXTRIMLI_EXTREM_PRAVNO_ZAKLJUCIVANJE_DETERMINISM_PERCENT: '100',
+      EXTRIMLI_EXTREM_EVIDENTIARY_COMPLETENESS_PERCENT: '40',
+      EXTRIMLI_EXTREM_PRAVNI_CONFLICT_ESCALATION_PRESSURE_PERCENT: '20',
+    }, () => {
+      const signal = getExtrimliExtremProfilerReport().funkionalnoProgramiranjePravnogMisaonogToka;
+      assert(signal.readiness.status === 'BLOCKED', 'evidentiary blocker must force BLOCKED even with high aggregate score');
+      assert(signal.readiness.blockerReasons.some((reason) => reason.startsWith('evidentiary-completeness-blocked:40')), 'evidentiary blocker reason must be retained');
+    });
+  });
+
   await test('epic elikvadenti degrade safely and block WAWE progression when readiness collapses', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_EPIC_OBJECT_ELEVATION_INTEGRITY_PERCENT: 'NaN',

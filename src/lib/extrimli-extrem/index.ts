@@ -513,7 +513,6 @@ function buildFunkionalnoProgramiranjePravnogMisaonogTokaSignal(
     ),
     2,
   );
-  const status = classifyFunkionalnoProgramiranjePravnogMisaonogTokaStatus(score);
   const watchReasons = [
     ...(profileInput.legalThoughtFlowStabilityPercent < 84 ? [`legal-thought-flow-watch:${profileInput.legalThoughtFlowStabilityPercent}`] : []),
     ...(profileInput.functionalLegalTransformationCohesionPercent < 80 ? [`functional-legal-transformation-watch:${profileInput.functionalLegalTransformationCohesionPercent}`] : []),
@@ -528,6 +527,12 @@ function buildFunkionalnoProgramiranjePravnogMisaonogTokaSignal(
     ...(profileInput.evidentiaryCompletenessPercent < 62 ? [`evidentiary-completeness-blocked:${profileInput.evidentiaryCompletenessPercent}`] : []),
     ...(profileInput.conflictEscalationPressurePercent > 60 ? [`conflict-escalation-blocked:${profileInput.conflictEscalationPressurePercent}`] : []),
   ];
+  const aggregateStatus = classifyFunkionalnoProgramiranjePravnogMisaonogTokaStatus(score);
+  const status: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus = blockerReasons.length > 0
+    ? 'BLOCKED'
+    : watchReasons.length > 0
+      ? 'WATCH'
+      : aggregateStatus;
   const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
     ? [`aggregate-watch-score:${score}`]
     : watchReasons;
