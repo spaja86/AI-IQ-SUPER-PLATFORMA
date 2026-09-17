@@ -36,6 +36,8 @@ Ovaj dokument zaključava značenje i governance model za **FUNKCIONALNO PROGRAM
 
 ## Operator configuration defaults
 
+Canonical EXTREM operator surface for this track consists of exactly these four primary env variables:
+
 - `EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT` → default `91`
 - `EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT` → default `87`
 - `EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT` → default `88`
