@@ -1,6 +1,7 @@
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
+import type { PetljaInput, PetljaReason, PetljaStatus } from '../petlje';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION } from '../extrimli-objektno-orijentisana-reprodukcija-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION } from '../extrimli-objektno-orijentusano-uzdizanje-epskih-elikvadenata-contract';
@@ -230,6 +231,71 @@ export interface ExtrimliExtremSemaFormulaInput {
 
 export type ExtrimliExtremSemaFormulaStatus = 'PASSED' | 'BLOCKED';
 export type ExtrimliSpajaKodPublicStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremPetljaSignalName =
+  | 'DOK PETLJA'
+  | 'DIK PETLJA'
+  | 'SAR PETLJA'
+  | 'OKRED PETLJA'
+  | 'DIREKT PETLJA'
+  | 'INDIREKT PETLJA';
+export type ExtrimliExtremPetljaSignalCategory = 'RANGE' | 'TARGET' | 'SEQUENCE';
+export type ExtrimliExtremPetljaSignalStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremPetljaSignalInput {
+  kind: ExtrimliExtremPetljaSignalName;
+  category: ExtrimliExtremPetljaSignalCategory;
+  input: Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>;
+}
+
+export interface ExtrimliExtremPetljaSignalResult {
+  kind: ExtrimliExtremPetljaSignalName;
+  category: ExtrimliExtremPetljaSignalCategory;
+  runner: 'canonical-petlja';
+  preservedStandaloneDirektModule: boolean;
+  input: ExtrimliExtremPetljaSignalInput['input'];
+  petljaStatus: PetljaStatus;
+  reason: PetljaReason;
+  output: number;
+  iterations: number;
+  completed: boolean;
+  readinessScore: number;
+  conflictScore: number;
+  status: ExtrimliExtremPetljaSignalStatus;
+  degraded: boolean;
+  warnings: string[];
+}
+
+export interface ExtrimliExtremPetljaSignalSection {
+  term: 'EXTRIMLI EXTRONDOL EXTREM PETLJE';
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'petlje:logic-change';
+  additiveOnly: true;
+  ownershipModel: {
+    extrem: 'technical-petlja-signal-layer';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    direktModule: 'standalone-direct-communication-module-preserved';
+  };
+  contractBoundary: {
+    existingSourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    standaloneDirektModulePreserved: true;
+    direktPetljaMode: 'separate-loop-contract';
+    indirektPetljaMode: 'separate-loop-contract';
+  };
+  categoryMap: {
+    RANGE: readonly ['SAR PETLJA', 'OKRED PETLJA'];
+    TARGET: readonly ['DOK PETLJA', 'DIREKT PETLJA'];
+    SEQUENCE: readonly ['DIK PETLJA', 'INDIREKT PETLJA'];
+  };
+  signals: ExtrimliExtremPetljaSignalResult[];
+  summary: {
+    readinessScore: number;
+    conflictScore: number;
+    freezeRequired: boolean;
+    blockedSignals: ExtrimliExtremPetljaSignalName[];
+    watchSignals: ExtrimliExtremPetljaSignalName[];
+    degradedSignals: ExtrimliExtremPetljaSignalName[];
+  };
+}
 
 export interface ExtrimliExtremSemaFormulaEvaluation {
   canonicalExpression: 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
@@ -355,6 +421,7 @@ export interface ExtrimliExtremProfilerReport {
   businessLicensingSignals: ExtrimliExtremBusinessLicensingSignals;
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
+  petljeSignals: ExtrimliExtremPetljaSignalSection;
   objektnoOrijentisanaProngilacija: ExtrimliExtremObjektnaProngilacijaSignal;
   objektnoOrijentisanaReprodukcija: ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal;
   objektnoOrijentusanoUzdizanjeEpskihElikvadenata: ExtrimliExtremEpicElikvadentSignal;
@@ -421,6 +488,9 @@ export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED = 65;
 export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH = 45;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_CLEAR = 35;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH = 60;
+export const EXTRIMLI_EXTREM_PETLJE_SIGNAL_TRIGGER_LABEL = 'petlje:logic-change';
+export const EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE = 75;
+export const EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE = 50;
 export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION = 'v1-mobilna-linija-installation';
 export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY = 55;
 export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH = 35;

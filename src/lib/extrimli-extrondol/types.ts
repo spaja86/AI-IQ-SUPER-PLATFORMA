@@ -202,6 +202,15 @@ export interface ExtrimliExtrondolB2bReadiness {
       formulaHolds: boolean;
       blockerReasons: string[];
     };
+    petljeGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem';
+      readinessScore: number;
+      conflictScore: number;
+      freezeRequired: boolean;
+      blockedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['blockedSignals'];
+      watchSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['watchSignals'];
+      degradedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['degradedSignals'];
+    };
     objektnoOrijentisanaReprodukcijaGovernance: {
       sourceOfTruth: '/api/extrimli/extrem';
       status: ExtrimliExtremProfilerReport['objektnoOrijentisanaReprodukcija']['readiness']['status'];
@@ -327,6 +336,37 @@ export interface ExtrimliExtrondolEpicElikvadentiGovernance {
   reasons: string[];
 }
 
+export interface ExtrimliExtrondolPetljeGovernance {
+  term: 'EXTRIMLI EXTRONDOL EXTREM PETLJE';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  additiveOnly: true;
+  ownershipModel: {
+    extrem: 'technical-petlja-signal-layer';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    direktModule: 'standalone-direct-communication-module-preserved';
+  };
+  status: 'READY' | 'WATCH' | 'BLOCKED';
+  readinessScore: number;
+  conflictScore: number;
+  freezeRequired: boolean;
+  blockedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['blockedSignals'];
+  watchSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['watchSignals'];
+  degradedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['degradedSignals'];
+  rolloutImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
 export interface ExtrimliExtrondolReleaseAuditSummary {
   required: true;
   status: 'READY' | 'BLOCKED';
@@ -361,6 +401,15 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     muSemaConclusion: ExtrimliExtremProfilerReport['semaMuSemaFormula']['muSemaConclusion'];
     formulaHolds: boolean;
     blockerReasons: string[];
+  };
+  petljeGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    readinessScore: number;
+    conflictScore: number;
+    freezeRequired: boolean;
+    blockedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['blockedSignals'];
+    watchSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['watchSignals'];
+    degradedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['degradedSignals'];
   };
   objektnoOrijentisanaReprodukcijaGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
@@ -760,6 +809,7 @@ export interface ExtrimliExtrondolReport {
   distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   extremProfiler: ExtrimliExtremProfilerReport;
+  petljeGovernance: ExtrimliExtrondolPetljeGovernance;
   objektnoOrijentisanaProngilacija: ExtrimliExtrondolObjektnaProngilacijaGovernance;
   objektnoOrijentisanaReprodukcija: ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance;
   epicElikvadenti: ExtrimliExtrondolEpicElikvadentiGovernance;

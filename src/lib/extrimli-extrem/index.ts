@@ -4,6 +4,14 @@ import {
   clamp,
   round,
 } from '../extrimli';
+import {
+  runDikPetlja,
+  runDirektPetlja,
+  runDokPetlja,
+  runIndirektPetlja,
+  runOkredPetlja,
+  runSarPetlja,
+} from '../petlje';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import type {
   ExtrimliExtremAcceptanceCriterion,
@@ -19,6 +27,11 @@ import type {
   ExtrimliExtremEpicElikvadentProfileInput,
   ExtrimliExtremEpicElikvadentSignal,
   ExtrimliExtremEpicElikvadentStatus,
+  ExtrimliExtremPetljaSignalInput,
+  ExtrimliExtremPetljaSignalName,
+  ExtrimliExtremPetljaSignalResult,
+  ExtrimliExtremPetljaSignalSection,
+  ExtrimliExtremPetljaSignalStatus,
   ExtrimliExtremObjektnaProngilacijaDomainObject,
   ExtrimliExtremObjektnaProngilacijaProfileInput,
   ExtrimliExtremObjektnaProngilacijaSignal,
@@ -64,6 +77,9 @@ import {
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
+  EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE,
+  EXTRIMLI_EXTREM_PETLJE_SIGNAL_TRIGGER_LABEL,
+  EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
 } from './types';
@@ -792,6 +808,192 @@ function buildSpajaKodEncapsulation(params: {
   };
 }
 
+const PETLJA_SIGNAL_CATEGORY_MAP = {
+  RANGE: ['SAR PETLJA', 'OKRED PETLJA'],
+  TARGET: ['DOK PETLJA', 'DIREKT PETLJA'],
+  SEQUENCE: ['DIK PETLJA', 'INDIREKT PETLJA'],
+} as const;
+
+function parseSequenceFromEnv(
+  envName: string,
+  fallback: number[],
+  degradedSources: string[],
+): number[] {
+  const rawValue = process.env[envName];
+  if (typeof rawValue === 'undefined' || rawValue.trim().length === 0) {
+    return fallback;
+  }
+
+  const values = rawValue
+    .split(',')
+    .map((part) => Number(part.trim()));
+  const invalid = values.some((value) => !Number.isFinite(value));
+  if (invalid) {
+    degradedSources.push(`${envName.toLowerCase()}-invalid`);
+    return fallback;
+  }
+
+  return values;
+}
+
+function classifyPetljaSignalStatus(readinessScore: number): ExtrimliExtremPetljaSignalStatus {
+  if (readinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE) {
+    return 'READY';
+  }
+
+  if (readinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE) {
+    return 'WATCH';
+  }
+
+  return 'BLOCKED';
+}
+
+function toPetljaSignalIdentifier(kind: ExtrimliExtremPetljaSignalName): string {
+  return kind.replace(' PETLJA', '').toLowerCase().replaceAll(' ', '_');
+}
+
+function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetljaSignalSection {
+  const sequenceOverride = parseSequenceFromEnv(
+    'EXTRIMLI_EXTREM_PETLJE_INDIREKT_SEQUENCE',
+    [2, 6, 8, 10],
+    degradedSources,
+  );
+
+  const definitions: ExtrimliExtremPetljaSignalInput[] = [
+    {
+      kind: 'DOK PETLJA',
+      category: 'TARGET',
+      input: { start: 0, target: 12, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DIK PETLJA',
+      category: 'SEQUENCE',
+      input: { target: 9, sequence: [3, 7, 8, 9], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'SAR PETLJA',
+      category: 'RANGE',
+      input: { start: 1, end: 5, target: 4, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'OKRED PETLJA',
+      category: 'RANGE',
+      input: { start: 2, end: 10, target: 7, step: 2, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DIREKT PETLJA',
+      category: 'TARGET',
+      input: { start: 2, target: 11, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'INDIREKT PETLJA',
+      category: 'SEQUENCE',
+      input: { start: 1, target: 10, sequence: sequenceOverride, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+  ];
+
+  const signalResults = [
+    { definition: definitions[0], result: runDokPetlja(definitions[0].input) },
+    { definition: definitions[1], result: runDikPetlja(definitions[1].input) },
+    { definition: definitions[2], result: runSarPetlja(definitions[2].input) },
+    { definition: definitions[3], result: runOkredPetlja(definitions[3].input) },
+    { definition: definitions[4], result: runDirektPetlja(definitions[4].input) },
+    { definition: definitions[5], result: runIndirektPetlja(definitions[5].input) },
+  ].map<ExtrimliExtremPetljaSignalResult>(({ definition, result }) => {
+    const warnings = [...result.warnings];
+    const degraded = result.reason !== 'completed' || warnings.length > 0;
+    const invalidInput = result.reason === 'invalid-input';
+    const readinessScore = round(
+      clamp(
+        (invalidInput ? 0 : result.completed ? 82 : 28)
+          + Math.max(0, 12 - result.iterations) * 1.5
+          - warnings.length * 6
+          - (result.reason === 'blocked-status' ? 35 : 0)
+          - (invalidInput ? 24 : 0)
+          - (result.reason === 'max-iterations' ? 22 : 0)
+          - (result.reason === 'time-limit' ? 18 : 0),
+        0,
+        100,
+      ),
+      2,
+    );
+    const conflictScore = round(
+      clamp(
+        (invalidInput ? 88 : (100 - readinessScore) * 0.75)
+          + warnings.length * 8
+          + (result.reason === 'blocked-status' ? 22 : 0),
+        0,
+        100,
+      ),
+      2,
+    );
+    const status = classifyPetljaSignalStatus(readinessScore);
+
+    return {
+      kind: definition.kind,
+      category: definition.category,
+      runner: 'canonical-petlja',
+      preservedStandaloneDirektModule: true,
+      input: definition.input,
+      petljaStatus: result.status,
+      reason: result.reason,
+      output: result.output,
+      iterations: result.iterations,
+      completed: result.completed,
+      readinessScore,
+      conflictScore,
+      status,
+      degraded,
+      warnings,
+    };
+  });
+
+  const blockedSignals = signalResults.filter((signal) => signal.status === 'BLOCKED').map((signal) => signal.kind);
+  const watchSignals = signalResults.filter((signal) => signal.status === 'WATCH').map((signal) => signal.kind);
+  const degradedSignals = signalResults.filter((signal) => signal.degraded).map((signal) => signal.kind);
+
+  for (const signal of degradedSignals) {
+    const degradedSource = `extrimli_extrem_petlje_${toPetljaSignalIdentifier(signal)}-degraded`;
+    if (!degradedSources.includes(degradedSource)) {
+      degradedSources.push(degradedSource);
+    }
+  }
+
+  return {
+    term: 'EXTRIMLI EXTRONDOL EXTREM PETLJE',
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: EXTRIMLI_EXTREM_PETLJE_SIGNAL_TRIGGER_LABEL,
+    additiveOnly: true,
+    ownershipModel: {
+      extrem: 'technical-petlja-signal-layer',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      direktModule: 'standalone-direct-communication-module-preserved',
+    },
+    contractBoundary: {
+      existingSourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+      standaloneDirektModulePreserved: true,
+      direktPetljaMode: 'separate-loop-contract',
+      indirektPetljaMode: 'separate-loop-contract',
+    },
+    categoryMap: PETLJA_SIGNAL_CATEGORY_MAP,
+    signals: signalResults,
+    summary: {
+      readinessScore: round(
+        clamp(signalResults.reduce((sum, signal) => sum + signal.readinessScore, 0) / signalResults.length, 0, 100),
+        2,
+      ),
+      conflictScore: round(
+        clamp(signalResults.reduce((sum, signal) => sum + signal.conflictScore, 0) / signalResults.length, 0, 100),
+        2,
+      ),
+      freezeRequired: blockedSignals.length > 0,
+      blockedSignals,
+      watchSignals,
+      degradedSignals,
+    },
+  };
+}
+
 function buildBusinessLicensingSignals(): ExtrimliExtremBusinessLicensingSignals {
   const registar = buildAIIQWorldBankLicencniRegistar();
   const activityCoverageScore = round(
@@ -858,6 +1060,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const conflictIntensity = classifyConflict(conflictScore);
   const optimizationTier = mapOptimizationTier(conflictIntensity);
   const businessLicensingSignals = buildBusinessLicensingSignals();
+  const petljeSignals = buildPetljaSignalSection(degradedSources);
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
     objektnaProngilacijaDegradedSources.length > 0,
@@ -929,6 +1132,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || conflictIntensity === 'CRITICAL'
     || !withinTargets
     || blockerActive
+    || petljeSignals.summary.freezeRequired
     || businessLicensingSignals.freezeRequired
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
@@ -942,6 +1146,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(bottleneckDetected ? ['Browser graphics bottleneck detected in DISKVIT layer.'] : []),
     ...(rekulitiPoRauletu === 'WARN' ? ['REKULITI PO RAULETU remains in warning posture for REZOLUCIJA/EKODOR review.'] : []),
     ...(rekulitiPoRauletu === 'FREEZE' ? ['REKULITI PO RAULETU requires freeze because DISCAN in KIBEN or REZOLUCIJA readiness is blocked.'] : []),
+    ...(petljeSignals.summary.freezeRequired
+      ? [`EXTREM PETLJE blocked WAWE progression: ${petljeSignals.summary.blockedSignals.join(', ')}`]
+      : ['EXTREM PETLJE signals are additive and technically bounded at the EXTREM layer.']),
+    ...(petljeSignals.summary.watchSignals.length > 0
+      ? [`EXTREM PETLJE watch signals remain under review: ${petljeSignals.summary.watchSignals.join(', ')}`]
+      : []),
     ...(businessLicensingSignals.freezeRequired
       ? [`Global licensing readiness gate triggered: ${businessLicensingSignals.freezeReasons.join(', ')}`]
       : ['Global licensing readiness is aligned for EXTREM governance.']),
@@ -972,6 +1182,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (!withinTargets) {
     degradedSources.push('profiler-kpi-breach');
   }
+  if (petljeSignals.summary.freezeRequired) degradedSources.push('petlje-signals:freeze-required');
   if (businessLicensingSignals.freezeRequired) degradedSources.push('global-licensing:freeze-required');
   if (objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`objektna-prongilacija:${objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
@@ -1013,6 +1224,26 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       id: 'additive-only-compatibility',
       description: 'Profiler surface is additive-only and does not alias or mutate existing EXTRIMLI contracts.',
       passed: true,
+    },
+    {
+      id: 'petlje-contract-boundary-lock',
+      description: 'DOK, DIK, SAR, OKRED, DIREKT, and INDIREKT are modeled as canonical PETLJE signals while the standalone DIREKT module remains preserved.',
+      passed: petljeSignals.contractBoundary.existingSourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
+        && petljeSignals.contractBoundary.standaloneDirektModulePreserved
+        && petljeSignals.contractBoundary.direktPetljaMode === 'separate-loop-contract'
+        && petljeSignals.contractBoundary.indirektPetljaMode === 'separate-loop-contract',
+    },
+    {
+      id: 'petlje-signal-normalization',
+      description: 'All new PETLJE signals publish bounded readiness/conflict outputs with additive degraded-safe semantics.',
+      passed: petljeSignals.signals.length === 6
+        && petljeSignals.signals.every((signal) =>
+          Number.isFinite(signal.readinessScore)
+          && signal.readinessScore >= 0
+          && signal.readinessScore <= 100
+          && Number.isFinite(signal.conflictScore)
+          && signal.conflictScore >= 0
+          && signal.conflictScore <= 100),
     },
     {
       id: 'finite-conflict-score',
@@ -1202,6 +1433,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       optimizationTier,
     },
     businessLicensingSignals,
+    petljeSignals,
     objektnoOrijentisanaProngilacija,
     objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
@@ -1271,6 +1503,11 @@ export type {
   ExtrimliExtremEpicElikvadentProfileInput,
   ExtrimliExtremEpicElikvadentSignal,
   ExtrimliExtremEpicElikvadentStatus,
+  ExtrimliExtremPetljaSignalInput,
+  ExtrimliExtremPetljaSignalName,
+  ExtrimliExtremPetljaSignalResult,
+  ExtrimliExtremPetljaSignalSection,
+  ExtrimliExtremPetljaSignalStatus,
   ExtrimliExtremObjektnaProngilacijaDomainObject,
   ExtrimliExtremObjektnaProngilacijaProfileInput,
   ExtrimliExtremObjektnaProngilacijaSignal,

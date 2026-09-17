@@ -36,14 +36,20 @@ import { runZurPetlja } from './zur-petlja';
 import { runIziPetlja } from './izi-petlja';
 import { runUkPetlja } from './uk-petlja';
 import { runZumPetlja } from './zum-petlja';
+import { runDokPetlja } from './dok-petlja';
+import { runDikPetlja } from './dik-petlja';
+import { runSarPetlja } from './sar-petlja';
+import { runOkredPetlja } from './okred-petlja';
+import { runDirektPetlja } from './direkt-petlja';
+import { runIndirektPetlja } from './indirekt-petlja';
 
 const GOAL =
   'Pivotiranje između petlji kroz segmente uz kontrolisan export/import međurezultata.';
 
 const SEGMENT_DEFAULT_LOOPS: Record<SpajaSegmentKind, PetljaKind[]> = {
-  RANGE: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA'],
-  TARGET: ['ITCH PETLJA', 'KUR PETLJA'],
-  SEQUENCE: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA'],
+  RANGE: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA', 'SAR PETLJA', 'OKRED PETLJA'],
+  TARGET: ['ITCH PETLJA', 'KUR PETLJA', 'DOK PETLJA', 'DIREKT PETLJA'],
+  SEQUENCE: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA', 'DIK PETLJA', 'INDIREKT PETLJA'],
 };
 
 const SEGMENT_ALLOWED_LOOPS: Record<SpajaSegmentKind, Set<PetljaKind>> = {
@@ -51,6 +57,12 @@ const SEGMENT_ALLOWED_LOOPS: Record<SpajaSegmentKind, Set<PetljaKind>> = {
   TARGET: new Set(SEGMENT_DEFAULT_LOOPS.TARGET),
   SEQUENCE: new Set(SEGMENT_DEFAULT_LOOPS.SEQUENCE),
 };
+
+const DEFAULT_SEGMENTS: SpajaSegmentConfig[] = [
+  { segment: 'RANGE', importFromPrevious: false, loops: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA'] },
+  { segment: 'TARGET', importFromPrevious: true, loops: ['ITCH PETLJA', 'KUR PETLJA'] },
+  { segment: 'SEQUENCE', importFromPrevious: true, loops: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA'] },
+];
 
 const RUNNERS: Record<PetljaKind, (input: PetljaInput) => PetljaResult> = {
   'FOR PETLJA': runForPetlja,
@@ -69,6 +81,12 @@ const RUNNERS: Record<PetljaKind, (input: PetljaInput) => PetljaResult> = {
   'IZI PETLJA': runIziPetlja,
   'UK PETLJA': runUkPetlja,
   'ZUM PETLJA': runZumPetlja,
+  'DOK PETLJA': runDokPetlja,
+  'DIK PETLJA': runDikPetlja,
+  'SAR PETLJA': runSarPetlja,
+  'OKRED PETLJA': runOkredPetlja,
+  'DIREKT PETLJA': runDirektPetlja,
+  'INDIREKT PETLJA': runIndirektPetlja,
   'SPAJA PETLJA': () => {
     throw new Error('SPAJA PETLJA ne može rekurzivno da pozove samu sebe');
   },
@@ -85,11 +103,7 @@ function resolveSegments(input: PetljaInput): SpajaSegmentConfig[] {
     return input.spajaSegments;
   }
 
-  return [
-    { segment: 'RANGE', importFromPrevious: false },
-    { segment: 'TARGET', importFromPrevious: true },
-    { segment: 'SEQUENCE', importFromPrevious: true },
-  ];
+  return DEFAULT_SEGMENTS;
 }
 
 function computeExportValue(part: PetljaResult, fields: SpajaTransferField[]): number | undefined {

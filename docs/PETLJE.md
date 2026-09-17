@@ -17,6 +17,12 @@ Ovaj dokument definiše značenje, cilj i zajednički API za:
 - `IZI PETLJA`
 - `UK PETLJA`
 - `ZUM PETLJA`
+- `DOK PETLJA`
+- `DIK PETLJA`
+- `SAR PETLJA`
+- `OKRED PETLJA`
+- `DIREKT PETLJA`
+- `INDIREKT PETLJA`
 - `SPAJA PETLJA`
 - `DURMITOR PETLJA`
 - `UMBREL PETLJA`
@@ -102,11 +108,42 @@ Dozvoljeni alias-i ulaza:
     - Cilj: Sabiranje kvadrata svih posećenih vrednosti u opsegu.
     - Izlaz: Zbir kvadrata.
 
-18. **SPAJA PETLJA**
+18. **DOK PETLJA**
+    - Cilj: Target petlja koja prilazi `target` vrednosti i akumulira preostalu udaljenost po svakom pomaku.
+    - Kategorija: `TARGET`.
+    - Izlaz: Akumulirana preostala udaljenost do target-a.
+
+19. **DIK PETLJA**
+    - Cilj: Sequence petlja koja prati svako poboljšanje best-so-far blizine prema `target`.
+    - Kategorija: `SEQUENCE`.
+    - Izlaz: Zbir svih pozitivnih poboljšanja u odnosu na `target`.
+
+20. **SAR PETLJA**
+    - Cilj: Range petlja koja sabira potpisano odstupanje svake posećene vrednosti od `target`.
+    - Kategorija: `RANGE`.
+    - Izlaz: Ukupan signed offset prema `target`.
+
+21. **OKRED PETLJA**
+    - Cilj: Range petlja koja bira posećenu vrednost najbližu `target`.
+    - Kategorija: `RANGE`.
+    - Izlaz: Najbliža posećena vrednost.
+
+22. **DIREKT PETLJA**
+    - Cilj: Target petlja koja meri direktno zatvaranje distance prema `target`.
+    - Kategorija: `TARGET`.
+    - Izlaz: Akumulirano direktno zatvaranje distance.
+    - Napomena: Ovo je zaseban PETLJE kontrakt i ne menja standalone `DIREKT` modul.
+
+23. **INDIREKT PETLJA**
+    - Cilj: Sequence petlja koja zatvara distancu prema `target` preko waypoint sekvence.
+    - Kategorija: `SEQUENCE`.
+    - Izlaz: Akumulirano indirektno zatvaranje distance.
+
+24. **SPAJA PETLJA**
     - Cilj: Pivotira između petlji po segmentima (`RANGE`, `TARGET`, `SEQUENCE`) i prenosi međurezultate kroz kontrolisan export/import.
     - Izlaz: Agregirani izlaz svih segmentnih petlji uz audit trag pivot tranzicija.
 
-19. **DURMITOR PETLJA**
+25. **DURMITOR PETLJA**
     - Cilj: Širenje od vrha ka podnožju kroz slojeve koji rastu po širini i nose u sebi `UMBREL PETLJU`.
     - Izlaz: Zbir svih planinskih slojeva uz dodat ugrađeni izlaz `UMBREL PETLJE`.
 
@@ -138,9 +175,9 @@ Kontrakt verzija: `1.0.0`
 - Svaka petlja ima zaštitu od beskonačnog izvršavanja:
   - `maxIterations`
   - `maxDurationMs`
-- Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`) zahtevaju smislen smer koraka u odnosu na opseg, a `ITCH PETLJA` i `KUR PETLJA` dodatno zahtevaju smislen korak u odnosu na `target`.
-- Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`) validiraju svaki element niza pre izvršavanja.
-- Target-orijentisane petlje (`ITCH`, `KUR`, `YU`, `ZUR`, `IZI`, `UK`) koriste `target` kao deo izvršne logike.
+- Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`, `SAR`, `OKRED`) zahtevaju smislen smer koraka u odnosu na opseg, a target-range varijante dodatno validiraju `target`.
+- Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`, `DIK`, `INDIREKT`) validiraju svaki element niza pre izvršavanja.
+- Target-orijentisane petlje (`ITCH`, `KUR`, `DOK`, `DIREKT`) koriste `target` kao deo glavne izvršne logike.
 - `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.
 - `DURMITOR PETLJA` validira opseg kao range-orijentisana petlja, koristi `sequence` kao pejzažni sloj i nasleđuje finalni status od ugrađene `UMBREL PETLJE` kada njen interni agregat nije uspešan.
 - `SPAJA PETLJA` validira segmentnu konfiguraciju pre izvršavanja:
@@ -182,6 +219,6 @@ Kontrakt verzija: `1.0.0`
 ## Kratak tok (primer)
 
 1. Priprema `PetljaInput`.
-2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runDorPetlja`, `runExePetlja`, `runKurPetlja`, `runDarPetlja`, `runYuPetlja`, `runZarPetlja`, `runDerPetlja`, `runGarPetlja`, `runZurPetlja`, `runIziPetlja`, `runUkPetlja`, `runZumPetlja`, `runSpajaPetlja`, `runDurmitorPetlja`, `runUmbrelPetlja`).
+2. Poziv jedne od petlji (`runForPetlja`, `runItchPetlja`, `runUrPelja`, `runNikPetlja`, `runDorPetlja`, `runExePetlja`, `runKurPetlja`, `runDarPetlja`, `runYuPetlja`, `runZarPetlja`, `runDerPetlja`, `runGarPetlja`, `runZurPetlja`, `runIziPetlja`, `runUkPetlja`, `runZumPetlja`, `runDokPetlja`, `runDikPetlja`, `runSarPetlja`, `runOkredPetlja`, `runDirektPetlja`, `runIndirektPetlja`, `runSpajaPetlja`, `runDurmitorPetlja`, `runUmbrelPetlja`).
 3. Obrada standardizovanog `PetljaResult`.
 4. Audit kroz `trace`, `warnings`, `reason` i `durationMs`.

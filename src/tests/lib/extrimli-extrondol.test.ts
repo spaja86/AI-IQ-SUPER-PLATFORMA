@@ -357,6 +357,11 @@ async function runTests(): Promise<void> {
     const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
       report.extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
     );
+    const petljeAdjustment = report.extremProfiler.petljeSignals.summary.freezeRequired
+      ? -10
+      : report.extremProfiler.petljeSignals.summary.watchSignals.length > 0
+        ? -4
+        : 2;
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -367,6 +372,7 @@ async function runTests(): Promise<void> {
           + objektnaProngilacijaAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
+          + petljeAdjustment
           + profilerBoost
           - profilerPenalty,
         0,
@@ -379,6 +385,28 @@ async function runTests(): Promise<void> {
       report.nivoDuet.signal.warnings.some((warning) => warning.includes('Very narrow shared window')),
       'expected narrow shared window warning for penalty coverage',
     );
+  });
+
+  await test('report propagates PETLJE governance into rollout, audit summary, and downstream sync', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.petljeGovernance.term === 'EXTRIMLI EXTRONDOL EXTREM PETLJE', 'petlje governance term mismatch');
+    assert(report.petljeGovernance.technicalSignalSource === '/api/extrimli/extrem', 'petlje governance technical source mismatch');
+    assert(report.releaseAuditSummary.petljeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit petlje source mismatch');
+    assert(report.releaseAuditSummary.petljeGovernance.freezeRequired === report.extremProfiler.petljeSignals.summary.freezeRequired, 'release audit petlje freeze mismatch');
+    assert(report.b2bReadiness.governanceDecisions.petljeGovernance.conflictScore === report.extremProfiler.petljeSignals.summary.conflictScore, 'B2B petlje conflict mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.petljeSignals.summary.freezeRequired'), 'petlje freeze field must sync downstream');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'petlje-signal-governance' && item.passed), 'petlje governance criterion must pass');
+  });
+
+  await test('degraded PETLJE signal inputs stay additive in EXTRONDOL audit output', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PETLJE_INDIREKT_SEQUENCE: '1,NaN,3',
+    }, () => {
+      const report = getExtrimliExtrondolReport();
+      assert(report.rollout.promotionFreeze, 'degraded petlje inputs must freeze rollout conservatively');
+      assert(report.degradedSources.includes('extrem-profiler:petlje-degraded') || report.degradedSources.includes('extrem-profiler:degraded'), 'petlje degradation should be surfaced');
+      assert(report.releaseAuditSummary.petljeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit petlje source must remain stable');
+    });
   });
 
   await test('report includes required upstream surfaces', () => {

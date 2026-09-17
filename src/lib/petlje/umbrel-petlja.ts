@@ -16,6 +16,12 @@ import { runZurPetlja } from './zur-petlja';
 import { runIziPetlja } from './izi-petlja';
 import { runUkPetlja } from './uk-petlja';
 import { runZumPetlja } from './zum-petlja';
+import { runDokPetlja } from './dok-petlja';
+import { runDikPetlja } from './dik-petlja';
+import { runSarPetlja } from './sar-petlja';
+import { runOkredPetlja } from './okred-petlja';
+import { runDirektPetlja } from './direkt-petlja';
+import { runIndirektPetlja } from './indirekt-petlja';
 
 const GOAL = 'Orkestracija svih petlji kroz jedinstven, stabilan i auditabilan rezultat.';
 
@@ -124,6 +130,12 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const iziResult = runIziPetlja(normalized);
   const ukResult = runUkPetlja(normalized);
   const zumResult = runZumPetlja(normalized);
+  const dokResult = runDokPetlja(normalized);
+  const dikResult = runDikPetlja(normalized);
+  const sarResult = runSarPetlja(normalized);
+  const okredResult = runOkredPetlja(normalized);
+  const direktResult = runDirektPetlja(normalized);
+  const indirektResult = runIndirektPetlja(normalized);
 
   const parts = [
     forResult,
@@ -142,6 +154,12 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     iziResult,
     ukResult,
     zumResult,
+    dokResult,
+    dikResult,
+    sarResult,
+    okredResult,
+    direktResult,
+    indirektResult,
   ];
   const aggregated = aggregateParts(parts);
 

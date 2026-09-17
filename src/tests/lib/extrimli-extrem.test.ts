@@ -142,6 +142,30 @@ async function runTests(): Promise<void> {
     assert(report.versionRoadmap.sharedPrinciples.some((item) => item.id === 'additive-only-expansion'), 'additive-only roadmap principle missing');
   });
 
+  await test('default report exposes additive PETLJE technical signals with locked ownership boundary', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.petljeSignals.term === 'EXTRIMLI EXTRONDOL EXTREM PETLJE', 'petlje term mismatch');
+    assert(report.petljeSignals.sourceOfTruth === '/api/extrimli/extrem', 'petlje source mismatch');
+    assert(report.petljeSignals.contractBoundary.standaloneDirektModulePreserved, 'standalone DIREKT module must remain preserved');
+    assert(report.petljeSignals.contractBoundary.direktPetljaMode === 'separate-loop-contract', 'DIREKT PETLJA mode mismatch');
+    assert(report.petljeSignals.signals.length === 6, 'expected six petlje signals');
+    assert(report.petljeSignals.signals.every((signal) => signal.runner === 'canonical-petlja'), 'petlje signals must stay on canonical runners');
+    assert(report.petljeSignals.signals.every((signal) => signal.readinessScore >= 0 && signal.readinessScore <= 100), 'petlje readiness scores must be bounded');
+    assert(report.petljeSignals.signals.every((signal) => signal.conflictScore >= 0 && signal.conflictScore <= 100), 'petlje conflict scores must be bounded');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'petlje-contract-boundary-lock' && item.passed), 'petlje contract criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'petlje-signal-normalization' && item.passed), 'petlje normalization criterion must pass');
+  });
+
+  await test('PETLJE sequence env degrades safely without breaking EXTREM payload', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PETLJE_INDIREKT_SEQUENCE: '1,NaN,3',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.petljeSignals.signals.find((signal) => signal.kind === 'INDIREKT PETLJA')?.input.sequence?.join(',') === '2,6,8,10', 'invalid sequence should fall back to canonical values');
+      assert(report.degradedSources.includes('extrimli_extrem_petlje_indirekt_sequence-invalid'), 'invalid petlje env must be tracked as degraded');
+    });
+  });
+
   await test('SPAJA KOD encapsulation hides raw EXTREM pattern details and keeps public readiness stable', () => {
     const report = getExtrimliExtremProfilerReport();
     assert(report.spajaKodEncapsulation.surfaceName === 'SPAJA KOD', 'SPAJA KOD surface mismatch');
