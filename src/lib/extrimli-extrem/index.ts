@@ -28,7 +28,6 @@ import type {
   ExtrimliExtremEpicElikvadentSignal,
   ExtrimliExtremEpicElikvadentStatus,
   ExtrimliExtremPetljaSignalInput,
-  ExtrimliExtremPetljaSignalName,
   ExtrimliExtremPetljaSignalResult,
   ExtrimliExtremPetljaSignalSection,
   ExtrimliExtremPetljaSignalStatus,

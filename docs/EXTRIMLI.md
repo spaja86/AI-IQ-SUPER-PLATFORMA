@@ -15,8 +15,8 @@ This repository now exposes five aligned surfaces:
 | **Extendol (Extended)** | `src/lib/extrimli-extendol/`, `src/app/api/extrimli/extendol/` | Active | Unified “maximum functionality for all” contract that aggregates v1 + v3 + EXTRIMLI CUZ + KORON |
 | **KORON** | `src/lib/extrimli-koron/`, `src/app/api/extrimli/koron/` | Active | Readiness overlay that summarizes cross-surface stability, sync coverage, and degraded posture |
 | **EXTRONDEND** | `src/lib/extrimli-extrondend/`, `src/app/api/extrimli/extrondend/` | Active | Dedicated aggregation/scoring surface (not an alias) over v1/v3/CUZ/Extendol/KORON |
-| **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity, optimization-tier output, and canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` signal for WAWE governance |
-| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, EXTREM profiler governance signal, and MUŠEMA freeze/promotion gate |
+| **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity, optimization-tier output, canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` signal, and additive PETLJE technical profiling for `DOK`, `DIK`, `SAR`, `OKRED`, `DIREKT`, `INDIREKT` |
+| **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, EXTREM profiler governance signal, MUŠEMA freeze/promotion gate, and PETLJE rollout/audit propagation |
 | **SPAJA KOD** | `src/app/api/extrimli/spaja-kod/` | Active | Public encapsulated facade over EXTREM + EXTRONDOL that exposes only system readiness, governance, and audit signals |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
@@ -97,6 +97,29 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - **World Bank Persona Bridge** je kanonski bridge za mapiranje `/api/ai-iq-world-bank` + `/api/extrimli/*` signala u Persona Bank tok na `/api/extrimli/world-bank-persona`.
 - EXTRONDEND i EXTRONDOL nisu alias-i postojećih surface-ova (Extendol/KORON), već zasebni versioned ugovori.
 - Owner: `@spaja86`; trigger labels: `extrimli:logic-change`, `extrondend:logic-change`, `extrondol:logic-change`, `nivo-duet:logic-change`, `dinkos:logic-change`.
+
+## EXTREM / EXTRONDOL PETLJE boundary
+
+- Canonical PETLJE added to the EXTREM technical layer:
+  - `DOK PETLJA` (`TARGET`)
+  - `DIK PETLJA` (`SEQUENCE`)
+  - `SAR PETLJA` (`RANGE`)
+  - `OKRED PETLJA` (`RANGE`)
+  - `DIREKT PETLJA` (`TARGET`)
+  - `INDIREKT PETLJA` (`SEQUENCE`)
+- **EXTREM** owns the technical profiling section for these petlje:
+  - normalized readiness/conflict scores
+  - degraded-safe output
+  - blocked/watch/ready posture
+  - preserved source-of-truth route: `/api/extrimli/extrem`
+- **EXTRONDOL** only consumes those signals for:
+  - WAWE rollout posture
+  - promotion freeze reasons
+  - release audit summary
+  - B2B governance and downstream sync
+  - preserved source-of-truth route: `/api/extrimli/extrondol`
+- Standalone `DIREKT` module remains repo-local and separate from `DIREKT PETLJA`; the new PETLJE contract does not alias or replace `/api/direkt/*`.
+- These PETLJE signals remain repo-local; `docs/MULTI-REPO-LINKS.md` does not change unless they later become an explicit linked-repo contract.
 
 ## EXTRIMLI World Bank → Persona bridge
 
