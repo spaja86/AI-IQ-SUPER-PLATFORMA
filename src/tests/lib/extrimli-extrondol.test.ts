@@ -23,11 +23,16 @@ import {
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
   getEpicElikvadentiAdjustment,
   getObjektnaProngilacijaAdjustment,
+  getObjektnoOrijentisanaReprodukcijaAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
 import {
@@ -142,6 +147,7 @@ async function runTests(): Promise<void> {
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(report.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion), 'release audit MUŠEMA conclusion mismatch');
     assert(report.releaseAuditSummary.humanReviewRequired, 'release audit must require human review');
     assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
+    assert(report.releaseAuditSummary.objektnoOrijentisanaReprodukcijaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit reproduction source mismatch');
   });
 
   await test('report maps objektno orijentisana prongilacija into WAWE governance and downstream sync', () => {
@@ -154,6 +160,16 @@ async function runTests(): Promise<void> {
     assert(report.objektnoOrijentisanaProngilacija.auditCoupling.rollbackPlanRequired, 'rollback must stay required');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentisanaProngilacija.readiness.status'), 'object-oriented prongilacija status must sync downstream');
     assert(report.startProject.mandatoryOutputs.includes('objektnoOrijentisanaProngilacija'), 'object-oriented prongilacija must be mandatory output');
+  });
+
+  await test('report maps objektno orijentisana reprodukcija into WAWE governance and downstream sync', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.objektnoOrijentisanaReprodukcija.term === 'Objektno orijentisana reprodukcija', 'object-oriented reproduction term mismatch');
+    assert(report.objektnoOrijentisanaReprodukcija.contractVersion === EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION, 'object-oriented reproduction contract mismatch');
+    assert(report.objektnoOrijentisanaReprodukcija.technicalSignalSource === '/api/extrimli/extrem', 'object-oriented reproduction technical source mismatch');
+    assert(report.releaseAuditSummary.objektnoOrijentisanaReprodukcijaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'reproduction audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status'), 'object-oriented reproduction status must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('objektnoOrijentisanaReprodukcija'), 'object-oriented reproduction must be mandatory output');
   });
 
   await test('report maps epic elikvadenti into WAWE governance and downstream sync', () => {
@@ -241,6 +257,22 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-release-audit-alignment' && item.passed), 'SPAJAPRO release-audit criterion must pass');
   });
 
+  await test('blocked objektno orijentisana reprodukcija freezes WAWE promotion', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_OBJECT_STATE_REPRODUCIBILITY_PERCENT: '10',
+      EXTRIMLI_EXTREM_METHOD_DETERMINISM_PERCENT: '10',
+      EXTRIMLI_EXTREM_INSTANCE_REPLAY_CONSISTENCY_PERCENT: '10',
+      EXTRIMLI_EXTREM_DELEGATION_STABILITY_PERCENT: '10',
+      EXTRIMLI_EXTREM_COMPOSITION_SAFETY_PERCENT: '10',
+    }, () => {
+      const report = getExtrimliExtrondolReport();
+      assert(report.objektnoOrijentisanaReprodukcija.status === 'BLOCKED', 'object-oriented reproduction should be blocked');
+      assert(report.rollout.promotionFreeze, 'blocked object-oriented reproduction should freeze rollout');
+      assert(report.b2bReadiness.compliance.blockers.includes('objektno-orijentisana-reprodukcija'), 'reproduction blocker should enter compliance');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-reprodukcija-governance' && item.passed), 'reproduction governance criterion must pass');
+    });
+  });
+
   await test('blocked epic elikvadenti freeze WAWE promotion', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_EPIC_OBJECT_ELEVATION_INTEGRITY_PERCENT: '10',
@@ -255,6 +287,12 @@ async function runTests(): Promise<void> {
       assert(report.b2bReadiness.compliance.blockers.includes('epic-elikvadenti'), 'epic elikvadenti blocker should enter compliance');
       assert(report.acceptanceCriteria.some((item) => item.id === 'epic-elikvadenti-governance' && item.passed), 'epic governance criterion must pass');
     });
+  });
+
+  await test('object-oriented reproduction adjustment remains bounded by status', () => {
+    assert(getObjektnoOrijentisanaReprodukcijaAdjustment('READY') === EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT, 'READY reproduction adjustment mismatch');
+    assert(getObjektnoOrijentisanaReprodukcijaAdjustment('WATCH') === EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT, 'WATCH reproduction adjustment mismatch');
+    assert(getObjektnoOrijentisanaReprodukcijaAdjustment('BLOCKED') === EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT, 'BLOCKED reproduction adjustment mismatch');
   });
 
   await test('epic elikvadenti adjustment remains bounded by status', () => {
@@ -313,6 +351,9 @@ async function runTests(): Promise<void> {
     const objektnaProngilacijaAdjustment = getObjektnaProngilacijaAdjustment(
       report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status,
     );
+    const objektnoOrijentisanaReprodukcijaAdjustment = getObjektnoOrijentisanaReprodukcijaAdjustment(
+      report.extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status,
+    );
     const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
       report.extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
     );
@@ -324,6 +365,7 @@ async function runTests(): Promise<void> {
           + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE
           + (statusAdjustment - warningPenalty)
           + objektnaProngilacijaAdjustment
+          + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
           + profilerBoost
           - profilerPenalty,

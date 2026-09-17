@@ -267,6 +267,35 @@ Governance impact:
 - `WATCH` signal zahteva review, ali ne menja public boundary.
 - `BLOCKED` signal mora da aktivira promotion freeze kroz EXTRONDOL.
 
+## Objektno orijentisana reprodukcija
+
+- Canonical term: `Objektno orijentisana reprodukcija`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-OBJEKTNO-ORIJENTISANA-REPRODUKCIJA.md`
+
+Ownership split:
+
+- **EXTREM** publishes the technical reproducibility signal for object state and behavior.
+- **EXTRONDOL** consumes that signal for WAWE freeze/promotion, release audit, rollback, human-review, and downstream-sync governance.
+- **SPAJA KOD** remains encapsulated and exposes only public-safe readiness/governance output without raw replay internals.
+
+Locked semantic model:
+
+- `reproduktivno stanje` = audit-safe snapshot objekt stanja
+- `metodska determinističnost` = isti ulazi daju isti izlaz
+- `replay konzistentnost instance` = lifecycle ostaje stabilan kroz ponavljanje
+- `delegaciona stabilnost` = odgovornosti ostaju dosledno raspoređene
+- `kompoziciona bezbednost` = složeni objekti zadržavaju bounded izlaz
+
+Governance impact:
+
+- `READY` signal podržava dalji WAWE napredak i deterministic replay posture.
+- `WATCH` signal zahteva review pre šireg rollout-a, bez promene public boundary-ja.
+- `BLOCKED` signal mora da aktivira promotion freeze kroz EXTRONDOL i release audit.
+
 ### Objektno orijentusano uzdizanje epskih elikvadenata
 
 - Canonical term: `Objektno orijentusano uzdizanje epskih elikvadenata`
@@ -293,8 +322,8 @@ Ownership split:
 1. `Verzija 1` — core EXTRIMLI stabilization (`src/lib/extrimli/**`, `src/app/api/extrimli/**`)
 2. `Verzija 2` — canonical integration layer (`src/lib/extrimli-extendol/**`, `src/lib/extrimli-extrondend/**`)
 3. `Verzija 3` — advanced readiness and profile expansion (`src/lib/extrimli-3/**`, `src/app/api/extrimli-3/**`)
-4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive epic elikvadenti uplift readiness
-5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including epic elikvadenti review/freeze propagation
+4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive object-oriented reproduction and epic elikvadenti uplift readiness
+5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction and epic elikvadenti review/freeze propagation
 6. `Verzija 6` — multi-repo and persona sync (`docs/MULTI-REPO-LINKS.md`, `.agent-config.json`, `src/lib/persona-bank/**`)
 7. `Verzija 7` — enterprise operating model (`docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`)
 

@@ -52,6 +52,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-OBJEKTNO-ORIJENTISANA-PRONGILACIJA -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI objektno orijentisana reprodukcija downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentisana reprodukcija over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Sync only audit-safe readiness/governance outputs (`extremProfiler.objektnoOrijentisanaReprodukcija.readiness`, `objektnoOrijentisanaReprodukcija.waweImpact`, `releaseAuditSummary.objektnoOrijentisanaReprodukcijaGovernance`); raw replay internals stay hidden behind SPAJA KOD
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-OBJEKTNO-ORIJENTISANA-REPRODUKCIJA -> IO-OPENUI-AO#<follow-up issue>`
+
 ## EXTRIMLI epic elikvadenti downstream reference
 
 - This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentusano uzdizanje epskih elikvadenata over EXTRIMLI/EXTREM/EXTRONDOL
