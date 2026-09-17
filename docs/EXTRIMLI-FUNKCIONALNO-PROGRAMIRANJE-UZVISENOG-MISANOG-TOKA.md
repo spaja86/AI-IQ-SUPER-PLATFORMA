@@ -38,9 +38,9 @@ Ovaj dokument zaključava značenje i governance model za **FUNKCIONALNO PROGRAM
 
 Canonical EXTREM operator surface for this track consists of exactly these four primary env variables:
 
-- `EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT` → default `91`
-- `EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT` → default `87`
-- `EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT` → default `88`
+- `EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT` → default `91` (brand-new canonical-only input)
+- `EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT` → default `87` (brand-new canonical-only input)
+- `EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT` → default `88` (brand-new canonical-only input)
 - `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT` → default `16`
 - Backward-compatible alias: `EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT` → accepted, ali nije kanonski naziv.
 - Ako env vrednosti nedostaju, EXTREM koristi ove podrazumevane procente i zadržava additive-only fallback.
