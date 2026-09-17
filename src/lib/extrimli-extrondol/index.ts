@@ -1826,6 +1826,7 @@ export function getExtrimliSpajaKodReport(evidence?: ExtrimliExtrondolGovernance
 
 export type {
   ExtrimliExtrondolAcceptanceCriterion,
+  ExtrimliExtrondolEpicElikvadentiGovernance,
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolObjektnaProngilacijaGovernance,
   ExtrimliExtrondolReport,
@@ -1859,6 +1860,10 @@ export {
   EXTRONDOL_CONTRACT_VERSION,
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
+  EXTRONDOL_EPIC_ELIKVADENTI_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
+  EXTRONDOL_EPIC_ELIKVADENTI_READY_ADJUSTMENT,
+  EXTRONDOL_EPIC_ELIKVADENTI_WATCH_ADJUSTMENT,
   EXTRONDOL_EVALUATION_MAX_MS,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_SHARE,

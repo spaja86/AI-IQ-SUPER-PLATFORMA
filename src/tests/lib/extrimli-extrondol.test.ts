@@ -18,6 +18,7 @@ import {
   EXTRONDOL_DUET_WARNING_PENALTY_STEP,
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
+  EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
@@ -25,6 +26,7 @@ import {
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
+  getEpicElikvadentiAdjustment,
   getObjektnaProngilacijaAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
@@ -154,6 +156,16 @@ async function runTests(): Promise<void> {
     assert(report.startProject.mandatoryOutputs.includes('objektnoOrijentisanaProngilacija'), 'object-oriented prongilacija must be mandatory output');
   });
 
+  await test('report maps epic elikvadenti into WAWE governance and downstream sync', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.epicElikvadenti.term === 'Objektno orijentusano uzdizanje epskih elikvadenata', 'epic elikvadenti term mismatch');
+    assert(report.epicElikvadenti.contractVersion === EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION, 'epic elikvadenti contract mismatch');
+    assert(report.epicElikvadenti.technicalSignalSource === '/api/extrimli/extrem', 'epic elikvadenti source mismatch');
+    assert(report.releaseAuditSummary.epicElikvadentiGovernance.sourceOfTruth === '/api/extrimli/extrem', 'epic audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status'), 'epic elikvadenti status must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('epicElikvadenti'), 'epic elikvadenti must be mandatory output');
+  });
+
   await test('report publishes scorecard, canary metrics, incident playbook, and governance conformance', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.releaseReadinessScorecard.sourceOfTruth === '/api/extrimli/extrondol', 'scorecard source mismatch');
@@ -227,6 +239,27 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-terminology-lock' && item.passed), 'SPAJAPRO terminology criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-public-boundary' && item.passed), 'SPAJAPRO public boundary criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-release-audit-alignment' && item.passed), 'SPAJAPRO release-audit criterion must pass');
+  });
+
+  await test('blocked epic elikvadenti freeze WAWE promotion', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_EPIC_OBJECT_ELEVATION_INTEGRITY_PERCENT: '10',
+      EXTRIMLI_EXTREM_EPIC_EQUIVALENT_COVERAGE_PERCENT: '10',
+      EXTRIMLI_EXTREM_EPIC_FUNCTIONAL_EQUIVALENCE_COHESION_PERCENT: '10',
+      EXTRIMLI_EXTREM_EPIC_ASCENT_DELEGATION_PERCENT: '10',
+      EXTRIMLI_EXTREM_EPIC_ENCAPSULATION_GUARD_PERCENT: '10',
+    }, () => {
+      const report = getExtrimliExtrondolReport();
+      assert(report.epicElikvadenti.status === 'BLOCKED', 'epic elikvadenti should be blocked');
+      assert(report.rollout.promotionFreeze, 'blocked epic elikvadenti should freeze rollout');
+      assert(report.b2bReadiness.compliance.blockers.includes('epic-elikvadenti'), 'epic elikvadenti blocker should enter compliance');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'epic-elikvadenti-governance' && item.passed), 'epic governance criterion must pass');
+    });
+  });
+
+  await test('epic elikvadenti adjustment remains bounded by status', () => {
+    assert(getEpicElikvadentiAdjustment('READY') > getEpicElikvadentiAdjustment('WATCH'), 'READY adjustment should exceed WATCH');
+    assert(getEpicElikvadentiAdjustment('WATCH') > getEpicElikvadentiAdjustment('BLOCKED'), 'WATCH adjustment should exceed BLOCKED');
   });
 
   await test('report enforces domain strategy lock', () => {

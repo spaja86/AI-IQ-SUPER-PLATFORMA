@@ -267,6 +267,21 @@ Governance impact:
 - `WATCH` signal zahteva review, ali ne menja public boundary.
 - `BLOCKED` signal mora da aktivira promotion freeze kroz EXTRONDOL.
 
+### Objektno orijentusano uzdizanje epskih elikvadenata
+
+- Canonical term: `Objektno orijentusano uzdizanje epskih elikvadenata`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Interpretation layer: internal technical signal over controlled `EKVIVALENT NETWORK` entities (`MODULE`, `KNOWLEDGE`, `PERSONA`)
+
+Ownership split:
+
+- **EXTREM** meri readiness, watch i blocked posture za controlled epic equivalents kroz objekt, instancu, metodu, delegaciju i enkapsulaciju.
+- **EXTRONDOL** propagira samo audit-safe readiness rezultat u WAWE freeze/review/audit/downstream sync odluke.
+- **SPAJA KOD** ne izlaže sirove “elikvadent” strukture; ostaje samo public-safe governance/readiness boundary.
+
 ## EXTRIMLI EXTRONDOL EXTREM — Verzije 1–7 roadmap
 
 - Roadmap model: `single-ecosystem-phased-roadmap`
@@ -278,8 +293,8 @@ Governance impact:
 1. `Verzija 1` — core EXTRIMLI stabilization (`src/lib/extrimli/**`, `src/app/api/extrimli/**`)
 2. `Verzija 2` — canonical integration layer (`src/lib/extrimli-extendol/**`, `src/lib/extrimli-extrondend/**`)
 3. `Verzija 3` — advanced readiness and profile expansion (`src/lib/extrimli-3/**`, `src/app/api/extrimli-3/**`)
-4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`)
-5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`)
+4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive epic elikvadenti uplift readiness
+5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including epic elikvadenti review/freeze propagation
 6. `Verzija 6` — multi-repo and persona sync (`docs/MULTI-REPO-LINKS.md`, `.agent-config.json`, `src/lib/persona-bank/**`)
 7. `Verzija 7` — enterprise operating model (`docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`)
 
