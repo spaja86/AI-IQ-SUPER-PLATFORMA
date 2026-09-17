@@ -13,7 +13,7 @@ Ovaj dokument zaključava značenje i governance model za **FUNKCIONALNO PROGRAM
 ## Canonical vocabulary and spelling lock
 
 - Canonical term ostaje tačno `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA`.
-- Spelling decision je `exact-user-term-locked` i ne prepisuje termin u `MISAONOG` niti uklanja `UZVIŠENOG`.
+- Spelling decision je `exact-user-term-locked`: jedini kanonski oblik je `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA`; varijante kao `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISAONOG TOKA` ili uklanjanje `UZVIŠENOG` nisu dozvoljene.
 - `stabilnost uzvišenog misanog toka` = `profileInput.elevatedThoughtFlowStabilityPercent`
 - `kohezija funkcionalnih transformacija` = `profileInput.functionalTransformationCohesionPercent`
 - `determinističnost rezonovanja` = `profileInput.reasoningDeterminismPercent`
@@ -40,6 +40,7 @@ Ovaj dokument zaključava značenje i governance model za **FUNKCIONALNO PROGRAM
 - `EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT` → default `87`
 - `EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT` → default `88`
 - `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT` → default `16`
+- Backward-compatible alias: `EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT` → accepted, ali nije kanonski naziv.
 - Ako env vrednosti nedostaju, EXTREM koristi ove podrazumevane procente i zadržava additive-only fallback.
 
 ## Compatibility rules

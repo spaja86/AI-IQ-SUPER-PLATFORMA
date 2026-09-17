@@ -139,6 +139,21 @@ function parsePercentEnvWithInvalidFallback(
   return round(clamp(parsed, 0, 100), 2);
 }
 
+function parsePercentEnvWithAliases(
+  names: readonly string[],
+  fallback: number,
+  invalidFallback: number,
+  degradedSources: string[],
+): number {
+  for (const name of names) {
+    const raw = process.env[name];
+    if (typeof raw === 'undefined' || raw.trim() === '') continue;
+    return parsePercentEnvWithInvalidFallback(name, fallback, invalidFallback, degradedSources);
+  }
+
+  return fallback;
+}
+
 function parseLatencyEnv(name: string, fallback: number, degradedSources: string[]): number {
   const raw = process.env[name];
   if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
@@ -256,10 +271,18 @@ function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
   degradedSources: string[],
 ): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
   return {
-    elevatedThoughtFlowStabilityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT', 91, 0, degradedSources),
-    functionalTransformationCohesionPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT', 87, 0, degradedSources),
-    reasoningDeterminismPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT', 88, 0, degradedSources),
-    conflictDegradationPressurePercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT', 16, 100, degradedSources),
+    elevatedThoughtFlowStabilityPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT'], 91, 0, degradedSources),
+    functionalTransformationCohesionPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT'], 87, 0, degradedSources),
+    reasoningDeterminismPercent: parsePercentEnvWithAliases(['EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT'], 88, 0, degradedSources),
+    conflictDegradationPressurePercent: parsePercentEnvWithAliases(
+      [
+        'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT',
+        'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT',
+      ],
+      16,
+      100,
+      degradedSources,
+    ),
   };
 }
 

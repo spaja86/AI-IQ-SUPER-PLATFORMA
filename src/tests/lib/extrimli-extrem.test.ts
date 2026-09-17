@@ -521,6 +521,19 @@ async function runTests(): Promise<void> {
     });
   });
 
+  await test('elevated thought-flow accepts deprecated pressure alias while preserving canonical config', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: undefined,
+      EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT: '23',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 23,
+        'deprecated alias should still feed the conflict degradation pressure input',
+      );
+    });
+  });
+
   await test('high conflict profile triggers freeze and aggressive optimization', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: '98',
