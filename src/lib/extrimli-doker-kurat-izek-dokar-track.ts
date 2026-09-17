@@ -98,7 +98,7 @@ export interface ExtrimliDokerKuratIzekDokarPublicBoundaryStatus {
   summary: string;
 }
 
-const DOKER_KURAT_IZEK_DOKAR_VOCABULARY: ExtrimliDokerKuratIzekDokarVocabulary = {
+const RAW_DOKER_KURAT_IZEK_DOKAR_VOCABULARY: ExtrimliDokerKuratIzekDokarVocabulary = {
   trackId: 'extrimli-doker-kurat-izek-dokar-track',
   contractVersion: 'v1-doker-kurat-izek-dokar-track',
   additiveOnly: true,
@@ -140,6 +140,13 @@ const DOKER_KURAT_IZEK_DOKAR_VOCABULARY: ExtrimliDokerKuratIzekDokarVocabulary =
   ],
 };
 
+const DOKER_KURAT_IZEK_DOKAR_VOCABULARY: ExtrimliDokerKuratIzekDokarVocabulary = Object.freeze({
+  ...RAW_DOKER_KURAT_IZEK_DOKAR_VOCABULARY,
+  tokenSequence: Object.freeze(
+    RAW_DOKER_KURAT_IZEK_DOKAR_VOCABULARY.tokenSequence.map((item) => Object.freeze({ ...item })),
+  ) as ExtrimliDokerKuratIzekDokarVocabulary['tokenSequence'],
+});
+
 function statusFromConflict(conflictIntensity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL'): 'READY' | 'WATCH' | 'BLOCKED' {
   if (conflictIntensity === 'CRITICAL') return 'BLOCKED';
   if (conflictIntensity === 'MODERATE' || conflictIntensity === 'HIGH') return 'WATCH';
@@ -160,11 +167,11 @@ export function buildDokerKuratIzekDokarExtremTrack(params: {
       token: 'DOKER',
       position: 1,
       signalRole: 'downstream-sync',
-      status: params.freezeRequired ? 'BLOCKED' : 'READY',
-      signalSource: '/api/extrimli/extrem#governanceSignal.freezeRequired',
+      status: params.freezeRequired ? 'BLOCKED' : 'REQUIRED',
+      signalSource: '/api/extrimli/extrem#governanceSignal',
       summary: params.freezeRequired
         ? 'Technical blockers keep downstream sync from being promoted.'
-        : 'Technical posture allows downstream-sync preparation without changing downstream evidence semantics.',
+        : 'Downstream sync remains a governance-required token until EXTRONDOL attaches explicit alignment evidence.',
       publicVisible: false,
     },
     {
