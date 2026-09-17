@@ -23,6 +23,7 @@ export type ExtrimliExtremMobilnaLinijaInstallationStatus = 'READY' | 'WATCH' | 
 export type ExtrimliExtremMobilnaLinijaPackageTier = 'BASIC' | 'SMART' | 'PRO' | 'NONE';
 export type ExtrimliExtremObjektnaProngilacijaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
 export interface ExtrimliExtremObjektnaProngilacijaProfileInput {
   objectStateIntegrityPercent: number;
@@ -142,6 +143,92 @@ export interface ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSi
   readiness: {
     score: number;
     status: ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
+export interface ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaProfileInput {
+  legalThoughtFlowStabilityPercent: number;
+  functionalLegalTransformationCohesionPercent: number;
+  legalReasoningDeterminismPercent: number;
+  evidentiaryCompletenessPercent: number;
+  conflictEscalationPressurePercent: number;
+}
+
+export interface ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal {
+  term: 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA';
+  contractVersion: typeof EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA';
+    spellingDecision: 'exact-user-term-locked';
+    statement: string;
+    interpretationLayer: 'technical-legal-reasoning-signal';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-legal-reasoning-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
+    legalThoughtFlowStability: {
+      canonicalField: 'profileInput.legalThoughtFlowStabilityPercent';
+      meaning: 'stabilnost-pravnog-misaonog-toka';
+    };
+    functionalLegalTransformationCohesion: {
+      canonicalField: 'profileInput.functionalLegalTransformationCohesionPercent';
+      meaning: 'kohezija-funkcionalnih-pravnih-transformacija';
+    };
+    legalReasoningDeterminism: {
+      canonicalField: 'profileInput.legalReasoningDeterminismPercent';
+      meaning: 'deterministicko-pravno-zakljucivanje';
+    };
+    evidentiaryCompleteness: {
+      canonicalField: 'profileInput.evidentiaryCompletenessPercent';
+      meaning: 'evidentiary-completeness';
+    };
+    conflictEscalationPressure: {
+      canonicalField: 'profileInput.conflictEscalationPressurePercent';
+      meaning: 'konfliktno-eskalacioni-pritisak';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  legalCoupling: {
+    sourceTrack: 'KRALJEVSKI PRAVNI UNIVERZITET';
+    primaryCharter: 'POVELJA O ZAKONODAVNOM PRAVU';
+    citizenshipOrder: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA';
+    sourceMaterialPolicy: 'documentation-only';
+    ownershipBoundary: 'NIKOLA SPAJIĆ';
+    reviewRequirements: {
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReferenceRequired: true;
+      publicBoundaryRequired: true;
+    };
+  };
+  profileInput: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaProfileInput;
+  processingModel: {
+    legalThoughtFlowRole: string;
+    transformationRole: string;
+    determinismRole: string;
+    evidenceRole: string;
+    conflictRole: string;
+    publicBoundaryRole: string;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
@@ -620,6 +707,7 @@ export interface ExtrimliExtremProfilerReport {
   petljeSignals: ExtrimliExtremPetljaSignalSection;
   objektnoOrijentisanaProngilacija: ExtrimliExtremObjektnaProngilacijaSignal;
   funkcinalnoProgramiranjeEnergetskogMisaonogToka: ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal;
+  funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal;
   objektnoOrijentisanaReprodukcija: ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal;
   objektnoOrijentusanoUzdizanjeEpskihElikvadenata: ExtrimliExtremEpicElikvadentSignal;
   resolutionReadiness: {
@@ -701,6 +789,9 @@ export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE 
 export const EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION = 'v1-funkcinalno-programiranje-energetskog-misaonog-toka';
 export const EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_READY_SCORE = 78;
 export const EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_WATCH_SCORE = 60;
+export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION = 'v1-funkionalno-programiranje-pravnog-misaonog-toka';
+export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_READY_SCORE = 78;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_WATCH_SCORE = 60;
