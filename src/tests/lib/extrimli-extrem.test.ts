@@ -584,6 +584,19 @@ async function runTests(): Promise<void> {
     });
   });
 
+  await test('elevated thought-flow blank canonical pressure env suppresses deprecated alias', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: '   ',
+      EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT: '23',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 16,
+        'blank canonical env should fall back to canonical default instead of consuming deprecated alias',
+      );
+    });
+  });
+
   await test('high conflict profile triggers freeze and aggressive optimization', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SCENE_LOAD_PERCENT: '98',

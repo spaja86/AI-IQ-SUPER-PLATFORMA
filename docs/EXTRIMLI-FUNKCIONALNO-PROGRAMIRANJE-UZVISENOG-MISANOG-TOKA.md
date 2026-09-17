@@ -13,7 +13,7 @@ Ovaj dokument zaključava značenje i governance model za **FUNKCIONALNO PROGRAM
 ## Canonical vocabulary and spelling lock
 
 - Canonical term ostaje tačno `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA`.
-- Spelling decision je `exact-user-term-locked`: jedini kanonski oblik je `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA`; varijante kao `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISAONOG TOKA` ili uklanjanje `UZVIŠENOG` nisu dozvoljene.
+- Spelling decision je `exact-user-term-locked`: dozvoljen je samo gore navedeni kanonski string, bez alternativnih spellings ili skraćenja.
 - `stabilnost uzvišenog misanog toka` = `profileInput.elevatedThoughtFlowStabilityPercent`
 - `kohezija funkcionalnih transformacija` = `profileInput.functionalTransformationCohesionPercent`
 - `determinističnost rezonovanja` = `profileInput.reasoningDeterminismPercent`

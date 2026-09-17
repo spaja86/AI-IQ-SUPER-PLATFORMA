@@ -255,15 +255,14 @@ function resolveFunkionalnoProgramiranjePravnogMisaonogTokaInput(
 function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
   degradedSources: string[],
 ): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
-  // Canonical config suppresses the deprecated alias whenever the canonical key is present,
-  // even if the canonical value is malformed and falls back to the documented default.
-  const conflictPressureEnvName = [
-    'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT',
-    'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT',
-  ].find((name) => {
-    const raw = process.env[name];
-    return typeof raw !== 'undefined' && raw.trim() !== '';
-  }) ?? 'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT';
+  const canonicalConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT';
+  const deprecatedConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT';
+  const conflictPressureEnvName = typeof process.env[canonicalConflictPressureEnvName] !== 'undefined'
+    ? canonicalConflictPressureEnvName
+    : typeof process.env[deprecatedConflictPressureEnvName] !== 'undefined'
+      && process.env[deprecatedConflictPressureEnvName]?.trim() !== ''
+      ? deprecatedConflictPressureEnvName
+      : canonicalConflictPressureEnvName;
 
   return {
     elevatedThoughtFlowStabilityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT', 91, 91, degradedSources),
