@@ -160,11 +160,11 @@ export function buildDokerKuratIzekDokarExtremTrack(params: {
       token: 'DOKER',
       position: 1,
       signalRole: 'downstream-sync',
-      status: params.freezeRequired ? 'BLOCKED' : technicalRiskStatus,
+      status: params.freezeRequired ? 'BLOCKED' : 'READY',
       signalSource: '/api/extrimli/extrem#governanceSignal.freezeRequired',
       summary: params.freezeRequired
         ? 'Technical blockers keep downstream sync from being promoted.'
-        : `Technical posture is ${technicalRiskStatus} for downstream-sync preparation.`,
+        : 'Technical posture allows downstream-sync preparation without changing downstream evidence semantics.',
       publicVisible: false,
     },
     {
@@ -287,7 +287,9 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
 }): ExtrimliDokerKuratIzekDokarPublicBoundaryStatus {
   const publicStatus = params.promotionFreeze
     ? 'BLOCKED'
-    : params.sequenceStates.some((state) => state.status === 'WATCH' || state.status === 'REQUIRED' || state.status === 'FOLLOW_UP_REQUIRED')
+    : params.sequenceStates.some((state) => state.status === 'BLOCKED')
+      ? 'BLOCKED'
+      : params.sequenceStates.some((state) => state.status === 'WATCH' || state.status === 'REQUIRED' || state.status === 'FOLLOW_UP_REQUIRED')
       ? 'WATCH'
       : 'READY';
 
