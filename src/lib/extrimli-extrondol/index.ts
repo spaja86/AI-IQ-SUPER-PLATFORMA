@@ -31,6 +31,7 @@ import type {
   ExtrimliExtrondolMobilnaLinijaPackagePlan,
   ExtrimliExtrondolPaymentReferenceClassification,
   ExtrimliExtrondolPaymentVerification,
+  ExtrimliExtrondolPetljeGovernance,
   ExtrimliExtrondolObjektnaProngilacijaGovernance,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolReleaseAuditSummary,
@@ -544,6 +545,64 @@ function buildEpicElikvadentiGovernance(params: {
   };
 }
 
+function buildPetljeGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+}): ExtrimliExtrondolPetljeGovernance {
+  const signal = params.extremProfiler.petljeSignals;
+  const status = signal.summary.freezeRequired
+    ? 'BLOCKED'
+    : signal.summary.watchSignals.length > 0
+      ? 'WATCH'
+      : 'READY';
+  const reasons = [
+    ...(status === 'READY'
+      ? ['ready:technical petlje signals remain bounded and aligned for WAWE progression']
+      : []),
+    ...signal.summary.blockedSignals.map((name) => `blocked:${name}`),
+    ...signal.summary.watchSignals.map((name) => `watch:${name}`),
+    ...signal.summary.degradedSignals.map((name) => `degraded:${name}`),
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+
+  return {
+    term: 'EXTRIMLI EXTRONDOL EXTREM PETLJE',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    additiveOnly: true,
+    ownershipModel: {
+      extrem: 'technical-petlja-signal-layer',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      direktModule: 'standalone-direct-communication-module-preserved',
+    },
+    status,
+    readinessScore: signal.summary.readinessScore,
+    conflictScore: signal.summary.conflictScore,
+    freezeRequired: signal.summary.freezeRequired,
+    blockedSignals: signal.summary.blockedSignals,
+    watchSignals: signal.summary.watchSignals,
+    degradedSignals: signal.summary.degradedSignals,
+    rolloutImpact: {
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+      promotionFreeze: params.promotionFreeze,
+    },
+    auditCoupling: {
+      releaseAuditSummaryRequired: true,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamSyncRequired: true,
+    },
+    reasons,
+  };
+}
+
 function buildSpajaKodFacade(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   promotionFreeze: boolean;
@@ -786,6 +845,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   if (extremProfiler.degraded) degradedSources.push('extrem-profiler:degraded');
   if (extremProfiler.profile.bottleneckDetected) degradedSources.push('extrem-profiler:bottleneck-detected');
   if (extremProfiler.businessLicensingSignals.freezeRequired) degradedSources.push('extrem-profiler:global-licensing-freeze');
+  if (extremProfiler.petljeSignals.summary.freezeRequired) degradedSources.push('extrem-profiler:petlje-freeze');
+  if (extremProfiler.petljeSignals.summary.degradedSignals.length > 0) degradedSources.push('extrem-profiler:petlje-degraded');
   if (extremProfiler.objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`extrem-profiler:objektna-prongilacija-${extremProfiler.objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
   }
@@ -953,11 +1014,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
     extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
   );
+  const petljeAdjustment = extremProfiler.petljeSignals.summary.freezeRequired
+    ? -10
+    : extremProfiler.petljeSignals.summary.watchSignals.length > 0
+      ? -4
+      : 2;
   const profilerPenalty = extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
   const profilerBoost = extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
   const orchestrationReadinessScore = round(
     clamp(
-      blendedBaseScore + duetAdjustment + objektnaProngilacijaAdjustment + objektnoOrijentisanaReprodukcijaAdjustment + epicElikvadentiAdjustment + profilerBoost - profilerPenalty,
+      blendedBaseScore + duetAdjustment + objektnaProngilacijaAdjustment + objektnoOrijentisanaReprodukcijaAdjustment + epicElikvadentiAdjustment + petljeAdjustment + profilerBoost - profilerPenalty,
       0,
       100,
     ),
@@ -1057,6 +1123,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['Payment verification is blocking WAWE promotion and B2B activation.'] : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['EXTREM profiler detected DISKVIT conflict pressure and requests WAWE freeze.'] : []),
+    ...(extremProfiler.petljeSignals.summary.freezeRequired
+      ? [`EXTREM PETLJE blocked WAWE progression: ${extremProfiler.petljeSignals.summary.blockedSignals.join(', ')}`]
+      : []),
+    ...(extremProfiler.petljeSignals.summary.watchSignals.length > 0
+      ? [`EXTREM PETLJE remain in watch posture: ${extremProfiler.petljeSignals.summary.watchSignals.join(', ')}`]
+      : []),
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana prongilacija is in WATCH posture and should receive architecture review before broader rollout.']
       : []),
@@ -1104,6 +1176,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? ['epic-elikvadenti']
       : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['extrem-profiler-stability'] : []),
+    ...(extremProfiler.petljeSignals.summary.freezeRequired ? ['extrem-petlje-readiness'] : []),
     ...(extremProfiler.resolutionReadiness.blockerActive ? ['extrem-resolution-readiness'] : []),
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED' ? ['extrem-schema-mushema'] : []),
     ...(extremProfiler.businessLicensingSignals.freezeRequired ? ['global-license-readiness'] : []),
@@ -1114,6 +1187,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || complianceBlockers.length > 0
     || currentWawe === 'WAWE-1'
     || extremProfiler.governanceSignal.freezeRequired
+    || extremProfiler.petljeSignals.summary.freezeRequired
     || extremProfiler.businessLicensingSignals.freezeRequired
     || (extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
@@ -1160,6 +1234,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       : []),
     ...(extremProfiler.businessLicensingSignals.freezeRequired
       ? extremProfiler.businessLicensingSignals.freezeReasons.map((reason) => `global-licensing:${reason}`)
+      : []),
+    ...(extremProfiler.petljeSignals.summary.freezeRequired
+      ? [
+        'extrem-petlje:blocked',
+        ...extremProfiler.petljeSignals.summary.blockedSignals.map((signal) => `extrem-petlje:${signal}`),
+      ]
+      : []),
+    ...(extremProfiler.petljeSignals.summary.watchSignals.length > 0
+      ? extremProfiler.petljeSignals.summary.watchSignals.map((signal) => `extrem-petlje-watch:${signal}`)
       : []),
     ...(paymentVerification.status !== 'VERIFIED'
       ? ['payment-verification:blocked']
@@ -1216,6 +1299,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       formulaHolds: extremProfiler.semaMuSemaFormula.formulaHolds,
       blockerReasons: [...extremProfiler.semaMuSemaFormula.blockerReasons],
     },
+    petljeGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      readinessScore: extremProfiler.petljeSignals.summary.readinessScore,
+      conflictScore: extremProfiler.petljeSignals.summary.conflictScore,
+      freezeRequired: extremProfiler.petljeSignals.summary.freezeRequired,
+      blockedSignals: [...extremProfiler.petljeSignals.summary.blockedSignals],
+      watchSignals: [...extremProfiler.petljeSignals.summary.watchSignals],
+      degradedSignals: [...extremProfiler.petljeSignals.summary.degradedSignals],
+    },
     objektnoOrijentisanaReprodukcijaGovernance: {
       sourceOfTruth: '/api/extrimli/extrem',
       status: extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status,
@@ -1235,6 +1327,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewRequired: true,
     rollbackPlanRequired: true,
   };
+  const petljeGovernance = buildPetljeGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
+    downstreamSyncComplete,
+    humanReviewComplete,
+  });
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaGovernance({
     extremProfiler,
     currentWawe,
@@ -1300,6 +1400,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       required: true,
       status: 'PASS' as const,
       details: 'Public boundary remains encapsulated with hidden internals.',
+    },
+    {
+      id: 'petlje-governance',
+      label: 'EXTREM PETLJE governance posture',
+      required: true,
+      status: petljeGovernance.status === 'READY'
+        ? 'PASS' as const
+        : petljeGovernance.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: petljeGovernance.reasons.join('; '),
     },
     {
       id: 'objektna-prongilacija-governance',
@@ -1501,6 +1612,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.profile.conflictIntensity',
         'extremProfiler.profile.optimizationTier',
         'extremProfiler.governanceSignal.freezeRequired',
+        'extremProfiler.petljeSignals.summary.readinessScore',
+        'extremProfiler.petljeSignals.summary.conflictScore',
+        'extremProfiler.petljeSignals.summary.freezeRequired',
+        'extremProfiler.petljeSignals.summary.blockedSignals',
+        'extremProfiler.petljeSignals.summary.watchSignals',
         'extremProfiler.objektnoOrijentisanaProngilacija.readiness.status',
         'extremProfiler.objektnoOrijentisanaProngilacija.readiness.score',
         'extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status',
@@ -1543,14 +1659,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       || !duetSignal.valid
       || duetSignal.status === 'DISSONANT'
       || extremProfiler.governanceSignal.freezeRequired
+      || extremProfiler.petljeSignals.summary.freezeRequired
       || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
       || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
       || extremProfiler.businessLicensingSignals.freezeRequired,
-      rolloutFreeze: promotionFreeze,
-      escalationRequired: promotionFreeze,
-      partnerReadinessWarnings,
-      dinkosSignalRequired: true,
+    rolloutFreeze: promotionFreeze,
+    escalationRequired: promotionFreeze,
+    partnerReadinessWarnings,
+    dinkosSignalRequired: true,
       semaFormulaGate: {
         canonicalExpression: extremProfiler.semaMuSemaFormula.canonicalExpression,
         status: extremProfiler.semaMuSemaFormula.status,
@@ -1564,6 +1681,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         rekulitiPoRauletu: extremProfiler.resolutionReadiness.rekulitiPoRauletu,
         discanInKibenState: extremProfiler.resolutionReadiness.discanInKibenState,
         blockerActive: extremProfiler.resolutionReadiness.blockerActive,
+      },
+      petljeGovernance: {
+        sourceOfTruth: '/api/extrimli/extrem',
+        readinessScore: extremProfiler.petljeSignals.summary.readinessScore,
+        conflictScore: extremProfiler.petljeSignals.summary.conflictScore,
+        freezeRequired: extremProfiler.petljeSignals.summary.freezeRequired,
+        blockedSignals: [...extremProfiler.petljeSignals.summary.blockedSignals],
+        watchSignals: [...extremProfiler.petljeSignals.summary.watchSignals],
+        degradedSignals: [...extremProfiler.petljeSignals.summary.degradedSignals],
       },
       objektnoOrijentisanaReprodukcijaGovernance: {
         sourceOfTruth: '/api/extrimli/extrem',
@@ -1616,6 +1742,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'domain-strategy-lock',
       description: 'Requested `spaja.nivo*spaja` is rejected and canonical domains remain `spaja.nivo-spaja` + `*.spaja.nivo-spaja`.',
       passed: domainStrategy.valid && domainStrategy.requestedPatternRejected,
+    },
+    {
+      id: 'petlje-ownership-boundary',
+      description: 'EXTREM owns technical PETLJE signals while EXTRONDOL only orchestrates them for WAWE, audit, and freeze decisions without changing source-of-truth routes.',
+      passed: petljeGovernance.technicalSignalSource === '/api/extrimli/extrem'
+        && petljeGovernance.sourceOfTruth === '/api/extrimli/extrondol'
+        && extremProfiler.petljeSignals.contractBoundary.existingSourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol',
     },
     {
       id: 'nivo-duet-mapping',
@@ -1739,6 +1872,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && releaseAuditSummary.downstreamReference.required
         && releaseAuditSummary.humanReviewRequired
         && releaseAuditSummary.rollbackPlanRequired
+        && Number.isFinite(releaseAuditSummary.petljeGovernance.readinessScore)
+        && Number.isFinite(releaseAuditSummary.petljeGovernance.conflictScore)
         && releaseAuditSummary.rolloutSnapshot.currentWawe === currentWawe
         && releaseAuditSummary.kpiImpact.evaluationMaxMs === EXTRONDOL_EVALUATION_MAX_MS
         && releaseAuditSummary.kpiImpact.apiResponseMaxMs === EXTRONDOL_API_MAX_MS
@@ -1843,6 +1978,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.governanceDecisions.resolutionReadiness.rekulitiPoRauletu === extremProfiler.resolutionReadiness.rekulitiPoRauletu,
     },
     {
+      id: 'petlje-signal-governance',
+      description: 'EXTREM PETLJE readiness/conflict/freeze outputs are propagated into EXTRONDOL rollout, audit summary, and B2B governance decisions.',
+      passed: releaseAuditSummary.petljeGovernance.sourceOfTruth === '/api/extrimli/extrem'
+        && releaseAuditSummary.petljeGovernance.freezeRequired === extremProfiler.petljeSignals.summary.freezeRequired
+        && b2bReadiness.governanceDecisions.petljeGovernance.conflictScore === extremProfiler.petljeSignals.summary.conflictScore
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.petljeSignals.summary.freezeRequired'),
+    },
+    {
       id: 'mobilna-linija-package-governance',
       description: 'Mobilna linija must expose mandatory installation messages and package-plan selection with freeze reasons when activation cannot proceed.',
       passed: mobilnaLinija.installationMessagesRequired
@@ -1896,6 +2039,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     distanceRatioEkvilaterTable,
     paymentVerification,
     extremProfiler,
+    petljeGovernance,
     objektnoOrijentisanaProngilacija,
     objektnoOrijentisanaReprodukcija,
     epicElikvadenti,
@@ -1975,6 +2119,7 @@ export type {
   ExtrimliExtrondolGovernanceEvidence,
   ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance,
   ExtrimliExtrondolObjektnaProngilacijaGovernance,
+  ExtrimliExtrondolPetljeGovernance,
   ExtrimliExtrondolReport,
   ExtrimliSpajaKodPublicFacade,
   ExtrimliExtrondolWaweStage,
