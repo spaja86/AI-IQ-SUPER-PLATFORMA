@@ -689,12 +689,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(businessLicensingSignals.freezeRequired
       ? [`Global licensing readiness gate triggered: ${businessLicensingSignals.freezeReasons.join(', ')}`]
       : ['Global licensing readiness is aligned for EXTREM governance.']),
-    ...(objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-      ? [`Objektno orijentisana prongilacija remains in watch posture: ${objektnoOrijentisanaProngilacija.readiness.watchReasons.join(', ') || 'review required'}`]
-      : []),
-    ...(objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
-      ? [`Objektno orijentisana prongilacija requires EXTRONDOL promotion review: ${objektnoOrijentisanaProngilacija.readiness.blockerReasons.join(', ') || 'object-state signal is blocked'}`]
-      : []),
     ...(semaMuSemaFormula.status === 'BLOCKED'
       ? [`ŠEMA formula gate blocked: ${semaMuSemaFormula.blockerReasons.join('; ') || 'MUŠEMA validation failed.'}`]
       : ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA gate is confirmed.']),

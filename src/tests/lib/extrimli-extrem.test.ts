@@ -194,8 +194,8 @@ async function runTests(): Promise<void> {
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT'), 'invalid object state input should be tracked');
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_INSTANCE_CLARITY_PERCENT'), 'invalid instance clarity input should be tracked');
       assert(
-        report.governanceSignal.reasons.some((reason) => reason.includes('Objektno orijentisana prongilacija requires EXTRONDOL promotion review')),
-        'blocked object-oriented prongilacija should request EXTRONDOL review instead of forcing EXTREM freeze',
+        report.objektnoOrijentisanaProngilacija.readiness.blockerReasons.length >= 1,
+        'blocked object-oriented prongilacija should keep blocker reasons on the additive signal',
       );
       assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-prongilacija-lock' && item.passed), 'object-oriented prongilacija lock criterion must pass');
     });
