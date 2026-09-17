@@ -14,6 +14,7 @@ import { GET as getSpajaKod } from '../../app/api/extrimli/spaja-kod/route';
 import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli/duel-king/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
+import { EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../../lib/extrimli-extrem/types';
 
 let passed = 0;
 let failed = 0;
@@ -122,6 +123,7 @@ async function runTests(): Promise<void> {
           };
         };
         paymentVerification: { status: string; blockers: string[] };
+        objektnoOrijentisanaProngilacija: { term: string; status: string; technicalSignalSource: string };
         mobilnaLinija: {
           lineType: string;
           packageCatalog: Array<{ id: string; tier: string }>;
@@ -145,6 +147,9 @@ async function runTests(): Promise<void> {
     assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
     assert(['VERIFIED', 'BLOCKED'].includes(body.data.paymentVerification.status), 'unexpected payment verification status');
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
+    assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected object-oriented prongilacija term');
+    assert(body.data.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'unexpected object-oriented prongilacija source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentisanaProngilacija.status), 'unexpected object-oriented prongilacija status');
     assert(body.data.mobilnaLinija.lineType === 'Mobilna linija', 'unexpected mobilna line type');
     assert(body.data.mobilnaLinija.packageCatalog.length >= 1, 'mobilna package catalog should exist');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.mobilnaLinija.activationStatus), 'unexpected mobilna activation status');
@@ -176,6 +181,7 @@ async function runTests(): Promise<void> {
           installationMessages: { required: boolean; status: string; messages: string[] };
           packagePlanHint: { recommendedPlanTier: string; readiness: string };
         };
+        objektnoOrijentisanaProngilacija: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         semaMuSemaFormula: { canonicalExpression: string; status: string; muSemaConclusion: string; formulaHolds: boolean };
         governanceSignal: { freezeRequired: boolean };
         optimization: { maximumGraphicsUnlockEligible: boolean };
@@ -189,6 +195,13 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.mobilnaLinija.installationMessages.status), 'unexpected mobilna installation status');
     assert(body.data.mobilnaLinija.installationMessages.messages.length >= 1, 'mobilna installation messages should be present');
     assert(['BASIC', 'SMART', 'PRO', 'NONE'].includes(body.data.mobilnaLinija.packagePlanHint.recommendedPlanTier), 'unexpected mobilna package hint tier');
+    assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected EXTREM object-oriented prongilacija term');
+    assert(
+      body.data.objektnoOrijentisanaProngilacija.contractVersion === EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
+      'unexpected EXTREM object-oriented prongilacija contract',
+    );
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentisanaProngilacija.readiness.status), 'unexpected EXTREM object-oriented prongilacija status');
+    assert(Number.isFinite(body.data.objektnoOrijentisanaProngilacija.readiness.score), 'object-oriented prongilacija score must be finite');
     assert(body.data.semaMuSemaFormula.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'unexpected EXTREM formula expression');
     assert(['PASSED', 'BLOCKED'].includes(body.data.semaMuSemaFormula.status), 'unexpected EXTREM formula status');
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.semaMuSemaFormula.muSemaConclusion), 'unexpected EXTREM MUŠEMA conclusion');

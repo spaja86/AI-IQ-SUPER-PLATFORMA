@@ -237,6 +237,36 @@ Scope boundary:
 3. Nema promene EXTRIMLI API surface-a; promena je UI-only.
 4. Vizuelni fallback se aktivira za nepoznate asset domene.
 
+## Objektno orijentisana prongilacija
+
+- Canonical term: `Objektno orijentisana prongilacija`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-OBJEKTNO-ORIJENTISANA-PRONGILACIJA.md`
+
+Ownership split:
+
+- **EXTREM** publishes the technical object-state signal, readiness score, and degraded/watch/blocked posture.
+- **EXTRONDOL** consumes that signal for WAWE 1–5 orchestration, promotion freeze, release audit, rollback, and human-review governance.
+- **SPAJA KOD** remains encapsulated and exposes only public-safe readiness/governance output without raw object-state internals.
+
+Locked semantic model:
+
+- `objekat` = nosilac stanja
+- `instanca` = konkretan lifecycle prolaz
+- `atribut` = podatak stanja
+- `metoda` = ponašanje nad stanjem
+- `delegacija` = raspodela odgovornosti
+- `kompozicija` = slaganje više objekata u auditabilan izlaz
+
+Governance impact:
+
+- `READY` signal može da podrži dalji WAWE napredak.
+- `WATCH` signal zahteva review, ali ne menja public boundary.
+- `BLOCKED` signal mora da aktivira promotion freeze kroz EXTRONDOL.
+
 ## EXTRIMLI EXTRONDOL EXTREM — Verzije 1–7 roadmap
 
 - Roadmap model: `single-ecosystem-phased-roadmap`

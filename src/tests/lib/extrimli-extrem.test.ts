@@ -1,6 +1,7 @@
 import {
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
@@ -92,6 +93,17 @@ async function runTests(): Promise<void> {
     assert(report.resolutionReadiness.rekulitiPoRauletu === 'ALLOW', 'default REKULITI policy should allow progression');
   });
 
+  await test('default report exposes objektno orijentisana prongilacija as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'object-oriented prongilacija term mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.contractVersion === EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION, 'object-oriented prongilacija contract mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.sourceOfTruth === '/api/extrimli/extrem', 'object-oriented prongilacija source mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'scope lock mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.domainModel.domainObjects.length === 3, 'domain objects should be locked');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.objektnoOrijentisanaProngilacija.readiness.status), 'unexpected object-oriented prongilacija status');
+    assert(Number.isFinite(report.objektnoOrijentisanaProngilacija.readiness.score), 'object-oriented prongilacija score must be finite');
+  });
+
   await test('default report confirms canonical ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA formula', () => {
     const report = getExtrimliExtremProfilerReport();
     assert(report.semaMuSemaFormula.canonicalExpression === EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION, 'canonical formula mismatch');
@@ -165,6 +177,27 @@ async function runTests(): Promise<void> {
       assert(report.mobilnaLinija.installationMessages.missingFields.includes('deviceModel'), 'missing deviceModel must be reported');
       assert(report.degradedSources.some((item) => item.includes('mobilna-linija')), 'mobilna degraded markers should be present');
       assert(report.governanceSignal.freezeRequired, 'mobilna installation block should freeze governance');
+    });
+  });
+
+  await test('objektno orijentisana prongilacija degrades safely without forcing EXTREM freeze on invalid object-state inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_METHOD_BEHAVIOR_COHESION_PERCENT: '10',
+      EXTRIMLI_EXTREM_DELEGATION_COVERAGE_PERCENT: '20',
+      EXTRIMLI_EXTREM_COMPOSITION_COVERAGE_PERCENT: '30',
+      EXTRIMLI_EXTREM_INSTANCE_CLARITY_PERCENT: 'Infinity',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED', 'object-oriented prongilacija should block on invalid/low inputs');
+      assert(report.objektnoOrijentisanaProngilacija.readiness.degraded, 'invalid object-oriented prongilacija inputs should degrade safely');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT'), 'invalid object state input should be tracked');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_INSTANCE_CLARITY_PERCENT'), 'invalid instance clarity input should be tracked');
+      assert(
+        report.objektnoOrijentisanaProngilacija.readiness.blockerReasons.length >= 1,
+        'blocked object-oriented prongilacija should keep blocker reasons on the additive signal',
+      );
+      assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-prongilacija-lock' && item.passed), 'object-oriented prongilacija lock criterion must pass');
     });
   });
 

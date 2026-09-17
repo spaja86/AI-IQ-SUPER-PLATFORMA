@@ -42,6 +42,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#SPAJAPRO-EXTRIMLI-TRACK -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI objektno orijentisana prongilacija downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentisana prongilacija over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Downstream consumers should sync only the audit-safe readiness/governance fields from EXTREM and EXTRONDOL; raw object-state internals remain hidden behind SPAJA KOD
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-OBJEKTNO-ORIJENTISANA-PRONGILACIJA -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Shared label schema
 
 | Label | Meaning |
