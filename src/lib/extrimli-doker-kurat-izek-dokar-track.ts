@@ -292,11 +292,16 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
   sequenceStates: ExtrimliDokerKuratIzekDokarGovernanceTrack['sequenceStates'];
   promotionFreeze: boolean;
 }): ExtrimliDokerKuratIzekDokarPublicBoundaryStatus {
+  const normalizedStatuses = params.sequenceStates.map((state) => {
+    if (state.status === 'BLOCKED') return 'BLOCKED' as const;
+    if (state.status === 'WATCH' || state.status === 'REQUIRED' || state.status === 'FOLLOW_UP_REQUIRED') return 'WATCH' as const;
+    return 'READY' as const;
+  });
   const publicStatus = params.promotionFreeze
     ? 'BLOCKED'
-    : params.sequenceStates.some((state) => state.status === 'BLOCKED')
+    : normalizedStatuses.includes('BLOCKED')
       ? 'BLOCKED'
-      : params.sequenceStates.some((state) => state.status === 'WATCH' || state.status === 'REQUIRED' || state.status === 'FOLLOW_UP_REQUIRED')
+      : normalizedStatuses.includes('WATCH')
       ? 'WATCH'
       : 'READY';
 
