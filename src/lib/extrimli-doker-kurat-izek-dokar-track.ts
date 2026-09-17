@@ -36,6 +36,30 @@ export interface DokerKuratIzekDokarTokenState {
   publicVisible: boolean;
 }
 
+export interface DokerTokenState extends DokerKuratIzekDokarTokenState {
+  token: 'DOKER';
+  signalRole: 'downstream-sync';
+  status: 'READY' | 'BLOCKED' | 'REQUIRED' | 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
+}
+
+export interface KuratTokenState extends DokerKuratIzekDokarTokenState {
+  token: 'KURAT';
+  signalRole: 'technical-risk';
+  status: 'READY' | 'WATCH' | 'BLOCKED';
+}
+
+export interface IzekTokenState extends DokerKuratIzekDokarTokenState {
+  token: 'IZEK';
+  signalRole: 'audit-review';
+  status: 'READY' | 'REQUIRED';
+}
+
+export interface DokarTokenState extends DokerKuratIzekDokarTokenState {
+  token: 'DOKAR';
+  signalRole: 'rollback-control';
+  status: 'READY' | 'REQUIRED';
+}
+
 export interface ExtrimliDokerKuratIzekDokarVocabulary {
   trackId: 'extrimli-doker-kurat-izek-dokar-track';
   contractVersion: 'v1-doker-kurat-izek-dokar-track';
@@ -62,10 +86,10 @@ export interface ExtrimliDokerKuratIzekDokarExtremTrack {
   internalOnlyMapping: true;
   freezeControlledByExtrem: boolean;
   sequenceStates: readonly [
-    DokerKuratIzekDokarTokenState,
-    DokerKuratIzekDokarTokenState,
-    DokerKuratIzekDokarTokenState,
-    DokerKuratIzekDokarTokenState
+    DokerTokenState,
+    KuratTokenState,
+    IzekTokenState,
+    DokarTokenState
   ];
 }
 
@@ -75,10 +99,10 @@ export interface ExtrimliDokerKuratIzekDokarGovernanceTrack {
   technicalSignalSource: '/api/extrimli/extrem';
   publicBoundary: 'SPAJA KOD';
   sequenceStates: readonly [
-    DokerKuratIzekDokarTokenState,
-    DokerKuratIzekDokarTokenState,
-    DokerKuratIzekDokarTokenState,
-    DokerKuratIzekDokarTokenState
+    DokerTokenState,
+    KuratTokenState,
+    IzekTokenState,
+    DokarTokenState
   ];
   releaseAuditAligned: boolean;
   downstreamReferenceExplicit: boolean;
@@ -90,10 +114,10 @@ export interface ExtrimliDokerKuratIzekDokarPublicBoundaryStatus {
   publicStatus: 'READY' | 'WATCH' | 'BLOCKED';
   internalMappingVisibility: 'HIDDEN';
   tokenSummaries: readonly [
-    { token: 'DOKER'; status: DokerKuratIzekDokarTokenStatus; summary: string },
-    { token: 'KURAT'; status: DokerKuratIzekDokarTokenStatus; summary: string },
-    { token: 'IZEK'; status: DokerKuratIzekDokarTokenStatus; summary: string },
-    { token: 'DOKAR'; status: DokerKuratIzekDokarTokenStatus; summary: string }
+    { token: 'DOKER'; status: DokerTokenState['status']; summary: string },
+    { token: 'KURAT'; status: KuratTokenState['status']; summary: string },
+    { token: 'IZEK'; status: IzekTokenState['status']; summary: string },
+    { token: 'DOKAR'; status: DokarTokenState['status']; summary: string }
   ];
   summary: string;
 }
@@ -299,8 +323,9 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
       case 'WATCH':
       case 'REQUIRED':
       case 'FOLLOW_UP_REQUIRED':
-      case 'ALIGNED':
         return 'WATCH' as const;
+      case 'ALIGNED':
+        return 'READY' as const;
       case 'READY':
         return 'READY' as const;
       default:
