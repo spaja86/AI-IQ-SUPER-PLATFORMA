@@ -953,36 +953,36 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const objektnaProngilacijaPostureReasons = buildObjektnaProngilacijaPostureReasons(
     extremProfiler.objektnoOrijentisanaProngilacija,
   );
+  const rolloutSignalReasons = [
+    ...(extremProfiler.resolutionReadiness.rekulitiPoRauletu !== 'ALLOW'
+      ? [`extrem-resolution:${extremProfiler.resolutionReadiness.rekulitiPoRauletu.toLowerCase()}`]
+      : []),
+    ...objektnaProngilacijaPostureReasons.rolloutReasons,
+    ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
+      ? extremProfiler.semaMuSemaFormula.blockerReasons.map((reason) => `extrem-schema-mushema:${reason}`)
+      : []),
+    ...(extremProfiler.businessLicensingSignals.freezeRequired
+      ? extremProfiler.businessLicensingSignals.freezeReasons.map((reason) => `global-licensing:${reason}`)
+      : []),
+    ...(paymentVerification.status !== 'VERIFIED'
+      ? ['payment-verification:blocked']
+      : []),
+    ...mobilnaLinija.freezeReasons.map((reason) => `mobilna-linija:${reason}`),
+    ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
+  ];
   const reasons = promotionFreeze
     ? [
       'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
       ...degradedSources,
       ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
-      ...(extremProfiler.resolutionReadiness.rekulitiPoRauletu !== 'ALLOW'
-        ? [`extrem-resolution:${extremProfiler.resolutionReadiness.rekulitiPoRauletu.toLowerCase()}`]
-        : []),
-      ...((extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-        || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED')
-        ? objektnaProngilacijaPostureReasons.rolloutReasons
-        : []),
-      ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
-        ? extremProfiler.semaMuSemaFormula.blockerReasons.map((reason) => `extrem-schema-mushema:${reason}`)
-        : []),
-      ...(extremProfiler.businessLicensingSignals.freezeRequired
-        ? extremProfiler.businessLicensingSignals.freezeReasons.map((reason) => `global-licensing:${reason}`)
-        : []),
-      ...(paymentVerification.status !== 'VERIFIED'
-        ? ['payment-verification:blocked']
-        : []),
-      ...mobilnaLinija.freezeReasons.map((reason) => `mobilna-linija:${reason}`),
-      ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
+      ...rolloutSignalReasons,
     ]
     : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
       ? [
         'Ready for next WAWE stage with architecture review visibility before broader rollout.',
-        ...objektnaProngilacijaPostureReasons.rolloutReasons,
+        ...rolloutSignalReasons,
       ]
-      : ['Ready for next WAWE stage with governance evidence.'];
+      : ['Ready for next WAWE stage with governance evidence.', ...rolloutSignalReasons];
   const releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary = {
     required: true,
     status: promotionFreeze ? 'BLOCKED' : 'READY',
