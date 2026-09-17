@@ -12,6 +12,7 @@ on:
       - 'src/app/api/extrimli/extrondol/**'
       - 'src/app/api/extrimli/extrem/**'
       - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/extrimli-validator.yml'
@@ -53,6 +54,7 @@ jobs:
           const extrondolIndex = fs.readFileSync('src/lib/extrimli-extrondol/index.ts', 'utf8');
           const route = fs.readFileSync('src/app/api/extrimli/extrondol/route.ts', 'utf8');
           const extrimliDoc = fs.readFileSync('docs/EXTRIMLI.md', 'utf8');
+          const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
           const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
           const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
           const validatorWorkflow = fs.readFileSync('.github/workflows/extrimli-validator.yml', 'utf8');
@@ -69,8 +71,15 @@ jobs:
           );
           assert(route.includes("getExtrimliExtrondolReport") && route.includes("surface: 'extrimli-extrondol'"), 'route must expose canonical EXTRONDOL surface');
           assert(extrimliDoc.includes('releaseReadinessScorecard') && extrimliDoc.includes('canaryRingMetrics') && extrimliDoc.includes('contractDriftReport') && extrimliDoc.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance fields');
+          assert(
+            developerCreateProgramDoc.includes('PROGRAM_LOCK_SOURCE_OF_TRUTH') &&
+            developerCreateProgramDoc.includes('PROGRAM_LOCK_DRIFT_ZERO') &&
+            developerCreateProgramDoc.includes('PROGRAM_LOCK_MACHINE_DOD'),
+            'Developer/Create program doc must keep governance lock markers for source-of-truth, drift-zero, and machine-checked DoD'
+          );
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
+          assert(links.includes('EXTRIMLI — Developer/Create Program'), 'multi-repo links must include the Developer/Create program downstream mapping');
           assert(validatorWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'validator workflow must watch governance conformance workflow');
           assert(externalWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external workflow must watch governance conformance workflow');
           NODE
