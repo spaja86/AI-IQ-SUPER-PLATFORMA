@@ -237,6 +237,20 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-extrem-freeze-independence' && item.passed), 'SPAJAPRO freeze independence criterion must pass');
   });
 
+  await test('DOKER/KURAT/IZEK/DOKAR track stays additive and EXTREM-owned', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(
+      report.dokerKuratIzekDokarTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR',
+      'quartet token order mismatch',
+    );
+    assert(report.dokerKuratIzekDokarTrack.vocabulary.tokenSequence[0].signalRole === 'downstream-sync', 'DOKER meaning changed');
+    assert(report.dokerKuratIzekDokarTrack.technicalSignalEngine === 'EXTREM', 'quartet EXTREM ownership mismatch');
+    assert(report.dokerKuratIzekDokarTrack.governanceConsumer === 'EXTRONDOL', 'quartet governance consumer mismatch');
+    assert(report.dokerKuratIzekDokarTrack.freezeControlledByExtrem === report.governanceSignal.freezeRequired, 'quartet freeze mismatch');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-overlay-lock' && item.passed), 'quartet lock criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-extrem-freeze' && item.passed), 'quartet freeze criterion must pass');
+  });
+
   await test('Mobilna linija exposes mandatory installation messages and package hint', () => {
     const report = getExtrimliExtremProfilerReport();
     assert(report.mobilnaLinija.contractVersion === EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION, 'mobilna contract version mismatch');

@@ -193,6 +193,19 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - `SPAJA KOD` remains the public boundary and exposes only final public-safe status.
 - Canonical spec: `docs/EXTRIMLI-SPAJAPRO-TRACK.md`.
 
+## DOKER / KURAT / IZEK / DOKAR additive track
+
+- `DOKER, KURAT, IZEK, DOKAR` is a separate additive EXTRIMLI track and does not modify the locked SPAJAPRO `ODIT → KODER` sequence.
+- `DOKER` keeps its existing downstream-sync meaning.
+- `KURAT` is the technical-risk token sourced from EXTREM.
+- `IZEK` is the audit/review checkpoint token governed by EXTRONDOL.
+- `DOKAR` is the rollback-preservation token governed by EXTRONDOL.
+- Ownership split:
+  - `EXTREM` owns the technical quartet signal.
+  - `EXTRONDOL` consumes the quartet for WAWE, freeze, audit, downstream-sync, and rollback governance.
+  - `SPAJA KOD` may expose only a public-safe quartet summary.
+- Canonical spec: `docs/EXTRIMLI-DOKER-KURAT-IZEK-DOKAR.md`.
+
 ## EXTRIMLI v1 capabilities
 
 - Sport registry

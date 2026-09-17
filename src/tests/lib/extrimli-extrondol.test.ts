@@ -276,6 +276,25 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajapro-release-audit-alignment' && item.passed), 'SPAJAPRO release-audit criterion must pass');
   });
 
+  await test('DOKER/KURAT/IZEK/DOKAR track stays ordered and aligned across EXTREM, EXTRONDOL, and SPAJA KOD', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(
+      report.dokerKuratIzekDokarTrack.vocabulary.tokenSequence.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR',
+      'quartet token order mismatch',
+    );
+    assert(report.dokerKuratIzekDokarTrack.sequenceStates[0].token === 'DOKER', 'quartet downstream token mismatch');
+    assert(report.dokerKuratIzekDokarTrack.sequenceStates[1].token === 'KURAT', 'quartet technical-risk token mismatch');
+    assert(report.dokerKuratIzekDokarTrack.sequenceStates[2].token === 'IZEK', 'quartet audit token mismatch');
+    assert(report.dokerKuratIzekDokarTrack.sequenceStates[3].token === 'DOKAR', 'quartet rollback token mismatch');
+    assert(report.dokerKuratIzekDokarTrack.downstreamReferenceExplicit, 'quartet downstream reference must stay explicit');
+    assert(report.dokerKuratIzekDokarTrack.releaseAuditAligned, 'quartet audit alignment must hold');
+    assert(report.spajaKod.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'quartet public boundary mismatch');
+    assert(report.spajaKod.dokerKuratIzekDokarTrack.internalMappingVisibility === 'HIDDEN', 'quartet mapping must stay hidden');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-overlay-lock' && item.passed), 'quartet lock criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-governance-alignment' && item.passed), 'quartet governance criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-public-boundary' && item.passed), 'quartet public boundary criterion must pass');
+  });
+
   await test('blocked objektno orijentisana reprodukcija freezes WAWE promotion', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_OBJECT_STATE_REPRODUCIBILITY_PERCENT: '10',

@@ -5,6 +5,10 @@ import type { DuetInput, DuetStatus } from '../duet';
 import type { ExtrimliExtremProfilerReport, ExtrimliSpajaKodPublicStatus } from '../extrimli-extrem';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type {
+  ExtrimliDokerKuratIzekDokarGovernanceTrack,
+  ExtrimliDokerKuratIzekDokarPublicBoundaryStatus,
+} from '../extrimli-doker-kurat-izek-dokar-track';
+import type {
   ExtrimliSpajaproGovernanceTrack,
   ExtrimliSpajaproPublicBoundaryStatus,
 } from '../extrimli-spajapro-track';
@@ -646,6 +650,7 @@ export interface ExtrimliExtrondolStartProject {
     'rollout.currentWawe',
     'rollout.eligibleNextWawe',
     'rollout.promotionFreeze',
+    'dokerKuratIzekDokarTrack',
     'spajaproTrack',
     'nivoDuet',
     'dinkos',
@@ -678,6 +683,7 @@ export interface ExtrimliExtrondolStartProject {
       'rollout.currentWawe',
       'rollout.eligibleNextWawe',
       'rollout.promotionFreeze',
+      'dokerKuratIzekDokarTrack',
       'spajaproTrack',
       'b2bScope',
       'b2bScope.subscriptionPackage',
@@ -820,6 +826,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     degraded: boolean;
   };
   platformTrack: ExtrimliSpajaproPublicBoundaryStatus;
+  dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarPublicBoundaryStatus;
   blockers: string[];
   exportContract: {
     includedInInstrukcija: true;
@@ -858,6 +865,7 @@ export interface ExtrimliExtrondolReport {
   objektnoOrijentisanaProngilacija: ExtrimliExtrondolObjektnaProngilacijaGovernance;
   objektnoOrijentisanaReprodukcija: ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance;
   epicElikvadenti: ExtrimliExtrondolEpicElikvadentiGovernance;
+  dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarGovernanceTrack;
   spajaproTrack: ExtrimliSpajaproGovernanceTrack;
   spajaKod: ExtrimliSpajaKodPublicFacade;
   mobilnaLinija: ExtrimliExtrondolMobilnaLinijaReadiness;
