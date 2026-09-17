@@ -257,6 +257,8 @@ function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
 ): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
   const canonicalConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT';
   const deprecatedConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT';
+  // The canonical key is authoritative whenever it is present, even if blank or malformed,
+  // so deprecated alias values cannot silently override the locked configuration surface.
   const conflictPressureEnvName = typeof process.env[canonicalConflictPressureEnvName] !== 'undefined'
     ? canonicalConflictPressureEnvName
     : typeof process.env[deprecatedConflictPressureEnvName] !== 'undefined'
