@@ -2,6 +2,7 @@
 
 > Program type: additive-only initiative (no breaking changes)  
 > Source-of-truth routes: `/api/extrimli/extrem`, `/api/extrimli/extrondol`
+> Marker: `PROGRAM_LOCK_SOURCE_OF_TRUTH`
 
 ## 1) Unified goal and scope
 
@@ -93,6 +94,7 @@ Uvodi se pravilo **drift-zero**:
 - svaka contract promena mora biti sinhronizovana kroz **docs + types + routes + workflows**
 - nema merge-a ako postoji drift između tih slojeva
 - governance conformance workflow je obavezni enforcement sloj
+- Marker: `PROGRAM_LOCK_DRIFT_ZERO`
 
 ## 10) Maksimalni dodatni predlozi (program expansion)
 
@@ -109,6 +111,7 @@ Uvodi se pravilo **drift-zero**:
 - EXTRIMLI/EXTREM/EXTRONDOL testovi prolaze
 - Governance conformance je green
 - Source-of-truth routes i drift-zero pravila ostaju usklađeni
+- Marker: `PROGRAM_LOCK_MACHINE_DOD`
 
 ### Operational DoD (human governance gate)
 

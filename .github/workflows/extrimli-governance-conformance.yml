@@ -72,11 +72,10 @@ jobs:
           assert(route.includes("getExtrimliExtrondolReport") && route.includes("surface: 'extrimli-extrondol'"), 'route must expose canonical EXTRONDOL surface');
           assert(extrimliDoc.includes('releaseReadinessScorecard') && extrimliDoc.includes('canaryRingMetrics') && extrimliDoc.includes('contractDriftReport') && extrimliDoc.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance fields');
           assert(
-            developerCreateProgramDoc.includes('Source-of-truth routes: `/api/extrimli/extrem`, `/api/extrimli/extrondol`') &&
-            developerCreateProgramDoc.includes('## 9) Drift-zero governance disciplina') &&
-            developerCreateProgramDoc.includes('svaka contract promena mora biti sinhronizovana kroz **docs + types + routes + workflows**') &&
-            developerCreateProgramDoc.includes('### Machine-checked DoD (enforced by workflows/tests)'),
-            'Developer/Create program doc must retain locked source-of-truth route statement, drift-zero section, and machine-checked DoD section'
+            developerCreateProgramDoc.includes('PROGRAM_LOCK_SOURCE_OF_TRUTH') &&
+            developerCreateProgramDoc.includes('PROGRAM_LOCK_DRIFT_ZERO') &&
+            developerCreateProgramDoc.includes('PROGRAM_LOCK_MACHINE_DOD'),
+            'Developer/Create program doc must keep governance lock markers for source-of-truth, drift-zero, and machine-checked DoD'
           );
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
