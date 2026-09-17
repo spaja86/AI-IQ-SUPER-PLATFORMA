@@ -396,6 +396,13 @@ Governance impact:
 - `WATCH` signal zahteva review vidljivost i zadržava rollout u audit-safe WAWE okviru.
 - `BLOCKED` signal mora da aktivira promotion freeze, release audit coupling i rollback/human-review zahteve kroz EXTRONDOL.
 
+Operator configuration defaults:
+
+- `EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT` → default `91`
+- `EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT` → default `87`
+- `EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT` → default `88`
+- `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT` → default `16`
+
 ## Objektno orijentisana reprodukcija
 
 - Canonical term: `Objektno orijentisana reprodukcija`
