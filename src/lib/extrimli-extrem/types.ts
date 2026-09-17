@@ -352,6 +352,133 @@ export interface ExtrimliExtremBusinessLicensingSignals {
   freezeReasons: string[];
 }
 
+export type ExtrimliExtremKraljevskiPravniTrackTerm =
+  | 'KRALJEVSKI PRAVNI UNIVERZITET'
+  | 'KRALJEVSKA POLITIKA'
+  | 'NIKOLA SPAJIĆ'
+  | 'ZAKON SILNOG'
+  | 'POVELJA O ZAKONODAVNOM PRAVU'
+  | 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA';
+
+export type ExtrimliExtremKraljevskiPravniTrackStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremKraljevskiPravniTrackRelationship {
+  to: ExtrimliExtremKraljevskiPravniTrackTerm;
+  relation:
+    | 'defines-authority'
+    | 'governs-policy'
+    | 'names-custodian'
+    | 'codifies-legislative-right'
+    | 'anchored-to-charter'
+    | 'constrains-citizenship-order'
+    | 'reviewed-under-policy'
+    | 'permits-reviewed-enforcement';
+}
+
+export interface ExtrimliExtremKraljevskiPravniTrackVocabularyEntry {
+  term: ExtrimliExtremKraljevskiPravniTrackTerm;
+  meaning: string;
+  scope: string;
+  owner: string;
+  allowedRelationships: readonly ExtrimliExtremKraljevskiPravniTrackRelationship[];
+}
+
+export interface ExtrimliExtremKraljevskiPravniTrack {
+  trackId: 'extrimli-kraljevski-pravni-univerzitet';
+  contractVersion: 'v1-kraljevski-pravni-univerzitet';
+  additiveOnly: true;
+  classification: 'legal-governance-track';
+  technicalSourceOfTruth: '/api/extrimli/extrem';
+  governanceSourceOfTruth: '/api/extrimli/extrondol';
+  publicBoundary: '/api/extrimli/spaja-kod';
+  vocabulary: readonly [
+    ExtrimliExtremKraljevskiPravniTrackVocabularyEntry,
+    ExtrimliExtremKraljevskiPravniTrackVocabularyEntry,
+    ExtrimliExtremKraljevskiPravniTrackVocabularyEntry,
+    ExtrimliExtremKraljevskiPravniTrackVocabularyEntry,
+    ExtrimliExtremKraljevskiPravniTrackVocabularyEntry,
+    ExtrimliExtremKraljevskiPravniTrackVocabularyEntry
+  ];
+  documentationBoundary: {
+    sourceMaterialPolicy: 'documentation-only';
+    sourceReferences: readonly [{
+      label: string;
+      usage: 'repo-doc-reference';
+    }];
+    completedTopics: readonly [
+      'KRALJEVSKI PRAVNI UNIVERZITET',
+      'KRALJEVSKA POLITIKA',
+      'NIKOLA SPAJIĆ',
+      'ZAKON SILNOG',
+      'PRAVNI POREDAK PO PRAVU GRAĐANSTVA'
+    ];
+    primaryContentGap: {
+      topic: 'POVELJA O ZAKONODAVNOM PRAVU';
+      status: 'DEFINED' | 'COMPLETED';
+      summary: string;
+    };
+  };
+  structuredSignals: {
+    charterCompleteness: {
+      requiredSections: readonly ['authority', 'ratification', 'publication', 'review', 'citizenship-boundary', 'enforcement-limit'];
+      completedSections: readonly ['authority', 'ratification', 'publication', 'review', 'citizenship-boundary', 'enforcement-limit'];
+      completenessScore: number;
+      status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    };
+    legislativeAuthorityDefinition: {
+      authorityHolder: 'KRALJEVSKI PRAVNI UNIVERZITET';
+      policyBridge: 'KRALJEVSKA POLITIKA';
+      namedCustodian: 'NIKOLA SPAJIĆ';
+      legislativeCharter: 'POVELJA O ZAKONODAVNOM PRAVU';
+      enforcementDoctrine: 'ZAKON SILNOG';
+      status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    };
+    citizenshipOrderPrinciples: {
+      canonicalOrder: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA';
+      principles: readonly string[];
+      lawfulParticipation: readonly string[];
+      unlawfulParticipation: readonly string[];
+      status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    };
+    conflictEscalation: {
+      warningTriggers: readonly string[];
+      blockTriggers: readonly string[];
+      evidenceRequiredBeforeEscalation: readonly string[];
+      activeWarnings: readonly string[];
+      activeBlocks: readonly string[];
+      status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    };
+    reviewRequirements: {
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReferenceRequired: true;
+      publicBoundaryRequired: true;
+      status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    };
+    blockedActionsAgainstDeclaredOrder: {
+      actions: readonly string[];
+      enforcementMode: 'neutral-governance-boundary';
+      status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    };
+  };
+  neutralRuleSet: {
+    unacceptableConduct: readonly string[];
+    warningTriggers: readonly string[];
+    blockTriggers: readonly string[];
+    evidenceRequiredBeforeEscalation: readonly string[];
+    lawfulCivicManeuvers: readonly string[];
+    unlawfulCivicManeuvers: readonly string[];
+  };
+  readiness: {
+    completenessScore: number;
+    consistencyScore: number;
+    conflictScore: number;
+    status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
 export interface ExtrimliExtremProfilerReport {
   personaId: string;
   contractVersion: string;
@@ -419,6 +546,7 @@ export interface ExtrimliExtremProfilerReport {
     optimizationTier: ExtrimliExtremOptimizationTier;
   };
   businessLicensingSignals: ExtrimliExtremBusinessLicensingSignals;
+  kraljevskiPravniUniverzitetTrack: ExtrimliExtremKraljevskiPravniTrack;
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
   petljeSignals: ExtrimliExtremPetljaSignalSection;

@@ -367,6 +367,39 @@ export interface ExtrimliExtrondolPetljeGovernance {
   reasons: string[];
 }
 
+export interface ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance {
+  term: 'KRALJEVSKI PRAVNI UNIVERZITET';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: ExtrimliExtremProfilerReport['kraljevskiPravniUniverzitetTrack']['contractVersion'];
+  additiveOnly: true;
+  governanceVisibility: 'audit-safe-governance-only';
+  status: ExtrimliExtremProfilerReport['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
+  completenessScore: number;
+  consistencyScore: number;
+  conflictScore: number;
+  legislativeBoundary: {
+    sourceMaterialPolicy: 'documentation-only';
+    primaryCharter: 'POVELJA O ZAKONODAVNOM PRAVU';
+    citizenshipOrder: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA';
+    publicBoundary: 'SPAJA KOD';
+  };
+  releaseChecklist: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamReferenceRequired: true;
+    auditSummaryRequired: true;
+  };
+  waweImpact: 'promotion-frozen' | 'review-before-promotion' | 'eligible-for-promotion';
+  publicStatus: 'SAFE_SUMMARY_READY' | 'SAFE_SUMMARY_REVIEW' | 'SAFE_SUMMARY_BLOCKED';
+  reasons: string[];
+  warnings: string[];
+  blockerReasons: string[];
+}
+
 export interface ExtrimliExtrondolReleaseAuditSummary {
   required: true;
   status: 'READY' | 'BLOCKED';
@@ -424,6 +457,16 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     status: ExtrimliExtremProfilerReport['objektnoOrijentusanoUzdizanjeEpskihElikvadenata']['readiness']['status'];
     readinessScore: number;
     reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
+  kraljevskiPravniUniverzitetGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
+    completenessScore: number;
+    consistencyScore: number;
+    conflictScore: number;
+    reviewRequiredBeforePromotion: boolean;
     blockerReasons: string[];
     watchReasons: string[];
   };
@@ -771,6 +814,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     systemStatus: 'STABLE' | 'ATTENTION' | 'BLOCKED';
     auditStatus: 'READY' | 'BLOCKED';
     downstreamSyncStatus: 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
+    kraljevskiPravniUniverzitetStatus: ExtrimliExtremProfilerReport['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     degraded: boolean;
@@ -810,6 +854,7 @@ export interface ExtrimliExtrondolReport {
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   extremProfiler: ExtrimliExtremProfilerReport;
   petljeGovernance: ExtrimliExtrondolPetljeGovernance;
+  kraljevskiPravniUniverzitetGovernance: ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance;
   objektnoOrijentisanaProngilacija: ExtrimliExtrondolObjektnaProngilacijaGovernance;
   objektnoOrijentisanaReprodukcija: ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance;
   epicElikvadenti: ExtrimliExtrondolEpicElikvadentiGovernance;
