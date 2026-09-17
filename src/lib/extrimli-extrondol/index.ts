@@ -334,6 +334,38 @@ function buildObjektnaProngilacijaAdjustment(
   return EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_BLOCKED_ADJUSTMENT;
 }
 
+function buildObjektnaProngilacijaPostureReasons(
+  signal: ExtrimliExtrondolReport['extremProfiler']['objektnoOrijentisanaProngilacija'],
+): {
+  rolloutReasons: string[];
+  governanceReasons: string[];
+} {
+  if (signal.readiness.status === 'WATCH') {
+    return {
+      rolloutReasons: [
+        'objektna-prongilacija:watch',
+        ...signal.readiness.watchReasons.map((reason) => `objektna-prongilacija:${reason}`),
+      ],
+      governanceReasons: signal.readiness.watchReasons.map((reason) => `watch:${reason}`),
+    };
+  }
+
+  if (signal.readiness.status === 'BLOCKED') {
+    return {
+      rolloutReasons: [
+        'objektna-prongilacija:blocked',
+        ...signal.readiness.blockerReasons.map((reason) => `objektna-prongilacija:${reason}`),
+      ],
+      governanceReasons: signal.readiness.blockerReasons.map((reason) => `blocked:${reason}`),
+    };
+  }
+
+  return {
+    rolloutReasons: [],
+    governanceReasons: ['ready:object-state, methods, delegation, and composition are aligned for WAWE progression'],
+  };
+}
+
 function buildObjektnaProngilacijaGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
@@ -343,12 +375,9 @@ function buildObjektnaProngilacijaGovernance(params: {
   humanReviewComplete: boolean;
 }): ExtrimliExtrondolObjektnaProngilacijaGovernance {
   const signal = params.extremProfiler.objektnoOrijentisanaProngilacija;
+  const postureReasons = buildObjektnaProngilacijaPostureReasons(signal);
   const reasons = [
-    ...signal.readiness.watchReasons.map((reason) => `watch:${reason}`),
-    ...signal.readiness.blockerReasons.map((reason) => `blocked:${reason}`),
-    ...(signal.readiness.status === 'READY'
-      ? ['ready:object-state, methods, delegation, and composition are aligned for WAWE progression']
-      : []),
+    ...postureReasons.governanceReasons,
     ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
     ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
     ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
@@ -921,6 +950,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
     || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.activationStatus === 'BLOCKED';
+  const objektnaProngilacijaPostureReasons = buildObjektnaProngilacijaPostureReasons(
+    extremProfiler.objektnoOrijentisanaProngilacija,
+  );
   const reasons = promotionFreeze
     ? [
       'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
@@ -931,15 +963,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         : []),
       ...((extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
         || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED')
-        ? [
-          `objektna-prongilacija:${extremProfiler.objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`,
-          ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-            ? extremProfiler.objektnoOrijentisanaProngilacija.readiness.watchReasons.map((reason) => `objektna-prongilacija:${reason}`)
-            : []),
-          ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
-            ? extremProfiler.objektnoOrijentisanaProngilacija.readiness.blockerReasons.map((reason) => `objektna-prongilacija:${reason}`)
-            : []),
-        ]
+        ? objektnaProngilacijaPostureReasons.rolloutReasons
         : []),
       ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
         ? extremProfiler.semaMuSemaFormula.blockerReasons.map((reason) => `extrem-schema-mushema:${reason}`)
