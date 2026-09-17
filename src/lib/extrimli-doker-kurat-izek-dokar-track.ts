@@ -181,6 +181,10 @@ export function getDokerKuratIzekDokarVocabulary(): ExtrimliDokerKuratIzekDokarV
   return DOKER_KURAT_IZEK_DOKAR_VOCABULARY;
 }
 
+function failClosedUnknownStatus(_status: never): 'BLOCKED' {
+  return 'BLOCKED';
+}
+
 export function buildDokerKuratIzekDokarExtremTrack(params: {
   freezeRequired: boolean;
   conflictIntensity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
@@ -346,9 +350,9 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
         return 'READY' as const;
       case 'READY':
         return 'READY' as const;
+      default:
+        return failClosedUnknownStatus(state.status);
     }
-    const unreachableStatus: never = state.status;
-    return unreachableStatus;
   });
   const publicStatus = params.promotionFreeze
     ? 'BLOCKED'
