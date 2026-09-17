@@ -276,6 +276,11 @@ async function runTests(): Promise<void> {
     );
     const statusAdjustment = duetStatusAdjustment(report.nivoDuet.signal.status);
     const warningPenalty = Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, report.nivoDuet.signal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP);
+    const objektnaProngilacijaAdjustment = report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'READY'
+      ? 2
+      : report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
+        ? -4
+        : -12;
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -283,6 +288,7 @@ async function runTests(): Promise<void> {
         baseScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE
           + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE
           + (statusAdjustment - warningPenalty)
+          + objektnaProngilacijaAdjustment
           + profilerBoost
           - profilerPenalty,
         0,
