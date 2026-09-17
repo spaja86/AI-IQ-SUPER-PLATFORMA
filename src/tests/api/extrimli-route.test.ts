@@ -14,6 +14,7 @@ import { GET as getSpajaKod } from '../../app/api/extrimli/spaja-kod/route';
 import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli/duel-king/route';
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
+import { EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../../lib/extrimli-extrem/types';
 
 let passed = 0;
 let failed = 0;
@@ -195,7 +196,10 @@ async function runTests(): Promise<void> {
     assert(body.data.mobilnaLinija.installationMessages.messages.length >= 1, 'mobilna installation messages should be present');
     assert(['BASIC', 'SMART', 'PRO', 'NONE'].includes(body.data.mobilnaLinija.packagePlanHint.recommendedPlanTier), 'unexpected mobilna package hint tier');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected EXTREM object-oriented prongilacija term');
-    assert(body.data.objektnoOrijentisanaProngilacija.contractVersion === 'v1-objektno-orijentisana-prongilacija', 'unexpected EXTREM object-oriented prongilacija contract');
+    assert(
+      body.data.objektnoOrijentisanaProngilacija.contractVersion === EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
+      'unexpected EXTREM object-oriented prongilacija contract',
+    );
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentisanaProngilacija.readiness.status), 'unexpected EXTREM object-oriented prongilacija status');
     assert(Number.isFinite(body.data.objektnoOrijentisanaProngilacija.readiness.score), 'object-oriented prongilacija score must be finite');
     assert(body.data.semaMuSemaFormula.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'unexpected EXTREM formula expression');
