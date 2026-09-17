@@ -23,6 +23,10 @@ import {
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -347,6 +351,9 @@ async function runTests(): Promise<void> {
     const objektnaProngilacijaAdjustment = getObjektnaProngilacijaAdjustment(
       report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status,
     );
+    const objektnoOrijentisanaReprodukcijaAdjustment = getObjektnoOrijentisanaReprodukcijaAdjustment(
+      report.extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status,
+    );
     const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
       report.extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
     );
@@ -358,6 +365,7 @@ async function runTests(): Promise<void> {
           + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE
           + (statusAdjustment - warningPenalty)
           + objektnaProngilacijaAdjustment
+          + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
           + profilerBoost
           - profilerPenalty,

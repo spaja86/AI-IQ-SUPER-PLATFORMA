@@ -202,6 +202,22 @@ export interface ExtrimliExtrondolB2bReadiness {
       formulaHolds: boolean;
       blockerReasons: string[];
     };
+    objektnoOrijentisanaReprodukcijaGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem';
+      status: ExtrimliExtremProfilerReport['objektnoOrijentisanaReprodukcija']['readiness']['status'];
+      readinessScore: number;
+      reviewRequiredBeforeWideRollout: boolean;
+      blockerReasons: string[];
+      watchReasons: string[];
+    };
+    epicElikvadentiGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem';
+      status: ExtrimliExtremProfilerReport['objektnoOrijentusanoUzdizanjeEpskihElikvadenata']['readiness']['status'];
+      readinessScore: number;
+      reviewRequiredBeforeWideRollout: boolean;
+      blockerReasons: string[];
+      watchReasons: string[];
+    };
   };
   globalLicensing: {
     sourceOfTruth: '/api/aiiq-world-bank-licencni-registar';
@@ -545,10 +561,15 @@ export interface ExtrimliExtrondolStartProject {
     'paymentVerification',
     'extremProfiler',
     'extremProfiler.businessLicensingSignals',
+    'extremProfiler.objektnoOrijentisanaProngilacija',
+    'extremProfiler.objektnoOrijentisanaReprodukcija',
+    'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata',
     'extremProfiler.resolutionReadiness',
     'extremProfiler.semaMuSemaFormula',
-    'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata',
     'b2bReadiness.globalLicensing',
+    'objektnoOrijentisanaProngilacija',
+    'objektnoOrijentisanaReprodukcija',
+    'epicElikvadenti',
     'mobilnaLinija',
     'spajaKod',
     'releaseReadinessScorecard',
@@ -578,10 +599,14 @@ export interface ExtrimliExtrondolStartProject {
       'extremProfiler.businessLicensingSignals',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
+      'extremProfiler.objektnoOrijentisanaProngilacija.readiness',
       'extremProfiler.objektnoOrijentisanaReprodukcija.readiness',
       'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness',
       'b2bReadiness.globalLicensing',
       'mobilnaLinija',
+      'objektnoOrijentisanaProngilacija',
+      'objektnoOrijentisanaReprodukcija',
+      'epicElikvadenti',
       'spajaKod',
       'spajaKod.platformTrack',
       'releaseReadinessScorecard',
