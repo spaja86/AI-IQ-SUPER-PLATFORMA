@@ -932,7 +932,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED')
         ? [
           `objektna-prongilacija:${extremProfiler.objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`,
-          ...extremProfiler.objektnoOrijentisanaProngilacija.readiness.watchReasons.map((reason) => `objektna-prongilacija:${reason}`),
+          ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
+            ? extremProfiler.objektnoOrijentisanaProngilacija.readiness.watchReasons.map((reason) => `objektna-prongilacija:${reason}`)
+            : []),
           ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
             ? extremProfiler.objektnoOrijentisanaProngilacija.readiness.blockerReasons.map((reason) => `objektna-prongilacija:${reason}`)
             : []),
