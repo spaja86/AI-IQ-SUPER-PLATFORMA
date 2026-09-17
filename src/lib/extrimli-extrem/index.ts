@@ -1712,7 +1712,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     {
       id: 'funkcinalno-programiranje-energetskog-misaonog-toka-lock',
       description: 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA is locked as an additive EXTREM technical signal with explicit EXTREM/EXTRONDOL/SPAJA KOD ownership split.',
-      passed: funkcinalnoProgramiranjeEnergetskogMisaonogToka.contractVersion === 'v1-funkcinalno-programiranje-energetskog-misaonog-toka'
+      passed: funkcinalnoProgramiranjeEnergetskogMisaonogToka.contractVersion === EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION
         && funkcinalnoProgramiranjeEnergetskogMisaonogToka.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
         && funkcinalnoProgramiranjeEnergetskogMisaonogToka.ownershipModel.extrem === 'technical-functional-energy-signal',
     },
