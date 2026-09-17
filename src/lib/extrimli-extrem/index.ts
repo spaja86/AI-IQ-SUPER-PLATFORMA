@@ -216,6 +216,12 @@ function buildObjektnaProngilacijaSignal(
     ...(profileInput.compositionCoveragePercent < 45 ? [`composition-coverage-blocked:${profileInput.compositionCoveragePercent}`] : []),
     ...(profileInput.instanceClarityPercent < 45 ? [`instance-clarity-blocked:${profileInput.instanceClarityPercent}`] : []),
   ];
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
+    ? [`aggregate-watch-score:${score}`]
+    : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length === 0
+    ? [`aggregate-blocked-score:${score}`]
+    : blockerReasons;
   const domainObjects: readonly [
     ExtrimliExtremObjektnaProngilacijaDomainObject,
     ExtrimliExtremObjektnaProngilacijaDomainObject,
@@ -282,8 +288,8 @@ function buildObjektnaProngilacijaSignal(
       status,
       readinessSignal: status === 'READY',
       degraded,
-      watchReasons,
-      blockerReasons,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
     },
   };
 }
