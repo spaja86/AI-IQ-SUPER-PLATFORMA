@@ -2,6 +2,7 @@ import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '..
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
+import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION } from '../extrimli-objektno-orijentisana-reprodukcija-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION } from '../extrimli-objektno-orijentusano-uzdizanje-epskih-elikvadenata-contract';
 
 export type ExtrimliExtremConflictIntensity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
@@ -73,6 +74,65 @@ export interface ExtrimliExtremObjektnaProngilacijaSignal {
     score: number;
     status: ExtrimliExtremObjektnaProngilacijaStatus;
     readinessSignal: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
+export type ExtrimliExtremObjektnoOrijentisanaReprodukcijaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremObjektnoOrijentisanaReprodukcijaProfileInput {
+  objectStateReproducibilityPercent: number;
+  methodDeterminismPercent: number;
+  instanceReplayConsistencyPercent: number;
+  delegationStabilityPercent: number;
+  compositionSafetyPercent: number;
+}
+
+export interface ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint {
+  id: 'state-snapshot' | 'method-replay' | 'instance-replay' | 'delegation-trace' | 'composition-guard';
+  label: string;
+  responsibility: string;
+  auditSafe: boolean;
+}
+
+export interface ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal {
+  term: 'Objektno orijentisana reprodukcija';
+  contractVersion: typeof EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'Objektno orijentisana reprodukcija';
+    statement: string;
+    existingContractBeforeThisChange: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-reproduction-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  profileInput: ExtrimliExtremObjektnoOrijentisanaReprodukcijaProfileInput;
+  reproductionModel: {
+    stateRole: string;
+    behaviorRole: string;
+    replayRole: string;
+    delegationRole: string;
+    compositionRole: string;
+    checkpoints: readonly [
+      ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+      ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+      ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+      ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+      ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint
+    ];
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremObjektnoOrijentisanaReprodukcijaStatus;
+    readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
     blockerReasons: string[];
@@ -296,6 +356,7 @@ export interface ExtrimliExtremProfilerReport {
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
   objektnoOrijentisanaProngilacija: ExtrimliExtremObjektnaProngilacijaSignal;
+  objektnoOrijentisanaReprodukcija: ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal;
   objektnoOrijentusanoUzdizanjeEpskihElikvadenata: ExtrimliExtremEpicElikvadentSignal;
   resolutionReadiness: {
     rezolucijaScore: number;
@@ -369,6 +430,9 @@ export const EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION = 'ŠEMA + ŠEMA
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE = 75;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE = 55;
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION;
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_READY_SCORE = 78;
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_WATCH_SCORE = 60;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE = 76;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE = 58;

@@ -2,6 +2,7 @@ import {
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
@@ -103,6 +104,16 @@ async function runTests(): Promise<void> {
     assert(report.objektnoOrijentisanaProngilacija.domainModel.domainObjects.length === 3, 'domain objects should be locked');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.objektnoOrijentisanaProngilacija.readiness.status), 'unexpected object-oriented prongilacija status');
     assert(Number.isFinite(report.objektnoOrijentisanaProngilacija.readiness.score), 'object-oriented prongilacija score must be finite');
+  });
+
+  await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.objektnoOrijentisanaReprodukcija.term === 'Objektno orijentisana reprodukcija', 'object-oriented reproduction term mismatch');
+    assert(report.objektnoOrijentisanaReprodukcija.contractVersion === EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION, 'object-oriented reproduction contract mismatch');
+    assert(report.objektnoOrijentisanaReprodukcija.reproductionModel.checkpoints.length === 5, 'reproduction checkpoints should be locked');
+    assert(report.objektnoOrijentisanaReprodukcija.reproductionModel.checkpoints.every((item) => item.auditSafe), 'reproduction checkpoints must stay audit-safe');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.objektnoOrijentisanaReprodukcija.readiness.status), 'unexpected object-oriented reproduction status');
+    assert(Number.isFinite(report.objektnoOrijentisanaReprodukcija.readiness.score), 'object-oriented reproduction score must be finite');
   });
 
   await test('default report exposes objektno orijentusano uzdizanje epskih elikvadenata as additive EXTREM signal', () => {
@@ -214,6 +225,24 @@ async function runTests(): Promise<void> {
         'blocked object-oriented prongilacija should keep blocker reasons on the additive signal',
       );
       assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-prongilacija-lock' && item.passed), 'object-oriented prongilacija lock criterion must pass');
+    });
+  });
+
+  await test('objektno orijentisana reprodukcija degrades safely and blocks deterministic replay readiness on invalid inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_OBJECT_STATE_REPRODUCIBILITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_METHOD_DETERMINISM_PERCENT: '10',
+      EXTRIMLI_EXTREM_INSTANCE_REPLAY_CONSISTENCY_PERCENT: '20',
+      EXTRIMLI_EXTREM_DELEGATION_STABILITY_PERCENT: '30',
+      EXTRIMLI_EXTREM_COMPOSITION_SAFETY_PERCENT: 'Infinity',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED', 'object-oriented reproduction should block on invalid/low inputs');
+      assert(report.objektnoOrijentisanaReprodukcija.readiness.degraded, 'invalid object-oriented reproduction inputs should degrade safely');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_OBJECT_STATE_REPRODUCIBILITY_PERCENT'), 'invalid reproduction input should be tracked');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_COMPOSITION_SAFETY_PERCENT'), 'invalid composition safety input should be tracked');
+      assert(report.governanceSignal.freezeRequired, 'blocked reproduction readiness should freeze governance');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-reprodukcija-lock' && item.passed), 'object-oriented reproduction lock criterion must pass');
     });
   });
 

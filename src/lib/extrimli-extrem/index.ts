@@ -23,6 +23,14 @@ import type {
   ExtrimliExtremObjektnaProngilacijaProfileInput,
   ExtrimliExtremObjektnaProngilacijaSignal,
   ExtrimliExtremObjektnaProngilacijaStatus,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaProfileInput,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaStatus,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaProfileInput,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaStatus,
   ExtrimliExtremOptimizationTier,
   ExtrimliExtremProfileInput,
   ExtrimliExtremProfilerReport,
@@ -47,6 +55,12 @@ import {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE,
@@ -198,6 +212,18 @@ function resolveEpicElikvadentInput(
   };
 }
 
+function resolveObjektnoOrijentisanaReprodukcijaInput(
+  degradedSources: string[],
+): ExtrimliExtremObjektnoOrijentisanaReprodukcijaProfileInput {
+  return {
+    objectStateReproducibilityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_OBJECT_STATE_REPRODUCIBILITY_PERCENT', 86, 0, degradedSources),
+    methodDeterminismPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_METHOD_DETERMINISM_PERCENT', 84, 0, degradedSources),
+    instanceReplayConsistencyPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_INSTANCE_REPLAY_CONSISTENCY_PERCENT', 82, 0, degradedSources),
+    delegationStabilityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_DELEGATION_STABILITY_PERCENT', 80, 0, degradedSources),
+    compositionSafetyPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_COMPOSITION_SAFETY_PERCENT', 85, 0, degradedSources),
+  };
+}
+
 function classifyObjektnaProngilacijaStatus(score: number): ExtrimliExtremObjektnaProngilacijaStatus {
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE) return 'WATCH';
@@ -317,6 +343,96 @@ function classifyEpicElikvadentStatus(score: number): ExtrimliExtremEpicElikvade
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE) return 'WATCH';
   return 'BLOCKED';
+}
+
+function classifyObjektnoOrijentisanaReprodukcijaStatus(score: number): ExtrimliExtremObjektnoOrijentisanaReprodukcijaStatus {
+  if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function buildObjektnoOrijentisanaReprodukcijaSignal(
+  profileInput: ExtrimliExtremObjektnoOrijentisanaReprodukcijaProfileInput,
+  degraded: boolean,
+): ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal {
+  const score = round(
+    clamp(
+      (profileInput.objectStateReproducibilityPercent * 0.26)
+      + (profileInput.methodDeterminismPercent * 0.24)
+      + (profileInput.instanceReplayConsistencyPercent * 0.2)
+      + (profileInput.delegationStabilityPercent * 0.14)
+      + (profileInput.compositionSafetyPercent * 0.16),
+      0,
+      100,
+    ),
+    2,
+  );
+  const status = classifyObjektnoOrijentisanaReprodukcijaStatus(score);
+  const watchReasons = [
+    ...(profileInput.objectStateReproducibilityPercent < 82 ? [`state-reproducibility-watch:${profileInput.objectStateReproducibilityPercent}`] : []),
+    ...(profileInput.methodDeterminismPercent < 80 ? [`method-determinism-watch:${profileInput.methodDeterminismPercent}`] : []),
+    ...(profileInput.instanceReplayConsistencyPercent < 78 ? [`instance-replay-watch:${profileInput.instanceReplayConsistencyPercent}`] : []),
+    ...(profileInput.delegationStabilityPercent < 72 ? [`delegation-stability-watch:${profileInput.delegationStabilityPercent}`] : []),
+    ...(profileInput.compositionSafetyPercent < 80 ? [`composition-safety-watch:${profileInput.compositionSafetyPercent}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.objectStateReproducibilityPercent < 58 ? [`state-reproducibility-blocked:${profileInput.objectStateReproducibilityPercent}`] : []),
+    ...(profileInput.methodDeterminismPercent < 55 ? [`method-determinism-blocked:${profileInput.methodDeterminismPercent}`] : []),
+    ...(profileInput.instanceReplayConsistencyPercent < 50 ? [`instance-replay-blocked:${profileInput.instanceReplayConsistencyPercent}`] : []),
+    ...(profileInput.delegationStabilityPercent < 48 ? [`delegation-stability-blocked:${profileInput.delegationStabilityPercent}`] : []),
+    ...(profileInput.compositionSafetyPercent < 55 ? [`composition-safety-blocked:${profileInput.compositionSafetyPercent}`] : []),
+  ];
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length == 0 ? [`aggregate-watch-score:${score}`] : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length == 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons;
+  const checkpoints: readonly [
+    ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+    ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+    ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+    ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+    ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+  ] = [
+    { id: 'state-snapshot', label: 'State snapshot', responsibility: 'Zaključava audit-safe prikaz stanja pre i posle reprodukcije.', auditSafe: true },
+    { id: 'method-replay', label: 'Method replay', responsibility: 'Potvrđuje da ista metoda nad istim ulazima daje isti izlaz.', auditSafe: true },
+    { id: 'instance-replay', label: 'Instance replay', responsibility: 'Meri konzistentnost lifecycle prolaza kroz ponovljene evaluacije instance.', auditSafe: true },
+    { id: 'delegation-trace', label: 'Delegation trace', responsibility: 'Proverava da delegirani koraci ostaju dosledni i auditabilni.', auditSafe: true },
+    { id: 'composition-guard', label: 'Composition guard', responsibility: 'Osigurava da kompozicija zadržava bounded i bezbedan izlaz.', auditSafe: true },
+  ];
+
+  return {
+    term: 'Objektno orijentisana reprodukcija',
+    contractVersion: EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'Objektno orijentisana reprodukcija',
+      statement: 'Additive EXTREM signal that verifies deterministic replay of object state, methods, instances, delegation, and composition without exposing raw internals.',
+      existingContractBeforeThisChange: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-reproduction-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    profileInput,
+    reproductionModel: {
+      stateRole: 'Reproduktivno stanje čuva audit-safe snapshot objekta.',
+      behaviorRole: 'Metodska determinističnost potvrđuje isto ponašanje nad istim ulazima.',
+      replayRole: 'Replay konzistentnost instance drži lifecycle prolaz stabilnim kroz ponovljene evaluacije.',
+      delegationRole: 'Delegaciona stabilnost sprečava rasipanje odgovornosti i nedeterminističke skokove.',
+      compositionRole: 'Kompoziciona bezbednost čuva bounded izlaz složenih objekata.',
+      checkpoints,
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
+    },
+  };
 }
 
 function buildEpicElikvadentSignal(
@@ -723,6 +839,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const epicElikvadentDegradedSources: string[] = [];
   const epicElikvadentInput = resolveEpicElikvadentInput(epicElikvadentDegradedSources);
   degradedSources.push(...epicElikvadentDegradedSources);
+  const objektnoOrijentisanaReprodukcijaDegradedSources: string[] = [];
+  const objektnoOrijentisanaReprodukcijaInput = resolveObjektnoOrijentisanaReprodukcijaInput(objektnoOrijentisanaReprodukcijaDegradedSources);
+  degradedSources.push(...objektnoOrijentisanaReprodukcijaDegradedSources);
   const mobilnaLinijaInput = resolveMobilnaLinijaInput(degradedSources);
   const mobilnaLinija = buildMobilnaLinijaSection(
     mobilnaLinijaInput,
@@ -753,6 +872,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const objektnoOrijentusanoUzdizanjeEpskihElikvadenata = buildEpicElikvadentSignal(
     epicElikvadentInput,
     epicElikvadentDegradedSources.length > 0,
+  );
+  const objektnoOrijentisanaReprodukcija = buildObjektnoOrijentisanaReprodukcijaSignal(
+    objektnoOrijentisanaReprodukcijaInput,
+    objektnoOrijentisanaReprodukcijaDegradedSources.length > 0,
   );
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
@@ -814,6 +937,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || !withinTargets
     || blockerActive
     || businessLicensingSignals.freezeRequired
+    || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
@@ -828,6 +952,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(businessLicensingSignals.freezeRequired
       ? [`Global licensing readiness gate triggered: ${businessLicensingSignals.freezeReasons.join(', ')}`]
       : ['Global licensing readiness is aligned for EXTREM governance.']),
+    ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
+      ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
+      : []),
+    ...(objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
+      ? [`Objektno orijentisana reprodukcija blocked WAWE progression: ${objektnoOrijentisanaReprodukcija.readiness.blockerReasons.join('; ') || 'reproduction readiness failed.'}`]
+      : []),
     ...(objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
       ? ['Objektno orijentusano uzdizanje epskih elikvadenata requires bounded review before wider WAWE progression.']
       : []),
@@ -852,6 +982,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (businessLicensingSignals.freezeRequired) degradedSources.push('global-licensing:freeze-required');
   if (objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`objektna-prongilacija:${objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
+  }
+  if (objektnoOrijentisanaReprodukcija.readiness.degraded) {
+    degradedSources.push(`objektno-orijentisana-reprodukcija:${objektnoOrijentisanaReprodukcija.readiness.status.toLowerCase()}`);
   }
   if (objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.degraded) {
     degradedSources.push(`epic-elikvadenti:${objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status.toLowerCase()}`);
@@ -959,6 +1092,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(objektnoOrijentisanaProngilacija.readiness.score),
     },
     {
+      id: 'objektno-orijentisana-reprodukcija-lock',
+      description: 'Objektno orijentisana reprodukcija is locked as an additive-only EXTREM reproducibility signal with explicit ownership split across EXTREM, EXTRONDOL, and SPAJA KOD.',
+      passed: objektnoOrijentisanaReprodukcija.contractVersion === 'v1-objektno-orijentisana-reprodukcija'
+        && objektnoOrijentisanaReprodukcija.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && objektnoOrijentisanaReprodukcija.ownershipModel.extrem === 'technical-reproduction-signal',
+    },
+    {
+      id: 'objektno-orijentisana-reprodukcija-model',
+      description: 'Objektno orijentisana reprodukcija defines deterministic state/method replay, instance consistency, delegation stability, composition safety, and bounded readiness semantics.',
+      passed: objektnoOrijentisanaReprodukcija.reproductionModel.checkpoints.length === 5
+        && objektnoOrijentisanaReprodukcija.reproductionModel.checkpoints.every((item) => item.auditSafe)
+        && Number.isFinite(objektnoOrijentisanaReprodukcija.readiness.score),
+    },
+    {
       id: 'objektno-orijentusano-uzdizanje-epskih-elikvadenata-lock',
       description: 'Objektno orijentusano uzdizanje epskih elikvadenata is locked as an additive EXTREM technical signal and remains inside the existing EXTRIMLI/EXTREM/EXTRONDOL boundary.',
       passed: objektnoOrijentusanoUzdizanjeEpskihElikvadenata.contractVersion === 'v1-objektno-orijentusano-uzdizanje-epskih-elikvadenata'
@@ -1063,6 +1210,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     businessLicensingSignals,
     objektnoOrijentisanaProngilacija,
+    objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
     semaMuSemaFormula,
     spajaKodEncapsulation,
@@ -1134,6 +1282,10 @@ export type {
   ExtrimliExtremObjektnaProngilacijaProfileInput,
   ExtrimliExtremObjektnaProngilacijaSignal,
   ExtrimliExtremObjektnaProngilacijaStatus,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaCheckpoint,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaProfileInput,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal,
+  ExtrimliExtremObjektnoOrijentisanaReprodukcijaStatus,
   ExtrimliExtremOptimizationTier,
   ExtrimliExtremProfileInput,
   ExtrimliExtremProfilerReport,
@@ -1159,6 +1311,9 @@ export {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE,

@@ -9,6 +9,7 @@ import type {
   ExtrimliSpajaproPublicBoundaryStatus,
 } from '../extrimli-spajapro-track';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
+import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION } from '../extrimli-objektno-orijentisana-reprodukcija-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION } from '../extrimli-objektno-orijentusano-uzdizanje-epskih-elikvadenata-contract';
 
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
@@ -252,6 +253,35 @@ export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {
   reasons: string[];
 }
 
+export interface ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance {
+  term: 'Objektno orijentisana reprodukcija';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: typeof EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION;
+  additiveOnly: true;
+  status: ExtrimliExtremProfilerReport['objektnoOrijentisanaReprodukcija']['readiness']['status'];
+  readinessScore: number;
+  governanceVisibility: 'audit-safe-readiness-only';
+  ownershipModel: {
+    extrem: 'technical-reproduction-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
 export interface ExtrimliExtrondolEpicElikvadentiGovernance {
   term: 'Objektno orijentusano uzdizanje epskih elikvadenata';
   sourceOfTruth: '/api/extrimli/extrondol';
@@ -315,6 +345,14 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     muSemaConclusion: ExtrimliExtremProfilerReport['semaMuSemaFormula']['muSemaConclusion'];
     formulaHolds: boolean;
     blockerReasons: string[];
+  };
+  objektnoOrijentisanaReprodukcijaGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['objektnoOrijentisanaReprodukcija']['readiness']['status'];
+    readinessScore: number;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
   };
   epicElikvadentiGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
@@ -540,6 +578,7 @@ export interface ExtrimliExtrondolStartProject {
       'extremProfiler.businessLicensingSignals',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
+      'extremProfiler.objektnoOrijentisanaReprodukcija.readiness',
       'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness',
       'b2bReadiness.globalLicensing',
       'mobilnaLinija',
@@ -697,6 +736,7 @@ export interface ExtrimliExtrondolReport {
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   extremProfiler: ExtrimliExtremProfilerReport;
   objektnoOrijentisanaProngilacija: ExtrimliExtrondolObjektnaProngilacijaGovernance;
+  objektnoOrijentisanaReprodukcija: ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance;
   epicElikvadenti: ExtrimliExtrondolEpicElikvadentiGovernance;
   spajaproTrack: ExtrimliSpajaproGovernanceTrack;
   spajaKod: ExtrimliSpajaKodPublicFacade;
@@ -760,6 +800,10 @@ export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = EXT
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT = -4;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_BLOCKED_ADJUSTMENT = -12;
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION;
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT = 1;
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT = -4;
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT = -10;
 export const EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION;
 export const EXTRONDOL_EPIC_ELIKVADENTI_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_EPIC_ELIKVADENTI_WATCH_ADJUSTMENT = -5;

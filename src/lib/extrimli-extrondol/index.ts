@@ -27,10 +27,12 @@ import type {
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolEpicElikvadentiGovernance,
   ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance,
   ExtrimliExtrondolMobilnaLinijaPackagePlan,
   ExtrimliExtrondolPaymentReferenceClassification,
   ExtrimliExtrondolPaymentVerification,
   ExtrimliExtrondolObjektnaProngilacijaGovernance,
+  ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance,
   ExtrimliExtrondolReport,
   ExtrimliExtrondolReleaseAuditSummary,
   ExtrimliExtrondolStartProject,
@@ -76,6 +78,14 @@ import {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -347,6 +357,14 @@ export function getEpicElikvadentiAdjustment(
   return EXTRONDOL_EPIC_ELIKVADENTI_BLOCKED_ADJUSTMENT;
 }
 
+export function getObjektnoOrijentisanaReprodukcijaAdjustment(
+  status: ExtrimliExtrondolReport['extremProfiler']['objektnoOrijentisanaReprodukcija']['readiness']['status'],
+): number {
+  if (status === 'READY') return EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT;
+  if (status === 'WATCH') return EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT;
+  return EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT;
+}
+
 function buildObjektnaProngilacijaPostureReasons(
   signal: ExtrimliExtrondolReport['extremProfiler']['objektnoOrijentisanaProngilacija'],
 ): {
@@ -420,6 +438,56 @@ function buildObjektnaProngilacijaGovernance(params: {
         { stage: 'WAWE-4', requirement: 'Production promotion requires READY or explicitly reviewed WATCH posture without hidden blockers.' },
         { stage: 'WAWE-5', requirement: 'Post-release resilience keeps rollback and human-review obligations attached to the object-state signal.' },
       ],
+    },
+    auditCoupling: {
+      releaseAuditSummaryRequired: true,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamSyncRequired: true,
+    },
+    reasons,
+  };
+}
+
+function buildObjektnoOrijentisanaReprodukcijaGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+}): ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance {
+  const signal = params.extremProfiler.objektnoOrijentisanaReprodukcija;
+  const reasons = [
+    ...(signal.readiness.status === 'READY'
+      ? ['ready:deterministic state and behavior replay remain aligned for WAWE progression']
+      : []),
+    ...signal.readiness.watchReasons.map((reason) => `watch:${reason}`),
+    ...signal.readiness.blockerReasons.map((reason) => `blocked:${reason}`),
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+
+  return {
+    term: 'Objektno orijentisana reprodukcija',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    contractVersion: EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+    additiveOnly: true,
+    status: signal.readiness.status,
+    readinessScore: signal.readiness.score,
+    governanceVisibility: 'audit-safe-readiness-only',
+    ownershipModel: {
+      extrem: 'technical-reproduction-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    waweImpact: {
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+      promotionFreeze: params.promotionFreeze,
+      reviewRequiredBeforeWideRollout: signal.readiness.status !== 'READY',
     },
     auditCoupling: {
       releaseAuditSummaryRequired: true,
@@ -726,6 +794,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   if (extremProfiler.objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`extrem-profiler:objektna-prongilacija-${extremProfiler.objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
   }
+  if (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.degraded) {
+    degradedSources.push(`extrem-profiler:objektno-orijentisana-reprodukcija-${extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status.toLowerCase()}`);
+  }
   if (extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.degraded) {
     degradedSources.push(`extrem-profiler:epic-elikvadenti-${extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status.toLowerCase()}`);
   }
@@ -877,6 +948,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const objektnaProngilacijaAdjustment = getObjektnaProngilacijaAdjustment(
     extremProfiler.objektnoOrijentisanaProngilacija.readiness.status,
   );
+  const objektnoOrijentisanaReprodukcijaAdjustment = getObjektnoOrijentisanaReprodukcijaAdjustment(
+    extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status,
+  );
   const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
     extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
   );
@@ -884,7 +958,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const profilerBoost = extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
   const orchestrationReadinessScore = round(
     clamp(
-      blendedBaseScore + duetAdjustment + objektnaProngilacijaAdjustment + epicElikvadentiAdjustment + profilerBoost - profilerPenalty,
+      blendedBaseScore + duetAdjustment + objektnaProngilacijaAdjustment + objektnoOrijentisanaReprodukcijaAdjustment + epicElikvadentiAdjustment + profilerBoost - profilerPenalty,
       0,
       100,
     ),
@@ -990,6 +1064,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       ? ['Objektno orijentisana prongilacija is BLOCKED and must freeze promotion until object-state issues are resolved.']
       : []),
+    ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
+      ? ['Objektno orijentisana reprodukcija is in WATCH posture and requires replay review before wider rollout.']
+      : []),
+    ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
+      ? ['Objektno orijentisana reprodukcija is BLOCKED and must freeze promotion until deterministic replay issues are resolved.']
+      : []),
     ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
       ? ['Objektno orijentusano uzdizanje epskih elikvadenata is in WATCH posture and requires review before wider rollout.']
       : []),
@@ -1018,6 +1098,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       ? ['objektno-orijentisana-prongilacija']
       : []),
+    ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
+      ? ['objektno-orijentisana-reprodukcija']
+      : []),
     ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
       ? ['epic-elikvadenti']
       : []),
@@ -1035,6 +1118,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.businessLicensingSignals.freezeRequired
     || (extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
+    || (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH' && !humanReviewComplete)
+    || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
@@ -1047,6 +1132,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? [`extrem-resolution:${extremProfiler.resolutionReadiness.rekulitiPoRauletu.toLowerCase()}`]
       : []),
     ...objektnaProngilacijaPostureReasons.rolloutReasons,
+    ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
+      ? [
+        'objektno-orijentisana-reprodukcija:watch',
+        ...extremProfiler.objektnoOrijentisanaReprodukcija.readiness.watchReasons.map((reason) => `objektno-orijentisana-reprodukcija:${reason}`),
+      ]
+      : []),
+    ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
+      ? [
+        'objektno-orijentisana-reprodukcija:blocked',
+        ...extremProfiler.objektnoOrijentisanaReprodukcija.readiness.blockerReasons.map((reason) => `objektno-orijentisana-reprodukcija:${reason}`),
+      ]
+      : []),
     ...(extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
       ? [
         'epic-elikvadenti:watch',
@@ -1120,6 +1217,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       formulaHolds: extremProfiler.semaMuSemaFormula.formulaHolds,
       blockerReasons: [...extremProfiler.semaMuSemaFormula.blockerReasons],
     },
+    objektnoOrijentisanaReprodukcijaGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      status: extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status,
+      readinessScore: extremProfiler.objektnoOrijentisanaReprodukcija.readiness.score,
+      reviewRequiredBeforeWideRollout: extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status !== 'READY',
+      blockerReasons: [...extremProfiler.objektnoOrijentisanaReprodukcija.readiness.blockerReasons],
+      watchReasons: [...extremProfiler.objektnoOrijentisanaReprodukcija.readiness.watchReasons],
+    },
     epicElikvadentiGovernance: {
       sourceOfTruth: '/api/extrimli/extrem',
       status: extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
@@ -1132,6 +1237,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     rollbackPlanRequired: true,
   };
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
+    downstreamSyncComplete,
+    humanReviewComplete,
+  });
+  const objektnoOrijentisanaReprodukcija = buildObjektnoOrijentisanaReprodukcijaGovernance({
     extremProfiler,
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
@@ -1199,6 +1312,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           ? 'WARN' as const
           : 'FAIL' as const,
       details: objektnoOrijentisanaProngilacija.reasons.join('; '),
+    },
+    {
+      id: 'objektno-orijentisana-reprodukcija-governance',
+      label: 'Objektno orijentisana reprodukcija posture',
+      required: true,
+      status: objektnoOrijentisanaReprodukcija.status === 'READY'
+        ? 'PASS' as const
+        : objektnoOrijentisanaReprodukcija.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: objektnoOrijentisanaReprodukcija.reasons.join('; '),
     },
     {
       id: 'epic-elikvadenti-governance',
@@ -1380,6 +1504,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.governanceSignal.freezeRequired',
         'extremProfiler.objektnoOrijentisanaProngilacija.readiness.status',
         'extremProfiler.objektnoOrijentisanaProngilacija.readiness.score',
+        'extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status',
+        'extremProfiler.objektnoOrijentisanaReprodukcija.readiness.score',
         'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status',
         'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score',
         'extremProfiler.businessLicensingSignals.activityCoverageScore',
@@ -1388,6 +1514,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.businessLicensingSignals.freezeRequired',
         'b2bReadiness.globalLicensing',
         'objektnoOrijentisanaProngilacija.waweImpact',
+        'objektnoOrijentisanaReprodukcija.waweImpact',
         'epicElikvadenti.waweImpact',
         'extremProfiler.semaMuSemaFormula.status',
         'extremProfiler.semaMuSemaFormula.muSemaConclusion',
@@ -1418,6 +1545,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       || duetSignal.status === 'DISSONANT'
       || extremProfiler.governanceSignal.freezeRequired
       || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
+      || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
       || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
       || extremProfiler.businessLicensingSignals.freezeRequired,
       rolloutFreeze: promotionFreeze,
@@ -1437,6 +1565,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         rekulitiPoRauletu: extremProfiler.resolutionReadiness.rekulitiPoRauletu,
         discanInKibenState: extremProfiler.resolutionReadiness.discanInKibenState,
         blockerActive: extremProfiler.resolutionReadiness.blockerActive,
+      },
+      objektnoOrijentisanaReprodukcijaGovernance: {
+        sourceOfTruth: '/api/extrimli/extrem',
+        status: extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status,
+        readinessScore: extremProfiler.objektnoOrijentisanaReprodukcija.readiness.score,
+        reviewRequiredBeforeWideRollout: extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status !== 'READY',
+        blockerReasons: [...extremProfiler.objektnoOrijentisanaReprodukcija.readiness.blockerReasons],
+        watchReasons: [...extremProfiler.objektnoOrijentisanaReprodukcija.readiness.watchReasons],
       },
       epicElikvadentiGovernance: {
         sourceOfTruth: '/api/extrimli/extrem',
@@ -1674,6 +1810,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentisanaProngilacija.readiness.status'),
     },
     {
+      id: 'objektno-orijentisana-reprodukcija-governance',
+      description: 'Objektno orijentisana reprodukcija is propagated from EXTREM into WAWE freeze, release audit, human-review, rollback, and downstream sync using audit-safe readiness fields only.',
+      passed: objektnoOrijentisanaReprodukcija.contractVersion === EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION
+        && objektnoOrijentisanaReprodukcija.technicalSignalSource === '/api/extrimli/extrem'
+        && objektnoOrijentisanaReprodukcija.governanceVisibility === 'audit-safe-readiness-only'
+        && releaseAuditSummary.objektnoOrijentisanaReprodukcijaGovernance.status === extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status'),
+    },
+    {
       id: 'epic-elikvadenti-governance',
       description: 'Epic elikvadenti readiness is propagated from EXTREM into WAWE freeze, review posture, release audit, and downstream sync using audit-safe fields only.',
       passed: epicElikvadenti.contractVersion === EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION
@@ -1753,6 +1898,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     paymentVerification,
     extremProfiler,
     objektnoOrijentisanaProngilacija,
+    objektnoOrijentisanaReprodukcija,
     epicElikvadenti,
     mobilnaLinija,
     spajaproTrack,
@@ -1828,6 +1974,7 @@ export type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolEpicElikvadentiGovernance,
   ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance,
   ExtrimliExtrondolObjektnaProngilacijaGovernance,
   ExtrimliExtrondolReport,
   ExtrimliSpajaKodPublicFacade,
@@ -1873,6 +2020,10 @@ export {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_SOURCE_OF_TRUTH,
