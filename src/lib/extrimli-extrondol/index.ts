@@ -1723,38 +1723,25 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
   ];
   const reasons = promotionFreeze
-    ? [
-      'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
-      ...degradedSources,
-      ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
-      ...rolloutSignalReasons,
-    ]
-      : (() => {
-          const watchReasons: string[] = [];
-
-          if (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH') {
-            watchReasons.push('Ready for next WAWE stage with replay review visibility before broader rollout.');
-          }
-
-          if (extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH') {
-            watchReasons.push('Ready for next WAWE stage with functional energy-flow review visibility before broader rollout.');
-          }
-
-          if (
-            extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-            || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
-          ) {
-            watchReasons.push('Ready for next WAWE stage with architecture review visibility before broader rollout.');
-          }
-
-          if (extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH') {
-            watchReasons.push('Ready for next WAWE stage with elevated thought-flow review visibility before broader rollout.');
-          }
-
-          return watchReasons.length > 0
-            ? [...watchReasons, ...rolloutSignalReasons]
-            : ['Ready for next WAWE stage with governance evidence.', ...rolloutSignalReasons];
-        })();
+      ? [
+          'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
+          ...degradedSources,
+          ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
+          ...rolloutSignalReasons,
+        ]
+      : [
+          extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
+            ? 'Ready for next WAWE stage with replay review visibility before broader rollout.'
+            : extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
+              ? 'Ready for next WAWE stage with functional energy-flow review visibility before broader rollout.'
+              : extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH'
+                ? 'Ready for next WAWE stage with elevated thought-flow review visibility before broader rollout.'
+                : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
+                  || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
+                  ? 'Ready for next WAWE stage with architecture review visibility before broader rollout.'
+                  : 'Ready for next WAWE stage with governance evidence.',
+          ...rolloutSignalReasons,
+        ];
   const releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary = {
     required: true,
     status: promotionFreeze ? 'BLOCKED' : 'READY',
