@@ -244,6 +244,16 @@ export function buildDokerKuratIzekDokarExtremTrack(params: {
   };
 }
 
+export function getGovernanceTechnicalRiskStatusFromExtremTrack(
+  sequenceStates: ExtrimliDokerKuratIzekDokarExtremTrack['sequenceStates'] | undefined,
+): 'READY' | 'WATCH' | 'BLOCKED' {
+  const technicalRiskState = sequenceStates?.[1];
+  if (!technicalRiskState || technicalRiskState.token !== 'KURAT') {
+    return 'BLOCKED';
+  }
+  return technicalRiskState.status;
+}
+
 export function buildDokerKuratIzekDokarGovernanceTrack(params: {
   technicalRiskStatus: 'READY' | 'WATCH' | 'BLOCKED';
   promotionFreeze: boolean;

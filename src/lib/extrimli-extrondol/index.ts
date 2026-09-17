@@ -25,6 +25,7 @@ import {
 import {
   buildDokerKuratIzekDokarGovernanceTrack,
   buildDokerKuratIzekDokarPublicBoundaryStatus,
+  getGovernanceTechnicalRiskStatusFromExtremTrack,
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
@@ -1679,16 +1680,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   };
   const technicalState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DEKER')?.status;
   const conflictState = extremProfiler.spajaproTrack.activeTokenStates.find((item) => item.token === 'DUNOR')?.status;
-  const technicalRiskState = extremProfiler.dokerKuratIzekDokarTrack.sequenceStates[1];
   const dokerKuratIzekDokarTrack = buildDokerKuratIzekDokarGovernanceTrack({
-    technicalRiskStatus:
-      technicalRiskState?.token !== 'KURAT'
-        ? 'BLOCKED'
-        : technicalRiskState.status === 'WATCH' || technicalRiskState.status === 'BLOCKED'
-        ? technicalRiskState.status
-        : technicalRiskState.status === 'READY'
-        ? 'READY'
-        : 'BLOCKED',
+    technicalRiskStatus: getGovernanceTechnicalRiskStatusFromExtremTrack(extremProfiler.dokerKuratIzekDokarTrack.sequenceStates),
     promotionFreeze,
     releaseAuditStatus: releaseAuditSummary.status,
     downstreamSyncComplete,
