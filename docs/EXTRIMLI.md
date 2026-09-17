@@ -303,6 +303,35 @@ Governance impact:
 - `WATCH` signal zahteva review, ali ne menja public boundary.
 - `BLOCKED` signal mora da aktivira promotion freeze kroz EXTRONDOL.
 
+## FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA
+
+- Canonical term: `FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+
+Ownership split:
+
+- **EXTREM** objavljuje tehnički profiling signal za energetsku stabilnost toka, koheziju funkcionalnih transformacija, determinističnost misaonog lanca i conflict/pressure indikator.
+- **EXTRONDOL** koristi taj signal za WAWE 1–5 orkestraciju, promotion freeze, release audit summary, rollback i human-review odluke.
+- **SPAJA KOD** izlaže samo audit-safe zbirni status bez sirovih formula, internog scoring modela i implementacionih detalja.
+
+Canonical vocabulary + scope lock:
+
+- `energetska stabilnost toka` = `profileInput.energeticFlowStabilityPercent`
+- `kohezija funkcionalnih transformacija` = `profileInput.functionalTransformationCohesionPercent`
+- `determinističnost misaonog lanca` = `profileInput.thoughtChainDeterminismPercent`
+- `conflict/pressure indikator` = `profileInput.conflictPressurePercent`
+- readiness izlaz ostaje zaključan na `READY`, `WATCH`, `BLOCKED`
+- scope lock ostaje `EXTRIMLI`, `EXTREM`, `EXTRONDOL`, `SPAJA KOD`
+
+Governance impact:
+
+- `READY` signal može da unapredi `orchestrationReadinessScore` bez menjanja postojećih source-of-truth ruta.
+- `WATCH` signal zahteva review i može da zadrži rollout na opreznijem WAWE nivou bez lomljenja additive payload-a.
+- `BLOCKED` signal mora da aktivira promotion freeze i freeze reasons kroz EXTRONDOL, uz degradable-safe ponašanje kada su ulazi nevalidni.
+
 ## Objektno orijentisana reprodukcija
 
 - Canonical term: `Objektno orijentisana reprodukcija`
@@ -412,8 +441,8 @@ Ownership split:
 1. `Verzija 1` — core EXTRIMLI stabilization (`src/lib/extrimli/**`, `src/app/api/extrimli/**`)
 2. `Verzija 2` — canonical integration layer (`src/lib/extrimli-extendol/**`, `src/lib/extrimli-extrondend/**`)
 3. `Verzija 3` — advanced readiness and profile expansion (`src/lib/extrimli-3/**`, `src/app/api/extrimli-3/**`)
-4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive object-oriented reproduction and epic elikvadenti uplift readiness
-5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction and epic elikvadenti review/freeze propagation
+4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive object-oriented reproduction, epic elikvadenti uplift readiness, and FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA profiling
+5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction, epic elikvadenti review/freeze propagation, and FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA WAWE governance
 6. `Verzija 6` — multi-repo and persona sync (`docs/MULTI-REPO-LINKS.md`, `.agent-config.json`, `src/lib/persona-bank/**`)
 7. `Verzija 7` — enterprise operating model (`docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`)
 
@@ -683,13 +712,14 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
 - START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`.
-- `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze.
+- `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze, uključujući FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA track.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 
 ### Release readiness scorecard + conformance
 
 - `releaseReadinessScorecard` je single-pane prikaz za zaključana jezgra `EXTRIMLI`, `EXTREM`, `EXTRONDOL` i zaključane source-of-truth rute (`/api/extrimli/extrem`, `/api/extrimli/extrondol`).
+- Kada je relevantan, scorecard i `releaseAuditSummary` moraju uključiti i FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA posture, rollout impact, downstream reference i human-review/rollback coupling.
 - `canaryRingMetrics` prati ring sekvencu `RING-0-CONTRACT → RING-4-RESILIENCE` i auto-freeze posture pre promocije.
 - `incidentPlaybook` zaključava tok `trigger → freeze → rollback → postmortem`.
 - `contractDriftReport` proverava usklađenost docs/types/routes/workflows i blokira conformance ako postoji drift.

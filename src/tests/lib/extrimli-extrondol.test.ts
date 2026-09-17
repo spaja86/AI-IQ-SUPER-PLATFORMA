@@ -19,6 +19,7 @@ import {
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
+  EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
@@ -179,6 +180,21 @@ async function runTests(): Promise<void> {
     assert(report.objektnoOrijentisanaProngilacija.auditCoupling.rollbackPlanRequired, 'rollback must stay required');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentisanaProngilacija.readiness.status'), 'object-oriented prongilacija status must sync downstream');
     assert(report.startProject.mandatoryOutputs.includes('objektnoOrijentisanaProngilacija'), 'object-oriented prongilacija must be mandatory output');
+  });
+
+  await test('report maps FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA into WAWE governance, audit, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.funkcinalnoProgramiranjeEnergetskogMisaonogToka.term === 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA', 'functional energy-flow term mismatch');
+    assert(report.funkcinalnoProgramiranjeEnergetskogMisaonogToka.contractVersion === EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION, 'functional energy-flow contract mismatch');
+    assert(report.funkcinalnoProgramiranjeEnergetskogMisaonogToka.technicalSignalSource === '/api/extrimli/extrem', 'functional energy-flow technical source mismatch');
+    assert(report.funkcinalnoProgramiranjeEnergetskogMisaonogToka.waweImpact.currentWawe === report.rollout.currentWawe, 'functional energy-flow WAWE mismatch');
+    assert(report.releaseAuditSummary.funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'functional energy-flow audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status'), 'functional energy-flow status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('funkcinalnoProgramiranjeEnergetskogMisaonogToka.waweImpact'), 'functional energy-flow WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('funkcinalnoProgramiranjeEnergetskogMisaonogToka'), 'functional energy-flow governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus === report.extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status, 'SPAJA KOD functional energy-flow summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-governance'), 'functional energy-flow scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-governance' && item.passed), 'functional energy-flow acceptance criterion must pass');
   });
 
   await test('report maps objektno orijentisana reprodukcija into WAWE governance and downstream sync', () => {
@@ -405,6 +421,11 @@ async function runTests(): Promise<void> {
       : report.extremProfiler.petljeSignals.summary.watchSignals.length > 0
         ? -4
         : 2;
+    const funkcinalnoProgramiranjeAdjustment = report.extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'READY'
+      ? 2
+      : report.extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
+        ? -5
+        : -13;
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -414,6 +435,7 @@ async function runTests(): Promise<void> {
           + (statusAdjustment - warningPenalty)
           + kraljevskiPravniUniverzitetAdjustment
           + objektnaProngilacijaAdjustment
+          + funkcinalnoProgramiranjeAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
           + petljeAdjustment
