@@ -299,9 +299,8 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
       case 'WATCH':
       case 'REQUIRED':
       case 'FOLLOW_UP_REQUIRED':
-        return 'WATCH' as const;
       case 'ALIGNED':
-        return state.token === 'DOKER' ? 'READY' as const : 'BLOCKED' as const;
+        return 'WATCH' as const;
       case 'READY':
         return 'READY' as const;
       default:
