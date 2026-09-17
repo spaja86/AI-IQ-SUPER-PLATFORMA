@@ -252,6 +252,11 @@ function resolveFunkionalnoProgramiranjePravnogMisaonogTokaInput(
   };
 }
 
+/**
+ * Resolves the additive elevated thought-flow EXTREM inputs.
+ * The conflict/degradation pressure field accepts one deprecated env alias for compatibility,
+ * but the canonical env key always wins when present so aliases cannot override the locked surface.
+ */
 function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
   degradedSources: string[],
 ): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
