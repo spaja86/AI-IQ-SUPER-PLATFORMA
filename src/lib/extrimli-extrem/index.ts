@@ -145,10 +145,13 @@ function parsePercentEnvWithAliases(
   invalidFallback: number,
   degradedSources: string[],
 ): number {
-  for (const name of names) {
+  const selectedName = names.find((name) => {
     const raw = process.env[name];
-    if (typeof raw === 'undefined' || raw.trim() === '') continue;
-    return parsePercentEnvWithInvalidFallback(name, fallback, invalidFallback, degradedSources);
+    return typeof raw !== 'undefined' && raw.trim() !== '';
+  });
+
+  if (selectedName) {
+    return parsePercentEnvWithInvalidFallback(selectedName, fallback, invalidFallback, degradedSources);
   }
 
   return fallback;
