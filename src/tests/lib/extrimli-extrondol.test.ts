@@ -313,6 +313,9 @@ async function runTests(): Promise<void> {
     const objektnaProngilacijaAdjustment = getObjektnaProngilacijaAdjustment(
       report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status,
     );
+    const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
+      report.extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
+    );
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -321,6 +324,7 @@ async function runTests(): Promise<void> {
           + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE
           + (statusAdjustment - warningPenalty)
           + objektnaProngilacijaAdjustment
+          + epicElikvadentiAdjustment
           + profilerBoost
           - profilerPenalty,
         0,
