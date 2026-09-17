@@ -242,10 +242,10 @@ export function buildDokerKuratIzekDokarGovernanceTrack(params: {
       token: 'KURAT',
       position: 2,
       signalRole: 'technical-risk',
-      status: params.promotionFreeze ? 'BLOCKED' : params.technicalRiskStatus,
+      status: params.technicalRiskStatus,
       signalSource: '/api/extrimli/extrem',
       summary: params.promotionFreeze
-        ? 'Governance promotes EXTREM technical risk into an active freeze posture.'
+        ? `Governance preserves EXTREM technical-risk posture ${params.technicalRiskStatus} while rollout remains frozen.`
         : `Governance imports EXTREM technical-risk posture ${params.technicalRiskStatus}.`,
       publicVisible: false,
     },
