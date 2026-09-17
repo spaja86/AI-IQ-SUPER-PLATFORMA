@@ -8,6 +8,7 @@ import type {
   ExtrimliSpajaproGovernanceTrack,
   ExtrimliSpajaproPublicBoundaryStatus,
 } from '../extrimli-spajapro-track';
+import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
 
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
 export type ExtrimliExtrondolMobilnaLinijaActivationStatus = 'READY' | 'WATCH' | 'BLOCKED';
@@ -220,7 +221,7 @@ export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {
   term: 'Objektno orijentisana prongilacija';
   sourceOfTruth: '/api/extrimli/extrondol';
   technicalSignalSource: '/api/extrimli/extrem';
-  contractVersion: 'v1-extrondol-objektno-orijentisana-prongilacija';
+  contractVersion: typeof EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION;
   additiveOnly: true;
   status: ExtrimliExtremProfilerReport['objektnoOrijentisanaProngilacija']['readiness']['status'];
   readinessScore: number;
@@ -714,7 +715,7 @@ export const EXTRONDOL_DUET_WARNING_PENALTY_STEP = 4;
 export const EXTRONDOL_DUET_WARNING_PENALTY_CAP = 12;
 export const EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY = 25;
 export const EXTRONDOL_DUET_INVALID_FALLBACK_SCORE = 50;
-export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = 'v1-extrondol-objektno-orijentisana-prongilacija';
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT = -4;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_BLOCKED_ADJUSTMENT = -12;

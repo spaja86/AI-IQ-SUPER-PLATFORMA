@@ -23,7 +23,7 @@ Ovaj dokument zaključava značenje i governance model za **Objektno orijentisan
 
 - **EXTREM** objavljuje tehnički object-state signal, score i readiness status.
 - **EXTRONDOL** mapira signal u WAWE 1–5, freeze/promotion, release audit, rollback i human-review gate.
-- **SPAJA KOD** ne izlaže sirove object-state strukture, već samo javno bezbedan readiness/governance ishod.
+- **SPAJA KOD** ostaje nepromenjen javni boundary; ova promena ne dodaje nove javne object-state detalje na `/api/extrimli/spaja-kod`.
 
 ## WAWE impact
 

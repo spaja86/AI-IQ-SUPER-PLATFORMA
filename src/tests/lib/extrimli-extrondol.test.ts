@@ -16,9 +16,6 @@ import {
   EXTRONDOL_DUET_INVALID_FALLBACK_SCORE,
   EXTRONDOL_DUET_WARNING_PENALTY_CAP,
   EXTRONDOL_DUET_WARNING_PENALTY_STEP,
-  EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_BLOCKED_ADJUSTMENT,
-  EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT,
-  EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_DINKOS_PERSONA_ID,
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_MODULE_VERSION,
@@ -28,6 +25,7 @@ import {
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
+  getObjektnaProngilacijaAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
 import {
@@ -279,11 +277,9 @@ async function runTests(): Promise<void> {
     );
     const statusAdjustment = duetStatusAdjustment(report.nivoDuet.signal.status);
     const warningPenalty = Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, report.nivoDuet.signal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP);
-    const objektnaProngilacijaAdjustment = report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'READY'
-      ? EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT
-      : report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-        ? EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT
-        : EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_BLOCKED_ADJUSTMENT;
+    const objektnaProngilacijaAdjustment = getObjektnaProngilacijaAdjustment(
+      report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status,
+    );
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(

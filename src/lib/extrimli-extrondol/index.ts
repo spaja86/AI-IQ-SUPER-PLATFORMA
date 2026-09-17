@@ -326,7 +326,7 @@ function buildMobilnaLinijaReadiness(
   };
 }
 
-function buildObjektnaProngilacijaAdjustment(
+export function getObjektnaProngilacijaAdjustment(
   status: ExtrimliExtrondolReport['extremProfiler']['objektnoOrijentisanaProngilacija']['readiness']['status'],
 ): number {
   if (status === 'READY') return EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT;
@@ -804,7 +804,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const duetAdjustment = duetSignal.valid
     ? mapDuetStatusAdjustment(duetSignal.status) - Math.min(EXTRONDOL_DUET_WARNING_PENALTY_CAP, duetSignal.warnings.length * EXTRONDOL_DUET_WARNING_PENALTY_STEP)
     : -EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY;
-  const objektnaProngilacijaAdjustment = buildObjektnaProngilacijaAdjustment(
+  const objektnaProngilacijaAdjustment = getObjektnaProngilacijaAdjustment(
     extremProfiler.objektnoOrijentisanaProngilacija.readiness.status,
   );
   const profilerPenalty = extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
@@ -1527,7 +1527,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     {
       id: 'objektna-prongilacija-governance',
       description: 'Objektno orijentisana prongilacija is propagated from EXTREM into WAWE, release audit, human-review, rollback, and downstream-sync governance.',
-      passed: objektnoOrijentisanaProngilacija.contractVersion === 'v1-extrondol-objektno-orijentisana-prongilacija'
+      passed: objektnoOrijentisanaProngilacija.contractVersion === EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION
         && objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem'
         && objektnoOrijentisanaProngilacija.auditCoupling.humanReviewRequired
         && objektnoOrijentisanaProngilacija.auditCoupling.rollbackPlanRequired

@@ -1,5 +1,6 @@
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
+import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
 
 export type ExtrimliExtremConflictIntensity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
 
@@ -37,7 +38,7 @@ export interface ExtrimliExtremObjektnaProngilacijaDomainObject {
 
 export interface ExtrimliExtremObjektnaProngilacijaSignal {
   term: 'Objektno orijentisana prongilacija';
-  contractVersion: 'v1-objektno-orijentisana-prongilacija';
+  contractVersion: typeof EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION;
   additiveOnly: true;
   sourceOfTruth: '/api/extrimli/extrem';
   triggerLabel: 'extrem:logic-change';
@@ -301,6 +302,6 @@ export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH = 35;
 export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR = 10;
 export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR = 15;
 export const EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION = 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
-export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = 'v1-objektno-orijentisana-prongilacija';
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE = 75;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE = 55;
