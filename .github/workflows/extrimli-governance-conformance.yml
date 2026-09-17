@@ -59,7 +59,7 @@ jobs:
 
           assert(types.includes("sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol']"), 'types must lock source-of-truth route pair');
           assert(index.includes("sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol']"), 'index must publish source-of-truth route pair');
-          assert(route.includes("EXTRONDOL_SOURCE_OF_TRUTH") && route.includes("surface: 'extrimli-extrondol'"), 'route must expose canonical EXTRONDOL surface');
+          assert(route.includes("getExtrimliExtrondolReport") && route.includes("surface: 'extrimli-extrondol'"), 'route must expose canonical EXTRONDOL surface');
           assert(doc.includes('Locked source-of-truth surfaces: `/api/extrimli/health`, `/api/extrimli-3/health`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`'), 'EXTRIMLI doc must lock source-of-truth surfaces');
           assert(doc.includes('releaseReadinessScorecard') && doc.includes('canaryRingMetrics') && doc.includes('incidentPlaybook') && doc.includes('contractDriftReport') && doc.includes('governanceConformance'), 'EXTRIMLI doc must include governance additive fields');
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
