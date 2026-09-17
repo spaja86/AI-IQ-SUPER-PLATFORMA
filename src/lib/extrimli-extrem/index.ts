@@ -1340,6 +1340,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
     || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';
+  const kraljevskiPravniUniverzitetBlockedMessage = kraljevskiPravniUniverzitetTrack.readiness.status !== 'BLOCKED'
+    ? null
+    : (() => {
+      const blockerSummary = kraljevskiPravniUniverzitetTrack.readiness.blockerReasons.join('; ');
+      return blockerSummary.length > 0
+        ? `KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression: ${blockerSummary}`
+        : 'KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression because legal-governance readiness failed.';
+    })();
 
   const governanceReasons = [
     ...(freezeRequired ? ['DISKVIT conflict or KPI pressure requires WAWE freeze before promotion.'] : []),
@@ -1359,14 +1367,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH'
       ? ['KRALJEVSKI PRAVNI UNIVERZITET track remains in WATCH posture and requires legal-governance review before broader promotion.']
       : []),
-    ...(kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
-      ? [(() => {
-        const blockerSummary = kraljevskiPravniUniverzitetTrack.readiness.blockerReasons.join('; ');
-        return blockerSummary.length > 0
-          ? `KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression: ${blockerSummary}`
-          : 'KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression because legal-governance readiness failed.';
-      })()]
-      : []),
+    ...(kraljevskiPravniUniverzitetBlockedMessage ? [kraljevskiPravniUniverzitetBlockedMessage] : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
       : []),
