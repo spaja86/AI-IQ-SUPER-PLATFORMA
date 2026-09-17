@@ -295,6 +295,7 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
   const normalizedStatuses = params.sequenceStates.map((state) => {
     if (state.status === 'BLOCKED') return 'BLOCKED' as const;
     if (state.status === 'WATCH' || state.status === 'REQUIRED' || state.status === 'FOLLOW_UP_REQUIRED') return 'WATCH' as const;
+    if (state.status === 'ALIGNED') return state.token === 'DOKER' ? 'READY' as const : 'BLOCKED' as const;
     return 'READY' as const;
   });
   const publicStatus = params.promotionFreeze
