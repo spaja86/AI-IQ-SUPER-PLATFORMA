@@ -1621,11 +1621,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'Ready for next WAWE stage with functional energy-flow review visibility before broader rollout.',
           ...rolloutSignalReasons,
         ]
-      : extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'WATCH'
-        ? [
-            'Ready for next WAWE stage with legal functional-thought review visibility before broader rollout.',
-            ...rolloutSignalReasons,
-          ]
       : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
     || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
       ? [
