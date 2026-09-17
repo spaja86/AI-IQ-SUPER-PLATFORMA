@@ -332,6 +332,39 @@ Governance impact:
 - `WATCH` signal zahteva review i može da zadrži rollout na opreznijem WAWE nivou bez lomljenja additive payload-a.
 - `BLOCKED` signal mora da aktivira promotion freeze i freeze reasons kroz EXTRONDOL, uz degradable-safe ponašanje kada su ulazi nevalidni.
 
+## FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA
+
+- Canonical term: `FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA`
+- Spelling decision: `exact-user-term-locked`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-FUNKIONALNO-PROGRAMIRANJE-PRAVNOG-MISAONOG-TOKA.md`
+
+Ownership split:
+
+- **EXTREM** objavljuje tehnički pravni-funkcionalni signal za stabilnost pravnog misaonog toka, koheziju funkcionalnih pravnih transformacija, determinističnost zaključivanja, evidentiary completeness i conflict/escalation pressure.
+- **EXTRONDOL** koristi taj signal za WAWE 1–5 orkestraciju, promotion freeze, release audit summary, rollback, downstream reference i human-review odluke.
+- **SPAJA KOD** izlaže samo audit-safe zbirni status bez sirovih pravnih formulacija, scoring detalja i internih reasoning artefakata.
+
+Canonical vocabulary + scope lock:
+
+- `stabilnost pravnog misaonog toka` = `profileInput.legalThoughtFlowStabilityPercent`
+- `kohezija funkcionalnih pravnih transformacija` = `profileInput.functionalLegalTransformationCohesionPercent`
+- `determinističnost pravnog zaključivanja` = `profileInput.legalReasoningDeterminismPercent`
+- `evidentiary completeness` = `profileInput.evidentiaryCompletenessPercent`
+- `conflict/escalation pressure` = `profileInput.conflictEscalationPressurePercent`
+- readiness izlaz ostaje zaključan na `READY`, `WATCH`, `BLOCKED`
+- scope lock ostaje `EXTRIMLI`, `EXTREM`, `EXTRONDOL`, `SPAJA KOD`
+
+Governance impact:
+
+- `READY` signal može da unapredi `orchestrationReadinessScore` bez novih public surface-ova.
+- `WATCH` signal zahteva review vidljivost i zadržava rollout u audit-safe WAWE okviru.
+- `BLOCKED` signal mora da aktivira promotion freeze, release audit coupling i rollback/human-review zahteve kroz EXTRONDOL.
+- Track ostaje vezan za `KRALJEVSKI PRAVNI UNIVERZITET` kao pravni okvir; novi modul meri kvalitet funkcionalnog pravnog rezonovanja unutar tog okvira.
+
 ## Objektno orijentisana reprodukcija
 
 - Canonical term: `Objektno orijentisana reprodukcija`
@@ -442,7 +475,7 @@ Ownership split:
 2. `Verzija 2` — canonical integration layer (`src/lib/extrimli-extendol/**`, `src/lib/extrimli-extrondend/**`)
 3. `Verzija 3` — advanced readiness and profile expansion (`src/lib/extrimli-3/**`, `src/app/api/extrimli-3/**`)
 4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive object-oriented reproduction, epic elikvadenti uplift readiness, and FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA profiling
-5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction, epic elikvadenti review/freeze propagation, and FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA WAWE governance
+5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction, epic elikvadenti review/freeze propagation, FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA WAWE governance, and FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA legal-functional governance
 6. `Verzija 6` — multi-repo and persona sync (`docs/MULTI-REPO-LINKS.md`, `.agent-config.json`, `src/lib/persona-bank/**`)
 7. `Verzija 7` — enterprise operating model (`docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`)
 
@@ -712,14 +745,14 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
 - START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`.
-- `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze, uključujući FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA track.
+- `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze, uključujući FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA i FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA track-ove.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 
 ### Release readiness scorecard + conformance
 
 - `releaseReadinessScorecard` je single-pane prikaz za zaključana jezgra `EXTRIMLI`, `EXTREM`, `EXTRONDOL` i zaključane source-of-truth rute (`/api/extrimli/extrem`, `/api/extrimli/extrondol`).
-- Kada je relevantan, scorecard i `releaseAuditSummary` moraju uključiti i FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA posture, rollout impact, downstream reference i human-review/rollback coupling.
+- Kada je relevantan, scorecard i `releaseAuditSummary` moraju uključiti i FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA i FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA posture, rollout impact, downstream reference i human-review/rollback coupling.
 - `canaryRingMetrics` prati ring sekvencu `RING-0-CONTRACT → RING-4-RESILIENCE` i auto-freeze posture pre promocije.
 - `incidentPlaybook` zaključava tok `trigger → freeze → rollback → postmortem`.
 - `contractDriftReport` proverava usklađenost docs/types/routes/workflows i blokira conformance ako postoji drift.

@@ -1,5 +1,6 @@
 import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
@@ -118,6 +119,21 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected functional energy-flow status');
     assert(Number.isFinite(signal.readiness.score), 'functional energy-flow score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'functional energy-flow score must be bounded');
+  });
+
+  await test('default report exposes FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.funkionalnoProgramiranjePravnogMisaonogToka;
+    assert(signal.term === 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA', 'legal-functional term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'legal-functional contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'legal-functional source mismatch');
+    assert(signal.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'legal-functional scope lock mismatch');
+    assert(signal.meaningLock.spellingDecision === 'exact-user-term-locked', 'legal-functional spelling lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-legal-reasoning-signal', 'legal-functional EXTREM ownership mismatch');
+    assert(signal.legalCoupling.sourceTrack === 'KRALJEVSKI PRAVNI UNIVERZITET', 'legal-functional legal track mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected legal-functional status');
+    assert(Number.isFinite(signal.readiness.score), 'legal-functional score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'legal-functional score must be bounded');
   });
 
   await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {
@@ -349,6 +365,26 @@ async function runTests(): Promise<void> {
       assert(signal.readiness.blockerReasons.length >= 1, 'blocked functional energy-flow signal should keep blocker reasons');
       assert(report.governanceSignal.freezeRequired, 'blocked functional energy-flow signal should freeze governance');
       assert(report.acceptanceCriteria.some((item) => item.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-lock' && item.passed), 'functional energy-flow lock criterion must pass');
+    });
+  });
+
+  await test('legal-functional thought-flow signal degrades safely and blocks readiness on invalid legal-functional inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PRAVNI_MISAONI_TOK_STABILITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_FUNKIONALNA_PRAVNA_TRANSFORMACIJA_COHESION_PERCENT: '-20',
+      EXTRIMLI_EXTREM_PRAVNO_ZAKLJUCIVANJE_DETERMINISM_PERCENT: 'Infinity',
+      EXTRIMLI_EXTREM_EVIDENTIARY_COMPLETENESS_PERCENT: '10',
+      EXTRIMLI_EXTREM_PRAVNI_CONFLICT_ESCALATION_PRESSURE_PERCENT: '999',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const signal = report.funkionalnoProgramiranjePravnogMisaonogToka;
+      assert(signal.readiness.status === 'BLOCKED', 'legal-functional signal should block on invalid/hostile inputs');
+      assert(signal.readiness.degraded, 'legal-functional signal should degrade safely');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_PRAVNI_MISAONI_TOK_STABILITY_PERCENT'), 'invalid legal thought-flow stability input should be tracked');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_PRAVNO_ZAKLJUCIVANJE_DETERMINISM_PERCENT'), 'invalid legal reasoning determinism input should be tracked');
+      assert(signal.readiness.blockerReasons.length >= 1, 'blocked legal-functional signal should keep blocker reasons');
+      assert(report.governanceSignal.freezeRequired, 'blocked legal-functional signal should freeze governance');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'funkionalno-programiranje-pravnog-misaonog-toka-lock' && item.passed), 'legal-functional lock criterion must pass');
     });
   });
 
