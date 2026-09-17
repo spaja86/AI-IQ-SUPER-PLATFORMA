@@ -631,8 +631,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   if (extremProfiler.degraded) degradedSources.push('extrem-profiler:degraded');
   if (extremProfiler.profile.bottleneckDetected) degradedSources.push('extrem-profiler:bottleneck-detected');
   if (extremProfiler.businessLicensingSignals.freezeRequired) degradedSources.push('extrem-profiler:global-licensing-freeze');
-  if (extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH') degradedSources.push('extrem-profiler:objektna-prongilacija-watch');
-  if (extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED') degradedSources.push('extrem-profiler:objektna-prongilacija-blocked');
+  if (extremProfiler.objektnoOrijentisanaProngilacija.readiness.degraded) {
+    degradedSources.push(`extrem-profiler:objektna-prongilacija-${extremProfiler.objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
+  }
   if (mobilnaLinija.activationStatus === 'BLOCKED') degradedSources.push('mobilna-linija:activation-blocked');
 
   const baseOrchestrationScore = round(

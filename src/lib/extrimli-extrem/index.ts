@@ -686,8 +686,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     degradedSources.push('profiler-kpi-breach');
   }
   if (businessLicensingSignals.freezeRequired) degradedSources.push('global-licensing:freeze-required');
-  if (objektnoOrijentisanaProngilacija.readiness.status === 'WATCH') degradedSources.push('objektna-prongilacija:watch');
-  if (objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED') degradedSources.push('objektna-prongilacija:blocked');
+  if (objektnoOrijentisanaProngilacija.readiness.degraded) {
+    degradedSources.push(`objektna-prongilacija:${objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
+  }
   if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
   if (mobilnaLinija.installationMessages.status === 'BLOCKED') degradedSources.push('mobilna-linija:installation-blocked');
   if (mobilnaLinija.packagePlanHint.readiness === 'BLOCKED') degradedSources.push('mobilna-linija:package-hint-blocked');
