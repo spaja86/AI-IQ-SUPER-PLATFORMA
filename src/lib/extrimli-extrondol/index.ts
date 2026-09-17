@@ -879,7 +879,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(paymentVerification.status !== 'VERIFIED' ? ['Payment verification is blocking WAWE promotion and B2B activation.'] : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['EXTREM profiler detected DISKVIT conflict pressure and requests WAWE freeze.'] : []),
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-      ? ['Objektno orijentisana prongilacija is in WATCH posture and needs architecture review before promotion.']
+      ? ['Objektno orijentisana prongilacija is in WATCH posture and should receive architecture review before broader rollout.']
       : []),
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       ? ['Objektno orijentisana prongilacija is BLOCKED and must freeze promotion until object-state issues are resolved.']

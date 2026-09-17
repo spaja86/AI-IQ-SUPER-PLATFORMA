@@ -70,6 +70,25 @@ function parsePercentEnv(name: string, fallback: number, degradedSources: string
   return round(clamp(parsed, 0, 100), 2);
 }
 
+function parsePercentEnvWithInvalidFallback(
+  name: string,
+  fallback: number,
+  invalidFallback: number,
+  degradedSources: string[],
+): number {
+  const raw = process.env[name];
+  if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed)) {
+    degradedSources.push(`invalid-env:${name}`);
+    return invalidFallback;
+  }
+  if (parsed < 0 || parsed > 100) {
+    degradedSources.push(`out-of-range:${name}`);
+  }
+  return round(clamp(parsed, 0, 100), 2);
+}
+
 function parseLatencyEnv(name: string, fallback: number, degradedSources: string[]): number {
   const raw = process.env[name];
   if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
@@ -152,11 +171,11 @@ function resolveObjektnaProngilacijaInput(
   degradedSources: string[],
 ): ExtrimliExtremObjektnaProngilacijaProfileInput {
   return {
-    objectStateIntegrityPercent: parsePercentEnv('EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT', 82, degradedSources),
-    methodBehaviorCohesionPercent: parsePercentEnv('EXTRIMLI_EXTREM_METHOD_BEHAVIOR_COHESION_PERCENT', 80, degradedSources),
-    delegationCoveragePercent: parsePercentEnv('EXTRIMLI_EXTREM_DELEGATION_COVERAGE_PERCENT', 74, degradedSources),
-    compositionCoveragePercent: parsePercentEnv('EXTRIMLI_EXTREM_COMPOSITION_COVERAGE_PERCENT', 72, degradedSources),
-    instanceClarityPercent: parsePercentEnv('EXTRIMLI_EXTREM_INSTANCE_CLARITY_PERCENT', 78, degradedSources),
+    objectStateIntegrityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT', 82, 0, degradedSources),
+    methodBehaviorCohesionPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_METHOD_BEHAVIOR_COHESION_PERCENT', 80, 0, degradedSources),
+    delegationCoveragePercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_DELEGATION_COVERAGE_PERCENT', 74, 0, degradedSources),
+    compositionCoveragePercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_COMPOSITION_COVERAGE_PERCENT', 72, 0, degradedSources),
+    instanceClarityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_INSTANCE_CLARITY_PERCENT', 78, 0, degradedSources),
   };
 }
 

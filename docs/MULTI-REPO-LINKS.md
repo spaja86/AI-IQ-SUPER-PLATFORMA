@@ -44,9 +44,9 @@ Audit reference convention:
 
 ## EXTRIMLI objektno orijentisana prongilacija downstream reference
 
-| This repo | Linked repo | Note |
-| --- | --- | --- |
-| `AI-IQ-SUPER-PLATFORMA` — Objektno orijentisana prongilacija over EXTRIMLI/EXTREM/EXTRONDOL | `spaja86/IO-OPENUI-AO` — Follow-up required | Downstream consumers should sync only the audit-safe readiness/governance fields from EXTREM and EXTRONDOL; raw object-state internals remain hidden behind SPAJA KOD |
+- This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentisana prongilacija over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Downstream consumers should sync only the audit-safe readiness/governance fields from EXTREM and EXTRONDOL; raw object-state internals remain hidden behind SPAJA KOD
 
 Audit reference convention:
 
