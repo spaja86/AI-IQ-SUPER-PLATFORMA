@@ -264,7 +264,7 @@ async function runTests(): Promise<void> {
         completeness: { consistent: boolean; exportReady: boolean };
         readiness: { status: string; governanceOutcome: string; promotionFreeze: boolean };
         publicSignals: { auditStatus: string; degraded: boolean };
-        dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string }> };
+        dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
       };
     };
@@ -280,6 +280,7 @@ async function runTests(): Promise<void> {
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');
     assert(body.data.dokerKuratIzekDokarTrack.tokenSummaries.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected quartet public token order');
+    assert(body.data.dokerKuratIzekDokarTrack.tokenSummaries.every((item) => ['READY', 'WATCH', 'BLOCKED'].includes(item.status)), 'quartet public token statuses must stay public-safe');
     assert(Array.isArray(body.data.blockers), 'SPAJA KOD blockers should be an array');
   });
 

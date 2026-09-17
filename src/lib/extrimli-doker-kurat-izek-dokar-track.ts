@@ -114,10 +114,10 @@ export interface ExtrimliDokerKuratIzekDokarPublicBoundaryStatus {
   publicStatus: 'READY' | 'WATCH' | 'BLOCKED';
   internalMappingVisibility: 'HIDDEN';
   tokenSummaries: readonly [
-    { token: 'DOKER'; status: DokerTokenState['status']; summary: string },
-    { token: 'KURAT'; status: KuratTokenState['status']; summary: string },
-    { token: 'IZEK'; status: IzekTokenState['status']; summary: string },
-    { token: 'DOKAR'; status: DokarTokenState['status']; summary: string }
+    { token: 'DOKER'; status: 'READY' | 'WATCH' | 'BLOCKED'; summary: string },
+    { token: 'KURAT'; status: 'READY' | 'WATCH' | 'BLOCKED'; summary: string },
+    { token: 'IZEK'; status: 'READY' | 'WATCH' | 'BLOCKED'; summary: string },
+    { token: 'DOKAR'; status: 'READY' | 'WATCH' | 'BLOCKED'; summary: string }
   ];
   summary: string;
 }
@@ -348,22 +348,22 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
     tokenSummaries: [
       {
         token: 'DOKER',
-        status: params.sequenceStates[0].status,
+        status: normalizedStatuses[0],
         summary: 'Downstream alignment remains explicit for linked-repo consumers.',
       },
       {
         token: 'KURAT',
-        status: params.sequenceStates[1].status,
+        status: normalizedStatuses[1],
         summary: 'Technical risk is exposed only as a bounded public posture.',
       },
       {
         token: 'IZEK',
-        status: params.sequenceStates[2].status,
+        status: normalizedStatuses[2],
         summary: 'Audit/review readiness is exposed without internal governance details.',
       },
       {
         token: 'DOKAR',
-        status: params.sequenceStates[3].status,
+        status: normalizedStatuses[3],
         summary: 'Rollback readiness stays visible as a public-safe requirement.',
       },
     ],
