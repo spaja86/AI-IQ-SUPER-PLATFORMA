@@ -216,6 +216,40 @@ export interface ExtrimliExtrondolGovernanceEvidence {
   onboardingComplete?: boolean;
 }
 
+export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {
+  term: 'Objektno orijentisana prongilacija';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: 'v1-extrondol-objektno-orijentisana-prongilacija';
+  additiveOnly: true;
+  status: ExtrimliExtremProfilerReport['objektnoOrijentisanaProngilacija']['readiness']['status'];
+  readinessScore: number;
+  ownershipModel: {
+    extrem: 'technical-object-state-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    stageRules: readonly [
+      { stage: 'WAWE-1'; requirement: string },
+      { stage: 'WAWE-2'; requirement: string },
+      { stage: 'WAWE-3'; requirement: string },
+      { stage: 'WAWE-4'; requirement: string },
+      { stage: 'WAWE-5'; requirement: string }
+    ];
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
 export interface ExtrimliExtrondolReleaseAuditSummary {
   required: true;
   status: 'READY' | 'BLOCKED';
@@ -621,6 +655,7 @@ export interface ExtrimliExtrondolReport {
   distanceRatioEkvilaterTable: ExtrimliExtrondolDistanceRatioEkvilaterTable;
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   extremProfiler: ExtrimliExtremProfilerReport;
+  objektnoOrijentisanaProngilacija: ExtrimliExtrondolObjektnaProngilacijaGovernance;
   spajaproTrack: ExtrimliSpajaproGovernanceTrack;
   spajaKod: ExtrimliSpajaKodPublicFacade;
   mobilnaLinija: ExtrimliExtrondolMobilnaLinijaReadiness;
@@ -679,6 +714,10 @@ export const EXTRONDOL_DUET_WARNING_PENALTY_STEP = 4;
 export const EXTRONDOL_DUET_WARNING_PENALTY_CAP = 12;
 export const EXTRONDOL_DUET_INVALID_SIGNAL_PENALTY = 25;
 export const EXTRONDOL_DUET_INVALID_FALLBACK_SCORE = 50;
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = 'v1-extrondol-objektno-orijentisana-prongilacija';
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT = 2;
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT = -4;
+export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_BLOCKED_ADJUSTMENT = -12;
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_TABLE_NAME = 'DISTANCE RATIO EKVILATER';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_CONTRACT_FIELD = 'distanceRatioEkvilaterTable';
 export const EXTRONDOL_DISTANCE_RATIO_EKVILATER_VERSION = 'v1-distance-ratio-ekvilater';

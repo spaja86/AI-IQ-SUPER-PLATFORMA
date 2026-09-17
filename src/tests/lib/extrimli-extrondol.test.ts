@@ -21,6 +21,7 @@ import {
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
+  EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -138,6 +139,18 @@ async function runTests(): Promise<void> {
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(report.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion), 'release audit MUŠEMA conclusion mismatch');
     assert(report.releaseAuditSummary.humanReviewRequired, 'release audit must require human review');
     assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
+  });
+
+  await test('report maps objektno orijentisana prongilacija into WAWE governance and downstream sync', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'object-oriented prongilacija term mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.contractVersion === EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION, 'object-oriented prongilacija contract mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'object-oriented prongilacija technical source mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.waweImpact.currentWawe === report.rollout.currentWawe, 'object-oriented prongilacija WAWE mismatch');
+    assert(report.objektnoOrijentisanaProngilacija.auditCoupling.humanReviewRequired, 'human review must stay required');
+    assert(report.objektnoOrijentisanaProngilacija.auditCoupling.rollbackPlanRequired, 'rollback must stay required');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.objektnoOrijentisanaProngilacija.readiness.status'), 'object-oriented prongilacija status must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('objektnoOrijentisanaProngilacija'), 'object-oriented prongilacija must be mandatory output');
   });
 
   await test('report publishes scorecard, canary metrics, incident playbook, and governance conformance', () => {
@@ -661,6 +674,43 @@ async function runTests(): Promise<void> {
         'EXTREM profiler freeze field must be downstream synced',
       );
       assert(report.acceptanceCriteria.some((item) => item.id === 'diskvit-conflict-governance' && item.passed), 'diskvit-conflict-governance criterion must pass');
+    });
+  });
+
+  await test('report freezes WAWE when objektno orijentisana prongilacija is blocked', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT: '20',
+      EXTRIMLI_EXTREM_METHOD_BEHAVIOR_COHESION_PERCENT: '15',
+      EXTRIMLI_EXTREM_DELEGATION_COVERAGE_PERCENT: '30',
+      EXTRIMLI_EXTREM_COMPOSITION_COVERAGE_PERCENT: '25',
+      EXTRIMLI_EXTREM_INSTANCE_CLARITY_PERCENT: '40',
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+      });
+      assert(report.extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED', 'EXTREM object-oriented prongilacija should be blocked');
+      assert(report.objektnoOrijentisanaProngilacija.status === 'BLOCKED', 'EXTRONDOL governance should mirror blocked posture');
+      assert(report.rollout.promotionFreeze, 'blocked object-oriented prongilacija should freeze rollout');
+      assert(report.b2bReadiness.compliance.blockers.includes('objektno-orijentisana-prongilacija'), 'blocked object-oriented prongilacija should appear in compliance blockers');
+      assert(report.rollout.reasons.some((reason) => reason.includes('objektna-prongilacija:blocked')), 'rollout reasons should include object-oriented prongilacija blocker');
     });
   });
 

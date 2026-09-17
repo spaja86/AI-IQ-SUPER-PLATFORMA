@@ -15,6 +15,66 @@ export type ExtrimliExtremRekulitiPoRauletuPolicy = 'ALLOW' | 'WARN' | 'FREEZE';
 export type ExtrimliExtremMobilnaLinijaDeviceType = 'ANDROID' | 'IOS' | 'ROUTER_4G' | 'ROUTER_5G' | 'UNKNOWN';
 export type ExtrimliExtremMobilnaLinijaInstallationStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremMobilnaLinijaPackageTier = 'BASIC' | 'SMART' | 'PRO' | 'NONE';
+export type ExtrimliExtremObjektnaProngilacijaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremObjektnaProngilacijaProfileInput {
+  objectStateIntegrityPercent: number;
+  methodBehaviorCohesionPercent: number;
+  delegationCoveragePercent: number;
+  compositionCoveragePercent: number;
+  instanceClarityPercent: number;
+}
+
+export interface ExtrimliExtremObjektnaProngilacijaDomainObject {
+  id: 'objekat-core' | 'instanca-flow' | 'metoda-bridge';
+  title: string;
+  role: 'objekat' | 'instanca' | 'metoda';
+  responsibility: string;
+  stateAttributes: readonly string[];
+  methods: readonly string[];
+  collaborationModel: 'enkapsulacija' | 'delegacija' | 'kompozicija';
+}
+
+export interface ExtrimliExtremObjektnaProngilacijaSignal {
+  term: 'Objektno orijentisana prongilacija';
+  contractVersion: 'v1-objektno-orijentisana-prongilacija';
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'Objektno orijentisana prongilacija';
+    statement: string;
+    existingContractBeforeThisChange: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-object-state-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  profileInput: ExtrimliExtremObjektnaProngilacijaProfileInput;
+  domainModel: {
+    objectRole: string;
+    instanceRole: string;
+    attributeRole: string;
+    methodRole: string;
+    delegationRole: string;
+    compositionRole: string;
+    domainObjects: readonly [
+      ExtrimliExtremObjektnaProngilacijaDomainObject,
+      ExtrimliExtremObjektnaProngilacijaDomainObject,
+      ExtrimliExtremObjektnaProngilacijaDomainObject
+    ];
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremObjektnaProngilacijaStatus;
+    readinessSignal: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
 
 export interface ExtrimliExtremProfileInput {
   sceneLoadPercent: number;
@@ -171,6 +231,7 @@ export interface ExtrimliExtremProfilerReport {
   businessLicensingSignals: ExtrimliExtremBusinessLicensingSignals;
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
+  objektnoOrijentisanaProngilacija: ExtrimliExtremObjektnaProngilacijaSignal;
   resolutionReadiness: {
     rezolucijaScore: number;
     ekodorState: ExtrimliExtremEkodorState;
@@ -240,3 +301,6 @@ export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_WATCH = 35;
 export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR = 10;
 export const EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR = 15;
 export const EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION = 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA';
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = 'v1-objektno-orijentisana-prongilacija';
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_READY_SCORE = 75;
+export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_MIN_WATCH_SCORE = 55;
