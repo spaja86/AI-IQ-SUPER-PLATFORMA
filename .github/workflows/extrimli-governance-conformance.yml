@@ -50,6 +50,7 @@ jobs:
           }
 
           const types = fs.readFileSync('src/lib/extrimli-extrondol/types.ts', 'utf8');
+          const extrondolIndex = fs.readFileSync('src/lib/extrimli-extrondol/index.ts', 'utf8');
           const route = fs.readFileSync('src/app/api/extrimli/extrondol/route.ts', 'utf8');
           const extrimliDoc = fs.readFileSync('docs/EXTRIMLI.md', 'utf8');
           const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
@@ -59,6 +60,13 @@ jobs:
 
           assert(types.includes('export interface ExtrimliExtrondolContractDriftReport'), 'types must expose ExtrimliExtrondolContractDriftReport');
           assert(types.includes(\"'.github/workflows/extrimli-governance-conformance.yml'\"), 'types drift artifacts must include conformance workflow');
+          assert(
+            extrondolIndex.includes('releaseReadinessScorecard') &&
+            extrondolIndex.includes('canaryRingMetrics') &&
+            extrondolIndex.includes('contractDriftReport') &&
+            extrondolIndex.includes('governanceConformance'),
+            'EXTRONDOL report builder must include governance conformance fields'
+          );
           assert(route.includes("getExtrimliExtrondolReport") && route.includes("surface: 'extrimli-extrondol'"), 'route must expose canonical EXTRONDOL surface');
           assert(extrimliDoc.includes('releaseReadinessScorecard') && extrimliDoc.includes('canaryRingMetrics') && extrimliDoc.includes('contractDriftReport') && extrimliDoc.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance fields');
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
