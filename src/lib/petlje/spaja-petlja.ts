@@ -58,10 +58,10 @@ const SEGMENT_ALLOWED_LOOPS: Record<SpajaSegmentKind, Set<PetljaKind>> = {
   SEQUENCE: new Set(SEGMENT_DEFAULT_LOOPS.SEQUENCE),
 };
 
-const LEGACY_DEFAULT_SEGMENTS: SpajaSegmentConfig[] = [
-  { segment: 'RANGE', importFromPrevious: false, loops: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA'] },
-  { segment: 'TARGET', importFromPrevious: true, loops: ['ITCH PETLJA', 'KUR PETLJA'] },
-  { segment: 'SEQUENCE', importFromPrevious: true, loops: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA'] },
+const DEFAULT_SEGMENTS: SpajaSegmentConfig[] = [
+  { segment: 'RANGE', importFromPrevious: false, loops: [...SEGMENT_DEFAULT_LOOPS.RANGE] },
+  { segment: 'TARGET', importFromPrevious: true, loops: [...SEGMENT_DEFAULT_LOOPS.TARGET] },
+  { segment: 'SEQUENCE', importFromPrevious: true, loops: [...SEGMENT_DEFAULT_LOOPS.SEQUENCE] },
 ];
 
 const RUNNERS: Record<PetljaKind, (input: PetljaInput) => PetljaResult> = {
@@ -103,7 +103,7 @@ function resolveSegments(input: PetljaInput): SpajaSegmentConfig[] {
     return input.spajaSegments;
   }
 
-  return LEGACY_DEFAULT_SEGMENTS;
+  return DEFAULT_SEGMENTS;
 }
 
 function computeExportValue(part: PetljaResult, fields: SpajaTransferField[]): number | undefined {
