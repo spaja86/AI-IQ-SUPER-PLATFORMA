@@ -293,10 +293,20 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
   promotionFreeze: boolean;
 }): ExtrimliDokerKuratIzekDokarPublicBoundaryStatus {
   const normalizedStatuses = params.sequenceStates.map((state) => {
-    if (state.status === 'BLOCKED') return 'BLOCKED' as const;
-    if (state.status === 'WATCH' || state.status === 'REQUIRED' || state.status === 'FOLLOW_UP_REQUIRED') return 'WATCH' as const;
-    if (state.status === 'ALIGNED') return state.token === 'DOKER' ? 'READY' as const : 'BLOCKED' as const;
-    return 'READY' as const;
+    switch (state.status) {
+      case 'BLOCKED':
+        return 'BLOCKED' as const;
+      case 'WATCH':
+      case 'REQUIRED':
+      case 'FOLLOW_UP_REQUIRED':
+        return 'WATCH' as const;
+      case 'ALIGNED':
+        return state.token === 'DOKER' ? 'READY' as const : 'BLOCKED' as const;
+      case 'READY':
+        return 'READY' as const;
+      default:
+        return 'BLOCKED' as const;
+    }
   });
   const publicStatus = params.promotionFreeze
     ? 'BLOCKED'
