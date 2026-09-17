@@ -995,6 +995,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
       'b2bReadiness.globalLicensing',
+      'kraljevskiPravniUniverzitetGovernance',
       'objektnoOrijentisanaProngilacija',
       'objektnoOrijentisanaReprodukcija',
       'epicElikvadenti',

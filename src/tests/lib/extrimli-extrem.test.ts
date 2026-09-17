@@ -134,22 +134,24 @@ async function runTests(): Promise<void> {
   await test('default report exposes KRALJEVSKI PRAVNI UNIVERZITET track as additive legal-governance signal', () => {
     const report = getExtrimliExtremProfilerReport();
     const track = report.kraljevskiPravniUniverzitetTrack;
-    assert(track.term === 'KRALJEVSKI PRAVNI UNIVERZITET', 'track term mismatch');
-    assert(track.sourceOfTruth === '/api/extrimli/extrem', 'track source mismatch');
-    assert(track.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'track scope lock mismatch');
+    assert(track.trackId === 'extrimli-kraljevski-pravni-univerzitet', 'track id mismatch');
+    assert(track.classification === 'legal-governance-track', 'track classification mismatch');
+    assert(track.technicalSourceOfTruth === '/api/extrimli/extrem', 'technical source mismatch');
+    assert(track.governanceSourceOfTruth === '/api/extrimli/extrondol', 'governance source mismatch');
+    assert(track.publicBoundary === '/api/extrimli/spaja-kod', 'public boundary mismatch');
     assert(track.documentationBoundary.sourceMaterialPolicy === 'documentation-only', 'source material policy mismatch');
-    assert(track.documentationBoundary.primaryContentGap === 'POVELJA O ZAKONODAVNOM PRAVU', 'primary content gap mismatch');
-    assert(track.documentationBoundary.primaryContentGapResolved, 'primary content gap must be resolved');
+    assert(track.documentationBoundary.primaryContentGap.topic === 'POVELJA O ZAKONODAVNOM PRAVU', 'primary content gap mismatch');
+    assert(track.documentationBoundary.primaryContentGap.status === 'DEFINED', 'primary content gap status mismatch');
     assert(track.vocabulary.length === 6, 'expected six canonical vocabulary entries');
     assert(
       track.vocabulary.map((entry) => entry.term).join(',') === 'KRALJEVSKI PRAVNI UNIVERZITET,KRALJEVSKA POLITIKA,NIKOLA SPAJIĆ,ZAKON SILNOG,POVELJA O ZAKONODAVNOM PRAVU,PRAVNI POREDAK PO PRAVU GRAĐANSTVA',
       'canonical vocabulary mismatch',
     );
-    assert(track.signals.charterCompleteness === 'COMPLETE', 'charter completeness mismatch');
-    assert(track.signals.legislativeAuthorityDefinition === 'DEFINED', 'legislative authority mismatch');
-    assert(track.signals.citizenshipOrderPrinciples === 'DEFINED', 'citizenship-order principles mismatch');
+    assert(track.structuredSignals.charterCompleteness.status === 'READY', 'charter completeness mismatch');
+    assert(track.structuredSignals.legislativeAuthorityDefinition.status === 'READY', 'legislative authority mismatch');
+    assert(track.structuredSignals.citizenshipOrderPrinciples.status === 'READY', 'citizenship-order principles mismatch');
     assert(track.neutralRuleSet.evidenceRequiredBeforeEscalation.length >= 3, 'evidence requirements must be defined');
-    assert(track.neutralRuleSet.unlawfulCivicManeuvering.length >= 1, 'unlawful civic maneuvering rules must be defined');
+    assert(track.neutralRuleSet.unlawfulCivicManeuvers.length >= 1, 'unlawful civic maneuvering rules must be defined');
     assert(track.readiness.status === 'READY', 'default track should be READY');
     assert(track.readiness.completenessScore === 100, 'default completeness score mismatch');
     assert(track.readiness.consistencyScore === 100, 'default consistency score mismatch');

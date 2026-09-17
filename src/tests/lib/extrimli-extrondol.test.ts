@@ -376,6 +376,11 @@ async function runTests(): Promise<void> {
     const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
       report.extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
     );
+    const kraljevskiPravniUniverzitetAdjustment = report.extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'READY'
+      ? 1
+      : report.extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH'
+        ? -4
+        : -12;
     const petljeAdjustment = report.extremProfiler.petljeSignals.summary.freezeRequired
       ? -10
       : report.extremProfiler.petljeSignals.summary.watchSignals.length > 0
@@ -388,6 +393,7 @@ async function runTests(): Promise<void> {
         baseScore * EXTRONDOL_BASE_ORCHESTRATION_SHARE
           + report.nivoDuet.signal.overallScore * EXTRONDOL_NIVO_DUET_SHARE
           + (statusAdjustment - warningPenalty)
+          + kraljevskiPravniUniverzitetAdjustment
           + objektnaProngilacijaAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
