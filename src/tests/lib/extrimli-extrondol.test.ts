@@ -20,6 +20,7 @@ import {
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
@@ -34,6 +35,7 @@ import {
   getEpicElikvadentiAdjustment,
   getObjektnaProngilacijaAdjustment,
   getObjektnoOrijentisanaReprodukcijaAdjustment,
+  getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
 import {
@@ -197,6 +199,22 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-governance' && item.passed), 'functional energy-flow acceptance criterion must pass');
   });
 
+  await test('report maps FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA into WAWE governance, audit, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.funkionalnoProgramiranjePravnogMisaonogToka.term === 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA', 'legal-functional term mismatch');
+    assert(report.funkionalnoProgramiranjePravnogMisaonogToka.contractVersion === EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'legal-functional contract mismatch');
+    assert(report.funkionalnoProgramiranjePravnogMisaonogToka.technicalSignalSource === '/api/extrimli/extrem', 'legal-functional technical source mismatch');
+    assert(report.funkionalnoProgramiranjePravnogMisaonogToka.legalBoundary.sourceTrack === 'KRALJEVSKI PRAVNI UNIVERZITET', 'legal-functional legal boundary mismatch');
+    assert(report.funkionalnoProgramiranjePravnogMisaonogToka.waweImpact.currentWawe === report.rollout.currentWawe, 'legal-functional WAWE mismatch');
+    assert(report.releaseAuditSummary.funkionalnoProgramiranjePravnogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'legal-functional audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status'), 'legal-functional status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('funkionalnoProgramiranjePravnogMisaonogToka.waweImpact'), 'legal-functional WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('funkionalnoProgramiranjePravnogMisaonogToka'), 'legal-functional governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.funkionalnoProgramiranjePravnogMisaonogTokaStatus === report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status, 'SPAJA KOD legal-functional summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkionalno-programiranje-pravnog-misaonog-toka-governance'), 'legal-functional scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'funkionalno-programiranje-pravnog-misaonog-toka-governance' && item.passed), 'legal-functional acceptance criterion must pass');
+  });
+
   await test('report maps objektno orijentisana reprodukcija into WAWE governance and downstream sync', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.objektnoOrijentisanaReprodukcija.term === 'Objektno orijentisana reprodukcija', 'object-oriented reproduction term mismatch');
@@ -263,6 +281,7 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spaja-kod-encapsulation' && item.passed), 'SPAJA KOD acceptance criterion must pass');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.readiness.status'), 'SPAJA KOD readiness status must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.publicSignals.auditStatus'), 'SPAJA KOD audit status must sync downstream');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKod.publicSignals.funkionalnoProgramiranjePravnogMisaonogTokaStatus), 'unexpected SPAJA KOD legal-functional summary status');
     assert(report.spajaKod.platformTrack.platformName === 'SPAJAPRO', 'SPAJAPRO public track name mismatch');
     assert(report.spajaKod.platformTrack.finalPublicStatusToken === 'KODER', 'SPAJAPRO public token mismatch');
     assert(report.spajaKod.platformTrack.internalMappingVisibility === 'HIDDEN', 'SPAJAPRO mapping must stay hidden');
@@ -426,6 +445,9 @@ async function runTests(): Promise<void> {
       : report.extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
         ? -5
         : -13;
+    const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
+      report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
+    );
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -436,6 +458,7 @@ async function runTests(): Promise<void> {
           + kraljevskiPravniUniverzitetAdjustment
           + objektnaProngilacijaAdjustment
           + funkcinalnoProgramiranjeAdjustment
+          + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
           + petljeAdjustment
