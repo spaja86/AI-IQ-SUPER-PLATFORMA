@@ -140,6 +140,38 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
   });
 
+  await test('report publishes scorecard, canary metrics, incident playbook, and governance conformance', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.releaseReadinessScorecard.sourceOfTruth === '/api/extrimli/extrondol', 'scorecard source mismatch');
+    assert(report.releaseReadinessScorecard.coreDomains.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL', 'scorecard core domains mismatch');
+    assert(report.releaseReadinessScorecard.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'scorecard source routes mismatch');
+    assert(report.releaseReadinessScorecard.totalChecks >= 5, 'scorecard checks should be >= 5');
+    assert(
+      report.releaseReadinessScorecard.totalChecks
+      === report.releaseReadinessScorecard.passedChecks + report.releaseReadinessScorecard.warningChecks + report.releaseReadinessScorecard.failedChecks,
+      'scorecard check totals mismatch',
+    );
+    assert(report.canaryRingMetrics.autoFreezeEnabled, 'canary auto-freeze must be enabled');
+    assert(report.canaryRingMetrics.activeRing === report.b2bReadiness.tenant.rolloutRing, 'canary active ring mismatch');
+    assert(report.canaryRingMetrics.observed.freezeTriggered === report.rollout.promotionFreeze, 'canary freeze state mismatch');
+    assert(report.incidentPlaybook.flow.join(',') === 'trigger,freeze,rollback,postmortem', 'incident playbook flow mismatch');
+    assert(report.incidentPlaybook.execution.rollbackPrepared, 'incident rollback prep mismatch');
+    assert(report.contractDriftReport.required, 'contract drift report must be required');
+    assert(report.contractDriftReport.comparedArtifacts.length === 7, 'contract drift compared artifacts mismatch');
+    assert(report.governanceConformance.workflow === '.github/workflows/extrimli-governance-conformance.yml', 'governance workflow mismatch');
+    assert(report.governanceConformance.schedule === '0 4 * * 1', 'governance schedule mismatch');
+    assert(
+      report.contractDriftReport.status === 'ALIGNED'
+        ? report.governanceConformance.status === 'PASS'
+        : report.governanceConformance.status === 'FAIL',
+      'conformance status must mirror drift status',
+    );
+    assert(report.acceptanceCriteria.some((item) => item.id === 'release-readiness-scorecard' && item.passed), 'release-readiness-scorecard criterion missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'canary-auto-freeze-metrics' && item.passed), 'canary-auto-freeze-metrics criterion missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'incident-playbook-lock' && item.passed), 'incident-playbook-lock criterion missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'contract-drift-detection' && item.passed), 'contract-drift-detection criterion missing');
+  });
+
   await test('SPAJA KOD facade stays encapsulated and downstream-ready without exposing raw pattern internals', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.spajaKod.surfaceName === 'SPAJA KOD', 'SPAJA KOD surface mismatch');
@@ -328,6 +360,11 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.semaMuSemaFormula.muSemaConclusion'), 'MUŠEMA conclusion sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.resolutionReadiness.rekulitiPoRauletu'), 'resolution policy sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bReadiness.globalLicensing'), 'global licensing readiness sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('releaseReadinessScorecard'), 'release readiness scorecard sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('canaryRingMetrics'), 'canary ring metrics sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('incidentPlaybook'), 'incident playbook sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('contractDriftReport'), 'contract drift report sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('governanceConformance'), 'governance conformance sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
     assert(Number.isFinite(report.b2bReadiness.governanceDecisions.resolutionReadiness.rezolucijaScore), 'resolution readiness score must be finite');
     assert(report.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'B2B formula expression mismatch');
@@ -382,6 +419,11 @@ async function runTests(): Promise<void> {
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler.businessLicensingSignals'), 'business licensing output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler.resolutionReadiness'), 'resolution readiness output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler.semaMuSemaFormula'), 'formula output missing');
+    assert(report.startProject.mandatoryOutputs.includes('releaseReadinessScorecard'), 'release readiness scorecard output missing');
+    assert(report.startProject.mandatoryOutputs.includes('canaryRingMetrics'), 'canary ring metrics output missing');
+    assert(report.startProject.mandatoryOutputs.includes('incidentPlaybook'), 'incident playbook output missing');
+    assert(report.startProject.mandatoryOutputs.includes('contractDriftReport'), 'contract drift report output missing');
+    assert(report.startProject.mandatoryOutputs.includes('governanceConformance'), 'governance conformance output missing');
     assert(report.startProject.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream linked repo mismatch');
     assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bReadiness'), 'b2bReadiness sync missing');
@@ -393,6 +435,11 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.resolutionReadiness'), 'resolution readiness sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.semaMuSemaFormula'), 'formula sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('spajaKod.platformTrack'), 'SPAJAPRO public sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('releaseReadinessScorecard'), 'release readiness scorecard sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('canaryRingMetrics'), 'canary ring metrics sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('incidentPlaybook'), 'incident playbook sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('contractDriftReport'), 'contract drift report sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('governanceConformance'), 'governance conformance sync missing');
     assert(report.startProject.qualityGates.validatorCoverage.includes('multi-repo-sync-agent'), 'multi-repo-sync-agent coverage missing');
     assert(report.startProject.qualityGates.kpiTargets.evaluationMaxMs === 50, 'evaluation KPI mismatch');
     assert(report.startProject.auditRelease.humanReviewRequired, 'human review must remain required');

@@ -926,7 +926,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 |---|---|
 | Date | 2026-09-03 |
 | Owner | @spaja86 |
-| Scope | `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`, `.github/workflows/extrimli-validator.yml`, `.agent-config.json`, `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/lib/extrimli-duel-king/**`, `src/lib/extrimli-extrondend/**`, `src/lib/extrimli-extrondol/**`, `src/lib/extrimli-extrem/**`, `src/app/api/extrimli/duel-king/**`, `src/app/api/extrimli/extrondend/**`, `src/app/api/extrimli/extrondol/**`, `src/app/api/extrimli/extrem/**`, `src/app/api/extrimli/instrukcija/**` |
+| Scope | `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`, `.github/workflows/extrimli-validator.yml`, `.github/workflows/extrimli-governance-conformance.yml`, `.agent-config.json`, `src/lib/extrimli/instrukcija.ts`, `src/lib/extrimli/export-bundle.ts`, `src/lib/extrimli-duel-king/**`, `src/lib/extrimli-extrondend/**`, `src/lib/extrimli-extrondol/**`, `src/lib/extrimli-extrem/**`, `src/app/api/extrimli/duel-king/**`, `src/app/api/extrimli/extrondend/**`, `src/app/api/extrimli/extrondol/**`, `src/app/api/extrimli/extrem/**`, `src/app/api/extrimli/instrukcija/**` |
 | Quality gate | `extrimli-validator-agent` |
 | Runtime source of truth | Vercel Git integration |
 | GitHub Actions role | audit governance + downstream coordination |
@@ -956,6 +956,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL B2B scope/readiness | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `b2bScope` ownership/roles/flow/SLA/audit fields + `b2bReadiness` tenant/support/compliance/downstream state |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTRONDOL PROVERA UPLATA | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `paymentVerification` gate (`status`, `invoiceResolutionPath`, `blockers`, `auditTimestamp`, `readinessImpact`) i vezu sa Vercel invoice governance pravilima |
 | `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI EXTREM DISKVIT profiler | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `/api/extrimli/extrem` snapshot (`profile.conflictIntensity`, `profile.optimizationTier`, `governanceSignal.freezeRequired`) and mirror into EXTRONDOL WAWE governance runbook |
+| `AI-IQ-SUPER-PLATFORMA` — EXTRIMLI governance conformance audit | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance` from `/api/extrimli/extrondol` and weekly conformance workflow status |
 
 ### EXTRIMLI — World Bank to Persona bridge
 
@@ -992,6 +993,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Track `/api/extrimli/extrondend` contract compatibility in downstream consumers
 - Track `/api/extrimli/extrondol` contract compatibility in downstream consumers
 - Track additive B2B EXTRONDOL fields: `b2bScope.consumerModel`, `b2bScope.partnerOperatorRoles`, `b2bReadiness.tenant.rolloutRing`, `b2bReadiness.compliance.humanReviewComplete`, `b2bReadiness.compliance.blockers`, `b2bReadiness.governanceDecisions.partnerReadinessWarnings`
+- Track governance conformance artifacts: `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`
 - Track `paymentVerification` compatibility (`status`, `invoiceResolutionPath`, `evidence`, `blockers`, `auditTimestamp`, `readinessImpact`) for downstream governance consumers
 - Track additive `distanceRatioEkvilaterTable` compatibility, including canonical field name plus requested-label alias `DISANCE RATOR EKVILATER`
 - Track NIVO DUET / DINKOS contract compatibility (`valid`, `status`, `overallScore`, `warnings`, `dinkos.triggerLabel`, `dinkos.personaId`) in downstream consumers

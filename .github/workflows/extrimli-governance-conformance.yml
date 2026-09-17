@@ -1,0 +1,85 @@
+name: EXTRIMLI — Governance Conformance
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/extrimli-extrondol/**'
+      - 'src/lib/extrimli-extrem/**'
+      - 'src/app/api/extrimli/extrondol/**'
+      - 'src/app/api/extrimli/extrem/**'
+      - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
+      - 'docs/MULTI-REPO-LINKS.md'
+      - '.github/workflows/extrimli-validator.yml'
+      - '.github/workflows/extrimli-external-github.yml'
+      - '.github/workflows/extrimli-governance-conformance.yml'
+
+concurrency:
+  group: extrimli-governance-conformance-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔎 Contract drift checks (docs/types/routes/workflows)
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          function assert(condition, message) {
+            if (!condition) throw new Error(message);
+          }
+          const types = fs.readFileSync('src/lib/extrimli-extrondol/types.ts', 'utf8');
+          const index = fs.readFileSync('src/lib/extrimli-extrondol/index.ts', 'utf8');
+          const route = fs.readFileSync('src/app/api/extrimli/extrondol/route.ts', 'utf8');
+          const doc = fs.readFileSync('docs/EXTRIMLI.md', 'utf8');
+          const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
+          const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
+          const validatorWorkflow = fs.readFileSync('.github/workflows/extrimli-validator.yml', 'utf8');
+          const externalWorkflow = fs.readFileSync('.github/workflows/extrimli-external-github.yml', 'utf8');
+
+          assert(types.includes("sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol']"), 'types must lock source-of-truth route pair');
+          assert(index.includes("sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol']"), 'index must publish source-of-truth route pair');
+          assert(route.includes("EXTRONDOL_SOURCE_OF_TRUTH") && route.includes("surface: 'extrimli-extrondol'"), 'route must expose canonical EXTRONDOL surface');
+          assert(doc.includes('Locked source-of-truth surfaces: `/api/extrimli/health`, `/api/extrimli-3/health`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`'), 'EXTRIMLI doc must lock source-of-truth surfaces');
+          assert(doc.includes('releaseReadinessScorecard') && doc.includes('canaryRingMetrics') && doc.includes('incidentPlaybook') && doc.includes('contractDriftReport') && doc.includes('governanceConformance'), 'EXTRIMLI doc must include governance additive fields');
+          assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
+          assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
+          assert(validatorWorkflow.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'validator workflow must include EXTRONDOL tests');
+          assert(externalWorkflow.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'external workflow must include EXTRONDOL tests');
+          NODE
+
+      - name: 🧪 EXTRONDOL governance tests
+        run: npx tsx src/tests/lib/extrimli-extrondol.test.ts
+
+      - name: 🧪 EXTREM profiler tests
+        run: npx tsx src/tests/lib/extrimli-extrem.test.ts
+
+      - name: 📊 Governance conformance summary
+        if: always()
+        run: |
+          echo "## EXTRIMLI Governance Conformance" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Scope lock: EXTRIMLI + EXTREM + EXTRONDOL" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Source-of-truth routes: /api/extrimli/extrem + /api/extrimli/extrondol" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Drift checks: docs/types/routes/workflows" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Schedule: weekly (Mon 04:00 UTC)" >> "$GITHUB_STEP_SUMMARY"

@@ -441,7 +441,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `roadmapAlignment`, `versionRoadmap`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `mobilnaLinija`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `roadmapAlignment`, `versionRoadmap`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `mobilnaLinija`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 - EXTREM resolution propagation:
   - rollout reasons include additive REZOLUCIJA / REKULITI PO RAULETU freeze markers when present
   - `b2bReadiness.governanceDecisions.resolutionReadiness` mirrors EXTREM resolution posture
@@ -515,10 +515,18 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-3` → downstream sync evidence
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
-- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`.
+- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`.
 - `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
+
+### Release readiness scorecard + conformance
+
+- `releaseReadinessScorecard` je single-pane prikaz za zaključana jezgra `EXTRIMLI`, `EXTREM`, `EXTRONDOL` i zaključane source-of-truth rute (`/api/extrimli/extrem`, `/api/extrimli/extrondol`).
+- `canaryRingMetrics` prati ring sekvencu `RING-0-CONTRACT → RING-4-RESILIENCE` i auto-freeze posture pre promocije.
+- `incidentPlaybook` zaključava tok `trigger → freeze → rollback → postmortem`.
+- `contractDriftReport` proverava usklađenost docs/types/routes/workflows i blokira conformance ako postoji drift.
+- `governanceConformance` mapira status periodičnog audita iz `.github/workflows/extrimli-governance-conformance.yml` (`0 4 * * 1`).
 
 ### DISTANCE RATIO EKVILATER table
 
@@ -557,6 +565,10 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 13. `startProject` must preserve START PROJEKAT rollout governance, additive-only contract policy, and required downstream sync.
 14. `releaseAuditSummary` must be present and include rollout snapshot, KPI impact, downstream reference, mandatory human review, and rollback requirement.
 15. Canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` expression must remain deterministic, surfaced in EXTREM and EXTRONDOL, and block WAWE promotion when invalid.
+16. `releaseReadinessScorecard` must remain available as a single-pane lock summary for EXTRIMLI/EXTREM/EXTRONDOL.
+17. `canaryRingMetrics` must keep ring sequence and auto-freeze policy visible before promotion.
+18. `incidentPlaybook` must preserve `trigger → freeze → rollback → postmortem` flow as required.
+19. `contractDriftReport` + `governanceConformance` must stay aligned and fail together when drift is detected.
 
 ### NIVO DUET orchestration map
 
