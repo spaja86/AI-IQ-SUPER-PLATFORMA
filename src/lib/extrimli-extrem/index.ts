@@ -1360,7 +1360,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? ['KRALJEVSKI PRAVNI UNIVERZITET track remains in WATCH posture and requires legal-governance review before broader promotion.']
       : []),
     ...(kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
-      ? [`KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression: ${kraljevskiPravniUniverzitetTrack.readiness.blockerReasons.join('; ') || 'legal-governance readiness failed.'}`]
+      ? [(() => {
+        const blockerSummary = kraljevskiPravniUniverzitetTrack.readiness.blockerReasons.join('; ');
+        return blockerSummary.length > 0
+          ? `KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression: ${blockerSummary}`
+          : 'KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression because legal-governance readiness failed.';
+      })()]
       : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
