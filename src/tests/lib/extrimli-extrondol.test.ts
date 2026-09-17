@@ -150,6 +150,25 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.objektnoOrijentisanaReprodukcijaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit reproduction source mismatch');
   });
 
+  await test('report maps KRALJEVSKI PRAVNI UNIVERZITET governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.kraljevskiPravniUniverzitetGovernance.term === 'KRALJEVSKI PRAVNI UNIVERZITET', 'track term mismatch');
+    assert(report.kraljevskiPravniUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrondol', 'track governance source mismatch');
+    assert(report.kraljevskiPravniUniverzitetGovernance.technicalSignalSource === '/api/extrimli/extrem', 'track technical source mismatch');
+    assert(report.kraljevskiPravniUniverzitetGovernance.legislativeBoundary.sourceMaterialPolicy === 'documentation-only', 'track source material policy mismatch');
+    assert(report.kraljevskiPravniUniverzitetGovernance.legislativeBoundary.primaryCharter === 'POVELJA O ZAKONODAVNOM PRAVU', 'primary charter mismatch');
+    assert(report.kraljevskiPravniUniverzitetGovernance.releaseChecklist.currentWawe === report.rollout.currentWawe, 'track current WAWE mismatch');
+    assert(report.kraljevskiPravniUniverzitetGovernance.releaseChecklist.eligibleNextWawe === report.rollout.eligibleNextWawe, 'track next WAWE mismatch');
+    assert(report.kraljevskiPravniUniverzitetGovernance.releaseChecklist.promotionFreeze === report.rollout.promotionFreeze, 'track freeze mismatch');
+    assert(report.releaseAuditSummary.kraljevskiPravniUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit track source mismatch');
+    assert(report.startProject.mandatoryOutputs.includes('kraljevskiPravniUniverzitetGovernance'), 'track must be mandatory output');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status'), 'track EXTREM status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('kraljevskiPravniUniverzitetGovernance.status'), 'track governance status must sync downstream');
+    assert(report.spajaKod.publicSignals.kraljevskiPravniUniverzitetStatus === report.extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status, 'SPAJA KOD track summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'kraljevski-pravni-univerzitet-governance'), 'track scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'kraljevski-pravni-univerzitet-track' && item.passed), 'track acceptance criterion must pass');
+  });
+
   await test('report maps objektno orijentisana prongilacija into WAWE governance and downstream sync', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'object-oriented prongilacija term mismatch');

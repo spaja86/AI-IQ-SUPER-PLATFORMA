@@ -72,6 +72,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EPIC-ELIKVADENTI -> IO-OPENUI-AO#<follow-up issue>`
 
+## KRALJEVSKI PRAVNI UNIVERZITET downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — KRALJEVSKI PRAVNI UNIVERZITET legal-governance track over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Downstream consumers must sync only audit-safe summarized fields (`extremProfiler.kraljevskiPravniUniverzitetTrack.readiness`, `kraljevskiPravniUniverzitetGovernance`, `releaseAuditSummary.kraljevskiPravniUniverzitetGovernance`, `spajaKod.publicSignals.kraljevskiPravniUniverzitetStatus`); doctrinal source material remains repo-local/documentation-only
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#KRALJEVSKI-PRAVNI-UNIVERZITET -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Shared label schema
 
 | Label | Meaning |

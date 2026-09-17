@@ -319,6 +319,60 @@ Governance impact:
 - `WATCH` signal zahteva review pre šireg rollout-a, bez promene public boundary-ja.
 - `BLOCKED` signal mora da aktivira promotion freeze kroz EXTRONDOL i release audit.
 
+## KRALJEVSKI PRAVNI UNIVERZITET
+
+- Canonical term: `KRALJEVSKI PRAVNI UNIVERZITET`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+
+Ownership split:
+
+- **EXTREM** klasifikuje completeness, consistency, conflict pressure i `READY/WATCH/BLOCKED` posture za legal-governance track.
+- **EXTRONDOL** koristi taj signal za WAWE freeze/promotion, release audit summary, downstream reference i human-review zahteve.
+- **SPAJA KOD** izlaže samo audit-safe summary status bez sirovih doctrinal/formulation detalja.
+
+Canonical vocabulary:
+
+- `KRALJEVSKI PRAVNI UNIVERZITET` = central legal-governance track i terminološki root.
+- `KRALJEVSKA POLITIKA` = policy layer koji mora ostati usklađen sa charter hijerarhijom.
+- `NIKOLA SPAJIĆ` = declared ownership/accountability boundary za ovaj track.
+- `ZAKON SILNOG` = governance doctrine reference koja ne sme da zaobiđe charter/human-review granice.
+- `POVELJA O ZAKONODAVNOM PRAVU` = primary charter i obavezna legislative-authority definicija.
+- `PRAVNI POREDAK PO PRAVU GRAĐANSTVA` = neutral civic-order rule set sa warning/block granicama i evidence zahtevima.
+
+Documentation boundary:
+
+- Shared ChatGPT link i već opisane povelje/pravni akti tretiraju se kao **documentation-only** source material.
+- Primarni sadržajni gap koji mora biti eksplicitno zaključen je `POVELJA O ZAKONODAVNOM PRAVU`.
+
+Structured governance signals:
+
+- charter completeness
+- legislative authority definition
+- citizenship-order principles
+- conflict/escalation indicators
+- review-required conditions
+- blocked actions against the declared kingdom order
+
+Neutral rule boundary:
+
+- Neprihvatljivo ponašanje mora biti opisano neutralno, bez sirovih internih formulacija.
+- `WARNING` zahteva dokazive signale rizika i human review pre promocije.
+- `BLOCKED` zahteva potvrđene evidencije protivpravnog ili nedozvoljenog civic maneuvering-a prema kingdom framework-u.
+- Eskalacija zahteva dokumentovanu evidenciju, audit trail i rollback/human-review spremnost.
+
+Release/governance checklist:
+
+- current WAWE
+- eligible next WAWE
+- promotion freeze
+- human review
+- rollback requirement
+- downstream reference
+- audit summary
+
 ### Objektno orijentusano uzdizanje epskih elikvadenata
 
 - Canonical term: `Objektno orijentusano uzdizanje epskih elikvadenata`

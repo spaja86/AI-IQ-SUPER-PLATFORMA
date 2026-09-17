@@ -19,6 +19,7 @@ import type {
   ExtrimliExtremConflictIntensity,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
+  ExtrimliExtremKraljevskiPravniTrack,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
   ExtrimliExtremMobilnaLinijaInstallationStatus,
@@ -1023,6 +1024,204 @@ function buildBusinessLicensingSignals(): ExtrimliExtremBusinessLicensingSignals
   };
 }
 
+function buildKraljevskiPravniUniverzitetTrack(): ExtrimliExtremKraljevskiPravniTrack {
+  const vocabulary: ExtrimliExtremKraljevskiPravniTrack['vocabulary'] = [
+    {
+      term: 'KRALJEVSKI PRAVNI UNIVERZITET',
+      meaning: 'Canonical legal-authority surface that defines vocabulary, scope boundaries, and legislative legitimacy for the track.',
+      scope: 'Terminology, authority definition, charter hierarchy, and legal interpretation within the additive EXTRIMLI governance track.',
+      owner: 'NIKOLA SPAJIĆ',
+      allowedRelationships: [
+        { to: 'KRALJEVSKA POLITIKA', relation: 'governs-policy' },
+        { to: 'POVELJA O ZAKONODAVNOM PRAVU', relation: 'codifies-legislative-right' },
+        { to: 'ZAKON SILNOG', relation: 'permits-reviewed-enforcement' },
+      ],
+    },
+    {
+      term: 'KRALJEVSKA POLITIKA',
+      meaning: 'Policy bridge that translates legal authority into bounded governance decisions and public ordering rules.',
+      scope: 'Governance interpretation, public policy posture, and civic-boundary application inside EXTRONDOL orchestration.',
+      owner: 'KRALJEVSKI PRAVNI UNIVERZITET',
+      allowedRelationships: [
+        { to: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA', relation: 'constrains-citizenship-order' },
+        { to: 'ZAKON SILNOG', relation: 'permits-reviewed-enforcement' },
+      ],
+    },
+    {
+      term: 'NIKOLA SPAJIĆ',
+      meaning: 'Named custodian for authorship, stewardship, and review accountability across the track.',
+      scope: 'Ownership, review responsibility, and declared track custody.',
+      owner: '@spaja86',
+      allowedRelationships: [
+        { to: 'KRALJEVSKI PRAVNI UNIVERZITET', relation: 'defines-authority' },
+        { to: 'POVELJA O ZAKONODAVNOM PRAVU', relation: 'names-custodian' },
+      ],
+    },
+    {
+      term: 'ZAKON SILNOG',
+      meaning: 'Bounded enforcement doctrine that may operate only through explicit charter, evidence, and review controls.',
+      scope: 'Escalation limits, enforcement constraints, and blocker conditions.',
+      owner: 'KRALJEVSKI PRAVNI UNIVERZITET',
+      allowedRelationships: [
+        { to: 'POVELJA O ZAKONODAVNOM PRAVU', relation: 'codifies-legislative-right' },
+        { to: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA', relation: 'constrains-citizenship-order' },
+      ],
+    },
+    {
+      term: 'POVELJA O ZAKONODAVNOM PRAVU',
+      meaning: 'Primary legislative charter that defines proposal, review, ratification, publication, and amendment rights.',
+      scope: 'Legislative process, authority channel, ratification gates, publication, and amendment control.',
+      owner: 'KRALJEVSKI PRAVNI UNIVERZITET',
+      allowedRelationships: [
+        { to: 'NIKOLA SPAJIĆ', relation: 'names-custodian' },
+        { to: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA', relation: 'constrains-citizenship-order' },
+      ],
+    },
+    {
+      term: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA',
+      meaning: 'Neutral civic-order rule set that separates lawful participation from unacceptable or blocked conduct against the declared framework.',
+      scope: 'Citizenship rights, civic conduct, unacceptable maneuvering, and escalation boundaries.',
+      owner: 'KRALJEVSKA POLITIKA',
+      allowedRelationships: [
+        { to: 'KRALJEVSKA POLITIKA', relation: 'governs-policy' },
+        { to: 'ZAKON SILNOG', relation: 'permits-reviewed-enforcement' },
+      ],
+    },
+  ];
+
+  const warningTriggers = [
+    'Ambiguous authorship or custody for a proposed legal act.',
+    'Missing publication trail for a charter interpretation or civic-order update.',
+    'Policy wording that expands authority beyond the declared charter without explicit review evidence.',
+  ] as const;
+  const blockTriggers = [
+    'Any attempt to bypass Povelja o zakonodavnom pravu for legislative authority claims.',
+    'Calls for enforcement against citizenship order without documented evidence and review.',
+    'Any civic maneuver explicitly aimed at destabilizing the declared kingdom framework outside lawful review channels.',
+  ] as const;
+  const evidenceRequiredBeforeEscalation = [
+    'Published charter reference naming the applicable legislative clause.',
+    'Review record tying the interpretation to KRALJEVSKI PRAVNI UNIVERZITET ownership.',
+    'Audit-safe evidence describing the civic-order breach and the proportional response.',
+  ] as const;
+  const unlawfulParticipation = [
+    'Fabricating authority, charter text, or review outcomes.',
+    'Using coercive or extra-charter pressure to override lawful civic participation.',
+    'Suppressing publication, appeal, or review rights guaranteed by the declared order.',
+  ] as const;
+
+  return {
+    trackId: 'extrimli-kraljevski-pravni-univerzitet',
+    contractVersion: 'v1-kraljevski-pravni-univerzitet',
+    additiveOnly: true,
+    classification: 'legal-governance-track',
+    technicalSourceOfTruth: '/api/extrimli/extrem',
+    governanceSourceOfTruth: '/api/extrimli/extrondol',
+    publicBoundary: '/api/extrimli/spaja-kod',
+    vocabulary,
+    documentationBoundary: {
+      sourceMaterialPolicy: 'documentation-only',
+      sourceReferences: [
+        {
+          label: 'Shared ChatGPT legal explainer',
+          usage: 'docs-only-reference',
+        },
+      ],
+      completedTopics: [
+        'KRALJEVSKI PRAVNI UNIVERZITET',
+        'KRALJEVSKA POLITIKA',
+        'NIKOLA SPAJIĆ',
+        'ZAKON SILNOG',
+        'PRAVNI POREDAK PO PRAVU GRAĐANSTVA',
+      ],
+      primaryContentGap: {
+        topic: 'POVELJA O ZAKONODAVNOM PRAVU',
+        status: 'DEFINED',
+        summary: 'The charter now defines proposal, review, ratification, publication, amendment, and evidence gates for legislative authority.',
+      },
+    },
+    structuredSignals: {
+      charterCompleteness: {
+        requiredSections: ['authority', 'ratification', 'publication', 'review', 'citizenship-boundary', 'enforcement-limit'],
+        completedSections: ['authority', 'ratification', 'publication', 'review', 'citizenship-boundary', 'enforcement-limit'],
+        completenessScore: 100,
+        status: 'READY',
+      },
+      legislativeAuthorityDefinition: {
+        authorityHolder: 'KRALJEVSKI PRAVNI UNIVERZITET',
+        policyBridge: 'KRALJEVSKA POLITIKA',
+        namedCustodian: 'NIKOLA SPAJIĆ',
+        legislativeCharter: 'POVELJA O ZAKONODAVNOM PRAVU',
+        enforcementDoctrine: 'ZAKON SILNOG',
+        status: 'READY',
+      },
+      citizenshipOrderPrinciples: {
+        canonicalOrder: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA',
+        principles: [
+          'Citizenship order protects publication, review, proportionality, and lawful appeal.',
+          'Legislative authority must remain traceable to the charter and named custody.',
+          'Enforcement may never outrun the documented charter scope or review outcome.',
+        ],
+        lawfulParticipation: [
+          'Submit proposals through the declared charter path.',
+          'Request review, clarification, or amendment through documented channels.',
+          'Challenge interpretations with evidence while preserving publication and appeal rights.',
+        ],
+        unlawfulParticipation,
+        status: 'READY',
+      },
+      conflictEscalation: {
+        warningTriggers,
+        blockTriggers,
+        evidenceRequiredBeforeEscalation,
+        activeWarnings: [],
+        activeBlocks: [],
+        status: 'READY',
+      },
+      reviewRequirements: {
+        humanReviewRequired: true,
+        rollbackPlanRequired: true,
+        downstreamReferenceRequired: true,
+        publicBoundaryRequired: true,
+        status: 'READY',
+      },
+      blockedActionsAgainstDeclaredOrder: {
+        actions: [
+          'Publishing extra-charter legal commands as if they were ratified law.',
+          'Escalating to enforcement without review evidence and a documented civic-order breach.',
+          'Framing citizens as unlawful solely for requesting review, appeal, or publication traceability.',
+        ],
+        enforcementMode: 'neutral-governance-boundary',
+        status: 'READY',
+      },
+    },
+    neutralRuleSet: {
+      unacceptableConduct: [
+        'Concealing authority, authorship, or ratification status for a claimed legal act.',
+        'Removing lawful appeal, publication, or review rights from citizenship-order decisions.',
+        'Using the declared kingdom framework to justify undocumented coercion or civic exclusion.',
+      ],
+      warningTriggers: [...warningTriggers],
+      blockTriggers: [...blockTriggers],
+      evidenceRequiredBeforeEscalation: [...evidenceRequiredBeforeEscalation],
+      lawfulCivicManeuvers: [
+        'Petitioning for clarification, amendment, or review under the charter.',
+        'Documenting conflicts and requesting proportional governance intervention.',
+        'Participating in civic-order debate without denying the declared review boundary.',
+      ],
+      unlawfulCivicManeuvers: [...unlawfulParticipation],
+    },
+    readiness: {
+      completenessScore: 100,
+      consistencyScore: 100,
+      conflictScore: 8,
+      status: 'READY',
+      watchReasons: [],
+      blockerReasons: [],
+    },
+  };
+}
+
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const versionRoadmap = getExtrimliVersionRoadmap();
   const degradedSources: string[] = [];
@@ -1060,6 +1259,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const conflictIntensity = classifyConflict(conflictScore);
   const optimizationTier = mapOptimizationTier(conflictIntensity);
   const businessLicensingSignals = buildBusinessLicensingSignals();
+  const kraljevskiPravniUniverzitetTrack = buildKraljevskiPravniUniverzitetTrack();
   const petljeSignals = buildPetljaSignalSection(degradedSources);
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
@@ -1134,6 +1334,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || blockerActive
     || petljeSignals.summary.freezeRequired
     || businessLicensingSignals.freezeRequired
+    || kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
@@ -1155,6 +1356,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(businessLicensingSignals.freezeRequired
       ? [`Global licensing readiness gate triggered: ${businessLicensingSignals.freezeReasons.join(', ')}`]
       : ['Global licensing readiness is aligned for EXTREM governance.']),
+    ...(kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH'
+      ? ['KRALJEVSKI PRAVNI UNIVERZITET track remains in WATCH posture and requires legal-governance review before broader promotion.']
+      : []),
+    ...(kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
+      ? [`KRALJEVSKI PRAVNI UNIVERZITET track blocked WAWE progression: ${kraljevskiPravniUniverzitetTrack.readiness.blockerReasons.join('; ') || 'legal-governance readiness failed.'}`]
+      : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
       : []),
@@ -1184,6 +1391,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
   if (petljeSignals.summary.freezeRequired) degradedSources.push('petlje-signals:freeze-required');
   if (businessLicensingSignals.freezeRequired) degradedSources.push('global-licensing:freeze-required');
+  if (kraljevskiPravniUniverzitetTrack.readiness.status !== 'READY') {
+    degradedSources.push(`kraljevski-pravni-univerzitet:${kraljevskiPravniUniverzitetTrack.readiness.status.toLowerCase()}`);
+  }
   if (objektnoOrijentisanaProngilacija.readiness.degraded) {
     degradedSources.push(`objektna-prongilacija:${objektnoOrijentisanaProngilacija.readiness.status.toLowerCase()}`);
   }
@@ -1298,6 +1508,42 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && businessLicensingSignals.activityCoverageScore <= 100
         && businessLicensingSignals.globalLicenseReadinessScore >= 0
         && businessLicensingSignals.globalLicenseReadinessScore <= 100,
+    },
+    {
+      id: 'kraljevski-pravni-univerzitet-track-lock',
+      description: 'KRALJEVSKI PRAVNI UNIVERZITET is an additive EXTRIMLI/EXTREM/EXTRONDOL governance track with locked vocabulary, ownership, and public-boundary routing.',
+      passed: kraljevskiPravniUniverzitetTrack.additiveOnly
+        && kraljevskiPravniUniverzitetTrack.technicalSourceOfTruth === '/api/extrimli/extrem'
+        && kraljevskiPravniUniverzitetTrack.governanceSourceOfTruth === '/api/extrimli/extrondol'
+        && kraljevskiPravniUniverzitetTrack.publicBoundary === '/api/extrimli/spaja-kod',
+    },
+    {
+      id: 'kraljevski-pravni-univerzitet-vocabulary',
+      description: 'The legal-governance track defines the canonical vocabulary, exact meanings, scopes, owners, and allowed relationships for all declared terms.',
+      passed: kraljevskiPravniUniverzitetTrack.vocabulary.length === 6
+        && kraljevskiPravniUniverzitetTrack.vocabulary.every((entry) => entry.allowedRelationships.length > 0 && entry.scope.length > 0 && entry.owner.length > 0),
+    },
+    {
+      id: 'povelja-o-zakonodavnom-pravu-defined',
+      description: 'POVELJA O ZAKONODAVNOM PRAVU is completed as the primary legislative-authority charter and no longer remains an undefined content gap.',
+      passed: kraljevskiPravniUniverzitetTrack.documentationBoundary.primaryContentGap.topic === 'POVELJA O ZAKONODAVNOM PRAVU'
+        && kraljevskiPravniUniverzitetTrack.documentationBoundary.primaryContentGap.status === 'DEFINED'
+        && kraljevskiPravniUniverzitetTrack.structuredSignals.charterCompleteness.completenessScore === 100,
+    },
+    {
+      id: 'citizenship-order-neutral-boundary',
+      description: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA is converted into a neutral civic-rule set with explicit unacceptable conduct, warning/block triggers, and escalation evidence.',
+      passed: kraljevskiPravniUniverzitetTrack.neutralRuleSet.unacceptableConduct.length >= 3
+        && kraljevskiPravniUniverzitetTrack.neutralRuleSet.warningTriggers.length >= 3
+        && kraljevskiPravniUniverzitetTrack.neutralRuleSet.blockTriggers.length >= 3
+        && kraljevskiPravniUniverzitetTrack.neutralRuleSet.evidenceRequiredBeforeEscalation.length >= 3,
+    },
+    {
+      id: 'legal-track-public-boundary',
+      description: 'The legal-governance track stays internal to EXTREM/EXTRONDOL while SPAJA KOD exposes only safe summarized status.',
+      passed: kraljevskiPravniUniverzitetTrack.documentationBoundary.sourceMaterialPolicy === 'documentation-only'
+        && spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
+        && spajaKodEncapsulation.exposurePolicy.exposesInternalSignalInputs === false,
     },
     {
       id: 'objektno-orijentisana-prongilacija-lock',
@@ -1433,6 +1679,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       optimizationTier,
     },
     businessLicensingSignals,
+    kraljevskiPravniUniverzitetTrack,
     petljeSignals,
     objektnoOrijentisanaProngilacija,
     objektnoOrijentisanaReprodukcija,

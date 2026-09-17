@@ -27,6 +27,7 @@ import type {
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
   ExtrimliExtrondolEpicElikvadentiGovernance,
   ExtrimliExtrondolGovernanceEvidence,
+  ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance,
   ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance,
   ExtrimliExtrondolMobilnaLinijaPackagePlan,
   ExtrimliExtrondolPaymentReferenceClassification,
@@ -393,6 +394,61 @@ function buildObjektnaProngilacijaPostureReasons(
   };
 }
 
+function buildKraljevskiPravniUniverzitetGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+}): ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance {
+  const signal = params.extremProfiler.kraljevskiPravniUniverzitetTrack;
+  const reasons = [
+    ...signal.readiness.blockerReasons,
+    ...signal.readiness.watchReasons,
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+
+  return {
+    term: 'KRALJEVSKI PRAVNI UNIVERZITET',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    contractVersion: signal.contractVersion,
+    additiveOnly: true,
+    governanceVisibility: 'audit-safe-governance-only',
+    status: signal.readiness.status,
+    completenessScore: signal.readiness.completenessScore,
+    consistencyScore: signal.readiness.consistencyScore,
+    conflictScore: signal.readiness.conflictScore,
+    legislativeBoundary: {
+      sourceMaterialPolicy: 'documentation-only',
+      primaryCharter: 'POVELJA O ZAKONODAVNOM PRAVU',
+      citizenshipOrder: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA',
+      publicBoundary: 'SPAJA KOD',
+    },
+    releaseChecklist: {
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+      promotionFreeze: params.promotionFreeze,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamReferenceRequired: true,
+      auditSummaryRequired: true,
+    },
+    waweImpact: signal.readiness.status === 'BLOCKED'
+      ? 'promotion-frozen'
+      : signal.readiness.status === 'WATCH'
+        ? 'review-before-promotion'
+        : 'eligible-for-promotion',
+    publicStatus: signal.readiness.status === 'BLOCKED'
+      ? 'SAFE_SUMMARY_BLOCKED'
+      : signal.readiness.status === 'WATCH'
+        ? 'SAFE_SUMMARY_REVIEW'
+        : 'SAFE_SUMMARY_READY',
+    reasons,
+    warnings: [...signal.readiness.watchReasons],
+    blockerReasons: [...signal.readiness.blockerReasons],
+  };
+}
+
 function buildObjektnaProngilacijaGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
@@ -612,6 +668,7 @@ function buildSpajaKodFacade(params: {
   humanReviewComplete: boolean;
   degraded: boolean;
   releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
+  kraljevskiPravniUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
 }): ExtrimliSpajaKodPublicFacade {
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
@@ -661,6 +718,7 @@ function buildSpajaKodFacade(params: {
       systemStatus: params.promotionFreeze ? 'BLOCKED' : status === 'WATCH' ? 'ATTENTION' : 'STABLE',
       auditStatus: params.releaseAuditSummary.status,
       downstreamSyncStatus: params.downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
+      kraljevskiPravniUniverzitetStatus: params.kraljevskiPravniUniverzitetStatus,
       humanReviewRequired: true,
       rollbackPlanRequired: true,
       degraded: params.degraded,
@@ -845,6 +903,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   if (extremProfiler.degraded) degradedSources.push('extrem-profiler:degraded');
   if (extremProfiler.profile.bottleneckDetected) degradedSources.push('extrem-profiler:bottleneck-detected');
   if (extremProfiler.businessLicensingSignals.freezeRequired) degradedSources.push('extrem-profiler:global-licensing-freeze');
+  if (extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status !== 'READY') {
+    degradedSources.push(`extrem-profiler:kraljevski-pravni-univerzitet-${extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status.toLowerCase()}`);
+  }
   if (extremProfiler.petljeSignals.summary.freezeRequired) degradedSources.push('extrem-profiler:petlje-freeze');
   if (extremProfiler.petljeSignals.summary.degradedSignals.length > 0) degradedSources.push('extrem-profiler:petlje-degraded');
   if (extremProfiler.objektnoOrijentisanaProngilacija.readiness.degraded) {
@@ -927,6 +988,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'paymentVerification',
       'extremProfiler',
       'extremProfiler.businessLicensingSignals',
+      'extremProfiler.kraljevskiPravniUniverzitetTrack',
       'extremProfiler.objektnoOrijentisanaProngilacija',
       'extremProfiler.objektnoOrijentisanaReprodukcija',
       'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata',
@@ -963,11 +1025,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'paymentVerification',
         'extremProfiler',
         'extremProfiler.businessLicensingSignals',
+        'extremProfiler.kraljevskiPravniUniverzitetTrack',
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
         'extremProfiler.objektnoOrijentisanaReprodukcija.readiness',
         'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness',
         'b2bReadiness.globalLicensing',
+        'kraljevskiPravniUniverzitetGovernance',
         'mobilnaLinija',
         'objektnoOrijentisanaProngilacija',
         'objektnoOrijentisanaReprodukcija',
@@ -1014,6 +1078,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const epicElikvadentiAdjustment = getEpicElikvadentiAdjustment(
     extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status,
   );
+  const kraljevskiPravniUniverzitetAdjustment = extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'READY'
+    ? 1
+    : extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH'
+      ? -4
+      : -12;
   const petljeAdjustment = extremProfiler.petljeSignals.summary.freezeRequired
     ? -10
     : extremProfiler.petljeSignals.summary.watchSignals.length > 0
@@ -1023,7 +1092,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const profilerBoost = extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
   const orchestrationReadinessScore = round(
     clamp(
-      blendedBaseScore + duetAdjustment + objektnaProngilacijaAdjustment + objektnoOrijentisanaReprodukcijaAdjustment + epicElikvadentiAdjustment + petljeAdjustment + profilerBoost - profilerPenalty,
+      blendedBaseScore
+        + duetAdjustment
+        + kraljevskiPravniUniverzitetAdjustment
+        + objektnaProngilacijaAdjustment
+        + objektnoOrijentisanaReprodukcijaAdjustment
+        + epicElikvadentiAdjustment
+        + petljeAdjustment
+        + profilerBoost
+        - profilerPenalty,
       0,
       100,
     ),
@@ -1153,6 +1230,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.businessLicensingSignals.freezeRequired
       ? [`Global licensing readiness gate is blocking promotion: ${extremProfiler.businessLicensingSignals.freezeReasons.join(', ')}`]
       : []),
+    ...(extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH'
+      ? ['KRALJEVSKI PRAVNI UNIVERZITET governance track is in WATCH posture and requires human legal-governance review before wider rollout.']
+      : []),
+    ...(extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
+      ? ['KRALJEVSKI PRAVNI UNIVERZITET governance track is BLOCKED and must freeze promotion until charter and citizenship-order issues are resolved.']
+      : []),
     ...(extremProfiler.resolutionReadiness.ekodorState === 'WATCH' ? ['EKODOR alignment remains in watch posture and requires review before promotion.'] : []),
     ...(extremProfiler.resolutionReadiness.discanInKibenState === 'WATCH' ? ['DISCAN in KIBEN remains in watch posture and should be monitored before promotion.'] : []),
   ];
@@ -1180,6 +1263,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.resolutionReadiness.blockerActive ? ['extrem-resolution-readiness'] : []),
     ...(extremProfiler.semaMuSemaFormula.status === 'BLOCKED' ? ['extrem-schema-mushema'] : []),
     ...(extremProfiler.businessLicensingSignals.freezeRequired ? ['global-license-readiness'] : []),
+    ...(extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
+      ? ['kraljevski-pravni-univerzitet']
+      : []),
     ...(mobilnaLinija.activationStatus === 'BLOCKED' ? ['mobilna-linija-activation-ready'] : []),
   ];
   const auditTrailComplete = governanceEvidence.auditTrailComplete;
@@ -1189,6 +1275,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.governanceSignal.freezeRequired
     || extremProfiler.petljeSignals.summary.freezeRequired
     || extremProfiler.businessLicensingSignals.freezeRequired
+    || (extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH' && !humanReviewComplete)
+    || extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH' && !humanReviewComplete)
@@ -1234,6 +1322,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       : []),
     ...(extremProfiler.businessLicensingSignals.freezeRequired
       ? extremProfiler.businessLicensingSignals.freezeReasons.map((reason) => `global-licensing:${reason}`)
+      : []),
+    ...(extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH'
+      ? [
+        'kraljevski-pravni-univerzitet:watch',
+        ...extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.watchReasons.map((reason) => `kraljevski-pravni-univerzitet:${reason}`),
+      ]
+      : []),
+    ...(extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
+      ? [
+        'kraljevski-pravni-univerzitet:blocked',
+        ...extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.blockerReasons.map((reason) => `kraljevski-pravni-univerzitet:${reason}`),
+      ]
       : []),
     ...(extremProfiler.petljeSignals.summary.freezeRequired
       ? [
@@ -1324,6 +1424,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       blockerReasons: [...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.blockerReasons],
       watchReasons: [...extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.watchReasons],
     },
+    kraljevskiPravniUniverzitetGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      status: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status,
+      completenessScore: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.completenessScore,
+      consistencyScore: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.consistencyScore,
+      conflictScore: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.conflictScore,
+      reviewRequiredBeforePromotion: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status !== 'READY',
+      blockerReasons: [...extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.blockerReasons],
+      watchReasons: [...extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.watchReasons],
+    },
     humanReviewRequired: true,
     rollbackPlanRequired: true,
   };
@@ -1334,6 +1444,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     promotionFreeze,
     downstreamSyncComplete,
     humanReviewComplete,
+  });
+  const kraljevskiPravniUniverzitetGovernance = buildKraljevskiPravniUniverzitetGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
   });
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaGovernance({
     extremProfiler,
@@ -1400,6 +1516,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       required: true,
       status: 'PASS' as const,
       details: 'Public boundary remains encapsulated with hidden internals.',
+    },
+    {
+      id: 'kraljevski-pravni-univerzitet-governance',
+      label: 'KRALJEVSKI PRAVNI UNIVERZITET governance posture',
+      required: true,
+      status: kraljevskiPravniUniverzitetGovernance.status === 'READY'
+        ? 'PASS' as const
+        : kraljevskiPravniUniverzitetGovernance.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: kraljevskiPravniUniverzitetGovernance.reasons.join('; '),
     },
     {
       id: 'petlje-governance',
@@ -1550,6 +1677,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
     degraded,
     releaseAuditSummary,
+    kraljevskiPravniUniverzitetStatus: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status,
   });
   const spajaproTrack = buildSpajaproGovernanceTrack({
     technicalState: technicalState === 'WATCH' || technicalState === 'BLOCKED' ? technicalState : 'READY',
@@ -1627,7 +1755,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.businessLicensingSignals.globalLicenseReadinessScore',
         'extremProfiler.businessLicensingSignals.criticalGlobalGapCount',
         'extremProfiler.businessLicensingSignals.freezeRequired',
+        'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status',
+        'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.completenessScore',
+        'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.consistencyScore',
+        'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.conflictScore',
         'b2bReadiness.globalLicensing',
+        'kraljevskiPravniUniverzitetGovernance.status',
+        'kraljevskiPravniUniverzitetGovernance.waweImpact',
         'objektnoOrijentisanaProngilacija.waweImpact',
         'objektnoOrijentisanaReprodukcija.waweImpact',
         'epicElikvadenti.waweImpact',
@@ -1659,6 +1793,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       || !duetSignal.valid
       || duetSignal.status === 'DISSONANT'
       || extremProfiler.governanceSignal.freezeRequired
+      || extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
       || extremProfiler.petljeSignals.summary.freezeRequired
       || extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
@@ -1737,6 +1872,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'kpi-targets',
       description: 'Upstream surfaces satisfy evaluation ≤ 50ms and API ≤ 200ms budgets.',
       passed: degradedSources.length === 0,
+    },
+    {
+      id: 'kraljevski-pravni-univerzitet-track',
+      description: 'KRALJEVSKI PRAVNI UNIVERZITET governance remains additive, audit-safe, and promoted only through summarized EXTRONDOL outputs.',
+      passed: kraljevskiPravniUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrondol'
+        && kraljevskiPravniUniverzitetGovernance.technicalSignalSource === '/api/extrimli/extrem'
+        && typeof kraljevskiPravniUniverzitetGovernance.publicStatus === 'string'
+        && releaseAuditSummary.kraljevskiPravniUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrem',
     },
     {
       id: 'domain-strategy-lock',
@@ -2040,6 +2183,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     paymentVerification,
     extremProfiler,
     petljeGovernance,
+    kraljevskiPravniUniverzitetGovernance,
     objektnoOrijentisanaProngilacija,
     objektnoOrijentisanaReprodukcija,
     epicElikvadenti,
