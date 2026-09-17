@@ -64,8 +64,8 @@ jobs:
           assert(doc.includes('releaseReadinessScorecard') && doc.includes('canaryRingMetrics') && doc.includes('incidentPlaybook') && doc.includes('contractDriftReport') && doc.includes('governanceConformance'), 'EXTRIMLI doc must include governance additive fields');
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
-          assert(validatorWorkflow.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'validator workflow must include EXTRONDOL tests');
-          assert(externalWorkflow.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'external workflow must include EXTRONDOL tests');
+          assert(validatorWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'validator workflow must watch governance conformance workflow');
+          assert(externalWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external workflow must watch governance conformance workflow');
           NODE
 
       - name: 🧪 EXTRONDOL governance tests
