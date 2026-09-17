@@ -57,6 +57,7 @@ This repository now exposes five aligned surfaces:
 | MASTER 3 coordinated release plan | `docs/EXTRIMLI-MASTER-3.md` |
 | Validator / quality gate | `.github/workflows/extrimli-validator.yml` |
 | External GitHub governance | `.github/workflows/extrimli-external-github.yml` |
+| Developer/Create program | `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` |
 | Deploy orchestration | `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml` |
 | Downstream references | `docs/MULTI-REPO-LINKS.md` |
 | KORON overlay source | `src/lib/extrimli-koron/index.ts`, `src/app/api/extrimli/koron/route.ts` |
@@ -80,6 +81,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 ## Locked source-of-truth set
 
 - Docs: `docs/EXTRIMLI.md`, `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `docs/MULTI-REPO-LINKS.md`
+- Program doc: `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
 - Governance workflow: `.github/workflows/extrimli-external-github.yml`
 - Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
 - Quality gate: `.github/workflows/extrimli-validator.yml`
@@ -265,6 +267,7 @@ Scope boundary:
 - `FOUNDATION` → `Verzija 1`, `Verzija 2`, `Verzija 3`
 - `GOVERNANCE` → `Verzija 4`, `Verzija 5`
 - `OPERATING-MODEL` → `Verzija 6`, `Verzija 7`
+- Developer/Create operational implementation plan: `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
 
 ## EXTRIMLI Extendol unified contract (maximum functionality for all)
 
