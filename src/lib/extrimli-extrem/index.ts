@@ -28,6 +28,7 @@ import type {
   ExtrimliExtremEpicElikvadentSignal,
   ExtrimliExtremEpicElikvadentStatus,
   ExtrimliExtremPetljaSignalInput,
+  ExtrimliExtremPetljaSignalName,
   ExtrimliExtremPetljaSignalResult,
   ExtrimliExtremPetljaSignalSection,
   ExtrimliExtremPetljaSignalStatus,
@@ -847,7 +848,7 @@ function classifyPetljaSignalStatus(readinessScore: number): ExtrimliExtremPetlj
   return 'BLOCKED';
 }
 
-function toPetljaSignalIdentifier(kind: ExtrimliExtremPetljaSignalKind): string {
+function toPetljaSignalIdentifier(kind: ExtrimliExtremPetljaSignalName): string {
   return kind.replace(' PETLJA', '').toLowerCase().replaceAll(' ', '_');
 }
 
