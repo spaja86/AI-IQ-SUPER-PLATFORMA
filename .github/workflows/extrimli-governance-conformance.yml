@@ -80,6 +80,7 @@ jobs:
           );
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
+          assert(links.includes('EXTRIMLI — Developer/Create Program'), 'multi-repo links must include the Developer/Create program downstream mapping');
           assert(validatorWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'validator workflow must watch governance conformance workflow');
           assert(externalWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external workflow must watch governance conformance workflow');
           NODE

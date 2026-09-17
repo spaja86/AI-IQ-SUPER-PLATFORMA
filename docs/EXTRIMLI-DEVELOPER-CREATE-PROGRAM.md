@@ -104,9 +104,14 @@ Uvodi se pravilo **drift-zero**:
 
 ## 11) Definition of Done
 
+### Machine-checked DoD (enforced by workflows/tests)
+
 - EXTRIMLI/EXTREM/EXTRONDOL testovi prolaze
 - Governance conformance je green
+- Source-of-truth routes i drift-zero pravila ostaju usklađeni
+
+### Operational DoD (human governance gate)
+
 - Dokumentacija + downstream linkovi su ažurni
 - Human review je potvrđen
 - Rollback plan + audit summary su kompletni
-
