@@ -357,6 +357,9 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
       : normalizedStatuses.includes('WATCH')
       ? 'WATCH'
       : 'READY';
+  const publicTokenStatuses = params.promotionFreeze
+    ? (['BLOCKED', 'BLOCKED', 'BLOCKED', 'BLOCKED'] as const)
+    : normalizedStatuses;
 
   return {
     boundarySurface: 'SPAJA KOD',
@@ -366,22 +369,22 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
     tokenSummaries: [
       {
         token: 'DOKER',
-        status: normalizedStatuses[0],
+        status: publicTokenStatuses[0],
         summary: 'Downstream alignment remains explicit for linked-repo consumers.',
       },
       {
         token: 'KURAT',
-        status: normalizedStatuses[1],
+        status: publicTokenStatuses[1],
         summary: 'Technical risk is exposed only as a bounded public posture.',
       },
       {
         token: 'IZEK',
-        status: normalizedStatuses[2],
+        status: publicTokenStatuses[2],
         summary: 'Audit/review readiness is exposed without internal governance details.',
       },
       {
         token: 'DOKAR',
-        status: normalizedStatuses[3],
+        status: publicTokenStatuses[3],
         summary: 'Rollback readiness stays visible as a public-safe requirement.',
       },
     ],
