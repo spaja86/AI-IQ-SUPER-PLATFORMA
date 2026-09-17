@@ -1487,10 +1487,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...complianceBlockers.map((blocker) => `b2b:${blocker}`),
       ...rolloutSignalReasons,
     ]
+    : extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
+    ? [
+        'Ready for next WAWE stage with replay review visibility before broader rollout.',
+        ...rolloutSignalReasons,
+      ]
     : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-      || extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
-      || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
-      ? [
+    || extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
+    || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
+    ? [
         'Ready for next WAWE stage with architecture review visibility before broader rollout.',
         ...rolloutSignalReasons,
       ]
