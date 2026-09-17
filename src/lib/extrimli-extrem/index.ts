@@ -891,10 +891,14 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
     [2, 6, 8, 10],
     degradedSources,
   );
-  definitions[5] = {
-    ...definitions[5],
-    input: { ...definitions[5].input, sequence: sequenceOverride },
-  };
+  const indirektDefinitionIndex = definitions.findIndex((definition) => definition.kind === 'INDIREKT PETLJA');
+  if (indirektDefinitionIndex >= 0) {
+    const indirektDefinition = definitions[indirektDefinitionIndex];
+    definitions[indirektDefinitionIndex] = {
+      ...indirektDefinition,
+      input: { ...indirektDefinition.input, sequence: sequenceOverride },
+    };
+  }
 
   const signalResults = [
     { definition: definitions[0], result: runDokPetlja(definitions[0].input) },
