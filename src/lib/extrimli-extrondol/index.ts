@@ -1492,13 +1492,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'Ready for next WAWE stage with replay review visibility before broader rollout.',
         ...rolloutSignalReasons,
       ]
-    : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-    || extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
+    : extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
+      ? [
+          'Ready for next WAWE stage with functional energy-flow review visibility before broader rollout.',
+          ...rolloutSignalReasons,
+        ]
+      : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
     || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
-    ? [
-        'Ready for next WAWE stage with architecture review visibility before broader rollout.',
-        ...rolloutSignalReasons,
-      ]
+      ? [
+          'Ready for next WAWE stage with architecture review visibility before broader rollout.',
+          ...rolloutSignalReasons,
+        ]
       : ['Ready for next WAWE stage with governance evidence.', ...rolloutSignalReasons];
   const releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary = {
     required: true,
