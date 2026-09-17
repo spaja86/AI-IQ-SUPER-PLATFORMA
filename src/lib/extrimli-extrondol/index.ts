@@ -941,7 +941,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const scorecardPassedChecks = releaseReadinessScorecardChecks.filter((check) => check.status === 'PASS').length;
   const releaseReadinessScorecard = {
     sourceOfTruth: '/api/extrimli/extrondol' as const,
-    generatedAt: new Date().toISOString(),
+    generatedAt: paymentVerification.auditTimestamp,
     coreDomains: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL'] as const,
     sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'] as const,
     status: scorecardFailedChecks > 0 ? 'BLOCKED' as const : scorecardWarningChecks > 0 ? 'WATCH' as const : 'READY' as const,
