@@ -15,6 +15,12 @@ export type PetljaKind =
   | 'IZI PETLJA'
   | 'UK PETLJA'
   | 'ZUM PETLJA'
+  | 'DOK PETLJA'
+  | 'DIK PETLJA'
+  | 'SAR PETLJA'
+  | 'OKRED PETLJA'
+  | 'DIREKT PETLJA'
+  | 'INDIREKT PETLJA'
   | 'SPAJA PETLJA'
   | 'DURMITOR PETLJA'
   | 'UMBREL PETLJA';

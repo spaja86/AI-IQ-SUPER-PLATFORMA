@@ -18,6 +18,12 @@ import {
   runIziPetlja,
   runUkPetlja,
   runZumPetlja,
+  runDokPetlja,
+  runDikPetlja,
+  runSarPetlja,
+  runOkredPetlja,
+  runDirektPetlja,
+  runIndirektPetlja,
   runSpajaPetlja,
   runDurmitorPetlja,
   runUmbrelPetlja,
@@ -145,6 +151,54 @@ const extendedPetljaSpecs = [
     expectedOutput: 14,
     invalidInput: { start: 0, end: 3, step: -1 },
     guardInput: { start: 0, end: 100, step: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOK PETLJA',
+    run: runDokPetlja,
+    validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
+    expectedOutput: 4,
+    invalidInput: { start: 0, target: 5, step: 0 },
+    guardInput: { start: 0, target: 100, step: 2, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DIK PETLJA',
+    run: runDikPetlja,
+    validInput: { sequence: [1, 4, 6, 9], target: 8, maxDurationMs: 100 },
+    expectedOutput: 6,
+    invalidInput: { sequence: [1, NaN], target: 8 },
+    guardInput: { sequence: [1, 4, 6, 9], target: 8, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'SAR PETLJA',
+    run: runSarPetlja,
+    validInput: { start: 0, end: 4, step: 1, target: 1, maxDurationMs: 100 },
+    expectedOutput: 5,
+    invalidInput: { start: 0, end: 4, step: -1, target: 1 },
+    guardInput: { start: 0, end: 100, step: 1, target: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'OKRED PETLJA',
+    run: runOkredPetlja,
+    validInput: { start: 0, end: 6, step: 2, target: 5, maxDurationMs: 100 },
+    expectedOutput: 4,
+    invalidInput: { start: 0, end: 6, step: 0, target: 5 },
+    guardInput: { start: 0, end: 100, step: 1, target: 40, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DIREKT PETLJA',
+    run: runDirektPetlja,
+    validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
+    expectedOutput: 5,
+    invalidInput: { start: 0, target: 5, step: 0 },
+    guardInput: { start: 0, target: 100, step: 2, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'INDIREKT PETLJA',
+    run: runIndirektPetlja,
+    validInput: { start: 2, sequence: [5, 7, 6, 8], target: 10, maxDurationMs: 100 },
+    expectedOutput: 6,
+    invalidInput: { start: 2, sequence: [5, Infinity], target: 10 },
+    guardInput: { start: 2, sequence: [5, 7, 6, 8], target: 10, maxIterations: 2, maxDurationMs: 100 },
   },
 ] as const;
 
@@ -334,8 +388,14 @@ async function runTests(): Promise<void> {
       runIziPetlja(input).output,
       runUkPetlja(input).output,
       runZumPetlja(input).output,
+      runDokPetlja(input).output,
+      runDikPetlja(input).output,
+      runSarPetlja(input).output,
+      runOkredPetlja(input).output,
+      runDirektPetlja(input).output,
+      runIndirektPetlja(input).output,
     ].reduce((acc, value) => acc + value, 0);
-    assert(result.trace.length === 16, 'UMBREL trace should contain 16 parts');
+    assert(result.trace.length === 22, 'UMBREL trace should contain 22 parts');
     assertEqual(result.reason, 'invalid-input', 'UMBREL invalid-input reason should match DISABLED aggregate');
     assert(['ACTIVATED', 'DISABLED', 'DEAD'].includes(result.status), 'UMBREL status should be canonical');
     assertEqual(result.statusTrail[0]?.to, 'MONSTER', 'UMBREL should enter MONSTER first');
