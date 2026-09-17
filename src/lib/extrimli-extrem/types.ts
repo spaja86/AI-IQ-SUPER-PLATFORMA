@@ -369,7 +369,9 @@ export interface ExtrimliExtremKraljevskiPravniTrackRelationship {
     | 'governs-policy'
     | 'names-custodian'
     | 'codifies-legislative-right'
+    | 'anchored-to-charter'
     | 'constrains-citizenship-order'
+    | 'reviewed-under-policy'
     | 'permits-reviewed-enforcement';
 }
 

@@ -1033,7 +1033,7 @@ function buildKraljevskiPravniUniverzitetTrack(): ExtrimliExtremKraljevskiPravni
       owner: 'NIKOLA SPAJIĆ',
       allowedRelationships: [
         { to: 'KRALJEVSKA POLITIKA', relation: 'governs-policy' },
-        { to: 'POVELJA O ZAKONODAVNOM PRAVU', relation: 'codifies-legislative-right' },
+        { to: 'POVELJA O ZAKONODAVNOM PRAVU', relation: 'anchored-to-charter' },
         { to: 'ZAKON SILNOG', relation: 'permits-reviewed-enforcement' },
       ],
     },
@@ -1083,7 +1083,7 @@ function buildKraljevskiPravniUniverzitetTrack(): ExtrimliExtremKraljevskiPravni
       scope: 'Citizenship rights, civic conduct, unacceptable maneuvering, and escalation boundaries.',
       owner: 'KRALJEVSKA POLITIKA',
       allowedRelationships: [
-        { to: 'KRALJEVSKA POLITIKA', relation: 'governs-policy' },
+        { to: 'KRALJEVSKA POLITIKA', relation: 'reviewed-under-policy' },
         { to: 'ZAKON SILNOG', relation: 'permits-reviewed-enforcement' },
       ],
     },
