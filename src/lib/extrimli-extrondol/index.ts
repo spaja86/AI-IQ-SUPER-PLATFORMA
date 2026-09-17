@@ -1488,7 +1488,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ...rolloutSignalReasons,
     ]
     : extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-      || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       || extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
       || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH'
       ? [
