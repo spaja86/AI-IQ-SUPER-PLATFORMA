@@ -47,16 +47,22 @@ const GOAL =
   'Pivotiranje između petlji kroz segmente uz kontrolisan export/import međurezultata.';
 
 const SEGMENT_DEFAULT_LOOPS: Record<SpajaSegmentKind, PetljaKind[]> = {
-  RANGE: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA'],
-  TARGET: ['ITCH PETLJA', 'KUR PETLJA'],
-  SEQUENCE: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA'],
+  RANGE: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA', 'SAR PETLJA', 'OKRED PETLJA'],
+  TARGET: ['ITCH PETLJA', 'KUR PETLJA', 'DOK PETLJA', 'DIREKT PETLJA'],
+  SEQUENCE: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA', 'DIK PETLJA', 'INDIREKT PETLJA'],
 };
 
 const SEGMENT_ALLOWED_LOOPS: Record<SpajaSegmentKind, Set<PetljaKind>> = {
-  RANGE: new Set([...SEGMENT_DEFAULT_LOOPS.RANGE, 'SAR PETLJA', 'OKRED PETLJA']),
-  TARGET: new Set([...SEGMENT_DEFAULT_LOOPS.TARGET, 'DOK PETLJA', 'DIREKT PETLJA']),
-  SEQUENCE: new Set([...SEGMENT_DEFAULT_LOOPS.SEQUENCE, 'DIK PETLJA', 'INDIREKT PETLJA']),
+  RANGE: new Set(SEGMENT_DEFAULT_LOOPS.RANGE),
+  TARGET: new Set(SEGMENT_DEFAULT_LOOPS.TARGET),
+  SEQUENCE: new Set(SEGMENT_DEFAULT_LOOPS.SEQUENCE),
 };
+
+const LEGACY_DEFAULT_SEGMENTS: SpajaSegmentConfig[] = [
+  { segment: 'RANGE', importFromPrevious: false, loops: ['FOR PETLJA', 'NIK PETLJA', 'DOR PETLJA', 'DAR PETLJA', 'GAR PETLJA', 'UK PETLJA', 'ZUM PETLJA'] },
+  { segment: 'TARGET', importFromPrevious: true, loops: ['ITCH PETLJA', 'KUR PETLJA'] },
+  { segment: 'SEQUENCE', importFromPrevious: true, loops: ['UR PELJA', 'EXE PETLJA', 'YU PETLJA', 'ZAR PETLJA', 'DER PETLJA', 'ZUR PETLJA', 'IZI PETLJA'] },
+];
 
 const RUNNERS: Record<PetljaKind, (input: PetljaInput) => PetljaResult> = {
   'FOR PETLJA': runForPetlja,
@@ -97,11 +103,7 @@ function resolveSegments(input: PetljaInput): SpajaSegmentConfig[] {
     return input.spajaSegments;
   }
 
-  return [
-    { segment: 'RANGE', importFromPrevious: false },
-    { segment: 'TARGET', importFromPrevious: true },
-    { segment: 'SEQUENCE', importFromPrevious: true },
-  ];
+  return LEGACY_DEFAULT_SEGMENTS;
 }
 
 function computeExportValue(part: PetljaResult, fields: SpajaTransferField[]): number | undefined {
