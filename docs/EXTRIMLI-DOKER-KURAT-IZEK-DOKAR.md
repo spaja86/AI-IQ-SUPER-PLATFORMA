@@ -17,7 +17,7 @@ This track adds an ordered four-token overlay to EXTRIMLI without changing the l
 ## Locked token sequence
 
 | Order | Token | Stable meaning | Owner | Governance use |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 1 | `DOKER` | Downstream synchronization | EXTREM signal, EXTRONDOL evidence | Keeps `spaja86/IO-OPENUI-AO` explicit |
 | 2 | `KURAT` | Technical conflict/freeze risk | EXTREM | Drives WAWE freeze/watch posture |
 | 3 | `IZEK` | Audit and human-review checkpoint | EXTRONDOL | Binds release audit + review evidence |

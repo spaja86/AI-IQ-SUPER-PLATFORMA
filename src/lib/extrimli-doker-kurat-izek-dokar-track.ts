@@ -141,8 +141,8 @@ const DOKER_KURAT_IZEK_DOKAR_VOCABULARY: ExtrimliDokerKuratIzekDokarVocabulary =
 };
 
 function statusFromConflict(conflictIntensity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL'): 'READY' | 'WATCH' | 'BLOCKED' {
-  if (conflictIntensity === 'HIGH' || conflictIntensity === 'CRITICAL') return 'BLOCKED';
-  if (conflictIntensity === 'MODERATE') return 'WATCH';
+  if (conflictIntensity === 'CRITICAL') return 'BLOCKED';
+  if (conflictIntensity === 'MODERATE' || conflictIntensity === 'HIGH') return 'WATCH';
   return 'READY';
 }
 
