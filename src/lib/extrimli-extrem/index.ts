@@ -145,6 +145,7 @@ function parsePercentEnvWithAliases(
   invalidFallback: number,
   degradedSources: string[],
 ): number {
+  // Names are ordered by precedence: canonical key first, compatibility aliases after it.
   const selectedName = names.find((name) => {
     const raw = process.env[name];
     return typeof raw !== 'undefined' && raw.trim() !== '';
