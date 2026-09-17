@@ -168,6 +168,7 @@ function classifyObjektnaProngilacijaStatus(score: number): ExtrimliExtremObjekt
 
 function buildObjektnaProngilacijaSignal(
   profileInput: ExtrimliExtremObjektnaProngilacijaProfileInput,
+  degraded: boolean,
 ): ExtrimliExtremObjektnaProngilacijaSignal {
   const score = round(
     clamp(
@@ -261,7 +262,7 @@ function buildObjektnaProngilacijaSignal(
       score,
       status,
       readinessSignal: status === 'READY',
-      degraded: status !== 'READY',
+      degraded,
       watchReasons,
       blockerReasons,
     },
@@ -560,7 +561,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
   const resolutionInput = resolveResolutionInput(degradedSources);
-  const objektnaProngilacijaInput = resolveObjektnaProngilacijaInput(degradedSources);
+  const objektnaProngilacijaDegradedSources: string[] = [];
+  const objektnaProngilacijaInput = resolveObjektnaProngilacijaInput(objektnaProngilacijaDegradedSources);
+  degradedSources.push(...objektnaProngilacijaDegradedSources);
   const mobilnaLinijaInput = resolveMobilnaLinijaInput(degradedSources);
   const mobilnaLinija = buildMobilnaLinijaSection(
     mobilnaLinijaInput,
@@ -584,7 +587,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const conflictIntensity = classifyConflict(conflictScore);
   const optimizationTier = mapOptimizationTier(conflictIntensity);
   const businessLicensingSignals = buildBusinessLicensingSignals();
-  const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(objektnaProngilacijaInput);
+  const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
+    objektnaProngilacijaInput,
+    objektnaProngilacijaDegradedSources.length > 0,
+  );
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
     clamp(
@@ -645,7 +651,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || !withinTargets
     || blockerActive
     || businessLicensingSignals.freezeRequired
-    || objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
     || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';
@@ -663,7 +668,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? [`Objektno orijentisana prongilacija remains in watch posture: ${objektnoOrijentisanaProngilacija.readiness.watchReasons.join(', ') || 'review required'}`]
       : []),
     ...(objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
-      ? [`Objektno orijentisana prongilacija blocks promotion: ${objektnoOrijentisanaProngilacija.readiness.blockerReasons.join(', ') || 'object-state signal is blocked'}`]
+      ? [`Objektno orijentisana prongilacija requires EXTRONDOL promotion review: ${objektnoOrijentisanaProngilacija.readiness.blockerReasons.join(', ') || 'object-state signal is blocked'}`]
       : []),
     ...(semaMuSemaFormula.status === 'BLOCKED'
       ? [`ŠEMA formula gate blocked: ${semaMuSemaFormula.blockerReasons.join('; ') || 'MUŠEMA validation failed.'}`]

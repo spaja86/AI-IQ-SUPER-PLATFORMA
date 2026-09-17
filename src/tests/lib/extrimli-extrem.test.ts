@@ -180,7 +180,7 @@ async function runTests(): Promise<void> {
     });
   });
 
-  await test('objektno orijentisana prongilacija degrades safely and freezes on invalid object-state inputs', async () => {
+  await test('objektno orijentisana prongilacija degrades safely without forcing EXTREM freeze on invalid object-state inputs', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT: 'NaN',
       EXTRIMLI_EXTREM_METHOD_BEHAVIOR_COHESION_PERCENT: '10',
@@ -190,9 +190,13 @@ async function runTests(): Promise<void> {
     }, () => {
       const report = getExtrimliExtremProfilerReport();
       assert(report.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED', 'object-oriented prongilacija should block on invalid/low inputs');
+      assert(report.objektnoOrijentisanaProngilacija.readiness.degraded, 'invalid object-oriented prongilacija inputs should degrade safely');
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_OBJECT_STATE_INTEGRITY_PERCENT'), 'invalid object state input should be tracked');
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_INSTANCE_CLARITY_PERCENT'), 'invalid instance clarity input should be tracked');
-      assert(report.governanceSignal.freezeRequired, 'blocked object-oriented prongilacija should freeze governance');
+      assert(
+        report.governanceSignal.reasons.some((reason) => reason.includes('Objektno orijentisana prongilacija requires EXTRONDOL promotion review')),
+        'blocked object-oriented prongilacija should request EXTRONDOL review instead of forcing EXTREM freeze',
+      );
       assert(report.acceptanceCriteria.some((item) => item.id === 'objektno-orijentisana-prongilacija-lock' && item.passed), 'object-oriented prongilacija lock criterion must pass');
     });
   });
