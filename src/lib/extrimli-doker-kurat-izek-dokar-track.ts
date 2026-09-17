@@ -346,9 +346,9 @@ export function buildDokerKuratIzekDokarPublicBoundaryStatus(params: {
         return 'READY' as const;
       case 'READY':
         return 'READY' as const;
-      default:
-        return 'BLOCKED' as const;
     }
+    const unreachableStatus: never = state.status;
+    return unreachableStatus;
   });
   const publicStatus = params.promotionFreeze
     ? 'BLOCKED'
