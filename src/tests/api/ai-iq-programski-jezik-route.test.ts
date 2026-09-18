@@ -80,9 +80,10 @@ async function runTests(): Promise<void> {
     assert(response.headers.get('X-AIIQ-Lang-Valid') === 'true', 'missing valid header');
     assert(elapsed <= AIIQ_LANG_API_RESPONSE_MAX_MS, `evaluate response ${elapsed.toFixed(1)}ms exceeds ${AIIQ_LANG_API_RESPONSE_MAX_MS}ms`);
 
-    const body = await response.json() as { data: { valid: boolean; status: string } };
+    const body = await response.json() as { data: { valid: boolean; status: string; integrationProfile: { profileId: string } } };
     assert(body.data.valid, 'result should be valid');
     assert(['READY', 'AI_NATIVE_READY'].includes(body.data.status), `unexpected status: ${body.data.status}`);
+    assert(body.data.integrationProfile.profileId === 'EXTRIMLI-EXTRONDOL-EXTREM', 'missing additive integration profile');
   });
 
   await test('POST /evaluate returns 400 for shallow shape mismatch', async () => {

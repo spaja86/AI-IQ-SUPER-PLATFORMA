@@ -5,12 +5,15 @@ export { evaluateAiiqLanguage, compileAiiqLanguage, getAiiqLanguageHealthReport,
 export { setAiiqLanguageHeaders } from './route-utils';
 
 export type {
+  AiiqIntegrationSignalStatus,
+  AiiqIntegrationWaweStage,
   AiiqLanguageAction,
   AiiqLanguageAstNode,
   AiiqLanguageCompileInput,
   AiiqLanguageCompileResult,
   AiiqLanguageEvaluateInput,
   AiiqLanguageEvaluateResult,
+  AiiqLanguageExtrimliIntegrationProfile,
   AiiqLanguageHealthReport,
   AiiqLanguageMode,
   AiiqLanguageStatus,

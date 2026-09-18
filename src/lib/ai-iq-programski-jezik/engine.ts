@@ -2,12 +2,15 @@
 // Kompanija SPAJA — Digitalna Industrija
 
 import type {
+  AiiqIntegrationSignalStatus,
+  AiiqIntegrationWaweStage,
   AiiqLanguageAction,
   AiiqLanguageAstNode,
   AiiqLanguageCompileInput,
   AiiqLanguageCompileResult,
   AiiqLanguageEvaluateInput,
   AiiqLanguageEvaluateResult,
+  AiiqLanguageExtrimliIntegrationProfile,
   AiiqLanguageHealthReport,
   AiiqLanguageMode,
   AiiqLanguageStatus,
@@ -32,6 +35,11 @@ let evaluations = 0;
 let compilations = 0;
 let lastStatus: AiiqLanguageStatus | null = null;
 let lastEvaluatedAt: string | null = null;
+
+const DOM_GROUP = ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA'] as const;
+const DIK_GROUP = ['DIK PETLJA'] as const;
+const DAK_GROUP = ['DAKOR'] as const;
+const DUK_GROUP = ['DUKAR'] as const;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -101,12 +109,116 @@ function baseExecutionModel() {
   };
 }
 
+function toSignalStatus(score: number, forceBlocked: boolean): AiiqIntegrationSignalStatus {
+  if (forceBlocked) return 'BLOCKED';
+  if (score >= 82) return 'READY';
+  return 'WATCH';
+}
+
+function mergeSignalStatus(...statuses: AiiqIntegrationSignalStatus[]): AiiqIntegrationSignalStatus {
+  if (statuses.some((status) => status === 'BLOCKED')) return 'BLOCKED';
+  if (statuses.every((status) => status === 'READY')) return 'READY';
+  return 'WATCH';
+}
+
+function nextWawe(stage: AiiqIntegrationWaweStage): AiiqIntegrationWaweStage {
+  if (stage === 'WAWE-1') return 'WAWE-2';
+  if (stage === 'WAWE-2') return 'WAWE-3';
+  if (stage === 'WAWE-3') return 'WAWE-4';
+  if (stage === 'WAWE-4') return 'WAWE-5';
+  return 'WAWE-5';
+}
+
+function resolveWaweFromOverall(overall: AiiqIntegrationSignalStatus): AiiqIntegrationWaweStage {
+  if (overall === 'BLOCKED') return 'WAWE-1';
+  if (overall === 'WATCH') return 'WAWE-2';
+  return 'WAWE-4';
+}
+
+function buildIntegrationProfile(params: {
+  surface: '/api/ai-iq-programski-jezik/evaluate' | '/api/ai-iq-programski-jezik/compile';
+  dom: AiiqIntegrationSignalStatus;
+  dik: AiiqIntegrationSignalStatus;
+  dak: AiiqIntegrationSignalStatus;
+  duk: AiiqIntegrationSignalStatus;
+  promotionFreeze: boolean;
+  performanceWithinTargets: boolean;
+  securityBoundariesPreserved: boolean;
+}): AiiqLanguageExtrimliIntegrationProfile {
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk);
+  const currentWawe = resolveWaweFromOverall(overall);
+  return {
+    profileId: 'EXTRIMLI-EXTRONDOL-EXTREM',
+    additiveOnly: true,
+    contractMutation: 'none',
+    scope: {
+      aiIqLanguage: params.surface,
+      extrem: '/api/extrimli/extrem',
+      extrondol: '/api/extrimli/extrondol',
+    },
+    signalMapping: {
+      DOM: {
+        source: '/api/extrimli/extrem',
+        group: DOM_GROUP,
+      },
+      DIK: {
+        source: '/api/extrimli/extrem',
+        group: DIK_GROUP,
+      },
+      DAK: {
+        source: '/api/extrimli/extrondol',
+        group: DAK_GROUP,
+        role: 'promotion-control',
+      },
+      DUK: {
+        source: '/api/extrimli/extrondol',
+        group: DUK_GROUP,
+        role: 'human-review-control',
+      },
+    },
+    layerResponsibilities: {
+      extrem: 'technical-signal-engine-readiness-conflict-profiling',
+      extrondol: 'wawe-governance-orchestrator',
+      aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer',
+    },
+    unifiedSignalStatus: {
+      dom: params.dom,
+      dik: params.dik,
+      dak: params.dak,
+      duk: params.duk,
+      overall,
+    },
+    governanceLink: {
+      sourceOfTruth: '/api/extrimli/extrondol',
+      rolloutSnapshot: {
+        currentWawe,
+        eligibleNextWawe: params.promotionFreeze ? currentWawe : nextWawe(currentWawe),
+        promotionFreeze: params.promotionFreeze,
+      },
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamReference: {
+        linkedRepo: 'spaja86/IO-OPENUI-AO',
+        required: true,
+      },
+    },
+    acceptanceCriteria: {
+      deterministicOutput: true,
+      edgeCaseValidation: true,
+      preserveExistingContracts: true,
+      performanceWithinTargets: params.performanceWithinTargets,
+      securityBoundariesPreserved: params.securityBoundariesPreserved,
+    },
+  };
+}
+
 function invalidEvaluateResult(
   referenceId: string | undefined,
   goal: string | undefined,
   warning: string,
   start: number,
 ): AiiqLanguageEvaluateResult {
+  const durationMs = round2(performance.now() - start);
   record(null, 'evaluate');
   return {
     referenceId: referenceId ?? 'n/a',
@@ -121,9 +233,19 @@ function invalidEvaluateResult(
     recommendedAction: 'HARDEN_GUARDS',
     warnings: [warning],
     executionModel: baseExecutionModel(),
+    integrationProfile: buildIntegrationProfile({
+      surface: '/api/ai-iq-programski-jezik/evaluate',
+      dom: 'BLOCKED',
+      dik: 'BLOCKED',
+      dak: 'BLOCKED',
+      duk: 'BLOCKED',
+      promotionFreeze: true,
+      performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
+      securityBoundariesPreserved: false,
+    }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
-    durationMs: round2(performance.now() - start),
+    durationMs,
   };
 }
 
@@ -132,6 +254,7 @@ function invalidCompileResult(
   warning: string,
   start: number,
 ): AiiqLanguageCompileResult {
+  const durationMs = round2(performance.now() - start);
   record(null, 'compile');
   return {
     referenceId: referenceId ?? 'n/a',
@@ -146,9 +269,19 @@ function invalidCompileResult(
     executionMode: 'DETERMINISTIC_ONLY',
     warnings: [warning],
     compiledProgram: '',
+    integrationProfile: buildIntegrationProfile({
+      surface: '/api/ai-iq-programski-jezik/compile',
+      dom: 'BLOCKED',
+      dik: 'BLOCKED',
+      dak: 'BLOCKED',
+      duk: 'BLOCKED',
+      promotionFreeze: true,
+      performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
+      securityBoundariesPreserved: false,
+    }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
-    durationMs: round2(performance.now() - start),
+    durationMs,
   };
 }
 
@@ -295,6 +428,30 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     warnings.push('Visok explainability zahtev traži veći ruleCoverage za stabilno objašnjenje.');
   }
 
+  const domStatus = toSignalStatus(deterministicReadiness, status === 'BLOCKED');
+  const dikStatus = toSignalStatus(aiLayerReadiness, status === 'BLOCKED');
+  const dakStatus = status === 'BLOCKED'
+    ? 'BLOCKED'
+    : overallScore >= 82 && safetyScore >= 70
+      ? 'READY'
+      : 'WATCH';
+  const dukStatus = status === 'BLOCKED'
+    ? 'BLOCKED'
+    : (input.riskLevel >= 80 || warnings.some((warning) => warning.includes('human review')))
+      ? 'WATCH'
+      : 'READY';
+  const durationMs = round2(performance.now() - start);
+  const integrationProfile = buildIntegrationProfile({
+    surface: '/api/ai-iq-programski-jezik/evaluate',
+    dom: domStatus,
+    dik: dikStatus,
+    dak: dakStatus,
+    duk: dukStatus,
+    promotionFreeze: status === 'BLOCKED' || dakStatus === 'BLOCKED',
+    performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
+    securityBoundariesPreserved: input.securityPolicyScore >= 60 && input.fallbackConfigured,
+  });
+
   record(status, 'evaluate');
 
   return {
@@ -310,9 +467,10 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     recommendedAction,
     warnings,
     executionModel: baseExecutionModel(),
+    integrationProfile,
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: true,
-    durationMs: round2(performance.now() - start),
+    durationMs,
   };
 }
 
@@ -397,6 +555,30 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     warnings.push(`Feature flag '${AIIQ_LANG_FEATURE_FLAG}' nije aktivan; AI sloj ostaje ugašen.`);
   }
 
+  const domStatus = toSignalStatus(semanticScore, !securityPass);
+  const dikStatus = toSignalStatus(syntaxScore, !securityPass);
+  const dakStatus = !securityPass
+    ? 'BLOCKED'
+    : readinessScore >= 82 && executionMode !== 'DETERMINISTIC_ONLY'
+      ? 'READY'
+      : 'WATCH';
+  const dukStatus = !securityPass
+    ? 'BLOCKED'
+    : warnings.some((warning) => warning.includes('human review') || warning.includes('Feature flag'))
+      ? 'WATCH'
+      : 'READY';
+  const durationMs = round2(performance.now() - start);
+  const integrationProfile = buildIntegrationProfile({
+    surface: '/api/ai-iq-programski-jezik/compile',
+    dom: domStatus,
+    dik: dikStatus,
+    dak: dakStatus,
+    duk: dukStatus,
+    promotionFreeze: status === 'BLOCKED' || dakStatus === 'BLOCKED',
+    performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
+    securityBoundariesPreserved: securityPass,
+  });
+
   const compiledProgram = JSON.stringify(
     {
       contractVersion: AIIQ_LANG_CONTRACT_VERSION,
@@ -424,9 +606,10 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     executionMode,
     warnings,
     compiledProgram,
+    integrationProfile,
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: true,
-    durationMs: round2(performance.now() - start),
+    durationMs,
   };
 }
 
