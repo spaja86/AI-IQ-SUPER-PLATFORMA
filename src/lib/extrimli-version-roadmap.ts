@@ -355,32 +355,69 @@ function hasSameOrderedValues(
     && left.every((value, index) => value === right[index]);
 }
 
+function toExtrimliDeveloperCreateLockComparable(
+  lock: ExtrimliDeveloperCreateProgramLock,
+) {
+  return {
+    sourceProgramDoc: lock.sourceProgramDoc,
+    additiveOnly: lock.additiveOnly,
+    sourceOfTruthRoutes: [...lock.sourceOfTruthRoutes],
+    lockedCoreArtifacts: [...lock.lockedCoreArtifacts],
+    ownershipBoundary: {
+      extrimli: lock.ownershipBoundary.extrimli,
+      extrem: lock.ownershipBoundary.extrem,
+      extrondol: lock.ownershipBoundary.extrondol,
+      dok: lock.ownershipBoundary.dok,
+      dik: lock.ownershipBoundary.dik,
+      dak: lock.ownershipBoundary.dak,
+      duk: lock.ownershipBoundary.duk,
+      spajaKod: lock.ownershipBoundary.spajaKod,
+    },
+    driftZeroLayers: [...lock.driftZeroLayers],
+    realizationSequence: [...lock.realizationSequence],
+    expansionTracks: [...lock.expansionTracks],
+    definitionOfDone: {
+      additiveOnlyRequired: lock.definitionOfDone.additiveOnlyRequired,
+      dokDikDakDukSplitLocked: lock.definitionOfDone.dokDikDakDukSplitLocked,
+      sourceOfTruthRoutesStable: lock.definitionOfDone.sourceOfTruthRoutesStable,
+      docsTypesRoutesTestsWorkflowsAligned: lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned,
+      downstreamReferenceRequired: lock.definitionOfDone.downstreamReferenceRequired,
+      humanReviewRequired: lock.definitionOfDone.humanReviewRequired,
+      securityRequired: lock.definitionOfDone.securityRequired,
+      rollbackRequired: lock.definitionOfDone.rollbackRequired,
+    },
+  };
+}
+
 export function isExtrimliDeveloperCreateLockAligned(
   lock: ExtrimliDeveloperCreateProgramLock,
 ): boolean {
-  return lock.sourceProgramDoc === EXTRIMLI_DEVELOPER_CREATE_LOCK.sourceProgramDoc
-    && lock.additiveOnly === EXTRIMLI_DEVELOPER_CREATE_LOCK.additiveOnly
-    && hasSameOrderedValues(lock.sourceOfTruthRoutes, EXTRIMLI_DEVELOPER_CREATE_LOCK.sourceOfTruthRoutes)
-    && hasSameOrderedValues(lock.lockedCoreArtifacts, EXTRIMLI_DEVELOPER_CREATE_LOCK.lockedCoreArtifacts)
-    && lock.ownershipBoundary.extrimli === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.extrimli
-    && lock.ownershipBoundary.extrem === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.extrem
-    && lock.ownershipBoundary.extrondol === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.extrondol
-    && lock.ownershipBoundary.dok === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.dok
-    && lock.ownershipBoundary.dik === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.dik
-    && lock.ownershipBoundary.dak === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.dak
-    && lock.ownershipBoundary.duk === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.duk
-    && lock.ownershipBoundary.spajaKod === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.spajaKod
-    && hasSameOrderedValues(lock.driftZeroLayers, EXTRIMLI_DEVELOPER_CREATE_LOCK.driftZeroLayers)
-    && hasSameOrderedValues(lock.realizationSequence, EXTRIMLI_DEVELOPER_CREATE_LOCK.realizationSequence)
-    && hasSameOrderedValues(lock.expansionTracks, EXTRIMLI_DEVELOPER_CREATE_LOCK.expansionTracks)
-    && lock.definitionOfDone.additiveOnlyRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.additiveOnlyRequired
-    && lock.definitionOfDone.dokDikDakDukSplitLocked === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.dokDikDakDukSplitLocked
-    && lock.definitionOfDone.sourceOfTruthRoutesStable === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.sourceOfTruthRoutesStable
-    && lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
-    && lock.definitionOfDone.downstreamReferenceRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.downstreamReferenceRequired
-    && lock.definitionOfDone.humanReviewRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.humanReviewRequired
-    && lock.definitionOfDone.securityRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.securityRequired
-    && lock.definitionOfDone.rollbackRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.rollbackRequired;
+  const normalizedLock = toExtrimliDeveloperCreateLockComparable(lock);
+  const normalizedCanonicalLock = toExtrimliDeveloperCreateLockComparable(EXTRIMLI_DEVELOPER_CREATE_LOCK);
+
+  return normalizedLock.sourceProgramDoc === normalizedCanonicalLock.sourceProgramDoc
+    && normalizedLock.additiveOnly === normalizedCanonicalLock.additiveOnly
+    && hasSameOrderedValues(normalizedLock.sourceOfTruthRoutes, normalizedCanonicalLock.sourceOfTruthRoutes)
+    && hasSameOrderedValues(normalizedLock.lockedCoreArtifacts, normalizedCanonicalLock.lockedCoreArtifacts)
+    && normalizedLock.ownershipBoundary.extrimli === normalizedCanonicalLock.ownershipBoundary.extrimli
+    && normalizedLock.ownershipBoundary.extrem === normalizedCanonicalLock.ownershipBoundary.extrem
+    && normalizedLock.ownershipBoundary.extrondol === normalizedCanonicalLock.ownershipBoundary.extrondol
+    && normalizedLock.ownershipBoundary.dok === normalizedCanonicalLock.ownershipBoundary.dok
+    && normalizedLock.ownershipBoundary.dik === normalizedCanonicalLock.ownershipBoundary.dik
+    && normalizedLock.ownershipBoundary.dak === normalizedCanonicalLock.ownershipBoundary.dak
+    && normalizedLock.ownershipBoundary.duk === normalizedCanonicalLock.ownershipBoundary.duk
+    && normalizedLock.ownershipBoundary.spajaKod === normalizedCanonicalLock.ownershipBoundary.spajaKod
+    && hasSameOrderedValues(normalizedLock.driftZeroLayers, normalizedCanonicalLock.driftZeroLayers)
+    && hasSameOrderedValues(normalizedLock.realizationSequence, normalizedCanonicalLock.realizationSequence)
+    && hasSameOrderedValues(normalizedLock.expansionTracks, normalizedCanonicalLock.expansionTracks)
+    && normalizedLock.definitionOfDone.additiveOnlyRequired === normalizedCanonicalLock.definitionOfDone.additiveOnlyRequired
+    && normalizedLock.definitionOfDone.dokDikDakDukSplitLocked === normalizedCanonicalLock.definitionOfDone.dokDikDakDukSplitLocked
+    && normalizedLock.definitionOfDone.sourceOfTruthRoutesStable === normalizedCanonicalLock.definitionOfDone.sourceOfTruthRoutesStable
+    && normalizedLock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned === normalizedCanonicalLock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
+    && normalizedLock.definitionOfDone.downstreamReferenceRequired === normalizedCanonicalLock.definitionOfDone.downstreamReferenceRequired
+    && normalizedLock.definitionOfDone.humanReviewRequired === normalizedCanonicalLock.definitionOfDone.humanReviewRequired
+    && normalizedLock.definitionOfDone.securityRequired === normalizedCanonicalLock.definitionOfDone.securityRequired
+    && normalizedLock.definitionOfDone.rollbackRequired === normalizedCanonicalLock.definitionOfDone.rollbackRequired;
 }
 
 export function getExtrimliVersionRoadmap(): ExtrimliVersionRoadmap {
