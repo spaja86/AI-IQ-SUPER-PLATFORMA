@@ -1954,6 +1954,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
       ? [`FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA blocked WAWE progression: ${funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.blockerReasons.join('; ') || 'functional energy readiness failed.'}`]
       : []),
+    ...(funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH'
+      ? ['FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA requires elevated thought-flow review before wider WAWE progression.']
+      : []),
+    ...(funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
+      ? [`FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA blocked WAWE progression: ${funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.blockerReasons.join('; ') || 'elevated thought-flow readiness failed.'}`]
+      : []),
     ...(funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'WATCH'
       ? ['FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA requires explicit thought-flow review before wider WAWE progression.']
       : []),
