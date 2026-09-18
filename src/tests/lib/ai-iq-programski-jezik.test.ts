@@ -192,6 +192,7 @@ async function runTests(): Promise<void> {
 
     assert(result.valid, 'compile should stay valid with partial AST');
     assert(result.warnings.some((warning) => warning.includes('unsupported keyword: DOM')), 'must warn on invalid DOM token');
+    assert(result.integrationProfile.unifiedSignalStatus.dik === 'WATCH', 'DIK status should degrade on malformed token syntax');
     assert(result.integrationProfile.additiveOnly, 'integration must remain additive-only');
   });
 
