@@ -1,6 +1,7 @@
 import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
@@ -134,6 +135,20 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected elevated thought-flow status');
     assert(Number.isFinite(signal.readiness.score), 'elevated thought-flow score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'elevated thought-flow score must be bounded');
+  });
+
+  await test('default report exposes FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.funkcionalnoProgramiranjeEksplicitnogMisaonogToka;
+    assert(signal.term === 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA', 'explicit thought-flow term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'explicit thought-flow contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'explicit thought-flow source mismatch');
+    assert(signal.meaningLock.spellingDecision === 'exact-user-term-locked', 'explicit thought-flow spelling lock mismatch');
+    assert(signal.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'explicit thought-flow scope lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-explicit-thought-signal', 'explicit thought-flow EXTREM ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected explicit thought-flow status');
+    assert(Number.isFinite(signal.readiness.score), 'explicit thought-flow score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'explicit thought-flow score must be bounded');
   });
 
   await test('default report exposes FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA as additive EXTREM signal', () => {
@@ -380,6 +395,28 @@ async function runTests(): Promise<void> {
       assert(signal.readiness.blockerReasons.length >= 1, 'blocked functional energy-flow signal should keep blocker reasons');
       assert(report.governanceSignal.freezeRequired, 'blocked functional energy-flow signal should freeze governance');
       assert(report.acceptanceCriteria.some((item) => item.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-lock' && item.passed), 'functional energy-flow lock criterion must pass');
+    });
+  });
+
+  await test('explicit thought-flow signal degrades safely with canonical fallback and bounded readiness', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_EKSPLICITNI_MISAONI_TOK_TRACEABILITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_EKSPLICITNA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT: 'Infinity',
+      EXTRIMLI_EXTREM_EKSPLICITNO_REZONOVANJE_DETERMINISM_PERCENT: '-10',
+      EXTRIMLI_EXTREM_EKSPLICITNI_VOCABULARY_ALIGNMENT_PERCENT: '200',
+      EXTRIMLI_EXTREM_EKSPLICITNI_CONFLICT_PRESSURE_PERCENT: 'NaN',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const signal = report.funkcionalnoProgramiranjeEksplicitnogMisaonogToka;
+      assert(signal.readiness.degraded, 'explicit thought-flow signal should degrade safely');
+      assert(signal.profileInput.explicitThoughtFlowTraceabilityPercent === 90, 'invalid explicit traceability should fallback to default');
+      assert(signal.profileInput.functionalExplicitTransformationCohesionPercent === 86, 'invalid explicit transformation cohesion should fallback to default');
+      assert(signal.profileInput.explicitReasoningDeterminismPercent === 0, 'negative explicit determinism should clamp to 0');
+      assert(signal.profileInput.vocabularyAlignmentPercent === 100, 'out-of-range vocabulary alignment should clamp to 100');
+      assert(signal.profileInput.conflictPressurePercent === 17, 'invalid conflict pressure should fallback to default');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_EKSPLICITNI_MISAONI_TOK_TRACEABILITY_PERCENT'), 'invalid explicit traceability input should be tracked');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_EKSPLICITNI_CONFLICT_PRESSURE_PERCENT'), 'invalid explicit conflict pressure input should be tracked');
+      assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'explicit thought-flow score must stay bounded');
     });
   });
 
