@@ -2803,7 +2803,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       duk: {
         token: 'DUKAR',
         role: 'human-review',
-        status: freezeRequired ? 'BLOCKED' : 'WATCH',
+        status: freezeRequired ? 'BLOCKED' : 'READY',
       },
     },
     checks: {
