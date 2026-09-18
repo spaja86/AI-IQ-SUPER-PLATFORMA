@@ -2271,6 +2271,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
     funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score,
     funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score,
+    funkionalnoProgramiranjePravnogMisaonogToka.readiness.score,
   ];
   const objectScores = [
     objektnoOrijentisanaProngilacija.readiness.score,
