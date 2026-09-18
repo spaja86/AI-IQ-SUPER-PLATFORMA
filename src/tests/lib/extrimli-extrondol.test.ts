@@ -35,6 +35,7 @@ import {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
+  EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -45,6 +46,7 @@ import {
   getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment,
   getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
+  getProporcionalnoProgramiranjeAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
 import {
@@ -268,6 +270,22 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.funkionalnoProgramiranjePravnogMisaonogTokaStatus === report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status, 'SPAJA KOD legal-functional summary mismatch');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkionalno-programiranje-pravnog-misaonog-toka-governance'), 'legal-functional scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkionalno-programiranje-pravnog-misaonog-toka-governance' && item.passed), 'legal-functional acceptance criterion must pass');
+  });
+
+  await test('report maps PROPORCIONALNO PROGRAMIRANJE into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.proporcionalnoProgramiranje.term === 'PROPORCIONALNO PROGRAMIRANJE', 'proportional programming term mismatch');
+    assert(report.proporcionalnoProgramiranje.contractVersion === EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION, 'proportional programming contract mismatch');
+    assert(report.proporcionalnoProgramiranje.technicalSignalSource === '/api/extrimli/extrem', 'proportional programming technical source mismatch');
+    assert(report.proporcionalnoProgramiranje.governanceVisibility === 'audit-safe-readiness-only', 'proportional programming visibility mismatch');
+    assert(report.proporcionalnoProgramiranje.waweImpact.currentWawe === report.rollout.currentWawe, 'proportional programming WAWE mismatch');
+    assert(report.releaseAuditSummary.proporcionalnoProgramiranjeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'proportional programming audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.proporcionalnoProgramiranje.readiness.status'), 'proportional programming status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('proporcionalnoProgramiranje.waweImpact'), 'proportional programming WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('proporcionalnoProgramiranje'), 'proportional programming governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.proporcionalnoProgramiranjeStatus === report.extremProfiler.proporcionalnoProgramiranje.readiness.status, 'SPAJA KOD proportional programming summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'proporcionalno-programiranje-governance'), 'proportional programming scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'proporcionalno-programiranje-governance' && item.passed), 'proportional programming acceptance criterion must pass');
   });
 
   await test('report maps objektno orijentisana reprodukcija into WAWE governance and downstream sync', () => {
@@ -518,6 +536,9 @@ async function runTests(): Promise<void> {
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     );
+    const proporcionalnoProgramiranjeAdjustment = getProporcionalnoProgramiranjeAdjustment(
+      report.extremProfiler.proporcionalnoProgramiranje.readiness.status,
+    );
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -532,6 +553,7 @@ async function runTests(): Promise<void> {
           + funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
+          + proporcionalnoProgramiranjeAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
           + petljeAdjustment
