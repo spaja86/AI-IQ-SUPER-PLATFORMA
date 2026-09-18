@@ -188,6 +188,7 @@ async function runTests(): Promise<void> {
     assert(report.zelezaraPretplataGovernance.term === 'ŽELEZARA PRETPLATA IDENTITET', 'Železara governance term mismatch');
     assert(report.zelezaraPretplataGovernance.sourceOfTruth === '/api/extrimli/extrondol', 'Železara governance source mismatch');
     assert(report.zelezaraPretplataGovernance.technicalSignalSource === '/api/extrimli/extrem', 'Železara technical source mismatch');
+    assert(report.zelezaraPretplataGovernance.identityStatus === report.extremProfiler.zelezaraPretplataIdentityTrack.readiness.status, 'Železara identity status mismatch');
     assert(report.zelezaraPretplataGovernance.subscriberIdentity.canonicalLegalName === 'Železara d.o.o. Smederevo', 'canonical legal name mismatch');
     assert(report.zelezaraPretplataGovernance.subscriberIdentity.legacyReturnName === 'Železara', 'legacy return name mismatch');
     assert(report.zelezaraPretplataGovernance.subscriberIdentity.allowedAliases.includes('HBIS'), 'HBIS alias missing');
@@ -234,7 +235,9 @@ async function runTests(): Promise<void> {
         humanReviewComplete: true,
       });
       assert(report.zelezaraPretplataGovernance.status === 'WATCH', 'Železara governance should stay WATCH when review warnings remain');
+      assert(report.zelezaraPretplataGovernance.identityStatus === 'WATCH', 'Železara identity status should stay WATCH');
       assert(report.zelezaraPretplataGovernance.blockerReasons.length === 0, 'WATCH posture should not add blockers');
+      assert(report.zelezaraPretplataGovernance.activationGateReasons.length === 0, 'WATCH posture should not add activation blockers');
       assert(report.zelezaraPretplataGovernance.warnings.some((reason) => reason.includes('Allowed alias coverage remains incomplete')), 'WATCH posture should preserve alias coverage warning');
       assert(report.zelezaraPretplataGovernance.reasons.includes(`governance:wawe-context-${report.rollout.currentWawe}-to-${report.rollout.eligibleNextWawe}`), 'WATCH posture should retain WAWE context');
       assert(report.rollout.reasons.includes('zelezara-pretplata:watch'), 'rollout reasons should include Železara WATCH marker');
@@ -1189,6 +1192,7 @@ async function runTests(): Promise<void> {
         humanReviewComplete: true,
       });
       assert(report.zelezaraPretplataGovernance.status === 'BLOCKED', 'Železara governance should be BLOCKED');
+      assert(report.zelezaraPretplataGovernance.identityStatus === 'BLOCKED', 'Železara identity status should be BLOCKED');
       assert(report.zelezaraPretplataGovernance.blockerReasons.includes('Required legacy return name Železara is not restored in the governed output set.'), 'legacy-name blocker must propagate');
       assert(report.releaseAuditSummary.zelezaraPretplataGovernance.restoreOldNameCompleted === false, 'release audit must expose incomplete legacy-name restoration');
       assert(report.b2bReadiness.compliance.blockers.includes('zelezara-restore-old-name'), 'compliance blockers must include restore-old-name');

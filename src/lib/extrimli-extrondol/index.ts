@@ -786,7 +786,11 @@ function buildZelezaraPretplataGovernance(params: {
     ...activationGateReasons,
     `governance:wawe-context-${params.currentWawe}-to-${params.eligibleNextWawe}`,
   ];
-  const status = blockerReasons.length > 0 ? 'BLOCKED' : warnings.length > 0 ? 'WATCH' : 'READY';
+  const status = blockerReasons.length > 0 || activationGateReasons.length > 0
+    ? 'BLOCKED'
+    : warnings.length > 0
+      ? 'WATCH'
+      : 'READY';
 
   return {
     term: 'ŽELEZARA PRETPLATA IDENTITET',
@@ -796,6 +800,7 @@ function buildZelezaraPretplataGovernance(params: {
     additiveOnly: true,
     governanceVisibility: 'audit-safe-governance-only',
     status,
+    identityStatus: signal.readiness.status,
     subscriberIdentity: {
       canonicalLegalName: signal.subscriberIdentity.canonicalLegalName,
       currentOperatingName: signal.subscriberIdentity.currentOperatingName,
@@ -829,6 +834,7 @@ function buildZelezaraPretplataGovernance(params: {
       : status === 'WATCH' || activationGateReasons.length > 0
         ? 'SAFE_SUMMARY_REVIEW'
         : 'SAFE_SUMMARY_READY',
+    activationGateReasons,
     reasons,
     warnings,
     blockerReasons,
