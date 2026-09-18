@@ -3051,15 +3051,34 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   } else {
     dokDikDakDukConsistencyHealth.status = 'READY';
   }
-  dokDikDakDukConsistencyHealth.reasons = dokDikDakDukConsistencyHealth.consistent
-    ? ['DOK/DIK technical readiness and DAK/DUK governance mapping are aligned across EXTREM and EXTRONDOL.']
-    : [
-      ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA is missing from EXTREM technical signals.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA is missing from EXTREM technical signals.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion ? ['DAKOR promotion mapping is missing from EXTRONDOL governance sequence.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview ? ['DUKAR human-review mapping is missing from EXTRONDOL governance sequence.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? ['EXTREM/EXTRONDOL ownership boundary is inconsistent with declared source-of-truth split.'] : []),
+  const failedConsistencyChecks = [
+    ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA is missing from EXTREM technical signals.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA is missing from EXTREM technical signals.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion ? ['DAKOR promotion mapping is missing from EXTRONDOL governance sequence.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview ? ['DUKAR human-review mapping is missing from EXTRONDOL governance sequence.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? ['EXTREM/EXTRONDOL ownership boundary is inconsistent with declared source-of-truth split.'] : []),
+  ];
+  if (!dokDikDakDukConsistencyHealth.consistent) {
+    dokDikDakDukConsistencyHealth.reasons = failedConsistencyChecks;
+  } else if (dokDikDakDukConsistencyHealth.status === 'READY') {
+    dokDikDakDukConsistencyHealth.reasons = ['DOK/DIK technical readiness and DAK/DUK governance mapping are aligned across EXTREM and EXTRONDOL.'];
+  } else if (dokDikDakDukConsistencyHealth.status === 'WATCH') {
+    dokDikDakDukConsistencyHealth.reasons = [
+      'DOK/DIK/DAK/DUK mapping is aligned but at least one signal remains in WATCH or unresolved state.',
+      ...(dokDikDakDukConsistencyHealth.signals.dok.status !== 'READY' ? [`DOK status is ${dokDikDakDukConsistencyHealth.signals.dok.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dik.status !== 'READY' ? [`DIK status is ${dokDikDakDukConsistencyHealth.signals.dik.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dak.status !== 'READY' ? [`DAK status is ${dokDikDakDukConsistencyHealth.signals.dak.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.duk.status !== 'READY' ? [`DUK status is ${dokDikDakDukConsistencyHealth.signals.duk.status ?? 'UNRESOLVED'}.`] : []),
     ];
+  } else {
+    dokDikDakDukConsistencyHealth.reasons = [
+      'DOK/DIK/DAK/DUK mapping is aligned but one or more signals are BLOCKED.',
+      ...(dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED' ? ['DOK signal is BLOCKED.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED' ? ['DIK signal is BLOCKED.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dak.status === 'BLOCKED' ? ['DAK signal is BLOCKED.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.duk.status === 'BLOCKED' ? ['DUK signal is BLOCKED.'] : []),
+    ];
+  }
 
   const b2bReadiness = {
     tenant: {
