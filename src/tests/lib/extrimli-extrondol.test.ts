@@ -555,6 +555,9 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.petljeGovernance.freezeRequired === report.extremProfiler.petljeSignals.summary.freezeRequired, 'release audit petlje freeze mismatch');
     assert(report.b2bReadiness.governanceDecisions.petljeGovernance.conflictScore === report.extremProfiler.petljeSignals.summary.conflictScore, 'B2B petlje conflict mismatch');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.petljeSignals.summary.freezeRequired'), 'petlje freeze field must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.petljeSignals.summary.degradedSignals'), 'petlje degraded field must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.petljeSignals.signals.djupre.status'), 'DJUPRE sync field must be present');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.petljeSignals.signals.dompre.readinessScore'), 'DOMPRE sync field must be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'petlje-signal-governance' && item.passed), 'petlje governance criterion must pass');
   });
 

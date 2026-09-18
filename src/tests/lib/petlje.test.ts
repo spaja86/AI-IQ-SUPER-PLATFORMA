@@ -18,6 +18,19 @@ import {
   runIziPetlja,
   runUkPetlja,
   runZumPetlja,
+  runDjuprePetlja,
+  runDomprePetlja,
+  runKrumpePetlja,
+  runDombrePetlja,
+  runOmbaPetlja,
+  runDoksiPetlja,
+  runDombraPetlja,
+  runDokonPetlja,
+  runDumpirPetlja,
+  runDombarPetlja,
+  runZumbaPetlja,
+  runDonkiPetlja,
+  runDomporPetlja,
   runDokPetlja,
   runDikPetlja,
   runSarPetlja,
@@ -151,6 +164,110 @@ const extendedPetljaSpecs = [
     expectedOutput: 14,
     invalidInput: { start: 0, end: 3, step: -1 },
     guardInput: { start: 0, end: 100, step: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DJUPRE PETLJA',
+    run: runDjuprePetlja,
+    validInput: { start: 1, end: 3, step: 1, maxDurationMs: 100 },
+    expectedOutput: 36,
+    invalidInput: { start: 1, end: 3, step: 0 },
+    guardInput: { start: 0, end: 10, step: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOMPRE PETLJA',
+    run: runDomprePetlja,
+    validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
+    expectedOutput: 9,
+    invalidInput: { start: 0, target: 5, step: -2 },
+    guardInput: { start: 0, target: 100, step: 2, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'KRUMPE PETLJA',
+    run: runKrumpePetlja,
+    validInput: { sequence: [1, 4, 2, 7], maxDurationMs: 100 },
+    expectedOutput: 8,
+    invalidInput: { sequence: [1, NaN, 7] },
+    guardInput: { sequence: [1, 4, 2, 7], maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOMBRE PETLJA',
+    run: runDombrePetlja,
+    validInput: { start: 0, end: 4, step: 2, maxDurationMs: 100 },
+    expectedOutput: 4,
+    invalidInput: { start: 0, end: 4, step: -2 },
+    guardInput: { start: 0, end: 10, step: 1, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'OMBA PETLJA',
+    run: runOmbaPetlja,
+    validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
+    expectedOutput: 3,
+    invalidInput: { start: 0, target: 5, step: -2 },
+    guardInput: { start: 0, target: 100, step: 2, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOKSI PETLJA',
+    run: runDoksiPetlja,
+    validInput: { sequence: [3, 5, 2, 9], maxDurationMs: 100 },
+    expectedOutput: 6,
+    invalidInput: { sequence: [3, Infinity, 9] },
+    guardInput: { sequence: [3, 5, 2, 9], maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOMBRA PETLJA',
+    run: runDombraPetlja,
+    validInput: { start: 1, end: 4, step: 1, target: 2, maxDurationMs: 100 },
+    expectedOutput: 10,
+    invalidInput: { start: 1, end: 4, step: -1, target: 2 },
+    guardInput: { start: 0, end: 10, step: 1, target: 2, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOKON PETLJA',
+    run: runDokonPetlja,
+    validInput: { start: 0, target: 5, step: 2, maxDurationMs: 100 },
+    expectedOutput: 11,
+    invalidInput: { start: 0, target: 5, step: -2 },
+    guardInput: { start: 0, target: 100, step: 2, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DUMPIR PETLJA',
+    run: runDumpirPetlja,
+    validInput: { sequence: [1, 5, 3, 7], target: 4, maxDurationMs: 100 },
+    expectedOutput: 2,
+    invalidInput: { sequence: [1, NaN, 7], target: 4 },
+    guardInput: { sequence: [1, 5, 3, 7], target: 4, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOMBAR PETLJA',
+    run: runDombarPetlja,
+    validInput: { start: 0, end: 5, step: 1, target: 3, maxDurationMs: 100 },
+    expectedOutput: 3,
+    invalidInput: { start: 0, end: 5, step: 0, target: 3 },
+    guardInput: { start: 0, end: 10, step: 1, target: 3, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'ZUMBA PETLJA',
+    run: runZumbaPetlja,
+    validInput: { sequence: [4, 7, 5], target: 5, maxDurationMs: 100 },
+    expectedOutput: 5,
+    invalidInput: { sequence: [4, Infinity, 5], target: 5 },
+    guardInput: { sequence: [4, 7, 5], target: 5, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DONKI PETLJA',
+    run: runDonkiPetlja,
+    validInput: { start: 0, target: 7, step: 3, maxDurationMs: 100 },
+    expectedOutput: 12,
+    invalidInput: { start: 0, target: 7, step: -3 },
+    guardInput: { start: 0, target: 100, step: 3, maxIterations: 2, maxDurationMs: 100 },
+  },
+  {
+    kind: 'DOMPOR PETLJA',
+    run: runDomporPetlja,
+    validInput: { start: 1, end: 4, step: 1, maxDurationMs: 100 },
+    expectedOutput: 6,
+    invalidInput: { start: 1, end: 4, step: -1 },
+    guardInput: { start: 0, end: 10, step: 1, maxIterations: 2, maxDurationMs: 100 },
   },
   {
     kind: 'DOK PETLJA',
@@ -388,6 +505,19 @@ async function runTests(): Promise<void> {
       runIziPetlja(input).output,
       runUkPetlja(input).output,
       runZumPetlja(input).output,
+      runDjuprePetlja(input).output,
+      runDomprePetlja(input).output,
+      runKrumpePetlja(input).output,
+      runDombrePetlja(input).output,
+      runOmbaPetlja(input).output,
+      runDoksiPetlja(input).output,
+      runDombraPetlja(input).output,
+      runDokonPetlja(input).output,
+      runDumpirPetlja(input).output,
+      runDombarPetlja(input).output,
+      runZumbaPetlja(input).output,
+      runDonkiPetlja(input).output,
+      runDomporPetlja(input).output,
       runDokPetlja(input).output,
       runDikPetlja(input).output,
       runSarPetlja(input).output,
@@ -395,7 +525,7 @@ async function runTests(): Promise<void> {
       runDirektPetlja(input).output,
       runIndirektPetlja(input).output,
     ].reduce((acc, value) => acc + value, 0);
-    assert(result.trace.length === 22, 'UMBREL trace should contain 22 parts');
+    assert(result.trace.length === 35, 'UMBREL trace should contain 35 parts');
     assertEqual(result.reason, 'invalid-input', 'UMBREL invalid-input reason should match DISABLED aggregate');
     assert(['ACTIVATED', 'DISABLED', 'DEAD'].includes(result.status), 'UMBREL status should be canonical');
     assertEqual(result.statusTrail[0]?.to, 'MONSTER', 'UMBREL should enter MONSTER first');
@@ -469,10 +599,16 @@ async function runTests(): Promise<void> {
       ],
     });
     assert(result.completed, 'SPAJA segment-default path should complete');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DOMPRE PETLJA]')), 'SPAJA segment-default path should execute DOMPRE PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DONKI PETLJA]')), 'SPAJA segment-default path should execute DONKI PETLJA');
     assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DOK PETLJA]')), 'SPAJA segment-default path should execute DOK PETLJA');
     assert(result.statusTrail.some((entry) => entry.reason.includes('[TARGET][DIREKT PETLJA]')), 'SPAJA segment-default path should execute DIREKT PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][DJUPRE PETLJA]')), 'SPAJA segment-default path should execute DJUPRE PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][DOMBAR PETLJA]')), 'SPAJA segment-default path should execute DOMBAR PETLJA');
     assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][SAR PETLJA]')), 'SPAJA segment-default path should execute SAR PETLJA');
     assert(result.statusTrail.some((entry) => entry.reason.includes('[RANGE][OKRED PETLJA]')), 'SPAJA segment-default path should execute OKRED PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][KRUMPE PETLJA]')), 'SPAJA segment-default path should execute KRUMPE PETLJA');
+    assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][ZUMBA PETLJA]')), 'SPAJA segment-default path should execute ZUMBA PETLJA');
     assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][DIK PETLJA]')), 'SPAJA segment-default path should execute DIK PETLJA');
     assert(result.statusTrail.some((entry) => entry.reason.includes('[SEQUENCE][INDIREKT PETLJA]')), 'SPAJA segment-default path should execute INDIREKT PETLJA');
   });

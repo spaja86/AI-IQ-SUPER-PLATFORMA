@@ -1047,6 +1047,10 @@ function buildEpicElikvadentiGovernance(params: {
   };
 }
 
+function toPetljaSignalSyncField(kind: ExtrimliExtrondolReport['extremProfiler']['petljeSignals']['signals'][number]['kind']): string {
+  return kind.replace(' PETLJA', '').toLowerCase().replaceAll(' ', '_');
+}
+
 function buildPetljeGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
@@ -2470,6 +2474,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.petljeSignals.summary.freezeRequired',
         'extremProfiler.petljeSignals.summary.blockedSignals',
         'extremProfiler.petljeSignals.summary.watchSignals',
+        'extremProfiler.petljeSignals.summary.degradedSignals',
+        ...extremProfiler.petljeSignals.signals.flatMap((signal) => {
+          const fieldKey = toPetljaSignalSyncField(signal.kind);
+          return [
+            `extremProfiler.petljeSignals.signals.${fieldKey}.status`,
+            `extremProfiler.petljeSignals.signals.${fieldKey}.readinessScore`,
+          ];
+        }),
         'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status',
         'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score',
         'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status',

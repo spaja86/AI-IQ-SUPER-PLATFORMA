@@ -8,10 +8,23 @@ import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-ize
 import {
   runDikPetlja,
   runDirektPetlja,
+  runDjuprePetlja,
   runDokPetlja,
+  runDoksiPetlja,
+  runDombraPetlja,
+  runDombarPetlja,
+  runDombrePetlja,
+  runDokonPetlja,
+  runDomporPetlja,
+  runDomprePetlja,
+  runDonkiPetlja,
+  runDumpirPetlja,
   runIndirektPetlja,
+  runKrumpePetlja,
   runOkredPetlja,
+  runOmbaPetlja,
   runSarPetlja,
+  runZumbaPetlja,
 } from '../petlje';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import type {
@@ -1444,9 +1457,9 @@ function buildSpajaKodEncapsulation(params: {
 }
 
 const PETLJA_SIGNAL_CATEGORY_MAP = {
-  RANGE: ['SAR PETLJA', 'OKRED PETLJA'],
-  TARGET: ['DOK PETLJA', 'DIREKT PETLJA'],
-  SEQUENCE: ['DIK PETLJA', 'INDIREKT PETLJA'],
+  RANGE: ['DJUPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA', 'SAR PETLJA', 'OKRED PETLJA'],
+  TARGET: ['DOMPRE PETLJA', 'OMBA PETLJA', 'DOKON PETLJA', 'DONKI PETLJA', 'DOK PETLJA', 'DIREKT PETLJA'],
+  SEQUENCE: ['KRUMPE PETLJA', 'DOKSI PETLJA', 'DUMPIR PETLJA', 'ZUMBA PETLJA', 'DIK PETLJA', 'INDIREKT PETLJA'],
 } as const;
 
 function parseSequenceFromEnv(
@@ -1496,6 +1509,71 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
 
   const definitions: ExtrimliExtremPetljaSignalInput[] = [
     {
+      kind: 'DJUPRE PETLJA',
+      category: 'RANGE',
+      input: { start: 1, end: 3, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMPRE PETLJA',
+      category: 'TARGET',
+      input: { start: 0, target: 12, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'KRUMPE PETLJA',
+      category: 'SEQUENCE',
+      input: { sequence: [2, 5, 4, 9], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMBRE PETLJA',
+      category: 'RANGE',
+      input: { start: 0, end: 4, step: 2, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'OMBA PETLJA',
+      category: 'TARGET',
+      input: { start: 0, target: 9, step: 2, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOKSI PETLJA',
+      category: 'SEQUENCE',
+      input: { sequence: [3, 6, 2, 8], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMBRA PETLJA',
+      category: 'RANGE',
+      input: { start: 1, end: 4, target: 2, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOKON PETLJA',
+      category: 'TARGET',
+      input: { start: 1, target: 10, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DUMPIR PETLJA',
+      category: 'SEQUENCE',
+      input: { target: 4, sequence: [1, 5, 3, 6], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMBAR PETLJA',
+      category: 'RANGE',
+      input: { start: 0, end: 5, target: 3, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'ZUMBA PETLJA',
+      category: 'SEQUENCE',
+      input: { target: 5, sequence: [4, 7, 5], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DONKI PETLJA',
+      category: 'TARGET',
+      input: { start: 0, target: 7, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMPOR PETLJA',
+      category: 'RANGE',
+      input: { start: 1, end: 4, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
       kind: 'DOK PETLJA',
       category: 'TARGET',
       input: { start: 0, target: 12, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
@@ -1528,12 +1606,25 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
   ];
 
   const signalResults = [
-    { definition: definitions[0], result: runDokPetlja(definitions[0].input) },
-    { definition: definitions[1], result: runDikPetlja(definitions[1].input) },
-    { definition: definitions[2], result: runSarPetlja(definitions[2].input) },
-    { definition: definitions[3], result: runOkredPetlja(definitions[3].input) },
-    { definition: definitions[4], result: runDirektPetlja(definitions[4].input) },
-    { definition: definitions[5], result: runIndirektPetlja(definitions[5].input) },
+    { definition: definitions[0], result: runDjuprePetlja(definitions[0].input) },
+    { definition: definitions[1], result: runDomprePetlja(definitions[1].input) },
+    { definition: definitions[2], result: runKrumpePetlja(definitions[2].input) },
+    { definition: definitions[3], result: runDombrePetlja(definitions[3].input) },
+    { definition: definitions[4], result: runOmbaPetlja(definitions[4].input) },
+    { definition: definitions[5], result: runDoksiPetlja(definitions[5].input) },
+    { definition: definitions[6], result: runDombraPetlja(definitions[6].input) },
+    { definition: definitions[7], result: runDokonPetlja(definitions[7].input) },
+    { definition: definitions[8], result: runDumpirPetlja(definitions[8].input) },
+    { definition: definitions[9], result: runDombarPetlja(definitions[9].input) },
+    { definition: definitions[10], result: runZumbaPetlja(definitions[10].input) },
+    { definition: definitions[11], result: runDonkiPetlja(definitions[11].input) },
+    { definition: definitions[12], result: runDomporPetlja(definitions[12].input) },
+    { definition: definitions[13], result: runDokPetlja(definitions[13].input) },
+    { definition: definitions[14], result: runDikPetlja(definitions[14].input) },
+    { definition: definitions[15], result: runSarPetlja(definitions[15].input) },
+    { definition: definitions[16], result: runOkredPetlja(definitions[16].input) },
+    { definition: definitions[17], result: runDirektPetlja(definitions[17].input) },
+    { definition: definitions[18], result: runIndirektPetlja(definitions[18].input) },
   ].map<ExtrimliExtremPetljaSignalResult>(({ definition, result }) => {
     const warnings = [...result.warnings];
     const degraded = result.reason !== 'completed' || warnings.length > 0;
@@ -2143,7 +2234,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     {
       id: 'petlje-contract-boundary-lock',
-      description: 'DOK, DIK, SAR, OKRED, DIREKT, and INDIREKT are modeled as canonical PETLJE signals while the standalone DIREKT module remains preserved.',
+      description: 'DJUPRE, DOMPRE, KRUMPE, DOMBRE, OMBA, DOKSI, DOMBRA, DOKON, DUMPIR, DOMBAR, ZUMBA, DONKI, DOMPOR, DOK, DIK, SAR, OKRED, DIREKT, and INDIREKT are modeled as canonical PETLJE signals while the standalone DIREKT module remains preserved.',
       passed: petljeSignals.contractBoundary.existingSourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
         && petljeSignals.contractBoundary.standaloneDirektModulePreserved
         && petljeSignals.contractBoundary.direktPetljaMode === 'separate-loop-contract'
@@ -2152,7 +2243,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     {
       id: 'petlje-signal-normalization',
       description: 'All new PETLJE signals publish bounded readiness/conflict outputs with additive degraded-safe semantics.',
-      passed: petljeSignals.signals.length === 6
+      passed: petljeSignals.signals.length === 19
         && petljeSignals.signals.every((signal) =>
           Number.isFinite(signal.readinessScore)
           && signal.readinessScore >= 0

@@ -574,6 +574,19 @@ export interface ExtrimliExtremSemaFormulaInput {
 export type ExtrimliExtremSemaFormulaStatus = 'PASSED' | 'BLOCKED';
 export type ExtrimliSpajaKodPublicStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremPetljaSignalName =
+  | 'DJUPRE PETLJA'
+  | 'DOMPRE PETLJA'
+  | 'KRUMPE PETLJA'
+  | 'DOMBRE PETLJA'
+  | 'OMBA PETLJA'
+  | 'DOKSI PETLJA'
+  | 'DOMBRA PETLJA'
+  | 'DOKON PETLJA'
+  | 'DUMPIR PETLJA'
+  | 'DOMBAR PETLJA'
+  | 'ZUMBA PETLJA'
+  | 'DONKI PETLJA'
+  | 'DOMPOR PETLJA'
   | 'DOK PETLJA'
   | 'DIK PETLJA'
   | 'SAR PETLJA'
@@ -624,9 +637,9 @@ export interface ExtrimliExtremPetljaSignalSection {
     indirektPetljaMode: 'separate-loop-contract';
   };
   categoryMap: {
-    RANGE: readonly ['SAR PETLJA', 'OKRED PETLJA'];
-    TARGET: readonly ['DOK PETLJA', 'DIREKT PETLJA'];
-    SEQUENCE: readonly ['DIK PETLJA', 'INDIREKT PETLJA'];
+    RANGE: readonly ExtrimliExtremPetljaSignalName[];
+    TARGET: readonly ExtrimliExtremPetljaSignalName[];
+    SEQUENCE: readonly ExtrimliExtremPetljaSignalName[];
   };
   signals: ExtrimliExtremPetljaSignalResult[];
   summary: {

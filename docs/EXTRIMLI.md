@@ -101,6 +101,19 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 ## EXTREM / EXTRONDOL PETLJE boundary
 
 - Canonical PETLJE added to the EXTREM technical layer:
+  - `DJUPRE PETLJA` (`RANGE`)
+  - `DOMPRE PETLJA` (`TARGET`)
+  - `KRUMPE PETLJA` (`SEQUENCE`)
+  - `DOMBRE PETLJA` (`RANGE`)
+  - `OMBA PETLJA` (`TARGET`)
+  - `DOKSI PETLJA` (`SEQUENCE`)
+  - `DOMBRA PETLJA` (`RANGE`)
+  - `DOKON PETLJA` (`TARGET`)
+  - `DUMPIR PETLJA` (`SEQUENCE`)
+  - `DOMBAR PETLJA` (`RANGE`)
+  - `ZUMBA PETLJA` (`SEQUENCE`)
+  - `DONKI PETLJA` (`TARGET`)
+  - `DOMPOR PETLJA` (`RANGE`)
   - `DOK PETLJA` (`TARGET`)
   - `DIK PETLJA` (`SEQUENCE`)
   - `SAR PETLJA` (`RANGE`)
