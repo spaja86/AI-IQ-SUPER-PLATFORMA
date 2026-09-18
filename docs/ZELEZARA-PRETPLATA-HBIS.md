@@ -75,7 +75,7 @@ Ako bilo koji od ovih elemenata nedostaje, status ostaje `blocked` ili `legal-re
 ## Status model
 
 | Status | Značenje |
-|---|---|
+| --- | --- |
 | `intake` | Predmet otvoren, alias identitet još nije potvrđen |
 | `identity-review` | Proverava se da li svi nazivi mapiraju isti entitet |
 | `contract-review` | U toku pravna i billing potvrda |

@@ -2536,7 +2536,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         : zelezaraPretplataGovernance.status === 'WATCH'
           ? 'WARN' as const
           : 'FAIL' as const,
-      details: zelezaraPretplataGovernance.reasons.join('; '),
+      details:
+        zelezaraPretplataGovernance.reasons.length > 0
+          ? zelezaraPretplataGovernance.reasons.join('; ')
+          : 'identity locked; restore-old-name requirement enforced; pretplata activation remains governance-controlled',
     },
     {
       id: 'petlje-governance',
