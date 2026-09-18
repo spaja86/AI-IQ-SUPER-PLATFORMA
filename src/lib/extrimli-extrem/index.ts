@@ -2365,7 +2365,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
-    || proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
@@ -2421,7 +2420,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? ['PROPORCIONALNO PROGRAMIRANJE requires balance review between functional transformation, object structure, and uslovne činjenice before wider WAWE progression.']
       : []),
     ...(proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
-      ? [`PROPORCIONALNO PROGRAMIRANJE blocked WAWE progression: ${proporcionalnoProgramiranje.readiness.blockerReasons.join('; ') || 'language-innovation readiness failed.'}`]
+      ? [`PROPORCIONALNO PROGRAMIRANJE remains blocked and requires audit attention: ${proporcionalnoProgramiranje.readiness.blockerReasons.join('; ') || 'language-innovation readiness failed.'}`]
       : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']

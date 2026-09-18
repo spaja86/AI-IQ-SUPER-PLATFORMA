@@ -1934,7 +1934,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? ['PROPORCIONALNO PROGRAMIRANJE is in WATCH posture and requires balance review for functional transformation, object structure, and uslovne činjenice before wider rollout.']
       : []),
     ...(extremProfiler.proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
-      ? ['PROPORCIONALNO PROGRAMIRANJE is BLOCKED and must freeze promotion until PROTKROV FUNKCIJA, OBJEKTNE PARADOKSALNE ETAPE, and conditional facts return to proportional balance.']
+      ? ['PROPORCIONALNO PROGRAMIRANJE is BLOCKED and requires audit attention until PROTKROV FUNKCIJA, OBJEKTNE PARADOKSALNE ETAPE, and conditional facts return to proportional balance.']
       : []),
     ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija is in WATCH posture and requires replay review before wider rollout.']
@@ -1988,9 +1988,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
       ? ['funkionalno-programiranje-pravnog-misaonog-toka']
       : []),
-    ...(extremProfiler.proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
-      ? ['proporcionalno-programiranje']
-      : []),
     ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
       ? ['objektno-orijentisana-reprodukcija']
       : []),
@@ -2028,8 +2025,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status === 'BLOCKED'
     || (extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
-    || (extremProfiler.proporcionalnoProgramiranje.readiness.status === 'WATCH' && !humanReviewComplete)
-    || extremProfiler.proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH' && !humanReviewComplete)
@@ -3187,7 +3182,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     {
       id: 'proporcionalno-programiranje-governance',
-      description: 'PROPORCIONALNO PROGRAMIRANJE is propagated from EXTREM into WAWE impact, promotion freeze, release audit, downstream sync, rollback, and SPAJA KOD summary visibility without exposing internal formulas.',
+      description: 'PROPORCIONALNO PROGRAMIRANJE is propagated from EXTREM into WAWE impact, release audit, downstream sync, rollback, review posture, and SPAJA KOD summary visibility without exposing internal formulas.',
       passed: proporcionalnoProgramiranje.contractVersion === EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION
         && proporcionalnoProgramiranje.technicalSignalSource === '/api/extrimli/extrem'
         && proporcionalnoProgramiranje.governanceVisibility === 'audit-safe-readiness-only'

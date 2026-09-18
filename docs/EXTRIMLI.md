@@ -510,7 +510,7 @@ Canonical vocabulary + locked sub-signals:
 Boundary + governance impact:
 
 - Track sedi uz postojeće funkcionalne i objektne signale i objedinjuje ih u viši sloj inovacije programskih jezika, bez zamene postojećih surface-ova.
-- `WATCH` ili `BLOCKED` status moraju da propagiraju freeze razloge, rollback obaveznost, downstream sync i human-review kroz EXTRONDOL.
+- `WATCH` ili `BLOCKED` status moraju da propagiraju audit razloge, rollback obaveznost, downstream sync i human-review kroz EXTRONDOL, bez otvaranja novog nezavisnog freeze source-a van postojećih EXTREM signalnih gate-ova.
 - SPAJA KOD ostaje javna fasada i prikazuje samo proporcionalni zbirni status kao audit-safe signal.
 
 ## Objektno orijentisana reprodukcija
