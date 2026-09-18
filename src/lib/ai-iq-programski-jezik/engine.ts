@@ -583,6 +583,8 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       : 'WATCH';
   const dukStatus = !securityPass
     ? 'BLOCKED'
+    : !aiRequested
+      ? 'WATCH'
     : aiFeatureFreeze
       ? 'WATCH'
       : 'READY';
