@@ -447,7 +447,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     dik: dikStatus,
     dak: dakStatus,
     duk: dukStatus,
-    promotionFreeze: status === 'BLOCKED' || dakStatus === 'BLOCKED',
+    promotionFreeze: status === 'BLOCKED' || input.riskLevel >= 80 || !input.fallbackConfigured,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: input.securityPolicyScore >= 60 && input.fallbackConfigured,
   });
@@ -574,7 +574,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     dik: dikStatus,
     dak: dakStatus,
     duk: dukStatus,
-    promotionFreeze: status === 'BLOCKED' || dakStatus === 'BLOCKED',
+    promotionFreeze: status === 'BLOCKED' || (aiRequested && !input.featureFlagAiIqLanguage),
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
   });
