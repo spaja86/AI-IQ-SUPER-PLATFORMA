@@ -491,6 +491,146 @@ function classifySpajinoProporcionalnoProgramiranjeUniverzitetStatus(
   return 'BLOCKED';
 }
 
+function classifyMetrickoProgramiranjeStatus(score: number): ExtrimliExtremMetrickoProgramiranjeStatus {
+  if (score >= EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function buildMetrickoProgramiranjeSignal(
+  profileInput: ExtrimliExtremMetrickoProgramiranjeProfileInput,
+  dokSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  dikSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  degraded: boolean,
+): ExtrimliExtremMetrickoProgramiranjeSignal {
+  const declarationMatrixScore = round(
+    clamp(
+      (profileInput.declarationMatrixPercent * 0.45)
+      + (profileInput.neutralDeclarationPosturePercent * 0.35)
+      + ((dokSignal?.readinessScore ?? 0) * 0.2),
+      0,
+      100,
+    ),
+    2,
+  );
+  const instancePositioningScore = round(
+    clamp(
+      (profileInput.instancePositioningPercent * 0.45)
+      + (profileInput.accentCouplingPercent * 0.35)
+      + ((dikSignal?.readinessScore ?? 0) * 0.2),
+      0,
+      100,
+    ),
+    2,
+  );
+  const score = round(clamp((declarationMatrixScore * 0.5) + (instancePositioningScore * 0.5), 0, 100), 2);
+  const watchReasons = [
+    ...(declarationMatrixScore < 82 ? [`declaration-matrix-watch:${declarationMatrixScore}`] : []),
+    ...(instancePositioningScore < 80 ? [`instance-positioning-watch:${instancePositioningScore}`] : []),
+    ...(profileInput.neutralDeclarationPosturePercent < 76 ? [`neutral-declaration-posture-watch:${profileInput.neutralDeclarationPosturePercent}`] : []),
+    ...(profileInput.accentCouplingPercent < 74 ? [`accent-coupling-watch:${profileInput.accentCouplingPercent}`] : []),
+    ...(dokSignal?.status === 'WATCH' ? [`dok-evidence-watch:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'WATCH' ? [`dik-evidence-watch:${dikSignal.readinessScore}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.declarationMatrixPercent < 58 ? [`declaration-matrix-blocked:${profileInput.declarationMatrixPercent}`] : []),
+    ...(profileInput.neutralDeclarationPosturePercent < 55 ? [`neutral-declaration-posture-blocked:${profileInput.neutralDeclarationPosturePercent}`] : []),
+    ...(profileInput.instancePositioningPercent < 58 ? [`instance-positioning-blocked:${profileInput.instancePositioningPercent}`] : []),
+    ...(profileInput.accentCouplingPercent < 55 ? [`accent-coupling-blocked:${profileInput.accentCouplingPercent}`] : []),
+    ...(dokSignal?.status === 'BLOCKED' ? [`dok-evidence-blocked:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'BLOCKED' ? [`dik-evidence-blocked:${dikSignal.readinessScore}`] : []),
+    ...(!dokSignal ? ['dok-evidence-missing'] : []),
+    ...(!dikSignal ? ['dik-evidence-missing'] : []),
+  ];
+  const aggregateStatus = classifyMetrickoProgramiranjeStatus(score);
+  const status: ExtrimliExtremMetrickoProgramiranjeStatus = blockerReasons.length > 0 || aggregateStatus === 'BLOCKED'
+    ? 'BLOCKED'
+    : watchReasons.length > 0 || aggregateStatus === 'WATCH'
+      ? 'WATCH'
+      : aggregateStatus;
+
+  return {
+    term: 'METRIČKO PROGRAMIRANJE',
+    contractVersion: EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'METRIČKO PROGRAMIRANJE',
+      statement: 'Additive EXTREM signal that locks metric programming around declaration-matrix stability, instance positioning, neutral declaration posture, and DOK/DIK technical evidence while keeping DAK/DUK in EXTRONDOL governance.',
+      declarationMatrixMeaning: 'deklaracije-koda-u-izvornom-opsegu',
+      instancePositioningMeaning: 'ekstremno-pozicioniranje-koda-na-elementarnom-nivou',
+      neutralPostureMeaning: 'muvanje-bez-pogonskog-akcenta',
+      accentCouplingMeaning: 'sprega-akcenata-u-odnosu-na-povrsinu-zastupnjenog-kodeksa',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-metric-programming-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      declarationMatrix: {
+        canonicalField: 'declarationMatrix.score',
+        meaning: 'deklaracije-koda-u-izvornom-opsegu',
+      },
+      instancePositioning: {
+        canonicalField: 'instancePositioning.score',
+        meaning: 'ekstremno-pozicioniranje-koda-na-elementarnom-nivou',
+      },
+      neutralDeclarationPosture: {
+        canonicalField: 'profileInput.neutralDeclarationPosturePercent',
+        meaning: 'muvanje-bez-pogonskog-akcenta',
+      },
+      accentCoupling: {
+        canonicalField: 'profileInput.accentCouplingPercent',
+        meaning: 'sprega-akcenata-u-odnosu-na-povrsinu-zastupnjenog-kodeksa',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    declarationMatrix: {
+      score: declarationMatrixScore,
+      sourceScopeDeclarationPercent: profileInput.declarationMatrixPercent,
+      neutralDeclarationPosturePercent: profileInput.neutralDeclarationPosturePercent,
+      dokEvidence: {
+        kind: 'DOK PETLJA',
+        readinessScore: dokSignal?.readinessScore ?? null,
+        status: dokSignal?.status ?? null,
+      },
+    },
+    instancePositioning: {
+      score: instancePositioningScore,
+      elementalPositioningPercent: profileInput.instancePositioningPercent,
+      accentCouplingPercent: profileInput.accentCouplingPercent,
+      dikEvidence: {
+        kind: 'DIK PETLJA',
+        readinessScore: dikSignal?.readinessScore ?? null,
+        status: dikSignal?.status ?? null,
+      },
+    },
+    ownershipEvidence: {
+      dokTechnical: true,
+      dikTechnical: true,
+      dakDeferredToGovernance: true,
+      dukDeferredToGovernance: true,
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: status === 'WATCH' && watchReasons.length === 0 ? [`aggregate-watch-score:${score}`] : watchReasons,
+      blockerReasons: status === 'BLOCKED' && blockerReasons.length === 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons,
+    },
+  };
+}
+
 function buildObjektnaProngilacijaSignal(
   profileInput: ExtrimliExtremObjektnaProngilacijaProfileInput,
   degraded: boolean,
@@ -2493,6 +2633,43 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     objektnoOrijentisanaReprodukcijaInput,
     objektnoOrijentisanaReprodukcijaDegradedSources.length > 0,
   );
+  const metrikoProgramiranjeDeclarationMatrixPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_DECLARATION_MATRIX_PERCENT',
+    88,
+    72,
+    degradedSources,
+  );
+  const metrikoProgramiranjeNeutralDeclarationPosturePercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_NEUTRAL_DECLARATION_POSTURE_PERCENT',
+    84,
+    68,
+    degradedSources,
+  );
+  const metrikoProgramiranjeInstancePositioningPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_INSTANCE_POSITIONING_PERCENT',
+    87,
+    70,
+    degradedSources,
+  );
+  const metrikoProgramiranjeAccentCouplingPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_ACCENT_COUPLING_PERCENT',
+    82,
+    66,
+    degradedSources,
+  );
+  const dokSignalForMetricko = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
+  const dikSignalForMetricko = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
+  const metrikoProgramiranje = buildMetrickoProgramiranjeSignal(
+    {
+      declarationMatrixPercent: metrikoProgramiranjeDeclarationMatrixPercent,
+      neutralDeclarationPosturePercent: metrikoProgramiranjeNeutralDeclarationPosturePercent,
+      instancePositioningPercent: metrikoProgramiranjeInstancePositioningPercent,
+      accentCouplingPercent: metrikoProgramiranjeAccentCouplingPercent,
+    },
+    dokSignalForMetricko,
+    dikSignalForMetricko,
+    degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_')),
+  );
   const proportionalConditionalFactReadinessPercent = parsePercentEnv(
     'EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT',
     86,
@@ -2648,6 +2825,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
+    || metrikoProgramiranje.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
@@ -2699,6 +2877,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
       ? [`FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA blocked WAWE progression: ${funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.blockerReasons.join('; ') || 'explicit thought-flow readiness failed.'}`]
       : []),
+    ...(metrikoProgramiranje.readiness.status === 'WATCH'
+      ? ['METRIČKO PROGRAMIRANJE requires declaration-matrix and instance-positioning review before wider WAWE progression.']
+      : []),
+    ...(metrikoProgramiranje.readiness.status === 'BLOCKED'
+      ? [`METRIČKO PROGRAMIRANJE blocked WAWE progression: ${metrikoProgramiranje.readiness.blockerReasons.join('; ') || 'metric-programming readiness failed.'}`]
+      : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
       : []),
@@ -2739,6 +2923,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
   if (funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.degraded) {
     degradedSources.push(`funkcionalno-programiranje-eksplicitnog-misaonog-toka:${funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status.toLowerCase()}`);
+  }
+  if (metrikoProgramiranje.readiness.degraded) {
+    degradedSources.push(`metriko-programiranje:${metrikoProgramiranje.readiness.status.toLowerCase()}`);
   }
   if (proporcionalnoProgramiranje.readiness.degraded) {
     degradedSources.push(`proporcionalno-programiranje:${proporcionalnoProgramiranje.readiness.status.toLowerCase()}`);
@@ -3132,6 +3319,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(funkionalnoProgramiranjePravnogMisaonogToka.readiness.score),
     },
     {
+      id: 'metriko-programiranje-lock',
+      description: 'METRIČKO PROGRAMIRANJE is locked as an additive EXTREM track with declaration-matrix, instance-positioning, and DOK/DIK technical evidence while DAK/DUK stay in EXTRONDOL governance.',
+      passed: metrikoProgramiranje.contractVersion === EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION
+        && metrikoProgramiranje.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && metrikoProgramiranje.declarationMatrix.dokEvidence.kind === 'DOK PETLJA'
+        && metrikoProgramiranje.instancePositioning.dikEvidence.kind === 'DIK PETLJA'
+        && metrikoProgramiranje.ownershipEvidence.dakDeferredToGovernance,
+    },
+    {
+      id: 'metriko-programiranje-model',
+      description: 'METRIČKO PROGRAMIRANJE preserves declaration-matrix and instance-positioning sections, neutral degraded-safe posture, and bounded readiness scoring.',
+      passed: metrikoProgramiranje.canonicalVocabulary.declarationMatrix.canonicalField === 'declarationMatrix.score'
+        && metrikoProgramiranje.canonicalVocabulary.instancePositioning.canonicalField === 'instancePositioning.score'
+        && metrikoProgramiranje.profileInput.neutralDeclarationPosturePercent >= 0
+        && metrikoProgramiranje.profileInput.neutralDeclarationPosturePercent <= 100
+        && Number.isFinite(metrikoProgramiranje.readiness.score),
+    },
+    {
       id: 'proporcionalno-programiranje-lock',
       description: 'PROPORCIONALNO PROGRAMIRANJE is locked as an additive language-innovation track with fixed interpretation, sub-signals, and EXTREM/EXTRONDOL/SPAJA KOD ownership split.',
       passed: proporcionalnoProgramiranje.contractVersion === EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION
@@ -3315,6 +3520,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkcionalnoProgramiranjePravednogMisaonogToka,
     funkionalnoProgramiranjePravnogMisaonogToka,
     proporcionalnoProgramiranje,
+    metrikoProgramiranje,
     spajinoProporcionalnoProgramiranjeUniverzitet,
     objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
@@ -3388,6 +3594,9 @@ export type {
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaProfileInput,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus,
+  ExtrimliExtremMetrickoProgramiranjeProfileInput,
+  ExtrimliExtremMetrickoProgramiranjeSignal,
+  ExtrimliExtremMetrickoProgramiranjeStatus,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
   ExtrimliExtremMobilnaLinijaInstallationStatus,
@@ -3441,6 +3650,9 @@ export {
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE,

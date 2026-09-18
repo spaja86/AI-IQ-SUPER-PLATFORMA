@@ -27,6 +27,7 @@ import {
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_WATCH_ADJUSTMENT,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
   EXTRONDOL_NIVO_DUET_SHARE,
@@ -352,6 +353,21 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkionalno-programiranje-pravnog-misaonog-toka-governance' && item.passed), 'legal-functional acceptance criterion must pass');
   });
 
+  await test('report maps METRIČKO PROGRAMIRANJE into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.metrikoProgramiranje.term === 'METRIČKO PROGRAMIRANJE', 'metric programming term mismatch');
+    assert(report.metrikoProgramiranje.contractVersion === EXTRONDOL_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION, 'metric programming contract mismatch');
+    assert(report.metrikoProgramiranje.technicalSignalSource === '/api/extrimli/extrem', 'metric programming technical source mismatch');
+    assert(report.metrikoProgramiranje.governanceVisibility === 'audit-safe-readiness-only', 'metric programming visibility mismatch');
+    assert(report.releaseAuditSummary.metrikoProgramiranjeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'metric programming audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.metrikoProgramiranje.readiness.status'), 'metric programming status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('metrikoProgramiranje.waweImpact'), 'metric programming WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('metrikoProgramiranje'), 'metric programming governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.metrikoProgramiranjeStatus === report.extremProfiler.metrikoProgramiranje.readiness.status, 'SPAJA KOD metric programming summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'metriko-programiranje-governance'), 'metric programming scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'metriko-programiranje-governance' && item.passed), 'metric programming acceptance criterion must pass');
+  });
+
   await test('report maps PROPORCIONALNO PROGRAMIRANJE into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.proporcionalnoProgramiranje.term === 'PROPORCIONALNO PROGRAMIRANJE', 'proportional programming term mismatch');
@@ -366,6 +382,27 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.proporcionalnoProgramiranjeStatus === report.extremProfiler.proporcionalnoProgramiranje.readiness.status, 'SPAJA KOD proportional programming summary mismatch');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'proporcionalno-programiranje-governance'), 'proportional programming scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'proporcionalno-programiranje-governance' && item.passed), 'proportional programming acceptance criterion must pass');
+  });
+
+  await test('METRIČKO PROGRAMIRANJE blockers propagate to EXTRONDOL freeze and onboarding hold', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_DECLARATION_MATRIX_PERCENT: '0',
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_NEUTRAL_DECLARATION_POSTURE_PERCENT: '0',
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_INSTANCE_POSITIONING_PERCENT: '0',
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_ACCENT_COUPLING_PERCENT: '0',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.extremProfiler.metrikoProgramiranje.readiness.status === 'BLOCKED', 'metric programming EXTREM status should be BLOCKED');
+      assert(report.metrikoProgramiranje.status === 'BLOCKED', 'metric programming governance status should be BLOCKED');
+      assert(report.rollout.promotionFreeze, 'metric programming blocker should freeze rollout');
+      assert(report.b2bReadiness.governanceDecisions.onboardingHold, 'metric programming blocker should hold onboarding');
+      assert(report.releaseAuditSummary.metrikoProgramiranjeGovernance.reviewRequiredBeforeWideRollout, 'metric programming blocker should require review before wide rollout');
+    });
   });
 
   await test('report maps SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
