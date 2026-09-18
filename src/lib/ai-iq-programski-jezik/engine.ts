@@ -559,8 +559,8 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
 
   const domStatus = toSignalStatus(semanticScore, !securityPass);
   const dikPenalty = warnings.filter((warning) => (
-    warning.includes('unsupported keyword')
-    || warning.includes('must follow KEYWORD: value syntax')
+    warning.includes('unsupported keyword: DIK')
+    || warning.includes('unsupported keyword: DIK PETLJA')
   )).length * 20;
   const dikReadiness = clamp(readinessScore - dikPenalty, AIIQ_LANG_MIN_SCORE, AIIQ_LANG_MAX_SCORE);
   const dikStatus = toSignalStatus(dikReadiness, !securityPass);
