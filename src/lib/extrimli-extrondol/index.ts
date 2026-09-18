@@ -767,6 +767,11 @@ function buildZelezaraPretplataGovernance(params: {
   paymentVerified: boolean;
 }): ExtrimliExtrondolZelezaraPretplataGovernance {
   const signal = params.extremProfiler.zelezaraPretplataIdentityTrack;
+  const activationGateReasons = [
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+    ...(!params.paymentVerified ? ['governance:payment-verification-required'] : []),
+  ];
   const warnings = [
     ...signal.readiness.watchReasons,
   ];
@@ -774,13 +779,11 @@ function buildZelezaraPretplataGovernance(params: {
     ...signal.readiness.blockerReasons,
     ...(!signal.readiness.canonicalIdentityConfirmed ? ['governance:contract-identity-not-confirmed'] : []),
     ...(!signal.readiness.restoreOldNameCompleted ? ['governance:legacy-return-name-not-restored'] : []),
-    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
-    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
-    ...(!params.paymentVerified ? ['governance:payment-verification-required'] : []),
   ];
   const reasons = [
     ...blockerReasons,
     ...warnings,
+    ...activationGateReasons,
     `governance:wawe-context-${params.currentWawe}-to-${params.eligibleNextWawe}`,
   ];
   const status = blockerReasons.length > 0 ? 'BLOCKED' : warnings.length > 0 ? 'WATCH' : 'READY';
@@ -816,14 +819,14 @@ function buildZelezaraPretplataGovernance(params: {
       namingConflictDetected: signal.readiness.namingConflictDetected,
       splitClientRiskDetected: signal.readiness.splitClientRiskDetected,
     },
-    waweImpact: blockerReasons.length > 0
+    waweImpact: blockerReasons.length > 0 || activationGateReasons.length > 0
       ? 'promotion-frozen'
       : warnings.length > 0
         ? 'review-before-promotion'
         : 'eligible-for-promotion',
     publicStatus: status === 'BLOCKED'
       ? 'SAFE_SUMMARY_BLOCKED'
-      : status === 'WATCH'
+      : status === 'WATCH' || activationGateReasons.length > 0
         ? 'SAFE_SUMMARY_REVIEW'
         : 'SAFE_SUMMARY_READY',
     reasons,
