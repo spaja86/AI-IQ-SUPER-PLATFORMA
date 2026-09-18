@@ -2822,10 +2822,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (!dokDikDakDukConsistencyHealth.consistent) {
     dokDikDakDukConsistencyHealth.status = 'BLOCKED';
   } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED'
-    || dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED') {
+    || dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.dak.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'BLOCKED') {
     dokDikDakDukConsistencyHealth.status = 'BLOCKED';
   } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'WATCH'
-    || dokDikDakDukConsistencyHealth.signals.dik.status === 'WATCH') {
+    || dokDikDakDukConsistencyHealth.signals.dik.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
     dokDikDakDukConsistencyHealth.status = 'WATCH';
   } else if (dokDikDakDukConsistencyHealth.signals.dak.status === null
     || dokDikDakDukConsistencyHealth.signals.duk.status === null) {
