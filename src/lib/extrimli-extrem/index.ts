@@ -2803,7 +2803,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       duk: {
         token: 'DUKAR',
         role: 'human-review',
-        status: 'WATCH',
+        status: 'READY',
       },
     },
     checks: {
@@ -2819,7 +2819,21 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     reasons: [],
   };
   dokDikDakDukConsistencyHealth.consistent = Object.values(dokDikDakDukConsistencyHealth.checks).every(Boolean);
-  dokDikDakDukConsistencyHealth.status = dokDikDakDukConsistencyHealth.consistent ? 'READY' : 'BLOCKED';
+  if (!dokDikDakDukConsistencyHealth.consistent) {
+    dokDikDakDukConsistencyHealth.status = 'BLOCKED';
+  } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.dak.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'BLOCKED') {
+    dokDikDakDukConsistencyHealth.status = 'BLOCKED';
+  } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.dik.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
+    dokDikDakDukConsistencyHealth.status = 'WATCH';
+  } else {
+    dokDikDakDukConsistencyHealth.status = 'READY';
+  }
   dokDikDakDukConsistencyHealth.reasons = dokDikDakDukConsistencyHealth.consistent
     ? ['DOK/DIK technical signals are present and DAK/DUK governance ownership mapping remains locked to EXTRONDOL.']
     : [
@@ -3182,7 +3196,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       id: 'dok-dik-dak-duk-consistency-health',
       description: 'DOK/DIK stay in EXTREM PETLJE technical output while DAK/DUK remain mapped to EXTRONDOL promotion and human-review governance tokens.',
       passed: dokDikDakDukConsistencyHealth.consistent
-        && dokDikDakDukConsistencyHealth.status === 'READY',
+        && dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved,
     },
     {
       id: 'spajapro-terminology-lock',

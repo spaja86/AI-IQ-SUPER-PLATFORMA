@@ -424,6 +424,15 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'DIK signal kind mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'DAK token mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'DUK token mismatch');
+    const signalStatuses = [
+      report.dokDikDakDukConsistencyHealth.signals.dok.status,
+      report.dokDikDakDukConsistencyHealth.signals.dik.status,
+      report.dokDikDakDukConsistencyHealth.signals.dak.status,
+      report.dokDikDakDukConsistencyHealth.signals.duk.status,
+    ];
+    if (report.dokDikDakDukConsistencyHealth.status === 'READY') {
+      assert(signalStatuses.every((status) => status === 'READY'), 'READY consistency status requires all component signals to be READY');
+    }
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');
   });
