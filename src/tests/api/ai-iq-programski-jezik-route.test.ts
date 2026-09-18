@@ -164,6 +164,32 @@ async function runTests(): Promise<void> {
     assert(body.data.securityPass, 'security should pass');
   });
 
+  await test('POST /compile keeps valid output but freezes promotion when AI flag is disabled', async () => {
+    const response = await COMPILE_POST(makeRequest('http://localhost/api/ai-iq-programski-jezik/compile', {
+      source: [
+        'INTENT: AI-native orchestration',
+        'RULE: NO_SECRET output',
+        'RULE: ALLOWLIST tool=internal',
+        'AI: plan synthesis',
+        'ORCHESTRATE: staged rollout',
+        'OUTPUT: status score warnings',
+      ].join('\n'),
+      targetMode: 'AI_NATIVE',
+      strictSecurity: true,
+      featureFlagAiIqLanguage: false,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      data: {
+        valid: boolean;
+        integrationProfile: { governanceLink: { rolloutSnapshot: { promotionFreeze: boolean } } };
+      };
+    };
+    assert(body.data.valid, 'compile should remain valid');
+    assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze, 'AI-disabled compile should freeze promotion');
+  });
+
   await test('POST /compile returns 422 when source cannot compile', async () => {
     const response = await COMPILE_POST(makeRequest('http://localhost/api/ai-iq-programski-jezik/compile', {
       source: 'INVALID LINE WITHOUT KEYWORD',

@@ -605,7 +605,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     dak: dakStatus,
     duk: dukStatus,
     rolloutMaturityScore: readinessScore,
-    promotionFreeze: status === 'BLOCKED' || !securityPass,
+    promotionFreeze: status === 'BLOCKED' || !securityPass || (aiRequested && !input.featureFlagAiIqLanguage),
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
   });
