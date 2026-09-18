@@ -170,6 +170,13 @@ function parsePercentEnvWithInvalidFallback(
   return round(clamp(parsed, 0, 100), 2);
 }
 
+function averageNormalizedTrackScores(scores: number[]): number {
+  return round(
+    scores.reduce((sum, score) => sum + score, 0) / scores.length,
+    2,
+  );
+}
+
 function selectCanonicalEnvNameWithDeprecatedAliasSuppressed(
   canonicalName: string,
   deprecatedAliasName: string,
@@ -2270,16 +2277,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     objektnoOrijentisanaReprodukcija.readiness.score,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
   ];
-  const functionalWeightedTotal = functionalScores.reduce(
-    (sum, score) => sum + score * (100 / functionalScores.length),
-    0,
-  );
-  const objectWeightedTotal = objectScores.reduce(
-    (sum, score) => sum + score * (100 / objectScores.length),
-    0,
-  );
-  const functionalTransformationPercent = round(functionalWeightedTotal / 100, 2);
-  const objectEncapsulationCompositionPercent = round(objectWeightedTotal / 100, 2);
+  const functionalTransformationPercent = averageNormalizedTrackScores(functionalScores);
+  const objectEncapsulationCompositionPercent = averageNormalizedTrackScores(objectScores);
   const proportionalBalancePercent = round(
     clamp(100 - Math.abs(functionalTransformationPercent - objectEncapsulationCompositionPercent), 0, 100),
     2,
