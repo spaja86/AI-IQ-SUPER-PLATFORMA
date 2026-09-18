@@ -3020,7 +3020,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === expectedOwnershipBoundary.dok
         && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === expectedOwnershipBoundary.dik
         && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === expectedOwnershipBoundary.dak
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === expectedOwnershipBoundary.duk,
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === expectedOwnershipBoundary.duk
+        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.dok === '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)'
+        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.dik === '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)'
+        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.dak === '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)'
+        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.duk === '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)',
     },
     consistent: false,
     status: 'BLOCKED',

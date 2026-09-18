@@ -2831,6 +2831,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
     || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
     dokDikDakDukConsistencyHealth.status = 'WATCH';
+  } else if (dokDikDakDukConsistencyHealth.signals.dak.status === null
+    || dokDikDakDukConsistencyHealth.signals.duk.status === null) {
+    dokDikDakDukConsistencyHealth.status = 'WATCH';
   } else {
     dokDikDakDukConsistencyHealth.status = 'READY';
   }
