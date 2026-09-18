@@ -2063,7 +2063,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(paymentVerification.status !== 'VERIFIED'
       ? paymentVerification.blockers.map((blocker) => `payment:${blocker}`)
       : []),
-    ...(!extremProfiler.zelezaraPretplataIdentityTrack.readiness.canonicalIdentityConfirmed ? ['zelezara-contract-identity-confirmed'] : []),
+    ...(!extremProfiler.zelezaraPretplataIdentityTrack.readiness.canonicalIdentityConfirmed ? ['zelezara-contract-identity-missing'] : []),
     ...(!extremProfiler.zelezaraPretplataIdentityTrack.readiness.restoreOldNameCompleted ? ['zelezara-restore-old-name'] : []),
     ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.namingConflictDetected ? ['zelezara-naming-conflict'] : []),
     ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.splitClientRiskDetected ? ['zelezara-single-client-interpretation'] : []),
