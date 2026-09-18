@@ -40,6 +40,7 @@ const DOM_GROUP = ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PE
 const DIK_GROUP = ['DIK PETLJA'] as const;
 const DAK_GROUP = ['DAKOR'] as const;
 const DUK_GROUP = ['DUKAR'] as const;
+const AIIQ_SURFACES = ['/api/ai-iq-programski-jezik/evaluate', '/api/ai-iq-programski-jezik/compile'] as const;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -132,7 +133,7 @@ function nextWawe(stage: AiiqIntegrationWaweStage): AiiqIntegrationWaweStage {
 function resolveWaweFromOverall(overall: AiiqIntegrationSignalStatus): AiiqIntegrationWaweStage {
   if (overall === 'BLOCKED') return 'WAWE-1';
   if (overall === 'WATCH') return 'WAWE-2';
-  return 'WAWE-4';
+  return 'WAWE-3';
 }
 
 function buildIntegrationProfile(params: {
@@ -152,7 +153,8 @@ function buildIntegrationProfile(params: {
     additiveOnly: true,
     contractMutation: 'none',
     scope: {
-      aiIqLanguage: params.surface,
+      aiIqLanguageSurfaces: AIIQ_SURFACES,
+      currentSurface: params.surface,
       extrem: '/api/extrimli/extrem',
       extrondol: '/api/extrimli/extrondol',
     },

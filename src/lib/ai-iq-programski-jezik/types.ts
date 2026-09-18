@@ -36,7 +36,8 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
   additiveOnly: true;
   contractMutation: 'none';
   scope: {
-    aiIqLanguage: '/api/ai-iq-programski-jezik/evaluate' | '/api/ai-iq-programski-jezik/compile';
+    aiIqLanguageSurfaces: readonly ['/api/ai-iq-programski-jezik/evaluate', '/api/ai-iq-programski-jezik/compile'];
+    currentSurface: '/api/ai-iq-programski-jezik/evaluate' | '/api/ai-iq-programski-jezik/compile';
     extrem: '/api/extrimli/extrem';
     extrondol: '/api/extrimli/extrondol';
   };
