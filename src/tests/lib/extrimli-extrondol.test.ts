@@ -48,6 +48,7 @@ import {
   getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment,
   getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
+  getMetrickoProgramiranjeAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
   getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
   getExtrimliExtrondolReport,
@@ -692,6 +693,9 @@ async function runTests(): Promise<void> {
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     );
+    const metrikoProgramiranjeAdjustment = getMetrickoProgramiranjeAdjustment(
+      report.extremProfiler.metrikoProgramiranje.readiness.status,
+    );
     const proporcionalnoProgramiranjeAdjustment = getProporcionalnoProgramiranjeAdjustment(
       report.extremProfiler.proporcionalnoProgramiranje.readiness.status,
     );
@@ -712,6 +716,7 @@ async function runTests(): Promise<void> {
           + funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
+          + metrikoProgramiranjeAdjustment
           + proporcionalnoProgramiranjeAdjustment
           + spajinoProporcionalnoProgramiranjeUniverzitetAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment

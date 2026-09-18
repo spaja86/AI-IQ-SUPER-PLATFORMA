@@ -214,7 +214,7 @@ async function runTests(): Promise<void> {
     assert(signal.ownershipEvidence.dukDeferredToGovernance, 'metric programming must defer DUK to governance');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected metric programming status');
     assert(Number.isFinite(signal.readiness.score), 'metric programming score must be finite');
-    assert(report.acceptanceCriteria.some((item) => item.id === 'metriko-programiranje-track' && item.passed), 'metric programming acceptance criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'metriko-programiranje-lock' && item.passed), 'metric programming acceptance criterion must pass');
   });
 
   await test('default report exposes PROPORCIONALNO PROGRAMIRANJE as additive language-innovation EXTREM signal', () => {
