@@ -39,5 +39,5 @@ Ovaj dokument zaključava značenje i governance model za **FUNKCIONALNO PROGRAM
 
 - Nema novih javnih ruta ni breaking promena na `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod`.
 - Proširenje ostaje additive-only kroz docs, types, tests i route payload.
-- `FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA` ostaje odvojen od `FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA` i `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA`.
+- `FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA` ostaje odvojen od postojeća dva sibling track-a, čiji canonical public termini ostaju zaključani kao `FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA` i `FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA` prema njihovim zasebnim spec dokumentima.
 - Downstream consumer-i sinhronizuju samo audit-safe readiness/governance polja.

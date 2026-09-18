@@ -579,6 +579,35 @@ function buildFunkionalnoProgramiranjePravnogMisaonogTokaReasons(
   };
 }
 
+function getWaweWatchSummary(
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'],
+): string {
+  return [
+    [
+      extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH',
+      'Ready for next WAWE stage with replay review visibility before broader rollout.',
+    ],
+    [
+      extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH',
+      'Ready for next WAWE stage with functional energy-flow review visibility before broader rollout.',
+    ],
+    [
+      extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH',
+      'Ready for next WAWE stage with elevated thought-flow review visibility before broader rollout.',
+    ],
+    [
+      extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status === 'WATCH',
+      'Ready for next WAWE stage with fairness-oriented thought-flow review visibility before broader rollout.',
+    ],
+    [
+      extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
+        || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH',
+      'Ready for next WAWE stage with architecture review visibility before broader rollout.',
+    ],
+  ].find(([condition]) => condition)?.[1]
+    ?? 'Ready for next WAWE stage with governance evidence.';
+}
+
 function buildKraljevskiPravniUniverzitetGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
@@ -1840,31 +1869,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...mobilnaLinija.freezeReasons.map((reason) => `mobilna-linija:${reason}`),
     ...extremProfiler.governanceSignal.reasons.map((reason) => `extrem-profiler:${reason}`),
   ];
-  const waweWatchSummary =
-    [
-      [
-        extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH',
-        'Ready for next WAWE stage with replay review visibility before broader rollout.',
-      ],
-      [
-        extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH',
-        'Ready for next WAWE stage with functional energy-flow review visibility before broader rollout.',
-      ],
-      [
-        extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'WATCH',
-        'Ready for next WAWE stage with elevated thought-flow review visibility before broader rollout.',
-      ],
-      [
-        extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status === 'WATCH',
-        'Ready for next WAWE stage with fairness-oriented thought-flow review visibility before broader rollout.',
-      ],
-      [
-        extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH'
-          || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH',
-        'Ready for next WAWE stage with architecture review visibility before broader rollout.',
-      ],
-    ].find(([condition]) => condition)?.[1]
-    ?? 'Ready for next WAWE stage with governance evidence.';
   const reasons = promotionFreeze
       ? [
           'Promotion freeze required because readiness, B2B controls, or degraded posture is below rollout threshold.',
@@ -1873,7 +1877,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           ...rolloutSignalReasons,
         ]
       : [
-          waweWatchSummary,
+          getWaweWatchSummary(extremProfiler),
           ...rolloutSignalReasons,
         ];
   const releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary = {
