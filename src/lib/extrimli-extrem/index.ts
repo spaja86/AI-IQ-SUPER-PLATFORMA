@@ -1135,9 +1135,9 @@ function buildProporcionalnoProgramiranjeSignal(
     ...(objektneStatus === 'BLOCKED' ? [`objektne-paradoksalne-etape-blocked:${profileInput.objektneParadoksalneEtapePressurePercent}`] : []),
   ];
   const aggregateStatus = classifyProporcionalnoProgramiranjeStatus(score);
-  const status: ExtrimliExtremProporcionalnoProgramiranjeStatus = blockerReasons.length > 0
+  const status: ExtrimliExtremProporcionalnoProgramiranjeStatus = blockerReasons.length > 0 || aggregateStatus === 'BLOCKED'
     ? 'BLOCKED'
-    : watchReasons.length > 0
+    : watchReasons.length > 0 || aggregateStatus === 'WATCH'
       ? 'WATCH'
       : aggregateStatus;
   const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
