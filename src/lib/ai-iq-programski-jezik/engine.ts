@@ -544,6 +544,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
 
   const aiRequested = input.targetMode !== 'DETERMINISTIC_ONLY';
   const aiEnabled = input.featureFlagAiIqLanguage && aiRequested;
+  const aiFeatureFreeze = aiRequested && !input.featureFlagAiIqLanguage;
 
   const executionMode: AiiqLanguageMode =
     !aiRequested ? 'DETERMINISTIC_ONLY' :
@@ -575,14 +576,14 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   const dikStatus = toSignalStatus(dikReadiness, !securityPass);
   const dakStatus = !securityPass
     ? 'BLOCKED'
-    : (aiRequested && !input.featureFlagAiIqLanguage)
+    : aiFeatureFreeze
       ? 'WATCH'
     : readinessScore >= 82 && executionMode !== 'DETERMINISTIC_ONLY'
       ? 'READY'
       : 'WATCH';
   const dukStatus = !securityPass
     ? 'BLOCKED'
-    : (aiRequested && !input.featureFlagAiIqLanguage)
+    : aiFeatureFreeze
       ? 'WATCH'
       : 'READY';
 
@@ -605,7 +606,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     dak: dakStatus,
     duk: dukStatus,
     rolloutMaturityScore: readinessScore,
-    promotionFreeze: status === 'BLOCKED' || !securityPass || (aiRequested && !input.featureFlagAiIqLanguage),
+    promotionFreeze: status === 'BLOCKED' || !securityPass || aiFeatureFreeze,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
   });
