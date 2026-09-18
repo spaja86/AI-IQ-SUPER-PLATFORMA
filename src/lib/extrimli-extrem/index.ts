@@ -2871,9 +2871,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       passed: versionRoadmap.developerCreateLock.additiveOnly
         && versionRoadmap.developerCreateLock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
         && versionRoadmap.developerCreateLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.extrimli === 'base-runtime-domain'
         && versionRoadmap.developerCreateLock.ownershipBoundary.extrem === 'technical-signal-and-profiler'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion'
         && versionRoadmap.developerCreateLock.ownershipBoundary.dok === 'EXTREM'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.dak === 'EXTRONDOL',
+        && versionRoadmap.developerCreateLock.ownershipBoundary.dik === 'EXTREM'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.dak === 'EXTRONDOL'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.duk === 'EXTRONDOL'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.spajaKod === 'public-audit-safe-boundary',
     },
     {
       id: 'diskvit-terminology-lock',

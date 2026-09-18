@@ -3527,7 +3527,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && versionRoadmap.developerCreateLock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
         && versionRoadmap.developerCreateLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows'
         && versionRoadmap.developerCreateLock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
+        && versionRoadmap.developerCreateLock.ownershipBoundary.extrimli === 'base-runtime-domain'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.extrem === 'technical-signal-and-profiler'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion'
         && versionRoadmap.developerCreateLock.ownershipBoundary.dok === 'EXTREM'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.dik === 'EXTREM'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.dak === 'EXTRONDOL'
         && versionRoadmap.developerCreateLock.ownershipBoundary.duk === 'EXTRONDOL',
     },
     {
