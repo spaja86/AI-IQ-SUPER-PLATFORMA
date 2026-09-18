@@ -786,9 +786,9 @@ function buildZelezaraPretplataGovernance(params: {
     ...activationGateReasons,
     `governance:wawe-context-${params.currentWawe}-to-${params.eligibleNextWawe}`,
   ];
-  const status = blockerReasons.length > 0 || activationGateReasons.length > 0
+  const status = blockerReasons.length > 0
     ? 'BLOCKED'
-    : warnings.length > 0
+    : warnings.length > 0 || activationGateReasons.length > 0
       ? 'WATCH'
       : 'READY';
 
