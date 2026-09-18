@@ -3043,6 +3043,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
     || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
     dokDikDakDukConsistencyHealth.status = 'WATCH';
+  } else if (dokDikDakDukConsistencyHealth.signals.dok.status === null
+    || dokDikDakDukConsistencyHealth.signals.dik.status === null
+    || dokDikDakDukConsistencyHealth.signals.dak.status === null
+    || dokDikDakDukConsistencyHealth.signals.duk.status === null) {
+    dokDikDakDukConsistencyHealth.status = 'WATCH';
   } else {
     dokDikDakDukConsistencyHealth.status = 'READY';
   }
