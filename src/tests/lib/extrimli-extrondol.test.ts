@@ -36,6 +36,7 @@ import {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRONDOL_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -47,6 +48,7 @@ import {
   getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
+  getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
 import {
@@ -286,6 +288,21 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.proporcionalnoProgramiranjeStatus === report.extremProfiler.proporcionalnoProgramiranje.readiness.status, 'SPAJA KOD proportional programming summary mismatch');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'proporcionalno-programiranje-governance'), 'proportional programming scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'proporcionalno-programiranje-governance' && item.passed), 'proportional programming acceptance criterion must pass');
+  });
+
+  await test('report maps SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.spajinoProporcionalnoProgramiranjeUniverzitet.term === 'SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET', 'university track term mismatch');
+    assert(report.spajinoProporcionalnoProgramiranjeUniverzitet.contractVersion === EXTRONDOL_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION, 'university track contract mismatch');
+    assert(report.spajinoProporcionalnoProgramiranjeUniverzitet.technicalSignalSource === '/api/extrimli/extrem', 'university track technical source mismatch');
+    assert(report.spajinoProporcionalnoProgramiranjeUniverzitet.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'university parent track mismatch');
+    assert(report.releaseAuditSummary.spajinoProporcionalnoProgramiranjeUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrem', 'university audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status'), 'university status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajinoProporcionalnoProgramiranjeUniverzitet.waweImpact'), 'university WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('spajinoProporcionalnoProgramiranjeUniverzitet'), 'university governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.spajinoProporcionalnoProgramiranjeUniverzitetStatus === report.extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status, 'SPAJA KOD university summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'spajino-proporcionalno-programiranje-univerzitet-governance'), 'university scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spajino-proporcionalno-programiranje-univerzitet-governance' && item.passed), 'university acceptance criterion must pass');
   });
 
   await test('report maps objektno orijentisana reprodukcija into WAWE governance and downstream sync', () => {
@@ -539,6 +556,9 @@ async function runTests(): Promise<void> {
     const proporcionalnoProgramiranjeAdjustment = getProporcionalnoProgramiranjeAdjustment(
       report.extremProfiler.proporcionalnoProgramiranje.readiness.status,
     );
+    const spajinoProporcionalnoProgramiranjeUniverzitetAdjustment = getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment(
+      report.extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
+    );
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -554,6 +574,7 @@ async function runTests(): Promise<void> {
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + proporcionalnoProgramiranjeAdjustment
+          + spajinoProporcionalnoProgramiranjeUniverzitetAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
           + petljeAdjustment
