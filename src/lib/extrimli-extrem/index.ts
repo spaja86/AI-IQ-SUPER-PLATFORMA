@@ -2798,12 +2798,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       dak: {
         token: 'DAKOR',
         role: 'promotion',
-        status: null,
+        status: freezeRequired ? 'BLOCKED' : 'READY',
       },
       duk: {
         token: 'DUKAR',
         role: 'human-review',
-        status: null,
+        status: 'WATCH',
       },
     },
     checks: {
