@@ -2448,9 +2448,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(proporcionalnoProgramiranje.readiness.status === 'WATCH'
       ? ['PROPORCIONALNO PROGRAMIRANJE requires balance review between functional transformation, object structure, and uslovne činjenice before wider WAWE progression.']
       : []),
-    ...(proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
-      ? [`PROPORCIONALNO PROGRAMIRANJE remains blocked and requires audit attention: ${proporcionalnoProgramiranje.readiness.blockerReasons.join('; ') || 'language-innovation readiness failed.'}`]
-      : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
       : []),
