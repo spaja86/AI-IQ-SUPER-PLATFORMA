@@ -2964,6 +2964,24 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     dak: 'EXTRONDOL',
     duk: 'EXTRONDOL',
   } as const;
+  const expectedSignalSources = {
+    dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)',
+    dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)',
+    dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)',
+    duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)',
+  } as const;
+  const matchesExpectedOwnershipBoundary = (boundary: typeof expectedOwnershipBoundary): boolean => (
+    boundary.dok === expectedOwnershipBoundary.dok
+    && boundary.dik === expectedOwnershipBoundary.dik
+    && boundary.dak === expectedOwnershipBoundary.dak
+    && boundary.duk === expectedOwnershipBoundary.duk
+  );
+  const matchesExpectedSignalSources = (sources: typeof expectedSignalSources): boolean => (
+    sources.dok === expectedSignalSources.dok
+    && sources.dik === expectedSignalSources.dik
+    && sources.dak === expectedSignalSources.dak
+    && sources.duk === expectedSignalSources.duk
+  );
   const mapGovernanceSignalStatus = (status: string | undefined): 'READY' | 'WATCH' | 'BLOCKED' | null => {
     if (!status) {
       return null;
@@ -3013,18 +3031,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       dikSignalPresent: Boolean(dikSignal),
       dakMappedToPromotion: Boolean(dakState) && dakState?.signalRole === 'promotion',
       dukMappedToHumanReview: Boolean(dukState) && dukState?.signalRole === 'human-review',
-      ownershipBoundaryPreserved: expectedOwnershipBoundary.dok === 'EXTREM'
-        && expectedOwnershipBoundary.dik === 'EXTREM'
-        && expectedOwnershipBoundary.dak === 'EXTRONDOL'
-        && expectedOwnershipBoundary.duk === 'EXTRONDOL'
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === expectedOwnershipBoundary.dok
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === expectedOwnershipBoundary.dik
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === expectedOwnershipBoundary.dak
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === expectedOwnershipBoundary.duk
-        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.dok === '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)'
-        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.dik === '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)'
-        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.dak === '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)'
-        && extremProfiler.dokDikDakDukConsistencyHealth.signalSources.duk === '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)',
+      ownershipBoundaryPreserved: matchesExpectedOwnershipBoundary(extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary)
+        && matchesExpectedSignalSources(extremProfiler.dokDikDakDukConsistencyHealth.signalSources),
     },
     consistent: false,
     status: 'BLOCKED',
