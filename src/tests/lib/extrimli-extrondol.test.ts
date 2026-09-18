@@ -1152,6 +1152,7 @@ async function runTests(): Promise<void> {
       assert(report.b2bReadiness.compliance.blockers.includes('zelezara-restore-old-name'), 'compliance blockers must include restore-old-name');
       assert(report.rollout.promotionFreeze, 'promotion freeze should stay active');
       assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === 'BLOCKED', 'SPAJA KOD should expose blocked Železara summary');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-identity-track' && item.passed), 'Železara identity ownership boundary should stay locked');
       assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-contract-identity-gate' && !item.passed), 'Železara contract identity gate should fail');
     });
   });
