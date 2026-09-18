@@ -2279,10 +2279,32 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     objektnoOrijentisanaReprodukcija.readiness.score,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
   ];
-  const functionalTransformationPercent = averageNormalizedTrackScores(paradigmFunctionalGroups);
-  const objectEncapsulationCompositionPercent = averageNormalizedTrackScores(paradigmObjectScores);
+  const baseFunctionalTransformationPercent = averageNormalizedTrackScores(paradigmFunctionalGroups);
+  const baseObjectEncapsulationCompositionPercent = averageNormalizedTrackScores(paradigmObjectScores);
+  const protkrovFunkcijaPressurePercent = round(
+    clamp(baseFunctionalTransformationPercent - baseObjectEncapsulationCompositionPercent, 0, 100),
+    2,
+  );
+  const objektneParadoksalneEtapePressurePercent = round(
+    clamp(baseObjectEncapsulationCompositionPercent - baseFunctionalTransformationPercent, 0, 100),
+    2,
+  );
+  const functionalTransformationPercent = round(
+    clamp(baseFunctionalTransformationPercent - (protkrovFunkcijaPressurePercent * 0.35), 0, 100),
+    2,
+  );
+  const objectEncapsulationCompositionPercent = round(
+    clamp(baseObjectEncapsulationCompositionPercent - (objektneParadoksalneEtapePressurePercent * 0.35), 0, 100),
+    2,
+  );
   const proportionalBalancePercent = round(
-    clamp(100 - Math.abs(functionalTransformationPercent - objectEncapsulationCompositionPercent), 0, 100),
+    clamp(
+      100
+      - Math.abs(functionalTransformationPercent - objectEncapsulationCompositionPercent)
+      - ((protkrovFunkcijaPressurePercent + objektneParadoksalneEtapePressurePercent) * 0.15),
+      0,
+      100,
+    ),
     2,
   );
   const proporcionalnoProgramiranje = buildProporcionalnoProgramiranjeSignal(
@@ -2291,14 +2313,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       objectEncapsulationCompositionPercent,
       proportionalBalancePercent,
       conditionalFactReadinessPercent: proportionalConditionalFactReadinessPercent,
-      protkrovFunkcijaPressurePercent: round(
-        clamp(functionalTransformationPercent - objectEncapsulationCompositionPercent, 0, 100),
-        2,
-      ),
-      objektneParadoksalneEtapePressurePercent: round(
-        clamp(objectEncapsulationCompositionPercent - functionalTransformationPercent, 0, 100),
-        2,
-      ),
+      protkrovFunkcijaPressurePercent,
+      objektneParadoksalneEtapePressurePercent,
     },
     degradedSources.some((source) => source === 'invalid-env:EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT'),
   );
