@@ -29,6 +29,59 @@ export interface ExtrimliVersionRoadmapDeliveryWave {
   outcome: string;
 }
 
+export interface ExtrimliDeveloperCreateProgramLock {
+  sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md';
+  additiveOnly: true;
+  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+  lockedCoreArtifacts: readonly [
+    'docs/EXTRIMLI.md',
+    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+    'src/lib/extrimli-extrem/**',
+    'src/lib/extrimli-extrondol/**',
+    'src/app/api/extrimli/extrem/route.ts',
+    'src/app/api/extrimli/extrondol/route.ts',
+    'src/tests/lib/extrimli-extrem.test.ts',
+    'src/tests/lib/extrimli-extrondol.test.ts'
+  ];
+  ownershipBoundary: {
+    extrimli: 'base-runtime-domain';
+    extrem: 'technical-signal-and-profiler';
+    extrondol: 'wawe-orchestration-audit-freeze-promotion';
+    dok: 'EXTREM';
+    dik: 'EXTREM';
+    dak: 'EXTRONDOL';
+    duk: 'EXTRONDOL';
+    spajaKod: 'public-audit-safe-boundary';
+  };
+  driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
+  realizationSequence: readonly [
+    'documentation-lock-and-roadmap',
+    'type-contract-alignment',
+    'route-and-health-outputs',
+    'test-and-governance-conformance',
+    'downstream-sync-and-public-summary'
+  ];
+  maxExpansionTracks: readonly [
+    'wawe-canary-dashboard',
+    'contract-evolution-log',
+    'single-pane-audit-summary',
+    'freeze-rollback-rehearsal',
+    'persona-bank-and-analytics-sync',
+    'spaja-kod-public-safe-aggregate',
+    'cross-repo-reference-expansion'
+  ];
+  definitionOfDone: {
+    additiveOnlyRequired: true;
+    dokDikDakDukSplitLocked: true;
+    sourceOfTruthRoutesStable: true;
+    docsTypesRoutesTestsWorkflowsAligned: true;
+    downstreamReferenceRequired: true;
+    humanReviewRequired: true;
+    securityRequired: true;
+    rollbackRequired: true;
+  };
+}
+
 export interface ExtrimliVersionRoadmap {
   contractVersion: 'v1-7-roadmap';
   programName: 'EXTRIMLI EXTRONDOL EXTREM';
@@ -55,6 +108,7 @@ export interface ExtrimliVersionRoadmap {
     ExtrimliVersionRoadmapDeliveryWave,
     ExtrimliVersionRoadmapDeliveryWave
   ];
+  developerCreateLock: ExtrimliDeveloperCreateProgramLock;
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
     referencesRequired: true;
@@ -201,6 +255,58 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
       outcome: 'Finish multi-repo and enterprise operating posture after governance is stable.',
     },
   ],
+  developerCreateLock: {
+    sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+    additiveOnly: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+    lockedCoreArtifacts: [
+      'docs/EXTRIMLI.md',
+      'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+      'src/lib/extrimli-extrem/**',
+      'src/lib/extrimli-extrondol/**',
+      'src/app/api/extrimli/extrem/route.ts',
+      'src/app/api/extrimli/extrondol/route.ts',
+      'src/tests/lib/extrimli-extrem.test.ts',
+      'src/tests/lib/extrimli-extrondol.test.ts',
+    ],
+    ownershipBoundary: {
+      extrimli: 'base-runtime-domain',
+      extrem: 'technical-signal-and-profiler',
+      extrondol: 'wawe-orchestration-audit-freeze-promotion',
+      dok: 'EXTREM',
+      dik: 'EXTREM',
+      dak: 'EXTRONDOL',
+      duk: 'EXTRONDOL',
+      spajaKod: 'public-audit-safe-boundary',
+    },
+    driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+    realizationSequence: [
+      'documentation-lock-and-roadmap',
+      'type-contract-alignment',
+      'route-and-health-outputs',
+      'test-and-governance-conformance',
+      'downstream-sync-and-public-summary',
+    ],
+    maxExpansionTracks: [
+      'wawe-canary-dashboard',
+      'contract-evolution-log',
+      'single-pane-audit-summary',
+      'freeze-rollback-rehearsal',
+      'persona-bank-and-analytics-sync',
+      'spaja-kod-public-safe-aggregate',
+      'cross-repo-reference-expansion',
+    ],
+    definitionOfDone: {
+      additiveOnlyRequired: true,
+      dokDikDakDukSplitLocked: true,
+      sourceOfTruthRoutesStable: true,
+      docsTypesRoutesTestsWorkflowsAligned: true,
+      downstreamReferenceRequired: true,
+      humanReviewRequired: true,
+      securityRequired: true,
+      rollbackRequired: true,
+    },
+  },
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO',
     referencesRequired: true,

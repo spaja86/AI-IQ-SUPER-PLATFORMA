@@ -2866,6 +2866,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
+      id: 'developer-create-lock',
+      description: 'Developer/Create lock remains additive-only with locked source-of-truth routes, drift-zero layers, and EXTREM/EXTRONDOL ownership boundaries.',
+      passed: versionRoadmap.developerCreateLock.additiveOnly
+        && versionRoadmap.developerCreateLock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
+        && versionRoadmap.developerCreateLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.extrem === 'technical-signal-and-profiler'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.dok === 'EXTREM'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.dak === 'EXTRONDOL',
+    },
+    {
       id: 'diskvit-terminology-lock',
       description: 'DISKVIT is locked as the browser graphics bottleneck layer and conflict-proportional model source.',
       passed: true,

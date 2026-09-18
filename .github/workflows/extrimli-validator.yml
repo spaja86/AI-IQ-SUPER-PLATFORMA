@@ -27,12 +27,14 @@ on:
       - 'src/tests/lib/extrimli-koron.test.ts'
       - 'src/tests/lib/extrimli-extrondend.test.ts'
       - 'src/tests/lib/extrimli-extrondol.test.ts'
+      - 'src/tests/lib/extrimli-extrem.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
       - 'src/tests/lib/duet.test.ts'
       - 'src/tests/api/duet-route.test.ts'
       - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/DUET.md'
       - 'docs/MULTI-REPO-LINKS.md'
@@ -69,12 +71,14 @@ on:
       - 'src/tests/lib/extrimli-koron.test.ts'
       - 'src/tests/lib/extrimli-extrondend.test.ts'
       - 'src/tests/lib/extrimli-extrondol.test.ts'
+      - 'src/tests/lib/extrimli-extrem.test.ts'
       - 'src/tests/lib/extrimli-3.test.ts'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/api/extrimli-route.test.ts'
       - 'src/tests/lib/duet.test.ts'
       - 'src/tests/api/duet-route.test.ts'
       - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/DUET.md'
       - 'docs/MULTI-REPO-LINKS.md'
@@ -119,6 +123,7 @@ jobs:
         npx tsx src/tests/lib/extrimli-koron.test.ts
         npx tsx src/tests/lib/extrimli-extrondend.test.ts
         npx tsx src/tests/lib/extrimli-extrondol.test.ts
+        npx tsx src/tests/lib/extrimli-extrem.test.ts
         npx tsx src/tests/lib/extrimli-3.test.ts
         npx tsx src/tests/lib/extrimli-instrukcija.test.ts
         npx tsx src/tests/api/extrimli-route.test.ts

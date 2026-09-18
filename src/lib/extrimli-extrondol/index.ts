@@ -1811,6 +1811,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     mandatoryOutputs: [
       'versionRoadmap',
+      'versionRoadmap.developerCreateLock',
       'rollout.currentWawe',
       'rollout.eligibleNextWawe',
       'rollout.promotionFreeze',
@@ -1861,6 +1862,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       syncRequired: true,
       syncedContractFields: [
         'versionRoadmap',
+        'versionRoadmap.developerCreateLock',
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
         'rollout.promotionFreeze',
@@ -3115,6 +3117,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       status: downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
       syncedFields: [
         'versionRoadmap.contractVersion',
+        'versionRoadmap.developerCreateLock.driftZeroLayers',
+        'versionRoadmap.developerCreateLock.definitionOfDone',
         'versionRoadmap.deliverySequence',
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
@@ -3515,6 +3519,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && versionRoadmap.versions.length === 7
         && versionRoadmap.deliverySequence[1].versions.join(',') === 'Verzija 4,Verzija 5'
         && versionRoadmap.sharedPrinciples.some((principle) => principle.id === 'wawe-governance-lock'),
+    },
+    {
+      id: 'developer-create-lock',
+      description: 'Developer/Create lock remains additive-only with locked source-of-truth routes, downstream sync layers, and DOK/DIK/DAK/DUK ownership split.',
+      passed: versionRoadmap.developerCreateLock.additiveOnly
+        && versionRoadmap.developerCreateLock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
+        && versionRoadmap.developerCreateLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows'
+        && versionRoadmap.developerCreateLock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
+        && versionRoadmap.developerCreateLock.ownershipBoundary.dok === 'EXTREM'
+        && versionRoadmap.developerCreateLock.ownershipBoundary.duk === 'EXTRONDOL',
     },
     {
       id: 'release-governance-audit-summary',

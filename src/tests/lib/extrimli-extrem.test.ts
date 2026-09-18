@@ -86,7 +86,25 @@ async function runTests(): Promise<void> {
     assert(report.businessLicensingSignals.globalLicenseReadinessScore >= 0, 'business licensing readiness score should be bounded');
     assert(report.businessLicensingSignals.criticalGlobalGapCount >= 0, 'business licensing critical gap count should be available');
     assert(report.versionRoadmap.contractVersion === 'v1-7-roadmap', 'roadmap contract mismatch');
+    assert(report.versionRoadmap.developerCreateLock.additiveOnly, 'developer/create lock must remain additive-only');
+    assert(report.versionRoadmap.developerCreateLock.sourceProgramDoc === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'developer/create program doc mismatch');
     assert(report.roadmapAlignment.primaryVersion === 'Verzija 4', 'EXTREM should align to Verzija 4');
+  });
+
+  await test('default report exposes Developer/Create lock through the shared roadmap', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const lock = report.versionRoadmap.developerCreateLock;
+    assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'developer/create source-of-truth routes mismatch');
+    assert(lock.lockedCoreArtifacts.includes('src/lib/extrimli-extrem/**'), 'locked EXTREM core artifact missing');
+    assert(lock.lockedCoreArtifacts.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'locked EXTRONDOL test artifact missing');
+    assert(lock.ownershipBoundary.extrimli === 'base-runtime-domain', 'EXTRIMLI ownership boundary mismatch');
+    assert(lock.ownershipBoundary.extrem === 'technical-signal-and-profiler', 'EXTREM ownership boundary mismatch');
+    assert(lock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion', 'EXTRONDOL ownership boundary mismatch');
+    assert(lock.ownershipBoundary.dok === 'EXTREM' && lock.ownershipBoundary.dak === 'EXTRONDOL', 'DOK/DAK ownership split mismatch');
+    assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
+    assert(lock.realizationSequence.join(',') === 'documentation-lock-and-roadmap,type-contract-alignment,route-and-health-outputs,test-and-governance-conformance,downstream-sync-and-public-summary', 'developer/create realization sequence mismatch');
+    assert(lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned, 'developer/create DoD alignment must be required');
+    assert(lock.definitionOfDone.securityRequired && lock.definitionOfDone.rollbackRequired, 'developer/create DoD security/rollback requirements missing');
   });
 
   await test('default report normalizes REZOLUCIJA/EKODOR/REKULITI PO RAULETU/DISCAN/KIBEN vocabulary', () => {

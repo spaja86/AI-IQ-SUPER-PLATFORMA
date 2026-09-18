@@ -24,11 +24,33 @@ Program je zaključan na postojeći roadmap:
 6. **V6** — multi-repo + persona sync  
 7. **V7** — enterprise operating model  
 
+## 2.1) Locked implementation nucleus
+
+Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
+
+- `docs/EXTRIMLI.md`
+- `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
+- `src/lib/extrimli-extrem/**`
+- `src/lib/extrimli-extrondol/**`
+- `src/app/api/extrimli/extrem/route.ts`
+- `src/app/api/extrimli/extrondol/route.ts`
+- `src/tests/lib/extrimli-extrem.test.ts`
+- `src/tests/lib/extrimli-extrondol.test.ts`
+
+Ownership hard lock:
+
+- `EXTRIMLI` = bazni runtime domen
+- `EXTREM` = tehnički signal i profiler
+- `EXTRONDOL` = WAWE orkestracija, audit, freeze/promotion
+- `DOK + DIK` ostaju u EXTREM tehničkom sloju
+- `DAK + DUK` ostaju u EXTRONDOL governance sloju
+- `SPAJA KOD` ostaje javni audit-safe boundary bez internih detalja
+
 ## 3) Implementation backlog (developer/create tokovi)
 
 ### Stream A — Domain model i tipovi
 - EXTREM/EXTRONDOL tipovi ostaju versioned, additive-only i backward-compatible.
-- Svaka nova obavezna semantika mora biti dokumentovana u docs + types + testovima.
+- Svaka nova obavezna semantika mora biti dokumentovana u docs + types + routes + tests + workflow slojevima.
 
 ### Stream B — API surface stabilnost i degradacija
 - Održati `partial-payload-no-500` politiku.
@@ -47,6 +69,14 @@ Program je zaključan na postojeći roadmap:
 ### Stream E — Downstream sync artefakti
 - Obavezno ažuriranje `docs/MULTI-REPO-LINKS.md` za sve EXTRIMLI/EXTREM/EXTRONDOL promene.
 - Obavezna referenca za `spaja86/IO-OPENUI-AO` follow-up.
+
+## 3.1) Redosled realizacije
+
+1. dokumentacioni lock i roadmap
+2. type/contract usklađivanje
+3. route i health izlazi
+4. test i governance conformance
+5. downstream sync i public-safe summary
 
 ## 4) EXTREM priorities
 
@@ -94,7 +124,7 @@ Rollback procedura i audit konvencija moraju biti spremni pre svake promocije.
 Uvodi se pravilo **drift-zero**:
 
 - svaka contract promena mora biti sinhronizovana kroz **docs + types + routes + workflows**
-- za DOK/DIK/DAK/DUK promene dodatno je obavezna sinhronizacija kroz **docs + types + routes + tests** bez drift-a
+- za DOK/DIK/DAK/DUK promene dodatno je obavezna sinhronizacija kroz **docs + types + routes + tests + workflows** bez drift-a
 - nema merge-a ako postoji drift između tih slojeva
 - governance conformance workflow je obavezni enforcement sloj
 - Marker: `PROGRAM_LOCK_DRIFT_ZERO`
@@ -114,6 +144,7 @@ Uvodi se pravilo **drift-zero**:
 - EXTRIMLI/EXTREM/EXTRONDOL testovi prolaze
 - Governance conformance je green
 - Source-of-truth routes i drift-zero pravila ostaju usklađeni
+- docs, types, routes, tests i workflows ostaju međusobno usklađeni
 - Marker: `PROGRAM_LOCK_MACHINE_DOD`
 
 ### Operational DoD (human governance gate)
@@ -121,3 +152,4 @@ Uvodi se pravilo **drift-zero**:
 - Dokumentacija + downstream linkovi su ažurni
 - Human review je potvrđen
 - Rollback plan + audit summary su kompletni
+- Security i secret-scan disciplina ostaju potvrđeni pre promocije

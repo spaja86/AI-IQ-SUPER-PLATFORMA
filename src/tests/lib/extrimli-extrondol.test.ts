@@ -138,6 +138,20 @@ async function runTests(): Promise<void> {
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(report.rollout.eligibleNextWawe), 'invalid eligibleNextWawe');
     assert(['RING-0-CONTRACT', 'RING-1-STAGING', 'RING-2-CANARY', 'RING-3-PRODUCTION', 'RING-4-RESILIENCE'].includes(report.b2bReadiness.tenant.rolloutRing), 'invalid B2B rollout ring');
     assert(report.versionRoadmap.contractVersion === 'v1-7-roadmap', 'roadmap contract mismatch');
+    assert(report.versionRoadmap.developerCreateLock.additiveOnly, 'developer/create lock must remain additive-only');
+  });
+
+  await test('report exposes Developer/Create lock and downstream sync expectations', () => {
+    const report = getExtrimliExtrondolReport();
+    const lock = report.versionRoadmap.developerCreateLock;
+    assert(lock.sourceProgramDoc === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'developer/create doc mismatch');
+    assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'developer/create source routes mismatch');
+    assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
+    assert(lock.ownershipBoundary.dik === 'EXTREM' && lock.ownershipBoundary.duk === 'EXTRONDOL', 'DIK/DUK ownership split mismatch');
+    assert(report.startProject.mandatoryOutputs.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be a START mandatory output');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be synced downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.driftZeroLayers'), 'developer/create drift-zero layers must be synced downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.definitionOfDone'), 'developer/create DoD must be synced downstream');
     assert(report.roadmapAlignment.primaryVersion === 'Verzija 5', 'EXTRONDOL should align to Verzija 5');
   });
 

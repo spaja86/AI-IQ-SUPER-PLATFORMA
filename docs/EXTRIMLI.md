@@ -95,6 +95,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - EXTRONDOL (`/api/extrimli/extrondol`) ostaje governance source-of-truth za `DAKOR` (promotion) i `DUKAR` (human review).
 - Oba izlaza objavljuju `dokDikDakDukConsistencyHealth` kao deterministički audit-ready health signal.
 - Health signal je additive-only i služi kao drift-zero kontrola između tehničkog (EXTREM) i governance (EXTRONDOL) sloja.
+- Shared roadmap `versionRoadmap.developerCreateLock` dodatno zaključava jezgro artefakata, ownership split i obavezne drift-zero slojeve (`docs + types + routes + tests + workflows`).
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 - DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
 

@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened, labeled]
     paths:
       - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
@@ -19,20 +20,24 @@ on:
       - 'src/lib/extrimli-koron/**'
       - 'src/lib/extrimli-extrondend/**'
       - 'src/lib/extrimli-extrondol/**'
+      - 'src/lib/extrimli-extrem/**'
       - 'src/app/api/extrimli/extendol/**'
       - 'src/app/api/extrimli/koron/**'
       - 'src/app/api/extrimli/extrondend/**'
       - 'src/app/api/extrimli/extrondol/**'
+      - 'src/app/api/extrimli/extrem/**'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-koron.test.ts'
       - 'src/tests/lib/extrimli-extrondend.test.ts'
       - 'src/tests/lib/extrimli-extrondol.test.ts'
+      - 'src/tests/lib/extrimli-extrem.test.ts'
   push:
     branches: [main]
     paths:
       - 'docs/EXTRIMLI.md'
+      - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
@@ -47,16 +52,19 @@ on:
       - 'src/lib/extrimli-koron/**'
       - 'src/lib/extrimli-extrondend/**'
       - 'src/lib/extrimli-extrondol/**'
+      - 'src/lib/extrimli-extrem/**'
       - 'src/app/api/extrimli/extendol/**'
       - 'src/app/api/extrimli/koron/**'
       - 'src/app/api/extrimli/extrondend/**'
       - 'src/app/api/extrimli/extrondol/**'
+      - 'src/app/api/extrimli/extrem/**'
       - 'src/app/api/extrimli/instrukcija/**'
       - 'src/tests/lib/extrimli-instrukcija.test.ts'
       - 'src/tests/lib/extrimli-extendol.test.ts'
       - 'src/tests/lib/extrimli-koron.test.ts'
       - 'src/tests/lib/extrimli-extrondend.test.ts'
       - 'src/tests/lib/extrimli-extrondol.test.ts'
+      - 'src/tests/lib/extrimli-extrem.test.ts'
   workflow_dispatch:
 
 concurrency:
@@ -92,6 +100,7 @@ jobs:
           }
 
           const doc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
+          const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
           const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
           const extrimli = fs.readFileSync('docs/EXTRIMLI.md', 'utf8');
           const config = JSON.parse(fs.readFileSync('.agent-config.json', 'utf8'));
@@ -104,6 +113,8 @@ jobs:
           assert(doc.includes('WAWE 1') && doc.includes('WAWE 5'), 'canonical doc must define WAWE 1-5 rollout phases');
           assert(doc.includes('Promotion freeze'), 'canonical doc must define promotion freeze guard');
           assert(doc.includes('docs/EXTRIMLI.md') && doc.includes('docs/MULTI-REPO-LINKS.md'), 'canonical doc must lock source-of-truth docs');
+          assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
+          assert(developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrem.test.ts') && developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'Developer/Create program doc must lock EXTREM/EXTRONDOL tests');
           assert(doc.includes('EXTRIMLI_EXTENDOL_CONTRACT_VERSION'), 'canonical doc must declare EXTRIMLI Extendol contract');
           assert(doc.includes('/api/extrimli/extendol'), 'canonical doc must reference EXTRIMLI Extendol unified endpoint');
           assert(doc.includes('/api/extrimli/koron'), 'canonical doc must reference EXTRIMLI KORON endpoint');
@@ -150,6 +161,9 @@ jobs:
       - name: 🧪 EXTRIMLI EXTRONDOL orchestration tests
         run: npx tsx src/tests/lib/extrimli-extrondol.test.ts
 
+      - name: 🧪 EXTRIMLI EXTREM profiler tests
+        run: npx tsx src/tests/lib/extrimli-extrem.test.ts
+
       - name: 🧪 DUET integration tests
         run: |
           npx tsx src/tests/lib/duet.test.ts
@@ -172,6 +186,7 @@ jobs:
           echo "| KORON overlay test | \`src/tests/lib/extrimli-koron.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| EXTRONDEND aggregation test | \`src/tests/lib/extrimli-extrondend.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| EXTRONDOL orchestration test | \`src/tests/lib/extrimli-extrondol.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| EXTREM profiler test | \`src/tests/lib/extrimli-extrem.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| DUET integration tests | \`src/tests/lib/duet.test.ts\`, \`src/tests/api/duet-route.test.ts\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| WAWE model | \`WAWE 1 → WAWE 5\` enforced |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Promotion freeze guard | Required when KPI/audit/sync incomplete |" >> "$GITHUB_STEP_SUMMARY"
