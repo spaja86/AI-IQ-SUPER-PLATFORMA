@@ -2779,10 +2779,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       duk: 'EXTRONDOL',
     },
     signalSources: {
-      dok: '/api/extrimli/extrem#petljeSignals.signals.dok',
-      dik: '/api/extrimli/extrem#petljeSignals.signals.dik',
-      dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.dakor',
-      duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.dukar',
+      dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)',
+      dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)',
+      dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)',
+      duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)',
     },
     signals: {
       dok: {
