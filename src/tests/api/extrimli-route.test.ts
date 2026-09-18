@@ -199,6 +199,22 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected DAK consistency token');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'unexpected DUK consistency token');
+    const extrondolSignalStatuses = [
+      body.data.dokDikDakDukConsistencyHealth.signals.dok.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dik.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dak.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.duk.status,
+    ];
+    if (body.data.dokDikDakDukConsistencyHealth.status === 'READY') {
+      assert(extrondolSignalStatuses.every((status) => status === 'READY'), 'READY consistency status requires all component signals to be READY');
+    }
+    if (!body.data.dokDikDakDukConsistencyHealth.consistent) {
+      assert(body.data.dokDikDakDukConsistencyHealth.status === 'BLOCKED', 'inconsistent health status must be BLOCKED');
+    }
+    const allChecksPassing = Object.values(body.data.dokDikDakDukConsistencyHealth.checks).every(Boolean);
+    if (body.data.dokDikDakDukConsistencyHealth.status !== 'BLOCKED') {
+      assert(allChecksPassing, 'non-blocked consistency status requires all checks to pass');
+    }
     assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
     assert(['VERIFIED', 'BLOCKED'].includes(body.data.paymentVerification.status), 'unexpected payment verification status');
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
@@ -390,6 +406,22 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected EXTREM DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected EXTREM DAK consistency token');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'unexpected EXTREM DUK consistency token');
+    const extremSignalStatuses = [
+      body.data.dokDikDakDukConsistencyHealth.signals.dok.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dik.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dak.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.duk.status,
+    ];
+    if (body.data.dokDikDakDukConsistencyHealth.status === 'READY') {
+      assert(extremSignalStatuses.every((status) => status === 'READY'), 'EXTREM READY consistency status requires all component signals to be READY');
+    }
+    if (!body.data.dokDikDakDukConsistencyHealth.consistent) {
+      assert(body.data.dokDikDakDukConsistencyHealth.status === 'BLOCKED', 'EXTREM inconsistent health status must be BLOCKED');
+    }
+    const extremAllChecksPassing = Object.values(body.data.dokDikDakDukConsistencyHealth.checks).every(Boolean);
+    if (body.data.dokDikDakDukConsistencyHealth.status !== 'BLOCKED') {
+      assert(extremAllChecksPassing, 'EXTREM non-blocked consistency status requires all checks to pass');
+    }
     assert(body.data.dokDikDakDukConsistencyHealth.consistent, 'EXTREM consistency should be true');
     assert(typeof body.data.optimization.maximumGraphicsUnlockEligible === 'boolean', 'maximumGraphicsUnlockEligible should be boolean');
   });
