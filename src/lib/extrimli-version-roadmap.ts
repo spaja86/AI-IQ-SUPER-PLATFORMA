@@ -54,8 +54,24 @@ export interface ExtrimliDeveloperCreateProgramLock {
     spajaKod: 'public-audit-safe-boundary';
   };
   driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
-  realizationSequence: readonly ExtrimliDeveloperCreateRealizationStep[];
-  expansionTracks: readonly ExtrimliDeveloperCreateExpansionTrack[];
+  realizationSequence: readonly [
+    'documentation-lock-and-roadmap',
+    'type-contract-alignment',
+    'route-and-health-outputs',
+    'test-and-governance-conformance',
+    'downstream-sync-and-public-summary',
+    ...ExtrimliDeveloperCreateRealizationStep[]
+  ];
+  expansionTracks: readonly [
+    'wawe-canary-dashboard',
+    'contract-evolution-log',
+    'single-pane-audit-summary',
+    'freeze-rollback-rehearsal',
+    'persona-bank-and-analytics-sync',
+    'spaja-kod-public-safe-aggregate',
+    'cross-repo-reference-expansion',
+    ...ExtrimliDeveloperCreateExpansionTrack[]
+  ];
   definitionOfDone: {
     additiveOnlyRequired: true;
     dokDikDakDukSplitLocked: true;
