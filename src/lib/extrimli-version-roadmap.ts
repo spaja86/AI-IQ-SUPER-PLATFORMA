@@ -29,6 +29,77 @@ export interface ExtrimliVersionRoadmapDeliveryWave {
   outcome: string;
 }
 
+export interface ExtrimliDeveloperCreateProgramLock {
+  sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md';
+  additiveOnly: true;
+  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+  lockedCoreArtifacts: readonly [
+    'docs/EXTRIMLI.md',
+    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+    'src/lib/extrimli-extrem/**',
+    'src/lib/extrimli-extrondol/**',
+    'src/app/api/extrimli/extrem/route.ts',
+    'src/app/api/extrimli/extrondol/route.ts',
+    'src/tests/lib/extrimli-extrem.test.ts',
+    'src/tests/lib/extrimli-extrondol.test.ts'
+  ];
+  ownershipBoundary: {
+    extrimli: 'base-runtime-domain';
+    extrem: 'technical-signal-and-profiler';
+    extrondol: 'wawe-orchestration-audit-freeze-promotion';
+    dok: 'EXTREM';
+    dik: 'EXTREM';
+    dak: 'EXTRONDOL';
+    duk: 'EXTRONDOL';
+    spajaKod: 'public-audit-safe-boundary';
+  };
+  driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
+  realizationSequence: readonly [
+    'documentation-lock-and-roadmap',
+    'type-contract-alignment',
+    'route-and-health-outputs',
+    'test-and-governance-conformance',
+    'downstream-sync-and-public-summary',
+    ...ExtrimliDeveloperCreateRealizationStep[]
+  ];
+  expansionTracks: readonly [
+    'wawe-canary-dashboard',
+    'contract-evolution-log',
+    'single-pane-audit-summary',
+    'freeze-rollback-rehearsal',
+    'persona-bank-and-analytics-sync',
+    'spaja-kod-public-safe-aggregate',
+    'cross-repo-reference-expansion',
+    ...ExtrimliDeveloperCreateExpansionTrack[]
+  ];
+  definitionOfDone: {
+    additiveOnlyRequired: true;
+    dokDikDakDukSplitLocked: true;
+    sourceOfTruthRoutesStable: true;
+    docsTypesRoutesTestsWorkflowsAligned: true;
+    downstreamReferenceRequired: true;
+    humanReviewRequired: true;
+    securityRequired: true;
+    rollbackRequired: true;
+  };
+}
+
+export type ExtrimliDeveloperCreateRealizationStep =
+  | 'documentation-lock-and-roadmap'
+  | 'type-contract-alignment'
+  | 'route-and-health-outputs'
+  | 'test-and-governance-conformance'
+  | 'downstream-sync-and-public-summary';
+
+export type ExtrimliDeveloperCreateExpansionTrack =
+  | 'wawe-canary-dashboard'
+  | 'contract-evolution-log'
+  | 'single-pane-audit-summary'
+  | 'freeze-rollback-rehearsal'
+  | 'persona-bank-and-analytics-sync'
+  | 'spaja-kod-public-safe-aggregate'
+  | 'cross-repo-reference-expansion';
+
 export interface ExtrimliVersionRoadmap {
   contractVersion: 'v1-7-roadmap';
   programName: 'EXTRIMLI EXTRONDOL EXTREM';
@@ -55,6 +126,7 @@ export interface ExtrimliVersionRoadmap {
     ExtrimliVersionRoadmapDeliveryWave,
     ExtrimliVersionRoadmapDeliveryWave
   ];
+  developerCreateLock: ExtrimliDeveloperCreateProgramLock;
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
     referencesRequired: true;
@@ -74,6 +146,59 @@ export interface ExtrimliVersionRoadmap {
     rollbackPlanRequired: true;
   };
 }
+
+const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
+  sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+  additiveOnly: true,
+  sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+  lockedCoreArtifacts: [
+    'docs/EXTRIMLI.md',
+    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+    'src/lib/extrimli-extrem/**',
+    'src/lib/extrimli-extrondol/**',
+    'src/app/api/extrimli/extrem/route.ts',
+    'src/app/api/extrimli/extrondol/route.ts',
+    'src/tests/lib/extrimli-extrem.test.ts',
+    'src/tests/lib/extrimli-extrondol.test.ts',
+  ],
+  ownershipBoundary: {
+    extrimli: 'base-runtime-domain',
+    extrem: 'technical-signal-and-profiler',
+    extrondol: 'wawe-orchestration-audit-freeze-promotion',
+    dok: 'EXTREM',
+    dik: 'EXTREM',
+    dak: 'EXTRONDOL',
+    duk: 'EXTRONDOL',
+    spajaKod: 'public-audit-safe-boundary',
+  },
+  driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+  realizationSequence: [
+    'documentation-lock-and-roadmap',
+    'type-contract-alignment',
+    'route-and-health-outputs',
+    'test-and-governance-conformance',
+    'downstream-sync-and-public-summary',
+  ],
+  expansionTracks: [
+    'wawe-canary-dashboard',
+    'contract-evolution-log',
+    'single-pane-audit-summary',
+    'freeze-rollback-rehearsal',
+    'persona-bank-and-analytics-sync',
+    'spaja-kod-public-safe-aggregate',
+    'cross-repo-reference-expansion',
+  ],
+  definitionOfDone: {
+    additiveOnlyRequired: true,
+    dokDikDakDukSplitLocked: true,
+    sourceOfTruthRoutesStable: true,
+    docsTypesRoutesTestsWorkflowsAligned: true,
+    downstreamReferenceRequired: true,
+    humanReviewRequired: true,
+    securityRequired: true,
+    rollbackRequired: true,
+  },
+};
 
 const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
   contractVersion: 'v1-7-roadmap',
@@ -201,6 +326,7 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
       outcome: 'Finish multi-repo and enterprise operating posture after governance is stable.',
     },
   ],
+  developerCreateLock: EXTRIMLI_DEVELOPER_CREATE_LOCK,
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO',
     referencesRequired: true,
@@ -220,6 +346,113 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
     rollbackPlanRequired: true,
   },
 };
+
+function toExtrimliDeveloperCreateLockComparable(
+  lock: ExtrimliDeveloperCreateProgramLock,
+) {
+  const {
+    sourceProgramDoc,
+    additiveOnly,
+    sourceOfTruthRoutes,
+    lockedCoreArtifacts,
+    ownershipBoundary,
+    driftZeroLayers,
+    realizationSequence,
+    expansionTracks,
+    definitionOfDone,
+    ...unexpectedTopLevel
+  } = lock;
+  assertNoExtraKeys(unexpectedTopLevel);
+
+  const {
+    extrimli,
+    extrem,
+    extrondol,
+    dok,
+    dik,
+    dak,
+    duk,
+    spajaKod,
+    ...unexpectedOwnershipBoundary
+  } = ownershipBoundary;
+  assertNoExtraKeys(unexpectedOwnershipBoundary);
+
+  const {
+    additiveOnlyRequired,
+    dokDikDakDukSplitLocked,
+    sourceOfTruthRoutesStable,
+    docsTypesRoutesTestsWorkflowsAligned,
+    downstreamReferenceRequired,
+    humanReviewRequired,
+    securityRequired,
+    rollbackRequired,
+    ...unexpectedDefinitionOfDone
+  } = definitionOfDone;
+  assertNoExtraKeys(unexpectedDefinitionOfDone);
+
+  return {
+    sourceProgramDoc,
+    additiveOnly,
+    sourceOfTruthRoutes: [...sourceOfTruthRoutes],
+    lockedCoreArtifacts: [...lockedCoreArtifacts],
+    ownershipBoundary: {
+      extrimli,
+      extrem,
+      extrondol,
+      dok,
+      dik,
+      dak,
+      duk,
+      spajaKod,
+    },
+    driftZeroLayers: [...driftZeroLayers],
+    realizationSequence: [...realizationSequence],
+    expansionTracks: [...expansionTracks],
+    definitionOfDone: {
+      additiveOnlyRequired,
+      dokDikDakDukSplitLocked,
+      sourceOfTruthRoutesStable,
+      docsTypesRoutesTestsWorkflowsAligned,
+      downstreamReferenceRequired,
+      humanReviewRequired,
+      securityRequired,
+      rollbackRequired,
+    },
+  };
+}
+
+function assertNoExtraKeys<T extends Record<string, never>>(_value: T): void {}
+
+function serializeExtrimliDeveloperCreateLock(
+  lock: ExtrimliDeveloperCreateProgramLock,
+): string {
+  return JSON.stringify(toExtrimliDeveloperCreateLockComparable(lock));
+}
+
+function hasAlignedExtrimliDeveloperCreateLockKeyset(
+  lock: ExtrimliDeveloperCreateProgramLock,
+): boolean {
+  const normalizedLock = toExtrimliDeveloperCreateLockComparable(lock);
+  const rawTopLevelKeys = Object.keys(lock).sort().join(',');
+  const normalizedTopLevelKeys = Object.keys(normalizedLock).sort().join(',');
+  const rawOwnershipKeys = Object.keys(lock.ownershipBoundary).sort().join(',');
+  const normalizedOwnershipKeys = Object.keys(normalizedLock.ownershipBoundary).sort().join(',');
+  const rawDefinitionOfDoneKeys = Object.keys(lock.definitionOfDone).sort().join(',');
+  const normalizedDefinitionOfDoneKeys = Object.keys(normalizedLock.definitionOfDone).sort().join(',');
+
+  return rawTopLevelKeys === normalizedTopLevelKeys
+    && rawOwnershipKeys === normalizedOwnershipKeys
+    && rawDefinitionOfDoneKeys === normalizedDefinitionOfDoneKeys;
+}
+
+export function isExtrimliDeveloperCreateLockAligned(
+  lock: ExtrimliDeveloperCreateProgramLock,
+): boolean {
+  return hasAlignedExtrimliDeveloperCreateLockKeyset(lock)
+    && hasAlignedExtrimliDeveloperCreateLockKeyset(EXTRIMLI_DEVELOPER_CREATE_LOCK)
+    && serializeExtrimliDeveloperCreateLock(lock)
+    === serializeExtrimliDeveloperCreateLock(EXTRIMLI_DEVELOPER_CREATE_LOCK);
+}
 
 export function getExtrimliVersionRoadmap(): ExtrimliVersionRoadmap {
   return EXTRIMLI_VERSION_ROADMAP;

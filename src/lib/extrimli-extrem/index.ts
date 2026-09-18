@@ -144,7 +144,10 @@ import {
   EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
 } from './types';
 import { buildSpajaproExtremTrack } from '../extrimli-spajapro-track';
-import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
+import {
+  getExtrimliVersionRoadmap,
+  isExtrimliDeveloperCreateLockAligned,
+} from '../extrimli-version-roadmap';
 
 const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS = [
   'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
@@ -2865,6 +2868,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
+    {
+      id: 'developer-create-lock',
+      description: 'Developer/Create lock remains additive-only with locked source-of-truth routes, drift-zero layers, and EXTREM/EXTRONDOL ownership boundaries.',
+      passed: isExtrimliDeveloperCreateLockAligned(versionRoadmap.developerCreateLock),
+    },
     {
       id: 'diskvit-terminology-lock',
       description: 'DISKVIT is locked as the browser graphics bottleneck layer and conflict-proportional model source.',

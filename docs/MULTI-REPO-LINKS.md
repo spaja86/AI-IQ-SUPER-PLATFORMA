@@ -1000,11 +1000,11 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | Program doc | `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` |
 | Source-of-truth routes | `/api/extrimli/extrem`, `/api/extrimli/extrondol` |
 | Change model | additive-only (no breaking changes) |
-| Drift policy | drift-zero (`docs + types + routes + workflows`) |
+| Drift policy | drift-zero (`docs + types + routes + tests + workflows`) |
 
 | Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
 |---|---|---|
-| Developer/Create roadmap lock (Verzije 1–7) | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror staged roadmap contract and governance checkpoints in downstream runbooks |
+| Developer/Create roadmap lock (Verzije 1–7) | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror staged roadmap contract, `versionRoadmap.developerCreateLock`, and governance checkpoints in downstream runbooks |
 | EXTREM freeze/warning separation and DISKVIT governance signal posture | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync runbook interpretation for warning vs blocked freeze triggers |
 | EXTRONDOL orchestration core (`releaseAuditSummary`, `releaseReadinessScorecard`, `contractDriftReport`, `governanceConformance`) | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream governance consumers aligned with mandatory payload |
 | DOKER/KURAT/IZEK/DOKAR additive quartet track | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync public-safe quartet summary and downstream-sync interpretation without exposing internal mapping |
@@ -1013,7 +1013,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 **Downstream tasks:**
 - Mirror developer/create additive-only policy in linked governance docs
 - Keep WAWE 1–5 + human-review hard gate alignment
-- Confirm drift-zero enforcement expectations in downstream contract-change process
+- Confirm drift-zero enforcement expectations in downstream contract-change process, including `docs + types + routes + tests + workflows`
 - Track proposal adoption as optional additive governance enhancements
 
 ```text
