@@ -3,7 +3,7 @@
 
 import type {
   AiiqIntegrationSignalStatus,
-  AiiqIntegrationWaweStage,
+  AiiqIntegrationWaveStage,
   AiiqLanguageAction,
   AiiqLanguageAstNode,
   AiiqLanguageCompileInput,
@@ -122,7 +122,7 @@ function mergeSignalStatus(...statuses: AiiqIntegrationSignalStatus[]): AiiqInte
   return 'WATCH';
 }
 
-function nextWawe(stage: AiiqIntegrationWaweStage): AiiqIntegrationWaweStage {
+function nextWave(stage: AiiqIntegrationWaveStage): AiiqIntegrationWaveStage {
   if (stage === 'WAWE-1') return 'WAWE-2';
   if (stage === 'WAWE-2') return 'WAWE-3';
   if (stage === 'WAWE-3') return 'WAWE-4';
@@ -130,9 +130,11 @@ function nextWawe(stage: AiiqIntegrationWaweStage): AiiqIntegrationWaweStage {
   return 'WAWE-5';
 }
 
-function resolveWaweFromOverall(overall: AiiqIntegrationSignalStatus): AiiqIntegrationWaweStage {
+function resolveWaveFromOverall(overall: AiiqIntegrationSignalStatus, rolloutMaturityScore: number): AiiqIntegrationWaveStage {
   if (overall === 'BLOCKED') return 'WAWE-1';
-  if (overall === 'WATCH') return 'WAWE-2';
+  if (overall === 'WATCH') return rolloutMaturityScore >= 70 ? 'WAWE-3' : 'WAWE-2';
+  if (rolloutMaturityScore >= 95) return 'WAWE-5';
+  if (rolloutMaturityScore >= 88) return 'WAWE-4';
   return 'WAWE-3';
 }
 
@@ -142,12 +144,13 @@ function buildIntegrationProfile(params: {
   dik: AiiqIntegrationSignalStatus;
   dak: AiiqIntegrationSignalStatus;
   duk: AiiqIntegrationSignalStatus;
+  rolloutMaturityScore: number;
   promotionFreeze: boolean;
   performanceWithinTargets: boolean;
   securityBoundariesPreserved: boolean;
 }): AiiqLanguageExtrimliIntegrationProfile {
   const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk);
-  const currentWawe = resolveWaweFromOverall(overall);
+  const currentWave = resolveWaveFromOverall(overall, params.rolloutMaturityScore);
   return {
     profileId: 'EXTRIMLI-EXTRONDOL-EXTREM',
     additiveOnly: true,
@@ -193,8 +196,8 @@ function buildIntegrationProfile(params: {
     governanceLink: {
       sourceOfTruth: '/api/extrimli/extrondol',
       rolloutSnapshot: {
-        currentWawe,
-        eligibleNextWawe: params.promotionFreeze ? currentWawe : nextWawe(currentWawe),
+        currentWave,
+        eligibleNextWave: params.promotionFreeze ? currentWave : nextWave(currentWave),
         promotionFreeze: params.promotionFreeze,
       },
       humanReviewRequired: true,
@@ -241,6 +244,7 @@ function invalidEvaluateResult(
       dik: 'BLOCKED',
       dak: 'BLOCKED',
       duk: 'BLOCKED',
+      rolloutMaturityScore: 0,
       promotionFreeze: true,
       performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
       securityBoundariesPreserved: false,
@@ -277,6 +281,7 @@ function invalidCompileResult(
       dik: 'BLOCKED',
       dak: 'BLOCKED',
       duk: 'BLOCKED',
+      rolloutMaturityScore: 0,
       promotionFreeze: true,
       performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
       securityBoundariesPreserved: false,
@@ -449,6 +454,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     dik: dikStatus,
     dak: dakStatus,
     duk: dukStatus,
+    rolloutMaturityScore: overallScore,
     promotionFreeze: status === 'BLOCKED' || input.riskLevel >= 80 || !input.fallbackConfigured,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: status !== 'BLOCKED' && input.securityPolicyScore >= 60 && input.fallbackConfigured,
@@ -595,6 +601,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     dik: dikStatus,
     dak: dakStatus,
     duk: dukStatus,
+    rolloutMaturityScore: readinessScore,
     promotionFreeze: status === 'BLOCKED' || (aiRequested && !input.featureFlagAiIqLanguage),
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
