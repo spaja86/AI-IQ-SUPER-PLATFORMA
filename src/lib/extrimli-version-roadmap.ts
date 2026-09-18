@@ -429,10 +429,28 @@ function serializeExtrimliDeveloperCreateLock(
   return JSON.stringify(toExtrimliDeveloperCreateLockComparable(lock));
 }
 
+function hasAlignedExtrimliDeveloperCreateLockKeyset(
+  lock: ExtrimliDeveloperCreateProgramLock,
+): boolean {
+  const normalizedLock = toExtrimliDeveloperCreateLockComparable(lock);
+  const rawTopLevelKeys = Object.keys(lock).sort().join(',');
+  const normalizedTopLevelKeys = Object.keys(normalizedLock).sort().join(',');
+  const rawOwnershipKeys = Object.keys(lock.ownershipBoundary).sort().join(',');
+  const normalizedOwnershipKeys = Object.keys(normalizedLock.ownershipBoundary).sort().join(',');
+  const rawDefinitionOfDoneKeys = Object.keys(lock.definitionOfDone).sort().join(',');
+  const normalizedDefinitionOfDoneKeys = Object.keys(normalizedLock.definitionOfDone).sort().join(',');
+
+  return rawTopLevelKeys === normalizedTopLevelKeys
+    && rawOwnershipKeys === normalizedOwnershipKeys
+    && rawDefinitionOfDoneKeys === normalizedDefinitionOfDoneKeys;
+}
+
 export function isExtrimliDeveloperCreateLockAligned(
   lock: ExtrimliDeveloperCreateProgramLock,
 ): boolean {
-  return serializeExtrimliDeveloperCreateLock(lock)
+  return hasAlignedExtrimliDeveloperCreateLockKeyset(lock)
+    && hasAlignedExtrimliDeveloperCreateLockKeyset(EXTRIMLI_DEVELOPER_CREATE_LOCK)
+    && serializeExtrimliDeveloperCreateLock(lock)
     === serializeExtrimliDeveloperCreateLock(EXTRIMLI_DEVELOPER_CREATE_LOCK);
 }
 
