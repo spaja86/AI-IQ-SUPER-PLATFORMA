@@ -50,6 +50,7 @@ import type {
   ExtrimliExtrondolStartProject,
   ExtrimliSpajaKodPublicFacade,
   ExtrimliExtrondolWaweStage,
+  ExtrimliExtrondolZelezaraPretplataGovernance,
 } from './types';
 import {
   EXTRIMLI_SPAJA_KOD_CONTRACT_VERSION,
@@ -757,6 +758,81 @@ function buildKraljevskiPravniUniverzitetGovernance(params: {
   };
 }
 
+function buildZelezaraPretplataGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+  paymentVerified: boolean;
+}): ExtrimliExtrondolZelezaraPretplataGovernance {
+  const signal = params.extremProfiler.zelezaraPretplataIdentityTrack;
+  const warnings = [
+    ...signal.readiness.watchReasons,
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+  ];
+  const blockerReasons = [
+    ...signal.readiness.blockerReasons,
+    ...(!signal.readiness.canonicalIdentityConfirmed ? ['governance:contract-identity-not-confirmed'] : []),
+    ...(!signal.readiness.restoreOldNameCompleted ? ['governance:legacy-return-name-not-restored'] : []),
+    ...(!params.paymentVerified ? ['governance:payment-verification-required'] : []),
+  ];
+  const reasons = [
+    ...blockerReasons,
+    ...warnings,
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+  const status = blockerReasons.length > 0 ? 'BLOCKED' : warnings.length > 0 ? 'WATCH' : 'READY';
+
+  return {
+    term: 'ŽELEZARA PRETPLATA IDENTITET',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    contractVersion: signal.contractVersion,
+    additiveOnly: true,
+    governanceVisibility: 'audit-safe-governance-only',
+    status,
+    subscriberIdentity: {
+      canonicalLegalName: signal.subscriberIdentity.canonicalLegalName,
+      currentOperatingName: signal.subscriberIdentity.currentOperatingName,
+      legacyReturnName: signal.subscriberIdentity.legacyReturnName,
+      singleClientInterpretation: signal.subscriberIdentity.singleClientInterpretation,
+      allowedAliases: signal.subscriberIdentity.allowedAliases,
+    },
+    activationPolicy: {
+      paymentConfirmedRequired: true,
+      contractIdentityConfirmedRequired: true,
+      singleClientInterpretationRequired: true,
+      legacyReturnNameRequired: true,
+      humanReviewRequired: true,
+      downstreamReferenceRequired: true,
+    },
+    namingReadiness: {
+      canonicalIdentityConfirmed: signal.readiness.canonicalIdentityConfirmed,
+      currentOperatingNameConfirmed: signal.readiness.currentOperatingNameConfirmed,
+      aliasCoverageScore: signal.readiness.aliasCoverageScore,
+      restoreOldNameCompleted: signal.readiness.restoreOldNameCompleted,
+      namingConflictDetected: signal.readiness.namingConflictDetected,
+      splitClientRiskDetected: signal.readiness.splitClientRiskDetected,
+    },
+    waweImpact: blockerReasons.length > 0 || params.promotionFreeze
+      ? 'promotion-frozen'
+      : warnings.length > 0
+        ? 'review-before-promotion'
+        : 'eligible-for-promotion',
+    publicStatus: status === 'BLOCKED'
+      ? 'SAFE_SUMMARY_BLOCKED'
+      : status === 'WATCH'
+        ? 'SAFE_SUMMARY_REVIEW'
+        : 'SAFE_SUMMARY_READY',
+    reasons,
+    warnings,
+    blockerReasons,
+  };
+}
+
 function buildObjektnaProngilacijaGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
@@ -1290,6 +1366,7 @@ function buildSpajaKodFacade(params: {
   humanReviewComplete: boolean;
   degraded: boolean;
   releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
+  zelezaraPretplataIdentityStatus: ExtrimliExtrondolReport['extremProfiler']['zelezaraPretplataIdentityTrack']['readiness']['status'];
   kraljevskiPravniUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
   funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
   funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
@@ -1350,6 +1427,7 @@ function buildSpajaKodFacade(params: {
       systemStatus: params.promotionFreeze ? 'BLOCKED' : status === 'WATCH' ? 'ATTENTION' : 'STABLE',
       auditStatus: params.releaseAuditSummary.status,
       downstreamSyncStatus: params.downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
+      zelezaraPretplataIdentityStatus: params.zelezaraPretplataIdentityStatus,
       kraljevskiPravniUniverzitetStatus: params.kraljevskiPravniUniverzitetStatus,
       funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: params.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
       funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: params.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus,
@@ -1627,6 +1705,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'paymentVerification',
       'extremProfiler',
       'extremProfiler.businessLicensingSignals',
+      'extremProfiler.zelezaraPretplataIdentityTrack',
       'extremProfiler.kraljevskiPravniUniverzitetTrack',
       'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka',
       'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka',
@@ -1651,6 +1730,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'objektnoOrijentisanaReprodukcija',
       'epicElikvadenti',
       'mobilnaLinija',
+      'zelezaraPretplataGovernance',
       'spajaKod',
       'releaseReadinessScorecard',
       'canaryRingMetrics',
@@ -1677,6 +1757,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'paymentVerification',
         'extremProfiler',
         'extremProfiler.businessLicensingSignals',
+        'extremProfiler.zelezaraPretplataIdentityTrack',
         'extremProfiler.kraljevskiPravniUniverzitetTrack',
         'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness',
         'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness',
@@ -1701,6 +1782,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'objektnoOrijentisanaProngilacija',
         'objektnoOrijentisanaReprodukcija',
         'epicElikvadenti',
+        'zelezaraPretplataGovernance',
         'spajaKod',
         'spajaKod.platformTrack',
         'releaseReadinessScorecard',
@@ -1888,6 +1970,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!downstreamSyncComplete ? ['Downstream sync must complete before B2B activation.'] : []),
     ...(!humanReviewComplete ? ['Human review evidence is required before B2B activation.'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['Payment verification is blocking WAWE promotion and B2B activation.'] : []),
+    ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.status === 'WATCH'
+      ? ['Železara pretplata naming remains in WATCH posture and needs identity-review visibility before broader rollout.']
+      : []),
+    ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.status === 'BLOCKED'
+      ? [`Železara pretplata naming is BLOCKED: ${extremProfiler.zelezaraPretplataIdentityTrack.readiness.blockerReasons.join(', ')}`]
+      : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['EXTREM profiler detected DISKVIT conflict pressure and requests WAWE freeze.'] : []),
     ...(extremProfiler.petljeSignals.summary.freezeRequired
       ? [`EXTREM PETLJE blocked WAWE progression: ${extremProfiler.petljeSignals.summary.blockedSignals.join(', ')}`]
@@ -1974,6 +2062,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(paymentVerification.status !== 'VERIFIED'
       ? paymentVerification.blockers.map((blocker) => `payment:${blocker}`)
       : []),
+    ...(!extremProfiler.zelezaraPretplataIdentityTrack.readiness.canonicalIdentityConfirmed ? ['zelezara-contract-identity-confirmed'] : []),
+    ...(!extremProfiler.zelezaraPretplataIdentityTrack.readiness.restoreOldNameCompleted ? ['zelezara-restore-old-name'] : []),
+    ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.namingConflictDetected ? ['zelezara-naming-conflict'] : []),
+    ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.splitClientRiskDetected ? ['zelezara-single-client-interpretation'] : []),
     ...(extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'BLOCKED'
       ? ['objektno-orijentisana-prongilacija']
       : []),
@@ -2012,6 +2104,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.governanceSignal.freezeRequired
     || extremProfiler.petljeSignals.summary.freezeRequired
     || extremProfiler.businessLicensingSignals.freezeRequired
+    || (extremProfiler.zelezaraPretplataIdentityTrack.readiness.status === 'WATCH' && !humanReviewComplete)
+    || extremProfiler.zelezaraPretplataIdentityTrack.readiness.status === 'BLOCKED'
     || (extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentisanaProngilacija.readiness.status === 'WATCH' && !humanReviewComplete)
@@ -2272,6 +2366,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       blockerReasons: [...extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.blockerReasons],
       watchReasons: [...extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.watchReasons],
     },
+    zelezaraPretplataGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      status: extremProfiler.zelezaraPretplataIdentityTrack.readiness.status,
+      canonicalIdentityConfirmed: extremProfiler.zelezaraPretplataIdentityTrack.readiness.canonicalIdentityConfirmed,
+      restoreOldNameCompleted: extremProfiler.zelezaraPretplataIdentityTrack.readiness.restoreOldNameCompleted,
+      namingConflictDetected: extremProfiler.zelezaraPretplataIdentityTrack.readiness.namingConflictDetected,
+      splitClientRiskDetected: extremProfiler.zelezaraPretplataIdentityTrack.readiness.splitClientRiskDetected,
+      blockerReasons: [...extremProfiler.zelezaraPretplataIdentityTrack.readiness.blockerReasons],
+      watchReasons: [...extremProfiler.zelezaraPretplataIdentityTrack.readiness.watchReasons],
+    },
     humanReviewRequired: true,
     rollbackPlanRequired: true,
   };
@@ -2288,6 +2392,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
     promotionFreeze,
+  });
+  const zelezaraPretplataGovernance = buildZelezaraPretplataGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
+    downstreamSyncComplete,
+    humanReviewComplete,
+    paymentVerified: paymentVerification.status === 'VERIFIED',
   });
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaGovernance({
     extremProfiler,
@@ -2413,6 +2526,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           ? 'WARN' as const
           : 'FAIL' as const,
       details: kraljevskiPravniUniverzitetGovernance.reasons.join('; '),
+    },
+    {
+      id: 'zelezara-pretplata-identity-governance',
+      label: 'Železara pretplata identity governance posture',
+      required: true,
+      status: zelezaraPretplataGovernance.status === 'READY'
+        ? 'PASS' as const
+        : zelezaraPretplataGovernance.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: zelezaraPretplataGovernance.reasons.join('; '),
     },
     {
       id: 'petlje-governance',
@@ -2638,6 +2762,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
     degraded,
     releaseAuditSummary,
+    zelezaraPretplataIdentityStatus: extremProfiler.zelezaraPretplataIdentityTrack.readiness.status,
     kraljevskiPravniUniverzitetStatus: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status,
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status,
     funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
@@ -2743,11 +2868,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.businessLicensingSignals.globalLicenseReadinessScore',
         'extremProfiler.businessLicensingSignals.criticalGlobalGapCount',
         'extremProfiler.businessLicensingSignals.freezeRequired',
+        'extremProfiler.zelezaraPretplataIdentityTrack.readiness.status',
+        'extremProfiler.zelezaraPretplataIdentityTrack.readiness.restoreOldNameCompleted',
         'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status',
         'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.completenessScore',
         'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.consistencyScore',
         'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.conflictScore',
         'b2bReadiness.globalLicensing',
+        'zelezaraPretplataGovernance.status',
+        'zelezaraPretplataGovernance.waweImpact',
         'kraljevskiPravniUniverzitetGovernance.status',
         'kraljevskiPravniUniverzitetGovernance.waweImpact',
         'funkcinalnoProgramiranjeEnergetskogMisaonogToka.waweImpact',
@@ -2772,6 +2901,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'spajaKod.readiness.governanceOutcome',
         'spajaKod.publicSignals.auditStatus',
         'spajaKod.publicSignals.downstreamSyncStatus',
+        'spajaKod.publicSignals.zelezaraPretplataIdentityStatus',
         'spajaKod.platformTrack.finalPublicStatusToken',
         'spajaKod.platformTrack.publicStatus',
         'releaseReadinessScorecard',
@@ -2907,6 +3037,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && releaseAuditSummary.kraljevskiPravniUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrem',
     },
     {
+      id: 'zelezara-pretplata-identity-track',
+      description: 'Železara pretplata identity stays additive, contract-safe, and summarized through EXTRONDOL governance without splitting HBIS/Hibis and Železara into separate clients.',
+      passed: zelezaraPretplataGovernance.sourceOfTruth === '/api/extrimli/extrondol'
+        && zelezaraPretplataGovernance.technicalSignalSource === '/api/extrimli/extrem'
+        && zelezaraPretplataGovernance.subscriberIdentity.singleClientInterpretation
+        && releaseAuditSummary.zelezaraPretplataGovernance.sourceOfTruth === '/api/extrimli/extrem'
+        && !zelezaraPretplataGovernance.namingReadiness.splitClientRiskDetected,
+    },
+    {
       id: 'domain-strategy-lock',
       description: 'Requested `spaja.nivo*spaja` is rejected and canonical domains remain `spaja.nivo-spaja` + `*.spaja.nivo-spaja`.',
       passed: domainStrategy.valid && domainStrategy.requestedPatternRejected,
@@ -2953,6 +3092,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'payment-verification-gate',
       description: 'Payment verification must pass invoice resolution, evidence package, and privacy/redaction controls before WAWE promotion and B2B activation.',
       passed: paymentVerification.status === 'VERIFIED',
+    },
+    {
+      id: 'zelezara-contract-identity-gate',
+      description: 'No Železara pretplata activation may proceed without confirmed contract identity, confirmed single-client interpretation, and completed legacy-name restoration where required.',
+      passed: zelezaraPretplataGovernance.namingReadiness.canonicalIdentityConfirmed
+        && zelezaraPretplataGovernance.subscriberIdentity.singleClientInterpretation
+        && zelezaraPretplataGovernance.namingReadiness.restoreOldNameCompleted,
     },
     {
       id: 'doker-kurat-izek-dokar-overlay-lock',
@@ -3288,6 +3434,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     paymentVerification,
     extremProfiler,
     petljeGovernance,
+    zelezaraPretplataGovernance,
     kraljevskiPravniUniverzitetGovernance,
     objektnoOrijentisanaProngilacija,
     funkcinalnoProgramiranjeEnergetskogMisaonogToka,

@@ -16,6 +16,7 @@ import {
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
+  EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
   getExtrimliExtremProfilerReport,
 } from '../../lib/extrimli-extrem';
 
@@ -246,6 +247,39 @@ async function runTests(): Promise<void> {
     assert(track.readiness.consistencyScore === 100, 'default consistency score mismatch');
     assert(track.readiness.conflictScore >= 0 && track.readiness.conflictScore <= 100, 'conflict score must be bounded');
     assert(report.acceptanceCriteria.some((item) => item.id === 'kraljevski-pravni-univerzitet-track-lock' && item.passed), 'track lock criterion must pass');
+  });
+
+  await test('default report exposes Železara pretplata identity track with locked alias and public-boundary rules', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const track = report.zelezaraPretplataIdentityTrack;
+    assert(track.trackId === 'extrimli-zelezara-pretplata-identity', 'Železara track id mismatch');
+    assert(track.contractVersion === EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION, 'Železara track contract mismatch');
+    assert(track.technicalSourceOfTruth === '/api/extrimli/extrem', 'Železara technical source mismatch');
+    assert(track.governanceSourceOfTruth === '/api/extrimli/extrondol', 'Železara governance source mismatch');
+    assert(track.publicBoundary === '/api/extrimli/spaja-kod', 'Železara public boundary mismatch');
+    assert(track.subscriberIdentity.canonicalLegalName === 'Železara d.o.o. Smederevo', 'canonical legal name mismatch');
+    assert(track.subscriberIdentity.legacyReturnName === 'Železara', 'legacy return name mismatch');
+    assert(track.subscriberIdentity.allowedAliases.includes('HBIS') && track.subscriberIdentity.allowedAliases.includes('Hibis'), 'HBIS/Hibis aliases missing');
+    assert(track.subscriberIdentity.singleClientInterpretation, 'single-client rule must stay enabled');
+    assert(track.readiness.restoreOldNameRequired, 'restore-old-name requirement must stay enabled');
+    assert(track.readiness.status === 'READY', 'default Železara track should be READY');
+    assert(report.spajaKodEncapsulation.publicSignals.includes('zelezara-pretplata-identity-status'), 'SPAJA KOD signal missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-identity-track-lock' && item.passed), 'Železara track lock criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-single-client-rule' && item.passed), 'Železara single-client criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-legacy-return-rule' && item.passed), 'Železara legacy return criterion must pass');
+  });
+
+  await test('Železara pretplata identity track blocks when legacy return name is not restored', async () => {
+    await withEnv({
+      EXTRIMLI_ZELEZARA_RESTORE_OLD_NAME_COMPLETED: 'false',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const track = report.zelezaraPretplataIdentityTrack;
+      assert(track.readiness.status === 'BLOCKED', 'Železara track should block when legacy name is not restored');
+      assert(track.readiness.blockerReasons.some((reason) => reason.includes('Železara is not restored')), 'restore-old-name blocker must be present');
+      assert(report.degradedSources.includes('zelezara-pretplata-identity:blocked'), 'degraded source should include blocked Železara identity track');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-legacy-return-rule' && !item.passed), 'legacy return criterion should fail');
+    });
   });
 
   await test('KRALJEVSKI PRAVNI UNIVERZITET track keeps locked EXTREM, EXTRONDOL, and SPAJA KOD boundaries', () => {

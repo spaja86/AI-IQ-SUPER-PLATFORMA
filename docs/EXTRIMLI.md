@@ -596,6 +596,30 @@ Release/governance checklist:
 - downstream reference
 - audit summary
 
+## ŽELEZARA PRETPLATA IDENTITET
+
+- Canonical legal name in this program: `Železara d.o.o. Smederevo`
+- Current operating name for intake matching: `HBIS / Hibis Smederevo`
+- Legacy return name: `Železara`
+- Allowed aliases: `Železara d.o.o. Smederevo`, `Železara`, `HBIS`, `Hibis`, `HBIS Smederevo`, `Hibis Smederevo`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+
+Identity/governance split:
+
+- **EXTREM** potvrđuje da svi dozvoljeni nazivi mapiraju isti entitet, meri alias coverage i označava `READY/WATCH/BLOCKED` posture za restore-old-name zahtev.
+- **EXTRONDOL** koristi taj signal za procurement, contract approval, onboarding, downstream sync, human review i paymentVerification hard gate odluke.
+- **SPAJA KOD** izlaže samo audit-safe summary status bez sirovih identity konflikt detalja.
+
+Hard rules:
+
+- `HBIS/Hibis` i `Železara` ne smeju biti tretirani kao dva odvojena klijenta.
+- Ako je restore-old-name označen kao poslovni uslov, javni i audit-safe izlazi moraju vratiti naziv `Železara`.
+- Nepotvrđen ugovorni identitet, naming konflikt ili neispunjen restore-old-name zahtev moraju ostati eksplicitan blocker/freeze reason.
+- Payment verification i human review ostaju obavezni pre aktivacije.
+
 ### Objektno orijentusano uzdizanje epskih elikvadenata
 
 - Canonical term: `Objektno orijentusano uzdizanje epskih elikvadenata`
@@ -818,7 +842,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`
   - `EXTRONDOL_MODULE_VERSION = 1.0.0`
 - Degraded policy: `partial-payload-no-500`
-- Mandatory payload: `orchestrationReadinessScore`, `roadmapAlignment`, `versionRoadmap`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `extremProfiler`, `mobilnaLinija`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
+- Mandatory payload: `orchestrationReadinessScore`, `roadmapAlignment`, `versionRoadmap`, `startProject`, `b2bScope`, `b2bReadiness`, `paymentVerification`, `zelezaraPretplataGovernance`, `extremProfiler`, `mobilnaLinija`, `domainStrategy`, `nivoDuet`, `dinkos`, `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `releaseAuditSummary`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`, `acceptanceCriteria`, `integrationBoundaries`, `surfaces`.
 - EXTREM resolution propagation:
   - rollout reasons include additive REZOLUCIJA / REKULITI PO RAULETU freeze markers when present
   - `b2bReadiness.governanceDecisions.resolutionReadiness` mirrors EXTREM resolution posture
@@ -866,6 +890,8 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 - Audit obaveze ostaju: traceable approvals, full audit trail, downstream references, i bez operativnih sekreta u Git-u.
 - `releaseAuditSummary` je obavezan i mora sadržati: rollout snapshot (`currentWawe`, `eligibleNextWawe`, `promotionFreeze`, `reasons`), KPI impact (`evaluationMaxMs`, `apiResponseMaxMs`, `buildDurationMaxMin`, `withinTargets`) i downstream reference (`linkedRepo`, `status`, `required`), uz `humanReviewRequired` i `rollbackPlanRequired` hard gate polja.
 - `paymentVerification` je obavezan pre WAWE promocije i B2B aktivacije; mora sadržati status provere (`VERIFIED | BLOCKED`), `invoiceResolutionPath` (`paid | correction-resolved | unresolved`), dokazni paket (`invoiceRequested`, `currentInvoiceEvidenceCaptured`, `bankStatementCaptured`, `paymentReferenceCaptured`, klasifikacija reference i public-safe approval), `blockers`, `auditTimestamp` i `readinessImpact`.
+- `zelezaraPretplataGovernance` je additive audit-safe governance track za intake/contract naming: kanonski identitet ostaje `Železara d.o.o. Smederevo`, operativni intake prihvata `HBIS/Hibis` alias-e, a restore-old-name pravilo mora vratiti `Železara` kada je to obavezan poslovni uslov.
+- Ako `zelezaraPretplataGovernance.namingReadiness.restoreOldNameCompleted = false`, `namingConflictDetected = true` ili `splitClientRiskDetected = true`, aktivacija mora ostati blokirana i WAWE promocija frozen.
 - Vercel pretplata governance za Digitalna Industrija mora eksplicitno pokriti:
   - billing owner lock na `Digitalna Industrija — Kompanija SPAJA`
   - trenutnu fakturu `5JJYX4KN-0015` (`$385.52`) kao `paid` ili `corrected-invoice-resolved` (samo `correction-requested` nije dovoljno za finalno razrešenje)
@@ -892,7 +918,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-3` → downstream sync evidence
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
-- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `extremProfiler`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`.
+- START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `zelezaraPretplataGovernance`, `extremProfiler`, `extremProfiler.zelezaraPretplataIdentityTrack`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`.
 - `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze, uključujući FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA i PROPORCIONALNO PROGRAMIRANJE track-ove.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
@@ -901,6 +927,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 
 - `releaseReadinessScorecard` je single-pane prikaz za zaključana jezgra `EXTRIMLI`, `EXTREM`, `EXTRONDOL` i zaključane source-of-truth rute (`/api/extrimli/extrem`, `/api/extrimli/extrondol`).
 - Kada je relevantan, scorecard i `releaseAuditSummary` moraju uključiti FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA i PROPORCIONALNO PROGRAMIRANJE posture, rollout impact, downstream reference i human-review/rollback coupling.
+- Kada je aktivan Železara pretplata track, scorecard i `releaseAuditSummary` moraju uključiti kanonski identitet, restore-old-name status, split-client rizik i public-safe summary signal.
 - `canaryRingMetrics` prati ring sekvencu `RING-0-CONTRACT → RING-4-RESILIENCE` i auto-freeze posture pre promocije.
 - `incidentPlaybook` zaključava tok `trigger → freeze → rollback → postmortem`.
 - `contractDriftReport` proverava usklađenost docs/types/routes/workflows i blokira conformance ako postoji drift.
