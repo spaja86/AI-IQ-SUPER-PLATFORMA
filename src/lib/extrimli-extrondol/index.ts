@@ -770,13 +770,13 @@ function buildZelezaraPretplataGovernance(params: {
   const signal = params.extremProfiler.zelezaraPretplataIdentityTrack;
   const warnings = [
     ...signal.readiness.watchReasons,
-    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
-    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
   ];
   const blockerReasons = [
     ...signal.readiness.blockerReasons,
     ...(!signal.readiness.canonicalIdentityConfirmed ? ['governance:contract-identity-not-confirmed'] : []),
     ...(!signal.readiness.restoreOldNameCompleted ? ['governance:legacy-return-name-not-restored'] : []),
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
     ...(!params.paymentVerified ? ['governance:payment-verification-required'] : []),
   ];
   const reasons = [
@@ -2200,6 +2200,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'kraljevski-pravni-univerzitet:blocked',
         ...extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.blockerReasons.map((reason) => `kraljevski-pravni-univerzitet:${reason}`),
       ]
+      : []),
+    ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.status === 'WATCH'
+      ? ['zelezara-pretplata:watch', 'zelezara-pretplata:audit-safe-review-visibility-required']
+      : []),
+    ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.status === 'BLOCKED'
+      ? ['zelezara-pretplata:blocked', 'zelezara-pretplata:audit-safe-activation-freeze-required']
       : []),
     ...(extremProfiler.petljeSignals.summary.freezeRequired
       ? [

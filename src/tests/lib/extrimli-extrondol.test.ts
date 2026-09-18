@@ -203,6 +203,46 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-contract-identity-gate' && item.passed), 'Železara contract identity gate must pass');
   });
 
+  await test('Železara WATCH posture stays audit-safe and WAWE-aware without forcing a blocker', async () => {
+    await withEnv({
+      EXTRIMLI_ZELEZARA_ALIAS_COVERAGE_SCORE: '85',
+      EXTRIMLI_ZELEZARA_CURRENT_OPERATING_NAME_CONFIRMED: 'true',
+      EXTRIMLI_ZELEZARA_CANONICAL_IDENTITY_CONFIRMED: 'true',
+      EXTRIMLI_ZELEZARA_RESTORE_OLD_NAME_COMPLETED: 'true',
+      EXTRIMLI_ZELEZARA_NAMING_CONFLICT: 'false',
+      EXTRIMLI_ZELEZARA_SPLIT_CLIENT_RISK: 'false',
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.zelezaraPretplataGovernance.status === 'WATCH', 'Železara governance should be WATCH');
+      assert(report.zelezaraPretplataGovernance.blockerReasons.length === 0, 'WATCH posture should not add blockers');
+      assert(report.zelezaraPretplataGovernance.warnings.some((reason) => reason.includes('Allowed alias coverage remains incomplete')), 'WATCH posture should preserve alias coverage warning');
+      assert(report.zelezaraPretplataGovernance.reasons.includes(`governance:wawe-context-${report.rollout.currentWawe}-to-${report.rollout.eligibleNextWawe}`), 'WATCH posture should retain WAWE context');
+      assert(report.rollout.reasons.includes('zelezara-pretplata:watch'), 'rollout reasons should include Železara WATCH marker');
+      assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.includes('Železara pretplata naming remains in WATCH posture and needs identity-review visibility before broader rollout.'), 'partner readiness warnings should include audit-safe WATCH messaging');
+      assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === 'WATCH', 'SPAJA KOD should expose WATCH summary');
+    });
+  });
+
   await test('report maps objektno orijentisana prongilacija into WAWE governance and downstream sync', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'object-oriented prongilacija term mismatch');

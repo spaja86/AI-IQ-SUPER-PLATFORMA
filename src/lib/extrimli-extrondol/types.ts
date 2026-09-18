@@ -2,7 +2,11 @@ import type { ExtrimliExtrondendReport } from '../extrimli-extrondend';
 import type { ExtrimliExtendolReport } from '../extrimli-extendol';
 import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { DuetInput, DuetStatus } from '../duet';
-import type { ExtrimliExtremProfilerReport, ExtrimliSpajaKodPublicStatus } from '../extrimli-extrem';
+import type {
+  ExtrimliExtremProfilerReport,
+  ExtrimliExtremZelezaraPretplataIdentityStatus,
+  ExtrimliSpajaKodPublicStatus,
+} from '../extrimli-extrem';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type {
   ExtrimliDokerKuratIzekDokarGovernanceTrack,
@@ -629,7 +633,7 @@ export interface ExtrimliExtrondolZelezaraPretplataGovernance {
   contractVersion: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['contractVersion'];
   additiveOnly: true;
   governanceVisibility: 'audit-safe-governance-only';
-  status: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['readiness']['status'];
+  status: ExtrimliExtremZelezaraPretplataIdentityStatus;
   subscriberIdentity: {
     canonicalLegalName: 'Železara d.o.o. Smederevo';
     currentOperatingName: 'HBIS / Hibis Smederevo';
@@ -781,7 +785,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
   };
   zelezaraPretplataGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
-    status: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['readiness']['status'];
+    status: ExtrimliExtremZelezaraPretplataIdentityStatus;
     canonicalIdentityConfirmed: boolean;
     restoreOldNameCompleted: boolean;
     namingConflictDetected: boolean;
