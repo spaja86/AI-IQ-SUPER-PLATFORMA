@@ -785,7 +785,7 @@ function buildZelezaraPretplataGovernance(params: {
     ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
     `governance:wawe-context-${params.currentWawe}-to-${params.eligibleNextWawe}`,
   ];
-  const status = blockerReasons.length > 0 ? 'BLOCKED' : 'READY';
+  const status = blockerReasons.length > 0 ? 'BLOCKED' : warnings.length > 0 ? 'WATCH' : 'READY';
 
   return {
     term: 'ŽELEZARA PRETPLATA IDENTITET',
@@ -825,7 +825,7 @@ function buildZelezaraPretplataGovernance(params: {
         : 'eligible-for-promotion',
     publicStatus: status === 'BLOCKED'
       ? 'SAFE_SUMMARY_BLOCKED'
-      : warnings.length > 0
+      : status === 'WATCH'
         ? 'SAFE_SUMMARY_REVIEW'
         : 'SAFE_SUMMARY_READY',
     reasons,

@@ -233,7 +233,7 @@ async function runTests(): Promise<void> {
         downstreamSyncComplete: true,
         humanReviewComplete: true,
       });
-      assert(report.zelezaraPretplataGovernance.status === 'READY', 'Železara governance should stay READY when hard gates are satisfied');
+      assert(report.zelezaraPretplataGovernance.status === 'WATCH', 'Železara governance should stay WATCH when review warnings remain');
       assert(report.zelezaraPretplataGovernance.blockerReasons.length === 0, 'WATCH posture should not add blockers');
       assert(report.zelezaraPretplataGovernance.warnings.some((reason) => reason.includes('Allowed alias coverage remains incomplete')), 'WATCH posture should preserve alias coverage warning');
       assert(report.zelezaraPretplataGovernance.reasons.includes(`governance:wawe-context-${report.rollout.currentWawe}-to-${report.rollout.eligibleNextWawe}`), 'WATCH posture should retain WAWE context');
