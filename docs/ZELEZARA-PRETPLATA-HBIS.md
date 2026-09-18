@@ -74,17 +74,15 @@ Ako bilo koji od ovih elemenata nedostaje, status ostaje `blocked` ili `legal-re
 
 ## Status model
 
-| Status | Značenje |
-| --- | --- |
-| `intake` | Predmet otvoren, alias identitet još nije potvrđen |
-| `identity-review` | Proverava se da li svi nazivi mapiraju isti entitet |
-| `contract-review` | U toku pravna i billing potvrda |
-| `payment-pending` | Ugovor završen, čeka se potvrda uplate |
-| `onboarding` | Uplata potvrđena, onboarding i downstream sync u toku |
-| `activation-ready` | Svi hard gate-ovi zatvoreni, čeka human review |
-| `active` | Pretplata aktivirana |
-| `rollback` | Aktivacija vraćena zbog rizika, spora ili regression-a |
-| `blocked` | Naming, payment, compliance ili audit blocker aktivan |
+- `intake` — Predmet otvoren, alias identitet još nije potvrđen.
+- `identity-review` — Proverava se da li svi nazivi mapiraju isti entitet.
+- `contract-review` — U toku pravna i billing potvrda.
+- `payment-pending` — Ugovor završen, čeka se potvrda uplate.
+- `onboarding` — Uplata potvrđena, onboarding i downstream sync u toku.
+- `activation-ready` — Svi hard gate-ovi zatvoreni, čeka human review.
+- `active` — Pretplata aktivirana.
+- `rollback` — Aktivacija vraćena zbog rizika, spora ili regression-a.
+- `blocked` — Naming, payment, compliance ili audit blocker aktivan.
 
 ---
 

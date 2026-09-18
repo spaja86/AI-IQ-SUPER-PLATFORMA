@@ -1974,7 +1974,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? ['Železara pretplata naming remains in WATCH posture and needs identity-review visibility before broader rollout.']
       : []),
     ...(extremProfiler.zelezaraPretplataIdentityTrack.readiness.status === 'BLOCKED'
-      ? [`Železara pretplata naming is BLOCKED: ${extremProfiler.zelezaraPretplataIdentityTrack.readiness.blockerReasons.join(', ')}`]
+      ? ['Železara pretplata naming is BLOCKED and keeps activation frozen until the identity, legacy-name, and audit-safe output requirements are resolved.']
       : []),
     ...(extremProfiler.governanceSignal.freezeRequired ? ['EXTREM profiler detected DISKVIT conflict pressure and requests WAWE freeze.'] : []),
     ...(extremProfiler.petljeSignals.summary.freezeRequired
