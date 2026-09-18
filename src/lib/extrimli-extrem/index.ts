@@ -2445,12 +2445,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
       ? [`FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA blocked WAWE progression: ${funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.blockerReasons.join('; ') || 'explicit thought-flow readiness failed.'}`]
       : []),
-    ...(proporcionalnoProgramiranje.readiness.status === 'WATCH'
-      ? ['PROPORCIONALNO PROGRAMIRANJE remains in audit WATCH posture and requires balance review between functional transformation, object structure, and uslovne činjenice.']
-      : []),
-    ...(proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
-      ? [`PROPORCIONALNO PROGRAMIRANJE remains in audit BLOCKED posture and must be reviewed through EXTRONDOL governance: ${proporcionalnoProgramiranje.readiness.blockerReasons.join('; ') || 'language-innovation readiness failed.'}`]
-      : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
       : []),
