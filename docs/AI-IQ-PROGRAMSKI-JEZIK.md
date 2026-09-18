@@ -121,7 +121,7 @@ Obavezni gate-ovi pre aktivacije:
 Release kriterijumi su blokirani ako security nije zelen ili fallback nije potvrđen.
 
 Governance veza prema EXTRONDOL release modelu u `integrationProfile.governanceLink` obavezno uključuje:
-- rollout snapshot (`currentWave`, `eligibleNextWave`)
+- rollout snapshot (`currentStage`, `eligibleNextStage`)
 - `promotionFreeze`
 - `humanReviewRequired`
 - `rollbackPlanRequired`

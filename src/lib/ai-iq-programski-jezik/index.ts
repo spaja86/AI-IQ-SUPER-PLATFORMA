@@ -6,7 +6,7 @@ export { setAiiqLanguageHeaders } from './route-utils';
 
 export type {
   AiiqIntegrationSignalStatus,
-  AiiqIntegrationWaveStage,
+  AiiqIntegrationRolloutStage,
   AiiqLanguageAction,
   AiiqLanguageAstNode,
   AiiqLanguageCompileInput,

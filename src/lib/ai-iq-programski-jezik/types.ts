@@ -29,7 +29,7 @@ export type AiiqLanguageAction =
 
 export type AiiqIntegrationSignalStatus = 'BLOCKED' | 'WATCH' | 'READY';
 
-export type AiiqIntegrationWaveStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
+export type AiiqIntegrationRolloutStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
 
 export interface AiiqLanguageExtrimliIntegrationProfile {
   profileId: 'EXTRIMLI-EXTRONDOL-EXTREM';
@@ -76,8 +76,8 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
   governanceLink: {
     sourceOfTruth: '/api/extrimli/extrondol';
     rolloutSnapshot: {
-      currentWave: AiiqIntegrationWaveStage;
-      eligibleNextWave: AiiqIntegrationWaveStage;
+      currentStage: AiiqIntegrationRolloutStage;
+      eligibleNextStage: AiiqIntegrationRolloutStage;
       promotionFreeze: boolean;
     };
     humanReviewRequired: true;

@@ -3,7 +3,7 @@
 
 import type {
   AiiqIntegrationSignalStatus,
-  AiiqIntegrationWaveStage,
+  AiiqIntegrationRolloutStage,
   AiiqLanguageAction,
   AiiqLanguageAstNode,
   AiiqLanguageCompileInput,
@@ -122,7 +122,7 @@ function mergeSignalStatus(...statuses: AiiqIntegrationSignalStatus[]): AiiqInte
   return 'WATCH';
 }
 
-function nextWave(stage: AiiqIntegrationWaveStage): AiiqIntegrationWaveStage {
+function nextRolloutStage(stage: AiiqIntegrationRolloutStage): AiiqIntegrationRolloutStage {
   if (stage === 'WAWE-1') return 'WAWE-2';
   if (stage === 'WAWE-2') return 'WAWE-3';
   if (stage === 'WAWE-3') return 'WAWE-4';
@@ -130,7 +130,10 @@ function nextWave(stage: AiiqIntegrationWaveStage): AiiqIntegrationWaveStage {
   return 'WAWE-5';
 }
 
-function resolveWaveFromOverall(overall: AiiqIntegrationSignalStatus, rolloutMaturityScore: number): AiiqIntegrationWaveStage {
+function resolveRolloutStageFromOverall(
+  overall: AiiqIntegrationSignalStatus,
+  rolloutMaturityScore: number,
+): AiiqIntegrationRolloutStage {
   if (overall === 'BLOCKED') return 'WAWE-1';
   if (overall === 'WATCH') return rolloutMaturityScore >= 70 ? 'WAWE-3' : 'WAWE-2';
   if (rolloutMaturityScore >= 95) return 'WAWE-5';
@@ -150,7 +153,7 @@ function buildIntegrationProfile(params: {
   securityBoundariesPreserved: boolean;
 }): AiiqLanguageExtrimliIntegrationProfile {
   const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk);
-  const currentWave = resolveWaveFromOverall(overall, params.rolloutMaturityScore);
+  const currentStage = resolveRolloutStageFromOverall(overall, params.rolloutMaturityScore);
   return {
     profileId: 'EXTRIMLI-EXTRONDOL-EXTREM',
     additiveOnly: true,
@@ -196,8 +199,8 @@ function buildIntegrationProfile(params: {
     governanceLink: {
       sourceOfTruth: '/api/extrimli/extrondol',
       rolloutSnapshot: {
-        currentWave,
-        eligibleNextWave: params.promotionFreeze ? currentWave : nextWave(currentWave),
+        currentStage,
+        eligibleNextStage: params.promotionFreeze ? currentStage : nextRolloutStage(currentStage),
         promotionFreeze: params.promotionFreeze,
       },
       humanReviewRequired: true,
