@@ -123,22 +123,22 @@ function mergeSignalStatus(...statuses: AiiqIntegrationSignalStatus[]): AiiqInte
 }
 
 function nextRolloutStage(stage: AiiqIntegrationRolloutStage): AiiqIntegrationRolloutStage {
-  if (stage === 'WAWE-1') return 'WAWE-2';
-  if (stage === 'WAWE-2') return 'WAWE-3';
-  if (stage === 'WAWE-3') return 'WAWE-4';
-  if (stage === 'WAWE-4') return 'WAWE-5';
-  return 'WAWE-5';
+  if (stage === 'WAVE-1') return 'WAVE-2';
+  if (stage === 'WAVE-2') return 'WAVE-3';
+  if (stage === 'WAVE-3') return 'WAVE-4';
+  if (stage === 'WAVE-4') return 'WAVE-5';
+  return 'WAVE-5';
 }
 
 function resolveRolloutStageFromOverall(
   overall: AiiqIntegrationSignalStatus,
   rolloutMaturityScore: number,
 ): AiiqIntegrationRolloutStage {
-  if (overall === 'BLOCKED') return 'WAWE-1';
-  if (overall === 'WATCH') return rolloutMaturityScore >= 70 ? 'WAWE-3' : 'WAWE-2';
-  if (rolloutMaturityScore >= 95) return 'WAWE-5';
-  if (rolloutMaturityScore >= 88) return 'WAWE-4';
-  return 'WAWE-3';
+  if (overall === 'BLOCKED') return 'WAVE-1';
+  if (overall === 'WATCH') return rolloutMaturityScore >= 70 ? 'WAVE-3' : 'WAVE-2';
+  if (rolloutMaturityScore >= 95) return 'WAVE-5';
+  if (rolloutMaturityScore >= 88) return 'WAVE-4';
+  return 'WAVE-3';
 }
 
 function buildIntegrationProfile(params: {
@@ -447,9 +447,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       : 'WATCH';
   const dukStatus = status === 'BLOCKED'
     ? 'BLOCKED'
-    : (input.riskLevel >= 80 || warnings.some((warning) => warning.includes('human review')))
-      ? 'WATCH'
-      : 'READY';
+    : 'WATCH';
   const durationMs = round2(performance.now() - start);
   const integrationProfile = buildIntegrationProfile({
     surface: '/api/ai-iq-programski-jezik/evaluate',
@@ -582,9 +580,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       : 'WATCH';
   const dukStatus = !securityPass
     ? 'BLOCKED'
-    : warnings.some((warning) => warning.includes('human review') || warning.includes('Feature flag'))
-      ? 'WATCH'
-      : 'READY';
+    : 'WATCH';
 
   const compiledProgram = JSON.stringify(
     {

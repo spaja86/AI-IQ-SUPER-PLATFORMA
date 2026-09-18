@@ -126,6 +126,7 @@ Governance veza prema EXTRONDOL release modelu u `integrationProfile.governanceL
 - `humanReviewRequired`
 - `rollbackPlanRequired`
 - downstream reference ka `spaja86/IO-OPENUI-AO`
+- rollout stage vrednosti su `WAVE-1` do `WAVE-5` kao AI IQ alias preko EXTRONDOL WAWE progresije
 
 ## 6) Validator agent
 
