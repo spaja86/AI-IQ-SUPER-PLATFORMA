@@ -55,7 +55,7 @@ export interface ExtrimliDeveloperCreateProgramLock {
   };
   driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
   realizationSequence: readonly ExtrimliDeveloperCreateRealizationStep[];
-  maxExpansionTracks: readonly ExtrimliDeveloperCreateExpansionTrack[];
+  expansionTracks: readonly ExtrimliDeveloperCreateExpansionTrack[];
   definitionOfDone: {
     additiveOnlyRequired: true;
     dokDikDakDukSplitLocked: true;
@@ -289,7 +289,7 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
       'test-and-governance-conformance',
       'downstream-sync-and-public-summary',
     ],
-    maxExpansionTracks: [
+    expansionTracks: [
       'wawe-canary-dashboard',
       'contract-evolution-log',
       'single-pane-audit-summary',
