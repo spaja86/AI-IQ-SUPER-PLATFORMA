@@ -159,6 +159,15 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
+const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_SCORE_WEIGHTS = {
+  functionalFlowPercent: 0.34,
+  objectStructurePercent: 0.33,
+  petljeOrchestrationBalancePercent: 0.33,
+} as const;
+const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_PETLJE_EVIDENCE_WEIGHTS = {
+  readinessScore: 0.7,
+  inverseConflictScore: 0.3,
+} as const;
 
 function parsePercentEnv(name: string, fallback: number, degradedSources: string[]): number {
   const raw = process.env[name];
@@ -1254,15 +1263,21 @@ function buildProporcionalnoProgramiranjeSignal(
   };
 }
 
+/**
+ * This additive university-layer signal is intentionally derived from existing surfaces only:
+ * the parent proportional track remains the canonical source for functional flow,
+ * the three existing object-oriented tracks are averaged to keep object structure balanced across the current EXTRIMLI object surface,
+ * and PETLJE evidence uses a 70/30 readiness-vs-inverse-conflict blend so loop breadth helps only when aggregate loop conflict remains controlled.
+ */
 function buildSpajinoProporcionalnoProgramiranjeUniverzitetSignal(
   profileInput: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetProfileInput,
   degraded: boolean,
 ): ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal {
   const score = round(
     clamp(
-      (profileInput.functionalFlowPercent * 0.34)
-      + (profileInput.objectStructurePercent * 0.33)
-      + (profileInput.petljeOrchestrationBalancePercent * 0.33),
+      (profileInput.functionalFlowPercent * EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_SCORE_WEIGHTS.functionalFlowPercent)
+      + (profileInput.objectStructurePercent * EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_SCORE_WEIGHTS.objectStructurePercent)
+      + (profileInput.petljeOrchestrationBalancePercent * EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_SCORE_WEIGHTS.petljeOrchestrationBalancePercent),
       0,
       100,
     ),
@@ -2450,29 +2465,37 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     degradedSources.some((source) => source === 'invalid-env:EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT'),
   );
+  const spajinoProporcionalnoProgramiranjeUniverzitetObjectStructurePercent = round(
+    clamp(
+      (
+        objektnoOrijentisanaProngilacija.readiness.score
+        + objektnoOrijentisanaReprodukcija.readiness.score
+        + objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score
+      ) / 3,
+      0,
+      100,
+    ),
+    2,
+  );
+  const spajinoProporcionalnoProgramiranjeUniverzitetPetljeOrchestrationBalancePercent = round(
+    clamp(
+      (
+        petljeSignals.summary.readinessScore
+        * EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_PETLJE_EVIDENCE_WEIGHTS.readinessScore
+      ) + (
+        (100 - petljeSignals.summary.conflictScore)
+        * EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_PETLJE_EVIDENCE_WEIGHTS.inverseConflictScore
+      ),
+      0,
+      100,
+    ),
+    2,
+  );
   const spajinoProporcionalnoProgramiranjeUniverzitet = buildSpajinoProporcionalnoProgramiranjeUniverzitetSignal(
     {
       functionalFlowPercent: proporcionalnoProgramiranje.readiness.score,
-      objectStructurePercent: round(
-        clamp(
-          (
-            objektnoOrijentisanaProngilacija.readiness.score
-            + objektnoOrijentisanaReprodukcija.readiness.score
-            + objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score
-          ) / 3,
-          0,
-          100,
-        ),
-        2,
-      ),
-      petljeOrchestrationBalancePercent: round(
-        clamp(
-          (petljeSignals.summary.readinessScore * 0.7) + ((100 - petljeSignals.summary.conflictScore) * 0.3),
-          0,
-          100,
-        ),
-        2,
-      ),
+      objectStructurePercent: spajinoProporcionalnoProgramiranjeUniverzitetObjectStructurePercent,
+      petljeOrchestrationBalancePercent: spajinoProporcionalnoProgramiranjeUniverzitetPetljeOrchestrationBalancePercent,
     },
     proporcionalnoProgramiranje.readiness.degraded || petljeSignals.summary.degradedSignals.length > 0,
   );
