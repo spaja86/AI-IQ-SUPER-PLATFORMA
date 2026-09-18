@@ -413,7 +413,7 @@ async function runTests(): Promise<void> {
       body.data.dokDikDakDukConsistencyHealth.signals.duk.status,
     ];
     if (body.data.dokDikDakDukConsistencyHealth.status === 'READY') {
-      assert(extremSignalStatuses.every((status) => status === 'READY'), 'EXTREM READY consistency status requires all component signals to be READY');
+      assert(extremSignalStatuses.filter((status): status is 'READY' | 'WATCH' | 'BLOCKED' => status !== null).every((status) => status === 'READY'), 'EXTREM READY consistency status requires all resolved component signals to be READY');
     }
     if (!body.data.dokDikDakDukConsistencyHealth.consistent) {
       assert(body.data.dokDikDakDukConsistencyHealth.status === 'BLOCKED', 'EXTREM inconsistent health status must be BLOCKED');

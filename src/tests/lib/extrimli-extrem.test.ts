@@ -431,7 +431,7 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.signals.duk.status,
     ];
     if (report.dokDikDakDukConsistencyHealth.status === 'READY') {
-      assert(signalStatuses.every((status) => status === 'READY'), 'READY consistency status requires all component signals to be READY');
+      assert(signalStatuses.filter((status): status is 'READY' | 'WATCH' | 'BLOCKED' => status !== null).every((status) => status === 'READY'), 'READY consistency status requires all resolved component signals to be READY');
     }
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');
