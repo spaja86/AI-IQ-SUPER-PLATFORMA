@@ -295,9 +295,14 @@ function invalidCompileResult(
   };
 }
 
-function parseProgram(source: string): { ast: AiiqLanguageAstNode[]; warnings: string[] } {
+function parseProgram(source: string): {
+  ast: AiiqLanguageAstNode[];
+  warnings: string[];
+  unsupportedKeywords: string[];
+} {
   const warnings: string[] = [];
   const ast: AiiqLanguageAstNode[] = [];
+  const unsupportedKeywords: string[] = [];
   const lines = source
     .split(/\r?\n/)
     .map((line) => line.trim())
@@ -315,6 +320,7 @@ function parseProgram(source: string): { ast: AiiqLanguageAstNode[]; warnings: s
 
     if (!VALID_AIIQ_LANGUAGE_KEYWORDS.includes(rawKeyword as AiiqLanguageAstNode['op'])) {
       warnings.push(`Line ${index + 1} has unsupported keyword: ${rawKeyword}.`);
+      unsupportedKeywords.push(rawKeyword);
       return;
     }
 
@@ -338,7 +344,7 @@ function parseProgram(source: string): { ast: AiiqLanguageAstNode[]; warnings: s
     warnings.push('Program should define OUTPUT to keep explainability stable.');
   }
 
-  return { ast, warnings };
+  return { ast, warnings, unsupportedKeywords };
 }
 
 export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLanguageEvaluateResult {
@@ -512,7 +518,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start);
   }
 
-  const { ast, warnings } = parseProgram(input.source);
+  const { ast, warnings, unsupportedKeywords } = parseProgram(input.source);
   if (ast.length === 0) {
     return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start);
   }
@@ -568,11 +574,8 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   }
 
   const domStatus = toSignalStatus(semanticScore, !securityPass);
-  const hasInvalidDikKeywordLine = input.source
-    .split(/\r?\n/)
-    .map((line) => line.trim().toUpperCase())
-    .some((line) => line.startsWith('DIK:') || line.startsWith('DIK PETLJA:'));
-  const dikPenalty = hasInvalidDikKeywordLine ? 20 : 0;
+  const hasUnsupportedDikKeyword = unsupportedKeywords.includes('DIK') || unsupportedKeywords.includes('DIK PETLJA');
+  const dikPenalty = hasUnsupportedDikKeyword ? 20 : 0;
   const dikReadiness = clamp(readinessScore - dikPenalty, AIIQ_LANG_MIN_SCORE, AIIQ_LANG_MAX_SCORE);
   const dikStatus = toSignalStatus(dikReadiness, !securityPass);
   const dakStatus = !securityPass
