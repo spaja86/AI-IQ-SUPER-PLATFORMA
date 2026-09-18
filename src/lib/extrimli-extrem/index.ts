@@ -2833,15 +2833,32 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   } else {
     dokDikDakDukConsistencyHealth.status = 'READY';
   }
-  dokDikDakDukConsistencyHealth.reasons = dokDikDakDukConsistencyHealth.consistent
-    ? ['DOK/DIK technical signals are present and DAK/DUK governance ownership mapping remains locked to EXTRONDOL.']
-    : [
-      ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA signal missing from EXTREM technical output.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA signal missing from EXTREM technical output.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion ? ['DAK mapping to DAKOR promotion token is missing.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview ? ['DUK mapping to DUKAR human-review token is missing.'] : []),
-      ...(!dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? ['EXTREM/EXTRONDOL ownership boundary is not preserved.'] : []),
+  const failedConsistencyChecks = [
+    ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA signal missing from EXTREM technical output.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA signal missing from EXTREM technical output.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion ? ['DAK mapping to DAKOR promotion token is missing.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview ? ['DUK mapping to DUKAR human-review token is missing.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? ['EXTREM/EXTRONDOL ownership boundary is not preserved.'] : []),
+  ];
+  if (!dokDikDakDukConsistencyHealth.consistent) {
+    dokDikDakDukConsistencyHealth.reasons = failedConsistencyChecks;
+  } else if (dokDikDakDukConsistencyHealth.status === 'READY') {
+    dokDikDakDukConsistencyHealth.reasons = ['DOK/DIK technical signals are present and DAK/DUK governance ownership mapping remains locked to EXTRONDOL.'];
+  } else if (dokDikDakDukConsistencyHealth.status === 'WATCH') {
+    dokDikDakDukConsistencyHealth.reasons = [
+      'DOK/DIK/DAK/DUK ownership mapping is aligned but not fully ready.',
+      ...(dokDikDakDukConsistencyHealth.signals.dok.status !== 'READY' ? [`DOK status is ${dokDikDakDukConsistencyHealth.signals.dok.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dik.status !== 'READY' ? [`DIK status is ${dokDikDakDukConsistencyHealth.signals.dik.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dak.status === null ? ['DAK status is unresolved in EXTREM and must be confirmed by EXTRONDOL governance output.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.duk.status === null ? ['DUK status is unresolved in EXTREM and must be confirmed by EXTRONDOL governance output.'] : []),
     ];
+  } else {
+    dokDikDakDukConsistencyHealth.reasons = [
+      'DOK/DIK/DAK/DUK ownership mapping is aligned but one or more technical signals are BLOCKED.',
+      ...(dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED' ? ['DOK signal is BLOCKED.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED' ? ['DIK signal is BLOCKED.'] : []),
+    ];
+  }
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
