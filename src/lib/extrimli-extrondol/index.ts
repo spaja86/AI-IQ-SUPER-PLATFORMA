@@ -762,7 +762,6 @@ function buildZelezaraPretplataGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
   eligibleNextWawe: ExtrimliExtrondolWaweStage;
-  promotionFreeze: boolean;
   downstreamSyncComplete: boolean;
   humanReviewComplete: boolean;
   paymentVerified: boolean;
@@ -782,7 +781,6 @@ function buildZelezaraPretplataGovernance(params: {
   const reasons = [
     ...blockerReasons,
     ...warnings,
-    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
     `governance:wawe-context-${params.currentWawe}-to-${params.eligibleNextWawe}`,
   ];
   const status = blockerReasons.length > 0 ? 'BLOCKED' : warnings.length > 0 ? 'WATCH' : 'READY';
@@ -818,7 +816,7 @@ function buildZelezaraPretplataGovernance(params: {
       namingConflictDetected: signal.readiness.namingConflictDetected,
       splitClientRiskDetected: signal.readiness.splitClientRiskDetected,
     },
-    waweImpact: blockerReasons.length > 0 || params.promotionFreeze
+    waweImpact: blockerReasons.length > 0
       ? 'promotion-frozen'
       : warnings.length > 0
         ? 'review-before-promotion'
@@ -2404,7 +2402,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     extremProfiler,
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
-    promotionFreeze,
     downstreamSyncComplete,
     humanReviewComplete,
     paymentVerified: paymentVerification.status === 'VERIFIED',

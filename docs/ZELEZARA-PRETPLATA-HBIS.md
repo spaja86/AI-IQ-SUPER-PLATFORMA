@@ -15,7 +15,7 @@ Bez potvrđenog identiteta, ugovora, uplate, onboarding-a, downstream sync-a i h
 
 - nema aktivacije
 - nema WAWE promocije
-- nema public-safe finalnog statusa bez blocker razloga
+- public-safe i audit-safe summary status može biti prikazan (`SAFE_SUMMARY_BLOCKED` ili `SAFE_SUMMARY_REVIEW`), ali nema finalne aktivacije ni promocije dok postoje blocker razlozi
 
 ---
 
