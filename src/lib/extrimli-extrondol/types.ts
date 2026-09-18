@@ -371,6 +371,24 @@ export interface ExtrimliExtrondolFunkcionalnoProgramiranjeEksplicitnogMisaonogT
   governanceVisibility: 'audit-safe-readiness-only';
   ownershipModel: {
     extrem: 'technical-explicit-thought-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
 export interface ExtrimliExtrondolFunkcionalnoProgramiranjePravednogMisaonogTokaGovernance {
   term: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA';
   sourceOfTruth: '/api/extrimli/extrondol';

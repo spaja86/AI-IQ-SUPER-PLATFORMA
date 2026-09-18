@@ -16,6 +16,19 @@ import { runZurPetlja } from './zur-petlja';
 import { runIziPetlja } from './izi-petlja';
 import { runUkPetlja } from './uk-petlja';
 import { runZumPetlja } from './zum-petlja';
+import { runDjuprePetlja } from './djupre-petlja';
+import { runDomprePetlja } from './dompre-petlja';
+import { runKrumpePetlja } from './krumpe-petlja';
+import { runDombrePetlja } from './dombre-petlja';
+import { runOmbaPetlja } from './omba-petlja';
+import { runDoksiPetlja } from './doksi-petlja';
+import { runDombraPetlja } from './dombra-petlja';
+import { runDokonPetlja } from './dokon-petlja';
+import { runDumpirPetlja } from './dumpir-petlja';
+import { runDombarPetlja } from './dombar-petlja';
+import { runZumbaPetlja } from './zumba-petlja';
+import { runDonkiPetlja } from './donki-petlja';
+import { runDomporPetlja } from './dompor-petlja';
 import { runDokPetlja } from './dok-petlja';
 import { runDikPetlja } from './dik-petlja';
 import { runSarPetlja } from './sar-petlja';
@@ -130,6 +143,19 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   const iziResult = runIziPetlja(normalized);
   const ukResult = runUkPetlja(normalized);
   const zumResult = runZumPetlja(normalized);
+  const djupreResult = runDjuprePetlja(normalized);
+  const dompreResult = runDomprePetlja(normalized);
+  const krumpeResult = runKrumpePetlja(normalized);
+  const dombreResult = runDombrePetlja(normalized);
+  const ombaResult = runOmbaPetlja(normalized);
+  const doksiResult = runDoksiPetlja(normalized);
+  const dombraResult = runDombraPetlja(normalized);
+  const dokonResult = runDokonPetlja(normalized);
+  const dumpirResult = runDumpirPetlja(normalized);
+  const dombarResult = runDombarPetlja(normalized);
+  const zumbaResult = runZumbaPetlja(normalized);
+  const donkiResult = runDonkiPetlja(normalized);
+  const domporResult = runDomporPetlja(normalized);
   const dokResult = runDokPetlja(normalized);
   const dikResult = runDikPetlja(normalized);
   const sarResult = runSarPetlja(normalized);
@@ -154,6 +180,19 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     iziResult,
     ukResult,
     zumResult,
+    djupreResult,
+    dompreResult,
+    krumpeResult,
+    dombreResult,
+    ombaResult,
+    doksiResult,
+    dombraResult,
+    dokonResult,
+    dumpirResult,
+    dombarResult,
+    zumbaResult,
+    donkiResult,
+    domporResult,
     dokResult,
     dikResult,
     sarResult,

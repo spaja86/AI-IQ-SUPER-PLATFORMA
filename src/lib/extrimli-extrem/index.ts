@@ -8,10 +8,23 @@ import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-ize
 import {
   runDikPetlja,
   runDirektPetlja,
+  runDjuprePetlja,
   runDokPetlja,
+  runDoksiPetlja,
+  runDombraPetlja,
+  runDombarPetlja,
+  runDombrePetlja,
+  runDokonPetlja,
+  runDomporPetlja,
+  runDomprePetlja,
+  runDonkiPetlja,
+  runDumpirPetlja,
   runIndirektPetlja,
+  runKrumpePetlja,
   runOkredPetlja,
+  runOmbaPetlja,
   runSarPetlja,
+  runZumbaPetlja,
 } from '../petlje';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import type {
@@ -385,6 +398,9 @@ function classifyFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus(
 ): ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus {
   if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
 function classifyFunkcionalnoProgramiranjePravednogMisaonogTokaStatus(
   score: number,
 ): ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaStatus {
@@ -704,6 +720,104 @@ function buildFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal(
       + (profileInput.explicitReasoningDeterminismPercent * 0.22)
       + (profileInput.vocabularyAlignmentPercent * 0.16)
       + ((100 - profileInput.conflictPressurePercent) * 0.1),
+      0,
+      100,
+    ),
+    2,
+  );
+  const watchReasons = [
+    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 84 ? [`explicit-thought-traceability-watch:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
+    ...(profileInput.functionalExplicitTransformationCohesionPercent < 80 ? [`functional-explicit-transformation-watch:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
+    ...(profileInput.explicitReasoningDeterminismPercent < 82 ? [`explicit-reasoning-watch:${profileInput.explicitReasoningDeterminismPercent}`] : []),
+    ...(profileInput.vocabularyAlignmentPercent < 84 ? [`vocabulary-alignment-watch:${profileInput.vocabularyAlignmentPercent}`] : []),
+    ...(profileInput.conflictPressurePercent > 30 ? [`conflict-pressure-watch:${profileInput.conflictPressurePercent}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 60 ? [`explicit-thought-traceability-blocked:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
+    ...(profileInput.functionalExplicitTransformationCohesionPercent < 56 ? [`functional-explicit-transformation-blocked:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
+    ...(profileInput.explicitReasoningDeterminismPercent < 58 ? [`explicit-reasoning-blocked:${profileInput.explicitReasoningDeterminismPercent}`] : []),
+    ...(profileInput.vocabularyAlignmentPercent < 60 ? [`vocabulary-alignment-blocked:${profileInput.vocabularyAlignmentPercent}`] : []),
+    ...(profileInput.conflictPressurePercent > 62 ? [`conflict-pressure-blocked:${profileInput.conflictPressurePercent}`] : []),
+  ];
+  const aggregateStatus = classifyFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus(score);
+  const status: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus = blockerReasons.length > 0
+    ? 'BLOCKED'
+    : watchReasons.length > 0
+      ? 'WATCH'
+      : aggregateStatus;
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
+    ? [`aggregate-watch-score:${score}`]
+    : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length === 0
+    ? [`aggregate-blocked-score:${score}`]
+    : blockerReasons;
+
+  return {
+    term: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
+    contractVersion: EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
+      spellingDecision: 'exact-user-term-locked',
+      statement: 'Additive EXTREM signal that keeps the exact user-requested canonical term locked while profiling explicit thought-flow traceability, functional transformation cohesion, deterministic explicit reasoning, vocabulary alignment, and bounded conflict pressure.',
+      interpretationLayer: 'technical-explicit-thought-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-explicit-thought-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      explicitThoughtFlowTraceability: {
+        canonicalField: 'profileInput.explicitThoughtFlowTraceabilityPercent',
+        meaning: 'sledljivost-eksplicitnog-misaonog-toka',
+      },
+      functionalExplicitTransformationCohesion: {
+        canonicalField: 'profileInput.functionalExplicitTransformationCohesionPercent',
+        meaning: 'kohezija-funkcionalnih-eksplicitnih-transformacija',
+      },
+      explicitReasoningDeterminism: {
+        canonicalField: 'profileInput.explicitReasoningDeterminismPercent',
+        meaning: 'deterministickost-eksplicitnog-rezonovanja',
+      },
+      vocabularyAlignment: {
+        canonicalField: 'profileInput.vocabularyAlignmentPercent',
+        meaning: 'poravnanje-kanonskog-vokabulara',
+      },
+      conflictPressure: {
+        canonicalField: 'profileInput.conflictPressurePercent',
+        meaning: 'konfliktni-pritisak',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    processingModel: {
+      explicitThoughtFlowRole: 'Meri da li je misaoni tok eksplicitan, sledljiv i konzistentan kroz deklarisane funkcionalne korake.',
+      transformationRole: 'Potvrđuje da funkcionalne eksplicitne transformacije ostaju kohezivne i additive-only kroz isti signalni tok.',
+      determinismRole: 'Meri da isti eksplicitni ulazi i ista pravila daju isti deterministički izlaz.',
+      vocabularyRole: 'Verifikuje da se koristi zaključani kanonski vokabular bez preimenovanja i skrivene semantičke promene.',
+      conflictRole: 'Prati konfliktni pritisak i aktivira watch/block posture pre WAWE promocije.',
+      publicBoundaryRole: 'Zadržava sirove eksplicitne tokove unutar EXTREM/EXTRONDOL sloja dok SPAJA KOD izlaže samo audit-safe status.',
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
+    },
+  };
+}
+
 function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
   profileInput: ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaProfileInput,
   degraded: boolean,
@@ -720,21 +834,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     ),
     2,
   );
-  const status = classifyFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus(score);
-  const watchReasons = [
-    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 84 ? [`explicit-thought-traceability-watch:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
-    ...(profileInput.functionalExplicitTransformationCohesionPercent < 80 ? [`functional-explicit-transformation-watch:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
-    ...(profileInput.explicitReasoningDeterminismPercent < 82 ? [`explicit-reasoning-watch:${profileInput.explicitReasoningDeterminismPercent}`] : []),
-    ...(profileInput.vocabularyAlignmentPercent < 84 ? [`vocabulary-alignment-watch:${profileInput.vocabularyAlignmentPercent}`] : []),
-    ...(profileInput.conflictPressurePercent > 30 ? [`conflict-pressure-watch:${profileInput.conflictPressurePercent}`] : []),
-  ];
-  const blockerReasons = [
-    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 60 ? [`explicit-thought-traceability-blocked:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
-    ...(profileInput.functionalExplicitTransformationCohesionPercent < 56 ? [`functional-explicit-transformation-blocked:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
-    ...(profileInput.explicitReasoningDeterminismPercent < 58 ? [`explicit-reasoning-blocked:${profileInput.explicitReasoningDeterminismPercent}`] : []),
-    ...(profileInput.vocabularyAlignmentPercent < 60 ? [`vocabulary-alignment-blocked:${profileInput.vocabularyAlignmentPercent}`] : []),
-    ...(profileInput.conflictPressurePercent > 62 ? [`conflict-pressure-blocked:${profileInput.conflictPressurePercent}`] : []),
-  ];
   const watchReasons = [
     ...(profileInput.fairThoughtFlowStabilityPercent < 85 ? [`fair-thought-flow-watch:${profileInput.fairThoughtFlowStabilityPercent}`] : []),
     ...(profileInput.functionalFairnessCohesionPercent < 82 ? [`functional-fairness-watch:${profileInput.functionalFairnessCohesionPercent}`] : []),
@@ -763,8 +862,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     : blockerReasons;
 
   return {
-    term: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
-    contractVersion: EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
     term: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
     contractVersion: EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
     additiveOnly: true,
@@ -772,10 +869,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     triggerLabel: 'extrem:logic-change',
     scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
     meaningLock: {
-      canonicalName: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
-      spellingDecision: 'exact-user-term-locked',
-      statement: 'Additive EXTREM signal that keeps the exact user-requested canonical term locked while profiling explicit thought-flow traceability, functional transformation cohesion, deterministic explicit reasoning, vocabulary alignment, and bounded conflict pressure.',
-      interpretationLayer: 'technical-explicit-thought-signal',
       canonicalName: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
       spellingDecision: 'exact-user-term-locked',
       statement: 'Additive EXTREM signal that keeps the exact user-requested fairness term locked while profiling fair thought-flow stability, functional fairness cohesion, deterministic fairness reasoning, evidentiary completeness, and bounded conflict/bias pressure.',
@@ -784,31 +877,11 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
       aliasesOfExistingSurfaces: false,
     },
     ownershipModel: {
-      extrem: 'technical-explicit-thought-signal',
       extrem: 'technical-fair-thought-signal',
       extrondol: 'wawe-orchestration-audit-consumer',
       spajaKod: 'public-encapsulated-boundary',
     },
     canonicalVocabulary: {
-      explicitThoughtFlowTraceability: {
-        canonicalField: 'profileInput.explicitThoughtFlowTraceabilityPercent',
-        meaning: 'sledljivost-eksplicitnog-misaonog-toka',
-      },
-      functionalExplicitTransformationCohesion: {
-        canonicalField: 'profileInput.functionalExplicitTransformationCohesionPercent',
-        meaning: 'kohezija-funkcionalnih-eksplicitnih-transformacija',
-      },
-      explicitReasoningDeterminism: {
-        canonicalField: 'profileInput.explicitReasoningDeterminismPercent',
-        meaning: 'deterministickost-eksplicitnog-rezonovanja',
-      },
-      vocabularyAlignment: {
-        canonicalField: 'profileInput.vocabularyAlignmentPercent',
-        meaning: 'poravnanje-kanonskog-vokabulara',
-      },
-      conflictPressure: {
-        canonicalField: 'profileInput.conflictPressurePercent',
-        meaning: 'konfliktni-pritisak',
       fairThoughtFlowStability: {
         canonicalField: 'profileInput.fairThoughtFlowStabilityPercent',
         meaning: 'stabilnost-pravednog-misaonog-toka',
@@ -836,12 +909,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     },
     profileInput,
     processingModel: {
-      explicitThoughtFlowRole: 'Meri da li je misaoni tok eksplicitan, sledljiv i konzistentan kroz deklarisane funkcionalne korake.',
-      transformationRole: 'Potvrđuje da funkcionalne eksplicitne transformacije ostaju kohezivne i additive-only kroz isti signalni tok.',
-      determinismRole: 'Meri da isti eksplicitni ulazi i ista pravila daju isti deterministički izlaz.',
-      vocabularyRole: 'Verifikuje da se koristi zaključani kanonski vokabular bez preimenovanja i skrivene semantičke promene.',
-      conflictRole: 'Prati konfliktni pritisak i aktivira watch/block posture pre WAWE promocije.',
-      publicBoundaryRole: 'Zadržava sirove eksplicitne tokove unutar EXTREM/EXTRONDOL sloja dok SPAJA KOD izlaže samo audit-safe status.',
       fairThoughtFlowRole: 'Meri da li pravedni misaoni tok ostaje stabilan i bounded kroz fairness orijentisane evaluacije.',
       fairnessRole: 'Potvrđuje da funkcionalna pravednost ostaje kohezivna bez skrivenog favorizovanja ili drift-a.',
       determinismRole: 'Meri da isti fairness ulaz i ista pravila daju isti rezonovani izlaz.',
@@ -1444,9 +1511,9 @@ function buildSpajaKodEncapsulation(params: {
 }
 
 const PETLJA_SIGNAL_CATEGORY_MAP = {
-  RANGE: ['SAR PETLJA', 'OKRED PETLJA'],
-  TARGET: ['DOK PETLJA', 'DIREKT PETLJA'],
-  SEQUENCE: ['DIK PETLJA', 'INDIREKT PETLJA'],
+  RANGE: ['DJUPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA', 'SAR PETLJA', 'OKRED PETLJA'],
+  TARGET: ['DOMPRE PETLJA', 'OMBA PETLJA', 'DOKON PETLJA', 'DONKI PETLJA', 'DOK PETLJA', 'DIREKT PETLJA'],
+  SEQUENCE: ['KRUMPE PETLJA', 'DOKSI PETLJA', 'DUMPIR PETLJA', 'ZUMBA PETLJA', 'DIK PETLJA', 'INDIREKT PETLJA'],
 } as const;
 
 function parseSequenceFromEnv(
@@ -1496,6 +1563,71 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
 
   const definitions: ExtrimliExtremPetljaSignalInput[] = [
     {
+      kind: 'DJUPRE PETLJA',
+      category: 'RANGE',
+      input: { start: 1, end: 3, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMPRE PETLJA',
+      category: 'TARGET',
+      input: { start: 0, target: 12, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'KRUMPE PETLJA',
+      category: 'SEQUENCE',
+      input: { sequence: [2, 5, 4, 9], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMBRE PETLJA',
+      category: 'RANGE',
+      input: { start: 0, end: 4, step: 2, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'OMBA PETLJA',
+      category: 'TARGET',
+      input: { start: 0, target: 9, step: 2, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOKSI PETLJA',
+      category: 'SEQUENCE',
+      input: { sequence: [3, 6, 2, 8], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMBRA PETLJA',
+      category: 'RANGE',
+      input: { start: 1, end: 4, target: 2, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOKON PETLJA',
+      category: 'TARGET',
+      input: { start: 1, target: 10, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DUMPIR PETLJA',
+      category: 'SEQUENCE',
+      input: { target: 4, sequence: [1, 5, 3, 6], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMBAR PETLJA',
+      category: 'RANGE',
+      input: { start: 0, end: 5, target: 3, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'ZUMBA PETLJA',
+      category: 'SEQUENCE',
+      input: { target: 5, sequence: [4, 7, 5], maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DONKI PETLJA',
+      category: 'TARGET',
+      input: { start: 0, target: 7, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
+      kind: 'DOMPOR PETLJA',
+      category: 'RANGE',
+      input: { start: 1, end: 4, step: 1, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
+    },
+    {
       kind: 'DOK PETLJA',
       category: 'TARGET',
       input: { start: 0, target: 12, step: 3, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' },
@@ -1528,12 +1660,25 @@ function buildPetljaSignalSection(degradedSources: string[]): ExtrimliExtremPetl
   ];
 
   const signalResults = [
-    { definition: definitions[0], result: runDokPetlja(definitions[0].input) },
-    { definition: definitions[1], result: runDikPetlja(definitions[1].input) },
-    { definition: definitions[2], result: runSarPetlja(definitions[2].input) },
-    { definition: definitions[3], result: runOkredPetlja(definitions[3].input) },
-    { definition: definitions[4], result: runDirektPetlja(definitions[4].input) },
-    { definition: definitions[5], result: runIndirektPetlja(definitions[5].input) },
+    { definition: definitions[0], result: runDjuprePetlja(definitions[0].input) },
+    { definition: definitions[1], result: runDomprePetlja(definitions[1].input) },
+    { definition: definitions[2], result: runKrumpePetlja(definitions[2].input) },
+    { definition: definitions[3], result: runDombrePetlja(definitions[3].input) },
+    { definition: definitions[4], result: runOmbaPetlja(definitions[4].input) },
+    { definition: definitions[5], result: runDoksiPetlja(definitions[5].input) },
+    { definition: definitions[6], result: runDombraPetlja(definitions[6].input) },
+    { definition: definitions[7], result: runDokonPetlja(definitions[7].input) },
+    { definition: definitions[8], result: runDumpirPetlja(definitions[8].input) },
+    { definition: definitions[9], result: runDombarPetlja(definitions[9].input) },
+    { definition: definitions[10], result: runZumbaPetlja(definitions[10].input) },
+    { definition: definitions[11], result: runDonkiPetlja(definitions[11].input) },
+    { definition: definitions[12], result: runDomporPetlja(definitions[12].input) },
+    { definition: definitions[13], result: runDokPetlja(definitions[13].input) },
+    { definition: definitions[14], result: runDikPetlja(definitions[14].input) },
+    { definition: definitions[15], result: runSarPetlja(definitions[15].input) },
+    { definition: definitions[16], result: runOkredPetlja(definitions[16].input) },
+    { definition: definitions[17], result: runDirektPetlja(definitions[17].input) },
+    { definition: definitions[18], result: runIndirektPetlja(definitions[18].input) },
   ].map<ExtrimliExtremPetljaSignalResult>(({ definition, result }) => {
     const warnings = [...result.warnings];
     const degraded = result.reason !== 'completed' || warnings.length > 0;
@@ -1925,6 +2070,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const funkcionalnoProgramiranjeEksplicitnogMisaonogToka = buildFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal(
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaInput,
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaDegradedSources.length > 0,
+  );
   const funkcionalnoProgramiranjePravednogMisaonogToka = buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     funkcionalnoProgramiranjePravednogMisaonogTokaInput,
     funkcionalnoProgramiranjePravednogMisaonogTokaDegradedSources.length > 0,
@@ -2143,7 +2289,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     {
       id: 'petlje-contract-boundary-lock',
-      description: 'DOK, DIK, SAR, OKRED, DIREKT, and INDIREKT are modeled as canonical PETLJE signals while the standalone DIREKT module remains preserved.',
+      description: 'DJUPRE, DOMPRE, KRUMPE, DOMBRE, OMBA, DOKSI, DOMBRA, DOKON, DUMPIR, DOMBAR, ZUMBA, DONKI, DOMPOR, DOK, DIK, SAR, OKRED, DIREKT, and INDIREKT are modeled as canonical PETLJE signals while the standalone DIREKT module remains preserved.',
       passed: petljeSignals.contractBoundary.existingSourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
         && petljeSignals.contractBoundary.standaloneDirektModulePreserved
         && petljeSignals.contractBoundary.direktPetljaMode === 'separate-loop-contract'
@@ -2152,7 +2298,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     {
       id: 'petlje-signal-normalization',
       description: 'All new PETLJE signals publish bounded readiness/conflict outputs with additive degraded-safe semantics.',
-      passed: petljeSignals.signals.length === 6
+      passed: petljeSignals.signals.length === 19
         && petljeSignals.signals.every((signal) =>
           Number.isFinite(signal.readinessScore)
           && signal.readinessScore >= 0

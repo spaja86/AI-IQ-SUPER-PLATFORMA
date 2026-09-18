@@ -150,6 +150,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected explicit thought-flow status');
     assert(Number.isFinite(signal.readiness.score), 'explicit thought-flow score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'explicit thought-flow score must be bounded');
+  });
   await test('default report exposes FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA as additive EXTREM signal', () => {
     const report = getExtrimliExtremProfilerReport();
     const signal = report.funkcionalnoProgramiranjePravednogMisaonogToka;
@@ -256,10 +257,32 @@ async function runTests(): Promise<void> {
     assert(report.petljeSignals.sourceOfTruth === '/api/extrimli/extrem', 'petlje source mismatch');
     assert(report.petljeSignals.contractBoundary.standaloneDirektModulePreserved, 'standalone DIREKT module must remain preserved');
     assert(report.petljeSignals.contractBoundary.direktPetljaMode === 'separate-loop-contract', 'DIREKT PETLJA mode mismatch');
-    assert(report.petljeSignals.signals.length === 6, 'expected six petlje signals');
+    assert(report.petljeSignals.signals.length === 19, 'expected nineteen petlje signals');
     assert(report.petljeSignals.signals.every((signal) => signal.runner === 'canonical-petlja'), 'petlje signals must stay on canonical runners');
     assert(report.petljeSignals.signals.every((signal) => signal.readinessScore >= 0 && signal.readinessScore <= 100), 'petlje readiness scores must be bounded');
     assert(report.petljeSignals.signals.every((signal) => signal.conflictScore >= 0 && signal.conflictScore <= 100), 'petlje conflict scores must be bounded');
+    const expectedKinds = [
+      'DJUPRE PETLJA',
+      'DOMPRE PETLJA',
+      'KRUMPE PETLJA',
+      'DOMBRE PETLJA',
+      'OMBA PETLJA',
+      'DOKSI PETLJA',
+      'DOMBRA PETLJA',
+      'DOKON PETLJA',
+      'DUMPIR PETLJA',
+      'DOMBAR PETLJA',
+      'ZUMBA PETLJA',
+      'DONKI PETLJA',
+      'DOMPOR PETLJA',
+      'DOK PETLJA',
+      'DIK PETLJA',
+      'SAR PETLJA',
+      'OKRED PETLJA',
+      'DIREKT PETLJA',
+      'INDIREKT PETLJA',
+    ];
+    assert(expectedKinds.every((kind) => report.petljeSignals.signals.some((signal) => signal.kind === kind)), 'all petlje kinds should be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'petlje-contract-boundary-lock' && item.passed), 'petlje contract criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'petlje-signal-normalization' && item.passed), 'petlje normalization criterion must pass');
   });
@@ -430,6 +453,8 @@ async function runTests(): Promise<void> {
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_EKSPLICITNI_MISAONI_TOK_TRACEABILITY_PERCENT'), 'invalid explicit traceability input should be tracked');
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_EKSPLICITNI_CONFLICT_PRESSURE_PERCENT'), 'invalid explicit conflict pressure input should be tracked');
       assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'explicit thought-flow score must stay bounded');
+    });
+  });
   await test('fair thought-flow signal degrades safely and blocks readiness on invalid fairness-oriented inputs', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_PRAVEDNI_MISAONI_TOK_STABILITY_PERCENT: 'NaN',

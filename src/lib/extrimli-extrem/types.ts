@@ -230,17 +230,6 @@ export interface ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogToka
 export interface ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal {
   term: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA';
   contractVersion: typeof EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION;
-export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaProfileInput {
-  fairThoughtFlowStabilityPercent: number;
-  functionalFairnessCohesionPercent: number;
-  fairnessReasoningDeterminismPercent: number;
-  evidentiaryCompletenessPercent: number;
-  conflictBiasPressurePercent: number;
-}
-
-export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSignal {
-  term: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA';
-  contractVersion: typeof EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION;
   additiveOnly: true;
   sourceOfTruth: '/api/extrimli/extrem';
   triggerLabel: 'extrem:logic-change';
@@ -250,16 +239,11 @@ export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSig
     spellingDecision: 'exact-user-term-locked';
     statement: string;
     interpretationLayer: 'technical-explicit-thought-signal';
-    canonicalName: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA';
-    spellingDecision: 'exact-user-term-locked';
-    statement: string;
-    interpretationLayer: 'technical-fair-thought-signal';
     existingContractBeforeThisChange: false;
     aliasesOfExistingSurfaces: false;
   };
   ownershipModel: {
     extrem: 'technical-explicit-thought-signal';
-    extrem: 'technical-fair-thought-signal';
     extrondol: 'wawe-orchestration-audit-consumer';
     spajaKod: 'public-encapsulated-boundary';
   };
@@ -283,6 +267,60 @@ export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSig
     conflictPressure: {
       canonicalField: 'profileInput.conflictPressurePercent';
       meaning: 'konfliktni-pritisak';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  profileInput: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaProfileInput;
+  processingModel: {
+    explicitThoughtFlowRole: string;
+    transformationRole: string;
+    determinismRole: string;
+    vocabularyRole: string;
+    conflictRole: string;
+    publicBoundaryRole: string;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
+export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaProfileInput {
+  fairThoughtFlowStabilityPercent: number;
+  functionalFairnessCohesionPercent: number;
+  fairnessReasoningDeterminismPercent: number;
+  evidentiaryCompletenessPercent: number;
+  conflictBiasPressurePercent: number;
+}
+
+export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSignal {
+  term: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA';
+  contractVersion: typeof EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA';
+    spellingDecision: 'exact-user-term-locked';
+    statement: string;
+    interpretationLayer: 'technical-fair-thought-signal';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-fair-thought-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
     fairThoughtFlowStability: {
       canonicalField: 'profileInput.fairThoughtFlowStabilityPercent';
       meaning: 'stabilnost-pravednog-misaonog-toka';
@@ -308,13 +346,6 @@ export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSig
       meaning: 'wawe-readiness-posture';
     };
   };
-  profileInput: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaProfileInput;
-  processingModel: {
-    explicitThoughtFlowRole: string;
-    transformationRole: string;
-    determinismRole: string;
-    vocabularyRole: string;
-    conflictRole: string;
   profileInput: ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaProfileInput;
   processingModel: {
     fairThoughtFlowRole: string;
@@ -326,7 +357,6 @@ export interface ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSig
   };
   readiness: {
     score: number;
-    status: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus;
     status: ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
@@ -574,6 +604,19 @@ export interface ExtrimliExtremSemaFormulaInput {
 export type ExtrimliExtremSemaFormulaStatus = 'PASSED' | 'BLOCKED';
 export type ExtrimliSpajaKodPublicStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremPetljaSignalName =
+  | 'DJUPRE PETLJA'
+  | 'DOMPRE PETLJA'
+  | 'KRUMPE PETLJA'
+  | 'DOMBRE PETLJA'
+  | 'OMBA PETLJA'
+  | 'DOKSI PETLJA'
+  | 'DOMBRA PETLJA'
+  | 'DOKON PETLJA'
+  | 'DUMPIR PETLJA'
+  | 'DOMBAR PETLJA'
+  | 'ZUMBA PETLJA'
+  | 'DONKI PETLJA'
+  | 'DOMPOR PETLJA'
   | 'DOK PETLJA'
   | 'DIK PETLJA'
   | 'SAR PETLJA'
@@ -624,9 +667,9 @@ export interface ExtrimliExtremPetljaSignalSection {
     indirektPetljaMode: 'separate-loop-contract';
   };
   categoryMap: {
-    RANGE: readonly ['SAR PETLJA', 'OKRED PETLJA'];
-    TARGET: readonly ['DOK PETLJA', 'DIREKT PETLJA'];
-    SEQUENCE: readonly ['DIK PETLJA', 'INDIREKT PETLJA'];
+    RANGE: readonly ExtrimliExtremPetljaSignalName[];
+    TARGET: readonly ExtrimliExtremPetljaSignalName[];
+    SEQUENCE: readonly ExtrimliExtremPetljaSignalName[];
   };
   signals: ExtrimliExtremPetljaSignalResult[];
   summary: {

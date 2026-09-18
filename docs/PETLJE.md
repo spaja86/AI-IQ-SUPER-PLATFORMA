@@ -17,6 +17,19 @@ Ovaj dokument definiše značenje, cilj i zajednički API za:
 - `IZI PETLJA`
 - `UK PETLJA`
 - `ZUM PETLJA`
+- `DJUPRE PETLJA`
+- `DOMPRE PETLJA`
+- `KRUMPE PETLJA`
+- `DOMBRE PETLJA`
+- `OMBA PETLJA`
+- `DOKSI PETLJA`
+- `DOMBRA PETLJA`
+- `DOKON PETLJA`
+- `DUMPIR PETLJA`
+- `DOMBAR PETLJA`
+- `ZUMBA PETLJA`
+- `DONKI PETLJA`
+- `DOMPOR PETLJA`
 - `DOK PETLJA`
 - `DIK PETLJA`
 - `SAR PETLJA`
@@ -147,6 +160,84 @@ Dozvoljeni alias-i ulaza:
     - Cilj: Širenje od vrha ka podnožju kroz slojeve koji rastu po širini i nose u sebi `UMBREL PETLJU`.
     - Izlaz: Zbir svih planinskih slojeva uz dodat ugrađeni izlaz `UMBREL PETLJE`.
 
+26. **DJUPRE PETLJA**
+    - Kategorija: `RANGE`.
+    - Cilj: Sabiranje kubova svih posećenih vrednosti u opsegu.
+    - Izlaz: Zbir `value^3` preko celog opsega.
+    - Posebna validacija: Zahteva ispravan smer koraka u odnosu na opseg.
+
+27. **DOMPRE PETLJA**
+    - Kategorija: `TARGET`.
+    - Cilj: Akumulacija preostale distance do targeta pre svakog pomeraja.
+    - Izlaz: Zbir preostalih distanci pre svakog koraka.
+    - Posebna validacija: `step` mora pratiti smer ka `target`.
+
+28. **KRUMPE PETLJA**
+    - Kategorija: `SEQUENCE`.
+    - Cilj: Sabiranje svakog pozitivnog uspona između susednih elemenata.
+    - Izlaz: Ukupan zbir pozitivnih razlika `next - previous`.
+    - Posebna validacija: Validira svaki element sekvence.
+
+29. **DOMBRE PETLJA**
+    - Kategorija: `RANGE`.
+    - Cilj: Merenje odstupanja posećenih vrednosti od centralne ose opsega.
+    - Izlaz: Zbir `|value - midpoint|` preko opsega.
+    - Posebna validacija: Zahteva ispravan smer koraka u odnosu na opseg.
+
+30. **OMBA PETLJA**
+    - Kategorija: `TARGET`.
+    - Cilj: Brojanje potrebnih pomaka da se dođe do targeta.
+    - Izlaz: Broj izvršenih koraka do target završetka.
+    - Posebna validacija: `step` mora pratiti smer ka `target`.
+
+31. **DOKSI PETLJA**
+    - Kategorija: `SEQUENCE`.
+    - Cilj: Praćenje signed pomaka između susednih elemenata.
+    - Izlaz: Ukupan signed delta zbir kroz sekvencu.
+    - Posebna validacija: Validira svaki element sekvence.
+
+32. **DOMBRA PETLJA**
+    - Kategorija: `RANGE`.
+    - Cilj: Težinsko sabiranje signed odstupanja od target centra.
+    - Izlaz: Zbir `(value - target) * iterationIndex`.
+    - Posebna validacija: Zahteva ispravan smer koraka i konačan `target`.
+
+33. **DOKON PETLJA**
+    - Kategorija: `TARGET`.
+    - Cilj: Sabiranje svih međupozicija posećenih na putu ka targetu.
+    - Izlaz: Zbir svih landing vrednosti uključujući završni target.
+    - Posebna validacija: `step` mora pratiti smer ka `target`.
+
+34. **DUMPIR PETLJA**
+    - Kategorija: `SEQUENCE`.
+    - Cilj: Brojanje elemenata sekvence koji ostaju na ili ispod target praga.
+    - Izlaz: Broj vrednosti `<= target`.
+    - Posebna validacija: Validira svaki element sekvence i konačan `target`.
+
+35. **DOMBAR PETLJA**
+    - Kategorija: `RANGE`.
+    - Cilj: Brojanje posećenih vrednosti koje dostižu ili prelaze target prag.
+    - Izlaz: Broj vrednosti `>= target` u opsegu.
+    - Posebna validacija: Zahteva ispravan smer koraka i konačan `target`.
+
+36. **ZUMBA PETLJA**
+    - Kategorija: `SEQUENCE`.
+    - Cilj: Težinsko sabiranje apsolutnog odstupanja sekvence od targeta.
+    - Izlaz: Zbir `|value - target| * iterationIndex`.
+    - Posebna validacija: Validira svaki element sekvence i konačan `target`.
+
+37. **DONKI PETLJA**
+    - Kategorija: `TARGET`.
+    - Cilj: Težinsko praćenje svakog pređenog koraka ka targetu.
+    - Izlaz: Zbir `travelDistance * iterationIndex` za svaki pomak.
+    - Posebna validacija: `step` mora pratiti smer ka `target`.
+
+38. **DOMPOR PETLJA**
+    - Kategorija: `RANGE`.
+    - Cilj: Sabiranje razlike između maksimuma opsega i svake posećene vrednosti.
+    - Izlaz: Ukupan gap prema najvećoj posećenoj vrednosti.
+    - Posebna validacija: Zahteva ispravan smer koraka u odnosu na opseg.
+
 ## Jedinstven API / kontrakt
 
 Sve petlje koriste isti ulazni i izlazni oblik:
@@ -175,9 +266,9 @@ Kontrakt verzija: `1.0.0`
 - Svaka petlja ima zaštitu od beskonačnog izvršavanja:
   - `maxIterations`
   - `maxDurationMs`
-- Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`, `SAR`, `OKRED`) zahtevaju smislen smer koraka u odnosu na opseg, a target-range varijante dodatno validiraju `target`.
-- Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`, `DIK`, `INDIREKT`) validiraju svaki element niza pre izvršavanja.
-- Target-orijentisane petlje (`ITCH`, `KUR`, `DOK`, `DIREKT`) koriste `target` kao deo glavne izvršne logike.
+- Range-orijentisane petlje (`FOR`, `NIK`, `DOR`, `DAR`, `GAR`, `UK`, `ZUM`, `DJUPRE`, `DOMBRE`, `DOMBRA`, `DOMBAR`, `DOMPOR`, `SAR`, `OKRED`) zahtevaju smislen smer koraka u odnosu na opseg, a target-range varijante dodatno validiraju `target`.
+- Sequence-orijentisane petlje (`UR`, `EXE`, `YU`, `ZAR`, `DER`, `ZUR`, `IZI`, `KRUMPE`, `DOKSI`, `DUMPIR`, `ZUMBA`, `DIK`, `INDIREKT`) validiraju svaki element niza pre izvršavanja.
+- Target-orijentisane petlje (`ITCH`, `KUR`, `DOMPRE`, `OMBA`, `DOKON`, `DONKI`, `DOK`, `DIREKT`) koriste `target` kao deo glavne izvršne logike.
 - `UMBREL PETLJA` nasleđuje validaciona pravila svih delegiranih petlji; nevalidan `start/end/step`, `sequence` ili `target` u bilo kom child scenariju može učiniti agregirani rezultat `DISABLED` ili `DEAD`.
 - `DURMITOR PETLJA` validira opseg kao range-orijentisana petlja, koristi `sequence` kao pejzažni sloj i nasleđuje finalni status od ugrađene `UMBREL PETLJE` kada njen interni agregat nije uspešan.
 - `SPAJA PETLJA` validira segmentnu konfiguraciju pre izvršavanja:
