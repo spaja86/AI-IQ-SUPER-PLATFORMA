@@ -785,7 +785,7 @@ function buildZelezaraPretplataGovernance(params: {
     ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
     `governance:wawe-context-${params.currentWawe}-to-${params.eligibleNextWawe}`,
   ];
-  const status = blockerReasons.length > 0 ? 'BLOCKED' : warnings.length > 0 ? 'WATCH' : 'READY';
+  const status = blockerReasons.length > 0 ? 'BLOCKED' : 'READY';
 
   return {
     term: 'ŽELEZARA PRETPLATA IDENTITET',
@@ -825,7 +825,7 @@ function buildZelezaraPretplataGovernance(params: {
         : 'eligible-for-promotion',
     publicStatus: status === 'BLOCKED'
       ? 'SAFE_SUMMARY_BLOCKED'
-      : status === 'WATCH'
+      : warnings.length > 0
         ? 'SAFE_SUMMARY_REVIEW'
         : 'SAFE_SUMMARY_READY',
     reasons,
@@ -2538,11 +2538,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'zelezara-pretplata-identity-governance',
       label: 'Železara pretplata identity governance posture',
       required: true,
-      status: zelezaraPretplataGovernance.status === 'READY'
-        ? 'PASS' as const
-        : zelezaraPretplataGovernance.status === 'WATCH'
+      status: zelezaraPretplataGovernance.blockerReasons.length > 0
+        ? 'FAIL' as const
+        : zelezaraPretplataGovernance.warnings.length > 0
           ? 'WARN' as const
-          : 'FAIL' as const,
+          : 'PASS' as const,
       details:
         zelezaraPretplataGovernance.reasons.length > 0
           ? zelezaraPretplataGovernance.reasons.join('; ')

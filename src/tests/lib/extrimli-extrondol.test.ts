@@ -233,12 +233,13 @@ async function runTests(): Promise<void> {
         downstreamSyncComplete: true,
         humanReviewComplete: true,
       });
-      assert(report.zelezaraPretplataGovernance.status === 'WATCH', 'Železara governance should be WATCH');
+      assert(report.zelezaraPretplataGovernance.status === 'READY', 'Železara governance should stay READY when hard gates are satisfied');
       assert(report.zelezaraPretplataGovernance.blockerReasons.length === 0, 'WATCH posture should not add blockers');
       assert(report.zelezaraPretplataGovernance.warnings.some((reason) => reason.includes('Allowed alias coverage remains incomplete')), 'WATCH posture should preserve alias coverage warning');
       assert(report.zelezaraPretplataGovernance.reasons.includes(`governance:wawe-context-${report.rollout.currentWawe}-to-${report.rollout.eligibleNextWawe}`), 'WATCH posture should retain WAWE context');
       assert(report.rollout.reasons.includes('zelezara-pretplata:watch'), 'rollout reasons should include Železara WATCH marker');
       assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.includes('Železara pretplata naming remains in WATCH posture and needs identity-review visibility before broader rollout.'), 'partner readiness warnings should include audit-safe WATCH messaging');
+      assert(report.zelezaraPretplataGovernance.publicStatus === 'SAFE_SUMMARY_REVIEW', 'governance public status should remain review-only');
       assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === 'WATCH', 'SPAJA KOD should expose WATCH summary');
     });
   });
