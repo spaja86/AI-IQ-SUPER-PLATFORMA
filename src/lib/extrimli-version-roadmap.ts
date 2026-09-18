@@ -350,36 +350,78 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
 function toExtrimliDeveloperCreateLockComparable(
   lock: ExtrimliDeveloperCreateProgramLock,
 ) {
+  const {
+    sourceProgramDoc,
+    additiveOnly,
+    sourceOfTruthRoutes,
+    lockedCoreArtifacts,
+    ownershipBoundary,
+    driftZeroLayers,
+    realizationSequence,
+    expansionTracks,
+    definitionOfDone,
+    ...unexpectedTopLevel
+  } = lock;
+  assertNoExtraKeys(unexpectedTopLevel);
+
+  const {
+    extrimli,
+    extrem,
+    extrondol,
+    dok,
+    dik,
+    dak,
+    duk,
+    spajaKod,
+    ...unexpectedOwnershipBoundary
+  } = ownershipBoundary;
+  assertNoExtraKeys(unexpectedOwnershipBoundary);
+
+  const {
+    additiveOnlyRequired,
+    dokDikDakDukSplitLocked,
+    sourceOfTruthRoutesStable,
+    docsTypesRoutesTestsWorkflowsAligned,
+    downstreamReferenceRequired,
+    humanReviewRequired,
+    securityRequired,
+    rollbackRequired,
+    ...unexpectedDefinitionOfDone
+  } = definitionOfDone;
+  assertNoExtraKeys(unexpectedDefinitionOfDone);
+
   return {
-    sourceProgramDoc: lock.sourceProgramDoc,
-    additiveOnly: lock.additiveOnly,
-    sourceOfTruthRoutes: [...lock.sourceOfTruthRoutes],
-    lockedCoreArtifacts: [...lock.lockedCoreArtifacts],
+    sourceProgramDoc,
+    additiveOnly,
+    sourceOfTruthRoutes: [...sourceOfTruthRoutes],
+    lockedCoreArtifacts: [...lockedCoreArtifacts],
     ownershipBoundary: {
-      extrimli: lock.ownershipBoundary.extrimli,
-      extrem: lock.ownershipBoundary.extrem,
-      extrondol: lock.ownershipBoundary.extrondol,
-      dok: lock.ownershipBoundary.dok,
-      dik: lock.ownershipBoundary.dik,
-      dak: lock.ownershipBoundary.dak,
-      duk: lock.ownershipBoundary.duk,
-      spajaKod: lock.ownershipBoundary.spajaKod,
+      extrimli,
+      extrem,
+      extrondol,
+      dok,
+      dik,
+      dak,
+      duk,
+      spajaKod,
     },
-    driftZeroLayers: [...lock.driftZeroLayers],
-    realizationSequence: [...lock.realizationSequence],
-    expansionTracks: [...lock.expansionTracks],
+    driftZeroLayers: [...driftZeroLayers],
+    realizationSequence: [...realizationSequence],
+    expansionTracks: [...expansionTracks],
     definitionOfDone: {
-      additiveOnlyRequired: lock.definitionOfDone.additiveOnlyRequired,
-      dokDikDakDukSplitLocked: lock.definitionOfDone.dokDikDakDukSplitLocked,
-      sourceOfTruthRoutesStable: lock.definitionOfDone.sourceOfTruthRoutesStable,
-      docsTypesRoutesTestsWorkflowsAligned: lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned,
-      downstreamReferenceRequired: lock.definitionOfDone.downstreamReferenceRequired,
-      humanReviewRequired: lock.definitionOfDone.humanReviewRequired,
-      securityRequired: lock.definitionOfDone.securityRequired,
-      rollbackRequired: lock.definitionOfDone.rollbackRequired,
+      additiveOnlyRequired,
+      dokDikDakDukSplitLocked,
+      sourceOfTruthRoutesStable,
+      docsTypesRoutesTestsWorkflowsAligned,
+      downstreamReferenceRequired,
+      humanReviewRequired,
+      securityRequired,
+      rollbackRequired,
     },
   };
 }
+
+function assertNoExtraKeys<T extends Record<string, never>>(_value: T): void {}
 
 function serializeExtrimliDeveloperCreateLock(
   lock: ExtrimliDeveloperCreateProgramLock,
