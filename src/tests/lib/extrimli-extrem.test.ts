@@ -1,6 +1,7 @@
 import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
@@ -134,6 +135,20 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected elevated thought-flow status');
     assert(Number.isFinite(signal.readiness.score), 'elevated thought-flow score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'elevated thought-flow score must be bounded');
+  });
+
+  await test('default report exposes FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.funkcionalnoProgramiranjePravednogMisaonogToka;
+    assert(signal.term === 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA', 'fair thought-flow term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'fair thought-flow contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'fair thought-flow source mismatch');
+    assert(signal.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'fair thought-flow scope lock mismatch');
+    assert(signal.meaningLock.spellingDecision === 'exact-user-term-locked', 'fair thought-flow spelling lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-fair-thought-signal', 'fair thought-flow EXTREM ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected fair thought-flow status');
+    assert(Number.isFinite(signal.readiness.score), 'fair thought-flow score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'fair thought-flow score must be bounded');
   });
 
   await test('default report exposes FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA as additive EXTREM signal', () => {
@@ -380,6 +395,40 @@ async function runTests(): Promise<void> {
       assert(signal.readiness.blockerReasons.length >= 1, 'blocked functional energy-flow signal should keep blocker reasons');
       assert(report.governanceSignal.freezeRequired, 'blocked functional energy-flow signal should freeze governance');
       assert(report.acceptanceCriteria.some((item) => item.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-lock' && item.passed), 'functional energy-flow lock criterion must pass');
+    });
+  });
+
+  await test('fair thought-flow signal degrades safely and blocks readiness on invalid fairness-oriented inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PRAVEDNI_MISAONI_TOK_STABILITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_FUNKCIONALNA_PRAVEDNOST_COHESION_PERCENT: '-20',
+      EXTRIMLI_EXTREM_PRAVEDNO_REZONOVANJE_DETERMINISM_PERCENT: 'Infinity',
+      EXTRIMLI_EXTREM_PRAVEDNA_EVIDENTIARY_COMPLETENESS_PERCENT: '10',
+      EXTRIMLI_EXTREM_PRAVEDNI_CONFLICT_BIAS_PRESSURE_PERCENT: '999',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const signal = report.funkcionalnoProgramiranjePravednogMisaonogToka;
+      assert(signal.readiness.status === 'BLOCKED', 'fair thought-flow signal should block on invalid/hostile inputs');
+      assert(signal.readiness.degraded, 'fair thought-flow signal should degrade safely');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_PRAVEDNI_MISAONI_TOK_STABILITY_PERCENT'), 'invalid fair thought-flow stability input should be tracked');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_PRAVEDNO_REZONOVANJE_DETERMINISM_PERCENT'), 'invalid fairness reasoning determinism input should be tracked');
+      assert(signal.readiness.blockerReasons.length >= 1, 'blocked fair thought-flow signal should keep blocker reasons');
+      assert(report.governanceSignal.freezeRequired, 'blocked fair thought-flow signal should freeze governance');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'funkcionalno-programiranje-pravednog-misaonog-toka-lock' && item.passed), 'fair thought-flow lock criterion must pass');
+    });
+  });
+
+  await test('fair thought-flow blocker thresholds override high aggregate score', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PRAVEDNI_MISAONI_TOK_STABILITY_PERCENT: '100',
+      EXTRIMLI_EXTREM_FUNKCIONALNA_PRAVEDNOST_COHESION_PERCENT: '100',
+      EXTRIMLI_EXTREM_PRAVEDNO_REZONOVANJE_DETERMINISM_PERCENT: '100',
+      EXTRIMLI_EXTREM_PRAVEDNA_EVIDENTIARY_COMPLETENESS_PERCENT: '40',
+      EXTRIMLI_EXTREM_PRAVEDNI_CONFLICT_BIAS_PRESSURE_PERCENT: '20',
+    }, () => {
+      const signal = getExtrimliExtremProfilerReport().funkcionalnoProgramiranjePravednogMisaonogToka;
+      assert(signal.readiness.status === 'BLOCKED', 'fairness evidentiary blocker must force BLOCKED even with high aggregate score');
+      assert(signal.readiness.blockerReasons.some((reason) => reason.startsWith('fairness-evidentiary-completeness-blocked:40')), 'fairness evidentiary blocker reason must be retained');
     });
   });
 
