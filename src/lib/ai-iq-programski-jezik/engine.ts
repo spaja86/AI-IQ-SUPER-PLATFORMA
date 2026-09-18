@@ -567,17 +567,6 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     : warnings.some((warning) => warning.includes('human review') || warning.includes('Feature flag'))
       ? 'WATCH'
       : 'READY';
-  const durationMs = round2(performance.now() - start);
-  const integrationProfile = buildIntegrationProfile({
-    surface: '/api/ai-iq-programski-jezik/compile',
-    dom: domStatus,
-    dik: dikStatus,
-    dak: dakStatus,
-    duk: dukStatus,
-    promotionFreeze: status === 'BLOCKED' || (aiRequested && !input.featureFlagAiIqLanguage),
-    performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
-    securityBoundariesPreserved: securityPass,
-  });
 
   const compiledProgram = JSON.stringify(
     {
@@ -590,6 +579,17 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     null,
     2,
   );
+  const durationMs = round2(performance.now() - start);
+  const integrationProfile = buildIntegrationProfile({
+    surface: '/api/ai-iq-programski-jezik/compile',
+    dom: domStatus,
+    dik: dikStatus,
+    dak: dakStatus,
+    duk: dukStatus,
+    promotionFreeze: status === 'BLOCKED' || (aiRequested && !input.featureFlagAiIqLanguage),
+    performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
+    securityBoundariesPreserved: securityPass,
+  });
 
   record(status, 'compile');
 
