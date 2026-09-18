@@ -2266,9 +2266,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     86,
     degradedSources,
   );
-  const paradigmFunctionalScores = [
-    funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score,
-    funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
+  const paradigmFunctionalGroups = [
+    averageNormalizedTrackScores([
+      funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score,
+      funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
+    ]),
     funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score,
     funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score,
   ];
@@ -2277,7 +2279,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     objektnoOrijentisanaReprodukcija.readiness.score,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
   ];
-  const functionalTransformationPercent = averageNormalizedTrackScores(paradigmFunctionalScores);
+  const functionalTransformationPercent = averageNormalizedTrackScores(paradigmFunctionalGroups);
   const objectEncapsulationCompositionPercent = averageNormalizedTrackScores(paradigmObjectScores);
   const proportionalBalancePercent = round(
     clamp(100 - Math.abs(functionalTransformationPercent - objectEncapsulationCompositionPercent), 0, 100),
