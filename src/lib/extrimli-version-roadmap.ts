@@ -147,6 +147,9 @@ export interface ExtrimliVersionRoadmap {
   };
 }
 
+const EXTRIMLI_DEVELOPER_CREATE_SOURCE_OF_TRUTH_ROUTES = '/api/extrimli/extrem,/api/extrimli/extrondol';
+const EXTRIMLI_DEVELOPER_CREATE_DRIFT_ZERO_LAYERS = 'docs,types,routes,tests,workflows';
+
 const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
   contractVersion: 'v1-7-roadmap',
   programName: 'EXTRIMLI EXTRONDOL EXTREM',
@@ -344,6 +347,31 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
     rollbackPlanRequired: true,
   },
 };
+
+export function isExtrimliDeveloperCreateLockAligned(
+  lock: ExtrimliDeveloperCreateProgramLock,
+): boolean {
+  return lock.sourceProgramDoc === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
+    && lock.additiveOnly
+    && lock.sourceOfTruthRoutes.join(',') === EXTRIMLI_DEVELOPER_CREATE_SOURCE_OF_TRUTH_ROUTES
+    && lock.driftZeroLayers.join(',') === EXTRIMLI_DEVELOPER_CREATE_DRIFT_ZERO_LAYERS
+    && lock.ownershipBoundary.extrimli === 'base-runtime-domain'
+    && lock.ownershipBoundary.extrem === 'technical-signal-and-profiler'
+    && lock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion'
+    && lock.ownershipBoundary.dok === 'EXTREM'
+    && lock.ownershipBoundary.dik === 'EXTREM'
+    && lock.ownershipBoundary.dak === 'EXTRONDOL'
+    && lock.ownershipBoundary.duk === 'EXTRONDOL'
+    && lock.ownershipBoundary.spajaKod === 'public-audit-safe-boundary'
+    && lock.definitionOfDone.additiveOnlyRequired
+    && lock.definitionOfDone.dokDikDakDukSplitLocked
+    && lock.definitionOfDone.sourceOfTruthRoutesStable
+    && lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
+    && lock.definitionOfDone.downstreamReferenceRequired
+    && lock.definitionOfDone.humanReviewRequired
+    && lock.definitionOfDone.securityRequired
+    && lock.definitionOfDone.rollbackRequired;
+}
 
 export function getExtrimliVersionRoadmap(): ExtrimliVersionRoadmap {
   return EXTRIMLI_VERSION_ROADMAP;

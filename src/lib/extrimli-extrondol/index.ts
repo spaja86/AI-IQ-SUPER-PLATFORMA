@@ -10,7 +10,10 @@ import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import { getExtrimliExtremProfilerReport } from '../extrimli-extrem';
 import type { ExtrimliDokDikDakDukConsistencyHealth } from '../extrimli-extrem/types';
-import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
+import {
+  getExtrimliVersionRoadmap,
+  isExtrimliDeveloperCreateLockAligned,
+} from '../extrimli-version-roadmap';
 import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
@@ -3523,17 +3526,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     {
       id: 'developer-create-lock',
       description: 'Developer/Create lock remains additive-only with locked source-of-truth routes, downstream sync layers, and DOK/DIK/DAK/DUK ownership split.',
-      passed: versionRoadmap.developerCreateLock.additiveOnly
-        && versionRoadmap.developerCreateLock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
-        && versionRoadmap.developerCreateLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows'
-        && versionRoadmap.developerCreateLock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
-        && versionRoadmap.developerCreateLock.ownershipBoundary.extrimli === 'base-runtime-domain'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.extrem === 'technical-signal-and-profiler'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.dok === 'EXTREM'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.dik === 'EXTREM'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.dak === 'EXTRONDOL'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.duk === 'EXTRONDOL',
+      passed: isExtrimliDeveloperCreateLockAligned(versionRoadmap.developerCreateLock),
     },
     {
       id: 'release-governance-audit-summary',

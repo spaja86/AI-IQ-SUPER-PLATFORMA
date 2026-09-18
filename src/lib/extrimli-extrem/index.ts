@@ -144,7 +144,10 @@ import {
   EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
 } from './types';
 import { buildSpajaproExtremTrack } from '../extrimli-spajapro-track';
-import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
+import {
+  getExtrimliVersionRoadmap,
+  isExtrimliDeveloperCreateLockAligned,
+} from '../extrimli-version-roadmap';
 
 const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS = [
   'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
@@ -2868,17 +2871,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     {
       id: 'developer-create-lock',
       description: 'Developer/Create lock remains additive-only with locked source-of-truth routes, drift-zero layers, and EXTREM/EXTRONDOL ownership boundaries.',
-      passed: versionRoadmap.developerCreateLock.additiveOnly
-        && versionRoadmap.developerCreateLock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
-        && versionRoadmap.developerCreateLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.extrimli === 'base-runtime-domain'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.extrem === 'technical-signal-and-profiler'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.dok === 'EXTREM'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.dik === 'EXTREM'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.dak === 'EXTRONDOL'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.duk === 'EXTRONDOL'
-        && versionRoadmap.developerCreateLock.ownershipBoundary.spajaKod === 'public-audit-safe-boundary',
+      passed: isExtrimliDeveloperCreateLockAligned(versionRoadmap.developerCreateLock),
     },
     {
       id: 'diskvit-terminology-lock',
