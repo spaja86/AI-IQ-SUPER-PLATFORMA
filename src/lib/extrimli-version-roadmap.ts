@@ -347,14 +347,6 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
   },
 };
 
-function hasSameOrderedValues(
-  left: readonly string[],
-  right: readonly string[],
-): boolean {
-  return left.length === right.length
-    && left.every((value, index) => value === right[index]);
-}
-
 function toExtrimliDeveloperCreateLockComparable(
   lock: ExtrimliDeveloperCreateProgramLock,
 ) {
@@ -389,35 +381,17 @@ function toExtrimliDeveloperCreateLockComparable(
   };
 }
 
+function serializeExtrimliDeveloperCreateLock(
+  lock: ExtrimliDeveloperCreateProgramLock,
+): string {
+  return JSON.stringify(toExtrimliDeveloperCreateLockComparable(lock));
+}
+
 export function isExtrimliDeveloperCreateLockAligned(
   lock: ExtrimliDeveloperCreateProgramLock,
 ): boolean {
-  const normalizedLock = toExtrimliDeveloperCreateLockComparable(lock);
-  const normalizedCanonicalLock = toExtrimliDeveloperCreateLockComparable(EXTRIMLI_DEVELOPER_CREATE_LOCK);
-
-  return normalizedLock.sourceProgramDoc === normalizedCanonicalLock.sourceProgramDoc
-    && normalizedLock.additiveOnly === normalizedCanonicalLock.additiveOnly
-    && hasSameOrderedValues(normalizedLock.sourceOfTruthRoutes, normalizedCanonicalLock.sourceOfTruthRoutes)
-    && hasSameOrderedValues(normalizedLock.lockedCoreArtifacts, normalizedCanonicalLock.lockedCoreArtifacts)
-    && normalizedLock.ownershipBoundary.extrimli === normalizedCanonicalLock.ownershipBoundary.extrimli
-    && normalizedLock.ownershipBoundary.extrem === normalizedCanonicalLock.ownershipBoundary.extrem
-    && normalizedLock.ownershipBoundary.extrondol === normalizedCanonicalLock.ownershipBoundary.extrondol
-    && normalizedLock.ownershipBoundary.dok === normalizedCanonicalLock.ownershipBoundary.dok
-    && normalizedLock.ownershipBoundary.dik === normalizedCanonicalLock.ownershipBoundary.dik
-    && normalizedLock.ownershipBoundary.dak === normalizedCanonicalLock.ownershipBoundary.dak
-    && normalizedLock.ownershipBoundary.duk === normalizedCanonicalLock.ownershipBoundary.duk
-    && normalizedLock.ownershipBoundary.spajaKod === normalizedCanonicalLock.ownershipBoundary.spajaKod
-    && hasSameOrderedValues(normalizedLock.driftZeroLayers, normalizedCanonicalLock.driftZeroLayers)
-    && hasSameOrderedValues(normalizedLock.realizationSequence, normalizedCanonicalLock.realizationSequence)
-    && hasSameOrderedValues(normalizedLock.expansionTracks, normalizedCanonicalLock.expansionTracks)
-    && normalizedLock.definitionOfDone.additiveOnlyRequired === normalizedCanonicalLock.definitionOfDone.additiveOnlyRequired
-    && normalizedLock.definitionOfDone.dokDikDakDukSplitLocked === normalizedCanonicalLock.definitionOfDone.dokDikDakDukSplitLocked
-    && normalizedLock.definitionOfDone.sourceOfTruthRoutesStable === normalizedCanonicalLock.definitionOfDone.sourceOfTruthRoutesStable
-    && normalizedLock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned === normalizedCanonicalLock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
-    && normalizedLock.definitionOfDone.downstreamReferenceRequired === normalizedCanonicalLock.definitionOfDone.downstreamReferenceRequired
-    && normalizedLock.definitionOfDone.humanReviewRequired === normalizedCanonicalLock.definitionOfDone.humanReviewRequired
-    && normalizedLock.definitionOfDone.securityRequired === normalizedCanonicalLock.definitionOfDone.securityRequired
-    && normalizedLock.definitionOfDone.rollbackRequired === normalizedCanonicalLock.definitionOfDone.rollbackRequired;
+  return serializeExtrimliDeveloperCreateLock(lock)
+    === serializeExtrimliDeveloperCreateLock(EXTRIMLI_DEVELOPER_CREATE_LOCK);
 }
 
 export function getExtrimliVersionRoadmap(): ExtrimliVersionRoadmap {
