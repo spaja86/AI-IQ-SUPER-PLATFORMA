@@ -566,6 +566,8 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   const dikStatus = toSignalStatus(dikReadiness, !securityPass);
   const dakStatus = !securityPass
     ? 'BLOCKED'
+    : (aiRequested && !input.featureFlagAiIqLanguage)
+      ? 'WATCH'
     : readinessScore >= 82 && executionMode !== 'DETERMINISTIC_ONLY'
       ? 'READY'
       : 'WATCH';
