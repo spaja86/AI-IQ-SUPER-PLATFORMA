@@ -1913,7 +1913,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || businessLicensingSignals.freezeRequired
     || kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
     || funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
-    || funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
