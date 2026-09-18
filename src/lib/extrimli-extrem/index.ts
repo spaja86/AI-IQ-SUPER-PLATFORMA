@@ -2259,23 +2259,27 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     86,
     degradedSources,
   );
-  const functionalTransformationPercent = round(
-    (
-      funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score
-      + funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score
-      + funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score
-      + funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score
-    ) / 4,
-    2,
+  const functionalScores = [
+    funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score,
+    funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
+    funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score,
+    funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score,
+  ];
+  const objectScores = [
+    objektnoOrijentisanaProngilacija.readiness.score,
+    objektnoOrijentisanaReprodukcija.readiness.score,
+    objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
+  ];
+  const functionalWeightedTotal = functionalScores.reduce(
+    (sum, score) => sum + score * (100 / functionalScores.length),
+    0,
   );
-  const objectEncapsulationCompositionPercent = round(
-    (
-      objektnoOrijentisanaProngilacija.readiness.score
-      + objektnoOrijentisanaReprodukcija.readiness.score
-      + objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score
-    ) / 3,
-    2,
+  const objectWeightedTotal = objectScores.reduce(
+    (sum, score) => sum + score * (100 / objectScores.length),
+    0,
   );
+  const functionalTransformationPercent = round(functionalWeightedTotal / 100, 2);
+  const objectEncapsulationCompositionPercent = round(objectWeightedTotal / 100, 2);
   const proportionalBalancePercent = round(
     clamp(100 - Math.abs(functionalTransformationPercent - objectEncapsulationCompositionPercent), 0, 100),
     2,
