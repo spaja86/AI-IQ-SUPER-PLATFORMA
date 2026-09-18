@@ -1170,8 +1170,9 @@ async function runTests(): Promise<void> {
       assert(report.paymentVerification.status === 'BLOCKED', 'payment verification should be BLOCKED');
       assert(report.paymentVerification.blockers.some((item) => item.includes('public-safe')), 'public-safe approval blocker must be present');
       assert(report.paymentVerification.blockers.some((item) => item.includes('redaction')), 'redaction blocker must be present');
-      assert(report.zelezaraPretplataGovernance.status === 'WATCH', 'Železara governance should remain WATCH when only activation gates are pending');
+      assert(report.zelezaraPretplataGovernance.status === 'READY', 'Železara governance should stay READY when only activation gates are pending');
       assert(report.zelezaraPretplataGovernance.activationGateReasons.includes('governance:payment-verification-required'), 'Železara governance should expose payment activation gate');
+      assert(report.zelezaraPretplataGovernance.publicStatus === 'SAFE_SUMMARY_REVIEW', 'Železara governance should downgrade public status while payment is pending');
       assert(report.b2bReadiness.compliance.blockers.some((item) => item.startsWith('payment:')), 'payment blocker must propagate to compliance');
       assert(report.rollout.promotionFreeze, 'promotion freeze should remain active when payment verification is blocked');
       assert(report.rollout.reasons.includes('payment-verification:blocked'), 'rollout reasons should include payment blocked marker');
