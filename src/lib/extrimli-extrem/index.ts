@@ -142,6 +142,7 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS = [
   'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA',
   'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
   'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
+  'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA',
 ] as const;
 
 const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
@@ -2284,6 +2285,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
     funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score,
     funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score,
+    funkionalnoProgramiranjePravnogMisaonogToka.readiness.score,
   ];
   const paradigmObjectScores = [
     objektnoOrijentisanaProngilacija.readiness.score,

@@ -494,7 +494,7 @@ Governance impact:
 
 Ownership split:
 
-- **EXTREM** objavljuje tehnički signal koji spaja postojeće paradigmske funkcionalne i objektne EXTRIMLI signale u jednu disciplinu višeg reda: funkcionalna transformacija, objektna enkapsulacija/kompozicija, proporcionalni odnos između funkcija i objekata i uslovne činjenice.
+- **EXTREM** objavljuje tehnički signal koji spaja postojeće paradigmske funkcionalne i objektne EXTRIMLI signale u jednu disciplinu višeg reda: funkcionalna transformacija, objektna enkapsulacija/kompozicija, proporcionalni odnos između funkcija i objekata i uslovne činjenice. U funkcionalni skup ulazi i `FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA` kao postojeći EXTREM funkcionalni signal.
 - **EXTRONDOL** koristi taj signal za WAWE current/next stage uticaj, promotion freeze, human-review, rollback, downstream-sync i release-audit summary odluke.
 - **SPAJA KOD** izlaže samo audit-safe zbirni status novog track-a bez formula, težina i internih readiness izračuna.
 
