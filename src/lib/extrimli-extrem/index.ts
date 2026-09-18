@@ -137,6 +137,19 @@ import {
 import { buildSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
 
+const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS = [
+  'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
+  'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA',
+  'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
+  'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
+] as const;
+
+const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
+  'Objektno orijentisana prongilacija',
+  'Objektno orijentisana reprodukcija',
+  'OBJEKTNO ORIJENTUSANO UZDIZANJE EPSKIH ELIKVADENATA',
+] as const;
+
 function parsePercentEnv(name: string, fallback: number, degradedSources: string[]): number {
   const raw = process.env[name];
   if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
@@ -1178,17 +1191,8 @@ function buildProporcionalnoProgramiranjeSignal(
     },
     profileInput,
     sourceSignals: {
-      functionalTracks: [
-        'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
-        'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA',
-        'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
-        'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
-      ],
-      objectTracks: [
-        'Objektno orijentisana prongilacija',
-        'Objektno orijentisana reprodukcija',
-        'OBJEKTNO ORIJENTUSANO UZDIZANJE EPSKIH ELIKVADENATA',
-      ],
+      functionalTracks: [...EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS],
+      objectTracks: [...EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS],
       synthesisRule: 'functional-object-proportional-balance',
     },
     processingModel: {
@@ -2266,19 +2270,27 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     86,
     degradedSources,
   );
+  const paradigmFunctionalTrackScores = new Map<string, number>([
+    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[0], funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score],
+    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[1], funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score],
+    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[2], funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score],
+    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[3], funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score],
+  ]);
   const paradigmFunctionalGroups = [
     averageNormalizedTrackScores([
-      funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score,
-      funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
+      paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[0]) ?? 0,
+      paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[1]) ?? 0,
     ]),
-    funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score,
-    funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score,
+    paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[2]) ?? 0,
+    paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[3]) ?? 0,
   ];
-  const paradigmObjectScores = [
-    objektnoOrijentisanaProngilacija.readiness.score,
-    objektnoOrijentisanaReprodukcija.readiness.score,
-    objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
-  ];
+  const paradigmObjectTrackScores = new Map<string, number>([
+    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS[0], objektnoOrijentisanaProngilacija.readiness.score],
+    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS[1], objektnoOrijentisanaReprodukcija.readiness.score],
+    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS[2], objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score],
+  ]);
+  const paradigmObjectScores = EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS
+    .map((track) => paradigmObjectTrackScores.get(track) ?? 0);
   const baseFunctionalTransformationPercent = averageNormalizedTrackScores(paradigmFunctionalGroups);
   const baseObjectEncapsulationCompositionPercent = averageNormalizedTrackScores(paradigmObjectScores);
   const protkrovFunkcijaPressurePercent = round(
