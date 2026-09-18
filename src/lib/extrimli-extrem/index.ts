@@ -51,6 +51,9 @@ import type {
   ExtrimliExtremProporcionalnoProgramiranjeProfileInput,
   ExtrimliExtremProporcionalnoProgramiranjeSignal,
   ExtrimliExtremProporcionalnoProgramiranjeStatus,
+  ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetProfileInput,
+  ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal,
+  ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetStatus,
   ExtrimliExtremKraljevskiPravniTrack,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
@@ -107,6 +110,9 @@ import {
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,
@@ -150,6 +156,9 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
   'Objektno orijentisana reprodukcija',
   'OBJEKTNO ORIJENTUSANO UZDIZANJE EPSKIH ELIKVADENATA',
 ] as const;
+
+const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
+  'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
 
 function parsePercentEnv(name: string, fallback: number, degradedSources: string[]): number {
   const raw = process.env[name];
@@ -450,6 +459,14 @@ function classifyProporcionalnoProgramiranjeStatus(
 ): ExtrimliExtremProporcionalnoProgramiranjeStatus {
   if (score >= EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function classifySpajinoProporcionalnoProgramiranjeUniverzitetStatus(
+  score: number,
+): ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetStatus {
+  if (score >= EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_WATCH_SCORE) return 'WATCH';
   return 'BLOCKED';
 }
 
@@ -1225,6 +1242,108 @@ function buildProporcionalnoProgramiranjeSignal(
         status: objektneStatus,
         role: 'Meri kada objektna struktura dominira bez dovoljno čiste funkcionalne transformacije.',
       },
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
+    },
+  };
+}
+
+function buildSpajinoProporcionalnoProgramiranjeUniverzitetSignal(
+  profileInput: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetProfileInput,
+  degraded: boolean,
+): ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal {
+  const score = round(
+    clamp(
+      (profileInput.functionalFlowPercent * 0.34)
+      + (profileInput.objectStructurePercent * 0.33)
+      + (profileInput.petljeOrchestrationBalancePercent * 0.33),
+      0,
+      100,
+    ),
+    2,
+  );
+  const status = classifySpajinoProporcionalnoProgramiranjeUniverzitetStatus(score);
+  const watchReasons = [
+    ...(profileInput.functionalFlowPercent < 80 ? [`functional-flow-watch:${profileInput.functionalFlowPercent}`] : []),
+    ...(profileInput.objectStructurePercent < 80 ? [`object-structure-watch:${profileInput.objectStructurePercent}`] : []),
+    ...(profileInput.petljeOrchestrationBalancePercent < 82
+      ? [`petlje-orchestration-balance-watch:${profileInput.petljeOrchestrationBalancePercent}`]
+      : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.functionalFlowPercent < 60 ? [`functional-flow-blocked:${profileInput.functionalFlowPercent}`] : []),
+    ...(profileInput.objectStructurePercent < 60 ? [`object-structure-blocked:${profileInput.objectStructurePercent}`] : []),
+    ...(profileInput.petljeOrchestrationBalancePercent < 58
+      ? [`petlje-orchestration-balance-blocked:${profileInput.petljeOrchestrationBalancePercent}`]
+      : []),
+  ];
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
+    ? [`aggregate-watch-score:${score}`]
+    : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length === 0
+    ? [`aggregate-blocked-score:${score}`]
+    : blockerReasons;
+
+  return {
+    term: 'SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET',
+    canonicalNarrativeTitle: EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE,
+    contractVersion: EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
+    additiveOnly: true,
+    parentTrack: 'PROPORCIONALNO PROGRAMIRANJE',
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET',
+      narrativeTitle: EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE,
+      spellingDecision: 'exact-user-term-locked',
+      narrativeTitleLock: 'exact-user-term-locked',
+      statement: 'Additive EXTREM university-layer signal that formalizes the proportional coupling of existing functional and object tracks with PETLJE evidence, without replacing the base proportional programming contract.',
+      interpretationLayer: 'technical-university-sub-track-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-proportional-university-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      functionalFlow: {
+        canonicalField: 'profileInput.functionalFlowPercent',
+        meaning: 'funkcionalni-tok',
+      },
+      objectStructure: {
+        canonicalField: 'profileInput.objectStructurePercent',
+        meaning: 'objektna-struktura',
+      },
+      petljeOrchestrationBalance: {
+        canonicalField: 'profileInput.petljeOrchestrationBalancePercent',
+        meaning: 'petlje-orkestracija-i-proporcionalna-ravnoteza',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    parentCoupling: {
+      proportionalProgrammingTrack: 'PROPORCIONALNO PROGRAMIRANJE',
+      technicalSubTrackMode: 'additive-sub-track',
+      petljeContract: 'EXTRIMLI EXTRONDOL EXTREM PETLJE',
+      noNewPublicRoute: true,
+    },
+    sourceSignals: {
+      functionalTracks: [...EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS],
+      objectTracks: [...EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS],
+      parentTrack: 'PROPORCIONALNO PROGRAMIRANJE',
+      petljeEvidence: 'existing-canonical-petlje-contract',
     },
     readiness: {
       score,
@@ -2331,6 +2450,32 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     degradedSources.some((source) => source === 'invalid-env:EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT'),
   );
+  const spajinoProporcionalnoProgramiranjeUniverzitet = buildSpajinoProporcionalnoProgramiranjeUniverzitetSignal(
+    {
+      functionalFlowPercent: proporcionalnoProgramiranje.readiness.score,
+      objectStructurePercent: round(
+        clamp(
+          (
+            objektnoOrijentisanaProngilacija.readiness.score
+            + objektnoOrijentisanaReprodukcija.readiness.score
+            + objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score
+          ) / 3,
+          0,
+          100,
+        ),
+        2,
+      ),
+      petljeOrchestrationBalancePercent: round(
+        clamp(
+          (petljeSignals.summary.readinessScore * 0.7) + ((100 - petljeSignals.summary.conflictScore) * 0.3),
+          0,
+          100,
+        ),
+        2,
+      ),
+    },
+    proporcionalnoProgramiranje.readiness.degraded || petljeSignals.summary.degradedSignals.length > 0,
+  );
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
     clamp(
@@ -2490,6 +2635,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
   if (proporcionalnoProgramiranje.readiness.degraded) {
     degradedSources.push(`proporcionalno-programiranje:${proporcionalnoProgramiranje.readiness.status.toLowerCase()}`);
+  }
+  if (spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded) {
+    degradedSources.push(
+      `spajino-proporcionalno-programiranje-univerzitet:${spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status.toLowerCase()}`,
+    );
   }
   if (objektnoOrijentisanaReprodukcija.readiness.degraded) {
     degradedSources.push(`objektno-orijentisana-reprodukcija:${objektnoOrijentisanaReprodukcija.readiness.status.toLowerCase()}`);
@@ -2762,6 +2912,23 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(proporcionalnoProgramiranje.readiness.score),
     },
     {
+      id: 'spajino-proporcionalno-programiranje-univerzitet-lock',
+      description: 'SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET stays an additive university-layer sub-track over PROPORCIONALNO PROGRAMIRANJE with the locked narrative title and no new public route.',
+      passed: spajinoProporcionalnoProgramiranjeUniverzitet.contractVersion === EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION
+        && spajinoProporcionalnoProgramiranjeUniverzitet.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE'
+        && spajinoProporcionalnoProgramiranjeUniverzitet.canonicalNarrativeTitle === EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE
+        && spajinoProporcionalnoProgramiranjeUniverzitet.parentCoupling.noNewPublicRoute === true,
+    },
+    {
+      id: 'spajino-proporcionalno-programiranje-univerzitet-model',
+      description: 'The university sub-track keeps the functional flow, object structure, and PETLJE-backed orchestration balance vocabulary stable while exposing only a READY/WATCH/BLOCKED posture.',
+      passed: spajinoProporcionalnoProgramiranjeUniverzitet.canonicalVocabulary.functionalFlow.canonicalField === 'profileInput.functionalFlowPercent'
+        && spajinoProporcionalnoProgramiranjeUniverzitet.canonicalVocabulary.objectStructure.canonicalField === 'profileInput.objectStructurePercent'
+        && spajinoProporcionalnoProgramiranjeUniverzitet.canonicalVocabulary.petljeOrchestrationBalance.canonicalField === 'profileInput.petljeOrchestrationBalancePercent'
+        && spajinoProporcionalnoProgramiranjeUniverzitet.sourceSignals.petljeEvidence === 'existing-canonical-petlje-contract'
+        && Number.isFinite(spajinoProporcionalnoProgramiranjeUniverzitet.readiness.score),
+    },
+    {
       id: 'objektno-orijentisana-reprodukcija-lock',
       description: 'Objektno orijentisana reprodukcija is locked as an additive-only EXTREM reproducibility signal with explicit ownership split across EXTREM, EXTRONDOL, and SPAJA KOD.',
       passed: objektnoOrijentisanaReprodukcija.contractVersion === 'v1-objektno-orijentisana-reprodukcija'
@@ -2905,6 +3072,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkcionalnoProgramiranjePravednogMisaonogToka,
     funkionalnoProgramiranjePravnogMisaonogToka,
     proporcionalnoProgramiranje,
+    spajinoProporcionalnoProgramiranjeUniverzitet,
     objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
     semaMuSemaFormula,
@@ -3031,6 +3199,9 @@ export {
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,
