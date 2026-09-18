@@ -45,6 +45,20 @@ Podržani keyword-i:
 - `ORCHESTRATE` — redosled i režim izvršavanja.
 - `OUTPUT` — obavezna izlazna šema (status/score/warnings/action).
 
+### EXTRIMLI-EXTRONDOL-EXTREM integration profile (additive)
+
+- Profil ID: `EXTRIMLI-EXTRONDOL-EXTREM`
+- Integracija je additive-only i ne menja postojeće AI IQ, EXTREM ili EXTRONDOL ugovore.
+- Source-of-truth surface-ovi ostaju:
+  - `/api/extrimli/extrem` (tehnički signal sloj)
+  - `/api/extrimli/extrondol` (WAWE/governance sloj)
+
+Signal mapiranje:
+- `DOM` → EXTREM PETLJE DOM grupa (`DOMPRE`, `DOMBRE`, `DOMBRA`, `DOMBAR`, `DOMPOR`)
+- `DIK` → EXTREM `DIK PETLJA`
+- `DAK` → EXTRONDOL promocioni tok (`DAKOR`)
+- `DUK` → EXTRONDOL human-review tok (`DUKAR`)
+
 ### Tipovi podataka
 
 - `mode/targetMode`: `DETERMINISTIC_ONLY | HYBRID | AI_NATIVE`
@@ -84,6 +98,7 @@ Ako AI sloj nije spreman/blokiran, izvršava se `DETERMINISTIC_ONLY` putanja.
 ### Objašnjivost
 
 Svaki rezultat mora da vrati: score, status, warnings, recommendedAction i disclaimer.
+Svaki rezultat sada additive vraća i `integrationProfile` sa objedinjenim statusom za `DOM/DIK/DAK/DUK` i `overall` signal.
 
 ## 4) API-first površina
 
@@ -104,6 +119,14 @@ Obavezni gate-ovi pre aktivacije:
 6. audit log
 
 Release kriterijumi su blokirani ako security nije zelen ili fallback nije potvrđen.
+
+Governance veza prema EXTRONDOL release modelu u `integrationProfile.governanceLink` obavezno uključuje:
+- rollout snapshot (`currentStage`, `eligibleNextStage`)
+- `promotionFreeze`
+- `humanReviewRequired`
+- `rollbackPlanRequired`
+- downstream reference ka `spaja86/IO-OPENUI-AO`
+- rollout stage vrednosti su `WAVE-1` do `WAVE-5` kao AI IQ alias preko EXTRONDOL WAWE progresije
 
 ## 6) Validator agent
 
@@ -133,6 +156,12 @@ OUTPUT: status score warnings action
 1. Interno testiranje (`DETERMINISTIC_ONLY`)
 2. Parcijalna aktivacija (`HYBRID` + feature flag)
 3. Puna aktivacija (`AI_NATIVE`) samo uz zelene KPI + security
+
+## 8.1 Acceptance kriterijumi integration profila
+
+- Deterministički output za iste ulaze (uključujući objedinjeni `DOM/DIK/DAK/DUK` status)
+- Validacija edge-case scenarija (`NaN`, `Infinity`, prazni/nevalidni tokeni)
+- Očuvanje postojećih API ugovora bez breaking promena (additive-only proširenje)
 
 ## 9) Multi-repo sinhronizacija
 

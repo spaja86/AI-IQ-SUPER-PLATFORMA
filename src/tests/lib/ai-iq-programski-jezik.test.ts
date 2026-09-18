@@ -70,6 +70,13 @@ async function runTests(): Promise<void> {
     assert(first.status === 'AI_NATIVE_READY', `expected AI_NATIVE_READY, got ${first.status}`);
     assert(first.overallScore === second.overallScore, 'overall score should be deterministic');
     assert(first.status === second.status, 'status should be deterministic');
+    assert(first.integrationProfile.profileId === 'EXTRIMLI-EXTRONDOL-EXTREM', 'integration profile id mismatch');
+    assert(first.integrationProfile.signalMapping.DOM.group.join(',') === 'DOMPRE PETLJA,DOMBRE PETLJA,DOMBRA PETLJA,DOMBAR PETLJA,DOMPOR PETLJA', 'DOM mapping mismatch');
+    assert(first.integrationProfile.signalMapping.DIK.group.join(',') === 'DIK PETLJA', 'DIK mapping mismatch');
+    assert(first.integrationProfile.signalMapping.DAK.group.join(',') === 'DAKOR', 'DAK mapping mismatch');
+    assert(first.integrationProfile.signalMapping.DUK.group.join(',') === 'DUKAR', 'DUK mapping mismatch');
+    assert(first.integrationProfile.unifiedSignalStatus.overall === second.integrationProfile.unifiedSignalStatus.overall, 'integration overall should be deterministic');
+    assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');
     assert(first.durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS, `duration ${first.durationMs} > ${AIIQ_LANG_PERFORMANCE_MAX_MS}`);
   });
 
@@ -166,6 +173,27 @@ async function runTests(): Promise<void> {
     assert(result.valid, 'compile remains valid');
     assert(!result.securityPass, 'security must fail');
     assert(result.status === 'BLOCKED', `expected BLOCKED, got ${result.status}`);
+    assert(result.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze, 'blocked compile must freeze promotion');
+  });
+
+  await test('compile flags invalid token syntax as warning but keeps additive profile', () => {
+    const result = compileAiiqLanguage({
+      source: [
+        'INTENT: test',
+        'RULE: NO_SECRET output',
+        'RULE: ALLOWLIST api=internal',
+        'DIK: unsupported keyword',
+        'OUTPUT: status score warnings action',
+      ].join('\n'),
+      targetMode: 'HYBRID',
+      strictSecurity: true,
+      featureFlagAiIqLanguage: true,
+    });
+
+    assert(result.valid, 'compile should stay valid with partial AST');
+    assert(result.warnings.some((warning) => warning.includes('unsupported keyword: DIK')), 'must warn on invalid DIK token');
+    assert(result.integrationProfile.unifiedSignalStatus.dik === 'WATCH', 'DIK status should degrade on malformed token syntax');
+    assert(result.integrationProfile.additiveOnly, 'integration must remain additive-only');
   });
 
   await test('health report tracks evaluations and compilations', () => {

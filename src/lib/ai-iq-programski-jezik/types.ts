@@ -27,6 +27,75 @@ export type AiiqLanguageAction =
   | 'RUN_SHADOW_MODE'
   | 'ENABLE_AI_NATIVE';
 
+export type AiiqIntegrationSignalStatus = 'BLOCKED' | 'WATCH' | 'READY';
+
+export type AiiqIntegrationRolloutStage = 'WAVE-1' | 'WAVE-2' | 'WAVE-3' | 'WAVE-4' | 'WAVE-5';
+
+export interface AiiqLanguageExtrimliIntegrationProfile {
+  profileId: 'EXTRIMLI-EXTRONDOL-EXTREM';
+  additiveOnly: true;
+  contractMutation: 'none';
+  scope: {
+    aiIqLanguageSurfaces: readonly ['/api/ai-iq-programski-jezik/evaluate', '/api/ai-iq-programski-jezik/compile'];
+    currentSurface: '/api/ai-iq-programski-jezik/evaluate' | '/api/ai-iq-programski-jezik/compile';
+    extrem: '/api/extrimli/extrem';
+    extrondol: '/api/extrimli/extrondol';
+  };
+  signalMapping: {
+    DOM: {
+      source: '/api/extrimli/extrem';
+      group: readonly ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA'];
+    };
+    DIK: {
+      source: '/api/extrimli/extrem';
+      group: readonly ['DIK PETLJA'];
+    };
+    DAK: {
+      source: '/api/extrimli/extrondol';
+      group: readonly ['DAKOR'];
+      role: 'promotion-control';
+    };
+    DUK: {
+      source: '/api/extrimli/extrondol';
+      group: readonly ['DUKAR'];
+      role: 'human-review-control';
+    };
+  };
+  layerResponsibilities: {
+    extrem: 'technical-signal-engine-readiness-conflict-profiling';
+    extrondol: 'wave-governance-orchestrator';
+    aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer';
+  };
+  unifiedSignalStatus: {
+    dom: AiiqIntegrationSignalStatus;
+    dik: AiiqIntegrationSignalStatus;
+    dak: AiiqIntegrationSignalStatus;
+    duk: AiiqIntegrationSignalStatus;
+    overall: AiiqIntegrationSignalStatus;
+  };
+  governanceLink: {
+    sourceOfTruth: '/api/extrimli/extrondol';
+    rolloutSnapshot: {
+      currentStage: AiiqIntegrationRolloutStage;
+      eligibleNextStage: AiiqIntegrationRolloutStage;
+      promotionFreeze: boolean;
+    };
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamReference: {
+      linkedRepo: 'spaja86/IO-OPENUI-AO';
+      required: true;
+    };
+  };
+  acceptanceCriteria: {
+    deterministicOutput: true;
+    edgeCaseValidation: true;
+    preserveExistingContracts: true;
+    performanceWithinTargets: boolean;
+    securityBoundariesPreserved: boolean;
+  };
+}
+
 export interface AiiqLanguageEvaluateInput {
   referenceId?: string;
   goal: string;
@@ -59,6 +128,7 @@ export interface AiiqLanguageEvaluateResult {
     fallbackRule: string;
     explainabilityRule: string;
   };
+  integrationProfile: AiiqLanguageExtrimliIntegrationProfile;
   disclaimer: string;
   valid: boolean;
   durationMs: number;
@@ -90,6 +160,7 @@ export interface AiiqLanguageCompileResult {
   executionMode: AiiqLanguageMode;
   warnings: string[];
   compiledProgram: string;
+  integrationProfile: AiiqLanguageExtrimliIntegrationProfile;
   disclaimer: string;
   valid: boolean;
   durationMs: number;

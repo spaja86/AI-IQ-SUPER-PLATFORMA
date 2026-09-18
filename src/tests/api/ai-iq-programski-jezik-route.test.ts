@@ -80,9 +80,24 @@ async function runTests(): Promise<void> {
     assert(response.headers.get('X-AIIQ-Lang-Valid') === 'true', 'missing valid header');
     assert(elapsed <= AIIQ_LANG_API_RESPONSE_MAX_MS, `evaluate response ${elapsed.toFixed(1)}ms exceeds ${AIIQ_LANG_API_RESPONSE_MAX_MS}ms`);
 
-    const body = await response.json() as { data: { valid: boolean; status: string } };
+    const body = await response.json() as {
+      data: {
+        valid: boolean;
+        status: string;
+        integrationProfile: {
+          profileId: string;
+          governanceLink: {
+            rolloutSnapshot: { promotionFreeze: boolean };
+            downstreamReference: { linkedRepo: string };
+          };
+        };
+      };
+    };
     assert(body.data.valid, 'result should be valid');
     assert(['READY', 'AI_NATIVE_READY'].includes(body.data.status), `unexpected status: ${body.data.status}`);
+    assert(body.data.integrationProfile.profileId === 'EXTRIMLI-EXTRONDOL-EXTREM', 'missing additive integration profile');
+    assert(body.data.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'missing downstream linked repo');
+    assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze === false, 'valid route payload should not be frozen');
   });
 
   await test('POST /evaluate returns 400 for shallow shape mismatch', async () => {
@@ -100,6 +115,31 @@ async function runTests(): Promise<void> {
     }));
 
     assert(response.status === 400, `expected 400, got ${response.status}`);
+  });
+
+  await test('POST /evaluate blocked payload exposes frozen governance snapshot', async () => {
+    const response = await EVALUATE_POST(makeRequest('http://localhost/api/ai-iq-programski-jezik/evaluate', {
+      goal: 'high risk governance check',
+      mode: 'AI_NATIVE',
+      promptComplexity: 88,
+      ruleCoverage: 88,
+      orchestrationReadiness: 88,
+      autonomyLevel: 88,
+      riskLevel: 95,
+      explainabilityNeed: 88,
+      securityPolicyScore: 90,
+      fallbackConfigured: true,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      data: {
+        status: string;
+        integrationProfile: { governanceLink: { rolloutSnapshot: { promotionFreeze: boolean } } };
+      };
+    };
+    assert(body.data.status === 'BLOCKED', `expected BLOCKED, got ${body.data.status}`);
+    assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze, 'blocked evaluate payload must freeze promotion');
   });
 
   await test('POST /compile returns 200 for valid source', async () => {
@@ -122,6 +162,32 @@ async function runTests(): Promise<void> {
     const body = await response.json() as { data: { valid: boolean; securityPass: boolean } };
     assert(body.data.valid, 'compile should be valid');
     assert(body.data.securityPass, 'security should pass');
+  });
+
+  await test('POST /compile keeps valid output but freezes promotion when AI flag is disabled', async () => {
+    const response = await COMPILE_POST(makeRequest('http://localhost/api/ai-iq-programski-jezik/compile', {
+      source: [
+        'INTENT: AI-native orchestration',
+        'RULE: NO_SECRET output',
+        'RULE: ALLOWLIST tool=internal',
+        'AI: plan synthesis',
+        'ORCHESTRATE: staged rollout',
+        'OUTPUT: status score warnings',
+      ].join('\n'),
+      targetMode: 'AI_NATIVE',
+      strictSecurity: true,
+      featureFlagAiIqLanguage: false,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      data: {
+        valid: boolean;
+        integrationProfile: { governanceLink: { rolloutSnapshot: { promotionFreeze: boolean } } };
+      };
+    };
+    assert(body.data.valid, 'compile should remain valid');
+    assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze, 'AI-disabled compile should freeze promotion');
   });
 
   await test('POST /compile returns 422 when source cannot compile', async () => {
