@@ -347,10 +347,40 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
   },
 };
 
+function hasSameOrderedValues(
+  left: readonly string[],
+  right: readonly string[],
+): boolean {
+  return left.length === right.length
+    && left.every((value, index) => value === right[index]);
+}
+
 export function isExtrimliDeveloperCreateLockAligned(
   lock: ExtrimliDeveloperCreateProgramLock,
 ): boolean {
-  return JSON.stringify(lock) === JSON.stringify(EXTRIMLI_DEVELOPER_CREATE_LOCK);
+  return lock.sourceProgramDoc === EXTRIMLI_DEVELOPER_CREATE_LOCK.sourceProgramDoc
+    && lock.additiveOnly === EXTRIMLI_DEVELOPER_CREATE_LOCK.additiveOnly
+    && hasSameOrderedValues(lock.sourceOfTruthRoutes, EXTRIMLI_DEVELOPER_CREATE_LOCK.sourceOfTruthRoutes)
+    && hasSameOrderedValues(lock.lockedCoreArtifacts, EXTRIMLI_DEVELOPER_CREATE_LOCK.lockedCoreArtifacts)
+    && lock.ownershipBoundary.extrimli === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.extrimli
+    && lock.ownershipBoundary.extrem === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.extrem
+    && lock.ownershipBoundary.extrondol === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.extrondol
+    && lock.ownershipBoundary.dok === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.dok
+    && lock.ownershipBoundary.dik === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.dik
+    && lock.ownershipBoundary.dak === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.dak
+    && lock.ownershipBoundary.duk === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.duk
+    && lock.ownershipBoundary.spajaKod === EXTRIMLI_DEVELOPER_CREATE_LOCK.ownershipBoundary.spajaKod
+    && hasSameOrderedValues(lock.driftZeroLayers, EXTRIMLI_DEVELOPER_CREATE_LOCK.driftZeroLayers)
+    && hasSameOrderedValues(lock.realizationSequence, EXTRIMLI_DEVELOPER_CREATE_LOCK.realizationSequence)
+    && hasSameOrderedValues(lock.expansionTracks, EXTRIMLI_DEVELOPER_CREATE_LOCK.expansionTracks)
+    && lock.definitionOfDone.additiveOnlyRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.additiveOnlyRequired
+    && lock.definitionOfDone.dokDikDakDukSplitLocked === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.dokDikDakDukSplitLocked
+    && lock.definitionOfDone.sourceOfTruthRoutesStable === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.sourceOfTruthRoutesStable
+    && lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned
+    && lock.definitionOfDone.downstreamReferenceRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.downstreamReferenceRequired
+    && lock.definitionOfDone.humanReviewRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.humanReviewRequired
+    && lock.definitionOfDone.securityRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.securityRequired
+    && lock.definitionOfDone.rollbackRequired === EXTRIMLI_DEVELOPER_CREATE_LOCK.definitionOfDone.rollbackRequired;
 }
 
 export function getExtrimliVersionRoadmap(): ExtrimliVersionRoadmap {
