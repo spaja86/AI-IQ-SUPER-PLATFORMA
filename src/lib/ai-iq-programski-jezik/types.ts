@@ -63,7 +63,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
   };
   layerResponsibilities: {
     extrem: 'technical-signal-engine-readiness-conflict-profiling';
-    extrondol: 'wawe-governance-orchestrator';
+    extrondol: 'wave-governance-orchestrator';
     aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer';
   };
   unifiedSignalStatus: {
