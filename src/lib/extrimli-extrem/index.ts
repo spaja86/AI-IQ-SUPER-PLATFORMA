@@ -2398,6 +2398,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
+    || proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
     || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';

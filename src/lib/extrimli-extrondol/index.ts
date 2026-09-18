@@ -1989,6 +1989,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
       ? ['funkionalno-programiranje-pravnog-misaonog-toka']
       : []),
+    ...(extremProfiler.proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
+      ? ['proporcionalno-programiranje']
+      : []),
     ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
       ? ['objektno-orijentisana-reprodukcija']
       : []),
@@ -2026,6 +2029,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status === 'BLOCKED'
     || (extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
+    || (extremProfiler.proporcionalnoProgramiranje.readiness.status === 'WATCH' && !humanReviewComplete)
+    || extremProfiler.proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH' && !humanReviewComplete)
