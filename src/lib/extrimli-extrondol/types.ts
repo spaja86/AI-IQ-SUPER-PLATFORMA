@@ -626,6 +626,8 @@ export interface ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance {
   blockerReasons: string[];
 }
 
+export type ExtrimliExtrondolZelezaraPretplataGovernanceStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
 export interface ExtrimliExtrondolZelezaraPretplataGovernance {
   term: 'ŽELEZARA PRETPLATA IDENTITET';
   sourceOfTruth: '/api/extrimli/extrondol';
@@ -633,7 +635,7 @@ export interface ExtrimliExtrondolZelezaraPretplataGovernance {
   contractVersion: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['contractVersion'];
   additiveOnly: true;
   governanceVisibility: 'audit-safe-governance-only';
-  status: ExtrimliExtremZelezaraPretplataIdentityStatus;
+  status: ExtrimliExtrondolZelezaraPretplataGovernanceStatus;
   subscriberIdentity: {
     canonicalLegalName: 'Železara d.o.o. Smederevo';
     currentOperatingName: 'HBIS / Hibis Smederevo';
