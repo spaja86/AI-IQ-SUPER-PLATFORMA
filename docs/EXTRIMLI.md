@@ -19,6 +19,7 @@ This repository now exposes five aligned surfaces:
 | **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, EXTREM profiler governance signal, MUŠEMA freeze/promotion gate, and PETLJE rollout/audit propagation |
 | **SPAJA KOD** | `src/app/api/extrimli/spaja-kod/` | Active | Public encapsulated facade over EXTREM + EXTRONDOL that exposes only system readiness, governance, and audit signals |
 | **SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET** | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive university-layer interpretation over `PROPORCIONALNO PROGRAMIRANJE`; EXTREM owns the technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe summary status |
+| **METRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive metric-programming track; EXTREM owns declaration-matrix and instance-positioning technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe final status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOM/DIK` to EXTREM signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
@@ -41,6 +42,7 @@ This repository now exposes five aligned surfaces:
 | EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
 | SPAJA KOD facade API route | `src/app/api/extrimli/spaja-kod/` |
 | SPAJINO proportional university spec | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md` |
+| Metricko programming spec | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md` |
 | SPAJAPRO planning-track doc | `docs/EXTRIMLI-SPAJAPRO-TRACK.md` |
 | World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
 | World Bank Persona bridge API route | `src/app/api/extrimli/world-bank-persona/` |
@@ -524,6 +526,34 @@ Boundary + governance impact:
 - `WATCH` ili `BLOCKED` status moraju da propagiraju audit razloge, rollback obaveznost, downstream sync i human-review kroz EXTRONDOL, bez otvaranja novog nezavisnog freeze source-a van postojećih EXTREM signalnih gate-ova.
 - SPAJA KOD ostaje javna fasada i prikazuje samo proporcionalni zbirni status kao audit-safe signal.
 
+## METRIČKO PROGRAMIRANJE
+
+- Canonical term: `METRIČKO PROGRAMIRANJE`
+- Contract mode: additive-only track
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`
+
+Ownership split:
+
+- **EXTREM** objavljuje tehnički signal za `declaration matrix` i `instance positioning`, uz vezivanje `DOK` i `DIK` kao tehničkog dokaza bez pomeranja ownership granice.
+- **EXTRONDOL** koristi isti signal za WAWE progression, promotion freeze, release audit summary, readiness scorecard i human-review odluke, pri čemu `DAK` i `DUK` ostaju governance interpretacija.
+- **SPAJA KOD** izlaže samo audit-safe finalni status metričkog programa bez internih matrica, instanci i akcentnih formula.
+
+Canonical vocabulary:
+
+- `matrica` = deklaracije koda u izvornom opsegu
+- `instance` = ekstremno pozicioniranje koda na elementarnom nivou
+- `muvanje bez pogonskog akcenta` = neutralna, degradaciono-bezbedna deklarativna postura
+- `sprega akcenata u odnosu na površinu zastupnjenog kodeksa` = instance-level coupling signal
+
+Boundary + governance impact:
+
+- Track je additive-only i ne uvodi nove source-of-truth rute.
+- `WATCH` i `BLOCKED` postures moraju propagirati release-audit, freeze, downstream-sync i human-review obaveze kroz EXTRONDOL.
+- `dokDikDakDukConsistencyHealth` ostaje zaključan: `DOK + DIK` tehnički u EXTREM, `DAK + DUK` governance u EXTRONDOL.
+
 ## SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET
 
 - Canonical term: `SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET`
@@ -686,8 +716,8 @@ Ownership split:
 1. `Verzija 1` — core EXTRIMLI stabilization (`src/lib/extrimli/**`, `src/app/api/extrimli/**`)
 2. `Verzija 2` — canonical integration layer (`src/lib/extrimli-extendol/**`, `src/lib/extrimli-extrondend/**`)
 3. `Verzija 3` — advanced readiness and profile expansion (`src/lib/extrimli-3/**`, `src/app/api/extrimli-3/**`)
-4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive object-oriented reproduction, epic elikvadenti uplift readiness, FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA profiling, and PROPORCIONALNO PROGRAMIRANJE language-innovation synthesis
-5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction, epic elikvadenti review/freeze propagation, FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA WAWE governance, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA explicit-thought governance, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA legal-functional governance, and PROPORCIONALNO PROGRAMIRANJE audit/freeze propagation
+4. `Verzija 4` — EXTREM governance hardening (`src/lib/extrimli-extrem/**`, `src/app/api/extrimli/extrem/**`) including additive object-oriented reproduction, epic elikvadenti uplift readiness, FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA profiling, PROPORCIONALNO PROGRAMIRANJE language-innovation synthesis, and METRIČKO PROGRAMIRANJE declaration-matrix/instance-positioning readiness
+5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction, epic elikvadenti review/freeze propagation, FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA WAWE governance, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA explicit-thought governance, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA legal-functional governance, PROPORCIONALNO PROGRAMIRANJE audit/freeze propagation, and METRIČKO PROGRAMIRANJE governance/audit propagation
 6. `Verzija 6` — multi-repo and persona sync (`docs/MULTI-REPO-LINKS.md`, `.agent-config.json`, `src/lib/persona-bank/**`)
 7. `Verzija 7` — enterprise operating model (`docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`)
 
@@ -960,14 +990,14 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `WAWE-4` → production rollout
   - `WAWE-5` → post-deploy resilience
 - START mandatory outputs ostaju additive-only i uključuju `rollout.currentWawe`, `rollout.eligibleNextWawe`, `rollout.promotionFreeze`, `nivoDuet`, `dinkos`, `distanceRatioEkvilaterTable`, `paymentVerification`, `zelezaraPretplataGovernance`, `extremProfiler`, `extremProfiler.zelezaraPretplataIdentityTrack`, `extremProfiler.resolutionReadiness`, `extremProfiler.semaMuSemaFormula`, `releaseReadinessScorecard`, `canaryRingMetrics`, `incidentPlaybook`, `contractDriftReport`, `governanceConformance`.
-- `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze, uključujući FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA i PROPORCIONALNO PROGRAMIRANJE track-ove.
+- `versionRoadmap` i `roadmapAlignment` dokumentuju da je EXTRONDOL primary orchestration stage `Verzija 5`, dok EXTREM ostaje mandatory `Verzija 4` gate za naredne release faze, uključujući FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA, PROPORCIONALNO PROGRAMIRANJE i METRIČKO PROGRAMIRANJE track-ove.
 - START governance evidence ostaje obavezna: `contract-approved`, `onboarding-complete`, `downstream-sync-complete`, `audit-trail-complete`, `human-review-complete`.
 - START downstream sync ostaje obavezan za `spaja86/IO-OPENUI-AO` bez mutacije postojećeg EXTRONDOL ugovora.
 
 ### Release readiness scorecard + conformance
 
 - `releaseReadinessScorecard` je single-pane prikaz za zaključana jezgra `EXTRIMLI`, `EXTREM`, `EXTRONDOL` i zaključane source-of-truth rute (`/api/extrimli/extrem`, `/api/extrimli/extrondol`).
-- Kada je relevantan, scorecard i `releaseAuditSummary` moraju uključiti FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA i PROPORCIONALNO PROGRAMIRANJE posture, rollout impact, downstream reference i human-review/rollback coupling.
+- Kada je relevantan, scorecard i `releaseAuditSummary` moraju uključiti FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA, PROPORCIONALNO PROGRAMIRANJE i METRIČKO PROGRAMIRANJE posture, rollout impact, downstream reference i human-review/rollback coupling.
 - Kada je aktivan Železara pretplata track, scorecard i `releaseAuditSummary` moraju uključiti kanonski identitet, restore-old-name status, split-client rizik i public-safe summary signal.
 - `canaryRingMetrics` prati ring sekvencu `RING-0-CONTRACT → RING-4-RESILIENCE` i auto-freeze posture pre promocije.
 - `incidentPlaybook` zaključava tok `trigger → freeze → rollback → postmortem`.

@@ -62,6 +62,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-OBJEKTNO-ORIJENTISANA-PRONGILACIJA -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI METRIČKO PROGRAMIRANJE downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — METRIČKO PROGRAMIRANJE additive track over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Sync only audit-safe readiness/governance outputs (`extremProfiler.metrikoProgramiranje.readiness`, `metrikoProgramiranje.waweImpact`, `releaseAuditSummary.metrikoProgramiranjeGovernance`, `spajaKod.publicSignals.metrikoProgramiranjeStatus`); declaration matrix and instance-positioning internals stay repo-local
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-METRICKO-PROGRAMIRANJE -> IO-OPENUI-AO#<follow-up issue>`
+
 ## EXTRIMLI objektno orijentisana reprodukcija downstream reference
 
 - This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentisana reprodukcija over EXTRIMLI/EXTREM/EXTRONDOL
