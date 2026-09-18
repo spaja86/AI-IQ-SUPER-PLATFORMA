@@ -152,7 +152,7 @@ function buildIntegrationProfile(params: {
   performanceWithinTargets: boolean;
   securityBoundariesPreserved: boolean;
 }): AiiqLanguageExtrimliIntegrationProfile {
-  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk);
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak);
   const currentStage = resolveRolloutStageFromOverall(overall, params.rolloutMaturityScore);
   return {
     profileId: 'EXTRIMLI-EXTRONDOL-EXTREM',
