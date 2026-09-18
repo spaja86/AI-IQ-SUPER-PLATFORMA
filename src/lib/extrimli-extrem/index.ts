@@ -2461,7 +2461,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.degraded) {
     degradedSources.push(`funkcionalno-programiranje-eksplicitnog-misaonog-toka:${funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status.toLowerCase()}`);
   }
-  if (proporcionalnoProgramiranje.readiness.degraded || proporcionalnoProgramiranje.readiness.status !== 'READY') {
+  if (proporcionalnoProgramiranje.readiness.degraded) {
     degradedSources.push(`proporcionalno-programiranje:${proporcionalnoProgramiranje.readiness.status.toLowerCase()}`);
   }
   if (objektnoOrijentisanaReprodukcija.readiness.degraded) {
