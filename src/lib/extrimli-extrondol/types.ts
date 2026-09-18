@@ -17,6 +17,7 @@ import type {
   ExtrimliSpajaproPublicBoundaryStatus,
 } from '../extrimli-spajapro-track';
 import {
+  type ExtrimliDokDikDakDukConsistencyHealth,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
@@ -1307,6 +1308,7 @@ export interface ExtrimliExtrondolReport {
   incidentPlaybook: ExtrimliExtrondolIncidentPlaybook;
   contractDriftReport: ExtrimliExtrondolContractDriftReport;
   governanceConformance: ExtrimliExtrondolGovernanceConformance;
+  dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth;
   acceptanceCriteria: ExtrimliExtrondolAcceptanceCriterion[];
   integrationBoundaries: {
     dependsOn: string[];

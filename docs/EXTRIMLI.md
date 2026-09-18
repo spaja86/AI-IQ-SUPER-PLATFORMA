@@ -88,6 +88,13 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Governance workflow: `.github/workflows/extrimli-external-github.yml`
 - Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
 - Quality gate: `.github/workflows/extrimli-validator.yml`
+
+## DOK / DIK / DAK / DUK consistency health lock
+
+- EXTREM (`/api/extrimli/extrem`) ostaje tehnički source-of-truth za `DOK PETLJA` i `DIK PETLJA`.
+- EXTRONDOL (`/api/extrimli/extrondol`) ostaje governance source-of-truth za `DAKOR` (promotion) i `DUKAR` (human review).
+- Oba izlaza objavljuju `dokDikDakDukConsistencyHealth` kao deterministički audit-ready health signal.
+- Health signal je additive-only i služi kao drift-zero kontrola između tehničkog (EXTREM) i governance (EXTRONDOL) sloja.
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 - DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
 

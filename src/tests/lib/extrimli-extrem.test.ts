@@ -412,6 +412,31 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-extrem-freeze' && item.passed), 'quartet freeze criterion must pass');
   });
 
+  await test('DOK/DIK/DAK/DUK consistency health preserves EXTREM vs EXTRONDOL ownership boundary', () => {
+    const report = getExtrimliExtremProfilerReport();
+    assert(report.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrem', 'consistency source mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'scope lock mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM', 'DOK ownership mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM', 'DIK ownership mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL', 'DAK ownership mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL', 'DUK ownership mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'DOK signal kind mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'DIK signal kind mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'DAK token mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'DUK token mismatch');
+    const signalStatuses = [
+      report.dokDikDakDukConsistencyHealth.signals.dok.status,
+      report.dokDikDakDukConsistencyHealth.signals.dik.status,
+      report.dokDikDakDukConsistencyHealth.signals.dak.status,
+      report.dokDikDakDukConsistencyHealth.signals.duk.status,
+    ];
+    if (report.dokDikDakDukConsistencyHealth.status === 'READY') {
+      assert(signalStatuses.filter((status): status is 'READY' | 'WATCH' | 'BLOCKED' => status !== null).every((status) => status === 'READY'), 'READY consistency status requires all resolved component signals to be READY');
+    }
+    assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');
+  });
+
   await test('Mobilna linija exposes mandatory installation messages and package hint', () => {
     const report = getExtrimliExtremProfilerReport();
     assert(report.mobilnaLinija.contractVersion === EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION, 'mobilna contract version mismatch');

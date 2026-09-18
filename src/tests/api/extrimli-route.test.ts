@@ -15,6 +15,7 @@ import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
 import {
+  type ExtrimliDokDikDakDukConsistencyHealth,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
@@ -119,6 +120,7 @@ async function runTests(): Promise<void> {
           downstreamSync: { syncRequired: boolean };
         };
         rollout: { currentWawe: string; promotionFreeze: boolean };
+        dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth;
         b2bReadiness: {
           downstreamSync: { linkedRepo: string };
           governanceDecisions: {
@@ -175,6 +177,44 @@ async function runTests(): Promise<void> {
     assert(body.data.startProject.downstreamSync.syncRequired === true, 'START project must require downstream sync');
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(body.data.rollout.currentWawe), 'unexpected currentWawe');
     assert(typeof body.data.rollout.promotionFreeze === 'boolean', 'promotionFreeze should be boolean');
+    assert(body.data.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected consistency health source');
+    assert(body.data.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'unexpected consistency scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM', 'unexpected DOK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM', 'unexpected DIK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL', 'unexpected DAK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL', 'unexpected DUK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dok.includes('find(kind=DOK PETLJA)'), 'unexpected DOK signal source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dik.includes('find(kind=DIK PETLJA)'), 'unexpected DIK signal source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dak.includes('find(token=DAKOR)'), 'unexpected DAK signal source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.duk.includes('find(token=DUKAR)'), 'unexpected DUK signal source reference');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.consistent === 'boolean', 'consistency flag should be boolean');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.status), 'unexpected consistency status');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dokSignalPresent === 'boolean', 'dok check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dikSignalPresent === 'boolean', 'dik check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion === 'boolean', 'dak check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview === 'boolean', 'duk check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved === 'boolean', 'boundary check should be boolean');
+    assert(Array.isArray(body.data.dokDikDakDukConsistencyHealth.reasons), 'consistency reasons should be array');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected DAK consistency token');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'unexpected DUK consistency token');
+    const extrondolSignalStatuses = [
+      body.data.dokDikDakDukConsistencyHealth.signals.dok.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dik.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dak.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.duk.status,
+    ];
+    if (body.data.dokDikDakDukConsistencyHealth.status === 'READY') {
+      assert(extrondolSignalStatuses.every((status) => status === 'READY'), 'READY consistency status requires all component signals to be READY');
+    }
+    if (!body.data.dokDikDakDukConsistencyHealth.consistent) {
+      assert(body.data.dokDikDakDukConsistencyHealth.status === 'BLOCKED', 'inconsistent health status must be BLOCKED');
+    }
+    const allChecksPassing = Object.values(body.data.dokDikDakDukConsistencyHealth.checks).every(Boolean);
+    if (body.data.dokDikDakDukConsistencyHealth.status !== 'BLOCKED') {
+      assert(allChecksPassing, 'non-blocked consistency status requires all checks to pass');
+    }
     assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
     assert(['VERIFIED', 'BLOCKED'].includes(body.data.paymentVerification.status), 'unexpected payment verification status');
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
@@ -283,6 +323,7 @@ async function runTests(): Promise<void> {
         };
         semaMuSemaFormula: { canonicalExpression: string; status: string; muSemaConclusion: string; formulaHolds: boolean };
         governanceSignal: { freezeRequired: boolean };
+        dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth;
         optimization: { maximumGraphicsUnlockEligible: boolean };
       };
     };
@@ -345,6 +386,43 @@ async function runTests(): Promise<void> {
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.semaMuSemaFormula.muSemaConclusion), 'unexpected EXTREM MUŠEMA conclusion');
     assert(typeof body.data.semaMuSemaFormula.formulaHolds === 'boolean', 'formulaHolds should be boolean');
     assert(typeof body.data.governanceSignal.freezeRequired === 'boolean', 'freezeRequired should be boolean');
+    assert(body.data.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrem', 'unexpected EXTREM consistency source');
+    assert(body.data.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'unexpected EXTREM consistency scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM', 'unexpected EXTREM DOK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM', 'unexpected EXTREM DIK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL', 'unexpected EXTREM DAK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL', 'unexpected EXTREM DUK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dok.includes('find(kind=DOK PETLJA)'), 'unexpected EXTREM DOK source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dik.includes('find(kind=DIK PETLJA)'), 'unexpected EXTREM DIK source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dak.includes('find(token=DAKOR)'), 'unexpected EXTREM DAK source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.duk.includes('find(token=DUKAR)'), 'unexpected EXTREM DUK source reference');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dokSignalPresent === 'boolean', 'EXTREM DOK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dikSignalPresent === 'boolean', 'EXTREM DIK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion === 'boolean', 'EXTREM DAK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview === 'boolean', 'EXTREM DUK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved === 'boolean', 'EXTREM boundary check should be boolean');
+    assert(Array.isArray(body.data.dokDikDakDukConsistencyHealth.reasons), 'EXTREM consistency reasons should be array');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected EXTREM DOK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected EXTREM DIK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected EXTREM DAK consistency token');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'unexpected EXTREM DUK consistency token');
+    const extremSignalStatuses = [
+      body.data.dokDikDakDukConsistencyHealth.signals.dok.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dik.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.dak.status,
+      body.data.dokDikDakDukConsistencyHealth.signals.duk.status,
+    ];
+    if (body.data.dokDikDakDukConsistencyHealth.status === 'READY') {
+      assert(extremSignalStatuses.filter((status): status is 'READY' | 'WATCH' | 'BLOCKED' => status !== null).every((status) => status === 'READY'), 'EXTREM READY consistency status requires all resolved component signals to be READY');
+    }
+    if (!body.data.dokDikDakDukConsistencyHealth.consistent) {
+      assert(body.data.dokDikDakDukConsistencyHealth.status === 'BLOCKED', 'EXTREM inconsistent health status must be BLOCKED');
+    }
+    const extremAllChecksPassing = Object.values(body.data.dokDikDakDukConsistencyHealth.checks).every(Boolean);
+    if (body.data.dokDikDakDukConsistencyHealth.status !== 'BLOCKED') {
+      assert(extremAllChecksPassing, 'EXTREM non-blocked consistency status requires all checks to pass');
+    }
+    assert(body.data.dokDikDakDukConsistencyHealth.consistent, 'EXTREM consistency should be true');
     assert(typeof body.data.optimization.maximumGraphicsUnlockEligible === 'boolean', 'maximumGraphicsUnlockEligible should be boolean');
   });
 

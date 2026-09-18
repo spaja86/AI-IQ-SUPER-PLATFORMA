@@ -31,6 +31,7 @@ import type {
   ExtrimliExtremAcceptanceCriterion,
   ExtrimliExtremBusinessLicensingSignals,
   ExtrimliExtremConflictIntensity,
+  ExtrimliDokDikDakDukConsistencyHealth,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
   ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaProfileInput,
@@ -2766,6 +2767,102 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     freezeRequired,
     conflictIntensity,
   });
+  const dokSignal = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
+  const dikSignal = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
+  const dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth = {
+    sourceOfTruth: '/api/extrimli/extrem',
+    scopeLock: ['DOK', 'DIK', 'DAK', 'DUK'],
+    ownershipBoundary: {
+      dok: 'EXTREM',
+      dik: 'EXTREM',
+      dak: 'EXTRONDOL',
+      duk: 'EXTRONDOL',
+    },
+    signalSources: {
+      dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)',
+      dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)',
+      dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)',
+      duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)',
+    },
+    signals: {
+      dok: {
+        kind: 'DOK PETLJA',
+        status: dokSignal?.status ?? null,
+        readinessScore: dokSignal?.readinessScore ?? null,
+      },
+      dik: {
+        kind: 'DIK PETLJA',
+        status: dikSignal?.status ?? null,
+        readinessScore: dikSignal?.readinessScore ?? null,
+      },
+      dak: {
+        token: 'DAKOR',
+        role: 'promotion',
+        status: null,
+      },
+      duk: {
+        token: 'DUKAR',
+        role: 'human-review',
+        status: null,
+      },
+    },
+    checks: {
+      dokSignalPresent: Boolean(dokSignal),
+      dikSignalPresent: Boolean(dikSignal),
+      dakMappedToPromotion: spajaproTrack.vocabulary.tokenSequence.some((token) => token.token === 'DAKOR' && token.signalRole === 'promotion'),
+      dukMappedToHumanReview: spajaproTrack.vocabulary.tokenSequence.some((token) => token.token === 'DUKAR' && token.signalRole === 'human-review'),
+      ownershipBoundaryPreserved: dokerKuratIzekDokarTrack.technicalSignalEngine === 'EXTREM'
+        && dokerKuratIzekDokarTrack.governanceConsumer === 'EXTRONDOL',
+    },
+    consistent: false,
+    status: 'BLOCKED',
+    reasons: [],
+  };
+  dokDikDakDukConsistencyHealth.consistent = Object.values(dokDikDakDukConsistencyHealth.checks).every(Boolean);
+  if (!dokDikDakDukConsistencyHealth.consistent) {
+    dokDikDakDukConsistencyHealth.status = 'BLOCKED';
+  } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.dak.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'BLOCKED') {
+    dokDikDakDukConsistencyHealth.status = 'BLOCKED';
+  } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.dik.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
+    dokDikDakDukConsistencyHealth.status = 'WATCH';
+  } else if (dokDikDakDukConsistencyHealth.signals.dak.status === null
+    || dokDikDakDukConsistencyHealth.signals.duk.status === null) {
+    dokDikDakDukConsistencyHealth.status = 'WATCH';
+  } else {
+    dokDikDakDukConsistencyHealth.status = 'READY';
+  }
+  const failedConsistencyChecks = [
+    ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA signal missing from EXTREM technical output.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA signal missing from EXTREM technical output.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion ? ['DAK mapping to DAKOR promotion token is missing.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview ? ['DUK mapping to DUKAR human-review token is missing.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? ['EXTREM/EXTRONDOL ownership boundary is not preserved.'] : []),
+  ];
+  if (!dokDikDakDukConsistencyHealth.consistent) {
+    dokDikDakDukConsistencyHealth.reasons = failedConsistencyChecks;
+  } else if (dokDikDakDukConsistencyHealth.status === 'READY') {
+    dokDikDakDukConsistencyHealth.reasons = ['DOK/DIK technical signals are present and DAK/DUK governance ownership mapping remains locked to EXTRONDOL.'];
+  } else if (dokDikDakDukConsistencyHealth.status === 'WATCH') {
+    dokDikDakDukConsistencyHealth.reasons = [
+      'DOK/DIK/DAK/DUK ownership mapping is aligned but not fully ready.',
+      ...(dokDikDakDukConsistencyHealth.signals.dok.status !== 'READY' ? [`DOK status is ${dokDikDakDukConsistencyHealth.signals.dok.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dik.status !== 'READY' ? [`DIK status is ${dokDikDakDukConsistencyHealth.signals.dik.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dak.status === null ? ['DAK status is unresolved in EXTREM and must be confirmed by EXTRONDOL governance output.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.duk.status === null ? ['DUK status is unresolved in EXTREM and must be confirmed by EXTRONDOL governance output.'] : []),
+    ];
+  } else {
+    dokDikDakDukConsistencyHealth.reasons = [
+      'DOK/DIK/DAK/DUK ownership mapping is aligned but one or more technical signals are BLOCKED.',
+      ...(dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED' ? ['DOK signal is BLOCKED.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED' ? ['DIK signal is BLOCKED.'] : []),
+    ];
+  }
 
   const acceptanceCriteria: ExtrimliExtremAcceptanceCriterion[] = [
     {
@@ -3116,6 +3213,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && dokerKuratIzekDokarTrack.sequenceStates[1].signalRole === 'technical-risk',
     },
     {
+      id: 'dok-dik-dak-duk-consistency-health',
+      description: 'DOK/DIK stay in EXTREM PETLJE technical output while DAK/DUK remain mapped to EXTRONDOL promotion and human-review governance tokens.',
+      passed: dokDikDakDukConsistencyHealth.consistent
+        && dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved,
+    },
+    {
       id: 'spajapro-terminology-lock',
       description: 'SPAJAPRO uses the locked ODIT → KODER token sequence as an additive interpretation track on top of EXTRIMLI.',
       passed: spajaproTrack.vocabulary.layering === 'extends-existing-extrimli-stack'
@@ -3225,6 +3328,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       wawePromotionEligible: !freezeRequired,
       reasons: governanceReasons.length > 0 ? governanceReasons : ['Profiler signal is stable and ready for WAWE promotion.'],
     },
+    dokDikDakDukConsistencyHealth,
     dokerKuratIzekDokarTrack,
     spajaproTrack,
     roadmapAlignment: {
@@ -3258,6 +3362,7 @@ export type {
   ExtrimliExtremAcceptanceCriterion,
   ExtrimliExtremBusinessLicensingSignals,
   ExtrimliExtremConflictIntensity,
+  ExtrimliDokDikDakDukConsistencyHealth,
   ExtrimliExtremDiscanInKibenState,
   ExtrimliExtremEkodorState,
   ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaProfileInput,

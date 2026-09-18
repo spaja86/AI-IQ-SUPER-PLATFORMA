@@ -1099,6 +1099,55 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
   };
 }
 
+export interface ExtrimliDokDikDakDukConsistencyHealth {
+  sourceOfTruth: string;
+  scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK'];
+  ownershipBoundary: {
+    dok: 'EXTREM';
+    dik: 'EXTREM';
+    dak: 'EXTRONDOL';
+    duk: 'EXTRONDOL';
+  };
+  signalSources: {
+    dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)';
+    dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)';
+    dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)';
+    duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)';
+  };
+  signals: {
+    dok: {
+      kind: 'DOK PETLJA';
+      status: ExtrimliExtremPetljaSignalStatus | null;
+      readinessScore: number | null;
+    };
+    dik: {
+      kind: 'DIK PETLJA';
+      status: ExtrimliExtremPetljaSignalStatus | null;
+      readinessScore: number | null;
+    };
+    dak: {
+      token: 'DAKOR';
+      role: 'promotion';
+      status: 'READY' | 'WATCH' | 'BLOCKED' | null;
+    };
+    duk: {
+      token: 'DUKAR';
+      role: 'human-review';
+      status: 'READY' | 'WATCH' | 'BLOCKED' | null;
+    };
+  };
+  checks: {
+    dokSignalPresent: boolean;
+    dikSignalPresent: boolean;
+    dakMappedToPromotion: boolean;
+    dukMappedToHumanReview: boolean;
+    ownershipBoundaryPreserved: boolean;
+  };
+  consistent: boolean;
+  status: 'READY' | 'WATCH' | 'BLOCKED';
+  reasons: string[];
+}
+
 export interface ExtrimliExtremProfilerReport {
   personaId: string;
   contractVersion: string;
@@ -1203,6 +1252,7 @@ export interface ExtrimliExtremProfilerReport {
     wawePromotionEligible: boolean;
     reasons: string[];
   };
+  dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth;
   dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarExtremTrack;
   spajaproTrack: ExtrimliSpajaproExtremTrack;
   roadmapAlignment: {
