@@ -37,6 +37,8 @@ Program je zaključan na postojeći roadmap:
 ### Stream C — Governance freeze/promotion signali
 - Freeze i promotion odluke ostaju determinističke i auditabilne.
 - WAWE gate razlozi ostaju eksplicitni i traceable.
+- DOK/DIK/DAK/DUK signalni model ostaje zaključan: **DOK+DIK** u EXTREM tehničkom sloju, **DAK+DUK** u EXTRONDOL governance sloju.
+- Svaki rollout mora izložiti jedinstveni `dokDikDakDukConsistencyHealth` izlaz i test konzistentnosti između tehničkog i governance sloja.
 
 ### Stream D — B2B readiness + payment verification
 - `b2bScope`, `b2bReadiness`, `paymentVerification` ostaju hard gate sloj pre promocije.
@@ -92,6 +94,7 @@ Rollback procedura i audit konvencija moraju biti spremni pre svake promocije.
 Uvodi se pravilo **drift-zero**:
 
 - svaka contract promena mora biti sinhronizovana kroz **docs + types + routes + workflows**
+- za DOK/DIK/DAK/DUK promene dodatno je obavezna sinhronizacija kroz **docs + types + routes + tests** bez drift-a
 - nema merge-a ako postoji drift između tih slojeva
 - governance conformance workflow je obavezni enforcement sloj
 - Marker: `PROGRAM_LOCK_DRIFT_ZERO`

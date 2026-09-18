@@ -9,6 +9,7 @@ import { getExtrimliExtrondendReport } from '../extrimli-extrondend';
 import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import { getExtrimliExtremProfilerReport } from '../extrimli-extrem';
+import type { ExtrimliDokDikDakDukConsistencyHealth } from '../extrimli-extrem/types';
 import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
 import {
   EXPECTED_VERCEL_BILLING_OWNER,
@@ -2953,6 +2954,94 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     rollbackPlanRequired: releaseAuditSummary.rollbackPlanRequired,
     finalPublicStatus: spajaKod.platformTrack.publicStatus,
   });
+  const dakState = spajaproTrack.sequenceStates.find((state) => state.token === 'DAKOR');
+  const dukState = spajaproTrack.sequenceStates.find((state) => state.token === 'DUKAR');
+  const dokSignal = extremProfiler.petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
+  const dikSignal = extremProfiler.petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
+  const mapGovernanceSignalStatus = (status: string | undefined): 'READY' | 'WATCH' | 'BLOCKED' | null => {
+    if (!status) {
+      return null;
+    }
+    if (status === 'BLOCKED') {
+      return 'BLOCKED';
+    }
+    if (status === 'READY' || status === 'ALIGNED') {
+      return 'READY';
+    }
+    return 'WATCH';
+  };
+  const dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth = {
+    sourceOfTruth: '/api/extrimli/extrondol',
+    scopeLock: ['DOK', 'DIK', 'DAK', 'DUK'],
+    ownershipBoundary: {
+      dok: 'EXTREM',
+      dik: 'EXTREM',
+      dak: 'EXTRONDOL',
+      duk: 'EXTRONDOL',
+    },
+    signalSources: {
+      dok: '/api/extrimli/extrem#petljeSignals.signals.dok',
+      dik: '/api/extrimli/extrem#petljeSignals.signals.dik',
+      dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.dakor',
+      duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.dukar',
+    },
+    signals: {
+      dok: {
+        kind: 'DOK PETLJA',
+        status: dokSignal?.status ?? null,
+        readinessScore: dokSignal?.readinessScore ?? null,
+      },
+      dik: {
+        kind: 'DIK PETLJA',
+        status: dikSignal?.status ?? null,
+        readinessScore: dikSignal?.readinessScore ?? null,
+      },
+      dak: {
+        token: 'DAKOR',
+        role: 'promotion',
+        status: mapGovernanceSignalStatus(dakState?.status),
+      },
+      duk: {
+        token: 'DUKAR',
+        role: 'human-review',
+        status: mapGovernanceSignalStatus(dukState?.status),
+      },
+    },
+    checks: {
+      dokSignalPresent: Boolean(dokSignal),
+      dikSignalPresent: Boolean(dikSignal),
+      dakMappedToPromotion: Boolean(dakState) && dakState?.signalRole === 'promotion',
+      dukMappedToHumanReview: Boolean(dukState) && dukState?.signalRole === 'human-review',
+      ownershipBoundaryPreserved: extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM'
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM'
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL'
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL',
+    },
+    consistent: false,
+    status: 'BLOCKED',
+    reasons: [],
+  };
+  dokDikDakDukConsistencyHealth.consistent = Object.values(dokDikDakDukConsistencyHealth.checks).every(Boolean);
+  if (!dokDikDakDukConsistencyHealth.consistent) {
+    dokDikDakDukConsistencyHealth.status = 'BLOCKED';
+  } else if (dokDikDakDukConsistencyHealth.signals.dak.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'BLOCKED') {
+    dokDikDakDukConsistencyHealth.status = 'BLOCKED';
+  } else if (dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
+    dokDikDakDukConsistencyHealth.status = 'WATCH';
+  } else {
+    dokDikDakDukConsistencyHealth.status = 'READY';
+  }
+  dokDikDakDukConsistencyHealth.reasons = dokDikDakDukConsistencyHealth.consistent
+    ? ['DOK/DIK technical readiness and DAK/DUK governance mapping are aligned across EXTREM and EXTRONDOL.']
+    : [
+      ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA is missing from EXTREM technical signals.'] : []),
+      ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA is missing from EXTREM technical signals.'] : []),
+      ...(!dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion ? ['DAKOR promotion mapping is missing from EXTRONDOL governance sequence.'] : []),
+      ...(!dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview ? ['DUKAR human-review mapping is missing from EXTRONDOL governance sequence.'] : []),
+      ...(!dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? ['EXTREM/EXTRONDOL ownership boundary is inconsistent with declared source-of-truth split.'] : []),
+    ];
 
   const b2bReadiness = {
     tenant: {
@@ -3001,9 +3090,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'paymentVerification.status',
         'paymentVerification.blockers',
         'paymentVerification.readinessImpact',
+        'dokDikDakDukConsistencyHealth.consistent',
+        'dokDikDakDukConsistencyHealth.status',
+        'dokDikDakDukConsistencyHealth.signals.dak.status',
+        'dokDikDakDukConsistencyHealth.signals.duk.status',
         'extremProfiler.profile.conflictIntensity',
         'extremProfiler.profile.optimizationTier',
         'extremProfiler.governanceSignal.freezeRequired',
+        'extremProfiler.dokDikDakDukConsistencyHealth.consistent',
+        'extremProfiler.dokDikDakDukConsistencyHealth.status',
         'extremProfiler.petljeSignals.summary.readinessScore',
         'extremProfiler.petljeSignals.summary.conflictScore',
         'extremProfiler.petljeSignals.summary.freezeRequired',
@@ -3565,6 +3660,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.petljeSignals.summary.freezeRequired'),
     },
     {
+      id: 'dok-dik-dak-duk-consistency-health',
+      description: 'DOK/DIK technical signals remain in EXTREM while DAK/DUK governance mapping remains in EXTRONDOL and is surfaced as a deterministic health output.',
+      passed: dokDikDakDukConsistencyHealth.consistent
+        && dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA'
+        && dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA'
+        && dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR'
+        && dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR',
+    },
+    {
       id: 'mobilna-linija-package-governance',
       description: 'Mobilna linija must expose mandatory installation messages and package-plan selection with freeze reasons when activation cannot proceed.',
       passed: mobilnaLinija.installationMessagesRequired
@@ -3684,6 +3788,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     incidentPlaybook,
     contractDriftReport,
     governanceConformance,
+    dokDikDakDukConsistencyHealth,
     acceptanceCriteria,
     integrationBoundaries: {
       dependsOn: ['/api/extrimli/extrondend', '/api/extrimli/extendol', '/api/extrimli/koron', '/api/extrimli/extrem', '/api/duet/evaluate'],

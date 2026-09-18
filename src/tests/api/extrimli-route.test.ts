@@ -119,6 +119,17 @@ async function runTests(): Promise<void> {
           downstreamSync: { syncRequired: boolean };
         };
         rollout: { currentWawe: string; promotionFreeze: boolean };
+        dokDikDakDukConsistencyHealth: {
+          sourceOfTruth: string;
+          consistent: boolean;
+          status: string;
+          signals: {
+            dok: { kind: string };
+            dik: { kind: string };
+            dak: { token: string; status: string | null };
+            duk: { token: string; status: string | null };
+          };
+        };
         b2bReadiness: {
           downstreamSync: { linkedRepo: string };
           governanceDecisions: {
@@ -175,6 +186,13 @@ async function runTests(): Promise<void> {
     assert(body.data.startProject.downstreamSync.syncRequired === true, 'START project must require downstream sync');
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(body.data.rollout.currentWawe), 'unexpected currentWawe');
     assert(typeof body.data.rollout.promotionFreeze === 'boolean', 'promotionFreeze should be boolean');
+    assert(body.data.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected consistency health source');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.consistent === 'boolean', 'consistency flag should be boolean');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.status), 'unexpected consistency status');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected DAK consistency token');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'unexpected DUK consistency token');
     assert(body.data.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'unexpected downstream linked repo');
     assert(['VERIFIED', 'BLOCKED'].includes(body.data.paymentVerification.status), 'unexpected payment verification status');
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
@@ -283,6 +301,17 @@ async function runTests(): Promise<void> {
         };
         semaMuSemaFormula: { canonicalExpression: string; status: string; muSemaConclusion: string; formulaHolds: boolean };
         governanceSignal: { freezeRequired: boolean };
+        dokDikDakDukConsistencyHealth: {
+          sourceOfTruth: string;
+          consistent: boolean;
+          status: string;
+          signals: {
+            dok: { kind: string };
+            dik: { kind: string };
+            dak: { token: string; status: string | null };
+            duk: { token: string; status: string | null };
+          };
+        };
         optimization: { maximumGraphicsUnlockEligible: boolean };
       };
     };
@@ -345,6 +374,12 @@ async function runTests(): Promise<void> {
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.semaMuSemaFormula.muSemaConclusion), 'unexpected EXTREM MUŠEMA conclusion');
     assert(typeof body.data.semaMuSemaFormula.formulaHolds === 'boolean', 'formulaHolds should be boolean');
     assert(typeof body.data.governanceSignal.freezeRequired === 'boolean', 'freezeRequired should be boolean');
+    assert(body.data.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrem', 'unexpected EXTREM consistency source');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected EXTREM DOK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected EXTREM DIK consistency signal');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected EXTREM DAK consistency token');
+    assert(body.data.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'unexpected EXTREM DUK consistency token');
+    assert(body.data.dokDikDakDukConsistencyHealth.consistent, 'EXTREM consistency should be true');
     assert(typeof body.data.optimization.maximumGraphicsUnlockEligible === 'boolean', 'maximumGraphicsUnlockEligible should be boolean');
   });
 

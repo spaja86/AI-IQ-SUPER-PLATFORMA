@@ -484,6 +484,21 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-public-boundary' && item.passed), 'quartet public boundary criterion must pass');
   });
 
+  await test('DOK/DIK/DAK/DUK consistency health stays deterministic across technical and governance layers', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'consistency scope lock mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'DOK signal kind mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'DIK signal kind mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'DAK token mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'DUK token mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.dak.status !== null, 'DAK status should be present');
+    assert(report.dokDikDakDukConsistencyHealth.signals.duk.status !== null, 'DUK status should be present');
+    assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.status), 'invalid consistency health status');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');
+  });
+
   await test('blocked objektno orijentisana reprodukcija freezes WAWE promotion', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_OBJECT_STATE_REPRODUCIBILITY_PERCENT: '10',
