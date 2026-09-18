@@ -54,22 +54,8 @@ export interface ExtrimliDeveloperCreateProgramLock {
     spajaKod: 'public-audit-safe-boundary';
   };
   driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
-  realizationSequence: readonly [
-    'documentation-lock-and-roadmap',
-    'type-contract-alignment',
-    'route-and-health-outputs',
-    'test-and-governance-conformance',
-    'downstream-sync-and-public-summary'
-  ];
-  maxExpansionTracks: readonly [
-    'wawe-canary-dashboard',
-    'contract-evolution-log',
-    'single-pane-audit-summary',
-    'freeze-rollback-rehearsal',
-    'persona-bank-and-analytics-sync',
-    'spaja-kod-public-safe-aggregate',
-    'cross-repo-reference-expansion'
-  ];
+  realizationSequence: readonly ExtrimliDeveloperCreateRealizationStep[];
+  maxExpansionTracks: readonly ExtrimliDeveloperCreateExpansionTrack[];
   definitionOfDone: {
     additiveOnlyRequired: true;
     dokDikDakDukSplitLocked: true;
@@ -81,6 +67,22 @@ export interface ExtrimliDeveloperCreateProgramLock {
     rollbackRequired: true;
   };
 }
+
+export type ExtrimliDeveloperCreateRealizationStep =
+  | 'documentation-lock-and-roadmap'
+  | 'type-contract-alignment'
+  | 'route-and-health-outputs'
+  | 'test-and-governance-conformance'
+  | 'downstream-sync-and-public-summary';
+
+export type ExtrimliDeveloperCreateExpansionTrack =
+  | 'wawe-canary-dashboard'
+  | 'contract-evolution-log'
+  | 'single-pane-audit-summary'
+  | 'freeze-rollback-rehearsal'
+  | 'persona-bank-and-analytics-sync'
+  | 'spaja-kod-public-safe-aggregate'
+  | 'cross-repo-reference-expansion';
 
 export interface ExtrimliVersionRoadmap {
   contractVersion: 'v1-7-roadmap';
