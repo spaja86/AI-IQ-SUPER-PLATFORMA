@@ -82,6 +82,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#KRALJEVSKI-PRAVNI-UNIVERZITET -> IO-OPENUI-AO#<follow-up issue>`
 
+## ŽELEZARA / HBIS pretplata downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — Železara/HBIS subscription identity governance over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Downstream consumers must sync only audit-safe identity/governance outputs (`extremProfiler.zelezaraPretplataIdentityTrack.readiness`, `zelezaraPretplataGovernance`, `releaseAuditSummary.zelezaraPretplataGovernance`, `spajaKod.publicSignals.zelezaraPretplataIdentityStatus`); public-safe output must return `Železara` whenever restore-old-name is marked mandatory
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#ZELEZARA-PRETPLATA-HBIS -> IO-OPENUI-AO#<follow-up issue>`
+
 ## Shared label schema
 
 | Label | Meaning |

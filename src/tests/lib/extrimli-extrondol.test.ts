@@ -185,6 +185,70 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'kraljevski-pravni-univerzitet-track' && item.passed), 'track acceptance criterion must pass');
   });
 
+  await test('report maps Železara pretplata identity governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.zelezaraPretplataGovernance.term === 'ŽELEZARA PRETPLATA IDENTITET', 'Železara governance term mismatch');
+    assert(report.zelezaraPretplataGovernance.sourceOfTruth === '/api/extrimli/extrondol', 'Železara governance source mismatch');
+    assert(report.zelezaraPretplataGovernance.technicalSignalSource === '/api/extrimli/extrem', 'Železara technical source mismatch');
+    assert(report.zelezaraPretplataGovernance.identityStatus === report.extremProfiler.zelezaraPretplataIdentityTrack.readiness.status, 'Železara identity status mismatch');
+    assert(report.zelezaraPretplataGovernance.subscriberIdentity.canonicalLegalName === 'Železara d.o.o. Smederevo', 'canonical legal name mismatch');
+    assert(report.zelezaraPretplataGovernance.subscriberIdentity.legacyReturnName === 'Železara', 'legacy return name mismatch');
+    assert(report.zelezaraPretplataGovernance.subscriberIdentity.allowedAliases.includes('HBIS'), 'HBIS alias missing');
+    assert(report.releaseAuditSummary.zelezaraPretplataGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit Železara source mismatch');
+    assert(report.startProject.mandatoryOutputs.includes('zelezaraPretplataGovernance'), 'Železara governance must be mandatory output');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('zelezaraPretplataGovernance'), 'Železara governance must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.zelezaraPretplataIdentityTrack.readiness.status'), 'Železara EXTREM status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.publicSignals.zelezaraPretplataIdentityStatus'), 'Železara SPAJA KOD signal must sync downstream');
+    assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === report.extremProfiler.zelezaraPretplataIdentityTrack.readiness.status, 'SPAJA KOD Železara summary mismatch');
+    assert(report.zelezaraPretplataGovernance.reasons.includes(`governance:wawe-context-${report.rollout.currentWawe}-to-${report.rollout.eligibleNextWawe}`), 'Železara governance should carry WAWE context');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'zelezara-pretplata-identity-governance'), 'Železara scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-identity-track' && item.passed), 'Železara identity criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-contract-identity-gate' && item.passed), 'Železara contract identity gate must pass');
+  });
+
+  await test('Železara WATCH posture stays audit-safe and WAWE-aware without forcing a blocker', async () => {
+    await withEnv({
+      EXTRIMLI_ZELEZARA_ALIAS_COVERAGE_SCORE: '85',
+      EXTRIMLI_ZELEZARA_CURRENT_OPERATING_NAME_CONFIRMED: 'true',
+      EXTRIMLI_ZELEZARA_CANONICAL_IDENTITY_CONFIRMED: 'true',
+      EXTRIMLI_ZELEZARA_RESTORE_OLD_NAME_COMPLETED: 'true',
+      EXTRIMLI_ZELEZARA_NAMING_CONFLICT: 'false',
+      EXTRIMLI_ZELEZARA_SPLIT_CLIENT_RISK: 'false',
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: 'false',
+      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: 'false',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.zelezaraPretplataGovernance.status === 'WATCH', 'Železara governance should stay WATCH when review warnings remain');
+      assert(report.zelezaraPretplataGovernance.identityStatus === 'WATCH', 'Železara identity status should stay WATCH');
+      assert(report.zelezaraPretplataGovernance.blockerReasons.length === 0, 'WATCH posture should not add blockers');
+      assert(report.zelezaraPretplataGovernance.activationGateReasons.length === 0, 'WATCH posture should not add activation blockers');
+      assert(report.zelezaraPretplataGovernance.warnings.some((reason) => reason.includes('Allowed alias coverage remains incomplete')), 'WATCH posture should preserve alias coverage warning');
+      assert(report.zelezaraPretplataGovernance.reasons.includes(`governance:wawe-context-${report.rollout.currentWawe}-to-${report.rollout.eligibleNextWawe}`), 'WATCH posture should retain WAWE context');
+      assert(report.rollout.reasons.includes('zelezara-pretplata:watch'), 'rollout reasons should include Železara WATCH marker');
+      assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.includes('Železara pretplata naming remains in WATCH posture and needs identity-review visibility before broader rollout.'), 'partner readiness warnings should include audit-safe WATCH messaging');
+      assert(report.zelezaraPretplataGovernance.publicStatus === 'SAFE_SUMMARY_REVIEW', 'governance public status should remain review-only');
+      assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === 'WATCH', 'SPAJA KOD should expose WATCH summary');
+    });
+  });
+
   await test('report maps objektno orijentisana prongilacija into WAWE governance and downstream sync', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'object-oriented prongilacija term mismatch');
@@ -1127,6 +1191,9 @@ async function runTests(): Promise<void> {
       assert(report.paymentVerification.status === 'BLOCKED', 'payment verification should be BLOCKED');
       assert(report.paymentVerification.blockers.some((item) => item.includes('public-safe')), 'public-safe approval blocker must be present');
       assert(report.paymentVerification.blockers.some((item) => item.includes('redaction')), 'redaction blocker must be present');
+      assert(report.zelezaraPretplataGovernance.status === 'READY', 'Železara governance should stay READY when only activation gates are pending');
+      assert(report.zelezaraPretplataGovernance.activationGateReasons.includes('governance:payment-verification-required'), 'Železara governance should expose payment activation gate');
+      assert(report.zelezaraPretplataGovernance.publicStatus === 'SAFE_SUMMARY_REVIEW', 'Železara governance should downgrade public status while payment is pending');
       assert(report.b2bReadiness.compliance.blockers.some((item) => item.startsWith('payment:')), 'payment blocker must propagate to compliance');
       assert(report.rollout.promotionFreeze, 'promotion freeze should remain active when payment verification is blocked');
       assert(report.rollout.reasons.includes('payment-verification:blocked'), 'rollout reasons should include payment blocked marker');
@@ -1135,6 +1202,28 @@ async function runTests(): Promise<void> {
       assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'DAKOR' && item.status === 'PENDING'), 'SPAJAPRO promotion token should stay pending');
       assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'EKSER' && item.status === 'BLOCKED'), 'SPAJAPRO audit token should block');
       assert(report.spajaproTrack.sequenceStates.some((item) => item.token === 'KODER' && item.status === 'BLOCKED'), 'SPAJAPRO public token should block');
+    });
+  });
+
+  await test('Železara legacy return-name blocker freezes pretplata activation and propagates into audit-safe outputs', async () => {
+    await withEnv({
+      EXTRIMLI_ZELEZARA_RESTORE_OLD_NAME_COMPLETED: 'false',
+    }, () => {
+      const report = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        onboardingComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+      });
+      assert(report.zelezaraPretplataGovernance.status === 'BLOCKED', 'Železara governance should be BLOCKED');
+      assert(report.zelezaraPretplataGovernance.identityStatus === 'BLOCKED', 'Železara identity status should be BLOCKED');
+      assert(report.zelezaraPretplataGovernance.blockerReasons.includes('Required legacy return name Železara is not restored in the governed output set.'), 'legacy-name blocker must propagate');
+      assert(report.releaseAuditSummary.zelezaraPretplataGovernance.restoreOldNameCompleted === false, 'release audit must expose incomplete legacy-name restoration');
+      assert(report.b2bReadiness.compliance.blockers.includes('zelezara-restore-old-name'), 'compliance blockers must include restore-old-name');
+      assert(report.rollout.promotionFreeze, 'promotion freeze should stay active');
+      assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === 'BLOCKED', 'SPAJA KOD should expose blocked Železara summary');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-identity-track' && item.passed), 'Železara identity ownership boundary should stay locked');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-contract-identity-gate' && !item.passed), 'Železara contract identity gate should fail');
     });
   });
 

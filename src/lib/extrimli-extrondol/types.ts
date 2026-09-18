@@ -2,7 +2,11 @@ import type { ExtrimliExtrondendReport } from '../extrimli-extrondend';
 import type { ExtrimliExtendolReport } from '../extrimli-extendol';
 import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { DuetInput, DuetStatus } from '../duet';
-import type { ExtrimliExtremProfilerReport, ExtrimliSpajaKodPublicStatus } from '../extrimli-extrem';
+import type {
+  ExtrimliExtremProfilerReport,
+  ExtrimliExtremZelezaraPretplataIdentityStatus,
+  ExtrimliSpajaKodPublicStatus,
+} from '../extrimli-extrem';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type {
   ExtrimliDokerKuratIzekDokarGovernanceTrack,
@@ -665,6 +669,48 @@ export interface ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance {
   blockerReasons: string[];
 }
 
+export type ExtrimliExtrondolZelezaraPretplataGovernanceStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtrondolZelezaraPretplataGovernance {
+  term: 'ŽELEZARA PRETPLATA IDENTITET';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['contractVersion'];
+  additiveOnly: true;
+  governanceVisibility: 'audit-safe-governance-only';
+  status: ExtrimliExtrondolZelezaraPretplataGovernanceStatus;
+  identityStatus: ExtrimliExtremZelezaraPretplataIdentityStatus;
+  subscriberIdentity: {
+    canonicalLegalName: 'Železara d.o.o. Smederevo';
+    currentOperatingName: 'HBIS / Hibis Smederevo';
+    legacyReturnName: 'Železara';
+    singleClientInterpretation: true;
+    allowedAliases: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['subscriberIdentity']['allowedAliases'];
+  };
+  activationPolicy: {
+    paymentConfirmedRequired: true;
+    contractIdentityConfirmedRequired: true;
+    singleClientInterpretationRequired: true;
+    legacyReturnNameRequired: true;
+    humanReviewRequired: true;
+    downstreamReferenceRequired: true;
+  };
+  namingReadiness: {
+    canonicalIdentityConfirmed: boolean;
+    currentOperatingNameConfirmed: boolean;
+    aliasCoverageScore: number;
+    restoreOldNameCompleted: boolean;
+    namingConflictDetected: boolean;
+    splitClientRiskDetected: boolean;
+  };
+  waweImpact: 'promotion-frozen' | 'review-before-promotion' | 'eligible-for-promotion';
+  publicStatus: 'SAFE_SUMMARY_READY' | 'SAFE_SUMMARY_REVIEW' | 'SAFE_SUMMARY_BLOCKED';
+  activationGateReasons: string[];
+  reasons: string[];
+  warnings: string[];
+  blockerReasons: string[];
+}
+
 export interface ExtrimliExtrondolReleaseAuditSummary {
   required: true;
   status: 'READY' | 'BLOCKED';
@@ -792,6 +838,16 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     consistencyScore: number;
     conflictScore: number;
     reviewRequiredBeforePromotion: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
+  zelezaraPretplataGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremZelezaraPretplataIdentityStatus;
+    canonicalIdentityConfirmed: boolean;
+    restoreOldNameCompleted: boolean;
+    namingConflictDetected: boolean;
+    splitClientRiskDetected: boolean;
     blockerReasons: string[];
     watchReasons: string[];
   };
@@ -979,6 +1035,7 @@ export interface ExtrimliExtrondolStartProject {
     'paymentVerification',
     'extremProfiler',
     'extremProfiler.businessLicensingSignals',
+    'extremProfiler.zelezaraPretplataIdentityTrack',
     'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka',
     'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka',
     'extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
@@ -1001,6 +1058,7 @@ export interface ExtrimliExtrondolStartProject {
     'objektnoOrijentisanaReprodukcija',
     'epicElikvadenti',
     'mobilnaLinija',
+    'zelezaraPretplataGovernance',
     'spajaKod',
     'releaseReadinessScorecard',
     'canaryRingMetrics',
@@ -1028,6 +1086,7 @@ export interface ExtrimliExtrondolStartProject {
       'paymentVerification',
       'extremProfiler',
       'extremProfiler.businessLicensingSignals',
+      'extremProfiler.zelezaraPretplataIdentityTrack',
       'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness',
       'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness',
       'extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness',
@@ -1050,6 +1109,7 @@ export interface ExtrimliExtrondolStartProject {
       'objektnoOrijentisanaProngilacija',
       'objektnoOrijentisanaReprodukcija',
       'epicElikvadenti',
+      'zelezaraPretplataGovernance',
       'spajaKod',
       'spajaKod.platformTrack',
       'releaseReadinessScorecard',
@@ -1165,6 +1225,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     systemStatus: 'STABLE' | 'ATTENTION' | 'BLOCKED';
     auditStatus: 'READY' | 'BLOCKED';
     downstreamSyncStatus: 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
+    zelezaraPretplataIdentityStatus: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['readiness']['status'];
     kraljevskiPravniUniverzitetStatus: ExtrimliExtremProfilerReport['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
     funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
@@ -1213,6 +1274,7 @@ export interface ExtrimliExtrondolReport {
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   extremProfiler: ExtrimliExtremProfilerReport;
   petljeGovernance: ExtrimliExtrondolPetljeGovernance;
+  zelezaraPretplataGovernance: ExtrimliExtrondolZelezaraPretplataGovernance;
   kraljevskiPravniUniverzitetGovernance: ExtrimliExtrondolKraljevskiPravniUniverzitetGovernance;
   objektnoOrijentisanaProngilacija: ExtrimliExtrondolObjektnaProngilacijaGovernance;
   funkcinalnoProgramiranjeEnergetskogMisaonogToka: ExtrimliExtrondolFunkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance;

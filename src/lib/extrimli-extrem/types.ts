@@ -927,6 +927,51 @@ export interface ExtrimliExtremBusinessLicensingSignals {
   freezeReasons: string[];
 }
 
+export type ExtrimliExtremZelezaraPretplataIdentityStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremZelezaraPretplataIdentityTrack {
+  trackId: 'extrimli-zelezara-pretplata-identity';
+  contractVersion: 'v1-zelezara-pretplata-identity';
+  additiveOnly: true;
+  classification: 'subscription-identity-track';
+  technicalSourceOfTruth: '/api/extrimli/extrem';
+  governanceSourceOfTruth: '/api/extrimli/extrondol';
+  publicBoundary: '/api/extrimli/spaja-kod';
+  subscriberIdentity: {
+    canonicalLegalName: 'Železara d.o.o. Smederevo';
+    currentOperatingName: 'HBIS / Hibis Smederevo';
+    legacyReturnName: 'Železara';
+    allowedAliases: readonly [
+      'Železara d.o.o. Smederevo',
+      'Železara',
+      'HBIS',
+      'Hibis',
+      'HBIS Smederevo',
+      'Hibis Smederevo'
+    ];
+    singleClientInterpretation: true;
+    businessRule: 'return-legacy-name-in-public-and-audit-safe-outputs-when-required';
+  };
+  readiness: {
+    canonicalIdentityConfirmed: boolean;
+    currentOperatingNameConfirmed: boolean;
+    aliasCoverageScore: number;
+    restoreOldNameRequired: true;
+    restoreOldNameCompleted: boolean;
+    namingConflictDetected: boolean;
+    splitClientRiskDetected: boolean;
+    status: ExtrimliExtremZelezaraPretplataIdentityStatus;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+  reviewRequirements: {
+    humanReviewRequired: true;
+    paymentVerificationRequired: true;
+    downstreamReferenceRequired: true;
+    contractIdentityRequired: true;
+  };
+}
+
 export type ExtrimliExtremKraljevskiPravniTrackTerm =
   | 'KRALJEVSKI PRAVNI UNIVERZITET'
   | 'KRALJEVSKA POLITIKA'
@@ -1121,6 +1166,7 @@ export interface ExtrimliExtremProfilerReport {
     optimizationTier: ExtrimliExtremOptimizationTier;
   };
   businessLicensingSignals: ExtrimliExtremBusinessLicensingSignals;
+  zelezaraPretplataIdentityTrack: ExtrimliExtremZelezaraPretplataIdentityTrack;
   kraljevskiPravniUniverzitetTrack: ExtrimliExtremKraljevskiPravniTrack;
   semaMuSemaFormula: ExtrimliExtremSemaFormulaEvaluation;
   spajaKodEncapsulation: ExtrimliExtremSpajaKodEncapsulation;
@@ -1199,6 +1245,7 @@ export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_ALIGNED = 65;
 export const EXTRIMLI_EXTREM_EKODOR_MIN_FOR_WATCH = 45;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_CLEAR = 35;
 export const EXTRIMLI_EXTREM_DISCAN_MAX_FOR_WATCH = 60;
+export const EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION = 'v1-zelezara-pretplata-identity';
 export const EXTRIMLI_EXTREM_PETLJE_SIGNAL_TRIGGER_LABEL = 'petlje:logic-change';
 export const EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE = 75;
 export const EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE = 50;

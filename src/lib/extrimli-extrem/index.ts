@@ -83,6 +83,7 @@ import type {
   ExtrimliExtremResolutionInput,
   ExtrimliExtremSemaFormulaEvaluation,
   ExtrimliExtremSpajaKodEncapsulation,
+  ExtrimliExtremZelezaraPretplataIdentityTrack,
   ExtrimliSpajaKodPublicStatus,
 } from './types';
 import {
@@ -139,6 +140,7 @@ import {
   EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
+  EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
 } from './types';
 import { buildSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import { getExtrimliVersionRoadmap } from '../extrimli-version-roadmap';
@@ -1826,6 +1828,7 @@ function buildSpajaKodEncapsulation(params: {
       'governance-outcome',
       'promotion-freeze',
       'audit-blockers',
+      'zelezara-pretplata-identity-status',
     ],
     blockers,
   };
@@ -2322,6 +2325,76 @@ function buildKraljevskiPravniUniverzitetTrack(): ExtrimliExtremKraljevskiPravni
   };
 }
 
+function buildZelezaraPretplataIdentityTrack(): ExtrimliExtremZelezaraPretplataIdentityTrack {
+  const canonicalIdentityConfirmed = process.env.EXTRIMLI_ZELEZARA_CANONICAL_IDENTITY_CONFIRMED !== 'false';
+  const currentOperatingNameConfirmed = process.env.EXTRIMLI_ZELEZARA_CURRENT_OPERATING_NAME_CONFIRMED !== 'false';
+  const restoreOldNameCompleted = process.env.EXTRIMLI_ZELEZARA_RESTORE_OLD_NAME_COMPLETED !== 'false';
+  const namingConflictDetected = process.env.EXTRIMLI_ZELEZARA_NAMING_CONFLICT === 'true';
+  const splitClientRiskDetected = process.env.EXTRIMLI_ZELEZARA_SPLIT_CLIENT_RISK === 'true';
+  const aliasCoverageScore = clamp(
+    parsePercentEnv(
+      'EXTRIMLI_ZELEZARA_ALIAS_COVERAGE_SCORE',
+      canonicalIdentityConfirmed && currentOperatingNameConfirmed ? 100 : canonicalIdentityConfirmed || currentOperatingNameConfirmed ? 70 : 40,
+      [],
+    ),
+    0,
+    100,
+  );
+  const blockerReasons = [
+    ...(!canonicalIdentityConfirmed ? ['Canonical legal identity for Železara d.o.o. Smederevo is not confirmed.'] : []),
+    ...(!restoreOldNameCompleted ? ['Required legacy return name Železara is not restored in the governed output set.'] : []),
+    ...(namingConflictDetected ? ['Naming conflict detected between Železara legacy output and current HBIS/Hibis operating naming.'] : []),
+    ...(splitClientRiskDetected ? ['HBIS/Hibis and Železara are being treated as separate clients, which is blocked.'] : []),
+  ];
+  const watchReasons = [
+    ...(!currentOperatingNameConfirmed ? ['Current operating HBIS/Hibis naming still needs explicit confirmation.'] : []),
+    ...(aliasCoverageScore < 100 ? [`Allowed alias coverage remains incomplete (${aliasCoverageScore}%).`] : []),
+  ];
+
+  return {
+    trackId: 'extrimli-zelezara-pretplata-identity',
+    contractVersion: EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
+    additiveOnly: true,
+    classification: 'subscription-identity-track',
+    technicalSourceOfTruth: '/api/extrimli/extrem',
+    governanceSourceOfTruth: '/api/extrimli/extrondol',
+    publicBoundary: '/api/extrimli/spaja-kod',
+    subscriberIdentity: {
+      canonicalLegalName: 'Železara d.o.o. Smederevo',
+      currentOperatingName: 'HBIS / Hibis Smederevo',
+      legacyReturnName: 'Železara',
+      allowedAliases: [
+        'Železara d.o.o. Smederevo',
+        'Železara',
+        'HBIS',
+        'Hibis',
+        'HBIS Smederevo',
+        'Hibis Smederevo',
+      ],
+      singleClientInterpretation: true,
+      businessRule: 'return-legacy-name-in-public-and-audit-safe-outputs-when-required',
+    },
+    readiness: {
+      canonicalIdentityConfirmed,
+      currentOperatingNameConfirmed,
+      aliasCoverageScore,
+      restoreOldNameRequired: true,
+      restoreOldNameCompleted,
+      namingConflictDetected,
+      splitClientRiskDetected,
+      status: blockerReasons.length > 0 ? 'BLOCKED' : watchReasons.length > 0 ? 'WATCH' : 'READY',
+      watchReasons,
+      blockerReasons,
+    },
+    reviewRequirements: {
+      humanReviewRequired: true,
+      paymentVerificationRequired: true,
+      downstreamReferenceRequired: true,
+      contractIdentityRequired: true,
+    },
+  };
+}
+
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const versionRoadmap = getExtrimliVersionRoadmap();
   const degradedSources: string[] = [];
@@ -2374,6 +2447,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const conflictIntensity = classifyConflict(conflictScore);
   const optimizationTier = mapOptimizationTier(conflictIntensity);
   const businessLicensingSignals = buildBusinessLicensingSignals();
+  const zelezaraPretplataIdentityTrack = buildZelezaraPretplataIdentityTrack();
   const kraljevskiPravniUniverzitetTrack = buildKraljevskiPravniUniverzitetTrack();
   const petljeSignals = buildPetljaSignalSection(degradedSources);
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
@@ -2670,6 +2744,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.degraded) {
     degradedSources.push(`epic-elikvadenti:${objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status.toLowerCase()}`);
   }
+  if (zelezaraPretplataIdentityTrack.readiness.status !== 'READY') {
+    degradedSources.push(`zelezara-pretplata-identity:${zelezaraPretplataIdentityTrack.readiness.status.toLowerCase()}`);
+  }
   if (semaMuSemaFormula.status === 'BLOCKED') degradedSources.push('schema-mushema:blocked');
   if (mobilnaLinija.installationMessages.status === 'BLOCKED') degradedSources.push('mobilna-linija:installation-blocked');
   if (mobilnaLinija.packagePlanHint.readiness === 'BLOCKED') degradedSources.push('mobilna-linija:package-hint-blocked');
@@ -2815,6 +2892,31 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       passed: kraljevskiPravniUniverzitetTrack.documentationBoundary.sourceMaterialPolicy === 'documentation-only'
         && spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
         && spajaKodEncapsulation.exposurePolicy.exposesInternalSignalInputs === false,
+    },
+    {
+      id: 'zelezara-pretplata-identity-track-lock',
+      description: 'Železara pretplata identity remains an additive-only EXTREM track with locked EXTREM, EXTRONDOL, and SPAJA KOD ownership boundaries.',
+      passed: zelezaraPretplataIdentityTrack.additiveOnly
+        && zelezaraPretplataIdentityTrack.technicalSourceOfTruth === '/api/extrimli/extrem'
+        && zelezaraPretplataIdentityTrack.governanceSourceOfTruth === '/api/extrimli/extrondol'
+        && zelezaraPretplataIdentityTrack.publicBoundary === '/api/extrimli/spaja-kod',
+    },
+    {
+      id: 'zelezara-pretplata-single-client-rule',
+      description: 'HBIS/Hibis aliases and Železara legacy naming stay mapped to one governed pretplata client identity.',
+      passed: zelezaraPretplataIdentityTrack.subscriberIdentity.allowedAliases.includes('HBIS')
+        && zelezaraPretplataIdentityTrack.subscriberIdentity.allowedAliases.includes('Hibis')
+        && zelezaraPretplataIdentityTrack.subscriberIdentity.allowedAliases.includes('Železara')
+        && zelezaraPretplataIdentityTrack.subscriberIdentity.singleClientInterpretation
+        && !zelezaraPretplataIdentityTrack.readiness.splitClientRiskDetected,
+    },
+    {
+      id: 'zelezara-pretplata-legacy-return-rule',
+      description: 'Železara restore-old-name remains a hard readiness requirement whenever business rules require the legacy return name in public or audit-safe outputs.',
+      passed: zelezaraPretplataIdentityTrack.subscriberIdentity.legacyReturnName === 'Železara'
+        && zelezaraPretplataIdentityTrack.subscriberIdentity.businessRule === 'return-legacy-name-in-public-and-audit-safe-outputs-when-required'
+        && zelezaraPretplataIdentityTrack.readiness.restoreOldNameRequired
+        && zelezaraPretplataIdentityTrack.readiness.restoreOldNameCompleted,
     },
     {
       id: 'objektno-orijentisana-prongilacija-lock',
@@ -3086,6 +3188,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       optimizationTier,
     },
     businessLicensingSignals,
+    zelezaraPretplataIdentityTrack,
     kraljevskiPravniUniverzitetTrack,
     petljeSignals,
     objektnoOrijentisanaProngilacija,
@@ -3248,4 +3351,5 @@ export {
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
+  EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
 } from './types';
