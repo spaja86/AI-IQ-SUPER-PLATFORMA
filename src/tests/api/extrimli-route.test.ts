@@ -121,8 +121,19 @@ async function runTests(): Promise<void> {
         rollout: { currentWawe: string; promotionFreeze: boolean };
         dokDikDakDukConsistencyHealth: {
           sourceOfTruth: string;
+          scopeLock: string[];
+          ownershipBoundary: { dok: string; dik: string; dak: string; duk: string };
+          signalSources: { dok: string; dik: string; dak: string; duk: string };
           consistent: boolean;
           status: string;
+          checks: {
+            dokSignalPresent: boolean;
+            dikSignalPresent: boolean;
+            dakMappedToPromotion: boolean;
+            dukMappedToHumanReview: boolean;
+            ownershipBoundaryPreserved: boolean;
+          };
+          reasons: string[];
           signals: {
             dok: { kind: string };
             dik: { kind: string };
@@ -187,8 +198,23 @@ async function runTests(): Promise<void> {
     assert(['WAWE-1', 'WAWE-2', 'WAWE-3', 'WAWE-4', 'WAWE-5'].includes(body.data.rollout.currentWawe), 'unexpected currentWawe');
     assert(typeof body.data.rollout.promotionFreeze === 'boolean', 'promotionFreeze should be boolean');
     assert(body.data.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected consistency health source');
+    assert(body.data.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'unexpected consistency scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM', 'unexpected DOK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM', 'unexpected DIK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL', 'unexpected DAK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL', 'unexpected DUK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dok.includes('find(kind=DOK PETLJA)'), 'unexpected DOK signal source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dik.includes('find(kind=DIK PETLJA)'), 'unexpected DIK signal source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dak.includes('find(token=DAKOR)'), 'unexpected DAK signal source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.duk.includes('find(token=DUKAR)'), 'unexpected DUK signal source reference');
     assert(typeof body.data.dokDikDakDukConsistencyHealth.consistent === 'boolean', 'consistency flag should be boolean');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.status), 'unexpected consistency status');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dokSignalPresent === 'boolean', 'dok check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dikSignalPresent === 'boolean', 'dik check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion === 'boolean', 'dak check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview === 'boolean', 'duk check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved === 'boolean', 'boundary check should be boolean');
+    assert(Array.isArray(body.data.dokDikDakDukConsistencyHealth.reasons), 'consistency reasons should be array');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected DAK consistency token');
@@ -303,8 +329,19 @@ async function runTests(): Promise<void> {
         governanceSignal: { freezeRequired: boolean };
         dokDikDakDukConsistencyHealth: {
           sourceOfTruth: string;
+          scopeLock: string[];
+          ownershipBoundary: { dok: string; dik: string; dak: string; duk: string };
+          signalSources: { dok: string; dik: string; dak: string; duk: string };
           consistent: boolean;
           status: string;
+          checks: {
+            dokSignalPresent: boolean;
+            dikSignalPresent: boolean;
+            dakMappedToPromotion: boolean;
+            dukMappedToHumanReview: boolean;
+            ownershipBoundaryPreserved: boolean;
+          };
+          reasons: string[];
           signals: {
             dok: { kind: string };
             dik: { kind: string };
@@ -375,6 +412,21 @@ async function runTests(): Promise<void> {
     assert(typeof body.data.semaMuSemaFormula.formulaHolds === 'boolean', 'formulaHolds should be boolean');
     assert(typeof body.data.governanceSignal.freezeRequired === 'boolean', 'freezeRequired should be boolean');
     assert(body.data.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrem', 'unexpected EXTREM consistency source');
+    assert(body.data.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'unexpected EXTREM consistency scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM', 'unexpected EXTREM DOK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM', 'unexpected EXTREM DIK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL', 'unexpected EXTREM DAK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL', 'unexpected EXTREM DUK ownership');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dok.includes('find(kind=DOK PETLJA)'), 'unexpected EXTREM DOK source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dik.includes('find(kind=DIK PETLJA)'), 'unexpected EXTREM DIK source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.dak.includes('find(token=DAKOR)'), 'unexpected EXTREM DAK source reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.signalSources.duk.includes('find(token=DUKAR)'), 'unexpected EXTREM DUK source reference');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dokSignalPresent === 'boolean', 'EXTREM DOK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dikSignalPresent === 'boolean', 'EXTREM DIK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion === 'boolean', 'EXTREM DAK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview === 'boolean', 'EXTREM DUK check should be boolean');
+    assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved === 'boolean', 'EXTREM boundary check should be boolean');
+    assert(Array.isArray(body.data.dokDikDakDukConsistencyHealth.reasons), 'EXTREM consistency reasons should be array');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected EXTREM DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected EXTREM DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected EXTREM DAK consistency token');
