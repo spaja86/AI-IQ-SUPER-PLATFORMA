@@ -15,6 +15,7 @@ import { GET as getDuelKing, POST as postDuelKing } from '../../app/api/extrimli
 import { _resetDestructionMetrics } from '../../lib/extrimli';
 import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
 import {
+  type ExtrimliDokDikDakDukConsistencyHealth,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
@@ -119,28 +120,7 @@ async function runTests(): Promise<void> {
           downstreamSync: { syncRequired: boolean };
         };
         rollout: { currentWawe: string; promotionFreeze: boolean };
-        dokDikDakDukConsistencyHealth: {
-          sourceOfTruth: string;
-          scopeLock: string[];
-          ownershipBoundary: { dok: string; dik: string; dak: string; duk: string };
-          signalSources: { dok: string; dik: string; dak: string; duk: string };
-          consistent: boolean;
-          status: string;
-          checks: {
-            dokSignalPresent: boolean;
-            dikSignalPresent: boolean;
-            dakMappedToPromotion: boolean;
-            dukMappedToHumanReview: boolean;
-            ownershipBoundaryPreserved: boolean;
-          };
-          reasons: string[];
-          signals: {
-            dok: { kind: string };
-            dik: { kind: string };
-            dak: { token: string; status: string | null };
-            duk: { token: string; status: string | null };
-          };
-        };
+        dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth;
         b2bReadiness: {
           downstreamSync: { linkedRepo: string };
           governanceDecisions: {
@@ -327,28 +307,7 @@ async function runTests(): Promise<void> {
         };
         semaMuSemaFormula: { canonicalExpression: string; status: string; muSemaConclusion: string; formulaHolds: boolean };
         governanceSignal: { freezeRequired: boolean };
-        dokDikDakDukConsistencyHealth: {
-          sourceOfTruth: string;
-          scopeLock: string[];
-          ownershipBoundary: { dok: string; dik: string; dak: string; duk: string };
-          signalSources: { dok: string; dik: string; dak: string; duk: string };
-          consistent: boolean;
-          status: string;
-          checks: {
-            dokSignalPresent: boolean;
-            dikSignalPresent: boolean;
-            dakMappedToPromotion: boolean;
-            dukMappedToHumanReview: boolean;
-            ownershipBoundaryPreserved: boolean;
-          };
-          reasons: string[];
-          signals: {
-            dok: { kind: string };
-            dik: { kind: string };
-            dak: { token: string; status: string | null };
-            duk: { token: string; status: string | null };
-          };
-        };
+        dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth;
         optimization: { maximumGraphicsUnlockEligible: boolean };
       };
     };

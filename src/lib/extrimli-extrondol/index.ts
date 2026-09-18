@@ -2958,6 +2958,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const dukState = spajaproTrack.sequenceStates.find((state) => state.token === 'DUKAR');
   const dokSignal = extremProfiler.petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
   const dikSignal = extremProfiler.petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
+  const expectedOwnershipBoundary = {
+    dok: 'EXTREM',
+    dik: 'EXTREM',
+    dak: 'EXTRONDOL',
+    duk: 'EXTRONDOL',
+  } as const;
   const mapGovernanceSignalStatus = (status: string | undefined): 'READY' | 'WATCH' | 'BLOCKED' | null => {
     if (!status) {
       return null;
@@ -2973,12 +2979,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth = {
     sourceOfTruth: '/api/extrimli/extrondol',
     scopeLock: ['DOK', 'DIK', 'DAK', 'DUK'],
-    ownershipBoundary: {
-      dok: 'EXTREM',
-      dik: 'EXTREM',
-      dak: 'EXTRONDOL',
-      duk: 'EXTRONDOL',
-    },
+    ownershipBoundary: expectedOwnershipBoundary,
     signalSources: {
       dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)',
       dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)',
@@ -3012,10 +3013,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       dikSignalPresent: Boolean(dikSignal),
       dakMappedToPromotion: Boolean(dakState) && dakState?.signalRole === 'promotion',
       dukMappedToHumanReview: Boolean(dukState) && dukState?.signalRole === 'human-review',
-      ownershipBoundaryPreserved: extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM'
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM'
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL'
-        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL',
+      ownershipBoundaryPreserved: expectedOwnershipBoundary.dok === 'EXTREM'
+        && expectedOwnershipBoundary.dik === 'EXTREM'
+        && expectedOwnershipBoundary.dak === 'EXTRONDOL'
+        && expectedOwnershipBoundary.duk === 'EXTRONDOL'
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === expectedOwnershipBoundary.dok
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === expectedOwnershipBoundary.dik
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === expectedOwnershipBoundary.dak
+        && extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === expectedOwnershipBoundary.duk,
     },
     consistent: false,
     status: 'BLOCKED',
