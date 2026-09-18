@@ -16,6 +16,7 @@ import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
 } from '../extrimli-extrem/types';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
@@ -370,6 +371,18 @@ export interface ExtrimliExtrondolFunkcionalnoProgramiranjeEksplicitnogMisaonogT
   governanceVisibility: 'audit-safe-readiness-only';
   ownershipModel: {
     extrem: 'technical-explicit-thought-signal';
+export interface ExtrimliExtrondolFunkcionalnoProgramiranjePravednogMisaonogTokaGovernance {
+  term: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: typeof EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION;
+  additiveOnly: true;
+  status: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjePravednogMisaonogToka']['readiness']['status'];
+  readinessScore: number;
+  conflictBiasPressurePercent: number;
+  governanceVisibility: 'audit-safe-readiness-only';
+  ownershipModel: {
+    extrem: 'technical-fair-thought-signal';
     extrondol: 'wawe-orchestration-audit-consumer';
     spajaKod: 'public-encapsulated-boundary';
   };
@@ -840,6 +853,7 @@ export interface ExtrimliExtrondolStartProject {
     'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka',
     'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka',
     'extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
+    'extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka',
     'extremProfiler.objektnoOrijentisanaProngilacija',
     'extremProfiler.objektnoOrijentisanaReprodukcija',
     'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata',
@@ -849,6 +863,7 @@ export interface ExtrimliExtrondolStartProject {
     'funkcinalnoProgramiranjeEnergetskogMisaonogToka',
     'funkcionalnoProgramiranjeUzvisenogMisanogToka',
     'funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
+    'funkcionalnoProgramiranjePravednogMisaonogToka',
     'objektnoOrijentisanaProngilacija',
     'objektnoOrijentisanaReprodukcija',
     'epicElikvadenti',
@@ -883,6 +898,7 @@ export interface ExtrimliExtrondolStartProject {
       'extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness',
       'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness',
       'extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness',
+      'extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
       'extremProfiler.objektnoOrijentisanaProngilacija.readiness',
@@ -892,6 +908,7 @@ export interface ExtrimliExtrondolStartProject {
       'funkcinalnoProgramiranjeEnergetskogMisaonogToka',
       'funkcionalnoProgramiranjeUzvisenogMisanogToka',
       'funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
+      'funkcionalnoProgramiranjePravednogMisaonogToka',
       'mobilnaLinija',
       'objektnoOrijentisanaProngilacija',
       'objektnoOrijentisanaReprodukcija',
@@ -1015,6 +1032,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
     funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjeEksplicitnogMisaonogToka']['readiness']['status'];
+    funkcionalnoProgramiranjePravednogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjePravednogMisaonogToka']['readiness']['status'];
     funkionalnoProgramiranjePravnogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkionalnoProgramiranjePravnogMisaonogToka']['readiness']['status'];
     humanReviewRequired: true;
     rollbackPlanRequired: true;
@@ -1061,6 +1079,7 @@ export interface ExtrimliExtrondolReport {
   funkcinalnoProgramiranjeEnergetskogMisaonogToka: ExtrimliExtrondolFunkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance;
   funkcionalnoProgramiranjeUzvisenogMisanogToka: ExtrimliExtrondolFunkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance;
   funkcionalnoProgramiranjeEksplicitnogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaGovernance;
+  funkcionalnoProgramiranjePravednogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjePravednogMisaonogTokaGovernance;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance;
   objektnoOrijentisanaReprodukcija: ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance;
   epicElikvadenti: ExtrimliExtrondolEpicElikvadentiGovernance;
@@ -1135,6 +1154,10 @@ export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CON
 export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_WATCH_ADJUSTMENT = -6;
 export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_BLOCKED_ADJUSTMENT = -15;
+export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION = EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION;
+export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_READY_ADJUSTMENT = 2;
+export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_WATCH_ADJUSTMENT = -6;
+export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_BLOCKED_ADJUSTMENT = -15;
 export const EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION = EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION;
 export const EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_WATCH_ADJUSTMENT = -6;

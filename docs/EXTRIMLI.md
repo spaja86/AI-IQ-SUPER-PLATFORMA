@@ -438,6 +438,38 @@ Canonical EXTREM operator surface for this track consists of exactly these four 
 - `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT` → default `16`
 - Backward-compatible alias: `EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT` is accepted, but the canonical env name remains `EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT`, which takes precedence when both are set and suppresses the alias even if the canonical value is malformed.
 
+## FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA
+
+- Canonical term: `FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA`
+- Spelling decision: `exact-user-term-locked`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-FUNKCIONALNO-PROGRAMIRANJE-PRAVEDNOG-MISAONOG-TOKA.md`
+
+Ownership split:
+
+- **EXTREM** objavljuje tehnički signal za stabilnost pravednog misaonog toka, koheziju funkcionalne pravednosti, determinističnost pravednog rezonovanja, evidentiary completeness i conflict/bias pressure.
+- **EXTRONDOL** koristi taj signal za WAWE 1–5 orkestraciju, promotion freeze, release audit summary, rollback, downstream reference i human-review odluke.
+- **SPAJA KOD** izlaže samo audit-safe zbirni status bez sirovih fairness formulacija, scoring detalja i internih rezonovanih artefakata.
+
+Canonical vocabulary + scope lock:
+
+- `stabilnost pravednog misaonog toka` = `profileInput.fairThoughtFlowStabilityPercent`
+- `kohezija funkcionalne pravednosti` = `profileInput.functionalFairnessCohesionPercent`
+- `determinističnost pravednog rezonovanja` = `profileInput.fairnessReasoningDeterminismPercent`
+- `evidentiary completeness` = `profileInput.evidentiaryCompletenessPercent`
+- `pritisak konflikta / pristrasnosti` = `profileInput.conflictBiasPressurePercent`
+- readiness izlaz ostaje zaključan na `READY`, `WATCH`, `BLOCKED`
+- scope lock ostaje `EXTRIMLI`, `EXTREM`, `EXTRONDOL`, `SPAJA KOD`
+
+Governance impact:
+
+- `READY` signal može da unapredi `orchestrationReadinessScore` bez novih public surface-ova.
+- `WATCH` signal zahteva review vidljivost i zadržava rollout u audit-safe WAWE okviru.
+- `BLOCKED` signal mora da aktivira promotion freeze, release audit coupling i rollback/human-review zahteve kroz EXTRONDOL.
+
 ## Objektno orijentisana reprodukcija
 
 - Canonical term: `Objektno orijentisana reprodukcija`

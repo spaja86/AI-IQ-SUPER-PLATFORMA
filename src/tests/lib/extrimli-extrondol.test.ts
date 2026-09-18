@@ -20,6 +20,7 @@ import {
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT,
@@ -40,6 +41,7 @@ import {
   getEpicElikvadentiAdjustment,
   getObjektnaProngilacijaAdjustment,
   getObjektnoOrijentisanaReprodukcijaAdjustment,
+  getFunkcionalnoProgramiranjePravednogMisaonogTokaAdjustment,
   getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment,
   getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
@@ -235,6 +237,20 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus === report.extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status, 'SPAJA KOD explicit thought-flow summary mismatch');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkcionalno-programiranje-eksplicitnog-misaonog-toka-governance'), 'explicit thought-flow scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkcionalno-programiranje-eksplicitnog-misaonog-toka-governance' && item.passed), 'explicit thought-flow acceptance criterion must pass');
+  await test('report maps FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.funkcionalnoProgramiranjePravednogMisaonogToka.term === 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA', 'fair thought-flow term mismatch');
+    assert(report.funkcionalnoProgramiranjePravednogMisaonogToka.contractVersion === EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'fair thought-flow contract mismatch');
+    assert(report.funkcionalnoProgramiranjePravednogMisaonogToka.technicalSignalSource === '/api/extrimli/extrem', 'fair thought-flow technical source mismatch');
+    assert(report.funkcionalnoProgramiranjePravednogMisaonogToka.governanceVisibility === 'audit-safe-readiness-only', 'fair thought-flow visibility mismatch');
+    assert(report.funkcionalnoProgramiranjePravednogMisaonogToka.waweImpact.currentWawe === report.rollout.currentWawe, 'fair thought-flow WAWE mismatch');
+    assert(report.releaseAuditSummary.funkcionalnoProgramiranjePravednogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'fair thought-flow audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status'), 'fair thought-flow status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('funkcionalnoProgramiranjePravednogMisaonogToka.waweImpact'), 'fair thought-flow WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('funkcionalnoProgramiranjePravednogMisaonogToka'), 'fair thought-flow governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.funkcionalnoProgramiranjePravednogMisaonogTokaStatus === report.extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status, 'SPAJA KOD fair thought-flow summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkcionalno-programiranje-pravednog-misaonog-toka-governance'), 'fair thought-flow scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'funkcionalno-programiranje-pravednog-misaonog-toka-governance' && item.passed), 'fair thought-flow acceptance criterion must pass');
   });
 
   await test('report maps FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA into WAWE governance, audit, and SPAJA KOD summary', () => {
@@ -494,6 +510,8 @@ async function runTests(): Promise<void> {
     );
     const funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment = getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment(
       report.extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status,
+    const funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment = getFunkcionalnoProgramiranjePravednogMisaonogTokaAdjustment(
+      report.extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status,
     );
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
@@ -510,6 +528,7 @@ async function runTests(): Promise<void> {
           + funkcinalnoProgramiranjeAdjustment
           + funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment
           + funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment
+          + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment

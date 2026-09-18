@@ -17,6 +17,7 @@ import { _resetDuelKingMetrics } from '../../lib/extrimli-duel-king';
 import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
@@ -132,6 +133,7 @@ async function runTests(): Promise<void> {
         objektnoOrijentisanaProngilacija: { term: string; status: string; technicalSignalSource: string };
         funkcinalnoProgramiranjeEnergetskogMisaonogToka: { term: string; status: string; technicalSignalSource: string };
         funkcionalnoProgramiranjeUzvisenogMisanogToka: { term: string; status: string; technicalSignalSource: string };
+        funkcionalnoProgramiranjePravednogMisaonogToka: { term: string; status: string; technicalSignalSource: string };
         funkionalnoProgramiranjePravnogMisaonogToka: { term: string; status: string; technicalSignalSource: string; legalBoundary: { sourceTrack: string } };
         epicElikvadenti: { term: string; status: string; technicalSignalSource: string };
         mobilnaLinija: {
@@ -150,6 +152,7 @@ async function runTests(): Promise<void> {
         releaseAuditSummary: {
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
           funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance: { sourceOfTruth: string; status: string };
+          funkcionalnoProgramiranjePravednogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
           funkionalnoProgramiranjePravnogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
           semaFormulaGovernance: { canonicalExpression: string; status: string; muSemaConclusion: string };
           epicElikvadentiGovernance: { sourceOfTruth: string; status: string };
@@ -178,6 +181,9 @@ async function runTests(): Promise<void> {
     assert(body.data.funkcionalnoProgramiranjeUzvisenogMisanogToka.term === 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA', 'unexpected elevated thought-flow term');
     assert(body.data.funkcionalnoProgramiranjeUzvisenogMisanogToka.technicalSignalSource === '/api/extrimli/extrem', 'unexpected elevated thought-flow source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.funkcionalnoProgramiranjeUzvisenogMisanogToka.status), 'unexpected elevated thought-flow status');
+    assert(body.data.funkcionalnoProgramiranjePravednogMisaonogToka.term === 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA', 'unexpected fair thought-flow term');
+    assert(body.data.funkcionalnoProgramiranjePravednogMisaonogToka.technicalSignalSource === '/api/extrimli/extrem', 'unexpected fair thought-flow source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.funkcionalnoProgramiranjePravednogMisaonogToka.status), 'unexpected fair thought-flow status');
     assert(body.data.funkionalnoProgramiranjePravnogMisaonogToka.term === 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA', 'unexpected legal-functional term');
     assert(body.data.funkionalnoProgramiranjePravnogMisaonogToka.technicalSignalSource === '/api/extrimli/extrem', 'unexpected legal-functional source');
     assert(body.data.funkionalnoProgramiranjePravnogMisaonogToka.legalBoundary.sourceTrack === 'KRALJEVSKI PRAVNI UNIVERZITET', 'unexpected legal-functional source track');
@@ -199,11 +205,13 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.epicElikvadentiGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing epic governance source');
     assert(body.data.releaseAuditSummary.funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing functional energy-flow governance source');
     assert(body.data.releaseAuditSummary.funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing elevated thought-flow governance source');
+    assert(body.data.releaseAuditSummary.funkcionalnoProgramiranjePravednogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing fair thought-flow governance source');
     assert(body.data.releaseAuditSummary.funkionalnoProgramiranjePravnogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing legal-functional governance source');
     assert(body.data.releaseAuditSummary.petljeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing petlje governance source');
     assert(typeof body.data.releaseAuditSummary.petljeGovernance.freezeRequired === 'boolean', 'petlje governance freeze should be boolean');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance.status), 'unexpected functional energy-flow governance status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance.status), 'unexpected elevated thought-flow governance status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkcionalnoProgramiranjePravednogMisaonogTokaGovernance.status), 'unexpected fair thought-flow governance status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkionalnoProgramiranjePravnogMisaonogTokaGovernance.status), 'unexpected legal-functional governance status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.epicElikvadentiGovernance.status), 'unexpected epic governance status');
     assert(['PASSED', 'BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.status), 'unexpected formula governance status');
@@ -232,6 +240,7 @@ async function runTests(): Promise<void> {
         };
         funkcinalnoProgramiranjeEnergetskogMisaonogToka: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         funkcionalnoProgramiranjeUzvisenogMisanogToka: { term: string; contractVersion: string; readiness: { status: string; score: number } };
+        funkcionalnoProgramiranjePravednogMisaonogToka: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         funkionalnoProgramiranjePravnogMisaonogToka: { term: string; contractVersion: string; readiness: { status: string; score: number }; legalCoupling: { sourceTrack: string } };
         objektnoOrijentisanaProngilacija: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         objektnoOrijentusanoUzdizanjeEpskihElikvadenata: { term: string; contractVersion: string; readiness: { status: string; score: number } };
@@ -261,6 +270,10 @@ async function runTests(): Promise<void> {
     assert(body.data.funkcionalnoProgramiranjeUzvisenogMisanogToka.contractVersion === EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION, 'unexpected EXTREM elevated thought-flow contract');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status), 'unexpected EXTREM elevated thought-flow status');
     assert(Number.isFinite(body.data.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score), 'elevated thought-flow score must be finite');
+    assert(body.data.funkcionalnoProgramiranjePravednogMisaonogToka.term === 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA', 'unexpected EXTREM fair thought-flow term');
+    assert(body.data.funkcionalnoProgramiranjePravednogMisaonogToka.contractVersion === EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'unexpected EXTREM fair thought-flow contract');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status), 'unexpected EXTREM fair thought-flow status');
+    assert(Number.isFinite(body.data.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score), 'fair thought-flow score must be finite');
     assert(body.data.funkionalnoProgramiranjePravnogMisaonogToka.term === 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA', 'unexpected EXTREM legal-functional term');
     assert(body.data.funkionalnoProgramiranjePravnogMisaonogToka.contractVersion === EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'unexpected EXTREM legal-functional contract');
     assert(body.data.funkionalnoProgramiranjePravnogMisaonogToka.legalCoupling.sourceTrack === 'KRALJEVSKI PRAVNI UNIVERZITET', 'unexpected EXTREM legal-functional source track');
@@ -304,7 +317,7 @@ async function runTests(): Promise<void> {
         rawPatternVisibility: string;
         completeness: { consistent: boolean; exportReady: boolean };
         readiness: { status: string; governanceOutcome: string; promotionFreeze: boolean };
-        publicSignals: { auditStatus: string; degraded: boolean; funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string; funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: string };
+        publicSignals: { auditStatus: string; degraded: boolean; funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string; funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: string; funkcionalnoProgramiranjePravednogMisaonogTokaStatus: string };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
       };
@@ -320,6 +333,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'BLOCKED'].includes(body.data.publicSignals.auditStatus), 'unexpected SPAJA KOD audit status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus), 'unexpected SPAJA KOD functional energy-flow summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus), 'unexpected SPAJA KOD elevated thought-flow summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcionalnoProgramiranjePravednogMisaonogTokaStatus), 'unexpected SPAJA KOD fair thought-flow summary status');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');
     assert(body.data.dokerKuratIzekDokarTrack.tokenSummaries.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected quartet public token order');
