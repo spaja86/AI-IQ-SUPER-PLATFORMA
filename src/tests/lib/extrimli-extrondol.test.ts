@@ -25,6 +25,7 @@ import {
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_WATCH_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
@@ -42,6 +43,7 @@ import {
   getObjektnoOrijentisanaReprodukcijaAdjustment,
   getFunkcionalnoProgramiranjePravednogMisaonogTokaAdjustment,
   getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment,
+  getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
@@ -222,6 +224,19 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkcionalno-programiranje-uzvisenog-misanog-toka-governance' && item.passed), 'elevated thought-flow acceptance criterion must pass');
   });
 
+  await test('report maps FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA into WAWE governance, scorecard, audit summary, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.term === 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA', 'explicit thought-flow term mismatch');
+    assert(report.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.contractVersion === EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION, 'explicit thought-flow contract mismatch');
+    assert(report.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.technicalSignalSource === '/api/extrimli/extrem', 'explicit thought-flow technical source mismatch');
+    assert(report.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.waweImpact.currentWawe === report.rollout.currentWawe, 'explicit thought-flow WAWE mismatch');
+    assert(report.releaseAuditSummary.funkcionalnoProgramiranjeEksplicitnogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'explicit thought-flow audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status'), 'explicit thought-flow status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('funkcionalnoProgramiranjeEksplicitnogMisaonogToka.waweImpact'), 'explicit thought-flow WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('funkcionalnoProgramiranjeEksplicitnogMisaonogToka'), 'explicit thought-flow governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus === report.extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status, 'SPAJA KOD explicit thought-flow summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkcionalno-programiranje-eksplicitnog-misaonog-toka-governance'), 'explicit thought-flow scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'funkcionalno-programiranje-eksplicitnog-misaonog-toka-governance' && item.passed), 'explicit thought-flow acceptance criterion must pass');
   await test('report maps FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.funkcionalnoProgramiranjePravednogMisaonogToka.term === 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA', 'fair thought-flow term mismatch');
@@ -493,6 +508,8 @@ async function runTests(): Promise<void> {
     const funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment = getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment(
       report.extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
     );
+    const funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment = getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment(
+      report.extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status,
     const funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment = getFunkcionalnoProgramiranjePravednogMisaonogTokaAdjustment(
       report.extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status,
     );
@@ -510,6 +527,7 @@ async function runTests(): Promise<void> {
           + objektnaProngilacijaAdjustment
           + funkcinalnoProgramiranjeAdjustment
           + funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment
+          + funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
