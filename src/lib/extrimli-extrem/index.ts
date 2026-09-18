@@ -48,6 +48,9 @@ import type {
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaProfileInput,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus,
+  ExtrimliExtremProporcionalnoProgramiranjeProfileInput,
+  ExtrimliExtremProporcionalnoProgramiranjeSignal,
+  ExtrimliExtremProporcionalnoProgramiranjeStatus,
   ExtrimliExtremKraljevskiPravniTrack,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
@@ -101,6 +104,9 @@ import {
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,
@@ -406,6 +412,14 @@ function classifyFunkcionalnoProgramiranjePravednogMisaonogTokaStatus(
 ): ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaStatus {
   if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function classifyProporcionalnoProgramiranjeStatus(
+  score: number,
+): ExtrimliExtremProporcionalnoProgramiranjeStatus {
+  if (score >= EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE) return 'WATCH';
   return 'BLOCKED';
 }
 
@@ -1038,6 +1052,158 @@ function buildFunkionalnoProgramiranjePravnogMisaonogTokaSignal(
       evidenceRole: 'Vezuje funkcionalni pravni tok za dokumentovanu evidentiary completeness granicu unutar KRALJEVSKI PRAVNI UNIVERZITET track-a.',
       conflictRole: 'Prati konfliktno-eskalacioni pritisak i aktivira watch/block posture pre WAWE promocije.',
       publicBoundaryRole: 'Zadržava sirove pravne formulacije i scoring u EXTREM/EXTRONDOL sloju dok SPAJA KOD objavljuje samo audit-safe status.',
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
+    },
+  };
+}
+
+function buildProporcionalnoProgramiranjeSignal(
+  profileInput: ExtrimliExtremProporcionalnoProgramiranjeProfileInput,
+  degraded: boolean,
+): ExtrimliExtremProporcionalnoProgramiranjeSignal {
+  const score = round(
+    clamp(
+      (profileInput.functionalTransformationPercent * 0.24)
+      + (profileInput.objectEncapsulationCompositionPercent * 0.24)
+      + (profileInput.proportionalBalancePercent * 0.28)
+      + (profileInput.conditionalFactReadinessPercent * 0.24),
+      0,
+      100,
+    ),
+    2,
+  );
+  const protkrovStatus: ExtrimliExtremProporcionalnoProgramiranjeStatus = profileInput.protkrovFunkcijaPressurePercent >= 28
+    ? 'BLOCKED'
+    : profileInput.protkrovFunkcijaPressurePercent >= 14
+      ? 'WATCH'
+      : 'READY';
+  const objektneStatus: ExtrimliExtremProporcionalnoProgramiranjeStatus = profileInput.objektneParadoksalneEtapePressurePercent >= 28
+    ? 'BLOCKED'
+    : profileInput.objektneParadoksalneEtapePressurePercent >= 14
+      ? 'WATCH'
+      : 'READY';
+  const watchReasons = [
+    ...(profileInput.functionalTransformationPercent < 78 ? [`functional-transformation-watch:${profileInput.functionalTransformationPercent}`] : []),
+    ...(profileInput.objectEncapsulationCompositionPercent < 78 ? [`object-structure-watch:${profileInput.objectEncapsulationCompositionPercent}`] : []),
+    ...(profileInput.proportionalBalancePercent < 78 ? [`proportional-balance-watch:${profileInput.proportionalBalancePercent}`] : []),
+    ...(profileInput.conditionalFactReadinessPercent < 82 ? [`conditional-facts-watch:${profileInput.conditionalFactReadinessPercent}`] : []),
+    ...(protkrovStatus === 'WATCH' ? [`protkrov-funkcija-watch:${profileInput.protkrovFunkcijaPressurePercent}`] : []),
+    ...(objektneStatus === 'WATCH' ? [`objektne-paradoksalne-etape-watch:${profileInput.objektneParadoksalneEtapePressurePercent}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.functionalTransformationPercent < 58 ? [`functional-transformation-blocked:${profileInput.functionalTransformationPercent}`] : []),
+    ...(profileInput.objectEncapsulationCompositionPercent < 58 ? [`object-structure-blocked:${profileInput.objectEncapsulationCompositionPercent}`] : []),
+    ...(profileInput.proportionalBalancePercent < 55 ? [`proportional-balance-blocked:${profileInput.proportionalBalancePercent}`] : []),
+    ...(profileInput.conditionalFactReadinessPercent < 58 ? [`conditional-facts-blocked:${profileInput.conditionalFactReadinessPercent}`] : []),
+    ...(protkrovStatus === 'BLOCKED' ? [`protkrov-funkcija-blocked:${profileInput.protkrovFunkcijaPressurePercent}`] : []),
+    ...(objektneStatus === 'BLOCKED' ? [`objektne-paradoksalne-etape-blocked:${profileInput.objektneParadoksalneEtapePressurePercent}`] : []),
+  ];
+  const aggregateStatus = classifyProporcionalnoProgramiranjeStatus(score);
+  const status: ExtrimliExtremProporcionalnoProgramiranjeStatus = blockerReasons.length > 0
+    ? 'BLOCKED'
+    : watchReasons.length > 0
+      ? 'WATCH'
+      : aggregateStatus;
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
+    ? [`aggregate-watch-score:${score}`]
+    : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length === 0
+    ? [`aggregate-blocked-score:${score}`]
+    : blockerReasons;
+
+  return {
+    term: 'PROPORCIONALNO PROGRAMIRANJE',
+    contractVersion: EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'PROPORCIONALNO PROGRAMIRANJE',
+      interpretation: 'INOVACIJA PROGRAMSKIH JEZIKA',
+      spellingDecision: 'exact-user-term-locked',
+      statement: 'Additive EXTREM signal that synthesizes existing functional and object-oriented tracks into a locked language-innovation discipline governed by proportional balance and uslovne činjenice.',
+      interpretationLayer: 'technical-language-innovation-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-paradigm-merge-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      functionalTransformation: {
+        canonicalField: 'profileInput.functionalTransformationPercent',
+        meaning: 'funkcionalna-transformacija',
+      },
+      objectEncapsulationComposition: {
+        canonicalField: 'profileInput.objectEncapsulationCompositionPercent',
+        meaning: 'objektna-enkapsulacija-i-kompozicija',
+      },
+      proportionalBalance: {
+        canonicalField: 'profileInput.proportionalBalancePercent',
+        meaning: 'proporcionalni-odnos-funkcija-i-objekata',
+      },
+      conditionalFacts: {
+        canonicalField: 'profileInput.conditionalFactReadinessPercent',
+        meaning: 'uslovne-cinjenice',
+      },
+      protkrovFunkcija: {
+        canonicalField: 'subSignals.protkrovFunkcija.pressurePercent',
+        meaning: 'funkcijska-dominacija',
+      },
+      objektneParadoksalneEtape: {
+        canonicalField: 'subSignals.objektneParadoksalneEtape.pressurePercent',
+        meaning: 'objektna-dominacija',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    sourceSignals: {
+      functionalTracks: [
+        'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
+        'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA',
+        'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
+        'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
+      ],
+      objectTracks: [
+        'Objektno orijentisana prongilacija',
+        'Objektno orijentisana reprodukcija',
+        'OBJEKTNO ORIJENTUSANO UZDIZANJE EPSKIH ELIKVADENATA',
+      ],
+      synthesisRule: 'functional-object-proportional-balance',
+    },
+    processingModel: {
+      functionalTransformationRole: 'Meri da li funkcionalne transformacije ostaju čiste, sledljive i dovoljno jake da nose inovaciju jezika.',
+      objectStructureRole: 'Meri da li objektna enkapsulacija i kompozicija daju dovoljno strukture, stanja i bounded odgovornosti.',
+      proportionalityRole: 'Centralno pravilo je ravnoteža: dominacija funkcija bez objekata ili objekata bez transformacije aktivira watch ili blocked stanje.',
+      conditionalFactsRole: 'Uslovne činjenice su zasebna governance dimenzija koja potvrđuje da je prelaz između funkcija i objekata auditabilan i dosledan.',
+      publicBoundaryRole: 'Interna formula ostaje u EXTREM/EXTRONDOL sloju dok SPAJA KOD objavljuje samo audit-safe zbirni status.',
+    },
+    subSignals: {
+      protkrovFunkcija: {
+        term: 'PROTKROV FUNKCIJA',
+        pressurePercent: profileInput.protkrovFunkcijaPressurePercent,
+        status: protkrovStatus,
+        role: 'Meri kada funkcionalni tok dominira bez dovoljne objektne strukture.',
+      },
+      objektneParadoksalneEtape: {
+        term: 'OBJEKTNE PARADOKSALNE ETAPE',
+        pressurePercent: profileInput.objektneParadoksalneEtapePressurePercent,
+        status: objektneStatus,
+        role: 'Meri kada objektna struktura dominira bez dovoljno čiste funkcionalne transformacije.',
+      },
     },
     readiness: {
       score,
@@ -2088,6 +2254,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     objektnoOrijentisanaReprodukcijaInput,
     objektnoOrijentisanaReprodukcijaDegradedSources.length > 0,
   );
+  const proportionalConditionalFactReadinessPercent = parsePercentEnv(
+    'EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT',
+    86,
+    degradedSources,
+  );
+  const functionalTransformationPercent = round(
+    (
+      funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score
+      + funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score
+      + funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score
+      + funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score
+    ) / 4,
+    2,
+  );
+  const objectEncapsulationCompositionPercent = round(
+    (
+      objektnoOrijentisanaProngilacija.readiness.score
+      + objektnoOrijentisanaReprodukcija.readiness.score
+      + objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score
+    ) / 3,
+    2,
+  );
+  const proportionalBalancePercent = round(
+    clamp(100 - Math.abs(functionalTransformationPercent - objectEncapsulationCompositionPercent), 0, 100),
+    2,
+  );
+  const proporcionalnoProgramiranje = buildProporcionalnoProgramiranjeSignal(
+    {
+      functionalTransformationPercent,
+      objectEncapsulationCompositionPercent,
+      proportionalBalancePercent,
+      conditionalFactReadinessPercent: proportionalConditionalFactReadinessPercent,
+      protkrovFunkcijaPressurePercent: round(
+        clamp(functionalTransformationPercent - objectEncapsulationCompositionPercent, 0, 100),
+        2,
+      ),
+      objektneParadoksalneEtapePressurePercent: round(
+        clamp(objectEncapsulationCompositionPercent - functionalTransformationPercent, 0, 100),
+        2,
+      ),
+    },
+    degradedSources.some((source) => source === 'invalid-env:EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT'),
+  );
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
     clamp(
@@ -2153,6 +2362,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
+    || proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
@@ -2204,6 +2414,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
       ? [`FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA blocked WAWE progression: ${funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.blockerReasons.join('; ') || 'explicit thought-flow readiness failed.'}`]
       : []),
+    ...(proporcionalnoProgramiranje.readiness.status === 'WATCH'
+      ? ['PROPORCIONALNO PROGRAMIRANJE requires balance review between functional transformation, object structure, and uslovne činjenice before wider WAWE progression.']
+      : []),
+    ...(proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
+      ? [`PROPORCIONALNO PROGRAMIRANJE blocked WAWE progression: ${proporcionalnoProgramiranje.readiness.blockerReasons.join('; ') || 'language-innovation readiness failed.'}`]
+      : []),
     ...(objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija requires review before wider WAWE progression.']
       : []),
@@ -2244,6 +2460,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
   if (funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.degraded) {
     degradedSources.push(`funkcionalno-programiranje-eksplicitnog-misaonog-toka:${funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status.toLowerCase()}`);
+  }
+  if (proporcionalnoProgramiranje.readiness.degraded || proporcionalnoProgramiranje.readiness.status !== 'READY') {
+    degradedSources.push(`proporcionalno-programiranje:${proporcionalnoProgramiranje.readiness.status.toLowerCase()}`);
   }
   if (objektnoOrijentisanaReprodukcija.readiness.degraded) {
     degradedSources.push(`objektno-orijentisana-reprodukcija:${objektnoOrijentisanaReprodukcija.readiness.status.toLowerCase()}`);
@@ -2500,6 +2719,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(funkionalnoProgramiranjePravnogMisaonogToka.readiness.score),
     },
     {
+      id: 'proporcionalno-programiranje-lock',
+      description: 'PROPORCIONALNO PROGRAMIRANJE is locked as an additive language-innovation track with fixed interpretation, sub-signals, and EXTREM/EXTRONDOL/SPAJA KOD ownership split.',
+      passed: proporcionalnoProgramiranje.contractVersion === EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION
+        && proporcionalnoProgramiranje.meaningLock.interpretation === 'INOVACIJA PROGRAMSKIH JEZIKA'
+        && proporcionalnoProgramiranje.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && proporcionalnoProgramiranje.ownershipModel.extrem === 'technical-paradigm-merge-signal',
+    },
+    {
+      id: 'proporcionalno-programiranje-model',
+      description: 'The proportional language-innovation track keeps functional transformation, object structure, conditional facts, and the locked PROTKROV/OBJEKTNE sub-signals bounded and measurable.',
+      passed: proporcionalnoProgramiranje.canonicalVocabulary.proportionalBalance.canonicalField === 'profileInput.proportionalBalancePercent'
+        && proporcionalnoProgramiranje.subSignals.protkrovFunkcija.term === 'PROTKROV FUNKCIJA'
+        && proporcionalnoProgramiranje.subSignals.objektneParadoksalneEtape.term === 'OBJEKTNE PARADOKSALNE ETAPE'
+        && Number.isFinite(proporcionalnoProgramiranje.readiness.score),
+    },
+    {
       id: 'objektno-orijentisana-reprodukcija-lock',
       description: 'Objektno orijentisana reprodukcija is locked as an additive-only EXTREM reproducibility signal with explicit ownership split across EXTREM, EXTRONDOL, and SPAJA KOD.',
       passed: objektnoOrijentisanaReprodukcija.contractVersion === 'v1-objektno-orijentisana-reprodukcija'
@@ -2642,6 +2877,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkcionalnoProgramiranjeEksplicitnogMisaonogToka,
     funkcionalnoProgramiranjePravednogMisaonogToka,
     funkionalnoProgramiranjePravnogMisaonogToka,
+    proporcionalnoProgramiranje,
     objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
     semaMuSemaFormula,
