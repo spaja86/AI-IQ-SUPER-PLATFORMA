@@ -783,6 +783,7 @@ function buildZelezaraPretplataGovernance(params: {
     ...blockerReasons,
     ...warnings,
     ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+    `governance:wawe-context-${params.currentWawe}-to-${params.eligibleNextWawe}`,
   ];
   const status = blockerReasons.length > 0 ? 'BLOCKED' : warnings.length > 0 ? 'WATCH' : 'READY';
 

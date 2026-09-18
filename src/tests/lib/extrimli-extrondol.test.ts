@@ -197,6 +197,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.zelezaraPretplataIdentityTrack.readiness.status'), 'Železara EXTREM status must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.publicSignals.zelezaraPretplataIdentityStatus'), 'Železara SPAJA KOD signal must sync downstream');
     assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === report.extremProfiler.zelezaraPretplataIdentityTrack.readiness.status, 'SPAJA KOD Železara summary mismatch');
+    assert(report.zelezaraPretplataGovernance.reasons.includes(`governance:wawe-context-${report.rollout.currentWawe}-to-${report.rollout.eligibleNextWawe}`), 'Železara governance should carry WAWE context');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'zelezara-pretplata-identity-governance'), 'Železara scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-identity-track' && item.passed), 'Železara identity criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-contract-identity-gate' && item.passed), 'Železara contract identity gate must pass');
