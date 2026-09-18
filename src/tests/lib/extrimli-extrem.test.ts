@@ -4,6 +4,7 @@ import {
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
@@ -201,6 +202,21 @@ async function runTests(): Promise<void> {
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'legal-functional score must be bounded');
   });
 
+  await test('default report exposes METRIČKO PROGRAMIRANJE as additive EXTREM signal with DOK/DIK technical ownership', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.metrikoProgramiranje;
+    assert(signal.term === 'METRIČKO PROGRAMIRANJE', 'metric programming term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION, 'metric programming contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'metric programming source mismatch');
+    assert(signal.declarationMatrix.dokEvidence.kind === 'DOK PETLJA', 'metric programming must bind DOK evidence');
+    assert(signal.instancePositioning.dikEvidence.kind === 'DIK PETLJA', 'metric programming must bind DIK evidence');
+    assert(signal.ownershipEvidence.dakDeferredToGovernance, 'metric programming must defer DAK to governance');
+    assert(signal.ownershipEvidence.dukDeferredToGovernance, 'metric programming must defer DUK to governance');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected metric programming status');
+    assert(Number.isFinite(signal.readiness.score), 'metric programming score must be finite');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'metriko-programiranje-lock' && item.passed), 'metric programming acceptance criterion must pass');
+  });
+
   await test('default report exposes PROPORCIONALNO PROGRAMIRANJE as additive language-innovation EXTREM signal', () => {
     const report = getExtrimliExtremProfilerReport();
     const signal = report.proporcionalnoProgramiranje;
@@ -213,6 +229,21 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected proportional programming status');
     assert(Number.isFinite(signal.readiness.score), 'proportional programming score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'proportional programming score must be bounded');
+  });
+
+  await test('METRIČKO PROGRAMIRANJE degrades safely on invalid and low posture inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_DECLARATION_MATRIX_PERCENT: '-10',
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_NEUTRAL_DECLARATION_POSTURE_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_INSTANCE_POSITIONING_PERCENT: '0',
+      EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_ACCENT_COUPLING_PERCENT: 'Infinity',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.metrikoProgramiranje.readiness.status === 'BLOCKED', 'metric programming should block on degraded low posture');
+      assert(report.metrikoProgramiranje.readiness.degraded, 'metric programming should mark degraded posture');
+      assert(report.governanceSignal.freezeRequired, 'metric programming blocker should freeze governance progression');
+      assert(report.degradedSources.some((source) => source.startsWith('metriko-programiranje:')), 'metric programming degraded source should be recorded');
+    });
   });
 
   await test('default report exposes SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET as additive university sub-track', () => {

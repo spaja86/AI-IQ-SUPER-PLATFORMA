@@ -51,6 +51,7 @@ Ownership hard lock:
 ### Stream A — Domain model i tipovi
 - EXTREM/EXTRONDOL tipovi ostaju versioned, additive-only i backward-compatible.
 - Svaka nova obavezna semantika mora biti dokumentovana u docs + types + routes + tests + workflow slojevima.
+- `METRIČKO PROGRAMIRANJE` prati isti additive-only nucleus: declaration-matrix + instance-positioning signal u EXTREM, governance interpretacija u EXTRONDOL, audit-safe summary u SPAJA KOD.
 
 ### Stream B — API surface stabilnost i degradacija
 - Održati `partial-payload-no-500` politiku.
@@ -60,6 +61,7 @@ Ownership hard lock:
 - Freeze i promotion odluke ostaju determinističke i auditabilne.
 - WAWE gate razlozi ostaju eksplicitni i traceable.
 - DOK/DIK/DAK/DUK signalni model ostaje zaključan: **DOK+DIK** u EXTREM tehničkom sloju, **DAK+DUK** u EXTRONDOL governance sloju.
+- `METRIČKO PROGRAMIRANJE` koristi isti ownership model i ne uvodi paralelni governance source izvan postojećih ruta.
 - Svaki rollout mora izložiti jedinstveni `dokDikDakDukConsistencyHealth` izlaz i test konzistentnosti između tehničkog i governance sloja.
 
 ### Stream D — B2B readiness + payment verification
