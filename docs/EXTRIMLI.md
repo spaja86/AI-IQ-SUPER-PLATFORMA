@@ -502,7 +502,7 @@ Canonical vocabulary + locked sub-signals:
 
 - `funkcionalna transformacija` = tok čistih funkcionalnih transformacija koji ne sme da dominira bez dovoljne objektne strukture
 - `objektna enkapsulacija i kompozicija` = stanje i slaganje objekata koje ne sme da dominira bez čiste transformacije
-- `uslovne činjenice` = zasebna governance dimenzija koja potvrđuje da je spoj paradigmi dokazivo stabilan, bez uvlačenja odvojenih pravno-governance track-ova u samu proporcionalnu računicu
+- `uslovne činjenice` = zasebna governance dimenzija koja potvrđuje da je spoj paradigmi dokazivo stabilan, bez uvođenja dodatnog nezavisnog freeze source-a u samu proporcionalnu računicu
 - `PROTKROV FUNKCIJA` = merljivi signal funkcionalne dominacije
 - `OBJEKTNE PARADOKSALNE ETAPE` = merljivi signal objektne dominacije
 - centralno pravilo ostaje proporcionalnost: ravnoteža funkcionalnog toka, stanja objekta i uslovnih činjenica vodi ka `READY`, a neuravnoteženost vodi ka `WATCH` ili `BLOCKED`
