@@ -18,6 +18,7 @@ This repository now exposes five aligned surfaces:
 | **EXTREM Profiler** | `src/lib/extrimli-extrem/`, `src/app/api/extrimli/extrem/` | Active | DISKVIT browser-graphics bottleneck profiler with conflict-intensity, optimization-tier output, canonical `ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA` signal, and additive PETLJE technical profiling for `DOK`, `DIK`, `SAR`, `OKRED`, `DIREKT`, `INDIREKT` |
 | **EXTRONDOL** | `src/lib/extrimli-extrondol/`, `src/app/api/extrimli/extrondol/` | Active | Dedicated orchestration/readiness WAWE sequencing surface (not an alias), including NIVO DUET, DINKOS, EXTREM profiler governance signal, MUŠEMA freeze/promotion gate, and PETLJE rollout/audit propagation |
 | **SPAJA KOD** | `src/app/api/extrimli/spaja-kod/` | Active | Public encapsulated facade over EXTREM + EXTRONDOL that exposes only system readiness, governance, and audit signals |
+| **SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET** | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive university-layer interpretation over `PROPORCIONALNO PROGRAMIRANJE`; EXTREM owns the technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe summary status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
@@ -38,6 +39,7 @@ This repository now exposes five aligned surfaces:
 | EXTRONDOL orchestration library | `src/lib/extrimli-extrondol/` |
 | EXTRONDOL orchestration API route | `src/app/api/extrimli/extrondol/` |
 | SPAJA KOD facade API route | `src/app/api/extrimli/spaja-kod/` |
+| SPAJINO proportional university spec | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md` |
 | SPAJAPRO planning-track doc | `docs/EXTRIMLI-SPAJAPRO-TRACK.md` |
 | World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
 | World Bank Persona bridge API route | `src/app/api/extrimli/world-bank-persona/` |
@@ -512,6 +514,35 @@ Boundary + governance impact:
 - Track sedi uz postojeće funkcionalne i objektne signale i objedinjuje ih u viši sloj inovacije programskih jezika, bez zamene postojećih surface-ova.
 - `WATCH` ili `BLOCKED` status moraju da propagiraju audit razloge, rollback obaveznost, downstream sync i human-review kroz EXTRONDOL, bez otvaranja novog nezavisnog freeze source-a van postojećih EXTREM signalnih gate-ova.
 - SPAJA KOD ostaje javna fasada i prikazuje samo proporcionalni zbirni status kao audit-safe signal.
+
+## SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET
+
+- Canonical term: `SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET`
+- Canonical narrative title: `Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji`
+- Contract mode: additive-only sub-track
+- Parent track: `PROPORCIONALNO PROGRAMIRANJE`
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md`
+
+Ownership split:
+
+- **EXTREM** objavljuje univerzitetski signal koji sabira postojeći proporcionalni track, funkcionalne i objektne EXTRIMLI track-ove, plus `petljeSignals` kao dokaz „mnoštva novih petlji“.
+- **EXTRONDOL** koristi taj signal za WAWE 1–5 uticaj, promotion freeze, release audit summary, downstream sync i human-review/rollback obaveze.
+- **SPAJA KOD** ostaje audit-safe javna fasada i prikazuje samo zbirni status univerzitetskog track-a bez formula, internih težina i sirovih PETLJE detalja.
+
+Canonical vocabulary:
+
+- `funkcionalni tok` = agregirani funkcionalni signal
+- `objektna struktura` = agregirani objektni signal
+- `petlje orkestracija i proporcionalna ravnoteža` = PETLJE-backed tehnički dokaz nastavnog i proporcionalnog obima
+
+Boundary + governance impact:
+
+- Track je interpretativni univerzitetski sloj iznad postojećeg proporcionalnog programiranja i nije zamena za postojeće contracts.
+- `WATCH` ili `BLOCKED` status moraju da aktiviraju promotion freeze kada proporcionalnost ili PETLJE padnu ispod potrebne posture.
+- PETLJE ostaje jedini kanonski loop contract koji ovaj track koristi kao dokaz obima.
 
 ## Objektno orijentisana reprodukcija
 

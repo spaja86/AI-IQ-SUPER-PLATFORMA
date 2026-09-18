@@ -2646,6 +2646,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       details: proporcionalnoProgramiranje.reasons.join('; '),
     },
     {
+      id: 'spajino-proporcionalno-programiranje-univerzitet-governance',
+      label: 'SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET posture',
+      required: true,
+      status: spajinoProporcionalnoProgramiranjeUniverzitet.status === 'READY'
+        ? 'PASS' as const
+        : spajinoProporcionalnoProgramiranjeUniverzitet.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: spajinoProporcionalnoProgramiranjeUniverzitet.reasons.join('; '),
+    },
+    {
       id: 'objektno-orijentisana-reprodukcija-governance',
       label: 'Objektno orijentisana reprodukcija posture',
       required: true,

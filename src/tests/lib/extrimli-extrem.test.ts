@@ -15,6 +15,7 @@ import {
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
+  EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
   getExtrimliExtremProfilerReport,
 } from '../../lib/extrimli-extrem';
@@ -193,6 +194,21 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected proportional programming status');
     assert(Number.isFinite(signal.readiness.score), 'proportional programming score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'proportional programming score must be bounded');
+  });
+
+  await test('default report exposes SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET as additive university sub-track', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.spajinoProporcionalnoProgramiranjeUniverzitet;
+    assert(signal.term === 'SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET', 'university track term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION, 'university track contract mismatch');
+    assert(signal.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'university parent track mismatch');
+    assert(signal.canonicalNarrativeTitle === 'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji', 'university narrative title mismatch');
+    assert(signal.parentCoupling.petljeContract === 'EXTRIMLI EXTRONDOL EXTREM PETLJE', 'university petlje coupling mismatch');
+    assert(signal.parentCoupling.noNewPublicRoute === true, 'university track must not create a new route');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected university track status');
+    assert(Number.isFinite(signal.readiness.score), 'university track score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'university track score must be bounded');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'spajino-proporcionalno-programiranje-univerzitet-lock' && item.passed), 'university track lock criterion must pass');
   });
 
   await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {
