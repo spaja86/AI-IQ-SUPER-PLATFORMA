@@ -568,10 +568,11 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   }
 
   const domStatus = toSignalStatus(semanticScore, !securityPass);
-  const dikPenalty = warnings.filter((warning) => (
-    warning.includes('unsupported keyword: DIK')
-    || warning.includes('unsupported keyword: DIK PETLJA')
-  )).length * 20;
+  const hasInvalidDikKeywordLine = input.source
+    .split(/\r?\n/)
+    .map((line) => line.trim().toUpperCase())
+    .some((line) => line.startsWith('DIK:') || line.startsWith('DIK PETLJA:'));
+  const dikPenalty = hasInvalidDikKeywordLine ? 20 : 0;
   const dikReadiness = clamp(readinessScore - dikPenalty, AIIQ_LANG_MIN_SCORE, AIIQ_LANG_MAX_SCORE);
   const dikStatus = toSignalStatus(dikReadiness, !securityPass);
   const dakStatus = !securityPass
