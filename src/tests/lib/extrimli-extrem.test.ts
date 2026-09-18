@@ -150,6 +150,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected explicit thought-flow status');
     assert(Number.isFinite(signal.readiness.score), 'explicit thought-flow score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'explicit thought-flow score must be bounded');
+  });
   await test('default report exposes FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA as additive EXTREM signal', () => {
     const report = getExtrimliExtremProfilerReport();
     const signal = report.funkcionalnoProgramiranjePravednogMisaonogToka;
@@ -452,6 +453,8 @@ async function runTests(): Promise<void> {
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_EKSPLICITNI_MISAONI_TOK_TRACEABILITY_PERCENT'), 'invalid explicit traceability input should be tracked');
       assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_EKSPLICITNI_CONFLICT_PRESSURE_PERCENT'), 'invalid explicit conflict pressure input should be tracked');
       assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'explicit thought-flow score must stay bounded');
+    });
+  });
   await test('fair thought-flow signal degrades safely and blocks readiness on invalid fairness-oriented inputs', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_PRAVEDNI_MISAONI_TOK_STABILITY_PERCENT: 'NaN',

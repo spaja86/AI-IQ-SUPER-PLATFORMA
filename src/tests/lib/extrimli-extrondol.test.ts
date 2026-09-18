@@ -237,6 +237,7 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus === report.extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status, 'SPAJA KOD explicit thought-flow summary mismatch');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkcionalno-programiranje-eksplicitnog-misaonog-toka-governance'), 'explicit thought-flow scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkcionalno-programiranje-eksplicitnog-misaonog-toka-governance' && item.passed), 'explicit thought-flow acceptance criterion must pass');
+  });
   await test('report maps FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.funkcionalnoProgramiranjePravednogMisaonogToka.term === 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA', 'fair thought-flow term mismatch');
@@ -510,6 +511,7 @@ async function runTests(): Promise<void> {
     );
     const funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment = getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment(
       report.extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status,
+    );
     const funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment = getFunkcionalnoProgramiranjePravednogMisaonogTokaAdjustment(
       report.extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status,
     );

@@ -398,6 +398,9 @@ function classifyFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus(
 ): ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus {
   if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
 function classifyFunkcionalnoProgramiranjePravednogMisaonogTokaStatus(
   score: number,
 ): ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaStatus {
@@ -717,6 +720,104 @@ function buildFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal(
       + (profileInput.explicitReasoningDeterminismPercent * 0.22)
       + (profileInput.vocabularyAlignmentPercent * 0.16)
       + ((100 - profileInput.conflictPressurePercent) * 0.1),
+      0,
+      100,
+    ),
+    2,
+  );
+  const watchReasons = [
+    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 84 ? [`explicit-thought-traceability-watch:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
+    ...(profileInput.functionalExplicitTransformationCohesionPercent < 80 ? [`functional-explicit-transformation-watch:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
+    ...(profileInput.explicitReasoningDeterminismPercent < 82 ? [`explicit-reasoning-watch:${profileInput.explicitReasoningDeterminismPercent}`] : []),
+    ...(profileInput.vocabularyAlignmentPercent < 84 ? [`vocabulary-alignment-watch:${profileInput.vocabularyAlignmentPercent}`] : []),
+    ...(profileInput.conflictPressurePercent > 30 ? [`conflict-pressure-watch:${profileInput.conflictPressurePercent}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 60 ? [`explicit-thought-traceability-blocked:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
+    ...(profileInput.functionalExplicitTransformationCohesionPercent < 56 ? [`functional-explicit-transformation-blocked:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
+    ...(profileInput.explicitReasoningDeterminismPercent < 58 ? [`explicit-reasoning-blocked:${profileInput.explicitReasoningDeterminismPercent}`] : []),
+    ...(profileInput.vocabularyAlignmentPercent < 60 ? [`vocabulary-alignment-blocked:${profileInput.vocabularyAlignmentPercent}`] : []),
+    ...(profileInput.conflictPressurePercent > 62 ? [`conflict-pressure-blocked:${profileInput.conflictPressurePercent}`] : []),
+  ];
+  const aggregateStatus = classifyFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus(score);
+  const status: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus = blockerReasons.length > 0
+    ? 'BLOCKED'
+    : watchReasons.length > 0
+      ? 'WATCH'
+      : aggregateStatus;
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
+    ? [`aggregate-watch-score:${score}`]
+    : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length === 0
+    ? [`aggregate-blocked-score:${score}`]
+    : blockerReasons;
+
+  return {
+    term: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
+    contractVersion: EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
+      spellingDecision: 'exact-user-term-locked',
+      statement: 'Additive EXTREM signal that keeps the exact user-requested canonical term locked while profiling explicit thought-flow traceability, functional transformation cohesion, deterministic explicit reasoning, vocabulary alignment, and bounded conflict pressure.',
+      interpretationLayer: 'technical-explicit-thought-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-explicit-thought-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      explicitThoughtFlowTraceability: {
+        canonicalField: 'profileInput.explicitThoughtFlowTraceabilityPercent',
+        meaning: 'sledljivost-eksplicitnog-misaonog-toka',
+      },
+      functionalExplicitTransformationCohesion: {
+        canonicalField: 'profileInput.functionalExplicitTransformationCohesionPercent',
+        meaning: 'kohezija-funkcionalnih-eksplicitnih-transformacija',
+      },
+      explicitReasoningDeterminism: {
+        canonicalField: 'profileInput.explicitReasoningDeterminismPercent',
+        meaning: 'deterministickost-eksplicitnog-rezonovanja',
+      },
+      vocabularyAlignment: {
+        canonicalField: 'profileInput.vocabularyAlignmentPercent',
+        meaning: 'poravnanje-kanonskog-vokabulara',
+      },
+      conflictPressure: {
+        canonicalField: 'profileInput.conflictPressurePercent',
+        meaning: 'konfliktni-pritisak',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    processingModel: {
+      explicitThoughtFlowRole: 'Meri da li je misaoni tok eksplicitan, sledljiv i konzistentan kroz deklarisane funkcionalne korake.',
+      transformationRole: 'Potvrđuje da funkcionalne eksplicitne transformacije ostaju kohezivne i additive-only kroz isti signalni tok.',
+      determinismRole: 'Meri da isti eksplicitni ulazi i ista pravila daju isti deterministički izlaz.',
+      vocabularyRole: 'Verifikuje da se koristi zaključani kanonski vokabular bez preimenovanja i skrivene semantičke promene.',
+      conflictRole: 'Prati konfliktni pritisak i aktivira watch/block posture pre WAWE promocije.',
+      publicBoundaryRole: 'Zadržava sirove eksplicitne tokove unutar EXTREM/EXTRONDOL sloja dok SPAJA KOD izlaže samo audit-safe status.',
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
+    },
+  };
+}
+
 function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
   profileInput: ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaProfileInput,
   degraded: boolean,
@@ -733,21 +834,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     ),
     2,
   );
-  const status = classifyFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus(score);
-  const watchReasons = [
-    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 84 ? [`explicit-thought-traceability-watch:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
-    ...(profileInput.functionalExplicitTransformationCohesionPercent < 80 ? [`functional-explicit-transformation-watch:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
-    ...(profileInput.explicitReasoningDeterminismPercent < 82 ? [`explicit-reasoning-watch:${profileInput.explicitReasoningDeterminismPercent}`] : []),
-    ...(profileInput.vocabularyAlignmentPercent < 84 ? [`vocabulary-alignment-watch:${profileInput.vocabularyAlignmentPercent}`] : []),
-    ...(profileInput.conflictPressurePercent > 30 ? [`conflict-pressure-watch:${profileInput.conflictPressurePercent}`] : []),
-  ];
-  const blockerReasons = [
-    ...(profileInput.explicitThoughtFlowTraceabilityPercent < 60 ? [`explicit-thought-traceability-blocked:${profileInput.explicitThoughtFlowTraceabilityPercent}`] : []),
-    ...(profileInput.functionalExplicitTransformationCohesionPercent < 56 ? [`functional-explicit-transformation-blocked:${profileInput.functionalExplicitTransformationCohesionPercent}`] : []),
-    ...(profileInput.explicitReasoningDeterminismPercent < 58 ? [`explicit-reasoning-blocked:${profileInput.explicitReasoningDeterminismPercent}`] : []),
-    ...(profileInput.vocabularyAlignmentPercent < 60 ? [`vocabulary-alignment-blocked:${profileInput.vocabularyAlignmentPercent}`] : []),
-    ...(profileInput.conflictPressurePercent > 62 ? [`conflict-pressure-blocked:${profileInput.conflictPressurePercent}`] : []),
-  ];
   const watchReasons = [
     ...(profileInput.fairThoughtFlowStabilityPercent < 85 ? [`fair-thought-flow-watch:${profileInput.fairThoughtFlowStabilityPercent}`] : []),
     ...(profileInput.functionalFairnessCohesionPercent < 82 ? [`functional-fairness-watch:${profileInput.functionalFairnessCohesionPercent}`] : []),
@@ -776,8 +862,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     : blockerReasons;
 
   return {
-    term: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
-    contractVersion: EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
     term: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
     contractVersion: EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
     additiveOnly: true,
@@ -785,10 +869,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     triggerLabel: 'extrem:logic-change',
     scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
     meaningLock: {
-      canonicalName: 'FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA',
-      spellingDecision: 'exact-user-term-locked',
-      statement: 'Additive EXTREM signal that keeps the exact user-requested canonical term locked while profiling explicit thought-flow traceability, functional transformation cohesion, deterministic explicit reasoning, vocabulary alignment, and bounded conflict pressure.',
-      interpretationLayer: 'technical-explicit-thought-signal',
       canonicalName: 'FUNKCIONALNO PROGRAMIRANJE PRAVEDNOG MISAONOG TOKA',
       spellingDecision: 'exact-user-term-locked',
       statement: 'Additive EXTREM signal that keeps the exact user-requested fairness term locked while profiling fair thought-flow stability, functional fairness cohesion, deterministic fairness reasoning, evidentiary completeness, and bounded conflict/bias pressure.',
@@ -797,31 +877,11 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
       aliasesOfExistingSurfaces: false,
     },
     ownershipModel: {
-      extrem: 'technical-explicit-thought-signal',
       extrem: 'technical-fair-thought-signal',
       extrondol: 'wawe-orchestration-audit-consumer',
       spajaKod: 'public-encapsulated-boundary',
     },
     canonicalVocabulary: {
-      explicitThoughtFlowTraceability: {
-        canonicalField: 'profileInput.explicitThoughtFlowTraceabilityPercent',
-        meaning: 'sledljivost-eksplicitnog-misaonog-toka',
-      },
-      functionalExplicitTransformationCohesion: {
-        canonicalField: 'profileInput.functionalExplicitTransformationCohesionPercent',
-        meaning: 'kohezija-funkcionalnih-eksplicitnih-transformacija',
-      },
-      explicitReasoningDeterminism: {
-        canonicalField: 'profileInput.explicitReasoningDeterminismPercent',
-        meaning: 'deterministickost-eksplicitnog-rezonovanja',
-      },
-      vocabularyAlignment: {
-        canonicalField: 'profileInput.vocabularyAlignmentPercent',
-        meaning: 'poravnanje-kanonskog-vokabulara',
-      },
-      conflictPressure: {
-        canonicalField: 'profileInput.conflictPressurePercent',
-        meaning: 'konfliktni-pritisak',
       fairThoughtFlowStability: {
         canonicalField: 'profileInput.fairThoughtFlowStabilityPercent',
         meaning: 'stabilnost-pravednog-misaonog-toka',
@@ -849,12 +909,6 @@ function buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     },
     profileInput,
     processingModel: {
-      explicitThoughtFlowRole: 'Meri da li je misaoni tok eksplicitan, sledljiv i konzistentan kroz deklarisane funkcionalne korake.',
-      transformationRole: 'Potvrđuje da funkcionalne eksplicitne transformacije ostaju kohezivne i additive-only kroz isti signalni tok.',
-      determinismRole: 'Meri da isti eksplicitni ulazi i ista pravila daju isti deterministički izlaz.',
-      vocabularyRole: 'Verifikuje da se koristi zaključani kanonski vokabular bez preimenovanja i skrivene semantičke promene.',
-      conflictRole: 'Prati konfliktni pritisak i aktivira watch/block posture pre WAWE promocije.',
-      publicBoundaryRole: 'Zadržava sirove eksplicitne tokove unutar EXTREM/EXTRONDOL sloja dok SPAJA KOD izlaže samo audit-safe status.',
       fairThoughtFlowRole: 'Meri da li pravedni misaoni tok ostaje stabilan i bounded kroz fairness orijentisane evaluacije.',
       fairnessRole: 'Potvrđuje da funkcionalna pravednost ostaje kohezivna bez skrivenog favorizovanja ili drift-a.',
       determinismRole: 'Meri da isti fairness ulaz i ista pravila daju isti rezonovani izlaz.',
@@ -2016,6 +2070,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const funkcionalnoProgramiranjeEksplicitnogMisaonogToka = buildFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal(
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaInput,
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaDegradedSources.length > 0,
+  );
   const funkcionalnoProgramiranjePravednogMisaonogToka = buildFunkcionalnoProgramiranjePravednogMisaonogTokaSignal(
     funkcionalnoProgramiranjePravednogMisaonogTokaInput,
     funkcionalnoProgramiranjePravednogMisaonogTokaDegradedSources.length > 0,
