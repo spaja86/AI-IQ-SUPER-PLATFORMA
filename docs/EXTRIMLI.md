@@ -494,7 +494,7 @@ Governance impact:
 
 Ownership split:
 
-- **EXTREM** objavljuje tehnički signal koji spaja postojeće funkcionalne i objektne EXTRIMLI signale u jednu disciplinu višeg reda: funkcionalna transformacija, objektna enkapsulacija/kompozicija, proporcionalni odnos između funkcija i objekata i uslovne činjenice.
+- **EXTREM** objavljuje tehnički signal koji spaja postojeće paradigmske funkcionalne i objektne EXTRIMLI signale u jednu disciplinu višeg reda: funkcionalna transformacija, objektna enkapsulacija/kompozicija, proporcionalni odnos između funkcija i objekata i uslovne činjenice.
 - **EXTRONDOL** koristi taj signal za WAWE current/next stage uticaj, promotion freeze, human-review, rollback, downstream-sync i release-audit summary odluke.
 - **SPAJA KOD** izlaže samo audit-safe zbirni status novog track-a bez formula, težina i internih readiness izračuna.
 
@@ -502,7 +502,7 @@ Canonical vocabulary + locked sub-signals:
 
 - `funkcionalna transformacija` = tok čistih funkcionalnih transformacija koji ne sme da dominira bez dovoljne objektne strukture
 - `objektna enkapsulacija i kompozicija` = stanje i slaganje objekata koje ne sme da dominira bez čiste transformacije
-- `uslovne činjenice` = zasebna governance dimenzija koja potvrđuje da je spoj paradigmi dokazivo stabilan
+- `uslovne činjenice` = zasebna governance dimenzija koja potvrđuje da je spoj paradigmi dokazivo stabilan, bez uvlačenja odvojenih pravno-governance track-ova u samu proporcionalnu računicu
 - `PROTKROV FUNKCIJA` = merljivi signal funkcionalne dominacije
 - `OBJEKTNE PARADOKSALNE ETAPE` = merljivi signal objektne dominacije
 - centralno pravilo ostaje proporcionalnost: ravnoteža funkcionalnog toka, stanja objekta i uslovnih činjenica vodi ka `READY`, a neuravnoteženost vodi ka `WATCH` ili `BLOCKED`
