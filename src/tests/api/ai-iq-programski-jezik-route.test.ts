@@ -117,6 +117,31 @@ async function runTests(): Promise<void> {
     assert(response.status === 400, `expected 400, got ${response.status}`);
   });
 
+  await test('POST /evaluate blocked payload exposes frozen governance snapshot', async () => {
+    const response = await EVALUATE_POST(makeRequest('http://localhost/api/ai-iq-programski-jezik/evaluate', {
+      goal: 'high risk governance check',
+      mode: 'AI_NATIVE',
+      promptComplexity: 88,
+      ruleCoverage: 88,
+      orchestrationReadiness: 88,
+      autonomyLevel: 88,
+      riskLevel: 95,
+      explainabilityNeed: 88,
+      securityPolicyScore: 90,
+      fallbackConfigured: true,
+    }));
+
+    assert(response.status === 200, `expected 200, got ${response.status}`);
+    const body = await response.json() as {
+      data: {
+        status: string;
+        integrationProfile: { governanceLink: { rolloutSnapshot: { promotionFreeze: boolean } } };
+      };
+    };
+    assert(body.data.status === 'BLOCKED', `expected BLOCKED, got ${body.data.status}`);
+    assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze, 'blocked evaluate payload must freeze promotion');
+  });
+
   await test('POST /compile returns 200 for valid source', async () => {
     const response = await COMPILE_POST(makeRequest('http://localhost/api/ai-iq-programski-jezik/compile', {
       referenceId: 'route-compile-ok',
