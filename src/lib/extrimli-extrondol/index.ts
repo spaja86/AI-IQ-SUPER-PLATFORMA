@@ -1686,6 +1686,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.proporcionalnoProgramiranje.readiness',
         'extremProfiler.resolutionReadiness',
         'extremProfiler.semaMuSemaFormula',
+        'extremProfiler.objektnoOrijentisanaProngilacija.readiness',
         'extremProfiler.objektnoOrijentisanaReprodukcija.readiness',
         'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness',
         'b2bReadiness.globalLicensing',
