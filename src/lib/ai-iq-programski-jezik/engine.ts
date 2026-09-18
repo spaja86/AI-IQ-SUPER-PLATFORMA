@@ -152,7 +152,7 @@ function buildIntegrationProfile(params: {
   performanceWithinTargets: boolean;
   securityBoundariesPreserved: boolean;
 }): AiiqLanguageExtrimliIntegrationProfile {
-  const overall = mergeSignalStatus(params.dom, params.dik, params.dak);
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk);
   const currentStage = resolveRolloutStageFromOverall(overall, params.rolloutMaturityScore);
   return {
     profileId: 'EXTRIMLI-EXTRONDOL-EXTREM',
@@ -447,7 +447,9 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       : 'WATCH';
   const dukStatus = status === 'BLOCKED'
     ? 'BLOCKED'
-    : 'WATCH';
+    : (input.riskLevel >= 80 || !input.fallbackConfigured)
+      ? 'WATCH'
+      : 'READY';
   const durationMs = round2(performance.now() - start);
   const integrationProfile = buildIntegrationProfile({
     surface: '/api/ai-iq-programski-jezik/evaluate',
@@ -580,7 +582,9 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       : 'WATCH';
   const dukStatus = !securityPass
     ? 'BLOCKED'
-    : 'WATCH';
+    : (aiRequested && !input.featureFlagAiIqLanguage)
+      ? 'WATCH'
+      : 'READY';
 
   const compiledProgram = JSON.stringify(
     {
