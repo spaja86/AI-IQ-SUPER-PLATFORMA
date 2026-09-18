@@ -9,6 +9,7 @@ import {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
@@ -178,6 +179,20 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected legal-functional status');
     assert(Number.isFinite(signal.readiness.score), 'legal-functional score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'legal-functional score must be bounded');
+  });
+
+  await test('default report exposes PROPORCIONALNO PROGRAMIRANJE as additive language-innovation EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.proporcionalnoProgramiranje;
+    assert(signal.term === 'PROPORCIONALNO PROGRAMIRANJE', 'proportional programming term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION, 'proportional programming contract mismatch');
+    assert(signal.meaningLock.interpretation === 'INOVACIJA PROGRAMSKIH JEZIKA', 'proportional programming interpretation mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-paradigm-merge-signal', 'proportional programming EXTREM ownership mismatch');
+    assert(signal.subSignals.protkrovFunkcija.term === 'PROTKROV FUNKCIJA', 'PROTKROV FUNKCIJA term mismatch');
+    assert(signal.subSignals.objektneParadoksalneEtape.term === 'OBJEKTNE PARADOKSALNE ETAPE', 'OBJEKTNE PARADOKSALNE ETAPE term mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected proportional programming status');
+    assert(Number.isFinite(signal.readiness.score), 'proportional programming score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'proportional programming score must be bounded');
   });
 
   await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {
@@ -520,6 +535,20 @@ async function runTests(): Promise<void> {
       const signal = getExtrimliExtremProfilerReport().funkionalnoProgramiranjePravnogMisaonogToka;
       assert(signal.readiness.status === 'BLOCKED', 'evidentiary blocker must force BLOCKED even with high aggregate score');
       assert(signal.readiness.blockerReasons.some((reason) => reason.startsWith('evidentiary-completeness-blocked:40')), 'evidentiary blocker reason must be retained');
+    });
+  });
+
+  await test('proportional programming degrades safely and blocks readiness on invalid conditional facts', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT: 'NaN',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const signal = report.proporcionalnoProgramiranje;
+      assert(signal.readiness.degraded, 'proportional programming should degrade safely');
+      assert(signal.readiness.status === 'BLOCKED', 'invalid conditional facts should block proportional programming');
+      assert(report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_USLOVNE_CINJENICE_READINESS_PERCENT'), 'invalid conditional-facts env should be tracked');
+      assert(signal.readiness.blockerReasons.some((reason) => reason.includes('conditional-fact-readiness-blocked')), 'conditional-fact blocker reason must be retained');
+      assert(report.acceptanceCriteria.some((item) => item.id === 'proporcionalno-programiranje-lock' && item.passed), 'proportional programming lock criterion must pass');
     });
   });
 
