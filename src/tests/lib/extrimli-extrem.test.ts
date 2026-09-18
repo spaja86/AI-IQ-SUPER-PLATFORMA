@@ -1,5 +1,6 @@
 import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
@@ -119,6 +120,20 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected functional energy-flow status');
     assert(Number.isFinite(signal.readiness.score), 'functional energy-flow score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'functional energy-flow score must be bounded');
+  });
+
+  await test('default report exposes exact-string locked FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.funkcionalnoProgramiranjeUzvisenogMisanogToka;
+    assert(signal.term === 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA', 'elevated thought-flow term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION, 'elevated thought-flow contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'elevated thought-flow source mismatch');
+    assert(signal.meaningLock.spellingDecision === 'exact-user-term-locked', 'elevated thought-flow spelling lock mismatch');
+    assert(signal.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'elevated thought-flow scope lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-elevated-thought-signal', 'elevated thought-flow EXTREM ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected elevated thought-flow status');
+    assert(Number.isFinite(signal.readiness.score), 'elevated thought-flow score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'elevated thought-flow score must be bounded');
   });
 
   await test('default report exposes FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA as additive EXTREM signal', () => {
@@ -494,6 +509,10 @@ async function runTests(): Promise<void> {
       EXTRIMLI_EXTREM_CPU_CONTENTION_PERCENT: '-20',
       EXTRIMLI_EXTREM_RENDER_CYCLE_LATENCY_MS: 'Infinity',
       EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT: '140',
+      EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: 'NaN',
       EXTRIMLI_EXTREM_MOBILNA_LINIJA_SIGNAL_STRENGTH_PERCENT: '20',
     }, () => {
       const report = getExtrimliExtremProfilerReport();
@@ -502,7 +521,79 @@ async function runTests(): Promise<void> {
       assert(report.profileInput.gpuContentionPercent === 100, 'gpu contention should be clamped to 100');
       assert(report.profileInput.cpuContentionPercent === 0, 'cpu contention should be clamped to 0');
       assert(report.resolutionInput.ekodorAlignmentPercent === 100, 'EKODOR alignment should be clamped to 100');
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.elevatedThoughtFlowStabilityPercent === 91,
+        'invalid elevated thought-flow stability should fall back to default',
+      );
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.functionalTransformationCohesionPercent === 87,
+        'invalid elevated cohesion should fall back to default',
+      );
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.reasoningDeterminismPercent === 88,
+        'invalid elevated determinism should fall back to default',
+      );
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 16,
+        'invalid elevated conflict pressure should fall back to default',
+      );
       assert(report.mobilnaLinija.input.signalStrengthPercent <= EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY, 'mobilna signal override should apply');
+    });
+  });
+
+  await test('elevated thought-flow accepts deprecated pressure alias while preserving canonical config', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: undefined,
+      EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT: '23',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 23,
+        'deprecated alias should still feed the conflict degradation pressure input',
+      );
+    });
+  });
+
+  await test('elevated thought-flow prefers canonical pressure env over deprecated alias when both are set', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: '19',
+      EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT: '23',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 19,
+        'canonical env should take precedence over deprecated alias',
+      );
+    });
+  });
+
+  await test('elevated thought-flow malformed canonical pressure env suppresses deprecated alias', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT: '23',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 16,
+        'malformed canonical env should fall back to canonical default instead of consuming deprecated alias',
+      );
+      assert(
+        report.degradedSources.includes('invalid-env:EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT'),
+        'malformed canonical env should still be reported as degraded',
+      );
+    });
+  });
+
+  await test('elevated thought-flow blank canonical pressure env suppresses deprecated alias', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT: '   ',
+      EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT: '23',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(
+        report.funkcionalnoProgramiranjeUzvisenogMisanogToka.profileInput.conflictDegradationPressurePercent === 16,
+        'blank canonical env should fall back to canonical default instead of consuming deprecated alias',
+      );
     });
   });
 

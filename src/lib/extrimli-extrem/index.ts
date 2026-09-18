@@ -23,6 +23,9 @@ import type {
   ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaProfileInput,
   ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal,
   ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
+  ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput,
+  ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal,
+  ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaStatus,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaProfileInput,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus,
@@ -67,6 +70,9 @@ import {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
@@ -131,6 +137,21 @@ function parsePercentEnvWithInvalidFallback(
     degradedSources.push(`out-of-range:${name}`);
   }
   return round(clamp(parsed, 0, 100), 2);
+}
+
+function selectCanonicalEnvNameWithDeprecatedAliasSuppressed(
+  canonicalName: string,
+  deprecatedAliasName: string,
+): string {
+  if (typeof process.env[canonicalName] !== 'undefined') return canonicalName;
+  if (
+    typeof process.env[deprecatedAliasName] !== 'undefined'
+    && process.env[deprecatedAliasName]?.trim() !== ''
+  ) {
+    return deprecatedAliasName;
+  }
+
+  return canonicalName;
 }
 
 function parseLatencyEnv(name: string, fallback: number, degradedSources: string[]): number {
@@ -246,6 +267,29 @@ function resolveFunkionalnoProgramiranjePravnogMisaonogTokaInput(
   };
 }
 
+/**
+ * Resolves the additive elevated thought-flow EXTREM inputs.
+ * The conflict/degradation pressure field accepts one deprecated env alias for compatibility,
+ * but the canonical env key always wins when present so aliases cannot override the locked surface.
+ */
+function resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(
+  degradedSources: string[],
+): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput {
+  const canonicalConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_CONFLICT_DEGRADATION_PRESSURE_PERCENT';
+  const deprecatedConflictPressureEnvName = 'EXTRIMLI_EXTREM_UZVISENI_DEGRADATION_PRESSURE_PERCENT';
+  const conflictPressureEnvName = selectCanonicalEnvNameWithDeprecatedAliasSuppressed(
+    canonicalConflictPressureEnvName,
+    deprecatedConflictPressureEnvName,
+  );
+
+  return {
+    elevatedThoughtFlowStabilityPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENI_MISANI_TOK_STABILITY_PERCENT', 91, 91, degradedSources),
+    functionalTransformationCohesionPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENA_FUNKCIONALNA_TRANSFORMACIJA_COHESION_PERCENT', 87, 87, degradedSources),
+    reasoningDeterminismPercent: parsePercentEnvWithInvalidFallback('EXTRIMLI_EXTREM_UZVISENO_REZONOVANJE_DETERMINISM_PERCENT', 88, 88, degradedSources),
+    conflictDegradationPressurePercent: parsePercentEnvWithInvalidFallback(conflictPressureEnvName, 16, 16, degradedSources),
+  };
+}
+
 function resolveEpicElikvadentInput(
   degradedSources: string[],
 ): ExtrimliExtremEpicElikvadentProfileInput {
@@ -289,6 +333,14 @@ function classifyFunkionalnoProgramiranjePravnogMisaonogTokaStatus(
 ): ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus {
   if (score >= EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function classifyFunkcionalnoProgramiranjeUzvisenogMisanogTokaStatus(
+  score: number,
+): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaStatus {
+  if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_WATCH_SCORE) return 'WATCH';
   return 'BLOCKED';
 }
 
@@ -484,6 +536,102 @@ function buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal(
       determinismRole: 'Meri da isti misaoni ulaz zadržava isti transformacioni izlaz kroz tok.',
       conflictRole: 'Prati konfliktni pritisak i aktivira watch/block posture pre WAWE promocije.',
       publicBoundaryRole: 'Zadržava sirove funkcionalne detalje u EXTREM/EXTRONDOL sloju dok SPAJA KOD izlaže samo audit-safe status.',
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: resolvedWatchReasons,
+      blockerReasons: resolvedBlockerReasons,
+    },
+  };
+}
+
+function buildFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal(
+  profileInput: ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaProfileInput,
+  degraded: boolean,
+): ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal {
+  const score = round(
+    clamp(
+      (profileInput.elevatedThoughtFlowStabilityPercent * 0.34)
+      + (profileInput.functionalTransformationCohesionPercent * 0.28)
+      + (profileInput.reasoningDeterminismPercent * 0.24)
+      + ((100 - profileInput.conflictDegradationPressurePercent) * 0.14),
+      0,
+      100,
+    ),
+    2,
+  );
+  const status = classifyFunkcionalnoProgramiranjeUzvisenogMisanogTokaStatus(score);
+  const watchReasons = [
+    ...(profileInput.elevatedThoughtFlowStabilityPercent < 84 ? [`elevated-thought-flow-watch:${profileInput.elevatedThoughtFlowStabilityPercent}`] : []),
+    ...(profileInput.functionalTransformationCohesionPercent < 80 ? [`functional-transformation-watch:${profileInput.functionalTransformationCohesionPercent}`] : []),
+    ...(profileInput.reasoningDeterminismPercent < 81 ? [`reasoning-determinism-watch:${profileInput.reasoningDeterminismPercent}`] : []),
+    ...(profileInput.conflictDegradationPressurePercent > 32 ? [`conflict-degradation-watch:${profileInput.conflictDegradationPressurePercent}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.elevatedThoughtFlowStabilityPercent < 60 ? [`elevated-thought-flow-blocked:${profileInput.elevatedThoughtFlowStabilityPercent}`] : []),
+    ...(profileInput.functionalTransformationCohesionPercent < 56 ? [`functional-transformation-blocked:${profileInput.functionalTransformationCohesionPercent}`] : []),
+    ...(profileInput.reasoningDeterminismPercent < 58 ? [`reasoning-determinism-blocked:${profileInput.reasoningDeterminismPercent}`] : []),
+    ...(profileInput.conflictDegradationPressurePercent > 62 ? [`conflict-degradation-blocked:${profileInput.conflictDegradationPressurePercent}`] : []),
+  ];
+  const resolvedWatchReasons = status === 'WATCH' && watchReasons.length === 0
+    ? [`aggregate-watch-score:${score}`]
+    : watchReasons;
+  const resolvedBlockerReasons = status === 'BLOCKED' && blockerReasons.length === 0
+    ? [`aggregate-blocked-score:${score}`]
+    : blockerReasons;
+
+  return {
+    term: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA',
+    contractVersion: EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA',
+      spellingDecision: 'exact-user-term-locked',
+      statement: 'Additive EXTREM signal that keeps the exact user-requested term locked while profiling elevated thought-flow stability, functional transformation cohesion, deterministic reasoning, and bounded conflict/degradation pressure.',
+      interpretationLayer: 'technical-elevated-thought-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-elevated-thought-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      elevatedThoughtFlowStability: {
+        canonicalField: 'profileInput.elevatedThoughtFlowStabilityPercent',
+        meaning: 'stabilnost-uzvisenog-misanog-toka',
+      },
+      functionalTransformationCohesion: {
+        canonicalField: 'profileInput.functionalTransformationCohesionPercent',
+        meaning: 'kohezija-funkcionalnih-transformacija',
+      },
+      reasoningDeterminism: {
+        canonicalField: 'profileInput.reasoningDeterminismPercent',
+        meaning: 'deterministickost-rezonovanja',
+      },
+      conflictDegradationPressure: {
+        canonicalField: 'profileInput.conflictDegradationPressurePercent',
+        meaning: 'pritisak-konflikta-i-degradacije',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    processingModel: {
+      elevatedThoughtFlowRole: 'Meri da li uzvišeni misani tok ostaje stabilan i bounded pod kompleksnim transformacijama.',
+      transformationRole: 'Potvrđuje da funkcionalne transformacije ostaju kohezivne i additive-only kroz isti signalni tok.',
+      determinismRole: 'Meri da isti misaoni ulaz i ista funkcionalna pravila daju isti rezonovani izlaz.',
+      conflictRole: 'Prati pritisak konflikta i degradacije i aktivira watch/block posture pre WAWE promocije.',
+      publicBoundaryRole: 'Zadržava sirove signalne detalje u EXTREM/EXTRONDOL sloju dok SPAJA KOD izlaže samo audit-safe status.',
     },
     readiness: {
       score,
@@ -1503,6 +1651,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const funkcinalnoProgramiranjeDegradedSources: string[] = [];
   const funkcinalnoProgramiranjeInput = resolveFunkcinalnoProgramiranjeEnergetskogMisaonogTokaInput(funkcinalnoProgramiranjeDegradedSources);
   degradedSources.push(...funkcinalnoProgramiranjeDegradedSources);
+  const funkcionalnoProgramiranjeUzvisenogMisanogTokaDegradedSources: string[] = [];
+  const funkcionalnoProgramiranjeUzvisenogMisanogTokaInput = resolveFunkcionalnoProgramiranjeUzvisenogMisanogTokaInput(funkcionalnoProgramiranjeUzvisenogMisanogTokaDegradedSources);
+  degradedSources.push(...funkcionalnoProgramiranjeUzvisenogMisanogTokaDegradedSources);
   const funkionalnoProgramiranjePravnogMisaonogTokaDegradedSources: string[] = [];
   const funkionalnoProgramiranjePravnogMisaonogTokaInput = resolveFunkionalnoProgramiranjePravnogMisaonogTokaInput(funkionalnoProgramiranjePravnogMisaonogTokaDegradedSources);
   degradedSources.push(...funkionalnoProgramiranjePravnogMisaonogTokaDegradedSources);
@@ -1544,6 +1695,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const funkcinalnoProgramiranjeEnergetskogMisaonogToka = buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal(
     funkcinalnoProgramiranjeInput,
     funkcinalnoProgramiranjeDegradedSources.length > 0,
+  );
+  const funkcionalnoProgramiranjeUzvisenogMisanogToka = buildFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal(
+    funkcionalnoProgramiranjeUzvisenogMisanogTokaInput,
+    funkcionalnoProgramiranjeUzvisenogMisanogTokaDegradedSources.length > 0,
   );
   const funkionalnoProgramiranjePravnogMisaonogToka = buildFunkionalnoProgramiranjePravnogMisaonogTokaSignal(
     funkionalnoProgramiranjePravnogMisaonogTokaInput,
@@ -1883,6 +2038,23 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score),
     },
     {
+      id: 'funkcionalno-programiranje-uzvisenog-misanog-toka-lock',
+      description: 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA is locked as an additive EXTREM signal with exact user-requested spelling and explicit EXTREM/EXTRONDOL/SPAJA KOD ownership.',
+      passed: funkcionalnoProgramiranjeUzvisenogMisanogToka.contractVersion === EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.meaningLock.spellingDecision === 'exact-user-term-locked'
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.ownershipModel.extrem === 'technical-elevated-thought-signal',
+    },
+    {
+      id: 'funkcionalno-programiranje-uzvisenog-misanog-toka-model',
+      description: 'The elevated thought-flow track defines canonical vocabulary, bounded readiness scoring, deterministic reasoning, and audit-safe public-boundary semantics.',
+      passed: funkcionalnoProgramiranjeUzvisenogMisanogToka.canonicalVocabulary.elevatedThoughtFlowStability.canonicalField === 'profileInput.elevatedThoughtFlowStabilityPercent'
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.canonicalVocabulary.functionalTransformationCohesion.canonicalField === 'profileInput.functionalTransformationCohesionPercent'
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.canonicalVocabulary.reasoningDeterminism.canonicalField === 'profileInput.reasoningDeterminismPercent'
+        && funkcionalnoProgramiranjeUzvisenogMisanogToka.canonicalVocabulary.conflictDegradationPressure.canonicalField === 'profileInput.conflictDegradationPressurePercent'
+        && Number.isFinite(funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score),
+    },
+    {
       id: 'funkionalno-programiranje-pravnog-misaonog-toka-lock',
       description: 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA is locked as an additive EXTREM legal-reasoning signal with exact user-requested spelling, legal-track coupling, and explicit EXTREM/EXTRONDOL/SPAJA KOD ownership.',
       passed: funkionalnoProgramiranjePravnogMisaonogToka.contractVersion === EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION
@@ -2040,6 +2212,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     petljeSignals,
     objektnoOrijentisanaProngilacija,
     funkcinalnoProgramiranjeEnergetskogMisaonogToka,
+    funkcionalnoProgramiranjeUzvisenogMisanogToka,
     funkionalnoProgramiranjePravnogMisaonogToka,
     objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
@@ -2149,6 +2322,9 @@ export {
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,

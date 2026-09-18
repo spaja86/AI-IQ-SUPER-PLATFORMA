@@ -20,6 +20,10 @@ import {
   EXTRONDOL_DINKOS_TRIGGER_LABEL,
   EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT,
+  EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_WATCH_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_MODULE_VERSION,
   EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,
@@ -35,6 +39,7 @@ import {
   getEpicElikvadentiAdjustment,
   getObjektnaProngilacijaAdjustment,
   getObjektnoOrijentisanaReprodukcijaAdjustment,
+  getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
@@ -197,6 +202,22 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus === report.extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status, 'SPAJA KOD functional energy-flow summary mismatch');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-governance'), 'functional energy-flow scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkcinalno-programiranje-energetskog-misaonog-toka-governance' && item.passed), 'functional energy-flow acceptance criterion must pass');
+  });
+
+  await test('report maps exact-string locked FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.funkcionalnoProgramiranjeUzvisenogMisanogToka.term === 'FUNKCIONALNO PROGRAMIRANJE UZVIŠENOG MISANOG TOKA', 'elevated thought-flow term mismatch');
+    assert(report.funkcionalnoProgramiranjeUzvisenogMisanogToka.contractVersion === EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION, 'elevated thought-flow contract mismatch');
+    assert(report.funkcionalnoProgramiranjeUzvisenogMisanogToka.technicalSignalSource === '/api/extrimli/extrem', 'elevated thought-flow technical source mismatch');
+    assert(report.funkcionalnoProgramiranjeUzvisenogMisanogToka.governanceVisibility === 'audit-safe-readiness-only', 'elevated thought-flow visibility mismatch');
+    assert(report.funkcionalnoProgramiranjeUzvisenogMisanogToka.waweImpact.currentWawe === report.rollout.currentWawe, 'elevated thought-flow WAWE mismatch');
+    assert(report.releaseAuditSummary.funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'elevated thought-flow audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status'), 'elevated thought-flow status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('funkcionalnoProgramiranjeUzvisenogMisanogToka.waweImpact'), 'elevated thought-flow WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('funkcionalnoProgramiranjeUzvisenogMisanogToka'), 'elevated thought-flow governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus === report.extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status, 'SPAJA KOD elevated thought-flow summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkcionalno-programiranje-uzvisenog-misanog-toka-governance'), 'elevated thought-flow scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'funkcionalno-programiranje-uzvisenog-misanog-toka-governance' && item.passed), 'elevated thought-flow acceptance criterion must pass');
   });
 
   await test('report maps FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA into WAWE governance, audit, and SPAJA KOD summary', () => {
@@ -373,6 +394,12 @@ async function runTests(): Promise<void> {
     assert(getEpicElikvadentiAdjustment('WATCH') > getEpicElikvadentiAdjustment('BLOCKED'), 'WATCH adjustment should exceed BLOCKED');
   });
 
+  await test('elevated thought-flow adjustment remains bounded by status', () => {
+    assert(getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment('READY') === EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT, 'READY elevated thought-flow adjustment mismatch');
+    assert(getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment('WATCH') === EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_WATCH_ADJUSTMENT, 'WATCH elevated thought-flow adjustment mismatch');
+    assert(getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment('BLOCKED') === EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT, 'BLOCKED elevated thought-flow adjustment mismatch');
+  });
+
   await test('report enforces domain strategy lock', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.domainStrategy.requestedPattern === 'spaja.nivo*spaja', 'requested pattern mismatch');
@@ -445,6 +472,9 @@ async function runTests(): Promise<void> {
       : report.extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'WATCH'
         ? -5
         : -13;
+    const funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment = getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment(
+      report.extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
+    );
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     );
@@ -458,6 +488,7 @@ async function runTests(): Promise<void> {
           + kraljevskiPravniUniverzitetAdjustment
           + objektnaProngilacijaAdjustment
           + funkcinalnoProgramiranjeAdjustment
+          + funkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
