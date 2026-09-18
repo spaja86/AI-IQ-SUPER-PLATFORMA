@@ -190,6 +190,14 @@ function averageNormalizedTrackScores(scores: number[]): number {
   );
 }
 
+function calculateProporcionalnoProgramiranjeFunctionalPercent(scores: number[]): number {
+  return averageNormalizedTrackScores(scores);
+}
+
+function calculateProporcionalnoProgramiranjeObjectPercent(scores: number[]): number {
+  return averageNormalizedTrackScores(scores);
+}
+
 function selectCanonicalEnvNameWithDeprecatedAliasSuppressed(
   canonicalName: string,
   deprecatedAliasName: string,
@@ -1198,7 +1206,7 @@ function buildProporcionalnoProgramiranjeSignal(
     processingModel: {
       functionalTransformationRole: 'Meri da li funkcionalne transformacije ostaju čiste, sledljive i dovoljno jake da nose inovaciju jezika.',
       objectStructureRole: 'Meri da li objektna enkapsulacija i kompozicija daju dovoljno strukture, stanja i bounded odgovornosti.',
-      proportionalityRole: 'Centralno pravilo je ravnoteža: dominacija funkcija bez objekata ili objekata bez transformacije aktivira watch ili blocked stanje.',
+      proportionalityRole: 'Centralno pravilo je ravnoteža: funkcionalni i objektni izvorni skupovi se prvo normalizuju unutar svog domena, a zatim dominacija funkcija bez objekata ili objekata bez transformacije aktivira watch ili blocked stanje.',
       conditionalFactsRole: 'Uslovne činjenice su zasebna governance dimenzija koja potvrđuje da je prelaz između funkcija i objekata auditabilan i dosledan.',
       publicBoundaryRole: 'Interna formula ostaje u EXTREM/EXTRONDOL sloju dok SPAJA KOD objavljuje samo audit-safe zbirni status.',
     },
@@ -2270,29 +2278,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     86,
     degradedSources,
   );
-  const paradigmFunctionalTrackScores = new Map<string, number>([
-    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[0], funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score],
-    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[1], funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score],
-    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[2], funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score],
-    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[3], funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score],
-  ]);
-  const paradigmFunctionalGroups = [
-    averageNormalizedTrackScores([
-      paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[0]) ?? 0,
-      paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[1]) ?? 0,
-    ]),
-    paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[2]) ?? 0,
-    paradigmFunctionalTrackScores.get(EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS[3]) ?? 0,
+  const paradigmFunctionalScores = [
+    funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.score,
+    funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.score,
+    funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.score,
+    funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score,
   ];
-  const paradigmObjectTrackScores = new Map<string, number>([
-    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS[0], objektnoOrijentisanaProngilacija.readiness.score],
-    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS[1], objektnoOrijentisanaReprodukcija.readiness.score],
-    [EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS[2], objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score],
-  ]);
-  const paradigmObjectScores = EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS
-    .map((track) => paradigmObjectTrackScores.get(track) ?? 0);
-  const baseFunctionalTransformationPercent = averageNormalizedTrackScores(paradigmFunctionalGroups);
-  const baseObjectEncapsulationCompositionPercent = averageNormalizedTrackScores(paradigmObjectScores);
+  const paradigmObjectScores = [
+    objektnoOrijentisanaProngilacija.readiness.score,
+    objektnoOrijentisanaReprodukcija.readiness.score,
+    objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.score,
+  ];
+  const baseFunctionalTransformationPercent = calculateProporcionalnoProgramiranjeFunctionalPercent(paradigmFunctionalScores);
+  const baseObjectEncapsulationCompositionPercent = calculateProporcionalnoProgramiranjeObjectPercent(paradigmObjectScores);
   const protkrovFunkcijaPressurePercent = round(
     clamp(baseFunctionalTransformationPercent - baseObjectEncapsulationCompositionPercent, 0, 100),
     2,
