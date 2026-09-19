@@ -1029,7 +1029,7 @@ export interface ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal {
     runnerMeaning: 'runner-kompatibilnost-postojeceg-gaming-endzina';
     dimensionMeaning: '2d-3d-dimenzionalni-rezim-iz-postojeceg-modela';
     governanceMeaning: 'dak-duk-promotion-i-human-review-ostaju-u-extrondol';
-    existingContractBeforeThisChange: false;
+    existingContractBeforeThisChange: true;
     aliasesOfExistingSurfaces: false;
     noNewRoutes: true;
   };
