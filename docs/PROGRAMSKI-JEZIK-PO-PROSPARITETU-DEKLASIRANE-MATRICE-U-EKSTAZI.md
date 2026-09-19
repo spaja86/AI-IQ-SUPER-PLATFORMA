@@ -53,7 +53,7 @@ Deterministic fallback je obavezan za:
 - prazne ili nevalidne signale
 - nevalidne sekvence
 - out-of-range procente
-- ownership/governance drift-zero prekid
+- drift/conflict eskalaciju ili invalid FOR sekvencijalnu konfiguraciju koja aktivira deterministic fallback
 
 ## Runtime boundary
 
