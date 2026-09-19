@@ -3850,20 +3850,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     66,
     degradedSources,
   );
-  const dokSignalForMetricko = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
-  const dikSignalForMetricko = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
+  const dokSignal = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
+  const dikSignal = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
   const programskiJezikInformacionihTokova = buildProgramskiJezikInformacionihTokovaSignal(
     programskiJezikInformacionihTokovaInput,
     forPetljaResult,
-    dokSignalForMetricko,
-    dikSignalForMetricko,
+    dokSignal,
+    dikSignal,
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_')) || forPetljaResult.reason !== 'completed',
   );
   const programskiJezikPretpostavka = buildProgramskiJezikPretpostavkaSignal(
     programskiJezikPretpostavkaInput,
     pretpostavkaForPetljaResult,
-    dokSignalForMetricko,
-    dikSignalForMetricko,
+    dokSignal,
+    dikSignal,
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_')) || pretpostavkaForPetljaResult.reason !== 'completed',
   );
   const metrikoProgramiranje = buildMetrickoProgramiranjeSignal(
@@ -3873,8 +3873,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       instancePositioningPercent: metrikoProgramiranjeInstancePositioningPercent,
       accentCouplingPercent: metrikoProgramiranjeAccentCouplingPercent,
     },
-    dokSignalForMetricko,
-    dikSignalForMetricko,
+    dokSignal,
+    dikSignal,
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_')),
   );
   const proportionalConditionalFactReadinessPercent = parsePercentEnv(
@@ -4204,8 +4204,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     freezeRequired,
     conflictIntensity,
   });
-  const dokSignal = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
-  const dikSignal = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
   const dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth = {
     sourceOfTruth: '/api/extrimli/extrem',
     scopeLock: ['DOK', 'DIK', 'DAK', 'DUK'],
