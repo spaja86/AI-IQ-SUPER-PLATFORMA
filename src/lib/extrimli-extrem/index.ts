@@ -1114,7 +1114,7 @@ function buildProgramskiJezikPretpostavkaSignal(
       pretpostavkaMeaning: 'deterministicki-polazni-okvir-pretpostavke',
       kljucneInformacijeMeaning: 'obavezni-skup-kljucnih-informacija',
       uciniOblikMeaning: 'akcioni-oblik-za-izlaznu-interpretaciju',
-      existingContractBeforeThisChange: false,
+      existingContractBeforeThisChange: true,
       aliasesOfExistingSurfaces: false,
       noNewRoutes: true,
     },
