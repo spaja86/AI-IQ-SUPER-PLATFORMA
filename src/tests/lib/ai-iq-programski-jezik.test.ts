@@ -86,6 +86,11 @@ async function runTests(): Promise<void> {
     );
     assert(first.integrationProfile.unifiedSignalStatus.overall === second.integrationProfile.unifiedSignalStatus.overall, 'integration overall should be deterministic');
     assert(first.integrationProfile.unifiedSignalStatus.sinemetricko === second.integrationProfile.unifiedSignalStatus.sinemetricko, 'sinemetricko status should be deterministic');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'consistency scope lock mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid consistency escalation status');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && first.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'consistency escalation score must be bounded');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.downstreamReference === 'spaja86/IO-OPENUI-AO', 'consistency downstream reference mismatch');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
     assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');
@@ -186,6 +191,8 @@ async function runTests(): Promise<void> {
     assert(!result.securityPass, 'security must fail');
     assert(result.status === 'BLOCKED', `expected BLOCKED, got ${result.status}`);
     assert(result.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze, 'blocked compile must freeze promotion');
+    assert(result.integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired, 'blocked consistency must require deterministic fallback');
+    assert(result.executionMode === 'DETERMINISTIC_ONLY', 'blocked consistency must keep deterministic execution mode');
   });
 
   await test('compile flags invalid token syntax as warning but keeps additive profile', () => {

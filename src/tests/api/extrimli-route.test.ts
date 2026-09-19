@@ -197,6 +197,11 @@ async function runTests(): Promise<void> {
     assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview === 'boolean', 'duk check should be boolean');
     assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved === 'boolean', 'boundary check should be boolean');
     assert(Array.isArray(body.data.dokDikDakDukConsistencyHealth.reasons), 'consistency reasons should be array');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.canonicalName === 'PROGRAMSKI JEZIK ANALIZA', 'unexpected programski jezik analiza name');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.scope === 'ispitivanje eskalacije kodesnog zapleta', 'unexpected programski jezik analiza scope');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'unexpected programski jezik analiza source routes');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore >= 0 && body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore <= 100, 'unexpected programski jezik analiza escalation score');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus), 'unexpected programski jezik analiza escalation status');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected DAK consistency token');
@@ -413,6 +418,11 @@ async function runTests(): Promise<void> {
     assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview === 'boolean', 'EXTREM DUK check should be boolean');
     assert(typeof body.data.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved === 'boolean', 'EXTREM boundary check should be boolean');
     assert(Array.isArray(body.data.dokDikDakDukConsistencyHealth.reasons), 'EXTREM consistency reasons should be array');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.canonicalName === 'PROGRAMSKI JEZIK ANALIZA', 'unexpected EXTREM programski jezik analiza name');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.scope === 'ispitivanje eskalacije kodesnog zapleta', 'unexpected EXTREM programski jezik analiza scope');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'unexpected EXTREM programski jezik analiza source routes');
+    assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore >= 0 && body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore <= 100, 'unexpected EXTREM programski jezik analiza escalation score');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus), 'unexpected EXTREM programski jezik analiza escalation status');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected EXTREM DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected EXTREM DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'unexpected EXTREM DAK consistency token');

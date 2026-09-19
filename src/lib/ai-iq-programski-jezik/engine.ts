@@ -196,6 +196,21 @@ function buildIntegrationProfile(params: {
     rolloutMaturityScore: params.rolloutMaturityScore,
   });
   const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, sinemetricko);
+  const consistencyEscalationScore = round2(
+    clamp(
+      params.rolloutMaturityScore * 0.7
+      + (params.promotionFreeze ? 20 : 100) * 0.2
+      + (params.securityBoundariesPreserved ? 100 : 25) * 0.1,
+      0,
+      100,
+    ),
+  );
+  const consistencyEscalationStatus: AiiqIntegrationSignalStatus =
+    params.promotionFreeze || overall === 'BLOCKED'
+      ? 'BLOCKED'
+      : overall === 'WATCH'
+        ? 'WATCH'
+        : 'READY';
   const currentStage = resolveRolloutStageFromOverall(overall, params.rolloutMaturityScore);
   return {
     profileId: 'EXTRIMLI-EXTRONDOL-EXTREM',
@@ -245,6 +260,25 @@ function buildIntegrationProfile(params: {
       duk: params.duk,
       sinemetricko,
       overall,
+    },
+    dokDikDakDukConsistencyHealth: {
+      sourceOfTruth: '/api/extrimli/extrondol',
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+      scopeLock: ['DOK', 'DIK', 'DAK', 'DUK'],
+      status: overall,
+      escalationStatus: consistencyEscalationStatus,
+      escalationScore: consistencyEscalationScore,
+      deterministicFallbackRequired: consistencyEscalationStatus === 'BLOCKED',
+      promotionFreeze: params.promotionFreeze,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamReference: 'spaja86/IO-OPENUI-AO',
+      reasons: [
+        'PROGRAMSKI JEZIK ANALIZA koristi objedinjeni DOK/DIK/DAK/DUK signal kao eskalacioni indikator kodesnog zapleta.',
+        ...(consistencyEscalationStatus === 'BLOCKED'
+          ? ['Eskalacioni status je BLOCKED; deterministički fallback ostaje obavezan.']
+          : []),
+      ],
     },
     governanceLink: {
       sourceOfTruth: '/api/extrimli/extrondol',
@@ -486,7 +520,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
   );
 
   const status = resolveEvaluateStatus(input, overallScore, aiLayerReadiness, safetyScore);
-  const recommendedAction = resolveAction(status, input.fallbackConfigured);
+  const baseRecommendedAction = resolveAction(status, input.fallbackConfigured);
 
   const warnings: string[] = [];
   if (!input.fallbackConfigured) warnings.push('Fallback nije konfigurisan; AI-native aktivacija je zaključana.');
@@ -520,6 +554,12 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: status !== 'BLOCKED' && input.securityPolicyScore >= 60 && input.fallbackConfigured,
   });
+  const recommendedAction = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
+    ? (status === 'BLOCKED' ? 'HARDEN_GUARDS' : 'RUN_SHADOW_MODE')
+    : baseRecommendedAction;
+  if (integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired) {
+    warnings.push('Objedinjeni DOK/DIK/DAK/DUK signal je BLOCKED; primenjuje se deterministički fallback.');
+  }
 
   record(status, 'evaluate');
 
@@ -604,18 +644,18 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   const aiEnabled = input.featureFlagAiIqLanguage && aiRequested;
   const aiFeatureFreeze = aiRequested && !input.featureFlagAiIqLanguage;
 
-  const executionMode: AiiqLanguageMode =
+  const baseExecutionMode: AiiqLanguageMode =
     !aiRequested ? 'DETERMINISTIC_ONLY' :
     aiEnabled && securityPass ? input.targetMode :
     'DETERMINISTIC_ONLY';
 
   const status: AiiqLanguageStatus =
     !securityPass ? 'BLOCKED' :
-    readinessScore >= 82 && executionMode !== 'DETERMINISTIC_ONLY' ? 'AI_NATIVE_READY' :
+    readinessScore >= 82 && baseExecutionMode !== 'DETERMINISTIC_ONLY' ? 'AI_NATIVE_READY' :
     readinessScore >= 64 ? 'READY' :
     'LIMITED';
 
-  const recommendedAction =
+  const baseRecommendedAction =
     status === 'BLOCKED' ? 'HARDEN_GUARDS' :
     !aiEnabled && aiRequested ? 'RUN_SHADOW_MODE' :
     status === 'AI_NATIVE_READY' ? 'ENABLE_AI_NATIVE' :
@@ -634,7 +674,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     ? 'BLOCKED'
     : aiFeatureFreeze
       ? 'WATCH'
-    : readinessScore >= 82 && executionMode !== 'DETERMINISTIC_ONLY'
+    : readinessScore >= 82 && baseExecutionMode !== 'DETERMINISTIC_ONLY'
       ? 'READY'
       : 'WATCH';
   const dukStatus = !securityPass
@@ -645,11 +685,11 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       ? 'WATCH'
       : 'READY';
 
-  const compiledProgram = JSON.stringify(
+  let compiledProgram = JSON.stringify(
     {
       contractVersion: AIIQ_LANG_CONTRACT_VERSION,
       targetMode: input.targetMode,
-      executionMode,
+      executionMode: baseExecutionMode,
       strictSecurity: input.strictSecurity,
       ast,
     },
@@ -668,6 +708,28 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
   });
+  const executionMode: AiiqLanguageMode = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
+    ? 'DETERMINISTIC_ONLY'
+    : baseExecutionMode;
+  const recommendedAction = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
+    ? (status === 'BLOCKED' ? 'HARDEN_GUARDS' : 'RUN_SHADOW_MODE')
+    : baseRecommendedAction;
+  if (executionMode !== baseExecutionMode) {
+    compiledProgram = JSON.stringify(
+      {
+        contractVersion: AIIQ_LANG_CONTRACT_VERSION,
+        targetMode: input.targetMode,
+        executionMode,
+        strictSecurity: input.strictSecurity,
+        ast,
+      },
+      null,
+      2,
+    );
+  }
+  if (integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired) {
+    warnings.push('Objedinjeni DOK/DIK/DAK/DUK signal je BLOCKED; compile izvršenje ostaje u determinističkom fallback režimu.');
+  }
 
   record(status, 'compile');
 
