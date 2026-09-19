@@ -3937,8 +3937,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         },
         caseInputProfile: {
           technical: {
-            dokStatus: dokSignal?.status ?? null,
-            dikStatus: dikSignal?.status ?? null,
+            dokStatus: dokSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+            dikStatus: dikSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
             readinessScore: petljeSignals.summary.readinessScore,
             conflictScore: petljeSignals.summary.conflictScore,
           },
@@ -4096,6 +4096,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.reasons = [
     'FOR i numerički tokovi ostaju tehnički signalni sloj vezan za postojeći PETLJE model.',
     'DOK + DIK ostaju EXTREM tehnički dokaz, dok DAK + DUK ostaju EXTRONDOL governance odluka.',
+    ...(programskiJezikInformacionihTokova.readiness.degraded
+      ? [`DEGRADED:programski-jezik-informacionih-tokova:${programskiJezikInformacionihTokova.readiness.status.toLowerCase()}`]
+      : []),
     ...(programskiJezikInformacionihTokova.readiness.watchReasons.map((reason) => `WATCH:${reason}`)),
     ...(programskiJezikInformacionihTokova.readiness.blockerReasons.map((reason) => `BLOCKED:${reason}`)),
   ];
