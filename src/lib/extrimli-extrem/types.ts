@@ -574,6 +574,110 @@ export interface ExtrimliExtremMetrickoProgramiranjeProfileInput {
   accentCouplingPercent: number;
 }
 
+export type ExtrimliExtremRadniTaktMozgaMislilacStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremRadniTaktMozgaMislilacProfileInput {
+  beginnerSentenceMasteryPercent: number;
+  mentalPhysicalSynergyPercent: number;
+  continuousProgressPercent: number;
+  humanisticEthicsDiscernmentPercent: number;
+  routineConsistencyPercent: number;
+  conflictPressurePercent: number;
+}
+
+export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
+  term: 'RADNI TAKT MOZGA (MISLILAC)';
+  contractVersion: typeof EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'RADNI TAKT MOZGA (MISLILAC)';
+    statement: string;
+    interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-learning-routine-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  ownershipEvidence: {
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  canonicalVocabulary: {
+    beginnerSentenceMastery: {
+      canonicalField: 'profileInput.beginnerSentenceMasteryPercent';
+      meaning: 'jedna-recenica-duboko-razumevanje';
+    };
+    mentalPhysicalSynergy: {
+      canonicalField: 'profileInput.mentalPhysicalSynergyPercent';
+      meaning: 'ucenje-trening-sinergija';
+    };
+    continuousProgress: {
+      canonicalField: 'profileInput.continuousProgressPercent';
+      meaning: 'kontinuirani-napredak';
+    };
+    humanisticEthicsDiscernment: {
+      canonicalField: 'profileInput.humanisticEthicsDiscernmentPercent';
+      meaning: 'covecnost-i-eticko-razlikovanje-dobra-zla';
+    };
+    routineConsistency: {
+      canonicalField: 'profileInput.routineConsistencyPercent';
+      meaning: 'stabilnost-rutine-ucenja';
+    };
+    conflictPressure: {
+      canonicalField: 'profileInput.conflictPressurePercent';
+      meaning: 'konfliktni-pritisak';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  learningDomains: {
+    pocetnickoUcenje: {
+      canonicalName: 'početničko učenje';
+      semanticLock: 'jedna-recenica-duboko-razumevanje';
+      score: number;
+    };
+    mentalnoFizickaSinergija: {
+      canonicalName: 'mentalno-fizička sinergija';
+      semanticLock: 'ucenje-i-trening-u-obostranom-jacanju';
+      score: number;
+    };
+    kontinuiraniNapredak: {
+      canonicalName: 'kontinuirani napredak';
+      semanticLock: 'kontinualna-gradacija-sopstvenog-razvoja';
+      score: number;
+    };
+    humanistickiCilj: {
+      canonicalName: 'humanistički cilj';
+      semanticLock: 'covecnost-odgovornost-samopouzdanje';
+      score: number;
+    };
+  };
+  profileInput: ExtrimliExtremRadniTaktMozgaMislilacProfileInput;
+  epilogijaCovecnosti: {
+    title: 'EPILOGIJA ČOVEČNOSTI';
+    citation: string;
+    interpretation: string;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremRadniTaktMozgaMislilacStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
 export interface ExtrimliExtremMetrickoProgramiranjeSignal {
   term: 'METRIČKO PROGRAMIRANJE';
   contractVersion: typeof EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION;
@@ -1560,6 +1664,7 @@ export interface ExtrimliExtremProfilerReport {
   funkcionalnoProgramiranjeUzvisenogMisanogToka: ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal;
   funkcionalnoProgramiranjeEksplicitnogMisaonogToka: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal;
   funkcionalnoProgramiranjePravednogMisaonogToka: ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSignal;
+  radniTaktMozgaMislilac: ExtrimliExtremRadniTaktMozgaMislilacSignal;
   paradijogonalnoProgrimiranje: ExtrimliExtremParadijogonalnoProgrimiranjeSignal;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal;
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
@@ -1658,6 +1763,9 @@ export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TO
 export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION = 'v1-funkcionalno-programiranje-pravednog-misaonog-toka';
 export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_READY_SCORE = 81;
 export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_WATCH_SCORE = 63;
+export const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION = 'v1-radni-takt-mozga-mislilac';
+export const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_MIN_READY_SCORE = 82;
+export const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_MIN_WATCH_SCORE = 64;
 export const EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION = 'v1-paradijogonalno-progrimiranje';
 export const EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_WATCH_SCORE = 62;

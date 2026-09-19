@@ -15,6 +15,7 @@ import {
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
+  EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
@@ -202,6 +203,27 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected legal-functional status');
     assert(Number.isFinite(signal.readiness.score), 'legal-functional score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'legal-functional score must be bounded');
+  });
+
+  await test('default report exposes RADNI TAKT MOZGA (MISLILAC) as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.radniTaktMozgaMislilac;
+    assert(signal.term === 'RADNI TAKT MOZGA (MISLILAC)', 'radni takt term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION, 'radni takt contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'radni takt source mismatch');
+    assert(signal.meaningLock.statement === 'Additive educational-development signal that models learning discipline, mental-physical synergy, continuous progress, and ethical good-vs-evil discernment.', 'radni takt interpretation mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-learning-routine-signal', 'radni takt EXTREM ownership mismatch');
+    assert(signal.ownershipModel.extrondol === 'wawe-orchestration-audit-consumer', 'radni takt EXTRONDOL ownership mismatch');
+    assert(signal.ownershipModel.spajaKod === 'public-encapsulated-boundary', 'radni takt SPAJA KOD ownership mismatch');
+    assert(signal.ownershipEvidence.dokTechnical, 'radni takt must keep DOK technical ownership');
+    assert(signal.ownershipEvidence.dikTechnical, 'radni takt must keep DIK technical ownership');
+    assert(signal.ownershipEvidence.dakDeferredToGovernance, 'radni takt must defer DAK to governance');
+    assert(signal.ownershipEvidence.dukDeferredToGovernance, 'radni takt must defer DUK to governance');
+    assert(signal.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'radni takt epilog title mismatch');
+    assert(signal.epilogijaCovecnosti.citation.includes('Učenje u današnjem vremenu je element koji se izbegava'), 'radni takt epilog citation mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected radni takt status');
+    assert(Number.isFinite(signal.readiness.score), 'radni takt score must be finite');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'radni takt score must be bounded');
   });
 
   await test('default report exposes METRIČKO PROGRAMIRANJE as additive EXTREM signal with DOK/DIK technical ownership', () => {

@@ -52,6 +52,7 @@ import {
   getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getMetrickoProgramiranjeAdjustment,
+  getRadniTaktMozgaMislilacAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
   getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
   getSinemetrickoProgramiranjeAdjustment,
@@ -356,6 +357,22 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.funkionalnoProgramiranjePravnogMisaonogTokaStatus === report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status, 'SPAJA KOD legal-functional summary mismatch');
     assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'funkionalno-programiranje-pravnog-misaonog-toka-governance'), 'legal-functional scorecard check missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'funkionalno-programiranje-pravnog-misaonog-toka-governance' && item.passed), 'legal-functional acceptance criterion must pass');
+  });
+
+  await test('report maps RADNI TAKT MOZGA (MISLILAC) into WAWE governance, audit summary, downstream sync, and SPAJA KOD epilog', () => {
+    const report = getExtrimliExtrondolReport();
+    const expectedAdjustment = getRadniTaktMozgaMislilacAdjustment(report.radniTaktMozgaMislilac.status);
+    assert(report.radniTaktMozgaMislilac.term === 'RADNI TAKT MOZGA (MISLILAC)', 'radni takt term mismatch');
+    assert(report.radniTaktMozgaMislilac.contractVersion === report.extremProfiler.radniTaktMozgaMislilac.contractVersion, 'radni takt contract mismatch');
+    assert(report.radniTaktMozgaMislilac.technicalSignalSource === '/api/extrimli/extrem', 'radni takt technical source mismatch');
+    assert(report.radniTaktMozgaMislilac.scoreAdjustment === expectedAdjustment, 'radni takt score adjustment mismatch');
+    assert(report.releaseAuditSummary.radniTaktMozgaMislilacGovernance.sourceOfTruth === '/api/extrimli/extrem', 'radni takt audit source mismatch');
+    assert(report.releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'radni takt epilog title mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.radniTaktMozgaMislilac.readiness.status'), 'radni takt status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('radniTaktMozgaMislilac.waweImpact'), 'radni takt WAWE impact must sync downstream');
+    assert(report.spajaKod.publicSignals.radniTaktMozgaMislilacStatus === report.extremProfiler.radniTaktMozgaMislilac.readiness.status, 'SPAJA KOD radni takt summary mismatch');
+    assert(report.spajaKod.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'SPAJA KOD epilog title mismatch');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'radni-takt-mozga-mislilac-governance' && item.passed), 'radni takt acceptance criterion must pass');
   });
 
   await test('report maps METRIČKO PROGRAMIRANJE into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
@@ -711,6 +728,9 @@ async function runTests(): Promise<void> {
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     );
+    const radniTaktMozgaMislilacAdjustment = getRadniTaktMozgaMislilacAdjustment(
+      report.extremProfiler.radniTaktMozgaMislilac.readiness.status,
+    );
     const metrikoProgramiranjeAdjustment = getMetrickoProgramiranjeAdjustment(
       report.extremProfiler.metrikoProgramiranje.readiness.status,
     );
@@ -740,6 +760,7 @@ async function runTests(): Promise<void> {
           + funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
+          + radniTaktMozgaMislilacAdjustment
           + metrikoProgramiranjeAdjustment
           + paradijogonalnoProgrimiranjeAdjustment
           + proporcionalnoProgramiranjeAdjustment
