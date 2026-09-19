@@ -137,9 +137,6 @@ import {
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE,
-  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
-  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE,
-  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE,
@@ -3913,8 +3910,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       technicalIndicators: {
         conflictScore: petljeSignals.summary.conflictScore,
         readinessScore: petljeSignals.summary.readinessScore,
-        dokStatus: dokSignal?.status ?? null,
-        dikStatus: dikSignal?.status ?? null,
+        dokStatus: dokSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+        dikStatus: dikSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
       },
       governanceIndicators: {
         promotionFreeze: null,
