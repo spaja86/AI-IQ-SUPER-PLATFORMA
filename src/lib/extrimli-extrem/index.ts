@@ -61,6 +61,9 @@ import type {
   ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput,
   ExtrimliExtremProgramskiJezikInformacionihTokovaSignal,
   ExtrimliExtremProgramskiJezikInformacionihTokovaStatus,
+  ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziProfileInput,
+  ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal,
+  ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus,
   ExtrimliExtremProgramskiJezikPretpostavkaProfileInput,
   ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaProfileInput,
   ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal,
@@ -151,6 +154,9 @@ import {
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_READY_SCORE,
@@ -1158,6 +1164,282 @@ function buildProgramskiJezikPretpostavkaSignal(
       continuationReadinessScore,
     },
     ownershipEvidence: {
+      forTechnical: true,
+      dokTechnical: true,
+      dikTechnical: true,
+      dakDeferredToGovernance: true,
+      dukDeferredToGovernance: true,
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: status === 'WATCH' && watchReasons.length === 0 ? [`aggregate-watch-score:${score}`] : watchReasons,
+      blockerReasons: status === 'BLOCKED' && blockerReasons.length === 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons,
+      deterministicFallbackRequired: status !== 'READY' || forResult.reason !== 'completed',
+    },
+  };
+}
+
+function classifyProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus(
+  score: number,
+): ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus {
+  if (score >= EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function resolveProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziInput(
+  degradedSources: string[],
+): ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziProfileInput {
+  return {
+    deklasiraneMatriceReadinessPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_DEKLASIRANE_MATRICE_READINESS_PERCENT',
+      88,
+      70,
+      degradedSources,
+    ),
+    prosparitetAlignmentPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_PROSPARITET_ALIGNMENT_PERCENT',
+      90,
+      72,
+      degradedSources,
+    ),
+    glasovneKomandePredispozicijaPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_GLASOVNE_KOMANDE_PREDISPOZICIJA_PERCENT',
+      86,
+      68,
+      degradedSources,
+    ),
+    etapsikmSenzacijeStageCohesionPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_ETAPSIKM_SENZACIJE_STAGE_COHESION_PERCENT',
+      87,
+      69,
+      degradedSources,
+    ),
+    driftConflictPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_DRIFT_CONFLICT_PERCENT',
+      18,
+      52,
+      degradedSources,
+    ),
+    continuationReadinessPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTINUATION_READINESS_PERCENT',
+      88,
+      70,
+      degradedSources,
+    ),
+  };
+}
+
+function resolveProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziForPetljaInput(
+  degradedSources: string[],
+): PetljaInput {
+  return {
+    from: 0,
+    to: Math.max(
+      2,
+      Math.round(parsePercentEnvWithInvalidFallback(
+        'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_TO',
+        5,
+        3,
+        degradedSources,
+      ) / 20),
+    ),
+    step: 1,
+    multiplier: Math.max(
+      1,
+      Math.round(parsePercentEnvWithInvalidFallback(
+        'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_MULTIPLIER',
+        2,
+        1,
+        degradedSources,
+      ) / 50),
+    ),
+  };
+}
+
+function buildProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal(
+  profileInput: ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziProfileInput,
+  forResult: ReturnType<typeof runForPetlja>,
+  pretpostavkaSignal: ExtrimliExtremProgramskiJezikPretpostavkaSignal,
+  informationalFlowSignal: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal,
+  dokSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  dikSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  degraded: boolean,
+): ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal {
+  const forReadinessScore = forResult.summary?.readinessScore ?? null;
+  const forStatus = forResult.summary?.status ?? 'BLOCKED';
+  const deklasiraneMatriceReadinessScore = round(
+    clamp(
+      (profileInput.deklasiraneMatriceReadinessPercent * 0.5)
+      + (informationalFlowSignal.technicalSignals.sequenceIntegrityScore * 0.25)
+      + (pretpostavkaSignal.technicalSignals.keyInformationIntegrityScore * 0.25),
+      0,
+      100,
+    ),
+    2,
+  );
+  const prosparitetAlignmentScore = round(
+    clamp(
+      (profileInput.prosparitetAlignmentPercent * 0.58)
+      + (pretpostavkaSignal.technicalSignals.stabilityScore * 0.22)
+      + (informationalFlowSignal.technicalSignals.continuationReadinessScore * 0.2),
+      0,
+      100,
+    ),
+    2,
+  );
+  const glasovneKomandePredispozicijaScore = round(
+    clamp(
+      (profileInput.glasovneKomandePredispozicijaPercent * 0.58)
+      + ((forReadinessScore ?? 0) * 0.18)
+      + (pretpostavkaSignal.technicalSignals.actionShapeDeterminismScore * 0.24),
+      0,
+      100,
+    ),
+    2,
+  );
+  const etapsikmSenzacijeStageCohesionScore = round(
+    clamp(
+      (profileInput.etapsikmSenzacijeStageCohesionPercent * 0.52)
+      + (informationalFlowSignal.technicalSignals.stabilityScore * 0.24)
+      + (pretpostavkaSignal.technicalSignals.continuationReadinessScore * 0.24),
+      0,
+      100,
+    ),
+    2,
+  );
+  const driftConflictScore = round(
+    clamp(
+      (profileInput.driftConflictPercent * 0.56)
+      + (informationalFlowSignal.technicalSignals.driftConflictScore * 0.24)
+      + (pretpostavkaSignal.technicalSignals.driftConflictScore * 0.2),
+      0,
+      100,
+    ),
+    2,
+  );
+  const continuationReadinessScore = round(
+    clamp(
+      (profileInput.continuationReadinessPercent * 0.52)
+      + ((forReadinessScore ?? 0) * 0.18)
+      + (informationalFlowSignal.technicalSignals.continuationReadinessScore * 0.15)
+      + (pretpostavkaSignal.technicalSignals.continuationReadinessScore * 0.15),
+      0,
+      100,
+    ),
+    2,
+  );
+  const score = round(
+    clamp(
+      (deklasiraneMatriceReadinessScore * 0.22)
+      + (prosparitetAlignmentScore * 0.2)
+      + (glasovneKomandePredispozicijaScore * 0.18)
+      + (etapsikmSenzacijeStageCohesionScore * 0.18)
+      + ((100 - driftConflictScore) * 0.1)
+      + (continuationReadinessScore * 0.12),
+      0,
+      100,
+    ),
+    2,
+  );
+  const watchReasons = [
+    ...(deklasiraneMatriceReadinessScore < 82 ? [`deklasirane-matrice-watch:${deklasiraneMatriceReadinessScore}`] : []),
+    ...(prosparitetAlignmentScore < 84 ? [`prosparitet-alignment-watch:${prosparitetAlignmentScore}`] : []),
+    ...(glasovneKomandePredispozicijaScore < 80 ? [`glasovne-komande-watch:${glasovneKomandePredispozicijaScore}`] : []),
+    ...(etapsikmSenzacijeStageCohesionScore < 82 ? [`etapsikm-stage-watch:${etapsikmSenzacijeStageCohesionScore}`] : []),
+    ...(driftConflictScore > 22 ? [`deklasirane-matrice-drift-watch:${driftConflictScore}`] : []),
+    ...(continuationReadinessScore < 80 ? [`deklasirane-matrice-continuation-watch:${continuationReadinessScore}`] : []),
+    ...(forStatus === 'WATCH' ? [`for-petlja-watch:${forReadinessScore}`] : []),
+    ...(dokSignal?.status === 'WATCH' ? [`dok-evidence-watch:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'WATCH' ? [`dik-evidence-watch:${dikSignal.readinessScore}`] : []),
+  ];
+  const blockerReasons = [
+    ...(deklasiraneMatriceReadinessScore < 60 ? [`deklasirane-matrice-blocked:${deklasiraneMatriceReadinessScore}`] : []),
+    ...(prosparitetAlignmentScore < 62 ? [`prosparitet-alignment-blocked:${prosparitetAlignmentScore}`] : []),
+    ...(glasovneKomandePredispozicijaScore < 58 ? [`glasovne-komande-blocked:${glasovneKomandePredispozicijaScore}`] : []),
+    ...(etapsikmSenzacijeStageCohesionScore < 60 ? [`etapsikm-stage-blocked:${etapsikmSenzacijeStageCohesionScore}`] : []),
+    ...(driftConflictScore > 56 ? [`deklasirane-matrice-drift-blocked:${driftConflictScore}`] : []),
+    ...(continuationReadinessScore < 56 ? [`deklasirane-matrice-continuation-blocked:${continuationReadinessScore}`] : []),
+    ...(forStatus === 'BLOCKED' ? [`for-petlja-blocked:${forReadinessScore}`] : []),
+    ...(forResult.reason === 'invalid-input' ? ['deklasirane-matrice-invalid-or-nondeterministic-input'] : []),
+    ...(dokSignal?.status === 'BLOCKED' ? [`dok-evidence-blocked:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'BLOCKED' ? [`dik-evidence-blocked:${dikSignal.readinessScore}`] : []),
+    ...(!dokSignal ? ['dok-evidence-missing'] : []),
+    ...(!dikSignal ? ['dik-evidence-missing'] : []),
+  ];
+  const aggregateStatus = classifyProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus(score);
+  const status: ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus = blockerReasons.length > 0 || aggregateStatus === 'BLOCKED'
+    ? 'BLOCKED'
+    : watchReasons.length > 0 || aggregateStatus === 'WATCH'
+      ? 'WATCH'
+      : aggregateStatus;
+
+  return {
+    term: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)',
+    contractVersion: EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD', 'PROSPARITET'],
+    meaningLock: {
+      canonicalName: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)',
+      statement: 'Additive EXTREM signal that keeps PROSPARITET as a repo-local input-only interpretation domain while FOR, DOK, and DIK bind deterministic readiness for deklasirane matrice, ekstremne glasovne komande, and etapsikm senzacije without moving DAK/DUK governance out of EXTRONDOL.',
+      prosparitetMeaning: 'repo-local-ulazni-interpretacioni-domen',
+      deklasiraneMatriceMeaning: 'bounded-readiness-za-deklasirane-matrice',
+      glasovneKomandeMeaning: 'predispozicija-ekstremnih-glasovnih-komandi',
+      etapsikmSenzacijeMeaning: 'stage-cohesion-signal-za-etapsikm-senzacije',
+      governanceMeaning: 'dak-duk-promotion-i-human-review-ostaju-u-extrondol',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+      noNewRoutes: true,
+    },
+    ownershipModel: {
+      prosparitet: 'repo-local-input-domain-only',
+      extrem: 'technical-readiness-signal',
+      extrondol: 'wawe-governance-audit-consumer',
+      spajaKod: 'public-audit-safe-summary',
+    },
+    canonicalVocabulary: {
+      deklasiraneMatrice: { canonicalField: 'technicalSignals.deklasiraneMatriceReadinessScore', meaning: 'deklasirane-matrice-readiness' },
+      prosparitetAlignment: { canonicalField: 'technicalSignals.prosparitetAlignmentScore', meaning: 'prosparitet-alignment' },
+      glasovneKomandePredispozicija: { canonicalField: 'technicalSignals.glasovneKomandePredispozicijaScore', meaning: 'glasovne-komande-predispozicija' },
+      etapsikmSenzacije: { canonicalField: 'technicalSignals.etapsikmSenzacijeStageCohesionScore', meaning: 'etapsikm-senzacije-stage-cohesion' },
+      driftKonflikt: { canonicalField: 'technicalSignals.driftConflictScore', meaning: 'drift-i-konflikt-pritisak' },
+      readinessNastavka: { canonicalField: 'technicalSignals.continuationReadinessScore', meaning: 'readiness-za-for-nastavak' },
+      forPetlja: { canonicalField: 'forLoopBinding.forEvidence', meaning: 'for-sekvencijalni-tok' },
+      readinessStatus: { canonicalField: 'readiness.status', meaning: 'ready-watch-blocked' },
+    },
+    profileInput,
+    sourceSignals: {
+      prosparitetDomain: 'PROSPARITET',
+      pretpostavkaTrack: 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)',
+      informationalFlowTrack: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
+      synthesisRule: 'prosparitet-matrices-voice-stage-for',
+    },
+    forLoopBinding: {
+      sourceModel: 'PETLJE',
+      sourceKind: 'FOR PETLJA',
+      sourceOwnership: 'EXTREM',
+      noSourceOfTruthMove: true,
+      forEvidence: {
+        kind: 'FOR PETLJA',
+        readinessScore: forReadinessScore,
+        status: forStatus,
+      },
+    },
+    technicalSignals: {
+      deklasiraneMatriceReadinessScore,
+      prosparitetAlignmentScore,
+      glasovneKomandePredispozicijaScore,
+      etapsikmSenzacijeStageCohesionScore,
+      driftConflictScore,
+      continuationReadinessScore,
+    },
+    ownershipEvidence: {
+      prosparitetInputOnly: true,
       forTechnical: true,
       dokTechnical: true,
       dikTechnical: true,
@@ -4370,9 +4652,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const programskiJezikInformacionihTokovaInput = resolveProgramskiJezikInformacionihTokovaInput(degradedSources);
   const forPetljaResult = runForPetlja(resolveProgramskiJezikInformacionihTokovaForPetljaInput(degradedSources));
   const programskiJezikPretpostavkaInput = resolveProgramskiJezikPretpostavkaInput(degradedSources);
+  const programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziInput =
+    resolveProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziInput(degradedSources);
   const programskiJezikParadigmaOblikovanjeTelaInput = resolveProgramskiJezikParadigmaOblikovanjeTelaInput(degradedSources);
   const programskiJezikSpecijalizovanZaIgriceInput = resolveProgramskiJezikSpecijalizovanZaIgriceInput(degradedSources);
   const pretpostavkaForPetljaResult = runForPetlja(resolveProgramskiJezikPretpostavkaForPetljaInput(degradedSources));
+  const deklasiraneMatriceForPetljaResult = runForPetlja(
+    resolveProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziForPetljaInput(degradedSources),
+  );
   const programskiJezikSpecijalizovanZaIgriceForPetljaResult = runForPetlja(resolveProgramskiJezikSpecijalizovanZaIgriceForPetljaInput(degradedSources));
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
@@ -4505,6 +4792,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dikSignal,
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_')) || pretpostavkaForPetljaResult.reason !== 'completed',
   );
+  const programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi =
+    buildProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal(
+      programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziInput,
+      deklasiraneMatriceForPetljaResult,
+      programskiJezikPretpostavka,
+      programskiJezikInformacionihTokova,
+      dokSignal,
+      dikSignal,
+      degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_'))
+        || deklasiraneMatriceForPetljaResult.reason !== 'completed',
+    );
   const metrikoProgramiranje = buildMetrickoProgramiranjeSignal(
     {
       declarationMatrixPercent: metrikoProgramiranjeDeclarationMatrixPercent,
@@ -4688,6 +4986,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || petljeSignals.summary.freezeRequired
     || businessLicensingSignals.freezeRequired
     || kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
+    || programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status === 'BLOCKED'
     || funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
@@ -4817,6 +5116,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
   if (programskiJezikPretpostavka.readiness.degraded) {
     degradedSources.push(`programski-jezik-pretpostavka:${programskiJezikPretpostavka.readiness.status.toLowerCase()}`);
+  }
+  if (programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.degraded) {
+    degradedSources.push(`programski-jezik-po-prosparitetu-deklasirane-matrice-u-ekstazi:${programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status.toLowerCase()}`);
   }
   if (metrikoProgramiranje.readiness.degraded) {
     degradedSources.push(`metriko-programiranje:${metrikoProgramiranje.readiness.status.toLowerCase()}`);
@@ -5042,6 +5344,40 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       auditReady: false,
       reasons: [],
     },
+    programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi: {
+      canonicalName: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)',
+      meaning: 'prosparitet-deklasirane-matrice-u-ekstazi',
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+      technicalOwnershipLock: {
+        prosparitet: 'repo-local-input-domain-only',
+        forPetlja: 'EXTREM',
+        dokDik: 'EXTREM',
+        dakDuk: 'EXTRONDOL',
+        spajaKod: 'audit-safe-summary-only',
+      },
+      flowMetrics: {
+        deklasiraneMatriceReadinessScore: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignals.deklasiraneMatriceReadinessScore,
+        prosparitetAlignmentScore: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignals.prosparitetAlignmentScore,
+        glasovneKomandePredispozicijaScore: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignals.glasovneKomandePredispozicijaScore,
+        etapsikmSenzacijeStageCohesionScore: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignals.etapsikmSenzacijeStageCohesionScore,
+        driftConflictScore: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignals.driftConflictScore,
+        continuationReadinessScore: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignals.continuationReadinessScore,
+        forStatus: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.forLoopBinding.forEvidence.status,
+        dokStatus: dokSignal?.status ?? null,
+        dikStatus: dikSignal?.status ?? null,
+        fallbackRequired: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.deterministicFallbackRequired,
+      },
+      governanceCoupling: {
+        promotionFreeze: null,
+        humanReviewRequired: true,
+        rollbackPlanRequired: true,
+        downstreamReference: 'spaja86/IO-OPENUI-AO',
+      },
+      consolidatedStatus: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status,
+      auditReady: false,
+      reasons: [],
+    },
     programskiJezikParadigmaOblikovanjeTela: {
       canonicalName: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)',
       meaning: 'objekat-u-sistemu-adaptacija-sa-funkcijama',
@@ -5198,6 +5534,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(programskiJezikPretpostavka.readiness.watchReasons.map((reason) => `WATCH:${reason}`)),
     ...(programskiJezikPretpostavka.readiness.blockerReasons.map((reason) => `BLOCKED:${reason}`)),
   ];
+  dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.governanceCoupling.promotionFreeze =
+    dokDikDakDukConsistencyHealth.status === 'BLOCKED'
+      ? true
+      : dokDikDakDukConsistencyHealth.status === 'WATCH'
+        ? null
+        : false;
+  dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.auditReady =
+    dokDikDakDukConsistencyHealth.consistent
+    && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.score >= 0
+    && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.score <= 100;
+  dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.reasons = [
+    'PROSPARITET ostaje repo-local input-domain-only dok FOR, DOK i DIK ostaju tehnički signal za deklasirane matrice u EXTREM sloju.',
+    'DAK + DUK ostaju zaključani u EXTRONDOL governance sloju za WAWE progression, human-review i rollback odluke.',
+    ...(programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.degraded
+      ? [`DEGRADED:programski-jezik-po-prosparitetu-deklasirane-matrice-u-ekstazi:${programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status.toLowerCase()}`]
+      : []),
+    ...(programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.watchReasons.map((reason) => `WATCH:${reason}`)),
+    ...(programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.blockerReasons.map((reason) => `BLOCKED:${reason}`)),
+  ];
   dokDikDakDukConsistencyHealth.programskiJezikParadigmaOblikovanjeTela.governanceCoupling.promotionFreeze =
     dokDikDakDukConsistencyHealth.status === 'BLOCKED'
       ? true
@@ -5282,6 +5637,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && (programskiJezikPretpostavka.forLoopBinding.forEvidence.status === 'READY'
           || programskiJezikPretpostavka.forLoopBinding.forEvidence.status === 'WATCH'
           || programskiJezikPretpostavka.forLoopBinding.forEvidence.status === 'BLOCKED'),
+    },
+    {
+      id: 'prosparitet-deklasirane-matrice-safety',
+      description: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI keeps PROSPARITET input-domain-only, publishes bounded READY/WATCH/BLOCKED statuses, and preserves deterministic fallback through existing FOR/DOK/DIK evidence.',
+      passed: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.score >= 0
+        && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.score <= 100
+        && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.meaningLock.noNewRoutes
+        && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipModel.prosparitet === 'repo-local-input-domain-only'
+        && (programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.forLoopBinding.forEvidence.status === 'READY'
+          || programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.forLoopBinding.forEvidence.status === 'WATCH'
+          || programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.forLoopBinding.forEvidence.status === 'BLOCKED'),
     },
     {
       id: 'petlje-contract-boundary-lock',
@@ -5789,6 +6155,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     proporcionalnoProgramiranje,
     programskiJezikInformacionihTokova,
     programskiJezikPretpostavka,
+    programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi,
     programskiJezikParadigmaOblikovanjeTela,
     programskiJezikSpecijalizovanZaIgrice,
     metrikoProgramiranje,

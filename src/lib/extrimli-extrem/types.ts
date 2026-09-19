@@ -681,6 +681,7 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
 
 export type ExtrimliExtremProgramskiJezikInformacionihTokovaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremProgramskiJezikPretpostavkaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
@@ -878,6 +879,119 @@ export interface ExtrimliExtremProgramskiJezikPretpostavkaSignal {
   readiness: {
     score: number;
     status: ExtrimliExtremProgramskiJezikPretpostavkaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+    deterministicFallbackRequired: boolean;
+  };
+}
+
+export interface ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziProfileInput {
+  deklasiraneMatriceReadinessPercent: number;
+  prosparitetAlignmentPercent: number;
+  glasovneKomandePredispozicijaPercent: number;
+  etapsikmSenzacijeStageCohesionPercent: number;
+  driftConflictPercent: number;
+  continuationReadinessPercent: number;
+}
+
+export interface ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal {
+  term: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)';
+  contractVersion: typeof EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD', 'PROSPARITET'];
+  meaningLock: {
+    canonicalName: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)';
+    statement: string;
+    prosparitetMeaning: 'repo-local-ulazni-interpretacioni-domen';
+    deklasiraneMatriceMeaning: 'bounded-readiness-za-deklasirane-matrice';
+    glasovneKomandeMeaning: 'predispozicija-ekstremnih-glasovnih-komandi';
+    etapsikmSenzacijeMeaning: 'stage-cohesion-signal-za-etapsikm-senzacije';
+    governanceMeaning: 'dak-duk-promotion-i-human-review-ostaju-u-extrondol';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+    noNewRoutes: true;
+  };
+  ownershipModel: {
+    prosparitet: 'repo-local-input-domain-only';
+    extrem: 'technical-readiness-signal';
+    extrondol: 'wawe-governance-audit-consumer';
+    spajaKod: 'public-audit-safe-summary';
+  };
+  canonicalVocabulary: {
+    deklasiraneMatrice: {
+      canonicalField: 'technicalSignals.deklasiraneMatriceReadinessScore';
+      meaning: 'deklasirane-matrice-readiness';
+    };
+    prosparitetAlignment: {
+      canonicalField: 'technicalSignals.prosparitetAlignmentScore';
+      meaning: 'prosparitet-alignment';
+    };
+    glasovneKomandePredispozicija: {
+      canonicalField: 'technicalSignals.glasovneKomandePredispozicijaScore';
+      meaning: 'glasovne-komande-predispozicija';
+    };
+    etapsikmSenzacije: {
+      canonicalField: 'technicalSignals.etapsikmSenzacijeStageCohesionScore';
+      meaning: 'etapsikm-senzacije-stage-cohesion';
+    };
+    driftKonflikt: {
+      canonicalField: 'technicalSignals.driftConflictScore';
+      meaning: 'drift-i-konflikt-pritisak';
+    };
+    readinessNastavka: {
+      canonicalField: 'technicalSignals.continuationReadinessScore';
+      meaning: 'readiness-za-for-nastavak';
+    };
+    forPetlja: {
+      canonicalField: 'forLoopBinding.forEvidence';
+      meaning: 'for-sekvencijalni-tok';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'ready-watch-blocked';
+    };
+  };
+  profileInput: ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziProfileInput;
+  sourceSignals: {
+    prosparitetDomain: 'PROSPARITET';
+    pretpostavkaTrack: 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)';
+    informationalFlowTrack: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
+    synthesisRule: 'prosparitet-matrices-voice-stage-for';
+  };
+  forLoopBinding: {
+    sourceModel: 'PETLJE';
+    sourceKind: 'FOR PETLJA';
+    sourceOwnership: 'EXTREM';
+    noSourceOfTruthMove: true;
+    forEvidence: {
+      kind: 'FOR PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliExtremPetljaSignalStatus;
+    };
+  };
+  technicalSignals: {
+    deklasiraneMatriceReadinessScore: number;
+    prosparitetAlignmentScore: number;
+    glasovneKomandePredispozicijaScore: number;
+    etapsikmSenzacijeStageCohesionScore: number;
+    driftConflictScore: number;
+    continuationReadinessScore: number;
+  };
+  ownershipEvidence: {
+    prosparitetInputOnly: true;
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
@@ -2086,6 +2200,40 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     auditReady: boolean;
     reasons: string[];
   };
+  programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi: {
+    canonicalName: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)';
+    meaning: 'prosparitet-deklasirane-matrice-u-ekstazi';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    technicalOwnershipLock: {
+      prosparitet: 'repo-local-input-domain-only';
+      forPetlja: 'EXTREM';
+      dokDik: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+      spajaKod: 'audit-safe-summary-only';
+    };
+    flowMetrics: {
+      deklasiraneMatriceReadinessScore: number;
+      prosparitetAlignmentScore: number;
+      glasovneKomandePredispozicijaScore: number;
+      etapsikmSenzacijeStageCohesionScore: number;
+      driftConflictScore: number;
+      continuationReadinessScore: number;
+      forStatus: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
+      fallbackRequired: boolean;
+    };
+    governanceCoupling: {
+      promotionFreeze: boolean | null;
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReference: 'spaja86/IO-OPENUI-AO';
+    };
+    consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    auditReady: boolean;
+    reasons: string[];
+  };
   programskiJezikParadigmaOblikovanjeTela: {
     canonicalName: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)';
     meaning: 'objekat-u-sistemu-adaptacija-sa-funkcijama';
@@ -2244,6 +2392,7 @@ export interface ExtrimliExtremProfilerReport {
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
   programskiJezikInformacionihTokova: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal;
   programskiJezikPretpostavka: ExtrimliExtremProgramskiJezikPretpostavkaSignal;
+  programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi: ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal;
   programskiJezikParadigmaOblikovanjeTela: ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal;
   programskiJezikSpecijalizovanZaIgrice: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal;
   metrikoProgramiranje: ExtrimliExtremMetrickoProgramiranjeSignal;
@@ -2360,6 +2509,10 @@ export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION =
   'v1-programski-jezik-pretpostavka';
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_MIN_WATCH_SCORE = 62;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION =
+  'v1-programski-jezik-po-prosparitetu-deklasirane-matrice-u-ekstazi';
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION =
   EXTRIMLI_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_READY_SCORE = 80;

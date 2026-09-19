@@ -24,6 +24,7 @@ This repository now exposes five aligned surfaces:
 | **PARADIJOGONALNO PROGRIMIRANJE** | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only cloud/prosparitet track; EXTREM owns the instrumental-vision DOK/DIK technical signal, EXTRONDOL owns WAWE/audit DAK/DUK governance, SPAJA KOD exposes only audit-safe final status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOM/DIK` to EXTREM signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
+| **PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/ai-iq-programski-jezik/*` | Active | Additive-only prosparitet/deklasirane-matrice profile: PROSPARITET stays input-domain-only, EXTREM owns DOK/DIK/FOR technical readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
 | **PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `src/lib/igrice.ts`, `src/lib/gaming-endzin.ts` | Active | Additive-only gaming DSL profile: AI IQ owns orchestration/explainability, EXTREM owns DOK/DIK/FOR gameplay-runtime readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
 | **SINEMETRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only matrix-syntax signal: EXTREM publishes deterministic readiness/conflict/evidence, EXTRONDOL consumes it for WAWE freeze/promotion/audit, SPAJA KOD remains audit-safe summary boundary |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
@@ -1377,6 +1378,16 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - Dozvoljene status klase su `READY | WATCH | BLOCKED`.
 - Obavezni fallback uslovi ostaju aktivni za prazne, nevalidne i nedeterminističke ulaze, kao i za `NaN`, `Infinity`, nevalidne opsege i svaki signal koji aktivira drift-zero blokadu.
 - `releaseAuditSummary`, rollback zahtev, WAWE 1–5 uticaj, downstream sync prema `spaja86/IO-OPENUI-AO` i `SPAJA KOD` audit-safe summary ostaju zaključani bez novih source-of-truth ruta.
+
+## PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI
+
+- `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)` je additive-only track u okviru postojećeg `EXTRIMLI / EXTREM / EXTRONDOL / AI IQ PROGRAMSKI JEZIK` modela.
+- `PROSPARITET` ostaje repo-local input-domain-only interpretacioni domen; ne postaje nova source-of-truth ruta ni novi javni runtime surface.
+- `DOK + DIK + FOR` ostaju EXTREM tehnički signal za readiness deklasiranih matrica, prosparitet alignment, predispoziciju glasovnih komandi, etapsikm stage-cohesion, konflikt/degradaciju i FOR sekvencijalni tok.
+- `DAK + DUK` ostaju EXTRONDOL governance odluka za `WAWE`, `promotionFreeze`, `humanReviewRequired`, `rollbackPlanRequired`, `releaseAuditSummary` i downstream sync prema `spaja86/IO-OPENUI-AO`.
+- `SPAJA KOD` ostaje audit-safe summary boundary bez izlaganja raw tehničkih detalja.
+- Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`, uz deterministički fallback za `NaN`, `Infinity`, prazne ili nevalidne signale, nevalidne sekvence i out-of-range procente.
+- Detaljna specifikacija: `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`.
 
 
 ## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA

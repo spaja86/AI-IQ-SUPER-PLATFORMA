@@ -1059,6 +1059,24 @@ async function runTests(): Promise<void> {
     assert(signal.technicalSignals.actionShapeDeterminismScore >= 0 && signal.technicalSignals.actionShapeDeterminismScore <= 100, 'pretpostavka action-shape determinism score must be bounded');
   });
 
+  await test('default report exposes PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
+    assert(
+      signal.term === 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)',
+      'prosparitet/deklasirane-matrice term mismatch',
+    );
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'prosparitet/deklasirane-matrice source mismatch');
+    assert(signal.forLoopBinding.sourceModel === 'PETLJE', 'prosparitet/deklasirane-matrice FOR binding must stay on PETLJE');
+    assert(signal.meaningLock.prosparitetMeaning === 'repo-local-input-domain-only-interpretation', 'prosparitet meaning lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-prosparitet-deklasirane-matrice-signal', 'prosparitet/deklasirane-matrice EXTREM ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected prosparitet/deklasirane-matrice readiness status');
+    assert(signal.technicalSignals.deklasiraneMatriceReadinessScore >= 0 && signal.technicalSignals.deklasiraneMatriceReadinessScore <= 100, 'deklasirane matrice readiness score must be bounded');
+    assert(signal.technicalSignals.prosparitetAlignmentScore >= 0 && signal.technicalSignals.prosparitetAlignmentScore <= 100, 'prosparitet alignment score must be bounded');
+    assert(signal.technicalSignals.glasovneKomandePredispozicijaScore >= 0 && signal.technicalSignals.glasovneKomandePredispozicijaScore <= 100, 'glasovne komande score must be bounded');
+    assert(signal.technicalSignals.etapsikmSenzacijeStageCohesionScore >= 0 && signal.technicalSignals.etapsikmSenzacijeStageCohesionScore <= 100, 'etapsikm stage cohesion score must be bounded');
+  });
+
   await test('default report exposes PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA as additive EXTREM signal', () => {
     const report = getExtrimliExtremProfilerReport();
     const signal = report.programskiJezikParadigmaOblikovanjeTela;
@@ -1106,6 +1124,22 @@ async function runTests(): Promise<void> {
       assert(first.readiness.score === second.readiness.score, 'pretpostavka readiness score must be deterministic');
       assert(first.technicalSignals.driftConflictScore === second.technicalSignals.driftConflictScore, 'pretpostavka drift score must be deterministic');
       assert(first.readiness.status === second.readiness.status, 'pretpostavka readiness status must be deterministic');
+    });
+  });
+
+  await test('prosparitet/deklasirane matrice input degrades safely for NaN/Infinity/out-of-range values', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_DEKLASIRANE_MATRICE_READINESS_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_PROSPARITET_ALIGNMENT_PERCENT: 'Infinity',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_GLASOVNE_KOMANDE_PREDISPOZICIJA_PERCENT: '120',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_ETAPSIKM_SENZACIJE_STAGE_COHESION_PERCENT: '-10',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_TO: '0',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_MULTIPLIER: '0',
+    }, () => {
+      const signal = getExtrimliExtremProfilerReport().programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
+      assert(signal.readiness.status === 'BLOCKED', 'invalid prosparitet/deklasirane-matrice inputs must block readiness');
+      assert(signal.readiness.deterministicFallbackRequired, 'invalid prosparitet/deklasirane-matrice inputs must require deterministic fallback');
+      assert(signal.readiness.blockerReasons.length >= 1, 'invalid prosparitet/deklasirane-matrice inputs must emit blocker reasons');
     });
   });
 

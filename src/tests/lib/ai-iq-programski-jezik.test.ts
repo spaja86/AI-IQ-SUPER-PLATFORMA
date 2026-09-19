@@ -105,6 +105,8 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.canonicalName === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'pretpostavka canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.canonicalName === 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)', 'prosparitet/deklasirane-matrice canonical name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipSplit.prosparitet === 'input-domain-only', 'PROSPARITET ownership split mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.canonicalName === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'gaming DSL canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.dslProfile === 'gaming-specijalizovani-dsl', 'gaming DSL profile mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.gamingDomain.consumerAnchors.join(',') === 'src/lib/igrice.ts,src/lib/gaming-endzin.ts', 'gaming DSL anchors mismatch');
@@ -116,6 +118,7 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase1 === 'documentation-lock-and-contract-model', 'apstrakcija rollout phase1 mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase4 === 'downstream-sync-and-audit-safe-summary', 'apstrakcija rollout phase4 mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.pretpostavka), 'pretpostavka status must be bounded');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza), 'prosparitet/deklasirane-matrice status must be bounded');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.programskiJezikSpecijalizovanZaIgrice), 'gaming DSL status must be bounded');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
