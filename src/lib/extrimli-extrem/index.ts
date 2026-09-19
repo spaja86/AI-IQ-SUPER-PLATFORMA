@@ -1269,8 +1269,25 @@ function buildProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal(
   dikSignal: ExtrimliExtremPetljaSignalResult | undefined,
   degraded: boolean,
 ): ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal {
-  const forReadinessScore = forResult.summary?.readinessScore ?? null;
-  const forStatus = forResult.summary?.status ?? 'BLOCKED';
+  const forReadinessScore = round(
+    clamp(
+      (forResult.completed ? 86 : 34)
+      + Math.max(0, 10 - forResult.iterations) * 1.6
+      - forResult.warnings.length * 8
+      - (forResult.reason === 'invalid-input' ? 28 : 0)
+      - (forResult.reason === 'blocked-status' ? 36 : 0)
+      - (forResult.reason === 'max-iterations' ? 18 : 0)
+      - (forResult.reason === 'time-limit' ? 16 : 0),
+      0,
+      100,
+    ),
+    2,
+  );
+  const forStatus = forReadinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE
+    ? 'READY'
+    : forReadinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE
+      ? 'WATCH'
+      : 'BLOCKED';
   const deklasiraneMatriceReadinessScore = round(
     clamp(
       (profileInput.deklasiraneMatriceReadinessPercent * 0.5)

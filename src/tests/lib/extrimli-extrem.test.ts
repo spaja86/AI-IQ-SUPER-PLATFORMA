@@ -1068,8 +1068,9 @@ async function runTests(): Promise<void> {
     );
     assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'prosparitet/deklasirane-matrice source mismatch');
     assert(signal.forLoopBinding.sourceModel === 'PETLJE', 'prosparitet/deklasirane-matrice FOR binding must stay on PETLJE');
-    assert(signal.meaningLock.prosparitetMeaning === 'repo-local-input-domain-only-interpretation', 'prosparitet meaning lock mismatch');
-    assert(signal.ownershipModel.extrem === 'technical-prosparitet-deklasirane-matrice-signal', 'prosparitet/deklasirane-matrice EXTREM ownership mismatch');
+    assert(signal.meaningLock.prosparitetMeaning === 'repo-local-ulazni-interpretacioni-domen', 'prosparitet meaning lock mismatch');
+    assert(signal.meaningLock.noNewRoutes, 'prosparitet/deklasirane-matrice signal must not introduce new routes');
+    assert(signal.ownershipModel.extrem === 'technical-readiness-signal', 'prosparitet/deklasirane-matrice EXTREM ownership mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected prosparitet/deklasirane-matrice readiness status');
     assert(signal.technicalSignals.deklasiraneMatriceReadinessScore >= 0 && signal.technicalSignals.deklasiraneMatriceReadinessScore <= 100, 'deklasirane matrice readiness score must be bounded');
     assert(signal.technicalSignals.prosparitetAlignmentScore >= 0 && signal.technicalSignals.prosparitetAlignmentScore <= 100, 'prosparitet alignment score must be bounded');

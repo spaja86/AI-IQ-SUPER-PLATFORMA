@@ -874,7 +874,7 @@ async function runTests(): Promise<void> {
     );
     assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignalSource === '/api/extrimli/extrem', 'prosparitet/deklasirane-matrice governance technical source mismatch');
     assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.sourceOfTruth === '/api/extrimli/extrondol', 'prosparitet/deklasirane-matrice governance source mismatch');
-    assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipEvidence.prosparitetInputDomainOnly, 'PROSPARITET must stay input-domain-only');
+    assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipEvidence.prosparitetInputOnly, 'PROSPARITET must stay input-domain-only');
     assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.governanceDecisions.dukHumanReviewDecision === 'REQUIRED', 'prosparitet/deklasirane-matrice DUK decision mismatch');
     assert(
       report.releaseAuditSummary.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziGovernance.status

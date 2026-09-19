@@ -4774,6 +4774,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'programskiJezikPretpostavka',
         'programskiJezikPretpostavka.waweImpact',
         'programskiJezikPretpostavka.flowMetrics.forStatus',
+        'programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi',
+        'programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.waweImpact',
+        'programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.flowMetrics.forStatus',
         'programskiJezikParadigmaOblikovanjeTela',
         'programskiJezikParadigmaOblikovanjeTela.waweImpact',
         'programskiJezikParadigmaOblikovanjeTela.paradigmMetrics.forStatus',
@@ -5368,7 +5371,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       description: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI must remain additive-only, keep PROSPARITET as input-domain-only, preserve DOK/DIK/FOR vs DAK/DUK ownership, and expose only audit-safe governance through release summary, downstream sync, and SPAJA KOD.',
       passed: programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.contractVersion === EXTRONDOL_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION
         && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignalSource === '/api/extrimli/extrem'
-        && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipEvidence.prosparitetInputDomainOnly
+        && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipEvidence.prosparitetInputOnly
         && programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipEvidence.forTechnical
         && releaseAuditSummary.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziGovernance.status === extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status')
@@ -5528,6 +5531,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     sinemetrickoProgramiranje,
     programskiJezikInformacionihTokova,
     programskiJezikPretpostavka,
+    programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi,
     programskiJezikParadigmaOblikovanjeTela,
     programskiJezikSpecijalizovanZaIgrice,
     objektnoOrijentisanaReprodukcija,

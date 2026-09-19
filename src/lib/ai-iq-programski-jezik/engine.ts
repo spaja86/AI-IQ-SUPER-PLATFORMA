@@ -226,6 +226,7 @@ function buildIntegrationProfile(params: {
     informacioniTokovi,
     pretpostavka,
     prosparitetDeklasiraneMatriceEkstaza,
+    gamingDsl,
     sinemetricko,
   );
   const consistencyEscalationScore = round2(
