@@ -65,6 +65,9 @@ import type {
   ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaProfileInput,
   ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal,
   ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaStatus,
+  ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceProfileInput,
+  ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal,
+  ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceStatus,
   ExtrimliExtremProgramskiJezikPretpostavkaSignal,
   ExtrimliExtremProgramskiJezikPretpostavkaStatus,
   ExtrimliExtremMetrickoProgramiranjeSignal,
@@ -130,6 +133,9 @@ import {
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_MIN_WATCH_SCORE,
@@ -1434,6 +1440,353 @@ function buildProgramskiJezikParadigmaOblikovanjeTelaSignal(
         || programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired,
     },
   };
+
+function classifyProgramskiJezikSpecijalizovanZaIgriceStatus(
+  score: number,
+): ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceStatus {
+  if (score >= EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function resolveProgramskiJezikSpecijalizovanZaIgriceInput(
+  degradedSources: string[],
+): ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceProfileInput {
+  return {
+    gameplayCategoryCoveragePercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_GAMEPLAY_CATEGORY_COVERAGE_PERCENT',
+      91,
+      72,
+      degradedSources,
+    ),
+    runnerCompatibilityPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_RUNNER_COMPATIBILITY_PERCENT',
+      89,
+      70,
+      degradedSources,
+    ),
+    dimensionalModeReadinessPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_DIMENSIONAL_MODE_READINESS_PERCENT',
+      88,
+      69,
+      degradedSources,
+    ),
+    renderPhysicsReadinessPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_RENDER_PHYSICS_READINESS_PERCENT',
+      87,
+      68,
+      degradedSources,
+    ),
+    aiNpcBehaviorPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_AI_NPC_BEHAVIOR_PERCENT',
+      86,
+      67,
+      degradedSources,
+    ),
+    multiplayerSyncPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MULTIPLAYER_SYNC_PERCENT',
+      85,
+      66,
+      degradedSources,
+    ),
+    antiCheatIntegrityPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_ANTI_CHEAT_INTEGRITY_PERCENT',
+      88,
+      68,
+      degradedSources,
+    ),
+    analyticsPerformanceReadinessPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_ANALYTICS_PERFORMANCE_READINESS_PERCENT',
+      87,
+      68,
+      degradedSources,
+    ),
+  };
+}
+
+function resolveProgramskiJezikSpecijalizovanZaIgriceForPetljaInput(
+  degradedSources: string[],
+): PetljaInput {
+  const rawStatus = process.env.EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_STATUS;
+  const normalizedStatus = rawStatus?.trim().toUpperCase();
+  const status: PetljaStatusInput = normalizedStatus === 'MONSTER'
+    || normalizedStatus === 'DISABLED'
+    || normalizedStatus === 'ACTIVATED'
+    || normalizedStatus === 'DEAD'
+    ? normalizedStatus
+    : 'ACTIVATED';
+
+  if (rawStatus && normalizedStatus !== status) {
+    degradedSources.push('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_STATUS');
+  }
+
+  return {
+    start: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_START', 0, -1000, 1000, degradedSources),
+    end: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_END', 16, -1000, 1000, degradedSources),
+    step: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_STEP', 1, -1000, 1000, degradedSources),
+    maxIterations: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_MAX_ITERATIONS', 16, 0, 1000, degradedSources),
+    maxDurationMs: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_MAX_DURATION_MS', 100, 0, 10000, degradedSources),
+    status,
+  };
+}
+
+function buildProgramskiJezikSpecijalizovanZaIgriceSignal(
+  profileInput: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceProfileInput,
+  forResult: ReturnType<typeof runForPetlja>,
+  dokSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  dikSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  degraded: boolean,
+): ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal {
+  const forReadinessScore = round(
+    clamp(
+      (forResult.completed ? 88 : 34)
+      + Math.max(0, 18 - forResult.iterations) * 0.9
+      - forResult.warnings.length * 8
+      - (forResult.reason === 'invalid-input' ? 28 : 0)
+      - (forResult.reason === 'blocked-status' ? 34 : 0)
+      - (forResult.reason === 'max-iterations' ? 16 : 0)
+      - (forResult.reason === 'time-limit' ? 14 : 0),
+      0,
+      100,
+    ),
+    2,
+  );
+  const forStatus = forReadinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE
+    ? 'READY'
+    : forReadinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE
+      ? 'WATCH'
+      : 'BLOCKED';
+  const gameplayCategoryCoverageScore = round(
+    clamp(
+      (profileInput.gameplayCategoryCoveragePercent * 0.6)
+      + (forReadinessScore * 0.16)
+      + ((dokSignal?.readinessScore ?? 0) * 0.12)
+      + ((dikSignal?.readinessScore ?? 0) * 0.12),
+      0,
+      100,
+    ),
+    2,
+  );
+  const runnerCompatibilityScore = round(
+    clamp(
+      (profileInput.runnerCompatibilityPercent * 0.72)
+      + (forReadinessScore * 0.12)
+      + ((dikSignal?.readinessScore ?? 0) * 0.16),
+      0,
+      100,
+    ),
+    2,
+  );
+  const dimensionalModeReadinessScore = round(
+    clamp(
+      (profileInput.dimensionalModeReadinessPercent * 0.72)
+      + (forReadinessScore * 0.12)
+      + ((dokSignal?.readinessScore ?? 0) * 0.16),
+      0,
+      100,
+    ),
+    2,
+  );
+  const renderPhysicsReadinessScore = round(
+    clamp(
+      (profileInput.renderPhysicsReadinessPercent * 0.66)
+      + ((100 - Math.max(0, forResult.warnings.length * 10)) * 0.12)
+      + ((dokSignal?.readinessScore ?? 0) * 0.1)
+      + ((dikSignal?.readinessScore ?? 0) * 0.12),
+      0,
+      100,
+    ),
+    2,
+  );
+  const aiNpcBehaviorScore = round(
+    clamp(
+      (profileInput.aiNpcBehaviorPercent * 0.7)
+      + (forReadinessScore * 0.1)
+      + ((100 - Math.max(0, forResult.warnings.length * 8)) * 0.08)
+      + ((dikSignal?.readinessScore ?? 0) * 0.12),
+      0,
+      100,
+    ),
+    2,
+  );
+  const multiplayerSyncScore = round(
+    clamp(
+      (profileInput.multiplayerSyncPercent * 0.68)
+      + (forReadinessScore * 0.14)
+      + ((dokSignal?.readinessScore ?? 0) * 0.08)
+      + ((dikSignal?.readinessScore ?? 0) * 0.1),
+      0,
+      100,
+    ),
+    2,
+  );
+  const antiCheatIntegrityScore = round(
+    clamp(
+      (profileInput.antiCheatIntegrityPercent * 0.72)
+      + ((dokSignal?.readinessScore ?? 0) * 0.12)
+      + ((dikSignal?.readinessScore ?? 0) * 0.16),
+      0,
+      100,
+    ),
+    2,
+  );
+  const analyticsPerformanceReadinessScore = round(
+    clamp(
+      (profileInput.analyticsPerformanceReadinessPercent * 0.64)
+      + ((100 - Math.max(0, forResult.warnings.length * 10)) * 0.16)
+      + ((dokSignal?.readinessScore ?? 0) * 0.1)
+      + ((dikSignal?.readinessScore ?? 0) * 0.1),
+      0,
+      100,
+    ),
+    2,
+  );
+  const score = round(
+    clamp(
+      (gameplayCategoryCoverageScore * 0.14)
+      + (runnerCompatibilityScore * 0.12)
+      + (dimensionalModeReadinessScore * 0.12)
+      + (renderPhysicsReadinessScore * 0.13)
+      + (aiNpcBehaviorScore * 0.11)
+      + (multiplayerSyncScore * 0.12)
+      + (antiCheatIntegrityScore * 0.13)
+      + (analyticsPerformanceReadinessScore * 0.13),
+      0,
+      100,
+    ),
+    2,
+  );
+  const watchReasons = [
+    ...(gameplayCategoryCoverageScore < 82 ? [`gameplay-category-watch:${gameplayCategoryCoverageScore}`] : []),
+    ...(runnerCompatibilityScore < 80 ? [`runner-compatibility-watch:${runnerCompatibilityScore}`] : []),
+    ...(dimensionalModeReadinessScore < 80 ? [`dimensional-mode-watch:${dimensionalModeReadinessScore}`] : []),
+    ...(renderPhysicsReadinessScore < 80 ? [`render-physics-watch:${renderPhysicsReadinessScore}`] : []),
+    ...(aiNpcBehaviorScore < 78 ? [`ai-npc-watch:${aiNpcBehaviorScore}`] : []),
+    ...(multiplayerSyncScore < 78 ? [`multiplayer-sync-watch:${multiplayerSyncScore}`] : []),
+    ...(antiCheatIntegrityScore < 80 ? [`anti-cheat-watch:${antiCheatIntegrityScore}`] : []),
+    ...(analyticsPerformanceReadinessScore < 80 ? [`analytics-performance-watch:${analyticsPerformanceReadinessScore}`] : []),
+    ...(forStatus === 'WATCH' ? [`for-petlja-watch:${forReadinessScore}`] : []),
+    ...(dokSignal?.status === 'WATCH' ? [`dok-evidence-watch:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'WATCH' ? [`dik-evidence-watch:${dikSignal.readinessScore}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.gameplayCategoryCoveragePercent < 58 ? [`gameplay-category-blocked:${profileInput.gameplayCategoryCoveragePercent}`] : []),
+    ...(profileInput.runnerCompatibilityPercent < 56 ? [`runner-compatibility-blocked:${profileInput.runnerCompatibilityPercent}`] : []),
+    ...(profileInput.dimensionalModeReadinessPercent < 56 ? [`dimensional-mode-blocked:${profileInput.dimensionalModeReadinessPercent}`] : []),
+    ...(profileInput.renderPhysicsReadinessPercent < 56 ? [`render-physics-blocked:${profileInput.renderPhysicsReadinessPercent}`] : []),
+    ...(profileInput.aiNpcBehaviorPercent < 54 ? [`ai-npc-blocked:${profileInput.aiNpcBehaviorPercent}`] : []),
+    ...(profileInput.multiplayerSyncPercent < 54 ? [`multiplayer-sync-blocked:${profileInput.multiplayerSyncPercent}`] : []),
+    ...(profileInput.antiCheatIntegrityPercent < 56 ? [`anti-cheat-blocked:${profileInput.antiCheatIntegrityPercent}`] : []),
+    ...(profileInput.analyticsPerformanceReadinessPercent < 56 ? [`analytics-performance-blocked:${profileInput.analyticsPerformanceReadinessPercent}`] : []),
+    ...(forStatus === 'BLOCKED' ? [`for-petlja-blocked:${forReadinessScore}`] : []),
+    ...(forResult.reason === 'invalid-input' ? ['gaming-for-invalid-input'] : []),
+    ...(dokSignal?.status === 'BLOCKED' ? [`dok-evidence-blocked:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'BLOCKED' ? [`dik-evidence-blocked:${dikSignal.readinessScore}`] : []),
+    ...(!dokSignal ? ['dok-evidence-missing'] : []),
+    ...(!dikSignal ? ['dik-evidence-missing'] : []),
+  ];
+  const aggregateStatus = classifyProgramskiJezikSpecijalizovanZaIgriceStatus(score);
+  const status: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceStatus = blockerReasons.length > 0 || aggregateStatus === 'BLOCKED'
+    ? 'BLOCKED'
+    : watchReasons.length > 0 || aggregateStatus === 'WATCH'
+      ? 'WATCH'
+      : aggregateStatus;
+
+  return {
+    term: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE',
+    contractVersion: EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrimli:logic-change',
+    scopeLock: ['AI IQ PROGRAMSKI JEZIK', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD', 'IGRICE', 'GAMING ENDZIN'],
+    meaningLock: {
+      canonicalName: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE',
+      statement: 'Additive technical gaming-language signal that keeps AI IQ as DSL orchestration, EXTREM as DOK/DIK/FOR technical proof, EXTRONDOL as DAK/DUK governance, and existing igrice/gaming-endzin modules as consumer anchors.',
+      gameplayMeaning: 'dsl-za-gameplay-i-runtime-orkestraciju',
+      runnerMeaning: 'runner-kompatibilnost-postojeceg-gaming-endzina',
+      dimensionMeaning: '2d-3d-dimenzionalni-rezim-iz-postojeceg-modela',
+      governanceMeaning: 'dak-duk-promotion-i-human-review-ostaju-u-extrondol',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+      noNewRoutes: true,
+    },
+    ownershipModel: {
+      aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer',
+      extrem: 'technical-gaming-language-signal',
+      extrondol: 'wawe-governance-audit-consumer',
+      spajaKod: 'public-audit-safe-summary',
+    },
+    canonicalVocabulary: {
+      gameplayCategory: { canonicalField: 'technicalSignals.gameplayCategoryCoverageScore', meaning: 'kategorija-igrice' },
+      runnerCompatibility: { canonicalField: 'technicalSignals.runnerCompatibilityScore', meaning: 'runner-kompatibilnost' },
+      dimensionalMode: { canonicalField: 'technicalSignals.dimensionalModeReadinessScore', meaning: 'dimenzionalni-rezim' },
+      renderPhysics: { canonicalField: 'technicalSignals.renderPhysicsReadinessScore', meaning: 'render-i-fizika' },
+      aiNpcBehavior: { canonicalField: 'technicalSignals.aiNpcBehaviorScore', meaning: 'ai-i-npc-ponasanje' },
+      multiplayerSync: { canonicalField: 'technicalSignals.multiplayerSyncScore', meaning: 'multiplayer-i-sync' },
+      antiCheat: { canonicalField: 'technicalSignals.antiCheatIntegrityScore', meaning: 'anti-cheat' },
+      analyticsPerformance: { canonicalField: 'technicalSignals.analyticsPerformanceReadinessScore', meaning: 'analytics-i-performance-readiness' },
+      readinessStatus: { canonicalField: 'readiness.status', meaning: 'ready-watch-blocked' },
+    },
+    profileInput,
+    consumerModel: {
+      existingModules: ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'],
+      categoryAnchor: 'KategorijaIgrice',
+      runnerAnchor: 'RunnerKompatibilnost',
+      dimensionalAnchor: 'dimensional-engine-config',
+      sourceOfTruthMoveAllowed: false,
+    },
+    technicalEvidence: {
+      forLoopBinding: {
+        sourceModel: 'PETLJE',
+        sourceKind: 'FOR PETLJA',
+        sourceOwnership: 'EXTREM',
+        noSourceOfTruthMove: true,
+        forEvidence: {
+          kind: 'FOR PETLJA',
+          readinessScore: forReadinessScore,
+          status: forStatus,
+        },
+      },
+      dokEvidence: {
+        kind: 'DOK PETLJA',
+        readinessScore: dokSignal?.readinessScore ?? null,
+        status: dokSignal?.status ?? null,
+      },
+      dikEvidence: {
+        kind: 'DIK PETLJA',
+        readinessScore: dikSignal?.readinessScore ?? null,
+        status: dikSignal?.status ?? null,
+      },
+    },
+    technicalSignals: {
+      gameplayCategoryCoverageScore,
+      runnerCompatibilityScore,
+      dimensionalModeReadinessScore,
+      renderPhysicsReadinessScore,
+      aiNpcBehaviorScore,
+      multiplayerSyncScore,
+      antiCheatIntegrityScore,
+      analyticsPerformanceReadinessScore,
+    },
+    ownershipEvidence: {
+      forTechnical: true,
+      dokTechnical: true,
+      dikTechnical: true,
+      dakDeferredToGovernance: true,
+      dukDeferredToGovernance: true,
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: status === 'WATCH' && watchReasons.length === 0 ? [`aggregate-watch-score:${score}`] : watchReasons,
+      blockerReasons: status === 'BLOCKED' && blockerReasons.length === 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons,
+      deterministicFallbackRequired: status !== 'READY' || forResult.reason !== 'completed',
+    },
+  };
+}
+
 }
 
 function classifyMetrickoProgramiranjeStatus(score: number): ExtrimliExtremMetrickoProgramiranjeStatus {
@@ -4012,7 +4365,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const forPetljaResult = runForPetlja(resolveProgramskiJezikInformacionihTokovaForPetljaInput(degradedSources));
   const programskiJezikPretpostavkaInput = resolveProgramskiJezikPretpostavkaInput(degradedSources);
   const programskiJezikParadigmaOblikovanjeTelaInput = resolveProgramskiJezikParadigmaOblikovanjeTelaInput(degradedSources);
+  const programskiJezikSpecijalizovanZaIgriceInput = resolveProgramskiJezikSpecijalizovanZaIgriceInput(degradedSources);
   const pretpostavkaForPetljaResult = runForPetlja(resolveProgramskiJezikPretpostavkaForPetljaInput(degradedSources));
+  const programskiJezikSpecijalizovanZaIgriceForPetljaResult = runForPetlja(resolveProgramskiJezikSpecijalizovanZaIgriceForPetljaInput(degradedSources));
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
     objektnaProngilacijaDegradedSources.length > 0,
@@ -4220,6 +4575,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dikSignal,
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_')),
   );
+  const programskiJezikSpecijalizovanZaIgrice = buildProgramskiJezikSpecijalizovanZaIgriceSignal(
+    programskiJezikSpecijalizovanZaIgriceInput,
+    programskiJezikSpecijalizovanZaIgriceForPetljaResult,
+    dokSignal,
+    dikSignal,
+    degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_')) || programskiJezikSpecijalizovanZaIgriceForPetljaResult.reason !== 'completed',
+  );
   const spajinoProporcionalnoProgramiranjeUniverzitetObjectStructurePercent = round(
     clamp(
       (
@@ -4325,6 +4687,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
     || radniTaktMozgaMislilac.readiness.status === 'BLOCKED'
     || metrikoProgramiranje.readiness.status === 'BLOCKED'
+    || programskiJezikSpecijalizovanZaIgrice.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || sinemetrickoProgramiranje.readiness.status === 'BLOCKED'
@@ -5421,6 +5784,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     programskiJezikInformacionihTokova,
     programskiJezikPretpostavka,
     programskiJezikParadigmaOblikovanjeTela,
+    programskiJezikSpecijalizovanZaIgrice,
     metrikoProgramiranje,
     spajinoProporcionalnoProgramiranjeUniverzitet,
     sinemetrickoProgramiranje,
@@ -5562,6 +5926,9 @@ export {
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_MIN_WATCH_SCORE,

@@ -13,6 +13,7 @@ import {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
@@ -1075,6 +1076,22 @@ async function runTests(): Promise<void> {
     assert(signal.technicalSignals.bodyCompositionScore >= 0 && signal.technicalSignals.bodyCompositionScore <= 100, 'body composition score must be bounded');
     assert(signal.technicalSignals.delegationIntegrityScore >= 0 && signal.technicalSignals.delegationIntegrityScore <= 100, 'delegation integrity score must be bounded');
     assert(signal.technicalSignals.forAdaptationScore >= 0 && signal.technicalSignals.forAdaptationScore <= 100, 'FOR adaptation score must be bounded');
+  });
+
+  await test('default report exposes PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.programskiJezikSpecijalizovanZaIgrice;
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION, 'gaming DSL contract version mismatch');
+    assert(signal.term === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'gaming DSL term mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'gaming DSL source mismatch');
+    assert(signal.additiveOnly, 'gaming DSL must stay additive-only');
+    assert(signal.ownershipModel.aiIqProgramskiJezik === 'dsl-orchestration-explainability-layer', 'gaming DSL AI IQ ownership mismatch');
+    assert(signal.consumerAnchors.igriceModule === 'src/lib/igrice.ts', 'gaming DSL igrice anchor mismatch');
+    assert(signal.consumerAnchors.gamingEndzinModule === 'src/lib/gaming-endzin.ts', 'gaming DSL gaming-endzin anchor mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected gaming DSL readiness status');
+    assert(signal.gamingDomainCoverage.gameplayCategoryCoverageScore >= 0 && signal.gamingDomainCoverage.gameplayCategoryCoverageScore <= 100, 'gameplay category score must be bounded');
+    assert(signal.gamingDomainCoverage.runnerCompatibilityScore >= 0 && signal.gamingDomainCoverage.runnerCompatibilityScore <= 100, 'runner compatibility score must be bounded');
+    assert(signal.technicalEvidence.forLoopBinding.forEvidence.kind === 'FOR PETLJA', 'gaming DSL FOR evidence mismatch');
   });
 
   await test('pretpostavka input is deterministic over same environment values', async () => {

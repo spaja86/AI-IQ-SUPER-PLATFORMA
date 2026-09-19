@@ -28,6 +28,7 @@ import {
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
@@ -808,6 +809,66 @@ export interface ExtrimliExtrondolProgramskiJezikParadigmaOblikovanjeTelaGoverna
   reasons: string[];
 }
 
+export interface ExtrimliExtrondolProgramskiJezikSpecijalizovanZaIgriceGovernance {
+  term: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: typeof EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION;
+  additiveOnly: true;
+  status: ExtrimliExtremProfilerReport['programskiJezikSpecijalizovanZaIgrice']['readiness']['status'];
+  readinessScore: number;
+  governanceVisibility: 'audit-safe-readiness-only';
+  gamingDomainMetrics: {
+    gameplayCategoryCoverageScore: number;
+    runnerCompatibilityScore: number;
+    dimensionalModeReadinessScore: number;
+    renderPhysicsReadinessScore: number;
+    aiNpcBehaviorScore: number;
+    multiplayerSyncScore: number;
+    antiCheatIntegrityScore: number;
+    analyticsPerformanceReadinessScore: number;
+    forStatus: ExtrimliExtremProfilerReport['programskiJezikSpecijalizovanZaIgrice']['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+    dokStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['signals']['dok']['status'];
+    dikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['signals']['dik']['status'];
+    deterministicFallbackRequired: boolean;
+  };
+  ownershipModel: {
+    aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer';
+    extrem: 'technical-gaming-language-signal';
+    extrondol: 'wawe-governance-audit-consumer';
+    spajaKod: 'public-audit-safe-summary';
+  };
+  ownershipEvidence: {
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  governanceDecisions: {
+    dakPromotionDecision: 'PROMOTE' | 'HOLD';
+    dukHumanReviewDecision: 'REQUIRED' | 'OPTIONAL';
+  };
+  consumerAnchors: {
+    igriceModule: 'src/lib/igrice.ts';
+    gamingEndzinModule: 'src/lib/gaming-endzin.ts';
+    publicOutput: 'audit-safe-summary';
+  };
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
 export interface ExtrimliExtrondolMetrickoProgramiranjeGovernance {
   term: 'METRIČKO PROGRAMIRANJE';
   sourceOfTruth: '/api/extrimli/extrondol';
@@ -1228,6 +1289,24 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     blockerReasons: string[];
     watchReasons: string[];
   };
+  programskiJezikSpecijalizovanZaIgriceGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['programskiJezikSpecijalizovanZaIgrice']['readiness']['status'];
+    readinessScore: number;
+    gameplayCategoryCoverageScore: number;
+    runnerCompatibilityScore: number;
+    dimensionalModeReadinessScore: number;
+    renderPhysicsReadinessScore: number;
+    aiNpcBehaviorScore: number;
+    multiplayerSyncScore: number;
+    antiCheatIntegrityScore: number;
+    analyticsPerformanceReadinessScore: number;
+    forStatus: ExtrimliExtremProfilerReport['programskiJezikSpecijalizovanZaIgrice']['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+    deterministicFallbackRequired: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
   metrikoProgramiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
     status: ExtrimliExtremProfilerReport['metrikoProgramiranje']['readiness']['status'];
@@ -1501,6 +1580,7 @@ export interface ExtrimliExtrondolStartProject {
     'extremProfiler.programskiJezikInformacionihTokova',
     'extremProfiler.programskiJezikPretpostavka',
     'extremProfiler.programskiJezikParadigmaOblikovanjeTela',
+    'extremProfiler.programskiJezikSpecijalizovanZaIgrice',
     'extremProfiler.metrikoProgramiranje',
     'extremProfiler.proporcionalnoProgramiranje',
     'extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet',
@@ -1518,6 +1598,7 @@ export interface ExtrimliExtrondolStartProject {
     'programskiJezikInformacionihTokova',
     'programskiJezikPretpostavka',
     'programskiJezikParadigmaOblikovanjeTela',
+    'programskiJezikSpecijalizovanZaIgrice',
     'metrikoProgramiranje',
     'proporcionalnoProgramiranje',
     'spajinoProporcionalnoProgramiranjeUniverzitet',
@@ -1562,6 +1643,7 @@ export interface ExtrimliExtrondolStartProject {
       'extremProfiler.programskiJezikInformacionihTokova.readiness',
       'extremProfiler.programskiJezikPretpostavka.readiness',
       'extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness',
+      'extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness',
       'extremProfiler.metrikoProgramiranje.readiness',
       'extremProfiler.proporcionalnoProgramiranje.readiness',
       'extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness',
@@ -1579,6 +1661,7 @@ export interface ExtrimliExtrondolStartProject {
       'programskiJezikInformacionihTokova',
       'programskiJezikPretpostavka',
       'programskiJezikParadigmaOblikovanjeTela',
+      'programskiJezikSpecijalizovanZaIgrice',
       'metrikoProgramiranje',
       'proporcionalnoProgramiranje',
       'spajinoProporcionalnoProgramiranjeUniverzitet',
@@ -1715,6 +1798,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     programskiJezikInformacionihTokovaStatus: ExtrimliExtremProfilerReport['programskiJezikInformacionihTokova']['readiness']['status'];
     programskiJezikPretpostavkaStatus: ExtrimliExtremProfilerReport['programskiJezikPretpostavka']['readiness']['status'];
     programskiJezikParadigmaOblikovanjeTelaStatus: ExtrimliExtremProfilerReport['programskiJezikParadigmaOblikovanjeTela']['readiness']['status'];
+    programskiJezikSpecijalizovanZaIgriceStatus: ExtrimliExtremProfilerReport['programskiJezikSpecijalizovanZaIgrice']['readiness']['status'];
     metrikoProgramiranjeStatus: ExtrimliExtremProfilerReport['metrikoProgramiranje']['readiness']['status'];
     proporcionalnoProgramiranjeStatus: ExtrimliExtremProfilerReport['proporcionalnoProgramiranje']['readiness']['status'];
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
@@ -1776,6 +1860,7 @@ export interface ExtrimliExtrondolReport {
   programskiJezikInformacionihTokova: ExtrimliExtrondolProgramskiJezikInformacionihTokovaGovernance;
   programskiJezikPretpostavka: ExtrimliExtrondolProgramskiJezikPretpostavkaGovernance;
   programskiJezikParadigmaOblikovanjeTela: ExtrimliExtrondolProgramskiJezikParadigmaOblikovanjeTelaGovernance;
+  programskiJezikSpecijalizovanZaIgrice: ExtrimliExtrondolProgramskiJezikSpecijalizovanZaIgriceGovernance;
   metrikoProgramiranje: ExtrimliExtrondolMetrickoProgramiranjeGovernance;
   proporcionalnoProgramiranje: ExtrimliExtrondolProporcionalnoProgramiranjeGovernance;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtrondolSpajinoProporcionalnoProgramiranjeUniverzitetGovernance;
@@ -1882,6 +1967,10 @@ export const EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERS
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_WATCH_ADJUSTMENT = -6;
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_BLOCKED_ADJUSTMENT = -15;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION = EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_READY_ADJUSTMENT = 2;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_WATCH_ADJUSTMENT = -6;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_BLOCKED_ADJUSTMENT = -15;
 export const EXTRONDOL_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION = EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION;
 export const EXTRONDOL_METRICKO_PROGRAMIRANJE_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_METRICKO_PROGRAMIRANJE_WATCH_ADJUSTMENT = -6;

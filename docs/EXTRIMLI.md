@@ -24,6 +24,7 @@ This repository now exposes five aligned surfaces:
 | **PARADIJOGONALNO PROGRIMIRANJE** | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only cloud/prosparitet track; EXTREM owns the instrumental-vision DOK/DIK technical signal, EXTRONDOL owns WAWE/audit DAK/DUK governance, SPAJA KOD exposes only audit-safe final status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOM/DIK` to EXTREM signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
+| **PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `src/lib/igrice.ts`, `src/lib/gaming-endzin.ts` | Active | Additive-only gaming DSL profile: AI IQ owns orchestration/explainability, EXTREM owns DOK/DIK/FOR gameplay-runtime readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
 | **SINEMETRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only matrix-syntax signal: EXTREM publishes deterministic readiness/conflict/evidence, EXTRONDOL consumes it for WAWE freeze/promotion/audit, SPAJA KOD remains audit-safe summary boundary |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
@@ -1385,3 +1386,11 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - SPAJA KOD prikazuje samo zbirni audit-safe status; raw objektni, funkcionalni i FOR signali ostaju repo-local u EXTREM + EXTRONDOL sloju.
 - Downstream sync koristi samo `extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness`, `programskiJezikParadigmaOblikovanjeTela.waweImpact`, `releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance` i `spajaKod.publicSignals.programskiJezikParadigmaOblikovanjeTelaStatus`.
 - Detaljna specifikacija: `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md`.
+
+## PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE
+
+- `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE` je additive-only gaming track unutar postojećih `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem` i `/api/extrimli/extrondol` granica.
+- `AI IQ PROGRAMSKI JEZIK` ostaje DSL/orchestration sloj; `EXTREM` zaključava gameplay/runtime tehnički signal (`DOK + DIK + FOR`); `EXTRONDOL` zaključava `DAK + DUK` promotion/human-review governance i WAWE freeze/rollback/audit/downstream-sync pravila.
+- Kanonski gaming domen profila obuhvata: kategoriju igrice, runner kompatibilnost, dimenzionalni režim, render/fizika, AI/NPC ponašanje, multiplayer/sync, anti-cheat i analytics/performance readiness.
+- Javni izlaz ostaje audit-safe summary, a postojeći gaming potrošači ostaju `src/lib/igrice.ts` i `src/lib/gaming-endzin.ts`.
+- Downstream sync koristi samo audit-safe polja: `extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness`, `programskiJezikSpecijalizovanZaIgrice.waweImpact`, `releaseAuditSummary.programskiJezikSpecijalizovanZaIgriceGovernance` i `spajaKod.publicSignals.programskiJezikSpecijalizovanZaIgriceStatus`.
