@@ -754,7 +754,7 @@ export interface ExtrimliExtremProgramskiJezikInformacionihTokovaSignal {
     forEvidence: {
       kind: 'FOR PETLJA';
       readinessScore: number | null;
-      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      status: ExtrimliExtremPetljaSignalStatus;
     };
   };
   technicalSignals: {
