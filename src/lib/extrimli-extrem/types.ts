@@ -964,7 +964,7 @@ export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal {
       forEvidence: {
         kind: 'FOR PETLJA';
         readinessScore: number | null;
-        status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+        status: ExtrimliExtremPetljaSignalStatus;
       };
     };
     dokEvidence: {
@@ -1068,7 +1068,7 @@ export interface ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal {
       forEvidence: {
         kind: 'FOR PETLJA';
         readinessScore: number | null;
-        status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+        status: ExtrimliExtremPetljaSignalStatus;
       };
     };
     dokEvidence: {
