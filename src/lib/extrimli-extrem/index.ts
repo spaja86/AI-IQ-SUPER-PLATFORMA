@@ -935,7 +935,9 @@ function resolveProgramskiJezikPretpostavkaForPetljaInput(
     || normalizedStatus === 'ACTIVATED'
     || normalizedStatus === 'DEAD'
     ? normalizedStatus
-    : 'ACTIVATED';
+    : rawStatus
+      ? 'DISABLED'
+      : 'ACTIVATED';
 
   if (rawStatus && normalizedStatus !== status) {
     degradedSources.push('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_FOR_STATUS');
@@ -1517,7 +1519,9 @@ function resolveProgramskiJezikSpecijalizovanZaIgriceForPetljaInput(
     || normalizedStatus === 'ACTIVATED'
     || normalizedStatus === 'DEAD'
     ? normalizedStatus
-    : 'ACTIVATED';
+    : rawStatus
+      ? 'DISABLED'
+      : 'ACTIVATED'
 
   if (rawStatus && normalizedStatus !== status) {
     degradedSources.push('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_STATUS');
