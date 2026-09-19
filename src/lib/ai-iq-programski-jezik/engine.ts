@@ -37,6 +37,8 @@ let compilations = 0;
 let lastStatus: AiiqLanguageStatus | null = null;
 let lastEvaluatedAt: string | null = null;
 
+type ExtremInformationalFlowSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikInformacionihTokova'];
+
 const DOM_GROUP = ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA'] as const;
 const DIK_GROUP = ['DIK PETLJA'] as const;
 const DAK_GROUP = ['DAKOR'] as const;
@@ -377,9 +379,9 @@ function invalidEvaluateResult(
   goal: string | undefined,
   warning: string,
   start: number,
+  extremInformationalFlow: ExtremInformationalFlowSignal,
 ): AiiqLanguageEvaluateResult {
   const durationMs = round2(performance.now() - start);
-  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   record(null, 'evaluate');
   return {
     referenceId: referenceId ?? 'n/a',
@@ -417,9 +419,9 @@ function invalidCompileResult(
   referenceId: string | undefined,
   warning: string,
   start: number,
+  extremInformationalFlow: ExtremInformationalFlowSignal,
 ): AiiqLanguageCompileResult {
   const durationMs = round2(performance.now() - start);
-  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   record(null, 'compile');
   return {
     referenceId: referenceId ?? 'n/a',
@@ -507,13 +509,14 @@ function parseProgram(source: string): {
 
 export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLanguageEvaluateResult {
   const start = performance.now();
+  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
 
   if (!input || typeof input !== 'object') {
-    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start);
+    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow);
   }
 
   if (typeof input.goal !== 'string' || input.goal.trim().length === 0) {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start, extremInformationalFlow);
   }
 
   if (!isMode(input.mode)) {
@@ -522,6 +525,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       input.goal,
       `mode must be one of: ${VALID_AIIQ_LANGUAGE_MODES.join(', ')}`,
       start,
+      extremInformationalFlow,
     );
   }
 
@@ -537,12 +541,12 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
 
   for (const [value, field] of boundedChecks) {
     if (!isBoundedScore(value)) {
-      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start);
+      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start, extremInformationalFlow);
     }
   }
 
   if (typeof input.fallbackConfigured !== 'boolean') {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start, extremInformationalFlow);
   }
 
   const deterministicReadiness = round2(
@@ -615,7 +619,6 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       ? 'WATCH'
       : 'READY';
   const durationMs = round2(performance.now() - start);
-  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   const integrationProfile = buildIntegrationProfile({
     surface: '/api/ai-iq-programski-jezik/evaluate',
     dom: domStatus,
@@ -660,13 +663,14 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
 
 export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLanguageCompileResult {
   const start = performance.now();
+  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
 
   if (!input || typeof input !== 'object') {
-    return invalidCompileResult(undefined, 'input must be an object', start);
+    return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow);
   }
 
   if (typeof input.source !== 'string' || input.source.trim().length === 0) {
-    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start);
+    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start, extremInformationalFlow);
   }
 
   if (!isMode(input.targetMode)) {
@@ -674,20 +678,21 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       input.referenceId,
       `targetMode must be one of: ${VALID_AIIQ_LANGUAGE_MODES.join(', ')}`,
       start,
+      extremInformationalFlow,
     );
   }
 
   if (typeof input.strictSecurity !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start);
+    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start, extremInformationalFlow);
   }
 
   if (typeof input.featureFlagAiIqLanguage !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start);
+    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start, extremInformationalFlow);
   }
 
   const { ast, warnings, unsupportedKeywords } = parseProgram(input.source);
   if (ast.length === 0) {
-    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start);
+    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start, extremInformationalFlow);
   }
 
   const syntaxScore = round2(clamp((ast.length / Math.max(1, input.source.split(/\r?\n/).filter(Boolean).length)) * 100, 0, 100));
@@ -772,7 +777,6 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     2,
   );
   const durationMs = round2(performance.now() - start);
-  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   const integrationProfile = buildIntegrationProfile({
     surface: '/api/ai-iq-programski-jezik/compile',
     dom: domStatus,
