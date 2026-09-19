@@ -105,6 +105,13 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.canonicalName === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'pretpostavka canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.canonicalName === 'PROGRAMSKI JEZIK APSTRAKCIJA', 'apstrakcija canonical name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.additiveOnly, 'apstrakcija must stay additive-only');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.signalOwnership.dokDik === 'EXTREM', 'apstrakcija DOK/DIK ownership mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.signalOwnership.dakDuk === 'EXTRONDOL', 'apstrakcija DAK/DUK ownership mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.governanceQualityGate.sequence.join(',') === 'lint,test,smoke,predeploy,security,human-review,audit-log', 'apstrakcija gate sequence mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase1 === 'documentation-lock-and-contract-model', 'apstrakcija rollout phase1 mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase4 === 'downstream-sync-and-audit-safe-summary', 'apstrakcija rollout phase4 mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.pretpostavka), 'pretpostavka status must be bounded');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');

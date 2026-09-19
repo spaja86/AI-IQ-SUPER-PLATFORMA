@@ -386,6 +386,70 @@ function buildIntegrationProfile(params: {
             : []),
         ],
       },
+      programskiJezikApstrakcija: {
+        canonicalName: 'PROGRAMSKI JEZIK APSTRAKCIJA',
+        additiveOnly: true,
+        initiativeGoal:
+          'Organizovanje i nabavka informacija kroz izgradnju superiornih informacionih sistema sa automatskim radom i adaptacijom.',
+        sourceOfTruthLock: {
+          extrem: '/api/extrimli/extrem',
+          extrondol: '/api/extrimli/extrondol',
+          aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer',
+          integrationSignalRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+        },
+        signalOwnership: {
+          dokDik: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          forInformacioniTok: 'EXTREM',
+          consolidatedOutput: ['READY', 'WATCH', 'BLOCKED'],
+        },
+        dslProfile: {
+          intent: true,
+          rules: true,
+          aiLayer: true,
+          orchestration: true,
+          outputSchema: true,
+          mandatoryGuardrails: true,
+          deterministicFallback: true,
+          auditReadyExplanation: true,
+        },
+        superiorInformationSystemMetrics: {
+          stabilityScore: informacioniTokoviScore,
+          sequenceIntegrityScore: round2(clamp((params.rolloutMaturityScore * 0.5) + (params.performanceWithinTargets ? 35 : 15), 0, 100)),
+          driftConflictScore: round2(clamp((params.promotionFreeze ? 70 : 18) + (params.securityBoundariesPreserved ? 0 : 16), 0, 100)),
+          saturationLoadScore: round2(clamp((params.performanceWithinTargets ? 18 : 64) + (params.dom === 'BLOCKED' ? 12 : 0), 0, 100)),
+          continuationReadinessScore: round2(clamp((params.rolloutMaturityScore * 0.56) + (params.securityBoundariesPreserved ? 22 : 6), 0, 100)),
+        },
+        adaptiveOperatingModel: {
+          deterministicOnly: true,
+          hybrid: true,
+          aiNative: 'security-readiness-governance-gated',
+        },
+        governanceQualityGate: {
+          sequence: ['lint', 'test', 'smoke', 'predeploy', 'security', 'human-review', 'audit-log'],
+          rollbackPlanRequired: true,
+          promotionFreezeOnSignal: true,
+        },
+        driftZeroConformance: {
+          layers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+          promotionBlockedOnDrift: true,
+        },
+        rolloutPlan: {
+          phase1: 'documentation-lock-and-contract-model',
+          phase2: 'types-contracts-health-readiness',
+          phase3: 'tests-conformance-audit-evidence',
+          phase4: 'downstream-sync-and-audit-safe-summary',
+        },
+        successCriteria: {
+          deterministicRepeatability: true,
+          edgeCasesValidated: true,
+          adaptiveFallbackConfirmed: consistencyEscalationStatus !== 'READY'
+            ? true
+            : informacioniTokovi === 'READY' && pretpostavka === 'READY',
+          governanceConformanceGreen: !params.promotionFreeze && params.securityBoundariesPreserved,
+          downstreamSyncReady: true,
+        },
+      },
       reasons: [
         'PROGRAMSKI JEZIK ANALIZA koristi objedinjeni DOK/DIK/DAK/DUK signal kao eskalacioni indikator kodesnog zapleta.',
         'PROGRAMSKI JEZIK PROUČAVANJA koristi PROGRAMSKI EKANALOG za audit-ready tumačenje laboratorijske logike.',

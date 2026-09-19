@@ -115,6 +115,17 @@ async function runTests(): Promise<void> {
                 canonicalName: string;
                 dslProfile: string;
               };
+              programskiJezikApstrakcija: {
+                canonicalName: string;
+                additiveOnly: boolean;
+                governanceQualityGate: {
+                  sequence: string[];
+                };
+                rolloutPlan: {
+                  phase1: string;
+                  phase4: string;
+                };
+              };
             };
           };
           acceptanceCriteria: {
@@ -149,6 +160,11 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.canonicalName === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'missing pretpostavka profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.canonicalName === 'PROGRAMSKI JEZIK APSTRAKCIJA', 'missing apstrakcija profile');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.additiveOnly, 'apstrakcija profile must stay additive-only');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.governanceQualityGate.sequence.join(',') === 'lint,test,smoke,predeploy,security,human-review,audit-log', 'apstrakcija gate sequence mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase1 === 'documentation-lock-and-contract-model', 'apstrakcija rollout phase1 mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase4 === 'downstream-sync-and-audit-safe-summary', 'apstrakcija rollout phase4 mismatch');
     assert(body.data.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.informacioniTokoviAdditiveInput, 'informational-flow additive lock must be enabled');
