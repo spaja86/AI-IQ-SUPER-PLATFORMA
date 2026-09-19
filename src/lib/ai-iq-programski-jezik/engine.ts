@@ -213,7 +213,7 @@ function buildIntegrationProfile(params: {
   const pretpostavka = params.pretpostavkaSignalStatus;
   const gamingDslScore = round2(clamp(params.gamingDslReadinessScore, 0, 100));
   const gamingDsl = params.gamingDslSignalStatus;
-  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, pretpostavka, gamingDsl, sinemetricko);
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, pretpostavka, sinemetricko);
   const consistencyEscalationScore = round2(
     clamp(
       params.rolloutMaturityScore * 0.7
