@@ -2142,7 +2142,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       multiplayerSyncScore: number;
       antiCheatIntegrityScore: number;
       analyticsPerformanceReadinessScore: number;
-      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      forStatus: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
       dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
       dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
       fallbackRequired: boolean;
