@@ -101,6 +101,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Oba izlaza objavljuju `dokDikDakDukConsistencyHealth` kao deterministički audit-ready health signal.
 - Health signal je additive-only i služi kao drift-zero kontrola između tehničkog (EXTREM) i governance (EXTRONDOL) sloja.
 - Health signal sada uključuje i `programskiJezikAnaliza` metriku za ispitivanje eskalacije kodesnog zapleta (konflikt/readiness + freeze/promotion/escalation u jednom audit-ready score/status izlazu).
+- Health signal uključuje i additive `programskiJezikProucavanja` laboratorijski profil (ulazni slučaj, determinističke metrike, konsolidovani status) i `programskiEkanalog` audit-ready interpretaciju razumevanja logike.
 - Shared roadmap `versionRoadmap.developerCreateLock` dodatno zaključava jezgro artefakata, ownership split i obavezne drift-zero slojeve (`docs + types + routes + tests + workflows`).
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 - DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
@@ -655,6 +656,8 @@ Signal split lock remains mandatory:
 
 - `DOK + DIK` stay in EXTREM technical layer
 - `DAK + DUK` stay in EXTRONDOL governance layer
+- `PROGRAMSKI JEZIK PROUČAVANJA` ostaje additive-only iznad istog ownership split-a i ne uvodi nove source-of-truth rute.
+- `PROGRAMSKI EKANALOG` ostaje audit-safe interpretacioni sloj (razumevanje logike) bez izlaganja internih formula van postojećih surface-ova.
 
 Acceptance criteria:
 

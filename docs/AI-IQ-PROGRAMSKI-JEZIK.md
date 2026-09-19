@@ -64,6 +64,12 @@ PROGRAMSKI JEZIK ANALIZA (ispitivanje eskalacije kodesnog zapleta):
 - objedinjuje `DOK + DIK` tehnički konflikt/readiness signal (EXTREM) sa `DAK + DUK` governance freeze/promotion/human-review signalom (EXTRONDOL)
 - rezultat je audit-ready konsolidovani status (`READY | WATCH | BLOCKED`) sa `escalationScore`, `deterministicFallbackRequired`, `promotionFreeze`, `humanReviewRequired`, `rollbackPlanRequired`
 
+PROGRAMSKI JEZIK PROUČAVANJA (analitika laboratorijskih slučajeva):
+- additive-only profil unutar postojećeg `AI IQ PROGRAMSKI JEZIK` + `EXTRIMLI-EXTRONDOL-EXTREM` modela (bez novih source-of-truth ruta)
+- formalizuje laboratorijski ulazni profil slučaja, determinističke metrike i konsolidovani status (`READY | WATCH | BLOCKED`)
+- ownership split ostaje zaključan: `DOK + DIK` tehnički sloj u EXTREM, `DAK + DUK` governance sloj u EXTRONDOL
+- koristi `PROGRAMSKI EKANALOG (razumevanje logike)` kao audit-ready interpretacioni sloj nad laboratorijskim rezultatima
+
 ### Tipovi podataka
 
 - `mode/targetMode`: `DETERMINISTIC_ONLY | HYBRID | AI_NATIVE`

@@ -91,6 +91,11 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid consistency escalation status');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && first.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'consistency escalation score must be bounded');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.downstreamReference === 'spaja86/IO-OPENUI-AO', 'consistency downstream reference mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.canonicalName === 'PROGRAMSKI JEZIK PROUČAVANJA', 'programski jezik proucavanja name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.ownershipSplit.dokDik === 'EXTREM', 'programski jezik proucavanja DOK/DIK ownership mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.ownershipSplit.dakDuk === 'EXTRONDOL', 'programski jezik proucavanja DAK/DUK ownership mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'programski ekanalog name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
     assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');

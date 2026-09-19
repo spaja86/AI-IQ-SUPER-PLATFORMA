@@ -92,6 +92,23 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     downstreamReference: 'spaja86/IO-OPENUI-AO';
+    programskiJezikProucavanja: {
+      canonicalName: 'PROGRAMSKI JEZIK PROUČAVANJA';
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      consolidatedStatus: AiiqIntegrationSignalStatus;
+      escalationScore: number;
+      ownershipSplit: {
+        dokDik: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+      };
+      programskiEkanalog: {
+        canonicalName: 'PROGRAMSKI EKANALOG';
+        meaning: 'razumevanje logike';
+        auditConclusion: string;
+        auditReady: boolean;
+      };
+    };
     reasons: string[];
   };
   governanceLink: {

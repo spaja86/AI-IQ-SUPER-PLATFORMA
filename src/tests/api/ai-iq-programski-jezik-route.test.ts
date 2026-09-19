@@ -100,6 +100,13 @@ async function runTests(): Promise<void> {
             escalationStatus: string;
             escalationScore: number;
             deterministicFallbackRequired: boolean;
+            programskiJezikProucavanja: {
+              canonicalName: string;
+              programskiEkanalog: {
+                canonicalName: string;
+                meaning: string;
+              };
+            };
           };
           acceptanceCriteria: {
             preserveDokDikDakDukContract: boolean;
@@ -122,6 +129,9 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid escalation consistency status');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'invalid escalation consistency score');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired === false, 'valid payload should not require deterministic fallback');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.canonicalName === 'PROGRAMSKI JEZIK PROUČAVANJA', 'missing programski jezik proucavanja profile');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'missing programski ekanalog profile');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
     assert(body.data.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive lock must be enabled');
     assert(body.data.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'missing downstream linked repo');
