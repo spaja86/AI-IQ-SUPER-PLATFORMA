@@ -192,6 +192,7 @@ function buildIntegrationProfile(params: {
   informationalFlowReadinessScore: number;
   pretpostavkaSignalStatus: AiiqIntegrationSignalStatus;
   pretpostavkaReadinessScore: number;
+  pretpostavkaTechnicalSignals: ExtremPretpostavkaSignal['technicalSignals'];
 }): AiiqLanguageExtrimliIntegrationProfile {
   const sinemetricko = resolveSinemetrickoSignalStatus({
     dom: params.dom,
@@ -205,7 +206,6 @@ function buildIntegrationProfile(params: {
   });
   const informacioniTokoviScore = round2(clamp(params.informationalFlowReadinessScore, 0, 100));
   const informacioniTokovi = params.informationalFlowSignalStatus;
-  const pretpostavkaScore = round2(clamp(params.pretpostavkaReadinessScore, 0, 100));
   const pretpostavka = params.pretpostavkaSignalStatus;
   const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, pretpostavka, sinemetricko);
   const consistencyEscalationScore = round2(
@@ -371,12 +371,12 @@ function buildIntegrationProfile(params: {
           uciniOblik: 'akcioni učini oblik za izlaznu interpretaciju',
         },
         metrics: {
-          stabilityScore: pretpostavkaScore,
-          keyInformationIntegrityScore: round2(clamp((params.rolloutMaturityScore * 0.52) + (params.securityBoundariesPreserved ? 28 : 10), 0, 100)),
-          actionShapeDeterminismScore: round2(clamp((pretpostavkaScore * 0.72) + (params.performanceWithinTargets ? 18 : 6), 0, 100)),
-          driftConflictScore: round2(clamp((params.promotionFreeze ? 66 : 16) + (params.securityBoundariesPreserved ? 0 : 18), 0, 100)),
-          saturationLoadScore: round2(clamp((params.performanceWithinTargets ? 20 : 62) + (pretpostavka === 'BLOCKED' ? 10 : 0), 0, 100)),
-          continuationReadinessScore: round2(clamp((pretpostavkaScore * 0.64) + (params.rolloutMaturityScore * 0.2), 0, 100)),
+          stabilityScore: params.pretpostavkaTechnicalSignals.stabilityScore,
+          keyInformationIntegrityScore: params.pretpostavkaTechnicalSignals.keyInformationIntegrityScore,
+          actionShapeDeterminismScore: params.pretpostavkaTechnicalSignals.actionShapeDeterminismScore,
+          driftConflictScore: params.pretpostavkaTechnicalSignals.driftConflictScore,
+          saturationLoadScore: params.pretpostavkaTechnicalSignals.saturationLoadScore,
+          continuationReadinessScore: params.pretpostavkaTechnicalSignals.continuationReadinessScore,
         },
         reasons: [
           'Pretpostavka track ostaje additive interpretacioni sloj unutar postojećeg EXTRIMLI-EXTRONDOL-EXTREM modela.',
@@ -461,6 +461,7 @@ function invalidEvaluateResult(
       informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
       pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
       pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+      pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -504,6 +505,7 @@ function invalidCompileResult(
       informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
       pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
       pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+      pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -692,6 +694,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
     pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+    pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
   });
   const recommendedAction = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? (status === 'BLOCKED' ? 'HARDEN_GUARDS' : 'RUN_SHADOW_MODE')
@@ -855,6 +858,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
     pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+    pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
   });
   const executionMode: AiiqLanguageMode = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? 'DETERMINISTIC_ONLY'
