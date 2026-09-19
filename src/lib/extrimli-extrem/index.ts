@@ -653,7 +653,9 @@ function resolveProgramskiJezikInformacionihTokovaForPetljaInput(
     || normalizedStatus === 'ACTIVATED'
     || normalizedStatus === 'DEAD'
     ? normalizedStatus
-    : 'ACTIVATED';
+    : rawStatus
+      ? 'DISABLED'
+      : 'ACTIVATED';
 
   if (rawStatus && normalizedStatus !== status) {
     degradedSources.push('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_STATUS');
