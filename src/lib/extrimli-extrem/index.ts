@@ -3985,8 +3985,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         saturationLoadScore: programskiJezikInformacionihTokova.technicalSignals.saturationLoadScore,
         continuationReadinessScore: programskiJezikInformacionihTokova.technicalSignals.continuationReadinessScore,
         forStatus: programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
-        dokStatus: dokSignal?.status ?? null,
-        dikStatus: dikSignal?.status ?? null,
+        dokStatus: dokSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+        dikStatus: dikSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
         fallbackRequired: programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired,
       },
       governanceCoupling: {
