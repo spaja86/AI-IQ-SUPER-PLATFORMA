@@ -30,6 +30,7 @@ import {
   AIIQ_LANG_SLUG,
 } from './types';
 import { VALID_AIIQ_LANGUAGE_KEYWORDS, VALID_AIIQ_LANGUAGE_MODES } from './registry';
+import { getExtrimliExtremProfilerReport } from '../extrimli-extrem';
 
 let evaluations = 0;
 let compilations = 0;
@@ -184,6 +185,8 @@ function buildIntegrationProfile(params: {
   promotionFreeze: boolean;
   performanceWithinTargets: boolean;
   securityBoundariesPreserved: boolean;
+  informationalFlowSignalStatus: AiiqIntegrationSignalStatus;
+  informationalFlowReadinessScore: number;
 }): AiiqLanguageExtrimliIntegrationProfile {
   const sinemetricko = resolveSinemetrickoSignalStatus({
     dom: params.dom,
@@ -195,25 +198,8 @@ function buildIntegrationProfile(params: {
     securityBoundariesPreserved: params.securityBoundariesPreserved,
     rolloutMaturityScore: params.rolloutMaturityScore,
   });
-  const informacioniTokoviScore = round2(
-    clamp(
-      params.rolloutMaturityScore * 0.34
-      + (params.performanceWithinTargets ? 100 : 40) * 0.18
-      + (params.securityBoundariesPreserved ? 100 : 35) * 0.16
-      + (params.promotionFreeze ? 28 : 92) * 0.12
-      + (params.dom === 'READY' ? 92 : params.dom === 'WATCH' ? 68 : 34) * 0.1
-      + (params.dik === 'READY' ? 92 : params.dik === 'WATCH' ? 68 : 34) * 0.1,
-      0,
-      100,
-    ),
-  );
-  const informacioniTokovi: AiiqIntegrationSignalStatus = params.promotionFreeze
-    ? 'BLOCKED'
-    : informacioniTokoviScore >= 82
-      ? 'READY'
-      : informacioniTokoviScore >= 62
-        ? 'WATCH'
-        : 'BLOCKED';
+  const informacioniTokoviScore = round2(clamp(params.informationalFlowReadinessScore, 0, 100));
+  const informacioniTokovi = params.informationalFlowSignalStatus;
   const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, sinemetricko);
   const consistencyEscalationScore = round2(
     clamp(
@@ -393,6 +379,7 @@ function invalidEvaluateResult(
   start: number,
 ): AiiqLanguageEvaluateResult {
   const durationMs = round2(performance.now() - start);
+  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   record(null, 'evaluate');
   return {
     referenceId: referenceId ?? 'n/a',
@@ -417,6 +404,8 @@ function invalidEvaluateResult(
       promotionFreeze: true,
       performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
       securityBoundariesPreserved: false,
+      informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
+      informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -430,6 +419,7 @@ function invalidCompileResult(
   start: number,
 ): AiiqLanguageCompileResult {
   const durationMs = round2(performance.now() - start);
+  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   record(null, 'compile');
   return {
     referenceId: referenceId ?? 'n/a',
@@ -454,6 +444,8 @@ function invalidCompileResult(
       promotionFreeze: true,
       performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
       securityBoundariesPreserved: false,
+      informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
+      informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -623,6 +615,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       ? 'WATCH'
       : 'READY';
   const durationMs = round2(performance.now() - start);
+  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   const integrationProfile = buildIntegrationProfile({
     surface: '/api/ai-iq-programski-jezik/evaluate',
     dom: domStatus,
@@ -633,6 +626,8 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     promotionFreeze: status === 'BLOCKED' || input.riskLevel >= 80 || !input.fallbackConfigured,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: status !== 'BLOCKED' && input.securityPolicyScore >= 60 && input.fallbackConfigured,
+    informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
+    informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
   });
   const recommendedAction = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? (status === 'BLOCKED' ? 'HARDEN_GUARDS' : 'RUN_SHADOW_MODE')
@@ -777,6 +772,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     2,
   );
   const durationMs = round2(performance.now() - start);
+  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
   const integrationProfile = buildIntegrationProfile({
     surface: '/api/ai-iq-programski-jezik/compile',
     dom: domStatus,
@@ -787,6 +783,8 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     promotionFreeze: status === 'BLOCKED' || !securityPass || aiFeatureFreeze,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
+    informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
+    informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
   });
   const executionMode: AiiqLanguageMode = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? 'DETERMINISTIC_ONLY'
