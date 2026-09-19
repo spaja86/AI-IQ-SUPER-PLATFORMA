@@ -728,6 +728,9 @@ async function runTests(): Promise<void> {
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     );
+    const radniTaktMozgaMislilacAdjustment = getRadniTaktMozgaMislilacAdjustment(
+      report.extremProfiler.radniTaktMozgaMislilac.readiness.status,
+    );
     const metrikoProgramiranjeAdjustment = getMetrickoProgramiranjeAdjustment(
       report.extremProfiler.metrikoProgramiranje.readiness.status,
     );
@@ -757,6 +760,7 @@ async function runTests(): Promise<void> {
           + funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
+          + radniTaktMozgaMislilacAdjustment
           + metrikoProgramiranjeAdjustment
           + paradijogonalnoProgrimiranjeAdjustment
           + proporcionalnoProgramiranjeAdjustment
