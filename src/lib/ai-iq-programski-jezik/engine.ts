@@ -162,6 +162,10 @@ function mergeSignalStatus(...statuses: AiiqIntegrationSignalStatus[]): AiiqInte
   return 'WATCH';
 }
 
+function coerceSignalStatus(status: AiiqIntegrationSignalStatus | null | undefined): AiiqIntegrationSignalStatus {
+  return status ?? 'WATCH';
+}
+
 function nextRolloutStage(stage: AiiqIntegrationRolloutStage): AiiqIntegrationRolloutStage {
   if (stage === 'WAVE-1') return 'WAVE-2';
   if (stage === 'WAVE-2') return 'WAVE-3';
@@ -963,7 +967,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     promotionFreeze: status === 'BLOCKED' || input.riskLevel >= 80 || !input.fallbackConfigured,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: status !== 'BLOCKED' && input.securityPolicyScore >= 60 && input.fallbackConfigured,
-    dokStatus: extremDekoracijeObjektnihPrimesa.technicalEvidence.dokEvidence.status,
+    dokStatus: coerceSignalStatus(extremDekoracijeObjektnihPrimesa.technicalEvidence.dokEvidence.status),
     informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
@@ -1143,7 +1147,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     promotionFreeze: status === 'BLOCKED' || !securityPass || aiFeatureFreeze,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
-    dokStatus: extremDekoracijeObjektnihPrimesa.technicalEvidence.dokEvidence.status,
+    dokStatus: coerceSignalStatus(extremDekoracijeObjektnihPrimesa.technicalEvidence.dokEvidence.status),
     informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
