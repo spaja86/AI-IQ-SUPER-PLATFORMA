@@ -55,6 +55,9 @@ import type {
   ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetProfileInput,
   ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal,
   ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetStatus,
+  ExtrimliExtremSinemetrickoProgramiranjeProfileInput,
+  ExtrimliExtremSinemetrickoProgramiranjeSignal,
+  ExtrimliExtremSinemetrickoProgramiranjeStatus,
   ExtrimliExtremKraljevskiPravniTrack,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
@@ -115,6 +118,9 @@ import {
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,
@@ -314,6 +320,38 @@ function resolveResolutionInput(degradedSources: string[]): ExtrimliExtremResolu
     rezolucijaCompletenessPercent: parsePercentEnv('EXTRIMLI_EXTREM_REZOLUCIJA_COMPLETENESS_PERCENT', 74, degradedSources),
     ekodorAlignmentPercent: parsePercentEnv('EXTRIMLI_EXTREM_EKODOR_ALIGNMENT_PERCENT', 68, degradedSources),
     discanPressurePercent: parsePercentEnv('EXTRIMLI_EXTREM_DISCAN_PRESSURE_PERCENT', 28, degradedSources),
+  };
+}
+
+function resolveSinemetrickoProgramiranjeInput(
+  degradedSources: string[],
+): ExtrimliExtremSinemetrickoProgramiranjeProfileInput {
+  return {
+    matrixSyntaxLegalScalingPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_SYNTAX_LEGAL_SCALING_PERCENT',
+      88,
+      0,
+      degradedSources,
+    ),
+    octavalSequenceDimensionalReadinessPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_SINEMETRICKO_OCTAVAL_SEQUENCE_DIMENSIONAL_READINESS_PERCENT',
+      90,
+      0,
+      degradedSources,
+    ),
+    matrixCompoundPersonaEncryptionPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_COMPOUND_PERSONA_ENCRYPTION_PERCENT',
+      87,
+      0,
+      degradedSources,
+    ),
+    pixelCadenceMs: parseIntegerEnv(
+      'EXTRIMLI_EXTREM_SINEMETRICKO_PIXEL_CADENCE_MS',
+      1,
+      1,
+      16,
+      degradedSources,
+    ),
   };
 }
 
@@ -1377,6 +1415,131 @@ function buildSpajinoProporcionalnoProgramiranjeUniverzitetSignal(
   };
 }
 
+function classifySinemetrickoProgramiranjeStatus(score: number): ExtrimliExtremSinemetrickoProgramiranjeStatus {
+  if (score >= EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function buildSinemetrickoProgramiranjeSignal(
+  profileInput: ExtrimliExtremSinemetrickoProgramiranjeProfileInput,
+  degraded: boolean,
+): ExtrimliExtremSinemetrickoProgramiranjeSignal {
+  const cadenceReadinessPercent = round(clamp(100 - ((profileInput.pixelCadenceMs - 1) * 8), 0, 100), 2);
+  const readinessScore = round(
+    clamp(
+      (profileInput.matrixSyntaxLegalScalingPercent * 0.3)
+      + (profileInput.octavalSequenceDimensionalReadinessPercent * 0.3)
+      + (profileInput.matrixCompoundPersonaEncryptionPercent * 0.3)
+      + (cadenceReadinessPercent * 0.1),
+      0,
+      100,
+    ),
+    2,
+  );
+  const conflictScore = round(clamp(100 - readinessScore, 0, 100), 2);
+  const readinessStatus = classifySinemetrickoProgramiranjeStatus(readinessScore);
+  const conflictStatus = classifySinemetrickoProgramiranjeStatus(100 - conflictScore);
+  const watchReasons = [
+    ...(profileInput.matrixSyntaxLegalScalingPercent < 80
+      ? [`matrix-syntax-legal-scaling-watch:${profileInput.matrixSyntaxLegalScalingPercent}`]
+      : []),
+    ...(profileInput.octavalSequenceDimensionalReadinessPercent < 80
+      ? [`octaval-sequence-dimensional-watch:${profileInput.octavalSequenceDimensionalReadinessPercent}`]
+      : []),
+    ...(profileInput.matrixCompoundPersonaEncryptionPercent < 80
+      ? [`matrix-compound-persona-encryption-watch:${profileInput.matrixCompoundPersonaEncryptionPercent}`]
+      : []),
+    ...(profileInput.pixelCadenceMs !== 1 ? [`pixel-cadence-watch:${profileInput.pixelCadenceMs}ms`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.matrixSyntaxLegalScalingPercent < 58
+      ? [`matrix-syntax-legal-scaling-blocked:${profileInput.matrixSyntaxLegalScalingPercent}`]
+      : []),
+    ...(profileInput.octavalSequenceDimensionalReadinessPercent < 58
+      ? [`octaval-sequence-dimensional-blocked:${profileInput.octavalSequenceDimensionalReadinessPercent}`]
+      : []),
+    ...(profileInput.matrixCompoundPersonaEncryptionPercent < 58
+      ? [`matrix-compound-persona-encryption-blocked:${profileInput.matrixCompoundPersonaEncryptionPercent}`]
+      : []),
+    ...(profileInput.pixelCadenceMs > 4 ? [`pixel-cadence-blocked:${profileInput.pixelCadenceMs}ms`] : []),
+  ];
+
+  const evidenceComplete = blockerReasons.length === 0;
+
+  return {
+    term: 'SINEMETRIČKO PROGRAMIRANJE',
+    contractVersion: EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'SINEMETRIČKO PROGRAMIRANJE',
+      statement: 'Additive EXTREM technical matrix-syntax signal that models legal-scaling syntax, octaval sequence dimensionality, matrix-compound persona encryption, and fixed 1ms pixel cadence constraints.',
+      interpretationLayer: 'technical-matrix-syntax-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+      noNewRoutes: true,
+    },
+    ownershipModel: {
+      extrem: 'technical-sinemetricko-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      matricneSintakse: {
+        canonicalField: 'profileInput.matrixSyntaxLegalScalingPercent',
+        meaning: 'skaliranje-zakonskih-mera-konvencionalni-aktovi',
+      },
+      oktavnaSekvenca: {
+        canonicalField: 'profileInput.octavalSequenceDimensionalReadinessPercent',
+        meaning: 'dimenzionalni-prostor-u-oktavnom-sistemu',
+      },
+      matricnaJedinjenja: {
+        canonicalField: 'profileInput.matrixCompoundPersonaEncryptionPercent',
+        meaning: 'personifikacija-strelicna-mis-tastaturna-enkripcija',
+      },
+      pixelCadence: {
+        canonicalField: 'profileInput.pixelCadenceMs',
+        meaning: 'pravosnazno-ekstremno-otkucavanje-piksela-po-1-ms',
+      },
+      signalSplitLock: {
+        dokDik: 'EXTREM',
+        dakDuk: 'EXTRONDOL',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    readiness: {
+      score: readinessScore,
+      status: readinessStatus,
+      readyForWaweProgression: readinessStatus === 'READY',
+      degraded,
+      watchReasons,
+      blockerReasons,
+    },
+    conflict: {
+      score: conflictScore,
+      status: conflictStatus,
+      evidenceRequired: !evidenceComplete,
+    },
+    evidence: {
+      sourceModel: 'deterministic-matrix-syntax',
+      requiredArtifacts: [
+        'matrix-syntax-legal-scaling',
+        'octaval-sequence-dimensional-space',
+        'matrix-compound-persona-encryption',
+        'pixel-cadence-1ms',
+      ],
+      complete: evidenceComplete,
+    },
+  };
+}
+
 function classifyEpicElikvadentStatus(score: number): ExtrimliExtremEpicElikvadentStatus {
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_MIN_WATCH_SCORE) return 'WATCH';
@@ -2404,6 +2567,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
   const resolutionInput = resolveResolutionInput(degradedSources);
+  const sinemetrickoProgramiranjeDegradedSources: string[] = [];
+  const sinemetrickoProgramiranjeInput = resolveSinemetrickoProgramiranjeInput(sinemetrickoProgramiranjeDegradedSources);
+  degradedSources.push(...sinemetrickoProgramiranjeDegradedSources);
   const objektnaProngilacijaDegradedSources: string[] = [];
   const objektnaProngilacijaInput = resolveObjektnaProngilacijaInput(objektnaProngilacijaDegradedSources);
   degradedSources.push(...objektnaProngilacijaDegradedSources);
@@ -2577,6 +2743,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     proporcionalnoProgramiranje.readiness.degraded || petljeSignals.summary.degradedSignals.length > 0,
   );
+  const sinemetrickoProgramiranje = buildSinemetrickoProgramiranjeSignal(
+    sinemetrickoProgramiranjeInput,
+    sinemetrickoProgramiranjeDegradedSources.length > 0,
+  );
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
     clamp(
@@ -2644,6 +2814,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
     || objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
+    || sinemetrickoProgramiranje.readiness.status === 'BLOCKED'
+    || sinemetrickoProgramiranje.conflict.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
     || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';
@@ -2705,6 +2877,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...(objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
       ? [`Objektno orijentusano uzdizanje epskih elikvadenata blocked WAWE progression: ${objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.blockerReasons.join('; ') || 'epic elikvadent readiness failed.'}`]
       : []),
+    ...(sinemetrickoProgramiranje.readiness.status === 'WATCH'
+      ? ['SINEMETRIČKO PROGRAMIRANJE remains in WATCH posture and requires matrix-syntax evidence review before WAWE promotion.']
+      : []),
+    ...(sinemetrickoProgramiranje.readiness.status === 'BLOCKED'
+      ? [`SINEMETRIČKO PROGRAMIRANJE blocked WAWE progression: ${sinemetrickoProgramiranje.readiness.blockerReasons.join('; ') || 'sinemetricko readiness failed.'}`]
+      : []),
+    ...(sinemetrickoProgramiranje.conflict.evidenceRequired
+      ? ['SINEMETRIČKO PROGRAMIRANJE conflict evidence is required before promotion or release-audit completion.']
+      : []),
     ...(semaMuSemaFormula.status === 'BLOCKED'
       ? [`ŠEMA formula gate blocked: ${semaMuSemaFormula.blockerReasons.join('; ') || 'MUŠEMA validation failed.'}`]
       : ['ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA gate is confirmed.']),
@@ -2741,6 +2922,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     degradedSources.push(
       `spajino-proporcionalno-programiranje-univerzitet:${spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status.toLowerCase()}`,
     );
+  }
+  if (sinemetrickoProgramiranje.readiness.degraded) {
+    degradedSources.push(`sinemetricko-programiranje:${sinemetrickoProgramiranje.readiness.status.toLowerCase()}`);
   }
   if (objektnoOrijentisanaReprodukcija.readiness.degraded) {
     degradedSources.push(`objektno-orijentisana-reprodukcija:${objektnoOrijentisanaReprodukcija.readiness.status.toLowerCase()}`);
@@ -3159,6 +3343,27 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && Number.isFinite(spajinoProporcionalnoProgramiranjeUniverzitet.readiness.score),
     },
     {
+      id: 'sinemetricko-programiranje-boundary-lock',
+      description: 'SINEMETRIČKO PROGRAMIRANJE remains additive-only inside existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD boundaries without introducing new routes.',
+      passed: sinemetrickoProgramiranje.contractVersion === EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION
+        && sinemetrickoProgramiranje.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && sinemetrickoProgramiranje.meaningLock.noNewRoutes
+        && sinemetrickoProgramiranje.canonicalVocabulary.signalSplitLock.dokDik === 'EXTREM'
+        && sinemetrickoProgramiranje.canonicalVocabulary.signalSplitLock.dakDuk === 'EXTRONDOL',
+    },
+    {
+      id: 'sinemetricko-programiranje-cadence-and-range',
+      description: 'SINEMETRIČKO PROGRAMIRANJE enforces finite bounded readiness/conflict scores and a canonical 1ms pixel cadence governance target.',
+      passed: Number.isFinite(sinemetrickoProgramiranje.readiness.score)
+        && Number.isFinite(sinemetrickoProgramiranje.conflict.score)
+        && sinemetrickoProgramiranje.readiness.score >= 0
+        && sinemetrickoProgramiranje.readiness.score <= 100
+        && sinemetrickoProgramiranje.conflict.score >= 0
+        && sinemetrickoProgramiranje.conflict.score <= 100
+        && sinemetrickoProgramiranje.profileInput.pixelCadenceMs >= 1
+        && sinemetrickoProgramiranje.profileInput.pixelCadenceMs <= 16,
+    },
+    {
       id: 'objektno-orijentisana-reprodukcija-lock',
       description: 'Objektno orijentisana reprodukcija is locked as an additive-only EXTREM reproducibility signal with explicit ownership split across EXTREM, EXTRONDOL, and SPAJA KOD.',
       passed: objektnoOrijentisanaReprodukcija.contractVersion === 'v1-objektno-orijentisana-reprodukcija'
@@ -3310,6 +3515,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkionalnoProgramiranjePravnogMisaonogToka,
     proporcionalnoProgramiranje,
     spajinoProporcionalnoProgramiranjeUniverzitet,
+    sinemetrickoProgramiranje,
     objektnoOrijentisanaReprodukcija,
     objektnoOrijentusanoUzdizanjeEpskihElikvadenata,
     semaMuSemaFormula,
@@ -3441,6 +3647,9 @@ export {
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_ANDROID_MAJOR,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_IOS_MAJOR,

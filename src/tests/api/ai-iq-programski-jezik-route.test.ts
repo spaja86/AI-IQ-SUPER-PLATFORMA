@@ -86,6 +86,19 @@ async function runTests(): Promise<void> {
         status: string;
         integrationProfile: {
           profileId: string;
+          signalMapping: {
+            SINEMETRICKO: {
+              technicalSource: string;
+              governanceSource: string;
+            };
+          };
+          unifiedSignalStatus: {
+            sinemetricko: string;
+          };
+          acceptanceCriteria: {
+            preserveDokDikDakDukContract: boolean;
+            sinemetrickoAdditiveInput: boolean;
+          };
           governanceLink: {
             rolloutSnapshot: { promotionFreeze: boolean };
             downstreamReference: { linkedRepo: string };
@@ -96,6 +109,11 @@ async function runTests(): Promise<void> {
     assert(body.data.valid, 'result should be valid');
     assert(['READY', 'AI_NATIVE_READY'].includes(body.data.status), `unexpected status: ${body.data.status}`);
     assert(body.data.integrationProfile.profileId === 'EXTRIMLI-EXTRONDOL-EXTREM', 'missing additive integration profile');
+    assert(body.data.integrationProfile.signalMapping.SINEMETRICKO.technicalSource === '/api/extrimli/extrem', 'missing SINEMETRICKO technical source');
+    assert(body.data.integrationProfile.signalMapping.SINEMETRICKO.governanceSource === '/api/extrimli/extrondol', 'missing SINEMETRICKO governance source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.sinemetricko), 'invalid SINEMETRICKO status');
+    assert(body.data.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must be enabled');
+    assert(body.data.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive lock must be enabled');
     assert(body.data.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'missing downstream linked repo');
     assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze === false, 'valid route payload should not be frozen');
   });

@@ -75,7 +75,19 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.signalMapping.DIK.group.join(',') === 'DIK PETLJA', 'DIK mapping mismatch');
     assert(first.integrationProfile.signalMapping.DAK.group.join(',') === 'DAKOR', 'DAK mapping mismatch');
     assert(first.integrationProfile.signalMapping.DUK.group.join(',') === 'DUKAR', 'DUK mapping mismatch');
+    assert(
+      first.integrationProfile.signalMapping.SINEMETRICKO.group.join(',') === 'SINEMETRIČKO PROGRAMIRANJE',
+      'SINEMETRICKO mapping mismatch',
+    );
+    assert(
+      first.integrationProfile.signalMapping.SINEMETRICKO.technicalSource === '/api/extrimli/extrem'
+      && first.integrationProfile.signalMapping.SINEMETRICKO.governanceSource === '/api/extrimli/extrondol',
+      'SINEMETRICKO sources mismatch',
+    );
     assert(first.integrationProfile.unifiedSignalStatus.overall === second.integrationProfile.unifiedSignalStatus.overall, 'integration overall should be deterministic');
+    assert(first.integrationProfile.unifiedSignalStatus.sinemetricko === second.integrationProfile.unifiedSignalStatus.sinemetricko, 'sinemetricko status should be deterministic');
+    assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
+    assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
     assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');
     assert(first.durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS, `duration ${first.durationMs} > ${AIIQ_LANG_PERFORMANCE_MAX_MS}`);
   });

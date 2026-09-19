@@ -16,6 +16,7 @@ import {
   EXTRIMLI_EXTREM_REZOLUCIJA_MIN_FOR_READY,
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
   EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
   getExtrimliExtremProfilerReport,
@@ -906,6 +907,51 @@ async function runTests(): Promise<void> {
       assert(report.resolutionReadiness.rekulitiPoRauletu === 'FREEZE', 'REKULITI policy should freeze');
       assert(report.governanceSignal.freezeRequired, 'resolution blocker should require freeze');
       assert(report.optimization.maximumGraphicsUnlockEligible === false, 'maximum unlock should be blocked');
+    });
+  });
+
+  await test('default report exposes SINEMETRIČKO PROGRAMIRANJE as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.sinemetrickoProgramiranje;
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION, 'sinemetricko contract version mismatch');
+    assert(signal.additiveOnly, 'sinemetricko signal must be additive-only');
+    assert(signal.meaningLock.noNewRoutes, 'sinemetricko signal must not introduce new routes');
+    assert(
+      signal.canonicalVocabulary.signalSplitLock.dokDik === 'EXTREM'
+        && signal.canonicalVocabulary.signalSplitLock.dakDuk === 'EXTRONDOL',
+      'sinemetricko signal split lock mismatch',
+    );
+    assert(signal.profileInput.pixelCadenceMs >= 1 && signal.profileInput.pixelCadenceMs <= 16, 'pixel cadence must remain in [1,16]');
+  });
+
+  await test('sinemetricko input is deterministic over same environment values', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_SYNTAX_LEGAL_SCALING_PERCENT: '77',
+      EXTRIMLI_EXTREM_SINEMETRICKO_OCTAVAL_SEQUENCE_DIMENSIONAL_READINESS_PERCENT: '79',
+      EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_COMPOUND_PERSONA_ENCRYPTION_PERCENT: '78',
+      EXTRIMLI_EXTREM_SINEMETRICKO_PIXEL_CADENCE_MS: '1',
+    }, () => {
+      const first = getExtrimliExtremProfilerReport().sinemetrickoProgramiranje;
+      const second = getExtrimliExtremProfilerReport().sinemetrickoProgramiranje;
+      assert(first.readiness.score === second.readiness.score, 'sinemetricko readiness score must be deterministic');
+      assert(first.conflict.score === second.conflict.score, 'sinemetricko conflict score must be deterministic');
+      assert(first.readiness.status === second.readiness.status, 'sinemetricko readiness status must be deterministic');
+      assert(first.conflict.evidenceRequired === second.conflict.evidenceRequired, 'sinemetricko evidence requirement must be deterministic');
+    });
+  });
+
+  await test('sinemetricko NaN/Infinity/out-of-range inputs degrade safely and block readiness', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_SYNTAX_LEGAL_SCALING_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_SINEMETRICKO_OCTAVAL_SEQUENCE_DIMENSIONAL_READINESS_PERCENT: 'Infinity',
+      EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_COMPOUND_PERSONA_ENCRYPTION_PERCENT: '999',
+      EXTRIMLI_EXTREM_SINEMETRICKO_PIXEL_CADENCE_MS: '0',
+    }, () => {
+      const signal = getExtrimliExtremProfilerReport().sinemetrickoProgramiranje;
+      assert(signal.readiness.degraded, 'invalid sinemetricko inputs should degrade signal');
+      assert(signal.readiness.status === 'BLOCKED', 'invalid sinemetricko inputs should block readiness');
+      assert(signal.conflict.evidenceRequired, 'invalid sinemetricko inputs should require evidence');
+      assert(signal.profileInput.pixelCadenceMs === 1, 'invalid cadence should fall back to 1ms');
     });
   });
 

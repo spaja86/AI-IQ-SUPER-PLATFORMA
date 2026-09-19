@@ -37,6 +37,7 @@ import {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
+  EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -49,6 +50,7 @@ import {
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
   getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
+  getSinemetrickoProgramiranjeAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
 import {
@@ -661,6 +663,9 @@ async function runTests(): Promise<void> {
     const spajinoProporcionalnoProgramiranjeUniverzitetAdjustment = getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment(
       report.extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
     );
+    const sinemetrickoProgramiranjeAdjustment = getSinemetrickoProgramiranjeAdjustment(
+      report.extremProfiler.sinemetrickoProgramiranje.readiness.status,
+    );
     const profilerPenalty = report.surfaces.extremProfiler.governanceSignal.freezeRequired ? 12 : 0;
     const profilerBoost = report.surfaces.extremProfiler.optimization.maximumGraphicsUnlockEligible ? 3 : 0;
     const expected = round2(
@@ -677,6 +682,7 @@ async function runTests(): Promise<void> {
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + proporcionalnoProgramiranjeAdjustment
           + spajinoProporcionalnoProgramiranjeUniverzitetAdjustment
+          + sinemetrickoProgramiranjeAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment
           + petljeAdjustment
@@ -691,6 +697,33 @@ async function runTests(): Promise<void> {
     assert(
       report.nivoDuet.signal.warnings.some((warning) => warning.includes('Very narrow shared window')),
       'expected narrow shared window warning for penalty coverage',
+    );
+  });
+
+  await test('report maps SINEMETRIČKO PROGRAMIRANJE governance into WAWE, audit summary, and downstream sync', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(
+      report.sinemetrickoProgramiranje.contractVersion === EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+      'sinemetricko contract version mismatch',
+    );
+    assert(
+      report.sinemetrickoProgramiranje.technicalSignalSource === '/api/extrimli/extrem',
+      'sinemetricko technical source mismatch',
+    );
+    assert(report.sinemetrickoProgramiranje.sourceOfTruth === '/api/extrimli/extrondol', 'sinemetricko governance source mismatch');
+    assert(
+      report.sinemetrickoProgramiranje.signalSplitLock.dokDik === 'EXTREM'
+        && report.sinemetrickoProgramiranje.signalSplitLock.dakDuk === 'EXTRONDOL',
+      'sinemetricko signal split lock mismatch',
+    );
+    assert(
+      report.releaseAuditSummary.sinemetrickoProgramiranjeGovernance.status
+        === report.extremProfiler.sinemetrickoProgramiranje.readiness.status,
+      'sinemetricko audit status must mirror EXTREM readiness status',
+    );
+    assert(
+      report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.sinemetrickoProgramiranje.readiness.status'),
+      'sinemetricko downstream sync status field missing',
     );
   });
 

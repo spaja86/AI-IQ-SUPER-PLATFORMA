@@ -116,6 +116,39 @@ function toSignalStatus(score: number, forceBlocked: boolean): AiiqIntegrationSi
   return 'WATCH';
 }
 
+function resolveSinemetrickoSignalStatus(params: {
+  dom: AiiqIntegrationSignalStatus;
+  dik: AiiqIntegrationSignalStatus;
+  dak: AiiqIntegrationSignalStatus;
+  duk: AiiqIntegrationSignalStatus;
+  promotionFreeze: boolean;
+  performanceWithinTargets: boolean;
+  securityBoundariesPreserved: boolean;
+  rolloutMaturityScore: number;
+}): AiiqIntegrationSignalStatus {
+  if (
+    params.promotionFreeze
+    || !params.performanceWithinTargets
+    || !params.securityBoundariesPreserved
+    || params.dom === 'BLOCKED'
+    || params.dik === 'BLOCKED'
+    || params.dak === 'BLOCKED'
+    || params.duk === 'BLOCKED'
+  ) {
+    return 'BLOCKED';
+  }
+  if (
+    params.dom === 'READY'
+    && params.dik === 'READY'
+    && params.dak === 'READY'
+    && params.duk === 'READY'
+    && params.rolloutMaturityScore >= 85
+  ) {
+    return 'READY';
+  }
+  return 'WATCH';
+}
+
 function mergeSignalStatus(...statuses: AiiqIntegrationSignalStatus[]): AiiqIntegrationSignalStatus {
   if (statuses.some((status) => status === 'BLOCKED')) return 'BLOCKED';
   if (statuses.every((status) => status === 'READY')) return 'READY';
@@ -152,7 +185,17 @@ function buildIntegrationProfile(params: {
   performanceWithinTargets: boolean;
   securityBoundariesPreserved: boolean;
 }): AiiqLanguageExtrimliIntegrationProfile {
-  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk);
+  const sinemetricko = resolveSinemetrickoSignalStatus({
+    dom: params.dom,
+    dik: params.dik,
+    dak: params.dak,
+    duk: params.duk,
+    promotionFreeze: params.promotionFreeze,
+    performanceWithinTargets: params.performanceWithinTargets,
+    securityBoundariesPreserved: params.securityBoundariesPreserved,
+    rolloutMaturityScore: params.rolloutMaturityScore,
+  });
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, sinemetricko);
   const currentStage = resolveRolloutStageFromOverall(overall, params.rolloutMaturityScore);
   return {
     profileId: 'EXTRIMLI-EXTRONDOL-EXTREM',
@@ -183,6 +226,12 @@ function buildIntegrationProfile(params: {
         group: DUK_GROUP,
         role: 'human-review-control',
       },
+      SINEMETRICKO: {
+        technicalSource: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        group: ['SINEMETRIČKO PROGRAMIRANJE'] as const,
+        role: 'additive-governance-technical-input',
+      },
     },
     layerResponsibilities: {
       extrem: 'technical-signal-engine-readiness-conflict-profiling',
@@ -194,6 +243,7 @@ function buildIntegrationProfile(params: {
       dik: params.dik,
       dak: params.dak,
       duk: params.duk,
+      sinemetricko,
       overall,
     },
     governanceLink: {
@@ -214,6 +264,8 @@ function buildIntegrationProfile(params: {
       deterministicOutput: true,
       edgeCaseValidation: true,
       preserveExistingContracts: true,
+      preserveDokDikDakDukContract: true,
+      sinemetrickoAdditiveInput: true,
       performanceWithinTargets: params.performanceWithinTargets,
       securityBoundariesPreserved: params.securityBoundariesPreserved,
     },

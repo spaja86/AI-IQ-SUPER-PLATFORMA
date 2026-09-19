@@ -763,6 +763,87 @@ export interface ExtrimliExtremEpicElikvadentSignal {
   };
 }
 
+export type ExtrimliExtremSinemetrickoProgramiranjeStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremSinemetrickoProgramiranjeProfileInput {
+  matrixSyntaxLegalScalingPercent: number;
+  octavalSequenceDimensionalReadinessPercent: number;
+  matrixCompoundPersonaEncryptionPercent: number;
+  pixelCadenceMs: number;
+}
+
+export interface ExtrimliExtremSinemetrickoProgramiranjeSignal {
+  term: 'SINEMETRIČKO PROGRAMIRANJE';
+  contractVersion: string;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'SINEMETRIČKO PROGRAMIRANJE';
+    statement: string;
+    interpretationLayer: 'technical-matrix-syntax-signal';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+    noNewRoutes: true;
+  };
+  ownershipModel: {
+    extrem: 'technical-sinemetricko-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
+    matricneSintakse: {
+      canonicalField: 'profileInput.matrixSyntaxLegalScalingPercent';
+      meaning: 'skaliranje-zakonskih-mera-konvencionalni-aktovi';
+    };
+    oktavnaSekvenca: {
+      canonicalField: 'profileInput.octavalSequenceDimensionalReadinessPercent';
+      meaning: 'dimenzionalni-prostor-u-oktavnom-sistemu';
+    };
+    matricnaJedinjenja: {
+      canonicalField: 'profileInput.matrixCompoundPersonaEncryptionPercent';
+      meaning: 'personifikacija-strelicna-mis-tastaturna-enkripcija';
+    };
+    pixelCadence: {
+      canonicalField: 'profileInput.pixelCadenceMs';
+      meaning: 'pravosnazno-ekstremno-otkucavanje-piksela-po-1-ms';
+    };
+    signalSplitLock: {
+      dokDik: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  profileInput: ExtrimliExtremSinemetrickoProgramiranjeProfileInput;
+  readiness: {
+    score: number;
+    status: ExtrimliExtremSinemetrickoProgramiranjeStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+  conflict: {
+    score: number;
+    status: ExtrimliExtremSinemetrickoProgramiranjeStatus;
+    evidenceRequired: boolean;
+  };
+  evidence: {
+    sourceModel: 'deterministic-matrix-syntax';
+    requiredArtifacts: readonly [
+      'matrix-syntax-legal-scaling',
+      'octaval-sequence-dimensional-space',
+      'matrix-compound-persona-encryption',
+      'pixel-cadence-1ms'
+    ];
+    complete: boolean;
+  };
+}
+
 export interface ExtrimliExtremProfileInput {
   sceneLoadPercent: number;
   gpuContentionPercent: number;
@@ -1228,6 +1309,7 @@ export interface ExtrimliExtremProfilerReport {
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal;
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal;
+  sinemetrickoProgramiranje: ExtrimliExtremSinemetrickoProgramiranjeSignal;
   objektnoOrijentisanaReprodukcija: ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal;
   objektnoOrijentusanoUzdizanjeEpskihElikvadenata: ExtrimliExtremEpicElikvadentSignal;
   resolutionReadiness: {
@@ -1330,6 +1412,9 @@ export const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CO
   'v1-spajino-proporcionalno-programiranje-univerzitet';
 export const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_READY_SCORE = 82;
 export const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_WATCH_SCORE = 64;
+export const EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION = 'v1-sinemetricko-programiranje';
+export const EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_READY_SCORE = 78;
 export const EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_MIN_WATCH_SCORE = 60;

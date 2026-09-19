@@ -60,6 +60,12 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       group: readonly ['DUKAR'];
       role: 'human-review-control';
     };
+    SINEMETRICKO: {
+      technicalSource: '/api/extrimli/extrem';
+      governanceSource: '/api/extrimli/extrondol';
+      group: readonly ['SINEMETRIČKO PROGRAMIRANJE'];
+      role: 'additive-governance-technical-input';
+    };
   };
   layerResponsibilities: {
     extrem: 'technical-signal-engine-readiness-conflict-profiling';
@@ -71,6 +77,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     dik: AiiqIntegrationSignalStatus;
     dak: AiiqIntegrationSignalStatus;
     duk: AiiqIntegrationSignalStatus;
+    sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
   };
   governanceLink: {
@@ -91,6 +98,8 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     deterministicOutput: true;
     edgeCaseValidation: true;
     preserveExistingContracts: true;
+    preserveDokDikDakDukContract: true;
+    sinemetrickoAdditiveInput: true;
     performanceWithinTargets: boolean;
     securityBoundariesPreserved: boolean;
   };
