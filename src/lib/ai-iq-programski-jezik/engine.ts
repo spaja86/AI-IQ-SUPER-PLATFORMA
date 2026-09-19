@@ -206,6 +206,7 @@ function buildIntegrationProfile(params: {
   prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: ExtremProsparitetDeklasiraneMatriceEkstazaSignal['technicalSignals'];
   dekoracijeObjektnihPrimesaSignalStatus: AiiqIntegrationSignalStatus;
   dekoracijeObjektnihPrimesaReadinessScore: number;
+  dekoracijeObjektnihPrimesaDeterministicFallbackRequired: boolean;
   dekoracijeObjektnihPrimesaTechnicalSignals: ExtremDekoracijeObjektnihPrimesaSignal['technicalSignals'];
   gamingDslSignalStatus: AiiqIntegrationSignalStatus;
   gamingDslReadinessScore: number;
@@ -490,7 +491,7 @@ function buildIntegrationProfile(params: {
           spajaKod: 'audit-safe-summary-only',
         },
         consolidatedStatus: dekoracijeObjektnihPrimesa,
-        deterministicFallbackRequired: dekoracijeObjektnihPrimesa !== 'READY',
+        deterministicFallbackRequired: params.dekoracijeObjektnihPrimesaDeterministicFallbackRequired,
         explainabilityModel: 'existing-ai-iq-guardrails',
         guardrailMode: 'deterministic-fallback',
         semantics: {
@@ -716,6 +717,8 @@ function invalidEvaluateResult(
       prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
       dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
       dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+      dekoracijeObjektnihPrimesaDeterministicFallbackRequired:
+        extremDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired,
       dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
       gamingDslSignalStatus: extremGamingDsl.readiness.status,
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
@@ -773,6 +776,8 @@ function invalidCompileResult(
       prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
       dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
       dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+      dekoracijeObjektnihPrimesaDeterministicFallbackRequired:
+        extremDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired,
       dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
       gamingDslSignalStatus: extremGamingDsl.readiness.status,
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
