@@ -679,6 +679,7 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
 }
 
 export type ExtrimliExtremProgramskiJezikInformacionihTokovaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremProgramskiJezikPretpostavkaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
 export interface ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput {
   forRangeCoveragePercent: number;
@@ -770,6 +771,110 @@ export interface ExtrimliExtremProgramskiJezikInformacionihTokovaSignal {
   readiness: {
     score: number;
     status: ExtrimliExtremProgramskiJezikInformacionihTokovaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+    deterministicFallbackRequired: boolean;
+  };
+}
+
+export interface ExtrimliExtremProgramskiJezikPretpostavkaProfileInput {
+  forStructuredCoveragePercent: number;
+  pretpostavkaStabilityPercent: number;
+  kljucneInformacijeIntegrityPercent: number;
+  uciniOblikDeterminismPercent: number;
+  driftConflictPercent: number;
+  saturationLoadPercent: number;
+  continuationReadinessPercent: number;
+}
+
+export interface ExtrimliExtremProgramskiJezikPretpostavkaSignal {
+  term: 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)';
+  contractVersion: typeof EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)';
+    statement: string;
+    pretpostavkaMeaning: 'deterministicki-polazni-okvir-pretpostavke';
+    kljucneInformacijeMeaning: 'obavezni-skup-kljucnih-informacija';
+    uciniOblikMeaning: 'akcioni-oblik-za-izlaznu-interpretaciju';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+    noNewRoutes: true;
+  };
+  ownershipModel: {
+    extrem: 'technical-pretpostavka-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
+    pretpostavka: {
+      canonicalField: 'technicalSignals.stabilityScore';
+      meaning: 'stabilnost-pretpostavke';
+    };
+    kljucneInformacije: {
+      canonicalField: 'technicalSignals.keyInformationIntegrityScore';
+      meaning: 'integritet-kljucnih-informacija';
+    };
+    uciniOblik: {
+      canonicalField: 'technicalSignals.actionShapeDeterminismScore';
+      meaning: 'deterministicki-ucini-oblik';
+    };
+    driftKonflikt: {
+      canonicalField: 'technicalSignals.driftConflictScore';
+      meaning: 'drift-i-konflikt-pritisak';
+    };
+    saturacijaOpterecenje: {
+      canonicalField: 'technicalSignals.saturationLoadScore';
+      meaning: 'saturacija-i-opterecenje';
+    };
+    readinessNastavka: {
+      canonicalField: 'technicalSignals.continuationReadinessScore';
+      meaning: 'readiness-za-nastavak-pretpostavke';
+    };
+    forPetlja: {
+      canonicalField: 'forLoopBinding.forEvidence';
+      meaning: 'sekvencijalni-nosac-pretpostavke';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  profileInput: ExtrimliExtremProgramskiJezikPretpostavkaProfileInput;
+  forLoopBinding: {
+    sourceModel: 'PETLJE';
+    sourceKind: 'FOR PETLJA';
+    sourceOwnership: 'EXTREM';
+    noSourceOfTruthMove: true;
+    forEvidence: {
+      kind: 'FOR PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+    };
+  };
+  technicalSignals: {
+    stabilityScore: number;
+    keyInformationIntegrityScore: number;
+    actionShapeDeterminismScore: number;
+    driftConflictScore: number;
+    saturationLoadScore: number;
+    continuationReadinessScore: number;
+  };
+  ownershipEvidence: {
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremProgramskiJezikPretpostavkaStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
@@ -1716,6 +1821,44 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     auditReady: boolean;
     reasons: string[];
   };
+  programskiJezikPretpostavka: {
+    canonicalName: 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)';
+    meaning: 'ključne informacije sa učinim oblikom';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    technicalOwnershipLock: {
+      forPetlja: 'EXTREM';
+      dokDik: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+      spajaKod: 'audit-safe-summary-only';
+    };
+    semantics: {
+      pretpostavka: string;
+      kljucneInformacije: string;
+      uciniOblik: string;
+    };
+    flowMetrics: {
+      stabilityScore: number;
+      keyInformationIntegrityScore: number;
+      actionShapeDeterminismScore: number;
+      driftConflictScore: number;
+      saturationLoadScore: number;
+      continuationReadinessScore: number;
+      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
+      fallbackRequired: boolean;
+    };
+    governanceCoupling: {
+      promotionFreeze: boolean | null;
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReference: 'spaja86/IO-OPENUI-AO';
+    };
+    consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    auditReady: boolean;
+    reasons: string[];
+  };
   reasons: string[];
 }
 
@@ -1801,6 +1944,7 @@ export interface ExtrimliExtremProfilerReport {
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal;
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
   programskiJezikInformacionihTokova: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal;
+  programskiJezikPretpostavka: ExtrimliExtremProgramskiJezikPretpostavkaSignal;
   metrikoProgramiranje: ExtrimliExtremMetrickoProgramiranjeSignal;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal;
   sinemetrickoProgramiranje: ExtrimliExtremSinemetrickoProgramiranjeSignal;
@@ -1911,6 +2055,10 @@ export const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION = 'v1-programski-jezik-informacionih-tokova';
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE = 62;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION =
+  'v1-programski-jezik-pretpostavka';
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION = 'v1-metricko-programiranje';
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE = 62;

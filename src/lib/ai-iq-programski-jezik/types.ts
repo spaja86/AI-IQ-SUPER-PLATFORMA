@@ -66,6 +66,12 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       group: readonly ['FOR PETLJA', 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA'];
       role: 'sequential-numeric-flow-input';
     };
+    PRETPOSTAVKA: {
+      technicalSource: '/api/extrimli/extrem';
+      governanceSource: '/api/extrimli/extrondol';
+      group: readonly ['PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)'];
+      role: 'interpretacioni-track';
+    };
     SINEMETRICKO: {
       technicalSource: '/api/extrimli/extrem';
       governanceSource: '/api/extrimli/extrondol';
@@ -84,6 +90,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     dak: AiiqIntegrationSignalStatus;
     duk: AiiqIntegrationSignalStatus;
     forInformacioniTokovi: AiiqIntegrationSignalStatus;
+    pretpostavka: AiiqIntegrationSignalStatus;
     sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
   };
@@ -140,6 +147,36 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       };
       reasons: string[];
     };
+    programskiJezikPretpostavka: {
+      canonicalName: 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)';
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+      dslProfile: 'interpretacioni-pretpostavka-dsl';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      ownershipSplit: {
+        forPetlja: 'EXTREM';
+        dokDik: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      unifiedStatus: AiiqIntegrationSignalStatus;
+      deterministicFallbackRequired: boolean;
+      explainabilityModel: 'existing-ai-iq-guardrails';
+      guardrailMode: 'deterministic-fallback';
+      semantics: {
+        pretpostavka: string;
+        kljucneInformacije: string;
+        uciniOblik: string;
+      };
+      metrics: {
+        stabilityScore: number;
+        keyInformationIntegrityScore: number;
+        actionShapeDeterminismScore: number;
+        driftConflictScore: number;
+        saturationLoadScore: number;
+        continuationReadinessScore: number;
+      };
+      reasons: string[];
+    };
     reasons: string[];
   };
   governanceLink: {
@@ -162,6 +199,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     preserveExistingContracts: true;
     preserveDokDikDakDukContract: true;
     informacioniTokoviAdditiveInput: true;
+    pretpostavkaAdditiveInput: true;
     sinemetrickoAdditiveInput: true;
     performanceWithinTargets: boolean;
     securityBoundariesPreserved: boolean;

@@ -21,7 +21,6 @@ import {
   EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
-  EXTRONDOL_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT,
@@ -52,6 +51,8 @@ import {
   getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getMetrickoProgramiranjeAdjustment,
+  getProgramskiJezikInformacionihTokovaAdjustment,
+  getProgramskiJezikPretpostavkaAdjustment,
   getRadniTaktMozgaMislilacAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
   getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
@@ -728,6 +729,12 @@ async function runTests(): Promise<void> {
     const funkionalnoProgramiranjePravnogMisaonogTokaAdjustment = getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment(
       report.extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     );
+    const programskiJezikInformacionihTokovaAdjustment = getProgramskiJezikInformacionihTokovaAdjustment(
+      report.extremProfiler.programskiJezikInformacionihTokova.readiness.status,
+    );
+    const programskiJezikPretpostavkaAdjustment = getProgramskiJezikPretpostavkaAdjustment(
+      report.extremProfiler.programskiJezikPretpostavka.readiness.status,
+    );
     const radniTaktMozgaMislilacAdjustment = getRadniTaktMozgaMislilacAdjustment(
       report.extremProfiler.radniTaktMozgaMislilac.readiness.status,
     );
@@ -760,6 +767,8 @@ async function runTests(): Promise<void> {
           + funkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
+          + programskiJezikInformacionihTokovaAdjustment
+          + programskiJezikPretpostavkaAdjustment
           + radniTaktMozgaMislilacAdjustment
           + metrikoProgramiranjeAdjustment
           + paradijogonalnoProgrimiranjeAdjustment
@@ -822,7 +831,20 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikInformacionihTokova.readiness.status'), 'informational-flow readiness must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikInformacionihTokova'), 'informational-flow governance field must sync downstream');
     assert(report.spajaKod.publicSignals.programskiJezikInformacionihTokovaStatus === report.extremProfiler.programskiJezikInformacionihTokova.readiness.status, 'SPAJA KOD informational-flow summary mismatch');
-    assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-informacionih-tokova-governance' && item.passed), 'informational-flow acceptance criterion must pass');
+  });
+
+  await test('report maps PROGRAMSKI JEZIK PRETPOSTAVKA governance into WAWE, audit summary, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.programskiJezikPretpostavka.term === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'pretpostavka governance term mismatch');
+    assert(report.programskiJezikPretpostavka.technicalSignalSource === '/api/extrimli/extrem', 'pretpostavka governance technical source mismatch');
+    assert(report.programskiJezikPretpostavka.sourceOfTruth === '/api/extrimli/extrondol', 'pretpostavka governance source mismatch');
+    assert(report.programskiJezikPretpostavka.ownershipModel.extrem === 'technical-pretpostavka-signal', 'pretpostavka governance EXTREM ownership mismatch');
+    assert(report.programskiJezikPretpostavka.governanceDecisions.dukHumanReviewDecision === 'REQUIRED', 'pretpostavka governance DUK decision mismatch');
+    assert(report.releaseAuditSummary.programskiJezikPretpostavkaGovernance.status === report.extremProfiler.programskiJezikPretpostavka.readiness.status, 'pretpostavka audit status must mirror EXTREM');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikPretpostavka.readiness.status'), 'pretpostavka readiness must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikPretpostavka'), 'pretpostavka governance field must sync downstream');
+    assert(report.spajaKod.publicSignals.programskiJezikPretpostavkaStatus === report.extremProfiler.programskiJezikPretpostavka.readiness.status, 'SPAJA KOD pretpostavka summary mismatch');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-pretpostavka-governance' && item.passed), 'pretpostavka acceptance criterion must pass');
   });
 
   await test('report propagates PETLJE governance into rollout, audit summary, and downstream sync', () => {

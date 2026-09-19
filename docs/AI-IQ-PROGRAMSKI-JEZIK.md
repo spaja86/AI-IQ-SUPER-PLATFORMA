@@ -196,3 +196,14 @@ v1 je spreman za downstream sinhronizaciju prema `spaja86/IO-OPENUI-AO` kroz:
 - `FOR PETLJA` i `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` mapiraju se kao sekvencijalni numerički ulaz, dok `DOK + DIK` ostaju EXTREM tehnički dokaz, a `DAK + DUK` ostaju EXTRONDOL governance odluka.
 - Dozvoljene status klase su `READY | WATCH | BLOCKED`.
 - Degradacioni i fallback uslovi ostaju aktivni za `NaN`, `Infinity`, prazne sekvence, nevalidne opsege i svaki signal koji traži deterministic fallback.
+
+## PROGRAMSKI JEZIK PRETPOSTAVKA
+
+- `PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)` je additive-only interpretacioni DSL profil u okviru istog `EXTRIMLI-EXTRONDOL-EXTREM` integracionog modela.
+- `PRETPOSTAVKA` se mapira kao zaseban AI IQ signal uz postojeći `FOR` signal, ali ne uvodi novu rutu niti breaking promenu evaluate/compile/health surface-ova.
+- Kanonska semantika ostaje zaključana:
+  - **pretpostavka** = deterministički polazni okvir pretpostavke,
+  - **ključne informacije** = obavezni skup ključnih informacija,
+  - **učini oblik** = akcioni učini oblik za izlaznu interpretaciju.
+- `FOR + DOK + DIK` ostaju EXTREM tehnički dokaz, dok `DAK + DUK` ostaju EXTRONDOL governance odluka.
+- Dozvoljene status klase su `READY | WATCH | BLOCKED`, a postojeći explainability/guardrail/fallback okvir ostaje jedini javni model izlaganja.

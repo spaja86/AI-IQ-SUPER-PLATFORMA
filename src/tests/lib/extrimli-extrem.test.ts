@@ -1042,6 +1042,36 @@ async function runTests(): Promise<void> {
     assert(signal.technicalSignals.continuationReadinessScore >= 0 && signal.technicalSignals.continuationReadinessScore <= 100, 'continuation readiness score must be bounded');
   });
 
+  await test('default report exposes PROGRAMSKI JEZIK PRETPOSTAVKA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.programskiJezikPretpostavka;
+    assert(signal.term === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'pretpostavka term mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'pretpostavka source mismatch');
+    assert(signal.forLoopBinding.sourceModel === 'PETLJE', 'pretpostavka FOR binding must stay on PETLJE');
+    assert(signal.meaningLock.pretpostavkaMeaning === 'deterministicki-polazni-okvir-pretpostavke', 'pretpostavka meaning lock mismatch');
+    assert(signal.meaningLock.kljucneInformacijeMeaning === 'obavezni-skup-kljucnih-informacija', 'pretpostavka key-information meaning lock mismatch');
+    assert(signal.meaningLock.uciniOblikMeaning === 'akcioni-oblik-za-izlaznu-interpretaciju', 'pretpostavka action-shape meaning lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-pretpostavka-signal', 'pretpostavka EXTREM ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected pretpostavka readiness status');
+    assert(signal.technicalSignals.keyInformationIntegrityScore >= 0 && signal.technicalSignals.keyInformationIntegrityScore <= 100, 'pretpostavka key-information integrity score must be bounded');
+    assert(signal.technicalSignals.actionShapeDeterminismScore >= 0 && signal.technicalSignals.actionShapeDeterminismScore <= 100, 'pretpostavka action-shape determinism score must be bounded');
+  });
+
+  await test('pretpostavka input is deterministic over same environment values', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_FOR_STRUCTURED_COVERAGE_PERCENT: '77',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_STABILITY_PERCENT: '79',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_KLJUCNE_INFORMACIJE_INTEGRITY_PERCENT: '81',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_UCINI_OBLIK_DETERMINISM_PERCENT: '83',
+    }, () => {
+      const first = getExtrimliExtremProfilerReport().programskiJezikPretpostavka;
+      const second = getExtrimliExtremProfilerReport().programskiJezikPretpostavka;
+      assert(first.readiness.score === second.readiness.score, 'pretpostavka readiness score must be deterministic');
+      assert(first.technicalSignals.driftConflictScore === second.technicalSignals.driftConflictScore, 'pretpostavka drift score must be deterministic');
+      assert(first.readiness.status === second.readiness.status, 'pretpostavka readiness status must be deterministic');
+    });
+  });
+
   await test('sinemetricko input is deterministic over same environment values', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_SYNTAX_LEGAL_SCALING_PERCENT: '77',

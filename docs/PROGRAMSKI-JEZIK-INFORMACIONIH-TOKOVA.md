@@ -24,3 +24,15 @@
 - WAWE freeze/promotion odluka koristi governance interpretaciju EXTREM signalâ.
 - Human review i rollback plan ostaju obavezni.
 - Release audit summary i downstream sync prema `spaja86/IO-OPENUI-AO` ostaju audit-safe i additive-only.
+
+## PROGRAMSKI JEZIK PRETPOSTAVKA odnos
+
+- `PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)` je sibling additive track, ne zamena za `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`.
+- `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` ostaje FOR-sekvencijalni i numerički signal.
+- `PROGRAMSKI JEZIK PRETPOSTAVKA` dodaje interpretacioni sloj:
+  - **pretpostavka** = deterministički polazni okvir pretpostavke,
+  - **ključne informacije** = obavezni skup ključnih informacija,
+  - **učini oblik** = akcioni oblik izlazne interpretacije.
+- Status klase ostaju `READY | WATCH | BLOCKED`.
+- Fallback pravila ostaju obavezna za prazne/nevalidne/nedeterminističke ulaze, `NaN`, `Infinity`, nevalidne opsege i svaki drift-zero prekid ownership ili governance lanca.
+- EXTREM vraća tehnički signal; EXTRONDOL vraća audit-safe governance signal sa DAK/DUK odlukom; SPAJA KOD izlaže samo finalni sažetak.

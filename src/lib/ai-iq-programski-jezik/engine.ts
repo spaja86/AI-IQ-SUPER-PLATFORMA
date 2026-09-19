@@ -38,6 +38,7 @@ let lastStatus: AiiqLanguageStatus | null = null;
 let lastEvaluatedAt: string | null = null;
 
 type ExtremInformationalFlowSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikInformacionihTokova'];
+type ExtremPretpostavkaSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikPretpostavka'];
 
 const DOM_GROUP = ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA'] as const;
 const DIK_GROUP = ['DIK PETLJA'] as const;
@@ -189,6 +190,9 @@ function buildIntegrationProfile(params: {
   securityBoundariesPreserved: boolean;
   informationalFlowSignalStatus: AiiqIntegrationSignalStatus;
   informationalFlowReadinessScore: number;
+  pretpostavkaSignalStatus: AiiqIntegrationSignalStatus;
+  pretpostavkaReadinessScore: number;
+  pretpostavkaTechnicalSignals: ExtremPretpostavkaSignal['technicalSignals'];
 }): AiiqLanguageExtrimliIntegrationProfile {
   const sinemetricko = resolveSinemetrickoSignalStatus({
     dom: params.dom,
@@ -202,6 +206,7 @@ function buildIntegrationProfile(params: {
   });
   const informacioniTokoviScore = round2(clamp(params.informationalFlowReadinessScore, 0, 100));
   const informacioniTokovi = params.informationalFlowSignalStatus;
+  const pretpostavka = params.pretpostavkaSignalStatus;
   const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, sinemetricko);
   const consistencyEscalationScore = round2(
     clamp(
@@ -254,6 +259,12 @@ function buildIntegrationProfile(params: {
         group: ['FOR PETLJA', 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA'] as const,
         role: 'sequential-numeric-flow-input',
       },
+      PRETPOSTAVKA: {
+        technicalSource: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        group: ['PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)'] as const,
+        role: 'interpretacioni-track',
+      },
       SINEMETRICKO: {
         technicalSource: '/api/extrimli/extrem',
         governanceSource: '/api/extrimli/extrondol',
@@ -272,6 +283,7 @@ function buildIntegrationProfile(params: {
       dak: params.dak,
       duk: params.duk,
       forInformacioniTokovi: informacioniTokovi,
+      pretpostavka,
       sinemetricko,
       overall,
     },
@@ -338,10 +350,47 @@ function buildIntegrationProfile(params: {
             : []),
         ],
       },
+      programskiJezikPretpostavka: {
+        canonicalName: 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)',
+        additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+        dslProfile: 'interpretacioni-pretpostavka-dsl',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+        ownershipSplit: {
+          forPetlja: 'EXTREM',
+          dokDik: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        unifiedStatus: pretpostavka,
+        deterministicFallbackRequired: pretpostavka !== 'READY',
+        explainabilityModel: 'existing-ai-iq-guardrails',
+        guardrailMode: 'deterministic-fallback',
+        semantics: {
+          pretpostavka: 'deterministički polazni okvir pretpostavke',
+          kljucneInformacije: 'obavezni skup ključnih informacija',
+          uciniOblik: 'akcioni učini oblik za izlaznu interpretaciju',
+        },
+        metrics: {
+          stabilityScore: params.pretpostavkaTechnicalSignals.stabilityScore,
+          keyInformationIntegrityScore: params.pretpostavkaTechnicalSignals.keyInformationIntegrityScore,
+          actionShapeDeterminismScore: params.pretpostavkaTechnicalSignals.actionShapeDeterminismScore,
+          driftConflictScore: params.pretpostavkaTechnicalSignals.driftConflictScore,
+          saturationLoadScore: params.pretpostavkaTechnicalSignals.saturationLoadScore,
+          continuationReadinessScore: params.pretpostavkaTechnicalSignals.continuationReadinessScore,
+        },
+        reasons: [
+          'Pretpostavka track ostaje additive interpretacioni sloj unutar postojećeg EXTRIMLI-EXTRONDOL-EXTREM modela.',
+          'FOR/DOK/DIK ostaju tehnički signal u EXTREM sloju, a DAK/DUK ostaju governance odluka u EXTRONDOL sloju.',
+          ...(pretpostavka !== 'READY'
+            ? ['Pretpostavka track nije READY; deterministički fallback ostaje aktivan.']
+            : []),
+        ],
+      },
       reasons: [
         'PROGRAMSKI JEZIK ANALIZA koristi objedinjeni DOK/DIK/DAK/DUK signal kao eskalacioni indikator kodesnog zapleta.',
         'PROGRAMSKI JEZIK PROUČAVANJA koristi PROGRAMSKI EKANALOG za audit-ready tumačenje laboratorijske logike.',
         'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA koristi isti DSL explainability, guardrail i deterministic fallback model bez novog runtime sloja.',
+        'PROGRAMSKI JEZIK PRETPOSTAVKA ostaje additive FOR/DOK/DIK interpretacioni track sa DAK/DUK governance zaključavanjem.',
         ...(consistencyEscalationStatus === 'BLOCKED'
           ? ['Eskalacioni status je BLOCKED; deterministički fallback ostaje obavezan.']
           : []),
@@ -367,6 +416,7 @@ function buildIntegrationProfile(params: {
       preserveExistingContracts: true,
       preserveDokDikDakDukContract: true,
       informacioniTokoviAdditiveInput: true,
+      pretpostavkaAdditiveInput: true,
       sinemetrickoAdditiveInput: true,
       performanceWithinTargets: params.performanceWithinTargets,
       securityBoundariesPreserved: params.securityBoundariesPreserved,
@@ -380,6 +430,7 @@ function invalidEvaluateResult(
   warning: string,
   start: number,
   extremInformationalFlow: ExtremInformationalFlowSignal,
+  extremPretpostavka: ExtremPretpostavkaSignal,
 ): AiiqLanguageEvaluateResult {
   const durationMs = round2(performance.now() - start);
   record(null, 'evaluate');
@@ -408,6 +459,9 @@ function invalidEvaluateResult(
       securityBoundariesPreserved: false,
       informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
       informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
+      pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
+      pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+      pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -420,6 +474,7 @@ function invalidCompileResult(
   warning: string,
   start: number,
   extremInformationalFlow: ExtremInformationalFlowSignal,
+  extremPretpostavka: ExtremPretpostavkaSignal,
 ): AiiqLanguageCompileResult {
   const durationMs = round2(performance.now() - start);
   record(null, 'compile');
@@ -448,6 +503,9 @@ function invalidCompileResult(
       securityBoundariesPreserved: false,
       informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
       informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
+      pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
+      pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+      pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -509,14 +567,16 @@ function parseProgram(source: string): {
 
 export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLanguageEvaluateResult {
   const start = performance.now();
-  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
+  const extremReport = getExtrimliExtremProfilerReport();
+  const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
+  const extremPretpostavka = extremReport.programskiJezikPretpostavka;
 
   if (!input || typeof input !== 'object') {
-    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow);
+    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka);
   }
 
   if (typeof input.goal !== 'string' || input.goal.trim().length === 0) {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start, extremInformationalFlow);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka);
   }
 
   if (!isMode(input.mode)) {
@@ -526,6 +586,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       `mode must be one of: ${VALID_AIIQ_LANGUAGE_MODES.join(', ')}`,
       start,
       extremInformationalFlow,
+      extremPretpostavka,
     );
   }
 
@@ -541,12 +602,12 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
 
   for (const [value, field] of boundedChecks) {
     if (!isBoundedScore(value)) {
-      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start, extremInformationalFlow);
+      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start, extremInformationalFlow, extremPretpostavka);
     }
   }
 
   if (typeof input.fallbackConfigured !== 'boolean') {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start, extremInformationalFlow);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start, extremInformationalFlow, extremPretpostavka);
   }
 
   const deterministicReadiness = round2(
@@ -631,6 +692,9 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     securityBoundariesPreserved: status !== 'BLOCKED' && input.securityPolicyScore >= 60 && input.fallbackConfigured,
     informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
+    pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
+    pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+    pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
   });
   const recommendedAction = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? (status === 'BLOCKED' ? 'HARDEN_GUARDS' : 'RUN_SHADOW_MODE')
@@ -663,14 +727,16 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
 
 export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLanguageCompileResult {
   const start = performance.now();
-  const extremInformationalFlow = getExtrimliExtremProfilerReport().programskiJezikInformacionihTokova;
+  const extremReport = getExtrimliExtremProfilerReport();
+  const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
+  const extremPretpostavka = extremReport.programskiJezikPretpostavka;
 
   if (!input || typeof input !== 'object') {
-    return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow);
+    return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka);
   }
 
   if (typeof input.source !== 'string' || input.source.trim().length === 0) {
-    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start, extremInformationalFlow);
+    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka);
   }
 
   if (!isMode(input.targetMode)) {
@@ -679,20 +745,21 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       `targetMode must be one of: ${VALID_AIIQ_LANGUAGE_MODES.join(', ')}`,
       start,
       extremInformationalFlow,
+      extremPretpostavka,
     );
   }
 
   if (typeof input.strictSecurity !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start, extremInformationalFlow);
+    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start, extremInformationalFlow, extremPretpostavka);
   }
 
   if (typeof input.featureFlagAiIqLanguage !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start, extremInformationalFlow);
+    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start, extremInformationalFlow, extremPretpostavka);
   }
 
   const { ast, warnings, unsupportedKeywords } = parseProgram(input.source);
   if (ast.length === 0) {
-    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start, extremInformationalFlow);
+    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start, extremInformationalFlow, extremPretpostavka);
   }
 
   const syntaxScore = round2(clamp((ast.length / Math.max(1, input.source.split(/\r?\n/).filter(Boolean).length)) * 100, 0, 100));
@@ -789,6 +856,9 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     securityBoundariesPreserved: securityPass,
     informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
+    pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
+    pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
+    pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
   });
   const executionMode: AiiqLanguageMode = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? 'DETERMINISTIC_ONLY'

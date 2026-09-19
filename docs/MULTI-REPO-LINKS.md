@@ -82,6 +82,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-METRICKO-PROGRAMIRANJE -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI PROGRAMSKI JEZIK PRETPOSTAVKA downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — PROGRAMSKI JEZIK PRETPOSTAVKA additive track over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Sync only audit-safe readiness/governance outputs (`extremProfiler.programskiJezikPretpostavka.readiness`, `programskiJezikPretpostavka.waweImpact`, `releaseAuditSummary.programskiJezikPretpostavkaGovernance`, `spajaKod.publicSignals.programskiJezikPretpostavkaStatus`); internal pretpostavka semantics, raw FOR payloads, and action-shape internals remain repo-local
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-PROGRAMSKI-JEZIK-PRETPOSTAVKA -> IO-OPENUI-AO#<follow-up issue>`
+
 ## EXTRIMLI objektno orijentisana reprodukcija downstream reference
 
 - This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentisana reprodukcija over EXTRIMLI/EXTREM/EXTRONDOL
