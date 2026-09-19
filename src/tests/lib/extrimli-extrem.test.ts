@@ -515,6 +515,13 @@ async function runTests(): Promise<void> {
     if (report.dokDikDakDukConsistencyHealth.status === 'READY') {
       assert(signalStatuses.filter((status): status is 'READY' | 'WATCH' | 'BLOCKED' => status !== null).every((status) => status === 'READY'), 'READY consistency status requires all resolved component signals to be READY');
     }
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.canonicalName === 'PROGRAMSKI JEZIK ANALIZA', 'programski jezik analiza name mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.scope === 'ispitivanje eskalacije kodesnog zapleta', 'programski jezik analiza scope mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'programski jezik analiza source routes mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.technicalIndicators.conflictScore !== null, 'programski jezik analiza conflict score should be present');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.governanceIndicators.promotionFreeze === null, 'EXTREM governance freeze should stay unresolved');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore >= 0 && report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore <= 100, 'programski jezik analiza escalation score must be bounded');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus), 'programski jezik analiza escalation status mismatch');
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');
   });

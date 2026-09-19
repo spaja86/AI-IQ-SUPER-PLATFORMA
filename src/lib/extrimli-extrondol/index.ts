@@ -3487,6 +3487,30 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     consistent: false,
     status: 'BLOCKED',
+    programskiJezikAnaliza: {
+      canonicalName: 'PROGRAMSKI JEZIK ANALIZA',
+      scope: 'ispitivanje eskalacije kodesnog zapleta',
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+      technicalIndicators: {
+        conflictScore: extremProfiler.petljeSignals.summary.conflictScore,
+        readinessScore: extremProfiler.petljeSignals.summary.readinessScore,
+        dokStatus: dokSignal?.status ?? null,
+        dikStatus: dikSignal?.status ?? null,
+      },
+      governanceIndicators: {
+        promotionFreeze,
+        escalationRequired: promotionFreeze,
+        humanReviewRequired: true,
+        rollbackPlanRequired: true,
+        downstreamReference: 'spaja86/IO-OPENUI-AO',
+      },
+      escalationScore: 0,
+      escalationStatus: 'BLOCKED',
+      deterministicFallbackRequired: true,
+      auditReady: false,
+      reasons: [],
+    },
     reasons: [],
   };
   dokDikDakDukConsistencyHealth.consistent = Object.values(dokDikDakDukConsistencyHealth.checks).every(Boolean);
@@ -3510,6 +3534,42 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   } else {
     dokDikDakDukConsistencyHealth.status = 'READY';
   }
+  const programskiJezikAnalizaGovernancePenalty = (promotionFreeze ? 28 : 0) + (humanReviewComplete ? 0 : 8);
+  const programskiJezikAnalizaTechnicalReadiness = extremProfiler.petljeSignals.summary.readinessScore;
+  const programskiJezikAnalizaTechnicalConflict = extremProfiler.petljeSignals.summary.conflictScore;
+  dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore = Math.round(
+    Math.min(
+      100,
+      Math.max(
+        0,
+        programskiJezikAnalizaTechnicalReadiness * 0.55
+        + (100 - programskiJezikAnalizaTechnicalConflict) * 0.25
+        + (promotionFreeze ? 20 : 100) * 0.2
+        - programskiJezikAnalizaGovernancePenalty,
+      ),
+    ) * 100,
+  ) / 100;
+  if (!dokDikDakDukConsistencyHealth.consistent || dokDikDakDukConsistencyHealth.status === 'BLOCKED' || promotionFreeze) {
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus = 'BLOCKED';
+  } else if (dokDikDakDukConsistencyHealth.status === 'WATCH') {
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus = 'WATCH';
+  } else {
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus = 'READY';
+  }
+  dokDikDakDukConsistencyHealth.programskiJezikAnaliza.deterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus === 'BLOCKED';
+  dokDikDakDukConsistencyHealth.programskiJezikAnaliza.auditReady =
+    dokDikDakDukConsistencyHealth.consistent
+    && dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore >= 0
+    && dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore <= 100
+    && (dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus !== 'READY' || !promotionFreeze);
+  dokDikDakDukConsistencyHealth.programskiJezikAnaliza.reasons = [
+    'PROGRAMSKI JEZIK ANALIZA objedinjuje conflict/readiness iz EXTREM i freeze/escalation odluke iz EXTRONDOL.',
+    ...(promotionFreeze ? ['Promotion freeze je aktivan i eskalacija je BLOCKED do razrešenja governance razloga.'] : []),
+    ...(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus === 'WATCH'
+      ? ['Signal je u WATCH režimu i zahteva opreznu WAWE progresiju uz human review.']
+      : []),
+  ];
   const failedConsistencyChecks = [
     ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA is missing from EXTREM technical signals.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA is missing from EXTREM technical signals.'] : []),

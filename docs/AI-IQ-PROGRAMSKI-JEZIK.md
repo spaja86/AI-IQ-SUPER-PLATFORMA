@@ -59,6 +59,11 @@ Signal mapiranje:
 - `DAK` → EXTRONDOL promocioni tok (`DAKOR`)
 - `DUK` → EXTRONDOL human-review tok (`DUKAR`)
 
+PROGRAMSKI JEZIK ANALIZA (ispitivanje eskalacije kodesnog zapleta):
+- additive-only pod-profil unutar `EXTRIMLI-EXTRONDOL-EXTREM`
+- objedinjuje `DOK + DIK` tehnički konflikt/readiness signal (EXTREM) sa `DAK + DUK` governance freeze/promotion/human-review signalom (EXTRONDOL)
+- rezultat je audit-ready konsolidovani status (`READY | WATCH | BLOCKED`) sa `escalationScore`, `deterministicFallbackRequired`, `promotionFreeze`, `humanReviewRequired`, `rollbackPlanRequired`
+
 ### Tipovi podataka
 
 - `mode/targetMode`: `DETERMINISTIC_ONLY | HYBRID | AI_NATIVE`
@@ -127,6 +132,7 @@ Governance veza prema EXTRONDOL release modelu u `integrationProfile.governanceL
 - `rollbackPlanRequired`
 - downstream reference ka `spaja86/IO-OPENUI-AO`
 - rollout stage vrednosti su `WAVE-1` do `WAVE-5` kao AI IQ alias preko EXTRONDOL WAWE progresije
+- kada je objedinjeni DOK/DIK/DAK/DUK eskalacioni status `BLOCKED`, AI IQ izvršenje ostaje u determinističkom fallback režimu
 
 ## 6) Validator agent
 

@@ -95,6 +95,12 @@ async function runTests(): Promise<void> {
           unifiedSignalStatus: {
             sinemetricko: string;
           };
+          dokDikDakDukConsistencyHealth: {
+            sourceOfTruth: string;
+            escalationStatus: string;
+            escalationScore: number;
+            deterministicFallbackRequired: boolean;
+          };
           acceptanceCriteria: {
             preserveDokDikDakDukContract: boolean;
             sinemetrickoAdditiveInput: boolean;
@@ -112,6 +118,10 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.signalMapping.SINEMETRICKO.technicalSource === '/api/extrimli/extrem', 'missing SINEMETRICKO technical source');
     assert(body.data.integrationProfile.signalMapping.SINEMETRICKO.governanceSource === '/api/extrimli/extrondol', 'missing SINEMETRICKO governance source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.sinemetricko), 'invalid SINEMETRICKO status');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid escalation consistency status');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'invalid escalation consistency score');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired === false, 'valid payload should not require deterministic fallback');
     assert(body.data.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive lock must be enabled');
     assert(body.data.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'missing downstream linked repo');
@@ -153,11 +163,15 @@ async function runTests(): Promise<void> {
     const body = await response.json() as {
       data: {
         status: string;
-        integrationProfile: { governanceLink: { rolloutSnapshot: { promotionFreeze: boolean } } };
+        integrationProfile: {
+          governanceLink: { rolloutSnapshot: { promotionFreeze: boolean } };
+          dokDikDakDukConsistencyHealth: { deterministicFallbackRequired: boolean };
+        };
       };
     };
     assert(body.data.status === 'BLOCKED', `expected BLOCKED, got ${body.data.status}`);
     assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze, 'blocked evaluate payload must freeze promotion');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired, 'blocked evaluate payload must require deterministic fallback');
   });
 
   await test('POST /compile returns 200 for valid source', async () => {

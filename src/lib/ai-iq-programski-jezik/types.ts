@@ -80,6 +80,20 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
   };
+  dokDikDakDukConsistencyHealth: {
+    sourceOfTruth: '/api/extrimli/extrondol';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK'];
+    status: AiiqIntegrationSignalStatus;
+    escalationStatus: AiiqIntegrationSignalStatus;
+    escalationScore: number;
+    deterministicFallbackRequired: boolean;
+    promotionFreeze: boolean;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamReference: 'spaja86/IO-OPENUI-AO';
+    reasons: string[];
+  };
   governanceLink: {
     sourceOfTruth: '/api/extrimli/extrondol';
     rolloutSnapshot: {

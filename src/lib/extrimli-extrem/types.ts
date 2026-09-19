@@ -1415,6 +1415,30 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
   };
   consistent: boolean;
   status: 'READY' | 'WATCH' | 'BLOCKED';
+  programskiJezikAnaliza: {
+    canonicalName: 'PROGRAMSKI JEZIK ANALIZA';
+    scope: 'ispitivanje eskalacije kodesnog zapleta';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    technicalIndicators: {
+      conflictScore: number | null;
+      readinessScore: number | null;
+      dokStatus: ExtrimliExtremPetljaSignalStatus | null;
+      dikStatus: ExtrimliExtremPetljaSignalStatus | null;
+    };
+    governanceIndicators: {
+      promotionFreeze: boolean | null;
+      escalationRequired: boolean | null;
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReference: 'spaja86/IO-OPENUI-AO';
+    };
+    escalationScore: number;
+    escalationStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    deterministicFallbackRequired: boolean;
+    auditReady: boolean;
+    reasons: string[];
+  };
   reasons: string[];
 }
 
