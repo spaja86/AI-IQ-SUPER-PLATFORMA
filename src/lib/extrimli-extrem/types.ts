@@ -2366,7 +2366,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       bodyCompositionScore: number;
       delegationIntegrityScore: number;
       forAdaptationScore: number;
-      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      forStatus: ExtrimliExtremPetljaSignalStatus | null;
       dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
       dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
       fallbackRequired: boolean;
@@ -2399,7 +2399,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       petljaZupcanikStabilnostScore: number;
       konfliktPritisakScore: number;
       svestranostUSvestranostiScore: number;
-      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      forStatus: ExtrimliExtremPetljaSignalStatus | null;
       dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
       dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
       fallbackRequired: boolean;
